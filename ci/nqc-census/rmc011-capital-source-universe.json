@@ -1,0 +1,286 @@
+{
+  "schema_version": 2,
+  "stage": "RMC-011",
+  "contract": "NQC_RMC011_CAPITAL_SOURCE_UNIVERSE_V1",
+  "status": "CAPITAL_SOURCE_UNIVERSE_COMPLETE",
+  "terminal_claim_allowed": true,
+  "unknown_family_count": 0,
+  "observation_scope": "ETHEREUM_ANCHOR_BOUND_WHERE_APPLICABLE",
+  "families": [
+    {
+      "id": "AAVE_V3_FLASH_LOAN",
+      "capital_class": "PROTOCOL_NATIVE_FLASH_LOAN",
+      "status": "AUTHENTICATED_REAL_SOURCE",
+      "real_source_path": "RMC008_AAVE_V3",
+      "terminally_resolved": true,
+      "resolution_evidence": {
+        "kind": "AUTHENTICATED_REAL_SOURCE",
+        "repository": "josuechavando350-png/nexus-engine",
+        "workflow_name": "NQC RMC-011 Four Native Source Witness Producer (NOT D11 CLOSE)",
+        "run_id": 37839794172,
+        "head_sha": "0d6f9c685033500614e9f05d0d99965783f96659",
+        "artifact_id": 11576204678,
+        "artifact_name": "rmc011-four-native-source-certification-0d6f9c685033500614e9f05d0d99965783f96659-37839794172-1",
+        "artifact_digest": "sha256:16856326b33d92c679e7cd070c947bcf6628653d8bea4d3ebb851222bbf354eb",
+        "file": "protocol-family-evidence/families/AAVE_V3_FLASH_LOAN/evidence.json",
+        "sha256": "a4f979f07d54080feacef371f92f85a41df3469739487d65f6df9410aa6490ee"
+      }
+    },
+    {
+      "id": "UNISWAP_V2_FLASH_SWAP",
+      "capital_class": "FLASH_SWAP",
+      "status": "AUTHENTICATED_REAL_SOURCE",
+      "real_source_path": "RMC008_UNISWAP_V2",
+      "terminally_resolved": true,
+      "resolution_evidence": {
+        "kind": "AUTHENTICATED_REAL_SOURCE",
+        "repository": "josuechavando350-png/nexus-engine",
+        "workflow_name": "NQC RMC-011 Four Native Source Witness Producer (NOT D11 CLOSE)",
+        "run_id": 37839794172,
+        "head_sha": "0d6f9c685033500614e9f05d0d99965783f96659",
+        "artifact_id": 11576204678,
+        "artifact_name": "rmc011-four-native-source-certification-0d6f9c685033500614e9f05d0d99965783f96659-37839794172-1",
+        "artifact_digest": "sha256:16856326b33d92c679e7cd070c947bcf6628653d8bea4d3ebb851222bbf354eb",
+        "file": "protocol-family-evidence/families/UNISWAP_V2_FLASH_SWAP/evidence.json",
+        "sha256": "dfee6380be7a222e27c7808a66b07578944f78a7e4008754da33e409d4130da3"
+      }
+    },
+    {
+      "id": "BALANCER_V2_FLASH_LOAN",
+      "capital_class": "ATOMIC_FLASH_LIQUIDITY",
+      "status": "AUTHENTICATED_REAL_SOURCE",
+      "real_source_path": "nqc-census/crates/nqc-census-capital/src/balancer_live.rs",
+      "terminally_resolved": true,
+      "resolution_evidence": {
+        "kind": "AUTHENTICATED_REAL_SOURCE",
+        "repository": "josuechavando350-png/nexus-engine",
+        "workflow_name": "NQC RMC-011 Four Native Source Witness Producer (NOT D11 CLOSE)",
+        "run_id": 37839794172,
+        "head_sha": "0d6f9c685033500614e9f05d0d99965783f96659",
+        "artifact_id": 11576204678,
+        "artifact_name": "rmc011-four-native-source-certification-0d6f9c685033500614e9f05d0d99965783f96659-37839794172-1",
+        "artifact_digest": "sha256:16856326b33d92c679e7cd070c947bcf6628653d8bea4d3ebb851222bbf354eb",
+        "file": "protocol-family-evidence/families/BALANCER_V2_FLASH_LOAN/evidence.json",
+        "sha256": "1152d08e5fabbd09c91ec7f6c2782dbda2d30c4855d3c81d91c136923c9a6b5c"
+      }
+    },
+    {
+      "id": "UNISWAP_V3_FLASH",
+      "capital_class": "ATOMIC_FLASH_LIQUIDITY",
+      "status": "AUTHENTICATED_REAL_SOURCE",
+      "real_source_path": "nqc-census/crates/nqc-census-capital/src/permissionless_atomic.rs",
+      "terminally_resolved": true,
+      "resolution_evidence": {
+        "kind": "AUTHENTICATED_REAL_SOURCE",
+        "repository": "josuechavando350-png/nexus-engine",
+        "workflow_name": "NQC RMC-011 Four Native Source Witness Producer (NOT D11 CLOSE)",
+        "run_id": 37839794172,
+        "head_sha": "0d6f9c685033500614e9f05d0d99965783f96659",
+        "artifact_id": 11576204678,
+        "artifact_name": "rmc011-four-native-source-certification-0d6f9c685033500614e9f05d0d99965783f96659-37839794172-1",
+        "artifact_digest": "sha256:16856326b33d92c679e7cd070c947bcf6628653d8bea4d3ebb851222bbf354eb",
+        "file": "protocol-family-evidence/families/UNISWAP_V3_FLASH/evidence.json",
+        "sha256": "8943448a890bf9db757d706727273f91e0c68364902118ca4886834252e5e9c5"
+      }
+    },
+    {
+      "id": "EXTERNAL_GAS_CREDIT",
+      "capital_class": "GAS_FUNDING",
+      "status": "EXHAUSTIVELY_REJECTED_WITH_REPRODUCIBLE_EVIDENCE",
+      "real_source_path": null,
+      "terminally_resolved": true,
+      "resolution_evidence": {
+        "kind": "EXHAUSTIVE_REJECTION",
+        "repository": "josuechavando350-png/nexus-engine",
+        "workflow_name": "NQC RMC-011 Bounded Family Rejection Evidence",
+        "run_id": 37826819250,
+        "head_sha": "e7e33cb96935ecf9effaab601d105b097c700671",
+        "artifact_id": 11571178483,
+        "artifact_name": "rmc011-bounded-family-rejections-e7e33cb96935ecf9effaab601d105b097c700671-37826819250-1",
+        "artifact_digest": "sha256:83a22012952b41dea2061134007a65fb6da76b63c0cf7836ea0804828a2a2d5d",
+        "file": "families/EXTERNAL_GAS_CREDIT/evidence.json",
+        "sha256": "d384f068973e51973f770b9789a07c41190e294034a3989c3efed6de9350f9d1"
+      }
+    },
+    {
+      "id": "EXTERNAL_GAS_SPONSOR",
+      "capital_class": "GAS_FUNDING",
+      "status": "EXHAUSTIVELY_REJECTED_WITH_REPRODUCIBLE_EVIDENCE",
+      "real_source_path": null,
+      "terminally_resolved": true,
+      "resolution_evidence": {
+        "kind": "EXHAUSTIVE_REJECTION",
+        "repository": "josuechavando350-png/nexus-engine",
+        "workflow_name": "NQC RMC-011 Bounded Family Rejection Evidence",
+        "run_id": 37826819250,
+        "head_sha": "e7e33cb96935ecf9effaab601d105b097c700671",
+        "artifact_id": 11571178483,
+        "artifact_name": "rmc011-bounded-family-rejections-e7e33cb96935ecf9effaab601d105b097c700671-37826819250-1",
+        "artifact_digest": "sha256:83a22012952b41dea2061134007a65fb6da76b63c0cf7836ea0804828a2a2d5d",
+        "file": "families/EXTERNAL_GAS_SPONSOR/evidence.json",
+        "sha256": "4226164470606152333856506f888cbeba99860aa8d27d5152db49020aa4d47f"
+      }
+    },
+    {
+      "id": "TRANSIENT_EXTERNAL_CREDIT",
+      "capital_class": "TRANSIENT_CREDIT",
+      "status": "EXHAUSTIVELY_REJECTED_WITH_REPRODUCIBLE_EVIDENCE",
+      "real_source_path": null,
+      "terminally_resolved": true,
+      "resolution_evidence": {
+        "kind": "EXHAUSTIVE_REJECTION",
+        "repository": "josuechavando350-png/nexus-engine",
+        "workflow_name": "NQC RMC-011 Bounded Family Rejection Evidence",
+        "run_id": 37826819250,
+        "head_sha": "e7e33cb96935ecf9effaab601d105b097c700671",
+        "artifact_id": 11571178483,
+        "artifact_name": "rmc011-bounded-family-rejections-e7e33cb96935ecf9effaab601d105b097c700671-37826819250-1",
+        "artifact_digest": "sha256:83a22012952b41dea2061134007a65fb6da76b63c0cf7836ea0804828a2a2d5d",
+        "file": "families/TRANSIENT_EXTERNAL_CREDIT/evidence.json",
+        "sha256": "d97bd7bdfab0655b0728dbed0d692287697c428273999ad89a13065c3b2d9589"
+      }
+    },
+    {
+      "id": "COLLATERALIZED_BORROWING",
+      "capital_class": "COLLATERALIZED_BORROWING",
+      "status": "EXHAUSTIVELY_REJECTED_WITH_REPRODUCIBLE_EVIDENCE",
+      "real_source_path": null,
+      "terminally_resolved": true,
+      "resolution_evidence": {
+        "kind": "EXHAUSTIVE_REJECTION",
+        "repository": "josuechavando350-png/nexus-engine",
+        "workflow_name": "NQC RMC-011 Original D08 Debt Family Rejection Evidence (NO D11 CLOSE)",
+        "run_id": 37832286518,
+        "head_sha": "5b79e7be1c185cbb4924d592991b9c990fc0465a",
+        "artifact_id": 11573678487,
+        "artifact_name": "rmc011-original-d08-debt-rejections-5b79e7be1c185cbb4924d592991b9c990fc0465a-37832286518-1",
+        "artifact_digest": "sha256:151847cdf85b1b49298d59b41d1bf939f6854d4556060a03ab7dd5a2e1359916",
+        "file": "debt-family-evidence/families/COLLATERALIZED_BORROWING/evidence.json",
+        "sha256": "78e130c871ecf881a90cbe37996046864cb7afc27d79a31dc36c2804a4ba052c"
+      }
+    },
+    {
+      "id": "PERSISTENT_DEBT",
+      "capital_class": "PERSISTENT_DEBT",
+      "status": "EXHAUSTIVELY_REJECTED_WITH_REPRODUCIBLE_EVIDENCE",
+      "real_source_path": null,
+      "terminally_resolved": true,
+      "resolution_evidence": {
+        "kind": "EXHAUSTIVE_REJECTION",
+        "repository": "josuechavando350-png/nexus-engine",
+        "workflow_name": "NQC RMC-011 Original D08 Debt Family Rejection Evidence (NO D11 CLOSE)",
+        "run_id": 37832286518,
+        "head_sha": "5b79e7be1c185cbb4924d592991b9c990fc0465a",
+        "artifact_id": 11573678487,
+        "artifact_name": "rmc011-original-d08-debt-rejections-5b79e7be1c185cbb4924d592991b9c990fc0465a-37832286518-1",
+        "artifact_digest": "sha256:151847cdf85b1b49298d59b41d1bf939f6854d4556060a03ab7dd5a2e1359916",
+        "file": "debt-family-evidence/families/PERSISTENT_DEBT/evidence.json",
+        "sha256": "b8b22443a5a3491a1ed64cb8c8c11958503784e42c6537877ac92b70e988b478"
+      }
+    },
+    {
+      "id": "INVENTORY_REQUIREMENT",
+      "capital_class": "INVENTORY_REQUIREMENT",
+      "status": "EXHAUSTIVELY_REJECTED_WITH_REPRODUCIBLE_EVIDENCE",
+      "real_source_path": null,
+      "terminally_resolved": true,
+      "resolution_evidence": {
+        "kind": "EXHAUSTIVE_REJECTION",
+        "repository": "josuechavando350-png/nexus-engine",
+        "workflow_name": "NQC RMC-011 Bounded Family Rejection Evidence",
+        "run_id": 37826819250,
+        "head_sha": "e7e33cb96935ecf9effaab601d105b097c700671",
+        "artifact_id": 11571178483,
+        "artifact_name": "rmc011-bounded-family-rejections-e7e33cb96935ecf9effaab601d105b097c700671-37826819250-1",
+        "artifact_digest": "sha256:83a22012952b41dea2061134007a65fb6da76b63c0cf7836ea0804828a2a2d5d",
+        "file": "families/INVENTORY_REQUIREMENT/evidence.json",
+        "sha256": "182ccb83e09abd6e5c6681bd9fdc7f5e25cfbe752939893c398bb8e770bfd652"
+      }
+    },
+    {
+      "id": "BOND_OR_STAKE",
+      "capital_class": "BOND_OR_STAKE",
+      "status": "EXHAUSTIVELY_REJECTED_WITH_REPRODUCIBLE_EVIDENCE",
+      "real_source_path": null,
+      "terminally_resolved": true,
+      "resolution_evidence": {
+        "kind": "EXHAUSTIVE_REJECTION",
+        "repository": "josuechavando350-png/nexus-engine",
+        "workflow_name": "NQC RMC-011 Bounded Family Rejection Evidence",
+        "run_id": 37826819250,
+        "head_sha": "e7e33cb96935ecf9effaab601d105b097c700671",
+        "artifact_id": 11571178483,
+        "artifact_name": "rmc011-bounded-family-rejections-e7e33cb96935ecf9effaab601d105b097c700671-37826819250-1",
+        "artifact_digest": "sha256:83a22012952b41dea2061134007a65fb6da76b63c0cf7836ea0804828a2a2d5d",
+        "file": "families/BOND_OR_STAKE/evidence.json",
+        "sha256": "b4deaafbe49bd0ab2f0a3cf9fb2ad81bbae7ef67b65c8a84897cc33bdd312d38"
+      }
+    },
+    {
+      "id": "SOLVER_OR_BUILDER_DEPOSIT",
+      "capital_class": "SOLVER_OR_BUILDER_DEPOSIT",
+      "status": "EXHAUSTIVELY_REJECTED_WITH_REPRODUCIBLE_EVIDENCE",
+      "real_source_path": null,
+      "terminally_resolved": true,
+      "resolution_evidence": {
+        "kind": "EXHAUSTIVE_REJECTION",
+        "repository": "josuechavando350-png/nexus-engine",
+        "workflow_name": "NQC RMC-011 Bounded Family Rejection Evidence",
+        "run_id": 37826819250,
+        "head_sha": "e7e33cb96935ecf9effaab601d105b097c700671",
+        "artifact_id": 11571178483,
+        "artifact_name": "rmc011-bounded-family-rejections-e7e33cb96935ecf9effaab601d105b097c700671-37826819250-1",
+        "artifact_digest": "sha256:83a22012952b41dea2061134007a65fb6da76b63c0cf7836ea0804828a2a2d5d",
+        "file": "families/SOLVER_OR_BUILDER_DEPOSIT/evidence.json",
+        "sha256": "46e02352b0c36142eac3ec0980e0925f22d49934d20b3a823ca3fee225b70c94"
+      }
+    },
+    {
+      "id": "INTRA_BLOCK_TEMPORARY_LOCK",
+      "capital_class": "INTRA_BLOCK_TEMPORARY_LOCK",
+      "status": "EXHAUSTIVELY_REJECTED_WITH_REPRODUCIBLE_EVIDENCE",
+      "real_source_path": null,
+      "terminally_resolved": true,
+      "resolution_evidence": {
+        "kind": "EXHAUSTIVE_REJECTION",
+        "repository": "josuechavando350-png/nexus-engine",
+        "workflow_name": "NQC RMC-011 Bounded Family Rejection Evidence",
+        "run_id": 37826819250,
+        "head_sha": "e7e33cb96935ecf9effaab601d105b097c700671",
+        "artifact_id": 11571178483,
+        "artifact_name": "rmc011-bounded-family-rejections-e7e33cb96935ecf9effaab601d105b097c700671-37826819250-1",
+        "artifact_digest": "sha256:83a22012952b41dea2061134007a65fb6da76b63c0cf7836ea0804828a2a2d5d",
+        "file": "families/INTRA_BLOCK_TEMPORARY_LOCK/evidence.json",
+        "sha256": "9b784dac7c6f7c4514e8d4677a99d1175ae1c5ac7802e7d671110f9a86be9de7"
+      }
+    }
+  ],
+  "terminal_invariants": [
+    "UNKNOWN_FAMILY_COUNT_EQ_0",
+    "EVERY_REQUIRED_FAMILY_TERMINALLY_RESOLVED",
+    "TERMINALLY_RESOLVED_REQUIRES_AUTHENTICATED_REAL_SOURCE_OR_EXHAUSTIVE_REJECTION",
+    "SOURCE_FAMILY_UNIVERSE_DISCOVERY_AUTHENTICATED_COMPLETE",
+    "GLOBAL_CAPITAL_SOURCE_COMPLETENESS_CLAIMED_ONLY_IF_ALL_REQUIRED_FAMILIES_RESOLVED",
+    "REAL_SOURCE_PACKAGE_PASS_IS_NOT_D11_TERMINAL_CLOSED",
+    "ZERO_OWN_CAPITAL_IS_NEVER_INFERRED_FROM_ABSENCE_OF_OPERATOR_ALLOCATIONS",
+    "EXTERNAL_GAS_REQUIRES_AUTHENTICATED_REAL_SOURCE_EVIDENCE"
+  ],
+  "family_universe_discovery": {
+    "status": "AUTHENTICATED_COMPLETE",
+    "evidence": {
+      "kind": "AUTHENTICATED_DISCOVERY",
+      "repository": "josuechavando350-png/nexus-engine",
+      "workflow_name": "NQC RMC-011 Family Discovery Evidence",
+      "run_id": 37841923756,
+      "head_sha": "377aca59a85abbccd57e4f1831973416b9399b83",
+      "artifact_id": 11577503474,
+      "artifact_name": "rmc011-family-discovery-377aca59a85abbccd57e4f1831973416b9399b83-37841923756-1",
+      "artifact_digest": "sha256:9bd159b2d5f246fef9b62d7ad67c8cfa0010092a3e78f86548dba1da1cd8fbdc",
+      "file": "discovery-evidence.json",
+      "sha256": "ea24166dd495115bea25fcf9dea1cad6c9d27cab78d58803aeb9e3cc13202632"
+    },
+    "terminal_requirement": "AUTHENTICATED_COMPLETE"
+  },
+  "claim_scope": "SOURCE_UNIVERSE_READINESS_ONLY",
+  "d11_terminal_closed": false
+}

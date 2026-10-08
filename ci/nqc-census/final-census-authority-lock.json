@@ -1,0 +1,44 @@
+{
+  "schema_version": 3,
+  "status": "BLOCKED",
+  "real_market_census_closed": false,
+  "pft_certified_commit": "5b4a0cb778cb4370cd54eb6fcba765dc8d7cecdf",
+  "pft_certified_tree": "ef3498da528f85cdb9fdd82222d64773a557f853",
+  "required_terminal_stages": [
+    "RMC-006",
+    "RMC-007",
+    "RMC-008",
+    "RMC-009",
+    "RMC-010",
+    "RMC-011",
+    "RMC-012",
+    "RMC-013"
+  ],
+  "pinned_stages": [],
+  "pipeline_counts": null,
+  "economic_boundary": null,
+  "terminal_evidence": [],
+  "blocking_reasons": [
+    "RMC006_THROUGH_RMC010_TERMINAL_ARTIFACTS_NOT_ALL_PINNED",
+    "RMC011_REAL_SOURCE_CERTIFICATION_NOT_PINNED",
+    "RMC012_REAL_ACTIONABILITY_BRIDGE_NOT_CERTIFIED",
+    "RMC013_REAL_ECONOMICS_COVERAGE_NOT_CERTIFIED",
+    "STRUCTURAL_STAGE_ARTIFACTS_NOT_ALL_PINNED",
+    "CONSERVATIVE_SCOPE_BOUNDARY_NOT_PINNED",
+    "STRUCTURAL_STAGE_WORKFLOW_ARTIFACT_BINDING_NOT_PINNED"
+  ],
+  "notes": [
+    "RMC-014 is structural-only and can never emit REAL_MARKET_CENSUS_CLOSED.",
+    "Synthetic or foundation-only D12/D13 evidence cannot satisfy RMC-014 structural certification.",
+    "Set status=PINNED only after exact RMC-006..RMC-013 structural artifacts are independently verified.",
+    "When PINNED, every stage row must include a non-empty content-addressed evidence array; pipeline_counts, economic_boundary and terminal_evidence must be populated from authenticated structural artifacts.",
+    "RMC-015 temporal authority and RMC-016 conservative-capacity authority are mandatory before RMC-017 may evaluate final Census closure."
+  ],
+  "rmc014_structural_chain_certified": false,
+  "final_census_authority_stage": "RMC-017",
+  "downstream_authorities_required": [
+    "RMC-015",
+    "RMC-016",
+    "RMC-017"
+  ]
+}
