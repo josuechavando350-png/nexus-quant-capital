@@ -1,0 +1,72 @@
+{
+  "schema": "nqc-temporal-data-requirements-v1",
+  "terminal_authority": false,
+  "real_market_census_closed": false,
+  "prepared_schema": "nqc-temporal-source-bundle-v1",
+  "required_real_inputs": [
+    {
+      "id": "scope-population",
+      "need": "Exact source-authenticated declared population and decision-time scope, every market/protocol/account required by the user, exact canonical start/end order points and header identities.",
+      "not_substitutable_by": "857-account cohort, historical winner set, an arbitrary population hash or a newly narrowed universe"
+    },
+    {
+      "id": "trigger-surfaces",
+      "need": "All seven classes and mandatory protocol sub-surfaces with exact raw request/response archives, disjoint exhaustive ranges, operator identities, canonical headers and trigger membership.",
+      "not_substitutable_by": "Event-only enumeration, endpoint observations, provider labels or complete=true"
+    },
+    {
+      "id": "successor-gap",
+      "need": "For the separate 857-account study, original two-operator evidence for 26095832..26102551, fourteen missing 480-block segments.",
+      "not_substitutable_by": "Zero observed logs in the earlier 480 blocks; this gap is not the entire broad Census scope"
+    },
+    {
+      "id": "episode-ledger",
+      "sha256": "a7fe40d752ee43ea507e9723d056248ca28dd6fb5884f49f33bed60950e3782a",
+      "need": "Exact original raw bytes plus generating provenance and independent row replay, or explicitly new independent reconstruction"
+    },
+    {
+      "id": "censored-ledger",
+      "sha256": "c64b6050ff7a3cd5ee7119c9b2f041dad6341fb0cd7b53884e8f1bba1efb9252",
+      "need": "Exact original rows distinguishing boundary censoring, observability limitation, missing acquisition, and material unknowns"
+    },
+    {
+      "id": "winner-replay",
+      "sha256": "29133f3b7ab34b74f92f5e8a3101e04a3cb2b1b389d4b8728813fbbae7f461be",
+      "need": "Source-authenticated raw replay/receipt/prestate witnesses; third-party results remain separate from NQC"
+    },
+    {
+      "id": "economic-ledger",
+      "sha256": "55d5d6be9e09f2e499e1ca8949c4305d05824dffa61e363f4371c615537dcb1c",
+      "need": "Original 127-row ledger and all economic cost evidence or separate new reconstruction without claiming original hash recovery"
+    },
+    {
+      "id": "execution-economics",
+      "need": "Each admitted executable historical state's exact code/prestate/calldata/route/token/repayment/fee/gas/builder witnesses, no look-ahead and full cost arithmetic under its original capital-policy evidence. This package does not change capital policy or economic thresholds.",
+      "not_substitutable_by": "Supplied success_path_net, costs_complete, opaque evidence references or zero empty-set lower bound"
+    },
+    {
+      "id": "terminal-outcomes",
+      "need": "Actual decoded, canonical receipts/logs/reorg or recovery state evidence matching each lineage and terminal point.",
+      "not_substitutable_by": "Typed status wrapper without raw semantic replay"
+    },
+    {
+      "id": "authority",
+      "need": "Authenticated upstream producer/repository/commit/tree/run/artifact bytes and transitive evidence manifests, plus reviewed D14/D15/D16 to D17 admission.",
+      "not_substitutable_by": "This local package or synthetic regression success"
+    }
+  ],
+  "current_implementation_limits": [
+    "No original RPC/EVM adapter or semantic chain replay",
+    "No external provider/operator authentication",
+    "No actual component-level economic arithmetic or resource-feasibility solver integration",
+    "No proof of global or user-declared scope completeness",
+    "No original-source recovery from hashes",
+    "No terminal certificate emitter"
+  ],
+  "policy_boundary": {
+    "capital_policy_changes": false,
+    "economic_threshold_changes": false,
+    "economic_decisions_closed": false,
+    "funding_or_execution_authorized_by_package": false
+  }
+}
