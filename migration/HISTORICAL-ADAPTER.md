@@ -187,3 +187,35 @@ that reviewed-producer authorization has not been independently verified.
 The local full replay does not receive fictitious GitHub event/run/attempt IDs;
 the GitHub-bound index stage is exercised only by labelled unit-test fixtures
 until a real authorized job exists.
+
+## Explicit ephemeral namespace privilege boundary
+
+The standalone workflow explicitly selects `--isolation-mode sudo-drop`; the
+adapter's default `user` mode remains available without automatic fallback.
+The privileged argv is fixed system `sudo -n` → `unshare --net --mount
+--propagation private` → `setpriv`. Before Python, Git, Rust or the build shell,
+`setpriv` restores the original nonzero runner UID/GID, clears supplementary
+groups and all inheritable/ambient/bounding capabilities, and sets no-new-privs.
+Root or mismatched real/effective/saved caller IDs fail closed. The adapter
+checks root ownership and non-writability of its fixed system executable chain.
+No root shell, recursive chown, safe.directory exception, persistent namespace,
+credential, host sysctl, AppArmor or GitHub permission change is required.
+
+Both disconnected stages record `/proc/self/status` checks of all four UID/GID
+values, empty groups, all five capability sets equal to zero and NoNewPrivs=1.
+They also record distinct network and mount namespace IDs. The original detailed
+no-network proof still checks interfaces, routes, addresses and unreachable
+IPv4/IPv6 probes. The new evidence index requires both explicit privilege-drop
+proofs and matching original runner IDs. Historical receipt/source identities
+are unchanged and this process proof does not transfer historical certification.
+
+This is **not a filesystem jail**. After the drop, reviewed programs retain the
+runner user's filesystem rights; the workflow writes build/cache/log/evidence
+under its own run-specific temporary directory. Clearing groups can remove
+access that depended on supplementary groups, which is a fail-closed runtime
+constraint. The subprocesses run synchronously, create no persistent namespace
+handles and request no background daemon. Kernel namespaces disappear after the
+last process/reference exits; GitHub's existing job timeout and runner cleanup
+are the outer bound for descendants, not a new guarantee of child-free teardown.
+The sudo-drop path requires independent security review and authorized Actions
+validation; offline argv/proof tests alone do not prove live runner execution.

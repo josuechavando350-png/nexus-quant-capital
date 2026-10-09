@@ -110,6 +110,7 @@ jobs:
             --source-object-store "$D06_ROOT/acquisition/source-object-store" \
             --historical-source-metadata "$D06_ROOT/acquisition/source-metadata.json" \
             --output "$D06_ROOT/materialized" \
+            --isolation-mode sudo-drop \
             --expected-consumer-commit "$EXPECTED_COMMIT" --expected-consumer-tree "$EXPECTED_TREE"
 
       - name: Prepare a separate exact producer build copy without historical refs
@@ -123,18 +124,38 @@ jobs:
       - name: Disconnected Rust gates, original package authentication, replay and negative matrix
         run: |
           set -euo pipefail
-          parent_network="$(readlink /proc/self/ns/net)"
-          sudo unshare --net --mount --propagation private -- env -i \
+          /usr/bin/python3 -I -B - "$D06_ROOT" <<'PY'
+          import importlib.util, os, pathlib, sys
+          uid, gid = os.getuid(), os.getgid()
+          if uid <= 0 or gid <= 0 or os.getresuid() != (uid,) * 3 or os.getresgid() != (gid,) * 3:
+              raise ValueError('original non-root runner identity required')
+          root = pathlib.Path(sys.argv[1])
+          for path in (root, *[root / name for name in ('consumer', 'build', 'home', 'logs', 'cargo-home', 'rustup-home')]):
+              if not path.is_absolute() or path.resolve() != path or not path.is_dir() or path.stat().st_uid != uid:
+                  raise ValueError('runner path alias or ownership changed')
+          spec = importlib.util.spec_from_file_location('checked_namespace_boundary', root / 'consumer/migration/materialize_historical_source.py')
+          module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+          module.verify_system_executables()
+          PY
+          parent_network="$(/usr/bin/readlink /proc/self/ns/net)"
+          parent_mount="$(/usr/bin/readlink /proc/self/ns/mnt)"
+          runner_uid="$(/usr/bin/id -ru)"
+          runner_gid="$(/usr/bin/id -rg)"
+          [[ "$runner_uid" =~ ^[1-9][0-9]*$ && "$runner_gid" =~ ^[1-9][0-9]*$ ]]
+          test "$runner_uid" = "$(/usr/bin/id -u)"
+          test "$runner_gid" = "$(/usr/bin/id -g)"
+          /usr/bin/sudo -n -- /usr/bin/unshare --net --mount --propagation private -- \
+            /usr/bin/setpriv --reuid="$runner_uid" --regid="$runner_gid" --clear-groups \
+            --bounding-set=-all --inh-caps=-all --ambient-caps=-all --no-new-privs -- \
+            /usr/bin/env -i \
             PATH="$HOME/.cargo/bin:/usr/bin:/bin" HOME="$D06_ROOT/home" LC_ALL=C \
             CARGO_HOME="$D06_ROOT/cargo-home" RUSTUP_HOME="$D06_ROOT/rustup-home" RUSTUP_TOOLCHAIN=1.98.1 \
             CARGO_NET_OFFLINE=true PYTHONDONTWRITEBYTECODE=1 GIT_CONFIG_NOSYSTEM=1 \
             GIT_CONFIG_GLOBAL=/dev/null GIT_TERMINAL_PROMPT=0 GIT_ALLOW_PROTOCOL= \
             GIT_NO_REPLACE_OBJECTS=1 GIT_NO_LAZY_FETCH=1 \
-            GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.directory GIT_CONFIG_VALUE_0="$D06_ROOT/build" \
             EXPECTED_COMMIT="$EXPECTED_COMMIT" EXPECTED_TREE="$EXPECTED_TREE" \
-            bash "$D06_ROOT/build/migration/run_standalone_d06_offline.sh" \
-              "$D06_ROOT" "$D06_ROOT/build" "$parent_network"
-          sudo chown -R "$(id -u):$(id -g)" "$D06_ROOT/evidence"
+            /bin/bash "$D06_ROOT/build/migration/run_standalone_d06_offline.sh" \
+              "$D06_ROOT" "$D06_ROOT/build" "$parent_network" "$runner_uid" "$runner_gid" "$parent_mount"
 
       - name: Bind new evidence to producer identity without claiming final GitHub success
         run: |

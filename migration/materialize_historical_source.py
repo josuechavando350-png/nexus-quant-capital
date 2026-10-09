@@ -386,16 +386,98 @@ def verify_consumer(repo, expected_commit, expected_tree, historical, env):
     return result
 
 
-ISOLATED_MATERIALIZER = r'''
-import importlib.util, json, pathlib, subprocess, sys
-source, output, proof, parent = map(str, sys.argv[1:])
+PRIVILEGE_PROOF = r'''
+def privilege_drop_proof(status, uid, gid):
+    if type(uid) is not int or uid <= 0 or type(gid) is not int or gid <= 0:
+        raise ValueError('invalid original runner identity')
+    fields = {}
+    for line in status.splitlines():
+        key, separator, value = line.partition(':')
+        if separator:
+            if key in fields:
+                raise ValueError('duplicate process status field')
+            fields[key] = value.strip()
+    uids = [int(value) for value in fields['Uid'].split()]
+    gids = [int(value) for value in fields['Gid'].split()]
+    groups = [int(value) for value in fields['Groups'].split()]
+    caps = {key: int(fields[key], 16) for key in ('CapInh', 'CapPrm', 'CapEff', 'CapBnd', 'CapAmb')}
+    no_new_privs = int(fields['NoNewPrivs'])
+    if uids != [uid] * 4 or gids != [gid] * 4 or groups or any(caps.values()) or no_new_privs != 1:
+        raise ValueError('privileges were not completely dropped')
+    return {'schema': 'nqc-privilege-drop-v1', 'caller_uid': uid, 'caller_gid': gid,
+            'uids': uids, 'gids': gids, 'groups': groups, 'capabilities': caps,
+            'no_new_privs': no_new_privs}
+
+'''
+
+ISOLATED_MATERIALIZER = PRIVILEGE_PROOF + r'''
+import importlib.util, json, os, pathlib, subprocess, sys
+source, output, proof, parent, mode, uid, gid, parent_mount = map(str, sys.argv[1:])
+if mode not in ('user', 'sudo-drop'):
+    raise ValueError('unknown isolation mode')
+privileges = (privilege_drop_proof(pathlib.Path('/proc/self/status').read_text(), int(uid), int(gid))
+              if mode == 'sudo-drop' else None)
 p = pathlib.Path(source) / 'ci/nqc-census/run_rmc006_recertification.py'
 spec = importlib.util.spec_from_file_location('historical_network_proof', p)
 m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
 network = m.network_proof(parent)
+network['isolation_mode'] = mode
+if privileges is not None:
+    mount = os.readlink('/proc/self/ns/mnt')
+    if mount == parent_mount:
+        raise ValueError('mount namespace was not isolated')
+    network['mount_namespace'] = mount
+    network['parent_mount_namespace'] = parent_mount
+    network['privilege_drop'] = privileges
 pathlib.Path(proof).write_text(json.dumps(network, sort_keys=True, indent=2) + '\n')
 subprocess.run([sys.executable, '-I', '-B', str(pathlib.Path(source) / 'ci/nqc-census/materialize_effective_source.py'), '--output', output], check=True)
 '''
+
+
+def verify_system_executables():
+    # Root-owned symlinks such as /usr/bin/python3 are allowed only when their
+    # complete resolved target and every parent are root-owned and not writable
+    # by group/other. The executable paths themselves are never caller inputs.
+    for name in ('sudo', 'unshare', 'setpriv', 'env', 'python3'):
+        path = Path('/usr/bin') / name
+        resolved = path.resolve(strict=True)
+        require(resolved.is_file(), "nonregular system executable")
+        for entry in set((path, resolved, *path.parents, *resolved.parents)):
+            info = entry.lstat()
+            require(info.st_uid == 0 and (stat.S_ISLNK(info.st_mode) or not info.st_mode & 0o022),
+                    "unsafe system executable or parent")
+
+
+def isolation_command(historical, stage, parent_network, env, mode):
+    """Fixed argv only; privileged setup drops identity before any Python/Git."""
+    require(mode in ('user', 'sudo-drop'), "unknown isolation mode")
+    historical, stage = Path(historical), Path(stage)
+    home = historical.parent
+    require(historical.is_absolute() and historical.resolve() == historical and
+            stage.is_absolute() and stage.resolve() == stage and stage.parent == home and
+            historical.name == 'historical-source' and stage.name == 'result',
+            "isolation paths changed or aliased")
+    require(env == environment(home), "isolation environment substitution")
+    require(re.fullmatch(r'net:\[[0-9]+\]', parent_network), "invalid parent network identity")
+    uid, gid = os.getuid(), os.getgid()
+    python = sys.executable if mode == 'user' else '/usr/bin/python3'
+    worker = [python, '-I', '-B', '-c', ISOLATED_MATERIALIZER, str(historical),
+              str(stage / 'effective-source'), str(stage / 'network-isolation.json'),
+              parent_network, mode, str(uid), str(gid), os.readlink('/proc/self/ns/mnt')]
+    if mode == 'user':
+        return ['unshare', '--user', '--map-root-user', '--net', *worker]
+    require(uid > 0 and gid > 0 and os.getresuid() == (uid,) * 3 and os.getresgid() == (gid,) * 3,
+            "privileged namespace requires original non-root runner identity")
+    verify_system_executables()
+    # No shell, caller-controlled executable, preserved groups/capabilities,
+    # host configuration edits or automatic privilege fallback. This is not a
+    # filesystem jail: after setup the worker has the original user's rights.
+    return ['/usr/bin/sudo', '-n', '--', '/usr/bin/unshare', '--net', '--mount',
+            '--propagation', 'private', '--', '/usr/bin/setpriv', '--reuid=' + str(uid),
+            '--regid=' + str(gid), '--clear-groups', '--bounding-set=-all',
+            '--inh-caps=-all', '--ambient-caps=-all', '--no-new-privs', '--',
+            '/usr/bin/env', '-i', *[key + '=' + value for key, value in sorted(env.items())],
+            *worker]
 
 
 def publish_no_replace(stage, output):
@@ -412,7 +494,9 @@ def publish_no_replace(stage, output):
 
 def materialize(consumer, bundle, output, expected_commit, expected_tree,
                 source_repository=SOURCE_REPOSITORY, source_repository_id=SOURCE_REPOSITORY_ID,
-                source_ref=SOURCE_REF, source_store=None, source_metadata=None):
+                source_ref=SOURCE_REF, source_store=None, source_metadata=None,
+                isolation_mode='user'):
+    require(isolation_mode in ('user', 'sudo-drop'), "unknown isolation mode")
     require((source_repository, type(source_repository_id), source_repository_id) ==
             (SOURCE_REPOSITORY, int, SOURCE_REPOSITORY_ID), "historical repository identity changed")
     require((bundle is None) != (source_store is None), "choose exactly one historical input mode")
@@ -443,10 +527,11 @@ def materialize(consumer, bundle, output, expected_commit, expected_tree,
         stage = work / "result"
         stage.mkdir()
         parent_net = os.readlink("/proc/self/ns/net")
-        materializer_log = run(["unshare", "--user", "--map-root-user", "--net",
-                               sys.executable, "-I", "-B", "-c", ISOLATED_MATERIALIZER,
-                               historical, stage / "effective-source", stage / "network-isolation.json",
-                               parent_net], cwd=historical, env=env)
+        if isolation_mode == 'sudo-drop':
+            require(os.getuid() > 0 and all(path.stat().st_uid == os.getuid() for path in (work, historical, stage)),
+                    "privileged namespace paths must belong to the original runner")
+        command = isolation_command(historical, stage, parent_net, env, isolation_mode)
+        materializer_log = run(command, cwd=historical, env=env)
         (stage / "materializer.log").write_bytes(materializer_log)
         original = regular_bytes(stage / "effective-source/MATERIALIZATION.json")
         receipt = json.loads(original)
@@ -499,12 +584,14 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--expected-consumer-commit", required=True)
     parser.add_argument("--expected-consumer-tree", required=True)
+    parser.add_argument("--isolation-mode", choices=('user', 'sudo-drop'), default='user')
     args = parser.parse_args()
     try:
         result = materialize(args.consumer, args.historical_bundle, args.output,
                              args.expected_consumer_commit, args.expected_consumer_tree,
                              source_store=args.source_object_store,
-                             source_metadata=args.historical_source_metadata)
+                             source_metadata=args.historical_source_metadata,
+                             isolation_mode=args.isolation_mode)
     except (AdapterError, OSError, KeyError, ValueError) as error:
         print("HISTORICAL_ADAPTER_FAILED: " + str(error), file=sys.stderr)
         return 1

@@ -81,6 +81,35 @@ def producer_context(environment, head, tree, event):
             "push_context": {key: event[key] for key in ("before", "after", "created", "deleted", "forced")}}
 
 
+def verify_privilege_isolation(network):
+    require(network.get('isolation_mode') == 'sudo-drop', 'explicit privilege-drop mode required')
+    require(network.get('routable_network') is False and network.get('interfaces') == ['lo'] and
+            all(type(network.get(key)) is str and re.fullmatch(r'net:\[[0-9]+\]', network[key])
+                for key in ('network_namespace', 'parent_network_namespace')) and
+            network['network_namespace'] != network['parent_network_namespace'],
+            'missing disconnected privilege-drop proof')
+    require(all(type(network.get(key)) is str and re.fullmatch(r'mnt:\[[0-9]+\]', network[key])
+                for key in ('mount_namespace', 'parent_mount_namespace')) and
+            network['mount_namespace'] != network['parent_mount_namespace'],
+            'missing separate mount namespace proof')
+    proof = network.get('privilege_drop', {})
+    require(set(proof) == {'schema', 'caller_uid', 'caller_gid', 'uids', 'gids', 'groups',
+                          'capabilities', 'no_new_privs'} and
+            proof['schema'] == 'nqc-privilege-drop-v1', 'privilege proof schema differs')
+    uid, gid = proof['caller_uid'], proof['caller_gid']
+    require(type(uid) is int and uid > 0 and type(gid) is int and gid > 0,
+            'privilege proof caller differs')
+    require(proof['uids'] == [uid] * 4 and proof['gids'] == [gid] * 4 and
+            all(type(value) is int for key in ('uids', 'gids') for value in proof[key]) and
+            proof['groups'] == [] and type(proof['no_new_privs']) is int and proof['no_new_privs'] == 1,
+            'privilege proof identities or no-new-privs differ')
+    caps = proof['capabilities']
+    require(set(caps) == {'CapInh', 'CapPrm', 'CapEff', 'CapBnd', 'CapAmb'} and
+            all(type(value) is int and value == 0 for value in caps.values()),
+            'privilege proof capabilities retained')
+    return uid, gid
+
+
 def make_index(repo, root, head, tree, environment=os.environ):
     repo, root = Path(repo).absolute(), Path(root).absolute()
     require(repo.resolve() == repo and root.resolve() == root, "evidence or repo path aliases")
@@ -119,6 +148,9 @@ def make_index(repo, root, head, tree, environment=os.environ):
     require(adapter["schema"] == "nqc-standalone-historical-materialization-v1" and
             adapter["status"] == "HISTORICAL_SOURCE_MATERIALIZED_CONSUMER_BOUND",
             "historical adapter did not complete")
+    materializer_ids = verify_privilege_isolation(adapter['network_isolation'])
+    build_ids = verify_privilege_isolation(load(root / 'code-gates/build-network-isolation.json'))
+    require(materializer_ids == build_ids, 'materializer/build original runner identity differs')
     require(adapter["historical_source"]["commit"] == SOURCE_COMMIT, "historical source changed")
     consumer = adapter["consumer"]
     require(consumer["commit"] == head and consumer["tree"] == tree and

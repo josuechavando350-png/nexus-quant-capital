@@ -1,4 +1,5 @@
 """Local proposal regressions. All network responses below are synthetic mocks."""
+import ast
 import copy
 from datetime import datetime, timedelta, timezone
 import hashlib
@@ -15,6 +16,138 @@ from unittest import mock
 import collect_original_metadata as metadata
 import index_standalone_d06 as index
 import acquire_historical_source as acquisition
+import materialize_historical_source as adapter
+
+
+class NamespaceSafetyTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
+        self.home = Path(self.temp.name).resolve()
+        self.historical = self.home / 'historical-source'; self.historical.mkdir()
+        self.stage = self.home / 'result'; self.stage.mkdir()
+        self.env = adapter.environment(self.home)
+        for method, value in (('getuid', 1001), ('getgid', 1001),
+                              ('getresuid', (1001,) * 3), ('getresgid', (1001,) * 3)):
+            patcher = mock.patch.object(adapter.os, method, return_value=value)
+            patcher.start(); self.addCleanup(patcher.stop)
+        patcher = mock.patch.object(adapter, 'verify_system_executables')
+        self.systems = patcher.start(); self.addCleanup(patcher.stop)
+        namespace = {}
+        exec(compile(adapter.PRIVILEGE_PROOF, '<reviewed proof function>', 'exec'), namespace)
+        self.prove = namespace['privilege_drop_proof']
+        self.status = 'Uid: 1001 1001 1001 1001\nGid: 1001 1001 1001 1001\nGroups:\n' + ''.join(
+            key + ': 0000000000000000\n' for key in ('CapInh', 'CapPrm', 'CapEff', 'CapBnd', 'CapAmb')) + 'NoNewPrivs: 1\n'
+
+    def command(self, mode='sudo-drop', **changes):
+        values = dict(historical=self.historical, stage=self.stage,
+                      parent_network='net:[1]', env=self.env, mode=mode)
+        values.update(changes)
+        return adapter.isolation_command(**values)
+
+    def test_privileged_prefix_has_no_shell_or_caller_executable(self):
+        command = self.command()
+        prefix = ['/usr/bin/sudo', '-n', '--', '/usr/bin/unshare', '--net', '--mount',
+                  '--propagation', 'private', '--', '/usr/bin/setpriv', '--reuid=1001',
+                  '--regid=1001', '--clear-groups', '--bounding-set=-all', '--inh-caps=-all',
+                  '--ambient-caps=-all', '--no-new-privs', '--', '/usr/bin/env', '-i']
+        self.assertEqual(command[:len(prefix)], prefix)
+        self.assertEqual(command[len(prefix):len(prefix) + len(self.env)],
+                         [key + '=' + value for key, value in sorted(self.env.items())])
+        self.assertEqual(command[len(prefix) + len(self.env):len(prefix) + len(self.env) + 4],
+                         ['/usr/bin/python3', '-I', '-B', '-c'])
+        self.assertNotIn('bash', command); self.assertNotIn('sh', command)
+        self.systems.assert_called_once_with()
+
+    def test_unsafe_fixed_system_binary_is_rejected_before_command(self):
+        self.systems.side_effect = ValueError('unsafe system executable or parent')
+        with self.assertRaisesRegex(ValueError, 'system executable'): self.command()
+
+    def test_default_mode_preserves_unprivileged_command_without_fallback(self):
+        command = self.command(mode='user')
+        self.assertEqual(command[:4], ['unshare', '--user', '--map-root-user', '--net'])
+        self.assertNotIn('/usr/bin/sudo', command)
+        self.systems.assert_not_called()
+        self.assertEqual(command[-4], 'user')
+
+    def test_unknown_mode_root_and_mismatched_saved_ids_rejected(self):
+        with self.assertRaises(ValueError): self.command(mode='auto')
+        for method, value in (('getuid', 0), ('getgid', 0), ('getresuid', (1001, 0, 1001)),
+                              ('getresuid', (1001, 1001, 0)), ('getresgid', (1001, 0, 1001)),
+                              ('getresgid', (1001, 1001, 0))):
+            with self.subTest(method=method, value=value), mock.patch.object(adapter.os, method, return_value=value):
+                with self.assertRaises(ValueError): self.command()
+
+    def test_env_injection_path_alias_and_namespace_substitution_rejected(self):
+        for key, value in (('PATH', '/tmp'), ('LD_PRELOAD', '/tmp/a.so'), ('PYTHONPATH', '/tmp'),
+                           ('BASH_ENV', '/tmp/inject'), ('GIT_CONFIG_GLOBAL', '/tmp/config')):
+            with self.subTest(key=key), self.assertRaises(ValueError):
+                self.command(env=dict(self.env, **{key: value}))
+        alias = self.home / 'alias'; alias.symlink_to(self.historical)
+        for historical in (alias, Path('historical-source'), self.home / 'different'):
+            with self.assertRaises(ValueError): self.command(historical=historical)
+        for namespace in ('', 'net:[1];id', 'mnt:[1]', 'net:[1]\n'):
+            with self.assertRaises(ValueError): self.command(parent_network=namespace)
+
+    def test_privilege_proof_requires_all_four_ids_and_zero_capability_sets(self):
+        proof = self.prove(self.status, 1001, 1001)
+        self.assertEqual(proof['uids'], [1001] * 4)
+        self.assertEqual(proof['groups'], [])
+        for key in ('CapInh', 'CapPrm', 'CapEff', 'CapBnd', 'CapAmb'):
+            with self.subTest(key=key), self.assertRaises(ValueError):
+                self.prove(self.status.replace(key + ': 0000000000000000', key + ': 0000000000000001'), 1001, 1001)
+        for key in ('Uid', 'Gid'):
+            for position in range(4):
+                ids = ['1001'] * 4; ids[position] = '0'
+                changed = self.status.replace(key + ': 1001 1001 1001 1001', key + ': ' + ' '.join(ids))
+                with self.subTest(key=key, position=position), self.assertRaises(ValueError):
+                    self.prove(changed, 1001, 1001)
+
+    def test_privilege_proof_rejects_groups_root_nnp_and_bad_status(self):
+        for changed in (self.status.replace('Groups:', 'Groups: 0'),
+                        self.status.replace('NoNewPrivs: 1', 'NoNewPrivs: 0'),
+                        self.status + 'Uid: 1001 1001 1001 1001\n',
+                        self.status.replace('NoNewPrivs: 1\n', ''),
+                        self.status.replace('CapEff: 0000000000000000', 'CapEff: nothex')):
+            with self.assertRaises((ValueError, KeyError)): self.prove(changed, 1001, 1001)
+        for uid, gid in ((0, 1001), (1001, 0), (True, 1001), (1001, False)):
+            with self.assertRaises(ValueError): self.prove(self.status, uid, gid)
+
+    def test_build_worker_checks_same_proof_before_any_git_or_source_import(self):
+        script = (Path(__file__).parent / 'run_standalone_d06_offline.sh').read_text()
+        block = script.split("<<'PRIVILEGES'\n", 1)[1].split('\nPRIVILEGES', 1)[0]
+        proof_function = next(node for node in ast.parse(block).body if isinstance(node, ast.FunctionDef))
+        expected = ast.parse(adapter.PRIVILEGE_PROOF).body[0]
+        self.assertEqual(ast.dump(proof_function), ast.dump(expected))
+        self.assertLess(script.index('privilege_drop_proof('), script.index('git rev-parse'))
+        self.assertIn("network['privilege_drop']", script)
+        self.assertIn("network['mount_namespace']", script)
+
+    def test_workflow_drops_privileges_before_bash_and_removes_root_cleanup(self):
+        workflow = (Path(__file__).parents[1] / '.github/workflows/nqc-d06-standalone.yml').read_text()
+        step = workflow.split('      - name: Disconnected Rust gates,', 1)[1].split('      - name:', 1)[0]
+        self.assertIn('/usr/bin/sudo -n -- /usr/bin/unshare --net --mount --propagation private --', step)
+        self.assertIn('/usr/bin/setpriv --reuid="$runner_uid" --regid="$runner_gid" --clear-groups', step)
+        self.assertIn('--bounding-set=-all --inh-caps=-all --ambient-caps=-all --no-new-privs --', step)
+        self.assertLess(step.index('/usr/bin/setpriv'), step.index('/usr/bin/env -i'))
+        self.assertLess(step.index('/usr/bin/env -i'), step.index('/bin/bash'))
+        self.assertNotIn('chown', workflow); self.assertNotIn('safe.directory', workflow)
+        self.assertNotIn('sudo bash', workflow)
+        self.assertIn('--isolation-mode sudo-drop', workflow)
+
+
+class SystemExecutableTests(unittest.TestCase):
+    def test_only_root_owned_nonwritable_system_chain_is_accepted(self):
+        from types import SimpleNamespace
+        for owner, mode, rejected in ((0, 0o100755, False), (1001, 0o100755, True),
+                                      (0, 0o100775, True), (0, 0o100777, True)):
+            with self.subTest(owner=owner, mode=mode), \
+                 mock.patch.object(Path, 'resolve', lambda path, **kwargs: path), \
+                 mock.patch.object(Path, 'is_file', return_value=True), \
+                 mock.patch.object(Path, 'lstat', return_value=SimpleNamespace(st_uid=owner, st_mode=mode)):
+                if rejected:
+                    with self.assertRaises(ValueError): adapter.verify_system_executables()
+                else:
+                    adapter.verify_system_executables()
 
 
 class Response(io.BytesIO):
@@ -230,11 +363,21 @@ class IndexTests(ProducerIdentityTests):
         self.write("negative-tests/results.json", {"schema": "nqc-rmc006-replay-negatives-v1",
                    "cases": [{"case": name, "rejected": True, "store_unchanged": True}
                              for name in sorted(index.NEGATIVES)]})
+        self.isolation = {
+            'routable_network': False, 'interfaces': ['lo'],
+            'network_namespace': 'net:[2]', 'parent_network_namespace': 'net:[1]',
+            'mount_namespace': 'mnt:[4]', 'parent_mount_namespace': 'mnt:[3]',
+            'isolation_mode': 'sudo-drop',
+            'privilege_drop': {'schema': 'nqc-privilege-drop-v1', 'caller_uid': 1001, 'caller_gid': 1001,
+                'uids': [1001] * 4, 'gids': [1001] * 4, 'groups': [], 'no_new_privs': 1,
+                'capabilities': {key: 0 for key in ('CapInh', 'CapPrm', 'CapEff', 'CapBnd', 'CapAmb')}}}
+        self.write('code-gates/build-network-isolation.json', self.isolation)
         receipt = b'{"unit_test": true}\n'
         self.write("historical-source/HISTORICAL-ADAPTER.json", {
             "schema": "nqc-standalone-historical-materialization-v1",
             "status": "HISTORICAL_SOURCE_MATERIALIZED_CONSUMER_BOUND",
             "historical_source": {"commit": index.SOURCE_COMMIT},
+            "network_isolation": self.isolation,
             "consumer": {"repository": index.REPOSITORY, "repository_id": int(index.REPOSITORY_ID),
                          "commit": self.head, "tree": self.tree},
             "truth_boundaries": {key: False for key in ("canonical_recertification", "certification_transferred",
@@ -260,6 +403,32 @@ class IndexTests(ProducerIdentityTests):
 
     def run_index(self):
         return index.make_index(self.repo, self.root, self.head, self.tree, self.environment)
+
+    def test_retained_privilege_or_missing_network_proof_prevents_index(self):
+        for section in ('historical-source/HISTORICAL-ADAPTER.json', 'code-gates/build-network-isolation.json'):
+            original = (self.root / section).read_text()
+            for mutate in (
+                lambda n: n.update(isolation_mode='user'),
+                lambda n: n.update(network_namespace=n['parent_network_namespace']),
+                lambda n: n.update(mount_namespace=n['parent_mount_namespace']),
+                lambda n: n['privilege_drop'].update(no_new_privs=0),
+                lambda n: n['privilege_drop'].update(groups=[1001]),
+                lambda n: n['privilege_drop']['capabilities'].update(CapEff=1),
+                lambda n: n['privilege_drop']['capabilities'].update(CapBnd=True),
+                lambda n: n['privilege_drop'].update(uids=[0] * 4),
+            ):
+                value = json.loads(original)
+                mutate(value['network_isolation'] if section.startswith('historical') else value)
+                self.write(section, value)
+                with self.assertRaises(ValueError): self.run_index()
+                self.assertFalse((self.root / 'evidence-index.json').exists())
+            (self.root / section).write_text(original)
+
+    def test_build_and_materializer_caller_ids_must_match(self):
+        changed = copy.deepcopy(self.isolation)
+        changed['privilege_drop'].update(caller_uid=1002, uids=[1002] * 4)
+        self.write('code-gates/build-network-isolation.json', changed)
+        with self.assertRaisesRegex(ValueError, 'identity differs'): self.run_index()
 
     def test_index_preserves_noncanonical_status_and_checks_file_hashes(self):
         result = self.run_index()

@@ -1,20 +1,62 @@
 #!/usr/bin/env bash
 # Proposed migration helper. Called only inside a new network + private mount namespace.
 set -euo pipefail
-test "$#" = 3
+test "$#" = 6
 root="$1"
 repo="$2"
 parent_network="$3"
+runner_uid="$4"
+runner_gid="$5"
+parent_mount="$6"
+# The fixed setpriv boundary precedes this unprivileged shell. Confirm all four
+# kernel IDs, groups, capabilities and no-new-privs before Python imports or Git.
+/usr/bin/python3 -I -B - "$runner_uid" "$runner_gid" "$root/logs/build-privilege-drop.json" <<'PRIVILEGES'
+import json, pathlib, sys
+
+def privilege_drop_proof(status, uid, gid):
+    if type(uid) is not int or uid <= 0 or type(gid) is not int or gid <= 0:
+        raise ValueError('invalid original runner identity')
+    fields = {}
+    for line in status.splitlines():
+        key, separator, value = line.partition(':')
+        if separator:
+            if key in fields:
+                raise ValueError('duplicate process status field')
+            fields[key] = value.strip()
+    uids = [int(value) for value in fields['Uid'].split()]
+    gids = [int(value) for value in fields['Gid'].split()]
+    groups = [int(value) for value in fields['Groups'].split()]
+    caps = {key: int(fields[key], 16) for key in ('CapInh', 'CapPrm', 'CapEff', 'CapBnd', 'CapAmb')}
+    no_new_privs = int(fields['NoNewPrivs'])
+    if uids != [uid] * 4 or gids != [gid] * 4 or groups or any(caps.values()) or no_new_privs != 1:
+        raise ValueError('privileges were not completely dropped')
+    return {'schema': 'nqc-privilege-drop-v1', 'caller_uid': uid, 'caller_gid': gid,
+            'uids': uids, 'gids': gids, 'groups': groups, 'capabilities': caps,
+            'no_new_privs': no_new_privs}
+
+
+proof = privilege_drop_proof(pathlib.Path('/proc/self/status').read_text(), int(sys.argv[1]), int(sys.argv[2]))
+with pathlib.Path(sys.argv[3]).open('x') as stream:
+    stream.write(json.dumps(proof, sort_keys=True, indent=2) + '\n')
+PRIVILEGES
 cd "$repo"
 test "$(git rev-parse HEAD)" = "$EXPECTED_COMMIT"
 test "$(git rev-parse 'HEAD^{tree}')" = "$EXPECTED_TREE"
 test -z "$(git status --porcelain=v1 --untracked-files=no)"
-python3 -B - "$parent_network" "$root/logs/build-network-isolation.json" <<'PY'
-import importlib.util, json, pathlib, sys
+/usr/bin/python3 -I -B - "$parent_network" "$root/logs/build-network-isolation.json" "$parent_mount" <<'PY'
+import importlib.util, json, os, pathlib, sys
 p = pathlib.Path('ci/nqc-census/run_rmc006_recertification.py')
 spec = importlib.util.spec_from_file_location('offline_network', p)
 m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
-pathlib.Path(sys.argv[2]).write_text(json.dumps(m.network_proof(sys.argv[1]), sort_keys=True, indent=2) + '\n')
+network = m.network_proof(sys.argv[1])
+network['isolation_mode'] = 'sudo-drop'
+mount = os.readlink('/proc/self/ns/mnt')
+if mount == sys.argv[3]:
+    raise ValueError('mount namespace was not isolated')
+network['mount_namespace'] = mount
+network['parent_mount_namespace'] = sys.argv[3]
+network['privilege_drop'] = json.loads(pathlib.Path(sys.argv[2]).with_name('build-privilege-drop.json').read_text())
+pathlib.Path(sys.argv[2]).write_text(json.dumps(network, sort_keys=True, indent=2) + '\n')
 PY
 python3 -B -m unittest discover -s migration -p test_standalone_d06.py -v \
   2>&1 | tee "$root/logs/standalone-helper-tests.log"
