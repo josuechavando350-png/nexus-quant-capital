@@ -27,6 +27,12 @@ Base: `16e352225ba8a6a931834c4edf3d86d9a2924b7d` in
 - D09's authenticated summary records 246,929 indexed accounts, 28,275
   actionable accounts and 400 accounts with health factor below one. Those
   labels do not establish liquidation profitability, financeability or capture.
+- A recovered historical risk package now reproduces all five output files
+  exactly from authentic D08/D09 archives. Separate SQLite aggregation and
+  position valuation agree: the 400 below-one accounts hold **12.36050759 USD**
+  of protocol-enabled collateral at the pinned oracle state; only one holds
+  at least one dollar. This is collateral, not profit or a monthly forecast.
+  See `LIBRARY_RECOVERY.md` for source identities, scope and reproduction.
 - Historical D11 core artifact `11518151377` and D12 artifact `11519153831`
   have now been recovered. Every canonical D11 source was decoded: **1,045,459**
   rows. A derived view of 67 Aave reserves preserves the original provider
@@ -74,6 +80,12 @@ Base: `16e352225ba8a6a931834c4edf3d86d9a2924b7d` in
   artifact ZIPs and their full underlying input chains remain unavailable.
   Global token admission, capital admission and Census closure are unchanged.
   See `PHYSICAL_RECOVERY.md` for reproduction and the eight new offline checks.
+- Additional Library bytes retain 18 transaction/header/receipt RPC responses
+  for three existing winners. Their paired source labels agree, and the raw
+  receipts match the existing BlockPI/dRPC records. Gas burn/tip decomposition
+  reconciles without additional charges or new transactions. Original decision-time
+  observations, infrastructure independence, full native payments and NQC capture are
+  not established. Nine new checks pass; see `LIBRARY_RECOVERY.md`.
 
 Summary counts above are read from hash-authenticated historical summaries;
 this change does not independently reconstruct every position from chain state.

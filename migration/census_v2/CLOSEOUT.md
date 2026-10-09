@@ -14,6 +14,7 @@ timestamp **2026-10-01T05:23:35Z**. Este alcance no es cobertura en vivo.
 | --- | --- |
 | 1,045,459 fuentes D11 reproducidas | Reimportación completa de D08/D09 y dos verificaciones en procesos separados. Los nueve archivos originales coinciden byte por byte; el archivo de fuentes tiene 3,757,728,513 bytes. Adaptador histórico y árbol de código exactos fijados; no transfiere certificación. |
 | 474 pares de 400 borrowers | Nueva ejecución del productor Rust original: archivos de pares y decisiones de capital idénticos byte por byte. |
+| Colateral habilitado de las 400 cuentas: 12.36050759 USD al oráculo | Cinco archivos del análisis histórico reproducidos; agregación SQLite y valoración por posiciones coinciden. Sólo una cuenta alcanza un dólar de colateral habilitado. No equivale a beneficio ni pronóstico mensual. |
 | 42 pares no ejecutables en ese estado | 12 con colateral deshabilitado; 30 con tamaño de liquidación cero según PFT. |
 | 432 pares con evidencia insuficiente | Rechazo original de financiación `EXECUTION_BLOCKED`; conservados los motivos de los tokens. No se afirma que nunca puedan ser rentables. |
 | 0 valor ejecutable positivo admitido | No equivale a P&L realizado de cero ni a prueba de imposibilidad comercial. El P&L no está probado. |
@@ -45,6 +46,13 @@ por denegación de acceso de red a las `17:13:21Z` del 9 de octubre. La herramie
 indicó cancelación de aprobación de red. No se intentó eludir esa restricción.
 Los datos parciales y sus fallos se concilian offline en `HISTORICAL_RPC.md`;
 no prueban cobertura completa, observación previa de Nexus ni captura comercial.
+
+La recuperación adicional de nueve respaldos encontró dos incrementos útiles:
+el análisis económico del corte D09 y 18 respuestas RPC que documentan tres
+transacciones ya presentes en el universo de 127. Sus recibos coinciden con
+BlockPI/dRPC y permiten desglosar gas base y prioridad sin contarlo dos veces.
+Los otros respaldos contienen candidatos de investigación o evidencia previa
+acotada; no recuperan los ledgers originales D15B. Véase `LIBRARY_RECOVERY.md`.
 
 ## Reproducción
 
