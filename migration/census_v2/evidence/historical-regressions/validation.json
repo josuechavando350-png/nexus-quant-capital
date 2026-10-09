@@ -1,0 +1,75 @@
+{
+  "additional_context_guards_passed": 6,
+  "census_closed": false,
+  "checks": {
+    "context-guards": {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "migration/census_v2",
+        "-p",
+        "test_historical_regression_contexts.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "finished_at": "2026-10-09T18:45:24.624237+00:00",
+      "log_sha256": "8fc52a50aff9ae24c404369e9d2753d4edc582dcccc0c035f4a20790cb420361",
+      "started_at": "2026-10-09T18:45:24.487950+00:00"
+    },
+    "isolation": {
+      "command": [
+        "python3",
+        "migration/verify_isolation.py",
+        "--source-git",
+        "/workspace/scratch/4ab306bc8e06/nqc-original-objects"
+      ],
+      "exit_code": 0,
+      "finished_at": "2026-10-09T18:45:26.013490+00:00",
+      "log_sha256": "b65f722a11ff22c2b9a3787056dcec7d5eefc2f166bdc56db1919f6171d754d6",
+      "started_at": "2026-10-09T18:45:24.482450+00:00"
+    }
+  },
+  "current_full_rust_suite_rerun": false,
+  "formerly_skipped_tests_now_executed": 3,
+  "gas_spent": false,
+  "housekeeping": {
+    "generated_python_bytecode_files_removed": 4,
+    "original_source_files_changed": 0
+  },
+  "metadata_acquisition": {
+    "connector": "GitHub",
+    "decoded_response_text": true,
+    "exact_per_call_receipt_times_retained": false,
+    "generic_fetch_artifact_error": {
+      "error_code": "INVALID_ARGUMENT",
+      "reason": "URL is not an allowed public GitHub repository or search endpoint",
+      "status": 400,
+      "treatment": "Used the documented fetch_workflow_run_artifacts operation for metadata only; no archive access retried"
+    },
+    "new_original_archive_downloads": 0,
+    "rpc_requests": 0
+  },
+  "new_independent_certification": false,
+  "original_broad_discovery_result": {
+    "preserved_unchanged": true,
+    "rerun_this_increment": false,
+    "setup_errors": 7,
+    "skipped": 3,
+    "tests_ran": 664
+  },
+  "parent_commit": "0848d9946dda2b7f66b3715635db0c6239832033",
+  "recorded_at": "2026-10-09T18:45:46.375069+00:00",
+  "repeated_runs_counted_as_distinct_tests": false,
+  "report_sha256": "5a520e18445c01b4a4ca05e7c45b794b5cbfe95fc008f53fb1516627400f926a",
+  "resolved_selected_setup_errors": 3,
+  "runner_sha256": "92b453069ef443c96151e0f93eef3a93ed6fd60e4d4ca646392ff80d2bee3487",
+  "schema": "nqc-historical-regression-validation-v1",
+  "selected_original_tests_passed": 63,
+  "selected_tests_failed": 0,
+  "selected_tests_skipped": 0,
+  "unique_missing_original_archives": 5,
+  "unresolved_original_setup_suites": 4
+}

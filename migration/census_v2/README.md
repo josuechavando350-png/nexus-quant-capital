@@ -165,7 +165,12 @@ See `evidence/validation.json` and the preserved logs for exact commands/results
 The broad historical Python discovery was not green: 664 tests ran, seven setup
 errors and three skips. Five setup errors require explicit real-artifact CLI
 arguments; two bind historical source-catalog blobs that differ from current
-catalog bytes. They were not patched or counted as successes.
+catalog bytes. That original result is preserved. Separate replay now resolves
+three setup failures and runs all three previously skipped D06 integrations:
+63 selected original tests pass, plus six new context guards. Four integration
+suites still need five unique original archives. Original assertions and source
+bytes were not patched; historical catalog contexts are restored only in fresh
+copies. See `HISTORICAL_REGRESSIONS.md` for exact commands, scope and dependencies.
 
 The pinned Rust **1.98.1** compiler was repaired from its exact SHA-verified
 official package: the local LLVM shared library had been truncated. The original

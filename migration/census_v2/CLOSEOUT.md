@@ -115,8 +115,12 @@ cubren contabilidad, joins, metadata y paridad sobre archivos reales.
 
 La búsqueda amplia de pruebas Python históricas conserva su resultado previo:
 664 ejecutadas, 7 errores de preparación y 3 omitidas. No se presenta como suite
-verde. Cinco suites necesitan invocaciones CLI con archivos originales; otras
-dos vinculan catálogos históricos diferentes. El límite de memoria de D11 quedó
+verde. En invocaciones separadas se resolvieron tres errores de preparación y
+se ejecutaron las tres integraciones D06 antes omitidas: 63 pruebas originales
+pasaron, además de seis controles nuevos de contexto. Se conservaron las
+aserciones originales y se restauraron los catálogos por hash únicamente en
+copias nuevas. Cuatro suites todavía requieren cinco archivos originales;
+véase `HISTORICAL_REGRESSIONS.md`. El límite de memoria de D11 quedó
 resuelto mediante un adaptador fijado en una copia nueva: nueve archivos
 idénticos al original. Su historial de fallos se conserva. El límite de descarga
 del archivo principal continúa; se recuperó el núcleo original por separado.
