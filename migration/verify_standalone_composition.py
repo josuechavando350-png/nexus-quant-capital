@@ -20,7 +20,7 @@ a = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(a)
 WORKFLOW = ".github/workflows/nqc-d06-standalone.yml"
 INERT_WORKFLOW = "migration/nqc-d06-standalone.yml.disabled"
-WORKFLOW_SHA256 = "c6fc10e428a35e85a910379dc280ace803a9eb8d67b3806870fd95f27f5e7ff7"
+WORKFLOW_SHA256 = "9ed8ae584e7bfe80ce86fba2a32f97899fb2969f72802af0db3febd1c0f6ac0d"
 ZIP_PATH = "migration/evidence/d06/original-evidence.zip"
 ZIP_SHA256 = "1cdb46fca52ebf1e0e2094b1c14b19384ecb7beceb50229b967592ab7a0308b4"
 ZIP_BYTES = 6709740

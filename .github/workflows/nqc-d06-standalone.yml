@@ -20,7 +20,7 @@ jobs:
   standalone-d06:
     if: github.event_name == 'push' && github.ref == 'refs/heads/nqc/d06-standalone-certification' && github.repository == 'josuechavando350-png/nexus-quant-capital' && github.repository_id == '1411047452'
     runs-on: ubuntu-24.04
-    timeout-minutes: 240
+    timeout-minutes: 5
     env:
       EXPECTED_COMMIT: ${{ github.sha }}
       PYTHONDONTWRITEBYTECODE: "1"
@@ -77,6 +77,20 @@ jobs:
           printf 'D06_ROOT=%s\n' "$D06_ROOT" >> "$GITHUB_ENV"
           mkdir "$D06_ROOT"
           mkdir "$D06_ROOT/logs" "$D06_ROOT/home" "$D06_ROOT/cargo-home" "$D06_ROOT/rustup-home"
+
+      - name: Diagnose runner mount tooling and stop before certification
+        run: |
+          set -euo pipefail
+          printf 'D06_VERSION_DIAGNOSTIC_ONLY\n'
+          printf 'ImageOS=%s\nImageVersion=%s\nRUNNER_OS=%s\nRUNNER_ARCH=%s\n' \
+            "${ImageOS:?}" "${ImageVersion:?}" "${RUNNER_OS:?}" "${RUNNER_ARCH:?}"
+          /usr/bin/uname -sr
+          /usr/bin/unshare --version
+          /usr/bin/setpriv --version
+          /usr/bin/mount --version
+          /usr/bin/dpkg-query --show --showformat='${binary:Package}=${Version}\n' util-linux mount libmount1
+          printf 'D06_VERSION_DIAGNOSTIC_COMPLETE; certification was not run. This intentional failure blocks every later certification and upload step.\n' >&2
+          exit 1
 
       - name: Acquire fixed public history and current original metadata only
         run: |
