@@ -1,0 +1,91 @@
+..........................................................sss.....................................................................E........................EEEEEE.........................................................................................................................................................................................................................................../opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/zipfile/__init__.py:1625: UserWarning: Duplicate name: 'receipt-parity-report.json'
+  return self._open_to_write(zinfo, force_zip64=force_zip64)
+...................................................................../opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/zipfile/__init__.py:1625: UserWarning: Duplicate name: 'a.json'
+  return self._open_to_write(zinfo, force_zip64=force_zip64)
+..............................................................................................................................................................................................................
+======================================================================
+ERROR: setUpClass (test_rmc011_four_native_original_source_join.FourNativeSourceTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/4ab306bc8e06/nexus-quant-capital/ci/nqc-census/test_rmc011_four_native_original_source_join.py", line 23, in setUpClass
+    cls.d08=j.exact_report(ARGS.d08_zip,"d08")
+                           ^^^^
+NameError: name 'ARGS' is not defined
+
+======================================================================
+ERROR: setUpClass (test_rmc011_independent_discovery_admission.IndependentDiscoveryAdmissionTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/4ab306bc8e06/nexus-quant-capital/ci/nqc-census/test_rmc011_independent_discovery_admission.py", line 23, in setUpClass
+    cls.raw = ARGS.zip.read_bytes()
+              ^^^^
+NameError: name 'ARGS' is not defined
+
+======================================================================
+ERROR: setUpClass (test_rmc011_independent_seven_bounded_rejections.RealSourceSevenTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/4ab306bc8e06/nexus-quant-capital/ci/nqc-census/test_rmc011_independent_seven_bounded_rejections.py", line 27, in setUpClass
+    cls.archive=ARGS.archive.read_bytes()
+                ^^^^
+NameError: name 'ARGS' is not defined
+
+======================================================================
+ERROR: setUpClass (test_rmc011_independent_thirteen_source_pins.ThirteenAuthenticatedSourceTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/4ab306bc8e06/nexus-quant-capital/ci/nqc-census/test_rmc011_independent_thirteen_source_pins.py", line 25, in setUpClass
+    "new":(ARGS.new_zip.read_bytes(),
+           ^^^^
+NameError: name 'ARGS' is not defined
+
+======================================================================
+ERROR: setUpClass (test_rmc011_independent_two_debt_pins.IndependentOriginalD08DebtTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/4ab306bc8e06/nexus-quant-capital/ci/nqc-census/test_rmc011_independent_two_debt_pins.py", line 22, in setUpClass
+    cls.zip=ARGS.original_zip.read_bytes()
+            ^^^^
+NameError: name 'ARGS' is not defined
+
+======================================================================
+ERROR: setUpClass (test_rmc011_original_d08_debt_producer.D08OriginalDebtSourceTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/4ab306bc8e06/nexus-quant-capital/ci/nqc-census/test_rmc011_original_d08_debt_producer.py", line 26, in setUpClass
+    cls.docs=p.validate_sources()
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/4ab306bc8e06/nexus-quant-capital/ci/nqc-census/rmc011_original_d08_debt_producer.py", line 86, in validate_sources
+    d = {label: verified_source(*pair) for label, pair in paths.items()}
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/4ab306bc8e06/nexus-quant-capital/ci/nqc-census/rmc011_original_d08_debt_producer.py", line 72, in verified_source
+    require(0 < len(raw) < 50000 and gitblob(raw) == expected_blob,
+  File "/workspace/scratch/4ab306bc8e06/nexus-quant-capital/ci/nqc-census/rmc011_original_d08_debt_producer.py", line 43, in require
+    raise ValueError(msg)
+ValueError: source Git blob changed: ci/nqc-census/rmc011-capital-source-universe.json
+
+======================================================================
+ERROR: setUpClass (test_rmc011_original_d08_native_flash_import.OriginalD08NativeFlashImportTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/4ab306bc8e06/nexus-quant-capital/ci/nqc-census/test_rmc011_original_d08_native_flash_import.py", line 26, in setUpClass
+    cls.inputs,cls.universe=producer.original_source_catalog()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/4ab306bc8e06/nexus-quant-capital/ci/nqc-census/rmc011_original_d08_native_flash_import.py", line 57, in original_source_catalog
+    c=origin.verified_source(
+      ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/4ab306bc8e06/nexus-quant-capital/ci/nqc-census/rmc011_original_d08_debt_producer.py", line 72, in verified_source
+    require(0 < len(raw) < 50000 and gitblob(raw) == expected_blob,
+  File "/workspace/scratch/4ab306bc8e06/nexus-quant-capital/ci/nqc-census/rmc011_original_d08_debt_producer.py", line 43, in require
+    raise ValueError(msg)
+ValueError: source Git blob changed: ci/nqc-census/rmc011-capital-source-universe.json
+
+----------------------------------------------------------------------
+Ran 664 tests in 5.098s
+
+FAILED (errors=7, skipped=3)
+RMC011_UPSTREAM_SEMANTIC_AUTHORITY_PASS stage=RMC-006 head=0606060606060606060606060606060606060606 tree=1616161616161616161616161616161616161616 authority_sha256=0x35177363e61a9b32abb4208fedd1b05993da4a9c3fbd0c672cf7ff0c7053ba8e
+RMC011_UPSTREAM_SEMANTIC_AUTHORITY_PASS stage=RMC-007 head=0707070707070707070707070707070707070707 tree=1717171717171717171717171717171717171717 authority_sha256=0x6f0839a242ee4b4c76d822eb0b5371d7555b1d634ecc7321778ce64c69c30ca3
+RMC011_UPSTREAM_SEMANTIC_AUTHORITY_PASS stage=RMC-008 head=0808080808080808080808080808080808080808 tree=1818181818181818181818181818181818181818 authority_sha256=0xdea7d75ff689f549a831dfb808e44ac36fc003d0076c279d639e9c72b21a7c47
+RMC011_UPSTREAM_SEMANTIC_AUTHORITY_PASS stage=RMC-009 head=0909090909090909090909090909090909090909 tree=1919191919191919191919191919191919191919 authority_sha256=0x22642585278b868f34d03b16c1dcc871a5a57c87134876d2ecf6168fc1d4fa28
+RMC011_UPSTREAM_SEMANTIC_AUTHORITY_PASS stage=RMC-010 head=0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a tree=1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a authority_sha256=0x9dc2e0bd2969e1ba762e968ae9838b0a59a9f6d57e7888a7c8940e45a556decd

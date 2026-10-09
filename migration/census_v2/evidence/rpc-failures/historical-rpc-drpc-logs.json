@@ -1,0 +1,81 @@
+{
+  "directory": "historical-rpc-drpc-logs",
+  "file_inventory": {
+    "discovery-report.json": {
+      "bytes": 689,
+      "sha256": "3afd13d5eb0102a805e78d2759334311cd784adbefbd650640a16488c6b29c1e"
+    },
+    "manifest.json": {
+      "bytes": 1351,
+      "sha256": "461148f5c777ad2823d94bd633358c8c4309639600628653baafbdd85f8b4ebc"
+    },
+    "recovery-report.json": {
+      "bytes": 740,
+      "sha256": "03192b6c514aa401fd22402a1a37dc9a08d036f73b049b230547349577477bce"
+    },
+    "rpc/000001.request.json": {
+      "bytes": 60,
+      "sha256": "82444071de76da28f6278fdb56ab7f31b7b930bcaa1f15b6ea9d86ee95cc48c3"
+    },
+    "rpc/000001.response.json": {
+      "bytes": 39,
+      "sha256": "79226432df73e05966f20e4d291fb5048bfef1138d7078f8feab534126df1aa5"
+    },
+    "rpc/000002.request.json": {
+      "bytes": 86,
+      "sha256": "dd6e11b38d168f5779e04fdedccfc8f25d754ac5fc693b11334b7faa640d0ab9"
+    },
+    "rpc/000002.response.json": {
+      "bytes": 13525,
+      "sha256": "27b22b2a0b8bab3944a0fd80cb39a17d9dfd164927403dee66dd66825bb389bb"
+    },
+    "rpc/000003.request.json": {
+      "bytes": 86,
+      "sha256": "4d8766c51efdc191907e3cf3ec8d61265d8b91f5431c274ebd55212341a783a5"
+    },
+    "rpc/000003.response.json": {
+      "bytes": 12149,
+      "sha256": "4526eb4e9f519b88e1fbf091c17b2a29c42448b19740e872a74eed81d46b8ca3"
+    },
+    "rpc/000004.request.json": {
+      "bytes": 242,
+      "sha256": "4013e4289b31e31733d996cd693d68b8937cec61c8e63f7d8403fc5a2e9ab42a"
+    },
+    "rpc/000004.response.json": {
+      "bytes": 112,
+      "sha256": "227b5637c3a99a5743deb264605736d3ebf2fcf2585b4dae97e3f95a1a0ff549"
+    },
+    "rpc/decision-time-ledger.jsonl": {
+      "bytes": 4174,
+      "sha256": "4191b9b01ae0f555fc4988b8f2914c39b5801abca0eb0e0734fa4fbdb8764cef"
+    }
+  },
+  "original_rpc_error_body": {
+    "error": {
+      "code": 35,
+      "message": "ranges over 10000 blocks are not supported on free plan"
+    },
+    "id": 4,
+    "jsonrpc": "2.0"
+  },
+  "recovery_report": {
+    "checkpoint_zip_sha256": "182b5e81b00ca04e53c9193c1496a725dc152ade9a17d3ab2dfaeb5045ac86b6",
+    "failure": "full-window logs differ or incomplete",
+    "failure_type": "ValueError",
+    "finished_at": "2026-10-09T16:59:21.797940+00:00",
+    "independent_execution_node_proven": false,
+    "mode": "logs",
+    "nexus_capture_proven": false,
+    "nexus_net_pnl_proven": false,
+    "original_decision_time_observation_proven": false,
+    "provider_id": "drpc",
+    "real_market_census_closed": false,
+    "rpc_calls": 4,
+    "schema": "nqc-historical-rpc-recovery-v1",
+    "source_event_zip_sha256": "6b4098c1acf153106ac5b67d2c5c7db5cd0295a16c782ad8c34ae75303306204",
+    "started_at": "2026-10-09T16:59:03.441491+00:00",
+    "status": "BLOCKED",
+    "verifier_sha256": "d9eb0664708cedd38367c55579c6b0ee0701f3320ca476990b05935a37e4f43a"
+  },
+  "treatment": "Stopped dRPC log discovery after provider rejected both full and within-documented-limit range; do not infer log completeness. Separate permitted BlockPI discovery is independently attributed."
+}

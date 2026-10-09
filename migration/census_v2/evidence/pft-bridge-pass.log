@@ -1,0 +1,28 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.21s
+     Running unittests src/lib.rs (/workspace/scratch/4ab306bc8e06/pft-bridge-cargo-target/debug/deps/nqc_rmc012_pft_actionability_bridge-fdb477b177191b89)
+
+running 7 tests
+test tests::aave_flash_premium_zero_principal_or_zero_bps_is_zero ... ok
+test tests::collateral_disabled_is_classified_not_dropped ... ok
+test tests::default_close_factor_uses_certified_pft_math ... ok
+test tests::full_close_below_point_95_uses_certified_pft_math ... ok
+test tests::aave_flash_premium_matches_pft_compat_009_callback_witnesses ... ok
+test tests::economics_cannot_erase_protocol_actionability ... ok
+test tests::zero_snapshot_commitment_fails_closed ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/rmc012-terminal-actionability.rs (/workspace/scratch/4ab306bc8e06/pft-bridge-cargo-target/debug/deps/rmc012_terminal_actionability-7d814435823630e1)
+
+running 2 tests
+test reserve_bitmap_tests::reserve_id_outside_user_configuration_fails_closed ... ok
+test reserve_bitmap_tests::highest_valid_aave_reserve_maps_to_bit_255 ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests nqc_rmc012_pft_actionability_bridge
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

@@ -1,0 +1,83 @@
+{
+  "schema": "nqc-library-recovery-validation-v1",
+  "verified_at": "2026-10-09T19:06:14.398238+00:00",
+  "base_commit": "9c6f40c3a4562b84c41c4c258a380684f310a699",
+  "base_tree": "b4d25bdd57c699ef3e596626d049dcb0cf0bec6b",
+  "consumer_sha256": {
+    "reconcile_library_witnesses.py": "c10d5f5c7477f84cac1b5c6b04e259c36231d3dd3d756b2c31f5112ab4d986da",
+    "replay_library_risk_screen.py": "578ae58a5feee1c2d6c601a312bc17cca4c41bb8f5bc5bea9155a5b00ec61bbf",
+    "check_library_witnesses.py": "cf6edcae85013300956fdbafcb2995dc110f89a3c6a7f3dad337df57c235be26"
+  },
+  "affected_real_source_tests": {
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "log": "checks.log",
+    "argv": [
+      "python3",
+      "migration/census_v2/check_library_witnesses.py",
+      "--package",
+      "/workspace/scratch/4ab306bc8e06/recovered-library-evidence/nqc-observed-economic-ledger-20261009.zip",
+      "--risk-package",
+      "/workspace/scratch/4ab306bc8e06/recovered-library-evidence-earlier/NQC_corte_economico_y_diagnostico_V3_20261003.zip",
+      "--archive-root",
+      "/workspace/scratch/4ab306bc8e06",
+      "--metadata",
+      "migration/census_v2/evidence/winner-api",
+      "--rpc-root",
+      "/workspace/scratch/4ab306bc8e06"
+    ]
+  },
+  "risk_execution": {
+    "original_programs_rerun": 2,
+    "original_files_byte_identical": 5,
+    "independent_output_byte_identical": true,
+    "report": "risk/replay.json",
+    "archived_57_tests_not_rerun": true
+  },
+  "paired_reconciliation": {
+    "argv": [
+      "python3",
+      "/workspace/scratch/4ab306bc8e06/nqc-census-v2/migration/census_v2/reconcile_library_witnesses.py",
+      "--package",
+      "/workspace/scratch/4ab306bc8e06/recovered-library-evidence/nqc-observed-economic-ledger-20261009.zip",
+      "--archive-root",
+      "/workspace/scratch/4ab306bc8e06",
+      "--metadata",
+      "/workspace/scratch/4ab306bc8e06/nqc-census-v2/migration/census_v2/evidence/winner-api",
+      "--rpc-root",
+      "/workspace/scratch/4ab306bc8e06",
+      "--out",
+      "/workspace/scratch/4ab306bc8e06/library-paired-replay-reviewed"
+    ],
+    "exit_code": 0,
+    "report": "paired/reconciliation.json",
+    "original_builder_20_tests_not_rerun": true
+  },
+  "isolation": {
+    "active_workflows": 0,
+    "canonical_recertification": false,
+    "destination_repository_id": 1411047452,
+    "disabled_workflows": 106,
+    "original_objects_checked": true,
+    "source_commit": "e259739c9f75fedcd1061d2f78d6b8852e7a3060",
+    "source_files": 531,
+    "status": "ISOLATED_SOURCE_IDENTITY_PASS"
+  },
+  "investigation_failures": [
+    {
+      "step": "one-off inventory document selection",
+      "error": "IndexError: list index out of range",
+      "cause": "economic ledger package uses REPORT.txt rather than README.md",
+      "treatment": "selected observed REPORT.txt; rebuilt inventory before publication",
+      "evidence_input_modified": false
+    }
+  ],
+  "prior_failures_preserved": true,
+  "real_market_census_closed": false,
+  "gas_spent": false,
+  "log_sha256": {
+    "checks.log": "d002ea5f1dd97f4a609ddd0d92ab913b0f462f9b42fe5913c552d69fdf0515f8",
+    "isolation.log": "b65f722a11ff22c2b9a3787056dcec7d5eefc2f166bdc56db1919f6171d754d6"
+  }
+}

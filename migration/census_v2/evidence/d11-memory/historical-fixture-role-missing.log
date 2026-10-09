@@ -1,0 +1,373 @@
+   Compiling nqc-census-capital v0.1.0 (/workspace/scratch/4ab306bc8e06/d11-memory-build/nqc-census/crates/nqc-census-capital)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 18.68s
+     Running unittests src/lib.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/nqc_census_capital-239dfb0431f0c284)
+
+running 52 tests
+test artifacts::memory_overlay_tests::metadata_comparison_cannot_accept_rehashed_substitution ... ok
+test artifacts::memory_overlay_tests::comparison_rejects_wrong_digest_and_missing_file_even_for_empty_records ... ok
+test artifacts::streaming_artifact_jsonl_tests::canonical_rows_match_exact_bytes_with_lazy_roundtrip ... ok
+test artifacts::memory_overlay_tests::comparison_rejects_changed_tail_order_missing_newline_and_rehashed_forgeries ... ok
+test artifacts::streaming_artifact_jsonl_tests::streaming_malformed_tail_and_missing_newline_fail_closed ... ok
+test balancer_live::tests::dual_provider_reconcile_rejects_same_operator ... ok
+test balancer_live::tests::balancer_selectors_are_derived_from_signatures ... ok
+test balancer_live::tests::dual_provider_reconcile_rejects_economic_mismatch ... ok
+test balancer_live::tests::uint256_decimal_is_exact_at_boundaries ... ok
+test balancer_live::tests::reconcile_builder_rejects_noncanonical_provider_capture ... ok
+test balancer_live::tests::dual_provider_reconcile_emits_exact_balancer_source ... ok
+test historical_upstream::jsonl_streaming_regressions::rows_are_parsed_lazily_and_invalid_tail_fails_closed ... ok
+test permissionless_atomic::tests::balancer_requires_exact_dual_provider_agreement ... ok
+test permissionless_atomic::tests::balancer_pause_preserves_observed_balance_but_blocks_execution ... ok
+test permissionless_atomic::tests::provider_transcripts_must_be_independent ... ok
+test permissionless_atomic::tests::uniswap_v3_requires_exact_dual_provider_agreement ... ok
+test permissionless_atomic::tests::uniswap_v3_admission_preserves_exact_pool_balance ... ok
+test replay::real_source_shape_tests::real_source_closeout_rejects_empty_source_census ... ok
+test balancer_live::tests::reconcile_artifact_roundtrips_into_source_authority ... ok
+test permissionless_atomic::tests::uniswap_v3_zero_active_liquidity_preserves_balance_but_blocks_execution ... ok
+test replay::real_source_shape_tests::real_source_subset_cannot_masquerade_as_terminal_capital_census ... ok
+test source_authority::tests::authority_rejects_anchor_mismatch ... ok
+test source_authority::tests::authority_binds_artifact_evidence_and_exact_source_set ... ok
+test source_authority::tests::authority_rejects_artifact_mutation ... ok
+test source_authority::tests::authority_rejects_duplicate_source_ids ... ok
+test source_authority::tests::authority_rejects_source_set_mutation ... ok
+test uniswap_v3_acquire::tests::deployment_contract_rejects_runtime_authority_upgrade ... ok
+test uniswap_v3_acquire::tests::decimal_conversion_handles_uint256_boundaries ... ok
+test uniswap_v3_live::tests::decodes_canonical_pool_created ... ok
+test uniswap_v3_live::tests::dual_provider_reconciliation_rejects_active_liquidity_mismatch ... ok
+test uniswap_v3_live::tests::dual_provider_reconciliation_rejects_balance_mismatch ... ok
+test balancer_live::tests::reconcile_artifact_rejects_readable_projection_tamper ... ok
+test uniswap_v3_live::tests::interface_is_derived_from_exact_signatures ... ok
+test balancer_live::tests::reconcile_artifact_rejects_capture_digest_tamper ... ok
+test uniswap_v3_live::tests::dual_provider_reconciliation_emits_exact_flash_source ... ok
+test uniswap_v3_live::tests::rejects_noncanonical_fee_topic_padding ... ok
+test historical_upstream::jsonl_streaming_regressions::many_lines_stream_without_eager_json_materialization ... ok
+test uniswap_v3_live::tests::uniswap_v3_reconciliation_rejects_same_operator ... ok
+test uniswap_v3_live::tests::rejects_noncanonical_token_order ... ok
+test uniswap_v3_live::tests::runtime_requires_get_pool_and_pool_created_topic ... ok
+test upstream::original_d08_duplicate_token_tests::conflicting_status_and_blocker_in_same_row_still_fails_closed ... ok
+test upstream::original_d08_duplicate_token_tests::contradictory_non_execution_fields_also_force_non_execution ... ok
+test uniswap_v3_live::tests::pool_runtime_requires_flash_and_state_selectors ... ok
+test upstream::original_d08_duplicate_token_tests::repeated_raw_blocker_in_any_single_row_is_rejected ... ok
+test upstream::original_d08_duplicate_token_tests::identical_canonical_repeated_token_rows_are_idempotent ... ok
+test upstream::original_d08_duplicate_token_tests::optimistic_duplicate_cannot_erase_true_blocker ... ok
+test uniswap_v3_live::tests::reconciliation_preserves_d08_execution_blockers ... ok
+test upstream::original_d08_duplicate_token_tests::different_blocked_observations_union_and_explicitly_flag_conflict ... ok
+test upstream::original_d08_duplicate_token_tests::unrelated_tokens_remain_independently_classified ... ok
+test uniswap_v3_live::tests::uniswap_v3_reconciliation_artifact_roundtrips_authority ... ok
+test artifacts::memory_overlay_tests::frozen_original_export_and_comparison_sink_have_exact_byte_parity ... ok
+test artifacts::streaming_artifact_jsonl_tests::hundred_thousand_records_do_not_require_json_ast_collection ... ok
+
+test result: ok. 52 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.34s
+
+     Running unittests src/bin/nqc-rmc011-aave-debt-discovery.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/nqc_rmc011_aave_debt_discovery-7a0ce2d516900537)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc011-authority-lock-build.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/nqc_rmc011_authority_lock_build-217bcea1c722a61c)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc011-balancer-v2-capture.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/nqc_rmc011_balancer_v2_capture-0a2aa8efa6209dfe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc011-balancer-v2-reconcile.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/nqc_rmc011_balancer_v2_reconcile-a1e3329579e1cc3d)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc011-bounded-replay.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/nqc_rmc011_bounded_replay-7748d4e8ba0b1b04)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc011-capital-build.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/nqc_rmc011_capital_build-b78a9031546cccd5)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc011-capital-verify.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/nqc_rmc011_capital_verify-f403b530bc5141b4)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc011-expanded-ledger-replay.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/nqc_rmc011_expanded_ledger_replay-376af1c5aa6a9b34)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc011-uniswap-v3-capture.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/nqc_rmc011_uniswap_v3_capture-24e48dc148227940)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc011-uniswap-v3-reconcile.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/nqc_rmc011_uniswap_v3_reconcile-5155711e22e302fb)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc011-upstream-replay-verify.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/nqc_rmc011_upstream_replay_verify-8b39e8165bdc2b8f)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/aave_debt_discovery.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/aave_debt_discovery-aa6f625d6abfa0a1)
+
+running 9 tests
+test substituted_anchor_is_rejected_before_discovery ... ok
+test duplicate_aave_debt_candidate_is_rejected ... ok
+test protocol_facts_cannot_contradict_decoded_configuration ... ok
+test discovers_exact_borrow_cap_upper_bound_from_authenticated_d08 ... ok
+test discovery_artifact_preserves_token_execution_blocker ... ok
+test borrow_cap_reached_is_preserved_as_protocol_blocker ... ok
+test tampered_state_bytes_fail_manifest_binding ... ok
+test d08_token_blocker_preserves_protocol_capacity_but_blocks_execution_compatibility ... ok
+test discovery_artifact_is_deterministic_and_nonterminal ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/adapters.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/adapters-f57cef8d96ce04f1)
+
+running 20 tests
+test adapters_require_real_evidence_references ... ok
+test aave_v3_adapter_matches_pft_compat_009_flash_premium_ceiling ... ok
+test adapter_records_roundtrip_through_generic_capital_source ... ok
+test external_gas_credit_is_external_native_gas_with_bounded_capacity ... ok
+test aave_v3_disabled_flash_source_preserves_observed_liquidity_but_blocks_execution ... ok
+test balancer_v2_adapter_preserves_ceil_fee_semantics ... ok
+test external_gas_credit_rejects_zero_deadline_and_foreign_fixed_fee_asset ... ok
+test external_gas_sponsor_rejects_fixed_fee_asset_mismatch ... ok
+test external_gas_sponsor_can_charge_evidence_bound_fee_without_principal_repayment ... ok
+test external_gas_credit_requires_evidence ... ok
+test balancer_v2_paused_vault_preserves_observed_balance_but_blocks_execution ... ok
+test external_gas_sponsor_is_non_operator_native_gas_capital ... ok
+test inactive_external_gas_credit_preserves_observed_capacity_but_blocks_execution ... ok
+test uniswap_v2_flash_swap_binds_strict_reserve_capacity_and_fee ... ok
+test uniswap_v3_rejects_impossible_fee_scale ... ok
+test uniswap_v3_flash_binds_pool_balance_and_ceil_fee ... ok
+test uniswap_v2_flash_swap_requires_evidence ... ok
+test uniswap_v3_zero_balance_remains_an_observed_source ... ok
+test uniswap_v2_flash_swap_preserves_zero_capacity_observations ... ok
+test uniswap_v3_zero_active_liquidity_blocks_execution_without_erasing_balance ... ok
+
+test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/artifacts.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/artifacts-34cd70133a99e5ae)
+
+running 17 tests
+test artifact_provenance_requires_exact_git_object_ids ... ok
+test all_rejected_census_does_not_claim_zero_own_capital_proof ... ok
+test jsonl_records_carry_exact_anchor_and_provenance ... ok
+test artifact_export_rejects_wall_clock_or_arbitrary_generation_time ... ok
+test capital_artifacts_are_deterministic_and_complete ... ok
+test offline_artifact_verifier_rejects_manifest_digest_substitution ... ok
+test downstream_source_reader_reconstructs_exact_canonical_source_set ... ok
+test offline_artifact_verifier_rejects_tampered_bytes ... ok
+test blocked_source_bundle_roundtrips_offline_and_preserves_execution_rejection ... ok
+test offline_artifact_verifier_rejects_noncanonical_jsonl ... ok
+test offline_verifier_rejects_rehashed_upstream_authority_substitution ... ok
+test offline_verifier_rejects_rehashed_feasibility_allocation_substitution ... ok
+test synthetic_ledger_cannot_export_evidentiary_artifacts ... ok
+test source_artifact_exposes_full_capital_semantics ... ok
+test source_only_bundle_is_offline_verifiable_without_false_feasibility_claim ... ok
+test offline_artifact_verifier_accepts_exact_export ... ok
+test upstream_authority_artifact_is_exact_and_offline_bound ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests/capital.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/capital-1de5abdff217e316)
+
+running 76 tests
+test certification_context_rejects_mixed_upstream_anchors ... ok
+test bond_or_stake_requirement_is_canonical_and_class_separated ... ok
+test allocation_engine_reroutes_scarce_source_instead_of_greedy_false_negative ... ok
+test certification_context_requires_every_stage_artifact_in_evidence_catalog ... ok
+test certification_rejects_source_or_requirement_sets_not_consumed_upstream ... ok
+test collateral_leg_rejects_source_that_requires_temporary_lock ... ok
+test collateral_dependencies_are_aggregated_across_all_used_sources ... ok
+test collateralized_borrowing_can_bind_full_persistent_risk_semantics ... ok
+test checked_feasibility_rejects_duplicate_source_capacity ... ok
+test collateral_requirement_cannot_be_funded_circularly_by_collateralized_source ... ok
+test consumed_output_set_commitment_is_order_independent ... ok
+test compatible_source_at_foreign_anchor_is_classified_as_anchor_mismatch ... ok
+test deadline_bound_gas_credit_cannot_fund_same_transaction_action_principal ... ok
+test consumption_receipts_fail_closed_on_wrong_authority_or_duplicate_stage ... ok
+test certification_rejects_evidence_not_admitted_by_upstream_authority ... ok
+test evidentiary_certification_requires_consumed_d08_and_d09_receipts ... ok
+test execution_blocked_gas_is_not_misclassified_as_missing ... ok
+test evidentiary_source_census_can_certify_without_actionable_requirements ... ok
+test exact_gas_and_flash_sources_can_be_feasible ... ok
+test evidentiary_ledger_requires_nonempty_source_census ... ok
+test fee_quotes_are_integer_exact_across_full_uint256_domain ... ok
+test execution_blocked_liquidity_is_not_misclassified_as_insufficient_capacity ... ok
+test evidentiary_ledger_cannot_certify_against_a_different_anchor ... ok
+test evidentiary_ledger_certifies_only_after_evaluation ... ok
+test fee_quote_rejects_uint256_overflow ... ok
+test fee_rounding_matches_protocol_integer_semantics ... ok
+test fixed_fee_preserves_explicit_fee_asset ... ok
+test execution_blockers_preserve_observed_capacity_and_stable_source_key ... ok
+test git_object_ids_are_exact_lowercase_sha1_hex_width ... ok
+test gas_is_independent_and_required ... ok
+test funding_fee_leg_must_allow_the_actual_fee_source_class ... ok
+test final_certification_requires_every_upstream_stage_exactly_once ... ok
+test ledger_rejects_multiple_states_for_same_stable_source_key ... ok
+test ledger_proves_no_operator_owned_capital_was_used ... ok
+test ledger_commitment_changes_with_observed_capacity ... ok
+test ledger_commitment_is_registration_order_independent ... ok
+test native_gas_flag_and_gas_leg_must_match_exactly ... ok
+test multiple_operator_sources_are_aggregated_before_zero_own_capital_rejection ... ok
+test missing_funding_fee_is_rejected_during_feasibility ... ok
+test mismatched_anchor_fails_closed ... ok
+test operator_treasury_cannot_claim_external_ownership ... ok
+test persistent_debt_cannot_hide_missing_risk_terms ... ok
+test persistent_debt_requires_collateral_semantics ... ok
+test proportional_collateral_must_round_up_and_have_a_positive_ratio ... ok
+test requirement_constructor_rejects_zero_observation_evidence ... ok
+test no_repayment_gas_sponsor_fee_must_still_be_declared ... ok
+test no_repayment_gas_source_needs_no_principal_repayment_leg ... ok
+test protocol_cap_limits_effective_capacity ... ok
+test repayment_leg_must_allow_the_actual_allocated_source_class ... ok
+test repayment_obligation_does_not_double_count_initial_capital ... ok
+test proportional_collateral_tracks_allocated_draw_exactly ... ok
+test same_block_credit_cannot_satisfy_same_transaction_requirement ... ok
+test requirement_roundtrip_and_cross_type_rejection ... ok
+test settlement_leg_can_split_exact_amount_across_authorized_source_classes ... ok
+test settlement_obligations_separate_principal_repayment_from_funding_fee ... ok
+test same_transaction_action_can_use_deadline_bound_external_gas_credit ... ok
+test source_constructor_rejects_public_semantic_bypasses ... ok
+test settlement_class_amounts_cannot_be_swapped_between_source_classes ... ok
+test source_canonical_roundtrip_and_tamper_rejection ... ok
+test source_key_is_stable_across_ownership_changes ... ok
+test source_id_is_deterministic_and_class_separated ... ok
+test synthetic_ledger_cannot_be_misreported_as_real_certification ... ok
+test stable_source_key_does_not_alias_different_asset_or_class ... ok
+test unknown_source_failure_mode_is_never_admitted ... ok
+test source_key_is_stable_across_state_refreshes ... ok
+test temporary_lock_dependencies_are_aggregated_across_all_used_sources ... ok
+test temporary_lock_leg_rejects_source_that_requires_collateral ... ok
+test utilization_math_handles_full_256_bit_capacity_exactly ... ok
+test utilization_reserve_and_absolute_caps_are_independent_upper_bounds ... ok
+test wrong_settlement_amount_is_rejected_during_feasibility_not_certification ... ok
+test upstream_authority_rejects_mismatch_unknown_or_unadmitted_stage ... ok
+test zero_own_capital_claim_requires_at_least_one_feasible_requirement ... ok
+test zero_capacity_source_is_preserved_but_zero_requirement_amount_is_invalid ... ok
+test zero_own_capital_policy_rejects_operator_treasury_source ... ok
+test zero_own_capital_rejects_operator_owned_builder_source ... ok
+test canonical_objects_reject_evidence_counts_above_u16 ... ok
+
+test result: ok. 76 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/demands.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/demands-bdd722d7e2c2daf9)
+
+running 12 tests
+test d09_evidentiary_import_rejects_manifest_not_named_by_authority ... ok
+test d09_evidentiary_import_rejects_account_artifact_substitution ... ok
+test d09_import_refuses_schema_or_v2_scope_drift ... ok
+test borrower_with_unavailable_account_data_is_explicitly_blocked ... ok
+test d09_demand_coverage_commitment_is_input_order_independent ... ok
+test d09_import_rejects_duplicate_accounts_and_noncanonical_amounts ... ok
+test d09_import_rejects_health_factor_classification_that_contradicts_exact_account_data ... ok
+test d09_import_refuses_wrong_anchor ... ok
+test non_borrowers_are_not_capital_demand_candidates ... ok
+test below_one_borrower_is_imported_but_not_promoted_to_capital_requirement ... ok
+test d09_import_refuses_non_pass_or_missing_liquidatability_boundary ... ok
+test healthy_borrower_is_explicitly_blocked_and_conserved ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/external_debt.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/external_debt-409b444ffda0d16b)
+
+running 7 tests
+test rejects_anchor_substitution ... ok
+test imports_collateralized_borrowing ... ok
+test inactive_debt_preserves_observation_but_is_not_executable ... ok
+test imports_persistent_debt ... ok
+test rejects_provider_semantic_divergence ... ok
+test stable_source_key_does_not_rotate_with_observed_state ... ok
+test rejects_duplicate_provider_transcript ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/gas_credit.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/gas_credit-5e5549fe5241f6da)
+
+running 11 tests
+test delivery_route_change_cannot_reuse_old_terms_commitment ... ok
+test forged_terms_commitment_fails_closed ... ok
+test duplicated_provider_transcript_fails_closed ... ok
+test exact_two_provider_gas_credit_imports_as_external_native_gas ... ok
+test gas_credit_requiring_operator_prefund_fails_closed ... ok
+test foreign_anchor_and_noncanonical_bytes_fail_closed ... ok
+test provider_disagreement_fails_closed ... ok
+test on_chain_draw_that_requires_borrower_gas_fails_closed ... ok
+test one_wei_state_drift_cannot_reuse_old_provider_facts_commitment ... ok
+test active_state_changes_observation_id_but_not_stable_source_key ... ok
+test runtime_change_preserves_stable_key_but_changes_observation_id ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/gas_sponsor.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/gas_sponsor-cfb9d15e371ea48e)
+
+running 7 tests
+test imports_authenticated_external_gas_sponsor ... ok
+test rejects_noncanonical_json_bytes ... ok
+test rejects_anchor_substitution ... ok
+test inactive_sponsor_preserves_observation_but_is_not_executable ... ok
+test rejects_duplicate_provider_transcript ... ok
+test rejects_provider_semantic_divergence ... ok
+test stable_source_key_does_not_rotate_with_observed_state ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/offline_cli.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/offline_cli-b0030692e0e4b39b)
+
+running 5 tests
+test authority_lock_builder_binary_rejects_incomplete_stage_set ... ok
+test authority_lock_builder_binary_emits_canonical_verified_lock ... ok
+test offline_verifier_binary_rejects_tampered_artifact ... ok
+test offline_verifier_binary_accepts_exact_export ... ok
+test offline_verifier_binary_rejects_wrong_exact_code_identity ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests/replay.rs (/workspace/scratch/4ab306bc8e06/d11-memory-target/debug/deps/replay-ba143606e7496727)
+
+running 9 tests
+test closeout_opportunity_claim_requires_at_least_one_feasible_requirement ... ok
+test authority_lock_rejects_non_certifiable_upstream_stage_truth ... ok
+test authority_lock_rejects_anchor_substitution_and_mixed_stage_anchors ... ok
+test exact_upstream_bytes_replay_to_committed_receipts ... FAILED
+test upstream_replay_rejects_consumed_byte_substitution ... ok
+test upstream_replay_rejects_forged_committed_output_set ... ok
+test authority_lock_roundtrips_canonically_and_rejects_unconsumed_stage_substitution ... ok
+test capital_bundle_plus_upstream_bytes_forms_one_offline_replay_proof ... FAILED
+test bundle_replay_rejects_self_consistent_but_externally_unlocked_d06_authority ... ok
+
+failures:
+
+---- exact_upstream_bytes_replay_to_committed_receipts stdout ----
+Error: InvalidCanonical("missing D08 field")
+
+---- capital_bundle_plus_upstream_bytes_forms_one_offline_replay_proof stdout ----
+Error: InvalidCanonical("missing D08 field")
+
+
+failures:
+    capital_bundle_plus_upstream_bytes_forms_one_offline_replay_proof
+    exact_upstream_bytes_replay_to_committed_receipts
+
+test result: FAILED. 7 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `-p nqc-census-capital --test replay`

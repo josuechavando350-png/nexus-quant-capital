@@ -1,0 +1,157 @@
+{
+  "acquisition_failures": [
+    {
+      "directory": "historical-rpc-drpc-receipts-resumed",
+      "failure": "<urlopen error Tunnel connection failed: 403 Forbidden>",
+      "method": "eth_getTransactionReceipt",
+      "provider_id": "drpc",
+      "received_at": "2026-10-09T17:13:21.692747+00:00",
+      "sequence": 88
+    },
+    {
+      "directory": "historical-rpc-blockpi-receipts-resumed",
+      "failure": "<urlopen error Tunnel connection failed: 403 Forbidden>",
+      "method": "eth_getTransactionReceipt",
+      "provider_id": "blockpi",
+      "received_at": "2026-10-09T17:13:21.691893+00:00",
+      "sequence": 124
+    },
+    {
+      "directory": "historical-rpc-blockpi-logs-resumed",
+      "failure": "<urlopen error Tunnel connection failed: 403 Forbidden>",
+      "method": "eth_getLogs",
+      "provider_id": "blockpi",
+      "received_at": "2026-10-09T17:13:21.695456+00:00",
+      "sequence": 84
+    }
+  ],
+  "all_execution_costs_proven": false,
+  "archived_blockscout_and_new_distinct_operator_log_consistency": false,
+  "archives": [
+    {
+      "artifact_id": 11524139188,
+      "failed_run_promoted": false,
+      "file": "winner-events-original.zip",
+      "original_commit": "abe54f1f23bd7bff8c37871200f7da7c59c45ac3",
+      "original_run_conclusion": "success",
+      "original_tree": "c74f8d9d2c317a011284398643b2d4aa6de06e83",
+      "run_id": 37718661409,
+      "sha256": "6b4098c1acf153106ac5b67d2c5c7db5cd0295a16c782ad8c34ae75303306204"
+    },
+    {
+      "artifact_id": 11524199698,
+      "failed_run_promoted": false,
+      "file": "winner-receipts-partial-original.zip",
+      "original_commit": "569d4aaeecb3d066389c054efed695be02e3ef40",
+      "original_run_conclusion": "failure",
+      "original_tree": "ba648214fb5cb1cdca1db1f42f28059054d78e63",
+      "run_id": 37719091371,
+      "sha256": "182b5e81b00ca04e53c9193c1496a725dc152ade9a17d3ab2dfaeb5045ac86b6"
+    },
+    {
+      "artifact_id": 11525810815,
+      "failed_run_promoted": false,
+      "file": "winner-receipts-resume-original.zip",
+      "original_commit": "7ec0f23fb7e114c6ac6d873bdb2889f309c2ac50",
+      "original_run_conclusion": "failure",
+      "original_tree": "3b5f24cee08806403243885e90f662ee75784a85",
+      "run_id": 37720137160,
+      "sha256": "b64e15fde2112efa32564a224dbf38b2b338bda35d2aefc68c0cb78b3f6339da"
+    },
+    {
+      "artifact_id": 11526344226,
+      "failed_run_promoted": false,
+      "file": "winner-legs-original.zip",
+      "original_commit": "cd52858444532de581af27c9ba63bb2304d76497",
+      "original_run_conclusion": "success",
+      "original_tree": "80e198707e48e99ceddc37e9b4b95b049ccb0ae7",
+      "run_id": 37722881910,
+      "sha256": "51dfc4c9c3031a7bf3bb6ce019eb3a9184a1f2327f1accedcc2c6e165af91acb"
+    },
+    {
+      "artifact_id": 11527902751,
+      "failed_run_promoted": false,
+      "file": "winner-weth-prices-original.zip",
+      "original_commit": "a569b0a6ba11c0d12de3a1ac0d16d85b896933f6",
+      "original_run_conclusion": "success",
+      "original_tree": "3c84f4fa3a2a0a62accde257029714177dc38b5a",
+      "run_id": 37726618359,
+      "sha256": "5ae6c45b53ded26f327270758c248f7f4ec0ff1365f550e54dcf28feb4a83a03"
+    }
+  ],
+  "censored_opportunities_recovered": false,
+  "competitor_gas_paid_wei": "448369976498898050",
+  "decoded_legs_exact_parity": [
+    {
+      "full_window": false,
+      "provider_id": "blockpi",
+      "rows": 42,
+      "sha256": "a09756bd8a7ebc904535c67759208e7b6ac48186911f4b4be1d23442bf5e440a"
+    }
+  ],
+  "failed_transaction_universe_complete": false,
+  "independent_underlying_execution_nodes_proven": false,
+  "new_acquisitions": [
+    {
+      "calls": 88,
+      "directory": "historical-rpc-drpc-receipts-resumed",
+      "first_sent_at": "2026-10-09T17:02:08.134476+00:00",
+      "last_received_at": "2026-10-09T17:13:21.692747+00:00",
+      "manifest_sha256": "3c0da0c9a317306796f9e9b925abcd483b66b5d91c29a2526de830c2c3f3343e",
+      "operator": "dRPC"
+    },
+    {
+      "calls": 124,
+      "directory": "historical-rpc-blockpi-receipts-resumed",
+      "first_sent_at": "2026-10-09T16:59:03.442136+00:00",
+      "last_received_at": "2026-10-09T17:13:21.691893+00:00",
+      "manifest_sha256": "6b5c7f5789b99e6afb00a1b3b3a5c4ab4c638d6b1101dab70c4dc5751eb42129",
+      "operator": "BlockPI"
+    },
+    {
+      "calls": 84,
+      "directory": "historical-rpc-blockpi-logs-resumed",
+      "first_sent_at": "2026-10-09T17:02:08.134501+00:00",
+      "last_received_at": "2026-10-09T17:13:21.695456+00:00",
+      "manifest_sha256": "a6719b4ab26c6b8cc7a10f25046b336a93172662fc21881f8aa59065e1529311",
+      "operator": "BlockPI"
+    }
+  ],
+  "new_full_window_log_operator_ids": [],
+  "new_receipt_counts": {
+    "blockpi": 123,
+    "drpc": 87
+  },
+  "new_receipt_operator_ids": [
+    "blockpi",
+    "drpc"
+  ],
+  "new_two_operator_receipt_consistency": false,
+  "nexus_capture_proven": false,
+  "nexus_net_pnl_proven": false,
+  "original_decision_time_observation_proven": false,
+  "partial_log_coverage": [
+    {
+      "completed_blocks": 81920,
+      "completed_end_block": 25962235,
+      "completed_start_block": 25880316,
+      "events": 42,
+      "full_window_complete": false,
+      "missing_blocks": 133116,
+      "provider_id": "blockpi"
+    }
+  ],
+  "real_market_census_closed": false,
+  "schema": "nqc-winner-evidence-reconciliation-v1",
+  "scope": {
+    "chain_id": 1,
+    "end_block": 26095351,
+    "events": 139,
+    "protocol": "Aave V3 Ethereum",
+    "start_block": 25880316,
+    "transactions": 127
+  },
+  "status": "ARCHIVES_VERIFIED_NEW_RPC_PARTIAL",
+  "two_operator_matching_receipt_count": 87,
+  "verifier_sha256": "4ed12d7454945d9852565712145e8225679ac029fe0ff42190a4ad2e3fc86604"
+}

@@ -1,0 +1,244 @@
+{
+  "canonical_recertification": false,
+  "d08_summary": {
+    "aave_emode_categories": 48,
+    "aave_markets": 67,
+    "aave_oracle_rows": 67,
+    "anchor_timestamp": 1790832215,
+    "code_commit": "36c732a36789e1967ce7178010889427ad7cf0f2",
+    "code_tree": "0783c1617de682e4074f9cd91c9111638a89b023",
+    "every_market_decided": true,
+    "generated_at": "2026-10-01T05:23:35Z",
+    "generated_at_basis": "OBSERVATION_ANCHOR_BLOCK_TIMESTAMP",
+    "metrics_conserved": true,
+    "mismatches": 0,
+    "non_claims": [
+      "TOKEN_TRANSFER_SEMANTICS_NOT_PROVEN",
+      "ORACLE_FRESHNESS_NOT_ASSUMED",
+      "LIQUIDITY_DEPTH_NOT_CLAIMED_BEYOND_EXACT_STATE",
+      "PROFITABILITY_NOT_CLAIMED",
+      "EXECUTION_NOT_CLAIMED"
+    ],
+    "observation_anchor": {
+      "block_hash": "0x0d7a15fbb72e69696a33c65bc20902fe08e5630862ada64b065a97405c70c781",
+      "block_number": 26095351,
+      "chain_id": 1,
+      "fork_lineage": "0x349462d471690c164b8109c6dbc41a76afb4033216f379254b3367b75f0fc522",
+      "genesis_hash": "0xd4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3",
+      "parent_hash": "0xaf6809f0222903662e0814128c37e98296d47c2a78c4d94bdc08e3efa1107792",
+      "state_root": "0x295ca34af4c1652ded4210d6353703c7acea726c04c27978df4a3a88d9e7bbfd",
+      "timestamp": 1790832215
+    },
+    "rejections": 728,
+    "schema_version": 1,
+    "scope": "ETHEREUM_MAINNET_AAVE_V3_CORE_POOL_AND_UNISWAP_V2_FACTORY_ADMITTED_BY_D06_D07",
+    "stage_metrics": {
+      "aave_v3": [
+        {
+          "advanced": 67,
+          "conserved": true,
+          "input": 67,
+          "proven": 67,
+          "rejected": 0,
+          "stage": "MARKETS_STATE_RECONSTRUCTABLE",
+          "unknown": 0
+        }
+      ],
+      "schema_version": 1,
+      "uniswap_v2": [
+        {
+          "advanced": 522696,
+          "conserved": true,
+          "input": 523424,
+          "proven": 523424,
+          "rejected": 728,
+          "stage": "MARKETS_STATE_RECONSTRUCTABLE",
+          "unknown": 0
+        }
+      ]
+    },
+    "stage_records": 36,
+    "status": "RMC_008_PASS_CANDIDATE",
+    "token_admission": {
+      "execution_blocked": 514279,
+      "execution_proven_compatible": 0,
+      "state_admitted": 513787,
+      "state_rejected": 492,
+      "tokens": 514279
+    },
+    "unexplained_mismatches": 0,
+    "unknown_rejections": 0,
+    "v2_markets": 523424
+  },
+  "d09_summary": {
+    "all_tokens_conserved": true,
+    "anchor": {
+      "hash": "0x0d7a15fbb72e69696a33c65bc20902fe08e5630862ada64b065a97405c70c781",
+      "number": 26095351
+    },
+    "anchor_timestamp": 1790832215,
+    "blocking_findings": [],
+    "candidates_sha256": "d5563a739a8d45cd76e0a206571e485a5e623c5b070974c1544b1425e4685174",
+    "completeness_basis": "PER_TOKEN_SCALED_SUPPLY_CONSERVATION: sum of indexed scaledBalanceOf plus scaledBalanceOf(0x0) equals scaledTotalSupply at the anchor for every aToken and variable debt token; the zero address is a conservation term, never an account",
+    "generated_at": "2026-10-01T05:23:35Z",
+    "generated_at_basis": "OBSERVATION_ANCHOR_BLOCK_TIMESTAMP",
+    "metrics": {
+      "actionable_accounts": 28275,
+      "borrower_account_data_unavailable": 0,
+      "configuration_divergences": 26,
+      "conserved_tokens": 134,
+      "debt_positions": 34947,
+      "excess_supply_tokens": 0,
+      "extra_accounts": 141019,
+      "health_factor_below_one": 400,
+      "indexed_accounts": 246929,
+      "indexed_pairs": 509109,
+      "mismatched_accounts": 0,
+      "missing_holder_tokens": 0,
+      "position_holders": 105899,
+      "stable_debt_token_divergent_reserves": 66,
+      "stale_accounts": 0,
+      "state_verified_accounts": 246929,
+      "supply_positions": 137145,
+      "tokens": 134,
+      "zero_address_holding_tokens": 7
+    },
+    "mismatches": 0,
+    "non_claims": [
+      "LIQUIDATABILITY_NOT_CLAIMED",
+      "PROFITABILITY_NOT_CLAIMED",
+      "EXECUTION_NOT_CLAIMED",
+      "ORACLE_FRESHNESS_NOT_ASSUMED",
+      "POSITIONS_OUTSIDE_D06_NOT_CLAIMED"
+    ],
+    "schema_version": 1,
+    "scope": "ETHEREUM_MAINNET_AAVE_V3_CORE_POOL_ACCOUNTS_ADMITTED_BY_D06",
+    "status": "RMC_009_PASS_CANDIDATE",
+    "unexplained_mismatches": 0,
+    "uniswap_v2": {
+      "reason": "Uniswap V2 pairs carry no borrower, debt or collateral positions; no account universe is claimed or fabricated for them",
+      "status": "NOT_APPLICABLE"
+    }
+  },
+  "d11_terminal_closed": false,
+  "decision_time_availability_proven": false,
+  "historical_semantic_producers_reexecuted": false,
+  "metadata_origin": "CALLER_ACQUIRED_AUTHENTICATED_GITHUB_API_RESPONSES",
+  "non_claims": [
+    "NO_CERTIFICATION_TRANSFER",
+    "NO_LIVE_STATE",
+    "NO_CAPITAL_OR_EXECUTION_AUTHORITY",
+    "NO_PROFITABILITY",
+    "NO_INDEPENDENT_PROTOCOL_OR_ACCOUNT_RECONSTRUCTION"
+  ],
+  "observation_anchor": {
+    "block_hash": "0x0d7a15fbb72e69696a33c65bc20902fe08e5630862ada64b065a97405c70c781",
+    "block_number": 26095351,
+    "chain_id": 1,
+    "fork_lineage": "0x349462d471690c164b8109c6dbc41a76afb4033216f379254b3367b75f0fc522",
+    "genesis_hash": "0xd4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3",
+    "parent_hash": "0xaf6809f0222903662e0814128c37e98296d47c2a78c4d94bdc08e3efa1107792",
+    "state_root": "0x295ca34af4c1652ded4210d6353703c7acea726c04c27978df4a3a88d9e7bbfd",
+    "timestamp": 1790832215
+  },
+  "original_coherence_consumer_sha256": "e209973a883e8a7ecb00e0e02b4bfd0bb6ea74cf9f738af9228cfb41180e921f",
+  "pin_file_sha256": "65e512a8634bb7cd627fbbd0fb0f6920a769237c0b30e4dc25c1585b0d7904a5",
+  "real_market_census_closed": false,
+  "schema": "nqc-historical-upstream-readback-v1",
+  "stages": {
+    "d06": {
+      "archive_bytes": 6709740,
+      "archive_sha256": "1cdb46fca52ebf1e0e2094b1c14b19384ecb7beceb50229b967592ab7a0308b4",
+      "artifact_id": 11143129177,
+      "authority_sha256": "005715e6f4479a6e9c12c62eed40b3d027107a1c9f4d31c6461845181dc733c4",
+      "code_commit": "a33a012591cd6625ddb921d995bb1bd95b4a5406",
+      "code_tree": "eda36fdc07e82ccdcc9666799fa8fe21aacc7f1d",
+      "event": "workflow_dispatch",
+      "expanded_bytes": 8983767,
+      "manifest_artifacts_verified": 8,
+      "members": 4235,
+      "metadata_sha256": {
+        "artifact": "033583d731eafaa23391f2ea6b0d55dc0f9709ea11c50db2405034b41837f137",
+        "commit": "7fc8b16fd1ae7557e89fe3305e8f427c40f6eb3fe2508a9aed0e4ea663d31432",
+        "run": "117c7db1b9ffab32aa2116be65975dda7aeb113ecaf74d7fbebf5d981f0e14a4"
+      },
+      "run_id": 36820687233
+    },
+    "d07": {
+      "archive_bytes": 143126799,
+      "archive_sha256": "f462289674f6fb84a580e490215d082bccf022f3e73a73da2f1fd217938531e8",
+      "artifact_id": 11207794300,
+      "authority_sha256": "86e9a2c105a08cb9313ffeab9ffb4a6211b8fb6f415d3c0b434baaf0ca3a897e",
+      "code_commit": "1614b99a2bca9bd713df1f36e2cbecbaadf633f5",
+      "code_tree": "fed1de7899ad20a0e39eff6eee002cd356f63f20",
+      "event": "workflow_dispatch",
+      "expanded_bytes": 553939909,
+      "manifest_artifacts_verified": 6,
+      "members": 16,
+      "metadata_sha256": {
+        "artifact": "abd1ee93648e21c1180fbbddb7c60bcdf7f34b73b0a46716feb16de168b19352",
+        "commit": "25c10ab92ce6ed4e0cd4103c61cbd8ef324b94d4e1bc23db0e97be5d4b33a73b",
+        "run": "c47838f62699d243dce857376c518b3dea2b591e5a14ee8fc154658e7d7c1729"
+      },
+      "run_id": 36952216731
+    },
+    "d08": {
+      "archive_bytes": 79599487,
+      "archive_sha256": "9431ea07144ae78e68e0ffcc7f650fa32068ee63fb53ca41ff8a062b87845913",
+      "artifact_id": 11237887761,
+      "authority_sha256": "1276491d349176fdd0ac63aaaa2c326c002c1a17384ba1e6db4704687842a279",
+      "code_commit": "36c732a36789e1967ce7178010889427ad7cf0f2",
+      "code_tree": "0783c1617de682e4074f9cd91c9111638a89b023",
+      "event": "workflow_dispatch",
+      "expanded_bytes": 787568125,
+      "manifest_artifacts_verified": 10,
+      "members": 15,
+      "metadata_sha256": {
+        "artifact": "0dad63809957e8a66695635c6748a08f9b5a836452a8900cd7165a3063dd85e7",
+        "commit": "af53a9e5cdb4dc4c41be1bcd502f3ecd5951f6fa37a8674af6e8adbe28f61bd3",
+        "run": "0bb60e59aec8d320102f42136211e19fa0926d42ddf3e380abc3a3ee7c0d340a"
+      },
+      "run_id": 36964016388
+    },
+    "d09": {
+      "archive_bytes": 20934485,
+      "archive_sha256": "9aa6a4beb3ebc90f40d07d1889f84c1bcf94b3dea90b0e7b596dc6ff70fda0f6",
+      "artifact_id": 11159396055,
+      "authority_sha256": "da54f1e1398bcf3b1026540646d6c306d8d6d20df15b9eda7c6826526c68439c",
+      "code_commit": "6db82ca89d4ef3a66a1b236de95670a6967eb3ea",
+      "code_tree": "4fca26769b9074cc42a7eef5cb18b1bce3e6fc0c",
+      "event": "workflow_dispatch",
+      "expanded_bytes": 154017408,
+      "manifest_artifacts_verified": 9,
+      "members": 14,
+      "metadata_sha256": {
+        "artifact": "460e2d710f60be4a51c3fc87448e10d6e2ee1426772a90fd6a35153b8e2c8236",
+        "commit": "75ff1e9f9c1037dd35e41a9b7e69ea1d9c44a5efb1d566a6a579c9b6f5b04396",
+        "run": "12a5d3f91e80577a6b4222f1e67c5500b123a68b7e8db15090481dc50969ba35"
+      },
+      "run_id": 36823489219
+    },
+    "d10": {
+      "archive_bytes": 20932683,
+      "archive_sha256": "9900ffa1dda1b0d6bd843a9f05776d8e7a47ff7d10934a8d5332c174fa9abde5",
+      "artifact_id": 11251694539,
+      "authority_sha256": "2412a8b365fd97f570d767d8100aaca85dcc882a4f9c833b9a33b4a72c534b80",
+      "code_commit": "bcd5fd0dd454c367a0fb1b1b3f19a9a85eb1dee2",
+      "code_tree": "1339236bce8a1567face88411f5c6f266db1a407",
+      "event": "pull_request",
+      "expanded_bytes": 154010079,
+      "manifest_artifacts_verified": 9,
+      "members": 16,
+      "metadata_sha256": {
+        "artifact": "77b64b5050a75a5ad8380c58c25d052e15f54bb6d820ab6311ad8473ffc446c8",
+        "commit": "2fff1742e065d2e985dd435e27324dbef20fe0f845956321aeba4b7888d4a260",
+        "run": "0be7009826b40dfd7896903b7a55f57db02e20f0292f4959dd34ec87412d0721"
+      },
+      "run_id": 37053225954
+    }
+  },
+  "status": "PINNED_BYTES_AND_ANCHOR_COHERENCE_PASS",
+  "upstream_authority_lock_issued": false,
+  "verified_at": "2026-10-09T15:34:53.772482Z",
+  "verifier_source_sha256": "fae5141be84b17d8e666635f9c5e36ebd91fdfd557dc5896ec2505ce2be76757"
+}

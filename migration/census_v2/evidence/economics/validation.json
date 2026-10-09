@@ -1,0 +1,63 @@
+{
+  "schema": "nqc-economic-validation-v1",
+  "base_commit": "7efa3c136fb8669c1198ce067b43c052a6597f35",
+  "recorded_at": "2026-10-09T17:57:21.313111+00:00",
+  "economic_checks": {
+    "command": [
+      "python3",
+      "migration/census_v2/check_winner_economics.py",
+      "--archive-root",
+      "/workspace/scratch/4ab306bc8e06",
+      "--rpc-root",
+      "/workspace/scratch/4ab306bc8e06",
+      "-v"
+    ],
+    "exit_code": 0,
+    "tests": 8,
+    "log_sha256": "9b35ab3f5c888e72ff95040643961539b7758bd958804441021d4b82d76a953f"
+  },
+  "other_checks_observed_this_turn": [
+    {
+      "command": "python3 -m unittest discover -s migration -p test_isolation.py",
+      "tests": 9,
+      "exit_code": 0
+    },
+    {
+      "command": "python3 -m unittest discover -s migration/census_v2 -p test_*.py",
+      "tests": 23,
+      "exit_code": 0
+    },
+    {
+      "command": "python3 migration/census_v2/check_winner_recovery.py --archive-root /workspace/scratch/4ab306bc8e06 --metadata migration/census_v2/evidence/winner-api --rpc-root /workspace/scratch/4ab306bc8e06",
+      "tests": 7,
+      "exit_code": 0
+    }
+  ],
+  "previous_broad_historical_python_failures_reclassified": false,
+  "live_rpc_retried": false,
+  "new_archive_materialization": {
+    "status": "BLOCKED_HTTP_403",
+    "artifact_bytes_recovered": false
+  },
+  "initial_diagnostic_optional_crypto_module": {
+    "status": "ModuleNotFoundError",
+    "resolution": "Used existing repository keccak256 implementation; no dependency installation"
+  },
+  "source_device": {
+    "id": "97869e36-ef95-481f-ac75-85ab90bce0e7",
+    "status": "OFFLINE",
+    "last_seen_tool_text": "48h ago"
+  },
+  "certification": false,
+  "original_object_isolation": {
+    "command": "python3 migration/verify_isolation.py --source-git /workspace/scratch/4ab306bc8e06/nqc-original-objects",
+    "exit_code": 0,
+    "status": "ISOLATED_SOURCE_IDENTITY_PASS",
+    "original_objects_checked": true,
+    "source_files": 531,
+    "disabled_workflows": 106,
+    "active_workflows": 0,
+    "canonical_recertification": false
+  },
+  "rust_tests_this_change": "NOT_RERUN_NO_RUST_SOURCE_OR_OVERLAY_CHANGED"
+}

@@ -1,0 +1,292 @@
+{
+  "base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
+  "canonical_recertification": false,
+  "failure_ledger": [
+    {
+      "command": "python3 -m unittest discover -s ci/nqc-census -p test_*.py",
+      "id": "HISTORICAL_DISCOVERY_NOT_GREEN",
+      "log": "historical-python-discovery.log",
+      "setup_errors": 7,
+      "skipped": 3,
+      "tests_run": 664,
+      "treatment": "Unchanged historical baseline; five suites require real-artifact CLI inputs, two require exact historical source-catalog blobs. Do not count setup errors or skipped cases as passes. Run each with its actual inputs/source adapter before relying on it."
+    },
+    {
+      "command": "cargo test --locked -p nqc-census-capital",
+      "exit_code": 101,
+      "id": "RUST_TOOLCHAIN_SIGBUS",
+      "log": "rust-environment-failure.log",
+      "status": "RESOLVED_WITH_EXACT_PINNED_TOOLCHAIN",
+      "toolchain": "1.98.1",
+      "treatment": "Restored the truncated LLVM file from the SHA-verified official Rust 1.98.1 package. Original workspace and PFT bridge now pass; see rust-toolchain-repair.json. Initial failure retained.",
+      "underlying_signal": "SIGBUS"
+    },
+    {
+      "id": "ORIGINAL_GIT_OBJECTS_NOT_RECHECKED",
+      "status": "RESOLVED",
+      "treatment": "Recovered exact original commit/tree objects and canonical blobs; source-object isolation now passes all 637 entries and declared original refs."
+    },
+    {
+      "cgroup_oom_kill_count": 1,
+      "command": "nqc-rmc011-capital-build --d08-dir <actual-D08-closeout> --d09-dir <actual-D09-closeout> --authority-lock <conditional-legacy-lock> --output-dir <fresh-D11-research-output> --code-commit dfc259fca3b3144b0623461cb46346e2e960dce1 --code-tree b25947022554a9ba5b50faa3a77831f16010d201",
+      "exit_code": 137,
+      "id": "FULL_D11_BUILDER_OOM",
+      "memory_limit_bytes": 8589934592,
+      "resolution_report": "d11-memory/full-replay-parity.json",
+      "status": "RESOLVED_FOR_PINNED_HISTORICAL_REPLAY",
+      "treatment": "Fresh-copy memory adapter plus exact historical role-scoped importer: two full verifications and all nine files byte-identical. Original failure and two additional OOM runs preserved. This does not certify the new producer or terminal capital coverage."
+    },
+    {
+      "artifact_bytes": 813946962,
+      "artifact_id": 11519115757,
+      "connector_limit_bytes": 536870912,
+      "id": "D11_MAIN_ARCHIVE_DOWNLOAD_LIMIT",
+      "status": "PARTIAL_RECOVERY",
+      "treatment": "Recovered the separately pinned original core artifact 11518151377 from the same run; no claim that the full main envelope was acquired."
+    },
+    {
+      "fields": [
+        "code_commit",
+        "code_tree",
+        "portfolio_commitment"
+      ],
+      "id": "PORTFOLIO_REPLAY_PROVENANCE_DIFFERENCE",
+      "status": "EXPLAINED_NOT_FULL_FILE_PARITY",
+      "treatment": "Exact pair and capital files match. All portfolio claims/resources/conflicts match; new producer identity changes its commitment. See explicit old/new values in terminal-recovery-report.json."
+    },
+    {
+      "id": "TEMPORAL_RAW_EVIDENCE_MISSING",
+      "status": "PARTIAL_RECOVERY_REMAINS_OPEN",
+      "treatment": "Five later winner archives recovered; new raw RPC reconciliation is partial (123 BlockPI receipts, 87 dRPC receipts, 42 logs over 81,920 blocks). Original D15B episode/censored/economic hashes remain unrecovered. Access denied before complete acquisition; no decision-time or capture claim."
+    },
+    {
+      "id": "MEMORY_OVERLAY_V1_V2_OOM",
+      "measurements": [
+        "d11-memory/v1-measurement.json",
+        "d11-memory/v2-measurement.json"
+      ],
+      "status": "RESOLVED_BY_STAGED_LIFETIMES",
+      "treatment": "Original bytes unchanged. Final successful staged replay uses getrusage peak child RSS; initial per-PID sampling was unreliable and is not used to assert peak memory."
+    },
+    {
+      "id": "MEMORY_ONLY_IMPORTER_SEMANTIC_MISMATCH",
+      "report": "d11-memory/memory-only-semantic-mismatch.json",
+      "status": "EXPLAINED_HISTORICAL_IMPORTER_RESTORED_SEPARATELY",
+      "treatment": "Current imported address-only token reconciliation conflates distinct roles. All 44 repetitions have distinct token/role keys. Preserve current source; use pinned historical importer solely for historical byte reproduction."
+    },
+    {
+      "id": "TRANSIENT_CODEGEN_OBJECT_BUILD_FAILURE",
+      "log": "d11-memory/initial-transient-build-failure.log",
+      "status": "RESOLVED_SAME_TOOLCHAIN_SERIAL_BUILD",
+      "treatment": "Retried at -j1 with same pinned Rust; no dependency or compiler version substitution."
+    },
+    {
+      "id": "HISTORICAL_FIXTURE_ROLE_MISSING",
+      "log": "d11-memory/historical-fixture-role-missing.log",
+      "status": "RESOLVED_FIXTURE_SCHEMA",
+      "treatment": "Historical importer correctly rejected role-less synthetic replay fixture. Added explicit AAVE_RESERVE_UNDERLYING role only in fresh-copy fixture. Final 256 capital tests pass; actual evidence unchanged."
+    },
+    {
+      "id": "RPC_ACQUISITION_ACCESS_DENIED",
+      "report": "winner-reconciliation.json",
+      "status": "BLOCKED",
+      "treatment": "At 2026-10-09T17:13:21Z transport returned tunnel 403 and execution tool reported network approval cancellation. Stopped acquisition; no workaround attempted. Need restored authorized source access; retain all incomplete scopes."
+    },
+    {
+      "id": "RPC_PROCESSES_INTERRUPTED",
+      "reports": "rpc-failures/",
+      "status": "RECOVERED_VERIFIED_CHECKPOINTS_ONLY",
+      "treatment": "Prior collectors stopped without final report near host OOM; exact per-process signal unavailable. Reused only hash-verified completed responses in fresh output directories, retaining original receipt times and orphan requests."
+    },
+    {
+      "id": "RAW_PATCH_LOG_WHITESPACE_CHECK",
+      "status": "EXPECTED_RAW_FORMAT_PRESERVED",
+      "treatment": "Unrestricted git diff --check flags unified-diff context-only whitespace and final blank log lines. Raw artifacts remain byte-preserved. Check restricted to Python, Rust, JSON and Markdown passes."
+    }
+  ],
+  "gas_spent_by_this_work": 0,
+  "independent_certification": false,
+  "live_transactions_submitted": 0,
+  "new_code_results": [
+    {
+      "command": "python3 -m unittest discover -s migration/census_v2 -p test_*.py",
+      "failed": 0,
+      "scope": "offline gas witness accounting, not authenticated funding",
+      "skipped": 0,
+      "status": "PASS",
+      "tests": 19
+    },
+    {
+      "command": "python3 migration/census_v2/check_d06_readback.py --archive <real-new-D06-ZIP> --metadata-dir evidence/d06-api",
+      "failed": 0,
+      "scope": "real pinned archive, final metadata and output equality; no Rust re-execution",
+      "skipped": 0,
+      "status": "PASS",
+      "tests": 8
+    },
+    {
+      "command": "python3 migration/census_v2/check_historical_inputs.py --archive-root <real-D06-D10-ZIPs> --metadata-root evidence/historical-api",
+      "failed": 0,
+      "scope": "real historical ZIP/manifest bytes and anchor/source coherence",
+      "skipped": 0,
+      "status": "PASS",
+      "tests": 7
+    },
+    {
+      "command": "python3 -m unittest discover -s migration -p test_isolation.py",
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASS",
+      "tests": 9
+    },
+    {
+      "active_workflows": 0,
+      "command": "python3 migration/verify_isolation.py --source-git <verified-original-object-store>",
+      "disabled_workflows": 106,
+      "original_objects_checked": true,
+      "source_files": 531,
+      "status": "ISOLATED_SOURCE_IDENTITY_PASS"
+    },
+    {
+      "command": "cargo test --workspace --locked",
+      "failed": 0,
+      "log": "rust-workspace-pass.log",
+      "skipped": 0,
+      "status": "PASS",
+      "tests": 528,
+      "toolchain": "1.98.1",
+      "working_directory": "nqc-census"
+    },
+    {
+      "command": "cargo test --locked -j2",
+      "failed": 0,
+      "log": "pft-bridge-pass.log",
+      "skipped": 0,
+      "status": "PASS",
+      "tests": 9,
+      "toolchain": "1.98.1",
+      "working_directory": "ci/nqc-census/rmc012-pft-actionability-bridge"
+    },
+    {
+      "command": "cargo test --locked -j2",
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASS",
+      "tests": 6,
+      "toolchain": "1.98.1",
+      "working_directory": "migration/census_v2/capital_stream"
+    },
+    {
+      "command": "cargo clippy --locked --all-targets -j2 -- -D warnings",
+      "status": "PASS",
+      "working_directory": "migration/census_v2/capital_stream"
+    },
+    {
+      "command": "cargo fmt --manifest-path migration/census_v2/capital_stream/Cargo.toml -- --check",
+      "status": "PASS"
+    },
+    {
+      "command": "python3 migration/census_v2/check_candidate_classification.py --d08 <actual-D08-ZIP> --d12 <actual-D12-ZIP>",
+      "failed": 0,
+      "log": "candidate-tests.log",
+      "skipped": 0,
+      "status": "PASS",
+      "tests": 8
+    },
+    {
+      "command": "python3 migration/census_v2/check_terminal_recovery.py --d12 <actual-D12-ZIP> --metadata migration/census_v2/evidence/terminal-api --replay <actual-Rust-replay>",
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASS",
+      "tests": 5
+    },
+    {
+      "bytes": 3757728513,
+      "command": "nqc-capital-stream-readback <full-actual-D11-sources> <new-output>",
+      "measurement": "capital-stream-measurement.json",
+      "rows": 1045459,
+      "scope": "Every stored source semantically decoded, global identities checked; no reexecution of upstream state import",
+      "status": "PASS"
+    },
+    {
+      "command": "rmc012-terminal-actionability <authenticated-D08-D09-and-derived-D11-view>",
+      "measurement": "d12-replay-measurement.json",
+      "report": "terminal-recovery-report.json",
+      "status": "PASS_CONDITIONAL_REPLAY_ONLY"
+    },
+    {
+      "command": "classify_historical_candidates.py <actual-inputs>",
+      "insufficient_evidence": 432,
+      "non_executable": 42,
+      "pairs": 474,
+      "positive_executable_admissions": 0,
+      "report": "classification-summary.json",
+      "status": "PASS_RESEARCH_CLASSIFICATION_ONLY"
+    },
+    {
+      "command": "cargo test --offline --locked -p nqc-census-capital -j1 (fresh overlaid build copy)",
+      "failed": 0,
+      "log": "d11-memory/capital-tests.log",
+      "scope": "Historical replay overlay; not new producer certification",
+      "skipped": 0,
+      "status": "PASS",
+      "tests": 256
+    },
+    {
+      "command": "d11_memory/prepare.py --repo <NQC> --out <fresh-external-build>",
+      "report": "d11-memory/fresh-copy-preparation.json",
+      "scope": "Base tree, every preimage/postimage, patch checksum and non-in-place application",
+      "status": "PASS"
+    },
+    {
+      "byte_identical_files": 9,
+      "command": "d11_memory/run_replay.py --staged <actual-data>",
+      "full_verifications": 2,
+      "max_child_rss_kib": 7309316,
+      "report": "d11-memory/full-replay-parity.json",
+      "seconds": 371.53402985899993,
+      "source_count": 1045459,
+      "status": "PASS_FULL_HISTORICAL_REPLAY"
+    },
+    {
+      "command": "python3 -m unittest discover -s migration/census_v2 -p test_*.py",
+      "failed": 0,
+      "log": "v2-unit-tests-latest.log",
+      "scope": "Gas accounting plus read-only RPC recorder, failure preservation and resume integrity",
+      "skipped": 0,
+      "status": "PASS",
+      "tests": 23
+    },
+    {
+      "command": "check_winner_recovery.py --archive-root <actual-ZIPs> --metadata <actual-API> --rpc-root <actual-RPC>",
+      "failed": 0,
+      "log": "winner-recovery-tests.log",
+      "skipped": 0,
+      "status": "PASS",
+      "tests": 7
+    },
+    {
+      "command": "verify_winner_recovery.py <actual-ZIPs-and-RPC> --allow-partial",
+      "report": "winner-reconciliation.json",
+      "scope": "No full-window, full-receipt, original observation-time, economic or certification claim",
+      "status": "ARCHIVES_VERIFIED_NEW_RPC_PARTIAL"
+    },
+    {
+      "active_workflows": 0,
+      "command": "verify_isolation.py --source-git <original-object-store>",
+      "disabled_workflows": 106,
+      "original_objects_checked": true,
+      "source_files": 531,
+      "status": "ISOLATED_SOURCE_IDENTITY_PASS"
+    }
+  ],
+  "observed_date": "2026-10-09",
+  "persistent_new_raw_evidence": {
+    "bytes": 1471762,
+    "files_including_inventory": 1047,
+    "name": "NQC_Census_Winner_RPC_Evidence_20261009.zip",
+    "sha256": "fdffde6d1dc14ab648f42033661a3667dc7b2a93e761c83f918f36d8c0849195"
+  },
+  "real_market_census_closed": false,
+  "schema": "nqc-census-v2-validation-v3"
+}

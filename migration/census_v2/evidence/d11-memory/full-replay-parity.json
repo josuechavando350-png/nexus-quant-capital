@@ -1,0 +1,154 @@
+{
+  "full_bundle_verification_passes": 2,
+  "historical_authority_lock_is_conditional_replay_assumption": true,
+  "inventory": {
+    "capital-census-summary.json": {
+      "bytes": 1597,
+      "exact_byte_parity": true,
+      "sha256": "3300b2f3bc85d56f46308d5bf8161d36694837059593269a1f8c1c89217d0cd4"
+    },
+    "capital-evidence-manifest.json": {
+      "bytes": 1906,
+      "exact_byte_parity": true,
+      "sha256": "9044dbbf9d81a430ef4b42fa7e73ff3d36b29f31301d2953d065f0129c244501"
+    },
+    "capital-feasibility.jsonl": {
+      "bytes": 0,
+      "exact_byte_parity": true,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "capital-real-source-closeout.json": {
+      "bytes": 3311,
+      "exact_byte_parity": true,
+      "sha256": "513ce590818d3a77d6656a31fc471d691663e46f6d4c99c845378c803ec9e889"
+    },
+    "capital-rejection-ledger.jsonl": {
+      "bytes": 0,
+      "exact_byte_parity": true,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "capital-requirements.jsonl": {
+      "bytes": 0,
+      "exact_byte_parity": true,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "capital-sources.jsonl": {
+      "bytes": 3757728513,
+      "exact_byte_parity": true,
+      "sha256": "b97cf0d8cb1dfcaaae7f2b79a3eef40e20b7cd9d7a7c996ab15960153adefb48"
+    },
+    "capital-upstream-authority-lock.json": {
+      "bytes": 4198,
+      "exact_byte_parity": true,
+      "sha256": "7f48d35f0373785ff2fbd6f84b385efe58dbb831f6c3cc7953adb50e3c999d95"
+    },
+    "capital-upstream-authority.json": {
+      "bytes": 6090,
+      "exact_byte_parity": true,
+      "sha256": "1a5cb8178528a39f4cda1dc785e230f850803e4999934cf3ab2f793921fb36f9"
+    }
+  },
+  "measurement": {
+    "binary_sha256": "376c281726fe3965536b1bbcef8dfc5e2a2f24c9b5a9d74723513bb1e6e5c3de",
+    "elapsed_seconds": 371.53402985899993,
+    "exit_code": 0,
+    "max_rss_kib": 7309316,
+    "memory_measurement_source": "getrusage(RUSAGE_CHILDREN); maximum child RSS; sequential stages",
+    "stages": [
+      {
+        "elapsed_seconds": 68.89451772899884,
+        "exit_code": 0,
+        "index": 0
+      },
+      {
+        "elapsed_seconds": 151.7712143580011,
+        "exit_code": 0,
+        "index": 1
+      },
+      {
+        "elapsed_seconds": 150.86760981800035,
+        "exit_code": 0,
+        "index": 2
+      }
+    ]
+  },
+  "new_producer_certified": false,
+  "original_core_sha256": "eaef728506fd1ffc1bd242320c606476c468d247bb44ce5eabf1861a0042ce35",
+  "producer": {
+    "actual_producer_base_commit": "d1420cab05c720c253c107935cd3e53722a72b76",
+    "actual_producer_base_tree": "a0d9228db72417ab65abccda90d7cab267279dad",
+    "actual_producer_overlay_sha256": "8289d178ee7f539ba77b17191825b3ed88466a4219b15aab2179f313f75b6b73",
+    "authority_lock_sha256": "7f48d35f0373785ff2fbd6f84b385efe58dbb831f6c3cc7953adb50e3c999d95",
+    "binary_sha256": "376c281726fe3965536b1bbcef8dfc5e2a2f24c9b5a9d74723513bb1e6e5c3de",
+    "bounded_verifier_binary_sha256": "1c7e1b2ec2ed1bf01a09bab9f058b3a559eeea6e7f6b7b5c7344e9473a78a169",
+    "command": [
+      "/workspace/scratch/4ab306bc8e06/d11-memory-target/release/nqc-rmc011-capital-build",
+      "--d08-dir",
+      "/workspace/scratch/4ab306bc8e06/census-conditional-replay/d08-raw/closeout",
+      "--d09-dir",
+      "/workspace/scratch/4ab306bc8e06/census-conditional-replay/d09-raw/closeout",
+      "--authority-lock",
+      "/workspace/scratch/4ab306bc8e06/census-conditional-replay/legacy-replay-lock.json",
+      "--output-dir",
+      "/workspace/scratch/4ab306bc8e06/d11-memory-replay-v4/original-metadata-output",
+      "--code-commit",
+      "83395dc182cb7fd31293887f4de86fcd022b4b6d",
+      "--code-tree",
+      "1ab7d599776babd5aeb3478d44c3c692fb9ad5d8"
+    ],
+    "commands": [
+      [
+        "/workspace/scratch/4ab306bc8e06/d11-memory-target/release/nqc-rmc011-capital-build",
+        "--d08-dir",
+        "/workspace/scratch/4ab306bc8e06/census-conditional-replay/d08-raw/closeout",
+        "--d09-dir",
+        "/workspace/scratch/4ab306bc8e06/census-conditional-replay/d09-raw/closeout",
+        "--authority-lock",
+        "/workspace/scratch/4ab306bc8e06/census-conditional-replay/legacy-replay-lock.json",
+        "--output-dir",
+        "/workspace/scratch/4ab306bc8e06/d11-memory-replay-v4/original-metadata-output",
+        "--code-commit",
+        "83395dc182cb7fd31293887f4de86fcd022b4b6d",
+        "--code-tree",
+        "1ab7d599776babd5aeb3478d44c3c692fb9ad5d8"
+      ],
+      [
+        "/workspace/scratch/4ab306bc8e06/d11-memory-target/release/nqc-rmc011-bounded-replay",
+        "/workspace/scratch/4ab306bc8e06/d11-memory-replay-v4/original-metadata-output",
+        "/workspace/scratch/4ab306bc8e06/census-conditional-replay/d08-raw/closeout",
+        "/workspace/scratch/4ab306bc8e06/census-conditional-replay/d09-raw/closeout",
+        "/workspace/scratch/4ab306bc8e06/census-conditional-replay/legacy-replay-lock.json",
+        "83395dc182cb7fd31293887f4de86fcd022b4b6d",
+        "1ab7d599776babd5aeb3478d44c3c692fb9ad5d8",
+        "/workspace/scratch/4ab306bc8e06/d11-memory-replay-v4/closeout-first.json"
+      ],
+      [
+        "/workspace/scratch/4ab306bc8e06/d11-memory-target/release/nqc-rmc011-bounded-replay",
+        "/workspace/scratch/4ab306bc8e06/d11-memory-replay-v4/original-metadata-output",
+        "/workspace/scratch/4ab306bc8e06/census-conditional-replay/d08-raw/closeout",
+        "/workspace/scratch/4ab306bc8e06/census-conditional-replay/d09-raw/closeout",
+        "/workspace/scratch/4ab306bc8e06/census-conditional-replay/legacy-replay-lock.json",
+        "83395dc182cb7fd31293887f4de86fcd022b4b6d",
+        "1ab7d599776babd5aeb3478d44c3c692fb9ad5d8",
+        "/workspace/scratch/4ab306bc8e06/d11-memory-replay-v4/closeout-second.json"
+      ]
+    ],
+    "export_environment": {
+      "NQC_RESEARCH_EXPORT_ONLY": "1"
+    },
+    "historical_metadata_parameters_are_not_actual_producer_identity": true,
+    "new_producer_certified": false,
+    "original_certification_transferred": false,
+    "schema": "nqc-d11-conditional-memory-replay-v2",
+    "staged": true,
+    "started_at": "2026-10-09T17:23:06.438198+00:00",
+    "terminal_census_closed": false
+  },
+  "real_market_census_closed": false,
+  "schema": "nqc-d11-full-replay-parity-v1",
+  "source_count": 1045459,
+  "status": "ALL_NINE_ORIGINAL_D11_FILES_BYTE_IDENTICAL",
+  "terminal_capital_census_complete": false,
+  "upstream_d08_d09_imports_reexecuted": true,
+  "verifier_sha256": "0767a5a4928f23d02eadb9cdf51a02f6444971db16308ee0bf27273344fa939e"
+}
