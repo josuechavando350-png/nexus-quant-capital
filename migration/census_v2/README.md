@@ -231,6 +231,13 @@ current evidence.
 
 ### Direct oracle recovery and explicit rate-limit stop
 
+The subsequently authorized sequential continuation has verified its first
+2,000 new blocks / 134,000 prices. Secondary coverage is **7,170**, with
+**207,866** still missing at that immutable checkpoint. The acquisition remains
+active and incomplete; open captures do not count as verified coverage.
+Seven additional checks and local/remote readback parity pass. Requested
+progress notices follow `MILESTONES.md`; no threshold has yet been reached.
+
 [Oracle recovery](oracle_recovery/README.md) reconciles 139,360 current-acquisition
 price values over 2,080 historical blocks with zero discrepancies. Only 520 blocks
 extend the earlier Nodies coverage: the union is 5,170, with 209,866 still missing.

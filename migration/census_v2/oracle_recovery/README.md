@@ -29,6 +29,53 @@ range/endpoint/rate/worker rejection, Retry-After enforcement, simulated request
 spacing and a simulated 429 stop with the prior successful batch retained.
 These synthetic controller tests are not chain-state or profitability evidence.
 
+### First closed checkpoint
+
+The sequential worker started at `2026-10-09T23:03:11Z` using published producer
+commit `c163b876d3310855f1db45bfc3ab4189b24d865b`. Its first two closed capture
+files contain **2,000 additional blocks / 134,000 matched price values**;
+there are zero mismatches. Verified secondary coverage becomes **7,170**,
+with **207,866** still missing at this checkpoint. The live progress counter
+was 2,140 when snapshotted; the 140 observations in the open file are excluded
+from verified counts. Later live progress must not be added again to this
+prefix when aggregating coverage.
+
+`sequential-checkpoint-001.zip` retains all ten checkpoint files, including raw
+RPC bodies, anchors, plan, exact sources, progress snapshot and remote readback.
+It has 746,749 bytes, SHA-256
+`4b594dbcc1e32ff8569adaa0a2cea3e374648e5c0d3d3331f0ad5f81b7e83633`.
+The same verifier runs against the locally extracted original primary chunks
+and returns a byte-identical report. Seven real/adversarial continuation tests
+pass, including rejection of a foreign producer, wrong block hash, changed
+price, missing/duplicate responses and a noncanonical request. Isolation passes.
+
+For continuation verification, extract original `drpc/chunk-*.json` members
+from the pinned original oracle archive to `PRIMARY_DIRECTORY`, and the new
+checkpoint to a fresh `CHECKPOINT` directory. The verifier authenticates all
+4,301 primary chunk byte hashes, reconstructs relevant observation digests and
+compares each closed capture against the exact missing-block plan. It pins the
+published producer and source bytes; it does not certify the producer itself.
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 python3 migration/census_v2/oracle_recovery/verify_continuation.py \
+  --evidence "$CHECKPOINT" --primary "$PRIMARY_DIRECTORY" \
+  --out /absolute/path/new-continuation-readback.json
+PYTHONDONTWRITEBYTECODE=1 NQC_ORACLE_CHECKPOINT="$CHECKPOINT" \
+  NQC_ORACLE_PRIMARY_DIRECTORY="$PRIMARY_DIRECTORY" \
+  python3 -m unittest discover -s migration/census_v2/oracle_recovery \
+  -p test_continuation.py -v
+```
+
+For later live snapshots, copy `progress.json` once and only its already closed
+capture files plus anchors/plan/sources into a fresh directory, checking every
+listed file digest before verification. An open file is excluded. Preserve
+the entire fixed snapshot and its readback; publish new immutable files with
+an expected-head lease. Do not restart or interrupt the active worker merely
+to snapshot it. The worker's directory is
+`/tmp/nqc-census-v2-oracle-20261009/sequential-v1` on the authorized device.
+The hourly continuation task follows `../MILESTONES.md`. No milestone has yet
+been reached, and the acquisition remains incomplete until verified otherwise.
+
 ## Earlier captured evidence
 
 Census remains open. This increment verifies 139,360 new price observations
