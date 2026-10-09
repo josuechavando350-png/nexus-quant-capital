@@ -1,0 +1,28 @@
+{
+  "schema": "nqc-d11-conditional-memory-replay-v2",
+  "actual_producer_base_commit": "d1420cab05c720c253c107935cd3e53722a72b76",
+  "actual_producer_base_tree": "a0d9228db72417ab65abccda90d7cab267279dad",
+  "actual_producer_overlay_sha256": "038b4841b5c0450e6dc7b622e527d37c1b9063ef316885dfbcec69364fa70d6f",
+  "historical_metadata_parameters_are_not_actual_producer_identity": true,
+  "original_certification_transferred": false,
+  "new_producer_certified": false,
+  "terminal_census_closed": false,
+  "command": [
+    "/workspace/scratch/4ab306bc8e06/d11-memory-target/release/nqc-rmc011-capital-build",
+    "--d08-dir",
+    "/workspace/scratch/4ab306bc8e06/census-conditional-replay/d08-raw/closeout",
+    "--d09-dir",
+    "/workspace/scratch/4ab306bc8e06/census-conditional-replay/d09-raw/closeout",
+    "--authority-lock",
+    "/workspace/scratch/4ab306bc8e06/census-conditional-replay/legacy-replay-lock.json",
+    "--output-dir",
+    "/workspace/scratch/4ab306bc8e06/d11-memory-replay-v2/original-metadata-output",
+    "--code-commit",
+    "83395dc182cb7fd31293887f4de86fcd022b4b6d",
+    "--code-tree",
+    "1ab7d599776babd5aeb3478d44c3c692fb9ad5d8"
+  ],
+  "binary_sha256": "22fb0bead68a7e743a6622d1be724c559e3f1fe6431e5e9be7d018bf73e29400",
+  "authority_lock_sha256": "7f48d35f0373785ff2fbd6f84b385efe58dbb831f6c3cc7953adb50e3c999d95",
+  "started_at": "2026-10-09T17:01:40.364653+00:00"
+}

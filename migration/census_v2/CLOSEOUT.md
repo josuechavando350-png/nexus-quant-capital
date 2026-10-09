@@ -12,7 +12,7 @@ timestamp **2026-10-01T05:23:35Z**. Este alcance no es cobertura en vivo.
 
 | Resultado | Evidencia y límite |
 | --- | --- |
-| 1,045,459 fuentes D11 verificadas | Decodificación canónica de todas las filas, identidades, procedencia, ancla y hash de 3,757,728,513 bytes. No se volvió a ejecutar la importación completa del estado upstream. |
+| 1,045,459 fuentes D11 reproducidas | Reimportación completa de D08/D09 y dos verificaciones en procesos separados. Los nueve archivos originales coinciden byte por byte; el archivo de fuentes tiene 3,757,728,513 bytes. Adaptador histórico y árbol de código exactos fijados; no transfiere certificación. |
 | 474 pares de 400 borrowers | Nueva ejecución del productor Rust original: archivos de pares y decisiones de capital idénticos byte por byte. |
 | 42 pares no ejecutables en ese estado | 12 con colateral deshabilitado; 30 con tamaño de liquidación cero según PFT. |
 | 432 pares con evidencia insuficiente | Rechazo original de financiación `EXECUTION_BLOCKED`; conservados los motivos de los tokens. No se afirma que nunca puedan ser rentables. |
@@ -32,13 +32,19 @@ productor por haber pasado estas pruebas.
 | Market Truth | Corte histórico reconstruido; alcance temporal global abierto | Reconciliar el universo declarado y recuperar las observaciones detalladas, oportunidades censuradas y momentos reales de recepción. |
 | Capital Truth | Núcleo D11 íntegro; admisibilidad operativa incompleta | Pruebas de proveedores, cobertura por candidato, repayment completo y obligaciones; autenticar gas nativo y coste de adquisición bajo el límite autorizado. |
 | Economic Truth | Evidencia insuficiente en los 432 pares | Compatibilidad de los 43 activos requeridos, rutas monetizables, costes completos, competencia/inclusión y márgenes conservadores. Puede cerrarse con conclusiones negativas justificadas. |
-| Evidencia temporal | Faltan ledgers crudos de D15B | Recuperar episode/censored/winner/economic ledgers por sus hashes. Los tres archivos agregados recuperados no los sustituyen. |
-| Reproducción D11 completa | Intento terminado por OOM, exit 137, límite 8 GiB | Ejecutar productor completo en un entorno admisible o revisar un adaptador de memoria que conserve su semántica y demuestre paridad. El lector de fuentes no resuelve esta obligación. |
+| Evidencia temporal | Cinco archivos posteriores recuperados: 139 eventos / 127 transacciones; consultas nuevas parciales | 123 recibos comprobados en BlockPI, 87 en dRPC; 87 coinciden en ambos. Barrido nuevo: 81,920 bloques y 42 eventos; faltan 133,116 bloques. El acceso RPC fue bloqueado con 403. Siguen faltando los ledgers originales episode/censored/economic de D15B. |
+| Reproducción D11 completa | Resuelta dentro del límite de memoria: nueve archivos idénticos | 371.5 segundos, RSS máximo 7,309,316 KiB, 256 pruebas de capital. Se preservan los intentos OOM y la divergencia del importador por roles. Falta la revisión independiente del nuevo productor. |
 | Autoridad independiente | Pendiente | Revisar productor y consumidores exactos, commits/trees, fuentes, ledgers de fallos y discrepancias, falsación y límites del alcance. Esta modificación no se certifica a sí misma. |
 
 El dispositivo de recuperación inspeccionado estaba desconectado. Existe el
 snapshot de recuperación `248761092`, pero este entorno no tiene una clave SSH
 para acceder al servidor. No se contrató infraestructura nueva ni se consumió gas.
+
+Se recuperó una vía adicional mediante RPC públicos. Las consultas se detuvieron
+por denegación de acceso de red a las `17:13:21Z` del 9 de octubre. La herramienta
+indicó cancelación de aprobación de red. No se intentó eludir esa restricción.
+Los datos parciales y sus fallos se concilian offline en `HISTORICAL_RPC.md`;
+no prueban cobertura completa, observación previa de Nexus ni captura comercial.
 
 ## Reproducción
 
@@ -110,8 +116,22 @@ cubren contabilidad, joins, metadata y paridad sobre archivos reales.
 La búsqueda amplia de pruebas Python históricas conserva su resultado previo:
 664 ejecutadas, 7 errores de preparación y 3 omitidas. No se presenta como suite
 verde. Cinco suites necesitan invocaciones CLI con archivos originales; otras
-dos vinculan catálogos históricos diferentes. El fallo OOM de D11 y el límite
-de descarga del archivo principal siguen abiertos en el ledger de validación.
+dos vinculan catálogos históricos diferentes. El límite de memoria de D11 quedó
+resuelto mediante un adaptador fijado en una copia nueva: nueve archivos
+idénticos al original. Su historial de fallos se conserva. El límite de descarga
+del archivo principal continúa; se recuperó el núcleo original por separado.
+
+La versión importada agrupaba admisión de tokens por dirección; el productor
+histórico distinguía dirección y rol. Los datos reales contienen 44 direcciones
+repetidas y cero claves token/rol duplicadas. El adaptador de reproducción
+incluye el importador histórico exacto en un módulo separado. No se cambió ni
+se sustituyó silenciosamente la semántica de los archivos importados.
+
+Los consumidores nuevos pasan 23 pruebas unitarias Python y 7 pruebas sobre
+archivos históricos y respuestas RPC reales; los 9 controles de aislamiento
+también pasan. La verificación de objetos originales conserva las 637 entradas
+importadas y cero workflows activos. Véanse los logs y alcance de cada suite;
+no se suman ejecuciones repetidas como casos distintos.
 
 No se cambió código importado, no se activaron workflows y no se enviaron
 transacciones. La clasificación disponible sirve para descartar promociones

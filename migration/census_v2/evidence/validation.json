@@ -32,8 +32,9 @@
       "exit_code": 137,
       "id": "FULL_D11_BUILDER_OOM",
       "memory_limit_bytes": 8589934592,
-      "status": "UNRESOLVED_FULL_PRODUCER_REPRODUCTION",
-      "treatment": "No modified original producer and no full D11 regeneration claimed. A separately reviewed larger-memory environment or parity-proven producer adapter is still required."
+      "resolution_report": "d11-memory/full-replay-parity.json",
+      "status": "RESOLVED_FOR_PINNED_HISTORICAL_REPLAY",
+      "treatment": "Fresh-copy memory adapter plus exact historical role-scoped importer: two full verifications and all nine files byte-identical. Original failure and two additional OOM runs preserved. This does not certify the new producer or terminal capital coverage."
     },
     {
       "artifact_bytes": 813946962,
@@ -55,8 +56,52 @@
     },
     {
       "id": "TEMPORAL_RAW_EVIDENCE_MISSING",
-      "status": "OPEN",
-      "treatment": "Recover original D15B detailed ledgers and decision-time receipts. Aggregates do not replace records; no live coverage or competitive capture claim."
+      "status": "PARTIAL_RECOVERY_REMAINS_OPEN",
+      "treatment": "Five later winner archives recovered; new raw RPC reconciliation is partial (123 BlockPI receipts, 87 dRPC receipts, 42 logs over 81,920 blocks). Original D15B episode/censored/economic hashes remain unrecovered. Access denied before complete acquisition; no decision-time or capture claim."
+    },
+    {
+      "id": "MEMORY_OVERLAY_V1_V2_OOM",
+      "measurements": [
+        "d11-memory/v1-measurement.json",
+        "d11-memory/v2-measurement.json"
+      ],
+      "status": "RESOLVED_BY_STAGED_LIFETIMES",
+      "treatment": "Original bytes unchanged. Final successful staged replay uses getrusage peak child RSS; initial per-PID sampling was unreliable and is not used to assert peak memory."
+    },
+    {
+      "id": "MEMORY_ONLY_IMPORTER_SEMANTIC_MISMATCH",
+      "report": "d11-memory/memory-only-semantic-mismatch.json",
+      "status": "EXPLAINED_HISTORICAL_IMPORTER_RESTORED_SEPARATELY",
+      "treatment": "Current imported address-only token reconciliation conflates distinct roles. All 44 repetitions have distinct token/role keys. Preserve current source; use pinned historical importer solely for historical byte reproduction."
+    },
+    {
+      "id": "TRANSIENT_CODEGEN_OBJECT_BUILD_FAILURE",
+      "log": "d11-memory/initial-transient-build-failure.log",
+      "status": "RESOLVED_SAME_TOOLCHAIN_SERIAL_BUILD",
+      "treatment": "Retried at -j1 with same pinned Rust; no dependency or compiler version substitution."
+    },
+    {
+      "id": "HISTORICAL_FIXTURE_ROLE_MISSING",
+      "log": "d11-memory/historical-fixture-role-missing.log",
+      "status": "RESOLVED_FIXTURE_SCHEMA",
+      "treatment": "Historical importer correctly rejected role-less synthetic replay fixture. Added explicit AAVE_RESERVE_UNDERLYING role only in fresh-copy fixture. Final 256 capital tests pass; actual evidence unchanged."
+    },
+    {
+      "id": "RPC_ACQUISITION_ACCESS_DENIED",
+      "report": "winner-reconciliation.json",
+      "status": "BLOCKED",
+      "treatment": "At 2026-10-09T17:13:21Z transport returned tunnel 403 and execution tool reported network approval cancellation. Stopped acquisition; no workaround attempted. Need restored authorized source access; retain all incomplete scopes."
+    },
+    {
+      "id": "RPC_PROCESSES_INTERRUPTED",
+      "reports": "rpc-failures/",
+      "status": "RECOVERED_VERIFIED_CHECKPOINTS_ONLY",
+      "treatment": "Prior collectors stopped without final report near host OOM; exact per-process signal unavailable. Reused only hash-verified completed responses in fresh output directories, retaining original receipt times and orphan requests."
+    },
+    {
+      "id": "RAW_PATCH_LOG_WHITESPACE_CHECK",
+      "status": "EXPECTED_RAW_FORMAT_PRESERVED",
+      "treatment": "Unrestricted git diff --check flags unified-diff context-only whitespace and final blank log lines. Raw artifacts remain byte-preserved. Check restricted to Python, Rust, JSON and Markdown passes."
     }
   ],
   "gas_spent_by_this_work": 0,
@@ -177,9 +222,71 @@
       "positive_executable_admissions": 0,
       "report": "classification-summary.json",
       "status": "PASS_RESEARCH_CLASSIFICATION_ONLY"
+    },
+    {
+      "command": "cargo test --offline --locked -p nqc-census-capital -j1 (fresh overlaid build copy)",
+      "failed": 0,
+      "log": "d11-memory/capital-tests.log",
+      "scope": "Historical replay overlay; not new producer certification",
+      "skipped": 0,
+      "status": "PASS",
+      "tests": 256
+    },
+    {
+      "command": "d11_memory/prepare.py --repo <NQC> --out <fresh-external-build>",
+      "report": "d11-memory/fresh-copy-preparation.json",
+      "scope": "Base tree, every preimage/postimage, patch checksum and non-in-place application",
+      "status": "PASS"
+    },
+    {
+      "byte_identical_files": 9,
+      "command": "d11_memory/run_replay.py --staged <actual-data>",
+      "full_verifications": 2,
+      "max_child_rss_kib": 7309316,
+      "report": "d11-memory/full-replay-parity.json",
+      "seconds": 371.53402985899993,
+      "source_count": 1045459,
+      "status": "PASS_FULL_HISTORICAL_REPLAY"
+    },
+    {
+      "command": "python3 -m unittest discover -s migration/census_v2 -p test_*.py",
+      "failed": 0,
+      "log": "v2-unit-tests-latest.log",
+      "scope": "Gas accounting plus read-only RPC recorder, failure preservation and resume integrity",
+      "skipped": 0,
+      "status": "PASS",
+      "tests": 23
+    },
+    {
+      "command": "check_winner_recovery.py --archive-root <actual-ZIPs> --metadata <actual-API> --rpc-root <actual-RPC>",
+      "failed": 0,
+      "log": "winner-recovery-tests.log",
+      "skipped": 0,
+      "status": "PASS",
+      "tests": 7
+    },
+    {
+      "command": "verify_winner_recovery.py <actual-ZIPs-and-RPC> --allow-partial",
+      "report": "winner-reconciliation.json",
+      "scope": "No full-window, full-receipt, original observation-time, economic or certification claim",
+      "status": "ARCHIVES_VERIFIED_NEW_RPC_PARTIAL"
+    },
+    {
+      "active_workflows": 0,
+      "command": "verify_isolation.py --source-git <original-object-store>",
+      "disabled_workflows": 106,
+      "original_objects_checked": true,
+      "source_files": 531,
+      "status": "ISOLATED_SOURCE_IDENTITY_PASS"
     }
   ],
   "observed_date": "2026-10-09",
+  "persistent_new_raw_evidence": {
+    "bytes": 1471762,
+    "files_including_inventory": 1047,
+    "name": "NQC_Census_Winner_RPC_Evidence_20261009.zip",
+    "sha256": "fdffde6d1dc14ab648f42033661a3667dc7b2a93e761c83f918f36d8c0849195"
+  },
   "real_market_census_closed": false,
-  "schema": "nqc-census-v2-validation-v2"
+  "schema": "nqc-census-v2-validation-v3"
 }

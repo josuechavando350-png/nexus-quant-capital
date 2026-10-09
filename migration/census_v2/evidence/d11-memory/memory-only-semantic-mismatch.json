@@ -1,0 +1,24 @@
+{
+  "closeout_differences": {
+    "capital_commitment": {
+      "historical": "b103fbe38bad73b84d6cadf85b92cca0b07a69fb6ad87fb00465dbd31ef49110",
+      "memory_only_replay": "25e6c85d79b26558f8437e05874a5ea8837eb0d4ffca688a233c66a831d44ca8"
+    },
+    "closeout_commitment": {
+      "historical": "0x5495dd38de8815d18870e73c7ba56ea8db13955fc5c8a9b29137be890e54c78d",
+      "memory_only_replay": "0xc1590bd25bd8828e1d8cba6b12b36dfad8f45d9a574bc399a744e49d209f16c6"
+    },
+    "d08_output_set_commitment": {
+      "historical": "0x682fb4bdfd4ebaaec9dfa44f19e15097b5d308ca6d943fd98f8b0629885fc42d",
+      "memory_only_replay": "0x8c7d6894c2079d417dc759bd88bb7b786bb8fbb3a1943482cdf9c0f50aef7508"
+    },
+    "upstream_authority_commitment": {
+      "historical": "60f3e30799c95556a6fc87a251e57c20c9263f36935ca777231ee3656d20b83d",
+      "memory_only_replay": "d93b84826fa8db6946722fa2a15e44cb95fe952a3d1e862a7fa7a609c38e0206"
+    }
+  },
+  "decision_time_claim": false,
+  "scope": "Current imported role-collapsed D08 importer versus historical role-scoped importer",
+  "status": "MEMORY_ONLY_REPLAY_SUCCEEDED_BUT_HISTORICAL_PARITY_FAILED",
+  "treatment": "Preserved mismatch. Final historical replay separately pins original importer; current imported source is unchanged. No current producer certification inferred."
+}

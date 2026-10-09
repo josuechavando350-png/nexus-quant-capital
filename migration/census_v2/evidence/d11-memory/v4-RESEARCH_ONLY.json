@@ -1,0 +1,70 @@
+{
+  "schema": "nqc-d11-conditional-memory-replay-v2",
+  "actual_producer_base_commit": "d1420cab05c720c253c107935cd3e53722a72b76",
+  "actual_producer_base_tree": "a0d9228db72417ab65abccda90d7cab267279dad",
+  "actual_producer_overlay_sha256": "8289d178ee7f539ba77b17191825b3ed88466a4219b15aab2179f313f75b6b73",
+  "historical_metadata_parameters_are_not_actual_producer_identity": true,
+  "original_certification_transferred": false,
+  "new_producer_certified": false,
+  "terminal_census_closed": false,
+  "command": [
+    "/workspace/scratch/4ab306bc8e06/d11-memory-target/release/nqc-rmc011-capital-build",
+    "--d08-dir",
+    "/workspace/scratch/4ab306bc8e06/census-conditional-replay/d08-raw/closeout",
+    "--d09-dir",
+    "/workspace/scratch/4ab306bc8e06/census-conditional-replay/d09-raw/closeout",
+    "--authority-lock",
+    "/workspace/scratch/4ab306bc8e06/census-conditional-replay/legacy-replay-lock.json",
+    "--output-dir",
+    "/workspace/scratch/4ab306bc8e06/d11-memory-replay-v4/original-metadata-output",
+    "--code-commit",
+    "83395dc182cb7fd31293887f4de86fcd022b4b6d",
+    "--code-tree",
+    "1ab7d599776babd5aeb3478d44c3c692fb9ad5d8"
+  ],
+  "binary_sha256": "376c281726fe3965536b1bbcef8dfc5e2a2f24c9b5a9d74723513bb1e6e5c3de",
+  "authority_lock_sha256": "7f48d35f0373785ff2fbd6f84b385efe58dbb831f6c3cc7953adb50e3c999d95",
+  "started_at": "2026-10-09T17:23:06.438198+00:00",
+  "bounded_verifier_binary_sha256": "1c7e1b2ec2ed1bf01a09bab9f058b3a559eeea6e7f6b7b5c7344e9473a78a169",
+  "staged": true,
+  "commands": [
+    [
+      "/workspace/scratch/4ab306bc8e06/d11-memory-target/release/nqc-rmc011-capital-build",
+      "--d08-dir",
+      "/workspace/scratch/4ab306bc8e06/census-conditional-replay/d08-raw/closeout",
+      "--d09-dir",
+      "/workspace/scratch/4ab306bc8e06/census-conditional-replay/d09-raw/closeout",
+      "--authority-lock",
+      "/workspace/scratch/4ab306bc8e06/census-conditional-replay/legacy-replay-lock.json",
+      "--output-dir",
+      "/workspace/scratch/4ab306bc8e06/d11-memory-replay-v4/original-metadata-output",
+      "--code-commit",
+      "83395dc182cb7fd31293887f4de86fcd022b4b6d",
+      "--code-tree",
+      "1ab7d599776babd5aeb3478d44c3c692fb9ad5d8"
+    ],
+    [
+      "/workspace/scratch/4ab306bc8e06/d11-memory-target/release/nqc-rmc011-bounded-replay",
+      "/workspace/scratch/4ab306bc8e06/d11-memory-replay-v4/original-metadata-output",
+      "/workspace/scratch/4ab306bc8e06/census-conditional-replay/d08-raw/closeout",
+      "/workspace/scratch/4ab306bc8e06/census-conditional-replay/d09-raw/closeout",
+      "/workspace/scratch/4ab306bc8e06/census-conditional-replay/legacy-replay-lock.json",
+      "83395dc182cb7fd31293887f4de86fcd022b4b6d",
+      "1ab7d599776babd5aeb3478d44c3c692fb9ad5d8",
+      "/workspace/scratch/4ab306bc8e06/d11-memory-replay-v4/closeout-first.json"
+    ],
+    [
+      "/workspace/scratch/4ab306bc8e06/d11-memory-target/release/nqc-rmc011-bounded-replay",
+      "/workspace/scratch/4ab306bc8e06/d11-memory-replay-v4/original-metadata-output",
+      "/workspace/scratch/4ab306bc8e06/census-conditional-replay/d08-raw/closeout",
+      "/workspace/scratch/4ab306bc8e06/census-conditional-replay/d09-raw/closeout",
+      "/workspace/scratch/4ab306bc8e06/census-conditional-replay/legacy-replay-lock.json",
+      "83395dc182cb7fd31293887f4de86fcd022b4b6d",
+      "1ab7d599776babd5aeb3478d44c3c692fb9ad5d8",
+      "/workspace/scratch/4ab306bc8e06/d11-memory-replay-v4/closeout-second.json"
+    ]
+  ],
+  "export_environment": {
+    "NQC_RESEARCH_EXPORT_ONLY": "1"
+  }
+}

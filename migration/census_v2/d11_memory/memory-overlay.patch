@@ -1,0 +1,1903 @@
+--- a/nqc-census/crates/nqc-census-capital/src/artifacts.rs
++++ b/nqc-census/crates/nqc-census-capital/src/artifacts.rs
+@@ -680,13 +680,14 @@
+ 
+     reconstructed.evaluate_all()?;
+     let provenance = summary_provenance(&summary)?;
+-    let regenerated = export_capital_artifacts(&reconstructed, &authority, &provenance)?;
+-    if regenerated.files.len() != bundle.files.len() {
++    let regenerated =
++        export_capital_artifacts_to_sink(&reconstructed, &authority, &provenance, Some(bundle))?;
++    if regenerated.len() != bundle.files.len() {
+         return Err(CapitalError::InvalidCanonical(
+             "regenerated capital artifact file count differs",
+         ));
+     }
+-    for expected_file in &regenerated.files {
++    for expected_file in &regenerated {
+         let observed_file =
+             by_name
+                 .get(expected_file.name)
+@@ -755,6 +756,95 @@
+     authority: &CapitalCertificationContext,
+     provenance: &ArtifactProvenance,
+ ) -> Result<CapitalArtifactBundle, CapitalError> {
++    let files = export_capital_artifacts_to_sink(ledger, authority, provenance, None)?
++        .into_iter()
++        .map(|file| match file {
++            ExportedArtifact::Owned(file) => Ok(file),
++            ExportedArtifact::Compared(_) => {
++                Err(CapitalError::InvalidCanonical("unexpected borrowed export"))
++            }
++        })
++        .collect::<Result<Vec<_>, _>>()?;
++    Ok(CapitalArtifactBundle { files })
++}
++
++// Research compatibility overlay: identical serializer and metadata, with a
++// comparison sink that checks every byte instead of retaining a second bundle.
++enum ExportedArtifact<'a> {
++    Owned(CapitalArtifactFile),
++    Compared(&'a CapitalArtifactFile),
++}
++
++impl std::ops::Deref for ExportedArtifact<'_> {
++    type Target = CapitalArtifactFile;
++    fn deref(&self) -> &Self::Target {
++        match self {
++            Self::Owned(file) => file,
++            Self::Compared(file) => file,
++        }
++    }
++}
++
++fn emit_jsonl<'a>(
++    name: &'static str,
++    records: impl IntoIterator<Item = Json>,
++    expected: Option<&'a CapitalArtifactBundle>,
++) -> Result<ExportedArtifact<'a>, CapitalError> {
++    let Some(bundle) = expected else {
++        return Ok(ExportedArtifact::Owned(CapitalArtifactFile::new(
++            name,
++            jsonl(records)?,
++        )));
++    };
++    let observed = bundle.file(name).ok_or(CapitalError::InvalidCanonical(
++        "comparison artifact missing",
++    ))?;
++    let mut offset = 0_usize;
++    let mut hasher = Sha256::new();
++    for row in records {
++        let mut encoded = canonical(&row)?;
++        encoded.push(b'\n');
++        let end = offset
++            .checked_add(encoded.len())
++            .ok_or(CapitalError::InvalidCanonical("comparison length overflow"))?;
++        if observed.bytes.get(offset..end) != Some(encoded.as_slice()) {
++            return Err(CapitalError::CanonicalDigestMismatch);
++        }
++        hasher.update(&encoded);
++        offset = end;
++    }
++    let actual: [u8; 32] = hasher.finalize().into();
++    if offset != observed.bytes.len() || actual != observed.sha256 {
++        return Err(CapitalError::CanonicalDigestMismatch);
++    }
++    Ok(ExportedArtifact::Compared(observed))
++}
++
++fn emit_bytes<'a>(
++    name: &'static str,
++    bytes: Vec<u8>,
++    expected: Option<&'a CapitalArtifactBundle>,
++) -> Result<ExportedArtifact<'a>, CapitalError> {
++    let Some(bundle) = expected else {
++        return Ok(ExportedArtifact::Owned(CapitalArtifactFile::new(
++            name, bytes,
++        )));
++    };
++    let observed = bundle.file(name).ok_or(CapitalError::InvalidCanonical(
++        "comparison artifact missing",
++    ))?;
++    if observed.bytes != bytes || observed.sha256 != sha256(&bytes) {
++        return Err(CapitalError::CanonicalDigestMismatch);
++    }
++    Ok(ExportedArtifact::Compared(observed))
++}
++
++fn export_capital_artifacts_to_sink<'a>(
++    ledger: &CapitalCensusLedger,
++    authority: &CapitalCertificationContext,
++    provenance: &ArtifactProvenance,
++    expected: Option<&'a CapitalArtifactBundle>,
++) -> Result<Vec<ExportedArtifact<'a>>, CapitalError> {
+     provenance.validate_anchor(authority.observation_anchor())?;
+     let certificate = ledger.certify(authority)?;
+ 
+@@ -763,44 +853,44 @@
+     // entire census in memory before even constructing the artifact bytes.
+     // This preserves the exact original iteration order, per-row serializer,
+     // newlines, byte digests, and independent offline verification.
+-    let sources = CapitalArtifactFile::new(
++    let sources = emit_jsonl(
+         CAPITAL_SOURCES_FILE,
+-        jsonl(
+-            ledger
+-                .sources()
+-                .map(|source| source_record(source, provenance)),
+-        )?,
+-    );
+-    let requirements = CapitalArtifactFile::new(
++        ledger
++            .sources()
++            .map(|source| source_record(source, provenance)),
++        expected,
++    )?;
++    let requirements = emit_jsonl(
+         CAPITAL_REQUIREMENTS_FILE,
+-        jsonl(
+-            ledger
+-                .requirements()
+-                .map(|requirement| requirement_record(requirement, provenance)),
+-        )?,
+-    );
+-    let feasibility =
+-        CapitalArtifactFile::new(
+-            CAPITAL_FEASIBILITY_FILE,
+-            jsonl(ledger.results().map(|result| {
+-                feasibility_record(result, provenance, authority.observation_anchor())
+-            }))?,
+-        );
+-    let rejections = CapitalArtifactFile::new(
++        ledger
++            .requirements()
++            .map(|requirement| requirement_record(requirement, provenance)),
++        expected,
++    )?;
++    let feasibility = emit_jsonl(
++        CAPITAL_FEASIBILITY_FILE,
++        ledger
++            .results()
++            .map(|result| feasibility_record(result, provenance, authority.observation_anchor())),
++        expected,
++    )?;
++    let rejections = emit_jsonl(
+         CAPITAL_REJECTION_LEDGER_FILE,
+-        jsonl(ledger.results().filter_map(|result| match result {
++        ledger.results().filter_map(|result| match result {
+             CapitalFeasibility::Rejected { .. } => Some(rejection_record(
+                 result,
+                 provenance,
+                 authority.observation_anchor(),
+             )),
+             CapitalFeasibility::Feasible { .. } => None,
+-        }))?,
+-    );
+-    let upstream_authority = CapitalArtifactFile::new(
++        }),
++        expected,
++    )?;
++    let upstream_authority = emit_bytes(
+         CAPITAL_UPSTREAM_AUTHORITY_FILE,
+         canonical(&upstream_authority_json(authority, provenance))?,
+-    );
++        expected,
++    )?;
+ 
+     let (external_gas_funding_source_count, external_gas_funding_executable_capacity) =
+         external_gas_funding_snapshot(ledger.sources())?;
+@@ -893,7 +983,7 @@
+         ("unexplained_capital_failure_count", Json::uint(0)),
+         ("profitability_claimed", Json::Bool(false)),
+     ]);
+-    let summary = CapitalArtifactFile::new(CAPITAL_SUMMARY_FILE, canonical(&summary_json)?);
++    let summary = emit_bytes(CAPITAL_SUMMARY_FILE, canonical(&summary_json)?, expected)?;
+ 
+     let listed = [
+         &sources,
+@@ -952,20 +1042,21 @@
+             ]),
+         ),
+     ]);
+-    let manifest =
+-        CapitalArtifactFile::new(CAPITAL_EVIDENCE_MANIFEST_FILE, canonical(&manifest_json)?);
+-
+-    Ok(CapitalArtifactBundle {
+-        files: vec![
+-            sources,
+-            requirements,
+-            feasibility,
+-            rejections,
+-            summary,
+-            upstream_authority,
+-            manifest,
+-        ],
+-    })
++    let manifest = emit_bytes(
++        CAPITAL_EVIDENCE_MANIFEST_FILE,
++        canonical(&manifest_json)?,
++        expected,
++    )?;
++
++    Ok(vec![
++        sources,
++        requirements,
++        feasibility,
++        rejections,
++        summary,
++        upstream_authority,
++        manifest,
++    ])
+ }
+ 
+ fn upstream_authority_json(
+@@ -1981,3 +2072,452 @@
+         Ok(())
+     }
+ }
++
++#[cfg(test)]
++mod memory_overlay_tests {
++    use super::*;
++    use crate::{
++        CapitalCaps, CapitalFailureMode, CapitalProviderKind, CapitalRequirementLeg,
++        CapitalSourceSpec, CapitalTargetId, RequiredAtomicity, UtilizationConstraints,
++    };
++    use nqc_census_core::Address;
++    type TestResult = Result<(), Box<dyn std::error::Error>>;
++
++    fn hash(byte: u8) -> Hash32 {
++        Hash32::new([byte; 32]).unwrap_or_else(|_| unreachable!())
++    }
++
++    fn address(byte: u8) -> Address {
++        Address::new([byte; 20]).unwrap_or_else(|_| unreachable!())
++    }
++
++    fn anchor() -> StateAnchor {
++        StateAnchor::new(
++            ChainDomain::new(1, hash(1), hash(2)).unwrap_or_else(|_| unreachable!()),
++            25_437_474,
++            hash(3),
++            hash(4),
++            1_700_000_000,
++            hash(5),
++        )
++        .unwrap_or_else(|_| unreachable!())
++    }
++
++    fn evidence() -> Vec<CapitalEvidenceRef> {
++        vec![CapitalEvidenceRef::Artifact(hash(99))]
++    }
++
++    fn authority_for(
++        ledger: &CapitalCensusLedger,
++    ) -> Result<CapitalCertificationContext, crate::CapitalError> {
++        let mut stages = Vec::new();
++        for (index, stage) in UpstreamCensusStage::ALL.into_iter().enumerate() {
++            let value = u64::try_from(index + 1).map_err(|_| {
++                crate::CapitalError::InvalidUpstreamAuthority("test authority index overflow")
++            })?;
++            stages.push(UpstreamStageAuthority::new(UpstreamStageAuthoritySpec {
++                stage,
++                code_commit: GitObjectId::parse_hex(&format!("{value:040x}"))?,
++                code_tree: GitObjectId::parse_hex(&format!("{:040x}", value + 10))?,
++                artifact_sha256: hash(u8::try_from(value + 20).map_err(|_| {
++                    crate::CapitalError::InvalidUpstreamAuthority(
++                        "test authority artifact overflow",
++                    )
++                })?),
++                observation_anchor: anchor(),
++                unresolved_mismatch_count: 0,
++                unknown_failure_count: 0,
++                coverage_complete: true,
++                admitted: true,
++            })?);
++        }
++        let mut admitted_evidence = evidence();
++        admitted_evidence.extend(
++            stages
++                .iter()
++                .map(|stage| CapitalEvidenceRef::Artifact(stage.artifact_sha256)),
++        );
++        let d08_artifact = stages
++            .iter()
++            .find(|stage| stage.stage == UpstreamCensusStage::Rmc008StateAdmission)
++            .ok_or(crate::CapitalError::InvalidUpstreamAuthority(
++                "test RMC-008 authority missing",
++            ))?
++            .artifact_sha256;
++        let d09_artifact = stages
++            .iter()
++            .find(|stage| stage.stage == UpstreamCensusStage::Rmc009PositionUniverse)
++            .ok_or(crate::CapitalError::InvalidUpstreamAuthority(
++                "test RMC-009 authority missing",
++            ))?
++            .artifact_sha256;
++        CapitalCertificationContext::new(stages, admitted_evidence)?.with_consumption_receipts(
++            vec![
++                UpstreamConsumptionReceipt::for_sources(d08_artifact, hash(80), ledger.sources())?,
++                UpstreamConsumptionReceipt::for_requirements(
++                    d09_artifact,
++                    hash(81),
++                    ledger.requirements(),
++                )?,
++            ],
++        )
++    }
++
++    fn ledger() -> Result<CapitalCensusLedger, Box<dyn std::error::Error>> {
++        let token = CapitalAsset::Token(address(20));
++        let source = CapitalSource::new(CapitalSourceSpec {
++            class: CapitalClass::FlashSwap,
++            anchor: anchor(),
++            provider_namespace: 11,
++            provider_locator_hash: hash(12),
++            provider_kind: CapitalProviderKind::DexLiquidityPool,
++            ownership: CapitalOwnership::External,
++            source_contract: Some(address(13)),
++            asset: token,
++            maximum_available: Amount256::from_u128(1_000),
++            fee_model: FeeModel::None,
++            repayment_asset: token,
++            repayment: RepaymentSemantics::AtomicSameTransaction,
++            collateral: CollateralRequirement::None,
++            utilization: UtilizationConstraints::new(10_000, Amount256::ZERO)?,
++            caps: CapitalCaps::none(),
++            temporary_lock: TemporaryLock::None,
++            failure_modes: vec![CapitalFailureMode::CapacityChanged],
++            evidence: evidence(),
++        })?;
++        let requirement = CapitalRequirement::new(
++            CapitalTargetId::from_hash(hash(50)),
++            anchor(),
++            RequiredAtomicity::SameTransaction,
++            false,
++            vec![
++                CapitalRequirementLeg::new(
++                    RequirementKind::ActionPrincipal,
++                    token,
++                    Amount256::from_u128(100),
++                    vec![CapitalClass::FlashSwap],
++                )?,
++                CapitalRequirementLeg::new(
++                    RequirementKind::Repayment,
++                    token,
++                    Amount256::from_u128(100),
++                    vec![CapitalClass::FlashSwap],
++                )?,
++            ],
++            evidence(),
++        )?;
++        let mut ledger = CapitalCensusLedger::evidentiary();
++        ledger.register_source(source)?;
++        ledger.register_requirement(requirement)?;
++        ledger.evaluate_all()?;
++        Ok(ledger)
++    }
++
++    fn legacy_export(
++        ledger: &CapitalCensusLedger,
++        authority: &CapitalCertificationContext,
++        provenance: &ArtifactProvenance,
++    ) -> Result<CapitalArtifactBundle, CapitalError> {
++        provenance.validate_anchor(authority.observation_anchor())?;
++        let certificate = ledger.certify(authority)?;
++
++        // Stream canonical records directly into the owned JSONL bytes.
++        // Materializing ~1M readable source records as Vec<Json> duplicates the
++        // entire census in memory before even constructing the artifact bytes.
++        // This preserves the exact original iteration order, per-row serializer,
++        // newlines, byte digests, and independent offline verification.
++        let sources = CapitalArtifactFile::new(
++            CAPITAL_SOURCES_FILE,
++            jsonl(
++                ledger
++                    .sources()
++                    .map(|source| source_record(source, provenance)),
++            )?,
++        );
++        let requirements = CapitalArtifactFile::new(
++            CAPITAL_REQUIREMENTS_FILE,
++            jsonl(
++                ledger
++                    .requirements()
++                    .map(|requirement| requirement_record(requirement, provenance)),
++            )?,
++        );
++        let feasibility = CapitalArtifactFile::new(
++            CAPITAL_FEASIBILITY_FILE,
++            jsonl(ledger.results().map(|result| {
++                feasibility_record(result, provenance, authority.observation_anchor())
++            }))?,
++        );
++        let rejections = CapitalArtifactFile::new(
++            CAPITAL_REJECTION_LEDGER_FILE,
++            jsonl(ledger.results().filter_map(|result| match result {
++                CapitalFeasibility::Rejected { .. } => Some(rejection_record(
++                    result,
++                    provenance,
++                    authority.observation_anchor(),
++                )),
++                CapitalFeasibility::Feasible { .. } => None,
++            }))?,
++        );
++        let upstream_authority = CapitalArtifactFile::new(
++            CAPITAL_UPSTREAM_AUTHORITY_FILE,
++            canonical(&upstream_authority_json(authority, provenance))?,
++        );
++
++        let (external_gas_funding_source_count, external_gas_funding_executable_capacity) =
++            external_gas_funding_snapshot(ledger.sources())?;
++        let external_gas_funding_available_at_anchor = external_gas_funding_source_count > 0
++            && !external_gas_funding_executable_capacity.is_zero();
++
++        let summary_json = Json::object([
++            ("schema_version", Json::uint(CAPITAL_SUMMARY_SCHEMA_VERSION)),
++            (
++                "generated_at",
++                Json::string(provenance.generated_at.clone()),
++            ),
++            ("generated_at_basis", Json::string(GENERATED_AT_BASIS)),
++            (
++                "observation_anchor",
++                anchor_json(authority.observation_anchor()),
++            ),
++            ("code_commit", Json::string(provenance.code_commit.clone())),
++            ("code_tree", Json::string(provenance.code_tree.clone())),
++            (
++                "capital_commitment",
++                Json::string(certificate.commitment.to_hex()),
++            ),
++            (
++                "upstream_authority_commitment",
++                Json::string(hex(certificate.upstream_authority_commitment.as_bytes())),
++            ),
++            (
++                "source_count",
++                Json::uint(u64_count(certificate.summary.source_count)),
++            ),
++            (
++                "requirement_count",
++                Json::uint(u64_count(certificate.summary.requirement_count)),
++            ),
++            (
++                "feasible_count",
++                Json::uint(u64_count(certificate.summary.feasible_count)),
++            ),
++            (
++                "feasible_external_gas_count",
++                Json::uint(u64_count(certificate.summary.feasible_external_gas_count)),
++            ),
++            (
++                "external_gas_funding_source_count",
++                Json::uint(u64_count(external_gas_funding_source_count)),
++            ),
++            (
++                "external_gas_funding_executable_capacity",
++                Json::string(external_gas_funding_executable_capacity.to_hex()),
++            ),
++            (
++                "external_gas_funding_available_at_anchor",
++                Json::Bool(external_gas_funding_available_at_anchor),
++            ),
++            (
++                "rejected_count",
++                Json::uint(u64_count(certificate.summary.rejected_count)),
++            ),
++            (
++                "operator_owned_sources_observed",
++                Json::uint(u64_count(
++                    certificate.summary.operator_owned_sources_observed,
++                )),
++            ),
++            (
++                "operator_owned_sources_used",
++                Json::uint(u64_count(certificate.summary.operator_owned_sources_used)),
++            ),
++            (
++                "zero_own_capital_proven",
++                Json::Bool(certificate.summary.proves_zero_own_capital()),
++            ),
++            (
++                "feasibility_scope",
++                Json::string("PER_REQUIREMENT_INDEPENDENT"),
++            ),
++            ("real_source_certification", Json::Bool(false)),
++            ("portfolio_concurrent_capacity_claimed", Json::Bool(false)),
++            (
++                "sources_by_class",
++                Json::object(
++                    certificate
++                        .summary
++                        .sources_by_class
++                        .iter()
++                        .map(|(class, count)| (class.code(), Json::uint(u64_count(*count)))),
++                ),
++            ),
++            ("unexplained_capital_failure_count", Json::uint(0)),
++            ("profitability_claimed", Json::Bool(false)),
++        ]);
++        let summary = CapitalArtifactFile::new(CAPITAL_SUMMARY_FILE, canonical(&summary_json)?);
++
++        let listed = [
++            &sources,
++            &requirements,
++            &feasibility,
++            &rejections,
++            &summary,
++            &upstream_authority,
++        ];
++        let manifest_json = Json::object([
++            (
++                "schema_version",
++                Json::uint(CAPITAL_EVIDENCE_MANIFEST_SCHEMA_VERSION),
++            ),
++            (
++                "generated_at",
++                Json::string(provenance.generated_at.clone()),
++            ),
++            ("generated_at_basis", Json::string(GENERATED_AT_BASIS)),
++            (
++                "observation_anchor",
++                anchor_json(authority.observation_anchor()),
++            ),
++            ("code_commit", Json::string(provenance.code_commit.clone())),
++            ("code_tree", Json::string(provenance.code_tree.clone())),
++            (
++                "capital_commitment",
++                Json::string(certificate.commitment.to_hex()),
++            ),
++            (
++                "upstream_authority_commitment",
++                Json::string(hex(certificate.upstream_authority_commitment.as_bytes())),
++            ),
++            (
++                "artifacts",
++                Json::array(listed.into_iter().map(|file| {
++                    Json::object([
++                        ("name", Json::string(file.name)),
++                        ("sha256", Json::string(file.sha256_hex())),
++                        (
++                            "size_bytes",
++                            Json::uint(u64::try_from(file.bytes.len()).unwrap_or(u64::MAX)),
++                        ),
++                    ])
++                })),
++            ),
++            (
++                "non_claims",
++                Json::array([
++                    Json::string("REAL_SOURCE_CERTIFICATION_NOT_TESTED"),
++                    Json::string("PORTFOLIO_CONCURRENT_CAPACITY_NOT_TESTED"),
++                    Json::string("PROFITABILITY_NOT_TESTED"),
++                    Json::string("SHADOW_NOT_TESTED"),
++                    Json::string("CANARY_NOT_TESTED"),
++                    Json::string("REAL_PNL_NOT_TESTED"),
++                ]),
++            ),
++        ]);
++        let manifest =
++            CapitalArtifactFile::new(CAPITAL_EVIDENCE_MANIFEST_FILE, canonical(&manifest_json)?);
++
++        Ok(CapitalArtifactBundle {
++            files: vec![
++                sources,
++                requirements,
++                feasibility,
++                rejections,
++                summary,
++                upstream_authority,
++                manifest,
++            ],
++        })
++    }
++
++    #[test]
++    fn frozen_original_export_and_comparison_sink_have_exact_byte_parity() -> TestResult {
++        let mut l = ledger()?;
++        // A second requirement exercises the rejected output path as well.
++        l.register_requirement(CapitalRequirement::new(
++            CapitalTargetId::from_hash(hash(51)),
++            anchor(),
++            RequiredAtomicity::SameTransaction,
++            false,
++            vec![CapitalRequirementLeg::new(
++                RequirementKind::ActionPrincipal,
++                CapitalAsset::Token(address(99)),
++                Amount256::from_u128(20),
++                vec![CapitalClass::FlashSwap],
++            )?],
++            evidence(),
++        )?)?;
++        l.evaluate_all()?;
++        let a = authority_for(&l)?;
++        let p = ArtifactProvenance::for_anchor(
++            &anchor(),
++            "0123456789abcdef0123456789abcdef01234567",
++            "89abcdef0123456789abcdef0123456789abcdef",
++        )?;
++        let old = legacy_export(&l, &a, &p)?;
++        let new = export_capital_artifacts(&l, &a, &p)?;
++        assert_eq!(old, new);
++        let compared = export_capital_artifacts_to_sink(&l, &a, &p, Some(&old))?;
++        assert_eq!(compared.len(), old.files.len());
++        for c in compared {
++            match c {
++                ExportedArtifact::Compared(f) => {
++                    assert!(std::ptr::eq(f, old.file(f.name).ok_or("missing file")?))
++                }
++                ExportedArtifact::Owned(_) => {
++                    return Err("verification retained regenerated output".into())
++                }
++            }
++        }
++        verify_capital_artifact_bundle(&old)?;
++        Ok(())
++    }
++
++    #[test]
++    fn comparison_rejects_changed_tail_order_missing_newline_and_rehashed_forgeries() -> TestResult
++    {
++        let rows = vec![
++            Json::object([("n", Json::uint(1))]),
++            Json::object([("n", Json::uint(2))]),
++        ];
++        let good = jsonl(rows.clone())?;
++        let mut changed = good.clone();
++        let index = changed.len() - 3;
++        changed[index] ^= 1;
++        let mut extra = good.clone();
++        extra.push(b'\n');
++        let reverse = jsonl(rows.iter().rev().cloned())?;
++        for bytes in [
++            changed,
++            extra,
++            reverse,
++            good[..good.len() - 1].to_vec(),
++            Vec::new(),
++        ] {
++            let b = CapitalArtifactBundle {
++                files: vec![CapitalArtifactFile::from_bytes("rows", bytes)],
++            };
++            assert!(emit_jsonl("rows", rows.clone(), Some(&b)).is_err());
++        }
++        Ok(())
++    }
++
++    #[test]
++    fn comparison_rejects_wrong_digest_and_missing_file_even_for_empty_records() -> TestResult {
++        let mut f = CapitalArtifactFile::from_bytes("rows", Vec::new());
++        f.sha256 = [1; 32];
++        let b = CapitalArtifactBundle { files: vec![f] };
++        assert!(emit_jsonl("rows", Vec::<Json>::new(), Some(&b)).is_err());
++        assert!(emit_jsonl("missing", Vec::<Json>::new(), Some(&b)).is_err());
++        assert!(emit_bytes("rows", Vec::new(), Some(&b)).is_err());
++        Ok(())
++    }
++
++    #[test]
++    fn metadata_comparison_cannot_accept_rehashed_substitution() {
++        let b = CapitalArtifactBundle {
++            files: vec![CapitalArtifactFile::from_bytes("meta", b"forged".to_vec())],
++        };
++        assert!(emit_bytes("meta", b"original".to_vec(), Some(&b)).is_err());
++    }
++}
+--- a/nqc-census/crates/nqc-census-capital/src/lib.rs
++++ b/nqc-census/crates/nqc-census-capital/src/lib.rs
+@@ -12,6 +12,8 @@
+ pub mod external_debt;
+ pub mod gas_credit;
+ pub mod gas_sponsor;
++// Exact historical importer, separately pinned for byte-level research replay.
++pub mod historical_upstream;
+ pub mod permissionless_atomic;
+ pub mod replay;
+ pub mod source_authority;
+@@ -3706,6 +3708,16 @@
+     }
+ 
+     fn validate_settlements(&self) -> Result<(), CapitalError> {
++        // No settlement call is made by the loop unless a feasible result
++        // exists. Avoid cloning the entire universe for an empty loop.
++        // Feasible cases retain the original full-source validation path.
++        if !self
++            .results
++            .values()
++            .any(|result| matches!(result, CapitalFeasibility::Feasible { .. }))
++        {
++            return Ok(());
++        }
+         let sources = self.sources.values().cloned().collect::<Vec<_>>();
+         for (requirement_id, result) in &self.results {
+             if !matches!(result, CapitalFeasibility::Feasible { .. }) {
+--- a/nqc-census/crates/nqc-census-capital/src/replay.rs
++++ b/nqc-census/crates/nqc-census-capital/src/replay.rs
+@@ -4,7 +4,7 @@
+         CapitalArtifactVerification, CAPITAL_UPSTREAM_AUTHORITY_FILE,
+     },
+     demands::import_d09_borrower_demands,
+-    upstream::{import_d08_capital_sources, D08CapitalImportContext},
++    historical_upstream::{import_d08_capital_sources, D08CapitalImportContext},
+     CapitalCertificationContext, CapitalError, CapitalEvidenceRef, GitObjectId,
+     UpstreamCensusStage, UpstreamConsumptionReceipt, UpstreamStageAuthority,
+     UpstreamStageAuthoritySpec,
+@@ -832,6 +832,13 @@
+         d08,
+         d09,
+     )?;
++    real_source_closeout_from_verified(verified, authority_lock)
++}
++
++fn real_source_closeout_from_verified(
++    verified: CapitalReplayVerification,
++    authority_lock: &UpstreamAuthorityLock,
++) -> Result<RealSourceCloseout, CapitalError> {
+     if verified.capital.source_count != verified.upstream.d08_source_count
+         || verified.capital.requirement_count != verified.upstream.d09_requirement_count
+     {
+@@ -887,6 +894,85 @@
+     Ok(closeout)
+ }
+ 
++/// Same validators and closeout serializer as the borrowed-input API, with
++/// disjoint lifetimes for the large bundle and upstream byte buffers.
++/// This does not change authority admission or permit a partial source set.
++pub fn verify_real_source_closeout_from_directory_for_code(
++    directory: &std::path::Path,
++    expected_code_commit: &str,
++    expected_code_tree: &str,
++    authority_lock: &UpstreamAuthorityLock,
++    d08_dir: &std::path::Path,
++    d09_dir: &std::path::Path,
++) -> Result<RealSourceCloseout, CapitalError> {
++    use crate::artifacts::{
++        CapitalArtifactFile, CAPITAL_EVIDENCE_MANIFEST_FILE, CAPITAL_FEASIBILITY_FILE,
++        CAPITAL_REJECTION_LEDGER_FILE, CAPITAL_REQUIREMENTS_FILE, CAPITAL_SOURCES_FILE,
++        CAPITAL_SUMMARY_FILE,
++    };
++    fn read(path: std::path::PathBuf) -> Result<Vec<u8>, CapitalError> {
++        std::fs::read(path).map_err(|_| CapitalError::InvalidCanonical("replay input read failed"))
++    }
++    let names = [
++        CAPITAL_SOURCES_FILE,
++        CAPITAL_REQUIREMENTS_FILE,
++        CAPITAL_FEASIBILITY_FILE,
++        CAPITAL_REJECTION_LEDGER_FILE,
++        CAPITAL_SUMMARY_FILE,
++        CAPITAL_UPSTREAM_AUTHORITY_FILE,
++        CAPITAL_EVIDENCE_MANIFEST_FILE,
++    ];
++    let files = names
++        .into_iter()
++        .map(|name| {
++            Ok(CapitalArtifactFile::from_bytes(
++                name,
++                read(directory.join(name))?,
++            ))
++        })
++        .collect::<Result<Vec<_>, CapitalError>>()?;
++    let bundle = CapitalArtifactBundle { files };
++    eprintln!("D11_BOUNDED_PHASE=verify-bundle");
++    let capital =
++        verify_capital_artifact_bundle_for_code(&bundle, expected_code_commit, expected_code_tree)?;
++    let authority_file = bundle
++        .file(CAPITAL_UPSTREAM_AUTHORITY_FILE)
++        .ok_or(CapitalError::InvalidCanonical("missing upstream authority"))?;
++    let (context, _) = parse_upstream_authority(&authority_file.bytes)?;
++    authority_lock.verify(&context)?;
++    drop(bundle);
++    eprintln!("D11_BOUNDED_PHASE=bundle-dropped-replay-upstream");
++    let state = read(d08_dir.join("market-state-manifest.jsonl"))?;
++    let tokens = read(d08_dir.join("token-admission.jsonl"))?;
++    let facts = read(d08_dir.join("pool-and-factory-facts.json"))?;
++    let manifest08 = read(d08_dir.join("evidence-manifest.json"))?;
++    let accounts = read(d09_dir.join("account-manifest.jsonl"))?;
++    let summary = read(d09_dir.join("account-summary.json"))?;
++    let manifest09 = read(d09_dir.join("evidence-manifest.json"))?;
++    let upstream = verify_upstream_consumption_by_replay(
++        &context,
++        D08ReplayInputs {
++            state_manifest_jsonl: &state,
++            token_admission_jsonl: &tokens,
++            pool_and_factory_facts_json: &facts,
++            evidence_manifest_json: &manifest08,
++        },
++        D09ReplayInputs {
++            account_manifest_jsonl: &accounts,
++            account_summary_json: &summary,
++            evidence_manifest_json: &manifest09,
++        },
++    )?;
++    real_source_closeout_from_verified(
++        CapitalReplayVerification {
++            capital,
++            upstream,
++            upstream_authority_lock_commitment: authority_lock.commitment(),
++        },
++        authority_lock,
++    )
++}
++
+ pub fn verify_real_source_closeout_bytes_for_code(
+     closeout_bytes: &[u8],
+     bundle: &CapitalArtifactBundle,
+--- a/nqc-census/crates/nqc-census-capital/src/bin/nqc-rmc011-capital-build.rs
++++ b/nqc-census/crates/nqc-census-capital/src/bin/nqc-rmc011-capital-build.rs
+@@ -1,11 +1,11 @@
+ use nqc_census_capital::{
+     artifacts::{export_capital_artifacts, ArtifactProvenance},
+     demands::import_d09_borrower_demands,
++    historical_upstream::{import_d08_capital_sources, D08CapitalImportContext},
+     replay::{
+         verify_real_source_closeout_bytes_for_code, verify_real_source_closeout_for_code,
+         D08ReplayInputs, D09ReplayInputs, UpstreamAuthorityLock,
+     },
+-    upstream::{import_d08_capital_sources, D08CapitalImportContext},
+     CapitalCensusLedger, CapitalEvidenceRef, UpstreamCensusStage,
+ };
+ use sha2::{Digest, Sha256};
+@@ -86,6 +86,7 @@
+         anchor: context_without_receipts.observation_anchor().clone(),
+         evidence: vec![CapitalEvidenceRef::Artifact(d08_authority.artifact_sha256)],
+     };
++    eprintln!("D11_RESEARCH_PHASE=import-d08-start");
+     let d08_import = import_d08_capital_sources(
+         &d08_state,
+         &d08_tokens,
+@@ -98,6 +99,7 @@
+         return Err("RMC-008 capital import is not conserved".into());
+     }
+ 
++    eprintln!("D11_RESEARCH_PHASE=import-d09-start");
+     let d09_import = import_d09_borrower_demands(
+         &d09_accounts,
+         &d09_summary,
+@@ -109,6 +111,7 @@
+         return Err("RMC-009 demand import is not conserved".into());
+     }
+ 
++    eprintln!("D11_RESEARCH_PHASE=imports-complete");
+     let d08_receipt = d08_import.consumption_receipt()?;
+     let d09_receipt = d09_import.consumption_receipt()?;
+     let context =
+@@ -128,12 +131,29 @@
+         &args.code_commit,
+         &args.code_tree,
+     )?;
++    eprintln!("D11_RESEARCH_PHASE=export-start");
+     let bundle = export_capital_artifacts(&ledger, &context, &provenance)?;
+     // Adopt previously reviewed RMC-011 PR #599: release the complete ledger
+     // once its canonical artifact bytes own their data. The independent
+     // verifier re-imports the original D08/D09 files and does not trust these
+     // in-memory source objects after export.
++    eprintln!("D11_RESEARCH_PHASE=export-complete");
+     drop(ledger);
++
++    // Research-only staging. No closeout is emitted before the independent
++    // verifier process has re-read this bundle and replayed upstream inputs.
++    if env::var("NQC_RESEARCH_EXPORT_ONLY").as_deref() == Ok("1") {
++        fs::create_dir(&args.output_dir)?;
++        for file in &bundle.files {
++            fs::write(args.output_dir.join(file.name), &file.bytes)?;
++        }
++        fs::write(
++            args.output_dir.join(AUTHORITY_LOCK_ARCHIVE_FILE),
++            authority_lock.canonical_json()?,
++        )?;
++        println!("D11_RESEARCH_EXPORT_ONLY_NOT_VERIFIED");
++        return Ok(());
++    }
+ 
+     let d08_replay = D08ReplayInputs {
+         state_manifest_jsonl: &d08_state,
+@@ -146,6 +166,7 @@
+         account_summary_json: &d09_summary,
+         evidence_manifest_json: &d09_manifest,
+     };
++    eprintln!("D11_RESEARCH_PHASE=verification-one-start");
+     let closeout = verify_real_source_closeout_for_code(
+         &bundle,
+         &args.code_commit,
+@@ -155,6 +176,7 @@
+         d09_replay,
+     )?;
+     let closeout_bytes = closeout.canonical_json()?;
++    eprintln!("D11_RESEARCH_PHASE=verification-two-start");
+     verify_real_source_closeout_bytes_for_code(
+         &closeout_bytes,
+         &bundle,
+@@ -165,6 +187,7 @@
+         d09_replay,
+     )?;
+ 
++    eprintln!("D11_RESEARCH_PHASE=verification-complete-writing");
+     fs::create_dir_all(&args.output_dir)?;
+     for file in &bundle.files {
+         fs::write(args.output_dir.join(file.name), &file.bytes)?;
+--- /dev/null
++++ b/nqc-census/crates/nqc-census-capital/src/bin/nqc-rmc011-bounded-replay.rs
+@@ -0,0 +1,34 @@
++use nqc_census_capital::replay::{
++    verify_real_source_closeout_from_directory_for_code, UpstreamAuthorityLock,
++};
++use std::{env, error::Error, fs, path::PathBuf};
++
++fn main() -> Result<(), Box<dyn Error>> {
++    let args = env::args().skip(1).collect::<Vec<_>>();
++    if args.len() != 7 {
++        return Err("usage: nqc-rmc011-bounded-replay <bundle> <d08> <d09> <lock> <historical-commit> <historical-tree> <new-closeout>".into());
++    }
++    let lock = UpstreamAuthorityLock::parse_json(&fs::read(&args[3])?)?;
++    let closeout = verify_real_source_closeout_from_directory_for_code(
++        &PathBuf::from(&args[0]),
++        &args[4],
++        &args[5],
++        &lock,
++        &PathBuf::from(&args[1]),
++        &PathBuf::from(&args[2]),
++    )?;
++    let bytes = closeout.canonical_json()?;
++    use std::io::Write;
++    let mut output = fs::OpenOptions::new()
++        .write(true)
++        .create_new(true)
++        .open(&args[6])?;
++    output.write_all(&bytes)?;
++    println!(
++        "D11_BOUNDED_RESEARCH_REPLAY_PASS sources={} requirements={} terminal={}",
++        closeout.source_count,
++        closeout.requirement_count,
++        closeout.terminal_capital_census_complete()
++    );
++    Ok(())
++}
+--- /dev/null
++++ b/nqc-census/crates/nqc-census-capital/src/historical_upstream.rs
+@@ -0,0 +1,838 @@
++//! Strict bridge from admitted RMC-008 state artifacts into RMC-011 capital sources.
++//!
++//! This module does not perform RPC calls and does not trust "latest" artifacts.
++//! Its caller must bind the input bytes to admitted upstream authority. The importer
++//! only accepts state rows that are reconstructable and tokens whose D08 execution
++//! compatibility is explicitly proven.
++
++use crate::{
++    adapters::{
++        AaveV3FlashObservation, UniswapV2FlashSwapObservation, AAVE_V3_PROVIDER_NAMESPACE,
++        UNISWAP_V2_PROVIDER_NAMESPACE,
++    },
++    Amount256, CapitalAsset, CapitalError, CapitalEvidenceRef, CapitalSource, UpstreamCensusStage,
++    UpstreamConsumptionReceipt, UpstreamStageAuthority,
++};
++use nqc_census_chain::{hex, json::Json};
++use nqc_census_core::{Address, ChainDomain, Hash32, StateAnchor};
++use sha2::{Digest, Sha256};
++use std::collections::{BTreeMap, BTreeSet};
++
++#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
++pub enum CapitalImportRejectionReason {
++    HistoricalNoActiveState,
++    StateNotReconstructable,
++    TokenExecutionCompatibilityBlocked,
++    FlashLoanDisabled,
++    ReserveInactiveOrPaused,
++    V2LiquidityUnavailable,
++    FeeSemanticsUnsupported,
++    FlashSwapReserveUnavailable,
++}
++
++impl CapitalImportRejectionReason {
++    pub const fn code(self) -> &'static str {
++        match self {
++            Self::HistoricalNoActiveState => "HISTORICAL_NO_ACTIVE_STATE",
++            Self::StateNotReconstructable => "STATE_NOT_RECONSTRUCTABLE",
++            Self::TokenExecutionCompatibilityBlocked => "TOKEN_EXECUTION_COMPATIBILITY_BLOCKED",
++            Self::FlashLoanDisabled => "FLASH_LOAN_DISABLED",
++            Self::ReserveInactiveOrPaused => "RESERVE_INACTIVE_OR_PAUSED",
++            Self::V2LiquidityUnavailable => "V2_LIQUIDITY_UNAVAILABLE",
++            Self::FeeSemanticsUnsupported => "FEE_SEMANTICS_UNSUPPORTED",
++            Self::FlashSwapReserveUnavailable => "FLASH_SWAP_RESERVE_UNAVAILABLE",
++        }
++    }
++}
++
++#[derive(Debug, Clone, PartialEq, Eq)]
++pub struct CapitalImportRejection {
++    pub protocol: String,
++    pub market_id: String,
++    pub asset: CapitalAsset,
++    pub reason: CapitalImportRejectionReason,
++}
++
++#[derive(Debug, Clone)]
++pub struct D08CapitalImportContext {
++    pub anchor: StateAnchor,
++    pub evidence: Vec<CapitalEvidenceRef>,
++}
++
++#[derive(Debug, Clone, PartialEq, Eq)]
++pub struct D08CapitalImport {
++    pub candidate_count: usize,
++    pub admitted_count: usize,
++    pub rejected_count: usize,
++    pub coverage_commitment: Hash32,
++    pub sources: Vec<CapitalSource>,
++    pub rejections: Vec<CapitalImportRejection>,
++    authority_artifact_sha256: Option<Hash32>,
++}
++
++impl D08CapitalImport {
++    pub const fn is_conserved(&self) -> bool {
++        self.candidate_count == self.admitted_count + self.rejected_count
++            && self.admitted_count == self.sources.len()
++            && self.rejected_count == self.rejections.len()
++    }
++
++    pub fn consumption_receipt(&self) -> Result<UpstreamConsumptionReceipt, CapitalError> {
++        let authority_artifact_sha256 =
++            self.authority_artifact_sha256
++                .ok_or(CapitalError::InvalidUpstreamAuthority(
++                    "D08 import is not bound to an admitted authority artifact",
++                ))?;
++        UpstreamConsumptionReceipt::for_sources(
++            authority_artifact_sha256,
++            self.coverage_commitment,
++            self.sources.iter(),
++        )
++    }
++}
++
++#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
++struct ImportOutcome {
++    protocol: String,
++    market_id: String,
++    asset: CapitalAsset,
++    result: ImportOutcomeResult,
++}
++
++#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
++enum ImportOutcomeResult {
++    Admitted([u8; 32]),
++    Rejected(CapitalImportRejectionReason),
++}
++
++fn field<'a>(row: &'a Json, key: &'static str) -> Result<&'a Json, CapitalError> {
++    row.get(key)
++        .ok_or(CapitalError::InvalidCanonical("missing D08 field"))
++}
++
++fn text<'a>(row: &'a Json, key: &'static str) -> Result<&'a str, CapitalError> {
++    field(row, key)?
++        .as_str()
++        .ok_or(CapitalError::InvalidCanonical("D08 field is not text"))
++}
++
++fn bool_field(row: &Json, key: &'static str) -> Result<bool, CapitalError> {
++    field(row, key)?
++        .as_bool()
++        .ok_or(CapitalError::InvalidCanonical("D08 field is not boolean"))
++}
++
++fn u64_field(row: &Json, key: &'static str) -> Result<u64, CapitalError> {
++    field(row, key)?
++        .as_i64()
++        .and_then(|value| u64::try_from(value).ok())
++        .ok_or(CapitalError::InvalidCanonical(
++            "D08 field is not a nonnegative integer",
++        ))
++}
++
++fn array<'a>(row: &'a Json, key: &'static str) -> Result<&'a [Json], CapitalError> {
++    field(row, key)?
++        .as_array()
++        .ok_or(CapitalError::InvalidCanonical("D08 field is not array"))
++}
++
++fn d08_hash(row: &Json, key: &'static str) -> Result<Hash32, CapitalError> {
++    Hash32::parse_hex(text(row, key)?)
++        .map_err(|_| CapitalError::InvalidCanonical("invalid D08 anchor hash"))
++}
++
++fn d08_observation_anchor(row: &Json) -> Result<StateAnchor, CapitalError> {
++    let chain = ChainDomain::new(
++        u64_field(row, "chain_id")?,
++        d08_hash(row, "genesis_hash")?,
++        d08_hash(row, "fork_lineage")?,
++    )
++    .map_err(|_| CapitalError::InvalidCanonical("invalid D08 chain domain"))?;
++    StateAnchor::new(
++        chain,
++        u64_field(row, "block_number")?,
++        d08_hash(row, "block_hash")?,
++        d08_hash(row, "parent_hash")?,
++        u64_field(row, "timestamp")?,
++        d08_hash(row, "state_root")?,
++    )
++    .map_err(|_| CapitalError::InvalidCanonical("invalid D08 observation anchor"))
++}
++
++fn rfc3339(timestamp: u64) -> String {
++    let days = timestamp / 86_400;
++    let seconds = timestamp % 86_400;
++    let z = days + 719_468;
++    let era = z / 146_097;
++    let doe = z % 146_097;
++    let yoe = (doe - doe / 1_460 + doe / 36_524 - doe / 146_096) / 365;
++    let doy = doe - (365 * yoe + yoe / 4 - yoe / 100);
++    let mp = (5 * doy + 2) / 153;
++    let day = doy - (153 * mp + 2) / 5 + 1;
++    let month = if mp < 10 { mp + 3 } else { mp - 9 };
++    let year = yoe + era * 400 + u64::from(month <= 2);
++    format!(
++        "{year:04}-{month:02}-{day:02}T{:02}:{:02}:{:02}Z",
++        seconds / 3_600,
++        (seconds % 3_600) / 60,
++        seconds % 60
++    )
++}
++
++fn parse_jsonl(
++    bytes: &[u8],
++) -> Result<impl Iterator<Item = Result<Json, CapitalError>> + '_, CapitalError> {
++    let text = std::str::from_utf8(bytes)
++        .map_err(|_| CapitalError::InvalidCanonical("D08 JSONL is not UTF-8"))?;
++    // Decode one row at a time: never retain a second complete JSON AST for
++    // hundreds of thousands of canonical market/account records.
++    Ok(text.lines().filter(|line| !line.is_empty()).map(|line| {
++        Json::parse(line.as_bytes())
++            .map_err(|_| CapitalError::InvalidCanonical("D08 JSONL parse failed"))
++    }))
++}
++
++pub(crate) type TokenExecutionBlockers = BTreeMap<(Address, String), Vec<String>>;
++
++pub(crate) fn token_execution_blockers(
++    bytes: &[u8],
++) -> Result<TokenExecutionBlockers, CapitalError> {
++    let mut tokens = BTreeMap::new();
++    for row in parse_jsonl(bytes)? {
++        let row = row?;
++        let token = Address::parse_hex(text(&row, "token")?)
++            .map_err(|_| CapitalError::InvalidCanonical("invalid D08 token address"))?;
++        let raw_roles = array(&row, "roles")?;
++        if raw_roles.is_empty() {
++            return Err(CapitalError::InvalidCanonical(
++                "D08 token admission has no role",
++            ));
++        }
++        let mut roles = raw_roles
++            .iter()
++            .map(|value| {
++                value
++                    .as_str()
++                    .map(ToOwned::to_owned)
++                    .ok_or(CapitalError::InvalidCanonical(
++                        "D08 token admission role is not text",
++                    ))
++            })
++            .collect::<Result<Vec<_>, _>>()?;
++        roles.sort();
++        if roles.windows(2).any(|pair| pair[0] == pair[1]) {
++            return Err(CapitalError::InvalidCanonical(
++                "duplicate D08 token admission role",
++            ));
++        }
++
++        let execution = field(&row, "execution_compatibility")?;
++        let raw_blockers = array(execution, "blockers")?;
++        let mut blockers = raw_blockers
++            .iter()
++            .map(|value| {
++                value
++                    .as_str()
++                    .map(ToOwned::to_owned)
++                    .ok_or(CapitalError::InvalidCanonical(
++                        "D08 execution blocker is not text",
++                    ))
++            })
++            .collect::<Result<Vec<_>, _>>()?;
++        blockers.sort();
++        if blockers.windows(2).any(|pair| pair[0] == pair[1]) {
++            return Err(CapitalError::InvalidCanonical(
++                "duplicate D08 execution blocker",
++            ));
++        }
++        match text(execution, "status")? {
++            "PROVEN_COMPATIBLE" if blockers.is_empty() => {}
++            "BLOCKED" if !blockers.is_empty() => {}
++            "PROVEN_COMPATIBLE" | "BLOCKED" => {
++                return Err(CapitalError::InvalidCanonical(
++                    "D08 token compatibility status contradicts blockers",
++                ))
++            }
++            _ => {
++                return Err(CapitalError::InvalidCanonical(
++                    "unknown D08 token compatibility status",
++                ))
++            }
++        }
++
++        for role in roles {
++            if tokens.insert((token, role), blockers.clone()).is_some() {
++                return Err(CapitalError::InvalidCanonical(
++                    "duplicate D08 token admission for role",
++                ));
++            }
++        }
++    }
++    Ok(tokens)
++}
++
++pub(crate) fn execution_blockers<'a>(
++    tokens: &'a TokenExecutionBlockers,
++    token: Address,
++    role: &str,
++) -> Result<&'a [String], CapitalError> {
++    tokens
++        .get(&(token, role.to_owned()))
++        .map(Vec::as_slice)
++        .ok_or(CapitalError::InvalidCanonical(
++            "D08 state row references token without role-scoped admission record",
++        ))
++}
++
++fn push_rejection(
++    rejections: &mut Vec<CapitalImportRejection>,
++    outcomes: &mut Vec<ImportOutcome>,
++    protocol: &str,
++    market_id: &str,
++    asset: CapitalAsset,
++    reason: CapitalImportRejectionReason,
++) {
++    rejections.push(CapitalImportRejection {
++        protocol: protocol.to_owned(),
++        market_id: market_id.to_owned(),
++        asset,
++        reason,
++    });
++    outcomes.push(ImportOutcome {
++        protocol: protocol.to_owned(),
++        market_id: market_id.to_owned(),
++        asset,
++        result: ImportOutcomeResult::Rejected(reason),
++    });
++}
++
++fn push_source(
++    sources: &mut Vec<CapitalSource>,
++    outcomes: &mut Vec<ImportOutcome>,
++    protocol: &str,
++    market_id: &str,
++    asset: CapitalAsset,
++    source: CapitalSource,
++) {
++    outcomes.push(ImportOutcome {
++        protocol: protocol.to_owned(),
++        market_id: market_id.to_owned(),
++        asset,
++        // Coverage commits to the stable source identity, not the observation-specific
++        // source id. Re-serialization of the same admitted D08 facts changes the
++        // evidence-manifest digest (and therefore CapitalSourceId), but must not
++        // change candidate coverage.
++        result: ImportOutcomeResult::Admitted(*source.key_id().as_bytes()),
++    });
++    sources.push(source);
++}
++
++fn write_len_prefixed(hasher: &mut Sha256, value: &[u8]) -> Result<(), CapitalError> {
++    let len = u64::try_from(value.len())
++        .map_err(|_| CapitalError::InvalidCanonical("capital import coverage length overflow"))?;
++    hasher.update(len.to_be_bytes());
++    hasher.update(value);
++    Ok(())
++}
++
++fn protocol_contract_locator_hash(
++    provider_namespace: u16,
++    source_contract: Address,
++) -> Result<Hash32, CapitalError> {
++    let mut hasher = Sha256::new();
++    hasher.update(b"NQC-RMC011-PROTOCOL-CONTRACT-LOCATOR-V1");
++    hasher.update([0]);
++    hasher.update(provider_namespace.to_be_bytes());
++    hasher.update(source_contract.as_bytes());
++    let digest: [u8; 32] = hasher.finalize().into();
++    Hash32::new(digest)
++        .map_err(|_| CapitalError::InvalidCanonical("zero protocol contract locator hash"))
++}
++
++fn coverage_commitment(outcomes: &mut [ImportOutcome]) -> Result<Hash32, CapitalError> {
++    outcomes.sort();
++    let mut hasher = Sha256::new();
++    hasher.update(b"NQC-RMC011-D08-CAPITAL-IMPORT-COVERAGE-V1");
++    hasher.update([0]);
++    hasher.update(
++        u64::try_from(outcomes.len())
++            .map_err(|_| CapitalError::InvalidCanonical("capital import outcome count overflow"))?
++            .to_be_bytes(),
++    );
++    for outcome in outcomes {
++        write_len_prefixed(&mut hasher, outcome.protocol.as_bytes())?;
++        write_len_prefixed(&mut hasher, outcome.market_id.as_bytes())?;
++        match outcome.asset {
++            CapitalAsset::NativeGas => hasher.update([0]),
++            CapitalAsset::Token(address) => {
++                hasher.update([1]);
++                hasher.update(address.as_bytes());
++            }
++        }
++        match outcome.result {
++            ImportOutcomeResult::Admitted(source_id) => {
++                hasher.update([1]);
++                hasher.update(source_id);
++            }
++            ImportOutcomeResult::Rejected(reason) => {
++                hasher.update([2]);
++                write_len_prefixed(&mut hasher, reason.code().as_bytes())?;
++            }
++        }
++    }
++    let digest = hasher.finalize();
++    let mut bytes = [0_u8; 32];
++    bytes.copy_from_slice(&digest);
++    Hash32::new(bytes).map_err(|_| CapitalError::InvalidCanonical("zero D08 coverage commitment"))
++}
++
++pub(crate) fn d08_aave_flash_terms(bytes: &[u8]) -> Result<(Address, u16), CapitalError> {
++    let root = Json::parse(bytes)
++        .map_err(|_| CapitalError::InvalidCanonical("D08 pool facts JSON parse failed"))?;
++    let aave = field(&root, "aave_pool")?;
++    let pool = Address::parse_hex(text(aave, "pool")?)
++        .map_err(|_| CapitalError::InvalidCanonical("invalid D08 Aave pool address"))?;
++    let scalars = field(aave, "scalars")?;
++    let premium = field(scalars, "FLASHLOAN_PREMIUM_TOTAL()")?;
++    if text(premium, "status")? != "RETURNED" {
++        return Err(CapitalError::InvalidCanonical(
++            "D08 Aave flash premium was not returned",
++        ));
++    }
++    let encoded = hex::decode_data(text(premium, "data")?)
++        .map_err(|_| CapitalError::InvalidCanonical("invalid D08 Aave flash premium bytes"))?;
++    if encoded.len() != 32 || encoded[..30].iter().any(|byte| *byte != 0) {
++        return Err(CapitalError::InvalidCanonical(
++            "D08 Aave flash premium is not canonical uint16",
++        ));
++    }
++    let value = u16::from_be_bytes([encoded[30], encoded[31]]);
++    if value > 10_000 {
++        return Err(CapitalError::InvalidBasisPoints(value));
++    }
++    Ok((pool, value))
++}
++
++pub(crate) fn verify_d08_artifact_binding(
++    state_manifest_jsonl: &[u8],
++    token_admission_jsonl: &[u8],
++    pool_and_factory_facts_json: &[u8],
++    evidence_manifest_json: &[u8],
++    authority: &UpstreamStageAuthority,
++    context: &D08CapitalImportContext,
++) -> Result<(), CapitalError> {
++    if authority.stage != UpstreamCensusStage::Rmc008StateAdmission
++        || authority.unresolved_mismatch_count != 0
++        || authority.unknown_failure_count != 0
++        || !authority.coverage_complete
++        || !authority.admitted
++    {
++        return Err(CapitalError::InvalidUpstreamAuthority(
++            "RMC-008 authority is not certifiable",
++        ));
++    }
++    if authority.observation_anchor != context.anchor {
++        return Err(CapitalError::AnchorMismatch);
++    }
++
++    let manifest_digest: [u8; 32] = Sha256::digest(evidence_manifest_json).into();
++    if &manifest_digest != authority.artifact_sha256.as_bytes() {
++        return Err(CapitalError::CanonicalDigestMismatch);
++    }
++    let manifest = Json::parse(evidence_manifest_json)
++        .map_err(|_| CapitalError::InvalidCanonical("D08 evidence manifest JSON parse failed"))?;
++    if u64_field(&manifest, "schema_version")? != 1 {
++        return Err(CapitalError::InvalidCanonical(
++            "unsupported D08 evidence manifest schema",
++        ));
++    }
++    if text(&manifest, "code_commit")? != authority.code_commit.to_hex()
++        || text(&manifest, "code_tree")? != authority.code_tree.to_hex()
++    {
++        return Err(CapitalError::InvalidUpstreamAuthority(
++            "D08 evidence manifest code identity mismatch",
++        ));
++    }
++    let manifest_anchor = d08_observation_anchor(field(&manifest, "observation_anchor")?)?;
++    if manifest_anchor != authority.observation_anchor
++        || manifest_anchor != context.anchor
++        || text(&manifest, "generated_at")? != rfc3339(context.anchor.timestamp())
++    {
++        return Err(CapitalError::AnchorMismatch);
++    }
++
++    let expected: [(&str, &[u8]); 3] = [
++        ("market-state-manifest.jsonl", state_manifest_jsonl),
++        ("token-admission.jsonl", token_admission_jsonl),
++        ("pool-and-factory-facts.json", pool_and_factory_facts_json),
++    ];
++    let artifacts = array(&manifest, "artifacts")?;
++    let mut seen_paths = BTreeSet::new();
++    let mut verified_paths = BTreeSet::new();
++    for entry in artifacts {
++        let path = text(entry, "path")?;
++        if !seen_paths.insert(path.to_owned()) {
++            return Err(CapitalError::InvalidCanonical(
++                "duplicate D08 evidence manifest artifact path",
++            ));
++        }
++        let Some((_, bytes)) = expected
++            .iter()
++            .find(|(expected_path, _)| *expected_path == path)
++        else {
++            continue;
++        };
++        let digest: [u8; 32] = Sha256::digest(*bytes).into();
++        if text(entry, "sha256")? != hex::plain(&digest) {
++            return Err(CapitalError::CanonicalDigestMismatch);
++        }
++        let declared_bytes = u64_field(entry, "bytes")?;
++        if declared_bytes
++            != u64::try_from(bytes.len())
++                .map_err(|_| CapitalError::InvalidCanonical("D08 artifact length overflow"))?
++        {
++            return Err(CapitalError::InvalidCanonical(
++                "D08 evidence manifest artifact length mismatch",
++            ));
++        }
++        verified_paths.insert(path.to_owned());
++    }
++    if verified_paths.len() != expected.len() {
++        return Err(CapitalError::InvalidCanonical(
++            "D08 evidence manifest is missing a consumed artifact",
++        ));
++    }
++
++    let manifest_evidence = CapitalEvidenceRef::Artifact(authority.artifact_sha256);
++    if context.evidence.as_slice() != [manifest_evidence] {
++        return Err(CapitalError::InvalidUpstreamAuthority(
++            "D08 import evidence must be exactly its admitted authority artifact",
++        ));
++    }
++    Ok(())
++}
++
++pub fn import_d08_capital_sources(
++    state_manifest_jsonl: &[u8],
++    token_admission_jsonl: &[u8],
++    pool_and_factory_facts_json: &[u8],
++    evidence_manifest_json: &[u8],
++    authority: &UpstreamStageAuthority,
++    context: &D08CapitalImportContext,
++) -> Result<D08CapitalImport, CapitalError> {
++    verify_d08_artifact_binding(
++        state_manifest_jsonl,
++        token_admission_jsonl,
++        pool_and_factory_facts_json,
++        evidence_manifest_json,
++        authority,
++        context,
++    )?;
++    let mut imported = import_d08_capital_sources_unbound(
++        state_manifest_jsonl,
++        token_admission_jsonl,
++        pool_and_factory_facts_json,
++        context,
++    )?;
++    imported.authority_artifact_sha256 = Some(authority.artifact_sha256);
++    Ok(imported)
++}
++
++fn import_d08_capital_sources_unbound(
++    state_manifest_jsonl: &[u8],
++    token_admission_jsonl: &[u8],
++    pool_and_factory_facts_json: &[u8],
++    context: &D08CapitalImportContext,
++) -> Result<D08CapitalImport, CapitalError> {
++    if context.evidence.is_empty() {
++        return Err(CapitalError::MissingEvidence);
++    }
++    let (aave_pool, aave_premium_total_bps) = d08_aave_flash_terms(pool_and_factory_facts_json)?;
++    let tokens = token_execution_blockers(token_admission_jsonl)?;
++    let mut sources = Vec::new();
++    let mut rejections = Vec::new();
++    let mut outcomes = Vec::new();
++    let mut candidate_keys = BTreeSet::new();
++
++    for row in parse_jsonl(state_manifest_jsonl)? {
++        let row = row?;
++        if u64_field(&row, "schema_version")? != 1 {
++            return Err(CapitalError::InvalidCanonical(
++                "unsupported D08 market-state schema",
++            ));
++        }
++        let protocol = text(&row, "protocol")?;
++        let market_id = text(&row, "market_id")?.to_owned();
++        match protocol {
++            "AAVE_V3" => {
++                let asset_address = Address::parse_hex(text(&row, "asset")?)
++                    .map_err(|_| CapitalError::InvalidCanonical("invalid Aave asset"))?;
++                let asset = CapitalAsset::Token(asset_address);
++                if !candidate_keys.insert((protocol.to_owned(), market_id.clone(), asset)) {
++                    return Err(CapitalError::InvalidCanonical(
++                        "duplicate D08 capital source candidate",
++                    ));
++                }
++                if text(&row, "lifecycle")? != "CURRENT" {
++                    push_rejection(
++                        &mut rejections,
++                        &mut outcomes,
++                        protocol,
++                        &market_id,
++                        asset,
++                        CapitalImportRejectionReason::HistoricalNoActiveState,
++                    );
++                    continue;
++                }
++                if text(&row, "stage_state_reconstructable")? != "ADVANCE" {
++                    push_rejection(
++                        &mut rejections,
++                        &mut outcomes,
++                        protocol,
++                        &market_id,
++                        asset,
++                        CapitalImportRejectionReason::StateNotReconstructable,
++                    );
++                    continue;
++                }
++                let token_blockers =
++                    execution_blockers(&tokens, asset_address, "AAVE_RESERVE_UNDERLYING")?.to_vec();
++
++                let facts = field(&row, "protocol_facts")?;
++                let active = bool_field(facts, "active")?;
++                let paused = bool_field(facts, "paused")?;
++                let flash_loan_enabled = bool_field(facts, "flash_loan_enabled")?;
++                let available = Amount256::parse_decimal(text(facts, "available_liquidity")?)?;
++                let mut source_blockers = token_blockers;
++                if !active || paused {
++                    source_blockers.push(
++                        CapitalImportRejectionReason::ReserveInactiveOrPaused
++                            .code()
++                            .to_owned(),
++                    );
++                }
++                if !flash_loan_enabled {
++                    source_blockers.push(
++                        CapitalImportRejectionReason::FlashLoanDisabled
++                            .code()
++                            .to_owned(),
++                    );
++                }
++                let source = AaveV3FlashObservation {
++                    anchor: context.anchor.clone(),
++                    pool: aave_pool,
++                    asset: asset_address,
++                    available_underlying: available,
++                    premium_total_bps: aave_premium_total_bps,
++                    flash_loan_enabled,
++                    provider_locator_hash: protocol_contract_locator_hash(
++                        AAVE_V3_PROVIDER_NAMESPACE,
++                        aave_pool,
++                    )?,
++                    evidence: context.evidence.clone(),
++                }
++                .into_capital_source()?
++                .with_execution_blockers(source_blockers)?;
++                push_source(
++                    &mut sources,
++                    &mut outcomes,
++                    protocol,
++                    &market_id,
++                    asset,
++                    source,
++                );
++            }
++            "UNISWAP_V2" => {
++                let pair = Address::parse_hex(text(&row, "pair")?)
++                    .map_err(|_| CapitalError::InvalidCanonical("invalid V2 pair"))?;
++                let token0 = Address::parse_hex(text(&row, "token0")?)
++                    .map_err(|_| CapitalError::InvalidCanonical("invalid V2 token0"))?;
++                let token1 = Address::parse_hex(text(&row, "token1")?)
++                    .map_err(|_| CapitalError::InvalidCanonical("invalid V2 token1"))?;
++                if text(&row, "stage_state_reconstructable")? != "ADVANCE"
++                    || !bool_field(&row, "factory_membership")?
++                {
++                    for token in [token0, token1] {
++                        let asset = CapitalAsset::Token(token);
++                        if !candidate_keys.insert((protocol.to_owned(), market_id.clone(), asset)) {
++                            return Err(CapitalError::InvalidCanonical(
++                                "duplicate D08 capital source candidate",
++                            ));
++                        }
++                        push_rejection(
++                            &mut rejections,
++                            &mut outcomes,
++                            protocol,
++                            &market_id,
++                            asset,
++                            CapitalImportRejectionReason::StateNotReconstructable,
++                        );
++                    }
++                    continue;
++                }
++                let fee = field(&row, "fee_semantics")?;
++                if u64_field(fee, "swap_fee_bps")? != 30
++                    || text(fee, "basis")?
++                        != "EXPLICIT_CONFIGURATION_BOUND_TO_ADMITTED_PAIR_RUNTIME"
++                {
++                    for token in [token0, token1] {
++                        let asset = CapitalAsset::Token(token);
++                        if !candidate_keys.insert((protocol.to_owned(), market_id.clone(), asset)) {
++                            return Err(CapitalError::InvalidCanonical(
++                                "duplicate D08 capital source candidate",
++                            ));
++                        }
++                        push_rejection(
++                            &mut rejections,
++                            &mut outcomes,
++                            protocol,
++                            &market_id,
++                            asset,
++                            CapitalImportRejectionReason::FeeSemanticsUnsupported,
++                        );
++                    }
++                    continue;
++                }
++                let liquidity_state = text(&row, "liquidity_state")?;
++                if !matches!(liquidity_state, "LIQUID" | "ZERO_LIQUIDITY_NOT_ROUTABLE") {
++                    return Err(CapitalError::InvalidCanonical("unknown V2 liquidity state"));
++                }
++                let reserves = array(&row, "reserves")?;
++                if reserves.len() != 3 {
++                    return Err(CapitalError::InvalidCanonical(
++                        "V2 reserve row is not three fields",
++                    ));
++                }
++                let reserve0 = reserves[0]
++                    .as_str()
++                    .ok_or(CapitalError::InvalidCanonical(
++                        "V2 reserve0 is not decimal text",
++                    ))
++                    .and_then(Amount256::parse_decimal)?;
++                let reserve1 = reserves[1]
++                    .as_str()
++                    .ok_or(CapitalError::InvalidCanonical(
++                        "V2 reserve1 is not decimal text",
++                    ))
++                    .and_then(Amount256::parse_decimal)?;
++                let total_supply = Amount256::parse_decimal(text(&row, "total_supply")?)?;
++                let derived_liquid =
++                    !reserve0.is_zero() && !reserve1.is_zero() && !total_supply.is_zero();
++                if (liquidity_state == "LIQUID") != derived_liquid {
++                    return Err(CapitalError::InvalidCanonical(
++                        "V2 liquidity state disagrees with reserves/total supply",
++                    ));
++                }
++
++                for (token, reserve_amount, role) in [
++                    (token0, reserve0, "V2_TOKEN0"),
++                    (token1, reserve1, "V2_TOKEN1"),
++                ] {
++                    let asset = CapitalAsset::Token(token);
++                    if !candidate_keys.insert((protocol.to_owned(), market_id.clone(), asset)) {
++                        return Err(CapitalError::InvalidCanonical(
++                            "duplicate D08 capital source candidate",
++                        ));
++                    }
++                    let mut source_blockers = execution_blockers(&tokens, token, role)?.to_vec();
++                    if liquidity_state == "ZERO_LIQUIDITY_NOT_ROUTABLE" {
++                        source_blockers.push(
++                            CapitalImportRejectionReason::V2LiquidityUnavailable
++                                .code()
++                                .to_owned(),
++                        );
++                    }
++                    let source = UniswapV2FlashSwapObservation {
++                        anchor: context.anchor.clone(),
++                        pair,
++                        asset: token,
++                        reserve: reserve_amount,
++                        provider_locator_hash: protocol_contract_locator_hash(
++                            UNISWAP_V2_PROVIDER_NAMESPACE,
++                            pair,
++                        )?,
++                        evidence: context.evidence.clone(),
++                    }
++                    .into_capital_source()?
++                    .with_execution_blockers(source_blockers)?;
++                    push_source(
++                        &mut sources,
++                        &mut outcomes,
++                        protocol,
++                        &market_id,
++                        asset,
++                        source,
++                    );
++                }
++            }
++            _ => {
++                return Err(CapitalError::InvalidCanonical(
++                    "unsupported D08 protocol in capital import",
++                ))
++            }
++        }
++    }
++
++    rejections.sort_by(|left, right| {
++        (
++            left.protocol.as_str(),
++            left.market_id.as_str(),
++            left.asset,
++            left.reason,
++        )
++            .cmp(&(
++                right.protocol.as_str(),
++                right.market_id.as_str(),
++                right.asset,
++                right.reason,
++            ))
++    });
++    sources.sort_by_key(CapitalSource::id);
++    let candidate_count = candidate_keys.len();
++    let admitted_count = sources.len();
++    let rejected_count = rejections.len();
++    if outcomes.len() != candidate_count || candidate_count != admitted_count + rejected_count {
++        return Err(CapitalError::InvalidCanonical(
++            "D08 capital source classification is not conserved",
++        ));
++    }
++    let coverage_commitment = coverage_commitment(&mut outcomes)?;
++    Ok(D08CapitalImport {
++        candidate_count,
++        admitted_count,
++        rejected_count,
++        coverage_commitment,
++        sources,
++        rejections,
++        authority_artifact_sha256: None,
++    })
++}
++
++#[cfg(test)]
++mod jsonl_streaming_regressions {
++    use super::{parse_jsonl, CapitalError};
++
++    #[test]
++    fn rows_are_parsed_lazily_and_invalid_tail_fails_closed() -> Result<(), CapitalError> {
++        let mut rows = parse_jsonl(b"{}\n{}\nnot-json\n")?;
++        assert!(matches!(rows.next(), Some(Ok(_))));
++        assert!(matches!(rows.next(), Some(Ok(_))));
++        assert!(matches!(rows.next(), Some(Err(_))));
++        assert!(rows.next().is_none());
++        Ok(())
++    }
++
++    #[test]
++    fn many_lines_stream_without_eager_json_materialization() -> Result<(), CapitalError> {
++        let payload = "{}\n".repeat(10_000);
++        let mut count = 0;
++        for row in parse_jsonl(payload.as_bytes())? {
++            row?;
++            count += 1;
++        }
++        assert_eq!(count, 10_000);
++        assert!(parse_jsonl(&[0xff]).is_err());
++        Ok(())
++    }
++}
+--- a/nqc-census/crates/nqc-census-capital/tests/replay.rs
++++ b/nqc-census/crates/nqc-census-capital/tests/replay.rs
+@@ -61,7 +61,7 @@
+     )
+     .into_bytes();
+     let tokens = format!(
+-        "{{\"execution_compatibility\":{{\"blockers\":[],\"status\":\"PROVEN_COMPATIBLE\"}},\"token\":\"{}\"}}\n",
++        "{{\"execution_compatibility\":{{\"blockers\":[],\"status\":\"PROVEN_COMPATIBLE\"}},\"roles\":[\"AAVE_RESERVE_UNDERLYING\"],\"token\":\"{}\"}}\n",
+         asset.to_hex()
+     )
+     .into_bytes();
+@@ -452,6 +452,67 @@
+         d09_replay,
+     )?;
+     let first = closeout.canonical_json()?;
++    // Research overlay: directory verifier must preserve the complete old
++    // closeout, and reject corrupt downstream and changed upstream bytes.
++    let temporary = std::env::temp_dir().join(format!(
++        "nqc-bounded-replay-{}-{}",
++        std::process::id(),
++        std::time::SystemTime::now()
++            .duration_since(std::time::UNIX_EPOCH)?
++            .as_nanos()
++    ));
++    std::fs::create_dir(&temporary)?;
++    struct Cleanup(std::path::PathBuf);
++    impl Drop for Cleanup {
++        fn drop(&mut self) {
++            let _ = std::fs::remove_dir_all(&self.0);
++        }
++    }
++    let _cleanup = Cleanup(temporary.clone());
++    let bdir = temporary.join("bundle");
++    let d8dir = temporary.join("d08");
++    let d9dir = temporary.join("d09");
++    for path in [&bdir, &d8dir, &d9dir] {
++        std::fs::create_dir(path)?;
++    }
++    for file in &bundle.files {
++        std::fs::write(bdir.join(file.name), &file.bytes)?;
++    }
++    for (name, data) in [
++        ("market-state-manifest.jsonl", &d08_states),
++        ("token-admission.jsonl", &d08_tokens),
++        ("pool-and-factory-facts.json", &d08_facts),
++        ("evidence-manifest.json", &d08_manifest),
++    ] {
++        std::fs::write(d8dir.join(name), data)?;
++    }
++    for (name, data) in [
++        ("account-manifest.jsonl", &d09_accounts),
++        ("account-summary.json", &d09_summary),
++        ("evidence-manifest.json", &d09_manifest),
++    ] {
++        std::fs::write(d9dir.join(name), data)?;
++    }
++    let bounded = || {
++        nqc_census_capital::replay::verify_real_source_closeout_from_directory_for_code(
++            &bdir,
++            CODE_COMMIT,
++            CODE_TREE,
++            &lock,
++            &d8dir,
++            &d9dir,
++        )
++    };
++    assert_eq!(first, bounded()?.canonical_json()?);
++    let source_path = bdir.join("capital-sources.jsonl");
++    let source_bytes = std::fs::read(&source_path)?;
++    std::fs::write(&source_path, b"{}\n")?;
++    assert!(bounded().is_err());
++    std::fs::write(&source_path, source_bytes)?;
++    std::fs::write(d8dir.join("market-state-manifest.jsonl"), b"{}\n")?;
++    assert!(bounded().is_err());
++    std::fs::remove_file(d8dir.join("market-state-manifest.jsonl"))?;
++    assert!(bounded().is_err());
+     let second = verify_real_source_closeout_for_code(
+         &bundle,
+         CODE_COMMIT,
+--- a/nqc-census/Cargo.lock
++++ b/nqc-census/Cargo.lock
+@@ -92,18 +92,18 @@
+ ]
+ 
+ [[package]]
+-name = "nqc-census-core"
+-version = "0.1.0"
+-dependencies = [
+- "sha2",
+-]
+-
+-[[package]]
+ name = "nqc-census-closeout"
+ version = "0.1.0"
+ dependencies = [
+  "nqc-census-chain",
+  "nqc-census-core",
++ "sha2",
++]
++
++[[package]]
++name = "nqc-census-core"
++version = "0.1.0"
++dependencies = [
+  "sha2",
+ ]
+ 
