@@ -27,9 +27,22 @@ Base: `16e352225ba8a6a931834c4edf3d86d9a2924b7d` in
 - D09's authenticated summary records 246,929 indexed accounts, 28,275
   actionable accounts and 400 accounts with health factor below one. Those
   labels do not establish liquidation profitability, financeability or capture.
+- Historical D11 core artifact `11518151377` and D12 artifact `11519153831`
+  have now been recovered. Every canonical D11 source was decoded: **1,045,459**
+  rows. A derived view of 67 Aave reserves preserves the original provider
+  predicate; it does not replace the full capital universe.
+- The unchanged D12 Rust producer was executed on authenticated D08/D09 data
+  and that derived view. All **474 actionability records** and **432 capital
+  dispositions** are byte-identical to the historical artifact. Portfolio
+  claims/resources/conflicts agree; producer commit, tree and their dependent
+  portfolio commitment differ and are recorded explicitly.
+- V2 classification covers all 474 pairs: **42 non-executable at the pinned
+  state**, **432 insufficient evidence**, **zero executable value admitted**.
+  The 42 are 12 disabled-collateral pairs and 30 zero-sized PFT outcomes.
+  Insufficient evidence is not proof of universal economic impossibility.
 - The source-universe file resolves 13 families for discovery/readiness.
   Its scope is `SOURCE_UNIVERSE_READINESS_ONLY`; D11 terminal closure is false.
-  A successful preflight run with no terminal artifact cannot close D11.
+  The recovered D11 core itself also explicitly withholds terminal Census closure.
 
 Summary counts above are read from hash-authenticated historical summaries;
 this change does not independently reconstruct every position from chain state.
@@ -89,8 +102,8 @@ read-backs, not an upstream authority lock.
 | Gate | Current evidence or gap | Required treatment |
 | --- | --- | --- |
 | New producer authority | New D06 output integrity passes; separate producer review is unproven. | Review exact new producer/adapter and independence before downstream acceptance; preserve original scope. |
-| Capital Truth | Thirteen source families resolved for readiness; terminal D11 open. Original Rust model still enforces zero own capital. Own-gas model is offline only. | Integrate a separately versioned gas-only policy, authenticate balance/cost basis, external principal/fees/obligations, then produce and independently replay terminal D11. Historical zero-capital results cannot be relabeled. |
-| Execution and Economic Truth | Token transfer compatibility unproven; D12/D13 inputs await predecessor closure. | Prove admissible token behavior, routes, complete costs, conservative executable margins and resource/conflict limits for each scoped candidate. Treat insufficient evidence explicitly. |
+| Capital Truth | D11 core recovered and fully decoded; its own terminal-capital flag is false. Conditional D12 replay proves zero admitted principal funding. Own-gas accounting is linked to each V2 candidate; balance/authenticity and execution integration remain unproven. | Integrate a separately versioned gas-only policy, authenticate balance/cost basis, external principal/fees/obligations, then produce and independently replay terminal D11. Historical zero-capital results cannot be relabeled. |
+| Execution and Economic Truth | D12 actionability/capital dispositions reproduced; 43 required underlying assets remain transfer-blocked. Full costs and monetizable routes are unproven. | Prove admissible token behavior, routes, complete costs, conservative executable margins and resource/conflict limits for each scoped candidate. Treat insufficient evidence explicitly. |
 | Temporal / competitive evidence | Recovered D15B artifact contains aggregate/certificate files, not the detailed episode/censored/winner/economic ledgers named by their hashes. The separate 857-account temporal study also lacks 6,720 of 7,200 blocks. | Recover authentic raw ledgers and decision-time observations; complete declared temporal scope without future-data leakage; assess competition/inclusion with uncertainty. Do not combine different study populations. |
 | Final independent closure | Final Census authority lock remains `BLOCKED`, with no pinned terminal stages. D16 aggregate evidence does not establish positive capture. | Independent reconciliation of each authority, complete candidate classifications, treated material unknowns, failure/mismatch ledgers and reproducible exact evidence. Negative economics remains an admissible result. |
 
@@ -115,11 +128,48 @@ errors and three skips. Five setup errors require explicit real-artifact CLI
 arguments; two bind historical source-catalog blobs that differ from current
 catalog bytes. They were not patched or counted as successes.
 
-The pinned Rust 1.98.1 toolchain was installed locally, but `rustc -vV` failed
-with SIGBUS before compilation. `cargo test --locked -p nqc-census-capital`
-therefore did not run. No Rust pass is claimed and no substitute toolchain was
-used to evade the pin. This environment failure remains in the failure ledger.
+The pinned Rust **1.98.1** compiler was repaired from its exact SHA-verified
+official package: the local LLVM shared library had been truncated. The original
+workspace now passes **528 tests**, the PFT actionability bridge **9**, and the
+new streaming consumer **6**; no toolchain substitution was used. The initial
+SIGBUS remains recorded as resolved, not erased. Original Git objects now pass
+isolation verification against all 637 imported entries and original refs.
+
+The full D11 builder was attempted and killed by the 8 GiB memory limit
+(exit 137). This is an unresolved full-producer reproduction limit. Streaming
+read-back validates the existing source records; it does not reexecute their
+upstream state import. The D11 main archive exceeds the connector 512 MiB
+limit; the separately pinned core is recovered, not the entire main envelope.
 
 Passing the new read-back and accounting tests cannot close any of the gates
 above. No completion percentage or profitability forecast is justified by the
 current evidence.
+
+## Reproducing the recovered terminal evidence
+
+Use `CARGO_TARGET_DIR` outside the repository for every Rust command. Keep
+`PYTHONDONTWRITEBYTECODE=1` for historical Python consumers. Do not install
+build outputs into the immutable source trees. Commands and limits are in
+[CLOSEOUT.md](CLOSEOUT.md) and `evidence/validation.json`.
+
+`capital_stream` validates every source with the original canonical decoder,
+checks global identity/key uniqueness, exact producer/anchor/size/count/hash,
+and limits row size and retained reserve count. Its selection is only the
+non-candidate-specific necessary predicate of the unchanged Aave promotion
+function; that function still checks each candidate's debt asset and capital
+feasibility. Excluded flash-swap rows are fully decoded before exclusion.
+
+`verify_terminal_recovery.py` binds the actual core/archive/API snapshots and
+checks exact replay parity plus the explicit portfolio mismatch inventory.
+`classify_historical_candidates.py` joins each real pair to its exact capital
+requirement, asset amounts, original token blockers and gas-accounting journal.
+No live wallet is inferred from the peso authorization. The empty journal means
+no funding evidence was supplied to this work; it is not proof that a wallet
+has a zero balance. Unknowns have required evidence and falsification criteria.
+
+The Decision-Time ledger records the original state timestamp separately from
+this recovery's classification time. Original receipt times remain unknown.
+The gas authorization of October 9 is never assigned to October 1 candidates.
+The gas engine also rejects accounting events before the authorization date;
+precise intraday authorization and witness authenticity still need independent
+verification before any operational use.

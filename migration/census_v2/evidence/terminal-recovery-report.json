@@ -1,0 +1,116 @@
+{
+  "api_snapshot_sha256": {
+    "d11": {
+      "artifact": "76d1d8174f67b012bdcb24362aee627f1d315a79ccbe73eb87031e0944283279",
+      "commit": "e78bc08166d2ca3e11effc0af62c22c4d011f43e74eeca8d806d28d39f7508d0",
+      "run": "759c8c8b95c07268d55134fd081c01db4c4d7226598f01abcd4630fcd500444f"
+    },
+    "d12": {
+      "artifact": "032fa07175a0f855c74dd4a1dee5111b33b6d36b6c4b1e423aef3fa03e87c42f",
+      "commit": "5035fc5b505ca3748d7a2749d218f61fe21bd5579f5a109ed3215b2d5e3f5b57",
+      "run": "e2353b0cc807c0687451ff0aa04ac612e426822de3ab8e2372ac798ebc17cc35"
+    }
+  },
+  "d11_inventory": {
+    "capital-census-summary.json": {
+      "bytes": 1597,
+      "sha256": "3300b2f3bc85d56f46308d5bf8161d36694837059593269a1f8c1c89217d0cd4"
+    },
+    "capital-evidence-manifest.json": {
+      "bytes": 1906,
+      "sha256": "9044dbbf9d81a430ef4b42fa7e73ff3d36b29f31301d2953d065f0129c244501"
+    },
+    "capital-feasibility.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "capital-real-source-closeout.json": {
+      "bytes": 3311,
+      "sha256": "513ce590818d3a77d6656a31fc471d691663e46f6d4c99c845378c803ec9e889"
+    },
+    "capital-rejection-ledger.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "capital-requirements.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "capital-sources.jsonl": {
+      "bytes": 3757728513,
+      "sha256": "b97cf0d8cb1dfcaaae7f2b79a3eef40e20b7cd9d7a7c996ab15960153adefb48"
+    },
+    "capital-upstream-authority-lock.json": {
+      "bytes": 4198,
+      "sha256": "7f48d35f0373785ff2fbd6f84b385efe58dbb831f6c3cc7953adb50e3c999d95"
+    },
+    "capital-upstream-authority.json": {
+      "bytes": 6090,
+      "sha256": "1a5cb8178528a39f4cda1dc785e230f850803e4999934cf3ab2f793921fb36f9"
+    }
+  },
+  "d11_main_envelope_claims_transferred": false,
+  "d11_main_envelope_downloaded": false,
+  "d11_main_envelope_limit_bytes": 536870912,
+  "d11_terminal_capital_census_complete": false,
+  "decision_time_availability_proven": false,
+  "independent_certification": false,
+  "observation_anchor": {
+    "block_hash": "0x0d7a15fbb72e69696a33c65bc20902fe08e5630862ada64b065a97405c70c781",
+    "block_number": 26095351,
+    "chain_id": 1,
+    "fork_lineage": "0x349462d471690c164b8109c6dbc41a76afb4033216f379254b3367b75f0fc522",
+    "genesis_hash": "0xd4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3",
+    "parent_hash": "0xaf6809f0222903662e0814128c37e98296d47c2a78c4d94bdc08e3efa1107792",
+    "state_root": "0x295ca34af4c1652ded4210d6353703c7acea726c04c27978df4a3a88d9e7bbfd",
+    "timestamp": 1790832215
+  },
+  "pins": {
+    "d11": {
+      "artifact_digest": "sha256:eaef728506fd1ffc1bd242320c606476c468d247bb44ce5eabf1861a0042ce35",
+      "artifact_id": 11518151377,
+      "artifact_name": "rmc011-core-bundle-83395dc182cb7fd31293887f4de86fcd022b4b6d",
+      "head_sha": "83395dc182cb7fd31293887f4de86fcd022b4b6d",
+      "run_id": 37701875199,
+      "tree": "1ab7d599776babd5aeb3478d44c3c692fb9ad5d8",
+      "workflow_name": "NQC RMC-011 Real Source Certification"
+    },
+    "d12": {
+      "artifact_digest": "sha256:bbe6a6365d563eb41125d9fcdba79ac384c21182f31f6761897e0ce2ee8fa3b8",
+      "artifact_id": 11519153831,
+      "artifact_name": "rmc012-terminal-actionability-9368ec833ee26d0bf8f8203ce2ca1ef09ae004a2",
+      "head_sha": "9368ec833ee26d0bf8f8203ce2ca1ef09ae004a2",
+      "run_id": 37704109137,
+      "tree": "0aa1df487271739f9620b641466bb72bad1eea10",
+      "workflow_name": "NQC RMC-012 Terminal Actionability Authority"
+    }
+  },
+  "real_market_census_closed": false,
+  "replay": {
+    "exact_byte_parity": {
+      "actionability-records.jsonl": "1c2d4ffe4970f418c495d917e9b28e34494d67f29052669d775583e2240f5baf",
+      "capital-promotions.jsonl": "6bcba8925d60b30aa46f6772f6ffb1d1f6dfc5f3c0b3310efbfb50b09d6b1569"
+    },
+    "legacy_authority_flags_are_replay_assumptions": true,
+    "new_producer_certified": false,
+    "portfolio_claims_resources_conflicts_equal": true,
+    "portfolio_differences": {
+      "code_commit": {
+        "original": "9368ec833ee26d0bf8f8203ce2ca1ef09ae004a2",
+        "replay": "dfc259fca3b3144b0623461cb46346e2e960dce1"
+      },
+      "code_tree": {
+        "original": "0aa1df487271739f9620b641466bb72bad1eea10",
+        "replay": "b25947022554a9ba5b50faa3a77831f16010d201"
+      },
+      "portfolio_commitment": {
+        "original": "8fc58804e6716b156d7c383fc002ab3497eb13d90a18192f2fdde0acddef570c",
+        "replay": "3461718099a6eadec162fbf4b354a0d6246d5a1430a3bca6a06d501884d242ce"
+      }
+    }
+  },
+  "schema": "nqc-terminal-recovery-readback-v1",
+  "scope": "HISTORICAL_AAVE_ACTIONABILITY_AND_D11_CORE_READBACK_ONLY",
+  "status": "PINNED_CORE_AND_ACTIONABILITY_REPLAY_VERIFIED",
+  "verifier_sha256": "efea2a2a442341dc711983d4dc7163a9fa50b6cead23565456cf47612e921f02"
+}

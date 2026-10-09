@@ -16,6 +16,7 @@ from pathlib import Path
 import re
 
 POLICY = "NQC_GAS_ONLY_MXN_2000_20261009"
+AUTHORIZATION_DATE = dt.date(2026, 10, 9)
 MAX_CENTAVOS = 200000
 UINT256_MAX = 2**256 - 1
 
@@ -100,6 +101,7 @@ class Budget:
         require(type(eid) is str and re.fullmatch(r"[A-Za-z0-9_.-]{1,128}", eid)
                 and eid not in self.events, "duplicate/invalid event id")
         at, received = timestamp(event["at"]), timestamp(event["received_at"])
+        require(at.date() >= AUTHORIZATION_DATE, "gas policy cannot be applied before authorization date")
         require(received <= at, "future evidence at decision time")
         require(self.last_time is None or at >= self.last_time, "events must be chronological")
         key = account(event)
@@ -169,6 +171,7 @@ class Budget:
                 "event_count": self.event_count, "event_chain_sha256": self.chain_hash,
                 "wallets": wallets, "funding_authenticity_verified": False,
                 "receipt_semantics_verified": False, "capital_feasibility_certified": False,
+                "intraday_authorization_time_verified": False,
                 "real_market_census_closed": False, "operational_executor_connected": False}
 
 

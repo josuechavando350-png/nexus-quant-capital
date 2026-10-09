@@ -82,8 +82,14 @@ def transport(pin, snapshots, repository):
     tree = commit["commit"]["tree"]["sha"]
     equal(run["head_commit"]["id"], pin["head_sha"], "run commit")
     equal(run["head_commit"]["tree_id"], tree, "run tree")
-    require(dt.datetime.now(dt.timezone.utc) < dt.datetime.fromisoformat(art["expires_at"].replace("Z", "+00:00")),
-            "artifact has expired since metadata acquisition")
+    # Retained bytes remain reproducible after remote retention expires.
+    # Check the captured metadata's lifetime, not today's wall clock. This
+    # establishes no claim that GitHub still serves the artifact today.
+    created = dt.datetime.fromisoformat(art["created_at"].replace("Z", "+00:00"))
+    updated = dt.datetime.fromisoformat(art["updated_at"].replace("Z", "+00:00"))
+    expiry = dt.datetime.fromisoformat(art["expires_at"].replace("Z", "+00:00"))
+    require(all(x.tzinfo is not None for x in (created, updated, expiry))
+            and created <= updated < expiry, "invalid captured artifact lifetime")
     return art, tree, run["event"]
 
 

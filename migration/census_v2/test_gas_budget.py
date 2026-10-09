@@ -27,6 +27,11 @@ def event(kind, eid, **changes):
 
 
 class GasBudgetTests(unittest.TestCase):
+    def test_authorization_cannot_retroactively_fund_historical_candidates(self):
+        with self.assertRaisesRegex(ValueError, "before authorization"):
+            Budget().apply(event("FUND", "f", at="2026-10-01T05:23:35Z",
+                                 received_at="2026-10-01T05:23:35Z"))
+
     def funded(self):
         b = Budget()
         b.apply(event("FUND", "f"))

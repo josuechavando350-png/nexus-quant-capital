@@ -50,6 +50,18 @@ class HistoricalInputTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 v.parse(raw)
 
+    def test_retained_bytes_do_not_expire_with_remote_storage(self):
+        raw = dict(self.snapshots["d06"])
+        doc = v.parse(raw["artifact"])
+        doc.update(created_at="2020-01-01T00:00:00Z", updated_at="2020-01-01T00:01:00Z",
+                   expires_at="2020-04-01T00:00:00Z")
+        raw["artifact"] = json.dumps(doc).encode()
+        v.transport(self.pins["d06"], raw, self.pins["repository"])
+        doc["expires_at"] = doc["created_at"]
+        raw["artifact"] = json.dumps(doc).encode()
+        with self.assertRaisesRegex(ValueError, "lifetime"):
+            v.transport(self.pins["d06"], raw, self.pins["repository"])
+
     def test_unsafe_archive_paths_rejected(self):
         for path in ("../x", "/x", "a/../x", "a//x", "a/./x", "a\\x", "a\x00b", "", "."):
             with self.assertRaises(ValueError):

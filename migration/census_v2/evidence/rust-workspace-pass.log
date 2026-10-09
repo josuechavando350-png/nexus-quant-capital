@@ -1,0 +1,965 @@
+    Updating crates.io index
+ Downloading crates ...
+  Downloaded cfg-if v1.0.5
+  Downloaded crypto-common v0.1.7
+  Downloaded block-buffer v0.10.4
+  Downloaded cpufeatures v0.2.17
+  Downloaded digest v0.10.7
+  Downloaded generic-array v0.14.7
+  Downloaded sha2 v0.10.9
+  Downloaded typenum v1.20.1
+  Downloaded version_check v0.9.5
+   Compiling version_check v0.9.5
+   Compiling typenum v1.20.1
+   Compiling cfg-if v1.0.5
+   Compiling cpufeatures v0.2.17
+   Compiling generic-array v0.14.7
+   Compiling crypto-common v0.1.7
+   Compiling block-buffer v0.10.4
+   Compiling digest v0.10.7
+   Compiling sha2 v0.10.9
+   Compiling nqc-census-core v0.1.0 (/workspace/scratch/4ab306bc8e06/nqc-census-v2/nqc-census/crates/nqc-census-core)
+   Compiling nqc-census-store v0.1.0 (/workspace/scratch/4ab306bc8e06/nqc-census-v2/nqc-census/crates/nqc-census-store)
+   Compiling nqc-census-chain v0.1.0 (/workspace/scratch/4ab306bc8e06/nqc-census-v2/nqc-census/crates/nqc-census-chain)
+   Compiling nqc-census-capital v0.1.0 (/workspace/scratch/4ab306bc8e06/nqc-census-v2/nqc-census/crates/nqc-census-capital)
+   Compiling nqc-census-aave-discovery v0.1.0 (/workspace/scratch/4ab306bc8e06/nqc-census-v2/nqc-census/crates/nqc-census-aave-discovery)
+   Compiling nqc-census-closeout v0.1.0 (/workspace/scratch/4ab306bc8e06/nqc-census-v2/nqc-census/crates/nqc-census-closeout)
+   Compiling nqc-census-portfolio v0.1.0 (/workspace/scratch/4ab306bc8e06/nqc-census-v2/nqc-census/crates/nqc-census-portfolio)
+   Compiling nqc-census-economics v0.1.0 (/workspace/scratch/4ab306bc8e06/nqc-census-v2/nqc-census/crates/nqc-census-economics)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 35.87s
+     Running unittests src/lib.rs (target/debug/deps/nqc_census_aave_discovery-e10b2c93d3d019e1)
+
+running 6 tests
+test closeout::tests::rfc3339_matches_independent_reference_values ... ok
+test resume::tests::request_methods_are_summarized ... ok
+test resume::tests::differences_name_the_paths_that_differ ... ok
+test live::tests::replay_report_rejects_unknown_fields_and_false_status ... ok
+test live::tests::anchor_flags_default_to_the_declared_anchor_and_go_together ... ok
+test live::tests::replay_report_rejects_duplicate_extra_and_reordered_providers ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc006-aave-admission.rs (target/debug/deps/nqc_rmc006_aave_admission-d89bb31f198e9a99)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc006-aave-closeout.rs (target/debug/deps/nqc_rmc006_aave_closeout-f247b34f7c3681a0)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc006-aave-current.rs (target/debug/deps/nqc_rmc006_aave_current-55308825c757c9a3)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc006-aave-current-replay.rs (target/debug/deps/nqc_rmc006_aave_current_replay-baff457f652ef27a)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc006-aave-history.rs (target/debug/deps/nqc_rmc006_aave_history-37ec5631ac45e6f2)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc006-aave-resume-check.rs (target/debug/deps/nqc_rmc006_aave_resume_check-ff720083a2751188)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/aave_discovery.rs (target/debug/deps/aave_discovery-0a90bf71ec04b89d)
+
+running 21 tests
+test conflicting_second_initialization_for_same_asset_fails_closed ... ok
+test drop_without_initialization_fails_closed ... ok
+test drop_at_or_before_initialization_fails_closed ... ok
+test dropped_current_reserve_fails_closed ... ok
+test duplicate_drop_provider_observation_is_deduplicated ... ok
+test duplicate_reserve_id_with_different_assets_fails ... ok
+test distinct_asset_addresses_produce_distinct_market_ids ... ok
+test duplicate_provider_init_is_deduplicated ... ok
+test exact_duplicate_current_rows_do_not_create_two_markets ... ok
+test getter_only_is_unexplained ... ok
+test evidence_from_getter_and_history_is_merged_without_duplicates ... ok
+test identical_getter_and_history_certify ... ok
+test historical_without_drop_is_preserved_and_blocking ... ok
+test historical_with_later_drop_is_explained ... ok
+test same_asset_with_two_current_ids_fails_closed ... ok
+test input_order_is_byte_identical ... ok
+test reserve_initialized_allows_zero_optional_v3_addresses ... ok
+test reserve_dropped_decoder_is_strict ... ok
+test reserve_initialized_decoder_is_strict ... ok
+test reserve_event_noncanonical_indexed_address_is_rejected ... ok
+test reserve_event_wrong_emitter_is_rejected ... ok
+
+test result: ok. 21 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/aave_history.rs (target/debug/deps/aave_history-9d0a3f71d58491f0)
+
+running 11 tests
+test a_current_surface_from_another_anchor_is_refused ... ok
+test discontinuous_or_wrong_final_implementation_fails_closed ... ok
+test history_with_zero_topic_lineage_drop_and_slot_reuse_reconciles ... ok
+test a_provider_omitting_one_lineage_or_reserve_log_fails_consensus ... ok
+test replaced_pool_address_fails_closed ... ok
+test dropped_slot_in_current_surface_must_be_explained_by_history ... ok
+test history_is_deterministic_across_independent_stores ... ok
+test replaced_configurator_is_windowed_and_stale_emitter_rejected ... ok
+test reserve_id_or_token_disagreement_is_unexplained ... ok
+test repeated_requests_answered_in_other_bytes_replay_in_recorded_order ... ok
+test crash_resume_replay_is_byte_identical_and_tamper_is_detected ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 10.17s
+
+     Running unittests src/lib.rs (target/debug/deps/nqc_census_capital-239dfb0431f0c284)
+
+running 46 tests
+test artifacts::streaming_artifact_jsonl_tests::canonical_rows_match_exact_bytes_with_lazy_roundtrip ... ok
+test artifacts::streaming_artifact_jsonl_tests::streaming_malformed_tail_and_missing_newline_fail_closed ... ok
+test balancer_live::tests::balancer_selectors_are_derived_from_signatures ... ok
+test balancer_live::tests::dual_provider_reconcile_rejects_same_operator ... ok
+test balancer_live::tests::uint256_decimal_is_exact_at_boundaries ... ok
+test balancer_live::tests::dual_provider_reconcile_rejects_economic_mismatch ... ok
+test permissionless_atomic::tests::balancer_pause_preserves_observed_balance_but_blocks_execution ... ok
+test permissionless_atomic::tests::balancer_requires_exact_dual_provider_agreement ... ok
+test balancer_live::tests::reconcile_builder_rejects_noncanonical_provider_capture ... ok
+test permissionless_atomic::tests::provider_transcripts_must_be_independent ... ok
+test balancer_live::tests::dual_provider_reconcile_emits_exact_balancer_source ... ok
+test permissionless_atomic::tests::uniswap_v3_admission_preserves_exact_pool_balance ... ok
+test permissionless_atomic::tests::uniswap_v3_requires_exact_dual_provider_agreement ... ok
+test replay::real_source_shape_tests::real_source_closeout_rejects_empty_source_census ... ok
+test replay::real_source_shape_tests::real_source_subset_cannot_masquerade_as_terminal_capital_census ... ok
+test source_authority::tests::authority_rejects_anchor_mismatch ... ok
+test permissionless_atomic::tests::uniswap_v3_zero_active_liquidity_preserves_balance_but_blocks_execution ... ok
+test source_authority::tests::authority_binds_artifact_evidence_and_exact_source_set ... ok
+test source_authority::tests::authority_rejects_artifact_mutation ... ok
+test source_authority::tests::authority_rejects_duplicate_source_ids ... ok
+test uniswap_v3_acquire::tests::deployment_contract_rejects_runtime_authority_upgrade ... ok
+test uniswap_v3_acquire::tests::decimal_conversion_handles_uint256_boundaries ... ok
+test source_authority::tests::authority_rejects_source_set_mutation ... ok
+test uniswap_v3_live::tests::decodes_canonical_pool_created ... ok
+test uniswap_v3_live::tests::interface_is_derived_from_exact_signatures ... ok
+test uniswap_v3_live::tests::dual_provider_reconciliation_rejects_balance_mismatch ... ok
+test uniswap_v3_live::tests::dual_provider_reconciliation_rejects_active_liquidity_mismatch ... ok
+test uniswap_v3_live::tests::dual_provider_reconciliation_emits_exact_flash_source ... ok
+test uniswap_v3_live::tests::rejects_noncanonical_token_order ... ok
+test uniswap_v3_live::tests::pool_runtime_requires_flash_and_state_selectors ... ok
+test uniswap_v3_live::tests::rejects_noncanonical_fee_topic_padding ... ok
+test balancer_live::tests::reconcile_artifact_roundtrips_into_source_authority ... ok
+test uniswap_v3_live::tests::runtime_requires_get_pool_and_pool_created_topic ... ok
+test uniswap_v3_live::tests::reconciliation_preserves_d08_execution_blockers ... ok
+test uniswap_v3_live::tests::uniswap_v3_reconciliation_rejects_same_operator ... ok
+test upstream::original_d08_duplicate_token_tests::contradictory_non_execution_fields_also_force_non_execution ... ok
+test upstream::original_d08_duplicate_token_tests::different_blocked_observations_union_and_explicitly_flag_conflict ... ok
+test upstream::original_d08_duplicate_token_tests::identical_canonical_repeated_token_rows_are_idempotent ... ok
+test upstream::original_d08_duplicate_token_tests::repeated_raw_blocker_in_any_single_row_is_rejected ... ok
+test upstream::original_d08_duplicate_token_tests::unrelated_tokens_remain_independently_classified ... ok
+test upstream::original_d08_duplicate_token_tests::optimistic_duplicate_cannot_erase_true_blocker ... ok
+test balancer_live::tests::reconcile_artifact_rejects_capture_digest_tamper ... ok
+test balancer_live::tests::reconcile_artifact_rejects_readable_projection_tamper ... ok
+test upstream::original_d08_duplicate_token_tests::conflicting_status_and_blocker_in_same_row_still_fails_closed ... ok
+test uniswap_v3_live::tests::uniswap_v3_reconciliation_artifact_roundtrips_authority ... ok
+test artifacts::streaming_artifact_jsonl_tests::hundred_thousand_records_do_not_require_json_ast_collection ... ok
+
+test result: ok. 46 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.28s
+
+     Running unittests src/bin/nqc-rmc011-aave-debt-discovery.rs (target/debug/deps/nqc_rmc011_aave_debt_discovery-7a0ce2d516900537)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc011-authority-lock-build.rs (target/debug/deps/nqc_rmc011_authority_lock_build-217bcea1c722a61c)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc011-balancer-v2-capture.rs (target/debug/deps/nqc_rmc011_balancer_v2_capture-0a2aa8efa6209dfe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc011-balancer-v2-reconcile.rs (target/debug/deps/nqc_rmc011_balancer_v2_reconcile-a1e3329579e1cc3d)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc011-capital-build.rs (target/debug/deps/nqc_rmc011_capital_build-b78a9031546cccd5)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc011-capital-verify.rs (target/debug/deps/nqc_rmc011_capital_verify-f403b530bc5141b4)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc011-expanded-ledger-replay.rs (target/debug/deps/nqc_rmc011_expanded_ledger_replay-376af1c5aa6a9b34)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc011-uniswap-v3-capture.rs (target/debug/deps/nqc_rmc011_uniswap_v3_capture-24e48dc148227940)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc011-uniswap-v3-reconcile.rs (target/debug/deps/nqc_rmc011_uniswap_v3_reconcile-5155711e22e302fb)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc011-upstream-replay-verify.rs (target/debug/deps/nqc_rmc011_upstream_replay_verify-8b39e8165bdc2b8f)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/aave_debt_discovery.rs (target/debug/deps/aave_debt_discovery-0b59fbf9293786d6)
+
+running 9 tests
+test substituted_anchor_is_rejected_before_discovery ... ok
+test borrow_cap_reached_is_preserved_as_protocol_blocker ... ok
+test protocol_facts_cannot_contradict_decoded_configuration ... ok
+test discovers_exact_borrow_cap_upper_bound_from_authenticated_d08 ... ok
+test duplicate_aave_debt_candidate_is_rejected ... ok
+test tampered_state_bytes_fail_manifest_binding ... ok
+test discovery_artifact_preserves_token_execution_blocker ... ok
+test d08_token_blocker_preserves_protocol_capacity_but_blocks_execution_compatibility ... ok
+test discovery_artifact_is_deterministic_and_nonterminal ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/adapters.rs (target/debug/deps/adapters-30b2dff72ad7fad7)
+
+running 20 tests
+test adapters_require_real_evidence_references ... ok
+test aave_v3_adapter_matches_pft_compat_009_flash_premium_ceiling ... ok
+test external_gas_credit_is_external_native_gas_with_bounded_capacity ... ok
+test adapter_records_roundtrip_through_generic_capital_source ... ok
+test aave_v3_disabled_flash_source_preserves_observed_liquidity_but_blocks_execution ... ok
+test balancer_v2_paused_vault_preserves_observed_balance_but_blocks_execution ... ok
+test external_gas_sponsor_is_non_operator_native_gas_capital ... ok
+test balancer_v2_adapter_preserves_ceil_fee_semantics ... ok
+test external_gas_credit_rejects_zero_deadline_and_foreign_fixed_fee_asset ... ok
+test external_gas_sponsor_rejects_fixed_fee_asset_mismatch ... ok
+test external_gas_credit_requires_evidence ... ok
+test external_gas_sponsor_can_charge_evidence_bound_fee_without_principal_repayment ... ok
+test inactive_external_gas_credit_preserves_observed_capacity_but_blocks_execution ... ok
+test uniswap_v2_flash_swap_binds_strict_reserve_capacity_and_fee ... ok
+test uniswap_v2_flash_swap_requires_evidence ... ok
+test uniswap_v3_zero_balance_remains_an_observed_source ... ok
+test uniswap_v3_flash_binds_pool_balance_and_ceil_fee ... ok
+test uniswap_v3_rejects_impossible_fee_scale ... ok
+test uniswap_v2_flash_swap_preserves_zero_capacity_observations ... ok
+test uniswap_v3_zero_active_liquidity_blocks_execution_without_erasing_balance ... ok
+
+test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/artifacts.rs (target/debug/deps/artifacts-bf93bda486bda0d2)
+
+running 17 tests
+test artifact_provenance_requires_exact_git_object_ids ... ok
+test all_rejected_census_does_not_claim_zero_own_capital_proof ... ok
+test jsonl_records_carry_exact_anchor_and_provenance ... ok
+test offline_artifact_verifier_rejects_manifest_digest_substitution ... ok
+test downstream_source_reader_reconstructs_exact_canonical_source_set ... ok
+test capital_artifacts_are_deterministic_and_complete ... ok
+test offline_artifact_verifier_rejects_tampered_bytes ... ok
+test offline_artifact_verifier_rejects_noncanonical_jsonl ... ok
+test synthetic_ledger_cannot_export_evidentiary_artifacts ... ok
+test artifact_export_rejects_wall_clock_or_arbitrary_generation_time ... ok
+test source_artifact_exposes_full_capital_semantics ... ok
+test offline_verifier_rejects_rehashed_upstream_authority_substitution ... ok
+test blocked_source_bundle_roundtrips_offline_and_preserves_execution_rejection ... ok
+test offline_artifact_verifier_accepts_exact_export ... ok
+test offline_verifier_rejects_rehashed_feasibility_allocation_substitution ... ok
+test source_only_bundle_is_offline_verifiable_without_false_feasibility_claim ... ok
+test upstream_authority_artifact_is_exact_and_offline_bound ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests/capital.rs (target/debug/deps/capital-4b4347edd4955439)
+
+running 76 tests
+test allocation_engine_reroutes_scarce_source_instead_of_greedy_false_negative ... ok
+test certification_context_rejects_mixed_upstream_anchors ... ok
+test bond_or_stake_requirement_is_canonical_and_class_separated ... ok
+test certification_context_requires_every_stage_artifact_in_evidence_catalog ... ok
+test certification_rejects_evidence_not_admitted_by_upstream_authority ... ok
+test collateral_leg_rejects_source_that_requires_temporary_lock ... ok
+test checked_feasibility_rejects_duplicate_source_capacity ... ok
+test collateralized_borrowing_can_bind_full_persistent_risk_semantics ... ok
+test collateral_requirement_cannot_be_funded_circularly_by_collateralized_source ... ok
+test certification_rejects_source_or_requirement_sets_not_consumed_upstream ... ok
+test compatible_source_at_foreign_anchor_is_classified_as_anchor_mismatch ... ok
+test collateral_dependencies_are_aggregated_across_all_used_sources ... ok
+test consumed_output_set_commitment_is_order_independent ... ok
+test evidentiary_ledger_cannot_certify_against_a_different_anchor ... ok
+test evidentiary_certification_requires_consumed_d08_and_d09_receipts ... ok
+test consumption_receipts_fail_closed_on_wrong_authority_or_duplicate_stage ... ok
+test deadline_bound_gas_credit_cannot_fund_same_transaction_action_principal ... ok
+test execution_blocked_gas_is_not_misclassified_as_missing ... ok
+test execution_blocked_liquidity_is_not_misclassified_as_insufficient_capacity ... ok
+test evidentiary_ledger_requires_nonempty_source_census ... ok
+test evidentiary_source_census_can_certify_without_actionable_requirements ... ok
+test fee_quotes_are_integer_exact_across_full_uint256_domain ... ok
+test fee_quote_rejects_uint256_overflow ... ok
+test execution_blockers_preserve_observed_capacity_and_stable_source_key ... ok
+test fee_rounding_matches_protocol_integer_semantics ... ok
+test fixed_fee_preserves_explicit_fee_asset ... ok
+test git_object_ids_are_exact_lowercase_sha1_hex_width ... ok
+test exact_gas_and_flash_sources_can_be_feasible ... ok
+test evidentiary_ledger_certifies_only_after_evaluation ... ok
+test gas_is_independent_and_required ... ok
+test funding_fee_leg_must_allow_the_actual_fee_source_class ... ok
+test final_certification_requires_every_upstream_stage_exactly_once ... ok
+test ledger_rejects_multiple_states_for_same_stable_source_key ... ok
+test missing_funding_fee_is_rejected_during_feasibility ... ok
+test ledger_proves_no_operator_owned_capital_was_used ... ok
+test mismatched_anchor_fails_closed ... ok
+test ledger_commitment_changes_with_observed_capacity ... ok
+test native_gas_flag_and_gas_leg_must_match_exactly ... ok
+test operator_treasury_cannot_claim_external_ownership ... ok
+test multiple_operator_sources_are_aggregated_before_zero_own_capital_rejection ... ok
+test persistent_debt_requires_collateral_semantics ... ok
+test no_repayment_gas_source_needs_no_principal_repayment_leg ... ok
+test ledger_commitment_is_registration_order_independent ... ok
+test no_repayment_gas_sponsor_fee_must_still_be_declared ... ok
+test persistent_debt_cannot_hide_missing_risk_terms ... ok
+test protocol_cap_limits_effective_capacity ... ok
+test proportional_collateral_tracks_allocated_draw_exactly ... ok
+test proportional_collateral_must_round_up_and_have_a_positive_ratio ... ok
+test repayment_leg_must_allow_the_actual_allocated_source_class ... ok
+test repayment_obligation_does_not_double_count_initial_capital ... ok
+test requirement_constructor_rejects_zero_observation_evidence ... ok
+test same_block_credit_cannot_satisfy_same_transaction_requirement ... ok
+test requirement_roundtrip_and_cross_type_rejection ... ok
+test settlement_class_amounts_cannot_be_swapped_between_source_classes ... ok
+test same_transaction_action_can_use_deadline_bound_external_gas_credit ... ok
+test settlement_leg_can_split_exact_amount_across_authorized_source_classes ... ok
+test source_key_is_stable_across_ownership_changes ... ok
+test source_id_is_deterministic_and_class_separated ... ok
+test settlement_obligations_separate_principal_repayment_from_funding_fee ... ok
+test source_canonical_roundtrip_and_tamper_rejection ... ok
+test source_constructor_rejects_public_semantic_bypasses ... ok
+test upstream_authority_rejects_mismatch_unknown_or_unadmitted_stage ... ok
+test source_key_is_stable_across_state_refreshes ... ok
+test utilization_math_handles_full_256_bit_capacity_exactly ... ok
+test synthetic_ledger_cannot_be_misreported_as_real_certification ... ok
+test utilization_reserve_and_absolute_caps_are_independent_upper_bounds ... ok
+test stable_source_key_does_not_alias_different_asset_or_class ... ok
+test temporary_lock_dependencies_are_aggregated_across_all_used_sources ... ok
+test temporary_lock_leg_rejects_source_that_requires_collateral ... ok
+test unknown_source_failure_mode_is_never_admitted ... ok
+test zero_capacity_source_is_preserved_but_zero_requirement_amount_is_invalid ... ok
+test wrong_settlement_amount_is_rejected_during_feasibility_not_certification ... ok
+test zero_own_capital_claim_requires_at_least_one_feasible_requirement ... ok
+test zero_own_capital_policy_rejects_operator_treasury_source ... ok
+test zero_own_capital_rejects_operator_owned_builder_source ... ok
+test canonical_objects_reject_evidence_counts_above_u16 ... ok
+
+test result: ok. 76 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/demands.rs (target/debug/deps/demands-217f3be97ad10de6)
+
+running 12 tests
+test d09_evidentiary_import_rejects_manifest_not_named_by_authority ... ok
+test d09_evidentiary_import_rejects_account_artifact_substitution ... ok
+test borrower_with_unavailable_account_data_is_explicitly_blocked ... ok
+test below_one_borrower_is_imported_but_not_promoted_to_capital_requirement ... ok
+test d09_import_refuses_non_pass_or_missing_liquidatability_boundary ... ok
+test d09_import_refuses_wrong_anchor ... ok
+test d09_demand_coverage_commitment_is_input_order_independent ... ok
+test non_borrowers_are_not_capital_demand_candidates ... ok
+test d09_import_rejects_health_factor_classification_that_contradicts_exact_account_data ... ok
+test d09_import_refuses_schema_or_v2_scope_drift ... ok
+test healthy_borrower_is_explicitly_blocked_and_conserved ... ok
+test d09_import_rejects_duplicate_accounts_and_noncanonical_amounts ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/external_debt.rs (target/debug/deps/external_debt-531d46fc5cda558e)
+
+running 7 tests
+test rejects_duplicate_provider_transcript ... ok
+test rejects_anchor_substitution ... ok
+test imports_persistent_debt ... ok
+test imports_collateralized_borrowing ... ok
+test inactive_debt_preserves_observation_but_is_not_executable ... ok
+test rejects_provider_semantic_divergence ... ok
+test stable_source_key_does_not_rotate_with_observed_state ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/gas_credit.rs (target/debug/deps/gas_credit-49a9f3b1470aad5a)
+
+running 11 tests
+test forged_terms_commitment_fails_closed ... ok
+test duplicated_provider_transcript_fails_closed ... ok
+test gas_credit_requiring_operator_prefund_fails_closed ... ok
+test delivery_route_change_cannot_reuse_old_terms_commitment ... ok
+test foreign_anchor_and_noncanonical_bytes_fail_closed ... ok
+test exact_two_provider_gas_credit_imports_as_external_native_gas ... ok
+test on_chain_draw_that_requires_borrower_gas_fails_closed ... ok
+test active_state_changes_observation_id_but_not_stable_source_key ... ok
+test provider_disagreement_fails_closed ... ok
+test one_wei_state_drift_cannot_reuse_old_provider_facts_commitment ... ok
+test runtime_change_preserves_stable_key_but_changes_observation_id ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/gas_sponsor.rs (target/debug/deps/gas_sponsor-9bc3bd905c829e1a)
+
+running 7 tests
+test rejects_noncanonical_json_bytes ... ok
+test rejects_duplicate_provider_transcript ... ok
+test rejects_provider_semantic_divergence ... ok
+test rejects_anchor_substitution ... ok
+test imports_authenticated_external_gas_sponsor ... ok
+test inactive_sponsor_preserves_observation_but_is_not_executable ... ok
+test stable_source_key_does_not_rotate_with_observed_state ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/offline_cli.rs (target/debug/deps/offline_cli-8035ab4c32874290)
+
+running 5 tests
+test authority_lock_builder_binary_rejects_incomplete_stage_set ... ok
+test authority_lock_builder_binary_emits_canonical_verified_lock ... ok
+test offline_verifier_binary_rejects_tampered_artifact ... ok
+test offline_verifier_binary_accepts_exact_export ... ok
+test offline_verifier_binary_rejects_wrong_exact_code_identity ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/replay.rs (target/debug/deps/replay-76d1f312a0e36fd3)
+
+running 9 tests
+test closeout_opportunity_claim_requires_at_least_one_feasible_requirement ... ok
+test authority_lock_rejects_anchor_substitution_and_mixed_stage_anchors ... ok
+test authority_lock_rejects_non_certifiable_upstream_stage_truth ... ok
+test exact_upstream_bytes_replay_to_committed_receipts ... ok
+test upstream_replay_rejects_forged_committed_output_set ... ok
+test authority_lock_roundtrips_canonically_and_rejects_unconsumed_stage_substitution ... ok
+test upstream_replay_rejects_consumed_byte_substitution ... ok
+test bundle_replay_rejects_self_consistent_but_externally_unlocked_d06_authority ... ok
+test capital_bundle_plus_upstream_bytes_forms_one_offline_replay_proof ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+     Running tests/source_authority.rs (target/debug/deps/source_authority-4216c8fa20a1a924)
+
+running 6 tests
+test native_authority_set_rejects_duplicate_family ... ok
+test expanded_certificate_rejects_missing_d08_source_even_with_valid_native_authority ... ok
+test native_authority_set_rejects_source_union_mutation ... ok
+test expanded_certificate_rejects_source_smuggled_under_other_upstream_evidence ... ok
+test expanded_certificate_preserves_d08_receipt_and_admits_native_d11_sources ... ok
+test expanded_certificate_accepts_multiple_disjoint_native_families ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/source_authority_family.rs (target/debug/deps/source_authority_family-96a07ba861c306e5)
+
+running 4 tests
+test explicit_family_cannot_relabel_balancer_as_uniswap_v3 ... ok
+test one_authority_cannot_mix_balancer_and_uniswap_v3 ... ok
+test inferred_authority_binds_balancer_family ... ok
+test family_changes_authority_commitment ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/transient_credit.rs (target/debug/deps/transient_credit-a00aa61fa5d66e6e)
+
+running 6 tests
+test rejects_anchor_substitution ... ok
+test rejects_provider_semantic_divergence ... ok
+test rejects_duplicate_provider_transcript ... ok
+test imports_transient_credit_with_exact_capacity_and_terms ... ok
+test inactive_facility_preserves_observation_but_blocks_execution ... ok
+test imports_same_block_repayment_semantics ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/upstream.rs (target/debug/deps/upstream-5a5d90e52f72e6f0)
+
+running 15 tests
+test amount256_decimal_parser_is_exact_and_rejects_overflow ... ok
+test d08_evidentiary_import_rejects_manifest_not_named_by_authority ... ok
+test d08_evidentiary_import_rejects_manifest_anchor_substitution ... ok
+test d08_evidentiary_import_rejects_consumed_artifact_substitution ... ok
+test current_d08_blocked_token_semantics_preserve_observed_capital ... ok
+test d08_import_preserves_unproven_token_capital_but_excludes_it_from_execution ... ok
+test d08_import_rejects_duplicate_capital_candidates ... ok
+test d08_import_builds_aave_and_v2_sources_only_for_proven_compatible_tokens ... ok
+test d08_import_preserves_inactive_or_paused_aave_reserve_as_blocked_capital ... ok
+test d08_import_binds_aave_pool_and_flash_fee_to_closeout_facts ... ok
+test d08_import_coverage_is_order_independent_and_conserved ... ok
+test d08_import_preserves_zero_and_disabled_aave_capital_observations ... ok
+test d08_import_requires_token_admission_row_for_every_source_asset ... ok
+test d08_import_rejects_v2_reserve_without_strict_flash_swap_headroom ... ok
+test d08_import_rejects_noncanonical_fee_or_liquidity_semantics ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/nqc_census_chain-145ee7ab4fb0f5fb)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-census-chain.rs (target/debug/deps/nqc_census_chain-ccf7323c692cd492)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/chain_evidence.rs (target/debug/deps/chain_evidence-999995798701bbd0)
+
+running 22 tests
+test abi_decoding_is_canonical ... ok
+test bytecode_scan_skips_push_data_and_metadata ... ok
+test consensus_requires_two_distinct_providers_and_identical_results ... ok
+test error_classes_never_turn_failures_into_observations ... ok
+test hex_quantities_and_data_are_strict ... ok
+test json_is_strict_and_canonical ... ok
+test bootstrap_derives_one_chain_domain_and_rejects_wrong_genesis ... ok
+test archive_gaps_and_rate_limits_are_typed_not_observed ... ok
+test admin_context_calls_are_bound_into_observations ... ok
+test provider_sets_require_distinct_sources ... ok
+test orphan_log_fails_closed ... ok
+test real_mainnet_header_is_reconstructed_and_rehashed ... ok
+test earliest_code_boundary_has_predecessor_proof ... ok
+test rpc_ids_are_positional_and_replies_strict ... ok
+test bootstrap_report_replays_offline_and_rejects_tampering ... ok
+test omitted_log_is_a_provider_mismatch_not_a_vote ... ok
+test point_job_commits_and_resumes_by_replay_without_network ... ok
+test range_hole_is_never_certified ... ok
+test interrupted_scan_resumes_to_the_identical_evidence_root ... ok
+test reorg_between_windows_breaks_the_checkpoint_chain ... ok
+test scans_are_window_checkpointed_certified_and_provider_independent_in_result ... ok
+test partitioned_scans_merge_and_link_by_parent_hash ... ok
+
+test result: ok. 22 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.23s
+
+     Running tests/log_topic_words.rs (target/debug/deps/log_topic_words-c1095dff26c21d90)
+
+running 2 tests
+test provider_zero_hashes_stay_rejected_while_zero_topics_decode ... ok
+test zero_topic_log_is_scanned_certified_and_replayed ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.34s
+
+     Running unittests src/lib.rs (target/debug/deps/nqc_census_closeout-34d4be3933a4ce71)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-rmc014-closeout.rs (target/debug/deps/nqc_rmc014_closeout-6d2bffa05495efab)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/closeout.rs (target/debug/deps/closeout-add159479b883533)
+
+running 13 tests
+test capital_feasible_opportunity_requires_zero_own_capital_proof ... ok
+test all_structural_proofs_certify_chain_without_closing_rmc ... ok
+test invalid_uppercase_or_short_git_identity_is_rejected ... ok
+test duplicate_stage_fails_closed ... ok
+test changing_any_stage_artifact_changes_terminal_commitment ... ok
+test missing_stage_fails_closed ... ok
+test non_monotonic_pipeline_is_rejected ... ok
+test wrong_stage_workflow_or_artifact_binding_fails_closed ... ok
+test rmc_cannot_smuggle_realized_or_monthly_target_profitability_claim ... ok
+test mismatch_unknown_and_blocker_each_fail_closed ... ok
+test rmc_scope_cannot_overclaim_global_completeness ... ok
+test terminal_commitment_is_input_order_independent ... ok
+test opportunity_count_may_exceed_borrowable_market_count_without_aliasing_domains ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/terminal_cli.rs (target/debug/deps/terminal_cli-91887af550079a16)
+
+running 4 tests
+test incomplete_or_non_monotonic_terminal_truth_fails_closed ... ok
+test wrong_workflow_or_artifact_name_fails_closed ... ok
+test valid_lock_emits_byte_stable_structural_certificate ... ok
+test source_lock_cannot_self_certify_or_smuggle_profitability ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running unittests src/lib.rs (target/debug/deps/nqc_census_core-ed1a7cfc56992af6)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/deployment_registry.rs (target/debug/deps/deployment_registry-4bb430334d9d8841)
+
+running 15 tests
+test capability_state_is_exhaustive_and_must_match_profile ... ok
+test direct_and_proxy_bindings_are_explicit_not_guessed ... ok
+test creation_and_observation_must_stay_inside_declared_windows ... ok
+test admission_identity_is_bound_to_the_exact_declared_universe ... ok
+test exact_supported_binding_is_admitted_and_retry_is_idempotent ... ok
+test lifecycle_transition_preserves_history_without_forcing_semantics_bump ... ok
+test semantics_version_cannot_move_backward_even_when_fingerprint_is_unchanged ... ok
+test universe_requires_explicit_compatible_discovery_roots_and_finite_windows ... ok
+test later_admission_cannot_rewrite_deployment_creation_history ... ok
+test universe_is_finite_order_deterministic_and_rejects_duplicate_scope ... ok
+test undeclared_chain_protocol_and_root_fail_closed ... ok
+test unknown_or_drifted_semantics_are_rejected ... ok
+test semantic_upgrade_requires_explicit_predecessor_and_version_increase ... ok
+test wrong_chain_anchor_and_missing_evidence_fail_closed ... ok
+test removed_deployment_is_terminal_but_preserves_adapter_support_for_history ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/identity.rs (target/debug/deps/identity-036f41ba0bc42108)
+
+running 16 tests
+test alias_reconciliation_is_idempotent_and_conflicts_fail_closed ... ok
+test action_for_absent_market_is_rejected ... ok
+test chain_deployment_and_protocol_domains_prevent_false_aliases ... ok
+test counting_separates_units_actions_dedup_and_input_order ... ok
+test decoder_rejects_version_duplicate_and_unknown_fields ... ok
+test decoder_roundtrip_preserves_identity ... ok
+test action_orientation_is_semantic ... ok
+test hexadecimal_case_is_representation_only ... ok
+test golden_v2_pair_bytes_and_id ... ok
+test golden_aave_reserve_bytes_and_id ... ok
+test invalid_zero_overflow_protocol_and_v2_inputs_fail_closed ... ok
+test golden_state_and_action_ids ... ok
+test implementation_config_and_oracle_changes_are_state_not_market ... ok
+test migration_links_distinct_ids_without_collapsing_them ... ok
+test reorg_keeps_market_id_but_changes_state_id ... ok
+test wrappers_and_underlyings_remain_distinct_contract_identities ... ok
+
+test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/log_topic_words.rs (target/debug/deps/log_topic_words-ea93420d62351614)
+
+running 9 tests
+test nonzero_topic_encoding_and_legacy_digests_are_unchanged ... ok
+test canonical_zero_topic_observation_round_trips_deterministically ... ok
+test hash_fields_still_reject_zero ... ok
+test log_bytes_never_decode_as_another_class ... ok
+test topic_hex_is_strict_and_topic_count_is_bounded ... ok
+test topic_tamper_is_rejected_including_zeroing_and_unzeroing ... ok
+test zero_block_hash_in_the_anchor_is_rejected ... ok
+test zero_transaction_hash_is_rejected_in_canonical_bytes ... ok
+test zero_indexed_address_topic_is_accepted_and_matches_independent_vectors ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/observation_pipeline.rs (target/debug/deps/observation_pipeline-9d610ed84f8c5071)
+
+running 17 tests
+test capability_matrix_rejects_implicit_or_conflicting_support ... ok
+test decoding_preserves_original_observation_envelope_and_digest ... ok
+test duplicate_unit_stage_decision_is_rejected ... ok
+test capability_matrix_is_explicit_per_chain_protocol_version ... ok
+test not_tested_can_never_silently_advance_or_become_rejection ... ok
+test pipeline_stage_contract_has_exact_thirteen_ordered_stages ... ok
+test observation_preserves_full_anchor_raw_log_and_provenance ... ok
+test observation_digest_changes_when_authoritative_inputs_change ... ok
+test raw_log_rejects_more_than_four_topics ... ok
+test joins_reject_different_block_hash_timestamp_and_state_root ... ok
+test rejection_records_preserve_negatives_and_are_order_deterministic ... ok
+test same_state_join_allows_distinct_contract_semantics ... ok
+test stage_ledger_has_explicit_conserved_denominators ... ok
+test unknown_reason_cannot_hide_inside_normal_rejection ... ok
+test positive_and_negative_stage_decisions_require_evidence_refs ... ok
+test unknown_is_machine_readable_not_tested_and_blocker_bound ... ok
+test unsupported_capability_has_stable_rejection_reason ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/typed_observations.rs (target/debug/deps/typed_observations-656cdb862a62cec9)
+
+running 14 tests
+test legacy_raw_log_vectors_are_byte_identical ... ok
+test keccak256_matches_reference_vectors ... ok
+test header_hash_is_recomputed_not_trusted ... ok
+test malformed_canonical_bytes_are_rejected ... ok
+test header_observation_must_match_its_anchor ... ok
+test stale_digest_is_rejected_after_content_change ... ok
+test reverted_calls_and_absent_code_are_preserved ... ok
+test non_canonical_or_incomplete_headers_are_rejected ... ok
+test same_bytes_in_every_class_never_collide ... ok
+test wrong_chain_is_detected_and_changes_identity ... ok
+test changed_output_selector_target_or_header_changes_digest ... ok
+test canonical_encoding_round_trips_and_is_replay_stable ... ok
+test provenance_authority_must_match_class ... ok
+test every_single_byte_tamper_is_rejected ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.55s
+
+     Running unittests src/lib.rs (target/debug/deps/nqc_census_economics-25d40e7b24903c53)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/economics.rs (target/debug/deps/economics-11497a3c8cf76cff)
+
+running 30 tests
+test complete_cost_taxonomy_is_mandatory ... ok
+test duplicate_scenario_evidence_is_rejected ... ok
+test capacity_curve_rejects_mixed_opportunity_plan_or_model_identity ... ok
+test capacity_curve_rejects_duplicate_trade_size ... ok
+test capture_interval_admission_uses_worst_endpoint_not_point_estimate ... ok
+test anchor_change_changes_quote_commitment ... ok
+test exact_gas_valuation_uses_full_precision_integer_math ... ok
+test expected_cost_rounding_never_understates_one_atomic_unit ... ok
+test full_width_mul_div_rejects_result_overflow_instead_of_truncating ... ok
+test invalid_capture_interval_is_rejected ... ok
+test gas_valuation_requires_nonzero_price_evidence ... ok
+test probability_weighting_supports_full_uint256_without_float ... ok
+test profit_bucket_requires_canonical_usd_wad_and_uses_exact_boundaries ... ok
+test positive_quote_is_not_admitted_before_capture_calibration ... ok
+test expected_value_weights_success_and_failure_costs_separately ... ok
+test scenario_distribution_is_exact_and_reports_loss_probability ... ok
+test scenario_probabilities_must_sum_to_exactly_one ... ok
+test quote_rejects_candidate_anchor_mismatch ... ok
+test interval_rounding_guard_catches_interior_loss_hidden_by_endpoints ... ok
+test quote_commitment_is_independent_of_evidence_input_order ... ok
+test signed_scenario_weighting_rounds_losses_up ... ok
+test opportunity_plan_and_model_bind_quote_commitment ... ok
+test low_capture_can_kill_a_profitable_success_path ... ok
+test shadow_handoff_omits_nonpositive_pre_capture_curve ... ok
+test tail_reserve_cannot_understate_declared_loss_at_confidence ... ok
+test shadow_prediction_expiry_must_be_after_anchor ... ok
+test capacity_curve_selects_observed_best_point_without_linear_extrapolation ... ok
+test capacity_curve_reports_largest_positive_measured_size ... ok
+test shadow_handoff_requires_no_fabricated_capture_probability ... ok
+test tail_reserve_can_reject_positive_capture_adjusted_ev ... ok
+
+test result: ok. 30 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/nqc_census_portfolio-e17fca6181fe83ad)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/actionability.rs (target/debug/deps/actionability-c0de72addf65e6e7)
+
+running 13 tests
+test admitted_candidate_binds_flash_repayment_and_signed_oracle_edge ... ok
+test cross_anchor_record_fails_closed ... ok
+test actionable_liquidation_promotes_to_exact_principal_settlement_requirement ... ok
+test authenticated_promotion_identity_reconstructs_exact_portfolio_candidate ... ok
+test disappearing_below_one_borrower_fails_closed ... ok
+test every_below_one_pair_is_conserved_as_admitted_or_rejected ... ok
+test exact_aave_provider_and_fee_are_required_for_capital_feasibility ... ok
+test disappearing_pair_fails_closed ... ok
+test admitted_candidate_cannot_have_zero_principal ... ok
+test negative_oracle_edge_is_preserved_instead_of_erasing_actionability ... ok
+test operator_owned_aave_liquidity_cannot_satisfy_zero_own_capital_policy ... ok
+test pair_key_is_stable_across_observations_but_observed_id_changes ... ok
+test zero_flash_premium_does_not_fabricate_zero_fee_leg ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/portfolio.rs (target/debug/deps/portfolio-e1a54af16caa5e7e)
+
+running 19 tests
+test capital_rejected_candidate_still_requires_declared_shared_resources ... ok
+test capital_rejection_is_preserved_in_portfolio_report ... ok
+test commitment_binds_candidate_identity_even_without_conflicts ... ok
+test commitment_binds_observed_capacity_even_without_conflicts ... ok
+test contention_graph_decomposes_into_independent_components ... ok
+test exclusive_borrower_position_creates_conflict_set ... ok
+test forged_capital_feasibility_is_rejected_by_exact_rmc011_recomputation ... ok
+test capital_rejected_variants_do_not_fabricate_requirement_contention ... ok
+test operator_owned_allocation_fails_closed_even_if_manually_injected ... ok
+test same_locator_on_different_chains_never_aliases ... ok
+test individually_feasible_candidates_cannot_double_spend_one_source ... ok
+test same_variant_hash_on_distinct_requirements_never_aliases_candidate_identity ... ok
+test route_variants_share_requirement_but_keep_distinct_candidate_identity ... ok
+test disjoint_candidates_are_simultaneously_feasible ... ok
+test route_variants_are_implicitly_exclusive_even_without_opportunity_claim ... ok
+test shared_resource_must_match_candidate_anchor ... ok
+test stable_resource_key_changes_observation_id_when_capacity_changes ... ok
+test report_commitment_is_independent_of_input_order ... ok
+test zero_capacity_shared_resource_is_preserved_and_positive_claim_conflicts ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/nqc_census_store-885ba32dde6a9a93)
+
+running 1 test
+test scope::tests::protocol_table_covers_every_rmc001_family ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/nqc-census-store-verify.rs (target/debug/deps/nqc_census_store_verify-f1f7b77a1ccc8399)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/cas.rs (target/debug/deps/cas-a43b17aba229f95f)
+
+running 19 tests
+test claimed_raw_length_cannot_expand_output ... ok
+test empty_and_oversized_artifacts_are_rejected ... ok
+test golden_policy_identity_is_byte_stable ... ok
+test malformed_compressed_streams_reject ... ok
+test frame_claiming_raw_length_beyond_policy_is_rejected_before_allocation ... ok
+test artifact_identity_is_plain_sha256_of_logical_bytes ... ok
+test existing_object_is_never_overwritten_by_different_bytes ... ok
+test different_payloads_never_alias ... ok
+test non_canonical_stored_form_is_rejected_by_verification ... ok
+test persisted_policy_is_enforced_on_reopen ... ok
+test manifest_mutation_is_detected ... ok
+test stored_frame_mutation_is_detected_before_decoding ... ok
+test tampered_or_replaced_store_policy_fails_closed ... ok
+test same_payload_twice_deduplicates_without_rewriting ... ok
+test missing_chunk_fails_closed ... ok
+test truncated_and_trailing_encodings_reject ... ok
+test compressible_and_incompressible_data_round_trip ... ok
+test encoding_is_deterministic_across_independent_stores ... ok
+test content_defined_chunking_survives_insertions ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+
+     Running tests/checkpoints.rs (target/debug/deps/checkpoints-0f30114f228d27ea)
+
+running 15 tests
+test checkpoint_with_absent_evidence_is_refused ... ok
+test genesis_must_start_at_scope_origin_and_parent ... ok
+test internally_inconsistent_ranges_are_rejected ... ok
+test scope_identity_separates_every_lineage_dimension ... ok
+test checkpoint_for_another_scope_cannot_be_committed ... ok
+test gap_after_predecessor_is_rejected ... ok
+test timestamp_regression_is_rejected ... ok
+test overlap_with_predecessor_is_rejected ... ok
+test sequence_jump_is_a_gap ... ok
+test wrong_parent_lineage_is_rejected ... ok
+test exact_retry_is_idempotent ... ok
+test wrong_predecessor_identity_is_rejected ... ok
+test partial_history_cannot_certify_a_larger_range ... ok
+test same_sequence_with_different_content_is_a_hard_conflict ... ok
+test contiguous_checkpoints_commit_resume_and_certify ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+     Running tests/concurrency.rs (target/debug/deps/concurrency-67d1ec82f2f91ac1)
+
+running 5 tests
+test same_checkpoint_same_bytes_has_one_creator_and_idempotent_rest ... ok
+test same_sequence_different_bytes_has_exactly_one_winner ... ok
+test adjacent_sequence_races_never_fork_or_skip ... ok
+test distinct_artifacts_race_without_interference ... ok
+test same_artifact_writers_converge_on_one_object_set ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.46s
+
+     Running tests/offline_verifier.rs (target/debug/deps/offline_verifier-1ad81b8a18352c15)
+
+running 8 tests
+test store_creation_probes_link_semantics_and_layout ... ok
+test usage_errors_exit_two_and_missing_store_fails ... ok
+test artifact_reads_reject_symlinked_intermediate_fanout_directory ... ok
+test verifier_reports_head_state_without_trusting_it ... ok
+test fixture_verifies_copies_verify_identically_and_tamper_fails ... ok
+test symlinks_inside_the_store_are_rejected_not_followed ... ok
+test golden_fixture_evidence_root_is_byte_stable ... ok
+test every_class_of_referenced_object_tamper_is_detected_by_the_binary ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.35s
+
+     Running tests/recovery.rs (target/debug/deps/recovery-17898d19e99dccd2)
+
+running 18 tests
+test accelerated_recovery_cannot_skip_a_broken_prefix_behind_valid_head ... ok
+test deleted_head_is_rebuilt_from_the_catalog ... ok
+test crash_after_head_rename_is_consistent ... ok
+test crash_before_checkpoint_link_does_not_commit ... ok
+test exact_retry_revalidates_referenced_evidence ... ok
+test head_ahead_of_authority_fails_closed ... ok
+test head_copied_from_another_stream_fails_closed ... ok
+test referenced_evidence_tamper_fails_verification ... ok
+test real_process_abort_after_checkpoint_durable_recovers ... ok
+test renamed_or_missing_checkpoint_breaks_the_catalog ... ok
+test crash_during_artifact_publication_never_advances_progress ... ok
+test staging_files_never_become_authoritative ... ok
+test crash_after_checkpoint_authority_recovers_and_repairs_head ... ok
+test corrupt_head_is_rebuilt_from_the_catalog ... ok
+test well_formed_head_contradicting_authority_fails_closed ... ok
+test replaced_tip_is_caught_by_an_external_commitment ... ok
+test malformed_checkpoint_reference_fails_before_resume ... ok
+test every_fault_point_leaves_a_verifiable_store ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.33s
+
+   Doc-tests nqc_census_aave_discovery
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests nqc_census_capital
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests nqc_census_chain
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests nqc_census_closeout
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests nqc_census_core
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests nqc_census_economics
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests nqc_census_portfolio
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests nqc_census_store
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
