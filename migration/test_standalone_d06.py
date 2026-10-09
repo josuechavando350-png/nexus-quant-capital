@@ -531,6 +531,17 @@ class WorkflowRuntimeRootTests(unittest.TestCase):
                 self.assertIn(context, allowed)
         self.assertNotIn("D06_ROOT:", job_env)
 
+    def test_pinned_toolchain_install_never_updates_rustup(self):
+        marker = "      - name: Acquire pinned Rust toolchain and locked dependency cache before disconnecting\n"
+        self.assertEqual(self.workflow.count(marker), 1)
+        step = self.workflow.split(marker, 1)[1].split("\n      - name:", 1)[0]
+        self.assertIn("rustup toolchain install 1.98.1 --profile minimal --component clippy,rustfmt --no-self-update", step)
+        self.assertNotIn("rustup update", step)
+        self.assertIn('CARGO_HOME="$D06_ROOT/cargo-home"', step)
+        self.assertIn('RUSTUP_HOME="$D06_ROOT/rustup-home"', step)
+        self.assertIn('RUSTUP_TOOLCHAIN=1.98.1', step)
+        self.assertIn('cargo fetch --manifest-path "$D06_ROOT/consumer/nqc-census/Cargo.toml" --locked', step)
+
     def test_runtime_root_is_persisted_exactly_for_following_steps(self):
         status, output, environment = self.initialize()
         self.assertEqual(status, 0)

@@ -97,7 +97,7 @@ jobs:
           set -euo pipefail
           env -i PATH="$HOME/.cargo/bin:/usr/bin:/bin" HOME="$D06_ROOT/home" \
             CARGO_HOME="$D06_ROOT/cargo-home" RUSTUP_HOME="$D06_ROOT/rustup-home" \
-            rustup toolchain install 1.98.1 --profile minimal --component clippy,rustfmt
+            rustup toolchain install 1.98.1 --profile minimal --component clippy,rustfmt --no-self-update
           env -i PATH="$HOME/.cargo/bin:/usr/bin:/bin" HOME="$D06_ROOT/home" \
             CARGO_HOME="$D06_ROOT/cargo-home" RUSTUP_HOME="$D06_ROOT/rustup-home" RUSTUP_TOOLCHAIN=1.98.1 \
             cargo fetch --manifest-path "$D06_ROOT/consumer/nqc-census/Cargo.toml" --locked
