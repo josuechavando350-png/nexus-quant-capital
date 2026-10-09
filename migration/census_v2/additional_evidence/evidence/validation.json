@@ -1,0 +1,60 @@
+{
+  "base_commit": "81a268b93841f5d5df5970c547363c6c00dd76ef",
+  "checks": [
+    {
+      "byte_identical": true,
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 migration/census_v2/additional_evidence/reconcile_additional.py --events \"$EVIDENCE/11524139188.zip\" --drpc \"$EVIDENCE/11524199698.zip\" --d08 \"$EVIDENCE/11237887761.zip\" --d09 \"$EVIDENCE/11159396055.zip\" --out \"$EVIDENCE/new-supplement-report.json\"",
+      "exit_code": 0,
+      "report_sha256": "8b203c0a6e4c7787fde52f3c57be99269f67b6e7a23e0973ecaf58ae90aa7725",
+      "runs": 2
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=ci/nqc-census:migration/census_v2:migration/census_v2/additional_evidence RMC016_EVENT_ARCHIVE=\"$EVIDENCE/11524139188.zip\" RMC016_DRPC_ARCHIVE=\"$EVIDENCE/11524199698.zip\" python3 -m unittest discover -s migration/census_v2/additional_evidence -p \"test*.py\" -v",
+      "exit_code": 0,
+      "log": "supplement-tests.log",
+      "passed": 33,
+      "skipped": 0
+    },
+    {
+      "active_workflows": 0,
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 migration/verify_isolation.py --source-git \"$SOURCE_GIT\"",
+      "disabled_workflows": 106,
+      "exit_code": 0,
+      "original_objects_checked": true,
+      "report": "isolation.json",
+      "source_files": 531
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s migration -p test_isolation.py -v",
+      "exit_code": 0,
+      "passed": 9,
+      "skipped": 0
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=migration/census_v2 python3 -m unittest discover -s migration/census_v2 -p test_gas_budget.py -v",
+      "exit_code": 0,
+      "passed": 19,
+      "skipped": 0
+    }
+  ],
+  "full_historical_suite_relabelled_green": false,
+  "initial_failed_attempt": {
+    "cause": "Four original ledger payer fields were null; amounts and transaction identities matched.",
+    "resolution": "Preserve ledger; require known payers to match and append the four previously unknown receipt sender observations separately.",
+    "status": "V2_GAS_PAYER_MISMATCH"
+  },
+  "operator_gas_budget": {
+    "currency": "MXN",
+    "minor_units": 200000,
+    "policy_changed": false
+  },
+  "real_market_census_closed": false,
+  "repository": "josuechavando350-png/nexus-quant-capital",
+  "schema": "nqc-v2-additional-evidence-validation-v1",
+  "unrun": [
+    "Full historical Python discovery",
+    "Rust suites (no Rust source changed)",
+    "Independent producer certification",
+    "Live RPC/fork/trading execution"
+  ]
+}

@@ -219,6 +219,22 @@ current evidence.
 
 ## Additional transaction-trace evidence
 
+### Supplemental receipts and the post-anchor window, October 9
+
+[Additional evidence](additional_evidence/README.md) now preserves all 127
+Tenderly receipt observations and reconciles them with the archived dRPC
+checkpoint and the existing V2 economic ledger. Gas and transaction identities
+match; four previously unknown sender fields gain separate observations without
+rewriting the historical ledger. Nodies/Tenderly also agree across the complete
+7,200-block successor window on two executions, neither in the fixed 857-account
+cohort. This does not expand the original 30-day log/oracle coverage. Records are
+decoded RPC results, not original HTTP bytes; per-request receipt times and
+underlying-node independence are unproven. All economic admissions and the
+MXN 2,000 policy remain unchanged. See the supplement for 33 passing tests,
+deterministic reproduction and preserved integration failure history.
+
+### Previously recovered original traces
+
 The 127 original cast logs are authenticated and parsed: 15,001 call frames,
 20 reverted frames, 719 oracle quotes and 350 rendered native values. One WBTC
 quote differs from its block-end reference; four oracle quotes have reverted

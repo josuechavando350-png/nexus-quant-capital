@@ -28,6 +28,17 @@ productor por haber pasado estas pruebas.
 
 ## Trabajo material para terminar Census
 
+Actualización del 9 de octubre: [evidencia adicional](additional_evidence/README.md)
+incorpora 127 recibos observados en Tenderly, conciliados con el checkpoint dRPC
+y el ledger existente: cero discrepancias de gas; cuatro remitentes antes
+desconocidos quedan como observaciones separadas. También se concilian 7,200
+bloques posteriores al ancla entre Nodies y Tenderly: dos ejecuciones, ninguna
+de la cohorte original de 857 cuentas. Esta ventana posterior no completa los
+faltantes del estudio histórico de 30 días. Los registros son resultados RPC
+decodificados; no conservan bytes HTTP originales ni recepción por petición.
+Los 33 controles del suplemento pasan; la política MXN 2,000 y las clasificaciones
+económicas originales no cambian. Census sigue sin cierre certificado.
+
 | Autoridad o requisito | Estado | Evidencia necesaria para cerrar |
 | --- | --- | --- |
 | Market Truth | Corte histórico reconstruido; alcance temporal global abierto | Reconciliar el universo declarado y recuperar las observaciones detalladas, oportunidades censuradas y momentos reales de recepción. |
