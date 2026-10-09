@@ -139,6 +139,14 @@ no se afirma igualdad completa de todos los archivos.
 
 ## Validación y fallos conservados
 
+Actualización del 9 de octubre: se recuperaron los cinco archivos que faltaban
+para cuatro suites históricas. Sus hashes e identidades originales coinciden;
+**114 pruebas originales pasan, cero omitidas**, en copias con los catálogos
+históricos exactos. Se conservan las aserciones, los archivos importados y los
+dos intentos fallidos de preparación/lectura del log. Véase
+`recovered_regressions/README.md`. Los párrafos siguientes preservan el estado
+anterior; el resultado amplio de 664 pruebas no se reetiqueta como verde.
+
 528 pruebas del workspace Rust original, 9 del puente PFT y 6 del consumidor
 nuevo pasaron con Rust 1.98.1. La reparación de LLVM conserva la versión exacta
 y verifica el paquete oficial por SHA-256. Las pruebas adversariales adicionales

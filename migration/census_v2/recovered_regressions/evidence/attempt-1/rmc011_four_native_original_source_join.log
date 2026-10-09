@@ -1,0 +1,122 @@
+test_aave_v3_and_uni_v2_are_historic_sources_not_executions (__main__.FourNativeSourceTests.test_aave_v3_and_uni_v2_are_historic_sources_not_executions) ... ERROR
+test_balancer_and_univ3_protocol_sources_both_ineligible (__main__.FourNativeSourceTests.test_balancer_and_univ3_protocol_sources_both_ineligible) ... ERROR
+test_duplicate_source_report_keys_rejected (__main__.FourNativeSourceTests.test_duplicate_source_report_keys_rejected) ... ok
+test_external_native_gas_sponsor_cannot_be_fabricated (__main__.FourNativeSourceTests.test_external_native_gas_sponsor_cannot_be_fabricated) ... ok
+test_forged_balancer_source_count_rejected (__main__.FourNativeSourceTests.test_forged_balancer_source_count_rejected) ... ok
+test_forged_positive_native_liquidity_eligibility_rejected (__main__.FourNativeSourceTests.test_forged_positive_native_liquidity_eligibility_rejected) ... ok
+test_forged_positive_profit_from_D08_rejected (__main__.FourNativeSourceTests.test_forged_positive_profit_from_D08_rejected) ... ok
+test_forged_uniswap_v3_source_count_rejected (__main__.FourNativeSourceTests.test_forged_uniswap_v3_source_count_rejected) ... ok
+test_four_unique_per_family_source_witnesses (__main__.FourNativeSourceTests.test_four_unique_per_family_source_witnesses) ... ERROR
+test_invalid_census_final_lock_rejected (__main__.FourNativeSourceTests.test_invalid_census_final_lock_rejected) ... ok
+test_no_source_attests_to_positive_executable_gas (__main__.FourNativeSourceTests.test_no_source_attests_to_positive_executable_gas) ... ERROR
+test_original_d08_artifact_digest_forgery_fails (__main__.FourNativeSourceTests.test_original_d08_artifact_digest_forgery_fails) ... ok
+test_original_d08_auditor_must_have_successful_run (__main__.FourNativeSourceTests.test_original_d08_auditor_must_have_successful_run) ... ok
+test_original_dual_auditor_must_have_successful_run (__main__.FourNativeSourceTests.test_original_dual_auditor_must_have_successful_run) ... ok
+test_original_dual_source_provenance_mismatch_fails (__main__.FourNativeSourceTests.test_original_dual_source_provenance_mismatch_fails) ... ok
+test_original_universe_cannot_self_promote_d11 (__main__.FourNativeSourceTests.test_original_universe_cannot_self_promote_d11) ... ok
+test_source_certification_does_not_imply_current_capture_or_profit (__main__.FourNativeSourceTests.test_source_certification_does_not_imply_current_capture_or_profit) ... ERROR
+test_source_zip_wrong_outer_sha_rejected (__main__.FourNativeSourceTests.test_source_zip_wrong_outer_sha_rejected) ... ok
+test_summary_content_address_and_determinism (__main__.FourNativeSourceTests.test_summary_content_address_and_determinism) ... ERROR
+test_two_input_auditor_sources_share_exact_D08_manifest (__main__.FourNativeSourceTests.test_two_input_auditor_sources_share_exact_D08_manifest) ... ok
+test_two_original_report_zip_byte_commits_are_exact (__main__.FourNativeSourceTests.test_two_original_report_zip_byte_commits_are_exact) ... ok
+
+======================================================================
+ERROR: test_aave_v3_and_uni_v2_are_historic_sources_not_executions (__main__.FourNativeSourceTests.test_aave_v3_and_uni_v2_are_historic_sources_not_executions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/1c8913b47728/evidence-work/recovered-four-regressions-1/nine/ci/nqc-census/test_rmc011_four_native_original_source_join.py", line 76, in test_aave_v3_and_uni_v2_are_historic_sources_not_executions
+    files,_=self.join()
+            ^^^^^^^^^^^
+  File "/workspace/scratch/1c8913b47728/evidence-work/recovered-four-regressions-1/nine/ci/nqc-census/test_rmc011_four_native_original_source_join.py", line 50, in join
+    return j.make_package(**args)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/1c8913b47728/evidence-work/recovered-four-regressions-1/nine/ci/nqc-census/rmc011_four_native_original_source_join.py", line 241, in make_package
+    "workflow_name":os.environ["GITHUB_WORKFLOW"],
+                    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'GITHUB_WORKFLOW'
+
+======================================================================
+ERROR: test_balancer_and_univ3_protocol_sources_both_ineligible (__main__.FourNativeSourceTests.test_balancer_and_univ3_protocol_sources_both_ineligible)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/1c8913b47728/evidence-work/recovered-four-regressions-1/nine/ci/nqc-census/test_rmc011_four_native_original_source_join.py", line 85, in test_balancer_and_univ3_protocol_sources_both_ineligible
+    files,_=self.join()
+            ^^^^^^^^^^^
+  File "/workspace/scratch/1c8913b47728/evidence-work/recovered-four-regressions-1/nine/ci/nqc-census/test_rmc011_four_native_original_source_join.py", line 50, in join
+    return j.make_package(**args)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/1c8913b47728/evidence-work/recovered-four-regressions-1/nine/ci/nqc-census/rmc011_four_native_original_source_join.py", line 241, in make_package
+    "workflow_name":os.environ["GITHUB_WORKFLOW"],
+                    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'GITHUB_WORKFLOW'
+
+======================================================================
+ERROR: test_four_unique_per_family_source_witnesses (__main__.FourNativeSourceTests.test_four_unique_per_family_source_witnesses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/1c8913b47728/evidence-work/recovered-four-regressions-1/nine/ci/nqc-census/test_rmc011_four_native_original_source_join.py", line 68, in test_four_unique_per_family_source_witnesses
+    files,summary=self.join()
+                  ^^^^^^^^^^^
+  File "/workspace/scratch/1c8913b47728/evidence-work/recovered-four-regressions-1/nine/ci/nqc-census/test_rmc011_four_native_original_source_join.py", line 50, in join
+    return j.make_package(**args)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/1c8913b47728/evidence-work/recovered-four-regressions-1/nine/ci/nqc-census/rmc011_four_native_original_source_join.py", line 241, in make_package
+    "workflow_name":os.environ["GITHUB_WORKFLOW"],
+                    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'GITHUB_WORKFLOW'
+
+======================================================================
+ERROR: test_no_source_attests_to_positive_executable_gas (__main__.FourNativeSourceTests.test_no_source_attests_to_positive_executable_gas)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/1c8913b47728/evidence-work/recovered-four-regressions-1/nine/ci/nqc-census/test_rmc011_four_native_original_source_join.py", line 61, in test_no_source_attests_to_positive_executable_gas
+    _,summary=self.join()
+              ^^^^^^^^^^^
+  File "/workspace/scratch/1c8913b47728/evidence-work/recovered-four-regressions-1/nine/ci/nqc-census/test_rmc011_four_native_original_source_join.py", line 50, in join
+    return j.make_package(**args)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/1c8913b47728/evidence-work/recovered-four-regressions-1/nine/ci/nqc-census/rmc011_four_native_original_source_join.py", line 241, in make_package
+    "workflow_name":os.environ["GITHUB_WORKFLOW"],
+                    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'GITHUB_WORKFLOW'
+
+======================================================================
+ERROR: test_source_certification_does_not_imply_current_capture_or_profit (__main__.FourNativeSourceTests.test_source_certification_does_not_imply_current_capture_or_profit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/1c8913b47728/evidence-work/recovered-four-regressions-1/nine/ci/nqc-census/test_rmc011_four_native_original_source_join.py", line 171, in test_source_certification_does_not_imply_current_capture_or_profit
+    _,s=self.join()
+        ^^^^^^^^^^^
+  File "/workspace/scratch/1c8913b47728/evidence-work/recovered-four-regressions-1/nine/ci/nqc-census/test_rmc011_four_native_original_source_join.py", line 50, in join
+    return j.make_package(**args)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/1c8913b47728/evidence-work/recovered-four-regressions-1/nine/ci/nqc-census/rmc011_four_native_original_source_join.py", line 241, in make_package
+    "workflow_name":os.environ["GITHUB_WORKFLOW"],
+                    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'GITHUB_WORKFLOW'
+
+======================================================================
+ERROR: test_summary_content_address_and_determinism (__main__.FourNativeSourceTests.test_summary_content_address_and_determinism)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/1c8913b47728/evidence-work/recovered-four-regressions-1/nine/ci/nqc-census/test_rmc011_four_native_original_source_join.py", line 162, in test_summary_content_address_and_determinism
+    a,summary=self.join()
+              ^^^^^^^^^^^
+  File "/workspace/scratch/1c8913b47728/evidence-work/recovered-four-regressions-1/nine/ci/nqc-census/test_rmc011_four_native_original_source_join.py", line 50, in join
+    return j.make_package(**args)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/1c8913b47728/evidence-work/recovered-four-regressions-1/nine/ci/nqc-census/rmc011_four_native_original_source_join.py", line 241, in make_package
+    "workflow_name":os.environ["GITHUB_WORKFLOW"],
+                    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'GITHUB_WORKFLOW'
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.011s
+
+FAILED (errors=6)

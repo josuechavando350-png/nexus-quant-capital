@@ -178,6 +178,14 @@ was attempted. Partial results cannot be promoted to complete coverage.
 
 ## Validation limits
 
+October 9 update: the five missing archives described below were subsequently
+recovered and authenticated. All four remaining historical integration suites
+pass in explicit fresh-copy contexts: **114 original tests, zero skips**.
+[Recovered regressions](recovered_regressions/README.md) preserves the exact
+inputs, original assertions, test logs and failed preparation/parser attempts.
+This resolves those archive/setup dependencies; it does not change the recorded
+broad discovery result or close any economic/admission gate.
+
 See `evidence/validation.json` and the preserved logs for exact commands/results.
 The broad historical Python discovery was not green: 664 tests ran, seven setup
 errors and three skips. Five setup errors require explicit real-artifact CLI
