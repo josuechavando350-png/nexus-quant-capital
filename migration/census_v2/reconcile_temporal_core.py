@@ -214,6 +214,9 @@ def economics(files, events, prior_bytes):
         'daily_rows_reconciled': 30,
         'price_ledger_zero_base_fee_rows': sum(int(p['base_fee_per_gas']) == 0 for p in prices.values()),
         'price_ledger_base_fee_used_for_gas': False,
+        'price_quote_state_scope': 'HISTORICAL_BLOCK_STATE_NOT_TRANSACTION_PRESTATE',
+        'price_acquisition_received_at_available': False,
+        'oracle_price_available_to_nqc_before_winner_proven': False,
         'reserve_decimals_historical_invariance_independently_proven': False,
         'complete_net_pnl_usd_wad': None, 'positive_nqc_value_admitted_usd_wad': '0'}
 

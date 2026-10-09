@@ -38,13 +38,16 @@ or proof of either V2 revenue hypothesis.
 All 123 historical price rows contain a zero base_fee_per_gas field. This is a
 recorded limitation; that field is never used to decompose or price gas. Gas
 comes from receipt effective gas price times gas used. Price vectors are bound
-to event block hashes, but reserve-decimal invariance and original acquisition
-RPCs are not independently replayed. Complete net P&L remains null. Historical
+to event block hashes. The recovered collector issues eth_call against that
+block hash; it does not reconstruct the transaction pre-state or record when
+NQC received the price. These block-state prices cannot establish a pre-winner
+signal. Reserve-decimal invariance and original acquisition RPCs are not
+independently replayed. Complete net P&L remains null. Historical
 unknown_count=0 is not promoted to a global V2 uncertainty claim.
 
 ## Reproduction
 
-The persisted nqc-server-recovery-checkpoint-20261009.zip version 1 contains
+The persisted nqc-server-recovery-checkpoint-20261009.zip version 2 contains
 the complete original core archive, candidate classification ledger, two
 historical reference archives and earlier partial-transfer evidence. Its
 identity/digest are in evidence/server-recovery/retention.json. Extract it
@@ -80,7 +83,7 @@ Second ping failure: 2026-10-09T19:40:56.34135+00:00, same error. A stale online
 label did not establish working access. Both failures have separate records.
 
 Resume /tmp/nqc-census-recovery-20261009/d15b-terminal-inputs.zip on the same
-device at byte 262,144. Expected size: 11,691,061; remotely computed SHA-256:
+device at byte 3,932,160. Expected size: 11,691,061; remotely computed SHA-256:
 e29c4a3cde343268df165c83e6f98cfcf55799734c4e58f1f4ab8d45c2ac4d3f.
 It contains the 91,018,538-byte starting-risk ledger and 11,365,714-byte
 candidate envelope; both remote hashes match authenticated core summaries.
@@ -92,3 +95,10 @@ Original files/repository were not modified. No new RPC acquisition, network
 denial workaround, subscription, live execution or gas expenditure occurred.
 The MXN 2,000 gas-only amendment remains authoritative; legacy zero-capital
 fields are preserved solely as historical evidence.
+
+On the next reconnect a ping succeeded at 2026-10-09T19:52:38.951Z. Fifteen
+262,144-byte chunks are now preserved (3,932,160 bytes). A third ping failed at
+2026-10-09T19:58:26.481494+00:00. Four Remote agent processes were observed,
+all reading /dev/null and writing /tmp/nqc-remote.log. Their causal role in
+the interruption is unproven. No process was terminated. The attempted log
+diagnostic returned no result. See third-recovery-attempt.json.
