@@ -217,6 +217,16 @@ Passing the new read-back and accounting tests cannot close any of the gates
 above. No completion percentage or profitability forecast is justified by the
 current evidence.
 
+## Additional transaction-trace evidence
+
+The 127 original cast logs are authenticated and parsed: 15,001 call frames,
+20 reverted frames, 719 oracle quotes and 350 rendered native values. One WBTC
+quote differs from its block-end reference; four oracle quotes have reverted
+ancestors. All six read-back checks pass, while every transaction remains
+insufficient evidence for NQC execution. See `WINNER_TRACES.md` for the mismatch,
+failure ledgers, source bindings and reproduction. This is not a new fork replay
+and does not increase full raw receipt coverage.
+
 ## Reproducing the recovered terminal evidence
 
 Use `CARGO_TARGET_DIR` outside the repository for every Rust command. Keep

@@ -105,9 +105,21 @@ the denial; no alternate access route was attempted. Their bytes are not
 recovered, verified or included as economic inputs. The metadata-only inventory
 and failure are retained in `evidence/economics/additional-acquisition.json`.
 
-The separate RPC transport denial remains unresolved. The source device
-`codex-nqc-rmc-328dd6` was checked again and was offline, last seen 48 hours ago.
-The original episode, censored-opportunity and complete economic ledgers remain
-unavailable. Authentic gas funding, external principal admission, routes, full
-costs, capture evidence and independent producer review are still required for
-Census closure. This work issues no terminal or commercial certification.
+The separate RPC transport denial remains unresolved. The user restored the
+source device. Original episode, censored-candidate and D16 economic ledgers
+are now recovered and their terminal computations reproduce byte for byte;
+see `SERVER_RECOVERY.md`. The D16 arithmetic still omits material costs and
+cannot establish complete net P&L.
+
+All 127 original cast logs are also authenticated and parsed. One returned WBTC
+quote differs from the block-end reference, and four oracle calls occur within
+reverted ancestors. These remain explicit scope/failure records; neither
+block-end prices nor reverted calls are promoted to execution-price evidence.
+The 350 rendered native-value fields are not settled net flows. See
+`WINNER_TRACES.md` for exact identities and reproduction. The four missing full
+raw receipts remain missing; compact historical receipt projections do not
+replace them.
+
+Authentic gas funding, external principal admission, routes, full costs,
+capture evidence and independent producer review are still required for Census
+closure. This work issues no terminal or commercial certification.

@@ -45,6 +45,11 @@ separada del corte D09. Se completó la transferencia de los insumos D15B,
 se reprodujeron tres salidas de candidatos/estado y cinco de riesgo inicial,
 y se recalcularon los 4,394 fragmentos de oráculos retenidos. Las tres
 interrupciones anteriores siguen preservadas; véase `SERVER_RECOVERY.md`.
+También se autenticaron las 127 trazas originales: 15,001 llamadas, 20
+reversiones y 719 consultas de oráculo. Una consulta de WBTC difiere del precio
+al cierre del bloque; cuatro consultas tienen ancestros revertidos. Sus
+tratamientos y hashes constan en `WINNER_TRACES.md`; no aumentan la cobertura
+de recibos originales completos ni prueban precios de ejecución o P&L.
 No se contrató infraestructura ni se consumió gas. La reproducción no acredita
 capital operativo, rutas, costes completos, captura ni autoridad independiente.
 

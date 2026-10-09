@@ -53,7 +53,7 @@ unknown_count=0 is not promoted to a global V2 uncertainty claim.
 
 ## Reproduction
 
-The persisted nqc-server-recovery-checkpoint-20261009.zip version 3 contains
+The persisted nqc-server-recovery-checkpoint-20261009.zip version 4 contains
 the complete core, D15B-input and retained-oracle archives, candidate
 classification ledger, replay reports, two historical reference archives
 and earlier partial-transfer evidence. Its
@@ -157,3 +157,13 @@ copy and verified unchanged original input hashes after execution. Script Git
 provenance, original RPC acquisition and independent new-producer certification
 remain unproven. Capital admissibility, native gas authentication, token/route
 compatibility, full costs and capture evidence still prevent Census closure.
+
+## Original winner traces
+
+All 127 cast logs and their original compact records are now recovered, bound
+to the historical ledger and parsed offline. There are 15,001 call frames,
+20 reverted frames and 719 returned oracle quotes. Four quotes have reverted
+ancestors; one successful WBTC quote differs from its block-end reference.
+Both differences and failure scopes are retained, without automatic price or
+P&L promotion. The 350 rendered native values are not net transfers. Full raw
+receipt coverage is unchanged. See `WINNER_TRACES.md`; all six trace checks pass.
