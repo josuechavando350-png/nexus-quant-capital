@@ -23,7 +23,6 @@ jobs:
     timeout-minutes: 240
     env:
       EXPECTED_COMMIT: ${{ github.sha }}
-      D06_ROOT: ${{ runner.temp }}/nqc-standalone-d06-${{ github.run_id }}-${{ github.run_attempt }}
       PYTHONDONTWRITEBYTECODE: "1"
     defaults:
       run:
@@ -72,6 +71,10 @@ jobs:
           test ! -L migration/evidence/d06/original-evidence.zip
           test "$(stat -c %s migration/evidence/d06/original-evidence.zip)" = 6709740
           echo '1cdb46fca52ebf1e0e2094b1c14b19384ecb7beceb50229b967592ab7a0308b4  migration/evidence/d06/original-evidence.zip' | sha256sum -c -
+          [[ "$GITHUB_RUN_ID" =~ ^[1-9][0-9]*$ ]]
+          [[ "$GITHUB_RUN_ATTEMPT" =~ ^[1-9][0-9]*$ ]]
+          D06_ROOT="${RUNNER_TEMP:?}/nqc-standalone-d06-${GITHUB_RUN_ID:?}-${GITHUB_RUN_ATTEMPT:?}"
+          printf 'D06_ROOT=%s\n' "$D06_ROOT" >> "$GITHUB_ENV"
           mkdir "$D06_ROOT"
           mkdir "$D06_ROOT/logs" "$D06_ROOT/home" "$D06_ROOT/cargo-home" "$D06_ROOT/rustup-home"
 

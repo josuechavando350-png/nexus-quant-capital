@@ -4,7 +4,10 @@ from datetime import datetime, timedelta, timezone
 import hashlib
 import io
 import json
+import os
 from pathlib import Path
+import re
+import subprocess
 import tempfile
 import unittest
 from unittest import mock
@@ -165,6 +168,13 @@ class ProducerIdentityTests(unittest.TestCase):
         created = dict(self.event, before="0" * 40, created=True)
         self.assertTrue(index.producer_context(self.environment, self.head, self.tree, created)["push_context"]["created"])
 
+    def test_followup_push_preserves_actual_reviewed_predecessor(self):
+        event = dict(self.event, before="5d415c1acc89130d03119bbafb0ace93001097a6")
+        value = index.producer_context(self.environment, self.head, self.tree, event)
+        self.assertEqual(value["push_context"]["before"], event["before"])
+        self.assertNotEqual(value["push_context"]["before"], "16e352225ba8a6a931834c4edf3d86d9a2924b7d")
+        self.assertEqual(value["push_context"]["after"], self.head)
+
     def test_forced_deleted_wrong_head_and_wrong_branch_push_are_rejected(self):
         for key, value in (("forced", True), ("deleted", True), ("after", "d" * 40),
                            ("ref", "refs/heads/main"), ("before", "main"), ("created", True)):
@@ -299,6 +309,62 @@ class IndexTests(ProducerIdentityTests):
     def test_extra_symlink_is_rejected(self):
         (self.root / "unexpected-link").symlink_to(self.root / "offline-verification.json")
         with self.assertRaisesRegex(ValueError, "nonregular"): self.run_index()
+
+
+class WorkflowRuntimeRootTests(unittest.TestCase):
+    def setUp(self):
+        root = Path(__file__).resolve().parents[1]
+        paths = [root / ".github/workflows/nqc-d06-standalone.yml",
+                 root / "migration/nqc-d06-standalone.yml.disabled"]
+        existing = [path for path in paths if path.exists()]
+        self.assertEqual(len(existing), 1)
+        self.workflow = existing[0].read_text()
+
+    def initialization_script(self):
+        start = '          [[ "$GITHUB_RUN_ID" =~ ^[1-9][0-9]*$ ]]\n'
+        self.assertEqual(self.workflow.count(start), 1)
+        code = start + self.workflow.split(start, 1)[1].split('          mkdir "$D06_ROOT"', 1)[0]
+        return "set -euo pipefail\n" + "\n".join(line[10:] for line in code.splitlines())
+
+    def initialize(self, changes=None):
+        with tempfile.TemporaryDirectory() as temp:
+            output = Path(temp) / "environment"
+            environment = {"PATH": os.environ["PATH"], "RUNNER_TEMP": temp + "/runner space",
+                           "GITHUB_RUN_ID": "37875417870", "GITHUB_RUN_ATTEMPT": "2",
+                           "GITHUB_ENV": str(output)}
+            environment.update(changes or {})
+            result = subprocess.run(["bash", "-c", self.initialization_script()], env=environment,
+                                    text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+            return result.returncode, output.read_text() if output.exists() else "", environment
+
+    def test_job_env_uses_only_documented_job_contexts(self):
+        job_env = self.workflow.split("    env:\n", 1)[1].split("\n    defaults:", 1)[0]
+        allowed = {"github", "needs", "strategy", "matrix", "vars", "secrets", "inputs"}
+        for expression in re.findall(r"\$\{\{(.*?)\}\}", job_env):
+            for context in re.findall(r"\b([A-Za-z_][A-Za-z0-9_]*)\s*\.", expression):
+                self.assertIn(context, allowed)
+        self.assertNotIn("D06_ROOT:", job_env)
+
+    def test_runtime_root_is_persisted_exactly_for_following_steps(self):
+        status, output, environment = self.initialize()
+        self.assertEqual(status, 0)
+        self.assertEqual(output, "D06_ROOT=" + environment["RUNNER_TEMP"] +
+                         "/nqc-standalone-d06-37875417870-2\n")
+
+    def test_missing_runtime_values_fail_without_writing_environment(self):
+        for key in ("RUNNER_TEMP", "GITHUB_RUN_ID", "GITHUB_RUN_ATTEMPT"):
+            with self.subTest(key=key):
+                status, output, _ = self.initialize({key: ""})
+                self.assertNotEqual(status, 0)
+                self.assertEqual(output, "")
+
+    def test_noncanonical_run_identifiers_fail_before_environment_write(self):
+        for key in ("GITHUB_RUN_ID", "GITHUB_RUN_ATTEMPT"):
+            for value in ("0", "01", "-1", "1/other", "1\nINJECTED=value", "1; echo unsafe"):
+                with self.subTest(key=key, value=value):
+                    status, output, _ = self.initialize({key: value})
+                    self.assertNotEqual(status, 0)
+                    self.assertEqual(output, "")
 
 
 if __name__ == "__main__":
