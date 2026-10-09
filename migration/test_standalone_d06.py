@@ -1,0 +1,305 @@
+"""Local proposal regressions. All network responses below are synthetic mocks."""
+import copy
+from datetime import datetime, timedelta, timezone
+import hashlib
+import io
+import json
+from pathlib import Path
+import tempfile
+import unittest
+from unittest import mock
+
+import collect_original_metadata as metadata
+import index_standalone_d06 as index
+
+
+class Response(io.BytesIO):
+    def __init__(self, data=b"{}", *, status=200, url=metadata.ENDPOINTS["run"]):
+        super().__init__(data)
+        self.status, self.url = status, url
+        self.headers = {"Date": "Thu, 08 Oct 2026 23:00:00 GMT"}
+
+    def geturl(self):
+        return self.url
+
+
+class MetadataTests(unittest.TestCase):
+    def test_fixed_public_api_path_inventory(self):
+        self.assertEqual(len(metadata.ENDPOINTS), 4)
+        self.assertEqual(metadata.ENDPOINTS["run"], metadata.API + "/actions/runs/36820687233")
+        self.assertEqual(metadata.ENDPOINTS["artifact"], metadata.API + "/actions/artifacts/11143129177")
+        self.assertTrue(all(url.startswith("https://api.github.com/repos/") for url in metadata.ENDPOINTS.values()))
+
+    def test_official_url_success_preserves_response_bytes(self):
+        raw = b'{"id":36820687233}\n'
+        opener = mock.Mock()
+        opener.open.return_value = Response(raw)
+        result, _headers = metadata.read_endpoint(opener, metadata.ENDPOINTS["run"])
+        self.assertEqual(result, raw)
+        request = opener.open.call_args.args[0]
+        self.assertNotIn("Authorization", request.headers)
+        self.assertEqual(request.full_url, metadata.ENDPOINTS["run"])
+
+    def test_reject_caller_host_path_query_or_plain_http_before_open(self):
+        for url in ("https://evil.example", metadata.ENDPOINTS["run"] + "?ref=main",
+                    metadata.ENDPOINTS["run"].replace("https:", "http:")):
+            opener = mock.Mock()
+            with self.assertRaises(ValueError):
+                metadata.read_endpoint(opener, url)
+            opener.open.assert_not_called()
+
+    def test_redirect_is_fail_closed(self):
+        with self.assertRaisesRegex(ValueError, "redirect"):
+            metadata.NoRedirect().redirect_request(None, None, 302, "redirect", {}, "https://github.com")
+
+    def test_denial_and_final_origin_change_are_fail_closed(self):
+        for response in (Response(status=403), Response(url="https://evil.example/")):
+            opener = mock.Mock(); opener.open.return_value = response
+            with self.assertRaises(ValueError):
+                metadata.read_endpoint(opener, metadata.ENDPOINTS["run"])
+
+    def test_strict_json_rejects_duplicate_nonfinite_and_nonobject(self):
+        for raw in (b'{"id":1,"id":2}', b'{"value":NaN}', b'[]', b'not-json'):
+            with self.assertRaises(ValueError):
+                metadata.strict_json(raw)
+
+    def test_oversized_response_rejected(self):
+        opener = mock.Mock(); opener.open.return_value = Response(b" " * (metadata.LIMIT + 1))
+        with self.assertRaisesRegex(ValueError, "oversized"):
+            metadata.read_endpoint(opener, metadata.ENDPOINTS["run"])
+
+    def test_collection_receipt_is_explicitly_tokenless_and_noncanonical(self):
+        repository = {"id": 1333360261, "full_name": "josuechavando350-png/nexus-engine", "private": False, "url": metadata.API}
+        fixtures = {label: {key: "fixture" for key in fields} for label, fields in metadata.FIELDS.items()}
+        fixtures["repository"] = repository
+        for label, groups in metadata.NESTED_FIELDS.items():
+            for key, fields in groups.items():
+                fixtures[label][key] = {field: "fixture" for field in fields}
+        responses = [(json.dumps(fixtures[label]).encode(), {}) for label in metadata.ENDPOINTS]
+        with tempfile.TemporaryDirectory() as temp, mock.patch.object(metadata, "read_endpoint", side_effect=responses):
+            output = Path(temp) / "metadata"
+            metadata.collect(output)
+            receipt = json.loads((output / "metadata-acquisition.json").read_text())
+            self.assertFalse(receipt["account_authenticated"])
+            self.assertFalse(receipt["token_used"])
+            self.assertFalse(receipt["canonical_recertification"])
+            self.assertEqual(len(receipt["files"]), 4)
+            with self.assertRaises(FileExistsError):
+                metadata.collect(output)
+
+    def test_changed_repository_cannot_emit_success_receipt(self):
+        for changed in ({"id": True}, {"id": 1333360261, "full_name": "x", "private": False},
+                        {"id": 1333360261, "full_name": "josuechavando350-png/nexus-engine", "private": True}):
+            with tempfile.TemporaryDirectory() as temp, mock.patch.object(metadata, "read_endpoint", return_value=(json.dumps(changed).encode(), {})):
+                output = Path(temp) / "metadata"
+                with self.assertRaisesRegex(ValueError, "identity"):
+                    metadata.collect(output)
+                self.assertFalse((output / "metadata-acquisition.json").exists())
+
+    def test_projection_discards_unrelated_client_homepage_and_actor_data(self):
+        repo = {key: "fixture" for key in metadata.FIELDS["repository"]}
+        repo.update(homepage="https://client.example", owner={"email": "private@example.test"})
+        projected = metadata.project_metadata("repository", repo)
+        self.assertEqual(set(projected), set(metadata.FIELDS["repository"]))
+        run = {key: "fixture" for key in metadata.FIELDS["run"]}
+        for key, fields in metadata.NESTED_FIELDS["run"].items():
+            run[key] = {field: "fixture" for field in fields}
+            run[key]["homepage"] = "https://client.example"
+        run["actor"] = {"email": "private@example.test"}
+        projected = metadata.project_metadata("run", run)
+        self.assertNotIn("client.example", json.dumps(projected))
+        self.assertNotIn("actor", projected)
+
+
+class ProducerIdentityTests(unittest.TestCase):
+    def setUp(self):
+        self.head, self.tree = "a" * 40, "b" * 40
+        self.event = {"ref": index.PRODUCER_REF, "before": "c" * 40, "after": self.head,
+                      "created": False, "deleted": False, "forced": False,
+                      "head_commit": {"id": self.head},
+                      "repository": {"id": int(index.REPOSITORY_ID), "full_name": index.REPOSITORY}}
+        self.environment = {
+            "GITHUB_EVENT_NAME": "push", "GITHUB_REPOSITORY": index.REPOSITORY,
+            "GITHUB_REF": index.PRODUCER_REF, "GITHUB_REF_TYPE": "branch",
+            "GITHUB_REPOSITORY_ID": index.REPOSITORY_ID, "GITHUB_SHA": self.head,
+            "GITHUB_WORKFLOW_SHA": self.head,
+            "GITHUB_WORKFLOW_REF": index.REPOSITORY + "/" + index.WORKFLOW + "@" + index.PRODUCER_REF,
+            "GITHUB_RUN_ID": "123", "GITHUB_RUN_ATTEMPT": "1",
+        }
+
+    def test_exact_new_producer_is_bound_separately(self):
+        value = index.producer_context(self.environment, self.head, self.tree, self.event)
+        self.assertEqual(value["repository_id"], 1411047452)
+        self.assertEqual(value["commit"], self.head)
+        self.assertEqual(value["tree"], self.tree)
+        self.assertEqual(value["event"], "push")
+        self.assertEqual(value["ref"], "refs/heads/nqc/d06-standalone-certification")
+
+    def test_wrong_repo_event_workflow_commit_or_run_fails(self):
+        for key, bad in {
+            "GITHUB_EVENT_NAME": "pull_request", "GITHUB_REPOSITORY": "josuechavando350-png/nexus-engine",
+            "GITHUB_REF": "refs/heads/main", "GITHUB_REF_TYPE": "tag",
+            "GITHUB_REPOSITORY_ID": "1333360261", "GITHUB_SHA": "c" * 40,
+            "GITHUB_WORKFLOW_SHA": "d" * 40, "GITHUB_WORKFLOW_REF": "other@refs/heads/main",
+            "GITHUB_RUN_ID": "123; echo hi", "GITHUB_RUN_ATTEMPT": "0",
+        }.items():
+            changed = copy.deepcopy(self.environment); changed[key] = bad
+            with self.subTest(key=key), self.assertRaises(ValueError):
+                index.producer_context(changed, self.head, self.tree, self.event)
+
+    def test_branch_reference_must_be_exact_dedicated_branch(self):
+        for ref in ("refs/tags/release", "refs/heads/", "refs/heads/main", index.PRODUCER_REF + "-other"):
+            changed = dict(self.environment, GITHUB_WORKFLOW_REF=index.REPOSITORY + "/" + index.WORKFLOW + "@" + ref)
+            with self.assertRaises(ValueError):
+                index.producer_context(changed, self.head, self.tree, self.event)
+
+    def test_manual_dispatch_is_not_new_producer_authority(self):
+        changed = dict(self.environment, GITHUB_EVENT_NAME="workflow_dispatch")
+        with self.assertRaisesRegex(ValueError, "push"):
+            index.producer_context(changed, self.head, self.tree, self.event)
+
+    def test_push_payload_is_bound_and_flags_preserved(self):
+        value = index.producer_context(self.environment, self.head, self.tree, self.event)
+        self.assertEqual(value["push_context"], {key: self.event[key] for key in
+                         ("before", "after", "created", "deleted", "forced")})
+        created = dict(self.event, before="0" * 40, created=True)
+        self.assertTrue(index.producer_context(self.environment, self.head, self.tree, created)["push_context"]["created"])
+
+    def test_forced_deleted_wrong_head_and_wrong_branch_push_are_rejected(self):
+        for key, value in (("forced", True), ("deleted", True), ("after", "d" * 40),
+                           ("ref", "refs/heads/main"), ("before", "main"), ("created", True)):
+            changed = dict(self.event); changed[key] = value
+            with self.subTest(key=key), self.assertRaises(ValueError):
+                index.producer_context(self.environment, self.head, self.tree, changed)
+
+    def test_nonexact_commit_tree_rejected(self):
+        for head, tree in (("main", self.tree), (self.head, "HEAD^{tree}"), ("a" * 39, self.tree)):
+            with self.assertRaises(ValueError):
+                index.producer_context(self.environment, head, tree, self.event)
+
+    def test_full_negative_matrix_count_is_pinned(self):
+        self.assertEqual(len(index.NEGATIVES), 22)
+
+
+class IndexTests(ProducerIdentityTests):
+    """Synthetic proof fixtures exercise only the new index, never original authentication."""
+    def setUp(self):
+        super().setUp()
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.repo = Path(self.temp.name) / "repo"; self.repo.mkdir()
+        self.root = Path(self.temp.name) / "evidence"; self.root.mkdir()
+        event_path = Path(self.temp.name) / "event.json"
+        event_path.write_text(json.dumps(self.event))
+        self.environment["GITHUB_EVENT_PATH"] = str(event_path)
+        self.archive = b"SYNTHETIC INDEX UNIT TEST ONLY"
+        def git(command, **_kwargs):
+            if command[-1] == "HEAD": return self.head
+            if command[-1] == "HEAD^{tree}": return self.tree
+            if "status" in command: return ""
+            raise AssertionError(command)
+        for patcher in (mock.patch.object(index.subprocess, "check_output", side_effect=git),
+                        mock.patch.object(index, "SOURCE_ARCHIVE_SIZE", len(self.archive)),
+                        mock.patch.object(index, "SOURCE_ARCHIVE_SHA256", hashlib.sha256(self.archive).hexdigest())):
+            patcher.start(); self.addCleanup(patcher.stop)
+        now = datetime.now(timezone.utc)
+        self.write("offline-verification.json", {
+            "code_commit": self.head, "code_tree": self.tree,
+            "source_commit": "a33a012591cd6625ddb921d995bb1bd95b4a5406",
+            "source_run_id": 36820687233, "source_artifact_id": 11143129177,
+            "source_unchanged": True, "current_replay_byte_identical": True,
+            "history_replay_byte_identical": True, "closeout_byte_identical": True,
+            "canonical_recertification": False,
+            "original_observation_at": (now - timedelta(days=7)).isoformat(),
+            "verification_started_at": (now - timedelta(seconds=2)).isoformat(),
+            "verification_completed_at": (now - timedelta(seconds=1)).isoformat(),
+        })
+        self.write("network-isolation.json", {"routable_network": False, "interfaces": ["lo"],
+                   "network_namespace": "net:[2]", "parent_network_namespace": "net:[1]"})
+        self.write("negative-tests/results.json", {"schema": "nqc-rmc006-replay-negatives-v1",
+                   "cases": [{"case": name, "rejected": True, "store_unchanged": True}
+                             for name in sorted(index.NEGATIVES)]})
+        receipt = b'{"unit_test": true}\n'
+        self.write("historical-source/HISTORICAL-ADAPTER.json", {
+            "schema": "nqc-standalone-historical-materialization-v1",
+            "status": "HISTORICAL_SOURCE_MATERIALIZED_CONSUMER_BOUND",
+            "historical_source": {"commit": index.SOURCE_COMMIT},
+            "consumer": {"repository": index.REPOSITORY, "repository_id": int(index.REPOSITORY_ID),
+                         "commit": self.head, "tree": self.tree},
+            "truth_boundaries": {key: False for key in ("canonical_recertification", "certification_transferred",
+                "new_consumer_is_original_descendant", "live_network_fallback", "production_authority")},
+            "historical_materialization_receipt": {"sha256": hashlib.sha256(receipt).hexdigest(),
+                                                   "preserved_unchanged": True},
+        })
+        path = self.root / "historical-source/effective-source/MATERIALIZATION.json"
+        path.parent.mkdir(); path.write_bytes(receipt)
+        self.write("original-seed/source-provenance-after.json", {
+            "original_repository": {"full_name": "josuechavando350-png/nexus-engine", "id": 1333360261},
+            "original_run": {"id": 36820687233}, "original_artifact": {"id": 11143129177},
+            "canonical_recertification": False, "extracted_source_rechecked": True,
+        })
+        (self.root / "original-seed/source.zip").write_bytes(self.archive)
+
+    def write(self, relative, value):
+        path = self.root / relative; path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(value))
+
+    def mutate(self, relative, function):
+        value = json.loads((self.root / relative).read_text()); function(value); self.write(relative, value)
+
+    def run_index(self):
+        return index.make_index(self.repo, self.root, self.head, self.tree, self.environment)
+
+    def test_index_preserves_noncanonical_status_and_checks_file_hashes(self):
+        result = self.run_index()
+        for field in ("final_github_run_verified", "immutable_artifact_metadata_verified",
+                      "canonical_recertification", "certification_transfer", "downstream_acceptance",
+                      "reviewed_producer_authorization_verified"):
+            self.assertIs(result[field], False)
+        self.assertIsNone(result["new_artifact_id"])
+        for row in result["files"]:
+            self.assertEqual(hashlib.sha256((self.root / row["path"]).read_bytes()).hexdigest(), row["sha256"])
+
+    def test_index_never_overwrites_existing_index(self):
+        self.run_index()
+        before = (self.root / "evidence-index.json").read_bytes()
+        with self.assertRaises(ValueError): self.run_index()
+        self.assertEqual((self.root / "evidence-index.json").read_bytes(), before)
+
+    def test_missing_negative_case_is_rejected_without_index(self):
+        self.mutate("negative-tests/results.json", lambda value: value["cases"].pop())
+        with self.assertRaisesRegex(ValueError, "matrix"): self.run_index()
+        self.assertFalse((self.root / "evidence-index.json").exists())
+
+    def test_changed_archive_is_rejected_without_index(self):
+        (self.root / "original-seed/source.zip").write_bytes(b"changed")
+        with self.assertRaisesRegex(ValueError, "archive"): self.run_index()
+
+    def test_changed_materialization_receipt_is_rejected(self):
+        (self.root / "historical-source/effective-source/MATERIALIZATION.json").write_bytes(b"changed")
+        with self.assertRaisesRegex(ValueError, "receipt"): self.run_index()
+
+    def test_reachable_network_claim_is_rejected(self):
+        self.mutate("network-isolation.json", lambda value: value.update(routable_network=True))
+        with self.assertRaisesRegex(ValueError, "disconnected"): self.run_index()
+
+    def test_changed_new_consumer_is_rejected(self):
+        self.mutate("historical-source/HISTORICAL-ADAPTER.json", lambda value: value["consumer"].update(commit=index.SOURCE_COMMIT))
+        with self.assertRaisesRegex(ValueError, "consumer identity"): self.run_index()
+
+    def test_canonical_claim_is_rejected(self):
+        self.mutate("offline-verification.json", lambda value: value.update(canonical_recertification=True))
+        with self.assertRaisesRegex(ValueError, "canonical"): self.run_index()
+
+    def test_future_verification_time_is_rejected(self):
+        future = (datetime.now(timezone.utc) + timedelta(days=1)).isoformat()
+        self.mutate("offline-verification.json", lambda value: value.update(verification_completed_at=future))
+        with self.assertRaisesRegex(ValueError, "chronology"): self.run_index()
+
+    def test_extra_symlink_is_rejected(self):
+        (self.root / "unexpected-link").symlink_to(self.root / "offline-verification.json")
+        with self.assertRaisesRegex(ValueError, "nonregular"): self.run_index()
+
+
+if __name__ == "__main__":
+    unittest.main()

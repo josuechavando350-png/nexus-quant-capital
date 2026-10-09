@@ -1,0 +1,163 @@
+# LOCAL REVIEW PROPOSAL ONLY. Never rename/move into .github without separate approval.
+# Future exact approved path: .github/workflows/nqc-d06-standalone.yml
+# The unchanged isolation verifier deliberately rejects that path until a reviewed
+# exact-path + blob exception, new verifier digest, and closed migration inventory exist.
+name: NQC Standalone D06 Offline Verification
+
+on:
+  push:
+    branches:
+      - nqc/d06-standalone-certification
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nqc-standalone-d06-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  standalone-d06:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/nqc/d06-standalone-certification' && github.repository == 'josuechavando350-png/nexus-quant-capital' && github.repository_id == '1411047452'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    env:
+      EXPECTED_COMMIT: ${{ github.sha }}
+      D06_ROOT: ${{ runner.temp }}/nqc-standalone-d06-${{ github.run_id }}-${{ github.run_attempt }}
+      PYTHONDONTWRITEBYTECODE: "1"
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout exact dedicated-branch push producer
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+          submodules: false
+          lfs: false
+
+      - name: Fail closed on any producer or seed substitution
+        run: |
+          set -euo pipefail
+          [[ "$EXPECTED_COMMIT" =~ ^[0-9a-f]{40}$ ]]
+          test "$GITHUB_EVENT_NAME" = push
+          test "$GITHUB_REF" = refs/heads/nqc/d06-standalone-certification
+          test "$GITHUB_REF_TYPE" = branch
+          test "$GITHUB_REPOSITORY" = josuechavando350-png/nexus-quant-capital
+          test "$GITHUB_REPOSITORY_ID" = 1411047452
+          test "$EXPECTED_COMMIT" = "$GITHUB_SHA"
+          test "$EXPECTED_COMMIT" = "$GITHUB_WORKFLOW_SHA"
+          test "$(git rev-parse HEAD)" = "$EXPECTED_COMMIT"
+          EXPECTED_TREE="$(git rev-parse 'HEAD^{tree}')"
+          [[ "$EXPECTED_TREE" =~ ^[0-9a-f]{40}$ ]]
+          printf 'EXPECTED_TREE=%s\n' "$EXPECTED_TREE" >> "$GITHUB_ENV"
+          test -z "$(git status --porcelain=v1 --untracked-files=all)"
+          test "$GITHUB_WORKFLOW_REF" = josuechavando350-png/nexus-quant-capital/.github/workflows/nqc-d06-standalone.yml@refs/heads/nqc/d06-standalone-certification
+          python3 -I -B - <<'PY'
+          import json, os, re
+          with open(os.environ['GITHUB_EVENT_PATH']) as stream:
+              event = json.load(stream)
+          assert event['ref'] == 'refs/heads/nqc/d06-standalone-certification'
+          assert event['after'] == os.environ['GITHUB_SHA']
+          assert event['head_commit']['id'] == os.environ['GITHUB_SHA']
+          assert event['deleted'] is False and event['forced'] is False
+          assert type(event['before']) is str and re.fullmatch('[0-9a-f]{40}', event['before'])
+          assert type(event['created']) is bool and event['created'] == (event['before'] == '0' * 40)
+          assert type(event['repository']['id']) is int and event['repository']['id'] == 1411047452
+          assert event['repository']['full_name'] == 'josuechavando350-png/nexus-quant-capital'
+          PY
+          test -f migration/evidence/d06/original-evidence.zip
+          test ! -L migration/evidence/d06/original-evidence.zip
+          test "$(stat -c %s migration/evidence/d06/original-evidence.zip)" = 6709740
+          echo '1cdb46fca52ebf1e0e2094b1c14b19384ecb7beceb50229b967592ab7a0308b4  migration/evidence/d06/original-evidence.zip' | sha256sum -c -
+          mkdir "$D06_ROOT"
+          mkdir "$D06_ROOT/logs" "$D06_ROOT/home" "$D06_ROOT/cargo-home" "$D06_ROOT/rustup-home"
+
+      - name: Acquire fixed public history and current original metadata only
+        run: |
+          set -euo pipefail
+          python3 -I -B migration/acquire_historical_source.py --output "$D06_ROOT/acquisition"
+          python3 -I -B migration/collect_original_metadata.py --output "$D06_ROOT/metadata"
+
+      - name: Verify closed standalone composition before dependency acquisition
+        run: |
+          set -euo pipefail
+          python3 -I -B migration/verify_standalone_composition.py \
+            --root "$GITHUB_WORKSPACE" --source-git "$D06_ROOT/acquisition/source-object-store" \
+            --expected-commit "$EXPECTED_COMMIT" --expected-tree "$EXPECTED_TREE" --require-active-workflow
+      - name: Acquire pinned Rust toolchain and locked dependency cache before disconnecting
+        run: |
+          set -euo pipefail
+          env -i PATH="$HOME/.cargo/bin:/usr/bin:/bin" HOME="$D06_ROOT/home" \
+            CARGO_HOME="$D06_ROOT/cargo-home" RUSTUP_HOME="$D06_ROOT/rustup-home" \
+            rustup toolchain install 1.98.1 --profile minimal --component clippy,rustfmt
+          env -i PATH="$HOME/.cargo/bin:/usr/bin:/bin" HOME="$D06_ROOT/home" \
+            CARGO_HOME="$D06_ROOT/cargo-home" RUSTUP_HOME="$D06_ROOT/rustup-home" RUSTUP_TOOLCHAIN=1.98.1 \
+            cargo fetch --manifest-path "$GITHUB_WORKSPACE/nqc-census/Cargo.toml" --locked
+
+      - name: Materialize immutable historical source in the adapter's enforced disconnected namespace
+        run: |
+          set -euo pipefail
+          python3 -I -B migration/materialize_historical_source.py \
+            --consumer "$GITHUB_WORKSPACE" \
+            --source-object-store "$D06_ROOT/acquisition/source-object-store" \
+            --historical-source-metadata "$D06_ROOT/acquisition/source-metadata.json" \
+            --output "$D06_ROOT/materialized" \
+            --expected-consumer-commit "$EXPECTED_COMMIT" --expected-consumer-tree "$EXPECTED_TREE"
+
+      - name: Prepare a separate exact producer build copy without historical refs
+        run: |
+          set -euo pipefail
+          git -c core.hooksPath=/dev/null clone --no-local --no-checkout -- "$GITHUB_WORKSPACE" "$D06_ROOT/build"
+          git -C "$D06_ROOT/build" -c core.hooksPath=/dev/null checkout --detach "$EXPECTED_COMMIT"
+          test "$(git -C "$D06_ROOT/build" rev-parse 'HEAD^{tree}')" = "$EXPECTED_TREE"
+          test -z "$(git -C "$D06_ROOT/build" status --porcelain=v1 --untracked-files=all)"
+
+      - name: Disconnected Rust gates, original package authentication, replay and negative matrix
+        run: |
+          set -euo pipefail
+          parent_network="$(readlink /proc/self/ns/net)"
+          sudo unshare --net --mount --propagation private -- env -i \
+            PATH="$HOME/.cargo/bin:/usr/bin:/bin" HOME="$D06_ROOT/home" LC_ALL=C \
+            CARGO_HOME="$D06_ROOT/cargo-home" RUSTUP_HOME="$D06_ROOT/rustup-home" RUSTUP_TOOLCHAIN=1.98.1 \
+            CARGO_NET_OFFLINE=true PYTHONDONTWRITEBYTECODE=1 GIT_CONFIG_NOSYSTEM=1 \
+            GIT_CONFIG_GLOBAL=/dev/null GIT_TERMINAL_PROMPT=0 GIT_ALLOW_PROTOCOL= \
+            GIT_NO_REPLACE_OBJECTS=1 GIT_NO_LAZY_FETCH=1 \
+            GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.directory GIT_CONFIG_VALUE_0="$D06_ROOT/build" \
+            EXPECTED_COMMIT="$EXPECTED_COMMIT" EXPECTED_TREE="$EXPECTED_TREE" \
+            bash "$D06_ROOT/build/migration/run_standalone_d06_offline.sh" \
+              "$D06_ROOT" "$D06_ROOT/build" "$parent_network"
+          sudo chown -R "$(id -u):$(id -g)" "$D06_ROOT/evidence"
+
+      - name: Bind new evidence to producer identity without claiming final GitHub success
+        run: |
+          set -euo pipefail
+          python3 -I -B migration/verify_standalone_composition.py \
+            --root "$GITHUB_WORKSPACE" --source-git "$D06_ROOT/acquisition/source-object-store" \
+            --expected-commit "$EXPECTED_COMMIT" --expected-tree "$EXPECTED_TREE" --require-active-workflow
+          python3 -I -B migration/index_standalone_d06.py \
+            --repo "$GITHUB_WORKSPACE" --evidence "$D06_ROOT/evidence" \
+            --expected-commit "$EXPECTED_COMMIT" --expected-tree "$EXPECTED_TREE"
+
+      - name: Preserve only new evidence and original provenance
+        id: evidence
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: nqc-standalone-d06-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.D06_ROOT }}/evidence
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Report immutable upload identity for separate final read-back
+        env:
+          ARTIFACT_ID: ${{ steps.evidence.outputs.artifact-id }}
+          ARTIFACT_DIGEST: ${{ steps.evidence.outputs.artifact-digest }}
+        run: |
+          set -euo pipefail
+          [[ "$ARTIFACT_ID" =~ ^[1-9][0-9]*$ ]]
+          [[ "$ARTIFACT_DIGEST" =~ ^[0-9a-f]{64}$ ]]
+          printf 'New artifact ID: %s\nNew artifact digest: sha256:%s\nCanonical recertification: false\nIndependent final exact-head GitHub run/artifact read-back remains required.\n' \
+            "$ARTIFACT_ID" "$ARTIFACT_DIGEST" >> "$GITHUB_STEP_SUMMARY"
