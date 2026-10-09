@@ -46,6 +46,20 @@ def read_metadata(url):
     return json.loads(raw, object_pairs_hook=pairs)
 
 
+def fetch_source_objects(store, env):
+    # Keep optional Git maintenance/cache files out of the closed object-store
+    # format. The verifier still rejects every unreviewed or promisor file.
+    acquisition_env = dict(env, GIT_ALLOW_PROTOCOL="https")
+    refspecs = [oid + ":" + ref for ref, oid in a.HISTORICAL_REFS.items()]
+    a.run(["git", "--no-replace-objects", "-c", "protocol.allow=never",
+           "-c", "protocol.https.allow=always", "-c", "credential.helper=",
+           "-c", "credential.interactive=false", "-c", "http.followRedirects=false",
+           "-c", "http.extraHeader=", "-c", "core.hooksPath=/dev/null",
+           "-C", store, "fetch", "--no-tags", "--no-write-fetch-head",
+           "--no-recurse-submodules", "--no-auto-maintenance", "--no-write-commit-graph",
+           "--", GIT_URL, *refspecs], cwd=store, env=acquisition_env)
+
+
 def acquire(output):
     output = Path(output).absolute()
     a.require(output.parent.is_dir() and output.parent.resolve() == output.parent, "acquisition output parent aliases")
@@ -76,14 +90,7 @@ def acquire(output):
         metadata_path.write_text(json.dumps(metadata, indent=2, sort_keys=True) + "\n")
         a.load_source_metadata(metadata_path)
         a.git(store, "init", "--quiet", "--template=", env=env)
-        acquisition_env = dict(env, GIT_ALLOW_PROTOCOL="https")
-        refspecs = [oid + ":" + ref for ref, oid in a.HISTORICAL_REFS.items()]
-        a.run(["git", "--no-replace-objects", "-c", "protocol.allow=never",
-               "-c", "protocol.https.allow=always", "-c", "credential.helper=",
-               "-c", "credential.interactive=false", "-c", "http.followRedirects=false",
-               "-c", "http.extraHeader=", "-c", "core.hooksPath=/dev/null",
-               "-C", store, "fetch", "--no-tags", "--no-write-fetch-head",
-               "--no-recurse-submodules", "--", GIT_URL, *refspecs], cwd=store, env=acquisition_env)
+        fetch_source_objects(store, env)
         a.verify_source_store(store, env)
         # Retain precisely the original refs; HEAD is deliberately left unborn.
         (stage / "ACQUISITION.json").write_text(json.dumps({

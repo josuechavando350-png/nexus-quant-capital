@@ -242,7 +242,7 @@ def verify_source_store(store, env):
             rel = path.relative_to(objects).as_posix()
             require(re.fullmatch(r"[0-9a-f]{2}/[0-9a-f]{38}", rel) or
                     re.fullmatch(r"pack/pack-[0-9a-f]{40}\.(pack|idx|rev)", rel),
-                    "unreviewed or promisor source object file")
+                    "unreviewed or promisor source object file: " + repr(rel))
             total += info.st_size; count += 1
     require(count <= 100000 and total <= 512 * 1024 * 1024, "source object store size limit")
     for rel in ("HEAD", "packed-refs"):

@@ -14,6 +14,7 @@ from unittest import mock
 
 import collect_original_metadata as metadata
 import index_standalone_d06 as index
+import acquire_historical_source as acquisition
 
 
 class Response(io.BytesIO):
@@ -309,6 +310,85 @@ class IndexTests(ProducerIdentityTests):
     def test_extra_symlink_is_rejected(self):
         (self.root / "unexpected-link").symlink_to(self.root / "offline-verification.json")
         with self.assertRaisesRegex(ValueError, "nonregular"): self.run_index()
+
+
+class HistoricalFetchCacheTests(unittest.TestCase):
+    def captured_command(self, store, environment):
+        with mock.patch.object(acquisition.a, "run", return_value=b"") as run:
+            acquisition.fetch_source_objects(store, environment)
+        command = run.call_args.args[0]
+        return command, run.call_args.kwargs["env"]
+
+    def test_fixed_fetch_disables_optional_metadata_without_weakening_transport(self):
+        command, environment = self.captured_command(Path("/tmp/fixed-fixture"), {})
+        self.assertIn("--no-auto-maintenance", command)
+        self.assertIn("--no-write-commit-graph", command)
+        self.assertIn("--no-write-fetch-head", command)
+        self.assertIn("--no-recurse-submodules", command)
+        self.assertIn("protocol.allow=never", command)
+        self.assertIn("protocol.https.allow=always", command)
+        self.assertIn("credential.helper=", command)
+        self.assertIn("credential.interactive=false", command)
+        self.assertIn("http.followRedirects=false", command)
+        self.assertIn("http.extraHeader=", command)
+        self.assertEqual(environment["GIT_ALLOW_PROTOCOL"], "https")
+        self.assertEqual(command[command.index("--") + 1:], [acquisition.GIT_URL] +
+                         [oid + ":" + ref for ref, oid in acquisition.a.HISTORICAL_REFS.items()])
+
+    def test_real_local_fetch_regression_old_cache_rejected_new_flags_prevent_it(self):
+        # Synthetic local Git fixture only. No network or source-authority claim.
+        with tempfile.TemporaryDirectory() as name:
+            work = Path(name); env = acquisition.a.environment(work)
+            source = work / "fixture-source"; source.mkdir()
+            acquisition.a.git(source, "init", "--quiet", "--template=", env=env)
+            (source / "fixture.txt").write_text("synthetic fixture\n")
+            acquisition.a.git(source, "add", "fixture.txt", env=env)
+            acquisition.a.git(source, "-c", "user.name=Fixture", "-c", "user.email=fixture@example.test",
+                              "commit", "--quiet", "-m", "fixture", env=env)
+            expected = acquisition.a.git(source, "rev-parse", "HEAD", env=env).decode().strip()
+            for controls in (False, True):
+                store = work / ("new" if controls else "old"); store.mkdir()
+                acquisition.a.git(store, "init", "--quiet", "--template=", env=env)
+                command, _ = self.captured_command(store, env)
+                prefix = command[:command.index("--")]
+                prefix = ["protocol.file.allow=always" if arg == "protocol.https.allow=always" else arg
+                          for arg in prefix]
+                if not controls:
+                    prefix = [arg for arg in prefix if arg not in
+                              ("--no-auto-maintenance", "--no-write-commit-graph")]
+                # Deliberately request the optional cache and a pack in both
+                # cases. Only the new command's negative flags override it.
+                prefix[1:1] = ["-c", "fetch.writeCommitGraph=true", "-c", "transfer.unpackLimit=1"]
+                acquisition.a.run(prefix + ["--", source, expected + ":refs/evidence/fixture"],
+                                  cwd=store, env=dict(env, GIT_ALLOW_PROTOCOL="file"))
+                objects = store / ".git/objects"
+                unexpected = [str(path.relative_to(objects)) for path in objects.rglob("*") if path.is_file()
+                              and not (re.fullmatch(r"[0-9a-f]{2}/[0-9a-f]{38}", str(path.relative_to(objects)))
+                                       or re.fullmatch(r"pack/pack-[0-9a-f]{40}\.(pack|idx|rev)",
+                                                       str(path.relative_to(objects))))]
+                if controls:
+                    self.assertEqual(unexpected, [])
+                    self.assertEqual(acquisition.a.git(store, "rev-parse", "refs/evidence/fixture",
+                                     env=env).decode().strip(), expected)
+                    acquisition.a.git(store, "fsck", "--full", "--strict", env=env)
+                else:
+                    self.assertTrue(any(path.startswith("info/commit-graphs/") for path in unexpected))
+                    with self.assertRaisesRegex(acquisition.a.AdapterError,
+                                                "unreviewed or promisor source object file:.*info/commit-graphs/"):
+                        acquisition.a.verify_source_store(store, env)
+
+    def test_promisor_and_unreviewed_files_remain_rejected_with_safe_path_diagnostic(self):
+        for rel in ("pack/pack-" + "0" * 40 + ".promisor", "info/commit-graphs/unreviewed\nfile"):
+            with self.subTest(rel=rel), tempfile.TemporaryDirectory() as name:
+                root = Path(name); env = acquisition.a.environment(root)
+                store = root / "store"; store.mkdir()
+                acquisition.a.git(store, "init", "--quiet", "--template=", env=env)
+                path = store / ".git/objects" / rel; path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("untrusted metadata must not be read\n")
+                with self.assertRaises(acquisition.a.AdapterError) as caught:
+                    acquisition.a.verify_source_store(store, env)
+                self.assertEqual(str(caught.exception),
+                                 "unreviewed or promisor source object file: " + repr(rel))
 
 
 class WorkflowRuntimeRootTests(unittest.TestCase):
