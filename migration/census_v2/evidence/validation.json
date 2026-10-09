@@ -1,0 +1,21 @@
+{
+  "schema": "nqc-census-v2-validation-v1",
+  "observed_date": "2026-10-09",
+  "base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
+  "new_code_results": [
+    {"command": "python3 -m unittest discover -s migration/census_v2 -p test_*.py", "tests": 18, "failed": 0, "skipped": 0, "status": "PASS", "scope": "offline gas witness accounting, not authenticated funding"},
+    {"command": "python3 migration/census_v2/check_d06_readback.py --archive <real-new-D06-ZIP> --metadata-dir evidence/d06-api", "tests": 8, "failed": 0, "skipped": 0, "status": "PASS", "scope": "real pinned archive, final metadata and output equality; no Rust re-execution"},
+    {"command": "python3 migration/census_v2/check_historical_inputs.py --archive-root <real-D06-D10-ZIPs> --metadata-root evidence/historical-api", "tests": 6, "failed": 0, "skipped": 0, "status": "PASS", "scope": "real historical ZIP/manifest bytes and anchor/source coherence"},
+    {"command": "python3 -m unittest discover -s migration -p test_isolation.py", "tests": 9, "failed": 0, "skipped": 0, "status": "PASS"},
+    {"command": "python3 migration/verify_isolation.py", "status": "ISOLATED_SOURCE_IDENTITY_PASS", "source_files": 531, "disabled_workflows": 106, "active_workflows": 0, "original_objects_checked": false}
+  ],
+  "failure_ledger": [
+    {"id": "HISTORICAL_DISCOVERY_NOT_GREEN", "command": "python3 -m unittest discover -s ci/nqc-census -p test_*.py", "tests_run": 664, "setup_errors": 7, "skipped": 3, "log": "historical-python-discovery.log", "treatment": "Unchanged historical baseline; five suites require real-artifact CLI inputs, two require exact historical source-catalog blobs. Do not count setup errors or skipped cases as passes. Run each with its actual inputs/source adapter before relying on it."},
+    {"id": "RUST_TOOLCHAIN_SIGBUS", "command": "cargo test --locked -p nqc-census-capital", "toolchain": "1.98.1", "status": "NOT_EXECUTED_COMPILER_FAILED_BEFORE_COMPILATION", "exit_code": 101, "underlying_signal": "SIGBUS", "log": "rust-environment-failure.log", "treatment": "Run the exact pinned toolchain in a functioning environment. No toolchain substitution and no Rust success claimed."},
+    {"id": "ORIGINAL_GIT_OBJECTS_NOT_RECHECKED", "status": "LIMITATION", "treatment": "Isolation checks source-manifest bytes and modes. Original Git object store is not supplied to this run; no independent original-object verification is claimed."}
+  ],
+  "canonical_recertification": false,
+  "real_market_census_closed": false,
+  "gas_spent_by_this_work": 0,
+  "live_transactions_submitted": 0
+}
