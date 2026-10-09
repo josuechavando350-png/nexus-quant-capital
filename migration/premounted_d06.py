@@ -208,6 +208,132 @@ def runner_identity(repo, source, adapter_file):
             'source_mount': readonly_proof(source)}
 
 
+# Unprivileged negative-fixture preparation. No source mode or byte is changed.
+STORE_MUTATION_CASES = {'missing-checkpoint', 'corrupted-checkpoint', 'missing-head', 'missing-stream',
+                       'missing-manifest', 'missing-request', 'missing-response', 'missing-chunk', 'corrupted-chunk'}
+
+
+def _fd_digest(fd):
+    digest = hashlib.sha256(); offset = 0
+    while True:
+        data = os.pread(fd, 1024 * 1024, offset)
+        if not data:
+            return digest.hexdigest()
+        digest.update(data); offset += len(data)
+
+
+def source_state_snapshot(root):
+    """Pin named membership, bytes, modes, ownership, links and inode identity."""
+    root = Path(root)
+    require(root.is_absolute() and root.resolve() == root and root.is_dir(), 'source/fixture root alias')
+    uid = os.getuid(); require(uid > 0, 'negative fixture requires nonroot owner')
+    state = {}
+    for path in (root, *sorted(root.rglob('*'))):
+        info = path.lstat(); mode = stat.S_IMODE(info.st_mode)
+        require(info.st_uid == uid, 'source/fixture owner differs')
+        require(stat.S_ISDIR(info.st_mode) or stat.S_ISREG(info.st_mode), 'source/fixture symlink or special file')
+        regular = stat.S_ISREG(info.st_mode)
+        require(mode == (0o444 if regular else 0o700), 'original extraction mode differs')
+        digest = None
+        if regular:
+            require(info.st_nlink == 1, 'source/fixture hardlink rejected')
+            fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC | os.O_NONBLOCK)
+            try:
+                current = os.fstat(fd)
+                require((current.st_dev, current.st_ino, current.st_mode, current.st_nlink) ==
+                        (info.st_dev, info.st_ino, info.st_mode, 1), 'source/fixture changed during snapshot')
+                digest = _fd_digest(fd)
+            finally:
+                os.close(fd)
+        state[str(path.relative_to(root))] = {'kind': 'file' if regular else 'directory', 'mode': mode,
+            'uid': info.st_uid, 'gid': info.st_gid, 'links': info.st_nlink,
+            'device': info.st_dev, 'inode': info.st_ino, 'sha256': digest}
+    return state
+
+
+def copy_mutation_fixture(source, target):
+    """Create and prove a fresh independent clone before any of nine mutations."""
+    import shutil
+    source, target = Path(source), Path(target)
+    require(source.is_absolute() and source.resolve() == source and
+            target.is_absolute() and target.resolve() == target and target.parent.is_dir(), 'fixture path alias')
+    require(target.name in {name + '-store' for name in STORE_MUTATION_CASES}, 'unexpected store fixture')
+    require(not target.is_relative_to(source) and not source.is_relative_to(target), 'fixture overlaps immutable source')
+    require(not target.exists() and not target.is_symlink(), 'fixture must be fresh')
+    before = source_state_snapshot(source)
+    shutil.copytree(source, target)
+    copied = source_state_snapshot(target)
+    require(set(copied) == set(before), 'fixture membership differs')
+    source_identities = {(row['device'], row['inode']) for row in before.values()}
+    for name, row in copied.items():
+        require(all(row[field] == before[name][field] for field in ('kind', 'mode', 'uid', 'gid', 'sha256')),
+                'fixture bytes or modes differ')
+        require((row['device'], row['inode']) not in source_identities, 'fixture aliases source inode')
+    require(source_state_snapshot(source) == before, 'copy changed immutable source')
+
+
+def _fixture_directory_fd(path):
+    path = Path(path)
+    require(path.is_absolute() and path.resolve() == path, 'fixture parent alias')
+    fd = os.open('/', os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+    try:
+        for component in path.parts[1:]:
+            next_fd = os.open(component, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC, dir_fd=fd)
+            os.close(fd); fd = next_fd
+        return fd
+    except BaseException:
+        os.close(fd)
+        raise
+
+
+def overwrite_fixture_file(source, target, path, contents):
+    """Temporarily add owner-write only to one proven copied corruption target."""
+    source, target, path = Path(source), Path(target), Path(path)
+    require(type(contents) is bytes, 'fixture contents must be bytes')
+    require(all(value.is_absolute() and value.resolve() == value for value in (source, target, path)), 'fixture file alias')
+    require(not target.is_relative_to(source) and not source.is_relative_to(target), 'fixture overlaps immutable source')
+    require(path.is_relative_to(target) and path != target, 'mutation outside fixture')
+    relative = path.relative_to(target)
+    pattern = {'corrupted-checkpoint-store': r'streams/[0-9a-f]{64}/checkpoints/[0-9]{20}',
+               'corrupted-chunk-store': r'objects/chunks/[0-9a-f]{2}/[0-9a-f]{64}'}.get(target.name)
+    require(pattern is not None and re.fullmatch(pattern, relative.as_posix()), 'unexpected corruption target')
+    parent = _fixture_directory_fd(path.parent)
+    source_parent = copied = original = writer = None; changed_mode = False
+    try:
+        source_parent = _fixture_directory_fd((source / relative).parent)
+        copied = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC | os.O_NONBLOCK, dir_fd=parent)
+        original = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC | os.O_NONBLOCK, dir_fd=source_parent)
+        copied_info, original_info = os.fstat(copied), os.fstat(original)
+        for info in (copied_info, original_info):
+            require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and info.st_uid == os.getuid() and
+                    stat.S_IMODE(info.st_mode) == 0o444, 'corruption target must be an owned original-mode regular single-link file')
+        require((copied_info.st_dev, copied_info.st_ino) != (original_info.st_dev, original_info.st_ino), 'corruption target aliases source')
+        require(_fd_digest(copied) == _fd_digest(original), 'corruption fixture was not copied unchanged')
+        os.fchmod(copied, 0o644); changed_mode = True
+        writer = os.open(path.name, os.O_WRONLY | os.O_NOFOLLOW | os.O_CLOEXEC | os.O_NONBLOCK, dir_fd=parent)
+        opened = os.fstat(writer)
+        require((opened.st_dev, opened.st_ino, opened.st_nlink) ==
+                (copied_info.st_dev, copied_info.st_ino, 1), 'corruption path changed before write')
+        os.ftruncate(writer, 0)
+        remaining = memoryview(contents)
+        while remaining:
+            count = os.write(writer, remaining)
+            require(count > 0, 'short fixture write')
+            remaining = remaining[count:]
+    finally:
+        try:
+            if writer is not None:
+                os.close(writer)
+            if changed_mode:
+                os.fchmod(copied, 0o444)
+        finally:
+            for fd in (copied, original, parent, source_parent):
+                if fd is not None:
+                    os.close(fd)
+    after = path.lstat()
+    require((after.st_dev, after.st_ino, after.st_nlink, stat.S_IMODE(after.st_mode)) ==
+            (copied_info.st_dev, copied_info.st_ino, 1, 0o444), 'corruption target or restored mode changed')
+
 def command(root, head, tree):
     import importlib.util
     spec = importlib.util.spec_from_file_location('checked_system_boundary', Path(__file__).with_name('materialize_historical_source.py'))

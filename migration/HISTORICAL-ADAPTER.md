@@ -257,3 +257,29 @@ The hosted diagnostic established Ubuntu image 20261004.327.1, kernel
 6.17.0-1022-azure, util-linux 2.39.3-9ubuntu6.6. The new boundary does not depend on
 version-specific user-ID mapping flags. Its fd-based mount API requires Linux
 5.12+ and libc wrappers (glibc 2.36+); absence fails closed without fallback.
+
+
+## Independent negative-fixture permissions
+
+The immutable authenticated source remains 0700 directories and 0444 regular
+files. All nine copied-store negative fixtures are freshly copied, exhaustively
+checked for matching named bytes/modes/ownership and distinct inode identities,
+and rejected if any symlink, special file, hardlink, overlap or stale destination
+is found. Deletion cases use their copied 0700 directories without relaxing any
+permission. Report/provider JSONs continue to be newly created fixture files.
+
+Only the selected corrupted-checkpoint or corrupted-chunk copied file temporarily
+receives owner-write, through an already-open descriptor verified against its
+immutable counterpart. The write descriptor must match the same inode before
+truncation or writing. The original 0444 mode is restored in a finally path,
+including write failures. Source descriptors are never chmodded or written; no
+recursive chmod or broadly writable store exists. Fresh-copy verification,
+preparation errors and write errors fail the harness rather than counting as
+semantic rejections. Source hashes, modes, ownership, link counts, inode identity
+and named membership are rechecked after all cases.
+
+The exact fixture-copy and two mutation transformations are now explicitly
+allowed by the whole-file comparison regression. All22 case selections, binary
+invocations, failure/no-output expectations and post-rejection unchanged-store
+assertions remain identical to the original driver. This changes prospective
+fixture mechanics, not replay decisions or immutable original source files.

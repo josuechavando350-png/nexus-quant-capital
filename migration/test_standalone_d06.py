@@ -793,6 +793,13 @@ class PremountedAdapterTests(unittest.TestCase):
         root = Path(__file__).parents[1]
         for name, original in self.p.ORIGINALS.items():
             changed = (root / 'migration' / name).read_text()
+            changed = changed.replace('runner_identity, copy_mutation_fixture, overwrite_fixture_file, source_state_snapshot', 'runner_identity')
+            changed = changed.replace("    original_source_state = source_state_snapshot(source)\n", '')
+            changed = changed.replace("        copy_mutation_fixture(source/'store', target)", "        shutil.copytree(source/'store', target)")
+            changed = changed.replace("overwrite_fixture_file(source/'store', target, checkpoint, b'bad checkpoint')", "checkpoint.write_bytes(b'bad checkpoint')")
+            changed = changed.replace("overwrite_fixture_file(source/'store', target, chunk, data[:-1]+bytes([data[-1]^1]))", "chunk.write_bytes(data[:-1]+bytes([data[-1]^1]))")
+            changed = changed.replace("    require(source_state_snapshot(source) == original_source_state, 'negative cases changed source bytes, modes or membership')\n", '')
+
             changed = changed.replace("sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'ci/nqc-census'))\n", '')
             changed = changed.replace('\n\n# Prospective v1 adapter: original computation is preserved; privileged mounting\n# was moved to the reviewed fd-pinned boundary. Original entry point is unchanged.\nfrom premounted_d06 import runner_identity\n', '')
             changed = changed.replace('    # Require the genuine pre-mounted read-only boundary before any computation.', '    # Read-only bind mount enforces source preservation even during error paths.')
@@ -952,6 +959,137 @@ exec(p.ROOT_SETUP[len(p.MOUNT_SETUP):], namespace)
     def test_original_root_identity_is_rejected_before_privilege_request(self):
         with mock.patch.object(self.p.os, 'getuid', return_value=0):
             with self.assertRaisesRegex(ValueError, 'nonroot'): self.p.command(self.source, 'a'*40, 'b'*40)
+
+class NegativeFixturePermissionTests(unittest.TestCase):
+    def setUp(self):
+        import importlib.util
+        import premounted_d06
+        self.p = premounted_d06
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name); self.source = self.root / 'source'
+        verifier = Path(__file__).parents[1] / 'ci/nqc-census/verify_rmc006_recertification_source.py'
+        spec = importlib.util.spec_from_file_location('exact_fixture_extractor', verifier)
+        module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+        self.checkpoint = 'streams/' + 'a'*64 + '/checkpoints/' + '0'*20
+        self.chunk = 'objects/chunks/bb/' + 'b'*64
+        members = {'store/' + self.checkpoint: b'original checkpoint', 'store/' + self.chunk: b'original chunk',
+                   'store/streams/' + 'a'*64 + '/HEAD': b'original head', 'store/STORE': b'original configuration'}
+        module.extract_members({'required_empty_directories': []}, members, self.source)
+        self.store = self.source / 'store'
+        self.before = self.p.source_state_snapshot(self.source)
+        self.assertGreater(os.getuid(), 0)
+        status = dict(line.split(':', 1) for line in Path('/proc/self/status').read_text().splitlines() if ':' in line)
+        self.assertTrue(all(int(status[name], 16) == 0 for name in ('CapInh', 'CapPrm', 'CapEff', 'CapBnd', 'CapAmb')))
+
+    def copy(self, name='corrupted-checkpoint'):
+        target = self.root / (name + '-store')
+        self.p.copy_mutation_fixture(self.store, target)
+        return target
+
+    def test_all_nine_store_fixture_copies_are_independent_and_keep_original_modes(self):
+        import shutil, stat
+        self.assertEqual(len(self.p.STORE_MUTATION_CASES), 9)
+        for name in sorted(self.p.STORE_MUTATION_CASES):
+            target = self.copy(name)
+            for path in target.rglob('*'):
+                self.assertEqual(stat.S_IMODE(path.stat().st_mode), 0o700 if path.is_dir() else 0o444)
+                original = self.store / path.relative_to(target)
+                self.assertNotEqual((path.stat().st_dev, path.stat().st_ino), (original.stat().st_dev, original.stat().st_ino))
+            shutil.rmtree(target)
+        self.assertEqual(self.p.source_state_snapshot(self.source), self.before)
+
+    def test_only_selected_checkpoint_and_chunk_temporarily_gain_owner_write(self):
+        import stat
+        for case, relative in (('corrupted-checkpoint', self.checkpoint), ('corrupted-chunk', self.chunk)):
+            target = self.copy(case); path = target / relative
+            before = self.p.source_state_snapshot(target)
+            real_chmod = os.fchmod; calls = []
+            def chmod(fd, mode):
+                info = os.fstat(fd); calls.append((info.st_dev, info.st_ino, mode)); return real_chmod(fd, mode)
+            with mock.patch.object(self.p.os, 'fchmod', side_effect=chmod):
+                self.p.overwrite_fixture_file(self.store, target, path, b'deliberate corruption')
+            self.assertEqual([mode for _, _, mode in calls], [0o644, 0o444])
+            self.assertTrue(all((device, inode) == (path.stat().st_dev, path.stat().st_ino) for device, inode, _ in calls))
+            self.assertEqual(path.read_bytes(), b'deliberate corruption')
+            self.assertEqual(stat.S_IMODE(path.stat().st_mode), 0o444)
+            after = self.p.source_state_snapshot(target)
+            for key in before:
+                if key == relative:
+                    before[key]['sha256'] = hashlib.sha256(b'deliberate corruption').hexdigest()
+                self.assertEqual(before[key], after[key])
+        self.assertEqual(self.p.source_state_snapshot(self.source), self.before)
+
+    def test_writable_restore_even_when_actual_fixture_write_fails(self):
+        import stat
+        target = self.copy(); path = target / self.checkpoint
+        with mock.patch.object(self.p.os, 'write', side_effect=OSError('deliberate fixture write failure')):
+            with self.assertRaisesRegex(OSError, 'deliberate fixture'): self.p.overwrite_fixture_file(self.store, target, path, b'x')
+        self.assertEqual(stat.S_IMODE(path.stat().st_mode), 0o444)
+        self.assertEqual(self.p.source_state_snapshot(self.source), self.before)
+
+    def test_source_target_overlap_and_existing_destination_rejected(self):
+        for target in (self.store, self.store / 'corrupted-checkpoint-store', self.source):
+            with self.assertRaises(ValueError): self.p.copy_mutation_fixture(self.store, target)
+        target = self.copy()
+        with self.assertRaises(ValueError): self.p.copy_mutation_fixture(self.store, target)
+        with self.assertRaises(ValueError): self.p.overwrite_fixture_file(self.store, self.store, self.store / self.checkpoint, b'x')
+        self.assertEqual(self.p.source_state_snapshot(self.source), self.before)
+
+    def test_symlink_fixture_file_and_parent_rejected_before_permission_changes(self):
+        target = self.copy(); path = target / self.checkpoint
+        path.unlink(); path.symlink_to(self.store / self.checkpoint)
+        with mock.patch.object(self.p.os, 'fchmod') as chmod:
+            with self.assertRaises(ValueError): self.p.overwrite_fixture_file(self.store, target, path, b'x')
+            chmod.assert_not_called()
+        alias = self.root / 'corrupted-chunk-store'; alias.symlink_to(self.store, target_is_directory=True)
+        with self.assertRaises(ValueError): self.p.copy_mutation_fixture(self.store, alias)
+        self.assertEqual(self.p.source_state_snapshot(self.source), self.before)
+
+    def test_source_hardlink_fixture_is_rejected_before_chmod(self):
+        target = self.copy(); path = target / self.checkpoint; original = self.store / self.checkpoint
+        path.unlink(); os.link(original, path)
+        before = original.read_bytes(), original.stat().st_mode
+        with mock.patch.object(self.p.os, 'fchmod') as chmod:
+            with self.assertRaisesRegex(ValueError, 'single-link'): self.p.overwrite_fixture_file(self.store, target, path, b'x')
+            chmod.assert_not_called()
+        self.assertEqual((original.read_bytes(), original.stat().st_mode), before)
+
+    def test_copy_validation_rejects_special_source_and_injected_hardlinks(self):
+        import shutil
+        fifo = self.store / 'fifo'; os.mkfifo(fifo)
+        with self.assertRaisesRegex(ValueError, 'special'): self.copy()
+        fifo.unlink()
+        real_copy = shutil.copytree
+        def injected(source, target, *args, **kwargs):
+            result = real_copy(source, target, *args, **kwargs)
+            # recursive copytree also calls this wrapper; inject only at store root.
+            if Path(source) == self.store:
+                path = Path(target) / self.checkpoint; path.unlink(); os.link(self.store / self.checkpoint, path)
+            return result
+        with mock.patch.object(shutil, 'copytree', side_effect=injected):
+            with self.assertRaisesRegex(ValueError, 'hardlink'): self.copy()
+
+    def test_changed_fixture_bytes_or_unapproved_file_cannot_be_mutated(self):
+        target = self.copy(); path = target / self.checkpoint
+        os.chmod(path, 0o644); path.write_bytes(b'prior mutation'); os.chmod(path, 0o444)
+        with mock.patch.object(self.p.os, 'fchmod') as chmod:
+            with self.assertRaisesRegex(ValueError, 'unchanged'): self.p.overwrite_fixture_file(self.store, target, path, b'x')
+            with self.assertRaisesRegex(ValueError, 'unexpected corruption'): self.p.overwrite_fixture_file(self.store, target, target / 'STORE', b'x')
+            chmod.assert_not_called()
+        self.assertEqual(self.p.source_state_snapshot(self.source), self.before)
+
+    def test_writer_inode_substitution_is_rejected_before_truncation(self):
+        target = self.copy(); path = target / self.checkpoint
+        real_open = os.open
+        def substitute(name, flags, *args, **kwargs):
+            if flags & os.O_WRONLY:
+                return real_open(self.store / self.checkpoint, os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC)
+            return real_open(name, flags, *args, **kwargs)
+        with mock.patch.object(self.p.os, 'open', side_effect=substitute), mock.patch.object(self.p.os, 'ftruncate') as truncate:
+            with self.assertRaisesRegex(ValueError, 'changed before write'): self.p.overwrite_fixture_file(self.store, target, path, b'x')
+            truncate.assert_not_called()
+        self.assertEqual(self.p.source_state_snapshot(self.source), self.before)
+        self.assertEqual(path.stat().st_mode & 0o777, 0o444)
 
 if __name__ == "__main__":
     unittest.main()

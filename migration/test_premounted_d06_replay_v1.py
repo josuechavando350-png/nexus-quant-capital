@@ -15,7 +15,7 @@ from run_rmc006_recertification import bytes_snapshot, network_proof, require, r
 
 # Prospective v1 adapter: original computation is preserved; privileged mounting
 # was moved to the reviewed fd-pinned boundary. Original entry point is unchanged.
-from premounted_d06 import runner_identity
+from premounted_d06 import runner_identity, copy_mutation_fixture, overwrite_fixture_file, source_state_snapshot
 
 
 def main():
@@ -31,6 +31,7 @@ def main():
     prospective_identity = runner_identity(repo, source, __file__)
     require(os.statvfs(source).f_flag & os.ST_RDONLY, 'negative source is not read-only')
     before = bytes_snapshot(source)
+    original_source_state = source_state_snapshot(source)
     work.mkdir(parents=True)
     (work/'runner-identity.json').write_text(json.dumps(prospective_identity, sort_keys=True, indent=2)+'\n')
     original = json.loads((source/'aave-current-surface.json').read_text())
@@ -74,7 +75,7 @@ def main():
     for name in ['missing-checkpoint', 'corrupted-checkpoint', 'missing-head', 'missing-stream',
                  'missing-manifest', 'missing-request', 'missing-response', 'missing-chunk', 'corrupted-chunk']:
         target = work/(name+'-store')
-        shutil.copytree(source/'store', target)
+        copy_mutation_fixture(source/'store', target)
         if name in ('missing-checkpoint', 'corrupted-checkpoint', 'missing-head', 'missing-stream'):
             scopes = []
             for candidate in (target/'streams').iterdir():
@@ -86,7 +87,7 @@ def main():
             scope = scopes[0]
             checkpoint = next((scope/'checkpoints').iterdir())
             if name == 'missing-checkpoint': checkpoint.unlink()
-            elif name == 'corrupted-checkpoint': checkpoint.write_bytes(b'bad checkpoint')
+            elif name == 'corrupted-checkpoint': overwrite_fixture_file(source/'store', target, checkpoint, b'bad checkpoint')
             elif name == 'missing-head': (scope/'HEAD').unlink()
             else: shutil.rmtree(scope)
         elif name in ('missing-manifest', 'missing-request', 'missing-response'):
@@ -107,10 +108,11 @@ def main():
             chunk = next(p for p in (target/'objects/chunks').rglob('*') if p.is_file())
             if name == 'missing-chunk': chunk.unlink()
             else:
-                data = chunk.read_bytes(); chunk.write_bytes(data[:-1]+bytes([data[-1]^1]))
+                data = chunk.read_bytes(); overwrite_fixture_file(source/'store', target, chunk, data[:-1]+bytes([data[-1]^1]))
         reject(name, store=target)
         shutil.rmtree(target)
     require(bytes_snapshot(source) == before, 'negative cases changed authenticated source')
+    require(source_state_snapshot(source) == original_source_state, 'negative cases changed source bytes, modes or membership')
     (work/'results.json').write_text(json.dumps({'schema': 'nqc-rmc006-replay-negatives-v1', 'cases': results}, indent=2, sort_keys=True)+'\n')
     print(f'RMC006_REPLAY_NEGATIVES_PASS cases={len(results)}')
 
