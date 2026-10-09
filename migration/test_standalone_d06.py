@@ -312,6 +312,112 @@ class IndexTests(ProducerIdentityTests):
         with self.assertRaisesRegex(ValueError, "nonregular"): self.run_index()
 
 
+class ExactProducerCheckoutTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(prefix="nqc-producer-checkout-test-")
+        self.addCleanup(self.temp.cleanup)
+        self.work = Path(self.temp.name); self.env = acquisition.a.environment(self.work)
+        self.source = self.work / "synthetic-source"; self.source.mkdir()
+        acquisition.a.git(self.source, "init", "--quiet", "--template=", env=self.env)
+        (self.source / "fixture.txt").write_text("baseline\n")
+        self.commit(); self.base = acquisition.a.identity(self.source, self.env)[0]
+        (self.source / "fixture.txt").write_text("producer\n")
+        self.commit(); self.head, self.tree = acquisition.a.identity(self.source, self.env)
+        self.repository = {"id": 1411047452, "full_name": acquisition.a.CONSUMER_REPOSITORY,
+                           "private": False, "url": acquisition.PRODUCER_API_URL}
+        self.fetch_calls = []
+
+    def commit(self):
+        acquisition.a.git(self.source, "add", "fixture.txt", env=self.env)
+        acquisition.a.git(self.source, "-c", "user.name=Fixture", "-c", "user.email=fixture@example.test",
+                          "commit", "--quiet", "-m", "fixture", env=self.env)
+
+    def acquire(self, output=None, head=None, tree=None, repository=None):
+        original_run = acquisition.a.run
+        def local_fixture(command, *, cwd, env):
+            args = list(command)
+            if acquisition.PRODUCER_GIT_URL in args:
+                self.fetch_calls.append(args)
+                self.assertEqual(args[args.index("--") + 1:],
+                                 [acquisition.PRODUCER_GIT_URL, (head or self.head) + ":" + acquisition.PRODUCER_REF])
+                self.assertEqual(env["GIT_ALLOW_PROTOCOL"], "https")
+                args = [str(self.source) if arg == acquisition.PRODUCER_GIT_URL else
+                        "protocol.file.allow=always" if arg == "protocol.https.allow=always" else arg
+                        for arg in args]
+                env = dict(env, GIT_ALLOW_PROTOCOL="file")
+            return original_run(args, cwd=cwd, env=env)
+        with mock.patch.object(acquisition, "read_metadata", return_value=repository or self.repository) as read, \
+                mock.patch.object(acquisition, "PRODUCER_BASE", self.base), \
+                mock.patch.object(acquisition.a, "run", side_effect=local_fixture):
+            result = acquisition.acquire_producer(output or self.work / "consumer", head or self.head,
+                                                  tree or self.tree)
+            read.assert_called_once_with(acquisition.PRODUCER_API_URL, producer=True)
+            return result
+
+    def test_clean_copy_uses_exact_objects_without_checkout_metadata(self):
+        acquisition.a.git(self.source, "sparse-checkout", "disable", env=self.env)
+        acquisition.a.git(self.source, "config", "--local", "--unset-all", "extensions.worktreeConfig", env=self.env)
+        metadata = self.source / ".git/config.worktree"
+        original = metadata.read_bytes()
+        with self.assertRaisesRegex(acquisition.a.AdapterError, "consumer Git metadata"):
+            acquisition.a.verify_consumer_git_config(self.source, self.env)
+        hooks = self.source / ".git/hooks"; hooks.mkdir(exist_ok=True)
+        (hooks / "fixture-hook").write_text("do not copy\n")
+        info = self.source / ".git/info"; info.mkdir(exist_ok=True)
+        (info / "attributes").write_text("fixture.txt -filter\n")
+        consumer = self.acquire()
+        self.assertEqual(acquisition.a.identity(consumer, self.env), (self.head, self.tree))
+        self.assertEqual((consumer / "fixture.txt").read_text(), "producer\n")
+        for rel in ("config.worktree", "commondir", "info/attributes", "hooks/fixture-hook"):
+            self.assertFalse((consumer / ".git" / rel).exists(), rel)
+        self.assertEqual(metadata.read_bytes(), original)
+        acquisition.a.verify_consumer_git_config(consumer, self.env)
+        acquisition.a.git(consumer, "merge-base", "--is-ancestor", self.base, self.head, env=self.env)
+        acquisition.a.git(consumer, "rev-list", "--objects", "--missing=error", self.head, env=self.env)
+        command = self.fetch_calls[0]
+        for flag in ("--no-auto-maintenance", "--no-write-commit-graph", "--no-tags",
+                     "credential.helper=", "credential.interactive=false", "http.followRedirects=false"):
+            self.assertIn(flag, command)
+        self.assertNotIn("--depth", command)
+        self.assertNotIn("--filter", command)
+
+    def test_invalid_or_partial_identity_fails_before_metadata_or_fetch(self):
+        for head, tree in (("main", self.tree), (self.head, None), (None, self.tree),
+                           ("0" * 40, self.tree), (self.head, "b" * 39)):
+            with self.subTest(head=head, tree=tree), mock.patch.object(acquisition, "read_metadata") as read:
+                with self.assertRaisesRegex(acquisition.a.AdapterError, "exact nonzero"):
+                    acquisition.acquire_producer(self.work / "bad", head, tree)
+                read.assert_not_called()
+
+    def test_changed_repository_is_rejected_before_git_fetch(self):
+        with self.assertRaisesRegex(acquisition.a.AdapterError, "repository identity"):
+            self.acquire(repository=dict(self.repository, id=1333360261))
+        self.assertEqual(self.fetch_calls, [])
+        self.assertFalse((self.work / "consumer").exists())
+
+    def test_fetched_tree_mismatch_never_publishes_output(self):
+        with self.assertRaisesRegex(acquisition.a.AdapterError, "fetched tree"):
+            self.acquire(tree="b" * 40)
+        self.assertFalse((self.work / "consumer").exists())
+
+    def test_existing_output_and_parent_alias_are_rejected(self):
+        output = self.work / "occupied"; output.mkdir(); (output / "sentinel").write_text("keep")
+        with self.assertRaisesRegex(acquisition.a.AdapterError, "already exists"):
+            self.acquire(output=output)
+        self.assertEqual((output / "sentinel").read_text(), "keep")
+        alias = self.work / "alias"; alias.symlink_to(self.work, target_is_directory=True)
+        with self.assertRaisesRegex(acquisition.a.AdapterError, "parent aliases"):
+            self.acquire(output=alias / "other")
+
+    def test_historical_and_producer_metadata_endpoints_do_not_substitute(self):
+        for url, producer in ((acquisition.API_URL, True), (acquisition.PRODUCER_API_URL, False),
+                              ("https://evil.example/repo", True)):
+            with self.subTest(url=url, producer=producer), mock.patch.object(acquisition.urllib.request, "build_opener") as opener:
+                with self.assertRaisesRegex(acquisition.a.AdapterError, "unapproved"):
+                    acquisition.read_metadata(url, producer=producer)
+                opener.assert_not_called()
+
+
 class HistoricalFetchCacheTests(unittest.TestCase):
     def captured_command(self, store, environment):
         with mock.patch.object(acquisition.a, "run", return_value=b"") as run:

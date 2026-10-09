@@ -87,8 +87,10 @@ jobs:
       - name: Verify closed standalone composition before dependency acquisition
         run: |
           set -euo pipefail
-          python3 -I -B migration/verify_standalone_composition.py \
-            --root "$GITHUB_WORKSPACE" --source-git "$D06_ROOT/acquisition/source-object-store" \
+          python3 -I -B migration/acquire_historical_source.py --output "$D06_ROOT/consumer" \
+            --producer-commit "$EXPECTED_COMMIT" --producer-tree "$EXPECTED_TREE"
+          python3 -I -B "$D06_ROOT/consumer/migration/verify_standalone_composition.py" \
+            --root "$D06_ROOT/consumer" --source-git "$D06_ROOT/acquisition/source-object-store" \
             --expected-commit "$EXPECTED_COMMIT" --expected-tree "$EXPECTED_TREE" --require-active-workflow
       - name: Acquire pinned Rust toolchain and locked dependency cache before disconnecting
         run: |
@@ -98,13 +100,13 @@ jobs:
             rustup toolchain install 1.98.1 --profile minimal --component clippy,rustfmt
           env -i PATH="$HOME/.cargo/bin:/usr/bin:/bin" HOME="$D06_ROOT/home" \
             CARGO_HOME="$D06_ROOT/cargo-home" RUSTUP_HOME="$D06_ROOT/rustup-home" RUSTUP_TOOLCHAIN=1.98.1 \
-            cargo fetch --manifest-path "$GITHUB_WORKSPACE/nqc-census/Cargo.toml" --locked
+            cargo fetch --manifest-path "$D06_ROOT/consumer/nqc-census/Cargo.toml" --locked
 
       - name: Materialize immutable historical source in the adapter's enforced disconnected namespace
         run: |
           set -euo pipefail
-          python3 -I -B migration/materialize_historical_source.py \
-            --consumer "$GITHUB_WORKSPACE" \
+          python3 -I -B "$D06_ROOT/consumer/migration/materialize_historical_source.py" \
+            --consumer "$D06_ROOT/consumer" \
             --source-object-store "$D06_ROOT/acquisition/source-object-store" \
             --historical-source-metadata "$D06_ROOT/acquisition/source-metadata.json" \
             --output "$D06_ROOT/materialized" \
@@ -113,7 +115,7 @@ jobs:
       - name: Prepare a separate exact producer build copy without historical refs
         run: |
           set -euo pipefail
-          git -c core.hooksPath=/dev/null clone --no-local --no-checkout -- "$GITHUB_WORKSPACE" "$D06_ROOT/build"
+          git -c core.hooksPath=/dev/null clone --no-local --no-checkout -- "$D06_ROOT/consumer" "$D06_ROOT/build"
           git -C "$D06_ROOT/build" -c core.hooksPath=/dev/null checkout --detach "$EXPECTED_COMMIT"
           test "$(git -C "$D06_ROOT/build" rev-parse 'HEAD^{tree}')" = "$EXPECTED_TREE"
           test -z "$(git -C "$D06_ROOT/build" status --porcelain=v1 --untracked-files=all)"
@@ -137,11 +139,11 @@ jobs:
       - name: Bind new evidence to producer identity without claiming final GitHub success
         run: |
           set -euo pipefail
-          python3 -I -B migration/verify_standalone_composition.py \
-            --root "$GITHUB_WORKSPACE" --source-git "$D06_ROOT/acquisition/source-object-store" \
+          python3 -I -B "$D06_ROOT/consumer/migration/verify_standalone_composition.py" \
+            --root "$D06_ROOT/consumer" --source-git "$D06_ROOT/acquisition/source-object-store" \
             --expected-commit "$EXPECTED_COMMIT" --expected-tree "$EXPECTED_TREE" --require-active-workflow
-          python3 -I -B migration/index_standalone_d06.py \
-            --repo "$GITHUB_WORKSPACE" --evidence "$D06_ROOT/evidence" \
+          python3 -I -B "$D06_ROOT/consumer/migration/index_standalone_d06.py" \
+            --repo "$D06_ROOT/consumer" --evidence "$D06_ROOT/evidence" \
             --expected-commit "$EXPECTED_COMMIT" --expected-tree "$EXPECTED_TREE"
 
       - name: Preserve only new evidence and original provenance
