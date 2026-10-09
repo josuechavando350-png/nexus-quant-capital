@@ -57,6 +57,15 @@ Base: `16e352225ba8a6a931834c4edf3d86d9a2924b7d` in
   match across both operators. A new scan covers 81,920 contiguous blocks and
   reconstructs 42 event legs. A network access denial stopped acquisition;
   full-window two-operator coverage remains false. See `HISTORICAL_RPC.md`.
+- An offline economic ledger now covers all **127 historical winner
+  transactions**, counting gas once per transaction and retaining unresolved
+  costs as null with explicit evidence requirements. Full log/actor/gas parity
+  passes for the shared **87 raw receipts**. It decodes **20 flash events in 19
+  transactions**, plus 1,648 ERC20-shaped Transfer logs, without treating them
+  as NQC financing or P&L. All nine WETH/WETH cases are retained; eight remain
+  positive after an illustrative 5 bps fee, with other costs still unknown.
+  Every historical winner remains insufficient evidence for NQC execution.
+  See `ECONOMIC_RECONCILIATION.md` for exact scope, sources and reproduction.
 
 Summary counts above are read from hash-authenticated historical summaries;
 this change does not independently reconstruct every position from chain state.
