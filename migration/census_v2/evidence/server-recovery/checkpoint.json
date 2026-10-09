@@ -1,0 +1,58 @@
+{
+  "census_closed": false,
+  "complete_zip_members_recovered": 39,
+  "date_utc": "2026-10-09",
+  "device_id": "97869e36-ef95-481f-ac75-85ab90bce0e7",
+  "failure": {
+    "call_id": "4e1eba32-66a0-4a1a-92f9-33d661b29e4d",
+    "completed_at": "2026-10-09T19:32:08.610523+00:00",
+    "created_at": "2026-10-09T19:30:04.694817+00:00",
+    "error": "Timeout - no response from device",
+    "status": "failed",
+    "tool": "ping"
+  },
+  "new_rpc_acquisition": false,
+  "observed_remote_pin_matches": [
+    {
+      "bytes": 329679,
+      "complete_local_bytes": false,
+      "file": "rmc015-temporal-episodes.jsonl",
+      "sha256": "a7fe40d752ee43ea507e9723d056248ca28dd6fb5884f49f33bed60950e3782a"
+    },
+    {
+      "bytes": 7596036,
+      "complete_local_bytes": false,
+      "file": "rmc015-censored-candidates.jsonl",
+      "sha256": "c64b6050ff7a3cd5ee7119c9b2f041dad6341fb0cd7b53884e8f1bba1efb9252"
+    },
+    {
+      "bytes": 2297,
+      "complete_local_bytes": false,
+      "file": "rmc015-temporal-authority.json",
+      "sha256": "1acc37d37d82573dd3c27b02fe5de5bf40abd7081f42d22178cc27873f56efb4"
+    },
+    {
+      "bytes": 104736,
+      "complete_local_bytes": false,
+      "file": "rmc016-observed-transaction-economics.jsonl",
+      "sha256": "55d5d6be9e09f2e499e1ca8949c4305d05824dffa61e363f4371c615537dcb1c"
+    },
+    {
+      "bytes": 2070,
+      "complete_local_bytes": false,
+      "file": "rmc016-capacity-authority.json",
+      "sha256": "9dc03b2d2c480d689e5ecf1e4585d2af55a4271db6a3e5ef0851f821085fac63"
+    }
+  ],
+  "partial_member_excluded": "rmc015-censored-candidates.jsonl",
+  "raw_source_files_modified": false,
+  "received_prefix_bytes": 393216,
+  "received_prefix_sha256": "6033f9fc771f6d431e2c703e39ad8be948f91fce2c1c20df03081eec745f642f",
+  "remote_archive": "/tmp/nqc-census-recovery-20261009/original-temporal-core.zip",
+  "remote_archive_bytes": 988991,
+  "remote_archive_sha256": "cc51fc5c9a3ea76daa59d42cc5eef6aed3909955d1bf5a68795ac3bf5b210ede",
+  "remote_archive_sha256_locally_verified": false,
+  "remote_hash_observation_exact_timestamp_captured": false,
+  "remote_root": "/root/workspace/RMC015_REPLAY_30D",
+  "schema": "nqc-source-server-recovery-checkpoint-v1"
+}

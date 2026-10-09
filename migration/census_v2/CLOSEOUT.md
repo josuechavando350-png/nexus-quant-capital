@@ -33,13 +33,17 @@ productor por haber pasado estas pruebas.
 | Market Truth | Corte histórico reconstruido; alcance temporal global abierto | Reconciliar el universo declarado y recuperar las observaciones detalladas, oportunidades censuradas y momentos reales de recepción. |
 | Capital Truth | Núcleo D11 íntegro; admisibilidad operativa incompleta | Pruebas de proveedores, cobertura por candidato, repayment completo y obligaciones; autenticar gas nativo y coste de adquisición bajo el límite autorizado. |
 | Economic Truth | Evidencia insuficiente en los 432 pares | Compatibilidad de los 43 activos requeridos, rutas monetizables, costes completos, competencia/inclusión y márgenes conservadores. Puede cerrarse con conclusiones negativas justificadas. |
-| Evidencia temporal | Cinco archivos posteriores recuperados: 139 eventos / 127 transacciones; consultas nuevas parciales | 123 recibos comprobados en BlockPI, 87 en dRPC; 87 coinciden en ambos. Barrido nuevo: 81,920 bloques y 42 eventos; faltan 133,116 bloques. El acceso RPC fue bloqueado con 403. Siguen faltando los ledgers originales episode/censored/economic de D15B. |
+| Evidencia temporal | Cinco archivos posteriores recuperados: 139 eventos / 127 transacciones; consultas nuevas parciales | 123 recibos comprobados en BlockPI, 87 en dRPC; 87 coinciden en ambos. Barrido nuevo: 81,920 bloques y 42 eventos; faltan 133,116 bloques. El acceso RPC fue bloqueado con 403. Ledgers terminales D15B/D16 recuperados: 29,998 candidatos conciliados, 127 transacciones y cuatro archivos D16 reproducidos. Faltan los insumos grandes para repetir el productor D15B y su reconstrucción previa. |
 | Reproducción D11 completa | Resuelta dentro del límite de memoria: nueve archivos idénticos | 371.5 segundos, RSS máximo 7,309,316 KiB, 256 pruebas de capital. Se preservan los intentos OOM y la divergencia del importador por roles. Falta la revisión independiente del nuevo productor. |
 | Autoridad independiente | Pendiente | Revisar productor y consumidores exactos, commits/trees, fuentes, ledgers de fallos y discrepancias, falsación y límites del alcance. Esta modificación no se certifica a sí misma. |
 
-El dispositivo de recuperación inspeccionado estaba desconectado. Existe el
-snapshot de recuperación `248761092`, pero este entorno no tiene una clave SSH
-para acceder al servidor. No se contrató infraestructura nueva ni se consumió gas.
+El usuario reconectó el servidor original. El paquete central completo tiene
+71 archivos verificados. La partición temporal de 29,998 cuentas concilia y
+los cuatro archivos del productor D16 se reproducen byte por byte. Los 29,998
+candidatos temporales conservan clasificación explícita de evidencia insuficiente,
+separada del corte D09. Una segunda interrupción dejó incompleta la transferencia
+de los insumos grandes de D15B. Ambos fallos están preservados; véase
+`SERVER_RECOVERY.md`. No se contrató infraestructura ni se consumió gas.
 
 Se recuperó una vía adicional mediante RPC públicos. Las consultas se detuvieron
 por denegación de acceso de red a las `17:13:21Z` del 9 de octubre. La herramienta

@@ -147,23 +147,26 @@ read-backs, not an upstream authority lock.
 | New producer authority | New D06 output integrity passes; separate producer review is unproven. | Review exact new producer/adapter and independence before downstream acceptance; preserve original scope. |
 | Capital Truth | D11 core recovered and fully decoded; its own terminal-capital flag is false. Conditional D12 replay proves zero admitted principal funding. Own-gas accounting is linked to each V2 candidate; balance/authenticity and execution integration remain unproven. | Integrate a separately versioned gas-only policy, authenticate balance/cost basis, external principal/fees/obligations, then produce and independently replay terminal D11. Historical zero-capital results cannot be relabeled. |
 | Execution and Economic Truth | D12 actionability/capital dispositions reproduced; 43 required underlying assets remain transfer-blocked. Full costs and monetizable routes are unproven. | Prove admissible token behavior, routes, complete costs, conservative executable margins and resource/conflict limits for each scoped candidate. Treat insufficient evidence explicitly. |
-| Temporal / competitive evidence | Five later winner archives recovered and partial new RPC evidence reconciled. Original D15B episode/censored/economic ledgers remain missing. The separate 857-account temporal study lacks 6,720 of 7,200 blocks. | Restore authorized RPC access, finish the missing source ranges/receipts and recover authentic censored/decision-time evidence; assess competition/inclusion with uncertainty. Do not combine different study populations. |
+| Temporal / competitive evidence | Five later winner archives recovered and partial new RPC evidence reconciled. Original D15B/D16 terminal ledgers are recovered; 29,998 candidates reconcile and D16 reproduces. Larger D15B producer inputs remain incompletely transferred. The separate 857-account temporal study lacks 6,720 of 7,200 blocks. | Restore authorized RPC access, finish the missing source ranges/receipts and recover authentic censored/decision-time evidence; assess competition/inclusion with uncertainty. Do not combine different study populations. |
 | Final independent closure | Final Census authority lock remains `BLOCKED`, with no pinned terminal stages. D16 aggregate evidence does not establish positive capture. | Independent reconciliation of each authority, complete candidate classifications, treated material unknowns, failure/mismatch ledgers and reproducible exact evidence. Negative economics remains an admissible result. |
 
 The D15B transport artifact is `11504276505`, run `37669899465`, SHA-256
 `aff472236ff5177f123e4a6ccc95d4dae5fb37833f8645984116c407c179d790`.
 Its archive contains three members, including the evidence JSON and certificate;
-raw detail hashes are commitments to unavailable data, not replacements for it.
+raw terminal ledgers have now been recovered with matching hashes; larger D15B producer inputs remain incompletely transferred.
 Later RMC-016 winner archives are separate acquisitions; they do not satisfy
 the missing original D15B file hashes or reconstruct its censored opportunities.
 Its 29,998-account historical aggregate must not be confused with D09's 246,929
 accounts or the separate 857-account temporal study.
 
-Read-only recovery inspection found the existing source device offline. The
-DigitalOcean recovery snapshot `248761092` is available; no SSH key is present
-in this execution environment. Reconnecting the existing machine or supplying
-its raw evidence is necessary to continue that recovery path. No new server,
-subscription, live transaction or gas expenditure was made.
+The user reconnected the original server on October 9. All 71 core archive
+members are now verified. D15B's 29,998-account partition and D16's 127
+transactions reconcile; the four D16 output files reproduce byte for byte.
+All temporal candidates retain explicit insufficient-evidence classifications.
+The initial connection failure and a second interruption while retrieving
+larger D15B producer inputs are preserved in `SERVER_RECOVERY.md`. Those larger
+inputs and the upstream oracle/risk/trigger reconstruction remain incomplete.
+No new server, subscription, live transaction or gas expenditure was made.
 
 Public historical RPC recovery was attempted through supported read methods.
 All collectors stopped at `2026-10-09T17:13:21Z` on a transport 403; the tool
