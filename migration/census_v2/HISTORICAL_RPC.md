@@ -1,5 +1,14 @@
 # Historical winners: recovered evidence and bounded RPC reconciliation
 
+**Later recovery, October 9:** the normal read-only endpoints are accessible on
+the authorized original server. A fresh BlockPI scan covers all 215,036 blocks
+and matches all 139 original events; a fresh dRPC acquisition covers all 127
+receipts, with complete semantic log parity against Tenderly. Exact request and
+response bodies and current per-request receive times are preserved. See
+[full_window_recovery/README.md](full_window_recovery/README.md). The partial
+observations and access failures below remain as historical records. This
+resolves these event/receipt gaps, not oracle coverage or Census certification.
+
 No Census, capture or profitability certification is issued.
 
 Five original archives were recovered and authenticated against GitHub run,

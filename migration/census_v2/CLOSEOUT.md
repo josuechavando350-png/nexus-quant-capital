@@ -28,6 +28,14 @@ productor por haber pasado estas pruebas.
 
 ## Trabajo material para terminar Census
 
+Actualización de cobertura: el nuevo barrido BlockPI completó los 215,036
+bloques originales y coincidió con las 139 liquidaciones de Blockscout. Los
+127 recibos nuevos de dRPC coinciden completamente, incluidos sus logs, con
+Tenderly. Se conservan los cuerpos RPC exactos y las horas de recepción actuales.
+Quedan resueltos esos faltantes de eventos/recibos; **la cobertura secundaria
+de oráculos sigue incompleta en 210,386 bloques**. Las adquisiciones parciales
+anteriores se conservan como historia. Véase `full_window_recovery/README.md`.
+
 Actualización económica: se autenticaron los 13 archivos económicos antes
 faltantes y los 127 recibos decodificados completos. Coinciden las 210
 observaciones previas de operadores; los cuatro recibos adicionales aportan

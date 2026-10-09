@@ -1,0 +1,49 @@
+{
+  "acquisition_archive_bytes": 665007,
+  "acquisition_archive_members": 699,
+  "acquisition_archive_sha256": "f5683de132f26671e62ee31a82c9e1c05fcaf2ff8e7a0a8ad2a0c447bc9efeeb",
+  "collector_commit": "cb4db600301c49196eac6e3b45e308c8b1d09e8b",
+  "commands": [
+    {
+      "byte_identical": true,
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 migration/census_v2/full_window_recovery/reconcile.py --evidence \"$CAPTURED\" --out \"$NEW_REPORT\"",
+      "exit_code": 0,
+      "replays": 2
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 NQC_FULL_WINDOW_EVIDENCE=\"$CAPTURED\" python3 -m unittest discover -s migration/census_v2/full_window_recovery -p test_reconcile.py -v",
+      "exit_code": 0,
+      "passed": 7,
+      "skipped": 0
+    },
+    {
+      "active_workflows": 0,
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 migration/verify_isolation.py --source-git \"$SOURCE_GIT\"",
+      "disabled_workflows": 106,
+      "exit_code": 0,
+      "original_objects_checked": true,
+      "source_files": 531
+    }
+  ],
+  "files": {
+    "isolation.json": {
+      "bytes": 305,
+      "sha256": "b65f722a11ff22c2b9a3787056dcec7d5eefc2f166bdc56db1919f6171d754d6"
+    },
+    "report.json": {
+      "bytes": 54176,
+      "sha256": "9921ef1f8c53253fe808c62b78e64bc3afaaed52384eebe90a67319b982c94e0"
+    },
+    "tests.log": {
+      "bytes": 911,
+      "sha256": "69bacadbb5d2eb95a5b1d6413be465362d39613b5220fd65bc4ed46dddb1c99e"
+    }
+  },
+  "real_market_census_closed": false,
+  "schema": "nqc-full-window-recovery-validation-v1",
+  "unrun": [
+    "Rust suites (no Rust source changes)",
+    "Full broad historical Python discovery",
+    "Independent certification"
+  ]
+}

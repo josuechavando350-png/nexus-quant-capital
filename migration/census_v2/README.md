@@ -227,6 +227,15 @@ current evidence.
 
 ## Additional transaction-trace evidence
 
+### Original 30-day executed-event window now complete
+
+[Full-window recovery](full_window_recovery/README.md) records a new complete
+BlockPI scan of all 215,036 original blocks, matching all 139 events and 127
+transactions from Blockscout. New dRPC receipts for all 127 transactions also
+match every Tenderly semantic log. Raw new RPC bodies and per-request acquisition
+times are preserved. Seven affected checks pass. Earlier partial acquisitions
+remain historical failures; the separate oracle and economic gaps remain open.
+
 ### Complete decoded receipt logs and recovered economic archives
 
 [Economic archive recovery](economic_archives/README.md) now authenticates the
