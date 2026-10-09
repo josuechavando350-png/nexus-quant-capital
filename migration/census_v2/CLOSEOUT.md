@@ -28,6 +28,15 @@ productor por haber pasado estas pruebas.
 
 ## Trabajo material para terminar Census
 
+Actualización económica: se autenticaron los 13 archivos económicos antes
+faltantes y los 127 recibos decodificados completos. Coinciden las 210
+observaciones previas de operadores; los cuatro recibos adicionales aportan
+48 transferencias y dos eventos flash. Los 139 eventos de liquidación y el
+cálculo histórico de nueve casos WETH se reproducen byte por byte. Pasan 40
+pruebas afectadas. Esto resuelve esos faltantes de archivos y logs; los costes
+completos y la admisibilidad de ejecución siguen abiertos. Véase
+`economic_archives/README.md`.
+
 Actualización del 9 de octubre: [evidencia adicional](additional_evidence/README.md)
 incorpora 127 recibos observados en Tenderly, conciliados con el checkpoint dRPC
 y el ledger existente: cero discrepancias de gas; cuatro remitentes antes

@@ -227,6 +227,16 @@ current evidence.
 
 ## Additional transaction-trace evidence
 
+### Complete decoded receipt logs and recovered economic archives
+
+[Economic archive recovery](economic_archives/README.md) now authenticates the
+13 missing economic archives and compares all 127 Tenderly receipts semantically.
+All 210 earlier operator witnesses match. The four newly complete transactions
+add 48 ERC20-shaped transfers and two flash events; totals are 1,696 transfers
+and 22 flash events across 21 transactions. All 139 liquidation legs and the
+nine-case historical WETH calculation reproduce byte-for-byte. Forty affected
+tests pass. This is partial historical cost evidence, not NQC execution or profit.
+
 ### Supplemental receipts and the post-anchor window, October 9
 
 [Additional evidence](additional_evidence/README.md) now preserves all 127
