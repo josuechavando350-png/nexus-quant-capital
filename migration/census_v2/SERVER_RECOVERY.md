@@ -2,10 +2,12 @@
 
 The 71-member core archive is fully recovered and hash-authenticated. The
 previously missing D15B episode/censored ledgers and D16 transaction economics
-match their historical commitments. **D16's four output files reproduce byte
-for byte. Census remains open.** D15B's larger producer inputs were located
-and hashed remotely, but a second connection interruption left their transfer
-incomplete; the D15B producer has not been rerun.
+match their historical commitments. **D15B's three outputs and D16's four
+outputs reproduce byte for byte. Census remains open.** D15B's complete inputs
+are now recovered and authenticated; its producer agrees in both environments.
+Two upstream candidate/state producers and three start-risk producers also
+reproduce their historical outputs. Retained oracle observations are rederived
+with explicit single-provider coverage gaps.
 
 ## Verified scope
 
@@ -21,11 +23,15 @@ manifest is a transport inventory, not independent certification.
 | --- | --- |
 | Temporal accounts | 29,998 distinct accounts: 556 definite, 29,442 censored, disjoint. This reconciles the existing partition; it does not rederive the full original envelope. |
 | Episodes | 571 unique records: 432 left-censored starting states and 139 observed liquidation events in 127 transactions. Starting states are not arrivals. |
-| Source bindings | All seven D15B input summaries and both terminal ledgers match historical commitments. Full upstream trigger/oracle/risk reconstruction is not rerun. |
+| Source bindings | All seven D15B input summaries and both terminal ledgers match historical commitments. Retained candidate/state/risk computations are rerun; original acquisition and full upstream reconstruction remain unproven. |
 | Later witness comparison | All 139 event coordinates, quantities and borrower/liquidator identities agree with the later decoded-legs archive. No extra transactions. |
 | Economic reconstruction | Independent integer calculations reproduce event/transaction principal, oracle collateral, gross edge, receipt gas and all 30 daily buckets. |
 | Gas conservation | All 127 transactions match the prior economic ledger: 448,369,976,498,898,050 wei, counted once per transaction. Competitor gas, not NQC expenditure. |
 | D16 producer | Four byte-identical files in a fresh tree. Only the R path assignment is adapted. All other staged inputs remain unchanged. Original script Git identity remains unauthenticated. |
+| D15B producer | Three byte-identical files executed locally and on the original server. Both use identical pinned source bytes and complete inputs; this is not independent certification. |
+| Candidate envelope / state replay | Three reproduced outputs: 29,998 candidates and 134,275 relevant mutations. D08/D09 catalogs match original archive-member hashes; both retained pool/token provider streams match historical semantic hashes. |
+| Start-risk reconstruction | Five reproduced outputs: 103,778 position accounts, 27,850 borrowers, 432 liquidatable at the start. All 27,850 direct comparisons match exactly; retained borrower provider ledgers agree. |
+| Oracle observations | All 4,394 retained chunk digests recomputed. dRPC covers 215,036 blocks; Nodies covers 4,650. No mismatches in overlap; 210,386 blocks lack second-provider observations. |
 | V2 disposition | All 29,998 temporal candidates receive explicit INSUFFICIENT_EVIDENCE reasons; zero positive executable value. The separate D09 snapshot's 42 non-executable / 432 insufficient pairs remain unchanged. |
 
 Gross oracle edge totals 138,045.17469031 USD; observed winner gas totals
@@ -47,9 +53,10 @@ unknown_count=0 is not promoted to a global V2 uncertainty claim.
 
 ## Reproduction
 
-The persisted nqc-server-recovery-checkpoint-20261009.zip version 2 contains
-the complete original core archive, candidate classification ledger, two
-historical reference archives and earlier partial-transfer evidence. Its
+The persisted nqc-server-recovery-checkpoint-20261009.zip version 3 contains
+the complete core, D15B-input and retained-oracle archives, candidate
+classification ledger, replay reports, two historical reference archives
+and earlier partial-transfer evidence. Its
 identity/digest are in evidence/server-recovery/retention.json. Extract it
 into a fresh directory and run from the repository root:
 
@@ -82,14 +89,14 @@ The user restored access; the complete core was then verified.
 Second ping failure: 2026-10-09T19:40:56.34135+00:00, same error. A stale online
 label did not establish working access. Both failures have separate records.
 
-Resume /tmp/nqc-census-recovery-20261009/d15b-terminal-inputs.zip on the same
-device at byte 3,932,160. Expected size: 11,691,061; remotely computed SHA-256:
+The interrupted transfer of d15b-terminal-inputs.zip resumed at byte 3,932,160
+and is now complete. Size: 11,691,061; verified remote and local SHA-256:
 e29c4a3cde343268df165c83e6f98cfcf55799734c4e58f1f4ab8d45c2ac4d3f.
 It contains the 91,018,538-byte starting-risk ledger and 11,365,714-byte
 candidate envelope; both remote hashes match authenticated core summaries.
-Authenticate complete local bytes before using --stage d15b --inputs.
-The 46,543,521-byte full-block oracle transition ledger was also located,
-but it was not recovered or rederived.
+Both original input hashes and all ZIP CRCs pass. The 46,543,521-byte oracle
+transition ledger is also recovered and rederived byte for byte from retained
+chunks; its hash is bbad1eb1a6fba097bd642b1abb5aa417fc86686dfe271da7c66017609bd3c519.
 
 Original files/repository were not modified. No new RPC acquisition, network
 denial workaround, subscription, live execution or gas expenditure occurred.
@@ -102,3 +109,51 @@ On the next reconnect a ping succeeded at 2026-10-09T19:52:38.951Z. Fifteen
 all reading /dev/null and writing /tmp/nqc-remote.log. Their causal role in
 the interruption is unproven. No process was terminated. The attempted log
 diagnostic returned no result. See third-recovery-attempt.json.
+
+## Successful resumed recovery
+
+The user started nqc-remote.service; ping succeeded at 20:16:11.814Z on October
+9. At 20:37:13Z the service had zero restarts and exactly one Remote agent node
+was observed. This establishes working access during the recovery, not the
+cause of earlier interruptions or a guarantee of future availability.
+
+The complete oracle archive has 34,422,855 bytes and SHA-256
+d73716fa61495906c9cbfdcc4442c25804cd47550a9de0f4a32ca287459e2e50.
+The verifier reconstructs each 67-asset vector and its observation digest,
+rederives the original chunk manifest and transition ledger, compares every
+overlapping provider observation and reconciles all 123 liquidation price
+vectors and their block hashes through the next block's parent hash.
+The chunks contain block-state observations selected by block number. They
+do not prove the final block's own hash, independent canonical lineage,
+transaction pre-state, or when Nexus received those observations.
+
+Six actual-data/adversarial tests pass: complete retained-data reconciliation,
+missing block, missing asset, duplicate asset, boolean index and a changed
+interior timestamp despite unchanged endpoint records. Nine isolation tests
+pass; the isolation verifier additionally checks original Git objects for
+531 source files and retains 106 disabled / zero active workflows. No Rust
+code changed, so the earlier broad-suite limitations remain in force.
+
+Run D15B locally with the complete recovered archives:
+
+    python3 migration/census_v2/replay_server_producers.py \
+      --core "$CHECKPOINT/original-temporal-core.zip" --stage d15b \
+      --inputs "$CHECKPOINT/d15b-terminal-inputs.zip" --output "$NEW_D15_REPLAY"
+    python3 migration/census_v2/check_oracle_chunks.py \
+      --archive "$CHECKPOINT/original-oracle-evidence.zip" \
+      --core "$CHECKPOINT/original-temporal-core.zip" --output "$NEW_ORACLE_REPORT" -v
+
+The upstream replays require the retained original server tree; their large
+raw inputs are inventoried by hash, not all copied into the local checkpoint:
+
+    python3 migration/census_v2/replay_temporal_upstream.py \
+      --source-root /root/workspace --core "$CORE" --output "$NEW_UPSTREAM_COPY"
+    python3 migration/census_v2/replay_start_risk.py \
+      --source-root /root/workspace --core "$CORE" --output "$NEW_RISK_COPY"
+
+Reports, original reviewed scripts, adapted scripts and stdout/stderr for both
+remote replays are preserved in separate small archives. Each run used a fresh
+copy and verified unchanged original input hashes after execution. Script Git
+provenance, original RPC acquisition and independent new-producer certification
+remain unproven. Capital admissibility, native gas authentication, token/route
+compatibility, full costs and capture evidence still prevent Census closure.

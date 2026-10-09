@@ -1,0 +1,77 @@
+{
+  "archives": [
+    {
+      "bytes": 988991,
+      "file": "original-temporal-core.zip",
+      "sha256": "cc51fc5c9a3ea76daa59d42cc5eef6aed3909955d1bf5a68795ac3bf5b210ede"
+    },
+    {
+      "bytes": 11691061,
+      "file": "d15b-terminal-inputs.zip",
+      "sha256": "e29c4a3cde343268df165c83e6f98cfcf55799734c4e58f1f4ab8d45c2ac4d3f"
+    },
+    {
+      "bytes": 34422855,
+      "file": "original-oracle-evidence.zip",
+      "sha256": "d73716fa61495906c9cbfdcc4442c25804cd47550a9de0f4a32ca287459e2e50"
+    },
+    {
+      "bytes": 17546,
+      "file": "upstream-replay-bundle.zip",
+      "sha256": "2103ce9ae9c909af43a8f5bc3ba52e4d4638957990402968f4ad0ec985a762da"
+    },
+    {
+      "bytes": 17434,
+      "file": "start-risk-replay-bundle.zip",
+      "sha256": "9a0c8f31a655cf309d598737303f76620c7a3b7e2631d500c0b651bebad048a4"
+    }
+  ],
+  "census_closed": false,
+  "d15b_complete_and_authenticated": true,
+  "d15b_reproduced_locally_and_remotely": true,
+  "device_id": "97869e36-ef95-481f-ac75-85ab90bce0e7",
+  "first_restored_ping_utc": "2026-10-09T20:16:11.814Z",
+  "full_upstream_reconstruction_complete": false,
+  "gas_spent": false,
+  "new_rpc_acquisition": false,
+  "offline_check_results": {
+    "isolation": {
+      "failed": 0,
+      "passed": 9
+    },
+    "oracle_actual_and_adversarial": {
+      "failed": 0,
+      "passed": 6
+    }
+  },
+  "original_rpc_acquisitions_repeated": false,
+  "previous_failure_records_preserved": true,
+  "recorded_at": "2026-10-09T20:37:46.852343+00:00",
+  "remaining_material_gaps": [
+    "FULL_INDEPENDENT_MARKET_AND_CANONICAL_COVERAGE",
+    "210386_ORACLE_BLOCKS_WITHOUT_RETAINED_SECOND_PROVIDER_OBSERVATIONS",
+    "DECISION_TIME_OBSERVATIONS_AND_RECEIVED_AT",
+    "AUTHENTICATED_ADMISSIBLE_FINANCING_AND_GAS",
+    "43_ASSETS_EXECUTION_COMPATIBILITY_AND_MONETIZABLE_ROUTES",
+    "COMPLETE_EXECUTION_COSTS_AND_CAPTURE_EVIDENCE",
+    "INDEPENDENT_NEW_PRODUCER_REVIEW"
+  ],
+  "reproduction_environments_independent_certifiers": false,
+  "schema": "nqc-resumed-recovery-v1",
+  "service_observation": {
+    "agent_node_pids": [
+      23512
+    ],
+    "observed_at": "2026-10-09T20:37:13.026309+00:00",
+    "systemd": {
+      "ActiveState": "active",
+      "MainPID": "23444",
+      "NRestarts": "0",
+      "SubState": "running"
+    }
+  },
+  "source_git_identity_authenticated": false,
+  "start_risk_and_differential_reproduced": true,
+  "upstream_envelope_and_state_reproduced": true,
+  "user_started_systemd_service": true
+}

@@ -147,13 +147,13 @@ read-backs, not an upstream authority lock.
 | New producer authority | New D06 output integrity passes; separate producer review is unproven. | Review exact new producer/adapter and independence before downstream acceptance; preserve original scope. |
 | Capital Truth | D11 core recovered and fully decoded; its own terminal-capital flag is false. Conditional D12 replay proves zero admitted principal funding. Own-gas accounting is linked to each V2 candidate; balance/authenticity and execution integration remain unproven. | Integrate a separately versioned gas-only policy, authenticate balance/cost basis, external principal/fees/obligations, then produce and independently replay terminal D11. Historical zero-capital results cannot be relabeled. |
 | Execution and Economic Truth | D12 actionability/capital dispositions reproduced; 43 required underlying assets remain transfer-blocked. Full costs and monetizable routes are unproven. | Prove admissible token behavior, routes, complete costs, conservative executable margins and resource/conflict limits for each scoped candidate. Treat insufficient evidence explicitly. |
-| Temporal / competitive evidence | Five later winner archives recovered and partial new RPC evidence reconciled. Original D15B/D16 terminal ledgers are recovered; 29,998 candidates reconcile and D16 reproduces. Larger D15B producer inputs remain incompletely transferred. The separate 857-account temporal study lacks 6,720 of 7,200 blocks. | Restore authorized RPC access, finish the missing source ranges/receipts and recover authentic censored/decision-time evidence; assess competition/inclusion with uncertainty. Do not combine different study populations. |
+| Temporal / competitive evidence | D15B/D16 outputs reproduce; D15B inputs are fully recovered. Candidate/state and start-risk producers reproduce. Oracle observations rederive for 215,036 blocks, with second-provider agreement on 4,650 and 210,386 missing that contrast. The separate 857-account study lacks 6,720 of 7,200 blocks. | Restore authorized acquisition for missing ranges/receipts and recover decision-time evidence; independently establish canonical scope and assess competition/inclusion. Do not combine different study populations. |
 | Final independent closure | Final Census authority lock remains `BLOCKED`, with no pinned terminal stages. D16 aggregate evidence does not establish positive capture. | Independent reconciliation of each authority, complete candidate classifications, treated material unknowns, failure/mismatch ledgers and reproducible exact evidence. Negative economics remains an admissible result. |
 
 The D15B transport artifact is `11504276505`, run `37669899465`, SHA-256
 `aff472236ff5177f123e4a6ccc95d4dae5fb37833f8645984116c407c179d790`.
 Its archive contains three members, including the evidence JSON and certificate;
-raw terminal ledgers have now been recovered with matching hashes; larger D15B producer inputs remain incompletely transferred.
+raw terminal ledgers and complete D15B producer inputs are now recovered with matching hashes.
 Later RMC-016 winner archives are separate acquisitions; they do not satisfy
 the missing original D15B file hashes or reconstruct its censored opportunities.
 Its 29,998-account historical aggregate must not be confused with D09's 246,929
@@ -161,11 +161,13 @@ accounts or the separate 857-account temporal study.
 
 The user reconnected the original server on October 9. All 71 core archive
 members are now verified. D15B's 29,998-account partition and D16's 127
-transactions reconcile; the four D16 output files reproduce byte for byte.
+transactions reconcile; all three D15B and four D16 output files reproduce.
 All temporal candidates retain explicit insufficient-evidence classifications.
-The initial connection failure and a second interruption while retrieving
-larger D15B producer inputs are preserved in `SERVER_RECOVERY.md`. Those larger
-inputs and the upstream oracle/risk/trigger reconstruction remain incomplete.
+All three connection interruptions remain preserved in `SERVER_RECOVERY.md`.
+After service recovery, the candidate envelope, exact state-transition replay,
+start-risk computation/differential and retained oracle observations were also
+reproduced. Original acquisition, full independent coverage and receipt-time
+truth remain open; byte parity does not transfer certification.
 No new server, subscription, live transaction or gas expenditure was made.
 
 Public historical RPC recovery was attempted through supported read methods.
