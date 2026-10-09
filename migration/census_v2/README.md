@@ -227,6 +227,17 @@ current evidence.
 
 ## Additional transaction-trace evidence
 
+### Direct oracle recovery and explicit rate-limit stop
+
+[Oracle recovery](oracle_recovery/README.md) reconciles 139,360 current-acquisition
+price values over 2,080 historical blocks with zero discrepancies. Only 520 blocks
+extend the earlier Nodies coverage: the union is 5,170, with 209,866 still missing.
+The 1,000-block pilot completed; the larger attempt stopped on HTTP 429. Exact
+RPC bodies, timestamps and the failed batch are preserved. Fifteen affected
+tests pass. A simulated helper basefee differs from its actual header and is
+explicitly excluded from gas-cost inference. Four physical ZIP downloads remain
+blocked by HTTP 403. No completion, new infrastructure or gas expenditure follows.
+
 ### Original 30-day executed-event window now complete
 
 [Full-window recovery](full_window_recovery/README.md) records a new complete

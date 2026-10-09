@@ -160,6 +160,13 @@ compatibility, full costs and capture evidence still prevent Census closure.
 
 ## Original winner traces
 
+Later read-only RPC acquisition is recorded separately in
+`oracle_recovery/README.md`: 2,080 direct historical block-price observations
+match the retained primary vectors, adding 520 previously uncovered blocks.
+The secondary union is now 5,170 blocks; 209,866 remain missing after an HTTP 429
+stop. This does not rewrite the earlier offline-only recovery or its 4,650-block
+snapshot. New receive times are current, not original decision-time evidence.
+
 All 127 cast logs and their original compact records are now recovered, bound
 to the historical ledger and parsed offline. There are 15,001 call frames,
 20 reverted frames and 719 returned oracle quotes. Four quotes have reverted

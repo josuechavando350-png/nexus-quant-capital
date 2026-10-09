@@ -33,8 +33,16 @@ bloques originales y coincidió con las 139 liquidaciones de Blockscout. Los
 127 recibos nuevos de dRPC coinciden completamente, incluidos sus logs, con
 Tenderly. Se conservan los cuerpos RPC exactos y las horas de recepción actuales.
 Quedan resueltos esos faltantes de eventos/recibos; **la cobertura secundaria
-de oráculos sigue incompleta en 210,386 bloques**. Las adquisiciones parciales
+de oráculos seguía incompleta en 210,386 bloques en ese incremento**. Las adquisiciones parciales
 anteriores se conservan como historia. Véase `full_window_recovery/README.md`.
+
+Actualización posterior de oráculos: se verificaron 139,360 precios de 67 activos
+en 2,080 bloques contra dRPC, sin discrepancias. Sólo 520 bloques amplían la
+cobertura previa: el segundo operador alcanza **5,170 de 215,036 bloques** y
+faltan **209,866**. El piloto terminó; el barrido restante se detuvo ante un
+HTTP 429 de Nodies. Se conservan las respuestas exactas, el límite y los datos
+parciales, sin reintentos automáticos. Pasan 15 pruebas. Las cuatro descargas
+de archivos físicos siguen dando HTTP 403. Véase `oracle_recovery/README.md`.
 
 Actualización económica: se autenticaron los 13 archivos económicos antes
 faltantes y los 127 recibos decodificados completos. Coinciden las 210
@@ -61,7 +69,7 @@ económicas originales no cambian. Census sigue sin cierre certificado.
 | Market Truth | Corte histórico reconstruido; alcance temporal global abierto | Reconciliar el universo declarado y recuperar las observaciones detalladas, oportunidades censuradas y momentos reales de recepción. |
 | Capital Truth | Núcleo D11 íntegro; admisibilidad operativa incompleta | Pruebas de proveedores, cobertura por candidato, repayment completo y obligaciones; autenticar gas nativo y coste de adquisición bajo el límite autorizado. |
 | Economic Truth | Evidencia insuficiente en los 432 pares | Compatibilidad de los 43 activos requeridos, rutas monetizables, costes completos, competencia/inclusión y márgenes conservadores. Puede cerrarse con conclusiones negativas justificadas. |
-| Evidencia temporal | D15B/D16 reproducidos; universo, transiciones y riesgo inicial también reproducidos | 29,998 candidatos y 134,275 cambios de estado conciliados. Riesgo inicial: 27,850 borrowers con cero discrepancias. Oráculos retenidos: 215,036 bloques; segundo proveedor presente en 4,650 y ausente en 210,386. Sigue faltando adquisición independiente completa, canonicalidad y recepción real de información. Los recibos y el barrido nuevo parcial conservan sus propios faltantes bajo el bloqueo RPC. |
+| Evidencia temporal | D15B/D16 reproducidos; universo, transiciones y riesgo inicial también reproducidos | 29,998 candidatos y 134,275 cambios de estado conciliados. Riesgo inicial: 27,850 borrowers con cero discrepancias. Oráculos retenidos: 215,036 bloques; segundo operador presente en 5,170 y ausente en 209,866 tras la adquisición parcial detenida por 429. Siguen faltando independencia de infraestructura, headers completos y recepción histórica real. Eventos ejecutados y 127 recibos completos ya están conciliados; sus límites no se confunden con los oráculos. |
 | Reproducción D11 completa | Resuelta dentro del límite de memoria: nueve archivos idénticos | 371.5 segundos, RSS máximo 7,309,316 KiB, 256 pruebas de capital. Se preservan los intentos OOM y la divergencia del importador por roles. Falta la revisión independiente del nuevo productor. |
 | Autoridad independiente | Pendiente | Revisar productor y consumidores exactos, commits/trees, fuentes, ledgers de fallos y discrepancias, falsación y límites del alcance. Esta modificación no se certifica a sí misma. |
 
