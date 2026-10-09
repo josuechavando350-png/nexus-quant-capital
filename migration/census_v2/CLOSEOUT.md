@@ -28,6 +28,17 @@ productor por haber pasado estas pruebas.
 
 ## Trabajo material para terminar Census
 
+Actualización prioritaria de ejecución/economía: se conciliaron las 127 trazas
+con los recibos completos: 332 transferencias nativas visibles, 18 valores de
+`delegatecall` excluidos como pagos duplicados y 98 retiros WETH coincidentes.
+En el caso WETH de rango 1, todo el excedente convertido a ETH se paga a dos
+destinos cuya propiedad/función económica sigue sin acreditar. No se interpreta
+como utilidad retenida ni se resta automáticamente como coste. Pasan 8 pruebas
+originales del ejecutor con mocks y 12 controles Python. El fork nuevo se detuvo
+en su primera consulta por HTTP 403 de dRPC; no se declara reproducido. Véase
+`execution_replay/README.md`. Este incremento precisa el destino de fondos y
+la semántica de pagos; no acredita rentabilidad ni cambia la admisión de capital.
+
 Actualización de cobertura: el nuevo barrido BlockPI completó los 215,036
 bloques originales y coincidió con las 139 liquidaciones de Blockscout. Los
 127 recibos nuevos de dRPC coinciden completamente, incluidos sus logs, con
