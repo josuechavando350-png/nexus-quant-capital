@@ -1,0 +1,140 @@
+{
+  "census_closed": false,
+  "checks": [
+    {
+      "command": [
+        "python3",
+        "migration/census_v2/check_physical_recovery.py",
+        "--archive-root",
+        "/workspace/scratch/4ab306bc8e06",
+        "-v"
+      ],
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "exit_code": 0,
+      "finished_at": "2026-10-09T18:25:32.397579+00:00",
+      "log_file": "physical-checks.log",
+      "log_sha256": "b1190af60a20a62e8b5429a12b404d25683f2b78ac0e1b9c325e123873cfb836",
+      "started_at": "2026-10-09T18:25:32.209530+00:00",
+      "tests_filtered": 0,
+      "tests_passed": 8
+    },
+    {
+      "command": [
+        "python3",
+        "migration/verify_isolation.py",
+        "--source-git",
+        "/workspace/scratch/4ab306bc8e06/nqc-original-objects"
+      ],
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "exit_code": 0,
+      "finished_at": "2026-10-09T18:25:33.828368+00:00",
+      "log_file": "original-isolation.log",
+      "log_sha256": "b65f722a11ff22c2b9a3787056dcec7d5eefc2f166bdc56db1919f6171d754d6",
+      "started_at": "2026-10-09T18:25:32.211414+00:00",
+      "tests_filtered": null,
+      "tests_passed": null
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "migration",
+        "-p",
+        "test_isolation.py",
+        "-v"
+      ],
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "exit_code": 0,
+      "finished_at": "2026-10-09T18:25:33.096457+00:00",
+      "log_file": "isolation-tests.log",
+      "log_sha256": "f366736dcaac7407dda6785b9c5b8fcc2357054ce665585695502b86155b2437",
+      "started_at": "2026-10-09T18:25:32.276001+00:00",
+      "tests_filtered": 0,
+      "tests_passed": 9
+    },
+    {
+      "command": [
+        "/workspace/scratch/4ab306bc8e06/nqc-cargo/bin/cargo",
+        "test",
+        "--manifest-path",
+        "nqc-census/Cargo.toml",
+        "--locked",
+        "--offline",
+        "-p",
+        "nqc-census-capital",
+        "--test",
+        "adapters",
+        "aave_v3_adapter_matches_pft_compat_009_flash_premium_ceiling",
+        "--",
+        "--exact"
+      ],
+      "environment_overrides": {
+        "CARGO_HOME": "/workspace/scratch/4ab306bc8e06/nqc-cargo",
+        "CARGO_TARGET_DIR": "/workspace/scratch/4ab306bc8e06/census-cargo-target",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTUP_HOME": "/workspace/scratch/4ab306bc8e06/nqc-rustup"
+      },
+      "exit_code": 0,
+      "finished_at": "2026-10-09T18:25:32.240098+00:00",
+      "log_file": "pft-ceil-regression.log",
+      "log_sha256": "6c5694b3c78744dabd490a06c78f38640e65d4361451f851835060d91d2d27ea",
+      "started_at": "2026-10-09T18:25:32.209205+00:00",
+      "tests_filtered": 19,
+      "tests_passed": 1
+    }
+  ],
+  "consumer_sha256": "0c6f318f886e288c4547bf81d74ca1e7a474ec67b6df4a2f0c62d4ea492461fc",
+  "current_full_workspace_rust_suite_rerun": false,
+  "execution_attempt_failures": [
+    {
+      "failure": "new scripts initially created at repository root; requested migration/census_v2 path did not yet exist",
+      "stage": "initial CLI launch",
+      "status": "RESOLVED_MOVED_TO_INTENDED_DIRECTORY_BEFORE_TESTS",
+      "test_failure": false
+    },
+    {
+      "failure": "JavaScript parser rejected one tool call before execution: Unexpected token closing brace",
+      "stage": "validation orchestration",
+      "status": "RESOLVED_SYNTAX_CORRECTED_NO_COMMAND_EXECUTED_IN_FAILED_CALL",
+      "test_failure": false
+    }
+  ],
+  "fork_zip_downloads_here": 0,
+  "gas_spent": false,
+  "historical_physical_tests_rerun_here": 0,
+  "historical_tests_observed_in_original_logs": 16,
+  "independent_certification": false,
+  "new_rpc_requests_here": 0,
+  "original_isolation": {
+    "active_workflows": 0,
+    "disabled_workflows": 106,
+    "original_objects_checked": true,
+    "source_files": 531
+  },
+  "parent_commit": "e76b4c6d19c7ca0e46bad90394555c943908e599",
+  "recorded_at": "2026-10-09T18:26:04.823412+00:00",
+  "report_sha256": "612063de4fccda73c3e0c8c024417012376eb39c1f995b3dde66bf590348c5e3",
+  "schema": "nqc-physical-log-validation-v1",
+  "test_source_sha256": "e22db7e7f68a3708921bdb00abaa1e46744f5a389a48cecd96e1c53747b764dc",
+  "unchanged_prior_failures_and_limits": {
+    "archive_materialization": "PREVIOUS_HTTP_403_ERROR_CODE_1010_NOT_RETRIED",
+    "broad_historical_python": {
+      "ran": 664,
+      "rerun_this_increment": false,
+      "setup_errors": 7,
+      "skipped": 3
+    },
+    "original_input_chains_replayed": false,
+    "rpc_access": "STOPPED_20261009T171321Z_TRANSPORT_403_APPROVAL_CANCELLED_NOT_RETRIED",
+    "source_machine": "LAST_OBSERVED_OFFLINE_NOT_RECHECKED_THIS_INCREMENT"
+  }
+}

@@ -66,6 +66,14 @@ Base: `16e352225ba8a6a931834c4edf3d86d9a2924b7d` in
   positive after an illustrative 5 bps fee, with other costs still unknown.
   Every historical winner remains insufficient evidence for NQC execution.
   See `ECONOMIC_RECONCILIATION.md` for exact scope, sources and reproduction.
+- Four original GitHub job logs and ten pinned source files now preserve **16
+  historical physical test results**: WETH behavior, three time-only health
+  factor cases, a no-WETH-top-up liquidation/repayment fork and call-gas
+  measurement. The logged surplus reconciles exactly to the separately
+  recovered event quantities. These tests were not rerun here; the four
+  artifact ZIPs and their full underlying input chains remain unavailable.
+  Global token admission, capital admission and Census closure are unchanged.
+  See `PHYSICAL_RECOVERY.md` for reproduction and the eight new offline checks.
 
 Summary counts above are read from hash-authenticated historical summaries;
 this change does not independently reconstruct every position from chain state.
