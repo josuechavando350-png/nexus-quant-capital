@@ -1,5 +1,36 @@
 # Direct historical oracle observations; acquisition stopped at rate limit
 
+## Later authorized continuation
+
+The user's subsequent instruction continues the work and requests notices at
+10/20, 15/20 and 20/20; definitions are in `../MILESTONES.md`. `resume.py` starts
+a separate, pinned acquisition only for the 209,866 missing blocks in
+`resume-plan.json`. It enforces the expired 60-second Retry-After, one worker,
+a minimum 1.1-second interval, batches of at most ten, a device-wide lock,
+a 24-hour runtime budget and the original finite RPC-call and disk budgets.
+It stops on every transport/RPC error, preserves partial files and writes an
+atomic progress checkpoint after each successful batch. No access identity,
+endpoint or subscription is changed. This continuation does not relabel the
+earlier 429 attempt or its source code.
+
+Run only one worker on the already authorized device; `PRODUCER_COMMIT` must
+identify the exact published commit containing these sources. Use a new output
+directory. The progress counter means captured valid-shaped responses, not
+offline price parity, independent authority or milestone admission:
+
+```bash
+python3 resume.py --plan resume-plan.json --assets /absolute/path/assets.json \
+  --primary /absolute/path/original/drpc --out /absolute/path/new-continuation \
+  --producer-commit "$PRODUCER_COMMIT"
+```
+
+Ten continuation tests cover the actual missing-block plan, conservation,
+range/endpoint/rate/worker rejection, Retry-After enforcement, simulated request
+spacing and a simulated 429 stop with the prior successful batch retained.
+These synthetic controller tests are not chain-state or profitability evidence.
+
+## Earlier captured evidence
+
 Census remains open. This increment verifies 139,360 new price observations
 (67 assets at 2,080 blocks) against the immutable original dRPC chunks.
 There are zero price mismatches. Only **520 blocks add coverage** beyond the

@@ -1,0 +1,18 @@
+test_actual_missing_ranges_are_unique_and_conserved (test_resume.PlanChecks.test_actual_missing_ranges_are_unique_and_conserved) ... ok
+test_boolean_block_rejected (test_resume.PlanChecks.test_boolean_block_rejected) ... ok
+test_broadened_endpoint_rejected (test_resume.PlanChecks.test_broadened_endpoint_rejected) ... ok
+test_controller_spaces_requests_and_conserves_completed_blocks (test_resume.PlanChecks.test_controller_spaces_requests_and_conserves_completed_blocks) ... {"completed_files": 1, "last_block": 25880335, "observed_blocks": 20, "requested_blocks": 20}
+{"asset_document_sha256": "7e5f97cbdd20a3154af9e862465c999658d3ee67a4c795ec9c570ebfd8cd98d2", "attempted_http_requests": 5, "attempted_rpc_calls": 23, "census_certified": false, "collector_sha256": "b9112088a9b4ccc8742fe656362fae88c0a37b12b6f8232d78ddf294ae79d56c", "failure": null, "finished_at": "2026-10-09T23:01:43.462713+00:00", "gas_spent": false, "historical_decision_time_observation": false, "last_successful_block": 25880335, "last_successful_response_at": "2026-10-09T23:01:43.462306+00:00", "maximum_batch_size": 10, "maximum_runtime_seconds": 86400, "minimum_request_interval_seconds": 1.1, "new_subscriptions": false, "observed_blocks": 20, "plan_sha256": "a2b1345f3f6f59ff26e385b8a899c008d3509fd683a3e93718c8075b64194dec", "producer_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "producer_repository": "josuechavando350-png/nexus-quant-capital", "requested_blocks": 20, "resume_source_sha256": "5c5642305195aad6239e0a83c63c3802be5091f5d947d5bfcd70e8f3c95169ce", "schema": "nqc-oracle-sequential-continuation-v1", "started_at": "2026-10-09T23:01:43.460545+00:00", "status": "COMPLETE_REQUESTED_MISSING_BLOCKS", "workers": 1}
+ok
+test_controller_stops_on_429_and_preserves_prior_batch (test_resume.PlanChecks.test_controller_stops_on_429_and_preserves_prior_batch) ... {"asset_document_sha256": "7e5f97cbdd20a3154af9e862465c999658d3ee67a4c795ec9c570ebfd8cd98d2", "attempted_http_requests": 5, "attempted_rpc_calls": 23, "census_certified": false, "collector_sha256": "b9112088a9b4ccc8742fe656362fae88c0a37b12b6f8232d78ddf294ae79d56c", "failure": {"message": "fixture HTTP Error 429: Too Many Requests", "recorded_at": "2026-10-09T23:01:43.466010+00:00", "type": "ValueError"}, "finished_at": "2026-10-09T23:01:43.466016+00:00", "gas_spent": false, "historical_decision_time_observation": false, "last_successful_block": 25880325, "last_successful_response_at": "2026-10-09T23:01:43.465826+00:00", "maximum_batch_size": 10, "maximum_runtime_seconds": 86400, "minimum_request_interval_seconds": 1.1, "new_subscriptions": false, "observed_blocks": 10, "plan_sha256": "a2b1345f3f6f59ff26e385b8a899c008d3509fd683a3e93718c8075b64194dec", "producer_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "producer_repository": "josuechavando350-png/nexus-quant-capital", "requested_blocks": 20, "resume_source_sha256": "5c5642305195aad6239e0a83c63c3802be5091f5d947d5bfcd70e8f3c95169ce", "schema": "nqc-oracle-sequential-continuation-v1", "started_at": "2026-10-09T23:01:43.464771+00:00", "status": "STOPPED_INCOMPLETE", "workers": 1}
+ok
+test_missing_range_rejected (test_resume.PlanChecks.test_missing_range_rejected) ... ok
+test_parallel_workers_rejected (test_resume.PlanChecks.test_parallel_workers_rejected) ... ok
+test_raised_request_rate_rejected (test_resume.PlanChecks.test_raised_request_rate_rejected) ... ok
+test_repeated_range_rejected (test_resume.PlanChecks.test_repeated_range_rejected) ... ok
+test_retry_after_is_enforced (test_resume.PlanChecks.test_retry_after_is_enforced) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.025s
+
+OK

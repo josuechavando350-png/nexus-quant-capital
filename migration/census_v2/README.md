@@ -1,6 +1,8 @@
 # Census V2 — evidence recovery and bounded own gas
 
 **Census remains open. No economic or operational certification is issued.**
+User-requested 10/20, 15/20 and 20/20 notices are defined in
+[MILESTONES.md](MILESTONES.md); they are evidence gates, not measured percentages.
 This change records the user's V2 architecture and later gas-only MXN 2,000
 authorization, adds bounded read-back consumers, recovers independently acquired
 API metadata and reports, and adds an offline gas-accounting model.
