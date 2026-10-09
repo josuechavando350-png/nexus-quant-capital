@@ -389,9 +389,9 @@ class IndexTests(ProducerIdentityTests):
                 'boundary_path': 'migration/premounted_d06.py',
                 'boundary_sha256': hashlib.sha256((self.repo / 'migration/premounted_d06.py').read_bytes()).hexdigest(),
                 'root_setup_sha256': hashlib.sha256(premounted_d06.ROOT_SETUP.encode()).hexdigest(),
-                'source_mount': {'schema': 'nqc-premounted-source-v1', 'method': premounted_d06.METHOD,
-                    'read_only': True, 'write_open_errno': 30, 'probe': 'evidence-index.json',
-                    'probe_creates_or_truncates': False, 'mount_flags': ['ro', 'relatime'],
+                'source_mount': {'schema': 'nqc-premounted-source-v2', 'method': premounted_d06.METHOD,
+                    'read_only': True, 'write_open_errno': 30, 'probe': 'source-directory-O_TMPFILE|O_EXCL',
+                    'probe_creates_named_file': False, 'probe_writes_or_truncates_existing': False, 'probe_linkable': False, 'mount_flags': ['ro', 'relatime'],
                     'descendant_mounts': False, 'private_mount': True, 'premount_id': 10, 'readonly_mount_id': 11}})
 
         receipt = b'{"unit_test": true}\n'
@@ -455,7 +455,10 @@ class IndexTests(ProducerIdentityTests):
                              lambda p: p.update(boundary_sha256='0'*64),
                              lambda p: p.update(root_setup_sha256='0'*64),
                              lambda p: p['source_mount'].update(write_open_errno=13),
-                             lambda p: p['source_mount'].update(probe_creates_or_truncates=True),
+                             lambda p: p['source_mount'].update(probe_creates_named_file=True),
+                             lambda p: p['source_mount'].update(probe_writes_or_truncates_existing=True),
+                             lambda p: p['source_mount'].update(probe_linkable=True),
+                             lambda p: p['source_mount'].update(schema='nqc-premounted-source-v1'),
                              lambda p: p['source_mount'].update(readonly_mount_id=10),
                              lambda p: p['source_mount'].update(mount_flags=['rw'])):
                 value = json.loads(original); mutation(value); self.write(path, value)
@@ -777,8 +780,13 @@ class PremountedAdapterTests(unittest.TestCase):
         import premounted_d06
         self.p = premounted_d06
         self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
-        self.source = Path(self.temp.name) / 'source'; self.source.mkdir()
-        (self.source / 'evidence-index.json').write_bytes(b'unchanged evidence')
+        self.source = Path(self.temp.name) / 'source'
+        import importlib.util
+        original = Path(__file__).parents[1] / 'ci/nqc-census/verify_rmc006_recertification_source.py'
+        spec = importlib.util.spec_from_file_location('original_extractor_permissions', original)
+        source_verifier = importlib.util.module_from_spec(spec); spec.loader.exec_module(source_verifier)
+        source_verifier.extract_members({'required_empty_directories': []},
+                                       {'evidence-index.json': b'unchanged evidence'}, self.source)
         self.mountinfo = f'11 1 0:1 / {self.source} ro,nosuid,nodev - tmpfs none rw\n'
 
     def test_both_adapters_preserve_all_original_computation(self):
@@ -826,14 +834,22 @@ class PremountedAdapterTests(unittest.TestCase):
         with mock.patch.object(self.p.os, 'open', side_effect=OSError(errno.EROFS, 'readonly')):
             result = self.proof()
             self.assertEqual(result['write_open_errno'], errno.EROFS)
-            self.assertFalse(result['probe_creates_or_truncates'])
-        for code in (errno.EACCES, errno.EPERM, errno.ENOENT):
+            self.assertFalse(result['probe_creates_named_file'])
+            self.assertFalse(result['probe_writes_or_truncates_existing'])
+            self.assertFalse(result['probe_linkable'])
+        for code in (errno.EACCES, errno.EPERM, errno.ENOENT, errno.EOPNOTSUPP, errno.ENOSYS, errno.EINVAL):
             with mock.patch.object(self.p.os, 'open', side_effect=OSError(code, 'different failure')):
-                with self.assertRaisesRegex(ValueError, 'EROFS'): self.proof()
+                with self.assertRaisesRegex(ValueError, 'errno=' + str(code) + r' \(' + errno.errorcode[code] + r'\)'): self.proof()
 
     def test_unexpected_write_open_success_does_not_mutate_evidence(self):
         before = (self.source / 'evidence-index.json').read_bytes()
-        with self.assertRaisesRegex(ValueError, 'permits write'): self.proof()
+        def metadata(path):
+            value = path.stat()
+            return value.st_mode, value.st_size, value.st_mtime_ns, value.st_ctime_ns, value.st_nlink
+        paths = (self.source, self.source / 'evidence-index.json')
+        original_metadata = [metadata(path) for path in paths]
+        with self.assertRaisesRegex(ValueError, 'permits anonymous write'): self.proof()
+        self.assertEqual([metadata(path) for path in paths], original_metadata)
         self.assertEqual((self.source / 'evidence-index.json').read_bytes(), before)
         self.assertEqual(list(self.source.iterdir()), [self.source / 'evidence-index.json'])
 
@@ -845,11 +861,36 @@ class PremountedAdapterTests(unittest.TestCase):
             with self.assertRaises(ValueError): self.proof(changed)
 
     def test_source_probe_symlink_rejected_without_following(self):
-        probe = self.source / 'evidence-index.json'; probe.unlink()
-        target = Path(self.temp.name) / 'sensitive'; target.write_text('preserve')
-        probe.symlink_to(target)
-        with self.assertRaisesRegex(ValueError, 'regular'): self.proof()
-        self.assertEqual(target.read_text(), 'preserve')
+        source = self.source
+        alias = Path(self.temp.name) / 'alias'; alias.symlink_to(source, target_is_directory=True)
+        self.source = alias
+        with self.assertRaisesRegex(ValueError, 'alias'): self.proof()
+        self.assertEqual((source / 'evidence-index.json').read_bytes(), b'unchanged evidence')
+
+    def test_actual_extractor_permissions_under_nonzero_zero_capability_uid(self):
+        import errno, stat
+        self.assertGreater(os.getuid(), 0)
+        fields = dict(line.split(':', 1) for line in Path('/proc/self/status').read_text().splitlines() if ':' in line)
+        for name in ('CapInh', 'CapPrm', 'CapEff', 'CapBnd', 'CapAmb'):
+            self.assertEqual(int(fields[name].strip(), 16), 0)
+        self.assertEqual(os.getgroups(), [])
+        self.assertEqual(fields['NoNewPrivs'].strip(), '1')
+        self.assertEqual(stat.S_IMODE(self.source.stat().st_mode), 0o700)
+        self.assertEqual(stat.S_IMODE((self.source / 'evidence-index.json').stat().st_mode), 0o444)
+        with self.assertRaises(OSError) as caught:
+            os.open(self.source / 'evidence-index.json', os.O_WRONLY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        self.assertEqual(caught.exception.errno, errno.EACCES)
+
+    def test_anonymous_probe_flags_disallow_linking_creation_or_truncation_of_named_files(self):
+        import errno
+        with mock.patch.object(self.p.os, 'open', side_effect=OSError(errno.EROFS, 'readonly')) as opened:
+            self.proof()
+        args = opened.call_args.args
+        self.assertEqual(args[0], self.source)
+        self.assertEqual(args[1], os.O_TMPFILE | os.O_EXCL | os.O_WRONLY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        self.assertEqual(args[2], 0o600)
+        self.assertFalse(args[1] & os.O_TRUNC)
+        self.assertFalse(args[1] & os.O_CREAT)
 
     def test_workflow_exact_isolated_cli_reaches_own_guard(self):
         program = Path(__file__).with_name('premounted_d06.py')
@@ -862,12 +903,13 @@ class PremountedAdapterTests(unittest.TestCase):
 
     def test_privileged_setup_clears_high_inherited_fds_and_cwd(self):
         program = Path(__file__).with_name('premounted_d06.py')
-        probe = self.source / 'evidence-index.json'
+        probe = Path(self.temp.name) / 'inherited-writable-fd'
+        probe.write_bytes(b'unchanged evidence')
         script = r'''
 import importlib.util, os, pathlib, resource, sys
 spec = importlib.util.spec_from_file_location('boundary', sys.argv[1]); p = importlib.util.module_from_spec(spec); spec.loader.exec_module(p)
 fd = os.open(sys.argv[2], os.O_WRONLY); os.dup2(fd, 900, inheritable=True); os.close(fd)
-os.chdir(pathlib.Path(sys.argv[2]).parent)
+os.chdir(pathlib.Path(sys.argv[3]))
 soft, hard = resource.getrlimit(resource.RLIMIT_NOFILE); resource.setrlimit(resource.RLIMIT_NOFILE, (128, hard))
 namespace = {}; exec(p.MOUNT_SETUP, namespace)
 namespace['mount_readonly'] = lambda *args: (10, 11)
@@ -883,7 +925,7 @@ def inspect(path, command):
 os.execv = inspect
 exec(p.ROOT_SETUP[len(p.MOUNT_SETUP):], namespace)
 '''
-        result = subprocess.run(['/usr/bin/python3', '-I', '-B', '-c', script, str(program), str(probe)],
+        result = subprocess.run(['/usr/bin/python3', '-I', '-B', '-c', script, str(program), str(probe), str(self.source)],
             stdin=subprocess.DEVNULL, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         self.assertEqual(result.returncode, 0, result.stdout)
         self.assertIn('HIGH_FD_AND_CWD_CLOSED_FIXED_SETPRIV', result.stdout)

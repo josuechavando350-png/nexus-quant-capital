@@ -221,9 +221,18 @@ prospective adapters. The original runner and negative-driver bytes remain
 unchanged. Whole-file regression comparisons require every original computation
 to stay identical except the documented mount-boundary and identity-receipt
 changes. Both adapters require an exact private read-only mount with no child
-mounts, the recorded new mount ID, and a real EROFS response to opening an existing
-regular evidence-index file for write. The probe does not create, write or
-truncate anything; unexpected success closes the descriptor and fails.
+mounts, the recorded new mount ID, and a real EROFS response to an anonymous O_TMPFILE|O_EXCL write-open on the
+owner-writable source directory. The original extractor preserves directories as
+0700 and evidence files as 0444; opening an existing evidence file for write can
+return EACCES before mount writability is tested. EACCES is never accepted as a
+read-only proof. Unsupported operations and other errors fail closed with numeric
+and symbolic errno diagnostics. The v2 source-proof receipt identifies the new
+probe precisely: no named file is created, no existing evidence is written or
+truncated, and O_EXCL makes an anonymous inode nonlinkable. A correct read-only
+mount rejects creation with EROFS; unexpected success immediately closes the
+unnamed inode without writing, then fails. Original bytes, modes, membership and
+directory timestamps are unchanged. The privileged setup and capability-drop
+boundary are unchanged by this probe correction.
 
 The unchanged original source authenticator runs before extraction/build,
 immediately before replay in the mounted namespace, and after the negative

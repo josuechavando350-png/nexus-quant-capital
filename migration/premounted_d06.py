@@ -169,23 +169,28 @@ def readonly_proof(source):
     new_id = int(os.environ.get('NQC_SOURCE_READONLY_MOUNT_ID', '0'))
     require(old_id > 0 and new_id == rows[0][2] and old_id != new_id, 'source mount identity differs')
     require(os.statvfs(source).f_flag & os.ST_RDONLY, 'source filesystem is not read-only')
-    # Opening a verified existing regular file for write, WITHOUT truncation or
-    # creation, cannot destroy evidence even if this safety test unexpectedly
-    # succeeds. Only the kernel's EROFS response proves mount enforcement.
-    probe = source / 'evidence-index.json'
-    require(stat.S_ISREG(probe.lstat().st_mode), 'readonly probe must be a regular source file')
+    # Evidence files are deliberately 0444. Their DAC denial can precede EROFS,
+    # so probe the owner-writable 0700 directory with an unnamed inode instead.
+    # O_EXCL prevents linking it; there is no named path, existing-file write,
+    # chmod or truncation. Unexpected success closes without writing and fails.
+    require(stat.S_ISDIR(source.lstat().st_mode), 'readonly probe must be a source directory')
+    flags = os.O_TMPFILE | os.O_EXCL | os.O_WRONLY | os.O_NOFOLLOW | os.O_CLOEXEC
     try:
-        fd = os.open(probe, os.O_WRONLY | os.O_NOFOLLOW | os.O_CLOEXEC)
+        fd = os.open(source, flags, 0o600)
     except OSError as error:
-        require(error.errno == errno.EROFS, 'readonly write probe did not return EROFS')
+        require(error.errno == errno.EROFS,
+                'anonymous readonly probe expected EROFS; errno=' + str(error.errno) +
+                ' (' + errno.errorcode.get(error.errno, 'UNKNOWN') + ')')
     else:
         os.close(fd)
-        raise ValueError('readonly source unexpectedly permits write access')
-    return {'schema': 'nqc-premounted-source-v1', 'method': METHOD, 'read_only': True,
-            'write_open_errno': errno.EROFS, 'probe': 'evidence-index.json',
-            'probe_creates_or_truncates': False, 'mount_flags': sorted(rows[0][0]),
+        raise ValueError('readonly source unexpectedly permits anonymous write access')
+    return {'schema': 'nqc-premounted-source-v2', 'method': METHOD, 'read_only': True,
+            'write_open_errno': errno.EROFS, 'probe': 'source-directory-O_TMPFILE|O_EXCL',
+            'probe_creates_named_file': False, 'probe_writes_or_truncates_existing': False,
+            'probe_linkable': False, 'mount_flags': sorted(rows[0][0]),
             'descendant_mounts': False, 'private_mount': True,
             'premount_id': old_id, 'readonly_mount_id': new_id}
+
 
 
 def runner_identity(repo, source, adapter_file):

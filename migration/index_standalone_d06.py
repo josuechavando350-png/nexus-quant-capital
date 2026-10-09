@@ -135,10 +135,12 @@ def verify_prospective_runner(repo, receipt, adapter_name, original_name):
             'privileged setup byte identity differs')
     proof = receipt['source_mount']
     require(set(proof) == {'schema', 'method', 'read_only', 'write_open_errno', 'probe',
-                          'probe_creates_or_truncates', 'mount_flags', 'descendant_mounts', 'private_mount', 'premount_id', 'readonly_mount_id'} and
-            proof['schema'] == 'nqc-premounted-source-v1' and proof['method'] == method and
+                          'probe_creates_named_file', 'probe_writes_or_truncates_existing', 'probe_linkable', 'mount_flags', 'descendant_mounts', 'private_mount', 'premount_id', 'readonly_mount_id'} and
+            proof['schema'] == 'nqc-premounted-source-v2' and proof['method'] == method and
             proof['read_only'] is True and type(proof['write_open_errno']) is int and proof['write_open_errno'] == 30 and
-            proof['probe'] == 'evidence-index.json' and proof['probe_creates_or_truncates'] is False and
+            proof['probe'] == 'source-directory-O_TMPFILE|O_EXCL' and
+            proof['probe_creates_named_file'] is False and proof['probe_writes_or_truncates_existing'] is False and
+            proof['probe_linkable'] is False and
             proof['descendant_mounts'] is False and proof['private_mount'] is True and
             type(proof['premount_id']) is int and proof['premount_id'] > 0 and
             type(proof['readonly_mount_id']) is int and proof['readonly_mount_id'] > 0 and
