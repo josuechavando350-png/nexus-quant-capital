@@ -124,7 +124,7 @@ class NamespaceSafetyTests(unittest.TestCase):
 
     def test_workflow_drops_privileges_before_bash_and_removes_root_cleanup(self):
         workflow = (Path(__file__).parents[1] / '.github/workflows/nqc-d06-standalone.yml').read_text()
-        step = workflow.split('      - name: Disconnected Rust gates,', 1)[1].split('      - name:', 1)[0]
+        step = workflow.split('      - name: Disconnected Rust gates and', 1)[1].split('      - name:', 1)[0]
         self.assertIn('/usr/bin/sudo -n -- /usr/bin/unshare --net --mount --propagation private --', step)
         self.assertIn('/usr/bin/setpriv --reuid="$runner_uid" --regid="$runner_gid" --clear-groups', step)
         self.assertIn('--bounding-set=-all --inh-caps=-all --ambient-caps=-all --no-new-privs --', step)
@@ -372,6 +372,28 @@ class IndexTests(ProducerIdentityTests):
                 'uids': [1001] * 4, 'gids': [1001] * 4, 'groups': [], 'no_new_privs': 1,
                 'capabilities': {key: 0 for key in ('CapInh', 'CapPrm', 'CapEff', 'CapBnd', 'CapAmb')}}}
         self.write('code-gates/build-network-isolation.json', self.isolation)
+        self.write('code-gates/replay-network-isolation.json', self.isolation)
+        for original, adapter_name, output in (
+            ('run_rmc006_recertification.py', 'run_premounted_d06_v1.py', 'runner-identity.json'),
+            ('test_rmc006_recertification_replay.py', 'test_premounted_d06_replay_v1.py', 'negative-tests/runner-identity.json')):
+            import premounted_d06
+            for directory, name in (('ci/nqc-census', original), ('migration', adapter_name), ('migration', 'premounted_d06.py')):
+                path = self.repo / directory / name; path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes((Path(__file__).parents[1] / directory / name).read_bytes())
+            self.write(output, {'schema': 'nqc-prospective-d06-runner-v1', 'method': premounted_d06.METHOD,
+                'original_runner_byte_identical': False, 'certification_inherited': False,
+                'original_path': 'ci/nqc-census/' + original,
+                'original_sha256': hashlib.sha256((self.repo / 'ci/nqc-census' / original).read_bytes()).hexdigest(),
+                'adapter_path': 'migration/' + adapter_name,
+                'adapter_sha256': hashlib.sha256((self.repo / 'migration' / adapter_name).read_bytes()).hexdigest(),
+                'boundary_path': 'migration/premounted_d06.py',
+                'boundary_sha256': hashlib.sha256((self.repo / 'migration/premounted_d06.py').read_bytes()).hexdigest(),
+                'root_setup_sha256': hashlib.sha256(premounted_d06.ROOT_SETUP.encode()).hexdigest(),
+                'source_mount': {'schema': 'nqc-premounted-source-v1', 'method': premounted_d06.METHOD,
+                    'read_only': True, 'write_open_errno': 30, 'probe': 'evidence-index.json',
+                    'probe_creates_or_truncates': False, 'mount_flags': ['ro', 'relatime'],
+                    'descendant_mounts': False, 'private_mount': True, 'premount_id': 10, 'readonly_mount_id': 11}})
+
         receipt = b'{"unit_test": true}\n'
         self.write("historical-source/HISTORICAL-ADAPTER.json", {
             "schema": "nqc-standalone-historical-materialization-v1",
@@ -405,7 +427,7 @@ class IndexTests(ProducerIdentityTests):
         return index.make_index(self.repo, self.root, self.head, self.tree, self.environment)
 
     def test_retained_privilege_or_missing_network_proof_prevents_index(self):
-        for section in ('historical-source/HISTORICAL-ADAPTER.json', 'code-gates/build-network-isolation.json'):
+        for section in ('historical-source/HISTORICAL-ADAPTER.json', 'code-gates/build-network-isolation.json', 'code-gates/replay-network-isolation.json'):
             original = (self.root / section).read_text()
             for mutate in (
                 lambda n: n.update(isolation_mode='user'),
@@ -423,6 +445,23 @@ class IndexTests(ProducerIdentityTests):
                 with self.assertRaises(ValueError): self.run_index()
                 self.assertFalse((self.root / 'evidence-index.json').exists())
             (self.root / section).write_text(original)
+
+    def test_prospective_identity_or_false_readonly_proof_cannot_index(self):
+        for path in ('runner-identity.json', 'negative-tests/runner-identity.json'):
+            original = (self.root / path).read_text()
+            for mutation in (lambda p: p.update(original_runner_byte_identical=True),
+                             lambda p: p.update(certification_inherited=True),
+                             lambda p: p.update(adapter_sha256='0'*64),
+                             lambda p: p.update(boundary_sha256='0'*64),
+                             lambda p: p.update(root_setup_sha256='0'*64),
+                             lambda p: p['source_mount'].update(write_open_errno=13),
+                             lambda p: p['source_mount'].update(probe_creates_or_truncates=True),
+                             lambda p: p['source_mount'].update(readonly_mount_id=10),
+                             lambda p: p['source_mount'].update(mount_flags=['rw'])):
+                value = json.loads(original); mutation(value); self.write(path, value)
+                with self.assertRaises(ValueError): self.run_index()
+                self.assertFalse((self.root / 'evidence-index.json').exists())
+            (self.root / path).write_text(original)
 
     def test_build_and_materializer_caller_ids_must_match(self):
         changed = copy.deepcopy(self.isolation)
@@ -732,6 +771,145 @@ class WorkflowRuntimeRootTests(unittest.TestCase):
                     self.assertNotEqual(status, 0)
                     self.assertEqual(output, "")
 
+
+class PremountedAdapterTests(unittest.TestCase):
+    def setUp(self):
+        import premounted_d06
+        self.p = premounted_d06
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
+        self.source = Path(self.temp.name) / 'source'; self.source.mkdir()
+        (self.source / 'evidence-index.json').write_bytes(b'unchanged evidence')
+        self.mountinfo = f'11 1 0:1 / {self.source} ro,nosuid,nodev - tmpfs none rw\n'
+
+    def test_both_adapters_preserve_all_original_computation(self):
+        root = Path(__file__).parents[1]
+        for name, original in self.p.ORIGINALS.items():
+            changed = (root / 'migration' / name).read_text()
+            changed = changed.replace("sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'ci/nqc-census'))\n", '')
+            changed = changed.replace('\n\n# Prospective v1 adapter: original computation is preserved; privileged mounting\n# was moved to the reviewed fd-pinned boundary. Original entry point is unchanged.\nfrom premounted_d06 import runner_identity\n', '')
+            changed = changed.replace('    # Require the genuine pre-mounted read-only boundary before any computation.', '    # Read-only bind mount enforces source preservation even during error paths.')
+            changed = changed.replace('    prospective_identity = runner_identity(repo, source, __file__)\n', "    run(['mount', '--bind', source, source])\n    run(['mount', '-o', 'remount,bind,ro', source])\n")
+            for output in ('out', 'work'):
+                changed = changed.replace("    (" + output + "/'runner-identity.json').write_text(json.dumps(prospective_identity, sort_keys=True, indent=2)+'\\n')\n", '')
+            self.assertEqual(changed, (root / original).read_text())
+
+    def test_source_directory_walk_rejects_symlink_in_any_component(self):
+        namespace = {}; exec(self.p.MOUNT_SETUP, namespace)
+        for target, path in ((self.source, Path(self.temp.name) / 'alias'),
+                             (Path(self.temp.name), Path(self.temp.name) / 'parent-alias')):
+            path.symlink_to(target, target_is_directory=True)
+            looked_up = path if target == self.source else path / 'source'
+            with self.assertRaises(OSError): namespace['open_directory'](str(looked_up))
+        for bad in ('relative', '/', str(self.source) + '/', str(self.source) + '/../source'):
+            with self.assertRaises(ValueError): namespace['open_directory'](bad)
+
+    def test_pinned_device_inode_rejected_before_mount(self):
+        namespace = {}; exec(self.p.MOUNT_SETUP, namespace)
+        info = self.source.stat()
+        with self.assertRaisesRegex(ValueError, 'replaced'):
+            namespace['mount_readonly'](str(self.source), os.getuid(), info.st_dev, info.st_ino + 1)
+
+    def test_nested_source_mount_is_rejected(self):
+        self.p.require_no_descendant_mounts(self.source, self.mountinfo)
+        with self.assertRaisesRegex(ValueError, 'descendant'):
+            self.p.require_no_descendant_mounts(self.source, self.mountinfo + f'12 11 0:1 / {self.source}/child rw - tmpfs none rw\n')
+
+    def proof(self, text=None):
+        from types import SimpleNamespace
+        with mock.patch.object(Path, 'read_text', return_value=text or self.mountinfo), \
+             mock.patch.object(self.p.os, 'statvfs', return_value=SimpleNamespace(f_flag=os.ST_RDONLY)), \
+             mock.patch.dict(os.environ, {'NQC_SOURCE_PREMOUNT_ID': '10', 'NQC_SOURCE_READONLY_MOUNT_ID': '11'}):
+            return self.p.readonly_proof(self.source)
+
+    def test_only_real_erofs_accepts_write_rejection(self):
+        import errno
+        with mock.patch.object(self.p.os, 'open', side_effect=OSError(errno.EROFS, 'readonly')):
+            result = self.proof()
+            self.assertEqual(result['write_open_errno'], errno.EROFS)
+            self.assertFalse(result['probe_creates_or_truncates'])
+        for code in (errno.EACCES, errno.EPERM, errno.ENOENT):
+            with mock.patch.object(self.p.os, 'open', side_effect=OSError(code, 'different failure')):
+                with self.assertRaisesRegex(ValueError, 'EROFS'): self.proof()
+
+    def test_unexpected_write_open_success_does_not_mutate_evidence(self):
+        before = (self.source / 'evidence-index.json').read_bytes()
+        with self.assertRaisesRegex(ValueError, 'permits write'): self.proof()
+        self.assertEqual((self.source / 'evidence-index.json').read_bytes(), before)
+        self.assertEqual(list(self.source.iterdir()), [self.source / 'evidence-index.json'])
+
+    def test_rw_shared_missing_and_wrong_mount_identity_rejected(self):
+        for changed in (self.mountinfo.replace(' ro,', ' rw,'),
+                        self.mountinfo.replace(' - ', ' shared:42 - '),
+                        self.mountinfo.replace(str(self.source), '/another-source'),
+                        self.mountinfo.replace('11 1 ', '12 1 ')):
+            with self.assertRaises(ValueError): self.proof(changed)
+
+    def test_source_probe_symlink_rejected_without_following(self):
+        probe = self.source / 'evidence-index.json'; probe.unlink()
+        target = Path(self.temp.name) / 'sensitive'; target.write_text('preserve')
+        probe.symlink_to(target)
+        with self.assertRaisesRegex(ValueError, 'regular'): self.proof()
+        self.assertEqual(target.read_text(), 'preserve')
+
+    def test_workflow_exact_isolated_cli_reaches_own_guard(self):
+        program = Path(__file__).with_name('premounted_d06.py')
+        result = subprocess.run(['/usr/bin/python3', '-I', '-B', str(program), '--root', str(self.source),
+            '--expected-commit', 'a' * 40, '--expected-tree', 'b' * 40],
+            text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('run-specific root required', result.stdout)
+        self.assertNotIn('ModuleNotFoundError', result.stdout)
+
+    def test_privileged_setup_clears_high_inherited_fds_and_cwd(self):
+        program = Path(__file__).with_name('premounted_d06.py')
+        probe = self.source / 'evidence-index.json'
+        script = r'''
+import importlib.util, os, pathlib, resource, sys
+spec = importlib.util.spec_from_file_location('boundary', sys.argv[1]); p = importlib.util.module_from_spec(spec); spec.loader.exec_module(p)
+fd = os.open(sys.argv[2], os.O_WRONLY); os.dup2(fd, 900, inheritable=True); os.close(fd)
+os.chdir(pathlib.Path(sys.argv[2]).parent)
+soft, hard = resource.getrlimit(resource.RLIMIT_NOFILE); resource.setrlimit(resource.RLIMIT_NOFILE, (128, hard))
+namespace = {}; exec(p.MOUNT_SETUP, namespace)
+namespace['mount_readonly'] = lambda *args: (10, 11)
+os.getuid = lambda: 0; os.geteuid = lambda: 0
+sys.argv = ['fixed', '/tmp/nqc-standalone-d06-1-1', '1001', '1001', '1', '1', 'net:[1]', 'mnt:[1]', 'a'*40, 'b'*40]
+def inspect(path, command):
+    assert path == '/usr/bin/setpriv' and '--bounding-set=-all' in command and '--no-new-privs' in command
+    assert os.getcwd() == '/'
+    try: os.fstat(900)
+    except OSError: pass
+    else: raise AssertionError('inherited descriptor survived')
+    print('HIGH_FD_AND_CWD_CLOSED_FIXED_SETPRIV')
+os.execv = inspect
+exec(p.ROOT_SETUP[len(p.MOUNT_SETUP):], namespace)
+'''
+        result = subprocess.run(['/usr/bin/python3', '-I', '-B', '-c', script, str(program), str(probe)],
+            stdin=subprocess.DEVNULL, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        self.assertEqual(result.returncode, 0, result.stdout)
+        self.assertIn('HIGH_FD_AND_CWD_CLOSED_FIXED_SETPRIV', result.stdout)
+        self.assertEqual(probe.read_bytes(), b'unchanged evidence')
+
+    def test_privileged_literal_uses_only_fixed_imports_and_no_shell(self):
+        imported = {alias.name for node in ast.walk(ast.parse(self.p.ROOT_SETUP)) if isinstance(node, ast.Import) for alias in node.names}
+        self.assertEqual(imported, {'ctypes', 'os', 're', 'stat', 'sys'})
+        self.assertNotIn('subprocess', self.p.ROOT_SETUP)
+        self.assertIn('MountAttr(1, 0, 0, 0)', self.p.ROOT_SETUP)
+        self.assertIn("os.execv('/usr/bin/setpriv'", self.p.ROOT_SETUP)
+        self.assertIn("os.chdir('/')", self.p.ROOT_SETUP)
+        self.assertIn('os.closerange(3, 2**31 - 1)', self.p.ROOT_SETUP)
+
+    def test_privileged_python_disables_site_hooks_and_stdlib_still_loads(self):
+        import inspect
+        self.assertIn("'/usr/bin/python3', '-I', '-S', '-B', '-c', ROOT_SETUP", inspect.getsource(self.p.command))
+        result = subprocess.run(['/usr/bin/python3', '-I', '-S', '-B', '-c', self.p.ROOT_SETUP],
+            text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('fixed privileged setup arguments required', result.stdout)
+        self.assertNotIn('ModuleNotFoundError', result.stdout)
+
+    def test_original_root_identity_is_rejected_before_privilege_request(self):
+        with mock.patch.object(self.p.os, 'getuid', return_value=0):
+            with self.assertRaisesRegex(ValueError, 'nonroot'): self.p.command(self.source, 'a'*40, 'b'*40)
 
 if __name__ == "__main__":
     unittest.main()

@@ -190,32 +190,61 @@ until a real authorized job exists.
 
 ## Explicit ephemeral namespace privilege boundary
 
-The standalone workflow explicitly selects `--isolation-mode sudo-drop`; the
-adapter's default `user` mode remains available without automatic fallback.
-The privileged argv is fixed system `sudo -n` → `unshare --net --mount
---propagation private` → `setpriv`. Before Python, Git, Rust or the build shell,
-`setpriv` restores the original nonzero runner UID/GID, clears supplementary
-groups and all inheritable/ambient/bounding capabilities, and sets no-new-privs.
-Root or mismatched real/effective/saved caller IDs fail closed. The adapter
-checks root ownership and non-writability of its fixed system executable chain.
-No root shell, recursive chown, safe.directory exception, persistent namespace,
-credential, host sysctl, AppArmor or GitHub permission change is required.
+Historical materialization and the Rust build retain the reviewed sudo-drop
+boundary: fixed system sudo/unshare create a disconnected network and private
+mount namespace; setpriv restores the original nonzero runner UID/GID, empties
+supplementary groups and all five capability sets, and enables no-new-privs
+before any historical Python, Git, Rust or build shell executes. The default
+user-namespace materializer remains available without automatic sudo fallback.
 
-Both disconnected stages record `/proc/self/status` checks of all four UID/GID
-values, empty groups, all five capability sets equal to zero and NoNewPrivs=1.
-They also record distinct network and mount namespace IDs. The original detailed
-no-network proof still checks interfaces, routes, addresses and unreachable
-IPv4/IPv6 probes. The new evidence index requires both explicit privilege-drop
-proofs and matching original runner IDs. Historical receipt/source identities
-are unchanged and this process proof does not transfer historical certification.
+The prospective v1 replay boundary deliberately changes the runner method.
+`premounted_d06.py` passes a fixed standard-library-only literal as argv to
+root-owned `/usr/bin/python3 -I -S -B -c`, after fixed `sudo`, environment clearing
+and `unshare --net --mount --propagation private`. No runner-writable helper file
+or project module is loaded while privileged. This narrow setup closes inherited
+FDs, permits only pipes or /dev/null for stdio, resets cwd to /, and traverses the
+fixed authenticated-original path using O_PATH/O_DIRECTORY/O_NOFOLLOW/CLOEXEC.
+It rejects a replaced inode/device/owner, aliases and descendant mounts. The -S
+flag disables global site/.pth/sitecustomize startup hooks.
 
-This is **not a filesystem jail**. After the drop, reviewed programs retain the
-runner user's filesystem rights; the workflow writes build/cache/log/evidence
-under its own run-specific temporary directory. Clearing groups can remove
-access that depended on supplementary groups, which is a fail-closed runtime
-constraint. The subprocesses run synchronously, create no persistent namespace
-handles and request no background daemon. Kernel namespaces disappear after the
-last process/reference exits; GitHub's existing job timeout and runner cleanup
-are the outer bound for descendants, not a new guarantee of child-free teardown.
-The sudo-drop path requires independent security review and authorized Actions
-validation; offline argv/proof tests alone do not prove live runner execution.
+The source descriptor is cloned with open_tree; mount_setattr adds RDONLY with
+attr_clr=0, preserving existing flags; move_mount attaches the detached mount to
+the same pinned directory. Both source and destination are descriptors, so no
+privileged mount syscall follows a swapped pathname. Source path identity,
+read-only status and a distinct new mount ID are checked before descriptors are
+closed. The setup then execs fixed setpriv, dropping UID/GID/groups/capabilities
+and enabling no-new-privs before the replay shell. sudo may retain its normal
+monitor; no privileged project worker or root shell is used.
+
+`run_premounted_d06_v1.py` and `test_premounted_d06_replay_v1.py` are explicit new
+prospective adapters. The original runner and negative-driver bytes remain
+unchanged. Whole-file regression comparisons require every original computation
+to stay identical except the documented mount-boundary and identity-receipt
+changes. Both adapters require an exact private read-only mount with no child
+mounts, the recorded new mount ID, and a real EROFS response to opening an existing
+regular evidence-index file for write. The probe does not create, write or
+truncate anything; unexpected success closes the descriptor and fails.
+
+The unchanged original source authenticator runs before extraction/build,
+immediately before replay in the mounted namespace, and after the negative
+matrix. All replay bytes, source hashes, Rust gates and 22 real negative cases
+remain required. Receipts bind original, prospective adapter, boundary-module
+and privileged-literal hashes and explicitly deny unchanged-original-runner
+identity or inherited certification. The index requires matching nonzero caller
+identities and zero capabilities for materializer, build and replay stages.
+
+This is not a filesystem jail. The runner retains its ordinary filesystem rights;
+same-UID host processes and filesystem Unix sockets are outside this boundary.
+Network proof establishes a fresh namespace, down loopback, no addresses/routes
+and unreachable IPv4/IPv6 probes. All mounts exist only in the private namespace;
+no host sysctl, AppArmor, credentials, permissions or network settings change.
+Every setup descriptor is closed. Namespaces expire after their final process or
+reference exits; the 240-minute job bound and hosted-runner cleanup remain the
+outer limit for abnormal descendants. No stronger daemon-free teardown is
+claimed. A separate authorized exact-head Actions execution and independent
+GitHub artifact read-back are required before any operational result is accepted.
+
+The hosted diagnostic established Ubuntu image 20261004.327.1, kernel
+6.17.0-1022-azure, util-linux 2.39.3-9ubuntu6.6. The new boundary does not depend on
+version-specific user-ID mapping flags. Its fd-based mount API requires Linux
+5.12+ and libc wrappers (glibc 2.36+); absence fails closed without fallback.

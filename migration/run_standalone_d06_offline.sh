@@ -1,16 +1,18 @@
 #!/usr/bin/env bash
 # Proposed migration helper. Called only inside a new network + private mount namespace.
 set -euo pipefail
-test "$#" = 6
+test "$#" = 7
 root="$1"
 repo="$2"
 parent_network="$3"
 runner_uid="$4"
 runner_gid="$5"
 parent_mount="$6"
+phase="$7"
+test "$phase" = build || test "$phase" = replay
 # The fixed setpriv boundary precedes this unprivileged shell. Confirm all four
 # kernel IDs, groups, capabilities and no-new-privs before Python imports or Git.
-/usr/bin/python3 -I -B - "$runner_uid" "$runner_gid" "$root/logs/build-privilege-drop.json" <<'PRIVILEGES'
+/usr/bin/python3 -I -B - "$runner_uid" "$runner_gid" "$root/logs/$phase-privilege-drop.json" <<'PRIVILEGES'
 import json, pathlib, sys
 
 def privilege_drop_proof(status, uid, gid):
@@ -43,7 +45,7 @@ cd "$repo"
 test "$(git rev-parse HEAD)" = "$EXPECTED_COMMIT"
 test "$(git rev-parse 'HEAD^{tree}')" = "$EXPECTED_TREE"
 test -z "$(git status --porcelain=v1 --untracked-files=no)"
-/usr/bin/python3 -I -B - "$parent_network" "$root/logs/build-network-isolation.json" "$parent_mount" <<'PY'
+/usr/bin/python3 -I -B - "$parent_network" "$root/logs/$phase-network-isolation.json" "$parent_mount" "$phase" <<'PY'
 import importlib.util, json, os, pathlib, sys
 p = pathlib.Path('ci/nqc-census/run_rmc006_recertification.py')
 spec = importlib.util.spec_from_file_location('offline_network', p)
@@ -55,15 +57,16 @@ if mount == sys.argv[3]:
     raise ValueError('mount namespace was not isolated')
 network['mount_namespace'] = mount
 network['parent_mount_namespace'] = sys.argv[3]
-network['privilege_drop'] = json.loads(pathlib.Path(sys.argv[2]).with_name('build-privilege-drop.json').read_text())
+network['privilege_drop'] = json.loads(pathlib.Path(sys.argv[2]).with_name(sys.argv[4] + '-privilege-drop.json').read_text())
 pathlib.Path(sys.argv[2]).write_text(json.dumps(network, sort_keys=True, indent=2) + '\n')
 PY
+source="$root/authenticated-original"
+archive="$repo/migration/evidence/d06/original-evidence.zip"
+if test "$phase" = build; then
 python3 -B -m unittest discover -s migration -p test_standalone_d06.py -v \
   2>&1 | tee "$root/logs/standalone-helper-tests.log"
 
 # Authenticity/expiry use actual UTC inside the disconnected gate. No date override.
-source="$root/authenticated-original"
-archive="$repo/migration/evidence/d06/original-evidence.zip"
 python3 -B ci/nqc-census/verify_rmc006_recertification_source.py \
   --archive "$archive" --run-metadata "$root/metadata/run.json" \
   --artifact-metadata "$root/metadata/artifact.json" --commit-metadata "$root/metadata/commit.json" \
@@ -100,11 +103,23 @@ python3 -B -m unittest discover -s ci/nqc-census -p 'test_rmc006_recertification
   2>&1 | tee "$root/logs/python-authentication-and-runner-tests.log"
 ! grep -E 'skipped=|\.\.\. skipped ' "$root/logs/python-authentication-and-runner-tests.log"
 
-# Unchanged runner binds closeout to this exact independent producer checkout.
-python3 -B ci/nqc-census/run_rmc006_recertification.py \
+exit 0
+fi
+
+# Authenticate the mounted package again immediately before replay, using the
+# actual UTC clock and unchanged source verifier. This never writes to source.
+python3 -B ci/nqc-census/verify_rmc006_recertification_source.py \
+  --archive "$archive" --run-metadata "$root/metadata/run.json" \
+  --artifact-metadata "$root/metadata/artifact.json" --commit-metadata "$root/metadata/commit.json" \
+  --verify-extracted "$source" --provenance "$root/metadata/source-provenance-mounted-before.json" \
+  2>&1 | tee "$root/logs/source-authentication-mounted-before.log"
+
+# Explicit prospective v1 runners preserve computation but require a genuine
+# pre-mounted source. Their identities are recorded separately from originals.
+python3 -B migration/run_premounted_d06_v1.py \
   --repo "$repo" --source "$source" --out "$root/evidence" \
   --parent-network-namespace "$parent_network" 2>&1 | tee "$root/logs/replay.log"
-python3 -B ci/nqc-census/test_rmc006_recertification_replay.py \
+python3 -B migration/test_premounted_d06_replay_v1.py \
   --repo "$repo" --source "$source" --work "$root/evidence/negative-tests" \
   --parent-network-namespace "$parent_network" 2>&1 | tee "$root/logs/replay-negatives.log"
 python3 -B ci/nqc-census/verify_rmc006_recertification_source.py \

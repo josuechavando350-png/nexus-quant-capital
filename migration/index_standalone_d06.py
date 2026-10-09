@@ -110,6 +110,43 @@ def verify_privilege_isolation(network):
     return uid, gid
 
 
+
+def verify_prospective_runner(repo, receipt, adapter_name, original_name):
+    method = 'fd-pinned-detached-readonly-mount-then-sudo-drop-v1'
+    require(set(receipt) == {'schema', 'method', 'original_runner_byte_identical', 'certification_inherited',
+                            'original_path', 'original_sha256', 'adapter_path', 'adapter_sha256', 'source_mount',
+                            'boundary_path', 'boundary_sha256', 'root_setup_sha256'},
+            'prospective runner receipt fields differ')
+    require(receipt['schema'] == 'nqc-prospective-d06-runner-v1' and receipt['method'] == method and
+            receipt['original_runner_byte_identical'] is False and receipt['certification_inherited'] is False,
+            'prospective runner authority differs')
+    for prefix, path in (('original', 'ci/nqc-census/' + original_name), ('adapter', 'migration/' + adapter_name)):
+        require(receipt[prefix + '_path'] == path and
+                receipt[prefix + '_sha256'] == hashlib.sha256((repo / path).read_bytes()).hexdigest(),
+                'prospective runner byte identity differs')
+    import ast
+    boundary = repo / 'migration/premounted_d06.py'
+    definitions = {node.targets[0].id: node.value for node in ast.parse(boundary.read_bytes()).body
+                   if isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name)}
+    root_setup = ast.literal_eval(definitions['MOUNT_SETUP']) + ast.literal_eval(definitions['ROOT_SETUP'].right)
+    require(receipt['boundary_path'] == 'migration/premounted_d06.py' and
+            receipt['boundary_sha256'] == hashlib.sha256(boundary.read_bytes()).hexdigest() and
+            receipt['root_setup_sha256'] == hashlib.sha256(root_setup.encode()).hexdigest(),
+            'privileged setup byte identity differs')
+    proof = receipt['source_mount']
+    require(set(proof) == {'schema', 'method', 'read_only', 'write_open_errno', 'probe',
+                          'probe_creates_or_truncates', 'mount_flags', 'descendant_mounts', 'private_mount', 'premount_id', 'readonly_mount_id'} and
+            proof['schema'] == 'nqc-premounted-source-v1' and proof['method'] == method and
+            proof['read_only'] is True and type(proof['write_open_errno']) is int and proof['write_open_errno'] == 30 and
+            proof['probe'] == 'evidence-index.json' and proof['probe_creates_or_truncates'] is False and
+            proof['descendant_mounts'] is False and proof['private_mount'] is True and
+            type(proof['premount_id']) is int and proof['premount_id'] > 0 and
+            type(proof['readonly_mount_id']) is int and proof['readonly_mount_id'] > 0 and
+            proof['premount_id'] != proof['readonly_mount_id'] and
+            type(proof['mount_flags']) is list and all(type(flag) is str for flag in proof['mount_flags']) and
+            'ro' in proof['mount_flags'] and 'rw' not in proof['mount_flags'],
+            'genuine read-only source proof missing')
+
 def make_index(repo, root, head, tree, environment=os.environ):
     repo, root = Path(repo).absolute(), Path(root).absolute()
     require(repo.resolve() == repo and root.resolve() == root, "evidence or repo path aliases")
@@ -151,6 +188,15 @@ def make_index(repo, root, head, tree, environment=os.environ):
     materializer_ids = verify_privilege_isolation(adapter['network_isolation'])
     build_ids = verify_privilege_isolation(load(root / 'code-gates/build-network-isolation.json'))
     require(materializer_ids == build_ids, 'materializer/build original runner identity differs')
+    replay_network = load(root / 'code-gates/replay-network-isolation.json')
+    replay_ids = verify_privilege_isolation(replay_network)
+    require(replay_ids == build_ids, 'replay/build original runner identity differs')
+    require(all(network[key] == replay_network[key] for key in ('network_namespace', 'parent_network_namespace')),
+            'replay network proof differs')
+    verify_prospective_runner(repo, load(root / 'runner-identity.json'),
+                              'run_premounted_d06_v1.py', 'run_rmc006_recertification.py')
+    verify_prospective_runner(repo, load(root / 'negative-tests/runner-identity.json'),
+                              'test_premounted_d06_replay_v1.py', 'test_rmc006_recertification_replay.py')
     require(adapter["historical_source"]["commit"] == SOURCE_COMMIT, "historical source changed")
     consumer = adapter["consumer"]
     require(consumer["commit"] == head and consumer["tree"] == tree and
@@ -189,6 +235,8 @@ def make_index(repo, root, head, tree, environment=os.environ):
     index = {"schema": "nqc-standalone-d06-evidence-index-v1", "producer": producer,
              "indexed_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
              "local_gates_succeeded": True, "final_github_run_verified": False,
+             "runner_method": "fd-pinned-detached-readonly-mount-then-sudo-drop-v1",
+             "original_runner_byte_identical": False,
              "reviewed_producer_authorization_verified": False,
              "immutable_artifact_metadata_verified": False, "canonical_recertification": False,
              "certification_transfer": False, "downstream_acceptance": False,

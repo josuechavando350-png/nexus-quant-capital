@@ -438,8 +438,7 @@ def verify_system_executables():
     # Root-owned symlinks such as /usr/bin/python3 are allowed only when their
     # complete resolved target and every parent are root-owned and not writable
     # by group/other. The executable paths themselves are never caller inputs.
-    for name in ('sudo', 'unshare', 'setpriv', 'env', 'python3'):
-        path = Path('/usr/bin') / name
+    for path in [Path('/usr/bin') / name for name in ('sudo', 'unshare', 'setpriv', 'env', 'python3')] + [Path('/bin/bash')]:
         resolved = path.resolve(strict=True)
         require(resolved.is_file(), "nonregular system executable")
         for entry in set((path, resolved, *path.parents, *resolved.parents)):

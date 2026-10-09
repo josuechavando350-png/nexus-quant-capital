@@ -20,7 +20,7 @@ a = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(a)
 WORKFLOW = ".github/workflows/nqc-d06-standalone.yml"
 INERT_WORKFLOW = "migration/nqc-d06-standalone.yml.disabled"
-WORKFLOW_SHA256 = "9ed8ae584e7bfe80ce86fba2a32f97899fb2969f72802af0db3febd1c0f6ac0d"
+WORKFLOW_SHA256 = "bcbb272de5a479264e91355fce04b43817df3df7630d7ee4f033a8f7e967b0af"
 ZIP_PATH = "migration/evidence/d06/original-evidence.zip"
 ZIP_SHA256 = "1cdb46fca52ebf1e0e2094b1c14b19384ecb7beceb50229b967592ab7a0308b4"
 ZIP_BYTES = 6709740
@@ -32,6 +32,8 @@ ADDITIONS = {
     "migration/verify_standalone_composition.py", "migration/test_standalone_composition.py",
     "migration/collect_original_metadata.py", "migration/index_standalone_d06.py",
     "migration/run_standalone_d06_offline.sh", "migration/test_standalone_d06.py", ZIP_PATH, WORKFLOW,
+    "migration/premounted_d06.py", "migration/run_premounted_d06_v1.py",
+    "migration/test_premounted_d06_replay_v1.py",
 }
 
 
