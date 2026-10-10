@@ -1,4 +1,17 @@
-# Census progress notices: 10/20, 15/20 and 20/20
+# Census progress notices — discontinued by user
+
+On **2026-10-09 at 21:36 America/Mexico_City**, the user withdrew the request
+for numerical progress scores and threshold notices, and instructed continued
+work toward completion. Do not issue 10/20, 15/20 or 20/20 notices or substitute
+another progress score. The earlier notice protocol below is retained as history.
+
+This changes communication, not the technical closeout requirements. Complete
+coverage, supported candidate dispositions and exact-producer independent
+Market/Capital/Economic Truth acceptance remain mandatory under ARCHITECTURE.md.
+Report actual completion or a concrete essential blocker; never infer completion
+from a score, elapsed time, a response counter or tests alone.
+
+## Earlier notice protocol (superseded)
 
 The user requested continued work and notices at these three milestones on
 October 9, 2026. The earlier **8/20** was a qualitative assessment of overall

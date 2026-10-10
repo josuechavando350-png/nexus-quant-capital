@@ -1,5 +1,9 @@
 # Census: cierre de reconstrucción histórica, certificación pendiente
 
+El usuario retiró los avisos de puntuación el 9 de octubre a las 21:36 de Ciudad
+de México. Se continúa hasta el cierre con los mismos requisitos técnicos y
+límites de autorización; `MILESTONES.md` conserva el cambio y el historial.
+
 Revisión económica del 10 de octubre UTC: `DAILY_CAPACITY_REVIEW.md` vuelve a
 calcular el diferencial bruto histórico ya demostrado de USD 138,045.17 en
 30 días. Las tres mayores transacciones concentran 80.04% del bruto; la mediana
@@ -41,6 +45,18 @@ certifica gas, economía ni P&L. Ninguna de esas autoridades se transfiere al nu
 productor por haber pasado estas pruebas.
 
 ## Trabajo material para terminar Census
+
+Quinto checkpoint cerrado, 10 de octubre 03:21:01Z: **59,000 bloques nuevos y
+3,953,000 precios** coinciden con dRPC. La unión verificada por dos operadores
+alcanza **144,170 / 215,036 bloques**; faltan **70,866**, desde 26,024,486 hasta
+26,095,351. Los 920 registros del archivo abierto se excluyen. Se reproducen
+el prefijo completo de 139,000 bloques de la continuación, los oráculos previos
+y los 139 eventos / 127 recibos, sin doble conteo. Las lecturas local y remota
+coinciden; el delta exacto se conserva en siete partes. Pasan ocho pruebas
+afectadas y nueve de aislamiento, con 637 objetos originales intactos y cero
+workflows activos. El proceso existente no se reinició ni duplicó; siguen
+pendientes la cobertura completa y la certificación. Véase
+`oracle_recovery/CHECKPOINT_005.md`.
 
 Préstamos observados en trazas, 10 de octubre: se recorren las 127 transacciones
 y se concilian 49 llamadas de entrega/callback/devolución en 46 de ellas con
@@ -207,7 +223,7 @@ económicas originales no cambian. Census sigue sin cierre certificado.
 | Market Truth | Corte histórico reconstruido; alcance temporal global abierto | Reconciliar el universo declarado y recuperar las observaciones detalladas, oportunidades censuradas y momentos reales de recepción. |
 | Capital Truth | Núcleo D11 íntegro; admisibilidad operativa incompleta | Pruebas de proveedores, cobertura por candidato, repayment completo y obligaciones; autenticar gas nativo y coste de adquisición bajo el límite autorizado. |
 | Economic Truth | Evidencia insuficiente en los 432 pares | Compatibilidad de los 43 activos requeridos, rutas monetizables, costes completos, competencia/inclusión y márgenes conservadores. Puede cerrarse con conclusiones negativas justificadas. |
-| Evidencia temporal | D15B/D16 reproducidos; universo, transiciones y riesgo inicial también reproducidos | 29,998 candidatos y 134,275 cambios de estado conciliados. Riesgo inicial: 27,850 borrowers con cero discrepancias. Oráculos retenidos: 215,036 bloques; segundo operador verificado en 85,170 y pendiente en 129,866 al cuarto checkpoint de continuación. El 429 previo se conserva y el nuevo proceso sigue con menor ritmo. Siguen faltando independencia de infraestructura, headers completos y recepción histórica real. Eventos ejecutados y 127 recibos completos ya están conciliados; sus límites no se confunden con los oráculos. |
+| Evidencia temporal | D15B/D16 reproducidos; universo, transiciones y riesgo inicial también reproducidos | 29,998 candidatos y 134,275 cambios de estado conciliados. Riesgo inicial: 27,850 borrowers con cero discrepancias. Oráculos retenidos: 215,036 bloques; segundo operador verificado en 144,170 y pendiente en 70,866 al quinto checkpoint de continuación. El 429 previo se conserva y el nuevo proceso sigue con menor ritmo. Siguen faltando independencia de infraestructura, headers completos y recepción histórica real. Eventos ejecutados y 127 recibos completos ya están conciliados; sus límites no se confunden con los oráculos. |
 | Reproducción D11 completa | Resuelta dentro del límite de memoria: nueve archivos idénticos | 371.5 segundos, RSS máximo 7,309,316 KiB, 256 pruebas de capital. Se preservan los intentos OOM y la divergencia del importador por roles. Falta la revisión independiente del nuevo productor. |
 | Autoridad independiente | Pendiente | Revisar productor y consumidores exactos, commits/trees, fuentes, ledgers de fallos y discrepancias, falsación y límites del alcance. Esta modificación no se certifica a sí misma. |
 

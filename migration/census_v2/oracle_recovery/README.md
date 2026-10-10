@@ -286,3 +286,10 @@ compatibility and monetizable routes, complete costs and capture treatment, and
 an independent review of the exact new producer/consumer commits. Negative or
 insufficient-evidence findings remain valid classifications; they are not proof
 of commercial impossibility or permission to mark Census certified.
+# Latest verified continuation checkpoint
+
+The fifth closed checkpoint adds 59,000 blocks / 3,953,000 matching prices to
+the prior 80,000-block continuation prefix. Exact two-operator union:
+**144,170 / 215,036 blocks**, with 70,866 missing. The 920 observations in the
+open file are excluded. See `CHECKPOINT_005.md` for exact source commitments,
+durable binary parts and offline reproduction. Historical coverage is incomplete.
