@@ -12,6 +12,11 @@ La [prueba adicional de realización en ETH](NATIVE_REALIZATION.md) convierte el
 residual dentro del harness, preserva inventario y comprueba reversión. No
 autentica una wallet operativa ni convierte los costes parciales en utilidad neta.
 
+El [readback por cuentas de los nueve casos WETH](WETH_ACCOUNTS.md) separa
+transferencias, retiros y gas. Identifica flujos adicionales en cuatro casos y
+concilia las transferencias de un préstamo Balancer, sin fusionar propietarios
+ni atribuir el resultado de una transacción mixta a una sola liquidación.
+
 ## Resultado económico que cambia la interpretación
 
 Se conciliaron las 127 trazas originales contra los recibos completos ya

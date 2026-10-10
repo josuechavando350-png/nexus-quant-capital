@@ -28,6 +28,18 @@ productor por haber pasado estas pruebas.
 
 ## Trabajo material para terminar Census
 
+Conciliación por cuentas, 10 de octubre 01:02Z: los nueve casos WETH quedan
+separados en 97 filas transacción/cuenta, 26 movimientos nativos y diez retiros.
+En los rangos 2, 3, 4 y 5, el flujo WETH del ejecutor no equivale al excedente
+de la liquidación seleccionada. Los pagos, otros activos y gas no se duplican
+ni se agrupan por un propietario supuesto. Un préstamo Balancer del caso 5
+concilia entrega y devolución por 342,642,361,343,309,991 wei WETH; no acredita
+acceso o financiación de Nexus. Pasan 42 controles Python y nueve de aislamiento
+tras conservar y resolver un fallo de espacio temporal. Véase
+`execution_replay/WETH_ACCOUNTS.md`. Continúan sin probar balances completos,
+costes, captura y beneficio; ninguna clasificación se promueve ni se alcanza
+un hito por este incremento.
+
 Realización nativa, 10 de octubre 00:33Z: las cuatro pruebas del harness con
 Balancer pasan offline en ambos modos. Tras repayment y pago observado, retira
 0.000240390311727552 WETH e incrementa el saldo del operador de prueba en igual
