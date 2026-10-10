@@ -329,3 +329,28 @@ No se cambió código importado, no se activaron workflows y no se enviaron
 transacciones. La clasificación disponible sirve para descartar promociones
 sin evidencia y orientar el trabajo faltante; todavía no autoriza Shadow
 certificado, Canary ni afirmaciones de ingresos.
+
+## Comparación y ampliación de mercados, 10 de octubre UTC
+
+`STRATEGY_EXPANSION.md` registra la petición de buscar muchas oportunidades
+pequeñas en más mercados, sin vender servicios a terceros. El consumidor nuevo
+compara las 127 operaciones/139 eventos retenidos: 53 pares, nueve operaciones
+con una liquidación del mismo activo, 107 con activos diferentes y once con
+varias liquidaciones. Es población histórica de ganadores, no todo el mercado.
+Dos omisiones de índices flash en el ledger económico previo se concilian contra
+recibos completos y quedan explícitas; no se modifican las fuentes antiguas.
+
+`execution_replay/STRATEGY_TRIALS.md` conserva una comparación controlada:
+la financiación Aave del caso examinado no permite devolver principal y comisión
+después del mismo pago competitivo, mientras que ejecutar con Balancer antes de
+la elegibilidad revierte por la condición exacta del protocolo. Se conservan el
+primer intento fallido y su corrección sobre copias nuevas. Pasan los mismos
+seis casos de prueba en modo normal y aislado, 67 pruebas Python afectadas y
+nueve de aislamiento; permanecen los 637 objetos originales y cero workflows
+activos. No cambia el ejecutor original ni hay nuevas peticiones RPC externas.
+
+La prioridad prospectiva de investigación incluye Aave V3 en Base/Arbitrum,
+Morpho, rutas con intercambios y compras de colateral de Compound III, cada una
+con alcance y evidencias propios. No se ha medido rentabilidad, volumen capturable
+ni probabilidad del 80% para esas alternativas. El Census Ethereum declarado,
+sus requisitos de cobertura y sus autoridades de cierre permanecen vigentes.
