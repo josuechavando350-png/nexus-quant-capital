@@ -28,6 +28,15 @@ productor por haber pasado estas pruebas.
 
 ## Trabajo material para terminar Census
 
+Realización nativa, 10 de octubre 00:33Z: las cuatro pruebas del harness con
+Balancer pasan offline en ambos modos. Tras repayment y pago observado, retira
+0.000240390311727552 WETH e incrementa el saldo del operador de prueba en igual
+cantidad de ETH, sin consumir inventario previo. La prueba de reversión también
+pasa. No autentica una wallet real ni gas inicial; el componente de gas deja
+margen al precio histórico y lo agota a 1 gwei. Se conservan todos los costes
+desconocidos y `complete_profit_wei=null`. Véase
+`execution_replay/NATIVE_REALIZATION.md`; Census y sus umbrales siguen abiertos.
+
 Segundo checkpoint de oráculos, 10 de octubre 00:22:43Z: **48,170 / 215,036
 bloques verificados por dos operadores**, faltan **166,866**. Se compararon
 2,881,000 precios de los 43,000 bloques cerrados de la continuación y no hubo

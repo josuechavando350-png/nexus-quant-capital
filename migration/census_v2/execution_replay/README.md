@@ -8,6 +8,10 @@ Las variantes nuevas se reproducen sin red y muestran un residual positivo
 antes de gas al usar Balancer; el coste completo y la captura siguen sin probar.
 Ese documento conserva también el intento fallido y sus límites de medición.
 
+La [prueba adicional de realización en ETH](NATIVE_REALIZATION.md) convierte el
+residual dentro del harness, preserva inventario y comprueba reversión. No
+autentica una wallet operativa ni convierte los costes parciales en utilidad neta.
+
 ## Resultado económico que cambia la interpretación
 
 Se conciliaron las 127 trazas originales contra los recibos completos ya
