@@ -1,11 +1,12 @@
 import json
+import http.client
 from pathlib import Path
 import tempfile
 import unittest
 import zipfile
 from unittest.mock import patch
 
-from rpc_witness import HASHES, PREVIOUS, Witness, canonical, sha, upstream_params
+from rpc_witness import HASHES, PREVIOUS, PROVIDERS, Witness, canonical, sha, upstream_params, serve
 
 
 class ReadOnlyWitnessTests(unittest.TestCase):
@@ -30,6 +31,7 @@ class ReadOnlyWitnessTests(unittest.TestCase):
         request = canonical({"jsonrpc": "2.0", "id": 1, "method": "eth_chainId", "params": []})
         response = canonical({"jsonrpc": "2.0", "id": 1, "result": "0x1"})
         row = {"sequence": 1, "client_method": "eth_chainId", "client_params": [],
+               "provider": "drpc", "endpoint": PROVIDERS["drpc"],
                "request_utf8": request, "request_sha256": sha(request.encode()),
                "response_utf8": response, "response_sha256": sha(response.encode()), "http_status": 200}
         path = root / "source.jsonl"
@@ -46,6 +48,26 @@ class ReadOnlyWitnessTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "offline witness miss"):
                     witness.call("eth_getCode", ["0x" + "11" * 20, hex(PREVIOUS)])
             self.assertEqual(witness.count, 0)
+
+    def test_http_chain_id_without_params_and_missing_state_params(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            source, _ = self.fixture(root)
+            witness = Witness(root / "out", replay=source)
+            server = serve(witness)
+            try:
+                with patch("urllib.request.urlopen", side_effect=AssertionError("network forbidden")):
+                    for method, field in [("eth_chainId", "result"), ("eth_getBalance", "error")]:
+                        conn = http.client.HTTPConnection(*server.server_address)
+                        conn.request("POST", "/", canonical({"jsonrpc": "2.0", "id": 5, "method": method}))
+                        result = json.loads(conn.getresponse().read())
+                        self.assertIn(field, result)
+                        if field == "result": self.assertEqual(result[field], "0x1")
+                        conn.close()
+                self.assertTrue((root / "out/client-errors.jsonl").exists())
+            finally:
+                server.shutdown()
+                server.server_close()
 
     def test_corrupt_bytes_and_misbinding_fail_before_replay(self):
         for change in (lambda x: x.update(response_utf8="{}"),
@@ -82,6 +104,21 @@ class ReadOnlyWitnessTests(unittest.TestCase):
             witness = Witness(Path(d) / "out", max_requests=0)
             with patch("urllib.request.urlopen", side_effect=AssertionError("network forbidden")):
                 with self.assertRaises(RuntimeError): witness.call("eth_chainId", [])
+
+    def test_explicit_provider_is_bound_and_no_cross_provider_fallback_exists(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            source, _ = self.fixture(root)
+            with self.assertRaisesRegex(ValueError, "provider differs"):
+                Witness(root / "replay", replay=source, provider="blockpi")
+            with self.assertRaisesRegex(ValueError, "unapproved provider"):
+                Witness(root / "bad", provider="arbitrary")
+            witness = Witness(root / "fresh", provider="blockpi", interval=0)
+            with patch("urllib.request.urlopen", side_effect=OSError("denied")) as call:
+                with self.assertRaises(OSError): witness.call("eth_chainId", [])
+                with self.assertRaises(RuntimeError): witness.call("eth_chainId", [])
+                self.assertEqual(call.call_count, 1)
+                self.assertEqual(call.call_args[0][0].full_url, PROVIDERS["blockpi"])
 
     def test_retained_attempt_is_a_403_failure_not_a_fork_pass(self):
         path = Path(__file__).parent / "inputs/execution-attempt.zip"

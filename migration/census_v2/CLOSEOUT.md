@@ -28,6 +28,21 @@ productor por haber pasado estas pruebas.
 
 ## Trabajo material para terminar Census
 
+Actualización posterior de acceso/ejecución: Nodies permitió una adquisición
+nueva de 115 respuestas históricas. **Las dos pruebas del fork WETH pasan** y
+se repiten en copia nueva, sin red, en modo normal y aislado. Las fuentes
+originales permanecen intactas; una corrección de mayúscula del checksum sólo
+se aplica en la copia. Se conserva el rechazo de dRPC y BlockPI sin reintentos.
+No se necesita contratar Cloudflare. La reconstrucción RLP/Keccak de ambos
+headers autentica que el pago de 0.095915734379292898 ETH va al receptor de
+comisiones del bloque ganador. El gas del recibo es base fee quemada, con cero
+priority fee, y se cuenta una sola vez. No prueba propiedad, acuerdos ni utilidad.
+El excedente del fork antes de costes coincide, pero la medición de gas difiere
+entre modos; no se presenta como cotización de producción. Pasan 19 controles
+Python y 9 de aislamiento. Véase `execution_replay/README.md` y sus informes.
+Se resuelve el acceso para esta prueba; siguen abiertos cobertura, compatibilidad,
+economía completa, pruebas de estado y certificación independiente.
+
 Actualización prioritaria de ejecución/economía: se conciliaron las 127 trazas
 con los recibos completos: 332 transferencias nativas visibles, 18 valores de
 `delegatecall` excluidos como pagos duplicados y 98 retiros WETH coincidentes.

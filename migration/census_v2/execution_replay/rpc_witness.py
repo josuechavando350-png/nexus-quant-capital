@@ -17,7 +17,11 @@ HASHES = {
     PREVIOUS: "0x42cf44b75185587327a1aa8fc859cc5f49a639e7256547511430d6068b6f09ab",
     WINNER: "0xf143f9988199037938e4dff57aaf24301a4c26770aefc0ec64774954cbf2dbe4",
 }
-ENDPOINT = "https://eth.drpc.org"
+PROVIDERS = {
+    "drpc": "https://eth.drpc.org",
+    "blockpi": "https://ethereum.public.blockpi.network/v1/rpc/public",
+    "nodies": "https://ethereum-public.nodies.app",
+}
 STATE_METHODS = {"eth_getBalance": 1, "eth_getTransactionCount": 1,
                  "eth_getCode": 1, "eth_getStorageAt": 2}
 
@@ -74,7 +78,14 @@ def validate_result(method, params, result):
 
 
 class Witness:
-    def __init__(self, directory, replay=None, max_requests=2000, max_seconds=1800, interval=1.1):
+    def __init__(self, directory, replay=None, max_requests=2000, max_seconds=1800, interval=1.1, provider="drpc"):
+        if provider not in PROVIDERS:
+            raise ValueError("unapproved provider")
+        self.provider, self.endpoint = provider, PROVIDERS[provider]
+        self.request_headers = {"Content-Type": "application/json"}
+        if provider == "nodies":
+            # Normal application identification on the already-used public service.
+            self.request_headers["User-Agent"] = "nqc-census-v2-readonly-execution/1"
         self.directory = Path(directory)
         self.directory.mkdir(parents=True, exist_ok=False)
         self.replay = replay is not None
@@ -89,6 +100,8 @@ class Witness:
         if replay is not None:
             for raw in Path(replay).read_bytes().splitlines():
                 row = json.loads(raw)
+                if row.get("endpoint") != self.endpoint or row.get("provider", provider) != provider:
+                    raise ValueError("witness provider differs from explicit selection")
                 request = row["request_utf8"].encode()
                 response = row["response_utf8"].encode()
                 if sha(request) != row["request_sha256"] or sha(response) != row["response_sha256"]:
@@ -125,11 +138,12 @@ class Witness:
                 self.count += 1
                 request = canonical({"jsonrpc": "2.0", "id": self.count, "method": method, "params": up}).encode()
                 row = {"sequence": self.count, "client_method": method, "client_params": params,
-                       "endpoint": ENDPOINT, "request_utf8": request.decode(),
+                       "provider": self.provider, "endpoint": self.endpoint,
+                       "request_headers": self.request_headers, "request_utf8": request.decode(),
                        "request_sha256": sha(request), "sent_at": now()}
                 try:
                     self.last_request = time.monotonic()
-                    req = urllib.request.Request(ENDPOINT, data=request, headers={"Content-Type": "application/json"})
+                    req = urllib.request.Request(self.endpoint, data=request, headers=self.request_headers)
                     try:
                         response = urllib.request.urlopen(req, timeout=35)
                     except urllib.error.HTTPError as error:
@@ -174,9 +188,11 @@ def serve(witness, port=0):
                 request = json.loads(self.rfile.read(length))
                 if not isinstance(request, dict) or request.get("jsonrpc") != "2.0":
                     raise ValueError("single JSON-RPC request required")
-                result = witness.call(request["method"], request["params"])
+                result = witness.call(request["method"], request.get("params", []))
                 body = {"jsonrpc": "2.0", "id": request.get("id"), "result": result}
             except Exception as error:
+                with (witness.directory / "client-errors.jsonl").open("a") as f:
+                    f.write(canonical({"request": request, "error": str(error), "received_at": now()}) + "\n")
                 body = {"jsonrpc": "2.0", "id": request.get("id") if isinstance(request, dict) else None,
                         "error": {"code": -32000, "message": str(error)}}
             raw = canonical(body).encode()
@@ -196,9 +212,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", required=True)
     parser.add_argument("--replay")
+    parser.add_argument("--provider", choices=sorted(PROVIDERS), default="drpc")
     parser.add_argument("--port", type=int, default=18545)
     args = parser.parse_args()
-    witness = Witness(args.out, replay=args.replay)
+    witness = Witness(args.out, replay=args.replay, provider=args.provider)
     server = serve(witness, args.port)
     print(server.server_address, flush=True)
     threading.Event().wait()
