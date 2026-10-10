@@ -1,5 +1,19 @@
 # Census: cierre de reconstrucción histórica, certificación pendiente
 
+Revisión económica del 10 de octubre UTC: `DAILY_CAPACITY_REVIEW.md` vuelve a
+calcular el diferencial bruto histórico ya demostrado de USD 138,045.17 en
+30 días. Las tres mayores transacciones concentran 80.04% del bruto; la mediana
+diaria, restando sólo gas observado, es USD 493.82. La banda retrospectiva de
+remanentes positivos hasta USD 100 suma USD 1,038.08 en los 30 días. No se
+confunden estos resultados con ingreso neto de Nexus ni con una prueba del
+objetivo de USD 1,500–3,500 mínimos diarios. Se preservan los avances previos,
+sus costes desconocidos y los 30 periodos completos, incluidos los de cero.
+La revisión también recuenta los 523,424 pools Uniswap V2 y 67 reservas Aave
+del inventario original D08, sin duplicados ni huecos en sus índices. Ese avance
+amplio se conserva; no equivale a economía histórica ni ejecución de todos esos
+mercados. El readback completo previo de 1,045,459 fuentes de capital se fija
+por hash sin volver a ejecutar sus 3.75 GB en esta revisión.
+
 **No se declara terminado ni certificado Census.** Se completó la reconstrucción
 y clasificación del corte histórico especificado abajo. La evidencia faltante
 permanece como bloqueo explícito; no se sustituye por estimaciones de rentabilidad.

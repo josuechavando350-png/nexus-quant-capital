@@ -6,6 +6,21 @@ strategies, wider markets and many smaller opportunities. This is a research
 priority decision, not an 80% success estimate or a new execution permission.
 No B2B sales strategy is proposed.
 
+Follow-up: `DAILY_CAPACITY_REVIEW.md` recovers the already-demonstrated
+USD 138,045.17 gross historical oracle reference omitted from recent summaries.
+Three transactions account for 80.04% of that reference. This materially limits
+using its mean to support a small-trade daily-income thesis; preserve the old
+result while testing frequency, concentration and full costs in wider markets.
+
+The same review recounts the broader inventory already built: 523,424 Uniswap
+V2 pools and 67 Aave reserves at the Ethereum anchor, with no duplicate market
+identities, addresses or indices. The retained full capital-source readback has
+1,045,459 rows. These are state/financing inventories, not proven profitable
+trades. Reuse this work before treating new-network discovery as the only route
+to scale: join admitted state, token behavior, funding and executable unwind
+routes, then measure opportunities and complete economics. The 127-winner
+liquidation population below does not cover the economics of all these pools.
+
 ## What the retained population actually covers
 
 `execution_replay/compare_strategy_families.py` replays the full retained
@@ -37,6 +52,10 @@ population or a survey of all protocols. A difficult Ethereum case cannot
 establish that smaller opportunities across other markets are unviable.
 
 ## Research order and falsification
+
+The existing-inventory screen described above precedes this expansion queue.
+This preserves earlier work without admitting execution or profitability on the
+strength of an inventory count.
 
 | Priority | Candidate family | Why investigate | Gate that can reject it |
 | --- | --- | --- | --- |
