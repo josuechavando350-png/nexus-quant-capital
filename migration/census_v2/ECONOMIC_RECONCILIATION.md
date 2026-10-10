@@ -1,5 +1,14 @@
 # Historical winner economics: recovered observations and unresolved costs
 
+October 9 update: [economic archive recovery](economic_archives/README.md)
+authenticates the 13 previously missing archives and all 127 decoded Tenderly
+receipts. All 210 prior full-receipt witnesses match; the four additional
+receipts bring coverage to 3,720 logs, 1,696 ERC20-shaped transfers and 22 flash
+events in 21 transactions. All 139 liquidation legs are byte-identical to the
+original archive. The nine-case WETH calculation reproduces exactly; 40 affected
+tests pass. The original ledger and the earlier acquisition limitations below
+remain preserved as history. Economic admission and complete costs stay unproven.
+
 **Census remains open. All 127 historical competitors remain insufficient
 evidence for an executable NQC opportunity.** This population is separate from
 the 474 D09/D12 candidate pairs; their counts must not be added or substituted.

@@ -1,5 +1,23 @@
 # Census: cierre de reconstrucción histórica, certificación pendiente
 
+El usuario retiró los avisos de puntuación el 9 de octubre a las 21:36 de Ciudad
+de México. Se continúa hasta el cierre con los mismos requisitos técnicos y
+límites de autorización; `MILESTONES.md` conserva el cambio y el historial.
+
+Revisión económica del 10 de octubre UTC: `DAILY_CAPACITY_REVIEW.md` vuelve a
+calcular el diferencial bruto histórico ya demostrado de USD 138,045.17 en
+30 días. Las tres mayores transacciones concentran 80.04% del bruto; la mediana
+diaria, restando sólo gas observado, es USD 493.82. La banda retrospectiva de
+remanentes positivos hasta USD 100 suma USD 1,038.08 en los 30 días. No se
+confunden estos resultados con ingreso neto de Nexus ni con una prueba del
+objetivo de USD 1,500–3,500 mínimos diarios. Se preservan los avances previos,
+sus costes desconocidos y los 30 periodos completos, incluidos los de cero.
+La revisión también recuenta los 523,424 pools Uniswap V2 y 67 reservas Aave
+del inventario original D08, sin duplicados ni huecos en sus índices. Ese avance
+amplio se conserva; no equivale a economía histórica ni ejecución de todos esos
+mercados. El readback completo previo de 1,045,459 fuentes de capital se fija
+por hash sin volver a ejecutar sus 3.75 GB en esta revisión.
+
 **No se declara terminado ni certificado Census.** Se completó la reconstrucción
 y clasificación del corte histórico especificado abajo. La evidencia faltante
 permanece como bloqueo explícito; no se sustituye por estimaciones de rentabilidad.
@@ -28,12 +46,229 @@ productor por haber pasado estas pruebas.
 
 ## Trabajo material para terminar Census
 
+**Cobertura histórica de precios completada, 10 de octubre 05:30:23 UTC:**
+los 215,036 bloques Ethereum y 67 activos concilian entre dRPC y Nodies:
+14,407,412 coordenadas bloque/activo, cero faltantes y cero discrepancias.
+El delta final añade 44,866 bloques al checkpoint 006; terminales exactos,
+210 archivos cerrados y prefijos se autentican. Dos replays integrales locales
+coinciden y el readback de continuación coincide con el servidor. Los 139
+eventos y 127 recibos completos vuelven a conciliar. Pasan 12 controles del
+checkpoint y nueve de aislamiento, con 637 objetos originales intactos y cero
+workflows activos. El error inicial de empaquetado se conserva y se corrigió
+sin nueva adquisición. Véase `oracle_recovery/CHECKPOINT_007.md`.
+**Census continúa abierto:** esta cobertura no prueba ejecución, financiación,
+costes/captura, P&L ni aceptación independiente.
+
+Decisión de alcance del usuario, 9 de octubre de 2026 Ciudad de México:
+**Ethereum + Base**. Se preserva el alcance Ethereum; Base tiene un censo
+separado en `base_expansion/`. El primer acceso Base del 10 de octubre 05:19:56
+UTC se detuvo en `eth_chainId` por HTTP 403 / código 1010. Se conservan los
+bytes exactos y no hubo reintentos: no se obtuvo todavía ningún estado Base.
+El colector read-only está preparado; su ruta de captura de reservas no está
+validada on-chain. Hace falta acceso RPC autorizado desde el servidor. Pasan
+13 controles del incremento y 19 pruebas existentes del presupuesto global;
+el presupuesto MXN 2,000 sigue compartido entre cadenas y wallets.
+
+Cruce íntegro de rutas, 10 de octubre: se autentican todos los pools V2 de D08
+y sus tokens, y se enumeran 4,422 conversiones dirigidas entre los 67 activos
+Aave. Hay 1,222 con ruta directa o de dos swaps dentro de ese ámbito. Entre
+los 432 pares D12 insuficientes, 366 tienen una ruta corta, 16 son del mismo
+activo y 50 necesitan otras vías o siguen sin salida demostrada. Ninguno se
+promueve a ejecutable y no se infiere ausencia global de rutas. El consumidor
+conserva los 474 pares y sus motivos; once controles reales/adversariales y
+nueve de aislamiento pasan. Véase `ROUTING_TOPOLOGY.md`. La propuesta L2/L3
+del usuario se contrasta por separado en `EXPANSION_NETWORK_REVIEW.md`; no
+amplía ni sustituye el alcance Ethereum.
+
+Sexto checkpoint cerrado, 10 de octubre 04:07:42Z: **26,000 bloques nuevos y
+1,742,000 precios** coinciden con dRPC. La unión verificada alcanza **170,170
+de 215,036 bloques**; faltan **44,866**, desde 26,050,486 hasta 26,095,351.
+Los 280 registros abiertos se excluyen. Dos lecturas integrales locales y el
+readback del prefijo en el servidor original concilian sin discrepancias ni
+doble conteo. Pasan ocho pruebas afectadas y nueve de aislamiento; los 637
+objetos originales permanecen intactos y hay cero workflows activos. El
+recolector original sigue avanzando sin reinicio ni duplicación. Véase
+`oracle_recovery/CHECKPOINT_006.md`; financiación, economía y aceptación
+independiente siguen pendientes.
+
+Quinto checkpoint cerrado, 10 de octubre 03:21:01Z: **59,000 bloques nuevos y
+3,953,000 precios** coinciden con dRPC. La unión verificada por dos operadores
+alcanza **144,170 / 215,036 bloques**; faltan **70,866**, desde 26,024,486 hasta
+26,095,351. Los 920 registros del archivo abierto se excluyen. Se reproducen
+el prefijo completo de 139,000 bloques de la continuación, los oráculos previos
+y los 139 eventos / 127 recibos, sin doble conteo. Las lecturas local y remota
+coinciden; el delta exacto se conserva en siete partes. Pasan ocho pruebas
+afectadas y nueve de aislamiento, con 637 objetos originales intactos y cero
+workflows activos. El proceso existente no se reinició ni duplicó; siguen
+pendientes la cobertura completa y la certificación. Véase
+`oracle_recovery/CHECKPOINT_005.md`.
+
+Préstamos observados en trazas, 10 de octubre: se recorren las 127 transacciones
+y se concilian 49 llamadas de entrega/callback/devolución en 46 de ellas con
+98 transferencias únicas de recibos, sobre diez activos. La ruta que el render
+nombra `flashLoan` / `onMorphoFlashLoan` amplía la observación previa limitada a
+eventos Aave/Balancer. Las devoluciones igualan los principales observados;
+no se infieren comisiones completas cero, ABI/estado autenticado ni acceso de
+Nexus. Pasan 58 controles afectados y nueve de aislamiento; las clasificaciones
+siguen pendientes. Véase `execution_replay/TRACE_LOANS.md`.
+
+Inventario WETH, 10 de octubre: 50 movimientos de los nueve casos fijan 21
+mínimos iniciales positivos por cuenta; 15 se ocultan si sólo se mira el delta
+final. El ejecutor del caso 4 exige al menos 3,379,677,466,555,340 wei WETH bajo
+la semántica observada. No se atribuyen inventarios externos a Nexus ni se
+considera financiado un mínimo cero. Se reproducen las 97 filas previas; pasan
+50 controles afectados, nueve de aislamiento y los 637 objetos originales.
+Esto delimita requisitos de financiación, no prueba balances, costes, captura
+ni cierre. Véase `execution_replay/WETH_INVENTORY.md`.
+
+Cuarto checkpoint cerrado, 10 de octubre 01:31:07Z: **25,000 bloques nuevos y
+1,675,000 precios** concilian con dRPC. La unión verificada por dos operadores
+alcanza **85,170 / 215,036 bloques**, con **129,866 pendientes**. Se reproduce
+todo el prefijo de 80,000 bloques de la continuación sin duplicar los anteriores;
+los 170 del archivo abierto se excluyen. Eventos y recibos completos vuelven
+a conciliar. Fuentes, respuestas exactas y manifiesto del delta se conservan;
+el trabajador sigue activo sin reinicio. Véase `oracle_recovery/CHECKPOINT_004.md`.
+Este incremento todavía no alcanza 10/20 y no cierra Census.
+
+Control integral de cobertura, 10 de octubre: se vuelven a comparar desde las
+fuentes los 55 archivos cerrados del checkpoint 003, los oráculos previos y los
+139 eventos / 127 recibos completos. La unión exacta sigue en **60,170 bloques**,
+con **154,866 pendientes**; se excluyen 1,560 solapamientos previos y 20 capturas
+abiertas. El control nuevo impide declarar cobertura por contadores o por una
+etiqueta terminal sin archivos exactos. Esto reproduce la evidencia existente;
+no suma cobertura nueva ni alcanza 10/20. Véase `oracle_recovery/COVERAGE_GATE.md`.
+
+Conciliación por cuentas, 10 de octubre 01:02Z: los nueve casos WETH quedan
+separados en 97 filas transacción/cuenta, 26 movimientos nativos y diez retiros.
+En los rangos 2, 3, 4 y 5, el flujo WETH del ejecutor no equivale al excedente
+de la liquidación seleccionada. Los pagos, otros activos y gas no se duplican
+ni se agrupan por un propietario supuesto. Un préstamo Balancer del caso 5
+concilia entrega y devolución por 342,642,361,343,309,991 wei WETH; no acredita
+acceso o financiación de Nexus. Pasan 42 controles Python y nueve de aislamiento
+tras conservar y resolver un fallo de espacio temporal. Véase
+`execution_replay/WETH_ACCOUNTS.md`. Continúan sin probar balances completos,
+costes, captura y beneficio; ninguna clasificación se promueve ni se alcanza
+un hito por este incremento.
+
+Realización nativa, 10 de octubre 00:33Z: las cuatro pruebas del harness con
+Balancer pasan offline en ambos modos. Tras repayment y pago observado, retira
+0.000240390311727552 WETH e incrementa el saldo del operador de prueba en igual
+cantidad de ETH, sin consumir inventario previo. La prueba de reversión también
+pasa. No autentica una wallet real ni gas inicial; el componente de gas deja
+margen al precio histórico y lo agota a 1 gwei. Se conservan todos los costes
+desconocidos y `complete_profit_wei=null`. Véase
+`execution_replay/NATIVE_REALIZATION.md`; Census y sus umbrales siguen abiertos.
+
+Segundo checkpoint de oráculos, 10 de octubre 00:22:43Z: **48,170 / 215,036
+bloques verificados por dos operadores**, faltan **166,866**. Se compararon
+2,881,000 precios de los 43,000 bloques cerrados de la continuación y no hubo
+discrepancias. Incluye los 2,000 del checkpoint anterior; suma 41,000 bloques
+nuevos, sin duplicar el prefijo. Los 220 capturados en el archivo abierto se
+excluyen. Lecturas remota y local producen informes idénticos; archivo exacto
+y fuentes se conservan en dos partes autenticadas. El recolector existente
+sigue activo. Véase `oracle_recovery/README.md`. Todavía no se alcanza 10/20.
+
+Tercer checkpoint cerrado, 10 de octubre 00:44:28Z: el delta conserva sólo los
+12 archivos nuevos posteriores al segundo checkpoint. Sus **12,000 bloques y
+804,000 precios** coinciden con los chunks dRPC originales, sin discrepancias.
+El prefijo verificado de la continuación alcanza 55,000 bloques y la unión del
+segundo operador **60,170 / 215,036**; faltan **154,866**. Los 20 registros del
+archivo abierto se excluyen. El archivo delta fija el hash del ZIP y del
+readback base, y el verificador rechaza sustitución o doble conteo del prefijo.
+Pasan tres controles reales/adversariales. El trabajador existente seguía sano
+bajo el mismo PID y lock; no fue reiniciado ni duplicado. Todavía no es 10/20.
+
+Actualización del 10 de octubre, 00:20Z: la comparación controlada Aave/Balancer
+pasó y se reprodujo sin red. En el estado histórico fijado, Balancer tiene
+liquidez suficiente y comisión cero; la variante nueva paga atómicamente
+0.095915734379292898 ETH al receptor autenticado del bloque, devuelve el
+préstamo y conserva 0.000240390311727552 WETH **antes de gas y otros costes**.
+La prueba negativa revierte también el pago; el saldo nativo previo permanece
+intacto. El intento previo que suponía saldo inicial cero se conserva fallido.
+Si se impone ese mismo pago a Aave, faltan 0.005101616615551362 WETH incluso
+antes del gas. No se afirma que el pago observado sea el mínimo necesario.
+El componente de gas medido deja margen al precio histórico, pero a 1 gwei
+lo agota; no incluye todos los costes ni es una cotización de transacción.
+Son nuevos escenarios de investigación de un caso elegido retrospectivamente,
+no prueba de captura, rentabilidad global o admisión. Véase
+`execution_replay/FUNDING.md`; los umbrales 10/20, 15/20 y 20/20 siguen pendientes.
+
+Actualización posterior de acceso/ejecución: Nodies permitió una adquisición
+nueva de 115 respuestas históricas. **Las dos pruebas del fork WETH pasan** y
+se repiten en copia nueva, sin red, en modo normal y aislado. Las fuentes
+originales permanecen intactas; una corrección de mayúscula del checksum sólo
+se aplica en la copia. Se conserva el rechazo de dRPC y BlockPI sin reintentos.
+No se necesita contratar Cloudflare. La reconstrucción RLP/Keccak de ambos
+headers autentica que el pago de 0.095915734379292898 ETH va al receptor de
+comisiones del bloque ganador. El gas del recibo es base fee quemada, con cero
+priority fee, y se cuenta una sola vez. No prueba propiedad, acuerdos ni utilidad.
+El excedente del fork antes de costes coincide, pero la medición de gas difiere
+entre modos; no se presenta como cotización de producción. Pasan 19 controles
+Python y 9 de aislamiento. Véase `execution_replay/README.md` y sus informes.
+Se resuelve el acceso para esta prueba; siguen abiertos cobertura, compatibilidad,
+economía completa, pruebas de estado y certificación independiente.
+
+Actualización prioritaria de ejecución/economía: se conciliaron las 127 trazas
+con los recibos completos: 332 transferencias nativas visibles, 18 valores de
+`delegatecall` excluidos como pagos duplicados y 98 retiros WETH coincidentes.
+En el caso WETH de rango 1, todo el excedente convertido a ETH se paga a dos
+destinos cuya propiedad/función económica sigue sin acreditar. No se interpreta
+como utilidad retenida ni se resta automáticamente como coste. Pasan 8 pruebas
+originales del ejecutor con mocks y 12 controles Python. El fork nuevo se detuvo
+en su primera consulta por HTTP 403 de dRPC; no se declara reproducido. Véase
+`execution_replay/README.md`. Este incremento precisa el destino de fondos y
+la semántica de pagos; no acredita rentabilidad ni cambia la admisión de capital.
+
+Actualización de cobertura: el nuevo barrido BlockPI completó los 215,036
+bloques originales y coincidió con las 139 liquidaciones de Blockscout. Los
+127 recibos nuevos de dRPC coinciden completamente, incluidos sus logs, con
+Tenderly. Se conservan los cuerpos RPC exactos y las horas de recepción actuales.
+Quedan resueltos esos faltantes de eventos/recibos; **la cobertura secundaria
+de oráculos seguía incompleta en 210,386 bloques en ese incremento**. Las adquisiciones parciales
+anteriores se conservan como historia. Véase `full_window_recovery/README.md`.
+
+Actualización posterior de oráculos: se verificaron 139,360 precios de 67 activos
+en 2,080 bloques contra dRPC, sin discrepancias. Sólo 520 bloques amplían la
+cobertura previa: el segundo operador alcanza **5,170 de 215,036 bloques** y
+faltan **209,866**. El piloto terminó; el barrido restante se detuvo ante un
+HTTP 429 de Nodies. Se conservan las respuestas exactas, el límite y los datos
+parciales, sin reintentos automáticos. Pasan 15 pruebas. Las cuatro descargas
+de archivos físicos siguen dando HTTP 403. Véase `oracle_recovery/README.md`.
+
+Continuación posterior autorizada: tras respetar `Retry-After`, comenzó un
+recolector secuencial más lento para los bloques faltantes. Su primer checkpoint
+cerrado agrega **2,000 bloques y 134,000 precios coincidentes**: cobertura
+secundaria verificada **7,170 / 215,036**, pendiente **207,866** en ese corte.
+El proceso sigue separado del intento fallido; el contador de capturas abiertas
+no cuenta como cobertura verificada. Los avisos solicitados de 10/20, 15/20 y
+20/20 tienen criterios en `MILESTONES.md`; ninguno se ha alcanzado todavía.
+
+Actualización económica: se autenticaron los 13 archivos económicos antes
+faltantes y los 127 recibos decodificados completos. Coinciden las 210
+observaciones previas de operadores; los cuatro recibos adicionales aportan
+48 transferencias y dos eventos flash. Los 139 eventos de liquidación y el
+cálculo histórico de nueve casos WETH se reproducen byte por byte. Pasan 40
+pruebas afectadas. Esto resuelve esos faltantes de archivos y logs; los costes
+completos y la admisibilidad de ejecución siguen abiertos. Véase
+`economic_archives/README.md`.
+
+Actualización del 9 de octubre: [evidencia adicional](additional_evidence/README.md)
+incorpora 127 recibos observados en Tenderly, conciliados con el checkpoint dRPC
+y el ledger existente: cero discrepancias de gas; cuatro remitentes antes
+desconocidos quedan como observaciones separadas. También se concilian 7,200
+bloques posteriores al ancla entre Nodies y Tenderly: dos ejecuciones, ninguna
+de la cohorte original de 857 cuentas. Esta ventana posterior no completa los
+faltantes del estudio histórico de 30 días. Los registros son resultados RPC
+decodificados; no conservan bytes HTTP originales ni recepción por petición.
+Los 33 controles del suplemento pasan; la política MXN 2,000 y las clasificaciones
+económicas originales no cambian. Census sigue sin cierre certificado.
+
 | Autoridad o requisito | Estado | Evidencia necesaria para cerrar |
 | --- | --- | --- |
 | Market Truth | Corte histórico reconstruido; alcance temporal global abierto | Reconciliar el universo declarado y recuperar las observaciones detalladas, oportunidades censuradas y momentos reales de recepción. |
 | Capital Truth | Núcleo D11 íntegro; admisibilidad operativa incompleta | Pruebas de proveedores, cobertura por candidato, repayment completo y obligaciones; autenticar gas nativo y coste de adquisición bajo el límite autorizado. |
 | Economic Truth | Evidencia insuficiente en los 432 pares | Compatibilidad de los 43 activos requeridos, rutas monetizables, costes completos, competencia/inclusión y márgenes conservadores. Puede cerrarse con conclusiones negativas justificadas. |
-| Evidencia temporal | D15B/D16 reproducidos; universo, transiciones y riesgo inicial también reproducidos | 29,998 candidatos y 134,275 cambios de estado conciliados. Riesgo inicial: 27,850 borrowers con cero discrepancias. Oráculos retenidos: 215,036 bloques; segundo proveedor presente en 4,650 y ausente en 210,386. Sigue faltando adquisición independiente completa, canonicalidad y recepción real de información. Los recibos y el barrido nuevo parcial conservan sus propios faltantes bajo el bloqueo RPC. |
+| Evidencia temporal | D15B/D16, universo, transiciones, riesgo inicial y cruce completo de precios reproducidos | 29,998 candidatos y 134,275 cambios de estado conciliados. Riesgo inicial: 27,850 borrowers con cero discrepancias. Checkpoint 007: 215,036 bloques y 67 activos conciliados entre dos operadores, cero faltantes/discrepancias; adquisición terminal y 429 anterior preservados. Siguen faltando independencia de infraestructura, headers completos y recepción histórica real. Los 139 eventos y 127 recibos completos concilian; la cobertura no prueba ejecución ni economía. |
 | Reproducción D11 completa | Resuelta dentro del límite de memoria: nueve archivos idénticos | 371.5 segundos, RSS máximo 7,309,316 KiB, 256 pruebas de capital. Se preservan los intentos OOM y la divergencia del importador por roles. Falta la revisión independiente del nuevo productor. |
 | Autoridad independiente | Pendiente | Revisar productor y consumidores exactos, commits/trees, fuentes, ledgers de fallos y discrepancias, falsación y límites del alcance. Esta modificación no se certifica a sí misma. |
 
@@ -128,6 +363,14 @@ no se afirma igualdad completa de todos los archivos.
 
 ## Validación y fallos conservados
 
+Actualización del 9 de octubre: se recuperaron los cinco archivos que faltaban
+para cuatro suites históricas. Sus hashes e identidades originales coinciden;
+**114 pruebas originales pasan, cero omitidas**, en copias con los catálogos
+históricos exactos. Se conservan las aserciones, los archivos importados y los
+dos intentos fallidos de preparación/lectura del log. Véase
+`recovered_regressions/README.md`. Los párrafos siguientes preservan el estado
+anterior; el resultado amplio de 664 pruebas no se reetiqueta como verde.
+
 528 pruebas del workspace Rust original, 9 del puente PFT y 6 del consumidor
 nuevo pasaron con Rust 1.98.1. La reparación de LLVM conserva la versión exacta
 y verifica el paquete oficial por SHA-256. Las pruebas adversariales adicionales
@@ -161,3 +404,28 @@ No se cambió código importado, no se activaron workflows y no se enviaron
 transacciones. La clasificación disponible sirve para descartar promociones
 sin evidencia y orientar el trabajo faltante; todavía no autoriza Shadow
 certificado, Canary ni afirmaciones de ingresos.
+
+## Comparación y ampliación de mercados, 10 de octubre UTC
+
+`STRATEGY_EXPANSION.md` registra la petición de buscar muchas oportunidades
+pequeñas en más mercados, sin vender servicios a terceros. El consumidor nuevo
+compara las 127 operaciones/139 eventos retenidos: 53 pares, nueve operaciones
+con una liquidación del mismo activo, 107 con activos diferentes y once con
+varias liquidaciones. Es población histórica de ganadores, no todo el mercado.
+Dos omisiones de índices flash en el ledger económico previo se concilian contra
+recibos completos y quedan explícitas; no se modifican las fuentes antiguas.
+
+`execution_replay/STRATEGY_TRIALS.md` conserva una comparación controlada:
+la financiación Aave del caso examinado no permite devolver principal y comisión
+después del mismo pago competitivo, mientras que ejecutar con Balancer antes de
+la elegibilidad revierte por la condición exacta del protocolo. Se conservan el
+primer intento fallido y su corrección sobre copias nuevas. Pasan los mismos
+seis casos de prueba en modo normal y aislado, 67 pruebas Python afectadas y
+nueve de aislamiento; permanecen los 637 objetos originales y cero workflows
+activos. No cambia el ejecutor original ni hay nuevas peticiones RPC externas.
+
+La prioridad prospectiva de investigación incluye Aave V3 en Base/Arbitrum,
+Morpho, rutas con intercambios y compras de colateral de Compound III, cada una
+con alcance y evidencias propios. No se ha medido rentabilidad, volumen capturable
+ni probabilidad del 80% para esas alternativas. El Census Ethereum declarado,
+sus requisitos de cobertura y sus autoridades de cierre permanecen vigentes.

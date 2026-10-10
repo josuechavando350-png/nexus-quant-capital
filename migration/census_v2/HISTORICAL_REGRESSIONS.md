@@ -67,6 +67,15 @@ hashes, original archive identities, metadata hashes and individual logs.
 
 ## Four remaining integration suites
 
+**Later resolution, October 9:** all five archives below were subsequently
+recovered with their exact pre-existing hashes and original API identities.
+The four suites now pass in fresh historical contexts: **114 original tests,
+zero skips**. See [recovered_regressions/README.md](recovered_regressions/README.md)
+for retained ZIPs, metadata, the offline runner and both preserved failed
+attempts. The table and missing-input record below describe the earlier state;
+they remain as history. This does not relabel the broad discovery invocation
+or confer new Census authority.
+
 Four original suites still require five unique missing archives. Their absence
 is an explicit unresolved dependency, never a synthetic fixture or a passing
 skip. Exact requirements are in `evidence/historical-regressions/missing-inputs.json`.

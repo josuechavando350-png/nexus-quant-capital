@@ -1,6 +1,8 @@
 # Census V2 — evidence recovery and bounded own gas
 
 **Census remains open. No economic or operational certification is issued.**
+User-requested 10/20, 15/20 and 20/20 notices are defined in
+[MILESTONES.md](MILESTONES.md); they are evidence gates, not measured percentages.
 This change records the user's V2 architecture and later gas-only MXN 2,000
 authorization, adds bounded read-back consumers, recovers independently acquired
 API metadata and reports, and adds an offline gas-accounting model.
@@ -178,6 +180,14 @@ was attempted. Partial results cannot be promoted to complete coverage.
 
 ## Validation limits
 
+October 9 update: the five missing archives described below were subsequently
+recovered and authenticated. All four remaining historical integration suites
+pass in explicit fresh-copy contexts: **114 original tests, zero skips**.
+[Recovered regressions](recovered_regressions/README.md) preserves the exact
+inputs, original assertions, test logs and failed preparation/parser attempts.
+This resolves those archive/setup dependencies; it does not change the recorded
+broad discovery result or close any economic/admission gate.
+
 See `evidence/validation.json` and the preserved logs for exact commands/results.
 The broad historical Python discovery was not green: 664 tests ran, seven setup
 errors and three skips. Five setup errors require explicit real-artifact CLI
@@ -218,6 +228,59 @@ above. No completion percentage or profitability forecast is justified by the
 current evidence.
 
 ## Additional transaction-trace evidence
+
+### Direct oracle recovery and explicit rate-limit stop
+
+The subsequently authorized sequential continuation has verified its first
+2,000 new blocks / 134,000 prices. Secondary coverage is **7,170**, with
+**207,866** still missing at that immutable checkpoint. The acquisition remains
+active and incomplete; open captures do not count as verified coverage.
+Seven additional checks and local/remote readback parity pass. Requested
+progress notices follow `MILESTONES.md`; no threshold has yet been reached.
+
+[Oracle recovery](oracle_recovery/README.md) reconciles 139,360 current-acquisition
+price values over 2,080 historical blocks with zero discrepancies. Only 520 blocks
+extend the earlier Nodies coverage: the union is 5,170, with 209,866 still missing.
+The 1,000-block pilot completed; the larger attempt stopped on HTTP 429. Exact
+RPC bodies, timestamps and the failed batch are preserved. Fifteen affected
+tests pass. A simulated helper basefee differs from its actual header and is
+explicitly excluded from gas-cost inference. Four physical ZIP downloads remain
+blocked by HTTP 403. No completion, new infrastructure or gas expenditure follows.
+
+### Original 30-day executed-event window now complete
+
+[Full-window recovery](full_window_recovery/README.md) records a new complete
+BlockPI scan of all 215,036 original blocks, matching all 139 events and 127
+transactions from Blockscout. New dRPC receipts for all 127 transactions also
+match every Tenderly semantic log. Raw new RPC bodies and per-request acquisition
+times are preserved. Seven affected checks pass. Earlier partial acquisitions
+remain historical failures; the separate oracle and economic gaps remain open.
+
+### Complete decoded receipt logs and recovered economic archives
+
+[Economic archive recovery](economic_archives/README.md) now authenticates the
+13 missing economic archives and compares all 127 Tenderly receipts semantically.
+All 210 earlier operator witnesses match. The four newly complete transactions
+add 48 ERC20-shaped transfers and two flash events; totals are 1,696 transfers
+and 22 flash events across 21 transactions. All 139 liquidation legs and the
+nine-case historical WETH calculation reproduce byte-for-byte. Forty affected
+tests pass. This is partial historical cost evidence, not NQC execution or profit.
+
+### Supplemental receipts and the post-anchor window, October 9
+
+[Additional evidence](additional_evidence/README.md) now preserves all 127
+Tenderly receipt observations and reconciles them with the archived dRPC
+checkpoint and the existing V2 economic ledger. Gas and transaction identities
+match; four previously unknown sender fields gain separate observations without
+rewriting the historical ledger. Nodies/Tenderly also agree across the complete
+7,200-block successor window on two executions, neither in the fixed 857-account
+cohort. This does not expand the original 30-day log/oracle coverage. Records are
+decoded RPC results, not original HTTP bytes; per-request receipt times and
+underlying-node independence are unproven. All economic admissions and the
+MXN 2,000 policy remain unchanged. See the supplement for 33 passing tests,
+deterministic reproduction and preserved integration failure history.
+
+### Previously recovered original traces
 
 The 127 original cast logs are authenticated and parsed: 15,001 call frames,
 20 reverted frames, 719 oracle quotes and 350 rendered native values. One WBTC

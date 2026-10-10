@@ -1,0 +1,18 @@
+test_all_closed_vectors_reproduce_the_remote_readback (test_checkpoint_two.SecondCheckpointTests.test_all_closed_vectors_reproduce_the_remote_readback) ... ERROR
+test_first_checkpoint_is_an_identical_prefix_not_additional_coverage (test_checkpoint_two.SecondCheckpointTests.test_first_checkpoint_is_an_identical_prefix_not_additional_coverage) ... ok
+
+======================================================================
+ERROR: test_all_closed_vectors_reproduce_the_remote_readback (test_checkpoint_two.SecondCheckpointTests.test_all_closed_vectors_reproduce_the_remote_readback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/1c8913b47728/nexus-quant-capital/migration/census_v2/oracle_recovery/test_checkpoint_two.py", line 25, in test_all_closed_vectors_reproduce_the_remote_readback
+    (root / name).write_bytes(z.read(name))
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1037, in write_bytes
+    return f.write(view)
+           ^^^^^^^^^^^^^
+OSError: [Errno 28] No space left on device
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.049s
+
+FAILED (errors=1)

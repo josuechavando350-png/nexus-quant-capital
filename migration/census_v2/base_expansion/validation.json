@@ -1,0 +1,77 @@
+{
+  "active_chain_ids": [
+    1,
+    8453
+  ],
+  "base_access_status": "HTTP_403_CLOUDFLARE_1010",
+  "base_commit": "32ae879daddd8e83297c40689b1fde70f6f7abc3",
+  "base_http_requests": 1,
+  "base_tests": {
+    "failed": 0,
+    "passed": 13,
+    "real_data_checks": 7,
+    "skipped": 0,
+    "synthetic_control_checks": 6
+  },
+  "base_tree": "753d30095bac7d84686255db29a84722be8ea51d",
+  "captured_chain_id": null,
+  "census_closed": false,
+  "chain_state_observations": 0,
+  "existing_global_gas_budget_tests": {
+    "failed": 0,
+    "passed": 19,
+    "skipped": 0
+  },
+  "files": [
+    {
+      "bytes": 9111,
+      "path": "collect.py",
+      "sha256": "2299440c4101165210e3edf648dc6151d9068b1008caedeb9616ffb56b424740"
+    },
+    {
+      "bytes": 4315,
+      "path": "readback.py",
+      "sha256": "a3159d0fbe6a54e7e0a86fe24dff616faa502e257fd606fb4292b9093b25fcf0"
+    },
+    {
+      "bytes": 4256,
+      "path": "test_base.py",
+      "sha256": "71e50bbc5ad1e1745b7084bbf2529ab588b506c32efeaf05f94c15976ba49299"
+    },
+    {
+      "bytes": 6734,
+      "path": "capture-001.zip",
+      "sha256": "8aae30b9c374603b3461ab46d5cf9644d4d45ebfdf4f4539bc621622d7de9819"
+    },
+    {
+      "bytes": 25203,
+      "path": "AaveV3Base.source.sol",
+      "sha256": "135e2f325b53140c5a82895cf40debc80323fed77bd3ebb240a8d00248ba02ae"
+    },
+    {
+      "bytes": 1308,
+      "path": "preflight-readback.json",
+      "sha256": "f08d90655fd1df8da5ad40fa0309e3aa9df1a4318fc4f8690dfaad894a278f83"
+    },
+    {
+      "bytes": 2055,
+      "path": "tests.log",
+      "sha256": "71438af92901df87f60e415ce39e968052f60d99e09709e03091db30f2be7ecd"
+    },
+    {
+      "bytes": 2827,
+      "path": "gas-budget-tests.log",
+      "sha256": "77fc6ea828b5637abddbae818dbff257c7026c130bce6fffcc357e6cab8514cd"
+    }
+  ],
+  "future_onchain_collector_path": "UNEXERCISED_AFTER_INITIAL_ACCESS_REJECTION",
+  "gas_spent": false,
+  "git_diff_check": {
+    "disposition": "Retained exact captured producer bytes; formatting warning, not a failed semantic test.",
+    "exit_code": 2,
+    "message": "collect.py:178: new blank line at EOF"
+  },
+  "rust_solidity": "NOT_RERUN_UNCHANGED",
+  "schema": "nqc-base-expansion-validation-v1",
+  "two_offline_readbacks_byte_identical": true
+}

@@ -1,0 +1,74 @@
+{
+  "commands": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s migration/census_v2/economic_archives -p test_reconcile.py -v",
+      "exit_code": 0,
+      "passed": 8,
+      "skipped": 0
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=ci/nqc-census python3 ci/nqc-census/test_rmc016_weth_cashflow_audit.py -v",
+      "exit_code": 0,
+      "passed": 18,
+      "skipped": 0
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=ci/nqc-census python3 ci/nqc-census/test_rmc016_historical_aave_flash_premium.py -v",
+      "exit_code": 0,
+      "passed": 14,
+      "skipped": 0
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 migration/census_v2/economic_archives/reconcile.py --out \"$NEW_OUTPUT\"",
+      "complete_runs": 2,
+      "exit_code": 0,
+      "flash_ledger_byte_identical": true,
+      "report_byte_identical": true
+    },
+    {
+      "active_workflows": 0,
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 migration/verify_isolation.py --source-git \"$SOURCE_GIT\"",
+      "disabled_workflows": 106,
+      "exit_code": 0,
+      "original_objects_checked": true,
+      "source_files": 531
+    }
+  ],
+  "logs_and_outputs": {
+    "integration-tests.log": {
+      "bytes": 1228,
+      "sha256": "9d4128cd7d642ea8c8f76deeece9e0e74646caac5dc259b2cd51ec65813960e3"
+    },
+    "isolation.json": {
+      "bytes": 305,
+      "sha256": "b65f722a11ff22c2b9a3787056dcec7d5eefc2f166bdc56db1919f6171d754d6"
+    },
+    "original-premium-tests.log": {
+      "bytes": 1823,
+      "sha256": "5817123890e312a3a55f17a7410ee3ea03ec01e85f9a59923457b153a0a03f20"
+    },
+    "original-weth-tests.log": {
+      "bytes": 2575,
+      "sha256": "4034859df60dd8f177945efcb043349d241268eeeeaada06f6d7c11da29dd3d0"
+    },
+    "report.json": {
+      "bytes": 15638,
+      "sha256": "e367df05b5294fc92136ff96d7f7102294ea3b4cc4ed2a9c5b258ab3c018a858"
+    },
+    "tenderly-flash-observations.jsonl": {
+      "bytes": 14492,
+      "sha256": "7916027797dec161a526d86287c0c5912ee10e6d452583c320902289e891fb3e"
+    }
+  },
+  "original_failures_preserved": true,
+  "real_market_census_closed": false,
+  "repository": "josuechavando350-png/nexus-quant-capital",
+  "schema": "nqc-economic-recovery-validation-v1",
+  "source_base_commit": "387ac1decb49ca1d3118c028d889cabd5f115ce0",
+  "unrun": [
+    "Rust suites (no Rust source changes)",
+    "Full broad historical Python discovery",
+    "Live RPC and fork replay",
+    "Independent certification"
+  ]
+}

@@ -1,0 +1,19 @@
+[Reading last 14 lines (total: 14 lines)]
+
+Traceback (most recent call last):
+  File "/tmp/nqc-terminal-checkpoint-007/snapshot.py", line 71, in <module>
+    args=p.parse_args();snapshot(args.live,args.base,args.out)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/nqc-terminal-checkpoint-007/snapshot.py", line 63, in snapshot
+    report={'archive':str(target),'bytes':target.stat().st_size(),'sha256':sha(target.read_bytes()),
+                                          ^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'int' object is not callable
+Traceback (most recent call last):
+  File "<stdin>", line 9, in <module>
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['python3', '/tmp/nqc-terminal-checkpoint-007/snapshot.py', '--live', '/tmp/nqc-census-v2-oracle-20261009/sequential-v1', '--base', '/tmp/nqc-terminal-checkpoint-007/base-readback.json', '--out', '/tmp/nqc-terminal-checkpoint-007/delta']' returned non-zero exit status 1.
+
+✅ Process completed with exit code 1 (runtime: 73.93s)
+
+[executed on device: codex-nqc-rmc-328dd6 (97869e36-ef95-481f-ac75-85ab90bce0e7)]

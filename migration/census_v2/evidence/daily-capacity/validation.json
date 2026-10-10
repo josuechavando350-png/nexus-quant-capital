@@ -1,0 +1,89 @@
+{
+  "census_closed": false,
+  "checks": {
+    "active_workflows": 0,
+    "daily_capacity_real_source_and_adversarial": {
+      "failed": 0,
+      "passed": 6,
+      "skipped": 0
+    },
+    "isolation_regressions": {
+      "failed": 0,
+      "passed": 9,
+      "skipped": 0
+    },
+    "market_inventory_full_stream": {
+      "archive_and_consumed_member_digests_match": true,
+      "duplicate_addresses": 0,
+      "duplicate_ids": 0,
+      "duplicate_indices": 0,
+      "missing_indices": 0,
+      "rows": 523491
+    },
+    "original_objects_verified": 637,
+    "temporal_core_source_regressions": {
+      "failed": 0,
+      "passed": 4,
+      "skipped": 0
+    }
+  },
+  "complete_nqc_net_pnl": null,
+  "files": {
+    "migration/census_v2/DAILY_CAPACITY_REVIEW.md": {
+      "bytes": 11120,
+      "sha256": "d1852dab6c8a9d4eabd36d28b4e8e30138599389efe4327ee518a9f0ba4d5f4a"
+    },
+    "migration/census_v2/analyze_daily_capacity.py": {
+      "bytes": 8855,
+      "sha256": "1b5fb5b35791ee383171a45fe16caeabe92128e881d6dc0182aacd602b4850e5"
+    },
+    "migration/census_v2/audit_market_inventory.py": {
+      "bytes": 5825,
+      "sha256": "f452c5c45b230525e05b4e4e6c856a54f06740169cf1fc9bc85368a7627791c7"
+    },
+    "migration/census_v2/check_daily_capacity.py": {
+      "bytes": 4278,
+      "sha256": "821448da9ce9005c629920ef34149adae832dd31335959efd31d6cde3f66c69a"
+    },
+    "migration/census_v2/evidence/daily-capacity/daily.jsonl": {
+      "bytes": 11952,
+      "sha256": "a308015598b92e02f3cc84ee8e7fa131114f6a3f7f0167db80f962fb381eff40"
+    },
+    "migration/census_v2/evidence/daily-capacity/isolation-tests.log": {
+      "bytes": 1087,
+      "sha256": "ee6bee71d6f373c9a09eb864b93af61d1748480c5bcd84e0bb902cc9ab86d97b"
+    },
+    "migration/census_v2/evidence/daily-capacity/isolation.json": {
+      "bytes": 305,
+      "sha256": "b65f722a11ff22c2b9a3787056dcec7d5eefc2f166bdc56db1919f6171d754d6"
+    },
+    "migration/census_v2/evidence/daily-capacity/market-inventory.json": {
+      "bytes": 4073,
+      "sha256": "6cc815dba9e9a5b3e53d162aca48a624149e0d49e6283620c7e67f863f2b1f3e"
+    },
+    "migration/census_v2/evidence/daily-capacity/report.json": {
+      "bytes": 10573,
+      "sha256": "cac54fc45dbd6f49b770932ab5b20877805be06c3434220001691e91fb8ff3ea"
+    },
+    "migration/census_v2/evidence/daily-capacity/source-tests.log": {
+      "bytes": 508,
+      "sha256": "f6072bc0fee05ef1b2f2ad775070e84bc1786a1ea572546c1c5bcd13eb3ae5cb"
+    },
+    "migration/census_v2/evidence/daily-capacity/tests.log": {
+      "bytes": 894,
+      "sha256": "6eadab58391679d2757cc258486039274f5cd758a7c98a8e940947ae24c53073"
+    }
+  },
+  "milestone_claimed": null,
+  "new_rpc_requests": 0,
+  "schema": "nqc-daily-capacity-review-validation-v1",
+  "source_commit": "154137de8c998e39a2097473eac6cf92cda465fa",
+  "source_tree": "fc9f6f1626248120485940b15ae6d51a5c3e290d",
+  "test_development_note": "The initial daily-median golden expectation was one USD-WAD unit too low in the sum of the two central days; it was corrected against the original two daily values. The calculation already retained the exact rational median. All six final tests pass.",
+  "unrun": [
+    "Full 3.75 GB capital stream: prior pinned readback retained, not replayed in this review.",
+    "Rust/Solidity/fork suites: no related execution implementation changed.",
+    "Live trading, network market acquisition and new independent certification."
+  ],
+  "validated_at_utc": "2026-10-10T02:58:34.112541+00:00"
+}
