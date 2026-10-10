@@ -1,0 +1,64 @@
+test_delta_begins_after_exact_base_prefix_without_double_counting (test_checkpoint_delta.DeltaCheckpointTests.test_delta_begins_after_exact_base_prefix_without_double_counting) ... ok
+test_exact_archive_and_all_new_vectors_reproduce_remote_readback (test_checkpoint_delta.DeltaCheckpointTests.test_exact_archive_and_all_new_vectors_reproduce_remote_readback) ... ok
+test_substituted_base_readback_is_rejected_before_price_use (test_checkpoint_delta.DeltaCheckpointTests.test_substituted_base_readback_is_rejected_before_price_use) ... ok
+test_all_closed_vectors_reproduce_the_remote_readback (test_checkpoint_two.SecondCheckpointTests.test_all_closed_vectors_reproduce_the_remote_readback) ... ok
+test_first_checkpoint_is_an_identical_prefix_not_additional_coverage (test_checkpoint_two.SecondCheckpointTests.test_first_checkpoint_is_an_identical_prefix_not_additional_coverage) ... ok
+test_actual_checkpoint_matches_remote_readback (test_continuation.ContinuationChecks.test_actual_checkpoint_matches_remote_readback) ... ok
+test_altered_price_rejected (test_continuation.ContinuationChecks.test_altered_price_rejected) ... ok
+test_duplicate_response_rejected (test_continuation.ContinuationChecks.test_duplicate_response_rejected) ... ok
+test_foreign_producer_rejected (test_continuation.ContinuationChecks.test_foreign_producer_rejected) ... ok
+test_missing_response_rejected (test_continuation.ContinuationChecks.test_missing_response_rejected) ... ok
+test_noncanonical_request_rejected (test_continuation.ContinuationChecks.test_noncanonical_request_rejected) ... ok
+test_wrong_block_hash_rejected (test_continuation.ContinuationChecks.test_wrong_block_hash_rejected) ... ok
+test_bool_counter_rejected (test_coverage.CoverageChecks.test_bool_counter_rejected) ... ok
+test_bool_or_inflated_closed_count_rejected (test_coverage.CoverageChecks.test_bool_or_inflated_closed_count_rejected) ... ok
+test_broken_worker_rate_or_batch_rejected (test_coverage.CoverageChecks.test_broken_worker_rate_or_batch_rejected) ... ok
+test_corrupted_archive_rejected_before_extraction (test_coverage.CoverageChecks.test_corrupted_archive_rejected_before_extraction) ... ok
+test_duplicate_json_key_rejected (test_coverage.CoverageChecks.test_duplicate_json_key_rejected) ... ok
+test_event_scope_and_operator_substitutions_rejected (test_coverage.CoverageChecks.test_event_scope_and_operator_substitutions_rejected) ... ok
+test_exact_real_running_snapshot_passes (test_coverage.CoverageChecks.test_exact_real_running_snapshot_passes) ... ok
+test_nonboolean_complete_flag_rejected (test_coverage.CoverageChecks.test_nonboolean_complete_flag_rejected) ... ok
+test_out_of_window_prior_rejected (test_coverage.CoverageChecks.test_out_of_window_prior_rejected) ... ok
+test_partial_and_final_set_arithmetic_only (test_coverage.CoverageChecks.test_partial_and_final_set_arithmetic_only) ... ok
+test_real_all_sources_replay_twice_identically (test_coverage.CoverageChecks.test_real_all_sources_replay_twice_identically) ... ok
+test_retry_after_cannot_be_backdated (test_coverage.CoverageChecks.test_retry_after_cannot_be_backdated) ... ok
+test_running_snapshot_with_terminal_file_rejected (test_coverage.CoverageChecks.test_running_snapshot_with_terminal_file_rejected) ... ok
+test_same_count_different_prior_set_rejected (test_coverage.CoverageChecks.test_same_count_different_prior_set_rejected) ... ok
+test_stopped_failure_may_not_disappear (test_coverage.CoverageChecks.test_stopped_failure_may_not_disappear) ... ok
+test_substituted_asset_identity_rejected (test_coverage.CoverageChecks.test_substituted_asset_identity_rejected) ... ok
+test_terminal_counter_without_all_closed_bytes_rejected (test_coverage.CoverageChecks.test_terminal_counter_without_all_closed_bytes_rejected) ... ok
+test_terminal_label_without_acquisition_rejected (test_coverage.CoverageChecks.test_terminal_label_without_acquisition_rejected) ... ok
+test_unknown_status_rejected (test_coverage.CoverageChecks.test_unknown_status_rejected) ... ok
+test_actual_complete_pilot_and_partial_stop (test_reconcile.Checks.test_actual_complete_pilot_and_partial_stop) ... ok
+test_already_observed_block (test_reconcile.Checks.test_already_observed_block) ... ok
+test_body_changed_without_new_digest (test_reconcile.Checks.test_body_changed_without_new_digest) ... ok
+test_boolean_identity (test_reconcile.Checks.test_boolean_identity) ... ok
+test_changed_price (test_reconcile.Checks.test_changed_price) ... ok
+test_duplicate_response (test_reconcile.Checks.test_duplicate_response) ... ok
+test_future_send_time (test_reconcile.Checks.test_future_send_time) ... ok
+test_incomplete_price_vector (test_reconcile.Checks.test_incomplete_price_vector) ... ok
+test_missing_response (test_reconcile.Checks.test_missing_response) ... ok
+test_noncanonical_request (test_reconcile.Checks.test_noncanonical_request) ... ok
+test_rate_error_not_admitted_as_prices (test_reconcile.Checks.test_rate_error_not_admitted_as_prices) ... ok
+test_reordered_request_sequence (test_reconcile.Checks.test_reordered_request_sequence) ... ok
+test_substituted_calldata (test_reconcile.Checks.test_substituted_calldata) ... ok
+test_substituted_hash (test_reconcile.Checks.test_substituted_hash) ... ok
+test_unknown_response_block (test_reconcile.Checks.test_unknown_response_block) ... ok
+test_actual_missing_ranges_are_unique_and_conserved (test_resume.PlanChecks.test_actual_missing_ranges_are_unique_and_conserved) ... ok
+test_boolean_block_rejected (test_resume.PlanChecks.test_boolean_block_rejected) ... ok
+test_broadened_endpoint_rejected (test_resume.PlanChecks.test_broadened_endpoint_rejected) ... ok
+test_controller_spaces_requests_and_conserves_completed_blocks (test_resume.PlanChecks.test_controller_spaces_requests_and_conserves_completed_blocks) ... {"completed_files": 1, "last_block": 25880335, "observed_blocks": 20, "requested_blocks": 20}
+{"asset_document_sha256": "7e5f97cbdd20a3154af9e862465c999658d3ee67a4c795ec9c570ebfd8cd98d2", "attempted_http_requests": 5, "attempted_rpc_calls": 23, "census_certified": false, "collector_sha256": "b9112088a9b4ccc8742fe656362fae88c0a37b12b6f8232d78ddf294ae79d56c", "failure": null, "finished_at": "2026-10-10T01:17:49.559109+00:00", "gas_spent": false, "historical_decision_time_observation": false, "last_successful_block": 25880335, "last_successful_response_at": "2026-10-10T01:17:49.558932+00:00", "maximum_batch_size": 10, "maximum_runtime_seconds": 86400, "minimum_request_interval_seconds": 1.1, "new_subscriptions": false, "observed_blocks": 20, "plan_sha256": "a2b1345f3f6f59ff26e385b8a899c008d3509fd683a3e93718c8075b64194dec", "producer_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "producer_repository": "josuechavando350-png/nexus-quant-capital", "requested_blocks": 20, "resume_source_sha256": "5c5642305195aad6239e0a83c63c3802be5091f5d947d5bfcd70e8f3c95169ce", "schema": "nqc-oracle-sequential-continuation-v1", "started_at": "2026-10-10T01:17:49.557267+00:00", "status": "COMPLETE_REQUESTED_MISSING_BLOCKS", "workers": 1}
+ok
+test_controller_stops_on_429_and_preserves_prior_batch (test_resume.PlanChecks.test_controller_stops_on_429_and_preserves_prior_batch) ... {"asset_document_sha256": "7e5f97cbdd20a3154af9e862465c999658d3ee67a4c795ec9c570ebfd8cd98d2", "attempted_http_requests": 5, "attempted_rpc_calls": 23, "census_certified": false, "collector_sha256": "b9112088a9b4ccc8742fe656362fae88c0a37b12b6f8232d78ddf294ae79d56c", "failure": {"message": "fixture HTTP Error 429: Too Many Requests", "recorded_at": "2026-10-10T01:17:49.561034+00:00", "type": "ValueError"}, "finished_at": "2026-10-10T01:17:49.561038+00:00", "gas_spent": false, "historical_decision_time_observation": false, "last_successful_block": 25880325, "last_successful_response_at": "2026-10-10T01:17:49.560929+00:00", "maximum_batch_size": 10, "maximum_runtime_seconds": 86400, "minimum_request_interval_seconds": 1.1, "new_subscriptions": false, "observed_blocks": 10, "plan_sha256": "a2b1345f3f6f59ff26e385b8a899c008d3509fd683a3e93718c8075b64194dec", "producer_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "producer_repository": "josuechavando350-png/nexus-quant-capital", "requested_blocks": 20, "resume_source_sha256": "5c5642305195aad6239e0a83c63c3802be5091f5d947d5bfcd70e8f3c95169ce", "schema": "nqc-oracle-sequential-continuation-v1", "started_at": "2026-10-10T01:17:49.560266+00:00", "status": "STOPPED_INCOMPLETE", "workers": 1}
+ok
+test_missing_range_rejected (test_resume.PlanChecks.test_missing_range_rejected) ... ok
+test_parallel_workers_rejected (test_resume.PlanChecks.test_parallel_workers_rejected) ... ok
+test_raised_request_rate_rejected (test_resume.PlanChecks.test_raised_request_rate_rejected) ... ok
+test_repeated_range_rejected (test_resume.PlanChecks.test_repeated_range_rejected) ... ok
+test_retry_after_is_enforced (test_resume.PlanChecks.test_retry_after_is_enforced) ... ok
+
+----------------------------------------------------------------------
+Ran 56 tests in 68.965s
+
+OK

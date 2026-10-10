@@ -2,6 +2,12 @@
 
 ## Later authorized continuation
 
+The offline integration checker in [COVERAGE_GATE.md](COVERAGE_GATE.md) now
+replays the original/prior captures, the complete retained continuation prefix,
+and the executed-event/full-receipt evidence together. It checks exact block
+sets, not just counters. Its current checkpoint-003 result remains partial;
+it neither declares a milestone nor changes the active worker.
+
 The user's subsequent instruction continues the work and requests notices at
 10/20, 15/20 and 20/20; definitions are in `../MILESTONES.md`. `resume.py` starts
 a separate, pinned acquisition only for the 209,866 missing blocks in

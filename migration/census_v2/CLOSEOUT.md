@@ -28,6 +28,14 @@ productor por haber pasado estas pruebas.
 
 ## Trabajo material para terminar Census
 
+Control integral de cobertura, 10 de octubre: se vuelven a comparar desde las
+fuentes los 55 archivos cerrados del checkpoint 003, los oráculos previos y los
+139 eventos / 127 recibos completos. La unión exacta sigue en **60,170 bloques**,
+con **154,866 pendientes**; se excluyen 1,560 solapamientos previos y 20 capturas
+abiertas. El control nuevo impide declarar cobertura por contadores o por una
+etiqueta terminal sin archivos exactos. Esto reproduce la evidencia existente;
+no suma cobertura nueva ni alcanza 10/20. Véase `oracle_recovery/COVERAGE_GATE.md`.
+
 Conciliación por cuentas, 10 de octubre 01:02Z: los nueve casos WETH quedan
 separados en 97 filas transacción/cuenta, 26 movimientos nativos y diez retiros.
 En los rangos 2, 3, 4 y 5, el flujo WETH del ejecutor no equivale al excedente
