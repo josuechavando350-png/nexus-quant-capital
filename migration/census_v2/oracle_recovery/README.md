@@ -2,6 +2,11 @@
 
 ## Later authorized continuation
 
+Latest closed evidence: [checkpoint 004](CHECKPOINT_004.md) adds 25,000 blocks
+and 1,675,000 matched prices. The verified secondary union is 85,170 / 215,036;
+129,866 remain missing. It preserves only the new delta, replays the full prefix
+and does not satisfy 10/20. Earlier checkpoint counts below are historical.
+
 The offline integration checker in [COVERAGE_GATE.md](COVERAGE_GATE.md) now
 replays the original/prior captures, the complete retained continuation prefix,
 and the executed-event/full-receipt evidence together. It checks exact block

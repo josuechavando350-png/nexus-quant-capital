@@ -28,6 +28,15 @@ productor por haber pasado estas pruebas.
 
 ## Trabajo material para terminar Census
 
+Cuarto checkpoint cerrado, 10 de octubre 01:31:07Z: **25,000 bloques nuevos y
+1,675,000 precios** concilian con dRPC. La unión verificada por dos operadores
+alcanza **85,170 / 215,036 bloques**, con **129,866 pendientes**. Se reproduce
+todo el prefijo de 80,000 bloques de la continuación sin duplicar los anteriores;
+los 170 del archivo abierto se excluyen. Eventos y recibos completos vuelven
+a conciliar. Fuentes, respuestas exactas y manifiesto del delta se conservan;
+el trabajador sigue activo sin reinicio. Véase `oracle_recovery/CHECKPOINT_004.md`.
+Este incremento todavía no alcanza 10/20 y no cierra Census.
+
 Control integral de cobertura, 10 de octubre: se vuelven a comparar desde las
 fuentes los 55 archivos cerrados del checkpoint 003, los oráculos previos y los
 139 eventos / 127 recibos completos. La unión exacta sigue en **60,170 bloques**,
@@ -166,7 +175,7 @@ económicas originales no cambian. Census sigue sin cierre certificado.
 | Market Truth | Corte histórico reconstruido; alcance temporal global abierto | Reconciliar el universo declarado y recuperar las observaciones detalladas, oportunidades censuradas y momentos reales de recepción. |
 | Capital Truth | Núcleo D11 íntegro; admisibilidad operativa incompleta | Pruebas de proveedores, cobertura por candidato, repayment completo y obligaciones; autenticar gas nativo y coste de adquisición bajo el límite autorizado. |
 | Economic Truth | Evidencia insuficiente en los 432 pares | Compatibilidad de los 43 activos requeridos, rutas monetizables, costes completos, competencia/inclusión y márgenes conservadores. Puede cerrarse con conclusiones negativas justificadas. |
-| Evidencia temporal | D15B/D16 reproducidos; universo, transiciones y riesgo inicial también reproducidos | 29,998 candidatos y 134,275 cambios de estado conciliados. Riesgo inicial: 27,850 borrowers con cero discrepancias. Oráculos retenidos: 215,036 bloques; segundo operador verificado en 60,170 y pendiente en 154,866 al tercer checkpoint de continuación. El 429 previo se conserva y el nuevo proceso sigue con menor ritmo. Siguen faltando independencia de infraestructura, headers completos y recepción histórica real. Eventos ejecutados y 127 recibos completos ya están conciliados; sus límites no se confunden con los oráculos. |
+| Evidencia temporal | D15B/D16 reproducidos; universo, transiciones y riesgo inicial también reproducidos | 29,998 candidatos y 134,275 cambios de estado conciliados. Riesgo inicial: 27,850 borrowers con cero discrepancias. Oráculos retenidos: 215,036 bloques; segundo operador verificado en 85,170 y pendiente en 129,866 al cuarto checkpoint de continuación. El 429 previo se conserva y el nuevo proceso sigue con menor ritmo. Siguen faltando independencia de infraestructura, headers completos y recepción histórica real. Eventos ejecutados y 127 recibos completos ya están conciliados; sus límites no se confunden con los oráculos. |
 | Reproducción D11 completa | Resuelta dentro del límite de memoria: nueve archivos idénticos | 371.5 segundos, RSS máximo 7,309,316 KiB, 256 pruebas de capital. Se preservan los intentos OOM y la divergencia del importador por roles. Falta la revisión independiente del nuevo productor. |
 | Autoridad independiente | Pendiente | Revisar productor y consumidores exactos, commits/trees, fuentes, ledgers de fallos y discrepancias, falsación y límites del alcance. Esta modificación no se certifica a sí misma. |
 
