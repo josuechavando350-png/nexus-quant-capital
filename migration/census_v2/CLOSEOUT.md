@@ -28,6 +28,15 @@ productor por haber pasado estas pruebas.
 
 ## Trabajo material para terminar Census
 
+Préstamos observados en trazas, 10 de octubre: se recorren las 127 transacciones
+y se concilian 49 llamadas de entrega/callback/devolución en 46 de ellas con
+98 transferencias únicas de recibos, sobre diez activos. La ruta que el render
+nombra `flashLoan` / `onMorphoFlashLoan` amplía la observación previa limitada a
+eventos Aave/Balancer. Las devoluciones igualan los principales observados;
+no se infieren comisiones completas cero, ABI/estado autenticado ni acceso de
+Nexus. Pasan 58 controles afectados y nueve de aislamiento; las clasificaciones
+siguen pendientes. Véase `execution_replay/TRACE_LOANS.md`.
+
 Inventario WETH, 10 de octubre: 50 movimientos de los nueve casos fijan 21
 mínimos iniciales positivos por cuenta; 15 se ocultan si sólo se mira el delta
 final. El ejecutor del caso 4 exige al menos 3,379,677,466,555,340 wei WETH bajo

@@ -82,3 +82,7 @@ gas. `complete_profit_wei` sigue `null` y los nueve casos siguen
 La continuación `WETH_INVENTORY.md` reconstruye los mínimos de inventario inicial
 por orden de logs sobre las mismas cuentas, sin convertir estos deltas en
 pruebas de estado ni promover financiación.
+
+`TRACE_LOANS.md` añade la conciliación de llamadas de préstamo retenidas en las
+127 trazas contra transferencias de recibos; incluye los rangos WETH 1, 3, 6, 7
+y 8. Los límites de financiación, costes y admisión anteriores siguen abiertos.
