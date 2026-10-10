@@ -28,6 +28,21 @@ productor por haber pasado estas pruebas.
 
 ## Trabajo material para terminar Census
 
+Actualización del 10 de octubre, 00:20Z: la comparación controlada Aave/Balancer
+pasó y se reprodujo sin red. En el estado histórico fijado, Balancer tiene
+liquidez suficiente y comisión cero; la variante nueva paga atómicamente
+0.095915734379292898 ETH al receptor autenticado del bloque, devuelve el
+préstamo y conserva 0.000240390311727552 WETH **antes de gas y otros costes**.
+La prueba negativa revierte también el pago; el saldo nativo previo permanece
+intacto. El intento previo que suponía saldo inicial cero se conserva fallido.
+Si se impone ese mismo pago a Aave, faltan 0.005101616615551362 WETH incluso
+antes del gas. No se afirma que el pago observado sea el mínimo necesario.
+El componente de gas medido deja margen al precio histórico, pero a 1 gwei
+lo agota; no incluye todos los costes ni es una cotización de transacción.
+Son nuevos escenarios de investigación de un caso elegido retrospectivamente,
+no prueba de captura, rentabilidad global o admisión. Véase
+`execution_replay/FUNDING.md`; los umbrales 10/20, 15/20 y 20/20 siguen pendientes.
+
 Actualización posterior de acceso/ejecución: Nodies permitió una adquisición
 nueva de 115 respuestas históricas. **Las dos pruebas del fork WETH pasan** y
 se repiten en copia nueva, sin red, en modo normal y aislado. Las fuentes

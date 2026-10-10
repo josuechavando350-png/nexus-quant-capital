@@ -3,6 +3,11 @@
 Prioridad del 9 de octubre de 2026: comprobar financiación, repayment y costes,
 además de continuar la cobertura histórica. **Census sigue abierto.**
 
+Incremento posterior: [comparación Aave/Balancer y pago atómico](FUNDING.md).
+Las variantes nuevas se reproducen sin red y muestran un residual positivo
+antes de gas al usar Balancer; el coste completo y la captura siguen sin probar.
+Ese documento conserva también el intento fallido y sus límites de medición.
+
 ## Resultado económico que cambia la interpretación
 
 Se conciliaron las 127 trazas originales contra los recibos completos ya
