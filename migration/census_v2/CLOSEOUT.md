@@ -46,6 +46,17 @@ productor por haber pasado estas pruebas.
 
 ## Trabajo material para terminar Census
 
+Sexto checkpoint cerrado, 10 de octubre 04:07:42Z: **26,000 bloques nuevos y
+1,742,000 precios** coinciden con dRPC. La unión verificada alcanza **170,170
+de 215,036 bloques**; faltan **44,866**, desde 26,050,486 hasta 26,095,351.
+Los 280 registros abiertos se excluyen. Dos lecturas integrales locales y el
+readback del prefijo en el servidor original concilian sin discrepancias ni
+doble conteo. Pasan ocho pruebas afectadas y nueve de aislamiento; los 637
+objetos originales permanecen intactos y hay cero workflows activos. El
+recolector original sigue avanzando sin reinicio ni duplicación. Véase
+`oracle_recovery/CHECKPOINT_006.md`; financiación, economía y aceptación
+independiente siguen pendientes.
+
 Quinto checkpoint cerrado, 10 de octubre 03:21:01Z: **59,000 bloques nuevos y
 3,953,000 precios** coinciden con dRPC. La unión verificada por dos operadores
 alcanza **144,170 / 215,036 bloques**; faltan **70,866**, desde 26,024,486 hasta

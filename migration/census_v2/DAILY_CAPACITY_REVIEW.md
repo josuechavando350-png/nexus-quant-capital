@@ -115,6 +115,16 @@ distribución de márgenes distinta. No se asigna una probabilidad del 80%.
 
 ## Implicación para la investigación
 
+Confirmación del usuario el 9 de octubre de 2026 a las 22:06 de Ciudad de
+México: investigar cuánto puede producir NQC, con USD 5,000 mensuales o
+USD 1,000,000 o más como posibilidades ilustrativas que deben demostrarse.
+Esas cifras no forman un intervalo estimado, un suelo garantizado ni un techo
+de capacidad. La aspiración anterior de USD 300,000 permanece como objetivo
+adicional; ninguna cifra reemplaza los criterios de aceptación o autoriza
+gasto. La siguiente estimación deberá distinguir tamaño del mercado, capacidad
+ejecutable, captura sustentada y neto completo de cartera bajo la política de
+capital, con incertidumbre y validación fuera de muestra.
+
 Primero reutilizar el inventario Ethereum amplio que ya existe: cruzar mercados
 y fuentes de financiación con compatibilidad de tokens, rutas de conversión,
 liquidez realizable y costes completos. Medir oportunidades históricas de las
