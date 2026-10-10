@@ -120,6 +120,43 @@ new tests, set `NQC_ORACLE_CHECKPOINT_TWO` to that directory and
 No new collector, RPC requests, spending or permissions were introduced by
 this checkpoint. Later capture progress does not increase these verified counts.
 
+### Third closed checkpoint (delta) — 2026-10-10 00:44:28Z
+
+The existing worker remained healthy under the same PID and lock. This immutable
+delta retains only the 12 newly closed files after checkpoint 002: **12,000
+additional blocks / 804,000 matched prices**, with zero discrepancies. The
+verified continuation prefix is therefore 55,000 blocks and the secondary union
+is **60,170 / 215,036**; **154,866** remain missing. The 20 observations in the
+open file at snapshot time are excluded. This still does not satisfy 10/20.
+
+`sequential-checkpoint-003-delta.zip` has **4,269,496 bytes**, 22 members and
+SHA-256 `6b5691d546ee3eb4aa291a7f32ef52689826021fb791136b67fa84c8e6fbd0c0`.
+It includes the exact base readback and base-archive manifest but does not repeat
+the first 43 capture files. The delta verifier pins both base hashes, requires the
+current progress commitments to have that exact prefix, and begins counting at
+offset 43,000. It rejects a substituted base before using any prices. All 12,000
+new block vectors were compared to the original dRPC chunks on the authorized
+device; the retained readback has SHA-256
+`c4d657efa39cdc6620e9862a708fe2fb40fdc9f5c01c9fe2dcd11892d7722253`.
+Three archive, prefix-conservation and adversarial tests pass.
+
+To reproduce, extract the delta archive and checkpoint 002 to separate fresh
+directories, then provide the original dRPC chunks:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 python3 migration/census_v2/oracle_recovery/verify_checkpoint_delta.py \
+  --evidence "$DELTA" --primary "$PRIMARY_DIRECTORY" \
+  --base-readback "$DELTA/base-readback.json" --out /absolute/path/delta-readback.json
+PYTHONDONTWRITEBYTECODE=1 NQC_ORACLE_CHECKPOINT_THREE="$DELTA" \
+  NQC_ORACLE_PRIMARY_DIRECTORY="$PRIMARY_DIRECTORY" \
+  python3 -m unittest discover -s migration/census_v2/oracle_recovery \
+  -p test_checkpoint_delta.py -v
+```
+
+No request was made to create this checkpoint, and the live worker was neither
+restarted nor interrupted. Later progress must not be added to this closed delta
+until another immutable snapshot has been verified.
+
 ## Earlier captured evidence
 
 Census remains open. This increment verifies 139,360 new price observations
