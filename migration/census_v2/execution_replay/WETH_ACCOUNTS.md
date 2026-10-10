@@ -78,3 +78,7 @@ completos, disponibilidad antes de decidir, captura o financiación inicial del
 gas. `complete_profit_wei` sigue `null` y los nueve casos siguen
 `INSUFFICIENT_EVIDENCE`. No se altera el ledger original ni la política MXN
 2,000. Este incremento no satisface 10/20, 15/20 o 20/20 ni cierra Census.
+
+La continuación `WETH_INVENTORY.md` reconstruye los mínimos de inventario inicial
+por orden de logs sobre las mismas cuentas, sin convertir estos deltas en
+pruebas de estado ni promover financiación.

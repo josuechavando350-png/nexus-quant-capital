@@ -28,6 +28,15 @@ productor por haber pasado estas pruebas.
 
 ## Trabajo material para terminar Census
 
+Inventario WETH, 10 de octubre: 50 movimientos de los nueve casos fijan 21
+mínimos iniciales positivos por cuenta; 15 se ocultan si sólo se mira el delta
+final. El ejecutor del caso 4 exige al menos 3,379,677,466,555,340 wei WETH bajo
+la semántica observada. No se atribuyen inventarios externos a Nexus ni se
+considera financiado un mínimo cero. Se reproducen las 97 filas previas; pasan
+50 controles afectados, nueve de aislamiento y los 637 objetos originales.
+Esto delimita requisitos de financiación, no prueba balances, costes, captura
+ni cierre. Véase `execution_replay/WETH_INVENTORY.md`.
+
 Cuarto checkpoint cerrado, 10 de octubre 01:31:07Z: **25,000 bloques nuevos y
 1,675,000 precios** concilian con dRPC. La unión verificada por dos operadores
 alcanza **85,170 / 215,036 bloques**, con **129,866 pendientes**. Se reproduce
