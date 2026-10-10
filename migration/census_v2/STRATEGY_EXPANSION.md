@@ -53,6 +53,14 @@ establish that smaller opportunities across other markets are unviable.
 
 ## Research order and falsification
 
+The user's subsequent seven-network proposal is reviewed in
+`EXPANSION_NETWORK_REVIEW.md`. Base and Arbitrum remain the first research
+candidates, followed by OP Mainnet and selective Linea/L3 evaluation. Current
+ordering and fee documentation refutes an exclusive Flashblocks speed edge,
+zero-cost priority assumptions and instant cross-rollup flash arbitrage on
+zkLink Nova. No new chain is included in the declared Ethereum Census or
+admitted for execution by that documentary review.
+
 The existing-inventory screen described above precedes this expansion queue.
 This preserves earlier work without admitting execution or profitability on the
 strength of an inventory count.

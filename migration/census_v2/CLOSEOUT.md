@@ -46,6 +46,17 @@ productor por haber pasado estas pruebas.
 
 ## Trabajo material para terminar Census
 
+Cruce íntegro de rutas, 10 de octubre: se autentican todos los pools V2 de D08
+y sus tokens, y se enumeran 4,422 conversiones dirigidas entre los 67 activos
+Aave. Hay 1,222 con ruta directa o de dos swaps dentro de ese ámbito. Entre
+los 432 pares D12 insuficientes, 366 tienen una ruta corta, 16 son del mismo
+activo y 50 necesitan otras vías o siguen sin salida demostrada. Ninguno se
+promueve a ejecutable y no se infiere ausencia global de rutas. El consumidor
+conserva los 474 pares y sus motivos; once controles reales/adversariales y
+nueve de aislamiento pasan. Véase `ROUTING_TOPOLOGY.md`. La propuesta L2/L3
+del usuario se contrasta por separado en `EXPANSION_NETWORK_REVIEW.md`; no
+amplía ni sustituye el alcance Ethereum.
+
 Sexto checkpoint cerrado, 10 de octubre 04:07:42Z: **26,000 bloques nuevos y
 1,742,000 precios** coinciden con dRPC. La unión verificada alcanza **170,170
 de 215,036 bloques**; faltan **44,866**, desde 26,050,486 hasta 26,095,351.
