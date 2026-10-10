@@ -1,0 +1,110 @@
+{
+  "active_workflows": 0,
+  "all_five_local_outputs_identical": true,
+  "archive_bytes": 15988434,
+  "archive_members": 55,
+  "archive_sha256": "673871b6f0dab9af61d66cca361aab50e3fc2d2264a02ba5d03360070fe82039",
+  "base_commit": "32ae879daddd8e83297c40689b1fde70f6f7abc3",
+  "base_tree": "753d30095bac7d84686255db29a84722be8ea51d",
+  "binary_parts": 6,
+  "census_closed": false,
+  "closed_files": 210,
+  "continuation_blocks_verified": 209866,
+  "disabled_workflows": 106,
+  "event_receipt_readback_unchanged": true,
+  "files": [
+    {
+      "bytes": 3823,
+      "path": "snapshot_terminal_seven.py",
+      "sha256": "48e7567e490b625656463fcf4ea8c71d31e43c7598a71b066b6cd0ac78e27a42"
+    },
+    {
+      "bytes": 4674,
+      "path": "prepare_checkpoint_seven.py",
+      "sha256": "31c5d1db30e3c6b448580aeee3d056469c1282ce0aeb272f14274eb1d624cd9e"
+    },
+    {
+      "bytes": 5422,
+      "path": "test_checkpoint_seven.py",
+      "sha256": "90b40c91c370b817634956c59e58e04e54c23f4436cbd126d845ec76cbd89f93"
+    },
+    {
+      "bytes": 3168,
+      "path": "checkpoint-007/report.json",
+      "sha256": "890260d0107ec89bc66829c390c38719b895ce15b02236a88989826e37f1f408"
+    },
+    {
+      "bytes": 44977,
+      "path": "checkpoint-007/continuation-readback.json",
+      "sha256": "ebb2274e3568b85a830973f9a8dc72a848fffe1d08c1619b7138d2c5c78fd7c5"
+    },
+    {
+      "bytes": 590,
+      "path": "checkpoint-007/partition.json",
+      "sha256": "ede0c0b67e9b581d14365de580d2037af50cefc23abec9c856696bb8b590ce98"
+    },
+    {
+      "bytes": 305,
+      "path": "checkpoint-007/isolation.json",
+      "sha256": "b65f722a11ff22c2b9a3787056dcec7d5eefc2f166bdc56db1919f6171d754d6"
+    }
+  ],
+  "final_file_blocks": 866,
+  "finished_at": "2026-10-10T05:30:23.188910+00:00",
+  "first_snapshot_attempt": {
+    "archive_bytes": 15988437,
+    "archive_copied_to_git": false,
+    "archive_retained_on_original_server": true,
+    "archive_sha256": "f407a693afcafd14aa71855cd2621d28d19aa36d124ad6ab27d0c94c4c1f93de",
+    "error": "TypeError: int object is not callable (st_size())",
+    "log_sha256": "c12280cf0c069e24e62abad3c98ff29c3d1805c6069761f7f17cc9c565c21ae1",
+    "original_source_sha256": "3b15b7b55599d3aa52bc23e31eb30660bdf3c57b3eb5454e8564a37a07eb6959",
+    "status": "FAILED_AFTER_ARCHIVE_CREATION"
+  },
+  "four_physical_403_archives_recovered": false,
+  "git_cli_push_attempt": {
+    "error": "could not read Username for https://github.com: No such device or address",
+    "next_transport": "already-connected GitHub app; same authorized repository, expected-head lease, no new credentials",
+    "status": "FAILED_BEFORE_AUTHENTICATION"
+  },
+  "independent_authority_acceptance": false,
+  "isolation_tests": {
+    "failed": 0,
+    "log_sha256": "992683438e77e1a4209360f6cf115ffa93aa612da6c2a913c75296452d7f9092",
+    "passed": 9,
+    "skipped": 0
+  },
+  "local_integrated_runs": 2,
+  "metadata_assembly_attempt_001": {
+    "error": "FileNotFoundError: checkpoint-006/prior-readback.json",
+    "resolution": "Compare unchanged prior and event readbacks with their immutable SHA-256 bindings in checkpoint-006/report.json; files were not duplicated there.",
+    "status": "FAILED"
+  },
+  "missing_blocks": 0,
+  "new_blocks_verified": 44866,
+  "new_gas_spent": false,
+  "new_price_values_matched": 3006022,
+  "new_rpc_requests_by_snapshot_and_validation": 0,
+  "new_tests": {
+    "failed": 0,
+    "log_sha256": "a679220539157d626659b1a75a5031f898287142b53e13a26329fe8cdb1895e0",
+    "passed": 12,
+    "skipped": 0
+  },
+  "original_git_entries": 637,
+  "original_sources_modified": false,
+  "preserved_at": "2026-10-10T05:31:56.692982+00:00",
+  "price_coordinates_matched": 14407412,
+  "price_mismatches": 0,
+  "prior_readback_unchanged": true,
+  "producer_commit": "c163b876d3310855f1db45bfc3ab4189b24d865b",
+  "remote_and_local_continuation_readbacks_identical": true,
+  "repository": "josuechavando350-png/nexus-quant-capital",
+  "rust_solidity_tests": "NOT_RERUN_UNCHANGED",
+  "schema": "nqc-oracle-checkpoint-007-validation-v1",
+  "score_notifications_discontinued_by_user": true,
+  "secondary_union_verified_blocks": 215036,
+  "source_files": 531,
+  "validated_at": "2026-10-10T05:38:11.251522+00:00",
+  "worker_restarted": false
+}

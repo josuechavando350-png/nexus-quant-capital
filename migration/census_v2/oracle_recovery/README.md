@@ -1,8 +1,16 @@
-# Direct historical oracle observations; acquisition stopped at rate limit
+# Historical oracle observations: complete secondary coverage, Census open
 
-## Later authorized continuation
+Current evidence: [checkpoint 007](CHECKPOINT_007.md) authenticates terminal
+acquisition and all **215,036 blocks / 67 assets / 14,407,412 price coordinates**,
+with zero missing blocks and zero price discrepancies. The original worker
+finished on 2026-10-10 at 05:30:23 UTC. Do not launch another continuation for
+this already completed plan. Funding, routes, costs, capture and independent
+Census authority remain open. Numerical notices were discontinued by the user;
+`../MILESTONES.md` records that decision. The earlier notes below are historical.
 
-Latest closed evidence: [checkpoint 004](CHECKPOINT_004.md) adds 25,000 blocks
+## Historical continuation notes
+
+At this earlier documentation cut, [checkpoint 004](CHECKPOINT_004.md) added 25,000 blocks
 and 1,675,000 matched prices. The verified secondary union is 85,170 / 215,036;
 129,866 remain missing. It preserves only the new delta, replays the full prefix
 and does not satisfy 10/20. Earlier checkpoint counts below are historical.

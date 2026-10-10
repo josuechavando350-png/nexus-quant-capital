@@ -1,5 +1,10 @@
 # Evaluación de la propuesta L2/L3 del usuario
 
+Decisión posterior del usuario: **Ethereum + Base** son ahora las redes activas
+de investigación. `base_expansion/README.md` registra alcance y primer acceso;
+las demás redes quedan en espera. La comparación siguiente conserva su fecha
+y carácter documental, sin convertirse en prueba de rentabilidad.
+
 Investigación documental del 10 de octubre de 2026 UTC, a partir de PR #3
 `3c8e9117f09ea3c6a076ab57e30642f8a165a0fe`. Responde a la propuesta de Base,
 Arbitrum One, OP Mainnet, Linea, Orbit/ApeChain, Degen Chain y zkLink Nova.

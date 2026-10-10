@@ -46,6 +46,29 @@ productor por haber pasado estas pruebas.
 
 ## Trabajo material para terminar Census
 
+**Cobertura histórica de precios completada, 10 de octubre 05:30:23 UTC:**
+los 215,036 bloques Ethereum y 67 activos concilian entre dRPC y Nodies:
+14,407,412 coordenadas bloque/activo, cero faltantes y cero discrepancias.
+El delta final añade 44,866 bloques al checkpoint 006; terminales exactos,
+210 archivos cerrados y prefijos se autentican. Dos replays integrales locales
+coinciden y el readback de continuación coincide con el servidor. Los 139
+eventos y 127 recibos completos vuelven a conciliar. Pasan 12 controles del
+checkpoint y nueve de aislamiento, con 637 objetos originales intactos y cero
+workflows activos. El error inicial de empaquetado se conserva y se corrigió
+sin nueva adquisición. Véase `oracle_recovery/CHECKPOINT_007.md`.
+**Census continúa abierto:** esta cobertura no prueba ejecución, financiación,
+costes/captura, P&L ni aceptación independiente.
+
+Decisión de alcance del usuario, 9 de octubre de 2026 Ciudad de México:
+**Ethereum + Base**. Se preserva el alcance Ethereum; Base tiene un censo
+separado en `base_expansion/`. El primer acceso Base del 10 de octubre 05:19:56
+UTC se detuvo en `eth_chainId` por HTTP 403 / código 1010. Se conservan los
+bytes exactos y no hubo reintentos: no se obtuvo todavía ningún estado Base.
+El colector read-only está preparado; su ruta de captura de reservas no está
+validada on-chain. Hace falta acceso RPC autorizado desde el servidor. Pasan
+13 controles del incremento y 19 pruebas existentes del presupuesto global;
+el presupuesto MXN 2,000 sigue compartido entre cadenas y wallets.
+
 Cruce íntegro de rutas, 10 de octubre: se autentican todos los pools V2 de D08
 y sus tokens, y se enumeran 4,422 conversiones dirigidas entre los 67 activos
 Aave. Hay 1,222 con ruta directa o de dos swaps dentro de ese ámbito. Entre
@@ -245,7 +268,7 @@ económicas originales no cambian. Census sigue sin cierre certificado.
 | Market Truth | Corte histórico reconstruido; alcance temporal global abierto | Reconciliar el universo declarado y recuperar las observaciones detalladas, oportunidades censuradas y momentos reales de recepción. |
 | Capital Truth | Núcleo D11 íntegro; admisibilidad operativa incompleta | Pruebas de proveedores, cobertura por candidato, repayment completo y obligaciones; autenticar gas nativo y coste de adquisición bajo el límite autorizado. |
 | Economic Truth | Evidencia insuficiente en los 432 pares | Compatibilidad de los 43 activos requeridos, rutas monetizables, costes completos, competencia/inclusión y márgenes conservadores. Puede cerrarse con conclusiones negativas justificadas. |
-| Evidencia temporal | D15B/D16 reproducidos; universo, transiciones y riesgo inicial también reproducidos | 29,998 candidatos y 134,275 cambios de estado conciliados. Riesgo inicial: 27,850 borrowers con cero discrepancias. Oráculos retenidos: 215,036 bloques; segundo operador verificado en 144,170 y pendiente en 70,866 al quinto checkpoint de continuación. El 429 previo se conserva y el nuevo proceso sigue con menor ritmo. Siguen faltando independencia de infraestructura, headers completos y recepción histórica real. Eventos ejecutados y 127 recibos completos ya están conciliados; sus límites no se confunden con los oráculos. |
+| Evidencia temporal | D15B/D16, universo, transiciones, riesgo inicial y cruce completo de precios reproducidos | 29,998 candidatos y 134,275 cambios de estado conciliados. Riesgo inicial: 27,850 borrowers con cero discrepancias. Checkpoint 007: 215,036 bloques y 67 activos conciliados entre dos operadores, cero faltantes/discrepancias; adquisición terminal y 429 anterior preservados. Siguen faltando independencia de infraestructura, headers completos y recepción histórica real. Los 139 eventos y 127 recibos completos concilian; la cobertura no prueba ejecución ni economía. |
 | Reproducción D11 completa | Resuelta dentro del límite de memoria: nueve archivos idénticos | 371.5 segundos, RSS máximo 7,309,316 KiB, 256 pruebas de capital. Se preservan los intentos OOM y la divergencia del importador por roles. Falta la revisión independiente del nuevo productor. |
 | Autoridad independiente | Pendiente | Revisar productor y consumidores exactos, commits/trees, fuentes, ledgers de fallos y discrepancias, falsación y límites del alcance. Esta modificación no se certifica a sí misma. |
 

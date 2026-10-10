@@ -1,0 +1,19 @@
+test_body_substitution_rejected (test_base.RealFailureChecks.test_body_substitution_rejected) ... ok
+test_completion_promotion_rejected (test_base.RealFailureChecks.test_completion_promotion_rejected) ... ok
+test_corrupted_archive_rejected (test_base.RealFailureChecks.test_corrupted_archive_rejected) ... ok
+test_erased_failure_rejected (test_base.RealFailureChecks.test_erased_failure_rejected) ... ok
+test_producer_substitution_rejected (test_base.RealFailureChecks.test_producer_substitution_rejected) ... ok
+test_real_capture_replays (test_base.RealFailureChecks.test_real_capture_replays) ... ok
+test_wrong_chain_scope_rejected (test_base.RealFailureChecks.test_wrong_chain_scope_rejected) ... ok
+test_all_selectors_match_keccak (test_base.SyntheticControlChecks.test_all_selectors_match_keccak) ... ok
+test_old_output_not_overwritten (test_base.SyntheticControlChecks.test_old_output_not_overwritten) ... ok
+test_strict_reserve_array (test_base.SyntheticControlChecks.test_strict_reserve_array) ... ok
+test_synthetic_http_denial_persisted_once (test_base.SyntheticControlChecks.test_synthetic_http_denial_persisted_once) ... {"census_closed": false, "chain_id": 8453, "ended_at": "2026-10-10T05:22:24.303031+00:00", "endpoint": "https://mainnet.base.org", "failure": "ValueError: HTTP/transport failure; stopped: HTTP Error 403: Forbidden", "gas_spent": false, "max_requests": 1200, "minimum_interval_seconds": "1.1", "original_decision_time_evidence": false, "producer_sha256": "2299440c4101165210e3edf648dc6151d9068b1008caedeb9616ffb56b424740", "retries": 0, "schema": "nqc-base-aave-seed-capture-v1", "started_at": "2026-10-10T05:22:24.302455+00:00", "status": "FAILED", "target_timestamp": 1790832215, "workers": 1}
+ok
+test_writes_never_reach_transport (test_base.SyntheticControlChecks.test_writes_never_reach_transport) ... ok
+test_wrong_chain_stops_before_anchor (test_base.SyntheticControlChecks.test_wrong_chain_stops_before_anchor) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.012s
+
+OK

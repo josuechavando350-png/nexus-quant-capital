@@ -7,6 +7,13 @@ Historical artifacts retain their original meaning and exact bytes.
 
 ## Governing objective
 
+Scope amendment, 2026-10-09 America/Mexico_City: the user explicitly chose
+**Ethereum + Base**. Preserve the existing Ethereum Census and open a separate
+Base expansion census; other networks remain queued. See `base_expansion/README.md`.
+Each chain needs its own block/state/deployment/cost/capture evidence. Sharing
+code does not transfer certification, liquidity or atomic flash repayment
+between chains. The MXN 2,000 contribution cap remains shared globally.
+
 Discover, understand, finance, execute and optimize economically superior
 opportunities with verifiable evidence. Technological sophistication cannot
 substitute for a demonstrated economic advantage. A negative finding is valid;
