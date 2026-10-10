@@ -31,6 +31,9 @@ These synthetic controller tests are not chain-state or profitability evidence.
 
 ### First closed checkpoint
 
+The later checkpoint below supersedes this prefix for coverage counts; do not
+add the two checkpoints together.
+
 The sequential worker started at `2026-10-09T23:03:11Z` using published producer
 commit `c163b876d3310855f1db45bfc3ab4189b24d865b`. Its first two closed capture
 files contain **2,000 additional blocks / 134,000 matched price values**;
@@ -75,6 +78,47 @@ to snapshot it. The worker's directory is
 `/tmp/nqc-census-v2-oracle-20261009/sequential-v1` on the authorized device.
 The hourly continuation task follows `../MILESTONES.md`. No milestone has yet
 been reached, and the acquisition remains incomplete until verified otherwise.
+
+### Second closed checkpoint — 2026-10-10 00:22:43Z
+
+The same active worker was snapshotted without interruption. **43,000 blocks /
+2,881,000 prices** match the original dRPC vectors, with zero discrepancies.
+There are 43 closed files; the 220 observations still in an open file at that
+snapshot are excluded. Verified secondary union is now **48,170 / 215,036**;
+**166,866** remain missing. This includes the previous 2,000-block prefix and
+adds 41,000 blocks beyond it. It does not satisfy the 10/20 milestone.
+
+Both remote and local runs of the unchanged verifier produce byte-identical
+readback JSON. `evidence/continuation-checkpoint-002.json` retains that result;
+the validation record binds archive hash and size. All source, anchor and first
+checkpoint capture bytes are unchanged. The seven prior adversarial checks and
+two second-checkpoint checks pass. An initial additional test failed because
+the local temporary disk was full; its log is preserved. The successful test
+checks the already-extracted bytes against every archive member instead of
+creating another full temporary copy, then repeats all price comparisons.
+
+The exact 50-member ZIP has **15,143,401 bytes**, SHA-256
+`913b4c530d53207e450ff72e21ad0a0b420af0b80574faee329c161f3daca18c`.
+It is retained in two ordered binary parts because base64 upload of the whole
+ZIP exceeded the connector's 16 MiB request limit. Concatenation reproduces the
+original ZIP exactly; individual sizes/hashes are in
+`sequential-checkpoint-002.parts.json`. The first local transfer was rejected
+on digest mismatch; the missing transport line was recovered and the full ZIP
+matched before any local validation or publication. Captured data was not edited.
+
+```bash
+cat migration/census_v2/oracle_recovery/sequential-checkpoint-002.zip.part-001 \
+    migration/census_v2/oracle_recovery/sequential-checkpoint-002.zip.part-002 \
+    > /tmp/sequential-checkpoint-002.zip
+sha256sum /tmp/sequential-checkpoint-002.zip
+```
+
+Extract to a fresh directory and use the earlier verification command. For the
+new tests, set `NQC_ORACLE_CHECKPOINT_TWO` to that directory and
+`NQC_ORACLE_PRIMARY_DIRECTORY` to the original primary chunks, then run
+`python3 -m unittest discover -s migration/census_v2/oracle_recovery -p test_checkpoint_two.py -v`.
+No new collector, RPC requests, spending or permissions were introduced by
+this checkpoint. Later capture progress does not increase these verified counts.
 
 ## Earlier captured evidence
 
