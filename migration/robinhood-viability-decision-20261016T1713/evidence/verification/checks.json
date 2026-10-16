@@ -1,0 +1,49 @@
+{
+  "checks": [
+    {
+      "artifact": "native-replay.json",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "migration/robinhood-native-validation-20261016T1650/audit_native.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "artifact": "isolation-tests.txt",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "migration",
+        "-p",
+        "test_isolation.py",
+        "-v"
+      ],
+      "exit_code": 0
+    },
+    {
+      "artifact": "isolation.json",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "migration/verify_isolation.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "artifact": "original-blobs.txt",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "migration/engine-v2-20261015/verify_import.py"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "native_replay_matches_recorded_audit": true,
+  "python_tests_this_increment": 21,
+  "new_tests": 12,
+  "isolation_tests": 9,
+  "rust_executed": false,
+  "solidity_executed": false
+}
