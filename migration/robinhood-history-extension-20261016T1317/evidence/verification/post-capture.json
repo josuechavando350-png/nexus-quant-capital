@@ -1,0 +1,91 @@
+{
+  "commands": [
+    {
+      "name": "report",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "migration/robinhood-history-extension-20261016T1317",
+        "-p",
+        "test_report.py",
+        "-v"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "real-audit",
+      "command": [
+        "python",
+        "migration/robinhood-history-extension-20261016T1317/audit_extension.py",
+        "migration/robinhood-history-extension-20261016T1317/evidence/pilot",
+        "--out",
+        "migration/robinhood-history-extension-20261016T1317/evidence/audit.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "post-isolation",
+      "command": [
+        "python",
+        "migration/verify_isolation.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "post-original-blobs",
+      "command": [
+        "python",
+        "migration/engine-v2-20261015/verify_import.py"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "prior_manifests_unchanged": [
+    {
+      "folder": "robinhood-history-backfill-20261016",
+      "files": 210,
+      "sha256": "ea5dc9c97760ffb9a21083c402722a4bfba1fe4bf04ebc4253f9fb4a5511c035"
+    },
+    {
+      "folder": "robinhood-history-continuation-20261016T0715",
+      "files": 175,
+      "sha256": "2334c7d49a9933195074d60b2646a68167de70ce89498ff35f65dfed1e795101"
+    },
+    {
+      "folder": "robinhood-transport-benchmark-20261016T0821",
+      "files": 77,
+      "sha256": "3c6caf4b8742d9342a85092fc6a70d8eca51701275cddb423918c7eadc526570"
+    },
+    {
+      "folder": "robinhood-acquisition-20261016T0922",
+      "files": 38,
+      "sha256": "8cfb387487579ae144954467a3227a6edce90edb9b026ef8909cd49a47e6a376"
+    },
+    {
+      "folder": "robinhood-paced-acquisition-20261016T1024",
+      "files": 147,
+      "sha256": "9879bcad954312beb00009e81befa3af13298f1edee706439613b30cfa8fa13b"
+    },
+    {
+      "folder": "robinhood-paced-capture-20261016T1117",
+      "files": 114,
+      "sha256": "874a04926407c520a3a0be817e6a21513443fb00db1578ba02bf6eef40ca5177"
+    },
+    {
+      "folder": "robinhood-paced-history-20261016T1222",
+      "files": 308,
+      "sha256": "cd4f77f6d0c182f387c83b3f14c10096617dd37408537be7c3179aac39f6a9c6"
+    }
+  ],
+  "registered_sources_unchanged": 76,
+  "chain_rpc_calls": 0,
+  "capture_rpc_methods_entire_execution": 180,
+  "tests_before_capture": 32,
+  "tests_report": 7,
+  "distinct_tests_this_execution": 39,
+  "rust_executed": false,
+  "solidity_executed": false
+}
