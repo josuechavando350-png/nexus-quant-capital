@@ -1,0 +1,41 @@
+{
+  "status": "LOCAL_NQC_REAL_PROTOCOL_WITNESS_CYCLE",
+  "records": [
+    {
+      "case": "success",
+      "success": true,
+      "gas_used": 874544,
+      "sponsor_debit_wei": 79722479316000,
+      "billed_gas": 1163594,
+      "surplus_usdg_raw": 32060665
+    },
+    {
+      "case": "minimum_profit_reject",
+      "success": false,
+      "gas_used": 1027971,
+      "sponsor_debit_wei": 75874321992000,
+      "billed_gas": 1107428,
+      "surplus_usdg_raw": 0
+    },
+    {
+      "case": "tax_omission_quote_reject",
+      "success": false,
+      "gas_used": 918965,
+      "sponsor_debit_wei": 69153441162000,
+      "billed_gas": 1009333,
+      "surplus_usdg_raw": 0
+    }
+  ],
+  "addresses": {
+    "account": "0xa16e02e87b7454126e5e10d957a927a7f5b5d2be",
+    "paymaster": "0xb7a5bd0345ef1cc5e66bf61bdec17d2461fbd968",
+    "router": "0xeebe00ac0756308ac4aabfd76c05c4f3088b8883",
+    "executor": "0x10c6e9530f1c1af873a391030a1d9e8ed0630d26"
+  },
+  "new_address_external_storage_defaults_not_independently_verified": true,
+  "protocol_prices_liquidity_and_balances_synthetic": false,
+  "nqc_contracts_and_sponsor_funding_hypothetical": true,
+  "arbsys_is_local_stub": true,
+  "nitro_da_measured": false,
+  "real_revenue": false
+}
