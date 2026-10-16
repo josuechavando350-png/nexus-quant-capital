@@ -1,0 +1,415 @@
+{
+  "status": "TIME_PROJECTION_AND_CAPITAL_HYPOTHESIS_NOT_CAPTURE_PROOF",
+  "new_read_only_requests": 10,
+  "historical_block": 66744162,
+  "historical_sample_count": 1,
+  "candidate_and_size_selected_with_hindsight": true,
+  "time_only_projection_protocol_read_slots_match": 112,
+  "position_parent": {
+    "supply_shares": 0,
+    "borrow_shares": 190045154242350,
+    "collateral": 132629526487103808
+  },
+  "position_block_end": {
+    "supply_shares": 0,
+    "borrow_shares": 0,
+    "collateral": 39193275743260624
+  },
+  "first_transaction_is_system_type_106": true,
+  "liquidation_is_first_non_system_transaction": true,
+  "timestamp_step_seconds": 1,
+  "timestamp_step_is_not_measured_latency": true,
+  "timing": {
+    "parent_end": {
+      "upfront_native_fee_wei": 269400000000000,
+      "native_gas_refund_wei": 229760281950000,
+      "network_fee_wei": 39639718050000,
+      "network_fee_eth": "0.00003963971805",
+      "gas_used": 588563,
+      "userop_success": false,
+      "sponsor_charge_wei": 50201161200000,
+      "sponsor_charge_eth": "0.0000502011612",
+      "userop_billed_gas": 734472,
+      "userop_effective_price_wei": 68350000,
+      "oracle_price_raw": 2365040598348700685869000000,
+      "surplus_usdg_raw": 0
+    },
+    "parent_time_plus_1": {
+      "upfront_native_fee_wei": 269400000000000,
+      "native_gas_refund_wei": 211938865800000,
+      "network_fee_wei": 57461134200000,
+      "network_fee_eth": "0.0000574611342",
+      "gas_used": 853172,
+      "userop_success": true,
+      "sponsor_charge_wei": 79426185850000,
+      "sponsor_charge_eth": "0.00007942618585",
+      "userop_billed_gas": 1162051,
+      "userop_effective_price_wei": 68350000,
+      "oracle_price_raw": 2339884180491972878599000000,
+      "surplus_usdg_raw": 32060665
+    },
+    "parent_time_plus_2": {
+      "upfront_native_fee_wei": 269400000000000,
+      "native_gas_refund_wei": 211938865800000,
+      "network_fee_wei": 57461134200000,
+      "network_fee_eth": "0.0000574611342",
+      "gas_used": 853172,
+      "userop_success": true,
+      "sponsor_charge_wei": 79426185850000,
+      "sponsor_charge_eth": "0.00007942618585",
+      "userop_billed_gas": 1162051,
+      "userop_effective_price_wei": 68350000,
+      "oracle_price_raw": 2339862515723907946196000000,
+      "surplus_usdg_raw": 32062461
+    },
+    "parent_time_plus_4": {
+      "upfront_native_fee_wei": 269400000000000,
+      "native_gas_refund_wei": 211938865800000,
+      "network_fee_wei": 57461134200000,
+      "network_fee_eth": "0.0000574611342",
+      "gas_used": 853172,
+      "userop_success": true,
+      "sponsor_charge_wei": 79426185850000,
+      "sponsor_charge_eth": "0.00007942618585",
+      "userop_billed_gas": 1162051,
+      "userop_effective_price_wei": 68350000,
+      "oracle_price_raw": 2339819258283512074513000000,
+      "surplus_usdg_raw": 32066049
+    },
+    "actual_pre_liquidation": {
+      "upfront_native_fee_wei": 270056000000000,
+      "native_gas_refund_wei": 212454945592000,
+      "network_fee_wei": 57601054408000,
+      "network_fee_eth": "0.000057601054408",
+      "gas_used": 853172,
+      "userop_success": true,
+      "sponsor_charge_wei": 79616762214000,
+      "sponsor_charge_eth": "0.000079616762214",
+      "userop_billed_gas": 1162051,
+      "userop_effective_price_wei": 68514000,
+      "oracle_price_raw": 2339884180491972878599000000,
+      "surplus_usdg_raw": 32060665
+    },
+    "actual_block_end": {
+      "upfront_native_fee_wei": 270056000000000,
+      "native_gas_refund_wei": 231949815634000,
+      "network_fee_wei": 38106184366000,
+      "network_fee_eth": "0.000038106184366",
+      "gas_used": 564419,
+      "userop_success": false,
+      "sponsor_charge_wei": 48832805388000,
+      "sponsor_charge_eth": "0.000048832805388",
+      "userop_billed_gas": 712742,
+      "userop_effective_price_wei": 68514000,
+      "oracle_price_raw": 2339884180491972878599000000,
+      "surplus_usdg_raw": 0
+    }
+  },
+  "previous_selected_sample": {
+    "same_route_cases": [
+      {
+        "transaction": "0xf9e0d2e116d99e2eb8ef2cf236f7cd7f06225e92a6dfd9162f98c7d8e1974842",
+        "block": 66744162,
+        "transaction_index": 1,
+        "third_party_surplus_usdg_raw": 32060665
+      },
+      {
+        "transaction": "0x55d67345cba9ca86dbbd13a44727214c36689f6579675c1c2dadd895e66fb430",
+        "block": 67679114,
+        "transaction_index": 1,
+        "third_party_surplus_usdg_raw": 21934098
+      },
+      {
+        "transaction": "0x6bc4a7ed44f6495f69d8323e66bbfdbb857dfac3c9106d404916723e7bdbd4fb",
+        "block": 70298596,
+        "transaction_index": 1,
+        "third_party_surplus_usdg_raw": 5191089
+      },
+      {
+        "transaction": "0x463862d0067725614c9e0b77decbc14e41d56fa78f2e1429277502717b1f1f04",
+        "block": 72467400,
+        "transaction_index": 1,
+        "third_party_surplus_usdg_raw": 1958436
+      },
+      {
+        "transaction": "0x5362d77208452da536630212224d3895e60e608cc5018bee57c6d0cea7c4d824",
+        "block": 73914642,
+        "transaction_index": 3,
+        "third_party_surplus_usdg_raw": 118680621
+      },
+      {
+        "transaction": "0x8576ce0ef6aa57a5800a180d736f0b55c96f7eb644d98c0cdbd3f279dc72b753",
+        "block": 78275858,
+        "transaction_index": 44,
+        "third_party_surplus_usdg_raw": 56745919
+      },
+      {
+        "transaction": "0x1587ff36a749248565802c6d90ac296def2aec833266e66a4a66fc98e8b7d32b",
+        "block": 66779826,
+        "transaction_index": 4,
+        "third_party_surplus_usdg_raw": 3756041818
+      },
+      {
+        "transaction": "0x7df42cd0929042730d4eaf6e2da595a6c5dbcda6f8b523184db06becdcb54717",
+        "block": 70291717,
+        "transaction_index": 1,
+        "third_party_surplus_usdg_raw": 2279470467
+      },
+      {
+        "transaction": "0x06a91ddded03af3f18bafb3fd19e10b6d7214b45273ed965cb118e3ec1b103f2",
+        "block": 66762020,
+        "transaction_index": 1,
+        "third_party_surplus_usdg_raw": 1839710402
+      },
+      {
+        "transaction": "0x6f89e3c7903c21661a3e6d5f0ae58a678ad316a8d560bc4f704547356faa5fb8",
+        "block": 78275857,
+        "transaction_index": 63,
+        "third_party_surplus_usdg_raw": 683703433
+      },
+      {
+        "transaction": "0x9df1e325c795cccc9b7fc87d05b0ba3130673c2b1708902d5b07db2be8b0d5e4",
+        "block": 67690646,
+        "transaction_index": 1,
+        "third_party_surplus_usdg_raw": 2318731989
+      }
+    ],
+    "at_transaction_index_one": 7,
+    "selection_is_not_random": true,
+    "universe_frequency_inferred": false,
+    "other_blocks_system_transaction_not_fetched": true
+  },
+  "fee_cap_experiment": {
+    "original": {
+      "gas_limits": {
+        "verification": 500000,
+        "call": 1500000,
+        "paymaster_verification": 200000,
+        "paymaster_postop": 160000,
+        "pre_verification": 80000
+      },
+      "max_fee_wei": 2000000000,
+      "priority_fee_wei": 1000000,
+      "required_prefund_wei": 4880000000000000
+    },
+    "variant": {
+      "gas_limits": {
+        "verification": 500000,
+        "call": 1500000,
+        "paymaster_verification": 200000,
+        "paymaster_postop": 160000,
+        "pre_verification": 80000
+      },
+      "max_fee_wei": 102271000,
+      "priority_fee_wei": 1000000,
+      "required_prefund_wei": 249541240000000
+    },
+    "variant_nitro": {
+      "upfront_native_fee_wei": 270056000000000,
+      "native_gas_refund_wei": 212454337966000,
+      "network_fee_wei": 57601662034000,
+      "network_fee_eth": "0.000057601662034",
+      "gas_used": 853181,
+      "userop_success": true,
+      "sponsor_charge_wei": 79616762214000,
+      "sponsor_charge_eth": "0.000079616762214",
+      "userop_billed_gas": 1162051,
+      "userop_effective_price_wei": 68514000,
+      "oracle_price_raw": 2339884180491972878599000000,
+      "surplus_usdg_raw": 32060665
+    },
+    "preop_gas": 130164,
+    "preop_efficiency": "0.1668769230769230769230769231",
+    "required_prefund_reduction_percent": "94.8864500",
+    "fixture_validation_data": 0,
+    "full_bundler_admission_proven": false
+  },
+  "economics_assumptions_not_quotes": {
+    "eth_usdg": "3000",
+    "surplus_haircut_bps": 1000,
+    "provider_markup_bps": 0,
+    "rpc_per_attempt_usdg": "0.02",
+    "fixed_period_usdg": "250",
+    "deployment_period_usdg": "25",
+    "capital_period_usdg": "2",
+    "attempts": 1000
+  },
+  "economics_external_bundler_own_paymaster": {
+    "0": {
+      "revenue_per_success_usdg": "28.8545985",
+      "success_fee_usdg": "0.238850286642000",
+      "failure_fee_usdg": "0.150603483600000",
+      "overhead_per_attempt_usdg": "0.297",
+      "success_contribution_usdg": "28.318748213358000",
+      "capture_probability_assumed": "0",
+      "break_even_probability": "0.01555996701685787355736465015",
+      "possible_at_100_percent_capture": true,
+      "successes_for_strictly_positive_period": 16,
+      "expected_per_attempt_usdg": "-0.447603483600000",
+      "expected_period_usdg": "-447.603483600000000",
+      "capture_rate_measured": false,
+      "realized_revenue": false
+    },
+    "0.01": {
+      "revenue_per_success_usdg": "28.8545985",
+      "success_fee_usdg": "0.238850286642000",
+      "failure_fee_usdg": "0.150603483600000",
+      "overhead_per_attempt_usdg": "0.297",
+      "success_contribution_usdg": "28.318748213358000",
+      "capture_probability_assumed": "0.01",
+      "break_even_probability": "0.01555996701685787355736465015",
+      "possible_at_100_percent_capture": true,
+      "successes_for_strictly_positive_period": 16,
+      "expected_per_attempt_usdg": "-0.15993996663042000",
+      "expected_period_usdg": "-159.93996663042000000",
+      "capture_rate_measured": false,
+      "realized_revenue": false
+    },
+    "0.05": {
+      "revenue_per_success_usdg": "28.8545985",
+      "success_fee_usdg": "0.238850286642000",
+      "failure_fee_usdg": "0.150603483600000",
+      "overhead_per_attempt_usdg": "0.297",
+      "success_contribution_usdg": "28.318748213358000",
+      "capture_probability_assumed": "0.05",
+      "break_even_probability": "0.01555996701685787355736465015",
+      "possible_at_100_percent_capture": true,
+      "successes_for_strictly_positive_period": 16,
+      "expected_per_attempt_usdg": "0.99071410124790000",
+      "expected_period_usdg": "990.71410124790000000",
+      "capture_rate_measured": false,
+      "realized_revenue": false
+    },
+    "0.10": {
+      "revenue_per_success_usdg": "28.8545985",
+      "success_fee_usdg": "0.238850286642000",
+      "failure_fee_usdg": "0.150603483600000",
+      "overhead_per_attempt_usdg": "0.297",
+      "success_contribution_usdg": "28.318748213358000",
+      "capture_probability_assumed": "0.10",
+      "break_even_probability": "0.01555996701685787355736465015",
+      "possible_at_100_percent_capture": true,
+      "successes_for_strictly_positive_period": 16,
+      "expected_per_attempt_usdg": "2.42903168609580000",
+      "expected_period_usdg": "2429.03168609580000000",
+      "capture_rate_measured": false,
+      "realized_revenue": false
+    }
+  },
+  "failure_and_fee_sensitivity": {
+    "observed_failures": {
+      "revenue_per_success_usdg": "28.8545985",
+      "success_fee_usdg": "0.238850286642000",
+      "failure_fee_usdg": "0.150603483600000",
+      "overhead_per_attempt_usdg": "0.297",
+      "success_contribution_usdg": "28.318748213358000",
+      "capture_probability_assumed": "0.05",
+      "break_even_probability": "0.01555996701685787355736465015",
+      "possible_at_100_percent_capture": true,
+      "successes_for_strictly_positive_period": 16,
+      "expected_per_attempt_usdg": "0.99071410124790000",
+      "expected_period_usdg": "990.71410124790000000",
+      "capture_rate_measured": false,
+      "realized_revenue": false
+    },
+    "original_full_prefund_loss": {
+      "revenue_per_success_usdg": "28.8545985",
+      "success_fee_usdg": "0.238850286642000",
+      "failure_fee_usdg": "14.640000000000000",
+      "overhead_per_attempt_usdg": "0.297",
+      "success_contribution_usdg": "28.318748213358000",
+      "capture_probability_assumed": "0.05",
+      "break_even_probability": "0.3453182667497412191972431723",
+      "possible_at_100_percent_capture": true,
+      "successes_for_strictly_positive_period": 346,
+      "expected_per_attempt_usdg": "-12.77421258933210000",
+      "expected_period_usdg": "-12774.21258933210000000",
+      "capture_rate_measured": false,
+      "realized_revenue": false
+    },
+    "variant_full_prefund_loss": {
+      "revenue_per_success_usdg": "28.8545985",
+      "success_fee_usdg": "0.238850286642000",
+      "failure_fee_usdg": "0.748623720000000",
+      "overhead_per_attempt_usdg": "0.297",
+      "success_contribution_usdg": "28.318748213358000",
+      "capture_probability_assumed": "0.05",
+      "break_even_probability": "0.03560858452457376884772625492",
+      "possible_at_100_percent_capture": true,
+      "successes_for_strictly_positive_period": 36,
+      "expected_per_attempt_usdg": "0.42259487666790000",
+      "expected_period_usdg": "422.59487666790000000",
+      "capture_rate_measured": false,
+      "realized_revenue": false
+    },
+    "8_percent_markup_sensitivity_not_provider_quote": {
+      "revenue_per_success_usdg": "28.8545985",
+      "success_fee_usdg": "0.25795830957336000",
+      "failure_fee_usdg": "0.16265176228800000",
+      "overhead_per_attempt_usdg": "0.297",
+      "success_contribution_usdg": "28.29964019042664000",
+      "capture_probability_assumed": "0.05",
+      "break_even_probability": "0.01598272179453335477919121628",
+      "possible_at_100_percent_capture": true,
+      "successes_for_strictly_positive_period": 16,
+      "expected_per_attempt_usdg": "0.9783128353477320000",
+      "expected_period_usdg": "978.3128353477320000000",
+      "capture_rate_measured": false,
+      "realized_revenue": false
+    }
+  },
+  "sponsor_revenue_share_bps_sensitivity": {
+    "0": {
+      "revenue_per_success_usdg": "0.0000000",
+      "success_fee_usdg": "0.238850286642000",
+      "failure_fee_usdg": "0.150603483600000",
+      "overhead_per_attempt_usdg": "0.297",
+      "success_contribution_usdg": "-0.535850286642000",
+      "capture_probability_assumed": "0.05",
+      "break_even_probability": null,
+      "possible_at_100_percent_capture": false,
+      "successes_for_strictly_positive_period": null,
+      "expected_per_attempt_usdg": "-0.45201582375210000",
+      "expected_period_usdg": "-452.01582375210000000",
+      "capture_rate_measured": false,
+      "realized_revenue": false
+    },
+    "2500": {
+      "revenue_per_success_usdg": "7.213649625",
+      "success_fee_usdg": "0.238850286642000",
+      "failure_fee_usdg": "0.150603483600000",
+      "overhead_per_attempt_usdg": "0.297",
+      "success_contribution_usdg": "6.677799338358000",
+      "capture_probability_assumed": "0.05",
+      "break_even_probability": "0.06281799005392966337226752313",
+      "possible_at_100_percent_capture": true,
+      "successes_for_strictly_positive_period": 63,
+      "expected_per_attempt_usdg": "-0.09133334250210000",
+      "expected_period_usdg": "-91.33334250210000000",
+      "capture_rate_measured": false,
+      "realized_revenue": false
+    },
+    "5000": {
+      "revenue_per_success_usdg": "14.42729925",
+      "success_fee_usdg": "0.238850286642000",
+      "failure_fee_usdg": "0.150603483600000",
+      "overhead_per_attempt_usdg": "0.297",
+      "success_contribution_usdg": "13.891448963358000",
+      "capture_probability_assumed": "0.05",
+      "break_even_probability": "0.03121569470895952705052382184",
+      "possible_at_100_percent_capture": true,
+      "successes_for_strictly_positive_period": 32,
+      "expected_per_attempt_usdg": "0.26934913874790000",
+      "expected_period_usdg": "269.34913874790000000",
+      "capture_rate_measured": false,
+      "realized_revenue": false
+    }
+  },
+  "verified_available_financing_wei": 0,
+  "future_capture_rate": null,
+  "latency_measured": false,
+  "new_paymaster_deployed": false,
+  "external_sponsor_committed": false,
+  "live_transaction_submitted": false,
+  "realized_nqc_revenue": false
+}
