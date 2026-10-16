@@ -2,6 +2,8 @@
 
 Captura TERMINADA. No relanzar `continue_history.py` ni sobrescribir `evidence/pilot`, no modificar policy/lock/protocolo ya registrados. Base PR19 `ca184cdd14d8d5a8a4d447a9723a0e792dc00132`; rama nueva `nqc/history-extension-20261016T1317`.
 
+Publicado en [PR20 borrador](https://github.com/josuechavando350-png/nexus-quant-capital/pull/20). Commit de evidencia `bb9cd2f930a7615c3c3b57e9b6df2b8f5e7620d4`, árbol `5ec82e413daa1b4179832e3ba9ccbbbe90c0d7fa`. El relevo posterior solo añade esta referencia; consultar HEAD final en GitHub. No fusionar automáticamente.
+
 Protocolo ANTES de RPC `c0fc579e3ec4ea68dcf5c77c4dc6c3d40333bd94`, árbol `d686f2f3286cf9fd2ec5d95189d5139558f65fcf`, rama `nqc/history-extension-protocol-20261016T1317`. 76 fuentes fijadas intactas. Motor PR19 reutilizado sin cambios; adaptador carga nueva política y auditor la recibe explícitamente. No ejecutar mains antiguos con sus ventanas previas.
 
 ## Resultado real
