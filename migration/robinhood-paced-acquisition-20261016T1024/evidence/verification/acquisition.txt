@@ -1,0 +1,18 @@
+Synthetic HTTP failure boundaries audited: 59
+test_all_http_failure_boundaries_preserve_exact_partial_files (test_acquisition.AcquisitionTests.test_all_http_failure_boundaries_preserve_exact_partial_files) ... ok
+test_canonical_observation_reorg_stops (test_acquisition.AcquisitionTests.test_canonical_observation_reorg_stops) ... ok
+test_complete_tail_freeze_cold_and_warm (test_acquisition.AcquisitionTests.test_complete_tail_freeze_cold_and_warm) ... ok
+test_expired_time_has_no_rpc_and_no_frozen_cohort (test_acquisition.AcquisitionTests.test_expired_time_has_no_rpc_and_no_frozen_cohort) ... ok
+test_persisted_registry_and_rehashed_metrics_tampering_rejected (test_acquisition.AcquisitionTests.test_persisted_registry_and_rehashed_metrics_tampering_rejected) ... ok
+test_repeated_head_retained_but_regression_rejected (test_acquisition.AcquisitionTests.test_repeated_head_retained_but_regression_rejected) ... ok
+test_resume_and_anchor_reorg_stop_without_promoting_cohort (test_acquisition.AcquisitionTests.test_resume_and_anchor_reorg_stop_without_promoting_cohort) ... ok
+test_rotation_cannot_reset_bytes_time_or_count_or_follow_failure (test_acquisition.AcquisitionTests.test_rotation_cannot_reset_bytes_time_or_count_or_follow_failure) ... ok
+test_rpc_and_json_failures_before_and_after_rotation (test_acquisition.AcquisitionTests.test_rpc_and_json_failures_before_and_after_rotation) ... ok
+test_single_request_budget_survives_rotation (test_acquisition.AcquisitionTests.test_single_request_budget_survives_rotation) ... ok
+test_source_and_oversized_budgets_rejected_before_network (test_acquisition.AcquisitionTests.test_source_and_oversized_budgets_rejected_before_network) ... ok
+test_time_and_byte_caps_still_apply_after_rotation (test_acquisition.AcquisitionTests.test_time_and_byte_caps_still_apply_after_rotation) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 3.282s
+
+OK
