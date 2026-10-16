@@ -1,0 +1,20 @@
+Synthetic RPC failure boundaries audited: 38
+test_complete_three_single_reads_and_verified_latency (test_continuation.ObservationTests.test_complete_three_single_reads_and_verified_latency) ... ok
+test_invalid_source_and_nonadjacent_window_rejected_before_rpc (test_continuation.ObservationTests.test_invalid_source_and_nonadjacent_window_rejected_before_rpc) ... ok
+test_prior_real_capture_reconstructs_exactly_without_network (test_continuation.ObservationTests.test_prior_real_capture_reconstructs_exactly_without_network) ... ok
+test_rehashed_verified_latency_tampering_rejected (test_continuation.ObservationTests.test_rehashed_verified_latency_tampering_rejected) ... ok
+test_backfill_and_catchup_anchor_reorg_invalidate_copy (test_continuation.PartialAuditTests.test_backfill_and_catchup_anchor_reorg_invalidate_copy) ... ok
+test_catchup_resume_reorg_invalidates_merged_copy (test_continuation.PartialAuditTests.test_catchup_resume_reorg_invalidates_merged_copy) ... ok
+test_http_denial_and_malformed_json_at_initial_and_post_merge_requests (test_continuation.PartialAuditTests.test_http_denial_and_malformed_json_at_initial_and_post_merge_requests) ... ok
+test_missing_nonempty_request_ledger_cannot_be_silently_accepted (test_continuation.PartialAuditTests.test_missing_nonempty_request_ledger_cannot_be_silently_accepted) ... ok
+test_partial_registry_tampering_rejected (test_continuation.PartialAuditTests.test_partial_registry_tampering_rejected) ... ok
+test_prior_defect_reproduced_and_new_auditor_preserves_merged_stage (test_continuation.PartialAuditTests.test_prior_defect_reproduced_and_new_auditor_preserves_merged_stage) ... ok
+test_request_budget_stop_before_next_post (test_continuation.PartialAuditTests.test_request_budget_stop_before_next_post) ... ok
+test_rpc_failure_at_every_http_boundary_preserves_auditable_partial_result (test_continuation.PartialAuditTests.test_rpc_failure_at_every_http_boundary_preserves_auditable_partial_result) ... ok
+test_stop_before_first_post_has_zero_requests_and_no_promoted_state (test_continuation.PartialAuditTests.test_stop_before_first_post_has_zero_requests_and_no_promoted_state) ... ok
+test_wrong_chain_remains_unverified_without_promoting_history (test_continuation.PartialAuditTests.test_wrong_chain_remains_unverified_without_promoting_history) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 1.403s
+
+OK

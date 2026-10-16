@@ -1,0 +1,69 @@
+{
+  "batch_width": 4,
+  "broadcast_enabled": false,
+  "capture_max_expected_methods": 49,
+  "chain_id": 4663,
+  "cohort_freeze": "unchanged PR14 30-account cohort; canonical boundaries rechecked; no new logs",
+  "confirmation_buffer_blocks": 64,
+  "creation_call_gas_limit": 2000000,
+  "freshness_budget_ms_assumed": 1000,
+  "funded_capacity_wei": 0,
+  "historical_completeness_claim": false,
+  "http_wall_timeout_seconds": 20,
+  "market": "0xaa586d26a6fe62d9c0f0948fede6e2130500ac7a655587447e2d4a37e6330589",
+  "max_borrowers": 64,
+  "max_event_blocks": 128,
+  "max_logs": 512,
+  "max_requests": 512,
+  "max_response_bytes": 2097152,
+  "max_run_seconds": 900,
+  "max_segments_per_run": 40,
+  "max_total_response_bytes": 33554432,
+  "near_threshold_bps": 100,
+  "orders": [
+    [
+      "legacy",
+      "fresh",
+      "persistent"
+    ],
+    [
+      "fresh",
+      "persistent",
+      "legacy"
+    ],
+    [
+      "persistent",
+      "legacy",
+      "fresh"
+    ],
+    [
+      "persistent",
+      "fresh",
+      "legacy"
+    ],
+    [
+      "fresh",
+      "legacy",
+      "persistent"
+    ],
+    [
+      "legacy",
+      "persistent",
+      "fresh"
+    ]
+  ],
+  "overflow": "stop without trimming; preserve validated prefix; do not freeze partial target",
+  "parallel_http": false,
+  "profitability_measured": false,
+  "redirects": false,
+  "reorg": "invalidate registry on checkpoint mismatch; no automatic rollback or replacement",
+  "retries": 0,
+  "route_simulation_enabled": false,
+  "schema": 1,
+  "selection": "all distinct Borrow onBehalf in a fixed contiguous window; retain accounts across future runs; no ranking by health or liquidation outcomes",
+  "shard_blocks": 10000,
+  "source_file_sha256": "19034043d9e0b56919018ebfc8a3bc50787873d6c8f146593606df3ec2daf47a",
+  "source_path": "migration/robinhood-history-continuation-20261016T0715/evidence/pilot/registry.json",
+  "source_root": "3b530c3214b58b8ae4adb5dc4aa399b6e2db1994396bb2ce918302cf0a63f8de",
+  "study": "NQC_FIXED_COHORT_TRANSPORT_TRIADS_V1"
+}
