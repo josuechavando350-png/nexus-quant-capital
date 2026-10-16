@@ -1,0 +1,48 @@
+{
+  "producer_base_commit": "a5f010dc852b377e8e1a472cddeab2805d782ff6",
+  "input_files": {
+    "historical_receipts": {
+      "path": "migration/robinhood-route-admission-20261016/evidence/historical-receipts/rpc_original_receipts.json",
+      "sha256": "be33cda6e32cc0cc6401a693e1818058b2abea324c73f959973f58b0cdf89f98"
+    },
+    "route_audit": {
+      "path": "migration/robinhood-route-admission-20261016/route_audit.py",
+      "sha256": "aa36a2734b0c6768b763ee9a3bece8e7b670623ed300222b579158b162b88f98"
+    },
+    "partial_explorer_transaction": {
+      "path": "migration/robinhood-route-admission-20261016/evidence/explorer/transaction.json",
+      "sha256": "ce62085feb0b20903fb8c73da2f1ba720f400055249626abf7016c681bb36471"
+    },
+    "historic_prestate_workflow": {
+      "path": "migration/engine-v2-20261015/branch-only/wsnet/workflows-disabled/nqc-wsnet-historic-prestate-once-20261015.yml.disabled",
+      "sha256": "4bdb2d6064c59a21e0e227bd41a7f404356056c1eaa60d9af6eb608828393bbf"
+    }
+  },
+  "status": "CAPTURE_BLOCKED_INPUTS_INCOMPLETE",
+  "current_task_rpc_requests": 0,
+  "prior_public_rpc_403_not_retried": true,
+  "no_authorized_archive_endpoint_configured": true,
+  "existing_connector_budget_exhausted": true,
+  "fresh_chain_state_verified": false,
+  "full_nqc_replay_done": false,
+  "nitro_da_estimated_for_nqc": false,
+  "paid_service_created": false,
+  "sources": [
+    {
+      "url": "https://docs.robinhood.com/chain/gas-and-fees/",
+      "use": "fees already include execution and parent data charge"
+    },
+    {
+      "url": "https://docs.robinhood.com/chain/connecting/",
+      "use": "archive endpoints needed for historical reads"
+    },
+    {
+      "url": "https://docs.arbitrum.io/arbitrum-essentials/how-to-estimate-gas",
+      "use": "NodeInterface fee components and previous-block simulation"
+    },
+    {
+      "url": "https://geth.ethereum.org/docs/developers/evm-tracing/built-in-tracers",
+      "use": "callTracer logs and prestateTracer configuration; no cryptographic witness claim"
+    }
+  ]
+}
