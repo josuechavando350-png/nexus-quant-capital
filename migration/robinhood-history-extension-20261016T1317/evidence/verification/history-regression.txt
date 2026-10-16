@@ -1,0 +1,16 @@
+Synthetic failure boundaries audited: 43
+test_all_http_failures_audit_exact_partial_files (test_history.HistoryTests.test_all_http_failures_audit_exact_partial_files) ... ok
+test_complete_preserves_accounts_and_segments_and_one_gate (test_history.HistoryTests.test_complete_preserves_accounts_and_segments_and_one_gate) ... ok
+test_denial_latches_reader_and_no_rotation_allowed (test_history.HistoryTests.test_denial_latches_reader_and_no_rotation_allowed) ... ok
+test_partial_older_and_merged_file_tampering_rejected (test_history.HistoryTests.test_partial_older_and_merged_file_tampering_rejected) ... ok
+test_rehashed_metric_and_join_tampering_rejected (test_history.HistoryTests.test_rehashed_metric_and_join_tampering_rejected) ... ok
+test_reorg_at_source_boundary_join_and_tail (test_history.HistoryTests.test_reorg_at_source_boundary_join_and_tail) ... ok
+test_single_request_budget_at_each_phase_boundary (test_history.HistoryTests.test_single_request_budget_at_each_phase_boundary) ... ok
+test_source_window_and_hash_fail_before_rpc (test_history.HistoryTests.test_source_window_and_hash_fail_before_rpc) ... ok
+test_stop_after_join_before_catchup_preserves_join (test_history.HistoryTests.test_stop_after_join_before_catchup_preserves_join) ... ok
+test_time_budget_not_reset_across_history_join_and_tail (test_history.HistoryTests.test_time_budget_not_reset_across_history_join_and_tail) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 3.411s
+
+OK
