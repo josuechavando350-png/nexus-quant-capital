@@ -2,6 +2,8 @@
 
 [PR22 borrador](https://github.com/josuechavando350-png/nexus-quant-capital/pull/22), rama `nqc/registry-recovery-20261016T1507`. Buscar primero PR/commits/procesos posteriores. Base PR21 `276883828ef921c4f3b55b3dd5ea395615222c73`. Leer AGENTS.md, README raíz y CAPTURE.md. No fusionar.
 
+Evidencia publicada en commit `e8e36de451ea9ab7a35301dcb2a65cd8d03032a2`, árbol `76ad74d8039da714d705c5de9c45a40c4d207ed0`. [Informe fijado a ese commit](https://github.com/josuechavando350-png/nexus-quant-capital/blob/e8e36de451ea9ab7a35301dcb2a65cd8d03032a2/migration/robinhood-registry-recovery-20261016T1507/CAPTURE.md). Este relevo posterior solo añade las referencias; consultar HEAD final del PR.
+
 Captura única TERMINADA, no relanzar `recovery.py`, sobrescribir `evidence/pilot`, regenerar lock o modificar fuentes registradas. Protocolo previo `1b850c9bb8a31ae5f8f083431c8d822e5419c854`, árbol `2961582b305451dc42ba6a268ebccb32a7d55fee`, rama fija `nqc/recovery-protocol-20261016T1507`. 101 fuentes intactas. README/PROTOCOL describen la preparación inmutable; CAPTURE.md es el resultado posterior.
 
 ## Resultado de esta ejecución
