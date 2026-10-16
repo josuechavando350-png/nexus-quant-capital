@@ -1,0 +1,58 @@
+test_all_share_to_funder_leaves_founder_zero (test_funding.FundingTests.test_all_share_to_funder_leaves_founder_zero) ... ok
+test_bad_numeric_values (test_funding.FundingTests.test_bad_numeric_values) ... ok
+test_conversion_cost_and_fixed_cost_retained (test_funding.FundingTests.test_conversion_cost_and_fixed_cost_retained) ... ok
+test_exact_break_even_is_not_profit (test_funding.FundingTests.test_exact_break_even_is_not_profit) ... ok
+test_external_bundler_recharges_bundle_revert (test_funding.FundingTests.test_external_bundler_recharges_bundle_revert) ... ok
+test_four_outcomes_sum_to_one (test_funding.FundingTests.test_four_outcomes_sum_to_one) ... ok
+test_integrated_invoice_rejected (test_funding.FundingTests.test_integrated_invoice_rejected) ... ok
+test_integrated_no_double_counting (test_funding.FundingTests.test_integrated_no_double_counting) ... ok
+test_missing_or_unknown_costs_rejected (test_funding.FundingTests.test_missing_or_unknown_costs_rejected) ... ok
+test_rejection_cannot_have_network_fee (test_funding.FundingTests.test_rejection_cannot_have_network_fee) ... ok
+test_rejection_still_has_offchain_and_fixed_cost (test_funding.FundingTests.test_rejection_still_has_offchain_and_fixed_cost) ... ok
+test_reverted_bundle_cannot_debit_paymaster (test_funding.FundingTests.test_reverted_bundle_cannot_debit_paymaster) ... ok
+test_wei_integral (test_funding.FundingTests.test_wei_integral) ... ok
+test_zero_share_cannot_repay_funder (test_funding.FundingTests.test_zero_share_cannot_repay_funder) ... ok
+test_callback_authentication (test_principal.PrincipalTests.test_callback_authentication) ... ok
+test_changed_repayment_rejected (test_principal.PrincipalTests.test_changed_repayment_rejected) ... ok
+test_each_initial_balance_must_be_zero (test_principal.PrincipalTests.test_each_initial_balance_must_be_zero) ... ok
+test_exact_approval_required (test_principal.PrincipalTests.test_exact_approval_required) ... ok
+test_extra_morpho_call_rejected (test_principal.PrincipalTests.test_extra_morpho_call_rejected) ... ok
+test_full_offline_audits_and_cash_conservation (test_principal.PrincipalTests.test_full_offline_audits_and_cash_conservation) ... ERROR
+test_real_principal_flow (test_principal.PrincipalTests.test_real_principal_flow) ... ERROR
+test_repayment_before_callback_rejected (test_principal.PrincipalTests.test_repayment_before_callback_rejected) ... ok
+test_reverted_trace_not_a_proof (test_principal.PrincipalTests.test_reverted_trace_not_a_proof) ... ok
+test_unfunded_prefix_detected_even_with_zero_final_delta (test_principal.PrincipalTests.test_unfunded_prefix_detected_even_with_zero_final_delta) ... ok
+
+======================================================================
+ERROR: test_full_offline_audits_and_cash_conservation (test_principal.PrincipalTests.test_full_offline_audits_and_cash_conservation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/833721a2e367/nqc-zero-principal/migration/robinhood-zero-principal-20261016T1533/test_principal.py", line 84, in test_full_offline_audits_and_cash_conservation
+    result = p.audit()
+             ^^^^^^^^^
+  File "/workspace/scratch/833721a2e367/nqc-zero-principal/migration/robinhood-zero-principal-20261016T1533/principal_audit.py", line 140, in audit
+    proof = audit_principal(replay.result(OLD / 'evidence/nitro-phase5/01-nqc-plain-eoa-success.json'), data)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/833721a2e367/nqc-zero-principal/migration/robinhood-zero-principal-20261016T1533/principal_audit.py", line 99, in audit_principal
+    require(len(reads) == 5 and [f for f in morpho_calls if f not in reads] == [liquidation]
+  File "/workspace/scratch/833721a2e367/nqc-zero-principal/migration/robinhood-real-state-replay-20261016/audit_result.py", line 22, in require
+    raise ValueError(message)
+ValueError: additional Morpho call
+
+======================================================================
+ERROR: test_real_principal_flow (test_principal.PrincipalTests.test_real_principal_flow)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/833721a2e367/nqc-zero-principal/migration/robinhood-zero-principal-20261016T1533/test_principal.py", line 22, in test_real_principal_flow
+    result = p.audit_principal(self.trace, self.data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/833721a2e367/nqc-zero-principal/migration/robinhood-zero-principal-20261016T1533/principal_audit.py", line 99, in audit_principal
+    require(len(reads) == 5 and [f for f in morpho_calls if f not in reads] == [liquidation]
+  File "/workspace/scratch/833721a2e367/nqc-zero-principal/migration/robinhood-real-state-replay-20261016/audit_result.py", line 22, in require
+    raise ValueError(message)
+ValueError: additional Morpho call
+
+----------------------------------------------------------------------
+Ran 24 tests in 0.136s
+
+FAILED (errors=2)
