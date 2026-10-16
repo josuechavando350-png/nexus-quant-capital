@@ -1,0 +1,273 @@
+{
+  "status": "PRINCIPAL_PROOF_VERIFIED_COMMERCIAL_FINANCING_UNPROVEN",
+  "new_rpc_methods": 0,
+  "new_capture_seconds": 0,
+  "historical_block": 66744162,
+  "historical_block_hash": "0x8e702487ffdd8f2ff97528407ba671f1a1d1d6f16a812e85fb5cb6625b6886d7",
+  "principal": {
+    "status": "ZERO_INITIAL_ROUTE_TOKEN_INVENTORY_IN_FIXED_HISTORICAL_SIMULATION",
+    "usd_gross_sale_raw": 226094796,
+    "usd_debt_repayment_raw": 194034131,
+    "usd_surplus_before_gas_raw": 32060665,
+    "unit": "USDG, 6 decimals; not a USD parity assertion",
+    "separate_morpho_flash_loan_invoked": false,
+    "morpho_static_reads": 5,
+    "initial_balances_observed_zero": 6,
+    "ordered_inventory_ledgers": {
+      "executor:USDG": {
+        "minimum_initial_inventory_raw": 0,
+        "final_delta_raw": 0,
+        "steps": [
+          {
+            "ordinal": 23,
+            "balance_raw": 226094796
+          },
+          {
+            "ordinal": 26,
+            "balance_raw": 32060665
+          },
+          {
+            "ordinal": 28,
+            "balance_raw": 0
+          }
+        ],
+        "initial_zero_observed": true
+      },
+      "executor:WSNET": {
+        "minimum_initial_inventory_raw": 0,
+        "final_delta_raw": 0,
+        "steps": [
+          {
+            "ordinal": 4,
+            "balance_raw": 93436250743843184
+          },
+          {
+            "ordinal": 7,
+            "balance_raw": 0
+          }
+        ],
+        "initial_zero_observed": true
+      },
+      "executor:SNET": {
+        "minimum_initial_inventory_raw": 0,
+        "final_delta_raw": 0,
+        "steps": [],
+        "initial_zero_observed": false
+      },
+      "executor:NET": {
+        "minimum_initial_inventory_raw": 0,
+        "final_delta_raw": 0,
+        "steps": [],
+        "initial_zero_observed": false
+      },
+      "router:USDG": {
+        "minimum_initial_inventory_raw": 0,
+        "final_delta_raw": 0,
+        "steps": [
+          {
+            "ordinal": 20,
+            "balance_raw": 226094796
+          },
+          {
+            "ordinal": 23,
+            "balance_raw": 0
+          }
+        ],
+        "initial_zero_observed": true
+      },
+      "router:WSNET": {
+        "minimum_initial_inventory_raw": 0,
+        "final_delta_raw": 0,
+        "steps": [
+          {
+            "ordinal": 7,
+            "balance_raw": 93436250743843184
+          },
+          {
+            "ordinal": 9,
+            "balance_raw": 0
+          }
+        ],
+        "initial_zero_observed": true
+      },
+      "router:SNET": {
+        "minimum_initial_inventory_raw": 0,
+        "final_delta_raw": 0,
+        "steps": [
+          {
+            "ordinal": 10,
+            "balance_raw": 308856441
+          },
+          {
+            "ordinal": 13,
+            "balance_raw": 0
+          }
+        ],
+        "initial_zero_observed": true
+      },
+      "router:NET": {
+        "minimum_initial_inventory_raw": 0,
+        "final_delta_raw": 0,
+        "steps": [
+          {
+            "ordinal": 14,
+            "balance_raw": 308856441
+          },
+          {
+            "ordinal": 17,
+            "balance_raw": 293413619
+          },
+          {
+            "ordinal": 19,
+            "balance_raw": 0
+          }
+        ],
+        "initial_zero_observed": true
+      }
+    },
+    "ordered_transfers": [
+      {
+        "ordinal": 4,
+        "token": "0x63c12667638f2ae6fc6ae09b43d98ec84a8586ea",
+        "from": "0x9d53d5e3bd5e8d4cbfa6db1ca238aea02e651010",
+        "to": "0x10c6e9530f1c1af873a391030a1d9e8ed0630d26",
+        "amount_raw": 93436250743843184
+      },
+      {
+        "ordinal": 7,
+        "token": "0x63c12667638f2ae6fc6ae09b43d98ec84a8586ea",
+        "from": "0x10c6e9530f1c1af873a391030a1d9e8ed0630d26",
+        "to": "0xeebe00ac0756308ac4aabfd76c05c4f3088b8883",
+        "amount_raw": 93436250743843184
+      },
+      {
+        "ordinal": 9,
+        "token": "0x63c12667638f2ae6fc6ae09b43d98ec84a8586ea",
+        "from": "0xeebe00ac0756308ac4aabfd76c05c4f3088b8883",
+        "to": "0x0000000000000000000000000000000000000000",
+        "amount_raw": 93436250743843184
+      },
+      {
+        "ordinal": 10,
+        "token": "0xb773ec2c326b7f98a5a83fc098825492f020a4c7",
+        "from": "0x63c12667638f2ae6fc6ae09b43d98ec84a8586ea",
+        "to": "0xeebe00ac0756308ac4aabfd76c05c4f3088b8883",
+        "amount_raw": 308856441
+      },
+      {
+        "ordinal": 13,
+        "token": "0xb773ec2c326b7f98a5a83fc098825492f020a4c7",
+        "from": "0xeebe00ac0756308ac4aabfd76c05c4f3088b8883",
+        "to": "0xb078cc304a0b264c5f3680dc0488954accd02e87",
+        "amount_raw": 308856441
+      },
+      {
+        "ordinal": 14,
+        "token": "0xca9c78dd337a67f6e0077f65f5e9218719d30edf",
+        "from": "0xb078cc304a0b264c5f3680dc0488954accd02e87",
+        "to": "0xeebe00ac0756308ac4aabfd76c05c4f3088b8883",
+        "amount_raw": 308856441
+      },
+      {
+        "ordinal": 17,
+        "token": "0xca9c78dd337a67f6e0077f65f5e9218719d30edf",
+        "from": "0xeebe00ac0756308ac4aabfd76c05c4f3088b8883",
+        "to": "0x086c58400b8708ef993f256e12e752dcf0ac918e",
+        "amount_raw": 15442822
+      },
+      {
+        "ordinal": 19,
+        "token": "0xca9c78dd337a67f6e0077f65f5e9218719d30edf",
+        "from": "0xeebe00ac0756308ac4aabfd76c05c4f3088b8883",
+        "to": "0x59f95461e68e0c77605299791e1449f175165b54",
+        "amount_raw": 293413619
+      },
+      {
+        "ordinal": 20,
+        "token": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+        "from": "0x59f95461e68e0c77605299791e1449f175165b54",
+        "to": "0xeebe00ac0756308ac4aabfd76c05c4f3088b8883",
+        "amount_raw": 226094796
+      },
+      {
+        "ordinal": 23,
+        "token": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+        "from": "0xeebe00ac0756308ac4aabfd76c05c4f3088b8883",
+        "to": "0x10c6e9530f1c1af873a391030a1d9e8ed0630d26",
+        "amount_raw": 226094796
+      },
+      {
+        "ordinal": 26,
+        "token": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+        "from": "0x10c6e9530f1c1af873a391030a1d9e8ed0630d26",
+        "to": "0x9d53d5e3bd5e8d4cbfa6db1ca238aea02e651010",
+        "amount_raw": 194034131
+      },
+      {
+        "ordinal": 28,
+        "token": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+        "from": "0x10c6e9530f1c1af873a391030a1d9e8ed0630d26",
+        "to": "0xa16e02e87b7454126e5e10d957a927a7f5b5d2be",
+        "amount_raw": 32060665
+      }
+    ],
+    "scope": "One counterfactual at historical block 66744162 / transaction index 1; not live revenue."
+  },
+  "loss_attribution": [
+    {
+      "outcome": "successful_userop",
+      "evidence_kind": "historical Nitro; window variant 31s",
+      "network_fee_wei": 55018306338000,
+      "sponsor_cash_delta_wei": -76653394686000,
+      "bundler_and_beneficiary_cash_delta_wei": 21635088348000,
+      "consolidated_cash_delta_wei": -55018306338000,
+      "external_bundler_recharge_to_funder_wei": null,
+      "future_occurrence_probability": null
+    },
+    {
+      "outcome": "included_userop_failure",
+      "evidence_kind": "historical Nitro; original parent-state variant, different operation",
+      "network_fee_wei": 39639718050000,
+      "sponsor_cash_delta_wei": -50201161200000,
+      "bundler_and_beneficiary_cash_delta_wei": 10561443150000,
+      "consolidated_cash_delta_wei": -39639718050000,
+      "external_bundler_recharge_to_funder_wei": null,
+      "future_occurrence_probability": null
+    },
+    {
+      "outcome": "included_bundle_revert",
+      "evidence_kind": "historical Nitro; window variant expired",
+      "network_fee_wei": 5878984092000,
+      "sponsor_cash_delta_wei": 0,
+      "bundler_and_beneficiary_cash_delta_wei": -5878984092000,
+      "consolidated_cash_delta_wei": -5878984092000,
+      "external_bundler_recharge_to_funder_wei": null,
+      "future_occurrence_probability": null
+    },
+    {
+      "outcome": "preinclusion_rejection",
+      "evidence_kind": "accounting definition; not measured",
+      "network_fee_wei": 0,
+      "sponsor_cash_delta_wei": 0,
+      "bundler_and_beneficiary_cash_delta_wei": 0,
+      "consolidated_cash_delta_wei": 0,
+      "offchain_cost_usdg": null,
+      "external_bundler_recharge_to_funder_wei": null,
+      "future_occurrence_probability": null
+    }
+  ],
+  "loss_cases_are_not_a_statistical_sample": true,
+  "historical_window_prefund_reservation_wei": 249541240000000,
+  "historical_fixture_balances": {
+    "entrypoint_wei": 100000000000000000,
+    "bundler_wei": 10000000000000000,
+    "available_funding_proven": false,
+    "minimum_required_claimed": false
+  },
+  "current_production_bundler_admission": null,
+  "external_funding_committed_wei": null,
+  "founder_no_recourse_agreement": null,
+  "future_net_margin_usdg": null,
+  "realized_revenue": false,
+  "verified_source_files": 251
+}
