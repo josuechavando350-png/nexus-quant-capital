@@ -1,0 +1,76 @@
+{
+  "active_workflows": 0,
+  "audit_command": "python migration/robinhood-acquisition-20261016T0922/audit_acquisition.py migration/robinhood-acquisition-20261016T0922/evidence/pilot --out migration/robinhood-acquisition-20261016T0922/evidence/audit.json",
+  "audit_sha256": "6a51d9867580f432a0ab065e58dd8ec509e48808808780ddad07dd67e8ff09b2",
+  "base_commit": "170148bf07920ae0e9112cc7f28507ca6051dd77",
+  "capture_command": "python migration/robinhood-acquisition-20261016T0922/acquisition.py --out migration/robinhood-acquisition-20261016T0922/evidence/pilot --registration-commit d03ecc8e1106488e80d33d8a4beecff65375db80",
+  "capture_process_elapsed_seconds": 5.131330236,
+  "capture_process_exit_code": 1,
+  "dependencies": {
+    "certifi": "2026.7.22",
+    "charset-normalizer": "3.5.2",
+    "idna": "3.20",
+    "requests": "2.32.5",
+    "urllib3": "2.5.0"
+  },
+  "disabled_workflows": 106,
+  "endpoint_changes": 0,
+  "funded_capacity_wei": 0,
+  "further_rpc_after_denial": 0,
+  "http_requests_total": 10,
+  "journal_sha256": "9486bfbb1439a84e764b7cc7b6dc54645dea3724b690f1a2aeee2db15c134712",
+  "ledger_sha256": "53548dcf631189ac67093621d2d8c0316f3f65e52cc82c154cd1e3804316019d",
+  "limitations": [
+    "HTTP 429 prevented completion",
+    "no fresh debt/coverage/candidate/latency observations",
+    "partial tail target, canonical revalidation required next time",
+    "single demo provider; no independent state/log proof",
+    "reported 5/second is not a purchased SLA or proof of exact quota scope"
+  ],
+  "live_broadcasts": 0,
+  "measurement_started": false,
+  "next_source_file_sha256": "67d8a5c619bf025e410e785838e9f08b5919a6e844112eb22911b17369c501ee",
+  "next_source_registry_root": "c57a798823c6163a54588353b92269fd98cd050cc96c9afb6123741d6752f7de",
+  "next_source_status": "valid_prefix_not_frozen",
+  "observations_completed": 0,
+  "original_blobs_verified": 377,
+  "prior_manifests_verified": {
+    "robinhood-history-backfill-20261016": {
+      "files_verified": 210,
+      "manifest_sha256": "ea5dc9c97760ffb9a21083c402722a4bfba1fe4bf04ebc4253f9fb4a5511c035"
+    },
+    "robinhood-history-continuation-20261016T0715": {
+      "files_verified": 175,
+      "manifest_sha256": "2334c7d49a9933195074d60b2646a68167de70ce89498ff35f65dfed1e795101"
+    },
+    "robinhood-transport-benchmark-20261016T0821": {
+      "files_verified": 77,
+      "manifest_sha256": "3c6caf4b8742d9342a85092fc6a70d8eca51701275cddb423918c7eadc526570"
+    }
+  },
+  "provider_error_code": -32007,
+  "provider_message": "5/second request limit reached",
+  "python": "3.12.14",
+  "python_tests_passed": {
+    "acquisition": 12,
+    "continuation": 14,
+    "isolation-tests": 9,
+    "lens": 16,
+    "registry": 25,
+    "transport": 16
+  },
+  "python_tests_total": 92,
+  "realized_profit": null,
+  "registered_sources_unchanged": 46,
+  "registration_commit": "d03ecc8e1106488e80d33d8a4beecff65375db80",
+  "registration_tree": "28dc9e433543f26c0159748698d66361ed3a512b",
+  "repository": "josuechavando350-png/nexus-quant-capital",
+  "route_simulations": 0,
+  "rpc_methods_total": 10,
+  "rpc_retries": 0,
+  "rust_tests_rerun": false,
+  "solidity_tests_rerun": false,
+  "summary_sha256": "763d392c9862896a7d1497d0332ae5caf1362a158ca94eb48246f66316ec6596",
+  "terminal_reason": "HTTP_STATUS_429",
+  "written_utc": "2026-10-16T09:39:01.024598+00:00"
+}
