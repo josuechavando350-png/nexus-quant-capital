@@ -1,0 +1,30 @@
+Compiling 2 files with Solc 0.8.23
+Solc 0.8.23 finished in 8.63s
+Compiler run successful with warnings:
+Warning (2018): Function state mutability can be restricted to view
+  --> test/Fixtures.sol:21:5:
+   |
+21 |     function validateUserOp(
+   |     ^ (Relevant source part starts here and spans across multiple lines).
+
+
+Ran 16 tests for test/NqcWindowedPaymaster.t.sol:NqcWindowedPaymasterTest
+[PASS] testAcceptsExactlyValidAfter() (gas: 182521)
+[PASS] testAcceptsExactlyValidUntil() (gas: 182455)
+[PASS] testAcceptsInsideWindow() (gas: 182405)
+[PASS] testCalldataMutationDeniedDespiteValidAccountSignature() (gas: 119148)
+[PASS] testDifferentChainDenied() (gas: 116392)
+[PASS] testDirectCallerDenied() (gas: 60972)
+[PASS] testDoesNotRecycleReservedBudget() (gas: 66808)
+[PASS] testFeeMutationDeniedDespiteValidAccountSignature() (gas: 115955)
+[PASS] testNoPostOpCalledForEmptyContext() (gas: 182383)
+[PASS] testNonceReplayDenied() (gas: 204869)
+[PASS] testRejectsAfterValidUntil() (gas: 133892)
+[PASS] testRejectsBeforeValidAfter() (gas: 133857)
+[PASS] testRejectsZeroOrOverCapPrefund() (gas: 67604)
+[PASS] testReturnsWindowAndEmptyContextWithoutReadingClock() (gas: 67755)
+[PASS] testThirtyOneSecondWindowCanBeConfigured() (gas: 909405)
+[PASS] testZeroUnlimitedAndExcessiveWindowsDenied() (gas: 185017)
+Suite result: ok. 16 passed; 0 failed; 0 skipped; finished in 3.95ms (5.17ms CPU time)
+
+Ran 1 test suite in 6.18ms (3.95ms CPU time): 16 tests passed, 0 failed, 0 skipped (16 total tests)

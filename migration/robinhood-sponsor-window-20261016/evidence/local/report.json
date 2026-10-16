@@ -1,0 +1,81 @@
+{
+  "records": [
+    {
+      "case": "not_due",
+      "timestamp": 1789786799,
+      "local_l2_clock_stub": 66744162,
+      "bundle_success": false,
+      "userop_success": null,
+      "sponsor_charge_wei": 0,
+      "billed_gas": 0,
+      "receipt_gas": 87087,
+      "local_network_fee_wei": 5966678718000,
+      "surplus_usdg_raw": 0,
+      "budget_after_wei": 249541240000000
+    },
+    {
+      "case": "valid_after",
+      "timestamp": 1789786800,
+      "local_l2_clock_stub": 66744162,
+      "bundle_success": true,
+      "userop_success": true,
+      "sponsor_charge_wei": 76759180302000,
+      "billed_gas": 1120343,
+      "receipt_gas": 836289,
+      "local_network_fee_wei": 57297504546000,
+      "surplus_usdg_raw": 32060665,
+      "budget_after_wei": 0
+    },
+    {
+      "case": "valid_until",
+      "timestamp": 1789786801,
+      "local_l2_clock_stub": 66744162,
+      "bundle_success": true,
+      "userop_success": true,
+      "sponsor_charge_wei": 76759180302000,
+      "billed_gas": 1120343,
+      "receipt_gas": 836289,
+      "local_network_fee_wei": 57297504546000,
+      "surplus_usdg_raw": 32062461,
+      "budget_after_wei": 0
+    },
+    {
+      "case": "expired",
+      "timestamp": 1789786802,
+      "local_l2_clock_stub": 66744162,
+      "bundle_success": false,
+      "userop_success": null,
+      "sponsor_charge_wei": 0,
+      "billed_gas": 0,
+      "receipt_gas": 87078,
+      "local_network_fee_wei": 5966062092000,
+      "surplus_usdg_raw": 0,
+      "budget_after_wei": 249541240000000
+    },
+    {
+      "case": "l2_execution_expired",
+      "timestamp": 1789786800,
+      "local_l2_clock_stub": 66744163,
+      "bundle_success": true,
+      "userop_success": false,
+      "sponsor_charge_wei": 21093268152000,
+      "billed_gas": 307868,
+      "receipt_gas": 134995,
+      "local_network_fee_wei": 9249047430000,
+      "surplus_usdg_raw": 0,
+      "budget_after_wei": 0
+    }
+  ],
+  "window": {
+    "approved_userop_hash": "0x3bb989202b5f549e643a482368bc2a7e259815e00c3fc9b5bb79cd6dba5377e1",
+    "valid_after": 1789786800,
+    "valid_until": 1789786801,
+    "budget_wei": 249541240000000,
+    "runtime_sha256": "d8793be6c8d2c8b82393d8a44710310fa1db8ccc29aa9038be394d2c61ffb699",
+    "constructor_deployed_on_loopback_only": true,
+    "public_fixture_signature_reused": true
+  },
+  "local_is_nitro": false,
+  "deployment_cost_included_in_cycle": false,
+  "production_admission_proven": false
+}
