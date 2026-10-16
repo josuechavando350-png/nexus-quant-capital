@@ -1,0 +1,52 @@
+{
+  "scope": "HISTORICAL_SINGLE_RPC_RUNTIME_REBUILD_WITH_EXPLORER_SOURCE_CHECK",
+  "chain_id": 4663,
+  "address": "0x0000000071727de22e5e9d8baf0edac6f37da032",
+  "block": 89626392,
+  "block_hash": "0x2a1e456b73f9477e2a118aa33a46d500d0235c8f0f7b5e7302856b22013d00f7",
+  "official_commits": {
+    "account-abstraction": "7af70c8993a6f42973f520ae0752386a5032abe7",
+    "openzeppelin-contracts": "dbb6104ce834628e473d2173bbc9d47f81a9eec3"
+  },
+  "compiler_sha256": "28726a452290c70e1984f15c53ad3088e7d98783ee3070b11b3664da77415732",
+  "source_file_count": 18,
+  "source_sha256": {
+    "contracts/core/EntryPoint.sol": "ddad73961da5bad85f0656d9c8e6e729d36a02854198765d335fb59205a55b9e",
+    "contracts/interfaces/IAccount.sol": "0c44401dd9df8d5b02d6a03170e163f2ca3434c382d41a31e022ceb789cf95ef",
+    "contracts/interfaces/PackedUserOperation.sol": "40fcd99da0814312f0353417de64f70805f4cd7ec4cb4573c8b4c4d48540f562",
+    "contracts/interfaces/IAccountExecute.sol": "a96aabf8dcfa68a83325678e23200956c667a91ce448f2d63efb10ca947edc3e",
+    "contracts/interfaces/IPaymaster.sol": "14bfb45b3ade4fad4ae09a19c5270e00c75ed0d9d0bf15e0dd499371a111cd23",
+    "contracts/interfaces/IEntryPoint.sol": "06f97dfe27d09b478a1e82855ab57485b11ea68e3804b03e879f184bbc667fb7",
+    "contracts/interfaces/IStakeManager.sol": "6334881d2273350b92fd4b0ecabbed9a844ef5d114832097ecd2b631010b6033",
+    "contracts/interfaces/IAggregator.sol": "bc6df43d690bcaf2da8255748070e880eb7390e74ea98f6e36eb0a9f4b128ac1",
+    "contracts/interfaces/INonceManager.sol": "4a600598dca29462afaebf27de758c83344d9d9871a53c1cdbe448510491d0e3",
+    "contracts/utils/Exec.sol": "8ccaa8a5230a7e7722d25f070ab6e1ce9ada315d9649da34cce3a061c1b985cc",
+    "contracts/core/StakeManager.sol": "56ef93b31c8fb80d1806c69aad5d65f86951df0b145664b5c49018958239b644",
+    "contracts/core/SenderCreator.sol": "84b46309bf6d890c13362c9c449ff927fa72465741517fc405c8c24baae2d1a3",
+    "contracts/core/Helpers.sol": "4ec549dbe1685def37cbe8699eb5376ce4466dcd0c6ffffd7c0d7e0f7a5b89a3",
+    "contracts/core/NonceManager.sol": "fbb29dadcaaa4df16a38d5bbe642737034b2a3b8318a7d8c75b4936892b10366",
+    "contracts/core/UserOperationLib.sol": "43faeb07191dea518fe9dd1111b775911af572427c6d6a51bfa6cc4c5b08c9aa",
+    "@openzeppelin/contracts/utils/introspection/ERC165.sol": "99348354365cbdeb90157e2903334b861a00d69faab7720ae542d911d5c70d87",
+    "@openzeppelin/contracts/utils/introspection/IERC165.sol": "07ae1ac964ab74dedada999e2dfc642031a6495469cffc0bf715daa4f1e4f904",
+    "@openzeppelin/contracts/utils/ReentrancyGuard.sol": "8d0bac508a25133c9ff80206f65164cef959ec084645d1e7b06050c2971ae0fc"
+  },
+  "compiled_bytes": 16035,
+  "observed_bytes": 16035,
+  "compiled_sha256": "674d73ee2acf6d72a5b32b6e05150b9ddcfcee0429a0e7914929faccbc2bf4d5",
+  "observed_sha256": "674d73ee2acf6d72a5b32b6e05150b9ddcfcee0429a0e7914929faccbc2bf4d5",
+  "full_byte_equality_including_metadata": true,
+  "sender_creator": "0xEFC2c1444eBCC4Db75e7613d20C6a62fF67A167C",
+  "immutable_locations": [
+    {
+      "length": 32,
+      "start": 3362
+    },
+    {
+      "length": 32,
+      "start": 12875
+    }
+  ],
+  "fresh_rpc_read": false,
+  "external_bundler_admission": false,
+  "live_useroperation": false
+}

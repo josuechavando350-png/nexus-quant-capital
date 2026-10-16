@@ -1,0 +1,77 @@
+{
+  "status": "LOCAL_ACCOUNTING_PASS_COMMERCIAL_GATE_BLOCKED",
+  "identity_block": 89626392,
+  "rows": [
+    {
+      "scenario": "success_original_limits",
+      "transaction_gas": 455745,
+      "sponsor_debit_eth": "0.00146869",
+      "bundler_transaction_fee_eth": "0.00091149",
+      "billed_userop_gas": 734345,
+      "userop_success": true
+    },
+    {
+      "scenario": "success_reduced_limits",
+      "transaction_gas": 455745,
+      "sponsor_debit_eth": "0.00122869",
+      "bundler_transaction_fee_eth": "0.00091149",
+      "billed_userop_gas": 614345,
+      "userop_success": true
+    },
+    {
+      "scenario": "expired_l2",
+      "transaction_gas": 227095,
+      "sponsor_debit_eth": "0.000638042",
+      "bundler_transaction_fee_eth": "0.00045419",
+      "billed_userop_gas": 319021,
+      "userop_success": false
+    },
+    {
+      "scenario": "swap_revert",
+      "transaction_gas": 490058,
+      "sponsor_debit_eth": "0.001111376",
+      "bundler_transaction_fee_eth": "0.000980116",
+      "billed_userop_gas": 555688,
+      "userop_success": false
+    },
+    {
+      "scenario": "postop_revert",
+      "transaction_gas": 516874,
+      "sponsor_debit_eth": "0.001164982",
+      "bundler_transaction_fee_eth": "0.001033748",
+      "billed_userop_gas": 582491,
+      "userop_success": false
+    },
+    {
+      "scenario": "call_out_of_gas",
+      "transaction_gas": 244271,
+      "sponsor_debit_eth": "0.000554958",
+      "bundler_transaction_fee_eth": "0.000488542",
+      "billed_userop_gas": 277479,
+      "userop_success": false
+    },
+    {
+      "scenario": "invalid_signature_bundle_revert",
+      "transaction_gas": 64046,
+      "sponsor_debit_eth": "0",
+      "bundler_transaction_fee_eth": "0.000128092",
+      "billed_userop_gas": null,
+      "userop_success": false
+    }
+  ],
+  "local_sponsor_saving_wei": 240000000000000,
+  "local_sponsor_saving_percent": "16.34109308295147376233241869",
+  "missing_evidence": [
+    "fresh pinned Robinhood state and actual route replay",
+    "L1 data component on Nitro for the full signed transaction",
+    "actual account deployment and production account policy",
+    "ERC-7562 validation, stake and supported EntryPoint admission from a bundler",
+    "funded external sponsor with explicit failure costs and no personal recourse",
+    "prospective net profit after all costs and failed attempts"
+  ],
+  "synthetic_loan_surplus_not_usd_revenue": true,
+  "nqc_realized_usd": "0",
+  "owner_capital_spent_usd": "0",
+  "monetization_proven": false,
+  "live_authorized": false
+}
