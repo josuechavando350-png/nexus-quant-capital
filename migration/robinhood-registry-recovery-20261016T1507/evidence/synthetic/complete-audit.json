@@ -1,0 +1,452 @@
+{
+  "status": "completed",
+  "rpc_calls": 35,
+  "http_requests": 35,
+  "admission_attempts": 35,
+  "minimum_start_gap_ms": 350.0,
+  "admission_wait_ms": 11900.0,
+  "acquisition_admission_intervals_ms": [
+    1050.0,
+    1050.0
+  ],
+  "response_bytes": 52064,
+  "observations": [
+    {
+      "admission_to_inputs_ms": 700.0,
+      "admission_to_verified_ms": 1050.0,
+      "block": {
+        "base_fee_wei": 20008000,
+        "hash": "0x00000000000000000000000000000000000000000000000000000000000f4308",
+        "number": 1000200,
+        "parent_hash": "0x00000000000000000000000000000000000000000000000000000000000f4307",
+        "state_root": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "timestamp": 1792163734
+      },
+      "canonical_transport": {
+        "client_socket_reused": true,
+        "client_socket_tag": 1,
+        "mode": "persistent",
+        "session_request_number": 29,
+        "status": 200
+      },
+      "connection_epoch": 0,
+      "head_transport": {
+        "client_socket_reused": true,
+        "client_socket_tag": 1,
+        "mode": "persistent",
+        "session_request_number": 27,
+        "status": 200
+      },
+      "header_admission_requested_ns": 1000008750000000,
+      "header_admission_wait_ms": 350.0,
+      "header_ms": 0.0,
+      "header_timestamp_age_at_final_response_ms": 9601.34716796875,
+      "planned_start": "persistent_after_indexing",
+      "received_head_to_verified_ms": 700.0,
+      "repeated_head": false,
+      "request_to_inputs_ms": 350.0,
+      "request_to_verified_ms": 700.0,
+      "round": 0,
+      "state": {
+        "computed_unhealthy_count": 0,
+        "coverage": {
+          "all_positive_debt_shares_accounted_at_this_block": false,
+          "debt_share_coverage_bps_floor": 6666,
+          "historical_event_coverage_complete": false,
+          "missing_borrow_shares": 1000000,
+          "observed_borrow_shares": 2000000,
+          "total_borrow_shares": 3000000
+        },
+        "market": [
+          400000000,
+          4000000,
+          300000000,
+          3000000,
+          1792163674,
+          0
+        ],
+        "positions": [
+          {
+            "borrower": "0x1111111111111111111111111111111111111111",
+            "position": [
+              0,
+              0,
+              1000000000000
+            ],
+            "screen": {
+              "accrued_total_borrow_assets": 300000000,
+              "collateral_raw": 1000000000000,
+              "computed_unhealthy": false,
+              "debt_shares": 0,
+              "debt_usdg_raw": 0,
+              "health_margin_bps_floor": null,
+              "maximum_healthy_debt_usdg_raw": 625000000000,
+              "screen_candidate": false,
+              "total_borrow_shares": 3000000
+            }
+          },
+          {
+            "borrower": "0x2222222222222222222222222222222222222222",
+            "position": [
+              0,
+              1000000,
+              1000000000000
+            ],
+            "screen": {
+              "accrued_total_borrow_assets": 300000000,
+              "collateral_raw": 1000000000000,
+              "computed_unhealthy": false,
+              "debt_shares": 1000000,
+              "debt_usdg_raw": 75000001,
+              "health_margin_bps_floor": 83323332,
+              "maximum_healthy_debt_usdg_raw": 625000000000,
+              "screen_candidate": false,
+              "total_borrow_shares": 3000000
+            }
+          },
+          {
+            "borrower": "0x3333333333333333333333333333333333333333",
+            "position": [
+              0,
+              1000000,
+              1000000000000
+            ],
+            "screen": {
+              "accrued_total_borrow_assets": 300000000,
+              "collateral_raw": 1000000000000,
+              "computed_unhealthy": false,
+              "debt_shares": 1000000,
+              "debt_usdg_raw": 75000001,
+              "health_margin_bps_floor": 83323332,
+              "maximum_healthy_debt_usdg_raw": 625000000000,
+              "screen_candidate": false,
+              "total_borrow_shares": 3000000
+            }
+          }
+        ],
+        "positive_debt_accounts": 2,
+        "price": 1000000000000000000000000000000000000,
+        "profitable_opportunities": null,
+        "rate": 0,
+        "realized_profit": null,
+        "screen_candidate_count": 0
+      },
+      "unindexed_tail_blocks": 164,
+      "verified_ns": 1000009800000000,
+      "view_input_ms": 0.0,
+      "view_transport": {
+        "client_socket_reused": true,
+        "client_socket_tag": 1,
+        "mode": "persistent",
+        "session_request_number": 28,
+        "status": 200
+      },
+      "within_assumed_1000ms": false
+    },
+    {
+      "admission_to_inputs_ms": 700.0,
+      "admission_to_verified_ms": 1050.0,
+      "block": {
+        "base_fee_wei": 20008000,
+        "hash": "0x00000000000000000000000000000000000000000000000000000000000f436c",
+        "number": 1000300,
+        "parent_hash": "0x00000000000000000000000000000000000000000000000000000000000f436b",
+        "state_root": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "timestamp": 1792163734
+      },
+      "canonical_transport": {
+        "client_socket_reused": true,
+        "client_socket_tag": 1,
+        "mode": "persistent",
+        "session_request_number": 32,
+        "status": 200
+      },
+      "connection_epoch": 0,
+      "head_transport": {
+        "client_socket_reused": true,
+        "client_socket_tag": 1,
+        "mode": "persistent",
+        "session_request_number": 30,
+        "status": 200
+      },
+      "header_admission_requested_ns": 1000009800000000,
+      "header_admission_wait_ms": 350.0,
+      "header_ms": 0.0,
+      "header_timestamp_age_at_final_response_ms": 10651.346923828125,
+      "planned_start": "persistent_after_indexing",
+      "received_head_to_verified_ms": 700.0,
+      "repeated_head": false,
+      "request_to_inputs_ms": 350.0,
+      "request_to_verified_ms": 700.0,
+      "round": 1,
+      "state": {
+        "computed_unhealthy_count": 0,
+        "coverage": {
+          "all_positive_debt_shares_accounted_at_this_block": false,
+          "debt_share_coverage_bps_floor": 6666,
+          "historical_event_coverage_complete": false,
+          "missing_borrow_shares": 1000000,
+          "observed_borrow_shares": 2000000,
+          "total_borrow_shares": 3000000
+        },
+        "market": [
+          400000000,
+          4000000,
+          300000000,
+          3000000,
+          1792163674,
+          0
+        ],
+        "positions": [
+          {
+            "borrower": "0x1111111111111111111111111111111111111111",
+            "position": [
+              0,
+              0,
+              1000000000000
+            ],
+            "screen": {
+              "accrued_total_borrow_assets": 300000000,
+              "collateral_raw": 1000000000000,
+              "computed_unhealthy": false,
+              "debt_shares": 0,
+              "debt_usdg_raw": 0,
+              "health_margin_bps_floor": null,
+              "maximum_healthy_debt_usdg_raw": 625000000000,
+              "screen_candidate": false,
+              "total_borrow_shares": 3000000
+            }
+          },
+          {
+            "borrower": "0x2222222222222222222222222222222222222222",
+            "position": [
+              0,
+              1000000,
+              1000000000000
+            ],
+            "screen": {
+              "accrued_total_borrow_assets": 300000000,
+              "collateral_raw": 1000000000000,
+              "computed_unhealthy": false,
+              "debt_shares": 1000000,
+              "debt_usdg_raw": 75000001,
+              "health_margin_bps_floor": 83323332,
+              "maximum_healthy_debt_usdg_raw": 625000000000,
+              "screen_candidate": false,
+              "total_borrow_shares": 3000000
+            }
+          },
+          {
+            "borrower": "0x3333333333333333333333333333333333333333",
+            "position": [
+              0,
+              1000000,
+              1000000000000
+            ],
+            "screen": {
+              "accrued_total_borrow_assets": 300000000,
+              "collateral_raw": 1000000000000,
+              "computed_unhealthy": false,
+              "debt_shares": 1000000,
+              "debt_usdg_raw": 75000001,
+              "health_margin_bps_floor": 83323332,
+              "maximum_healthy_debt_usdg_raw": 625000000000,
+              "screen_candidate": false,
+              "total_borrow_shares": 3000000
+            }
+          }
+        ],
+        "positive_debt_accounts": 2,
+        "price": 1000000000000000000000000000000000000,
+        "profitable_opportunities": null,
+        "rate": 0,
+        "realized_profit": null,
+        "screen_candidate_count": 0
+      },
+      "unindexed_tail_blocks": 264,
+      "verified_ns": 1000010850000000,
+      "view_input_ms": 0.0,
+      "view_transport": {
+        "client_socket_reused": true,
+        "client_socket_tag": 1,
+        "mode": "persistent",
+        "session_request_number": 31,
+        "status": 200
+      },
+      "within_assumed_1000ms": false
+    },
+    {
+      "admission_to_inputs_ms": 700.0,
+      "admission_to_verified_ms": 1050.0,
+      "block": {
+        "base_fee_wei": 20008000,
+        "hash": "0x00000000000000000000000000000000000000000000000000000000000f43d0",
+        "number": 1000400,
+        "parent_hash": "0x00000000000000000000000000000000000000000000000000000000000f43cf",
+        "state_root": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "timestamp": 1792163734
+      },
+      "canonical_transport": {
+        "client_socket_reused": true,
+        "client_socket_tag": 1,
+        "mode": "persistent",
+        "session_request_number": 35,
+        "status": 200
+      },
+      "connection_epoch": 0,
+      "head_transport": {
+        "client_socket_reused": true,
+        "client_socket_tag": 1,
+        "mode": "persistent",
+        "session_request_number": 33,
+        "status": 200
+      },
+      "header_admission_requested_ns": 1000010850000000,
+      "header_admission_wait_ms": 350.0,
+      "header_ms": 0.0,
+      "header_timestamp_age_at_final_response_ms": 11701.34716796875,
+      "planned_start": "persistent_after_indexing",
+      "received_head_to_verified_ms": 700.0,
+      "repeated_head": false,
+      "request_to_inputs_ms": 350.0,
+      "request_to_verified_ms": 700.0,
+      "round": 2,
+      "state": {
+        "computed_unhealthy_count": 0,
+        "coverage": {
+          "all_positive_debt_shares_accounted_at_this_block": false,
+          "debt_share_coverage_bps_floor": 6666,
+          "historical_event_coverage_complete": false,
+          "missing_borrow_shares": 1000000,
+          "observed_borrow_shares": 2000000,
+          "total_borrow_shares": 3000000
+        },
+        "market": [
+          400000000,
+          4000000,
+          300000000,
+          3000000,
+          1792163674,
+          0
+        ],
+        "positions": [
+          {
+            "borrower": "0x1111111111111111111111111111111111111111",
+            "position": [
+              0,
+              0,
+              1000000000000
+            ],
+            "screen": {
+              "accrued_total_borrow_assets": 300000000,
+              "collateral_raw": 1000000000000,
+              "computed_unhealthy": false,
+              "debt_shares": 0,
+              "debt_usdg_raw": 0,
+              "health_margin_bps_floor": null,
+              "maximum_healthy_debt_usdg_raw": 625000000000,
+              "screen_candidate": false,
+              "total_borrow_shares": 3000000
+            }
+          },
+          {
+            "borrower": "0x2222222222222222222222222222222222222222",
+            "position": [
+              0,
+              1000000,
+              1000000000000
+            ],
+            "screen": {
+              "accrued_total_borrow_assets": 300000000,
+              "collateral_raw": 1000000000000,
+              "computed_unhealthy": false,
+              "debt_shares": 1000000,
+              "debt_usdg_raw": 75000001,
+              "health_margin_bps_floor": 83323332,
+              "maximum_healthy_debt_usdg_raw": 625000000000,
+              "screen_candidate": false,
+              "total_borrow_shares": 3000000
+            }
+          },
+          {
+            "borrower": "0x3333333333333333333333333333333333333333",
+            "position": [
+              0,
+              1000000,
+              1000000000000
+            ],
+            "screen": {
+              "accrued_total_borrow_assets": 300000000,
+              "collateral_raw": 1000000000000,
+              "computed_unhealthy": false,
+              "debt_shares": 1000000,
+              "debt_usdg_raw": 75000001,
+              "health_margin_bps_floor": 83323332,
+              "maximum_healthy_debt_usdg_raw": 625000000000,
+              "screen_candidate": false,
+              "total_borrow_shares": 3000000
+            }
+          }
+        ],
+        "positive_debt_accounts": 2,
+        "price": 1000000000000000000000000000000000000,
+        "profitable_opportunities": null,
+        "rate": 0,
+        "realized_profit": null,
+        "screen_candidate_count": 0
+      },
+      "unindexed_tail_blocks": 364,
+      "verified_ns": 1000011900000000,
+      "view_input_ms": 0.0,
+      "view_transport": {
+        "client_socket_reused": true,
+        "client_socket_tag": 1,
+        "mode": "persistent",
+        "session_request_number": 34,
+        "status": 200
+      },
+      "within_assumed_1000ms": false
+    }
+  ],
+  "cohort": {
+    "addresses": [
+      "0x1111111111111111111111111111111111111111",
+      "0x2222222222222222222222222222222222222222",
+      "0x3333333333333333333333333333333333333333"
+    ],
+    "complete_historical_universe": false,
+    "event_count": 3,
+    "from_block": 999990,
+    "registry_sha256": "a123163424674a2072c9c15dd0d48a7c87b36df5ab81ab9ff61a9e4d1670c557",
+    "selection_uses_health_or_liquidation_outcome": false,
+    "through_block": 1000036
+  },
+  "source_registry_sha256": "640e2e8edfe5a4b83c87525e9d91245e8f37fcb60d7690847c8efa691c83645b",
+  "history_recovered": true,
+  "older_registry": {
+    "sha256": "3ee32fc033023d8320e83a091a2211323af4f579763239fc3faf786ac68e3f70",
+    "from_block": 999990,
+    "through_block": 999999,
+    "status": "valid_prefix",
+    "events": 1
+  },
+  "registry": {
+    "sha256": "a123163424674a2072c9c15dd0d48a7c87b36df5ab81ab9ff61a9e4d1670c557",
+    "status": "valid_prefix",
+    "from_block": 999990,
+    "through_block": 1000036,
+    "added_tail_blocks": 31,
+    "added_history_blocks": 10,
+    "added_blocks": 41,
+    "blocks": 47,
+    "events": 3,
+    "added_events": 2,
+    "source_segments_preserved": true
+  },
+  "started_utc_ns": 1792163733801346952,
+  "ended_utc_ns": 1792163745701346952,
+  "elapsed_seconds": 11.9,
+  "profitability_measured": false,
+  "realized_profit": null,
+  "live_broadcasts": 0
+}
