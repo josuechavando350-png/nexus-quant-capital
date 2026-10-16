@@ -1,0 +1,9 @@
+{
+  "note": "Receipts transcribed from completed exec_command results; these are summaries, not raw process log files.",
+  "checks": [
+    {"command": "python -m unittest discover -s migration/robinhood-bundler-validation-20261016T1608 -p test_stopped.py -v", "exit_code": 0, "tests": 6, "suite_seconds": 0.126, "result": "OK"},
+    {"command": "python migration/verify_isolation.py", "exit_code": 0, "status": "ISOLATED_SOURCE_IDENTITY_PASS", "disabled_workflows": 106, "active_workflows": 0, "source_files": 531, "canonical_recertification": false},
+    {"command": "python migration/engine-v2-20261015/verify_import.py", "exit_code": 0, "original_blobs_matched": 377, "active_workflows": 0, "base_untouched": true},
+    {"command": "python migration/robinhood-bundler-validation-20261016T1608/run_local.py --geth /tmp/nqc-bundler-env-20261016/geth-linux-amd64-1.17.8-a5790770/geth --out migration/robinhood-bundler-validation-20261016T1608/evidence/pilot --registration-commit dae502a2d0f26ce16a7a9d286ff889fb26d5af42", "exit_code": 1, "error": "ValueError: unexpected EVM validation revert", "rerun": false}
+  ]
+}
