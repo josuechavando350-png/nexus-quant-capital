@@ -1,0 +1,88 @@
+{
+  "data": {
+    "name": "NET",
+    "language": "solidity",
+    "compiler_version": "v0.8.30+commit.73712a01",
+    "verified_at": "2026-07-16T20:30:13.285850Z",
+    "source_code_tree_structure": [
+      "src/NET.sol",
+      "src/abstract/Wired.sol",
+      "src/interfaces/INET.sol",
+      "src/interfaces/external/IERC20.sol",
+      "src/interfaces/external/IUniswapV2.sol",
+      "src/interfaces/external/IUniswapV3.sol",
+      "src/Constants.sol"
+    ],
+    "optimization_enabled": true,
+    "optimization_runs": 800,
+    "evm_version": "osaka",
+    "license_type": "none",
+    "proxy_type": null,
+    "is_fully_verified": true,
+    "constructor_args": "0x0000000000000000000000003bb7a23316f82c0e984fa2e784846d8928a35f42",
+    "decoded_constructor_args": [
+      [
+        "0x3Bb7A23316f82C0e984fA2E784846d8928a35f42",
+        {
+          "internalType": "address",
+          "name": "guardian_",
+          "type": "address"
+        }
+      ]
+    ],
+    "constructor_args_truncated": false,
+    "creation_status": "success",
+    "verified_twin_address_hash": null,
+    "is_verified": true,
+    "github_repository_metadata": null,
+    "compiler_settings": {
+      "evmVersion": "osaka",
+      "libraries": {},
+      "metadata": {
+        "appendCBOR": true,
+        "bytecodeHash": "ipfs",
+        "useLiteralContent": false
+      },
+      "optimizer": {
+        "enabled": true,
+        "runs": 800
+      },
+      "outputSelection": {
+        "*": {
+          "": [
+            "*"
+          ],
+          "*": [
+            "*"
+          ]
+        }
+      },
+      "remappings": [
+        "forge-std/=lib/forge-std/src/"
+      ],
+      "viaIR": false
+    },
+    "sourcify_repo_url": null,
+    "is_verified_via_verifier_alliance": false,
+    "implementations": [],
+    "external_libraries": [],
+    "is_blueprint": false,
+    "is_verified_via_eth_bytecode_db": false,
+    "can_be_visualized_via_sol2uml": true,
+    "is_verified_via_sourcify": false,
+    "certified": false,
+    "conflicting_implementations": null,
+    "is_changed_bytecode": false,
+    "is_partially_verified": false,
+    "package_name": null
+  },
+  "data_description": null,
+  "notes": [
+    "Free session budget: 3 of 8 tool calls remaining. Requests authorized with a client-supplied Blockscout PRO API key are not metered — get a key at https://mcp.blockscout.com.",
+    "Starting 10/08/2026, all requests to the Blockscout MCP server will require a PRO API key for authorization. More information on how to get a PRO API key and setup instructions on https://mcp.blockscout.com/."
+  ],
+  "instructions": [
+    "To retrieve a specific file's contents, call this tool again with the 'file_name' argument using one of the values from 'source_code_tree_structure'."
+  ],
+  "pagination": null
+}
