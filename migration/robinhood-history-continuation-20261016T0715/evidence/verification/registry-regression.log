@@ -1,0 +1,30 @@
+test_empty_cohort_with_debt_is_zero_coverage (test_registry.CoverageTests.test_empty_cohort_with_debt_is_zero_coverage) ... ok
+test_full_current_debt_coverage_is_not_full_history (test_registry.CoverageTests.test_full_current_debt_coverage_is_not_full_history) ... ok
+test_partial_share_coverage_explicit (test_registry.CoverageTests.test_partial_share_coverage_explicit) ... ok
+test_sum_over_total_rejected (test_registry.CoverageTests.test_sum_over_total_rejected) ... ok
+test_unhealthy_is_not_profitability (test_registry.CoverageTests.test_unhealthy_is_not_profitability) ... ok
+test_zero_debt_has_no_percentage (test_registry.CoverageTests.test_zero_debt_has_no_percentage) ... ok
+test_empty_synthetic_cohort_does_not_become_no_profit (test_registry.EndToEndTests.test_empty_synthetic_cohort_does_not_become_no_profit) ... ok
+test_resumption_keeps_prior_accounts_and_raw_sources (test_registry.EndToEndTests.test_resumption_keeps_prior_accounts_and_raw_sources) ... ok
+test_synthetic_run_reconstructs_raw_evidence (test_registry.EndToEndTests.test_synthetic_run_reconstructs_raw_evidence) ... ok
+test_capacity_overflow_never_trims (test_registry.RegistryTests.test_capacity_overflow_never_trims) ... ok
+test_checkpoint_reorg_invalidates_copy (test_registry.RegistryTests.test_checkpoint_reorg_invalidates_copy) ... ok
+test_contiguous_append_persists_old_accounts (test_registry.RegistryTests.test_contiguous_append_persists_old_accounts) ... ok
+test_event_header_hash_must_match (test_registry.RegistryTests.test_event_header_hash_must_match) ... ok
+test_gap_is_rejected (test_registry.RegistryTests.test_gap_is_rejected) ... ok
+test_invalidated_registry_cannot_resume_or_freeze (test_registry.RegistryTests.test_invalidated_registry_cannot_resume_or_freeze) ... ok
+test_overlapping_retry_does_not_duplicate (test_registry.RegistryTests.test_overlapping_retry_does_not_duplicate) ... ok
+test_persistence_hash_detects_corruption (test_registry.RegistryTests.test_persistence_hash_detects_corruption) ... ok
+test_unfinished_target_cannot_freeze (test_registry.RegistryTests.test_unfinished_target_cannot_freeze) ... ok
+test_wrong_market_removed_and_duplicate_events_rejected (test_registry.RegistryTests.test_wrong_market_removed_and_duplicate_events_rejected) ... ok
+test_batch_out_of_order_id_matching (test_registry.RpcTests.test_batch_out_of_order_id_matching) ... ok
+test_each_batch_element_counts_against_budget (test_registry.RpcTests.test_each_batch_element_counts_against_budget) ... ok
+test_log_range_and_target_limits (test_registry.RpcTests.test_log_range_and_target_limits) ... ok
+test_missing_duplicate_or_unknown_id_rejected (test_registry.RpcTests.test_missing_duplicate_or_unknown_id_rejected) ... ok
+test_partial_batch_error_stops_reader (test_registry.RpcTests.test_partial_batch_error_stops_reader) ... ok
+test_send_trace_overrides_and_noncanonical_calls_rejected (test_registry.RpcTests.test_send_trace_overrides_and_noncanonical_calls_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.578s
+
+OK
