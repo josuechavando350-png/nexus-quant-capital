@@ -1,0 +1,48 @@
+[
+  {
+    "name": "window-tests",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "migration/robinhood-sponsor-window-20261016",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "isolation-tests",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "migration",
+      "-p",
+      "test_isolation.py",
+      "-v"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "stopped-audit",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "migration/robinhood-bundler-validation-20261016T1608/audit_stopped.py"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "next-preparation",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "migration/robinhood-bundler-validation-20261016T1608/prepare_next.py"
+    ],
+    "exit_code": 0
+  }
+]

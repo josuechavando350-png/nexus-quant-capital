@@ -1,0 +1,21 @@
+INFO [10-16|11:27:24.864] Maximum peer count                       ETH=50 total=50
+INFO [10-16|11:27:24.869] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
+WARN [10-16|11:27:24.873] Sanitizing cache to Go's GC limits       source=cgroup-v2 provided=4096 updated=2730
+INFO [10-16|11:27:24.874] Set global gas cap                       cap=50,000,000
+INFO [10-16|11:27:24.874] Engine API maximum reorg depth           depth=32
+INFO [10-16|11:27:24.875] Initializing the KZG library             backend=gokzg
+INFO [10-16|11:27:24.878] Defaulting to pebble as the backing database
+INFO [10-16|11:27:24.878] Allocated cache and file handles         database=/workspace/scratch/833721a2e367/nqc-bundler-admission/migration/robinhood-bundler-validation-20261016T1608/evidence/pilot/db/geth/chaindata cache=1.33GiB handles=8192 version=v2
+INFO [10-16|11:27:24.881] Opened ancient database                  database=/workspace/scratch/833721a2e367/nqc-bundler-admission/migration/robinhood-bundler-validation-20261016T1608/evidence/pilot/db/geth/chaindata/ancient/chain readonly=false
+INFO [10-16|11:27:24.881] Opened Era store                         datadir=/workspace/scratch/833721a2e367/nqc-bundler-admission/migration/robinhood-bundler-validation-20261016T1608/evidence/pilot/db/geth/chaindata/ancient/chain/era
+INFO [10-16|11:27:24.881] State schema set to default              scheme=path
+INFO [10-16|11:27:24.881] Load database journal from disk
+WARN [10-16|11:27:24.882] Head block is not reachable
+INFO [10-16|11:27:24.885] Opened ancient database                  database=/workspace/scratch/833721a2e367/nqc-bundler-admission/migration/robinhood-bundler-validation-20261016T1608/evidence/pilot/db/geth/chaindata/ancient/state readonly=false
+INFO [10-16|11:27:24.885] State snapshot generator is not found
+INFO [10-16|11:27:24.885] Starting snapshot generation             root=56e81f..63b421 accounts=0 slots=0 storage=0.00B dangling=0 elapsed="2.824µs"
+INFO [10-16|11:27:24.885] Resuming snapshot generation             root=56e81f..63b421 accounts=0 slots=0 storage=0.00B dangling=0 elapsed="156.685µs"
+INFO [10-16|11:27:24.885] Initialized path database                triecache=16.00MiB statecache=16.00MiB buffer=64.00MiB state-history="last 90000 blocks" journal-dir=/workspace/scratch/833721a2e367/nqc-bundler-admission/migration/robinhood-bundler-validation-20261016T1608/evidence/pilot/db/geth/triedb
+INFO [10-16|11:27:24.885] Writing custom genesis block
+INFO [10-16|11:27:24.886] Generated snapshot                       accounts=0 slots=0 storage=0.00B dangling=0 elapsed="400.252µs"
+INFO [10-16|11:27:24.887] Successfully wrote genesis state         database=chaindata hash=3805de..295d09

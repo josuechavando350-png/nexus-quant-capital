@@ -1,0 +1,29 @@
+{
+  "audit": "EXACT_STOP_RECONSTRUCTED",
+  "decoded_error": {
+    "op_index": 0,
+    "reason": "AA23 reverted",
+    "inner": "0xf645eedf"
+  },
+  "rpc_methods_local": 4,
+  "rpc_methods_public": 0,
+  "transactions": 0,
+  "minimum_dispatch_gap_ms": 350.1503580046119,
+  "wait_seconds": 1.0362281389941925,
+  "process_seconds": 1.532053798000561,
+  "successful_validation_cases": 0,
+  "validation_attempts": 1,
+  "planned_cases": 5,
+  "paymaster_reached": false,
+  "final_header_check_performed": false,
+  "full_bundler_admission_proven": false,
+  "precompile_1_override": {
+    "balance": "0x3ffdc87fc4108233",
+    "state": {}
+  },
+  "userop_hash_matches_fixture": true,
+  "upstream_override_git_blob": "d3644570325c499d40af7006d4e409ab8067476b",
+  "diagnosis": "Geth removes an overridden active precompile even for passive balance/storage fields. Trace matches empty native-signature call. Source-supported adapter defect; corrected capture still required.",
+  "funding_available_proven": false,
+  "profit_proven": false
+}
