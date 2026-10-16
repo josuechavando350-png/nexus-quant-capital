@@ -1,0 +1,9 @@
+{
+  "initial_run": {"tests": 6, "passed": 5, "errors": 1, "exit_code": 1},
+  "error": "KeyError: through_block in test_registry_hash_and_no_gap_or_discarded_round",
+  "cause": "The new report test incorrectly used registry-level keys on individual segments.",
+  "correction": "Use segment.first and segment.end.number; segment.start.number is the preceding boundary header.",
+  "capture_or_registered_code_changed": false,
+  "registered_audit_had_already_passed": true,
+  "final_result": "See report.txt for the subsequent actual test receipt."
+}
