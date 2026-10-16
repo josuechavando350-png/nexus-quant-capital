@@ -1,0 +1,45 @@
+test_empty_cohort_is_not_three_no_opportunity_periods (test_observer.EndToEndTests.test_empty_cohort_is_not_three_no_opportunity_periods) ... {"round": 0, "block": 10001, "borrowers": 0, "simulated_candidates": 0, "requests": 20}
+{"round": 1, "block": 10002, "borrowers": 0, "simulated_candidates": 0, "requests": 26}
+{"round": 2, "block": 10003, "borrowers": 0, "simulated_candidates": 0, "requests": 32}
+ok
+test_healthy_cohort_records_all_rejections (test_observer.EndToEndTests.test_healthy_cohort_records_all_rejections) ... {"round": 0, "block": 10001, "borrowers": 1, "simulated_candidates": 0, "requests": 22}
+{"round": 1, "block": 10002, "borrowers": 1, "simulated_candidates": 0, "requests": 29}
+{"round": 2, "block": 10003, "borrowers": 1, "simulated_candidates": 0, "requests": 36}
+ok
+test_journal_mutation_detected (test_observer.EndToEndTests.test_journal_mutation_detected) ... {"round": 0, "block": 10001, "borrowers": 0, "simulated_candidates": 0, "requests": 20}
+{"round": 1, "block": 10002, "borrowers": 0, "simulated_candidates": 0, "requests": 26}
+{"round": 2, "block": 10003, "borrowers": 0, "simulated_candidates": 0, "requests": 32}
+ok
+test_response_mutation_detected (test_observer.EndToEndTests.test_response_mutation_detected) ... {"round": 0, "block": 10001, "borrowers": 0, "simulated_candidates": 0, "requests": 20}
+{"round": 1, "block": 10002, "borrowers": 0, "simulated_candidates": 0, "requests": 26}
+{"round": 2, "block": 10003, "borrowers": 0, "simulated_candidates": 0, "requests": 32}
+ok
+test_skipped_blocks_do_not_become_success_or_failure (test_observer.EndToEndTests.test_skipped_blocks_do_not_become_success_or_failure) ... {"round": 0, "block": 10010, "borrowers": 1, "simulated_candidates": 1, "requests": 24}
+{"round": 1, "block": 10020, "borrowers": 1, "simulated_candidates": 1, "requests": 33}
+{"round": 2, "block": 10030, "borrowers": 1, "simulated_candidates": 1, "requests": 42}
+ok
+test_synthetic_candidate_and_exact_payload_survival (test_observer.EndToEndTests.test_synthetic_candidate_and_exact_payload_survival) ... {"round": 0, "block": 10001, "borrowers": 1, "simulated_candidates": 1, "requests": 24}
+{"round": 1, "block": 10002, "borrowers": 1, "simulated_candidates": 1, "requests": 34}
+{"round": 2, "block": 10003, "borrowers": 1, "simulated_candidates": 1, "requests": 44}
+ok
+test_cohort_rejects_future_removed_and_duplicate_events (test_observer.ProtocolTests.test_cohort_rejects_future_removed_and_duplicate_events) ... ok
+test_cohort_selection_does_not_read_health (test_observer.ProtocolTests.test_cohort_selection_does_not_read_health) ... ok
+test_economics_does_not_turn_simulation_into_capture (test_observer.ProtocolTests.test_economics_does_not_turn_simulation_into_capture) ... ok
+test_exact_healthy_boundary_and_one_unit_debt (test_observer.ProtocolTests.test_exact_healthy_boundary_and_one_unit_debt) ... ok
+test_future_accrual_origin_and_overflow_rejected (test_observer.ProtocolTests.test_future_accrual_origin_and_overflow_rejected) ... ok
+test_historical_morpho_debt_and_liquidation_rounding (test_observer.ProtocolTests.test_historical_morpho_debt_and_liquidation_rounding) ... ok
+test_size_is_bounded_by_debt_and_policy (test_observer.ProtocolTests.test_size_is_bounded_by_debt_and_policy) ... ok
+test_virtual_share_rounding_and_no_debt (test_observer.ProtocolTests.test_virtual_share_rounding_and_no_debt) ... ok
+test_borrow_scope_and_range_bound (test_reader.ReaderTests.test_borrow_scope_and_range_bound) ... ok
+test_capture_before_analysis_and_finite_budget (test_reader.ReaderTests.test_capture_before_analysis_and_finite_budget) ... ok
+test_mutating_and_unbounded_methods_rejected (test_reader.ReaderTests.test_mutating_and_unbounded_methods_rejected) ... ok
+test_redirect_is_not_followed (test_reader.ReaderTests.test_redirect_is_not_followed) ... ok
+test_rpc_id_mismatch_is_rejected (test_reader.ReaderTests.test_rpc_id_mismatch_is_rejected) ... ok
+test_stale_header_cannot_be_called_prospective (test_reader.ReaderTests.test_stale_header_cannot_be_called_prospective) ... ok
+test_transport_error_stops_without_retry (test_reader.ReaderTests.test_transport_error_stops_without_retry) ... ok
+test_unpinned_calls_and_extra_overrides_rejected (test_reader.ReaderTests.test_unpinned_calls_and_extra_overrides_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.173s
+
+OK
