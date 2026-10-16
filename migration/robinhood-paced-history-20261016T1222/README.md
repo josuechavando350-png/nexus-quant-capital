@@ -50,7 +50,7 @@ Las nueve peticiones de observación reutilizaron el socket cliente, en la misma
 
 96 pruebas offline antes de consultar, incluidas 10 nuevas del flujo y fallos en las 43 fronteras RPC sintéticas; siete pruebas independientes del informe real después: **103 pruebas distintas aprobadas**. Paradas HTTP/JSON/RPC, presupuesto, reorgs, conservación tras unir y antes de catch-up y separación global entre fases están cubiertas. Las trazas de `evidence/synthetic/` son artificiales, nunca fuentes del índice real.
 
-Replay offline real aprobado; fuentes registradas y seis manifiestos PR13–PR18 intactos. 377 blobs originales intactos, 106 workflows deshabilitados y cero activos. Rust/Solidity sin cambios ni ejecución nueva. Recibos: [verification/preflight.json](evidence/verification/preflight.json), [verification/post-capture.json](evidence/verification/post-capture.json), [process-receipt.json](evidence/process-receipt.json).
+Replay offline real aprobado; 67 fuentes registradas y seis manifiestos PR13–PR18 intactos. 377 blobs originales intactos, 106 workflows deshabilitados y cero activos. Rust/Solidity sin cambios ni ejecución nueva. Recibos: [verification/preflight.json](evidence/verification/preflight.json), [verification/post-capture.json](evidence/verification/post-capture.json), [process-receipt.json](evidence/process-receipt.json).
 
 Resultados reproducibles sin RPC: [audit.json](evidence/audit.json), [summary.json](evidence/summary.json), [journal](evidence/pilot/journal.jsonl), [ledger HTTP](evidence/pilot/requests.json), [admisiones](evidence/pilot/admissions.json), respuestas originales y `MANIFEST.sha256`.
 

@@ -4,6 +4,8 @@
 
 Captura TERMINADA, una sola ejecución real. No relanzar `history_acquisition.py` con este protocolo ni sustituir `evidence/pilot`. Base PR18 `9063049967530a682d28d94af5ff17cf46c7bd66`; rama de trabajo/publicación `nqc/paced-history-20261016T1222`.
 
+Publicado en [PR19 borrador](https://github.com/josuechavando350-png/nexus-quant-capital/pull/19). Commit de evidencia `268119c971cb3d06bc90d09e773b908b0d4a2603`, árbol `14ecaa0a6e72e6a4f496dff161acef266cce1f6e`. Este relevo posterior no modifica protocolo, captura ni conclusiones; la cabeza exacta final queda en GitHub. No fusionar automáticamente.
+
 Protocolo publicado ANTES de RPC: `91b61a95541e5950772a7c919060df3a477d6821`, árbol `f3049191f240e002a372f08ce68f30737861af42`, rama `nqc/paced-history-protocol-20261016T1222`. Las 67 fuentes fijadas siguen intactas. README, resumen y pruebas de informe se añadieron después, sin modificar selección, runner, reglas o capturas.
 
 Captura 16/oct/2026 12:32:06.107286–12:33:18.985806 UTC: 194 métodos RPC/194 HTTP, cero errores, salida 0, journal 72.878522032 s y proceso 72.887374589 s. Un único gate de 350 ms/sesión/presupuesto entre fases, 45.936183325 s de esperas incluidas, mínimo despacho 350.155201 ms. 185 consultas de preparación y nueve de observación. Ningún RPC adicional en esta ejecución.
