@@ -1,0 +1,1907 @@
+{
+  "schema": "nqc-engine-provenance-1",
+  "scope": "NQC-only selected content: pinned engine head 2026-10-15, PR-only artifacts 669–754 discovered, and six recent branches without PR",
+  "repository": "josuechavando350-png/nexus-quant-capital",
+  "baseline_commit": "b737723e0e429a40d993cf2433bc4d92c6316829",
+  "base_branch": "nqc/census-v2-receipt-window-recovery-20261009",
+  "source_repository": "josuechavando350-png/nexus-engine",
+  "source_head": "21e7df356600d411a5bd5371fa2a0d7292944703",
+  "source_tree": "6842333ac78db36ddd11ee7dd2e926fd05e771d9",
+  "source_snapshot": "e259739c9f75fedcd1061d2f78d6b8852e7a3060",
+  "source_head_workflow_run": 38826452997,
+  "source_head_evm_tests": "7/7 PASS LOCAL ONLY",
+  "critical_non_claims": [
+    "Not a new producer certification",
+    "No exact Robinhood deployed bytecode parity",
+    "No real gasless sponsorship or non-recourse agreement",
+    "No NQC realized profits",
+    "No broadcast, signing, deposits, LIVE or merge"
+  ],
+  "files": [
+    {
+      "path": "migration/engine-v2-20261015/branch-only/curve/ci/nqc-census/rmc-v2-routing/bisect_curve_usdtb_cover.py",
+      "mode": "100644",
+      "sha": "c2bf778fd0278aa0d958b6c7137d4d8715b613f7"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/curve/ci/nqc-census/rmc-v2-routing/test_bisect_curve_usdtb_cover.py",
+      "mode": "100644",
+      "sha": "ed0e1b64d82d118183c891a704825afe760e98f8"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/curve/workflows-disabled/nqc-rmc-v2-curve-inverse-sizing.yml.disabled",
+      "mode": "100644",
+      "sha": "34b452dcea99dc7bd3f37df81793e9215ea5c7a3"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/curve/workflows-disabled/nqc-rmc-v2-curve-usdtb-twohop.yml.disabled",
+      "mode": "100644",
+      "sha": "4f0febde47a3694c173f633cbe7ab6af4beafd24"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/morpho/workflows-disabled/nqc-rmc-v2-morpho-fluid-partial-fork.yml.disabled",
+      "mode": "100644",
+      "sha": "5ae0418fe9f30399d0a89b76d6a4cfb135255b6b"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/oracle/ci/nqc-census/rmc-v2-shadow/ORACLE_NEWTRANSMISSION_CADENCE_CONTRACT.md",
+      "mode": "100644",
+      "sha": "caab6011f21982c27e5c985b03c23ba01de31296"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/oracle/ci/nqc-census/rmc-v2-shadow/ORACLE_PENDING_VISIBILITY_CONTRACT.md",
+      "mode": "100644",
+      "sha": "8191bab6970b08e09b191c1200656f8bc3674b41"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/oracle/ci/nqc-census/rmc-v2-shadow/ORACLE_WS_INCLUSION_AUDIT_CONTRACT.md",
+      "mode": "100644",
+      "sha": "d914e00f73a518631868a1d8439a2a94a1e74c92"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/oracle/ci/nqc-census/rmc-v2-shadow/oracle_newtransmission_cadence.py",
+      "mode": "100644",
+      "sha": "17fe81ffdf0759daf1871be35ab90f7b1dc18494"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/oracle/ci/nqc-census/rmc-v2-shadow/oracle_pending_visibility_probe.py",
+      "mode": "100644",
+      "sha": "b5b49df5a52901204d6150cd797c89a39030b3fd"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/oracle/ci/nqc-census/rmc-v2-shadow/oracle_ws_inclusion_audit.py",
+      "mode": "100644",
+      "sha": "0c38723da1d3bc5090e42f044fc331adab4c7062"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/oracle/ci/nqc-census/rmc-v2-shadow/test_oracle_newtransmission_cadence.py",
+      "mode": "100644",
+      "sha": "35b92c7357126fcb8db06e5c2cee32450f98ebba"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/oracle/ci/nqc-census/rmc-v2-shadow/test_oracle_pending_visibility_probe.py",
+      "mode": "100644",
+      "sha": "fa3634e876f70091e6bd194f020888668c804f31"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/oracle/ci/nqc-census/rmc-v2-shadow/test_oracle_ws_inclusion_audit.py",
+      "mode": "100644",
+      "sha": "2864bbd599375443dce96237790055c4947872f9"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/seize/ci/nqc-census/rmc-v2-economics/aave_emode24_seizure_ceiling.py",
+      "mode": "100644",
+      "sha": "9797dfc51ccedd6bc9c415726ceffd1177c6b2e5"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/wsnet/workflows-disabled/nqc-v2-morpho-cbxrp-commercial-capacity.yml.disabled",
+      "mode": "100644",
+      "sha": "adcad49bd7b729af1df47064e472aea92ff08e20"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/wsnet/workflows-disabled/nqc-v2-morpho-wsnet-economic-gate.yml.disabled",
+      "mode": "100644",
+      "sha": "113200157f02ae6b92cad2da5b7e63cf58efbec8"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/wsnet/workflows-disabled/nqc-wsnet-22thirdparty-receipts-one-shot-20261015.yml.disabled",
+      "mode": "100644",
+      "sha": "4a6254d18254c251a51359a6973261048cbb4374"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/wsnet/workflows-disabled/nqc-wsnet-3winner-prior-block-oracle-once-20261015.yml.disabled",
+      "mode": "100644",
+      "sha": "1b7a2d438dfc9435f9961e749e486224b31a176b"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/wsnet/workflows-disabled/nqc-wsnet-historic-prestate-once-20261015.yml.disabled",
+      "mode": "100644",
+      "sha": "8c7ef6a87e14c55b54ab29d73e221f701b6fa592"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/wsnet/workflows-disabled/nqc-wsnet-net-usdg-v2-source-once-20261015.yml.disabled",
+      "mode": "100644",
+      "sha": "f86345b4d09637a5958aebbb265397cf6a7fc94d"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/wsnet/workflows-disabled/nqc-wsnet-prospective-commercial-one-shot.yml.disabled",
+      "mode": "100644",
+      "sha": "be5f7c4902f80af4e4e594ba79c30dbd10496380"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/wsnet/workflows-disabled/nqc-wsnet-v2-candidate-once-20261015.yml.disabled",
+      "mode": "100644",
+      "sha": "f599ac51983800614daf8f10eca8e2dfe230847e"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/wsnet/workflows-disabled/nqc-wsnet-v3-two-hop-once-20261015.yml.disabled",
+      "mode": "100644",
+      "sha": "83ebcd7d703105ebe304ba420d429c3b0fd101ab"
+    },
+    {
+      "path": "migration/engine-v2-20261015/branch-only/wsnet/workflows-disabled/nqc-wsnet-venue-one-shot-20261015.yml.disabled",
+      "mode": "100644",
+      "sha": "c140d3f8ffefed6cef8f7cec9fc4809f94ac9df4"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-0669/ci/nqc-census/RMC_OPERATOR_GAS_AND_LEDGER_RECOVERY.md",
+      "mode": "100644",
+      "sha": "40498aa9ee092c51695883c41b940ec104ee68a3"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-0669/ci/nqc-census/operator-gas-scenario.json",
+      "mode": "100644",
+      "sha": "90ca747b77be68a7b58f2c95d03429f5f9695558"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-0669/ci/nqc-census/recovered-rmc016/full-7200-window-20261009.json.gz",
+      "mode": "100644",
+      "sha": "6b2dc2702459d738b79273779b1b715dab738272"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-0669/ci/nqc-census/recovered-rmc016/full-window-acquisition.json",
+      "mode": "100644",
+      "sha": "b41b3bff8ba9eafb8102b8293b247ddac392bdfe"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-0669/ci/nqc-census/recovered-rmc016/rmc016-observed-transaction-economics.jsonl",
+      "mode": "100644",
+      "sha": "98e7f576034e389fa5718feb7e7ee2ea3ed2131f"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-0669/ci/nqc-census/recovered-rmc016/tenderly-acquisition.json",
+      "mode": "100644",
+      "sha": "74fea89b643dc6ec292b9cf4f6d58a46fc1dd112"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-0669/ci/nqc-census/recovered-rmc016/tenderly-receipts-20261009.jsonl.gz",
+      "mode": "100644",
+      "sha": "789adb0a58aee49224e76db6e58ce7d0643e8880"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-0669/ci/nqc-census/rmc015_full_window_incidence.py",
+      "mode": "100644",
+      "sha": "e95ee2503351b3cbfcdc735bf1b7c71b8ed9e7c6"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-0669/ci/nqc-census/rmc016_recovered_winner_ledger.py",
+      "mode": "100644",
+      "sha": "3949b4cd6deec9570ef508724c2cba523d73ea2a"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-0669/ci/nqc-census/rmc016_tenderly_receipt_crosscheck.py",
+      "mode": "100644",
+      "sha": "94d2d5cd6238d97184365038a18332b012c88409"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-0669/ci/nqc-census/rmc_operator_gas_budget.py",
+      "mode": "100644",
+      "sha": "fb5588c39c02c65744004d9c693d5ff561a02e5d"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-0669/ci/nqc-census/test_rmc015_full_window_incidence.py",
+      "mode": "100644",
+      "sha": "92e231badafb487b096d1863d1d16cc65d72b605"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-0669/ci/nqc-census/test_rmc016_recovered_winner_ledger.py",
+      "mode": "100644",
+      "sha": "a92a98e6601eec917bb093aa3f10632e5d53f1e6"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-0669/ci/nqc-census/test_rmc016_tenderly_receipt_crosscheck.py",
+      "mode": "100644",
+      "sha": "fd6b7f8ab57ca8cf10a2fedf716b88ea288222e0"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-0669/workflows-disabled/nqc-census-aave-discovery.yml.disabled",
+      "mode": "100644",
+      "sha": "3a56f5b5fef6fa35ecd1606ead2f05b1304ef00a"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-0669/workflows-disabled/nqc-rmc016-winner-net-gate.yml.disabled",
+      "mode": "100644",
+      "sha": "55f2a54c741b9a5ab1e76a86eac8626855121065"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-684/ci/nqc-census/rmc-v2-economics/aave_susde_seize_budget.py",
+      "mode": "100644",
+      "sha": "ca3dab92532bc6ea440c44682351381c053079c3"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-684/ci/nqc-census/rmc-v2-economics/test_aave_susde_seize_budget.py",
+      "mode": "100644",
+      "sha": "90cf282ea4d4b782aa765dafd621db9c15d40dc6"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-684/workflows-disabled/nqc-rmc-v2-aave-seize-budget.yml.disabled",
+      "mode": "100644",
+      "sha": "5f27f7c2e9244fad9baa785220c9725e5ba2125f"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-685/ci/nqc-census/rmc-v2-economics/reconcile_funding_mutex.py",
+      "mode": "100644",
+      "sha": "ceabc1987bc8a8f14121fede040552e8d8102192"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-685/ci/nqc-census/rmc-v2-economics/test_reconcile_funding_mutex.py",
+      "mode": "100644",
+      "sha": "c70288ec92fe920bc61ab2b5ba6a2ebb49224bad"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-685/workflows-disabled/nqc-rmc-v2-funding-mutex.yml.disabled",
+      "mode": "100644",
+      "sha": "dd5acf27737520876ce44bb620a2a5bbc134c10f"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-686/ci/nqc-census/rmc-v2-economics/aave_susde_exact_seizure.py",
+      "mode": "100644",
+      "sha": "4f484348a99eb45b8b20d4304bbac234da28fc4c"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-686/ci/nqc-census/rmc-v2-economics/test_aave_susde_exact_seizure.py",
+      "mode": "100644",
+      "sha": "da863429050dc439c11ecb45b5bade62c8900189"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-686/workflows-disabled/nqc-rmc-v2-aave-seizure-exact.yml.disabled",
+      "mode": "100644",
+      "sha": "e895c2c3dcaca48c981bcba7dcdd5e49dc4d5165"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-688/ci/nqc-census/rmc-v2-economics/aave_emode24_exact_block_state.py",
+      "mode": "100644",
+      "sha": "e4531473cbd45254770d0e5206344285af5ad36f"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-688/ci/nqc-census/rmc-v2-economics/test_aave_emode24_exact_block_state.py",
+      "mode": "100644",
+      "sha": "5ae2c1372ee038533dd16c6974a142eef3885424"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-688/workflows-disabled/nqc-rmc-v2-aave-exact-state.yml.disabled",
+      "mode": "100644",
+      "sha": "2128d672ba7bfea1e310f71ae8e6be26c1aafa14"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-692/ci/nqc-census/rmc-v2-economics/first_month_commercial_hurdle.py",
+      "mode": "100644",
+      "sha": "c5b83c0809b7d1556bc13fb73e9803aa03964f57"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-692/ci/nqc-census/rmc-v2-economics/test_first_month_commercial_hurdle.py",
+      "mode": "100644",
+      "sha": "fc65598ede39b2236d259a8f6d9affcc1add8ea6"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-692/ci/nqc-census/rmc-v2-shadow/README-SNIPER-OBSERVATION.md",
+      "mode": "100644",
+      "sha": "a6eb1366fec958f5bda63b3b43e0bd1631c27deb"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-692/ci/nqc-census/rmc-v2-shadow/sniper_hf_pretrigger_triage.py",
+      "mode": "100644",
+      "sha": "51f1a8b9b3df898aa90269667ba17376238e36f3"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-692/ci/nqc-census/rmc-v2-shadow/sniper_readonly_journal.py",
+      "mode": "100644",
+      "sha": "b2abd97054400da5ec94cd4cbc47c71e15e37a2d"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-692/ci/nqc-census/rmc-v2-shadow/sniper_readonly_observer.py",
+      "mode": "100644",
+      "sha": "b51345fc80d503d511a054bc30d93f22b844e714"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-692/ci/nqc-census/rmc-v2-shadow/test_sniper_hf_pretrigger_triage.py",
+      "mode": "100644",
+      "sha": "58ec13468e1022d7fcce4d5f7e231851f0cfe422"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-692/ci/nqc-census/rmc-v2-shadow/test_sniper_readonly_journal.py",
+      "mode": "100644",
+      "sha": "54bc4a6055ab20cc149608fd7b5b5e494ba255e9"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-692/ci/nqc-census/rmc-v2-shadow/test_sniper_readonly_observer.py",
+      "mode": "100644",
+      "sha": "1e3336347951d402f274dc60ceac7958ad73ec69"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-692/workflows-disabled/nqc-rmc-v2-month1-hurdle.yml.disabled",
+      "mode": "100644",
+      "sha": "e477da85f60e1e584d8f1bd29c506e962e4c3226"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-692/workflows-disabled/nqc-v2-sniper-readonly-observation.yml.disabled",
+      "mode": "100644",
+      "sha": "d9e4e013462a1d17241f23badfee4940de714896"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-697/ci/nqc-census/rmc-v2-shadow/sniper_continuous_service.py",
+      "mode": "100644",
+      "sha": "cce6d6f14112b7237e7f18adca04717c9142bb61"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-697/ci/nqc-census/rmc-v2-shadow/test_sniper_continuous_service.py",
+      "mode": "100644",
+      "sha": "604b0814448a9824dbb65b073f085f24e517449f"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-697/workflows-disabled/nqc-v2-sniper-service-lifecycle.yml.disabled",
+      "mode": "100644",
+      "sha": "e614eb5e77fd177c919461753c080ce803bb0fcd"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-708/ci/nqc-census/rmc-v2-shadow/ORACLE_RPC_SOURCE_CAPABILITY_CONTRACT.md",
+      "mode": "100644",
+      "sha": "c775d39a7fec24bb98e5179b1b50de91fe9d513f"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-708/ci/nqc-census/rmc-v2-shadow/oracle_rpc_source_capability_matrix.py",
+      "mode": "100644",
+      "sha": "26a466d82c28fe053c0b3815c686c2696efcf4f9"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-708/ci/nqc-census/rmc-v2-shadow/test_oracle_rpc_source_capability_matrix.py",
+      "mode": "100644",
+      "sha": "75b037f96f256b50acce91d0f66786b996845934"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-708/workflows-disabled/nqc-v2-oracle-rpc-source-matrix.yml.disabled",
+      "mode": "100644",
+      "sha": "61fc20cd2ff7c5c09717c145a9de060b67a1991d"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-719/ci/nqc-census/rmc-v2-economics/COMPETITOR_WINNER_NATIVE_GAS_CONTRACT.md",
+      "mode": "100644",
+      "sha": "7617b6431a3a0838f5f179e849d1136320d8969a"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-719/ci/nqc-census/rmc-v2-economics/competitor_winner_receipt_gas.py",
+      "mode": "100644",
+      "sha": "ed4c1d83f3ba240cc238b9be1bdddb6d3fc5242d"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-719/ci/nqc-census/rmc-v2-economics/test_competitor_winner_receipt_gas.py",
+      "mode": "100644",
+      "sha": "5b31f57d415ff057f0714156df9a996258300442"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-719/workflows-disabled/nqc-v2-competitor-receipt-gas.yml.disabled",
+      "mode": "100644",
+      "sha": "a51b07713e1522966b0f5028599904ffdced0ac7"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-744/ci/nqc-census/rmc-v2-shadow/MORPHO_CBXRP_PROSPECTIVE_RISK_CONTRACT.md",
+      "mode": "100644",
+      "sha": "f7bbef43c2572926dfb7723816de95303261c668"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-744/ci/nqc-census/rmc-v2-shadow/morpho_base_cbXRP_prospective_risk.py",
+      "mode": "100644",
+      "sha": "b1e29e04e3ac5b88ecf2fc06a2e09ad789a9f55c"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-744/ci/nqc-census/rmc-v2-shadow/test_morpho_base_cbXRP_prospective_risk.py",
+      "mode": "100644",
+      "sha": "676e9c79ab53046a40c52719d35776e04a31f276"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-744/workflows-disabled/nqc-v2-morpho-cbxrp-prospective-risk.yml.disabled",
+      "mode": "100644",
+      "sha": "f2efe7322b86dcf2aa4f0a14437f07f75b6992c6"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-745/ci/nqc-census/rmc-v2-shadow/COMPOUND3_DISCOUNT_INVENTORY_CONTRACT.md",
+      "mode": "100644",
+      "sha": "c5efde75a4ab090caa4f22cd52d972d8d052829f"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-745/ci/nqc-census/rmc-v2-shadow/compound3_discount_inventory_gate.py",
+      "mode": "100644",
+      "sha": "ace76eeb62739e0e45665732ded7b66f767618bd"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-745/ci/nqc-census/rmc-v2-shadow/test_compound3_discount_inventory_gate.py",
+      "mode": "100644",
+      "sha": "128a962904ce53df6c1706a1a7504f9b7540d789"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-745/workflows-disabled/nqc-compound-quote-diagnostic-once.yml.disabled",
+      "mode": "100644",
+      "sha": "6886571e856b32b57ada1ebfad27bdc83c0ae456"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-745/workflows-disabled/nqc-compound-sdeusd-final-gate.yml.disabled",
+      "mode": "100644",
+      "sha": "25f7b0e367a75caa7a2ae2d5f0f227ab2bda67cf"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-745/workflows-disabled/nqc-v2-compound3-discount-inventory.yml.disabled",
+      "mode": "100644",
+      "sha": "e17409cc6400696707b23f60d0a565b8fa6c8660"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-747/ci/nqc-census/rmc-v2-shadow/MORPHO_RISK_ORDERED_PROSPECTIVE_CONTRACT.md",
+      "mode": "100644",
+      "sha": "5bd0c789b93c73cad1ebdad050f7927ce4a2caee"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-747/ci/nqc-census/rmc-v2-shadow/morpho_cbxrp_risk_order_frontier.py",
+      "mode": "100644",
+      "sha": "82d25d2364020390da9ee51479ee3e1600bc6b9f"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-747/ci/nqc-census/rmc-v2-shadow/test_morpho_cbxrp_risk_order_frontier.py",
+      "mode": "100644",
+      "sha": "0ee5d596888d44b6f2d783c4d32dfb696eefc63c"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-747/workflows-disabled/nqc-v2-morpho-risk-order-frontier.yml.disabled",
+      "mode": "100644",
+      "sha": "a8d771fa89b3bbcac0ae99c511952519c292f0d8"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-750/ci/nqc-census/rmc-v2-shadow/MORPHO_COMMERCIAL_CAPACITY_DOWNSIDE_CONTRACT.md",
+      "mode": "100644",
+      "sha": "974dfa489ba5aeb89c8dc0ede8b05cb640a3b6e0"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-750/ci/nqc-census/rmc-v2-shadow/morpho_capacity_falsification.py",
+      "mode": "100644",
+      "sha": "dccf04a053572c06c576b88ae2d522bcab48db01"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-750/ci/nqc-census/rmc-v2-shadow/test_morpho_capacity_falsification.py",
+      "mode": "100644",
+      "sha": "19e664dfef4175cd7b2cd2d15097b820e9c70174"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-750/workflows-disabled/nqc-v2-morpho-cbxrp-commercial-capacity.yml.disabled",
+      "mode": "100644",
+      "sha": "adcad49bd7b729af1df47064e472aea92ff08e20"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-752/ci/nqc-census/rmc-v2-shadow/MORPHO_WSNET_23D_ECONOMIC_FALSIFICATION.md",
+      "mode": "100644",
+      "sha": "6ddea4e11425da6273939065dbb9fcb753309670"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-752/ci/nqc-census/rmc-v2-shadow/morpho_wsnet_23d_economic_gate.py",
+      "mode": "100644",
+      "sha": "c4ec3d3060a687a99c33708b922f1c25fcbcdb11"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-752/ci/nqc-census/rmc-v2-shadow/test_morpho_wsnet_23d_economic_gate.py",
+      "mode": "100644",
+      "sha": "9f795954f31a141c0e6e8b5fa88b73cc33008769"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-752/workflows-disabled/nqc-v2-morpho-wsnet-economic-gate.yml.disabled",
+      "mode": "100644",
+      "sha": "113200157f02ae6b92cad2da5b7e63cf58efbec8"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-753/ci/nqc-census/rmc-v2-shadow/NQC_COMPOUND3_PINNED_NEGATIVE_ECONOMIC_VERDICT_26199216.md",
+      "mode": "100644",
+      "sha": "f4c70e35a693ac101631607c50e8f5e0b91df073"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-753/workflows-disabled/nqc-compound3-one-shot-quote.yml.disabled",
+      "mode": "100644",
+      "sha": "66a29e66dad950a9dacf2d2b097333f3468ba995"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-753/workflows-disabled/nqc-compound3-weth-exit-once.yml.disabled",
+      "mode": "100644",
+      "sha": "60d57d5143499a8ef23203f27e6b6af8d714f892"
+    },
+    {
+      "path": "migration/engine-v2-20261015/pr-only/PR-754/workflows-disabled/nqc-compound3-absorb-buy-events-once.yml.disabled",
+      "mode": "100644",
+      "sha": "93a50fd3eb5004814dafa3885b18414730f168fe"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/RMC011_THIRTEEN_SOURCE_FAMILY_TRANSPORT.md",
+      "mode": "100644",
+      "sha": "1ab385cd37aa051e342d8b654908f2562e0391d5"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/RMC_V2_TOPOLOGY_GAPS.md",
+      "mode": "100644",
+      "sha": "b508c0a49fc0a6e6698699b02b66bc80444d07f0"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/erc4337-real-source-lab/README.md",
+      "mode": "100644",
+      "sha": "fa4d765b2c8d8e257b93af1c2cd2e6db9a369ea9"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/erc4337-real-source-lab/foundry.toml",
+      "mode": "100644",
+      "sha": "2690705209d9e59a621c144e90bddfa53f179dbf"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/erc4337-real-source-lab/test/NqcRealEntryPointV07GasSponsor.t.sol",
+      "mode": "100644",
+      "sha": "62cc181268805ed52c64ee1b5279f6d1b0708536"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/morpho-native-lab/MORPHO_NATIVE_CALLBACK_ATOMIC_LAB.md",
+      "mode": "100644",
+      "sha": "a1996f8c68681ec62e11285f28177e496c2e79ba"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/morpho-native-lab/NQC_4337_SPONSOR_ACCOUNT_SCOPE.md",
+      "mode": "100644",
+      "sha": "1083e1b202aea9ffa13c85a4ab9a71e398ea6ea7"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/morpho-native-lab/foundry.toml",
+      "mode": "100644",
+      "sha": "3c29ff87fc766027edd3fa8e4745a054c952a485"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/morpho-native-lab/src/NqcMorphoNativeCallbackLab.sol",
+      "mode": "100644",
+      "sha": "33ba05d21472f4eaffb98c42f5cc2fd4454c6555"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/morpho-native-lab/test/Nqc4337SponsoredMorphoLocal.t.sol",
+      "mode": "100644",
+      "sha": "df7494be351e33eea06a527a02b1fdf0400dd6f4"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/morpho-native-lab/test/NqcMorphoNativeCallbackLab.t.sol",
+      "mode": "100644",
+      "sha": "154527e50705e104587d55eb9d8c675f6922392c"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/nqc_v2_aave_rpc_observer.py",
+      "mode": "100644",
+      "sha": "c1e33eb1bf47a6e24d39e816d0a005d8f1c63108"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-economics/COMPETITOR_NATIVE_GAS_VS_NQC_CONTRACT.md",
+      "mode": "100644",
+      "sha": "576163d23bcd38925329680afd03a605843b8501"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-economics/LOCAL_COLD_EOA_SETUP_HEADROOM_CONTRACT.md",
+      "mode": "100644",
+      "sha": "cbc25cba175d38161cca505fa37fb8720a7ed668"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-economics/POSTWINDOW_COMPETITION_CAPACITY_CONTRACT.md",
+      "mode": "100644",
+      "sha": "babe682fd18697ae2aeffb7181cd95d1e6b4594e"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-economics/README.md",
+      "mode": "100644",
+      "sha": "183ce6b5c11fa166af23f1b3cfab02004e0a2c41"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-economics/competitor_native_gas_vs_nqc_fork.py",
+      "mode": "100644",
+      "sha": "1bd44bb2a401d4c9ffebdef7e0f3c54ecba67189"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-economics/driver_gate.py",
+      "mode": "100644",
+      "sha": "8648bdaf4f7df08646d27228efd5bbf42c9d0d98"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-economics/fixtures/ethereum-26184415-research-only.json",
+      "mode": "100644",
+      "sha": "3d44d973fba06f82dcec9817eded6b354f6a4007"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-economics/local_full_eoa_gas_headroom.py",
+      "mode": "100644",
+      "sha": "8aff9353ad15ff213a8887742eee2181263ebdd7"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-economics/postwindow_competition_capacity_hurdle.py",
+      "mode": "100644",
+      "sha": "b8aaaa4eb6db9a4760548f0cbdd91098002cf954"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-economics/test_competitor_native_gas_vs_nqc_fork.py",
+      "mode": "100644",
+      "sha": "ba2f3b805c0347cb2a447fd03288768d1a0bca4b"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-economics/test_driver_gate.py",
+      "mode": "100644",
+      "sha": "4645d59468df08a120634e37deffaebc829ead91"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-economics/test_local_full_eoa_gas_headroom.py",
+      "mode": "100644",
+      "sha": "e2c10d50018da18335d90092bb3afc9c79b37631"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-economics/test_postwindow_competition_capacity_hurdle.py",
+      "mode": "100644",
+      "sha": "ef9fbf2d30d5a48add32cf1330d7b06d12222bc9"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-routing/bisect_curve_usdtb_cover.py",
+      "mode": "100644",
+      "sha": "e2ac7c287c2b6eed1bc3d61feda7b8cef14d6575"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-routing/discover_uniswap_v3_usdtb.py",
+      "mode": "100644",
+      "sha": "58e3f526a090041b58e57d40d7f79f326a722b6c"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-routing/quote_curve_usdtb_twohop.py",
+      "mode": "100644",
+      "sha": "2f89a69435251070f68a17d42fa6be479f648c69"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-routing/quote_fluid_susde_usdt.py",
+      "mode": "100644",
+      "sha": "c6f0b34d88aa59b2112b260ce0d876d99c6d8af0"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-routing/test_bisect_curve_usdtb_cover.py",
+      "mode": "100644",
+      "sha": "8d343539e7de33ef9070715be54439f71f4c3178"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-routing/test_discover_uniswap_v3_usdtb.py",
+      "mode": "100644",
+      "sha": "77a1ba364ea1ae42fd5c3d1e2c702b98b4bf2f7f"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-routing/test_quote_curve_usdtb_twohop.py",
+      "mode": "100644",
+      "sha": "e61e589bc35b94df506edbaf2b56b9be1322b2e0"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-routing/test_quote_fluid_susde_usdt.py",
+      "mode": "100644",
+      "sha": "bc5f0fad125ca0ee927f7226b12c30cfe88b79d5"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/ALL_83_WITHDRAW_OWNER_REFRESH_CONTRACT.md",
+      "mode": "100644",
+      "sha": "2d7a513d5ee0d9a858a96c7ad1b52161c448b726"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/ANVIL_185_PREFIX_REPLAY_SOURCE_CONTRACT.md",
+      "mode": "100644",
+      "sha": "d0a89cae2b299798a511bc7910ff7a8aa3bbcf96"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/ATLAS_BONDED_GAS_SOURCE_CONTRACT.md",
+      "mode": "100644",
+      "sha": "3cd344c08cf5a9ff2509e46dbd5183d444da18fd"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/CANONICAL_AAVE_ASSET_ORACLE_SOURCE_TRUTH.md",
+      "mode": "100644",
+      "sha": "d30babd30739040ebd42fb9aac1a815a3a0aae29"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/ECONOMIC_ENVELOPE_CONTRACT.md",
+      "mode": "100644",
+      "sha": "83ad6e97f64cd9cd2b4e2e92c30dce187a1257d1"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/FIFTYFOUR_FRESH_BORROW_MULTICALL_CONTRACT.md",
+      "mode": "100644",
+      "sha": "a5abf9f633dbd72e1c8cb974e268467322b65ae0"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/FRESH_BORROW_PROSPECTIVE_CONTRACT.md",
+      "mode": "100644",
+      "sha": "dce5947e055451835e32d1f07e36fa78514643ff"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/FRESH_BORROW_TRAJECTORY_CONTRACT.md",
+      "mode": "100644",
+      "sha": "d2c7b3c8a670bad31c6a9b0b31337c3356a0b4b6"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/FRESH_WITHDRAW_OWNER_RISK_CONTRACT.md",
+      "mode": "100644",
+      "sha": "f163214d9338adca34f7413e7a1b6fab55164381"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/FUNDED_ROUTE_CONTRACT.md",
+      "mode": "100644",
+      "sha": "37a15d5f26ae705276231830146c9e0e1290f8fc"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/INTRABLOCK_ATTRIBUTION_CONTRACT.md",
+      "mode": "100644",
+      "sha": "46d05bce6f6c7fe058583392e760dd961a9cc78e"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/LOCAL_ANVIL_FULL_RECEIPT_CONTRACT.md",
+      "mode": "100644",
+      "sha": "e99fa74afdf72385fc6c5a1e2b2cf278c02e0577"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/LOCAL_ATOMIC_RECEIPT_EVENT_PROOF_CONTRACT.md",
+      "mode": "100644",
+      "sha": "d813e9c4a36a16e33bd633756ffe09962baf8ab0"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/LOCAL_ONE_SHOT_TX_ENVELOPE_CERT_CONTRACT.md",
+      "mode": "100644",
+      "sha": "f52a5c01ea914515ce04589eaceb069fbc1c5994"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/LOCAL_SINGLE_EOA_CONSTRUCTOR_CONTRACT.md",
+      "mode": "100644",
+      "sha": "a0632237b68ddb98476819b0f84e80d7a5b813c3"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/MORPHO_30D_INDEXER_CENSUS_CONTRACT.md",
+      "mode": "100644",
+      "sha": "9e01321674080ab5841ca09e3e494fd9628e1f55"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/MORPHO_BASE_REAL_LIQUIDATION_ECONOMICS.md",
+      "mode": "100644",
+      "sha": "c74b8ed2fab54e3bb406a2eb1ee1ce675a1bc776"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/MORPHO_CBXRP_CURRENT_EXIT_QUOTE_CONTRACT.md",
+      "mode": "100644",
+      "sha": "ad4a2d64c17aa60771c12061183eb66bcebc3323"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/MORPHO_CBXRP_PROSPECTIVE_COHORT_CONTRACT.md",
+      "mode": "100644",
+      "sha": "eda35424a9ae6cb8ef43b4f75ab0e4d225a81636"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/MORPHO_SOURCE_PINNED_ONCHAIN_CHECK_CONTRACT.md",
+      "mode": "100644",
+      "sha": "95953a318610afb2c898c847456a72f4a152ca7b"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/NQC_ORIGINAL_FROZEN_COHORT_60.json",
+      "mode": "100644",
+      "sha": "e8794e9cb605bdae858c246e1eab44f0e934891d"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/ORACLE_CAUSALITY_CONTRACT.md",
+      "mode": "100644",
+      "sha": "18fce7e511c0491a8cbd641e50fbfb7181b4b664"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/ORACLE_DUAL_EVENT_FAMILY_CONTRACT.md",
+      "mode": "100644",
+      "sha": "440afada7e9a7a0699db4a1788457857e669c649"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/ORACLE_DYNAMIC_TOPOLOGY_CONTRACT.md",
+      "mode": "100644",
+      "sha": "2a219cbacd758faaff28fe5a3ae6180c9e4c05be"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/ORACLE_NEWTRANSMISSION_CADENCE_CONTRACT.md",
+      "mode": "100644",
+      "sha": "93362eee2fbfd4b7658b4199c1110917fd0524c3"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/ORACLE_PENDING_VISIBILITY_CONTRACT.md",
+      "mode": "100644",
+      "sha": "7fd14370e3e6faf546f21331e90aae88b687a215"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/ORACLE_PRICE_PATH_FORK_CONTRACT.md",
+      "mode": "100644",
+      "sha": "989378e8dd819faff1876a3ce04eb15e4c4df051"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/ORACLE_REACTIVE_WINDOW_CONTRACT.md",
+      "mode": "100644",
+      "sha": "9dc0e5bf789bf2ac8bafe41c7116b712bd3d25ba"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/ORACLE_ROUND_TRANSACTION_ORDER_CONTRACT.md",
+      "mode": "100644",
+      "sha": "6709a812bc452fb8217f3c27d1b8238902847fe5"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/ORACLE_WS_INCLUSION_AUDIT_CONTRACT.md",
+      "mode": "100644",
+      "sha": "ed9cdad1d9f57a56bb58155d1f94518e73876641"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/ORACLE_WS_VISIBILITY_CONTRACT.md",
+      "mode": "100644",
+      "sha": "44888adc204d29d6f01ff9fc3d1538beb60b0036"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/POSTWINDOW_WINNER_PRESTATE_CONTRACT.md",
+      "mode": "100644",
+      "sha": "dd851de40de1d537bb939e6c90af0a753be11fc3"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/PROSPECTIVE_50BORROWER_SHADOW_CONTRACT.md",
+      "mode": "100644",
+      "sha": "878854bb15dce933aa16234fbfe9ba1e196b13f5"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/PUBLIC_ACCOUNT_RPC_AB_LATENCY_CONTRACT.md",
+      "mode": "100644",
+      "sha": "7cabf1011bc313907932cecec5239b422664b427"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/README-POSTWINDOW-SHARDS.md",
+      "mode": "100644",
+      "sha": "eaef3a493e13cc96813629edbfff2be1284ba4f8"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/README-RUN08.md",
+      "mode": "100644",
+      "sha": "6f13f344efa46fd28e580813b48545689571fa1b"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/RESEARCH_ONLY_block-26184415.json",
+      "mode": "100644",
+      "sha": "d66b9c4ee0eaa96f2b18d68afe2234e47f5dfba7"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/SEALED_PUBLIC_HEAD_PROSPECTIVITY_BOUNDARY.md",
+      "mode": "100644",
+      "sha": "8a54f9ba5eca068c122c588c5c9f30d0587f0507"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/SVR_ARCHIVE_POSITIVE_CONTROLS_CONTRACT.md",
+      "mode": "100644",
+      "sha": "1fd0da25ca53f228b7e420e3f6f8acc87d33d309"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/SVR_CERTIFIED_CAUSALITY_ARCHIVE_CONTRACT.md",
+      "mode": "100644",
+      "sha": "a9ecc1f590af12a6023044efcafc5e6957f7efcf"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/SVR_EXECUTOR_AUCTION_CAPITAL_CONTRACT.md",
+      "mode": "100644",
+      "sha": "f6104cd9869e9c5b20bc636b69e41677cc510458"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/SVR_HF_TRIGGER_ARCHIVE_CONTRACT.md",
+      "mode": "100644",
+      "sha": "28b0f0a2537c70951009d301160b97b4f1386e3f"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/SVR_HINT_ADMISSION_CONTRACT.md",
+      "mode": "100644",
+      "sha": "bec67a90c34c4f2b5863305798b34c4343277453"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/SVR_READONLY_CHANNEL_ACCESS_CONTRACT.md",
+      "mode": "100644",
+      "sha": "6bcc1c18144282d67b9a7b3505207f77b722f9d3"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/SVR_SSE_ROUND_DENOMINATOR_CONTRACT.md",
+      "mode": "100644",
+      "sha": "ac8728c99ca4f3c131bdf568f24b3430d2a9fb64"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/THREE_STATE_ORACLE_WINNER_ORDER_CONTRACT.md",
+      "mode": "100644",
+      "sha": "38ac404dacffd836acf316c056c91701c4148e34"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/VERIFIED_MULTICALL3_RISK_BATCH_CONTRACT.md",
+      "mode": "100644",
+      "sha": "3a69fc1eea738988037292ea29cf9a2f2dd0f820"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/aave_three_asset_live_oracle_route.py",
+      "mode": "100644",
+      "sha": "7bdc0c99e0fb700dfb733623fcb6cdec36efc442"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/atlas_bond_truth.py",
+      "mode": "100644",
+      "sha": "f93c415a48571be51ee8d9ebdfef3aa6744e30b8"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/blockscout_aave_250_indexer_preflight.py",
+      "mode": "100644",
+      "sha": "fc2c3c8ce69d1c98742027d93863f864eb94a8b2"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/blockscout_aave_89390_indexed_research.py",
+      "mode": "100644",
+      "sha": "fe67450493d1e377c7ef3c0e7ca30c98ffa78b54"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/blockscout_known_positive_aave.py",
+      "mode": "100644",
+      "sha": "c5ac92fb4eb4f0ad1a40500573ea5b29d25ef633"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/cbXRP_openocean_readonly_quotes.py",
+      "mode": "100644",
+      "sha": "340b2ae6f8777be97605fd5452ac1ec3ad976b13"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/fixtures/RUN07-immutable-seven-snapshot-ledger.jsonl",
+      "mode": "100644",
+      "sha": "2aa08b1c5b06347159b9ecd4c0d47c575b72c4f2"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/morpho_base_cbXRP_economics.py",
+      "mode": "100644",
+      "sha": "2f2e1839b97628d9d0f1d5705b69c1e003f0ca03"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/morpho_cbXRP_chain_truth.py",
+      "mode": "100644",
+      "sha": "3f06fb9408714fe3a184e178ddf82d97d8a8db27"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/morpho_cbXRP_liquidation_exit_quotes.py",
+      "mode": "100644",
+      "sha": "ee046737f64a097d9bc99e7b93019d7b63559c05"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/morpho_cbXRP_prospective_cohort.py",
+      "mode": "100644",
+      "sha": "e2b3bc96119af6cde7c8c3c7c1c920db90437e5c"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/morpho_competition_30d.py",
+      "mode": "100644",
+      "sha": "90447f907ec6eee422dcc8f0021db6d375a3f260"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/nqc_local_anvil_cold_receipt.py",
+      "mode": "100644",
+      "sha": "b3af09036c57aa7e178031b71522a191a5aa845a"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/nqc_local_one_shot_eoa.py",
+      "mode": "100644",
+      "sha": "7ed92d0305aa41319449d05e29ce492d0b3334ce"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/one_shot_three_state_eligibility.py",
+      "mode": "100644",
+      "sha": "90ae229b93e841dc8edda92e7fa9f0fd43771eb4"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/oracle_dual_event_family_census.py",
+      "mode": "100644",
+      "sha": "fac17b1dbbd1d3ddaf818fe0a0e70b5551870043"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/oracle_dynamic_topology_truth.py",
+      "mode": "100644",
+      "sha": "3b4fdbcce710b936ac0f164434c27f507737eb3d"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/oracle_newtransmission_cadence.py",
+      "mode": "100644",
+      "sha": "8824f33de23b962ebc90d4154022981765b3d748"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/oracle_pending_visibility_probe.py",
+      "mode": "100644",
+      "sha": "a2dc82780ffa1b52e5ff3c63a143ae35673e94e7"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/oracle_price_path_fork.py",
+      "mode": "100644",
+      "sha": "217c7a34d79837b744cd41005c830ff94acf8066"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/oracle_reactive_window_ledger.py",
+      "mode": "100644",
+      "sha": "ad8be86cf164537310acb2154e8b2cb9cf6e9841"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/oracle_round_transaction_order.py",
+      "mode": "100644",
+      "sha": "5807ecebdc37398f50dde261335bad33fae14cd9"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/oracle_ws_inclusion_audit.py",
+      "mode": "100644",
+      "sha": "e93ece79130066b569603b98b8e3476ff224e9f4"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/oracle_ws_visibility_probe.py",
+      "mode": "100644",
+      "sha": "9289befc9701e5fd9f7b232e56f6343882137f6d"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/postwindow_economic_envelope.py",
+      "mode": "100644",
+      "sha": "edb761975e119c6f1e5d5a0f568f1062ec935f62"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/postwindow_funded_route.py",
+      "mode": "100644",
+      "sha": "218ce1803faf983757adb28c0e58e055f6f8829b"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/postwindow_indexed_winner_conflicts.py",
+      "mode": "100644",
+      "sha": "2f5c872e05e3991398ba9aa07bb4a9307182a374"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/postwindow_intrablock_attribution.py",
+      "mode": "100644",
+      "sha": "88d2582548645ce718eb47ace2fcabecab5c765c"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/postwindow_oracle_causality.py",
+      "mode": "100644",
+      "sha": "a990d3cd4ea2bbdc613077b3233bf3a8c49c0d9d"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/postwindow_winner_prestate.py",
+      "mode": "100644",
+      "sha": "b2a2729e3a7e78c2b097f8de82eb22e3a4dafa4f"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/prospective_50borrower_state.py",
+      "mode": "100644",
+      "sha": "a8308b20c77247fe8fcccfe61174c3b071496e1b"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/prospective_recent_borrow_cohort.py",
+      "mode": "100644",
+      "sha": "5190b63b1901f61ab9c0065f79cb853b30f5dd0a"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/prospective_recent_borrow_trajectory.py",
+      "mode": "100644",
+      "sha": "2365c7be28ab73438c0bd0f15853fbe6e0750820"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/prospective_recent_withdraw_cohort.py",
+      "mode": "100644",
+      "sha": "996479c75d11436f3e6c4bcbe97f325f7c21624a"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/providers.template.json",
+      "mode": "100644",
+      "sha": "1931eeaffeb95590c8b9dfb1a7a1c5afe8ed4dce"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/public_aave_9account_rpc_latency_ab.py",
+      "mode": "100644",
+      "sha": "5f8093c498b047ff044f0a6e59a915b48f6578cb"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/public_aave_multicall3_exact9_parity.py",
+      "mode": "100644",
+      "sha": "aebf287c5b4bf8d2109293b48fd32762778813a2"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/public_two_head_sealed_watch.py",
+      "mode": "100644",
+      "sha": "60d2f74eeddfdeee7badfff6df9b5a0ff3587818"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/quorum_block_intake.py",
+      "mode": "100644",
+      "sha": "584718ca89128f0e546ef67fb82fc22b653ae272"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/recent54_borrowers_multicall_risk.py",
+      "mode": "100644",
+      "sha": "ea86e464b929de3316cd957d45d6f4afc7cae050"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/svr_archive_positive_controls.py",
+      "mode": "100644",
+      "sha": "3f00fc384ba0d4a078fda0e03b01a0257f20c6a9"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/svr_auction_finance_gate.py",
+      "mode": "100644",
+      "sha": "509775d8ee7aacb138ac866f4fc22e36a00be96f"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/svr_certified_causality_archive.py",
+      "mode": "100644",
+      "sha": "585f91d6331ac38d427996598a5aa494d1e71931"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/svr_channel_access_probe.py",
+      "mode": "100644",
+      "sha": "692b2713adef22dee6b1aa5b8311ae830516d5c5"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/svr_hf_trigger_archive_audit.py",
+      "mode": "100644",
+      "sha": "437431185d186a0c4d16688a38afa4a30d888700"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/svr_hint_admission.py",
+      "mode": "100644",
+      "sha": "60e2ef918f5a026bf3241a1181278daf65028dc3"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/svr_sse_round_denominator.py",
+      "mode": "100644",
+      "sha": "e1967c4d9dde940a057aff6352356c8a19c3088b"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/targeted_aave_liquidation_census.py",
+      "mode": "100644",
+      "sha": "652b15625c22dbe0d37f92fa9254f7ce8d780db3"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/targeted_aave_shard_checkpoint.py",
+      "mode": "100644",
+      "sha": "5c7e7ed45dc7081a338204409522291f5ac05abb"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_aave_three_asset_live_oracle_route.py",
+      "mode": "100644",
+      "sha": "e385de868452fec8ea0666b3e07dd184ca78737a"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_atlas_bond_truth.py",
+      "mode": "100644",
+      "sha": "7c53dcc3a1af41996564e6c7ca59e78a8ba5ad3f"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_blockscout_aave_250_indexer_preflight.py",
+      "mode": "100644",
+      "sha": "a2063b316a44afc482ec3f4c302fcc0333b68722"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_blockscout_aave_89390_indexed_research.py",
+      "mode": "100644",
+      "sha": "d640cf7c63145d81f1e26fab71e664bb17b97e05"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_blockscout_known_positive_aave.py",
+      "mode": "100644",
+      "sha": "cd4d55b126facd7322dd6cf5ad7dbb9e1b58b2af"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_cbXRP_openocean_readonly_quotes.py",
+      "mode": "100644",
+      "sha": "c462a6f0e5384f7d6d7accf192718f43ed57eca4"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_morpho_base_cbXRP_economics.py",
+      "mode": "100644",
+      "sha": "e129991952a7abbf00a32ed4b1b0bba58c003cfe"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_morpho_cbXRP_chain_truth.py",
+      "mode": "100644",
+      "sha": "a1c57fe1924f05e586542efb9fc17ee7171b6909"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_morpho_cbXRP_liquidation_exit_quotes.py",
+      "mode": "100644",
+      "sha": "d500f3bb9c5670233a822110914054f7f4d89c7b"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_morpho_cbXRP_prospective_cohort.py",
+      "mode": "100644",
+      "sha": "9f1a655c5f7e6fd3d4a273612fbb17962e30002a"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_morpho_competition_30d.py",
+      "mode": "100644",
+      "sha": "91a9275c7ce8e81d566e3ce1b4a59c0855aa0a9c"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_nqc_local_anvil_cold_receipt.py",
+      "mode": "100644",
+      "sha": "99b7d25b28c4b9c75a42e18edcb9dbd79c17657d"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_nqc_local_one_shot_eoa.py",
+      "mode": "100644",
+      "sha": "cf840eb8646e09fb560af57645fdde5cff5a57d3"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_one_shot_three_state_eligibility.py",
+      "mode": "100644",
+      "sha": "9ab41ae29d04ca53067b4b20acb48bad3cdebabb"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_oracle_dual_event_family_census.py",
+      "mode": "100644",
+      "sha": "83a79a1cd51667cd6a5d84a2af5a186b16811d4b"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_oracle_dynamic_topology_truth.py",
+      "mode": "100644",
+      "sha": "d3add8ce4c2b8be29a81d0d7339ca3c386fde528"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_oracle_newtransmission_cadence.py",
+      "mode": "100644",
+      "sha": "fc98b42c3290c0abc47fdce248bfd4b9e7be1207"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_oracle_pending_visibility_probe.py",
+      "mode": "100644",
+      "sha": "7a09e4059d96ce9f1c2d1e7f9d448769f508d382"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_oracle_price_path_fork.py",
+      "mode": "100644",
+      "sha": "9124d5942fb04c7fc24563bfd193da7ff20a0086"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_oracle_reactive_window_ledger.py",
+      "mode": "100644",
+      "sha": "ed37228fa09a19b6d4e39228c57139f7c252ed81"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_oracle_round_transaction_order.py",
+      "mode": "100644",
+      "sha": "559821e2deaa9946fb5a49676018129659cf7b8f"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_oracle_ws_inclusion_audit.py",
+      "mode": "100644",
+      "sha": "f1128a36fc4547053db1b3e076da372b7fa77963"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_oracle_ws_visibility_probe.py",
+      "mode": "100644",
+      "sha": "9225d242f5d58e029d2400a2ccfae553caabbb8a"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_postwindow_economic_envelope.py",
+      "mode": "100644",
+      "sha": "30ec4935337845f3ebb0225cfd0167846642e3ed"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_postwindow_funded_route.py",
+      "mode": "100644",
+      "sha": "b3d6f2e344ab81ce86fb7b569f1de4a9e4234f47"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_postwindow_indexed_winner_conflicts.py",
+      "mode": "100644",
+      "sha": "79c9d0740edc1eca210713f21a3c9b05533608ea"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_postwindow_intrablock_attribution.py",
+      "mode": "100644",
+      "sha": "118c5c271dbd2964f1a7ae4d648dd3c9628af9b1"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_postwindow_oracle_causality.py",
+      "mode": "100644",
+      "sha": "ae634ba857d2be348ae25b43b6e866be42a6c810"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_postwindow_winner_prestate.py",
+      "mode": "100644",
+      "sha": "19d4fe34bae65a5e74495195ea1e4948e6c2ca68"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_prospective_50borrower_state.py",
+      "mode": "100644",
+      "sha": "962c5c3b62faa922e5d4c49076dd3158b00885aa"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_prospective_recent_borrow_cohort.py",
+      "mode": "100644",
+      "sha": "c94d9a8e2ca2aa45131ba25c20ba1170a28a0b93"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_prospective_recent_borrow_trajectory.py",
+      "mode": "100644",
+      "sha": "024edc7d7b398922f23483b729b9876bdf15ed15"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_prospective_recent_withdraw_cohort.py",
+      "mode": "100644",
+      "sha": "4ef59c9676e8e656e2ab193d7ec638c3e395f3d8"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_public_aave_9account_rpc_latency_ab.py",
+      "mode": "100644",
+      "sha": "d511e794473d4fa40c9c4c980ead1b519ba0db36"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_public_aave_multicall3_exact9_parity.py",
+      "mode": "100644",
+      "sha": "c46968fd46115df912fe3d0f41e2bebb50763f5f"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_public_two_head_sealed_watch.py",
+      "mode": "100644",
+      "sha": "73324b29aa50e0d1802f40ab23b5e596161cc817"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_quorum_block_intake.py",
+      "mode": "100644",
+      "sha": "305967b56014aa2b79696010c38d39bd547b6b4f"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_recent54_borrowers_multicall_risk.py",
+      "mode": "100644",
+      "sha": "62b65ed34191c490970ea7ae9630bd8599bc5509"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_svr_archive_positive_controls.py",
+      "mode": "100644",
+      "sha": "3654076821fbaf0eb7a49e39c6a44d04de6de4cf"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_svr_auction_finance_gate.py",
+      "mode": "100644",
+      "sha": "55496bff3a86197c259dbaea19a57a9fb3894115"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_svr_certified_causality_archive.py",
+      "mode": "100644",
+      "sha": "0a6ad1ce671829187855320840f9b9b2db00119e"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_svr_channel_access_probe.py",
+      "mode": "100644",
+      "sha": "4f45b5d55b5ba149618e2c164640f64a0c5f1094"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_svr_hf_trigger_archive_audit.py",
+      "mode": "100644",
+      "sha": "b061edd1c9a3b83220874d7919192391b9db1f3c"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_svr_hint_admission.py",
+      "mode": "100644",
+      "sha": "6e96169aeaf9f5e9329988d664d5b6c024576dea"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_svr_sse_round_denominator.py",
+      "mode": "100644",
+      "sha": "6aaf83e5a24bc0a4530949462f1b00ac8be3de05"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_targeted_aave_liquidation_census.py",
+      "mode": "100644",
+      "sha": "ed4f7f6651fa08771950aad1bf563e0ef2142bee"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_targeted_aave_shard_checkpoint.py",
+      "mode": "100644",
+      "sha": "6aa4f0f77d9ff07cf4a95d539b3524ea1c566ede"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_verify_postwindow_competitor_receipts.py",
+      "mode": "100644",
+      "sha": "81f17dea4ac49574d4d9e41db972f04734762a9d"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/test_withdraw_all_83_owner_refresh.py",
+      "mode": "100644",
+      "sha": "2e0a7f81068ee2f5a6484d60f1d508df33981dc1"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/verify_postwindow_competitor_receipts.py",
+      "mode": "100644",
+      "sha": "f5701d13799b1fc584e020c415d8dbf363966ef8"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/withdraw_all_83_owner_refresh.py",
+      "mode": "100644",
+      "sha": "50e25c99489851b6d94c6fc52e77b9eb70eb10e4"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/rmc011-execution-topologies-v2-research.json",
+      "mode": "100644",
+      "sha": "cdd28a7d2cceb9de3187d829530270a4811e94a7"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/test_nqc_v2_aave_rpc_observer.py",
+      "mode": "100644",
+      "sha": "c1fdaa5f258525d46a19d292ff595ef680d28fbf"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/test_rmc011_execution_topologies_v2.py",
+      "mode": "100644",
+      "sha": "8157ff93d3bd98212c5c141348c2c7bf6611d905"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/test_rmc011_historical_source_compatibility.py",
+      "mode": "100644",
+      "sha": "47f3ddca82f86f1e5791e7c4403e1d8dcf5ffd84"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/test_rmc011_independent_discovery_admission.py",
+      "mode": "100644",
+      "sha": "78d096699c7aca9dd48073ae50a52aa2391ea469"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/test_verify_rmc011_audit_workflow_contract.py",
+      "mode": "100644",
+      "sha": "2c02ee957fa143f0509cc33769d0d9dea1b39ac9"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/test_verify_rmc011_bounded_family_promotion.py",
+      "mode": "100644",
+      "sha": "cbbcfa913c7d5fdf5a49df9d07d3725ea38d4cf3"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/verify_rmc011_execution_topologies_v2.py",
+      "mode": "100644",
+      "sha": "6d9d8d25d9e772f09d506ef583ed614c6a2e6086"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/weth-physical/script/NqcV2LocalColdReceipt.s.sol",
+      "mode": "100644",
+      "sha": "3a458bb238047b93a43fcd5eaff13fc26399f5cb"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/weth-physical/script/NqcV2OneShotAtomicLocal.s.sol",
+      "mode": "100644",
+      "sha": "129c1bef538c2a459a1a9d393efa837d698bb965"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/weth-physical/test/NqcV2FundedRouteFork.t.sol",
+      "mode": "100644",
+      "sha": "2176bb85187204cd951140360730a97747dcc555"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/weth-physical/test/NqcV2IntraBlockAttribution.t.sol",
+      "mode": "100644",
+      "sha": "37c97780e0c4e2bb58937e5d1da91f9060b258b5"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/weth-physical/test/NqcV2OracleCausality.t.sol",
+      "mode": "100644",
+      "sha": "a171f8e672748b579ae547267cac56d2fe6a17d8"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-census/weth-physical/test/NqcV2OraclePricePath.t.sol",
+      "mode": "100644",
+      "sha": "44ec19eddcd41fbddb70660d9283f415d420a122"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-t36/contracts/foundry.toml",
+      "mode": "100644",
+      "sha": "a67ab992dc392c7f9a4cc7e5e28bd09608ec3d55"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-t36/contracts/src/NqcFlashFundingExecutor.sol",
+      "mode": "100644",
+      "sha": "aa3883fa141aa096006e90e56d8d4150c9ee14ef"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-t36/contracts/src/NqcFlashFundingExecutorV2.sol",
+      "mode": "100644",
+      "sha": "b2ca091281f170a93aa93f00f344fe10af8b795e"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-t36/contracts/test/NqcFlashFundingExecutor.t.sol",
+      "mode": "100644",
+      "sha": "cebb90e36bf7d7ab4a9ad0e01a95da2039203ee0"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-t36/contracts/test/NqcFlashFundingExecutorV2AaveUSDtbFork.t.sol",
+      "mode": "100644",
+      "sha": "078c6147fe4345904a6e81eaed488f1a1f98ed8e"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-t36/contracts/test/NqcFlashFundingExecutorV2Morpho.t.sol",
+      "mode": "100644",
+      "sha": "f822162a05c772c7ec1f6935d35352fd47401b99"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-t36/contracts/test/NqcFlashFundingExecutorV2MorphoFork.t.sol",
+      "mode": "100644",
+      "sha": "9525337fde6f537f0b25ed68faa34bcff89ac2ce"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-t36/contracts/test/NqcV2MorphoCurvePartialFork.t.sol",
+      "mode": "100644",
+      "sha": "a1c49fed8f41658c6282ce36248d4b4ca8618b51"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/ci/nqc-t36/contracts/test/NqcV2MorphoFluidPartialFork.t.sol",
+      "mode": "100644",
+      "sha": "5f739dd58bb226fac7c352480febb7b2ac9ca9ff"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/nqc-census/Cargo.lock",
+      "mode": "100644",
+      "sha": "24bfcd2f7f4afff5f1d17d775aa606d37c3d547a"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/nqc-census/Cargo.toml",
+      "mode": "100644",
+      "sha": "4a81952d47ef2330ea1effc9c29172233a541abe"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/nqc-census/crates/nqc-census-capital/src/lib.rs",
+      "mode": "100644",
+      "sha": "473383ebd640138ba6ebb220701a7dadc9b694e5"
+    },
+    {
+      "path": "migration/engine-v2-20261015/source/nqc-census/crates/nqc-census-capital/src/morpho_blue.rs",
+      "mode": "100644",
+      "sha": "f02234d970b3904f57e1ba1d9e4072181b3ad725"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-erc4337-entrypoint-onchain-readonly-once-20261015.yml.disabled",
+      "mode": "100644",
+      "sha": "f19fe3ee968b983d9a2e0a4665b25f2e375e7d23"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-real-entrypoint-v07-gas-accounting-local-20261015.yml.disabled",
+      "mode": "100644",
+      "sha": "908ba10a7b48e8c8138f52aa2e1fc4303af3f458"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-rmc-v2-aave-first-real-shard.yml.disabled",
+      "mode": "100644",
+      "sha": "faf12400b3c03cdf357c56b83cf624ad22c81827"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-rmc-v2-aave-shard-checkpoints.yml.disabled",
+      "mode": "100644",
+      "sha": "0fc5247a171f19614fbb1ce971cdc414604be175"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-rmc-v2-aave-usdtb-fork.yml.disabled",
+      "mode": "100644",
+      "sha": "220bbab97a3184f91cd50b62a6862d76dac44326"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-rmc-v2-blockscout-89390-indexed.yml.disabled",
+      "mode": "100644",
+      "sha": "340c5d80c399b865a7591dd17b7316e3fd578185"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-rmc-v2-blockscout-positive-anchor.yml.disabled",
+      "mode": "100644",
+      "sha": "0a3d3dc232fc386ee7b9aa40d77179ccde9cfbf4"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-rmc-v2-curve-usdtb-twohop.yml.disabled",
+      "mode": "100644",
+      "sha": "77a8cfebc1121c87a4a9e63113a8ceaab8732591"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-rmc-v2-dual-rpc-state.yml.disabled",
+      "mode": "100644",
+      "sha": "5c1a379eb4942a0b658fbc455fc46ad808a11d03"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-rmc-v2-economic-preflight.yml.disabled",
+      "mode": "100644",
+      "sha": "26c6c77d46b1ebf700492fb6e4d5c1b0b13478f3"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-rmc-v2-first250-source.yml.disabled",
+      "mode": "100644",
+      "sha": "da47abc8787f417493e63e1c1f77952a6fce6441"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-rmc-v2-fluid-susde-capacity.yml.disabled",
+      "mode": "100644",
+      "sha": "155e55bd497456b982c7597e0fcef7211ccd1482"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-rmc-v2-indexed-winner-conflicts.yml.disabled",
+      "mode": "100644",
+      "sha": "da2e4fa6b9e149da60cb3fa38631088045e75c3e"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-rmc-v2-morpho-curve-partial-fork.yml.disabled",
+      "mode": "100644",
+      "sha": "a15f2852cbc204abe984349f776cf8ffb1a64427"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-rmc-v2-morpho-executor.yml.disabled",
+      "mode": "100644",
+      "sha": "e36a144b1da19f7ecc41e2221e66ff0687282df5"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-rmc-v2-morpho-fluid-partial-fork.yml.disabled",
+      "mode": "100644",
+      "sha": "d90b2abfc72749cc2b5af620c568f3fd9fad3fe2"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-rmc-v2-morpho-mainnet-fork.yml.disabled",
+      "mode": "100644",
+      "sha": "321e459148f763a2059160cf6861c8febdd56220"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-rmc-v2-morpho-rust-preflight.yml.disabled",
+      "mode": "100644",
+      "sha": "0fdf76bad879eb202f3de6d9bd9a16429dadff89"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-rmc-v2-postwindow-aave-targeted.yml.disabled",
+      "mode": "100644",
+      "sha": "8ae92176eb801ba8bee5e397b40d6189d2ebca7e"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-rmc-v2-quorum-preflight.yml.disabled",
+      "mode": "100644",
+      "sha": "48d05acab9655e62b1945f95bde577b7fcb87b52"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-rmc-v2-topology-source-preflight.yml.disabled",
+      "mode": "100644",
+      "sha": "77ae97a6d1a459a74d45dd2a20c6cc98623220f6"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-rmc-v2-usdtb-v3-venues.yml.disabled",
+      "mode": "100644",
+      "sha": "9066ddcc12dfb96721085495074a29aa73a35d41"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-4337-sponsor-account-local-once-20261015.yml.disabled",
+      "mode": "100644",
+      "sha": "f8042de895bee178cbb8b7a77e9c709c5b52a9c3"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-54borrow-multicall-risk.yml.disabled",
+      "mode": "100644",
+      "sha": "67d27cbefe0ffef632b3d76589bbcd52f17818f4"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-aave-actual-oracle-route.yml.disabled",
+      "mode": "100644",
+      "sha": "9dad24cd30303605a4ac0918d2fa65f6a7dc94cc"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-aave-multicall3-risk-ab.yml.disabled",
+      "mode": "100644",
+      "sha": "5a1cc40ea3d050ca80083db3e1c5b680b965da5d"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-all-83-withdraw-owners.yml.disabled",
+      "mode": "100644",
+      "sha": "e2ad18ecb4763583b0fa452f100373f5d8ca7abb"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-atlas-native-bond-source.yml.disabled",
+      "mode": "100644",
+      "sha": "4214c569f1649636bd2349db00f4080387655e84"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-auction-native-finance-source-gate.yml.disabled",
+      "mode": "100644",
+      "sha": "899d2a259646801da039c98cba4cdff815d96207"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-blockscout-aave-250-preflight.yml.disabled",
+      "mode": "100644",
+      "sha": "f50690e0ea1ecad55204cc3492d83e078661f175"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-causal-oracle-archive.yml.disabled",
+      "mode": "100644",
+      "sha": "41a5132e1c96aa05f2d99f67aecba8e3665d358e"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-certified-pr700-archive.yml.disabled",
+      "mode": "100644",
+      "sha": "eae59413273cdfce5f946a7469a6ba9b4aa19e02"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-cold-eoa-headroom.yml.disabled",
+      "mode": "100644",
+      "sha": "2770e592c33233dade8a2f901bd78e21271091fc"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-commercial-competition-hurdle.yml.disabled",
+      "mode": "100644",
+      "sha": "01c2d8e220fd06021f19d11196725e4ff034a08a"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-economic-envelope.yml.disabled",
+      "mode": "100644",
+      "sha": "f0bae7ef82ae44dece25dafa8ed8cc7fca87d9cb"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-flashbots-channel-access.yml.disabled",
+      "mode": "100644",
+      "sha": "3a35a71773186d8771093eacd86d71a732de0f7d"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-fresh-borrow-cohort.yml.disabled",
+      "mode": "100644",
+      "sha": "810ef2f97fd1d7b1e4f9b2487e6f648359500b85"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-fresh-borrow-trajectory.yml.disabled",
+      "mode": "100644",
+      "sha": "8bfab97c5466ba910d6eb5907f367d3d1e062051"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-funded-route.yml.disabled",
+      "mode": "100644",
+      "sha": "fa97035a75710fa2e8ab9f5cbaa200d3f698ea8f"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-intrablock-attribution.yml.disabled",
+      "mode": "100644",
+      "sha": "14059b1916c3a3873c777a21198e7868d7779504"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-local-anvil-cold-receipt.yml.disabled",
+      "mode": "100644",
+      "sha": "05892e14d5767c85742e362ca7abec63b4b31a61"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-local-one-shot-eoa.yml.disabled",
+      "mode": "100644",
+      "sha": "3d69d6e91df089843b2b81539a0dc59a1ec0fd5e"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-morpho-30d-competition.yml.disabled",
+      "mode": "100644",
+      "sha": "3215faaa1e5c16456f85d65f0a4a4628bec0a29c"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-morpho-base-real-economics.yml.disabled",
+      "mode": "100644",
+      "sha": "c2e3bcdf241999813d68fa7403f1eb479351f246"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-morpho-cbxrp-current-exit-quote.yml.disabled",
+      "mode": "100644",
+      "sha": "ed36411f3acbc58061e27c8c11b5e15d573f5542"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-morpho-cbxrp-frozen-onchain.yml.disabled",
+      "mode": "100644",
+      "sha": "b4790434fdbae29226a1014e84453a921057d1c2"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-morpho-cbxrp-prospective-cohort.yml.disabled",
+      "mode": "100644",
+      "sha": "6b8319d66fc453b5ac5776768eab3095cbcd3fef"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-morpho-native-atomic-source-test.yml.disabled",
+      "mode": "100644",
+      "sha": "4b4be1600eb5300a49f0f35e1e28c8944803e81f"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-oracle-cadence.yml.disabled",
+      "mode": "100644",
+      "sha": "bd8bf83a840b129d75f630f592f0cbf33ceada12"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-oracle-causality.yml.disabled",
+      "mode": "100644",
+      "sha": "b663de13a203c1f251c20a93270fcca91ff07681"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-oracle-dual-family.yml.disabled",
+      "mode": "100644",
+      "sha": "9440ad6ed9c9c3008d2cc7f97408457a1568743a"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-oracle-dynamic-topology.yml.disabled",
+      "mode": "100644",
+      "sha": "c5e0015033cfec6d33c2b052c1272b944c603fcc"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-oracle-inclusion-audit.yml.disabled",
+      "mode": "100644",
+      "sha": "3265c1d07f7febf0a3dd8dd41bb00618383153f7"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-oracle-pending-visibility.yml.disabled",
+      "mode": "100644",
+      "sha": "7d1f631456164789e2e3111d651db12e4028ecd3"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-oracle-price-path-fork.yml.disabled",
+      "mode": "100644",
+      "sha": "2860513e564d210a72b6f84ba2df0c359b46c00f"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-oracle-reactive-window.yml.disabled",
+      "mode": "100644",
+      "sha": "37553af67cc47c492a5cdb6c530cc2cbfe3ca122"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-oracle-round-order.yml.disabled",
+      "mode": "100644",
+      "sha": "c019e987238fa0c46fca80e95aedc2d6462a25dc"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-oracle-ws-visibility.yml.disabled",
+      "mode": "100644",
+      "sha": "c0d4fbd1ee24f033c5125d67b0cd7d3ca0c83f1f"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-postwindow-weth-stable-receipts.yml.disabled",
+      "mode": "100644",
+      "sha": "2758baa18973e197c58a13a9f292ebd52768bcfb"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-postwindow-winner-prestate.yml.disabled",
+      "mode": "100644",
+      "sha": "31a95069b12e7cd349c3dc9af8047d01b42007bb"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-prospective-50borrower-shadow.yml.disabled",
+      "mode": "100644",
+      "sha": "536692a0fb9f8229ff9ba61e7deb916615e2f6ae"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-public-rpc-latency-ab.yml.disabled",
+      "mode": "100644",
+      "sha": "9a0cdcc1ac5fbe858b7f3830b7b5ec94edeeda75"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-recent-withdraw-owner.yml.disabled",
+      "mode": "100644",
+      "sha": "f60104ef9c139bc8df1863a52cd3a5d7c23ae4bc"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-svr-archive-positive-controls.yml.disabled",
+      "mode": "100644",
+      "sha": "735c4fa965119df28ff56af5116327d7aa39c3da"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-svr-hint-admission.yml.disabled",
+      "mode": "100644",
+      "sha": "e391b6c561cfab982ec176e52eb895044f91f1d0"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-svr-sse-round-denominator.yml.disabled",
+      "mode": "100644",
+      "sha": "213871c449ac6d6cbbd22120ae42073a14058d06"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-three-state-one-shot.yml.disabled",
+      "mode": "100644",
+      "sha": "3b96f0e7dc78d09084e251fe19106461e9583b6f"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-two-head-sealed-risk.yml.disabled",
+      "mode": "100644",
+      "sha": "caac4137997ee9ab636af8ea56b23556d9f9371e"
+    },
+    {
+      "path": "migration/engine-v2-20261015/workflows-disabled/nqc-v2-verified-competitor-gas.yml.disabled",
+      "mode": "100644",
+      "sha": "29525fa393b1a4f7a905e4a405f8e1b6d3d7e13a"
+    }
+  ]
+}
