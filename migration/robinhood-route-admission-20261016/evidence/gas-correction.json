@@ -1,0 +1,80 @@
+{
+  "correction": "Initialize ReentrancyGuard _status in compiler slot 2 instead of mapping root 0.",
+  "scope": "LOCAL_SYNTHETIC_COLD_RECEIPTS_ONLY",
+  "l1_data_fee_measured": false,
+  "real_route_gas_measured": false,
+  "full_bundler_admission_proven": false,
+  "old_evidence_preserved": true,
+  "rows": [
+    {
+      "scenario": "success_original_limits",
+      "old_transaction_gas": 455745,
+      "corrected_transaction_gas": 435845,
+      "transaction_gas_difference": -19900,
+      "old_sponsor_debit_wei": 1468690000000000,
+      "corrected_sponsor_debit_wei": 1468690000000000,
+      "sponsor_debit_difference_wei": 0,
+      "corrected_bundler_tx_fee_wei": 871690000000000
+    },
+    {
+      "scenario": "success_reduced_limits",
+      "old_transaction_gas": 455745,
+      "corrected_transaction_gas": 435845,
+      "transaction_gas_difference": -19900,
+      "old_sponsor_debit_wei": 1228690000000000,
+      "corrected_sponsor_debit_wei": 1228690000000000,
+      "sponsor_debit_difference_wei": 0,
+      "corrected_bundler_tx_fee_wei": 871690000000000
+    },
+    {
+      "scenario": "expired_l2",
+      "old_transaction_gas": 227095,
+      "corrected_transaction_gas": 207195,
+      "transaction_gas_difference": -19900,
+      "old_sponsor_debit_wei": 638042000000000,
+      "corrected_sponsor_debit_wei": 638042000000000,
+      "sponsor_debit_difference_wei": 0,
+      "corrected_bundler_tx_fee_wei": 414390000000000
+    },
+    {
+      "scenario": "swap_revert",
+      "old_transaction_gas": 490058,
+      "corrected_transaction_gas": 470158,
+      "transaction_gas_difference": -19900,
+      "old_sponsor_debit_wei": 1111376000000000,
+      "corrected_sponsor_debit_wei": 1111376000000000,
+      "sponsor_debit_difference_wei": 0,
+      "corrected_bundler_tx_fee_wei": 940316000000000
+    },
+    {
+      "scenario": "postop_revert",
+      "old_transaction_gas": 516874,
+      "corrected_transaction_gas": 496974,
+      "transaction_gas_difference": -19900,
+      "old_sponsor_debit_wei": 1164982000000000,
+      "corrected_sponsor_debit_wei": 1164982000000000,
+      "sponsor_debit_difference_wei": 0,
+      "corrected_bundler_tx_fee_wei": 993948000000000
+    },
+    {
+      "scenario": "call_out_of_gas",
+      "old_transaction_gas": 244271,
+      "corrected_transaction_gas": 224371,
+      "transaction_gas_difference": -19900,
+      "old_sponsor_debit_wei": 554958000000000,
+      "corrected_sponsor_debit_wei": 554958000000000,
+      "sponsor_debit_difference_wei": 0,
+      "corrected_bundler_tx_fee_wei": 448742000000000
+    },
+    {
+      "scenario": "invalid_signature_bundle_revert",
+      "old_transaction_gas": 64046,
+      "corrected_transaction_gas": 46946,
+      "transaction_gas_difference": -17100,
+      "old_sponsor_debit_wei": 0,
+      "corrected_sponsor_debit_wei": 0,
+      "sponsor_debit_difference_wei": 0,
+      "corrected_bundler_tx_fee_wei": 93892000000000
+    }
+  ]
+}

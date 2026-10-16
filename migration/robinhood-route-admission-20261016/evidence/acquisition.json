@@ -1,0 +1,54 @@
+{
+  "chain_id": 4663,
+  "historical_receipts": {
+    "producer_repo": "josuechavando350-png/nexus-engine",
+    "producer_head": "6424200a5d474b00d7de23b6df2ff169a1c99e3a",
+    "run_id": 38816257082,
+    "artifact_id": 12009869568,
+    "zip_sha256": "99ffbec77c576e86b1e7a9f36ff78007d593f29697422be7a7a4015194cd7ba2",
+    "original_members_preserved": true
+  },
+  "independent_explorer_reads": [
+    {
+      "file": "explorer/transaction.json",
+      "tool": "get_transaction_info",
+      "transaction_hash": "0xf9e0d2e116d99e2eb8ef2cf236f7cd7f06225e92a6dfd9162f98c7d8e1974842"
+    },
+    {
+      "file": "explorer/net_metadata.json",
+      "tool": "inspect_contract_code",
+      "address": "0xca9c78dd337a67f6e0077f65f5e9218719d30edf",
+      "mode": "metadata"
+    },
+    {
+      "file": "explorer/net_source.json",
+      "tool": "inspect_contract_code",
+      "address": "0xca9c78dd337a67f6e0077f65f5e9218719d30edf",
+      "file_path": "src/NET.sol"
+    },
+    {
+      "file": "explorer/market_at_66744162.json",
+      "tool": "read_contract",
+      "address": "0x9d53d5e3bd5e8d4cbfa6db1ca238aea02e651010",
+      "function": "idToMarketParams(bytes32)",
+      "arguments": [
+        "0xaa586d26a6fe62d9c0f0948fede6e2130500ac7a655587447e2d4a37e6330589"
+      ],
+      "block": 66744162
+    },
+    {
+      "file": "explorer/pool_at_66744161.json",
+      "tool": "read_contract",
+      "address": "0x59f95461e68e0c77605299791e1449f175165b54",
+      "function": "getReserves()",
+      "arguments": [],
+      "block": 66744161
+    }
+  ],
+  "limits": [
+    "Explorer tool wrappers retain provider truncation and budget notes.",
+    "State reads are pinned by block number, not EIP-1898 block hash or proofs.",
+    "No fresh production quote, full calldata or EVM route replay.",
+    "NET source inspected, not fully rebuilt or matched to historical runtime."
+  ]
+}

@@ -1,0 +1,21 @@
+Compiling 16 files with Solc 0.8.19
+Solc 0.8.19 finished in 1.22s
+Compiler run successful!
+
+Ran 13 tests for test/NqcMorphoNativeCallbackLab.t.sol:NqcMorphoNativeCallbackLabTest
+[PASS] testActualUpstreamMorphoSyntheticLiquidationAtomicWithNoFlashLoan() (gas: 329245)
+[PASS] testDishonestRouterAmountRejected() (gas: 340971)
+[PASS] testExpiredBlockRejectedBeforeSource() (gas: 22368)
+[PASS] testHealthyBorrowerRejectsEvenWithProfitableMockDEX() (gas: 199802)
+[PASS] testLeftoverCollateralCausesFullRollback() (gas: 317399)
+[PASS] testMinimumProfitExceedsActualProceedsReverts() (gas: 319315)
+[PASS] testNativeCallbackFromExternalAddressRejected() (gas: 7049)
+[PASS] testOldInventoryCannotFinancePseudoProfit() (gas: 54142)
+[PASS] testRouterUnderpaysRevertsAtomicState() (gas: 342644)
+[PASS] testUnauthorizedEOACannotRunAnotherOperatorPlan() (gas: 177536)
+[PASS] testUnexpectedRouteSlippageReverts() (gas: 294705)
+[PASS] testWrongMarketOrOracleRejectedBeforeSource() (gas: 20843)
+[PASS] testZeroValueFundingDoesNotProveNativeGasSponsor() (gas: 301471)
+Suite result: ok. 13 passed; 0 failed; 0 skipped; finished in 2.77ms (6.45ms CPU time)
+
+Ran 1 test suite in 6.59ms (2.77ms CPU time): 13 tests passed, 0 failed, 0 skipped (13 total tests)

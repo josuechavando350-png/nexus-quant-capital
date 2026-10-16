@@ -1,0 +1,47 @@
+Compiling 32 files with Solc 0.8.23
+Solc 0.8.23 finished in 54.34s
+Compiler run successful with warnings:
+Warning (2018): Function state mutability can be restricted to view
+  --> test/Fixtures.sol:21:5:
+   |
+21 |     function validateUserOp(
+   |     ^ (Relevant source part starts here and spans across multiple lines).
+
+
+Ran 11 tests for test/NqcAdmission.t.sol:NqcAdmissionTest
+[PASS] testDepositDoesNotSatisfyStakeRequirement() (gas: 15284)
+[PASS] testEntryPointConstructorStateUsesCompilerSlotTwo() (gas: 3507)
+[PASS] testHandleOpsSuccessDoesNotProveMempoolAdmission() (gas: 201550)
+[PASS] testInsufficientDelayFailsLocalPolicy() (gas: 55274)
+[PASS] testInsufficientStakeFailsLocalPolicy() (gas: 55292)
+[PASS] testOnlyOwnerCanManageStake() (gas: 59534)
+[PASS] testStakeCannotReplaceGasDeposit() (gas: 157148)
+[PASS] testStakeIsSeparateFromDepositAndBudget() (gas: 247846)
+[PASS] testUnlockedStakeFailsEvenWhileValueRemains() (gas: 61324)
+[PASS] testUnstakedValidationWritesOwnBudgetAndReturnsContext() (gas: 50434)
+[PASS] testWithdrawalDelayAndCapitalRemainSeparate() (gas: 87343)
+Suite result: ok. 11 passed; 0 failed; 0 skipped; finished in 4.08ms (6.11ms CPU time)
+
+Ran 19 tests for test/NqcRobinhoodCycle.t.sol:NqcRobinhoodCycleTest
+[PASS] testCallOutOfGasStillChargesSponsor() (gas: 322918)
+[PASS] testCanonicalRuntimeSuccessAtL2Boundary() (gas: 518492)
+[PASS] testCumulativeBudgetStopsRepeatedSpend() (gas: 10229565)
+[PASS] testDeadlineTamperingInvalidatesSignature() (gas: 127557)
+[PASS] testExcessiveWindowFailsClosed() (gas: 304923)
+[PASS] testExpiredL2DespiteUnchangedParentBlock() (gas: 304218)
+[PASS] testL1HeightCannotServeAsL2Expiry() (gas: 305543)
+[PASS] testMalformedArbSysFailsClosed() (gas: 302764)
+[PASS] testMissingArbSysFailsClosed() (gas: 305057)
+[PASS] testNonceReplayRejected() (gas: 540526)
+[PASS] testPostOpFailureRollsBackLiquidationButKeepsReserve() (gas: 625319)
+[PASS] testRevertingArbSysFailsClosed() (gas: 302823)
+[PASS] testSuccessWithReducedCallGas() (gas: 518607)
+[PASS] testSwapFailureStillChargesSponsor() (gas: 10423129)
+[PASS] testTwoOpsCannotOverreserveTheSameBudget() (gas: 10052884)
+[PASS] testUnfundedSponsorRejected() (gas: 9962745)
+[PASS] testWindowLimitAccepted() (gas: 518514)
+[PASS] testWrongChainFailsClosed() (gas: 302046)
+[PASS] testZeroArbSysFailsClosed() (gas: 303258)
+Suite result: ok. 19 passed; 0 failed; 0 skipped; finished in 20.32ms (43.85ms CPU time)
+
+Ran 2 test suites in 22.26ms (24.40ms CPU time): 30 tests passed, 0 failed, 0 skipped (30 total tests)
