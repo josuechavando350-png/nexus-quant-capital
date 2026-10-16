@@ -1,0 +1,66 @@
+{
+  "recorded_utc_date": "2026-10-16",
+  "repository": "josuechavando350-png/nexus-quant-capital",
+  "base_commit": "aed8a0ccfb80bffe055b17476664781a2f0b8a1d",
+  "base_tree": "995d4a498193925dcda9bcda6ea3651bf3021d82",
+  "base_pull_request": 9,
+  "branch": "nqc/sponsor-validation-window-20261016",
+  "source_state": "PR8 calibrated historical state before transaction index 1 in block 66744162",
+  "source_state_cryptographic_proofs_verified": false,
+  "runtime_source": "NqcWindowedPaymasterFixture.sol built in fresh external directory; archived original source untouched",
+  "runtime_initial_short_version_reproduced_from_final_source": true,
+  "final_tests_only_change_preserved_fixture_init_and_runtime_bytecode": true,
+  "toolchain_lock": "../robinhood-aa-20261016/toolchain.json",
+  "dependencies": {
+    "account-abstraction": "7af70c8993a6f42973f520ae0752386a5032abe7",
+    "openzeppelin-contracts": "dbb6104ce834628e473d2173bbc9d47f81a9eec3",
+    "morpho-blue": "8e26ca6a8dbc5089edcd67fb576248810fd2870a"
+  },
+  "remote_endpoint": "https://docs-demo.robinhood-mainnet.quiknode.pro/",
+  "remote_methods": [
+    "debug_traceCall",
+    "eth_getBlockByHash"
+  ],
+  "new_remote_requests": 12,
+  "rpc_errors": 0,
+  "remote_mutations": 0,
+  "new_real_signatures": 0,
+  "real_deployments": 0,
+  "live_transactions": 0,
+  "public_laboratory_signature_reused": true,
+  "loopback_receipts": 10,
+  "final_tests": {
+    "solidity_pass": 16,
+    "new_python_pass": 16,
+    "pr9_regression_pass": 20,
+    "pr8_regression_pass": 16,
+    "isolation_pass": 9,
+    "failed": 0,
+    "skipped": 0
+  },
+  "not_run": [
+    "production bundler admission",
+    "Rundler Rust binary or Rust tests",
+    "full historical Solidity suites",
+    "prospective live observer",
+    "real funding or inclusion test"
+  ],
+  "warnings": [
+    "Inherited Fixtures.sol validateUserOp can be view; compiler succeeded."
+  ],
+  "provider_documentation": [
+    {
+      "url": "https://www.alchemy.com/docs/wallets/reference/bundler-rpc-errors",
+      "retrieved_utc_date": "2026-10-16",
+      "finding": "Time window may be rejected when already expired or expiring soon; separate storage and stake checks exist."
+    },
+    {
+      "url": "https://www.alchemy.com/docs/wallets/reference/bundler-faqs",
+      "retrieved_utc_date": "2026-10-16",
+      "finding": "Documented pre-operation and call gas efficiency threshold is 15%; this comparison is not provider simulation."
+    }
+  ],
+  "monetization_proven": false,
+  "external_funding_committed": false,
+  "no_personal_debt_terms_verified": false
+}

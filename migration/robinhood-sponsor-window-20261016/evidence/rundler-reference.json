@@ -1,0 +1,51 @@
+{
+  "repository": "alchemyplatform/rundler",
+  "commit": "9852824c649fbe56fea9712b26d4188bc25e38fc",
+  "retrieval_date_utc": "2026-10-16",
+  "source_files": [
+    {
+      "path": "crates/types/src/user_operation/mod.rs",
+      "blob_sha": "ceae6edac2e99ae46fffa44359ab6777d68429ec",
+      "url": "https://github.com/alchemyplatform/rundler/blob/9852824c649fbe56fea9712b26d4188bc25e38fc/crates/types/src/user_operation/mod.rs",
+      "line": 32,
+      "snippet": "pub const TIME_RANGE_BUFFER: Duration = Duration::from_secs(20);",
+      "finding": "Reference remaining-validity buffer: 20 seconds."
+    },
+    {
+      "path": "crates/types/src/timestamp.rs",
+      "blob_sha": "8a06cf0011546678d0a91fd3da5d47dd81bee7d0",
+      "url": "https://github.com/alchemyplatform/rundler/blob/9852824c649fbe56fea9712b26d4188bc25e38fc/crates/types/src/timestamp.rs",
+      "line": 212,
+      "snippet": "self.valid_after <= timestamp && (timestamp + buffer) <= self.valid_until",
+      "finding": "Builder containment includes the exact end minus buffer boundary."
+    },
+    {
+      "path": "crates/types/src/validation_results.rs",
+      "blob_sha": "be3b3e0ff0aaf22e5c3e8f4fba3eb20b96612b76",
+      "url": "https://github.com/alchemyplatform/rundler/blob/9852824c649fbe56fea9712b26d4188bc25e38fc/crates/types/src/validation_results.rs",
+      "line": 309,
+      "snippet": "self.valid_after <= now && self.valid_until > now.add(TIME_RANGE_BUFFER)",
+      "finding": "Validation simulation requires strictly more than 20 remaining seconds."
+    },
+    {
+      "path": "crates/builder/src/bundle_proposer.rs",
+      "blob_sha": "bd0c6b1cec5342819330f83f208ccba2adf0d564",
+      "url": "https://github.com/alchemyplatform/rundler/blob/9852824c649fbe56fea9712b26d4188bc25e38fc/crates/builder/src/bundle_proposer.rs",
+      "line": 909,
+      "snippet": ".contains(Timestamp::now(), TIME_RANGE_BUFFER)",
+      "finding": "Bundle selection applies the containment predicate and skips invalid time ranges."
+    },
+    {
+      "path": "crates/sim/src/simulation/simulator.rs",
+      "blob_sha": "af90dfcc7b1423a1739f668e3342314896b87a82",
+      "url": "https://github.com/alchemyplatform/rundler/blob/9852824c649fbe56fea9712b26d4188bc25e38fc/crates/sim/src/simulation/simulator.rs",
+      "line": 327,
+      "snippet": "if !entry_point_out.return_info.is_valid_time_range() {",
+      "finding": "The regular simulator records an InvalidTimeRange violation when the validation predicate fails."
+    }
+  ],
+  "buffer_seconds": 20,
+  "live_robinhood_provider_version_authenticated": false,
+  "rundler_binary_executed": false,
+  "scope": "Pinned source predicates only; not production mempool admission or measured queue latency."
+}

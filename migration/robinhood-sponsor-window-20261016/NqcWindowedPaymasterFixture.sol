@@ -1,0 +1,49 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.23;
+
+import {BasePaymaster} from "../lib/account-abstraction/contracts/core/BasePaymaster.sol";
+import {IEntryPoint} from "../lib/account-abstraction/contracts/interfaces/IEntryPoint.sol";
+import {PackedUserOperation} from "../lib/account-abstraction/contracts/interfaces/PackedUserOperation.sol";
+
+/// @notice Research fixture for ONE pre-approved operation, not a production service.
+/// @dev Canonical EntryPoint v0.7 supplies the hash, including chain, EntryPoint,
+///      nonce, sender, calldata, fees, gas limits and paymaster data. Account
+///      signature verification remains mandatory. No unbounded sponsorship.
+///      Shared budget storage still needs bundler/stake admission review.
+contract NqcWindowedPaymasterFixture is BasePaymaster {
+    address public immutable permittedSender;
+    bytes32 public immutable approvedUserOpHash;
+    uint256 public immutable perOpCap;
+    uint48 public immutable validAfter;
+    uint48 public immutable validUntil;
+    uint256 public budgetRemaining;
+
+    constructor(IEntryPoint ep, address sender, bytes32 approvedHash,
+                uint256 cap, uint256 budget, uint48 afterTime, uint48 untilTime)
+        BasePaymaster(ep)
+    {
+        require(sender != address(0) && approvedHash != bytes32(0), "EMPTY_AUTHORIZATION");
+        require(cap > 0 && budget >= cap, "EMPTY_BUDGET");
+        require(afterTime > 0 && untilTime > afterTime && untilTime - afterTime <= 60,
+                "INVALID_WINDOW");
+        permittedSender = sender;
+        approvedUserOpHash = approvedHash;
+        perOpCap = cap;
+        budgetRemaining = budget;
+        validAfter = afterTime;
+        validUntil = untilTime;
+    }
+
+    function _validatePaymasterUserOp(PackedUserOperation calldata op, bytes32 hash, uint256 maxCost)
+        internal override returns (bytes memory context, uint256 validationData)
+    {
+        require(op.sender == permittedSender && hash == approvedUserOpHash, "AUTHORIZATION_POLICY");
+        require(maxCost > 0 && maxCost <= perOpCap && maxCost <= budgetRemaining, "BUDGET_POLICY");
+        budgetRemaining -= maxCost;
+        // Timestamp bounds are returned to EntryPoint, never read in paymaster validation.
+        // v0.7 uses inclusive endpoints and rejects outside the range with AA32.
+        validationData = (uint256(validUntil) << 160) | (uint256(validAfter) << 208);
+        // No token collection and no postOp accounting: reserve full prefund permanently.
+        context = "";
+    }
+}
