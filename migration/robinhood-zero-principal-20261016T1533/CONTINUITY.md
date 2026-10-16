@@ -2,6 +2,10 @@
 
 Repositorio único: `josuechavando350-png/nexus-quant-capital`.
 Rama: `nqc/zero-principal-audit-20261016T1533`.
+PR23: https://github.com/josuechavando350-png/nexus-quant-capital/pull/23.
+Commit de código/evidencia: `5b5f310e6e8e02e47be3b82e2698fe2ef842057b`.
+Árbol de evidencia: `8948ac64360563588adf46425b04725270735298`.
+El commit posterior de relevo sólo añade estas referencias y actualiza el manifiesto.
 Base PR22: `0fe92f34c863feba59a674c561fa6ebea80c278b`.
 Buscar PR/commits posteriores antes de continuar. Leer AGENTS.md y README de este
 incremento. No repetir auditoría histórica como oportunidad o ingresos nuevos.
