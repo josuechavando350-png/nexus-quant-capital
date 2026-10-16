@@ -1,0 +1,82 @@
+{
+  "actual_rpc_methods_total": 89,
+  "additional_rpc": 0,
+  "admissions_sha256": "dd7fccd8c55a0b8f505a9d17e93e426e41f8d3ad1a662f20defef0a7247befe8",
+  "audit_sha256": "83d0de048ca4fa47283e17225b4343a0e4283972404ec6ac7766d104f2f0ba34",
+  "base_commit": "ff64ca270e82d7faba58ee4f4024cac207e8bfb3",
+  "capture_count": 1,
+  "capture_status": "completed",
+  "cohort_file_sha256": "978168c021a2cbff6de6145e41d84e364320637579f70459e1717a9062f8a217",
+  "elapsed_seconds": 37.587328438,
+  "journal_sha256": "07bb9c1a507403ecdaa8f3a3c47ba4dbd81c885df358c3d4c69e2b8d8fec0e35",
+  "post_capture_checks": [
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "migration/robinhood-paced-capture-20261016T1117",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "name": "report"
+    },
+    {
+      "command": [
+        "python",
+        "migration/verify_isolation.py"
+      ],
+      "exit_code": 0,
+      "name": "isolation-after"
+    },
+    {
+      "command": [
+        "python",
+        "migration/engine-v2-20261015/verify_import.py"
+      ],
+      "exit_code": 0,
+      "name": "original-blobs-after"
+    }
+  ],
+  "prior_manifests_unchanged": [
+    {
+      "files": 210,
+      "folder": "robinhood-history-backfill-20261016",
+      "sha256": "ea5dc9c97760ffb9a21083c402722a4bfba1fe4bf04ebc4253f9fb4a5511c035"
+    },
+    {
+      "files": 175,
+      "folder": "robinhood-history-continuation-20261016T0715",
+      "sha256": "2334c7d49a9933195074d60b2646a68167de70ce89498ff35f65dfed1e795101"
+    },
+    {
+      "files": 77,
+      "folder": "robinhood-transport-benchmark-20261016T0821",
+      "sha256": "3c6caf4b8742d9342a85092fc6a70d8eca51701275cddb423918c7eadc526570"
+    },
+    {
+      "files": 38,
+      "folder": "robinhood-acquisition-20261016T0922",
+      "sha256": "8cfb387487579ae144954467a3227a6edce90edb9b026ef8909cd49a47e6a376"
+    },
+    {
+      "files": 147,
+      "folder": "robinhood-paced-acquisition-20261016T1024",
+      "sha256": "9879bcad954312beb00009e81befa3af13298f1edee706439613b30cfa8fa13b"
+    }
+  ],
+  "profitability_measured": false,
+  "raw_ledger_sha256": "47cb49a05ea3408e457121b3e72a0acebae35ca6afc2e4b39637ce34791f58bd",
+  "realized_profit": null,
+  "registered_sources_unchanged": 57,
+  "registration_commit": "f82249cd9844d686b13e637b5d22a7eca88985d1",
+  "registry_file_sha256": "0346642a39cc0227bee8aa6e16f6a592d45fdb5e8ffbb29bb01a4c82aa5774d6",
+  "rust_solidity": "unchanged, not rerun",
+  "summary_sha256": "b7d9fcdc60a9265833094ff812fc251b35705bbd84ac25b3d3ba236f909c955f",
+  "tests_passed_this_execution": 37,
+  "tests_scope": "22 paced + 9 isolation before capture; 6 report after capture"
+}

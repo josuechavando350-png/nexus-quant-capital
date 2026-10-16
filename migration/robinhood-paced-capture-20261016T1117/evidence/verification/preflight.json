@@ -1,0 +1,91 @@
+{
+  "registered_sources": 57,
+  "prior_manifests": [
+    {
+      "folder": "robinhood-history-backfill-20261016",
+      "files": 210,
+      "sha256": "ea5dc9c97760ffb9a21083c402722a4bfba1fe4bf04ebc4253f9fb4a5511c035"
+    },
+    {
+      "folder": "robinhood-history-continuation-20261016T0715",
+      "files": 175,
+      "sha256": "2334c7d49a9933195074d60b2646a68167de70ce89498ff35f65dfed1e795101"
+    },
+    {
+      "folder": "robinhood-transport-benchmark-20261016T0821",
+      "files": 77,
+      "sha256": "3c6caf4b8742d9342a85092fc6a70d8eca51701275cddb423918c7eadc526570"
+    },
+    {
+      "folder": "robinhood-acquisition-20261016T0922",
+      "files": 38,
+      "sha256": "8cfb387487579ae144954467a3227a6edce90edb9b026ef8909cd49a47e6a376"
+    },
+    {
+      "folder": "robinhood-paced-acquisition-20261016T1024",
+      "files": 147,
+      "sha256": "9879bcad954312beb00009e81befa3af13298f1edee706439613b30cfa8fa13b"
+    }
+  ],
+  "dependencies": {
+    "requests": "2.32.5",
+    "urllib3": "2.5.0",
+    "certifi": "2026.7.22",
+    "charset-normalizer": "3.5.2",
+    "idna": "3.20"
+  },
+  "worktrees_checked": 6,
+  "existing_capture_directories": 0,
+  "proc_entries_inspected": 15,
+  "matching_capture_processes": [],
+  "commands": [
+    {
+      "name": "paced",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "migration/robinhood-paced-acquisition-20261016T1024",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "isolation-tests",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "migration",
+        "-p",
+        "test_isolation.py",
+        "-v"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "isolation",
+      "command": [
+        "python",
+        "migration/verify_isolation.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "original-blobs",
+      "command": [
+        "python",
+        "migration/engine-v2-20261015/verify_import.py"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "chain_rpc_calls": 0,
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+}
