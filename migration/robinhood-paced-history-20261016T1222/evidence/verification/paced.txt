@@ -1,0 +1,28 @@
+Synthetic HTTP failure boundaries audited: 59
+test_all_http_failure_boundaries_preserve_exact_partial_files (test_paced.FullFlowRegression.test_all_http_failure_boundaries_preserve_exact_partial_files) ... ok
+test_canonical_observation_reorg_stops (test_paced.FullFlowRegression.test_canonical_observation_reorg_stops) ... ok
+test_complete_tail_freeze_cold_and_warm (test_paced.FullFlowRegression.test_complete_tail_freeze_cold_and_warm) ... ok
+test_expired_time_has_no_rpc_and_no_frozen_cohort (test_paced.FullFlowRegression.test_expired_time_has_no_rpc_and_no_frozen_cohort) ... ok
+test_persisted_registry_and_rehashed_metrics_tampering_rejected (test_paced.FullFlowRegression.test_persisted_registry_and_rehashed_metrics_tampering_rejected) ... ok
+test_repeated_head_retained_but_regression_rejected (test_paced.FullFlowRegression.test_repeated_head_retained_but_regression_rejected) ... ok
+test_resume_and_anchor_reorg_stop_without_promoting_cohort (test_paced.FullFlowRegression.test_resume_and_anchor_reorg_stop_without_promoting_cohort) ... ok
+test_rotation_cannot_reset_bytes_time_or_count_or_follow_failure (test_paced.FullFlowRegression.test_rotation_cannot_reset_bytes_time_or_count_or_follow_failure) ... ok
+test_rpc_and_json_failures_before_and_after_rotation (test_paced.FullFlowRegression.test_rpc_and_json_failures_before_and_after_rotation) ... ok
+test_single_request_budget_survives_rotation (test_paced.FullFlowRegression.test_single_request_budget_survives_rotation) ... ok
+test_source_and_oversized_budgets_rejected_before_network (test_paced.FullFlowRegression.test_source_and_oversized_budgets_rejected_before_network) ... ok
+test_time_and_byte_caps_still_apply_after_rotation (test_paced.FullFlowRegression.test_time_and_byte_caps_still_apply_after_rotation) ... ok
+test_admission_clock_and_metric_tampering_rejected (test_paced.PacingTests.test_admission_clock_and_metric_tampering_rejected) ... ok
+test_deadline_after_rotation_preserves_index_and_partial_observations (test_paced.PacingTests.test_deadline_after_rotation_preserves_index_and_partial_observations) ... ok
+test_dispatch_preparation_delay_cannot_shorten_next_gap (test_paced.PacingTests.test_dispatch_preparation_delay_cannot_shorten_next_gap) ... ok
+test_early_wake_and_oversleep_fail_closed (test_paced.PacingTests.test_early_wake_and_oversleep_fail_closed) ... ok
+test_failure_latch_prevents_sleep_rpc_and_rotation (test_paced.PacingTests.test_failure_latch_prevents_sleep_rpc_and_rotation) ... ok
+test_full_flow_spacing_includes_rotation_and_primary_wait (test_paced.PacingTests.test_full_flow_spacing_includes_rotation_and_primary_wait) ... ok
+test_invalid_pacing_policy_rejected_without_transport (test_paced.PacingTests.test_invalid_pacing_policy_rejected_without_transport) ... ok
+test_minimum_spacing_and_no_idle_credit (test_paced.PacingTests.test_minimum_spacing_and_no_idle_credit) ... ok
+test_pacing_deadline_retains_baseline_and_audits_pre_rpc_stop (test_paced.PacingTests.test_pacing_deadline_retains_baseline_and_audits_pre_rpc_stop) ... ok
+test_sleep_time_inside_deadline_and_no_rpc_when_due_too_late (test_paced.PacingTests.test_sleep_time_inside_deadline_and_no_rpc_when_due_too_late) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 6.320s
+
+OK
