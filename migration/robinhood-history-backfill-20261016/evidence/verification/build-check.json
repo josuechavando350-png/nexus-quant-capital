@@ -1,0 +1,29 @@
+{
+  "compiler": "0.8.23+commit.f704f362.Linux.g++",
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "evmVersion": "paris",
+    "metadata": {
+      "bytecodeHash": "none",
+      "appendCBOR": false
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode.object",
+          "evm.bytecode.opcodes"
+        ]
+      }
+    }
+  },
+  "creation_bytes": 2846,
+  "creation_bytecode_sha256": "009c04814bd409fb128a6b77decec74358c60bd9aff9176b990ee5e3104abe0a",
+  "source_sha256": "cd186c0ac2543703e24756528af2d77c097eef02a5e841fc52937a1b3e2776c6",
+  "rebuild_checked_before_capture": true,
+  "local_evm_tests_passed": 11,
+  "mock_gas_is_not_robinhood_route_cost": true
+}
