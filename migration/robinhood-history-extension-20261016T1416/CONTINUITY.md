@@ -1,5 +1,7 @@
 # Relevo: parada local por capacidad acumulada de eventos
 
+Publicado en [PR21 borrador](https://github.com/josuechavando350-png/nexus-quant-capital/pull/21). Commit de evidencia `45f2d03c5cf2c9023c827a27f69abe79e69624fe`, árbol `5d12e89606e20b37c20f8cec66884aff49b38b2b`. Este relevo posterior solo añade la referencia; consultar HEAD final en GitHub. No fusionar automáticamente.
+
 Captura TERMINADA CON PARADA. No relanzar `continue_history.py`, modificar policy/lock/fuentes registradas o sustituir `evidence/pilot`. Base PR20 `976aecb3e25118b1531772d7778668ee34b97d61`; rama `nqc/history-extension-20261016T1416`. Protocolo publicado ANTES de RPC `1d7a779b4d21921bc2f446b6e3fc34bf98132187`, árbol `ab2dbbfe3fb897f2c9f862eb9763919d9bc6281e`, rama `nqc/history-protocol-20261016T1416`.85 fuentes intactas.
 
 ## Resultado y causa precisa
