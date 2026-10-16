@@ -1,0 +1,123 @@
+[
+  {
+    "name": "paced",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "migration/robinhood-paced-acquisition-20261016T1024",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "acquisition",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "migration/robinhood-acquisition-20261016T0922",
+      "-p",
+      "test_acquisition.py",
+      "-v"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "transport",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "migration/robinhood-transport-benchmark-20261016T0821",
+      "-p",
+      "test_transport.py",
+      "-v"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "continuation",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "migration/robinhood-history-continuation-20261016T0715",
+      "-p",
+      "test_continuation.py",
+      "-v"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "lens",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "migration/robinhood-history-backfill-20261016",
+      "-p",
+      "test_experiment.py",
+      "-v"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "registry",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "migration/robinhood-borrower-registry-20261016",
+      "-p",
+      "test_registry.py",
+      "-v"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "isolation-tests",
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "migration",
+      "-p",
+      "test_isolation.py",
+      "-v"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "isolation",
+    "command": [
+      "python",
+      "migration/verify_isolation.py"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "original-blobs",
+    "command": [
+      "python",
+      "migration/engine-v2-20261015/verify_import.py"
+    ],
+    "exit_code": 0
+  }
+]
