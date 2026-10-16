@@ -1,0 +1,232 @@
+{
+  "status": "HISTORICAL_PROVIDER_TRACE_CAPTURED_NOT_NQC_REPLAY",
+  "client_version": "nitro/v3.12.1+70fa99a-20260929T140226Z/linux-amd64/go1.25.12",
+  "receipt_fee": {
+    "total_gas": 568870,
+    "gas_price_wei": 67514000,
+    "total_fee_wei": 38406689180000,
+    "total_fee_eth": "0.00003840668918",
+    "reported_l1_gas_in_l2_units": 0,
+    "remaining_gas": 568870,
+    "l1_allocation_at_receipt_price_wei": 0,
+    "remaining_allocation_wei": 38406689180000,
+    "missing_l1_field_is_not_zero": false,
+    "physical_blob_cost_measured": false
+  },
+  "trace": {
+    "provider_trace_consistent_with_receipt": true,
+    "route_contracts_seen": [
+      "0x59f95461e68e0c77605299791e1449f175165b54",
+      "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+      "0x63c12667638f2ae6fc6ae09b43d98ec84a8586ea",
+      "0x9d53d5e3bd5e8d4cbfa6db1ca238aea02e651010",
+      "0xb078cc304a0b264c5f3680dc0488954accd02e87",
+      "0xb773ec2c326b7f98a5a83fc098825492f020a4c7",
+      "0xca9c78dd337a67f6e0077f65f5e9218719d30edf"
+    ],
+    "prestate_account_count": 23,
+    "trace_log_count": 21,
+    "log_order_independently_verified": false,
+    "state_cryptographic_proof": false,
+    "independent_local_replay": false,
+    "nqc_executor_replayed": false
+  },
+  "calldata_bytes": 1636,
+  "calldata_sha256": "615d121b6af3bdcf5c69a513d75e34d861dcfae65537c2432b708c1d23050e19",
+  "prior_block_components": null,
+  "prior_block_components_error": "RPC_ERROR_-32000",
+  "nqc_full_route_replayed": false,
+  "nqc_cost_measured": false,
+  "transaction_hash": "0xf9e0d2e116d99e2eb8ef2cf236f7cd7f06225e92a6dfd9162f98c7d8e1974842",
+  "chain_id": 4663,
+  "read_only": true,
+  "requests": [
+    {
+      "label": "chain-id",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "eth_chainId",
+        "params": []
+      },
+      "response_file": "01-chain-id.json",
+      "response_sha256": "1fb0f19b45a4203bd13cb5be1e8ad3aa569f42905377cd4643fc8bc07ecd3aa3"
+    },
+    {
+      "label": "client-version",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 2,
+        "method": "web3_clientVersion",
+        "params": []
+      },
+      "response_file": "02-client-version.json",
+      "response_sha256": "9e7cd923f9d4eb4ba943ff62505700c9d8285d312af734c27d6909135d4f6df6"
+    },
+    {
+      "label": "transaction",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 3,
+        "method": "eth_getTransactionByHash",
+        "params": [
+          "0xf9e0d2e116d99e2eb8ef2cf236f7cd7f06225e92a6dfd9162f98c7d8e1974842"
+        ]
+      },
+      "response_file": "03-transaction.json",
+      "response_sha256": "fdc7ce77200ab94f5de7e2aad2a46633579dc3f86245f2baadd626d5f356b061"
+    },
+    {
+      "label": "receipt",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 4,
+        "method": "eth_getTransactionReceipt",
+        "params": [
+          "0xf9e0d2e116d99e2eb8ef2cf236f7cd7f06225e92a6dfd9162f98c7d8e1974842"
+        ]
+      },
+      "response_file": "04-receipt.json",
+      "response_sha256": "4b5f7e85fe8f63813170e9690ffa52b089ce36e2fb790d7095ed877c466481f2"
+    },
+    {
+      "label": "block",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 5,
+        "method": "eth_getBlockByHash",
+        "params": [
+          "0x8e702487ffdd8f2ff97528407ba671f1a1d1d6f16a812e85fb5cb6625b6886d7",
+          false
+        ]
+      },
+      "response_file": "05-block.json",
+      "response_sha256": "5d8c3fca1a3a9c96da54f9c4a26a724d357b40694b1d262935c93a3c3e3667b6"
+    },
+    {
+      "label": "parent",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 6,
+        "method": "eth_getBlockByHash",
+        "params": [
+          "0x53f9d3bedcdd3554f7447343ca03f9c9a5a7b61c692057f431d9225e04e1a917",
+          false
+        ]
+      },
+      "response_file": "06-parent.json",
+      "response_sha256": "6771995c866fc8a8adcce000035ef3e3e956335c6e7fe18807dd16a3d5d882e3"
+    },
+    {
+      "label": "call-trace",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 7,
+        "method": "debug_traceTransaction",
+        "params": [
+          "0xf9e0d2e116d99e2eb8ef2cf236f7cd7f06225e92a6dfd9162f98c7d8e1974842",
+          {
+            "tracer": "callTracer",
+            "timeout": "10s",
+            "reexec": 0,
+            "tracerConfig": {
+              "withLog": true
+            }
+          }
+        ]
+      },
+      "response_file": "07-call-trace.json",
+      "response_sha256": "7cb64e34b0ef7484fac2ec00a3bea06ed074ebaf2b0e49e3daf77768adf34f5f"
+    },
+    {
+      "label": "prestate",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 8,
+        "method": "debug_traceTransaction",
+        "params": [
+          "0xf9e0d2e116d99e2eb8ef2cf236f7cd7f06225e92a6dfd9162f98c7d8e1974842",
+          {
+            "tracer": "prestateTracer",
+            "timeout": "10s",
+            "reexec": 0,
+            "tracerConfig": {
+              "diffMode": false,
+              "disableCode": false,
+              "disableStorage": false
+            }
+          }
+        ]
+      },
+      "response_file": "08-prestate.json",
+      "response_sha256": "12e036999528630830b6f8e17d00697c2c962eba9b7aaac4aaf58491de416762"
+    },
+    {
+      "label": "state-diff",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 9,
+        "method": "debug_traceTransaction",
+        "params": [
+          "0xf9e0d2e116d99e2eb8ef2cf236f7cd7f06225e92a6dfd9162f98c7d8e1974842",
+          {
+            "tracer": "prestateTracer",
+            "timeout": "10s",
+            "reexec": 0,
+            "tracerConfig": {
+              "diffMode": true
+            }
+          }
+        ]
+      },
+      "response_file": "09-state-diff.json",
+      "response_sha256": "4670d57ecf2580c0d7af8e87e033f580cd158e9142871980d22f4922d731d8b3"
+    },
+    {
+      "label": "prior-block-components",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 10,
+        "method": "eth_call",
+        "params": [
+          {
+            "from": "0x5634b07cf618a9e60b0a7d3e26841a490036c1b3",
+            "to": "0x00000000000000000000000000000000000000c8",
+            "value": "0x0",
+            "gas": "0x5b8d80",
+            "data": "0xc94e6eeb000000000000000000000000ce468830c627acaa07db28113641e717df5f0be200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000066487ff0c27000000000000000000000000000000000000000000000000000000006aadfab00000000000000000000000009d53d5e3bd5e8d4cbfa6db1ca238aea02e6510100000000000000000000000005fc5360d0400a0fd4f2af552add042d716f1d16800000000000000000000000063c12667638f2ae6fc6ae09b43d98ec84a8586ea000000000000000000000000cde9599059f8ae6d6b9f33a0af7877827ec75f160000000000000000000000002bd3d5965b26b51814ac95127b2b80dd6ccc0fa100000000000000000000000000000000000000000000000008ac7230489e8000000000000000000000000000689afbae02a62d10e9a20a6f76b08d94eb7361f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000acd855e8ef2e0000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001e00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007a1730000000000000000000000000000000000000000000000000000000000000460000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000018000000000000000000000000000000000000000000000000000000000000002a00000000000000000000000000000000000000000000000000000000000000360000000000000000000000000000000000000000000000000000000000000000300000000000000000000000063c12667638f2ae6fc6ae09b43d98ec84a8586ea00000000000000000000000063c12667638f2ae6fc6ae09b43d98ec84a8586ea000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000024de0e9a3e0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000b078cc304a0b264c5f3680dc0488954accd02e87000000000000000000000000b773ec2c326b7f98a5a83fc098825492f020a4c7000000000000000000000000000000000000000000000000000000000000002400000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000044c2a672e0000000000000000000000000ce468830c627acaa07db28113641e717df5f0be2000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000059f95461e68e0c77605299791e1449f175165b54000000000000000000000000ca9c78dd337a67f6e0077f65f5e9218719d30edf800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000000000000059f95461e68e0c77605299791e1449f175165b54000000000000000000000000ca9c78dd337a67f6e0077f65f5e9218719d30edf000000000000000000000000000000000000000000000000000000000000001e00000000000000000000000000000000000000000000000000000000000000a0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          },
+          {
+            "blockHash": "0x53f9d3bedcdd3554f7447343ca03f9c9a5a7b61c692057f431d9225e04e1a917",
+            "requireCanonical": true
+          }
+        ]
+      },
+      "rpc_error_code": -32000
+    },
+    {
+      "label": "canonical-block-recheck",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 11,
+        "method": "eth_getBlockByNumber",
+        "params": [
+          "0x3fa6f62",
+          false
+        ]
+      },
+      "response_file": "11-canonical-block-recheck.json",
+      "response_sha256": "5c4a6337213c902a4daf6062216a022bb2a9221c1f3a58658b6c82937734eb75"
+    }
+  ],
+  "provider_host": "docs-demo.robinhood-mainnet.quiknode.pro",
+  "elapsed_seconds": 36.766,
+  "needed_capabilities": [
+    "archive state at blocks 66744161 and 66744162",
+    "full eth_getTransactionByHash",
+    "debug_traceTransaction callTracer withLog and prestateTracer",
+    "Nitro NodeInterface eth_call at a pinned historical block"
+  ],
+  "live_authorized": false,
+  "external_subscription_created": false
+}
