@@ -1,0 +1,35 @@
+{
+  "original": {
+    "gas_limits": {
+      "verification": 500000,
+      "call": 1500000,
+      "paymaster_verification": 200000,
+      "paymaster_postop": 160000,
+      "pre_verification": 80000
+    },
+    "max_fee_wei": 2000000000,
+    "priority_fee_wei": 1000000,
+    "required_prefund_wei": 4880000000000000
+  },
+  "variant": {
+    "gas_limits": {
+      "verification": 500000,
+      "call": 1500000,
+      "paymaster_verification": 200000,
+      "paymaster_postop": 160000,
+      "pre_verification": 80000
+    },
+    "max_fee_wei": 102271000,
+    "priority_fee_wei": 1000000,
+    "required_prefund_wei": 249541240000000
+  },
+  "original_userop_hash": "0x691e4ccebfddfba62de10c254c6b027313c70269fc52a5bf2b364dccad2e6692",
+  "variant_userop_hash": "0x3bb989202b5f549e643a482368bc2a7e259815e00c3fc9b5bb79cd6dba5377e1",
+  "base_fee_wei": 67514000,
+  "test_key_only": true,
+  "production_fee_quote": false,
+  "changed_fields": [
+    "maxFeePerGas",
+    "fixture_signature"
+  ]
+}

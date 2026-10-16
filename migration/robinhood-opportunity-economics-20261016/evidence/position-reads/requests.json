@@ -1,0 +1,42 @@
+[
+  {
+    "label": "position-parent",
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "method": "eth_call",
+      "params": [
+        {
+          "to": "0x9d53d5e3bd5e8d4cbfa6db1ca238aea02e651010",
+          "data": "0x93c52062aa586d26a6fe62d9c0f0948fede6e2130500ac7a655587447e2d4a37e6330589000000000000000000000000689afbae02a62d10e9a20a6f76b08d94eb7361f0"
+        },
+        {
+          "blockHash": "0x53f9d3bedcdd3554f7447343ca03f9c9a5a7b61c692057f431d9225e04e1a917",
+          "requireCanonical": true
+        }
+      ]
+    },
+    "response_file": "01-position-parent.json",
+    "response_sha256": "a7e28172f8fff77d843cb7d3835739a85908b3eefdfa8d9f973cacf7d84047b3"
+  },
+  {
+    "label": "position-selected-end",
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "method": "eth_call",
+      "params": [
+        {
+          "to": "0x9d53d5e3bd5e8d4cbfa6db1ca238aea02e651010",
+          "data": "0x93c52062aa586d26a6fe62d9c0f0948fede6e2130500ac7a655587447e2d4a37e6330589000000000000000000000000689afbae02a62d10e9a20a6f76b08d94eb7361f0"
+        },
+        {
+          "blockHash": "0x8e702487ffdd8f2ff97528407ba671f1a1d1d6f16a812e85fb5cb6625b6886d7",
+          "requireCanonical": true
+        }
+      ]
+    },
+    "response_file": "02-position-selected-end.json",
+    "response_sha256": "93c0acf7603260f8d4953fb2801fcb31b34145d942f99669b8a371d6fa59a7de"
+  }
+]
