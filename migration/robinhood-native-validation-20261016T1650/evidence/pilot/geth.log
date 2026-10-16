@@ -1,0 +1,68 @@
+INFO [10-16|11:55:47.210] Maximum peer count                       ETH=0 total=0
+INFO [10-16|11:55:47.212] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
+WARN [10-16|11:55:47.214] Sanitizing cache to Go's GC limits       source=cgroup-v2 provided=4096 updated=2730
+INFO [10-16|11:55:47.216] Set global gas cap                       cap=50,000,000
+INFO [10-16|11:55:47.217] Engine API maximum reorg depth           depth=32
+WARN [10-16|11:55:47.217] Setting network ID with command-line flag id=4663
+INFO [10-16|11:55:47.217] Initializing the KZG library             backend=gokzg
+INFO [10-16|11:55:47.219] Allocated trie memory caches             clean=409.00MiB dirty=682.00MiB
+INFO [10-16|11:55:47.219] Using pebble as the backing database
+INFO [10-16|11:55:47.219] Allocated cache and file handles         database=/workspace/scratch/833721a2e367/nqc-native-validation/migration/robinhood-native-validation-20261016T1650/evidence/pilot/db/geth/chaindata cache=1.33GiB handles=8192 version=v2
+INFO [10-16|11:55:47.228] Opened ancient database                  database=/workspace/scratch/833721a2e367/nqc-native-validation/migration/robinhood-native-validation-20261016T1650/evidence/pilot/db/geth/chaindata/ancient/chain readonly=false
+INFO [10-16|11:55:47.228] Opened Era store                         datadir=/workspace/scratch/833721a2e367/nqc-native-validation/migration/robinhood-native-validation-20261016T1650/evidence/pilot/db/geth/chaindata/ancient/chain/era
+INFO [10-16|11:55:47.229] State scheme set to already existing     scheme=path
+INFO [10-16|11:55:47.229] Initialising Ethereum protocol           network=4663 dbversion=<nil>
+WARN [10-16|11:55:47.229] Sanitizing invalid node buffer size      provided=682.00MiB updated=256.00MiB
+INFO [10-16|11:55:47.229] Load database journal from disk
+INFO [10-16|11:55:47.229] Failed to load journal, discard it       err="journal not found"
+INFO [10-16|11:55:47.232] Opened ancient database                  database=/workspace/scratch/833721a2e367/nqc-native-validation/migration/robinhood-native-validation-20261016T1650/evidence/pilot/db/geth/chaindata/ancient/state readonly=false
+INFO [10-16|11:55:47.232] Initialized path database                triecache=409.00MiB statecache=273.00MiB buffer=256.00MiB state-history="last 90000 blocks" journal-dir=/workspace/scratch/833721a2e367/nqc-native-validation/migration/robinhood-native-validation-20261016T1650/evidence/pilot/db/geth/triedb
+INFO [10-16|11:55:47.232] 
+INFO [10-16|11:55:47.232] ---------------------------------------------------------------------------------------------------------------------------------------------------------
+INFO [10-16|11:55:47.232] Chain ID:  4663 (unknown)
+INFO [10-16|11:55:47.232] Consensus: unknown
+INFO [10-16|11:55:47.232] 
+INFO [10-16|11:55:47.232] Pre-Merge hard forks (block based):
+INFO [10-16|11:55:47.232]  - Homestead:                   #0       
+INFO [10-16|11:55:47.232]  - Tangerine Whistle (EIP 150): #0       
+INFO [10-16|11:55:47.232]  - Spurious Dragon/1 (EIP 155): #0       
+INFO [10-16|11:55:47.232]  - Spurious Dragon/2 (EIP 158): #0       
+INFO [10-16|11:55:47.232]  - Byzantium:                   #0       
+INFO [10-16|11:55:47.232]  - Constantinople:              #0       
+INFO [10-16|11:55:47.232]  - Petersburg:                  #0       
+INFO [10-16|11:55:47.232]  - Istanbul:                    #0       
+INFO [10-16|11:55:47.232]  - Berlin:                      #0       
+INFO [10-16|11:55:47.232]  - London:                      #0       
+INFO [10-16|11:55:47.232] 
+INFO [10-16|11:55:47.232] Merge configured:
+INFO [10-16|11:55:47.232]  - Total terminal difficulty:  0
+INFO [10-16|11:55:47.232]  - Merge netsplit block:       #0       
+INFO [10-16|11:55:47.232] 
+INFO [10-16|11:55:47.232] Post-Merge hard forks (timestamp based):
+INFO [10-16|11:55:47.232]  - Shanghai:                    @0         
+INFO [10-16|11:55:47.232] 
+INFO [10-16|11:55:47.232] All fork specifications can be found at https://ethereum.github.io/execution-specs/src/ethereum/forks/
+INFO [10-16|11:55:47.232] 
+INFO [10-16|11:55:47.232] ---------------------------------------------------------------------------------------------------------------------------------------------------------
+INFO [10-16|11:55:47.232] 
+INFO [10-16|11:55:47.232] Loaded most recent local block           number=0 hash=576ad8..2d9350 age=3w6d13h
+INFO [10-16|11:55:47.232] Initialized transaction indexer          range="last 2350000 blocks"
+INFO [10-16|11:55:47.306] Enabled full-sync                        head=0 hash=576ad8..2d9350
+INFO [10-16|11:55:47.307] Gasprice oracle is ignoring threshold set threshold=2
+INFO [10-16|11:55:47.307] Registered sync override service
+INFO [10-16|11:55:47.307] Starting peer-to-peer node               instance=Geth/v1.17.8-stable-a5790770/linux-amd64/go1.27.1
+INFO [10-16|11:55:47.312] New local node record                    seq=1,792,169,747,312 id=6b6db5668619aa09 ip=127.0.0.1 udp=0 tcp=34449
+INFO [10-16|11:55:47.313] Started P2P networking                   self="enode://f326a8d79493940789a07f6885c9d6f1830044cf1257af9b289ad29707f7768ee559817e114ea2014994de8e0d4476266209a31c57f28bbe3da1ac0a0c0e2663@127.0.0.1:34449?discport=0"
+INFO [10-16|11:55:47.313] Loaded JWT secret file                   path=/workspace/scratch/833721a2e367/nqc-native-validation/migration/robinhood-native-validation-20261016T1650/evidence/pilot/engine.jwt.fixture crc32=0xbc4920d8
+INFO [10-16|11:55:47.314] HTTP server started                      endpoint=127.0.0.1:18571 auth=false prefix= cors= vhosts=127.0.0.1
+INFO [10-16|11:55:47.314] WebSocket enabled                        url=ws://127.0.0.1:18572
+INFO [10-16|11:55:47.314] HTTP server started                      endpoint=127.0.0.1:18572 auth=true  prefix= cors=localhost vhosts=localhost
+INFO [10-16|11:55:47.314] Started log indexer
+INFO [10-16|11:55:50.552] Got interrupt, shutting down...
+INFO [10-16|11:55:50.552] HTTP server stopped                      endpoint=127.0.0.1:18571
+INFO [10-16|11:55:50.552] HTTP server stopped                      endpoint=127.0.0.1:18572
+INFO [10-16|11:55:50.552] Ethereum protocol stopped
+INFO [10-16|11:55:50.552] Transaction pool stopped
+INFO [10-16|11:55:50.552] Persisting dirty state                   root=c3526f..f9b7b3 layers=0
+INFO [10-16|11:55:50.553] Persisted dirty state to file            path=/workspace/scratch/833721a2e367/nqc-native-validation/migration/robinhood-native-validation-20261016T1650/evidence/pilot/db/geth/triedb/merkle.journal size=74.00B elapsed="540.002µs"
+INFO [10-16|11:55:50.553] Blockchain stopped
