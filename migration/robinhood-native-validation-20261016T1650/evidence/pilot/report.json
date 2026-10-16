@@ -1,0 +1,202 @@
+{
+  "started_utc": "2026-10-16T16:55:47.080760+00:00",
+  "status": "LOCAL_NATIVE_VALIDATION_COMPLETE_FULL_BUNDLER_BLOCKED",
+  "registration_commit": "4a814940a80d3b5f6effced72984d3ffc53f6f5d",
+  "cases": [
+    {
+      "case": "original_31s_unstaked",
+      "terminal_type": "RETURN",
+      "full_bundler_admission_proven": false,
+      "funding_available_proven": false,
+      "decoded": {
+        "preop_gas": 132658,
+        "prefund_wei": 249541240000000,
+        "account_validation_data": 0,
+        "paymaster_validation_data": 736275584008337099358685829125016384623147990090696568144002500165369856,
+        "paymaster_aggregator": "0x0000000000000000000000000000000000000000",
+        "valid_after": 1789786800,
+        "valid_until": 1789786831,
+        "paymaster_context_bytes": 0,
+        "sender_stake_wei": 0,
+        "sender_unstake_delay": 0,
+        "paymaster_stake_wei": 0,
+        "paymaster_unstake_delay": 0,
+        "aggregator": 0
+      },
+      "paymaster_storage": {
+        "reads": {
+          "0x0000000000000000000000000000000000000000000000000000000000000001": "0x0000000000000000000000000000000000000000000000000000e2f4d8f78e00"
+        },
+        "writes": {
+          "0x0000000000000000000000000000000000000000000000000000000000000001": 1
+        },
+        "transientReads": {},
+        "transientWrites": {}
+      },
+      "paymaster_opcodes": {
+        "MSTORE": 7,
+        "CALLDATASIZE": 3,
+        "JUMPI": 21,
+        "JUMPDEST": 11,
+        "CALLDATALOAD": 5,
+        "CALLVALUE": 1,
+        "JUMP": 5,
+        "CALLER": 1,
+        "SLOAD": 2,
+        "SSTORE": 1,
+        "MLOAD": 3,
+        "RETURN": 1
+      },
+      "native_ecrecover": {
+        "type": "RETURN",
+        "gasUsed": 3000,
+        "data": "0x000000000000000000000000cf03dd0a894ef79cb5b601a43c4b25e3ae4c67ed"
+      },
+      "paymaster_reached": true
+    },
+    {
+      "case": "invalid_signature",
+      "terminal_type": "REVERT",
+      "expected_invalid_signature": {
+        "op_index": 0,
+        "reason": "AA23 reverted",
+        "inner": "0xf645eedf"
+      },
+      "native_ecrecover": {
+        "type": "RETURN",
+        "gasUsed": 3000,
+        "data": "0x"
+      },
+      "paymaster_reached": false,
+      "full_bundler_admission_proven": false,
+      "funding_available_proven": false
+    },
+    {
+      "case": "31s_stake_fixture",
+      "terminal_type": "RETURN",
+      "full_bundler_admission_proven": false,
+      "funding_available_proven": false,
+      "decoded": {
+        "preop_gas": 132658,
+        "prefund_wei": 249541240000000,
+        "account_validation_data": 0,
+        "paymaster_validation_data": 736275584008337099358685829125016384623147990090696568144002500165369856,
+        "paymaster_aggregator": "0x0000000000000000000000000000000000000000",
+        "valid_after": 1789786800,
+        "valid_until": 1789786831,
+        "paymaster_context_bytes": 0,
+        "sender_stake_wei": 0,
+        "sender_unstake_delay": 0,
+        "paymaster_stake_wei": 1000000000000000000,
+        "paymaster_unstake_delay": 86400,
+        "aggregator": 0
+      },
+      "paymaster_storage": {
+        "reads": {
+          "0x0000000000000000000000000000000000000000000000000000000000000001": "0x0000000000000000000000000000000000000000000000000000e2f4d8f78e00"
+        },
+        "writes": {
+          "0x0000000000000000000000000000000000000000000000000000000000000001": 1
+        },
+        "transientReads": {},
+        "transientWrites": {}
+      },
+      "paymaster_opcodes": {
+        "MSTORE": 7,
+        "CALLDATASIZE": 3,
+        "JUMPI": 21,
+        "JUMPDEST": 11,
+        "CALLDATALOAD": 5,
+        "CALLVALUE": 1,
+        "JUMP": 5,
+        "CALLER": 1,
+        "SLOAD": 2,
+        "SSTORE": 1,
+        "MLOAD": 3,
+        "RETURN": 1
+      },
+      "native_ecrecover": {
+        "type": "RETURN",
+        "gasUsed": 3000,
+        "data": "0x000000000000000000000000cf03dd0a894ef79cb5b601a43c4b25e3ae4c67ed"
+      },
+      "paymaster_reached": true
+    },
+    {
+      "case": "1s_stake_fixture",
+      "terminal_type": "RETURN",
+      "full_bundler_admission_proven": false,
+      "funding_available_proven": false,
+      "decoded": {
+        "preop_gas": 132658,
+        "prefund_wei": 249541240000000,
+        "account_validation_data": 0,
+        "paymaster_validation_data": 736275584008337099358641984075896457535601879545715079653412822189080576,
+        "paymaster_aggregator": "0x0000000000000000000000000000000000000000",
+        "valid_after": 1789786800,
+        "valid_until": 1789786801,
+        "paymaster_context_bytes": 0,
+        "sender_stake_wei": 0,
+        "sender_unstake_delay": 0,
+        "paymaster_stake_wei": 1000000000000000000,
+        "paymaster_unstake_delay": 86400,
+        "aggregator": 0
+      },
+      "paymaster_storage": {
+        "reads": {
+          "0x0000000000000000000000000000000000000000000000000000000000000001": "0x0000000000000000000000000000000000000000000000000000e2f4d8f78e00"
+        },
+        "writes": {
+          "0x0000000000000000000000000000000000000000000000000000000000000001": 1
+        },
+        "transientReads": {},
+        "transientWrites": {}
+      },
+      "paymaster_opcodes": {
+        "MSTORE": 7,
+        "CALLDATASIZE": 3,
+        "JUMPI": 21,
+        "JUMPDEST": 11,
+        "CALLDATALOAD": 5,
+        "CALLVALUE": 1,
+        "JUMP": 5,
+        "CALLER": 1,
+        "SLOAD": 2,
+        "SSTORE": 1,
+        "MLOAD": 3,
+        "RETURN": 1
+      },
+      "native_ecrecover": {
+        "type": "RETURN",
+        "gasUsed": 3000,
+        "data": "0x000000000000000000000000cf03dd0a894ef79cb5b601a43c4b25e3ae4c67ed"
+      },
+      "paymaster_reached": true
+    },
+    {
+      "case": "31s_zero_deposit",
+      "terminal_type": "REVERT",
+      "full_bundler_admission_proven": false,
+      "funding_available_proven": false,
+      "expected_revert_marker": "AA31"
+    },
+    {
+      "case": "31s_zero_budget",
+      "terminal_type": "REVERT",
+      "full_bundler_admission_proven": false,
+      "funding_available_proven": false,
+      "expected_revert_marker": "BUDGET_POLICY"
+    }
+  ],
+  "public_rpc_methods": 0,
+  "transactions_sent": 0,
+  "full_bundler_executed": false,
+  "scope": "Upstream collector on local Geth EVM; NOT parser or mempool admission; NOT Nitro.",
+  "local_client": "Geth/v1.17.8-stable-a5790770/linux-amd64/go1.27.1",
+  "local_genesis_hash": "0x576ad8d0b04db44b548b924210a0d70a6a295b423067a3023b29005b6c2d9350",
+  "local_state_unchanged": true,
+  "local_rpc_methods": 10,
+  "elapsed_seconds": 3.481232384001487,
+  "ended_utc": "2026-10-16T16:55:50.559334+00:00",
+  "process_stopped": true
+}

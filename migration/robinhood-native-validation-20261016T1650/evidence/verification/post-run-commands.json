@@ -1,0 +1,71 @@
+[
+  {
+    "name": "audit-tests",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "migration/robinhood-native-validation-20261016T1650",
+      "-p",
+      "test_audit.py",
+      "-v"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "capture-audit",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "migration/robinhood-native-validation-20261016T1650/audit_native.py"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "previous-regressions",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "migration/robinhood-bundler-validation-20261016T1608",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "isolation-tests",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "migration",
+      "-p",
+      "test_isolation.py",
+      "-v"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "isolation",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "migration/verify_isolation.py"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "original-blobs",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "migration/engine-v2-20261015/verify_import.py"
+    ],
+    "exit_code": 0
+  }
+]
