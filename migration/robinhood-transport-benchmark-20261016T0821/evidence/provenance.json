@@ -1,0 +1,59 @@
+{
+  "active_workflows": 0,
+  "audit_command": "python migration/robinhood-transport-benchmark-20261016T0821/audit_transport.py migration/robinhood-transport-benchmark-20261016T0821/evidence/pilot --out migration/robinhood-transport-benchmark-20261016T0821/evidence/audit.json",
+  "audit_sha256": "5a5636ef83149f9d6b7f7aae1571a804bf3f2c088185b1a6c4650b47da242c0c",
+  "base_commit": "26bf4105926a57480a0a920091d8dc3f720351a4",
+  "capture_command": "python migration/robinhood-transport-benchmark-20261016T0821/benchmark.py --out migration/robinhood-transport-benchmark-20261016T0821/evidence/pilot --registration-commit 8bdd6f8be2cc16ceb6c8330d9186c60cde90c522",
+  "capture_process_elapsed_seconds": 114.696889078,
+  "capture_process_exit_code": 0,
+  "dependencies": {
+    "certifi": "2026.7.22",
+    "charset-normalizer": "3.5.2",
+    "idna": "3.20",
+    "requests": "2.32.5",
+    "urllib3": "2.5.0"
+  },
+  "disabled_workflows": 106,
+  "funded_capacity_wei": 0,
+  "journal_sha256": "33526acb6e7a8eb34633c9be568e6b9d18b2ed7e2270a0e986d5691a75d37318",
+  "ledger_sha256": "b81d6f275d2a5ee724db53a771428883955f195e02ab29d7f6975845d70ddc33",
+  "limitations": [
+    "single demo provider and configured proxy",
+    "six blocks, five reused views",
+    "partial fixed cohort, no tail catch-up",
+    "headers use old transport, complete acquisition target unmet",
+    "no independent cryptographic provider-state proof",
+    "socket tags describe client, not upstream server"
+  ],
+  "live_broadcasts": 0,
+  "original_blobs_verified": 377,
+  "prior_manifests_verified": {
+    "robinhood-history-backfill-20261016": {
+      "files_verified": 210,
+      "manifest_sha256": "ea5dc9c97760ffb9a21083c402722a4bfba1fe4bf04ebc4253f9fb4a5511c035"
+    },
+    "robinhood-history-continuation-20261016T0715": {
+      "files_verified": 175,
+      "manifest_sha256": "2334c7d49a9933195074d60b2646a68167de70ce89498ff35f65dfed1e795101"
+    }
+  },
+  "python": "3.12.14",
+  "python_tests_passed": {
+    "continuation": 14,
+    "isolation-tests": 9,
+    "lens": 16,
+    "registry": 25,
+    "transport": 16
+  },
+  "python_tests_total": 80,
+  "realized_profit": null,
+  "registered_files_unchanged": 37,
+  "registration_commit": "8bdd6f8be2cc16ceb6c8330d9186c60cde90c522",
+  "registration_tree": "bae5302735d65daab17ade950e186edc70161a74",
+  "repository": "josuechavando350-png/nexus-quant-capital",
+  "route_simulations": 0,
+  "rust_tests_rerun": false,
+  "solidity_tests_rerun": false,
+  "summary_sha256": "b8bcb2cad94451e712fc8425dba22f3a6fd286fe7559ff92bdf12b5f9de2b378",
+  "written_utc": "2026-10-16T08:44:36.149036+00:00"
+}
