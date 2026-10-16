@@ -1,0 +1,185 @@
+{
+  "schema": 1,
+  "bundler_commit": "1868538f1d7678576291d2ecabb4443c797ad133",
+  "checkout": "/tmp/nqc-reference-v07",
+  "node_modules_searched": [
+    "/tmp/nqc-reference-v07/node_modules",
+    "/tmp/nqc-bundler-env-20261016/node_modules",
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules"
+  ],
+  "yarn_caches_searched": [
+    "/usr/local/share/.cache/yarn/v6"
+  ],
+  "source_sha256": {
+    "yarn.lock": "ca6919fe6eb20751cc17689ab672e4446791f8d2a89c272a79164c185ef8b9db",
+    "package.json": "170811583f86234b6f6480383d47a00bfce5cf71fff5a304ff42de58d1c73ed2",
+    "packages/bundler/package.json": "29bccbc750d7bacb2369628811e5c89fd273aca37d511ab069b6d0b8899700e6",
+    "packages/validation-manager/package.json": "5328f34827111d6b10de6f5fd7735c0c657fe454186f47984e8cccc7a5065611",
+    "packages/utils/package.json": "fbb5d360e75cc7f9b24868fbae3080d737d8fba25168648d47486c84da528dce",
+    "packages/sdk/package.json": "1f7acd9a1a51fda5163c4e91232284d251487ded93ca52ce0ca227161ff595cd",
+    "packages/validation-manager/src/ValidationManager.ts": "ef1755e0d91fc800b266998e66210b0165c31023163261b095d360ea3c2b5870",
+    "packages/validation-manager/src/TracerResultParser.ts": "a23f3682e3b803c4e94d2ed52ed38355f8ecc22bf361799c32e1ce013fbc0b39",
+    "packages/bundler/src/modules/ExecutionManager.ts": "e87a9d1b2358b8c6f0616a40a16ee02bcde02b9ee3d04ec4cb8279fbe506c529",
+    "packages/bundler/src/modules/DepositManager.ts": "8b1eadddc619c14943549283533382efee060899685d617e79ca4809e304ba60",
+    "packages/bundler/src/modules/MempoolManager.ts": "936a9c3785ff1d773df8fc6c03852d271ba189bff98d55b24e1af4f7f9f93c51",
+    "packages/bundler/src/modules/ReputationManager.ts": "bd305af6e725310743f4eff6de1a02500a9f69d95d51eb2d0f2b6c67b0ec42e2"
+  },
+  "packages": {
+    "ethers": {
+      "locked_version": "5.7.2",
+      "selector": "^5.7.0",
+      "candidates": [
+        {
+          "path": "/tmp/nqc-reference-v07/node_modules/ethers",
+          "status": "ABSENT"
+        },
+        {
+          "path": "/tmp/nqc-bundler-env-20261016/node_modules/ethers",
+          "status": "ABSENT"
+        },
+        {
+          "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/ethers",
+          "status": "ABSENT"
+        }
+      ],
+      "necessary_files_found": false
+    },
+    "@ethersproject/properties": {
+      "locked_version": "5.7.0",
+      "selector": "^5.7.0",
+      "candidates": [
+        {
+          "path": "/tmp/nqc-reference-v07/node_modules/@ethersproject/properties",
+          "status": "ABSENT"
+        },
+        {
+          "path": "/tmp/nqc-bundler-env-20261016/node_modules/@ethersproject/properties",
+          "status": "ABSENT"
+        },
+        {
+          "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/@ethersproject/properties",
+          "status": "ABSENT"
+        }
+      ],
+      "necessary_files_found": false
+    },
+    "@ethersproject/providers": {
+      "locked_version": "5.7.2",
+      "selector": "^5.7.0",
+      "candidates": [
+        {
+          "path": "/tmp/nqc-reference-v07/node_modules/@ethersproject/providers",
+          "status": "ABSENT"
+        },
+        {
+          "path": "/tmp/nqc-bundler-env-20261016/node_modules/@ethersproject/providers",
+          "status": "ABSENT"
+        },
+        {
+          "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/@ethersproject/providers",
+          "status": "ABSENT"
+        }
+      ],
+      "necessary_files_found": false
+    },
+    "debug": {
+      "locked_version": "4.3.4",
+      "selector": "^4.3.4",
+      "candidates": [
+        {
+          "path": "/tmp/nqc-reference-v07/node_modules/debug",
+          "status": "ABSENT"
+        },
+        {
+          "path": "/tmp/nqc-bundler-env-20261016/node_modules/debug",
+          "status": "ABSENT"
+        },
+        {
+          "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/debug",
+          "manifest_sha256": "6c3d2c892db282317913ce7c340dd2edccd326bcafd18b644b8738144967d6ee",
+          "name": "debug",
+          "version": "2.6.9",
+          "status": "NAME_OR_VERSION_MISMATCH"
+        },
+        {
+          "path": "/usr/local/share/.cache/yarn/v6/npm-debug-3.2.7-72580b7e9145fb39b6676f9c5e5fb100b934179a-integrity/node_modules/debug",
+          "manifest_sha256": "bc3ebfd4898960d942e65f60696f2af26917d6ddf016dd159c52beb9241d3983",
+          "name": "debug",
+          "version": "3.2.7",
+          "status": "NAME_OR_VERSION_MISMATCH"
+        },
+        {
+          "path": "/usr/local/share/.cache/yarn/v6/npm-debug-4.3.4-1319f6579357f2338d3337d2cdd4914bb5dcc865-integrity/node_modules/debug",
+          "manifest_sha256": "754ba4f352a9b983fbbf93cfffe015d29bc789a08eb05815270abf50902697fb",
+          "name": "debug",
+          "version": "4.3.4",
+          "main": "./src/index.js",
+          "status": "NECESSARY_FILES_PRESENT",
+          "entry_sha256": "aa127ff1752b7d9c7415c5c7bb6994d9aa722b81bcbcab4bd48316b013d23bf3"
+        }
+      ],
+      "necessary_files_found": true
+    },
+    "async-mutex": {
+      "locked_version": "0.4.0",
+      "selector": "^0.4.0",
+      "candidates": [
+        {
+          "path": "/tmp/nqc-reference-v07/node_modules/async-mutex",
+          "status": "ABSENT"
+        },
+        {
+          "path": "/tmp/nqc-bundler-env-20261016/node_modules/async-mutex",
+          "status": "ABSENT"
+        },
+        {
+          "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/async-mutex",
+          "status": "ABSENT"
+        }
+      ],
+      "necessary_files_found": false
+    }
+  },
+  "workspaces": {
+    "validation-manager": {
+      "path": "/tmp/nqc-reference-v07/packages/validation-manager",
+      "manifest_sha256": "5328f34827111d6b10de6f5fd7735c0c657fe454186f47984e8cccc7a5065611",
+      "name": "@account-abstraction/validation-manager",
+      "version": "0.7.0",
+      "main": "./dist/src/index.js",
+      "status": "ENTRY_MISSING"
+    },
+    "utils": {
+      "path": "/tmp/nqc-reference-v07/packages/utils",
+      "manifest_sha256": "fbb5d360e75cc7f9b24868fbae3080d737d8fba25168648d47486c84da528dce",
+      "name": "@account-abstraction/utils",
+      "version": "0.7.0",
+      "main": "./dist/src/index.js",
+      "status": "ENTRY_MISSING"
+    },
+    "sdk": {
+      "path": "/tmp/nqc-reference-v07/packages/sdk",
+      "manifest_sha256": "1f7acd9a1a51fda5163c4e91232284d251487ded93ca52ce0ca227161ff595cd",
+      "name": "@account-abstraction/sdk",
+      "version": "0.7.0",
+      "main": "./dist/src/index.js",
+      "status": "ENTRY_MISSING"
+    }
+  },
+  "missing_necessary_components": [
+    "ethers",
+    "@ethersproject/properties",
+    "@ethersproject/providers",
+    "async-mutex",
+    "workspace:validation-manager",
+    "workspace:utils",
+    "workspace:sdk"
+  ],
+  "status": "BLOCKED_PREREQUISITES",
+  "scope": "Necessary files only; not exhaustive transitive dependency, integrity, Node resolution or compatibility validation.",
+  "bundler_executed": false,
+  "full_admission_proven": false,
+  "network_requests": 0,
+  "installations": 0,
+  "observed_utc": "2026-10-16T17:12:40.966570+00:00"
+}

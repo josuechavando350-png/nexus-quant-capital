@@ -1,0 +1,60 @@
+{
+  "review_date_utc": "2026-10-16",
+  "review_type": "public documentation only; no provider account, relay, funds or admission queried",
+  "raw_pages_archived": false,
+  "summary_hashes_are_not_provider_content_authentication": true,
+  "sources": [
+    {
+      "id": "alchemy-chains",
+      "url": "https://www.alchemy.com/docs/wallets/supported-chains",
+      "finding": "La tabla incluye Robinhood Mainnet para bundler, patrocinio y pagos ERC20. No demuestra aceptación de la operación NQC."
+    },
+    {
+      "id": "alchemy-billing",
+      "url": "https://www.alchemy.com/docs/wallets/reference/gas-manager-faqs",
+      "finding": "Gas facturable/créditos; PAYG 8%. Free no publica patrocinio mainnet y PAYG base $0 salvo acuerdo. El cliente mantiene responsabilidad si falla el cobro posterior ERC20. No oferta a NQC."
+    },
+    {
+      "id": "alchemy-admission",
+      "url": "https://www.alchemy.com/docs/wallets/reference/bundler-faqs",
+      "finding": "Una UserOp aceptada puede descartarse posteriormente. Admisión no prueba inclusión."
+    },
+    {
+      "id": "zerodev-billing",
+      "url": "https://docs.zerodev.app/smart-accounts/sponsor-gas/evm",
+      "finding": "Patrocinio financiado mediante tarjeta mensual o créditos comprados; necesita política. No compromiso de absorber pérdidas de NQC."
+    },
+    {
+      "id": "unlinked-faq",
+      "url": "https://useunlinked.app/docs/faq",
+      "finding": "Declara tesorería del operador, fallos sin coste ETH para usuario, presupuesto acotado, Simple7702Account v0.9 y relay propio. Anuncia mainnet desde 2026-09-30. Declaración del proveedor, no verificación independiente."
+    },
+    {
+      "id": "unlinked-relay",
+      "url": "https://useunlinked.app/docs/relay",
+      "finding": "EP v0.9 y plantillas/allowlist/perfiles exactos. No evidencia de admisión de liquidación NQC v0.7. El ejemplo de despliegue propio usa safe-mode false; no se ejecutó ni se adoptó."
+    },
+    {
+      "id": "unlinked-parameters",
+      "url": "https://useunlinked.app/docs/parameters",
+      "finding": "Tabla numérica rotulada testnet 46630; no extrapolada a fondos o límites mainnet. Perfiles publicados: transfer, approve y sendEth."
+    },
+    {
+      "id": "unlinked-quickstart",
+      "url": "https://useunlinked.app/docs",
+      "finding": "Conserva una afirmación de no despliegue de paymaster/demo en Robinhood Chain que contradice la FAQ mainnet. Discrepancia no resuelta; no implica que el servicio esté caído."
+    },
+    {
+      "id": "robinhood-aa",
+      "url": "https://docs.robinhood.com/chain/account-abstraction/",
+      "finding": "Documenta Alchemy/ZeroDev y EP v0.7 en 0x0000000071727De22E5E9d8BAf0edAc6f37da032. Apertura directa dio error interno de la herramienta; enlace oficial de navegación recuperó la página. No error RPC ni prueba de indisponibilidad de red."
+    }
+  ],
+  "not_established": [
+    "NQC accepted policy",
+    "reserved funds for NQC",
+    "no personal recourse agreement",
+    "prospective profitable capture"
+  ],
+  "interpretation": "Las tres alternativas revisadas no aportan prueba de financiación utilizable para NQC en este expediente; no se afirma inexistencia universal de financiadores."
+}
