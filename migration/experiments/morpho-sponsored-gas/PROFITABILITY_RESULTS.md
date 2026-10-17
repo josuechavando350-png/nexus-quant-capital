@@ -1,5 +1,14 @@
 # Exact economic boundaries — 2026-10-17 UTC
 
+Subsequent evidence: `MONTHLY_POTENTIAL.md` and `case_b_route_audit.py` identify
+case B's actual Fluid ezETH/ETH conversion. It is not the V2 fixture below.
+Its observed sale-minus-debt is 0.369942447954007585 ETH-equivalent; after the
+entire coinbase payment and sender gas, the residual upper bound is
+0.001651296044494913 before unknown external obligations, excluding old WETH.
+That is not certified profit or an NQC executable quote. The new 143-event
+30-day census still does not supply authentic net margins or capture rates;
+monthly NQC profit remains not estimable. Earlier synthetic results follow.
+
 Baseline `a96be36` was checked against the GitHub branch and reproduced: 141
 Python / 48 Solidity / 9 isolation tests. This continuation adds an exact boundary
 model, six focused Python tests and two Solidity test functions. The outcome is

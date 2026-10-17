@@ -1,0 +1,39 @@
+{
+  "url": "https://api.morpho.org/graphql",
+  "request": {
+    "query": "{__type(name:\"PaginatedMarketTransactions\"){fields{name type{kind name ofType{kind name}}}}}"
+  },
+  "retrieved_at_utc": "2026-10-17T04:47:05.388284+00:00",
+  "http_status": 200,
+  "response": {
+    "data": {
+      "__type": {
+        "fields": [
+          {
+            "name": "items",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null
+              }
+            }
+          },
+          {
+            "name": "pageInfo",
+            "type": {
+              "kind": "OBJECT",
+              "name": "PageInfo",
+              "ofType": null
+            }
+          }
+        ]
+      }
+    },
+    "extensions": {
+      "complexity": 90,
+      "maximumComplexity": 1000000
+    }
+  }
+}

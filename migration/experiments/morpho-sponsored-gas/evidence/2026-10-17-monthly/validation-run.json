@@ -1,0 +1,232 @@
+{
+  "executed_at_utc": "2026-10-17T05:01:46.628995+00:00",
+  "parent_commit": "1e21bbc40ac87f89f89a0eb9d277124103db589c",
+  "checks": [
+    {
+      "name": "python",
+      "argv": [
+        "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-v",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py"
+      ],
+      "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/experiments/morpho-sponsored-gas",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "marker": "Ran 159 tests",
+      "verified": true,
+      "output": "final-python.log"
+    },
+    {
+      "name": "isolation",
+      "argv": [
+        "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+        "migration/verify_isolation.py"
+      ],
+      "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "marker": null,
+      "verified": true,
+      "output": "final-isolation.log"
+    },
+    {
+      "name": "isolation-tests",
+      "argv": [
+        "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-v",
+        "-s",
+        "migration",
+        "-p",
+        "test_isolation.py"
+      ],
+      "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "marker": "Ran 9 tests",
+      "verified": true,
+      "output": "final-isolation-tests.log"
+    },
+    {
+      "name": "case-b-route",
+      "argv": [
+        "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+        "case_b_route_audit.py"
+      ],
+      "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/experiments/morpho-sponsored-gas",
+      "exit_code": 2,
+      "expected_exit": 2,
+      "marker": "OBSERVED_ROUTE_RECONCILED_NOT_HISTORICAL_REPLAY",
+      "verified": true,
+      "output": "case-b-route.json"
+    },
+    {
+      "name": "monthly-census",
+      "argv": [
+        "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+        "monthly_census.py"
+      ],
+      "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/experiments/morpho-sponsored-gas",
+      "exit_code": 2,
+      "expected_exit": 2,
+      "marker": "OBSERVED_CENSUS_MONTHLY_PROFIT_NOT_ESTIMABLE",
+      "verified": true,
+      "output": "monthly-census.json"
+    },
+    {
+      "name": "parity",
+      "argv": [
+        "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+        "generate_parity_fixtures.py",
+        "--check"
+      ],
+      "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/experiments/morpho-sponsored-gas",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "marker": null,
+      "verified": true,
+      "output": "final-parity.log"
+    },
+    {
+      "name": "economic-fixture",
+      "argv": [
+        "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+        "profitability_boundary.py",
+        "--check-fixture"
+      ],
+      "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/experiments/morpho-sponsored-gas",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "marker": null,
+      "verified": true,
+      "output": "final-economic-fixture.log"
+    },
+    {
+      "name": "diff",
+      "argv": [
+        "git",
+        "diff",
+        "1e21bbc",
+        "--check"
+      ],
+      "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/experiments/morpho-sponsored-gas",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "marker": null,
+      "verified": true,
+      "output": "final-diff.log"
+    }
+  ],
+  "solidity_baseline_reexecuted_this_session": {
+    "default": 33,
+    "core": 17,
+    "unchanged_since_run": true
+  },
+  "source_sha256": {
+    "bundle_gate.py": "ca306858fe090fd8c1d43f568293f6f265de49860962a18ff2df6a69fbf095b1",
+    "bundler3_abi.py": "57b796736a075a1c0ad027f4bd698e032b57a95470899052d37c6aef79eb7f9e",
+    "case_b_route_audit.py": "50675c4a92e6e66fb1eb983810619be38c02bf3b268219d1e785cfe17676fcf0",
+    "collect_census_receipts.py": "54128041beca3635f2bc0872bebb0cdd3bb37bc1367619c8b16575a463bfeeb2",
+    "compile_bundler_reference.py": "2b7e8ee9e93f8e4c72c0996d8e7a4b9f88b119fe9340f25ed56a78e2885624f1",
+    "compile_morpho_reference.py": "b17e1075d64a9dec3acd2b803d02e6624dcc5d5dba484559b567386af9aed0bc",
+    "compile_uniswap_reference.py": "04c9a64504ab7aad8d1774ab1fc5c3fd5c4ab3984560a21033e6b36c995c78ac",
+    "contracts/NqcMorphoSponsoredLiquidation.sol": "b305c52d06538a20dd4cef1769475d5e47059711122130363508b3ad6e33c9a1",
+    "economic_ledger.py": "a1e934e98961ca092dcfdce0b3d77d98fb22a0d3eb88bc0d223326a355193f5f",
+    "evm_hash.py": "03c30c46553ce49b355a47fe94890fea64cfecb391ab1093042f32ed58dd3e25",
+    "generate_parity_fixtures.py": "55a4223e664058e2f2f7ad7735783ab6587e5214e07241f9ab8ac33a2009ea66",
+    "historical_prestate_probe.py": "2194188745af41288ef5475e9b1ef9324ddbebd8959d82310f66adb5045601d9",
+    "historical_receipt_gate.py": "5af2c1bc74fbaa84f9856279f0ee3ea44ca3e46ee48b1ffedd8815f13c492803",
+    "historical_rpc_audit.py": "7132a0082039c4bb08f07e087bc9676e392b985de42c8d4761e6b1976fa50274",
+    "historical_trace_audit.py": "50b0883b15a157a7e6f935bbde781eae3bbac0e7fc9f2534114d91af240b7834",
+    "liquidity_boundary_model.py": "b1657c5c1d33e2b4edc0e1d801c0f399ecfac86572cc909ec8a2b21b5490f19b",
+    "monthly_census.py": "40ab729a031f0fb4d6da6c965179ad6d0cfb042ddaf007c36e9b1a978905146d",
+    "morpho_interest_math.py": "1bcedb697778acf8ddd1ea9407749bce8cdc532dcf236cfb1e9963b351fddf31",
+    "morpho_liquidation_math.py": "3fe70ba8827ded0d450374b04e74139efbdc81ba6a78352c8d628e45fa99a6fa",
+    "preflight.py": "43508344d7bfb68d3a3759c7e06f7d7f3dc0238bd4b01748d9f27e44d56647ce",
+    "profitability_boundary.py": "877b723ba6283e5c68436d25005ea079c545d0cfd33a20b19eecee5eb9ff8b8c",
+    "reference/bundler3/src/interfaces/IBundler3.sol": "d81fa29000ae7f8b306820b9144bf503caaa90419414a2d2f6581aef34d65aa1",
+    "tests/test_bundle_gate.py": "9632c148ca9bd3342ad2814d30e78e542017afb52565508e8494033ee95630fa",
+    "tests/test_bundler3_abi.py": "761ef22cb5176c9f630002d7d2b8a9f330beda62a07a9dca2cf993a0efce299c",
+    "tests/test_case_b_route_audit.py": "5767ce2ee77d4b288b9c19a6203dd0d59caf9ad2ed2fb2a15345f7cfa9b143be",
+    "tests/test_chain_seed.py": "2f76daad3d72fef8e8e3a95c13fe00037affa04811f81425a5fdf4601882f3bf",
+    "tests/test_economic_ledger.py": "cee48cf81f945ae3092dab49910d71edd4cf9a082918844257e32c70c74198a1",
+    "tests/test_evm_hash.py": "bd0c74527414e0915ff005c1f767b14e5f426abca57daf89c37812c89c8fd0f4",
+    "tests/test_historical_prestate_probe.py": "7fb644368ebd35f4bbd6f1cfdc32e87371e9255a2def7ba8bef80e185e5288e9",
+    "tests/test_historical_receipt_gate.py": "2fe56c6ca724d6e7f4fd8346b47456fba18aa9e1a8ce017b205fd7f71fa7acc8",
+    "tests/test_historical_rpc_audit.py": "e36e9b32bbc192c8e477c2a2c264110e6db65f57faed938e3b5fe009b4aa5702",
+    "tests/test_historical_trace_audit.py": "4f6e96fd1213a5a52fe49a1e0fb152c6ddd7021a635d24244a6b052eaafdeb24",
+    "tests/test_liquidity_boundary_model.py": "ce5ac9c1fd6586af06e420bd86673e9198379f704d5c6396c9867a2fc234f86a",
+    "tests/test_monthly_census.py": "b813d6a427971e8f050e545b41ffd26ab0419e75ba2b7d45c865575028d126f8",
+    "tests/test_morpho_interest_math.py": "74291429ab61c8a0c90145efa2cf0436f5c7893e51abc94ce4fa6eceac9ba265",
+    "tests/test_morpho_liquidation_math.py": "5b88a54b9627333efd35193ae408aad419686a05fb316515567e1e1a935e5ccc",
+    "tests/test_preflight.py": "3eb38c4a08904956fb1b9ac444bac0d69ce15170f755434f5760927bf77bd52a",
+    "tests/test_profitability_boundary.py": "07f06b69368abde26f882c6707d6f2eca16f6895b6a99eab018f3698be479eb7",
+    "tests/test_reference_inputs.py": "3c16f0a4e9ca60d45d30ff4f7a4082080fa4995b95e7a091330d83f93b526ccb",
+    "tests-core/NqcBundlerOriginal.t.sol": "270ffb34b940a8fb4ff6f9d16592a2f5fab31b2b2a829e68103af5202410f2f7",
+    "tests-core/NqcLiquidityBoundary.t.sol": "a228d7aaba8241e8610fc3b8798b29679513b8a0162d8b99ee3feb9d9f8046b3",
+    "tests-core/NqcOriginalMorpho.t.sol": "efe26c09cb7886c633f0c97e192bd3f484b47af51170d1e0a17024bedf35d65b",
+    "tests-solidity/NqcMorphoSponsoredLiquidationMock.t.sol": "0e0c3272ec7f3e4c209e7455526aca45493edf71d825b9fe70bc19d35e4e802d",
+    "tests-solidity/ReferenceParity.t.sol": "36b7ccbdba30c6c73bbed39b1494582250cf041f59f8276c7fdef5f3410b6699"
+  },
+  "baseline_commands": [
+    {
+      "argv": [
+        "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-v",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py"
+      ],
+      "output": "baseline-python.log",
+      "marker": "Ran 150 tests"
+    },
+    {
+      "argv": [
+        "/workspace/scratch/f380716a269b/nqc-toolchain/node_modules/.bin/forge",
+        "test",
+        "--offline",
+        "--use",
+        "/workspace/scratch/f380716a269b/nqc-toolchain/solc-0.8.24",
+        "-vv"
+      ],
+      "output": "baseline-solidity.log",
+      "marker": "33 tests passed, 0 failed, 0 skipped"
+    },
+    {
+      "env": {
+        "FOUNDRY_PROFILE": "core"
+      },
+      "argv": [
+        "/workspace/scratch/f380716a269b/nqc-toolchain/node_modules/.bin/forge",
+        "test",
+        "--offline",
+        "--use",
+        "/workspace/scratch/f380716a269b/nqc-toolchain/solc-0.8.24",
+        "--match-path",
+        "tests-core/*.t.sol",
+        "-vv"
+      ],
+      "output": "baseline-core.log",
+      "marker": "17 tests passed, 0 failed, 0 skipped"
+    }
+  ],
+  "solidity_unchanged_verified": true,
+  "tools": {
+    "python": "Python 3.12.14",
+    "forge": "forge Version: 1.7.1\nCommit SHA: 4072e48705af9d93e3c0f6e29e93b5e9a40caed8\nBuild Timestamp: 2026-05-08T07:50:55.527285345Z (1778226655)\nBuild Profile: dist",
+    "solc": "solc, the solidity compiler commandline interface\nVersion: 0.8.24+commit.e11b9ed9.Linux.g++"
+  },
+  "prepublication_format_correction": "Staged diff check caught one extra EOF blank line in new test file; removed before publication. Tests unchanged semantically and rerun."
+}

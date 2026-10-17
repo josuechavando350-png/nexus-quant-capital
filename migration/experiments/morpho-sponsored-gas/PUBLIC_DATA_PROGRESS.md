@@ -1,5 +1,25 @@
 # Public historical data progress — 2026-10-17 UTC
 
+## Subsequent monthly-evidence checkpoint
+
+The historical checkpoint below was published as `1e21bbc40ac87f89f89a0eb9d277124103db589c`.
+The new continuation is documented in `MONTHLY_POTENTIAL.md`, with reproducible
+offline analyses and raw envelopes in `evidence/2026-10-17-monthly/`:
+
+- Official Fluid source/deployment reference identifies B's real swap pool and
+  reconciles its Swap/LogOperate events, four observed storage slots and exact
+  residual accounting. This still does not supply authenticated historical state.
+- Frozen 30/7-day API windows return 143/29 events in 141/28 transactions, with
+  directional pagination and an independent subset query agreeing.
+- A known-positive `eth_getLogs` query returns an empty list for B. It conflicts
+  with the saved receipt event; completeness is not certified.
+- Of 23 objectively selected diagnostic transactions, B's receipt is available;
+  22 additional receipts return null. No missing receipt is treated as zero gas.
+- Baseline 150/50/9 re-executed; final 159 Python / 50 Solidity / 9 isolation pass.
+  Authentic NQC economic admissions remain zero; monthly profit is not estimable.
+
+The following sections preserve the earlier checkpoint's findings.
+
 Economic checkpoint published as **31cb31e58e223c2b1769bf38be1f2a59afe598b3**,
 tree `a4665af1cb0b3d2b71449702351fc28c2e89ab00`, byte-identical to local
 `8feaef29dca4c72ccfb8cec905a1354d241909c3`. This follow-up adds an offline

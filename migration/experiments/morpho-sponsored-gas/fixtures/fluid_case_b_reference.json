@@ -1,0 +1,178 @@
+{
+  "repository": "https://github.com/Instadapp/fluid-contracts-public",
+  "commit": "9496626f71a761fc296dc3b2efbfd54c504e18f0",
+  "qualification": "Official deployment record and source reference; NOT historical runtime verification",
+  "sources": [
+    {
+      "path": "deployments/mainnet/Dex_ezETH_ETH.json",
+      "sha256": "3554fa704091a6b19dde618f57732b0ac5a289dcd3bc91b61213976017efd07d",
+      "git_blob": "ae62572ec595478040aacfe25f8fd1d33423d5b1",
+      "url": "https://github.com/Instadapp/fluid-contracts-public/blob/9496626f71a761fc296dc3b2efbfd54c504e18f0/deployments/mainnet/Dex_ezETH_ETH.json"
+    },
+    {
+      "path": "contracts/protocols/dex/poolT1/coreModule/core/main.sol",
+      "sha256": "3ce68307708171958d3fe5cea8055fd3e460458e1ecacb06d4960531cc3a8da4",
+      "git_blob": "abc12ac2db00f9fb0c357fd0f3c3882c50b2cd1c",
+      "url": "https://github.com/Instadapp/fluid-contracts-public/blob/9496626f71a761fc296dc3b2efbfd54c504e18f0/contracts/protocols/dex/poolT1/coreModule/core/main.sol"
+    },
+    {
+      "path": "contracts/protocols/dex/poolT1/coreModule/events.sol",
+      "sha256": "bcae7224d734e30cee95e0b6135d5c2d39592a951b6c8d3b4180c27d2054607a",
+      "git_blob": "ba66acc2d4320393d53f4ca11e05bc9de6628d3f",
+      "url": "https://github.com/Instadapp/fluid-contracts-public/blob/9496626f71a761fc296dc3b2efbfd54c504e18f0/contracts/protocols/dex/poolT1/coreModule/events.sol"
+    },
+    {
+      "path": "contracts/liquidity/userModule/events.sol",
+      "sha256": "71593811db93617172915a13a97323a0eaa804aaf93a104ed17104b451aef1ed",
+      "git_blob": "4dfe81bd58620c865a755fa486630d362fa4cd5b",
+      "url": "https://github.com/Instadapp/fluid-contracts-public/blob/9496626f71a761fc296dc3b2efbfd54c504e18f0/contracts/liquidity/userModule/events.sol"
+    }
+  ],
+  "address": "0xDD72157A021804141817d46D9852A97addfB9F59",
+  "deployment_transaction_hash": "0x6b7dc81d598055a931861c7f3d37bed80caaf9960441838ec68b7544d9006873",
+  "constructor_args": [
+    {
+      "liquidity": "0x52Aa899454998Be5b000Ad077a46Bbe360F4e497",
+      "factory": "0x91716C4EDA1Fb55e84Bf8b4c7085f84285c19085",
+      "deployerContract": "0x4EC7b668BAF70d4A4b0FC7941a7708A07b6d45Be",
+      "implementations": {
+        "shift": "0x4ECb836267b8b6473B34E244c82A6AA0749FFB9b",
+        "admin": "0x780D3C70d583DD8bd894abB53952B868916f69D8",
+        "colOperations": "0xCABaef8D9A735516637Ba90D2Bb6F617D7122253",
+        "debtOperations": "0xf8639869a2807314D09ff123a0e2D2e0bA2a4425",
+        "perfectOperationsAndSwapOut": "0x04cD76678708d804720a64442bFE5233461B95d3"
+      },
+      "token0": "0xbf5495Efe5DB9ce00f80364C8B423567e58d2110",
+      "token1": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+      "oracleMapping": 1024,
+      "dexId": 21,
+      "supplyToken0Slot": "0xd62514f881626332ada207f8acb7ec0f33c4279ec263b57b1869255363590335",
+      "borrowToken0Slot": "0x6e3ba0a1eae50350d851441dece6b7eae0f8adf98dc15f8aadd6b2f5f14afa55",
+      "supplyToken1Slot": "0xe3b9bd247a03c6620600a8c5dd00e3f5620c90d52d504fc2e744d0e6e1d85ccf",
+      "borrowToken1Slot": "0x0510d1edc30154ace0e82a48b3aa85d53dd10a7d33f8eaa7fa88da434ac15faa",
+      "exchangePriceToken0Slot": "0x84481214d3f2018de0daf983b0d58307ac7a5294093d7fc9b6d961f4e9505ecb",
+      "exchangePriceToken1Slot": "0xa1829a9003092132f585b6ccdd167c19fe9774dbdea4260287e8a8e8ca8185d7"
+    }
+  ],
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "swap0to1",
+          "type": "bool"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amountIn",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amountOut",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        }
+      ],
+      "name": "Swap",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "slot_",
+          "type": "bytes32"
+        }
+      ],
+      "name": "readFromStorage",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "result_",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bool",
+          "name": "swap0to1_",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amountIn_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amountOutMin_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "to_",
+          "type": "address"
+        }
+      ],
+      "name": "swapIn",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "amountOut_",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bool",
+          "name": "swap0to1_",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amountIn_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amountOutMin_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "to_",
+          "type": "address"
+        }
+      ],
+      "name": "swapInWithCallback",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "amountOut_",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "payable",
+      "type": "function"
+    }
+  ],
+  "liquidity_log_operate_signature": "LogOperate(address,address,int256,int256,address,address,uint256,uint256)"
+}

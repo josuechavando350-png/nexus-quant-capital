@@ -1,0 +1,64 @@
+{
+  "url": "https://api.morpho.org/graphql",
+  "request": {
+    "query": "{__type(name:\"PageInfo\"){fields{name type{kind name ofType{kind name}}}}}"
+  },
+  "retrieved_at_utc": "2026-10-17T04:47:25.378398+00:00",
+  "http_status": 200,
+  "response": {
+    "data": {
+      "__type": {
+        "fields": [
+          {
+            "name": "countTotal",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int"
+              }
+            }
+          },
+          {
+            "name": "count",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int"
+              }
+            }
+          },
+          {
+            "name": "limit",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int"
+              }
+            }
+          },
+          {
+            "name": "skip",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "extensions": {
+      "complexity": 90,
+      "maximumComplexity": 1000000
+    }
+  }
+}

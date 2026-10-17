@@ -194,3 +194,31 @@ The verifier rehashes saved headers and selected public transactions, checks B
 receipt accounting and preserves null receipts. It never calls an RPC. Raw read
 requests and responses, provider limitations and fixed selection criteria are
 documented in `PUBLIC_DATA_PROGRESS.md`.
+
+## Offline Fluid route and monthly census
+
+```sh
+/tmp/nqc-python/bin/python case_b_route_audit.py
+/tmp/nqc-python/bin/python monthly_census.py
+# Both intentionally exit 2: evidence analysis is not economic admission.
+/tmp/nqc-python/bin/python -m unittest discover -v -s tests -p 'test_*.py'
+sha256sum -c evidence/2026-10-17-monthly/SHA256SUMS
+```
+
+This checkpoint has 159 Python / 50 Solidity / 9 isolation passes. The frozen
+selection, all GraphQL requests/responses, forward/reverse pages and separate
+seven-day query are saved. The diagnostic receipt sample was also fixed before
+retrieval. Optional `python collect_census_receipts.py` uses only public
+`eth_getTransactionReceipt`, reuses cached responses and stops on access/errors;
+running it with the committed cache makes no network requests. It neither signs
+nor submits transactions. Do not overwrite original evidence for a new study.
+
+Fluid source reference: clone `https://github.com/Instadapp/fluid-contracts-public`
+outside NQC and select commit `9496626f71a761fc296dc3b2efbfd54c504e18f0`.
+`fixtures/fluid_case_b_reference.json` lists exact source paths, Git blobs,
+SHA-256 hashes, selected ABI and deployment arguments. This reference does not
+verify runtime bytes at the historical block. The analysis uses the already
+preserved trace/receipt and does not fetch current reserves as historical state.
+
+See `MONTHLY_POTENTIAL.md` for ledger scope, API coverage, monthly categories,
+target sensitivities and the missing exact-pretransaction witness.

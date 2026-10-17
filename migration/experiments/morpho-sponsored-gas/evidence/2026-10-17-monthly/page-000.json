@@ -1,0 +1,3420 @@
+{
+  "url": "https://api.morpho.org/graphql",
+  "request": {
+    "query": "{marketTransactions(first:100,orderBy:Timestamp,orderDirection:Asc,where:{chainId_in:[1],type_in:[Liquidation],timestamp_gte:1789603200,timestamp_lte:1792195199}){items{chain{id} txHash timestamp blockNumber txIndex logIndex type market{marketId lltv loanAsset{address decimals symbol} collateralAsset{address decimals symbol}} data{__typename ... on MarketTransactionLiquidationData{liquidator repaidAssets repaidShares seizedAssets badDebtAssets badDebtShares}}}}}"
+  },
+  "retrieved_at_utc": "2026-10-17T04:47:08.658309+00:00",
+  "http_status": 200,
+  "response": {
+    "data": {
+      "marketTransactions": {
+        "items": [
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x38d1030dbb93959ffc63d8663a6ac6a2c62b9d2f6f4311624f7a77a099453bff",
+            "timestamp": 1789614119,
+            "blockNumber": 25994387,
+            "txIndex": 51,
+            "logIndex": 178,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x1f719d50287d50d75ef7f84a430a5168d0b2f8591debbac404f522687876cd52",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xAf5D2cf39F2d4E2F5900D6cf37ab3596866347e4",
+                "decimals": 6,
+                "symbol": "JPYR"
+              },
+              "collateralAsset": {
+                "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+                "decimals": 6,
+                "symbol": "USDT"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xFe1DCc4dB359B161f9042E99C3B481A50F73DEC1",
+              "repaidAssets": 575820064,
+              "repaidShares": 575058593249426,
+              "seizedAssets": 3781220,
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xbf837a5bbf56aeb92aa99feedf3a92d56c8aeafab3cfbf63c2e8350ce2cbb224",
+            "timestamp": 1789614215,
+            "blockNumber": 25994395,
+            "txIndex": 198,
+            "logIndex": 377,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x1f719d50287d50d75ef7f84a430a5168d0b2f8591debbac404f522687876cd52",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xAf5D2cf39F2d4E2F5900D6cf37ab3596866347e4",
+                "decimals": 6,
+                "symbol": "JPYR"
+              },
+              "collateralAsset": {
+                "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+                "decimals": 6,
+                "symbol": "USDT"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xFe1DCc4dB359B161f9042E99C3B481A50F73DEC1",
+              "repaidAssets": 575820062,
+              "repaidShares": 575058589967942,
+              "seizedAssets": 3781220,
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x95e670766fe110d42e0751d5e609af3742ec9ba680dd8998ab1911a8c4c7ce1c",
+            "timestamp": 1789632491,
+            "blockNumber": 25995915,
+            "txIndex": 113,
+            "logIndex": 268,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x702b7ec7628de2622e51e1bb34a7e6ad9e95f3a25a2ed361e4ce621f23f5e642",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x928FB6ED39100a92B2480f5cbB93453f98D9F4cE",
+                "decimals": 18,
+                "symbol": "PT-cUSD-23JUL2026"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x9Ee589Bf6fc57EAeb795C626eDe51F258B81F265",
+              "repaidAssets": 2,
+              "repaidShares": 1052341,
+              "seizedAssets": 999992539419,
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xc9a2b2a6664e991dfe5a9b4dc1a1e30ca2fa5903edcad8e2e85ede4a23cdc4c4",
+            "timestamp": 1789632959,
+            "blockNumber": 25995954,
+            "txIndex": 66,
+            "logIndex": 458,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x702b7ec7628de2622e51e1bb34a7e6ad9e95f3a25a2ed361e4ce621f23f5e642",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x928FB6ED39100a92B2480f5cbB93453f98D9F4cE",
+                "decimals": 18,
+                "symbol": "PT-cUSD-23JUL2026"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x9Ee589Bf6fc57EAeb795C626eDe51F258B81F265",
+              "repaidAssets": 1086457,
+              "repaidShares": 838198618616,
+              "seizedAssets": "1114876682310451045",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x07f3e20b4fa40ba5ddd4c5a007f94a30ac707e01920c4c2ecf9da0bc05703c43",
+            "timestamp": 1789634075,
+            "blockNumber": 25996047,
+            "txIndex": 2,
+            "logIndex": 26,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xacc49fbf58feb1ac971acce68f8adc177c43682d6a7087bbd4991a05cb7a2c67",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0xcD9f5907F92818bC06c9Ad70217f089E190d2a32",
+                "decimals": 6,
+                "symbol": "srRoyUSDC"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x3884Cf9171F53f3cb29BBcA1594Af8a0efD5567E",
+              "repaidAssets": 104895170,
+              "repaidShares": 99237961695430,
+              "seizedAssets": 104606585,
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xc5763c8738c437e87064c2c83c5b608c373f211bf34e896636bcadbff06d8b40",
+            "timestamp": 1789640123,
+            "blockNumber": 25996548,
+            "txIndex": 178,
+            "logIndex": 1103,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x9c28c8fa039a8df548a7f27adf062d751b0f2e9b9131931810535543adb23291",
+              "lltv": "860000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x38EEb52F0771140d10c4E9A9a72349A329Fe8a6A",
+                "decimals": 18,
+                "symbol": "apyUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x3884Cf9171F53f3cb29BBcA1594Af8a0efD5567E",
+              "repaidAssets": 74751386,
+              "repaidShares": 73000747826629,
+              "seizedAssets": "54948165112332842810",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x7898d4b35564681a6d2122446d634442c00bdbc0f77df56cf056e5381386cb2b",
+            "timestamp": 1789642487,
+            "blockNumber": 25996745,
+            "txIndex": 197,
+            "logIndex": 474,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x1f719d50287d50d75ef7f84a430a5168d0b2f8591debbac404f522687876cd52",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xAf5D2cf39F2d4E2F5900D6cf37ab3596866347e4",
+                "decimals": 6,
+                "symbol": "JPYR"
+              },
+              "collateralAsset": {
+                "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+                "decimals": 6,
+                "symbol": "USDT"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xFe1DCc4dB359B161f9042E99C3B481A50F73DEC1",
+              "repaidAssets": 1689988516,
+              "repaidShares": 1687753009927850,
+              "seizedAssets": 11147958,
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x32f9f9fe39e888531b8866985c39589cb3d85e225d937b26d71c6697d78bc2b1",
+            "timestamp": 1789643975,
+            "blockNumber": 25996869,
+            "txIndex": 209,
+            "logIndex": 353,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x1f719d50287d50d75ef7f84a430a5168d0b2f8591debbac404f522687876cd52",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xAf5D2cf39F2d4E2F5900D6cf37ab3596866347e4",
+                "decimals": 6,
+                "symbol": "JPYR"
+              },
+              "collateralAsset": {
+                "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+                "decimals": 6,
+                "symbol": "USDT"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xFe1DCc4dB359B161f9042E99C3B481A50F73DEC1",
+              "repaidAssets": 804511446,
+              "repaidShares": 803447220519246,
+              "seizedAssets": 5306935,
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xead4476de6aa8922f1218fcd70eb86ce23400f04faf0568e9983b727bf8ce9a1",
+            "timestamp": 1789665599,
+            "blockNumber": 25998662,
+            "txIndex": 1,
+            "logIndex": 6,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x9c28c8fa039a8df548a7f27adf062d751b0f2e9b9131931810535543adb23291",
+              "lltv": "860000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x38EEb52F0771140d10c4E9A9a72349A329Fe8a6A",
+                "decimals": 18,
+                "symbol": "apyUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x1f2F10D1C40777AE1Da742455c65828FF36Df387",
+              "repaidAssets": 24289049858,
+              "repaidShares": "23719095303855273",
+              "seizedAssets": "17864362331792787696877",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xb55469e35bb7a31f7d3d720bf576e498ac9c059b66cff68936bb23328cf86d81",
+            "timestamp": 1789665731,
+            "blockNumber": 25998673,
+            "txIndex": 227,
+            "logIndex": 686,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xacc49fbf58feb1ac971acce68f8adc177c43682d6a7087bbd4991a05cb7a2c67",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0xcD9f5907F92818bC06c9Ad70217f089E190d2a32",
+                "decimals": 6,
+                "symbol": "srRoyUSDC"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x1f2F10D1C40777AE1Da742455c65828FF36Df387",
+              "repaidAssets": 13779422,
+              "repaidShares": 13034037692548,
+              "seizedAssets": 13741510,
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xccf5035c11493bc83cf3942aa126840f0e19f9a2f8270ada50c0e64d7d5b3133",
+            "timestamp": 1789684463,
+            "blockNumber": 26000225,
+            "txIndex": 146,
+            "logIndex": 552,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x3274643db77a064abd3bc851de77556a4ad2e2f502f4f0c80845fa8f909ecf0b",
+              "lltv": "965000000000000000",
+              "loanAsset": {
+                "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+                "decimals": 6,
+                "symbol": "USDT"
+              },
+              "collateralAsset": {
+                "address": "0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD",
+                "decimals": 18,
+                "symbol": "sUSDS"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x003Baa012AA04d61f5AF86115819d31ce6163854",
+              "repaidAssets": 32649608,
+              "repaidShares": 30181142467211,
+              "seizedAssets": "29717285536464951131",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x69067db0430e7bd2d7d580c3f00d10da174cee76717f949d1341e7a82cf7a13e",
+            "timestamp": 1789685567,
+            "blockNumber": 26000317,
+            "txIndex": 247,
+            "logIndex": 711,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x356099b091dc136bcb3ed07147a96fd7999eac6bab54c1d47ebfda9d7da7c5a1",
+              "lltv": "860000000000000000",
+              "loanAsset": {
+                "address": "0xE7C3D8C9a439feDe00D2600032D5dB0Be71C3c29",
+                "decimals": 18,
+                "symbol": "JPYC"
+              },
+              "collateralAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x1e3Cd3fC2966580C76d2beDE95C843B729883A65",
+              "repaidAssets": "493281274471133248431",
+              "repaidShares": "492140295297530599260221109",
+              "seizedAssets": 3300762,
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x557d9c4cb2e906c85e12ffa945c8d89436aa32085521c894dde8fb398013547f",
+            "timestamp": 1789791251,
+            "blockNumber": 26009101,
+            "txIndex": 88,
+            "logIndex": 528,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x461da96754b33fec844fc5e5718bf24298a2c832d8216c5ffd17a5230548f01f",
+              "lltv": "860000000000000000",
+              "loanAsset": {
+                "address": "0xA0d69E286B938e21CBf7E51D71F6A4c8918f482F",
+                "decimals": 18,
+                "symbol": "eUSD"
+              },
+              "collateralAsset": {
+                "address": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+                "decimals": 8,
+                "symbol": "WBTC"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x723411229490Ab771645dc31Fcf4Daee5a794540",
+              "repaidAssets": 3882487744110662,
+              "repaidShares": "3512396466186920770904",
+              "seizedAssets": 5,
+              "badDebtAssets": 37767999161081,
+              "badDebtShares": "34167831434769269591"
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xcef337c2375d51a445b2173db37700aea803ca23dfe929cdc4e6761d62ee4cf0",
+            "timestamp": 1789839959,
+            "blockNumber": 26013140,
+            "txIndex": 39,
+            "logIndex": 102,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xd2630c0ebf33ba83c82e8cd400a8e6345370238ca695ce58773b2d3e43de1b0a",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0x64351fC9810aDAd17A690E4e1717Df5e7e085160",
+                "decimals": 18,
+                "symbol": "msETH"
+              },
+              "collateralAsset": {
+                "address": "0x657d9ABA1DBb59e53f9F3eCAA878447dCfC96dCb",
+                "decimals": 18,
+                "symbol": "ynETHx"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x3132D5BAe89D248DEdA77ABA04A43255EF188264",
+              "repaidAssets": "14538288356343944934",
+              "repaidShares": "13897225972423398070539921",
+              "seizedAssets": "13606596571064439918",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xf802112830d6b15efc8185e2ba578d59cf6a1fffad664b7507cf370db512c3d9",
+            "timestamp": 1789840007,
+            "blockNumber": 26013144,
+            "txIndex": 42,
+            "logIndex": 1082,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xd2630c0ebf33ba83c82e8cd400a8e6345370238ca695ce58773b2d3e43de1b0a",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0x64351fC9810aDAd17A690E4e1717Df5e7e085160",
+                "decimals": 18,
+                "symbol": "msETH"
+              },
+              "collateralAsset": {
+                "address": "0x657d9ABA1DBb59e53f9F3eCAA878447dCfC96dCb",
+                "decimals": 18,
+                "symbol": "ynETHx"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x3132D5BAe89D248DEdA77ABA04A43255EF188264",
+              "repaidAssets": "10569315032419187092",
+              "repaidShares": "10103260946186319097856021",
+              "seizedAssets": "9891976424849256549",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x14cf205b28eb70f4d2bdd6faf7c9153d15159eaa3e623f9eed28d729aed34bec",
+            "timestamp": 1789896671,
+            "blockNumber": 26017840,
+            "txIndex": 176,
+            "logIndex": 971,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xea023e57814fb9a814a5a9ee9f3e7ece5b771dd8cc703e50b911e9cde064a12d",
+              "lltv": "860000000000000000",
+              "loanAsset": {
+                "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+                "decimals": 18,
+                "symbol": "WETH"
+              },
+              "collateralAsset": {
+                "address": "0xDcEe70654261AF21C44c093C300eD3Bb97b78192",
+                "decimals": 18,
+                "symbol": "WOETH"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x85593464c9dd38eC4625EF44e60CD6e8045Aa067",
+              "repaidAssets": 168976241114257,
+              "repaidShares": "34321788466370333",
+              "seizedAssets": 150910199437080,
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x1f5724cbf483e1ed0da5eb5f1835291ecaa0d94e776b90e25ad3e4a33b25bbc7",
+            "timestamp": 1789960367,
+            "blockNumber": 26023128,
+            "txIndex": 276,
+            "logIndex": 511,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xd2630c0ebf33ba83c82e8cd400a8e6345370238ca695ce58773b2d3e43de1b0a",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0x64351fC9810aDAd17A690E4e1717Df5e7e085160",
+                "decimals": 18,
+                "symbol": "msETH"
+              },
+              "collateralAsset": {
+                "address": "0x657d9ABA1DBb59e53f9F3eCAA878447dCfC96dCb",
+                "decimals": 18,
+                "symbol": "ynETHx"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xDEADB043Eb4c89d81fb94Bc56768f2533C81aeF8",
+              "repaidAssets": "92834911902074289",
+              "repaidShares": "88688240047979035147368",
+              "seizedAssets": "86881211265387866",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xb1e200de151e800b512fa5afbadf797288f23bfa5d758b706e6c1745fa2620c4",
+            "timestamp": 1789961675,
+            "blockNumber": 26023236,
+            "txIndex": 75,
+            "logIndex": 289,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x702b7ec7628de2622e51e1bb34a7e6ad9e95f3a25a2ed361e4ce621f23f5e642",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x928FB6ED39100a92B2480f5cbB93453f98D9F4cE",
+                "decimals": 18,
+                "symbol": "PT-cUSD-23JUL2026"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xE29B7303937fac8F7F24670c7cC08005ac14EBE9",
+              "repaidAssets": 728603,
+              "repaidShares": 558999742101,
+              "seizedAssets": "747653854009902349",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x2361a0a11ce8653c0963c1119d404f3aebb0150d19c65f955afa200ad1f8fa27",
+            "timestamp": 1789961723,
+            "blockNumber": 26023239,
+            "txIndex": 61,
+            "logIndex": 369,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x702b7ec7628de2622e51e1bb34a7e6ad9e95f3a25a2ed361e4ce621f23f5e642",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x928FB6ED39100a92B2480f5cbB93453f98D9F4cE",
+                "decimals": 18,
+                "symbol": "PT-cUSD-23JUL2026"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xE29B7303937fac8F7F24670c7cC08005ac14EBE9",
+              "repaidAssets": 728609,
+              "repaidShares": 559004035572,
+              "seizedAssets": "747659853904406265",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x32ff90c6a0ce72a0bf96a6bbeb36b936d72c80fc21c367e10f47440314678a19",
+            "timestamp": 1789961831,
+            "blockNumber": 26023248,
+            "txIndex": 103,
+            "logIndex": 270,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x702b7ec7628de2622e51e1bb34a7e6ad9e95f3a25a2ed361e4ce621f23f5e642",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x928FB6ED39100a92B2480f5cbB93453f98D9F4cE",
+                "decimals": 18,
+                "symbol": "PT-cUSD-23JUL2026"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xE29B7303937fac8F7F24670c7cC08005ac14EBE9",
+              "repaidAssets": 638424,
+              "repaidShares": 489811445446,
+              "seizedAssets": "655116481093587528",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x389d74e466be1e19ce9d059b4eeb220a8d40606c4032d834951fc958c1afd123",
+            "timestamp": 1789961915,
+            "blockNumber": 26023255,
+            "txIndex": 19,
+            "logIndex": 121,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x702b7ec7628de2622e51e1bb34a7e6ad9e95f3a25a2ed361e4ce621f23f5e642",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x928FB6ED39100a92B2480f5cbB93453f98D9F4cE",
+                "decimals": 18,
+                "symbol": "PT-cUSD-23JUL2026"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xE29B7303937fac8F7F24670c7cC08005ac14EBE9",
+              "repaidAssets": 638341,
+              "repaidShares": 489747329045,
+              "seizedAssets": "655031482588115384",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x2d24cecbedd1f83ceea11ed678ed4e1b8bb6ba3d9ebbb72a9ff3f40c884a77f9",
+            "timestamp": 1790006723,
+            "blockNumber": 26026962,
+            "txIndex": 52,
+            "logIndex": 512,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x9bd88295d990d547adbc2a423d2fa7ced972e6c062226a009cc102dcb5d74eb2",
+              "lltv": "945000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x610209DAbf47375307Bb2A3263F85440Eedc7834",
+                "decimals": 18,
+                "symbol": "ILLIQUID_PERPDEX_COLL"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xDA2BA67c7dcaA944E0A3095435F58f926aCb1824",
+              "repaidAssets": 491752,
+              "repaidShares": 296133101892,
+              "seizedAssets": "500000000000000000",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x19aac52f4867eeec94152b60e1585c6953cff9d1b4e38feda124432d0b25e789",
+            "timestamp": 1790024267,
+            "blockNumber": 26028411,
+            "txIndex": 1,
+            "logIndex": 15,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x9464b3d42133c10c8b216d3d9429b43e98c2f3856a87940ef18b8bdd3e7bd831",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a",
+                "decimals": 6,
+                "symbol": "AUSD"
+              },
+              "collateralAsset": {
+                "address": "0x1D69402390657308C91179aa184bF992908c1e08",
+                "decimals": 6,
+                "symbol": "PT-USDat-27AUG2026"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x211F4039d132F2Cc22f656330c315e52A576C0bc",
+              "repaidAssets": 46797490556,
+              "repaidShares": "45224780514524557",
+              "seizedAssets": 48022052904,
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xbdce7b1f8a006e1741d54c8eb981577c65a99769b22166b6082feb573194e87a",
+            "timestamp": 1790162927,
+            "blockNumber": 26039885,
+            "txIndex": 119,
+            "logIndex": 335,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xc498f4bfdda99e60ea8eb04c1e145654a70bc59da76ef9c6ed54a1314d78e5b5",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0xbeef0C075Da5D01112AE5cF34d257074fB5DDB2f",
+                "decimals": 18,
+                "symbol": "steakEURCV"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe3f29E3AebF6F2DA2a5D4C72E83BAE810CC562f3",
+              "repaidAssets": 22798354,
+              "repaidShares": 22542547122960,
+              "seizedAssets": "20005044991561652053",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xd0df87d22f2aa7e56fd6babeca1eeff95b0074ac0f65cf3ec86e9691f74c0b64",
+            "timestamp": 1790171387,
+            "blockNumber": 26040582,
+            "txIndex": 228,
+            "logIndex": 499,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xa9f70093360419b4544f17a4553ac5847d896be23f020295bd95c24af4df700e",
+              "lltv": "945000000000000000",
+              "loanAsset": {
+                "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+                "decimals": 6,
+                "symbol": "USDT"
+              },
+              "collateralAsset": {
+                "address": "0xd3fD63209FA2D55B07A0f6db36C2f43900be3094",
+                "decimals": 18,
+                "symbol": "wsrUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x4789C274d65b6d4C5c9db42813dfc67F87DACDE6",
+              "repaidAssets": 2393610,
+              "repaidShares": 2104357303449,
+              "seizedAssets": "2214013610457324742",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x179e571c05e496627241763b0a63cac8c82532d6e66314a522871e32f43d5e84",
+            "timestamp": 1790172803,
+            "blockNumber": 26040700,
+            "txIndex": 124,
+            "logIndex": 960,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x4fa31e3f8ba345227d44e1cf48559eea53a90dd5311dc006984c060f2f311d96",
+              "lltv": "770000000000000000",
+              "loanAsset": {
+                "address": "0x8292Bb45bf1Ee4d140127049757C2E0fF06317eD",
+                "decimals": 18,
+                "symbol": "RLUSD"
+              },
+              "collateralAsset": {
+                "address": "0xCE6170EA245dC8D1f275A710a062b70f125F0110",
+                "decimals": 6,
+                "symbol": "FXRP"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xbD32122bAD41A09f2405Bb374A83877d8245079C",
+              "repaidAssets": "1698021426175985205296",
+              "repaidShares": "1684642640744684117291061814",
+              "seizedAssets": 1194679994,
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x19455affbdeb4b200f70353de4bd6e44a67423353233ae6d85884bc7535aa190",
+            "timestamp": 1790172839,
+            "blockNumber": 26040703,
+            "txIndex": 65,
+            "logIndex": 987,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x4fa31e3f8ba345227d44e1cf48559eea53a90dd5311dc006984c060f2f311d96",
+              "lltv": "770000000000000000",
+              "loanAsset": {
+                "address": "0x8292Bb45bf1Ee4d140127049757C2E0fF06317eD",
+                "decimals": 18,
+                "symbol": "RLUSD"
+              },
+              "collateralAsset": {
+                "address": "0xCE6170EA245dC8D1f275A710a062b70f125F0110",
+                "decimals": 6,
+                "symbol": "FXRP"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x950fD558f47E234A2fDe23B7d61f7Ccdbcb4A86F",
+              "repaidAssets": "433519777249687145037",
+              "repaidShares": "430104030522473785424983143",
+              "seizedAssets": 306721752,
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x98355e64004cb3e00a684e1bca54b0f9d1c811e6682a42c555e65ded94a43b9c",
+            "timestamp": 1790173211,
+            "blockNumber": 26040734,
+            "txIndex": 211,
+            "logIndex": 816,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x4fa31e3f8ba345227d44e1cf48559eea53a90dd5311dc006984c060f2f311d96",
+              "lltv": "770000000000000000",
+              "loanAsset": {
+                "address": "0x8292Bb45bf1Ee4d140127049757C2E0fF06317eD",
+                "decimals": 18,
+                "symbol": "RLUSD"
+              },
+              "collateralAsset": {
+                "address": "0xCE6170EA245dC8D1f275A710a062b70f125F0110",
+                "decimals": 6,
+                "symbol": "FXRP"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xbD32122bAD41A09f2405Bb374A83877d8245079C",
+              "repaidAssets": "1296361197740817399838",
+              "repaidShares": "1286146251732471272372792676",
+              "seizedAssets": 920187776,
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xc8013e69d494d38a3665b26f9285760ff1f710c24b7c66ef874ae234e3fa96a0",
+            "timestamp": 1790198147,
+            "blockNumber": 26042794,
+            "txIndex": 1,
+            "logIndex": 9,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xf6a056627a51e511ec7f48332421432ea6971fc148d8f3c451e14ea108026549",
+              "lltv": "945000000000000000",
+              "loanAsset": {
+                "address": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+                "decimals": 8,
+                "symbol": "WBTC"
+              },
+              "collateralAsset": {
+                "address": "0x8236a87084f8B84306f72007F36F2618A5634494",
+                "decimals": 8,
+                "symbol": "LBTC"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x1f2F10D1C40777AE1Da742455c65828FF36Df387",
+              "repaidAssets": 897141,
+              "repaidShares": 880966600990,
+              "seizedAssets": 908652,
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xa4ead224af8c044311e8d3b1b9eb47443643b3682b8822624bde0fde098c35fb",
+            "timestamp": 1790248979,
+            "blockNumber": 26046991,
+            "txIndex": 144,
+            "logIndex": 307,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xc581c5f70bd1afa283eed57d1418c6432cbff1d862f94eaf58fdd4e46afbb67f",
+              "lltv": "860000000000000000",
+              "loanAsset": {
+                "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+                "decimals": 18,
+                "symbol": "DAI"
+              },
+              "collateralAsset": {
+                "address": "0x4c9EDD5852cd905f086C759E8383e09bff1E68B3",
+                "decimals": 18,
+                "symbol": "USDe"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x1f2F10D1C40777AE1Da742455c65828FF36Df387",
+              "repaidAssets": "5982837491403587585",
+              "repaidShares": "4823214563285197468924036",
+              "seizedAssets": "6245133080797064280",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x306404325acfd599d4c7376b6c79f7ddb57f55d510a98aeb0102528150af2c89",
+            "timestamp": 1790357795,
+            "blockNumber": 26055996,
+            "txIndex": 138,
+            "logIndex": 205,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xa9f70093360419b4544f17a4553ac5847d896be23f020295bd95c24af4df700e",
+              "lltv": "945000000000000000",
+              "loanAsset": {
+                "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+                "decimals": 6,
+                "symbol": "USDT"
+              },
+              "collateralAsset": {
+                "address": "0xd3fD63209FA2D55B07A0f6db36C2f43900be3094",
+                "decimals": 18,
+                "symbol": "wsrUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x950fD558f47E234A2fDe23B7d61f7Ccdbcb4A86F",
+              "repaidAssets": 131036427,
+              "repaidShares": 114156998134417,
+              "seizedAssets": "121162883883032403751",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x97113645e8aae912a8cc6ea3f476b4349ec3298473683d819f55013b52444e90",
+            "timestamp": 1790359547,
+            "blockNumber": 26056141,
+            "txIndex": 44,
+            "logIndex": 61,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xd2630c0ebf33ba83c82e8cd400a8e6345370238ca695ce58773b2d3e43de1b0a",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0x64351fC9810aDAd17A690E4e1717Df5e7e085160",
+                "decimals": 18,
+                "symbol": "msETH"
+              },
+              "collateralAsset": {
+                "address": "0x657d9ABA1DBb59e53f9F3eCAA878447dCfC96dCb",
+                "decimals": 18,
+                "symbol": "ynETHx"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xF968A5de2019dE1F0A8f53758dD137aE5C9EFbC9",
+              "repaidAssets": "2887806771584150916",
+              "repaidShares": "2752054034873217331503578",
+              "seizedAssets": "2701325716269951567",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x4bd6a34c6bc48a8d0e41cc1bf003feb1ed82c861da254eda053259ed0d8d191d",
+            "timestamp": 1790359607,
+            "blockNumber": 26056146,
+            "txIndex": 166,
+            "logIndex": 303,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xd2630c0ebf33ba83c82e8cd400a8e6345370238ca695ce58773b2d3e43de1b0a",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0x64351fC9810aDAd17A690E4e1717Df5e7e085160",
+                "decimals": 18,
+                "symbol": "msETH"
+              },
+              "collateralAsset": {
+                "address": "0x657d9ABA1DBb59e53f9F3eCAA878447dCfC96dCb",
+                "decimals": 18,
+                "symbol": "ynETHx"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xF968A5de2019dE1F0A8f53758dD137aE5C9EFbC9",
+              "repaidAssets": "1503219352626960052",
+              "repaidShares": "1432554112628324285674351",
+              "seizedAssets": "1406148477246739179",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xbc783801c22ef7604dd637b99bdcfc3dc12dd97fc3c0e286a495ee67792c3f1e",
+            "timestamp": 1790360123,
+            "blockNumber": 26056189,
+            "txIndex": 93,
+            "logIndex": 736,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xd2630c0ebf33ba83c82e8cd400a8e6345370238ca695ce58773b2d3e43de1b0a",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0x64351fC9810aDAd17A690E4e1717Df5e7e085160",
+                "decimals": 18,
+                "symbol": "msETH"
+              },
+              "collateralAsset": {
+                "address": "0x657d9ABA1DBb59e53f9F3eCAA878447dCfC96dCb",
+                "decimals": 18,
+                "symbol": "ynETHx"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xF968A5de2019dE1F0A8f53758dD137aE5C9EFbC9",
+              "repaidAssets": "984718464969061871",
+              "repaidShares": "938424872849268764584830",
+              "seizedAssets": "921129951934972924",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x0f9d5e470fc18ba52b41487ea448187810da86754ded5c79b89f7865a9e75d3b",
+            "timestamp": 1790418419,
+            "blockNumber": 26061023,
+            "txIndex": 346,
+            "logIndex": 940,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 2104582,
+              "repaidShares": 1600338110127,
+              "seizedAssets": "2029009250772233239",
+              "badDebtAssets": 406279,
+              "badDebtShares": 308937051126
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x78dc05de08c48b9f93c2136f56fc431d67376c131e3e1b903c8f9231a8e2cc7a",
+            "timestamp": 1790418611,
+            "blockNumber": 26061039,
+            "txIndex": 322,
+            "logIndex": 1352,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 3648841,
+              "repaidShares": 2774468315812,
+              "seizedAssets": "3517816849564798284",
+              "badDebtAssets": 661079,
+              "badDebtShares": 502664080323
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xcb33803355242982a9814f0705ea1e84ee0c2c1261e99b3b04aaa87dcfc6c22a",
+            "timestamp": 1790418695,
+            "blockNumber": 26061045,
+            "txIndex": 95,
+            "logIndex": 331,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 67420946,
+              "repaidShares": 51263768695689,
+              "seizedAssets": "65000000000000000000",
+              "badDebtAssets": 2931328,
+              "badDebtShares": 2228845975328
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xef76aa524edba125c228fdf5e8c26bed0db75ac0810044e903a6c981b817182f",
+            "timestamp": 1790418971,
+            "blockNumber": 26061067,
+            "txIndex": 226,
+            "logIndex": 665,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 118355007,
+              "repaidShares": 89985372667869,
+              "seizedAssets": "114105126182616280332",
+              "badDebtAssets": 19939104,
+              "badDebtShares": 15159710533571
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x88ea9a97cf6fc63bff725004c45170ecee353ec3214a9cc8a87b108c4fbe027e",
+            "timestamp": 1790419055,
+            "blockNumber": 26061074,
+            "txIndex": 175,
+            "logIndex": 640,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 283311318,
+              "repaidShares": 215397151841900,
+              "seizedAssets": "273138205000030878143",
+              "badDebtAssets": 50558065,
+              "badDebtShares": 38438503774175
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xedda4fe0da6f2a2484830522d29f88c2f1fa87c08e7f36787c7d1f55e09f4d83",
+            "timestamp": 1790419127,
+            "blockNumber": 26061080,
+            "txIndex": 231,
+            "logIndex": 2232,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 370551041,
+              "repaidShares": 281718999674161,
+              "seizedAssets": "357245333555008456949",
+              "badDebtAssets": 61113705,
+              "badDebtShares": 46462942761761
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xb99a8b62acd6ea5f1fad0196fea7eccf7703d3f5f5f09491939f655ace1a1828",
+            "timestamp": 1790419223,
+            "blockNumber": 26061088,
+            "txIndex": 175,
+            "logIndex": 1167,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 619331186,
+              "repaidShares": 470847721515138,
+              "seizedAssets": "597092307589533038749",
+              "badDebtAssets": 82744735,
+              "badDebtShares": 62906843256173
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xb2d226eba56b2d73a653389e7c7e9fb16655bb8db5a4a88c2a9321234495bd81",
+            "timestamp": 1790419367,
+            "blockNumber": 26061100,
+            "txIndex": 178,
+            "logIndex": 472,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 1037242086,
+              "repaidShares": 788536479446117,
+              "seizedAssets": "999996909272183449651",
+              "badDebtAssets": 200514511,
+              "badDebtShares": 152435973069527
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x49581113d8cce7cd9a0a0f2ab2827b3f69ba3c4cb821baba9ebae70bfe8c3c47",
+            "timestamp": 1790419415,
+            "blockNumber": 26061104,
+            "txIndex": 198,
+            "logIndex": 700,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 1847521454,
+              "repaidShares": 1404513318684995,
+              "seizedAssets": "1781180854427178161744",
+              "badDebtAssets": 347876561,
+              "badDebtShares": 264460940983121
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x8fc0962a5fb0f91397f9f736074033cf8b29fb13ec4285774a0a416d1c790373",
+            "timestamp": 1790419475,
+            "blockNumber": 26061109,
+            "txIndex": 218,
+            "logIndex": 1213,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 2658784426,
+              "repaidShares": 2021216745368731,
+              "seizedAssets": "2563313084999164843581",
+              "badDebtAssets": 504797881,
+              "badDebtShares": 383749024674312
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x1c3f5a0538c4ef1c23015729f58d948fc206c560686ff0e1cd5a38f7568fd484",
+            "timestamp": 1790433287,
+            "blockNumber": 26062256,
+            "txIndex": 118,
+            "logIndex": 421,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 4195478189,
+              "repaidShares": 3178260906173809,
+              "seizedAssets": "4044827417610295564507",
+              "badDebtAssets": 828283938,
+              "badDebtShares": 627461838931820
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x6a39bcd4cd3c5745aa3bd54bae795500acc1e8625784fbe01f233c787672ba9d",
+            "timestamp": 1790433551,
+            "blockNumber": 26062277,
+            "txIndex": 86,
+            "logIndex": 155,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 8299377130,
+              "repaidShares": 6286725425942532,
+              "seizedAssets": "8001364005995561110670",
+              "badDebtAssets": 1464801472,
+              "badDebtShares": 1109577804572865
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xf0706f521e9060e17621051dab805449187a0e1528e15822a7ef8f166726ef24",
+            "timestamp": 1790433611,
+            "blockNumber": 26062282,
+            "txIndex": 162,
+            "logIndex": 547,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 41905682825,
+              "repaidShares": "31742805243212794",
+              "seizedAssets": "40400938169287957972138",
+              "badDebtAssets": 1982522773,
+              "badDebtShares": 1501725541781171
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x4208052ae30b6755ad80a021c20b05f642deacf9ec91c5770db1cca80d8afa59",
+            "timestamp": 1790433731,
+            "blockNumber": 26062291,
+            "txIndex": 71,
+            "logIndex": 587,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 75886332197,
+              "repaidShares": "57480789565956832",
+              "seizedAssets": "73161414118298022698400",
+              "badDebtAssets": 10311911538,
+              "badDebtShares": 7810850781024508
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xa284bb337b3fe73813fe7784609581c61b51d0a5c84f62920f75689d19474b84",
+            "timestamp": 1790433779,
+            "blockNumber": 26062295,
+            "txIndex": 46,
+            "logIndex": 91,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 105755951264,
+              "repaidShares": "80104827627336907",
+              "seizedAssets": "101958478186649272503887",
+              "badDebtAssets": 20844974121,
+              "badDebtShares": "15789022167175269"
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xf5038b41cdc7b3135007eade0c2b64f560c3886b0dce1d589a89a2ed0ec47817",
+            "timestamp": 1790433887,
+            "blockNumber": 26062304,
+            "txIndex": 36,
+            "logIndex": 185,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 490541167277,
+              "repaidShares": "371550145658593377",
+              "seizedAssets": "472926868952734861708846",
+              "badDebtAssets": 96955802532,
+              "badDebtShares": "73437144436216045"
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xe0292666c290dc9cc11fabea8b97e8a10702c16ea714ef8f5476634140c439fc",
+            "timestamp": 1790434019,
+            "blockNumber": 26062315,
+            "txIndex": 373,
+            "logIndex": 1011,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 893985195565,
+              "repaidShares": "677107711656173331",
+              "seizedAssets": "861884073412796634570200",
+              "badDebtAssets": 123245949512,
+              "badDebtShares": "93346940485322746"
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x71414899496eaa11d5dd5767f5bca3bdd1e35b48c78e4cbdc04e9c0376c436ac",
+            "timestamp": 1790434379,
+            "blockNumber": 26062345,
+            "txIndex": 155,
+            "logIndex": 732,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 62234717394,
+              "repaidShares": "47132501857571644",
+              "seizedAssets": "60000000000000000000000",
+              "badDebtAssets": 7792704823,
+              "badDebtShares": 5901684621226911
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x718995dd107c4fb333866e7a8f071d535930a7e05069dee0ebbed6a86f99932d",
+            "timestamp": 1790434451,
+            "blockNumber": 26062351,
+            "txIndex": 217,
+            "logIndex": 526,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 40684144839,
+              "repaidShares": "30810945870156136",
+              "seizedAssets": "39223263034690907050398",
+              "badDebtAssets": 8046345966,
+              "badDebtShares": 6093664521881815
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x41063569f01f4ff4d037f44506a84799fba8ba31219d53a96a255475b37b856d",
+            "timestamp": 1790434523,
+            "blockNumber": 26062357,
+            "txIndex": 153,
+            "logIndex": 1164,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 35073007407,
+              "repaidShares": "26561030092121540",
+              "seizedAssets": "33813609709568153027620",
+              "badDebtAssets": 6941374201,
+              "badDebtShares": 5256750494147619
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x2d0d678adcc2fd924eaa5fcc8158bae14b29ab3ea8a092e2e2947b34b1c1c409",
+            "timestamp": 1790434631,
+            "blockNumber": 26062366,
+            "txIndex": 307,
+            "logIndex": 997,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 26130845446,
+              "repaidShares": "19788527087376188",
+              "seizedAssets": "25192541917566497327693",
+              "badDebtAssets": 3607318542,
+              "badDebtShares": 2731772334571766
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xe984dd4fdc1805ad44ed73e3a2562467d7a02e74f848e87ccd65fdf1c8e8c321",
+            "timestamp": 1790435891,
+            "blockNumber": 26062471,
+            "txIndex": 195,
+            "logIndex": 639,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 10076625280,
+              "repaidShares": 7628449959811520,
+              "seizedAssets": "9714794924931661226416",
+              "badDebtAssets": 1998665216,
+              "badDebtShares": 1513077757923896
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xb43325481326774df84ca6aa0e832ed7c600f0b9d29538cfb27e22d716404d60",
+            "timestamp": 1790435927,
+            "blockNumber": 26062474,
+            "txIndex": 102,
+            "logIndex": 380,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 6175161801,
+              "repaidShares": 4674827264649559,
+              "seizedAssets": "5953424767133861966537",
+              "badDebtAssets": 854741026,
+              "badDebtShares": 647070761597181
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xcc0438bcee9cc1dfdde0e2e837d4f7623ed76b6b0c57840c8d646305a3787d7a",
+            "timestamp": 1790435951,
+            "blockNumber": 26062476,
+            "txIndex": 190,
+            "logIndex": 390,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 5166274946,
+              "repaidShares": 3911038562713283,
+              "seizedAssets": "4980764910468064534363",
+              "badDebtAssets": 715132477,
+              "badDebtShares": 541378598906622
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xfdef2e4376966afdcb0f06ad95b421e9e23a64a9aa8260d474f603f664938d60",
+            "timestamp": 1790435975,
+            "blockNumber": 26062478,
+            "txIndex": 320,
+            "logIndex": 659,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 4949270817,
+              "repaidShares": 3746736551481749,
+              "seizedAssets": "4771552942581805866254",
+              "badDebtAssets": 685122695,
+              "badDebtShares": 518657058317983
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xa4e4f146c15101d2969ef1b4249ac235b54ee6cac70234782bfe58a7aff74e2c",
+            "timestamp": 1790436083,
+            "blockNumber": 26062487,
+            "txIndex": 276,
+            "logIndex": 579,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 4474829901,
+              "repaidShares": 3387478688758191,
+              "seizedAssets": "4314148198683262004324",
+              "badDebtAssets": 619692190,
+              "badDebtShares": 469111481812808
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xb30ba691d5dc328d8dc3369a4d80885d3e4c34f30dfd30e34cba5a1ea7958e22",
+            "timestamp": 1790436107,
+            "blockNumber": 26062489,
+            "txIndex": 179,
+            "logIndex": 563,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 2449435651,
+              "repaidShares": 1854229263176288,
+              "seizedAssets": "2361481583049670185317",
+              "badDebtAssets": 339164990,
+              "badDebtShares": 256748793897263
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xd9e1b284f65435fd7f40eca3443db42bc5632e2335e4bcfdfccf68dacd42cae5",
+            "timestamp": 1790436143,
+            "blockNumber": 26062492,
+            "txIndex": 22,
+            "logIndex": 116,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 1618406837,
+              "repaidShares": 1225127065589127,
+              "seizedAssets": "1560293260022384162636",
+              "badDebtAssets": 320911090,
+              "badDebtShares": 242928324639366
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x1ae9f6d92702a271abdf9931ee7df3814c431b353865cf4190070ca965bf427a",
+            "timestamp": 1790436203,
+            "blockNumber": 26062497,
+            "txIndex": 102,
+            "logIndex": 285,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 1614957683,
+              "repaidShares": 1222497463624359,
+              "seizedAssets": "1556967958672233444918",
+              "badDebtAssets": 320256564,
+              "badDebtShares": 242429161143304
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xd60d7b9cefcc165c386f017b965bf5dc7d176c2acc2fd635530f931946bc626f",
+            "timestamp": 1790436227,
+            "blockNumber": 26062499,
+            "txIndex": 22,
+            "logIndex": 112,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 1416985339,
+              "repaidShares": 1072628995153052,
+              "seizedAssets": "1366104383429503207197",
+              "badDebtAssets": 281009486,
+              "badDebtShares": 212718448229605
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x8fc1254dd8eb7bbf399db4a3b528a258f62dfe4e686b3dbb8c79cbae4ef90f64",
+            "timestamp": 1790436275,
+            "blockNumber": 26062503,
+            "txIndex": 180,
+            "logIndex": 558,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 1301234298,
+              "repaidShares": 984995824627442,
+              "seizedAssets": "1254509718451070852851",
+              "badDebtAssets": 158212685,
+              "badDebtShares": 119762316429165
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x187eafef734d662396dd551fdf5532a61b1c51ec558240d30552a47fba31efc3",
+            "timestamp": 1790436407,
+            "blockNumber": 26062514,
+            "txIndex": 78,
+            "logIndex": 328,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 1197087534,
+              "repaidShares": 906129466381186,
+              "seizedAssets": "1154102644098668367005",
+              "badDebtAssets": 165869916,
+              "badDebtShares": 125554408898731
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x94cde88c18a93ffa89d1b401a8fd7efc7e619c92af4cef01186dc64050105dc6",
+            "timestamp": 1790436551,
+            "blockNumber": 26062526,
+            "txIndex": 114,
+            "logIndex": 484,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 1073130852,
+              "repaidShares": 812271399103113,
+              "seizedAssets": "1034596985500417093984",
+              "badDebtAssets": 212922703,
+              "badDebtShares": 161164895491386
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x83de280a4cd71ef610c7b5f4edcbef3898f6742dc0a46174951c37e1b5cf355d",
+            "timestamp": 1790437043,
+            "blockNumber": 26062566,
+            "txIndex": 172,
+            "logIndex": 594,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 915185413,
+              "repaidShares": 692633298419330,
+              "seizedAssets": "882323034373430327535",
+              "badDebtAssets": 181773910,
+              "badDebtShares": 137570661483984
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xe2b2d43c554ac2e7f38e6fae34a76ed9d8a6a680126d036712bf068c5ab8dd4d",
+            "timestamp": 1790437139,
+            "blockNumber": 26062574,
+            "txIndex": 126,
+            "logIndex": 474,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe683B8EE2710EAbCbf347b7cB0735CDa11EF31Ba",
+              "repaidAssets": 90890098,
+              "repaidShares": 68786033733024,
+              "seizedAssets": "87626424476086220044",
+              "badDebtAssets": 12612990,
+              "badDebtShares": 9545566991515
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x13c607e05cad5809a4af4e2daa201bd0d564fb687e408bc028ead0134ad424eb",
+            "timestamp": 1790464055,
+            "blockNumber": 26064808,
+            "txIndex": 44,
+            "logIndex": 168,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x49b89ee666acc242de6a2f25ffdbb25dcc693a7f4746d8d4afeb51c440fa938a",
+              "lltv": "860000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x74dB7a52773A52699dbC0c01b1254E5301E3e119",
+                "decimals": 18,
+                "symbol": "AVLT"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x6cbc49cf5aBa7E2E4F053e0036e11731d80A0391",
+              "repaidAssets": 49173,
+              "repaidShares": 8952352850,
+              "seizedAssets": "46895511134600857",
+              "badDebtAssets": 176390,
+              "badDebtShares": 32113884241
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x8037223f3d4290e91e63e5a9c97ecc238201ec2df8307d59a62b96716dc179b8",
+            "timestamp": 1790469071,
+            "blockNumber": 26065224,
+            "txIndex": 86,
+            "logIndex": 258,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xd2630c0ebf33ba83c82e8cd400a8e6345370238ca695ce58773b2d3e43de1b0a",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0x64351fC9810aDAd17A690E4e1717Df5e7e085160",
+                "decimals": 18,
+                "symbol": "msETH"
+              },
+              "collateralAsset": {
+                "address": "0x657d9ABA1DBb59e53f9F3eCAA878447dCfC96dCb",
+                "decimals": 18,
+                "symbol": "ynETHx"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x95719729e13B093F546544b1e7028639829EF357",
+              "repaidAssets": "1902417226997923392",
+              "repaidShares": "1811868755724416257994226",
+              "seizedAssets": "1779390507735450380",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x96d31552654be3ba9bbc9205dd48c64b6d8e2db71b25bf189908934ec3d7d40f",
+            "timestamp": 1790500859,
+            "blockNumber": 26067860,
+            "txIndex": 165,
+            "logIndex": 796,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x928dEF5FdfFbD95dAE449d7A3f35F05fFdb54960",
+              "repaidAssets": 45765655,
+              "repaidShares": 34080295455418,
+              "seizedAssets": "44122305674903227001",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xc2df5e29442acdad7acd9d418f3a531de12fd209c42c639bd51aec8ad2551e23",
+            "timestamp": 1790500883,
+            "blockNumber": 26067862,
+            "txIndex": 24,
+            "logIndex": 324,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x928dEF5FdfFbD95dAE449d7A3f35F05fFdb54960",
+              "repaidAssets": 43693492,
+              "repaidShares": 32537032904709,
+              "seizedAssets": "42124549502725191484",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xd40859c7f1d0a2b38b023b9e897a0de0e7ba6188d14e796ae9acdf5e8a06b9e8",
+            "timestamp": 1790500895,
+            "blockNumber": 26067863,
+            "txIndex": 39,
+            "logIndex": 99,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x928dEF5FdfFbD95dAE449d7A3f35F05fFdb54960",
+              "repaidAssets": 29558648,
+              "repaidShares": 22011240053990,
+              "seizedAssets": "28497256758580444895",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x87f0e8242f3e52a0acaf05a4fee22b3cf6af88a8eed8ec648cc37605951027df",
+            "timestamp": 1790500907,
+            "blockNumber": 26067864,
+            "txIndex": 105,
+            "logIndex": 428,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x928dEF5FdfFbD95dAE449d7A3f35F05fFdb54960",
+              "repaidAssets": 128230748,
+              "repaidShares": 95488443336819,
+              "seizedAssets": "123626249999999999998",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x2d2f585339a831bb2c3d01e42ded854629e449b2321be935e65a431f64abe519",
+            "timestamp": 1790500919,
+            "blockNumber": 26067865,
+            "txIndex": 24,
+            "logIndex": 70,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x928dEF5FdfFbD95dAE449d7A3f35F05fFdb54960",
+              "repaidAssets": 8663356,
+              "repaidShares": 6451243741966,
+              "seizedAssets": "8352271021521164522",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x75aa920a010c49f536ca180fd52639994ea28d0054550feec74e6b07e629c868",
+            "timestamp": 1790500931,
+            "blockNumber": 26067866,
+            "txIndex": 11,
+            "logIndex": 106,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x928dEF5FdfFbD95dAE449d7A3f35F05fFdb54960",
+              "repaidAssets": 31544890,
+              "repaidShares": 23490108661555,
+              "seizedAssets": "30412177907108121895",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x7b671a0830b5c04c3eea6cf9c458b920f447b03fe128ac71d2a3075b052bf54f",
+            "timestamp": 1790500943,
+            "blockNumber": 26067867,
+            "txIndex": 31,
+            "logIndex": 79,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xae60b71b407e0517ead445b7113a7ffa07ea4a9379d526ade541a3e9ec777cb4",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x08EFCC2F3e61185D0EA7F8830B3FEc9Bfa2EE313",
+                "decimals": 18,
+                "symbol": "sNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x928dEF5FdfFbD95dAE449d7A3f35F05fFdb54960",
+              "repaidAssets": 11055055,
+              "repaidShares": 8232193511003,
+              "seizedAssets": "10658089605646023291",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xc22759a025fba5122d2d0e0e44c4870389dfcc601b9f3e364d9f7c638b050bef",
+            "timestamp": 1790529359,
+            "blockNumber": 26070222,
+            "txIndex": 0,
+            "logIndex": 13,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x79b4e55cef9e7c214b5cc965e1984229ada26a66051e35366a75c4d92b776735",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x1Fb3C5c35D95F48e48FFC8e36bCCe5CB5f29F57c",
+                "decimals": 18,
+                "symbol": "PT-srUSDe-15JAN2026"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x211F4039d132F2Cc22f656330c315e52A576C0bc",
+              "repaidAssets": 1740084939,
+              "repaidShares": 1592948792311739,
+              "seizedAssets": "1785618202000000000000",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x3affa6ae7ad3707b3b3e49c14fb748099973cf43318d047a5357c03a305cf132",
+            "timestamp": 1790550239,
+            "blockNumber": 26071943,
+            "txIndex": 77,
+            "logIndex": 304,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x04b580ba9e6e886b67e47265cc8e314820123d5683563bb24097ad80513d6e4f",
+              "lltv": "860000000000000000",
+              "loanAsset": {
+                "address": "0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a",
+                "decimals": 6,
+                "symbol": "AUSD"
+              },
+              "collateralAsset": {
+                "address": "0x90A2a4c76b5D8c0bc892A69EA28Aa775a8f2dD48",
+                "decimals": 18,
+                "symbol": "SPYx"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x15D741Be449A179a82D30D66FB262262E6d72ec0",
+              "repaidAssets": 58503048,
+              "repaidShares": 32750718942931,
+              "seizedAssets": "79026375331332420",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x4e41060d5696dd23426eef2fcd807111afd80f3eaccb59ccc70ee55ef4cc590a",
+            "timestamp": 1790567879,
+            "blockNumber": 26073408,
+            "txIndex": 136,
+            "logIndex": 469,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xde2bb82278de27e7851625e2d7c25280adc6d499c000cc6904eb0ab29124a481",
+              "lltv": "625000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x6982508145454Ce325dDbE47a25d4ec3d2311933",
+                "decimals": 18,
+                "symbol": "PEPE"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xFe1DCc4dB359B161f9042E99C3B481A50F73DEC1",
+              "repaidAssets": 1457526,
+              "repaidShares": 1420997473299,
+              "seizedAssets": "394322590957380459806170",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x4de8388623d36de7ac127cd77077aba1f6d13ab78e53838fbe8bd38b6b7d68ad",
+            "timestamp": 1790584199,
+            "blockNumber": 26074765,
+            "txIndex": 108,
+            "logIndex": 292,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xeea9a2431eba248f1cc4d8d3d2a34b31cbf4884ecc602f9270372f892a2ba185",
+              "lltv": "770000000000000000",
+              "loanAsset": {
+                "address": "0x6c3ea9036406852006290770BEdFcAbA0e23A0e8",
+                "decimals": 6,
+                "symbol": "PYUSD"
+              },
+              "collateralAsset": {
+                "address": "0x45804880De22913dAFE09f4980848ECE6EcbAf78",
+                "decimals": 18,
+                "symbol": "PAXG"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x8a321218956eE460EaFf36171d85D1D0BAae5575",
+              "repaidAssets": 109849410,
+              "repaidShares": 98341262952257,
+              "seizedAssets": "28468211308554401",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x444404d692c1e9c4e688cb0e0ee2637552a4fec472d662643fb6d9ff5e83dae9",
+            "timestamp": 1790642795,
+            "blockNumber": 26079628,
+            "txIndex": 1,
+            "logIndex": 13,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x802ec6e878dc9fe6905b8a0a18962dcca10440a87fa2242fbf4a0461c7b0c789",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x545A490f9ab534AdF409A2E682bc4098f49952e3",
+                "decimals": 18,
+                "symbol": "PT-cUSD-29JAN2026"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x9813868EEEE325244FC2a52b1f412A3026Ae58b7",
+              "repaidAssets": 6400268378,
+              "repaidShares": 5643928785360202,
+              "seizedAssets": "6568700000000000000000",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x39749e0bcd7f15abc5e4549ae2a8954da79d71b9cc791d3ad5e34b7a54fcee33",
+            "timestamp": 1790728475,
+            "blockNumber": 26086740,
+            "txIndex": 68,
+            "logIndex": 72,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x8f309d4b3066f80574810ed249472ba0ea1272e10834ae10dafa9f4f41aa63f4",
+              "lltv": "860000000000000000",
+              "loanAsset": {
+                "address": "0xCAcd6fd266aF91b8AeD52aCCc382b4e165586E29",
+                "decimals": 18,
+                "symbol": "frxUSD"
+              },
+              "collateralAsset": {
+                "address": "0x098697bA3Fee4eA76294C5d6A466a4e3b3E95FE6",
+                "decimals": 18,
+                "symbol": "USP"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x140022B7000081000001094700609300D2187Dab",
+              "repaidAssets": "9892450039454760960",
+              "repaidShares": "6999999997551250238659032",
+              "seizedAssets": "9069666637546912676",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x7f59800272d2b1d94613462434b5af8782fae074feeba2bb3816004e95b9cd47",
+            "timestamp": 1790759879,
+            "blockNumber": 26089347,
+            "txIndex": 200,
+            "logIndex": 583,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x9fc79d4a7c4b0d51e41a7930e15b5187ec2c383215a28bb0b8576e658a6e89a1",
+              "lltv": "625000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+                "decimals": 18,
+                "symbol": "WETH"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xe641eB803132475C72DdF531Ee5362187839B869",
+              "repaidAssets": 236946,
+              "repaidShares": 44824257459,
+              "seizedAssets": 99998883311593,
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xa584b57271a2402c8d2b1e6038d995c7d853a7bdd627d9d2dd508cd6bc11bbc0",
+            "timestamp": 1790769827,
+            "blockNumber": 26090173,
+            "txIndex": 53,
+            "logIndex": 209,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x8e6aeb10c401de3279ac79b4b2ea15fc94b7d9cfc098d6c2a1ff7b2b26d9d02c",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+                "decimals": 18,
+                "symbol": "DAI"
+              },
+              "collateralAsset": {
+                "address": "0x4c9EDD5852cd905f086C759E8383e09bff1E68B3",
+                "decimals": 18,
+                "symbol": "USDe"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xFe1DCc4dB359B161f9042E99C3B481A50F73DEC1",
+              "repaidAssets": "82494973749694927671",
+              "repaidShares": "65802368222216936589707482",
+              "seizedAssets": "84653641610769551159",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x9f94f8310444f51286db80b6b481f5399fc85ff5fc653d94ec82e7fa5790e633",
+            "timestamp": 1790834819,
+            "blockNumber": 26095568,
+            "txIndex": 1,
+            "logIndex": 7,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x9de73bf59b4b09f9b974081c30a2570174f212ea62de8da777c7770a4832ae72",
+              "lltv": "770000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x9b5528528656DBC094765E2abB79F293c21191B9",
+                "decimals": 18,
+                "symbol": "mHYPER"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x15D741Be449A179a82D30D66FB262262E6d72ec0",
+              "repaidAssets": 76999997,
+              "repaidShares": 73898346857071,
+              "seizedAssets": "73175889919263333512",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x914b5f21bb5acd011987eecd48d9bb28e641972deec0725ec533f18284551467",
+            "timestamp": 1790835815,
+            "blockNumber": 26095651,
+            "txIndex": 192,
+            "logIndex": 547,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x9de73bf59b4b09f9b974081c30a2570174f212ea62de8da777c7770a4832ae72",
+              "lltv": "770000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x9b5528528656DBC094765E2abB79F293c21191B9",
+                "decimals": 18,
+                "symbol": "mHYPER"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x9813868EEEE325244FC2a52b1f412A3026Ae58b7",
+              "repaidAssets": 13315792,
+              "repaidShares": 12779393754461,
+              "seizedAssets": "12654478813166461508",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x5af6cc4bcec812d636eabb9cd11d2d676c55fb277bd9de1a75bbaeff20bab94b",
+            "timestamp": 1790845031,
+            "blockNumber": 26096417,
+            "txIndex": 181,
+            "logIndex": 414,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x0ff9c1f2b9cb037ecb14029cbacd3a94470458cf5c6884f09c46ae354765d789",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x65a44528e8868166401eA08b549E19552af589dB",
+                "decimals": 18,
+                "symbol": "srNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x6566194141eefa99Af43Bb5Aa71460Ca2Dc90245",
+              "repaidAssets": 478502115,
+              "repaidShares": 221983523884469,
+              "seizedAssets": "396078600058358707146",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x5af6cc4bcec812d636eabb9cd11d2d676c55fb277bd9de1a75bbaeff20bab94b",
+            "timestamp": 1790845031,
+            "blockNumber": 26096417,
+            "txIndex": 181,
+            "logIndex": 417,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x0ff9c1f2b9cb037ecb14029cbacd3a94470458cf5c6884f09c46ae354765d789",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x65a44528e8868166401eA08b549E19552af589dB",
+                "decimals": 18,
+                "symbol": "srNUSD"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x6566194141eefa99Af43Bb5Aa71460Ca2Dc90245",
+              "repaidAssets": 483239554,
+              "repaidShares": 224181285404133,
+              "seizedAssets": "399999999999999999999",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x7edee7b979de7e045dce238f4ad8627ef865655fcc18231b343a384a2ba08b6a",
+            "timestamp": 1790921111,
+            "blockNumber": 26102733,
+            "txIndex": 146,
+            "logIndex": 419,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x864c9b82eb066ae2c038ba763dfc0221001e62fc40925530056349633eb0a259",
+              "lltv": "860000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x1d08E7adC263CfC70b1BaBe6dC5Bb339c16Eec52",
+                "decimals": 18,
+                "symbol": "USD0USD0++"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x00acd5005200E7009BEB000000E35E1E002b5565",
+              "repaidAssets": 17243498,
+              "repaidShares": 14636800238650,
+              "seizedAssets": "17999474000000000000",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x34162fda07ca0ae1054d7c1252b8d1c48aba9a675fd3d09816393c29d8be50e4",
+            "timestamp": 1790943251,
+            "blockNumber": 26104570,
+            "txIndex": 0,
+            "logIndex": 3,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x0eed5a89c7d397d02fd0b9b8e42811ca67e50ed5aeaa4f22e506516c716cfbbf",
+              "lltv": "860000000000000000",
+              "loanAsset": {
+                "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+                "decimals": 18,
+                "symbol": "WETH"
+              },
+              "collateralAsset": {
+                "address": "0xD9A442856C234a39a81a089C06451EBAa4306a72",
+                "decimals": 18,
+                "symbol": "pufETH"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x8a321218956eE460EaFf36171d85D1D0BAae5575",
+              "repaidAssets": "590976235877976338",
+              "repaidShares": "296966930821303122518282",
+              "seizedAssets": "569144086683595914",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xdc687eefd6408705860dae9522647643bcb3c324e390c0abebdf19eafd127355",
+            "timestamp": 1791094043,
+            "blockNumber": 26117092,
+            "txIndex": 24,
+            "logIndex": 29,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x7f37bf3c7b9c08416f87f8a29a4c3142c0c08903316dd39ae473cc7b1dd4f9e3",
+              "lltv": "860000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x387D46494F6dc5c6b26aBC20Ae40623AC041dD92",
+                "decimals": 18,
+                "symbol": "CTOKEN1"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x5922F55408B10d93625433866de143b894de0E00",
+              "repaidAssets": 2275905348,
+              "repaidShares": 2264203378484039,
+              "seizedAssets": "1000000000000000000",
+              "badDebtAssets": 261930235,
+              "badDebtShares": 260583475515961
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xdcb6d9356e6c177dcdd9191674b426fdd1578c6db40bd39f82dfd4c723aca02f",
+            "timestamp": 1791217043,
+            "blockNumber": 26127307,
+            "txIndex": 276,
+            "logIndex": 931,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x94b823e6bd8ea533b4e33fbc307faea0b307301bc48763acc4d4aa4def7636cd",
+              "lltv": "860000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+                "decimals": 18,
+                "symbol": "WETH"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x3884Cf9171F53f3cb29BBcA1594Af8a0efD5567E",
+              "repaidAssets": 109992993,
+              "repaidShares": 106189152769719,
+              "seizedAssets": "42700412058686968",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xa238d351e9584af705016303aed8f5633ff99e5a5173967b362970be5ef4e96c",
+            "timestamp": 1791220931,
+            "blockNumber": 26127629,
+            "txIndex": 143,
+            "logIndex": 525,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x4fa31e3f8ba345227d44e1cf48559eea53a90dd5311dc006984c060f2f311d96",
+              "lltv": "770000000000000000",
+              "loanAsset": {
+                "address": "0x8292Bb45bf1Ee4d140127049757C2E0fF06317eD",
+                "decimals": 18,
+                "symbol": "RLUSD"
+              },
+              "collateralAsset": {
+                "address": "0xCE6170EA245dC8D1f275A710a062b70f125F0110",
+                "decimals": 6,
+                "symbol": "FXRP"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0xf1ABdB47415A000BF60929563cCb552F6555C727",
+              "repaidAssets": "46124345093233191",
+              "repaidShares": "45672204876399482437403",
+              "seizedAssets": 33161,
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xc709114b71039d2efc7ea3de4cc283c59e71ed9abbebaa3c833b196e48a3ee84",
+            "timestamp": 1791246347,
+            "blockNumber": 26129741,
+            "txIndex": 129,
+            "logIndex": 322,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xb5b0ff0fccf16dff5bef6d2d001d60f5c4ab49df1020a01073d3ad635c80e8d5",
+              "lltv": "945000000000000000",
+              "loanAsset": {
+                "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+                "decimals": 6,
+                "symbol": "USDT"
+              },
+              "collateralAsset": {
+                "address": "0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD",
+                "decimals": 18,
+                "symbol": "sUSDS"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x00acd5005200E7009BEB000000E35E1E002b5565",
+              "repaidAssets": 1093549,
+              "repaidShares": 80348553543,
+              "seizedAssets": "1000000000000000000",
+              "badDebtAssets": 131357,
+              "badDebtShares": 9651446457
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x5a47304ef86246c50e9c9d47c00f929c50ca1da1914e4e8e73574fe8712f1bbb",
+            "timestamp": 1791247235,
+            "blockNumber": 26129815,
+            "txIndex": 144,
+            "logIndex": 1182,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xea023e57814fb9a814a5a9ee9f3e7ece5b771dd8cc703e50b911e9cde064a12d",
+              "lltv": "860000000000000000",
+              "loanAsset": {
+                "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+                "decimals": 18,
+                "symbol": "WETH"
+              },
+              "collateralAsset": {
+                "address": "0xDcEe70654261AF21C44c093C300eD3Bb97b78192",
+                "decimals": 18,
+                "symbol": "WOETH"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x00acd5005200E7009BEB000000E35E1E002b5565",
+              "repaidAssets": 1699441572325,
+              "repaidShares": 245159972778544,
+              "seizedAssets": 1516007106883,
+              "badDebtAssets": 2790062648724480,
+              "badDebtShares": "402492026881708759"
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xb3c505ce53c2745c4342ddcc7a9492917a2fb042e6fdb51b55d35269bacb6180",
+            "timestamp": 1791252923,
+            "blockNumber": 26130284,
+            "txIndex": 36,
+            "logIndex": 808,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xd461fae233809320f39541b16360da1c2c7f3cbb38fe6f737228c4c85cadfbe8",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0xba98fC35C9dfd69178AD5dcE9FA29c64554783b5",
+                "decimals": 6,
+                "symbol": "ePYUSD-6"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x00acd5005200E7009BEB000000E35E1E002b5565",
+              "repaidAssets": 24841453,
+              "repaidShares": 20983493650751,
+              "seizedAssets": 25003246,
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0x2f936a0c199315ef9f9461cc2d6acf7b3656cbf97d647786959634859275a458",
+            "timestamp": 1791269831,
+            "blockNumber": 26131689,
+            "txIndex": 29,
+            "logIndex": 706,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0x593be13b4635ae77a089c7f5039512eafdaefb2ddda4a46d8b05010ddd3b26c8",
+              "lltv": "915000000000000000",
+              "loanAsset": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "decimals": 6,
+                "symbol": "USDC"
+              },
+              "collateralAsset": {
+                "address": "0x9Fb7b4477576Fe5B32be4C1843aFB1e55F251B33",
+                "decimals": 6,
+                "symbol": "fUSDC"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x00acd5005200E7009BEB000000E35E1E002b5565",
+              "repaidAssets": 24907988,
+              "repaidShares": 20983493650751,
+              "seizedAssets": 20959522,
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          },
+          {
+            "chain": {
+              "id": 1
+            },
+            "txHash": "0xf1276839ab580d6fbfa8f5ab9d18b2092e7142ea2b980122f5b97aee27d49d99",
+            "timestamp": 1791338519,
+            "blockNumber": 26137389,
+            "txIndex": 3,
+            "logIndex": 19,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xe7e9694b754c4d4f7e21faf7223f6fa71abaeb10296a4c43a54a7977149687d2",
+              "lltv": "860000000000000000",
+              "loanAsset": {
+                "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+                "decimals": 6,
+                "symbol": "USDT"
+              },
+              "collateralAsset": {
+                "address": "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
+                "decimals": 18,
+                "symbol": "wstETH"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData",
+              "liquidator": "0x8Aa163d604765adBa61c41af4924ad31D383663A",
+              "repaidAssets": 8989028172,
+              "repaidShares": 7767853317991996,
+              "seizedAssets": "2877468478525240078",
+              "badDebtAssets": 0,
+              "badDebtShares": 0
+            }
+          }
+        ]
+      }
+    },
+    "extensions": {
+      "complexity": 28500,
+      "maximumComplexity": 1000000
+    }
+  }
+}

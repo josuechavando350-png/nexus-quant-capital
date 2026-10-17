@@ -9,6 +9,10 @@ Published baseline independently checked and reproduced: `a96be36b2540dafe257d38
 Published economic continuation: `31cb31e58e223c2b1769bf38be1f2a59afe598b3`,
 tree `a4665af1cb0b3d2b71449702351fc28c2e89ab00`, byte-identical to local
 `8feaef29dca4c72ccfb8cec905a1354d241909c3`.
+Published historical continuation independently checked this session:
+`1e21bbc40ac87f89f89a0eb9d277124103db589c`, tree
+`42e3e54c52f66e794add1b2fa4f8f1b3109b8fe7`. Both reported commits exist on
+GitHub; the authorized branch started this session at `1e21bbc`.
 The current file and subsequent additions belong to the research commit that
 contains them; obtain its exact identity with `git rev-parse HEAD` and
 `git log -1 -- RESEARCH_STATUS.md`. A file cannot contain its own commit hash.
@@ -37,11 +41,12 @@ The `a96be36` baseline was reproduced as 141 Python / 48 Solidity / 9 isolation.
 The exact-profitability continuation adds six Python checks and two Solidity
 functions that test the economic threshold and compare identical-state calls.
 The historical RPC follow-up adds three focused integrity checks.
-Current result:
+The monthly-evidence continuation reproduced **150 Python / 50 Solidity / 9
+isolation** from `1e21bbc`, then added nine targeted evidence checks. Current result:
 
 | Suite | Passed | Failed | Skipped |
 | --- | ---: | ---: | ---: |
-| Experimental Python | **150** | 0 | 0 |
+| Experimental Python | **159** | 0 | 0 |
 | Default Solidity: 29 executor tests + 4 parity tests | **33** | 0 | 0 |
 | Original-source Solidity: 4 Morpho + 4 Bundler + 9 liquidity-boundary tests | **17** | 0 | 0 |
 | Solidity total | **50** | 0 | 0 |
@@ -50,9 +55,13 @@ Current result:
 The Solidity totals count test functions, not fuzz iterations or vectors. One
 balance-invariant test runs 256 deterministic fuzz cases. Parity compares 65
 liquidation and 65 interest vectors plus nested ABI/callback encoding.
-Latest Python/isolation run: `evidence/2026-10-17-profitability/historical-validation-run.json`.
-The 50 Solidity tests ran at `31cb31e`; their unchanged source hashes are checked
-in the latest manifest. Economic validation: `evidence/2026-10-17-profitability/validation-run.json`.
+Latest run: `evidence/2026-10-17-monthly/validation-run.json`, with exact commands,
+exit codes and input hashes. All 50 Solidity tests were re-executed this session;
+`baseline-solidity.log` records 33 and `baseline-core.log` records 17 passes.
+No Solidity source changed in the monthly continuation. The full 159-test Python
+suite and 9 isolation tests passed. Previous Python/isolation run:
+`evidence/2026-10-17-profitability/historical-validation-run.json`.
+Economic validation: `evidence/2026-10-17-profitability/validation-run.json`.
 Logs and both checksum manifests (`HISTORICAL_SHA256SUMS`, `SHA256SUMS`) are in
 that evidence directory. Previous evidence remains unchanged under `evidence/2026-10-17/`.
 Previous continuation evidence also remains unchanged.
@@ -101,6 +110,10 @@ reports `original_objects_checked=false`; no historical recertification claimed.
 - New RPC parsing initially failed on a null receipt despite HTTP 200. The
   verifier now records unavailable receipts explicitly; the failure log and raw
   responses remain intact. No historical receipt was invented.
+- New Fluid route decoder initially assumed `swapInWithCallback`; the selector
+  check failed. It is actually `swapIn` (`0x2668dfaa`), with a separate Morpho
+  callback. `evidence/2026-10-17-monthly/route-selector-failure.log` preserves the
+  failed run. Source ABI, call return and raw Swap/LogOperate events now agree.
 - Baseline/pre-fix failures are retained in evidence logs. They are not hidden by
   the latest successful run. Blocking model/audit exits 2 are expected, not passes
   authorizing trading.
@@ -154,6 +167,37 @@ Economically admitted authentic operations remain **0**.
 **No NQC realized gains are certified. Neither $0 architecture is yet economically
 validated. No Titan/Quasar sponsorship of NQC has been demonstrated.**
 
+## Monthly-evidence continuation
+
+See `MONTHLY_POTENTIAL.md` for the full economic ledger, sample criteria,
+architecture/funding comparison and exact target requirements.
+
+- New `case_b_route_audit.py`: official pinned Fluid deployment/ABI identifies
+  the actual ezETH/native-ETH route. Swap and signed Liquidity events agree with
+  the original trace. Four observed storage reads now have semantic slot names,
+  but are not an authenticated pretransaction witness. Revenue-cut/precision
+  accounting is distinguished from total swap fees; no V2 reserves are fabricated.
+- B sale minus debt is **369942447954007585 wei**. Subtracting the entire observed
+  coinbase payment and sender gas leaves an upper bound of **1651296044494913
+  wei-equivalent before unknown obligations**, excluding old WETH. This is not
+  consolidated certified profit or a counterfactual NQC quote.
+- New `monthly_census.py`: frozen UTC windows [September 17, October 17) and
+  [October 10, October 17) contain **143 events / 141 transactions** and **29 /
+  28**, respectively. Forward/reverse cursor pagination and a separate 7-day
+  query match. Chain-wide completeness is not proved. 43 events report bad debt;
+  no winners or negative records were filtered away.
+- A new `eth_getLogs` known-positive control omits B's event despite its saved
+  receipt. The source cannot certify a complete census. A predefined diagnostic
+  sample has 23 transactions: B receipt available, **22 new null receipts**.
+  The collector is read-only, bounded, cached and stops on access/errors.
+- Realized NQC gains: 0 certified. Authentic NQC positive replays: 0. Monthly
+  expectation: **not estimable**. Conditional target tables use explicit margins
+  and exact ceiling arithmetic; no win probability or production cost is invented.
+- Baseline 150/50/9 reproduced, final **159/50/9** passed. New targeted checks
+  reject incomplete/duplicate pages, changed amounts, floating-point integers,
+  wrong receipt membership and altered Fluid events. No Solidity change or
+  additional deployment infrastructure was needed for this evidence task.
+
 ## Pending, blocked and unexecuted
 
 1. Authentic historical replay: A/B full blocks and B parent header now available
@@ -184,6 +228,8 @@ validated. No Titan/Quasar sponsorship of NQC has been demonstrated.**
    0.513394-USDT liquidation C. Both consolidated results remain undetermined.
    A bounded recent-history selection returned zero records. Population
    completeness and profitable/capture frequency are unknown.
+   The new 7/30-day census expands the observed sample but does not solve these
+   economic gates. Unknown margin/capture/financing is not a zero-cost assumption.
 8. No Reth/Geth archive provisioned; no paid infrastructure. Remote CI not run;
    Rust tests and original source object verification not run (scope/tool limits).
 
@@ -202,6 +248,9 @@ Files: `historical_trace_audit.py`, `historical_prestate_probe.py`,
 `tests-core/`, `contracts/NqcMorphoSponsoredLiquidation.sol`, `bundle_gate.py`,
 `economic_ledger.py`, `profitability_boundary.py`, `historical_rpc_audit.py`,
 `PROFITABILITY_RESULTS.md`, `PUBLIC_DATA_PROGRESS.md`.
+New evidence files: `case_b_route_audit.py`, `monthly_census.py`,
+`collect_census_receipts.py`, `fixtures/fluid_case_b_reference.json`,
+`MONTHLY_POTENTIAL.md`, `evidence/2026-10-17-monthly/`.
 
 Required experiments: reproduce the original at its exact pretransaction state;
 compare both alternatives from a restored identical state using actual DEX code

@@ -1,0 +1,703 @@
+{
+  "classification": "OBSERVED_CENSUS_MONTHLY_PROFIT_NOT_ESTIMABLE",
+  "selection": {
+    "schema": 1,
+    "frozen_at_utc": "2026-10-17T04:46:42.618444+00:00",
+    "end_exclusive_utc": "2026-10-17T00:00:00+00:00",
+    "end_exclusive": 1792195200,
+    "windows_days": [
+      7,
+      30
+    ],
+    "start_30d": 1789603200,
+    "start_7d": 1791590400,
+    "chain_id": 1,
+    "type": "Liquidation",
+    "asset_filters": null,
+    "profit_filters": null,
+    "page_size": 100,
+    "max_pages": 100,
+    "deduplication_key": [
+      "chain_id",
+      "txHash",
+      "logIndex"
+    ],
+    "coverage": "API pagination and consistency checks; not a proof of complete chain population"
+  },
+  "coverage": {
+    "forward_reverse_match": true,
+    "provider_count_match": true,
+    "independent_seven_day_query_match": true,
+    "independent_chain_population_verified": false,
+    "get_logs_control": {
+      "status": "KNOWN_POSITIVE_OMISSION_OR_CONFLICT",
+      "receipt_events": 1,
+      "get_logs_events": 0,
+      "usable_for_complete_census": false
+    }
+  },
+  "windows": {
+    "30d": {
+      "days": 30,
+      "observed_events": 143,
+      "observed_transactions": 141,
+      "observed_markets": 60,
+      "observed_liquidator_addresses": 49,
+      "liquidator_event_counts": {
+        "0xe683b8ee2710eabcbf347b7cb0735cda11ef31ba": 35,
+        "0x00acd5005200e7009beb000000e35e1e002b5565": 15,
+        "0x928def5fdffbd95dae449d7a3f35f05ffdb54960": 7,
+        "0xfe1dcc4db359b161f9042e99c3b481a50f73dec1": 6,
+        "0x1f2f10d1c40777ae1da742455c65828ff36df387": 5,
+        "0xe29b7303937fac8f7f24670c7cc08005ac14ebe9": 5,
+        "0xf1abdb47415a000bf60929563ccb552f6555c727": 4,
+        "0x3884cf9171f53f3cb29bbca1594af8a0efd5567e": 3,
+        "0x950fd558f47e234a2fde23b7d61f7ccdbcb4a86f": 3,
+        "0xf968a5de2019de1f0a8f53758dd137ae5c9efbc9": 3,
+        "0xbde3e91f09a9489f1b53eaa21eb32c89b2fd5c64": 3,
+        "0x5ac9bc14376bf2727c6211960cf3cec1e2f295bd": 3,
+        "0x9ee589bf6fc57eaeb795c626ede51f258b81f265": 2,
+        "0x3132d5bae89d248deda77aba04a43255ef188264": 2,
+        "0x211f4039d132f2cc22f656330c315e52a576c0bc": 2,
+        "0xbd32122bad41a09f2405bb374a83877d8245079c": 2,
+        "0x15d741be449a179a82d30d66fb262262e6d72ec0": 2,
+        "0x8a321218956ee460eaff36171d85d1d0baae5575": 2,
+        "0x9813868eeee325244fc2a52b1f412a3026ae58b7": 2,
+        "0x140022b7000081000001094700609300d2187dab": 2,
+        "0x6566194141eefa99af43bb5aa71460ca2dc90245": 2,
+        "0x8aa163d604765adba61c41af4924ad31d383663a": 2,
+        "0xa4de308c280c6c34f38ff915653433b0afa72009": 2,
+        "0x53e27cc3535f8eee3f124999b57d44ba6a80962e": 2,
+        "0xca4c80326ddb66e263847e681c6cb8a05f80f463": 2,
+        "0xfa70af8913ca220942b4bff61713ca0ca0593492": 2,
+        "0x003baa012aa04d61f5af86115819d31ce6163854": 1,
+        "0x1e3cd3fc2966580c76d2bede95c843b729883a65": 1,
+        "0x723411229490ab771645dc31fcf4daee5a794540": 1,
+        "0x85593464c9dd38ec4625ef44e60cd6e8045aa067": 1,
+        "0xdeadb043eb4c89d81fb94bc56768f2533c81aef8": 1,
+        "0xda2ba67c7dcaa944e0a3095435f58f926acb1824": 1,
+        "0xe3f29e3aebf6f2da2a5d4c72e83bae810cc562f3": 1,
+        "0x4789c274d65b6d4c5c9db42813dfc67f87dacde6": 1,
+        "0x6cbc49cf5aba7e2e4f053e0036e11731d80a0391": 1,
+        "0x95719729e13b093f546544b1e7028639829ef357": 1,
+        "0xe641eb803132475c72ddf531ee5362187839b869": 1,
+        "0x5922f55408b10d93625433866de143b894de0e00": 1,
+        "0x41e8e31ee3f52c3b9f5a971c0c7be27950b9732e": 1,
+        "0x812a3bef79ac1c31f589db9fd19feee436b8eaf3": 1,
+        "0x871b243dd3a0f1e1c48921c0c619d9e01594919f": 1,
+        "0xb82aac6aecc9a8edf12345a3b1ec874575da97d4": 1,
+        "0x98a21b062201625bfece632f86eb524e08fc22ef": 1,
+        "0xa8b7643a8331fe18fb35642646aea7e993a747fc": 1,
+        "0xc2f175d0568b7f7142c969ed418f5022b9392348": 1,
+        "0x94f4068fbc87b7b3fbca8402ff53b24d054007de": 1,
+        "0x17e1f9480e1ed1fed3b9831013120a651122d260": 1,
+        "0xad213ae0b710c7bc6c915984d91bad008b2d3221": 1,
+        "0x77f40a04c3f552a0dfe82282de73db30d34c6e25": 1
+      },
+      "events_per_day_fraction": "143/30",
+      "daily_api_event_counts": {
+        "2026-09-17": 12,
+        "2026-09-18": 0,
+        "2026-09-19": 3,
+        "2026-09-20": 1,
+        "2026-09-21": 7,
+        "2026-09-22": 0,
+        "2026-09-23": 6,
+        "2026-09-24": 1,
+        "2026-09-25": 4,
+        "2026-09-26": 36,
+        "2026-09-27": 10,
+        "2026-09-28": 2,
+        "2026-09-29": 1,
+        "2026-09-30": 3,
+        "2026-10-01": 4,
+        "2026-10-02": 2,
+        "2026-10-03": 0,
+        "2026-10-04": 1,
+        "2026-10-05": 2,
+        "2026-10-06": 4,
+        "2026-10-07": 6,
+        "2026-10-08": 9,
+        "2026-10-09": 0,
+        "2026-10-10": 2,
+        "2026-10-11": 2,
+        "2026-10-12": 4,
+        "2026-10-13": 2,
+        "2026-10-14": 2,
+        "2026-10-15": 15,
+        "2026-10-16": 2
+      },
+      "multi_event_transactions": {
+        "0x5af6cc4bcec812d636eabb9cd11d2d676c55fb277bd9de1a75bbaeff20bab94b": 2,
+        "0x430f18682beba3cdf16305aa1f18e9f23ae42eb2294d0897b3ef4f0404e18f7e": 2
+      },
+      "debt_assets": [
+        {
+          "address": "0x00000000efe302beaa2b3e6e1b18d08d69a9012a",
+          "decimals": 6,
+          "symbol": "AUSD",
+          "events": 3,
+          "repaid_units": 47506432886,
+          "repaid_tokens_exact": "47506.432886",
+          "smallest_repayment_tokens": "58.503048",
+          "largest_repayment_tokens": "46797.490556",
+          "bad_debt_units": 0,
+          "historical_usd_value": null
+        },
+        {
+          "address": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+          "decimals": 8,
+          "symbol": "WBTC",
+          "events": 2,
+          "repaid_units": 910512,
+          "repaid_tokens_exact": "0.00910512",
+          "smallest_repayment_tokens": "0.00013371",
+          "largest_repayment_tokens": "0.00897141",
+          "bad_debt_units": 0,
+          "historical_usd_value": null
+        },
+        {
+          "address": "0x5f7827fdeb7c20b443265fc2f40845b715385ff2",
+          "decimals": 18,
+          "symbol": "EURCV",
+          "events": 1,
+          "repaid_units": 19813987376846231411278,
+          "repaid_tokens_exact": "19813.987376846231411278",
+          "smallest_repayment_tokens": "19813.987376846231411278",
+          "largest_repayment_tokens": "19813.987376846231411278",
+          "bad_debt_units": 0,
+          "historical_usd_value": null
+        },
+        {
+          "address": "0x64351fc9810adad17a690e4e1717df5e7e085160",
+          "decimals": 18,
+          "symbol": "msETH",
+          "events": 7,
+          "repaid_units": 32478600116843302546,
+          "repaid_tokens_exact": "32.478600116843302546",
+          "smallest_repayment_tokens": "0.092834911902074289",
+          "largest_repayment_tokens": "14.538288356343944934",
+          "bad_debt_units": 0,
+          "historical_usd_value": null
+        },
+        {
+          "address": "0x6b175474e89094c44da98b954eedeac495271d0f",
+          "decimals": 18,
+          "symbol": "DAI",
+          "events": 2,
+          "repaid_units": 88477811241098515256,
+          "repaid_tokens_exact": "88.477811241098515256",
+          "smallest_repayment_tokens": "5.982837491403587585",
+          "largest_repayment_tokens": "82.494973749694927671",
+          "bad_debt_units": 0,
+          "historical_usd_value": null
+        },
+        {
+          "address": "0x6c3ea9036406852006290770bedfcaba0e23a0e8",
+          "decimals": 6,
+          "symbol": "PYUSD",
+          "events": 1,
+          "repaid_units": 109849410,
+          "repaid_tokens_exact": "109.849410",
+          "smallest_repayment_tokens": "109.849410",
+          "largest_repayment_tokens": "109.849410",
+          "bad_debt_units": 0,
+          "historical_usd_value": null
+        },
+        {
+          "address": "0x8292bb45bf1ee4d140127049757c2e0ff06317ed",
+          "decimals": 18,
+          "symbol": "RLUSD",
+          "events": 9,
+          "repaid_units": 5151370056332328324978,
+          "repaid_tokens_exact": "5151.370056332328324978",
+          "smallest_repayment_tokens": "0.000011082562971630",
+          "largest_repayment_tokens": "1717.979429769382047979",
+          "bad_debt_units": 0,
+          "historical_usd_value": null
+        },
+        {
+          "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+          "decimals": 6,
+          "symbol": "USDC",
+          "events": 94,
+          "repaid_units": 1959916002871,
+          "repaid_tokens_exact": "1959916.002871",
+          "smallest_repayment_tokens": "0.000002",
+          "largest_repayment_tokens": "893985.195565",
+          "bad_debt_units": 290422601988,
+          "historical_usd_value": null
+        },
+        {
+          "address": "0xa0d69e286b938e21cbf7e51d71f6a4c8918f482f",
+          "decimals": 18,
+          "symbol": "eUSD",
+          "events": 1,
+          "repaid_units": 3882487744110662,
+          "repaid_tokens_exact": "0.003882487744110662",
+          "smallest_repayment_tokens": "0.003882487744110662",
+          "largest_repayment_tokens": "0.003882487744110662",
+          "bad_debt_units": 37767999161081,
+          "historical_usd_value": null
+        },
+        {
+          "address": "0xaf5d2cf39f2d4e2f5900d6cf37ab3596866347e4",
+          "decimals": 6,
+          "symbol": "JPYR",
+          "events": 4,
+          "repaid_units": 3646140088,
+          "repaid_tokens_exact": "3646.140088",
+          "smallest_repayment_tokens": "575.820062",
+          "largest_repayment_tokens": "1689.988516",
+          "bad_debt_units": 0,
+          "historical_usd_value": null
+        },
+        {
+          "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+          "decimals": 18,
+          "symbol": "WETH",
+          "events": 7,
+          "repaid_units": 27458932397784792302,
+          "repaid_tokens_exact": "27.458932397784792302",
+          "smallest_repayment_tokens": "0.000001699441572325",
+          "largest_repayment_tokens": "26.039738525656992415",
+          "bad_debt_units": 2790062648724480,
+          "historical_usd_value": null
+        },
+        {
+          "address": "0xcacd6fd266af91b8aed52accc382b4e165586e29",
+          "decimals": 18,
+          "symbol": "frxUSD",
+          "events": 1,
+          "repaid_units": 9892450039454760960,
+          "repaid_tokens_exact": "9.892450039454760960",
+          "smallest_repayment_tokens": "9.892450039454760960",
+          "largest_repayment_tokens": "9.892450039454760960",
+          "bad_debt_units": 0,
+          "historical_usd_value": null
+        },
+        {
+          "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+          "decimals": 6,
+          "symbol": "USDT",
+          "events": 9,
+          "repaid_units": 9273429661,
+          "repaid_tokens_exact": "9273.429661",
+          "smallest_repayment_tokens": "0.513394",
+          "largest_repayment_tokens": "8989.028172",
+          "bad_debt_units": 131357,
+          "historical_usd_value": null
+        },
+        {
+          "address": "0xdc035d45d973e3ec169d2276ddab16f1e407384f",
+          "decimals": 18,
+          "symbol": "USDS",
+          "events": 1,
+          "repaid_units": 253629850343498858832,
+          "repaid_tokens_exact": "253.629850343498858832",
+          "smallest_repayment_tokens": "253.629850343498858832",
+          "largest_repayment_tokens": "253.629850343498858832",
+          "bad_debt_units": 0,
+          "historical_usd_value": null
+        },
+        {
+          "address": "0xe7c3d8c9a439fede00d2600032d5db0be71c3c29",
+          "decimals": 18,
+          "symbol": "JPYC",
+          "events": 1,
+          "repaid_units": 493281274471133248431,
+          "repaid_tokens_exact": "493.281274471133248431",
+          "smallest_repayment_tokens": "493.281274471133248431",
+          "largest_repayment_tokens": "493.281274471133248431",
+          "bad_debt_units": 0,
+          "historical_usd_value": null
+        }
+      ],
+      "weth_debt_events": 7,
+      "other_debt_events_need_separate_gas_asset_conversion": 136,
+      "bad_debt_events": 43,
+      "zero_seizure_events": 0,
+      "same_debt_collateral_events_rejected_by_current_executor": 0,
+      "theoretical_incentive_factors_wad": [
+        1006036217303822937,
+        1010611419909044972,
+        1016776817488561260,
+        1026167265264238070,
+        1043841336116910229,
+        1074113856068743286,
+        1126760563380281690
+      ],
+      "nqc_technically_eligible_count": null,
+      "nqc_plausibly_winnable_count": null,
+      "positive_authentic_nqc_replays": 0,
+      "capture_probability": null
+    },
+    "7d": {
+      "days": 7,
+      "observed_events": 29,
+      "observed_transactions": 28,
+      "observed_markets": 22,
+      "observed_liquidator_addresses": 16,
+      "liquidator_event_counts": {
+        "0x00acd5005200e7009beb000000e35e1e002b5565": 7,
+        "0xf1abdb47415a000bf60929563ccb552f6555c727": 3,
+        "0x5ac9bc14376bf2727c6211960cf3cec1e2f295bd": 3,
+        "0xca4c80326ddb66e263847e681c6cb8a05f80f463": 2,
+        "0xfa70af8913ca220942b4bff61713ca0ca0593492": 2,
+        "0xbde3e91f09a9489f1b53eaa21eb32c89b2fd5c64": 2,
+        "0xe29b7303937fac8f7f24670c7cc08005ac14ebe9": 1,
+        "0xa8b7643a8331fe18fb35642646aea7e993a747fc": 1,
+        "0xc2f175d0568b7f7142c969ed418f5022b9392348": 1,
+        "0x94f4068fbc87b7b3fbca8402ff53b24d054007de": 1,
+        "0x17e1f9480e1ed1fed3b9831013120a651122d260": 1,
+        "0x53e27cc3535f8eee3f124999b57d44ba6a80962e": 1,
+        "0xad213ae0b710c7bc6c915984d91bad008b2d3221": 1,
+        "0x77f40a04c3f552a0dfe82282de73db30d34c6e25": 1,
+        "0x1f2f10d1c40777ae1da742455c65828ff36df387": 1,
+        "0x140022b7000081000001094700609300d2187dab": 1
+      },
+      "events_per_day_fraction": "29/7",
+      "daily_api_event_counts": {
+        "2026-10-10": 2,
+        "2026-10-11": 2,
+        "2026-10-12": 4,
+        "2026-10-13": 2,
+        "2026-10-14": 2,
+        "2026-10-15": 15,
+        "2026-10-16": 2
+      },
+      "multi_event_transactions": {
+        "0x430f18682beba3cdf16305aa1f18e9f23ae42eb2294d0897b3ef4f0404e18f7e": 2
+      },
+      "debt_assets": [
+        {
+          "address": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+          "decimals": 8,
+          "symbol": "WBTC",
+          "events": 1,
+          "repaid_units": 13371,
+          "repaid_tokens_exact": "0.00013371",
+          "smallest_repayment_tokens": "0.00013371",
+          "largest_repayment_tokens": "0.00013371",
+          "bad_debt_units": 0,
+          "historical_usd_value": null
+        },
+        {
+          "address": "0x8292bb45bf1ee4d140127049757c2e0ff06317ed",
+          "decimals": 18,
+          "symbol": "RLUSD",
+          "events": 5,
+          "repaid_units": 1723421530820745341616,
+          "repaid_tokens_exact": "1723.421530820745341616",
+          "smallest_repayment_tokens": "0.000011082562971630",
+          "largest_repayment_tokens": "1717.979429769382047979",
+          "bad_debt_units": 0,
+          "historical_usd_value": null
+        },
+        {
+          "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+          "decimals": 6,
+          "symbol": "USDC",
+          "events": 16,
+          "repaid_units": 85884503718,
+          "repaid_tokens_exact": "85884.503718",
+          "smallest_repayment_tokens": "0.371997",
+          "largest_repayment_tokens": "60073.167740",
+          "bad_debt_units": 874759,
+          "historical_usd_value": null
+        },
+        {
+          "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+          "decimals": 18,
+          "symbol": "WETH",
+          "events": 3,
+          "repaid_units": 26867551495477013361,
+          "repaid_tokens_exact": "26.867551495477013361",
+          "smallest_repayment_tokens": "0.000043970106581201",
+          "largest_repayment_tokens": "26.039738525656992415",
+          "bad_debt_units": 0,
+          "historical_usd_value": null
+        },
+        {
+          "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+          "decimals": 6,
+          "symbol": "USDT",
+          "events": 4,
+          "repaid_units": 117228295,
+          "repaid_tokens_exact": "117.228295",
+          "smallest_repayment_tokens": "0.513394",
+          "largest_repayment_tokens": "73.420678",
+          "bad_debt_units": 0,
+          "historical_usd_value": null
+        }
+      ],
+      "weth_debt_events": 3,
+      "other_debt_events_need_separate_gas_asset_conversion": 26,
+      "bad_debt_events": 3,
+      "zero_seizure_events": 0,
+      "same_debt_collateral_events_rejected_by_current_executor": 0,
+      "theoretical_incentive_factors_wad": [
+        1006036217303822937,
+        1010611419909044972,
+        1016776817488561260,
+        1026167265264238070,
+        1043841336116910229,
+        1074113856068743286,
+        1126760563380281690
+      ],
+      "nqc_technically_eligible_count": null,
+      "nqc_plausibly_winnable_count": null,
+      "positive_authentic_nqc_replays": 0,
+      "capture_probability": null
+    }
+  },
+  "diagnostic_receipts": {
+    "0x38d1030dbb93959ffc63d8663a6ac6a2c62b9d2f6f4311624f7a77a099453bff": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    },
+    "0x95e670766fe110d42e0751d5e609af3742ec9ba680dd8998ab1911a8c4c7ce1c": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    },
+    "0xccf5035c11493bc83cf3942aa126840f0e19f9a2f8270ada50c0e64d7d5b3133": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    },
+    "0x69067db0430e7bd2d7d580c3f00d10da174cee76717f949d1341e7a82cf7a13e": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    },
+    "0x557d9c4cb2e906c85e12ffa945c8d89436aa32085521c894dde8fb398013547f": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    },
+    "0xcef337c2375d51a445b2173db37700aea803ca23dfe929cdc4e6761d62ee4cf0": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    },
+    "0x14cf205b28eb70f4d2bdd6faf7c9153d15159eaa3e623f9eed28d729aed34bec": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    },
+    "0x19aac52f4867eeec94152b60e1585c6953cff9d1b4e38feda124432d0b25e789": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    },
+    "0x179e571c05e496627241763b0a63cac8c82532d6e66314a522871e32f43d5e84": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    },
+    "0xc8013e69d494d38a3665b26f9285760ff1f710c24b7c66ef874ae234e3fa96a0": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    },
+    "0xa4ead224af8c044311e8d3b1b9eb47443643b3682b8822624bde0fde098c35fb": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    },
+    "0x4de8388623d36de7ac127cd77077aba1f6d13ab78e53838fbe8bd38b6b7d68ad": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    },
+    "0x39749e0bcd7f15abc5e4549ae2a8954da79d71b9cc791d3ad5e34b7a54fcee33": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    },
+    "0x5af6cc4bcec812d636eabb9cd11d2d676c55fb277bd9de1a75bbaeff20bab94b": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    },
+    "0x34162fda07ca0ae1054d7c1252b8d1c48aba9a675fd3d09816393c29d8be50e4": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    },
+    "0x5a47304ef86246c50e9c9d47c00f929c50ca1da1914e4e8e73574fe8712f1bbb": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    },
+    "0x80b8b7161f5a1133452764f7950adde752de2cbc3836ce023f27b1ccb1739780": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    },
+    "0x2a9ca07997c56d73db2671c2ed7fe553fe3230634f57a21ec15d109fb7670159": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    },
+    "0x7f2a208841f2a9b51614d0c86a0420790a0c96a8c68473d474b592cf7442f530": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    },
+    "0x430f18682beba3cdf16305aa1f18e9f23ae42eb2294d0897b3ef4f0404e18f7e": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    },
+    "0x46300e9614c547118ecdd524bc7218208088cc4ae9e5bd534e62055d38f9925b": {
+      "status": "RPC_API_EVENT_CROSSCHECK",
+      "events_checked": 1,
+      "gas_used": 745509,
+      "effective_gas_price_wei": 266148625,
+      "gas_wei_per_transaction": 198416195275125,
+      "net_profit": null,
+      "receipt_trie_verified": false
+    },
+    "0x523cf40b379d834c145f4639257014d9b761ce50a08651754897927b23329111": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    },
+    "0x485c12cd2cdf8768af3405d2aab0dbebe6d38e5b28615221913b751073e2bb9f": {
+      "status": "UNAVAILABLE",
+      "gas_wei_per_transaction": null,
+      "net_profit": null,
+      "events_checked": 0
+    }
+  },
+  "receipt_status_counts": {
+    "UNAVAILABLE": 22,
+    "RPC_API_EVENT_CROSSCHECK": 1
+  },
+  "income_categories": {
+    "A_realized_nqc_certified_profit_usd": "0",
+    "B_authentic_historical_nqc_replays": 0,
+    "C_conditional_sensitivity_only": true,
+    "D_monthly_profit_expectation_usd": null
+  },
+  "target_sensitivity": {
+    "unit": "net USD per captured transaction AFTER all variable obligations",
+    "fixed_monthly_cost_usd_assumption": "0 (lower requirement bound, not measured production cost)",
+    "capture_probability": null,
+    "required_captured_transactions": [
+      {
+        "target_usd": 1000,
+        "assumed_net_per_win_usd": 10,
+        "wins_required": 100
+      },
+      {
+        "target_usd": 1000,
+        "assumed_net_per_win_usd": 50,
+        "wins_required": 20
+      },
+      {
+        "target_usd": 1000,
+        "assumed_net_per_win_usd": 100,
+        "wins_required": 10
+      },
+      {
+        "target_usd": 1000,
+        "assumed_net_per_win_usd": 500,
+        "wins_required": 2
+      },
+      {
+        "target_usd": 5000,
+        "assumed_net_per_win_usd": 10,
+        "wins_required": 500
+      },
+      {
+        "target_usd": 5000,
+        "assumed_net_per_win_usd": 50,
+        "wins_required": 100
+      },
+      {
+        "target_usd": 5000,
+        "assumed_net_per_win_usd": 100,
+        "wins_required": 50
+      },
+      {
+        "target_usd": 5000,
+        "assumed_net_per_win_usd": 500,
+        "wins_required": 10
+      },
+      {
+        "target_usd": 10000,
+        "assumed_net_per_win_usd": 10,
+        "wins_required": 1000
+      },
+      {
+        "target_usd": 10000,
+        "assumed_net_per_win_usd": 50,
+        "wins_required": 200
+      },
+      {
+        "target_usd": 10000,
+        "assumed_net_per_win_usd": 100,
+        "wins_required": 100
+      },
+      {
+        "target_usd": 10000,
+        "assumed_net_per_win_usd": 500,
+        "wins_required": 20
+      },
+      {
+        "target_usd": 50000,
+        "assumed_net_per_win_usd": 10,
+        "wins_required": 5000
+      },
+      {
+        "target_usd": 50000,
+        "assumed_net_per_win_usd": 50,
+        "wins_required": 1000
+      },
+      {
+        "target_usd": 50000,
+        "assumed_net_per_win_usd": 100,
+        "wins_required": 500
+      },
+      {
+        "target_usd": 50000,
+        "assumed_net_per_win_usd": 500,
+        "wins_required": 100
+      }
+    ]
+  },
+  "economic_admitted_operations": 0,
+  "limitations": [
+    "Events can share a transaction, gas and competing state; not independent opportunities",
+    "Liquidator addresses are not identities, losing bids or capture probabilities",
+    "No contemporary USD prices substituted for historical executable conversion",
+    "Gas, deployment, financing, failed-attempt and recurring costs remain unmeasured for NQC",
+    "WETH debt is only a conversion simplification, not established compatibility",
+    "The two historical windows overlap; do not sum their counts"
+  ]
+}

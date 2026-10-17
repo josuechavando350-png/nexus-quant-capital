@@ -1,0 +1,354 @@
+{
+  "url": "https://api.morpho.org/graphql",
+  "request": {
+    "query": "{ q:__type(name:\"Query\"){ fields {name type {kind name ofType {kind name}}}} c:__type(name:\"MarketTransactionCursorInput\"){inputFields{name type{kind name ofType{kind name}}}} }"
+  },
+  "retrieved_at_utc": "2026-10-17T04:46:42.619519+00:00",
+  "http_status": 200,
+  "response": {
+    "data": {
+      "q": {
+        "fields": [
+          {
+            "name": "chain",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Chain"
+              }
+            }
+          },
+          {
+            "name": "chains",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null
+              }
+            }
+          },
+          {
+            "name": "assetByAddress",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Asset"
+              }
+            }
+          },
+          {
+            "name": "assets",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PaginatedAssets"
+              }
+            }
+          },
+          {
+            "name": "userByAddress",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "User"
+              }
+            }
+          },
+          {
+            "name": "marketCollateralAtRisk",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "MarketCollateralAtRisk"
+              }
+            }
+          },
+          {
+            "name": "marketById",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Market"
+              }
+            }
+          },
+          {
+            "name": "markets",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PaginatedMarkets"
+              }
+            }
+          },
+          {
+            "name": "curator",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Curator"
+              }
+            }
+          },
+          {
+            "name": "curators",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PaginatedCurators"
+              }
+            }
+          },
+          {
+            "name": "morphoBlueByAddress",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "MorphoBlue"
+              }
+            }
+          },
+          {
+            "name": "morphoBlues",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PaginatedMorphoBlue"
+              }
+            }
+          },
+          {
+            "name": "marketPosition",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "MarketPosition"
+              }
+            }
+          },
+          {
+            "name": "marketPositions",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PaginatedMarketPositions"
+              }
+            }
+          },
+          {
+            "name": "oracleByAddress",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Oracle"
+              }
+            }
+          },
+          {
+            "name": "oracles",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PaginatedOracles"
+              }
+            }
+          },
+          {
+            "name": "vaultByAddress",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Vault"
+              }
+            }
+          },
+          {
+            "name": "vaults",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PaginatedMetaMorphos"
+              }
+            }
+          },
+          {
+            "name": "vaultPosition",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "VaultPosition"
+              }
+            }
+          },
+          {
+            "name": "vaultPositions",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PaginatedMetaMorphoPositions"
+              }
+            }
+          },
+          {
+            "name": "vaultReallocates",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PaginatedVaultReallocates"
+              }
+            }
+          },
+          {
+            "name": "vaultV1Transactions",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PaginatedVaultV1Transactions"
+              }
+            }
+          },
+          {
+            "name": "marketTransactions",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PaginatedMarketTransactions"
+              }
+            }
+          },
+          {
+            "name": "vaultV2s",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PaginatedVaultV2s"
+              }
+            }
+          },
+          {
+            "name": "vaultV2ByAddress",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "VaultV2"
+              }
+            }
+          },
+          {
+            "name": "vaultV2AllocationTransactions",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PaginatedVaultV2AllocationTransactions"
+              }
+            }
+          },
+          {
+            "name": "vaultV2PositionByAddress",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "VaultV2Position"
+              }
+            }
+          },
+          {
+            "name": "vaultV2transactions",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PaginatedVaultV2Transactions"
+              }
+            }
+          }
+        ]
+      },
+      "c": {
+        "inputFields": [
+          {
+            "name": "txHash",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "HexString"
+              }
+            }
+          },
+          {
+            "name": "logIndex",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "extensions": {
+      "complexity": 180,
+      "maximumComplexity": 1000000
+    }
+  }
+}
