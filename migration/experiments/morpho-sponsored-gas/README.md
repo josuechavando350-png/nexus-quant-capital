@@ -119,3 +119,32 @@ El filtro conservador \`bundle_gate.py\` incluye ahora además:
 **Pruebas:** el espejo local de trabajo ejecutó 51 pruebas Python, todas aprobadas, con \`PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -q -s tests -p 'test_*.py'\`. La rama GitHub contiene 51 métodos de prueba equivalentes, pero no se ejecutó un runner oficial sobre el commit remoto. Foundry / solc 0.8.24 no están instalados en este entorno; las pruebas Solidity añadidas siguen **sin compilar y sin ejecutar**.
 
 **Condiciones abiertas e innegociables:** demostrar (1) despliegue y ejecución financiados por un builder real dentro del mismo bundle, (2) aceptación de su dirección de reembolso, (3) estado auténtico anterior a una liquidación Morpho, (4) liquidez y ruta de conversión ejecutables a ese estado, (5) rentabilidad neta y posibilidad temporal de captura. Esta rama es exclusivamente investigación; sin firmas, gasto, despliegues ni activación de workflows.
+
+
+## Verificación histórica del mercado Morpho mediante EIP-1898
+
+Nuevo control de solo lectura: `historical_prestate_probe.py` y `tests/test_historical_prestate_probe.py`. Derivan y verifican el ID del mercado involucrado en la liquidación externa del **26 de junio de 2026**:
+
+- ID calculado con **KECCAK-256** (no SHA3 de NIST), sobre cinco campos ABI de Morpho Blue: `0x582fdc4176da0ab5c65e086603ab9ecd9188e889e16efef6e35854cf14e15065`.
+- Identidad del bloque padre: `25402185`, hash `0x976caf9ddb8d59e24460f7aabe760d96e2dc96f56b3ff0d89d6c1d7359dce670`.
+- Preparan tres `eth_call` no mutantes: `idToMarketParams`, `market` y `position`, todos anclados mediante **EIP-1898 blockHash y requireCanonical=true**.
+- Fallan si cambia la configuración del mercado, un hash, una respuesta ABI, un saldo o el resultado no corresponde a la misma petición.
+- El caso original tiene **índice de transacción 226 en su bloque**. El estado padre **no es el estado anterior exacto a esa transacción**; incluso tres respuestas válidas no certifican que NQC hubiera podido liquidar, que existiera una ruta DEX rentable o que el builder financiara gas.
+- Sin RPC de archivo explícitamente configurado, el resultado es `BLOCKED_NO_ARCHIVE_RPC` (código 2). No se recurre a `latest`, claves pagadas ni endpoints no autorizados.
+
+Para verificar el trabajo localmente con el equipo disponible:
+
+```bash
+cd migration/experiments/morpho-sponsored-gas
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -q -s tests -p 'test_*.py'
+python3 historical_prestate_probe.py
+# El segundo comando termina con código 2 si no hay acceso archivístico.
+# Opcional y de SOLO LECTURA, si ya se dispone de RPC histórico:
+NQC_ARCHIVE_RPC_URL='https://<RPC_ARCHIVE_EXISTENTE>' python3 historical_prestate_probe.py
+```
+
+**Resultado verificable de esta sesión:** **67/67 pruebas Python aprobadas en el espejo local**, incluyendo 16 pruebas nuevas de identidad del mercado, ABI y anclaje contra el bloque padre. La igualdad exacta de blobs de los tres archivos nuevos se verificó por SHA Git en el repositorio remoto. Esto **no significa** que haya pruebas Foundry superadas ni acceso a estados históricos reales: el compilador `forge`/`solc` y el RPC archivístico no estaban disponibles.
+
+El mock Solidity ahora separa la liquidez ficticia de una entidad externa de prueba y comprueba que el operador empiece con `0 ETH` y `0 WETH`. **Tampoco constituye un reemplazo de una cotización o ruta DEX real.** Continúa sin compilar ni ejecutarse.
+
+**Siguiente decisión técnica:** disponer de Foundry/solc verificados y una fuente de archivo que permita reconstruir el estado anterior exacto a una transacción Morpho, luego realizar la liquidación con adaptador DEX real y contabilizar los pagos del builder por separado. Sin ello, NQC permanece sin autorización de producción y con P&L `NO_DEMOSTRADO`.
