@@ -165,3 +165,16 @@ One SYNTHETIC example returns 300 repaid assets and 638 seized collateral units.
 
 The parent-block probe still fails closed without an authenticated archive RPC; the actual state prior to the historical winner must be reproduced. Compiled Solidity, fork parity, builder acceptance and realized NQC P&L remain UNKNOWN / NOT CERTIFIED.
 
+
+
+## Protección contra bloqueos por donaciones no solicitadas
+
+**Revisión de seguridad experimental:** la versión anterior de \`NqcMorphoSponsoredLiquidation.sol\` exigía que los balances del ejecutor fuesen exactamente cero antes de entrar. Cualquier persona puede transferirle tokens ERC-20 sin permiso, y el ETH puede llegar incluso por vías que no ejecutan el método \`receive\`. Un saldo mínimo ajeno podía inutilizar indefinidamente ese ejecutor.
+
+La rama experimental ahora toma una instantánea de los cuatro saldos iniciales (token de deuda, colateral, WETH y ETH) y exige conservarlos **exactamente iguales al finalizar** la operación. Durante Morpho \`onMorphoLiquidate\`, solo se vende el colateral recibido después de la instantánea; al reembolsar gas y pagar ganancias solo se utiliza el incremento neto posterior. La condición de $0 de capital propietario se interpreta como **cero activos propios gastados**: un token enviado por un tercero no es capital utilizable ni un beneficio del operador.
+
+Se añadieron pruebas Solidity \`testUnsolicitedTokensAndForcedEthArePreserved\`, \`testDonationsCannotFakeMinimumSwapOutput\`, \`testForcedEthCannotSubsidizeBuilderRefund\` y \`testDonationsCannotSubsidizeMissingProfit\`. Son **pruebas fuente, aún sin compilar ni ejecutar** por ausencia de Foundry y Solidity 0.8.24. Ningún resultado de estas pruebas debe anunciarse como aprobado.
+
+**Math engine:** el módulo separado \`morpho_liquidation_math.py\` y sus doce regresiones calculan, con aritmética entera y entradas post-acumulación, valores teóricos de una liquidación Morpho. No sustituyen un estado auténtico de cadena ni una ejecución reproducida en fork.
+
+**Estado local al verificar el conjunto:** 79 pruebas Python aprobadas (tipadas, históricas y sintéticas). 0 pruebas Solidity ejecutadas; 0 forks históricos completos ejecutados; 0 bundles patrocinados aceptados y 0 ganancias certificadas. Las pruebas Python no elevan ningún permiso de producción. No se habilita CI, se preserva \`main\`, no se usan fondos ni transacciones reales.
