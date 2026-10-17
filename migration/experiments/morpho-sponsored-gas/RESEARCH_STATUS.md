@@ -13,6 +13,11 @@ Published historical continuation independently checked this session:
 `1e21bbc40ac87f89f89a0eb9d277124103db589c`, tree
 `42e3e54c52f66e794add1b2fa4f8f1b3109b8fe7`. Both reported commits exist on
 GitHub; the authorized branch started this session at `1e21bbc`.
+Published monthly evidence: **`c53c341426d668ef324f6f914892294e2a595bd8`**,
+tree `2aab7267d2cacfc85975c9e9b7d6cc4f64f43792`, byte-identical to tested local
+commit `4cfe503ff4a61ddb973c05097065db40ccac3a64`. GitHub branch read-back and
+local fetch verified that identity. This subsequent documentation-only commit
+records publication; executable inputs and raw evidence are unchanged.
 The current file and subsequent additions belong to the research commit that
 contains them; obtain its exact identity with `git rev-parse HEAD` and
 `git log -1 -- RESEARCH_STATUS.md`. A file cannot contain its own commit hash.

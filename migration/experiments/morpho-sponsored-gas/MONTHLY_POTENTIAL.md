@@ -1,5 +1,9 @@
 # Economic evidence and monthly capacity — 2026-10-17 UTC
 
+Published implementation/evidence commit: `c53c341426d668ef324f6f914892294e2a595bd8`.
+Its Git tree `2aab7267d2cacfc85975c9e9b7d6cc4f64f43792` matches the tested local
+commit byte for byte. This documentation follow-up records the published identity.
+
 **No authentic NQC operation is economically admitted. Monthly NQC income is
 not yet estimable.** We now have a bounded historical census and a more precise
 accounting of the external case B. Neither supplies the missing financing,
