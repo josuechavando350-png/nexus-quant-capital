@@ -21,6 +21,8 @@ REQUIRED = {
     "builder_value_gross_wei", "builder_profit_minimum_wei", "builder_value_measured",
     "route_replayed", "morpho_callback_replayed", "target_tx_competition_replayed",
     "txs", "builder_sponsored_deployment_supported", "coinbase_tip_wei",
+    "sponsor_refund_recipient", "sponsor_refund_wei",
+    "sponsor_topup_gas_limit", "sponsor_topup_max_fee_per_gas_wei",
 }
 TX_FIELDS = {"purpose", "from", "nonce", "gas_limit", "max_fee_per_gas_wei", "value_wei"}
 
@@ -63,6 +65,8 @@ class BundleGate:
     blockers: list[str]
     required_upfront_wei: int
     sponsor_margin_wei: int
+    sponsor_refund_wei: int
+    sponsor_topup_max_fee_wei: int
     transaction_count: int
     certified: bool = False
     live_executable: bool = False
@@ -91,6 +95,16 @@ def check(bundle: dict) -> BundleGate:
     gross = u256(bundle["builder_value_gross_wei"], "builder_value_gross_wei")
     min_builder = u256(bundle["builder_profit_minimum_wei"], "builder_profit_minimum_wei")
     u256(bundle["coinbase_tip_wei"], "coinbase_tip_wei")
+    direct_refund = u256(bundle["sponsor_refund_wei"], "sponsor_refund_wei")
+    sponsor_addr = address(bundle["sponsor_refund_recipient"])
+    # The builder's advance may itself require a funded transfer transaction.
+    topup_gas = u256(bundle["sponsor_topup_gas_limit"], "sponsor_topup_gas_limit")
+    topup_cap = u256(bundle["sponsor_topup_max_fee_per_gas_wei"], "sponsor_topup_max_fee_per_gas_wei")
+    if not topup_gas or not topup_cap:
+        raise ValueError("builder topup gas limit and fee cap must be positive")
+    topup_cost = topup_gas * topup_cap
+    if topup_cost > UINT256_MAX:
+        raise ValueError("sponsor topup gas cost overflow")
 
     txs = bundle["txs"]
     if not isinstance(txs, list) or len(txs) != 2:
@@ -117,14 +131,23 @@ def check(bundle: dict) -> BundleGate:
         raise ValueError("one zero-ETH signer must control both bundle transactions")
     if nonces[1] != nonces[0] + 1:
         raise ValueError("nonce sequence is not consecutive")
+    if sponsor_addr == senders[0]:
+        raise ValueError("operator cannot be its own external sponsor")
 
     blockers = []
     if sender_initial or contract_initial:
         blockers.append("NONZERO_OPERATOR_OR_EXECUTOR_CAPITAL")
     if builder_advance < required:
         blockers.append("INSUFFICIENT_SPONSOR_ADVANCE_FOR_BOTH_TRANSACTIONS")
-    if gross < builder_advance + min_builder:
+    if gross < builder_advance + topup_cost + min_builder:
         blockers.append("BUILDER_VALUE_INSUFFICIENT_AFTER_SPONSOR_COST")
+    # A block.coinbase tip goes to the proposer, not necessarily the gas sponsor.
+    # A direct refund is not confirmed until the builder-controlled recipient
+    # and the independently measured receipts are authenticated.
+    if direct_refund < builder_advance + topup_cost + min_builder:
+        blockers.append("DIRECT_SPONSOR_REPAYMENT_INSUFFICIENT")
+    if bundle["builder_value_measured"] and gross < direct_refund:
+        blockers.append("DIRECT_REPAYMENT_EXCEEDS_BUILDER_RECEIPT_VALUE")
     if not bundle["builder_sponsored_deployment_supported"]:
         blockers.append("BUILDER_SPONSORED_DEPLOYMENT_NOT_CONFIRMED")
     if not bundle["builder_value_measured"] or not bundle["builder_receipts_verified"]:
@@ -142,7 +165,9 @@ def check(bundle: dict) -> BundleGate:
         "BLOCKED" if blockers else "MODEL_SCREEN_PASS_ONLY",
         blockers,
         required,
-        gross - builder_advance,
+        gross - builder_advance - topup_cost,
+        direct_refund,
+        topup_cost,
         len(txs),
     )
 
