@@ -85,6 +85,16 @@ contract MockAdapter is INqcExactInputAdapter {
     }
 }
 
+// Explicitly separate the mock DEX's test liquidity from the zero-funded NQC operator.
+// This seeder is an artificial unit-test venue, NOT a proven real market route.
+contract MockExternalDexSeeder {
+    receive() external payable {}
+    function seed(MockWeth weth_, address adapter_, uint256 amount_) external {
+        weth_.deposit{value: amount_}();
+        require(weth_.transfer(adapter_, amount_), "external venue seed");
+    }
+}
+
 contract NqcMorphoSponsoredLiquidationMockTest {
     Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
     MockWeth weth;
@@ -96,7 +106,7 @@ contract NqcMorphoSponsoredLiquidationMockTest {
     receive() external payable {}
 
     function setUp() public {
-        vm.deal(address(this), 50 ether);
+        vm.deal(address(this), 0); // Test operator has no native capital.
         vm.coinbase(address(0xBEEF));
         weth = new MockWeth();
         collateral = new MockToken();
@@ -105,8 +115,11 @@ contract NqcMorphoSponsoredLiquidationMockTest {
         executor = new NqcMorphoSponsoredLiquidation(
             address(this), address(morpho), address(adapter), address(weth)
         );
-        weth.deposit{value: 10 ether}();
-        require(weth.transfer(address(adapter), 10 ether));
+        MockExternalDexSeeder liquidity = new MockExternalDexSeeder();
+        vm.deal(address(liquidity), 10 ether); // External test-venue capital, not NQC.
+        liquidity.seed(weth, address(adapter), 10 ether);
+        require(address(this).balance == 0, "operator started with ETH");
+        require(weth.balanceOf(address(this)) == 0, "operator started with WETH");
         collateral.mint(address(morpho), 10 ether);
     }
 
@@ -128,6 +141,8 @@ contract NqcMorphoSponsoredLiquidationMockTest {
     }
 
     function testWethLoanCallbackStartsWithZeroExecutorBalances() public {
+        require(address(this).balance == 0, "operator ETH");
+        require(weth.balanceOf(address(this)) == 0, "operator WETH");
         require(address(executor).balance == 0);
         require(weth.balanceOf(address(executor)) == 0);
         require(collateral.balanceOf(address(executor)) == 0);
@@ -144,6 +159,12 @@ contract NqcMorphoSponsoredLiquidationMockTest {
         require(weth.balanceOf(address(morpho)) == 8 ether);
         require(address(executor).balance == 0);
         require(weth.balanceOf(address(executor)) == 0);
+    }
+
+    function testDexLiquidityComesFromSeparateExternalSeeder() public {
+        require(address(this).balance == 0, "operator native must be zero");
+        require(weth.balanceOf(address(this)) == 0, "operator tokens must be zero");
+        require(weth.balanceOf(address(adapter)) == 10 ether, "mock venue liquidity");
     }
 
     function testRejectInsufficientNativeSponsorReserve() public {
