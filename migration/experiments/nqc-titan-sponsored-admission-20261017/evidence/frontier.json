@@ -1,0 +1,43 @@
+{
+  "R_wei": 50000000000000000,
+  "assumptions": [
+    "unchanged calldata/state/gas",
+    "cap equals effective fee",
+    "no additional bidder cost",
+    "known 21000-gas EOA return",
+    "1bp illustrative capital charge, not a provider quote"
+  ],
+  "classification": "MODEL_ONLY",
+  "extra_gas_sensitivity_not_new_EVM": [
+    {
+      "effective_fee_cutoff_wei_per_gas": 21471685488,
+      "extra_gas_before_limiting_prefix": 10000,
+      "minimum_advance_at_cutoff_wei": 94930164974150352
+    },
+    {
+      "effective_fee_cutoff_wei_per_gas": 20672628472,
+      "extra_gas_before_limiting_prefix": 100000,
+      "minimum_advance_at_cutoff_wei": 93257927437688488
+    }
+  ],
+  "first_nonpositive": {
+    "U_wei": 45586346101489787,
+    "effective_fee_wei_per_gas": 21564299119,
+    "gas_cost_wei": 49990487603460514,
+    "lab_opportunity_wei": 9512398342346,
+    "margin_wei": -1802860,
+    "minimum_advance_wei": 95123983423451301
+  },
+  "fixed_advance_003_ETH_max_affordable_fee_wei_per_gas": 6800902887,
+  "gas_units_fixed": 2318206,
+  "last_positive": {
+    "U_wei": 45586346099375814,
+    "effective_fee_wei_per_gas": 21564299118,
+    "gas_cost_wei": 49990487601142308,
+    "lab_opportunity_wei": 9512398341905,
+    "margin_wei": 515787,
+    "minimum_advance_wei": 95123983419040122
+  },
+  "prefix_K": 4411179,
+  "sensitivity_only_not_EVM_replayed_at_frontier": true
+}

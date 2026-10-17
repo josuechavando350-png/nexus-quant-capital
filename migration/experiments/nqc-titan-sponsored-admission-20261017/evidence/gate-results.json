@@ -1,0 +1,1867 @@
+{
+  "new_EVM_variants": 3,
+  "reused_controls": {
+    "A2_C1_cash8": {
+      "EVM": "PASS_LOCAL",
+      "U_received_wei": 25432948000000000,
+      "failures": [],
+      "retained_advance_wei": 0,
+      "source_sha256": "6089c4b0cd2852314e4edc6fb47f45e4958585a41dfc273fc2ec1359679e90e0",
+      "sponsor_cash_delta_wei": 43348948000000000
+    },
+    "A2_C1_high_gas": {
+      "EVM": "PASS_LOCAL",
+      "U_received_wei": 251758674000000000,
+      "failures": [],
+      "retained_advance_wei": 0,
+      "source_sha256": "b1ff3553be7c095d36ed96d618a071ca3dd11dbae76bee66b795b66bc74ffe3e",
+      "sponsor_cash_delta_wei": -1123326000000000
+    },
+    "A2_C1_zero_cash": {
+      "EVM": "PASS_LOCAL",
+      "U_received_wei": 25405588000000000,
+      "failures": [],
+      "retained_advance_wei": 0,
+      "source_sha256": "80754f9b2df5cf35dc677219ed9f4c6c4a023127e4bb7e4979865e5368563449",
+      "sponsor_cash_delta_wei": 43321588000000000
+    },
+    "A3_bad_create": {
+      "EVM": "REFUTED",
+      "U_received_wei": 0,
+      "failures": [
+        "debt_not_repaid",
+        "included_revert",
+        "U_not_received",
+        "unreturned_funding",
+        "no_new_NQC_WETH"
+      ],
+      "retained_advance_wei": 28878294000000000,
+      "source_sha256": "7a5af5a75e0164d7040c690f6281480000d80badd70dc1d46d616f64e012a0b9",
+      "sponsor_cash_delta_wei": -30042000000000000
+    },
+    "A3_deploy_only": {
+      "EVM": "REFUTED",
+      "U_received_wei": 0,
+      "failures": [
+        "debt_not_repaid",
+        "U_not_received",
+        "unreturned_funding",
+        "no_new_NQC_WETH"
+      ],
+      "retained_advance_wei": 26452852000000000,
+      "source_sha256": "2944387c1b88c4f8c79058d357313584b227b270d1021e727c65ff588d71bf99",
+      "sponsor_cash_delta_wei": -30042000000000000
+    },
+    "A3_excess_no_return": {
+      "EVM": "REFUTED",
+      "U_received_wei": 0,
+      "failures": [
+        "U_not_received",
+        "unreturned_funding"
+      ],
+      "retained_advance_wei": 295447588000000000,
+      "source_sha256": "0187be5a72f64d0387d009733f51e89daea915710f950bf5a18c482058cedf3b",
+      "sponsor_cash_delta_wei": -252084000000000000
+    },
+    "A3_excess_returned": {
+      "EVM": "PASS_LOCAL",
+      "U_received_wei": 295405588000000000,
+      "failures": [],
+      "retained_advance_wei": 0,
+      "source_sha256": "61a429d76ac9f00a6284d9b7b804e9c289979175089f0b7cc53def5c9aad4087",
+      "sponsor_cash_delta_wei": 43321588000000000
+    },
+    "A3_expired": {
+      "EVM": "REFUTED",
+      "U_received_wei": 26354604000000000,
+      "failures": [
+        "debt_not_repaid",
+        "included_revert",
+        "no_new_NQC_WETH"
+      ],
+      "retained_advance_wei": 0,
+      "source_sha256": "0913618e41b6f58ecedfffd07b0dcd5dcff11bced91c99f0760ce19ab98ab2f8",
+      "sponsor_cash_delta_wei": -5729396000000000
+    },
+    "A3_fee_discrepancy": {
+      "EVM": "REFUTED",
+      "U_received_wei": 0,
+      "failures": [
+        "incomplete_inclusion",
+        "U_not_received",
+        "unreturned_funding"
+      ],
+      "retained_advance_wei": 23171382000000000,
+      "source_sha256": "053d3f4ace82c69c963dca0f591edab9451b0e924d939a032804c5f230ed3190",
+      "sponsor_cash_delta_wei": 17874000000000000
+    },
+    "A3_healthy": {
+      "EVM": "REFUTED",
+      "U_received_wei": 25958712000000000,
+      "failures": [
+        "debt_not_repaid",
+        "included_revert",
+        "no_new_NQC_WETH"
+      ],
+      "retained_advance_wei": 0,
+      "source_sha256": "a4f026d4cf64f1c523fc2c39172b7b4432891ed293c9e7b26471f5b5b4ad778f",
+      "sponsor_cash_delta_wei": -6125288000000000
+    },
+    "A3_low_tip": {
+      "EVM": "PASS_LOCAL",
+      "U_received_wei": 25394456000000000,
+      "failures": [],
+      "retained_advance_wei": 0,
+      "source_sha256": "5ca4eeddfb274991daaff445d4e30a9e05416f1a6312a76b798982721cf1dab7",
+      "sponsor_cash_delta_wei": 43310456000000000
+    },
+    "A3_omit_deploy": {
+      "EVM": "REFUTED",
+      "U_received_wei": 29907872000000000,
+      "failures": [
+        "debt_not_repaid",
+        "no_new_NQC_WETH"
+      ],
+      "retained_advance_wei": 0,
+      "source_sha256": "ba1e978897d7f6e6d24bafb50ad871085dc7feb66e85424aaecc2f1dca1df2eb",
+      "sponsor_cash_delta_wei": -2176128000000000
+    },
+    "A3_omit_return": {
+      "EVM": "REFUTED",
+      "U_received_wei": 0,
+      "failures": [
+        "U_not_received",
+        "unreturned_funding"
+      ],
+      "retained_advance_wei": 25447588000000000,
+      "source_sha256": "5d132c9151288373df73b845d4b9df184a1abb80b27988e3aecaf223ffaa88dc",
+      "sponsor_cash_delta_wei": 17916000000000000
+    },
+    "A3_priority_change": {
+      "EVM": "PASS_LOCAL",
+      "U_received_wei": 25405588000000000,
+      "failures": [],
+      "retained_advance_wei": 0,
+      "source_sha256": "1f06c83ae7ae5702b338d5f4c382f64f4c67414c3adff930a89a7cbbe5719052",
+      "sponsor_cash_delta_wei": 43300588000000000
+    },
+    "A3_proposer_reject": {
+      "EVM": "REFUTED",
+      "U_received_wei": 25229896000000000,
+      "failures": [
+        "debt_not_repaid",
+        "included_revert",
+        "no_new_NQC_WETH"
+      ],
+      "retained_advance_wei": 0,
+      "source_sha256": "a1f4574ee6516b80f1efd8e3531441bde33847db7c78dbcb6f51987e3ed5658a",
+      "sponsor_cash_delta_wei": -6854104000000000
+    },
+    "A3_refund_reject": {
+      "EVM": "REFUTED",
+      "U_received_wei": 25243308000000000,
+      "failures": [
+        "debt_not_repaid",
+        "included_revert",
+        "no_new_NQC_WETH"
+      ],
+      "retained_advance_wei": 0,
+      "source_sha256": "f7200a511a1453158033f6e813e49104bc420d103c909aa36c0d5f2f93342fb2",
+      "sponsor_cash_delta_wei": -6840692000000000
+    },
+    "A3_return_reject": {
+      "EVM": "REFUTED",
+      "U_received_wei": 0,
+      "failures": [
+        "included_revert",
+        "U_not_received",
+        "unreturned_funding"
+      ],
+      "retained_advance_wei": 25405300000000000,
+      "source_sha256": "71e8a05c539151f616d0af72abf4f25dbd2ff6bd0c93c749089439ee88e4843e",
+      "sponsor_cash_delta_wei": 17916000000000000
+    },
+    "A3_slippage_one_wei": {
+      "EVM": "REFUTED",
+      "U_received_wei": 25691136000000000,
+      "failures": [
+        "debt_not_repaid",
+        "included_revert",
+        "no_new_NQC_WETH"
+      ],
+      "retained_advance_wei": 0,
+      "source_sha256": "0ae3666048474a7c45687ac9cc19ee030553415e21341905a0c690976c045a52",
+      "sponsor_cash_delta_wei": -6392864000000000
+    },
+    "A3_topup_only": {
+      "EVM": "REFUTED",
+      "U_received_wei": 0,
+      "failures": [
+        "debt_not_repaid",
+        "U_not_received",
+        "unreturned_funding",
+        "no_new_NQC_WETH"
+      ],
+      "retained_advance_wei": 30000000000000000,
+      "source_sha256": "1a23157a0bfe976f7b22ba8a01b25b05ac87f79d7ad52c4a42b0ef88954dfcbd",
+      "sponsor_cash_delta_wei": -30042000000000000
+    },
+    "A3_wrong_nonce": {
+      "EVM": "REFUTED",
+      "U_received_wei": 0,
+      "failures": [
+        "debt_not_repaid",
+        "incomplete_inclusion",
+        "U_not_received",
+        "unreturned_funding",
+        "no_new_NQC_WETH"
+      ],
+      "retained_advance_wei": 29177642000000000,
+      "source_sha256": "caf3af92ecb75e6a5365e1d7805c5e311125a6c8dd1b7df409b6a26833057e29",
+      "sponsor_cash_delta_wei": -32084000000000000
+    },
+    "C2_hypothetical_predeployed": {
+      "EVM": "PASS_LOCAL",
+      "U_received_wei": 29143618000000000,
+      "failures": [],
+      "retained_advance_wei": 0,
+      "source_sha256": "897db722400ef68cb7401faaaa6e8e868369ce71438e8dd52b4b898fd63e8e6b",
+      "sponsor_cash_delta_wei": 47059618000000000
+    },
+    "C2a_cash8": {
+      "EVM": "PASS_LOCAL",
+      "U_received_wei": 19691742000000000,
+      "failures": [],
+      "retained_advance_wei": 0,
+      "source_sha256": "e91e1d7d3b6fb206ea1bc5cdaf23aa47f897f104abbec1ec6892ec9b4c824c91",
+      "sponsor_cash_delta_wei": 37607742000000000
+    },
+    "C2b_cash0": {
+      "EVM": "REFUTED",
+      "U_received_wei": 20321756000000000,
+      "failures": [
+        "debt_not_repaid",
+        "included_revert",
+        "no_new_NQC_WETH"
+      ],
+      "retained_advance_wei": 0,
+      "source_sha256": "9ab063f04dd03540ac19e8ad528c94632e5c92c4a984d0273f464c4ca0e31380",
+      "sponsor_cash_delta_wei": -11762244000000000
+    },
+    "C2b_cash_below": {
+      "EVM": "REFUTED",
+      "U_received_wei": 20321756000000000,
+      "failures": [
+        "debt_not_repaid",
+        "included_revert",
+        "no_new_NQC_WETH"
+      ],
+      "retained_advance_wei": 0,
+      "source_sha256": "28112577ee72c771f3af464fbff525cca398c06ba4dc179f6fef74bbf29bb749",
+      "sponsor_cash_delta_wei": -11762244000000000
+    },
+    "R003_dust": {
+      "EVM": "PRIOR_RPC_SNAPSHOTS_RECONCILED",
+      "U_received_wei": 25332948000000000,
+      "failures": [],
+      "retained_advance_wei": 0,
+      "source_sha256": "c98e39e008d732eb606e324097caef10c8ed98e96d5c6642ab8eb69016a334e4",
+      "sponsor_cash_delta_wei": 43248948000000000
+    },
+    "R003_one_wei_underpay": {
+      "EVM": "PRIOR_RPC_SNAPSHOTS_RECONCILED",
+      "U_received_wei": 0,
+      "failures": [],
+      "retained_advance_wei": 25106894000000000,
+      "source_sha256": "0be7c4036309a175f09162500f2689de03368ad921b76408e5e8533779db216e",
+      "sponsor_cash_delta_wei": -30042000000000000
+    },
+    "V05_builder_funds_external_refund": {
+      "EVM": "PASS_LOCAL",
+      "U_received_wei": 25405588000000000,
+      "failures": [],
+      "retained_advance_wei": 0,
+      "source_sha256": "16953cd946584ee92168c087b21bcf937a72ff9ac0f785027288e42810a12a70",
+      "sponsor_cash_delta_wei": -4636412000000000
+    },
+    "V06_builder_funds_own_refund": {
+      "EVM": "PASS_LOCAL",
+      "U_received_wei": 25405588000000000,
+      "failures": [],
+      "retained_advance_wei": 0,
+      "source_sha256": "219f3ac0a2a9363bd6a84a39467998bd2cb1e723fe2def63cee3076b8c35b0cc",
+      "sponsor_cash_delta_wei": 45363588000000000
+    },
+    "V07_partial_topup": {
+      "EVM": "REFUTED",
+      "U_received_wei": 0,
+      "failures": [
+        "debt_not_repaid",
+        "incomplete_inclusion",
+        "U_not_received",
+        "unreturned_funding",
+        "no_new_NQC_WETH"
+      ],
+      "retained_advance_wei": 10000000000000,
+      "source_sha256": "40eae66d03a5d3d1f69fd682c7689fb9ac8d4ea1c4089b41234b408038e7ff91",
+      "sponsor_cash_delta_wei": -52000000000000
+    }
+  },
+  "variant_limit": 12,
+  "variants": {
+    "V01_external_financier_2g": {
+      "EVM": {
+        "classification": "PASS_LOCAL",
+        "failures": [],
+        "prefixes": [
+          {
+            "actual_gas_wei": 42000000000000,
+            "balance_before_wei": 1000000000000000000,
+            "base_fee_burn_wei": 21000000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "topup",
+            "max_fee_wei": 3000000000,
+            "nonce": 0,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 30000000000000000,
+            "upfront_reserve_wei": 30063000000000000
+          },
+          {
+            "actual_gas_wei": 822358000000000,
+            "balance_before_wei": 30000000000000000,
+            "base_fee_burn_wei": 411179000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 4000000,
+            "gas_used": 411179,
+            "label": "nqc_adapter",
+            "max_fee_wei": 3000000000,
+            "nonce": 0,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 411179000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 12000000000000000
+          },
+          {
+            "actual_gas_wei": 2724790000000000,
+            "balance_before_wei": 29177642000000000,
+            "base_fee_burn_wei": 1362395000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 4000000,
+            "gas_used": 1362395,
+            "label": "nqc_executor",
+            "max_fee_wei": 3000000000,
+            "nonce": 1,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 1362395000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 12000000000000000
+          },
+          {
+            "actual_gas_wei": 1005264000000000,
+            "balance_before_wei": 26452852000000000,
+            "base_fee_burn_wei": 502632000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 2500000,
+            "gas_used": 502632,
+            "label": "liquidate",
+            "max_fee_wei": 3000000000,
+            "nonce": 2,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 502632000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 7500000000000000
+          },
+          {
+            "actual_gas_wei": 42000000000000,
+            "balance_before_wei": 25447588000000000,
+            "base_fee_burn_wei": 21000000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "return_unused_advance",
+            "max_fee_wei": 2000000000,
+            "nonce": 3,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 25405588000000000,
+            "upfront_reserve_wei": 25447588000000000
+          },
+          {
+            "actual_gas_wei": 42000000000000,
+            "balance_before_wei": 1045363588000000000,
+            "base_fee_burn_wei": 21000000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "separate_builder_fee",
+            "max_fee_wei": 3000000000,
+            "nonce": 1,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 2000000000000000,
+            "upfront_reserve_wei": 2063000000000000
+          }
+        ]
+      },
+      "builder_addresses": [
+        "0x0000000000000000000000000000000000001004"
+      ],
+      "builder_after_lab_charge_wei": 1997000000000000,
+      "builder_cash_delta_wei": 2000000000000000,
+      "builder_real_recipient": null,
+      "checks": {
+        "EVM_complete": true,
+        "builder_identity_scoped": true,
+        "builder_margin_positive_after_lab_1bp": true,
+        "extra_sponsored_value_documented": true,
+        "failure_exposure_within_declared_lab_cap": true,
+        "founder_recourse_model_zero": true,
+        "funding_from_builder_entity": false,
+        "initial_missing_gas": true,
+        "required_transactions_not_optional": true
+      },
+      "classification": "REFUTED",
+      "commercial_classification": "UNKNOWN",
+      "declared_loss_cap_wei": 1000000000000000000,
+      "founder_max_recourse_wei": null,
+      "founder_model_recourse_wei": 0,
+      "founder_real_terms": "UNKNOWN",
+      "historical_B": "BLOCKED_PRESTATE",
+      "lab_opportunity_1bp_wei": 3000000000000,
+      "monthly": "NO_ESTIMABLE",
+      "observed_address_group_cash_delta_wei": 2000000000000000,
+      "own_max_caps_and_values_at_risk_wei": 0,
+      "real_builder_acceptance": "NOT_TESTED",
+      "scope": "LAB_ASSIGNMENT",
+      "source_scenario": "A2_C1_zero_cash"
+    },
+    "V02_external_financier_21g": {
+      "EVM": {
+        "classification": "PASS_LOCAL",
+        "failures": [],
+        "prefixes": [
+          {
+            "actual_gas_wei": 441000000000000,
+            "balance_before_wei": 1000000000000000000,
+            "base_fee_burn_wei": 420000000000000,
+            "effective_price_wei": 21000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "topup",
+            "max_fee_wei": 30000000000,
+            "nonce": 0,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 300000000000000000,
+            "upfront_reserve_wei": 300630000000000000
+          },
+          {
+            "actual_gas_wei": 8634759000000000,
+            "balance_before_wei": 300000000000000000,
+            "base_fee_burn_wei": 8223580000000000,
+            "effective_price_wei": 21000000000,
+            "gas_limit": 4000000,
+            "gas_used": 411179,
+            "label": "nqc_adapter",
+            "max_fee_wei": 30000000000,
+            "nonce": 0,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 411179000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 120000000000000000
+          },
+          {
+            "actual_gas_wei": 28610295000000000,
+            "balance_before_wei": 291365241000000000,
+            "base_fee_burn_wei": 27247900000000000,
+            "effective_price_wei": 21000000000,
+            "gas_limit": 4000000,
+            "gas_used": 1362395,
+            "label": "nqc_executor",
+            "max_fee_wei": 30000000000,
+            "nonce": 1,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 1362395000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 120000000000000000
+          },
+          {
+            "actual_gas_wei": 10555272000000000,
+            "balance_before_wei": 262754946000000000,
+            "base_fee_burn_wei": 10052640000000000,
+            "effective_price_wei": 21000000000,
+            "gas_limit": 2500000,
+            "gas_used": 502632,
+            "label": "liquidate",
+            "max_fee_wei": 30000000000,
+            "nonce": 2,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 502632000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 75000000000000000
+          },
+          {
+            "actual_gas_wei": 441000000000000,
+            "balance_before_wei": 252199674000000000,
+            "base_fee_burn_wei": 420000000000000,
+            "effective_price_wei": 21000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "return_unused_advance",
+            "max_fee_wei": 21000000000,
+            "nonce": 3,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 251758674000000000,
+            "upfront_reserve_wei": 252199674000000000
+          },
+          {
+            "actual_gas_wei": 441000000000000,
+            "balance_before_wei": 1001317674000000000,
+            "base_fee_burn_wei": 420000000000000,
+            "effective_price_wei": 21000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "separate_builder_fee",
+            "max_fee_wei": 30000000000,
+            "nonce": 1,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 2000000000000000,
+            "upfront_reserve_wei": 2630000000000000
+          }
+        ]
+      },
+      "builder_addresses": [
+        "0x0000000000000000000000000000000000001004"
+      ],
+      "builder_after_lab_charge_wei": 1970000000000000,
+      "builder_cash_delta_wei": 2000000000000000,
+      "builder_real_recipient": null,
+      "checks": {
+        "EVM_complete": true,
+        "builder_identity_scoped": true,
+        "builder_margin_positive_after_lab_1bp": true,
+        "extra_sponsored_value_documented": true,
+        "failure_exposure_within_declared_lab_cap": true,
+        "founder_recourse_model_zero": true,
+        "funding_from_builder_entity": false,
+        "initial_missing_gas": true,
+        "required_transactions_not_optional": true
+      },
+      "classification": "REFUTED",
+      "commercial_classification": "UNKNOWN",
+      "declared_loss_cap_wei": 1000000000000000000,
+      "founder_max_recourse_wei": null,
+      "founder_model_recourse_wei": 0,
+      "founder_real_terms": "UNKNOWN",
+      "historical_B": "BLOCKED_PRESTATE",
+      "lab_opportunity_1bp_wei": 30000000000000,
+      "monthly": "NO_ESTIMABLE",
+      "observed_address_group_cash_delta_wei": 2000000000000000,
+      "own_max_caps_and_values_at_risk_wei": 0,
+      "real_builder_acceptance": "NOT_TESTED",
+      "scope": "LAB_ASSIGNMENT",
+      "source_scenario": "A2_C1_high_gas"
+    },
+    "V03_declared_same_owner_2g": {
+      "EVM": {
+        "classification": "PASS_LOCAL",
+        "failures": [],
+        "prefixes": [
+          {
+            "actual_gas_wei": 42000000000000,
+            "balance_before_wei": 1000000000000000000,
+            "base_fee_burn_wei": 21000000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "topup",
+            "max_fee_wei": 3000000000,
+            "nonce": 0,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 30000000000000000,
+            "upfront_reserve_wei": 30063000000000000
+          },
+          {
+            "actual_gas_wei": 822358000000000,
+            "balance_before_wei": 30000000000000000,
+            "base_fee_burn_wei": 411179000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 4000000,
+            "gas_used": 411179,
+            "label": "nqc_adapter",
+            "max_fee_wei": 3000000000,
+            "nonce": 0,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 411179000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 12000000000000000
+          },
+          {
+            "actual_gas_wei": 2724790000000000,
+            "balance_before_wei": 29177642000000000,
+            "base_fee_burn_wei": 1362395000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 4000000,
+            "gas_used": 1362395,
+            "label": "nqc_executor",
+            "max_fee_wei": 3000000000,
+            "nonce": 1,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 1362395000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 12000000000000000
+          },
+          {
+            "actual_gas_wei": 1005264000000000,
+            "balance_before_wei": 26452852000000000,
+            "base_fee_burn_wei": 502632000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 2500000,
+            "gas_used": 502632,
+            "label": "liquidate",
+            "max_fee_wei": 3000000000,
+            "nonce": 2,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 502632000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 7500000000000000
+          },
+          {
+            "actual_gas_wei": 42000000000000,
+            "balance_before_wei": 25447588000000000,
+            "base_fee_burn_wei": 21000000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "return_unused_advance",
+            "max_fee_wei": 2000000000,
+            "nonce": 3,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 25405588000000000,
+            "upfront_reserve_wei": 25447588000000000
+          },
+          {
+            "actual_gas_wei": 42000000000000,
+            "balance_before_wei": 1045363588000000000,
+            "base_fee_burn_wei": 21000000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "separate_builder_fee",
+            "max_fee_wei": 3000000000,
+            "nonce": 1,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 2000000000000000,
+            "upfront_reserve_wei": 2063000000000000
+          }
+        ]
+      },
+      "builder_addresses": [
+        "0x0000000000000000000000000000000000001002",
+        "0x0000000000000000000000000000000000001004"
+      ],
+      "builder_after_lab_charge_wei": 45318588000000000,
+      "builder_cash_delta_wei": 45321588000000000,
+      "builder_real_recipient": null,
+      "checks": {
+        "EVM_complete": true,
+        "builder_identity_scoped": true,
+        "builder_margin_positive_after_lab_1bp": true,
+        "extra_sponsored_value_documented": true,
+        "failure_exposure_within_declared_lab_cap": true,
+        "founder_recourse_model_zero": true,
+        "funding_from_builder_entity": true,
+        "initial_missing_gas": true,
+        "required_transactions_not_optional": true
+      },
+      "classification": "PASS_LOCAL",
+      "commercial_classification": "UNKNOWN",
+      "declared_loss_cap_wei": 1000000000000000000,
+      "founder_max_recourse_wei": null,
+      "founder_model_recourse_wei": 0,
+      "founder_real_terms": "UNKNOWN",
+      "historical_B": "BLOCKED_PRESTATE",
+      "lab_opportunity_1bp_wei": 3000000000000,
+      "monthly": "NO_ESTIMABLE",
+      "observed_address_group_cash_delta_wei": 45321588000000000,
+      "own_max_caps_and_values_at_risk_wei": 32126000000000000,
+      "real_builder_acceptance": "NOT_TESTED",
+      "scope": "LAB_ASSIGNMENT",
+      "source_scenario": "A2_C1_zero_cash"
+    },
+    "V04_declared_same_owner_21g": {
+      "EVM": {
+        "classification": "PASS_LOCAL",
+        "failures": [],
+        "prefixes": [
+          {
+            "actual_gas_wei": 441000000000000,
+            "balance_before_wei": 1000000000000000000,
+            "base_fee_burn_wei": 420000000000000,
+            "effective_price_wei": 21000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "topup",
+            "max_fee_wei": 30000000000,
+            "nonce": 0,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 300000000000000000,
+            "upfront_reserve_wei": 300630000000000000
+          },
+          {
+            "actual_gas_wei": 8634759000000000,
+            "balance_before_wei": 300000000000000000,
+            "base_fee_burn_wei": 8223580000000000,
+            "effective_price_wei": 21000000000,
+            "gas_limit": 4000000,
+            "gas_used": 411179,
+            "label": "nqc_adapter",
+            "max_fee_wei": 30000000000,
+            "nonce": 0,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 411179000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 120000000000000000
+          },
+          {
+            "actual_gas_wei": 28610295000000000,
+            "balance_before_wei": 291365241000000000,
+            "base_fee_burn_wei": 27247900000000000,
+            "effective_price_wei": 21000000000,
+            "gas_limit": 4000000,
+            "gas_used": 1362395,
+            "label": "nqc_executor",
+            "max_fee_wei": 30000000000,
+            "nonce": 1,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 1362395000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 120000000000000000
+          },
+          {
+            "actual_gas_wei": 10555272000000000,
+            "balance_before_wei": 262754946000000000,
+            "base_fee_burn_wei": 10052640000000000,
+            "effective_price_wei": 21000000000,
+            "gas_limit": 2500000,
+            "gas_used": 502632,
+            "label": "liquidate",
+            "max_fee_wei": 30000000000,
+            "nonce": 2,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 502632000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 75000000000000000
+          },
+          {
+            "actual_gas_wei": 441000000000000,
+            "balance_before_wei": 252199674000000000,
+            "base_fee_burn_wei": 420000000000000,
+            "effective_price_wei": 21000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "return_unused_advance",
+            "max_fee_wei": 21000000000,
+            "nonce": 3,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 251758674000000000,
+            "upfront_reserve_wei": 252199674000000000
+          },
+          {
+            "actual_gas_wei": 441000000000000,
+            "balance_before_wei": 1001317674000000000,
+            "base_fee_burn_wei": 420000000000000,
+            "effective_price_wei": 21000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "separate_builder_fee",
+            "max_fee_wei": 30000000000,
+            "nonce": 1,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 2000000000000000,
+            "upfront_reserve_wei": 2630000000000000
+          }
+        ]
+      },
+      "builder_addresses": [
+        "0x0000000000000000000000000000000000001002",
+        "0x0000000000000000000000000000000000001004"
+      ],
+      "builder_after_lab_charge_wei": 846674000000000,
+      "builder_cash_delta_wei": 876674000000000,
+      "builder_real_recipient": null,
+      "checks": {
+        "EVM_complete": true,
+        "builder_identity_scoped": true,
+        "builder_margin_positive_after_lab_1bp": true,
+        "extra_sponsored_value_documented": true,
+        "failure_exposure_within_declared_lab_cap": true,
+        "founder_recourse_model_zero": true,
+        "funding_from_builder_entity": true,
+        "initial_missing_gas": true,
+        "required_transactions_not_optional": true
+      },
+      "classification": "PASS_LOCAL",
+      "commercial_classification": "UNKNOWN",
+      "declared_loss_cap_wei": 1000000000000000000,
+      "founder_max_recourse_wei": null,
+      "founder_model_recourse_wei": 0,
+      "founder_real_terms": "UNKNOWN",
+      "historical_B": "BLOCKED_PRESTATE",
+      "lab_opportunity_1bp_wei": 30000000000000,
+      "monthly": "NO_ESTIMABLE",
+      "observed_address_group_cash_delta_wei": 876674000000000,
+      "own_max_caps_and_values_at_risk_wei": 303260000000000000,
+      "real_builder_acceptance": "NOT_TESTED",
+      "scope": "LAB_ASSIGNMENT",
+      "source_scenario": "A2_C1_high_gas"
+    },
+    "V05_builder_funds_external_refund": {
+      "EVM": {
+        "classification": "PASS_LOCAL",
+        "failures": [],
+        "prefixes": [
+          {
+            "actual_gas_wei": 42000000000000,
+            "balance_before_wei": 100000000000000000000,
+            "base_fee_burn_wei": 21000000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "topup",
+            "max_fee_wei": 3000000000,
+            "nonce": 0,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 30000000000000000,
+            "upfront_reserve_wei": 30063000000000000
+          },
+          {
+            "actual_gas_wei": 822358000000000,
+            "balance_before_wei": 30000000000000000,
+            "base_fee_burn_wei": 411179000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 4000000,
+            "gas_used": 411179,
+            "label": "nqc_adapter",
+            "max_fee_wei": 3000000000,
+            "nonce": 0,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 411179000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 12000000000000000
+          },
+          {
+            "actual_gas_wei": 2724790000000000,
+            "balance_before_wei": 29177642000000000,
+            "base_fee_burn_wei": 1362395000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 4000000,
+            "gas_used": 1362395,
+            "label": "nqc_executor",
+            "max_fee_wei": 3000000000,
+            "nonce": 1,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 1362395000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 12000000000000000
+          },
+          {
+            "actual_gas_wei": 1005264000000000,
+            "balance_before_wei": 26452852000000000,
+            "base_fee_burn_wei": 502632000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 2500000,
+            "gas_used": 502632,
+            "label": "liquidate",
+            "max_fee_wei": 3000000000,
+            "nonce": 2,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 502632000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 7500000000000000
+          },
+          {
+            "actual_gas_wei": 42000000000000,
+            "balance_before_wei": 25447588000000000,
+            "base_fee_burn_wei": 21000000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "return_unused_advance",
+            "max_fee_wei": 2000000000,
+            "nonce": 3,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 25405588000000000,
+            "upfront_reserve_wei": 25447588000000000
+          }
+        ]
+      },
+      "builder_addresses": [
+        "0x0000000000000000000000000000000000001004"
+      ],
+      "builder_after_lab_charge_wei": -4639412000000000,
+      "builder_cash_delta_wei": -4636412000000000,
+      "builder_real_recipient": null,
+      "checks": {
+        "EVM_complete": true,
+        "builder_identity_scoped": true,
+        "builder_margin_positive_after_lab_1bp": false,
+        "extra_sponsored_value_documented": true,
+        "failure_exposure_within_declared_lab_cap": true,
+        "founder_recourse_model_zero": true,
+        "funding_from_builder_entity": true,
+        "initial_missing_gas": true,
+        "required_transactions_not_optional": true
+      },
+      "classification": "REFUTED",
+      "commercial_classification": "UNKNOWN",
+      "declared_loss_cap_wei": 1000000000000000000,
+      "founder_max_recourse_wei": null,
+      "founder_model_recourse_wei": 0,
+      "founder_real_terms": "UNKNOWN",
+      "historical_B": "BLOCKED_PRESTATE",
+      "lab_opportunity_1bp_wei": 3000000000000,
+      "monthly": "NO_ESTIMABLE",
+      "observed_address_group_cash_delta_wei": -4636412000000000,
+      "own_max_caps_and_values_at_risk_wei": 30063000000000000,
+      "real_builder_acceptance": "NOT_TESTED",
+      "scope": "LAB_ASSIGNMENT",
+      "source_scenario": "V05_builder_funds_external_refund"
+    },
+    "V06_builder_funds_own_refund": {
+      "EVM": {
+        "classification": "PASS_LOCAL",
+        "failures": [],
+        "prefixes": [
+          {
+            "actual_gas_wei": 42000000000000,
+            "balance_before_wei": 100000000000000000000,
+            "base_fee_burn_wei": 21000000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "topup",
+            "max_fee_wei": 3000000000,
+            "nonce": 0,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 30000000000000000,
+            "upfront_reserve_wei": 30063000000000000
+          },
+          {
+            "actual_gas_wei": 822358000000000,
+            "balance_before_wei": 30000000000000000,
+            "base_fee_burn_wei": 411179000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 4000000,
+            "gas_used": 411179,
+            "label": "nqc_adapter",
+            "max_fee_wei": 3000000000,
+            "nonce": 0,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 411179000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 12000000000000000
+          },
+          {
+            "actual_gas_wei": 2724790000000000,
+            "balance_before_wei": 29177642000000000,
+            "base_fee_burn_wei": 1362395000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 4000000,
+            "gas_used": 1362395,
+            "label": "nqc_executor",
+            "max_fee_wei": 3000000000,
+            "nonce": 1,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 1362395000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 12000000000000000
+          },
+          {
+            "actual_gas_wei": 1005264000000000,
+            "balance_before_wei": 26452852000000000,
+            "base_fee_burn_wei": 502632000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 2500000,
+            "gas_used": 502632,
+            "label": "liquidate",
+            "max_fee_wei": 3000000000,
+            "nonce": 2,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 502632000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 7500000000000000
+          },
+          {
+            "actual_gas_wei": 42000000000000,
+            "balance_before_wei": 25447588000000000,
+            "base_fee_burn_wei": 21000000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "return_unused_advance",
+            "max_fee_wei": 2000000000,
+            "nonce": 3,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 25405588000000000,
+            "upfront_reserve_wei": 25447588000000000
+          }
+        ]
+      },
+      "builder_addresses": [
+        "0x0000000000000000000000000000000000001004"
+      ],
+      "builder_after_lab_charge_wei": 45360588000000000,
+      "builder_cash_delta_wei": 45363588000000000,
+      "builder_real_recipient": null,
+      "checks": {
+        "EVM_complete": true,
+        "builder_identity_scoped": true,
+        "builder_margin_positive_after_lab_1bp": true,
+        "extra_sponsored_value_documented": true,
+        "failure_exposure_within_declared_lab_cap": true,
+        "founder_recourse_model_zero": true,
+        "funding_from_builder_entity": true,
+        "initial_missing_gas": true,
+        "required_transactions_not_optional": true
+      },
+      "classification": "PASS_LOCAL",
+      "commercial_classification": "UNKNOWN",
+      "declared_loss_cap_wei": 1000000000000000000,
+      "founder_max_recourse_wei": null,
+      "founder_model_recourse_wei": 0,
+      "founder_real_terms": "UNKNOWN",
+      "historical_B": "BLOCKED_PRESTATE",
+      "lab_opportunity_1bp_wei": 3000000000000,
+      "monthly": "NO_ESTIMABLE",
+      "observed_address_group_cash_delta_wei": 45363588000000000,
+      "own_max_caps_and_values_at_risk_wei": 30063000000000000,
+      "real_builder_acceptance": "NOT_TESTED",
+      "scope": "LAB_ASSIGNMENT",
+      "source_scenario": "V06_builder_funds_own_refund"
+    },
+    "V07_partial_topup": {
+      "EVM": {
+        "classification": "REFUTED",
+        "failures": [
+          "debt_not_repaid",
+          "incomplete_inclusion",
+          "U_not_received",
+          "unreturned_funding",
+          "no_new_NQC_WETH"
+        ],
+        "prefixes": [
+          {
+            "actual_gas_wei": 42000000000000,
+            "balance_before_wei": 100000000000000000000,
+            "base_fee_burn_wei": 21000000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "topup",
+            "max_fee_wei": 3000000000,
+            "nonce": 0,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 10000000000000,
+            "upfront_reserve_wei": 73000000000000
+          }
+        ]
+      },
+      "builder_addresses": [
+        "0x0000000000000000000000000000000000001004"
+      ],
+      "builder_after_lab_charge_wei": -52001000000000,
+      "builder_cash_delta_wei": -52000000000000,
+      "builder_real_recipient": null,
+      "checks": {
+        "EVM_complete": false,
+        "builder_identity_scoped": true,
+        "builder_margin_positive_after_lab_1bp": false,
+        "extra_sponsored_value_documented": true,
+        "failure_exposure_within_declared_lab_cap": true,
+        "founder_recourse_model_zero": true,
+        "funding_from_builder_entity": true,
+        "initial_missing_gas": null,
+        "required_transactions_not_optional": true
+      },
+      "classification": "REFUTED",
+      "commercial_classification": "UNKNOWN",
+      "declared_loss_cap_wei": 1000000000000000000,
+      "founder_max_recourse_wei": null,
+      "founder_model_recourse_wei": 0,
+      "founder_real_terms": "UNKNOWN",
+      "historical_B": "BLOCKED_PRESTATE",
+      "lab_opportunity_1bp_wei": 1000000000,
+      "monthly": "NO_ESTIMABLE",
+      "observed_address_group_cash_delta_wei": -52000000000000,
+      "own_max_caps_and_values_at_risk_wei": 73000000000000,
+      "real_builder_acceptance": "NOT_TESTED",
+      "scope": "LAB_ASSIGNMENT",
+      "source_scenario": "V07_partial_topup"
+    },
+    "V08_proposer_ownership_not_authenticated": {
+      "EVM": {
+        "classification": "PASS_LOCAL",
+        "failures": [],
+        "prefixes": [
+          {
+            "actual_gas_wei": 42000000000000,
+            "balance_before_wei": 1000000000000000000,
+            "base_fee_burn_wei": 21000000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "topup",
+            "max_fee_wei": 3000000000,
+            "nonce": 0,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 30000000000000000,
+            "upfront_reserve_wei": 30063000000000000
+          },
+          {
+            "actual_gas_wei": 822358000000000,
+            "balance_before_wei": 30000000000000000,
+            "base_fee_burn_wei": 411179000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 4000000,
+            "gas_used": 411179,
+            "label": "nqc_adapter",
+            "max_fee_wei": 3000000000,
+            "nonce": 0,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 411179000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 12000000000000000
+          },
+          {
+            "actual_gas_wei": 2724790000000000,
+            "balance_before_wei": 29177642000000000,
+            "base_fee_burn_wei": 1362395000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 4000000,
+            "gas_used": 1362395,
+            "label": "nqc_executor",
+            "max_fee_wei": 3000000000,
+            "nonce": 1,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 1362395000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 12000000000000000
+          },
+          {
+            "actual_gas_wei": 1005264000000000,
+            "balance_before_wei": 26452852000000000,
+            "base_fee_burn_wei": 502632000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 2500000,
+            "gas_used": 502632,
+            "label": "liquidate",
+            "max_fee_wei": 3000000000,
+            "nonce": 2,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 502632000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 7500000000000000
+          },
+          {
+            "actual_gas_wei": 42000000000000,
+            "balance_before_wei": 25447588000000000,
+            "base_fee_burn_wei": 21000000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "return_unused_advance",
+            "max_fee_wei": 2000000000,
+            "nonce": 3,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 25405588000000000,
+            "upfront_reserve_wei": 25447588000000000
+          },
+          {
+            "actual_gas_wei": 42000000000000,
+            "balance_before_wei": 1045363588000000000,
+            "base_fee_burn_wei": 21000000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "separate_builder_fee",
+            "max_fee_wei": 3000000000,
+            "nonce": 1,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 2000000000000000,
+            "upfront_reserve_wei": 2063000000000000
+          }
+        ]
+      },
+      "builder_addresses": [
+        "0x0000000000000000000000000000000000001002",
+        "0x0000000000000000000000000000000000001004",
+        "0x0000000000000000000000000000000000001005"
+      ],
+      "builder_after_lab_charge_wei": null,
+      "builder_cash_delta_wei": null,
+      "builder_real_recipient": null,
+      "checks": {
+        "EVM_complete": true,
+        "builder_identity_scoped": null,
+        "builder_margin_positive_after_lab_1bp": null,
+        "extra_sponsored_value_documented": true,
+        "failure_exposure_within_declared_lab_cap": true,
+        "founder_recourse_model_zero": true,
+        "funding_from_builder_entity": true,
+        "initial_missing_gas": true,
+        "required_transactions_not_optional": true
+      },
+      "classification": "UNKNOWN",
+      "commercial_classification": "UNKNOWN",
+      "declared_loss_cap_wei": 1000000000000000000,
+      "founder_max_recourse_wei": null,
+      "founder_model_recourse_wei": 0,
+      "founder_real_terms": "UNKNOWN",
+      "historical_B": "BLOCKED_PRESTATE",
+      "lab_opportunity_1bp_wei": 3000000000000,
+      "monthly": "NO_ESTIMABLE",
+      "observed_address_group_cash_delta_wei": 87660794000000000,
+      "own_max_caps_and_values_at_risk_wei": 32126000000000000,
+      "real_builder_acceptance": "NOT_TESTED",
+      "scope": "LAB_ASSIGNMENT",
+      "source_scenario": "A2_C1_zero_cash"
+    },
+    "V09_provider_value_distinction": {
+      "Quasar": {
+        "EVM": {
+          "classification": "PASS_LOCAL",
+          "failures": [],
+          "prefixes": [
+            {
+              "actual_gas_wei": 42000000000000,
+              "balance_before_wei": 100000000000000000000,
+              "base_fee_burn_wei": 21000000000000,
+              "effective_price_wei": 2000000000,
+              "gas_limit": 21000,
+              "gas_used": 21000,
+              "label": "topup",
+              "max_fee_wei": 3000000000,
+              "nonce": 0,
+              "priority_fee_cap_wei": 1000000000,
+              "priority_paid_to_coinbase_wei": 21000000000000,
+              "top_level_value_wei": 30000000000000000,
+              "upfront_reserve_wei": 30063000000000000
+            },
+            {
+              "actual_gas_wei": 822358000000000,
+              "balance_before_wei": 30000000000000000,
+              "base_fee_burn_wei": 411179000000000,
+              "effective_price_wei": 2000000000,
+              "gas_limit": 4000000,
+              "gas_used": 411179,
+              "label": "nqc_adapter",
+              "max_fee_wei": 3000000000,
+              "nonce": 0,
+              "priority_fee_cap_wei": 1000000000,
+              "priority_paid_to_coinbase_wei": 411179000000000,
+              "top_level_value_wei": 0,
+              "upfront_reserve_wei": 12000000000000000
+            },
+            {
+              "actual_gas_wei": 2724790000000000,
+              "balance_before_wei": 29177642000000000,
+              "base_fee_burn_wei": 1362395000000000,
+              "effective_price_wei": 2000000000,
+              "gas_limit": 4000000,
+              "gas_used": 1362395,
+              "label": "nqc_executor",
+              "max_fee_wei": 3000000000,
+              "nonce": 1,
+              "priority_fee_cap_wei": 1000000000,
+              "priority_paid_to_coinbase_wei": 1362395000000000,
+              "top_level_value_wei": 0,
+              "upfront_reserve_wei": 12000000000000000
+            },
+            {
+              "actual_gas_wei": 1005264000000000,
+              "balance_before_wei": 26452852000000000,
+              "base_fee_burn_wei": 502632000000000,
+              "effective_price_wei": 2000000000,
+              "gas_limit": 2500000,
+              "gas_used": 502632,
+              "label": "liquidate",
+              "max_fee_wei": 3000000000,
+              "nonce": 2,
+              "priority_fee_cap_wei": 1000000000,
+              "priority_paid_to_coinbase_wei": 502632000000000,
+              "top_level_value_wei": 0,
+              "upfront_reserve_wei": 7500000000000000
+            },
+            {
+              "actual_gas_wei": 42000000000000,
+              "balance_before_wei": 25447588000000000,
+              "base_fee_burn_wei": 21000000000000,
+              "effective_price_wei": 2000000000,
+              "gas_limit": 21000,
+              "gas_used": 21000,
+              "label": "return_unused_advance",
+              "max_fee_wei": 2000000000,
+              "nonce": 3,
+              "priority_fee_cap_wei": 1000000000,
+              "priority_paid_to_coinbase_wei": 21000000000000,
+              "top_level_value_wei": 25405588000000000,
+              "upfront_reserve_wei": 25447588000000000
+            }
+          ]
+        },
+        "builder_addresses": [
+          "0x0000000000000000000000000000000000001004"
+        ],
+        "builder_after_lab_charge_wei": 45360588000000000,
+        "builder_cash_delta_wei": 45363588000000000,
+        "builder_real_recipient": null,
+        "checks": {
+          "EVM_complete": true,
+          "builder_identity_scoped": true,
+          "builder_margin_positive_after_lab_1bp": true,
+          "extra_sponsored_value_documented": null,
+          "failure_exposure_within_declared_lab_cap": true,
+          "founder_recourse_model_zero": true,
+          "funding_from_builder_entity": true,
+          "initial_missing_gas": true,
+          "required_transactions_not_optional": true
+        },
+        "classification": "UNKNOWN",
+        "commercial_classification": "UNKNOWN",
+        "declared_loss_cap_wei": 1000000000000000000,
+        "founder_max_recourse_wei": null,
+        "founder_model_recourse_wei": 0,
+        "founder_real_terms": "UNKNOWN",
+        "historical_B": "BLOCKED_PRESTATE",
+        "lab_opportunity_1bp_wei": 3000000000000,
+        "monthly": "NO_ESTIMABLE",
+        "observed_address_group_cash_delta_wei": 45363588000000000,
+        "own_max_caps_and_values_at_risk_wei": 30063000000000000,
+        "real_builder_acceptance": "NOT_TESTED",
+        "scope": "LAB_ASSIGNMENT",
+        "source_scenario": "V06_builder_funds_own_refund"
+      },
+      "Titan": {
+        "EVM": {
+          "classification": "PASS_LOCAL",
+          "failures": [],
+          "prefixes": [
+            {
+              "actual_gas_wei": 42000000000000,
+              "balance_before_wei": 100000000000000000000,
+              "base_fee_burn_wei": 21000000000000,
+              "effective_price_wei": 2000000000,
+              "gas_limit": 21000,
+              "gas_used": 21000,
+              "label": "topup",
+              "max_fee_wei": 3000000000,
+              "nonce": 0,
+              "priority_fee_cap_wei": 1000000000,
+              "priority_paid_to_coinbase_wei": 21000000000000,
+              "top_level_value_wei": 30000000000000000,
+              "upfront_reserve_wei": 30063000000000000
+            },
+            {
+              "actual_gas_wei": 822358000000000,
+              "balance_before_wei": 30000000000000000,
+              "base_fee_burn_wei": 411179000000000,
+              "effective_price_wei": 2000000000,
+              "gas_limit": 4000000,
+              "gas_used": 411179,
+              "label": "nqc_adapter",
+              "max_fee_wei": 3000000000,
+              "nonce": 0,
+              "priority_fee_cap_wei": 1000000000,
+              "priority_paid_to_coinbase_wei": 411179000000000,
+              "top_level_value_wei": 0,
+              "upfront_reserve_wei": 12000000000000000
+            },
+            {
+              "actual_gas_wei": 2724790000000000,
+              "balance_before_wei": 29177642000000000,
+              "base_fee_burn_wei": 1362395000000000,
+              "effective_price_wei": 2000000000,
+              "gas_limit": 4000000,
+              "gas_used": 1362395,
+              "label": "nqc_executor",
+              "max_fee_wei": 3000000000,
+              "nonce": 1,
+              "priority_fee_cap_wei": 1000000000,
+              "priority_paid_to_coinbase_wei": 1362395000000000,
+              "top_level_value_wei": 0,
+              "upfront_reserve_wei": 12000000000000000
+            },
+            {
+              "actual_gas_wei": 1005264000000000,
+              "balance_before_wei": 26452852000000000,
+              "base_fee_burn_wei": 502632000000000,
+              "effective_price_wei": 2000000000,
+              "gas_limit": 2500000,
+              "gas_used": 502632,
+              "label": "liquidate",
+              "max_fee_wei": 3000000000,
+              "nonce": 2,
+              "priority_fee_cap_wei": 1000000000,
+              "priority_paid_to_coinbase_wei": 502632000000000,
+              "top_level_value_wei": 0,
+              "upfront_reserve_wei": 7500000000000000
+            },
+            {
+              "actual_gas_wei": 42000000000000,
+              "balance_before_wei": 25447588000000000,
+              "base_fee_burn_wei": 21000000000000,
+              "effective_price_wei": 2000000000,
+              "gas_limit": 21000,
+              "gas_used": 21000,
+              "label": "return_unused_advance",
+              "max_fee_wei": 2000000000,
+              "nonce": 3,
+              "priority_fee_cap_wei": 1000000000,
+              "priority_paid_to_coinbase_wei": 21000000000000,
+              "top_level_value_wei": 25405588000000000,
+              "upfront_reserve_wei": 25447588000000000
+            }
+          ]
+        },
+        "builder_addresses": [
+          "0x0000000000000000000000000000000000001004"
+        ],
+        "builder_after_lab_charge_wei": 45360588000000000,
+        "builder_cash_delta_wei": 45363588000000000,
+        "builder_real_recipient": null,
+        "checks": {
+          "EVM_complete": true,
+          "builder_identity_scoped": true,
+          "builder_margin_positive_after_lab_1bp": true,
+          "extra_sponsored_value_documented": true,
+          "failure_exposure_within_declared_lab_cap": true,
+          "founder_recourse_model_zero": true,
+          "funding_from_builder_entity": true,
+          "initial_missing_gas": true,
+          "required_transactions_not_optional": true
+        },
+        "classification": "PASS_LOCAL",
+        "commercial_classification": "UNKNOWN",
+        "declared_loss_cap_wei": 1000000000000000000,
+        "founder_max_recourse_wei": null,
+        "founder_model_recourse_wei": 0,
+        "founder_real_terms": "UNKNOWN",
+        "historical_B": "BLOCKED_PRESTATE",
+        "lab_opportunity_1bp_wei": 3000000000000,
+        "monthly": "NO_ESTIMABLE",
+        "observed_address_group_cash_delta_wei": 45363588000000000,
+        "own_max_caps_and_values_at_risk_wei": 30063000000000000,
+        "real_builder_acceptance": "NOT_TESTED",
+        "scope": "LAB_ASSIGNMENT",
+        "source_scenario": "V06_builder_funds_own_refund"
+      }
+    },
+    "V10_real_identity_and_terms_unknown": {
+      "EVM": {
+        "classification": "PASS_LOCAL",
+        "failures": [],
+        "prefixes": [
+          {
+            "actual_gas_wei": 42000000000000,
+            "balance_before_wei": 100000000000000000000,
+            "base_fee_burn_wei": 21000000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "topup",
+            "max_fee_wei": 3000000000,
+            "nonce": 0,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 30000000000000000,
+            "upfront_reserve_wei": 30063000000000000
+          },
+          {
+            "actual_gas_wei": 822358000000000,
+            "balance_before_wei": 30000000000000000,
+            "base_fee_burn_wei": 411179000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 4000000,
+            "gas_used": 411179,
+            "label": "nqc_adapter",
+            "max_fee_wei": 3000000000,
+            "nonce": 0,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 411179000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 12000000000000000
+          },
+          {
+            "actual_gas_wei": 2724790000000000,
+            "balance_before_wei": 29177642000000000,
+            "base_fee_burn_wei": 1362395000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 4000000,
+            "gas_used": 1362395,
+            "label": "nqc_executor",
+            "max_fee_wei": 3000000000,
+            "nonce": 1,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 1362395000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 12000000000000000
+          },
+          {
+            "actual_gas_wei": 1005264000000000,
+            "balance_before_wei": 26452852000000000,
+            "base_fee_burn_wei": 502632000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 2500000,
+            "gas_used": 502632,
+            "label": "liquidate",
+            "max_fee_wei": 3000000000,
+            "nonce": 2,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 502632000000000,
+            "top_level_value_wei": 0,
+            "upfront_reserve_wei": 7500000000000000
+          },
+          {
+            "actual_gas_wei": 42000000000000,
+            "balance_before_wei": 25447588000000000,
+            "base_fee_burn_wei": 21000000000000,
+            "effective_price_wei": 2000000000,
+            "gas_limit": 21000,
+            "gas_used": 21000,
+            "label": "return_unused_advance",
+            "max_fee_wei": 2000000000,
+            "nonce": 3,
+            "priority_fee_cap_wei": 1000000000,
+            "priority_paid_to_coinbase_wei": 21000000000000,
+            "top_level_value_wei": 25405588000000000,
+            "upfront_reserve_wei": 25447588000000000
+          }
+        ]
+      },
+      "builder_addresses": [
+        "0x0000000000000000000000000000000000001004"
+      ],
+      "builder_after_lab_charge_wei": null,
+      "builder_cash_delta_wei": null,
+      "builder_real_recipient": null,
+      "checks": {
+        "EVM_complete": true,
+        "builder_identity_scoped": null,
+        "builder_margin_positive_after_lab_1bp": null,
+        "extra_sponsored_value_documented": true,
+        "failure_exposure_within_declared_lab_cap": null,
+        "founder_recourse_model_zero": null,
+        "funding_from_builder_entity": true,
+        "initial_missing_gas": true,
+        "required_transactions_not_optional": true
+      },
+      "classification": "UNKNOWN",
+      "commercial_classification": "UNKNOWN",
+      "declared_loss_cap_wei": null,
+      "founder_max_recourse_wei": null,
+      "founder_model_recourse_wei": null,
+      "founder_real_terms": "UNKNOWN",
+      "historical_B": "BLOCKED_PRESTATE",
+      "lab_opportunity_1bp_wei": 3000000000000,
+      "monthly": "NO_ESTIMABLE",
+      "observed_address_group_cash_delta_wei": 45363588000000000,
+      "own_max_caps_and_values_at_risk_wei": 30063000000000000,
+      "real_builder_acceptance": "NOT_TESTED",
+      "scope": "UNVERIFIED_EXTERNAL",
+      "source_scenario": "V06_builder_funds_own_refund"
+    },
+    "V11_required_steps_declared_optional": {
+      "drop_allowed": {
+        "EVM": {
+          "classification": "PASS_LOCAL",
+          "failures": [],
+          "prefixes": [
+            {
+              "actual_gas_wei": 42000000000000,
+              "balance_before_wei": 100000000000000000000,
+              "base_fee_burn_wei": 21000000000000,
+              "effective_price_wei": 2000000000,
+              "gas_limit": 21000,
+              "gas_used": 21000,
+              "label": "topup",
+              "max_fee_wei": 3000000000,
+              "nonce": 0,
+              "priority_fee_cap_wei": 1000000000,
+              "priority_paid_to_coinbase_wei": 21000000000000,
+              "top_level_value_wei": 30000000000000000,
+              "upfront_reserve_wei": 30063000000000000
+            },
+            {
+              "actual_gas_wei": 822358000000000,
+              "balance_before_wei": 30000000000000000,
+              "base_fee_burn_wei": 411179000000000,
+              "effective_price_wei": 2000000000,
+              "gas_limit": 4000000,
+              "gas_used": 411179,
+              "label": "nqc_adapter",
+              "max_fee_wei": 3000000000,
+              "nonce": 0,
+              "priority_fee_cap_wei": 1000000000,
+              "priority_paid_to_coinbase_wei": 411179000000000,
+              "top_level_value_wei": 0,
+              "upfront_reserve_wei": 12000000000000000
+            },
+            {
+              "actual_gas_wei": 2724790000000000,
+              "balance_before_wei": 29177642000000000,
+              "base_fee_burn_wei": 1362395000000000,
+              "effective_price_wei": 2000000000,
+              "gas_limit": 4000000,
+              "gas_used": 1362395,
+              "label": "nqc_executor",
+              "max_fee_wei": 3000000000,
+              "nonce": 1,
+              "priority_fee_cap_wei": 1000000000,
+              "priority_paid_to_coinbase_wei": 1362395000000000,
+              "top_level_value_wei": 0,
+              "upfront_reserve_wei": 12000000000000000
+            },
+            {
+              "actual_gas_wei": 1005264000000000,
+              "balance_before_wei": 26452852000000000,
+              "base_fee_burn_wei": 502632000000000,
+              "effective_price_wei": 2000000000,
+              "gas_limit": 2500000,
+              "gas_used": 502632,
+              "label": "liquidate",
+              "max_fee_wei": 3000000000,
+              "nonce": 2,
+              "priority_fee_cap_wei": 1000000000,
+              "priority_paid_to_coinbase_wei": 502632000000000,
+              "top_level_value_wei": 0,
+              "upfront_reserve_wei": 7500000000000000
+            },
+            {
+              "actual_gas_wei": 42000000000000,
+              "balance_before_wei": 25447588000000000,
+              "base_fee_burn_wei": 21000000000000,
+              "effective_price_wei": 2000000000,
+              "gas_limit": 21000,
+              "gas_used": 21000,
+              "label": "return_unused_advance",
+              "max_fee_wei": 2000000000,
+              "nonce": 3,
+              "priority_fee_cap_wei": 1000000000,
+              "priority_paid_to_coinbase_wei": 21000000000000,
+              "top_level_value_wei": 25405588000000000,
+              "upfront_reserve_wei": 25447588000000000
+            }
+          ]
+        },
+        "builder_addresses": [
+          "0x0000000000000000000000000000000000001004"
+        ],
+        "builder_after_lab_charge_wei": 45360588000000000,
+        "builder_cash_delta_wei": 45363588000000000,
+        "builder_real_recipient": null,
+        "checks": {
+          "EVM_complete": true,
+          "builder_identity_scoped": true,
+          "builder_margin_positive_after_lab_1bp": true,
+          "extra_sponsored_value_documented": true,
+          "failure_exposure_within_declared_lab_cap": true,
+          "founder_recourse_model_zero": true,
+          "funding_from_builder_entity": true,
+          "initial_missing_gas": true,
+          "required_transactions_not_optional": false
+        },
+        "classification": "REFUTED",
+        "commercial_classification": "UNKNOWN",
+        "declared_loss_cap_wei": 1000000000000000000,
+        "founder_max_recourse_wei": null,
+        "founder_model_recourse_wei": 0,
+        "founder_real_terms": "UNKNOWN",
+        "historical_B": "BLOCKED_PRESTATE",
+        "lab_opportunity_1bp_wei": 3000000000000,
+        "monthly": "NO_ESTIMABLE",
+        "observed_address_group_cash_delta_wei": 45363588000000000,
+        "own_max_caps_and_values_at_risk_wei": 30063000000000000,
+        "real_builder_acceptance": "NOT_TESTED",
+        "scope": "LAB_ASSIGNMENT",
+        "source_scenario": "V06_builder_funds_own_refund"
+      },
+      "revert_allowed": {
+        "EVM": {
+          "classification": "PASS_LOCAL",
+          "failures": [],
+          "prefixes": [
+            {
+              "actual_gas_wei": 42000000000000,
+              "balance_before_wei": 100000000000000000000,
+              "base_fee_burn_wei": 21000000000000,
+              "effective_price_wei": 2000000000,
+              "gas_limit": 21000,
+              "gas_used": 21000,
+              "label": "topup",
+              "max_fee_wei": 3000000000,
+              "nonce": 0,
+              "priority_fee_cap_wei": 1000000000,
+              "priority_paid_to_coinbase_wei": 21000000000000,
+              "top_level_value_wei": 30000000000000000,
+              "upfront_reserve_wei": 30063000000000000
+            },
+            {
+              "actual_gas_wei": 822358000000000,
+              "balance_before_wei": 30000000000000000,
+              "base_fee_burn_wei": 411179000000000,
+              "effective_price_wei": 2000000000,
+              "gas_limit": 4000000,
+              "gas_used": 411179,
+              "label": "nqc_adapter",
+              "max_fee_wei": 3000000000,
+              "nonce": 0,
+              "priority_fee_cap_wei": 1000000000,
+              "priority_paid_to_coinbase_wei": 411179000000000,
+              "top_level_value_wei": 0,
+              "upfront_reserve_wei": 12000000000000000
+            },
+            {
+              "actual_gas_wei": 2724790000000000,
+              "balance_before_wei": 29177642000000000,
+              "base_fee_burn_wei": 1362395000000000,
+              "effective_price_wei": 2000000000,
+              "gas_limit": 4000000,
+              "gas_used": 1362395,
+              "label": "nqc_executor",
+              "max_fee_wei": 3000000000,
+              "nonce": 1,
+              "priority_fee_cap_wei": 1000000000,
+              "priority_paid_to_coinbase_wei": 1362395000000000,
+              "top_level_value_wei": 0,
+              "upfront_reserve_wei": 12000000000000000
+            },
+            {
+              "actual_gas_wei": 1005264000000000,
+              "balance_before_wei": 26452852000000000,
+              "base_fee_burn_wei": 502632000000000,
+              "effective_price_wei": 2000000000,
+              "gas_limit": 2500000,
+              "gas_used": 502632,
+              "label": "liquidate",
+              "max_fee_wei": 3000000000,
+              "nonce": 2,
+              "priority_fee_cap_wei": 1000000000,
+              "priority_paid_to_coinbase_wei": 502632000000000,
+              "top_level_value_wei": 0,
+              "upfront_reserve_wei": 7500000000000000
+            },
+            {
+              "actual_gas_wei": 42000000000000,
+              "balance_before_wei": 25447588000000000,
+              "base_fee_burn_wei": 21000000000000,
+              "effective_price_wei": 2000000000,
+              "gas_limit": 21000,
+              "gas_used": 21000,
+              "label": "return_unused_advance",
+              "max_fee_wei": 2000000000,
+              "nonce": 3,
+              "priority_fee_cap_wei": 1000000000,
+              "priority_paid_to_coinbase_wei": 21000000000000,
+              "top_level_value_wei": 25405588000000000,
+              "upfront_reserve_wei": 25447588000000000
+            }
+          ]
+        },
+        "builder_addresses": [
+          "0x0000000000000000000000000000000000001004"
+        ],
+        "builder_after_lab_charge_wei": 45360588000000000,
+        "builder_cash_delta_wei": 45363588000000000,
+        "builder_real_recipient": null,
+        "checks": {
+          "EVM_complete": true,
+          "builder_identity_scoped": true,
+          "builder_margin_positive_after_lab_1bp": true,
+          "extra_sponsored_value_documented": true,
+          "failure_exposure_within_declared_lab_cap": true,
+          "founder_recourse_model_zero": true,
+          "funding_from_builder_entity": true,
+          "initial_missing_gas": true,
+          "required_transactions_not_optional": false
+        },
+        "classification": "REFUTED",
+        "commercial_classification": "UNKNOWN",
+        "declared_loss_cap_wei": 1000000000000000000,
+        "founder_max_recourse_wei": null,
+        "founder_model_recourse_wei": 0,
+        "founder_real_terms": "UNKNOWN",
+        "historical_B": "BLOCKED_PRESTATE",
+        "lab_opportunity_1bp_wei": 3000000000000,
+        "monthly": "NO_ESTIMABLE",
+        "observed_address_group_cash_delta_wei": 45363588000000000,
+        "own_max_caps_and_values_at_risk_wei": 30063000000000000,
+        "real_builder_acceptance": "NOT_TESTED",
+        "scope": "LAB_ASSIGNMENT",
+        "source_scenario": "V06_builder_funds_own_refund"
+      }
+    },
+    "V12_joint_prefix_and_cost_frontier": {
+      "R_wei": 50000000000000000,
+      "assumptions": [
+        "unchanged calldata/state/gas",
+        "cap equals effective fee",
+        "no additional bidder cost",
+        "known 21000-gas EOA return",
+        "1bp illustrative capital charge, not a provider quote"
+      ],
+      "classification": "MODEL_ONLY",
+      "extra_gas_sensitivity_not_new_EVM": [
+        {
+          "effective_fee_cutoff_wei_per_gas": 21471685488,
+          "extra_gas_before_limiting_prefix": 10000,
+          "minimum_advance_at_cutoff_wei": 94930164974150352
+        },
+        {
+          "effective_fee_cutoff_wei_per_gas": 20672628472,
+          "extra_gas_before_limiting_prefix": 100000,
+          "minimum_advance_at_cutoff_wei": 93257927437688488
+        }
+      ],
+      "first_nonpositive": {
+        "U_wei": 45586346101489787,
+        "effective_fee_wei_per_gas": 21564299119,
+        "gas_cost_wei": 49990487603460514,
+        "lab_opportunity_wei": 9512398342346,
+        "margin_wei": -1802860,
+        "minimum_advance_wei": 95123983423451301
+      },
+      "fixed_advance_003_ETH_max_affordable_fee_wei_per_gas": 6800902887,
+      "gas_units_fixed": 2318206,
+      "last_positive": {
+        "U_wei": 45586346099375814,
+        "effective_fee_wei_per_gas": 21564299118,
+        "gas_cost_wei": 49990487601142308,
+        "lab_opportunity_wei": 9512398341905,
+        "margin_wei": 515787,
+        "minimum_advance_wei": 95123983419040122
+      },
+      "prefix_K": 4411179,
+      "sensitivity_only_not_EVM_replayed_at_frontier": true
+    }
+  }
+}

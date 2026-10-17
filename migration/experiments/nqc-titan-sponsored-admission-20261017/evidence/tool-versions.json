@@ -1,0 +1,31 @@
+[
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "--version"
+    ],
+    "output": "Python 3.12.14"
+  },
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "-c",
+      "import Crypto; print(Crypto.__version__)"
+    ],
+    "output": "3.23.0"
+  },
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-toolchain/node_modules/@foundry-rs/anvil-linux-amd64/bin/anvil",
+      "--version"
+    ],
+    "output": "anvil Version: 1.7.1\nCommit SHA: 4072e48705af9d93e3c0f6e29e93b5e9a40caed8\nBuild Timestamp: 2026-05-08T07:50:55.527285345Z (1778226655)\nBuild Profile: dist"
+  },
+  {
+    "command": [
+      "git",
+      "--version"
+    ],
+    "output": "git version 2.51.1"
+  }
+]
