@@ -65,6 +65,9 @@ contract NqcMorphoSponsoredLiquidation {
         uint256 minWethOut;
         uint256 minOperatorProfitLoan;
         uint256 coinbaseTipWei;
+        // Sponsor must be a distinct, independently authenticated recipient.
+        address sponsorRefundRecipient;
+        uint256 sponsorRefundWei;
     }
 
     address public immutable operator;
@@ -86,7 +89,9 @@ contract NqcMorphoSponsoredLiquidation {
         uint256 seizedCollateral,
         uint256 repaidLoan,
         uint256 operatorLoanProfit,
-        uint256 coinbaseTipWei
+        uint256 coinbaseTipWei,
+        address sponsorRefundRecipient,
+        uint256 sponsorRefundWei
     );
 
     constructor(address operator_, address morpho_, address adapter_, address weth_) {
@@ -109,7 +114,8 @@ contract NqcMorphoSponsoredLiquidation {
         if (active) revert AlreadyActive();
         if (block.number > plan.validThroughBlock || plan.repaidShares == 0 ||
             plan.borrower == address(0) || plan.minLoanOut == 0 ||
-            plan.minOperatorProfitLoan == 0 || plan.coinbaseTipWei == 0) revert InvalidPlan();
+            plan.minOperatorProfitLoan == 0 || plan.coinbaseTipWei == 0 ||
+            plan.sponsorRefundWei == 0) revert InvalidPlan();
 
         address loan = plan.market.loanToken;
         address collateral = plan.market.collateralToken;
@@ -119,6 +125,13 @@ contract NqcMorphoSponsoredLiquidation {
         // WETH debt markets (including historical EZETH/WETH) unwrap only the
         // reserved share of WETH rather than swapping WETH into itself.
         if (loan == weth && plan.minWethOut != plan.loanForWeth) revert InvalidPlan();
+        // The sponsor and block proposer are two different recipients. A
+        // coinbase payment alone does not repay gas advanced by a builder.
+        if (plan.sponsorRefundRecipient == address(0) ||
+            plan.sponsorRefundRecipient == operator ||
+            plan.sponsorRefundRecipient == address(this) ||
+            plan.sponsorRefundRecipient == block.coinbase ||
+            plan.minWethOut < plan.sponsorRefundWei + plan.coinbaseTipWei) revert InvalidPlan();
         if (_balance(loan) != 0 || _balance(collateral) != 0 ||
             _balance(weth) != 0 || address(this).balance != 0) revert StateContaminated();
 
@@ -147,10 +160,12 @@ contract NqcMorphoSponsoredLiquidation {
             if (availableWeth < plan.minWethOut) revert NativeTipNotFunded();
             INqcWeth(weth).withdraw(availableWeth);
         }
-        if (address(this).balance < plan.coinbaseTipWei) revert NativeTipNotFunded();
-
-        // A builder-specific trace MUST independently measure whether this
-        // transfer compensates the builder; it may go to the proposer.
+        uint256 totalNativePayments = plan.sponsorRefundWei + plan.coinbaseTipWei;
+        if (address(this).balance < totalNativePayments) revert NativeTipNotFunded();
+        // Candidate direct reimbursement, not proof of builder acceptance.
+        // Ownership of this address and builder balance must be proven offchain.
+        (bool refundOk,) = payable(plan.sponsorRefundRecipient).call{value: plan.sponsorRefundWei}("");
+        if (!refundOk) revert NativeTransferFailed();
         (bool tipOk,) = payable(block.coinbase).call{value: plan.coinbaseTipWei}("");
         if (!tipOk) revert NativeTransferFailed();
 
@@ -173,7 +188,10 @@ contract NqcMorphoSponsoredLiquidation {
         reservedLoanForWeth = 0;
         minProfit = 0;
         activeMinLoanOut = 0;
-        emit ExperimentalLiquidation(plan.borrower, seized, repaid, operatorLoanProfit, plan.coinbaseTipWei);
+        emit ExperimentalLiquidation(
+            plan.borrower, seized, repaid, operatorLoanProfit, plan.coinbaseTipWei,
+            plan.sponsorRefundRecipient, plan.sponsorRefundWei
+        );
     }
 
     function onMorphoLiquidate(uint256 repaidAssets, bytes calldata collateralRoute) external {
