@@ -2,6 +2,8 @@
 
 Rama `research/nqc-sponsored-bundle-gate-20261017`; base `937a833a481fd69d2ce96152deb7d4d0760d6596`. El commit que contiene este documento se obtiene con `git rev-parse HEAD`; los commits publicados y su read-back se registran en `PUBLICATION.md`, evitando un hash autorreferencial.
 
+Commits publicados de implementación y evidencia: `3005efa548fd8a3af4e9ef49af4c0fa9608fac6b` y `6003febb2ee1639a0a80efef6d87839e6e6cf833`, ambos con read-back y trees idénticos a los locales.
+
 Última verificación: 2026-10-17, 27 escenarios con 149 recibos locales; 4 controles de pool; 2 exclusiones de candidatos. 14 pruebas de evidencia, 168 Python de regresión, 50 Solidity (33+17), 9 aislamiento y verificador aprobados. Estos grupos se ejecutaron durante esta directiva; no se suman repeticiones. Logs completos en evidence/. Fallos de desarrollo preservados y corregidos: aislamiento de candidatos en el pool y una expectativa incorrecta sobre el orden por prioridad. Las reversiones financieras esperadas siguen siendo negativas.
 
 Funciona: compilación original y paridad con 003 corregida, seis transacciones C1 en un bloque, retorno U real local, C2 primer ciclo con préstamo flash, reconciliación independiente de traces/logs frente a diffs de almacenamiento, criterio de participación del financiador y fronteras exactas condicionadas.
