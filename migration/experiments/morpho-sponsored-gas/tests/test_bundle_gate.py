@@ -79,6 +79,42 @@ class BundleSponsorTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             check(scenario(builder="OTHER"))
 
+    def test_direct_refund_must_cover_sponsor_and_profit(self):
+        got = check(scenario(sponsor_refund_wei="4500000000000000"))
+        self.assertIn("DIRECT_SPONSOR_REPAYMENT_INSUFFICIENT", got.blockers)
+
+    def test_large_coinbase_tip_cannot_replace_builder_refund(self):
+        got = check(scenario(
+            sponsor_refund_wei="1000000000000000",
+            coinbase_tip_wei="9000000000000000",
+        ))
+        self.assertIn("DIRECT_SPONSOR_REPAYMENT_INSUFFICIENT", got.blockers)
+
+    def test_operator_cannot_serve_as_external_sponsor(self):
+        with self.assertRaises(ValueError):
+            check(scenario(sponsor_refund_recipient=BASE["txs"][0]["from"]))
+
+    def test_builder_funding_transfer_requires_gas(self):
+        got = check(BASE)
+        self.assertEqual(got.sponsor_topup_max_fee_wei, 42_000_000_000_000)
+        self.assertEqual(got.required_upfront_wei, 4_200_000_000_000_000)
+
+    def test_zero_sponsor_transfer_gas_rejected(self):
+        with self.assertRaises(ValueError):
+            check(scenario(sponsor_topup_gas_limit=0))
+
+    def test_refund_that_omits_topup_gas_rejected(self):
+        got = check(scenario(sponsor_refund_wei="4600000000000000"))
+        self.assertIn("DIRECT_SPONSOR_REPAYMENT_INSUFFICIENT", got.blockers)
+
+    def test_self_reported_receipts_must_reconcile(self):
+        got = check(scenario(
+            evidence_type="HISTORICAL_BUNDLE_TRACE",
+            builder_value_measured=True,
+            builder_value_gross_wei="4550000000000000",
+        ))
+        self.assertIn("DIRECT_REPAYMENT_EXCEEDS_BUILDER_RECEIPT_VALUE", got.blockers)
+
     def test_undeclared_profit_invalid(self):
         with self.assertRaises(ValueError):
             check(scenario(extra_profit=1))
