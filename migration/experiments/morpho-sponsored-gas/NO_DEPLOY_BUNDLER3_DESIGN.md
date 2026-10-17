@@ -122,3 +122,24 @@ callback/callgraph replay and a gas sponsor for the one transaction.
 
 Neither pathway can be admitted until a real historical fork + DEX + sponsor
 proof is independently reproduced. No production transactions authorized.
+
+
+## Executed local update — 2026-10-17 UTC
+
+The proposed call graph now has four executed original-source integration tests
+in `tests-core/NqcBundlerOriginal.t.sol`. It settles a synthetic flash/liquidation/
+swap/repayment route, rejects a wrong callback hash and insufficient output, and
+rejects a flash route when Morpho has no debt-token cash. The callback executor
+can still settle that last synthetic condition, as independently tested against
+original Morpho. See `RESEARCH_FINDINGS.md` for the comparison and exact scope.
+
+Nested ABI, callback hash and liquidation/interest arithmetic have independent
+Solidity parity. Historical runtime identity, real DEX liquidity, zero-capital gas
+funding, native sponsor settlement and inclusion are still unproved. The adapter
+retains its own Morpho approval by upstream design; it is distinct from the
+Bundler-owned exact approvals that tests clear. No public dust is used or swept.
+Explorer source equality and partial verification do not certify historical
+runtime bytecode. Deprecation remains a material maintenance constraint.
+
+These results advance local feasibility only; they do not check off historical
+or sponsorship acceptance gates above. No signed/broadcast bundle exists.

@@ -414,7 +414,17 @@ contract NqcNonWethMockTest {
     MockMorpho morpho;
     MockTwoHopAdapter adapter;
     NqcMorphoSponsoredLiquidation executor;
-    receive() external payable {}
+    bool attemptReentry;
+    bool rejectedReentry;
+    receive() external payable {
+        if (attemptReentry) {
+            (bool ok, bytes memory reason) = address(executor).call(
+                abi.encodeCall(executor.execute, (_plan(), hex"01", hex"02")));
+            require(!ok && bytes4(reason) == NqcMorphoSponsoredLiquidation.AlreadyActive.selector,
+                    "operator payout reentered execution");
+            rejectedReentry = true;
+        }
+    }
 
     function setUp() public {
         vm.deal(address(this), 0);
@@ -493,5 +503,11 @@ contract NqcNonWethMockTest {
         executor.execute(p, hex"01", hex"02");
         require(p.sponsorRefundRecipient.balance == beforeSponsor);
         require(collateral.balanceOf(address(morpho)) == 10 ether);
+    }
+
+    function testOperatorPaymentCannotReenter() public {
+        attemptReentry = true;
+        executor.execute(_plan(), hex"01", hex"02");
+        require(rejectedReentry, "reentry not exercised");
     }
 }

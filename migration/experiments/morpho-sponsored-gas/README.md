@@ -1,3 +1,11 @@
+> **Estado vigente — 2026-10-17 UTC:** 136 pruebas Python y 41 pruebas Solidity
+> aprobadas localmente (132/39 fue el punto de control anterior), más 9 pruebas
+> de aislamiento. Consulte [RESEARCH_STATUS.md](RESEARCH_STATUS.md),
+> [REPRODUCE.md](REPRODUCE.md) y [RESEARCH_FINDINGS.md](RESEARCH_FINDINGS.md).
+> Las secciones anteriores por fecha se conservan como historial: sus menciones
+> de Solidity pendiente no describen la verificación actual. El fork histórico,
+> el patrocinio y la viabilidad con $0 continúan pendientes.
+
 # NQC — Morpho Blue + builder-sponsored gas | experimento aislado
 
 **Estado a 2026-10-16:** Investigación en curso, sin certificación ni autorización de mainnet. Este directorio es independiente de las fuentes históricas certificadas de NQC. Ninguna línea modifica PFT, RMC o T36. NO contiene claves, RPC de pago, transacciones firmadas, despliegues ni workflows activos.

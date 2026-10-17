@@ -15,6 +15,11 @@ from pathlib import Path
 UINT256_MAX = 2**256 - 1
 SUPPORTED_BUILDERS = frozenset(("TITAN", "QUASAR"))
 TX_ORDER = ("DEPLOY_EXECUTOR", "EXECUTE_LIQUIDATION")
+ARCHITECTURES = {
+    "OWN_EXECUTOR": TX_ORDER,
+    "OWN_EXECUTOR_AND_ADAPTER": ("DEPLOY_ADAPTER", "DEPLOY_EXECUTOR", "EXECUTE_LIQUIDATION"),
+    "DEPLOYED_BUNDLER3": ("EXECUTE_LIQUIDATION",),
+}
 REQUIRED = {
     "evidence_type", "chain_id", "prestate_block_hash", "builder", "sender_initial_eth_wei",
     "executor_initial_eth_wei", "builder_advance_wei", "builder_receipts_verified",
@@ -41,6 +46,8 @@ def u256(value: object, name: str) -> int:
 def address(value: object) -> str:
     if not isinstance(value, str) or len(value) != 42 or not value.startswith("0x"):
         raise ValueError("Invalid EOA address")
+    if any(c not in "0123456789abcdefABCDEF" for c in value[2:]):
+        raise ValueError("EOA address must be hexadecimal without whitespace or signs")
     try:
         int(value[2:], 16)
     except ValueError as exc:
@@ -52,6 +59,8 @@ def address(value: object) -> str:
 
 def block_hash(value: object) -> None:
     if not isinstance(value, str) or len(value) != 66 or not value.startswith("0x"):
+        raise ValueError("invalid prestate block hash")
+    if any(c not in "0123456789abcdefABCDEF" for c in value[2:]):
         raise ValueError("invalid prestate block hash")
     try:
         int(value[2:], 16)
@@ -73,8 +82,12 @@ class BundleGate:
 
 
 def check(bundle: dict) -> BundleGate:
-    if not isinstance(bundle, dict) or set(bundle) != REQUIRED:
+    if not isinstance(bundle, dict) or set(bundle) not in (REQUIRED, REQUIRED | {"architecture"}):
         raise ValueError("bundle fields must match exact schema")
+    architecture = bundle.get("architecture", "OWN_EXECUTOR")
+    if not isinstance(architecture, str) or architecture not in ARCHITECTURES:
+        raise ValueError("unsupported architecture")
+    order = ARCHITECTURES[architecture]
     if bundle["evidence_type"] not in ("SYNTHETIC", "HISTORICAL_BUNDLE_TRACE"):
         raise ValueError("invalid evidence_type")
     if u256(bundle["chain_id"], "chain_id") != 1:
@@ -107,15 +120,15 @@ def check(bundle: dict) -> BundleGate:
         raise ValueError("sponsor topup gas cost overflow")
 
     txs = bundle["txs"]
-    if not isinstance(txs, list) or len(txs) != 2:
-        raise ValueError("exactly DEPLOY_EXECUTOR + EXECUTE_LIQUIDATION are modeled")
+    if not isinstance(txs, list) or len(txs) != len(order):
+        raise ValueError("transaction count must match the explicit architecture")
     senders = []
     nonces = []
     required = 0
     for idx, tx in enumerate(txs):
         if not isinstance(tx, dict) or set(tx) != TX_FIELDS:
             raise ValueError(f"tx[{idx}]: invalid fields")
-        if tx["purpose"] != TX_ORDER[idx]:
+        if tx["purpose"] != order[idx]:
             raise ValueError("incorrect bundle execution order")
         senders.append(address(tx["from"]))
         nonces.append(u256(tx["nonce"], "nonce"))
@@ -127,9 +140,9 @@ def check(bundle: dict) -> BundleGate:
         required += gas_limit * gas_cap + value
         if required > UINT256_MAX:
             raise ValueError("sponsor exposure overflows uint256")
-    if senders[0] != senders[1]:
-        raise ValueError("one zero-ETH signer must control both bundle transactions")
-    if nonces[1] != nonces[0] + 1:
+    if len(set(senders)) != 1:
+        raise ValueError("one zero-ETH signer must control all modeled transactions")
+    if any(n != nonces[0] + i for i, n in enumerate(nonces)):
         raise ValueError("nonce sequence is not consecutive")
     if sponsor_addr == senders[0]:
         raise ValueError("operator cannot be its own external sponsor")
@@ -138,17 +151,21 @@ def check(bundle: dict) -> BundleGate:
     if sender_initial or contract_initial:
         blockers.append("NONZERO_OPERATOR_OR_EXECUTOR_CAPITAL")
     if builder_advance < required:
-        blockers.append("INSUFFICIENT_SPONSOR_ADVANCE_FOR_BOTH_TRANSACTIONS")
+        blockers.append("INSUFFICIENT_SPONSOR_ADVANCE_FOR_BOTH_TRANSACTIONS" if len(txs)==2
+                        else "INSUFFICIENT_SPONSOR_ADVANCE_FOR_ALL_TRANSACTIONS")
     if gross < builder_advance + topup_cost + min_builder:
         blockers.append("BUILDER_VALUE_INSUFFICIENT_AFTER_SPONSOR_COST")
-    # A block.coinbase tip goes to the proposer, not necessarily the gas sponsor.
+    if gross <= builder_advance + topup_cost:
+        blockers.append("BUILDER_BALANCE_MUST_INCREASE")
+    # A block.coinbase tip goes to the block header's fee recipient. Its owner
+    # and any subsequent proposer settlement are separate evidence requirements.
     # A direct refund is not confirmed until the builder-controlled recipient
     # and the independently measured receipts are authenticated.
     if direct_refund < builder_advance + topup_cost + min_builder:
         blockers.append("DIRECT_SPONSOR_REPAYMENT_INSUFFICIENT")
     if bundle["builder_value_measured"] and gross < direct_refund:
         blockers.append("DIRECT_REPAYMENT_EXCEEDS_BUILDER_RECEIPT_VALUE")
-    if not bundle["builder_sponsored_deployment_supported"]:
+    if architecture != "DEPLOYED_BUNDLER3" and not bundle["builder_sponsored_deployment_supported"]:
         blockers.append("BUILDER_SPONSORED_DEPLOYMENT_NOT_CONFIRMED")
     if not bundle["builder_value_measured"] or not bundle["builder_receipts_verified"]:
         blockers.append("BUILDER_NET_BALANCE_NOT_VERIFIED")

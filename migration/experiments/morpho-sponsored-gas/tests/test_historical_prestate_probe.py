@@ -26,7 +26,7 @@ def response_set(r=RECORD):
     a.append(int(r["lltv"]))
     return [
         {"jsonrpc": "2.0", "id": 1, "result": abi_return(*a)},
-        {"jsonrpc": "2.0", "id": 2, "result": abi_return(200000000, 200000000, 150000000, 150000000, 1700000000, 0)},
+        {"jsonrpc": "2.0", "id": 2, "result": abi_return(200000000, 200000000, 150000000, 150000000000000, 1700000000, 0)},
         {"jsonrpc": "2.0", "id": 3, "result": abi_return(0, 120000000000000, 141266903937864768497)},
     ]
 
@@ -134,6 +134,23 @@ class PinnedParentBlockTests(unittest.TestCase):
         fake[2]["result"] = "0x01"
         with self.assertRaises(ValueError):
             parse_response(RECORD, fake)
+
+    def test_self_consistent_market_substitution_rejected(self):
+        bad = dict(RECORD, oracle="0x"+"1"*40)
+        bad["market_id"] = market_id(bad)
+        with self.assertRaises(ValueError): check_fixture(bad)
+
+    def test_boolean_response_id_rejected(self):
+        fake = response_set(); fake[0]["id"] = True
+        with self.assertRaises(ValueError): parse_response(RECORD, fake)
+
+    def test_uint128_overflow_in_state_rejected(self):
+        fake = response_set(); fake[2]["result"] = abi_return(0,2**128,1)
+        with self.assertRaises(ValueError): parse_response(RECORD, fake)
+
+    def test_borrower_shares_must_fit_total(self):
+        fake = response_set(); fake[2]["result"] = abi_return(0,150000000000001,1)
+        with self.assertRaises(ValueError): parse_response(RECORD, fake)
 
 
 if __name__ == "__main__":

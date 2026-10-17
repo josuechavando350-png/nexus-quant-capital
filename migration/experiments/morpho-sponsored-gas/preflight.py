@@ -71,6 +71,8 @@ def check(obs: dict) -> GateResult:
         raise ValueError("evidence_type must be SYNTHETIC or HISTORICAL_REPLAY")
     if not isinstance(obs["block_hash"], str) or len(obs["block_hash"]) != 66 or not obs["block_hash"].startswith("0x"):
         raise ValueError("block_hash must be a 32-byte hex string")
+    if any(c not in "0123456789abcdefABCDEF" for c in obs["block_hash"][2:]):
+        raise ValueError("block_hash must be hexadecimal without whitespace or signs")
     try:
         int(obs["block_hash"][2:], 16)
     except ValueError as exc:

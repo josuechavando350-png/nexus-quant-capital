@@ -65,6 +65,8 @@ class Bundler3AbiTests(unittest.TestCase):
     def test_disallow_invalid_address(self):
         with self.assertRaises(ValueError):
             erc20_approve("0x00",1)
+        with self.assertRaises(ValueError):
+            erc20_approve("0x  "+"11"*19,1)
 
     def test_disallow_invalid_callback_hash(self):
         with self.assertRaises(ValueError):

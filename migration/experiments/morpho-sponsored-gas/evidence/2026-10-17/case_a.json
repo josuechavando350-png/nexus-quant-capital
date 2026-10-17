@@ -1,0 +1,133 @@
+{
+  "retrieved_date_utc": "2026-10-17",
+  "provider": "Blockscout MCP",
+  "evidence_kind": "INDEXER_OBSERVATION_NOT_STATE_ROOT_PROOF",
+  "data": {
+    "from": "0xd144Fc565708A5F26cda13c6697E5C260C25FE30",
+    "to": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+    "token_transfers": [
+      {
+        "from": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+        "to": "0xd144Fc565708A5F26cda13c6697E5C260C25FE30",
+        "token": {
+          "address_hash": "0xD166337499E176bbC38a1FBd113Ab144e5bd2Df7",
+          "circulating_supply": null,
+          "decimals": "18",
+          "name": "Saturn sUSDat",
+          "reputation": "ok",
+          "symbol": "SUSDAT",
+          "type": "ERC-20"
+        },
+        "type": "token_transfer",
+        "log_index": 472,
+        "method": null,
+        "token_type": "ERC-20",
+        "total": {
+          "decimals": "18",
+          "value": "141266903937864768497"
+        }
+      },
+      {
+        "from": "0xd144Fc565708A5F26cda13c6697E5C260C25FE30",
+        "to": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+        "token": {
+          "address_hash": "0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a",
+          "circulating_supply": null,
+          "decimals": "6",
+          "name": "AUSD",
+          "reputation": "ok",
+          "symbol": "AUSD",
+          "type": "ERC-20"
+        },
+        "type": "token_transfer",
+        "log_index": 473,
+        "method": null,
+        "token_type": "ERC-20",
+        "total": {
+          "decimals": "6",
+          "value": "103466129"
+        }
+      }
+    ],
+    "decoded_input": {
+      "method_call": "liquidate((address,address,address,address,uint256) marketParams, address borrower, uint256 seizedAssets, uint256 repaidShares, bytes data)",
+      "method_id": "d8eabcb8",
+      "parameters": [
+        {
+          "name": "marketParams",
+          "type": "(address,address,address,address,uint256)",
+          "value": [
+            "0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a",
+            "0xD166337499E176bbC38a1FBd113Ab144e5bd2Df7",
+            "0x78e16Ed8a8ebC86B707316dC84BA7e3E74A3b23A",
+            "0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
+            "860000000000000000"
+          ]
+        },
+        {
+          "name": "borrower",
+          "type": "address",
+          "value": "0x950fD558f47E234A2fDe23B7d61f7Ccdbcb4A86F"
+        },
+        {
+          "name": "seizedAssets",
+          "type": "uint256",
+          "value": "0"
+        },
+        {
+          "name": "repaidShares",
+          "type": "uint256",
+          "value": "101587406377783"
+        },
+        {
+          "name": "data",
+          "type": "bytes",
+          "value": "0x"
+        }
+      ]
+    },
+    "user_operations": null,
+    "raw_input": null,
+    "raw_input_truncated": null,
+    "priority_fee": "584896000000",
+    "is_pending_update": false,
+    "result": "success",
+    "max_fee_per_gas": "2114965290",
+    "revert_reason": null,
+    "transaction_burnt_fee": "323208108345200",
+    "type": 2,
+    "token_transfers_overflow": false,
+    "position": 226,
+    "max_priority_fee_per_gas": "3200000",
+    "transaction_tag": null,
+    "created_contract": null,
+    "value": "0",
+    "gas_used": "182780",
+    "status": "ok",
+    "authorization_list": [],
+    "method": "liquidate",
+    "fee": {
+      "type": "actual",
+      "value": "323793004345200"
+    },
+    "gas_limit": "296636",
+    "gas_price": "1771490340",
+    "fhe_operations_count": 0,
+    "base_fee_per_gas": "1768290340",
+    "timestamp": "2026-06-26T13:44:47.000000Z",
+    "nonce": 14,
+    "transaction_types": [
+      "contract_call",
+      "token_transfer"
+    ],
+    "block_number": 25402186,
+    "has_error_in_internal_transactions": false
+  },
+  "notes": [],
+  "pagination": null,
+  "request": {
+    "method": "get_transaction_info",
+    "chain_id": "1",
+    "transaction_hash": "0x0a2f442acfb350d6d93002038b454ead40ffcf28a777b291cbaec1746d8aa2f1"
+  }
+}

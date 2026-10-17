@@ -26,6 +26,8 @@ def _address(s: object) -> bytes:
         out = bytes.fromhex(s[2:])
     except ValueError as exc:
         raise ValueError("bad address hex") from exc
+    if len(out) != 20:
+        raise ValueError("address hex must encode exactly 20 bytes without whitespace")
     if out == bytes(20):
         raise ValueError("zero address")
     return out.rjust(32, b"\0")

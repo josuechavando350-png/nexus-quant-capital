@@ -1,0 +1,31 @@
+{
+  "scope": "READ_ONLY_RPC_CONNECTIVITY_NOT_STATE_PROOF",
+  "attempts": [
+    {
+      "endpoint": "https://ethereum-rpc.publicnode.com",
+      "requested_at_utc": "2026-10-17T03:15:42.041959+00:00",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "eth_chainId",
+        "params": []
+      },
+      "error_type": "HTTPError",
+      "error": "HTTP Error 403: Forbidden",
+      "elapsed_seconds": 3.653
+    },
+    {
+      "endpoint": "https://eth.llamarpc.com",
+      "requested_at_utc": "2026-10-17T03:15:42.043005+00:00",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "eth_chainId",
+        "params": []
+      },
+      "error_type": "HTTPError",
+      "error": "HTTP Error 405: Not Allowed",
+      "elapsed_seconds": 3.921
+    }
+  ]
+}

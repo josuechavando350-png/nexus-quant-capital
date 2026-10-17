@@ -1,0 +1,153 @@
+{
+  "retrieved_date_utc": "2026-10-17",
+  "provider": "Blockscout MCP",
+  "evidence_kind": "INDEXER_OBSERVATION_NOT_STATE_ROOT_PROOF",
+  "data": {
+    "name": "EthereumGeneralAdapter1",
+    "language": "solidity",
+    "compiler_version": "0.8.28+commit.7893614a",
+    "verified_at": "2025-04-14T05:31:27.697270Z",
+    "source_code_tree_structure": [
+      "src/adapters/EthereumGeneralAdapter1.sol",
+      "lib/morpho-blue/src/libraries/periphery/MorphoStorageLib.sol",
+      "src/adapters/CoreAdapter.sol",
+      "lib/openzeppelin-contracts/contracts/interfaces/IERC4626.sol",
+      "src/interfaces/IWNative.sol",
+      "lib/openzeppelin-contracts/contracts/token/ERC20/utils/SafeERC20.sol",
+      "lib/permit2/src/interfaces/IEIP712.sol",
+      "src/libraries/MathRayLib.sol",
+      "src/interfaces/IStEth.sol",
+      "lib/permit2/src/interfaces/IAllowanceTransfer.sol",
+      "lib/morpho-blue/src/libraries/SharesMathLib.sol",
+      "src/interfaces/IBundler3.sol",
+      "lib/openzeppelin-contracts/contracts/interfaces/IERC20.sol",
+      "lib/permit2/src/libraries/Permit2Lib.sol",
+      "lib/openzeppelin-contracts/contracts/interfaces/IERC165.sol",
+      "lib/openzeppelin-contracts/contracts/utils/introspection/IERC165.sol",
+      "lib/morpho-blue/src/libraries/periphery/MorphoLib.sol",
+      "src/libraries/ErrorsLib.sol",
+      "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+      "lib/morpho-blue/src/libraries/UtilsLib.sol",
+      "lib/morpho-blue/src/libraries/ErrorsLib.sol",
+      "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+      "lib/openzeppelin-contracts/contracts/interfaces/IERC1363.sol",
+      "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/ERC20Wrapper.sol",
+      "lib/morpho-blue/src/libraries/MathLib.sol",
+      "src/adapters/GeneralAdapter1.sol",
+      "src/libraries/UtilsLib.sol",
+      "lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol",
+      "lib/permit2/src/libraries/SafeCast160.sol",
+      "lib/openzeppelin-contracts/contracts/utils/Context.sol",
+      "src/interfaces/IWstEth.sol",
+      "lib/openzeppelin-contracts/contracts/utils/Errors.sol",
+      "lib/morpho-blue/src/interfaces/IIrm.sol",
+      "lib/morpho-blue/src/libraries/periphery/MorphoBalancesLib.sol",
+      "lib/morpho-blue/src/libraries/MarketParamsLib.sol",
+      "lib/permit2/lib/solmate/src/tokens/ERC20.sol",
+      "lib/morpho-blue/src/interfaces/IMorpho.sol",
+      "lib/openzeppelin-contracts/contracts/interfaces/draft-IERC6093.sol",
+      "lib/permit2/src/interfaces/IDAIPermit.sol",
+      "lib/openzeppelin-contracts/contracts/utils/Address.sol"
+    ],
+    "optimization_enabled": true,
+    "optimization_runs": 999999,
+    "evm_version": "cancun",
+    "license_type": "none",
+    "proxy_type": null,
+    "is_fully_verified": false,
+    "constructor_args": "0000000000000000000000006566194141eefa99af43bb5aa71460ca2dc90245000000000000000000000000bbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb000000000000000000000000c02aaa39b223fe8d0a0e5c4f27ead9083c756cc20000000000000000000000007f39c581f595b53c5cb19bd0b3f8da6c935e2ca000000000000000000000000058d97b57bb95320f9a05dc918aef65434969c2b20000000000000000000000009d03bb2092270648d7480049d0e58d2fcf0e5123",
+    "decoded_constructor_args": [
+      [
+        "0x6566194141eefa99Af43Bb5Aa71460Ca2Dc90245",
+        {
+          "internalType": "address",
+          "name": "bundler3",
+          "type": "address"
+        }
+      ],
+      [
+        "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+        {
+          "internalType": "address",
+          "name": "morpho",
+          "type": "address"
+        }
+      ],
+      [
+        "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+        {
+          "internalType": "address",
+          "name": "weth",
+          "type": "address"
+        }
+      ],
+      [
+        "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
+        {
+          "internalType": "address",
+          "name": "wStEth",
+          "type": "address"
+        }
+      ],
+      [
+        "0x58D97B57BB95320F9a05dC918Aef65434969c2B2",
+        {
+          "internalType": "address",
+          "name": "morphoToken",
+          "type": "address"
+        }
+      ],
+      [
+        "0x9D03bb2092270648d7480049d0E58d2FcF0E5123",
+        {
+          "internalType": "address",
+          "name": "morphoWrapper",
+          "type": "address"
+        }
+      ]
+    ],
+    "constructor_args_truncated": false,
+    "creation_status": "success",
+    "verified_twin_address_hash": null,
+    "is_verified": true,
+    "compiler_settings": {
+      "evmVersion": "cancun",
+      "libraries": {},
+      "metadata": {
+        "bytecodeHash": "none"
+      },
+      "optimizer": {
+        "enabled": true,
+        "runs": 999999
+      },
+      "remappings": [
+        ":@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+        ":ds-test/=lib/metamorpho/lib/forge-std/lib/ds-test/src/",
+        ":erc4626-tests/=lib/metamorpho/lib/erc4626-tests/",
+        ":forge-gas-snapshot/=lib/permit2/lib/forge-gas-snapshot/src/",
+        ":forge-std/=lib/forge-std/src/",
+        ":halmos-cheatcodes/=lib/openzeppelin-contracts/lib/halmos-cheatcodes/src/",
+        ":metamorpho/=lib/metamorpho/",
+        ":morpho-blue/=lib/morpho-blue/",
+        ":openzeppelin-contracts/=lib/openzeppelin-contracts/",
+        ":permit2/=lib/permit2/",
+        ":solmate/=lib/permit2/lib/solmate/"
+      ],
+      "viaIR": true
+    },
+    "sourcify_repo_url": "https://repo.sourcify.dev/contracts/partial_match/1/0x4A6c312ec70E8747a587EE860a0353cd42Be0aE0/",
+    "is_verified_via_verifier_alliance": false,
+    "implementations": [],
+    "external_libraries": [],
+    "is_blueprint": false,
+    "is_verified_via_eth_bytecode_db": true,
+    "can_be_visualized_via_sol2uml": true,
+    "is_verified_via_sourcify": true,
+    "certified": false,
+    "conflicting_implementations": null,
+    "is_changed_bytecode": false,
+    "is_partially_verified": true
+  },
+  "notes": [],
+  "pagination": null
+}

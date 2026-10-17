@@ -20,11 +20,14 @@ PINNED_TX = "0x0a2f442acfb350d6d93002038b454ead40ffcf28a777b291cbaec1746d8aa2f1"
 MORPHO = "0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb"
 MARKET_FIELDS = ("loan_token", "collateral_token", "oracle", "irm", "lltv")
 ADDRESS_FIELDS = MARKET_FIELDS[:-1]
+PINNED_MARKET = "0x582fdc4176da0ab5c65e086603ab9ecd9188e889e16efef6e35854cf14e15065"
 
 
 def canonical_hex(value: object, width: int, field: str) -> str:
     if not isinstance(value, str) or len(value) != 2 + 2*width or not value.startswith("0x"):
         raise ValueError(f"invalid {field}")
+    if any(c not in "0123456789abcdefABCDEF" for c in value[2:]):
+        raise ValueError(f"invalid hexadecimal {field}")
     try:
         int(value[2:], 16)
     except ValueError as exc:
@@ -78,7 +81,7 @@ def check_fixture(record: dict) -> None:
         raise ValueError("Morpho contract identity changed")
     if record.get("callback_data") != "0x":
         raise ValueError("original historical callback did not exist")
-    if record.get("market_id") != market_id(record):
+    if record.get("market_id") != PINNED_MARKET or market_id(record) != PINNED_MARKET:
         raise ValueError("market parameters do not hash to the expected market id")
     canonical_hex(record["borrower"], 20, "borrower")
     if bounded_uint(record["repaid_shares"], "repaid_shares") == 0:
@@ -104,11 +107,13 @@ def build_calls(record: dict) -> list[dict]:
 
 
 def parse_response(record: dict, responses: list[dict]) -> dict:
+    check_fixture(record)
     if len(responses) != 3:
         raise ValueError("three independent archive calls required")
     ordered = []
     for idx, response in enumerate(responses, 1):
-        if not isinstance(response, dict) or response.get("id") != idx or "error" in response:
+        if (not isinstance(response, dict) or type(response.get("id")) is not int or
+            response.get("id") != idx or response.get("jsonrpc") != "2.0" or "error" in response):
             raise ValueError(f"eth_call #{idx} failed or mismatched response id")
         ordered.append(response.get("result"))
     mp, market, position = (words(ordered[0], 5, "market params"),
@@ -117,6 +122,10 @@ def parse_response(record: dict, responses: list[dict]) -> dict:
     expected = [int(record[x], 16) for x in ADDRESS_FIELDS] + [int(record["lltv"])]
     if mp != expected:
         raise ValueError("blockHash-pinned Morpho market configuration mismatch")
+    if any(n >= 2**128 for n in market) or any(n >= 2**128 for n in position[1:]):
+        raise ValueError("noncanonical uint128 state ABI")
+    if position[1] > market[3]:
+        raise ValueError("borrower debt shares exceed total market shares")
     if not market[4] or not position[1] or not position[2]:
         raise ValueError("parent state shows no active market/debt/collateral")
     return {
