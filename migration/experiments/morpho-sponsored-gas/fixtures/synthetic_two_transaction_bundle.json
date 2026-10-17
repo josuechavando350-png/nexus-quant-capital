@@ -1,0 +1,36 @@
+{
+  "evidence_type": "SYNTHETIC",
+  "chain_id": 1,
+  "prestate_block_hash": "0xf57a30121eac97b983cad86fcb3107787a9d400ca4d69d5a96a4b1b618ac65dc",
+  "builder": "TITAN",
+  "sender_initial_eth_wei": "0",
+  "executor_initial_eth_wei": "0",
+  "builder_advance_wei": "4500000000000000",
+  "builder_value_gross_wei": "4800000000000000",
+  "builder_profit_minimum_wei": "100000000000000",
+  "builder_receipts_verified": false,
+  "builder_value_measured": false,
+  "route_replayed": false,
+  "morpho_callback_replayed": false,
+  "target_tx_competition_replayed": false,
+  "builder_sponsored_deployment_supported": false,
+  "coinbase_tip_wei": "4500000000000000",
+  "txs": [
+    {
+      "purpose": "DEPLOY_EXECUTOR",
+      "from": "0x000000000000000000000000000000000000dEaD",
+      "nonce": 0,
+      "gas_limit": 900000,
+      "max_fee_per_gas_wei": "2000000000",
+      "value_wei": "0"
+    },
+    {
+      "purpose": "EXECUTE_LIQUIDATION",
+      "from": "0x000000000000000000000000000000000000dEaD",
+      "nonce": 1,
+      "gas_limit": 1200000,
+      "max_fee_per_gas_wei": "2000000000",
+      "value_wei": "0"
+    }
+  ]
+}
