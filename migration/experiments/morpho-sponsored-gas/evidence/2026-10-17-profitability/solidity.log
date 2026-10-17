@@ -1,0 +1,47 @@
+Compiling 6 files with Solc 0.8.24
+Solc 0.8.24 finished in 1.21s
+Compiler run successful!
+
+Ran 5 tests for tests-solidity/NqcMorphoSponsoredLiquidationMock.t.sol:NqcNonWethMockTest
+[PASS] testOperatorPaymentCannotReenter() (gas: 514323)
+[PASS] testRejectingCoinbaseRollsBackSponsorPayment() (gas: 536319)
+[PASS] testRejectingSponsorRollsBackEntireOperation() (gas: 516441)
+[PASS] testShortSecondSwapCannotUseDonatedWeth() (gas: 482189)
+[PASS] testTwoHopBalancesAndApprovals() (gas: 587811)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 5.88ms (3.86ms CPU time)
+
+Ran 4 tests for tests-solidity/ReferenceParity.t.sol:ReferenceParityTest
+[PASS] testBundler3AbiEncoderParity() (gas: 30220)
+[PASS] testFlashloanCallbackWrappingParity() (gas: 31116)
+[PASS] testInterestParity65Vectors() (gas: 265459)
+[PASS] testLiquidationParity65Vectors() (gas: 652930)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 6.40ms (10.21ms CPU time)
+
+Ran 24 tests for tests-solidity/NqcMorphoSponsoredLiquidationMock.t.sol:NqcMorphoSponsoredLiquidationMockTest
+[PASS] testAdapterCannotLieAboutOutput() (gas: 447886)
+[PASS] testAdapterMustConsumeExactInput() (gas: 427965)
+[PASS] testAllowancesClearedAndSecondExecutionWorks() (gas: 904377)
+[PASS] testCallbackPayloadMismatchRollsBack() (gas: 282264)
+[PASS] testCallbacksOutsideExecutionRejected() (gas: 15191)
+[PASS] testDexLiquidityComesFromSeparateExternalSeeder() (gas: 12873)
+[PASS] testDonationsCannotFakeMinimumSwapOutput() (gas: 427293)
+[PASS] testDonationsCannotSubsidizeMissingProfit() (gas: 405787)
+[PASS] testDuplicateCallbackRollsBack() (gas: 478206)
+[PASS] testEmptyCallbackRouteRejectedBeforeMorpho() (gas: 46464)
+[PASS] testExpiredPlan() (gas: 17568)
+[PASS] testFalseApprovalRejected() (gas: 331012)
+[PASS] testForcedEthCannotSubsidizeBuilderRefund() (gas: 18778)
+[PASS] testFuzzPriorBalancesPreserved(uint96,uint96,uint96) (runs: 256, μ: 523355, ~: 525156)
+[PASS] testMissingCallbackRollsBack() (gas: 283875)
+[PASS] testRejectInconsistentSeizedReturn() (gas: 409044)
+[PASS] testRejectInsufficientNativeSponsorReserve() (gas: 17962)
+[PASS] testRejectSelfSponsorOrCoinbaseAsBuilder() (gas: 25551)
+[PASS] testRejectShortOperatorReceipt() (gas: 494759)
+[PASS] testRejectShortRepayment() (gas: 430246)
+[PASS] testRejectUnrealisticMinLoanOut() (gas: 351217)
+[PASS] testUnauthorizedExecution() (gas: 15079)
+[PASS] testUnsolicitedTokensAndForcedEthArePreserved() (gas: 525769)
+[PASS] testWethLoanCallbackStartsWithZeroExecutorBalances() (gas: 465020)
+Suite result: ok. 24 passed; 0 failed; 0 skipped; finished in 36.91ms (42.38ms CPU time)
+
+Ran 3 test suites in 39.60ms (49.19ms CPU time): 33 tests passed, 0 failed, 0 skipped (33 total tests)

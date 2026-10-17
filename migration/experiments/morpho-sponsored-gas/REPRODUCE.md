@@ -168,3 +168,16 @@ predictions by the default Python suite. The new core suite tests 16 distinct
 liquidity configurations, plus stale-order/donation and excessive-budget cases.
 Compilation initially required an explicit integer cast for a rational constant;
 no economic assertion was relaxed to obtain the successful execution.
+
+## Exact profitability boundaries
+
+```sh
+/tmp/nqc-python/bin/python profitability_boundary.py --check-fixture
+FOUNDRY_PROFILE=core /tmp/nqc-toolchain/node_modules/.bin/forge test --offline --use /tmp/nqc-toolchain/solc-0.8.24 --match-test 'testExactPythonDepthBoundaryBothRoutes|testTraceCallbackAtSameCash|testTraceFlashAtBoundary' -vvvv
+/tmp/nqc-python/bin/python profitability_boundary.py --trace evidence/2026-10-17-profitability/economic-boundary-traces.log.gz
+# Expected final exit: 2 (synthetic boundaries, no economic admission).
+```
+
+`--write-fixture` regenerates the exact ABI fixture; do not change it to fit the EVM.
+The passing trace contains four adjacent-boundary outcomes and two identical-state
+gross-call gas observations. See `PROFITABILITY_RESULTS.md` for scope and costs.

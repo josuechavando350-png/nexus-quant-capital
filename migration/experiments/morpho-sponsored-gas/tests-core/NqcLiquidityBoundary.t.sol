@@ -10,6 +10,8 @@ import {Call, IBundler3} from "../reference/bundler3/src/interfaces/IBundler3.so
 interface BoundaryVm {
     function snapshotState() external returns (uint256);
     function revertToState(uint256) external returns (bool);
+    function readFile(string calldata path) external view returns (string memory);
+    function parseBytes(string calldata text) external pure returns (bytes memory);
 }
 interface V2Pair {
     function initialize(address, address) external;
@@ -53,6 +55,9 @@ contract NqcLiquidityBoundaryTest is NqcOriginalMorphoFixture {
     IBundler3 bundler;
     BoundaryGeneral general;
     event Scenario(bool flashRoute,uint256 morphoCash,uint256 collateralReserve,uint256 dexOut,bool success,uint256 operatorWeth);
+    // Call-frame gas under this fixture's warm state, not transaction charged gas.
+    event LocalCallGas(bool flashRoute,uint256 grossCallGas,bool success);
+    event ExactBoundary(bool flashRoute,uint256 collateralReserve,uint256 loanReserve,uint256 dexOut,bool success);
 
     function _create(string memory path,bytes memory args) private returns(address result) {
         bytes memory data=abi.encodePacked(vm.getCode(path),args);
@@ -120,8 +125,13 @@ contract NqcLiquidityBoundaryTest is NqcOriginalMorphoFixture {
         outer[0]=Call(address(general),abi.encodeCall(general.morphoFlashLoan,(address(weth),8 ether,data)),0,false,keccak256(data));
     }
     function _execute(bool flash,uint256 quoted) private returns(bool ok) {
-        if(flash) (ok,)=address(bundler).call(abi.encodeCall(bundler.multicall,(_route(quoted))));
-        else (ok,)=address(executor).call(abi.encodeCall(executor.execute,(_boundedPlan(),hex"01",bytes(""))));
+        bytes memory payload=flash ? abi.encodeCall(bundler.multicall,(_route(quoted)))
+            : abi.encodeCall(executor.execute,(_boundedPlan(),hex"01",bytes("")));
+        address target=flash ? address(bundler) : address(executor);
+        uint256 beforeGas=gasleft();
+        (ok,)=target.call(payload);
+        uint256 spent=beforeGas-gasleft();
+        emit LocalCallGas(flash,spent,ok);
     }
     function _scenario(bool flash,uint256 cash,uint256 reserve) private {
         _configure(cash,reserve);
@@ -167,6 +177,36 @@ contract NqcLiquidityBoundaryTest is NqcOriginalMorphoFixture {
     function testTraceCallbackZeroCash() public { _scenario(false,0,1000 ether); }
     function testTraceFlashBelowBoundary() public { _scenario(true,8 ether-1,1000 ether); }
     function testTraceFlashAtBoundary() public { _scenario(true,8 ether,1000 ether); }
+    function testTraceCallbackAtSameCash() public { _scenario(false,8 ether,1000 ether); }
+    function testExactPythonDepthBoundaryBothRoutes() public {
+        (uint256 seized,uint256 x,uint256 y,uint256 belowOut,uint256 atOut)=abi.decode(
+            stateVm.parseBytes(stateVm.readFile("fixtures/profitability_boundary.hex")),
+            (uint256,uint256,uint256,uint256,uint256));
+        require(seized==_seized()&&x*9==y*10,"fixture identity/price");
+        require(belowOut==8.11 ether-1&&atOut==8.11 ether,"one wei output boundary");
+        for(uint256 route;route<2;route++) for(uint256 edge;edge<2;edge++) {
+            uint256 snap=stateVm.snapshotState();
+            uint256 reserve=edge==0 ? x-10 : x;
+            _configure(8 ether,reserve);
+            uint256 out=bridge.quote(_seized());
+            require(out==(edge==0 ? belowOut : atOut),"independent quote mismatch");
+            bool ok=_execute(route==1,out);
+            require(ok==(edge==1),"boundary execution mismatch");
+            (,uint128 debt,)=morpho.position(keccak256(abi.encode(market)),BORROWER);
+            require(weth.balanceOf(address(this))==(ok ? 0.01 ether : 0),"token conservation");
+            require(address(this).balance==(ok ? 0.01 ether : 0),"native conservation");
+            require(SPONSOR.balance==(ok ? 0.05 ether : 0),"sponsor conservation");
+            require(block.coinbase.balance==(ok ? 0.04 ether : 0),"coinbase conservation");
+            require(weth.balanceOf(address(morpho))==(ok ? 16 ether : 8 ether),"debt receipt");
+            require(debt==(ok ? 0 : shares),"debt shares");
+            require(weth.balanceOf(address(pair))==reserve*9/10-(ok ? out : 0),"DEX output");
+            require(collateral.balanceOf(address(pair))==reserve+(ok ? seized : 0),"DEX input");
+            require(weth.balanceOf(address(executor))==0&&weth.balanceOf(address(bundler))==0
+                &&weth.balanceOf(address(general))==0,"route balance");
+            emit ExactBoundary(route==1,reserve,reserve*9/10,out,ok);
+            require(stateVm.revertToState(snap),"state restore");
+        }
+    }
     function testOriginalHalfEthBudgetIsNotCoveredAtOracleAlignedPrice() public {
         _configure(8 ether,10000 ether);
         require(bridge.quote(_seized())<8.5 ether,"expected economic shortfall");

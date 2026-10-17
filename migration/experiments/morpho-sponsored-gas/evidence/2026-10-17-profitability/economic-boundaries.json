@@ -1,0 +1,258 @@
+{
+  "classification": "EXACT_SYNTHETIC_ECONOMIC_BOUNDARIES",
+  "debt": 8000000000000000000,
+  "seized": 9278589654372535368,
+  "incentive_wad": 1043841336116910229,
+  "spot_price": {
+    "numerator": 9,
+    "denominator": 10
+  },
+  "fee_adjusted_infinite_depth_limit": {
+    "numerator": 10407098121085594982133,
+    "denominator": 1250
+  },
+  "strict_finite_depth_surplus_upper_bound": 325678496868475985,
+  "maximum_surplus_with_uint112_capacity": 325678496868461152,
+  "depths": [
+    {
+      "collateral_reserve": 20000000000000000000,
+      "loan_reserve": 18000000000000000000,
+      "spot_value": 8350730688935281831,
+      "impact_without_fee": 2646404908551824379,
+      "additional_fee_effect": 11700879511133903,
+      "executable_out": 5692624900872323549,
+      "surplus_before_external_costs": -2307375099127676451,
+      "max_external_cost_for_positive_one_wei_profit": -2307375099127676452,
+      "measured_external_costs": null
+    },
+    {
+      "collateral_reserve": 100000000000000000000,
+      "loan_reserve": 90000000000000000000,
+      "spot_value": 8350730688935281831,
+      "impact_without_fee": 709041026443241930,
+      "additional_fee_effect": 20983900039281828,
+      "executable_out": 7620705762452758073,
+      "surplus_before_external_costs": -379294237547241927,
+      "max_external_cost_for_positive_one_wei_profit": -379294237547241928,
+      "measured_external_costs": null
+    },
+    {
+      "collateral_reserve": 1000000000000000000000,
+      "loan_reserve": 900000000000000000000,
+      "spot_value": 8350730688935281831,
+      "impact_without_fee": 76770679741992938,
+      "additional_fee_effect": 24594363622737655,
+      "executable_out": 8249365645570551238,
+      "surplus_before_external_costs": 249365645570551238,
+      "max_external_cost_for_positive_one_wei_profit": 249365645570551237,
+      "measured_external_costs": null
+    },
+    {
+      "collateral_reserve": 10000000000000000000000,
+      "loan_reserve": 9000000000000000000000,
+      "spot_value": 8350730688935281831,
+      "impact_without_fee": 7741117672245916,
+      "additional_fee_effect": 25005836429937892,
+      "executable_out": 8317983734833098023,
+      "surplus_before_external_costs": 317983734833098023,
+      "max_external_cost_for_positive_one_wei_profit": 317983734833098022,
+      "measured_external_costs": null
+    }
+  ],
+  "fixed_price_thresholds": [
+    {
+      "condition": "debt_only",
+      "required_output": 8000000000000000000,
+      "possible": true,
+      "scale": 22723646723646724046,
+      "collateral_reserve": 227236467236467240460,
+      "loan_reserve": 204512820512820516414,
+      "out_at_boundary": 8000000000000000000,
+      "out_previous_scale": 7999999999999999999
+    },
+    {
+      "condition": "positive_before_external_costs",
+      "required_output": 8000000000000000001,
+      "possible": true,
+      "scale": 22723646723646724118,
+      "collateral_reserve": 227236467236467241180,
+      "loan_reserve": 204512820512820517062,
+      "out_at_boundary": 8000000000000000001,
+      "out_previous_scale": 8000000000000000000
+    },
+    {
+      "condition": "current_allocation_and_token_floor",
+      "required_output": 8110000000000000000,
+      "possible": true,
+      "scale": 34784929930414395582,
+      "collateral_reserve": 347849299304143955820,
+      "loan_reserve": 313064369373729560238,
+      "out_at_boundary": 8110000000000000000,
+      "out_previous_scale": 8109999999999999999
+    },
+    {
+      "condition": "old_half_eth_allocation_only",
+      "required_output": 8500000000000000000,
+      "possible": false,
+      "reason": "TARGET_AT_OR_ABOVE_INFINITE_DEPTH_LIMIT"
+    },
+    {
+      "condition": "old_allocation_and_token_floor",
+      "required_output": 8600000000000000000,
+      "possible": false,
+      "reason": "TARGET_AT_OR_ABOVE_INFINITE_DEPTH_LIMIT"
+    }
+  ],
+  "fixed_depth_price_thresholds": [
+    {
+      "required_output": 8000000000000000000,
+      "collateral_reserve": 1000000000000000000000,
+      "minimum_loan_reserve": 872794383149448345653,
+      "minimum_spot_relative_to_oracle": {
+        "numerator": 872794383149448345653,
+        "denominator": 900000000000000000000
+      }
+    },
+    {
+      "required_output": 8110000000000000000,
+      "collateral_reserve": 1000000000000000000000,
+      "minimum_loan_reserve": 884795305917753260406,
+      "minimum_spot_relative_to_oracle": {
+        "numerator": 49155294773208514467,
+        "denominator": 50000000000000000000
+      }
+    },
+    {
+      "required_output": 8500000000000000000,
+      "collateral_reserve": 1000000000000000000000,
+      "minimum_loan_reserve": 927344032096288867256,
+      "minimum_spot_relative_to_oracle": {
+        "numerator": 115918004012036108407,
+        "denominator": 112500000000000000000
+      }
+    },
+    {
+      "required_output": 8600000000000000000,
+      "collateral_reserve": 1000000000000000000000,
+      "minimum_loan_reserve": 938253961885656971577,
+      "minimum_spot_relative_to_oracle": {
+        "numerator": 312751320628552323859,
+        "denominator": 300000000000000000000
+      }
+    }
+  ],
+  "size_sensitivity_same_position": [
+    {
+      "repaid_shares": 1000000000000000000000000,
+      "debt": 1000000000000000000,
+      "seized": 1159823706796566921,
+      "pool_collateral": 100000000000000000000,
+      "surplus_before_external_costs": 28813190089088135
+    },
+    {
+      "repaid_shares": 1000000000000000000000000,
+      "debt": 1000000000000000000,
+      "seized": 1159823706796566921,
+      "pool_collateral": 1000000000000000000000,
+      "surplus_before_external_costs": 39507783275428435
+    },
+    {
+      "repaid_shares": 2000000000000000000000000,
+      "debt": 2000000000000000000,
+      "seized": 2319647413593133842,
+      "pool_collateral": 100000000000000000000,
+      "surplus_before_external_costs": 34370961525381457
+    },
+    {
+      "repaid_shares": 2000000000000000000000000,
+      "debt": 2000000000000000000,
+      "seized": 2319647413593133842,
+      "pool_collateral": 1000000000000000000000,
+      "surplus_before_external_costs": 76617055892542645
+    },
+    {
+      "repaid_shares": 4000000000000000000000000,
+      "debt": 4000000000000000000,
+      "seized": 4639294827186267684,
+      "pool_collateral": 100000000000000000000,
+      "surplus_before_external_costs": -21195459382759847
+    },
+    {
+      "repaid_shares": 4000000000000000000000000,
+      "debt": 4000000000000000000,
+      "seized": 4639294827186267684,
+      "pool_collateral": 1000000000000000000000,
+      "surplus_before_external_costs": 143673197966261362
+    },
+    {
+      "repaid_shares": 8000000000000000000000000,
+      "debt": 8000000000000000000,
+      "seized": 9278589654372535368,
+      "pool_collateral": 100000000000000000000,
+      "surplus_before_external_costs": -379294237547241927
+    },
+    {
+      "repaid_shares": 8000000000000000000000000,
+      "debt": 8000000000000000000,
+      "seized": 9278589654372535368,
+      "pool_collateral": 1000000000000000000000,
+      "surplus_before_external_costs": 249365645570551238
+    }
+  ],
+  "counterfactual_incentive_sensitivity": [
+    {
+      "counterfactual_lltv": 800000000000000000,
+      "protocol_math_permits": true,
+      "incentive_wad": 1063829787234042553,
+      "seized": 9456264775413711582,
+      "surplus_before_external_costs": 405856839068076852
+    },
+    {
+      "counterfactual_lltv": 860000000000000000,
+      "protocol_math_permits": true,
+      "incentive_wad": 1043841336116910229,
+      "seized": 9278589654372535368,
+      "surplus_before_external_costs": 249365645570551238
+    },
+    {
+      "counterfactual_lltv": 900000000000000000,
+      "protocol_math_permits": false,
+      "reason": "HEALTHY_POSITION: no permissible liquidation"
+    },
+    {
+      "counterfactual_lltv": 945000000000000000,
+      "protocol_math_permits": false,
+      "reason": "HEALTHY_POSITION: no permissible liquidation"
+    }
+  ],
+  "current_allocation": {
+    "unwrap": 100000000000000000,
+    "test_sponsor": 50000000000000000,
+    "coinbase": 40000000000000000,
+    "operator_native": 10000000000000000,
+    "minimum_operator_weth": 10000000000000000
+  },
+  "actual_gas_cost": null,
+  "actual_sponsor_requirement": null,
+  "historical_state_verified": false,
+  "sponsorship_accepted": false,
+  "economically_admitted_operations": 0,
+  "certified": false,
+  "limits": [
+    "Output inequalities are sufficient only for the stated swap arithmetic",
+    "Protocol health, collateral, route permissions and gas funding remain separate gates",
+    "The native operator distribution is an asset transfer, not an external expense",
+    "Do not subtract DEX fee/impact a second time from executable output",
+    "Counterfactual prices and LLTVs are sensitivity, not observed opportunities"
+  ],
+  "evm_comparison": {
+    "boundary_rows_matched": 4,
+    "local_gross_call_gas": {
+      "callback": 516339,
+      "flash": 400205
+    },
+    "callback_minus_flash_gross_gas": 116134,
+    "gas_scope": "Warm fixture call frame; excludes encoding, intrinsic gas, refunds, creation and funding",
+    "production_gas": null
+  }
+}

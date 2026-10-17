@@ -4,7 +4,8 @@
 
 Branch: `research/morpho-sponsored-gas-20261016` only.
 Starting commit: `37ee15bb48a7a002a60e473e56c2ee7b90b2f299`.
-Published baseline independently checked and reproduced: `fd9c1ffbabcd1f5a7f88102e0b9ee5cdfcf26b2e`.
+Published baseline independently checked and reproduced: `a96be36b2540dafe257d384c17333468c62201a6`
+(tree `55a2a65b4e52be073071dd02c40e5ffc834a6c04`). Prior checkpoint: `fd9c1ff`.
 The current file and subsequent additions belong to the research commit that
 contains them; obtain its exact identity with `git rev-parse HEAD` and
 `git log -1 -- RESEARCH_STATUS.md`. A file cannot contain its own commit hash.
@@ -29,21 +30,25 @@ Contract creation in tests occurs only in the local EVM test process.
 Checkpoints **132/39** and **136/41** were local results; the latter was
 re-executed at `fd9c1ff` before this continuation. New tests replace fixed-price
 swap assumptions with original Uniswap V2 behavior and verify observed accounting.
+The `a96be36` baseline was reproduced as 141 Python / 48 Solidity / 9 isolation.
+The exact-profitability continuation adds six Python checks and two Solidity
+functions that test the economic threshold and compare identical-state calls.
 Current result:
 
 | Suite | Passed | Failed | Skipped |
 | --- | ---: | ---: | ---: |
-| Experimental Python | **141** | 0 | 0 |
+| Experimental Python | **147** | 0 | 0 |
 | Default Solidity: 29 executor tests + 4 parity tests | **33** | 0 | 0 |
-| Original-source Solidity: 4 Morpho + 4 Bundler + 7 liquidity-boundary tests | **15** | 0 | 0 |
-| Solidity total | **48** | 0 | 0 |
+| Original-source Solidity: 4 Morpho + 4 Bundler + 9 liquidity-boundary tests | **17** | 0 | 0 |
+| Solidity total | **50** | 0 | 0 |
 | Repository isolation regressions | **9** | 0 | 0 |
 
 The Solidity totals count test functions, not fuzz iterations or vectors. One
 balance-invariant test runs 256 deterministic fuzz cases. Parity compares 65
 liquidation and 65 interest vectors plus nested ABI/callback encoding.
-Latest run: `evidence/2026-10-17-continuation/validation-run.json`, logs and
+Latest run: `evidence/2026-10-17-profitability/validation-run.json`, logs and
 `SHA256SUMS`. Previous evidence remains unchanged under `evidence/2026-10-17/`.
+Previous continuation evidence also remains unchanged.
 Local checks do not imply a remote CI run. Legacy workflows remain disabled.
 
 Environment: Linux x86_64, Python 3.12.14, PyCryptodome 3.23.0, Forge 1.7.1
@@ -115,6 +120,7 @@ reports `original_objects_checked=false`; no historical recertification claimed.
   gives 1651296044494913 wei-equivalent arithmetically, not certified consolidated
   profit, and never NQC P&L.
 
+Exact economic limits and architecture gas comparison: `PROFITABILITY_RESULTS.md`.
 Detailed baseline: `RESEARCH_FINDINGS.md`. New controlled experiments, EVM traces,
 fee/impact accounting and provider findings: `LIQUIDITY_BOUNDARY_RESULTS.md`.
 
@@ -124,6 +130,15 @@ needs all 8 WETH (one wei less reverts). Small pools block both routes. The old
 swap invalidates both plans; donated route balances stay untouched. Python
 reconciles 21 EVM scenario rows. Historical audit now cross-checks normalized
 token movements against direct token calls, retaining unknown balances as null.
+The original 0.5 ETH allocation is impossible at any pool depth at this fixture
+price: the fee-adjusted infinite-depth surplus is less than
+0.3256784968684759857064 WETH. Both routes cross the exact 8.11 WETH output
+boundary in the EVM, one wei apart. At equal Morpho cash and pool reserves,
+local gross call gas is 516339 for A versus 400205 for B; it excludes intrinsic
+gas, refunds, deployment and funding and is not a production estimate. The 0.1
+native allocation includes 0.01 returned to the operator, not an external expense.
+New fixture serialization initially failed because of a trailing newline; the
+corrected generator and actual passing trace are preserved with the failed trace.
 Economically admitted authentic operations remain **0**.
 **No NQC realized gains are certified. Neither $0 architecture is yet economically
 validated. No Titan/Quasar sponsorship of NQC has been demonstrated.**
@@ -160,7 +175,7 @@ witness for every counterfactual route.
 
 Files: `historical_trace_audit.py`, `historical_prestate_probe.py`,
 `tests-core/`, `contracts/NqcMorphoSponsoredLiquidation.sol`, `bundle_gate.py`,
-`economic_ledger.py`, `RESEARCH_FINDINGS.md`.
+`economic_ledger.py`, `profitability_boundary.py`, `PROFITABILITY_RESULTS.md`.
 
 Required experiments: reproduce the original at its exact pretransaction state;
 compare both alternatives from a restored identical state using actual DEX code
