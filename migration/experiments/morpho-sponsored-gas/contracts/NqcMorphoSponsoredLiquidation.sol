@@ -89,6 +89,9 @@ contract NqcMorphoSponsoredLiquidation {
     uint256 private baselineCollateral;
     uint256 private baselineWeth;
     uint256 private baselineNative;
+    uint256 private callbackRepaid;
+    uint256 private callbackSeized;
+    uint256 private loanBeforeRepayment;
 
     event ExperimentalLiquidation(
         address indexed borrower,
@@ -121,7 +124,7 @@ contract NqcMorphoSponsoredLiquidation {
         if (block.number > plan.validThroughBlock || plan.repaidShares == 0 ||
             plan.borrower == address(0) || plan.minLoanOut == 0 ||
             plan.minOperatorProfitLoan == 0 || plan.coinbaseTipWei == 0 ||
-            plan.sponsorRefundWei == 0) revert InvalidPlan();
+            plan.sponsorRefundWei == 0 || collateralRoute.length == 0) revert InvalidPlan();
 
         address loan = plan.market.loanToken;
         address collateral = plan.market.collateralToken;
@@ -157,7 +160,10 @@ contract NqcMorphoSponsoredLiquidation {
         (uint256 seized, uint256 repaid) = morpho.liquidate(
             plan.market, plan.borrower, 0, plan.repaidShares, collateralRoute
         );
-        if (!callbackSeen || _balance(collateral) != baselineCollateral) revert InvalidCallback();
+        if (!callbackSeen || _balance(collateral) != baselineCollateral ||
+            seized != callbackSeized || repaid != callbackRepaid ||
+            loanBeforeRepayment < repaid ||
+            _balance(loan) != loanBeforeRepayment - repaid) revert InvalidCallback();
         // Morpho transferred debt tokens back using transferFrom before returning.
         _forceApprove(loan, address(morpho), 0);
         if (_balance(loan) < baselineLoan + plan.loanForWeth + plan.minOperatorProfitLoan)
@@ -185,7 +191,7 @@ contract NqcMorphoSponsoredLiquidation {
         if (finalLoanBalance < baselineLoan) revert StateContaminated();
         operatorLoanProfit = finalLoanBalance - baselineLoan;
         if (operatorLoanProfit < plan.minOperatorProfitLoan) revert ProfitTooLow();
-        _safeTransfer(loan, operator, operatorLoanProfit);
+        _payOperator(loan, operatorLoanProfit);
         if (address(this).balance < baselineNative) revert StateContaminated();
         uint256 residualNative = address(this).balance - baselineNative;
         if (residualNative != 0) {
@@ -208,6 +214,9 @@ contract NqcMorphoSponsoredLiquidation {
         baselineCollateral = 0;
         baselineWeth = 0;
         baselineNative = 0;
+        callbackRepaid = 0;
+        callbackSeized = 0;
+        loanBeforeRepayment = 0;
         _emitLiquidation(plan, seized, repaid, operatorLoanProfit);
     }
 
@@ -226,10 +235,13 @@ contract NqcMorphoSponsoredLiquidation {
         uint256 currentCollateral = _balance(activeCollateralToken);
         if (currentCollateral <= baselineCollateral) revert InvalidCallback();
         uint256 seizedBalance = currentCollateral - baselineCollateral;
+        callbackRepaid = repaidAssets;
+        callbackSeized = seizedBalance;
         uint256 required = repaidAssets + reservedLoanForWeth + minProfit;
         if (activeMinLoanOut > required) required = activeMinLoanOut;
         _swap(activeCollateralToken, activeLoanToken, seizedBalance, required, collateralRoute);
         _forceApprove(activeLoanToken, address(morpho), repaidAssets);
+        loanBeforeRepayment = _balance(activeLoanToken);
     }
 
     function _swap(
@@ -244,7 +256,7 @@ contract NqcMorphoSponsoredLiquidation {
         _forceApprove(tokenIn, address(swapAdapter), 0);
         uint256 inputAfter = _balance(tokenIn);
         uint256 outputAfter = _balance(tokenOut);
-        if (inputBefore - inputAfter != amountIn ||
+        if (inputAfter > inputBefore || inputBefore - inputAfter != amountIn ||
             outputAfter < outputBefore ||
             outputAfter - outputBefore < minAmountOut) revert SwapFailed();
     }
@@ -260,6 +272,13 @@ contract NqcMorphoSponsoredLiquidation {
 
     function _safeTransfer(address token, address recipient, uint256 amount) private {
         _tokenCall(token, abi.encodeWithSignature("transfer(address,uint256)", recipient, amount));
+    }
+
+    function _payOperator(address token, uint256 amount) private {
+        uint256 beforeBalance = INqcErc20(token).balanceOf(operator);
+        _safeTransfer(token, operator, amount);
+        uint256 afterBalance = INqcErc20(token).balanceOf(operator);
+        if (afterBalance < beforeBalance || afterBalance - beforeBalance != amount) revert ProfitTooLow();
     }
 
     function _tokenCall(address token, bytes memory data) private {

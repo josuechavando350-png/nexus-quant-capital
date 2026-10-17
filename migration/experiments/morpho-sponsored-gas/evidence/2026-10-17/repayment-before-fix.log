@@ -1,0 +1,19 @@
+Compiling 1 files with Solc 0.8.24
+Solc 0.8.24 finished in 548.75ms
+Compiler run successful!
+
+Ran 2 tests for tests-solidity/NqcMorphoSponsoredLiquidationMock.t.sol:NqcMorphoSponsoredLiquidationMockTest
+[FAIL: next call did not revert as expected] testRejectInconsistentSeizedReturn() (gas: 520118)
+[FAIL: next call did not revert as expected] testRejectShortRepayment() (gas: 520133)
+Suite result: FAILED. 0 passed; 2 failed; 0 skipped; finished in 2.75ms (1.17ms CPU time)
+
+Ran 1 test suite in 5.30ms (2.75ms CPU time): 0 tests passed, 2 failed, 0 skipped (2 total tests)
+
+Failing tests:
+Encountered 2 failing tests in tests-solidity/NqcMorphoSponsoredLiquidationMock.t.sol:NqcMorphoSponsoredLiquidationMockTest
+[FAIL: next call did not revert as expected] testRejectInconsistentSeizedReturn() (gas: 520118)
+[FAIL: next call did not revert as expected] testRejectShortRepayment() (gas: 520133)
+
+Encountered a total of 2 failing tests, 0 tests succeeded
+
+Tip: Run `forge test --rerun` to retry only the 2 failed tests

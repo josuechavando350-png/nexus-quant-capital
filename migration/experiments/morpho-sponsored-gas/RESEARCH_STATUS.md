@@ -44,3 +44,20 @@ ABI and exact arithmetic against Solidity, inspect original Morpho/Bundler3 sour
 and reconcile sponsorship assumptions. Do not promote local unit results to
 historical reproduction. A pass requires canonical pretransaction state, executable
 DEX outputs and separately reconciled builder/proposer/operator cash flows.
+
+## Executor hardening increment
+
+First correction commit: `2d6252a`. Three new negative tests failed before the
+corrections: inconsistent returned seizure, short debt collection, and short
+operator token receipt. The executor now measures each obligation and requires
+exact agreement with callback/return values. Empty callback data is rejected
+before Morpho, and increased input balances yield SwapFailed rather than an
+arithmetic panic. These are guards in NQC, not claimed defects in Morpho.
+
+Latest local result: 28 Solidity mock tests passed, including 256 deterministic
+fuzz cases for preservation of prior balances. New coverage includes non-WETH
+debt/two swaps, output misreporting, input under-consumption, rejected approvals,
+callback authentication and duplication, expiry, allowance cleanup, repeat
+execution, rejected native payments and full rollback. Toolchain unchanged.
+The native venue and token fixtures remain artificial. Historical trace research
+is in progress and is not included in the above execution result.
