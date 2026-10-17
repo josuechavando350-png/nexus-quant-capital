@@ -1,0 +1,24 @@
+{
+  "locked_at_utc": "2026-10-17T17:28:07.162034+00:00",
+  "base_commit": "544fd2d16d0b1cf1018dce006702a7abcbf0d0c6",
+  "prior_knowledge": "Case B and census aggregates already known; this is NOT outcome-blinded. Lock precedes new individual candidate analysis.",
+  "input_sha256": {
+    "selection.json": "9630aaee38444365cbd63ddf1caf5f1d67383bbe58715e685285b413126ac9f8",
+    "page-000.json": "beece4329d09888fc088fc75eabec980191a7b55041e8eaf2851b7ebccfba9bf",
+    "page-001.json": "811d22ea9d154ace2c4ace0cbbb47177b27c8259605fac77741b6135b5c160c7",
+    "page-002.json": "06449deb6dab3b7314921ac0a65e529be856a982cb08562508947f30260525a0",
+    "reverse-000.json": "f7641d2adb7189c3dbc446e1d6186b7f3debcf7da15d9f082a70fef133ae08db",
+    "reverse-001.json": "b42f02d34e44abedc92758ae7de8ff2d37570f8efff951fa64d4005bd0c01831",
+    "seven-day.json": "9bcfb2bdf09c4e3c270f05e38384490dc702218ee4dedbb8846fb64af1fb4b7b"
+  },
+  "algorithm": [
+    "Exclude a transaction containing ANY reported bad-debt assets or shares from these three primary strata; report bad debt population separately, not as unprofitable.",
+    "Single-debt-asset transactions only for ranking; sum principal in native integer units within transaction.",
+    "Up to four WETH transactions in descending repaid principal, transaction hash tie-break.",
+    "Choose non-WETH asset with most clean single-asset transactions (address tie-break); up to four descending principal within THAT asset only.",
+    "Up to four remaining debt assets: earliest transaction per asset, order by block, index, hash. No duplicate, substitution or quota refill."
+  ],
+  "maximum_transactions": 12,
+  "profit_or_usd_filter": null,
+  "code_sha256": "6d7aca53fac0a99e9192e02c47d79e17493eee3410681a25e2d2e8edfcd59697"
+}
