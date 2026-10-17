@@ -1,0 +1,19 @@
+{
+  "url": "https://api.morpho.org/graphql",
+  "request": {
+    "query": "{marketTransactions(first:100,orderBy:Timestamp,orderDirection:Asc,where:{chainId_in:[1],type_in:[Liquidation],cursor:{txHash:\"0x48da6527da73ecd301d33ce333f573466bf489622ac5943edf49b76291965a44\",logIndex:22},timestamp_gte:1789603200,timestamp_lte:1792195199}){items{chain{id} txHash timestamp blockNumber txIndex logIndex type market{marketId lltv loanAsset{address decimals symbol} collateralAsset{address decimals symbol}} data{__typename ... on MarketTransactionLiquidationData{liquidator repaidAssets repaidShares seizedAssets badDebtAssets badDebtShares}}}}}"
+  },
+  "retrieved_at_utc": "2026-10-17T04:48:02.760755+00:00",
+  "http_status": 200,
+  "response": {
+    "data": {
+      "marketTransactions": {
+        "items": []
+      }
+    },
+    "extensions": {
+      "complexity": 28500,
+      "maximumComplexity": 1000000
+    }
+  }
+}

@@ -1,0 +1,2173 @@
+{
+  "schema": 1,
+  "analysis": "Independent offline recomputation; no onchain authentication or economic forecast",
+  "source_commit": "0f26557c1f83e12efcf364ece6cebd8505d2e2c2",
+  "inputs": [
+    {
+      "id": "S-TM-006",
+      "path": "2026-10-17-monthly/b-morpho-logs.json",
+      "sha256": "21390bd7e03330086b457d56260d17447306f79c4ef6a3a87ee1c23929ddcf66",
+      "git_blob_sha": "676535a7bb772f3a696c598f2f36c5af939661bf"
+    },
+    {
+      "id": "S-TM-007",
+      "path": "2026-10-17-monthly/monthly-census.json",
+      "sha256": "ff58db864dbad6898be797cf10c01f4c320f5d4345f53a06b98101b3a9a913a6",
+      "git_blob_sha": "57d2b4580d279b3bf4ad6b549211ea91fe18ea1a"
+    },
+    {
+      "id": "S-TM-008",
+      "path": "2026-10-17-monthly/page-000.json",
+      "sha256": "beece4329d09888fc088fc75eabec980191a7b55041e8eaf2851b7ebccfba9bf",
+      "git_blob_sha": "62e394e853560fbb670404d077981396dc3124f0"
+    },
+    {
+      "id": "S-TM-009",
+      "path": "2026-10-17-monthly/page-001.json",
+      "sha256": "811d22ea9d154ace2c4ace0cbbb47177b27c8259605fac77741b6135b5c160c7",
+      "git_blob_sha": "804b4abbf399f76d3afcbd976bbbebc96a6dfd93"
+    },
+    {
+      "id": "S-TM-010",
+      "path": "2026-10-17-monthly/page-002.json",
+      "sha256": "06449deb6dab3b7314921ac0a65e529be856a982cb08562508947f30260525a0",
+      "git_blob_sha": "0f603685ee530c83149e92b6e2b92de86734293a"
+    },
+    {
+      "id": "S-TM-011",
+      "path": "2026-10-17-monthly/receipt-00.json",
+      "sha256": "6c9f5549ff1f8e82d7ceb40a418da7837dc28e84103b6eaca2582626e62f50b5",
+      "git_blob_sha": "1b0cde16ec4cd8635360e931af306addfcfa49c8"
+    },
+    {
+      "id": "S-TM-012",
+      "path": "2026-10-17-monthly/receipt-01.json",
+      "sha256": "6b21a8aa7c9c741f5f58b56cd308a113ead031799ab13781b505cc2b017fc55d",
+      "git_blob_sha": "fc99bec87192beae3a83a9139554258d835c31d4"
+    },
+    {
+      "id": "S-TM-013",
+      "path": "2026-10-17-monthly/receipt-02.json",
+      "sha256": "cda98ed8c35f90bee774c28ed6e95eecbf76f188b3a069b9465c34c00d5f6150",
+      "git_blob_sha": "cb072588360bd5ecf3fcadcecfd4e16580657154"
+    },
+    {
+      "id": "S-TM-014",
+      "path": "2026-10-17-monthly/receipt-03.json",
+      "sha256": "e554d4df5627dd103635de27749ebea1845c2c860a34082246b636e8b44da4a3",
+      "git_blob_sha": "62b8e2d9f2c5606886c2edb23683f30d30ff833e"
+    },
+    {
+      "id": "S-TM-015",
+      "path": "2026-10-17-monthly/receipt-04.json",
+      "sha256": "f434ec3cee82c1386b2a32744dfcb305d09af235b27d0844b57386cf942fbfbe",
+      "git_blob_sha": "5368a33b14e034c3958c1262816a01e4eaa610b4"
+    },
+    {
+      "id": "S-TM-016",
+      "path": "2026-10-17-monthly/receipt-05.json",
+      "sha256": "119a3534bc23b220d1cfd0ef337be87fa756ff9857ba3ed5777bc16b4683408e",
+      "git_blob_sha": "02ecf33c6f7b3f29fb6b4c0b845cafa2121f2396"
+    },
+    {
+      "id": "S-TM-017",
+      "path": "2026-10-17-monthly/receipt-06.json",
+      "sha256": "d41ea698d87dd94544f4b83c42d0b448d488604656da5e3fed7a3b76c212d533",
+      "git_blob_sha": "d9079fed2932e7bfeefe815fe321612e31c8a861"
+    },
+    {
+      "id": "S-TM-018",
+      "path": "2026-10-17-monthly/receipt-07.json",
+      "sha256": "c8da403cfec774d3547739fa553719ff7f387a7d45e2f93b2faa21c0ea29aa90",
+      "git_blob_sha": "b98858d0f7ced21a7c7f4cfcdc990c7eb17ce9fd"
+    },
+    {
+      "id": "S-TM-019",
+      "path": "2026-10-17-monthly/receipt-08.json",
+      "sha256": "746d223a2a6287b11e39ae7e9bf013105f8137b7ab7a9020fa0946a5872a4c52",
+      "git_blob_sha": "07e59770c42e628ba21465a86db8451da56ae1d6"
+    },
+    {
+      "id": "S-TM-020",
+      "path": "2026-10-17-monthly/receipt-09.json",
+      "sha256": "80db5e365ca8401706393c8dbeb0c6591dbfa362ef796be8c061a2c420bbbaf6",
+      "git_blob_sha": "b908f173895f35adc3746d1e61e0e629d7d7a928"
+    },
+    {
+      "id": "S-TM-021",
+      "path": "2026-10-17-monthly/receipt-10.json",
+      "sha256": "0805e8feb29dd31b44ab4dfc72f7ef8122dd3cfb4e5fb2b108d3d56b8d1692c3",
+      "git_blob_sha": "fd62cb83f04c2bb06e4f8930aa0670d1609ca78b"
+    },
+    {
+      "id": "S-TM-022",
+      "path": "2026-10-17-monthly/receipt-11.json",
+      "sha256": "dce13b1fdf4ed8ef2b8af3021f8e505f539d5073d805c9f1c5c36cbd32044c3f",
+      "git_blob_sha": "b374c9687ce9090e16926a39b7e8790fe054b84d"
+    },
+    {
+      "id": "S-TM-023",
+      "path": "2026-10-17-monthly/receipt-12.json",
+      "sha256": "0e5740650df5ad54a76cc3f132598f3123f30517f71843e639dc8c603828bf6c",
+      "git_blob_sha": "39130c640f0b0d0d0d288dda65cc5faa30e25d85"
+    },
+    {
+      "id": "S-TM-024",
+      "path": "2026-10-17-monthly/receipt-13.json",
+      "sha256": "97e1316f1bf67d34abca658fc9c025f189792d25948ebf98db2cb38ee1c3caf9",
+      "git_blob_sha": "14914f7b8e4a823c1c59cc0e95255b8646314bb2"
+    },
+    {
+      "id": "S-TM-025",
+      "path": "2026-10-17-monthly/receipt-14.json",
+      "sha256": "e2d5bf5e6736e0f171f3ecf749e919b9fb6f0ccfff0aa1c26e2a1a5123e24577",
+      "git_blob_sha": "c92a3bea008498fd79ebbd3bfffd39ba4492a908"
+    },
+    {
+      "id": "S-TM-026",
+      "path": "2026-10-17-monthly/receipt-15.json",
+      "sha256": "19ad2f6b7e0e91740ee1c4d993a6a6605a2ab0fa51ce6fde3efe0824851d9c21",
+      "git_blob_sha": "c5b6586a89fdeaabf0e970c371d1d0627d5a4269"
+    },
+    {
+      "id": "S-TM-027",
+      "path": "2026-10-17-monthly/receipt-16.json",
+      "sha256": "11e7f60f510f7d98b05d4faba012cfa902d89f9a366efe383d583b32bd1af74c",
+      "git_blob_sha": "d29ed75e51bbb97b1ee0cf321408b887947a4dfe"
+    },
+    {
+      "id": "S-TM-028",
+      "path": "2026-10-17-monthly/receipt-17.json",
+      "sha256": "e134ed93bd0e8dc9024a539930a6054bd97a40bddf1b00033916be58b4da8270",
+      "git_blob_sha": "2a86757b1ed76dd5715a62d389481ee1ab3dd0f0"
+    },
+    {
+      "id": "S-TM-029",
+      "path": "2026-10-17-monthly/receipt-18.json",
+      "sha256": "504d9aaa5ed21455f71e872424c8e080d03a2e1f6f4a9e53032a58642e2c43e6",
+      "git_blob_sha": "c29057deea06d5af508cfe101e3da812e306c8f5"
+    },
+    {
+      "id": "S-TM-030",
+      "path": "2026-10-17-monthly/receipt-19.json",
+      "sha256": "9d728bb6f6276bb304fddc2c788eb0cd4f1dd73fb227f53e77b48a90279a85b8",
+      "git_blob_sha": "ed595a0cc2523cb73ffef526828b452d050722ab"
+    },
+    {
+      "id": "S-TM-031",
+      "path": "2026-10-17-monthly/receipt-21.json",
+      "sha256": "054072fc591ff2b20a157174cf22a1b1a9233d0b902533c5a9af10051709075f",
+      "git_blob_sha": "fe6b22a8695f0d5a67c4c6a123d0079dc0cb89d4"
+    },
+    {
+      "id": "S-TM-032",
+      "path": "2026-10-17-monthly/receipt-22.json",
+      "sha256": "d748a09f7ec8b822b67f6671a549c12dddb2990846e0ff5a19e0ad112b87572a",
+      "git_blob_sha": "757e4502696ae0446212535769f8b7c61af57ef0"
+    },
+    {
+      "id": "S-TM-033",
+      "path": "2026-10-17-monthly/receipt-selection.json",
+      "sha256": "5fdba9f93de145269815cd95193d055df340706441d78ec5daebf5c928ef7c45",
+      "git_blob_sha": "1541a76f7b09b8a1a3489abc6cfdf1abc48e609d"
+    },
+    {
+      "id": "S-TM-034",
+      "path": "2026-10-17-monthly/reverse-000.json",
+      "sha256": "f7641d2adb7189c3dbc446e1d6186b7f3debcf7da15d9f082a70fef133ae08db",
+      "git_blob_sha": "b2fdded7136e28eabc89996ab9db7408718f76b9"
+    },
+    {
+      "id": "S-TM-035",
+      "path": "2026-10-17-monthly/reverse-001.json",
+      "sha256": "b42f02d34e44abedc92758ae7de8ff2d37570f8efff951fa64d4005bd0c01831",
+      "git_blob_sha": "65a6b8e578c6e3a97fedad8195fa1cab1a7c446b"
+    },
+    {
+      "id": "S-TM-036",
+      "path": "2026-10-17-monthly/selection.json",
+      "sha256": "9630aaee38444365cbd63ddf1caf5f1d67383bbe58715e685285b413126ac9f8",
+      "git_blob_sha": "5294bcb39440c3630ff89a48a0467ef931d80448"
+    },
+    {
+      "id": "S-TM-037",
+      "path": "2026-10-17-monthly/seven-day.json",
+      "sha256": "9bcfb2bdf09c4e3c270f05e38384490dc702218ee4dedbb8846fb64af1fb4b7b",
+      "git_blob_sha": "9236702add0c2fc569acbbeb88827b8a51319e25"
+    },
+    {
+      "id": "S-TM-038",
+      "path": "2026-10-17-prospective-recovered/blockpi/header.json",
+      "sha256": "0a9d01d6ee3d619696d2e5fea161c86d1773dc66031b8eb0df0ae07325890938",
+      "git_blob_sha": "43aa3323e7eb46c6776758c562b659e42cf5e083"
+    },
+    {
+      "id": "S-TM-039",
+      "path": "2026-10-17-prospective-recovered/blockpi/selection.json",
+      "sha256": "5b5a1d8e631539c1e3eb510c39e7939b8facb180e483695bb869a5fb85858b91",
+      "git_blob_sha": "f4e1f044a204cf10ce16596177bc4f673144cf13"
+    },
+    {
+      "id": "S-TM-040",
+      "path": "2026-10-17-prospective-recovered/final-prospective.json",
+      "sha256": "ee2739771b9b76ae5cbf16a228c29764e0721fbd81980350ce67a84cf7d50742",
+      "git_blob_sha": "eca45f8f36d730e8d750d5ca8397a51447b82d21"
+    },
+    {
+      "id": "S-TM-041",
+      "path": "2026-10-17-prospective-recovered/followup-events.json",
+      "sha256": "57bffc908aebaa7510fdee5f72cc9a36882cfc828e6b4093df1318770393aae0",
+      "git_blob_sha": "0ccc24be06b7895b5905ef1dabcf5dfdd75e4480"
+    },
+    {
+      "id": "S-TM-042",
+      "path": "2026-10-17-prospective-recovered/followup-selection.json",
+      "sha256": "dce1bd3802c8af72b91cd2b3a290d2a5a41dd8916e68eb2db0f84693013eabb2",
+      "git_blob_sha": "083986bd95067c6867fa20e9cddd1f6a40006ccc"
+    },
+    {
+      "id": "S-TM-043",
+      "path": "2026-10-17-prospective-recovered/sample-00/config.json",
+      "sha256": "f3a8e7ef4174154baf2b453d7c0dea5bf66749eaf0369aeca7eb6adece0d5052",
+      "git_blob_sha": "55f8a81838874e7d3f2d2437228a21e45b4ab412"
+    },
+    {
+      "id": "S-TM-044",
+      "path": "2026-10-17-prospective-recovered/sample-00/header-26210229.json",
+      "sha256": "8970b6b207047daa838e3205c80c183b71c28cd4c9cd2fb5029caa4c3b0a9293",
+      "git_blob_sha": "c6c69471881c9fe4a2bad09df0196cce674277c3"
+    },
+    {
+      "id": "S-TM-045",
+      "path": "2026-10-17-prospective-recovered/sample-00/header-26210230.json",
+      "sha256": "95cc24aa367248fd14da1858e2ee6f446eaa2aec648b92928dcff8295e71bc10",
+      "git_blob_sha": "b87744da535c680e97c54595e7acdacb5bc092c6"
+    },
+    {
+      "id": "S-TM-046",
+      "path": "2026-10-17-prospective-recovered/sample-00/header-26210231.json",
+      "sha256": "fbc2f611af79a429205bc1c07ae99b7b5a7214cd1995c11e6d8aa1a96af3aa37",
+      "git_blob_sha": "eb3076809bb089969d6f0bea77cadf745311830c"
+    },
+    {
+      "id": "S-TM-047",
+      "path": "2026-10-17-prospective-recovered/sample-00/market.json",
+      "sha256": "e135153621f374a4544b2d6944646090148a69b9b65b20df60a5a9ce19c051bd",
+      "git_blob_sha": "3d100b6a8f0d473f374340e7d960dee112199925"
+    },
+    {
+      "id": "S-TM-048",
+      "path": "2026-10-17-prospective-recovered/sample-00/oracle.json",
+      "sha256": "246f182dc073be8f19499bc0a80b8d1239e1d3b279f9045e54f7c9bfd44aa318",
+      "git_blob_sha": "640e584ae44708fd30a0820bc46edbfe5ac36e33"
+    },
+    {
+      "id": "S-TM-049",
+      "path": "2026-10-17-prospective-recovered/sample-00/position.json",
+      "sha256": "dc66ebc8651999dcab6f5f6cccba1be6909b43e12ac1445c54ecc61dff7f31b9",
+      "git_blob_sha": "bf45d9bde3494cd039e8601ac894a00878b0da76"
+    },
+    {
+      "id": "S-TM-050",
+      "path": "2026-10-17-prospective-recovered/sample-00/selection.json",
+      "sha256": "207b4891845913428ef0c3bcc859f4154ac434225736208660c84b746e268da4",
+      "git_blob_sha": "ff97ef9e195e40a0af370c37dfef0b93479466fb"
+    },
+    {
+      "id": "S-TM-051",
+      "path": "2026-10-17-profitability/b-receipt.json",
+      "sha256": "5869cf87c611f478da8c007dcddc46483fd842ed3a36d28c33faa26f7333f557",
+      "git_blob_sha": "259506f36686e9b141d803143d4c83658a40bddb"
+    }
+  ],
+  "record_set_sha256": "fd8f45e8cdc116281e73794f4b0e8a98f75aa6a22c77316c8bbf0c5c918a630c",
+  "checks": {
+    "forward_reverse_same_records": true,
+    "terminal_forward_page_empty": true,
+    "api_initial_count_agrees": true,
+    "seven_day_subset_same_records": true,
+    "selection_saved_before_api_responses": true,
+    "all_input_copy_hashes_match": true,
+    "source_json_amounts_strict_integer": true,
+    "totals_independently_recomputed_agree_with_saved_report": true,
+    "diagnostic_selection_independently_rederived": true,
+    "b_saved_receipt_matches_api_identity_and_amounts": true,
+    "getlogs_control_matches_known_positive_scope_but_is_empty": true,
+    "complete_data_time_includes_last_header": true
+  },
+  "windows": {
+    "30d": {
+      "events": 143,
+      "transactions": 141,
+      "markets": 60,
+      "liquidator_addresses": 49,
+      "debt_token_addresses": 15,
+      "collateral_token_addresses": 48,
+      "bad_debt_events": 43,
+      "transactions_with_any_bad_debt": 43,
+      "debt_assets": [
+        {
+          "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+          "symbol_label": "USDC",
+          "decimals": 6,
+          "events": 94,
+          "transactions": 92,
+          "bad_debt_events": 40,
+          "repaid_raw": "1959916002871",
+          "bad_debt_raw": "290422601988",
+          "share_of_observed_events": {
+            "numerator": 94,
+            "denominator": 143,
+            "fraction": "94/143",
+            "percent": "65.734266"
+          },
+          "usd_value": null,
+          "profit": null
+        },
+        {
+          "address": "0x8292bb45bf1ee4d140127049757c2e0ff06317ed",
+          "symbol_label": "RLUSD",
+          "decimals": 18,
+          "events": 9,
+          "transactions": 9,
+          "bad_debt_events": 0,
+          "repaid_raw": "5151370056332328324978",
+          "bad_debt_raw": "0",
+          "share_of_observed_events": {
+            "numerator": 9,
+            "denominator": 143,
+            "fraction": "9/143",
+            "percent": "6.293706"
+          },
+          "usd_value": null,
+          "profit": null
+        },
+        {
+          "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+          "symbol_label": "USDT",
+          "decimals": 6,
+          "events": 9,
+          "transactions": 9,
+          "bad_debt_events": 1,
+          "repaid_raw": "9273429661",
+          "bad_debt_raw": "131357",
+          "share_of_observed_events": {
+            "numerator": 9,
+            "denominator": 143,
+            "fraction": "9/143",
+            "percent": "6.293706"
+          },
+          "usd_value": null,
+          "profit": null
+        },
+        {
+          "address": "0x64351fc9810adad17a690e4e1717df5e7e085160",
+          "symbol_label": "msETH",
+          "decimals": 18,
+          "events": 7,
+          "transactions": 7,
+          "bad_debt_events": 0,
+          "repaid_raw": "32478600116843302546",
+          "bad_debt_raw": "0",
+          "share_of_observed_events": {
+            "numerator": 7,
+            "denominator": 143,
+            "fraction": "7/143",
+            "percent": "4.895105"
+          },
+          "usd_value": null,
+          "profit": null
+        },
+        {
+          "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+          "symbol_label": "WETH",
+          "decimals": 18,
+          "events": 7,
+          "transactions": 7,
+          "bad_debt_events": 1,
+          "repaid_raw": "27458932397784792302",
+          "bad_debt_raw": "2790062648724480",
+          "share_of_observed_events": {
+            "numerator": 7,
+            "denominator": 143,
+            "fraction": "7/143",
+            "percent": "4.895105"
+          },
+          "usd_value": null,
+          "profit": null
+        },
+        {
+          "address": "0xaf5d2cf39f2d4e2f5900d6cf37ab3596866347e4",
+          "symbol_label": "JPYR",
+          "decimals": 6,
+          "events": 4,
+          "transactions": 4,
+          "bad_debt_events": 0,
+          "repaid_raw": "3646140088",
+          "bad_debt_raw": "0",
+          "share_of_observed_events": {
+            "numerator": 4,
+            "denominator": 143,
+            "fraction": "4/143",
+            "percent": "2.797203"
+          },
+          "usd_value": null,
+          "profit": null
+        },
+        {
+          "address": "0x00000000efe302beaa2b3e6e1b18d08d69a9012a",
+          "symbol_label": "AUSD",
+          "decimals": 6,
+          "events": 3,
+          "transactions": 3,
+          "bad_debt_events": 0,
+          "repaid_raw": "47506432886",
+          "bad_debt_raw": "0",
+          "share_of_observed_events": {
+            "numerator": 3,
+            "denominator": 143,
+            "fraction": "3/143",
+            "percent": "2.097902"
+          },
+          "usd_value": null,
+          "profit": null
+        },
+        {
+          "address": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+          "symbol_label": "WBTC",
+          "decimals": 8,
+          "events": 2,
+          "transactions": 2,
+          "bad_debt_events": 0,
+          "repaid_raw": "910512",
+          "bad_debt_raw": "0",
+          "share_of_observed_events": {
+            "numerator": 2,
+            "denominator": 143,
+            "fraction": "2/143",
+            "percent": "1.398601"
+          },
+          "usd_value": null,
+          "profit": null
+        },
+        {
+          "address": "0x6b175474e89094c44da98b954eedeac495271d0f",
+          "symbol_label": "DAI",
+          "decimals": 18,
+          "events": 2,
+          "transactions": 2,
+          "bad_debt_events": 0,
+          "repaid_raw": "88477811241098515256",
+          "bad_debt_raw": "0",
+          "share_of_observed_events": {
+            "numerator": 2,
+            "denominator": 143,
+            "fraction": "2/143",
+            "percent": "1.398601"
+          },
+          "usd_value": null,
+          "profit": null
+        },
+        {
+          "address": "0x5f7827fdeb7c20b443265fc2f40845b715385ff2",
+          "symbol_label": "EURCV",
+          "decimals": 18,
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "repaid_raw": "19813987376846231411278",
+          "bad_debt_raw": "0",
+          "share_of_observed_events": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          },
+          "usd_value": null,
+          "profit": null
+        },
+        {
+          "address": "0x6c3ea9036406852006290770bedfcaba0e23a0e8",
+          "symbol_label": "PYUSD",
+          "decimals": 6,
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "repaid_raw": "109849410",
+          "bad_debt_raw": "0",
+          "share_of_observed_events": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          },
+          "usd_value": null,
+          "profit": null
+        },
+        {
+          "address": "0xa0d69e286b938e21cbf7e51d71f6a4c8918f482f",
+          "symbol_label": "eUSD",
+          "decimals": 18,
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 1,
+          "repaid_raw": "3882487744110662",
+          "bad_debt_raw": "37767999161081",
+          "share_of_observed_events": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          },
+          "usd_value": null,
+          "profit": null
+        },
+        {
+          "address": "0xcacd6fd266af91b8aed52accc382b4e165586e29",
+          "symbol_label": "frxUSD",
+          "decimals": 18,
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "repaid_raw": "9892450039454760960",
+          "bad_debt_raw": "0",
+          "share_of_observed_events": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          },
+          "usd_value": null,
+          "profit": null
+        },
+        {
+          "address": "0xdc035d45d973e3ec169d2276ddab16f1e407384f",
+          "symbol_label": "USDS",
+          "decimals": 18,
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "repaid_raw": "253629850343498858832",
+          "bad_debt_raw": "0",
+          "share_of_observed_events": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          },
+          "usd_value": null,
+          "profit": null
+        },
+        {
+          "address": "0xe7c3d8c9a439fede00d2600032d5db0be71c3c29",
+          "symbol_label": "JPYC",
+          "decimals": 18,
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "repaid_raw": "493281274471133248431",
+          "bad_debt_raw": "0",
+          "share_of_observed_events": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          },
+          "usd_value": null,
+          "profit": null
+        }
+      ],
+      "liquidators": [
+        {
+          "address": "0xe683b8ee2710eabcbf347b7cb0735cda11ef31ba",
+          "events": 35,
+          "transactions": 35,
+          "bad_debt_events": 35,
+          "event_share": {
+            "numerator": 35,
+            "denominator": 143,
+            "fraction": "35/143",
+            "percent": "24.475524"
+          }
+        },
+        {
+          "address": "0x00acd5005200e7009beb000000e35e1e002b5565",
+          "events": 15,
+          "transactions": 14,
+          "bad_debt_events": 3,
+          "event_share": {
+            "numerator": 15,
+            "denominator": 143,
+            "fraction": "15/143",
+            "percent": "10.489510"
+          }
+        },
+        {
+          "address": "0x928def5fdffbd95dae449d7a3f35f05ffdb54960",
+          "events": 7,
+          "transactions": 7,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 7,
+            "denominator": 143,
+            "fraction": "7/143",
+            "percent": "4.895105"
+          }
+        },
+        {
+          "address": "0xfe1dcc4db359b161f9042e99c3b481a50f73dec1",
+          "events": 6,
+          "transactions": 6,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 6,
+            "denominator": 143,
+            "fraction": "6/143",
+            "percent": "4.195804"
+          }
+        },
+        {
+          "address": "0x1f2f10d1c40777ae1da742455c65828ff36df387",
+          "events": 5,
+          "transactions": 5,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 5,
+            "denominator": 143,
+            "fraction": "5/143",
+            "percent": "3.496503"
+          }
+        },
+        {
+          "address": "0xe29b7303937fac8f7f24670c7cc08005ac14ebe9",
+          "events": 5,
+          "transactions": 5,
+          "bad_debt_events": 1,
+          "event_share": {
+            "numerator": 5,
+            "denominator": 143,
+            "fraction": "5/143",
+            "percent": "3.496503"
+          }
+        },
+        {
+          "address": "0xf1abdb47415a000bf60929563ccb552f6555c727",
+          "events": 4,
+          "transactions": 4,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 4,
+            "denominator": 143,
+            "fraction": "4/143",
+            "percent": "2.797203"
+          }
+        },
+        {
+          "address": "0x3884cf9171f53f3cb29bbca1594af8a0efd5567e",
+          "events": 3,
+          "transactions": 3,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 3,
+            "denominator": 143,
+            "fraction": "3/143",
+            "percent": "2.097902"
+          }
+        },
+        {
+          "address": "0x5ac9bc14376bf2727c6211960cf3cec1e2f295bd",
+          "events": 3,
+          "transactions": 3,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 3,
+            "denominator": 143,
+            "fraction": "3/143",
+            "percent": "2.097902"
+          }
+        },
+        {
+          "address": "0x950fd558f47e234a2fde23b7d61f7ccdbcb4a86f",
+          "events": 3,
+          "transactions": 3,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 3,
+            "denominator": 143,
+            "fraction": "3/143",
+            "percent": "2.097902"
+          }
+        },
+        {
+          "address": "0xbde3e91f09a9489f1b53eaa21eb32c89b2fd5c64",
+          "events": 3,
+          "transactions": 3,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 3,
+            "denominator": 143,
+            "fraction": "3/143",
+            "percent": "2.097902"
+          }
+        },
+        {
+          "address": "0xf968a5de2019de1f0a8f53758dd137ae5c9efbc9",
+          "events": 3,
+          "transactions": 3,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 3,
+            "denominator": 143,
+            "fraction": "3/143",
+            "percent": "2.097902"
+          }
+        },
+        {
+          "address": "0x140022b7000081000001094700609300d2187dab",
+          "events": 2,
+          "transactions": 2,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 2,
+            "denominator": 143,
+            "fraction": "2/143",
+            "percent": "1.398601"
+          }
+        },
+        {
+          "address": "0x15d741be449a179a82d30d66fb262262e6d72ec0",
+          "events": 2,
+          "transactions": 2,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 2,
+            "denominator": 143,
+            "fraction": "2/143",
+            "percent": "1.398601"
+          }
+        },
+        {
+          "address": "0x211f4039d132f2cc22f656330c315e52a576c0bc",
+          "events": 2,
+          "transactions": 2,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 2,
+            "denominator": 143,
+            "fraction": "2/143",
+            "percent": "1.398601"
+          }
+        },
+        {
+          "address": "0x3132d5bae89d248deda77aba04a43255ef188264",
+          "events": 2,
+          "transactions": 2,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 2,
+            "denominator": 143,
+            "fraction": "2/143",
+            "percent": "1.398601"
+          }
+        },
+        {
+          "address": "0x53e27cc3535f8eee3f124999b57d44ba6a80962e",
+          "events": 2,
+          "transactions": 2,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 2,
+            "denominator": 143,
+            "fraction": "2/143",
+            "percent": "1.398601"
+          }
+        },
+        {
+          "address": "0x6566194141eefa99af43bb5aa71460ca2dc90245",
+          "events": 2,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 2,
+            "denominator": 143,
+            "fraction": "2/143",
+            "percent": "1.398601"
+          }
+        },
+        {
+          "address": "0x8a321218956ee460eaff36171d85d1d0baae5575",
+          "events": 2,
+          "transactions": 2,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 2,
+            "denominator": 143,
+            "fraction": "2/143",
+            "percent": "1.398601"
+          }
+        },
+        {
+          "address": "0x8aa163d604765adba61c41af4924ad31d383663a",
+          "events": 2,
+          "transactions": 2,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 2,
+            "denominator": 143,
+            "fraction": "2/143",
+            "percent": "1.398601"
+          }
+        },
+        {
+          "address": "0x9813868eeee325244fc2a52b1f412a3026ae58b7",
+          "events": 2,
+          "transactions": 2,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 2,
+            "denominator": 143,
+            "fraction": "2/143",
+            "percent": "1.398601"
+          }
+        },
+        {
+          "address": "0x9ee589bf6fc57eaeb795c626ede51f258b81f265",
+          "events": 2,
+          "transactions": 2,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 2,
+            "denominator": 143,
+            "fraction": "2/143",
+            "percent": "1.398601"
+          }
+        },
+        {
+          "address": "0xa4de308c280c6c34f38ff915653433b0afa72009",
+          "events": 2,
+          "transactions": 2,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 2,
+            "denominator": 143,
+            "fraction": "2/143",
+            "percent": "1.398601"
+          }
+        },
+        {
+          "address": "0xbd32122bad41a09f2405bb374a83877d8245079c",
+          "events": 2,
+          "transactions": 2,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 2,
+            "denominator": 143,
+            "fraction": "2/143",
+            "percent": "1.398601"
+          }
+        },
+        {
+          "address": "0xca4c80326ddb66e263847e681c6cb8a05f80f463",
+          "events": 2,
+          "transactions": 2,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 2,
+            "denominator": 143,
+            "fraction": "2/143",
+            "percent": "1.398601"
+          }
+        },
+        {
+          "address": "0xfa70af8913ca220942b4bff61713ca0ca0593492",
+          "events": 2,
+          "transactions": 2,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 2,
+            "denominator": 143,
+            "fraction": "2/143",
+            "percent": "1.398601"
+          }
+        },
+        {
+          "address": "0x003baa012aa04d61f5af86115819d31ce6163854",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0x17e1f9480e1ed1fed3b9831013120a651122d260",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0x1e3cd3fc2966580c76d2bede95c843b729883a65",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0x41e8e31ee3f52c3b9f5a971c0c7be27950b9732e",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0x4789c274d65b6d4c5c9db42813dfc67f87dacde6",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0x5922f55408b10d93625433866de143b894de0e00",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 1,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0x6cbc49cf5aba7e2e4f053e0036e11731d80a0391",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 1,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0x723411229490ab771645dc31fcf4daee5a794540",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 1,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0x77f40a04c3f552a0dfe82282de73db30d34c6e25",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0x812a3bef79ac1c31f589db9fd19feee436b8eaf3",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0x85593464c9dd38ec4625ef44e60cd6e8045aa067",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0x871b243dd3a0f1e1c48921c0c619d9e01594919f",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0x94f4068fbc87b7b3fbca8402ff53b24d054007de",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0x95719729e13b093f546544b1e7028639829ef357",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0x98a21b062201625bfece632f86eb524e08fc22ef",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0xa8b7643a8331fe18fb35642646aea7e993a747fc",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 1,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0xad213ae0b710c7bc6c915984d91bad008b2d3221",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0xb82aac6aecc9a8edf12345a3b1ec874575da97d4",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0xc2f175d0568b7f7142c969ed418f5022b9392348",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0xda2ba67c7dcaa944e0a3095435f58f926acb1824",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0xdeadb043eb4c89d81fb94bc56768f2533c81aef8",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0xe3f29e3aebf6f2da2a5d4c72e83bae810cc562f3",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        },
+        {
+          "address": "0xe641eb803132475c72ddf531ee5362187839b869",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 143,
+            "fraction": "1/143",
+            "percent": "0.699301"
+          }
+        }
+      ],
+      "collateral_assets": [
+        {
+          "address": "0x08efcc2f3e61185d0ea7f8830b3fec9bfa2ee313",
+          "symbol_label": "sNUSD",
+          "events": 42,
+          "bad_debt_events": 35
+        },
+        {
+          "address": "0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0",
+          "symbol_label": "wstETH",
+          "events": 9,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xce6170ea245dc8d1f275a710a062b70f125f0110",
+          "symbol_label": "FXRP",
+          "events": 8,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x657d9aba1dbb59e53f9f3ecaa878447dcfc96dcb",
+          "symbol_label": "ynETHx",
+          "events": 7,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x928fb6ed39100a92b2480f5cbb93453f98d9f4ce",
+          "symbol_label": "PT-cUSD-23JUL2026",
+          "events": 7,
+          "bad_debt_events": 1
+        },
+        {
+          "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+          "symbol_label": "WETH",
+          "events": 6,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x1d08e7adc263cfc70b1babe6dc5bb339c16eec52",
+          "symbol_label": "USD0USD0++",
+          "events": 4,
+          "bad_debt_events": 1
+        },
+        {
+          "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+          "symbol_label": "USDT",
+          "events": 4,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x6982508145454ce325ddbe47a25d4ec3d2311933",
+          "symbol_label": "PEPE",
+          "events": 3,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x97ad75064b20fb2b2447fed4fa953bf7f007a706",
+          "symbol_label": "beraSTONE",
+          "events": 3,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xa3931d71877c0e7a3148cb7eb4463524fec27fbd",
+          "symbol_label": "sUSDS",
+          "events": 3,
+          "bad_debt_events": 1
+        },
+        {
+          "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "symbol_label": "cbBTC",
+          "events": 3,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x38eeb52f0771140d10c4e9a9a72349a329fe8a6a",
+          "symbol_label": "apyUSD",
+          "events": 2,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x4c9edd5852cd905f086c759e8383e09bff1e68b3",
+          "symbol_label": "USDe",
+          "events": 2,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x65a44528e8868166401ea08b549e19552af589db",
+          "symbol_label": "srNUSD",
+          "events": 2,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x90a2a4c76b5d8c0bc892a69ea28aa775a8f2dd48",
+          "symbol_label": "SPYx",
+          "events": 2,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x9b5528528656dbc094765e2abb79f293c21191b9",
+          "symbol_label": "mHYPER",
+          "events": 2,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xcd9f5907f92818bc06c9ad70217f089e190d2a32",
+          "symbol_label": "srRoyUSDC",
+          "events": 2,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xd3fd63209fa2d55b07a0f6db36c2f43900be3094",
+          "symbol_label": "wsrUSD",
+          "events": 2,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xdcee70654261af21c44c093c300ed3bb97b78192",
+          "symbol_label": "WOETH",
+          "events": 2,
+          "bad_debt_events": 1
+        },
+        {
+          "address": "0x098697ba3fee4ea76294c5d6a466a4e3b3e95fe6",
+          "symbol_label": "USP",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x1d69402390657308c91179aa184bf992908c1e08",
+          "symbol_label": "PT-USDat-27AUG2026",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x1fb3c5c35d95f48e48ffc8e36bcce5cb5f29f57c",
+          "symbol_label": "PT-srUSDe-15JAN2026",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+          "symbol_label": "WBTC",
+          "events": 1,
+          "bad_debt_events": 1
+        },
+        {
+          "address": "0x387d46494f6dc5c6b26abc20ae40623ac041dd92",
+          "symbol_label": "CTOKEN1",
+          "events": 1,
+          "bad_debt_events": 1
+        },
+        {
+          "address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "symbol_label": "PAXG",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x545a490f9ab534adf409a2e682bc4098f49952e3",
+          "symbol_label": "PT-cUSD-29JAN2026",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x610209dabf47375307bb2a3263f85440eedc7834",
+          "symbol_label": "ILLIQUID_PERPDEX_COLL",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x643c4e15d7d62ad0abec4a9bd4b001aa3ef52d66",
+          "symbol_label": "SYRUP",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x651d4b8168488fa163d85304662e8278d4c55baa",
+          "symbol_label": "yb-WBTC",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x74db7a52773a52699dbc0c01b1254e5301e3e119",
+          "symbol_label": "AVLT",
+          "events": 1,
+          "bad_debt_events": 1
+        },
+        {
+          "address": "0x8236a87084f8b84306f72007f36f2618a5634494",
+          "symbol_label": "LBTC",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x8c106eedad96553e64287a5a6839c3cc78afa3d0",
+          "symbol_label": "gtusdcp",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2",
+          "symbol_label": "MKR",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x9fb7b4477576fe5b32be4c1843afb1e55f251b33",
+          "symbol_label": "fUSDC",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+          "symbol_label": "USDC",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xa2eaad0d586cf9fd73bb2c09cf6a7e3e187d68cd",
+          "symbol_label": "armUSDCs",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xb576765fb15505433af24fee2c0325895c559fb2",
+          "symbol_label": "senPYUSDmain",
+          "events": 1,
+          "bad_debt_events": 1
+        },
+        {
+          "address": "0xba98fc35c9dfd69178ad5dce9fa29c64554783b5",
+          "symbol_label": "ePYUSD-6",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xbeef0c075da5d01112ae5cf34d257074fb5ddb2f",
+          "symbol_label": "steakEURCV",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xbf5495efe5db9ce00f80364c8b423567e58d2110",
+          "symbol_label": "ezETH",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xc3c7e5e277d31cd24a3ac4cc9af3b6770f30ea33",
+          "symbol_label": "PT-stcUSD-29JAN2026",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xc58d044404d8b14e953c115e67823784dea53d8f",
+          "symbol_label": "jrUSDe",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xc689f76f90fe1762fac55983ff25ae71033a84f7",
+          "symbol_label": "PT-sUSDat-27AUG2026",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xcd5fe23c85820f7b72d0926fc9b05b43e359b7ee",
+          "symbol_label": "weETH",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xd9a442856c234a39a81a089c06451ebaa4306a72",
+          "symbol_label": "pufETH",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xdab276f6e19ccc54ca5aaa2645a94087ca776a3f",
+          "symbol_label": "stBRL",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xfaba6f8e4a5e8ab82f62fe7c39859fa577269be3",
+          "symbol_label": "ONDO",
+          "events": 1,
+          "bad_debt_events": 0
+        }
+      ],
+      "daily_events": {
+        "2026-09-17": 12,
+        "2026-09-18": 0,
+        "2026-09-19": 3,
+        "2026-09-20": 1,
+        "2026-09-21": 7,
+        "2026-09-22": 0,
+        "2026-09-23": 6,
+        "2026-09-24": 1,
+        "2026-09-25": 4,
+        "2026-09-26": 36,
+        "2026-09-27": 10,
+        "2026-09-28": 2,
+        "2026-09-29": 1,
+        "2026-09-30": 3,
+        "2026-10-01": 4,
+        "2026-10-02": 2,
+        "2026-10-03": 0,
+        "2026-10-04": 1,
+        "2026-10-05": 2,
+        "2026-10-06": 4,
+        "2026-10-07": 6,
+        "2026-10-08": 9,
+        "2026-10-09": 0,
+        "2026-10-10": 2,
+        "2026-10-11": 2,
+        "2026-10-12": 4,
+        "2026-10-13": 2,
+        "2026-10-14": 2,
+        "2026-10-15": 15,
+        "2026-10-16": 2
+      },
+      "zero_record_days": [
+        "2026-09-18",
+        "2026-09-22",
+        "2026-10-03",
+        "2026-10-09"
+      ],
+      "multi_event_transactions": {
+        "0x430f18682beba3cdf16305aa1f18e9f23ae42eb2294d0897b3ef4f0404e18f7e": 2,
+        "0x5af6cc4bcec812d636eabb9cd11d2d676c55fb277bd9de1a75bbaeff20bab94b": 2
+      },
+      "sum_does_not_represent_profit": true
+    },
+    "7d": {
+      "events": 29,
+      "transactions": 28,
+      "markets": 22,
+      "liquidator_addresses": 16,
+      "debt_token_addresses": 5,
+      "collateral_token_addresses": 18,
+      "bad_debt_events": 3,
+      "transactions_with_any_bad_debt": 3,
+      "debt_assets": [
+        {
+          "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+          "symbol_label": "USDC",
+          "decimals": 6,
+          "events": 16,
+          "transactions": 15,
+          "bad_debt_events": 3,
+          "repaid_raw": "85884503718",
+          "bad_debt_raw": "874759",
+          "share_of_observed_events": {
+            "numerator": 16,
+            "denominator": 29,
+            "fraction": "16/29",
+            "percent": "55.172414"
+          },
+          "usd_value": null,
+          "profit": null
+        },
+        {
+          "address": "0x8292bb45bf1ee4d140127049757c2e0ff06317ed",
+          "symbol_label": "RLUSD",
+          "decimals": 18,
+          "events": 5,
+          "transactions": 5,
+          "bad_debt_events": 0,
+          "repaid_raw": "1723421530820745341616",
+          "bad_debt_raw": "0",
+          "share_of_observed_events": {
+            "numerator": 5,
+            "denominator": 29,
+            "fraction": "5/29",
+            "percent": "17.241379"
+          },
+          "usd_value": null,
+          "profit": null
+        },
+        {
+          "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+          "symbol_label": "USDT",
+          "decimals": 6,
+          "events": 4,
+          "transactions": 4,
+          "bad_debt_events": 0,
+          "repaid_raw": "117228295",
+          "bad_debt_raw": "0",
+          "share_of_observed_events": {
+            "numerator": 4,
+            "denominator": 29,
+            "fraction": "4/29",
+            "percent": "13.793103"
+          },
+          "usd_value": null,
+          "profit": null
+        },
+        {
+          "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+          "symbol_label": "WETH",
+          "decimals": 18,
+          "events": 3,
+          "transactions": 3,
+          "bad_debt_events": 0,
+          "repaid_raw": "26867551495477013361",
+          "bad_debt_raw": "0",
+          "share_of_observed_events": {
+            "numerator": 3,
+            "denominator": 29,
+            "fraction": "3/29",
+            "percent": "10.344828"
+          },
+          "usd_value": null,
+          "profit": null
+        },
+        {
+          "address": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+          "symbol_label": "WBTC",
+          "decimals": 8,
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "repaid_raw": "13371",
+          "bad_debt_raw": "0",
+          "share_of_observed_events": {
+            "numerator": 1,
+            "denominator": 29,
+            "fraction": "1/29",
+            "percent": "3.448276"
+          },
+          "usd_value": null,
+          "profit": null
+        }
+      ],
+      "liquidators": [
+        {
+          "address": "0x00acd5005200e7009beb000000e35e1e002b5565",
+          "events": 7,
+          "transactions": 6,
+          "bad_debt_events": 1,
+          "event_share": {
+            "numerator": 7,
+            "denominator": 29,
+            "fraction": "7/29",
+            "percent": "24.137931"
+          }
+        },
+        {
+          "address": "0x5ac9bc14376bf2727c6211960cf3cec1e2f295bd",
+          "events": 3,
+          "transactions": 3,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 3,
+            "denominator": 29,
+            "fraction": "3/29",
+            "percent": "10.344828"
+          }
+        },
+        {
+          "address": "0xf1abdb47415a000bf60929563ccb552f6555c727",
+          "events": 3,
+          "transactions": 3,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 3,
+            "denominator": 29,
+            "fraction": "3/29",
+            "percent": "10.344828"
+          }
+        },
+        {
+          "address": "0xbde3e91f09a9489f1b53eaa21eb32c89b2fd5c64",
+          "events": 2,
+          "transactions": 2,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 2,
+            "denominator": 29,
+            "fraction": "2/29",
+            "percent": "6.896552"
+          }
+        },
+        {
+          "address": "0xca4c80326ddb66e263847e681c6cb8a05f80f463",
+          "events": 2,
+          "transactions": 2,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 2,
+            "denominator": 29,
+            "fraction": "2/29",
+            "percent": "6.896552"
+          }
+        },
+        {
+          "address": "0xfa70af8913ca220942b4bff61713ca0ca0593492",
+          "events": 2,
+          "transactions": 2,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 2,
+            "denominator": 29,
+            "fraction": "2/29",
+            "percent": "6.896552"
+          }
+        },
+        {
+          "address": "0x140022b7000081000001094700609300d2187dab",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 29,
+            "fraction": "1/29",
+            "percent": "3.448276"
+          }
+        },
+        {
+          "address": "0x17e1f9480e1ed1fed3b9831013120a651122d260",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 29,
+            "fraction": "1/29",
+            "percent": "3.448276"
+          }
+        },
+        {
+          "address": "0x1f2f10d1c40777ae1da742455c65828ff36df387",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 29,
+            "fraction": "1/29",
+            "percent": "3.448276"
+          }
+        },
+        {
+          "address": "0x53e27cc3535f8eee3f124999b57d44ba6a80962e",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 29,
+            "fraction": "1/29",
+            "percent": "3.448276"
+          }
+        },
+        {
+          "address": "0x77f40a04c3f552a0dfe82282de73db30d34c6e25",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 29,
+            "fraction": "1/29",
+            "percent": "3.448276"
+          }
+        },
+        {
+          "address": "0x94f4068fbc87b7b3fbca8402ff53b24d054007de",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 29,
+            "fraction": "1/29",
+            "percent": "3.448276"
+          }
+        },
+        {
+          "address": "0xa8b7643a8331fe18fb35642646aea7e993a747fc",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 1,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 29,
+            "fraction": "1/29",
+            "percent": "3.448276"
+          }
+        },
+        {
+          "address": "0xad213ae0b710c7bc6c915984d91bad008b2d3221",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 29,
+            "fraction": "1/29",
+            "percent": "3.448276"
+          }
+        },
+        {
+          "address": "0xc2f175d0568b7f7142c969ed418f5022b9392348",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 0,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 29,
+            "fraction": "1/29",
+            "percent": "3.448276"
+          }
+        },
+        {
+          "address": "0xe29b7303937fac8f7f24670c7cc08005ac14ebe9",
+          "events": 1,
+          "transactions": 1,
+          "bad_debt_events": 1,
+          "event_share": {
+            "numerator": 1,
+            "denominator": 29,
+            "fraction": "1/29",
+            "percent": "3.448276"
+          }
+        }
+      ],
+      "collateral_assets": [
+        {
+          "address": "0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0",
+          "symbol_label": "wstETH",
+          "events": 4,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xce6170ea245dc8d1f275a710a062b70f125f0110",
+          "symbol_label": "FXRP",
+          "events": 4,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x1d08e7adc263cfc70b1babe6dc5bb339c16eec52",
+          "symbol_label": "USD0USD0++",
+          "events": 3,
+          "bad_debt_events": 1
+        },
+        {
+          "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+          "symbol_label": "WETH",
+          "events": 3,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x97ad75064b20fb2b2447fed4fa953bf7f007a706",
+          "symbol_label": "beraSTONE",
+          "events": 2,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x643c4e15d7d62ad0abec4a9bd4b001aa3ef52d66",
+          "symbol_label": "SYRUP",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x651d4b8168488fa163d85304662e8278d4c55baa",
+          "symbol_label": "yb-WBTC",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x8c106eedad96553e64287a5a6839c3cc78afa3d0",
+          "symbol_label": "gtusdcp",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0x928fb6ed39100a92b2480f5cbb93453f98d9f4ce",
+          "symbol_label": "PT-cUSD-23JUL2026",
+          "events": 1,
+          "bad_debt_events": 1
+        },
+        {
+          "address": "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2",
+          "symbol_label": "MKR",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xa2eaad0d586cf9fd73bb2c09cf6a7e3e187d68cd",
+          "symbol_label": "armUSDCs",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xa3931d71877c0e7a3148cb7eb4463524fec27fbd",
+          "symbol_label": "sUSDS",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xb576765fb15505433af24fee2c0325895c559fb2",
+          "symbol_label": "senPYUSDmain",
+          "events": 1,
+          "bad_debt_events": 1
+        },
+        {
+          "address": "0xbf5495efe5db9ce00f80364c8b423567e58d2110",
+          "symbol_label": "ezETH",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xc3c7e5e277d31cd24a3ac4cc9af3b6770f30ea33",
+          "symbol_label": "PT-stcUSD-29JAN2026",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xc58d044404d8b14e953c115e67823784dea53d8f",
+          "symbol_label": "jrUSDe",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xc689f76f90fe1762fac55983ff25ae71033a84f7",
+          "symbol_label": "PT-sUSDat-27AUG2026",
+          "events": 1,
+          "bad_debt_events": 0
+        },
+        {
+          "address": "0xdab276f6e19ccc54ca5aaa2645a94087ca776a3f",
+          "symbol_label": "stBRL",
+          "events": 1,
+          "bad_debt_events": 0
+        }
+      ],
+      "daily_events": {
+        "2026-10-10": 2,
+        "2026-10-11": 2,
+        "2026-10-12": 4,
+        "2026-10-13": 2,
+        "2026-10-14": 2,
+        "2026-10-15": 15,
+        "2026-10-16": 2
+      },
+      "zero_record_days": [],
+      "multi_event_transactions": {
+        "0x430f18682beba3cdf16305aa1f18e9f23ae42eb2294d0897b3ef4f0404e18f7e": 2
+      },
+      "sum_does_not_represent_profit": true
+    }
+  },
+  "window_overlap_warning": "7d is a subset of 30d; never add these populations",
+  "filter_sensitivity": {
+    "all_records": {
+      "events": 143,
+      "transactions": 141,
+      "bad_debt_events": 43,
+      "eligible_count": null,
+      "profit_positive_count": null
+    },
+    "only_events_without_reported_bad_debt": {
+      "events": 100,
+      "transactions": 99,
+      "bad_debt_events": 0,
+      "eligible_count": null,
+      "profit_positive_count": null
+    },
+    "remove_entire_transactions_with_any_bad_debt": {
+      "events": 99,
+      "transactions": 98,
+      "bad_debt_events": 0,
+      "eligible_count": null,
+      "profit_positive_count": null
+    },
+    "diagnostic_receipt_selection": {
+      "events": 25,
+      "transactions": 23,
+      "bad_debt_events": 3,
+      "eligible_count": null,
+      "profit_positive_count": null
+    },
+    "WETH_debt": {
+      "events": 7,
+      "transactions": 7,
+      "bad_debt_events": 1,
+      "eligible_count": null,
+      "profit_positive_count": null
+    },
+    "WETH_debt_without_reported_bad_debt": {
+      "events": 6,
+      "transactions": 6,
+      "bad_debt_events": 0,
+      "eligible_count": null,
+      "profit_positive_count": null
+    },
+    "without_2026_09_26_for_sensitivity_only": {
+      "events": 107,
+      "transactions": 105,
+      "bad_debt_events": 7,
+      "eligible_count": null,
+      "profit_positive_count": null
+    }
+  },
+  "concentration_findings": {
+    "peak_day": "2026-09-26",
+    "peak_day_events": 36,
+    "peak_day_bad_debt_events": 36,
+    "peak_day_fraction_of_bad_debt": {
+      "numerator": 36,
+      "denominator": 43,
+      "fraction": "36/43",
+      "percent": "83.720930"
+    },
+    "leader_address": "0xe683b8ee2710eabcbf347b7cb0735cda11ef31ba",
+    "leader_all_bad_debt": true,
+    "leader_event_dates": [
+      "2026-09-26"
+    ],
+    "leader_collateral_tokens": [
+      "0x08efcc2f3e61185d0ea7f8830b3fec9bfa2ee313"
+    ],
+    "top_two_liquidator_event_share": {
+      "numerator": 50,
+      "denominator": 143,
+      "fraction": "50/143",
+      "percent": "34.965035"
+    },
+    "bad_debt_event_share": {
+      "numerator": 43,
+      "denominator": 143,
+      "fraction": "43/143",
+      "percent": "30.069930"
+    }
+  },
+  "diagnostic_receipts": {
+    "selected_transactions": 23,
+    "selected_events": 25,
+    "available_saved_receipts": 1,
+    "new_null_receipts": 22,
+    "selection_is_random": false,
+    "null_is_failed_transaction": false,
+    "null_is_zero_gas": false,
+    "null_fraction_of_diagnostic_transactions": {
+      "numerator": 22,
+      "denominator": 23,
+      "fraction": "22/23",
+      "percent": "95.652174"
+    },
+    "available_fraction_of_all_observed_transactions": {
+      "numerator": 1,
+      "denominator": 141,
+      "fraction": "1/141",
+      "percent": "0.709220"
+    },
+    "b_gas_units": 745509,
+    "b_effective_gas_price_wei": "266148625",
+    "b_gas_wei": "198416195275125",
+    "population_profit_distribution": null
+  },
+  "coverage_control": {
+    "status": "KNOWN_POSITIVE_OMISSION_OR_CONFLICT",
+    "saved_receipt_matching_events": 1,
+    "saved_getlogs_events": 0,
+    "can_certify_complete_population": false,
+    "claim_boundary": "Conflict between pinned saved provider outputs, not a new chain query"
+  },
+  "temporal": {
+    "observations": {
+      "market": {
+        "reported_block": 26210230,
+        "header_hash_saved": "0x58e00385be917f1aa16f96fc6df0b0b828ac5b1d436024a4e6df4916ea553b21",
+        "block_timestamp_seconds": 1792215479,
+        "request_start_utc": "2026-10-17T05:38:07.688398+00:00",
+        "response_received_utc": "2026-10-17T05:38:10.802423+00:00",
+        "header_received_utc": "2026-10-17T05:38:23.641087+00:00",
+        "wall_clock_request_elapsed_us": 3114025,
+        "block_to_response_wall_offset_us": 11802423,
+        "network_latency_us": null,
+        "monotonic_duration_us": null,
+        "provider_publication_time": null,
+        "utc_offset_uncertainty_us": null,
+        "state_authenticated_against_root": false,
+        "finality_verified": false
+      },
+      "position": {
+        "reported_block": 26210231,
+        "header_hash_saved": "0xf6939f947bdc126fe31b4f423ecf77658e4706d2331239fd9fa90f5ac88a8703",
+        "block_timestamp_seconds": 1792215491,
+        "request_start_utc": "2026-10-17T05:38:10.802762+00:00",
+        "response_received_utc": "2026-10-17T05:38:14.020207+00:00",
+        "header_received_utc": "2026-10-17T05:38:26.670478+00:00",
+        "wall_clock_request_elapsed_us": 3217445,
+        "block_to_response_wall_offset_us": 3020207,
+        "network_latency_us": null,
+        "monotonic_duration_us": null,
+        "provider_publication_time": null,
+        "utc_offset_uncertainty_us": null,
+        "state_authenticated_against_root": false,
+        "finality_verified": false
+      },
+      "oracle": {
+        "reported_block": 26210229,
+        "header_hash_saved": "0x586c2b51de3ca7138772636610f9f21c5e69ead65c1a12f9d911c1883ec6fbf6",
+        "block_timestamp_seconds": 1792215467,
+        "request_start_utc": "2026-10-17T05:38:14.020622+00:00",
+        "response_received_utc": "2026-10-17T05:38:17.557055+00:00",
+        "header_received_utc": "2026-10-17T05:38:20.582801+00:00",
+        "wall_clock_request_elapsed_us": 3536433,
+        "block_to_response_wall_offset_us": 30557055,
+        "network_latency_us": null,
+        "monotonic_duration_us": null,
+        "provider_publication_time": null,
+        "utc_offset_uncertainty_us": null,
+        "state_authenticated_against_root": false,
+        "finality_verified": false
+      }
+    },
+    "complete_data_received_utc": "2026-10-17T05:38:26.670478+00:00",
+    "state_blocks_equal": false,
+    "liquidatability": null,
+    "time_eligible": null,
+    "classification": "TEMPORALIDAD_NO_DEMOSTRADA",
+    "followup": {
+      "start_inclusive_utc": "2026-10-17T05:38:03+00:00",
+      "end_exclusive_utc": "2026-10-17T05:39:38+00:00",
+      "interval_us": 95000000,
+      "returned_records": 0,
+      "selection_saved_utc": "2026-10-17T05:39:38.585742+00:00",
+      "selection_before_request": true,
+      "selection_before_interval_start": false,
+      "selection_after_interval_end_us": 585742,
+      "complete_data_after_interval_start_us": 23670478,
+      "time_remaining_in_window_after_all_inputs_us": 71329522,
+      "absence_of_onchain_events_proved": false,
+      "indexing_delay_bound": null,
+      "frequency_estimate": null
+    }
+  },
+  "six_layer_funnel": [
+    {
+      "layer": 1,
+      "label": "Eventos observados",
+      "events": 143,
+      "transactions": 141,
+      "chain_population_complete": false
+    },
+    {
+      "layer": 2,
+      "label": "Estados auténticos reproducidos",
+      "population_count": null,
+      "population_count_label": "DESCONOCIDO",
+      "certified_nqc_operations": 0,
+      "zero_certifications_proves_nonexistence": false
+    },
+    {
+      "layer": 3,
+      "label": "Rutas ejecutables",
+      "population_count": null,
+      "population_count_label": "DESCONOCIDO",
+      "certified_nqc_operations": 0,
+      "zero_certifications_proves_nonexistence": false
+    },
+    {
+      "layer": 4,
+      "label": "P&L completo positivo",
+      "population_count": null,
+      "population_count_label": "DESCONOCIDO",
+      "certified_nqc_operations": 0,
+      "zero_certifications_proves_nonexistence": false
+    },
+    {
+      "layer": 5,
+      "label": "Financiación sin recurso",
+      "population_count": null,
+      "population_count_label": "DESCONOCIDO",
+      "certified_nqc_operations": 0,
+      "zero_certifications_proves_nonexistence": false
+    },
+    {
+      "layer": 6,
+      "label": "Acceso previo e inclusión ganable",
+      "population_count": null,
+      "population_count_label": "DESCONOCIDO",
+      "certified_nqc_operations": 0,
+      "zero_certifications_proves_nonexistence": false
+    }
+  ],
+  "bound": {
+    "form": "sum of nonnegative assumed upper margins for a fixed observed transaction set",
+    "homogeneous_example": "T <= N*m_max - F - L is necessary under the explicitly stated closed-set assumptions",
+    "N_in_observed_set": 141,
+    "m_max_measured": null,
+    "F_measured": null,
+    "L_measured": null,
+    "forecast": false
+  },
+  "economic_admission": "UNKNOWN_NOT_TRUE",
+  "realized_nqc_profit_certifications": 0,
+  "network_calls_performed_by_this_script": 0
+}

@@ -1,0 +1,6 @@
+Command: python3 migration/verify_isolation.py --root /workspace/scratch/8e92c6d61919/nqc-isolation-inputs
+Original script Gitblob:3bb842872a4ca89e81bcf45839b42cc88d26f84e
+Status:BLOCKED_INPUTS
+Exit code:1
+ISOLATION_FAILED: [Errno 2] No such file or directory: '/workspace/scratch/8e92c6d61919/nqc-isolation-inputs/ci/migration/legacy-workflows/nqc-build-truth-closeout.yml.disabled'
+The same missing-input result was observed again after correcting the cache trailing LF to exact source bytes. No source payload was edited, no original nine-test suite passed or claimed.

@@ -1,0 +1,41 @@
+{
+  "scope": "Independent final offline re-execution by coordinator; no Astra suite included",
+  "records": [
+    {
+      "id": "accounting_unittest",
+      "cmd": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_accounting_audit",
+      "working_directory": "/workspace/scratch/8e92c6d61919/nqc-work/migration/independent-viability-redteam-20261017",
+      "started_at_utc": "2026-10-17T16:13:33.169Z",
+      "finished_at_utc": "2026-10-17T16:13:33.436Z",
+      "chunk_id": "e4cb42",
+      "wall_time_seconds": 0.010648691,
+      "exit_code": 0,
+      "original_token_count": 1046,
+      "output": "test_builder_costs_and_unused_advance_are_not_duplicated (test_accounting_audit.AccountingAuditTests.test_builder_costs_and_unused_advance_are_not_duplicated) ... ok\ntest_economic_inputs_reject_lossy_numbers_and_bools (test_accounting_audit.AccountingAuditTests.test_economic_inputs_reject_lossy_numbers_and_bools) ... ok\ntest_every_additional_positive_cost_reduces_residual_exactly (test_accounting_audit.AccountingAuditTests.test_every_additional_positive_cost_reduces_residual_exactly) ... ok\ntest_exact_ceil_has_integer_boundary_and_rejects_nonpositive_margin (test_accounting_audit.AccountingAuditTests.test_exact_ceil_has_integer_boundary_and_rejects_nonpositive_margin) ... ok\ntest_gas_frontier_exhaustive_small_integer_independent_enumeration (test_accounting_audit.AccountingAuditTests.test_gas_frontier_exhaustive_small_integer_independent_enumeration) ... ok\ntest_immutable_source_blobs_and_duplicate_logs (test_accounting_audit.AccountingAuditTests.test_immutable_source_blobs_and_duplicate_logs) ... ok\ntest_known_positive_identity_does_not_override_changed_log_contents (test_accounting_audit.AccountingAuditTests.test_known_positive_identity_does_not_override_changed_log_contents) ... ok\ntest_malformed_equal_hashes_cannot_certify_state (test_accounting_audit.AccountingAuditTests.test_malformed_equal_hashes_cannot_certify_state) ... ok\ntest_paid_reimbursement_is_not_also_terminal_liability (test_accounting_audit.AccountingAuditTests.test_paid_reimbursement_is_not_also_terminal_liability) ... ok\ntest_preexisting_balances_and_donations_are_not_earned_margin (test_accounting_audit.AccountingAuditTests.test_preexisting_balances_and_donations_are_not_earned_margin) ... ok\ntest_saved_flow_deltas_exclude_old_weth_and_keep_unknown_ownership (test_accounting_audit.AccountingAuditTests.test_saved_flow_deltas_exclude_old_weth_and_keep_unknown_ownership) ... ok\ntest_source_eth_fee_decimals_match_wei_without_scale_loss (test_accounting_audit.AccountingAuditTests.test_source_eth_fee_decimals_match_wei_without_scale_loss) ... ok\ntest_t01_zero_principal_needs_real_first_gas_payer (test_accounting_audit.AccountingAuditTests.test_t01_zero_principal_needs_real_first_gas_payer) ... ok\ntest_t02_deferred_bill_is_founder_debt (test_accounting_audit.AccountingAuditTests.test_t02_deferred_bill_is_founder_debt) ... ok\ntest_t03_isolated_topup_return_does_not_refund_network_gas (test_accounting_audit.AccountingAuditTests.test_t03_isolated_topup_return_does_not_refund_network_gas) ... ok\ntest_t04_coinbase_payment_has_no_verified_builder_or_nqc_owner (test_accounting_audit.AccountingAuditTests.test_t04_coinbase_payment_has_no_verified_builder_or_nqc_owner) ... ok\ntest_t05_gas_boundary_and_three_gwei (test_accounting_audit.AccountingAuditTests.test_t05_gas_boundary_and_three_gwei) ... ok\ntest_t06_paymaster_bundler_consolidation (test_accounting_audit.AccountingAuditTests.test_t06_paymaster_bundler_consolidation) ... ok\ntest_t07_incoherent_heights_or_hashes_cannot_certify_state (test_accounting_audit.AccountingAuditTests.test_t07_incoherent_heights_or_hashes_cannot_certify_state) ... ok\ntest_t08_saved_getlogs_empty_contradicts_saved_positive_receipt (test_accounting_audit.AccountingAuditTests.test_t08_saved_getlogs_empty_contradicts_saved_positive_receipt) ... ok\ntest_t09_positive_owner_net_still_rejected_when_founder_owes (test_accounting_audit.AccountingAuditTests.test_t09_positive_owner_net_still_rejected_when_founder_owes) ... ok\ntest_t10_third_party_pnl_is_excluded_from_nqc (test_accounting_audit.AccountingAuditTests.test_t10_third_party_pnl_is_excluded_from_nqc) ... ok\ntest_token_peg_is_not_assumed_or_float_rounded (test_accounting_audit.AccountingAuditTests.test_token_peg_is_not_assumed_or_float_rounded) ... ok\ntest_unknowns_propagate_and_cannot_be_used_as_python_booleans (test_accounting_audit.AccountingAuditTests.test_unknowns_propagate_and_cannot_be_used_as_python_booleans) ... ok\ntest_wrong_block_context_cannot_be_accounting_match (test_accounting_audit.AccountingAuditTests.test_wrong_block_context_cannot_be_accounting_match) ... ok\n\n----------------------------------------------------------------------\nRan 25 tests in 0.012s\n\nOK\n"
+    },
+    {
+      "id": "accounting_reconciliation",
+      "cmd": "PYTHONDONTWRITEBYTECODE=1 python3 accounting_audit.py --output /tmp/nqc-root-accounting-recheck.json",
+      "working_directory": "/workspace/scratch/8e92c6d61919/nqc-work/migration/independent-viability-redteam-20261017",
+      "started_at_utc": "2026-10-17T16:13:33.169Z",
+      "finished_at_utc": "2026-10-17T16:13:33.431Z",
+      "chunk_id": "5d8ab8",
+      "wall_time_seconds": 0.000037966,
+      "exit_code": 0,
+      "original_token_count": 87,
+      "output": "Independent saved-evidence accounting completed; no economic admission.\nGuardrails: T-01=PASS, T-02=PASS, T-03=PASS, T-04=PASS, T-05=PASS, T-06=PASS, T-07=PASS, T-08=PASS, T-09=PASS, T-10=PASS\nMaximum fixed-route gas price for strict positive upper bound: 2481140052 wei/gas\nActual net after unknown obligations: UNKNOWN. NQC eligibility: UNKNOWN\n"
+    },
+    {
+      "id": "census_reconciliation",
+      "cmd": "PYTHONDONTWRITEBYTECODE=1 python3 census_audit.py --output /tmp/nqc-root-census-recheck.json",
+      "working_directory": "/workspace/scratch/8e92c6d61919/nqc-work/migration/independent-viability-redteam-20261017",
+      "started_at_utc": "2026-10-17T16:13:33.169Z",
+      "finished_at_utc": "2026-10-17T16:13:33.436Z",
+      "chunk_id": "cea72a",
+      "wall_time_seconds": 0.002283626,
+      "exit_code": 0,
+      "original_token_count": 67,
+      "output": "{\n  \"audit\": \"PASS_OFFLINE_RECOMPUTATION\",\n  \"checks_passed\": 12,\n  \"input_git_blobs_verified\": 46,\n  \"events\": 143,\n  \"transactions\": 141,\n  \"temporal_classification\": \"TEMPORALIDAD_NO_DEMOSTRADA\",\n  \"economic_admission\": \"UNKNOWN_NOT_TRUE\",\n  \"network_calls\": 0\n}\n"
+    }
+  ]
+}

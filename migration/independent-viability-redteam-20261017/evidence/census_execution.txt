@@ -1,0 +1,36 @@
+{
+  "interpretation": "Both successful runs are offline audit verification, not financial admission. Final run uses only the packaged relative inputs.",
+  "initial_scratch_input_run": {
+    "started_utc": "2026-10-17T15:53:55.162066+00:00",
+    "finished_utc": "2026-10-17T15:53:55.225303+00:00",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/scratch/8e92c6d61919/nqc-work/migration/independent-viability-redteam-20261017/census_audit.py",
+      "--input-dir",
+      "/workspace/scratch/8e92c6d61919/nqc-temporal-inputs",
+      "--output",
+      "/workspace/scratch/8e92c6d61919/nqc-work/migration/independent-viability-redteam-20261017/evidence/census_audit_results.json"
+    ],
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "script_sha256": "f7133629a012f2e9c872dfeb33e33eb2bd48dc2d56022d6fcd6e919e171ab44b",
+    "exit_code": 0,
+    "stdout": "{\n  \"audit\": \"PASS_OFFLINE_RECOMPUTATION\",\n  \"checks_passed\": 12,\n  \"input_git_blobs_verified\": 51,\n  \"events\": 143,\n  \"transactions\": 141,\n  \"temporal_classification\": \"TEMPORALIDAD_NO_DEMOSTRADA\",\n  \"economic_admission\": \"UNKNOWN_NOT_TRUE\",\n  \"network_calls\": 0\n}\n",
+    "stderr": "",
+    "interpretation": "Exit zero verifies only local audit, never economic eligibility."
+  },
+  "packaged_portable_run": {
+    "started_utc": "2026-10-17T16:07:38.929970+00:00",
+    "finished_utc": "2026-10-17T16:07:38.979604+00:00",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "census_audit.py"
+    ],
+    "working_directory": "/workspace/scratch/8e92c6d61919/nqc-work/migration/independent-viability-redteam-20261017",
+    "portable_command": "python3 census_audit.py",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "script_sha256": "bf6b64248f2ed2ca6168ab564a3ef3a02dbebf14df30b985fd828bcf4bac13c0",
+    "exit_code": 0,
+    "stdout": "{\n  \"audit\": \"PASS_OFFLINE_RECOMPUTATION\",\n  \"checks_passed\": 12,\n  \"input_git_blobs_verified\": 46,\n  \"events\": 143,\n  \"transactions\": 141,\n  \"temporal_classification\": \"TEMPORALIDAD_NO_DEMOSTRADA\",\n  \"economic_admission\": \"UNKNOWN_NOT_TRUE\",\n  \"network_calls\": 0\n}\n",
+    "stderr": ""
+  }
+}

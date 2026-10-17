@@ -1,0 +1,26 @@
+{
+  "url": "https://api.morpho.org/graphql",
+  "request": {
+    "query": "{ marketTransactions(first:100,orderBy:Timestamp,orderDirection:Asc,where:{chainId_in:[1],type_in:[Liquidation],marketUniqueKey_in:[\"0xa0534c78620867b7c8706e3b6df9e69a2bc67c783281b7a77e034ed75cee012e\"],timestamp_gte:1792215483,timestamp_lte:1792215577}) { pageInfo {countTotal count limit skip} items {chain{id} txHash timestamp blockNumber txIndex logIndex type market{marketId} data{__typename ...on MarketTransactionLiquidationData{liquidator repaidAssets repaidShares seizedAssets badDebtAssets badDebtShares}}} } }"
+  },
+  "started_at_utc": "2026-10-17T05:39:38.586007+00:00",
+  "http_status": 200,
+  "response": {
+    "data": {
+      "marketTransactions": {
+        "pageInfo": {
+          "countTotal": 0,
+          "count": 0,
+          "limit": 100,
+          "skip": 0
+        },
+        "items": []
+      }
+    },
+    "extensions": {
+      "complexity": 24500,
+      "maximumComplexity": 1000000
+    }
+  },
+  "received_at_utc": "2026-10-17T05:39:42.727027+00:00"
+}

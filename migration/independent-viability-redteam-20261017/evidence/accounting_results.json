@@ -1,0 +1,365 @@
+{
+  "generated_at_utc": "2026-10-17T16:09:46.709840+00:00",
+  "scope": "INDEPENDENT_OFFLINE_ACCOUNTING_ONLY",
+  "source_digests": {
+    "monthly": {
+      "sha256": "4692e90a7dabf30ce9dfd289fde50ee7db7369d30f5d561ee5d8ba4fb34f896e",
+      "git_blob_sha_computed": "81683d23066fc49f98fc3966279c58030d8781c1",
+      "full_blob_identity_checked": true,
+      "bytes": 17934
+    },
+    "profitability": {
+      "sha256": "9c856aa378207e03c37f2097293fdb159e5ae991e5716b5bf1fcc412d980b54e",
+      "git_blob_sha_computed": "5525a49a4cb4be95c357d3b0a6a3ac1318183c43",
+      "full_blob_identity_checked": true,
+      "bytes": 11935
+    },
+    "astra_route_script_read_only": {
+      "sha256": "0d165c2091e1137084569842337a01074274a68c1c94c1c45fda737e0f1c5911",
+      "git_blob_sha_computed": "bbe1d77b3d65c20300c28e51104211701a3892ce",
+      "full_blob_identity_checked": true,
+      "bytes": 8954
+    },
+    "reported_case_b_results": {
+      "sha256": "1633e07b5e9ad4e2d0d58f0136a44dbd6c79614e9cb47efb46ae3a5a142368cb",
+      "git_blob_sha_computed": "fc9baeaa1764248bdf4cf6b95be8fda8f0eaba70",
+      "full_blob_identity_checked": true,
+      "bytes": 4882
+    },
+    "rpc_script_excerpt_read_only": {
+      "sha256": "521ad0fdf339528101fbcd088b7141e56890b9973b44a50f72923b2d2d2b9a13",
+      "git_blob_sha_computed": "38b1d5c841a6eb21b7b9494db39595ddd143e737",
+      "full_blob_identity_checked": false,
+      "bytes": 3600
+    },
+    "case_b_indexer": {
+      "sha256": "3d372b0e36a749071d8ffcee4f3427705a6e4817ddfa4014eafe2f98a96c22aa",
+      "git_blob_sha_computed": "5db805fa994b636db870f41f8261cb0277d36181",
+      "full_blob_identity_checked": true,
+      "bytes": 5639
+    },
+    "case_b_saved_receipt": {
+      "sha256": "5869cf87c611f478da8c007dcddc46483fd842ed3a36d28c33faa26f7333f557",
+      "git_blob_sha_computed": "259506f36686e9b141d803143d4c83658a40bddb",
+      "full_blob_identity_checked": true,
+      "bytes": 13877
+    },
+    "case_b_saved_trace": {
+      "sha256": "f90dc082649af1174aaec69763fdad47a011517cfb1b6d0e37a1956baba006ae",
+      "git_blob_sha_computed": "ff05f926c2b6c2b0ee934a03e2552ce9fcec61df",
+      "full_blob_identity_checked": true,
+      "bytes": 136688
+    },
+    "case_b_saved_block": {
+      "sha256": "7a156b0dac97f123dc748808d39fc4121b43b3b08448709fdc75fc8dd70795ba",
+      "git_blob_sha_computed": "79b37296d0b113045afb6655db84d8de08b032a7",
+      "full_blob_identity_checked": true,
+      "bytes": 2066
+    },
+    "robinhood_readme": {
+      "sha256": "86b8c1d0e382f1563b63fcdcd469d94ed54a7bff51e28158672469a055adab4f",
+      "git_blob_sha_computed": "ee3103124abb51352b9fd746ca8e3fad3c57ef5d",
+      "full_blob_identity_checked": true,
+      "bytes": 9836
+    },
+    "case_b_saved_getlogs": {
+      "sha256": "21390bd7e03330086b457d56260d17447306f79c4ef6a3a87ee1c23929ddcf66",
+      "git_blob_sha_computed": "676535a7bb772f3a696c598f2f36c5af939661bf",
+      "full_blob_identity_checked": true,
+      "bytes": 586
+    }
+  },
+  "case_b_reconciliation": {
+    "sale_wei": 26409680973611000000,
+    "debt_wei": 26039738525656992415,
+    "coinbase_wei": 368092735714237547,
+    "gas_units": 745509,
+    "gas_price_wei": 266148625,
+    "initial_weth_wei": 6392502690919791,
+    "final_weth_inferred_wei": 8242214930689829,
+    "sender_gas_cost_wei": 198416195275125,
+    "executor_weth_delta_wei": 1849712239770038,
+    "executor_native_delta_wei": 0,
+    "executor_collateral_delta_raw": 0,
+    "residual_known_cost_upper_bound_wei": 1651296044494913,
+    "known_liquidation_log": {
+      "address": "0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb",
+      "blockHash": "0x5d499e63c5d119293a906036f369d8d75f9560618efec0ff916e4fefa33dfda8",
+      "blockNumber": "0x18fa46b",
+      "blockTimestamp": "0x6acf7f87",
+      "data": "0x000000000000000000000000000000000000000000000001695fbc3981d6ca9f000000000000000000000000000000000000000000139b0c5eec94fbcb3e8d0e00000000000000000000000000000000000000000000000151d73466d052628900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "logIndex": "0x9",
+      "removed": false,
+      "topics": [
+        "0xa4946ede45d0c6f06a0f5ce92c9ad3b4751452d2fe0e25010783bcab57a67e41",
+        "0xa0534c78620867b7c8706e3b6df9e69a2bc67c783281b7a77e034ed75cee012e",
+        "0x0000000000000000000000005ac9bc14376bf2727c6211960cf3cec1e2f295bd",
+        "0x000000000000000000000000018d6cc992eb576e2f36dc485b92d168ada37156"
+      ],
+      "transactionHash": "0x46300e9614c547118ecdd524bc7218208088cc4ae9e5bd534e62055d38f9925b",
+      "transactionIndex": "0x1"
+    },
+    "classification": "REPRODUCIDO_LOCALMENTE_SOBRE_ARTEFACTOS_GUARDADOS",
+    "new_rpc_queries": 0,
+    "onchain_consensus_authenticated": false,
+    "runtime_authenticated": false,
+    "historical_state_replay_run": false,
+    "sender_executor_ownership_proved": false,
+    "nqc_profit_certified": false
+  },
+  "case_b_fixed_route_gas_sensitivity": [
+    {
+      "gas_price_wei_per_gas": 0,
+      "residual_before_unknown_costs_wei": 1849712239770038
+    },
+    {
+      "gas_price_wei_per_gas": 266148625,
+      "residual_before_unknown_costs_wei": 1651296044494913
+    },
+    {
+      "gas_price_wei_per_gas": 1000000000,
+      "residual_before_unknown_costs_wei": 1104203239770038
+    },
+    {
+      "gas_price_wei_per_gas": 2481140051,
+      "residual_before_unknown_costs_wei": 1489079
+    },
+    {
+      "gas_price_wei_per_gas": 2481140052,
+      "residual_before_unknown_costs_wei": 743570
+    },
+    {
+      "gas_price_wei_per_gas": 2481140053,
+      "residual_before_unknown_costs_wei": -1939
+    },
+    {
+      "gas_price_wei_per_gas": 3000000000,
+      "residual_before_unknown_costs_wei": -386814760229962
+    },
+    {
+      "gas_price_wei_per_gas": 5000000000,
+      "residual_before_unknown_costs_wei": -1877832760229962
+    },
+    {
+      "gas_price_wei_per_gas": 10000000000,
+      "residual_before_unknown_costs_wei": -5605377760229962
+    }
+  ],
+  "max_gas_price_strict_positive_wei_per_gas": 2481140052,
+  "max_additional_cost_for_strict_positive_wei": 1651296044494912,
+  "additional_cost_exhausting_known_upper_bound_wei": 1651296044494913,
+  "after_one_extra_wei_cost_upper_bound_wei": 1651296044494912,
+  "actual_net_after_unknown_obligations_wei": null,
+  "nqc_economic_eligibility": "UNKNOWN",
+  "robinhood_consolidation": {
+    "classification": "ARITHMETIC_OF_REPORTED_SIMULATION_NOT_EVM_VERIFICATION",
+    "external_bundler_sponsor_outflow_wei": 79616762214000,
+    "consolidated_paymaster_bundler_network_cost_wei": 57601054408000,
+    "bundler_receipt_minus_network_cost_before_other_obligations_wei": 22015707806000,
+    "incorrect_double_count_total_wei": 137217816622000,
+    "usd_realizable_value": null
+  },
+  "falsification_controls": {
+    "T-01": {
+      "guardrail_status": "PASS",
+      "guardrail_type": "OFFLINE_ACCOUNTING_OR_DOCUMENTARY",
+      "historical_or_commercial_verification_status": "BLOCKED",
+      "meaning": "Zero principal does not fund first gas; payer unknown blocks admission.",
+      "real_network_test_run": false
+    },
+    "T-02": {
+      "guardrail_status": "PASS",
+      "guardrail_type": "OFFLINE_ACCOUNTING_OR_DOCUMENTARY",
+      "historical_or_commercial_verification_status": "BLOCKED",
+      "meaning": "An explicit deferred bill rejects zero-capital/nonrecourse admission.",
+      "real_network_test_run": false
+    },
+    "T-03": {
+      "guardrail_status": "PASS",
+      "guardrail_type": "OFFLINE_ACCOUNTING_OR_DOCUMENTARY",
+      "historical_or_commercial_verification_status": "BLOCKED",
+      "meaning": "Even full return of isolated top-up leaves funding gas; loss bearer contract unknown.",
+      "real_network_test_run": false
+    },
+    "T-04": {
+      "guardrail_status": "PASS",
+      "guardrail_type": "OFFLINE_ACCOUNTING_OR_DOCUMENTARY",
+      "historical_or_commercial_verification_status": "PASS",
+      "meaning": "Saved-evidence recipient check only. Native recipient equals saved block coinbase; economic builder ownership remains unknown.",
+      "real_network_test_run": false
+    },
+    "T-05": {
+      "guardrail_status": "PASS",
+      "guardrail_type": "OFFLINE_ACCOUNTING_OR_DOCUMENTARY",
+      "historical_or_commercial_verification_status": "PASS",
+      "meaning": "Fixed saved-input arithmetic only. Strict exact wei boundary; no NQC gas quote.",
+      "real_network_test_run": false
+    },
+    "T-06": {
+      "guardrail_status": "PASS",
+      "guardrail_type": "OFFLINE_ACCOUNTING_OR_DOCUMENTARY",
+      "historical_or_commercial_verification_status": "NOT_RUN",
+      "meaning": "Consolidation identity checked on source-reported Nitro simulation values; EVM trace not rerun.",
+      "real_network_test_run": false
+    },
+    "T-07": {
+      "guardrail_status": "PASS",
+      "guardrail_type": "OFFLINE_ACCOUNTING_OR_DOCUMENTARY",
+      "historical_or_commercial_verification_status": "NOT_RUN",
+      "meaning": "Document-reported heterogeneous heights reject coherence; no new prospective observation.",
+      "real_network_test_run": false
+    },
+    "T-08": {
+      "guardrail_status": "PASS",
+      "guardrail_type": "OFFLINE_ACCOUNTING_OR_DOCUMENTARY",
+      "historical_or_commercial_verification_status": "PASS",
+      "meaning": "Saved conflicting envelopes only. Stored matched getLogs query is empty despite positive saved receipt; global coverage unproved.",
+      "real_network_test_run": false
+    },
+    "T-09": {
+      "guardrail_status": "PASS",
+      "guardrail_type": "OFFLINE_ACCOUNTING_OR_DOCUMENTARY",
+      "historical_or_commercial_verification_status": "BLOCKED",
+      "meaning": "Positive owner margin can coexist with a founder debt; admission still rejected.",
+      "real_network_test_run": false
+    },
+    "T-10": {
+      "guardrail_status": "PASS",
+      "guardrail_type": "OFFLINE_ACCOUNTING_OR_DOCUMENTARY",
+      "historical_or_commercial_verification_status": "BLOCKED",
+      "meaning": "Third-party liquidation never becomes NQC realized profit without attribution.",
+      "real_network_test_run": false
+    }
+  },
+  "monthly_target_sensitivity": [
+    {
+      "fixed_cost_usd_assumed": "0",
+      "per_win_net_margin_usd_assumed": "1",
+      "required_wins": {
+        "1000": 1000,
+        "5000": 5000,
+        "10000": 10000,
+        "50000": 50000
+      }
+    },
+    {
+      "fixed_cost_usd_assumed": "0",
+      "per_win_net_margin_usd_assumed": "5",
+      "required_wins": {
+        "1000": 200,
+        "5000": 1000,
+        "10000": 2000,
+        "50000": 10000
+      }
+    },
+    {
+      "fixed_cost_usd_assumed": "0",
+      "per_win_net_margin_usd_assumed": "10",
+      "required_wins": {
+        "1000": 100,
+        "5000": 500,
+        "10000": 1000,
+        "50000": 5000
+      }
+    },
+    {
+      "fixed_cost_usd_assumed": "0",
+      "per_win_net_margin_usd_assumed": "50",
+      "required_wins": {
+        "1000": 20,
+        "5000": 100,
+        "10000": 200,
+        "50000": 1000
+      }
+    },
+    {
+      "fixed_cost_usd_assumed": "0",
+      "per_win_net_margin_usd_assumed": "100",
+      "required_wins": {
+        "1000": 10,
+        "5000": 50,
+        "10000": 100,
+        "50000": 500
+      }
+    },
+    {
+      "fixed_cost_usd_assumed": "0",
+      "per_win_net_margin_usd_assumed": "500",
+      "required_wins": {
+        "1000": 2,
+        "5000": 10,
+        "10000": 20,
+        "50000": 100
+      }
+    },
+    {
+      "fixed_cost_usd_assumed": "100",
+      "per_win_net_margin_usd_assumed": "1",
+      "required_wins": {
+        "1000": 1100,
+        "5000": 5100,
+        "10000": 10100,
+        "50000": 50100
+      }
+    },
+    {
+      "fixed_cost_usd_assumed": "100",
+      "per_win_net_margin_usd_assumed": "5",
+      "required_wins": {
+        "1000": 220,
+        "5000": 1020,
+        "10000": 2020,
+        "50000": 10020
+      }
+    },
+    {
+      "fixed_cost_usd_assumed": "100",
+      "per_win_net_margin_usd_assumed": "10",
+      "required_wins": {
+        "1000": 110,
+        "5000": 510,
+        "10000": 1010,
+        "50000": 5010
+      }
+    },
+    {
+      "fixed_cost_usd_assumed": "100",
+      "per_win_net_margin_usd_assumed": "50",
+      "required_wins": {
+        "1000": 22,
+        "5000": 102,
+        "10000": 202,
+        "50000": 1002
+      }
+    },
+    {
+      "fixed_cost_usd_assumed": "100",
+      "per_win_net_margin_usd_assumed": "100",
+      "required_wins": {
+        "1000": 11,
+        "5000": 51,
+        "10000": 101,
+        "50000": 501
+      }
+    },
+    {
+      "fixed_cost_usd_assumed": "100",
+      "per_win_net_margin_usd_assumed": "500",
+      "required_wins": {
+        "1000": 3,
+        "5000": 11,
+        "10000": 21,
+        "50000": 101
+      }
+    }
+  ],
+  "monthly_income_estimate": null,
+  "monthly_capture_rate": null,
+  "warnings": [
+    "Saved RPC/indexer records are not fresh on-chain queries or state-root proof.",
+    "Zero other cost is used only for a conditional upper bound; actual unknown costs remain null.",
+    "Astra test counts are not our test results; neither original scripts nor EVM tests were run.",
+    "Winning gas price is total effective price, not only priority fee.",
+    "Historical executor and sender cannot be consolidated as one owner without evidence."
+  ]
+}

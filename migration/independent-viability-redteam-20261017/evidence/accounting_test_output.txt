@@ -1,0 +1,114 @@
+FINAL VALIDATION AFTER MANUAL ETH/WEI SCALE CORRECTION
+The earlier validation was superseded by manual review; it did not contain a failed test.
+UTC_START 2026-10-17T16:09:46.674740+00:00
+PYTHONDONTWRITEBYTECODE=1
+COMMAND /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 accounting_audit.py
+EXIT_CODE 0
+STDOUT
+Independent saved-evidence accounting completed; no economic admission.
+Guardrails: T-01=PASS, T-02=PASS, T-03=PASS, T-04=PASS, T-05=PASS, T-06=PASS, T-07=PASS, T-08=PASS, T-09=PASS, T-10=PASS
+Maximum fixed-route gas price for strict positive upper bound: 2481140052 wei/gas
+Actual net after unknown obligations: UNKNOWN. NQC eligibility: UNKNOWN
+
+STDERR
+
+UTC_START 2026-10-17T16:09:46.715917+00:00
+PYTHONDONTWRITEBYTECODE=1
+COMMAND /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 -m unittest -v test_accounting_audit
+EXIT_CODE 0
+STDOUT
+
+STDERR
+test_builder_costs_and_unused_advance_are_not_duplicated (test_accounting_audit.AccountingAuditTests.test_builder_costs_and_unused_advance_are_not_duplicated) ... ok
+test_economic_inputs_reject_lossy_numbers_and_bools (test_accounting_audit.AccountingAuditTests.test_economic_inputs_reject_lossy_numbers_and_bools) ... ok
+test_every_additional_positive_cost_reduces_residual_exactly (test_accounting_audit.AccountingAuditTests.test_every_additional_positive_cost_reduces_residual_exactly) ... ok
+test_exact_ceil_has_integer_boundary_and_rejects_nonpositive_margin (test_accounting_audit.AccountingAuditTests.test_exact_ceil_has_integer_boundary_and_rejects_nonpositive_margin) ... ok
+test_gas_frontier_exhaustive_small_integer_independent_enumeration (test_accounting_audit.AccountingAuditTests.test_gas_frontier_exhaustive_small_integer_independent_enumeration) ... ok
+test_immutable_source_blobs_and_duplicate_logs (test_accounting_audit.AccountingAuditTests.test_immutable_source_blobs_and_duplicate_logs) ... ok
+test_known_positive_identity_does_not_override_changed_log_contents (test_accounting_audit.AccountingAuditTests.test_known_positive_identity_does_not_override_changed_log_contents) ... ok
+test_malformed_equal_hashes_cannot_certify_state (test_accounting_audit.AccountingAuditTests.test_malformed_equal_hashes_cannot_certify_state) ... ok
+test_paid_reimbursement_is_not_also_terminal_liability (test_accounting_audit.AccountingAuditTests.test_paid_reimbursement_is_not_also_terminal_liability) ... ok
+test_preexisting_balances_and_donations_are_not_earned_margin (test_accounting_audit.AccountingAuditTests.test_preexisting_balances_and_donations_are_not_earned_margin) ... ok
+test_saved_flow_deltas_exclude_old_weth_and_keep_unknown_ownership (test_accounting_audit.AccountingAuditTests.test_saved_flow_deltas_exclude_old_weth_and_keep_unknown_ownership) ... ok
+test_source_eth_fee_decimals_match_wei_without_scale_loss (test_accounting_audit.AccountingAuditTests.test_source_eth_fee_decimals_match_wei_without_scale_loss) ... ok
+test_t01_zero_principal_needs_real_first_gas_payer (test_accounting_audit.AccountingAuditTests.test_t01_zero_principal_needs_real_first_gas_payer) ... ok
+test_t02_deferred_bill_is_founder_debt (test_accounting_audit.AccountingAuditTests.test_t02_deferred_bill_is_founder_debt) ... ok
+test_t03_isolated_topup_return_does_not_refund_network_gas (test_accounting_audit.AccountingAuditTests.test_t03_isolated_topup_return_does_not_refund_network_gas) ... ok
+test_t04_coinbase_payment_has_no_verified_builder_or_nqc_owner (test_accounting_audit.AccountingAuditTests.test_t04_coinbase_payment_has_no_verified_builder_or_nqc_owner) ... ok
+test_t05_gas_boundary_and_three_gwei (test_accounting_audit.AccountingAuditTests.test_t05_gas_boundary_and_three_gwei) ... ok
+test_t06_paymaster_bundler_consolidation (test_accounting_audit.AccountingAuditTests.test_t06_paymaster_bundler_consolidation) ... ok
+test_t07_incoherent_heights_or_hashes_cannot_certify_state (test_accounting_audit.AccountingAuditTests.test_t07_incoherent_heights_or_hashes_cannot_certify_state) ... ok
+test_t08_saved_getlogs_empty_contradicts_saved_positive_receipt (test_accounting_audit.AccountingAuditTests.test_t08_saved_getlogs_empty_contradicts_saved_positive_receipt) ... ok
+test_t09_positive_owner_net_still_rejected_when_founder_owes (test_accounting_audit.AccountingAuditTests.test_t09_positive_owner_net_still_rejected_when_founder_owes) ... ok
+test_t10_third_party_pnl_is_excluded_from_nqc (test_accounting_audit.AccountingAuditTests.test_t10_third_party_pnl_is_excluded_from_nqc) ... ok
+test_token_peg_is_not_assumed_or_float_rounded (test_accounting_audit.AccountingAuditTests.test_token_peg_is_not_assumed_or_float_rounded) ... ok
+test_unknowns_propagate_and_cannot_be_used_as_python_booleans (test_accounting_audit.AccountingAuditTests.test_unknowns_propagate_and_cannot_be_used_as_python_booleans) ... ok
+test_wrong_block_context_cannot_be_accounting_match (test_accounting_audit.AccountingAuditTests.test_wrong_block_context_cannot_be_accounting_match) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.011s
+
+OK
+
+SHA256 accounting_audit.py 9bae7da11f1d6e367158472e1112eb64626d83da110a468b94dcaaf5c2948f06
+SHA256 test_accounting_audit.py 71c6eeffa7239dbe7157829d7048273f8975ff59cc1b582a01b6b35c6ccf943e
+SHA256 evidence/accounting_inputs.json 81237865faf9b55c41dce5159c55ce082312b9c435b81e626508e246cade113e
+SHA256 evidence/accounting_results.json f4c98405d72c2fd410ab6a13e66aafc459f0f5a7bc737e43ad21f754932b02de
+END FINAL VALIDATION
+SUPERSEDED PRE-CORRECTION VALIDATION PRESERVED VERBATIM BELOW
+Its manual Robinhood wei inputs were1000times too small. It is not final evidence.
+UTC_START 2026-10-17T16:01:41.340474+00:00
+PYTHONDONTWRITEBYTECODE=1
+COMMAND /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 accounting_audit.py
+EXIT_CODE 0
+STDOUT
+Independent saved-evidence accounting completed; no economic admission.
+Guardrails: T-01=PASS, T-02=PASS, T-03=PASS, T-04=PASS, T-05=PASS, T-06=PASS, T-07=PASS, T-08=PASS, T-09=PASS, T-10=PASS
+Maximum fixed-route gas price for strict positive upper bound: 2481140052 wei/gas
+Actual net after unknown obligations: UNKNOWN. NQC eligibility: UNKNOWN
+
+STDERR
+
+UTC_START 2026-10-17T16:01:41.380138+00:00
+PYTHONDONTWRITEBYTECODE=1
+COMMAND /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 -m unittest -v test_accounting_audit
+EXIT_CODE 0
+STDOUT
+
+STDERR
+test_builder_costs_and_unused_advance_are_not_duplicated (test_accounting_audit.AccountingAuditTests.test_builder_costs_and_unused_advance_are_not_duplicated) ... ok
+test_economic_inputs_reject_lossy_numbers_and_bools (test_accounting_audit.AccountingAuditTests.test_economic_inputs_reject_lossy_numbers_and_bools) ... ok
+test_every_additional_positive_cost_reduces_residual_exactly (test_accounting_audit.AccountingAuditTests.test_every_additional_positive_cost_reduces_residual_exactly) ... ok
+test_exact_ceil_has_integer_boundary_and_rejects_nonpositive_margin (test_accounting_audit.AccountingAuditTests.test_exact_ceil_has_integer_boundary_and_rejects_nonpositive_margin) ... ok
+test_gas_frontier_exhaustive_small_integer_independent_enumeration (test_accounting_audit.AccountingAuditTests.test_gas_frontier_exhaustive_small_integer_independent_enumeration) ... ok
+test_immutable_source_blobs_and_duplicate_logs (test_accounting_audit.AccountingAuditTests.test_immutable_source_blobs_and_duplicate_logs) ... ok
+test_known_positive_identity_does_not_override_changed_log_contents (test_accounting_audit.AccountingAuditTests.test_known_positive_identity_does_not_override_changed_log_contents) ... ok
+test_malformed_equal_hashes_cannot_certify_state (test_accounting_audit.AccountingAuditTests.test_malformed_equal_hashes_cannot_certify_state) ... ok
+test_paid_reimbursement_is_not_also_terminal_liability (test_accounting_audit.AccountingAuditTests.test_paid_reimbursement_is_not_also_terminal_liability) ... ok
+test_preexisting_balances_and_donations_are_not_earned_margin (test_accounting_audit.AccountingAuditTests.test_preexisting_balances_and_donations_are_not_earned_margin) ... ok
+test_saved_flow_deltas_exclude_old_weth_and_keep_unknown_ownership (test_accounting_audit.AccountingAuditTests.test_saved_flow_deltas_exclude_old_weth_and_keep_unknown_ownership) ... ok
+test_t01_zero_principal_needs_real_first_gas_payer (test_accounting_audit.AccountingAuditTests.test_t01_zero_principal_needs_real_first_gas_payer) ... ok
+test_t02_deferred_bill_is_founder_debt (test_accounting_audit.AccountingAuditTests.test_t02_deferred_bill_is_founder_debt) ... ok
+test_t03_isolated_topup_return_does_not_refund_network_gas (test_accounting_audit.AccountingAuditTests.test_t03_isolated_topup_return_does_not_refund_network_gas) ... ok
+test_t04_coinbase_payment_has_no_verified_builder_or_nqc_owner (test_accounting_audit.AccountingAuditTests.test_t04_coinbase_payment_has_no_verified_builder_or_nqc_owner) ... ok
+test_t05_gas_boundary_and_three_gwei (test_accounting_audit.AccountingAuditTests.test_t05_gas_boundary_and_three_gwei) ... ok
+test_t06_paymaster_bundler_consolidation (test_accounting_audit.AccountingAuditTests.test_t06_paymaster_bundler_consolidation) ... ok
+test_t07_incoherent_heights_or_hashes_cannot_certify_state (test_accounting_audit.AccountingAuditTests.test_t07_incoherent_heights_or_hashes_cannot_certify_state) ... ok
+test_t08_saved_getlogs_empty_contradicts_saved_positive_receipt (test_accounting_audit.AccountingAuditTests.test_t08_saved_getlogs_empty_contradicts_saved_positive_receipt) ... ok
+test_t09_positive_owner_net_still_rejected_when_founder_owes (test_accounting_audit.AccountingAuditTests.test_t09_positive_owner_net_still_rejected_when_founder_owes) ... ok
+test_t10_third_party_pnl_is_excluded_from_nqc (test_accounting_audit.AccountingAuditTests.test_t10_third_party_pnl_is_excluded_from_nqc) ... ok
+test_token_peg_is_not_assumed_or_float_rounded (test_accounting_audit.AccountingAuditTests.test_token_peg_is_not_assumed_or_float_rounded) ... ok
+test_unknowns_propagate_and_cannot_be_used_as_python_booleans (test_accounting_audit.AccountingAuditTests.test_unknowns_propagate_and_cannot_be_used_as_python_booleans) ... ok
+test_wrong_block_context_cannot_be_accounting_match (test_accounting_audit.AccountingAuditTests.test_wrong_block_context_cannot_be_accounting_match) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 0.010s
+
+OK
+
+SHA256 accounting_audit.py 3ad0d9098a5600a006c0c5189c9d26f48ac1acda6c6a969731f513670db5a704
+SHA256 test_accounting_audit.py 0466a98abc277ffe6a5ab6395888dfac054bfb4a589dfcf3b62eff1cf402d604
+SHA256 evidence/accounting_inputs.json 5abaf585ef6b2d8ad6a3a7020f2fb7f59f49a1b00764399e600550a1cef6bde7
+SHA256 evidence/accounting_results.json 944a6cae005ac1664b1181c3364c3d136f2e641a4d06ff0d9c1303755c5efe9f
+
+END SUPERSEDED VALIDATION

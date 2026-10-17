@@ -1,0 +1,406 @@
+{
+  "schema": "nqc-root-source-ledger-v1",
+  "recorded_utc": "2026-10-17T16:05:16.420Z",
+  "records": [
+    {
+      "id": "S-R-01",
+      "claim": "Los cinco HEAD iniciales coinciden con la Directiva 002.",
+      "status": "VERIFICADO",
+      "url": "https://api.github.com/repos/josuechavando350-png/nexus-quant-capital/branches?per_page=100",
+      "sha": null,
+      "unit": "GitHub branch metadata",
+      "method": "Lectura de la fuente indicada; no equivale a reproducir su evento",
+      "captured_utc_interval": [
+        "2026-10-17T15:39:00Z",
+        "2026-10-17T16:17:39Z"
+      ],
+      "capture_precision": "interval; not every request timestamp was logged; end is the observed review-close upper bound, not an individual request timestamp",
+      "chain": null,
+      "block": null,
+      "limitations": "No certifica contenido ni resultados; volver a comprobar al publicar.",
+      "missing_evidence": "No certifica contenido ni resultados; volver a comprobar al publicar.",
+      "rejection_or_absence": null
+    },
+    {
+      "id": "S-R-02",
+      "claim": "AGENTS exige aislamiento y conserva workflows deshabilitados.",
+      "status": "VERIFICADO",
+      "url": "https://github.com/josuechavando350-png/nexus-quant-capital/blob/ddade5d099e19449e0c4e55079a2b0c9d9ee1141/AGENTS.md",
+      "sha": "ddade5d099e19449e0c4e55079a2b0c9d9ee1141",
+      "unit": "bytes/blob Git",
+      "method": "Lectura de la fuente indicada; no equivale a reproducir su evento",
+      "captured_utc_interval": [
+        "2026-10-17T15:39:00Z",
+        "2026-10-17T16:17:39Z"
+      ],
+      "capture_precision": "interval; not every request timestamp was logged; end is the observed review-close upper bound, not an individual request timestamp",
+      "chain": null,
+      "block": null,
+      "limitations": "No equivale a verificador global de 637 payloads aprobado.",
+      "missing_evidence": "No equivale a verificador global de 637 payloads aprobado.",
+      "rejection_or_absence": null
+    },
+    {
+      "id": "S-R-03",
+      "claim": "La auditoría cruzada conserva 159/50/9 como fase histórica y afirma límites económicos.",
+      "status": "VERIFICADO",
+      "url": "https://github.com/josuechavando350-png/nexus-quant-capital/blob/ddade5d099e19449e0c4e55079a2b0c9d9ee1141/migration/cross-repo-evidence-audit-20261017/AUDIT_STATUS.md",
+      "sha": "ddade5d099e19449e0c4e55079a2b0c9d9ee1141",
+      "unit": "tests reportados",
+      "method": "Lectura de la fuente indicada; no equivale a reproducir su evento",
+      "captured_utc_interval": [
+        "2026-10-17T15:39:00Z",
+        "2026-10-17T16:17:39Z"
+      ],
+      "capture_precision": "interval; not every request timestamp was logged; end is the observed review-close upper bound, not an individual request timestamp",
+      "chain": null,
+      "block": null,
+      "limitations": "No reejecutados aquí; cifra más nueva del relevo tiene distinto alcance.",
+      "missing_evidence": "No reejecutados aquí; cifra más nueva del relevo tiene distinto alcance.",
+      "rejection_or_absence": null
+    },
+    {
+      "id": "S-R-04",
+      "claim": "Morpho reporta 168/50/9 y mantiene incompletos patrocinio, replay auténtico y captura.",
+      "status": "VERIFICADO",
+      "url": "https://github.com/josuechavando350-png/nexus-quant-capital/blob/0f26557c1f83e12efcf364ece6cebd8505d2e2c2/migration/experiments/morpho-sponsored-gas/RESEARCH_STATUS.md",
+      "sha": "0f26557c1f83e12efcf364ece6cebd8505d2e2c2",
+      "unit": "tests reportados",
+      "method": "Lectura de la fuente indicada; no equivale a reproducir su evento",
+      "captured_utc_interval": [
+        "2026-10-17T15:39:00Z",
+        "2026-10-17T16:17:39Z"
+      ],
+      "capture_precision": "interval; not every request timestamp was logged; end is the observed review-close upper bound, not an individual request timestamp",
+      "chain": 1,
+      "block": null,
+      "limitations": "Suites del autor, no pruebas nuevas nuestras.",
+      "missing_evidence": "Suites del autor, no pruebas nuevas nuestras.",
+      "rejection_or_absence": null
+    },
+    {
+      "id": "S-R-05",
+      "claim": "Aave/SVR reporta 2,273.989378 USDC y 3,914,680 gas, con ejecutor restringido a bloques antiguos.",
+      "status": "VERIFICADO",
+      "url": "https://github.com/josuechavando350-png/nexus-quant-capital/blob/6693542e675f930a7ef0a4fd60cb72e7a6608845/migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/SVR_EXECUTOR_AUCTION_CAPITAL_CONTRACT.md",
+      "sha": "6693542e675f930a7ef0a4fd60cb72e7a6608845",
+      "unit": "USDC; gas; ETH",
+      "method": "Lectura de la fuente indicada; no equivale a reproducir su evento",
+      "captured_utc_interval": [
+        "2026-10-17T15:39:00Z",
+        "2026-10-17T16:17:39Z"
+      ],
+      "capture_precision": "interval; not every request timestamp was logged; end is the observed review-close upper bound, not an individual request timestamp",
+      "chain": 1,
+      "block": null,
+      "limitations": "Resultado SIMULADO reportado; no replay independiente en esta misión.",
+      "missing_evidence": "Resultado SIMULADO reportado; no replay independiente en esta misión.",
+      "rejection_or_absence": null
+    },
+    {
+      "id": "S-R-06",
+      "claim": "Robinhood reporta 32.060665 USDG; distingue 57,601,054,408,000 wei de comisión nativa de red y 79,616,762,214,000 wei de cargo del paymaster.",
+      "status": "VERIFICADO",
+      "url": "https://github.com/josuechavando350-png/nexus-quant-capital/blob/6693542e675f930a7ef0a4fd60cb72e7a6608845/migration/robinhood-real-state-replay-20261016/README.md",
+      "sha": "6693542e675f930a7ef0a4fd60cb72e7a6608845",
+      "unit": "USDG; wei",
+      "method": "Lectura de resultados de simulación reportados; conversión decimal exacta ETH a wei mediante Fraction(texto_decimal) * 10**18, sin float. No se reprodujo la ejecución Nitro.",
+      "captured_utc_interval": [
+        "2026-10-17T15:39:00Z",
+        "2026-10-17T16:17:39Z"
+      ],
+      "capture_precision": "interval; not every request timestamp was logged; end is the observed review-close upper bound, not an individual request timestamp",
+      "chain": 4663,
+      "block": null,
+      "limitations": "Arreglo de laboratorio con provisiones; la aritmética nueva no es ejecución Nitro.",
+      "missing_evidence": "Arreglo de laboratorio con provisiones; la aritmética nueva no es ejecución Nitro.",
+      "rejection_or_absence": null,
+      "exact_conversion": {
+        "classification": "REPRODUCIDO_LOCALMENTE_ARITMETICA",
+        "network_fee_eth": "0.000057601054408",
+        "network_fee_wei": "57601054408000",
+        "paymaster_charge_eth": "0.000079616762214",
+        "paymaster_charge_wei": "79616762214000",
+        "formula": "Fraction(decimal_eth_string) * 10**18",
+        "integer_validation": "Se exige denominador 1 antes de convertir a entero.",
+        "verified_at_utc": "2026-10-17T16:17:39Z"
+      },
+      "correction": {
+        "attribution": "Corrección propia de esta auditoría independiente; el error de conversión no se atribuye a Astra ni al README fuente.",
+        "error": "La afirmación anterior de S-R-06 omitía un factor de 1000 al convertir ETH a wei.",
+        "previous_network_fee_wei": "57601054408",
+        "previous_paymaster_charge_wei": "79616762214",
+        "correction_factor": "1000",
+        "source_decimal_amounts_changed": false
+      }
+    },
+    {
+      "id": "S-R-07",
+      "claim": "Decisión Robinhood conserva congelamiento hasta admisión completa y financiación sin recurso.",
+      "status": "VERIFICADO",
+      "url": "https://github.com/josuechavando350-png/nexus-quant-capital/blob/6693542e675f930a7ef0a4fd60cb72e7a6608845/migration/robinhood-viability-decision-20261016T1713/DECISION.md",
+      "sha": "6693542e675f930a7ef0a4fd60cb72e7a6608845",
+      "unit": "decision",
+      "method": "Lectura de la fuente indicada; no equivale a reproducir su evento",
+      "captured_utc_interval": [
+        "2026-10-17T15:39:00Z",
+        "2026-10-17T16:17:39Z"
+      ],
+      "capture_precision": "interval; not every request timestamp was logged; end is the observed review-close upper bound, not an individual request timestamp",
+      "chain": 4663,
+      "block": null,
+      "limitations": "La decisión es del expediente leído, no un contrato de financiación.",
+      "missing_evidence": "La decisión es del expediente leído, no un contrato de financiación.",
+      "rejection_or_absence": null
+    },
+    {
+      "id": "S-R-08",
+      "claim": "Reabrir investigación requiere evidencia nueva revisable de vía financiable y entorno; afirmar financiación disponible requiere condiciones aplicables aceptadas, fondos comprobados y ningún recurso al fundador.",
+      "status": "VERIFICADO",
+      "url": "https://github.com/josuechavando350-png/nexus-quant-capital/blob/6693542e675f930a7ef0a4fd60cb72e7a6608845/migration/robinhood-viability-decision-20261016T1713/REOPENING.md",
+      "sha": "6693542e675f930a7ef0a4fd60cb72e7a6608845",
+      "unit": "gate",
+      "method": "Lectura de la fuente indicada; no equivale a reproducir su evento",
+      "captured_utc_interval": [
+        "2026-10-17T15:39:00Z",
+        "2026-10-17T16:17:39Z"
+      ],
+      "capture_precision": "interval; not every request timestamp was logged; end is the observed review-close upper bound, not an individual request timestamp",
+      "chain": null,
+      "block": null,
+      "limitations": "Oferta no aceptada no es caja; sin operaciones autorizadas.",
+      "missing_evidence": "Oferta no aceptada no es caja; sin operaciones autorizadas.",
+      "rejection_or_absence": null
+    },
+    {
+      "id": "S-R-09",
+      "claim": "V3 no aporta medición de latencia en el expediente fijado.",
+      "status": "VERIFICADO",
+      "url": "https://github.com/josuechavando350-png/nexus-engine/blob/380eff1fc14336bd24d93c8ef807525a7078950d/docs/research/V3_PERFORMANCE_TARGETS.md",
+      "sha": "380eff1fc14336bd24d93c8ef807525a7078950d",
+      "unit": "seconds",
+      "method": "Lectura de la fuente indicada; no equivale a reproducir su evento",
+      "captured_utc_interval": [
+        "2026-10-17T15:39:00Z",
+        "2026-10-17T16:17:39Z"
+      ],
+      "capture_precision": "interval; not every request timestamp was logged; end is the observed review-close upper bound, not an individual request timestamp",
+      "chain": null,
+      "block": null,
+      "limitations": "No refuta otras versiones ni futura evidencia de 11 µs.",
+      "missing_evidence": "No refuta otras versiones ni futura evidencia de 11 µs.",
+      "rejection_or_absence": null
+    },
+    {
+      "id": "S-R-10",
+      "claim": "T37 distingue 50,000 mercados y 1,000,000 señales sintéticas; no acredita latencia ni P&L de producción.",
+      "status": "VERIFICADO",
+      "url": "https://github.com/josuechavando350-png/nexus-engine/blob/380eff1fc14336bd24d93c8ef807525a7078950d/ci/nqc-t37/T37_CLOSEOUT.json",
+      "sha": "380eff1fc14336bd24d93c8ef807525a7078950d",
+      "unit": "synthetic_records",
+      "method": "Lectura de la fuente indicada; no equivale a reproducir su evento",
+      "captured_utc_interval": [
+        "2026-10-17T15:39:00Z",
+        "2026-10-17T16:17:39Z"
+      ],
+      "capture_precision": "interval; not every request timestamp was logged; end is the observed review-close upper bound, not an individual request timestamp",
+      "chain": null,
+      "block": null,
+      "limitations": "Leído como atestación; no se reejecutó el run.",
+      "missing_evidence": "Leído como atestación; no se reejecutó el run.",
+      "rejection_or_absence": null
+    },
+    {
+      "id": "S-R-11",
+      "claim": "Census enumera clases distintas de datos y cobertura histórica; no todos son mercados.",
+      "status": "VERIFICADO",
+      "url": "https://github.com/josuechavando350-png/nexus-quant-capital/blob/6693542e675f930a7ef0a4fd60cb72e7a6608845/migration/census_v2/CLOSEOUT.md",
+      "sha": "6693542e675f930a7ef0a4fd60cb72e7a6608845",
+      "unit": "pools;capital_sources;block_asset_coordinates",
+      "method": "Lectura de la fuente indicada; no equivale a reproducir su evento",
+      "captured_utc_interval": [
+        "2026-10-17T15:39:00Z",
+        "2026-10-17T16:17:39Z"
+      ],
+      "capture_precision": "interval; not every request timestamp was logged; end is the observed review-close upper bound, not an individual request timestamp",
+      "chain": null,
+      "block": null,
+      "limitations": "No se descargaron 3.75 GB ni se emitió certificación.",
+      "missing_evidence": "No se descargaron 3.75 GB ni se emitió certificación.",
+      "rejection_or_absence": null
+    },
+    {
+      "id": "S-R-12",
+      "claim": "PR 730 reporta un factor de 11.3288 en promedios de dos muestras de adquisición; no una latencia de 11 µs.",
+      "status": "VERIFICADO",
+      "url": "https://github.com/josuechavando350-png/nexus-engine/pull/730",
+      "sha": "e1c8435badc24a64b2e58329b4d0ad80f4d843eb",
+      "unit": "ratio; seconds",
+      "method": "Lectura de la fuente indicada; no equivale a reproducir su evento",
+      "captured_utc_interval": [
+        "2026-10-17T15:39:00Z",
+        "2026-10-17T16:17:39Z"
+      ],
+      "capture_precision": "interval; not every request timestamp was logged; end is the observed review-close upper bound, not an individual request timestamp",
+      "chain": null,
+      "block": null,
+      "limitations": "Head de código no congela cuerpo mutable del PR; benchmark no reejecutado.",
+      "missing_evidence": "Head de código no congela cuerpo mutable del PR; benchmark no reejecutado.",
+      "rejection_or_absence": null
+    },
+    {
+      "id": "S-R-13",
+      "claim": "SVR Ethereum documenta evento de oracle y backrun competitivo; no prueba recepción previa NQC.",
+      "status": "VERIFICADO",
+      "url": "https://docs.chain.link/data-feeds/svr-feeds/searcher-onboarding-ethereum",
+      "sha": null,
+      "unit": "protocol_documentation",
+      "method": "Lectura de la fuente indicada; no equivale a reproducir su evento",
+      "captured_utc_interval": [
+        "2026-10-17T15:39:00Z",
+        "2026-10-17T16:17:39Z"
+      ],
+      "capture_precision": "interval; not every request timestamp was logged; end is the observed review-close upper bound, not an individual request timestamp",
+      "chain": 1,
+      "block": null,
+      "limitations": "Publicación actual no prueba disponibilidad retrospectiva ni admisión particular.",
+      "missing_evidence": "Publicación actual no prueba disponibilidad retrospectiva ni admisión particular.",
+      "rejection_or_absence": null
+    },
+    {
+      "id": "S-R-14",
+      "claim": "La documentación MEV-Share limita a un backrun; no trasladar top-up de otro API sin compatibilidad.",
+      "status": "VERIFICADO",
+      "url": "https://docs.flashbots.net/flashbots-auction/advanced/rpc-endpoint",
+      "sha": null,
+      "unit": "bundle_shape",
+      "method": "Lectura de la fuente indicada; no equivale a reproducir su evento",
+      "captured_utc_interval": [
+        "2026-10-17T15:39:00Z",
+        "2026-10-17T16:17:39Z"
+      ],
+      "capture_precision": "interval; not every request timestamp was logged; end is the observed review-close upper bound, not an individual request timestamp",
+      "chain": null,
+      "block": null,
+      "limitations": "Composición de financiación real sigue pendiente; ninguna solicitud enviada.",
+      "missing_evidence": "Composición de financiación real sigue pendiente; ninguna solicitud enviada.",
+      "rejection_or_absence": null
+    },
+    {
+      "id": "S-R-15",
+      "claim": "Búsquedas acotadas no localizaron evidencia de 11 µs ni de 14,000 billones.",
+      "status": "PENDIENTE",
+      "url": "https://github.com/josuechavando350-png/nexus-engine",
+      "sha": "380eff1fc14336bd24d93c8ef807525a7078950d",
+      "unit": "search_scope",
+      "method": "Lectura de la fuente indicada; no equivale a reproducir su evento",
+      "captured_utc_interval": [
+        "2026-10-17T15:39:00Z",
+        "2026-10-17T16:17:39Z"
+      ],
+      "capture_precision": "interval; not every request timestamp was logged; end is the observed review-close upper bound, not an individual request timestamp",
+      "chain": null,
+      "block": null,
+      "limitations": "0 resultados en índice o mensajes de commits no es refutación de toda la historia.",
+      "missing_evidence": "0 resultados en índice o mensajes de commits no es refutación de toda la historia.",
+      "rejection_or_absence": null
+    },
+    {
+      "id": "S-R-16",
+      "claim": "El artefacto T37 indicado figura sin caducar en la API; su ZIP no fue descargado.",
+      "status": "VERIFICADO",
+      "url": "https://api.github.com/repos/josuechavando350-png/nexus-engine/actions/runs/36278420240/artifacts",
+      "sha": null,
+      "unit": "artifact_metadata",
+      "method": "Lectura de la fuente indicada; no equivale a reproducir su evento",
+      "captured_utc_interval": [
+        "2026-10-17T15:39:00Z",
+        "2026-10-17T16:17:39Z"
+      ],
+      "capture_precision": "interval; not every request timestamp was logged; end is the observed review-close upper bound, not an individual request timestamp",
+      "chain": null,
+      "block": null,
+      "limitations": "expired=false no autentica payload ni contenido.",
+      "missing_evidence": "expired=false no autentica payload ni contenido.",
+      "rejection_or_absence": null
+    },
+    {
+      "id": "S-R-17",
+      "claim": "El PDF maestro de relevo no está en los adjuntos de esta sesión.",
+      "status": "PENDIENTE",
+      "url": "NQC_RELEVO_MAESTRO_2026-10-17.pdf",
+      "sha": null,
+      "unit": "attachment_availability",
+      "method": "Lectura de la fuente indicada; no equivale a reproducir su evento",
+      "captured_utc_interval": [
+        "2026-10-17T15:39:00Z",
+        "2026-10-17T16:17:39Z"
+      ],
+      "capture_precision": "interval; not every request timestamp was logged; end is the observed review-close upper bound, not an individual request timestamp",
+      "chain": null,
+      "block": null,
+      "limitations": "No leído; aportarlo podría cambiar contexto pero no autoriza inventar sus contenidos.",
+      "missing_evidence": "No leído; aportarlo podría cambiar contexto pero no autoriza inventar sus contenidos.",
+      "rejection_or_absence": "not_attached"
+    },
+    {
+      "id": "S-R-18",
+      "claim": "Verificador original de aislamiento termina por falta de payload del checkout parcial.",
+      "status": "REPRODUCIDO_LOCALMENTE",
+      "url": "migration/verify_isolation.py",
+      "sha": "ddade5d099e19449e0c4e55079a2b0c9d9ee1141",
+      "unit": "process_exit=1",
+      "method": "Cálculo/ejecución local sin red",
+      "captured_utc_interval": [
+        "2026-10-17T15:39:00Z",
+        "2026-10-17T16:17:39Z"
+      ],
+      "capture_precision": "interval; not every request timestamp was logged; end is the observed review-close upper bound, not an individual request timestamp",
+      "chain": null,
+      "block": null,
+      "limitations": "BLOCKED_INPUTS; no aprobar las 9 pruebas históricos ni llamarlo fallo económico.",
+      "missing_evidence": "BLOCKED_INPUTS; no aprobar las 9 pruebas históricos ni llamarlo fallo económico.",
+      "rejection_or_absence": "missing_payload"
+    },
+    {
+      "id": "S-R-19",
+      "claim": "Ninguna ruta satisface las puertas G1–G5 con la evidencia disponible.",
+      "status": "INFERIDO",
+      "url": "CROSS_STRATEGY_KILL_MATRIX.md",
+      "sha": null,
+      "unit": "decision",
+      "method": "Conjunción explícita de puertas con UNKNOWN",
+      "captured_utc_interval": [
+        "2026-10-17T15:39:00Z",
+        "2026-10-17T16:17:39Z"
+      ],
+      "capture_precision": "interval; not every request timestamp was logged; end is the observed review-close upper bound, not an individual request timestamp",
+      "chain": null,
+      "block": null,
+      "limitations": "Cambiaría sólo con evidencia suficiente y coherente para todas las puertas.",
+      "missing_evidence": "Cambiaría sólo con evidencia suficiente y coherente para todas las puertas.",
+      "rejection_or_absence": null
+    },
+    {
+      "id": "S-R-20",
+      "claim": "Multiplicar 215,036 por 67 da 14,407,412 coordenadas; el saldo previo hipotético de 5,089,056 gas por un fee cap de 3 gwei/gas es 0.015267168 ETH.",
+      "status": "REPRODUCIDO_LOCALMENTE",
+      "url": "evidence/root_arithmetic.json",
+      "sha": null,
+      "unit": "coordinates; wei",
+      "method": "Cálculo/ejecución local sin red",
+      "captured_utc_interval": [
+        "2026-10-17T15:39:00Z",
+        "2026-10-17T16:17:39Z"
+      ],
+      "capture_precision": "interval; not every request timestamp was logged; end is the observed review-close upper bound, not an individual request timestamp",
+      "chain": null,
+      "block": null,
+      "limitations": "Aritmética de supuestos, no coste actual ni ingresos.",
+      "missing_evidence": "Aritmética de supuestos, no coste actual ni ingresos.",
+      "rejection_or_absence": null
+    }
+  ],
+  "updated_utc": "2026-10-17T16:17:39Z",
+  "capture_interval_note": "Los segundos individuales de las lecturas originales no se reconstruyen. Se conserva el inicio y se amplía el cierre del intervalo agregado hasta la hora UTC real observada en esta revisión. Esto no afirma que las fuentes fueran recapturadas en ese segundo."
+}
