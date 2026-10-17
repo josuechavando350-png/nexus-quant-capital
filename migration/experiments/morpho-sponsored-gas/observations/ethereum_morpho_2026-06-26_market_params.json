@@ -1,0 +1,26 @@
+{
+  "scope": "HISTORICAL_EXTERNAL_WINNER_PARENT_BLOCK_ONLY",
+  "chain_id": 1,
+  "morpho_contract": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+  "transaction_hash": "0x0a2f442acfb350d6d93002038b454ead40ffcf28a777b291cbaec1746d8aa2f1",
+  "transaction_block": 25402186,
+  "transaction_index": 226,
+  "parent_block": 25402185,
+  "parent_block_hash": "0x976caf9ddb8d59e24460f7aabe760d96e2dc96f56b3ff0d89d6c1d7359dce670",
+  "market_id": "0x582fdc4176da0ab5c65e086603ab9ecd9188e889e16efef6e35854cf14e15065",
+  "loan_token": "0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a",
+  "collateral_token": "0xD166337499E176bbC38a1FBd113Ab144e5bd2Df7",
+  "oracle": "0x78e16Ed8a8ebC86B707316dC84BA7e3E74A3b23A",
+  "irm": "0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC",
+  "lltv": "860000000000000000",
+  "borrower": "0x950fD558f47E234A2fDe23B7d61f7Ccdbcb4A86F",
+  "repaid_shares": "101587406377783",
+  "callback_data": "0x",
+  "provenance": "Decoded historical liquidation input; block and tx identifiers from Blockscout; market ID computed with OpenSSL KECCAK-256 over ABI encoded MarketParams",
+  "limitations": [
+    "The original call did not use Morpho liquidation callback",
+    "Parent block is not the exact pretransaction state because tx index is 226",
+    "Archive eth_call cannot establish NQC execution or gas sponsorship",
+    "No realized NQC profit or capture probability is proven"
+  ]
+}
