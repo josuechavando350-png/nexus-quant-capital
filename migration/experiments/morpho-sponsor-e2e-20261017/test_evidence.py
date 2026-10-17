@@ -8,6 +8,9 @@ from select_candidates import select
 class EvidenceTests(unittest.TestCase):
     def load(self,name):return json.loads((HERE/'evidence'/name).read_text())
     def test_all_recorded_actor_assets_and_transactions_reconcile(self):
+        built=self.load('build-manifest.json')['bytecode_sha256']
+        self.assertEqual(built['Morpho'],'a73008812cf3c42dd17d5e7521b85b975813e430103ebb072f803a368a5113e3')
+        self.assertEqual(built['UniswapV2Pair'],'c884817b0b634ee7a9c3daf1017f64b00f5574df06ee1ff27ca6f8fe7726e1d5')
         index=self.load('run-index.json')
         self.assertEqual(len(index['runs']),21)
         for item in index['runs']:

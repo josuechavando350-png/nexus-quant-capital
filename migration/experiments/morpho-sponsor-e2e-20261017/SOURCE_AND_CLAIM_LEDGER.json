@@ -1,0 +1,362 @@
+{
+  "generated_at_utc": "2026-10-17T18:01:46.835290+00:00",
+  "CURRENT_TREE": "Exact commit containing this ledger; resolve HEAD in Git, not an invented SHA.",
+  "claims": [
+    {
+      "id": "C01",
+      "claim": "Core Morpho y par V2 reconstruidos desde fuentes originales, con creation bytecode igual al build de referencia.",
+      "classification": "PROBADO_EN_LABORATORIO",
+      "sources": [
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/evidence/build-manifest.json",
+          "sha256": "35564d38177fb3465300a673d6a9697403857b0ab503d37378146961d04d2295",
+          "evidence_commit": "CURRENT_TREE"
+        },
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/evidence/original-bytecode-parity.json",
+          "sha256": "5aeaeb989a424692fc622226f605cf8543045001ee804c3addc096f0772feef6",
+          "evidence_commit": "CURRENT_TREE"
+        }
+      ],
+      "limitation": "No deployed mainnet runtime/state parity; token de colateral upstream es de prueba y WETH es Solmate."
+    },
+    {
+      "id": "C02",
+      "claim": "EOA NQC empieza con 0 ETH/WETH/COLLATERAL; anticipo procede de otro actor sintético.",
+      "classification": "PROBADO_EN_LABORATORIO",
+      "sources": [
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/evidence/C1_success.json",
+          "sha256": "dbc6faca34e3f2b4ceab435949d4b75245e63754474472c0e979f2a2797d150a",
+          "evidence_commit": "CURRENT_TREE"
+        },
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/evidence/setup.json",
+          "sha256": "fd63bda4fc7fd2ddca260419fe55359ceb16a8a9a44e0fe85d905689e36e0472",
+          "evidence_commit": "CURRENT_TREE"
+        }
+      ],
+      "limitation": "No demuestra disponibilidad de fondos ni acuerdo real."
+    },
+    {
+      "id": "C03",
+      "claim": "Ciclo positivo: 8 WETH repagados, 0.159365645570551238 WETH nuevos del operador, 0 ETH final.",
+      "classification": "PROBADO_EN_LABORATORIO",
+      "sources": [
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/ACTOR_SETTLEMENT_LEDGER.json",
+          "sha256": "182f7bd2a9bab32b4b2bae499639cd190bc00a38a9b5df26afa9d8f6adcf03c7",
+          "evidence_commit": "CURRENT_TREE"
+        },
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/evidence/C1_success.json",
+          "sha256": "dbc6faca34e3f2b4ceab435949d4b75245e63754474472c0e979f2a2797d150a",
+          "evidence_commit": "CURRENT_TREE"
+        }
+      ],
+      "limitation": "Estado/oracle/DEX sintéticos, sin captura ni ingreso realizado."
+    },
+    {
+      "id": "C04",
+      "claim": "Gas total con despliegues, fondeo, retorno y fee: 2339206 unidades.",
+      "classification": "PROBADO_EN_LABORATORIO",
+      "sources": [
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/evidence/C1_success.json",
+          "sha256": "dbc6faca34e3f2b4ceab435949d4b75245e63754474472c0e979f2a2797d150a",
+          "evidence_commit": "CURRENT_TREE"
+        },
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/evidence/optimizer-alignment.json",
+          "sha256": "c37ab1d10cb659f7dc74a395644a7f74a3aa52f1b0b953897b802fc406796737",
+          "evidence_commit": "CURRENT_TREE"
+        }
+      ],
+      "limitation": "Configuración de compilación explícita; no extrapolar a mainnet/Fluid/C2."
+    },
+    {
+      "id": "C05",
+      "claim": "Sponsor base gana 43321588000000000 wei de caja y 43318588000000000 tras oportunidad de laboratorio.",
+      "classification": "PROBADO_EN_LABORATORIO",
+      "sources": [
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/ACTOR_SETTLEMENT_LEDGER.json",
+          "sha256": "182f7bd2a9bab32b4b2bae499639cd190bc00a38a9b5df26afa9d8f6adcf03c7",
+          "evidence_commit": "CURRENT_TREE"
+        }
+      ],
+      "limitation": "Costes comerciales, recurso y tasa exigida reales UNKNOWN."
+    },
+    {
+      "id": "C06",
+      "claim": "A 21 gwei efectivos, mismo ciclo paga al operador pero sponsor pierde 1123326000000000 wei de caja.",
+      "classification": "REFUTADO_BAJO_SUPUESTOS",
+      "sources": [
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/evidence/C1_high_gas.json",
+          "sha256": "12bf18b89696fe8dd5d42dd444366b68c865266e43699002ca6dc7471f2685c9",
+          "evidence_commit": "CURRENT_TREE"
+        },
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/ACTOR_SETTLEMENT_LEDGER.json",
+          "sha256": "182f7bd2a9bab32b4b2bae499639cd190bc00a38a9b5df26afa9d8f6adcf03c7",
+          "evidence_commit": "CURRENT_TREE"
+        }
+      ],
+      "limitation": "No refuta toda liquidación Morpho; solo este reparto y gas."
+    },
+    {
+      "id": "C07",
+      "claim": "F01-F12 separan revert interno, gas incluido y anticipo retenido; U solo existe si se devuelve.",
+      "classification": "PROBADO_EN_LABORATORIO",
+      "sources": [
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/FUNDING_FAILURE_MATRIX.md",
+          "sha256": "9a074881ed4c765686a4937cdaaad8dc100923fef4f0b4f97198db4d4cf45712",
+          "evidence_commit": "CURRENT_TREE"
+        },
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/ACTOR_SETTLEMENT_LEDGER.json",
+          "sha256": "182f7bd2a9bab32b4b2bae499639cd190bc00a38a9b5df26afa9d8f6adcf03c7",
+          "evidence_commit": "CURRENT_TREE"
+        }
+      ],
+      "limitation": "No reproduce condiciones de inclusión o pérdidas prometidas por un relay."
+    },
+    {
+      "id": "C08",
+      "claim": "Un wei menos de aprobación de repago provoca revert de Morpho original después del swap.",
+      "classification": "PROBADO_EN_LABORATORIO",
+      "sources": [
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/evidence/F06_one_wei_underpay.json",
+          "sha256": "067b6eb897268083b850a16ed94786566cd1a470c6250b520ae9660e77adc718",
+          "evidence_commit": "CURRENT_TREE"
+        },
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/test_evidence.py",
+          "sha256": "bccc7c82bef3d380b963600f5ee4e22019a18aa4ef3e920cd5480d8d93778a4c",
+          "evidence_commit": "CURRENT_TREE"
+        }
+      ],
+      "limitation": "Control defectuoso separado; no se debilita el ejecutor NQC."
+    },
+    {
+      "id": "C09",
+      "claim": "Inventario de 1 ETH/1 WETH/1 COLLATERAL donado permanece fuera del ingreso incremental.",
+      "classification": "PROBADO_EN_LABORATORIO",
+      "sources": [
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/evidence/F11_dust.json",
+          "sha256": "46aa7c6e9644add4566b77526a3b150b42b95a231cc7af7decabbb73116b1d2b",
+          "evidence_commit": "CURRENT_TREE"
+        },
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/ACTOR_SETTLEMENT_LEDGER.json",
+          "sha256": "182f7bd2a9bab32b4b2bae499639cd190bc00a38a9b5df26afa9d8f6adcf03c7",
+          "evidence_commit": "CURRENT_TREE"
+        }
+      ],
+      "limitation": "Donante y costes de fixture identificados; no demuestra que el inventario original sea de NQC."
+    },
+    {
+      "id": "C10",
+      "claim": "Sponsor, builder y coinbase tienen direcciones y flujos separados; no netting implícito.",
+      "classification": "PROBADO_EN_LABORATORIO",
+      "sources": [
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/ACTOR_SETTLEMENT_LEDGER.json",
+          "sha256": "182f7bd2a9bab32b4b2bae499639cd190bc00a38a9b5df26afa9d8f6adcf03c7",
+          "evidence_commit": "CURRENT_TREE"
+        },
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/evidence/F12_distinct_actors.json",
+          "sha256": "4330e15c5b64e86065d52f3d7e166334564e801c0494bd04b052850194be9b8f",
+          "evidence_commit": "CURRENT_TREE"
+        }
+      ],
+      "limitation": "Titularidades solo definidas en laboratorio; ninguna atribución a Titan/Quasar."
+    },
+    {
+      "id": "C11",
+      "claim": "Gate conserva chain 31337 y autoridad comercial UNKNOWN; rechazo mainnet-only.",
+      "classification": "PROBADO_EN_LABORATORIO",
+      "sources": [
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/evidence/gate-bridge.json",
+          "sha256": "f45b6077bfba8efeabb0a9a662e3d20a6cf71b16fc31a071d3d5560210258975",
+          "evidence_commit": "CURRENT_TREE"
+        },
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/reconcile.py",
+          "sha256": "7d21db8004f6109e27043baa37deea809c1cd9568b445d7b63d304f6ff2920cb",
+          "evidence_commit": "CURRENT_TREE"
+        }
+      ],
+      "limitation": "No es intento de admisión real. El esquema legado no representa U/UNKNOWN plenamente."
+    },
+    {
+      "id": "C12",
+      "claim": "Frontera matemática fija de sponsor con oportunidad: 20518500722 wei/gas.",
+      "classification": "SIMULADO",
+      "sources": [
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/evidence/exact-sensitivity.json",
+          "sha256": "6e1f012e8dad04a78399c5d4841e199396ce63e5a67d9d002b294e86407dfd5e",
+          "evidence_commit": "CURRENT_TREE"
+        }
+      ],
+      "limitation": "Gas y anticipo fijos; saldo suficiente a esa tasa y costes reales no acreditados."
+    },
+    {
+      "id": "C13",
+      "claim": "La población API de 143 eventos/141 tx deja 98 tx al quitar cualquier tx con bad debt.",
+      "classification": "SIMULADO",
+      "sources": [
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/evidence/candidates.json",
+          "sha256": "5d8d86907d4b0e87f678ffa77ab302506437ee3063262362c57a1fd62b46481f",
+          "evidence_commit": "CURRENT_TREE"
+        },
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/CANDIDATE_SELECTION_LOCK.json",
+          "sha256": "38621430e71742d1cc7d8ffe972200f03b3ec722a504fb8b3973efcfcc14d083",
+          "evidence_commit": "CURRENT_TREE"
+        },
+        {
+          "path": "migration/experiments/morpho-sponsored-gas/monthly_census.py",
+          "sha256": "40ab729a031f0fb4d6da6c965179ad6d0cfb042ddaf007c36e9b1a978905146d",
+          "evidence_commit": "544fd2d16d0b1cf1018dce006702a7abcbf0d0c6"
+        }
+      ],
+      "limitation": "Cobertura global no certificada; principal no es beneficio y bad debt no implica pérdida del liquidador."
+    },
+    {
+      "id": "C14",
+      "claim": "Doce candidatos sin sustituciones, todos UNRATED_MISSING_WITNESS.",
+      "classification": "PENDIENTE",
+      "sources": [
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/evidence/candidates.json",
+          "sha256": "5d8d86907d4b0e87f678ffa77ab302506437ee3063262362c57a1fd62b46481f",
+          "evidence_commit": "CURRENT_TREE"
+        },
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/CANDIDATE_ECONOMIC_FUNNEL.md",
+          "sha256": "96133bfa04ba4eb63db0012dce34d27a328d1571b3fc4358c6ee2eb864a4eef1",
+          "evidence_commit": "CURRENT_TREE"
+        }
+      ],
+      "limitation": "Un recibo B cruzado, siete previos no disponibles, cuatro no solicitados; ningún replay auténtico."
+    },
+    {
+      "id": "C15",
+      "claim": "Residual fijo B: 0.001651296044494913 ETH, después de todo coinbase y gas observado.",
+      "classification": "SIMULADO",
+      "sources": [
+        {
+          "path": "migration/experiments/morpho-sponsored-gas/evidence/2026-10-17-prospective-recovered/final-case-b-costs.json",
+          "sha256": "1633e07b5e9ad4e2d0d58f0136a44dbd6c79614e9cb47efb46ae3a5a142368cb",
+          "evidence_commit": "544fd2d16d0b1cf1018dce006702a7abcbf0d0c6"
+        },
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/MORPHO_B_REPLAY_BLOCKERS.md",
+          "sha256": "e08697630cfbb86637cd11b4b4f81bb3690fde084cb770ef73f457f420450dc8",
+          "evidence_commit": "CURRENT_TREE"
+        }
+      ],
+      "limitation": "Terceros; faltan costes externos y testigo de ejecución. WETH inicial excluido."
+    },
+    {
+      "id": "C16",
+      "claim": "B carece de testigo padre, efectos tx0 y estado ejecutable Fluid.",
+      "classification": "PENDIENTE",
+      "sources": [
+        {
+          "path": "migration/experiments/morpho-sponsored-gas/CASE_B_PRESTATE.md",
+          "sha256": "ad198baa0aeaccb1f7087c8d09dfb41880566e871666f70cdc2942efb0d9a8c1",
+          "evidence_commit": "544fd2d16d0b1cf1018dce006702a7abcbf0d0c6"
+        },
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/MORPHO_B_REPLAY_BLOCKERS.md",
+          "sha256": "e08697630cfbb86637cd11b4b4f81bb3690fde084cb770ef73f457f420450dc8",
+          "evidence_commit": "CURRENT_TREE"
+        }
+      ],
+      "limitation": "No nuevos intentos de acceso; transaction trie no reconstruye storage."
+    },
+    {
+      "id": "C17",
+      "claim": "Mecánica de financiación pública no acredita aceptación o ausencia de recurso para NQC.",
+      "classification": "PENDIENTE",
+      "sources": [
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/BUILDER_ACCEPTANCE_BOUNDARY.md",
+          "sha256": "e1d3b986f981bdbafee9105ef9b612a170e6dacf38d87b591ff086ecaa4364f7",
+          "evidence_commit": "CURRENT_TREE"
+        },
+        {
+          "path": "migration/zero-capital-viability-20261017/SPONSORSHIP_REALITY_AUDIT.md",
+          "sha256": "0eace414a23b9c9964c0048b57645205aec8cbac615e77a36d63c4d07fc2a358",
+          "evidence_commit": "544fd2d16d0b1cf1018dce006702a7abcbf0d0c6"
+        }
+      ],
+      "limitation": "Revisión documental offline; un programa público verificable podría servir, no solo contrato bilateral."
+    },
+    {
+      "id": "C18",
+      "claim": "168 Python anteriores, 50 Solidity, 9 aislamiento, 10 tests nuevos y 21 escenarios ejecutados.",
+      "classification": "PROBADO_EN_LABORATORIO",
+      "sources": [
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/evidence/final-validation.json",
+          "sha256": "f60dbba800c34bf9e10394330ce1956af925bfea2b33f8cf06ea09996ef58ca2",
+          "evidence_commit": "CURRENT_TREE"
+        },
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/evidence/reproduction-parity.json",
+          "sha256": "28b8e59c6c4991d4966418972e212d081b3c6771c5ddc542a4ef9bb5bb5e9f8e",
+          "evidence_commit": "CURRENT_TREE"
+        }
+      ],
+      "limitation": "Contadores separados; 90 recibos de escenarios no son 90 capturas ni 21 ganancias."
+    },
+    {
+      "id": "C19",
+      "claim": "P&L propio certificado US$0; expectativa mensual no estimable.",
+      "classification": "PENDIENTE",
+      "sources": [
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/DECISION_FOR_DIRECTOR.md",
+          "sha256": "f91d504d09f6ac61b4cbc714a7983826e681025d13e70506b6458d0783728da6",
+          "evidence_commit": "CURRENT_TREE"
+        },
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/CANDIDATE_ECONOMIC_FUNNEL.md",
+          "sha256": "96133bfa04ba4eb63db0012dce34d27a328d1571b3fc4358c6ee2eb864a4eef1",
+          "evidence_commit": "CURRENT_TREE"
+        }
+      ],
+      "limitation": "No captura, financiación real ni muestra de márgenes autenticados."
+    },
+    {
+      "id": "C20",
+      "claim": "Corrección de optimizer preserva el resultado anterior y cambia gas medido en 544 unidades.",
+      "classification": "PROBADO_EN_LABORATORIO",
+      "sources": [
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/evidence/optimizer-alignment.json",
+          "sha256": "c37ab1d10cb659f7dc74a395644a7f74a3aa52f1b0b953897b802fc406796737",
+          "evidence_commit": "CURRENT_TREE"
+        },
+        {
+          "path": "migration/experiments/morpho-sponsor-e2e-20261017/evidence/original-bytecode-parity.json",
+          "sha256": "5aeaeb989a424692fc622226f605cf8543045001ee804c3addc096f0772feef6",
+          "evidence_commit": "CURRENT_TREE"
+        }
+      ],
+      "limitation": "Es corrección de comparabilidad, no una ganancia generada por modificar protocolo."
+    }
+  ],
+  "read_only_prior_documents": "evidence/continuity-source-hashes.json"
+}

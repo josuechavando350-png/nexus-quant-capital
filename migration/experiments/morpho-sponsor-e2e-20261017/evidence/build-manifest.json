@@ -300,8 +300,54 @@
       "version": "solc, the solidity compiler commandline interface\nVersion: 0.8.24+commit.e11b9ed9.Linux.g++"
     }
   },
+  "settings": [
+    {
+      "compiler": "0.8.19",
+      "optimizer_runs": 200,
+      "evm_version": "paris",
+      "targets": {
+        "src/Morpho.sol": [
+          "Morpho"
+        ]
+      }
+    },
+    {
+      "compiler": "0.5.16",
+      "optimizer_runs": 999999,
+      "evm_version": "istanbul",
+      "targets": {
+        "contracts/UniswapV2Pair.sol": [
+          "UniswapV2Pair"
+        ],
+        "contracts/test/ERC20.sol": [
+          "ERC20"
+        ]
+      }
+    },
+    {
+      "compiler": "0.8.24",
+      "optimizer_runs": 200,
+      "evm_version": "cancun",
+      "targets": {
+        "src/tokens/WETH.sol": [
+          "WETH"
+        ],
+        "LabSupport.sol": [
+          "LabOracle",
+          "LabFactory",
+          "LabV2Adapter",
+          "RejectNative",
+          "ForceNative",
+          "UnderpayControl"
+        ],
+        "NqcMorphoSponsoredLiquidation.sol": [
+          "NqcMorphoSponsoredLiquidation"
+        ]
+      }
+    }
+  ],
   "bytecode_sha256": {
-    "Morpho": "49958b045838c8764112223c38a1887b4db6c6cf2f606910167b669d06ce14d0",
+    "Morpho": "a73008812cf3c42dd17d5e7521b85b975813e430103ebb072f803a368a5113e3",
     "UniswapV2Pair": "c884817b0b634ee7a9c3daf1017f64b00f5574df06ee1ff27ca6f8fe7726e1d5",
     "ERC20": "4e828aafd24142b518baa5331a2f89cbb1feebe1b74a01f86450e9a10b26e0ad",
     "WETH": "795c1ba7bd107c64d79edd9fb4df0b30961723f356147584f315bcae2d8a07fd",

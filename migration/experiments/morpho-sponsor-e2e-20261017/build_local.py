@@ -19,7 +19,7 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--workspace',type=Path,required=True)
     p.add_argument('--toolchain',type=Path,required=True)
-    a=p.parse_args(); artifacts={}; provenance={}; compilers={}
+    a=p.parse_args(); artifacts={}; provenance={}; compilers={};settings_used=[]
     def original(repo,prefix):
         root=a.workspace/repo; pin=PINS[repo]
         entries=subprocess.check_output(['git','-C',str(root),'ls-tree','-r',pin,prefix],text=True)
@@ -41,6 +41,7 @@ def main():
         compilers[version]={'sha256':digest,'version':subprocess.check_output([str(binary),'--version'],text=True).strip()}
         std={'language':'Solidity','sources':sources,'settings':{'optimizer':{'enabled':True,'runs':runs},
              'evmVersion':evm,'outputSelection':{f:{n:['abi','evm.bytecode.object','evm.deployedBytecode.object'] for n in nn} for f,nn in targets.items()}}}
+        settings_used.append({'compiler':version,'optimizer_runs':runs,'evm_version':evm,'targets':targets})
         result=json.loads(subprocess.run([str(binary),'--standard-json'],input=json.dumps(std),text=True,capture_output=True,check=True).stdout)
         errors=[e for e in result.get('errors',[]) if e['severity']=='error']
         if errors: raise ValueError(errors)
@@ -49,7 +50,7 @@ def main():
                 c=result['contracts'][f][n]
                 artifacts[n]={'abi':c['abi'],'bytecode':'0x'+c['evm']['bytecode']['object'],
                     'runtime_template':'0x'+c['evm']['deployedBytecode']['object']}
-    compile_('0.8.19',original('morpho-blue','src'),{'src/Morpho.sol':['Morpho']},'paris',999999)
+    compile_('0.8.19',original('morpho-blue','src'),{'src/Morpho.sol':['Morpho']},'paris',200)
     compile_('0.5.16',original('nqc-uniswap-v2','contracts'),{
         'contracts/UniswapV2Pair.sol':['UniswapV2Pair'],'contracts/test/ERC20.sol':['ERC20']},'istanbul',999999)
     src=original('bundler3/lib/permit2/lib/solmate','src')
@@ -63,7 +64,7 @@ def main():
         'NqcMorphoSponsoredLiquidation.sol':['NqcMorphoSponsoredLiquidation']},'cancun',200)
     out=HERE/'build';out.mkdir(exist_ok=True)
     (out/'artifacts.json').write_text(json.dumps(artifacts)+'\n')
-    report={'classification':'ORIGINAL_SOURCE_LOCAL_BUILD_NOT_DEPLOYED_MAINNET_PARITY','sources':provenance,'compilers':compilers,
+    report={'classification':'ORIGINAL_SOURCE_LOCAL_BUILD_NOT_DEPLOYED_MAINNET_PARITY','sources':provenance,'compilers':compilers,'settings':settings_used,
         'bytecode_sha256':{n:sha(bytes.fromhex(c['bytecode'][2:])) for n,c in artifacts.items()}}
     (HERE/'evidence/build-manifest.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps({'contracts':list(artifacts),'classification':report['classification']}))

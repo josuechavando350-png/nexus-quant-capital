@@ -24,14 +24,14 @@
     "sponsor_refund_ETH_wei": 50000000000000000,
     "proposer_tip_ETH_wei": 40000000000000000,
     "operator_WETH_units": 159365645570551238,
-    "network_gas_units": 2338662,
+    "network_gas_units": 2339206,
     "builder_fee_ETH_wei": 2000000000000000,
     "opportunity_charge_ETH_wei": 3000000000000
   },
   "gas_break_even_with_fixed_A_and_units": {
-    "maximum_strictly_positive_effective_price_wei": 20523273564,
-    "sponsor_margin_at_boundary_wei": 268632,
-    "sponsor_margin_next_wei": -2070030,
+    "maximum_strictly_positive_effective_price_wei": 20518500722,
+    "sponsor_margin_at_boundary_wei": 93268,
+    "sponsor_margin_next_wei": -2245938,
     "advance_must_be_increased_if_required": "Gas price alone does not establish up-front affordability"
   },
   "price_cases": [
@@ -40,7 +40,7 @@
       "priority_gwei": 1,
       "cap_gwei": 3,
       "includable_under_fee_cap": true,
-      "sponsor_margin_wei": 43319676000000000,
+      "sponsor_margin_wei": 43318588000000000,
       "classification": "FIXED_GAS_MATH_ONLY"
     },
     {
@@ -48,7 +48,7 @@
       "priority_gwei": 2,
       "cap_gwei": 3,
       "includable_under_fee_cap": true,
-      "sponsor_margin_wei": 40981014000000000,
+      "sponsor_margin_wei": 40979382000000000,
       "classification": "FIXED_GAS_MATH_ONLY"
     },
     {
@@ -56,7 +56,7 @@
       "priority_gwei": 1,
       "cap_gwei": 10,
       "includable_under_fee_cap": true,
-      "sponsor_margin_wei": 33965028000000000,
+      "sponsor_margin_wei": 33961764000000000,
       "classification": "FIXED_GAS_MATH_ONLY"
     },
     {
@@ -64,7 +64,7 @@
       "priority_gwei": 1,
       "cap_gwei": 30,
       "includable_under_fee_cap": true,
-      "sponsor_margin_wei": -1114902000000000,
+      "sponsor_margin_wei": -1126326000000000,
       "classification": "FIXED_GAS_MATH_ONLY"
     },
     {
@@ -72,7 +72,7 @@
       "priority_gwei": 2,
       "cap_gwei": 40,
       "includable_under_fee_cap": true,
-      "sponsor_margin_wei": -26840184000000000,
+      "sponsor_margin_wei": -26857592000000000,
       "classification": "FIXED_GAS_MATH_ONLY"
     },
     {
@@ -129,10 +129,10 @@
   },
   "tip_strict_maximum_given_fixed_refund_wei": 199365645570551237,
   "tip_maximum_meeting_contract_min_profit_wei": 189365645570551238,
-  "refund_strict_minimum_at_2gwei_wei": 6680324000000001,
+  "refund_strict_minimum_at_2gwei_wei": 6681412000000001,
   "upfront_caps": {
     "operator_sum_limit_times_cap_wei": 31542000000000000,
-    "operator_observed_gas_wei": 4593324000000000,
+    "operator_observed_gas_wei": 4594412000000000,
     "actual_topup_gas_wei": 42000000000000,
     "observed_advance_wei": 30000000000000000
   },
