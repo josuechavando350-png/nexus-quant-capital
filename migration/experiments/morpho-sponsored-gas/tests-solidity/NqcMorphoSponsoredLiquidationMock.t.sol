@@ -200,11 +200,51 @@ contract NqcMorphoSponsoredLiquidationMockTest {
         require(weth.balanceOf(address(morpho)) == 0);
     }
 
-    function testRejectPreFundedExecutor() public {
-        collateral.mint(address(executor), 1);
+    function testUnsolicitedTokensAndForcedEthArePreserved() public {
+        // External dust is NOT capital available to NQC.
+        collateral.mint(address(executor), 1 ether);
+        weth.mint(address(executor), 3 ether);
+        vm.deal(address(executor), 0.2 ether);
+        require(address(this).balance == 0 && weth.balanceOf(address(this)) == 0, "operator funded");
+        uint256 profit = executor.execute(_plan(), hex"01", "");
+        require(profit == 1.5 ether, "donation counted as profit");
+        require(collateral.balanceOf(address(executor)) == 1 ether, "collateral dust spent");
+        require(weth.balanceOf(address(executor)) == 3 ether, "WETH dust spent");
+        require(address(executor).balance == 0.2 ether, "forced ETH spent");
+        require(address(this).balance == 0.05 ether, "fresh ETH payout missing");
+    }
+
+    function testDonationsCannotFakeMinimumSwapOutput() public {
+        collateral.mint(address(executor), 1 ether);
+        weth.mint(address(executor), 3 ether);
+        NqcMorphoSponsoredLiquidation.Plan memory p = _plan();
+        p.minLoanOut = 11 ether;
         (bool ok,) = address(executor).call(
-            abi.encodeWithSelector(executor.execute.selector, _plan(), hex"01", bytes(""))
+            abi.encodeWithSelector(executor.execute.selector, p, hex"01", bytes(""))
         );
-        require(!ok, "unexpected success");
+        require(!ok, "donated WETH masked insufficient swap output");
+        require(weth.balanceOf(address(executor)) == 3 ether, "WETH donation corrupted");
+    }
+
+    function testForcedEthCannotSubsidizeBuilderRefund() public {
+        vm.deal(address(executor), 4 ether);
+        NqcMorphoSponsoredLiquidation.Plan memory p = _plan();
+        p.sponsorRefundWei = 0.2 ether;
+        (bool ok,) = address(executor).call(
+            abi.encodeWithSelector(executor.execute.selector, p, hex"01", bytes(""))
+        );
+        require(!ok, "forced ETH paid the builder");
+        require(address(executor).balance == 4 ether, "native dust corrupted");
+    }
+
+    function testDonationsCannotSubsidizeMissingProfit() public {
+        weth.mint(address(executor), 3 ether);
+        NqcMorphoSponsoredLiquidation.Plan memory p = _plan();
+        p.minOperatorProfitLoan = 2 ether; // fresh tokens yield only 1.5 profit
+        (bool ok,) = address(executor).call(
+            abi.encodeWithSelector(executor.execute.selector, p, hex"01", bytes(""))
+        );
+        require(!ok, "donated loan token subsidized artificial profit");
+        require(weth.balanceOf(address(executor)) == 3 ether, "donated loan token changed");
     }
 }
