@@ -73,3 +73,30 @@ forge test --root . --match-contract NqcMorphoSponsoredLiquidationMockTest -vv
 ```
 
 **Siguiente barrera técnica:** un fork en `26,190,954` (prebloque del caso real, distinto de un prestate de orden exacto dentro del bloque), con `Morpho.sol` y pool DEX reales, además de un replay de recepción y ganancia efectiva del builder. Es indispensable demostrar disponibilidad temporal anterior al ganador. Si las dos transacciones requieren creación de otro adaptador, el modelo de dos transacciones también debe ampliarse para contabilizarla. Ningún archivo de esta rama emite una autorización de mainnet.
+
+## Reconciliación histórica añadida — 2026-10-16
+
+Se incorporó \`historical_receipt_gate.py\` y \`tests/test_historical_receipt_gate.py\`, un nuevo control exclusivamente de lectura. El caso fijado corresponde a la liquidación ajena de Morpho del 2026-10-14 (bloque \`26190955\`, transacción \`0x46300e9614c547118ecdd524bc7218208088cc4ae9e5bd534e62055d38f9925b\`).
+
+- Comprueba identidad de transacción/bloque/contrato, fecha, gas y reconciliación de transferencias ERC-20.
+- Gas observado: \`745509 * 266148625 = 198416195275125 wei\`.
+- Diferencia de flujo observada de WETH: \`26409680973611000000 - 26039738525656992415 - 368092735714237547 = 1849712239770038\` unidades mínimas. **NO** se identifica como ganancia de NQC ni como saldo neto final del liquidador.
+- El recibo del liquidador es de **un tercero**. No demuestra renta del builder, patrocinio de gas, prestate disponible a NQC, ruta DEX repetible ni carrera de inclusión.
+- Estado de salida deliberado: \`RECEIPT_RECONCILED_INCOMPLETE_NO_PROFIT_AUTHORITY\`, \`certified=false\`, \`live_executable=false\` y \`profit_estimate=null\`; termina con código 2 (bloqueado).
+- Diez regresiones nuevas fuerzan rechazo de hashes, costos o flujos modificados. Resultado en este entorno: **44/44 pruebas Python aprobadas**. Esto no implica certificación de Solidity ni fork.
+
+\`\`\`sh
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -q -s tests -p 'test_*.py'
+PYTHONDONTWRITEBYTECODE=1 python3 historical_receipt_gate.py observations/ethereum_morpho_2026-10-14_complex_winner.json
+# La segunda instrucción devuelve exit 2 adrede; no eleva una transacción ajena a autoridad.
+\`\`\`
+
+### Bloqueo siguiente, sin alterarlo artificialmente
+
+1. Compilar y ejecutar Foundry 0.8.24 sin cambiar fuente histórica certificada (toolchain no instalada en el entorno de esta sesión).
+2. Obtener un RPC de archivo o una prueba independiente de prestate anterior al ganador, y ejecutar el contrato contra **Morpho Blue auténtico**.
+3. Medir una conversión de collateral a token de deuda en el estado anterior; las transferencias observadas de un ganador NO son una cotización para NQC.
+4. Verificar por separado el **saldo del builder**, no solo \`block.coinbase\`. Las páginas de Titan y Quasar documentan patrocinio condicional, pero no prueban patrocinio de la transacción de despliegue de este experimento ni aceptación de nuestro bundle.
+5. Solo después: evaluar orden de llegada y captura, sin afirmar P&L histórico de NQC.
+
+Sin firmas, fondos, despliegues, mutaciones de \`main\` o workflows activos.
