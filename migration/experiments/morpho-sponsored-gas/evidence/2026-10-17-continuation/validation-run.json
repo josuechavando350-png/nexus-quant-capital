@@ -1,0 +1,200 @@
+{
+  "scope": "LOCAL_VALIDATION_NOT_HISTORICAL_REPLAY",
+  "completed_utc": "2026-10-17T03:42:02.421387+00:00",
+  "base_commit": "fd9c1ffbabcd1f5a7f88102e0b9ee5cdfcf26b2e",
+  "results": [
+    {
+      "name": "python",
+      "command": [
+        "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-v",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py"
+      ],
+      "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/experiments/morpho-sponsored-gas",
+      "environment": {},
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "required_output_marker": "Ran 141 tests"
+    },
+    {
+      "name": "solidity",
+      "command": [
+        "/workspace/scratch/f380716a269b/nqc-toolchain/node_modules/.bin/forge",
+        "test",
+        "--offline",
+        "--use",
+        "/workspace/scratch/f380716a269b/nqc-toolchain/solc-0.8.24",
+        "-vv"
+      ],
+      "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/experiments/morpho-sponsored-gas",
+      "environment": {},
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "required_output_marker": "33 tests passed, 0 failed"
+    },
+    {
+      "name": "core",
+      "command": [
+        "/workspace/scratch/f380716a269b/nqc-toolchain/node_modules/.bin/forge",
+        "test",
+        "--offline",
+        "--use",
+        "/workspace/scratch/f380716a269b/nqc-toolchain/solc-0.8.24",
+        "--match-path",
+        "tests-core/*.t.sol",
+        "-vv"
+      ],
+      "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/experiments/morpho-sponsored-gas",
+      "environment": {
+        "FOUNDRY_PROFILE": "core"
+      },
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "required_output_marker": "15 tests passed, 0 failed"
+    },
+    {
+      "name": "isolation",
+      "command": [
+        "python3",
+        "migration/verify_isolation.py"
+      ],
+      "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital",
+      "environment": {},
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "required_output_marker": "ISOLATED_SOURCE_IDENTITY_PASS"
+    },
+    {
+      "name": "isolation-tests",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-v",
+        "-s",
+        "migration",
+        "-p",
+        "test_isolation.py"
+      ],
+      "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital",
+      "environment": {},
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "required_output_marker": "Ran 9 tests"
+    },
+    {
+      "name": "arithmetic-parity",
+      "command": [
+        "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+        "generate_parity_fixtures.py",
+        "--check"
+      ],
+      "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/experiments/morpho-sponsored-gas",
+      "environment": {},
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "required_output_marker": null
+    },
+    {
+      "name": "historical-ledger",
+      "command": [
+        "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+        "historical_trace_audit.py"
+      ],
+      "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/experiments/morpho-sponsored-gas",
+      "environment": {},
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "required_output_marker": "INDEXER_TRACE_ARITHMETIC_RECONCILED_NOT_FORK_REPRODUCED"
+    },
+    {
+      "name": "liquidity-economics",
+      "command": [
+        "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+        "liquidity_boundary_model.py"
+      ],
+      "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/experiments/morpho-sponsored-gas",
+      "environment": {},
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "required_output_marker": "LOCAL_ORIGINAL_CODE_SYNTHETIC_STATE"
+    },
+    {
+      "name": "diff-check",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital",
+      "environment": {},
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "required_output_marker": null
+    }
+  ],
+  "input_sha256": {
+    "bundle_gate.py": "ca306858fe090fd8c1d43f568293f6f265de49860962a18ff2df6a69fbf095b1",
+    "bundler3_abi.py": "57b796736a075a1c0ad027f4bd698e032b57a95470899052d37c6aef79eb7f9e",
+    "compile_bundler_reference.py": "2b7e8ee9e93f8e4c72c0996d8e7a4b9f88b119fe9340f25ed56a78e2885624f1",
+    "compile_morpho_reference.py": "b17e1075d64a9dec3acd2b803d02e6624dcc5d5dba484559b567386af9aed0bc",
+    "compile_uniswap_reference.py": "04c9a64504ab7aad8d1774ab1fc5c3fd5c4ab3984560a21033e6b36c995c78ac",
+    "contracts/NqcMorphoSponsoredLiquidation.sol": "b305c52d06538a20dd4cef1769475d5e47059711122130363508b3ad6e33c9a1",
+    "economic_ledger.py": "a1e934e98961ca092dcfdce0b3d77d98fb22a0d3eb88bc0d223326a355193f5f",
+    "evm_hash.py": "03c30c46553ce49b355a47fe94890fea64cfecb391ab1093042f32ed58dd3e25",
+    "fixtures/callback_hash_parity.hex": "f3719843ccd4068c7b65550d5a50eb6d6386fdbffc0d7f4884db005ededa7075",
+    "fixtures/calls_parity.hex": "48289a7e6d31a79760daa4a5a34cd3cdcf47c1fd013733ecc0616d16361e95de",
+    "fixtures/case_b_replay_requests.json": "235f2c11ccde669838fcfe5443d56991f6a1b84a82fe9da98bb06625311dfbec",
+    "fixtures/flashloan_abi_parity.hex": "2d83c21f5dfe54ea7d8c2c8be72c33ec4a49c4ef0930dd72547b6fbe34a3889d",
+    "fixtures/illustrative.json": "499ff51f947bc404ce0259de5e3aa3635552ef1509456e1587f4a3d6205d0b9f",
+    "fixtures/interest_parity.hex": "fdd7c924c78f18e25c4aec27c9c4ffb11d4461f26301b580777e43cb830a4fb6",
+    "fixtures/math_parity.hex": "e40b02c76ad40fb04b45c9cabc8d1774301a7d78a2e52234cbabfe3b9e3b4f5e",
+    "fixtures/synthetic_two_transaction_bundle.json": "8cf145376192cc852d19f1302c55335fad168217b35ccad2e1494156ec65b529",
+    "foundry.toml": "b054872cb72e758a981659b00dadab5ccb4724fddd8002d4e849ddfd67431189",
+    "generate_parity_fixtures.py": "55a4223e664058e2f2f7ad7735783ab6587e5214e07241f9ab8ac33a2009ea66",
+    "historical_prestate_probe.py": "2194188745af41288ef5475e9b1ef9324ddbebd8959d82310f66adb5045601d9",
+    "historical_receipt_gate.py": "5af2c1bc74fbaa84f9856279f0ee3ea44ca3e46ee48b1ffedd8815f13c492803",
+    "historical_trace_audit.py": "50b0883b15a157a7e6f935bbde781eae3bbac0e7fc9f2534114d91af240b7834",
+    "liquidity_boundary_model.py": "b1657c5c1d33e2b4edc0e1d801c0f399ecfac86572cc909ec8a2b21b5490f19b",
+    "morpho_interest_math.py": "1bcedb697778acf8ddd1ea9407749bce8cdc532dcf236cfb1e9963b351fddf31",
+    "morpho_liquidation_math.py": "3fe70ba8827ded0d450374b04e74139efbdc81ba6a78352c8d628e45fa99a6fa",
+    "observations/ethereum_morpho_2026-06-26_market_params.json": "e75e7c6cf9fce64b02b7f168cdf23aa6252066b2196158d3fbba7140f0b79046",
+    "observations/ethereum_morpho_2026-06-26_seed.json": "a656ff529860a6c306d8a68e83b4897b8db3b3b1ecbe794ab6956cb0c0f01c7f",
+    "observations/ethereum_morpho_2026-10-14_complex_winner.json": "6a7fe148558a9015d34d48be1184cd07c2e2927bc2a014b9b5ee83d608d0a3fb",
+    "preflight.py": "43508344d7bfb68d3a3759c7e06f7d7f3dc0238bd4b01748d9f27e44d56647ce",
+    "reference/bundler3/src/interfaces/IBundler3.sol": "d81fa29000ae7f8b306820b9144bf503caaa90419414a2d2f6581aef34d65aa1",
+    "reference/manifest.json": "a4a6f0c46871a9259583ceede61cd28b5fedd53e8ae480be480092c0fd9cab93",
+    "reference/morpho-blue/src/libraries/ConstantsLib.sol": "c8a5e5e569f95547e79f361a110a651857459288888542edff4fadc51091fc41",
+    "reference/morpho-blue/src/libraries/MathLib.sol": "61c0e20da6b026a356ed86d47da921ef2d69f65e40d9c8b97e7ae18ad497aa22",
+    "reference/morpho-blue/src/libraries/SharesMathLib.sol": "bfd74b35b0d9787dc0858c17a2655c2ae4ea9a9bcb68ccbe6fc5c09b36b6ff54",
+    "requirements.txt": "b822d5c3f40328f2ad78cc72c7b13ca3536d2a241428e4f1c539436ead9a5f5b",
+    "tests/test_bundle_gate.py": "9632c148ca9bd3342ad2814d30e78e542017afb52565508e8494033ee95630fa",
+    "tests/test_bundler3_abi.py": "761ef22cb5176c9f630002d7d2b8a9f330beda62a07a9dca2cf993a0efce299c",
+    "tests/test_chain_seed.py": "2f76daad3d72fef8e8e3a95c13fe00037affa04811f81425a5fdf4601882f3bf",
+    "tests/test_economic_ledger.py": "cee48cf81f945ae3092dab49910d71edd4cf9a082918844257e32c70c74198a1",
+    "tests/test_evm_hash.py": "bd0c74527414e0915ff005c1f767b14e5f426abca57daf89c37812c89c8fd0f4",
+    "tests/test_historical_prestate_probe.py": "7fb644368ebd35f4bbd6f1cfdc32e87371e9255a2def7ba8bef80e185e5288e9",
+    "tests/test_historical_receipt_gate.py": "2fe56c6ca724d6e7f4fd8346b47456fba18aa9e1a8ce017b205fd7f71fa7acc8",
+    "tests/test_historical_trace_audit.py": "4f6e96fd1213a5a52fe49a1e0fb152c6ddd7021a635d24244a6b052eaafdeb24",
+    "tests/test_liquidity_boundary_model.py": "ce5ac9c1fd6586af06e420bd86673e9198379f704d5c6396c9867a2fc234f86a",
+    "tests/test_morpho_interest_math.py": "74291429ab61c8a0c90145efa2cf0436f5c7893e51abc94ce4fa6eceac9ba265",
+    "tests/test_morpho_liquidation_math.py": "5b88a54b9627333efd35193ae408aad419686a05fb316515567e1e1a935e5ccc",
+    "tests/test_preflight.py": "3eb38c4a08904956fb1b9ac444bac0d69ce15170f755434f5760927bf77bd52a",
+    "tests/test_reference_inputs.py": "3c16f0a4e9ca60d45d30ff4f7a4082080fa4995b95e7a091330d83f93b526ccb",
+    "tests-core/NqcBundlerOriginal.t.sol": "270ffb34b940a8fb4ff6f9d16592a2f5fab31b2b2a829e68103af5202410f2f7",
+    "tests-core/NqcLiquidityBoundary.t.sol": "ce518fb908d3beebe23fee76403c7cc749130357d0144adf7b3a6162c6a6e332",
+    "tests-core/NqcOriginalMorpho.t.sol": "efe26c09cb7886c633f0c97e192bd3f484b47af51170d1e0a17024bedf35d65b",
+    "tests-solidity/NqcMorphoSponsoredLiquidationMock.t.sol": "0e0c3272ec7f3e4c209e7455526aca45493edf71d825b9fe70bc19d35e4e802d",
+    "tests-solidity/ReferenceParity.t.sol": "36b7ccbdba30c6c73bbed39b1494582250cf041f59f8276c7fdef5f3410b6699",
+    "toolchain.json": "c54854b4281f79f935864078a77630b721957dd4778ef12f5e44aa1389d0085c"
+  },
+  "economically_admitted_authentic_operations": 0,
+  "certified": false
+}

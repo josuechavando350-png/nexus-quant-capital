@@ -48,7 +48,7 @@ PYTHONDONTWRITEBYTECODE=1 /tmp/nqc-python/bin/python -m unittest discover -v -s 
 /tmp/nqc-toolchain/node_modules/.bin/forge test --offline --use /tmp/nqc-toolchain/solc-0.8.24 -vv
 ```
 
-Expected current result: 136 Python and 33 Solidity test functions pass. The
+Expected current result: 141 Python and 33 Solidity test functions pass. The
 Solidity suite includes 256 seeded fuzz iterations and 130 arithmetic parity
 vectors plus ABI tests. `--check` does not silently regenerate the committed
 vectors. To intentionally regenerate after a reviewed model change, omit it,
@@ -67,10 +67,10 @@ git -C /tmp/nqc-bundler3 submodule update --init lib/morpho-blue lib/openzeppeli
 git -C /tmp/nqc-bundler3/lib/permit2 submodule update --init lib/solmate
 python3 compile_morpho_reference.py --source /tmp/nqc-morpho-blue --solc /tmp/nqc-toolchain/solc-0.8.19
 python3 compile_bundler_reference.py --source /tmp/nqc-bundler3 --solc /tmp/nqc-toolchain/solc-0.8.28
-FOUNDRY_PROFILE=core /tmp/nqc-toolchain/node_modules/.bin/forge test --offline --use /tmp/nqc-toolchain/solc-0.8.24 --match-path 'tests-core/*.t.sol' -vv
+# Build the Uniswap reference below before running all tests-core suites.
 ```
 
-Expected: 8 integration tests pass. Combined with default profile: **41 Solidity
+Expected after the Uniswap build below: 15 integration tests pass. Combined with default profile: **48 Solidity
 functions**. `--match-path` prevents imported mock test contracts from being counted
 a second time. No onchain deployment occurs; `create` executes inside Foundry only.
 Compiler scripts read pinned Git blobs, verify binary hashes, and never rewrite
@@ -135,3 +135,36 @@ Expected: isolation verifier and 9 regressions pass. Original source object stor
 is unavailable, so `original_objects_checked=false` is expected and must be
 reported. No Rust code changes or Rust test execution are part of this increment.
 No original PFT/Census certificate is renewed by any of these checks.
+
+
+## Original Uniswap pair and liquidity boundary continuation
+
+The expanded core profile also requires the pair artifact. No package dependency
+or public deployment is needed. From this experimental directory:
+
+```sh
+git clone https://github.com/Uniswap/v2-core /tmp/nqc-uniswap-v2
+git -C /tmp/nqc-uniswap-v2 checkout --detach 6a9e7c97860676e0992f22a49665760444c1cdf5
+curl -fL 'https://raw.githubusercontent.com/ethereum/solc-bin/gh-pages/linux-amd64/solc-linux-amd64-v0.5.16+commit.9c3226ce' -o /tmp/nqc-toolchain/solc-0.5.16
+```
+
+Verify SHA-256 is
+`a15f01700ec7e02f91bbdfd4b6ff4450b3c2decae173e4f41910a3cfbaf5d3d3`
+before executing it; the build script also rejects a mismatched compiler.
+
+```sh
+chmod +x /tmp/nqc-toolchain/solc-0.5.16
+python3 compile_uniswap_reference.py --source /tmp/nqc-uniswap-v2 --solc /tmp/nqc-toolchain/solc-0.5.16
+FOUNDRY_PROFILE=core /tmp/nqc-toolchain/node_modules/.bin/forge test --offline --use /tmp/nqc-toolchain/solc-0.8.24 --match-path 'tests-core/*.t.sol' -vv
+FOUNDRY_PROFILE=core /tmp/nqc-toolchain/node_modules/.bin/forge test --offline --use /tmp/nqc-toolchain/solc-0.8.24 --match-path 'tests-core/NqcLiquidityBoundary.t.sol' -vvvv
+/tmp/nqc-python/bin/python liquidity_boundary_model.py
+# Last command exits 2: synthetic state, not an economically admitted operation.
+sha256sum -c evidence/2026-10-17-continuation/SHA256SUMS
+gzip -dc evidence/2026-10-17-continuation/liquidity-boundary-traces.log.gz
+```
+
+The complete compressed trace is checked against exact Python output and failure
+predictions by the default Python suite. The new core suite tests 16 distinct
+liquidity configurations, plus stale-order/donation and excessive-budget cases.
+Compilation initially required an explicit integer cast for a rational constant;
+no economic assertion was relaxed to obtain the successful execution.

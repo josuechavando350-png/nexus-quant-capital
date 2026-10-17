@@ -4,7 +4,7 @@
 
 Branch: `research/morpho-sponsored-gas-20261016` only.
 Starting commit: `37ee15bb48a7a002a60e473e56c2ee7b90b2f299`.
-Published correction head: `b29db31c0268869e6e97c7bb16423809fe817dff`.
+Published baseline independently checked and reproduced: `fd9c1ffbabcd1f5a7f88102e0b9ee5cdfcf26b2e`.
 The current file and subsequent additions belong to the research commit that
 contains them; obtain its exact identity with `git rev-parse HEAD` and
 `git log -1 -- RESEARCH_STATUS.md`. A file cannot contain its own commit hash.
@@ -26,28 +26,31 @@ Contract creation in tests occurs only in the local EVM test process.
 
 ## Latest executed verification
 
-The previously reported **132 Python / 39 Solidity** results were a real local
-checkpoint. This continuation adds four trace-provenance regressions and two
-original-core liquidity tests. Current result:
+Checkpoints **132/39** and **136/41** were local results; the latter was
+re-executed at `fd9c1ff` before this continuation. New tests replace fixed-price
+swap assumptions with original Uniswap V2 behavior and verify observed accounting.
+Current result:
 
 | Suite | Passed | Failed | Skipped |
 | --- | ---: | ---: | ---: |
-| Experimental Python | **136** | 0 | 0 |
+| Experimental Python | **141** | 0 | 0 |
 | Default Solidity: 29 executor tests + 4 parity tests | **33** | 0 | 0 |
-| Original-source Solidity: 4 Morpho + 4 Bundler integration tests | **8** | 0 | 0 |
-| Solidity total | **41** | 0 | 0 |
+| Original-source Solidity: 4 Morpho + 4 Bundler + 7 liquidity-boundary tests | **15** | 0 | 0 |
+| Solidity total | **48** | 0 | 0 |
 | Repository isolation regressions | **9** | 0 | 0 |
 
 The Solidity totals count test functions, not fuzz iterations or vectors. One
 balance-invariant test runs 256 deterministic fuzz cases. Parity compares 65
 liquidation and 65 interest vectors plus nested ABI/callback encoding.
-See `evidence/2026-10-17/validation-run.json`, `final-*.log` and `SHA256SUMS`.
+Latest run: `evidence/2026-10-17-continuation/validation-run.json`, logs and
+`SHA256SUMS`. Previous evidence remains unchanged under `evidence/2026-10-17/`.
 Local checks do not imply a remote CI run. Legacy workflows remain disabled.
 
 Environment: Linux x86_64, Python 3.12.14, PyCryptodome 3.23.0, Forge 1.7.1
 (commit `4072e48705af9d93e3c0f6e29e93b5e9a40caed8`). NQC uses solc
 0.8.24, Cancun, optimizer 200, no via-IR. Original Morpho is built with solc
 0.8.19/Paris/optimizer 200; Bundler3 and adapter with 0.8.28/Cancun/via-IR/999999.
+The original Uniswap V2 pair uses 0.5.16/Istanbul/999999 optimizer runs.
 Binary hashes and complete free setup commands: `toolchain.json`, `REPRODUCE.md`.
 
 Core commands, from this directory with the toolchain installed as documented:
@@ -96,7 +99,8 @@ reports `original_objects_checked=false`; no historical recertification claimed.
   liquidation; wrong callback hash and insufficient conversion roll back.
 - Both local routes start the operator without ETH or loan tokens. The harness
   supplies artificial external market/DEX liquidity and does not prove EOA gas
-  funding. B still lacks real DEX and native sponsor-settlement integration.
+  funding. B now has local original-pair conversion and synthetic native payments; historical
+  DEX state and authenticated sponsor settlement remain unproved.
 - New liquidity comparison: A's callback works with zero Morpho debt-token cash;
   B's flash route fails in that state. External DEX liquidity remains essential.
 - Per-asset economic ledger separates liquidation payment, flash principal,
@@ -111,7 +115,16 @@ reports `original_objects_checked=false`; no historical recertification claimed.
   gives 1651296044494913 wei-equivalent arithmetically, not certified consolidated
   profit, and never NQC P&L.
 
-Detailed evidence, architecture comparison and accounting: `RESEARCH_FINDINGS.md`.
+Detailed baseline: `RESEARCH_FINDINGS.md`. New controlled experiments, EVM traces,
+fee/impact accounting and provider findings: `LIQUIDITY_BOUNDARY_RESULTS.md`.
+
+New results: original pair confirms A settles with no Morpho loan cash while B
+needs all 8 WETH (one wei less reverts). Small pools block both routes. The old
+0.5 ETH allocation is not covered at the oracle-aligned pool price. An earlier
+swap invalidates both plans; donated route balances stay untouched. Python
+reconciles 21 EVM scenario rows. Historical audit now cross-checks normalized
+token movements against direct token calls, retaining unknown balances as null.
+Economically admitted authentic operations remain **0**.
 **No NQC realized gains are certified. Neither $0 architecture is yet economically
 validated. No Titan/Quasar sponsorship of NQC has been demonstrated.**
 
@@ -121,7 +134,9 @@ validated. No Titan/Quasar sponsorship of NQC has been demonstrated.**
    Case B index 1 requires its one prior transaction; case A index 226 requires
    226. Parent-block calls and winner traces are insufficient by themselves.
 2. Public RPC access: original archive probe failed; continuation basic reads
-   returned PublicNode HTTP 403 and Llama HTTP 405. This is an access blocker,
+   returned PublicNode HTTP 403 and Llama HTTP 405; new 1RPC/dRPC reads returned
+   HTTP 405/403. Etherscan retrieval also failed. dRPC trace methods are documented
+   as paid-only and were not attempted. This is an access blocker,
    not evidence that a historical state cannot exist. Free indexer quota exhausted.
 3. Historical runtime/immutables: source snapshots and partially verified explorer
    metadata agree, but actual code identity at the chosen prestate is unproved.

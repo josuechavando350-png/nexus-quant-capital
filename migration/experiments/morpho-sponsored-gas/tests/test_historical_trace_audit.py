@@ -89,3 +89,11 @@ class TraceAuditTests(unittest.TestCase):
     def test_receipt_input_must_match_trace_prefix(self):
         self.receipt["data"]["raw_input"] = "0xdeadbeef"
         with self.assertRaises(ValueError): self.run_audit()
+
+    def test_token_receipt_must_match_executed_transfer(self):
+        self.receipt["data"]["token_transfers"][0]["total"]["value"] = "1"
+        with self.assertRaises(ValueError): self.run_audit()
+
+    def test_normalized_wrap_must_match_native_flow(self):
+        self.receipt["data"]["token_transfers"][2]["total"]["value"] = "1"
+        with self.assertRaises(ValueError): self.run_audit()

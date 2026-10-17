@@ -5,6 +5,7 @@ The input provider is NOT a consensus proof or independent replay. Evidence read
 inside the winner's transaction is used for parity only, not a pre-winner quote.
 """
 import json
+from collections import Counter
 from dataclasses import asdict
 from datetime import datetime
 from pathlib import Path
@@ -148,6 +149,57 @@ def inspect(trace: dict, block: dict, receipt: dict) -> dict:
     residual = deposits - quote.repaid_assets - withdrawals
     if withdrawals != coinbase_paid or native_delta != 0:
         raise ValueError("native flows differ from observed case B")
+
+    # Cross-check normalized indexer token movements against direct token calls.
+    # WETH mint/burn rows may be normalized from Deposit/Withdrawal events;
+    # they are not asserted to be literal ERC-20 Transfer logs.
+    if r.get("token_transfers_overflow") is not False:
+        raise ValueError("incomplete token movement list")
+    actual_transfers = []
+    for t in tree.values():
+        a = t["action"]
+        if a["callType"] != "call":
+            continue
+        selector, payload = a["input"][:10], "0x" + a["input"][10:]
+        if selector == "0xa9059cbb":
+            to, amount = uints(payload, 2)
+            source = a["from"].lower()
+        elif selector == "0x23b872dd":
+            source_int, to, amount = uints(payload, 3)
+            if source_int >= 2**160:
+                raise ValueError("noncanonical transfer source")
+            source = "0x" + source_int.to_bytes(20, "big").hex()
+        else:
+            continue
+        if to >= 2**160:
+            raise ValueError("noncanonical transfer recipient")
+        actual_transfers.append((a["to"].lower(), source, "0x" + to.to_bytes(20, "big").hex(), amount))
+    expected_transfers = Counter([
+        (addresses[1], MORPHO, EXECUTOR, quote.seized_assets),
+        (addresses[1], EXECUTOR, "0x52aa899454998be5b000ad077a46bbe360f4e497", quote.seized_assets),
+        (WETH, EXECUTOR, MORPHO, quote.repaid_assets),
+    ])
+    if Counter(actual_transfers) != expected_transfers:
+        raise ValueError("unsupported token flows outside case B ledger")
+    receipt_transfers = []
+    normalized = Counter()
+    for t in r["token_transfers"]:
+        edge = (t["token"]["address_hash"].lower(), t["from"].lower(), t["to"].lower(), int(t["total"]["value"]))
+        normalized[(t["type"], *edge)] += 1
+        if t["type"] == "token_transfer":
+            receipt_transfers.append(edge)
+    if Counter(receipt_transfers) != Counter(actual_transfers):
+        raise ValueError("receipt token transfers differ from executed token calls")
+    zero = "0x" + "00"*20
+    expected_normalized = Counter(("token_transfer", *edge) for edge in actual_transfers)
+    expected_normalized[("token_minting", WETH, zero, EXECUTOR, deposits)] += 1
+    expected_normalized[("token_burning", WETH, EXECUTOR, zero, withdrawals)] += 1
+    if normalized != expected_normalized:
+        raise ValueError("normalized wrapping movements differ from native trace")
+    collateral_delta = sum(amount*((to==EXECUTOR)-(source==EXECUTOR))
+                           for token,source,to,amount in actual_transfers if token==addresses[1])
+    if collateral_delta != 0:
+        raise ValueError("collateral not fully converted")
     return {
         "status":"INDEXER_TRACE_ARITHMETIC_RECONCILED_NOT_FORK_REPRODUCED",
         "transaction_hash": TX, "block_hash": BLOCK_HASH, "tx_index": 1,
@@ -164,6 +216,20 @@ def inspect(trace: dict, block: dict, receipt: dict) -> dict:
         "coinbase_received_wei":coinbase_paid,
         "sender_gas_cost_wei":int(r["fee"]["value"]),
         "residual_minus_sender_gas_arithmetic_wei":residual-int(r["fee"]["value"]),
+        "ledger": {
+            "executor_weth": {"initial_observed":initial_weth,"wrapped_in":deposits,
+                              "debt_out":quote.repaid_assets,"unwrap_out":withdrawals,
+                              "final_inferred":initial_weth+residual},
+            "executor_collateral": {"initial":None,"seized_in":quote.seized_assets,
+                                    "converted_out":quote.seized_assets,"delta":collateral_delta,"final":None},
+            "executor_native": {"initial":None,"conversion_in":deposits,"wrap_out":deposits,
+                                "unwrap_in":withdrawals,"coinbase_out":coinbase_paid,"delta":native_delta,"final":None},
+            "sender_gas_out_wei":int(r["fee"]["value"]),
+            "dex_output_after_venue_costs_wei":deposits,
+            "dex_fee_separately_verified_wei":None,"price_impact_separately_verified_wei":None,
+            "builder_payment_attributed_wei":None,"proposer_payment_attributed_wei":None,
+            "financing_outside_transaction":None,"consolidated_operator_final_assets":None,
+        },
         "builder_income_wei":None, "nqc_realized_profit":None,
         "certified":False, "live_executable":False,
         "limitations":["Single indexer; no state-root proof or independent fork replay",

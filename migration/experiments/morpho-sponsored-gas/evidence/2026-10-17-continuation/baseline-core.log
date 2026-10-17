@@ -1,0 +1,19 @@
+Compiling 6 files with Solc 0.8.24
+Solc 0.8.24 finished in 2.18s
+Compiler run successful!
+
+Ran 4 tests for tests-core/NqcBundlerOriginal.t.sol:NqcBundlerOriginalTest
+[PASS] testBundlerFlashRouteNeedsMorphoLoanCash() (gas: 229673)
+[PASS] testBundlerInsufficientSwapRollsBack() (gas: 361788)
+[PASS] testBundlerOriginalFlashLiquidationReentryRepays() (gas: 331316)
+[PASS] testBundlerWrongCallbackHashRollsBack() (gas: 151770)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 8.90ms (5.39ms CPU time)
+
+Ran 4 tests for tests-core/NqcOriginalMorpho.t.sol:NqcOriginalMorphoTest
+[PASS] testCallbackLiquidationWorksWithoutMorphoLoanCash() (gas: 581812)
+[PASS] testOriginalMorphoCallbackRepaymentAndBalanceConservation() (gas: 490047)
+[PASS] testOriginalMorphoChangedOracleInvalidatesPriorPlan() (gas: 224208)
+[PASS] testOriginalMorphoRejectsHealthyPosition() (gas: 220633)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 9.45ms (6.69ms CPU time)
+
+Ran 2 test suites in 13.54ms (18.35ms CPU time): 8 tests passed, 0 failed, 0 skipped (8 total tests)

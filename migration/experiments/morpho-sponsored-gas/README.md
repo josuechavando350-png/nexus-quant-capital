@@ -1,7 +1,7 @@
-> **Estado vigente — 2026-10-17 UTC:** 136 pruebas Python y 41 pruebas Solidity
-> aprobadas localmente (132/39 fue el punto de control anterior), más 9 pruebas
+> **Estado vigente — 2026-10-17 UTC:** 141 pruebas Python y 48 pruebas Solidity
+> aprobadas localmente (136/41 fue el punto de control anterior), más 9 pruebas
 > de aislamiento. Consulte [RESEARCH_STATUS.md](RESEARCH_STATUS.md),
-> [REPRODUCE.md](REPRODUCE.md) y [RESEARCH_FINDINGS.md](RESEARCH_FINDINGS.md).
+> [REPRODUCE.md](REPRODUCE.md) y [LIQUIDITY_BOUNDARY_RESULTS.md](LIQUIDITY_BOUNDARY_RESULTS.md).
 > Las secciones anteriores por fecha se conservan como historial: sus menciones
 > de Solidity pendiente no describen la verificación actual. El fork histórico,
 > el patrocinio y la viabilidad con $0 continúan pendientes.

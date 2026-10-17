@@ -1,0 +1,19 @@
+{
+  "scope": "PUBLIC_READ_ONLY_CONNECTIVITY",
+  "attempts": [
+    {
+      "endpoint": "https://public.1rpc.io/eth",
+      "method": "eth_chainId",
+      "at_utc": "2026-10-17T03:33:26.560476+00:00",
+      "error_type": "HTTPError",
+      "error": "HTTP Error 405: Not Allowed"
+    },
+    {
+      "endpoint": "https://eth.drpc.org/",
+      "method": "eth_chainId",
+      "at_utc": "2026-10-17T03:33:26.563742+00:00",
+      "error_type": "HTTPError",
+      "error": "HTTP Error 403: Forbidden"
+    }
+  ]
+}

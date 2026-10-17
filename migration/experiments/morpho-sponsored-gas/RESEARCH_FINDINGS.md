@@ -1,3 +1,5 @@
+> Continuation: [LIQUIDITY_BOUNDARY_RESULTS.md](LIQUIDITY_BOUNDARY_RESULTS.md) adds original-pair execution, variable liquidity and native test payments. This file preserves the earlier checkpoint.
+
 # Findings — 2026-10-17 UTC (2026-10-16 Mexico City)
 
 ## Decision supported by present evidence
