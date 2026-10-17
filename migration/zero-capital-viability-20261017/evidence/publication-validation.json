@@ -1,0 +1,33 @@
+[
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-v",
+      "-s",
+      "migration",
+      "-p",
+      "test_isolation.py"
+    ],
+    "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital",
+    "started_at_utc": "2026-10-17T15:54:03.931770+00:00",
+    "ended_at_utc": "2026-10-17T15:54:05.047612+00:00",
+    "exit_code": 0,
+    "output": "publish-isolation.log",
+    "sha256": "6c08c8bf7aee32e777175da45e6cfd88976e546f78e7fe30710a28f74c7caacb"
+  },
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "migration/verify_isolation.py"
+    ],
+    "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital",
+    "started_at_utc": "2026-10-17T15:54:05.047649+00:00",
+    "ended_at_utc": "2026-10-17T15:54:05.146611+00:00",
+    "exit_code": 0,
+    "output": "publish-verifier.log",
+    "sha256": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940"
+  }
+]
