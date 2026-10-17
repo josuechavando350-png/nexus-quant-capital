@@ -1,0 +1,51 @@
+[
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "/workspace/scratch/f380716a269b/nqc-comparison-reference/migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/svr_auction_finance_gate.py",
+      "--source",
+      "/workspace/scratch/f380716a269b/nqc-comparison-reference/migration/engine-v2-20261015/source/ci/nqc-census/weth-physical/script/NqcV2OneShotAtomicLocal.s.sol",
+      "--out",
+      "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/zero-capital-viability-20261017/evidence/reference-reproduction/aave-source-gate.json"
+    ],
+    "cwd": "/workspace/scratch/f380716a269b/nqc-comparison-reference",
+    "started_at_utc": "2026-10-17T15:50:07.951935+00:00",
+    "ended_at_utc": "2026-10-17T15:50:07.980614+00:00",
+    "exit_code": 0,
+    "output": "aave-source-gate.log",
+    "sha256": "059b4d0e691be69b486e5dbf317099a873f6c43dc8dce3ca26163fc361856464"
+  },
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-v",
+      "-s",
+      "/workspace/scratch/f380716a269b/nqc-comparison-reference/migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow",
+      "-p",
+      "test_svr_auction_finance_gate.py"
+    ],
+    "cwd": "/workspace/scratch/f380716a269b/nqc-comparison-reference",
+    "started_at_utc": "2026-10-17T15:50:07.980750+00:00",
+    "ended_at_utc": "2026-10-17T15:50:08.032782+00:00",
+    "exit_code": 0,
+    "output": "aave-reference-tests.log",
+    "sha256": "27f6ab7408e938d40186679189600bafe51553a48976832027dc60ea1d4ba696"
+  },
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "/workspace/scratch/f380716a269b/nqc-comparison-reference/migration/robinhood-real-state-replay-20261016/audit_result.py",
+      "--out",
+      "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/zero-capital-viability-20261017/evidence/reference-reproduction/robinhood-reconciliation.json"
+    ],
+    "cwd": "/workspace/scratch/f380716a269b/nqc-comparison-reference",
+    "started_at_utc": "2026-10-17T15:50:08.033223+00:00",
+    "ended_at_utc": "2026-10-17T15:50:08.115395+00:00",
+    "exit_code": 0,
+    "output": "robinhood-reconciliation.log",
+    "sha256": "faa194f292792c176f8ef144bd6a88bb74d05cd3344166516aad7df4e748ee8a"
+  }
+]

@@ -1,0 +1,35 @@
+[
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-v",
+      "-s",
+      "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/zero-capital-viability-20261017",
+      "-p",
+      "test_*.py"
+    ],
+    "started_at_utc": "2026-10-17T15:35:36.277191+00:00",
+    "ended_at_utc": "2026-10-17T15:35:36.373087+00:00",
+    "exit_code": 0,
+    "expected": 0,
+    "output": "comparison-tests.log",
+    "sha256": "a864c51570d97f75f6b045aea48e4750dd26a1d99d11af53a2ab8f109ca1da35"
+  },
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/zero-capital-viability-20261017/comparison_audit.py"
+    ],
+    "started_at_utc": "2026-10-17T15:35:36.373133+00:00",
+    "ended_at_utc": "2026-10-17T15:35:36.463601+00:00",
+    "exit_code": 2,
+    "expected": 2,
+    "output": "comparison-initial.json",
+    "sha256": "a204c7d1d4ee5e0e1af427cd30e5c7ef2e9955885103b28239f8353a93c9ce00",
+    "output_at_execution": "comparison.json",
+    "retention_note": "Final CLI overwrote the working report. Initial exact bytes recovered by removing only the two later metadata/sensitivity fields; SHA-256 matches the digest captured at original execution. No historical chain data reconstructed or invented."
+  }
+]

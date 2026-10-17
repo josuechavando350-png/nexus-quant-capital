@@ -1,0 +1,85 @@
+[
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/zero-capital-viability-20261017/reproduce_reference_audits.py",
+      "--source-dir",
+      "/workspace/scratch/f380716a269b/nqc-comparison-reference",
+      "--out-dir",
+      "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/zero-capital-viability-20261017/evidence/reference-reproduction"
+    ],
+    "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital",
+    "started_at_utc": "2026-10-17T15:50:07.910847+00:00",
+    "ended_at_utc": "2026-10-17T15:50:08.123271+00:00",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "output": "reference-reproduction.log",
+    "sha256": "b5b814970e090e03a172b310d6a2192712b87c3fbeb408ca1d5b15f80826a8bf"
+  },
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-v",
+      "-s",
+      "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/zero-capital-viability-20261017",
+      "-p",
+      "test_*.py"
+    ],
+    "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital",
+    "started_at_utc": "2026-10-17T15:50:08.123520+00:00",
+    "ended_at_utc": "2026-10-17T15:50:08.234239+00:00",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "output": "final-comparison-tests.log",
+    "sha256": "e1281da69e03273f06820297c5aa3a8bc15feaff1f84ee403aa8e7e8c5025563"
+  },
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/zero-capital-viability-20261017/comparison_audit.py"
+    ],
+    "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital",
+    "started_at_utc": "2026-10-17T15:50:08.234478+00:00",
+    "ended_at_utc": "2026-10-17T15:50:08.330893+00:00",
+    "exit_code": 2,
+    "expected_exit_code": 2,
+    "output": "comparison.json",
+    "sha256": "d6665d504eeceb82ba0b6e31e5a60a4ee25038434133f7081f8ee763692928b4"
+  },
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-v",
+      "-s",
+      "migration",
+      "-p",
+      "test_isolation.py"
+    ],
+    "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital",
+    "started_at_utc": "2026-10-17T15:50:08.331249+00:00",
+    "ended_at_utc": "2026-10-17T15:50:09.378925+00:00",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "output": "final-isolation.log",
+    "sha256": "68bf9a3e3f13b3ed7ef05e10f182a50d16f0a958bf57739cfe921ede5b399f31"
+  },
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "migration/verify_isolation.py"
+    ],
+    "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital",
+    "started_at_utc": "2026-10-17T15:50:09.379170+00:00",
+    "ended_at_utc": "2026-10-17T15:50:09.476528+00:00",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "output": "final-verifier.log",
+    "sha256": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940"
+  }
+]

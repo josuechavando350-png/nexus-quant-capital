@@ -1,0 +1,101 @@
+[
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "/workspace/scratch/f380716a269b/nqc-comparison-reference/migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/svr_auction_finance_gate.py",
+      "--source",
+      "/workspace/scratch/f380716a269b/nqc-comparison-reference/migration/engine-v2-20261015/source/ci/nqc-census/weth-physical/script/NqcV2OneShotAtomicLocal.s.sol",
+      "--out",
+      "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/zero-capital-viability-20261017/evidence/aave-source-gate.json"
+    ],
+    "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital",
+    "started_at_utc": "2026-10-17T15:33:02.495500+00:00",
+    "ended_at_utc": "2026-10-17T15:33:02.529386+00:00",
+    "exit_code": 0,
+    "output": "aave-source-gate.log",
+    "sha256": "059b4d0e691be69b486e5dbf317099a873f6c43dc8dce3ca26163fc361856464"
+  },
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-v",
+      "-s",
+      "/workspace/scratch/f380716a269b/nqc-comparison-reference/migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow",
+      "-p",
+      "test_svr_auction_finance_gate.py"
+    ],
+    "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital",
+    "started_at_utc": "2026-10-17T15:33:02.529431+00:00",
+    "ended_at_utc": "2026-10-17T15:33:02.583988+00:00",
+    "exit_code": 0,
+    "output": "aave-reference-tests.log",
+    "sha256": "27f6ab7408e938d40186679189600bafe51553a48976832027dc60ea1d4ba696"
+  },
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "/workspace/scratch/f380716a269b/nqc-comparison-reference/migration/robinhood-real-state-replay-20261016/audit_result.py",
+      "--out",
+      "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/zero-capital-viability-20261017/evidence/robinhood-reconciliation.json"
+    ],
+    "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital",
+    "started_at_utc": "2026-10-17T15:33:02.584027+00:00",
+    "ended_at_utc": "2026-10-17T15:33:02.662550+00:00",
+    "exit_code": 0,
+    "output": "robinhood-reconciliation.log",
+    "sha256": "faa194f292792c176f8ef144bd6a88bb74d05cd3344166516aad7df4e748ee8a"
+  },
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-v",
+      "-s",
+      "tests",
+      "-p",
+      "test_*.py"
+    ],
+    "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/experiments/morpho-sponsored-gas",
+    "started_at_utc": "2026-10-17T15:33:02.662582+00:00",
+    "ended_at_utc": "2026-10-17T15:33:03.247096+00:00",
+    "exit_code": 0,
+    "output": "morpho-python.log",
+    "sha256": "1aee5a7484f42cee63aafaa79ecc53c0252771206b079e7fbdbba9ce6c87d7ca"
+  },
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-v",
+      "-s",
+      "migration",
+      "-p",
+      "test_isolation.py"
+    ],
+    "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital",
+    "started_at_utc": "2026-10-17T15:33:03.247139+00:00",
+    "ended_at_utc": "2026-10-17T15:33:04.036290+00:00",
+    "exit_code": 0,
+    "output": "isolation.log",
+    "sha256": "91f88d8d9334195eba58b9cffc63303794e937d67d179bc752cb44f16bfe01ad"
+  },
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "migration/verify_isolation.py"
+    ],
+    "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital",
+    "started_at_utc": "2026-10-17T15:33:04.036321+00:00",
+    "ended_at_utc": "2026-10-17T15:33:04.141882+00:00",
+    "exit_code": 0,
+    "output": "isolation-verifier.log",
+    "sha256": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940"
+  }
+]

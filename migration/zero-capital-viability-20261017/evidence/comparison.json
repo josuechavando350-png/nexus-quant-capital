@@ -1,0 +1,4206 @@
+{
+  "scope": "OFFLINE_RECONCILIATION_AND_NECESSARY_CONDITIONS_NOT_EVM_REPLAY",
+  "reference_contexts": {
+    "aave": {
+      "chain_id": 1,
+      "block": 26142068,
+      "source_commit": "6693542e675f930a7ef0a4fd60cb72e7a6608845",
+      "asset": "USDC",
+      "decimals": 6,
+      "attributable_realized_owner": null
+    },
+    "robinhood": {
+      "chain_id": 4663,
+      "block": 66744162,
+      "transaction_index": 1,
+      "source_commit": "6693542e675f930a7ef0a4fd60cb72e7a6608845",
+      "balances_are_simulated": true,
+      "common_owner_of_fee_actors": null
+    },
+    "ethereum": {
+      "chain_id": 1,
+      "block": 26190955,
+      "transaction_index": 1,
+      "source_commit": "0f26557c1f83e12efcf364ece6cebd8505d2e2c2",
+      "operator": "external_liquidator_not_NQC"
+    }
+  },
+  "aave_zero_eoa_reserves": [
+    {
+      "scenario": "LOW_BASE_FEE_ILLUSTRATIVE",
+      "required_external_advance_wei": 15267168000000000,
+      "committed_external_advance_wei": null
+    },
+    {
+      "scenario": "MID_BASE_FEE_WITH_BUILDER_BID_ILLUSTRATIVE",
+      "required_external_advance_wei": 50890560000000000,
+      "committed_external_advance_wei": null
+    },
+    {
+      "scenario": "HIGH_BASE_FEE_WITH_BUILDER_BID_ILLUSTRATIVE",
+      "required_external_advance_wei": 178116960000000000,
+      "committed_external_advance_wei": null
+    }
+  ],
+  "robinhood_success": {
+    "flows": [
+      {
+        "id": "paymaster-charge",
+        "chain": 4663,
+        "asset": "native:ETH",
+        "from": "entrypoint_paymaster_deposit",
+        "to": "fixture_beneficiary",
+        "amount": 79616762214000
+      },
+      {
+        "id": "net-network-fee",
+        "chain": 4663,
+        "asset": "native:ETH",
+        "from": "transaction_gas_payer",
+        "to": "network_fee_collectors",
+        "amount": 57601054408000
+      }
+    ],
+    "actor_deltas": [
+      {
+        "chain": 4663,
+        "asset": "native:ETH",
+        "actor": "entrypoint_paymaster_deposit",
+        "delta": -79616762214000
+      },
+      {
+        "chain": 4663,
+        "asset": "native:ETH",
+        "actor": "fixture_beneficiary",
+        "delta": 79616762214000
+      },
+      {
+        "chain": 4663,
+        "asset": "native:ETH",
+        "actor": "network_fee_collectors",
+        "delta": 57601054408000
+      },
+      {
+        "chain": 4663,
+        "asset": "native:ETH",
+        "actor": "transaction_gas_payer",
+        "delta": -57601054408000
+      }
+    ],
+    "paymaster_cost_if_beneficiary_external_wei": 79616762214000,
+    "beneficiary_and_payer_delta_if_same_entity_wei": 22015707806000,
+    "all_three_consolidated_external_cost_wei": 57601054408000,
+    "incorrect_double_count_wei": 137217816622000,
+    "overstatement_if_all_three_consolidated_wei": 79616762214000,
+    "actual_common_ownership_proven": false,
+    "financing_commitment": null
+  },
+  "robinhood_included_failure": {
+    "flows": [
+      {
+        "id": "paymaster-charge",
+        "chain": 4663,
+        "asset": "native:ETH",
+        "from": "entrypoint_paymaster_deposit",
+        "to": "fixture_beneficiary",
+        "amount": 50201161200000
+      },
+      {
+        "id": "net-network-fee",
+        "chain": 4663,
+        "asset": "native:ETH",
+        "from": "transaction_gas_payer",
+        "to": "network_fee_collectors",
+        "amount": 39639718050000
+      }
+    ],
+    "actor_deltas": [
+      {
+        "chain": 4663,
+        "asset": "native:ETH",
+        "actor": "entrypoint_paymaster_deposit",
+        "delta": -50201161200000
+      },
+      {
+        "chain": 4663,
+        "asset": "native:ETH",
+        "actor": "fixture_beneficiary",
+        "delta": 50201161200000
+      },
+      {
+        "chain": 4663,
+        "asset": "native:ETH",
+        "actor": "network_fee_collectors",
+        "delta": 39639718050000
+      },
+      {
+        "chain": 4663,
+        "asset": "native:ETH",
+        "actor": "transaction_gas_payer",
+        "delta": -39639718050000
+      }
+    ],
+    "paymaster_cost_if_beneficiary_external_wei": 50201161200000,
+    "beneficiary_and_payer_delta_if_same_entity_wei": 10561443150000,
+    "all_three_consolidated_external_cost_wei": 39639718050000,
+    "incorrect_double_count_wei": 89840879250000,
+    "overstatement_if_all_three_consolidated_wei": 50201161200000,
+    "actual_common_ownership_proven": false,
+    "financing_commitment": null
+  },
+  "robinhood_token_surplus_before_costs": {
+    "chain_id": 4663,
+    "asset": "USDG as identified by reference route",
+    "raw_units": 32060665,
+    "decimals": 6,
+    "executable_usd_or_eth_conversion": null
+  },
+  "separate_topup_revert_sensitivity": {
+    "assumptions_wei": {
+      "executable_sale_loan_units": 0,
+      "flash_received_loan_units": 0,
+      "liquidation_repaid_loan_units": 0,
+      "flash_returned_loan_units": 0,
+      "finance_fee_loan_units": 0,
+      "other_loan_costs_units": 0,
+      "converted_loan_units": 0,
+      "executable_native_out_wei": 0,
+      "sponsor_payment_wei": 0,
+      "coinbase_payment_wei": 0,
+      "sponsor_advance_wei": 1000000000000000,
+      "advance_returned_wei": 600000000000000,
+      "sponsor_topup_actual_gas_wei": 20000000000000,
+      "builder_other_verified_receipts_wei": 0,
+      "builder_proposer_payment_wei": 0,
+      "builder_other_costs_wei": 0
+    },
+    "sponsor_loss_wei": 420000000000000,
+    "operator_failure_liability": null,
+    "commercial_commitment": null
+  },
+  "morpho_ethereum_case_b": {
+    "classification": "OBSERVED_ROUTE_RECONCILED_NOT_HISTORICAL_REPLAY",
+    "reference_commit": "9496626f71a761fc296dc3b2efbfd54c504e18f0",
+    "pool": "0xdd72157a021804141817d46d9852a97addfb9f59",
+    "liquidity_layer": "0x52aa899454998be5b000ad077a46bbe360f4e497",
+    "token_in": "0xbf5495efe5db9ce00f80364c8b423567e58d2110",
+    "token_out": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "swap_in": 24343983926960874121,
+    "swap_out_wei": 26409680973611000000,
+    "minimum_output_from_original_call": 0,
+    "recipient": "0x5ac9bc14376bf2727c6211960cf3cec1e2f295bd",
+    "operations": [
+      {
+        "token": "0xbf5495efe5db9ce00f80364c8b423567e58d2110",
+        "supply_amount": 24340940928969000000,
+        "borrow_amount": 0,
+        "withdraw_to": "0x0000000000000000000000000000000000000000",
+        "borrow_to": "0x0000000000000000000000000000000000000000",
+        "post_operation_packed_totals": 11075170400821418252,
+        "post_operation_packed_exchange_prices": 45671926166590716196341031100955121416739456647298676162560
+      },
+      {
+        "token": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "supply_amount": -26409680973611000000,
+        "borrow_amount": 0,
+        "withdraw_to": "0x5ac9bc14376bf2727c6211960cf3cec1e2f295bd",
+        "borrow_to": "0x0000000000000000000000000000000000000000",
+        "post_operation_packed_totals": 5012463446582405694187615167583356755436721554200260324372,
+        "post_operation_packed_exchange_prices": 50677578054785520366125937137450650521254892447289125109999
+      }
+    ],
+    "observed_storage_reads": [
+      {
+        "slot": "0x84481214d3f2018de0daf983b0d58307ac7a5294093d7fc9b6d961f4e9505ecb",
+        "name": "exchangePriceToken0Slot",
+        "value": 45671926166590716196341031100955121416739456647298676162560,
+        "temporal_scope": "inside winning transaction, before its Fluid operate calls"
+      },
+      {
+        "slot": "0xa1829a9003092132f585b6ccdd167c19fe9774dbdea4260287e8a8e8ca8185d7",
+        "name": "exchangePriceToken1Slot",
+        "value": 50677144369931456948158739903712472492294080815280717037807,
+        "temporal_scope": "inside winning transaction, before its Fluid operate calls"
+      },
+      {
+        "slot": "0xd62514f881626332ada207f8acb7ec0f33c4279ec263b57b1869255363590335",
+        "name": "supplyToken0Slot",
+        "value": 338662193172422928517598140269819909610791348199278147165807643161,
+        "temporal_scope": "inside winning transaction, before its Fluid operate calls"
+      },
+      {
+        "slot": "0xe3b9bd247a03c6620600a8c5dd00e3f5620c90d52d504fc2e744d0e6e1d85ccf",
+        "name": "supplyToken1Slot",
+        "value": 335782560197110817943826944200344546227071560438196210472380364823,
+        "temporal_scope": "inside winning transaction, before its Fluid operate calls"
+      }
+    ],
+    "collateral_transfer_minus_liquidity_supply_credit": 3042997991874121,
+    "gap_qualification": "Accounting gap consistent with revenue-cut/precision effects in reference source; NOT a separately verified total DEX fee or price impact",
+    "oracle_value_wei_fraction": "6619150616587949260904406305602535377/250000000000000000",
+    "oracle_value_minus_sale_wei_fraction": "16730373185199260904406305602535377/250000000000000000",
+    "sale_minus_debt_wei": 369942447954007585,
+    "coinbase_out_wei": 368092735714237547,
+    "sender_gas_out_wei": 198416195275125,
+    "incremental_residual_after_known_costs_upper_bound_wei": 1651296044494913,
+    "cost_frontier": {
+      "scope": "UNCHANGED_EXTERNAL_ROUTE_AND_COINBASE_BID_ONLY",
+      "gas_units_assumption": 745509,
+      "max_total_gas_price_wei_for_strict_positive_before_unknown_costs": 2481140052,
+      "additional_cost_that_consumes_all_remaining_residual_wei": 1651296044494913,
+      "max_additional_cost_wei_for_strict_positive": 1651296044494912,
+      "counterfactual_gas_scenarios": [
+        {
+          "gas_price_wei": 266148625,
+          "residual_before_unknown_obligations_wei": 1651296044494913
+        },
+        {
+          "gas_price_wei": 1000000000,
+          "residual_before_unknown_obligations_wei": 1104203239770038
+        },
+        {
+          "gas_price_wei": 3000000000,
+          "residual_before_unknown_obligations_wei": -386814760229962
+        },
+        {
+          "gas_price_wei": 5000000000,
+          "residual_before_unknown_obligations_wei": -1877832760229962
+        },
+        {
+          "gas_price_wei": 10000000000,
+          "residual_before_unknown_obligations_wei": -5605377760229962
+        }
+      ],
+      "nqc_gas_or_sponsor_estimate": false
+    },
+    "upper_bound_scope": "Observed flows only, before unknown external obligations; not a counterfactual NQC quote",
+    "initial_weth_excluded_from_income_wei": 6392502690919791,
+    "final_weth_inferred_wei": 8242214930689829,
+    "dex_fee_separately_verified": null,
+    "price_impact_separately_verified": null,
+    "sponsor_cost": null,
+    "historical_runtime_verified": false,
+    "pretransaction_state_reconstructed": false,
+    "nqc_profit_certified": false
+  },
+  "temporal_status_all_routes": "PENDIENTE_NO_COMPLETE_COMPARABLE_RECEPTION_AND_CUTOFF",
+  "cohort": {
+    "transactions": [
+      {
+        "chain_id": 1,
+        "tx_hash": "0x0254421d1109a41c39647ccfff47bcfeb5df91b9882265a1d7c509f1cfbaa693",
+        "block": 26159055,
+        "tx_index": 6,
+        "event_count": 1,
+        "log_indices": [
+          71
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x07f3e20b4fa40ba5ddd4c5a007f94a30ac707e01920c4c2ecf9da0bc05703c43",
+        "block": 25996047,
+        "tx_index": 2,
+        "event_count": 1,
+        "log_indices": [
+          26
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x099b47acda9117fa6c037d0c1474b2c76586894dc2245b75b86fb3e9a502995a",
+        "block": 26148536,
+        "tx_index": 255,
+        "event_count": 1,
+        "log_indices": [
+          463
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x0a32c4c1cd18c00cb496e166294a78bca60196a59ac883081ec8489ab19e511d",
+        "block": 26179431,
+        "tx_index": 209,
+        "event_count": 1,
+        "log_indices": [
+          732
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x0f9d5e470fc18ba52b41487ea448187810da86754ded5c79b89f7865a9e75d3b",
+        "block": 26061023,
+        "tx_index": 346,
+        "event_count": 1,
+        "log_indices": [
+          940
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x13c607e05cad5809a4af4e2daa201bd0d564fb687e408bc028ead0134ad424eb",
+        "block": 26064808,
+        "tx_index": 44,
+        "event_count": 1,
+        "log_indices": [
+          168
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x14cf205b28eb70f4d2bdd6faf7c9153d15159eaa3e623f9eed28d729aed34bec",
+        "block": 26017840,
+        "tx_index": 176,
+        "event_count": 1,
+        "log_indices": [
+          971
+        ],
+        "loan_assets": [
+          "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x179e571c05e496627241763b0a63cac8c82532d6e66314a522871e32f43d5e84",
+        "block": 26040700,
+        "tx_index": 124,
+        "event_count": 1,
+        "log_indices": [
+          960
+        ],
+        "loan_assets": [
+          "0x8292bb45bf1ee4d140127049757c2e0ff06317ed"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x187eafef734d662396dd551fdf5532a61b1c51ec558240d30552a47fba31efc3",
+        "block": 26062514,
+        "tx_index": 78,
+        "event_count": 1,
+        "log_indices": [
+          328
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x19455affbdeb4b200f70353de4bd6e44a67423353233ae6d85884bc7535aa190",
+        "block": 26040703,
+        "tx_index": 65,
+        "event_count": 1,
+        "log_indices": [
+          987
+        ],
+        "loan_assets": [
+          "0x8292bb45bf1ee4d140127049757c2e0ff06317ed"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x19aac52f4867eeec94152b60e1585c6953cff9d1b4e38feda124432d0b25e789",
+        "block": 26028411,
+        "tx_index": 1,
+        "event_count": 1,
+        "log_indices": [
+          15
+        ],
+        "loan_assets": [
+          "0x00000000efe302beaa2b3e6e1b18d08d69a9012a"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x1ae9f6d92702a271abdf9931ee7df3814c431b353865cf4190070ca965bf427a",
+        "block": 26062497,
+        "tx_index": 102,
+        "event_count": 1,
+        "log_indices": [
+          285
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x1c3f5a0538c4ef1c23015729f58d948fc206c560686ff0e1cd5a38f7568fd484",
+        "block": 26062256,
+        "tx_index": 118,
+        "event_count": 1,
+        "log_indices": [
+          421
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x1f5724cbf483e1ed0da5eb5f1835291ecaa0d94e776b90e25ad3e4a33b25bbc7",
+        "block": 26023128,
+        "tx_index": 276,
+        "event_count": 1,
+        "log_indices": [
+          511
+        ],
+        "loan_assets": [
+          "0x64351fc9810adad17a690e4e1717df5e7e085160"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x2361a0a11ce8653c0963c1119d404f3aebb0150d19c65f955afa200ad1f8fa27",
+        "block": 26023239,
+        "tx_index": 61,
+        "event_count": 1,
+        "log_indices": [
+          369
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x2607db6d2cecf8c48d1a3053157404b09de45cf6822f057a283c41a3846add17",
+        "block": 26150258,
+        "tx_index": 68,
+        "event_count": 1,
+        "log_indices": [
+          289
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x2a9ca07997c56d73db2671c2ed7fe553fe3230634f57a21ec15d109fb7670159",
+        "block": 26148749,
+        "tx_index": 3,
+        "event_count": 1,
+        "log_indices": [
+          20
+        ],
+        "loan_assets": [
+          "0x5f7827fdeb7c20b443265fc2f40845b715385ff2"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x2d0d678adcc2fd924eaa5fcc8158bae14b29ab3ea8a092e2e2947b34b1c1c409",
+        "block": 26062366,
+        "tx_index": 307,
+        "event_count": 1,
+        "log_indices": [
+          997
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x2d24cecbedd1f83ceea11ed678ed4e1b8bb6ba3d9ebbb72a9ff3f40c884a77f9",
+        "block": 26026962,
+        "tx_index": 52,
+        "event_count": 1,
+        "log_indices": [
+          512
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x2d2f585339a831bb2c3d01e42ded854629e449b2321be935e65a431f64abe519",
+        "block": 26067865,
+        "tx_index": 24,
+        "event_count": 1,
+        "log_indices": [
+          70
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x2f936a0c199315ef9f9461cc2d6acf7b3656cbf97d647786959634859275a458",
+        "block": 26131689,
+        "tx_index": 29,
+        "event_count": 1,
+        "log_indices": [
+          706
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x306404325acfd599d4c7376b6c79f7ddb57f55d510a98aeb0102528150af2c89",
+        "block": 26055996,
+        "tx_index": 138,
+        "event_count": 1,
+        "log_indices": [
+          205
+        ],
+        "loan_assets": [
+          "0xdac17f958d2ee523a2206206994597c13d831ec7"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x32f9f9fe39e888531b8866985c39589cb3d85e225d937b26d71c6697d78bc2b1",
+        "block": 25996869,
+        "tx_index": 209,
+        "event_count": 1,
+        "log_indices": [
+          353
+        ],
+        "loan_assets": [
+          "0xaf5d2cf39f2d4e2f5900d6cf37ab3596866347e4"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x32ff90c6a0ce72a0bf96a6bbeb36b936d72c80fc21c367e10f47440314678a19",
+        "block": 26023248,
+        "tx_index": 103,
+        "event_count": 1,
+        "log_indices": [
+          270
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x34162fda07ca0ae1054d7c1252b8d1c48aba9a675fd3d09816393c29d8be50e4",
+        "block": 26104570,
+        "tx_index": 0,
+        "event_count": 1,
+        "log_indices": [
+          3
+        ],
+        "loan_assets": [
+          "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x34c7bcb69fb46d4ddc6f9689576d9dae7ede80466a36c8f0b9743f5981910a72",
+        "block": 26174549,
+        "tx_index": 104,
+        "event_count": 1,
+        "log_indices": [
+          760
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x389d74e466be1e19ce9d059b4eeb220a8d40606c4032d834951fc958c1afd123",
+        "block": 26023255,
+        "tx_index": 19,
+        "event_count": 1,
+        "log_indices": [
+          121
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x38d1030dbb93959ffc63d8663a6ac6a2c62b9d2f6f4311624f7a77a099453bff",
+        "block": 25994387,
+        "tx_index": 51,
+        "event_count": 1,
+        "log_indices": [
+          178
+        ],
+        "loan_assets": [
+          "0xaf5d2cf39f2d4e2f5900d6cf37ab3596866347e4"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x39749e0bcd7f15abc5e4549ae2a8954da79d71b9cc791d3ad5e34b7a54fcee33",
+        "block": 26086740,
+        "tx_index": 68,
+        "event_count": 1,
+        "log_indices": [
+          72
+        ],
+        "loan_assets": [
+          "0xcacd6fd266af91b8aed52accc382b4e165586e29"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x3affa6ae7ad3707b3b3e49c14fb748099973cf43318d047a5357c03a305cf132",
+        "block": 26071943,
+        "tx_index": 77,
+        "event_count": 1,
+        "log_indices": [
+          304
+        ],
+        "loan_assets": [
+          "0x00000000efe302beaa2b3e6e1b18d08d69a9012a"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x41063569f01f4ff4d037f44506a84799fba8ba31219d53a96a255475b37b856d",
+        "block": 26062357,
+        "tx_index": 153,
+        "event_count": 1,
+        "log_indices": [
+          1164
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x4208052ae30b6755ad80a021c20b05f642deacf9ec91c5770db1cca80d8afa59",
+        "block": 26062291,
+        "tx_index": 71,
+        "event_count": 1,
+        "log_indices": [
+          587
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x430f18682beba3cdf16305aa1f18e9f23ae42eb2294d0897b3ef4f0404e18f7e",
+        "block": 26180862,
+        "tx_index": 347,
+        "event_count": 2,
+        "log_indices": [
+          1008,
+          1013
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x444404d692c1e9c4e688cb0e0ee2637552a4fec472d662643fb6d9ff5e83dae9",
+        "block": 26079628,
+        "tx_index": 1,
+        "event_count": 1,
+        "log_indices": [
+          13
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x46300e9614c547118ecdd524bc7218208088cc4ae9e5bd534e62055d38f9925b",
+        "block": 26190955,
+        "tx_index": 1,
+        "event_count": 1,
+        "log_indices": [
+          9
+        ],
+        "loan_assets": [
+          "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "RPC_API_EVENT_CROSSCHECK",
+        "gas_cost_wei": 198416195275125,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": 1651296044494913
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x485c12cd2cdf8768af3405d2aab0dbebe6d38e5b28615221913b751073e2bb9f",
+        "block": 26196209,
+        "tx_index": 1,
+        "event_count": 1,
+        "log_indices": [
+          14
+        ],
+        "loan_assets": [
+          "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x48afa385417269ae025aef266d0f4b8ae38b11c9cc39808b3a6e6e81ea68f355",
+        "block": 26194930,
+        "tx_index": 6,
+        "event_count": 1,
+        "log_indices": [
+          305
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x48c41a2fe1eed7f12d22489c7174710e33a99ea1c215854538e713759bc8d416",
+        "block": 26195428,
+        "tx_index": 92,
+        "event_count": 1,
+        "log_indices": [
+          959
+        ],
+        "loan_assets": [
+          "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x48da6527da73ecd301d33ce333f573466bf489622ac5943edf49b76291965a44",
+        "block": 26203046,
+        "tx_index": 4,
+        "event_count": 1,
+        "log_indices": [
+          22
+        ],
+        "loan_assets": [
+          "0xdac17f958d2ee523a2206206994597c13d831ec7"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x49581113d8cce7cd9a0a0f2ab2827b3f69ba3c4cb821baba9ebae70bfe8c3c47",
+        "block": 26061104,
+        "tx_index": 198,
+        "event_count": 1,
+        "log_indices": [
+          700
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x4bd6a34c6bc48a8d0e41cc1bf003feb1ed82c861da254eda053259ed0d8d191d",
+        "block": 26056146,
+        "tx_index": 166,
+        "event_count": 1,
+        "log_indices": [
+          303
+        ],
+        "loan_assets": [
+          "0x64351fc9810adad17a690e4e1717df5e7e085160"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x4de8388623d36de7ac127cd77077aba1f6d13ab78e53838fbe8bd38b6b7d68ad",
+        "block": 26074765,
+        "tx_index": 108,
+        "event_count": 1,
+        "log_indices": [
+          292
+        ],
+        "loan_assets": [
+          "0x6c3ea9036406852006290770bedfcaba0e23a0e8"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x4df17ad0a3aad6ee9962458ddbefaf154d86993cbed64c73ddb353d6d101ecca",
+        "block": 26194929,
+        "tx_index": 10,
+        "event_count": 1,
+        "log_indices": [
+          169
+        ],
+        "loan_assets": [
+          "0x8292bb45bf1ee4d140127049757c2e0ff06317ed"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x4e41060d5696dd23426eef2fcd807111afd80f3eaccb59ccc70ee55ef4cc590a",
+        "block": 26073408,
+        "tx_index": 136,
+        "event_count": 1,
+        "log_indices": [
+          469
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x523cf40b379d834c145f4639257014d9b761ce50a08651754897927b23329111",
+        "block": 26194738,
+        "tx_index": 158,
+        "event_count": 1,
+        "log_indices": [
+          430
+        ],
+        "loan_assets": [
+          "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x557d9c4cb2e906c85e12ffa945c8d89436aa32085521c894dde8fb398013547f",
+        "block": 26009101,
+        "tx_index": 88,
+        "event_count": 1,
+        "log_indices": [
+          528
+        ],
+        "loan_assets": [
+          "0xa0d69e286b938e21cbf7e51d71f6a4c8918f482f"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x5a47304ef86246c50e9c9d47c00f929c50ca1da1914e4e8e73574fe8712f1bbb",
+        "block": 26129815,
+        "tx_index": 144,
+        "event_count": 1,
+        "log_indices": [
+          1182
+        ],
+        "loan_assets": [
+          "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x5af6cc4bcec812d636eabb9cd11d2d676c55fb277bd9de1a75bbaeff20bab94b",
+        "block": 26096417,
+        "tx_index": 181,
+        "event_count": 2,
+        "log_indices": [
+          414,
+          417
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x5c3e2d465f4feaad5022b791cf957cebffe531f7b30a927e6baba95045fccdec",
+        "block": 26194919,
+        "tx_index": 251,
+        "event_count": 1,
+        "log_indices": [
+          867
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x5e85e48f73efc645840e9a763fe614239694516f0590ba92fa2246f8c996e2f0",
+        "block": 26167502,
+        "tx_index": 0,
+        "event_count": 1,
+        "log_indices": [
+          6
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x69067db0430e7bd2d7d580c3f00d10da174cee76717f949d1341e7a82cf7a13e",
+        "block": 26000317,
+        "tx_index": 247,
+        "event_count": 1,
+        "log_indices": [
+          711
+        ],
+        "loan_assets": [
+          "0xe7c3d8c9a439fede00d2600032d5db0be71c3c29"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x6a39bcd4cd3c5745aa3bd54bae795500acc1e8625784fbe01f233c787672ba9d",
+        "block": 26062277,
+        "tx_index": 86,
+        "event_count": 1,
+        "log_indices": [
+          155
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x6c4d346be49fb05f2739cacf9b074ddcad3402b208a07c95cbfabbee6aae8bb8",
+        "block": 26194906,
+        "tx_index": 133,
+        "event_count": 1,
+        "log_indices": [
+          637
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x6f35930cde64a17471a03f1580eb2a39911d7a273c15a36c444cb43fbc08da7b",
+        "block": 26194900,
+        "tx_index": 94,
+        "event_count": 1,
+        "log_indices": [
+          401
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x71414899496eaa11d5dd5767f5bca3bdd1e35b48c78e4cbdc04e9c0376c436ac",
+        "block": 26062345,
+        "tx_index": 155,
+        "event_count": 1,
+        "log_indices": [
+          732
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x718995dd107c4fb333866e7a8f071d535930a7e05069dee0ebbed6a86f99932d",
+        "block": 26062351,
+        "tx_index": 217,
+        "event_count": 1,
+        "log_indices": [
+          526
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x75aa920a010c49f536ca180fd52639994ea28d0054550feec74e6b07e629c868",
+        "block": 26067866,
+        "tx_index": 11,
+        "event_count": 1,
+        "log_indices": [
+          106
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x76c1fabec33659875d8abfc1139988ea9ec5e7147b37440c633ae0e749cadab9",
+        "block": 26162510,
+        "tx_index": 149,
+        "event_count": 1,
+        "log_indices": [
+          465
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x7898d4b35564681a6d2122446d634442c00bdbc0f77df56cf056e5381386cb2b",
+        "block": 25996745,
+        "tx_index": 197,
+        "event_count": 1,
+        "log_indices": [
+          474
+        ],
+        "loan_assets": [
+          "0xaf5d2cf39f2d4e2f5900d6cf37ab3596866347e4"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x78dc05de08c48b9f93c2136f56fc431d67376c131e3e1b903c8f9231a8e2cc7a",
+        "block": 26061039,
+        "tx_index": 322,
+        "event_count": 1,
+        "log_indices": [
+          1352
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x7b671a0830b5c04c3eea6cf9c458b920f447b03fe128ac71d2a3075b052bf54f",
+        "block": 26067867,
+        "tx_index": 31,
+        "event_count": 1,
+        "log_indices": [
+          79
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x7edee7b979de7e045dce238f4ad8627ef865655fcc18231b343a384a2ba08b6a",
+        "block": 26102733,
+        "tx_index": 146,
+        "event_count": 1,
+        "log_indices": [
+          419
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x7f2a208841f2a9b51614d0c86a0420790a0c96a8c68473d474b592cf7442f530",
+        "block": 26150645,
+        "tx_index": 7,
+        "event_count": 1,
+        "log_indices": [
+          44
+        ],
+        "loan_assets": [
+          "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x7f59800272d2b1d94613462434b5af8782fae074feeba2bb3816004e95b9cd47",
+        "block": 26089347,
+        "tx_index": 200,
+        "event_count": 1,
+        "log_indices": [
+          583
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x8037223f3d4290e91e63e5a9c97ecc238201ec2df8307d59a62b96716dc179b8",
+        "block": 26065224,
+        "tx_index": 86,
+        "event_count": 1,
+        "log_indices": [
+          258
+        ],
+        "loan_assets": [
+          "0x64351fc9810adad17a690e4e1717df5e7e085160"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x80b8b7161f5a1133452764f7950adde752de2cbc3836ce023f27b1ccb1739780",
+        "block": 26140095,
+        "tx_index": 2,
+        "event_count": 1,
+        "log_indices": [
+          11
+        ],
+        "loan_assets": [
+          "0xdc035d45d973e3ec169d2276ddab16f1e407384f"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x83de280a4cd71ef610c7b5f4edcbef3898f6742dc0a46174951c37e1b5cf355d",
+        "block": 26062566,
+        "tx_index": 172,
+        "event_count": 1,
+        "log_indices": [
+          594
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x87f0e8242f3e52a0acaf05a4fee22b3cf6af88a8eed8ec648cc37605951027df",
+        "block": 26067864,
+        "tx_index": 105,
+        "event_count": 1,
+        "log_indices": [
+          428
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x88ea9a97cf6fc63bff725004c45170ecee353ec3214a9cc8a87b108c4fbe027e",
+        "block": 26061074,
+        "tx_index": 175,
+        "event_count": 1,
+        "log_indices": [
+          640
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x8fc0962a5fb0f91397f9f736074033cf8b29fb13ec4285774a0a416d1c790373",
+        "block": 26061109,
+        "tx_index": 218,
+        "event_count": 1,
+        "log_indices": [
+          1213
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x8fc1254dd8eb7bbf399db4a3b528a258f62dfe4e686b3dbb8c79cbae4ef90f64",
+        "block": 26062503,
+        "tx_index": 180,
+        "event_count": 1,
+        "log_indices": [
+          558
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x914b5f21bb5acd011987eecd48d9bb28e641972deec0725ec533f18284551467",
+        "block": 26095651,
+        "tx_index": 192,
+        "event_count": 1,
+        "log_indices": [
+          547
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x94cde88c18a93ffa89d1b401a8fd7efc7e619c92af4cef01186dc64050105dc6",
+        "block": 26062526,
+        "tx_index": 114,
+        "event_count": 1,
+        "log_indices": [
+          484
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x95e670766fe110d42e0751d5e609af3742ec9ba680dd8998ab1911a8c4c7ce1c",
+        "block": 25995915,
+        "tx_index": 113,
+        "event_count": 1,
+        "log_indices": [
+          268
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x96d31552654be3ba9bbc9205dd48c64b6d8e2db71b25bf189908934ec3d7d40f",
+        "block": 26067860,
+        "tx_index": 165,
+        "event_count": 1,
+        "log_indices": [
+          796
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x97113645e8aae912a8cc6ea3f476b4349ec3298473683d819f55013b52444e90",
+        "block": 26056141,
+        "tx_index": 44,
+        "event_count": 1,
+        "log_indices": [
+          61
+        ],
+        "loan_assets": [
+          "0x64351fc9810adad17a690e4e1717df5e7e085160"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x98355e64004cb3e00a684e1bca54b0f9d1c811e6682a42c555e65ded94a43b9c",
+        "block": 26040734,
+        "tx_index": 211,
+        "event_count": 1,
+        "log_indices": [
+          816
+        ],
+        "loan_assets": [
+          "0x8292bb45bf1ee4d140127049757c2e0ff06317ed"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x9eeb180fb122c9afb22708bcfa8d727a6a2453e46cb130fbbe1176fde850efbc",
+        "block": 26194910,
+        "tx_index": 128,
+        "event_count": 1,
+        "log_indices": [
+          438
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0x9f94f8310444f51286db80b6b481f5399fc85ff5fc653d94ec82e7fa5790e633",
+        "block": 26095568,
+        "tx_index": 1,
+        "event_count": 1,
+        "log_indices": [
+          7
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xa0c156fe11cd5e3b4f6a5f62fba26b0bd9a103339914b39d0ddf30effc7aab44",
+        "block": 26202321,
+        "tx_index": 1,
+        "event_count": 1,
+        "log_indices": [
+          9
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xa0f739d97610ad4a9fd98f2b2f91745c8925c6ea01b0a8b266028ba3774f4746",
+        "block": 26189539,
+        "tx_index": 222,
+        "event_count": 1,
+        "log_indices": [
+          712
+        ],
+        "loan_assets": [
+          "0xdac17f958d2ee523a2206206994597c13d831ec7"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xa238d351e9584af705016303aed8f5633ff99e5a5173967b362970be5ef4e96c",
+        "block": 26127629,
+        "tx_index": 143,
+        "event_count": 1,
+        "log_indices": [
+          525
+        ],
+        "loan_assets": [
+          "0x8292bb45bf1ee4d140127049757c2e0ff06317ed"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xa25ce3238ff0d5807441ed0ef694e40d53e41415b7a69fd1687ff65f93c94238",
+        "block": 26196431,
+        "tx_index": 78,
+        "event_count": 1,
+        "log_indices": [
+          1210
+        ],
+        "loan_assets": [
+          "0x8292bb45bf1ee4d140127049757c2e0ff06317ed"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xa284bb337b3fe73813fe7784609581c61b51d0a5c84f62920f75689d19474b84",
+        "block": 26062295,
+        "tx_index": 46,
+        "event_count": 1,
+        "log_indices": [
+          91
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xa4e4f146c15101d2969ef1b4249ac235b54ee6cac70234782bfe58a7aff74e2c",
+        "block": 26062487,
+        "tx_index": 276,
+        "event_count": 1,
+        "log_indices": [
+          579
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xa4ead224af8c044311e8d3b1b9eb47443643b3682b8822624bde0fde098c35fb",
+        "block": 26046991,
+        "tx_index": 144,
+        "event_count": 1,
+        "log_indices": [
+          307
+        ],
+        "loan_assets": [
+          "0x6b175474e89094c44da98b954eedeac495271d0f"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xa584b57271a2402c8d2b1e6038d995c7d853a7bdd627d9d2dd508cd6bc11bbc0",
+        "block": 26090173,
+        "tx_index": 53,
+        "event_count": 1,
+        "log_indices": [
+          209
+        ],
+        "loan_assets": [
+          "0x6b175474e89094c44da98b954eedeac495271d0f"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xa95fab9de1da0aa6ec196972690e64c9578302b8285c914dc8acb85a984921b3",
+        "block": 26199334,
+        "tx_index": 6,
+        "event_count": 1,
+        "log_indices": [
+          93
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xa9cc4a379d3290a1cbff98d383d251498b45d7e15f0a48f9bad01deffbfd3096",
+        "block": 26137399,
+        "tx_index": 73,
+        "event_count": 1,
+        "log_indices": [
+          385
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xaf579e5436d6f96516fe8b92ef870836566230934ff468723d0975ad9f0ae94d",
+        "block": 26137400,
+        "tx_index": 558,
+        "event_count": 1,
+        "log_indices": [
+          1465
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xb1e200de151e800b512fa5afbadf797288f23bfa5d758b706e6c1745fa2620c4",
+        "block": 26023236,
+        "tx_index": 75,
+        "event_count": 1,
+        "log_indices": [
+          289
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xb2d226eba56b2d73a653389e7c7e9fb16655bb8db5a4a88c2a9321234495bd81",
+        "block": 26061100,
+        "tx_index": 178,
+        "event_count": 1,
+        "log_indices": [
+          472
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xb30ba691d5dc328d8dc3369a4d80885d3e4c34f30dfd30e34cba5a1ea7958e22",
+        "block": 26062489,
+        "tx_index": 179,
+        "event_count": 1,
+        "log_indices": [
+          563
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xb3c505ce53c2745c4342ddcc7a9492917a2fb042e6fdb51b55d35269bacb6180",
+        "block": 26130284,
+        "tx_index": 36,
+        "event_count": 1,
+        "log_indices": [
+          808
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xb43325481326774df84ca6aa0e832ed7c600f0b9d29538cfb27e22d716404d60",
+        "block": 26062474,
+        "tx_index": 102,
+        "event_count": 1,
+        "log_indices": [
+          380
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xb55469e35bb7a31f7d3d720bf576e498ac9c059b66cff68936bb23328cf86d81",
+        "block": 25998673,
+        "tx_index": 227,
+        "event_count": 1,
+        "log_indices": [
+          686
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xb6fe4cf8682366e680584617cdc2421ac73803ce77e5168562c3d4d063871ae5",
+        "block": 26196619,
+        "tx_index": 83,
+        "event_count": 1,
+        "log_indices": [
+          150
+        ],
+        "loan_assets": [
+          "0x8292bb45bf1ee4d140127049757c2e0ff06317ed"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xb99a8b62acd6ea5f1fad0196fea7eccf7703d3f5f5f09491939f655ace1a1828",
+        "block": 26061088,
+        "tx_index": 175,
+        "event_count": 1,
+        "log_indices": [
+          1167
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xbc783801c22ef7604dd637b99bdcfc3dc12dd97fc3c0e286a495ee67792c3f1e",
+        "block": 26056189,
+        "tx_index": 93,
+        "event_count": 1,
+        "log_indices": [
+          736
+        ],
+        "loan_assets": [
+          "0x64351fc9810adad17a690e4e1717df5e7e085160"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xbdce7b1f8a006e1741d54c8eb981577c65a99769b22166b6082feb573194e87a",
+        "block": 26039885,
+        "tx_index": 119,
+        "event_count": 1,
+        "log_indices": [
+          335
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xbf837a5bbf56aeb92aa99feedf3a92d56c8aeafab3cfbf63c2e8350ce2cbb224",
+        "block": 25994395,
+        "tx_index": 198,
+        "event_count": 1,
+        "log_indices": [
+          377
+        ],
+        "loan_assets": [
+          "0xaf5d2cf39f2d4e2f5900d6cf37ab3596866347e4"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xc07fd15042ac4afb6de6ffec6b7c30df898e6b2040bd1c2e01fb8ed3e5d97dd3",
+        "block": 26195291,
+        "tx_index": 118,
+        "event_count": 1,
+        "log_indices": [
+          684
+        ],
+        "loan_assets": [
+          "0xdac17f958d2ee523a2206206994597c13d831ec7"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xc22759a025fba5122d2d0e0e44c4870389dfcc601b9f3e364d9f7c638b050bef",
+        "block": 26070222,
+        "tx_index": 0,
+        "event_count": 1,
+        "log_indices": [
+          13
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xc2df5e29442acdad7acd9d418f3a531de12fd209c42c639bd51aec8ad2551e23",
+        "block": 26067862,
+        "tx_index": 24,
+        "event_count": 1,
+        "log_indices": [
+          324
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xc5763c8738c437e87064c2c83c5b608c373f211bf34e896636bcadbff06d8b40",
+        "block": 25996548,
+        "tx_index": 178,
+        "event_count": 1,
+        "log_indices": [
+          1103
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xc709114b71039d2efc7ea3de4cc283c59e71ed9abbebaa3c833b196e48a3ee84",
+        "block": 26129741,
+        "tx_index": 129,
+        "event_count": 1,
+        "log_indices": [
+          322
+        ],
+        "loan_assets": [
+          "0xdac17f958d2ee523a2206206994597c13d831ec7"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xc8013e69d494d38a3665b26f9285760ff1f710c24b7c66ef874ae234e3fa96a0",
+        "block": 26042794,
+        "tx_index": 1,
+        "event_count": 1,
+        "log_indices": [
+          9
+        ],
+        "loan_assets": [
+          "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xc87c027f0feff22845520b5c021cd711bf8541731272ef89b9b9f42fb2a06cf2",
+        "block": 26150576,
+        "tx_index": 203,
+        "event_count": 1,
+        "log_indices": [
+          1058
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xc9a2b2a6664e991dfe5a9b4dc1a1e30ca2fa5903edcad8e2e85ede4a23cdc4c4",
+        "block": 25995954,
+        "tx_index": 66,
+        "event_count": 1,
+        "log_indices": [
+          458
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xcb33803355242982a9814f0705ea1e84ee0c2c1261e99b3b04aaa87dcfc6c22a",
+        "block": 26061045,
+        "tx_index": 95,
+        "event_count": 1,
+        "log_indices": [
+          331
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xcbf2adf09eaddeabbe7c219578bd895c475dc135e5d2da698ca3be3f08c9ec8d",
+        "block": 26167108,
+        "tx_index": 122,
+        "event_count": 1,
+        "log_indices": [
+          370
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xcc0438bcee9cc1dfdde0e2e837d4f7623ed76b6b0c57840c8d646305a3787d7a",
+        "block": 26062476,
+        "tx_index": 190,
+        "event_count": 1,
+        "log_indices": [
+          390
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xccf5035c11493bc83cf3942aa126840f0e19f9a2f8270ada50c0e64d7d5b3133",
+        "block": 26000225,
+        "tx_index": 146,
+        "event_count": 1,
+        "log_indices": [
+          552
+        ],
+        "loan_assets": [
+          "0xdac17f958d2ee523a2206206994597c13d831ec7"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xcef337c2375d51a445b2173db37700aea803ca23dfe929cdc4e6761d62ee4cf0",
+        "block": 26013140,
+        "tx_index": 39,
+        "event_count": 1,
+        "log_indices": [
+          102
+        ],
+        "loan_assets": [
+          "0x64351fc9810adad17a690e4e1717df5e7e085160"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "UNAVAILABLE",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xd0df87d22f2aa7e56fd6babeca1eeff95b0074ac0f65cf3ec86e9691f74c0b64",
+        "block": 26040582,
+        "tx_index": 228,
+        "event_count": 1,
+        "log_indices": [
+          499
+        ],
+        "loan_assets": [
+          "0xdac17f958d2ee523a2206206994597c13d831ec7"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xd361434f43aac0156ff38380ecd99d099674adaee1c8e13c9afa996d73674c4a",
+        "block": 26176945,
+        "tx_index": 53,
+        "event_count": 1,
+        "log_indices": [
+          134
+        ],
+        "loan_assets": [
+          "0x8292bb45bf1ee4d140127049757c2e0ff06317ed"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xd3e8fc2f13b4b4e7539a84a9922eddbe7bff4769cbcd2b08a310ea3699c31e1d",
+        "block": 26140731,
+        "tx_index": 283,
+        "event_count": 1,
+        "log_indices": [
+          755
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xd40859c7f1d0a2b38b023b9e897a0de0e7ba6188d14e796ae9acdf5e8a06b9e8",
+        "block": 26067863,
+        "tx_index": 39,
+        "event_count": 1,
+        "log_indices": [
+          99
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xd60d7b9cefcc165c386f017b965bf5dc7d176c2acc2fd635530f931946bc626f",
+        "block": 26062499,
+        "tx_index": 22,
+        "event_count": 1,
+        "log_indices": [
+          112
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xd78e859f0efb21f44b2852833073a7cf3f753787e0dadd329be84d0989887e65",
+        "block": 26198167,
+        "tx_index": 25,
+        "event_count": 1,
+        "log_indices": [
+          181
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xd9e1b284f65435fd7f40eca3443db42bc5632e2335e4bcfdfccf68dacd42cae5",
+        "block": 26062492,
+        "tx_index": 22,
+        "event_count": 1,
+        "log_indices": [
+          116
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xdc687eefd6408705860dae9522647643bcb3c324e390c0abebdf19eafd127355",
+        "block": 26117092,
+        "tx_index": 24,
+        "event_count": 1,
+        "log_indices": [
+          29
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xdcb6d9356e6c177dcdd9191674b426fdd1578c6db40bd39f82dfd4c723aca02f",
+        "block": 26127307,
+        "tx_index": 276,
+        "event_count": 1,
+        "log_indices": [
+          931
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xdda05c697ea24ecfd360b21f86387a48225f857683f7507f27003b5b7c43d3a1",
+        "block": 26148055,
+        "tx_index": 19,
+        "event_count": 1,
+        "log_indices": [
+          407
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xe0292666c290dc9cc11fabea8b97e8a10702c16ea714ef8f5476634140c439fc",
+        "block": 26062315,
+        "tx_index": 373,
+        "event_count": 1,
+        "log_indices": [
+          1011
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xe2b2d43c554ac2e7f38e6fae34a76ed9d8a6a680126d036712bf068c5ab8dd4d",
+        "block": 26062574,
+        "tx_index": 126,
+        "event_count": 1,
+        "log_indices": [
+          474
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xe984dd4fdc1805ad44ed73e3a2562467d7a02e74f848e87ccd65fdf1c8e8c321",
+        "block": 26062471,
+        "tx_index": 195,
+        "event_count": 1,
+        "log_indices": [
+          639
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xead4476de6aa8922f1218fcd70eb86ce23400f04faf0568e9983b727bf8ce9a1",
+        "block": 25998662,
+        "tx_index": 1,
+        "event_count": 1,
+        "log_indices": [
+          6
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xedda4fe0da6f2a2484830522d29f88c2f1fa87c08e7f36787c7d1f55e09f4d83",
+        "block": 26061080,
+        "tx_index": 231,
+        "event_count": 1,
+        "log_indices": [
+          2232
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xeeab50c30c883578acdfd796e2bc4a5c84fbf9264879234afb251e348732f9f3",
+        "block": 26149149,
+        "tx_index": 2,
+        "event_count": 1,
+        "log_indices": [
+          5
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xef76aa524edba125c228fdf5e8c26bed0db75ac0810044e903a6c981b817182f",
+        "block": 26061067,
+        "tx_index": 226,
+        "event_count": 1,
+        "log_indices": [
+          665
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xf0706f521e9060e17621051dab805449187a0e1528e15822a7ef8f166726ef24",
+        "block": 26062282,
+        "tx_index": 162,
+        "event_count": 1,
+        "log_indices": [
+          547
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xf1276839ab580d6fbfa8f5ab9d18b2092e7142ea2b980122f5b97aee27d49d99",
+        "block": 26137389,
+        "tx_index": 3,
+        "event_count": 1,
+        "log_indices": [
+          19
+        ],
+        "loan_assets": [
+          "0xdac17f958d2ee523a2206206994597c13d831ec7"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xf3c94d15b9a76bff17c10d662a8bfed0f89b676b7108fcea12244b1d402e29ca",
+        "block": 26149020,
+        "tx_index": 0,
+        "event_count": 1,
+        "log_indices": [
+          2
+        ],
+        "loan_assets": [
+          "0x00000000efe302beaa2b3e6e1b18d08d69a9012a"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xf5038b41cdc7b3135007eade0c2b64f560c3886b0dce1d589a89a2ed0ec47817",
+        "block": 26062304,
+        "tx_index": 36,
+        "event_count": 1,
+        "log_indices": [
+          185
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xf5fd5229848dfc5ae9ac4600ba5ab2ce677853ecbb51e35b67d65bba67812d3a",
+        "block": 26194913,
+        "tx_index": 57,
+        "event_count": 1,
+        "log_indices": [
+          351
+        ],
+        "loan_assets": [
+          "0xdac17f958d2ee523a2206206994597c13d831ec7"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xf802112830d6b15efc8185e2ba578d59cf6a1fffad664b7507cf370db512c3d9",
+        "block": 26013144,
+        "tx_index": 42,
+        "event_count": 1,
+        "log_indices": [
+          1082
+        ],
+        "loan_assets": [
+          "0x64351fc9810adad17a690e4e1717df5e7e085160"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xf8bee85242a42f2bb758213976bf5afcf0b970fa3f3aaae5db945f55253084e3",
+        "block": 26139811,
+        "tx_index": 185,
+        "event_count": 1,
+        "log_indices": [
+          638
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xfbf33f13b80e7b1c3060abd74572cc7e5f2e153cf9ab9ea4a8db44be8faaf290",
+        "block": 26179637,
+        "tx_index": 214,
+        "event_count": 1,
+        "log_indices": [
+          590
+        ],
+        "loan_assets": [
+          "0x8292bb45bf1ee4d140127049757c2e0ff06317ed"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xfdef2e4376966afdcb0f06ad95b421e9e23a64a9aa8260d474f603f664938d60",
+        "block": 26062478,
+        "tx_index": 320,
+        "event_count": 1,
+        "log_indices": [
+          659
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": true,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      },
+      {
+        "chain_id": 1,
+        "tx_hash": "0xff3fefc27a3192f20b35d14c8ebfbfec388f7ebfd398165a60c3dafaa55ad73d",
+        "block": 26148628,
+        "tx_index": 260,
+        "event_count": 1,
+        "log_indices": [
+          619
+        ],
+        "loan_assets": [
+          "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        ],
+        "bad_debt_reported": false,
+        "observed": "PROBADO_AS_API_RECORD",
+        "parsed": "PROBADO_OFFLINE",
+        "reproduced": "PENDIENTE",
+        "technically_compatible": "PENDIENTE",
+        "net_margin_evaluable": "PENDIENTE",
+        "nonrecourse_financeable": "PENDIENTE",
+        "temporally_capturable": "PENDIENTE",
+        "captured_by_nqc": false,
+        "first_unmet_stage": "REPRODUCED",
+        "receipt_status": "NOT_REQUESTED",
+        "gas_cost_wei": null,
+        "exclusion_reason": "NO_AUTHENTIC_NQC_PRETRANSACTION_REPLAY",
+        "case_b_external_known_cost_upper_bound_wei": null
+      }
+    ],
+    "event_count": 143,
+    "transaction_count": 141,
+    "first_unmet_counts": {
+      "REPRODUCED": 141
+    },
+    "receipt_counts": {
+      "NOT_REQUESTED": 118,
+      "UNAVAILABLE": 22,
+      "RPC_API_EVENT_CROSSCHECK": 1
+    },
+    "chain_population_complete": false,
+    "eligible_count": null,
+    "economic_admitted_count": 0,
+    "captured_nqc_count": 0,
+    "capture_probability": null
+  },
+  "nqc_realized_usd_certified": "0",
+  "monthly_expectation": null,
+  "monthly_target_sensitivity": {
+    "unit": "net USD per captured transaction AFTER all variable obligations",
+    "fixed_monthly_cost_usd_assumption": "0 (lower requirement bound, not measured production cost)",
+    "capture_probability": null,
+    "required_captured_transactions": [
+      {
+        "target_usd": 1000,
+        "assumed_net_per_win_usd": 10,
+        "wins_required": 100
+      },
+      {
+        "target_usd": 1000,
+        "assumed_net_per_win_usd": 50,
+        "wins_required": 20
+      },
+      {
+        "target_usd": 1000,
+        "assumed_net_per_win_usd": 100,
+        "wins_required": 10
+      },
+      {
+        "target_usd": 1000,
+        "assumed_net_per_win_usd": 500,
+        "wins_required": 2
+      },
+      {
+        "target_usd": 5000,
+        "assumed_net_per_win_usd": 10,
+        "wins_required": 500
+      },
+      {
+        "target_usd": 5000,
+        "assumed_net_per_win_usd": 50,
+        "wins_required": 100
+      },
+      {
+        "target_usd": 5000,
+        "assumed_net_per_win_usd": 100,
+        "wins_required": 50
+      },
+      {
+        "target_usd": 5000,
+        "assumed_net_per_win_usd": 500,
+        "wins_required": 10
+      },
+      {
+        "target_usd": 10000,
+        "assumed_net_per_win_usd": 10,
+        "wins_required": 1000
+      },
+      {
+        "target_usd": 10000,
+        "assumed_net_per_win_usd": 50,
+        "wins_required": 200
+      },
+      {
+        "target_usd": 10000,
+        "assumed_net_per_win_usd": 100,
+        "wins_required": 100
+      },
+      {
+        "target_usd": 10000,
+        "assumed_net_per_win_usd": 500,
+        "wins_required": 20
+      },
+      {
+        "target_usd": 50000,
+        "assumed_net_per_win_usd": 10,
+        "wins_required": 5000
+      },
+      {
+        "target_usd": 50000,
+        "assumed_net_per_win_usd": 50,
+        "wins_required": 1000
+      },
+      {
+        "target_usd": 50000,
+        "assumed_net_per_win_usd": 100,
+        "wins_required": 500
+      },
+      {
+        "target_usd": 50000,
+        "assumed_net_per_win_usd": 500,
+        "wins_required": 100
+      }
+    ]
+  },
+  "sponsorship": "PATROCINIO_NO_DEMOSTRADO",
+  "economic_admission": false
+}
