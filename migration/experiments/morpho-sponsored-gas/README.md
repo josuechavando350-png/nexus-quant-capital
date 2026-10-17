@@ -148,3 +148,20 @@ NQC_ARCHIVE_RPC_URL='https://<RPC_ARCHIVE_EXISTENTE>' python3 historical_prestat
 El mock Solidity ahora separa la liquidez ficticia de una entidad externa de prueba y comprueba que el operador empiece con `0 ETH` y `0 WETH`. **Tampoco constituye un reemplazo de una cotización o ruta DEX real.** Continúa sin compilar ni ejecutarse.
 
 **Siguiente decisión técnica:** disponer de Foundry/solc verificados y una fuente de archivo que permita reconstruir el estado anterior exacto a una transacción Morpho, luego realizar la liquidación con adaptador DEX real y contabilizar los pagos del builder por separado. Sin ello, NQC permanece sin autorización de producción y con P&L `NO_DEMOSTRADO`.
+
+## Morpho post-accrual exact math (research-only)
+
+New files: morpho_liquidation_math.py and tests/test_morpho_liquidation_math.py.
+
+Source semantics checked against the official Morpho Blue repository, pinned to commit 9cf6d5b844625ba108e36d1cf911f5d2faf7c136:
+- https://github.com/morpho-org/morpho-blue/blob/9cf6d5b844625ba108e36d1cf911f5d2faf7c136/src/Morpho.sol
+- https://github.com/morpho-org/morpho-blue/blob/9cf6d5b844625ba108e36d1cf911f5d2faf7c136/src/libraries/SharesMathLib.sol
+- https://github.com/morpho-org/morpho-blue/blob/9cf6d5b844625ba108e36d1cf911f5d2faf7c136/src/libraries/MathLib.sol
+- https://github.com/morpho-org/morpho-blue/blob/9cf6d5b844625ba108e36d1cf911f5d2faf7c136/src/libraries/ConstantsLib.sol
+
+The read-only Python model computes virtual shares/assets (10^6 / 1), Solidity-compatible integer roundings, healthy/unhealthy status, liquidation incentive (maximum 1.15 WAD), exact repaid shares/assets and seized collateral using the 10^36 oracle price scale, and uint256 overflows. It requires authenticated POST-INTEREST-ACCRUAL values at decision time. It does not accrue interest, obtain oracle quotes or DEX swap prices, certify the path in a real fork, estimate capture probability or prove any profit.
+
+One SYNTHETIC example returns 300 repaid assets and 638 seized collateral units. These numbers are invented unit-test fixtures, NOT a real liquidation. Tests explicitly prevent healthy positions, excess repayment, over-seizure, arithmetic overflow and invalid numeric types from passing. Local total after adding twelve math regressions: 79/79 Python tests PASS. No remote CI run was executed for this commit.
+
+The parent-block probe still fails closed without an authenticated archive RPC; the actual state prior to the historical winner must be reproduced. Compiled Solidity, fork parity, builder acceptance and realized NQC P&L remain UNKNOWN / NOT CERTIFIED.
+
