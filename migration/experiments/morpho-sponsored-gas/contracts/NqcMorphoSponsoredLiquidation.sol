@@ -83,6 +83,11 @@ contract NqcMorphoSponsoredLiquidation {
     uint256 private reservedLoanForWeth;
     uint256 private minProfit;
     uint256 private activeMinLoanOut;
+    // Per-execution baselines: unsolicited ERC-20 or forced ETH is never spendable.
+    uint256 private baselineLoan;
+    uint256 private baselineCollateral;
+    uint256 private baselineWeth;
+    uint256 private baselineNative;
 
     event ExperimentalLiquidation(
         address indexed borrower,
@@ -132,8 +137,12 @@ contract NqcMorphoSponsoredLiquidation {
             plan.sponsorRefundRecipient == address(this) ||
             plan.sponsorRefundRecipient == block.coinbase ||
             plan.minWethOut < plan.sponsorRefundWei + plan.coinbaseTipWei) revert InvalidPlan();
-        if (_balance(loan) != 0 || _balance(collateral) != 0 ||
-            _balance(weth) != 0 || address(this).balance != 0) revert StateContaminated();
+        // Enforcing an empty contract allows third parties to halt it with dust.
+        // Measure only fresh assets instead, preserving all initial balances.
+        baselineLoan = _balance(loan);
+        baselineCollateral = _balance(collateral);
+        baselineWeth = _balance(weth);
+        baselineNative = address(this).balance;
 
         active = true;
         callbackSeen = false;
@@ -147,21 +156,23 @@ contract NqcMorphoSponsoredLiquidation {
         (uint256 seized, uint256 repaid) = morpho.liquidate(
             plan.market, plan.borrower, 0, plan.repaidShares, collateralRoute
         );
-        if (!callbackSeen || _balance(collateral) != 0) revert InvalidCallback();
+        if (!callbackSeen || _balance(collateral) != baselineCollateral) revert InvalidCallback();
         // Morpho transferred debt tokens back using transferFrom before returning.
         _forceApprove(loan, address(morpho), 0);
-        if (_balance(loan) < plan.loanForWeth + plan.minOperatorProfitLoan) revert ProfitTooLow();
+        if (_balance(loan) < baselineLoan + plan.loanForWeth + plan.minOperatorProfitLoan)
+            revert ProfitTooLow();
 
         if (loan == weth) {
             INqcWeth(weth).withdraw(plan.loanForWeth);
         } else {
             _swap(loan, weth, plan.loanForWeth, plan.minWethOut, wethRoute);
             uint256 availableWeth = _balance(weth);
-            if (availableWeth < plan.minWethOut) revert NativeTipNotFunded();
-            INqcWeth(weth).withdraw(availableWeth);
+            if (availableWeth < baselineWeth + plan.minWethOut) revert NativeTipNotFunded();
+            INqcWeth(weth).withdraw(availableWeth - baselineWeth);
         }
         uint256 totalNativePayments = plan.sponsorRefundWei + plan.coinbaseTipWei;
-        if (address(this).balance < totalNativePayments) revert NativeTipNotFunded();
+        if (address(this).balance < baselineNative + totalNativePayments)
+            revert NativeTipNotFunded();
         // Candidate direct reimbursement, not proof of builder acceptance.
         // Ownership of this address and builder balance must be proven offchain.
         (bool refundOk,) = payable(plan.sponsorRefundRecipient).call{value: plan.sponsorRefundWei}("");
@@ -169,16 +180,20 @@ contract NqcMorphoSponsoredLiquidation {
         (bool tipOk,) = payable(block.coinbase).call{value: plan.coinbaseTipWei}("");
         if (!tipOk) revert NativeTransferFailed();
 
-        operatorLoanProfit = _balance(loan);
+        uint256 finalLoanBalance = _balance(loan);
+        if (finalLoanBalance < baselineLoan) revert StateContaminated();
+        operatorLoanProfit = finalLoanBalance - baselineLoan;
         if (operatorLoanProfit < plan.minOperatorProfitLoan) revert ProfitTooLow();
         _safeTransfer(loan, operator, operatorLoanProfit);
-        uint256 residualNative = address(this).balance;
+        if (address(this).balance < baselineNative) revert StateContaminated();
+        uint256 residualNative = address(this).balance - baselineNative;
         if (residualNative != 0) {
             (bool profitOk,) = payable(operator).call{value: residualNative}("");
             if (!profitOk) revert NativeTransferFailed();
         }
-        if (_balance(loan) != 0 || _balance(collateral) != 0 ||
-            _balance(weth) != 0) revert StateContaminated();
+        if (_balance(loan) != baselineLoan || _balance(collateral) != baselineCollateral ||
+            _balance(weth) != baselineWeth || address(this).balance != baselineNative)
+            revert StateContaminated();
 
         active = false;
         callbackSeen = false;
@@ -188,6 +203,10 @@ contract NqcMorphoSponsoredLiquidation {
         reservedLoanForWeth = 0;
         minProfit = 0;
         activeMinLoanOut = 0;
+        baselineLoan = 0;
+        baselineCollateral = 0;
+        baselineWeth = 0;
+        baselineNative = 0;
         emit ExperimentalLiquidation(
             plan.borrower, seized, repaid, operatorLoanProfit, plan.coinbaseTipWei,
             plan.sponsorRefundRecipient, plan.sponsorRefundWei
@@ -198,8 +217,9 @@ contract NqcMorphoSponsoredLiquidation {
         if (msg.sender != address(morpho) || !active || callbackSeen ||
             repaidAssets == 0 || keccak256(collateralRoute) != expectedCallbackHash) revert InvalidCallback();
         callbackSeen = true;
-        uint256 seizedBalance = _balance(activeCollateralToken);
-        if (seizedBalance == 0) revert InvalidCallback();
+        uint256 currentCollateral = _balance(activeCollateralToken);
+        if (currentCollateral <= baselineCollateral) revert InvalidCallback();
+        uint256 seizedBalance = currentCollateral - baselineCollateral;
         uint256 required = repaidAssets + reservedLoanForWeth + minProfit;
         if (activeMinLoanOut > required) required = activeMinLoanOut;
         _swap(activeCollateralToken, activeLoanToken, seizedBalance, required, collateralRoute);
