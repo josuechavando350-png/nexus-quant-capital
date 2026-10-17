@@ -1,0 +1,88 @@
+{
+  "url": "https://api.morpho.org/graphql",
+  "request": {
+    "query": "{ type: __type(name: \"MarketTransactionLiquidationData\") { fields { name type { kind name ofType { kind name } } } } marketTransactions(first: 25, orderBy: Timestamp, orderDirection: Asc, where: {chainId_in: [1], type_in: [Liquidation], timestamp_gte: 1792208939, timestamp_lte: 1792210379}) { items { txHash timestamp blockNumber txIndex logIndex data { __typename } market { marketId } } } }"
+  },
+  "response": {
+    "data": {
+      "type": {
+        "fields": [
+          {
+            "name": "liquidator",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            }
+          },
+          {
+            "name": "repaidAssets",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "BigInt"
+              }
+            }
+          },
+          {
+            "name": "repaidShares",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "BigInt"
+              }
+            }
+          },
+          {
+            "name": "seizedAssets",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "BigInt"
+              }
+            }
+          },
+          {
+            "name": "badDebtAssets",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "BigInt"
+              }
+            }
+          },
+          {
+            "name": "badDebtShares",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "BigInt"
+              }
+            }
+          }
+        ]
+      },
+      "marketTransactions": {
+        "items": []
+      }
+    },
+    "extensions": {
+      "complexity": 2715,
+      "maximumComplexity": 1000000
+    }
+  },
+  "observed_at_utc": "2026-10-17T04:13:45.191288+00:00"
+}

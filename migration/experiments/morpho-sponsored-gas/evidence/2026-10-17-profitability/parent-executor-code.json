@@ -1,0 +1,25 @@
+{
+  "url": "https://rpc.flashbots.net/fast",
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "eth_getCode",
+    "params": [
+      "0x5ac9bc14376bf2727c6211960cf3cec1e2f295bd",
+      {
+        "blockHash": "0xf57a30121eac97b983cad86fcb3107787a9d400ca4d69d5a96a4b1b618ac65dc",
+        "requireCanonical": true
+      }
+    ]
+  },
+  "observed_at_utc": "2026-10-17T04:11:11.629622+00:00",
+  "http_status": 200,
+  "response": {
+    "jsonrpc": "2.0",
+    "error": {
+      "code": -32603,
+      "message": "state at block #26190955 is pruned"
+    },
+    "id": 1
+  }
+}

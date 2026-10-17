@@ -181,3 +181,16 @@ FOUNDRY_PROFILE=core /tmp/nqc-toolchain/node_modules/.bin/forge test --offline -
 `--write-fixture` regenerates the exact ABI fixture; do not change it to fit the EVM.
 The passing trace contains four adjacent-boundary outcomes and two identical-state
 gross-call gas observations. See `PROFITABILITY_RESULTS.md` for scope and costs.
+
+## Offline public RPC evidence cross-check
+
+```sh
+/tmp/nqc-python/bin/python historical_rpc_audit.py
+# Expected exit 2: corroborated bytes/receipts, no state replay.
+sha256sum -c evidence/2026-10-17-profitability/HISTORICAL_SHA256SUMS
+```
+
+The verifier rehashes saved headers and selected public transactions, checks B
+receipt accounting and preserves null receipts. It never calls an RPC. Raw read
+requests and responses, provider limitations and fixed selection criteria are
+documented in `PUBLIC_DATA_PROGRESS.md`.

@@ -1,0 +1,69 @@
+{
+  "url": "https://api.morpho.org/graphql",
+  "request": {
+    "query": "{ marketTransactions(first: 25, orderBy: Timestamp, orderDirection: Asc, where: {chainId_in: [1], type_in: [Liquidation], timestamp_gte: 1791936000, timestamp_lte: 1792022399}) { items { txHash timestamp blockNumber txIndex logIndex type market { marketId lltv loanAsset { address decimals symbol } collateralAsset { address decimals symbol } } data { __typename } } } }"
+  },
+  "response": {
+    "data": {
+      "marketTransactions": {
+        "items": [
+          {
+            "txHash": "0xa0f739d97610ad4a9fd98f2b2f91745c8925c6ea01b0a8b266028ba3774f4746",
+            "timestamp": 1791966455,
+            "blockNumber": 26189539,
+            "txIndex": 222,
+            "logIndex": 712,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xe7e9694b754c4d4f7e21faf7223f6fa71abaeb10296a4c43a54a7977149687d2",
+              "lltv": "860000000000000000",
+              "loanAsset": {
+                "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+                "decimals": 6,
+                "symbol": "USDT"
+              },
+              "collateralAsset": {
+                "address": "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
+                "decimals": 18,
+                "symbol": "wstETH"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData"
+            }
+          },
+          {
+            "txHash": "0x46300e9614c547118ecdd524bc7218208088cc4ae9e5bd534e62055d38f9925b",
+            "timestamp": 1791983495,
+            "blockNumber": 26190955,
+            "txIndex": 1,
+            "logIndex": 9,
+            "type": "Liquidation",
+            "market": {
+              "marketId": "0xa0534c78620867b7c8706e3b6df9e69a2bc67c783281b7a77e034ed75cee012e",
+              "lltv": "945000000000000000",
+              "loanAsset": {
+                "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+                "decimals": 18,
+                "symbol": "WETH"
+              },
+              "collateralAsset": {
+                "address": "0xbf5495Efe5DB9ce00f80364C8B423567e58d2110",
+                "decimals": 18,
+                "symbol": "ezETH"
+              }
+            },
+            "data": {
+              "__typename": "MarketTransactionLiquidationData"
+            }
+          }
+        ]
+      }
+    },
+    "extensions": {
+      "complexity": 5125,
+      "maximumComplexity": 1000000
+    }
+  },
+  "observed_at_utc": "2026-10-17T04:13:07.063122+00:00"
+}

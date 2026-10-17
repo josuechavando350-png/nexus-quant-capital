@@ -1,0 +1,23 @@
+test_changed_signed_transaction_or_receipt_flow_is_rejected (test_historical_rpc_audit.HistoricalRpcAuditTests.test_changed_signed_transaction_or_receipt_flow_is_rejected) ... ok
+test_cross_provider_reconciliation_never_becomes_a_replay (test_historical_rpc_audit.HistoricalRpcAuditTests.test_cross_provider_reconciliation_never_becomes_a_replay) ... ERROR
+test_rlp_reference_vectors_and_independent_header_hashes (test_historical_rpc_audit.HistoricalRpcAuditTests.test_rlp_reference_vectors_and_independent_header_hashes) ... ok
+
+======================================================================
+ERROR: test_cross_provider_reconciliation_never_becomes_a_replay (test_historical_rpc_audit.HistoricalRpcAuditTests.test_cross_provider_reconciliation_never_becomes_a_replay)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/experiments/morpho-sponsored-gas/tests/test_historical_rpc_audit.py", line 28, in test_cross_provider_reconciliation_never_becomes_a_replay
+    r=audit()
+      ^^^^^^^
+  File "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/experiments/morpho-sponsored-gas/historical_rpc_audit.py", line 152, in audit
+    a=verify_case(blocks['a'],receipts['a'],indexers['a'],HASH_A,TX_A,226)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/experiments/morpho-sponsored-gas/historical_rpc_audit.py", line 92, in verify_case
+    if receipt['transactionHash'] != tx_hash or receipt['blockHash'] != block_hash:
+       ~~~~~~~^^^^^^^^^^^^^^^^^^^
+TypeError: 'NoneType' object is not subscriptable
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.107s
+
+FAILED (errors=1)

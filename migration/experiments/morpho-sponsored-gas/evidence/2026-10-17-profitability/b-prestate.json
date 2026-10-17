@@ -1,0 +1,17 @@
+{
+  "url": "https://rpc.flashbots.net/fast",
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "debug_traceTransaction",
+    "params": [
+      "0x46300e9614c547118ecdd524bc7218208088cc4ae9e5bd534e62055d38f9925b",
+      {
+        "tracer": "prestateTracer"
+      }
+    ]
+  },
+  "observed_at_utc": "2026-10-17T04:11:17.196490+00:00",
+  "http_status": 403,
+  "body": "{\"jsonrpc\":\"2.0\",\"error\":{\"code\":-32601,\"message\":\"rpc method is not whitelisted\"},\"id\":1}\n"
+}

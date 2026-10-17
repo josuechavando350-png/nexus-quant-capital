@@ -1,0 +1,84 @@
+{
+  "classification": "RPC_INDEXER_CROSSCHECK_NOT_STATE_REPLAY",
+  "case_a": {
+    "header_hash_checked": "0x8691c49e741bb2432a31ef9fe708d18ad4f343c12f171c8ec1ae07510e3a3a09",
+    "transaction_hash_checked": "0x0a2f442acfb350d6d93002038b454ead40ffcf28a777b291cbaec1746d8aa2f1",
+    "transaction_index": 226,
+    "preceding_transactions": 226,
+    "post_block_state_root": "0xdb8837d9d879972cfaab326532398df7ca8905f8b1034a88fa63267668257ac2",
+    "parent_hash": "0x976caf9ddb8d59e24460f7aabe760d96e2dc96f56b3ff0d89d6c1d7359dce670",
+    "cross_provider_receipt_available": false,
+    "sender_gas_wei": null,
+    "indexer_only_reported_sender_gas_wei": 323793004345200
+  },
+  "case_b": {
+    "header_hash_checked": "0x5d499e63c5d119293a906036f369d8d75f9560618efec0ff916e4fefa33dfda8",
+    "transaction_hash_checked": "0x46300e9614c547118ecdd524bc7218208088cc4ae9e5bd534e62055d38f9925b",
+    "transaction_index": 1,
+    "preceding_transactions": 1,
+    "post_block_state_root": "0x05c6e460d928059a6ef7912eaf9eb750536751edea6696f3653c2650b4c6e124",
+    "parent_hash": "0xf57a30121eac97b983cad86fcb3107787a9d400ca4d69d5a96a4b1b618ac65dc",
+    "cross_provider_receipt_available": true,
+    "gas_used": 745509,
+    "effective_gas_price_wei": 266148625,
+    "sender_gas_wei": 198416195275125,
+    "base_fee_burn_wei": 198416195275125,
+    "priority_fee_wei": 0
+  },
+  "case_b_parent_state_root": "0xd1e393e15a1b2cbf4111ade0819b713b3cd7fe2237553013c12efa2765f6cdae",
+  "case_b_prefix": {
+    "hash": "0x0c5ba40ae213874eb37df22686f53729371378171d81dc9899a599351d2759f0",
+    "from": "0x5875db54cd9ae2b2a875e09bb731772297ae9d92",
+    "to": "0x0000000aa232009084bd71a5797d089aa4edfad4",
+    "receipt_status": null,
+    "shared_log_emitters_with_winner": null,
+    "state_changes_reconstructed": false
+  },
+  "case_b_movements": {
+    "direct_token_transfer_events_matched": 3,
+    "weth_deposit_wei": 26409680973611000000,
+    "weth_withdrawal_wei": 368092735714237547,
+    "coinbase_payment_source": "prior indexer call trace, not a native-transfer receipt event"
+  },
+  "selection": {
+    "api_observations": [
+      {
+        "tx_hash": "0xa0f739d97610ad4a9fd98f2b2f91745c8925c6ea01b0a8b266028ba3774f4746",
+        "block": 26189539,
+        "tx_index": 222,
+        "loan_token": "USDT",
+        "loan_decimals": 6,
+        "collateral_token": "wstETH",
+        "collateral_decimals": 18,
+        "repaid_units": 513394,
+        "seized_units": 171268871993022,
+        "net_result": null,
+        "classification": "UNDETERMINED"
+      },
+      {
+        "tx_hash": "0x46300e9614c547118ecdd524bc7218208088cc4ae9e5bd534e62055d38f9925b",
+        "block": 26190955,
+        "tx_index": 1,
+        "loan_token": "WETH",
+        "loan_decimals": 18,
+        "collateral_token": "ezETH",
+        "collateral_decimals": 18,
+        "repaid_units": 26039738525656992415,
+        "seized_units": 24343983926960874121,
+        "net_result": null,
+        "classification": "UNDETERMINED"
+      }
+    ],
+    "profit_filters_used": false,
+    "population_completeness_verified": false,
+    "profitable_frequency": null,
+    "recent_window_observations": 0
+  },
+  "state_root_witness_available": false,
+  "transaction_and_receipt_trie_verified": false,
+  "consensus_finality_verified": false,
+  "fork_reproduced": false,
+  "sponsor_accepted": false,
+  "certified": false,
+  "economically_admitted_operations": 0
+}

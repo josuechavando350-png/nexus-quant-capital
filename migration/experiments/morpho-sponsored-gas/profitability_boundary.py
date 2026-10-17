@@ -71,7 +71,8 @@ def minimum_loan_reserve(amount: int, x: int, required_out: int) -> int | None:
 
 
 def liquidation(repaid_assets=8*WAD, lltv=86*10**16):
-    # Same synthetic post-accrual market as the original-code EVM fixture.
+    # Zero-cash fixture totals. With zero interest, every swept cash level has
+    # the same exact assets/shares ratio, including the 8-WETH-cash EVM boundary.
     witness = PostAccrualWitness(100*WAD, 100*WAD*10**6, 8*WAD*10**6,
                                 10*WAD, 9*10**35, lltv)
     return calculate(witness, repaid_assets*10**6)

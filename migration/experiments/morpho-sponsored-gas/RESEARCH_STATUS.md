@@ -6,6 +6,9 @@ Branch: `research/morpho-sponsored-gas-20261016` only.
 Starting commit: `37ee15bb48a7a002a60e473e56c2ee7b90b2f299`.
 Published baseline independently checked and reproduced: `a96be36b2540dafe257d384c17333468c62201a6`
 (tree `55a2a65b4e52be073071dd02c40e5ffc834a6c04`). Prior checkpoint: `fd9c1ff`.
+Published economic continuation: `31cb31e58e223c2b1769bf38be1f2a59afe598b3`,
+tree `a4665af1cb0b3d2b71449702351fc28c2e89ab00`, byte-identical to local
+`8feaef29dca4c72ccfb8cec905a1354d241909c3`.
 The current file and subsequent additions belong to the research commit that
 contains them; obtain its exact identity with `git rev-parse HEAD` and
 `git log -1 -- RESEARCH_STATUS.md`. A file cannot contain its own commit hash.
@@ -33,11 +36,12 @@ swap assumptions with original Uniswap V2 behavior and verify observed accountin
 The `a96be36` baseline was reproduced as 141 Python / 48 Solidity / 9 isolation.
 The exact-profitability continuation adds six Python checks and two Solidity
 functions that test the economic threshold and compare identical-state calls.
+The historical RPC follow-up adds three focused integrity checks.
 Current result:
 
 | Suite | Passed | Failed | Skipped |
 | --- | ---: | ---: | ---: |
-| Experimental Python | **147** | 0 | 0 |
+| Experimental Python | **150** | 0 | 0 |
 | Default Solidity: 29 executor tests + 4 parity tests | **33** | 0 | 0 |
 | Original-source Solidity: 4 Morpho + 4 Bundler + 9 liquidity-boundary tests | **17** | 0 | 0 |
 | Solidity total | **50** | 0 | 0 |
@@ -46,8 +50,11 @@ Current result:
 The Solidity totals count test functions, not fuzz iterations or vectors. One
 balance-invariant test runs 256 deterministic fuzz cases. Parity compares 65
 liquidation and 65 interest vectors plus nested ABI/callback encoding.
-Latest run: `evidence/2026-10-17-profitability/validation-run.json`, logs and
-`SHA256SUMS`. Previous evidence remains unchanged under `evidence/2026-10-17/`.
+Latest Python/isolation run: `evidence/2026-10-17-profitability/historical-validation-run.json`.
+The 50 Solidity tests ran at `31cb31e`; their unchanged source hashes are checked
+in the latest manifest. Economic validation: `evidence/2026-10-17-profitability/validation-run.json`.
+Logs and both checksum manifests (`HISTORICAL_SHA256SUMS`, `SHA256SUMS`) are in
+that evidence directory. Previous evidence remains unchanged under `evidence/2026-10-17/`.
 Previous continuation evidence also remains unchanged.
 Local checks do not imply a remote CI run. Legacy workflows remain disabled.
 
@@ -91,6 +98,9 @@ reports `original_objects_checked=false`; no historical recertification claimed.
 - Strict hex/ABI integers, pinned market identity and trace provenance checks
   reject malformed or substituted observations. Supplied evidence remains untrusted
   without independent authentication; booleans do not certify chain truth.
+- New RPC parsing initially failed on a null receipt despite HTTP 200. The
+  verifier now records unavailable receipts explicitly; the failure log and raw
+  responses remain intact. No historical receipt was invented.
 - Baseline/pre-fix failures are retained in evidence logs. They are not hidden by
   the latest successful run. Blocking model/audit exits 2 are expected, not passes
   authorizing trading.
@@ -121,6 +131,7 @@ reports `original_objects_checked=false`; no historical recertification claimed.
   profit, and never NQC P&L.
 
 Exact economic limits and architecture gas comparison: `PROFITABILITY_RESULTS.md`.
+New public data, byte verification and remaining replay gaps: `PUBLIC_DATA_PROGRESS.md`.
 Detailed baseline: `RESEARCH_FINDINGS.md`. New controlled experiments, EVM traces,
 fee/impact accounting and provider findings: `LIQUIDITY_BOUNDARY_RESULTS.md`.
 
@@ -145,14 +156,22 @@ validated. No Titan/Quasar sponsorship of NQC has been demonstrated.**
 
 ## Pending, blocked and unexecuted
 
-1. Authentic historical replay: no canonical state/root or complete prefix replay.
-   Case B index 1 requires its one prior transaction; case A index 226 requires
-   226. Parent-block calls and winner traces are insufficient by themselves.
+1. Authentic historical replay: A/B full blocks and B parent header now available
+   from public Flashbots RPC. Header hashes verified locally; state contents under
+   the roots and prefix execution remain unavailable. B prefix hash is identified
+   in the full block, but its receipt is null. A requires 226 prior transactions.
+   Header/transaction byte checks are not consensus or transaction/receipt trie
+   validation. B receipt independently corroborates gas and five token/wrap events.
 2. Public RPC access: original archive probe failed; continuation basic reads
    returned PublicNode HTTP 403 and Llama HTTP 405; new 1RPC/dRPC reads returned
    HTTP 405/403. Etherscan retrieval also failed. dRPC trace methods are documented
    as paid-only and were not attempted. This is an access blocker,
    not evidence that a historical state cannot exist. Free indexer quota exhausted.
+   New Flashbots reads work for blocks/B receipt, but parent code returns
+   `state at block #26190955 is pruned`; prestate tracing returns HTTP 403
+   `rpc method is not whitelisted`. A, B-prefix and C receipts return null.
+   MEV Blocker access denied; no bypass/retry. Morpho public API confirms B
+   immutable parameters but supplies no authenticated historical state here.
 3. Historical runtime/immutables: source snapshots and partially verified explorer
    metadata agree, but actual code identity at the chosen prestate is unproved.
 4. Real DEX prices/reserves, actual flash capacity, adaptive IRM/oracle storage,
@@ -161,21 +180,28 @@ validated. No Titan/Quasar sponsorship of NQC has been demonstrated.**
    proposer settlement, failure liability, inclusion and competition unproved.
 6. No production swap adapter, audited deployed route, authentic fork gas estimate
    or empirically grounded capture/failure probability. Bundler3 is deprecated.
-7. No Reth/Geth archive provisioned; no paid infrastructure. Remote CI not run;
+7. Fixed-day API selection (no profit filters) returned B and an additional
+   0.513394-USDT liquidation C. Both consolidated results remain undetermined.
+   A bounded recent-history selection returned zero records. Population
+   completeness and profitable/capture frequency are unknown.
+8. No Reth/Geth archive provisioned; no paid infrastructure. Remote CI not run;
    Rust tests and original source object verification not run (scope/tool limits).
 
 ## Next objective and approval criteria
 
 Prioritize case B because its prefix has one transaction. Use the read-only
 `fixtures/case_b_replay_requests.json` with an accessible authorized archive node.
-No request signs, sends or funds a transaction. Collect full headers/transactions,
-receipt and prestate/call traces; independently authenticate the block and state.
+No request signs, sends or funds a transaction. Full A/B headers/transactions
+and B receipt are saved; the next missing input is authenticated historical
+code/storage and prefix replay. Preserve null/error responses. Do not refetch
+blocked methods or treat available post-block roots as intermediate state.
 A prestate trace covers only touched slots and is not a proof or a sufficient
 witness for every counterfactual route.
 
 Files: `historical_trace_audit.py`, `historical_prestate_probe.py`,
 `tests-core/`, `contracts/NqcMorphoSponsoredLiquidation.sol`, `bundle_gate.py`,
-`economic_ledger.py`, `profitability_boundary.py`, `PROFITABILITY_RESULTS.md`.
+`economic_ledger.py`, `profitability_boundary.py`, `historical_rpc_audit.py`,
+`PROFITABILITY_RESULTS.md`, `PUBLIC_DATA_PROGRESS.md`.
 
 Required experiments: reproduce the original at its exact pretransaction state;
 compare both alternatives from a restored identical state using actual DEX code
