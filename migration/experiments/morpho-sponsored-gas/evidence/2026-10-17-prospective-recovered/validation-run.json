@@ -1,0 +1,86 @@
+[
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-v",
+      "-s",
+      "tests",
+      "-p",
+      "test_*.py"
+    ],
+    "environment_override": null,
+    "started_at": "2026-10-17T05:39:37.247106+00:00",
+    "finished_at": "2026-10-17T05:39:37.739220+00:00",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "output": "evidence/2026-10-17-prospective-recovered/final-python.log",
+    "output_sha256": "569120de66b3ee13aef848febbfab8236d02e8618d164141eeb8b1f882116070"
+  },
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-toolchain/node_modules/.bin/forge",
+      "test",
+      "--offline",
+      "--use",
+      "/workspace/scratch/f380716a269b/nqc-toolchain/solc-0.8.24",
+      "-vv"
+    ],
+    "environment_override": null,
+    "started_at": "2026-10-17T05:39:37.739445+00:00",
+    "finished_at": "2026-10-17T05:39:38.865078+00:00",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "output": "evidence/2026-10-17-prospective-recovered/final-solidity.log",
+    "output_sha256": "b8282940eb05626fa0a4add12e9c50bf93c982336783bece27ca693d8f700543"
+  },
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-toolchain/node_modules/.bin/forge",
+      "test",
+      "--offline",
+      "--use",
+      "/workspace/scratch/f380716a269b/nqc-toolchain/solc-0.8.24",
+      "--match-path",
+      "tests-core/*.t.sol",
+      "-vv"
+    ],
+    "environment_override": {
+      "FOUNDRY_PROFILE": "core"
+    },
+    "started_at": "2026-10-17T05:39:38.865204+00:00",
+    "finished_at": "2026-10-17T05:39:40.908604+00:00",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "output": "evidence/2026-10-17-prospective-recovered/final-core.log",
+    "output_sha256": "703ec7cba87e5c2c6ea23d21a9144013b82d505bdc58172865ddab2e520780b6"
+  },
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "case_b_route_audit.py"
+    ],
+    "environment_override": null,
+    "started_at": "2026-10-17T05:39:40.908744+00:00",
+    "finished_at": "2026-10-17T05:39:40.969413+00:00",
+    "exit_code": 2,
+    "expected_exit_code": 2,
+    "output": "evidence/2026-10-17-prospective-recovered/final-case-b-costs.json",
+    "output_sha256": "1633e07b5e9ad4e2d0d58f0136a44dbd6c79614e9cb47efb46ae3a5a142368cb"
+  },
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "monthly_census.py"
+    ],
+    "environment_override": null,
+    "started_at": "2026-10-17T05:39:40.969571+00:00",
+    "finished_at": "2026-10-17T05:39:41.039083+00:00",
+    "exit_code": 2,
+    "expected_exit_code": 2,
+    "output": "evidence/2026-10-17-prospective-recovered/final-census.json",
+    "output_sha256": "ff58db864dbad6898be797cf10c01f4c320f5d4345f53a06b98101b3a9a913a6"
+  }
+]

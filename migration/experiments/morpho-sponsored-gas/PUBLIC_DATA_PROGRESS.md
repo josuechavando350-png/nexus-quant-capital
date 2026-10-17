@@ -1,5 +1,30 @@
 # Public historical data progress — 2026-10-17 UTC
 
+## Latest order and prospective continuation
+
+Published `bc46cbef64bdf66d16563150c09446bad95a86f2` reconstructs all 602 B
+transactions and matches the header's transaction trie root. Index 1 and its
+single prefix transaction are now byte-commitment checked, relative to the pinned
+header. This supersedes the earlier statement below that B's transaction trie
+was not verified. No receipt trie, state replay or consensus finality is claimed.
+See `CASE_B_PRESTATE.md`.
+
+One new preserved Morpho REST sample has three different indexed heights;
+`PROSPECTIVE_OBSERVATION.md` and its raw evidence retain those heights, header
+hashes, local times and exact amounts. The collector does not certify coherent
+state, liquidatability, DEX liquidity or profit. Four new regressions enforce that
+boundary, including complete-data availability before any proposed future event.
+The fixed short follow-up returned no records, without proving absence.
+
+A first public BlockPI header read returned HTTP 403 / error 1010; the selection
+and failed response are saved. No remaining planned request or retry was made.
+Earlier Flashbots current-state eth_call denial and Cloudflare account-proof
+failure were observed before the temporary workspace was lost; their raw responses
+are unavailable and are not reconstructed here. Historical prestate remains blocked.
+
+Current executed total: 168 Python, 50 Solidity and 9 isolation passes, no failures
+or skips. Latest raw logs: `evidence/2026-10-17-prospective-recovered/`.
+
 ## Subsequent monthly-evidence checkpoint
 
 The historical checkpoint below was published as `1e21bbc40ac87f89f89a0eb9d277124103db589c`.
@@ -59,10 +84,11 @@ It also re-encodes the already-public type-2 transactions for A, B and B's prefi
 checking their transaction hashes. This performs no signing and creates no
 transaction for broadcast. Tampered state-root bytes or transaction value fail.
 
-This verifies byte commitments against pinned hashes; it is **not** consensus
-finality verification, a transaction/receipt trie proof or state execution.
-The RPC's reported ordering is available, but its transactionsRoot is not locally
-recomputed. Do not upgrade this to a cryptographic proof of every list position.
+At this earlier checkpoint, only header and selected transaction hashes were
+checked. The subsequent `historical_order_audit.py` now also reconstructs B's
+entire transaction trie, authenticating its positions relative to the pinned
+header. A's trie, receipt tries, consensus finality and state execution remain
+unverified. The additional ordering check supplies no missing storage bytes.
 
 B parent state root (end of block 26190954):
 `0xd1e393e15a1b2cbf4111ade0819b713b3cd7fe2237553013c12efa2765f6cdae`.

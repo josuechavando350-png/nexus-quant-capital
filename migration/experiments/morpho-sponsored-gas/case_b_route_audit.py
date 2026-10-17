@@ -27,6 +27,25 @@ def signature(name):
     return '0x' + keccak256(name.encode()).hex()
 
 
+def cost_frontier(sale_minus_debt, coinbase, gas_units, observed_gas_price):
+    """Unchanged external route/bid sensitivity, not a gas or sponsor quote."""
+    for value in (sale_minus_debt,coinbase,gas_units,observed_gas_price):
+        if type(value) is not int or not 0 <= value < 2**256:
+            raise ValueError('exact unsigned cost inputs required')
+    if gas_units == 0: raise ValueError('positive measured gas required')
+    after_bid = sale_minus_debt-coinbase
+    residual = after_bid-gas_units*observed_gas_price
+    return {'scope':'UNCHANGED_EXTERNAL_ROUTE_AND_COINBASE_BID_ONLY','gas_units_assumption':gas_units,
+            'max_total_gas_price_wei_for_strict_positive_before_unknown_costs':
+                (after_bid-1)//gas_units if after_bid > 0 else None,
+            'additional_cost_that_consumes_all_remaining_residual_wei':max(0,residual),
+            'max_additional_cost_wei_for_strict_positive':residual-1 if residual > 0 else None,
+            'counterfactual_gas_scenarios':[
+                {'gas_price_wei':p,'residual_before_unknown_obligations_wei':after_bid-gas_units*p}
+                for p in sorted({observed_gas_price,10**9,3*10**9,5*10**9,10*10**9})],
+            'nqc_gas_or_sponsor_estimate':False}
+
+
 def audit(trace=None, receipt=None):
     raw = (ROOT / 'fixtures/fluid_case_b_reference.json').read_bytes()
     if hashlib.sha256(raw).hexdigest() != REFERENCE_SHA256:
@@ -119,6 +138,8 @@ def audit(trace=None, receipt=None):
         'sale_minus_debt_wei': pre_gas,
         'coinbase_out_wei': coinbase, 'sender_gas_out_wei': gas,
         'incremental_residual_after_known_costs_upper_bound_wei': residual_bound,
+        'cost_frontier':cost_frontier(pre_gas,coinbase,int(receipt['gasUsed'],16),
+                                     int(receipt['effectiveGasPrice'],16)),
         'upper_bound_scope': 'Observed flows only, before unknown external obligations; not a counterfactual NQC quote',
         'initial_weth_excluded_from_income_wei': ledger['executor_initial_weth_wei'],
         'final_weth_inferred_wei': ledger['executor_final_weth_inferred_wei'],

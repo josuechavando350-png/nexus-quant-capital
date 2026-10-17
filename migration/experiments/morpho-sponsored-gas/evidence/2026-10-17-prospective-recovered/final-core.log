@@ -1,0 +1,31 @@
+Compiling 7 files with Solc 0.8.24
+Solc 0.8.24 finished in 1.88s
+Compiler run successful!
+
+Ran 4 tests for tests-core/NqcOriginalMorpho.t.sol:NqcOriginalMorphoTest
+[PASS] testCallbackLiquidationWorksWithoutMorphoLoanCash() (gas: 581812)
+[PASS] testOriginalMorphoCallbackRepaymentAndBalanceConservation() (gas: 490047)
+[PASS] testOriginalMorphoChangedOracleInvalidatesPriorPlan() (gas: 224208)
+[PASS] testOriginalMorphoRejectsHealthyPosition() (gas: 220633)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 2.09ms (2.03ms CPU time)
+
+Ran 4 tests for tests-core/NqcBundlerOriginal.t.sol:NqcBundlerOriginalTest
+[PASS] testBundlerFlashRouteNeedsMorphoLoanCash() (gas: 229673)
+[PASS] testBundlerInsufficientSwapRollsBack() (gas: 361788)
+[PASS] testBundlerOriginalFlashLiquidationReentryRepays() (gas: 331316)
+[PASS] testBundlerWrongCallbackHashRollsBack() (gas: 151770)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 3.10ms (1.56ms CPU time)
+
+Ran 9 tests for tests-core/NqcLiquidityBoundary.t.sol:NqcLiquidityBoundaryTest
+[PASS] testEarlierSwapInvalidatesBothRoutesAndDoesNotSpendDonations() (gas: 1322012)
+[PASS] testExactPythonDepthBoundaryBothRoutes() (gas: 3100998)
+[PASS] testMorphoCashBoundarySweep() (gas: 7467710)
+[PASS] testOriginalHalfEthBudgetIsNotCoveredAtOracleAlignedPrice() (gas: 785098)
+[PASS] testPoolDepthSweep() (gas: 6333505)
+[PASS] testTraceCallbackAtSameCash() (gas: 874275)
+[PASS] testTraceCallbackZeroCash() (gas: 874292)
+[PASS] testTraceFlashAtBoundary() (gas: 817858)
+[PASS] testTraceFlashBelowBoundary() (gas: 615601)
+Suite result: ok. 9 passed; 0 failed; 0 skipped; finished in 8.90ms (18.94ms CPU time)
+
+Ran 3 test suites in 9.93ms (14.09ms CPU time): 17 tests passed, 0 failed, 0 skipped (17 total tests)

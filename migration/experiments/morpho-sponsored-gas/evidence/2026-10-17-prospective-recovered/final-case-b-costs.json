@@ -1,0 +1,105 @@
+{
+  "classification": "OBSERVED_ROUTE_RECONCILED_NOT_HISTORICAL_REPLAY",
+  "reference_commit": "9496626f71a761fc296dc3b2efbfd54c504e18f0",
+  "pool": "0xdd72157a021804141817d46d9852a97addfb9f59",
+  "liquidity_layer": "0x52aa899454998be5b000ad077a46bbe360f4e497",
+  "token_in": "0xbf5495efe5db9ce00f80364c8b423567e58d2110",
+  "token_out": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "swap_in": 24343983926960874121,
+  "swap_out_wei": 26409680973611000000,
+  "minimum_output_from_original_call": 0,
+  "recipient": "0x5ac9bc14376bf2727c6211960cf3cec1e2f295bd",
+  "operations": [
+    {
+      "token": "0xbf5495efe5db9ce00f80364c8b423567e58d2110",
+      "supply_amount": 24340940928969000000,
+      "borrow_amount": 0,
+      "withdraw_to": "0x0000000000000000000000000000000000000000",
+      "borrow_to": "0x0000000000000000000000000000000000000000",
+      "post_operation_packed_totals": 11075170400821418252,
+      "post_operation_packed_exchange_prices": 45671926166590716196341031100955121416739456647298676162560
+    },
+    {
+      "token": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "supply_amount": -26409680973611000000,
+      "borrow_amount": 0,
+      "withdraw_to": "0x5ac9bc14376bf2727c6211960cf3cec1e2f295bd",
+      "borrow_to": "0x0000000000000000000000000000000000000000",
+      "post_operation_packed_totals": 5012463446582405694187615167583356755436721554200260324372,
+      "post_operation_packed_exchange_prices": 50677578054785520366125937137450650521254892447289125109999
+    }
+  ],
+  "observed_storage_reads": [
+    {
+      "slot": "0x84481214d3f2018de0daf983b0d58307ac7a5294093d7fc9b6d961f4e9505ecb",
+      "name": "exchangePriceToken0Slot",
+      "value": 45671926166590716196341031100955121416739456647298676162560,
+      "temporal_scope": "inside winning transaction, before its Fluid operate calls"
+    },
+    {
+      "slot": "0xa1829a9003092132f585b6ccdd167c19fe9774dbdea4260287e8a8e8ca8185d7",
+      "name": "exchangePriceToken1Slot",
+      "value": 50677144369931456948158739903712472492294080815280717037807,
+      "temporal_scope": "inside winning transaction, before its Fluid operate calls"
+    },
+    {
+      "slot": "0xd62514f881626332ada207f8acb7ec0f33c4279ec263b57b1869255363590335",
+      "name": "supplyToken0Slot",
+      "value": 338662193172422928517598140269819909610791348199278147165807643161,
+      "temporal_scope": "inside winning transaction, before its Fluid operate calls"
+    },
+    {
+      "slot": "0xe3b9bd247a03c6620600a8c5dd00e3f5620c90d52d504fc2e744d0e6e1d85ccf",
+      "name": "supplyToken1Slot",
+      "value": 335782560197110817943826944200344546227071560438196210472380364823,
+      "temporal_scope": "inside winning transaction, before its Fluid operate calls"
+    }
+  ],
+  "collateral_transfer_minus_liquidity_supply_credit": 3042997991874121,
+  "gap_qualification": "Accounting gap consistent with revenue-cut/precision effects in reference source; NOT a separately verified total DEX fee or price impact",
+  "oracle_value_wei_fraction": "6619150616587949260904406305602535377/250000000000000000",
+  "oracle_value_minus_sale_wei_fraction": "16730373185199260904406305602535377/250000000000000000",
+  "sale_minus_debt_wei": 369942447954007585,
+  "coinbase_out_wei": 368092735714237547,
+  "sender_gas_out_wei": 198416195275125,
+  "incremental_residual_after_known_costs_upper_bound_wei": 1651296044494913,
+  "cost_frontier": {
+    "scope": "UNCHANGED_EXTERNAL_ROUTE_AND_COINBASE_BID_ONLY",
+    "gas_units_assumption": 745509,
+    "max_total_gas_price_wei_for_strict_positive_before_unknown_costs": 2481140052,
+    "additional_cost_that_consumes_all_remaining_residual_wei": 1651296044494913,
+    "max_additional_cost_wei_for_strict_positive": 1651296044494912,
+    "counterfactual_gas_scenarios": [
+      {
+        "gas_price_wei": 266148625,
+        "residual_before_unknown_obligations_wei": 1651296044494913
+      },
+      {
+        "gas_price_wei": 1000000000,
+        "residual_before_unknown_obligations_wei": 1104203239770038
+      },
+      {
+        "gas_price_wei": 3000000000,
+        "residual_before_unknown_obligations_wei": -386814760229962
+      },
+      {
+        "gas_price_wei": 5000000000,
+        "residual_before_unknown_obligations_wei": -1877832760229962
+      },
+      {
+        "gas_price_wei": 10000000000,
+        "residual_before_unknown_obligations_wei": -5605377760229962
+      }
+    ],
+    "nqc_gas_or_sponsor_estimate": false
+  },
+  "upper_bound_scope": "Observed flows only, before unknown external obligations; not a counterfactual NQC quote",
+  "initial_weth_excluded_from_income_wei": 6392502690919791,
+  "final_weth_inferred_wei": 8242214930689829,
+  "dex_fee_separately_verified": null,
+  "price_impact_separately_verified": null,
+  "sponsor_cost": null,
+  "historical_runtime_verified": false,
+  "pretransaction_state_reconstructed": false,
+  "nqc_profit_certified": false
+}

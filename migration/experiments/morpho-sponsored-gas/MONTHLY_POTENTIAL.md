@@ -1,5 +1,19 @@
 # Economic evidence and monthly capacity — 2026-10-17 UTC
 
+Latest continuation: **168 Python / 50 Solidity / 9 isolation** passed after
+restoring the workspace. The transaction trie now verifies B's index-1 ordering
+against its pinned header (`bc46cbef64bdf66d16563150c09446bad95a86f2`).
+`PROSPECTIVE_OBSERVATION.md` records one preserved sample with inconsistent
+market/position/oracle heights and a 95-second, same-market indexer follow-up
+with zero returned events. This does not expand the 143-event historical census,
+prove absence, identify a capturable liquidation or estimate capture frequency.
+`PROFITABILITY_RESULTS.md` adds the exact observed-route cost frontier: at 3 gwei,
+retaining B's conversion, gas units and coinbase bid gives a negative residual.
+Authentic positive NQC replays and economically admitted operations remain zero;
+the four income categories and target requirement table below are unchanged.
+
+The following sections retain the previous monthly checkpoint and its evidence.
+
 Published implementation/evidence commit: `c53c341426d668ef324f6f914892294e2a595bd8`.
 Its Git tree `2aab7267d2cacfc85975c9e9b7d6cc4f64f43792` matches the tested local
 commit byte for byte. This documentation follow-up records the published identity.

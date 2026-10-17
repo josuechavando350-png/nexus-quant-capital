@@ -1,6 +1,39 @@
 # Exact economic boundaries — 2026-10-17 UTC
 
-Subsequent evidence: `MONTHLY_POTENTIAL.md` and `case_b_route_audit.py` identify
+## Latest case B cost boundary (observed external route)
+
+`case_b_route_audit.cost_frontier` now computes an integer-exact cost frontier.
+Keep the observed Fluid output, debt, entire coinbase payment and 745509 gas
+units fixed. These are sensitivity assumptions, not NQC gas or sponsor quotes.
+
+| Total effective gas price | Residual ETH-equivalent before unknown obligations |
+| ---: | ---: |
+| Observed 0.266148625 gwei | 0.001651296044494913 |
+| 1 gwei | 0.001104203239770038 |
+| 3 gwei | **-0.000386814760229962** |
+| 5 gwei | -0.001877832760229962 |
+| 10 gwei | -0.005605377760229962 |
+
+The maximum integer gas price leaving a strictly positive residual before other
+costs is **2481140052 wei/gas** (2.481140052 gwei); one wei/gas more fails that
+strict boundary. At the observed gas price, additional obligations of exactly
+1651296044494913 wei consume all remaining residual. A strictly positive result
+allows at most 1651296044494912 additional wei under these unchanged assumptions.
+Any unaccounted deployment, funding, sponsor remuneration or external liability
+reduces that amount. No positive net result is certified while those costs and
+ownership consolidation are unknown. The initial 0.006392502690919791 WETH stays
+excluded; the 0.368092735714237547 ETH coinbase payment is fully charged, without
+attributing it to a particular builder. Output already includes conversion costs.
+
+This refutes profitability at 3 gwei for this fixed route and bid, not for all
+Morpho liquidations or all possible bids. Removing the bid would alter inclusion
+conditions. Original route gas cannot be substituted for either NQC architecture.
+The one-wei boundary, already-exhausted budget and exact-integer checks pass.
+Executed output: `evidence/2026-10-17-prospective-recovered/final-case-b-costs.json`.
+
+## Earlier economic checkpoints
+
+`MONTHLY_POTENTIAL.md` and `case_b_route_audit.py` identify
 case B's actual Fluid ezETH/ETH conversion. It is not the V2 fixture below.
 Its observed sale-minus-debt is 0.369942447954007585 ETH-equivalent; after the
 entire coinbase payment and sender gas, the residual upper bound is

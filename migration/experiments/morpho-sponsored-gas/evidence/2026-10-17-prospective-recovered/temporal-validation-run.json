@@ -1,0 +1,70 @@
+[
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-v",
+      "-s",
+      "tests",
+      "-p",
+      "test_*.py"
+    ],
+    "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/experiments/morpho-sponsored-gas",
+    "started_at": "2026-10-17T05:44:28.390019+00:00",
+    "finished_at": "2026-10-17T05:44:28.912732+00:00",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "output": "evidence/2026-10-17-prospective-recovered/final-python-temporal.log",
+    "output_sha256": "5210aa0e19184095ac48a9633d2f29a79344374f871bf6d9339a7c086c79bf92"
+  },
+  {
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-v",
+      "-s",
+      "migration",
+      "-p",
+      "test_isolation.py"
+    ],
+    "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital",
+    "started_at": "2026-10-17T05:44:28.912848+00:00",
+    "finished_at": "2026-10-17T05:44:29.718859+00:00",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "output": "evidence/2026-10-17-prospective-recovered/final-isolation.log",
+    "output_sha256": "497945f5400a67c95ab7c091d6e9790e69e3fe54e4fef28f4747babc6a49ffda"
+  },
+  {
+    "command": [
+      "python3",
+      "migration/verify_isolation.py"
+    ],
+    "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital",
+    "started_at": "2026-10-17T05:44:29.718910+00:00",
+    "finished_at": "2026-10-17T05:44:29.809783+00:00",
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "output": "evidence/2026-10-17-prospective-recovered/final-isolation-verifier.log",
+    "output_sha256": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940"
+  },
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "prospective_observation.py",
+      "--analyze",
+      "evidence/2026-10-17-prospective-recovered/sample-00"
+    ],
+    "cwd": "/workspace/scratch/f380716a269b/nexus-quant-capital/migration/experiments/morpho-sponsored-gas",
+    "started_at": "2026-10-17T05:44:29.809831+00:00",
+    "finished_at": "2026-10-17T05:44:29.879334+00:00",
+    "exit_code": 2,
+    "expected_exit_code": 2,
+    "output": "evidence/2026-10-17-prospective-recovered/final-prospective.json",
+    "output_sha256": "ee2739771b9b76ae5cbf16a228c29764e0721fbd81980350ce67a84cf7d50742"
+  }
+]

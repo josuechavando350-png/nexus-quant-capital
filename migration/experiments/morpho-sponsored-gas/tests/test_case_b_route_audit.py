@@ -1,9 +1,23 @@
 import unittest
-from case_b_route_audit import audit, signature
+from case_b_route_audit import audit, signature, cost_frontier
 from historical_rpc_audit import load
 
 
 class CaseBRouteTests(unittest.TestCase):
+    def test_observed_bid_cost_boundary_is_strict_and_not_sponsorship(self):
+        report = audit(); frontier = report['cost_frontier']
+        available = report['sale_minus_debt_wei']-report['coinbase_out_wei']
+        gas = frontier['gas_units_assumption']
+        limit = frontier['max_total_gas_price_wei_for_strict_positive_before_unknown_costs']
+        self.assertGreater(available-gas*limit,0)
+        self.assertLessEqual(available-gas*(limit+1),0)
+        residual = report['incremental_residual_after_known_costs_upper_bound_wei']
+        self.assertEqual(frontier['max_additional_cost_wei_for_strict_positive'],residual-1)
+        self.assertEqual(frontier['additional_cost_that_consumes_all_remaining_residual_wei'],residual)
+        self.assertFalse(frontier['nqc_gas_or_sponsor_estimate'])
+        self.assertIsNone(cost_frontier(1,2,1,1)['max_additional_cost_wei_for_strict_positive'])
+        with self.assertRaises(ValueError): cost_frontier(1.0,0,1,1)
+
     def test_fluid_signed_movements_and_known_cost_upper_bound(self):
         result = audit()
         self.assertEqual(signature('swapIn(bool,uint256,uint256,address)')[:10], '0x2668dfaa')

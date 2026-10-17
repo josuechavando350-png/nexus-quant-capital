@@ -1,5 +1,75 @@
 # NQC research continuity — 2026-10-17 UTC / 2026-10-16 Mexico City
 
+## Current continuation: preserved prospective evidence and cost frontier
+
+Current published base: **`bc46cbef64bdf66d16563150c09446bad95a86f2`**, tree
+`1cd55a15258b7646e10f5a1169bdd77967759a99`; byte-identical to tested local
+`5fa4d3160bbcb4eb1ea444735bd5ad2edf84b501`. This continuation belongs to the
+commit containing this file (`git rev-parse HEAD`); publication identity is also
+recorded in the Git commit message. Only the authorized research branch changes.
+
+Executed after workspace recovery: **168 Python / 50 Solidity (33+17) / 9
+isolation passed**, zero failures or skips. This supersedes earlier totals below.
+New checks concern transaction ordering (4), prospective evidence (4) and the
+strict cost frontier (1), not additional synthetic profit scenarios.
+Preserved logs/commands are in `evidence/2026-10-17-prospective-recovered/`:
+`validation-run.json` records the rebuilt Solidity execution; the subsequent
+`temporal-validation-run.json` records all 168 Python and 9 isolation checks after
+the final timing correction. `INPUT_SHA256SUMS` identifies current executable
+inputs; `SHA256SUMS` checks evidence bytes. No failed check was hidden or skipped.
+The older monthly checksum command reports two source-version mismatches in this
+new checkout; both match their historical Git bytes. All historical raw evidence
+is unchanged (`historical-manifest-check.json`). Old manifests were not rewritten.
+
+Environment restored and verified: Python 3.12.14, PyCryptodome 3.23.0, Forge
+1.7.1 at `4072e48705af9d93e3c0f6e29e93b5e9a40caed8`, NQC solc 0.8.24.
+Original sources use pinned solc 0.8.19 / 0.8.28 / 0.5.16 and commits documented
+in `toolchain.json` and `REPRODUCE.md`. No Solidity source changed. Original Git
+objects remain unavailable (`original_objects_checked=false`); Rust, remote CI
+and authentic historical EVM replay remain unexecuted. 106 workflows are disabled.
+
+Implemented and observed:
+
+- `prospective_observation.py` collects a finite public read-only sample with
+  immutable envelopes, fixed selection, exact amounts, state heights, block hashes
+  and acquisition times. The one preserved sample has market/position/oracle
+  heights **26210230 / 26210231 / 26210229**. Incoherent state and unverified REST
+  accrual semantics block liquidation and profit classification.
+- Temporal validation now requires completion of all data, including headers,
+  before a candidate event. A stricter check prevents retrospective header reads
+  from supplying an earlier claimed availability time. Complete saved data arrived
+  at **2026-10-17T05:38:26.670478Z**. This does not prove opportunity or capture.
+- A frozen 95-second follow-up in that market returned zero indexer records.
+  Coverage/lag is unknown; this is neither absence proof nor a frequency estimate.
+- A newly tried official public BlockPI endpoint returned HTTP 403/error 1010
+  on its first header request. Raw evidence is retained; the remaining planned
+  calls were not made and there was no retry or bypass.
+- `case_b_route_audit.cost_frontier` retains the observed conversion, 745509 gas
+  units and full **0.368092735714237547 ETH** coinbase payment. Strict positivity
+  before unknown costs requires effective gas price at most **2.481140052 gwei**.
+  At 3 gwei the residual is **-0.000386814760229962 ETH-equivalent**. The observed
+  0.001651296044494913 residual remains an upper bound, not certified profit.
+  Pre-existing **0.006392502690919791 WETH** is excluded from new income.
+
+Details: `PROSPECTIVE_OBSERVATION.md`, `CASE_B_PRESTATE.md`,
+`PROFITABILITY_RESULTS.md`, `MONTHLY_POTENTIAL.md`, `PUBLIC_DATA_PROGRESS.md`.
+The 143-event / 141-transaction historical census is unchanged. Authentic positive
+NQC replays and economically admitted operations remain **0**. Monthly capacity
+is **not estimable**; target tables are requirements under explicit hypothetical
+margins. Titan/Quasar acceptance, builder income and owner-zero-ETH funding remain
+unproved. No transaction, signature, public deployment or spending occurred.
+
+Next decisive test: authenticated B parent account/code/storage, applicable block
+transitions and execution of transaction 0, then original Morpho/Fluid receipt
+parity at transaction 1. For prospective work, obtain one coherent pinned state
+with verified accrual and real Fluid liquidity before its subsequent event.
+Only then compare both NQC routes from identical state with total deployment,
+gas and evidenced financing costs. Missing historical state and executable DEX
+liquidity remain the primary engineering blocker; capture and financing are
+separate economic gates. Do not turn the new read-only collector into a daemon.
+
+The sections below preserve prior checkpoints and their historical test totals.
+
 ## New continuation: authenticated transaction ordering
 
 Starting head independently checked: `55e83bcb85d1e8f13e16d359f9954e611e4b1560`.
@@ -227,8 +297,9 @@ architecture/funding comparison and exact target requirements.
    from public Flashbots RPC. Header hashes verified locally; state contents under
    the roots and prefix execution remain unavailable. B prefix hash is identified
    in the full block, but its receipt is null. A requires 226 prior transactions.
-   Header/transaction byte checks are not consensus or transaction/receipt trie
-   validation. B receipt independently corroborates gas and five token/wrap events.
+   B's transaction trie is now verified against its pinned header; this is not
+   consensus finality, receipt-trie validation or state execution. B's receipt
+   independently corroborates gas and five token/wrap events.
 2. Public RPC access: original archive probe failed; continuation basic reads
    returned PublicNode HTTP 403 and Llama HTTP 405; new 1RPC/dRPC reads returned
    HTTP 405/403. Etherscan retrieval also failed. dRPC trace methods are documented

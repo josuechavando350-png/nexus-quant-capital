@@ -48,7 +48,7 @@ PYTHONDONTWRITEBYTECODE=1 /tmp/nqc-python/bin/python -m unittest discover -v -s 
 /tmp/nqc-toolchain/node_modules/.bin/forge test --offline --use /tmp/nqc-toolchain/solc-0.8.24 -vv
 ```
 
-Expected current result: 141 Python and 33 Solidity test functions pass. The
+Expected current result: 168 Python and 33 Solidity test functions pass. The
 Solidity suite includes 256 seeded fuzz iterations and 130 arithmetic parity
 vectors plus ABI tests. `--check` does not silently regenerate the committed
 vectors. To intentionally regenerate after a reviewed model change, omit it,
@@ -70,7 +70,7 @@ python3 compile_bundler_reference.py --source /tmp/nqc-bundler3 --solc /tmp/nqc-
 # Build the Uniswap reference below before running all tests-core suites.
 ```
 
-Expected after the Uniswap build below: 15 integration tests pass. Combined with default profile: **48 Solidity
+Expected after the Uniswap build below: 17 integration tests pass. Combined with default profile: **50 Solidity
 functions**. `--match-path` prevents imported mock test contracts from being counted
 a second time. No onchain deployment occurs; `create` executes inside Foundry only.
 Compiler scripts read pinned Git blobs, verify binary hashes, and never rewrite
@@ -117,9 +117,10 @@ Baseline/pre-fix logs preserve previously observed errors.
 
 `fixtures/case_b_replay_requests.json` contains only read-only JSON-RPC requests.
 Send them individually to an accessible authorized archive node if available;
-no sender key is needed. No successful responses are currently saved. The full
-block transaction list and exact pretransaction state are still missing. See
-RESEARCH_FINDINGS.md for authentication and replay acceptance requirements.
+no sender key is needed. Full A/B blocks, B's parent header and B's receipt are
+now saved and byte-checked; B's transaction trie is also verified. Account/code/
+storage and exact pretransaction execution state are still missing. See
+CASE_B_PRESTATE.md for current authentication and replay acceptance requirements.
 
 ## Isolation
 
@@ -205,7 +206,7 @@ documented in `PUBLIC_DATA_PROGRESS.md`.
 sha256sum -c evidence/2026-10-17-monthly/SHA256SUMS
 ```
 
-This checkpoint has 159 Python / 50 Solidity / 9 isolation passes. The frozen
+The monthly checkpoint had 159 Python / 50 Solidity / 9 isolation passes. The frozen
 selection, all GraphQL requests/responses, forward/reverse pages and separate
 seven-day query are saved. The diagnostic receipt sample was also fixed before
 retrieval. Optional `python collect_census_receipts.py` uses only public
@@ -222,3 +223,39 @@ preserved trace/receipt and does not fetch current reserves as historical state.
 
 See `MONTHLY_POTENTIAL.md` for ledger scope, API coverage, monthly categories,
 target sensitivities and the missing exact-pretransaction witness.
+
+## Order verification and bounded prospective continuation
+
+```sh
+/tmp/nqc-python/bin/python historical_order_audit.py
+/tmp/nqc-python/bin/python prospective_observation.py --analyze evidence/2026-10-17-prospective-recovered/sample-00
+/tmp/nqc-python/bin/python case_b_route_audit.py
+# Each analysis exits 2: evidence boundaries still block economic admission.
+sha256sum -c evidence/2026-10-17-prospective-recovered/SHA256SUMS
+sha256sum -c evidence/2026-10-17-prospective-recovered/INPUT_SHA256SUMS
+```
+
+Older manifests also pin the source versions from their original commits.
+Running the monthly manifest against this newer checkout reports two expected
+source mismatches (`case_b_route_audit.py` and its test), not changed raw data.
+`historical-manifest-check.json` records those mismatches and verifies the original
+bytes through Git at `bc46cbe`, before these source edits. All historical evidence
+bytes still match. Do not rewrite an old manifest to conceal source evolution;
+use its original commit for complete historical source reproduction.
+
+Latest suite total: **168 Python / 50 Solidity / 9 isolation**, no failures or
+skips. `validation-run.json` records the restored Solidity execution and first
+168-test run; `temporal-validation-run.json` records the subsequent full Python
+and isolation run after tightening complete-data temporal ordering. Tools and
+original-source compilers remain pinned in `toolchain.json`. Their binaries and
+upstream artifacts were restored and checked after temporary workspace loss.
+No Solidity source changed, so the 33+17 restored run remains applicable.
+
+The saved sample is immutable. `sample-00/report.json` predates the stricter
+completion-time output; `final-prospective.json` is the current offline result.
+To collect a separate finite research sample, save a fresh selection with UTC
+timestamp, chain_id=1, full market_id/borrower and max_snapshots between 1 and 3,
+then use `--collect NEW_DIRECTORY --selection SELECTION_FILE`. This makes only
+public state/header reads, stops on errors and never starts a daemon. Do not
+overwrite old evidence or re-run already denied providers. See
+`PROSPECTIVE_OBSERVATION.md` for actual limits and missing state evidence.

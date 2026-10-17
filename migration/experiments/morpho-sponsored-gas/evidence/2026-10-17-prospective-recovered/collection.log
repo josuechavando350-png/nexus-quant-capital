@@ -1,0 +1,62 @@
+{
+  "status": "INDEXER_OBSERVATION_ONLY",
+  "market_id": "0xa0534c78620867b7c8706e3b6df9e69a2bc67c783281b7a77e034ed75cee012e",
+  "borrower": "0x018d6cc992eb576e2f36dc485b92d168ada37156",
+  "observations": {
+    "market": {
+      "indexed_block": 26210230,
+      "header_hash": "0x58e00385be917f1aa16f96fc6df0b0b828ac5b1d436024a4e6df4916ea553b21",
+      "state_root": "0x1a9e39e22ed870f417d2e2552d22c50683a78cb247b6f317d806ae0382b81439",
+      "block_timestamp": 1792215479,
+      "received_at_utc": "2026-10-17T05:38:10.802423+00:00",
+      "block_to_receipt_microseconds": 11802423
+    },
+    "position": {
+      "indexed_block": 26210231,
+      "header_hash": "0xf6939f947bdc126fe31b4f423ecf77658e4706d2331239fd9fa90f5ac88a8703",
+      "state_root": "0x2d9e4539e9a0f4ffa1d513f055a52c06612c782060d3ad3c8299dbf678b9fe95",
+      "block_timestamp": 1792215491,
+      "received_at_utc": "2026-10-17T05:38:14.020207+00:00",
+      "block_to_receipt_microseconds": 3020207
+    },
+    "oracle": {
+      "indexed_block": 26210229,
+      "header_hash": "0x586c2b51de3ca7138772636610f9f21c5e69ead65c1a12f9d911c1883ec6fbf6",
+      "state_root": "0xb0d384bae9dbf9aace0afe4b930526511683c2674f3a2d50b4545310398065b4",
+      "block_timestamp": 1792215467,
+      "received_at_utc": "2026-10-17T05:38:17.557055+00:00",
+      "block_to_receipt_microseconds": 30557055
+    }
+  },
+  "same_reported_block": false,
+  "market": {
+    "total_supply_assets": 17089951946419811409,
+    "total_supply_shares": 15734702050850737962305593,
+    "total_borrow_assets": 403752291226362858,
+    "total_borrow_shares": 367449650232108460673583,
+    "fee_wad": 0,
+    "last_accrual_timestamp": 1792136411
+  },
+  "position": {
+    "collateral_assets": 994323950097753677,
+    "supply_shares": 0,
+    "borrow_shares": 2370415599405678275695
+  },
+  "oracle_price": 1088377151872222433000000000000000000,
+  "oracle_last_updated_at": null,
+  "book_market_cash_difference": 16686199655193448551,
+  "morpho_aggregate_flash_cash": null,
+  "interest_accrued_to_observation": null,
+  "liquidation_eligible": null,
+  "net_profit": null,
+  "blockers": [
+    "REST_STATE_NOT_PROVED_AGAINST_HEADER_ROOT",
+    "ASSET_TOTALS_ACCRUAL_SEMANTICS_UNVERIFIED",
+    "IRM_RATE_AT_OBSERVATION_UNAVAILABLE",
+    "FLUID_STATE_AND_EXECUTABLE_QUOTE_UNAVAILABLE",
+    "SPONSOR_AND_CAPTURE_UNPROVED",
+    "MIXED_INDEXED_BLOCKS"
+  ],
+  "pretransaction_witness": false,
+  "certified": false
+}
