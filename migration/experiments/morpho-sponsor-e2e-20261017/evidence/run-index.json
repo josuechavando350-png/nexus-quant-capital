@@ -1,0 +1,180 @@
+{
+  "anvil_version": "anvil Version: 1.7.1\nCommit SHA: 4072e48705af9d93e3c0f6e29e93b5e9a40caed8\nBuild Timestamp: 2026-05-08T07:50:55.527285345Z (1778226655)\nBuild Profile: dist",
+  "anvil_sha256": "10c1c727d6c1de973aeb160e59875b9a9a23464d6e74149ee8abb30b3500311b",
+  "unsigned_only": true,
+  "private_keys_generated": 0,
+  "chain_id": 31337,
+  "hardfork": "cancun",
+  "fork_url": null,
+  "node_stopped_in_finally": true,
+  "runs": [
+    {
+      "scenario": "C1_success",
+      "file": "C1_success.json",
+      "sha256": "66b658a6bb1a3f536f57064ddaf466b1e128a9e142e33471bdf88fab1513294e",
+      "transactions": 6,
+      "gas_used": 2338662,
+      "classification": "LOCAL_SYNTHETIC_ASSERTIONS_PASS"
+    },
+    {
+      "scenario": "C1_high_gas",
+      "file": "C1_high_gas.json",
+      "sha256": "e8f70458e21e8d3d9547a6d6303691bde9b3ffd986c4e2fb3c983aed09b5884b",
+      "transactions": 6,
+      "gas_used": 2338662,
+      "classification": "LOCAL_SYNTHETIC_ASSERTIONS_PASS"
+    },
+    {
+      "scenario": "F01_none",
+      "file": "F01_none.json",
+      "sha256": "99949eab22db8a03e3e1eb71ad343284389c0fda6c18b3bc2cf1386c8fbae312",
+      "transactions": 0,
+      "gas_used": 0,
+      "classification": "LOCAL_SYNTHETIC_ASSERTIONS_PASS"
+    },
+    {
+      "scenario": "F02_topup_only",
+      "file": "F02_topup_only.json",
+      "sha256": "dc7234f84ecea2a1e47386d5c758652f447b4d2bab8717a68cfe6aaa52582d7d",
+      "transactions": 1,
+      "gas_used": 21000,
+      "classification": "LOCAL_SYNTHETIC_ASSERTIONS_PASS"
+    },
+    {
+      "scenario": "F03_deploy_only",
+      "file": "F03_deploy_only.json",
+      "sha256": "cf435e34f1eec1753d888372625ec51d8425c450f23febf9a8fbc044b0e08d66",
+      "transactions": 3,
+      "gas_used": 1794574,
+      "classification": "LOCAL_SYNTHETIC_ASSERTIONS_PASS"
+    },
+    {
+      "scenario": "F03_bad_create",
+      "file": "F03_bad_create.json",
+      "sha256": "8d84a136f918ec6bc9bb3ef054e80931398642f3bca8e0999530d9266584ef2d",
+      "transactions": 3,
+      "gas_used": 581853,
+      "classification": "LOCAL_SYNTHETIC_ASSERTIONS_PASS"
+    },
+    {
+      "scenario": "F04_healthy",
+      "file": "F04_healthy.json",
+      "sha256": "d1b223fcceba1d3dff652dc939f546befc2511b127549327aa24f4cd35a227ee",
+      "transactions": 5,
+      "gas_used": 2047019,
+      "classification": "LOCAL_SYNTHETIC_ASSERTIONS_PASS"
+    },
+    {
+      "scenario": "F05_one_wei_slippage",
+      "file": "F05_one_wei_slippage.json",
+      "sha256": "73db12f234a2b0c09366a63896377394e8d8eb937104efc10ef52be03403ecf4",
+      "transactions": 4,
+      "gas_used": 2153820,
+      "classification": "LOCAL_SYNTHETIC_ASSERTIONS_PASS"
+    },
+    {
+      "scenario": "F06_debt_shortfall",
+      "file": "F06_debt_shortfall.json",
+      "sha256": "5c77a2be099be8f8e159e0d6eada3b016d854a516604365de9da04a66aa12305",
+      "transactions": 6,
+      "gas_used": 2278142,
+      "classification": "LOCAL_SYNTHETIC_ASSERTIONS_PASS"
+    },
+    {
+      "scenario": "F06_one_wei_underpay",
+      "file": "F06_one_wei_underpay.json",
+      "sha256": "338780436bfebd00138b0e0e75307ef5e9b083a98daa62a61dee3f83213ff74c",
+      "transactions": 5,
+      "gas_used": 2466863,
+      "classification": "LOCAL_SYNTHETIC_ASSERTIONS_PASS"
+    },
+    {
+      "scenario": "F07_sponsor_reject",
+      "file": "F07_sponsor_reject.json",
+      "sha256": "1baacef36c5c893c22dd8dce7e8d6a3873932f54e8b26a44affa4d9465cded3e",
+      "transactions": 4,
+      "gas_used": 2377665,
+      "classification": "LOCAL_SYNTHETIC_ASSERTIONS_PASS"
+    },
+    {
+      "scenario": "F08_proposer_reject",
+      "file": "F08_proposer_reject.json",
+      "sha256": "fe972723bce34b47763012048795a99010c393ba9f1212b7e91c7e218ebbc843",
+      "transactions": 4,
+      "gas_used": 2384371,
+      "classification": "LOCAL_SYNTHETIC_ASSERTIONS_PASS"
+    },
+    {
+      "scenario": "F09_nonce",
+      "file": "F09_nonce.json",
+      "sha256": "70f3c614fd502c7ec88c25c15a90de798b5f737842cf5cc822a7e2acd4009c1c",
+      "transactions": 3,
+      "gas_used": 1794574,
+      "classification": "LOCAL_SYNTHETIC_ASSERTIONS_PASS"
+    },
+    {
+      "scenario": "F10_expired",
+      "file": "F10_expired.json",
+      "sha256": "c465ac1fa8116d6ae43cca070c9dd62cd6698aae119e2b85752513ba37a84df5",
+      "transactions": 4,
+      "gas_used": 1822698,
+      "classification": "LOCAL_SYNTHETIC_ASSERTIONS_PASS"
+    },
+    {
+      "scenario": "F10_reorg",
+      "file": "F10_reorg.json",
+      "sha256": "302dd9776eb2bbdb4a82316dc17a53c0e7d7127e2715fe2ee403635a3d7e9d1b",
+      "transactions": 5,
+      "gas_used": 2047019,
+      "classification": "LOCAL_SYNTHETIC_ASSERTIONS_PASS"
+    },
+    {
+      "scenario": "F11_dust",
+      "file": "F11_dust.json",
+      "sha256": "21641bdbb194e72d483ac4f0244cf147bea26e0c75bc49e4e3ec77d18206c2fd",
+      "transactions": 9,
+      "gas_used": 2540241,
+      "classification": "LOCAL_SYNTHETIC_ASSERTIONS_PASS"
+    },
+    {
+      "scenario": "F12_distinct_actors",
+      "file": "F12_distinct_actors.json",
+      "sha256": "78d669bd1eaeda8355977fa6a3486f6b815b1b8a8fc57d5e538a7136b668fe03",
+      "transactions": 6,
+      "gas_used": 2338662,
+      "classification": "LOCAL_SYNTHETIC_ASSERTIONS_PASS"
+    },
+    {
+      "scenario": "A_wrong_sender",
+      "file": "A_wrong_sender.json",
+      "sha256": "d931b623f0f0b15c985bd07dee681ba969b03b78e99b31480d2bd712581e5f8b",
+      "transactions": 4,
+      "gas_used": 1820456,
+      "classification": "LOCAL_SYNTHETIC_ASSERTIONS_PASS"
+    },
+    {
+      "scenario": "A_uint256_overflow",
+      "file": "A_uint256_overflow.json",
+      "sha256": "ae1d5f109db9b01292dd40450c1ef2dec1ed3cba07286ca4a89267d765bff68e",
+      "transactions": 4,
+      "gas_used": 1824956,
+      "classification": "LOCAL_SYNTHETIC_ASSERTIONS_PASS"
+    },
+    {
+      "scenario": "A_one_wei_underfunded",
+      "file": "A_one_wei_underfunded.json",
+      "sha256": "af41467043af034c53e63228f7abe38f0e530ca4e8c58a15391bc488c6dbde4e",
+      "transactions": 4,
+      "gas_used": 1824740,
+      "classification": "LOCAL_SYNTHETIC_ASSERTIONS_PASS"
+    },
+    {
+      "scenario": "A_tip_shortfall",
+      "file": "A_tip_shortfall.json",
+      "sha256": "ca722d6a5e5a482c08b02408e6213edaa03b1b573b3b0008b85f43bcddfa8760",
+      "transactions": 4,
+      "gas_used": 2153703,
+      "classification": "LOCAL_SYNTHETIC_ASSERTIONS_PASS"
+    }
+  ]
+}

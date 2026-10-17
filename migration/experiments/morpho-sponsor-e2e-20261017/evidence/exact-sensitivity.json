@@ -1,0 +1,142 @@
+{
+  "scope": "EXACT_MATHEMATICAL_SENSITIVITY_NOT_ADDITIONAL_EVM_OR_HISTORICAL_EVIDENCE",
+  "base": {
+    "seized_collateral_units": 9278589654372535368,
+    "oracle_value_WETH_rational": {
+      "numerator": 41753653444676409156,
+      "denominator": 5
+    },
+    "fee_value_at_initial_marginal_price_rational": {
+      "numerator": 31315240083507306867,
+      "denominator": 1250
+    },
+    "price_impact_and_output_rounding_rational": {
+      "numerator": 95391064122405934633,
+      "denominator": 1250
+    },
+    "executable_WETH_units": 8249365645570551238,
+    "debt_returned_WETH_units": 8000000000000000000,
+    "pre_allocation_surplus_WETH_units": 249365645570551238,
+    "infinite_depth_post_fee_surplus_rational": {
+      "numerator": 407098121085594982133,
+      "denominator": 1250
+    },
+    "sponsor_refund_ETH_wei": 50000000000000000,
+    "proposer_tip_ETH_wei": 40000000000000000,
+    "operator_WETH_units": 159365645570551238,
+    "network_gas_units": 2338662,
+    "builder_fee_ETH_wei": 2000000000000000,
+    "opportunity_charge_ETH_wei": 3000000000000
+  },
+  "gas_break_even_with_fixed_A_and_units": {
+    "maximum_strictly_positive_effective_price_wei": 20523273564,
+    "sponsor_margin_at_boundary_wei": 268632,
+    "sponsor_margin_next_wei": -2070030,
+    "advance_must_be_increased_if_required": "Gas price alone does not establish up-front affordability"
+  },
+  "price_cases": [
+    {
+      "base_gwei": 1,
+      "priority_gwei": 1,
+      "cap_gwei": 3,
+      "includable_under_fee_cap": true,
+      "sponsor_margin_wei": 43319676000000000,
+      "classification": "FIXED_GAS_MATH_ONLY"
+    },
+    {
+      "base_gwei": 1,
+      "priority_gwei": 2,
+      "cap_gwei": 3,
+      "includable_under_fee_cap": true,
+      "sponsor_margin_wei": 40981014000000000,
+      "classification": "FIXED_GAS_MATH_ONLY"
+    },
+    {
+      "base_gwei": 5,
+      "priority_gwei": 1,
+      "cap_gwei": 10,
+      "includable_under_fee_cap": true,
+      "sponsor_margin_wei": 33965028000000000,
+      "classification": "FIXED_GAS_MATH_ONLY"
+    },
+    {
+      "base_gwei": 20,
+      "priority_gwei": 1,
+      "cap_gwei": 30,
+      "includable_under_fee_cap": true,
+      "sponsor_margin_wei": -1114902000000000,
+      "classification": "FIXED_GAS_MATH_ONLY"
+    },
+    {
+      "base_gwei": 30,
+      "priority_gwei": 2,
+      "cap_gwei": 40,
+      "includable_under_fee_cap": true,
+      "sponsor_margin_wei": -26840184000000000,
+      "classification": "FIXED_GAS_MATH_ONLY"
+    },
+    {
+      "base_gwei": 5,
+      "priority_gwei": 1,
+      "cap_gwei": 4,
+      "includable_under_fee_cap": false,
+      "sponsor_margin_wei": null,
+      "classification": "FIXED_GAS_MATH_ONLY"
+    }
+  ],
+  "pool_depth_cases": [
+    {
+      "collateral_reserve": 20000000000000000000,
+      "WETH_reserve": 18000000000000000000,
+      "out": 5692624900872323549,
+      "surplus_before_allocations": -2307375099127676451,
+      "operator_residual_after_fixed_allocation": -2397375099127676451,
+      "meets_current_plan_output": false
+    },
+    {
+      "collateral_reserve": 100000000000000000000,
+      "WETH_reserve": 90000000000000000000,
+      "out": 7620705762452758073,
+      "surplus_before_allocations": -379294237547241927,
+      "operator_residual_after_fixed_allocation": -469294237547241927,
+      "meets_current_plan_output": false
+    },
+    {
+      "collateral_reserve": 1000000000000000000000,
+      "WETH_reserve": 900000000000000000000,
+      "out": 8249365645570551238,
+      "surplus_before_allocations": 249365645570551238,
+      "operator_residual_after_fixed_allocation": 159365645570551238,
+      "meets_current_plan_output": true
+    },
+    {
+      "collateral_reserve": 10000000000000000000000,
+      "WETH_reserve": 9000000000000000000000,
+      "out": 8317983734833098023,
+      "surplus_before_allocations": 317983734833098023,
+      "operator_residual_after_fixed_allocation": 227983734833098023,
+      "meets_current_plan_output": true
+    }
+  ],
+  "one_wei_depth_boundary": {
+    "x": 347849299304143955820,
+    "y": 313064369373729560238,
+    "out": 8110000000000000000,
+    "previous_x": 347849299304143955810,
+    "previous_y": 313064369373729560229,
+    "previous_out": 8109999999999999999,
+    "target_output": 8110000000000000000
+  },
+  "tip_strict_maximum_given_fixed_refund_wei": 199365645570551237,
+  "tip_maximum_meeting_contract_min_profit_wei": 189365645570551238,
+  "refund_strict_minimum_at_2gwei_wei": 6680324000000001,
+  "upfront_caps": {
+    "operator_sum_limit_times_cap_wei": 31542000000000000,
+    "operator_observed_gas_wei": 4593324000000000,
+    "actual_topup_gas_wei": 42000000000000,
+    "observed_advance_wei": 30000000000000000
+  },
+  "real_recurring_costs": null,
+  "real_capture_probability": null,
+  "expected_monthly_profit": null
+}

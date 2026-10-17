@@ -1,0 +1,81 @@
+{
+  "trace_projection": {
+    "chain_id": 31337,
+    "evidence_type": "SYNTHETIC",
+    "builder": null,
+    "prestate_block_hash": "0xb0b0a0b1dfff575de63cea87b4dbe628e8f9d78c7256659a5a0674048edfe5b6",
+    "sender_initial_eth_wei": 0,
+    "executor_initial_eth_wei": 0,
+    "architecture": "OWN_EXECUTOR_AND_ADAPTER",
+    "builder_advance_wei": null,
+    "builder_value_gross_wei": null,
+    "builder_profit_minimum_wei": null,
+    "coinbase_tip_wei": 40000000000000000,
+    "sponsor_refund_recipient": "0x0000000000000000000000000000000000001002",
+    "sponsor_refund_wei": 50000000000000000,
+    "sponsor_topup_gas_limit": 21000,
+    "sponsor_topup_max_fee_per_gas_wei": 3000000000,
+    "txs": [
+      {
+        "purpose": "DEPLOY_ADAPTER",
+        "from": "0x0000000000000000000000000000000000001003",
+        "gas_limit": 4000000,
+        "nonce": 0,
+        "max_fee_per_gas_wei": 3000000000,
+        "value_wei": 0
+      },
+      {
+        "purpose": "DEPLOY_EXECUTOR",
+        "from": "0x0000000000000000000000000000000000001003",
+        "gas_limit": 4000000,
+        "nonce": 1,
+        "max_fee_per_gas_wei": 3000000000,
+        "value_wei": 0
+      },
+      {
+        "purpose": "EXECUTE_LIQUIDATION",
+        "from": "0x0000000000000000000000000000000000001003",
+        "gas_limit": 2500000,
+        "nonce": 2,
+        "max_fee_per_gas_wei": 3000000000,
+        "value_wei": 0
+      }
+    ],
+    "builder_receipts_verified": null,
+    "builder_value_measured": null,
+    "route_replayed": null,
+    "morpho_callback_replayed": null,
+    "target_tx_competition_replayed": null,
+    "builder_sponsored_deployment_supported": null
+  },
+  "legacy_gate_result": "SCHEMA_REJECTED_NOT_COMMERCIAL_PASS",
+  "reason": "currently supports Ethereum mainnet only",
+  "local_callback_and_route_proven": true,
+  "observed_separate_lab_financier": {
+    "R_refund_wei": 50000000000000000,
+    "U_actually_returned_wei": 25406676000000000,
+    "V_other_receipts_wei": 0,
+    "A_disbursed_wei": 30000000000000000,
+    "F_funding_gas_wei": 42000000000000,
+    "P_separate_proposer_payment_wei": 0,
+    "O_other_cash_costs_wei": 2042000000000000,
+    "other_gas_wei": 42000000000000,
+    "builder_fee_wei": 2000000000000000,
+    "cash_margin_wei": 43322676000000000,
+    "opportunity_charge_1bp_wei": 3000000000000,
+    "margin_after_lab_opportunity_charge_wei": 43319676000000000,
+    "real_opportunity_and_operating_costs": null,
+    "real_failure_recourse_terms": null
+  },
+  "observed_separate_lab_builder_fee_wei": 2000000000000000,
+  "legacy_limitations": [
+    "mainnet-only schema cannot represent local chain or unknown provider",
+    "boolean evidence flags cannot represent UNKNOWN",
+    "no actual U return transaction field",
+    "maxFee*gasLimit is a ceiling, not observed cost",
+    "advance must not be charged twice",
+    "coinbase is not the separate builder",
+    "NQC execution has a separate real adapter deployment cost"
+  ],
+  "commercial_admission": false
+}
