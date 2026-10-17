@@ -178,3 +178,38 @@ Se añadieron pruebas Solidity \`testUnsolicitedTokensAndForcedEthArePreserved\`
 **Math engine:** el módulo separado \`morpho_liquidation_math.py\` y sus doce regresiones calculan, con aritmética entera y entradas post-acumulación, valores teóricos de una liquidación Morpho. No sustituyen un estado auténtico de cadena ni una ejecución reproducida en fork.
 
 **Estado local al verificar el conjunto:** 79 pruebas Python aprobadas (tipadas, históricas y sintéticas). 0 pruebas Solidity ejecutadas; 0 forks históricos completos ejecutados; 0 bundles patrocinados aceptados y 0 ganancias certificadas. Las pruebas Python no elevan ningún permiso de producción. No se habilita CI, se preserva \`main\`, no se usan fondos ni transacciones reales.
+
+## Bundler3 no-deployment research update
+
+See NO_DEPLOY_BUNDLER3_DESIGN.md. Source snapshot for the legacy deployed
+Bundler3 adapter path is pinned to morpho-org/bundler3 commit
+b4014349e3527f44ceaab697b26e29f2b11457f3. Official Morpho docs say
+Bundler3 was deprecated in favor of Bundles in September 2026; it remains
+deployed, but a new liquidation workflow should NOT assume it is supported.
+
+Official Ethereum deployment addresses used only for source research:
+- Bundler3: 0x6566194141eefa99Af43Bb5Aa71460Ca2Dc90245
+- EthereumGeneralAdapter1: 0x4A6c312ec70E8747a587EE860a0353cd42Be0aE0
+- ParaswapAdapter: 0x03b5259Bd204BfD4A616E5B79b0B786d90c6C38f
+
+The adapter exposes onMorphoFlashLoan, but does NOT expose onMorphoLiquidate.
+A candidate no-deployment route therefore uses Morpho flashLoan -> the
+GeneralAdapter's callback -> Bundler3.reenter -> direct Morpho.liquidate with
+EMPTY data (collateral to Bundler3, repayment pulled from Bundler3). This is
+a proposed call graph, not an executed route or safe/approved integration.
+
+New research-only ABI encoder: bundler3_abi.py. It deterministically creates
+the nested Call[] ABI layout, the hash checked during reentrance, and
+no-callback Morpho liquidation calldata. It deliberately rejects skipRevert
+and invalid encoded arguments. It DOES NOT construct a complete profitable
+route, send a bundle, deploy a contract or provide a builder sponsorship
+agreement. Independent Solidity parity, actual DEX route, allowance cleanup,
+flash repayment and builder payout verification are still mandatory.
+
+Local tests after the ABI and exact-math additions: 91/91 Python tests passed.
+These are local unit tests only. No Solidity compilation, real fork,
+canonical prestate, builder acceptance or NQC profit is certified.
+
+A potential advantage of a verified no-deployment path is a **single**
+externally sponsored transaction rather than two (deploy + execute), but the
+actual gas savings, safety and economics have NOT been measured.
