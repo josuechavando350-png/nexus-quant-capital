@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "scope": "DOCUMENTARY_CROSS_REPO_AUDIT_NOT_CERTIFICATION",
+  "created_utc": "2026-10-17",
+  "repos": {
+    "engine": {
+      "full_name": "josuechavando350-png/nexus-engine",
+      "main_sha": "380eff1fc14336bd24d93c8ef807525a7078950d",
+      "mode": "READ_ONLY"
+    },
+    "nqc": {
+      "full_name": "josuechavando350-png/nexus-quant-capital",
+      "main_sha": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
+      "audit_branch": "research/cross-repo-evidence-audit-20261017"
+    }
+  },
+  "claims": [
+    {
+      "id": "11us",
+      "value": "11 microseconds",
+      "status": "NOT_LOCATED_NOT_REFUTED",
+      "required": [
+        "original code/commit",
+        "raw benchmark output",
+        "measured scope",
+        "CPU/kernel",
+        "sample distribution",
+        "reproducibility"
+      ],
+      "nearby_but_not_equivalent": "PR730 Multicall3 11.3288x speedup; Robinhood RPC latency measured in milliseconds",
+      "sources": [
+        "https://github.com/josuechavando350-png/nexus-engine/pull/730",
+        "https://github.com/josuechavando350-png/nexus-engine/blob/main/docs/research/V3_PERFORMANCE_TARGETS.md"
+      ]
+    },
+    {
+      "id": "14000_billones",
+      "value": "$14,000 billones",
+      "status": "SOURCE_UNKNOWN",
+      "required": [
+        "exact source",
+        "numeric scale locale",
+        "period",
+        "financial definition",
+        "asset/market universe",
+        "units/conversions"
+      ],
+      "sources": []
+    },
+    {
+      "id": "millions_of_markets",
+      "status": "NOT_DEMONSTRATED_AS_LIVE_MARKETS",
+      "verified": {
+        "v2_pool_rows_historical": 523424,
+        "aave_reserves_historical": 67,
+        "capital_sources_reconstructed": 1045459,
+        "token_records_historical": 514279,
+        "synthetic_markets_T37": 50000,
+        "synthetic_signals_T37": 1000000,
+        "price_coordinates_historical": 14407412
+      },
+      "source": "https://github.com/josuechavando350-png/nexus-quant-capital/blob/nqc/viability-decision-20261016T1713/migration/census_v2/CLOSEOUT.md"
+    },
+    {
+      "id": "AAVE_one_shot",
+      "status": "LOCAL_HISTORICAL_SIMULATION_NOT_PROFIT",
+      "unit": "USDC",
+      "surplus_pre_native_gas": "2273.989378",
+      "sources": [
+        "https://github.com/josuechavando350-png/nexus-quant-capital/blob/nqc/viability-decision-20261016T1713/migration/engine-v2-20261015/source/ci/nqc-census/rmc-v2-shadow/SVR_EXECUTOR_AUCTION_CAPITAL_CONTRACT.md"
+      ]
+    },
+    {
+      "id": "MORPHO_ROBINHOOD",
+      "status": "LAB_CONTRAFACTUAL_NOT_PROFIT",
+      "unit": "USDG",
+      "surplus_before_gas": "32.060665",
+      "sources": [
+        "https://github.com/josuechavando350-png/nexus-quant-capital/blob/nqc/viability-decision-20261016T1713/migration/robinhood-real-state-replay-20261016/README.md"
+      ]
+    },
+    {
+      "id": "MORPHO_ETHEREUM_B",
+      "status": "EXTERNAL_HISTORICAL_ARITHMETIC_NOT_NQC_PNL",
+      "unit": "ETH",
+      "residual_after_known_costs": "0.001651296044494913",
+      "sources": [
+        "https://github.com/josuechavando350-png/nexus-quant-capital/blob/research/morpho-sponsored-gas-20261016/migration/experiments/morpho-sponsored-gas/MONTHLY_POTENTIAL.md"
+      ]
+    }
+  ],
+  "realized_NQC_PNL_certified": false,
+  "live_trading_authorized": false,
+  "notes": [
+    "No numerical assertion from this inventory is a production financial projection.",
+    "Unknown claim is not a lie or a refutation.",
+    "NQC main and nexus-engine sources must remain unmodified."
+  ]
+}
