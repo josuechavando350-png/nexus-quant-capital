@@ -1,0 +1,8 @@
+Compiling 2 files with Solc 0.8.24
+Solc 0.8.24 finished in 39.61ms
+Error: Compiler run failed:
+Error: Compiler error (/solidity/libsolidity/codegen/LValue.cpp:51):Stack too deep. Try compiling with `--via-ir` (cli) or the equivalent `viaIR: true` (standard JSON) while enabling the optimizer. Otherwise, try removing local variables.
+   --> contracts/NqcMorphoSponsoredLiquidation.sol:211:64:
+    |
+211 |             plan.borrower, seized, repaid, operatorLoanProfit, plan.coinbaseTipWei,
+    |                                                                ^^^^

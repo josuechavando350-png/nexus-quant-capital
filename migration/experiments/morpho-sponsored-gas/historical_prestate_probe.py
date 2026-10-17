@@ -10,10 +10,10 @@ from __future__ import annotations
 import json
 import urllib.error
 import os
-import subprocess
 import sys
 import urllib.request
 from pathlib import Path
+from evm_hash import keccak256
 
 FATAL = "BLOCKED_NO_EVIDENCE"
 PINNED_TX = "0x0a2f442acfb350d6d93002038b454ead40ffcf28a777b291cbaec1746d8aa2f1"
@@ -41,20 +41,6 @@ def bounded_uint(value: object, field: str) -> int:
     if not 0 <= n < 2**256:
         raise ValueError(f"out of range {field}")
     return n
-
-
-def keccak256(value: bytes) -> bytes:
-    # OpenSSL KECCAK-256 (not NIST SHA3-256). Intentionally no insecure fallback.
-    try:
-        result = subprocess.run(
-            ["openssl", "dgst", "-keccak-256", "-binary"],
-            input=value, capture_output=True, check=True, timeout=5,
-        )
-    except (FileNotFoundError, OSError, subprocess.SubprocessError) as exc:
-        raise RuntimeError("OpenSSL with KECCAK-256 is required") from exc
-    if len(result.stdout) != 32:
-        raise RuntimeError("OpenSSL KECCAK-256 output invalid")
-    return result.stdout
 
 
 def market_id(record: dict) -> str:

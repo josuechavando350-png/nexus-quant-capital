@@ -7,8 +7,8 @@ complete, economically proven call path before any transaction is permissible.
 """
 from __future__ import annotations
 
-import subprocess
 from dataclasses import dataclass
+from evm_hash import keccak256 as keccak
 
 MAX = 2**256 - 1
 
@@ -29,17 +29,6 @@ def _address(s: object) -> bytes:
     if out == bytes(20):
         raise ValueError("zero address")
     return out.rjust(32, b"\0")
-
-
-def keccak(data: bytes) -> bytes:
-    try:
-        r = subprocess.run(["openssl", "dgst", "-keccak-256", "-binary"],
-                           input=data, capture_output=True, timeout=5, check=True)
-    except (OSError, subprocess.SubprocessError) as exc:
-        raise RuntimeError("requires OpenSSL KECCAK-256") from exc
-    if len(r.stdout) != 32:
-        raise RuntimeError("KECCAK digest not 32 bytes")
-    return r.stdout
 
 
 def selector(signature: str) -> bytes:

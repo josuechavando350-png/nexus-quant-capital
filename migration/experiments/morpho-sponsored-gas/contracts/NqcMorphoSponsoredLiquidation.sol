@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-// RESEARCH PROTOTYPE ONLY. Not compiled or audited in this working environment.
+// RESEARCH PROTOTYPE ONLY. Local tests are documented in RESEARCH_STATUS.md.
+// Not audited; mock execution does not establish mainnet compatibility.
 // No deployed code, no live authority, no signed/broadcast transactions.
 
 interface INqcErc20 {
@@ -207,8 +208,13 @@ contract NqcMorphoSponsoredLiquidation {
         baselineCollateral = 0;
         baselineWeth = 0;
         baselineNative = 0;
+        _emitLiquidation(plan, seized, repaid, operatorLoanProfit);
+    }
+
+    // Keep event encoding out of execute's stack frame (solc 0.8.24, no via-IR).
+    function _emitLiquidation(Plan calldata plan, uint256 seized, uint256 repaid, uint256 profit) private {
         emit ExperimentalLiquidation(
-            plan.borrower, seized, repaid, operatorLoanProfit, plan.coinbaseTipWei,
+            plan.borrower, seized, repaid, profit, plan.coinbaseTipWei,
             plan.sponsorRefundRecipient, plan.sponsorRefundWei
         );
     }
