@@ -100,3 +100,22 @@ PYTHONDONTWRITEBYTECODE=1 python3 historical_receipt_gate.py observations/ethere
 5. Solo después: evaluar orden de llegada y captura, sin afirmar P&L histórico de NQC.
 
 Sin firmas, fondos, despliegues, mutaciones de \`main\` o workflows activos.
+
+
+## Revisión del patrocinio separado (octubre 2026)
+
+**Problema corregido en el prototipo experimental:** mandar ETH a \`block.coinbase\` puede remunerar al proponente/validador del bloque; por sí solo **no** reembolsa al builder que financia la transacción. El contrato ahora distingue \`sponsorRefundRecipient\`/\`sponsorRefundWei\` de \`coinbaseTipWei\`. Rechaza beneficiarios que sean el propio operador o \`block.coinbase\`, y exige que la conversión efectiva a WETH cubra ambos pagos, además del repago del préstamo y el beneficio mínimo.
+
+**El dato clave sigue sin demostrarse:** no tenemos una dirección verificada por Titan o Quasar que acepte reembolsos, ni un recibo firmado o una ejecución privada que demuestre que su motor cuenta ese pago como ingreso del patrocinador. El cambio solo evita mezclar dos partidas contables diferentes. No debe usarse una dirección arbitraria o tomada de una suposición.
+
+El filtro conservador \`bundle_gate.py\` incluye ahora además:
+
+- \`sponsor_refund_recipient\` y \`sponsor_refund_wei\`: reembolso **candidato**, aún sujeto a verificación independiente de identidad y recepción.
+- \`sponsor_topup_gas_limit\` y \`sponsor_topup_max_fee_per_gas_wei\`: costo máximo modelado de la **transacción adicional** con que el builder financiaría la EOA. Es independiente de DEPLOY y EXECUTE.
+- Se rechaza si reembolso directo o valor medido del builder es inferior al adelanto, el gas del top-up y el margen mínimo exigido.
+- El tip a \`block.coinbase\` nunca se añade al saldo del builder como ganancia demostrada.
+- Una muestra autodeclarada \`HISTORICAL_BUNDLE_TRACE\` puede, como máximo, obtener \`MODEL_SCREEN_PASS_ONLY\`; jamás emite autorización de producción. Los booleanos del JSON no son prueba criptográfica.
+
+**Pruebas:** el espejo local de trabajo ejecutó 51 pruebas Python, todas aprobadas, con \`PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -q -s tests -p 'test_*.py'\`. La rama GitHub contiene 51 métodos de prueba equivalentes, pero no se ejecutó un runner oficial sobre el commit remoto. Foundry / solc 0.8.24 no están instalados en este entorno; las pruebas Solidity añadidas siguen **sin compilar y sin ejecutar**.
+
+**Condiciones abiertas e innegociables:** demostrar (1) despliegue y ejecución financiados por un builder real dentro del mismo bundle, (2) aceptación de su dirección de reembolso, (3) estado auténtico anterior a una liquidación Morpho, (4) liquidez y ruta de conversión ejecutables a ese estado, (5) rentabilidad neta y posibilidad temporal de captura. Esta rama es exclusivamente investigación; sin firmas, gasto, despliegues ni activación de workflows.
