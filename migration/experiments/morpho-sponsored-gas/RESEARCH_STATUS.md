@@ -1,5 +1,23 @@
 # NQC research continuity — 2026-10-17 UTC / 2026-10-16 Mexico City
 
+## New continuation: authenticated transaction ordering
+
+Starting head independently checked: `55e83bcb85d1e8f13e16d359f9954e611e4b1560`.
+`historical_order_audit.py` now reconstructs B's 602-transaction trie and matches
+the pinned header's transactionsRoot. Four new adversarial checks pass; full
+Python suite after workspace recovery: **163 passed**, isolation **9 passed**.
+See `CASE_B_PRESTATE.md` and `evidence/2026-10-17-prospective-recovered/`.
+The earlier statement below that no transaction trie was verified is superseded
+for B only. Prefix effects, receipt trie, consensus finality and prestate remain
+unverified. Economic admissions remain zero; monthly capacity is not estimable.
+
+An execution-environment disconnect erased the temporary checkout and new raw
+prospective responses. GitHub was intact; code was restored and revalidated.
+Pre-disconnect baseline 159/50/9 was executed, but its lost raw logs are not
+represented as preserved evidence. Do not backfill the missing response files
+from narrative observations. Continue with newly timestamped bounded observations.
+The following sections retain the previous published checkpoints.
+
 ## Scope and commit identity
 
 Branch: `research/morpho-sponsored-gas-20261016` only.

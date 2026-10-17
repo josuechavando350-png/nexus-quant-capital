@@ -1,0 +1,42 @@
+[
+  {
+    "command": [
+      "/workspace/scratch/f380716a269b/nqc-python/bin/python",
+      "historical_order_audit.py"
+    ],
+    "cwd": ".",
+    "started_at": "2026-10-17T05:35:45.367639+00:00",
+    "finished_at": "2026-10-17T05:35:45.461223+00:00",
+    "exit_code": 2,
+    "expected_exit_code": 2
+  },
+  {
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-v",
+      "-s",
+      "migration",
+      "-p",
+      "test_isolation.py"
+    ],
+    "cwd": "../../..",
+    "started_at": "2026-10-17T05:35:45.461246+00:00",
+    "finished_at": "2026-10-17T05:35:46.395863+00:00",
+    "exit_code": 0,
+    "expected_exit_code": 0
+  },
+  {
+    "command": [
+      "python3",
+      "migration/verify_isolation.py"
+    ],
+    "cwd": "../../..",
+    "started_at": "2026-10-17T05:35:46.395881+00:00",
+    "finished_at": "2026-10-17T05:35:46.483498+00:00",
+    "exit_code": 0,
+    "expected_exit_code": 0
+  }
+]
