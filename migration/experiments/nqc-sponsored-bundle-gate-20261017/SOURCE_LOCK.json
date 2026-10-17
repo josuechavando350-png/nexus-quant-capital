@@ -1,0 +1,751 @@
+{
+  "new_branch": "research/nqc-sponsored-bundle-gate-20261017",
+  "base_commit": "937a833a481fd69d2ce96152deb7d4d0760d6596",
+  "protected_remote_refs_verified": {
+    "main": {
+      "commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
+      "tree": "d9b498f784db19aed4436b0f46ceb4e05766cb6c"
+    },
+    "research/nqc-morpho-sponsor-e2e-20261017": {
+      "commit": "937a833a481fd69d2ce96152deb7d4d0760d6596",
+      "tree": "acb4603758fdfd626fb34cb32ee95a91694c9a69"
+    },
+    "research/nqc-zero-capital-viability-20261017": {
+      "commit": "544fd2d16d0b1cf1018dce006702a7abcbf0d0c6",
+      "tree": "b8198c58035bbed6c8351c12633031d56ebc58f7"
+    },
+    "research/nqc-independent-economic-redteam-20261017": {
+      "commit": "5e4d5814b9063b342e10a6d828c3c480f85c097f",
+      "tree": "cc48256f2a9e5387fb5524e67bb208d6d6eb2b8a"
+    }
+  },
+  "protected_003_tree": "49b9debe86db6b2a1403721b6bdf6d4d53c22ed4",
+  "protected_003_file_sha256": {
+    "migration/experiments/morpho-sponsor-e2e-20261017/.gitignore": "c7cd0fc55d4b88bc4ed87b1cdc33670d9046174ab762188a0f2ce10290bb56e0",
+    "migration/experiments/morpho-sponsor-e2e-20261017/ACTOR_SETTLEMENT_LEDGER.json": "182f7bd2a9bab32b4b2bae499639cd190bc00a38a9b5df26afa9d8f6adcf03c7",
+    "migration/experiments/morpho-sponsor-e2e-20261017/BUILDER_ACCEPTANCE_BOUNDARY.md": "e1d3b986f981bdbafee9105ef9b612a170e6dacf38d87b591ff086ecaa4364f7",
+    "migration/experiments/morpho-sponsor-e2e-20261017/CANDIDATE_ECONOMIC_FUNNEL.md": "96133bfa04ba4eb63db0012dce34d27a328d1571b3fc4358c6ee2eb864a4eef1",
+    "migration/experiments/morpho-sponsor-e2e-20261017/CANDIDATE_SELECTION_LOCK.json": "38621430e71742d1cc7d8ffe972200f03b3ec722a504fb8b3973efcfcc14d083",
+    "migration/experiments/morpho-sponsor-e2e-20261017/DECISION_FOR_DIRECTOR.md": "f91d504d09f6ac61b4cbc714a7983826e681025d13e70506b6458d0783728da6",
+    "migration/experiments/morpho-sponsor-e2e-20261017/EVM_SPONSORED_BUNDLE_RESULTS.md": "e26d9d3434297675db3885368ffdfa9ee4ccf6e0c192256782d6b4e357601bb5",
+    "migration/experiments/morpho-sponsor-e2e-20261017/FUNDING_FAILURE_MATRIX.md": "9a074881ed4c765686a4937cdaaad8dc100923fef4f0b4f97198db4d4cf45712",
+    "migration/experiments/morpho-sponsor-e2e-20261017/LabSupport.sol": "f0d36926e33846bddaa903418624f72e63fa6fd3b95be84efccf93a17e3553fa",
+    "migration/experiments/morpho-sponsor-e2e-20261017/MANIFEST.sha256": "918662129d91e959a89bd6def00a5ad6a8bf4dee201575cb5ac5b99c6146f2b4",
+    "migration/experiments/morpho-sponsor-e2e-20261017/MORPHO_B_REPLAY_BLOCKERS.md": "e08697630cfbb86637cd11b4b4f81bb3690fde084cb770ef73f457f420450dc8",
+    "migration/experiments/morpho-sponsor-e2e-20261017/PUBLICATION.md": "32ff85a27d3c771dfafbceb9238522656eaae12efc350274f5871e98fe489fbe",
+    "migration/experiments/morpho-sponsor-e2e-20261017/README.md": "776bd9d39108553fe162cd6200194813452986126a8ad65c1db51d2c3c0c76fd",
+    "migration/experiments/morpho-sponsor-e2e-20261017/REGRESSION_AND_REPRODUCE.md": "36586fe0d3664432916bbc4598af4647ef945a21011dc1804d5dbfbe5ea019ac",
+    "migration/experiments/morpho-sponsor-e2e-20261017/RESEARCH_STATUS.md": "1faf1dd43cd62f51b9cc92a2fa359b6638c73178dfcace9adaebf29f1a875b17",
+    "migration/experiments/morpho-sponsor-e2e-20261017/SOURCE_AND_CLAIM_LEDGER.json": "7d6983d19c520082be2ac2560b1f0ce3be82dbca8ac6b999e3742a2353199dba",
+    "migration/experiments/morpho-sponsor-e2e-20261017/build_local.py": "f2a69787eed757a89975911809c9c8e1570487dbc5bd6a4501472887782c9adb",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/A_one_wei_underfunded.json": "d0ff56b1022e78cdd7af8ba0c50c98281307a3afe20a42593275dc242318d93e",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/A_tip_shortfall.json": "ab57d9f9b2b2782c2236ed33cd3d3b829087afb373552002d668a89d347eb7da",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/A_uint256_overflow.json": "55056988dd14624e97880d21a9eba9ea9586f55a487012f49d5450e8adeea65b",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/A_wrong_sender.json": "dd59b827bd945a3b2df3897d38938613eb6aae51356b68d8020dbecf349a9ad0",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/C1_high_gas.json": "12bf18b89696fe8dd5d42dd444366b68c865266e43699002ca6dc7471f2685c9",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/C1_success.json": "dbc6faca34e3f2b4ceab435949d4b75245e63754474472c0e979f2a2797d150a",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/F01_none.json": "62477b031bb1bb9a9676a1c1cc296a235a0cee245bbdba054dcc74e4900ab4ac",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/F02_topup_only.json": "c7675c460b51cc660f1720f2482ca5ec7e5baaa4d295bf01e9636e08e9c48930",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/F03_bad_create.json": "20dece20bdac80dcdd4438effeca03c1f0adbd2ff283c07c8109b5ab13cf81a8",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/F03_deploy_only.json": "e41ff05f52bb0bd95ac6c6f97baead91c2026edfc244733304ae41b05531e4e1",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/F04_healthy.json": "1ff8e404bd781a30552d3d1659cff2047761fcedde57d820cb63facdddfe04b1",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/F05_one_wei_slippage.json": "27e81ae2084165b7b762551298347a53b4d97c3038a17327acb98265ea78cdef",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/F06_debt_shortfall.json": "1893a10705cc638c744c4c336ac89fe3f3f7006c29793dbc5cc1ec984dacc7b7",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/F06_one_wei_underpay.json": "067b6eb897268083b850a16ed94786566cd1a470c6250b520ae9660e77adc718",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/F07_sponsor_reject.json": "d4e7c42b97e70486d88d858a4c234017793570a26a459d66e83199bf5ed74f45",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/F08_proposer_reject.json": "adc5f6034b2d459edb93db634d2ed5da0537f5cb0761521149687ee317d74c82",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/F09_nonce.json": "98261fc622005a90fa293531c53df706aa99b7edca1db73ae949d1d1d543090c",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/F10_expired.json": "31659650f8027bc1d1e2363535d928ca8a4825dfef919d9a055f3962e008a0e5",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/F10_reorg.json": "1b500086cf44991640f316b083cde0aa9aedc492a0a5db311524cf8ed0ca3f9b",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/F11_dust.json": "46aa7c6e9644add4566b77526a3b150b42b95a231cc7af7decabbb73116b1d2b",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/F12_distinct_actors.json": "4330e15c5b64e86065d52f3d7e166334564e801c0494bd04b052850194be9b8f",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/anvil-provenance.json": "01b7069c8b241d0292b8bf6632156158b165d15c4f92da50c9f8bcf83a65488e",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/build-manifest.json": "35564d38177fb3465300a673d6a9697403857b0ab503d37378146961d04d2295",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/build.log": "019169420a7c21456600a8d6c565b4ed933b83b218d0d96317e8ee059771e7f7",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/candidates.json": "5d8d86907d4b0e87f678ffa77ab302506437ee3063262362c57a1fd62b46481f",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/continuity-source-hashes.json": "1d670753301332d55a1c8738d1e9d05520ffdef2d521b9cd557f9e612a716b47",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/directive.json": "ac65d9e005baf9cf40ee5cc52938e107fd0fe3aa2fc331734b887f5716322f05",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/e2e-run.log": "77bd752b7c3dc7ebf65545d4ef3f234b064097ec657eafa6033fbd4cb0ec20c6",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/exact-sensitivity.json": "6e1f012e8dad04a78399c5d4841e199396ce63e5a67d9d002b294e86407dfd5e",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/final-validation.json": "f60dbba800c34bf9e10394330ce1956af925bfea2b33f8cf06ea09996ef58ca2",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/gate-bridge.json": "f45b6077bfba8efeabb0a9a662e3d20a6cf71b16fc31a071d3d5560210258975",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/isolation-tests.log": "38f18e682e41b4acc1e9a0e7706e82c0b99939641e5902e1c472d6e5fd14f66d",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/isolation-verifier.log": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/new-tests.log": "2a0f5027fbc7ff128d07997402ee9f09196d2dc6c60b48efcdbf8e1681cd0a34",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/optimizer-alignment.json": "c37ab1d10cb659f7dc74a395644a7f74a3aa52f1b0b953897b802fc406796737",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/original-bytecode-parity.json": "5aeaeb989a424692fc622226f605cf8543045001ee804c3addc096f0772feef6",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/python-regression.log": "714f1d3ca621de21e90df07670da606873f81a200d1100bbe0b77c4d4b272566",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/reconciliation.log": "4a72cec02e31d304a50b36bdf2229b47fa1d0f382d88cebc6d80246f42536fd7",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/reference-readback.json": "90a45edb368204a54b11848c9f5178de7a00935e6b50bde88b88ad74609edb78",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/reproduction-parity.json": "28b8e59c6c4991d4966418972e212d081b3c6771c5ddc542a4ef9bb5bb5e9f8e",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/run-index.json": "bcbb74608710c1b8d1ae6f657edbb8700a083ecba3beda423185faf4a9e63735",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/sensitivity.log": "4622632ccc654763fb956005b41601adaabca6f202e92ace014d18dfbc9b5b00",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/setup.json": "fd63bda4fc7fd2ddca260419fe55359ceb16a8a9a44e0fe85d905689e36e0472",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/solidity-core.log": "dccb0a32fce957f1b87f3e471c6109306b8e0661ec792c109e44bf25bf48c401",
+    "migration/experiments/morpho-sponsor-e2e-20261017/evidence/solidity-default.log": "c777a2108596ca47a98d883ffcff601f53f7789fec87d27fad5ca25e9a165f84",
+    "migration/experiments/morpho-sponsor-e2e-20261017/reconcile.py": "7d21db8004f6109e27043baa37deea809c1cd9568b445d7b63d304f6ff2920cb",
+    "migration/experiments/morpho-sponsor-e2e-20261017/run_e2e.py": "1b5161681b90b98f27d493e15f692a231e10bafc3a552b736d0cdae0d195238f",
+    "migration/experiments/morpho-sponsor-e2e-20261017/select_candidates.py": "6d7aca53fac0a99e9192e02c47d79e17493eee3410681a25e2d2e8edfcd59697",
+    "migration/experiments/morpho-sponsor-e2e-20261017/sensitivity.py": "2520da7fede5d11a7157f0b9918062a0fa5d7d780e40dce1069c42005e3f2b80",
+    "migration/experiments/morpho-sponsor-e2e-20261017/test_evidence.py": "bccc7c82bef3d380b963600f5ee4e22019a18aa4ef3e920cd5480d8d93778a4c"
+  },
+  "unchanged_prior_files_checked": 67,
+  "toolchain": {
+    "0.8.19": {
+      "sha256": "7a5c1d3dc9a8eba62bb2ec37192c9178ae5fe8a54a56e5573fd3c9c17cd9eb48",
+      "version": "solc, the solidity compiler commandline interface\nVersion: 0.8.19+commit.7dd6d404.Linux.g++"
+    },
+    "0.5.16": {
+      "sha256": "a15f01700ec7e02f91bbdfd4b6ff4450b3c2decae173e4f41910a3cfbaf5d3d3",
+      "version": "solc, the solidity compiler commandline interface\nVersion: 0.5.16+commit.9c3226ce.Linux.g++"
+    },
+    "0.8.24": {
+      "sha256": "fb03a29a517452b9f12bcf459ef37d0a543765bb3bbc911e70a87d6a37c30d5f",
+      "version": "solc, the solidity compiler commandline interface\nVersion: 0.8.24+commit.e11b9ed9.Linux.g++"
+    },
+    "0.8.28": {
+      "sha256": "9a0fb7e0db2c0641dbae1c5cc645dc686820c83af516226abb1c0a2f76636f25"
+    }
+  },
+  "anvil": {
+    "version": "1.7.1",
+    "sha256": "10c1c727d6c1de973aeb160e59875b9a9a23464d6e74149ee8abb30b3500311b"
+  },
+  "original_sources": {
+    "morpho-blue": {
+      "commit": "9cf6d5b844625ba108e36d1cf911f5d2faf7c136",
+      "sources": [
+        {
+          "path": "src/Morpho.sol",
+          "git_blob": "ab064b646bf161b1510e2575a99412cdc2a43ebb",
+          "sha256": "bc0f0e49d54ccc94557b20b1a1d962f6b64bb3cd7c57c1e74f76e51a47ffa0f6"
+        },
+        {
+          "path": "src/interfaces/IERC20.sol",
+          "git_blob": "6d4a9062be0cd746c7e88b35bb1454fd41fec121",
+          "sha256": "6618ba8e16837809f2225b870034f670e9a253eeb8496a9ebd846d37e14e4b26"
+        },
+        {
+          "path": "src/interfaces/IIrm.sol",
+          "git_blob": "58b6bf2f53848e5d9fc16c778ca4c9594f562226",
+          "sha256": "1a5bb3a5493852406b89d0f36a28f683e6205fb949200d35fd9c5cec680c601a"
+        },
+        {
+          "path": "src/interfaces/IMorpho.sol",
+          "git_blob": "67c47a534db2a3ec0495a89ab74faa291890e3a2",
+          "sha256": "e3b2e4ff5222cad56e1bf16992b31970d6ee8c9a905f282e371d9e2223c29d76"
+        },
+        {
+          "path": "src/interfaces/IMorphoCallbacks.sol",
+          "git_blob": "9b641a715e108134e151f202e35b734a3347b906",
+          "sha256": "ed7e499af17effcefe7aafab98a78df833e98588dc4f7c44ff6b53840833a400"
+        },
+        {
+          "path": "src/interfaces/IOracle.sol",
+          "git_blob": "a502a05c9f6df5793186814733a3e796f794bfe4",
+          "sha256": "763a05c1feb3e8973a1d70df829177ee14b951e6b3dcb6d8836a23617482bbef"
+        },
+        {
+          "path": "src/libraries/ConstantsLib.sol",
+          "git_blob": "1046e6a03462fb68b78dbdcee26339c983dc00de",
+          "sha256": "c8a5e5e569f95547e79f361a110a651857459288888542edff4fadc51091fc41"
+        },
+        {
+          "path": "src/libraries/ErrorsLib.sol",
+          "git_blob": "a47ab96df651e0283d06a8fa269b0f352e2b74cb",
+          "sha256": "157365a1e3cc1b5a70f21c91ea53ad368de1fa0b522f1930335ae5f3085cf011"
+        },
+        {
+          "path": "src/libraries/EventsLib.sol",
+          "git_blob": "1ce6d9b08c0f10195d42d5fd0a67b5418fca757d",
+          "sha256": "f13592e5941dd8e678d1dbebcb119a10d84890829e85d85c7ccb7d1022a50b60"
+        },
+        {
+          "path": "src/libraries/MarketParamsLib.sol",
+          "git_blob": "27ac482d13421b8b1607021496b18bcbf2f4d8f1",
+          "sha256": "dde0a044f1333f68440573e068f4c4b425df78c44544c95419c1185a7c36580a"
+        },
+        {
+          "path": "src/libraries/MathLib.sol",
+          "git_blob": "3c0afc991c3bfa9314498b43047a0675be4a9410",
+          "sha256": "61c0e20da6b026a356ed86d47da921ef2d69f65e40d9c8b97e7ae18ad497aa22"
+        },
+        {
+          "path": "src/libraries/SafeTransferLib.sol",
+          "git_blob": "4cd1eab4d427cb57a9a1d77ec5582f70383795e1",
+          "sha256": "aa8a95cc626cdc53c16429cff5f27508cef1485adcfca69420ffd9e65f4a857e"
+        },
+        {
+          "path": "src/libraries/SharesMathLib.sol",
+          "git_blob": "c63d937e81d5470e2d073383f45dd66c46f36a6b",
+          "sha256": "bfd74b35b0d9787dc0858c17a2655c2ae4ea9a9bcb68ccbe6fc5c09b36b6ff54"
+        },
+        {
+          "path": "src/libraries/UtilsLib.sol",
+          "git_blob": "e92d313037148d63661b64f259d10ccc77ebda1e",
+          "sha256": "19dd62e01cf85d6a695c228baccd683dc1b3e16c715112d226ca0b4dadfb3613"
+        },
+        {
+          "path": "src/libraries/periphery/MorphoBalancesLib.sol",
+          "git_blob": "20dc3b96bc3c3c2a7e3758641ed2a51fafb978d0",
+          "sha256": "96c2eec90b3edc539d695e4514d9a25df9dcda13e33b2e0cfa616dea7db77edd"
+        },
+        {
+          "path": "src/libraries/periphery/MorphoLib.sol",
+          "git_blob": "146434195a22f3aaa75e4b7dee5c9c0b680e8698",
+          "sha256": "661ea88ed0f5d9b7e6c5806d664c4cb7bacc57ca2f93a0070807558fa8e100c2"
+        },
+        {
+          "path": "src/libraries/periphery/MorphoStorageLib.sol",
+          "git_blob": "cae006473f366c90ffc93500ec89d6d880bc639c",
+          "sha256": "72b2acd8eb187f9f79794a759a2b44f5a1438929bddd8e4bd85d5e9f7e882e42"
+        },
+        {
+          "path": "src/mocks/ERC20Mock.sol",
+          "git_blob": "9a33857c4857ead657193720f41ffba9c13a78c4",
+          "sha256": "77e928161f307bc5c36368e26ce31e6110695cf3a87616e0c3fb4bf38cd184d8"
+        },
+        {
+          "path": "src/mocks/FlashBorrowerMock.sol",
+          "git_blob": "ec2a8fe2f3e49597849d50c4f4d6b81db1536cf4",
+          "sha256": "5ad5a356979fe43969a25bd03206ce682947968e8e70f4d4de62d38831787178"
+        },
+        {
+          "path": "src/mocks/IrmMock.sol",
+          "git_blob": "74064813408ef3e8b7742d3025592f64205e9f1d",
+          "sha256": "8bfe286efe3d389735fed838078a8d16a00670964643359da2f669802107065b"
+        },
+        {
+          "path": "src/mocks/OracleMock.sol",
+          "git_blob": "373b856339728446e14c7650d8cf3f723a1c9007",
+          "sha256": "b22e7b903c0cd6050f57eb1c71fc4674cc275b7832c2ea428bb2088d212f8cd6"
+        },
+        {
+          "path": "src/mocks/interfaces/IERC20.sol",
+          "git_blob": "ee84031f80fca5a66162b0cfa1a6fc1717a739a1",
+          "sha256": "f5ddd9f64a70b02e3b1bfbe17a90d40e48c81a56059972cf20f3521a0c45686f"
+        }
+      ]
+    },
+    "nqc-uniswap-v2": {
+      "commit": "6a9e7c97860676e0992f22a49665760444c1cdf5",
+      "sources": [
+        {
+          "path": "contracts/UniswapV2ERC20.sol",
+          "git_blob": "404a8beff385d50ab347b61409a35aa04ac260b0",
+          "sha256": "b8ce88929ce2c93b8fce385f8d57701b1a64c600a95317ea5f3561d36297be32"
+        },
+        {
+          "path": "contracts/UniswapV2Factory.sol",
+          "git_blob": "a66ad8247b88cbd4e547b0f9dee8fceede51a358",
+          "sha256": "e0cef3e874a68cbcc5986451b1fec180ba5ff5699f27a256b7c10fafefe36b99"
+        },
+        {
+          "path": "contracts/UniswapV2Pair.sol",
+          "git_blob": "f87a1db262fba132862eae377d8cdaef74c79f97",
+          "sha256": "43a5421b31415868367b62bfa161ca10bcee03778873faad905f5a3e2cce9cbd"
+        },
+        {
+          "path": "contracts/interfaces/IERC20.sol",
+          "git_blob": "c1e8c3e65171a323f163f28f0ba3dda901c12230",
+          "sha256": "2b63f199f838028184efefbcfd6cf2b9192624c3dae5dc1116ecbb15c36a67e8"
+        },
+        {
+          "path": "contracts/interfaces/IUniswapV2Callee.sol",
+          "git_blob": "f3910ab6ffc8731043badfcf3e2698df0d796a14",
+          "sha256": "ecfa434d468bb1888124d8c34b0b8483f4ea1e5cd63f0874c8b28aa4305c1dbc"
+        },
+        {
+          "path": "contracts/interfaces/IUniswapV2ERC20.sol",
+          "git_blob": "871893151ebd7d2b2293df016c13f4fe250708d9",
+          "sha256": "7948069aea398dec4b7e771ffc749a24fdce3a64673a1b14deae960e7a54c603"
+        },
+        {
+          "path": "contracts/interfaces/IUniswapV2Factory.sol",
+          "git_blob": "e73dc5916ec525341d9d10efb1773a9dc35d8ca3",
+          "sha256": "51d056199e3f5e41cb1a9f11ce581aa3e190cc982db5771ffeef8d8d1f962a0d"
+        },
+        {
+          "path": "contracts/interfaces/IUniswapV2Pair.sol",
+          "git_blob": "762dd4d008025b3cec782c8a87981c749ae4d2f4",
+          "sha256": "29c75e69ce173ff8b498584700fef76bc81498c1d98120e2877a1439f0c31b5a"
+        },
+        {
+          "path": "contracts/libraries/Math.sol",
+          "git_blob": "1cab10d2628630dfad34a0810f4fd56282208366",
+          "sha256": "e4a9d451964a0689be2b244322a353de143ca4248d8736d91aca4ffadca4325f"
+        },
+        {
+          "path": "contracts/libraries/SafeMath.sol",
+          "git_blob": "f2fbe164ffb143bc1c7116674654edd9113cbc54",
+          "sha256": "4b1c95ff75de7342e0fadff58064820a4eb7c2fcb422a75b4994980ce8e216ae"
+        },
+        {
+          "path": "contracts/libraries/UQ112x112.sol",
+          "git_blob": "a453f72787580357fd0168c2331f1534b0c88918",
+          "sha256": "6633b57b0723b1d72e08cc3e8b29f0af838294e59863b6cdcce95a141ed02cdb"
+        },
+        {
+          "path": "contracts/test/ERC20.sol",
+          "git_blob": "74f0777ed663d07a41e07955421cc3bfd1d5312c",
+          "sha256": "e11b370820584a64b1ef5b498a348349f311787ba77b3b0a632abc1110dcc7e2"
+        }
+      ]
+    },
+    "bundler3/lib/permit2/lib/solmate": {
+      "commit": "8d910d876f51c3b2585c9109409d601f600e68e1",
+      "sources": [
+        {
+          "path": "src/auth/Auth.sol",
+          "git_blob": "3807ccdac4de2a2b05f2a1127ed4a4e27989b6c8",
+          "sha256": "8689fc68a85e5942f8b814efc14cee691fff188594bd7dcefc969ccc65bd115a"
+        },
+        {
+          "path": "src/auth/Owned.sol",
+          "git_blob": "e82b44d83f99b2e3661047d6d702f723c32513e9",
+          "sha256": "8ac2f2dc41ab8012e93adb3791326ffa1e4059a20c306a777109dd81816b9125"
+        },
+        {
+          "path": "src/auth/authorities/MultiRolesAuthority.sol",
+          "git_blob": "3ff80bb0f7eeabc8906969c5f7ecae65b0660965",
+          "sha256": "5ab0b9540f4bafa542ecf11251ba988e07896b4e572d2c82f5f56edd82e743ef"
+        },
+        {
+          "path": "src/auth/authorities/RolesAuthority.sol",
+          "git_blob": "aa5cc71c2e0d7dacbb63d711526305461a6cd661",
+          "sha256": "51040c1f37851e8fdf1bc900f50231783bd485b00a9658420c55e75b0f0cfd9b"
+        },
+        {
+          "path": "src/mixins/ERC4626.sol",
+          "git_blob": "af56c15629ae95fabb72af887b42a34d22f730f1",
+          "sha256": "06df4ff9dec862306d8ec8abceffa944c3f09544c87462b7dab65f60b4f6ed63"
+        },
+        {
+          "path": "src/tokens/ERC1155.sol",
+          "git_blob": "cff0f02d376c87b66adc13b2a08a6291470e5e03",
+          "sha256": "3dbbc6faef59c3ee32b1c202510fab2ac6084faf19c164e0d85a392be1fd52ae"
+        },
+        {
+          "path": "src/tokens/ERC20.sol",
+          "git_blob": "965704466c0dbd8038d77a72482d82d21413625a",
+          "sha256": "a3a7e839f42762ef24623581542a916e838f3c7c0bef647963d1fdad0f9d208a"
+        },
+        {
+          "path": "src/tokens/ERC721.sol",
+          "git_blob": "b47f27124fb680be04be80733d57509a53b2c40e",
+          "sha256": "2da0cca384448208e25d43eeb5953a237de0e6712942a07d0f2674e895b0d3d3"
+        },
+        {
+          "path": "src/tokens/WETH.sol",
+          "git_blob": "ddf9647d3a74cb60dcde687b663e0415094a96d1",
+          "sha256": "22277963408ee27ddbc769fa27b5a09031b0f699e6b24d36f55435c6a2039ac1"
+        },
+        {
+          "path": "src/utils/Bytes32AddressLib.sol",
+          "git_blob": "448fb7598993c58ff0004ef0a52c312aed29a3c0",
+          "sha256": "a98260423087aa794384b5afa952c0b4beed4be080e355ac8995224d852e2851"
+        },
+        {
+          "path": "src/utils/CREATE3.sol",
+          "git_blob": "0d5b341ed190711123047bafe188a1939a18c166",
+          "sha256": "82fde5499de2cc68ebe7be3c885e40309a04d781cccf836544cdf7074c36d4dd"
+        },
+        {
+          "path": "src/utils/FixedPointMathLib.sol",
+          "git_blob": "6887722722908760687eb099eeec42cb5d446366",
+          "sha256": "edfd7fa8ec4087d252f637df16669599d5c0ac803ab465730f8cc3a5e8a8d55a"
+        },
+        {
+          "path": "src/utils/LibString.sol",
+          "git_blob": "b69ccdf70b7d26ec33c25166d5f0200e609e4357",
+          "sha256": "2c6271917772ca3d01459c840ace24ab9368dd272c36c61bc0e62c911b402a47"
+        },
+        {
+          "path": "src/utils/MerkleProofLib.sol",
+          "git_blob": "8fd7cbd74656c022c57e9325f1ee7fc2a401b3c6",
+          "sha256": "59581539c278fd2a3e8e69e9a3994bc5f487ee35d6ebf2f09b9a0040cdd103b5"
+        },
+        {
+          "path": "src/utils/ReentrancyGuard.sol",
+          "git_blob": "1453e24c32bf8120ed1f05058073906648396315",
+          "sha256": "e69ce8729cd5ff2caac16efa4498e967fc6bf85bbad4003be87c8a0757fd8a0c"
+        },
+        {
+          "path": "src/utils/SSTORE2.sol",
+          "git_blob": "23d69803ab97f85de8cd1355e3ddccb50d3a37ff",
+          "sha256": "2819718fe1f9557c54562f9012b958de6851c37d1f0f66a97888d851a4bef74f"
+        },
+        {
+          "path": "src/utils/SafeCastLib.sol",
+          "git_blob": "ebbed2258da4ffda34c30efd0cf94862605f7fe1",
+          "sha256": "93c95f03ec10995e2bdd28bf4b8a88a608e54beec61768f0d3a7f5f99f88df98"
+        },
+        {
+          "path": "src/utils/SafeTransferLib.sol",
+          "git_blob": "7080fd835daa220575d41e26a4a100799ab66fc5",
+          "sha256": "cb02c2a5b1b1c66b8ba3d700a47b400684483d96d93606ed71d0e63c0b6100bf"
+        },
+        {
+          "path": "src/utils/SignedWadMath.sol",
+          "git_blob": "69239d2c03aa416e3248209d5dc2b4d4347ce6de",
+          "sha256": "da8e1310ae2832096f0ab86058ad09aa3ae9eee16d2859bf980054821043ef9f"
+        }
+      ]
+    },
+    "local": {
+      "nqc-sponsored-bundle-gate-20261017/LabSupport.sol": "f0d36926e33846bddaa903418624f72e63fa6fd3b95be84efccf93a17e3553fa",
+      "morpho-sponsored-gas/contracts/NqcMorphoSponsoredLiquidation.sol": "b305c52d06538a20dd4cef1769475d5e47059711122130363508b3ad6e33c9a1"
+    }
+  },
+  "bundler_original_sources": {
+    "commit": "b4014349e3527f44ceaab697b26e29f2b11457f3",
+    "solc_sha256": "9a0fb7e0db2c0641dbae1c5cc645dc686820c83af516226abb1c0a2f76636f25",
+    "sources": [
+      {
+        "path": "lib/morpho-blue/src/interfaces/IIrm.sol",
+        "git_blob": "3de0bc1e8c5bada783e0b1d303242ce339efdd69",
+        "source_commit": "8fd926254dd21bc6e5bf0ac401202a58f0ffa612",
+        "sha256": "3ba6e6164cd0ed25d2b1d8d3766667ef016712705fe30094a97fe3801d14e915"
+      },
+      {
+        "path": "lib/morpho-blue/src/interfaces/IMorpho.sol",
+        "git_blob": "9c82524cb56a1b89a5a14ec5ca1e69665bc25cc3",
+        "source_commit": "8fd926254dd21bc6e5bf0ac401202a58f0ffa612",
+        "sha256": "24f96c2860c42cd5834c56cdb159c56435acaee0716d34d54ca18bd755edc97c"
+      },
+      {
+        "path": "lib/morpho-blue/src/libraries/ErrorsLib.sol",
+        "git_blob": "02cc94423aae4ff319dfae18ba93971b9b905ca5",
+        "source_commit": "8fd926254dd21bc6e5bf0ac401202a58f0ffa612",
+        "sha256": "0a54375182b5cfbb4f1101da4900c45ee96ba74962853168daf0d6281580666c"
+      },
+      {
+        "path": "lib/morpho-blue/src/libraries/MarketParamsLib.sol",
+        "git_blob": "456b0e17e45eb43deeddc97424e113445c1dff24",
+        "source_commit": "8fd926254dd21bc6e5bf0ac401202a58f0ffa612",
+        "sha256": "94af290e2a2094b8547b925449484d247bce87cce4fed8902ecf82dd2b49242e"
+      },
+      {
+        "path": "lib/morpho-blue/src/libraries/MathLib.sol",
+        "git_blob": "653db4f87580d5f9fd6162a78715d5416f8aac63",
+        "source_commit": "8fd926254dd21bc6e5bf0ac401202a58f0ffa612",
+        "sha256": "2c6728d1bc8f5db81f2a7946f226c3c4a8cffe4134c55450ca445b05727011bc"
+      },
+      {
+        "path": "lib/morpho-blue/src/libraries/SharesMathLib.sol",
+        "git_blob": "3ed7115b5bcc491199446837c5a737eb80c5675c",
+        "source_commit": "8fd926254dd21bc6e5bf0ac401202a58f0ffa612",
+        "sha256": "4580deb1b1a3f2ea0b60f2305708428975613d1e94d404d647bcc573a7b2a2f0"
+      },
+      {
+        "path": "lib/morpho-blue/src/libraries/UtilsLib.sol",
+        "git_blob": "f343ef769d04dc037578c226f23aca420f29da26",
+        "source_commit": "8fd926254dd21bc6e5bf0ac401202a58f0ffa612",
+        "sha256": "9d0c8a0855b2f9e9f92111cdf32bdbbd1ff97b7584f0f958b695f2c4cb0d1b34"
+      },
+      {
+        "path": "lib/morpho-blue/src/libraries/periphery/MorphoBalancesLib.sol",
+        "git_blob": "94b3b85f9d9d28847da90a49e1855cb02362decf",
+        "source_commit": "8fd926254dd21bc6e5bf0ac401202a58f0ffa612",
+        "sha256": "dc5015f71b5cb2bf52876ed2c2b47ba37f4d7ab5970c42aa5a719ffba4f9e4a8"
+      },
+      {
+        "path": "lib/morpho-blue/src/libraries/periphery/MorphoLib.sol",
+        "git_blob": "c366d1a6bb309ca6597e7feedd41bada50054839",
+        "source_commit": "8fd926254dd21bc6e5bf0ac401202a58f0ffa612",
+        "sha256": "76225c63b32442f382744b9726175af03b710872ce122d7eb193b38480bcc353"
+      },
+      {
+        "path": "lib/morpho-blue/src/libraries/periphery/MorphoStorageLib.sol",
+        "git_blob": "07e3900885d3902a573a9a8055de18a0c24d5cab",
+        "source_commit": "8fd926254dd21bc6e5bf0ac401202a58f0ffa612",
+        "sha256": "7a693f85512dde527c9ada9e5cbacf3d4ff5ba58c9c29f104d946cbfc596df36"
+      },
+      {
+        "path": "lib/openzeppelin-contracts/contracts/interfaces/IERC1363.sol",
+        "git_blob": "a5246da37ca09243ddaa3ec5aa310beba6d1cdc4",
+        "source_commit": "49cd64565aafa5b8f6863bf60a30ef015861614c",
+        "sha256": "1a226fed003d459b1249678aaf83f6e2fd76842545a0d6d86bfab82051c2d2a6"
+      },
+      {
+        "path": "lib/openzeppelin-contracts/contracts/interfaces/IERC165.sol",
+        "git_blob": "944dd0d59127e60f7b55fd8dacde9ea64f43b245",
+        "source_commit": "49cd64565aafa5b8f6863bf60a30ef015861614c",
+        "sha256": "49abfb8fa26e3f1715fe05948a96e3762b805bd4a77d103eb40ba96b1acfa144"
+      },
+      {
+        "path": "lib/openzeppelin-contracts/contracts/interfaces/IERC20.sol",
+        "git_blob": "21d5a41327566dac52adc0037d35d9177241eca4",
+        "source_commit": "49cd64565aafa5b8f6863bf60a30ef015861614c",
+        "sha256": "cb42f0b4d269ba8ef2629c176a7f99bf4fb50837c92f45596b54822b26e3df4b"
+      },
+      {
+        "path": "lib/openzeppelin-contracts/contracts/interfaces/IERC4626.sol",
+        "git_blob": "9a24507a7fdcbe5b9ee5c71cec925e53bea4cbac",
+        "source_commit": "49cd64565aafa5b8f6863bf60a30ef015861614c",
+        "sha256": "cc96aa5e7aa1bbbfd7f7c96168a038155679c824b8628367e9976c28b365c72c"
+      },
+      {
+        "path": "lib/openzeppelin-contracts/contracts/interfaces/draft-IERC6093.sol",
+        "git_blob": "75fd75643e6e3e94613dd6b5e2c06611d0d0b665",
+        "source_commit": "49cd64565aafa5b8f6863bf60a30ef015861614c",
+        "sha256": "fea1df641a9850183aa730b624d57f49b91a60b7b791a579ffdc12f8956a7505"
+      },
+      {
+        "path": "lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol",
+        "git_blob": "9885eaac996dc2ba9ce544bf5715772f85f29148",
+        "source_commit": "49cd64565aafa5b8f6863bf60a30ef015861614c",
+        "sha256": "5080a4fc73c64ef9f290afbf55210b0d48538645c696b2142800d2cfd556bf1b"
+      },
+      {
+        "path": "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+        "git_blob": "d89072164257d8a51f6f4126578cd972c0d2078e",
+        "source_commit": "49cd64565aafa5b8f6863bf60a30ef015861614c",
+        "sha256": "0d3abd9a0322b98154a10dac4b5b549562e24aaa7a62a1b28b12d8d03f37ef5e"
+      },
+      {
+        "path": "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/ERC20Wrapper.sol",
+        "git_blob": "eecd6ab7a639a5c1f0d9a37d65673fa0b8435e73",
+        "source_commit": "49cd64565aafa5b8f6863bf60a30ef015861614c",
+        "sha256": "894b8bc15e27d00f6519fba6f119c3d2113a24e2f671ef716563e5bc05fa25d7"
+      },
+      {
+        "path": "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+        "git_blob": "e8c020b1fcd5f2ba38748d4467bda50589a25313",
+        "source_commit": "49cd64565aafa5b8f6863bf60a30ef015861614c",
+        "sha256": "6c8cbd5ae2ad909f1a29a652041d2a6898066b05fdd5573b83263c8d98cc3146"
+      },
+      {
+        "path": "lib/openzeppelin-contracts/contracts/token/ERC20/utils/SafeERC20.sol",
+        "git_blob": "ed41fb042c9eb1fb8a7a79ec224ac4cf2d3a087d",
+        "source_commit": "49cd64565aafa5b8f6863bf60a30ef015861614c",
+        "sha256": "44bd6f7d973f6e28ced08c5f28484a3777947bf0adb5a286db0468637b5320a7"
+      },
+      {
+        "path": "lib/openzeppelin-contracts/contracts/utils/Address.sol",
+        "git_blob": "40f01a93dca7d4c92d0c228135bba1f3f35c86bf",
+        "source_commit": "49cd64565aafa5b8f6863bf60a30ef015861614c",
+        "sha256": "d867443476b8b64a8d38512be06a14acc050cad682e7280c87d0d90dbe286041"
+      },
+      {
+        "path": "lib/openzeppelin-contracts/contracts/utils/Context.sol",
+        "git_blob": "4e535fe03c243f864568b8f4430c17c25dbadb47",
+        "source_commit": "49cd64565aafa5b8f6863bf60a30ef015861614c",
+        "sha256": "847fda5460fee70f56f4200f59b82ae622bb03c79c77e67af010e31b7e2cc5b6"
+      },
+      {
+        "path": "lib/openzeppelin-contracts/contracts/utils/Errors.sol",
+        "git_blob": "715db95362003f10e6e274ee5d0d2d8dbb619e6e",
+        "source_commit": "49cd64565aafa5b8f6863bf60a30ef015861614c",
+        "sha256": "43a9459eeeaaded4beea8258a7b9a31d55d9432656efcb6f77aa22d02739606b"
+      },
+      {
+        "path": "lib/openzeppelin-contracts/contracts/utils/introspection/IERC165.sol",
+        "git_blob": "bfbdf5dda39a8f85bc68c7dbe67e7fca50cdca6c",
+        "source_commit": "49cd64565aafa5b8f6863bf60a30ef015861614c",
+        "sha256": "d5ec9a03c954d63b427a451c16abc99e1bfb7896725be8cc56c5d6d73040cb6f"
+      },
+      {
+        "path": "lib/permit2/lib/solmate/src/tokens/ERC20.sol",
+        "git_blob": "965704466c0dbd8038d77a72482d82d21413625a",
+        "source_commit": "8d910d876f51c3b2585c9109409d601f600e68e1",
+        "sha256": "a3a7e839f42762ef24623581542a916e838f3c7c0bef647963d1fdad0f9d208a"
+      },
+      {
+        "path": "lib/permit2/src/interfaces/IAllowanceTransfer.sol",
+        "git_blob": "debd4bea4d22378c010c2dbf862c48219b04eda1",
+        "source_commit": "576f549a7351814f112edcc42f3f8472d1712673",
+        "sha256": "b885eb65627522a263a1f644af8d7dfbbcacf54a7d85249777ae544bbd6aaf61"
+      },
+      {
+        "path": "lib/permit2/src/interfaces/IDAIPermit.sol",
+        "git_blob": "912b7817e9933a3ba6749e06b07f0015d03bbf26",
+        "source_commit": "576f549a7351814f112edcc42f3f8472d1712673",
+        "sha256": "13a98c0cbfa847ea57a8b427f76762b40de5fd10472e9d26e3aaa26de11e7c49"
+      },
+      {
+        "path": "lib/permit2/src/interfaces/IEIP712.sol",
+        "git_blob": "1a5be726bccac00795b797d7afc97c8c1e197138",
+        "source_commit": "576f549a7351814f112edcc42f3f8472d1712673",
+        "sha256": "b4b45bd4326d23a30a91f5d2186585b15c7d93a0c1d35c267d9a9172245419ca"
+      },
+      {
+        "path": "lib/permit2/src/libraries/Permit2Lib.sol",
+        "git_blob": "0780d7cb4c09796fd376e5ce2537d854bbaf7b38",
+        "source_commit": "576f549a7351814f112edcc42f3f8472d1712673",
+        "sha256": "8a54dec23cdf503ff8ceecc7480d7551d7d150481e9ba1c52e29b7187fa2c138"
+      },
+      {
+        "path": "lib/permit2/src/libraries/SafeCast160.sol",
+        "git_blob": "5926036ad7523d9c2912a819881e64448010399d",
+        "source_commit": "576f549a7351814f112edcc42f3f8472d1712673",
+        "sha256": "b106146964044fd9c89df48721011c43785982bf0dcb74a241f7a6f270fa8b2b"
+      },
+      {
+        "path": "src/Bundler3.sol",
+        "git_blob": "1783ab5d217d3ece05cdfcce1c2de96af49f1474",
+        "source_commit": "b4014349e3527f44ceaab697b26e29f2b11457f3",
+        "sha256": "9b56645bb3ad44d92223e31a000a362c22ebaabcb0fd526d2474613bb6dae702"
+      },
+      {
+        "path": "src/adapters/CoreAdapter.sol",
+        "git_blob": "814dc702543a52f9a8f9640eacc5ea5fddf7db2e",
+        "source_commit": "b4014349e3527f44ceaab697b26e29f2b11457f3",
+        "sha256": "ba6d0b6232309a920909e9252b53fad036ae1cf309a29b443cf946b94eec7b20"
+      },
+      {
+        "path": "src/adapters/EthereumGeneralAdapter1.sol",
+        "git_blob": "b10227c100364d6d48b32dbe15155c8664dbb411",
+        "source_commit": "b4014349e3527f44ceaab697b26e29f2b11457f3",
+        "sha256": "586ca10121f19976bcbdfb298e9d396d2bd11c3712b8aa78f3221f1c0654ca59"
+      },
+      {
+        "path": "src/adapters/GeneralAdapter1.sol",
+        "git_blob": "5f1f85dd31220b778174c5dfad86146fc57540b6",
+        "source_commit": "b4014349e3527f44ceaab697b26e29f2b11457f3",
+        "sha256": "ff6a48f8e67db564a56bce3de471325c79146a8962cbda295beb4123a81c6a2f"
+      },
+      {
+        "path": "src/interfaces/IBundler3.sol",
+        "git_blob": "cf5371f8b60002ff26935d7c9399e2e07a61cdda",
+        "source_commit": "b4014349e3527f44ceaab697b26e29f2b11457f3",
+        "sha256": "d81fa29000ae7f8b306820b9144bf503caaa90419414a2d2f6581aef34d65aa1"
+      },
+      {
+        "path": "src/interfaces/IStEth.sol",
+        "git_blob": "9512e81f8c2b2e4b93715975314a9c78b4bdf966",
+        "source_commit": "b4014349e3527f44ceaab697b26e29f2b11457f3",
+        "sha256": "4415cf399ac2a244903781b690ca0d815091cc1710fbeeb8172b896baaaa524b"
+      },
+      {
+        "path": "src/interfaces/IWNative.sol",
+        "git_blob": "0538b0c91e159bad8a8407e0bcaf05ff23d32da8",
+        "source_commit": "b4014349e3527f44ceaab697b26e29f2b11457f3",
+        "sha256": "8d993fbfb4f5e2b8ec2066f9badb3860c4d2ec2700012c1d24dec8635f71bec1"
+      },
+      {
+        "path": "src/interfaces/IWstEth.sol",
+        "git_blob": "b0dc92d8ef7043f7305f8e78f483996fe655a99d",
+        "source_commit": "b4014349e3527f44ceaab697b26e29f2b11457f3",
+        "sha256": "611dc2417f9222fde2fe877f1529cb9fdaf3ee1a03581d4febc672d318b986ca"
+      },
+      {
+        "path": "src/libraries/ErrorsLib.sol",
+        "git_blob": "944369f1b765017accce29fd4fe6db9cc1e96030",
+        "source_commit": "b4014349e3527f44ceaab697b26e29f2b11457f3",
+        "sha256": "5cfdc922a709f2393918bad2dc701793f825470126728e6ac087650b5e945757"
+      },
+      {
+        "path": "src/libraries/MathRayLib.sol",
+        "git_blob": "97c19ba14b7c1dafb74944cd6f0b40da92c435b9",
+        "source_commit": "b4014349e3527f44ceaab697b26e29f2b11457f3",
+        "sha256": "e686f522e377dec4c7cafe0cdab94346d6f8fe46c14d90de51ad19b205ce8089"
+      },
+      {
+        "path": "src/libraries/UtilsLib.sol",
+        "git_blob": "1eb17b6ac87f21cf5e739421d952104be6759485",
+        "source_commit": "b4014349e3527f44ceaab697b26e29f2b11457f3",
+        "sha256": "db008ac9a4dd6977949518f83c6e85b5a98f7fa6bb4ba995ce08466176e5bd7a"
+      }
+    ],
+    "scope": "LOCAL_REFERENCE_NOT_HISTORICAL_RUNTIME_PROOF"
+  },
+  "bytecode": {
+    "bytecode_sha256": {
+      "Morpho": "a73008812cf3c42dd17d5e7521b85b975813e430103ebb072f803a368a5113e3",
+      "UniswapV2Pair": "c884817b0b634ee7a9c3daf1017f64b00f5574df06ee1ff27ca6f8fe7726e1d5",
+      "ERC20": "4e828aafd24142b518baa5331a2f89cbb1feebe1b74a01f86450e9a10b26e0ad",
+      "WETH": "795c1ba7bd107c64d79edd9fb4df0b30961723f356147584f315bcae2d8a07fd",
+      "LabOracle": "3560bf78a0d5a79da55a78389a861f14e724c650472479ef1168a42e9ba55c15",
+      "LabFactory": "36caf54d4c0d92d648dc7088b9ba5172c4f5f6228df466de073499fb93df7339",
+      "LabV2Adapter": "edf2f538dd38a5604c7bd11b57d3def6532dae7faedba4b0728f2cd295f0d2ae",
+      "RejectNative": "86ec692b9ee5d8abd6ee46607f1048a637f0eb84d1ef5506b1942536b8b9c548",
+      "ForceNative": "1856c8a42fbc272a8b25f00fada098ff037b87caf106ba331d9e0b3074c0324e",
+      "UnderpayControl": "45c8780fa8320e4729c5658a050004d4b7d459f05d58feffc62482bf0c04a833",
+      "NqcMorphoSponsoredLiquidation": "7cbf201945881777f07562ec1cff151590614331113fa8563870513f6e7b703c",
+      "Bundler3": "322897cb26e360b1bfa5e67140a93d9fa0848456ea41052a20b2698d6e49424f",
+      "EthereumGeneralAdapter1": "b9f91a0ad1eeb628a17ecd46eb22e4e625226c95e34a934da862881e57c64e19",
+      "ConstructorMetadataFixture": "618faa85b1f174232d3025d008e676943a4679f2ac7715a42543e2d42e9f41a7"
+    },
+    "all_C1_creation_bytecodes_equal_corrected_003": true,
+    "metadata_fixture_scope": "constructor address getters only; not authentic Lido/wrapper compatibility",
+    "input_sha256": {
+      "morpho-sponsor-e2e-20261017/build_local.py": "f2a69787eed757a89975911809c9c8e1570487dbc5bd6a4501472887782c9adb",
+      "morpho-sponsored-gas/compile_bundler_reference.py": "2b7e8ee9e93f8e4c72c0996d8e7a4b9f88b119fe9340f25ed56a78e2885624f1",
+      "nqc-sponsored-bundle-gate-20261017/ConstructorMetadataFixture.sol": "fe45b576e00ffc8be2cece6ca5231505b5210d976003ff968f08fb2dc178e999"
+    }
+  },
+  "state_storage_layout": {
+    "WETH_balanceOf_slot": 3,
+    "collateral_ERC20_balanceOf_slot": 1,
+    "source": "pinned Solmate ERC20 and UniswapV2ERC20"
+  },
+  "directiva_004_sha256": "60739776f940626e561485ee437e0b80a594fc0fdedd2e3a133a82d6ba3b6d93",
+  "frozen_candidates_sha256": "5d8d86907d4b0e87f678ffa77ab302506437ee3063262362c57a1fd62b46481f",
+  "frozen_candidates": [
+    {
+      "tx_hash": "0x46300e9614c547118ecdd524bc7218208088cc4ae9e5bd534e62055d38f9925b",
+      "group": "WETH_no_reported_bad_debt",
+      "status": "UNRATED_MISSING_WITNESS"
+    },
+    {
+      "tx_hash": "0x485c12cd2cdf8768af3405d2aab0dbebe6d38e5b28615221913b751073e2bb9f",
+      "group": "WETH_no_reported_bad_debt",
+      "status": "UNRATED_MISSING_WITNESS"
+    },
+    {
+      "tx_hash": "0x34162fda07ca0ae1054d7c1252b8d1c48aba9a675fd3d09816393c29d8be50e4",
+      "group": "WETH_no_reported_bad_debt",
+      "status": "UNRATED_MISSING_WITNESS"
+    },
+    {
+      "tx_hash": "0x7f2a208841f2a9b51614d0c86a0420790a0c96a8c68473d474b592cf7442f530",
+      "group": "WETH_no_reported_bad_debt",
+      "status": "UNRATED_MISSING_WITNESS"
+    },
+    {
+      "tx_hash": "0x6f35930cde64a17471a03f1580eb2a39911d7a273c15a36c444cb43fbc08da7b",
+      "group": "largest_principal_same_asset",
+      "status": "UNRATED_MISSING_WITNESS"
+    },
+    {
+      "tx_hash": "0xead4476de6aa8922f1218fcd70eb86ce23400f04faf0568e9983b727bf8ce9a1",
+      "group": "largest_principal_same_asset",
+      "status": "UNRATED_MISSING_WITNESS"
+    },
+    {
+      "tx_hash": "0x48afa385417269ae025aef266d0f4b8ae38b11c9cc39808b3a6e6e81ea68f355",
+      "group": "largest_principal_same_asset",
+      "status": "UNRATED_MISSING_WITNESS"
+    },
+    {
+      "tx_hash": "0x444404d692c1e9c4e688cb0e0ee2637552a4fec472d662643fb6d9ff5e83dae9",
+      "group": "largest_principal_same_asset",
+      "status": "UNRATED_MISSING_WITNESS"
+    },
+    {
+      "tx_hash": "0x38d1030dbb93959ffc63d8663a6ac6a2c62b9d2f6f4311624f7a77a099453bff",
+      "group": "other_asset_earliest_diversity",
+      "status": "UNRATED_MISSING_WITNESS"
+    },
+    {
+      "tx_hash": "0xccf5035c11493bc83cf3942aa126840f0e19f9a2f8270ada50c0e64d7d5b3133",
+      "group": "other_asset_earliest_diversity",
+      "status": "UNRATED_MISSING_WITNESS"
+    },
+    {
+      "tx_hash": "0x69067db0430e7bd2d7d580c3f00d10da174cee76717f949d1341e7a82cf7a13e",
+      "group": "other_asset_earliest_diversity",
+      "status": "UNRATED_MISSING_WITNESS"
+    },
+    {
+      "tx_hash": "0xcef337c2375d51a445b2173db37700aea803ca23dfe929cdc4e6761d62ee4cf0",
+      "group": "other_asset_earliest_diversity",
+      "status": "UNRATED_MISSING_WITNESS"
+    }
+  ],
+  "historical_case_B": "BLOCKED_PRESTATE_NO_NEW_WITNESS",
+  "production_endpoints_called": false,
+  "external_spend_MXN": 0,
+  "current_commit_locator": "git rev-parse HEAD; publication/read-back is recorded separately to avoid self-referential hashes"
+}
