@@ -123,6 +123,8 @@ contract NqcMorphoSponsoredLiquidationMockTest {
         p.minWethOut = 0.5 ether;
         p.minOperatorProfitLoan = 1 ether;
         p.coinbaseTipWei = 0.4 ether;
+        p.sponsorRefundRecipient = address(0xF00D);
+        p.sponsorRefundWei = 0.05 ether;
     }
 
     function testWethLoanCallbackStartsWithZeroExecutorBalances() public {
@@ -130,16 +132,41 @@ contract NqcMorphoSponsoredLiquidationMockTest {
         require(weth.balanceOf(address(executor)) == 0);
         require(collateral.balanceOf(address(executor)) == 0);
         uint256 coinbaseBefore = address(0xBEEF).balance;
+        uint256 sponsorBefore = address(0xF00D).balance;
         uint256 operatorLoanBefore = weth.balanceOf(address(this));
         uint256 operatorNativeBefore = address(this).balance;
         uint256 profit = executor.execute(_plan(), hex"01", "");
         require(profit == 1.5 ether, "WETH profit");
         require(weth.balanceOf(address(this)) == operatorLoanBefore + 1.5 ether);
-        require(address(this).balance == operatorNativeBefore + 0.1 ether);
+        require(address(this).balance == operatorNativeBefore + 0.05 ether);
+        require(address(0xF00D).balance == sponsorBefore + 0.05 ether, "refund paid");
         require(address(0xBEEF).balance == coinbaseBefore + 0.4 ether);
         require(weth.balanceOf(address(morpho)) == 8 ether);
         require(address(executor).balance == 0);
         require(weth.balanceOf(address(executor)) == 0);
+    }
+
+    function testRejectInsufficientNativeSponsorReserve() public {
+        NqcMorphoSponsoredLiquidation.Plan memory p = _plan();
+        p.sponsorRefundWei = 0.2 ether; // 0.2 + 0.4 exceeds 0.5 WETH reserved.
+        (bool ok,) = address(executor).call(
+            abi.encodeWithSelector(executor.execute.selector, p, hex"01", bytes(""))
+        );
+        require(!ok, "insufficient sponsor repayment accepted");
+    }
+
+    function testRejectSelfSponsorOrCoinbaseAsBuilder() public {
+        NqcMorphoSponsoredLiquidation.Plan memory p = _plan();
+        p.sponsorRefundRecipient = address(this);
+        (bool ok,) = address(executor).call(
+            abi.encodeWithSelector(executor.execute.selector, p, hex"01", bytes(""))
+        );
+        require(!ok, "operator falsely treated as sponsor");
+        p.sponsorRefundRecipient = address(0xBEEF);
+        (ok,) = address(executor).call(
+            abi.encodeWithSelector(executor.execute.selector, p, hex"01", bytes(""))
+        );
+        require(!ok, "coinbase falsely treated as sponsor");
     }
 
     function testRejectUnrealisticMinLoanOut() public {
