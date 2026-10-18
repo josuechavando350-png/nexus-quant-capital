@@ -1,0 +1,65 @@
+name: NQC023 retained receipts and admission boundary
+on:
+  push:
+    branches: [research/nqc-023-offline-admission-20261018]
+    paths: [.github/workflows/nqc-023-offline-admission.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: nqc023-offline-admission-once
+  cancel-in-progress: false
+jobs:
+  audit:
+    if: github.repository == 'josuechavando350-png/nexus-quant-capital' && github.run_attempt == 1 && github.event.head_commit.message == 'NQC023_APPROVED_RETAINED_AUDIT_ONCE'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      # Reviewed migration: only this workflow and two scoped audit source files.
+      # Reads one existing NQC run; executes no recovered source, EVM or RPC.
+      # Standard public runner only. No artifacts/cache/uploads or remote writes.
+      - name: Verify producer isolation and audit original retained receipts
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          repo=josuechavando350-png/nexus-quant-capital
+          parent=7e4018d575084bc18f857a2466d1fde447f62d34
+          sub=migration/experiments/nqc-023-offline-admission-20261018
+          mkdir "$RUNNER_TEMP/nqc023-producer"
+          cd "$RUNNER_TEMP/nqc023-producer"
+          git init -q
+          git remote add origin "https://github.com/$repo.git"
+          git fetch --depth=10 origin "$GITHUB_SHA"
+          git checkout --detach "$GITHUB_SHA"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          git diff --check "$parent" HEAD
+          git diff --name-status "$parent" HEAD > "$RUNNER_TEMP/nqc023-diff.txt"
+          python3 - <<'PY'
+          import os,pathlib,hashlib
+          changes=pathlib.Path(os.environ['RUNNER_TEMP']+'/nqc023-diff.txt').read_text().splitlines()
+          expected={'.github/workflows/nqc-023-offline-admission.yml','migration/experiments/nqc-023-offline-admission-20261018/audit_retained.py','migration/experiments/nqc-023-offline-admission-20261018/test_retained.py'}
+          assert len(changes)==3 and set(changes)=={'A\t'+p for p in expected},changes
+          for name,h in [('audit_retained.py','01a705c24b3c1ae18e76300a9e3951eac8de26d41000403c460b9aec1b4396b1'),('test_retained.py','8f1ec8972e185cce98c830ff559714cd41551d465415d3f7f3b6d9b2fe77e2ff')]:
+              assert hashlib.sha256(pathlib.Path('migration/experiments/nqc-023-offline-admission-20261018',name).read_bytes()).hexdigest()==h
+          print('NQC023_PARENT_FILES_AND_MODES_UNCHANGED')
+          PY
+          set +e
+          python3 migration/verify_isolation.py --root "$PWD" > "$RUNNER_TEMP/nqc023-isolation.txt" 2>&1
+          isolation_exit=$?
+          set -e
+          cat "$RUNNER_TEMP/nqc023-isolation.txt"
+          echo "NQC023_GLOBAL_ISOLATION_EXIT=$isolation_exit (reported separately; not a global certificate)"
+          python3 -m unittest discover -s "$sub" -p test_retained.py -v
+          gh api "repos/$repo/actions/runs/39102577514" > "$RUNNER_TEMP/nqc023-source-run.json"
+          python3 - <<'PY'
+          import json,os,pathlib
+          r=json.loads(pathlib.Path(os.environ['RUNNER_TEMP']+'/nqc023-source-run.json').read_text())
+          assert r['head_sha']=='7e4018d575084bc18f857a2466d1fde447f62d34' and r['conclusion']=='success' and r['run_attempt']==1
+          PY
+          gh api "repos/$repo/actions/jobs/117601680768/logs" > "$RUNNER_TEMP/nqc023-source.log"
+          python3 "$sub/audit_retained.py" "$RUNNER_TEMP/nqc023-source.log" "$RUNNER_TEMP/nqc023-result.json"
+          git diff --exit-code HEAD
+          echo 'NQC023_COMPLETE_NO_EVM_NO_PROVIDER_CONTACT_NO_PUBLIC_TRANSACTIONS'
