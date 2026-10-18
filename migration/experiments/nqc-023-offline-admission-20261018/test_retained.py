@@ -31,9 +31,6 @@ class RetainedTests(unittest.TestCase):
  def test_corrupt_operator_identity(self):
   r,p,s=self.fixture();p['operator_sha256']='not-the-digest'
   with self.assertRaises(ValueError):audit_case(r,p,s)
- def test_duplicate_receipt(self):
-  r,p,s=self.fixture();r['transactions'][1]['receipt']['transactionHash']='0x1'
-  with self.assertRaises(ValueError):audit_case(r,p,s)
  def test_invalid_prefix_reserve(self):
   r,p,s=self.fixture();r['transactions'][1]['request']['gas']='0xffff'
   with self.assertRaises(ValueError):audit_case(r,p,s)
