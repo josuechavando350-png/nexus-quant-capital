@@ -1,4 +1,4 @@
-name: NQC028 bounded historical Fluid reads
+name: NQC028 bounded historical identity diagnostic
 on:
   push:
     branches: [research/nqc-028-historical-read-20261018]
@@ -18,8 +18,8 @@ jobs:
         shell: bash
         env:
           BASE: 16e352225ba8a6a931834c4edf3d86d9a2924b7d
-          SOURCE: ed211b138e14e58b50c6aae0858d906e292ce5a7
-          PREVIOUS: 93eb857d6af70ccbace7f382736a05bc2123802d
+          SOURCE: 5e6bdccae35834440b7dda02932994c6762ac0cc
+          ORIGINAL: ed211b138e14e58b50c6aae0858d906e292ce5a7
         run: |
           set -euo pipefail
           test "$GITHUB_REPOSITORY" = 'josuechavando350-png/nexus-quant-capital'
@@ -28,12 +28,12 @@ jobs:
           ROOT="$RUNNER_TEMP/nqc028-producer"
           git init "$ROOT"
           git -C "$ROOT" remote add origin https://github.com/josuechavando350-png/nexus-quant-capital.git
-          git -C "$ROOT" fetch --no-tags --depth=4 origin "$GITHUB_SHA"
+          git -C "$ROOT" fetch --no-tags --depth=6 origin "$GITHUB_SHA"
           git -C "$ROOT" checkout --detach FETCH_HEAD
           test "$(git -C "$ROOT" rev-parse HEAD)" = "$GITHUB_SHA"
-          test "$(git -C "$ROOT" rev-parse HEAD^)" = "$PREVIOUS"
-          test "$(git -C "$ROOT" rev-parse HEAD^^)" = "$SOURCE"
-          test "$(git -C "$ROOT" rev-parse HEAD^^^)" = "$BASE"
+          test "$(git -C "$ROOT" rev-parse HEAD^)" = "$SOURCE"
+          test "$(git -C "$ROOT" rev-parse HEAD^^^^)" = "$ORIGINAL"
+          test "$(git -C "$ROOT" rev-parse HEAD^^^^^)" = "$BASE"
           git -C "$ROOT" worktree add --detach "$RUNNER_TEMP/nqc028-base" "$BASE"
           python3 "$RUNNER_TEMP/nqc028-base/migration/verify_isolation.py" --root "$RUNNER_TEMP/nqc028-base"
           (cd "$RUNNER_TEMP/nqc028-base" && python3 -m unittest discover -v -s migration -p test_isolation.py)
@@ -43,6 +43,7 @@ jobs:
           root=os.environ['ROOT']; base=os.environ['BASE']
           changes=subprocess.check_output(['git','-C',root,'diff','--name-status','--no-renames',base,'HEAD'],text=True).splitlines()
           allowed={'.github/workflows/nqc-028-historical-read.yml','migration/experiments/nqc-028-historical-read-20261018/MIGRATION_REVIEW.md','migration/experiments/nqc-028-historical-read-20261018/source_bundle.json.gz'}
+          allowed.update('migration/experiments/nqc-028-historical-read-20261018/'+n for n in ('diagnose_identity.py','test_identity.py','IDENTITY_DIAGNOSTIC_REVIEW.md'))
           assert set(changes)=={'A\t'+n for n in allowed}, changes
           r=subprocess.run(['python3',root+'/migration/verify_isolation.py','--root',root],text=True,capture_output=True)
           print('NQC028_ISOLATION '+json.dumps({'base_verified':True,'additive_only_verified':True,'producer_global_verifier_rc':r.returncode,'producer_global_verifier_output':r.stdout+r.stderr,'producer_sha':os.environ['GITHUB_SHA'],'source_sha':os.environ['SOURCE']}))
@@ -65,11 +66,16 @@ jobs:
           for name,value in files.items():
               data=value.encode();assert hashlib.sha256(data).hexdigest()==locks[name]
               p=tmp/'nqc028-runtime'/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(data)
+          extras={'diagnose_identity.py':('source','15d85f163ebefadc3dc6a03e24e106eff803b51565181da028d8121f74bfa362'),'test_identity.py':('tests','f524fea6cb1f1dd8483506ffe8495e1fde0e71a155e0c632e4ae87bd337db2d5')}
+          for name,(destination,digest) in extras.items():
+              data=(root/'migration/experiments/nqc-028-historical-read-20261018'/name).read_bytes()
+              assert hashlib.sha256(data).hexdigest()==digest
+              (tmp/'nqc028-runtime'/destination/name).write_bytes(data)
           PY
           cd "$RUNNER_TEMP/nqc028-runtime"
           python3 -m unittest discover -v -s tests
-      - name: One bounded read-only historical attempt
+      - name: Three new identity diagnostics after null hash
         shell: bash
         run: |
           set -euo pipefail
-          python3 "$RUNNER_TEMP/nqc028-runtime/source/read_fluid.py" "$RUNNER_TEMP/nqc028-evidence"
+          python3 "$RUNNER_TEMP/nqc028-runtime/source/diagnose_identity.py" "$RUNNER_TEMP/nqc028-identity-evidence"
