@@ -1,0 +1,311 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.24;
+
+// RESEARCH PROTOTYPE ONLY. Local tests are documented in RESEARCH_STATUS.md.
+// Not audited; mock execution does not establish mainnet compatibility.
+// No deployed code, no live authority, no signed/broadcast transactions.
+
+interface INqcErc20 {
+    function balanceOf(address account) external view returns (uint256);
+}
+
+interface INqcMorphoBlue {
+    struct MarketParams {
+        address loanToken;
+        address collateralToken;
+        address oracle;
+        address irm;
+        uint256 lltv;
+    }
+
+    function liquidate(
+        MarketParams memory marketParams,
+        address borrower,
+        uint256 seizedAssets,
+        uint256 repaidShares,
+        bytes calldata data
+    ) external returns (uint256 seizedAssetsFinal, uint256 repaidAssetsFinal);
+}
+
+interface INqcExactInputAdapter {
+    function swapExactInput(
+        address tokenIn,
+        address tokenOut,
+        uint256 amountIn,
+        uint256 minAmountOut,
+        bytes calldata routeData
+    ) external returns (uint256 amountOut);
+}
+
+interface INqcWeth {
+    function withdraw(uint256 amount) external;
+}
+
+/// @dev Morpho callback receives collateral before Morpho pulls the debt token.
+///      block.coinbase ETH transfers are NOT by themselves proof of builder income.
+///      The adapter must be independently audited / allowlisted before any live use.
+// RESEARCH OVERLAY: UNCOMPILED / NO DEPLOYMENT AUTHORITY.
+// Expected fee recipient is an execution constraint, NOT proof of provider ownership.
+contract NqcMorphoSponsoredLiquidationPaymentLayout {
+    enum NativePaymentLayout { Separate, SharedFeeRecipient }
+    error Unauthorized();
+    error InvalidPlan();
+    error StateContaminated();
+    error AlreadyActive();
+    error InvalidCallback();
+    error SwapFailed();
+    error ProfitTooLow();
+    error NativeTipNotFunded();
+    error TokenCallFailed(address token);
+    error NativeTransferFailed();
+
+    struct Plan {
+        INqcMorphoBlue.MarketParams market;
+        address borrower;
+        uint256 repaidShares;
+        uint256 validThroughBlock;
+        uint256 minLoanOut;
+        uint256 loanForWeth;
+        uint256 minWethOut;
+        uint256 minOperatorProfitLoan;
+        uint256 coinbaseTipWei;
+        // Sponsor identity must be checked independently; layout is explicit.
+        address sponsorRefundRecipient;
+        uint256 sponsorRefundWei;
+        // New ABI fields: every caller/encoder must explicitly supply both.
+        address expectedFeeRecipient;
+        NativePaymentLayout nativePaymentLayout;
+    }
+
+    address public immutable operator;
+    INqcMorphoBlue public immutable morpho;
+    INqcExactInputAdapter public immutable swapAdapter;
+    address public immutable weth;
+
+    bool private active;
+    bool private callbackSeen;
+    bytes32 private expectedCallbackHash;
+    address private activeLoanToken;
+    address private activeCollateralToken;
+    uint256 private reservedLoanForWeth;
+    uint256 private minProfit;
+    uint256 private activeMinLoanOut;
+    // Per-execution baselines: unsolicited ERC-20 or forced ETH is never spendable.
+    uint256 private baselineLoan;
+    uint256 private baselineCollateral;
+    uint256 private baselineWeth;
+    uint256 private baselineNative;
+    uint256 private callbackRepaid;
+    uint256 private callbackSeized;
+    uint256 private loanBeforeRepayment;
+
+    event ExperimentalLiquidation(
+        address indexed borrower,
+        uint256 seizedCollateral,
+        uint256 repaidLoan,
+        uint256 operatorLoanProfit,
+        uint256 coinbaseTipWei,
+        address sponsorRefundRecipient,
+        uint256 sponsorRefundWei
+    );
+
+    constructor(address operator_, address morpho_, address adapter_, address weth_) {
+        if (operator_ == address(0) || morpho_ == address(0) ||
+            adapter_ == address(0) || weth_ == address(0)) revert InvalidPlan();
+        operator = operator_;
+        morpho = INqcMorphoBlue(morpho_);
+        swapAdapter = INqcExactInputAdapter(adapter_);
+        weth = weth_;
+    }
+
+    receive() external payable {
+        if (msg.sender != weth) revert Unauthorized();
+    }
+
+    function execute(Plan calldata plan, bytes calldata collateralRoute, bytes calldata wethRoute)
+        external returns (uint256 operatorLoanProfit)
+    {
+        if (msg.sender != operator) revert Unauthorized();
+        if (active) revert AlreadyActive();
+        if (block.number > plan.validThroughBlock || plan.repaidShares == 0 ||
+            plan.borrower == address(0) || plan.minLoanOut == 0 ||
+            plan.minOperatorProfitLoan == 0 || plan.coinbaseTipWei == 0 ||
+            plan.sponsorRefundWei == 0 || collateralRoute.length == 0) revert InvalidPlan();
+
+        address loan = plan.market.loanToken;
+        address collateral = plan.market.collateralToken;
+        if (loan == address(0) || collateral == address(0) ||
+            loan == collateral || plan.loanForWeth == 0 || plan.minWethOut == 0) revert InvalidPlan();
+
+        // WETH debt markets (including historical EZETH/WETH) unwrap only the
+        // reserved share of WETH rather than swapping WETH into itself.
+        if (loan == weth && plan.minWethOut != plan.loanForWeth) revert InvalidPlan();
+        // Pin the actual header recipient before any external interaction.
+        // Header recipient need not be the final block proposer.
+        if (plan.expectedFeeRecipient == address(0) ||
+            plan.expectedFeeRecipient == operator ||
+            plan.expectedFeeRecipient == address(this) ||
+            block.coinbase != plan.expectedFeeRecipient) revert InvalidPlan();
+        if (plan.sponsorRefundRecipient == address(0) ||
+            plan.sponsorRefundRecipient == operator ||
+            plan.sponsorRefundRecipient == address(this) ||
+            plan.minWethOut < plan.sponsorRefundWei + plan.coinbaseTipWei) revert InvalidPlan();
+        if (plan.nativePaymentLayout == NativePaymentLayout.Separate) {
+            if (plan.sponsorRefundRecipient == plan.expectedFeeRecipient) revert InvalidPlan();
+        } else if (plan.nativePaymentLayout == NativePaymentLayout.SharedFeeRecipient) {
+            if (plan.sponsorRefundRecipient != plan.expectedFeeRecipient) revert InvalidPlan();
+        } else {
+            revert InvalidPlan();
+        }
+        // Enforcing an empty contract allows third parties to halt it with dust.
+        // Measure only fresh assets instead, preserving all initial balances.
+        baselineLoan = _balance(loan);
+        baselineCollateral = _balance(collateral);
+        baselineWeth = _balance(weth);
+        baselineNative = address(this).balance;
+
+        active = true;
+        callbackSeen = false;
+        activeLoanToken = loan;
+        activeCollateralToken = collateral;
+        reservedLoanForWeth = plan.loanForWeth;
+        minProfit = plan.minOperatorProfitLoan;
+        activeMinLoanOut = plan.minLoanOut;
+        expectedCallbackHash = keccak256(collateralRoute);
+
+        (uint256 seized, uint256 repaid) = morpho.liquidate(
+            plan.market, plan.borrower, 0, plan.repaidShares, collateralRoute
+        );
+        if (!callbackSeen || _balance(collateral) != baselineCollateral ||
+            seized != callbackSeized || repaid != callbackRepaid ||
+            loanBeforeRepayment < repaid ||
+            _balance(loan) != loanBeforeRepayment - repaid) revert InvalidCallback();
+        // Morpho transferred debt tokens back using transferFrom before returning.
+        _forceApprove(loan, address(morpho), 0);
+        if (_balance(loan) < baselineLoan + plan.loanForWeth + plan.minOperatorProfitLoan)
+            revert ProfitTooLow();
+
+        if (loan == weth) {
+            INqcWeth(weth).withdraw(plan.loanForWeth);
+        } else {
+            _swap(loan, weth, plan.loanForWeth, plan.minWethOut, wethRoute);
+            uint256 availableWeth = _balance(weth);
+            if (availableWeth < baselineWeth + plan.minWethOut) revert NativeTipNotFunded();
+            INqcWeth(weth).withdraw(availableWeth - baselineWeth);
+        }
+        uint256 totalNativePayments = plan.sponsorRefundWei + plan.coinbaseTipWei;
+        if (address(this).balance < baselineNative + totalNativePayments)
+            revert NativeTipNotFunded();
+        // Shared layout performs ONE transfer for the sum, not sum plus two fees.
+        // Any later proposer payment is external to this executor and remains unknown.
+        if (plan.nativePaymentLayout == NativePaymentLayout.SharedFeeRecipient) {
+            (bool paymentOk,) = payable(plan.expectedFeeRecipient).call{value: totalNativePayments}("");
+            if (!paymentOk) revert NativeTransferFailed();
+        } else {
+            (bool refundOk,) = payable(plan.sponsorRefundRecipient).call{value: plan.sponsorRefundWei}("");
+            if (!refundOk) revert NativeTransferFailed();
+            (bool tipOk,) = payable(block.coinbase).call{value: plan.coinbaseTipWei}("");
+            if (!tipOk) revert NativeTransferFailed();
+        }
+
+        uint256 finalLoanBalance = _balance(loan);
+        if (finalLoanBalance < baselineLoan) revert StateContaminated();
+        operatorLoanProfit = finalLoanBalance - baselineLoan;
+        if (operatorLoanProfit < plan.minOperatorProfitLoan) revert ProfitTooLow();
+        _payOperator(loan, operatorLoanProfit);
+        if (address(this).balance < baselineNative) revert StateContaminated();
+        uint256 residualNative = address(this).balance - baselineNative;
+        if (residualNative != 0) {
+            (bool profitOk,) = payable(operator).call{value: residualNative}("");
+            if (!profitOk) revert NativeTransferFailed();
+        }
+        if (_balance(loan) != baselineLoan || _balance(collateral) != baselineCollateral ||
+            _balance(weth) != baselineWeth || address(this).balance != baselineNative)
+            revert StateContaminated();
+
+        active = false;
+        callbackSeen = false;
+        expectedCallbackHash = bytes32(0);
+        activeLoanToken = address(0);
+        activeCollateralToken = address(0);
+        reservedLoanForWeth = 0;
+        minProfit = 0;
+        activeMinLoanOut = 0;
+        baselineLoan = 0;
+        baselineCollateral = 0;
+        baselineWeth = 0;
+        baselineNative = 0;
+        callbackRepaid = 0;
+        callbackSeized = 0;
+        loanBeforeRepayment = 0;
+        _emitLiquidation(plan, seized, repaid, operatorLoanProfit);
+    }
+
+    // Keep event encoding out of execute's stack frame (solc 0.8.24, no via-IR).
+    function _emitLiquidation(Plan calldata plan, uint256 seized, uint256 repaid, uint256 profit) private {
+        emit ExperimentalLiquidation(
+            plan.borrower, seized, repaid, profit, plan.coinbaseTipWei,
+            plan.sponsorRefundRecipient, plan.sponsorRefundWei
+        );
+    }
+
+    function onMorphoLiquidate(uint256 repaidAssets, bytes calldata collateralRoute) external {
+        if (msg.sender != address(morpho) || !active || callbackSeen ||
+            repaidAssets == 0 || keccak256(collateralRoute) != expectedCallbackHash) revert InvalidCallback();
+        callbackSeen = true;
+        uint256 currentCollateral = _balance(activeCollateralToken);
+        if (currentCollateral <= baselineCollateral) revert InvalidCallback();
+        uint256 seizedBalance = currentCollateral - baselineCollateral;
+        callbackRepaid = repaidAssets;
+        callbackSeized = seizedBalance;
+        uint256 required = repaidAssets + reservedLoanForWeth + minProfit;
+        if (activeMinLoanOut > required) required = activeMinLoanOut;
+        _swap(activeCollateralToken, activeLoanToken, seizedBalance, required, collateralRoute);
+        _forceApprove(activeLoanToken, address(morpho), repaidAssets);
+        loanBeforeRepayment = _balance(activeLoanToken);
+    }
+
+    function _swap(
+        address tokenIn, address tokenOut, uint256 amountIn,
+        uint256 minAmountOut, bytes memory route
+    ) private {
+        uint256 inputBefore = _balance(tokenIn);
+        uint256 outputBefore = _balance(tokenOut);
+        if (amountIn == 0 || inputBefore < amountIn || minAmountOut == 0) revert SwapFailed();
+        _forceApprove(tokenIn, address(swapAdapter), amountIn);
+        swapAdapter.swapExactInput(tokenIn, tokenOut, amountIn, minAmountOut, route);
+        _forceApprove(tokenIn, address(swapAdapter), 0);
+        uint256 inputAfter = _balance(tokenIn);
+        uint256 outputAfter = _balance(tokenOut);
+        if (inputAfter > inputBefore || inputBefore - inputAfter != amountIn ||
+            outputAfter < outputBefore ||
+            outputAfter - outputBefore < minAmountOut) revert SwapFailed();
+    }
+
+    function _balance(address token) private view returns (uint256) {
+        return INqcErc20(token).balanceOf(address(this));
+    }
+
+    function _forceApprove(address token, address spender, uint256 amount) private {
+        _tokenCall(token, abi.encodeWithSignature("approve(address,uint256)", spender, 0));
+        if (amount != 0) _tokenCall(token, abi.encodeWithSignature("approve(address,uint256)", spender, amount));
+    }
+
+    function _safeTransfer(address token, address recipient, uint256 amount) private {
+        _tokenCall(token, abi.encodeWithSignature("transfer(address,uint256)", recipient, amount));
+    }
+
+    function _payOperator(address token, uint256 amount) private {
+        uint256 beforeBalance = INqcErc20(token).balanceOf(operator);
+        _safeTransfer(token, operator, amount);
+        uint256 afterBalance = INqcErc20(token).balanceOf(operator);
+        if (afterBalance < beforeBalance || afterBalance - beforeBalance != amount) revert ProfitTooLow();
+    }
+
+    function _tokenCall(address token, bytes memory data) private {
+        (bool success, bytes memory returned) = token.call(data);
+        if (!success ||
+            (returned.length != 0 && (returned.length != 32 ||
+                !abi.decode(returned, (bool))))) revert TokenCallFailed(token);
+    }
+}
