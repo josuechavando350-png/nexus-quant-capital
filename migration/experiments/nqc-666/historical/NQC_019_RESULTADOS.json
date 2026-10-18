@@ -1,0 +1,91 @@
+{
+  "status": "OFFLINE_PRECHECK_MEASURED_NOT_INTEGRATED_NOT_COMMERCIAL",
+  "created_utc": "2026-10-18T04:50:18.927028+00:00",
+  "baseline_nqc018": "71d276e2c7f67b3f564d086463efca09cfbbf940",
+  "main_read": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
+  "publication": "NOT_PUBLISHED_LOCAL_EXPERIMENT",
+  "latency_11_us": "NOT_LOCATED_NOT_REFUTED_NO_COMPARABLE_BASELINE",
+  "new_component": "bounded 1..16-step financial and evidence pre-screen on predecoded inputs",
+  "preprocessing_and_upstream_evidence_validation_measured": false,
+  "integrated_with_NQC": false,
+  "correctness": {
+    "explicit_controls": 55,
+    "parser_rejections": 12,
+    "random_differential_cases": 20000,
+    "total_comparisons": 20055,
+    "mismatches": 0
+  },
+  "sanitizers": "ASAN_AND_UBSAN_SAME_CORPUS_PASS",
+  "measurements": {
+    "warm_4": {
+      "all_five_p99_at_most_3000ns": true,
+      "p50_range_ns": [
+        92,
+        93
+      ],
+      "p99_range_ns": [
+        112,
+        119
+      ],
+      "max_ns": 1653341,
+      "samples": 1000000,
+      "above_3000_ns": 283
+    },
+    "warm_16": {
+      "all_five_p99_at_most_3000ns": true,
+      "p50_range_ns": [
+        203,
+        203
+      ],
+      "p99_range_ns": [
+        222,
+        250
+      ],
+      "max_ns": 659102,
+      "samples": 1000000,
+      "above_3000_ns": 476
+    },
+    "mixed_16": {
+      "all_five_p99_at_most_3000ns": true,
+      "p50_range_ns": [
+        203,
+        203
+      ],
+      "p99_range_ns": [
+        226,
+        260
+      ],
+      "max_ns": 676500,
+      "samples": 1000000,
+      "above_3000_ns": 538
+    },
+    "flushed_16": {
+      "all_five_p99_at_most_3000ns": true,
+      "p50_range_ns": [
+        556,
+        586
+      ],
+      "p99_range_ns": [
+        1072,
+        1096
+      ],
+      "max_ns": 436772,
+      "samples": 100000,
+      "above_3000_ns": 160
+    }
+  },
+  "samples": 3100000,
+  "over_3_us": 1457,
+  "worst_observed_ns": 1653341,
+  "p99_target": "all five runs in each of four profiles <=3000ns",
+  "maximum_3_us_guaranteed": false,
+  "new_EVM_cases": 0,
+  "new_public_transactions": 0,
+  "signatures_created": 0,
+  "external_spend": 0,
+  "commercial_provider_acceptance": null,
+  "non_recourse_proven": false,
+  "commercial_admission": false,
+  "production_latency_claim": null,
+  "monthly_income_estimate": null
+}

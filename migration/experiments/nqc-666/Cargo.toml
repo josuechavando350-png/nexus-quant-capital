@@ -1,0 +1,23 @@
+[package]
+name = "nqc-666"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.90"
+publish = false
+
+[lib]
+name = "nqc666"
+
+[profile.release]
+opt-level = 3
+lto = false
+codegen-units = 1
+overflow-checks = true
+
+[profile.thin]
+inherits = "release"
+lto = "thin"
+
+[profile.fat]
+inherits = "release"
+lto = "fat"

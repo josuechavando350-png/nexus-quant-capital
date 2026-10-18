@@ -1,0 +1,917 @@
+{
+  "training_seed": 666019,
+  "evaluation_seeds": [
+    190000,
+    190001,
+    190002
+  ],
+  "training_corpora": "synthetic NQC019 mixed_16 + warm_16",
+  "production_representative": false,
+  "binary_sha256": {
+    "fat": "147741c794fc7e46684ca239aa5ee655e0d5f0bcd1d509871a078ae61637f032",
+    "pgo": "b4faffb1a5850f5244b57b82fd32e428cc43f170eac8dce09b070a25feae8f64"
+  },
+  "profile_sha256": "930737cbc0d0767f37faf63f6367a33665bb59e67a924a05d0611cf36d23377e",
+  "runs": [
+    {
+      "label": "pgo-event_final-1",
+      "variant": "pgo",
+      "mode": "event_final",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.595980636137627,
+          2.595944294038682,
+          2.595984528881854,
+          2.595905360328291,
+          2.596070320186152
+        ],
+        "commercial_admission": false
+      },
+      "stats_ns": {
+        "n": 200000,
+        "p50": 381.0,
+        "p95": 511.0,
+        "p99": 711.0,
+        "p99_9": 34792.0,
+        "max": 1676636.0,
+        "min": 340.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 381,
+        "p95": 511,
+        "p99": 711,
+        "p99_9": 34792,
+        "max": 1676636,
+        "min": 340
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 61592,
+        "min": 20
+      },
+      "metric": "individual_call_ns",
+      "samples_sha256": "3d1f2283d89359190490e92adcfe8ad0c971ccfaa3f5ef27b3a608f5a804d8bc"
+    },
+    {
+      "label": "pgo-event_final-0",
+      "variant": "pgo",
+      "mode": "event_final",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.59608719827839,
+          2.5959481886915556,
+          2.595967664118,
+          2.595980635132845,
+          2.5960651360445834
+        ],
+        "commercial_admission": false
+      },
+      "stats_ns": {
+        "n": 200000,
+        "p50": 380.0,
+        "p95": 591.0,
+        "p99": 721.0,
+        "p99_9": 3365.0,
+        "max": 1014981.0,
+        "min": 330.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 380,
+        "p95": 591,
+        "p99": 721,
+        "p99_9": 3365,
+        "max": 1014981,
+        "min": 330
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 140,
+        "max": 2284,
+        "min": 20
+      },
+      "metric": "individual_call_ns",
+      "samples_sha256": "7ba75d3746a164e125f41797e23dad715a0f1ff659ec0b55dfb6a2df01c45cf5"
+    },
+    {
+      "label": "pgo-compact-0",
+      "variant": "pgo",
+      "mode": "compact",
+      "rep": 0,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060600,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.59608719827839,
+          2.5960547461877246,
+          2.596089926080249,
+          2.596105500502795,
+          2.596106668738646
+        ],
+        "commercial_admission": false
+      },
+      "stats_ns": {
+        "n": 10000,
+        "p50": 5.476986701099536,
+        "p95": 5.633472035416665,
+        "p99": 5.71171470257523,
+        "p99_9": 94.12592859175345,
+        "max": 485.73047772037023,
+        "min": 5.164016032465276
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1820,
+        "p95": 1872,
+        "p99": 1898,
+        "p99_9": 31278,
+        "max": 161408,
+        "min": 1716
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 78,
+        "min": 52
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "samples_sha256": "a1bc23d9c4f6a388e8f6e8635cdde5a363ca12c3e87adbb675c8a4c73db781cb"
+    },
+    {
+      "label": "fat-screen-0",
+      "variant": "fat",
+      "mode": "screen",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 863207542427200512,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596071620156317,
+          2.596070330010101,
+          2.5960716260487433,
+          2.596066430109354,
+          2.596072920126483
+        ],
+        "commercial_admission": false
+      },
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 120.0,
+        "p99": 160.0,
+        "p99_9": 581.0,
+        "max": 239256.0,
+        "min": 90.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 120,
+        "p99": 160,
+        "p99_9": 581,
+        "max": 239256,
+        "min": 90
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "metric": "individual_call_ns",
+      "samples_sha256": "d8c79e68a8840d184668cfe2109ab03c6ce6c55846079ad266444eb33280f0cf"
+    },
+    {
+      "label": "fat-screen-2",
+      "variant": "fat",
+      "mode": "screen",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 2757188227953690624,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596104198568434,
+          2.59606915984334,
+          2.5961079726176997,
+          2.5960703241157375,
+          2.596036572485219
+        ],
+        "commercial_admission": false
+      },
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 120.0,
+        "p99": 161.0,
+        "p99_9": 561.0,
+        "max": 848052.0,
+        "min": 90.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 120,
+        "p99": 161,
+        "p99_9": 561,
+        "max": 848052,
+        "min": 90
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 661,
+        "min": 20
+      },
+      "metric": "individual_call_ns",
+      "samples_sha256": "6ed1d46dee8b230a7249430d1ec01caa6d8e3a4e9630deb42b4cdcb745cec910"
+    },
+    {
+      "label": "pgo-compact-1",
+      "variant": "pgo",
+      "mode": "compact",
+      "rep": 1,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060519,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.5959715537921113,
+          2.5961068043824302,
+          2.596093818202109,
+          2.5960390878150075,
+          2.596057346111157
+        ],
+        "commercial_admission": false
+      },
+      "stats_ns": {
+        "n": 10000,
+        "p50": 5.477055436121011,
+        "p95": 5.555299085208455,
+        "p99": 5.633542734295898,
+        "p99_9": 17.761308342849567,
+        "max": 1581.9300972499232,
+        "min": 5.164080839771239
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1820,
+        "p95": 1846,
+        "p99": 1872,
+        "p99_9": 5902,
+        "max": 525668,
+        "min": 1716
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 78,
+        "min": 52
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "samples_sha256": "16161d2fb888c3bb39220f1ff3d1cff8efef18472336bc28e2b709bad2b0d85e"
+    },
+    {
+      "label": "pgo-compact-2",
+      "variant": "pgo",
+      "mode": "compact",
+      "rep": 2,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060616,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.596011913252586,
+          2.596048254282403,
+          2.596082008163937,
+          2.5960877472122394,
+          2.5960703221509456
+        ],
+        "commercial_admission": false
+      },
+      "stats_ns": {
+        "n": 10000,
+        "p50": 5.477028059940691,
+        "p95": 5.633514575938997,
+        "p99": 5.868244349936456,
+        "p99_9": 120.80759035069183,
+        "max": 2741.722003548311,
+        "min": 5.242298285943233
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1820,
+        "p95": 1872,
+        "p99": 1950,
+        "p99_9": 40144,
+        "max": 911066,
+        "min": 1742
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 78,
+        "min": 52
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "samples_sha256": "967ff07596e81b52ec6d03151fcc86e1c9d7927c5d430fe4fe521e45c62d0e41"
+    },
+    {
+      "label": "fat-event_final-0",
+      "variant": "fat",
+      "mode": "event_final",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596089772816988,
+          2.596106668738646,
+          2.5961223809391427,
+          2.596122377061541,
+          2.596122377061541
+        ],
+        "commercial_admission": false
+      },
+      "stats_ns": {
+        "n": 200000,
+        "p50": 371.0,
+        "p95": 431.0,
+        "p99": 641.0,
+        "p99_9": 14261.0,
+        "max": 350882.0,
+        "min": 340.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 371,
+        "p95": 431,
+        "p99": 641,
+        "p99_9": 14261,
+        "max": 350882,
+        "min": 340
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "metric": "individual_call_ns",
+      "samples_sha256": "4f3c17d2b2193b41bedd6b61c00cc5926c121cc73cf17b323cbb0ea02fa3da23"
+    },
+    {
+      "label": "pgo-event_final-2",
+      "variant": "pgo",
+      "mode": "event_final",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596057475910208,
+          2.596107966779714,
+          2.596092522128898,
+          2.5961068043824302,
+          2.596106741962868
+        ],
+        "commercial_admission": false
+      },
+      "stats_ns": {
+        "n": 200000,
+        "p50": 421.0,
+        "p95": 471.0,
+        "p99": 651.0,
+        "p99_9": 18378.0,
+        "max": 1716916.0,
+        "min": 360.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 421,
+        "p95": 471,
+        "p99": 651,
+        "p99_9": 18378,
+        "max": 1716916,
+        "min": 360
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 2143,
+        "min": 20
+      },
+      "metric": "individual_call_ns",
+      "samples_sha256": "fe15b77132a67a235150a056c5b2483ab8891dcd6557222a49038b01071d8f40"
+    },
+    {
+      "label": "pgo-screen-1",
+      "variant": "pgo",
+      "mode": "screen",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 2726271973674366976,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596085902215104,
+          2.5961079706717065,
+          2.5961080985298244,
+          2.596102902478363,
+          2.596072920126483
+        ],
+        "commercial_admission": false
+      },
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 110.0,
+        "p99": 111.0,
+        "p99_9": 480.0,
+        "max": 199186.0,
+        "min": 80.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 110,
+        "p99": 111,
+        "p99_9": 480,
+        "max": 199186,
+        "min": 80
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "metric": "individual_call_ns",
+      "samples_sha256": "23b822712cc20886f76bb2b7f2df8516795857adf3a6dbf984396f3055a4f1b5"
+    },
+    {
+      "label": "fat-event_final-2",
+      "variant": "fat",
+      "mode": "event_final",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596088796805349,
+          2.5960846022390887,
+          2.5960248271929753,
+          2.5961079648337146,
+          2.5960274906880016
+        ],
+        "commercial_admission": false
+      },
+      "stats_ns": {
+        "n": 200000,
+        "p50": 380.0,
+        "p95": 431.0,
+        "p99": 641.0,
+        "p99_9": 14422.0,
+        "max": 254479.0,
+        "min": 340.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 380,
+        "p95": 431,
+        "p99": 641,
+        "p99_9": 14422,
+        "max": 254479,
+        "min": 340
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 43294,
+        "min": 20
+      },
+      "metric": "individual_call_ns",
+      "samples_sha256": "52cdd4df193ef1e629b69051b14b4d752623ff8f229044c17521dccc9011b472"
+    },
+    {
+      "label": "fat-compact-0",
+      "variant": "fat",
+      "mode": "compact",
+      "rep": 0,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060600,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.596095098658523,
+          2.5961079706717065,
+          2.595918412758678,
+          2.59604826218563,
+          2.596108100475755
+        ],
+        "commercial_admission": false
+      },
+      "stats_ns": {
+        "n": 10000,
+        "p50": 5.476975788501444,
+        "p95": 5.555218299765751,
+        "p99": 5.711703322294364,
+        "p99_9": 103.82781244773453,
+        "max": 1660.4625740511094,
+        "min": 5.164005743444219
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1820,
+        "p95": 1846,
+        "p99": 1898,
+        "p99_9": 34502,
+        "max": 551772,
+        "min": 1716
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 59280,
+        "min": 52
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "samples_sha256": "293bc0c9948813b9c867cf44d4539f3d271fc4fa17e6063e1f375e44750621ac"
+    },
+    {
+      "label": "fat-screen-1",
+      "variant": "fat",
+      "mode": "screen",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 2726271973674366976,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.59594683473486,
+          2.5960418922854522,
+          2.5960717574811034,
+          2.5960210008980114,
+          2.5960742200966487
+        ],
+        "commercial_admission": false
+      },
+      "stats_ns": {
+        "n": 200000,
+        "p50": 161.0,
+        "p95": 180.0,
+        "p99": 190.0,
+        "p99_9": 631.0,
+        "max": 53329.0,
+        "min": 90.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 161,
+        "p95": 180,
+        "p99": 190,
+        "p99_9": 631,
+        "max": 53329,
+        "min": 90
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 30,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 17726,
+        "min": 20
+      },
+      "metric": "individual_call_ns",
+      "samples_sha256": "8e5009167b8c5a7ffabf2326e2684a920be5d421085d1a1adca52de0995bea19"
+    },
+    {
+      "label": "fat-compact-1",
+      "variant": "fat",
+      "mode": "compact",
+      "rep": 1,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060519,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.596063832143556,
+          2.5960352284806936,
+          2.595941698285176,
+          2.595989726580448,
+          2.5959117238403016
+        ],
+        "commercial_admission": false
+      },
+      "stats_ns": {
+        "n": 10000,
+        "p50": 5.79018084936716,
+        "p95": 6.103163597981601,
+        "p99": 6.259654972288821,
+        "p99_9": 128.9488924291497,
+        "max": 214.2366914265849,
+        "min": 5.320706726445498
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1924,
+        "p95": 2028,
+        "p99": 2080,
+        "p99_9": 42848,
+        "max": 71188,
+        "min": 1768
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 78,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 104,
+        "min": 52
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "samples_sha256": "3b2f26485cb59408aff9e5f970fccad9210ffb3c380666fe37bfad056358690a"
+    },
+    {
+      "label": "fat-compact-2",
+      "variant": "fat",
+      "mode": "compact",
+      "rep": 2,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060616,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.5960873026484013,
+          2.5960990122732355,
+          2.596105500502795,
+          2.596106668738646,
+          2.596105500502795
+        ],
+        "commercial_admission": false
+      },
+      "stats_ns": {
+        "n": 10000,
+        "p50": 5.476953843842716,
+        "p95": 5.5551960416118975,
+        "p99": 5.633438239381079,
+        "p99_9": 22.768479550831863,
+        "max": 765.9128739625193,
+        "min": 5.163985052765989
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1820,
+        "p95": 1846,
+        "p99": 1872,
+        "p99_9": 7566,
+        "max": 254514,
+        "min": 1716
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 260,
+        "min": 52
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "samples_sha256": "5ddc45f0a36f31364ab07fd9b46b1e9451603df5be8a322dec9002e68bc30280"
+    },
+    {
+      "label": "pgo-screen-2",
+      "variant": "pgo",
+      "mode": "screen",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 2757188227953690624,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5959403963510663,
+          2.5960847359561225,
+          2.5960534501724424,
+          2.5960717558491573,
+          2.596106841266865
+        ],
+        "commercial_admission": false
+      },
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 120.0,
+        "p99": 160.0,
+        "p99_9": 601.0,
+        "max": 827071.0,
+        "min": 80.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 120,
+        "p99": 160,
+        "p99_9": 601,
+        "max": 827071,
+        "min": 80
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 40,
+        "max": 2133,
+        "min": 20
+      },
+      "metric": "individual_call_ns",
+      "samples_sha256": "b96d5f307f73912a21e0577facc2b44eb89e2879142b1e3fb1a6c2449c162f32"
+    },
+    {
+      "label": "fat-event_final-1",
+      "variant": "fat",
+      "mode": "event_final",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596024894768112,
+          2.595985827804272,
+          2.596017107039592,
+          2.596106668738646,
+          2.596045478698708
+        ],
+        "commercial_admission": false
+      },
+      "stats_ns": {
+        "n": 200000,
+        "p50": 380.0,
+        "p95": 511.0,
+        "p99": 741.0,
+        "p99_9": 37336.0,
+        "max": 494466.0,
+        "min": 340.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 380,
+        "p95": 511,
+        "p99": 741,
+        "p99_9": 37336,
+        "max": 494466,
+        "min": 340
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 3005,
+        "min": 20
+      },
+      "metric": "individual_call_ns",
+      "samples_sha256": "3649ee8f8eedc97c80210e9d442163ef44a865387b6dcf5bc9b1f6f495006f07"
+    },
+    {
+      "label": "pgo-screen-0",
+      "variant": "pgo",
+      "mode": "screen",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 863207542427200512,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596062514459065,
+          2.5959963379902415,
+          2.5960886319691716,
+          2.596076818075434,
+          2.5960599930781987
+        ],
+        "commercial_admission": false
+      },
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 110.0,
+        "p99": 130.0,
+        "p99_9": 501.0,
+        "max": 443620.0,
+        "min": 80.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 110,
+        "p99": 130,
+        "p99_9": 501,
+        "max": 443620,
+        "min": 80
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "metric": "individual_call_ns",
+      "samples_sha256": "04a70e6ec688415ec00bb957efd8eb1a72ffded8f0b7cefba28322ff1d0530ca"
+    }
+  ]
+}

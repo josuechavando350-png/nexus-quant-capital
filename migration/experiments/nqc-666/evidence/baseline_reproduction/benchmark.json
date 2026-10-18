@@ -1,0 +1,821 @@
+{
+  "plan_sha256": "21f58737c37d3b3ab8169971902ed0fdf82e868f7bfaf0f0609788eb87fee693",
+  "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+  "compiler_flags": "-std=c++17 -O3 -Wall -Wextra -Werror -fno-lto; separately compiled screen.o",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "byteorder": "little",
+  "cpu": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nAddress sizes:                           46 bits physical, 48 bits virtual\nByte Order:                              Little Endian\nCPU(s):                                  9\nOn-line CPU(s) list:                     0-8\nVendor ID:                               AuthenticAMD\nModel name:                              AMD EPYC 9V74 80-Core Processor\nBIOS Model name:                           CPU @ 0.0GHz\nBIOS CPU family:                         0\nCPU family:                              25\nModel:                                   17\nThread(s) per core:                      1\nCore(s) per socket:                      9\nSocket(s):                               1\nStepping:                                1\nBogoMIPS:                                5192.26\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nHypervisor vendor:                       KVM\nVirtualization type:                     full\nL1d cache:                               160 KiB (5 instances)\nL1i cache:                               160 KiB (5 instances)\nL2 cache:                                5 MiB (5 instances)\nL3 cache:                                32 MiB (1 instance)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-8\nVulnerability Gather data sampling:      Not affected\nVulnerability Ghostwrite:                Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Old microcode:             Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Not affected\nVulnerability Spec rstack overflow:      Vulnerable\nVulnerability Spec store bypass:         Vulnerable\nVulnerability Spectre v1:                Vulnerable: __user pointer sanitization and usercopy barriers only; no swapgs barriers\nVulnerability Spectre v2:                Vulnerable; STIBP: disabled; PBRSB-eIBRS: Not affected; BHI: Not affected\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Vulnerable\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Not affected\n",
+  "clock": "CLOCK_MONOTONIC_RAW",
+  "percentiles": "nearest rank, individual calls, no overhead subtraction, no outlier removal",
+  "sources_sha256": {
+    "src/screen.hpp": "e00baf8d52edba533bdf9b479945605e6a35345f8de3aed6663b2e65b9981cfa",
+    "src/screen.cpp": "674b8207b8e8def7e89667c2b3d61a5bd9b8ff23c6fbcf8178e050f1611158f3",
+    "src/eval.cpp": "d5692af5c6686287fff40cd5ac2602d4122da22c8b2886f199aafead757acfd7",
+    "src/io.hpp": "5422509250ef76d36fd2cc8895762583df119b56266ff300dc8f992b36ac6355",
+    "src/bench.cpp": "47f71e379eadc0ec6bc87c9640e36e192dedfc1c02e0bdc61e690c9a137146a8"
+  },
+  "binary_sha256": "f39a0e28fa25cfe1647cf41f9c70da02f652c13ee142dddd54de54c4b81edefe",
+  "scope": "only predecoded in-memory screen; not discovery, proof verification, RPC, EVM, signing, serialization, transport or inclusion",
+  "commercial_admission": false,
+  "runs": [
+    {
+      "profile": "warm_16",
+      "repetition": 0,
+      "metadata": {
+        "samples": 200000,
+        "passes": 200000,
+        "checksum": 2162359872717061120,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false
+      },
+      "stats": {
+        "n": 200000,
+        "p50_ns": 110,
+        "p95_ns": 130,
+        "p99_ns": 141,
+        "max_ns": 367366,
+        "min_ns": 100,
+        "above_3000_ns": 39,
+        "p99_target_met": true
+      },
+      "clock_control": {
+        "n": 10000,
+        "p50_ns": 20,
+        "p95_ns": 30,
+        "p99_ns": 30,
+        "max_ns": 50,
+        "min_ns": 20,
+        "above_3000_ns": 0,
+        "p99_target_met": true
+      },
+      "samples_sha256": "96ea5c9ebff9b1be09a9aa3e08a4e105aeb8c276da60273a9e938fd6d7ab698d",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "profile": "flushed_16",
+      "repetition": 0,
+      "metadata": {
+        "samples": 20000,
+        "passes": 20000,
+        "checksum": 16455488985948331008,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": true,
+        "commercial_admission": false
+      },
+      "stats": {
+        "n": 20000,
+        "p50_ns": 701,
+        "p95_ns": 991,
+        "p99_ns": 1202,
+        "max_ns": 247579,
+        "min_ns": 291,
+        "above_3000_ns": 33,
+        "p99_target_met": true
+      },
+      "clock_control": {
+        "n": 10000,
+        "p50_ns": 20,
+        "p95_ns": 30,
+        "p99_ns": 31,
+        "max_ns": 11387,
+        "min_ns": 20,
+        "above_3000_ns": 1,
+        "p99_target_met": true
+      },
+      "samples_sha256": "5ffa28a577859d08b5f275b9b7dff71a2ac9957aa2843c041d761d0c3c7639b1",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "profile": "warm_4",
+      "repetition": 0,
+      "metadata": {
+        "samples": 200000,
+        "passes": 200000,
+        "checksum": 8468964242513558528,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false
+      },
+      "stats": {
+        "n": 200000,
+        "p50_ns": 61,
+        "p95_ns": 90,
+        "p99_ns": 100,
+        "max_ns": 172087,
+        "min_ns": 50,
+        "above_3000_ns": 27,
+        "p99_target_met": true
+      },
+      "clock_control": {
+        "n": 10000,
+        "p50_ns": 20,
+        "p95_ns": 30,
+        "p99_ns": 31,
+        "max_ns": 40,
+        "min_ns": 20,
+        "above_3000_ns": 0,
+        "p99_target_met": true
+      },
+      "samples_sha256": "f4ec53ed950ab28c6cebe4c3e652f0d671d6b3b21a263ee0f753e26271d0269c",
+      "corpus_sha256": "cbc080f81833f854554862b880bec92296fe3f1b6e1b670e1462c222d9d72587"
+    },
+    {
+      "profile": "mixed_16",
+      "repetition": 0,
+      "metadata": {
+        "samples": 200000,
+        "passes": 99705,
+        "checksum": 11834445650824872775,
+        "input_records": 128,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false
+      },
+      "stats": {
+        "n": 200000,
+        "p50_ns": 110,
+        "p95_ns": 140,
+        "p99_ns": 180,
+        "max_ns": 371793,
+        "min_ns": 20,
+        "above_3000_ns": 62,
+        "p99_target_met": true
+      },
+      "clock_control": {
+        "n": 10000,
+        "p50_ns": 20,
+        "p95_ns": 30,
+        "p99_ns": 31,
+        "max_ns": 13440,
+        "min_ns": 20,
+        "above_3000_ns": 1,
+        "p99_target_met": true
+      },
+      "samples_sha256": "2cdf69b429640194703c380abefe665bfb8a65b35fe0fcfa2b778ebf9aa1d427",
+      "corpus_sha256": "6fedeea9b71ab52216c8acef0b391ec68f9268eb2fa3070eedb1c9f418c043eb"
+    },
+    {
+      "profile": "mixed_16",
+      "repetition": 1,
+      "metadata": {
+        "samples": 200000,
+        "passes": 99916,
+        "checksum": 4171664507010131787,
+        "input_records": 128,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false
+      },
+      "stats": {
+        "n": 200000,
+        "p50_ns": 110,
+        "p95_ns": 140,
+        "p99_ns": 151,
+        "max_ns": 173108,
+        "min_ns": 20,
+        "above_3000_ns": 43,
+        "p99_target_met": true
+      },
+      "clock_control": {
+        "n": 10000,
+        "p50_ns": 20,
+        "p95_ns": 30,
+        "p99_ns": 30,
+        "max_ns": 120,
+        "min_ns": 20,
+        "above_3000_ns": 0,
+        "p99_target_met": true
+      },
+      "samples_sha256": "949321d0777ffdfeecf3e5fd777c736b8c3d9249a080e7f974e247244a3a9f09",
+      "corpus_sha256": "6fedeea9b71ab52216c8acef0b391ec68f9268eb2fa3070eedb1c9f418c043eb"
+    },
+    {
+      "profile": "warm_16",
+      "repetition": 1,
+      "metadata": {
+        "samples": 200000,
+        "passes": 200000,
+        "checksum": 1989491427690036224,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false
+      },
+      "stats": {
+        "n": 200000,
+        "p50_ns": 110,
+        "p95_ns": 131,
+        "p99_ns": 180,
+        "max_ns": 270622,
+        "min_ns": 100,
+        "above_3000_ns": 50,
+        "p99_target_met": true
+      },
+      "clock_control": {
+        "n": 10000,
+        "p50_ns": 20,
+        "p95_ns": 30,
+        "p99_ns": 31,
+        "max_ns": 20891,
+        "min_ns": 20,
+        "above_3000_ns": 1,
+        "p99_target_met": true
+      },
+      "samples_sha256": "82c4f7116dd9d56ec4cd3d344b4c44bdce24d53306e3324b2e9c2f02da9f14f2",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "profile": "warm_4",
+      "repetition": 1,
+      "metadata": {
+        "samples": 200000,
+        "passes": 200000,
+        "checksum": 9028941287979408384,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false
+      },
+      "stats": {
+        "n": 200000,
+        "p50_ns": 61,
+        "p95_ns": 90,
+        "p99_ns": 101,
+        "max_ns": 203392,
+        "min_ns": 50,
+        "above_3000_ns": 35,
+        "p99_target_met": true
+      },
+      "clock_control": {
+        "n": 10000,
+        "p50_ns": 20,
+        "p95_ns": 30,
+        "p99_ns": 31,
+        "max_ns": 381,
+        "min_ns": 20,
+        "above_3000_ns": 0,
+        "p99_target_met": true
+      },
+      "samples_sha256": "a6795c2cb58408f791516af1922c64cb03c582ac62f5072cfea0abf202f59084",
+      "corpus_sha256": "cbc080f81833f854554862b880bec92296fe3f1b6e1b670e1462c222d9d72587"
+    },
+    {
+      "profile": "flushed_16",
+      "repetition": 1,
+      "metadata": {
+        "samples": 20000,
+        "passes": 20000,
+        "checksum": 16891677364523080704,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": true,
+        "commercial_admission": false
+      },
+      "stats": {
+        "n": 20000,
+        "p50_ns": 721,
+        "p95_ns": 1052,
+        "p99_ns": 1322,
+        "max_ns": 221800,
+        "min_ns": 310,
+        "above_3000_ns": 52,
+        "p99_target_met": true
+      },
+      "clock_control": {
+        "n": 10000,
+        "p50_ns": 20,
+        "p95_ns": 30,
+        "p99_ns": 31,
+        "max_ns": 33930,
+        "min_ns": 20,
+        "above_3000_ns": 1,
+        "p99_target_met": true
+      },
+      "samples_sha256": "e25f80326d782c9ef65f8b77d30352af72a3d28791d1c2fd466c562d01c90d64",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "profile": "warm_4",
+      "repetition": 2,
+      "metadata": {
+        "samples": 200000,
+        "passes": 200000,
+        "checksum": 8921878655516326912,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false
+      },
+      "stats": {
+        "n": 200000,
+        "p50_ns": 70,
+        "p95_ns": 90,
+        "p99_ns": 111,
+        "max_ns": 449849,
+        "min_ns": 50,
+        "above_3000_ns": 73,
+        "p99_target_met": true
+      },
+      "clock_control": {
+        "n": 10000,
+        "p50_ns": 20,
+        "p95_ns": 30,
+        "p99_ns": 31,
+        "max_ns": 56825,
+        "min_ns": 20,
+        "above_3000_ns": 1,
+        "p99_target_met": true
+      },
+      "samples_sha256": "aaaa1526b36c0ca516414b31c41b6501b46b6b8c55a59e60b083191e52b8ad53",
+      "corpus_sha256": "cbc080f81833f854554862b880bec92296fe3f1b6e1b670e1462c222d9d72587"
+    },
+    {
+      "profile": "warm_16",
+      "repetition": 2,
+      "metadata": {
+        "samples": 200000,
+        "passes": 200000,
+        "checksum": 1548919925302049792,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false
+      },
+      "stats": {
+        "n": 200000,
+        "p50_ns": 110,
+        "p95_ns": 131,
+        "p99_ns": 180,
+        "max_ns": 376040,
+        "min_ns": 100,
+        "above_3000_ns": 56,
+        "p99_target_met": true
+      },
+      "clock_control": {
+        "n": 10000,
+        "p50_ns": 20,
+        "p95_ns": 30,
+        "p99_ns": 31,
+        "max_ns": 20370,
+        "min_ns": 20,
+        "above_3000_ns": 1,
+        "p99_target_met": true
+      },
+      "samples_sha256": "393703c3e47703b582c507a21967540cad50bad0c9390e946231e1c14877b1e6",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "profile": "mixed_16",
+      "repetition": 2,
+      "metadata": {
+        "samples": 200000,
+        "passes": 100064,
+        "checksum": 13742924800028503377,
+        "input_records": 128,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false
+      },
+      "stats": {
+        "n": 200000,
+        "p50_ns": 110,
+        "p95_ns": 140,
+        "p99_ns": 180,
+        "max_ns": 282661,
+        "min_ns": 20,
+        "above_3000_ns": 64,
+        "p99_target_met": true
+      },
+      "clock_control": {
+        "n": 10000,
+        "p50_ns": 20,
+        "p95_ns": 30,
+        "p99_ns": 31,
+        "max_ns": 27451,
+        "min_ns": 20,
+        "above_3000_ns": 1,
+        "p99_target_met": true
+      },
+      "samples_sha256": "5b1d658c7be0bc637675439333248b673fbd42a41520591cd67bd10ad33e57a8",
+      "corpus_sha256": "6fedeea9b71ab52216c8acef0b391ec68f9268eb2fa3070eedb1c9f418c043eb"
+    },
+    {
+      "profile": "flushed_16",
+      "repetition": 2,
+      "metadata": {
+        "samples": 20000,
+        "passes": 20000,
+        "checksum": 16868631198200486912,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": true,
+        "commercial_admission": false
+      },
+      "stats": {
+        "n": 20000,
+        "p50_ns": 721,
+        "p95_ns": 1052,
+        "p99_ns": 1312,
+        "max_ns": 144194,
+        "min_ns": 300,
+        "above_3000_ns": 49,
+        "p99_target_met": true
+      },
+      "clock_control": {
+        "n": 10000,
+        "p50_ns": 20,
+        "p95_ns": 30,
+        "p99_ns": 31,
+        "max_ns": 13591,
+        "min_ns": 20,
+        "above_3000_ns": 1,
+        "p99_target_met": true
+      },
+      "samples_sha256": "2cccd2344b892fc0c7badc21e9c8c168d1961f04fb64e568f623488511cb39bb",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "profile": "flushed_16",
+      "repetition": 3,
+      "metadata": {
+        "samples": 20000,
+        "passes": 20000,
+        "checksum": 16704319253048974336,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": true,
+        "commercial_admission": false
+      },
+      "stats": {
+        "n": 20000,
+        "p50_ns": 711,
+        "p95_ns": 1071,
+        "p99_ns": 1392,
+        "max_ns": 133548,
+        "min_ns": 310,
+        "above_3000_ns": 60,
+        "p99_target_met": true
+      },
+      "clock_control": {
+        "n": 10000,
+        "p50_ns": 20,
+        "p95_ns": 30,
+        "p99_ns": 31,
+        "max_ns": 130,
+        "min_ns": 20,
+        "above_3000_ns": 0,
+        "p99_target_met": true
+      },
+      "samples_sha256": "eb864cc41a31ea8fd680bbca07d59da035ed1239436cebd56f3f32a525f84bf2",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "profile": "warm_16",
+      "repetition": 3,
+      "metadata": {
+        "samples": 200000,
+        "passes": 200000,
+        "checksum": 1963812659246218240,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false
+      },
+      "stats": {
+        "n": 200000,
+        "p50_ns": 110,
+        "p95_ns": 171,
+        "p99_ns": 200,
+        "max_ns": 178236,
+        "min_ns": 100,
+        "above_3000_ns": 58,
+        "p99_target_met": true
+      },
+      "clock_control": {
+        "n": 10000,
+        "p50_ns": 20,
+        "p95_ns": 30,
+        "p99_ns": 31,
+        "max_ns": 260,
+        "min_ns": 20,
+        "above_3000_ns": 0,
+        "p99_target_met": true
+      },
+      "samples_sha256": "16712ad5912c46e12c54acc0c4336720a9493d5b6db89dd4d2ae0972b3924fb9",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "profile": "mixed_16",
+      "repetition": 3,
+      "metadata": {
+        "samples": 200000,
+        "passes": 99783,
+        "checksum": 10235839717855995256,
+        "input_records": 128,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false
+      },
+      "stats": {
+        "n": 200000,
+        "p50_ns": 181,
+        "p95_ns": 201,
+        "p99_ns": 220,
+        "max_ns": 219847,
+        "min_ns": 20,
+        "above_3000_ns": 50,
+        "p99_target_met": true
+      },
+      "clock_control": {
+        "n": 10000,
+        "p50_ns": 20,
+        "p95_ns": 30,
+        "p99_ns": 30,
+        "max_ns": 40,
+        "min_ns": 20,
+        "above_3000_ns": 0,
+        "p99_target_met": true
+      },
+      "samples_sha256": "194564dbf65a830c4695ddc2d914d6e7fe31bc87c55c8669d3ceb651f7925f67",
+      "corpus_sha256": "6fedeea9b71ab52216c8acef0b391ec68f9268eb2fa3070eedb1c9f418c043eb"
+    },
+    {
+      "profile": "warm_4",
+      "repetition": 3,
+      "metadata": {
+        "samples": 200000,
+        "passes": 200000,
+        "checksum": 9029117030615432192,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false
+      },
+      "stats": {
+        "n": 200000,
+        "p50_ns": 100,
+        "p95_ns": 120,
+        "p99_ns": 131,
+        "max_ns": 58397,
+        "min_ns": 70,
+        "above_3000_ns": 28,
+        "p99_target_met": true
+      },
+      "clock_control": {
+        "n": 10000,
+        "p50_ns": 20,
+        "p95_ns": 30,
+        "p99_ns": 31,
+        "max_ns": 17586,
+        "min_ns": 20,
+        "above_3000_ns": 1,
+        "p99_target_met": true
+      },
+      "samples_sha256": "459841b2ffd4c3c5c180c4bafc2ea24403157024192c48ed46a3926cdae70dda",
+      "corpus_sha256": "cbc080f81833f854554862b880bec92296fe3f1b6e1b670e1462c222d9d72587"
+    },
+    {
+      "profile": "flushed_16",
+      "repetition": 4,
+      "metadata": {
+        "samples": 20000,
+        "passes": 20000,
+        "checksum": 16985664986703444992,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": true,
+        "commercial_admission": false
+      },
+      "stats": {
+        "n": 20000,
+        "p50_ns": 711,
+        "p95_ns": 1011,
+        "p99_ns": 1192,
+        "max_ns": 112298,
+        "min_ns": 291,
+        "above_3000_ns": 23,
+        "p99_target_met": true
+      },
+      "clock_control": {
+        "n": 10000,
+        "p50_ns": 20,
+        "p95_ns": 30,
+        "p99_ns": 31,
+        "max_ns": 13420,
+        "min_ns": 20,
+        "above_3000_ns": 1,
+        "p99_target_met": true
+      },
+      "samples_sha256": "3cd5506ac5f9ecfc32b7dbe7cda1b953bf31ddcff6b969c70a9e11ea470f00cb",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "profile": "mixed_16",
+      "repetition": 4,
+      "metadata": {
+        "samples": 200000,
+        "passes": 100149,
+        "checksum": 12382917462571945218,
+        "input_records": 128,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false
+      },
+      "stats": {
+        "n": 200000,
+        "p50_ns": 111,
+        "p95_ns": 190,
+        "p99_ns": 201,
+        "max_ns": 278635,
+        "min_ns": 20,
+        "above_3000_ns": 32,
+        "p99_target_met": true
+      },
+      "clock_control": {
+        "n": 10000,
+        "p50_ns": 20,
+        "p95_ns": 30,
+        "p99_ns": 31,
+        "max_ns": 51,
+        "min_ns": 20,
+        "above_3000_ns": 0,
+        "p99_target_met": true
+      },
+      "samples_sha256": "b3b32ada3f04bd774997a1706ea507aaf585bf27a2865530b9fcb7988120f7ca",
+      "corpus_sha256": "6fedeea9b71ab52216c8acef0b391ec68f9268eb2fa3070eedb1c9f418c043eb"
+    },
+    {
+      "profile": "warm_4",
+      "repetition": 4,
+      "metadata": {
+        "samples": 200000,
+        "passes": 200000,
+        "checksum": 9074031732447435776,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false
+      },
+      "stats": {
+        "n": 200000,
+        "p50_ns": 61,
+        "p95_ns": 90,
+        "p99_ns": 91,
+        "max_ns": 85687,
+        "min_ns": 50,
+        "above_3000_ns": 25,
+        "p99_target_met": true
+      },
+      "clock_control": {
+        "n": 10000,
+        "p50_ns": 20,
+        "p95_ns": 30,
+        "p99_ns": 31,
+        "max_ns": 280,
+        "min_ns": 20,
+        "above_3000_ns": 0,
+        "p99_target_met": true
+      },
+      "samples_sha256": "551bcfccb007781c25fd26b0d96472bf7fabcbbdb6c9c82f3c0b16da1e5c9938",
+      "corpus_sha256": "cbc080f81833f854554862b880bec92296fe3f1b6e1b670e1462c222d9d72587"
+    },
+    {
+      "profile": "warm_16",
+      "repetition": 4,
+      "metadata": {
+        "samples": 200000,
+        "passes": 200000,
+        "checksum": 1819760797952449536,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false
+      },
+      "stats": {
+        "n": 200000,
+        "p50_ns": 110,
+        "p95_ns": 131,
+        "p99_ns": 171,
+        "max_ns": 165126,
+        "min_ns": 100,
+        "above_3000_ns": 50,
+        "p99_target_met": true
+      },
+      "clock_control": {
+        "n": 10000,
+        "p50_ns": 20,
+        "p95_ns": 30,
+        "p99_ns": 30,
+        "max_ns": 31,
+        "min_ns": 20,
+        "above_3000_ns": 0,
+        "p99_target_met": true
+      },
+      "samples_sha256": "019ead7b2e3f55c0a216c3f1a33d26087c8dfd8621b5bef3b02448efe5c78cf5",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    }
+  ],
+  "profile_results": {
+    "warm_4": {
+      "all_five_p99_at_most_3000ns": true,
+      "p50_range_ns": [
+        61,
+        100
+      ],
+      "p99_range_ns": [
+        91,
+        131
+      ],
+      "max_ns": 449849,
+      "samples": 1000000,
+      "above_3000_ns": 188
+    },
+    "warm_16": {
+      "all_five_p99_at_most_3000ns": true,
+      "p50_range_ns": [
+        110,
+        110
+      ],
+      "p99_range_ns": [
+        141,
+        200
+      ],
+      "max_ns": 376040,
+      "samples": 1000000,
+      "above_3000_ns": 253
+    },
+    "mixed_16": {
+      "all_five_p99_at_most_3000ns": true,
+      "p50_range_ns": [
+        110,
+        181
+      ],
+      "p99_range_ns": [
+        151,
+        220
+      ],
+      "max_ns": 371793,
+      "samples": 1000000,
+      "above_3000_ns": 251
+    },
+    "flushed_16": {
+      "all_five_p99_at_most_3000ns": true,
+      "p50_range_ns": [
+        701,
+        721
+      ],
+      "p99_range_ns": [
+        1192,
+        1392
+      ],
+      "max_ns": 247579,
+      "samples": 100000,
+      "above_3000_ns": 217
+    }
+  }
+}

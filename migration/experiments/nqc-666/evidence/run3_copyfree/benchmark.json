@@ -1,0 +1,6050 @@
+{
+  "scope": "OFFLINE_SYNTHETIC_NO_COMMERCIAL_ADMISSION",
+  "cpu": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nAddress sizes:                           46 bits physical, 48 bits virtual\nByte Order:                              Little Endian\nCPU(s):                                  9\nOn-line CPU(s) list:                     0-8\nVendor ID:                               AuthenticAMD\nModel name:                              AMD EPYC 9V74 80-Core Processor\nBIOS Model name:                           CPU @ 0.0GHz\nBIOS CPU family:                         0\nCPU family:                              25\nModel:                                   17\nThread(s) per core:                      1\nCore(s) per socket:                      9\nSocket(s):                               1\nStepping:                                1\nBogoMIPS:                                5192.26\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nHypervisor vendor:                       KVM\nVirtualization type:                     full\nL1d cache:                               160 KiB (5 instances)\nL1i cache:                               160 KiB (5 instances)\nL2 cache:                                5 MiB (5 instances)\nL3 cache:                                32 MiB (1 instance)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-8\nVulnerability Gather data sampling:      Not affected\nVulnerability Ghostwrite:                Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Old microcode:             Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Not affected\nVulnerability Spec rstack overflow:      Vulnerable\nVulnerability Spec store bypass:         Vulnerable\nVulnerability Spectre v1:                Vulnerable: __user pointer sanitization and usercopy barriers only; no swapgs barriers\nVulnerability Spectre v2:                Vulnerable; STIBP: disabled; PBRSB-eIBRS: Not affected; BHI: Not affected\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Vulnerable\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Not affected\n",
+  "affinity": [
+    0
+  ],
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "rustc": "rustc 1.90.0 (1159e78c4 2025-09-14)\nbinary: rustc\ncommit-hash: 1159e78c4747b02ef996e55082b704c09b970588\ncommit-date: 2025-09-14\nhost: x86_64-unknown-linux-gnu\nrelease: 1.90.0\nLLVM version: 20.1.8\n",
+  "g++": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+  "clock": "CLOCK_MONOTONIC_RAW; LFENCE/RDTSC/LFENCE calibrated separately",
+  "frequency_policy": "uncontrolled virtual machine; no turbo/governor/IRQ changes",
+  "cpuinfo": "processor\t: 0\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0x1000065\ncpu MHz\t\t: 2596.130\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 9\ncore id\t\t: 0\ncpu cores\t: 9\napicid\t\t: 0\ninitial apicid\t: 0\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.26\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 46 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 1\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0x1000065\ncpu MHz\t\t: 2596.130\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 9\ncore id\t\t: 1\ncpu cores\t: 9\napicid\t\t: 1\ninitial apicid\t: 1\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.26\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 46 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 2\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0x1000065\ncpu MHz\t\t: 2596.130\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 9\ncore id\t\t: 2\ncpu cores\t: 9\napicid\t\t: 2\ninitial apicid\t: 2\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.26\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 46 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 3\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0x1000065\ncpu MHz\t\t: 2596.130\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 9\ncore id\t\t: 3\ncpu cores\t: 9\napicid\t\t: 3\ninitial apicid\t: 3\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.26\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 46 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 4\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0x1000065\ncpu MHz\t\t: 2596.130\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 9\ncore id\t\t: 4\ncpu cores\t: 9\napicid\t\t: 4\ninitial apicid\t: 4\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.26\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 46 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 5\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0x1000065\ncpu MHz\t\t: 2596.130\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 9\ncore id\t\t: 5\ncpu cores\t: 9\napicid\t\t: 5\ninitial apicid\t: 5\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.26\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 46 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 6\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0x1000065\ncpu MHz\t\t: 2596.130\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 9\ncore id\t\t: 6\ncpu cores\t: 9\napicid\t\t: 6\ninitial apicid\t: 6\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.26\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 46 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 7\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0x1000065\ncpu MHz\t\t: 2596.130\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 9\ncore id\t\t: 7\ncpu cores\t: 9\napicid\t\t: 7\ninitial apicid\t: 7\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.26\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 46 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 8\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0x1000065\ncpu MHz\t\t: 2596.130\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 9\ncore id\t\t: 8\ncpu cores\t: 9\napicid\t\t: 8\ninitial apicid\t: 8\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.26\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 46 bits physical, 48 bits virtual\npower management:\n\n",
+  "baseline_archive_sha256": "e7b533b5e583a2b07a95e345bec56504be4186abe491df1caf87abeda39b7a8a",
+  "source_sha256": {
+    "src/bin/bench.rs": "cde0646399307ed87a5ced9eb88c852534fcc1e323b72605d74170a28ecc82f7",
+    "src/bin/eval.rs": "72f2cdcf7f620961341e0e0454b80683c5845772937238b816c74d29b0fc2a64",
+    "src/engine.rs": "9ed51c5d22e57f4b4b952e5d9e713178e49d7e754b2f6ff5506afeacfcd75380",
+    "src/financial.rs": "06b397ff346e009623bdade9ed81f7d36090913ebc43049c2451949a6e1c2fc4",
+    "src/fixtures.rs": "a5a57f1b576caf61099becb4dcac4c076ef8c645f897269699dc1ea18643f2e0",
+    "src/lib.rs": "0a0b7ed63faaccb78ffad53941b702a0913e743023b29b8a92429f034236ccec",
+    "src/prepared.rs": "592340a2dbd091355d2760e656971e93824f15f818657ea9f3e19ae682cb2ebe",
+    "src/third_eye.rs": "95235d4a104431e4251dfa80f5becec58bc5b2df64e9befd1ff0a4f3a16ad037"
+  },
+  "binary_sha256": {
+    "release": "590466108d11a8fec82115bca8b7fae22eb7aa268aa2dc6e607291741c02eb60",
+    "thin": "97e3315cdf4df24242f263f8ce63c43a8c617978328c95ad9eab97d7f1a6e64d",
+    "fat": "147741c794fc7e46684ca239aa5ee655e0d5f0bcd1d509871a078ae61637f032",
+    "native": "2ca377b89f253a5634fef4defcfdc0baf073e90786b1cec0da296fe46038d020"
+  },
+  "runs": [
+    {
+      "label": "release-packed-warm_16-tsc0-batch1-1",
+      "variant": "release",
+      "mode": "packed",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 90636,
+        "checksum": 95167,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5960873319930915,
+          2.596106800489275,
+          2.5960639493781565,
+          2.5961068024358536,
+          2.5960873339493884
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 20.0,
+        "p95": 30.0,
+        "p99": 31.0,
+        "p99_9": 31.0,
+        "max": 43214.0,
+        "min": 20.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 43214,
+        "min": 20
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 7,
+      "samples_sha256": "e861eacefb1a82958dc3402d4065bad4f167b568ce73ff171248c0cf3f871920",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-branchy-warm_16-tsc1-batch1-0",
+      "variant": "release",
+      "mode": "branchy",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 90871,
+        "checksum": 95402,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.5961055024500235,
+          2.596121075127807,
+          2.596106800489275,
+          2.5960963986456536,
+          2.5960845983237593
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 30.045003920830272,
+        "p95": 40.06000522777369,
+        "p99": 40.06000522777369,
+        "p99_9": 40.06000522777369,
+        "max": 49213.71642231999,
+        "min": 20.030002613886847
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 78,
+        "p95": 104,
+        "p99": 104,
+        "p99_9": 104,
+        "max": 127764,
+        "min": 52
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 78,
+        "min": 52
+      },
+      "above_3000_ns": 12,
+      "samples_sha256": "a8e56623e895bc84a5f94c1dbb6d19840b3eb575ed1de2c0f605cc7372ce6b5f",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-packed-warm_16-tsc1-batch128-2",
+      "variant": "release",
+      "mode": "packed",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060616,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.596086032017011,
+          2.596106796596112,
+          2.5961014746381155,
+          2.5960923903725686,
+          2.596119775132877
+        ],
+        "commercial_admission": false
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "stats_ns": {
+        "n": 10000,
+        "p50": 6.494112485472132,
+        "p95": 6.572354804574206,
+        "p99": 6.65059712367628,
+        "p99_9": 101.79325715179812,
+        "max": 1114.6400779281446,
+        "min": 6.337627847267985
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 2158,
+        "p95": 2184,
+        "p99": 2210,
+        "p99_9": 33826,
+        "max": 370396,
+        "min": 2106
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 78,
+        "min": 52
+      },
+      "above_3000_ns": 0,
+      "samples_sha256": "4d8ea3c7edf7febdc55fe5bb77fac576d4c7dab94db6d6dce78c71ae178a4eb8",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "native-event_reference_final-warm_16-tsc0-batch1-2",
+      "variant": "native",
+      "mode": "event_reference_final",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596122377061541,
+          2.596123677055821,
+          2.596111973219291,
+          2.5961184770787007,
+          2.596123677055821
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 501.0,
+        "p95": 541.0,
+        "p99": 671.0,
+        "p99_9": 1913.0,
+        "max": 1943593.0,
+        "min": 450.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 501,
+        "p95": 541,
+        "p99": 671,
+        "p99_9": 1913,
+        "max": 1943593,
+        "min": 450
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 130,
+        "min": 20
+      },
+      "above_3000_ns": 186,
+      "samples_sha256": "3e6c623dedb45a033c1ef1b1c3dd8b2a846dc185a265a580db047fa1ee4d4084",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-screen-warm_16-tsc0-batch1-0",
+      "variant": "release",
+      "mode": "screen",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 863207542427200512,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5961066796296706,
+          2.596122377061541,
+          2.596086032017011,
+          2.5961223809391427,
+          2.596106668738646
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 120.0,
+        "p99": 150.0,
+        "p99_9": 480.0,
+        "max": 89944.0,
+        "min": 90.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 120,
+        "p99": 150,
+        "p99_9": 480,
+        "max": 89944,
+        "min": 90
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 60,
+        "min": 20
+      },
+      "above_3000_ns": 38,
+      "samples_sha256": "6a807f8a46b303f55f272baaabb7da09801332fb2d3c553cddc8a8a89134da32",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-guard_copy-warm_16-tsc0-batch1-1",
+      "variant": "release",
+      "mode": "guard_copy",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 2726271973674366976,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596098882470031,
+          2.596085904172116,
+          2.5961196492077363,
+          2.5961158906844637,
+          2.596072920126483
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 140.0,
+        "p95": 160.0,
+        "p99": 211.0,
+        "p99_9": 591.0,
+        "max": 269471.0,
+        "min": 130.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 140,
+        "p95": 160,
+        "p99": 211,
+        "p99_9": 591,
+        "max": 269471,
+        "min": 130
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 65,
+      "samples_sha256": "bc14cf5973455b73eb2776ce9812b650d121c2bd92f668ce448c8fd2625ac203",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-event_reference-warm_16-tsc0-batch1-0",
+      "variant": "release",
+      "mode": "event_reference",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5960846041967507,
+          2.5960962825050005,
+          2.5960626678829,
+          2.595993744134376,
+          2.5960741881870475
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 381.0,
+        "p95": 421.0,
+        "p99": 611.0,
+        "p99_9": 3445.0,
+        "max": 176362.0,
+        "min": 340.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 381,
+        "p95": 421,
+        "p99": 611,
+        "p99_9": 3445,
+        "max": 176362,
+        "min": 340
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 39759,
+        "min": 20
+      },
+      "above_3000_ns": 226,
+      "samples_sha256": "6a32cba0a89c915a15ddd939b296b51a776d59498fafb88d678754ba2d88becd",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "thin-screen-warm_16-tsc0-batch1-0",
+      "variant": "thin",
+      "mode": "screen",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 863207542427200512,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5961053726461696,
+          2.59610550439725,
+          2.596106796596112,
+          2.5961209472617846,
+          2.596106800489275
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 110.0,
+        "p99": 131.0,
+        "p99_9": 511.0,
+        "max": 193748.0,
+        "min": 90.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 110,
+        "p99": 131,
+        "p99_9": 511,
+        "max": 193748,
+        "min": 90
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 13741,
+        "min": 20
+      },
+      "above_3000_ns": 44,
+      "samples_sha256": "4ac356abe31e37abb586c09c7eba91f3870b5d9b24ddc232180e3cb1ef0dd085",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "cpp-flushed-flushed_16-tsc0-batch1-2",
+      "variant": "cpp",
+      "mode": "flushed",
+      "corpus": "flushed_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 20000,
+        "passes": 20000,
+        "checksum": 16868631198200486912,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": true,
+        "commercial_admission": false,
+        "batch_size": 1,
+        "tsc": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 20000,
+        "p50": 721.0,
+        "p95": 1012.0,
+        "p99": 1221.0,
+        "p99_9": 20660.0,
+        "max": 186657.0,
+        "min": 300.0
+      },
+      "raw_stats": {
+        "n": 20000,
+        "p50": 721,
+        "p95": 1012,
+        "p99": 1221,
+        "p99_9": 20660,
+        "max": 186657,
+        "min": 300
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 11427,
+        "min": 20
+      },
+      "above_3000_ns": 35,
+      "samples_sha256": "7f525b0bdc3360a1c7c414a35d80dc1d288d9318353b7650527c0e2fe1f5550f",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-screen-warm_4-tsc0-batch1-1",
+      "variant": "release",
+      "mode": "screen",
+      "corpus": "warm_4",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 1141071084668778496,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596079408215806,
+          2.596080712109081,
+          2.5961080985298244,
+          2.596085898301075,
+          2.5960613738262963
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 60.0,
+        "p95": 70.0,
+        "p99": 80.0,
+        "p99_9": 381.0,
+        "max": 209862.0,
+        "min": 40.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 60,
+        "p95": 70,
+        "p99": 80,
+        "p99_9": 381,
+        "max": 209862,
+        "min": 40
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 120,
+        "min": 20
+      },
+      "above_3000_ns": 23,
+      "samples_sha256": "425da05a9cc3b2bc6f7d302bf1a8b897a7f0232490b821c33aff31d87d08e535",
+      "corpus_sha256": "cbc080f81833f854554862b880bec92296fe3f1b6e1b670e1462c222d9d72587"
+    },
+    {
+      "label": "release-compact-warm_16-tsc0-batch1-0",
+      "variant": "release",
+      "mode": "compact",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 90871,
+        "checksum": 95402,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.59608343206485,
+          2.5961080985298244,
+          2.5961066706852916,
+          2.5961080985298244,
+          2.596108100475755
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 20.0,
+        "p95": 30.0,
+        "p99": 31.0,
+        "p99_9": 40.0,
+        "max": 470220.0,
+        "min": 20.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 40,
+        "max": 470220,
+        "min": 20
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 10,
+      "samples_sha256": "eeaa082d83bf451970213fa1b159db32767b7fef82dede568b74129090de630d",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-branchy-warm_16-tsc1-batch1-2",
+      "variant": "release",
+      "mode": "branchy",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 90694,
+        "checksum": 95225,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.5961054985555645,
+          2.596106800489275,
+          2.5960912260582796,
+          2.5961080985298244,
+          2.5960936883993586
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 30.04500396590126,
+        "p95": 40.06000528786834,
+        "p99": 40.06000528786834,
+        "p99_9": 50.075006609835434,
+        "max": 87180.58650772349,
+        "min": 20.03000264393417
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 78,
+        "p95": 104,
+        "p99": 104,
+        "p99_9": 130,
+        "max": 226330,
+        "min": 52
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 53586,
+        "min": 52
+      },
+      "above_3000_ns": 15,
+      "samples_sha256": "3551b5a5dc0eff7eeccd6dd5e37af0b64b8830c314d257fd70edaf7beb16dbbf",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "native-screen-warm_16-tsc0-batch1-2",
+      "variant": "native",
+      "mode": "screen",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 2757188227953690624,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596122373183931,
+          2.596123675117667,
+          2.596123678993973,
+          2.596123673179511,
+          2.596123677055821
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 110.0,
+        "p99": 130.0,
+        "p99_9": 491.0,
+        "max": 73269.0,
+        "min": 90.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 110,
+        "p99": 130,
+        "p99_9": 491,
+        "max": 73269,
+        "min": 90
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 40,
+      "samples_sha256": "243cc35a862888268c910a1996d22fc6ca3e0e2d21085738b9600e99d74de925",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-branchy-warm_16-tsc1-batch1-1",
+      "variant": "release",
+      "mode": "branchy",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 90636,
+        "checksum": 95167,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.596100306406354,
+          2.59609512013515,
+          2.59606253217729,
+          2.596075514180221,
+          2.5961079706717065
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 30.045124076940372,
+        "p95": 40.060165435920496,
+        "p99": 40.060165435920496,
+        "p99_9": 40.060165435920496,
+        "max": 18748.15742401079,
+        "min": 20.030082717960248
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 78,
+        "p95": 104,
+        "p99": 104,
+        "p99_9": 104,
+        "max": 48672,
+        "min": 52
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 78,
+        "min": 52
+      },
+      "above_3000_ns": 9,
+      "samples_sha256": "190ebe63a8b27a4618aeb20f65ea1bbc144636ded79d4d1868b7b30efae5ef3e",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-compact-warm_16-tsc1-batch128-2",
+      "variant": "release",
+      "mode": "compact",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060616,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.5960417465705636,
+          2.596023469002567,
+          2.596119780953183,
+          2.596119777072981,
+          2.596121080946163
+        ],
+        "commercial_admission": false
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "stats_ns": {
+        "n": 10000,
+        "p50": 5.633407260002884,
+        "p95": 5.711649027502924,
+        "p99": 5.7898907950029646,
+        "p99_9": 144.82551164257416,
+        "max": 701.4374456378591,
+        "min": 5.320440190002724
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1872,
+        "p95": 1898,
+        "p99": 1924,
+        "p99_9": 48126,
+        "max": 233090,
+        "min": 1768
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 185900,
+        "min": 52
+      },
+      "above_3000_ns": 0,
+      "samples_sha256": "1da235e1ce81d42ff5271497d90c8b379bfda42529f8c1c6f4bb626c4ead788b",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "fat-event_final-warm_16-tsc0-batch1-0",
+      "variant": "fat",
+      "mode": "event_final",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596121075127807,
+          2.596122245317131,
+          2.5961223697298865,
+          2.59610682911641,
+          2.596121075127807
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 371.0,
+        "p95": 420.0,
+        "p99": 591.0,
+        "p99_9": 2855.0,
+        "max": 202612.0,
+        "min": 340.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 371,
+        "p95": 420,
+        "p99": 591,
+        "p99_9": 2855,
+        "max": 202612,
+        "min": 340
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 14602,
+        "min": 20
+      },
+      "above_3000_ns": 186,
+      "samples_sha256": "cf7aa3f13556ec27e4b35ec1fbbfd06ebd9bb9fe8bae84e4e09cabd45cb58558",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "cpp-screen-warm_16-tsc0-batch1-0",
+      "variant": "cpp",
+      "mode": "screen",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "passes": 200000,
+        "checksum": 2162359872717061120,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false,
+        "batch_size": 1,
+        "tsc": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 110.0,
+        "p95": 130.0,
+        "p99": 160.0,
+        "p99_9": 280.0,
+        "max": 102723.0,
+        "min": 100.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 110,
+        "p95": 130,
+        "p99": 160,
+        "p99_9": 280,
+        "max": 102723,
+        "min": 100
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 2353,
+        "min": 20
+      },
+      "above_3000_ns": 40,
+      "samples_sha256": "1ab79a255e561910cce93ef0b6c9754a2b70444b89a859f009ed7fcef64b03ba",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "fat-screen-warm_16-tsc0-batch1-0",
+      "variant": "fat",
+      "mode": "screen",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 863207542427200512,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596089796277953,
+          2.5961210770672607,
+          2.5961197790130828,
+          2.596119651147901,
+          2.596122377061541
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 120.0,
+        "p99": 141.0,
+        "p99_9": 521.0,
+        "max": 235290.0,
+        "min": 90.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 120,
+        "p99": 141,
+        "p99_9": 521,
+        "max": 235290,
+        "min": 90
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 44,
+      "samples_sha256": "020c2380c7fbe2961c2a8f1051eb0ca7307772878a946a45e6fefb534af87a0a",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-prepare-warm_16-tsc0-batch1-2",
+      "variant": "release",
+      "mode": "prepare",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 210000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596084708549614,
+          2.596106796596112,
+          2.596085904172116,
+          2.596104202464193,
+          2.596104198568434
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 110.0,
+        "p99": 130.0,
+        "p99_9": 481.0,
+        "max": 234159.0,
+        "min": 90.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 110,
+        "p99": 130,
+        "p99_9": 481,
+        "max": 234159,
+        "min": 90
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 29,
+      "samples_sha256": "9672e3baf46bb918cacf4b43d5b82c7aa2c9f03fabede9d85653028859074adb",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "cpp-flushed-flushed_16-tsc0-batch1-0",
+      "variant": "cpp",
+      "mode": "flushed",
+      "corpus": "flushed_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 20000,
+        "passes": 20000,
+        "checksum": 16455488985948331008,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": true,
+        "commercial_admission": false,
+        "batch_size": 1,
+        "tsc": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 20000,
+        "p50": 721.0,
+        "p95": 1032.0,
+        "p99": 1271.0,
+        "p99_9": 19819.0,
+        "max": 561145.0,
+        "min": 310.0
+      },
+      "raw_stats": {
+        "n": 20000,
+        "p50": 721,
+        "p95": 1032,
+        "p99": 1271,
+        "p99_9": 19819,
+        "max": 561145,
+        "min": 310
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 30,
+        "p99_9": 31,
+        "max": 111,
+        "min": 20
+      },
+      "above_3000_ns": 33,
+      "samples_sha256": "06d778d0686e3523790b47629aa51fe0e6bc2ba028db634b4fafb34d27271c05",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "native-screen-warm_16-tsc0-batch1-1",
+      "variant": "native",
+      "mode": "screen",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 2726271973674366976,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5961210770672607,
+          2.596122375122737,
+          2.596123673179511,
+          2.5961081198082323,
+          2.596122375122737
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 140.0,
+        "p99": 210.0,
+        "p99_9": 2234.0,
+        "max": 946229.0,
+        "min": 90.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 140,
+        "p99": 210,
+        "p99_9": 2234,
+        "max": 946229,
+        "min": 90
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 174,
+      "samples_sha256": "65a3e6997bc878bf2e65541b6df1b4a88fc30bf4295229ebe7d9c8719b997abc",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-compact-warm_16-tsc1-batch128-0",
+      "variant": "release",
+      "mode": "compact",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060600,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.596100346278858,
+          2.5960872780813613,
+          2.5961016083400565,
+          2.5960833061796946,
+          2.596091074757194
+        ],
+        "commercial_admission": false
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "stats_ns": {
+        "n": 10000,
+        "p50": 5.633469542807869,
+        "p95": 5.711712175346867,
+        "p99": 6.494138500736849,
+        "p99_9": 157.97187509623734,
+        "max": 577.5871134028846,
+        "min": 5.320499012651877
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1872,
+        "p95": 1898,
+        "p99": 2158,
+        "p99_9": 52494,
+        "max": 191932,
+        "min": 1768
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 546,
+        "min": 52
+      },
+      "above_3000_ns": 0,
+      "samples_sha256": "e8a41e0bca09a207e3d77e486549ff89d034bc96c09a85aab84f3bbe6b60a1a4",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-event_final-warm_16-tsc0-batch1-2",
+      "variant": "release",
+      "mode": "event_final",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596080708189872,
+          2.596058769960318,
+          2.5960665618760475,
+          2.5960639599754165,
+          2.5960936747274244
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 381.0,
+        "p95": 441.0,
+        "p99": 651.0,
+        "p99_9": 9754.0,
+        "max": 2266334.0,
+        "min": 350.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 381,
+        "p95": 441,
+        "p99": 651,
+        "p99_9": 9754,
+        "max": 2266334,
+        "min": 350
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 220,
+        "max": 45167,
+        "min": 20
+      },
+      "above_3000_ns": 245,
+      "samples_sha256": "c0e23b129d18d8b76effa7c644107ff52c9247ec8230242954e8bb10c4cfda1d",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-screen-mixed_16-tsc0-batch1-0",
+      "variant": "release",
+      "mode": "screen",
+      "corpus": "mixed_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 10199659612881581932,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5960990083722963,
+          2.596099010322767,
+          2.596049554241519,
+          2.5960794121363158,
+          2.5961016794529206
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 111.0,
+        "p99": 160.0,
+        "p99_9": 451.0,
+        "max": 216292.0,
+        "min": 30.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 111,
+        "p99": 160,
+        "p99_9": 451,
+        "max": 216292,
+        "min": 30
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 40209,
+        "min": 20
+      },
+      "above_3000_ns": 57,
+      "samples_sha256": "0cef69ed4ed020d031eeb14de157a7bf2730e6fafcf654de6d07055d447b9552",
+      "corpus_sha256": "6fedeea9b71ab52216c8acef0b391ec68f9268eb2fa3070eedb1c9f418c043eb"
+    },
+    {
+      "label": "thin-event_reference_final-warm_16-tsc0-batch1-2",
+      "variant": "thin",
+      "mode": "event_reference_final",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596063832143556,
+          2.5960391723917526,
+          2.5960925182214787,
+          2.596121079006713,
+          2.596044350449529
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 501.0,
+        "p95": 551.0,
+        "p99": 841.0,
+        "p99_9": 20020.0,
+        "max": 1736254.0,
+        "min": 450.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 501,
+        "p95": 551,
+        "p99": 841,
+        "p99_9": 20020,
+        "max": 1736254,
+        "min": 450
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 355,
+      "samples_sha256": "4223416a3696f38b07e74f4217fbbbb337b5eae15dfbf3d85cf831741c608cec",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-event_reference_final-warm_16-tsc0-batch1-1",
+      "variant": "release",
+      "mode": "event_reference_final",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5959988894968373,
+          2.5960859713836344,
+          2.5960847339985276,
+          2.596106800489275,
+          2.596122373183931
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 511.0,
+        "p95": 571.0,
+        "p99": 842.0,
+        "p99_9": 19990.0,
+        "max": 842834.0,
+        "min": 460.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 511,
+        "p95": 571,
+        "p99": 842,
+        "p99_9": 19990,
+        "max": 842834,
+        "min": 460
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 348,
+      "samples_sha256": "d4bf23c8fd4807e01b399b8ce2481c83724a2fd745d4be033f96f30288e07145",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-compact-warm_16-tsc1-batch128-1",
+      "variant": "release",
+      "mode": "compact",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060519,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.5960495522663574,
+          2.5960990142237024,
+          2.596101606390884,
+          2.5960730479637255,
+          2.596040472345019
+        ],
+        "commercial_admission": false
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "stats_ns": {
+        "n": 10000,
+        "p50": 5.633508660887401,
+        "p95": 5.711751836733059,
+        "p99": 5.789995012578717,
+        "p99_9": 139.66406888450015,
+        "max": 1730.191347475043,
+        "min": 5.3205359575047675
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1872,
+        "p95": 1898,
+        "p99": 1924,
+        "p99_9": 46410,
+        "max": 574938,
+        "min": 1768
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 338,
+        "min": 52
+      },
+      "above_3000_ns": 0,
+      "samples_sha256": "f8799d80b24b4622ed8fadb5d43b8154c0d16d98aa11b566dbe186623bd72539",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "native-event_final-warm_16-tsc0-batch1-2",
+      "variant": "native",
+      "mode": "event_final",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5961223712451234,
+          2.596123678993973,
+          2.596123675117667,
+          2.596122373183931,
+          2.59612362482976
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 380.0,
+        "p95": 451.0,
+        "p99": 641.0,
+        "p99_9": 14992.0,
+        "max": 396550.0,
+        "min": 340.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 380,
+        "p95": 451,
+        "p99": 641,
+        "p99_9": 14992,
+        "max": 396550,
+        "min": 340
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 1763,
+        "min": 20
+      },
+      "above_3000_ns": 244,
+      "samples_sha256": "198822d3dbe239c52f497b46b77e61443eab5d731869e8a24c71f1ddca6f5ae6",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-branchy-warm_16-tsc0-batch1-2",
+      "variant": "release",
+      "mode": "branchy",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 90694,
+        "checksum": 95225,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5960847359561225,
+          2.59610420441207,
+          2.5960651380119617,
+          2.596123675117667,
+          2.5960717519210053
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 20.0,
+        "p95": 30.0,
+        "p99": 31.0,
+        "p99_9": 40.0,
+        "max": 61562.0,
+        "min": 20.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 40,
+        "max": 61562,
+        "min": 20
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 15713,
+        "min": 20
+      },
+      "above_3000_ns": 8,
+      "samples_sha256": "13755e39b71449f27296e5e34f7bd8eecf4c9aeac2dbe41094f272c1cd1c2baf",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "fat-event_reference_final-warm_16-tsc0-batch1-2",
+      "variant": "fat",
+      "mode": "event_reference_final",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596086028103111,
+          2.5961223809391427,
+          2.5961067985426944,
+          2.5961066706852916,
+          2.5960910943014985
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 500.0,
+        "p95": 551.0,
+        "p99": 751.0,
+        "p99_9": 4237.0,
+        "max": 1828101.0,
+        "min": 450.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 500,
+        "p95": 551,
+        "p99": 751,
+        "p99_9": 4237,
+        "max": 1828101,
+        "min": 450
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 11737,
+        "min": 20
+      },
+      "above_3000_ns": 245,
+      "samples_sha256": "5204f404375b389ef6c9748dcfc0d584f17c3322e396cd91e5536f0f140cad25",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-screen-warm_4-tsc0-batch1-2",
+      "variant": "release",
+      "mode": "screen",
+      "corpus": "warm_4",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 1549189635140251648,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596119773192771,
+          2.596105368751581,
+          2.5960690300431852,
+          2.596109396571672,
+          2.596029047310305
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 60.0,
+        "p95": 70.0,
+        "p99": 80.0,
+        "p99_9": 401.0,
+        "max": 257353.0,
+        "min": 40.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 60,
+        "p95": 70,
+        "p99": 80,
+        "p99_9": 401,
+        "max": 257353,
+        "min": 40
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 18928,
+        "min": 20
+      },
+      "above_3000_ns": 22,
+      "samples_sha256": "ef17c568e5463240089e2e5b6f2746abb4a4957283f7b4ac3612f5126e0c1aa2",
+      "corpus_sha256": "cbc080f81833f854554862b880bec92296fe3f1b6e1b670e1462c222d9d72587"
+    },
+    {
+      "label": "release-screen-warm_16-tsc0-batch1-2",
+      "variant": "release",
+      "mode": "screen",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 2757188227953690624,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5960847339985276,
+          2.5960859002580903,
+          2.596044366271582,
+          2.596122375122737,
+          2.596070326080527
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 150.0,
+        "p99": 190.0,
+        "p99_9": 531.0,
+        "max": 207649.0,
+        "min": 90.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 150,
+        "p99": 190,
+        "p99_9": 531,
+        "max": 207649,
+        "min": 90
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 11036,
+        "min": 20
+      },
+      "above_3000_ns": 46,
+      "samples_sha256": "7b3863cc509ce4c89eb5d7d27a16f106a224fb73a252cdb376c8575797030386",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "fat-screen-warm_16-tsc0-batch1-2",
+      "variant": "fat",
+      "mode": "screen",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 2757188227953690624,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596086032017011,
+          2.5961222472559995,
+          2.596072922089977,
+          2.596086030060062,
+          2.5960703221509456
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 111.0,
+        "p99": 130.0,
+        "p99_9": 471.0,
+        "max": 231314.0,
+        "min": 90.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 111,
+        "p99": 130,
+        "p99_9": 471,
+        "max": 231314,
+        "min": 90
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 25,
+      "samples_sha256": "09656928b1406f07eff2eaf93ccc86afdb7488073626891d85adb52ef51e4737",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-branchy-warm_16-tsc0-batch1-0",
+      "variant": "release",
+      "mode": "branchy",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 90871,
+        "checksum": 95402,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596076863170501,
+          2.596083434023097,
+          2.596056044177521,
+          2.596071632230875,
+          2.595981937065713
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 20.0,
+        "p95": 30.0,
+        "p99": 31.0,
+        "p99_9": 140.0,
+        "max": 409530.0,
+        "min": 20.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 140,
+        "max": 409530,
+        "min": 20
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 10636,
+        "min": 20
+      },
+      "above_3000_ns": 16,
+      "samples_sha256": "b6e00ae8e244100f80e3a187b247f185cc23c499f6c2924adc8470e6c3875e2f",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-branchy-warm_16-tsc1-batch128-1",
+      "variant": "release",
+      "mode": "branchy",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060519,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.596019702943907,
+          2.5960886300135226,
+          2.596066432076088,
+          2.596067855944315,
+          2.5960600738638653
+        ],
+        "commercial_admission": false
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "stats_ns": {
+        "n": 10000,
+        "p50": 5.79000976796246,
+        "p95": 5.868253143205195,
+        "p99": 6.0247398936906675,
+        "p99_9": 189.66194158839193,
+        "max": 1868.2953140460488,
+        "min": 5.477036266991516
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1924,
+        "p95": 1950,
+        "p99": 2002,
+        "p99_9": 63024,
+        "max": 620828,
+        "min": 1820
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 78,
+        "min": 52
+      },
+      "above_3000_ns": 0,
+      "samples_sha256": "cb87534011e993b67100fb07a60ecb5cd2b6dbd2e907a10e2f69920d8212812a",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "native-event_final-warm_16-tsc0-batch1-1",
+      "variant": "native",
+      "mode": "event_final",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5961210770672607,
+          2.5961236712413536,
+          2.596122375122737,
+          2.596123675117667,
+          2.596122377061541
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 381.0,
+        "p95": 430.0,
+        "p99": 631.0,
+        "p99_9": 3164.0,
+        "max": 243092.0,
+        "min": 340.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 381,
+        "p95": 430,
+        "p99": 631,
+        "p99_9": 3164,
+        "max": 243092,
+        "min": 340
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 209,
+      "samples_sha256": "7d81d13641e5943fb1a7128ef2623939208e5903b2affef20a14c6483ef3427e",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "thin-event_final-warm_16-tsc0-batch1-1",
+      "variant": "thin",
+      "mode": "event_final",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596023598798231,
+          2.5960664340428194,
+          2.5960664340428194,
+          2.596011120205307,
+          2.5960169772445125
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 380.0,
+        "p95": 441.0,
+        "p99": 691.0,
+        "p99_9": 3635.0,
+        "max": 4279109.0,
+        "min": 340.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 380,
+        "p95": 441,
+        "p99": 691,
+        "p99_9": 3635,
+        "max": 4279109,
+        "min": 340
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 140,
+        "max": 287969,
+        "min": 20
+      },
+      "above_3000_ns": 255,
+      "samples_sha256": "6f59b11993c0867886f826fb00edab6b8b58bd6215632a3ee9fdd7969c52cbac",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "thin-event_reference_final-warm_16-tsc0-batch1-1",
+      "variant": "thin",
+      "mode": "event_reference_final",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596065130142438,
+          2.5960391723917526,
+          2.596074464409963,
+          2.596071580541558,
+          2.5960651419467116
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 501.0,
+        "p95": 571.0,
+        "p99": 841.0,
+        "p99_9": 19669.0,
+        "max": 1216255.0,
+        "min": 450.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 501,
+        "p95": 571,
+        "p99": 841,
+        "p99_9": 19669,
+        "max": 1216255,
+        "min": 450
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 130,
+        "max": 1922,
+        "min": 20
+      },
+      "above_3000_ns": 346,
+      "samples_sha256": "7573593ae59716b6b1146811bd2eab99f328895bfaa30c3de6459ea23797e1a4",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "fat-event_reference_final-warm_16-tsc0-batch1-0",
+      "variant": "fat",
+      "mode": "event_reference_final",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596101606390884,
+          2.596097584438697,
+          2.5960937967183106,
+          2.5960625380833298,
+          2.5961197828932807
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 500.0,
+        "p95": 581.0,
+        "p99": 841.0,
+        "p99_9": 14562.0,
+        "max": 229241.0,
+        "min": 450.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 500,
+        "p95": 581,
+        "p99": 841,
+        "p99_9": 14562,
+        "max": 229241,
+        "min": 450
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 42603,
+        "min": 20
+      },
+      "above_3000_ns": 258,
+      "samples_sha256": "80341b3c04aafc040b6493b350e8d4c65ac322be5abdf1e24cc98da8b2384944",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "fat-screen-warm_16-tsc0-batch1-1",
+      "variant": "fat",
+      "mode": "screen",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 2726271973674366976,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5960612400883396,
+          2.5960872021911197,
+          2.5960963986456536,
+          2.5959324854357546,
+          2.5960534580652856
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 110.0,
+        "p95": 171.0,
+        "p99": 181.0,
+        "p99_9": 560.0,
+        "max": 197804.0,
+        "min": 90.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 110,
+        "p95": 171,
+        "p99": 181,
+        "p99_9": 560,
+        "max": 197804,
+        "min": 90
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 30,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 60,
+        "min": 20
+      },
+      "above_3000_ns": 35,
+      "samples_sha256": "c086c882db1681f611f7587fd55be463a6621216cd2e0e5344b2491025c7bfbd",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "cpp-screen-warm_16-tsc0-batch1-2",
+      "variant": "cpp",
+      "mode": "screen",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "passes": 200000,
+        "checksum": 1548919925302049792,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false,
+        "batch_size": 1,
+        "tsc": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 110.0,
+        "p95": 131.0,
+        "p99": 171.0,
+        "p99_9": 320.0,
+        "max": 161520.0,
+        "min": 100.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 110,
+        "p95": 131,
+        "p99": 171,
+        "p99_9": 320,
+        "max": 161520,
+        "min": 100
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 15453,
+        "min": 20
+      },
+      "above_3000_ns": 38,
+      "samples_sha256": "d9dc374c14bcef34d022efdfb5af14b659e3c4aefc1f588af26fcc76b593ea96",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "thin-compact-warm_16-tsc1-batch128-2",
+      "variant": "thin",
+      "mode": "compact",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060616,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.596070449986695,
+          2.5960846061544105,
+          2.596083304221385,
+          2.596005428530202,
+          2.59591561125068
+        ],
+        "commercial_admission": false
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "stats_ns": {
+        "n": 10000,
+        "p50": 5.946487315118555,
+        "p95": 6.259460331703742,
+        "p99": 6.415946839996335,
+        "p99_9": 46.24176320046139,
+        "max": 221.35016597987357,
+        "min": 5.477027790240774
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1976,
+        "p95": 2080,
+        "p99": 2132,
+        "p99_9": 15366,
+        "max": 73554,
+        "min": 1820
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 78,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 63726,
+        "min": 52
+      },
+      "above_3000_ns": 0,
+      "samples_sha256": "3f76199f0c0a1763f15e9814fadaf712083c0a131cc5cb67d22b34b0e7429e25",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-compact-warm_16-tsc0-batch1-2",
+      "variant": "release",
+      "mode": "compact",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 90694,
+        "checksum": 95225,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5960769341459446,
+          2.596086035930903,
+          2.596037872438486,
+          2.5960821418832345,
+          2.5960846061544105
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 20.0,
+        "p95": 30.0,
+        "p99": 31.0,
+        "p99_9": 31.0,
+        "max": 15743.0,
+        "min": 20.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 15743,
+        "min": 20
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 27271,
+        "min": 20
+      },
+      "above_3000_ns": 7,
+      "samples_sha256": "a150d8a092040bfedbede496f945235d1d01b52c88634b597dfb68e490ae49c7",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-compact-warm_16-tsc1-batch1-0",
+      "variant": "release",
+      "mode": "compact",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 90871,
+        "checksum": 95402,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.5961055024500235,
+          2.5961066667919988,
+          2.596100306406354,
+          2.5961067985426944,
+          2.596107075816956
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 30.044990445783327,
+        "p95": 40.059987261044434,
+        "p99": 40.059987261044434,
+        "p99_9": 50.07498407630555,
+        "max": 194961.943002688,
+        "min": 20.029993630522217
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 78,
+        "p95": 104,
+        "p99": 104,
+        "p99_9": 130,
+        "max": 506142,
+        "min": 52
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 3676192,
+        "min": 52
+      },
+      "above_3000_ns": 12,
+      "samples_sha256": "db512d75316a6803e34315bbd35711a8efe819917cb1fc35c36bb75733da552f",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-chain_control-warm_16-tsc1-batch128-1",
+      "variant": "release",
+      "mode": "chain_control",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1074136,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.596040469375478,
+          2.5960859790824693,
+          2.5961067985426944,
+          2.5960847320409304,
+          2.596016979235934
+        ],
+        "commercial_admission": false
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "stats_ns": {
+        "n": 10000,
+        "p50": 4.851055069415756,
+        "p95": 4.9292978931160105,
+        "p99": 5.946454601219314,
+        "p99_9": 90.13573290269275,
+        "max": 1202.6704430966063,
+        "min": 4.851055069415756
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1612,
+        "p95": 1638,
+        "p99": 1976,
+        "p99_9": 29952,
+        "max": 399646,
+        "min": 1612
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 78,
+        "min": 52
+      },
+      "above_3000_ns": 0,
+      "samples_sha256": "2616c9056b1ad3c222a22fc2db99d92e5521c5fa4316eaffd5550f58450d072c",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-compact-warm_16-tsc1-batch1-1",
+      "variant": "release",
+      "mode": "compact",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 90636,
+        "checksum": 95167,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.596063938327627,
+          2.5960391763524338,
+          2.5960846781266005,
+          2.5961003622551457,
+          2.5960885185669675
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 30.045244924863834,
+        "p95": 40.06032656648511,
+        "p99": 40.06032656648511,
+        "p99_9": 140.21114298269788,
+        "max": 792192.9578522431,
+        "min": 20.030163283242555
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 78,
+        "p95": 104,
+        "p99": 104,
+        "p99_9": 364,
+        "max": 2056600,
+        "min": 52
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 342264,
+        "min": 52
+      },
+      "above_3000_ns": 24,
+      "samples_sha256": "42a756f2f4868f11cae1c5b9413c89e945a479d7e756d6e9fba9cbe7fac29900",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "fat-event_final-warm_16-tsc0-batch1-2",
+      "variant": "fat",
+      "mode": "event_final",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.595963762355447,
+          2.595985962142606,
+          2.595992450214861,
+          2.5960910962559183,
+          2.5960156753102863
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 371.0,
+        "p95": 430.0,
+        "p99": 641.0,
+        "p99_9": 3686.0,
+        "max": 271984.0,
+        "min": 340.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 371,
+        "p95": 430,
+        "p99": 641,
+        "p99_9": 3686,
+        "max": 271984,
+        "min": 340
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 37055,
+        "min": 20
+      },
+      "above_3000_ns": 246,
+      "samples_sha256": "a63ea95a25ee96d3ea1e9d76962ab5fac392001031954704ae2533c6eb408343",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-packed-warm_16-tsc1-batch128-0",
+      "variant": "release",
+      "mode": "packed",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060600,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.5960456583183875,
+          2.596086032017011,
+          2.5960404763044007,
+          2.5960235948219945,
+          2.5960236027744594
+        ],
+        "commercial_admission": false
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "stats_ns": {
+        "n": 10000,
+        "p50": 6.49426507555853,
+        "p95": 6.57250923309538,
+        "p99": 7.120218335853328,
+        "p99_9": 161.73067362866846,
+        "max": 1484.8393775767977,
+        "min": 6.33777676048483
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 2158,
+        "p95": 2184,
+        "p99": 2366,
+        "p99_9": 53742,
+        "max": 493402,
+        "min": 2106
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 78,
+        "min": 52
+      },
+      "above_3000_ns": 0,
+      "samples_sha256": "69edf9922c00c5ba63c29f87ab90fb4422ceb9bc77d90164d4824c97c0f863a1",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "thin-compact-warm_16-tsc1-batch128-1",
+      "variant": "thin",
+      "mode": "compact",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060519,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.5960625361146517,
+          2.5960404683856297,
+          2.5960874339213706,
+          2.5960460408870563,
+          2.596086032017011
+        ],
+        "commercial_admission": false
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "stats_ns": {
+        "n": 10000,
+        "p50": 5.633531471814324,
+        "p95": 5.7900184571425,
+        "p99": 5.8682619498065876,
+        "p99_9": 102.49897538995506,
+        "max": 1468.3173833342723,
+        "min": 5.320557501157973
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1872,
+        "p95": 1924,
+        "p99": 1950,
+        "p99_9": 34060,
+        "max": 487916,
+        "min": 1768
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 33852,
+        "min": 52
+      },
+      "above_3000_ns": 0,
+      "samples_sha256": "90148d02a74d295efee0d1cdb795794d48c337a8b7b68159b462808c198c1407",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "thin-compact-warm_16-tsc1-batch128-0",
+      "variant": "thin",
+      "mode": "compact",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060600,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.596067754516052,
+          2.5960548799316503,
+          2.5960730518905857,
+          2.596074222059493,
+          2.596088500211421
+        ],
+        "commercial_admission": false
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "stats_ns": {
+        "n": 10000,
+        "p50": 5.711751828093375,
+        "p95": 5.789995003820682,
+        "p99": 5.946481355275295,
+        "p99_9": 149.2097361119735,
+        "max": 1427.6249843204346,
+        "min": 5.398779125184149
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1898,
+        "p95": 1924,
+        "p99": 1976,
+        "p99_9": 49582,
+        "max": 474396,
+        "min": 1794
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 50804,
+        "min": 52
+      },
+      "above_3000_ns": 0,
+      "samples_sha256": "ca60aca0e18224c76c0d03e957a4cca09f6a1d0da70b44ca3eab08d55e0ec74a",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "cpp-screen-mixed_16-tsc0-batch1-2",
+      "variant": "cpp",
+      "mode": "screen",
+      "corpus": "mixed_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "passes": 100064,
+        "checksum": 13742924800028503377,
+        "input_records": 128,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false,
+        "batch_size": 1,
+        "tsc": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 110.0,
+        "p95": 141.0,
+        "p99": 181.0,
+        "p99_9": 451.0,
+        "max": 506915.0,
+        "min": 20.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 110,
+        "p95": 141,
+        "p99": 181,
+        "p99_9": 451,
+        "max": 506915,
+        "min": 20
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 30,
+        "p99_9": 31,
+        "max": 40,
+        "min": 20
+      },
+      "above_3000_ns": 77,
+      "samples_sha256": "26e392a59b687cd34d899f8dfe4229c434c304f6f4ec75354480c8ab997653e9",
+      "corpus_sha256": "6fedeea9b71ab52216c8acef0b391ec68f9268eb2fa3070eedb1c9f418c043eb"
+    },
+    {
+      "label": "release-guard_copy-warm_16-tsc0-batch1-0",
+      "variant": "release",
+      "mode": "guard_copy",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 863207542427200512,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596084729509539,
+          2.5961068024358536,
+          2.5960665048418448,
+          2.596121079006713,
+          2.5960963986456536
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 140.0,
+        "p95": 161.0,
+        "p99": 240.0,
+        "p99_9": 621.0,
+        "max": 510349.0,
+        "min": 130.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 140,
+        "p95": 161,
+        "p99": 240,
+        "p99_9": 621,
+        "max": 510349,
+        "min": 130
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 240,
+        "min": 20
+      },
+      "above_3000_ns": 74,
+      "samples_sha256": "5d13c73f46d14533c349e24d372b5c74ab35c3d1c78864291e659d4f4705614c",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "cpp-screen-warm_16-tsc0-batch1-1",
+      "variant": "cpp",
+      "mode": "screen",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "passes": 200000,
+        "checksum": 1989491427690036224,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false,
+        "batch_size": 1,
+        "tsc": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 110.0,
+        "p95": 131.0,
+        "p99": 180.0,
+        "p99_9": 340.0,
+        "max": 220949.0,
+        "min": 100.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 110,
+        "p95": 131,
+        "p99": 180,
+        "p99_9": 340,
+        "max": 220949,
+        "min": 100
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 30,
+        "p99_9": 31,
+        "max": 140,
+        "min": 20
+      },
+      "above_3000_ns": 45,
+      "samples_sha256": "2090304eb8e4dc07d75157ab5439a4bdda6fa25d6ea65dafb44e65a6f9d8aa84",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-compact-warm_16-tsc0-batch1-1",
+      "variant": "release",
+      "mode": "compact",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 90636,
+        "checksum": 95167,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5960845983237593,
+          2.596104208307817,
+          2.5960937986713932,
+          2.596101470739631,
+          2.596095096706091
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 20.0,
+        "p95": 30.0,
+        "p99": 31.0,
+        "p99_9": 40.0,
+        "max": 723107.0,
+        "min": 20.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 40,
+        "max": 723107,
+        "min": 20
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 140,
+        "min": 20
+      },
+      "above_3000_ns": 13,
+      "samples_sha256": "3182cb4110a75d2b56c7e25d6e53f560f95f5c699e4cc26edd95812f0307b714",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-event_reference-warm_16-tsc0-batch1-2",
+      "variant": "release",
+      "mode": "event_reference",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596102906375414,
+          2.5961016083400565,
+          2.596121079006713,
+          2.596121082885611,
+          2.5961093829546407
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 390.0,
+        "p95": 431.0,
+        "p99": 621.0,
+        "p99_9": 2774.0,
+        "max": 498532.0,
+        "min": 340.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 390,
+        "p95": 431,
+        "p99": 621,
+        "p99_9": 2774,
+        "max": 498532,
+        "min": 340
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 1933,
+        "min": 20
+      },
+      "above_3000_ns": 188,
+      "samples_sha256": "cb869e6062e4170007dd527dfcabd9a345ff47b8839718809d59652b09fc5007",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-flushed-warm_16-tsc0-batch1-1",
+      "variant": "release",
+      "mode": "flushed",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 20000,
+        "batch_size": 1,
+        "nonzero_samples": 20000,
+        "checksum": 13478072848380715008,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.595949516750746,
+          2.596074218133803,
+          2.5959910144807252,
+          2.595963766391418,
+          2.5960456682038964
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 20000,
+        "p50": 561.0,
+        "p95": 811.0,
+        "p99": 1121.0,
+        "p99_9": 2644.0,
+        "max": 229231.0,
+        "min": 320.0
+      },
+      "raw_stats": {
+        "n": 20000,
+        "p50": 561,
+        "p95": 811,
+        "p99": 1121,
+        "p99_9": 2644,
+        "max": 229231,
+        "min": 320
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 17627,
+        "min": 20
+      },
+      "above_3000_ns": 19,
+      "samples_sha256": "61635ac05fc36b214952ccfd9d390aee8b5d058566ddede543a7a3a54afd10fa",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "cpp-flushed-flushed_16-tsc0-batch1-1",
+      "variant": "cpp",
+      "mode": "flushed",
+      "corpus": "flushed_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 20000,
+        "passes": 20000,
+        "checksum": 16891677364523080704,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": true,
+        "commercial_admission": false,
+        "batch_size": 1,
+        "tsc": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 20000,
+        "p50": 731.0,
+        "p95": 1062.0,
+        "p99": 1292.0,
+        "p99_9": 15332.0,
+        "max": 186007.0,
+        "min": 310.0
+      },
+      "raw_stats": {
+        "n": 20000,
+        "p50": 731,
+        "p95": 1062,
+        "p99": 1292,
+        "p99_9": 15332,
+        "max": 186007,
+        "min": 310
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 30,
+        "p99_9": 31,
+        "max": 20571,
+        "min": 20
+      },
+      "above_3000_ns": 27,
+      "samples_sha256": "6543a3baca867a8e6e460d205f1259ed16c04e06d522e2aa04cddb4405a1ca55",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "cpp-screen-warm_4-tsc0-batch1-1",
+      "variant": "cpp",
+      "mode": "screen",
+      "corpus": "warm_4",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "passes": 200000,
+        "checksum": 9028941287979408384,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false,
+        "batch_size": 1,
+        "tsc": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 61.0,
+        "p95": 90.0,
+        "p99": 100.0,
+        "p99_9": 220.0,
+        "max": 244815.0,
+        "min": 50.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 61,
+        "p95": 90,
+        "p99": 100,
+        "p99_9": 220,
+        "max": 244815,
+        "min": 50
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 94651,
+        "min": 20
+      },
+      "above_3000_ns": 34,
+      "samples_sha256": "f2ee03c44edb8eecf1a86f9dca83936a9ddc466b6afc3779afa52f908841f02b",
+      "corpus_sha256": "cbc080f81833f854554862b880bec92296fe3f1b6e1b670e1462c222d9d72587"
+    },
+    {
+      "label": "release-prepare-warm_16-tsc0-batch1-0",
+      "variant": "release",
+      "mode": "prepare",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 210000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596098884420562,
+          2.5960755200668144,
+          2.5961016083400565,
+          2.5960820042460195,
+          2.596086033973958
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 111.0,
+        "p99": 170.0,
+        "p99_9": 571.0,
+        "max": 231124.0,
+        "min": 90.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 111,
+        "p99": 170,
+        "p99_9": 571,
+        "max": 231124,
+        "min": 90
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 15643,
+        "min": 20
+      },
+      "above_3000_ns": 58,
+      "samples_sha256": "1a88f220d3ca314bbd6df69d495cb0a8218aa846067bb3e2f5509c281dc6370b",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "native-event_final-warm_16-tsc0-batch1-0",
+      "variant": "native",
+      "mode": "event_final",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596122241439388,
+          2.5961236712413536,
+          2.596110673223711,
+          2.596122379000343,
+          2.596121079006713
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 380.0,
+        "p95": 431.0,
+        "p99": 641.0,
+        "p99_9": 2794.0,
+        "max": 564270.0,
+        "min": 340.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 380,
+        "p95": 431,
+        "p99": 641,
+        "p99_9": 2794,
+        "max": 564270,
+        "min": 340
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 183,
+      "samples_sha256": "af782e2ea594518ccda2ccb59f0e4b64eb4cdb67ebe458d3ea71d197542f8bbb",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-flushed-warm_16-tsc0-batch1-2",
+      "variant": "release",
+      "mode": "flushed",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 20000,
+        "batch_size": 1,
+        "nonzero_samples": 20000,
+        "checksum": 13268225779224866816,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5961003083561764,
+          2.5961042005163146,
+          2.596119780953183,
+          2.596070326080527,
+          2.5960936942587294
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 20000,
+        "p50": 551.0,
+        "p95": 791.0,
+        "p99": 1072.0,
+        "p99_9": 2845.0,
+        "max": 150323.0,
+        "min": 300.0
+      },
+      "raw_stats": {
+        "n": 20000,
+        "p50": 551,
+        "p95": 791,
+        "p99": 1072,
+        "p99_9": 2845,
+        "max": 150323,
+        "min": 300
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 2213,
+        "min": 20
+      },
+      "above_3000_ns": 20,
+      "samples_sha256": "30dbf65a5f6eaa13946ff199ba8100220031e01af72cc1c9d5f8005f7626bdce",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-guard-warm_16-tsc0-batch1-0",
+      "variant": "release",
+      "mode": "guard",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 863207542427200512,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596082010122893,
+          2.596097714241772,
+          2.596100182452546,
+          2.596083304221385,
+          2.596075572027836
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 120.0,
+        "p95": 180.0,
+        "p99": 241.0,
+        "p99_9": 1092.0,
+        "max": 1258162.0,
+        "min": 110.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 120,
+        "p95": 180,
+        "p99": 241,
+        "p99_9": 1092,
+        "max": 1258162,
+        "min": 110
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 110,
+        "max": 18929,
+        "min": 20
+      },
+      "above_3000_ns": 101,
+      "samples_sha256": "45e10ba39e18a727603af3f4c00fd24d030021edf061647442add1b49b19d59c",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "native-event_reference_final-warm_16-tsc0-batch1-1",
+      "variant": "native",
+      "mode": "event_reference_final",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5961197790130828,
+          2.596123675117667,
+          2.596123678993973,
+          2.5961236712413536,
+          2.596123677055821
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 671.0,
+        "p95": 871.0,
+        "p99": 932.0,
+        "p99_9": 20240.0,
+        "max": 1113638.0,
+        "min": 460.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 671,
+        "p95": 871,
+        "p99": 932,
+        "p99_9": 20240,
+        "max": 1113638,
+        "min": 460
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 64616,
+        "min": 20
+      },
+      "above_3000_ns": 306,
+      "samples_sha256": "6e9e569404d550abba048483f0e5b94d3a825a7ed273472cb4ed9bc95c6cea33",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-event-warm_16-tsc0-batch1-0",
+      "variant": "release",
+      "mode": "event",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5960677300762693,
+          2.59607811804625,
+          2.5960768141523363,
+          2.596085902215104,
+          2.5960486668460496
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 271.0,
+        "p95": 330.0,
+        "p99": 461.0,
+        "p99_9": 2233.0,
+        "max": 235420.0,
+        "min": 240.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 271,
+        "p95": 330,
+        "p99": 461,
+        "p99_9": 2233,
+        "max": 235420,
+        "min": 240
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 130,
+        "max": 77114,
+        "min": 20
+      },
+      "above_3000_ns": 157,
+      "samples_sha256": "c3847cd43304d2f97857027b71525a9ad0510b92a5a40673ab5af1a2ca32e72f",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-event_reference-warm_16-tsc0-batch1-1",
+      "variant": "release",
+      "mode": "event_reference",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596071622120461,
+          2.5961059165967955,
+          2.5961067985426944,
+          2.596119780953183,
+          2.596121080946163
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 390.0,
+        "p95": 431.0,
+        "p99": 621.0,
+        "p99_9": 2654.0,
+        "max": 1063082.0,
+        "min": 340.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 390,
+        "p95": 431,
+        "p99": 621,
+        "p99_9": 2654,
+        "max": 1063082,
+        "min": 340
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 36093,
+        "min": 20
+      },
+      "above_3000_ns": 174,
+      "samples_sha256": "9dd05c3ad86989ccae9d5c66b1acb7e967c70d5f3432a448875e17dd4a958b81",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-packed-warm_16-tsc1-batch1-2",
+      "variant": "release",
+      "mode": "packed",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 90694,
+        "checksum": 95225,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.5961055024500235,
+          2.596106796596112,
+          2.5960638400156717,
+          2.596083441856065,
+          2.5960704578455998
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 30.045259232590013,
+        "p95": 30.045259232590013,
+        "p99": 30.045259232590013,
+        "p99_9": 40.06034564345335,
+        "max": 231438.63186864086,
+        "min": 20.030172821726676
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 78,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 104,
+        "max": 600834,
+        "min": 52
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 78,
+        "min": 52
+      },
+      "above_3000_ns": 11,
+      "samples_sha256": "828ca64080bc97ce9e982d369e67f466a5f8d5bd50e36e040d1a5ed847ce70d1",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-packed-warm_16-tsc0-batch1-2",
+      "variant": "release",
+      "mode": "packed",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 90694,
+        "checksum": 95225,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596061367918519,
+          2.5960599401246736,
+          2.5960534481992266,
+          2.5960975863898765,
+          2.5960547521054225
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 20.0,
+        "p95": 30.0,
+        "p99": 31.0,
+        "p99_9": 31.0,
+        "max": 108842.0,
+        "min": 20.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 108842,
+        "min": 20
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 2053,
+        "min": 20
+      },
+      "above_3000_ns": 9,
+      "samples_sha256": "9ccd87fb59fc806508e079842d70c66a64fa6fc2caa9c8b4da122ec66b45c8c8",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-branchy-warm_16-tsc1-batch128-0",
+      "variant": "release",
+      "mode": "branchy",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060600,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.596083304221385,
+          2.596063961943386,
+          2.596083434023097,
+          2.596067728110184,
+          2.5960899280352523
+        ],
+        "commercial_admission": false
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "stats_ns": {
+        "n": 10000,
+        "p50": 5.789972138243137,
+        "p95": 5.946457871709167,
+        "p99": 6.024700738442182,
+        "p99_9": 149.67860406025838,
+        "max": 800.5027695454801,
+        "min": 5.477000671311075
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1924,
+        "p95": 1976,
+        "p99": 2002,
+        "p99_9": 49738,
+        "max": 266006,
+        "min": 1820
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 43342,
+        "min": 52
+      },
+      "above_3000_ns": 0,
+      "samples_sha256": "f78e5ff478955f6a1b55054c0771ad5d8bb8360f4d16a8fe15d703cc00a503ab",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-guard-warm_16-tsc0-batch1-2",
+      "variant": "release",
+      "mode": "guard",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 2757188227953690624,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5960665618760475,
+          2.5960430722515526,
+          2.5961210770672607,
+          2.5959964889891465,
+          2.5960833061796946
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 120.0,
+        "p95": 150.0,
+        "p99": 201.0,
+        "p99_9": 701.0,
+        "max": 212146.0,
+        "min": 110.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 120,
+        "p95": 150,
+        "p99": 201,
+        "p99_9": 701,
+        "max": 212146,
+        "min": 110
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 60,
+      "samples_sha256": "fcd34b44fae1acc6890d950ff88383572c59250e50ff8d8f63985ba37eb6d67b",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-compact-warm_16-tsc1-batch1-2",
+      "variant": "release",
+      "mode": "compact",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 90694,
+        "checksum": 95225,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.596046958276204,
+          2.5960456662267983,
+          2.5960833061796946,
+          2.596101800651699,
+          2.5960341040699446
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 30.045681474033362,
+        "p95": 40.06090863204448,
+        "p99": 40.06090863204448,
+        "p99_9": 60.091362948066724,
+        "max": 177149.3379709007,
+        "min": 20.03045431602224
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 78,
+        "p95": 104,
+        "p99": 104,
+        "p99_9": 156,
+        "max": 459888,
+        "min": 52
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 78,
+        "min": 52
+      },
+      "above_3000_ns": 25,
+      "samples_sha256": "10d1fb80c367f8c98b32ec4916c3474b48de994bd6fd79090ed24a4fc4c60a95",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-event-warm_16-tsc0-batch1-2",
+      "variant": "release",
+      "mode": "event",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596033954732124,
+          2.596106800489275,
+          2.596105368751581,
+          2.596108096583892,
+          2.596091088438228
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 280.0,
+        "p95": 321.0,
+        "p99": 460.0,
+        "p99_9": 2834.0,
+        "max": 175902.0,
+        "min": 240.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 280,
+        "p95": 321,
+        "p99": 460,
+        "p99_9": 2834,
+        "max": 175902,
+        "min": 240
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 189,
+      "samples_sha256": "9c56928e5dbca7d98322ac57920ed137062f3f74c33232c1672f7bf0196fdc29",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-guard-warm_16-tsc0-batch1-1",
+      "variant": "release",
+      "mode": "guard",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 2726271973674366976,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5960222988534136,
+          2.596036452596575,
+          2.5960118953069395,
+          2.595978017187072,
+          2.5960313706879092
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 120.0,
+        "p95": 140.0,
+        "p99": 200.0,
+        "p99_9": 701.0,
+        "max": 58046.0,
+        "min": 110.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 120,
+        "p95": 140,
+        "p99": 200,
+        "p99_9": 701,
+        "max": 58046,
+        "min": 110
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 17667,
+        "min": 20
+      },
+      "above_3000_ns": 55,
+      "samples_sha256": "a106224d5dbc613c44b61144d76abdee04890a854e3f737d1fd94a5ef0ef0240",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-screen-mixed_16-tsc0-batch1-2",
+      "variant": "release",
+      "mode": "screen",
+      "corpus": "mixed_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 9761732401669602489,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5961029044268895,
+          2.5961027746232306,
+          2.59610550439725,
+          2.596106674578576,
+          2.5960899221702376
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 110.0,
+        "p99": 130.0,
+        "p99_9": 331.0,
+        "max": 88812.0,
+        "min": 30.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 110,
+        "p99": 130,
+        "p99_9": 331,
+        "max": 88812,
+        "min": 30
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 30,
+      "samples_sha256": "28571238292dd92b75bf08dcd66377d96d2f8a416fbb1a831ad91ba736a38e28",
+      "corpus_sha256": "6fedeea9b71ab52216c8acef0b391ec68f9268eb2fa3070eedb1c9f418c043eb"
+    },
+    {
+      "label": "release-screen-warm_4-tsc0-batch1-0",
+      "variant": "release",
+      "mode": "screen",
+      "corpus": "warm_4",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 437025556758781952,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5960962825050005,
+          2.5960990328400553,
+          2.596092372788518,
+          2.596058624395946,
+          2.596104202464193
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 60.0,
+        "p95": 70.0,
+        "p99": 80.0,
+        "p99_9": 391.0,
+        "max": 70676.0,
+        "min": 40.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 60,
+        "p95": 70,
+        "p99": 80,
+        "p99_9": 391,
+        "max": 70676,
+        "min": 40
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 70935,
+        "min": 20
+      },
+      "above_3000_ns": 15,
+      "samples_sha256": "2fb1dc76b475cfe5eff3188f7be06f9964a197c85591fe2d39540e6cf0e8bd61",
+      "corpus_sha256": "cbc080f81833f854554862b880bec92296fe3f1b6e1b670e1462c222d9d72587"
+    },
+    {
+      "label": "thin-event_final-warm_16-tsc0-batch1-0",
+      "variant": "thin",
+      "mode": "event_final",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5959493557729503,
+          2.5960482562582126,
+          2.596070326080527,
+          2.5961001805026624,
+          2.5960638380476455
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 381.0,
+        "p95": 661.0,
+        "p99": 721.0,
+        "p99_9": 1953.0,
+        "max": 220938.0,
+        "min": 340.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 381,
+        "p95": 661,
+        "p99": 721,
+        "p99_9": 1953,
+        "max": 220938,
+        "min": 340
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 30,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 260,
+        "min": 20
+      },
+      "above_3000_ns": 172,
+      "samples_sha256": "5fbf72a4dd4ce9ca1e9f87689474c6ceab208f0aa3794e43309e42a60c57ce07",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-chain_control-warm_16-tsc1-batch128-0",
+      "variant": "release",
+      "mode": "chain_control",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1074219,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.5960248927806404,
+          2.596086032017011,
+          2.596053581944318,
+          2.596058646072873,
+          2.59610550439725
+        ],
+        "commercial_admission": false
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "stats_ns": {
+        "n": 10000,
+        "p50": 4.851103814257393,
+        "p95": 4.929347424164771,
+        "p99": 5.007591034072148,
+        "p99_9": 80.51267459469126,
+        "max": 1267.3899932796978,
+        "min": 4.851103814257393
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1612,
+        "p95": 1638,
+        "p99": 1664,
+        "p99_9": 26754,
+        "max": 421148,
+        "min": 1612
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 4862,
+        "min": 52
+      },
+      "above_3000_ns": 0,
+      "samples_sha256": "c19859492ae75169ce9f93bbf14b5d7c7499aeccb93cc7caa8fdc3890567d775",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-event_final-warm_16-tsc0-batch1-1",
+      "variant": "release",
+      "mode": "event_final",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5960923864650156,
+          2.5961068024358536,
+          2.596106674578576,
+          2.5960703280453155,
+          2.5960884982557055
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 390.0,
+        "p95": 441.0,
+        "p99": 671.0,
+        "p99_9": 30526.0,
+        "max": 1742404.0,
+        "min": 350.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 390,
+        "p95": 441,
+        "p99": 671,
+        "p99_9": 30526,
+        "max": 1742404,
+        "min": 350
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 80,
+        "max": 46859,
+        "min": 20
+      },
+      "above_3000_ns": 378,
+      "samples_sha256": "fdad715c84897e0ef4eb2d695b78f3c1d4c7892850f46587e61628a5b6fab6f8",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "fat-compact-warm_16-tsc1-batch128-0",
+      "variant": "fat",
+      "mode": "compact",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060600,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.5960534501724424,
+          2.5961210770672607,
+          2.596089792367812,
+          2.5960910962559183,
+          2.5960534905162325
+        ],
+        "commercial_admission": false
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "stats_ns": {
+        "n": 10000,
+        "p50": 5.476986983193491,
+        "p95": 5.55522965438197,
+        "p99": 5.789957667947405,
+        "p99_9": 302.25143880109226,
+        "max": 1469.2408795772483,
+        "min": 5.0857736272511
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1820,
+        "p95": 1846,
+        "p99": 1924,
+        "p99_9": 100438,
+        "max": 488228,
+        "min": 1690
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 78,
+        "min": 52
+      },
+      "above_3000_ns": 0,
+      "samples_sha256": "56e70077629103c5e952dd9fc69a190cb4ae9b116ae86dae409f3395dcffb720",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-prepare-warm_16-tsc0-batch1-1",
+      "variant": "release",
+      "mode": "prepare",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 210000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596104198568434,
+          2.5960704519514244,
+          2.5960716260487433,
+          2.5961016219842104,
+          2.596076772959336
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 120.0,
+        "p99": 170.0,
+        "p99_9": 571.0,
+        "max": 223082.0,
+        "min": 90.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 120,
+        "p99": 170,
+        "p99_9": 571,
+        "max": 223082,
+        "min": 90
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 100,
+        "min": 20
+      },
+      "above_3000_ns": 68,
+      "samples_sha256": "4ee545edfd256cc01d671b43aa24dca2f07afce30f98bab7abb1ccdda2828392",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "cpp-screen-warm_4-tsc0-batch1-2",
+      "variant": "cpp",
+      "mode": "screen",
+      "corpus": "warm_4",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "passes": 200000,
+        "checksum": 8921878655516326912,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false,
+        "batch_size": 1,
+        "tsc": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 70.0,
+        "p95": 90.0,
+        "p99": 101.0,
+        "p99_9": 290.0,
+        "max": 669506.0,
+        "min": 50.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 70,
+        "p95": 90,
+        "p99": 101,
+        "p99_9": 290,
+        "max": 669506,
+        "min": 50
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 30,
+        "p99_9": 31,
+        "max": 40,
+        "min": 20
+      },
+      "above_3000_ns": 30,
+      "samples_sha256": "97bd5e84a9a6c419ba8384a95c51b6f04cf8d49e4c7b95cbbb88e95ee0114d5f",
+      "corpus_sha256": "cbc080f81833f854554862b880bec92296fe3f1b6e1b670e1462c222d9d72587"
+    },
+    {
+      "label": "fat-event_final-warm_16-tsc0-batch1-1",
+      "variant": "fat",
+      "mode": "event_final",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5960703241157375,
+          2.596106668738646,
+          2.596098886371092,
+          2.596045662272597,
+          2.5961053668042835
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 380.0,
+        "p95": 431.0,
+        "p99": 651.0,
+        "p99_9": 15844.0,
+        "max": 1201629.0,
+        "min": 340.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 380,
+        "p95": 431,
+        "p99": 651,
+        "p99_9": 15844,
+        "max": 1201629,
+        "min": 340
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 161,
+        "min": 20
+      },
+      "above_3000_ns": 271,
+      "samples_sha256": "c17ac62c6383b6f0d2076ea3d527d134a7fbb73ac15319d3d4f69e39303974ce",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "native-compact-warm_16-tsc1-batch128-1",
+      "variant": "native",
+      "mode": "compact",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060519,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.596121075127807,
+          2.596122375122737,
+          2.596123771180024,
+          2.596122379000343,
+          2.596122375122737
+        ],
+        "commercial_admission": false
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "stats_ns": {
+        "n": 10000,
+        "p50": 5.476918244012969,
+        "p95": 5.5551599332131545,
+        "p99": 6.494060203615377,
+        "p99_9": 379.3157092424982,
+        "max": 3114.097471856574,
+        "min": 5.085709798012043
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1820,
+        "p95": 1846,
+        "p99": 2158,
+        "p99_9": 126048,
+        "max": 1034826,
+        "min": 1690
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 104,
+        "min": 52
+      },
+      "above_3000_ns": 1,
+      "samples_sha256": "7aec6f5e54a546127f945dbbc3a73eaeeda3eb2e6840b4570bfed206673acaf0",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-eye-warm_16-tsc0-batch1-1",
+      "variant": "release",
+      "mode": "eye",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 4363256,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5960837738763036,
+          2.596058642131631,
+          2.595976725303383,
+          2.5960848027132783,
+          2.5960533912943653
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 30.0,
+        "p95": 30.0,
+        "p99": 31.0,
+        "p99_9": 180.0,
+        "max": 141751.0,
+        "min": 20.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 30,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 180,
+        "max": 141751,
+        "min": 20
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 121,
+        "min": 20
+      },
+      "above_3000_ns": 14,
+      "samples_sha256": "cbfbaa84c2388e6299e00b72bdaf6d10449e3240c6d65a527ecc0e047e256c4e",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-event_reference_final-warm_16-tsc0-batch1-2",
+      "variant": "release",
+      "mode": "event_reference_final",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.59606642617588,
+          2.596101610289227,
+          2.596099104478802,
+          2.596098898107538,
+          2.5960899241252444
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 521.0,
+        "p95": 581.0,
+        "p99": 852.0,
+        "p99_9": 15764.0,
+        "max": 9510726.0,
+        "min": 470.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 521,
+        "p95": 581,
+        "p99": 852,
+        "p99_9": 15764,
+        "max": 9510726,
+        "min": 470
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 38507,
+        "min": 20
+      },
+      "above_3000_ns": 306,
+      "samples_sha256": "f5ecaa4330741a6fe78eb2b64e305e0dc9fe1d190b51d8766e251dced48a73ae",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "thin-event_final-warm_16-tsc0-batch1-2",
+      "variant": "thin",
+      "mode": "event_final",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.595979337219104,
+          2.595978043328379,
+          2.596072920126483,
+          2.5960834350022197,
+          2.5960884962999877
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 380.0,
+        "p95": 421.0,
+        "p99": 631.0,
+        "p99_9": 3085.0,
+        "max": 146398.0,
+        "min": 340.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 380,
+        "p95": 421,
+        "p99": 631,
+        "p99_9": 3085,
+        "max": 146398,
+        "min": 340
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 209,
+      "samples_sha256": "97cbea5868b23fb3804e7e95616744a3c6396a22e7d4a46ff252318a8e7b883e",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-eye-warm_16-tsc0-batch1-2",
+      "variant": "release",
+      "mode": "eye",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 4365344,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5960730479637255,
+          2.596049554241519,
+          2.596106821437843,
+          2.596086032017011,
+          2.59610550439725
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 30.0,
+        "p95": 31.0,
+        "p99": 40.0,
+        "p99_9": 191.0,
+        "max": 175011.0,
+        "min": 20.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 30,
+        "p95": 31,
+        "p99": 40,
+        "p99_9": 191,
+        "max": 175011,
+        "min": 20
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 63414,
+        "min": 20
+      },
+      "above_3000_ns": 16,
+      "samples_sha256": "ee960115046a4618ba6f71893c553fe8bbb0b65a678c830f3091ca547f047499",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-packed-warm_16-tsc1-batch1-0",
+      "variant": "release",
+      "mode": "packed",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 90871,
+        "checksum": 95402,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.596007889625243,
+          2.5960859002580903,
+          2.5960756008498405,
+          2.5960859541711683,
+          2.59608338794058
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 30.04525985657025,
+        "p95": 30.04525985657025,
+        "p99": 40.060346475427004,
+        "p99_9": 50.07543309428375,
+        "max": 192359.76868838162,
+        "min": 20.030173237713502
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 78,
+        "p95": 78,
+        "p99": 104,
+        "p99_9": 130,
+        "max": 499382,
+        "min": 52
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 806,
+        "min": 52
+      },
+      "above_3000_ns": 22,
+      "samples_sha256": "9cf1947af3f2302333cc746e70edb56952b674c309f3d9edb4f0d234489b0a61",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-packed-warm_16-tsc0-batch1-0",
+      "variant": "release",
+      "mode": "packed",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 90871,
+        "checksum": 95402,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596010597355441,
+          2.5961067617145113,
+          2.595944164250884,
+          2.596106672631935,
+          2.596029958801648
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 20.0,
+        "p95": 30.0,
+        "p99": 31.0,
+        "p99_9": 31.0,
+        "max": 67791.0,
+        "min": 20.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 67791,
+        "min": 20
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 6,
+      "samples_sha256": "33eac24c6b8b443abd998723ea5968140e965ee1dfd6962d690e13c449c87722",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "fat-compact-warm_16-tsc1-batch128-2",
+      "variant": "fat",
+      "mode": "compact",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060616,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.5960482582340205,
+          2.596078245886415,
+          2.5960417683401964,
+          2.5960768121907845,
+          2.5961066706852916
+        ],
+        "commercial_admission": false
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "stats_ns": {
+        "n": 10000,
+        "p50": 5.477014367691625,
+        "p95": 5.55525743008722,
+        "p99": 5.633500492482815,
+        "p99_9": 93.42221650034001,
+        "max": 812.8671752278328,
+        "min": 5.164042118109247
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1820,
+        "p95": 1846,
+        "p99": 1872,
+        "p99_9": 31044,
+        "max": 270114,
+        "min": 1716
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 78,
+        "min": 52
+      },
+      "above_3000_ns": 0,
+      "samples_sha256": "b3919034c4446ec6a91fb10e1ea38e3bdc3b954011635bb5c01d9b871fb543f9",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-screen-warm_16-tsc0-batch1-1",
+      "variant": "release",
+      "mode": "screen",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 2726271973674366976,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596105500502795,
+          2.596108100475755,
+          2.5961222511337314,
+          2.596121199183653,
+          2.596106800489275
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 111.0,
+        "p99": 160.0,
+        "p99_9": 511.0,
+        "max": 192366.0,
+        "min": 90.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 111,
+        "p99": 160,
+        "p99_9": 511,
+        "max": 192366,
+        "min": 90
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 45688,
+        "min": 20
+      },
+      "above_3000_ns": 47,
+      "samples_sha256": "593baa9b31aef95760c34b71391903fccef6d769bee7e33220024a34b26aac5a",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "native-screen-warm_16-tsc0-batch1-0",
+      "variant": "native",
+      "mode": "screen",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 863207542427200512,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596122375122737,
+          2.596123675117667,
+          2.596123673179511,
+          2.596123677055821,
+          2.596122379000343
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 110.0,
+        "p99": 120.0,
+        "p99_9": 450.0,
+        "max": 211174.0,
+        "min": 90.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 110,
+        "p99": 120,
+        "p99_9": 450,
+        "max": 211174,
+        "min": 90
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 1853,
+        "min": 20
+      },
+      "above_3000_ns": 32,
+      "samples_sha256": "060cec63aa1b0485de0debe4837368e40803579e4f06cd9a20e1270b3c3c2e41",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "cpp-screen-warm_4-tsc0-batch1-0",
+      "variant": "cpp",
+      "mode": "screen",
+      "corpus": "warm_4",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "passes": 200000,
+        "checksum": 8468964242513558528,
+        "input_records": 256,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false,
+        "batch_size": 1,
+        "tsc": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 70.0,
+        "p95": 90.0,
+        "p99": 100.0,
+        "p99_9": 220.0,
+        "max": 146388.0,
+        "min": 50.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 70,
+        "p95": 90,
+        "p99": 100,
+        "p99_9": 220,
+        "max": 146388,
+        "min": 50
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 13921,
+        "min": 20
+      },
+      "above_3000_ns": 30,
+      "samples_sha256": "27519091c9e2cb7ec2f6cdc8c4f6f990b7a7be2d02b087d3774ec2422a9d7e7a",
+      "corpus_sha256": "cbc080f81833f854554862b880bec92296fe3f1b6e1b670e1462c222d9d72587"
+    },
+    {
+      "label": "native-event_reference_final-warm_16-tsc0-batch1-0",
+      "variant": "native",
+      "mode": "event_reference_final",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596121073188351,
+          2.596123675117667,
+          2.596123673179511,
+          2.596122377061541,
+          2.5961249731750913
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 510.0,
+        "p95": 560.0,
+        "p99": 741.0,
+        "p99_9": 3435.0,
+        "max": 440596.0,
+        "min": 460.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 510,
+        "p95": 560,
+        "p99": 741,
+        "p99_9": 3435,
+        "max": 440596,
+        "min": 460
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 226,
+      "samples_sha256": "9dfb05e92eb048ae6eea02e98cc012a861d03216c96354e72abe2cb44243f043",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-event_reference_final-warm_16-tsc0-batch1-0",
+      "variant": "release",
+      "mode": "event_reference_final",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596100304456529,
+          2.5961067985426944,
+          2.596119780953183,
+          2.596122379000343,
+          2.596104202464193
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 521.0,
+        "p95": 571.0,
+        "p99": 801.0,
+        "p99_9": 3405.0,
+        "max": 217935.0,
+        "min": 470.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 521,
+        "p95": 571,
+        "p99": 801,
+        "p99_9": 3405,
+        "max": 217935,
+        "min": 470
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 120,
+        "min": 20
+      },
+      "above_3000_ns": 222,
+      "samples_sha256": "94971f7af8e3f4b36ae348aef5c364579d5a777811e360a552e7e38e291e9528",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-eye-warm_16-tsc0-batch1-0",
+      "variant": "release",
+      "mode": "eye",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 4365752,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5960847300833314,
+          2.5960990142237024,
+          2.5961014804858276,
+          2.596070330010101,
+          2.5961080985298244
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 30.0,
+        "p95": 30.0,
+        "p99": 31.0,
+        "p99_9": 161.0,
+        "max": 59428.0,
+        "min": 20.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 30,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 161,
+        "max": 59428,
+        "min": 20
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 60,
+        "min": 20
+      },
+      "above_3000_ns": 7,
+      "samples_sha256": "31063ee512152487ee3d951bd6b20bccc24fe947c031b94e2a4360d6576bfc8d",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "cpp-screen-mixed_16-tsc0-batch1-1",
+      "variant": "cpp",
+      "mode": "screen",
+      "corpus": "mixed_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "passes": 99916,
+        "checksum": 4171664507010131787,
+        "input_records": 128,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false,
+        "batch_size": 1,
+        "tsc": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 110.0,
+        "p95": 131.0,
+        "p99": 160.0,
+        "p99_9": 220.0,
+        "max": 173859.0,
+        "min": 20.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 110,
+        "p95": 131,
+        "p99": 160,
+        "p99_9": 220,
+        "max": 173859,
+        "min": 20
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 40,
+        "min": 20
+      },
+      "above_3000_ns": 33,
+      "samples_sha256": "09025e2c5875a074b9eb0ee82d60595611b7267a566a3d000cb2b162ed5bbc82",
+      "corpus_sha256": "6fedeea9b71ab52216c8acef0b391ec68f9268eb2fa3070eedb1c9f418c043eb"
+    },
+    {
+      "label": "release-packed-warm_16-tsc1-batch1-1",
+      "variant": "release",
+      "mode": "packed",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 90636,
+        "checksum": 95167,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.5960951142779116,
+          2.59610550439725,
+          2.5960625361146517,
+          2.5960573441398873,
+          2.5960573441398873
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 30.045501183009726,
+        "p95": 30.045501183009726,
+        "p99": 30.045501183009726,
+        "p99_9": 40.06066824401297,
+        "max": 25268.266494911182,
+        "min": 20.030334122006487
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 78,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 104,
+        "max": 65598,
+        "min": 52
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 78,
+        "min": 52
+      },
+      "above_3000_ns": 4,
+      "samples_sha256": "c5745b8d9849806bf9005955ac207a84765f9aeccff483963931ecfe903fc8c9",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "thin-screen-warm_16-tsc0-batch1-2",
+      "variant": "thin",
+      "mode": "screen",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 2757188227953690624,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596104206359944,
+          2.596097580536332,
+          2.596069782785319,
+          2.596063834111588,
+          2.5960781121635503
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 130.0,
+        "p99": 171.0,
+        "p99_9": 530.0,
+        "max": 1698859.0,
+        "min": 90.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 130,
+        "p99": 171,
+        "p99_9": 530,
+        "max": 1698859,
+        "min": 90
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 10586,
+        "min": 20
+      },
+      "above_3000_ns": 44,
+      "samples_sha256": "d26c8da951de80eab700d9150fda501870afb9a8872662fb168d4f8423dd99ce",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "fat-compact-warm_16-tsc1-batch128-1",
+      "variant": "fat",
+      "mode": "compact",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060519,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.5960704519514244,
+          2.596089792367812,
+          2.596088626102219,
+          2.596052154159752,
+          2.5960456662267983
+        ],
+        "commercial_admission": false
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "stats_ns": {
+        "n": 10000,
+        "p50": 5.47702778609571,
+        "p95": 5.633514294269873,
+        "p99": 6.572433343314852,
+        "p99_9": 341.2970743278498,
+        "max": 793.3083531889201,
+        "min": 5.164054769747384
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1820,
+        "p95": 1872,
+        "p99": 2184,
+        "p99_9": 113412,
+        "max": 263614,
+        "min": 1716
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 78,
+        "min": 52
+      },
+      "above_3000_ns": 0,
+      "samples_sha256": "946afb45e7438d1348ac3cd7bd7b9e6b091df667a6c64e3c194ae5d7f3a1fde6",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-flushed-warm_16-tsc0-batch1-0",
+      "variant": "release",
+      "mode": "flushed",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 20000,
+        "batch_size": 1,
+        "nonzero_samples": 20000,
+        "checksum": 13213649035790252032,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5960715985506053,
+          2.5960690280777494,
+          2.5960703280453155,
+          2.5959280631905637,
+          2.596091092347077
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 20000,
+        "p50": 561.0,
+        "p95": 821.0,
+        "p99": 1142.0,
+        "p99_9": 17006.0,
+        "max": 174279.0,
+        "min": 320.0
+      },
+      "raw_stats": {
+        "n": 20000,
+        "p50": 561,
+        "p95": 821,
+        "p99": 1142,
+        "p99_9": 17006,
+        "max": 174279,
+        "min": 320
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 17236,
+        "min": 20
+      },
+      "above_3000_ns": 26,
+      "samples_sha256": "c2d87e09e588ff16cb50ceb7b79bab1f3cbdad7b656b278dade9e461e5fa27c9",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "thin-event_reference_final-warm_16-tsc0-batch1-0",
+      "variant": "thin",
+      "mode": "event_reference_final",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596082118376436,
+          2.596105496608332,
+          2.5960923708347248,
+          2.5960106182988163,
+          2.596036626446653
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 501.0,
+        "p95": 772.0,
+        "p99": 1012.0,
+        "p99_9": 30505.0,
+        "max": 1485921.0,
+        "min": 460.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 501,
+        "p95": 772,
+        "p99": 1012,
+        "p99_9": 30505,
+        "max": 1485921,
+        "min": 460
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 140,
+        "max": 47981,
+        "min": 20
+      },
+      "above_3000_ns": 538,
+      "samples_sha256": "4fe0bb9b2c2e319a91643595b032dbfc9e706db69340731d08c2baa64c1f2576",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "native-compact-warm_16-tsc1-batch128-0",
+      "variant": "native",
+      "mode": "compact",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060600,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.5961210770672607,
+          2.596123673179511,
+          2.596123677055821,
+          2.596123673179511,
+          2.596123673179511
+        ],
+        "commercial_admission": false
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "stats_ns": {
+        "n": 10000,
+        "p50": 5.476915505564527,
+        "p95": 5.633398805723513,
+        "p99": 5.633398805723513,
+        "p99_9": 107.26930225898523,
+        "max": 1225.9684150955798,
+        "min": 5.163948905246555
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1820,
+        "p95": 1872,
+        "p99": 1872,
+        "p99_9": 35646,
+        "max": 407394,
+        "min": 1716
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 78,
+        "min": 52
+      },
+      "above_3000_ns": 0,
+      "samples_sha256": "a84fcda8e383eb2d087cf7cfcd095e0e4f80688906486a7d734535140c08ef04",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "thin-screen-warm_16-tsc0-batch1-1",
+      "variant": "thin",
+      "mode": "screen",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 2726271973674366976,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596083434023097,
+          2.596100304456529,
+          2.5961003142056325,
+          2.5961067985426944,
+          2.5960938245190133
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 111.0,
+        "p99": 150.0,
+        "p99_9": 541.0,
+        "max": 2127046.0,
+        "min": 90.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 111,
+        "p99": 150,
+        "p99_9": 541,
+        "max": 2127046,
+        "min": 90
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 200,
+        "min": 20
+      },
+      "above_3000_ns": 63,
+      "samples_sha256": "fb480954e651db72a2eb2e2c3c73fc0907ee675cd1ea45cd3ba9386647826d9c",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "native-compact-warm_16-tsc1-batch128-2",
+      "variant": "native",
+      "mode": "compact",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060616,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.5961210712488936,
+          2.596122375122737,
+          2.596123678993973,
+          2.5961249731750913,
+          2.5961237287542795
+        ],
+        "commercial_admission": false
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "stats_ns": {
+        "n": 10000,
+        "p50": 5.476915493298041,
+        "p95": 5.633398793106556,
+        "p99": 6.337573642244876,
+        "p99_9": 444.8820213556094,
+        "max": 1450.6784308748424,
+        "min": 5.085707243776752
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1820,
+        "p95": 1872,
+        "p99": 2106,
+        "p99_9": 147836,
+        "max": 482066,
+        "min": 1690
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 75140,
+        "min": 52
+      },
+      "above_3000_ns": 0,
+      "samples_sha256": "639978dad8365badd09cd3736fcccf96914644228aec157726b0e4f3eb43cdce",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-branchy-warm_16-tsc1-batch128-2",
+      "variant": "release",
+      "mode": "branchy",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060616,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.5960690064578245,
+          2.5961067985426944,
+          2.596106796596112,
+          2.5961054985555645,
+          2.5961055063444745
+        ],
+        "commercial_admission": false
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "stats_ns": {
+        "n": 10000,
+        "p50": 5.78992262189113,
+        "p95": 5.868164819484254,
+        "p99": 6.0246492146705,
+        "p99_9": 145.92169851117512,
+        "max": 597.9268740066489,
+        "min": 5.476953831518637
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1924,
+        "p95": 1950,
+        "p99": 2002,
+        "p99_9": 48490,
+        "max": 198692,
+        "min": 1820
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 78,
+        "min": 52
+      },
+      "above_3000_ns": 0,
+      "samples_sha256": "c3f15a1625552a4b1ba470b93490c8938fb3471fcbe569313f1124ab0c5c4426",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-guard_copy-warm_16-tsc0-batch1-2",
+      "variant": "release",
+      "mode": "guard_copy",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 2757188227953690624,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596090487728293,
+          2.5960821399243454,
+          2.596102772674639,
+          2.596007910625167,
+          2.5960781102026464
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 140.0,
+        "p95": 151.0,
+        "p99": 230.0,
+        "p99_9": 611.0,
+        "max": 5131903.0,
+        "min": 130.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 140,
+        "p95": 151,
+        "p99": 230,
+        "p99_9": 611,
+        "max": 5131903,
+        "min": 130
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 111,
+        "min": 20
+      },
+      "above_3000_ns": 67,
+      "samples_sha256": "1b9272bcd9b45f877de714d3ff786303e3c3e917e35e800d30d78621537f8aad",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-event-warm_16-tsc0-batch1-1",
+      "variant": "release",
+      "mode": "event",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5960612400883396,
+          2.595998889858227,
+          2.5961003122558157,
+          2.596070326080527,
+          2.5960690320086193
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 271.0,
+        "p95": 311.0,
+        "p99": 451.0,
+        "p99_9": 1142.0,
+        "max": 2041158.0,
+        "min": 240.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 271,
+        "p95": 311,
+        "p99": 451,
+        "p99_9": 1142,
+        "max": 2041158,
+        "min": 240
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 122,
+      "samples_sha256": "0ee6a4bfe7974c8c1ba2554ed9e0880810a6b2f25cc34fd7bd7fee6572ea3ef7",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-chain_control-warm_16-tsc1-batch128-2",
+      "variant": "release",
+      "mode": "chain_control",
+      "corpus": "warm_16",
+      "rep": 2,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1074217,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.5960781121635503,
+          2.596085904172116,
+          2.5960847281257307,
+          2.596101610289227,
+          2.5959820628394583
+        ],
+        "commercial_admission": false
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "stats_ns": {
+        "n": 10000,
+        "p50": 4.851055076731715,
+        "p95": 4.929297900549969,
+        "p99": 4.929297900549969,
+        "p99_9": 22.846904554930013,
+        "max": 857.4631062242398,
+        "min": 4.851055076731715
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 1612,
+        "p95": 1638,
+        "p99": 1638,
+        "p99_9": 7592,
+        "max": 284934,
+        "min": 1612
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 104,
+        "min": 52
+      },
+      "above_3000_ns": 0,
+      "samples_sha256": "95c9570ccb431afe9d721e8761240def358d75cff4b616bad98c436cf4ddbf26",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-event_final-warm_16-tsc0-batch1-0",
+      "variant": "release",
+      "mode": "event_final",
+      "corpus": "warm_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.596105449290499,
+          2.596108100475755,
+          2.596106672631935,
+          2.5961003122558157,
+          2.596106674578576
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 381.0,
+        "p95": 431.0,
+        "p99": 621.0,
+        "p99_9": 1302.0,
+        "max": 449288.0,
+        "min": 350.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 381,
+        "p95": 431,
+        "p99": 621,
+        "p99_9": 1302,
+        "max": 449288,
+        "min": 350
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 146,
+      "samples_sha256": "ab3ef78e8ad7fb7d71a0ce0f71d95d62e3f079cdd0bf6745c1eb1cf9e8913d58",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-packed-warm_16-tsc1-batch128-1",
+      "variant": "release",
+      "mode": "packed",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 10000,
+        "batch_size": 128,
+        "nonzero_samples": 10000,
+        "checksum": 1060519,
+        "tsc": true,
+        "tsc_ticks_per_ns": [
+          2.5960768141523363,
+          2.5960703280453155,
+          2.5960703280453155,
+          2.596104202464193,
+          2.5961068024358536
+        ],
+        "commercial_admission": false
+      },
+      "metric": "dependency_chain_batch_mean_ns",
+      "stats_ns": {
+        "n": 10000,
+        "p50": 6.494174173927467,
+        "p95": 6.650660298600418,
+        "p99": 7.902549295984027,
+        "p99_9": 275.72855167373973,
+        "max": 572.3480009913184,
+        "min": 6.337688049254517
+      },
+      "raw_stats": {
+        "n": 10000,
+        "p50": 2158,
+        "p95": 2210,
+        "p99": 2626,
+        "p99_9": 91624,
+        "max": 190190,
+        "min": 2106
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 52,
+        "p95": 78,
+        "p99": 78,
+        "p99_9": 78,
+        "max": 78,
+        "min": 52
+      },
+      "above_3000_ns": 0,
+      "samples_sha256": "ec3d1d10ea7eacc48efd78c3400c0804d5427cb800d7dcd2b60096a17e170341",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "cpp-screen-mixed_16-tsc0-batch1-0",
+      "variant": "cpp",
+      "mode": "screen",
+      "corpus": "mixed_16",
+      "rep": 0,
+      "metadata": {
+        "samples": 200000,
+        "passes": 99705,
+        "checksum": 11834445650824872775,
+        "input_records": 128,
+        "candidate_bytes": 1792,
+        "cpu_affinity": 0,
+        "clock_resolution_ns": 1,
+        "input_flush_requested": false,
+        "commercial_admission": false,
+        "batch_size": 1,
+        "tsc": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 110.0,
+        "p95": 150.0,
+        "p99": 190.0,
+        "p99_9": 401.0,
+        "max": 201790.0,
+        "min": 20.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 110,
+        "p95": 150,
+        "p99": 190,
+        "p99_9": 401,
+        "max": 201790,
+        "min": 20
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 30,
+        "p99_9": 31,
+        "max": 60740,
+        "min": 20
+      },
+      "above_3000_ns": 48,
+      "samples_sha256": "109c588ba589493a440a8f50a0f81135717ec2922421dbfbb0aa34bb72ce68ea",
+      "corpus_sha256": "6fedeea9b71ab52216c8acef0b391ec68f9268eb2fa3070eedb1c9f418c043eb"
+    },
+    {
+      "label": "release-screen-mixed_16-tsc0-batch1-1",
+      "variant": "release",
+      "mode": "screen",
+      "corpus": "mixed_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 7704079179936027377,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5961055024500235,
+          2.59607824392558,
+          2.5960949864274463,
+          2.596102906375414,
+          2.596122379000343
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 100.0,
+        "p95": 110.0,
+        "p99": 120.0,
+        "p99_9": 320.0,
+        "max": 198505.0,
+        "min": 30.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 100,
+        "p95": 110,
+        "p99": 120,
+        "p99_9": 320,
+        "max": 198505,
+        "min": 30
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 80,
+        "min": 20
+      },
+      "above_3000_ns": 33,
+      "samples_sha256": "d850b806254b57b8f605a1e5065a7fe44d1584e324ef2cec76fd188b72c0e7da",
+      "corpus_sha256": "6fedeea9b71ab52216c8acef0b391ec68f9268eb2fa3070eedb1c9f418c043eb"
+    },
+    {
+      "label": "fat-event_reference_final-warm_16-tsc0-batch1-1",
+      "variant": "fat",
+      "mode": "event_reference_final",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 200000,
+        "checksum": 420000,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5961210770672607,
+          2.5961079648337146,
+          2.5960730479637255,
+          2.5961223809391427,
+          2.596085902215104
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 491.0,
+        "p95": 701.0,
+        "p99": 852.0,
+        "p99_9": 6059.0,
+        "max": 1738077.0,
+        "min": 450.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 491,
+        "p95": 701,
+        "p99": 852,
+        "p99_9": 6059,
+        "max": 1738077,
+        "min": 450
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 262,
+      "samples_sha256": "bdb16f7e445a819237376b0bad5e29a4ab29eef35ec33a5cbf4eef1852fc7997",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    },
+    {
+      "label": "release-branchy-warm_16-tsc0-batch1-1",
+      "variant": "release",
+      "mode": "branchy",
+      "corpus": "warm_16",
+      "rep": 1,
+      "metadata": {
+        "samples": 200000,
+        "batch_size": 1,
+        "nonzero_samples": 90636,
+        "checksum": 95167,
+        "tsc": false,
+        "tsc_ticks_per_ns": [
+          2.5961014804858276,
+          2.5961081024216837,
+          2.5960964005974336,
+          2.596108125086504,
+          2.596105368751581
+        ],
+        "commercial_admission": false
+      },
+      "metric": "individual_call_ns",
+      "stats_ns": {
+        "n": 200000,
+        "p50": 20.0,
+        "p95": 30.0,
+        "p99": 31.0,
+        "p99_9": 40.0,
+        "max": 98426.0,
+        "min": 20.0
+      },
+      "raw_stats": {
+        "n": 200000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 40,
+        "max": 98426,
+        "min": 20
+      },
+      "raw_clock_control": {
+        "n": 10000,
+        "p50": 20,
+        "p95": 30,
+        "p99": 31,
+        "p99_9": 31,
+        "max": 31,
+        "min": 20
+      },
+      "above_3000_ns": 7,
+      "samples_sha256": "d9bd73354b03662c4b08b9144d9f4ac6ff9000702f4cf002b6b4c726b0dce2e4",
+      "corpus_sha256": "fe9ac51113abf1a3c5a810e6889e835dfd9329d7778392c254fced1c44c58e8c"
+    }
+  ]
+}

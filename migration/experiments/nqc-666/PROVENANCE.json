@@ -1,0 +1,71 @@
+{
+  "research": "NQC 666 — Tercer Ojo, Cerebros, Cazadores y Guardianes",
+  "date": "2026-10-18",
+  "repository": "https://github.com/josuechavando350-png/nexus-quant-capital",
+  "branch": "research/nqc-666-third-eye-20261018",
+  "base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
+  "scope": "OFFLINE_EXPERIMENT_NO_COMMERCIAL_ADMISSION",
+  "final_source_matches_measured_run5": true,
+  "final_source_sha256": {
+    "src/bin/bench.rs": "fbc7c8539cd6fe5e0668c5f3f74cdf1f847e057c7ef553fdb039072e3a478660",
+    "src/bin/eval.rs": "72f2cdcf7f620961341e0e0454b80683c5845772937238b816c74d29b0fc2a64",
+    "src/engine.rs": "b86111eb4778f141b5527e60fd4b7801ec5c6558828c3f231e75605656f3dfc3",
+    "src/financial.rs": "06b397ff346e009623bdade9ed81f7d36090913ebc43049c2451949a6e1c2fc4",
+    "src/fixtures.rs": "a5a57f1b576caf61099becb4dcac4c076ef8c645f897269699dc1ea18643f2e0",
+    "src/lib.rs": "0a0b7ed63faaccb78ffad53941b702a0913e743023b29b8a92429f034236ccec",
+    "src/prepared.rs": "3b07e67a6680f0cd37d81b0c27eb4c48e787dd27601e93121c7d57cb19f86d71",
+    "src/third_eye.rs": "95235d4a104431e4251dfa80f5becec58bc5b2df64e9befd1ff0a4f3a16ad037"
+  },
+  "historical_files_sha256": {
+    "historical/NQC_019_CODIGO_Y_MEDICIONES.zip": "e7b533b5e583a2b07a95e345bec56504be4186abe491df1caf87abeda39b7a8a",
+    "historical/NQC_019_RESULTADOS.json": "f4c6883eeb3f1d6dbb084b825de9750333ac9777b8828a9d5b162758e7084784",
+    "historical/NQC_AUDIT_350.md": "6bfb3c2c8aa3836ccb10bc94f52f79e6e6a9a38602fa771198ae19bb1355fbd7"
+  },
+  "nqc019_origin": {
+    "title": "NQC_019_CODIGO_Y_MEDICIONES.zip",
+    "library_id": "libfile_3b5c8184f27c8191892e8527b2186d01",
+    "version": 1,
+    "original_manifest_verified": true,
+    "original_raw_results_verified": true
+  },
+  "agent_inventory_evidence": {
+    "commit": "6b3210a1ee73b5dd46eac7a728d6ed484276c3ac",
+    "path": "migration/audits/CROSS_REPO_EVIDENCE_2026-10-17.md",
+    "blob": "957cf17f82ddbc241f9074af561514bd2db24610",
+    "byte_identical_copy": true,
+    "status": "SECONDARY_AUDIT_ARCHITECTURE_ONLY_350_PLANNED_NOT_ACTIVE_PROOF"
+  },
+  "implemented": [
+    "exact bounded NQC019 financial screen port",
+    "private 24-byte temporal/generation filter",
+    "conditional third-eye assessment with explicit unknown and synthetic basis",
+    "256-slot deterministic tournament",
+    "local final financial and defensive recheck",
+    "calibrated individual and dependency-chain instruments"
+  ],
+  "verified": [
+    "20055 exact six-column C++/Rust outputs",
+    "12 parser rejections",
+    "8 Rust tests including 100000 temporal cases, 39 guard mutations and 4096 events",
+    "ASAN/UBSAN original corpus with leak detection disabled",
+    "rustfmt and clippy",
+    "9 isolation tests and immutable-source verifier",
+    "381 benchmark runs with all 58650000 timing windows retained"
+  ],
+  "failed_or_unproven": [
+    "LeakSanitizer unavailable due proc/ptrace environment",
+    "5 ns individual latency not demonstrated",
+    "C++ to Rust p99.9 regression unresolved",
+    "no worst-case bound established"
+  ],
+  "pending": [
+    "authenticated canonical Morpho snapshot adapter with exact U256/IRM rounding",
+    "real pricing and EVM binding/simulation",
+    "pending transaction feed",
+    "socket-to-candidate and builder end-to-end measurements",
+    "mass-expiry/fanout and scale beyond 256 benchmarks",
+    "external financing/nonrecourse validation belongs to NQC031/032"
+  ],
+  "commercial_admission": false,
+  "source_archive_note": "run5 snapshot includes a harmless Python bytecode cache generated during PGO script import; retained unchanged as recorded. Live source tree excludes caches."
+}

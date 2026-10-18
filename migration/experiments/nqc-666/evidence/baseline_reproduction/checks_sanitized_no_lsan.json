@@ -1,0 +1,515 @@
+{
+  "status": "PASS_OFFLINE_ONLY",
+  "explicit_controls": 55,
+  "parser_rejections": 12,
+  "random_differential_cases": 20000,
+  "total_comparisons": 20055,
+  "mismatches": 0,
+  "synthetic_screens_passed": 4047,
+  "seed": 190018,
+  "input_sha256": "096368565aad9ebe7407ad284fb0f8053735f15f61888d464849c53a0bfe4a72",
+  "binary_sha256": "ab65540f9ca9380449b415d82d5bf4b0965c4a5f221d566b76f09683e1b1764f",
+  "explicit_results": [
+    {
+      "case": "valid",
+      "reasons": 0,
+      "labels": [],
+      "matched": true
+    },
+    {
+      "case": "unknown_evidence_0",
+      "reasons": 2,
+      "labels": [
+        "EVIDENCE_MISSING"
+      ],
+      "matched": true
+    },
+    {
+      "case": "unknown_evidence_1",
+      "reasons": 2,
+      "labels": [
+        "EVIDENCE_MISSING"
+      ],
+      "matched": true
+    },
+    {
+      "case": "unknown_evidence_2",
+      "reasons": 2,
+      "labels": [
+        "EVIDENCE_MISSING"
+      ],
+      "matched": true
+    },
+    {
+      "case": "unknown_evidence_3",
+      "reasons": 2,
+      "labels": [
+        "EVIDENCE_MISSING"
+      ],
+      "matched": true
+    },
+    {
+      "case": "unknown_evidence_4",
+      "reasons": 2,
+      "labels": [
+        "EVIDENCE_MISSING"
+      ],
+      "matched": true
+    },
+    {
+      "case": "unknown_evidence_5",
+      "reasons": 2,
+      "labels": [
+        "EVIDENCE_MISSING"
+      ],
+      "matched": true
+    },
+    {
+      "case": "unknown_advance",
+      "reasons": 16,
+      "labels": [
+        "FUNDING_UNKNOWN"
+      ],
+      "matched": true
+    },
+    {
+      "case": "other_chain",
+      "reasons": 4,
+      "labels": [
+        "STATE_MISMATCH"
+      ],
+      "matched": true
+    },
+    {
+      "case": "mixed_block",
+      "reasons": 4,
+      "labels": [
+        "STATE_MISMATCH"
+      ],
+      "matched": true
+    },
+    {
+      "case": "reorg_same_height",
+      "reasons": 4,
+      "labels": [
+        "STATE_MISMATCH"
+      ],
+      "matched": true
+    },
+    {
+      "case": "wrong_transaction_index",
+      "reasons": 4,
+      "labels": [
+        "STATE_MISMATCH"
+      ],
+      "matched": true
+    },
+    {
+      "case": "zero_hash",
+      "reasons": 4,
+      "labels": [
+        "STATE_MISMATCH"
+      ],
+      "matched": true
+    },
+    {
+      "case": "epoch_changed",
+      "reasons": 32768,
+      "labels": [
+        "GENERATION_CHANGED"
+      ],
+      "matched": true
+    },
+    {
+      "case": "zero_epoch",
+      "reasons": 32768,
+      "labels": [
+        "GENERATION_CHANGED"
+      ],
+      "matched": true
+    },
+    {
+      "case": "late_at_cutoff",
+      "reasons": 8,
+      "labels": [
+        "TIME_INVALID"
+      ],
+      "matched": true
+    },
+    {
+      "case": "deadline_exact_budget",
+      "reasons": 8,
+      "labels": [
+        "TIME_INVALID"
+      ],
+      "matched": true
+    },
+    {
+      "case": "expired_funding",
+      "reasons": 8,
+      "labels": [
+        "TIME_INVALID"
+      ],
+      "matched": true
+    },
+    {
+      "case": "funding_expires_during_send",
+      "reasons": 8,
+      "labels": [
+        "TIME_INVALID"
+      ],
+      "matched": true
+    },
+    {
+      "case": "stale_input",
+      "reasons": 8,
+      "labels": [
+        "TIME_INVALID"
+      ],
+      "matched": true
+    },
+    {
+      "case": "clock_reversed",
+      "reasons": 8,
+      "labels": [
+        "TIME_INVALID"
+      ],
+      "matched": true
+    },
+    {
+      "case": "unknown_cutoff",
+      "reasons": 8,
+      "labels": [
+        "TIME_INVALID"
+      ],
+      "matched": true
+    },
+    {
+      "case": "unknown_age_budget",
+      "reasons": 8,
+      "labels": [
+        "TIME_INVALID"
+      ],
+      "matched": true
+    },
+    {
+      "case": "unknown_send_budget",
+      "reasons": 8,
+      "labels": [
+        "TIME_INVALID"
+      ],
+      "matched": true
+    },
+    {
+      "case": "capital_not_zero",
+      "reasons": 4352,
+      "labels": [
+        "RESIDUAL_FINANCING",
+        "PERSONAL_CAPITAL"
+      ],
+      "matched": true
+    },
+    {
+      "case": "funding_one_wei_short",
+      "reasons": 32,
+      "labels": [
+        "PREFIX_INSUFFICIENT"
+      ],
+      "matched": true
+    },
+    {
+      "case": "funding_extra_is_not_profit",
+      "reasons": 384,
+      "labels": [
+        "FUNDING_CAP",
+        "RESIDUAL_FINANCING"
+      ],
+      "matched": true
+    },
+    {
+      "case": "maxfee_raise",
+      "reasons": 32,
+      "labels": [
+        "PREFIX_INSUFFICIENT"
+      ],
+      "matched": true
+    },
+    {
+      "case": "payout_missing",
+      "reasons": 512,
+      "labels": [
+        "PROPOSER_UNPAID"
+      ],
+      "matched": true
+    },
+    {
+      "case": "payout_short",
+      "reasons": 512,
+      "labels": [
+        "PROPOSER_UNPAID"
+      ],
+      "matched": true
+    },
+    {
+      "case": "sponsor_loses_owner_gains",
+      "reasons": 1024,
+      "labels": [
+        "SPONSOR_MARGIN"
+      ],
+      "matched": true
+    },
+    {
+      "case": "sponsor_unknown_minimum",
+      "reasons": 1024,
+      "labels": [
+        "SPONSOR_MARGIN"
+      ],
+      "matched": true
+    },
+    {
+      "case": "owner_zero",
+      "reasons": 2048,
+      "labels": [
+        "OPERATOR_MARGIN"
+      ],
+      "matched": true
+    },
+    {
+      "case": "owner_below_minimum",
+      "reasons": 2048,
+      "labels": [
+        "OPERATOR_MARGIN"
+      ],
+      "matched": true
+    },
+    {
+      "case": "incomplete",
+      "reasons": 8192,
+      "labels": [
+        "PACKAGE_INCOMPLETE"
+      ],
+      "matched": true
+    },
+    {
+      "case": "cap_short",
+      "reasons": 128,
+      "labels": [
+        "FUNDING_CAP"
+      ],
+      "matched": true
+    },
+    {
+      "case": "sponsor_reserve_short",
+      "reasons": 16384,
+      "labels": [
+        "SPONSOR_RESERVE"
+      ],
+      "matched": true
+    },
+    {
+      "case": "sum_overflow",
+      "reasons": 64,
+      "labels": [
+        "OVERFLOW"
+      ],
+      "matched": true
+    },
+    {
+      "case": "overhead_reserve_overflow",
+      "reasons": 64,
+      "labels": [
+        "OVERFLOW"
+      ],
+      "matched": true
+    },
+    {
+      "case": "balance_overflow",
+      "reasons": 64,
+      "labels": [
+        "OVERFLOW"
+      ],
+      "matched": true
+    },
+    {
+      "case": "invalid_gas",
+      "reasons": 1,
+      "labels": [
+        "INVALID"
+      ],
+      "matched": true
+    },
+    {
+      "case": "invalid_fee",
+      "reasons": 1,
+      "labels": [
+        "INVALID"
+      ],
+      "matched": true
+    },
+    {
+      "case": "invalid_overhead",
+      "reasons": 1,
+      "labels": [
+        "INVALID"
+      ],
+      "matched": true
+    },
+    {
+      "case": "bad_flag",
+      "reasons": 1,
+      "labels": [
+        "INVALID"
+      ],
+      "matched": true
+    },
+    {
+      "case": "bad_evidence_mask",
+      "reasons": 1,
+      "labels": [
+        "INVALID"
+      ],
+      "matched": true
+    },
+    {
+      "case": "zero_steps",
+      "reasons": 1,
+      "labels": [
+        "INVALID"
+      ],
+      "matched": true
+    },
+    {
+      "case": "valid_1_steps",
+      "reasons": 0,
+      "labels": [],
+      "matched": true
+    },
+    {
+      "case": "valid_8_steps",
+      "reasons": 0,
+      "labels": [],
+      "matched": true
+    },
+    {
+      "case": "valid_16_steps",
+      "reasons": 0,
+      "labels": [],
+      "matched": true
+    },
+    {
+      "case": "funding_prefix_0",
+      "reasons": 0,
+      "labels": [],
+      "matched": true
+    },
+    {
+      "case": "funding_prefix_1",
+      "reasons": 0,
+      "labels": [],
+      "matched": true
+    },
+    {
+      "case": "funding_prefix_2",
+      "reasons": 0,
+      "labels": [],
+      "matched": true
+    },
+    {
+      "case": "funding_prefix_3",
+      "reasons": 0,
+      "labels": [],
+      "matched": true
+    },
+    {
+      "case": "reserve_add_overflow",
+      "reasons": 64,
+      "labels": [
+        "OVERFLOW"
+      ],
+      "matched": true
+    },
+    {
+      "case": "native_credit_not_pretended_funding",
+      "reasons": 0,
+      "labels": [],
+      "matched": true
+    }
+  ],
+  "nqc018_summary_only": [
+    {
+      "case": "shared_fixed_003",
+      "nqc018_local_gate_matched": true,
+      "commercial_screen": "BLOCKED_EVIDENCE_MISSING",
+      "new_EVM_execution": false
+    },
+    {
+      "case": "separate_reference_003",
+      "nqc018_local_gate_matched": true,
+      "commercial_screen": "BLOCKED_EVIDENCE_MISSING",
+      "new_EVM_execution": false
+    },
+    {
+      "case": "shared_gas_only_002",
+      "nqc018_local_gate_matched": true,
+      "commercial_screen": "BLOCKED_EVIDENCE_MISSING",
+      "new_EVM_execution": false
+    },
+    {
+      "case": "shared_full_002",
+      "nqc018_local_gate_matched": true,
+      "commercial_screen": "BLOCKED_EVIDENCE_MISSING",
+      "new_EVM_execution": false
+    },
+    {
+      "case": "shared_fixed_004",
+      "nqc018_local_gate_matched": true,
+      "commercial_screen": "BLOCKED_EVIDENCE_MISSING",
+      "new_EVM_execution": false
+    },
+    {
+      "case": "shared_requoted_002",
+      "nqc018_local_gate_matched": true,
+      "commercial_screen": "BLOCKED_EVIDENCE_MISSING",
+      "new_EVM_execution": false
+    },
+    {
+      "case": "shared_requoted_004",
+      "nqc018_local_gate_matched": true,
+      "commercial_screen": "BLOCKED_EVIDENCE_MISSING",
+      "new_EVM_execution": false
+    },
+    {
+      "case": "shared_full_capped",
+      "nqc018_local_gate_matched": true,
+      "commercial_screen": "BLOCKED_EVIDENCE_MISSING",
+      "new_EVM_execution": false
+    },
+    {
+      "case": "shared_zero_gas_only",
+      "nqc018_local_gate_matched": true,
+      "commercial_screen": "BLOCKED_EVIDENCE_MISSING",
+      "new_EVM_execution": false
+    },
+    {
+      "case": "shared_zero_full",
+      "nqc018_local_gate_matched": true,
+      "commercial_screen": "BLOCKED_EVIDENCE_MISSING",
+      "new_EVM_execution": false
+    },
+    {
+      "case": "shared_omitted_payout",
+      "nqc018_local_gate_matched": true,
+      "commercial_screen": "BLOCKED_EVIDENCE_MISSING",
+      "new_EVM_execution": false
+    },
+    {
+      "case": "shared_high_gas",
+      "nqc018_local_gate_matched": true,
+      "commercial_screen": "BLOCKED_EVIDENCE_MISSING",
+      "new_EVM_execution": false
+    }
+  ],
+  "new_evm_cases": 0,
+  "commercial_admission": false,
+  "historical_latency_11_us": "NOT_LOCATED_NOT_REFUTED"
+}

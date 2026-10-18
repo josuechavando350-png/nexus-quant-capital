@@ -1,0 +1,17 @@
+mkdir -p build/sanitized
+g++ -std=c++17 -O1 -g -Wall -Wextra -Werror -fno-omit-frame-pointer -fsanitize=address,undefined -c src/screen.cpp -o build/sanitized/screen.o
+g++ -std=c++17 -O1 -g -Wall -Wextra -Werror -fno-omit-frame-pointer -fsanitize=address,undefined src/eval.cpp build/sanitized/screen.o -o build/sanitized/eval
+ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 python3 tests/run_checks.py --binary build/sanitized/eval --output checks_sanitized.json
+Traceback (most recent call last):
+  File "/workspace/scratch/ad9470d27d07/out/baseline/tests/run_checks.py", line 86, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/workspace/scratch/ad9470d27d07/out/baseline/tests/run_checks.py", line 46, in main
+    if proc.returncode:raise RuntimeError(proc.stderr.decode())
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: ==18==Can't open /proc/17/task for reading.
+==17==LeakSanitizer has encountered a fatal error.
+==17==HINT: For debugging, try setting environment variable LSAN_OPTIONS=verbosity=1:log_threads=1
+==17==HINT: LeakSanitizer does not work under ptrace (strace, gdb, etc)
+
+make: *** [Makefile:21: sanitize] Error 1

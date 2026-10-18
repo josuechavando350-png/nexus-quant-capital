@@ -1,0 +1,79 @@
+python3 run_benchmark.py
+warm_16 0 {'n': 200000, 'p50_ns': 110, 'p95_ns': 130, 'p99_ns': 141, 'max_ns': 367366, 'min_ns': 100, 'above_3000_ns': 39, 'p99_target_met': True}
+flushed_16 0 {'n': 20000, 'p50_ns': 701, 'p95_ns': 991, 'p99_ns': 1202, 'max_ns': 247579, 'min_ns': 291, 'above_3000_ns': 33, 'p99_target_met': True}
+warm_4 0 {'n': 200000, 'p50_ns': 61, 'p95_ns': 90, 'p99_ns': 100, 'max_ns': 172087, 'min_ns': 50, 'above_3000_ns': 27, 'p99_target_met': True}
+mixed_16 0 {'n': 200000, 'p50_ns': 110, 'p95_ns': 140, 'p99_ns': 180, 'max_ns': 371793, 'min_ns': 20, 'above_3000_ns': 62, 'p99_target_met': True}
+mixed_16 1 {'n': 200000, 'p50_ns': 110, 'p95_ns': 140, 'p99_ns': 151, 'max_ns': 173108, 'min_ns': 20, 'above_3000_ns': 43, 'p99_target_met': True}
+warm_16 1 {'n': 200000, 'p50_ns': 110, 'p95_ns': 131, 'p99_ns': 180, 'max_ns': 270622, 'min_ns': 100, 'above_3000_ns': 50, 'p99_target_met': True}
+warm_4 1 {'n': 200000, 'p50_ns': 61, 'p95_ns': 90, 'p99_ns': 101, 'max_ns': 203392, 'min_ns': 50, 'above_3000_ns': 35, 'p99_target_met': True}
+flushed_16 1 {'n': 20000, 'p50_ns': 721, 'p95_ns': 1052, 'p99_ns': 1322, 'max_ns': 221800, 'min_ns': 310, 'above_3000_ns': 52, 'p99_target_met': True}
+warm_4 2 {'n': 200000, 'p50_ns': 70, 'p95_ns': 90, 'p99_ns': 111, 'max_ns': 449849, 'min_ns': 50, 'above_3000_ns': 73, 'p99_target_met': True}
+warm_16 2 {'n': 200000, 'p50_ns': 110, 'p95_ns': 131, 'p99_ns': 180, 'max_ns': 376040, 'min_ns': 100, 'above_3000_ns': 56, 'p99_target_met': True}
+mixed_16 2 {'n': 200000, 'p50_ns': 110, 'p95_ns': 140, 'p99_ns': 180, 'max_ns': 282661, 'min_ns': 20, 'above_3000_ns': 64, 'p99_target_met': True}
+flushed_16 2 {'n': 20000, 'p50_ns': 721, 'p95_ns': 1052, 'p99_ns': 1312, 'max_ns': 144194, 'min_ns': 300, 'above_3000_ns': 49, 'p99_target_met': True}
+flushed_16 3 {'n': 20000, 'p50_ns': 711, 'p95_ns': 1071, 'p99_ns': 1392, 'max_ns': 133548, 'min_ns': 310, 'above_3000_ns': 60, 'p99_target_met': True}
+warm_16 3 {'n': 200000, 'p50_ns': 110, 'p95_ns': 171, 'p99_ns': 200, 'max_ns': 178236, 'min_ns': 100, 'above_3000_ns': 58, 'p99_target_met': True}
+mixed_16 3 {'n': 200000, 'p50_ns': 181, 'p95_ns': 201, 'p99_ns': 220, 'max_ns': 219847, 'min_ns': 20, 'above_3000_ns': 50, 'p99_target_met': True}
+warm_4 3 {'n': 200000, 'p50_ns': 100, 'p95_ns': 120, 'p99_ns': 131, 'max_ns': 58397, 'min_ns': 70, 'above_3000_ns': 28, 'p99_target_met': True}
+flushed_16 4 {'n': 20000, 'p50_ns': 711, 'p95_ns': 1011, 'p99_ns': 1192, 'max_ns': 112298, 'min_ns': 291, 'above_3000_ns': 23, 'p99_target_met': True}
+mixed_16 4 {'n': 200000, 'p50_ns': 111, 'p95_ns': 190, 'p99_ns': 201, 'max_ns': 278635, 'min_ns': 20, 'above_3000_ns': 32, 'p99_target_met': True}
+warm_4 4 {'n': 200000, 'p50_ns': 61, 'p95_ns': 90, 'p99_ns': 91, 'max_ns': 85687, 'min_ns': 50, 'above_3000_ns': 25, 'p99_target_met': True}
+warm_16 4 {'n': 200000, 'p50_ns': 110, 'p95_ns': 131, 'p99_ns': 171, 'max_ns': 165126, 'min_ns': 100, 'above_3000_ns': 50, 'p99_target_met': True}
+{
+  "warm_4": {
+    "all_five_p99_at_most_3000ns": true,
+    "p50_range_ns": [
+      61,
+      100
+    ],
+    "p99_range_ns": [
+      91,
+      131
+    ],
+    "max_ns": 449849,
+    "samples": 1000000,
+    "above_3000_ns": 188
+  },
+  "warm_16": {
+    "all_five_p99_at_most_3000ns": true,
+    "p50_range_ns": [
+      110,
+      110
+    ],
+    "p99_range_ns": [
+      141,
+      200
+    ],
+    "max_ns": 376040,
+    "samples": 1000000,
+    "above_3000_ns": 253
+  },
+  "mixed_16": {
+    "all_five_p99_at_most_3000ns": true,
+    "p50_range_ns": [
+      110,
+      181
+    ],
+    "p99_range_ns": [
+      151,
+      220
+    ],
+    "max_ns": 371793,
+    "samples": 1000000,
+    "above_3000_ns": 251
+  },
+  "flushed_16": {
+    "all_five_p99_at_most_3000ns": true,
+    "p50_range_ns": [
+      701,
+      721
+    ],
+    "p99_range_ns": [
+      1192,
+      1392
+    ],
+    "max_ns": 247579,
+    "samples": 100000,
+    "above_3000_ns": 217
+  }
+}
