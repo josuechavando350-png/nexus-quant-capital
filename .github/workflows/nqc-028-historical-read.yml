@@ -19,6 +19,7 @@ jobs:
         env:
           BASE: 16e352225ba8a6a931834c4edf3d86d9a2924b7d
           SOURCE: ed211b138e14e58b50c6aae0858d906e292ce5a7
+          PREVIOUS: 93eb857d6af70ccbace7f382736a05bc2123802d
         run: |
           set -euo pipefail
           test "$GITHUB_REPOSITORY" = 'josuechavando350-png/nexus-quant-capital'
@@ -27,11 +28,12 @@ jobs:
           ROOT="$RUNNER_TEMP/nqc028-producer"
           git init "$ROOT"
           git -C "$ROOT" remote add origin https://github.com/josuechavando350-png/nexus-quant-capital.git
-          git -C "$ROOT" fetch --no-tags --depth=3 origin "$GITHUB_SHA"
+          git -C "$ROOT" fetch --no-tags --depth=4 origin "$GITHUB_SHA"
           git -C "$ROOT" checkout --detach FETCH_HEAD
           test "$(git -C "$ROOT" rev-parse HEAD)" = "$GITHUB_SHA"
-          test "$(git -C "$ROOT" rev-parse HEAD^)" = "$SOURCE"
-          test "$(git -C "$ROOT" rev-parse HEAD^^)" = "$BASE"
+          test "$(git -C "$ROOT" rev-parse HEAD^)" = "$PREVIOUS"
+          test "$(git -C "$ROOT" rev-parse HEAD^^)" = "$SOURCE"
+          test "$(git -C "$ROOT" rev-parse HEAD^^^)" = "$BASE"
           git -C "$ROOT" worktree add --detach "$RUNNER_TEMP/nqc028-base" "$BASE"
           python3 "$RUNNER_TEMP/nqc028-base/migration/verify_isolation.py" --root "$RUNNER_TEMP/nqc028-base"
           (cd "$RUNNER_TEMP/nqc028-base" && python3 -m unittest discover -v -s migration -p test_isolation.py)
@@ -44,7 +46,7 @@ jobs:
           assert set(changes)=={'A\t'+n for n in allowed}, changes
           r=subprocess.run(['python3',root+'/migration/verify_isolation.py','--root',root],text=True,capture_output=True)
           print('NQC028_ISOLATION '+json.dumps({'base_verified':True,'additive_only_verified':True,'producer_global_verifier_rc':r.returncode,'producer_global_verifier_output':r.stdout+r.stderr,'producer_sha':os.environ['GITHUB_SHA'],'source_sha':os.environ['SOURCE']}))
-          assert r.returncode!=0 and 'workflow' in (r.stdout+r.stderr).lower(), 'unexpected producer verifier result'
+          assert r.returncode==1 and (r.stdout+r.stderr).strip()=='ISOLATION_FAILED: forbidden active/client tree', 'unexpected producer verifier result'
           PY
       - name: Decode pinned collector and run local safety tests
         shell: bash
