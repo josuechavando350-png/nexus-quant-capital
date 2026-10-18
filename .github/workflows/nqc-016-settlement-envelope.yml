@@ -1,0 +1,27 @@
+name: NQC 016 - conditional settlement without fixed return
+run-name: NQC016 local settlement - ${{ github.sha }}
+on:
+  push:
+    branches: [research/nqc-016-settlement-envelope-20261017]
+    paths: [.github/workflows/nqc-016-settlement-envelope.yml, migration/experiments/nqc-016-settlement-envelope-20261017/**]
+permissions: {}
+jobs:
+  local-settlement:
+    if: github.repository == 'josuechavando350-png/nexus-quant-capital' && github.event.repository.private == false && github.run_attempt == 1 && github.event.head_commit.message == 'NQC016_APPROVED_LOCAL_SETTLEMENT_ONCE'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - name: Exact NQC producer; local unsigned experiment only
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = josuechavando350-png/nexus-quant-capital
+          test "$GITHUB_REF" = refs/heads/research/nqc-016-settlement-envelope-20261017
+          git init -q "$RUNNER_TEMP/nqc016-producer"
+          git -C "$RUNNER_TEMP/nqc016-producer" remote add origin https://github.com/josuechavando350-png/nexus-quant-capital.git
+          git -C "$RUNNER_TEMP/nqc016-producer" fetch --depth=1 origin "$GITHUB_SHA"
+          git -C "$RUNNER_TEMP/nqc016-producer" checkout --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/nqc016-producer" rev-parse HEAD)" = "$GITHUB_SHA"
+          python3 -m venv "$RUNNER_TEMP/nqc016-venv"
+          "$RUNNER_TEMP/nqc016-venv/bin/python" -m pip install --disable-pip-version-check --no-cache-dir --no-deps --only-binary=:all: pycryptodome==3.23.0
+          "$RUNNER_TEMP/nqc016-venv/bin/python" "$RUNNER_TEMP/nqc016-producer/migration/experiments/nqc-016-settlement-envelope-20261017/experiment.py"

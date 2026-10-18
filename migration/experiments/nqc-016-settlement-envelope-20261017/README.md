@@ -1,0 +1,17 @@
+# NQC 016: anticipo variable, pago bruto y sobrante sin adjudicar
+
+Objetivo: distinguir una devolucion fija de una liquidacion economica condicionada sin esa transaccion. No se propone apropiarse del anticipo ni se presupone permiso del proveedor. NO cambia ningun contrato: usa la propuesta compilada y probada de NQC015, con su ABI fijada y bytecodes originales Morpho/V2 recuperados por SHA-256. Base productor 6da36867faad9f915355188dbefd890a7498d93f; base Astra f9d876990a85e55ba196702c32fe3668b49fda71.
+
+El control conserva la devolucion exacta de laboratorio. Las variantes la omiten como HIPOTESIS de liquidacion, no como politica de Titan. Se agrega un pago realmente ejecutado del builder al proponente de 0.04 ETH (o 0.07 para un control), valores ELEGIDOS en laboratorio, no pujas reales ni precios ofertados. Beneficiario del encabezado = builder excepto control de identidad. Se concilian los creditos de prioridad por cuenta y se incluyen el pago final al proponente y su gas; no restarlos dos veces.
+
+Diez casos: control exacto; anticipo 0.02/0.03/0.04 sin retorno fijo; 0.06 y 0.10 con financiador en perdida; anticipo 0.001 insuficiente; pago al proponente 0.07; header incorrecto; gas efectivo 21 gwei con anticipo 0.3. ETH que queda en NQC se etiqueta financiacion sin derechos resueltos, nunca ingreso. WETH nuevo sigue siendo resultado sintetico. P&L comercial y no recurso permanecen UNKNOWN aunque la caja sea favorable.
+
+Se fijan antes de ejecutar los criterios: cierre de deuda, deployments exitosos/codigo, InvalidPlan exacto para header errado, una transferencia de 0.09 ETH del ejecutor al builder, pago final al proponente realmente cobrado, reservas por prefijo, conciliacion nativa/token y gas. El prefiltro distingue negocio completado del antiguo flag EVM_LOCAL_PASS que exige U; ese flag se conserva sin cambiar para las variantes sin retorno. Rutas incompletas y participantes en perdida NO se admiten por tener WETH positivo.
+
+La matriz corre unsigned en loopback 31337 sin fork, claves ni dinero real; herramientas fijadas heredadas de 015. El override del pool no desactiva saldos EVM ni simula la politica real del builder. No demuestra rollback comun, disponibilidad de fondos, cobertura juridica, recepcion de Titan/Quasar, un mercado historico ni captura.
+
+`python3 experiment.py --unit` ejecuta 16 pruebas del criterio contable, no EVM. La prueba completa requiere el workflow manualmente autorizado por el usuario y fijado al marcador NQC016_APPROVED_LOCAL_SETTLEMENT_ONCE, rama especifica, intento 1 y runner estandar gratuito en repositorio publico. Sin cache, artefactos, secretos ni permisos de escritura; limite 6 minutos. Solo se inicia por el commit de esta rama. Logs exportan entradas/salidas verificables con gzip SHA-256 y resumen. No cambiar main, otras ramas, originales ni repositorios externos.
+
+Fuentes publicas de contexto consultadas: https://docs.titanbuilder.xyz/api/eth_sendbundle ; https://docs.quasar.win/api/eth_sendbundle ; https://eips.ethereum.org/EIPS/eip-1559 . Las dos primeras describen capacidad de patrocinio y beneficio builder, pero no acreditan esta modalidad ni la titularidad del sobrante. Pregunta al auditor: que politica aplicable exige o dispensa U y como liquida cada obligacion, sin convertir la ausencia de texto en consentimiento.
+
+El director no enviara esta secuencia a un proveedor. Resultados definitivos deben leerse del job exacto y conciliarse; este README no es una declaracion de PASS.
