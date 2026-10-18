@@ -1,0 +1,42 @@
+name: NQC 021 fixed requests and net settlement boundary
+on:
+  push:
+    branches: [research/nqc-021-titan-net-boundary-20261018]
+    paths: [.github/workflows/nqc-021-titan-net-boundary.yml]
+permissions:
+  contents: read
+jobs:
+  local-funding:
+    if: >-
+      github.repository == 'josuechavando350-png/nexus-quant-capital' &&
+      github.event.repository.private == false &&
+      github.run_attempt == 1 &&
+      github.event.head_commit.message == 'NQC021_APPROVED_LOCAL_FUNDING_ONCE'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: NQC only; fixed unsigned candidate; residual liability stays unknown
+        shell: bash
+        run: |
+          set -euo pipefail
+          export NQC_PRODUCER_ROOT="$RUNNER_TEMP/nqc021-producer"
+          git init -q "$NQC_PRODUCER_ROOT"
+          git -C "$NQC_PRODUCER_ROOT" remote add origin https://github.com/josuechavando350-png/nexus-quant-capital.git
+          git -C "$NQC_PRODUCER_ROOT" fetch --depth=1 origin "$GITHUB_SHA"
+          git -C "$NQC_PRODUCER_ROOT" checkout --detach FETCH_HEAD
+          test "$(git -C "$NQC_PRODUCER_ROOT" rev-parse HEAD)" = "$GITHUB_SHA"
+          python3 - <<'PYCODE'
+          import base64,gzip,hashlib,json,os,subprocess,sys
+          from pathlib import Path
+          packed=base64.b64decode('H4sIAAAAAAAC/7U8DXPaSLJ/RbdX9QZigcE2/sCrrSIO2bjWAZ+NN28foXRCGozWIGklYZuk8t9fd8+HRiAc57YuuwlImunp7unpb/H1Jz90Z6soCKP7ZrL+qfvTZ/rvhj+G/IkH1uBfF404Wqwt/pzwNFzyKLetLPeiwEsDK1lNF6Fvpaso4qltLWLfW1j+PFwEVhQH3MKZTQHxczRL46WVePl8EU6tcJnEaW5dw+XnSF5MvYwfH9n3X8LEnnsZjrPD2P4ziyM7zuxsvsrDhZ2tpkka+zyDO+vMzr10Fi64naeez6ee/2DDdLzzOfocfejf9B1co+a6eM91682UZ/HikdfqzcRLgZzP0U3/euiwP+Nsxf259wi0xYedViOJ7vcj/rzKGn+tvChv+F4S5t6CfY7e9m77DpudBacnx2dnLe+0wzudqdc+Oz5pHfiHBzN+eHx8Oj06mwXeSRsmXPdu+oORw07awcHJMT/wT2bHJ9PDWef4KGidHh8dH/KZ77XO/Nl0Ojs7auEaN73BxQeHpXyW7c+5F2T7gDn3Un++H/3lN1oH7UYO+ESNiOeNabzCHVk3DloHx+1W+xQgfOzd/Na/cRhsIQx2e9fXN8Pf++/cq+FF78p9fzd4dzn41R0OLvow+PburcOW4X3q5WEc7Re7nb1ytU/vHda8D/P5arr/FKcPs0X89NLc5nqJrLy4+eN6NHTvbq4cNs/zJOvu7+NOZSCN+TyO5nGW86AZp/f7CWyud8+z/c5sn5/tA7uOTo6Do8PjoDWbtY9aB55/eHp8EpwdHvrH7dNWh/sHhwfH/jH3Op0Tj3N8ftA5bh3x/WTtp+skj4N4yRuHzYPDZqvhJ4cnDW8aHjaWXrRehNHq2T1w2yfu8+mxe3zU1HcPWu0jdfNpblBx+6HnMP/07PRkGhwetk68w7Op3zoMZh3/lLf4YXA65S3/yD/stE+nJ7PW0dG0NTMANn/C8bUDCRbgCIgOf5ex+dEBHN6vS88jY1F49xFI0+plHi2va4gpVhXrVqtjUorLeIsew3AhoC4m7Vb6AsL9RrYrR8ALd9LeRGsyD527IMfAQy80ooC3ezXIA4LtF69gGqYQJ9xG/hlhk5kzfRiz2AB2Mijlo2P6iVgKE1+7qo3TXaJYjW4Vt3ulOVN5+qqkXsJWKduH3UqCfWWGHQZ55faLAywN9i9ndWK9m3Z1kvkmhCxD/w/gKOMkYaDrRv4syz/ASzxPkJZYuBIUm73x6E12hvsx9/CyJ/4QkPb4j79rp/oTKjb7YMNjoNnxcXrUy/NxwYwfyx/xdA3eh1KIONEAVE9xkUBraJ4xooOVFUrY63nFpNlMvjeZt++id6wrbq3JmGWcv5lJ/HbFR4agpjWiwAU3JftgeU6VTGtNG9TE8jgbB4GAY+M/cU6fwFir2CMqrmsIgywtNf5bfJKqaguYRkYbiCoEylmnXcnoufwL2x7VQpLp2TYfwlTEokfwkwmLh2SnP8GVkpBlSzUKxcy1b/sSdztkmnHR/tm3/4fs5xhoHldAAA=',validate=True)
+          assert hashlib.sha256(packed).hexdigest()=='ec300a633cf57df4c8a7f806fa6ec9ba40dfa71a068e3200ca31c0c7b8f67b01'
+          files=json.loads(gzip.decompress(packed))
+          assert set(files)=={'ci_funding.py','funding_matrix.py','test_funding_matrix.py'}
+          target=Path(os.environ['RUNNER_TEMP'])/'nqc021-source';target.mkdir(exist_ok=False)
+          for name,content in files.items():
+              assert '/' not in name and len(content)<50000
+              (target/name).write_text(content)
+          subprocess.run([sys.executable,str(target/'ci_funding.py')],check=True)
+          PYCODE
