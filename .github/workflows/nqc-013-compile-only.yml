@@ -1,0 +1,32 @@
+name: NQC 013 - approved one-shot compiler check
+run-name: NQC013 compiler only - ${{ github.sha }}
+'on':
+  push:
+    branches:
+    - research/nqc-013-compile-only-20261017
+    paths:
+    - .github/workflows/nqc-013-compile-only.yml
+permissions: {}
+jobs:
+  compile-only:
+    if: github.repository == 'josuechavando350-png/nexus-quant-capital' && github.event.repository.private == false
+      && github.run_attempt == 1 && github.event.head_commit.message == 'NQC013_APPROVED_COMPILE_ONCE'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+    - name: Verify pinned source; fetch and verify solc; compile only
+      shell: bash
+      run: "python3 - <<'PYBOOT'\nimport hashlib, json, os, re, urllib.request\nfrom pathlib import Path\nrepo='josuechavando350-png/nexus-quant-capital'\n\
+        sha=os.environ['GITHUB_SHA']\nif not re.fullmatch(r'[0-9a-f]{40}',sha): raise SystemExit('Invalid producer\
+        \ SHA')\nroot=Path(os.environ['RUNNER_TEMP'])/'nqc013-input'\nroot.mkdir(exist_ok=False)\nLOCK={'COMPILER_LOCK.json':\
+        \ '3e69bfd9dd3802d3ddc7609aa02d56e83b8fd0aaa517b4b1e976ddeaf05ed821', 'abi_migration.py': '4a2c60da2dd203fa8e79b1e01f34cc548d694ba0cd99a1f6736a8de74574c7ea',\
+        \ 'compile_once.py': 'fd39508570691144100c65cd348fb85df18664715ceaa02affd0cef47a45bf85', 'prepare_compile.py':\
+        \ '4c0a81ce206456762ebee4fcb85b8139b91db5afc2e28292f76f1dc066bee3b2', 'source/NqcMorphoSponsoredLiquidation.sol':\
+        \ 'b305c52d06538a20dd4cef1769475d5e47059711122130363508b3ad6e33c9a1', 'source/NqcMorphoSponsoredLiquidationPaymentLayout.sol':\
+        \ '221a93b5b075c4daad50bf02bd7c2fb13339f13f8e6dd9e29a6261823078045a'}\nfor name, expected in LOCK.items():\n\
+        \    url=f'https://raw.githubusercontent.com/{repo}/{sha}/migration/experiments/nqc-013-compile-only-20261017/{name}'\n\
+        \    with urllib.request.urlopen(url,timeout=25) as response:\n        data=response.read(200001)\n    if\
+        \ len(data)>200000 or hashlib.sha256(data).hexdigest()!=expected:\n        raise SystemExit('Payload integrity\
+        \ failure: '+name)\n    target=root/name; target.parent.mkdir(parents=True,exist_ok=True); target.write_bytes(data)\n\
+        print('Pinned payload ready; no compiler has run yet.')\nPYBOOT\npython3 \"$RUNNER_TEMP/nqc013-input/compile_once.py\"\
+        \ --output \"$RUNNER_TEMP/nqc013-result\"\n"
