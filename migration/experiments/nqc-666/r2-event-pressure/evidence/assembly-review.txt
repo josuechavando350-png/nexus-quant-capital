@@ -1,0 +1,10 @@
+Symbol inspection of recorded final binary; full disassembly in final/disassembly.zip.
+0000000000029ad8 t miniz_oxide::inflate::core::apply_match
+0000000000012900 t nqc_666_morpho_math::math::health
+00000000000139b0 t nqc_666_event_pressure::engine::Engine<_,_>::apply
+0000000000013ff0 t nqc_666_event_pressure::engine::Engine<_,_>::apply
+0000000000014620 t nqc_666_event_pressure::engine::Engine<_,_>::recover
+000000000002a890 t nqc666::engine::guard
+                 U clock_gettime
+
+The harness exposes every full result plus a mutable Engine reference to black_box before the ending clock call. All output fields are consumed afterward; variable outputs and matching variant checksums were asserted. No claim that black_box formally verifies the compiler; retained machine code enables independent inspection.

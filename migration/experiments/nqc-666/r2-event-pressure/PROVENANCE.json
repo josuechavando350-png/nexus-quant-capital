@@ -1,0 +1,46 @@
+{
+  "base_commit": "fef142e0310c72ebc1f634e5b5c3f445fe6c4b4e",
+  "historical_files_modified": false,
+  "sources": [
+    {
+      "source_path": "migration/experiments/nqc-666/src/engine.rs",
+      "source_commit": "fef142e0310c72ebc1f634e5b5c3f445fe6c4b4e",
+      "source_sha256": "b86111eb4778f141b5527e60fd4b7801ec5c6558828c3f231e75605656f3dfc3",
+      "destination": "src/engine.rs",
+      "destination_sha256": "0b4ee4fb583b8c57c54613927e09122465510a56b4cfac2fca80a37c8ce2cfa3",
+      "transformation": "Shared public types and original final guards imported. Candidate recovery and event rank writes changed; generic ablation parameters. Generation exhaustion unit test added."
+    },
+    {
+      "source_path": "migration/experiments/nqc-666/src/prepared.rs",
+      "source_commit": "fef142e0310c72ebc1f634e5b5c3f445fe6c4b4e",
+      "source_sha256": "3b07e67a6680f0cd37d81b0c27eb4c48e787dd27601e93121c7d57cb19f86d71",
+      "destination": "src/prepared.rs",
+      "destination_sha256": "3b07e67a6680f0cd37d81b0c27eb4c48e787dd27601e93121c7d57cb19f86d71",
+      "transformation": "Byte-identical copy; only crate context changes. Required because from_screen is crate-private."
+    },
+    {
+      "source_path": "migration/experiments/nqc-666/r1-morpho/src/adapter.rs",
+      "source_commit": "fef142e0310c72ebc1f634e5b5c3f445fe6c4b4e",
+      "source_sha256": "f2c9cf744da35c2f3682199e00b39a71a20b0c40efe8dc6d3aa81f5f6e4afea5",
+      "destination": "src/adapter.rs",
+      "destination_sha256": "dd44510a092df6037496b37d7b68a63a19fb4ca447a30b5d34887ff45b5724bc",
+      "transformation": "Reuses original position math/validation, copies on_snapshot delivery with experimental Engine and generic parameters."
+    },
+    {
+      "source_path": "migration/experiments/nqc-666/tests/adversarial.rs",
+      "source_commit": "fef142e0310c72ebc1f634e5b5c3f445fe6c4b4e",
+      "source_sha256": "c9116413e1c4c3560b1cf3bd5833ad67e3257eb018f7759e7af49f34dc2fee05",
+      "destination": "tests/original_regression.rs",
+      "destination_sha256": "392ff6b312e5e827b224395bdf7653c5467749af4c8242ecc38f1dd6918bb7d3",
+      "transformation": "Original test bodies retained; imports/Engine alias point to experimental engine, formatting only."
+    },
+    {
+      "source_path": "migration/experiments/nqc-666/r1-morpho/tests/adversarial.rs",
+      "source_commit": "fef142e0310c72ebc1f634e5b5c3f445fe6c4b4e",
+      "source_sha256": "c4196d5ebfb5f6a4661e41a9204daca3e3eabbc02e563790210bddf668a68c8d",
+      "destination": "tests/adapter_regression.rs",
+      "destination_sha256": "6cd2ac0af3186d47980fd4d050f83516a48068a1b95afcf808c5abad1184fa7c",
+      "transformation": "Selected original adapter mutation test retained; engine generic parameters/imports adapted. No historical test altered."
+    }
+  ]
+}

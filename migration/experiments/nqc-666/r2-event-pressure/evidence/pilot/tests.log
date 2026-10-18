@@ -1,0 +1,53 @@
+   Compiling nqc-666 v0.1.0 (/workspace/scratch/ad9470d27d07/nqc-666/migration/experiments/nqc-666)
+   Compiling nqc-666-morpho-math v0.1.0 (/workspace/scratch/ad9470d27d07/nqc-666/migration/experiments/nqc-666/r1-morpho)
+   Compiling nqc-666-event-pressure v0.1.0 (/workspace/scratch/ad9470d27d07/nqc-666/migration/experiments/nqc-666/r2-event-pressure)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.76s
+     Running unittests src/lib.rs (/workspace/scratch/ad9470d27d07/out/r2-pilot/target/debug/deps/nqc_666_event_pressure-1ed6f380c947bcbf)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/bench.rs (/workspace/scratch/ad9470d27d07/out/r2-pilot/target/debug/deps/bench-364cfd3bd7e14f86)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/adapter_regression.rs (/workspace/scratch/ad9470d27d07/out/r2-pilot/target/debug/deps/adapter_regression-f5f90ee11f6d899b)
+
+running 1 test
+test adapter_mutations_block_and_unknown_replaces_old_ticket ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/equivalence.rs (/workspace/scratch/ad9470d27d07/out/r2-pilot/target/debug/deps/equivalence-95c26608f34c1c35)
+
+running 4 tests
+test expired_losers_below_winner_survive_for_identical_rollback_semantics ... ok
+test empty_partial_registries_and_invalid_resets ... ok
+test replay_100000_events_preserves_tickets_reorgs_and_unknowns ... ok
+test every_burst_size_ties_boundaries_and_backward_time ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.65s
+
+     Running tests/original_regression.rs (/workspace/scratch/ad9470d27d07/out/r2-pilot/target/debug/deps/original_regression-78c936fd487439a2)
+
+running 8 tests
+test all_single_guard_mutations_block ... ok
+test immutable_preparation_cannot_authorize_changed_money ... ok
+test expected_value_unknown_overflow_and_loss_block ... ok
+test prepared_equivalence_at_boundaries ... ok
+test third_eye_unknown_and_predictions_are_separate ... ok
+test updates_reorgs_nonce_and_invalid_events_invalidate_tickets ... ok
+test tournament_matches_independent_full_scan ... ok
+test prepared_random_equivalence ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+
+   Doc-tests nqc_666_event_pressure
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

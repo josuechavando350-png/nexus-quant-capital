@@ -1,0 +1,21 @@
+{
+  "pilot": "Threshold 16 implementation rejected as selected design due regression at 16 expirations; all eight runs/source snapshots/raw preserved separately. Final threshold 64 plus peek and independently measured single rank write.",
+  "development_failures": [
+    {
+      "phase": "Initial extraction compile",
+      "failure": "Screen import missing; unused Position/Scenario imports.",
+      "resolution": "Corrected only new R2 imports."
+    },
+    {
+      "phase": "Generic ablation test compile",
+      "failure": "Update type missing from narrowed test import.",
+      "resolution": "Restored Update import in new R2 test file."
+    },
+    {
+      "phase": "Manual final manifest check",
+      "failure": "sha256sum invoked from repository root instead of R2 directory; relative paths could not be resolved.",
+      "resolution": "Reran the unchanged payload check from R2 directory. No measured source or result was modified."
+    }
+  ],
+  "source_change_policy": "No R1 or older source/test was changed. Pilot sources retained with own hashes, not asserted equal to final sources."
+}

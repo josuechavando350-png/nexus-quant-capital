@@ -1,0 +1,297 @@
+--- src/engine.rs
++++ r2-event-pressure/src/engine.rs
+@@ -1,7 +1,7 @@
+ use crate::{
+-    financial::{self, Candidate, Screen},
++    financial::Screen,
+     prepared::{Compact, Prepared},
+-    third_eye::{self, Assessment, Observed, Position, Scenario},
++    third_eye::{self, Assessment, Observed},
+ };
+ pub const CAPACITY: usize = 256;
+ pub const GUARD_IDENTITY: u64 = 1 << 32;
+@@ -12,48 +12,8 @@
+ pub const GUARD_ELIGIBILITY: u64 = 1 << 37;
+ pub const GUARD_STALE: u64 = 1 << 38;
+ 
+-#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+-pub struct Key {
+-    pub market: [u8; 32],
+-    pub borrower: [u8; 20],
+-}
+-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+-pub struct Anchor {
+-    pub chain: u64,
+-    pub block: u64,
+-    pub hash: [u8; 32],
+-}
+-#[derive(Clone, Debug)]
+-pub struct Integrity {
+-    pub key: Key,
+-    pub anchor: Anchor,
+-    pub plan_hash: [u8; 32],
+-    pub code_hash: [u8; 32],
+-    pub required_code_hash: [u8; 32],
+-    pub oracle_at: u64,
+-    pub oracle_max_age: u64,
+-    pub route_through: u64,
+-    pub nonce_start: u64,
+-    pub nonces: [u64; 16],
+-    pub dependencies: [u16; 16],
+-    pub success_mask: u16,
+-    pub required_builder_payment: u128,
+-    pub builder_paid: u128,
+-    pub slippage_bps: u16,
+-    pub max_slippage_bps: u16,
+-    pub quoted_net_lower: Option<u128>,
+-    pub financing_confirmed: Option<bool>,
+-    pub non_recourse: Option<bool>,
+-}
+-#[derive(Clone, Debug)]
+-pub struct Update {
+-    pub financial: Candidate,
+-    pub integrity: Integrity,
+-    pub position: Position,
+-    pub scenario: Option<Scenario>,
+-    pub inclusion_ppm: Option<u32>,
+-    pub failure_loss: Option<u128>,
+-}
++pub use nqc666::engine::{guard, guard_copy, Anchor, FinalCheck, Integrity, Key, Update};
++
+ #[derive(Clone, Debug)]
+ struct Entry {
+     update: Update,
+@@ -61,6 +21,29 @@
+     assessment: Assessment,
+     generation: u64,
+ }
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++    fn exhausted<const B: bool, const S: bool>() {
++        let u = nqc666::fixtures::update(nqc666::fixtures::financial(4, 666), 0);
++        let mut e = Engine::<B, S>::new(u.integrity.anchor, vec![u.integrity.key]).unwrap();
++        e.on_event(0, u.clone(), 200_000).unwrap();
++        let t = e.candidate(200_000).unwrap();
++        e.generations[0] = u64::MAX;
++        assert_eq!(e.on_event(0, u, 200_000), Err("generation exhausted"));
++        assert!(e.candidate(200_000).is_none());
++        assert_eq!(e.finalize(t, 200_000).reasons, GUARD_STALE);
++        assert_eq!(e.tree[1].score, 0);
++    }
++    #[test]
++    fn all_variants_fail_closed_on_exhausted_generation() {
++        exhausted::<false, false>();
++        exhausted::<false, true>();
++        exhausted::<true, false>();
++        exhausted::<true, true>();
++    }
++}
+ #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+ struct Rank {
+     score: u128,
+@@ -83,12 +66,6 @@
+     pub fn slot(self) -> usize {
+         self.slot
+     }
+-}
+-#[derive(Clone, Copy, Debug)]
+-pub struct FinalCheck {
+-    pub reasons: u64,
+-    pub financial: Screen,
+-    pub commercial_admission: bool,
+ }
+ fn oracle_window(i: &Integrity, now: u64, budget: u64) -> bool {
+     let Some(end) = now.checked_add(budget) else {
+@@ -104,14 +81,14 @@
+ 
+ /// Single owner, bounded slots, binary tournament tree: exactly 8 ancestor updates.
+ /// Setup allocations only; no network, locks, threads, queues or unsafe code.
+-pub struct Engine {
++pub struct Engine<const BULK: bool = true, const SINGLE_WRITE: bool = true> {
+     anchor: Anchor,
+     keys: Vec<Key>,
+     entries: Vec<Option<Entry>>,
+     generations: [u64; CAPACITY],
+     tree: [Rank; CAPACITY * 2],
+ }
+-impl Engine {
++impl<const BULK: bool, const SINGLE_WRITE: bool> Engine<BULK, SINGLE_WRITE> {
+     pub fn new(anchor: Anchor, keys: Vec<Key>) -> Result<Self, &'static str> {
+         if keys.len() > CAPACITY || anchor.chain != 1 || anchor.block == 0 || anchor.hash == [0; 32]
+         {
+@@ -179,12 +156,20 @@
+             return Err("unknown slot");
+         }
+         self.entries[slot] = None;
+-        self.rank(slot, 0);
++        if !SINGLE_WRITE {
++            self.rank(slot, 0);
++        }
+         let Some(g) = self.generations[slot].checked_add(1) else {
++            if SINGLE_WRITE {
++                self.rank(slot, 0);
++            }
+             return Err("generation exhausted");
+         };
+         self.generations[slot] = g;
+         if u.integrity.key != self.keys[slot] || u.integrity.anchor != self.anchor {
++            if SINGLE_WRITE {
++                self.rank(slot, 0);
++            }
+             return Err("identity mismatch");
+         }
+         u.financial.epoch = g;
+@@ -221,31 +206,60 @@
+         self.rank(slot, score);
+         Ok(assessment)
+     }
+-    /// Expires stale leaders lazily; worst-case O(CAPACITY log CAPACITY), bounded.
++    fn current(&self, r: Rank, now: u64) -> bool {
++        let Some(e) = self.entries[r.slot].as_ref() else {
++            return false;
++        };
++        let i = &e.update.integrity;
++        e.prepared
++            .as_ref()
++            .is_some_and(|p| p.ready_inline(e.generation, now))
++            && oracle_window(i, now, e.update.financial.send_budget_ns)
++            && now <= i.route_through
++    }
++    fn ticket(&self, r: Rank) -> Ticket {
++        Ticket {
++            slot: r.slot,
++            generation: self.entries[r.slot].as_ref().unwrap().generation,
++            anchor: self.anchor,
++        }
++    }
++    /// Ordinary lazy selection, with optional linear recovery after 64 expired leaders.
++    /// Inspect the next leader before recovering, so exactly 64 expirations stay cheap.
+     pub fn candidate(&mut self, now: u64) -> Option<Ticket> {
+-        for _ in 0..self.keys.len() {
++        for removed in 0..=self.keys.len() {
+             let r = self.tree[1];
+             if r.score == 0 {
+                 return None;
+             }
+-            let e = self.entries[r.slot].as_ref()?;
+-            let i = &e.update.integrity;
+-            let oracle_valid = oracle_window(i, now, e.update.financial.send_budget_ns);
+-            if e.prepared
+-                .as_ref()
+-                .is_some_and(|p| p.ready_inline(e.generation, now))
+-                && oracle_valid
+-                && now <= i.route_through
+-            {
+-                return Some(Ticket {
+-                    slot: r.slot,
+-                    generation: e.generation,
+-                    anchor: self.anchor,
+-                });
++            if self.current(r, now) {
++                return Some(self.ticket(r));
++            }
++            if BULK && removed == 64 {
++                return self.recover(now);
+             }
+             self.rank(r.slot, 0);
+         }
+         None
++    }
++    #[inline(never)]
++    fn recover(&mut self, now: u64) -> Option<Ticket> {
++        let mut winner = Rank::default();
++        for slot in 0..self.keys.len() {
++            let r = self.tree[CAPACITY + slot];
++            if r.score > 0 && better(r, winner) == r && self.current(r, now) {
++                winner = r;
++            }
++        }
++        for r in &mut self.tree[CAPACITY..CAPACITY + self.keys.len()] {
++            if r.score > 0 && (winner.score == 0 || (*r != winner && better(*r, winner) == *r)) {
++                r.score = 0;
++            }
++        }
++        for node in (1..CAPACITY).rev() {
++            self.tree[node] = better(self.tree[node * 2], self.tree[node * 2 + 1]);
++        }
++        (winner.score > 0).then(|| self.ticket(winner))
+     }
+     pub fn finalize(&self, t: Ticket, now: u64) -> FinalCheck {
+         self.finalize_impl(t, now, false)
+@@ -275,74 +289,3 @@
+         }
+     }
+ }
+-
+-/// Recomputes the entire financial screen on an immutable copy, then all supplemental
+-/// local guards. Supplied hashes/terms are NOT authenticated here. Always research-only.
+-#[inline(never)]
+-pub fn guard(u: &Update, anchor: Anchor, now: u64) -> FinalCheck {
+-    finish_guard(u, anchor, now, financial::screen_at(&u.financial, now))
+-}
+-#[inline(never)]
+-pub fn guard_copy(u: &Update, anchor: Anchor, now: u64) -> FinalCheck {
+-    let mut copied = u.financial.clone();
+-    copied.now_ns = now;
+-    finish_guard(u, anchor, now, financial::screen(&copied))
+-}
+-#[inline(always)]
+-fn finish_guard(u: &Update, anchor: Anchor, now: u64, financial: Screen) -> FinalCheck {
+-    let c = &u.financial;
+-    let mut reasons = financial.reasons;
+-    let i = &u.integrity;
+-    if i.anchor != anchor
+-        || c.chain_id != anchor.chain
+-        || c.block_number != anchor.block
+-        || c.state_hashes[0] != anchor.hash
+-        || i.key.market == [0; 32]
+-        || i.key.borrower == [0; 20]
+-        || i.plan_hash == [0; 32]
+-        || i.code_hash == [0; 32]
+-        || i.code_hash != i.required_code_hash
+-    {
+-        reasons |= GUARD_IDENTITY;
+-    }
+-    if !oracle_window(i, now, c.send_budget_ns) {
+-        reasons |= GUARD_ORACLE;
+-    }
+-    if c.n == 0 || c.n > 16 {
+-        reasons |= GUARD_EXECUTION;
+-    } else {
+-        let mask = ((1u32 << c.n) - 1) as u16;
+-        if i.success_mask != mask || i.nonce_start.checked_add(c.n).is_none() {
+-            reasons |= GUARD_EXECUTION;
+-        }
+-        for k in 0..c.n as usize {
+-            let previous = ((1u32 << k) - 1) as u16;
+-            if i.nonce_start.checked_add(k as u64) != Some(i.nonces[k])
+-                || i.dependencies[k] & !previous != 0
+-            {
+-                reasons |= GUARD_EXECUTION;
+-            }
+-        }
+-    }
+-    if i.builder_paid < i.required_builder_payment || i.builder_paid > c.other_costs {
+-        reasons |= GUARD_EXECUTION;
+-    }
+-    if i.non_recourse != Some(true) || i.financing_confirmed != Some(true) {
+-        reasons |= GUARD_EXTERNAL;
+-    }
+-    if i.max_slippage_bps > 10000
+-        || i.slippage_bps > i.max_slippage_bps
+-        || i.quoted_net_lower
+-            .is_none_or(|v| v == 0 || v < c.min_operator_weth || v > c.operator_weth_new)
+-    {
+-        reasons |= GUARD_PRICE;
+-    }
+-    if third_eye::assess(u.position, None, now).observed != Observed::Eligible {
+-        reasons |= GUARD_ELIGIBILITY;
+-    }
+-    FinalCheck {
+-        reasons,
+-        financial,
+-        commercial_admission: false,
+-    }
+-}
