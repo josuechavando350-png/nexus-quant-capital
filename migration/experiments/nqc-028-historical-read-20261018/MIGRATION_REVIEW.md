@@ -1,0 +1,17 @@
+# NQC028 isolated historical-read migration review
+
+2026-10-18. Scope is ONLY josuechavando350-png/nexus-quant-capital. User previously authorized work/experiments within this repository; no trading, signatures, paid services or changes to main. This review authorizes only the narrowly bounded new read-only producer described below, not legacy workflow activation.
+
+Base: 16e352225ba8a6a931834c4edf3d86d9a2924b7d. Branch: research/nqc-028-historical-read-20261018. Original files, modes and legacy disabled workflow bytes remain unchanged. No other user repositories, customer services, settings or secrets are accessed.
+
+New evidence objective: independently query canonical Ethereum parent 26190954 and block 26190955, obtain historical Fluid ezETH/ETH quote and existing transaction traces for case B. A parent quote is NOT pre-tx1 execution, replay, financing, inclusion or profit. Fixed parent hash f57a30121eac97b983cad86fcb3107787a9d400ca4d69d5a96a4b1b618ac65dc. No new opportunity is claimed simply because case B is re-read.
+
+Collector source is gzip JSON containing exactly source/read_fluid.py and tests/test_reader.py. This representation keeps an exact portable copy; decode using Python gzip/json, never eval. Gzip SHA256: e8e03e612ad6ecab5121479a7215af78d1e27c977873ea7b81fa023a68861ee8 (5167 bytes). Source SHA256: 3b080c9713722a39f6581e45319505a9bda842e6e30d438a6419eb0eb049f814. Tests SHA256: cec7bef6830c8e60ecb1e1337deff1b7e2cafcc0ceeccd7f8225354348bb039f. Ten local safety/parser tests PASS with fake transport; zero authentic quote results so far.
+
+One standard ubuntu-24.04 GitHub-hosted job only, timeout 8 minutes, exact branch/path push filter, run_attempt=1 guard, no schedule, no workflow_dispatch, read-only contents permission, no secrets or credentials, no uploads/cache/artifact storage, no deployment or chain write methods. Public repository visibility verified before creating the producer. Standard public runners are free under GitHub's documentation reviewed 2026-10-18 (https://docs.github.com/en/billing/concepts/product-billing/github-actions). Do not use a paid/larger runner.
+
+Public endpoint https://ethereum-rpc.publicnode.com only, documented at https://ethereum.publicnode.com. Maximum 16 read RPCs, sequential, 350ms separation, 30s network timeout, 8 MiB response cap, no retries, no alternate endpoint on denial, stop on credentials/quota/403/429. No Blockscout or Desktop Commander requests. No state overrides, wallet methods, signing, submission or latest fallback. Existing historical transaction traces are read-only. Network access is attempted from GitHub's normal runner, not by bypassing the chat container network policy.
+
+Before evidence reads the producer must validate source hashes, exact GitHub repo/branch/commit and additive-only scope; run the original isolation verifier against a separate clean BASE worktree and isolation unit tests. The original global verifier rejects active workflow files by design: report its result on the new producer separately, never relabel the baseline pass. Rust/Solidity suites are NOT_RUN because no runtime source modifications; no full NQC replay is performed by this reader. Save all real HTTP responses and errors with exact sizes/hashes in job logs. A failure or null is a failure/null, never synthetic evidence.
+
+A malformed first upload blob was detected by Git object hash before attaching any code to a branch; corrected source hash verified. That unreferenced blob is not part of this tree and is never executed.
