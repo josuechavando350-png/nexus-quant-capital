@@ -1,0 +1,15 @@
+[package]
+name = "nqc-666-morpho-math"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.90"
+publish = false
+
+[dependencies]
+nqc-666 = { path = ".." }
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+overflow-checks = true
