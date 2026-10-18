@@ -11,13 +11,13 @@ jobs:
       github.repository == 'josuechavando350-png/nexus-quant-capital' &&
       github.event.repository.private == false &&
       github.run_attempt == 1 &&
-      github.event.head_commit.message == 'NQC021_APPROVED_LOCAL_FUNDING_ONCE'
+      github.event.head_commit.message == 'NQC021_APPROVED_NET_PLAIN_ONCE'
     runs-on: ubuntu-24.04
     timeout-minutes: 12
     env:
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
-      - name: NQC only; fixed unsigned candidate; residual liability stays unknown
+      - name: Readable isolated sources; fixed unsigned candidate; no commercial admission
         shell: bash
         run: |
           set -euo pipefail
@@ -28,15 +28,34 @@ jobs:
           git -C "$NQC_PRODUCER_ROOT" checkout --detach FETCH_HEAD
           test "$(git -C "$NQC_PRODUCER_ROOT" rev-parse HEAD)" = "$GITHUB_SHA"
           python3 - <<'PYCODE'
-          import base64,gzip,hashlib,json,os,subprocess,sys
+          import ast,base64,gzip,hashlib,json,os,subprocess,sys
           from pathlib import Path
-          packed=base64.b64decode('H4sIAAAAAAAC/7U8DXPaSLJ/RbdX9QZigcE2/sCrrSIO2bjWAZ+NN28foXRCGozWIGklYZuk8t9fd8+HRiAc57YuuwlImunp7unpb/H1Jz90Z6soCKP7ZrL+qfvTZ/rvhj+G/IkH1uBfF404Wqwt/pzwNFzyKLetLPeiwEsDK1lNF6Fvpaso4qltLWLfW1j+PFwEVhQH3MKZTQHxczRL46WVePl8EU6tcJnEaW5dw+XnSF5MvYwfH9n3X8LEnnsZjrPD2P4ziyM7zuxsvsrDhZ2tpkka+zyDO+vMzr10Fi64naeez6ee/2DDdLzzOfocfejf9B1co+a6eM91682UZ/HikdfqzcRLgZzP0U3/euiwP+Nsxf259wi0xYedViOJ7vcj/rzKGn+tvChv+F4S5t6CfY7e9m77DpudBacnx2dnLe+0wzudqdc+Oz5pHfiHBzN+eHx8Oj06mwXeSRsmXPdu+oORw07awcHJMT/wT2bHJ9PDWef4KGidHh8dH/KZ77XO/Nl0Ojs7auEaN73BxQeHpXyW7c+5F2T7gDn3Un++H/3lN1oH7UYO+ESNiOeNabzCHVk3DloHx+1W+xQgfOzd/Na/cRhsIQx2e9fXN8Pf++/cq+FF78p9fzd4dzn41R0OLvow+PburcOW4X3q5WEc7Re7nb1ytU/vHda8D/P5arr/FKcPs0X89NLc5nqJrLy4+eN6NHTvbq4cNs/zJOvu7+NOZSCN+TyO5nGW86AZp/f7CWyud8+z/c5sn5/tA7uOTo6Do8PjoDWbtY9aB55/eHp8EpwdHvrH7dNWh/sHhwfH/jH3Op0Tj3N8ftA5bh3x/WTtp+skj4N4yRuHzYPDZqvhJ4cnDW8aHjaWXrRehNHq2T1w2yfu8+mxe3zU1HcPWu0jdfNpblBx+6HnMP/07PRkGhwetk68w7Op3zoMZh3/lLf4YXA65S3/yD/stE+nJ7PW0dG0NTMANn/C8bUDCRbgCIgOf5ex+dEBHN6vS88jY1F49xFI0+plHi2va4gpVhXrVqtjUorLeIsew3AhoC4m7Vb6AsL9RrYrR8ALd9LeRGsyD527IMfAQy80ooC3ezXIA4LtF69gGqYQJ9xG/hlhk5kzfRiz2AB2Mijlo2P6iVgKE1+7qo3TXaJYjW4Vt3ulOVN5+qqkXsJWKduH3UqCfWWGHQZ55faLAywN9i9ndWK9m3Z1kvkmhCxD/w/gKOMkYaDrRv4syz/ASzxPkJZYuBIUm73x6E12hvsx9/CyJ/4QkPb4j79rp/oTKjb7YMNjoNnxcXrUy/NxwYwfyx/xdA3eh1KIONEAVE9xkUBraJ4xooOVFUrY63nFpNlMvjeZt++id6wrbq3JmGWcv5lJ/HbFR4agpjWiwAU3JftgeU6VTGtNG9TE8jgbB4GAY+M/cU6fwFir2CMqrmsIgywtNf5bfJKqaguYRkYbiCoEylmnXcnoufwL2x7VQpLp2TYfwlTEokfwkwmLh2SnP8GVkpBlSzUKxcy1b/sSdztkmnHR/tm3/4fs5xhoHldAAA=',validate=True)
-          assert hashlib.sha256(packed).hexdigest()=='ec300a633cf57df4c8a7f806fa6ec9ba40dfa71a068e3200ca31c0c7b8f67b01'
+          root=Path(os.environ['NQC_PRODUCER_ROOT'])
+          old=(root/'.github/workflows/nqc-018-funding-boundary.yml').read_text()
+          encoded=next(l.strip().split('packed=',1)[1] for l in old.splitlines() if 'packed=base64.b64decode(' in l)
+          call=ast.parse(encoded,mode='eval').body
+          packed=base64.b64decode(ast.literal_eval(call.args[0]),validate=True)
+          assert hashlib.sha256(packed).hexdigest()=='a1cf6d6b07978a221305e41560fc242773f2632e4eb8e7b814dd05dc956de720'
           files=json.loads(gzip.decompress(packed))
           assert set(files)=={'ci_funding.py','funding_matrix.py','test_funding_matrix.py'}
+          sub='migration/experiments/nqc-021-titan-net-boundary-20261018'
+          locks={'funding_matrix.py':'e64e1e43f9e1ac60c959ac47344069e249262b89d5c6e7e3f2c38ce8397700c9','test_funding_matrix.py':'b0fb741370b7f8ec94848d08a29745e79d9c4889e7ff33f899479eafa69600e3'}
+          for name,h in locks.items():
+              raw=(root/sub/name).read_bytes()
+              assert hashlib.sha256(raw).hexdigest()==h
+              files[name]=raw.decode()
+          s=files['ci_funding.py']
+          s=s.replace("PARENT='6da36867faad9f915355188dbefd890a7498d93f'","PARENT='71d276e2c7f67b3f564d086463efca09cfbbf940'")
+          s=s.replace('NQC018','NQC021').replace('nqc018','nqc021').replace('nqc-018-funding-boundary','nqc-021-titan-net-boundary')
+          s=s.replace('NQC021_APPROVED_LOCAL_FUNDING_ONCE','NQC021_APPROVED_NET_PLAIN_ONCE')
+          assert 'expected={WF}' in s
+          s=s.replace('expected={WF}',"expected={WF, SUB+'/funding_matrix.py', SUB+'/test_funding_matrix.py'}")
+          s=s.replace('TWELVE_LOCAL_CASE_ASSERTIONS_PASS_NOT_COMMERCIAL','LOCAL_NET_CASH_TESTED_RESIDUAL_AND_NO_RECOURSE_UNRESOLVED')
+          files['ci_funding.py']=s
           target=Path(os.environ['RUNNER_TEMP'])/'nqc021-source';target.mkdir(exist_ok=False)
           for name,content in files.items():
               assert '/' not in name and len(content)<50000
+              ast.parse(content)
               (target/name).write_text(content)
           subprocess.run([sys.executable,str(target/'ci_funding.py')],check=True)
           PYCODE
