@@ -1,0 +1,58 @@
+name: NQC027 bounded historical Fluid reads
+run-name: NQC027 historical Fluid - ${{ github.sha }}
+on:
+  push:
+    branches: [research/nqc-027-fluid-archive-20261018]
+    paths: [.github/workflows/nqc-027-fluid-archive.yml]
+permissions: {}
+concurrency:
+  group: nqc027-historical-fluid
+  cancel-in-progress: false
+jobs:
+  acquire:
+    if: github.repository == 'josuechavando350-png/nexus-quant-capital' && github.event.repository.private == false && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      GIT_TERMINAL_PROMPT: '0'
+      NQC_BASE: 16e352225ba8a6a931834c4edf3d86d9a2924b7d
+    steps:
+      - name: Verify untouched base then acquire at most twelve public historical reads
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = 'josuechavando350-png/nexus-quant-capital'
+          test "$GITHUB_REF" = 'refs/heads/research/nqc-027-fluid-archive-20261018'
+          test "$GITHUB_RUN_ATTEMPT" = '1'
+          export NQC_WORK="$(mktemp -d "$RUNNER_TEMP/nqc027.XXXXXX")"
+          git init -q "$NQC_WORK/producer"
+          git -C "$NQC_WORK/producer" remote add origin https://github.com/josuechavando350-png/nexus-quant-capital.git
+          git -C "$NQC_WORK/producer" -c credential.helper= fetch --no-tags --depth=1 origin "$NQC_BASE" "$GITHUB_SHA"
+          git -C "$NQC_WORK/producer" checkout --detach "$GITHUB_SHA"
+          test "$(git -C "$NQC_WORK/producer" rev-parse HEAD)" = "$GITHUB_SHA"
+          git -C "$NQC_WORK/producer" worktree add --detach "$NQC_WORK/base" "$NQC_BASE"
+          python3 "$NQC_WORK/base/migration/verify_isolation.py"
+          python3 "$NQC_WORK/base/migration/test_isolation.py" -v
+          python3 - <<'PYCODE'
+          import base64,gzip,hashlib,json,os,subprocess,sys
+          from pathlib import Path
+          w=Path(os.environ['NQC_WORK'])
+          diff=subprocess.check_output(['git','-C',str(w/'producer'),'diff','--name-status',os.environ['NQC_BASE'],os.environ['GITHUB_SHA']],text=True).splitlines()
+          expected=['A\t.github/workflows/nqc-027-fluid-archive.yml','A\tmigration/experiments/nqc-027-fluid-archive-20261018/REVIEW.md']
+          assert sorted(diff)==sorted(expected),diff
+          print('NQC027_PRODUCER_SCOPE '+json.dumps({'sha':os.environ['GITHUB_SHA'],'base':os.environ['NQC_BASE'],'only_reviewed_additions':True,'base_isolation_checked_not_active_producer':True}),flush=True)
+          packed=base64.b64decode('H4sIAAAAAAAC/7U7+3ObSNL/Cpf7AYgxBoQeKJ/uK8VW1qpLLK+sbGVPVlEjGCzWEiiA/IhL//t1zwwIJPzI7q12KxLDPLp7+t3tp3dpvEk8euLFyyX1MjdYbkJfXz++6767Zv9d/HpqWO2uNI83kU99ab2ZL0NPIom3CO+oRLzvmzANszCONCmKM4lIyxCGfIJDUpxIAawLoxspo2mmX0fX0ShaPkpB+ACbJZT40vjyNNWlixj28uCQTJNu6WOqSWl4E5Fsk1D8nZGMSvEdTZLQp5qUJSRKiYdnXEfpZr4K05SBsCahL9HIX8ch7hSQ5XJOvNvSUEKzJKQpgpYtwsQ/XpMke5RWNE3JDU0RRI56FCTxSnLdYINAuK4UrtZxAhhGgCdDL72OxNicpLRla9LNj3CtSQuSLpLRla9LNj3CtSQuSLp6ElN4uPLPJ1JM3ZMdMaRJNMwbUdGW0BiqWxDkbRWvx04vLI5MJBHT81NpHQkpZc2kELv1xuFXwXIheERi6dFbwPJbyLLPHIoC7QgcAkkOF9SB/iNg22GK+wDGYS65eyhmKEXKYtLTnqQJ9VFGUEIEjbMuEZkscyoa4Q+yPTMWpGYln+MMCM56C4ozbq73FOn9SJGF/dJWASoqSzho5LYLoDRpNeIbKEjdYmcTyiRD2KlYeCF5EEw2nkSORzeVLnjYXOk6emYM09AqDJnnPlCX+sGWnutTFnab73LNxod48YMBlAEJAxNFqgYGue/Knm+/gK/NGuIgSuyTI92LgXKhNdMmLph00YImFpShVhC/zmWvoKtArS7cPiYOBMprJWSRYykM',validate=True)
+          assert len(packed)==5980 and hashlib.sha256(packed).hexdigest()=='7499ee8558be719b872cb3d36d86196105016c44e012e8e75924e0e26b93d738'
+          files=json.loads(gzip.decompress(packed))
+          locks={'source/collect_fluid.py':'366f7485e9a65c8358ddf1bd69524440b892a37beb241d0db1576587673e14b2','tests/test_collect_fluid.py':'74c74f0926a151a4651127045159d113714c950dc9bf55367db30b76732aa80c'}
+          assert set(files)==set(locks)
+          runtime=w/'runtime'
+          for name,text in files.items():
+              raw=text.encode();assert hashlib.sha256(raw).hexdigest()==locks[name]
+              p=runtime/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(raw)
+          subprocess.run([sys.executable,'-m','unittest','discover','-v','-s','tests'],cwd=runtime,check=True)
+          subprocess.run([sys.executable,str(runtime/'source/collect_fluid.py'),str(w/'evidence')],check=True)
+          assert subprocess.check_output(['git','-C',str(w/'producer'),'status','--porcelain'],text=True)==''
+          print('NQC027_NO_SOURCE_MODIFICATION',flush=True)
+          PYCODE
