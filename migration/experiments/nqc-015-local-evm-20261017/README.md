@@ -1,0 +1,15 @@
+# NQC 015 - First execution of the modified payment contract
+
+Owner authorized work inside NQC. Scope: finite local chain 31337; no real keys, signing, broadcast, fork, public deployment, builder contact, paid runner, cache or uploaded Actions artifact. Main, Astra source bytes and earlier experiments remain unchanged. No new permissions. The one-shot workflow runs only on its named experimental branch and exact activation commit message, first attempt, public NQC repository, standard ubuntu-24.04, six minutes maximum.
+
+Inputs: original Astra commit f9d876990a85e55ba196702c32fe3668b49fda71, compiler-tested source commit 5a366745b803ca26099dac6b990829fc3424343a, local director runner/guard design from NQC011. The guard and runner are presented as readable source in this folder; exact checks require runtime code, correct InvalidPlan revert, actual debt closure, native and token conservation and measured return sufficiency. A failed deployment cannot count as a successful rejection control.
+
+Original Morpho, V2 and helper creation bytecode is recovered from prior LAB CREATE input records. Constructor suffixes are stripped only when the resulting bytes match the SHA256 in Astra004 SOURCE_LOCK. Missing or changed bytes block execution; no protocol stubs are accepted. This is exact-byte recovery, not a fresh recompilation of those protocols or proof of historical mainnet state.
+
+The original and proposed NQC sources are compiled with the hash-pinned official solc 0.8.24; ABI/method selectors are rechecked. Anvil 1.7.1 package integrity and executable SHA are the same as Astra003. Python crypto dependency is fixed to 3.23.0. Anvil starts with no default accounts and listens only on loopback. Its pending-pool balance override is inherited from the lab; EVM balance checks remain active. External lab actors have synthetic ETH; NQC begins with zero ETH/WETH/collateral. Original public APIs are never used for transactions.
+
+Eight cases: original shared-recipient rejection; proposal shared payment; proposal separate payments; wrong header recipient; separate mode with equal recipients; shared mode with distinct recipients; a fixed return calibrated at 0.03 ETH attempted after 0.02 ETH and 0.04 ETH advances. Expected contract failures and an omitted underfunded return are negative controls, not profitable executions.
+
+Prior gas is not assigned to the changed contract. The runner measures its own receipts and calculates the baseline return using a discarded local pre-simulation. That planning step is not a provider promise. Builder and header recipient sharing an address requires consolidation of priority fees; actual proposer payment and commercial costs stay UNKNOWN. Retained advance is not income.
+
+Status before execution: NOT_RUN. Actual status and errors are emitted between NQC015_STATUS markers in the GitHub job log; the bounded gzip/base64 log export preserves inputs, receipts, traces and SHA256. No artifact storage upload and no self-publishing workflow. A PASS establishes only the eight scoped local checks, not security certification, accepted financing, no-recourse terms, historic replay or realized profit.
