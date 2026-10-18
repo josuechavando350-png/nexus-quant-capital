@@ -59,7 +59,8 @@ jobs:
           r=json.loads(pathlib.Path(os.environ['RUNNER_TEMP']+'/nqc023-source-run.json').read_text())
           assert r['head_sha']=='7e4018d575084bc18f857a2466d1fde447f62d34' and r['conclusion']=='success' and r['run_attempt']==1
           PY
-          gh api "repos/$repo/actions/jobs/117601680768/logs" > "$RUNNER_TEMP/nqc023-source.log"
+          # Save opaque log bytes to a file; never render terminal control bytes.
+          curl --fail --silent --show-error --location --proto "=https" --proto-redir "=https" --max-time 45 --header "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/$repo/actions/jobs/117601680768/logs" --output "$RUNNER_TEMP/nqc023-source.log"
           python3 "$sub/audit_retained.py" "$RUNNER_TEMP/nqc023-source.log" "$RUNNER_TEMP/nqc023-result.json"
           git diff --exit-code HEAD
           echo 'NQC023_COMPLETE_NO_EVM_NO_PROVIDER_CONTACT_NO_PUBLIC_TRANSACTIONS'
