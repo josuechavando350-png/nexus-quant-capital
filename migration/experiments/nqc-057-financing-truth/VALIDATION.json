@@ -1,0 +1,74 @@
+{
+  "passed": true,
+  "commands": [
+    {
+      "artifact": "evidence/reconciliation.json",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/scratch/c4985976a2bf/nexus-quant-capital/migration/experiments/nqc-057-financing-truth/audit.py"
+      ],
+      "exit_code": 0,
+      "tests": null,
+      "sha256": "5c915d834e680afa1b866a58d042bfd8bc3ef771dadfe106e7bc092d841f31ff"
+    },
+    {
+      "artifact": "evidence/tests.log",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/scratch/c4985976a2bf/nexus-quant-capital/migration/experiments/nqc-057-financing-truth",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 8,
+      "sha256": "725f786c66d16c79dbea2bd246051f741c1acef79d57ae5cf636622a2bc7f308"
+    },
+    {
+      "artifact": "evidence/isolation-tests.log",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "migration",
+        "-p",
+        "test_isolation.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 9,
+      "sha256": "86bb9074281e51ea3351b93d014a5e6b3f4b551cd65b4803e1dbb2dfc3c3dc68"
+    },
+    {
+      "artifact": "evidence/isolation.json",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "migration/verify_isolation.py"
+      ],
+      "exit_code": 0,
+      "tests": null,
+      "sha256": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940"
+    }
+  ],
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "dependencies": "Python standard library and Git; no installation",
+  "tests_failed": 0,
+  "tests_skipped": 0,
+  "new_EVM_executions": 0,
+  "network_requests_by_checks": 0,
+  "not_rerun": [
+    "Old equivalent synthetic simulations and their suites",
+    "Rust/Solidity: unchanged",
+    "NQC018/023 CI exports: published audit summaries only; no new export recovery",
+    "Provider acceptance, signature, bundle, RPC and financial execution: unauthorized"
+  ],
+  "discovery_issue": "One metadata inspection assumed an object where prior public-sources.json is a list (AttributeError). Corrected read succeeded. No source edit or test-result change.",
+  "public_read_limits": "Both documentation llms.txt index reads returned reader internal errors; not retried. Eight scoped official pages were readable.",
+  "commercial_admission": false
+}

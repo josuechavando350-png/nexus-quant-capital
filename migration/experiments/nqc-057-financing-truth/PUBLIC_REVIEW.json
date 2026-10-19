@@ -1,0 +1,78 @@
+{
+  "reviewed_at_utc": "2026-10-19T20:17:17.751Z",
+  "method": "Public web reader GET/open plus restricted official-domain search; no builder/statistics/RPC endpoints contacted",
+  "scope": "Availability and text observed on review date; not deployment behavior, service uptime, contract acceptance or a complete terms audit",
+  "snapshots": "Minimal excerpts and source locators only. No full HTML/HTTP-body hash claimed. SHA256SUMS binds this review record, not a mutable remote page.",
+  "sources": [
+    {
+      "id": "T_API",
+      "url": "https://docs.titanbuilder.xyz/api/eth_sendbundle",
+      "ref": "turn6view0",
+      "section": "Sponsored Bundles and API schema",
+      "excerpt": "the bundle must of course increase the builder balance"
+    },
+    {
+      "id": "Q_API",
+      "url": "https://docs.quasar.win/api/eth_sendbundle",
+      "ref": "turn6view1",
+      "section": "Sponsored Bundles and API schema",
+      "excerpt": "we will send the ETH required to cover the gas fees"
+    },
+    {
+      "id": "T_ARTICLE",
+      "url": "https://titanbuilder.substack.com/p/titan-tech-teatime-1",
+      "ref": "turn7view0",
+      "section": "Sponsored Bundles",
+      "published": "2023-07-03",
+      "excerpt": "Add (prepend) our ETH transfer"
+    },
+    {
+      "id": "T_GENERAL",
+      "url": "https://docs.titanbuilder.xyz/",
+      "ref": "turn7view1",
+      "section": "Block Building Algorithm",
+      "excerpt": "We will never unbundle a bundle"
+    },
+    {
+      "id": "Q_GENERAL",
+      "url": "https://docs.quasar.win/",
+      "ref": "turn7view2",
+      "section": "Getting Started",
+      "excerpt": "No authentication required"
+    },
+    {
+      "id": "Q_TRACE",
+      "url": "https://docs.quasar.win/bundle-tracing",
+      "ref": "turn9view0",
+      "section": "Bundle States",
+      "excerpt": "may have landed on chain"
+    },
+    {
+      "id": "Q_AUTH",
+      "url": "https://docs.quasar.win/authentication",
+      "ref": "turn9view1",
+      "section": "Authentication",
+      "excerpt": "Authentication is optional"
+    },
+    {
+      "id": "T_TRACE",
+      "url": "https://docs.titanbuilder.xyz/bundle-tracing",
+      "ref": "turn10view0",
+      "section": "Understanding Bundle Statuses",
+      "excerpt": "post-bundle and pre-bundle"
+    }
+  ],
+  "inaccessible": [
+    {
+      "url": "https://docs.titanbuilder.xyz/llms.txt",
+      "result": "Web reader internal error; no retry"
+    },
+    {
+      "url": "https://docs.quasar.win/llms.txt",
+      "result": "Web reader internal error; no retry"
+    }
+  ],
+  "comparison_with_pinned_prior_review": "No decisive new financing or no-recourse assurance found. Capabilities and gaps remain materially consistent with titan_spec and NQC023.",
+  "private_commercial_terms_reviewed": false,
+  "specific_NQC_acceptance_found": false
+}

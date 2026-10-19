@@ -1,0 +1,734 @@
+{
+  "NQC018_and_NQC023": "Pinned published audit summaries read; their CI exports were not re-downloaded or independently replayed here.",
+  "cases": [
+    {
+      "NQC_WETH_residue_raw": "159365645570551238",
+      "NQC_retained_advance_wei": "0",
+      "actual_production_ownership": "UNKNOWN",
+      "all_addresses_asset_deltas_raw": {
+        "0x0000000000000000000000000000000000001001": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001002": {
+          "COLLATERAL": "0",
+          "ETH": "-1123326000000000",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001003": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "159365645570551238"
+        },
+        "0x0000000000000000000000000000000000001004": {
+          "COLLATERAL": "0",
+          "ETH": "2000000000000000",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001005": {
+          "COLLATERAL": "0",
+          "ETH": "42339206000000000",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001006": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001007": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001008": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001009": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0ae7b2bc682f98777448fcb90dd47ed6fc66e9fe": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x11ec24a407a007edf98efc05684210398b9f65f7": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x320bbedf9c19c83ea38f86dc510f5c00414b3ff2": {
+          "COLLATERAL": "-9278589654372535368",
+          "ETH": "0",
+          "WETH": "8000000000000000000"
+        },
+        "0x3817e247023b4f489352758397040b1fd33b300a": {
+          "COLLATERAL": "0",
+          "ETH": "-90000000000000000",
+          "WETH": "0"
+        },
+        "0x5691db26156a62f30a98ce05b4b3d46fb016e0ed": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x7c661d3291474375653344732fc67ea90908a9c0": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x80dc2e42c293308ba298c0a8323ff23c900f33f8": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0xd1ee0342de24c3f450a40fa05c776d7f4a2519e7": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0xe26a8e6134f414f067e3104e60d86041b4fa968a": {
+          "COLLATERAL": "9278589654372535368",
+          "ETH": "0",
+          "WETH": "-8249365645570551238"
+        }
+      },
+      "asset_identities": {
+        "COLLATERAL": "0x7c661d3291474375653344732fc67ea90908a9c0",
+        "ETH": "native:31337",
+        "WETH": "0x3817e247023b4f489352758397040b1fd33b300a"
+      },
+      "builder_cash_delta_wei": "2000000000000000",
+      "cash_terms_wei": {
+        "A_disbursed_wei": "300000000000000000",
+        "F_funding_gas_wei": "441000000000000",
+        "O_other_cash_costs_wei": "2441000000000000",
+        "P_separate_proposer_payment_wei": "0",
+        "R_refund_wei": "50000000000000000",
+        "U_actually_returned_wei": "251758674000000000",
+        "V_other_receipts_wei": "0"
+      },
+      "chain_id": 31337,
+      "complete_local_path": true,
+      "evidence_sources": [
+        "A2_C1_high_gas",
+        "titan_ledger"
+      ],
+      "external_costs": "UNKNOWN",
+      "financier_and_builder_deltas_are_not_additive_if_same_address": true,
+      "financier_cash_delta_wei": "-1123326000000000",
+      "funding_asset": "ETH",
+      "gas_cost_wei": "49123326000000000",
+      "gas_units": 2339206,
+      "identities": {
+        "DEX_pool": "0xe26a8e6134f414f067e3104e60d86041b4fa968a",
+        "WETH_wrapper": "0x3817e247023b4f489352758397040b1fd33b300a",
+        "borrower": "0x0000000000000000000000000000000000001007",
+        "builder": "0x0000000000000000000000000000000000001004",
+        "executor": "0x80dc2e42c293308ba298c0a8323ff23c900f33f8",
+        "financier": "0x0000000000000000000000000000000000001002",
+        "owner_operator_LAB_ALIAS": "0x0000000000000000000000000000000000001003",
+        "proposer": "0x0000000000000000000000000000000000001005",
+        "protocol": "0x320bbedf9c19c83ea38f86dc510f5c00414b3ff2"
+      },
+      "personal_recourse": "UNKNOWN",
+      "principal_asset": "WETH",
+      "proposer_cash_delta_wei": "42339206000000000",
+      "real_financing_secured": false,
+      "same_financier_builder_address_in_this_fixture": false,
+      "scenario": "A2_C1_high_gas",
+      "scope": "LAB_ONLY",
+      "source_pointer": "/scenarios/A2_C1_high_gas/cashflows_and_all_asset_balances",
+      "state": "UNSUPPORTED_OR_ECONOMICALLY_REJECTED"
+    },
+    {
+      "NQC_WETH_residue_raw": "159365645570551238",
+      "NQC_retained_advance_wei": "0",
+      "actual_production_ownership": "UNKNOWN",
+      "all_addresses_asset_deltas_raw": {
+        "0x0000000000000000000000000000000000001001": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001002": {
+          "COLLATERAL": "0",
+          "ETH": "43321588000000000",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001003": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "159365645570551238"
+        },
+        "0x0000000000000000000000000000000000001004": {
+          "COLLATERAL": "0",
+          "ETH": "2000000000000000",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001005": {
+          "COLLATERAL": "0",
+          "ETH": "42339206000000000",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001006": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001007": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001008": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001009": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0ae7b2bc682f98777448fcb90dd47ed6fc66e9fe": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x11ec24a407a007edf98efc05684210398b9f65f7": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x320bbedf9c19c83ea38f86dc510f5c00414b3ff2": {
+          "COLLATERAL": "-9278589654372535368",
+          "ETH": "0",
+          "WETH": "8000000000000000000"
+        },
+        "0x3817e247023b4f489352758397040b1fd33b300a": {
+          "COLLATERAL": "0",
+          "ETH": "-90000000000000000",
+          "WETH": "0"
+        },
+        "0x5691db26156a62f30a98ce05b4b3d46fb016e0ed": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x7c661d3291474375653344732fc67ea90908a9c0": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x80dc2e42c293308ba298c0a8323ff23c900f33f8": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0xd1ee0342de24c3f450a40fa05c776d7f4a2519e7": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0xe26a8e6134f414f067e3104e60d86041b4fa968a": {
+          "COLLATERAL": "9278589654372535368",
+          "ETH": "0",
+          "WETH": "-8249365645570551238"
+        }
+      },
+      "asset_identities": {
+        "COLLATERAL": "0x7c661d3291474375653344732fc67ea90908a9c0",
+        "ETH": "native:31337",
+        "WETH": "0x3817e247023b4f489352758397040b1fd33b300a"
+      },
+      "builder_cash_delta_wei": "2000000000000000",
+      "cash_terms_wei": {
+        "A_disbursed_wei": "30000000000000000",
+        "F_funding_gas_wei": "42000000000000",
+        "O_other_cash_costs_wei": "2042000000000000",
+        "P_separate_proposer_payment_wei": "0",
+        "R_refund_wei": "50000000000000000",
+        "U_actually_returned_wei": "25405588000000000",
+        "V_other_receipts_wei": "0"
+      },
+      "chain_id": 31337,
+      "complete_local_path": true,
+      "evidence_sources": [
+        "A2_C1_zero_cash",
+        "titan_ledger"
+      ],
+      "external_costs": "UNKNOWN",
+      "financier_and_builder_deltas_are_not_additive_if_same_address": true,
+      "financier_cash_delta_wei": "43321588000000000",
+      "funding_asset": "ETH",
+      "gas_cost_wei": "4678412000000000",
+      "gas_units": 2339206,
+      "identities": {
+        "DEX_pool": "0xe26a8e6134f414f067e3104e60d86041b4fa968a",
+        "WETH_wrapper": "0x3817e247023b4f489352758397040b1fd33b300a",
+        "borrower": "0x0000000000000000000000000000000000001007",
+        "builder": "0x0000000000000000000000000000000000001004",
+        "executor": "0x80dc2e42c293308ba298c0a8323ff23c900f33f8",
+        "financier": "0x0000000000000000000000000000000000001002",
+        "owner_operator_LAB_ALIAS": "0x0000000000000000000000000000000000001003",
+        "proposer": "0x0000000000000000000000000000000000001005",
+        "protocol": "0x320bbedf9c19c83ea38f86dc510f5c00414b3ff2"
+      },
+      "personal_recourse": "UNKNOWN",
+      "principal_asset": "WETH",
+      "proposer_cash_delta_wei": "42339206000000000",
+      "real_financing_secured": false,
+      "same_financier_builder_address_in_this_fixture": false,
+      "scenario": "A2_C1_zero_cash",
+      "scope": "LAB_ONLY",
+      "source_pointer": "/scenarios/A2_C1_zero_cash/cashflows_and_all_asset_balances",
+      "state": "MODEL_VALIDATED_ONLY"
+    },
+    {
+      "NQC_WETH_residue_raw": "159365645570551238",
+      "NQC_retained_advance_wei": "0",
+      "actual_production_ownership": "UNKNOWN",
+      "all_addresses_asset_deltas_raw": {
+        "0x0000000000000000000000000000000000001001": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001002": {
+          "COLLATERAL": "0",
+          "ETH": "50000000000000000",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001003": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "159365645570551238"
+        },
+        "0x0000000000000000000000000000000000001004": {
+          "COLLATERAL": "0",
+          "ETH": "-4636412000000000",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001005": {
+          "COLLATERAL": "0",
+          "ETH": "42318206000000000",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001006": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001007": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001008": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001009": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0ae7b2bc682f98777448fcb90dd47ed6fc66e9fe": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x11ec24a407a007edf98efc05684210398b9f65f7": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x320bbedf9c19c83ea38f86dc510f5c00414b3ff2": {
+          "COLLATERAL": "-9278589654372535368",
+          "ETH": "0",
+          "WETH": "8000000000000000000"
+        },
+        "0x3817e247023b4f489352758397040b1fd33b300a": {
+          "COLLATERAL": "0",
+          "ETH": "-90000000000000000",
+          "WETH": "0"
+        },
+        "0x5691db26156a62f30a98ce05b4b3d46fb016e0ed": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x7c661d3291474375653344732fc67ea90908a9c0": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x80dc2e42c293308ba298c0a8323ff23c900f33f8": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0xd1ee0342de24c3f450a40fa05c776d7f4a2519e7": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0xe26a8e6134f414f067e3104e60d86041b4fa968a": {
+          "COLLATERAL": "9278589654372535368",
+          "ETH": "0",
+          "WETH": "-8249365645570551238"
+        }
+      },
+      "asset_identities": {
+        "COLLATERAL": "0x7c661d3291474375653344732fc67ea90908a9c0",
+        "ETH": "native:31337",
+        "WETH": "0x3817e247023b4f489352758397040b1fd33b300a"
+      },
+      "builder_cash_delta_wei": "-4636412000000000",
+      "cash_terms_wei": {
+        "A_disbursed_wei": "30000000000000000",
+        "F_funding_gas_wei": "42000000000000",
+        "O_other_cash_costs_wei": "0",
+        "P_separate_proposer_payment_wei": "0",
+        "R_refund_wei": "0",
+        "U_actually_returned_wei": "25405588000000000",
+        "V_other_receipts_wei": "0"
+      },
+      "chain_id": 31337,
+      "complete_local_path": true,
+      "evidence_sources": [
+        "V05_builder_funds_external_refund",
+        "titan_ledger"
+      ],
+      "external_costs": "UNKNOWN",
+      "financier_and_builder_deltas_are_not_additive_if_same_address": true,
+      "financier_cash_delta_wei": "-4636412000000000",
+      "funding_asset": "ETH",
+      "gas_cost_wei": "4636412000000000",
+      "gas_units": 2318206,
+      "identities": {
+        "DEX_pool": "0xe26a8e6134f414f067e3104e60d86041b4fa968a",
+        "WETH_wrapper": "0x3817e247023b4f489352758397040b1fd33b300a",
+        "borrower": "0x0000000000000000000000000000000000001007",
+        "builder": "0x0000000000000000000000000000000000001004",
+        "executor": "0x80dc2e42c293308ba298c0a8323ff23c900f33f8",
+        "financier": "0x0000000000000000000000000000000000001004",
+        "owner_operator_LAB_ALIAS": "0x0000000000000000000000000000000000001003",
+        "proposer": "0x0000000000000000000000000000000000001005",
+        "protocol": "0x320bbedf9c19c83ea38f86dc510f5c00414b3ff2"
+      },
+      "personal_recourse": "UNKNOWN",
+      "principal_asset": "WETH",
+      "proposer_cash_delta_wei": "42318206000000000",
+      "real_financing_secured": false,
+      "same_financier_builder_address_in_this_fixture": true,
+      "scenario": "V05_builder_funds_external_refund",
+      "scope": "LAB_ONLY",
+      "source_pointer": "/scenarios/V05_builder_funds_external_refund/cashflows_and_all_asset_balances",
+      "state": "UNSUPPORTED_OR_ECONOMICALLY_REJECTED"
+    },
+    {
+      "NQC_WETH_residue_raw": "159365645570551238",
+      "NQC_retained_advance_wei": "0",
+      "actual_production_ownership": "UNKNOWN",
+      "all_addresses_asset_deltas_raw": {
+        "0x0000000000000000000000000000000000001001": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001002": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001003": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "159365645570551238"
+        },
+        "0x0000000000000000000000000000000000001004": {
+          "COLLATERAL": "0",
+          "ETH": "45363588000000000",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001005": {
+          "COLLATERAL": "0",
+          "ETH": "42318206000000000",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001006": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001007": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001008": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001009": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0ae7b2bc682f98777448fcb90dd47ed6fc66e9fe": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x11ec24a407a007edf98efc05684210398b9f65f7": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x320bbedf9c19c83ea38f86dc510f5c00414b3ff2": {
+          "COLLATERAL": "-9278589654372535368",
+          "ETH": "0",
+          "WETH": "8000000000000000000"
+        },
+        "0x3817e247023b4f489352758397040b1fd33b300a": {
+          "COLLATERAL": "0",
+          "ETH": "-90000000000000000",
+          "WETH": "0"
+        },
+        "0x5691db26156a62f30a98ce05b4b3d46fb016e0ed": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x7c661d3291474375653344732fc67ea90908a9c0": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x80dc2e42c293308ba298c0a8323ff23c900f33f8": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0xd1ee0342de24c3f450a40fa05c776d7f4a2519e7": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0xe26a8e6134f414f067e3104e60d86041b4fa968a": {
+          "COLLATERAL": "9278589654372535368",
+          "ETH": "0",
+          "WETH": "-8249365645570551238"
+        }
+      },
+      "asset_identities": {
+        "COLLATERAL": "0x7c661d3291474375653344732fc67ea90908a9c0",
+        "ETH": "native:31337",
+        "WETH": "0x3817e247023b4f489352758397040b1fd33b300a"
+      },
+      "builder_cash_delta_wei": "45363588000000000",
+      "cash_terms_wei": {
+        "A_disbursed_wei": "30000000000000000",
+        "F_funding_gas_wei": "42000000000000",
+        "O_other_cash_costs_wei": "0",
+        "P_separate_proposer_payment_wei": "0",
+        "R_refund_wei": "50000000000000000",
+        "U_actually_returned_wei": "25405588000000000",
+        "V_other_receipts_wei": "0"
+      },
+      "chain_id": 31337,
+      "complete_local_path": true,
+      "evidence_sources": [
+        "V06_builder_funds_own_refund",
+        "titan_ledger"
+      ],
+      "external_costs": "UNKNOWN",
+      "financier_and_builder_deltas_are_not_additive_if_same_address": true,
+      "financier_cash_delta_wei": "45363588000000000",
+      "funding_asset": "ETH",
+      "gas_cost_wei": "4636412000000000",
+      "gas_units": 2318206,
+      "identities": {
+        "DEX_pool": "0xe26a8e6134f414f067e3104e60d86041b4fa968a",
+        "WETH_wrapper": "0x3817e247023b4f489352758397040b1fd33b300a",
+        "borrower": "0x0000000000000000000000000000000000001007",
+        "builder": "0x0000000000000000000000000000000000001004",
+        "executor": "0x80dc2e42c293308ba298c0a8323ff23c900f33f8",
+        "financier": "0x0000000000000000000000000000000000001004",
+        "owner_operator_LAB_ALIAS": "0x0000000000000000000000000000000000001003",
+        "proposer": "0x0000000000000000000000000000000000001005",
+        "protocol": "0x320bbedf9c19c83ea38f86dc510f5c00414b3ff2"
+      },
+      "personal_recourse": "UNKNOWN",
+      "principal_asset": "WETH",
+      "proposer_cash_delta_wei": "42318206000000000",
+      "real_financing_secured": false,
+      "same_financier_builder_address_in_this_fixture": true,
+      "scenario": "V06_builder_funds_own_refund",
+      "scope": "LAB_ONLY",
+      "source_pointer": "/scenarios/V06_builder_funds_own_refund/cashflows_and_all_asset_balances",
+      "state": "MODEL_VALIDATED_ONLY"
+    },
+    {
+      "NQC_WETH_residue_raw": "0",
+      "NQC_retained_advance_wei": "10000000000000",
+      "actual_production_ownership": "UNKNOWN",
+      "all_addresses_asset_deltas_raw": {
+        "0x0000000000000000000000000000000000001001": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001002": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001003": {
+          "COLLATERAL": "0",
+          "ETH": "10000000000000",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001004": {
+          "COLLATERAL": "0",
+          "ETH": "-52000000000000",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001005": {
+          "COLLATERAL": "0",
+          "ETH": "21000000000000",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001006": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001007": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001008": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0000000000000000000000000000000000001009": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x0ae7b2bc682f98777448fcb90dd47ed6fc66e9fe": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x11ec24a407a007edf98efc05684210398b9f65f7": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x320bbedf9c19c83ea38f86dc510f5c00414b3ff2": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x3817e247023b4f489352758397040b1fd33b300a": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x5691db26156a62f30a98ce05b4b3d46fb016e0ed": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x7c661d3291474375653344732fc67ea90908a9c0": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0x80dc2e42c293308ba298c0a8323ff23c900f33f8": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0xd1ee0342de24c3f450a40fa05c776d7f4a2519e7": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        },
+        "0xe26a8e6134f414f067e3104e60d86041b4fa968a": {
+          "COLLATERAL": "0",
+          "ETH": "0",
+          "WETH": "0"
+        }
+      },
+      "asset_identities": {
+        "COLLATERAL": "0x7c661d3291474375653344732fc67ea90908a9c0",
+        "ETH": "native:31337",
+        "WETH": "0x3817e247023b4f489352758397040b1fd33b300a"
+      },
+      "builder_cash_delta_wei": "-52000000000000",
+      "cash_terms_wei": {
+        "A_disbursed_wei": "10000000000000",
+        "F_funding_gas_wei": "42000000000000",
+        "O_other_cash_costs_wei": "0",
+        "P_separate_proposer_payment_wei": "0",
+        "R_refund_wei": "0",
+        "U_actually_returned_wei": "0",
+        "V_other_receipts_wei": "0"
+      },
+      "chain_id": 31337,
+      "complete_local_path": false,
+      "evidence_sources": [
+        "V07_partial_topup",
+        "titan_ledger"
+      ],
+      "external_costs": "UNKNOWN",
+      "financier_and_builder_deltas_are_not_additive_if_same_address": true,
+      "financier_cash_delta_wei": "-52000000000000",
+      "funding_asset": "ETH",
+      "gas_cost_wei": "42000000000000",
+      "gas_units": 21000,
+      "identities": {
+        "DEX_pool": "0xe26a8e6134f414f067e3104e60d86041b4fa968a",
+        "WETH_wrapper": "0x3817e247023b4f489352758397040b1fd33b300a",
+        "borrower": "0x0000000000000000000000000000000000001007",
+        "builder": "0x0000000000000000000000000000000000001004",
+        "executor": "0x80dc2e42c293308ba298c0a8323ff23c900f33f8",
+        "financier": "0x0000000000000000000000000000000000001004",
+        "owner_operator_LAB_ALIAS": "0x0000000000000000000000000000000000001003",
+        "proposer": "0x0000000000000000000000000000000000001005",
+        "protocol": "0x320bbedf9c19c83ea38f86dc510f5c00414b3ff2"
+      },
+      "personal_recourse": "UNKNOWN",
+      "principal_asset": "WETH",
+      "proposer_cash_delta_wei": "21000000000000",
+      "real_financing_secured": false,
+      "same_financier_builder_address_in_this_fixture": true,
+      "scenario": "V07_partial_topup",
+      "scope": "LAB_ONLY",
+      "source_pointer": "/scenarios/V07_partial_topup/cashflows_and_all_asset_balances",
+      "state": "UNSUPPORTED_OR_ECONOMICALLY_REJECTED"
+    }
+  ],
+  "commercial_admission": false,
+  "decision": "FINANCING_DOCUMENTATION_BOUNDARY_REACHED",
+  "lab_cases_cross_checked": 5,
+  "new_EVM_scenarios": 0,
+  "personal_recourse": "UNKNOWN",
+  "pinned_sources_verified": 27,
+  "real_financier_committed": false,
+  "schema": "nqc057-consolidation-v1",
+  "scope": "Cross-check published lab flow extraction against pinned snapshots and receipts; no historical mainnet authentication or full EVM verification."
+}

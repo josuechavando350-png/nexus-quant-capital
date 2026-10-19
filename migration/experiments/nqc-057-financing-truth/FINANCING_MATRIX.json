@@ -1,0 +1,230 @@
+{
+  "schema": "nqc057-financing-matrix-v1",
+  "decision": "FINANCING_DOCUMENTATION_BOUNDARY_REACHED",
+  "real_financier_committed": false,
+  "commercial_admission": false,
+  "evidence_layers": [
+    "Official public text",
+    "Pinned source code",
+    "Archived lab execution",
+    "Commercial terms UNKNOWN",
+    "Provider-specific acceptance ABSENT",
+    "Explicit inference only"
+  ],
+  "mechanisms": [
+    {
+      "id": "titan",
+      "mechanism": "Titan sponsored bundle",
+      "state": "PUBLIC_DOCUMENTATION_SUPPORTED",
+      "commercial_state": "COMMERCIAL_TERMS_UNVERIFIED",
+      "chain_scope": "Ethereum context in pinned investigations and public material; acceptance of NQC chain 1 untested; no extension to 31337 or 4663",
+      "gas_coverage": "Conditional documented ETH advance",
+      "value_or_principal": "ETH value documented; not an unconditional ERC20 credit line",
+      "prior_funds": "Builder must supply real ETH before underfunded transactions; amount and capacity UNKNOWN",
+      "repayment": "Recovery through builder economics; NQC-specific advance/unused-return agreement UNKNOWN",
+      "inclusion": "Positive builder economics plus selection; documentation is not a commitment",
+      "residual_liability": "UNKNOWN",
+      "public_evidence": [
+        "T_API",
+        "T_ARTICLE",
+        "T_GENERAL",
+        "T_TRACE"
+      ],
+      "archived_evidence": [
+        "titan_spec",
+        "titan_gaps",
+        "nqc023"
+      ],
+      "missing": [
+        "Identified funder and recipients",
+        "Funding amount and prefix cap coverage",
+        "CREATE and initialization support for exact sequence",
+        "Return of unused funds",
+        "Net builder criterion including proposer costs",
+        "Loss allocation and no-recourse terms",
+        "Exact candidate acceptance"
+      ],
+      "documentary_compatibility": "Conditional hypothesis; only generic capability established",
+      "next_gate": "One applicable public policy or authenticated permitted artifact covering missing fields; no contact or submission authorized",
+      "provider_acceptance_evidence": null,
+      "personal_recourse": "UNKNOWN",
+      "real_provider_implementation_observed": false,
+      "gas_failure_allocation": "See PARTICIPANTS.md; local cash effects do not establish legal loss allocation",
+      "participant_income": "Unknown in production; exact separated lab asset vectors in evidence/reconciliation.json",
+      "live_authorized": false
+    },
+    {
+      "id": "quasar",
+      "mechanism": "Quasar sponsored bundle",
+      "state": "PUBLIC_DOCUMENTATION_SUPPORTED",
+      "commercial_state": "COMMERCIAL_TERMS_UNVERIFIED",
+      "chain_scope": "Ethereum investigation context; exact chain 1 acceptance untested; no other-chain extrapolation",
+      "gas_coverage": "Conditional documented ETH advance",
+      "value_or_principal": "UNKNOWN: gas description does not establish ETH value or ERC20 principal funding",
+      "prior_funds": "External builder ETH needed; actual capacity and advance UNKNOWN",
+      "repayment": "Builder recovery required; exact NQC settlement and unused-return rules UNKNOWN",
+      "inclusion": "Economic selection; passing simulation or relay submission is not landing",
+      "residual_liability": "UNKNOWN",
+      "public_evidence": [
+        "Q_API",
+        "Q_TRACE",
+        "Q_AUTH",
+        "Q_GENERAL"
+      ],
+      "archived_evidence": [
+        "titan_spec",
+        "e2e_boundary"
+      ],
+      "missing": [
+        "Gas-only versus value applicability",
+        "CREATE/multiple-step coverage",
+        "Funder and beneficiaries",
+        "Funding amount and timing",
+        "Refund base ambiguity",
+        "Loss allocation and no-recourse",
+        "Exact candidate acceptance"
+      ],
+      "documentary_compatibility": "Gas route plausible; extra value coverage unproved",
+      "next_gate": "Applicable evidence of gas-only sequence coverage and loss terms before any real probe",
+      "provider_acceptance_evidence": null,
+      "personal_recourse": "UNKNOWN",
+      "real_provider_implementation_observed": false,
+      "gas_failure_allocation": "See PARTICIPANTS.md; local cash effects do not establish legal loss allocation",
+      "participant_income": "Unknown in production; exact separated lab asset vectors in evidence/reconciliation.json",
+      "live_authorized": false
+    },
+    {
+      "id": "collateral_first",
+      "mechanism": "Morpho liquidate callback, C1",
+      "state": "MODEL_VALIDATED_ONLY",
+      "commercial_state": "INSUFFICIENT_EVIDENCE",
+      "chain_scope": "Pinned upstream code; original-contract lab chain 31337. Candidate Ethereum runtime/prestate not authenticated",
+      "gas_coverage": "None from callback alone",
+      "value_or_principal": "Can avoid advancing full debt if collateral sale funds the repayment in the same call",
+      "prior_funds": "Gas/preparation must still be funded externally now",
+      "repayment": "Full repaidAssets pulled in same transaction; shortfall reverts the call",
+      "inclusion": "Independent gas funding and competitive inclusion still needed",
+      "residual_liability": "Protocol call is atomic; external gas/financing liability UNKNOWN",
+      "public_evidence": [],
+      "archived_evidence": [
+        "morpho",
+        "morpho_origin",
+        "e2e_results",
+        "gate_routes",
+        "nqc056"
+      ],
+      "missing": [
+        "Authentic target state",
+        "Executable sale sufficient for debt and all obligations",
+        "Gas payer and no-recourse terms",
+        "Competitive inclusion"
+      ],
+      "documentary_compatibility": "Preferred technical hypothesis for avoiding principal; not an economic opportunity",
+      "next_gate": "Same-state authentic candidate and concrete external gas terms; do not repeat synthetic C1",
+      "provider_acceptance_evidence": null,
+      "personal_recourse": "UNKNOWN",
+      "real_provider_implementation_observed": false,
+      "gas_failure_allocation": "See PARTICIPANTS.md; local cash effects do not establish legal loss allocation",
+      "participant_income": "Unknown in production; exact separated lab asset vectors in evidence/reconciliation.json",
+      "live_authorized": false
+    },
+    {
+      "id": "morpho_flash",
+      "mechanism": "Pinned Morpho flashLoan / lab C2",
+      "state": "MODEL_VALIDATED_ONLY",
+      "commercial_state": "INSUFFICIENT_EVIDENCE",
+      "chain_scope": "Pinned source and lab 31337 only; production deployment/liquidity not verified here",
+      "gas_coverage": "None",
+      "value_or_principal": "Token amount limited by actual available balance; lab requests 8 WETH",
+      "prior_funds": "Gas and setup external; flash lender needs sufficient token cash",
+      "repayment": "Same assets pulled after callback in pinned source, with no extra fee parameter in this version; sale, gas and other obligations remain",
+      "inclusion": "Atomic token return is necessary; does not finance gas or guarantee inclusion",
+      "residual_liability": "No successful protocol flash debt left by that call; external personal liability UNKNOWN",
+      "public_evidence": [],
+      "archived_evidence": [
+        "morpho",
+        "gate_routes",
+        "gate_comparison"
+      ],
+      "missing": [
+        "Production runtime binding",
+        "Available asset balance at intended state",
+        "All route costs",
+        "Gas finance and loss terms"
+      ],
+      "documentary_compatibility": "Technical alternative only; not a standing offer or free complete financing",
+      "next_gate": "Only revisit if an authentic route needs flash liquidity and demonstrates incremental economic value",
+      "provider_acceptance_evidence": null,
+      "personal_recourse": "UNKNOWN",
+      "real_provider_implementation_observed": false,
+      "gas_failure_allocation": "See PARTICIPANTS.md; local cash effects do not establish legal loss allocation",
+      "participant_income": "Unknown in production; exact separated lab asset vectors in evidence/reconciliation.json",
+      "live_authorized": false
+    },
+    {
+      "id": "third_party",
+      "mechanism": "Distinct external financier / archived C1 model",
+      "state": "MODEL_VALIDATED_ONLY",
+      "commercial_state": "COMMERCIAL_TERMS_UNVERIFIED",
+      "chain_scope": "31337 laboratory; no real funded chain-specific offer",
+      "gas_coverage": "Synthetic advance in prior fixtures only",
+      "value_or_principal": "No production amount or asset offered",
+      "prior_funds": "External financier seeded with lab capital",
+      "repayment": "Lab R and U plus separate builder payment; not commercial terms",
+      "inclusion": "Financier, builder and proposer must each receive their own required amounts",
+      "residual_liability": "UNKNOWN",
+      "public_evidence": [],
+      "archived_evidence": [
+        "e2e_results",
+        "gate_economics",
+        "titan_ledger"
+      ],
+      "missing": [
+        "Actual provider",
+        "Funds and amount",
+        "Accepted pricing",
+        "No personal recourse",
+        "Failure allocation"
+      ],
+      "documentary_compatibility": "No real financier committed",
+      "next_gate": "No further simulations; applicable funding evidence required",
+      "provider_acceptance_evidence": null,
+      "personal_recourse": "UNKNOWN",
+      "real_provider_implementation_observed": false,
+      "gas_failure_allocation": "See PARTICIPANTS.md; local cash effects do not establish legal loss allocation",
+      "participant_income": "Unknown in production; exact separated lab asset vectors in evidence/reconciliation.json",
+      "live_authorized": false
+    },
+    {
+      "id": "owner_future_gas",
+      "mechanism": "Future owner gas allowance, not external financing",
+      "state": "UNSUPPORTED_OR_ECONOMICALLY_REJECTED",
+      "commercial_state": "INSUFFICIENT_EVIDENCE",
+      "chain_scope": "Future authorized Canary only; none during Census/Shadow",
+      "gas_coverage": "Not available now; future total cap 2000 MXN, top-ups <=500 MXN, review after first 1000 MXN without capture",
+      "value_or_principal": "Proprietary principal, collateral and guarantees prohibited",
+      "prior_funds": "Owner money only in a future authorized phase; no wallet funded here",
+      "repayment": "No funding agreement entered; no principal borrowing authorized",
+      "inclusion": "Cannot fund present research or bypass admission gates",
+      "residual_liability": "No new obligation accepted; complete external route liability UNKNOWN",
+      "public_evidence": [],
+      "archived_evidence": [
+        "nqc055",
+        "nqc056"
+      ],
+      "missing": [
+        "Separate Canary authorization",
+        "Profitable capturable candidate",
+        "Complete loss controls"
+      ],
+      "documentary_compatibility": "Unavailable in current phase; not an economic rejection of future bounded gas use",
+      "next_gate": "Remain disabled",
+      "provider_acceptance_evidence": null,
+      "personal_recourse": "UNKNOWN",
+      "real_provider_implementation_observed": false,
+      "gas_failure_allocation": "See PARTICIPANTS.md; local cash effects do not establish legal loss allocation",
+      "participant_income": "Unknown in production; exact separated lab asset vectors in evidence/reconciliation.json",
+      "live_authorized": false
+    }
+  ]
+}
