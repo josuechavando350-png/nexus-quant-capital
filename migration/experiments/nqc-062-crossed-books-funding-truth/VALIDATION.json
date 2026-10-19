@@ -1,0 +1,27 @@
+{
+  "schema": "nqc062-source-only-validation-v1",
+  "date_utc": "2026-10-19",
+  "mode": "SOURCE_DOCUMENTATION_REVIEW_ONLY",
+  "NQC_new_application_code_changed": false,
+  "new_runtime_tests_run": 0,
+  "new_runtime_tests_passed": 0,
+  "new_runtime_tests_failed": 0,
+  "local_checks": {
+    "all_json_source_inputs_parse": true,
+    "source_manifest_contains_pinned_upstream_commit": true,
+    "primary_source_git_blobs_reviewed": 8,
+    "published_readme_reconciles_base_vs_ethereum": true,
+    "promotional_credits_not_construed_as_funding": true,
+    "no_authenticated_profit_evidence": true,
+    "sha256_manifest_computed_locally": true
+  },
+  "not_run": [
+    "Full repository isolation verifier: full remote checkout unavailable in this container",
+    "NQC055-061 regression suite: code untouched, original checkout unavailable",
+    "EVM replay: no canonical Base crossed-books transaction packet identified",
+    "Solidity tests: protocol original source read-only, no local protocol build",
+    "Live provider acceptance / KYC / capital, signatures, deployments or RPC: not authorized"
+  ],
+  "commercial_admission": false,
+  "canary_enabled": false
+}

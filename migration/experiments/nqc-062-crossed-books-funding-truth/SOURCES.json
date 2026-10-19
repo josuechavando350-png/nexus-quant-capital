@@ -1,0 +1,27 @@
+{
+  "schema": "nqc062-source-manifest-v1",
+  "review_date_utc": "2026-10-19",
+  "official_repo": "https://github.com/morpho-org/morpho-bots",
+  "official_repo_commit": "08d0a415d6d027f7e401fd6a904b09bedb441668",
+  "official_git_files": [
+    {"path":"bots/midnight-crossed-books/README.md","git_blob_sha1":"3627c3f1ba8c0f56ac68a12e114c965823236ece"},
+    {"path":"packages/contracts/solidity/CrossedBooksResolver.sol","git_blob_sha1":"bc4d41dcecba0e30cdaec2d57194378f197a0ef8"},
+    {"path":"bots/midnight-crossed-books/src/config/config.service.ts","git_blob_sha1":"8f3e8f543ecae4a950ccb0973f60f18f14f7246b"},
+    {"path":"bots/midnight-crossed-books/src/infrastructure/resolver/resolver.service.ts","git_blob_sha1":"0e6eef11a31d16a035968f072d4a2014ed52693e"},
+    {"path":"bots/midnight-crossed-books/src/application/crossed-books-bot.service.ts","git_blob_sha1":"34666b6e66f9a9c212c26c2fcf7b86f7dd64d912"},
+    {"path":"bots/midnight-crossed-books/src/domain/matching.service.ts","git_blob_sha1":"58547efc8085ed063475e91f96d9f6aa83a0065b"},
+    {"path":"bots/midnight-liquidation/scripts/seed-loan-collateral-position.ts","git_blob_sha1":"d99d178e7c7f38dfed6da851c338b98c994b8d52"},
+    {"path":"bots/midnight-liquidation/src/config.ts","git_blob_sha1":"d44df9b15659a36dd8ff33065b9e82615b4b9d3f"}
+  ],
+  "outside_primary_documentation": [
+    {"url":"https://docs.cdp.coinbase.com/wallet-api/v2/evm-features/managed-mode","supports":"CDP paymaster Base Smart Account automatic gas sponsorship documented; not specific searcher acceptance"},
+    {"url":"https://www.coinbase.com/developer-platform/products/paymaster","supports":"Promotional up-to credits on Base, not a commitment"},
+    {"url":"https://www.coinbase.com/de/legal/developer-platform/terms-of-service","supports":"Paymaster billed developer, sponsorship for end users, promotional trial eligibility and liability"},
+    {"url":"https://docs.titanbuilder.xyz/api/eth_sendbundle","supports":"Titan conditional sponsored bundles; not Base CrossedBooks acceptance"},
+    {"url":"https://gov.ethenafoundation.com/t/proposal-asset-allocation-to-morpho-midnight/848","supports":"Sept 21 stakeholder proposal reports 5.55M originated, 2.63M outstanding; scope aggregated Base-oriented adoption, not Ethereum or any resolver profit"}
+  ],
+  "method":"Read official anchored Git blobs and current primary docs without authenticating API user keys, using RPC or sending transactions. Published aggregate claims are not canonical receipts. No HTTP body checksum claims.",
+  "live_case_source_count": 0,
+  "previous_denied_Morpho_endpoint_retried": false,
+  "new_RPC_calls": 0
+}

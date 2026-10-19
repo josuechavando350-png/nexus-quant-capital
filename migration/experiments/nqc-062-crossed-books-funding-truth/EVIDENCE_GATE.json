@@ -1,0 +1,37 @@
+{
+  "schema": "nqc062-atomic-crossed-book-profit-evidence-gate-v1",
+  "strategy": "MORPHO_MIDNIGHT_CROSSED_BOOKS_RESOLVER",
+  "target_chain_id": 8453,
+  "status": "SOURCE_CODE_ONLY_NO_CANDIDATE",
+  "hard_required": [
+    {
+      "item": "onchain_deployment_and_code_identity",
+      "meaning": "Contract address, deployed bytecode+code hash and Midnight address in Base chain at target block. A Solidity source with deployment instructions is not proof of deployed bytecode."
+    },
+    {
+      "item": "canonical_resolve_transaction_and_receipt",
+      "meaning": "Canonical inclusion, status success, full Resolve log (caller, marketHash, units, profit in raw loan-token units), exact gasUsed/effectiveGasPrice and all token/native transfers."
+    },
+    {
+      "item": "asset_and_owner_identity",
+      "meaning": "Loan-token ERC20 address/decimals, owner of caller/smart account, actual NQC beneficiary and any withdrawals. Source contract profit transfer alone not NQC P&L."
+    },
+    {
+      "item": "predecision_books_and_match_rights",
+      "meaning": "Both takeable sides, sizes, offer expiries/ratifier signatures, fees, timing, competition; independent before-the-fact source that could be captured without hindsight."
+    },
+    {
+      "item": "financing_and_loss_terms",
+      "meaning": "ETH/gas sponsor actually committed, gas and CREATE covered, KYC/credits/billing, no personal recourse, partial reverts, no implicit project-billed liabilities."
+    },
+    {
+      "item": "competitor_and_net_ledger",
+      "meaning": "Inclusion payment, gas, sponsor markup, failure costs and net realized NQC cash ledger for outcome."
+    }
+  ],
+  "first_decision": "If a verifiable settled Resolve gross profit fails to cover costs (when expressed with authenticated conversions), reject that instance; if not enough evidence, maintain UNKNOWN.",
+  "chain_requirement": "Base 8453 only per current official bot, not Ethereum 1, Robinhood 4663, or synthetic 31337",
+  "source_restrictions": "No prior denied API retries, no alternative proxies to bypass denial, no RPC, no new account or paid data without new user authorization",
+  "NQC_specific_provider_acceptance": false,
+  "commercial_admission": false
+}
