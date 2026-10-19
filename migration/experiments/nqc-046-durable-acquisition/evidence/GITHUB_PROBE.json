@@ -1,0 +1,48 @@
+{
+  "mode": "DRY_RUN",
+  "repo": "josuechavando350-png/nexus-quant-capital",
+  "branch": "research/nqc-046-durable-acquisition-20261019",
+  "base_commit": "d066610d23ec5433365f08c46c7f73faec69e526",
+  "path": "migration/experiments/nqc-046-durable-acquisition/evidence/lease-smoke/01-reservation.json",
+  "claim_A": {
+    "commit": "0282b03a57c56dcbb4631a7d9202eec794527c4b",
+    "tree": "a78025a0dd90758580dfc5c88d7bb16195bbfac4",
+    "blob": "9f6419a8ea8397c214429aae67270d839c6b25c4"
+  },
+  "claim_B": {
+    "commit": "c51c6391bceee0757e060576849a165213c313c4",
+    "tree": "88c0f00e1b081b5473a3cf8f3e5523ba98f0c971",
+    "blob": "8dd6f50707dc5461a9d875667b4013304410c757"
+  },
+  "first_update": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Action completed."
+      }
+    ],
+    "structuredContent": {
+      "success": true
+    },
+    "isError": false
+  },
+  "second_update": {
+    "content": [
+      {
+        "type": "text",
+        "text": "GithubGraphQLAPIError: [{'message': 'Something went wrong while executing your query on 2026-10-19T15:25:48Z. Please include `DF84:33697B:1AEE300:57231C6:6AD6367C` when reporting this issue.'}]"
+      }
+    ],
+    "structuredContent": {
+      "error": "GithubGraphQLAPIError: [{'message': 'Something went wrong while executing your query on 2026-10-19T15:25:48Z. Please include `DF84:33697B:1AEE300:57231C6:6AD6367C` when reporting this issue.'}]",
+      "error_code": "UNKNOWN"
+    },
+    "isError": true
+  },
+  "branch_after_second": "0282b03a57c56dcbb4631a7d9202eec794527c4b",
+  "claim_bytes_readback_match": true,
+  "stale_lease_cause_confirmed": false,
+  "concurrent_requests_tested": false,
+  "rpc_requests_sent": 0,
+  "commercial_admission": false
+}
