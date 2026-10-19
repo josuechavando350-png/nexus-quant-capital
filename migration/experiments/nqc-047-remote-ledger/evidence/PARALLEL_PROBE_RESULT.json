@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-19",
+  "mode": "DRY_RUN",
+  "probe": "two parallel GitHub contents updates, same file SHA, one connector evaluator",
+  "path": "migration/experiments/nqc-047-remote-ledger/evidence/PARALLEL_SHA_PROBE.json",
+  "fixture_commit": "f4e886cf9d2523cae7c87fb5a70a40c5219a007a",
+  "initial_blob_sha": "707a73d24e99d0da6186226b0b2c9603e7200588",
+  "candidate_A": {
+    "result": "success",
+    "commit": "a36a108b5c345a435e89ea39ae89d28a5baa88a4"
+  },
+  "candidate_B": {
+    "result": "HTTP 409 CONFLICT",
+    "expected_blob_sha": "707a73d24e99d0da6186226b0b2c9603e7200588"
+  },
+  "final_readback": {
+    "head": "a36a108b5c345a435e89ea39ae89d28a5baa88a4",
+    "winner": "A",
+    "triport_calls": 0
+  },
+  "limitations": "Not a multi-host test, not a formal linearizability proof. No implication for an externally force-reset branch.",
+  "commercial_admission": false
+}
