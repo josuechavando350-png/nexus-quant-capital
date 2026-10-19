@@ -1,0 +1,194 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Tool executed successfully."
+    }
+  ],
+  "structuredContent": {
+    "data": [
+      {
+        "block_number": 26008734,
+        "topics": [
+          "0x7394f4a19a13c7b92b5bb71033245305946ef78452f7b4986ac1390b5df4ebd7",
+          "0x000000000000000000000000000000000000000000000000000000000003f2c9",
+          "0xf10ba303359e1b07bad4d55ae23428d805febb19159868442beeefa36b6a8b6d",
+          "0x229a908e4bc645ba97e7ad71961c70369557eae14c03e49cd477f3542608273f"
+        ],
+        "data": "0x5f2c70522f3838567a4c863ac2f2f0c994c7d95ef3e848be1371d9bc792717bd0000000000000000000000000000000000000000000000000000000000048b1d000000000000000000000000000000000000000000000000000000006aa8b4c7000000000000000000000000000000000000000000000000000000006aae08d700000000000000000000000000000000000000000000000000000000018c6c1e00000000000000000000000000000000000000000000000000000000018cddca0000000000000000000000000000000000000000000000000000000000000003",
+        "decoded": {
+          "method_call": "SequencerBatchDelivered(uint256 indexed batchSequenceNumber, bytes32 indexed beforeAcc, bytes32 indexed afterAcc, bytes32 delayedAcc, uint256 afterDelayedMessagesRead, (uint64,uint64,uint64,uint64) timeBounds, uint8 dataLocation)",
+          "method_id": "7394f4a1",
+          "parameters": [
+            {
+              "indexed": true,
+              "name": "batchSequenceNumber",
+              "type": "uint256",
+              "value": "258761"
+            },
+            {
+              "indexed": true,
+              "name": "beforeAcc",
+              "type": "bytes32",
+              "value": "0xf10ba303359e1b07bad4d55ae23428d805febb19159868442beeefa36b6a8b6d"
+            },
+            {
+              "indexed": true,
+              "name": "afterAcc",
+              "type": "bytes32",
+              "value": "0x229a908e4bc645ba97e7ad71961c70369557eae14c03e49cd477f3542608273f"
+            },
+            {
+              "indexed": false,
+              "name": "delayedAcc",
+              "type": "bytes32",
+              "value": "0x5f2c70522f3838567a4c863ac2f2f0c994c7d95ef3e848be1371d9bc792717bd"
+            },
+            {
+              "indexed": false,
+              "name": "afterDelayedMessagesRead",
+              "type": "uint256",
+              "value": "297757"
+            },
+            {
+              "indexed": false,
+              "name": "timeBounds",
+              "type": "(uint64,uint64,uint64,uint64)",
+              "value": [
+                "1789441223",
+                "1789790423",
+                "25979934",
+                "26009034"
+              ]
+            },
+            {
+              "indexed": false,
+              "name": "dataLocation",
+              "type": "uint8",
+              "value": "3"
+            }
+          ]
+        },
+        "index": 411,
+        "address": "0xBd0D173EEb87D57A09521c24388a12789F33ba96"
+      },
+      {
+        "block_number": 26008734,
+        "topics": [
+          "0x5e3c1311ea442664e8b1611bfabef659120ea7a0a2cfc0667700bebc69cbffe1",
+          "0x0000000000000000000000000000000000000000000000000000000000048b34",
+          "0x4dd86e1aec33ce35dba6d91789e17cfe281a795090a44b7757e39205d418ec08",
+          null
+        ],
+        "data": "0x000000000000000000000000bd0d173eeb87d57a09521c24388a12789f33ba96000000000000000000000000000000000000000000000000000000000000000d000000000000000000000000daa526086787d9debe1d7f3ffdb1fe50cf8687f48de144e88b80602266f0990a63e1cf4b47a84e51d5b9447d745f40ce34d14b340000000000000000000000000000000000000000000000000000000003321928000000000000000000000000000000000000000000000000000000006aadfac7",
+        "decoded": {
+          "method_call": "MessageDelivered(uint256 indexed messageIndex, bytes32 indexed beforeInboxAcc, address inbox, uint8 kind, address sender, bytes32 messageDataHash, uint256 baseFeeL1, uint64 timestamp)",
+          "method_id": "5e3c1311",
+          "parameters": [
+            {
+              "indexed": true,
+              "name": "messageIndex",
+              "type": "uint256",
+              "value": "297780"
+            },
+            {
+              "indexed": true,
+              "name": "beforeInboxAcc",
+              "type": "bytes32",
+              "value": "0x4dd86e1aec33ce35dba6d91789e17cfe281a795090a44b7757e39205d418ec08"
+            },
+            {
+              "indexed": false,
+              "name": "inbox",
+              "type": "address",
+              "value": "0xBd0D173EEb87D57A09521c24388a12789F33ba96"
+            },
+            {
+              "indexed": false,
+              "name": "kind",
+              "type": "uint8",
+              "value": "13"
+            },
+            {
+              "indexed": false,
+              "name": "sender",
+              "type": "address",
+              "value": "0xDaa526086787d9DEbE1D7F3FFdb1fE50cf8687F4"
+            },
+            {
+              "indexed": false,
+              "name": "messageDataHash",
+              "type": "bytes32",
+              "value": "0x8de144e88b80602266f0990a63e1cf4b47a84e51d5b9447d745f40ce34d14b34"
+            },
+            {
+              "indexed": false,
+              "name": "baseFeeL1",
+              "type": "uint256",
+              "value": "53614888"
+            },
+            {
+              "indexed": false,
+              "name": "timestamp",
+              "type": "uint64",
+              "value": "1789786823"
+            }
+          ]
+        },
+        "index": 412,
+        "address": "0xDf8755334ce7A73cCF6b581C02eA649AE3E864b3"
+      },
+      {
+        "block_number": 26008734,
+        "topics": [
+          "0xff64905f73a67fb594e0f940a8075a860db489ad991e032f48c81123eb52d60b",
+          "0x0000000000000000000000000000000000000000000000000000000000048b34",
+          null,
+          null
+        ],
+        "data": "0x0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000009c000000000000000000000000000000000000000000000000000000006aadfac7daa526086787d9debe1d7f3ffdb1fe50cf8687f41d6bff2519d93074a1e66188db151cd9a8a3f16901f45f1fa32cd9b3f4a3e25d000000000000000000000000000000000000000000000000000000000003f2c9000000000000000000000000000000000000000000000000000000000332192800000000000054ec00000000",
+        "decoded": {
+          "method_call": "InboxMessageDelivered(uint256 indexed messageNum, bytes data)",
+          "method_id": "ff64905f",
+          "parameters": [
+            {
+              "indexed": true,
+              "name": "messageNum",
+              "type": "uint256",
+              "value": "297780"
+            },
+            {
+              "indexed": false,
+              "name": "data",
+              "type": "bytes",
+              "value": "0x000000000000000000000000000000000000000000000000000000006aadfac7daa526086787d9debe1d7f3ffdb1fe50cf8687f41d6bff2519d93074a1e66188db151cd9a8a3f16901f45f1fa32cd9b3f4a3e25d000000000000000000000000000000000000000000000000000000000003f2c9000000000000000000000000000000000000000000000000000000000332192800000000000054ec"
+            }
+          ]
+        },
+        "index": 413,
+        "address": "0xBd0D173EEb87D57A09521c24388a12789F33ba96"
+      }
+    ],
+    "data_description": [
+      "Items Structure:",
+      "- `address`: The contract address that emitted the log (string)",
+      "- `block_number`: Block where the event was emitted",
+      "- `index`: Log position within the block",
+      "- `topics`: Raw indexed event parameters (first topic is event signature hash)",
+      "- `data`: Raw non-indexed event parameters (hex encoded). **May be truncated.**",
+      "- `decoded`: If available, the decoded event with its name and parameters",
+      "- `data_truncated`: (Optional) `true` if the `data` or `decoded` field was shortened.",
+      "Event Decoding in `decoded` field:",
+      "- `method_call`: **Actually the event signature** (e.g., \"Transfer(address indexed from, address indexed to, uint256 value)\")",
+      "- `method_id`: **Actually the event signature hash** (first 4 bytes of keccak256 hash)",
+      "- `parameters`: Decoded event parameters with names, types, values, and indexing status"
+    ],
+    "notes": [
+      "Free session budget: 4 of 8 tool calls remaining. Requests authorized with a client-supplied Blockscout PRO API key are not metered — get a key at https://mcp.blockscout.com.",
+      "Starting 10/08/2026, all requests to the Blockscout MCP server will require a PRO API key for authorization. More information on how to get a PRO API key and setup instructions on https://mcp.blockscout.com/."
+    ],
+    "instructions": null,
+    "pagination": null
+  },
+  "isError": false
+}

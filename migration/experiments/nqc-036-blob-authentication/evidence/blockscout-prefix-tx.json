@@ -1,0 +1,115 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Transaction 0x3824f876e4f5f677850701f41b990f6971c631ff8ebbce08a904072c17488fe8 on chain 4663: successful, from 0x00000000000000000000000000000000000A4B05 to 0x00000000000000000000000000000000000A4B05. Method: startBlock(uint256 l1BaseFee, uint64 l1BlockNumber, uint64 l2BlockNumber, uint64 timePassed)."
+    }
+  ],
+  "structuredContent": {
+    "data": {
+      "from": "0x00000000000000000000000000000000000A4B05",
+      "to": "0x00000000000000000000000000000000000A4B05",
+      "token_transfers": [],
+      "decoded_input": {
+        "method_call": "startBlock(uint256 l1BaseFee, uint64 l1BlockNumber, uint64 l2BlockNumber, uint64 timePassed)",
+        "method_id": "6bf6a42d",
+        "parameters": [
+          {
+            "name": "l1BaseFee",
+            "type": "uint256",
+            "value": "0"
+          },
+          {
+            "name": "l1BlockNumber",
+            "type": "uint64",
+            "value": "26008731"
+          },
+          {
+            "name": "l2BlockNumber",
+            "type": "uint64",
+            "value": "66744162"
+          },
+          {
+            "name": "timePassed",
+            "type": "uint64",
+            "value": "1"
+          }
+        ]
+      },
+      "user_operations": null,
+      "raw_input": "0x6bf6a42d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000018cdc9b0000000000000000000000000000000000000000000000000000000003fa6f620000000000000000000000000000000000000000000000000000000000000001",
+      "raw_input_truncated": null,
+      "priority_fee": null,
+      "is_pending_update": false,
+      "result": "success",
+      "max_fee_per_gas": null,
+      "revert_reason": null,
+      "confirmation_duration": [
+        0,
+        101
+      ],
+      "transaction_burnt_fee": null,
+      "type": 106,
+      "token_transfers_overflow": false,
+      "confirmations": 25633335,
+      "position": 0,
+      "max_priority_fee_per_gas": null,
+      "transaction_tag": null,
+      "created_contract": null,
+      "value": "0",
+      "gas_used": "0",
+      "status": "ok",
+      "authorization_list": [],
+      "method": "startBlock",
+      "fee": {
+        "type": "actual",
+        "value": "0"
+      },
+      "arbitrum": {
+        "batch_data_container": "in_blob4844",
+        "batch_number": 258761,
+        "commitment_transaction": {
+          "hash": "0x371af57bf11056f0228abbee533154ca844a284787490ed9d603be13d17b40d2",
+          "status": "finalized",
+          "timestamp": "2026-09-19T03:00:23.000000Z"
+        },
+        "confirmation_transaction": {
+          "hash": "0xccb8352f1ee3cd5a0ac2720670a90633baa8224a6fe5e4ebc11ce5387a30d0fb",
+          "status": "finalized",
+          "timestamp": "2026-09-25T13:51:11.000000Z"
+        },
+        "contains_message": null,
+        "gas_used_for_l1": "0",
+        "gas_used_for_l2": "0",
+        "message_related_info": {},
+        "network_fee": "0",
+        "poster_fee": "0",
+        "status": "Confirmed on base"
+      },
+      "gas_limit": "0",
+      "gas_price": "67514000",
+      "fhe_operations_count": 0,
+      "base_fee_per_gas": "67514000",
+      "timestamp": "2026-09-19T03:00:00.000000Z",
+      "nonce": 0,
+      "historic_exchange_rate": null,
+      "transaction_types": [
+        "contract_call"
+      ],
+      "exchange_rate": "2424.04",
+      "block_number": 66744162,
+      "has_error_in_internal_transactions": false
+    },
+    "data_description": null,
+    "notes": [
+      "Free session budget: 3 of 8 tool calls remaining. Requests authorized with a client-supplied Blockscout PRO API key are not metered — get a key at https://mcp.blockscout.com.",
+      "Starting 10/08/2026, all requests to the Blockscout MCP server will require a PRO API key for authorization. More information on how to get a PRO API key and setup instructions on https://mcp.blockscout.com/."
+    ],
+    "instructions": [
+      "To get a transaction summary, use `direct_api_call` with `endpoint_path='/api/v2/transactions/0x3824f876e4f5f677850701f41b990f6971c631ff8ebbce08a904072c17488fe8/summary'`.",
+      "To get event logs, use `direct_api_call` with `endpoint_path='/api/v2/transactions/0x3824f876e4f5f677850701f41b990f6971c631ff8ebbce08a904072c17488fe8/logs'`."
+    ],
+    "pagination": null
+  },
+  "isError": false
+}

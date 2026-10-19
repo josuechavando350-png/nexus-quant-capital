@@ -1,0 +1,48 @@
+{
+  "created_at_utc": "2026-10-19T05:45:10.571387+00:00",
+  "base_repository": "josuechavando350-png/nexus-quant-capital",
+  "base_commit": "69321e328428be58eddba15544d4764f65083d4c",
+  "main_observed": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
+  "imported_packages": [
+    {
+      "package": "NQC031_ADQUISICION_HISTORICA_Y_ARBOS61",
+      "manifest_files_verified": 27
+    },
+    {
+      "package": "NQC034_L1_ANCHOR",
+      "manifest_files_verified": 12
+    },
+    {
+      "package": "NQC035_HEADER_COMMITMENT",
+      "manifest_files_verified": 14
+    }
+  ],
+  "archive_files": [
+    {
+      "name": "NQC034_L1_ANCHOR.zip",
+      "sha256": "3ecabb6976c865c7872817ccbfed4b2f8e28be0b251bb9be7faf90a1fca98ab0",
+      "bytes": 21866
+    },
+    {
+      "name": "NQC031_ADQUISICION_HISTORICA_Y_ARBOS61.zip",
+      "sha256": "0a1f1c6189e241fadb724e3e41c5ad9a2c12f5e5d3684df078382b10ca854898",
+      "bytes": 105211
+    },
+    {
+      "name": "NQC035_HEADER_COMMITMENT.zip",
+      "sha256": "3c2754fb85e6e1f8c67a23a24333ddb5e64c7d8a8b43ef517f4b38ea3a64bff1",
+      "bytes": 36114
+    }
+  ],
+  "header_inputs_from": "NQC031_ADQUISICION_HISTORICA_Y_ARBOS61.zip",
+  "go_ethereum_arb_types_git_blob": "e4355f933a513146d21e1f049fe404a9fcc2fa52",
+  "retrieval": {
+    "blobs_metadata_base": "https://api.blobscan.com/blobs/",
+    "blobs_payloads": "IPFS URLs in each immutable blob-*-metadata.json",
+    "blockscout": "live read-only MCP queries captured in evidence/blockscout-*.json",
+    "native_blobs_response": "Exceeded native tool response size; no payload returned",
+    "mcp_rest_large_response": "HTTP 403; no retry or bypass",
+    "public_robinhood_rpc": "HTTP 403 on eth_chainId; no retry or bypass"
+  },
+  "authority": "RECOVERED_CONTENT_AND_CAPTURED_HEADER_BINDING_ONLY_NOT_STATE_OR_CONSENSUS"
+}

@@ -1,0 +1,109 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Transaction 0x371af57bf11056f0228abbee533154ca844a284787490ed9d603be13d17b40d2 on chain 1: successful, from 0xDaa526086787d9DEbE1D7F3FFdb1fE50cf8687F4 to 0xBd0D173EEb87D57A09521c24388a12789F33ba96. Method: addSequencerL2BatchFromBlobs(uint256 sequenceNumber, uint256 afterDelayedMessagesRead, address gasRefunder, uint256 prevMessageCount, uint256 newMessageCount)."
+    }
+  ],
+  "structuredContent": {
+    "data": {
+      "from": "0xDaa526086787d9DEbE1D7F3FFdb1fE50cf8687F4",
+      "to": "0xBd0D173EEb87D57A09521c24388a12789F33ba96",
+      "token_transfers": [],
+      "decoded_input": {
+        "method_call": "addSequencerL2BatchFromBlobs(uint256 sequenceNumber, uint256 afterDelayedMessagesRead, address gasRefunder, uint256 prevMessageCount, uint256 newMessageCount)",
+        "method_id": "3e5aa082",
+        "parameters": [
+          {
+            "name": "sequenceNumber",
+            "type": "uint256",
+            "value": "258761"
+          },
+          {
+            "name": "afterDelayedMessagesRead",
+            "type": "uint256",
+            "value": "297757"
+          },
+          {
+            "name": "gasRefunder",
+            "type": "address",
+            "value": "0x0000000000000000000000000000000000000000"
+          },
+          {
+            "name": "prevMessageCount",
+            "type": "uint256",
+            "value": "66743956"
+          },
+          {
+            "name": "newMessageCount",
+            "type": "uint256",
+            "value": "66744188"
+          }
+        ]
+      },
+      "user_operations": null,
+      "raw_input": "0x3e5aa082000000000000000000000000000000000000000000000000000000000003f2c90000000000000000000000000000000000000000000000000000000000048b1d00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003fa6e940000000000000000000000000000000000000000000000000000000003fa6f7c",
+      "raw_input_truncated": null,
+      "priority_fee": "36114000000000",
+      "max_fee_per_blob_gas": "32064480",
+      "is_pending_update": false,
+      "result": "success",
+      "max_fee_per_gas": "2976607930",
+      "revert_reason": null,
+      "confirmation_duration": [
+        0,
+        12121
+      ],
+      "transaction_burnt_fee": "7744992260928",
+      "type": 3,
+      "token_transfers_overflow": false,
+      "confirmations": 215852,
+      "position": 70,
+      "max_priority_fee_per_gas": "250000000",
+      "transaction_tag": null,
+      "created_contract": null,
+      "value": "0",
+      "gas_used": "144456",
+      "status": "ok",
+      "blob_gas_price": "2964302",
+      "authorization_list": [],
+      "method": "addSequencerL2BatchFromBlobs",
+      "fee": {
+        "type": "actual",
+        "value": "43858992260928"
+      },
+      "gas_limit": "400000",
+      "gas_price": "303614888",
+      "blob_versioned_hashes": [
+        "0x01094c90acd3d00563f75a4176be9d24b8d182f5ac7eaf1c206a3df2e76b1190",
+        "0x014cb4ba0af7fda2ad841a2920c2824d92432fa10b247d58bf7836c6e168da63",
+        "0x0172366acd2c0f6414a560fbcb9b717592d032432468342135fefe57c1712fab"
+      ],
+      "fhe_operations_count": 0,
+      "base_fee_per_gas": "53614888",
+      "timestamp": "2026-09-19T03:00:23.000000Z",
+      "nonce": 258760,
+      "historic_exchange_rate": "2632.0095970320526",
+      "transaction_types": [
+        "contract_call",
+        "blob_transaction"
+      ],
+      "exchange_rate": "2427.23",
+      "burnt_blob_fee": "1165610975232",
+      "blob_gas_used": "393216",
+      "block_number": 26008734,
+      "has_error_in_internal_transactions": false
+    },
+    "data_description": null,
+    "notes": [
+      "Free session budget: 5 of 8 tool calls remaining. Requests authorized with a client-supplied Blockscout PRO API key are not metered — get a key at https://mcp.blockscout.com.",
+      "Starting 10/08/2026, all requests to the Blockscout MCP server will require a PRO API key for authorization. More information on how to get a PRO API key and setup instructions on https://mcp.blockscout.com/."
+    ],
+    "instructions": [
+      "To get a transaction summary, use `direct_api_call` with `endpoint_path='/api/v2/transactions/0x371af57bf11056f0228abbee533154ca844a284787490ed9d603be13d17b40d2/summary'`.",
+      "To get event logs, use `direct_api_call` with `endpoint_path='/api/v2/transactions/0x371af57bf11056f0228abbee533154ca844a284787490ed9d603be13d17b40d2/logs'`."
+    ],
+    "pagination": null
+  },
+  "isError": false
+}
