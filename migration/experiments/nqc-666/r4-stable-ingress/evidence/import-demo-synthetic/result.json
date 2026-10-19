@@ -1,0 +1,50 @@
+{
+  "packet_sha256": "a6f393c95ecae7968a95eed19ccb33752030d6b5aecc20f25f86d85bcc791af0",
+  "policy_sha256": "2f6bf403df18d6134afee9babe7a77883225f34f9dec1950aa3c3a15d401bc8b",
+  "library_sha256": "1cc575699de5a9395dc95b6cc17fbabae0c355459948ba91ef11d204ef0388f4",
+  "observation_time_s": 1792215301,
+  "canonicality": "unknown",
+  "commercial_admission": false,
+  "scope": "OFFLINE_REPLAY_RELATIVE_TO_OPERATOR_PIN_NOT_LIVE_ADMISSION",
+  "status": "ROOT_BINDING_VERIFIED",
+  "facts": {
+    "block_hash": "f69ce76667b1f9908fdd0ef146f839b5885e9516a51b7dccebf0b39ebf327265",
+    "block_number": 26210530,
+    "market_id": "fab0a7b1d3205502b6dd908253d32690b890610aa6eee3ae5f4322c167b63b39",
+    "borrower": "1d85018999c363ccdbc231b8d5498f25091c276a",
+    "words": {
+      "position": 970485310458516497797544380396188196509975701361,
+      "supply": 680564734046726911813154169868487936585924465296512000602,
+      "borrow": 340282367023363455906577084934243968292962232648256000301,
+      "time_fee": 34028236692093846346337460743176821145600000001792215301,
+      "loan_token": 919540892357720121441754906205064070703960201471,
+      "collateral_token": 369833815281431724166779989181466905267246764050,
+      "oracle": 537221729106073323145348128669897602064792547213,
+      "irm": 0,
+      "lltv": 860000000000000000
+    },
+    "layout_assurance": "explicit_policy_assumption",
+    "oracle_price": null,
+    "observed_eligibility": null
+  },
+  "scenario": {
+    "debt": 785257437464,
+    "capacity": 2452720000,
+    "eligible_if_assumptions_hold": true,
+    "assumed_price": 1000000000000000000000000000000000000,
+    "state_time_s": 1792215301,
+    "label": "conditional_prediction_not_observed_eligibility",
+    "commercial_admission": false
+  },
+  "authorization": {
+    "commercial_admission": false,
+    "observed_candidate": null,
+    "missing": [
+      "canonical_chain_evidence",
+      "runtime_layout_attestation",
+      "oracle_execution_and_freshness",
+      "full_execution_simulation",
+      "financial_and_nonrecourse_authorization"
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+[package]
+name = "nqc-666-stable-ingress"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.90"
+publish = false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+nqc-666-morpho-math = { path = "../r1-morpho" }
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+overflow-checks = true
+panic = "abort"
