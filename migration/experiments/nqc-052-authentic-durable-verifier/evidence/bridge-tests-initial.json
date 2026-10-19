@@ -1,0 +1,44 @@
+{
+  "passed": 4,
+  "failed": 4,
+  "results": [
+    {
+      "name": "real verifier accepts two persisted fixtures then rejects third proof before fourth",
+      "pass": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n1 !== 3\n"
+    },
+    {
+      "name": "fresh process rebuilds prefix across successive runs",
+      "pass": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "lost RECEIVED ack revalidates actual Python but cannot release another request",
+      "pass": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'BLOCKED_REVALIDATION'\n- 'BLOCKED_RECOVERED_RECEIPT_REVIEW_REQUIRED'\n             ^\n"
+    },
+    {
+      "name": "lost reserve ack does not call Python or simulator",
+      "pass": true
+    },
+    {
+      "name": "corrupt stored chunks stop before any new synthetic request",
+      "pass": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'BLOCKED_REJECTED_STEP'\n- 'BLOCKED_REVALIDATION'\n             ^\n"
+    },
+    {
+      "name": "worker result digest mismatch cannot authorize next step",
+      "pass": true
+    },
+    {
+      "name": "LIVE and modified fixed plan refused",
+      "pass": true
+    },
+    {
+      "name": "current connector structured response is required; fixed paths and conditional SHA",
+      "pass": true
+    }
+  ],
+  "triport_requests_sent": 0,
+  "commercial_admission": false
+}

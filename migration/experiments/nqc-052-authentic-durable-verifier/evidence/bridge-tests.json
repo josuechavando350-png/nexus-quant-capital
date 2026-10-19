@@ -1,0 +1,99 @@
+{
+  "passed": 9,
+  "failed": 0,
+  "results": [
+    {
+      "name": "real verifier accepts two persisted fixtures then rejects third proof before fourth",
+      "pass": true,
+      "first": {
+        "status": "BLOCKED_REJECTED_STEP",
+        "attempt_slots_reserved": 3,
+        "responses_verified": 2,
+        "remaining_attempt_slots": 5,
+        "simulated_dispatches_this_run": 3,
+        "triport_requests_sent": 0,
+        "historical_state_proofs_acquired": 0,
+        "commercial_admission": false
+      },
+      "restart": {
+        "status": "BLOCKED_REJECTED_STEP",
+        "attempt_slots_reserved": 3,
+        "responses_verified": 2,
+        "remaining_attempt_slots": 5,
+        "simulated_dispatches_this_run": 0,
+        "triport_requests_sent": 0,
+        "historical_state_proofs_acquired": 0,
+        "commercial_admission": false
+      },
+      "authentic_calls": [
+        {
+          "id": 1,
+          "status": "OFFLINE_PREFIX_VERIFIED",
+          "responses_validated": 1,
+          "input_sha256": "605e9dd0bf1c51e6968e85d351f75483cb9ca9d82657019ed88da85719c5abc2",
+          "intake_git_blob": "c36d60ce83e73d246496bd0b72bc6cbe00d5893e"
+        },
+        {
+          "id": 2,
+          "status": "OFFLINE_PREFIX_VERIFIED",
+          "responses_validated": 2,
+          "input_sha256": "a103f8cf2e4d0bb87d12160527a454b84bcad00be2dc594b33176d1636d6c1ea",
+          "intake_git_blob": "c36d60ce83e73d246496bd0b72bc6cbe00d5893e"
+        },
+        {
+          "id": 3,
+          "status": "BLOCKED_NQC037_VALIDATION",
+          "responses_validated": 2,
+          "input_sha256": "4365d5274f1438d6b4154a41ff3997620b9cc043f7c6413577768854533fc569",
+          "intake_git_blob": "c36d60ce83e73d246496bd0b72bc6cbe00d5893e"
+        }
+      ]
+    },
+    {
+      "name": "fresh process rebuilds prefix across successive runs",
+      "pass": true
+    },
+    {
+      "name": "lost RECEIVED ack revalidates actual Python but cannot release another request",
+      "pass": true
+    },
+    {
+      "name": "lost reserve ack does not call Python or simulator",
+      "pass": true
+    },
+    {
+      "name": "700KB receipt is reconstructed and genuinely revalidated without transport",
+      "pass": true,
+      "bytes": 700055,
+      "parts": 3,
+      "result": {
+        "status": "BLOCKED_RECOVERED_RECEIPT_REVIEW_REQUIRED",
+        "attempt_slots_reserved": 1,
+        "responses_verified": 1,
+        "remaining_attempt_slots": 7,
+        "simulated_dispatches_this_run": 0,
+        "triport_requests_sent": 0,
+        "historical_state_proofs_acquired": 0,
+        "commercial_admission": false
+      }
+    },
+    {
+      "name": "corrupt stored chunks stop before any new synthetic request",
+      "pass": true
+    },
+    {
+      "name": "worker result digest mismatch cannot authorize next step",
+      "pass": true
+    },
+    {
+      "name": "LIVE and modified fixed plan refused",
+      "pass": true
+    },
+    {
+      "name": "current connector structured response is required; fixed paths and conditional SHA",
+      "pass": true
+    }
+  ],
+  "triport_requests_sent": 0,
+  "commercial_admission": false
+}

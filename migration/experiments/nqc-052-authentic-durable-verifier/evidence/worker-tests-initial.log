@@ -1,0 +1,59 @@
+test_ambiguous_json_and_nonfinite_rejected (test_worker.WorkerTests.test_ambiguous_json_and_nonfinite_rejected) ... ok
+test_boolean_id_error_envelope_and_wrong_chain (test_worker.WorkerTests.test_boolean_id_error_envelope_and_wrong_chain) ... ok
+test_complete_original_sources_and_exact_dependencies (test_worker.WorkerTests.test_complete_original_sources_and_exact_dependencies) ... FAIL
+test_missing_checkout_rejected (test_worker.WorkerTests.test_missing_checkout_rejected) ... ok
+test_modified_original_refused_before_import (test_worker.WorkerTests.test_modified_original_refused_before_import) ... ok
+test_ninth_and_empty_prefix_rejected (test_worker.WorkerTests.test_ninth_and_empty_prefix_rejected) ... ok
+test_no_input_can_supply_state_or_replace_verifier (test_worker.WorkerTests.test_no_input_can_supply_state_or_replace_verifier) ... ok
+test_original_id_six_not_relabelled_in_real_input (test_worker.WorkerTests.test_original_id_six_not_relabelled_in_real_input) ... FAIL
+test_parent_mutation_rejected_by_complete_original (test_worker.WorkerTests.test_parent_mutation_rejected_by_complete_original) ... FAIL
+test_prior_fake_chain_rejected (test_worker.WorkerTests.test_prior_fake_chain_rejected) ... ok
+test_valid_prefix_and_byte_binding (test_worker.WorkerTests.test_valid_prefix_and_byte_binding) ... FAIL
+
+======================================================================
+FAIL: test_complete_original_sources_and_exact_dependencies (test_worker.WorkerTests.test_complete_original_sources_and_exact_dependencies)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/c4985976a2bf/nexus-quant-capital/migration/experiments/nqc-052-authentic-durable-verifier/test_worker.py", line 36, in test_complete_original_sources_and_exact_dependencies
+    self.assertEqual(code, 0)
+AssertionError: 2 != 0
+
+======================================================================
+FAIL: test_original_id_six_not_relabelled_in_real_input (test_worker.WorkerTests.test_original_id_six_not_relabelled_in_real_input)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/c4985976a2bf/nexus-quant-capital/migration/experiments/nqc-052-authentic-durable-verifier/test_worker.py", line 55, in test_original_id_six_not_relabelled_in_real_input
+    self.assertEqual(r["responses_validated"], 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_parent_mutation_rejected_by_complete_original (test_worker.WorkerTests.test_parent_mutation_rejected_by_complete_original)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/c4985976a2bf/nexus-quant-capital/migration/experiments/nqc-052-authentic-durable-verifier/test_worker.py", line 63, in test_parent_mutation_rejected_by_complete_original
+    self.assertEqual((code, r["responses_validated"]), (2, 1))
+AssertionError: Tuples differ: (2, 0) != (2, 1)
+
+First differing element 1:
+0
+1
+
+- (2, 0)
+?     ^
+
++ (2, 1)
+?     ^
+
+
+======================================================================
+FAIL: test_valid_prefix_and_byte_binding (test_worker.WorkerTests.test_valid_prefix_and_byte_binding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/c4985976a2bf/nexus-quant-capital/migration/experiments/nqc-052-authentic-durable-verifier/test_worker.py", line 46, in test_valid_prefix_and_byte_binding
+    self.assertEqual(code, 0)
+AssertionError: 2 != 0
+
+----------------------------------------------------------------------
+Ran 11 tests in 3.632s
+
+FAILED (failures=4)
