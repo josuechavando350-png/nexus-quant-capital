@@ -1,0 +1,34 @@
+{
+  "checks": [
+    {
+      "check": "export_tests",
+      "exit_code": 0,
+      "output": "test_credential_echo_is_rejected_before_persistence (test_local_export.ExportTests.test_credential_echo_is_rejected_before_persistence) ... ok\ntest_public_response_is_unchanged (test_local_export.ExportTests.test_public_response_is_unchanged) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK\n"
+    },
+    {
+      "check": "isolation_tests",
+      "exit_code": 0,
+      "output": "test_changed_source_byte_fails (migration.test_isolation.IsolationTests.test_changed_source_byte_fails) ... ok\ntest_client_application_fails (migration.test_isolation.IsolationTests.test_client_application_fails) ... ok\ntest_new_active_workflow_fails (migration.test_isolation.IsolationTests.test_new_active_workflow_fails) ... ok\ntest_new_repository_id_is_required (migration.test_isolation.IsolationTests.test_new_repository_id_is_required) ... ok\ntest_omitted_source_mapping_fails (migration.test_isolation.IsolationTests.test_omitted_source_mapping_fails) ... ok\ntest_snapshot_is_explicitly_not_certification (migration.test_isolation.IsolationTests.test_snapshot_is_explicitly_not_certification) ... ok\ntest_source_repository_cannot_be_relabelled (migration.test_isolation.IsolationTests.test_source_repository_cannot_be_relabelled) ... ok\ntest_symlink_cannot_hide_payload (migration.test_isolation.IsolationTests.test_symlink_cannot_hide_payload) ... ok\ntest_unmapped_extra_nqc_file_fails (migration.test_isolation.IsolationTests.test_unmapped_extra_nqc_file_fails) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 1.370s\n\nOK\n"
+    },
+    {
+      "check": "isolation",
+      "exit_code": 0,
+      "output": "{\n  \"active_workflows\": 0,\n  \"canonical_recertification\": false,\n  \"destination_repository_id\": 1411047452,\n  \"disabled_workflows\": 106,\n  \"original_objects_checked\": false,\n  \"source_commit\": \"e259739c9f75fedcd1061d2f78d6b8852e7a3060\",\n  \"source_files\": 531,\n  \"status\": \"ISOLATED_SOURCE_IDENTITY_PASS\"\n}\n"
+    },
+    {
+      "check": "package_smoke",
+      "exit_code": 0,
+      "output": "{\"plan_matches_nqc038\": true, \"source_files_exact\": 10, \"reproducible_build\": true, \"network_requests\": 0, \"artifact_sha256\": \"b17ab3a79516fdd95337777ca0ce598f018e6806cfbd22670cd7a81208d48b86\"}\n"
+    }
+  ],
+  "dependencies": {
+    "rlp": "5.0.0",
+    "pycryptodome": "4.0.1"
+  },
+  "artifact_sha256": "b17ab3a79516fdd95337777ca0ce598f018e6806cfbd22670cd7a81208d48b86",
+  "notes": [
+    "All checks offline. No historical proofs fabricated.",
+    "Prior NQC037/NQC038 sources bundled byte-for-byte; no original changes.",
+    "No live provider test performed in NQC039."
+  ]
+}
