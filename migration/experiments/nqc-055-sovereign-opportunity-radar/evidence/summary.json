@@ -1,0 +1,128 @@
+{
+  "evaluation": {
+    "added_value": [
+      "145 archived monthly/detail rows normalized into 143 events in 141 transactions",
+      "one explicit conditional rejection kept separate from candidate viability",
+      "four reported txIndex0 candidates identified for an acquisition gate",
+      "requirements and shared schema scopes attached to every candidate; no economic ranking invented"
+    ],
+    "comparison_scope": "regression against pinned NQC054, not independent predictive ground truth",
+    "demonstrated_rejections_reproduced": 1,
+    "dossiers": 142,
+    "economically_rankable_alternatives": 0,
+    "event_deduplication": {
+      "duplicate_events_merged": 2,
+      "monthly_unique_events": 143,
+      "monthly_unique_transactions": 141,
+      "older_dossiers_added": 1,
+      "original_observation_rows_processed": 145
+    },
+    "manual_time_saved_measured": null,
+    "out_of_sample_accuracy": null,
+    "positive_NQC_profit_claims": 0,
+    "reference_decisions_matched": 142,
+    "reference_decisions_total": 142,
+    "status_counts": {
+      "NO_PUEDE_EVALUARSE_CON_DATOS_ACTUALES": 140,
+      "REQUIERE_EVIDENCIA_ESPECIFICA": 2
+    }
+  },
+  "monthly": {
+    "capturable_frequency": null,
+    "demonstrated_NQC_net": null,
+    "forecast": null,
+    "observed_sample_is_complete": false,
+    "targets_usd": [
+      5000,
+      15000,
+      45000
+    ]
+  },
+  "outcome": {
+    "A_functional_research_radar": true,
+    "B_conditional_rejection_reproduced": true,
+    "C_economic_discrimination_limit": true,
+    "economic_superiority_selected": false
+  },
+  "policy": "nqc055-evidence-first-v1",
+  "proposed_next_probe": {
+    "B_reopened": false,
+    "acquisition_authorized": false,
+    "assumptions": [
+      "indexer txIndex is correct; MUST authenticate before treating prefix as empty",
+      "all else equal, avoiding prior ordinary transactions removes one reconstruction dependency",
+      "WETH debt/ETH gas may simplify denomination; no sale route or fee-free funding is assumed"
+    ],
+    "block": 26104570,
+    "candidate_id": "eip155:1/morpho-blue/0x34162fda07ca0ae1054d7c1252b8d1c48aba9a675fd3d09816393c29d8be50e4",
+    "capture_probability": null,
+    "decision_enabled": "If these bytes reveal a nonpositive sale-minus-debt-minus-known-costs upper bound, reject that historical route before requesting state. Otherwise keep unknown financing/capture obligations open.",
+    "equal_priority_ids": [
+      "eip155:1/morpho-blue/0x34162fda07ca0ae1054d7c1252b8d1c48aba9a675fd3d09816393c29d8be50e4"
+    ],
+    "expected_monetary_value": null,
+    "kind": "CONDITIONAL_INFORMATION_ACQUISITION_PRIORITY",
+    "next_packet": [
+      "canonical block/transaction membership and complete receipt",
+      "complete call trace with collateral/debt/native/token ledger and observed sale/inclusion payments"
+    ],
+    "not_claimed": [
+      "cheapest candidate in money or time",
+      "highest expected profit",
+      "positive net",
+      "available provider"
+    ],
+    "policy_key": [
+      0,
+      0,
+      1
+    ],
+    "reported_tx_index": 0,
+    "reported_zero_prefix_candidates": [
+      {
+        "debt_native_comparability": true,
+        "id": "eip155:1/morpho-blue/0x34162fda07ca0ae1054d7c1252b8d1c48aba9a675fd3d09816393c29d8be50e4"
+      },
+      {
+        "debt_native_comparability": false,
+        "id": "eip155:1/morpho-blue/0x5e85e48f73efc645840e9a763fe614239694516f0590ba92fa2246f8c996e2f0"
+      },
+      {
+        "debt_native_comparability": false,
+        "id": "eip155:1/morpho-blue/0xc22759a025fba5122d2d0e0e44c4870389dfcc601b9f3e364d9f7c638b050bef"
+      },
+      {
+        "debt_native_comparability": false,
+        "id": "eip155:1/morpho-blue/0xf3c94d15b9a76bff17c10d662a8bfed0f89b676b7108fcea12244b1d402e29ca"
+      }
+    ],
+    "then_only_if_needed": [
+      "authenticated parent state, runtime and fork/system inputs",
+      "amount-specific executable sale, financing and competitive inclusion conditions"
+    ],
+    "tie_break_is_profit_ranking": false,
+    "tx_hash": "0x34162fda07ca0ae1054d7c1252b8d1c48aba9a675fd3d09816393c29d8be50e4"
+  },
+  "result_sha256": "2ce54c596c042ba5c4f5de72954983dc0e6536a9dcabc351e9513b55191e06c7",
+  "schema": "nqc055-radar-v1",
+  "security": {
+    "Census_Shadow_connected_wallet_funds_permitted": 0,
+    "Triport_lifetime_budget": 8,
+    "Triport_total_known": 0,
+    "commercial_admission": false,
+    "funding_or_signing_capability": false,
+    "future_Canary_gas_cap_MXN": 2000,
+    "future_hot_wallet_topup_cap_MXN": 500,
+    "future_stop_and_review_without_capture_MXN": 1000,
+    "gas_budget_available_now": false,
+    "network_requests_by_radar": 0,
+    "new_budget": false,
+    "own_principal": "PROHIBITED",
+    "safe_secret_channel_demonstrated": false,
+    "stage": "OFFLINE_RESEARCH_NOT_CANARY",
+    "unique_live_ledger_demonstrated": false
+  },
+  "shared_asset_pair_groups": 54,
+  "shared_market_groups": 61,
+  "sources_verified": 18
+}
