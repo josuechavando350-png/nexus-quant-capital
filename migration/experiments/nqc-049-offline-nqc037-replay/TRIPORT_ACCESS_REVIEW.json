@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-19",
+  "scope": "public documentation review only; no authenticated calls to Triport",
+  "docs": [
+    {
+      "url": "https://triport.io/docs/robinhood/json-rpc/eth_getProof",
+      "observation": "eth_getProof published Available; chain ID 4663, scope robinhood:rpc, x-token, heavy-read Free/BASIC/etc policy; not tested on operator's key"
+    },
+    {
+      "url": "https://triport.io/docs/robinhood/archive",
+      "observation": "historical state measured at earlier blocks 55782445 and 56772445 on specific channels; no guarantee for selected block 66744161 or serving channel"
+    },
+    {
+      "url": "https://triport.io/docs/robinhood/limits",
+      "observation": "4 MiB HTTP body ceiling described; larger local 16 MiB response handling does not imply provider acceptance of a 16 MiB response"
+    },
+    {
+      "url": "https://triport.io/docs/platform/run-method",
+      "observation": "browser explorer uses default key server-side, requires session cookie and matching CSRF token; documented allowed chain values sol, eth, polygon and aliases despite general page mentioning nine networks; Robinhood cannot be assumed compatible"
+    },
+    {
+      "url": "https://triport.io/docs/console",
+      "observation": "console API deals with auth, keys, billing, referrals; no documented public secure secret relay to this ChatGPT executor"
+    }
+  ],
+  "issues": [
+    "User's Android screenshot confirms masked default key exists and Robinhood LIVE; does not expose a supported executor secret channel.",
+    "Browser method explorer not used; no importing/exporting session cookies, CSRF, or key to executor.",
+    "No paid tier, no account creation, no alternate RPC, no proxy, no method request outside eight-read fixed authorization.",
+    "Programmatic Triport authenticated channel unavailable here; not evidence of provider denial.",
+    "Documentation might be inconsistent by age and route, so tier success and historical proof availability remain unverified."
+  ],
+  "credentials_read": false,
+  "requests_sent": 0,
+  "commercial_admission": false
+}
