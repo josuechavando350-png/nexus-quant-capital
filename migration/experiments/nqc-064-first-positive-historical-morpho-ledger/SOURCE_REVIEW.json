@@ -1,0 +1,25 @@
+{
+  "schema": "nqc064-source-web-transcription-v1",
+  "consulted_utc_date": "2026-10-19",
+  "primary_source": {
+    "title": "Etherscan Ethereum Transaction Hash",
+    "url": "https://etherscan.io/tx/0x2a8880470bddca62a3b10586e1c65bd760c5a0d65da03d55cde94d0d709ed1eb",
+    "web_reference": "turn898151view0",
+    "fields": ["tx hash", "status", "block", "sender and contract", "token transfers", "Morpho Liquidate event", "WETH Withdrawal event", "internal ETH transfers", "gas used", "effective gas price"],
+    "full_original_http_body_hashed": false,
+    "receipt_trie_and_tx_membership_proved": false,
+    "token_actor_ownership_established": false,
+    "complete_account_prestate_proved": false,
+    "all_offchain_obligations_established": false
+  },
+  "protocol_official_docs": [
+    {
+      "url": "https://docs.morpho.org/developers/contracts/blue/",
+      "purpose": "Morpho liquidate callback and core semantics; not historical cash source"
+    }
+  ],
+  "fee_and_flash_counterfactuals": "Not quoted prices or historical flash liquidity; 5bp is a synthetic threshold sensitivity only.",
+  "denied_provider_retries": 0,
+  "new_RPCS": 0,
+  "extra_public_blockchain_fetched": false
+}
