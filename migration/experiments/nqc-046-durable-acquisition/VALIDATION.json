@@ -1,0 +1,40 @@
+{
+  "checks": [
+    {
+      "name": "session",
+      "command": "/workspace/scratch/bea05de2edb6/crypto-env/bin/python '-m' 'unittest' 'discover' '-s' 'migration/experiments/nqc-040-resumable-intake' '-p' 'test_*.py' '-v'",
+      "exit_code": 0,
+      "tests_passed": 17,
+      "log": "evidence/session.log"
+    },
+    {
+      "name": "isolation_tests",
+      "command": "/workspace/scratch/bea05de2edb6/crypto-env/bin/python '-m' 'unittest' 'discover' '-s' 'migration' '-p' 'test_isolation.py' '-v'",
+      "exit_code": 0,
+      "tests_passed": 9,
+      "log": "evidence/isolation_tests.log"
+    },
+    {
+      "name": "isolation",
+      "command": "/workspace/scratch/bea05de2edb6/crypto-env/bin/python 'migration/verify_isolation.py'",
+      "exit_code": 0,
+      "log": "evidence/isolation.log"
+    }
+  ],
+  "tests_passed": 26,
+  "github_recovery": {
+    "script": "recover_probe.py",
+    "commit": "e56cf4411b06870aaf1a85b94be763d5bc77dd36",
+    "exit_code": 0,
+    "evidence": "evidence/RECOVERY.json",
+    "rpc_requests_sent": 0
+  },
+  "unrun": [
+    "Triport authenticated requests",
+    "live production ledger integration",
+    "concurrent multi-host claims",
+    "Nitro replay",
+    "full previous 140-test suite"
+  ],
+  "commercial_admission": false
+}
