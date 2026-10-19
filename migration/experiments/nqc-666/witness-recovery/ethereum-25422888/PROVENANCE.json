@@ -1,0 +1,79 @@
+{
+  "base_commit": "6c2dd3e26864053f9de38825b6ce027862084dd7",
+  "default_engine": "R5_UNCHANGED",
+  "R7": "EXPERIMENTAL_UNCHANGED",
+  "retrieved_at_utc": "2026-10-19",
+  "scope": "STATIC_PUBLIC_ARCHIVES_ONLY_NO_SOURCE_REPOSITORY_EXECUTION",
+  "copied_inputs": [
+    {
+      "path": "reference/morphoBorrower.capsule.json",
+      "repository": "IlyasRidhuan/dogfooding",
+      "commit": "f682b0ceeb8e2520cf04cf0d682ea2487db5ac4b",
+      "source_path": "app/src/data/fixtures/morphoBorrower.capsule.json",
+      "git_blob": "731cf2b88eb3ac2b89eb791aa34ac5ec5ad9bfc5",
+      "sha256": "fd58650f43d0415d8c55007366f57c8fa02e31c871fd96c2b3ce117428bddb51",
+      "bytes": 54820,
+      "url": "https://github.com/IlyasRidhuan/dogfooding/blob/f682b0ceeb8e2520cf04cf0d682ea2487db5ac4b/app/src/data/fixtures/morphoBorrower.capsule.json"
+    },
+    {
+      "path": "reference/Morpho.ethereum.hex",
+      "repository": "EthereumPhone/PQ1",
+      "commit": "4c8430458fbfb167b6a49a42e75db51ec6a7b66c",
+      "source_path": "tests/erc7730-semantic-evidence/morpho-blue/runtime/Morpho.ethereum.hex",
+      "git_blob": "a7b707a200736a144e9354c358f0cdd2d0a5314d",
+      "sha256": "0921afe3c405c8c28d12e876909c40f72f389c52dfb03554f248276f84948001",
+      "bytes": 31493,
+      "url": "https://github.com/EthereumPhone/PQ1/blob/4c8430458fbfb167b6a49a42e75db51ec6a7b66c/tests/erc7730-semantic-evidence/morpho-blue/runtime/Morpho.ethereum.hex"
+    }
+  ],
+  "format_and_subject_references": [
+    {
+      "url": "https://github.com/IlyasRidhuan/dogfooding/blob/f682b0ceeb8e2520cf04cf0d682ea2487db5ac4b/tools/morpho-proofs/prove.ts",
+      "sha256": "d3f0c9449684af433ba77b2a2d6e0a458dcf360afed4a4d98dd7a8d4624da9fb",
+      "git_blob": "2a392506f2987d2854a5f4966e66d764af99136d",
+      "copied_into_NQC": false,
+      "executed": false
+    },
+    {
+      "url": "https://github.com/IlyasRidhuan/dogfooding/blob/f682b0ceeb8e2520cf04cf0d682ea2487db5ac4b/tools/morpho-proofs/noir_capsule.ts",
+      "sha256": "646c6badae200107a797fa79ca5af4aa32220afbaa2436bde02dcefaae882fac",
+      "git_blob": "93f483884f04af4b7d4d797faa53f313902f1cd0",
+      "copied_into_NQC": false,
+      "executed": false
+    },
+    {
+      "url": "https://github.com/IlyasRidhuan/dogfooding/blob/f682b0ceeb8e2520cf04cf0d682ea2487db5ac4b/tools/morpho-proofs/README.md",
+      "sha256": "4ce567b0005b4d71432e4acb3472ff038a8041e28debc98ea3374ca6c761a568",
+      "git_blob": "e4866aee8fd718282fbd4ecb022735589bb789da",
+      "copied_into_NQC": false,
+      "executed": false
+    }
+  ],
+  "native_library_sha256": "1cc575699de5a9395dc95b6cc17fbabae0c355459948ba91ef11d204ef0388f4",
+  "validation": {
+    "new_test_functions_passed": 15,
+    "R5_regression_test_executions_passed": 75,
+    "isolation_test_executions_passed": 9,
+    "total_test_executions_passed": 99,
+    "R5_deterministic_trie_differential_variants": 2472,
+    "isolation_verifier": "PASS",
+    "initial_failure": "3 positive-path errors: public runtime wraps hex across LF lines; fixed parser only, source bytes unchanged. Preserved in evidence/initial-tests.log.",
+    "new_benchmarks": "NOT_RUN_PARTIAL_UNAUTHENTICATED_ROOT",
+    "rust_recompiled_or_tests_rerun": false,
+    "canonical_root_verified": false,
+    "complete_offline_execution": "BLOCKED",
+    "whole_bot_stabilized": false
+  },
+  "access": {
+    "RPC_calls": 0,
+    "Etherscan_block_page": "HTTP_403_NOT_RETRIED",
+    "alternate_route_to_denied_page": false,
+    "GitHub_exact_root_and_block_plus_stateRoot_searches": "NO_MATCH_IN_INDEX_NOT_PROOF_OF_ABSENCE"
+  },
+  "separation": {
+    "NQC031_executed_or_modified": false,
+    "NQC032_executed_or_modified": false,
+    "main_modified": false,
+    "transactions_signed_or_broadcast": 0
+  }
+}

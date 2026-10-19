@@ -1,0 +1,51 @@
+{
+  "status": "NOT_SENT_MISSING_AUTHENTIC_ANCHOR_AND_REMAINING_STATE",
+  "chain_id_requested": 1,
+  "block_number_claim": 25422888,
+  "state_root_to_crosscheck": "0x1d15023066dcb9e977c40a0288f479bdaa0766206c9e781abe051cb63517c285",
+  "address": "0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb",
+  "code_hash_bound_to_partial_proof": "0xfa259fa317198f88f5fa3c119f06c066295dbcd47d715e0a30e1bcf94c02ef8c",
+  "market_id_claim": "0x3274643db77a064abd3bc851de77556a4ad2e2f502f4f0c80845fa8f909ecf0b",
+  "borrower_claim": "0x6554874f13f5e953aee06ff38b501cf233e8f438",
+  "phase_1_read_requests": [
+    {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "method": "eth_chainId",
+      "params": []
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "method": "eth_getBlockByNumber",
+      "params": [
+        "0x183ec28",
+        false
+      ]
+    }
+  ],
+  "phase_1_independent_requirements": [
+    "full header RLP/Keccak identity and stateRoot equality",
+    "independent canonical/finality anchor with stated trust model; RPC labels alone insufficient"
+  ],
+  "phase_2_requires_verified_block_hash": true,
+  "phase_2_storage_keys": [
+    "0xda0172de5c18959c042a66eb76316ffe5f4500d12e36a0c18bbb29780e8cbd1c",
+    "0x04884eb6176b4e57e083d4e76254b9004ee1b442ebb90bc561aaf2a70fc72614",
+    "0x04884eb6176b4e57e083d4e76254b9004ee1b442ebb90bc561aaf2a70fc72615",
+    "0x04884eb6176b4e57e083d4e76254b9004ee1b442ebb90bc561aaf2a70fc72616",
+    "0x447b1f66e781fbf18b26346124bafa81bf3a17c70a54072e51d3fe39e0183799",
+    "0x447b1f66e781fbf18b26346124bafa81bf3a17c70a54072e51d3fe39e018379a",
+    "0x447b1f66e781fbf18b26346124bafa81bf3a17c70a54072e51d3fe39e018379b",
+    "0x447b1f66e781fbf18b26346124bafa81bf3a17c70a54072e51d3fe39e018379c",
+    "0x447b1f66e781fbf18b26346124bafa81bf3a17c70a54072e51d3fe39e018379d"
+  ],
+  "phase_2_requirements": [
+    "EIP-1186 account and all nine slot proofs pinned to that verified hash",
+    "runtime code at the same hash; compare proved codeHash",
+    "original request/response bytes and acquisition timestamps",
+    "oracle/IRM dependencies and historical execution context for full-path validation"
+  ],
+  "existing_import_contract": "../../r6-witness-ingress/WITNESS_REQUIREMENTS.md",
+  "commercial_admission": false
+}

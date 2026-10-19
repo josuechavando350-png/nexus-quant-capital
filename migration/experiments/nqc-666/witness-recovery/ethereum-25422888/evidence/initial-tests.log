@@ -1,0 +1,75 @@
+test_block_number_is_only_a_claim_without_a_header (test_recovery.RecoveryTests.test_block_number_is_only_a_claim_without_a_header) ... ERROR
+test_cli_emits_no_partial_facts_on_failure_and_does_not_overwrite (test_recovery.RecoveryTests.test_cli_emits_no_partial_facts_on_failure_and_does_not_overwrite) ... ok
+test_duplicate_keys_and_oversize_inputs_rejected (test_recovery.RecoveryTests.test_duplicate_keys_and_oversize_inputs_rejected) ... ok
+test_every_active_branch_rejects_a_changed_child (test_recovery.RecoveryTests.test_every_active_branch_rejects_a_changed_child) ... ok
+test_nonminimal_integer_and_truncated_path_rejected (test_recovery.RecoveryTests.test_nonminimal_integer_and_truncated_path_rejected) ... ok
+test_numeric_and_presence_encodings_are_strict (test_recovery.RecoveryTests.test_numeric_and_presence_encodings_are_strict) ... ok
+test_other_market_borrower_or_chain_rejected (test_recovery.RecoveryTests.test_other_market_borrower_or_chain_rejected) ... ok
+test_padding_and_absent_rows_cannot_hide_data (test_recovery.RecoveryTests.test_padding_and_absent_rows_cannot_hide_data) ... ok
+test_partial_result_never_claims_full_authentication (test_recovery.RecoveryTests.test_partial_result_never_claims_full_authentication) ... ERROR
+test_published_proof_and_independent_R3_traversal (test_recovery.RecoveryTests.test_published_proof_and_independent_R3_traversal) ... ERROR
+test_unsupported_extension_and_extra_authority_rejected (test_recovery.RecoveryTests.test_unsupported_extension_and_extra_authority_rejected) ... ok
+test_wrong_account_value_or_root_rejected (test_recovery.RecoveryTests.test_wrong_account_value_or_root_rejected) ... ok
+test_wrong_position_or_runtime_rejected (test_recovery.RecoveryTests.test_wrong_position_or_runtime_rejected) ... ok
+
+======================================================================
+ERROR: test_block_number_is_only_a_claim_without_a_header (test_recovery.RecoveryTests.test_block_number_is_only_a_claim_without_a_header)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/ad9470d27d07/nqc-666/migration/experiments/nqc-666/witness-recovery/ethereum-25422888/tests/test_recovery.py", line 63, in test_block_number_is_only_a_claim_without_a_header
+    result, _ = self.check(capsule, case)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ad9470d27d07/nqc-666/migration/experiments/nqc-666/witness-recovery/ethereum-25422888/tests/test_recovery.py", line 27, in check
+    return recover(self.raw if capsule is None else json.dumps(capsule).encode(),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ad9470d27d07/nqc-666/migration/experiments/nqc-666/witness-recovery/ethereum-25422888/recover.py", line 116, in recover
+    runtime = data(runtime_text)
+              ^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ad9470d27d07/nqc-666/migration/experiments/nqc-666/r3-state-evidence/src/state_evidence.py", line 45, in data
+    require(re.fullmatch(r"0x(?:[0-9a-f]{2})*", value) is not None,
+  File "/workspace/scratch/ad9470d27d07/nqc-666/migration/experiments/nqc-666/r3-state-evidence/src/state_evidence.py", line 39, in require
+    raise Rejected(reason)
+state_evidence.Rejected: noncanonical data hex
+
+======================================================================
+ERROR: test_partial_result_never_claims_full_authentication (test_recovery.RecoveryTests.test_partial_result_never_claims_full_authentication)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/ad9470d27d07/nqc-666/migration/experiments/nqc-666/witness-recovery/ethereum-25422888/tests/test_recovery.py", line 49, in test_partial_result_never_claims_full_authentication
+    result, _ = self.check()
+                ^^^^^^^^^^^^
+  File "/workspace/scratch/ad9470d27d07/nqc-666/migration/experiments/nqc-666/witness-recovery/ethereum-25422888/tests/test_recovery.py", line 27, in check
+    return recover(self.raw if capsule is None else json.dumps(capsule).encode(),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ad9470d27d07/nqc-666/migration/experiments/nqc-666/witness-recovery/ethereum-25422888/recover.py", line 116, in recover
+    runtime = data(runtime_text)
+              ^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ad9470d27d07/nqc-666/migration/experiments/nqc-666/r3-state-evidence/src/state_evidence.py", line 45, in data
+    require(re.fullmatch(r"0x(?:[0-9a-f]{2})*", value) is not None,
+  File "/workspace/scratch/ad9470d27d07/nqc-666/migration/experiments/nqc-666/r3-state-evidence/src/state_evidence.py", line 39, in require
+    raise Rejected(reason)
+state_evidence.Rejected: noncanonical data hex
+
+======================================================================
+ERROR: test_published_proof_and_independent_R3_traversal (test_recovery.RecoveryTests.test_published_proof_and_independent_R3_traversal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/ad9470d27d07/nqc-666/migration/experiments/nqc-666/witness-recovery/ethereum-25422888/tests/test_recovery.py", line 32, in test_published_proof_and_independent_R3_traversal
+    result, account = self.check()
+                      ^^^^^^^^^^^^
+  File "/workspace/scratch/ad9470d27d07/nqc-666/migration/experiments/nqc-666/witness-recovery/ethereum-25422888/tests/test_recovery.py", line 27, in check
+    return recover(self.raw if capsule is None else json.dumps(capsule).encode(),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ad9470d27d07/nqc-666/migration/experiments/nqc-666/witness-recovery/ethereum-25422888/recover.py", line 116, in recover
+    runtime = data(runtime_text)
+              ^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ad9470d27d07/nqc-666/migration/experiments/nqc-666/r3-state-evidence/src/state_evidence.py", line 45, in data
+    require(re.fullmatch(r"0x(?:[0-9a-f]{2})*", value) is not None,
+  File "/workspace/scratch/ad9470d27d07/nqc-666/migration/experiments/nqc-666/r3-state-evidence/src/state_evidence.py", line 39, in require
+    raise Rejected(reason)
+state_evidence.Rejected: noncanonical data hex
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.443s
+
+FAILED (errors=3)
