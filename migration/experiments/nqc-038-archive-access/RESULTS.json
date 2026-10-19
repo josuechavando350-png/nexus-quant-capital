@@ -1,0 +1,54 @@
+{
+  "status": "BLOCKED_PENDING_OPERATOR_ACCESS",
+  "date_utc": "2026-10-19T06:33:56.810382+00:00",
+  "base_commit": "b01ab2d71296b67e08a0e8e33a79dd2dc7ebfe08",
+  "historical_state_proofs_acquired": 0,
+  "priority_slots_authenticated_at_exact_pretransaction_position": 0,
+  "priority_slots_required": 11,
+  "provider_selected_for_bounded_trial": "Triport",
+  "provider_documented_coverage_includes_target": true,
+  "provider_actual_target_coverage_verified": false,
+  "provider_account_created": false,
+  "provider_key_configured": false,
+  "triport_network_requests": 0,
+  "live_transactions": 0,
+  "paid_services_activated": 0,
+  "snapshot_database_downloaded": false,
+  "source_files_byte_checked": 4,
+  "tests": {
+    "transport_passed": 7,
+    "prior_verifier_passed": 32,
+    "isolation_passed": 9,
+    "failed": 0
+  },
+  "check_exit_codes": {
+    "transport": 0,
+    "verifier": 0,
+    "isolation_tests": 0,
+    "isolation": 0
+  },
+  "tooling_note": "System Python lacks rlp; tests and acquisition plan generation used the existing crypto-env interpreter. Metadata generation initially attempted an unnecessary import under system Python and was rerun without that import.",
+  "unrun": [
+    "Authenticated historical acquisition",
+    "Nitro full-state replay",
+    "Economic admission assessment",
+    "Rust engine tests: engine unchanged"
+  ],
+  "gates": {
+    "l1_receipt_inclusion_verified": false,
+    "l1_consensus_finality_verified": false,
+    "canonical_l2_header_authenticated": false,
+    "historical_nitro_binary_authenticated": false,
+    "historical_fork_schedule_authenticated": false,
+    "parent_witness_complete": false,
+    "prefix_state_transition_executed": false,
+    "exact_prestate_root": null,
+    "authenticated_pretransaction_priority_slots": 0,
+    "nitro_replayed": false,
+    "economic_replay_completed": false,
+    "funding_terms_accepted": false,
+    "commercial_admission": false,
+    "commercial_readiness_judgment_out_of_10": 2.5,
+    "realized_pnl_usd": "0"
+  }
+}

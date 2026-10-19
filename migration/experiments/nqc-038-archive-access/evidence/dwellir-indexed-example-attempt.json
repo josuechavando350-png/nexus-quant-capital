@@ -1,0 +1,22 @@
+{
+  "public_documentation": "https://www.dwellir.com/networks/robinhood",
+  "endpoint_type": "Search index displayed a concrete quickstart example; current provider documentation requires an operator API key. Not established as a keyless public endpoint.",
+  "endpoint": "https://api-robinhood-mainnet-archive.n.dwellir.com/<indexed-example-redacted>",
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "eth_chainId",
+    "params": []
+  },
+  "timestamp_utc": "2026-10-19T06:22:24.547402+00:00",
+  "retries": 0,
+  "status": 429,
+  "diagnostic_headers": {
+    "content-type": "text/plain; charset=utf-8",
+    "server": "envoy"
+  },
+  "error_body_excerpt": "Too Many Requests\n",
+  "error_body_sha256": "ad718123430d2b7e7eee71a7e96c2357373d1d2d44c66479deb3db26b9fb3944",
+  "current_documentation": "https://www.dwellir.com/docs/robinhood",
+  "stopped_reason": "HTTP 429; no retry, credential variation or alternate transport. No state returned."
+}

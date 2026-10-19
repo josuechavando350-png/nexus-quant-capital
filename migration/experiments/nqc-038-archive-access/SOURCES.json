@@ -1,0 +1,53 @@
+{
+  "retrieved_on": "2026-10-19",
+  "sources": [
+    {
+      "id": "triport-depth",
+      "url": "https://triport.io/docs/robinhood/archive",
+      "finding": "Measured September state floors 55782445 and 56772445; eth_getProof listed among state reads. Both requested heights exceed these floors.",
+      "limit": "Provider documentation, not a successful target query. Coverage differs by channel and is not guaranteed."
+    },
+    {
+      "id": "triport-proof",
+      "url": "https://triport.io/docs/robinhood/json-rpc/eth_getProof",
+      "finding": "Method available; block number selector and x-token authentication documented. Heavy reads Free budget 15 RPS.",
+      "limit": "EIP-1898 object selection not documented on this method page; runtime capability untested."
+    },
+    {
+      "id": "triport-public",
+      "url": "https://triport.io/docs/robinhood/public",
+      "finding": "No keyless Robinhood endpoint; /public also requires authentication. Seven-day trial, one key, EU region.",
+      "limit": "Current page supersedes older indexed public-endpoint wording."
+    },
+    {
+      "id": "triport-start",
+      "url": "https://triport.io/docs/getting-started",
+      "finding": "New account starts a seven-day trial; no credit card required to start. Paid plan needed to continue after expiry.",
+      "limit": "No account created, key generated or billing terms accepted."
+    },
+    {
+      "id": "dwellir-methods",
+      "url": "https://www.dwellir.com/docs/robinhood",
+      "finding": "Own API key required; not a keyless public Robinhood endpoint.",
+      "limit": "Indexed quickstart example attempted once before fresh-page review: HTTP429, identifier redacted, no retry."
+    },
+    {
+      "id": "robinhood-node",
+      "url": "https://docs.robinhood.com/chain/run-a-full-node/",
+      "finding": "Current guide recommends Nitro v3.11.2-3599aca, links the snapshot explorer, describes snapshots as pruned full-node only.",
+      "limit": "Recommended version is not evidence of the binary that executed the target block."
+    },
+    {
+      "id": "snapshot-index",
+      "url": "https://snapshot-explorer.arbitrum.io/?chain=Robinhood+Chain&dir=Archive-path&snap=2026-09-06_Archive-path",
+      "finding": "Search index lists Archive PathDB snapshots dated 2026-09-28 (~1.2TB) and 2026-10-09 (~1.31TB).",
+      "limit": "Indexed directory, not verified manifest or database. Page extraction only returned a heading; direct metadata retrieval denied. Date in query is not either listed snapshot's date."
+    },
+    {
+      "id": "nitro-snapshots",
+      "url": "https://docs.arbitrum.io/run-a-node/nitro/nitro-database-snapshots",
+      "finding": "Snapshot state scheme must match. PathDB initialization uses explicit URL and metadata, unlike HashDB --init.latest kinds.",
+      "limit": "Generic Arbitrum documentation does not certify Robinhood snapshot availability or historical proof retention."
+    }
+  ]
+}

@@ -1,0 +1,278 @@
+{
+  "endpoint": "https://triport.io/rpc/robinhood",
+  "authentication": "x-token from NQC_TRIPORT_API_KEY; never persisted",
+  "logical_requests": [
+    {
+      "purpose": "chain",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "eth_chainId",
+        "params": []
+      }
+    },
+    {
+      "purpose": "parent",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 2,
+        "method": "eth_getBlockByHash",
+        "params": [
+          "0x53f9d3bedcdd3554f7447343ca03f9c9a5a7b61c692057f431d9225e04e1a917",
+          false
+        ]
+      }
+    },
+    {
+      "purpose": "priority_proof",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 3,
+        "method": "eth_getProof",
+        "params": [
+          "0x929631b33f4070d6f54477fba3fd27566567daca",
+          [
+            "0x0000000000000000000000000000000000000000000000000000000000000009",
+            "0x000000000000000000000000000000000000000000000000000000000000000d",
+            "0x000000000000000000000000000000000000000000000000000000000000000f",
+            "0x0000000000000000000000000000000000000000000000000000000000000011",
+            "0x0000000000000000000000000000000000000000000000000000000000000013",
+            "0x0000000000000000000000000000000000000000000000000000000000000015",
+            "0x0000000000000000000000000000000000000000000000000000000000000017",
+            "0x0000000000000000000000000000000000000000000000000000000000000019",
+            "0x000000000000000000000000000000000000000000000000000000000000001b",
+            "0x000000000000000000000000000000000000000000000000000000000000001d",
+            "0x000000000000000000000000000000000000000000000000000000000000001f"
+          ],
+          {
+            "blockHash": "0x53f9d3bedcdd3554f7447343ca03f9c9a5a7b61c692057f431d9225e04e1a917",
+            "requireCanonical": true
+          }
+        ]
+      }
+    },
+    {
+      "purpose": "priority_code",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 4,
+        "method": "eth_getCode",
+        "params": [
+          "0x929631b33f4070d6f54477fba3fd27566567daca",
+          {
+            "blockHash": "0x53f9d3bedcdd3554f7447343ca03f9c9a5a7b61c692057f431d9225e04e1a917",
+            "requireCanonical": true
+          }
+        ]
+      }
+    },
+    {
+      "purpose": "arbos_proof",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 5,
+        "method": "eth_getProof",
+        "params": [
+          "0xa4b05fffffffffffffffffffffffffffffffffff",
+          [
+            "0x15fed0451499512d95f3ec5a41c878b9de55f21878b5b4e190d4667ec709b400",
+            "0x15fed0451499512d95f3ec5a41c878b9de55f21878b5b4e190d4667ec709b401",
+            "0x15fed0451499512d95f3ec5a41c878b9de55f21878b5b4e190d4667ec709b402",
+            "0x15fed0451499512d95f3ec5a41c878b9de55f21878b5b4e190d4667ec709b404",
+            "0x15fed0451499512d95f3ec5a41c878b9de55f21878b5b4e190d4667ec709b405"
+          ],
+          {
+            "blockHash": "0x53f9d3bedcdd3554f7447343ca03f9c9a5a7b61c692057f431d9225e04e1a917",
+            "requireCanonical": true
+          }
+        ]
+      }
+    },
+    {
+      "purpose": "anchor",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 6,
+        "method": "eth_getBlockByHash",
+        "params": [
+          "0xcc02e358c6b11bfeb61182aef188bffffaa49073e666f740f2c2a887abc2c1c1",
+          false
+        ]
+      }
+    },
+    {
+      "purpose": "history_proof",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 7,
+        "method": "eth_getProof",
+        "params": [
+          "0x0000f90827f1c53a10cb7a02335b175320002935",
+          [
+            "0x0000000000000000000000000000000000000000000000000000000000048f12",
+            "0x0000000000000000000000000000000000000000000000000000000000048f11"
+          ],
+          {
+            "blockHash": "0xcc02e358c6b11bfeb61182aef188bffffaa49073e666f740f2c2a887abc2c1c1",
+            "requireCanonical": true
+          }
+        ]
+      }
+    },
+    {
+      "purpose": "history_code",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 8,
+        "method": "eth_getCode",
+        "params": [
+          "0x0000f90827f1c53a10cb7a02335b175320002935",
+          {
+            "blockHash": "0xcc02e358c6b11bfeb61182aef188bffffaa49073e666f740f2c2a887abc2c1c1",
+            "requireCanonical": true
+          }
+        ]
+      }
+    }
+  ],
+  "wire_requests": [
+    {
+      "purpose": "chain",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "eth_chainId",
+        "params": []
+      }
+    },
+    {
+      "purpose": "parent",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 2,
+        "method": "eth_getBlockByHash",
+        "params": [
+          "0x53f9d3bedcdd3554f7447343ca03f9c9a5a7b61c692057f431d9225e04e1a917",
+          false
+        ]
+      }
+    },
+    {
+      "purpose": "priority_proof",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 3,
+        "method": "eth_getProof",
+        "params": [
+          "0x929631b33f4070d6f54477fba3fd27566567daca",
+          [
+            "0x0000000000000000000000000000000000000000000000000000000000000009",
+            "0x000000000000000000000000000000000000000000000000000000000000000d",
+            "0x000000000000000000000000000000000000000000000000000000000000000f",
+            "0x0000000000000000000000000000000000000000000000000000000000000011",
+            "0x0000000000000000000000000000000000000000000000000000000000000013",
+            "0x0000000000000000000000000000000000000000000000000000000000000015",
+            "0x0000000000000000000000000000000000000000000000000000000000000017",
+            "0x0000000000000000000000000000000000000000000000000000000000000019",
+            "0x000000000000000000000000000000000000000000000000000000000000001b",
+            "0x000000000000000000000000000000000000000000000000000000000000001d",
+            "0x000000000000000000000000000000000000000000000000000000000000001f"
+          ],
+          "0x3fa6f61"
+        ]
+      }
+    },
+    {
+      "purpose": "priority_code",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 4,
+        "method": "eth_getCode",
+        "params": [
+          "0x929631b33f4070d6f54477fba3fd27566567daca",
+          "0x3fa6f61"
+        ]
+      }
+    },
+    {
+      "purpose": "arbos_proof",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 5,
+        "method": "eth_getProof",
+        "params": [
+          "0xa4b05fffffffffffffffffffffffffffffffffff",
+          [
+            "0x15fed0451499512d95f3ec5a41c878b9de55f21878b5b4e190d4667ec709b400",
+            "0x15fed0451499512d95f3ec5a41c878b9de55f21878b5b4e190d4667ec709b401",
+            "0x15fed0451499512d95f3ec5a41c878b9de55f21878b5b4e190d4667ec709b402",
+            "0x15fed0451499512d95f3ec5a41c878b9de55f21878b5b4e190d4667ec709b404",
+            "0x15fed0451499512d95f3ec5a41c878b9de55f21878b5b4e190d4667ec709b405"
+          ],
+          "0x3fa6f61"
+        ]
+      }
+    },
+    {
+      "purpose": "anchor",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 6,
+        "method": "eth_getBlockByHash",
+        "params": [
+          "0xcc02e358c6b11bfeb61182aef188bffffaa49073e666f740f2c2a887abc2c1c1",
+          false
+        ]
+      }
+    },
+    {
+      "purpose": "history_proof",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 7,
+        "method": "eth_getProof",
+        "params": [
+          "0x0000f90827f1c53a10cb7a02335b175320002935",
+          [
+            "0x0000000000000000000000000000000000000000000000000000000000048f12",
+            "0x0000000000000000000000000000000000000000000000000000000000048f11"
+          ],
+          "0x3fa938a"
+        ]
+      }
+    },
+    {
+      "purpose": "history_code",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 8,
+        "method": "eth_getCode",
+        "params": [
+          "0x0000f90827f1c53a10cb7a02335b175320002935",
+          "0x3fa938a"
+        ]
+      }
+    }
+  ],
+  "selection": "Explicit fixed block numbers; no EIP-1898 attempt or automatic fallback",
+  "binding": "Original header hashes, parent state root, account/storage proofs and code hashes remain mandatory",
+  "canonicality": "No requireCanonical assertion on the wire; independent canonicality remains unproved",
+  "maximum_requests": 8,
+  "gates": {
+    "l1_receipt_inclusion_verified": false,
+    "l1_consensus_finality_verified": false,
+    "canonical_l2_header_authenticated": false,
+    "historical_nitro_binary_authenticated": false,
+    "historical_fork_schedule_authenticated": false,
+    "parent_witness_complete": false,
+    "prefix_state_transition_executed": false,
+    "exact_prestate_root": null,
+    "authenticated_pretransaction_priority_slots": 0,
+    "nitro_replayed": false,
+    "economic_replay_completed": false,
+    "funding_terms_accepted": false,
+    "commercial_admission": false,
+    "commercial_readiness_judgment_out_of_10": 2.5,
+    "realized_pnl_usd": "0"
+  }
+}

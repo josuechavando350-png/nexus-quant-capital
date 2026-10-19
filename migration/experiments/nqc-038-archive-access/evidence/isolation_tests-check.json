@@ -1,0 +1,12 @@
+{
+  "check": "isolation_tests",
+  "args": [
+    "-m",
+    "unittest",
+    "migration/test_isolation.py",
+    "-v"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "test_changed_source_byte_fails (migration.test_isolation.IsolationTests.test_changed_source_byte_fails) ... ok\ntest_client_application_fails (migration.test_isolation.IsolationTests.test_client_application_fails) ... ok\ntest_new_active_workflow_fails (migration.test_isolation.IsolationTests.test_new_active_workflow_fails) ... ok\ntest_new_repository_id_is_required (migration.test_isolation.IsolationTests.test_new_repository_id_is_required) ... ok\ntest_omitted_source_mapping_fails (migration.test_isolation.IsolationTests.test_omitted_source_mapping_fails) ... ok\ntest_snapshot_is_explicitly_not_certification (migration.test_isolation.IsolationTests.test_snapshot_is_explicitly_not_certification) ... ok\ntest_source_repository_cannot_be_relabelled (migration.test_isolation.IsolationTests.test_source_repository_cannot_be_relabelled) ... ok\ntest_symlink_cannot_hide_payload (migration.test_isolation.IsolationTests.test_symlink_cannot_hide_payload) ... ok\ntest_unmapped_extra_nqc_file_fails (migration.test_isolation.IsolationTests.test_unmapped_extra_nqc_file_fails) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 1.222s\n\nOK\n"
+}

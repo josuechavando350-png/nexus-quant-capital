@@ -1,0 +1,61 @@
+{
+  "repository": "OffchainLabs/go-ethereum",
+  "commit": "f3a977ddf30b138da2fe673ac5cbff2bc6dd4c88",
+  "nitro_parent_commit": "3599acae1ad2fab4059fc46453c9cd3294126641",
+  "files": [
+    {
+      "path": "vendor/geth/eth/api_backend.go",
+      "bytes": 17754,
+      "sha256": "7a12b50e95931fd9ae41632f45cca0c83ae82a5efd38c208b70ebb5d09571aba",
+      "byte_equality_with_fetched_source": true,
+      "url": "https://github.com/OffchainLabs/go-ethereum/blob/f3a977ddf30b138da2fe673ac5cbff2bc6dd4c88/eth/api_backend.go",
+      "symbols": [
+        "EthAPIBackend.StateAndHeaderByNumber",
+        "EthAPIBackend.StateAndHeaderByNumberOrHash"
+      ],
+      "observation": "Falls back from StateAt to HistoricState; hash selection can check RequireCanonical in this backend."
+    },
+    {
+      "path": "vendor/geth/internal/ethapi/api.go",
+      "bytes": 89927,
+      "sha256": "208c06e5a30922015aa6d7a379df649b43a4a02a748da34f867b5e07b70774b4",
+      "byte_equality_with_fetched_source": true,
+      "url": "https://github.com/OffchainLabs/go-ethereum/blob/f3a977ddf30b138da2fe673ac5cbff2bc6dd4c88/internal/ethapi/api.go",
+      "symbols": [
+        "BlockChainAPI.GetProof"
+      ],
+      "observation": "Creates storage and account StateTrie at header.Root and calls Prove; historical values alone are insufficient."
+    },
+    {
+      "path": "vendor/geth/triedb/pathdb/database.go",
+      "bytes": 25414,
+      "sha256": "6b05cdb4c0e8be8f73033e585b74806df71e31a40f248ae678f714bdd12a8109",
+      "byte_equality_with_fetched_source": true,
+      "url": "https://github.com/OffchainLabs/go-ethereum/blob/f3a977ddf30b138da2fe673ac5cbff2bc6dd4c88/triedb/pathdb/database.go",
+      "symbols": [
+        "Database.Update",
+        "Database.Recover",
+        "Database.Recoverable"
+      ],
+      "observation": "Caps live layers at configured MaxDiffLayers. Recover can rewind when canonical retained history is complete; no rewind performed."
+    },
+    {
+      "path": "vendor/geth/triedb/pathdb/reader.go",
+      "bytes": 11759,
+      "sha256": "1a30ae6daf4aca22f2a472b729e7e1023ff459f209ae448354f205200ffce199",
+      "byte_equality_with_fetched_source": true,
+      "url": "https://github.com/OffchainLabs/go-ethereum/blob/f3a977ddf30b138da2fe673ac5cbff2bc6dd4c88/triedb/pathdb/reader.go",
+      "symbols": [
+        "Database.NodeReader",
+        "Database.HistoricReader"
+      ],
+      "observation": "NodeReader requires root in current layer tree; HistoricReader separately uses indexed history and freezer."
+    }
+  ],
+  "conclusion": "At this pinned revision, deep PathDB historical value access does not imply direct historical Merkle proof access while positioned at a later head.",
+  "limits": [
+    "Static source review, not execution of Nitro.",
+    "Does not establish provider backend or snapshot contents.",
+    "Does not exclude offline rollback/reconstruction if complete retained history and sufficient resources exist."
+  ]
+}

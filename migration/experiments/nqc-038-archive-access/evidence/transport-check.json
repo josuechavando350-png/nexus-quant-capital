@@ -1,0 +1,16 @@
+{
+  "check": "transport",
+  "args": [
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "migration/experiments/nqc-038-archive-access",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "test_auth_header_and_exact_wire_request (test_triport_intake.TransportTests.test_auth_header_and_exact_wire_request) ... ok\ntest_bad_envelopes_and_oversize_rejected (test_triport_intake.TransportTests.test_bad_envelopes_and_oversize_rejected) ... ok\ntest_fixed_blocks_and_header_bindings (test_triport_intake.TransportTests.test_fixed_blocks_and_header_bindings) ... ok\ntest_http_failure_one_attempt_and_no_secret_persistence (test_triport_intake.TransportTests.test_http_failure_one_attempt_and_no_secret_persistence) ... ok\ntest_no_redirect_and_no_invalid_key (test_triport_intake.TransportTests.test_no_redirect_and_no_invalid_key) ... ok\ntest_unapproved_target_rejected_before_network (test_triport_intake.TransportTests.test_unapproved_target_rejected_before_network) ... ok\ntest_wrong_chain_and_tampered_parent_stop_before_proof (test_triport_intake.TransportTests.test_wrong_chain_and_tampered_parent_stop_before_proof) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.022s\n\nOK\n"
+}
