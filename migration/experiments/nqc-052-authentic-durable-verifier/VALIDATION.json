@@ -1,0 +1,104 @@
+{
+  "experiment": "NQC052",
+  "scope": "Original runtime, synthetic offline tests and real GitHub DRY_RUN persistence; no Triport acquisition",
+  "python": "Python 3.12.14",
+  "node": "v24.19.0",
+  "dependency_versions": {
+    "annotated-types": "0.8.0",
+    "cytoolz": "1.2.0",
+    "eth-hash": "0.8.0",
+    "eth-typing": "6.0.0",
+    "eth-utils": "6.0.0",
+    "hexbytes": "2.0.0",
+    "pycryptodome": "4.0.1",
+    "pydantic": "2.14.1",
+    "pydantic_core": "2.50.1",
+    "rlp": "5.0.0",
+    "sortedcontainers": "2.4.0",
+    "toolz": "1.2.0",
+    "trie": "4.0.0",
+    "typing-inspection": "0.4.4",
+    "typing_extensions": "4.16.0"
+  },
+  "tests": [
+    {
+      "suite": "NQC037 unchanged original",
+      "passed": 32,
+      "failed": 0,
+      "log": "evidence/nqc037-tests.log"
+    },
+    {
+      "suite": "NQC052 worker",
+      "passed": 12,
+      "failed": 0,
+      "log": "evidence/worker-tests.log"
+    },
+    {
+      "suite": "NQC052 authentic integration",
+      "passed": 9,
+      "failed": 0,
+      "log": "evidence/bridge-tests.json"
+    },
+    {
+      "suite": "migration isolation",
+      "passed": 9,
+      "failed": 0,
+      "log": "evidence/isolation-tests.log"
+    }
+  ],
+  "initial_development_failures": {
+    "worker_assertion_failures": 4,
+    "node_failures": 4,
+    "cause": "New subprocess guard also blocked native PyCryptodome architecture detection during import. Network blocking remains active throughout; subprocess guard begins after pinned native initialization. Only new worker changed.",
+    "preserved_logs": [
+      "evidence/worker-tests-initial.log",
+      "evidence/bridge-tests-initial.json"
+    ]
+  },
+  "cli_checks": {
+    "original_nqc049_full_checkout": {
+      "exit_code": 2,
+      "expected": "BLOCKED_NQC037_VALIDATION",
+      "record": "evidence/old-ledger-replay.json"
+    },
+    "complete_original_runtime": {
+      "exit_code": 0,
+      "record": "evidence/runtime.json"
+    },
+    "new_remote_snapshot_offline_replay": {
+      "exit_code": 0,
+      "expected": "BLOCKED_RECOVERED_RECEIPT_REVIEW_REQUIRED",
+      "record": "evidence/offline-remote-replay.json"
+    }
+  },
+  "integrity": {
+    "base_tree": "12161d81dea6a6d7070b70a141a90a4d0bf423d8",
+    "base_files_checked": 1362,
+    "nqc037_manifest_files_checked": 42,
+    "original_sources_changed": 0,
+    "record": "evidence/checkout-integrity.json"
+  },
+  "first_publication": {
+    "connector_commit": "0057a2290e7b8cf600a6d87e8e18559f27d84ce4",
+    "tree": "292ebbc10b1ff5fe6789dc8062d70b0064017270",
+    "identical_to_local_tested_tree": true,
+    "git_push_attempt": "No credentials available to direct git push; used authorized connected GitHub tools without reading any credentials"
+  },
+  "remote_probe": {
+    "record": "evidence/remote-probe.json",
+    "final_commit": "a9e3a5346a1bc7549fe86ed53a1e0aa238eaeee3",
+    "second_entry_remains_received": true,
+    "new_execution_revalidated_two_responses": true,
+    "recovery_dispatches": 0,
+    "live_quota_scope": false
+  },
+  "unrun_or_unproven": [
+    "Rust suites: no Rust changed",
+    "NQC050/051 suites: unnecessary excerpt/overlay tests superseded for this objective by full native NQC037 runtime",
+    "Authenticated Triport RPC and actual historical eth_getProof",
+    "Independent multi-host exclusion, authoritative lifetime quota and adversarial rollback",
+    "Network secret delivery and destination binding in this Work session",
+    "Independent canonicality/finality, complete witness, historical Nitro engine/prefix and economic replay"
+  ],
+  "commercial_admission": false
+}

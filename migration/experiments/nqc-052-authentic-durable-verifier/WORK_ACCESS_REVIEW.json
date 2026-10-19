@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-19",
+  "scope": "Official documentation and exposed capabilities only; no credential read or RPC",
+  "official_sources": [
+    {
+      "url": "https://learn.chatgpt.com/docs/environments/cloud-environments",
+      "observation": "Current Codex Cloud documents Network secrets and Personal vault. Network secret values are substituted by a proxy for configured HTTPS destinations on port 443; programs receive placeholders. Mobile can start tasks in published environments."
+    },
+    {
+      "url": "https://learn.chatgpt.com/docs/agent-approvals-security",
+      "observation": "Documents different execution surfaces and states that ChatGPT Work Cloud has separate capability permissions. Codex Cloud capabilities cannot be assumed to exist in this Work session."
+    }
+  ],
+  "session_evidence": {
+    "NQC_TRIPORT_API_KEY_presence_only": false,
+    "NQC_ARCHIVE_RPC_presence_only": false,
+    "exposed_generic_network_secret_management_tool_found": false,
+    "triport_plugin_search_results": 0,
+    "plugin_search_exhaustive": false,
+    "documented_network_secret_channel_demonstrated_here": false,
+    "configured_triport_destination_confirmed": false,
+    "raw_secret_value_requested_or_read": false,
+    "browser_session_or_cookies_accessed": false,
+    "permissions_or_integrations_changed": false
+  },
+  "decision": "BLOCKED_NOT_DEMONSTRATED_IN_THIS_SESSION",
+  "interpretation": "An official candidate mechanism exists in Codex Cloud; account availability, placeholder delivery and exact destination binding are unverified here. Documentation alone is not authorization or evidence of configuration.",
+  "next_channel_check": "Inspect non-secret environment metadata for an already-supported network-secret channel. If unavailable in Work, evaluate a published Codex Cloud environment. Do not put a token in chat, files, commands, git or screenshots. No configuration changes were made.",
+  "additional_live_requirements": [
+    "One authoritative lifetime registry for the original eight-call authorization, not a new counter per branch",
+    "Rollback resistance and exclusion across independent hosts under an explicit operating model",
+    "Safe handling of provider error bodies and possible credential reflection with proxy substitution",
+    "Exact unchanged NQC038 plan, durable reservation before dispatch, persisted response before validation, and no retries"
+  ],
+  "triport_requests_sent_this_experiment": 0,
+  "triport_requests_sent_total_known": 0,
+  "authorized_total_lifetime": 8,
+  "commercial_admission": false
+}

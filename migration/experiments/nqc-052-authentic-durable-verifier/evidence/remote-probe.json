@@ -1,0 +1,236 @@
+{
+  "experiment": "NQC052",
+  "execution": "real connected GitHub plus real isolated Python NQC037; fixed synthetic provider inputs",
+  "phases": [
+    {
+      "initial_head": "0057a2290e7b8cf600a6d87e8e18559f27d84ce4",
+      "final_head": "e7d1fe84a9d421e6ae759ed4a4f4e69777f572f8",
+      "result": {
+        "status": "READY_FOR_NEXT_READ",
+        "attempt_slots_reserved": 1,
+        "responses_verified": 1,
+        "remaining_attempt_slots": 7,
+        "simulated_dispatches_this_run": 1,
+        "triport_requests_sent": 0,
+        "historical_state_proofs_acquired": 0,
+        "commercial_admission": false
+      },
+      "writes": [
+        {
+          "commit": "4ff3383d5b6579831085cdab9e050d6be8400d3b",
+          "status": "RESERVED",
+          "id": 1
+        },
+        {
+          "commit": "31c815a1ab65c1a9db95c52d0980b636440f67c7",
+          "status": "RECEIVED",
+          "id": 1
+        },
+        {
+          "commit": "e7d1fe84a9d421e6ae759ed4a4f4e69777f572f8",
+          "status": "VERIFIED",
+          "id": 1
+        }
+      ],
+      "injected_ack_loss": false,
+      "worker_events": [
+        {
+          "id": 1,
+          "status": "OFFLINE_PREFIX_VERIFIED",
+          "responses_validated": 1,
+          "input_sha256": "605e9dd0bf1c51e6968e85d351f75483cb9ca9d82657019ed88da85719c5abc2",
+          "intake_git_blob": "c36d60ce83e73d246496bd0b72bc6cbe00d5893e"
+        }
+      ],
+      "journal": {
+        "schema": "nqc048-chunked-dryrun-v1",
+        "mode": "DRY_RUN",
+        "scope": "nqc048:dryrun:nqc052:authentic-verifier:fixed8",
+        "plan_sha256": "6148b4248555043ec3276f3887e008974643ccff64f755b8b6ed986f8537d2f7",
+        "spec_sha256": "fe1bd67bfedd84372e76da84840cd0d52db1906a461a668684b3388a8c006034",
+        "max_requests": 8,
+        "commercial_admission": false,
+        "entries": [
+          {
+            "id": 1,
+            "purpose": "chain",
+            "status": "VERIFIED",
+            "receipt": {
+              "sha256": "1fb0f19b45a4203bd13cb5be1e8ad3aa569f42905377cd4643fc8bc07ecd3aa3",
+              "byte_length": 42,
+              "parts": [
+                {
+                  "b64_sha256": "3886dd47f095a0193c5fbd65e01821e78a691451992f0abcf656957e0974c2b5",
+                  "bytes": 42
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "provider_inputs": "SYNTHETIC_ONLY_NOT_ACQUIRED_FROM_TRIPORT",
+      "commercial_admission": false
+    },
+    {
+      "initial_head": "e7d1fe84a9d421e6ae759ed4a4f4e69777f572f8",
+      "final_head": "a9e3a5346a1bc7549fe86ed53a1e0aa238eaeee3",
+      "result": {
+        "status": "BLOCKED_AMBIGUOUS_JOURNAL",
+        "attempt_slots_reserved": 2,
+        "responses_verified": 1,
+        "remaining_attempt_slots": 6,
+        "simulated_dispatches_this_run": 1,
+        "triport_requests_sent": 0,
+        "historical_state_proofs_acquired": 0,
+        "commercial_admission": false
+      },
+      "writes": [
+        {
+          "commit": "962063615897cf053d8046b33737ad77b885ef6f",
+          "status": "RESERVED",
+          "id": 2
+        },
+        {
+          "commit": "a9e3a5346a1bc7549fe86ed53a1e0aa238eaeee3",
+          "status": "RECEIVED",
+          "id": 2
+        }
+      ],
+      "injected_ack_loss": true,
+      "worker_events": [
+        {
+          "id": 1,
+          "status": "OFFLINE_PREFIX_VERIFIED",
+          "responses_validated": 1,
+          "input_sha256": "605e9dd0bf1c51e6968e85d351f75483cb9ca9d82657019ed88da85719c5abc2",
+          "intake_git_blob": "c36d60ce83e73d246496bd0b72bc6cbe00d5893e"
+        }
+      ],
+      "journal": {
+        "schema": "nqc048-chunked-dryrun-v1",
+        "mode": "DRY_RUN",
+        "scope": "nqc048:dryrun:nqc052:authentic-verifier:fixed8",
+        "plan_sha256": "6148b4248555043ec3276f3887e008974643ccff64f755b8b6ed986f8537d2f7",
+        "spec_sha256": "fe1bd67bfedd84372e76da84840cd0d52db1906a461a668684b3388a8c006034",
+        "max_requests": 8,
+        "commercial_admission": false,
+        "entries": [
+          {
+            "id": 1,
+            "purpose": "chain",
+            "status": "VERIFIED",
+            "receipt": {
+              "sha256": "1fb0f19b45a4203bd13cb5be1e8ad3aa569f42905377cd4643fc8bc07ecd3aa3",
+              "byte_length": 42,
+              "parts": [
+                {
+                  "b64_sha256": "3886dd47f095a0193c5fbd65e01821e78a691451992f0abcf656957e0974c2b5",
+                  "bytes": 42
+                }
+              ]
+            }
+          },
+          {
+            "id": 2,
+            "purpose": "parent",
+            "status": "RECEIVED",
+            "receipt": {
+              "sha256": "d9d09dd05f4ab5b2b47f0045dd15f8e96abfcbba8fafac96322b29871159dd3f",
+              "byte_length": 8033,
+              "parts": [
+                {
+                  "b64_sha256": "4943ea4949b6c542e51c2fa3a283e7b2e5bb8610934104bb2ca0b7514f26c517",
+                  "bytes": 8033
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "provider_inputs": "SYNTHETIC_ONLY_NOT_ACQUIRED_FROM_TRIPORT",
+      "commercial_admission": false
+    },
+    {
+      "initial_head": "a9e3a5346a1bc7549fe86ed53a1e0aa238eaeee3",
+      "final_head": "a9e3a5346a1bc7549fe86ed53a1e0aa238eaeee3",
+      "result": {
+        "status": "BLOCKED_RECOVERED_RECEIPT_REVIEW_REQUIRED",
+        "attempt_slots_reserved": 2,
+        "responses_verified": 2,
+        "remaining_attempt_slots": 6,
+        "simulated_dispatches_this_run": 0,
+        "triport_requests_sent": 0,
+        "historical_state_proofs_acquired": 0,
+        "commercial_admission": false
+      },
+      "writes": [],
+      "injected_ack_loss": false,
+      "worker_events": [
+        {
+          "id": 1,
+          "status": "OFFLINE_PREFIX_VERIFIED",
+          "responses_validated": 1,
+          "input_sha256": "605e9dd0bf1c51e6968e85d351f75483cb9ca9d82657019ed88da85719c5abc2",
+          "intake_git_blob": "c36d60ce83e73d246496bd0b72bc6cbe00d5893e"
+        },
+        {
+          "id": 2,
+          "status": "OFFLINE_PREFIX_VERIFIED",
+          "responses_validated": 2,
+          "input_sha256": "a103f8cf2e4d0bb87d12160527a454b84bcad00be2dc594b33176d1636d6c1ea",
+          "intake_git_blob": "c36d60ce83e73d246496bd0b72bc6cbe00d5893e"
+        }
+      ],
+      "journal": {
+        "schema": "nqc048-chunked-dryrun-v1",
+        "mode": "DRY_RUN",
+        "scope": "nqc048:dryrun:nqc052:authentic-verifier:fixed8",
+        "plan_sha256": "6148b4248555043ec3276f3887e008974643ccff64f755b8b6ed986f8537d2f7",
+        "spec_sha256": "fe1bd67bfedd84372e76da84840cd0d52db1906a461a668684b3388a8c006034",
+        "max_requests": 8,
+        "commercial_admission": false,
+        "entries": [
+          {
+            "id": 1,
+            "purpose": "chain",
+            "status": "VERIFIED",
+            "receipt": {
+              "sha256": "1fb0f19b45a4203bd13cb5be1e8ad3aa569f42905377cd4643fc8bc07ecd3aa3",
+              "byte_length": 42,
+              "parts": [
+                {
+                  "b64_sha256": "3886dd47f095a0193c5fbd65e01821e78a691451992f0abcf656957e0974c2b5",
+                  "bytes": 42
+                }
+              ]
+            }
+          },
+          {
+            "id": 2,
+            "purpose": "parent",
+            "status": "RECEIVED",
+            "receipt": {
+              "sha256": "d9d09dd05f4ab5b2b47f0045dd15f8e96abfcbba8fafac96322b29871159dd3f",
+              "byte_length": 8033,
+              "parts": [
+                {
+                  "b64_sha256": "4943ea4949b6c542e51c2fa3a283e7b2e5bb8610934104bb2ca0b7514f26c517",
+                  "bytes": 8033
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "provider_inputs": "SYNTHETIC_ONLY_NOT_ACQUIRED_FROM_TRIPORT",
+      "commercial_admission": false
+    }
+  ],
+  "unique_simulated_dispatches": 2,
+  "triport_requests_sent": 0,
+  "final_journal_kept_received": true,
+  "global_live_quota_proven": false,
+  "independent_host_concurrency_proven": false,
+  "rollback_resistance_proven": false,
+  "commercial_admission": false
+}
