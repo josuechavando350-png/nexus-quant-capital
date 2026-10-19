@@ -1,0 +1,66 @@
+{
+  "checks": [
+    {
+      "check": "mapper",
+      "command": [
+        "/workspace/scratch/bea05de2edb6/crypto-env/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/scratch/d232f9d2a06a/nexus-quant-capital/migration/experiments/nqc-041-tx0-storage-map",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "evidence/mapper.log",
+      "sha256": "222dee19a00c8686daed3a9b0cca7161b49761ac3d8c7d90d854b7e6455844c2"
+    },
+    {
+      "check": "historical_verifier",
+      "command": [
+        "/workspace/scratch/bea05de2edb6/crypto-env/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/scratch/d232f9d2a06a/nexus-quant-capital/migration/experiments/nqc-037-historical-state/tests",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "evidence/historical_verifier.log",
+      "sha256": "65a3e7cc0882d27c22c36d53819379ce46fd977449976a4c1a20a9036b47000b"
+    },
+    {
+      "check": "isolation_tests",
+      "command": [
+        "/workspace/scratch/bea05de2edb6/crypto-env/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "migration",
+        "-p",
+        "test_isolation.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "evidence/isolation_tests.log",
+      "sha256": "a50619456f1d9ad7e9324db608d48203d07a3b2e00abf5eea7b587270ffdd717"
+    },
+    {
+      "check": "isolation",
+      "command": [
+        "/workspace/scratch/bea05de2edb6/crypto-env/bin/python",
+        "migration/verify_isolation.py"
+      ],
+      "exit_code": 0,
+      "log": "evidence/isolation.log",
+      "sha256": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940"
+    }
+  ],
+  "commercial_admission": false,
+  "historical_proofs_acquired": 0,
+  "rpc_requests_sent": 0
+}
