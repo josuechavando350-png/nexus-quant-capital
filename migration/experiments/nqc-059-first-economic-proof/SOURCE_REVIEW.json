@@ -1,0 +1,53 @@
+{
+  "schema": "nqc059-public-pages-not-full-http-byte-hashes",
+  "reviewed_date_utc": "2026-10-19",
+  "primary_sources": [
+    {
+      "id": "PRACTITIONER_AAVE_THREAD",
+      "url": "https://governance.aave.com/t/aave-v3-v4-liquidation-bot/25565/5",
+      "author": "Burnbytes",
+      "published": "2026-09-01",
+      "kind": "FIRST_PERSON_CLAIM_IN_AAVE_FORUM",
+      "scope": "Block and approximate payouts; no tx hash, canonical receipt, or legal sponsor liability",
+      "full_http_bytes_preserved": false
+    },
+    {
+      "id": "CHAINLINK_SVR_ETHEREUM",
+      "url": "https://docs.chain.link/data-feeds/svr-feeds/searcher-onboarding-ethereum",
+      "kind": "OFFICIAL_DOCUMENTATION",
+      "scope": "MEV-Share signed backrun, builder bid, SVR auction",
+      "full_http_bytes_preserved": false
+    },
+    {
+      "id": "CHAINLINK_SVR_TITAN",
+      "url": "https://docs.chain.link/data-feeds/svr-feeds",
+      "kind": "OFFICIAL_DOCUMENTATION",
+      "scope": "Titan supported as parallel SVR OFA; no verified NQC sponsored mev_sendBundle",
+      "full_http_bytes_preserved": false
+    },
+    {
+      "id": "TITAN_ETH_SENDBUNDLE",
+      "url": "https://docs.titanbuilder.xyz/api/eth_sendbundle",
+      "kind": "OFFICIAL_DOCUMENTATION",
+      "scope": "Conditional sponsored bundles LackOfFundForGasLimit; cross API support unknown",
+      "full_http_bytes_preserved": false
+    },
+    {
+      "id": "LLAMARISK_14006",
+      "url": "https://governance.aave.com/t/arfc-liquidation-protocol-fee-increase-for-wbtc-weth-and-wsteth-on-aave-v3-ethereum-core/25470",
+      "kind": "RISK_PROVIDER_REPORT",
+      "scope": "14,006 historical events aggregate measured; no complete NQC case ledger; proposed LPF is not historical effective parameter",
+      "full_http_bytes_preserved": false
+    }
+  ],
+  "acquisition_attempts": [
+    {
+      "url": "https://etherscan.io/tx/0x0ec3a4ce06ab809e82cb454a6e41b149d3bd8c5e72d0606a17fd039a2240753d",
+      "kind": "PUBLIC_WEB_PAGE_NOT_RPC",
+      "result": "INACCESSIBLE",
+      "retried": false,
+      "workaround": false
+    }
+  ],
+  "restrictions": "No bypass of denied access, no Triport, no RPC, no live trading, no contracts, no signing, no funds."
+}
