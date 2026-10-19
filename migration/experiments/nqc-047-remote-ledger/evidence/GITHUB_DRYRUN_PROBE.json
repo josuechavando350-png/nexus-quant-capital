@@ -1,0 +1,76 @@
+{
+  "date": "2026-10-19",
+  "mode": "DRY_RUN",
+  "repo": "josuechavando350-png/nexus-quant-capital",
+  "branch": "research/nqc-047-remote-ledger-20261019",
+  "inherited_base_commit": "1da9ab0c6651d5922d5600e53dabcf5963dcb13a",
+  "journal_path": "migration/experiments/nqc-047-remote-ledger/evidence/DRYRUN_JOURNAL.json",
+  "logical_plan_sha256": "6148b4248555043ec3276f3887e008974643ccff64f755b8b6ed986f8537d2f7",
+  "plan_git_blob_sha": "e6ba1ce643ff3f9596870044c99aab8f3cbbb15b",
+  "initial_journal_commit": "684872bd0a8db580fa03cc6adb5d4e3c8b01db17",
+  "first_step": {
+    "readback_commit": "520512c9f3ad5571e36e438d53398afa805651dd",
+    "statuses": [
+      "VERIFIED"
+    ],
+    "transport": "synthetic only",
+    "dispatches": [
+      1
+    ],
+    "previous_revalidation_ids": []
+  },
+  "second_step_after_new_executor": {
+    "readback_commit": "eca60d847193f702517a470ddcd17f3b05a95cec",
+    "statuses": [
+      "VERIFIED",
+      "VERIFIED"
+    ],
+    "dispatches": [
+      2
+    ],
+    "revalidated_prior_ids": [
+      1
+    ]
+  },
+  "ambiguous_confirmation": {
+    "scenario": "real GitHub update accepted third reservation; harness intentionally discarded acknowledgement before simulated transport",
+    "commit": "d9b376038f991288563fa137c2bbf270f38ae946",
+    "in_process_status": "BLOCKED_AMBIGUOUS_WRITE",
+    "persisted_states": [
+      "VERIFIED",
+      "VERIFIED",
+      "RESERVED"
+    ],
+    "simulated_transport_calls": 0,
+    "recovered_status": "BLOCKED_AMBIGUOUS_ATTEMPT",
+    "recovered_simulated_transport_calls": 0,
+    "branch_unchanged_during_recovery": true,
+    "recovered_cached_ids_revalidated": [
+      1,
+      2
+    ]
+  },
+  "isolated_stale_sha_probe": {
+    "path": "migration/experiments/nqc-047-remote-ledger/evidence/STALE_SHA_PROBE.json",
+    "fixture_commit": "d8bf7defde1224e16f15ad952cc341277d01dd8c",
+    "first_update_commit": "23aa4467734302f1d3351361a9f1f1be656450b3",
+    "original_blob_sha": "b50ed7f6e544595b0455f2de822ce54a8daccc48",
+    "stale_update_result": "GitHub 409 CONFLICT; content does not match original blob SHA",
+    "final_sequence": 1,
+    "no_state_change_on_second_update": true,
+    "caveat": "sequential stale-file update, not simultaneous multi-host exclusivity"
+  },
+  "live_acquisition_created": false,
+  "triport_authenticated_requests_sent": 0,
+  "triport_quota_used": 0,
+  "historical_proofs_acquired": 0,
+  "commercial_admission": false,
+  "known_limitations": [
+    "no live credential channel",
+    "no Python NQC037/038 verifier execution in this connector runtime",
+    "GitHub conditional file updates not proven linearizable under concurrent hosts",
+    "rollback by external administrator cannot be ruled out",
+    "inline response capped at 650000 bytes",
+    "durability beyond GitHub operator/admin controls not independently proven"
+  ]
+}
