@@ -21,3 +21,7 @@ El archivo de respuesta se mantiene **dentro del propio commit del journal**, pr
 Para habilitar una lectura real hacen falta, **conjuntamente**, un canal soportado de credencial protegida, garantía operacional del único registro y su política antirrollback, integración efectiva del verificador NQC037/NQC038 con las respuestas persistidas (incluidas grandes), y prueba adversarial multi-host. No se debe improvisar traslado de clave ni usar el teléfono como sustituto de un ejecutor. El permiso sigue limitado a **ocho lecturas Triport TOTAL** conforme al plan fijo anterior, sin reintentos ni proxies alternos, y actualmente **ninguna se ha enviado**.
 
 No existe evidencia histórica de preestado exacto, canonicidad/finalidad independiente ni replay Nitro. `commercial_admission=false`; ninguna prueba sintética acredita rentabilidad.
+
+## Ensayo de concurrencia adicional
+
+Desde un mismo ejecutor del conector GitHub se lanzaron simultáneamente dos actualizaciones con el mismo SHA de un archivo DRY_RUN aislado. A obtuvo el commit `a36a108b5c345a435e89ea39ae89d28a5baa88a4`; B recibió HTTP 409 por versión obsoleta. Una lectura posterior conservó A. Véase `evidence/PARALLEL_PROBE_RESULT.json`. No se usó el journal de consumo para esta colisión y no se envió RPC. Se observó este interleaving, **no** exclusión entre hosts independientes ni resistencia a rollback.
