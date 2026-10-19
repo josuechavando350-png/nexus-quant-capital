@@ -26,7 +26,10 @@ def audit(repo_root):
         if not OVERLAY.is_dir() or not BRIDGE.is_dir():
             return fail('BLOCKED_MISSING_PINNED_MODULES')
         # No fallback to NIST SHA3; Keccak's empty-string vector differs.
-        probe = hashlib.new('keccak-256', b'').hexdigest()
+        try:
+            probe = hashlib.new('keccak-256', b'').hexdigest()
+        except ValueError:
+            return fail('BLOCKED_OPENSSL_KECCAK_UNAVAILABLE')
         if probe != 'c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470':
             return fail('BLOCKED_OPENSSL_KECCAK_MISMATCH')
         sys.path.insert(0, str(OVERLAY))
@@ -34,6 +37,10 @@ def audit(repo_root):
         import offline_bridge
         from Crypto.Hash import keccak
         import rlp
+        if Path(keccak.__file__).resolve() != (OVERLAY / 'Crypto' / 'Hash' / 'keccak.py').resolve():
+            return fail('BLOCKED_OVERLAY_ORIGIN')
+        if Path(rlp.__file__).resolve() != (OVERLAY / 'rlp.py').resolve():
+            return fail('BLOCKED_OVERLAY_ORIGIN')
         if keccak.new(digest_bits=256, data=b'abc').hexdigest() != (
                 '4e03657aea45a94fc7d47ba826c8d667c0d1e6e33a64a036ec44f58fa12d6c45'):
             return fail('BLOCKED_CRYPTO_OVERLAY')
@@ -76,6 +83,9 @@ def audit(repo_root):
         return fail('BLOCKED_OFFLINE_EXECUTION')
     finally:
         # No changes to source or system-wide packages. Process-local shim only.
+        source_dir = str(root / 'migration' / 'experiments' / 'nqc-037-historical-state' / 'src')
+        if source_dir in sys.path:
+            sys.path.remove(source_dir)
         for p in (str(BRIDGE), str(OVERLAY)):
             if p in sys.path:
                 sys.path.remove(p)
