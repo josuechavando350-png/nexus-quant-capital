@@ -1,0 +1,50 @@
+{
+  "scope": "offline only; mock transports; no historical proofs acquired",
+  "checks": [
+    {
+      "check": "session",
+      "exit_code": 0,
+      "log": "evidence/session.log",
+      "sha256": "3a7a99f87cbbdffc28ea844648de2cd2e3bef35508626a1b41a1515a31df0c5d",
+      "tests_passed": 17
+    },
+    {
+      "check": "verifier",
+      "exit_code": 0,
+      "log": "evidence/verifier.log",
+      "sha256": "bbd5f4a06c9325ea0629fce18cfad1465aa22d3433e274094e2b3a26a3073ea3",
+      "tests_passed": 32
+    },
+    {
+      "check": "transport",
+      "exit_code": 0,
+      "log": "evidence/transport.log",
+      "sha256": "c789c12042a36f0a9e1bce50a48926b7bac1ea090f523dd52448a955233f374a",
+      "tests_passed": 7
+    },
+    {
+      "check": "export",
+      "exit_code": 0,
+      "log": "evidence/export.log",
+      "sha256": "fb4fc0f366dd92afb9eb189ecdfd9edcdd033e90a2a54639c998a8aa8a4d9d60",
+      "tests_passed": 2
+    },
+    {
+      "check": "isolation_tests",
+      "exit_code": 0,
+      "log": "evidence/isolation_tests.log",
+      "sha256": "2caf083a9708bf9be7e8dc130a6544e6afe54742f8de796a78cee190ed3664ee",
+      "tests_passed": 9
+    },
+    {
+      "check": "isolation",
+      "exit_code": 0,
+      "log": "evidence/isolation.log",
+      "sha256": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940"
+    }
+  ],
+  "total_tests_passed": 67,
+  "real_rpc_requests_sent": 0,
+  "historical_proofs_acquired": 0,
+  "commercial_admission": false
+}
