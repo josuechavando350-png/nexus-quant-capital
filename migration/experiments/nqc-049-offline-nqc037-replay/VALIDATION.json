@@ -1,0 +1,57 @@
+{
+  "experiment": "NQC049",
+  "date": "2026-10-19",
+  "base_commit": "ddbe6e300adc9127a5e257a7acdadab06f1b8241",
+  "branch": "research/nqc-049-offline-nqc037-replay-20261019",
+  "source_provenance": {
+    "offline_bridge.py": {
+      "git_blob_sha1": "93dade5bc13a892b9cb84ab69caee207b8075350",
+      "sha256": "bd691e89ed1ce4ab973ea5611c225e2874d7cbdd062df2d0f7300b02a6ab01aa"
+    },
+    "test_offline_bridge.py": {
+      "git_blob_sha1": "298df15e76bdbd4efac12409a4bb7c0ca6a5769f",
+      "sha256": "0b7da7889516d21266a13293f906a134f126f358cbd13ae7fd2a4d69fc9e1407"
+    },
+    "git_readback_byte_identity_confirmed": true,
+    "upstream_pinned_sources": 11,
+    "triport_plan_sha256": "6148b4248555043ec3276f3887e008974643ccff64f755b8b6ed986f8537d2f7",
+    "triport_specification_sha256": "fe1bd67bfedd84372e76da84840cd0d52db1906a461a668684b3388a8c006034"
+  },
+  "tests": {
+    "command": "python -m unittest discover -s /mnt/data/nqc049-dev -p 'test_offline_bridge.py' -q",
+    "location": "scratch created this turn from bytes subsequently published and SHA-confirmed on GitHub",
+    "python_version": "3.13",
+    "passed": 22,
+    "failures": 0,
+    "errors": 0,
+    "tested": [
+      "strict bounded reads, Git blob source pins",
+      "receipt parts SHA256 and full response SHA256",
+      "700KB+ three-chunk reconstruction",
+      "duplicate JSON keys, wrong id, provider error and NaN rejected",
+      "symlink and missing chunk refused",
+      "nonterminal prefix, ninth row and commercial gate rejected",
+      "synthetic validator rejection cannot be promoted",
+      "RECEIVED revalidated but no automatic release",
+      "read-only CLI fails closed on untrusted checkout"
+    ],
+    "no_NQC037_crypto_dependency_in_test_runtime": true
+  },
+  "cli_probe": {
+    "command": "python /mnt/data/nqc049-dev/offline_bridge.py --repo-root /mnt/data/nqc049-dev",
+    "exit_code": 2,
+    "status": "BLOCKED_PIN_OR_INPUT",
+    "commercial_admission": false,
+    "meaning": "scratch is not verified full source checkout; refuses to treat it as authentic"
+  },
+  "unrun": [
+    "actual NQC037 intake.validate_step with rlp and Crypto in this container",
+    "NQC040 session tests and migration/verify_isolation.py in a full checkout",
+    "against full NQC048 GitHub fixture with Python executable in a verified checkout",
+    "authenticated Triport state read, Nitro replay, independent canonicality and profitability"
+  ],
+  "triport_authenticated_requests_known_sent": 0,
+  "historical_proofs_acquired": 0,
+  "authenticated_exact_tx1_priority_slots": 0,
+  "commercial_admission": false
+}
