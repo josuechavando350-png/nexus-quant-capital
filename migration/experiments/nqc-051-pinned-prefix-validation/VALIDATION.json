@@ -1,0 +1,87 @@
+{
+  "date": "2026-10-19",
+  "evidence_type": "Verified NQC037 original function excerpts executed offline against existing captured header fields; NOT the full NQC037 runtime",
+  "parent_commit": "5bfa900eedb94149f4ce175c0fac83ddbff30e65",
+  "pinned_original_sources": {
+    "nqc-037-historical-state/src/verify.py": "a417a48eaf4dbabc36ded493730e6ce97cecb4e8",
+    "nqc-037-historical-state/src/intake.py": "c36d60ce83e73d246496bd0b72bc6cbe00d5893e",
+    "nqc-037-historical-state/inputs/parent-header.json": "d8576f0e73000d4ab993d69134ff0713ef70ca16",
+    "nqc-037-historical-state/inputs/target-header.json": "8445e1f2744b7ab5888755613760da6c7897eeb6"
+  },
+  "original_function_excerpts_sha256": {
+    "ValidationError": "70aadbc524bde817a69f1feb58ed37554db426a9ff29c160c2c1512c8bf61371",
+    "require": "a3ea748e78642fdd1324e90f041b4d5f3573225c3bf475c5015013fb7c84d25a",
+    "k256": "26a794fb69a00431963e610f4ecbca5eccd1339eedde2b891fb5f5141b5a43ca",
+    "data_hex": "57ac85be00e4d7ae88855c80e3c2b88ffe75808056f2409a99b96ac707e19007",
+    "quantity": "0c10977878e26e958737c2f881e156220a1052ee4c3794a5e6de6a397bbcb482",
+    "validate_header": "c8a1b6b91800b298fb32e104512744836ca691da850beeb5265a5e41051bf0d7",
+    "envelope": "fb017e5cbfb98f5e67960713fadb67732c6c8ad174be6b5a3d13e5dc7521fe13",
+    "validate_step": "b2816065aa20411f9b954cbe639b66c3e0f47cf874fa4ead4946a82f6b3163ac"
+  },
+  "published_file_git_blob_sha": {
+    "pinned_prefix.py": "36e1cea59288efbff456307f8e949b510302f7b5",
+    "verbatim_functions.py": "e7544cb2b2488f3b7e2e9d09e0df6706568ee299",
+    "test_pinned_prefix.py": "143dc8bc26eee6f13a42503ef6759ba11a509d94"
+  },
+  "local_env": {
+    "python": "3.13.5",
+    "keccak": "hashlib OpenSSL KECCAK-256 from verified NQC050 compatibility",
+    "rlp": "verified NQC050 compatibility adapter",
+    "native_rlp_installed": false,
+    "native_Crypto_installed": false,
+    "external_github_dns_resolution": false,
+    "triport_key_present": false,
+    "archive_endpoint_env_present": false
+  },
+  "tests": {
+    "command": "python -m unittest discover -s /mnt/data/nqc051-portable/migration/experiments/nqc-051-original-prefix -p test_pinned_prefix.py -v",
+    "initial_development_run": {
+      "tests": 18,
+      "passed": 10,
+      "errors": 8,
+      "cause": "test harness bound the function under unittest class and accidentally passed self; corrected before publication"
+    },
+    "published_byte_identical_final_run": {
+      "tests": 18,
+      "passed": 18,
+      "failed": 0,
+      "errors": 0
+    },
+    "scenarios": [
+      "8 individual method SHA256 exact matches against GitHub",
+      "existing parent and target headers rehashed by verbatim validate_header",
+      "correct Chain ID 4663 synthetic envelope accepted",
+      "captured original JSON-RPC id=6 rejected if passed as planned request id=2",
+      "artificial test envelope id=2 accepted relative only to captured header fields",
+      "wrong chain, wrong parent root, modified header and changed metadata refused",
+      "unexpected Nitro extra header field refused",
+      "boolean rpc id and HTTP-like error envelope refused",
+      "third eth_getProof step expressly disabled",
+      "source excerpt mutation refused",
+      "incomplete checkout command fails closed"
+    ],
+    "standalone_checkout_probe": {
+      "result": "BLOCKED_PIN_OR_DEPENDENCY",
+      "expected": true,
+      "exit_code": 2
+    }
+  },
+  "important_new_observation": {
+    "prior_parent_header_saved_jsonrpc_id": 6,
+    "fixed_triport_plan_parent_request_id": 2,
+    "source": "NQC037 inputs/parent-header.json and NQC038 TRIPORT_PLAN.json",
+    "policy": "NEVER relabel existing id=6 response as if it were a new authenticated id=2 Triport request; synthetic rewrapping is test-only"
+  },
+  "unrun": [
+    "full original NQC037 module loading in a complete SHA-pinned checkout",
+    "original NQC037 eth_getProof account_proof MPT validation against authenticated historical data",
+    "NQC040/048 productive global remote ledger integration across hosts",
+    "migration/verify_isolation.py against full checkout",
+    "Triport actual authenticated RPC (zero calls)",
+    "full Nitro prefix replay and economic feasibility"
+  ],
+  "authenticated_triport_requests_sent_known": 0,
+  "historical_state_proofs_acquired": 0,
+  "exact_prestate_priority_slots_authenticated": 0,
+  "commercial_admission": false
+}
