@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-19",
+  "source_from_pinned_github": {
+    "ledger_engine_blob_sha": "fcd3cc0d7c5a71a8e4ef12f621fd6c5b0b28b3ee",
+    "test_ledger_blob_sha": "7e3ddb0e1b1519168592b23309206c95691ea7e6",
+    "plan_blob_sha": "e6ba1ce643ff3f9596870044c99aab8f3cbbb15b",
+    "plan_digest": "6148b4248555043ec3276f3887e008974643ccff64f755b8b6ed986f8537d2f7"
+  },
+  "tests": {
+    "environment": "JS connector evaluator; exact test sources refetched from GitHub",
+    "passed": 15,
+    "failed": 0,
+    "synthetic_full_eight_step_fixture": {
+      "writes": 24,
+      "simulated_transport_calls": 8,
+      "restart_extra_transport_calls": 0
+    }
+  },
+  "real_github_probe": {
+    "completed": true,
+    "two_verified_synthetic_responses": true,
+    "confirmation_loss_blocks": true,
+    "fresh_recovery_blocks": true,
+    "stale_blob_sha_conflict_http": 409,
+    "live_rpc_calls": 0
+  },
+  "not_run": [
+    "migration/verify_isolation.py (no full checkout or dependencies in this executor)",
+    "NQC040 Python tests in this executor (rlp dependency absent)",
+    "NQC037/038 Merkle/receipt verification against Triport",
+    "true concurrent host write race",
+    "large 16MiB payload persistence",
+    "credentialed production adapter",
+    "Nitro replay and economic verification",
+    "prior 140-test regression"
+  ],
+  "tests_not_additive_to_previous_nqc037_045_140": true,
+  "commercial_admission": false
+}
