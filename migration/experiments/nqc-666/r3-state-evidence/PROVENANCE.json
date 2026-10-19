@@ -1,0 +1,64 @@
+{
+  "parent_commit": "43e1761caec3d45dedd08c177b51f97e066fe075",
+  "historical_header": {
+    "commit": "0f26557c1f83e12efcf364ece6cebd8505d2e2c2",
+    "path": "migration/experiments/morpho-sponsored-gas/evidence/2026-10-17-prospective-recovered/sample-00/header-26210229.json",
+    "sha256": "8970b6b207047daa838e3205c80c183b71c28cd4c9cd2fb5029caa4c3b0a9293"
+  },
+  "upstream_commit": "9cf6d5b844625ba108e36d1cf911f5d2faf7c136",
+  "upstream": [
+    {
+      "path": "src/Morpho.sol",
+      "sha256": "bc0f0e49d54ccc94557b20b1a1d962f6b64bb3cd7c57c1e74f76e51a47ffa0f6",
+      "url": "https://raw.githubusercontent.com/morpho-org/morpho-blue/9cf6d5b844625ba108e36d1cf911f5d2faf7c136/src/Morpho.sol"
+    },
+    {
+      "path": "src/interfaces/IMorpho.sol",
+      "sha256": "e3b2e4ff5222cad56e1bf16992b31970d6ee8c9a905f282e371d9e2223c29d76",
+      "url": "https://raw.githubusercontent.com/morpho-org/morpho-blue/9cf6d5b844625ba108e36d1cf911f5d2faf7c136/src/interfaces/IMorpho.sol"
+    },
+    {
+      "path": "src/libraries/periphery/MorphoStorageLib.sol",
+      "sha256": "72b2acd8eb187f9f79794a759a2b44f5a1438929bddd8e4bd85d5e9f7e882e42",
+      "url": "https://raw.githubusercontent.com/morpho-org/morpho-blue/9cf6d5b844625ba108e36d1cf911f5d2faf7c136/src/libraries/periphery/MorphoStorageLib.sol"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "d8c320ffc0030d1b096ae4732b50d2b811cf95e9a9b7377c1127b2563e0a0388",
+      "url": "https://raw.githubusercontent.com/morpho-org/morpho-blue/9cf6d5b844625ba108e36d1cf911f5d2faf7c136/LICENSE"
+    }
+  ],
+  "inventory": [
+    {
+      "ref": "origin/research/morpho-sponsored-gas-20261016",
+      "commit": "0f26557c1f83e12efcf364ece6cebd8505d2e2c2",
+      "search": "git grep -l -i -E accountProof|storageProof|eth_getProof COMMIT -- migration",
+      "matches": [],
+      "exit": 1
+    },
+    {
+      "ref": "origin/research/nqc-morpho-sponsor-e2e-20261017",
+      "commit": "937a833a481fd69d2ce96152deb7d4d0760d6596",
+      "search": "git grep -l -i -E accountProof|storageProof|eth_getProof COMMIT -- migration",
+      "matches": [],
+      "exit": 1
+    },
+    {
+      "ref": "origin/research/nqc-028-historical-read-20261018",
+      "commit": "c085be6307d6b5dfde67edf85429ae0d114933a2",
+      "search": "git grep -l -i -E accountProof|storageProof|eth_getProof COMMIT -- migration",
+      "matches": [],
+      "exit": 1
+    },
+    {
+      "ref": "origin/research/nqc-027-fluid-archive-20261018",
+      "commit": "b43152a5a5ef81667482b4bf2c973dc82c0c0ef0",
+      "search": "git grep -l -i -E accountProof|storageProof|eth_getProof COMMIT -- migration",
+      "matches": [
+        "b43152a5a5ef81667482b4bf2c973dc82c0c0ef0:migration/experiments/nqc-027-fluid-archive-20261018/REVIEW.md",
+        "b43152a5a5ef81667482b4bf2c973dc82c0c0ef0:migration/experiments/nqc-027-fluid-archive-20261018/source/collect_fluid.py"
+      ],
+      "exit": 0
+    }
+  ]
+}
