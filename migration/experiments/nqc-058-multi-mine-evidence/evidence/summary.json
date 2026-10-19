@@ -1,0 +1,95 @@
+{
+  "NQC_net_profit_demonstrated": null,
+  "candidate_count": 153,
+  "decision": {
+    "bounded_offline_evidence_review": "GO",
+    "financial_execution": "NO-GO",
+    "profitability": "UNKNOWN"
+  },
+  "distinct_protocol_mines": 2,
+  "distinct_strategy_families": 1,
+  "duplicate_dossiers_merged": 0,
+  "economic_result": "OPORTUNIDAD_RENTABLE_NO_DEMOSTRADA",
+  "live_protocol_coverage": 0,
+  "mine_matrix": [
+    {
+      "GO_for_financial_execution": false,
+      "chain_id": 1,
+      "dossiers": 11,
+      "economic_rank": null,
+      "financier_committed": false,
+      "net_positive_demonstrated": 0,
+      "new_public_observations": 11,
+      "profitability": "UNKNOWN",
+      "protocol": "aave-v3",
+      "scenarios_rejected": 1
+    },
+    {
+      "GO_for_financial_execution": false,
+      "chain_id": 1,
+      "dossiers": 142,
+      "economic_rank": null,
+      "financier_committed": false,
+      "net_positive_demonstrated": 0,
+      "new_public_observations": 0,
+      "profitability": "UNKNOWN",
+      "protocol": "morpho-blue",
+      "scenarios_rejected": 1
+    }
+  ],
+  "monthly": {
+    "NQC_net_per_capture": null,
+    "capturable_frequency": null,
+    "coverage_complete": false,
+    "forecast": null,
+    "targets_USD": [
+      5000,
+      15000,
+      45000
+    ]
+  },
+  "next_information_probe": {
+    "equal_evidence_group": [
+      "eip155:1/aave-v3/0x0ec3a4ce06ab809e82cb454a6e41b149d3bd8c5e72d0606a17fd039a2240753d",
+      "eip155:1/aave-v3/0x17946b973cd90443605eade557b4634cc710e866b4ad9a517acb579f111459fc",
+      "eip155:1/aave-v3/0x25784da3e88e979dbe4257cfe9cd3dd9b1c40a7f7d317be2132abf43f38f48ea",
+      "eip155:1/aave-v3/0x29c91c20c028761bac0b3c78ce354543ea61ab4e198ddec2c56d7af5a2b2b083",
+      "eip155:1/aave-v3/0x884454663e666602b0266f1306bd030e46a99a05577e90a54c82c6d0c79b5f3b",
+      "eip155:1/aave-v3/0x8ddc5fd2380a4c95a4055262b22e619e83e71ffb9c950423e99e0d0f3daa3324",
+      "eip155:1/aave-v3/0x98d77b8bb1ae2e24a780e66141641d16c33dd558be7214c5f82164278a527ab0",
+      "eip155:1/aave-v3/0xa5821d691a36055014bd53731ed355585934031c5909b159fbec437bf41205fb",
+      "eip155:1/aave-v3/0xc9f368231afd429d992ac444fb21d34a19c8c2a6b881a9bc38b0b95d53a20630",
+      "eip155:1/aave-v3/0xff8e99dfe6a54fb387c2f57a2783dbf7decc25923d3ced40377c09e32f9d2062"
+    ],
+    "kind": "CONDITIONAL_PACKET_NOT_PROFIT_WINNER",
+    "known_denied_targets_not_retried": [
+      "0x25784da3e88e979dbe4257cfe9cd3dd9b1c40a7f7d317be2132abf43f38f48ea"
+    ],
+    "new_restricted_acquisition_authorized": false,
+    "public_packet_source_available": null,
+    "representative_id": "eip155:1/aave-v3/0x0ec3a4ce06ab809e82cb454a6e41b149d3bd8c5e72d0606a17fd039a2240753d",
+    "tie_break": "canonical ID only; no economic or cost advantage claimed",
+    "value": "One complete ledger may reveal nonpositive net upper bound before costly replay; benefit and acquisition cost unknown"
+  },
+  "result_sha256": "a9551470735eb0a9890276c335ca7105a17bdddc38daac2f763ebd013ce4c386",
+  "schema": "nqc058-multi-mine-v1",
+  "security": {
+    "Triport_known_lifetime_used": 0,
+    "Triport_lifetime_budget": 8,
+    "canary_enabled": false,
+    "commercial_admission": false,
+    "credential_channel_demonstrated": false,
+    "future_gas_cap_MXN": 2000,
+    "future_review_without_capture_MXN": 1000,
+    "future_topup_cap_MXN": 500,
+    "gas_budget_available_now": false,
+    "new_RPC_requests": 0,
+    "own_principal_authorized": false,
+    "unique_operational_ledger_demonstrated": false,
+    "wallet_funds_Census_Shadow": 0
+  },
+  "sources_verified": {
+    "git_pins": 26,
+    "local_transcriptions_and_review": 4
+  }
+}

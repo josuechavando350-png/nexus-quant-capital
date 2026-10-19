@@ -1,0 +1,52 @@
+{
+  "schema": "nqc058-public-review-v1",
+  "date_utc": "2026-10-19",
+  "scope": "Public documentation and historical pages only; no RPC or authenticated acquisition. Source hashes bind NQC transcriptions, not HTTP bodies or consensus.",
+  "sources": [
+    {
+      "id": "aave_pool_docs",
+      "url": "https://www.aave.com/docs/aave-v3/smart-contracts/pool",
+      "reader_ref": "turn16view0",
+      "sections": [
+        "liquidationCall",
+        "flashLoan",
+        "flashLoanSimple"
+      ],
+      "review": "Liquidation requires debt token approval. Flash liquidity must be repaid with the applicable fee. flashLoan mode 0 requires repayment or revert; debt-opening modes are excluded. flashLoanSimple does not open residual debt or waive its fee. Approved flash borrowers can have a waiver for flashLoan; NQC has no such status demonstrated. These API descriptions do not prove a historical implementation, available liquidity, specific premium, gas advance, or provider acceptance. No documented close factor is applied as historical state."
+    }
+  ],
+  "limits": [
+    {
+      "url": "https://docs.compound.finance/liquidation/",
+      "result": "reader redirect to docs.compound.xyz inaccessible; no retry/alternate-domain attempt"
+    },
+    {
+      "url": "https://docs.compound.finance/",
+      "result": "same redirect/access error; different originally requested page, no retry"
+    },
+    {
+      "url": "https://www.aave.com/docs/aave-v3/flash-loans",
+      "result": "reader internal error; not retried; already readable Pool documentation suffices for limited API review"
+    },
+    {
+      "url": "https://etherscan.io/tx/0x5a783952f3b8528b10e8514a8762f66bde8aedece3fa06d3607660290de070c5",
+      "result": "403; not retried; search snippet excluded from dataset"
+    },
+    {
+      "url": "https://etherscan.io/tx/0x25784da3e88e979dbe4257cfe9cd3dd9b1c40a7f7d317be2132abf43f38f48ea",
+      "result": "reader inaccessible; not retried; risk report row retained at report-only grade"
+    },
+    {
+      "url": "https://etherscan.io/tx/0xd5cf47f4a895f6e44eb09fd7fe98357e91c5b94a3a985e580b5e5411d89d700c",
+      "result": "First read successful (turn15view0). Later line-range request to prior reference returned 403 (turn17view1); no further request. Only first-read transcription retained."
+    }
+  ],
+  "other_reviewed_context": [
+    {
+      "url": "https://governance.aave.com/t/arfc-liquidation-protocol-fee-increase-for-wbtc-weth-and-wsteth-on-aave-v3-ethereum-core/25470",
+      "use": "Context only: LPF/SVR and inventory obligations may matter. Proposed fees not treated as effective historical parameters; no numerical candidate inference."
+    }
+  ],
+  "no_new_provider_or_proxy_used_after_denial": true,
+  "commercial_admission": false
+}

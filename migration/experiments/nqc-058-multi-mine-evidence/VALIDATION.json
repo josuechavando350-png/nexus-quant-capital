@@ -1,0 +1,74 @@
+{
+  "passed": true,
+  "commands": [
+    {
+      "artifact": "evidence/comparison.json",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/scratch/c4985976a2bf/nexus-quant-capital/migration/experiments/nqc-058-multi-mine-evidence/miner.py"
+      ],
+      "exit_code": 0,
+      "tests": null,
+      "sha256": "536b100bac2415047bda2e5b32ce78437b7fe49b85806faf0e4ba26665c2640d"
+    },
+    {
+      "artifact": "evidence/tests.log",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/scratch/c4985976a2bf/nexus-quant-capital/migration/experiments/nqc-058-multi-mine-evidence",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 12,
+      "sha256": "d8bf596da8a3fd61dcfd5433d3b449a388f407501b75126dca79897ceae58979"
+    },
+    {
+      "artifact": "evidence/isolation-tests.log",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "migration",
+        "-p",
+        "test_isolation.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 9,
+      "sha256": "d47bbd455686688336d4358603e14013a0b98756140578e2c27493eb48907e94"
+    },
+    {
+      "artifact": "evidence/isolation.json",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "migration/verify_isolation.py"
+      ],
+      "exit_code": 0,
+      "tests": null,
+      "sha256": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940"
+    }
+  ],
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "dependencies": "Python standard library, Git, hash-pinned NQC055 core; no installation",
+  "tests_failed": 0,
+  "tests_skipped": 0,
+  "new_EVM_executions": 0,
+  "network_requests_by_checks": 0,
+  "unrun": [
+    "Earlier unchanged experiment suites and synthetic EVM simulations",
+    "Rust/Solidity: no changed sources",
+    "Canonical Aave proof/replay: missing inputs",
+    "All RPC, provider acceptance, bundles and financial execution: unauthorized"
+  ],
+  "public_read_failures": "PUBLIC_REVIEW.json: six limited page-read failures; no denied target retried or proxy/provider substituted.",
+  "environment_notes": "Initial old checkout absent; full authorized repo clone succeeded. Original Morpho files reside at pinned Git commit, not current tree; read with git show.",
+  "commercial_admission": false
+}

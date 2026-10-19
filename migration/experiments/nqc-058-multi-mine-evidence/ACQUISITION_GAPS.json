@@ -1,0 +1,42 @@
+{
+  "economic_priority": "ONE_COMPLETE_HISTORICAL_CASH_LEDGER_BEFORE_EVM_REPLAY",
+  "target_selection": "Aave report rows tie economically; canonical ID is only a deterministic representative, not a profit or acquisition-cost ranking. Exclude known denied target from a new acquisition suggestion.",
+  "packet": [
+    {
+      "data": "Canonical block/header, transaction membership/index and full receipt including LiquidationCall and token logs",
+      "decision": "Verify identity, status, actual debt/collateral amounts, gas; raw token units/decimals and runtime binding."
+    },
+    {
+      "data": "Full internal/native/token flow trace or equivalent authenticated state changes, sale fills and all participants",
+      "decision": "Determine actual collateral sale, flash inflow/repayment/premium, gas, protocol fee and competitive transfers without double counting. Receipt alone cannot expose every native payment."
+    },
+    {
+      "data": "Applicable financing and sponsorship obligations, refunds, off-chain costs and loss/no-recourse terms",
+      "decision": "Separate executor, financier, builder/proposer economics; prove positive residual and no personal liability."
+    },
+    {
+      "data": "Amount-specific liquidity and financing availability at exact decision time, competition and timing evidence",
+      "decision": "Decide whether NQC can replicate/capture; historical winner does not prove availability."
+    }
+  ],
+  "source_requirement": {
+    "identity": "No permitted, complete archive source established. Future package would need a public historical artifact or owner-authorized archival export with verifiable provenance; this is not permission to bypass denied explorer/RPC access.",
+    "access_cost": null,
+    "provider_terms": null,
+    "new_authorization_needed_for_restricted_acquisition": true,
+    "public_document_review_cost_charged": 0,
+    "availability": null,
+    "lawful_alternative": "Analyze an already published complete artifact if independently identified and permitted; none located within this bounded review."
+  },
+  "later_only_if_margin_survives": "Parent account/storage/code witnesses, exact prefix, fork/system inputs for replay. Do not spend on full replay while sales and liabilities are unknown.",
+  "financing": {
+    "Aave": "Documentary flashLoanSimple or flashLoan mode 0 can provide temporary principal if reserve permits; amount, premium, approval and repayment must be verified. Does not fund upfront ETH gas.",
+    "Morpho": "Inherited collateral-first callback may avoid full principal advance, subject to sale, repayment and runtime evidence.",
+    "gas": "NQC057: documentary conditional Titan/Quasar support; no committed financier or personal-no-recourse proof. Owner reports Titan contacted and reply pending; not independently verified, no new contact.",
+    "own_principal": "PROHIBITED",
+    "personal_recourse": "UNKNOWN"
+  },
+  "expected_monetary_value": null,
+  "claim": "Information value is conditional: one complete ledger can reject a route or bound its residual. No assigned probability, acquisition price, expected profit, or monthly forecast.",
+  "commercial_admission": false
+}
