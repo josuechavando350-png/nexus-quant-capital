@@ -1,0 +1,22 @@
+{
+  "schema":"nqc060-reviewed-public-documents-not-canonical-block-data",
+  "reviewed_date_utc":"2026-10-19",
+  "scope":"Official protocol and published governance / open-source documentation; no authenticated chain state or opportunity",
+  "sources":[
+    {"id":"MIDNIGHT_ETHEREUM_LIVE","url":"https://morpho.org/blog/the-morpho-effect-september-2026","evidence":"Morpho announced Midnight active on Ethereum in September 2026"},
+    {"id":"MIDNIGHT_DEPLOYMENT_ADDRESSES","url":"https://docs.morpho.org/developers/contracts/addresses/","evidence":"Ethereum deployment appears in official multi-chain contract addresses; no codehash verified for this research"},
+    {"id":"MIDNIGHT_POST_MATURITY","url":"https://docs.morpho.org/learn/concepts/midnight/liquidations/","evidence":"Outstanding debt becomes liquidatable after maturity even when healthy, no RCF, LIF ramps to max over one hour"},
+    {"id":"MIDNIGHT_CALLBACK","url":"https://docs.morpho.org/developers/contracts/midnight/","evidence":"Nonzero callback path sends seized collateral to receiver, invokes onLiquidate, then pulls repayment from callback"},
+    {"id":"MIDNIGHT_GATES_API","url":"https://docs.morpho.org/developers/midnight/concepts/collateral-health-liquidations/","evidence":"Liquidator gates may restrict participation, per-market LLTV and multi-collateral asset prices affect bonus"},
+    {"id":"MIDNIGHT_OFFICIAL_BOT","url":"https://github.com/morpho-org/morpho-bots/blob/main/bots/midnight-liquidation/README.md","evidence":"Project publishes offchain liquidation bot code for chain 1 and 8453, so novelty cannot imply absence of competitors"},
+    {"id":"AAVE_SVR_COMPETITION","url":"https://governance.aave.com/t/arfc-aave-chainlink-svr-multi-network-expansion-base-arbitrum/24241","evidence":"LlamaRisk March 2026 breakdown reports ~53% average OEV recapture, 93 unique winning searchers, native bond required for Atlas solvers"},
+    {"id":"CHAINLINK_SVR","url":"https://docs.chain.link/data-feeds/svr-feeds","evidence":"Ethereum auctions and Titan OFA integration; does not validate Titan eth_sendBundle sponsor policy on its SVR path"},
+    {"id":"TITAN_SPONSORED","url":"https://docs.titanbuilder.xyz/api/eth_sendbundle","evidence":"Conditional ETH funding mechanism as previously analyzed in NQC057, not automatic proof of Morpho Midnight acceptance"},
+    {"id":"NQC054_B","url":"https://github.com/josuechavando350-png/nexus-quant-capital/tree/4f966154829f774ac00ff2854126e30ccb140299/migration/experiments/nqc-054-morpho-prestate-economic-decision","evidence":"Archived historical sale/debt/coinbase/gas numbers; reproduced only from NQC058/NQC054, not authenticated anew"}
+  ],
+  "access_attempts":[{"url":"https://api.morpho.org/v0/midnight/markets?chain_ids=1","kind":"PUBLIC_UNAUTHENTICATED_REST_LIST_GET","result":"WEB_READER_INACCESSIBLE","retried":false,"proxy_or_alternate_provider_used":false}],
+  "contradiction_or_stale_documentation_note":"An older Morpho SDK Midnight page still says Base-only; more recent official Morpho September 2026 announcement, contract addresses, public API and its bot README support Ethereum deployment. No current canonical code hash was acquired.",
+  "sources_hash_http_body_available":false,
+  "RPC_calls":0,
+  "trading_or_signatures":false
+}

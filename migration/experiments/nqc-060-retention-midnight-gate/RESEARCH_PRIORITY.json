@@ -1,0 +1,48 @@
+{
+  "schema": "nqc060-opportunity-hypotheses-v1",
+  "date_utc": "2026-10-19",
+  "profit_ranking_available": false,
+  "items": [
+    {
+      "strategy": "MORPHO_MIDNIGHT_POST_MATURITY_ETHEREUM",
+      "research_priority": "FIRST_NEW_HYPOTHESIS_TO_VALIDATE",
+      "why": [
+        "Official Morpho sources document Ethereum deployment and time-based post-maturity liquidation independent of borrower health",
+        "Official contract docs describe seized collateral delivered before repay pull via onLiquidate callback",
+        "Market maturity is an explicit clock trigger; distinct from oracle-update-triggered SVR liquidations"
+      ],
+      "why_not_proven": [
+        "No authenticated active or matured market, borrower, available sale, or award",
+        "Public Midnight market-list GET was unreadable in this environment; no retry",
+        "Morpho publishes a Midnight liquidation bot supporting Ethereum, so low competition is not demonstrated",
+        "Native gas sponsor, deployment, gate access, bid and residual liability unconfirmed"
+      ],
+      "commercial_viability": "UNKNOWN",
+      "execution_admission": false
+    },
+    {
+      "strategy": "MORPHO_BLUE_ETHEREUM_NON_SVR",
+      "research_priority": "RETAIN_AS_EXISTING_REFERENCE_ONLY",
+      "why": ["Collateral-first callback already verified locally in NQC prior experiments", "Potential incentives vary by market parameter and liquidity"],
+      "why_not_proven": ["B transferred approximately 99.5% of available sale-minus-debt margin to coinbase", "No current unexploited borrower with authenticated net and sponsor found"],
+      "commercial_viability": "UNKNOWN",
+      "execution_admission": false
+    },
+    {
+      "strategy": "AAVE_V3_ETHEREUM_CHAINLINK_SVR",
+      "research_priority": "DEPRIORITIZE_FOR_FIRST_ZERO_PRINCIPAL_CAPTURE",
+      "why": ["March 2026 published metrics: 93 unique auction winners and ~53% average OEV recapture in one LlamaRisk breakdown", "Auction value transfer is a strong competitive cost; no user zero-ETH SVR route proven"],
+      "why_not_proven": ["No payout-specific sponsorship proof for Titan's SVR routing", "Per-pool coverage and bid distribution vary and would require empirical measurement"],
+      "commercial_viability": "UNKNOWN",
+      "execution_admission": false
+    },
+    {
+      "strategy": "AAVE_V3_BASE_ARBITRUM_SVR_ATLAS",
+      "research_priority": "BLOCKED_BY_PRESENT_ZERO_BOND_POLICY",
+      "why_not_proven": ["Aave governance risk source describes mandatory native-token solver bond for gas", "No third-party non-recourse bond provider or terms for NQC"],
+      "commercial_viability": "UNFUNDED_UNDER_PRESENT_POLICY",
+      "execution_admission": false
+    }
+  ],
+  "rule": "Order expresses expected information value and present financing friction, not forecast profit or competitor count."
+}
