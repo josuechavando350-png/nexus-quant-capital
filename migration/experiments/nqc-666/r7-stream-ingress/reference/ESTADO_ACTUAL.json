@@ -1,0 +1,150 @@
+{
+  "status": "RESEARCH_PROGRESS_AUTHENTIC_NITRO_AND_COMMERCIAL_PROOF_BLOCKED",
+  "scope": "NQC031-R2",
+  "original_pending_contracts": 10,
+  "new_full_runtime_matches": 2,
+  "total_full_runtime_matches": 4,
+  "remaining_full_runtime_matches": 8,
+  "priority_order": [
+    {
+      "rank": 1,
+      "label": "NET",
+      "address": "0xca9c78dd337a67f6e0077f65f5e9218719d30edf",
+      "reason": "Transferencias, impuesto y producto de venta; fuentes originales completas; faltan compilador 0.8.30 y desplegador.",
+      "full_runtime_reproduced": false,
+      "historical_state_authenticated": false
+    },
+    {
+      "rank": 2,
+      "label": "PairOracle",
+      "address": "0x929631b33f4070d6f54477fba3fd27566567daca",
+      "reason": "TWAP y elegibilidad; once valores recuperados, ninguna prueba de almacenamiento recibida.",
+      "full_runtime_reproduced": false,
+      "historical_state_authenticated": false
+    },
+    {
+      "rank": 3,
+      "label": "LoopbackOracle",
+      "address": "0xcde9599059f8ae6d6b9f33a0af7877827ec75f16",
+      "reason": "Precio que consume Morpho; fuentes originales completas; compilación 0.8.30 pendiente.",
+      "full_runtime_reproduced": false,
+      "historical_state_authenticated": false
+    },
+    {
+      "rank": 4,
+      "label": "Treasury",
+      "address": "0x04822ea321a0dee6f40656172f29312104855d66",
+      "reason": "NAV y liquidez de salida; fuentes originales completas; compilación 0.8.30 pendiente.",
+      "full_runtime_reproduced": false,
+      "historical_state_authenticated": false
+    },
+    {
+      "rank": 5,
+      "label": "sNET",
+      "address": "0xb773ec2c326b7f98a5a83fc098825492f020a4c7",
+      "reason": "Índice y conversión del colateral; fuentes originales completas; compilador y desplegador pendientes.",
+      "full_runtime_reproduced": false,
+      "historical_state_authenticated": false
+    },
+    {
+      "rank": 6,
+      "label": "USDG implementation",
+      "address": "0x68184c449e1a8f34fa18d289737129fd27b66f8f",
+      "reason": "Saldos, autorizaciones, restricciones y pago real; fuente verificada aún no recuperada.",
+      "full_runtime_reproduced": false,
+      "historical_state_authenticated": false
+    },
+    {
+      "rank": 7,
+      "label": "USDG proxy",
+      "address": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+      "reason": "Destino de delegatecall en la posición exacta; fuente y prueba histórica pendientes.",
+      "full_runtime_reproduced": false,
+      "historical_state_authenticated": false
+    },
+    {
+      "rank": 8,
+      "label": "Vault adapter",
+      "address": "0x44abc1d6ccff2696d98890b92e2157af242179c2",
+      "reason": "Activos subyacentes del NAV; 11752/11784 bytes coinciden; factory de 32 bytes sin acreditar.",
+      "full_runtime_reproduced": false,
+      "historical_state_authenticated": false
+    },
+    {
+      "rank": 9,
+      "label": "VaultV2",
+      "address": "0xbeeff033f34c046626b8d0a041844c5d1a5409dd",
+      "reason": "Resuelto en reproducción de código; 21808 bytes coinciden. Estado histórico aún sin autenticar.",
+      "full_runtime_reproduced": true,
+      "historical_state_authenticated": false
+    },
+    {
+      "rank": 10,
+      "label": "AdaptiveCurveIrm",
+      "address": "0x2bd3d5965b26b51814ac95127b2b80dd6ccc0fa1",
+      "reason": "Resuelto en reproducción de código; 2282 bytes coinciden. Estado histórico aún sin autenticar.",
+      "full_runtime_reproduced": true,
+      "historical_state_authenticated": false
+    }
+  ],
+  "checkpoint_values_recovered": 11,
+  "checkpoint_values_authenticated": 0,
+  "adapter_storage_coverage": {
+    "known_storage_values_equal": 82,
+    "unknown_reads": [],
+    "capture_read_set_complete": true,
+    "state_root_verified": false,
+    "captured_values": 71,
+    "event_derived_values": 11,
+    "authenticated_values": 0
+  },
+  "adapter_readonly_diagnostic": "PASS",
+  "adapter_negative_cases_rejected": 4,
+  "target": {
+    "chain_id": 4663,
+    "block_number": 66744162,
+    "block_hash": "0x8e702487ffdd8f2ff97528407ba671f1a1d1d6f16a812e85fb5cb6625b6886d7",
+    "transaction_index": 1,
+    "transaction_hash": "0xf9e0d2e116d99e2eb8ef2cf236f7cd7f06225e92a6dfd9162f98c7d8e1974842",
+    "timestamp": 1789786800,
+    "l1_number_claim": 26008731
+  },
+  "roots": {
+    "parent_claim": "0xc07bf301da73475b44460226757ddfd1c2ee60a6d7346e3749de6953f78bae4a",
+    "target_block_poststate_claim": "0x0b5c085594eeeabdbc165b0904a7a280951f4dd8d40c979fd51b1668985d85ba",
+    "exact_pretransaction_authenticated_root": null
+  },
+  "indexer_prefix_crosscheck": true,
+  "indexer_tx_list_complete": false,
+  "batch_anchor_candidate": {
+    "batch_data_container": "in_blob4844",
+    "batch_number": 258761,
+    "commitment_transaction": {
+      "hash": "0x371af57bf11056f0228abbee533154ca844a284787490ed9d603be13d17b40d2",
+      "status": "finalized",
+      "timestamp": "2026-09-19T03:00:23.000000Z"
+    },
+    "confirmation_transaction": {
+      "hash": "0xccb8352f1ee3cd5a0ac2720670a90633baa8224a6fe5e4ebc11ce5387a30d0fb",
+      "status": "finalized",
+      "timestamp": "2026-09-25T13:51:11.000000Z"
+    },
+    "delayed_messages": 297757,
+    "l1_block_number": 26008731,
+    "send_count": 2560,
+    "send_root": "0xa2368ad058f0612fc03cc014fc0fca5ff4e974244980a7b9c08e4ec73f34d269",
+    "status": "Confirmed on base"
+  },
+  "settlement_chain_id_authenticated": null,
+  "historical_nitro_engine_available": false,
+  "historical_nitro_version_authenticated": false,
+  "historical_nitro_prefix_replayed": false,
+  "state_proof_verifier": "IMPLEMENTED_AND_TESTED_RELATIVE_TO_SUPPLIED_ROOT_ONLY",
+  "target_account_proofs_received": 0,
+  "target_storage_proofs_received": 0,
+  "commercial_admission": false,
+  "new_public_transactions": 0,
+  "contact_sent": false,
+  "economic_result": "AUTHENTIC_LIQUIDATION_AND_ALL_IN_PROFIT_NOT_DEMONSTRATED",
+  "current_candidate_net_profit_usdg_raw": null
+}

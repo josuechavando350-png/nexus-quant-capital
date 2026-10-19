@@ -1,0 +1,1607 @@
+{
+  "scope": "SYNTHETIC_IMMEDIATE_FRAGMENT_REPLAY_NOT_NETWORK_E2E",
+  "pairs_per_run": 2048,
+  "repetitions": 3,
+  "cpu": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nAddress sizes:                           46 bits physical, 48 bits virtual\nByte Order:                              Little Endian\nCPU(s):                                  9\nOn-line CPU(s) list:                     0-8\nVendor ID:                               AuthenticAMD\nModel name:                              AMD EPYC 9V74 80-Core Processor\nBIOS Model name:                           CPU @ 0.0GHz\nBIOS CPU family:                         0\nCPU family:                              25\nModel:                                   17\nThread(s) per core:                      1\nCore(s) per socket:                      9\nSocket(s):                               1\nStepping:                                1\nBogoMIPS:                                5192.26\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nHypervisor vendor:                       KVM\nVirtualization type:                     full\nL1d cache:                               160 KiB (5 instances)\nL1i cache:                               160 KiB (5 instances)\nL2 cache:                                5 MiB (5 instances)\nL3 cache:                                32 MiB (1 instance)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-8\nVulnerability Gather data sampling:      Not affected\nVulnerability Ghostwrite:                Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Old microcode:             Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Not affected\nVulnerability Spec rstack overflow:      Vulnerable\nVulnerability Spec store bypass:         Vulnerable\nVulnerability Spectre v1:                Vulnerable: __user pointer sanitization and usercopy barriers only; no swapgs barriers\nVulnerability Spectre v2:                Vulnerable; STIBP: disabled; PBRSB-eIBRS: Not affected; BHI: Not affected\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Vulnerable\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Not affected\n",
+  "cpuinfo": "processor\t: 0\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0x1000065\ncpu MHz\t\t: 2596.130\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 9\ncore id\t\t: 0\ncpu cores\t: 9\napicid\t\t: 0\ninitial apicid\t: 0\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.26\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 46 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 1\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0x1000065\ncpu MHz\t\t: 2596.130\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 9\ncore id\t\t: 1\ncpu cores\t: 9\napicid\t\t: 1\ninitial apicid\t: 1\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.26\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 46 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 2\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0x1000065\ncpu MHz\t\t: 2596.130\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 9\ncore id\t\t: 2\ncpu cores\t: 9\napicid\t\t: 2\ninitial apicid\t: 2\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.26\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 46 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 3\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0x1000065\ncpu MHz\t\t: 2596.130\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 9\ncore id\t\t: 3\ncpu cores\t: 9\napicid\t\t: 3\ninitial apicid\t: 3\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.26\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 46 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 4\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0x1000065\ncpu MHz\t\t: 2596.130\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 9\ncore id\t\t: 4\ncpu cores\t: 9\napicid\t\t: 4\ninitial apicid\t: 4\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.26\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 46 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 5\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0x1000065\ncpu MHz\t\t: 2596.130\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 9\ncore id\t\t: 5\ncpu cores\t: 9\napicid\t\t: 5\ninitial apicid\t: 5\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.26\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 46 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 6\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0x1000065\ncpu MHz\t\t: 2596.130\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 9\ncore id\t\t: 6\ncpu cores\t: 9\napicid\t\t: 6\ninitial apicid\t: 6\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.26\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 46 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 7\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0x1000065\ncpu MHz\t\t: 2596.130\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 9\ncore id\t\t: 7\ncpu cores\t: 9\napicid\t\t: 7\ninitial apicid\t: 7\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.26\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 46 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 8\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0x1000065\ncpu MHz\t\t: 2596.130\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 9\ncore id\t\t: 8\ncpu cores\t: 9\napicid\t\t: 8\ninitial apicid\t: 8\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.26\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 46 bits physical, 48 bits virtual\npower management:\n\n",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "dependencies": {
+    "trie": "4.0.0",
+    "rlp": "5.0.0",
+    "eth-hash": "0.8.0",
+    "pycryptodome": "3.24.1"
+  },
+  "affinity": [
+    0
+  ],
+  "allowed_affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "gc_enabled": true,
+  "conditions": "KVM; host frequency/load/IRQ uncontrolled; no governor/priority changes",
+  "clock": "CLOCK_MONOTONIC_RAW; no subtraction/trimming",
+  "source_sha256": {
+    "python/stream_ingress.py": "335c356ecc5b78511fcd0cd15a0121ca3b32b16e6c7fb3077002600853ace9e3",
+    "scripts/benchmark.py": "9233217af3c91eaa949a9ae18cee127ededdaf9b3738f13e2a0fc8e0a1fb184f",
+    "scripts/inputs.py": "f7badcca1d470a40d456297a6d2f9e6fff93b58be1159731aff2c083a489302f",
+    "scripts/replay_capture.py": "f92ccf66c6f18212b0dabebcb5afcec4e4f8304c7fdeec6eb0b77303e476d745",
+    "scripts/reproduce.py": "bbad2d952ce906edd883b46efe57d985524990fd7e2a38825c10cefc1c557be4",
+    "scripts/verify_results.py": "da829b3aa8d41cc90daf24d3616d683765bbb5c288f8f1b096045f876191db2c",
+    "tests/test_stream.py": "8ba7bfbdfd086ed12c90d83354b9888d0a1e0005071c3f53f1d8841b16b679bc",
+    "PRE_REGISTER.md": "2885c1253d7b2cb4183576c1244e9d0f02f957a2a2b3a7c74300b9e48f1b9468"
+  },
+  "baseline_sha256": {
+    "r6-witness-ingress/python/wire_evidence.py": "c42704ad21c9833edafb7d4a9b76439c3108e00b6751289612056d83d0cf6ebc",
+    "r6-witness-ingress/python/witness_gateway.py": "fe2d8f8cdaa54b5650969af290e8a8ec1c44519c808456644c99d28c7806ab34",
+    "r5-proof-traversal/python/state_evidence_fast.py": "18806d14ec948ee1efb6338b65467dc2bb173cd420a87d58908bfb65f8b3604f",
+    "r5-proof-traversal/python/proof_traversal.py": "671165694a0647762df5fe02e99aedbba3d6ff26900de40b8107ad97159c299a",
+    "r3-state-evidence/src/state_evidence.py": "0159efb1a15794b9ede6c538e78ae94fae221e7d7682090ef800cabdc721fd7c",
+    "r4-stable-ingress/python/native_math.py": "cfe59a65eef9c87682baffdac0b199f56fc78b1d45f43d871d6875dd6e64731f",
+    "r4-stable-ingress/src/lib.rs": "99a79b9412f6df1d23835968666a8fdd0ce1da3216e3f279a0e34b7d59608aae"
+  },
+  "library_sha256": "1cc575699de5a9395dc95b6cc17fbabae0c355459948ba91ef11d204ef0388f4",
+  "input_sha256": [
+    "aa251d8163ee53de4e36efadd2e2d2d1599c5b8eca9005e54b25ad7a7e976d35",
+    "172e4b9b7a9058058ecbbd48607ac294c792dadd3ce022e9b0998038e762715d",
+    "f8ee198953ed51fe085a0dc6fba3d4ceedd70967aa50be2d1fc60ef6dfbedf91",
+    "253fae18f494cff6611a38f0a495663e796f4bc4cd906e167b17825acbaa932a",
+    "5a1ea76f8ae46ea524c77563df771e578799a21d91a41dd435eb81d19c665dbb",
+    "a842ff05e27c21780c135fa82e4ff8ee3be5e836864b46508cf508e32bce078d",
+    "68cf48a4329971c6a0ffdf0a4f661163e0cc6a5ca391f0582c62f3127790d874",
+    "36e619864d9796cd18863c6fe3fa81c7a52d428d6fd0eab4baf2c4e8388a95c3",
+    "f7be2f7008be4ad64eff3511f52f585e88386105202e5e85d59dcca8ef60c1b9",
+    "86925482f9b36d6c5a8e755cf188d5922982b45c9203bfee1dc626d52482ff04",
+    "cbc00c39830bcd403b9d0b50ab2ada322bf835e48b03f3bbfe776e6b9214ff3f",
+    "9f55a2a301fd132cc0240d6f4de108266f3d87e1f6fd2cf8afbc9048b583f22a",
+    "21941d543b58af09055e6ba1c84fadf7ddad3d95139ea35468565a455e3659ac",
+    "fb1b82b22c63b0a3a8f363245a69d83ab3ad6ac954a558cf70d2fe17e5d43ca6",
+    "b608a61f9e4aba6e79acd6b661a06b6420a306bf6d4794534a6db6e92b996faa",
+    "b203269413625ed7270ff512af5dc947f3e2729845dcfaa01eca05d3d95d0600"
+  ],
+  "profiles": {
+    "single": 0,
+    "4096": 4096,
+    "257": 257
+  },
+  "budgets_ns": {
+    "capture": 50000000,
+    "scenario": 5000000
+  },
+  "started_utc": "2026-10-19T02:30:34Z",
+  "runs": [
+    {
+      "label": "single-rep0",
+      "profile": "single",
+      "rep": 0,
+      "seed": 666701,
+      "stats_ns": {
+        "r6_join": {
+          "assembly": {
+            "n": 2048,
+            "p50": 2073,
+            "p95": 2593,
+            "p99": 3165,
+            "p99_9": 21312,
+            "min": 1552,
+            "max": 33129
+          },
+          "verification": {
+            "n": 2048,
+            "p50": 1531279,
+            "p95": 2281837,
+            "p99": 2876241,
+            "p99_9": 3808458,
+            "min": 973509,
+            "max": 4319359
+          },
+          "scenario": {
+            "n": 2048,
+            "p50": 24076,
+            "p95": 33190,
+            "p99": 83815,
+            "p99_9": 229852,
+            "min": 20130,
+            "max": 274318
+          },
+          "authorization": {
+            "n": 2048,
+            "p50": 2043,
+            "p95": 2554,
+            "p99": 3966,
+            "p99_9": 50676,
+            "min": 1662,
+            "max": 73399
+          },
+          "total": {
+            "n": 2048,
+            "p50": 1561914,
+            "p95": 2321726,
+            "p99": 2914008,
+            "p99_9": 3845033,
+            "min": 998466,
+            "max": 4358197
+          }
+        },
+        "r7_stream": {
+          "assembly": {
+            "n": 2048,
+            "p50": 12008,
+            "p95": 16715,
+            "p99": 63074,
+            "p99_9": 104385,
+            "min": 8112,
+            "max": 185486
+          },
+          "verification": {
+            "n": 2048,
+            "p50": 1549587,
+            "p95": 2296578,
+            "p99": 2788290,
+            "p99_9": 4073853,
+            "min": 981040,
+            "max": 6038057
+          },
+          "scenario": {
+            "n": 2048,
+            "p50": 29073,
+            "p95": 45908,
+            "p99": 113429,
+            "p99_9": 284213,
+            "min": 24126,
+            "max": 310062
+          },
+          "authorization": {
+            "n": 2048,
+            "p50": 5068,
+            "p95": 6720,
+            "p99": 24686,
+            "p99_9": 87290,
+            "min": 4327,
+            "max": 118546
+          },
+          "total": {
+            "n": 2048,
+            "p50": 1599561,
+            "p95": 2350989,
+            "p99": 2839446,
+            "p99_9": 4127763,
+            "min": 1022653,
+            "max": 6098036
+          }
+        }
+      },
+      "clock_ns": {
+        "n": 2048,
+        "p50": 201,
+        "p95": 311,
+        "p99": 490,
+        "p99_9": 661,
+        "min": 140,
+        "max": 1012
+      },
+      "drops": [],
+      "distinct_outputs": 208,
+      "output_sha256": {
+        "r6_join": "06a085d629688e53b4e56abdc402d49931c2c7526e713fb058d107d239235d4b",
+        "r7_stream": "06a085d629688e53b4e56abdc402d49931c2c7526e713fb058d107d239235d4b"
+      },
+      "context_switches": {
+        "voluntary": 0,
+        "involuntary": 69
+      },
+      "sample_sha256": {
+        "r6_join": {
+          "assembly": "db68b5b947cbd383bf194f15080db489a911250f610cef2046f5ea8f85b6a8d2",
+          "verification": "d3d998a0bf555c96606f182ad4d64c2bb3d13271337672e481832aaab7d8f466",
+          "scenario": "1c4253fe8ba6b8525858a6aa5be3d7132597ad21e17a97316e73517d1764b0ac",
+          "authorization": "20a5f58aaa91c72564d2b7e25d0bd8182191a3c594ff826b8cdef353a31c3bcf",
+          "total": "42b372a904fc9d438e645736d384dff13d1766c38f8a578d66afe2aac8710227"
+        },
+        "r7_stream": {
+          "assembly": "98cecf36b784350d2edac10b0dc50899f6a6fd2731f61ad7f448f2d6fbfd8f75",
+          "verification": "82809de8af2e014b186140c1691876a5afe6a74badd9a7e52c7aa6b37a73ff9b",
+          "scenario": "a48dbf1d1ca4dffe8e6e301ece9469e375b311b93eb0f2d69249de3f4a7831f3",
+          "authorization": "889cf1b0c97530f7dfae20fcf90ba2f9753eab1e2db279156ddf9f4fbdc5e7f5",
+          "total": "8fe323092dc395aaa7d2183f75b4e651ee23e727a2cbdb2f8596db4973d6a2a4"
+        }
+      }
+    },
+    {
+      "label": "4096-rep0",
+      "profile": "4096",
+      "rep": 0,
+      "seed": 666702,
+      "stats_ns": {
+        "r6_join": {
+          "assembly": {
+            "n": 2048,
+            "p50": 3835,
+            "p95": 5148,
+            "p99": 8633,
+            "p99_9": 177434,
+            "min": 2353,
+            "max": 477230
+          },
+          "verification": {
+            "n": 2048,
+            "p50": 1565270,
+            "p95": 2397959,
+            "p99": 3264549,
+            "p99_9": 5949895,
+            "min": 975151,
+            "max": 6535197
+          },
+          "scenario": {
+            "n": 2048,
+            "p50": 24947,
+            "p95": 39870,
+            "p99": 95612,
+            "p99_9": 273828,
+            "min": 20591,
+            "max": 382569
+          },
+          "authorization": {
+            "n": 2048,
+            "p50": 2073,
+            "p95": 2524,
+            "p99": 3335,
+            "p99_9": 66378,
+            "min": 1663,
+            "max": 168751
+          },
+          "total": {
+            "n": 2048,
+            "p50": 1599221,
+            "p95": 2438099,
+            "p99": 3299390,
+            "p99_9": 6004668,
+            "min": 1012276,
+            "max": 6595346
+          }
+        },
+        "r7_stream": {
+          "assembly": {
+            "n": 2048,
+            "p50": 26569,
+            "p95": 45448,
+            "p99": 97305,
+            "p99_9": 204003,
+            "min": 15223,
+            "max": 1120327
+          },
+          "verification": {
+            "n": 2048,
+            "p50": 1587923,
+            "p95": 2352992,
+            "p99": 3062007,
+            "p99_9": 4857180,
+            "min": 990253,
+            "max": 7951185
+          },
+          "scenario": {
+            "n": 2048,
+            "p50": 30054,
+            "p95": 56494,
+            "p99": 118907,
+            "p99_9": 278134,
+            "min": 23976,
+            "max": 535426
+          },
+          "authorization": {
+            "n": 2048,
+            "p50": 5127,
+            "p95": 6479,
+            "p99": 23434,
+            "p99_9": 82313,
+            "min": 4446,
+            "max": 223212
+          },
+          "total": {
+            "n": 2048,
+            "p50": 1657217,
+            "p95": 2437798,
+            "p99": 3231720,
+            "p99_9": 5878820,
+            "min": 1040899,
+            "max": 8016322
+          }
+        }
+      },
+      "clock_ns": {
+        "n": 2048,
+        "p50": 210,
+        "p95": 340,
+        "p99": 501,
+        "p99_9": 992,
+        "min": 150,
+        "max": 3145
+      },
+      "drops": [],
+      "distinct_outputs": 208,
+      "output_sha256": {
+        "r6_join": "6656f28492ec6f07e16e93a1d5373873e77c53a3ea242857f197d12831f8a62f",
+        "r7_stream": "6656f28492ec6f07e16e93a1d5373873e77c53a3ea242857f197d12831f8a62f"
+      },
+      "context_switches": {
+        "voluntary": 0,
+        "involuntary": 42
+      },
+      "sample_sha256": {
+        "r6_join": {
+          "assembly": "e3c5f7322b146f680432b40f25aeb774b74776ef5cb726ab49642cc1f78e0ef8",
+          "verification": "c6e9cbd30861530d2beb61c9cade3c70fabf73511f1eb8b7d7fb89cf36938593",
+          "scenario": "8e1e806bc73dbbea37f3e9282168c3abe432b79c6e2dfee1d5649b52d5b91cc9",
+          "authorization": "e361198e4acb1f5e4fa3961d0dff21d7e1877bc63a914054287ff64e9415c7f1",
+          "total": "2d3817572e973f23bc3051319b2aefa2e8ee6da84658a97f6c915f583a3cfd08"
+        },
+        "r7_stream": {
+          "assembly": "5f3abfe294d04c7dfd75d171547bb519d32380a89d314df00848408a0423cdff",
+          "verification": "b24ad83a11f7883f89b320751cf7ebfc20e0cc1013c39262b05cb2325dd33c93",
+          "scenario": "05aa7e19d7173ad845932c90085ca49aa1c6a755a0f7e334a8847dfea2dfe815",
+          "authorization": "9dfa390824ff9c21c5a5dd8cd937bdda8b7572e0f4f3658bba5fa858b448454b",
+          "total": "a518a216d7697e6d41da12bf54d597f0b9f00b08d43e67b8bb4ec4250733deee"
+        }
+      }
+    },
+    {
+      "label": "257-rep0",
+      "profile": "257",
+      "rep": 0,
+      "seed": 666703,
+      "stats_ns": {
+        "r6_join": {
+          "assembly": {
+            "n": 2048,
+            "p50": 4827,
+            "p95": 6980,
+            "p99": 21482,
+            "p99_9": 54130,
+            "min": 2574,
+            "max": 58316
+          },
+          "verification": {
+            "n": 2048,
+            "p50": 1523598,
+            "p95": 2180205,
+            "p99": 2611747,
+            "p99_9": 5698822,
+            "min": 978757,
+            "max": 8370499
+          },
+          "scenario": {
+            "n": 2048,
+            "p50": 24176,
+            "p95": 37515,
+            "p99": 85758,
+            "p99_9": 206878,
+            "min": 20440,
+            "max": 346445
+          },
+          "authorization": {
+            "n": 2048,
+            "p50": 2033,
+            "p95": 2414,
+            "p99": 3155,
+            "p99_9": 25668,
+            "min": 1733,
+            "max": 52679
+          },
+          "total": {
+            "n": 2048,
+            "p50": 1556927,
+            "p95": 2221075,
+            "p99": 2647291,
+            "p99_9": 5738762,
+            "min": 1005557,
+            "max": 8434013
+          }
+        },
+        "r7_stream": {
+          "assembly": {
+            "n": 2048,
+            "p50": 208941,
+            "p95": 301669,
+            "p99": 383110,
+            "p99_9": 556128,
+            "min": 110294,
+            "max": 3829299
+          },
+          "verification": {
+            "n": 2048,
+            "p50": 1550718,
+            "p95": 2227606,
+            "p99": 2707680,
+            "p99_9": 5274040,
+            "min": 997886,
+            "max": 12389340
+          },
+          "scenario": {
+            "n": 2048,
+            "p50": 29224,
+            "p95": 44647,
+            "p99": 95993,
+            "p99_9": 250633,
+            "min": 24657,
+            "max": 1112727
+          },
+          "authorization": {
+            "n": 2048,
+            "p50": 5057,
+            "p95": 5858,
+            "p99": 10355,
+            "p99_9": 71407,
+            "min": 4386,
+            "max": 217674
+          },
+          "total": {
+            "n": 2048,
+            "p50": 1791867,
+            "p95": 2555915,
+            "p99": 3037541,
+            "p99_9": 5714215,
+            "min": 1144213,
+            "max": 13015181
+          }
+        }
+      },
+      "clock_ns": {
+        "n": 2048,
+        "p50": 210,
+        "p95": 341,
+        "p99": 490,
+        "p99_9": 641,
+        "min": 160,
+        "max": 801
+      },
+      "drops": [],
+      "distinct_outputs": 208,
+      "output_sha256": {
+        "r6_join": "3f11830ed2c3c54677863476d6864725c28a58cf2f12ea41397b1aefdd63780c",
+        "r7_stream": "3f11830ed2c3c54677863476d6864725c28a58cf2f12ea41397b1aefdd63780c"
+      },
+      "context_switches": {
+        "voluntary": 0,
+        "involuntary": 33
+      },
+      "sample_sha256": {
+        "r6_join": {
+          "assembly": "399a1022359b5c1ef805b883b7f68202a8192079a41618e00f0abbbf8dbb164e",
+          "verification": "0018886b5b5d9c4e2741ecd1b8c7ebcf354d4ef1e2203de697df5ef9ee41bc3b",
+          "scenario": "6bd2cf230cd445e60d944813b144e36b64ef451d9a20d548416885fb14130e44",
+          "authorization": "5a7907a80026e27aea5440081840bc6225af9deb4c49044d8573422f81053aad",
+          "total": "0f088f6b1573bc58f28195495869760f70b4d9c580a922f1628d9a3c226d8729"
+        },
+        "r7_stream": {
+          "assembly": "c39ff5d9918d40d232244a885d685f9afcbc6892d6e136f12ef0d28cd93bdbdc",
+          "verification": "ed0f77bde2b1bfb3ddec3b03c400d7ef193e68807281aea013fdb1d110f41bf6",
+          "scenario": "4eaf80447a0eb2dc9f1f5eac75722af7549d1adab25ec040bc28a527d1c4ad5d",
+          "authorization": "570c1bee005d7830197bb2c5e583f75cce5d835b3f79db41f751013ba93cd24c",
+          "total": "6d554a1992305be79442bea9850f42f92718964de5e899799fed8287a1938626"
+        }
+      }
+    },
+    {
+      "label": "single-rep1",
+      "profile": "single",
+      "rep": 1,
+      "seed": 666704,
+      "stats_ns": {
+        "r6_join": {
+          "assembly": {
+            "n": 2048,
+            "p50": 2093,
+            "p95": 2634,
+            "p99": 3365,
+            "p99_9": 19208,
+            "min": 1522,
+            "max": 38197
+          },
+          "verification": {
+            "n": 2048,
+            "p50": 1526121,
+            "p95": 2399972,
+            "p99": 3350137,
+            "p99_9": 8980847,
+            "min": 988411,
+            "max": 20477669
+          },
+          "scenario": {
+            "n": 2048,
+            "p50": 24095,
+            "p95": 39559,
+            "p99": 103594,
+            "p99_9": 269270,
+            "min": 19840,
+            "max": 539623
+          },
+          "authorization": {
+            "n": 2048,
+            "p50": 2043,
+            "p95": 2554,
+            "p99": 3355,
+            "p99_9": 33910,
+            "min": 1712,
+            "max": 65548
+          },
+          "total": {
+            "n": 2048,
+            "p50": 1558179,
+            "p95": 2431879,
+            "p99": 3386180,
+            "p99_9": 9023250,
+            "min": 1014580,
+            "max": 20544428
+          }
+        },
+        "r7_stream": {
+          "assembly": {
+            "n": 2048,
+            "p50": 12188,
+            "p95": 17035,
+            "p99": 41552,
+            "p99_9": 165927,
+            "min": 8192,
+            "max": 341989
+          },
+          "verification": {
+            "n": 2048,
+            "p50": 1540813,
+            "p95": 2394223,
+            "p99": 3205472,
+            "p99_9": 11591733,
+            "min": 985126,
+            "max": 12939779
+          },
+          "scenario": {
+            "n": 2048,
+            "p50": 28833,
+            "p95": 45467,
+            "p99": 101601,
+            "p99_9": 262861,
+            "min": 24517,
+            "max": 1122351
+          },
+          "authorization": {
+            "n": 2048,
+            "p50": 5057,
+            "p95": 6189,
+            "p99": 22163,
+            "p99_9": 80861,
+            "min": 4407,
+            "max": 153969
+          },
+          "total": {
+            "n": 2048,
+            "p50": 1588655,
+            "p95": 2459330,
+            "p99": 3282957,
+            "p99_9": 11696760,
+            "min": 1026408,
+            "max": 13036644
+          }
+        }
+      },
+      "clock_ns": {
+        "n": 2048,
+        "p50": 201,
+        "p95": 350,
+        "p99": 501,
+        "p99_9": 831,
+        "min": 150,
+        "max": 2244
+      },
+      "drops": [],
+      "distinct_outputs": 208,
+      "output_sha256": {
+        "r6_join": "29abeb2f6501ef6e1b5356f855ba1fecf2bb8f31c42007501d5a496d8e37177c",
+        "r7_stream": "29abeb2f6501ef6e1b5356f855ba1fecf2bb8f31c42007501d5a496d8e37177c"
+      },
+      "context_switches": {
+        "voluntary": 0,
+        "involuntary": 31
+      },
+      "sample_sha256": {
+        "r6_join": {
+          "assembly": "464d15326622719a16ae287372690e41ca282213eb03c339f1d7339ba22224fd",
+          "verification": "6e0f71aca4cb4e8325d102a87b421e560e1a3ceb874879b6920df3bddfeb2d3e",
+          "scenario": "b453214349976f3162a73b15f4d4b128b42d26bff2aeb23a91474e21e6ca86f1",
+          "authorization": "51b8c757fb7bf738db71a5c202eba96c3c156addbd15e62f50d1d02d1da72b4d",
+          "total": "43af79acbb71c646a194a788917dcccb60209aca3d0a350f545bbee664080153"
+        },
+        "r7_stream": {
+          "assembly": "3954cbb842074963ca17aee41e070ac5e38af93d873c44a07159f51af782554c",
+          "verification": "75fd9f6bc21bde85531cfc541106ec1f70523573a610b4f36ab689f65cf52fcc",
+          "scenario": "902aa7c0c45464eac6f1ab7147ea069dbd12fd1d18b8bf3330b4f3d82e50d770",
+          "authorization": "d934386abb3b2983127a4de6e2fd70233940922c3ed2f89e67ef3ab74df640ee",
+          "total": "e78f4ec37edab00343dbe002978d4157da5711cf357f99867482257210c3edbe"
+        }
+      }
+    },
+    {
+      "label": "4096-rep1",
+      "profile": "4096",
+      "rep": 1,
+      "seed": 666705,
+      "stats_ns": {
+        "r6_join": {
+          "assembly": {
+            "n": 2048,
+            "p50": 3776,
+            "p95": 5448,
+            "p99": 8503,
+            "p99_9": 59058,
+            "min": 2334,
+            "max": 218285
+          },
+          "verification": {
+            "n": 2048,
+            "p50": 1592450,
+            "p95": 2509225,
+            "p99": 3177940,
+            "p99_9": 4736210,
+            "min": 977996,
+            "max": 12663278
+          },
+          "scenario": {
+            "n": 2048,
+            "p50": 24817,
+            "p95": 39739,
+            "p99": 103173,
+            "p99_9": 632822,
+            "min": 20631,
+            "max": 1477168
+          },
+          "authorization": {
+            "n": 2048,
+            "p50": 2063,
+            "p95": 2804,
+            "p99": 6089,
+            "p99_9": 53039,
+            "min": 1673,
+            "max": 90174
+          },
+          "total": {
+            "n": 2048,
+            "p50": 1627131,
+            "p95": 2560021,
+            "p99": 3249592,
+            "p99_9": 4799544,
+            "min": 1003984,
+            "max": 12707414
+          }
+        },
+        "r7_stream": {
+          "assembly": {
+            "n": 2048,
+            "p50": 27120,
+            "p95": 46460,
+            "p99": 105968,
+            "p99_9": 642506,
+            "min": 15423,
+            "max": 1075862
+          },
+          "verification": {
+            "n": 2048,
+            "p50": 1587142,
+            "p95": 2585779,
+            "p99": 3387082,
+            "p99_9": 5023427,
+            "min": 977465,
+            "max": 6546944
+          },
+          "scenario": {
+            "n": 2048,
+            "p50": 29804,
+            "p95": 46779,
+            "p99": 107119,
+            "p99_9": 213328,
+            "min": 25038,
+            "max": 374217
+          },
+          "authorization": {
+            "n": 2048,
+            "p50": 5138,
+            "p95": 6800,
+            "p99": 22734,
+            "p99_9": 72518,
+            "min": 4416,
+            "max": 211966
+          },
+          "total": {
+            "n": 2048,
+            "p50": 1655103,
+            "p95": 2692488,
+            "p99": 3467691,
+            "p99_9": 5090026,
+            "min": 1027018,
+            "max": 6942353
+          }
+        }
+      },
+      "clock_ns": {
+        "n": 2048,
+        "p50": 210,
+        "p95": 330,
+        "p99": 541,
+        "p99_9": 861,
+        "min": 150,
+        "max": 199366
+      },
+      "drops": [],
+      "distinct_outputs": 208,
+      "output_sha256": {
+        "r6_join": "4cf7dd21d27fdb79bcb91aa9ea97460feb573090c2082713886798d330793d1b",
+        "r7_stream": "4cf7dd21d27fdb79bcb91aa9ea97460feb573090c2082713886798d330793d1b"
+      },
+      "context_switches": {
+        "voluntary": 0,
+        "involuntary": 39
+      },
+      "sample_sha256": {
+        "r6_join": {
+          "assembly": "52cc034e11fa30d2f67f1efb37629ae575c62d9a0e87c0d7d0b99fb3443fe0a1",
+          "verification": "7d5d92ad65d709cb480b3a28fb967c97afca1ac7caebe568b1ec43d0c2ef4a7c",
+          "scenario": "48084c8d80db4b7b301b8d9b8c8c333f57e76b241518b62e0af392d74c7a407e",
+          "authorization": "cc43a384ebedd0feac2353850b3069625bb78d3178eef646df334c4db5157eb1",
+          "total": "d48eeb92c16eb547b921825ad14d434a33b7b77aec02fd67b31a5a3387ecbfc1"
+        },
+        "r7_stream": {
+          "assembly": "1e4cab81d36bbc09a69eb34940dca86bf684845404566df49c65c62eab99b1a9",
+          "verification": "99f967cdfcbded1fc1ae341236eef16fa93bf307fdb8dc60eb435bc962c87a78",
+          "scenario": "3216b6ed2801a103d769ad8eb6bb46d5fcbf874638b5f1b5fe0efae642d60cf2",
+          "authorization": "a83a3d38d8d251bddda3f980959a04cc1eb16d03e2415e314f10c3d62a515e04",
+          "total": "f971626e2008a743da2d24d2f457e80fcf87ec614ec503c660a14d4efe005fd6"
+        }
+      }
+    },
+    {
+      "label": "257-rep1",
+      "profile": "257",
+      "rep": 1,
+      "seed": 666706,
+      "stats_ns": {
+        "r6_join": {
+          "assembly": {
+            "n": 2048,
+            "p50": 5048,
+            "p95": 7461,
+            "p99": 10816,
+            "p99_9": 112718,
+            "min": 2724,
+            "max": 503940
+          },
+          "verification": {
+            "n": 2048,
+            "p50": 1520934,
+            "p95": 2540151,
+            "p99": 3792125,
+            "p99_9": 6210403,
+            "min": 968501,
+            "max": 7045601
+          },
+          "scenario": {
+            "n": 2048,
+            "p50": 23876,
+            "p95": 38777,
+            "p99": 89423,
+            "p99_9": 759190,
+            "min": 20020,
+            "max": 3086033
+          },
+          "authorization": {
+            "n": 2048,
+            "p50": 2033,
+            "p95": 2634,
+            "p99": 3665,
+            "p99_9": 70104,
+            "min": 1692,
+            "max": 82823
+          },
+          "total": {
+            "n": 2048,
+            "p50": 1553733,
+            "p95": 2581943,
+            "p99": 3884943,
+            "p99_9": 6261870,
+            "min": 1000529,
+            "max": 7095615
+          }
+        },
+        "r7_stream": {
+          "assembly": {
+            "n": 2048,
+            "p50": 209481,
+            "p95": 350141,
+            "p99": 578632,
+            "p99_9": 3288325,
+            "min": 109093,
+            "max": 4271508
+          },
+          "verification": {
+            "n": 2048,
+            "p50": 1549156,
+            "p95": 2619529,
+            "p99": 4194943,
+            "p99_9": 5540707,
+            "min": 991065,
+            "max": 7519632
+          },
+          "scenario": {
+            "n": 2048,
+            "p50": 29124,
+            "p95": 44797,
+            "p99": 94501,
+            "p99_9": 273847,
+            "min": 24747,
+            "max": 627364
+          },
+          "authorization": {
+            "n": 2048,
+            "p50": 5047,
+            "p95": 6660,
+            "p99": 9544,
+            "p99_9": 72618,
+            "min": 4416,
+            "max": 121360
+          },
+          "total": {
+            "n": 2048,
+            "p50": 1801071,
+            "p95": 3049619,
+            "p99": 4685715,
+            "p99_9": 7240767,
+            "min": 1141770,
+            "max": 7733460
+          }
+        }
+      },
+      "clock_ns": {
+        "n": 2048,
+        "p50": 210,
+        "p95": 370,
+        "p99": 541,
+        "p99_9": 731,
+        "min": 130,
+        "max": 16475
+      },
+      "drops": [],
+      "distinct_outputs": 208,
+      "output_sha256": {
+        "r6_join": "be46d2ea3b9569a11b6c033202a58aab6b5dfbee72a12779272448eb1cb249cf",
+        "r7_stream": "be46d2ea3b9569a11b6c033202a58aab6b5dfbee72a12779272448eb1cb249cf"
+      },
+      "context_switches": {
+        "voluntary": 0,
+        "involuntary": 30
+      },
+      "sample_sha256": {
+        "r6_join": {
+          "assembly": "a4fb39fd296da8264995dfed2700ed21f64af217b37cd26f1ee9e09e43a9f718",
+          "verification": "24c34857ea902272f5015070a78c3f5a1a87850020beffa0390966b733352af5",
+          "scenario": "ef0b3fe8827ff1515394142e9c714a9f13cbf51b73f99b75cc2b0a6dbfb04aaa",
+          "authorization": "e413489ef2ff1e176a26e289ce591b9c7699fde7b293c41688b47506efc3dcd6",
+          "total": "b041ad66b2409ea5b1ba077c9073881d5a49607749591b39f5f061f2ec5a83a9"
+        },
+        "r7_stream": {
+          "assembly": "8bccfdddeb6b5a84358931c748efd06dc35baf14d86b8fd6a4b2d175346f8d15",
+          "verification": "ac443702d0ba49220f8b7fd6b90082fdb31a2c31f3fe015902c7143ba8cf5f4d",
+          "scenario": "4d40688eaa178b0af88191af93d03b4173dff29b1b88aaf610e2ac689cefefbd",
+          "authorization": "1aac97c8731b5205a2df047e49702deac6f48030260a169bbcfa5b8065f5e1b3",
+          "total": "512326f9b3b464e552f10c0075ad21154921b7da3374aa1c71b5a289a7939204"
+        }
+      }
+    },
+    {
+      "label": "single-rep2",
+      "profile": "single",
+      "rep": 2,
+      "seed": 666707,
+      "stats_ns": {
+        "r6_join": {
+          "assembly": {
+            "n": 2048,
+            "p50": 2083,
+            "p95": 2614,
+            "p99": 3525,
+            "p99_9": 168631,
+            "min": 1662,
+            "max": 229161
+          },
+          "verification": {
+            "n": 2048,
+            "p50": 1519061,
+            "p95": 2216119,
+            "p99": 2544847,
+            "p99_9": 3121516,
+            "min": 973809,
+            "max": 4041936
+          },
+          "scenario": {
+            "n": 2048,
+            "p50": 24456,
+            "p95": 37035,
+            "p99": 86058,
+            "p99_9": 237183,
+            "min": 20010,
+            "max": 268560
+          },
+          "authorization": {
+            "n": 2048,
+            "p50": 2043,
+            "p95": 2464,
+            "p99": 3045,
+            "p99_9": 51136,
+            "min": 1592,
+            "max": 271283
+          },
+          "total": {
+            "n": 2048,
+            "p50": 1549106,
+            "p95": 2248637,
+            "p99": 2577236,
+            "p99_9": 3155887,
+            "min": 997585,
+            "max": 4092561
+          }
+        },
+        "r7_stream": {
+          "assembly": {
+            "n": 2048,
+            "p50": 12209,
+            "p95": 16765,
+            "p99": 56354,
+            "p99_9": 128892,
+            "min": 8192,
+            "max": 744668
+          },
+          "verification": {
+            "n": 2048,
+            "p50": 1538220,
+            "p95": 2235407,
+            "p99": 2701781,
+            "p99_9": 4739374,
+            "min": 974631,
+            "max": 5138618
+          },
+          "scenario": {
+            "n": 2048,
+            "p50": 29453,
+            "p95": 47200,
+            "p99": 102973,
+            "p99_9": 378002,
+            "min": 24426,
+            "max": 444632
+          },
+          "authorization": {
+            "n": 2048,
+            "p50": 5098,
+            "p95": 6069,
+            "p99": 12829,
+            "p99_9": 133549,
+            "min": 4387,
+            "max": 415388
+          },
+          "total": {
+            "n": 2048,
+            "p50": 1587202,
+            "p95": 2304330,
+            "p99": 2792346,
+            "p99_9": 4802267,
+            "min": 1017174,
+            "max": 5192398
+          }
+        }
+      },
+      "clock_ns": {
+        "n": 2048,
+        "p50": 210,
+        "p95": 340,
+        "p99": 511,
+        "p99_9": 641,
+        "min": 150,
+        "max": 661
+      },
+      "drops": [],
+      "distinct_outputs": 208,
+      "output_sha256": {
+        "r6_join": "fd189e1edb8d8228e77482ed31a7c553475b352ff373a86f089dfeba16a90067",
+        "r7_stream": "fd189e1edb8d8228e77482ed31a7c553475b352ff373a86f089dfeba16a90067"
+      },
+      "context_switches": {
+        "voluntary": 0,
+        "involuntary": 23
+      },
+      "sample_sha256": {
+        "r6_join": {
+          "assembly": "8b6abb37c6255926ea13b64df05c630c6d85f739edc471d4a0e50f08f67ca18c",
+          "verification": "a89816ccd1c0e317a70e0f3c4909b6cbf97de64843f273bde95b0af6b0975093",
+          "scenario": "2fb55db6edea668ed9e0e3e1bd9fa7fd6da9b7f9e725eb3d15483b7ed9328a8b",
+          "authorization": "169298fbac68b052807212995d881763173f3457c3b2aad21c3fe0d8cc9cc1a9",
+          "total": "938b2e197be3d8b7993aed583c2e86a7b17d167aaa08bc712d43f7b261bc3c6a"
+        },
+        "r7_stream": {
+          "assembly": "6a5dd05e81287bd718dddd5155640084f27b587581797fab4adf5f23fbaac735",
+          "verification": "f1713cece23744c3921262c83916cab427e2e854f88055ce01a1c6f152e1824d",
+          "scenario": "9222e9b5b0a0beee8a60eeb95681e8f8c40708eef0dd3505aed65d41ba54d6a3",
+          "authorization": "db14efb2277320ba7782b240240dc9eedab03fb6ec746b7ad87b7fc92dbb5799",
+          "total": "dd04ba66935000be87e159d7e24f6d9da4b814277b2b10f12439ba97185a9abb"
+        }
+      }
+    },
+    {
+      "label": "4096-rep2",
+      "profile": "4096",
+      "rep": 2,
+      "seed": 666708,
+      "stats_ns": {
+        "r6_join": {
+          "assembly": {
+            "n": 2048,
+            "p50": 3755,
+            "p95": 5078,
+            "p99": 6190,
+            "p99_9": 55463,
+            "min": 2493,
+            "max": 186708
+          },
+          "verification": {
+            "n": 2048,
+            "p50": 1496537,
+            "p95": 2254376,
+            "p99": 2760479,
+            "p99_9": 3804152,
+            "min": 953058,
+            "max": 6320377
+          },
+          "scenario": {
+            "n": 2048,
+            "p50": 23916,
+            "p95": 33359,
+            "p99": 86528,
+            "p99_9": 210874,
+            "min": 20019,
+            "max": 327497
+          },
+          "authorization": {
+            "n": 2048,
+            "p50": 2023,
+            "p95": 2444,
+            "p99": 3265,
+            "p99_9": 27091,
+            "min": 1683,
+            "max": 96193
+          },
+          "total": {
+            "n": 2048,
+            "p50": 1532210,
+            "p95": 2303148,
+            "p99": 2833517,
+            "p99_9": 3846195,
+            "min": 987910,
+            "max": 6363531
+          }
+        },
+        "r7_stream": {
+          "assembly": {
+            "n": 2048,
+            "p50": 26390,
+            "p95": 44516,
+            "p99": 94751,
+            "p99_9": 235981,
+            "min": 15413,
+            "max": 244224
+          },
+          "verification": {
+            "n": 2048,
+            "p50": 1511580,
+            "p95": 2208437,
+            "p99": 2628182,
+            "p99_9": 3584234,
+            "min": 977976,
+            "max": 6333196
+          },
+          "scenario": {
+            "n": 2048,
+            "p50": 28733,
+            "p95": 43244,
+            "p99": 93429,
+            "p99_9": 176774,
+            "min": 23966,
+            "max": 784077
+          },
+          "authorization": {
+            "n": 2048,
+            "p50": 5027,
+            "p95": 6059,
+            "p99": 9915,
+            "p99_9": 66609,
+            "min": 4356,
+            "max": 84946
+          },
+          "total": {
+            "n": 2048,
+            "p50": 1578028,
+            "p95": 2289587,
+            "p99": 2722753,
+            "p99_9": 3676813,
+            "min": 1027960,
+            "max": 6401428
+          }
+        }
+      },
+      "clock_ns": {
+        "n": 2048,
+        "p50": 210,
+        "p95": 351,
+        "p99": 561,
+        "p99_9": 2213,
+        "min": 150,
+        "max": 53900
+      },
+      "drops": [],
+      "distinct_outputs": 208,
+      "output_sha256": {
+        "r6_join": "0f29172dd944e0ba6879a521f65b23e3fa7426ae3e6ad4846c1e74b9e0264c46",
+        "r7_stream": "0f29172dd944e0ba6879a521f65b23e3fa7426ae3e6ad4846c1e74b9e0264c46"
+      },
+      "context_switches": {
+        "voluntary": 0,
+        "involuntary": 31
+      },
+      "sample_sha256": {
+        "r6_join": {
+          "assembly": "0ab738a257bc00c264f8ec0563b1203ad530c0906d2b31a409997b27f5e33195",
+          "verification": "b01db370041f7cdd1e0ea458454b7d47fdabf87949a5725cf65b859c3968b859",
+          "scenario": "adca088f5b1c8bd5813232a8d2f49af0adc6208230b211b40b34d108a3c532b6",
+          "authorization": "10a3c2bf1a983e8038b48e79174fbb13d41eb5f67b934ea944cb51e2ff535de1",
+          "total": "beac411331b31063c34363d8739d6a894c55a2ab4762e6e4e2d67a99125c4f9e"
+        },
+        "r7_stream": {
+          "assembly": "dabe2940a7eda11c66adb019d27bd178519d82cd6711cc5a58f1aa961123f91d",
+          "verification": "a7d42ce761a865bbc0a4dfa5edaf1fa7cf49beb0e0122091499b04eb87f0db27",
+          "scenario": "3dc7b9e3b113a79e977f564b92e421df08ab0fe8e21db849d899dcc2903f5af5",
+          "authorization": "84a8ba47ee08ea1ae78ee7266c7cc884645f49653c42257d3c0e006f608ff951",
+          "total": "cc600c76601cc9c4601a308a71f6d4625d1fb72c2edd50a9fe63e8c2d3fb24ab"
+        }
+      }
+    },
+    {
+      "label": "257-rep2",
+      "profile": "257",
+      "rep": 2,
+      "seed": 666709,
+      "stats_ns": {
+        "r6_join": {
+          "assembly": {
+            "n": 2048,
+            "p50": 4937,
+            "p95": 6971,
+            "p99": 10165,
+            "p99_9": 66489,
+            "min": 2784,
+            "max": 215270
+          },
+          "verification": {
+            "n": 2048,
+            "p50": 1525029,
+            "p95": 2191172,
+            "p99": 2679197,
+            "p99_9": 3450767,
+            "min": 970945,
+            "max": 6422029
+          },
+          "scenario": {
+            "n": 2048,
+            "p50": 24476,
+            "p95": 37475,
+            "p99": 86248,
+            "p99_9": 206778,
+            "min": 20270,
+            "max": 1321186
+          },
+          "authorization": {
+            "n": 2048,
+            "p50": 2053,
+            "p95": 2483,
+            "p99": 3285,
+            "p99_9": 87620,
+            "min": 1683,
+            "max": 213668
+          },
+          "total": {
+            "n": 2048,
+            "p50": 1558409,
+            "p95": 2241165,
+            "p99": 2734324,
+            "p99_9": 3490045,
+            "min": 996624,
+            "max": 6460636
+          }
+        },
+        "r7_stream": {
+          "assembly": {
+            "n": 2048,
+            "p50": 208280,
+            "p95": 321899,
+            "p99": 438282,
+            "p99_9": 562467,
+            "min": 108722,
+            "max": 1676656
+          },
+          "verification": {
+            "n": 2048,
+            "p50": 1565460,
+            "p95": 2245692,
+            "p99": 2869952,
+            "p99_9": 3872534,
+            "min": 981951,
+            "max": 4639305
+          },
+          "scenario": {
+            "n": 2048,
+            "p50": 29574,
+            "p95": 47781,
+            "p99": 115082,
+            "p99_9": 266717,
+            "min": 24987,
+            "max": 402519
+          },
+          "authorization": {
+            "n": 2048,
+            "p50": 5077,
+            "p95": 6399,
+            "p99": 9855,
+            "p99_9": 56174,
+            "min": 4406,
+            "max": 59829
+          },
+          "total": {
+            "n": 2048,
+            "p50": 1823004,
+            "p95": 2594231,
+            "p99": 3279391,
+            "p99_9": 4248734,
+            "min": 1127398,
+            "max": 4942016
+          }
+        }
+      },
+      "clock_ns": {
+        "n": 2048,
+        "p50": 201,
+        "p95": 330,
+        "p99": 490,
+        "p99_9": 671,
+        "min": 140,
+        "max": 45237
+      },
+      "drops": [],
+      "distinct_outputs": 208,
+      "output_sha256": {
+        "r6_join": "f547c63d096ed6b8f9b6e86d2ab8dc458e4d10e722ddbc1f9f14d30c0c99bbaf",
+        "r7_stream": "f547c63d096ed6b8f9b6e86d2ab8dc458e4d10e722ddbc1f9f14d30c0c99bbaf"
+      },
+      "context_switches": {
+        "voluntary": 0,
+        "involuntary": 35
+      },
+      "sample_sha256": {
+        "r6_join": {
+          "assembly": "184d4c21b1267e3ee6b5e64b3c7af891d08ff13d26fc7b94af7b1b55a4a78402",
+          "verification": "9533d0caa69c91a315b5b3e0664ae245988e1f04f0f24ee5946cbf749ec6a960",
+          "scenario": "abc5ee3008b949fa1a3d42f5116182f21b426f306f874a2d7b57cdd865ddf957",
+          "authorization": "713e45bd7c2d0c4aa6973d46ae355c440bb21be3a06bdbd38930c541a9f80594",
+          "total": "f458eaeecb9bfa2b9521739b88d75a08909b27d955a74c43a587a683ad563799"
+        },
+        "r7_stream": {
+          "assembly": "d33bc4a16442b2d4aea504529e23771b877d5685a328748d3423782a49b5c541",
+          "verification": "06cfb738b4952bd1434e9d9f896a67655dda11d4dcb93dc4f6db27eb8d90b7bf",
+          "scenario": "ed9af056b6f678bb2ee49098449605c05412e6bb769b53306e5b9892327ef27b",
+          "authorization": "c89d0445d4a34f415edefa4dc7a645cd7fedc60ca35efb377d7ed42a89e702e9",
+          "total": "c2c4915ad600e44363abb1f8d7bab6cd330996d15c72814145e2a52a1692695d"
+        }
+      }
+    }
+  ],
+  "aggregate_ns": {
+    "single": {
+      "r6_join": {
+        "assembly": {
+          "n": 6144,
+          "p50": 2083,
+          "p95": 2614,
+          "p99": 3325,
+          "p99_9": 38197,
+          "min": 1522,
+          "max": 229161
+        },
+        "verification": {
+          "n": 6144,
+          "p50": 1526031,
+          "p95": 2303219,
+          "p99": 2906366,
+          "p99_9": 4698654,
+          "min": 973509,
+          "max": 20477669
+        },
+        "scenario": {
+          "n": 6144,
+          "p50": 24216,
+          "p95": 36855,
+          "p99": 88451,
+          "p99_9": 265115,
+          "min": 19840,
+          "max": 539623
+        },
+        "authorization": {
+          "n": 6144,
+          "p50": 2043,
+          "p95": 2524,
+          "p99": 3335,
+          "p99_9": 50676,
+          "min": 1592,
+          "max": 271283
+        },
+        "total": {
+          "n": 6144,
+          "p50": 1557268,
+          "p95": 2340644,
+          "p99": 2953546,
+          "p99_9": 4734266,
+          "min": 997585,
+          "max": 20544428
+        }
+      },
+      "r7_stream": {
+        "assembly": {
+          "n": 6144,
+          "p50": 12148,
+          "p95": 16885,
+          "p99": 56233,
+          "p99_9": 154430,
+          "min": 8112,
+          "max": 744668
+        },
+        "verification": {
+          "n": 6144,
+          "p50": 1541665,
+          "p95": 2312552,
+          "p99": 2909480,
+          "p99_9": 5138618,
+          "min": 974631,
+          "max": 12939779
+        },
+        "scenario": {
+          "n": 6144,
+          "p50": 29143,
+          "p95": 46089,
+          "p99": 105928,
+          "p99_9": 310062,
+          "min": 24126,
+          "max": 1122351
+        },
+        "authorization": {
+          "n": 6144,
+          "p50": 5078,
+          "p95": 6339,
+          "p99": 21593,
+          "p99_9": 108822,
+          "min": 4327,
+          "max": 415388
+        },
+        "total": {
+          "n": 6144,
+          "p50": 1592069,
+          "p95": 2373002,
+          "p99": 2993896,
+          "p99_9": 5192398,
+          "min": 1017174,
+          "max": 13036644
+        }
+      }
+    },
+    "4096": {
+      "r6_join": {
+        "assembly": {
+          "n": 6144,
+          "p50": 3786,
+          "p95": 5208,
+          "p99": 7821,
+          "p99_9": 69224,
+          "min": 2334,
+          "max": 477230
+        },
+        "verification": {
+          "n": 6144,
+          "p50": 1549086,
+          "p95": 2386622,
+          "p99": 3141025,
+          "p99_9": 5947357,
+          "min": 953058,
+          "max": 12663278
+        },
+        "scenario": {
+          "n": 6144,
+          "p50": 24607,
+          "p95": 38367,
+          "p99": 92828,
+          "p99_9": 311834,
+          "min": 20019,
+          "max": 1477168
+        },
+        "authorization": {
+          "n": 6144,
+          "p50": 2053,
+          "p95": 2634,
+          "p99": 3826,
+          "p99_9": 53039,
+          "min": 1663,
+          "max": 168751
+        },
+        "total": {
+          "n": 6144,
+          "p50": 1581875,
+          "p95": 2430407,
+          "p99": 3183078,
+          "p99_9": 5989510,
+          "min": 987910,
+          "max": 12707414
+        }
+      },
+      "r7_stream": {
+        "assembly": {
+          "n": 6144,
+          "p50": 26709,
+          "p95": 45488,
+          "p99": 99609,
+          "p99_9": 329301,
+          "min": 15223,
+          "max": 1120327
+        },
+        "verification": {
+          "n": 6144,
+          "p50": 1562726,
+          "p95": 2391780,
+          "p99": 3055899,
+          "p99_9": 5023427,
+          "min": 977465,
+          "max": 7951185
+        },
+        "scenario": {
+          "n": 6144,
+          "p50": 29634,
+          "p95": 46850,
+          "p99": 104666,
+          "p99_9": 259256,
+          "min": 23966,
+          "max": 784077
+        },
+        "authorization": {
+          "n": 6144,
+          "p50": 5097,
+          "p95": 6630,
+          "p99": 14932,
+          "p99_9": 77135,
+          "min": 4356,
+          "max": 223212
+        },
+        "total": {
+          "n": 6144,
+          "p50": 1630587,
+          "p95": 2481204,
+          "p99": 3227995,
+          "p99_9": 5153561,
+          "min": 1027018,
+          "max": 8016322
+        }
+      }
+    },
+    "257": {
+      "r6_join": {
+        "assembly": {
+          "n": 6144,
+          "p50": 4937,
+          "p95": 7150,
+          "p99": 11457,
+          "p99_9": 71076,
+          "min": 2574,
+          "max": 503940
+        },
+        "verification": {
+          "n": 6144,
+          "p50": 1522966,
+          "p95": 2267354,
+          "p99": 3085192,
+          "p99_9": 6096614,
+          "min": 968501,
+          "max": 8370499
+        },
+        "scenario": {
+          "n": 6144,
+          "p50": 24196,
+          "p95": 37907,
+          "p99": 86248,
+          "p99_9": 346445,
+          "min": 20020,
+          "max": 3086033
+        },
+        "authorization": {
+          "n": 6144,
+          "p50": 2043,
+          "p95": 2504,
+          "p99": 3295,
+          "p99_9": 66248,
+          "min": 1683,
+          "max": 213668
+        },
+        "total": {
+          "n": 6144,
+          "p50": 1556557,
+          "p95": 2313533,
+          "p99": 3129478,
+          "p99_9": 6139288,
+          "min": 996624,
+          "max": 8434013
+        }
+      },
+      "r7_stream": {
+        "assembly": {
+          "n": 6144,
+          "p50": 208861,
+          "p95": 322249,
+          "p99": 456479,
+          "p99_9": 1715253,
+          "min": 108722,
+          "max": 4271508
+        },
+        "verification": {
+          "n": 6144,
+          "p50": 1555716,
+          "p95": 2333232,
+          "p99": 3423997,
+          "p99_9": 5345266,
+          "min": 981951,
+          "max": 12389340
+        },
+        "scenario": {
+          "n": 6144,
+          "p50": 29343,
+          "p95": 45588,
+          "p99": 100089,
+          "p99_9": 266717,
+          "min": 24657,
+          "max": 1112727
+        },
+        "authorization": {
+          "n": 6144,
+          "p50": 5058,
+          "p95": 6319,
+          "p99": 9925,
+          "p99_9": 70394,
+          "min": 4386,
+          "max": 217674
+        },
+        "total": {
+          "n": 6144,
+          "p50": 1804716,
+          "p95": 2681361,
+          "p99": 3781369,
+          "p99_9": 5832501,
+          "min": 1127398,
+          "max": 13015181
+        }
+      }
+    }
+  },
+  "finished_utc": "2026-10-19T02:31:39Z",
+  "raw_sha256": "c62c4e914fb24ba07171bb9f41bc3115af7c1e1ef60590c481668dd419df2abb"
+}

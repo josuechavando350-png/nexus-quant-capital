@@ -1,0 +1,44 @@
+{
+  "repository": "josuechavando350-png/nexus-quant-capital",
+  "branch": "research/nqc-666-third-eye-20261018",
+  "base_commit": "e5842cc676c93c99f08025ae22537fcc8a041fca",
+  "additive_prefix": "migration/experiments/nqc-666/r7-stream-ingress",
+  "main_observed_unchanged": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
+  "new_data": "Technical handoff inspected only. No contracts rebuilt, no NQC031 financing or NQC032 audit. Six original reports with provenance in reference.",
+  "authentic_witness_integrated": false,
+  "rpc_access": "No new requests; prior 403 not retried or bypassed.",
+  "benchmark_attempts": 1,
+  "discarded_benchmark_runs": 0,
+  "functional_test_runs": "One development run of 21 tests and final clean reproduction; totals reported for final reproduction only.",
+  "runtime_changed_after_measurement": false,
+  "source_hashes": "evidence/benchmark/result.json",
+  "build": "evidence/build-metadata.json",
+  "all_prior_manifests": "evidence/parent-integrity.json",
+  "reproduction_checks": "21 R7, 51 R6, 75 R5, 2 Rust R4, 5 Rust R1, 9 isolation = 163 function executions; not 163 newly independent tests.",
+  "unrun": [
+    "real_state_authentication",
+    "real_network_receive",
+    "oracle_execution",
+    "IRM_execution",
+    "EVM_simulation",
+    "builder_submission",
+    "live_liquidation",
+    "financial_validation",
+    "historic_unaffected_Solidity_corpus"
+  ],
+  "optimization": "No arithmetic/proof optimization attempted or promoted; new optional transport boundary cost measured.",
+  "reviewed_primary_specifications": [
+    {
+      "url": "https://eips.ethereum.org/EIPS/eip-1186",
+      "retrieved_utc_date": "2026-10-19"
+    },
+    {
+      "url": "https://eips.ethereum.org/EIPS/eip-1898",
+      "retrieved_utc_date": "2026-10-19"
+    },
+    {
+      "url": "https://ethereum.github.io/execution-apis/api/methods/eth_getProof/",
+      "retrieved_utc_date": "2026-10-19"
+    }
+  ]
+}
