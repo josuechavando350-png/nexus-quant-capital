@@ -22,7 +22,12 @@
     "confirmation_loss_blocks": true,
     "fresh_recovery_blocks": true,
     "stale_blob_sha_conflict_http": 409,
-    "live_rpc_calls": 0
+    "live_rpc_calls": 0,
+    "parallel_single_evaluator_same_blob_sha": {
+      "result": "one success, one HTTP 409",
+      "winning_commit": "a36a108b5c345a435e89ea39ae89d28a5baa88a4",
+      "multi_host_proven": false
+    }
   },
   "not_run": [
     "migration/verify_isolation.py (no full checkout or dependencies in this executor)",
