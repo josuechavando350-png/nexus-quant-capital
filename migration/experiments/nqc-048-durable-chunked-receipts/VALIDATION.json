@@ -1,0 +1,64 @@
+{
+  "date": "2026-10-19",
+  "scope": "NQC048 independent DRY_RUN tests + GitHub real synthetic persistence/recovery",
+  "source_pinned_to_github": {
+    "reused_nqc047_hash_sha1": "fcd3cc0d7c5a71a8e4ef12f621fd6c5b0b28b3ee",
+    "new_chunked_engine_blob_sha1": "a317e3f1b69927dcf25dec4d418091701d699f41",
+    "test_chunked_blob_sha1": "8a25f5aea66a4c201a34458deff35a6c9b1fafae",
+    "triport_plan_blob_sha1": "e6ba1ce643ff3f9596870044c99aab8f3cbbb15b",
+    "plan_sha256": "6148b4248555043ec3276f3887e008974643ccff64f755b8b6ed986f8537d2f7",
+    "spec_sha256": "fe1bd67bfedd84372e76da84840cd0d52db1906a461a668684b3388a8c006034"
+  },
+  "offline": {
+    "runner": "JavaScript evaluator, source modules refetched from GitHub",
+    "test_count": 15,
+    "passed": 15,
+    "failed": 0,
+    "large_synthetic_response": {
+      "bytes": 700063,
+      "chunks": 3,
+      "sent_once": true,
+      "reverified_offline": true
+    },
+    "eight_step_mock": {
+      "transport_calls": 8,
+      "chunk_writes": 8,
+      "journal_writes": 24,
+      "extra_transport_after_restart": 0
+    },
+    "safeguards": [
+      "key reflection refused",
+      "invalid JSON-RPC envelope refused",
+      "pending reservation blocks",
+      "lost reservation confirmation blocks",
+      "stale journal SHA blocks",
+      "lost part confirmation blocks",
+      "recovered receipt refuses new transport",
+      "corrupt part hash blocks",
+      "cached evidence revalidated",
+      "LIVE mode rejected"
+    ]
+  },
+  "github_real": {
+    "attempted": true,
+    "status": "interrupted by maximum Code Mode tool calls after RECEIVED journal commit",
+    "recovery_status": "BLOCKED_RECOVERED_RECEIPT_REVIEW_REQUIRED",
+    "chunk_files_read_back": 3,
+    "response_bytes_restored": 700063,
+    "computed_sha256": "01ee296c7e334c5a6b1a6c31ef36f4b1f6a5e10cc1e7ea1746bbe6d6536fa58d",
+    "independent_python_sha256_matches": true,
+    "transport_calls_after_recovery": 0
+  },
+  "not_run": [
+    "Full 16MiB response against GitHub real",
+    "NQC037/038 Python proof validation (rlp and dependencies unavailable locally)",
+    "Global migration/verify_isolation.py (full checkout unavailable locally)",
+    "Concurrent independent host test or external rollback resilience",
+    "Triport authenticated RPC",
+    "Canonicity/finality/replay Nitro/economic verification"
+  ],
+  "source_count_not_added_to_140_prior_nqc037_045": true,
+  "triport_rpc_sent": 0,
+  "historical_proofs_acquired": 0,
+  "commercial_admission": false
+}
