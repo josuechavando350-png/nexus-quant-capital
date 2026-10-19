@@ -1,0 +1,42 @@
+{
+  "schema": "nqc053-supported-channel-review-v1",
+  "review_date_utc": "2026-10-19",
+  "scope": "Non-secret exposed tool metadata, exact variable-name presence, original transport source and official documentation",
+  "official_sources": [
+    {"url": "https://learn.chatgpt.com/docs/environments/cloud-environments", "finding": "Codex Cloud documents proxy substitution of Network secret placeholders for configured HTTPS destinations on port 443."},
+    {"url": "https://learn.chatgpt.com/docs/agent-approvals-security", "finding": "Work Cloud has separate capability permissions. Codex Cloud documentation alone does not establish a configured channel in this Work session."}
+  ],
+  "observed_session_metadata": {
+    "NQC_TRIPORT_API_KEY_present": false,
+    "NQC_ARCHIVE_RPC_present": false,
+    "tool_metadata_filter": "network.?secret|personal.?vault|cloud.?environment|triport (case insensitive)",
+    "matching_exposed_tools": [],
+    "triport_domain_in_declared_execution_allowlist": false,
+    "generic_cloud_secret_configuration_metadata_api_exposed": false,
+    "configured_environment_id_verified": false,
+    "triport_placeholder_binding_verified": false,
+    "raw_value_read": false,
+    "browser_or_session_tokens_accessed": false,
+    "integrations_or_permissions_changed": false,
+    "triport_connectivity_or_authentication_probe_sent": false
+  },
+  "transport_review": {
+    "source": "migration/experiments/nqc-038-archive-access/triport_intake.py",
+    "key_input": "NQC_TRIPORT_API_KEY",
+    "header": "x-token",
+    "endpoint": "https://triport.io/rpc/robinhood",
+    "original_source_modified": false,
+    "interpretation": "A directly supplied raw environment key would be visible to Python and fail the directive. An official placeholder could in principle be passed through the existing field, but its delivery and proxy binding are not demonstrated here. No placeholder, secret transfer or alternative proxy was fabricated."
+  },
+  "decision": "BLOCKED_SUPPORTED_CHANNEL_NOT_ACCESSIBLE_OR_DEMONSTRATED_HERE",
+  "account_wide_secret_absence_claimed": false,
+  "unresolved": [
+    "No available metadata surface confirms an already-configured official secret channel for this task and endpoint.",
+    "No authenticated request is allowed merely to test credential availability.",
+    "Proxy-side prevention of secret reflection into responses remains unverified; full response retention cannot safely mean publishing unknown sensitive bodies."
+  ],
+  "triport_requests_this_experiment": 0,
+  "triport_requests_total_known_from_authorized_history": 0,
+  "authorized_total_lifetime": 8,
+  "commercial_admission": false
+}

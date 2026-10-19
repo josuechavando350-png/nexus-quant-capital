@@ -1,0 +1,349 @@
+{
+  "case_b": {
+    "block_hash": "0x5d499e63c5d119293a906036f369d8d75f9560618efec0ff916e4fefa33dfda8",
+    "block_number": 26190955,
+    "borrower": "0x018d6cc992eb576e2f36dc485b92d168ada37156",
+    "chain_id": 1,
+    "classification": "AUTHENTIC_ARCHIVED_OBSERVATIONS_NOT_STATE_AUTHENTICATED_OR_NQC_PNL",
+    "coinbase": "0x4838b106fce9647bdf1e7877bf73ce8b0bad5f97",
+    "coinbase_fraction_of_sale_minus_debt": "368092735714237547/369942447954007585",
+    "coinbase_transfer_wei": 368092735714237547,
+    "collateral_asset": "0xbf5495efe5db9ce00f80364c8b423567e58d2110",
+    "commercial_admission": false,
+    "consolidated_operator_net": null,
+    "dex_fee_separately_authenticated": null,
+    "effective_gas_price_wei": 266148625,
+    "external_executor": "0x5ac9bc14376bf2727c6211960cf3cec1e2f295bd",
+    "external_financing_premium": null,
+    "financing_break_even_bps_on_repaid_debt": "3302592088989826000/5207947705131398483",
+    "gas_cost_wei": 198416195275125,
+    "gas_financing_terms": null,
+    "gas_payer": "0xd9fffdf0c4b18fb7e225da15b2af9f88e55676c3",
+    "gas_units": 745509,
+    "historical_eth_usd": null,
+    "hypothetical_failed_attempts_at_same_gas_cost_per_one_identical_win": {
+      "assumed_failure_cost_wei": 198416195275125,
+      "max_failures_for_strict_positive_before_unknown_costs": 8,
+      "measured_failure_rate": null,
+      "qualification": "COST SENSITIVITY ONLY; failures may cost differently or not be included"
+    },
+    "hypothetical_financing_sweep": [
+      {
+        "fee_bps": "0",
+        "fee_wei_rounded_up": 0,
+        "residual_before_other_unknown_costs_wei": 1651296044494913
+      },
+      {
+        "fee_bps": "1/2",
+        "fee_wei_rounded_up": 1301986926282850,
+        "residual_before_other_unknown_costs_wei": 349309118212063
+      },
+      {
+        "fee_bps": "1",
+        "fee_wei_rounded_up": 2603973852565700,
+        "residual_before_other_unknown_costs_wei": -952677808070787
+      },
+      {
+        "fee_bps": "5",
+        "fee_wei_rounded_up": 13019869262828497,
+        "residual_before_other_unknown_costs_wei": -11368573218333584
+      },
+      {
+        "fee_bps": "9",
+        "fee_wei_rounded_up": 23435764673091294,
+        "residual_before_other_unknown_costs_wei": -21784468628596381
+      }
+    ],
+    "liquidity": "0x52aa899454998be5b000ad077a46bbe360f4e497",
+    "live_executable": false,
+    "loan_asset": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+    "market_id": "0xa0534c78620867b7c8706e3b6df9e69a2bc67c783281b7a77e034ed75cee012e",
+    "missing": [
+      "exact prestate before txIndex1 and prior transaction replay",
+      "authenticated Morpho/oracle/IRM/Fluid state and runtime",
+      "ex-ante route quote and executable bid/capture conditions",
+      "upfront gas sponsor commitment and repayment obligations",
+      "external financing liabilities and consolidated account ownership",
+      "historical USD conversion and all ongoing/failure costs"
+    ],
+    "morpho": "0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb",
+    "nqc_captured_net": null,
+    "pool": "0xdd72157a021804141817d46d9852a97addfb9f59",
+    "protocol": "Morpho Blue",
+    "repaid_debt_weth_wei": 26039738525656992415,
+    "repaid_shares": 23701785578457377078676750,
+    "residual_upper_bound_before_unknown_obligations_wei": 1651296044494913,
+    "sale_minus_debt_wei": 369942447954007585,
+    "sale_output_eth_wei": 26409680973611000000,
+    "seized_ezeth_wei": 24343983926960874121,
+    "strict_positive_additional_financing_fee_limit_wei": 1651296044494912,
+    "tx_hash": "0x46300e9614c547118ecdd524bc7218208088cc4ae9e5bd534e62055d38f9925b",
+    "tx_index": 1
+  },
+  "commercial_admission": false,
+  "conditions": [
+    "sample is a diagnostic observation, not complete market volume or a future forecast",
+    "capture counts, positive net per success and zero additional overhead are assumptions",
+    "debt principal and token amounts are not USD revenue",
+    "coinbase transfer is not attributed automatically to builder income",
+    "observed sale output already includes venue effects; do not subtract the same effect twice"
+  ],
+  "monthly_nqc_net_forecast_usd": null,
+  "monthly_required_volume_scenarios": [
+    {
+      "exceeds_141_observed_transactions_in_this_sample": false,
+      "net_usd_per_captured_success_ASSUMED": 50,
+      "required_successes": 100,
+      "target_net_usd": 5000
+    },
+    {
+      "exceeds_141_observed_transactions_in_this_sample": true,
+      "net_usd_per_captured_success_ASSUMED": 50,
+      "required_successes": 300,
+      "target_net_usd": 15000
+    },
+    {
+      "exceeds_141_observed_transactions_in_this_sample": true,
+      "net_usd_per_captured_success_ASSUMED": 50,
+      "required_successes": 900,
+      "target_net_usd": 45000
+    },
+    {
+      "exceeds_141_observed_transactions_in_this_sample": false,
+      "net_usd_per_captured_success_ASSUMED": 100,
+      "required_successes": 50,
+      "target_net_usd": 5000
+    },
+    {
+      "exceeds_141_observed_transactions_in_this_sample": true,
+      "net_usd_per_captured_success_ASSUMED": 100,
+      "required_successes": 150,
+      "target_net_usd": 15000
+    },
+    {
+      "exceeds_141_observed_transactions_in_this_sample": true,
+      "net_usd_per_captured_success_ASSUMED": 100,
+      "required_successes": 450,
+      "target_net_usd": 45000
+    },
+    {
+      "exceeds_141_observed_transactions_in_this_sample": false,
+      "net_usd_per_captured_success_ASSUMED": 500,
+      "required_successes": 10,
+      "target_net_usd": 5000
+    },
+    {
+      "exceeds_141_observed_transactions_in_this_sample": false,
+      "net_usd_per_captured_success_ASSUMED": 500,
+      "required_successes": 30,
+      "target_net_usd": 15000
+    },
+    {
+      "exceeds_141_observed_transactions_in_this_sample": false,
+      "net_usd_per_captured_success_ASSUMED": 500,
+      "required_successes": 90,
+      "target_net_usd": 45000
+    },
+    {
+      "exceeds_141_observed_transactions_in_this_sample": false,
+      "net_usd_per_captured_success_ASSUMED": 1000,
+      "required_successes": 5,
+      "target_net_usd": 5000
+    },
+    {
+      "exceeds_141_observed_transactions_in_this_sample": false,
+      "net_usd_per_captured_success_ASSUMED": 1000,
+      "required_successes": 15,
+      "target_net_usd": 15000
+    },
+    {
+      "exceeds_141_observed_transactions_in_this_sample": false,
+      "net_usd_per_captured_success_ASSUMED": 1000,
+      "required_successes": 45,
+      "target_net_usd": 45000
+    }
+  ],
+  "network_requests": 0,
+  "observed_sample": {
+    "bad_debt_events": 43,
+    "chain_id": 1,
+    "coverage_status": "KNOWN_POSITIVE_OMISSION_OR_CONFLICT_NOT_COMPLETE_MARKET_CENSUS",
+    "days": 30,
+    "diagnostic_receipt_selection": 23,
+    "distinct_transactions": 141,
+    "end_utc_exclusive": "2026-10-17T00:00:00Z",
+    "events": 143,
+    "independent_profit_opportunities_demonstrated": 0,
+    "liquidator_addresses": 49,
+    "markets": 60,
+    "nqc_capturable_count_demonstrated": 0,
+    "null_receipts": 22,
+    "start_utc": "2026-09-17T00:00:00Z",
+    "top_address_event_counts": [
+      [
+        "0xe683b8ee2710eabcbf347b7cb0735cda11ef31ba",
+        35
+      ],
+      [
+        "0x00acd5005200e7009beb000000e35e1e002b5565",
+        15
+      ],
+      [
+        "0x928def5fdffbd95dae449d7a3f35f05ffdb54960",
+        7
+      ],
+      [
+        "0xfe1dcc4db359b161f9042e99c3b481a50f73dec1",
+        6
+      ],
+      [
+        "0x1f2f10d1c40777ae1da742455c65828ff36df387",
+        5
+      ]
+    ],
+    "usable_receipts": 1
+  },
+  "sample_conditioned_required_net_scenarios": [
+    {
+      "captured_transactions_ASSUMED": 1,
+      "extra_monthly_overhead_and_failed_attempt_costs_ASSUMED_usd": 0,
+      "fraction_of_observed_transactions": "1/141",
+      "minimum_usd_per_capture_rounded_up_cent_fraction": "5000",
+      "target_net_usd": 5000
+    },
+    {
+      "captured_transactions_ASSUMED": 1,
+      "extra_monthly_overhead_and_failed_attempt_costs_ASSUMED_usd": 0,
+      "fraction_of_observed_transactions": "1/141",
+      "minimum_usd_per_capture_rounded_up_cent_fraction": "15000",
+      "target_net_usd": 15000
+    },
+    {
+      "captured_transactions_ASSUMED": 1,
+      "extra_monthly_overhead_and_failed_attempt_costs_ASSUMED_usd": 0,
+      "fraction_of_observed_transactions": "1/141",
+      "minimum_usd_per_capture_rounded_up_cent_fraction": "45000",
+      "target_net_usd": 45000
+    },
+    {
+      "captured_transactions_ASSUMED": 7,
+      "extra_monthly_overhead_and_failed_attempt_costs_ASSUMED_usd": 0,
+      "fraction_of_observed_transactions": "7/141",
+      "minimum_usd_per_capture_rounded_up_cent_fraction": "71429/100",
+      "target_net_usd": 5000
+    },
+    {
+      "captured_transactions_ASSUMED": 7,
+      "extra_monthly_overhead_and_failed_attempt_costs_ASSUMED_usd": 0,
+      "fraction_of_observed_transactions": "7/141",
+      "minimum_usd_per_capture_rounded_up_cent_fraction": "107143/50",
+      "target_net_usd": 15000
+    },
+    {
+      "captured_transactions_ASSUMED": 7,
+      "extra_monthly_overhead_and_failed_attempt_costs_ASSUMED_usd": 0,
+      "fraction_of_observed_transactions": "7/141",
+      "minimum_usd_per_capture_rounded_up_cent_fraction": "321429/50",
+      "target_net_usd": 45000
+    },
+    {
+      "captured_transactions_ASSUMED": 14,
+      "extra_monthly_overhead_and_failed_attempt_costs_ASSUMED_usd": 0,
+      "fraction_of_observed_transactions": "14/141",
+      "minimum_usd_per_capture_rounded_up_cent_fraction": "7143/20",
+      "target_net_usd": 5000
+    },
+    {
+      "captured_transactions_ASSUMED": 14,
+      "extra_monthly_overhead_and_failed_attempt_costs_ASSUMED_usd": 0,
+      "fraction_of_observed_transactions": "14/141",
+      "minimum_usd_per_capture_rounded_up_cent_fraction": "107143/100",
+      "target_net_usd": 15000
+    },
+    {
+      "captured_transactions_ASSUMED": 14,
+      "extra_monthly_overhead_and_failed_attempt_costs_ASSUMED_usd": 0,
+      "fraction_of_observed_transactions": "14/141",
+      "minimum_usd_per_capture_rounded_up_cent_fraction": "321429/100",
+      "target_net_usd": 45000
+    },
+    {
+      "captured_transactions_ASSUMED": 35,
+      "extra_monthly_overhead_and_failed_attempt_costs_ASSUMED_usd": 0,
+      "fraction_of_observed_transactions": "35/141",
+      "minimum_usd_per_capture_rounded_up_cent_fraction": "7143/50",
+      "target_net_usd": 5000
+    },
+    {
+      "captured_transactions_ASSUMED": 35,
+      "extra_monthly_overhead_and_failed_attempt_costs_ASSUMED_usd": 0,
+      "fraction_of_observed_transactions": "35/141",
+      "minimum_usd_per_capture_rounded_up_cent_fraction": "21429/50",
+      "target_net_usd": 15000
+    },
+    {
+      "captured_transactions_ASSUMED": 35,
+      "extra_monthly_overhead_and_failed_attempt_costs_ASSUMED_usd": 0,
+      "fraction_of_observed_transactions": "35/141",
+      "minimum_usd_per_capture_rounded_up_cent_fraction": "32143/25",
+      "target_net_usd": 45000
+    },
+    {
+      "captured_transactions_ASSUMED": 141,
+      "extra_monthly_overhead_and_failed_attempt_costs_ASSUMED_usd": 0,
+      "fraction_of_observed_transactions": "1",
+      "minimum_usd_per_capture_rounded_up_cent_fraction": "3547/100",
+      "target_net_usd": 5000
+    },
+    {
+      "captured_transactions_ASSUMED": 141,
+      "extra_monthly_overhead_and_failed_attempt_costs_ASSUMED_usd": 0,
+      "fraction_of_observed_transactions": "1",
+      "minimum_usd_per_capture_rounded_up_cent_fraction": "10639/100",
+      "target_net_usd": 15000
+    },
+    {
+      "captured_transactions_ASSUMED": 141,
+      "extra_monthly_overhead_and_failed_attempt_costs_ASSUMED_usd": 0,
+      "fraction_of_observed_transactions": "1",
+      "minimum_usd_per_capture_rounded_up_cent_fraction": "6383/20",
+      "target_net_usd": 45000
+    }
+  ],
+  "schema": "nqc053-economic-boundary-v1",
+  "sources_verified": [
+    "b-morpho-logs.json",
+    "b-receipt.json",
+    "case_b.json",
+    "case_b_block.json",
+    "case_b_trace.json",
+    "page-000.json",
+    "page-001.json",
+    "page-002.json",
+    "receipt-00.json",
+    "receipt-01.json",
+    "receipt-02.json",
+    "receipt-03.json",
+    "receipt-04.json",
+    "receipt-05.json",
+    "receipt-06.json",
+    "receipt-07.json",
+    "receipt-08.json",
+    "receipt-09.json",
+    "receipt-10.json",
+    "receipt-11.json",
+    "receipt-12.json",
+    "receipt-13.json",
+    "receipt-14.json",
+    "receipt-15.json",
+    "receipt-16.json",
+    "receipt-17.json",
+    "receipt-18.json",
+    "receipt-19.json",
+    "receipt-21.json",
+    "receipt-22.json",
+    "receipt-selection.json",
+    "reverse-000.json",
+    "reverse-001.json"
+  ]
+}

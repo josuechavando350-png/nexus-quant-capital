@@ -1,0 +1,20 @@
+{
+  "schema": "nqc053-development-failures-v1",
+  "failures": [
+    {
+      "command": "node --test migration/experiments/nqc-053-ledger-boundary-morpho-economics/test_ledger.js",
+      "tests": 10, "passed": 0, "failed": 10,
+      "reason": "SyntaxError: Unexpected end of input in new ledger_worker.js; missing closing brace for rpc helper.",
+      "correction": "Added closing brace in NQC053 only. No inherited source changed. Final suite rerun recorded separately."
+    },
+    {
+      "command": "python migration/experiments/nqc-053-ledger-boundary-morpho-economics/economics.py",
+      "exit_code": 1,
+      "reason": "ValueError: exact integer amount required. Archived GraphQL encodes 177 of 715 amount fields as decimal strings and 538 as JSON integers.",
+      "correction": "New parser accepts canonical unsigned decimal strings and integers without float conversion; rejects floats, booleans and noncanonical strings. Original sources unchanged."
+    }
+  ],
+  "raw_initial_stdout_saved": false,
+  "note": "This is a factual failure summary, not reconstructed raw stdout. Final raw test logs are stored alongside it.",
+  "commercial_admission": false
+}

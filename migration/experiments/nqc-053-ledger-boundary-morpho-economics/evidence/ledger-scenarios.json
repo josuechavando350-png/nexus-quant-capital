@@ -1,0 +1,1529 @@
+{
+  "schema": "nqc053-independent-process-model-v1",
+  "scope": "LOCAL_SIMULATION_NOT_REMOTE_LIVE_PROOF",
+  "verifier": "SYNTHETIC_CONTROL_ONLY_NOT_NQC037",
+  "physical_hosts": 1,
+  "scenarios": [
+    {
+      "name": "eight independent simultaneous executors: one reservation winner",
+      "events": [
+        {
+          "kind": "commit",
+          "pid": 64,
+          "status": "RESERVED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "1b86eff4a988d49235c01b405cf55fb244dfb799"
+        },
+        {
+          "kind": "cas_conflict",
+          "pid": 73
+        },
+        {
+          "kind": "cas_conflict",
+          "pid": 66
+        },
+        {
+          "kind": "cas_conflict",
+          "pid": 65
+        },
+        {
+          "kind": "cas_conflict",
+          "pid": 86
+        },
+        {
+          "kind": "cas_conflict",
+          "pid": 79
+        },
+        {
+          "kind": "cas_conflict",
+          "pid": 67
+        },
+        {
+          "kind": "cas_conflict",
+          "pid": 80
+        },
+        {
+          "kind": "dispatch",
+          "pid": 64,
+          "id": 1,
+          "branch": "canonical",
+          "reservation_commit": "1b86eff4a988d49235c01b405cf55fb244dfb799"
+        },
+        {
+          "kind": "commit",
+          "pid": 64,
+          "status": "RECEIVED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "226c73caa491910d6cf0658a4e26ef4cdd82b722"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 64,
+          "id": 1
+        },
+        {
+          "kind": "commit",
+          "pid": 64,
+          "status": "VERIFIED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "a72f3636650f8085bbfaa595475b747b7610f070"
+        }
+      ],
+      "heads": {
+        "canonical": "a72f3636650f8085bbfaa595475b747b7610f070"
+      },
+      "journals": {
+        "canonical": {
+          "schema": "nqc048-chunked-dryrun-v1",
+          "mode": "DRY_RUN",
+          "scope": "nqc048:dryrun:nqc053:fixed-lifetime-simulation",
+          "plan_sha256": "6148b4248555043ec3276f3887e008974643ccff64f755b8b6ed986f8537d2f7",
+          "spec_sha256": "b42c0a5da63f97e44cd6bd2febf957b599e61399483b9f0e66820edaad2e8f32",
+          "max_requests": 8,
+          "commercial_admission": false,
+          "entries": [
+            {
+              "id": 1,
+              "purpose": "chain",
+              "status": "VERIFIED",
+              "receipt": {
+                "sha256": "d54b10a7c2f449b50329d85827be47dbdf8788a71c76f5422cf17745acd5043b",
+                "byte_length": 45,
+                "parts": [
+                  {
+                    "b64_sha256": "c4ea583d6012c88ec4ca010d34fc95f0f4e42ba4b2dd4b4bc01a58dd892a7c8f",
+                    "bytes": 45
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "simulated_dispatches": 1,
+      "triport_requests_sent": 0
+    },
+    {
+      "name": "process death after durable reservation burns slot and prevents replay",
+      "events": [
+        {
+          "kind": "commit",
+          "pid": 128,
+          "status": "RESERVED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "1b86eff4a988d49235c01b405cf55fb244dfb799"
+        }
+      ],
+      "heads": {
+        "canonical": "1b86eff4a988d49235c01b405cf55fb244dfb799"
+      },
+      "journals": {
+        "canonical": {
+          "schema": "nqc048-chunked-dryrun-v1",
+          "mode": "DRY_RUN",
+          "scope": "nqc048:dryrun:nqc053:fixed-lifetime-simulation",
+          "plan_sha256": "6148b4248555043ec3276f3887e008974643ccff64f755b8b6ed986f8537d2f7",
+          "spec_sha256": "b42c0a5da63f97e44cd6bd2febf957b599e61399483b9f0e66820edaad2e8f32",
+          "max_requests": 8,
+          "commercial_admission": false,
+          "entries": [
+            {
+              "id": 1,
+              "purpose": "chain",
+              "status": "RESERVED"
+            }
+          ]
+        }
+      },
+      "simulated_dispatches": 0,
+      "triport_requests_sent": 0
+    },
+    {
+      "name": "process death at send: ambiguous attempt cannot be retried by another process",
+      "events": [
+        {
+          "kind": "commit",
+          "pid": 144,
+          "status": "RESERVED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "1b86eff4a988d49235c01b405cf55fb244dfb799"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 144,
+          "id": 1,
+          "branch": "canonical",
+          "reservation_commit": "1b86eff4a988d49235c01b405cf55fb244dfb799"
+        }
+      ],
+      "heads": {
+        "canonical": "1b86eff4a988d49235c01b405cf55fb244dfb799"
+      },
+      "journals": {
+        "canonical": {
+          "schema": "nqc048-chunked-dryrun-v1",
+          "mode": "DRY_RUN",
+          "scope": "nqc048:dryrun:nqc053:fixed-lifetime-simulation",
+          "plan_sha256": "6148b4248555043ec3276f3887e008974643ccff64f755b8b6ed986f8537d2f7",
+          "spec_sha256": "b42c0a5da63f97e44cd6bd2febf957b599e61399483b9f0e66820edaad2e8f32",
+          "max_requests": 8,
+          "commercial_admission": false,
+          "entries": [
+            {
+              "id": 1,
+              "purpose": "chain",
+              "status": "RESERVED"
+            }
+          ]
+        }
+      },
+      "simulated_dispatches": 1,
+      "triport_requests_sent": 0
+    },
+    {
+      "name": "lost reservation confirmation: next independent executor also stops",
+      "events": [
+        {
+          "kind": "commit",
+          "pid": 160,
+          "status": "RESERVED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "1b86eff4a988d49235c01b405cf55fb244dfb799"
+        }
+      ],
+      "heads": {
+        "canonical": "1b86eff4a988d49235c01b405cf55fb244dfb799"
+      },
+      "journals": {
+        "canonical": {
+          "schema": "nqc048-chunked-dryrun-v1",
+          "mode": "DRY_RUN",
+          "scope": "nqc048:dryrun:nqc053:fixed-lifetime-simulation",
+          "plan_sha256": "6148b4248555043ec3276f3887e008974643ccff64f755b8b6ed986f8537d2f7",
+          "spec_sha256": "b42c0a5da63f97e44cd6bd2febf957b599e61399483b9f0e66820edaad2e8f32",
+          "max_requests": 8,
+          "commercial_admission": false,
+          "entries": [
+            {
+              "id": 1,
+              "purpose": "chain",
+              "status": "RESERVED"
+            }
+          ]
+        }
+      },
+      "simulated_dispatches": 0,
+      "triport_requests_sent": 0
+    },
+    {
+      "name": "death after receipt: fresh process revalidates but does not dispatch",
+      "events": [
+        {
+          "kind": "commit",
+          "pid": 176,
+          "status": "RESERVED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "1b86eff4a988d49235c01b405cf55fb244dfb799"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 176,
+          "id": 1,
+          "branch": "canonical",
+          "reservation_commit": "1b86eff4a988d49235c01b405cf55fb244dfb799"
+        },
+        {
+          "kind": "commit",
+          "pid": 176,
+          "status": "RECEIVED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "226c73caa491910d6cf0658a4e26ef4cdd82b722"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 184,
+          "id": 1
+        }
+      ],
+      "heads": {
+        "canonical": "226c73caa491910d6cf0658a4e26ef4cdd82b722"
+      },
+      "journals": {
+        "canonical": {
+          "schema": "nqc048-chunked-dryrun-v1",
+          "mode": "DRY_RUN",
+          "scope": "nqc048:dryrun:nqc053:fixed-lifetime-simulation",
+          "plan_sha256": "6148b4248555043ec3276f3887e008974643ccff64f755b8b6ed986f8537d2f7",
+          "spec_sha256": "b42c0a5da63f97e44cd6bd2febf957b599e61399483b9f0e66820edaad2e8f32",
+          "max_requests": 8,
+          "commercial_admission": false,
+          "entries": [
+            {
+              "id": 1,
+              "purpose": "chain",
+              "status": "RECEIVED",
+              "receipt": {
+                "sha256": "d54b10a7c2f449b50329d85827be47dbdf8788a71c76f5422cf17745acd5043b",
+                "byte_length": 45,
+                "parts": [
+                  {
+                    "b64_sha256": "c4ea583d6012c88ec4ca010d34fc95f0f4e42ba4b2dd4b4bc01a58dd892a7c8f",
+                    "bytes": 45
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "simulated_dispatches": 1,
+      "triport_requests_sent": 0
+    },
+    {
+      "name": "unchanged authority caps eight total across eight successive processes",
+      "events": [
+        {
+          "kind": "commit",
+          "pid": 192,
+          "status": "RESERVED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "1b86eff4a988d49235c01b405cf55fb244dfb799"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 192,
+          "id": 1,
+          "branch": "canonical",
+          "reservation_commit": "1b86eff4a988d49235c01b405cf55fb244dfb799"
+        },
+        {
+          "kind": "commit",
+          "pid": 192,
+          "status": "RECEIVED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "226c73caa491910d6cf0658a4e26ef4cdd82b722"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 192,
+          "id": 1
+        },
+        {
+          "kind": "commit",
+          "pid": 192,
+          "status": "VERIFIED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "a72f3636650f8085bbfaa595475b747b7610f070"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 200,
+          "id": 1
+        },
+        {
+          "kind": "commit",
+          "pid": 200,
+          "status": "RESERVED",
+          "id": 2,
+          "branch": "canonical",
+          "commit": "9eea7d10a20f8e9354dd65b561254dbd8bc8b87b"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 200,
+          "id": 2,
+          "branch": "canonical",
+          "reservation_commit": "9eea7d10a20f8e9354dd65b561254dbd8bc8b87b"
+        },
+        {
+          "kind": "commit",
+          "pid": 200,
+          "status": "RECEIVED",
+          "id": 2,
+          "branch": "canonical",
+          "commit": "8db40e9bfe8ab9123e5b9c5ac5947dc7aca47acc"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 200,
+          "id": 2
+        },
+        {
+          "kind": "commit",
+          "pid": 200,
+          "status": "VERIFIED",
+          "id": 2,
+          "branch": "canonical",
+          "commit": "0da8f643b2a3e492ed56c59e0bb8b4df555ab171"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 208,
+          "id": 1
+        },
+        {
+          "kind": "revalidated",
+          "pid": 208,
+          "id": 2
+        },
+        {
+          "kind": "commit",
+          "pid": 208,
+          "status": "RESERVED",
+          "id": 3,
+          "branch": "canonical",
+          "commit": "36ea32342eae0a797ba1c7f712bf540e0f815c01"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 208,
+          "id": 3,
+          "branch": "canonical",
+          "reservation_commit": "36ea32342eae0a797ba1c7f712bf540e0f815c01"
+        },
+        {
+          "kind": "commit",
+          "pid": 208,
+          "status": "RECEIVED",
+          "id": 3,
+          "branch": "canonical",
+          "commit": "0ddb6d653ea751774ce26a83da776f8069703070"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 208,
+          "id": 3
+        },
+        {
+          "kind": "commit",
+          "pid": 208,
+          "status": "VERIFIED",
+          "id": 3,
+          "branch": "canonical",
+          "commit": "50ff9582352304868ba5e86991d47bb82cbfd9db"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 216,
+          "id": 1
+        },
+        {
+          "kind": "revalidated",
+          "pid": 216,
+          "id": 2
+        },
+        {
+          "kind": "revalidated",
+          "pid": 216,
+          "id": 3
+        },
+        {
+          "kind": "commit",
+          "pid": 216,
+          "status": "RESERVED",
+          "id": 4,
+          "branch": "canonical",
+          "commit": "d7b6a9d30f2bce4450371c404fbd601e2b674c4d"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 216,
+          "id": 4,
+          "branch": "canonical",
+          "reservation_commit": "d7b6a9d30f2bce4450371c404fbd601e2b674c4d"
+        },
+        {
+          "kind": "commit",
+          "pid": 216,
+          "status": "RECEIVED",
+          "id": 4,
+          "branch": "canonical",
+          "commit": "65735e6428a02122beb07eab85f091a22d31d1eb"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 216,
+          "id": 4
+        },
+        {
+          "kind": "commit",
+          "pid": 216,
+          "status": "VERIFIED",
+          "id": 4,
+          "branch": "canonical",
+          "commit": "934c0e9bdb250c5dcc6596bb01c93f16e7dbb7fa"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 224,
+          "id": 1
+        },
+        {
+          "kind": "revalidated",
+          "pid": 224,
+          "id": 2
+        },
+        {
+          "kind": "revalidated",
+          "pid": 224,
+          "id": 3
+        },
+        {
+          "kind": "revalidated",
+          "pid": 224,
+          "id": 4
+        },
+        {
+          "kind": "commit",
+          "pid": 224,
+          "status": "RESERVED",
+          "id": 5,
+          "branch": "canonical",
+          "commit": "2c4a17686399039ce5abdb73df47b8b1b968d53a"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 224,
+          "id": 5,
+          "branch": "canonical",
+          "reservation_commit": "2c4a17686399039ce5abdb73df47b8b1b968d53a"
+        },
+        {
+          "kind": "commit",
+          "pid": 224,
+          "status": "RECEIVED",
+          "id": 5,
+          "branch": "canonical",
+          "commit": "16f0da11d182aef29750cb6533c88b4cfa18f74a"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 224,
+          "id": 5
+        },
+        {
+          "kind": "commit",
+          "pid": 224,
+          "status": "VERIFIED",
+          "id": 5,
+          "branch": "canonical",
+          "commit": "9303d2181bd06cf2746a0b7c2d36599caf272455"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 232,
+          "id": 1
+        },
+        {
+          "kind": "revalidated",
+          "pid": 232,
+          "id": 2
+        },
+        {
+          "kind": "revalidated",
+          "pid": 232,
+          "id": 3
+        },
+        {
+          "kind": "revalidated",
+          "pid": 232,
+          "id": 4
+        },
+        {
+          "kind": "revalidated",
+          "pid": 232,
+          "id": 5
+        },
+        {
+          "kind": "commit",
+          "pid": 232,
+          "status": "RESERVED",
+          "id": 6,
+          "branch": "canonical",
+          "commit": "d2b0d84a39f3214290c19a206cbb9925a5eb364c"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 232,
+          "id": 6,
+          "branch": "canonical",
+          "reservation_commit": "d2b0d84a39f3214290c19a206cbb9925a5eb364c"
+        },
+        {
+          "kind": "commit",
+          "pid": 232,
+          "status": "RECEIVED",
+          "id": 6,
+          "branch": "canonical",
+          "commit": "bb092496cf10867aafe4fe85c78e56a9e2deea59"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 232,
+          "id": 6
+        },
+        {
+          "kind": "commit",
+          "pid": 232,
+          "status": "VERIFIED",
+          "id": 6,
+          "branch": "canonical",
+          "commit": "bf2ebb6058229e1510da40627e97dbb3307707fe"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 240,
+          "id": 1
+        },
+        {
+          "kind": "revalidated",
+          "pid": 240,
+          "id": 2
+        },
+        {
+          "kind": "revalidated",
+          "pid": 240,
+          "id": 3
+        },
+        {
+          "kind": "revalidated",
+          "pid": 240,
+          "id": 4
+        },
+        {
+          "kind": "revalidated",
+          "pid": 240,
+          "id": 5
+        },
+        {
+          "kind": "revalidated",
+          "pid": 240,
+          "id": 6
+        },
+        {
+          "kind": "commit",
+          "pid": 240,
+          "status": "RESERVED",
+          "id": 7,
+          "branch": "canonical",
+          "commit": "991e32f0310f93c5fc72d7dfe2ae317623254d99"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 240,
+          "id": 7,
+          "branch": "canonical",
+          "reservation_commit": "991e32f0310f93c5fc72d7dfe2ae317623254d99"
+        },
+        {
+          "kind": "commit",
+          "pid": 240,
+          "status": "RECEIVED",
+          "id": 7,
+          "branch": "canonical",
+          "commit": "678005140df4c6d5ad91a09030a52f49d2ec5ddb"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 240,
+          "id": 7
+        },
+        {
+          "kind": "commit",
+          "pid": 240,
+          "status": "VERIFIED",
+          "id": 7,
+          "branch": "canonical",
+          "commit": "098e4ab2a9b37d0e59a4d47dc1e91d1437bd0e69"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 248,
+          "id": 1
+        },
+        {
+          "kind": "revalidated",
+          "pid": 248,
+          "id": 2
+        },
+        {
+          "kind": "revalidated",
+          "pid": 248,
+          "id": 3
+        },
+        {
+          "kind": "revalidated",
+          "pid": 248,
+          "id": 4
+        },
+        {
+          "kind": "revalidated",
+          "pid": 248,
+          "id": 5
+        },
+        {
+          "kind": "revalidated",
+          "pid": 248,
+          "id": 6
+        },
+        {
+          "kind": "revalidated",
+          "pid": 248,
+          "id": 7
+        },
+        {
+          "kind": "commit",
+          "pid": 248,
+          "status": "RESERVED",
+          "id": 8,
+          "branch": "canonical",
+          "commit": "58708c6e0999c4b129df2b624b40cd1098922094"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 248,
+          "id": 8,
+          "branch": "canonical",
+          "reservation_commit": "58708c6e0999c4b129df2b624b40cd1098922094"
+        },
+        {
+          "kind": "commit",
+          "pid": 248,
+          "status": "RECEIVED",
+          "id": 8,
+          "branch": "canonical",
+          "commit": "58b9c6563a6818e6a96cb975716c7a6badd7d6fc"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 248,
+          "id": 8
+        },
+        {
+          "kind": "commit",
+          "pid": 248,
+          "status": "VERIFIED",
+          "id": 8,
+          "branch": "canonical",
+          "commit": "bbea95bfed18a98157070100ecbdd02251f14a3b"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 256,
+          "id": 1
+        },
+        {
+          "kind": "revalidated",
+          "pid": 256,
+          "id": 2
+        },
+        {
+          "kind": "revalidated",
+          "pid": 256,
+          "id": 3
+        },
+        {
+          "kind": "revalidated",
+          "pid": 256,
+          "id": 4
+        },
+        {
+          "kind": "revalidated",
+          "pid": 256,
+          "id": 5
+        },
+        {
+          "kind": "revalidated",
+          "pid": 256,
+          "id": 6
+        },
+        {
+          "kind": "revalidated",
+          "pid": 256,
+          "id": 7
+        },
+        {
+          "kind": "revalidated",
+          "pid": 256,
+          "id": 8
+        }
+      ],
+      "heads": {
+        "canonical": "bbea95bfed18a98157070100ecbdd02251f14a3b"
+      },
+      "journals": {
+        "canonical": {
+          "schema": "nqc048-chunked-dryrun-v1",
+          "mode": "DRY_RUN",
+          "scope": "nqc048:dryrun:nqc053:fixed-lifetime-simulation",
+          "plan_sha256": "6148b4248555043ec3276f3887e008974643ccff64f755b8b6ed986f8537d2f7",
+          "spec_sha256": "b42c0a5da63f97e44cd6bd2febf957b599e61399483b9f0e66820edaad2e8f32",
+          "max_requests": 8,
+          "commercial_admission": false,
+          "entries": [
+            {
+              "id": 1,
+              "purpose": "chain",
+              "status": "VERIFIED",
+              "receipt": {
+                "sha256": "d54b10a7c2f449b50329d85827be47dbdf8788a71c76f5422cf17745acd5043b",
+                "byte_length": 45,
+                "parts": [
+                  {
+                    "b64_sha256": "c4ea583d6012c88ec4ca010d34fc95f0f4e42ba4b2dd4b4bc01a58dd892a7c8f",
+                    "bytes": 45
+                  }
+                ]
+              }
+            },
+            {
+              "id": 2,
+              "purpose": "parent",
+              "status": "VERIFIED",
+              "receipt": {
+                "sha256": "8f704b2aa4c86668a511d81a31a20302fff97c90186f9cbbff4200dae92e5b9b",
+                "byte_length": 45,
+                "parts": [
+                  {
+                    "b64_sha256": "0858dc065f0dd6440765c10d79c4ac94c953be7522af66da019daa906d77de16",
+                    "bytes": 45
+                  }
+                ]
+              }
+            },
+            {
+              "id": 3,
+              "purpose": "priority_proof",
+              "status": "VERIFIED",
+              "receipt": {
+                "sha256": "2a73d0b19c86f3c80cfbec35252af30febe55369764df826f17d5b50c64568e2",
+                "byte_length": 45,
+                "parts": [
+                  {
+                    "b64_sha256": "7491dd202441f08c9d8dca8b2573946602398bb40f0e60ddb4016667f857b859",
+                    "bytes": 45
+                  }
+                ]
+              }
+            },
+            {
+              "id": 4,
+              "purpose": "priority_code",
+              "status": "VERIFIED",
+              "receipt": {
+                "sha256": "872e32da7be8ed09aa20f5f08f46fa067efb97ae1073e736b40bfa2c921be076",
+                "byte_length": 45,
+                "parts": [
+                  {
+                    "b64_sha256": "7dd7db386905835cff3da5dac0fe8bcef1f1d9e879afb0c31258401de95f8862",
+                    "bytes": 45
+                  }
+                ]
+              }
+            },
+            {
+              "id": 5,
+              "purpose": "arbos_proof",
+              "status": "VERIFIED",
+              "receipt": {
+                "sha256": "1d8f0586943dabd2f740b025ee6137004da05650120fd1adba72fb0565a6054d",
+                "byte_length": 45,
+                "parts": [
+                  {
+                    "b64_sha256": "cca9888134e574df289934c97a5d8472f2a93047867063b0d9abd4e59854b88c",
+                    "bytes": 45
+                  }
+                ]
+              }
+            },
+            {
+              "id": 6,
+              "purpose": "anchor",
+              "status": "VERIFIED",
+              "receipt": {
+                "sha256": "256b28bfac9610e58dad748593b691e04a1caa035688bfe6bf25725cb4a37702",
+                "byte_length": 45,
+                "parts": [
+                  {
+                    "b64_sha256": "6d238d37cbe74eaaa8c32fb5a57548c99c3a3b216e75c47bc1734f1e15bf1a5d",
+                    "bytes": 45
+                  }
+                ]
+              }
+            },
+            {
+              "id": 7,
+              "purpose": "history_proof",
+              "status": "VERIFIED",
+              "receipt": {
+                "sha256": "cafc4e3e38189edaabb887be439af73680b23b70f57e39dc6e7e9c9725992274",
+                "byte_length": 45,
+                "parts": [
+                  {
+                    "b64_sha256": "2722202f3bdbb0187e13e9d10e5361c6a505f2f1eacc2a07dfc3c42bb03d2ed8",
+                    "bytes": 45
+                  }
+                ]
+              }
+            },
+            {
+              "id": 8,
+              "purpose": "history_code",
+              "status": "VERIFIED",
+              "receipt": {
+                "sha256": "657b10ff67670de8077de2451a0475731adcf1262de40688d74a880977c63fe2",
+                "byte_length": 45,
+                "parts": [
+                  {
+                    "b64_sha256": "9a90182b1e70cfea7f9719b1911c7bf67d6570054f686e073861b21a34f311d7",
+                    "bytes": 45
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "simulated_dispatches": 8,
+      "triport_requests_sent": 0
+    },
+    {
+      "name": "COUNTEREXAMPLE local authority rollback permits ninth global attempt",
+      "events": [
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "RESERVED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "1b86eff4a988d49235c01b405cf55fb244dfb799"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 264,
+          "id": 1,
+          "branch": "canonical",
+          "reservation_commit": "1b86eff4a988d49235c01b405cf55fb244dfb799"
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "RECEIVED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "226c73caa491910d6cf0658a4e26ef4cdd82b722"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 264,
+          "id": 1
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "VERIFIED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "a72f3636650f8085bbfaa595475b747b7610f070"
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "RESERVED",
+          "id": 2,
+          "branch": "canonical",
+          "commit": "9eea7d10a20f8e9354dd65b561254dbd8bc8b87b"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 264,
+          "id": 2,
+          "branch": "canonical",
+          "reservation_commit": "9eea7d10a20f8e9354dd65b561254dbd8bc8b87b"
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "RECEIVED",
+          "id": 2,
+          "branch": "canonical",
+          "commit": "8db40e9bfe8ab9123e5b9c5ac5947dc7aca47acc"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 264,
+          "id": 2
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "VERIFIED",
+          "id": 2,
+          "branch": "canonical",
+          "commit": "0da8f643b2a3e492ed56c59e0bb8b4df555ab171"
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "RESERVED",
+          "id": 3,
+          "branch": "canonical",
+          "commit": "36ea32342eae0a797ba1c7f712bf540e0f815c01"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 264,
+          "id": 3,
+          "branch": "canonical",
+          "reservation_commit": "36ea32342eae0a797ba1c7f712bf540e0f815c01"
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "RECEIVED",
+          "id": 3,
+          "branch": "canonical",
+          "commit": "0ddb6d653ea751774ce26a83da776f8069703070"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 264,
+          "id": 3
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "VERIFIED",
+          "id": 3,
+          "branch": "canonical",
+          "commit": "50ff9582352304868ba5e86991d47bb82cbfd9db"
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "RESERVED",
+          "id": 4,
+          "branch": "canonical",
+          "commit": "d7b6a9d30f2bce4450371c404fbd601e2b674c4d"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 264,
+          "id": 4,
+          "branch": "canonical",
+          "reservation_commit": "d7b6a9d30f2bce4450371c404fbd601e2b674c4d"
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "RECEIVED",
+          "id": 4,
+          "branch": "canonical",
+          "commit": "65735e6428a02122beb07eab85f091a22d31d1eb"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 264,
+          "id": 4
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "VERIFIED",
+          "id": 4,
+          "branch": "canonical",
+          "commit": "934c0e9bdb250c5dcc6596bb01c93f16e7dbb7fa"
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "RESERVED",
+          "id": 5,
+          "branch": "canonical",
+          "commit": "2c4a17686399039ce5abdb73df47b8b1b968d53a"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 264,
+          "id": 5,
+          "branch": "canonical",
+          "reservation_commit": "2c4a17686399039ce5abdb73df47b8b1b968d53a"
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "RECEIVED",
+          "id": 5,
+          "branch": "canonical",
+          "commit": "16f0da11d182aef29750cb6533c88b4cfa18f74a"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 264,
+          "id": 5
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "VERIFIED",
+          "id": 5,
+          "branch": "canonical",
+          "commit": "9303d2181bd06cf2746a0b7c2d36599caf272455"
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "RESERVED",
+          "id": 6,
+          "branch": "canonical",
+          "commit": "d2b0d84a39f3214290c19a206cbb9925a5eb364c"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 264,
+          "id": 6,
+          "branch": "canonical",
+          "reservation_commit": "d2b0d84a39f3214290c19a206cbb9925a5eb364c"
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "RECEIVED",
+          "id": 6,
+          "branch": "canonical",
+          "commit": "bb092496cf10867aafe4fe85c78e56a9e2deea59"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 264,
+          "id": 6
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "VERIFIED",
+          "id": 6,
+          "branch": "canonical",
+          "commit": "bf2ebb6058229e1510da40627e97dbb3307707fe"
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "RESERVED",
+          "id": 7,
+          "branch": "canonical",
+          "commit": "991e32f0310f93c5fc72d7dfe2ae317623254d99"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 264,
+          "id": 7,
+          "branch": "canonical",
+          "reservation_commit": "991e32f0310f93c5fc72d7dfe2ae317623254d99"
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "RECEIVED",
+          "id": 7,
+          "branch": "canonical",
+          "commit": "678005140df4c6d5ad91a09030a52f49d2ec5ddb"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 264,
+          "id": 7
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "VERIFIED",
+          "id": 7,
+          "branch": "canonical",
+          "commit": "098e4ab2a9b37d0e59a4d47dc1e91d1437bd0e69"
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "RESERVED",
+          "id": 8,
+          "branch": "canonical",
+          "commit": "58708c6e0999c4b129df2b624b40cd1098922094"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 264,
+          "id": 8,
+          "branch": "canonical",
+          "reservation_commit": "58708c6e0999c4b129df2b624b40cd1098922094"
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "RECEIVED",
+          "id": 8,
+          "branch": "canonical",
+          "commit": "58b9c6563a6818e6a96cb975716c7a6badd7d6fc"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 264,
+          "id": 8
+        },
+        {
+          "kind": "commit",
+          "pid": 264,
+          "status": "VERIFIED",
+          "id": 8,
+          "branch": "canonical",
+          "commit": "bbea95bfed18a98157070100ecbdd02251f14a3b"
+        },
+        {
+          "kind": "commit",
+          "pid": 272,
+          "status": "RESERVED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "9b0707cc7872815c896a85825aaff10a4a5ee5fe"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 272,
+          "id": 1,
+          "branch": "canonical",
+          "reservation_commit": "9b0707cc7872815c896a85825aaff10a4a5ee5fe"
+        },
+        {
+          "kind": "commit",
+          "pid": 272,
+          "status": "RECEIVED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "9e7ebf5487c75c8dee1d32c5f6f7b7186d49a29f"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 272,
+          "id": 1
+        },
+        {
+          "kind": "commit",
+          "pid": 272,
+          "status": "VERIFIED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "a11be1ea14ad7351c1f21b635723a8a0a1643d73"
+        }
+      ],
+      "heads": {
+        "canonical": "a11be1ea14ad7351c1f21b635723a8a0a1643d73"
+      },
+      "journals": {
+        "canonical": {
+          "schema": "nqc048-chunked-dryrun-v1",
+          "mode": "DRY_RUN",
+          "scope": "nqc048:dryrun:nqc053:fixed-lifetime-simulation",
+          "plan_sha256": "6148b4248555043ec3276f3887e008974643ccff64f755b8b6ed986f8537d2f7",
+          "spec_sha256": "b42c0a5da63f97e44cd6bd2febf957b599e61399483b9f0e66820edaad2e8f32",
+          "max_requests": 8,
+          "commercial_admission": false,
+          "entries": [
+            {
+              "id": 1,
+              "purpose": "chain",
+              "status": "VERIFIED",
+              "receipt": {
+                "sha256": "d54b10a7c2f449b50329d85827be47dbdf8788a71c76f5422cf17745acd5043b",
+                "byte_length": 45,
+                "parts": [
+                  {
+                    "b64_sha256": "c4ea583d6012c88ec4ca010d34fc95f0f4e42ba4b2dd4b4bc01a58dd892a7c8f",
+                    "bytes": 45
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "simulated_dispatches": 9,
+      "triport_requests_sent": 0
+    },
+    {
+      "name": "COUNTEREXAMPLE copied authority accepts two id1 attempts with identical scope",
+      "events": [
+        {
+          "kind": "commit",
+          "pid": 280,
+          "status": "RESERVED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "1b86eff4a988d49235c01b405cf55fb244dfb799"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 280,
+          "id": 1,
+          "branch": "canonical",
+          "reservation_commit": "1b86eff4a988d49235c01b405cf55fb244dfb799"
+        },
+        {
+          "kind": "commit",
+          "pid": 280,
+          "status": "RECEIVED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "226c73caa491910d6cf0658a4e26ef4cdd82b722"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 280,
+          "id": 1
+        },
+        {
+          "kind": "commit",
+          "pid": 280,
+          "status": "VERIFIED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "a72f3636650f8085bbfaa595475b747b7610f070"
+        },
+        {
+          "kind": "commit",
+          "pid": 281,
+          "status": "RESERVED",
+          "id": 1,
+          "branch": "copy",
+          "commit": "ada1df4bf242994e2e9d22f1921668d2ad3d708c"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 281,
+          "id": 1,
+          "branch": "copy",
+          "reservation_commit": "ada1df4bf242994e2e9d22f1921668d2ad3d708c"
+        },
+        {
+          "kind": "commit",
+          "pid": 281,
+          "status": "RECEIVED",
+          "id": 1,
+          "branch": "copy",
+          "commit": "f7764fd063b7094065a9043cd24377a3635a8c3a"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 281,
+          "id": 1
+        },
+        {
+          "kind": "commit",
+          "pid": 281,
+          "status": "VERIFIED",
+          "id": 1,
+          "branch": "copy",
+          "commit": "2a3bfe8379d9fed9c808a0d7827471194cf412f1"
+        }
+      ],
+      "heads": {
+        "canonical": "a72f3636650f8085bbfaa595475b747b7610f070",
+        "copy": "2a3bfe8379d9fed9c808a0d7827471194cf412f1"
+      },
+      "journals": {
+        "canonical": {
+          "schema": "nqc048-chunked-dryrun-v1",
+          "mode": "DRY_RUN",
+          "scope": "nqc048:dryrun:nqc053:fixed-lifetime-simulation",
+          "plan_sha256": "6148b4248555043ec3276f3887e008974643ccff64f755b8b6ed986f8537d2f7",
+          "spec_sha256": "b42c0a5da63f97e44cd6bd2febf957b599e61399483b9f0e66820edaad2e8f32",
+          "max_requests": 8,
+          "commercial_admission": false,
+          "entries": [
+            {
+              "id": 1,
+              "purpose": "chain",
+              "status": "VERIFIED",
+              "receipt": {
+                "sha256": "d54b10a7c2f449b50329d85827be47dbdf8788a71c76f5422cf17745acd5043b",
+                "byte_length": 45,
+                "parts": [
+                  {
+                    "b64_sha256": "c4ea583d6012c88ec4ca010d34fc95f0f4e42ba4b2dd4b4bc01a58dd892a7c8f",
+                    "bytes": 45
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "copy": {
+          "schema": "nqc048-chunked-dryrun-v1",
+          "mode": "DRY_RUN",
+          "scope": "nqc048:dryrun:nqc053:fixed-lifetime-simulation",
+          "plan_sha256": "6148b4248555043ec3276f3887e008974643ccff64f755b8b6ed986f8537d2f7",
+          "spec_sha256": "b42c0a5da63f97e44cd6bd2febf957b599e61399483b9f0e66820edaad2e8f32",
+          "max_requests": 8,
+          "commercial_admission": false,
+          "entries": [
+            {
+              "id": 1,
+              "purpose": "chain",
+              "status": "VERIFIED",
+              "receipt": {
+                "sha256": "d54b10a7c2f449b50329d85827be47dbdf8788a71c76f5422cf17745acd5043b",
+                "byte_length": 45,
+                "parts": [
+                  {
+                    "b64_sha256": "c4ea583d6012c88ec4ca010d34fc95f0f4e42ba4b2dd4b4bc01a58dd892a7c8f",
+                    "bytes": 45
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "simulated_dispatches": 2,
+      "triport_requests_sent": 0
+    },
+    {
+      "name": "COUNTEREXAMPLE provider error is rejected without retaining response body",
+      "events": [
+        {
+          "kind": "commit",
+          "pid": 296,
+          "status": "RESERVED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "1b86eff4a988d49235c01b405cf55fb244dfb799"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 296,
+          "id": 1,
+          "branch": "canonical",
+          "reservation_commit": "1b86eff4a988d49235c01b405cf55fb244dfb799"
+        },
+        {
+          "kind": "commit",
+          "pid": 296,
+          "status": "REJECTED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "290db5b43df9c2baabdfcf3a99a52f96d40f08e9"
+        }
+      ],
+      "heads": {
+        "canonical": "290db5b43df9c2baabdfcf3a99a52f96d40f08e9"
+      },
+      "journals": {
+        "canonical": {
+          "schema": "nqc048-chunked-dryrun-v1",
+          "mode": "DRY_RUN",
+          "scope": "nqc048:dryrun:nqc053:fixed-lifetime-simulation",
+          "plan_sha256": "6148b4248555043ec3276f3887e008974643ccff64f755b8b6ed986f8537d2f7",
+          "spec_sha256": "b42c0a5da63f97e44cd6bd2febf957b599e61399483b9f0e66820edaad2e8f32",
+          "max_requests": 8,
+          "commercial_admission": false,
+          "entries": [
+            {
+              "id": 1,
+              "purpose": "chain",
+              "status": "REJECTED"
+            }
+          ]
+        }
+      },
+      "simulated_dispatches": 1,
+      "triport_requests_sent": 0
+    },
+    {
+      "name": "COUNTEREXAMPLE JSON object interface cannot retain original HTTP bytes",
+      "events": [
+        {
+          "kind": "commit",
+          "pid": 312,
+          "status": "RESERVED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "1b86eff4a988d49235c01b405cf55fb244dfb799"
+        },
+        {
+          "kind": "dispatch",
+          "pid": 312,
+          "id": 1,
+          "branch": "canonical",
+          "reservation_commit": "1b86eff4a988d49235c01b405cf55fb244dfb799"
+        },
+        {
+          "kind": "commit",
+          "pid": 312,
+          "status": "RECEIVED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "226c73caa491910d6cf0658a4e26ef4cdd82b722"
+        },
+        {
+          "kind": "revalidated",
+          "pid": 312,
+          "id": 1
+        },
+        {
+          "kind": "commit",
+          "pid": 312,
+          "status": "VERIFIED",
+          "id": 1,
+          "branch": "canonical",
+          "commit": "a72f3636650f8085bbfaa595475b747b7610f070"
+        }
+      ],
+      "heads": {
+        "canonical": "a72f3636650f8085bbfaa595475b747b7610f070"
+      },
+      "journals": {
+        "canonical": {
+          "schema": "nqc048-chunked-dryrun-v1",
+          "mode": "DRY_RUN",
+          "scope": "nqc048:dryrun:nqc053:fixed-lifetime-simulation",
+          "plan_sha256": "6148b4248555043ec3276f3887e008974643ccff64f755b8b6ed986f8537d2f7",
+          "spec_sha256": "b42c0a5da63f97e44cd6bd2febf957b599e61399483b9f0e66820edaad2e8f32",
+          "max_requests": 8,
+          "commercial_admission": false,
+          "entries": [
+            {
+              "id": 1,
+              "purpose": "chain",
+              "status": "VERIFIED",
+              "receipt": {
+                "sha256": "d54b10a7c2f449b50329d85827be47dbdf8788a71c76f5422cf17745acd5043b",
+                "byte_length": 45,
+                "parts": [
+                  {
+                    "b64_sha256": "c4ea583d6012c88ec4ca010d34fc95f0f4e42ba4b2dd4b4bc01a58dd892a7c8f",
+                    "bytes": 45
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "simulated_dispatches": 1,
+      "triport_requests_sent": 0
+    }
+  ],
+  "live_admission": false,
+  "commercial_admission": false,
+  "triport_requests_sent": 0
+}
