@@ -1,0 +1,29 @@
+{
+  "raw_distributions_verified": true,
+  "individual_windows": 49152,
+  "all_attempts_retained": true,
+  "late_drops": 1,
+  "median_10pct_all_repetitions": true,
+  "tail_checks_105pct": {
+    "proof": {
+      "p99": true,
+      "p99_9": true,
+      "max": true
+    },
+    "full_ingress": {
+      "p99": true,
+      "p99_9": true,
+      "max": true
+    }
+  },
+  "local_sample_performance_gate": true,
+  "whole_bot_stabilized": false,
+  "commercial_admission": false,
+  "blockers": [
+    "no_authenticated_real_account_storage_witness",
+    "canonical_chain_and_runtime_layout_not_attested",
+    "oracle_IRM_and_EVM_execution_unvalidated",
+    "financial_nonrecourse_authorization_external",
+    "no_host_execution_latency_bound_or_live_end_to_end_test"
+  ]
+}

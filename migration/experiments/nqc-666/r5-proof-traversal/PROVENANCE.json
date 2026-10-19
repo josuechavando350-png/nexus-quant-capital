@@ -1,0 +1,31 @@
+{
+  "parent_commit": "488ba082a7e5f779c2a675b4089974615da88a92",
+  "parent_tree": "6ba04808e79377a781efd1ec9aa7c02148f3ab28",
+  "branch": "research/nqc-666-third-eye-20261018",
+  "scope": "additive r5-proof-traversal only",
+  "new_dependencies": [],
+  "derived_files": {
+    "python/state_evidence_fast.py": "R3 verify/_verify exact bodies, new ProofDecoder binding",
+    "python/fast_gateway.py": "R4 Ticket/StableGateway exact AST, new verifier import",
+    "scripts/import_witness.py": "R4 main exact AST, R5 gateway import and R4 native module path"
+  },
+  "baseline_sha256": {
+    "r3-state-evidence/src/state_evidence.py": "0159efb1a15794b9ede6c538e78ae94fae221e7d7682090ef800cabdc721fd7c",
+    "r4-stable-ingress/python/stable_gateway.py": "276b59a8d69371f6bc0d2239e331a44532384bdc8a4d1363b430c2f97fd04fd4",
+    "r4-stable-ingress/scripts/import_witness.py": "a1a037c9608eda7c54b1e8586e3dca660afe569303a349e1f587d911961ade69"
+  },
+  "chronology": [
+    "75 final Python tests: first matrix ran 74; one later test adds R5 CLI coverage",
+    "CLI and allocation probe added after timed matrix; measured gateway/verifier/arithmetic files unchanged",
+    "original timed source hashes retained; added files covered by final manifest",
+    "memory probe has no warmup: first invocation may include dependency lazy initialization; no latency or RSS claim"
+  ],
+  "new_real_chain_data": "none; prior R4 HTTP403 stop preserved; no request/retry here",
+  "not_rerun": [
+    "full R1 30006-case historical differential",
+    "R1 1179 Solidity/EVM cases",
+    "R3 514-case Solidity slot compilation",
+    "R2 event-pressure performance matrix"
+  ],
+  "authority": "research-only; no trading, signing, broadcast, deployment, spending or main edits"
+}
