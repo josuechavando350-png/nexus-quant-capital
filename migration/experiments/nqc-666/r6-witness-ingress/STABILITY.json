@@ -1,0 +1,100 @@
+{
+  "baseline_commit": "205015f4941abaad2c3102a4dbffd4e980f62196",
+  "integration": "OFFLINE_CAPTURE_ADAPTER_IMPLEMENTED",
+  "selected_runtime_variant": "baseline",
+  "r5_replacement_approved": false,
+  "candidate_promotion": "REJECTED_MAX_LATENCY_REGRESSIONS_AND_ADDITIONAL_DEADLINE_DROP",
+  "primary_matrix": {
+    "raw_distributions_verified": true,
+    "individual_windows": 36864,
+    "all_attempts_retained": true,
+    "late_drops_by_variant": {
+      "baseline": 0,
+      "object": 0,
+      "optimized": 0
+    },
+    "median_5pct_all_repetitions": {
+      "object": true,
+      "optimized": true
+    },
+    "tail_checks_105pct": {
+      "object": {
+        "wire_verify": {
+          "p99": true,
+          "p99_9": true,
+          "max": true
+        },
+        "full_ingress": {
+          "p99": true,
+          "p99_9": false,
+          "max": true
+        }
+      },
+      "optimized": {
+        "wire_verify": {
+          "p99": true,
+          "p99_9": true,
+          "max": true
+        },
+        "full_ingress": {
+          "p99": true,
+          "p99_9": true,
+          "max": true
+        }
+      }
+    },
+    "optimized_vs_object_tail_guard": false,
+    "local_sample_eligible": {
+      "object": false,
+      "optimized": true
+    },
+    "selected_experimental_variant": "optimized",
+    "api_and_cli_default": "baseline",
+    "whole_bot_stabilized": false,
+    "authentic_witness_integrated": false,
+    "network_builder_e2e_measured": false,
+    "commercial_admission": false,
+    "blockers": [
+      "no_authenticated_real_Morpho_account_storage_witness",
+      "NQC031_capture_chain4663_incomplete_no_pretransaction_root",
+      "canonical_chain_and_runtime_layout_not_attested",
+      "oracle_IRM_EVM_and_financial_authorization_external"
+    ]
+  },
+  "confirmation_matrix": {
+    "raw_distributions_verified": true,
+    "individual_windows": 98304,
+    "all_attempts_retained": true,
+    "late_drops_by_variant": {
+      "baseline": 0,
+      "optimized": 1
+    },
+    "median_5pct_all_repetitions": true,
+    "tails_no_increase_in_confirmation": {
+      "wire_verify": {
+        "p95": true,
+        "p99": true,
+        "p99_9": true,
+        "max": false
+      },
+      "full_ingress": {
+        "p95": true,
+        "p99": true,
+        "p99_9": true,
+        "max": false
+      }
+    },
+    "confirmation_performance_gate": false,
+    "api_and_cli_default": "baseline",
+    "whole_bot_stabilized": false,
+    "authentic_witness_integrated": false,
+    "network_builder_e2e_measured": false,
+    "commercial_admission": false
+  },
+  "whole_bot_stabilized": false,
+  "authentic_witness_integrated": false,
+  "commercial_admission": false,
+  "new_rpc_requests": 0,
+  "main_modified": false,
+  "new_workflows": 0
+}

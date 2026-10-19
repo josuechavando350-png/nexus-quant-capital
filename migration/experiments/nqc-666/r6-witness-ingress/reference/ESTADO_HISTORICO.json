@@ -1,0 +1,674 @@
+{
+  "status": "HISTORICAL_EXECUTION_BLOCKED",
+  "header_consistency": {
+    "parent": {
+      "header_hash": "0x53f9d3bedcdd3554f7447343ca03f9c9a5a7b61c692057f431d9225e04e1a917",
+      "header_rlp": "0xf90224a06739b5957a5835216d6a8eb6c74a0a40807f34fc07e66622daae58598ad4e86fa01dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d4934794a4b000000000000000000073657175656e636572a0c07bf301da73475b44460226757ddfd1c2ee60a6d7346e3749de6953f78bae4aa001f55581f9b0276374caf430c4c26ca8706474b74210d4e79bbfede609e1faa0a05018c7374518d0ccc97bab0c4ad331ba550d2c2d883856cc9c0f21cabfc3a9c4b90100000000a09000000000000052120a10000000000010000800000e0000002000c00288004010000000002000010802020000020000040020000000120000202210000000000000404804040208002001802040080091001024000000020402020010008000020c00400200b000090808000000810000024000a208085404480000018200016000000100000004000000000008000111100002800000050080000006301002008000008044002008000000000001000884000000000200100080000000042a04800040400301802020400010000000802000090c10000000082000081000104004000004440000012020200000000000004000080400001a0c0040018403fa6f61870400000000000083442d97846aadfaafa0a2368ad058f0612fc03cc014fc0fca5ff4e974244980a7b9c08e4ec73f34d269a00000000000000a0000000000018cdc9b000000000000003d0000000000000000880000000000048b1d840403adf0",
+      "header_hash_consistent": true,
+      "committed_state_root": "0xc07bf301da73475b44460226757ddfd1c2ee60a6d7346e3749de6953f78bae4a",
+      "chain_anchor_verified": false,
+      "account_or_storage_proofs_verified": 0,
+      "transaction_list_membership_verified": false,
+      "nitro_auxiliary_json_fields_independently_verified": false
+    },
+    "target": {
+      "header_hash": "0x8e702487ffdd8f2ff97528407ba671f1a1d1d6f16a812e85fb5cb6625b6886d7",
+      "header_rlp": "0xf90224a053f9d3bedcdd3554f7447343ca03f9c9a5a7b61c692057f431d9225e04e1a917a01dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d4934794a4b000000000000000000073657175656e636572a00b5c085594eeeabdbc165b0904a7a280951f4dd8d40c979fd51b1668985d85baa00d48255688f8c8464b47af113fc105ba82bdbaa697fb39ce12e19cc5833550aca00c78ba7487d19a65239cdff1df6639f06498269cba875bc3bdf2a7dc1d381ac7b90100002000800000000000000008800a0900000004003000180000000000000000000100400400010010094008000040004000008800000008000000800060a060000010000000000100000001080020002000000000000000000880010840000000000008000a4000010000000101000800400302000000000002000050000420000140000000400000400008000000048004040000100000080000104000880100420900000000000000000000000000000400040200200000000800400000004001000002002c00080280000000800080200000000000001000000000000020000010004800000400100a00001007000000004010004000100000000000002000018403fa6f628704000000000000833c26bd846aadfab0a0a2368ad058f0612fc03cc014fc0fca5ff4e974244980a7b9c08e4ec73f34d269a00000000000000a0000000000018cdc9b000000000000003d0000000000000000880000000000048b1d8404062e90",
+      "header_hash_consistent": true,
+      "committed_state_root": "0x0b5c085594eeeabdbc165b0904a7a280951f4dd8d40c979fd51b1668985d85ba",
+      "chain_anchor_verified": false,
+      "account_or_storage_proofs_verified": 0,
+      "transaction_list_membership_verified": false,
+      "nitro_auxiliary_json_fields_independently_verified": false
+    },
+    "parent_link_consistent": true,
+    "exact_pretransaction_state_root": null,
+    "historical_state_authenticated": false
+  },
+  "chain_id_claim": 4663,
+  "target_block_number": 66744162,
+  "transaction": "0xf9e0d2e116d99e2eb8ef2cf236f7cd7f06225e92a6dfd9162f98c7d8e1974842",
+  "transaction_index_claim": 1,
+  "parent_state_root": "0xc07bf301da73475b44460226757ddfd1c2ee60a6d7346e3749de6953f78bae4a",
+  "target_postblock_state_root": "0x0b5c085594eeeabdbc165b0904a7a280951f4dd8d40c979fd51b1668985d85ba",
+  "exact_pretransaction_state_root": null,
+  "authenticated_prestate": false,
+  "partial_source_comparisons": {
+    "NET": {
+      "claim": "PARTIAL_COMPARISON_ONLY_NOT_A_FULL_RUNTIME_MATCH",
+      "same_layout_length": true,
+      "compared_bytes": 6219,
+      "different_compared_bytes": 0,
+      "partial_bytes_equal": true,
+      "first_different_positions": [],
+      "excluded_immutable_ranges": [
+        {
+          "start": 783,
+          "length": 32
+        },
+        {
+          "start": 1434,
+          "length": 32
+        },
+        {
+          "start": 2732,
+          "length": 32
+        },
+        {
+          "start": 3967,
+          "length": 32
+        },
+        {
+          "start": 4184,
+          "length": 32
+        }
+      ],
+      "excluded_immutable_bytes": 160,
+      "excluded_compiler_metadata_bytes": 53,
+      "compiler_metadata_starts": [
+        6379,
+        6379
+      ],
+      "captured_runtime_bytes": 6432,
+      "template_runtime_bytes": 6432,
+      "full_runtime_match": false,
+      "historical_state_authenticated": false
+    },
+    "PairOracle": {
+      "claim": "PARTIAL_COMPARISON_ONLY_NOT_A_FULL_RUNTIME_MATCH",
+      "same_layout_length": true,
+      "compared_bytes": 2101,
+      "different_compared_bytes": 0,
+      "partial_bytes_equal": true,
+      "first_different_positions": [],
+      "excluded_immutable_ranges": [
+        {
+          "start": 194,
+          "length": 32
+        },
+        {
+          "start": 368,
+          "length": 32
+        },
+        {
+          "start": 431,
+          "length": 32
+        },
+        {
+          "start": 467,
+          "length": 32
+        },
+        {
+          "start": 768,
+          "length": 32
+        },
+        {
+          "start": 907,
+          "length": 32
+        },
+        {
+          "start": 1381,
+          "length": 32
+        },
+        {
+          "start": 1418,
+          "length": 32
+        },
+        {
+          "start": 1551,
+          "length": 32
+        },
+        {
+          "start": 1684,
+          "length": 32
+        },
+        {
+          "start": 1883,
+          "length": 32
+        }
+      ],
+      "excluded_immutable_bytes": 352,
+      "excluded_compiler_metadata_bytes": 53,
+      "compiler_metadata_starts": [
+        2453,
+        2453
+      ],
+      "captured_runtime_bytes": 2506,
+      "template_runtime_bytes": 2506,
+      "full_runtime_match": false,
+      "historical_state_authenticated": false
+    },
+    "LoopbackOracle": {
+      "claim": "PARTIAL_COMPARISON_ONLY_NOT_A_FULL_RUNTIME_MATCH",
+      "same_layout_length": true,
+      "compared_bytes": 1177,
+      "different_compared_bytes": 0,
+      "partial_bytes_equal": true,
+      "first_different_positions": [],
+      "excluded_immutable_ranges": [
+        {
+          "start": 120,
+          "length": 32
+        },
+        {
+          "start": 180,
+          "length": 32
+        },
+        {
+          "start": 243,
+          "length": 32
+        },
+        {
+          "start": 304,
+          "length": 32
+        },
+        {
+          "start": 343,
+          "length": 32
+        },
+        {
+          "start": 381,
+          "length": 32
+        },
+        {
+          "start": 628,
+          "length": 32
+        },
+        {
+          "start": 805,
+          "length": 32
+        },
+        {
+          "start": 976,
+          "length": 32
+        },
+        {
+          "start": 1111,
+          "length": 32
+        }
+      ],
+      "excluded_immutable_bytes": 320,
+      "excluded_compiler_metadata_bytes": 53,
+      "compiler_metadata_starts": [
+        1497,
+        1497
+      ],
+      "captured_runtime_bytes": 1550,
+      "template_runtime_bytes": 1550,
+      "full_runtime_match": false,
+      "historical_state_authenticated": false
+    },
+    "Treasury": {
+      "claim": "PARTIAL_COMPARISON_ONLY_NOT_A_FULL_RUNTIME_MATCH",
+      "same_layout_length": true,
+      "compared_bytes": 5240,
+      "different_compared_bytes": 0,
+      "partial_bytes_equal": true,
+      "first_different_positions": [],
+      "excluded_immutable_ranges": [
+        {
+          "start": 420,
+          "length": 32
+        },
+        {
+          "start": 505,
+          "length": 32
+        },
+        {
+          "start": 665,
+          "length": 32
+        },
+        {
+          "start": 703,
+          "length": 32
+        },
+        {
+          "start": 772,
+          "length": 32
+        },
+        {
+          "start": 897,
+          "length": 32
+        },
+        {
+          "start": 1032,
+          "length": 32
+        },
+        {
+          "start": 1088,
+          "length": 32
+        },
+        {
+          "start": 1215,
+          "length": 32
+        },
+        {
+          "start": 1363,
+          "length": 32
+        },
+        {
+          "start": 1556,
+          "length": 32
+        },
+        {
+          "start": 1703,
+          "length": 32
+        },
+        {
+          "start": 2058,
+          "length": 32
+        },
+        {
+          "start": 2254,
+          "length": 32
+        },
+        {
+          "start": 2401,
+          "length": 32
+        },
+        {
+          "start": 2711,
+          "length": 32
+        },
+        {
+          "start": 2758,
+          "length": 32
+        },
+        {
+          "start": 2921,
+          "length": 32
+        },
+        {
+          "start": 3200,
+          "length": 32
+        },
+        {
+          "start": 3242,
+          "length": 32
+        },
+        {
+          "start": 3374,
+          "length": 32
+        },
+        {
+          "start": 3774,
+          "length": 32
+        },
+        {
+          "start": 4007,
+          "length": 32
+        },
+        {
+          "start": 4140,
+          "length": 32
+        },
+        {
+          "start": 4419,
+          "length": 32
+        },
+        {
+          "start": 4646,
+          "length": 32
+        },
+        {
+          "start": 4688,
+          "length": 32
+        }
+      ],
+      "excluded_immutable_bytes": 864,
+      "excluded_compiler_metadata_bytes": 53,
+      "compiler_metadata_starts": [
+        6104,
+        6104
+      ],
+      "captured_runtime_bytes": 6157,
+      "template_runtime_bytes": 6157,
+      "full_runtime_match": false,
+      "historical_state_authenticated": false
+    },
+    "StakedNET": {
+      "claim": "PARTIAL_COMPARISON_ONLY_NOT_A_FULL_RUNTIME_MATCH",
+      "same_layout_length": true,
+      "compared_bytes": 2651,
+      "different_compared_bytes": 0,
+      "partial_bytes_equal": true,
+      "first_different_positions": [],
+      "excluded_immutable_ranges": [
+        {
+          "start": 1562,
+          "length": 32
+        }
+      ],
+      "excluded_immutable_bytes": 32,
+      "excluded_compiler_metadata_bytes": 53,
+      "compiler_metadata_starts": [
+        2683,
+        2683
+      ],
+      "captured_runtime_bytes": 2736,
+      "template_runtime_bytes": 2736,
+      "full_runtime_match": false,
+      "historical_state_authenticated": false
+    }
+  },
+  "full_runtime_matches_from_prior_package": 2,
+  "remaining_without_full_runtime_match": 10,
+  "adapter": "IMPLEMENTED_AND_READ_ONLY_INTEGRATION_TESTED_ON_PARTIAL_CAPTURE",
+  "read_coverage": {
+    "known_storage_values_equal": 71,
+    "unknown_reads": [
+      {
+        "address": "0x929631b33f4070d6f54477fba3fd27566567daca",
+        "kind": "storage",
+        "slot": "0x0000000000000000000000000000000000000000000000000000000000000009",
+        "diagnostic_local_value": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "historical_value": null
+      },
+      {
+        "address": "0x929631b33f4070d6f54477fba3fd27566567daca",
+        "kind": "storage",
+        "slot": "0x000000000000000000000000000000000000000000000000000000000000000d",
+        "diagnostic_local_value": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "historical_value": null
+      },
+      {
+        "address": "0x929631b33f4070d6f54477fba3fd27566567daca",
+        "kind": "storage",
+        "slot": "0x000000000000000000000000000000000000000000000000000000000000000f",
+        "diagnostic_local_value": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "historical_value": null
+      },
+      {
+        "address": "0x929631b33f4070d6f54477fba3fd27566567daca",
+        "kind": "storage",
+        "slot": "0x0000000000000000000000000000000000000000000000000000000000000011",
+        "diagnostic_local_value": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "historical_value": null
+      },
+      {
+        "address": "0x929631b33f4070d6f54477fba3fd27566567daca",
+        "kind": "storage",
+        "slot": "0x0000000000000000000000000000000000000000000000000000000000000013",
+        "diagnostic_local_value": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "historical_value": null
+      },
+      {
+        "address": "0x929631b33f4070d6f54477fba3fd27566567daca",
+        "kind": "storage",
+        "slot": "0x0000000000000000000000000000000000000000000000000000000000000015",
+        "diagnostic_local_value": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "historical_value": null
+      },
+      {
+        "address": "0x929631b33f4070d6f54477fba3fd27566567daca",
+        "kind": "storage",
+        "slot": "0x0000000000000000000000000000000000000000000000000000000000000017",
+        "diagnostic_local_value": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "historical_value": null
+      },
+      {
+        "address": "0x929631b33f4070d6f54477fba3fd27566567daca",
+        "kind": "storage",
+        "slot": "0x0000000000000000000000000000000000000000000000000000000000000019",
+        "diagnostic_local_value": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "historical_value": null
+      },
+      {
+        "address": "0x929631b33f4070d6f54477fba3fd27566567daca",
+        "kind": "storage",
+        "slot": "0x000000000000000000000000000000000000000000000000000000000000001b",
+        "diagnostic_local_value": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "historical_value": null
+      },
+      {
+        "address": "0x929631b33f4070d6f54477fba3fd27566567daca",
+        "kind": "storage",
+        "slot": "0x000000000000000000000000000000000000000000000000000000000000001d",
+        "diagnostic_local_value": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "historical_value": null
+      },
+      {
+        "address": "0x929631b33f4070d6f54477fba3fd27566567daca",
+        "kind": "storage",
+        "slot": "0x000000000000000000000000000000000000000000000000000000000000001f",
+        "diagnostic_local_value": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "historical_value": null
+      }
+    ],
+    "capture_read_set_complete": false,
+    "state_root_verified": false
+  },
+  "account_and_storage_proofs_received": 0,
+  "witness_request": [
+    {
+      "address": "0x04822ea321a0dee6f40656172f29312104855d66",
+      "captured_code_keccak256": "0xd31103729bd8924cfe5ef15a39cd7fda91ff67654bdc1bcab2e83787c0caf0e3",
+      "account_proof_required": true,
+      "storage_slots": [],
+      "proof_received": false,
+      "codehash_is_capture_only": true
+    },
+    {
+      "address": "0x2bd3d5965b26b51814ac95127b2b80dd6ccc0fa1",
+      "captured_code_keccak256": "0x27bdf07d4b41c5785e200e5d27ae0eb734a7573049196ac686a2c9bf3473b97b",
+      "account_proof_required": true,
+      "storage_slots": [
+        "0x01fff977011829f57aa551af8be44fc70186077ffad383d63343c3f9481e279c",
+        "0x0c6f0eefe216e7474fe4f81acc03906fc3660ef11dcbe665a86ce5a4d380277a",
+        "0x2fdae008a986fa1bea170c268a23eecc35135d2e5c4b169e142e685dfb8a913f",
+        "0xa79789e33603edb80921c80186e34c6adee96c622dd0639125b74b3fee8a6952",
+        "0xdf70fc534d5fd500a7fb6b7028a2ffa3e54e10412a572462476e46826c05599f"
+      ],
+      "proof_received": false,
+      "codehash_is_capture_only": true
+    },
+    {
+      "address": "0x44abc1d6ccff2696d98890b92e2157af242179c2",
+      "captured_code_keccak256": "0x78f72dee842a438cc21750b36673fdeeb88d9379ffd477ff934a3bd4851b4b50",
+      "account_proof_required": true,
+      "storage_slots": [
+        "0x0000000000000000000000000000000000000000000000000000000000000004",
+        "0x38e6ef9275511abc0868cd752bdd9c67cc184ab0817aeb33cd3cecc07afb0d6b",
+        "0x412a689e56cf9911869c57ecd3910982e6ee652992cdba903ce2bfb101d63224",
+        "0x69e2cf863fe2505b61047f59080ade26ebcd976b15b5c94cb4258b276cc05088",
+        "0x8a35acfbc15ff81a39ae7d344fd709f28e8600b4aa8c65c6b64bfe7fe36bd19b",
+        "0x8a35acfbc15ff81a39ae7d344fd709f28e8600b4aa8c65c6b64bfe7fe36bd19c",
+        "0x8a35acfbc15ff81a39ae7d344fd709f28e8600b4aa8c65c6b64bfe7fe36bd19d",
+        "0x8a35acfbc15ff81a39ae7d344fd709f28e8600b4aa8c65c6b64bfe7fe36bd19e",
+        "0x8a35acfbc15ff81a39ae7d344fd709f28e8600b4aa8c65c6b64bfe7fe36bd19f",
+        "0x8c29ed82da667ca24f63825d2de51da705a751b383f3237d29654b45308a028d",
+        "0xdd3beb3394f6268932d40cec0658c708944f826a8bcceb756683795d2e98203a"
+      ],
+      "proof_received": false,
+      "codehash_is_capture_only": true
+    },
+    {
+      "address": "0x59f95461e68e0c77605299791e1449f175165b54",
+      "captured_code_keccak256": "0x5b83bdbcc56b2e630f2807bbadd2b0c21619108066b92a58de081261089e9ce5",
+      "account_proof_required": true,
+      "storage_slots": [
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "0x0000000000000000000000000000000000000000000000000000000000000006",
+        "0x0000000000000000000000000000000000000000000000000000000000000007",
+        "0x0000000000000000000000000000000000000000000000000000000000000008",
+        "0x000000000000000000000000000000000000000000000000000000000000000a",
+        "0x6b624307078edace62f586ea8e4b670fffbae1d841d0f517b3c0838ea3756eae"
+      ],
+      "proof_received": false,
+      "codehash_is_capture_only": true
+    },
+    {
+      "address": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+      "captured_code_keccak256": "0x864cc9ad53b338b82da1f7cab85ab0b3d5c8861acb422b6fec63cf36234f36a6",
+      "account_proof_required": true,
+      "storage_slots": [
+        "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc",
+        "0x6b624307078edace62f586ea8e4b670fffbae1d841d0f517b3c0838ea3756eae",
+        "0xd47d079f5aefd3caa8944faddfc4e514fa2777339892e5b01b76565d9c8a5870"
+      ],
+      "proof_received": false,
+      "codehash_is_capture_only": true
+    },
+    {
+      "address": "0x68184c449e1a8f34fa18d289737129fd27b66f8f",
+      "captured_code_keccak256": "0x3a551ac5c744af57e68a1d1431ac403c0f516ffd7d224a75746aee11fc4f3baf",
+      "account_proof_required": true,
+      "storage_slots": [],
+      "proof_received": false,
+      "codehash_is_capture_only": true
+    },
+    {
+      "address": "0x929631b33f4070d6f54477fba3fd27566567daca",
+      "captured_code_keccak256": "0x29553dd65d07f1c98885b3ab3f2ab14bd74e1904dd2943ec94133a19adca6562",
+      "account_proof_required": true,
+      "storage_slots": [
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "0x0000000000000000000000000000000000000000000000000000000000000001",
+        "0x0000000000000000000000000000000000000000000000000000000000000002",
+        "0x0000000000000000000000000000000000000000000000000000000000000003",
+        "0x0000000000000000000000000000000000000000000000000000000000000004",
+        "0x0000000000000000000000000000000000000000000000000000000000000005",
+        "0x0000000000000000000000000000000000000000000000000000000000000006",
+        "0x0000000000000000000000000000000000000000000000000000000000000007",
+        "0x0000000000000000000000000000000000000000000000000000000000000008",
+        "0x0000000000000000000000000000000000000000000000000000000000000009",
+        "0x000000000000000000000000000000000000000000000000000000000000000a",
+        "0x000000000000000000000000000000000000000000000000000000000000000b",
+        "0x000000000000000000000000000000000000000000000000000000000000000c",
+        "0x000000000000000000000000000000000000000000000000000000000000000d",
+        "0x000000000000000000000000000000000000000000000000000000000000000e",
+        "0x000000000000000000000000000000000000000000000000000000000000000f",
+        "0x0000000000000000000000000000000000000000000000000000000000000010",
+        "0x0000000000000000000000000000000000000000000000000000000000000011",
+        "0x0000000000000000000000000000000000000000000000000000000000000012",
+        "0x0000000000000000000000000000000000000000000000000000000000000013",
+        "0x0000000000000000000000000000000000000000000000000000000000000014",
+        "0x0000000000000000000000000000000000000000000000000000000000000015",
+        "0x0000000000000000000000000000000000000000000000000000000000000016",
+        "0x0000000000000000000000000000000000000000000000000000000000000017",
+        "0x0000000000000000000000000000000000000000000000000000000000000018",
+        "0x0000000000000000000000000000000000000000000000000000000000000019",
+        "0x000000000000000000000000000000000000000000000000000000000000001a",
+        "0x000000000000000000000000000000000000000000000000000000000000001b",
+        "0x000000000000000000000000000000000000000000000000000000000000001c",
+        "0x000000000000000000000000000000000000000000000000000000000000001d",
+        "0x000000000000000000000000000000000000000000000000000000000000001e",
+        "0x000000000000000000000000000000000000000000000000000000000000001f"
+      ],
+      "proof_received": false,
+      "codehash_is_capture_only": true
+    },
+    {
+      "address": "0x9d53d5e3bd5e8d4cbfa6db1ca238aea02e651010",
+      "captured_code_keccak256": "0x753b54fdb48c87c9c1ba1dcc3a330faac1a401a3bd23b43104b7b92409ecb424",
+      "account_proof_required": true,
+      "storage_slots": [
+        "0x1a765b2011fbcbabdabc2ada878136b14669e61f4ed1d413267ea4fdeefb09ec",
+        "0x1a765b2011fbcbabdabc2ada878136b14669e61f4ed1d413267ea4fdeefb09ed",
+        "0x1a765b2011fbcbabdabc2ada878136b14669e61f4ed1d413267ea4fdeefb09ee",
+        "0x3052bd1739d4dc394d73f4ff3a8453bd343fffc07e961f81c356346858df3291",
+        "0x3052bd1739d4dc394d73f4ff3a8453bd343fffc07e961f81c356346858df3292",
+        "0x3052bd1739d4dc394d73f4ff3a8453bd343fffc07e961f81c356346858df3293",
+        "0x50335c66cda63cd2b6059b044e6434e2088a78a4872de393e7daeccd1e0e6b7d",
+        "0x50335c66cda63cd2b6059b044e6434e2088a78a4872de393e7daeccd1e0e6b7e",
+        "0x50335c66cda63cd2b6059b044e6434e2088a78a4872de393e7daeccd1e0e6b7f",
+        "0x90f75c72399f024368013ccc2427f4a6d9fd5711babd1b53ee227857b8649adf",
+        "0x90f75c72399f024368013ccc2427f4a6d9fd5711babd1b53ee227857b8649ae0",
+        "0x90f75c72399f024368013ccc2427f4a6d9fd5711babd1b53ee227857b8649ae1",
+        "0xc8b6a60260b3f99bd6328cef7f6b4f21755b802e6005a5ed23c65d8bfca77cd5",
+        "0xc8b6a60260b3f99bd6328cef7f6b4f21755b802e6005a5ed23c65d8bfca77cd6",
+        "0xc8b6a60260b3f99bd6328cef7f6b4f21755b802e6005a5ed23c65d8bfca77cd7"
+      ],
+      "proof_received": false,
+      "codehash_is_capture_only": true
+    },
+    {
+      "address": "0xb773ec2c326b7f98a5a83fc098825492f020a4c7",
+      "captured_code_keccak256": "0x1c33701d10968f690cad4c15b85bb579e05997bb859d9b7dd2a08d1b68cefc7b",
+      "account_proof_required": true,
+      "storage_slots": [
+        "0x0000000000000000000000000000000000000000000000000000000000000002",
+        "0x0000000000000000000000000000000000000000000000000000000000000003"
+      ],
+      "proof_received": false,
+      "codehash_is_capture_only": true
+    },
+    {
+      "address": "0xbeeff033f34c046626b8d0a041844c5d1a5409dd",
+      "captured_code_keccak256": "0x3492098028b641c5949beebf8c56898f1ed846f42b59978ed7c75249603c1f6e",
+      "account_proof_required": true,
+      "storage_slots": [
+        "0x000000000000000000000000000000000000000000000000000000000000000b",
+        "0x000000000000000000000000000000000000000000000000000000000000000f",
+        "0x0000000000000000000000000000000000000000000000000000000000000011",
+        "0x0000000000000000000000000000000000000000000000000000000000000019",
+        "0x000000000000000000000000000000000000000000000000000000000000001a",
+        "0x31ecc21a745e3968a04e9570e4425bc18fa8019c68028196b546d1669c200c68",
+        "0x57a3628b6e059b51232638be5404b513263eac5b5fb648b87fd8c3f5bcbf1583"
+      ],
+      "proof_received": false,
+      "codehash_is_capture_only": true
+    },
+    {
+      "address": "0xca9c78dd337a67f6e0077f65f5e9218719d30edf",
+      "captured_code_keccak256": "0x3ad6bb6926ffbb92e858d71f0f439256752e79c801d9ebe4482e495ec84d3c37",
+      "account_proof_required": true,
+      "storage_slots": [
+        "0x0000000000000000000000000000000000000000000000000000000000000001"
+      ],
+      "proof_received": false,
+      "codehash_is_capture_only": true
+    },
+    {
+      "address": "0xcde9599059f8ae6d6b9f33a0af7877827ec75f16",
+      "captured_code_keccak256": "0x6cd6a5c2cc68ab50ec51a440511ec2b162329a35cc19e58a48d2f6fb138b7a13",
+      "account_proof_required": true,
+      "storage_slots": [],
+      "proof_received": false,
+      "codehash_is_capture_only": true
+    }
+  ],
+  "witness_request_sent": false,
+  "blockers": [
+    {
+      "id": "CHAIN_ANCHOR",
+      "state": "NOT_RECEIVED",
+      "need": "Independent canonical-chain/L1 anchor for the target and parent headers; local hashes alone do not provide this."
+    },
+    {
+      "id": "PRE_TX1_STATE",
+      "state": "NOT_RECEIVED",
+      "need": "Parent-state account/storage proofs plus authenticated ordered tx0/system inputs and historical Nitro prefix replay to derive the exact state immediately before tx index 1. Parent root and target post-block root are neither that root."
+    },
+    {
+      "id": "PROOF_VERIFIER",
+      "state": "NOT_IMPLEMENTED",
+      "need": "Validate account/storage proof paths, code hashes and Nitro prefix state transition against the anchored roots. A boolean or provider label is not accepted."
+    },
+    {
+      "id": "ADAPTER_READ_SET",
+      "state": "INCOMPLETE",
+      "unknown_storage_reads": 11,
+      "need": "The 11 additional PairOracle cumulative words listed below, then proofs for ALL accounts/slots in the request."
+    },
+    {
+      "id": "NQC_CANDIDATE_STATE",
+      "state": "PENDING",
+      "need": "Trace the exact new atomic candidate and authenticate its additional read set, deployment-account nonces, and absent/new-account storage. Earlier candidate assumptions are not inherited."
+    },
+    {
+      "id": "ORIGINAL_SOURCE_IDENTITY",
+      "state": "PARTIAL_ONLY",
+      "need": "Exact original dependencies, compiler 0.8.30, metadata and constructor immutable bindings. Five partial byte comparisons are not full runtime reproductions."
+    },
+    {
+      "id": "NITRO_AND_ECONOMICS",
+      "state": "PENDING",
+      "need": "Historical execution version/configuration, ordering and all-in fees. Anvil view diagnostics do not demonstrate race inclusion, financing or net profit."
+    }
+  ],
+  "historical_execution_admitted": false,
+  "new_economic_execution": false,
+  "profit_demonstrated": false,
+  "net_profit": null
+}

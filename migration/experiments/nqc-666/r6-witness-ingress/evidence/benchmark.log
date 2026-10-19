@@ -1,0 +1,13 @@
+wire_verify rep0: 1024 pairs
+wire_verify rep0: 2048 pairs
+full_ingress rep0: 1024 pairs
+full_ingress rep0: 2048 pairs
+full_ingress rep1: 1024 pairs
+full_ingress rep1: 2048 pairs
+wire_verify rep1: 1024 pairs
+wire_verify rep1: 2048 pairs
+wire_verify rep2: 1024 pairs
+wire_verify rep2: 2048 pairs
+full_ingress rep2: 1024 pairs
+full_ingress rep2: 2048 pairs
+{"aggregate_ns": {"wire_verify": {"baseline": {"n": 6144, "p50": 1514384, "p95": 2296618, "p99": 3216738, "p99_9": 4406228, "min": 928872, "max": 7443529}, "object": {"n": 6144, "p50": 1412102, "p95": 2148879, "p99": 2903812, "p99_9": 4269655, "min": 865368, "max": 5673795}, "optimized": {"n": 6144, "p50": 1316339, "p95": 1925466, "p99": 2587541, "p99_9": 4458006, "min": 839980, "max": 6178411}}, "full_ingress": {"baseline": {"n": 6144, "p50": 1529457, "p95": 2288306, "p99": 2929710, "p99_9": 4884370, "min": 976884, "max": 41953113}, "object": {"n": 6144, "p50": 1433373, "p95": 2178242, "p99": 2970206, "p99_9": 5396382, "min": 898838, "max": 10164880}, "optimized": {"n": 6144, "p50": 1340204, "p95": 1983282, "p99": 2619709, "p99_9": 4194233, "min": 873830, "max": 16729030}}}, "drops": 0}

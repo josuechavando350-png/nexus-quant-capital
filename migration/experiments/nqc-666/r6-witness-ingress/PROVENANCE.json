@@ -1,0 +1,39 @@
+{
+  "repository": "josuechavando350-png/nexus-quant-capital",
+  "branch": "research/nqc-666-third-eye-20261018",
+  "parent_commit": "205015f4941abaad2c3102a4dbffd4e980f62196",
+  "parent_tree": "2f598b7cc7ee17e1ef19c5e5d0f6ccf9f57c6270",
+  "added_scope": "migration/experiments/nqc-666/r6-witness-ingress only",
+  "historical_sources_modified": false,
+  "wire_adapter_source_references": [
+    "https://eips.ethereum.org/EIPS/eip-1186",
+    "https://eips.ethereum.org/EIPS/eip-1898",
+    "https://ethereum.github.io/execution-apis/api/methods/eth_getProof/"
+  ],
+  "wire_adapter_reference_date_utc": "2026-10-19",
+  "native_rust_changed": false,
+  "new_dependencies": [],
+  "selected_reference_files": "Exact bytes from technical handoff; hashes in reference/INVENTORY.json; no NQC031 contracts rebuilt or financial work duplicated",
+  "derived_code": {
+    "python/proof_nodes.py": "R5 class bodies identical; new hex parser binding",
+    "python/object_evidence.py": "R5 _verify body unchanged except parsed-object boundary and decoder injection",
+    "python/witness_gateway.py": "R5 guard classes unchanged except verifier injection; baseline default",
+    "scripts/benchmark.py": "R5 paired harness adapted to 3-way wire input",
+    "scripts/confirmation.py": "larger paired follow-up; no runtime code change"
+  },
+  "chronology": [
+    "Initial invocation used wrong working directory before reproduction began; corrected, no benchmark produced by failed invocation",
+    "51 R6 Python tests, 75 R5 regressions, 7 Rust tests, 9 isolation tests passed",
+    "Primary matrix 36864 windows; follow-up declared after observing wire p99.9 +1.18%",
+    "Confirmation 98304 windows; optimized rejected for promotion; both sets preserved"
+  ],
+  "not_run": [
+    "authenticated real-state integration: complete witness unavailable",
+    "network-to-builder or Ethereum inclusion benchmark",
+    "NQC031 contract reconstruction/financial work",
+    "NQC032 audit",
+    "historic R1 Solidity/EVM differential suites; Rust/math sources unchanged",
+    "new sub-5ns kernel experiment; earlier scoped evidence retained"
+  ],
+  "restrictions": "No RPC retries, spending, signing, trading, deployment, workflow activation or other repository modifications"
+}
