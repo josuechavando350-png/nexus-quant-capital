@@ -1,0 +1,145 @@
+{
+  "scope": "NQC031-R2",
+  "status": "SOURCE_PROGRESS_HISTORICAL_AND_COMMERCIAL_PROOF_BLOCKED",
+  "base_commit": "ef2e7bab7f1f19e11abfc5451eb9bb5dc466fea6",
+  "original_pending_contracts": 10,
+  "new_full_runtime_matches": 2,
+  "original_pending_now_closed_for_code_only": 4,
+  "remaining_of_original_ten": 6,
+  "total_full_runtime_matches_out_of_twelve": 6,
+  "full_runtime_definition": "Every runtime byte including metadata equals the captured code after source-derived immutable bindings. This does not authenticate historical chain state.",
+  "global_execution_priority": [
+    "Authenticate exact pretransaction state and Nitro prefix/ArbOS context",
+    "Close six remaining source/creator bindings and complete financial read witness",
+    "Execute authentic liquidation then reconcile funding, all costs and failed attempts"
+  ],
+  "priority_order": [
+    {
+      "rank": 1,
+      "label": "NET",
+      "address": "0xca9c78dd337a67f6e0077f65f5e9218719d30edf",
+      "reason": "Impuesto y transferencias de salida. Creación exacta; 6400/6432 bytes del runtime vinculados y coincidentes. Falta acreditar _deployer (32 bytes).",
+      "full_runtime_reproduced": false,
+      "historical_state_authenticated": false
+    },
+    {
+      "rank": 2,
+      "label": "USDG implementation",
+      "address": "0x68184c449e1a8f34fa18d289737129fd27b66f8f",
+      "reason": "Pago de deuda, saldos, autorizaciones y restricciones. Candidato oficial Paxos: cuerpo ejecutable completo igual; 32 bytes del hash IPFS difieren. Fuente exacta no cerrada.",
+      "full_runtime_reproduced": false,
+      "historical_state_authenticated": false
+    },
+    {
+      "rank": 3,
+      "label": "USDG proxy",
+      "address": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+      "reason": "Selecciona el código que ejecuta los pagos. Fuente original y prueba del implementation slot a txIndex=1 pendientes.",
+      "full_runtime_reproduced": false,
+      "historical_state_authenticated": false
+    },
+    {
+      "rank": 4,
+      "label": "Treasury",
+      "address": "0x04822ea321a0dee6f40656172f29312104855d66",
+      "reason": "NAV y activos de respaldo. Creación exacta; 6125/6157 bytes vinculados. Falta _deployer.",
+      "full_runtime_reproduced": false,
+      "historical_state_authenticated": false
+    },
+    {
+      "rank": 5,
+      "label": "sNET",
+      "address": "0xb773ec2c326b7f98a5a83fc098825492f020a4c7",
+      "reason": "Índice y conversión de colateral. Creación exacta; 2704/2736 bytes vinculados. Falta _deployer.",
+      "full_runtime_reproduced": false,
+      "historical_state_authenticated": false
+    },
+    {
+      "rank": 6,
+      "label": "Vault adapter",
+      "address": "0x44abc1d6ccff2696d98890b92e2157af242179c2",
+      "reason": "Cálculo del activo subyacente. Comparación anterior: 11752/11784 bytes iguales; factory pendiente.",
+      "full_runtime_reproduced": false,
+      "historical_state_authenticated": false
+    },
+    {
+      "rank": 7,
+      "label": "PairOracle",
+      "address": "0x929631b33f4070d6f54477fba3fd27566567daca",
+      "reason": "Runtime completo de 2506 bytes y constructor local reproducidos. Sus 11 valores recuperados aún no están autenticados.",
+      "full_runtime_reproduced": true,
+      "historical_state_authenticated": false
+    },
+    {
+      "rank": 8,
+      "label": "LoopbackOracle",
+      "address": "0xcde9599059f8ae6d6b9f33a0af7877827ec75f16",
+      "reason": "Runtime completo de 1550 bytes y constructor local reproducidos. Falta autenticar sus dependencias históricas.",
+      "full_runtime_reproduced": true,
+      "historical_state_authenticated": false
+    },
+    {
+      "rank": 9,
+      "label": "VaultV2",
+      "address": "0xbeeff033f34c046626b8d0a041844c5d1a5409dd",
+      "reason": "Runtime completo reproducido anteriormente. Falta testigo histórico de estado.",
+      "full_runtime_reproduced": true,
+      "historical_state_authenticated": false
+    },
+    {
+      "rank": 10,
+      "label": "AdaptiveCurveIrm",
+      "address": "0x2bd3d5965b26b51814ac95127b2b80dd6ccc0fa1",
+      "reason": "Runtime completo reproducido anteriormente. Falta testigo histórico de estado.",
+      "full_runtime_reproduced": true,
+      "historical_state_authenticated": false
+    }
+  ],
+  "new_creation_input_matches": 5,
+  "new_creation_input_matches_scope": "Against archived verification response, not against an authenticated creation transaction",
+  "checkpoint_values_recovered": 11,
+  "checkpoint_values_authenticated": 0,
+  "exact_pretransaction_root_authenticated": null,
+  "target": {
+    "chain_id": 4663,
+    "block_number": 66744162,
+    "block_hash": "0x8e702487ffdd8f2ff97528407ba671f1a1d1d6f16a812e85fb5cb6625b6886d7",
+    "transaction_index": 1,
+    "transaction_hash": "0xf9e0d2e116d99e2eb8ef2cf236f7cd7f06225e92a6dfd9162f98c7d8e1974842",
+    "timestamp": 1789786800,
+    "l1_number_claim": 26008731
+  },
+  "official_current_config_parent_chain_id": 1,
+  "canonical_historical_settlement_anchor_authenticated": false,
+  "historical_nitro_engine_available": false,
+  "historical_nitro_prefix_replayed": false,
+  "local_constructor_and_adapter_check": {
+    "status": "LOCAL_CONSTRUCTOR_AND_ADAPTER_CHECK_PASS",
+    "covered_reads": 82,
+    "authenticated_reads": 0,
+    "constructors": [
+      "PairOracle",
+      "LoopbackOracle"
+    ],
+    "engine": "Anvil 1.7.1 Osaka, local capture fixture"
+  },
+  "usdg_candidate": {
+    "compiled_bytes": 18644,
+    "matching_bytes": 18612,
+    "executable_body_bytes": 18591,
+    "executable_body_matches": true,
+    "metadata_digest_differences": 32,
+    "full_runtime_match": false
+  },
+  "authentic_liquidation_proven": false,
+  "all_costs_known": false,
+  "current_candidate_net_profit_usdg_raw": null,
+  "realized_income_usdg_raw": "0",
+  "financier_acceptance_received": false,
+  "zero_own_capital_demonstrated": false,
+  "no_personal_recourse_demonstrated": false,
+  "failed_attempts_external_coverage_demonstrated": false,
+  "commercial_admission": false,
+  "public_transactions": 0,
+  "outreach_sent": false
+}

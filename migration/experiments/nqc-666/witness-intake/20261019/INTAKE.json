@@ -1,0 +1,147 @@
+{
+  "schema": "NQC666-witness-intake-v1",
+  "checked_at_utc": "2026-10-19T03:00:57.257191+00:00",
+  "base_commit": "41a354e604f1ecef50a4a31b3f1a7210b419f3ba",
+  "main_observed": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
+  "engine_default": "R5",
+  "R7": "EXPERIMENTAL_UNCHANGED",
+  "decision": "NO_COMPATIBLE_AUTHENTIC_WITNESS_RECEIVED",
+  "archives": [
+    {
+      "name": "NQC032_R4.zip",
+      "archive_root": "NQC032_R4",
+      "reference_directory": "reference/nqc032-r4",
+      "library_file_id": "libfile_668b6e60201c8191b5e264bf0c33936e",
+      "archive_sha256": "367af9fef958276eac39bddaff87b5c96bdf792e682146168993a6d3d8da4e76",
+      "manifest_files_verified": 49,
+      "unmanifested_payload_files": 0,
+      "selected_originals": {
+        "MANIFEST.json": {
+          "bytes": 8085,
+          "sha256": "e2fa0dfb2ec77d0094c0b40b630989d3843862a8e0cc15b62ce80b9542817d6e"
+        },
+        "README.md": {
+          "bytes": 5703,
+          "sha256": "c41aa2bfaf057d62cc32f6e33a7d7918b5c4c98f3cae4ed9a4efa7216b6086c2"
+        },
+        "evidence/COVERAGE.json": {
+          "bytes": 3752,
+          "sha256": "4fbd3b0fb0c47a2f44bc048650bdfb20cafb87239f66ba801c2cfe4ab3a54809"
+        },
+        "docs/SOURCES.json": {
+          "bytes": 1087,
+          "sha256": "c77264a0ada306c3e772a15a6cf398b93ac9941ca16ce989f2deb560a6a1f7b8"
+        }
+      }
+    },
+    {
+      "name": "NQC_031_R2_CONTRATOS_EXACTOS_Y_BLOQUEO_HISTORICO.zip",
+      "archive_root": "NQC_031_R2_CONTRATOS_EXACTOS",
+      "reference_directory": "reference/nqc031-contracts",
+      "library_file_id": "libfile_2fe3065472a081918f5342d1cbd3c8bc",
+      "archive_sha256": "d8b13f966a5221d4a7c4150bc28e340a62c51f1e3544eea73f2d99b051d2244e",
+      "manifest_files_verified": 208,
+      "unmanifested_payload_files": 0,
+      "selected_originals": {
+        "MANIFEST.json": {
+          "bytes": 38002,
+          "sha256": "35ae0c11b7e86008cf8f1802fad6b0c86e5f00ec0886a5127554e86e8b473ed2"
+        },
+        "ESTADO_ACTUAL.json": {
+          "bytes": 6048,
+          "sha256": "64e98e219edfc8d2fa4dda97e885548369949c0b0a57cab61743ff1a5e88ea76"
+        },
+        "ACCESS_LIMITS.json": {
+          "bytes": 499,
+          "sha256": "5838a6492d3797bc90174932c71ff769a637b42b3715687340ae2a8e3d07f07e"
+        },
+        "PROVENANCE.json": {
+          "bytes": 1575,
+          "sha256": "0a37fa4c498ccbeb58fc572e9223b3a65613688e36ab38aaf5341e5a1e52c224"
+        }
+      }
+    }
+  ],
+  "reported_evidence_not_independently_executed": {
+    "nqc032_r4": {
+      "context": {
+        "block_hash": "0x8e702487ffdd8f2ff97528407ba671f1a1d1d6f16a812e85fb5cb6625b6886d7",
+        "block_number": 66744162,
+        "chain_id": 4663,
+        "scope": "ORACLE_ADAPTER_GATE_READONLY",
+        "scope_version": 1,
+        "state_stage": "PRE_TRANSACTION",
+        "transaction_hash": "0xf9e0d2e116d99e2eb8ef2cf236f7cd7f06225e92a6dfd9162f98c7d8e1974842",
+        "transaction_index": 1
+      },
+      "counts": {
+        "account_proofs_verified": 0,
+        "accounts_required": 12,
+        "code_only_accounts_required": 3,
+        "known_observed_values": 71,
+        "known_zero_values": 2,
+        "missing_value_count": 11,
+        "storage_pairs_required": 82,
+        "storage_pairs_still_unauthenticated": 82,
+        "storage_proofs_verified": 0
+      },
+      "commercial_admission": false
+    },
+    "nqc031_current": {
+      "target": {
+        "chain_id": 4663,
+        "block_number": 66744162,
+        "block_hash": "0x8e702487ffdd8f2ff97528407ba671f1a1d1d6f16a812e85fb5cb6625b6886d7",
+        "transaction_index": 1,
+        "transaction_hash": "0xf9e0d2e116d99e2eb8ef2cf236f7cd7f06225e92a6dfd9162f98c7d8e1974842",
+        "timestamp": 1789786800,
+        "l1_number_claim": 26008731
+      },
+      "historical_proof_nodes_received": 0,
+      "covered_reads": 82,
+      "authenticated_reads": 0,
+      "exact_pretransaction_root_authenticated": null,
+      "canonical_historical_settlement_anchor_authenticated": false,
+      "historical_nitro_prefix_replayed": false,
+      "authentic_liquidation_proven": false
+    }
+  },
+  "compatibility": {
+    "required_chain_id": 1,
+    "required_state_stage": "END_OF_BLOCK",
+    "received_chain_id": 4663,
+    "received_state_stage": "PRE_TRANSACTION",
+    "received_transaction_index": 1,
+    "usable_by_existing_R5": false,
+    "reasons": [
+      "CHAIN_MISMATCH",
+      "STATE_STAGE_MISMATCH",
+      "NO_ACCOUNT_STORAGE_PROOF_NODES",
+      "NO_AUTHENTICATED_HISTORICAL_ROOT"
+    ]
+  },
+  "validation_scope": {
+    "archive_manifest_integrity": "PASS",
+    "copied_originals_byte_identical": true,
+    "nqc031_contract_reproduction": "NOT_RUN_SEPARATE_FRONT",
+    "nqc032_audit": "NOT_RUN_SEPARATE_FRONT",
+    "engine_functional_tests": "NOT_RERUN_NO_ENGINE_CHANGES",
+    "new_benchmarks": "NOT_RUN_NO_AUTHENTIC_INPUT",
+    "authentic_offline_end_to_end": "BLOCKED",
+    "whole_bot_stabilized": false,
+    "commercial_admission": false,
+    "isolation_verifier": "PASS",
+    "isolation_tests_passed": 9
+  },
+  "changes": {
+    "engine_code_modified": false,
+    "engine_configuration_modified": false,
+    "optimization_promoted": false,
+    "RPC_calls": 0,
+    "external_messages": 0,
+    "signatures": 0,
+    "broadcasts": 0,
+    "main_modified": false
+  },
+  "remaining_requirements": "../../r6-witness-ingress/WITNESS_REQUIREMENTS.md"
+}

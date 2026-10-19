@@ -1,0 +1,18 @@
+{
+  "astra_zip_sha256": "6f5e67ce8f1ab7504366a1abb36ece43ffbe2739804b6176e817e2156c92873d",
+  "prior_state_zip_sha256": "2f6d001d82d59ecd7de0286f866421759feb3a3275f5efdaf3d912f6efcf81a4",
+  "XKCP": {
+    "url": "https://github.com/XKCP/XKCP/blob/master/Standalone/CompactFIPS202/Python/CompactFIPS202.py",
+    "git_blob_sha1": "0b9608fc01852ea94182139890beca21b61b677a",
+    "sha256": "0b731097a4dfcf33fdaf395ac0bee81c6a6ebff2975590c35ad8cd8d6f3c204f",
+    "use": "read-only differential test; Keccak(1088,512,bytes,0x01,32); no dependency installation"
+  },
+  "primary_specs": [
+    "https://keccak.team/keccak_specs_summary.html",
+    "https://eips.ethereum.org/EIPS/eip-1186",
+    "https://eips.ethereum.org/EIPS/eip-1898",
+    "https://geth.ethereum.org/docs/developers/evm-tracing/built-in-tracers"
+  ],
+  "separation": "NQC031 sources are sealed, consumed, never changed/recompiled. NQC666 sources not used or modified.",
+  "provenance_limits": "ZIP hashes establish local integrity. Capture codehashes and header metadata are not independent consensus or state authentication."
+}
