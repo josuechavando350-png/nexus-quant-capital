@@ -1,0 +1,75 @@
+{
+  "date_utc": "2026-10-19",
+  "scope": "Primary-source documents and pinned Git code, not canonical chain state or HTTP body hashes",
+  "upstream_commit": "08d0a415d6d027f7e401fd6a904b09bedb441668",
+  "upstream": "https://github.com/morpho-org/morpho-bots",
+  "pinned_git_blobs": [
+    {
+      "path": "packages/contracts/test/contracts.test.ts",
+      "sha1": "0dc3ae909e8baae661613cd38fc43d17663a2dec",
+      "finding": "Expected CREATE2 Base resolver 0xc7FB5fB4967944336F866849043fc4d3cD163b81. Not proof of deployed runtime."
+    },
+    {
+      "path": "packages/contracts/solidity/CrossedBooksResolver.sol",
+      "sha1": "bc4d41dcecba0e30cdaec2d57194378f197a0ef8",
+      "finding": "Constructor binds Midnight address; no hardcoded Base chain id in contract; strictly positive gross loan-token delta sent to caller."
+    },
+    {
+      "path": "bots/midnight-crossed-books/src/config/config.service.ts",
+      "sha1": "8f3e8f543ecae4a950ccb0973f60f18f14f7246b",
+      "finding": "Official operational bot rejects chain ID other than Base 8453."
+    },
+    {
+      "path": "bots/midnight-crossed-books/README.md",
+      "sha1": "3627c3f1ba8c0f56ac68a12e114c965823236ece",
+      "finding": "No token principal inventory for callback-based crossing; minimumProfit 1 is one raw unit, not full net P&L."
+    },
+    {
+      "path": "bots/midnight-crossed-books/src/infrastructure/resolver/resolver.service.ts",
+      "sha1": "0e6eef11a31d16a035968f072d4a2014ed52693e",
+      "finding": "Simulates call and decodes gross result; does not certify net gas/sponsor."
+    }
+  ],
+  "official_documents": [
+    {
+      "url": "https://docs.morpho.org/developers/contracts/addresses/",
+      "finding": "Ethereum Midnight chain 1 deployment address 0x471686c42792F93528B000beF54bC10E3aa2045f."
+    },
+    {
+      "url": "https://docs.morpho.org/developers/api/morpho-midnight/",
+      "finding": "Market and books API documented for Ethereum chain 1. Examples are illustrative; no real book snapshots acquired."
+    },
+    {
+      "url": "https://morpho.org/whitepapers/midnight-whitepaper.pdf",
+      "finding": "Section 3.4: no canonical resting offer queue, no protocol time-priority, no reservation of maker capital; routing depends on offchain offers, groups, callbacks and gas."
+    },
+    {
+      "url": "https://docs.morpho.org/developers/midnight/concepts/mempool-router/",
+      "finding": "Signed offchain maker offers supply book levels; historical receipts alone cannot demonstrate ex-ante takeability."
+    },
+    {
+      "url": "https://docs.titanbuilder.xyz/api/eth_sendbundle",
+      "finding": "Conditional builder ETH advance for underfunded signed Ethereum bundles when builder ends net positive; no exact NQC financing admission."
+    },
+    {
+      "url": "https://www.coinbase.com/de/legal/developer-platform/terms-of-service",
+      "finding": "CDP paymaster developer-billing risk remains on Base, non-recourse for NQC not proven."
+    }
+  ],
+  "access_boundaries": [
+    {
+      "url": "https://basescan.org/address/0xc7FB5fB4967944336F866849043fc4d3cD163b81",
+      "result": "WEB_READER_INACCESSIBLE",
+      "retries": 0,
+      "conclusion": "Deployment and Resolve receipts UNKNOWN; no other explorer used to evade reader denial."
+    },
+    {
+      "url": "https://api.morpho.org/v0/midnight/markets?chain_ids=1",
+      "result": "PREVIOUSLY_INACCESSIBLE_NQC060",
+      "new_attempts": 0,
+      "conclusion": "No second provider, RPC, query or circumvention."
+    }
+  ],
+  "new_RPCS": 0,
+  "Triport_requests": 0
+}

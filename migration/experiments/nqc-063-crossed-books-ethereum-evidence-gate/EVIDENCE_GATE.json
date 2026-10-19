@@ -1,0 +1,23 @@
+{
+  "schema": "nqc063-evidence-gate-v1",
+  "target": "HYPOTHETICAL_ETHEREUM_1_CROSSED_BOOKS_WITH_TITAN",
+  "hard_prerequisites": [
+    "Authenticated Ethereum Midnight market, code hashes and an independently validated resolver deployment; Base CREATE2 target is not Ethereum proof.",
+    "Before-decision timestamped full ask and bid signed offers, matchable same market, group allowances, maker balances, expiries, ratification, protocol fees and accessibility to NQC.",
+    "Exact executable atomic settlement and asset-denominated gross, correct token decimals and caller ownership from admissible state.",
+    "Token->native ETH settlement route and signed-prefix gas upper reserves; Titan accepts specific underfunded sequence, including contract CREATE if needed.",
+    "Builder/proposer reimbursement, sponsor remuneration, failed-attempt loss distribution and no founder personal recourse documented for that exact package.",
+    "Competitive prospectively observable inclusion and post-settlement realized NQC-controlled net after all costs."
+  ],
+  "rejections": [
+    "Positive gross loan token and MIN_PROFIT_ASSETS=1 cannot be marketed as USD or net gain.",
+    "Past Resolve receipt alone does not prove historical signed offers accessible to NQC before decision.",
+    "Illustrative public docs are not market observations; do not invent real market IDs or fills.",
+    "Absence of chainId check in Solidity does not mean official Base bot works on Ethereum without engineering and security testing.",
+    "Do not treat Titan Ethereum eth_sendBundle as Base sponsorship or automatic ETH redemption of ERC20.",
+    "No new RPC, denied API retries, proxies, provider switching to circumvent, wallets, gas, signatures, trading, contacts or CREATE."
+  ],
+  "research_go": "ONLY_IF_NEW_PROVENANCE_PRESERVED_PUBLIC_BOOK_AND_SETTLEMENT",
+  "financial_go": false,
+  "commercial_admission": false
+}
