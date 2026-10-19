@@ -1,0 +1,81 @@
+{
+  "experiment": "NQC050",
+  "date": "2026-10-19",
+  "base_commit": "0028a70364d19fc7151f8dd5169d29a35f9e30cf",
+  "mode": "OFFLINE_ONLY",
+  "source_files_verified_against_github": {
+    "compat/rlp.py": "d1071ad98e5d43d8bd60c3b9961eb6f1b1784f2b",
+    "compat/Crypto/__init__.py": "53d84c1426aca25d99fff609dfcf7146af0d92a0",
+    "compat/Crypto/Hash/__init__.py": "63490157406ad92483e9d2a89eeb0a235c96d620",
+    "compat/Crypto/Hash/keccak.py": "622d3f2827f7dba2d604795a746fbcbba97edac2",
+    "offline_run.py": "e5154a39c8d6d87c8cbed607bf7cde133c2b9a69",
+    "test_compat.py": "fcca4b07b7d5b0f4619569116dd62bab52753387",
+    "parent_header_rehash.py": "20ade3f76fc30a265f751bd0446435bcf1f43e49",
+    "test_saved_headers.py": "8ffe274e4125464fad6136ae4514a436f0c70e9e"
+  },
+  "platform": {
+    "python_version": "3.13.5",
+    "provider": "hashlib OpenSSL KECCAK-256",
+    "openssl_keccak_256_supported": true,
+    "rlp_pypi_installed": false,
+    "pycryptodome_installed": false,
+    "github_direct_dns_resolvable": false,
+    "env_NQC_TRIPORT_API_KEY_present": false,
+    "env_NQC_ARCHIVE_RPC_present": false
+  },
+  "execution": {
+    "compat_test_suite": {
+      "tests": 11,
+      "passed": 11,
+      "failed": 0
+    },
+    "historical_observation_test_suite": {
+      "tests": 4,
+      "passed": 4,
+      "failed": 0
+    },
+    "prior_NQC049_offline_suite_rerun": {
+      "tests": 22,
+      "passed": 22,
+      "failed": 0
+    },
+    "tested_against_pinned_prior_captured_headers": {
+      "parent": {
+        "number": 66744161,
+        "expected_hash": "0x53f9d3bedcdd3554f7447343ca03f9c9a5a7b61c692057f431d9225e04e1a917",
+        "computed_equals_expected": true,
+        "pinned_source_git_blob": "d8576f0e73000d4ab993d69134ff0713ef70ca16"
+      },
+      "target": {
+        "number": 66744162,
+        "expected_hash": "0x8e702487ffdd8f2ff97528407ba671f1a1d1d6f16a812e85fb5cb6625b6886d7",
+        "computed_equals_expected": true,
+        "pinned_source_git_blob": "8445e1f2744b7ab5888755613760da6c7897eeb6"
+      },
+      "target_parent_hash_equals_observed_parent_hash": true,
+      "mutation_changes_hash": true,
+      "evidentiary_scope": "self-consistency of previously captured headers only; no consensus or independent finality"
+    },
+    "guarded_original_verifier_loader_local_probe": {
+      "repo_root": "incomplete temporary scratch containing NQC049 bridge only",
+      "status": "BLOCKED_PINNED_SOURCE_OR_PLAN",
+      "exit_code": 2,
+      "rpc_calls": 0,
+      "verified_source_execution": false
+    },
+    "unrun": [
+      "NQC037 genuine validate_header in a verified full checkout",
+      "NQC037 account_proof/validate_step against real eth_getProof",
+      "isolation verifier in a full checkout",
+      "16MiB provider response or operational remote ledger",
+      "Nitro replay and economic P&L"
+    ]
+  },
+  "budget": {
+    "triport_authenticated_calls_known": 0,
+    "total_authorized": 8,
+    "historical_proofs_acquired": 0,
+    "slots_authenticated_exact_tx1_prestate": 0
+  },
+  "commercial_admission": false
+}
