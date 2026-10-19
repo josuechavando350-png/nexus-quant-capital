@@ -1,0 +1,206 @@
+{
+  "checks": [
+    {
+      "command": [
+        "/workspace/scratch/bea05de2edb6/crypto-env/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/scratch/d232f9d2a06a/nexus-quant-capital/migration/experiments/nqc-045-storage-account-cascade",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "evidence/cascade.log",
+      "name": "cascade",
+      "sha256": "2ea9b68bc230d1e1bd9a5eb9ac084c33a0c037d56c671f4379f937bb55371712",
+      "tests_passed": 16
+    },
+    {
+      "command": [
+        "/workspace/scratch/bea05de2edb6/crypto-env/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/scratch/d232f9d2a06a/nexus-quant-capital/migration/experiments/nqc-044-write-witness",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "evidence/raw_write_coverage.log",
+      "name": "raw_write_coverage",
+      "sha256": "880694e94d5503347060383f0bd94f3dffe1d06a14f9d5996f4618c62107387d",
+      "tests_passed": 14
+    },
+    {
+      "command": [
+        "/workspace/scratch/bea05de2edb6/crypto-env/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/scratch/d232f9d2a06a/nexus-quant-capital/migration/experiments/nqc-043-account-facts",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "evidence/account_facts.log",
+      "name": "account_facts",
+      "sha256": "d64c7adf219cbf43971723fbe52d3b379c6116cf804e9f14e7aa2dc456b7a842",
+      "tests_passed": 17
+    },
+    {
+      "command": [
+        "/workspace/scratch/bea05de2edb6/crypto-env/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/scratch/d232f9d2a06a/nexus-quant-capital/migration/experiments/nqc-042-block-prefix",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "evidence/prefix_review.log",
+      "name": "prefix_review",
+      "sha256": "afad06185cac5f360dd6991fc5657eece27710b78867fee9ab18e44af872e755",
+      "tests_passed": 12
+    },
+    {
+      "command": [
+        "/workspace/scratch/bea05de2edb6/crypto-env/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/scratch/d232f9d2a06a/nexus-quant-capital/migration/experiments/nqc-041-tx0-storage-map",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "evidence/storage_map.log",
+      "name": "storage_map",
+      "sha256": "622f6a918ee5991c67abdfc6d6331b98b507c8066aa89279f4fc3266677a3e33",
+      "tests_passed": 14
+    },
+    {
+      "command": [
+        "/workspace/scratch/bea05de2edb6/crypto-env/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/scratch/d232f9d2a06a/nexus-quant-capital/migration/experiments/nqc-040-resumable-intake",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "evidence/session.log",
+      "name": "session",
+      "sha256": "3d722f690c6038f10a95033146a225100b5173ad971329aea5fcedb12079b090",
+      "tests_passed": 17
+    },
+    {
+      "command": [
+        "/workspace/scratch/bea05de2edb6/crypto-env/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/scratch/d232f9d2a06a/nexus-quant-capital/migration/experiments/nqc-039-authenticated-intake",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "evidence/exporter.log",
+      "name": "exporter",
+      "sha256": "fb4fc0f366dd92afb9eb189ecdfd9edcdd033e90a2a54639c998a8aa8a4d9d60",
+      "tests_passed": 2
+    },
+    {
+      "command": [
+        "/workspace/scratch/bea05de2edb6/crypto-env/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/scratch/d232f9d2a06a/nexus-quant-capital/migration/experiments/nqc-038-archive-access",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "evidence/transport.log",
+      "name": "transport",
+      "sha256": "6b7a9bdc80b9face41ed45368283e83f6164789ddb04a94bda4718274195ed67",
+      "tests_passed": 7
+    },
+    {
+      "command": [
+        "/workspace/scratch/bea05de2edb6/crypto-env/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/scratch/d232f9d2a06a/nexus-quant-capital/migration/experiments/nqc-037-historical-state/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "evidence/original_verifier.log",
+      "name": "original_verifier",
+      "sha256": "eaef16a6ddcc416e355bf2e8c082c2534facc32123bf01cf674980479e86831d",
+      "tests_passed": 32
+    },
+    {
+      "command": [
+        "/workspace/scratch/bea05de2edb6/crypto-env/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "migration",
+        "-p",
+        "test_isolation.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "evidence/isolation_tests.log",
+      "name": "isolation_tests",
+      "sha256": "dc7f9c6c97029de08d7afa91b81c09b938d7e0ddc5204864935a93945005d3fd",
+      "tests_passed": 9
+    },
+    {
+      "command": [
+        "/workspace/scratch/bea05de2edb6/crypto-env/bin/python",
+        "migration/verify_isolation.py"
+      ],
+      "exit_code": 0,
+      "log": "evidence/isolation.log",
+      "name": "isolation",
+      "sha256": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940"
+    }
+  ],
+  "commercial_admission": false,
+  "historical_proofs_acquired": 0,
+  "rpc_requests_sent": 0,
+  "tests_passed": 140,
+  "unrun": [
+    "NQC036 blob/KZG audit",
+    "Rust",
+    "Go",
+    "Nitro replay",
+    "historical acquisition",
+    "economic replay"
+  ]
+}
