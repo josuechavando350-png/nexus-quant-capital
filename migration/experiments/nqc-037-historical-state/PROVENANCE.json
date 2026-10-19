@@ -1,0 +1,104 @@
+{
+  "created_utc": "2026-10-19T06:08:53.710616+00:00",
+  "repository": "josuechavando350-png/nexus-quant-capital",
+  "base_commit": "0a33db6a508be2e8b2d3dccbc404dc5a27f153ea",
+  "base_tree": "c70fca4f52a210709422b4e9fa576e948c80fb1e",
+  "main_observed": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
+  "research_branch": "research/nqc-037-historical-state-20261019",
+  "copied_inputs": [
+    {
+      "local": "vendor/nqc031/storage_proof.py",
+      "origin_package": "NQC031_ADQUISICION_HISTORICA_Y_ARBOS61",
+      "origin_path": "source/storage_proof.py",
+      "bytes": 6391,
+      "sha256": "5d2cf2ab12e5156310eec5c9a1db3f118cd494724f45acbc336edcf63a995cbb",
+      "byte_exact_copy": true
+    },
+    {
+      "local": "vendor/nqc031/util.py",
+      "origin_package": "NQC031_ADQUISICION_HISTORICA_Y_ARBOS61",
+      "origin_path": "source/util.py",
+      "bytes": 1178,
+      "sha256": "3f841a10116ba081052cb17852da56f61910aabbfbd5028a74e72eb895639002",
+      "byte_exact_copy": true
+    },
+    {
+      "local": "inputs/TARGET.json",
+      "origin_package": "NQC031_ADQUISICION_HISTORICA_Y_ARBOS61",
+      "origin_path": "inputs/TARGET.json",
+      "bytes": 7051,
+      "sha256": "a717a9dd5082af7f2414e0a9e480d09c142922233e8c280b45aabccdf0b26d70",
+      "byte_exact_copy": true
+    },
+    {
+      "local": "inputs/augmented-prestate.json",
+      "origin_package": "NQC031_ADQUISICION_HISTORICA_Y_ARBOS61",
+      "origin_path": "inputs/augmented-prestate.json",
+      "bytes": 261490,
+      "sha256": "a42794cff817a868d9d72898c1422cec99f76df180078c3564dbf3d425aa0a23",
+      "byte_exact_copy": true
+    },
+    {
+      "local": "inputs/target-header.json",
+      "origin_package": "NQC031_ADQUISICION_HISTORICA_Y_ARBOS61",
+      "origin_path": "inputs/05-block.json",
+      "bytes": 5549,
+      "sha256": "5d8c3fca1a3a9c96da54f9c4a26a724d357b40694b1d262935c93a3c3e3667b6",
+      "byte_exact_copy": true
+    },
+    {
+      "local": "inputs/parent-header.json",
+      "origin_package": "NQC031_ADQUISICION_HISTORICA_Y_ARBOS61",
+      "origin_path": "inputs/06-parent.json",
+      "bytes": 8033,
+      "sha256": "6771995c866fc8a8adcce000035ef3e3e956335c6e7fe18807dd16a3d5d882e3",
+      "byte_exact_copy": true
+    },
+    {
+      "local": "inputs/l1-observations.json",
+      "origin_package": "NQC035_HEADER_COMMITMENT",
+      "origin_path": "inputs/l1_observations.json",
+      "bytes": 2115,
+      "sha256": "141b1c5dd0ff39abebab3c7bb093cff18d98c9ed195b4c21b6626286d8b183b6",
+      "byte_exact_copy": true
+    }
+  ],
+  "archive_endpoint_configured": false,
+  "blockscout_acquisitions": [
+    {
+      "tool": "get_block_info",
+      "chain_id": "4663",
+      "number_or_hash": "0xcc02e358c6b11bfeb61182aef188bffffaa49073e666f740f2c2a887abc2c1c1",
+      "file": "evidence/blockscout-confirmed-block.json"
+    },
+    {
+      "tool": "direct_api_call",
+      "chain_id": "1",
+      "endpoint_path": "/api/v2/transactions/0xccb8352f1ee3cd5a0ac2720670a90633baa8224a6fe5e4ebc11ce5387a30d0fb/logs",
+      "file": "evidence/blockscout-confirmation-logs.json"
+    },
+    {
+      "tool": "get_transaction_info",
+      "chain_id": "1",
+      "transaction_hash": "0xccb8352f1ee3cd5a0ac2720670a90633baa8224a6fe5e4ebc11ce5387a30d0fb",
+      "include_raw_input": true,
+      "file": "evidence/blockscout-confirmation-tx.json",
+      "raw_input_truncated": true
+    }
+  ],
+  "raw_tool_responses_serialized_without_session_token": true,
+  "public_rpc_attempt_files": [
+    "evidence/publicnode-chain.json",
+    "evidence/blockreq-chain.json"
+  ],
+  "proof_tests_use_synthetic_tries": true,
+  "synthetic_proofs_are_historical_evidence": false,
+  "main_modified": false,
+  "live_trading": false,
+  "signing": false,
+  "broadcasting": false,
+  "deployment": false,
+  "spending": false,
+  "provider_contact": false,
+  "subscriptions_created": false
+}

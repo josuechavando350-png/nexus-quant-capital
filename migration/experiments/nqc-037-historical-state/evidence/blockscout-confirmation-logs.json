@@ -1,0 +1,99 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Tool executed successfully."
+    }
+  ],
+  "structuredContent": {
+    "data": [
+      {
+        "block_number": 26054880,
+        "topics": [
+          "0xb4df3847300f076a369cd76d2314b470a1194d9e8a6bb97f1860aee88a5f6748",
+          "0xb906463d939e473d25daa564dbbeaad712c2b1ffd6f2ad0ac617992f90665794",
+          "0xcc02e358c6b11bfeb61182aef188bffffaa49073e666f740f2c2a887abc2c1c1",
+          null
+        ],
+        "data": "0x",
+        "decoded": {
+          "method_call": "SendRootUpdated(bytes32 indexed outputRoot, bytes32 indexed l2BlockHash)",
+          "method_id": "b4df3847",
+          "parameters": [
+            {
+              "indexed": true,
+              "name": "outputRoot",
+              "type": "bytes32",
+              "value": "0xb906463d939e473d25daa564dbbeaad712c2b1ffd6f2ad0ac617992f90665794"
+            },
+            {
+              "indexed": true,
+              "name": "l2BlockHash",
+              "type": "bytes32",
+              "value": "0xcc02e358c6b11bfeb61182aef188bffffaa49073e666f740f2c2a887abc2c1c1"
+            }
+          ]
+        },
+        "index": 181,
+        "address": "0xf0ce991ea4A0d2400A4AB49b20ae333f6Dce3DE9"
+      },
+      {
+        "block_number": 26054880,
+        "topics": [
+          "0xfc42829b29c259a7370ab56c8f69fce23b5f351a9ce151da453281993ec0090c",
+          "0x6a077d4444124a8f5192aca74c0c5824fc280697bfc8574cadb4e849176f5495",
+          null,
+          null
+        ],
+        "data": "0xcc02e358c6b11bfeb61182aef188bffffaa49073e666f740f2c2a887abc2c1c1b906463d939e473d25daa564dbbeaad712c2b1ffd6f2ad0ac617992f90665794",
+        "decoded": {
+          "method_call": "AssertionConfirmed(bytes32 indexed assertionHash, bytes32 blockHash, bytes32 sendRoot)",
+          "method_id": "fc42829b",
+          "parameters": [
+            {
+              "indexed": true,
+              "name": "assertionHash",
+              "type": "bytes32",
+              "value": "0x6a077d4444124a8f5192aca74c0c5824fc280697bfc8574cadb4e849176f5495"
+            },
+            {
+              "indexed": false,
+              "name": "blockHash",
+              "type": "bytes32",
+              "value": "0xcc02e358c6b11bfeb61182aef188bffffaa49073e666f740f2c2a887abc2c1c1"
+            },
+            {
+              "indexed": false,
+              "name": "sendRoot",
+              "type": "bytes32",
+              "value": "0xb906463d939e473d25daa564dbbeaad712c2b1ffd6f2ad0ac617992f90665794"
+            }
+          ]
+        },
+        "index": 182,
+        "address": "0x23A19d23e89166adedbDcB432518AB01e4272D94"
+      }
+    ],
+    "data_description": [
+      "Items Structure:",
+      "- `address`: The contract address that emitted the log (string)",
+      "- `block_number`: Block where the event was emitted",
+      "- `index`: Log position within the block",
+      "- `topics`: Raw indexed event parameters (first topic is event signature hash)",
+      "- `data`: Raw non-indexed event parameters (hex encoded). **May be truncated.**",
+      "- `decoded`: If available, the decoded event with its name and parameters",
+      "- `data_truncated`: (Optional) `true` if the `data` or `decoded` field was shortened.",
+      "Event Decoding in `decoded` field:",
+      "- `method_call`: **Actually the event signature** (e.g., \"Transfer(address indexed from, address indexed to, uint256 value)\")",
+      "- `method_id`: **Actually the event signature hash** (first 4 bytes of keccak256 hash)",
+      "- `parameters`: Decoded event parameters with names, types, values, and indexing status"
+    ],
+    "notes": [
+      "Free session budget: 1 of 8 tool calls remaining. Requests authorized with a client-supplied Blockscout PRO API key are not metered — get a key at https://mcp.blockscout.com.",
+      "Starting 10/08/2026, all requests to the Blockscout MCP server will require a PRO API key for authorization. More information on how to get a PRO API key and setup instructions on https://mcp.blockscout.com/."
+    ],
+    "instructions": null,
+    "pagination": null
+  },
+  "isError": false
+}

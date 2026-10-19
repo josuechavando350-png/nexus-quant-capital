@@ -1,0 +1,135 @@
+{
+  "status": "NOT_EXECUTED_REQUIREMENTS_ONLY",
+  "mode": "OFFLINE_HISTORICAL_READONLY_REPLAY",
+  "target": {
+    "chain_id": 4663,
+    "block_number": 66744162,
+    "block_hash": "0x8e702487ffdd8f2ff97528407ba671f1a1d1d6f16a812e85fb5cb6625b6886d7",
+    "transaction_index": 1,
+    "transaction_hash": "0xf9e0d2e116d99e2eb8ef2cf236f7cd7f06225e92a6dfd9162f98c7d8e1974842",
+    "timestamp": 1789786800,
+    "l1_number_claim": 26008731
+  },
+  "parent_block_hash": "0x53f9d3bedcdd3554f7447343ca03f9c9a5a7b61c692057f431d9225e04e1a917",
+  "parent_state_root_claim": "0xc07bf301da73475b44460226757ddfd1c2ee60a6d7346e3749de6953f78bae4a",
+  "target_poststate_root_claim": "0x0b5c085594eeeabdbc165b0904a7a280951f4dd8d40c979fd51b1668985d85ba",
+  "required_pretransaction_root": null,
+  "prefix_transaction_hashes": [
+    "0x3824f876e4f5f677850701f41b990f6971c631ff8ebbce08a904072c17488fe8"
+  ],
+  "raw_prefix_transactions_received": false,
+  "nitro_system_inputs_received": false,
+  "historical_engine_version_verified": false,
+  "chain_configuration_and_fork_schedule_verified": false,
+  "canonical_settlement_chain_id": null,
+  "indexed_anchor_candidate": {
+    "batch_data_container": "in_blob4844",
+    "batch_number": 258761,
+    "commitment_transaction": {
+      "hash": "0x371af57bf11056f0228abbee533154ca844a284787490ed9d603be13d17b40d2",
+      "status": "finalized",
+      "timestamp": "2026-09-19T03:00:23.000000Z"
+    },
+    "confirmation_transaction": {
+      "hash": "0xccb8352f1ee3cd5a0ac2720670a90633baa8224a6fe5e4ebc11ce5387a30d0fb",
+      "status": "finalized",
+      "timestamp": "2026-09-25T13:51:11.000000Z"
+    },
+    "delayed_messages": 297757,
+    "l1_block_number": 26008731,
+    "send_count": 2560,
+    "send_root": "0xa2368ad058f0612fc03cc014fc0fca5ff4e974244980a7b9c08e4ec73f34d269",
+    "status": "Confirmed on base"
+  },
+  "adapter_compiler_input": "inputs/adapter-compiler-input.json",
+  "adapter_runtime_evidence": "inputs/adapter-compiler-output.json",
+  "adapter_call": "evidence/local01/adapter-request.json",
+  "gate_call": "evidence/local01/gate-request.json",
+  "adapter_runtime_is_counterfactual": true,
+  "adapter_runtime_is_historical_deployment": false,
+  "required_state_data": [
+    "Authenticated parent root and canonical chain anchor",
+    "Authenticated prefix tx0 plus Nitro system transitions, or independently authenticated exact pretransaction witness",
+    "Account/code proofs and storage proofs for every actual candidate read",
+    "Correct ArbOS and gas/DA accounting at this execution position",
+    "State difference, receipts, logs and balance reconciliation for the original transaction and the candidate"
+  ],
+  "fail_closed": [
+    "Never substitute target poststate or parent state for the exact txIndex=1 prestate",
+    "Never install a zero for an absent storage value",
+    "Never promote indexed events or SHA256 manifests into state proofs",
+    "Never treat Anvil initialization as Nitro prefix execution",
+    "Never treat hypothetical prefunding as accepted zero-capital financing"
+  ],
+  "live_submission": false,
+  "official_current_config_parent_chain_id": 1,
+  "official_current_config_received": true,
+  "current_config_source": "reference/chain-config/robinhood-chain-info.json",
+  "genesis_source": "reference/chain-config/robinhood-genesis.json",
+  "delivery_requirements": [
+    "Authenticated parent state and complete Nitro prefix/system inputs up to (but excluding) txIndex=1, or a verifiable intermediate-state witness.",
+    "EIP-1186 accountProof/storageProof (or equivalent trie nodes) for all actual reads, including the 11 ring values. Bind each proof to its exact root and position.",
+    "Creation caller evidence for NET, Treasury and sNET; factory evidence for Vault adapter. Do not recover these values by copying runtime immutables.",
+    "Native Nitro engine/module root and historical ArbOS configuration, receipts, logs, state diff and asset ledger for a local candidate replay.",
+    "Accepted third-party funding terms, account ownership, prefunding source and loss allocation covering preparation, failures and bounded retries with no personal recourse."
+  ],
+  "standard_rpc_warning": "eth_getProof(address, slots, block=66744162) normally addresses the block poststate. It is not a proof of the prestate at transactionIndex=1. Parent proofs require the authenticated Nitro prefix replay.",
+  "priority_account": "0x929631b33f4070d6f54477fba3fd27566567daca",
+  "priority_slots": [
+    {
+      "slot": "0x0000000000000000000000000000000000000000000000000000000000000009",
+      "expected_event_derived_value": "0x0000000000000000000000000000002521135c1ec74ec9f2bb64300294a6b82a",
+      "authenticated": false
+    },
+    {
+      "slot": "0x000000000000000000000000000000000000000000000000000000000000000d",
+      "expected_event_derived_value": "0x00000000000000000000000000000024cb254cb9caae51abf61ced25a4f4324c",
+      "authenticated": false
+    },
+    {
+      "slot": "0x000000000000000000000000000000000000000000000000000000000000000f",
+      "expected_event_derived_value": "0x00000000000000000000000000000025330c3fdb66aa0ced7b9ad82187282f43",
+      "authenticated": false
+    },
+    {
+      "slot": "0x0000000000000000000000000000000000000000000000000000000000000011",
+      "expected_event_derived_value": "0x0000000000000000000000000000002538ec77589c5873160d57d2c630587905",
+      "authenticated": false
+    },
+    {
+      "slot": "0x0000000000000000000000000000000000000000000000000000000000000013",
+      "expected_event_derived_value": "0x000000000000000000000000000000253f1d6379cd588ea0039d96b0effe1f0c",
+      "authenticated": false
+    },
+    {
+      "slot": "0x0000000000000000000000000000000000000000000000000000000000000015",
+      "expected_event_derived_value": "0x0000000000000000000000000000002545446194a100ba2bdd16456de8093819",
+      "authenticated": false
+    },
+    {
+      "slot": "0x0000000000000000000000000000000000000000000000000000000000000017",
+      "expected_event_derived_value": "0x000000000000000000000000000000254b4053932a8a45fb9f07a254c37a2975",
+      "authenticated": false
+    },
+    {
+      "slot": "0x0000000000000000000000000000000000000000000000000000000000000019",
+      "expected_event_derived_value": "0x0000000000000000000000000000002551329dbce185b2716f99f7bd323e25c4",
+      "authenticated": false
+    },
+    {
+      "slot": "0x000000000000000000000000000000000000000000000000000000000000001b",
+      "expected_event_derived_value": "0x00000000000000000000000000000025572168900a2ede1f7d84fd7a92791ef0",
+      "authenticated": false
+    },
+    {
+      "slot": "0x000000000000000000000000000000000000000000000000000000000000001d",
+      "expected_event_derived_value": "0x000000000000000000000000000000255ced4b0b16cf9f3226570550044fa7d4",
+      "authenticated": false
+    },
+    {
+      "slot": "0x000000000000000000000000000000000000000000000000000000000000001f",
+      "expected_event_derived_value": "0x0000000000000000000000000000002501d3357b56cc8f9452c8c0d2accfc861",
+      "authenticated": false
+    }
+  ]
+}

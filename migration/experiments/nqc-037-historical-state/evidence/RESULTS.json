@@ -1,0 +1,95 @@
+{
+  "status": "NEW_ANCHOR_OBSERVATIONS_AND_VERIFIED_INTAKE_READY_STATE_ACCESS_BLOCKED",
+  "source_checks": {
+    "files_checked": 12,
+    "nitro_commit": "3599acae1ad2fab4059fc46453c9cd3294126641",
+    "go_ethereum_submodule_commit": "f3a977ddf30b138da2fe673ac5cbff2bc6dd4c88",
+    "history_runtime_bytes": 133,
+    "history_runtime_keccak256": "0xceef1f6ad6c0cb7eb8fb15678abf11da3ce0d3a7c7106aa900c5930e556a43ff",
+    "historically_executed_binary_authenticated": false
+  },
+  "confirmation_event": {
+    "signature_topic": "0xfc42829b29c259a7370ab56c8f69fce23b5f351a9ce151da453281993ec0090c",
+    "log_index": 182,
+    "assertion_hash": "0x6a077d4444124a8f5192aca74c0c5824fc280697bfc8574cadb4e849176f5495",
+    "block_hash": "0xcc02e358c6b11bfeb61182aef188bffffaa49073e666f740f2c2a887abc2c1c1",
+    "send_root": "0xb906463d939e473d25daa564dbbeaad712c2b1ffd6f2ad0ac617992f90665794",
+    "raw_event_fields_match": true,
+    "receipt_inclusion_verified": false
+  },
+  "confirmation_calldata_truncated": true,
+  "confirmation_calldata_fully_decoded": false,
+  "assertion_hash_recomputed_from_calldata": false,
+  "observed_confirmed_l2_block_number": 66753418,
+  "target_to_observed_anchor_blocks": 9256,
+  "parent_to_observed_anchor_blocks": 9257,
+  "history_route": {
+    "status": "SOURCE_DERIVED_NOT_ACQUIRED",
+    "arbitrum_window": 393168,
+    "ethereum_window_not_applicable": 8191,
+    "target_slot": "0x0000000000000000000000000000000000000000000000000000000000048f12",
+    "parent_slot": "0x0000000000000000000000000000000000000000000000000000000000048f11",
+    "in_window": true,
+    "proofs_received": 0,
+    "full_anchor_header_received": false
+  },
+  "arbos_root_slots": {
+    "version": "0x15fed0451499512d95f3ec5a41c878b9de55f21878b5b4e190d4667ec709b400",
+    "upgrade_version": "0x15fed0451499512d95f3ec5a41c878b9de55f21878b5b4e190d4667ec709b401",
+    "upgrade_timestamp": "0x15fed0451499512d95f3ec5a41c878b9de55f21878b5b4e190d4667ec709b402",
+    "chain_id": "0x15fed0451499512d95f3ec5a41c878b9de55f21878b5b4e190d4667ec709b404",
+    "genesis_block_number": "0x15fed0451499512d95f3ec5a41c878b9de55f21878b5b4e190d4667ec709b405"
+  },
+  "new_rpc_attempts": [
+    {
+      "endpoint": "https://robinhood-rpc.publicnode.com",
+      "http_status": 403,
+      "requests": 1,
+      "historical_methods_reached": false
+    },
+    {
+      "endpoint": "https://robinhood-mainnet-rpc.blockreq.com/v1/rpc/public",
+      "http_status": 403,
+      "requests": 1,
+      "historical_methods_reached": false
+    }
+  ],
+  "minimal_acquisition_plan_requests": 8,
+  "planned_parent_priority_slots": 11,
+  "planned_parent_arbos_slots": 5,
+  "planned_anchor_history_slots": 2,
+  "parent_state_proofs_received": 0,
+  "parent_slots_authenticated": 0,
+  "diagnostic_snapshot_accounts": 23,
+  "diagnostic_snapshot_storage_slots": 137,
+  "diagnostic_snapshot_is_complete_system_witness": false,
+  "arbos_account_in_diagnostic_snapshot": true,
+  "history_account_in_diagnostic_snapshot": true,
+  "diagnostic_arbos_storage_slots": 15,
+  "diagnostic_arbos_context_fields_missing": [
+    "upgrade_version",
+    "upgrade_timestamp",
+    "chain_id",
+    "genesis_block_number"
+  ],
+  "diagnostic_history_storage_slots": 0,
+  "diagnostic_history_code_matches_pinned_runtime": true,
+  "diagnostic_snapshot_merkle_proofs_present": false,
+  "gates": {
+    "l1_receipt_inclusion_verified": false,
+    "l1_consensus_finality_verified": false,
+    "canonical_l2_header_authenticated": false,
+    "historical_nitro_binary_authenticated": false,
+    "historical_fork_schedule_authenticated": false,
+    "parent_witness_complete": false,
+    "prefix_state_transition_executed": false,
+    "exact_prestate_root": null,
+    "authenticated_pretransaction_priority_slots": 0,
+    "nitro_replayed": false,
+    "economic_replay_completed": false,
+    "funding_terms_accepted": false,
+    "commercial_admission": false,
+    "commercial_readiness_judgment_out_of_10": 2.5,
+    "realized_pnl_usd": "0"
+  }
+}

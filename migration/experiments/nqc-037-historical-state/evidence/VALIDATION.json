@@ -1,0 +1,38 @@
+{
+  "status": "PASS_OWN_CODE_WITH_PRESERVED_UPSTREAM_WHITESPACE",
+  "python_tests": {
+    "passed": 32,
+    "failed": 0,
+    "log": "evidence/tests.log"
+  },
+  "isolation_tests": {
+    "passed": 9,
+    "failed": 0,
+    "log": "evidence/isolation-tests.log"
+  },
+  "isolation_verifier": {
+    "active_workflows": 0,
+    "canonical_recertification": false,
+    "destination_repository_id": 1411047452,
+    "disabled_workflows": 106,
+    "original_objects_checked": false,
+    "source_commit": "e259739c9f75fedcd1061d2f78d6b8852e7a3060",
+    "source_files": 531,
+    "status": "ISOLATED_SOURCE_IDENTITY_PASS"
+  },
+  "own_code_whitespace": "PASS",
+  "global_whitespace": {
+    "status": "FAILED_UPSTREAM_ONLY",
+    "file": "vendor/nitro__LICENSE.md",
+    "lines": [
+      23,
+      24
+    ],
+    "reason": "Two trailing spaces preserved byte-exact from upstream license"
+  },
+  "rust_tests": "NOT_RUN_ENGINE_UNCHANGED",
+  "nitro_replay": "NOT_RUN",
+  "economic_replay": "NOT_RUN",
+  "live_archive_package": "NOT_ACQUIRED",
+  "synthetic_tests_are_chain_evidence": false
+}

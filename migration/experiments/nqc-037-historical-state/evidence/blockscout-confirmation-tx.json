@@ -1,0 +1,72 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Transaction 0xccb8352f1ee3cd5a0ac2720670a90633baa8224a6fe5e4ebc11ce5387a30d0fb on chain 1: successful, from 0xa0A1D8cd6f867a583a39232a477ff231aFD8eC4C to 0x23A19d23e89166adedbDcB432518AB01e4272D94."
+    }
+  ],
+  "structuredContent": {
+    "data": {
+      "from": "0xa0A1D8cd6f867a583a39232a477ff231aFD8eC4C",
+      "to": "0x23A19d23e89166adedbDcB432518AB01e4272D94",
+      "token_transfers": [],
+      "decoded_input": null,
+      "user_operations": null,
+      "raw_input": "0x10b98a356a077d4444124a8f5192aca74c0c5824fc280697bfc8574cadb4e849176f54953736304cbe71c6fa7c779acf59e85b3f6aa355e39569bf2819ae92ccd5981687cc02e358c6b11bfeb61182aef188bffffaa49073e666f740f2c2a887abc2c1c1b906463d939e473d25daa564dbbeaad712c2b1ffd6f2ad0ac617992f90665794000000000000000000000000000000000000000000000000000000000003f2e6000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016baaefbbe399a4ba0e73e73a094ea8aae5785824fb4f8f1d1d1b0b56",
+      "raw_input_truncated": true,
+      "priority_fee": "4987000000000",
+      "is_pending_update": false,
+      "result": "success",
+      "max_fee_per_gas": "14629780030",
+      "revert_reason": null,
+      "confirmation_duration": [
+        0,
+        12000
+      ],
+      "transaction_burnt_fee": "138351944247800",
+      "type": 2,
+      "token_transfers_overflow": false,
+      "confirmations": 169804,
+      "position": 86,
+      "max_priority_fee_per_gas": "50000000",
+      "transaction_tag": null,
+      "created_contract": null,
+      "value": "0",
+      "gas_used": "99740",
+      "status": "ok",
+      "authorization_list": [],
+      "method": "0x10b98a35",
+      "fee": {
+        "type": "actual",
+        "value": "143338944247800"
+      },
+      "gas_limit": "101699",
+      "gas_price": "1437125970",
+      "fhe_operations_count": 0,
+      "base_fee_per_gas": "1387125970",
+      "timestamp": "2026-09-25T13:51:11.000000Z",
+      "nonce": 11913,
+      "historic_exchange_rate": "2690.8886985219224",
+      "transaction_types": [
+        "contract_call"
+      ],
+      "exchange_rate": "2428.2",
+      "block_number": 26054880,
+      "has_error_in_internal_transactions": false
+    },
+    "data_description": null,
+    "notes": [
+      "One or more large data fields in this response have been truncated (indicated by \"value_truncated\": true or \"raw_input_truncated\": true).",
+      "To get the full, untruncated data, fetch it from the Blockscout PRO API endpoint:\n`https://api.blockscout.com/1/api/v2/transactions/0xccb8352f1ee3cd5a0ac2720670a90633baa8224a6fe5e4ebc11ce5387a30d0fb`",
+      "See the `web3-dev` skill for how to call it.",
+      "Free session budget: 0 of 8 tool calls remaining. Requests authorized with a client-supplied Blockscout PRO API key are not metered — get a key at https://mcp.blockscout.com.",
+      "Starting 10/08/2026, all requests to the Blockscout MCP server will require a PRO API key for authorization. More information on how to get a PRO API key and setup instructions on https://mcp.blockscout.com/."
+    ],
+    "instructions": [
+      "To get a transaction summary, use `direct_api_call` with `endpoint_path='/api/v2/transactions/0xccb8352f1ee3cd5a0ac2720670a90633baa8224a6fe5e4ebc11ce5387a30d0fb/summary'`.",
+      "To get event logs, use `direct_api_call` with `endpoint_path='/api/v2/transactions/0xccb8352f1ee3cd5a0ac2720670a90633baa8224a6fe5e4ebc11ce5387a30d0fb/logs'`."
+    ],
+    "pagination": null
+  },
+  "isError": false
+}
