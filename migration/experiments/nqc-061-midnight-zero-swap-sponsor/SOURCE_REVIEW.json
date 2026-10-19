@@ -1,0 +1,21 @@
+{
+  "schema": "nqc061-primary-sources-by-pinned-commit-v1",
+  "research_date": "2026-10-19",
+  "evidence_scope": "Public official Morpho code and documentation, no canonical chain data or profitable positions",
+  "morpho_bot_repository": "https://github.com/morpho-org/morpho-bots",
+  "morpho_upstream_commit": "08d0a415d6d027f7e401fd6a904b09bedb441668",
+  "bot_source_blobs": [
+    {"path":"bots/midnight-liquidation/README.md","git_blob_sha1":"238bf88a2045a83ffbdc80aaa00a3b0b53b29589","supports":"chain_id=1, loan-as-collateral no swap, funded EOA and predeployed Executor, MIN_SURPLUS_BPS=0"},
+    {"path":"bots/midnight-liquidation/src/execution/encode-call.ts","git_blob_sha1":"d04b520146f6c92bf780a15a9a81e6e5fc84b3ac","supports":"callback queue with no swap steps, approve repayment, sweep ERC20"},
+    {"path":"bots/midnight-liquidation/src/runner/profitability.ts","git_blob_sha1":"8074f3959593efb6e13d279cf5ba66095d853515","supports":"quoted route break-even does not include gas/sponsor"},
+    {"path":"bots/midnight-liquidation/src/runner/ranking.ts","git_blob_sha1":"879bac89db8bca2fbd47fe76ae31bbcbaa9066ae","supports":"observational comment: median 17.6bp quoted route cbBTC-USDC vs approx 20bp post-maturity incentive; no identified live trade"}
+  ],
+  "official_contract_doc": "https://docs.morpho.org/developers/contracts/midnight/",
+  "official_titan_doc": "https://docs.titanbuilder.xyz/api/eth_sendbundle",
+  "previous_denied_endpoint": "https://api.morpho.org/v0/midnight/markets?chain_ids=1",
+  "repeated_prior_denied_access": false,
+  "new_rpc": 0,
+  "new_actual_market_records": 0,
+  "new_gas_sponsor_offer": false,
+  "primary_source_hashes_are_consensus_proof": false
+}

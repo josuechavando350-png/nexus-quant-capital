@@ -1,0 +1,344 @@
+[
+  {
+    "block_membership_proven": true,
+    "borrower": "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "borrower_debt_units": "100000",
+    "candidate_id": "SYNTHETIC_01_WETH_WETH_CONDITIONAL_GROSS",
+    "canonical_block_timestamp": "1001",
+    "canonical_market_proven": true,
+    "canonical_position_proven": true,
+    "chain_id": 1,
+    "collateral_token": "0xC02AAA39B223FE8D0A0E5C4F27EAD9083C756CC2",
+    "fixture_only": true,
+    "ledger": {
+      "asset_address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+      "cash_buckets_disjoint": true,
+      "loan_fee_raw": {
+        "max": "0",
+        "min": "0"
+      },
+      "repaid_raw": {
+        "max": "100000",
+        "min": "100000"
+      },
+      "seized_amount_is_received_in_callback": true,
+      "seized_raw": {
+        "max": "110000",
+        "min": "110000"
+      },
+      "token_bid_raw": {
+        "max": "0",
+        "min": "0"
+      }
+    },
+    "liquidator_gate": "OPEN",
+    "loan_token": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+    "market_id": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "maturity_timestamp": "1000",
+    "native": {
+      "explicit_WETH_unwrap_and_ownership_proven": true,
+      "gas_actual_wei": {
+        "max": "3000",
+        "min": "3000"
+      },
+      "max_gas_reserve_at_signed_prefix_wei": "100000",
+      "native_cost_buckets_disjoint": true,
+      "separate_inclusion_bid_wei": {
+        "max": "1000",
+        "min": "1000"
+      },
+      "sponsor_advance_cap_wei": "100000",
+      "sponsor_remuneration_wei": {
+        "max": "1000",
+        "min": "1000"
+      }
+    },
+    "source_evidence_kind": "SYNTHETIC_MODEL_ONLY",
+    "strategy": "MORPHO_MIDNIGHT_POST_MATURITY_SAME_LOAN_AS_COLLATERAL"
+  },
+  {
+    "block_membership_proven": true,
+    "borrower": "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "borrower_debt_units": "100000",
+    "candidate_id": "SYNTHETIC_02_WETH_NATIVE_TOO_EXPENSIVE",
+    "canonical_block_timestamp": "1001",
+    "canonical_market_proven": true,
+    "canonical_position_proven": true,
+    "chain_id": 1,
+    "collateral_token": "0xC02AAA39B223FE8D0A0E5C4F27EAD9083C756CC2",
+    "fixture_only": true,
+    "ledger": {
+      "asset_address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+      "cash_buckets_disjoint": true,
+      "loan_fee_raw": {
+        "max": "0",
+        "min": "0"
+      },
+      "repaid_raw": {
+        "max": "100000",
+        "min": "100000"
+      },
+      "seized_amount_is_received_in_callback": true,
+      "seized_raw": {
+        "max": "110000",
+        "min": "110000"
+      },
+      "token_bid_raw": {
+        "max": "0",
+        "min": "0"
+      }
+    },
+    "liquidator_gate": "OPEN",
+    "loan_token": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+    "market_id": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "maturity_timestamp": "1000",
+    "native": {
+      "explicit_WETH_unwrap_and_ownership_proven": true,
+      "gas_actual_wei": {
+        "max": "12000",
+        "min": "12000"
+      },
+      "max_gas_reserve_at_signed_prefix_wei": "100000",
+      "native_cost_buckets_disjoint": true,
+      "separate_inclusion_bid_wei": {
+        "max": "1000",
+        "min": "1000"
+      },
+      "sponsor_advance_cap_wei": "100000",
+      "sponsor_remuneration_wei": {
+        "max": "1000",
+        "min": "1000"
+      }
+    },
+    "source_evidence_kind": "SYNTHETIC_MODEL_ONLY",
+    "strategy": "MORPHO_MIDNIGHT_POST_MATURITY_SAME_LOAN_AS_COLLATERAL"
+  },
+  {
+    "block_membership_proven": true,
+    "borrower": "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "borrower_debt_units": "100000",
+    "candidate_id": "SYNTHETIC_03_NO_KNOWN_SPONSOR_CAP",
+    "canonical_block_timestamp": "1001",
+    "canonical_market_proven": true,
+    "canonical_position_proven": true,
+    "chain_id": 1,
+    "collateral_token": "0xC02AAA39B223FE8D0A0E5C4F27EAD9083C756CC2",
+    "fixture_only": true,
+    "ledger": {
+      "asset_address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+      "cash_buckets_disjoint": true,
+      "loan_fee_raw": {
+        "max": "0",
+        "min": "0"
+      },
+      "repaid_raw": {
+        "max": "100000",
+        "min": "100000"
+      },
+      "seized_amount_is_received_in_callback": true,
+      "seized_raw": {
+        "max": "110000",
+        "min": "110000"
+      },
+      "token_bid_raw": {
+        "max": "0",
+        "min": "0"
+      }
+    },
+    "liquidator_gate": "OPEN",
+    "loan_token": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+    "market_id": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "maturity_timestamp": "1000",
+    "native": {
+      "explicit_WETH_unwrap_and_ownership_proven": true,
+      "gas_actual_wei": {
+        "max": "3000",
+        "min": "3000"
+      },
+      "max_gas_reserve_at_signed_prefix_wei": null,
+      "native_cost_buckets_disjoint": true,
+      "separate_inclusion_bid_wei": {
+        "max": "1000",
+        "min": "1000"
+      },
+      "sponsor_advance_cap_wei": null,
+      "sponsor_remuneration_wei": {
+        "max": "1000",
+        "min": "1000"
+      }
+    },
+    "source_evidence_kind": "SYNTHETIC_MODEL_ONLY",
+    "strategy": "MORPHO_MIDNIGHT_POST_MATURITY_SAME_LOAN_AS_COLLATERAL"
+  },
+  {
+    "block_membership_proven": true,
+    "borrower": "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "borrower_debt_units": "100000",
+    "candidate_id": "SYNTHETIC_04_SAME_USDC_ONLY_ETH_COST_UNKNOWN",
+    "canonical_block_timestamp": "1001",
+    "canonical_market_proven": true,
+    "canonical_position_proven": true,
+    "chain_id": 1,
+    "collateral_token": "0xdddddddddddddddddddddddddddddddddddddddd",
+    "fixture_only": true,
+    "ledger": {
+      "asset_address": "0xdddddddddddddddddddddddddddddddddddddddd",
+      "cash_buckets_disjoint": true,
+      "loan_fee_raw": {
+        "max": "0",
+        "min": "0"
+      },
+      "repaid_raw": {
+        "max": "100000",
+        "min": "100000"
+      },
+      "seized_amount_is_received_in_callback": true,
+      "seized_raw": {
+        "max": "110000",
+        "min": "110000"
+      },
+      "token_bid_raw": {
+        "max": "0",
+        "min": "0"
+      }
+    },
+    "liquidator_gate": "OPEN",
+    "loan_token": "0xdddddddddddddddddddddddddddddddddddddddd",
+    "market_id": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "maturity_timestamp": "1000",
+    "native": {
+      "explicit_WETH_unwrap_and_ownership_proven": true,
+      "gas_actual_wei": {
+        "max": "3000",
+        "min": "3000"
+      },
+      "max_gas_reserve_at_signed_prefix_wei": "100000",
+      "native_cost_buckets_disjoint": true,
+      "separate_inclusion_bid_wei": {
+        "max": "1000",
+        "min": "1000"
+      },
+      "sponsor_advance_cap_wei": "100000",
+      "sponsor_remuneration_wei": {
+        "max": "1000",
+        "min": "1000"
+      }
+    },
+    "source_evidence_kind": "SYNTHETIC_MODEL_ONLY",
+    "strategy": "MORPHO_MIDNIGHT_POST_MATURITY_SAME_LOAN_AS_COLLATERAL"
+  },
+  {
+    "block_membership_proven": true,
+    "borrower": "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "borrower_debt_units": "100000",
+    "candidate_id": "SYNTHETIC_05_PRE_MATURITY_BLOCKED",
+    "canonical_block_timestamp": "1001",
+    "canonical_market_proven": true,
+    "canonical_position_proven": true,
+    "chain_id": 1,
+    "collateral_token": "0xC02AAA39B223FE8D0A0E5C4F27EAD9083C756CC2",
+    "fixture_only": true,
+    "ledger": {
+      "asset_address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+      "cash_buckets_disjoint": true,
+      "loan_fee_raw": {
+        "max": "0",
+        "min": "0"
+      },
+      "repaid_raw": {
+        "max": "100000",
+        "min": "100000"
+      },
+      "seized_amount_is_received_in_callback": true,
+      "seized_raw": {
+        "max": "110000",
+        "min": "110000"
+      },
+      "token_bid_raw": {
+        "max": "0",
+        "min": "0"
+      }
+    },
+    "liquidator_gate": "OPEN",
+    "loan_token": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+    "market_id": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "maturity_timestamp": "2000",
+    "native": {
+      "explicit_WETH_unwrap_and_ownership_proven": true,
+      "gas_actual_wei": {
+        "max": "3000",
+        "min": "3000"
+      },
+      "max_gas_reserve_at_signed_prefix_wei": "100000",
+      "native_cost_buckets_disjoint": true,
+      "separate_inclusion_bid_wei": {
+        "max": "1000",
+        "min": "1000"
+      },
+      "sponsor_advance_cap_wei": "100000",
+      "sponsor_remuneration_wei": {
+        "max": "1000",
+        "min": "1000"
+      }
+    },
+    "source_evidence_kind": "SYNTHETIC_MODEL_ONLY",
+    "strategy": "MORPHO_MIDNIGHT_POST_MATURITY_SAME_LOAN_AS_COLLATERAL"
+  },
+  {
+    "block_membership_proven": true,
+    "borrower": "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "borrower_debt_units": "100000",
+    "candidate_id": "SYNTHETIC_06_GATE_UNKNOWN",
+    "canonical_block_timestamp": "1001",
+    "canonical_market_proven": true,
+    "canonical_position_proven": true,
+    "chain_id": 1,
+    "collateral_token": "0xC02AAA39B223FE8D0A0E5C4F27EAD9083C756CC2",
+    "fixture_only": true,
+    "ledger": {
+      "asset_address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+      "cash_buckets_disjoint": true,
+      "loan_fee_raw": {
+        "max": "0",
+        "min": "0"
+      },
+      "repaid_raw": {
+        "max": "100000",
+        "min": "100000"
+      },
+      "seized_amount_is_received_in_callback": true,
+      "seized_raw": {
+        "max": "110000",
+        "min": "110000"
+      },
+      "token_bid_raw": {
+        "max": "0",
+        "min": "0"
+      }
+    },
+    "liquidator_gate": "UNKNOWN",
+    "loan_token": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+    "market_id": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "maturity_timestamp": "1000",
+    "native": {
+      "explicit_WETH_unwrap_and_ownership_proven": true,
+      "gas_actual_wei": {
+        "max": "3000",
+        "min": "3000"
+      },
+      "max_gas_reserve_at_signed_prefix_wei": "100000",
+      "native_cost_buckets_disjoint": true,
+      "separate_inclusion_bid_wei": {
+        "max": "1000",
+        "min": "1000"
+      },
+      "sponsor_advance_cap_wei": "100000",
+      "sponsor_remuneration_wei": {
+        "max": "1000",
+        "min": "1000"
+      }
+    },
+    "source_evidence_kind": "SYNTHETIC_MODEL_ONLY",
+    "strategy": "MORPHO_MIDNIGHT_POST_MATURITY_SAME_LOAN_AS_COLLATERAL"
+  }
+]
