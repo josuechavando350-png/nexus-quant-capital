@@ -1,0 +1,82 @@
+{
+  "date": "2026-10-19",
+  "evidence_class": "GitHub real read/write and crash recovery; provider response synthetic",
+  "repo": "josuechavando350-png/nexus-quant-capital",
+  "branch": "research/nqc-048-durable-chunked-receipts-20261019",
+  "base_commit": "aa0d1f7b1d49feb7da0cc6f64f2b4bec8b097ac1",
+  "plan_file": "migration/experiments/nqc-038-archive-access/TRIPORT_PLAN.json",
+  "plan_sha256": "6148b4248555043ec3276f3887e008974643ccff64f755b8b6ed986f8537d2f7",
+  "specification_sha256": "fe1bd67bfedd84372e76da84840cd0d52db1906a461a668684b3388a8c006034",
+  "journal_path": "migration/experiments/nqc-048-durable-chunked-receipts/evidence/JOURNAL.json",
+  "journal_initial_commit": "e74a3f9ae8f3a6cd451919132b6036bab6b87c5e",
+  "observed_received_commit": "a79844bb12951e8fb96cbd3757d5d9689d24940c",
+  "journal_readback": {
+    "mode": "DRY_RUN",
+    "entries": [
+      {
+        "id": 1,
+        "purpose": "chain",
+        "status": "RECEIVED",
+        "receipt_bytes": 700063
+      }
+    ],
+    "commercial_admission": false
+  },
+  "synthetic_response": {
+    "method_intended_only": "SIMULATED (not eth_chainId response)",
+    "contains_real_blockchain_data": false,
+    "utf8_json_bytes": 700063,
+    "json_sha256": "01ee296c7e334c5a6b1a6c31ef36f4b1f6a5e10cc1e7ea1746bbe6d6536fa58d",
+    "independent_python_hash_check": true,
+    "chunks": [
+      {
+        "part": 0,
+        "decoded_bytes": 262144,
+        "base64_characters": 349528,
+        "git_blob_sha": "3825bd3adba4762b0243328b256414ddf57c3562"
+      },
+      {
+        "part": 1,
+        "decoded_bytes": 262144,
+        "base64_characters": 349528,
+        "git_blob_sha": "5d2ecba24b624e142154eff6a1a3d0a2af68b9df"
+      },
+      {
+        "part": 2,
+        "decoded_bytes": 175775,
+        "base64_characters": 234368,
+        "git_blob_sha": "04a36feb75988c8fa8698ef30e26c21f55d70ea0"
+      }
+    ]
+  },
+  "interruption": {
+    "trigger": "Code Mode exceeded maximum number of tool calls during synthetic GitHub receipt test",
+    "persisted_journal_status_on_inspection": "RECEIVED",
+    "persisted_receipt_parts": 3,
+    "completion_to_VERIFIED_before_interruption": false,
+    "execution_returned_success": false,
+    "automatic_retry_performed": false
+  },
+  "recovery": {
+    "invocation": "fresh GitHub fetch of engine, hash implementation, adapter and unchanged Triport plan",
+    "status": "BLOCKED_RECOVERED_RECEIPT_REVIEW_REQUIRED",
+    "attempt_slots_reserved": 1,
+    "responses_revalidated": 1,
+    "simulated_transport_calls": 0,
+    "recovered_fragment_count": 3,
+    "additional_request_authorized": false
+  },
+  "real_triport_authenticated_requests_sent": 0,
+  "historical_state_proofs_acquired": 0,
+  "exact_prestate_slots_authenticated": 0,
+  "credentials_accessed": false,
+  "paid_actions": false,
+  "commercial_admission": false,
+  "caveats": [
+    "The response is deliberately fabricated; none of the bytes prove historical chain state",
+    "Commit and branch durability were observed, not independently certified against adversarial rollback",
+    "700063-byte receipt tested; full 16MiB limit was NOT tested on GitHub real",
+    "A crashed RECEIVED state remains blocked even though its bytes revalidate; it must not start another request",
+    "NQC037 Python Merkle validator not executed in this tool environment"
+  ]
+}
