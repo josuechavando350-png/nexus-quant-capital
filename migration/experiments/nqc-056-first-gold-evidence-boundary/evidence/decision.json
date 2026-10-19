@@ -1,0 +1,134 @@
+{
+  "authentication": {
+    "authenticated_index": null,
+    "borrower": null,
+    "event_emitter_authenticated": false,
+    "executor_runtime": null,
+    "header": null,
+    "historical_replay_attempted": false,
+    "if_index_zero_verified": "No preceding ordinary transactions. Parent state, fork/system transitions and target runtime/storage remain mandatory.",
+    "market_irm": null,
+    "market_oracle": null,
+    "membership_proof": null,
+    "raw_receipt": null,
+    "raw_trace": null,
+    "reported_index": 0,
+    "target_block_hash": null,
+    "transaction_bytes": null,
+    "transactions_root": null
+  },
+  "chain_id": 1,
+  "classification": "EVIDENCIA_INSUFICIENTE",
+  "commercial_admission": false,
+  "corpus_review": {
+    "limitations": [
+      "Identifier search is not cryptographic chain verification or an exhaustive semantic proof of absence.",
+      "Only literal text/binary identifiers and ZIP/gzip/tar/base64 envelopes are searched; unknown encodings/encrypted contents are not decoded.",
+      "Scope is frozen repository experiment history, not external accounts or provider archives."
+    ],
+    "matching_git_blobs": 15,
+    "objects_and_archive_members_scanned": 3089,
+    "primary_target_header_body_receipt_or_trace_identified": false,
+    "unique_blobs_scanned": 1293
+  },
+  "economics": {
+    "effective_gas_price": null,
+    "financing_premium": null,
+    "gas_used": null,
+    "gross_surplus": null,
+    "inclusion_payment": null,
+    "necessary_sale_condition": {
+      "debt_cover_average_WETH_per_pufETH_fraction": "295488117938988169/284572043341797957",
+      "observed_or_executable_price": null,
+      "output_asset": {
+        "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+        "chain_id": 1,
+        "decimals": 18
+      },
+      "scope": "Only if reported amounts equal actual received/repaid amounts and all collateral is sold, with nonnegative remaining obligations.",
+      "strict_positive_output_min_raw_before_other_costs": "590976235877976339",
+      "sufficient_for_net_profit": false
+    },
+    "net_capturable_by_NQC": null,
+    "net_lower_bound": null,
+    "net_upper_bound": null,
+    "no_scenario_economically_rejected": true,
+    "observed_sale_output": null,
+    "other_obligations": null
+  },
+  "financing_semantics": {
+    "candidate_runtime_bound_to_source": false,
+    "candidate_used_callback": null,
+    "collateral_then_optional_callback_then_repayment": true,
+    "gas_sponsor_available": null,
+    "residue_after_all_obligations": null,
+    "sale_liquidity_available": null,
+    "source": {
+      "pointer": "",
+      "sha256": "bc0f0e49d54ccc94557b20b1a1d962f6b64bb3cd7c57c1e74f76e51a47ffa0f6",
+      "source": "morpho_source"
+    },
+    "source_statements": [
+      "IERC20(marketParams.collateralToken).safeTransfer(msg.sender, seizedAssets);",
+      "if (data.length > 0) IMorphoLiquidateCallback(msg.sender).onMorphoLiquidate(repaidAssets, data);",
+      "IERC20(marketParams.loanToken).safeTransferFrom(msg.sender, address(this), repaidAssets);"
+    ],
+    "upstream_commit": "9cf6d5b844625ba108e36d1cf911f5d2faf7c136",
+    "verification_scope": "textual order in hash-pinned upstream source only"
+  },
+  "market_id": "0x0eed5a89c7d397d02fd0b9b8e42811ca67e50ed5aeaa4f22e506516c716cfbbf",
+  "missing_minimum_packet": [
+    "canonical target header plus transaction bytes and authenticated membership/order",
+    "complete receipt tied to target and receipt commitment, logs, gas used and effective gas price",
+    "complete call trace or equivalent state/balance evidence for token/native transfers, sale route and inclusion payments",
+    "liabilities outside trace, financing/gas-advance terms, ownership and competitive capture evidence"
+  ],
+  "new_RPC_requests": 0,
+  "observations": {
+    "bad_debt_assets_raw": "0",
+    "block": 26104570,
+    "liquidator_claim": "0x8a321218956ee460eaff36171d85d1d0baae5575",
+    "lltv": "860000000000000000",
+    "log_index": 3,
+    "repaid_WETH_raw": "590976235877976338",
+    "repaid_shares_raw": "296966930821303122518282",
+    "seized_pufETH_raw": "569144086683595914",
+    "tx_index": 0
+  },
+  "provenance": {
+    "earlier_selection": {
+      "pointer": "/candidates/2",
+      "sha256": "5d8d86907d4b0e87f678ffa77ab302506437ee3063262362c57a1fd62b46481f",
+      "source": "earlier_candidates"
+    },
+    "earlier_selection_locked_at": "2026-10-17T17:28:07.162034+00:00",
+    "earlier_selection_uses_identical_page_hashes": true,
+    "forward": {
+      "pointer": "/response/data/marketTransactions/items/91",
+      "sha256": "beece4329d09888fc088fc75eabec980191a7b55041e8eaf2851b7ebccfba9bf",
+      "source": "forward"
+    },
+    "independent_positive_corroboration": false,
+    "null_receipt": {
+      "pointer": "/response/result",
+      "sha256": "e2d5bf5e6736e0f171f3ecf749e919b9fb6f0ccfff0aa1c26e2a1a5123e24577",
+      "source": "receipt"
+    },
+    "null_receipt_retrieved_at": "2026-10-17T04:50:04.723689+00:00",
+    "rediscovery_is_new_opportunity": false,
+    "reverse": {
+      "pointer": "/response/data/marketTransactions/items/51",
+      "sha256": "f7641d2adb7189c3dbc446e1d6186b7f3debcf7da15d9f082a70fef133ae08db",
+      "source": "reverse"
+    },
+    "same_event_provider_count": 1,
+    "sources_verified": 16
+  },
+  "safe_credential_channel_demonstrated": false,
+  "schema": "nqc056-first-gold-v1",
+  "stop_reason": "No identified primary packet in frozen corpus; acquisition/retry not authorized. No replay or speculative optimization.",
+  "triport_lifetime_budget": 8,
+  "triport_total_known": 0,
+  "tx_hash": "0x34162fda07ca0ae1054d7c1252b8d1c48aba9a675fd3d09816393c29d8be50e4",
+  "unique_live_ledger_demonstrated": false
+}
