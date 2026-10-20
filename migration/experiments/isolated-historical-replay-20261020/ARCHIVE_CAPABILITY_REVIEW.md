@@ -1,0 +1,21 @@
+# Reviewed archive capability check — 2026-10-20
+
+## Scope and producer boundary
+The owner asked the current assistant to execute the previously described single-case proof instead of delegating it. This review is limited to the existing isolated research producer in `research/isolated-historical-replay-20261020`, starting at `71fbfa2c30eb56b8c006dc33f294f284212cce01`. It does not authorize live trading, public-network contract deployment, signing, wallet funds, subscriptions, permissions, main or other repositories. The old 106 disabled workflows remain unchanged. No schedule, dispatch, rerun or background monitoring is introduced.
+
+## Why a separately reviewed source is relevant
+The prior PublicNode runs obtained the expected headers but returned null for historical receipts; they did not report an access denial. Do not retry those missing reads. The user's existing NQC handoff (2026-10-12, page 29) already documents `https://eth.drpc.org` as an archive source, with availability expressly conditional. Current official dRPC docs list `https://eth.drpc.org/` as a public endpoint. Archive availability is not guaranteed for every height, and debug/trace methods require a paid tier. This review permits ONE finite capability check of ordinary read methods at that public source; it does not use debug/trace, a paid endpoint, a key, a proxy or a quota reset. Stop immediately on null/error/denial/rate limit. No fallback provider.
+
+Primary documentation reviewed: https://drpc.org/docs/ethereum-api ; https://drpc.org/docs/howitworks/archive-nodes ; https://drpc.org/docs/howitworks/ratelimiting ; https://drpc.org/docs/pricing/requests . Public standard GitHub-hosted runners are free under GitHub's documented public-repository rules; no larger runner, artifact storage purchase, cache or third-party Action is used.
+
+## Finite plan
+Use the existing public ubuntu-24.04 runner with read-only contents permission, one push-triggered run_attempt=1 and an exact pinned source parent. Run baseline isolation checks before any blockchain request. The new driver first requests chain identity, the target receipt, both headers, prefix receipt, both transactions, V2 parent code and one parent storage slot (nine distinct reads). If any result is unavailable, halt and export raw diagnostic bodies. A passing spot-check does NOT prove complete state availability.
+
+Only after this preflight passes may the unchanged original runner compile and run the original EVM parity test, then the zero-principal variant tests. Reuse the same Guard instance, cache, budget and terminal stop flag. Maximum 600 upstream reads, 420 seconds, 350ms spacing, 20s HTTP timeout, 2MiB per response and 16MiB total. Disable redirects. Parent-only account/storage reads, fixed target/prefix identities, no latest/pending/eth_call/write/override. The six previous PublicNode reads are not erased from historical reporting. Blockscout and Desktop Commander are not called.
+
+## Integrity and economic limits
+The bundle SHA256 remains `712bc3461b04bb6411947ae0bed68704de2ff825e29ba05ee31d47f7c8918514`; all six constituent files remain byte-identical. Transport configuration is applied in memory to a fresh extracted copy. No Solidity changes, expected-value changes, minted funds or oracle substitutions. The current token-path test uses sponsorPayment=0 and internal gas scopes; even PASS is NOT a complete sponsored transaction cost or approval to execute.
+
+New driver SHA256: `b7758aecc3381984d2f59154aebdf0fa834e3cdd18b328cbb01e7ef34a1a7068`. Six new offline test methods and twelve inherited transport tests passed locally; they are not economic tests. Baseline isolation checks will be rerun in the runner; the global original verifier's known active-workflow rejection remains reported, not bypassed or relabeled as certification. No Rust or full historical certification suite is claimed.
+
+Allowed delta from the starting head: this review, `archive_probe_replay.py`, and `.github/workflows/nqc-isolated-historical-replay.yml`. Persist complete bounded raw response records in chunked compressed logs with hashes; a hash without recovered bytes is not a recovered witness. commercial_admission=false, canary_enabled=false, sponsor_accepted=false, realized_NQC_profit=null.
