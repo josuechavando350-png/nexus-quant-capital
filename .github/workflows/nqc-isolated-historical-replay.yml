@@ -18,7 +18,7 @@ jobs:
         shell: bash
         env:
           BASE: 16e352225ba8a6a931834c4edf3d86d9a2924b7d
-          SOURCE: bccca8537fc80f40e3d123ef3a5a743499b26f85
+          SOURCE: a112c592611fd8159a4bb0f6508f6dc42c5456f7
         run: |
           set -euo pipefail
           test "$GITHUB_REPOSITORY" = 'josuechavando350-png/nexus-quant-capital'
@@ -27,11 +27,13 @@ jobs:
           ROOT="$RUNNER_TEMP/nqc-replay-producer"
           git init "$ROOT"
           git -C "$ROOT" remote add origin https://github.com/josuechavando350-png/nexus-quant-capital.git
-          git -C "$ROOT" fetch --no-tags --depth=3 origin "$GITHUB_SHA"
+          git -C "$ROOT" fetch --no-tags --depth=5 origin "$GITHUB_SHA"
           git -C "$ROOT" checkout --detach FETCH_HEAD
           test "$(git -C "$ROOT" rev-parse HEAD)" = "$GITHUB_SHA"
           test "$(git -C "$ROOT" rev-parse HEAD^)" = "$SOURCE"
-          test "$(git -C "$ROOT" rev-parse HEAD^^)" = "$BASE"
+          test "$(git -C "$ROOT" rev-parse HEAD^^)" = "7ebc7ab9e18feed6e2dd429c17b8a58d7581d3d4"
+          test "$(git -C "$ROOT" rev-parse HEAD^^^)" = "bccca8537fc80f40e3d123ef3a5a743499b26f85"
+          test "$(git -C "$ROOT" rev-parse HEAD^^^^)" = "$BASE"
           git -C "$ROOT" worktree add --detach "$RUNNER_TEMP/nqc-replay-base" "$BASE"
           python3 "$RUNNER_TEMP/nqc-replay-base/migration/verify_isolation.py" --root "$RUNNER_TEMP/nqc-replay-base"
           (cd "$RUNNER_TEMP/nqc-replay-base" && python3 -m unittest discover -v -s migration -p test_isolation.py)
@@ -41,7 +43,7 @@ jobs:
           root=os.environ['ROOT'];base=os.environ['BASE']
           prefix='migration/experiments/isolated-historical-replay-20261020/'
           allowed={'.github/workflows/nqc-isolated-historical-replay.yml'}
-          allowed.update(prefix+n for n in ('source_bundle.json.gz','MANIFEST.json','MIGRATION_REVIEW.md'))
+          allowed.update(prefix+n for n in ('source_bundle.json.gz','MANIFEST.json','MIGRATION_REVIEW.md','TRANSPORT_REVIEW.md'))
           changes=subprocess.check_output(['git','-C',root,'diff','--name-status','--no-renames',base,'HEAD'],text=True).splitlines()
           assert set(changes)=={'A\t'+name for name in allowed},changes
           r=subprocess.run(['python3',root+'/migration/verify_isolation.py','--root',root],text=True,capture_output=True)
@@ -77,4 +79,16 @@ jobs:
         run: |
           set -euo pipefail
           cd "$RUNNER_TEMP/nqc-historical-runtime"
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          p=Path('rpc_guard.py');s=p.read_text()
+          old_sha=hashlib.sha256(p.read_bytes()).hexdigest()
+          assert old_sha=='833f390bf4a66ef742d4b74f627acbd9e35d6c10e66124522c4f21174e2dfd02'
+          for old,new in [('MAX_READS = 1200','MAX_READS = 1199'),('self.opener(r,timeout=20)','self.opener(r,timeout=(60 if self.used==1 else 20))')]:
+              assert s.count(old)==1
+              s=s.replace(old,new)
+          p.write_text(s)
+          print('MANUAL_TRANSPORT_OVERLAY '+json.dumps({'previous_reads':1,'max_followup_reads':1199,'chain_id_diagnostic_seconds':60,'other_read_seconds':20,'before_sha256':old_sha,'after_sha256':hashlib.sha256(p.read_bytes()).hexdigest()}))
+          PY
           python3 run_replay.py
