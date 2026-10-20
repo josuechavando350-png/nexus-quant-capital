@@ -1,0 +1,50 @@
+{
+  "schema": "nqc_fxrp_commercial_snapshot_validation_v1",
+  "date": "2026-10-19",
+  "manual_js_checks": [
+    {
+      "name": "10_visible_borrowers",
+      "pass": true
+    },
+    {
+      "name": "visible_health_above_one",
+      "pass": true
+    },
+    {
+      "name": "minimum_hf_1_209",
+      "pass": true
+    },
+    {
+      "name": "debt_units",
+      "pass": true
+    },
+    {
+      "name": "source_first_page_not_complete",
+      "pass": true
+    },
+    {
+      "name": "main_unchanged",
+      "pass": true
+    },
+    {
+      "name": "source_risk_not_authoritative",
+      "pass": true
+    },
+    {
+      "name": "current_live_profitable_count_not_asserted",
+      "pass": true
+    }
+  ],
+  "arithmetic_decimal_cross_checked": true,
+  "source_count": 6,
+  "source_morpho_UI_resolves": true,
+  "indexed_swap_corroboration": "CORRELATED_TIMESTAMP_SIZE_SHORT_HASH_ONLY",
+  "exact_full_tx_receipt_verified": false,
+  "exact_RLUSD_exit_quote_present": false,
+  "new_live_market_RPC_queries": 0,
+  "new_paid_provider_queries": 0,
+  "original_isolation_suite_run": false,
+  "new_bot_or_contract_code": false,
+  "real_NQC_profit": null,
+  "commercial_admission": false
+}

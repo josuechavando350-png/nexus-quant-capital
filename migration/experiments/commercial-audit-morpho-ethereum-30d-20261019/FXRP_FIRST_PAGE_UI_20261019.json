@@ -1,0 +1,90 @@
+{
+  "schema": "nqc_fxrp_public_ui_snapshot_v1",
+  "observation_local_date": "2026-10-19",
+  "source": "https://app.morpho.org/ethereum/variable/0x4fa31e3f8ba345227d44e1cf48559eea53a90dd5311dc006984c060f2f311d96/rlusd-fxrp",
+  "snapshot_type": "PUBLIC_MORPHO_UI_RENDER_NOT_CHAIN_RPC",
+  "source_ui_section": "Borrowers, page 1 of 6",
+  "page_coverage_complete": false,
+  "chain_id": 1,
+  "market_id": "0x4fa31e3f8ba345227d44e1cf48559eea53a90dd5311dc006984c060f2f311d96",
+  "loan_token": "RLUSD",
+  "collateral_token": "FXRP",
+  "reported_market_loan_total_RLUSD": "7780000",
+  "reported_market_available_liquidity_RLUSD": "2490000",
+  "reported_market_oracle_reference": "1 FXRP = 1.29 RLUSD",
+  "market_LLTV_display": "77%",
+  "first_page_borrower_count": 10,
+  "count_display_health_factor_below_one": 0,
+  "min_visible_health_factor": "1.209",
+  "debt_sum_visible_page_RLUSD": "7658610.99",
+  "note_page_sum": "Sum of ten *displayed* loan figures; rounded, not actual market total; source total ~7.78M includes other pages.",
+  "positions": [
+    {
+      "borrower_display": "0xF01c...14ec",
+      "FXRP_collateral_display": "4555487.45",
+      "RLUSD_debt_display": "2906125.97",
+      "health_factor_display": "1.568"
+    },
+    {
+      "borrower_display": "0xEDb7...374B",
+      "FXRP_collateral_display": "4169714.83",
+      "RLUSD_debt_display": "2520477.46",
+      "health_factor_display": "1.655"
+    },
+    {
+      "borrower_display": "0xc9F8...4C62",
+      "FXRP_collateral_display": "2137789.47",
+      "RLUSD_debt_display": "1609226.98",
+      "health_factor_display": "1.329"
+    },
+    {
+      "borrower_display": "0x2f20...5486",
+      "FXRP_collateral_display": "266418.2",
+      "RLUSD_debt_display": "160389.21",
+      "health_factor_display": "1.662"
+    },
+    {
+      "borrower_display": "0x7864...7Ac2",
+      "FXRP_collateral_display": "183507.97",
+      "RLUSD_debt_display": "151880.61",
+      "health_factor_display": "1.209"
+    },
+    {
+      "borrower_display": "0xb112...3eAA",
+      "FXRP_collateral_display": "259821.22",
+      "RLUSD_debt_display": "124341.13",
+      "health_factor_display": "2.091"
+    },
+    {
+      "borrower_display": "0x5505...56B4",
+      "FXRP_collateral_display": "115771",
+      "RLUSD_debt_display": "72878.93",
+      "health_factor_display": "1.589"
+    },
+    {
+      "borrower_display": "0x5f25...d0Ba",
+      "FXRP_collateral_display": "95393.79",
+      "RLUSD_debt_display": "70287.25",
+      "health_factor_display": "1.358"
+    },
+    {
+      "borrower_display": "0x35b2...1f3A",
+      "FXRP_collateral_display": "49949.6",
+      "RLUSD_debt_display": "24696.78",
+      "health_factor_display": "2.024"
+    },
+    {
+      "borrower_display": "0x9534...cE6b",
+      "FXRP_collateral_display": "28071.15",
+      "RLUSD_debt_display": "18306.67",
+      "health_factor_display": "1.534"
+    }
+  ],
+  "source_refresh_or_utc_timestamp_not_authenticated": true,
+  "full_raw_source_archived": false,
+  "price_historical_not_authenticated": true,
+  "position_exact_health_not_authenticated": true,
+  "conclusion": "NO_LIQUIDATABLE_UNDER_HF_ONE_IN_FIRST_TEN_VISIBLE_ROWS_ONLY",
+  "candidates_remaining_unseen": true,
+  "commercial_admission": false
+}
