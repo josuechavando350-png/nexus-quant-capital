@@ -1,0 +1,34 @@
+{
+  "schema": "nqc-commercial-two-market-break-even-v1",
+  "date": "2026-10-19",
+  "scope": "Approximate lower-bound fill price calculated from rounded Morpho App token quantities; NOT source quotes",
+  "source": [
+    "https://app.morpho.org/ethereum/variable/0x4fa31e3f8ba345227d44e1cf48559eea53a90dd5311dc006984c060f2f311d96/rlusd-fxrp",
+    "https://app.morpho.org/ethereum/variable/0xd2630c0ebf33ba83c82e8cd400a8e6345370238ca695ce58773b2d3e43de1b0a/mseth-ynethx"
+  ],
+  "FXRP_RLUSD_2026_10_15": {
+    "repaid_display": "1717.97 RLUSD",
+    "seized_display": "1432.43 FXRP",
+    "minimum_sale_price_RLUSD_per_FXRP_approx": "1.19933958",
+    "screen_collateral_usd": "1856.82",
+    "screen_debt_usd": "1718.15",
+    "screen_valuation_headroom_percent_before_all_fees_approx": "7.4681",
+    "required": "A verified atomic route FXRP->RLUSD delivers at least debt plus every gas/sponsor/bid/failure obligation in consistent token units",
+    "test": "NOT_PASSED_NO_EXECUTABLE_QUOTE"
+  },
+  "ynETHx_msETH_2026_09_25": {
+    "repaid_display": "2.8878 msETH",
+    "seized_display": "2.7013 ynETHx",
+    "minimum_sale_price_msETH_per_ynETHx_approx": "1.06904083",
+    "indexer_oracle_reference": "1.09 msETH/ynETHx",
+    "oracle_mark_headroom_percent_before_all_fees_approx": "1.9229",
+    "external_mark_reference": "1.24 msETH/ynETHx",
+    "note": "Oracle NAV and DefiLlama valuation are NOT executable quotes; YieldNest buffer finite; non-atomic redemptions do not fund callback repayment.",
+    "required": "Proven atomic ynETHx->msETH same-tx sale clears repay plus costs",
+    "test": "NOT_PASSED_NO_EXECUTABLE_QUOTE"
+  },
+  "no_independent_chain_receipts": true,
+  "realized_NQC_profit": null,
+  "commercial_admission": false,
+  "no_livedata_quotes": true
+}
