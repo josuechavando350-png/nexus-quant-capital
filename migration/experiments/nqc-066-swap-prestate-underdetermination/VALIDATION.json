@@ -1,0 +1,16 @@
+{
+  "scope": "New analysis-only documents, no executable program changes and no reconstructed historical chain state.",
+  "local_bigint_exact_assertions_passed": 11,
+  "proven_checks": [
+    "3 different hypothetical V2 reserves generate identical observed integer USDC output",
+    "1 micro-USDC observed excess verified",
+    "3 stress scenarios cross positive/negative boundaries",
+    "Conditional historic base P&L reproduced exactly",
+    "Main hash and research-policy guard before publication"
+  ],
+  "original_PFT_Census_isolation_suite": "NOT_RUN: remote full repository checkout not available",
+  "original_NQC055_065_regressions": "NOT_RUN: unchanged code; no original checkout",
+  "EVM_historical_replay": "NOT_RUN: missing validated 2025 prestate and pool data",
+  "security": "NO_RPCS_NO_BUNDLES_NO_GAS_NO_TRADING",
+  "result": "LOCAL_ARITHMETIC_DEDUCTION_ONLY"
+}

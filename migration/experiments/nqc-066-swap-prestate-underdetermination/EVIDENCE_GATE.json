@@ -1,0 +1,29 @@
+{
+  "schema": "nqc066-canonical-replay-evidence-gate",
+  "target_block": 21762897,
+  "original_tx_index": 1,
+  "parent_block": 21762896,
+  "priority": [
+    "Canonical block headers, receipt root, tx ordering; reconstruct all applicable system transitions and transaction index 0 before the target.",
+    "Morpho Blue canonical market parameters (loanToken USDC, collateral UNI, oracle, IRM, LLTV), borrower debt shares and collateral, market totals and accurate interest accrual at target prestate.",
+    "Exact implementation/codehash of historical Morpho at target, callback recipient and relevant ERC20 contracts plus approvals; upstream source is not automatic runtime proof.",
+    "V2 pair contract address and fee/runtime, reserve0/reserve1 and token ordering immediately before the would-be swap, exact-output/ exact-input parameters.",
+    "V3 pool address, fee, token order, sqrtPriceX96, tick, bitmap/liquidity, balances, swap callback behavior and exact UNI input at reordered execution point.",
+    "Counterfactual executor bytecode/atomic callback: liquidate UNI -> V3 UNI/WETH -> V2 WETH/USDC exact debt -> approve Morpho -> reimburse ETH sponsor; gas and revert behavior simulated at same fork.",
+    "Gas sponsorship: specific Titan prefix-ETH advance, CREATE coverage, value caps/refunds, builder/proposer payment and founder non-recourse.",
+    "Prospective decision-time observation and competitive capture likelihood. Already-mined 2025 historical bundle is not capturable today."
+  ],
+  "not_acquired": [
+    "complete parent/prefix state",
+    "canonical raw V2/V3 reserves",
+    "historical Morpho market state",
+    "EVM replay",
+    "specific sponsor agreement",
+    "market-wide representative win-rate"
+  ],
+  "acquisition_policy": "Do not attempt a new restricted archival RPC, repeat denied explorer/Blockscout requests, switch providers to circumvent quotas, request keys, deploy or spend funds absent separately reviewed consent.",
+  "if_no_compliant_primary_data": "STOP HISTORICAL REPLAY. Propose separately authorized zero-funded prospective Shadow ingestion with a vetted source, capped usage and evidence journal.",
+  "research_go": "ONLY_FOR_PERMITTED_PRIMARY_DATA",
+  "live_go": false,
+  "commercial_admission": false
+}

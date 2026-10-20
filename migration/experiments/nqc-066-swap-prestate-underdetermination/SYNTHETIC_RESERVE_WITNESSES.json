@@ -1,0 +1,42 @@
+{
+  "schema": "nqc066-constructive-nonidentifiability-proof",
+  "description": "Given exact WETH input and integer USDC output, different synthetic reserve pairs under the pinned 997/1000 Uniswap V2 model can reproduce the same output. Neither reserves nor historical runtime/pool identity are authenticated.",
+  "observed_input_WETH": "266.862310264246861824",
+  "observed_output_USDC": "616687.327559",
+  "observed_debt_USDC": "616687.327558",
+  "observed_debt_surplus_USDC": "0.000001",
+  "source_model": "Uniswap v2-periphery UniswapV2Library.sol blob 107fb2eaf58b91c556aec2c32719d4d584608a62",
+  "witnesses": [
+    {
+      "synthetic_reserve_input_WETH": "1000.000000000000000000",
+      "synthetic_reserve_output_USDC": "2934522.902826",
+      "same_observed_output_USDC": "616687.327559",
+      "exact_out_USDC_required": "616687.327558",
+      "WETH_required_for_exact_out": "266.862310263644454757",
+      "hypothetical_WETH_saved": "0.000000000602407067",
+      "is_actual_historic_pool_state": false,
+      "fee_997_over_1000_assumed": true
+    },
+    {
+      "synthetic_reserve_input_WETH": "10000.000000000000000000",
+      "synthetic_reserve_output_USDC": "23795043.080225",
+      "same_observed_output_USDC": "616687.327559",
+      "exact_out_USDC_required": "616687.327558",
+      "WETH_required_for_exact_out": "266.862310263794129310",
+      "hypothetical_WETH_saved": "0.000000000452732514",
+      "is_actual_historic_pool_state": false,
+      "fee_997_over_1000_assumed": true
+    },
+    {
+      "synthetic_reserve_input_WETH": "100000.000000000000000000",
+      "synthetic_reserve_output_USDC": "232400244.854212",
+      "same_observed_output_USDC": "616687.327559",
+      "exact_out_USDC_required": "616687.327558",
+      "WETH_required_for_exact_out": "266.862310263812550793",
+      "hypothetical_WETH_saved": "0.000000000434311031",
+      "is_actual_historic_pool_state": false,
+      "fee_997_over_1000_assumed": true
+    }
+  ],
+  "conclusion": "Token transfer amounts alone cannot uniquely recover pool reserves or certify exact-output callback replay. The modeled exact-output WETH reduction versus original is less than 1e-9 WETH in all examples, not a material economic opportunity."
+}

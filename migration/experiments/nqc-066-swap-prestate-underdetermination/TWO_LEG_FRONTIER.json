@@ -1,0 +1,61 @@
+{
+  "schema": "nqc066-economics-two-leg-conservative-wei-integers",
+  "source": "NQC064 historic Etherscan web transcription; unverified raw receipt/state; same-owner WETH:ETH consolidation conditional",
+  "case_tx": "0x2a8880470bddca62a3b10586e1c65bd760c5a0d65da03d55cde94d0d709ed1eb",
+  "NQC_captured_profit": null,
+  "historical_WETH_from_uni_sale": "281.407578800167103862",
+  "historical_WETH_spent_to_buy_USDC": "266.862310264246861824",
+  "historical_ETH_to_builder_via_weth_unwrap": "12.447536358167279703",
+  "historical_ETH_gas_from_separate_EOA": "0.182306290745378005",
+  "base_conditional_surplus_ETH_equiv": "1.915425887007584330",
+  "reserves_for_v2_historic_pool_authenticated": false,
+  "synthetic_stress_scenarios": [
+    {
+      "exit_proceeds_worse_bps": 0,
+      "WETH_to_USDC_input_more_bps": 0,
+      "extra_sponsor_cost_WETH_equiv_assumed": "0",
+      "extra_gas_WETH_equiv_assumed": "0",
+      "hypothetical_leftover_ETH_equiv": "1.915425887007584330",
+      "positive_under_fixed_other_terms": true
+    },
+    {
+      "exit_proceeds_worse_bps": 30,
+      "WETH_to_USDC_input_more_bps": 20,
+      "extra_sponsor_cost_WETH_equiv_assumed": "0",
+      "extra_gas_WETH_equiv_assumed": "0",
+      "hypothetical_leftover_ETH_equiv": "0.537478530078589294",
+      "positive_under_fixed_other_terms": true
+    },
+    {
+      "exit_proceeds_worse_bps": 50,
+      "WETH_to_USDC_input_more_bps": 25,
+      "extra_sponsor_cost_WETH_equiv_assumed": "0",
+      "extra_gas_WETH_equiv_assumed": "0",
+      "hypothetical_leftover_ETH_equiv": "-0.158767782653868345",
+      "positive_under_fixed_other_terms": false
+    },
+    {
+      "exit_proceeds_worse_bps": 60,
+      "WETH_to_USDC_input_more_bps": 10,
+      "extra_sponsor_cost_WETH_equiv_assumed": "0",
+      "extra_gas_WETH_equiv_assumed": "0",
+      "hypothetical_leftover_ETH_equiv": "-0.039881896057665156",
+      "positive_under_fixed_other_terms": false
+    }
+  ],
+  "formula": "surplus=exit_WETH*(1-d_exit)-input_WETH*(1+d_input)-builder_ETH-gas_ETH-unknown_additional_costs; cross-asset equality only when validated WETH unwrap and ownership",
+  "one_leg_breakpoints": {
+    "exit_loss_fraction_percent_if_input_same": "0.68065895565938713893587726519514294026052681929773",
+    "input_premium_fraction_percent_if_exit_same": "0.71775811470377028378723871170955638033853894296405"
+  },
+  "unknowns": [
+    "Historical Morpho market/oracle, pool V2 reserves, Uniswap V3 tick/liquidity",
+    "Bundle submission/timing and builder bid if rewritten",
+    "Incremental gas and separate sponsor remuneration",
+    "Same economic owner of sender, executor and profit receiver",
+    "Failure cost and personal nonrecourse",
+    "Ex-ante availability and competition"
+  ],
+  "conditional_only": true,
+  "commercial_admission": false
+}

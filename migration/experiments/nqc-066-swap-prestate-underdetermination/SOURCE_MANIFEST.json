@@ -1,0 +1,53 @@
+{
+  "schema": "nqc066-primary-sources",
+  "pinned_internal": [
+    {
+      "repo": "josuechavando350-png/nexus-quant-capital",
+      "path": "migration/experiments/nqc-064-first-positive-historical-morpho-ledger/case.json",
+      "commit": "bd6f657bd69d1fb59656d185d95cdb5a13554694",
+      "blob_sha1": "49eb050d7429d5cdb3bc17ebd9ecf3e2485681bc",
+      "grade": "ETHERSCAN_TRANSCRIPTION_NOT_INDEPENDENT_CHAIN_PROOF"
+    },
+    {
+      "repo": "josuechavando350-png/nexus-quant-capital",
+      "path": "migration/experiments/nqc-065-zero-principal-historical-reorder/RESULTS.json",
+      "commit": "64c28cb93307dc82dc5144c8a979543c1439382d",
+      "grade": "CONDITIONAL_ARITHMETIC_NOT_EVM_EXECUTION"
+    }
+  ],
+  "pinned_public_code": [
+    {
+      "repo": "Uniswap/v2-periphery",
+      "path": "contracts/libraries/UniswapV2Library.sol",
+      "commit": "ed24991304291297c3b4a52818d02f46a17aa9a2",
+      "blob_sha1": "107fb2eaf58b91c556aec2c32719d4d584608a62",
+      "scope": "V2 getAmountOut/getAmountIn integer constant-product fee model; original 2025 pool code and reserves not authenticated"
+    },
+    {
+      "repo": "morpho-org/morpho-blue",
+      "path": "src/Morpho.sol",
+      "commit": "9cf6d5b844625ba108e36d1cf911f5d2faf7c136",
+      "blob_sha1": "ab064b646bf161b1510e2575a99412cdc2a43ebb",
+      "scope": "Morpho liquidate checks oracle before transfer, sends collateral before callback and repays after; historical runtime unbound"
+    },
+    {
+      "repo": "morpho-org/morpho-blue",
+      "path": "src/interfaces/IMorphoCallbacks.sol",
+      "commit": "9cf6d5b844625ba108e36d1cf911f5d2faf7c136",
+      "blob_sha1": "9b641a715e108134e151f202e35b734a3347b906",
+      "scope": "Callback called only when nonempty data."
+    }
+  ],
+  "background": [
+    {
+      "url": "https://geth.ethereum.org/docs/fundamentals/archive",
+      "scope": "Historical state and proof availability depend on archive storage mode/retention; website not evidence of target prestate"
+    },
+    {
+      "url": "https://github.com/abdulwahed-sweden/Bitcoin-Sentinel/blob/main/eth_forensics/reports/mev_ecosystem_report.md",
+      "scope": "Third-party retrospective competitor report in older blocks, NOT validated 2025 participant holdings; included only as optional low-grade background"
+    }
+  ],
+  "network_queries_rpc": 0,
+  "Triport_requests": 0
+}
