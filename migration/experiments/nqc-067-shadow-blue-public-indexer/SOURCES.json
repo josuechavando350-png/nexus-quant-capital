@@ -1,0 +1,27 @@
+{
+  "API_data_response_provenance": null,
+  "NQC055_policy": "migration/experiments/nqc-055-sovereign-opportunity-radar/POLICY.md",
+  "NQC_parent_commit": "236d6c3e26008f5a586cfb412afe24d11e48d2f5",
+  "all_HTTP_bodies_pinned": false,
+  "public_official_sources": [
+    {
+      "url": "https://docs.morpho.org/developers/api/get-started/",
+      "use": "No-key public API, no SLA, 750/min basic limit and 429 rules; do not poll rapidly."
+    },
+    {
+      "url": "https://docs.morpho.org/developers/api/morpho/",
+      "use": "GraphQL Ethereum default, markets and positions; REST endpoints documented."
+    },
+    {
+      "url": "https://docs.morpho.org/developers/borrow/tutorials/get-data/",
+      "use": "Explicit marketPositions and marketTransactions GraphQL field selection."
+    },
+    {
+      "url": "https://docs.morpho.org/developers/borrow/concepts/ltv/",
+      "use": "LLTV and health factor educational reference; indexer estimates are not canonical oracle proof."
+    }
+  ],
+  "research_doc_review_not_actual_ingestion": true,
+  "reviewed_utc": "2026-10-19",
+  "schema": "nqc067-source-manifest-v1"
+}

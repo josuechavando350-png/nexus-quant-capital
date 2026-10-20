@@ -1,0 +1,31 @@
+{
+  "CI_or_workflows_enabled": false,
+  "EVM_replay": "NOT_RUN_NO_HISTORICAL_PRESTATE",
+  "NQC055_to_NQC066_regressions": "NOT_RUN_UNCHANGED",
+  "checks": [
+    "one API endpoint whitelist",
+    "no signer/wallet/trading operations",
+    "no automatic network by default",
+    "explicit market watchlist",
+    "bounded response and volume",
+    "stored raw bytes SHA256",
+    "non-overwriting snapshots",
+    "HTTP 403 429 no retries and manual hold",
+    "estimated health not onchain eligibility",
+    "no profit attribution",
+    "baseline not mistaken for new opportunities",
+    "commercial_admission false"
+  ],
+  "live_data_collection": "NOT_COMPLETED_NETWORK_DNS_FAILURE",
+  "local_python_tests": 28,
+  "new_code_files": [
+    "shadow.py",
+    "test_shadow.py",
+    "run_checks.py"
+  ],
+  "note": "Tests are local code quality only; never evidence that a profitable position is available.",
+  "original_full_isolation_verifier": "NOT_RUN_FULL_CHECKOUT_UNAVAILABLE",
+  "schema": "nqc067-validation-v1",
+  "synthetic_test_inputs_only": true,
+  "tests_failed": 0
+}
