@@ -1,0 +1,18 @@
+{
+  "scope": "selected Ethereum market UI snapshots only; not canonical Ethereum receipt or full-chain data",
+  "urls": [
+    "https://app.morpho.org/ethereum/variable/0x4fa31e3f8ba345227d44e1cf48559eea53a90dd5311dc006984c060f2f311d96/rlusd-fxrp",
+    "https://app.morpho.org/ethereum/variable/0xd2630c0ebf33ba83c82e8cd400a8e6345370238ca695ce58773b2d3e43de1b0a/mseth-ynethx",
+    "https://app.morpho.org/ethereum/variable/0xb374528d44b6ab6e0cecc87e0481f45d892f38baec90c1d318851969ec14ea5f/usds-wsteth",
+    "https://app.morpho.org/ethereum/variable/0x8e7cc042d739a365c43d0a52d5f24160fa7ae9b7e7c9a479bd02a56041d4cf77/usdc-usr"
+  ],
+  "caveats": [
+    "USD price rendered by UI may move with crawler/current prices, not token price at historical liquidation",
+    "USDS/wstETH Oct7 row missing in newest direct crawl though present in older official search crawl",
+    "A full RLUSD/FXRP Oct15 Etherscan target URL resolved but receipt access blocked 403, not retried",
+    "Dune 1inch multi-chain aggregate data do not establish Ethereum sample P&L",
+    "No sampled transaction audited for live gas/sponsor/bid and sale leg"
+  ],
+  "yieldnest_docs": "https://docs.yieldnest.finance/protocol-design/max-vaults/yneth-max-ynethx",
+  "no_rpc_queries": true
+}
