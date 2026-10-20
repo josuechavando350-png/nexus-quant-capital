@@ -1,0 +1,33 @@
+{
+  "network_requests": 0,
+  "preserved_successful_rpc_entries": 46,
+  "exit_code": 1,
+  "missing": [
+    {
+      "method": "eth_getStorageAt",
+      "params": [
+        "0x111111125421ca6dc452d289314280a0f8842a65",
+        "0x3",
+        "0x14c1350"
+      ]
+    }
+  ],
+  "same_first_missing_read": true,
+  "baseline_passed": false,
+  "variant_executed": false,
+  "commercial_admission": false,
+  "command": [
+    "/workspace/scratch/4311bc31f246/recovered/runtime/tools/forge",
+    "test",
+    "--offline",
+    "--use",
+    "/workspace/scratch/4311bc31f246/recovered/runtime/tools/solc",
+    "--gas-price",
+    "302819782345",
+    "--match-contract",
+    "HistoricalFlashReplayTest",
+    "--match-test",
+    "^test_01_",
+    "-vvvv"
+  ]
+}

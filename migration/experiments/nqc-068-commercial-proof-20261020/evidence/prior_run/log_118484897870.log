@@ -1,0 +1,217 @@
+﻿2026-10-20T06:16:31.8857198Z Current runner version: '2.337.0'
+2026-10-20T06:16:31.8880610Z ##[group]Runner Image Provisioner
+2026-10-20T06:16:31.8881668Z Hosted Compute Agent
+2026-10-20T06:16:31.8882305Z Version: 20261015.610
+2026-10-20T06:16:31.8882966Z Commit: 267fdb4e8bbec4ab5ea31367f3a00d5c480c7656
+2026-10-20T06:16:31.8883898Z Build Date: 2026-10-14T17:06:54Z
+2026-10-20T06:16:31.8884597Z Worker ID: {9b309dbe-f7c2-44bf-ae86-65af9adca6fa}
+2026-10-20T06:16:31.8885345Z Region: southcentralus
+2026-10-20T06:16:31.8885929Z Cloud: Azure
+2026-10-20T06:16:31.8886455Z ##[endgroup]
+2026-10-20T06:16:31.8887798Z ##[group]Operating System
+2026-10-20T06:16:31.8888456Z Ubuntu
+2026-10-20T06:16:31.8888968Z 24.04.5
+2026-10-20T06:16:31.8889478Z LTS
+2026-10-20T06:16:31.8890029Z ##[endgroup]
+2026-10-20T06:16:31.8890546Z ##[group]Runner Image
+2026-10-20T06:16:31.8891243Z Image: ubuntu-24.04
+2026-10-20T06:16:31.8891803Z Version: 20261018.339.1
+2026-10-20T06:16:31.8893029Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261018.339/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-20T06:16:31.8894728Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261018.339
+2026-10-20T06:16:31.8895702Z ##[endgroup]
+2026-10-20T06:16:31.8896740Z ##[group]GITHUB_TOKEN Permissions
+2026-10-20T06:16:31.8899223Z Contents: read
+2026-10-20T06:16:31.8899795Z Metadata: read
+2026-10-20T06:16:31.8900606Z ##[endgroup]
+2026-10-20T06:16:31.8902782Z Secret source: Actions
+2026-10-20T06:16:31.8903913Z Cache mode: write
+2026-10-20T06:16:31.8904727Z Prepare workflow directory
+2026-10-20T06:16:31.9863653Z Prepare all required actions
+2026-10-20T06:16:32.0291203Z Complete job name: replay
+2026-10-20T06:16:32.1490356Z ##[group]Run set -euo pipefail
+2026-10-20T06:16:32.1491235Z [36;1mset -euo pipefail[0m
+2026-10-20T06:16:32.1492081Z [36;1mtest "$GITHUB_REPOSITORY" = 'josuechavando350-png/nexus-quant-capital'[0m
+2026-10-20T06:16:32.1493442Z [36;1mtest "$GITHUB_REF" = 'refs/heads/research/isolated-historical-replay-20261020'[0m
+2026-10-20T06:16:32.1494415Z [36;1mtest "$GITHUB_RUN_ATTEMPT" = 1[0m
+2026-10-20T06:16:32.1495110Z [36;1mROOT="$RUNNER_TEMP/nqc-replay-producer"[0m
+2026-10-20T06:16:32.1495780Z [36;1mgit init "$ROOT"[0m
+2026-10-20T06:16:32.1496767Z [36;1mgit -C "$ROOT" remote add origin https://github.com/josuechavando350-png/nexus-quant-capital.git[0m
+2026-10-20T06:16:32.1497884Z [36;1mgit -C "$ROOT" fetch --no-tags --depth=3 origin "$GITHUB_SHA"[0m
+2026-10-20T06:16:32.1498736Z [36;1mgit -C "$ROOT" checkout --detach FETCH_HEAD[0m
+2026-10-20T06:16:32.1499520Z [36;1mtest "$(git -C "$ROOT" rev-parse HEAD)" = "$GITHUB_SHA"[0m
+2026-10-20T06:16:32.1500461Z [36;1mtest "$(git -C "$ROOT" rev-parse HEAD^)" = "$SOURCE"[0m
+2026-10-20T06:16:32.1501275Z [36;1mtest "$(git -C "$ROOT" rev-parse HEAD^^)" = "$BASE"[0m
+2026-10-20T06:16:32.1502158Z [36;1mgit -C "$ROOT" worktree add --detach "$RUNNER_TEMP/nqc-replay-base" "$BASE"[0m
+2026-10-20T06:16:32.1503621Z [36;1mpython3 "$RUNNER_TEMP/nqc-replay-base/migration/verify_isolation.py" --root "$RUNNER_TEMP/nqc-replay-base"[0m
+2026-10-20T06:16:32.1505068Z [36;1m(cd "$RUNNER_TEMP/nqc-replay-base" && python3 -m unittest discover -v -s migration -p test_isolation.py)[0m
+2026-10-20T06:16:32.1506080Z [36;1mexport ROOT[0m
+2026-10-20T06:16:32.1506650Z [36;1mpython3 - <<'PY'[0m
+2026-10-20T06:16:32.1507212Z [36;1mimport os,subprocess,json[0m
+2026-10-20T06:16:32.1507938Z [36;1mroot=os.environ['ROOT'];base=os.environ['BASE'][0m
+2026-10-20T06:16:32.1508830Z [36;1mprefix='migration/experiments/isolated-historical-replay-20261020/'[0m
+2026-10-20T06:16:32.1509833Z [36;1mallowed={'.github/workflows/nqc-isolated-historical-replay.yml'}[0m
+2026-10-20T06:16:32.1511029Z [36;1mallowed.update(prefix+n for n in ('source_bundle.json.gz','MANIFEST.json','MIGRATION_REVIEW.md'))[0m
+2026-10-20T06:16:32.1512396Z [36;1mchanges=subprocess.check_output(['git','-C',root,'diff','--name-status','--no-renames',base,'HEAD'],text=True).splitlines()[0m
+2026-10-20T06:16:32.1513774Z [36;1massert set(changes)=={'A\t'+name for name in allowed},changes[0m
+2026-10-20T06:16:32.1515238Z [36;1mr=subprocess.run(['python3',root+'/migration/verify_isolation.py','--root',root],text=True,capture_output=True)[0m
+2026-10-20T06:16:32.1517346Z [36;1mprint('ISOLATION_REVIEW '+json.dumps({'baseline_verified':True,'additive_only':True,'new_producer_verifier_rc':r.returncode,'new_producer_verifier_output':r.stdout+r.stderr,'producer_sha':os.environ['GITHUB_SHA'],'source_sha':os.environ['SOURCE']}))[0m
+2026-10-20T06:16:32.1519714Z [36;1massert r.returncode==1 and (r.stdout+r.stderr).strip()=='ISOLATION_FAILED: forbidden active/client tree','Unexpected producer verifier outcome'[0m
+2026-10-20T06:16:32.1520860Z [36;1mPY[0m
+2026-10-20T06:16:32.1970552Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-20T06:16:32.1971722Z env:
+2026-10-20T06:16:32.1972298Z   BASE: 16e352225ba8a6a931834c4edf3d86d9a2924b7d
+2026-10-20T06:16:32.1972997Z   SOURCE: bccca8537fc80f40e3d123ef3a5a743499b26f85
+2026-10-20T06:16:32.1974093Z ##[endgroup]
+2026-10-20T06:16:32.2307446Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-20T06:16:32.2308644Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-20T06:16:32.2309631Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-20T06:16:32.2310499Z hint: call:
+2026-10-20T06:16:32.2311008Z hint:
+2026-10-20T06:16:32.2311595Z hint: 	git config --global init.defaultBranch <name>
+2026-10-20T06:16:32.2312310Z hint:
+2026-10-20T06:16:32.2312955Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-20T06:16:32.2314603Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-20T06:16:32.2315452Z hint:
+2026-10-20T06:16:32.2315949Z hint: 	git branch -m <name>
+2026-10-20T06:16:32.2316521Z hint:
+2026-10-20T06:16:32.2317443Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-20T06:16:32.2318585Z Initialized empty Git repository in /home/runner/work/_temp/nqc-replay-producer/.git/
+2026-10-20T06:16:32.8132435Z From https://github.com/josuechavando350-png/nexus-quant-capital
+2026-10-20T06:16:32.8134179Z  * branch            7ebc7ab9e18feed6e2dd429c17b8a58d7581d3d4 -> FETCH_HEAD
+2026-10-20T06:16:32.8609828Z HEAD is now at 7ebc7ab research(replay): run separately reviewed finite historical EVM proof on pinned source
+2026-10-20T06:16:32.8684951Z Preparing worktree (detached HEAD 16e3522)
+2026-10-20T06:16:32.9152342Z HEAD is now at 16e3522 Import isolated NQC source with immutable provenance and disabled legacy workflows
+2026-10-20T06:16:33.0082483Z {
+2026-10-20T06:16:33.0083766Z   "active_workflows": 0,
+2026-10-20T06:16:33.0084631Z   "canonical_recertification": false,
+2026-10-20T06:16:33.0085401Z   "destination_repository_id": 1411047452,
+2026-10-20T06:16:33.1218229Z test_changed_source_byte_fails (test_isolation.IsolationTests.test_changed_source_byte_fails) ... ok
+2026-10-20T06:16:33.1219784Z   "disabled_workflows": 106,
+2026-10-20T06:16:33.1220857Z   "original_objects_checked": false,
+2026-10-20T06:16:33.1221759Z   "source_commit": "e259739c9f75fedcd1061d2f78d6b8852e7a3060",
+2026-10-20T06:16:33.1222664Z   "source_files": 531,
+2026-10-20T06:16:33.1223707Z   "status": "ISOLATED_SOURCE_IDENTITY_PASS"
+2026-10-20T06:16:33.1224508Z }
+2026-10-20T06:16:33.1904730Z test_client_application_fails (test_isolation.IsolationTests.test_client_application_fails) ... ok
+2026-10-20T06:16:33.2505610Z test_new_active_workflow_fails (test_isolation.IsolationTests.test_new_active_workflow_fails) ... ok
+2026-10-20T06:16:33.2936362Z test_new_repository_id_is_required (test_isolation.IsolationTests.test_new_repository_id_is_required) ... ok
+2026-10-20T06:16:33.3365929Z test_omitted_source_mapping_fails (test_isolation.IsolationTests.test_omitted_source_mapping_fails) ... ok
+2026-10-20T06:16:33.4335528Z test_snapshot_is_explicitly_not_certification (test_isolation.IsolationTests.test_snapshot_is_explicitly_not_certification) ... ok
+2026-10-20T06:16:33.4774910Z test_source_repository_cannot_be_relabelled (test_isolation.IsolationTests.test_source_repository_cannot_be_relabelled) ... ok
+2026-10-20T06:16:33.5365789Z test_symlink_cannot_hide_payload (test_isolation.IsolationTests.test_symlink_cannot_hide_payload) ... ok
+2026-10-20T06:16:33.6289972Z test_unmapped_extra_nqc_file_fails (test_isolation.IsolationTests.test_unmapped_extra_nqc_file_fails) ... ok
+2026-10-20T06:16:33.6294054Z 
+2026-10-20T06:16:33.6295866Z ----------------------------------------------------------------------
+2026-10-20T06:16:33.6297971Z Ran 9 tests in 0.563s
+2026-10-20T06:16:33.6298643Z 
+2026-10-20T06:16:33.6299097Z OK
+2026-10-20T06:16:33.7267987Z ISOLATION_REVIEW {"baseline_verified": true, "additive_only": true, "new_producer_verifier_rc": 1, "new_producer_verifier_output": "ISOLATION_FAILED: forbidden active/client tree\n", "producer_sha": "7ebc7ab9e18feed6e2dd429c17b8a58d7581d3d4", "source_sha": "bccca8537fc80f40e3d123ef3a5a743499b26f85"}
+2026-10-20T06:16:33.7751039Z ##[group]Run set -euo pipefail
+2026-10-20T06:16:33.7752515Z [36;1mset -euo pipefail[0m
+2026-10-20T06:16:33.7753951Z [36;1mpython3 - <<'PY'[0m
+2026-10-20T06:16:33.7755277Z [36;1mimport gzip,hashlib,json,os[0m
+2026-10-20T06:16:33.7756709Z [36;1mfrom pathlib import Path[0m
+2026-10-20T06:16:33.7759538Z [36;1mtmp=Path(os.environ['RUNNER_TEMP']);source=tmp/'nqc-replay-producer/migration/experiments/isolated-historical-replay-20261020'[0m
+2026-10-20T06:16:33.7762632Z [36;1mraw=(source/'source_bundle.json.gz').read_bytes()[0m
+2026-10-20T06:16:33.7764364Z [36;1massert len(raw)==10052[0m
+2026-10-20T06:16:33.7766785Z [36;1massert hashlib.sha256(raw).hexdigest()=='712bc3461b04bb6411947ae0bed68704de2ff825e29ba05ee31d47f7c8918514'[0m
+2026-10-20T06:16:33.7770076Z [36;1mmanifest=json.loads((source/'MANIFEST.json').read_text());files=json.loads(gzip.decompress(raw))[0m
+2026-10-20T06:16:33.7772693Z [36;1massert set(files)==set(manifest['files']) and len(files)==6[0m
+2026-10-20T06:16:33.7774883Z [36;1mruntime=tmp/'nqc-historical-runtime'[0m
+2026-10-20T06:16:33.7776550Z [36;1mfor name,text in files.items():[0m
+2026-10-20T06:16:33.7778215Z [36;1m    data=text.encode();record=manifest['files'][name][0m
+2026-10-20T06:16:33.7780644Z [36;1m    assert len(data)==record['bytes'] and hashlib.sha256(data).hexdigest()==record['sha256'],name[0m
+2026-10-20T06:16:33.7782811Z [36;1m    p=runtime/name[0m
+2026-10-20T06:16:33.7784517Z [36;1m    assert p.resolve().is_relative_to(runtime.resolve())[0m
+2026-10-20T06:16:33.7786642Z [36;1m    p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(data)[0m
+2026-10-20T06:16:33.7788847Z [36;1mprint('SOURCES_VERIFIED '+json.dumps(manifest,sort_keys=True))[0m
+2026-10-20T06:16:33.7790622Z [36;1mPY[0m
+2026-10-20T06:16:33.7828753Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-20T06:16:33.7830429Z ##[endgroup]
+2026-10-20T06:16:33.8179226Z SOURCES_VERIFIED {"commercial_admission": false, "evm_result_not_yet_available": true, "files": {"foundry.toml": {"bytes": 189, "sha256": "a1fec9e57ae8e2f8a863f1146738b1c6652d11d76bfbac55e21b97ff041df413"}, "rpc_guard.py": {"bytes": 6101, "sha256": "833f390bf4a66ef742d4b74f627acbd9e35d6c10e66124522c4f21174e2dfd02"}, "run_replay.py": {"bytes": 6158, "sha256": "e02f2575b6e4481f7a260537a9c788d2dd71e60ad809304a10964b641fc3cfff"}, "src/HistoricalFlashExecutor.sol": {"bytes": 9156, "sha256": "d26755c71efba7f99b85b37213c56e64e1072824f88b4c468e570e42d221d2bc"}, "test/HistoricalFlashReplay.t.sol": {"bytes": 7405, "sha256": "85c9c4e0c05114ef97ead1008fddcbc1b12191fee7362ed66f0c31ab3f31c0c2"}, "test_guard.py": {"bytes": 2768, "sha256": "fdcafe35772045224dacfaffa9b23bb0c17d7a8c360a4aa28ff13c373de0081b"}}, "prior_archive_sha256": "2c0e4f360db718da721a550b3e705fda21ecfdf6fad941dd06a1368d6ed10191", "source_bundle_bytes": 10052, "source_bundle_git_blob_sha": "f1a1bab5ee254cba6f760fa36cf716fed62abdd8", "source_bundle_sha256": "712bc3461b04bb6411947ae0bed68704de2ff825e29ba05ee31d47f7c8918514", "tests_are_transport_policy_not_economic": true, "tests_offline_passed": 12}
+2026-10-20T06:16:33.8556266Z ##[group]Run set -euo pipefail
+2026-10-20T06:16:33.8557592Z [36;1mset -euo pipefail[0m
+2026-10-20T06:16:33.8558923Z [36;1mcd "$RUNNER_TEMP/nqc-historical-runtime"[0m
+2026-10-20T06:16:33.8560375Z [36;1mpython3 run_replay.py[0m
+2026-10-20T06:16:33.8598060Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-20T06:16:33.8599698Z env:
+2026-10-20T06:16:33.8600619Z   PYTHONUNBUFFERED: 1
+2026-10-20T06:16:33.8601676Z ##[endgroup]
+2026-10-20T06:16:33.9864128Z test_01_allow_only_pinned_state (test_guard.Tests.test_01_allow_only_pinned_state) ... ok
+2026-10-20T06:16:33.9867683Z test_02_write_refused (test_guard.Tests.test_02_write_refused) ... ok
+2026-10-20T06:16:33.9870663Z test_03_latest_refused (test_guard.Tests.test_03_latest_refused) ... ok
+2026-10-20T06:16:33.9874128Z test_04_wrong_history_refused (test_guard.Tests.test_04_wrong_history_refused) ... ok
+2026-10-20T06:16:33.9877595Z test_05_other_tx_refused (test_guard.Tests.test_05_other_tx_refused) ... ok
+2026-10-20T06:16:33.9881397Z test_06_state_override_refused (test_guard.Tests.test_06_state_override_refused) ... ok
+2026-10-20T06:16:33.9885274Z test_07_cache_avoids_repeat (test_guard.Tests.test_07_cache_avoids_repeat) ... ok
+2026-10-20T06:16:33.9888716Z test_08_403_no_retry (test_guard.Tests.test_08_403_no_retry) ... ok
+2026-10-20T06:16:33.9892397Z test_09_null_never_success (test_guard.Tests.test_09_null_never_success) ... ok
+2026-10-20T06:16:33.9895359Z test_10_budget (test_guard.Tests.test_10_budget) ... ok
+2026-10-20T06:16:33.9897723Z test_11_bad_address (test_guard.Tests.test_11_bad_address) ... ok
+2026-10-20T06:16:33.9900120Z test_12_future_block (test_guard.Tests.test_12_future_block) ... ok
+2026-10-20T06:16:33.9901635Z 
+2026-10-20T06:16:33.9902610Z ----------------------------------------------------------------------
+2026-10-20T06:16:33.9904754Z Ran 12 tests in 0.003s
+2026-10-20T06:16:33.9905601Z 
+2026-10-20T06:16:33.9906119Z OK
+2026-10-20T06:16:34.8910056Z TOOL_VERIFIED foundry.tar.gz 70463573 baad3e1b06d6f310d210c93e95258a03d923fe610f8d0742138f2245f94abd7c
+2026-10-20T06:16:40.7089957Z TOOL_VERIFIED solc 15434456 d5f23436f443edb85d8e76906d12f0a86ce0490e7663a9e608efeb7a93f149ef
+2026-10-20T06:16:40.7090872Z STAGE forge_version
+2026-10-20T06:16:40.7136913Z forge Version: 1.3.1-v1.3.1
+2026-10-20T06:16:40.7137794Z Commit SHA: 08d3a4ad4d78b62bcb897350803bf96fc2cf6cc9
+2026-10-20T06:16:40.7138803Z Build Timestamp: 2025-08-12T07:39:41.778340577Z (1754984381)
+2026-10-20T06:16:40.7139423Z Build Profile: maxperf
+2026-10-20T06:16:40.7139670Z 
+2026-10-20T06:16:40.7139958Z STAGE solc_version
+2026-10-20T06:16:40.7162906Z solc, the solidity compiler commandline interface
+2026-10-20T06:16:40.7163939Z Version: 0.8.26+commit.8a97fa7a.Linux.g++
+2026-10-20T06:16:40.7164335Z 
+2026-10-20T06:16:40.7164731Z STAGE compile
+2026-10-20T06:16:42.8975226Z Compiling 2 files with Solc 0.8.26
+2026-10-20T06:16:42.8975900Z Solc 0.8.26 finished in 2.15s
+2026-10-20T06:16:42.8976707Z Compiler run successful!
+2026-10-20T06:16:42.8977520Z note[unaliased-plain-import]: use named imports '{A, B}' or alias 'import ".." as X'
+2026-10-20T06:16:42.8978522Z  --> /home/runner/work/_temp/nqc-historical-runtime/test/HistoricalFlashReplay.t.sol:3:8
+2026-10-20T06:16:42.8979212Z   |
+2026-10-20T06:16:42.8979673Z 3 | import "../src/HistoricalFlashExecutor.sol";
+2026-10-20T06:16:42.8980342Z   |        ------------------------------------
+2026-10-20T06:16:42.8980992Z   |
+2026-10-20T06:16:42.8981728Z   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unaliased-plain-import
+2026-10-20T06:16:42.8982209Z 
+2026-10-20T06:16:42.8982640Z note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+2026-10-20T06:16:42.8983787Z   --> /home/runner/work/_temp/nqc-historical-runtime/src/HistoricalFlashExecutor.sol:57:30
+2026-10-20T06:16:42.8984491Z    |
+2026-10-20T06:16:42.8984899Z 57 |     address public immutable operator;
+2026-10-20T06:16:42.8986333Z    |                              --------
+2026-10-20T06:16:42.8986856Z    |
+2026-10-20T06:16:42.8988490Z    = help: https://book.getfoundry.sh/reference/forge/forge-lint#screaming-snake-case-immutable
+2026-10-20T06:16:42.8989155Z 
+2026-10-20T06:16:42.8989566Z note[screaming-snake-case-const]: constants should use SCREAMING_SNAKE_CASE
+2026-10-20T06:16:42.8990492Z   --> /home/runner/work/_temp/nqc-historical-runtime/test/HistoricalFlashReplay.t.sol:17:35
+2026-10-20T06:16:42.8991107Z    |
+2026-10-20T06:16:42.8991631Z 17 |     VmHistorical private constant vm = VmHistorical(address(uint160(uint256(keccak256("hevm cheat code")))));
+2026-10-20T06:16:42.8992204Z    |                                   --
+2026-10-20T06:16:42.8992596Z    |
+2026-10-20T06:16:42.8993110Z    = help: https://book.getfoundry.sh/reference/forge/forge-lint#screaming-snake-case-const
+2026-10-20T06:16:42.8993724Z 
+2026-10-20T06:16:42.8994079Z note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+2026-10-20T06:16:42.8994722Z   --> /home/runner/work/_temp/nqc-historical-runtime/src/HistoricalFlashExecutor.sol:58:30
+2026-10-20T06:16:42.8995251Z    |
+2026-10-20T06:16:42.8995604Z 58 |     address public immutable beneficiary;
+2026-10-20T06:16:42.8995997Z    |                              -----------
+2026-10-20T06:16:42.8996336Z    |
+2026-10-20T06:16:42.8996807Z    = help: https://book.getfoundry.sh/reference/forge/forge-lint#screaming-snake-case-immutable
+2026-10-20T06:16:42.8997222Z 
+2026-10-20T06:16:42.8997504Z note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+2026-10-20T06:16:42.8998174Z   --> /home/runner/work/_temp/nqc-historical-runtime/src/HistoricalFlashExecutor.sol:59:30
+2026-10-20T06:16:42.8998650Z    |
+2026-10-20T06:16:42.8998965Z 59 |     address public immutable sponsor;
+2026-10-20T06:16:42.8999349Z    |                              -------
+2026-10-20T06:16:42.8999705Z    |
+2026-10-20T06:16:42.9000200Z    = help: https://book.getfoundry.sh/reference/forge/forge-lint#screaming-snake-case-immutable
+2026-10-20T06:16:42.9000590Z 
+2026-10-20T06:16:42.9000599Z 
+2026-10-20T06:17:03.0017674Z STOP Closed: TimeoutError: The read operation timed out
+2026-10-20T06:17:03.0022704Z NQC_RESULT {"all_variant_tests_pass": false, "baseline_replayed": false, "commercial_admission": false, "compile_returncode": 0, "compiled": true, "complete_receipt_cost": null, "error": "Closed: TimeoutError: The read operation timed out", "evidence_files": {"compile.log": {"bytes": 1987, "sha256": "de7e4e525c1ed9aea8a7cf4deff1dc7d43e5ad6fcba84ece236bdc7ccda22a45"}, "forge_version.log": {"bytes": 165, "sha256": "604dbb5b7385f11c969f2686a5822085044052f82e6258a34b3d128cdd58a120"}, "rpc_history.jsonl": {"bytes": 200, "sha256": "2c3f98c8708db39034e5e3136b896cdce98b24014b54cb512bda39898e7e4139"}, "solc_version.log": {"bytes": 92, "sha256": "430c1537b4d48e9e853854e3b57e99b8974bc36760efce689be578dc5adc219f"}}, "forge_version_returncode": 0, "producer_sha": "7ebc7ab9e18feed6e2dd429c17b8a58d7581d3d4", "realized_NQC_profit": null, "rpc": {"cache_entries": 0, "halted": "TimeoutError: The read operation timed out", "max_requests": 1200, "read_only": true, "upstream": "https://ethereum-rpc.publicnode.com", "upstream_requests": 1}, "schema": "nqc-isolated-evm-replay-run-v1", "solc_version_returncode": 0, "sponsor_accepted": false, "variant_tested": false, "verdict": "BLOCKED_OR_FAILED_NOT_ECONOMIC_APPROVAL"}
+2026-10-20T06:17:03.0149836Z ##[error]Process completed with exit code 2.
+2026-10-20T06:17:03.0335544Z Cleaning up orphan processes

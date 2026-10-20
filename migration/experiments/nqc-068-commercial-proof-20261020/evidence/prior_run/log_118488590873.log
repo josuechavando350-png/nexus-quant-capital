@@ -1,0 +1,162 @@
+﻿2026-10-20T06:28:55.6612651Z Current runner version: '2.337.0'
+2026-10-20T06:28:55.6637218Z ##[group]Runner Image Provisioner
+2026-10-20T06:28:55.6638221Z Hosted Compute Agent
+2026-10-20T06:28:55.6638898Z Version: 20261012.601
+2026-10-20T06:28:55.6639539Z Commit: f3dc54e1fb89da6852db922499a0233137369e1d
+2026-10-20T06:28:55.6640390Z Build Date: 2026-10-12T17:48:21Z
+2026-10-20T06:28:55.6641091Z Worker ID: {42a5b310-3b2b-4d41-a716-916a444ce61e}
+2026-10-20T06:28:55.6641883Z Region: westus
+2026-10-20T06:28:55.6642458Z Cloud: Azure
+2026-10-20T06:28:55.6642999Z ##[endgroup]
+2026-10-20T06:28:55.6644633Z ##[group]Operating System
+2026-10-20T06:28:55.6645503Z Ubuntu
+2026-10-20T06:28:55.6646064Z 24.04.5
+2026-10-20T06:28:55.6646737Z LTS
+2026-10-20T06:28:55.6647267Z ##[endgroup]
+2026-10-20T06:28:55.6647881Z ##[group]Runner Image
+2026-10-20T06:28:55.6648499Z Image: ubuntu-24.04
+2026-10-20T06:28:55.6649100Z Version: 20261012.334.1
+2026-10-20T06:28:55.6650509Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-20T06:28:55.6652114Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+2026-10-20T06:28:55.6653172Z ##[endgroup]
+2026-10-20T06:28:55.6654405Z ##[group]GITHUB_TOKEN Permissions
+2026-10-20T06:28:55.6657023Z Contents: read
+2026-10-20T06:28:55.6657633Z Metadata: read
+2026-10-20T06:28:55.6658288Z ##[endgroup]
+2026-10-20T06:28:55.6660639Z Secret source: Actions
+2026-10-20T06:28:55.6662087Z Cache mode: write
+2026-10-20T06:28:55.6662805Z Prepare workflow directory
+2026-10-20T06:28:55.7022481Z Prepare all required actions
+2026-10-20T06:28:55.7154142Z Complete job name: replay
+2026-10-20T06:28:55.8008477Z ##[group]Run set -euo pipefail
+2026-10-20T06:28:55.8009431Z [36;1mset -euo pipefail[0m
+2026-10-20T06:28:55.8010357Z [36;1mtest "$GITHUB_REPOSITORY" = 'josuechavando350-png/nexus-quant-capital'[0m
+2026-10-20T06:28:55.8011703Z [36;1mtest "$GITHUB_REF" = 'refs/heads/research/isolated-historical-replay-20261020'[0m
+2026-10-20T06:28:55.8012729Z [36;1mtest "$GITHUB_RUN_ATTEMPT" = 1[0m
+2026-10-20T06:28:55.8013474Z [36;1mROOT="$RUNNER_TEMP/nqc-replay-producer"[0m
+2026-10-20T06:28:55.8014276Z [36;1mgit init "$ROOT"[0m
+2026-10-20T06:28:55.8015564Z [36;1mgit -C "$ROOT" remote add origin https://github.com/josuechavando350-png/nexus-quant-capital.git[0m
+2026-10-20T06:28:55.8016890Z [36;1mgit -C "$ROOT" fetch --no-tags --depth=8 origin "$GITHUB_SHA"[0m
+2026-10-20T06:28:55.8017814Z [36;1mgit -C "$ROOT" checkout --detach FETCH_HEAD[0m
+2026-10-20T06:28:55.8018684Z [36;1mtest "$(git -C "$ROOT" rev-parse HEAD^)" = "$SOURCE"[0m
+2026-10-20T06:28:55.8019858Z [36;1mtest "$(git -C "$ROOT" rev-parse HEAD^^)" = '5790950a67ebdab0b04f638034cda513f5e0364a'[0m
+2026-10-20T06:28:55.8020945Z [36;1mtest "$(git -C "$ROOT" rev-parse HEAD~6)" = "$BASE"[0m
+2026-10-20T06:28:55.8021973Z [36;1mgit -C "$ROOT" worktree add --detach "$RUNNER_TEMP/nqc-replay-base" "$BASE"[0m
+2026-10-20T06:28:55.8023301Z [36;1mpython3 "$RUNNER_TEMP/nqc-replay-base/migration/verify_isolation.py" --root "$RUNNER_TEMP/nqc-replay-base"[0m
+2026-10-20T06:28:55.8024930Z [36;1m(cd "$RUNNER_TEMP/nqc-replay-base" && python3 -m unittest discover -v -s migration -p test_isolation.py)[0m
+2026-10-20T06:28:55.8026296Z [36;1mexport ROOT[0m
+2026-10-20T06:28:55.8026980Z [36;1mpython3 - <<'PY'[0m
+2026-10-20T06:28:55.8027648Z [36;1mimport os,subprocess,json[0m
+2026-10-20T06:28:55.8028774Z [36;1mroot=os.environ['ROOT'];prefix='migration/experiments/isolated-historical-replay-20261020/'[0m
+2026-10-20T06:28:55.8030005Z [36;1mallowed={'.github/workflows/nqc-isolated-historical-replay.yml'}[0m
+2026-10-20T06:28:55.8031594Z [36;1mallowed.update(prefix+n for n in ('source_bundle.json.gz','MANIFEST.json','MIGRATION_REVIEW.md','TRANSPORT_REVIEW.md','block_lookup_diagnostic.py'))[0m
+2026-10-20T06:28:55.8033460Z [36;1mchanges=subprocess.check_output(['git','-C',root,'diff','--name-status','--no-renames',os.environ['BASE'],'HEAD'],text=True).splitlines()[0m
+2026-10-20T06:28:55.8034862Z [36;1massert set(changes)=={'A\t'+name for name in allowed},changes[0m
+2026-10-20T06:28:55.8036800Z [36;1mr=subprocess.run(['python3',root+'/migration/verify_isolation.py','--root',root],text=True,capture_output=True)[0m
+2026-10-20T06:28:55.8038935Z [36;1mprint('ISOLATION_REVIEW '+json.dumps({'baseline_verified':True,'additive_only':True,'new_producer_verifier_rc':r.returncode,'new_producer_verifier_output':r.stdout+r.stderr,'producer_sha':os.environ['GITHUB_SHA']}))[0m
+2026-10-20T06:28:55.8041075Z [36;1massert r.returncode==1 and (r.stdout+r.stderr).strip()=='ISOLATION_FAILED: forbidden active/client tree'[0m
+2026-10-20T06:28:55.8042157Z [36;1mPY[0m
+2026-10-20T06:28:55.9199190Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-20T06:28:55.9200487Z env:
+2026-10-20T06:28:55.9201150Z   BASE: 16e352225ba8a6a931834c4edf3d86d9a2924b7d
+2026-10-20T06:28:55.9202006Z   SOURCE: 66300b5d3ad2fc56efc30fa313c0b5dab03e2acb
+2026-10-20T06:28:55.9202753Z ##[endgroup]
+2026-10-20T06:28:55.9598423Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-20T06:28:55.9599691Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-20T06:28:55.9600884Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-20T06:28:55.9601756Z hint: call:
+2026-10-20T06:28:55.9602262Z hint:
+2026-10-20T06:28:55.9602967Z hint: 	git config --global init.defaultBranch <name>
+2026-10-20T06:28:55.9603742Z hint:
+2026-10-20T06:28:55.9604536Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-20T06:28:55.9606256Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-20T06:28:55.9607163Z hint:
+2026-10-20T06:28:55.9607809Z hint: 	git branch -m <name>
+2026-10-20T06:28:55.9608465Z hint:
+2026-10-20T06:28:55.9609344Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-20T06:28:55.9610517Z Initialized empty Git repository in /home/runner/work/_temp/nqc-replay-producer/.git/
+2026-10-20T06:28:56.5362535Z From https://github.com/josuechavando350-png/nexus-quant-capital
+2026-10-20T06:28:56.5363644Z  * branch            7943fea26dc94fef6b59d11cf8787be16beca240 -> FETCH_HEAD
+2026-10-20T06:28:56.5955895Z HEAD is now at 7943fea research(replay): perform reviewed three-read block-addressed diagnostic
+2026-10-20T06:28:56.6038115Z Preparing worktree (detached HEAD 16e3522)
+2026-10-20T06:28:56.6607735Z HEAD is now at 16e3522 Import isolated NQC source with immutable provenance and disabled legacy workflows
+2026-10-20T06:28:56.7828056Z {
+2026-10-20T06:28:56.7828964Z   "active_workflows": 0,
+2026-10-20T06:28:56.7829742Z   "canonical_recertification": false,
+2026-10-20T06:28:56.7830520Z   "destination_repository_id": 1411047452,
+2026-10-20T06:28:56.7831264Z   "disabled_workflows": 106,
+2026-10-20T06:28:56.7831916Z   "original_objects_checked": false,
+2026-10-20T06:28:56.7832603Z   "source_commit": "e259739c9f75fedcd1061d2f78d6b8852e7a3060",
+2026-10-20T06:28:56.7833297Z   "source_files": 531,
+2026-10-20T06:28:56.7833840Z   "status": "ISOLATED_SOURCE_IDENTITY_PASS"
+2026-10-20T06:28:56.7834428Z }
+2026-10-20T06:28:56.9980333Z test_changed_source_byte_fails (test_isolation.IsolationTests.test_changed_source_byte_fails) ... ok
+2026-10-20T06:28:57.1211863Z test_client_application_fails (test_isolation.IsolationTests.test_client_application_fails) ... ok
+2026-10-20T06:28:57.2451834Z test_new_active_workflow_fails (test_isolation.IsolationTests.test_new_active_workflow_fails) ... ok
+2026-10-20T06:28:57.3375725Z test_new_repository_id_is_required (test_isolation.IsolationTests.test_new_repository_id_is_required) ... ok
+2026-10-20T06:28:57.4310582Z test_omitted_source_mapping_fails (test_isolation.IsolationTests.test_omitted_source_mapping_fails) ... ok
+2026-10-20T06:28:57.6036171Z test_snapshot_is_explicitly_not_certification (test_isolation.IsolationTests.test_snapshot_is_explicitly_not_certification) ... ok
+2026-10-20T06:28:57.6970559Z test_source_repository_cannot_be_relabelled (test_isolation.IsolationTests.test_source_repository_cannot_be_relabelled) ... ok
+2026-10-20T06:28:57.8180559Z test_symlink_cannot_hide_payload (test_isolation.IsolationTests.test_symlink_cannot_hide_payload) ... ok
+2026-10-20T06:28:57.9892097Z test_unmapped_extra_nqc_file_fails (test_isolation.IsolationTests.test_unmapped_extra_nqc_file_fails) ... ok
+2026-10-20T06:28:57.9893456Z 
+2026-10-20T06:28:57.9893889Z ----------------------------------------------------------------------
+2026-10-20T06:28:57.9894597Z Ran 9 tests in 1.110s
+2026-10-20T06:28:57.9894808Z 
+2026-10-20T06:28:57.9894970Z OK
+2026-10-20T06:28:58.1043247Z ISOLATION_REVIEW {"baseline_verified": true, "additive_only": true, "new_producer_verifier_rc": 1, "new_producer_verifier_output": "ISOLATION_FAILED: forbidden active/client tree\n", "producer_sha": "7943fea26dc94fef6b59d11cf8787be16beca240"}
+2026-10-20T06:28:58.1208192Z ##[group]Run set -euo pipefail
+2026-10-20T06:28:58.1208660Z [36;1mset -euo pipefail[0m
+2026-10-20T06:28:58.1208983Z [36;1mpython3 - <<'PY'[0m
+2026-10-20T06:28:58.1209325Z [36;1mimport gzip,hashlib,json,os[0m
+2026-10-20T06:28:58.1209676Z [36;1mfrom pathlib import Path[0m
+2026-10-20T06:28:58.1210345Z [36;1mtmp=Path(os.environ['RUNNER_TEMP']);source=tmp/'nqc-replay-producer/migration/experiments/isolated-historical-replay-20261020'[0m
+2026-10-20T06:28:58.1211098Z [36;1mraw=(source/'source_bundle.json.gz').read_bytes()[0m
+2026-10-20T06:28:58.1211747Z [36;1massert hashlib.sha256(raw).hexdigest()=='712bc3461b04bb6411947ae0bed68704de2ff825e29ba05ee31d47f7c8918514'[0m
+2026-10-20T06:28:58.1212550Z [36;1mmanifest=json.loads((source/'MANIFEST.json').read_text());files=json.loads(gzip.decompress(raw))[0m
+2026-10-20T06:28:58.1213177Z [36;1massert set(files)==set(manifest['files']) and len(files)==6[0m
+2026-10-20T06:28:58.1213664Z [36;1mruntime=tmp/'nqc-historical-runtime'[0m
+2026-10-20T06:28:58.1214041Z [36;1mfor name,text in files.items():[0m
+2026-10-20T06:28:58.1214439Z [36;1m    data=text.encode();record=manifest['files'][name][0m
+2026-10-20T06:28:58.1215024Z [36;1m    assert len(data)==record['bytes'] and hashlib.sha256(data).hexdigest()==record['sha256'],name[0m
+2026-10-20T06:28:58.1215964Z [36;1m    p=runtime/name;assert p.resolve().is_relative_to(runtime.resolve())[0m
+2026-10-20T06:28:58.1216539Z [36;1m    p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(data)[0m
+2026-10-20T06:28:58.1217138Z [36;1mp=runtime/'rpc_guard.py';s=p.read_text();old="method.startswith('eth_getBlock')"[0m
+2026-10-20T06:28:58.1217652Z [36;1massert s.count(old)==1[0m
+2026-10-20T06:28:58.1218099Z [36;1ms=s.replace(old,"method in ('eth_getBlockByNumber','eth_getBlockByHash')")[0m
+2026-10-20T06:28:58.1218568Z [36;1mp.write_text(s)[0m
+2026-10-20T06:28:58.1219161Z [36;1massert hashlib.sha256(p.read_bytes()).hexdigest()=='2e083c0bbe758fd00dc9cfc3aba3aa813fa4d592e72811b3e61292582bc4ac39'[0m
+2026-10-20T06:28:58.1219858Z [36;1mdiag=(source/'block_lookup_diagnostic.py').read_bytes()[0m
+2026-10-20T06:28:58.1220514Z [36;1massert hashlib.sha256(diag).hexdigest()=='0aaaa383ec1e28a8c154464a333448ce4e21efe48be9d251f097151e6eedba6e'[0m
+2026-10-20T06:28:58.1221188Z [36;1m(runtime/'block_lookup_diagnostic.py').write_bytes(diag)[0m
+2026-10-20T06:28:58.1221875Z [36;1mprint('VERIFIED: unchanged Solidity; separate collection-parser overlay; prior requests counted=5; new maximum=3')[0m
+2026-10-20T06:28:58.1222480Z [36;1mPY[0m
+2026-10-20T06:28:58.1222776Z [36;1mcd "$RUNNER_TEMP/nqc-historical-runtime"[0m
+2026-10-20T06:28:58.1223160Z [36;1mpython3 -m unittest -v test_guard[0m
+2026-10-20T06:28:58.1223524Z [36;1mpython3 block_lookup_diagnostic.py[0m
+2026-10-20T06:28:58.1289874Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-20T06:28:58.1290296Z env:
+2026-10-20T06:28:58.1290555Z   PYTHONUNBUFFERED: 1
+2026-10-20T06:28:58.1290844Z ##[endgroup]
+2026-10-20T06:28:58.1659915Z VERIFIED: unchanged Solidity; separate collection-parser overlay; prior requests counted=5; new maximum=3
+2026-10-20T06:28:58.2414605Z test_01_allow_only_pinned_state (test_guard.Tests.test_01_allow_only_pinned_state) ... ok
+2026-10-20T06:28:58.2416664Z test_02_write_refused (test_guard.Tests.test_02_write_refused) ... ok
+2026-10-20T06:28:58.2417391Z test_03_latest_refused (test_guard.Tests.test_03_latest_refused) ... ok
+2026-10-20T06:28:58.2418153Z test_04_wrong_history_refused (test_guard.Tests.test_04_wrong_history_refused) ... ok
+2026-10-20T06:28:58.2418978Z test_05_other_tx_refused (test_guard.Tests.test_05_other_tx_refused) ... ok
+2026-10-20T06:28:58.2419677Z test_06_state_override_refused (test_guard.Tests.test_06_state_override_refused) ... ok
+2026-10-20T06:28:58.2425902Z test_07_cache_avoids_repeat (test_guard.Tests.test_07_cache_avoids_repeat) ... ok
+2026-10-20T06:28:58.2430328Z test_08_403_no_retry (test_guard.Tests.test_08_403_no_retry) ... ok
+2026-10-20T06:28:58.2434765Z test_09_null_never_success (test_guard.Tests.test_09_null_never_success) ... ok
+2026-10-20T06:28:58.2437237Z test_10_budget (test_guard.Tests.test_10_budget) ... ok
+2026-10-20T06:28:58.2438153Z test_11_bad_address (test_guard.Tests.test_11_bad_address) ... ok
+2026-10-20T06:28:58.2438767Z test_12_future_block (test_guard.Tests.test_12_future_block) ... ok
+2026-10-20T06:28:58.2439141Z 
+2026-10-20T06:28:58.2439402Z ----------------------------------------------------------------------
+2026-10-20T06:28:58.2439867Z Ran 12 tests in 0.003s
+2026-10-20T06:28:58.2440064Z 
+2026-10-20T06:28:58.2440185Z OK
+2026-10-20T06:28:58.4177558Z RPC_DIAGNOSTIC_RECORD {"attempt": 1, "body_bytes": 38, "endpoint": "https://ethereum-rpc.publicnode.com", "error": "Closed: Missing historical result: eth_getBlockReceipts", "http_status": 200, "raw_response_omitted_from_summary": true, "request": {"id": 1, "jsonrpc": "2.0", "method": "eth_getBlockReceipts", "params": ["0x2702da91c548f69a98373525ae8409c6bd28189439bb53f2acb971a029ac5882"]}, "sha256": "1b9f3e593e73354720f2329c7bc53c56abf4ef1c4ce38ecc7d6aa26c211b9685"}
+2026-10-20T06:28:58.4186020Z NQC_BLOCK_DIAGNOSTIC {"baseline_replayed": false, "combined_session_requests": 6, "commercial_admission": false, "error": "Closed: Closed: Missing historical result: eth_getBlockReceipts", "historic_code_received": false, "max_this_diagnostic": 3, "net_NQC_profit": null, "previous_session_requests": 5, "producer_sha": "7943fea26dc94fef6b59d11cf8787be16beca240", "raw_records_sha256": "cb1715a58f071385b29bde0c0f34eb6040a8300c623fa06bee72fa56c8a9d912", "receipts_recovered": false, "rpc": {"cache_entries": 0, "halted": "Closed: Missing historical result: eth_getBlockReceipts", "max_requests": 3, "read_only": true, "upstream": "https://ethereum-rpc.publicnode.com", "upstream_requests": 1}, "schema": "nqc-block-addressed-diagnostic-v1", "variant_tested": false, "verdict": "DIAGNOSTIC_STOPPED_NOT_ECONOMIC_RESULT"}
+2026-10-20T06:28:58.4279116Z ##[error]Process completed with exit code 2.
+2026-10-20T06:28:58.4379107Z Cleaning up orphan processes

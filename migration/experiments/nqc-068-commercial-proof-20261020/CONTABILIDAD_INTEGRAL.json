@@ -1,0 +1,192 @@
+{
+  "schema": "nqc068-accounting-with-explicit-unknowns-v1",
+  "verdict": "NETO_NO_DETERMINABLE",
+  "variant_executed": false,
+  "variant_gas_receipt": null,
+  "variant_net_amount": null,
+  "variant_net_asset": null,
+  "realized_nqc_profit_demonstrated": {
+    "amount": "0",
+    "scope": "No NQC settlement demonstrated in this investigation; not an audit of all NQC accounts"
+  },
+  "actual_total_nqc_profit": null,
+  "participants": {
+    "flash_originator": "Uniswap V2 USDC/WETH pair in proposed variant only",
+    "executor": {
+      "historical_address": "0x8ce45e650ab17b6ca0dd6071f7c2b5c69b5b42b2",
+      "variant_address": null
+    },
+    "borrower": "0x8dca753a1f0918061ea27e69645a189d3ee1d53c",
+    "Morpho": "0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb",
+    "V2": "0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc",
+    "V3": "0x1d42064fc4beb5f8aaf85f4617ae8b3b5b8bd801",
+    "historical_gas_payer": "0x0ef3794cb89864337e15a9f077020c285ef0989b",
+    "historical_coinbase": "0x95222290dd7278aa3ddd389cc1e1d165cc4bafe5",
+    "sponsor": null,
+    "NQC_beneficiary": null,
+    "economic_ownership_consolidation_proven": false
+  },
+  "historical_original_partial_double_entry_journal": [
+    {
+      "asset": "WETH",
+      "from_account": "0x8ce45e650ab17b6ca0dd6071f7c2b5c69b5b42b2",
+      "to_account": "0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc",
+      "amount_base_units": "266862310264246861824",
+      "amount": "266.862310264246861824",
+      "debit_delta_base_units": "-266862310264246861824",
+      "credit_delta_base_units": "266862310264246861824",
+      "basis": "ORIGINAL_RPC_RECEIPT_TRANSFER_EVENT_NOT_LOCAL_REPLAY",
+      "log_index": 76
+    },
+    {
+      "asset": "USDC",
+      "from_account": "0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc",
+      "to_account": "0x8ce45e650ab17b6ca0dd6071f7c2b5c69b5b42b2",
+      "amount_base_units": "616687327559",
+      "amount": "616687.327559",
+      "debit_delta_base_units": "-616687327559",
+      "credit_delta_base_units": "616687327559",
+      "basis": "ORIGINAL_RPC_RECEIPT_TRANSFER_EVENT_NOT_LOCAL_REPLAY",
+      "log_index": 77
+    },
+    {
+      "asset": "UNI",
+      "from_account": "0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb",
+      "to_account": "0x8ce45e650ab17b6ca0dd6071f7c2b5c69b5b42b2",
+      "amount_base_units": "94718231775052038007708",
+      "amount": "94718.231775052038007708",
+      "debit_delta_base_units": "-94718231775052038007708",
+      "credit_delta_base_units": "94718231775052038007708",
+      "basis": "ORIGINAL_RPC_RECEIPT_TRANSFER_EVENT_NOT_LOCAL_REPLAY",
+      "log_index": 81
+    },
+    {
+      "asset": "USDC",
+      "from_account": "0x8ce45e650ab17b6ca0dd6071f7c2b5c69b5b42b2",
+      "to_account": "0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb",
+      "amount_base_units": "616687327558",
+      "amount": "616687.327558",
+      "debit_delta_base_units": "-616687327558",
+      "credit_delta_base_units": "616687327558",
+      "basis": "ORIGINAL_RPC_RECEIPT_TRANSFER_EVENT_NOT_LOCAL_REPLAY",
+      "log_index": 82
+    },
+    {
+      "asset": "WETH",
+      "from_account": "0x1d42064fc4beb5f8aaf85f4617ae8b3b5b8bd801",
+      "to_account": "0x8ce45e650ab17b6ca0dd6071f7c2b5c69b5b42b2",
+      "amount_base_units": "281407578800167103862",
+      "amount": "281.407578800167103862",
+      "debit_delta_base_units": "-281407578800167103862",
+      "credit_delta_base_units": "281407578800167103862",
+      "basis": "ORIGINAL_RPC_RECEIPT_TRANSFER_EVENT_NOT_LOCAL_REPLAY",
+      "log_index": 83
+    },
+    {
+      "asset": "UNI",
+      "from_account": "0x8ce45e650ab17b6ca0dd6071f7c2b5c69b5b42b2",
+      "to_account": "0x1d42064fc4beb5f8aaf85f4617ae8b3b5b8bd801",
+      "amount_base_units": "94718231775052038007708",
+      "amount": "94718.231775052038007708",
+      "debit_delta_base_units": "-94718231775052038007708",
+      "credit_delta_base_units": "94718231775052038007708",
+      "basis": "ORIGINAL_RPC_RECEIPT_TRANSFER_EVENT_NOT_LOCAL_REPLAY",
+      "log_index": 84
+    },
+    {
+      "asset": "WETH",
+      "from_account": "0x8ce45e650ab17b6ca0dd6071f7c2b5c69b5b42b2",
+      "to_account": "WETH_REDEMPTION_CLEARING",
+      "amount_base_units": "12447536358167279703",
+      "amount": "12.447536358167279703",
+      "debit_delta_base_units": "-12447536358167279703",
+      "credit_delta_base_units": "12447536358167279703",
+      "basis": "ORIGINAL_WITHDRAWAL_EVENT; ETH native transfer not independently traced here",
+      "log_index": 86
+    },
+    {
+      "asset": "ETH",
+      "from_account": "0x0ef3794cb89864337e15a9f077020c285ef0989b",
+      "to_account": "ETH_BASE_FEE_BURN",
+      "amount_base_units": "182306290745378005",
+      "amount": "0.182306290745378005",
+      "debit_delta_base_units": "-182306290745378005",
+      "credit_delta_base_units": "182306290745378005",
+      "basis": "DERIVED_FROM_ORIGINAL_RECEIPT; base fee equals effective gas price, priority fee zero",
+      "log_index": null
+    }
+  ],
+  "historical_deltas_base_units": {
+    "WETH": {
+      "0x8ce45e650ab17b6ca0dd6071f7c2b5c69b5b42b2": "2097732177752962335",
+      "0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc": "266862310264246861824",
+      "0x1d42064fc4beb5f8aaf85f4617ae8b3b5b8bd801": "-281407578800167103862",
+      "WETH_REDEMPTION_CLEARING": "12447536358167279703"
+    },
+    "USDC": {
+      "0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc": "-616687327559",
+      "0x8ce45e650ab17b6ca0dd6071f7c2b5c69b5b42b2": "1",
+      "0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb": "616687327558"
+    },
+    "UNI": {
+      "0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb": "-94718231775052038007708",
+      "0x8ce45e650ab17b6ca0dd6071f7c2b5c69b5b42b2": "0",
+      "0x1d42064fc4beb5f8aaf85f4617ae8b3b5b8bd801": "94718231775052038007708"
+    },
+    "ETH": {
+      "0x0ef3794cb89864337e15a9f077020c285ef0989b": "-182306290745378005",
+      "ETH_BASE_FEE_BURN": "182306290745378005"
+    }
+  },
+  "journal_balanced_per_asset": true,
+  "journal_scope": "Original historical Transfer/Withdrawal logs and original receipt gas only. Opening/closing balances, native inclusion transfer, borrower debt-share stock and external obligations are not fully reconciled; this is not variant economics. WETH and ETH remain separate.",
+  "historical_reference_not_variant_result": {
+    "executor_WETH_after_withdrawal": "2.097732177752962335",
+    "executor_USDC_dust": "0.000001",
+    "gas_ETH_paid_by_separate_sender": "0.182306290745378005",
+    "inclusion_ETH_from_prior_explorer_transcription_only": "12.447536358167279703",
+    "prior_consolidated_ETH_equivalent_conditional": "1.915425887007584330",
+    "conditions": [
+      "WETH redeemable 1:1 to ETH",
+      "common economic ownership of gas payer/executor not established",
+      "inclusion native transfer taken from prior explorer transcription, no new native trace",
+      "other costs unknown"
+    ],
+    "NQC_income": false
+  },
+  "historical_V2_reserve_observation": {
+    "at_parent_block": 21762896,
+    "slot": "0x8",
+    "reserve0_USDC_base": "38669555298186",
+    "reserve1_WETH_base": "16417414753955494219446",
+    "blockTimestampLast": 1738548443,
+    "reserve_implied_by_target_Sync_minus_Swap": [
+      "38669555298186",
+      "16417414753955494219446"
+    ],
+    "agreement": true,
+    "mathematical_minimum_WETH_for_requested_USDC": "266862310264222944156",
+    "is_executed_flash_swap": false,
+    "warning": "Parent state and receipt arithmetic agree; this does not execute prefix, callbacks or variant."
+  },
+  "unpriced_variant_obligations": {
+    "flash_repayment_executed": null,
+    "actual_V3_output": null,
+    "full_intrinsic_and_execution_gas": null,
+    "deployment_gas": null,
+    "approvals_gas": null,
+    "maximum_upfront_gas": null,
+    "inclusion_payment": null,
+    "sponsor_advance": null,
+    "sponsor_fee": null,
+    "revert_cost": null,
+    "reorg_liability": null,
+    "noninclusion_liability": null,
+    "infrastructure_attribution": null,
+    "beneficiary_liquidity_cost": null
+  },
+  "sponsor_status": "SPONSOR_UNCONFIRMED",
+  "unknown_costs_treated_as_zero": false,
+  "fees_double_counted": false,
+  "sensitivities": "NOT_RUN: A failed on missing evidence; no measured variant inputs. No fabricated net, break-even or monthly projection."
+}

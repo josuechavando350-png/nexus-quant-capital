@@ -1,0 +1,46 @@
+{
+  "started_utc": "2026-10-20T16:26:18.775356+00:00",
+  "stage": "baseline_only",
+  "baseline_replayed": false,
+  "variant_executed": false,
+  "prior_drpc_reads": 10,
+  "new_rpc_reads": 37,
+  "commercial_admission": false,
+  "sponsor_accepted": false,
+  "preflight": {
+    "receipt_present": true,
+    "prefix_receipt_present": true,
+    "block_and_order_verified": true,
+    "parent_v2_code_bytes": 11293,
+    "parent_v2_code_sha256": "8b5db55fa9ab3b9527508d4abe0b39eb588bf310270c8e04b3f38214e8ba63b4",
+    "parent_slot8_present": true,
+    "full_historical_state_proven": false,
+    "canonical_consensus_independently_verified": false
+  },
+  "command": [
+    "/workspace/scratch/4311bc31f246/recovered/runtime/tools/forge",
+    "test",
+    "--offline",
+    "--use",
+    "/workspace/scratch/4311bc31f246/recovered/runtime/tools/solc",
+    "--gas-price",
+    "302819782345",
+    "--match-contract",
+    "HistoricalFlashReplayTest",
+    "--match-test",
+    "^test_01_",
+    "-vvvv"
+  ],
+  "exit_code": 1,
+  "duration_seconds": 114.86448393200044,
+  "rpc": {
+    "upstream_requests": 47,
+    "cache_entries": 46,
+    "halted": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>",
+    "upstream": "https://eth.drpc.org/",
+    "max_requests": 600,
+    "read_only": true
+  },
+  "total_response_bytes": 417100,
+  "finished_utc": "2026-10-20T16:28:14.137405+00:00"
+}

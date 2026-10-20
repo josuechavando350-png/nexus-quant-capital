@@ -1,0 +1,132 @@
+{
+  "recorded_utc": "2026-10-20T16:36:49.710385+00:00",
+  "tools": {
+    "forge": {
+      "bytes": 68016896,
+      "sha256": "31ae96be318b20597be78e65a22b01d6b40b1cfc38b13b4157bef3d07e2b37c7"
+    },
+    "cast": {
+      "bytes": 49000352,
+      "sha256": "254b7c0c2c46286b25dc9dc071c08b36b9e9c3f886125e0389b2ce2c08cd232c"
+    },
+    "anvil": {
+      "bytes": 25715464,
+      "sha256": "9c2a7370a788ea175e37f7958f164991c9eae612f6c965dd85d1b5392eef6ac2"
+    },
+    "solc": {
+      "bytes": 15434456,
+      "sha256": "d5f23436f443edb85d8e76906d12f0a86ce0490e7663a9e608efeb7a93f149ef"
+    },
+    "foundry.tar.gz": {
+      "bytes": 70463573,
+      "sha256": "baad3e1b06d6f310d210c93e95258a03d923fe610f8d0742138f2245f94abd7c"
+    }
+  },
+  "commands": [
+    {
+      "label": "forge_version",
+      "args": [
+        "/workspace/scratch/4311bc31f246/recovered/runtime/tools/forge",
+        "--version"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.0044326619999992545,
+      "log": "evidence/forge_version.log",
+      "sha256": "604dbb5b7385f11c969f2686a5822085044052f82e6258a34b3d128cdd58a120"
+    },
+    {
+      "label": "solc_version",
+      "args": [
+        "/workspace/scratch/4311bc31f246/recovered/runtime/tools/solc",
+        "--version"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.0026152339996770024,
+      "log": "evidence/solc_version.log",
+      "sha256": "430c1537b4d48e9e853854e3b57e99b8974bc36760efce689be578dc5adc219f"
+    },
+    {
+      "label": "compile_final",
+      "args": [
+        "/workspace/scratch/4311bc31f246/recovered/runtime/tools/forge",
+        "build",
+        "--force",
+        "--offline",
+        "--use",
+        "/workspace/scratch/4311bc31f246/recovered/runtime/tools/solc"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 2.233176765999815,
+      "log": "evidence/compile_final.log",
+      "sha256": "82b634ac7133deadff6cb6d9177e46c1310b90d78327cc1bb1f4da4af95d075d"
+    },
+    {
+      "label": "transport_tests",
+      "args": [
+        "python3",
+        "-m",
+        "unittest",
+        "-v",
+        "test_guard"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.08418409200021415,
+      "log": "evidence/transport_tests.log",
+      "sha256": "00388842323422cb6ad63f50fb273f5004312d082eced12db6a026ed0bf9893e"
+    },
+    {
+      "label": "archive_wrapper_tests",
+      "args": [
+        "python3",
+        "archive_probe_replay.py",
+        "--offline-test"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.06728352699974494,
+      "log": "evidence/archive_wrapper_tests.log",
+      "sha256": "21c0d4cd736a9c8b5e2a5f47b9cf59d992d12ce4d97e3378d073f856034872b1"
+    }
+  ],
+  "compiled_artifacts": {
+    "out/HistoricalFlashExecutor.sol/IV2Historical.json": {
+      "bytes": 4565,
+      "sha256": "b377615fb21b043fa0ebfc19cffc290bed0bd6d3dc3e912ffbebafb4217a64ea"
+    },
+    "out/HistoricalFlashExecutor.sol/IERC20Historical.json": {
+      "bytes": 4101,
+      "sha256": "97cae837697b7dbbf4cfaf81652ab6ed83f085e41f8b5ba0b246af1d1d98d6f9"
+    },
+    "out/HistoricalFlashExecutor.sol/IMorphoHistorical.json": {
+      "bytes": 6319,
+      "sha256": "f141ac385eb93f596e59a48874be0e4b815d2e73e29fcb5da7925ccf232a342b"
+    },
+    "out/HistoricalFlashExecutor.sol/HistoricalFlashExecutor.json": {
+      "bytes": 62162,
+      "sha256": "6459c08a0944ed1065e5ebf2fb22f8b01b6fe32792ab6e82ed08296c2ac0d9f7"
+    },
+    "out/HistoricalFlashExecutor.sol/IV3Historical.json": {
+      "bytes": 4751,
+      "sha256": "6445a667f0ecb87d0044daeb3962f394cabc0738cc871cb0f082b3dbf33752c8"
+    },
+    "out/HistoricalFlashExecutor.sol/IWETHHistorical.json": {
+      "bytes": 4586,
+      "sha256": "5f1e840510dbc6d6ad20190ad7f234a8bbe1750bbed91c472bc74f8c3013c7e7"
+    },
+    "out/build-info/a69f6b7086786782.json": {
+      "bytes": 146,
+      "sha256": "ae495c9d740baf28a35513c314fdb31ed30bada5aab1e1ee6b1bd02ed0f9e692"
+    },
+    "out/HistoricalFlashReplay.t.sol/IOracleHistorical.json": {
+      "bytes": 2770,
+      "sha256": "fe5540e6983230ef776d68d15d29d340c8ab7fd6d718db293836652e8454f987"
+    },
+    "out/HistoricalFlashReplay.t.sol/VmHistorical.json": {
+      "bytes": 6083,
+      "sha256": "9dd0f6fd211ac30c69043b5cb20679b40a4bbdcf8a47e1b251894e61399d938e"
+    },
+    "out/HistoricalFlashReplay.t.sol/HistoricalFlashReplayTest.json": {
+      "bytes": 86810,
+      "sha256": "ee89138d57ad5c106665fa8f86fa15c421c1bd7528d85a565a6d75106e91e1a7"
+    }
+  }
+}

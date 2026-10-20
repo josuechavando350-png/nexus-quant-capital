@@ -1,0 +1,71 @@
+{
+  "schema": "nqc-isolated-evm-replay-run-v1",
+  "compiled": true,
+  "baseline_replayed": false,
+  "variant_tested": false,
+  "all_variant_tests_pass": false,
+  "complete_receipt_cost": null,
+  "realized_NQC_profit": null,
+  "sponsor_accepted": false,
+  "commercial_admission": false,
+  "producer_sha": "b5f263c3b620c7ad8f81f3a205288f52b0baf605",
+  "forge_version_returncode": 0,
+  "solc_version_returncode": 0,
+  "compile_returncode": 0,
+  "anchor_checks": {
+    "parent_hash": true,
+    "target_hash": true,
+    "parent_link": true,
+    "height": true,
+    "timestamp": true,
+    "base_fee": true,
+    "prefix": true,
+    "target_index": true,
+    "count": true
+  },
+  "receipt_identity": {
+    "tx": "0x2a8880470bddca62a3b10586e1c65bd760c5a0d65da03d55cde94d0d709ed1eb",
+    "status": "0x1",
+    "gas_used": 602029,
+    "gas_price": 302819782345,
+    "log_count": 11,
+    "input_bytes": 400
+  },
+  "baseline_returncode": 1,
+  "error": "RuntimeError: baseline failed",
+  "verdict": "BLOCKED_OR_FAILED_NOT_ECONOMIC_APPROVAL",
+  "rpc": {
+    "upstream_requests": 9,
+    "cache_entries": 9,
+    "halted": null,
+    "upstream": "https://eth.drpc.org/",
+    "max_requests": 600,
+    "read_only": true
+  },
+  "evidence_files": {
+    "compile.log": {
+      "bytes": 1987,
+      "sha256": "8f184ec78094bc0734a22e34113a21124df2495d7b40819d9bb179de22bd2677"
+    },
+    "baseline.log": {
+      "bytes": 940,
+      "sha256": "d483ff20d9aaab544a303010d9a1b43aa14e24351d96c2207b93734eb74d2a6f"
+    },
+    "solc_version.log": {
+      "bytes": 92,
+      "sha256": "430c1537b4d48e9e853854e3b57e99b8974bc36760efce689be578dc5adc219f"
+    },
+    "rpc_history.jsonl": {
+      "bytes": 124875,
+      "sha256": "42c5d95ad7ac5e60497dc03f10a2661f66db542c5184ead84ba996adf4468fab"
+    },
+    "forge_version.log": {
+      "bytes": 165,
+      "sha256": "604dbb5b7385f11c969f2686a5822085044052f82e6258a34b3d128cdd58a120"
+    },
+    "block_anchor.json": {
+      "bytes": 19924,
+      "sha256": "c176fe809b622884fa90fab5872156c9275f068ec557d0c45ab82a021822b13a"
+    }
+  }
+}

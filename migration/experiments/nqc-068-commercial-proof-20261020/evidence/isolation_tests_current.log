@@ -1,0 +1,40 @@
+test_changed_source_byte_fails (test_isolation.IsolationTests.test_changed_source_byte_fails) ... ok
+test_client_application_fails (test_isolation.IsolationTests.test_client_application_fails) ... ok
+test_new_active_workflow_fails (test_isolation.IsolationTests.test_new_active_workflow_fails) ... ERROR
+test_new_repository_id_is_required (test_isolation.IsolationTests.test_new_repository_id_is_required) ... ok
+test_omitted_source_mapping_fails (test_isolation.IsolationTests.test_omitted_source_mapping_fails) ... ok
+test_snapshot_is_explicitly_not_certification (test_isolation.IsolationTests.test_snapshot_is_explicitly_not_certification) ... ERROR
+test_source_repository_cannot_be_relabelled (test_isolation.IsolationTests.test_source_repository_cannot_be_relabelled) ... ok
+test_symlink_cannot_hide_payload (test_isolation.IsolationTests.test_symlink_cannot_hide_payload) ... ok
+test_unmapped_extra_nqc_file_fails (test_isolation.IsolationTests.test_unmapped_extra_nqc_file_fails) ... ok
+
+======================================================================
+ERROR: test_new_active_workflow_fails (test_isolation.IsolationTests.test_new_active_workflow_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/4311bc31f246/nexus-quant-capital/migration/test_isolation.py", line 44, in test_new_active_workflow_fails
+    p.parent.mkdir(parents=True)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1311, in mkdir
+    os.mkdir(self, mode)
+FileExistsError: [Errno 17] File exists: '/tmp/tmp8hbkoen3/repo/.github/workflows'
+
+======================================================================
+ERROR: test_snapshot_is_explicitly_not_certification (test_isolation.IsolationTests.test_snapshot_is_explicitly_not_certification)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/4311bc31f246/nexus-quant-capital/migration/test_isolation.py", line 32, in test_snapshot_is_explicitly_not_certification
+    result = self.verify()
+             ^^^^^^^^^^^^^
+  File "/workspace/scratch/4311bc31f246/nexus-quant-capital/migration/test_isolation.py", line 23, in verify
+    return isolation.verify(self.root)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/4311bc31f246/nexus-quant-capital/migration/verify_isolation.py", line 112, in verify
+    require(not p.startswith(('.github/', '.vercel/', 'apps/', 'packages/', 'runtime/')), 'forbidden active/client tree')
+  File "/workspace/scratch/4311bc31f246/nexus-quant-capital/migration/verify_isolation.py", line 28, in require
+    raise ValueError(message)
+ValueError: forbidden active/client tree
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.541s
+
+FAILED (errors=2)

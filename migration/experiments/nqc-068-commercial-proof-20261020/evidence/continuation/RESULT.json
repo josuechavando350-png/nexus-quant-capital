@@ -1,0 +1,44 @@
+{
+  "started_utc": "2026-10-20T16:25:04.441470+00:00",
+  "stage": "baseline_only",
+  "baseline_replayed": false,
+  "variant_executed": false,
+  "prior_drpc_reads": 10,
+  "new_rpc_reads": 0,
+  "commercial_admission": false,
+  "sponsor_accepted": false,
+  "preflight": {
+    "receipt_present": true,
+    "prefix_receipt_present": true,
+    "block_and_order_verified": true,
+    "parent_v2_code_bytes": 11293,
+    "parent_v2_code_sha256": "8b5db55fa9ab3b9527508d4abe0b39eb588bf310270c8e04b3f38214e8ba63b4",
+    "parent_slot8_present": true,
+    "full_historical_state_proven": false,
+    "canonical_consensus_independently_verified": false
+  },
+  "command": [
+    "/workspace/scratch/4311bc31f246/recovered/runtime/tools/forge",
+    "test",
+    "--offline",
+    "--use",
+    "/workspace/scratch/4311bc31f246/recovered/runtime/tools/solc",
+    "--match-contract",
+    "HistoricalFlashReplayTest",
+    "--match-test",
+    "^test_01_",
+    "-vvvv"
+  ],
+  "exit_code": 1,
+  "duration_seconds": 0.045666203999644495,
+  "rpc": {
+    "upstream_requests": 10,
+    "cache_entries": 10,
+    "halted": null,
+    "upstream": "https://eth.drpc.org/",
+    "max_requests": 600,
+    "read_only": true
+  },
+  "total_response_bytes": 116743,
+  "finished_utc": "2026-10-20T16:25:04.986639+00:00"
+}

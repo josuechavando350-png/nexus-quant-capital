@@ -1,0 +1,51 @@
+{
+  "schema": "nqc068-offline-wire-integrity-v1",
+  "headers": [
+    {
+      "number": 21762896,
+      "hash": "0xc3b1f4fe26e6743df8727eceec10c536b33db580b3346fa87e731d888ca5f4d3",
+      "computed_hash": "0xc3b1f4fe26e6743df8727eceec10c536b33db580b3346fa87e731d888ca5f4d3",
+      "match": true,
+      "state_root": "0x9116db7bb50716e44da5b6d045ba7e6fab3af6c9c50dc627cde970315ce27ed5"
+    },
+    {
+      "number": 21762897,
+      "hash": "0x2702da91c548f69a98373525ae8409c6bd28189439bb53f2acb971a029ac5882",
+      "computed_hash": "0x2702da91c548f69a98373525ae8409c6bd28189439bb53f2acb971a029ac5882",
+      "match": true,
+      "state_root": "0xcdec872e94c1d77bef3bda1205cbccc4e44b7a272f40a7b178b437856f6f7fed"
+    }
+  ],
+  "transactions": [
+    {
+      "index": 0,
+      "hash": "0x85f35a2fffc14c6a0b5744401b31ec3ff902f5981ff78d42af1a82f81c084595",
+      "computed_hash": "0x85f35a2fffc14c6a0b5744401b31ec3ff902f5981ff78d42af1a82f81c084595",
+      "match": true,
+      "from_reported": "0xfc9928f6590d853752824b0b403a6ae36785e535",
+      "signer_recovered": "0xfc9928f6590d853752824b0b403a6ae36785e535",
+      "signer_matches": true,
+      "signed_payload_bytes": 2754
+    },
+    {
+      "index": 1,
+      "hash": "0x2a8880470bddca62a3b10586e1c65bd760c5a0d65da03d55cde94d0d709ed1eb",
+      "computed_hash": "0x2a8880470bddca62a3b10586e1c65bd760c5a0d65da03d55cde94d0d709ed1eb",
+      "match": true,
+      "from_reported": "0x0ef3794cb89864337e15a9f077020c285ef0989b",
+      "signer_recovered": "0x0ef3794cb89864337e15a9f077020c285ef0989b",
+      "signer_matches": true,
+      "signed_payload_bytes": 3983
+    }
+  ],
+  "consensus_finality_independently_verified": false,
+  "receipt_trie_inclusion_verified": false,
+  "complete_state_witness": false,
+  "evm_replay": false,
+  "full_block_transactions_root": {
+    "computed": "0x157e234628ed0d4163ec8baa600804477ff83fc62d1cba16909bfd5a524f5a78",
+    "expected": "0x157e234628ed0d4163ec8baa600804477ff83fc62d1cba16909bfd5a524f5a78",
+    "match": true,
+    "count": 41
+  }
+}

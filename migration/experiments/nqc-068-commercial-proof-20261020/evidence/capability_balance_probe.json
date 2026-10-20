@@ -1,0 +1,26 @@
+{
+  "endpoint": "https://eth.drpc.org/",
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 10,
+    "method": "eth_getBalance",
+    "params": [
+      "0x0ef3794cb89864337e15a9f077020c285ef0989b",
+      "0x14c1350"
+    ]
+  },
+  "prior_drpc_reads": 9,
+  "new_read_cap_for_probe": 1,
+  "timestamp_utc": "2026-10-20T16:23:06.632501+00:00",
+  "http_status": 200,
+  "bytes": 54,
+  "sha256": "0726bd1774b9e674d5d954d44c4be1695fcdad0f64b7640f1ccfdfcb96b56d11",
+  "body_path": "capability_balance_response.bin",
+  "rpc_result": {
+    "id": 10,
+    "jsonrpc": "2.0",
+    "result": "0x676a371ff6adb23"
+  },
+  "verdict": "BALANCE_AVAILABLE_NOT_COMPLETE_WITNESS",
+  "duration_seconds": 3.316696222000246
+}

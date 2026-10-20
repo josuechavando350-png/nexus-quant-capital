@@ -1,0 +1,13 @@
+# NQC068 - Revisión de continuación aislada (2026-10-20)
+
+Padre revisado: b5f263c3b620c7ad8f81f3a205288f52b0baf605. Rama nueva de investigación, cambios exclusivamente dentro de este experimento. No se crea, modifica ni activa ningún workflow. main queda intacta.
+
+Se recuperaron los 33 fragmentos del run 39453561233, verificando SHA256 del gzip, ocho archivos y nueve cuerpos HTTP completos. La fuente dRPC ya estaba revisada por ARCHIVE_CAPABILITY_REVIEW.md; no devolvió rechazo ni límite. El fallo observado es local: Foundry pide eth_blockNumber antes de crear el fork y el filtro lo rechaza. No prueba ausencia de archivo.
+
+La adaptación expone exclusivamente como metadato LOCAL la altura del bloque objetivo ya conservado y validado. No consulta latest al proveedor, no cambia los números de bloque de las lecturas de cuentas/storage, no altera código, balances ni respuestas históricas. La respuesta de altura virtual se registra por separado como derivada, nunca como un cuerpo RPC primario. No se modifican los seis archivos originales ni sus expectativas económicas.
+
+Presupuesto de continuación: un máximo COMBINADO de 600 lecturas dRPC contando las nueve previas y la lectura de saldo inicial de esta sesión (10 usadas); 420 segundos para la ventana de continuación, 350 ms entre lecturas, timeout 20 s, 2 MiB por respuesta y 16 MiB total incluyendo respuestas anteriores. Reutilizar las respuestas recuperadas sin repetirlas. Sin redirecciones, proveedores alternos, cuotas reiniciadas, claves ni herramientas remotas. Detener al primer null, error, rechazo, conflicto o límite. Se conservan por separado las seis lecturas PublicNode anteriores. Toda escritura de EVM será exclusivamente local y sin firmas ni envíos de red pública.
+
+Primero compilar con hashes fijados, ejecutar original sin modificar. Solo tras validación auténtica de original/prefijo se admite variante. Un test interno sin receipt/gas completos no certifica neto ni patrocinio. El verificador global original sigue FALLANDO por el workflow ya presente en el padre; no se oculta ni se cambia. Fuente original y main se auditan por Git.
+
+La primera continuación se detuvo antes de nuevas lecturas: Foundry también solicita eth_gasPrice. El flag --gas-price no suprimió esa consulta de inicialización (segundo intento, cero lecturas nuevas). La segunda adaptación devuelve el precio histórico exacto del recibo recuperado, 302819782345 wei/gas, como ajuste LOCAL del contexto, jamás como cotización actual del proveedor. Se registra el origen explícitamente. No se relajan verificaciones ni se reemplaza estado de protocolo. Estos intentos locales fallidos se conservan íntegros.

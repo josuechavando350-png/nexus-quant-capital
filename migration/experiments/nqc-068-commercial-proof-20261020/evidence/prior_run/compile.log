@@ -1,0 +1,43 @@
+Compiling 2 files with Solc 0.8.26
+Solc 0.8.26 finished in 2.22s
+Compiler run successful!
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+  --> /home/runner/work/_temp/nqc-historical-runtime/src/HistoricalFlashExecutor.sol:57:30
+   |
+57 |     address public immutable operator;
+   |                              --------
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#screaming-snake-case-immutable
+
+note[unaliased-plain-import]: use named imports '{A, B}' or alias 'import ".." as X'
+ --> /home/runner/work/_temp/nqc-historical-runtime/test/HistoricalFlashReplay.t.sol:3:8
+  |
+3 | import "../src/HistoricalFlashExecutor.sol";
+  |        ------------------------------------
+  |
+  = help: https://book.getfoundry.sh/reference/forge/forge-lint#unaliased-plain-import
+
+note[screaming-snake-case-const]: constants should use SCREAMING_SNAKE_CASE
+  --> /home/runner/work/_temp/nqc-historical-runtime/test/HistoricalFlashReplay.t.sol:17:35
+   |
+17 |     VmHistorical private constant vm = VmHistorical(address(uint160(uint256(keccak256("hevm cheat code")))));
+   |                                   --
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#screaming-snake-case-const
+
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+  --> /home/runner/work/_temp/nqc-historical-runtime/src/HistoricalFlashExecutor.sol:58:30
+   |
+58 |     address public immutable beneficiary;
+   |                              -----------
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#screaming-snake-case-immutable
+
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+  --> /home/runner/work/_temp/nqc-historical-runtime/src/HistoricalFlashExecutor.sol:59:30
+   |
+59 |     address public immutable sponsor;
+   |                              -------
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#screaming-snake-case-immutable
+

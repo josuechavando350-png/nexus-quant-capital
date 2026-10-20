@@ -1,0 +1,24 @@
+No files changed, compilation skipped
+2026-10-20T16:30:42.915172Z ERROR sharedbackend: Failed to send/recv `storage` err=failed to get storage for 0x111111125421cA6dc452d289314280a0f8842A65 at 3: server returned an error response: error code -32050: OFFLINE_MISSING_EVIDENCE: ["eth_getStorageAt",["0x111111125421ca6dc452d289314280a0f8842a65","0x3","0x14c1350"]] address=0x111111125421cA6dc452d289314280a0f8842A65 index=3
+
+Ran 1 test for test/HistoricalFlashReplay.t.sol:HistoricalFlashReplayTest
+[FAIL: vm.createSelectFork: backend: failed committing transaction; database error: failed to get storage for 0x111111125421cA6dc452d289314280a0f8842A65 at 3: server returned an error response: error code -32050: OFFLINE_MISSING_EVIDENCE: ["eth_getStorageAt",["0x111111125421ca6dc452d289314280a0f8842a65","0x3","0x14c1350"]]] setUp() (gas: 0)
+Traces:
+  [4369] HistoricalFlashReplayTest::setUp()
+    ├─ [0] VM::envOr("NQC_ARCHIVE_READ_APPROVED", false)
+    │   └─ ← [Return] <env var value>
+    ├─ [0] VM::envString("NQC_ARCHIVE_RPC_URL")
+    │   └─ ← [Return] <env var value>
+    ├─ [0] VM::createSelectFork("<rpc url>", 0x2a8880470bddca62a3b10586e1c65bd760c5a0d65da03d55cde94d0d709ed1eb)
+    │   └─ ← [Revert] vm.createSelectFork: backend: failed committing transaction; database error: failed to get storage for 0x111111125421cA6dc452d289314280a0f8842A65 at 3: server returned an error response: error code -32050: OFFLINE_MISSING_EVIDENCE: ["eth_getStorageAt",["0x111111125421ca6dc452d289314280a0f8842a65","0x3","0x14c1350"]]
+    └─ ← [Revert] vm.createSelectFork: backend: failed committing transaction; database error: failed to get storage for 0x111111125421cA6dc452d289314280a0f8842A65 at 3: server returned an error response: error code -32050: OFFLINE_MISSING_EVIDENCE: ["eth_getStorageAt",["0x111111125421ca6dc452d289314280a0f8842a65","0x3","0x14c1350"]]
+
+Suite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 15.84ms (0.00ns CPU time)
+
+Ran 1 test suite in 17.32ms (15.84ms CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)
+
+Failing tests:
+Encountered 1 failing test in test/HistoricalFlashReplay.t.sol:HistoricalFlashReplayTest
+[FAIL: vm.createSelectFork: backend: failed committing transaction; database error: failed to get storage for 0x111111125421cA6dc452d289314280a0f8842A65 at 3: server returned an error response: error code -32050: OFFLINE_MISSING_EVIDENCE: ["eth_getStorageAt",["0x111111125421ca6dc452d289314280a0f8842a65","0x3","0x14c1350"]]] setUp() (gas: 0)
+
+Encountered a total of 1 failing tests, 0 tests succeeded
