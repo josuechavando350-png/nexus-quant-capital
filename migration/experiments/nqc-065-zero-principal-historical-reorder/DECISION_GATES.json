@@ -1,0 +1,29 @@
+{
+  "schema": "nqc065-financing-and-economics-gate-v1",
+  "status": "NO_GO_REAL_EXECUTION",
+  "priority_order": [
+    {
+      "track": "C1_COLLATERAL_FIRST_REORDER",
+      "requires": ["Proved parent block+prefix prestate and canonical runtime/fork", "Pool reserves V2/V3 and actual swap routes at decision block", "Morpho oracle and liquidation eligibility in reordered execution", "Contract callback with exact UNI -> WETH -> USDC flow and repay", "Actual incremental gas and builder fee", "Specific zero-ETH sponsor and risk allocation"],
+      "possible_economic_advantage": "Zero loan principal/flash premium if all dependencies pass",
+      "proof_state": "UNTESTED_EVM"
+    },
+    {
+      "track": "MORPHO_BLUE_WETH_ZERO_FEE_FLASH",
+      "requires": ["Authenticated >=266.862310264246861824 WETH cash in Morpho contract at target prestate", "Nested flashLoan+liquidate+swaps EVM pass", "Correct repayment approval and no source/runtime mismatches", "Actual extra gas/failure/loss cost and sponsorship"],
+      "possible_economic_advantage": "No core flash premium, but not gas-free and not confirmed historical liquidity",
+      "proof_state": "UNTESTED_EVM"
+    },
+    {
+      "track": "AAVE_V3_FLASH_IF_ELIGIBLE",
+      "requires": ["Liquidity of WETH at exact prestate", "Effective historical premium from onchain parameter", "Nested EVM success and gas", "Gas sponsor no-recourse terms"],
+      "possible_economic_advantage": "Capital external; fee generally positive for simple flash loan",
+      "proof_state": "ONLY_5BP_SENSITIVITY"
+    }
+  ],
+  "builder_settlement": "Historical payment to beaverbuild is not proof Titan will accept equal economic payment or refund 100%; ETH sender and token executor economic unity UNKNOWN",
+  "risk_constraints": "Owner must never supply debt principal/collateral. Current Census/Shadow no wallet funds. Any personal-recourse/failed-prefix uncertainty blocks commercial admission. Current Canary disabled, future gas cap MXN 2000 separate authorization only.",
+  "capture": "Already executed third-party Feb 2025 opportunity is not currently capturable. Shadow must show ex-ante availability, competing bids, failure costs and repeatability.",
+  "admission_conditions": ["Independent canonical chain/EVM proof", "Two-sided positive net per actor", "Specific sponsor funding & losses/no-recourse", "Prospective competitive capture evidence", "Separate explicit authorization for live testing"],
+  "commercial_admission": false
+}

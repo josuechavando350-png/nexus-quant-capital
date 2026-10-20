@@ -1,0 +1,37 @@
+{
+  "schema": "nqc065-explicit-primary-source-v1",
+  "date_utc": "2026-10-19",
+  "historic_NQC_case": {
+    "repository": "josuechavando350-png/nexus-quant-capital",
+    "pinned_commit": "bd6f657bd69d1fb59656d185d95cdb5a13554694",
+    "original_path": "migration/experiments/nqc-064-first-positive-historical-morpho-ledger/case.json",
+    "original_git_blob_sha1": "49eb050d7429d5cdb3bc17ebd9ecf3e2485681bc",
+    "raw_etherscan_url": "https://etherscan.io/tx/0x2a8880470bddca62a3b10586e1c65bd760c5a0d65da03d55cde94d0d709ed1eb",
+    "grade": "EXPLORER_SOURCE_TRANSCRIPTION_NOT_INDEPENDENT_CANONICAL_PROOF",
+    "no_historical_prestate_or_contract_ownership_authenticated": true,
+    "explorer_followup_reader_failed_403": true,
+    "explorer_after_failure_retried": false
+  },
+  "morpho_protocol": {
+    "repository": "morpho-org/morpho-blue",
+    "pinned_upstream_commit": "9cf6d5b844625ba108e36d1cf911f5d2faf7c136",
+    "path": "src/Morpho.sol",
+    "git_blob_sha1": "ab064b646bf161b1510e2575a99412cdc2a43ebb",
+    "source_liquidate_flow": "IERC20(collateralToken).safeTransfer(msg.sender,seizedAssets); if data !=empty: onMorphoLiquidate(repaidAssets,data); IERC20(loanToken).safeTransferFrom(msg.sender, morpho, repaidAssets)",
+    "source_flash_flow": "safeTransfer(caller,assets); onMorphoFlashLoan(assets,data); safeTransferFrom(caller, morpho, assets) exact principal, no separate premium",
+    "historical_source_runtime_bound_to_2025_block": false,
+    "docs_url": "https://docs.morpho.org/developers/contracts/blue/"
+  },
+  "aave_v3": {
+    "official_url": "https://www.aave.com/docs/aave-v3/guides/flash-loans",
+    "facts": "flashLoanSimple principal + premium same tx, initial premium 0.05% modifiable by governance, FLASHLOAN_PREMIUM_TOTAL required to know current fee, pool reserve availability unspecified",
+    "five_bp_is_a_quote": false
+  },
+  "titan": {
+    "official_url": "https://docs.titanbuilder.xyz/api/eth_sendbundle",
+    "fact": "Conditional gas sponsorship based on builder balance; no sponsorship for NQC accepted or non-recourse confirmed"
+  },
+  "new_rpc": 0,
+  "new_archive_queries": 0,
+  "limited_or_denied_access_bypass": false
+}

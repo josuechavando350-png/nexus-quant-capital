@@ -1,0 +1,104 @@
+{
+  "ETH_to_WETH_bridge_1_to_1_is_explained": true,
+  "NQC_realized_profit": null,
+  "UNI_received_prior_to_repay_in_Morpho_callback": "DOCUMENTED_BY_PINNED_UPSTREAM_SOURCE_ONLY",
+  "additional_gas_sponsor_failure_cost_unpriced": true,
+  "canary_enabled": false,
+  "classification": "TWO_ATOMIC_CAPITAL_FREE_HYPOTHESES_NOT_REPLAYED",
+  "commercial_admission": false,
+  "compensation_to_a_different_builder_unpriced": true,
+  "conditional_same_economic_owner_post_historical_gas_ETH_equiv": "1.915425887007584330",
+  "financier_committed": false,
+  "haircut_sensitivity_bp": {
+    "0": {
+      "after_illustrative_5bp_premium_ETH_equivalent": "1.781994731875460900",
+      "after_original_bid_gas_conditional_ETH_equivalent": "1.915425887007584330",
+      "exit_proceeds_reduction_WETH": "0.000000000000000000"
+    },
+    "100": {
+      "after_illustrative_5bp_premium_ETH_equivalent": "-1.032081056126210138",
+      "after_original_bid_gas_conditional_ETH_equivalent": "-0.898649900994086708",
+      "exit_proceeds_reduction_WETH": "2.814075788001671038"
+    },
+    "25": {
+      "after_illustrative_5bp_premium_ETH_equivalent": "1.078475784875043141",
+      "after_original_bid_gas_conditional_ETH_equivalent": "1.211906940007166571",
+      "exit_proceeds_reduction_WETH": "0.703518947000417759"
+    },
+    "50": {
+      "after_illustrative_5bp_premium_ETH_equivalent": "0.374956837874625381",
+      "after_original_bid_gas_conditional_ETH_equivalent": "0.508387993006748811",
+      "exit_proceeds_reduction_WETH": "1.407037894000835519"
+    },
+    "60": {
+      "after_illustrative_5bp_premium_ETH_equivalent": "0.093549259074458277",
+      "after_original_bid_gas_conditional_ETH_equivalent": "0.226980414206581707",
+      "exit_proceeds_reduction_WETH": "1.688445472801002623"
+    },
+    "63": {
+      "after_illustrative_5bp_premium_ETH_equivalent": "0.009126985434408146",
+      "after_original_bid_gas_conditional_ETH_equivalent": "0.142558140566531576",
+      "exit_proceeds_reduction_WETH": "1.772867746441052754"
+    },
+    "65": {
+      "after_illustrative_5bp_premium_ETH_equivalent": "-0.047154530325625275",
+      "after_original_bid_gas_conditional_ETH_equivalent": "0.086276624806498155",
+      "exit_proceeds_reduction_WETH": "1.829149262201086175"
+    },
+    "68": {
+      "after_illustrative_5bp_premium_ETH_equivalent": "-0.131576803965675406",
+      "after_original_bid_gas_conditional_ETH_equivalent": "0.001854351166448024",
+      "exit_proceeds_reduction_WETH": "1.913571535841136306"
+    },
+    "70": {
+      "after_illustrative_5bp_premium_ETH_equivalent": "-0.187858319725708827",
+      "after_original_bid_gas_conditional_ETH_equivalent": "-0.054427164593585397",
+      "exit_proceeds_reduction_WETH": "1.969853051601169727"
+    },
+    "75": {
+      "after_illustrative_5bp_premium_ETH_equivalent": "-0.328562109125792378",
+      "after_original_bid_gas_conditional_ETH_equivalent": "-0.195130953993668948",
+      "exit_proceeds_reduction_WETH": "2.110556841001253278"
+    }
+  },
+  "historical_WETH_reserved_for_beaverbuild_ETH_transfer": "12.447536358167279703",
+  "historical_WETH_spread": "14.545268535920242038",
+  "historical_chain": 1,
+  "historical_tx_hash": "0x2a8880470bddca62a3b10586e1c65bd760c5a0d65da03d55cde94d0d709ed1eb",
+  "hypothesis_C1_collateral_first": {
+    "USDC_cover_at_same_V2_swap_fill": true,
+    "WETH_remaining_before_builder_gas_if_same_fills": "14.545268535920242038",
+    "WETH_required_to_copy_original_USDC_swap_if_same_V2_state": "266.862310264246861824",
+    "critical_unknowns": [
+      "V2 reserves and resulting exact swap output after reorder",
+      "V3 state at point of UNI sale",
+      "Morpho oracle and eligibility dependence on initial V2 swap",
+      "callback gas cost and bytecode",
+      "fee/payout and exact Titan sponsor terms",
+      "ex-ante capture and failed attempts"
+    ],
+    "first_WETH_from_reordered_sale_if_same_V3_fill": "281.407578800167103862",
+    "initial_WETH_inventory_needed_IF_exact_replay_succeeds": "0",
+    "proof_of_executable_historical_reorder": false
+  },
+  "hypothesis_Morpho_zero_fee_flash_WETH": {
+    "callback_nested_liquidate_EVM_replay_passed": false,
+    "cash_balance_requirement_WETH_at_historical_prestate": "266.862310264246861824",
+    "contract_balance_at_historical_prestate_verified": false,
+    "principal_WETH": "266.862310264246861824",
+    "protocol_flash_premium_as_documented": "0",
+    "remaining_margin_before_incremental_flash_gas_sponsor": "1.915425887007584330"
+  },
+  "illustrative_Aave_initial_5bp_premium_only": "0.133431155132123430",
+  "margin_with_illustrative_Aave_5bp_before_incremental_costs": "1.781994731875460900",
+  "max_synthetic_UNI_exit_haircut_bp_after_5bp_premium": "63.324333",
+  "max_synthetic_UNI_exit_haircut_bp_if_all_else_unchanged_no_flash": "68.065895",
+  "observed_UNI_exit_WETH": "281.407578800167103862",
+  "observed_USDC_due": "616687.327558",
+  "observed_USDC_dust": "0.000001",
+  "observed_USDC_purchased": "616687.327559",
+  "original_prefunded_WETH_leg": "266.862310264246861824",
+  "personal_no_recourse_proven": false,
+  "safe_next_action": "Obtain authorized archive state/oracle/pool reserves+callbacks for block 21762897, replay collateral-first path; or Morpho contract WETH liquidity at parent block for zero-fee flash. Then establish specific Titan sponsor and out-of-sample capture.",
+  "source_case": "NQC064 source: Etherscan transcription, not independently canonical"
+}
