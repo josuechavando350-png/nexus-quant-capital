@@ -1,0 +1,6 @@
+query MarketPositions($chainIds: [Int!], $hfLte: Float!, $first: Int!, $skip: Int!) {
+  marketPositions(where: {chainId_in: $chainIds, healthFactor_lte: $hfLte, marketListed: true}, orderBy: HealthFactor, orderDirection: Asc, first: $first, skip: $skip) {
+    pageInfo {count countTotal}
+    items {market {marketId} user {address}}
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "upstream": {
+    "repo": "morpho-org/morpho-bots",
+    "commit": "08d0a415d6d027f7e401fd6a904b09bedb441668",
+    "path": "bots/blue-liquidation/src/discovery/borrowers.ts",
+    "git_blob_sha1": "2e4c3ff687defdf7035f303e69881273ad1aec18",
+    "role": "global listed-market risk query and pagination design only; published bot runtime is not Ethereum support proof"
+  },
+  "reused_NQC067": {
+    "repo": "josuechavando350-png/nexus-quant-capital",
+    "commit": "1ac70f03203de2d5a963552fdca14ed1ce69327e",
+    "path": "migration/experiments/nqc-067-shadow-blue-public-indexer/shadow.py",
+    "git_blob_sha1": "dfb67d4783fa29a92d4da013d51d48ee80b7cc8e",
+    "verified_from_mounted_original_payload": true,
+    "functions_used": ["canonical_json", "save_new", "utc_now", "iso8601", "sha256"]
+  },
+  "official_docs": ["https://docs.morpho.org/developers/api/get-started/", "https://docs.morpho.org/developers/borrow/tutorials/get-data/"],
+  "query_sha256": "15b755ddae09e69b27c89aaf64f301e941589473131849645a8f41589ea08b23",
+  "limitations": "Source integrity does not certify live schema, exact chain state, actual liquidation eligibility or P&L."
+}
