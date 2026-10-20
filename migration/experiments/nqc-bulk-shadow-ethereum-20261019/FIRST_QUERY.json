@@ -1,0 +1,11 @@
+{
+  "query": "query NQCMassShadow($chainIds: [Int!], $hfLte: Float!, $first: Int!, $skip: Int!) {\n  marketPositions(\n    where: { chainId_in: $chainIds, healthFactor_lte: $hfLte, marketListed: true }\n    orderBy: HealthFactor\n    orderDirection: Asc\n    first: $first\n    skip: $skip\n  ) {\n    pageInfo { count countTotal }\n    items { market { marketId } user { address } }\n  }\n}",
+  "variables": {
+    "chainIds": [
+      1
+    ],
+    "hfLte": 1.02,
+    "first": 1000,
+    "skip": 0
+  }
+}

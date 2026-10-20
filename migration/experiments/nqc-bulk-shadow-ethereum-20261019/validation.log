@@ -1,0 +1,73 @@
+test_query_is_read_only (test_bulk_shadow.DocumentedQueryTests.test_query_is_read_only) ... ok
+test_query_matches_official_filter (test_bulk_shadow.DocumentedQueryTests.test_query_matches_official_filter) ... ok
+test_query_multiple_offset (test_bulk_shadow.DocumentedQueryTests.test_query_multiple_offset) ... ok
+test_query_rejects_bad_skip (test_bulk_shadow.DocumentedQueryTests.test_query_rejects_bad_skip) ... ok
+test_bad_legacy_rejected (test_bulk_shadow.EvidenceAndSafetyTests.test_bad_legacy_rejected) ... ok
+test_cli_print_does_not_fetch (test_bulk_shadow.EvidenceAndSafetyTests.test_cli_print_does_not_fetch) ... ok
+test_deep_review_max_three (test_bulk_shadow.EvidenceAndSafetyTests.test_deep_review_max_three) ... ok
+test_deep_review_rejects_unseen_market (test_bulk_shadow.EvidenceAndSafetyTests.test_deep_review_rejects_unseen_market) ... ok
+test_import_NQC067_pinned_without_modification (test_bulk_shadow.EvidenceAndSafetyTests.test_import_NQC067_pinned_without_modification) ... ok
+test_import_refuses_byte_modified_copy (test_bulk_shadow.EvidenceAndSafetyTests.test_import_refuses_byte_modified_copy) ... ok
+test_legacy_references_not_live (test_bulk_shadow.EvidenceAndSafetyTests.test_legacy_references_not_live) ... ok
+test_network_denied_without_approval (test_bulk_shadow.EvidenceAndSafetyTests.test_network_denied_without_approval) ... ok
+test_network_fail_halts_and_saves_sentinel (test_bulk_shadow.EvidenceAndSafetyTests.test_network_fail_halts_and_saves_sentinel) ... ok
+test_network_full_page_then_second (test_bulk_shadow.EvidenceAndSafetyTests.test_network_full_page_then_second) ... ok
+test_network_market_directory_no_approval (test_bulk_shadow.EvidenceAndSafetyTests.test_network_market_directory_no_approval) ... ok
+test_network_market_directory_two_pages (test_bulk_shadow.EvidenceAndSafetyTests.test_network_market_directory_two_pages) ... ok
+test_network_market_failure_sentinel_one_attempt (test_bulk_shadow.EvidenceAndSafetyTests.test_network_market_failure_sentinel_one_attempt) ... ok
+test_network_only_one_request_on_success (test_bulk_shadow.EvidenceAndSafetyTests.test_network_only_one_request_on_success) ... ok
+test_offline_manifest_path_traversal (test_bulk_shadow.EvidenceAndSafetyTests.test_offline_manifest_path_traversal) ... ok
+test_offline_market_position_conflict (test_bulk_shadow.EvidenceAndSafetyTests.test_offline_market_position_conflict) ... ok
+test_offline_no_records_unknown (test_bulk_shadow.EvidenceAndSafetyTests.test_offline_no_records_unknown) ... ok
+test_offline_realized_remains_none (test_bulk_shadow.EvidenceAndSafetyTests.test_offline_realized_remains_none) ... ok
+test_real_NQC067_deep_parser_reused (test_bulk_shadow.EvidenceAndSafetyTests.test_real_NQC067_deep_parser_reused) ... ok
+test_source_never_authenticates_offline_fixture (test_bulk_shadow.EvidenceAndSafetyTests.test_source_never_authenticates_offline_fixture) ... ok
+test_bad_offset_rejected (test_bulk_shadow.PaginationTests.test_bad_offset_rejected) ... ok
+test_duplicate_across_pages_fails_complete (test_bulk_shadow.PaginationTests.test_duplicate_across_pages_fails_complete) ... ok
+test_exact_1000_page_then_short (test_bulk_shadow.PaginationTests.test_exact_1000_page_then_short) ... ok
+test_extra_page_after_short_rejected (test_bulk_shadow.PaginationTests.test_extra_page_after_short_rejected) ... ok
+test_inconsistent_totals_fail_completeness (test_bulk_shadow.PaginationTests.test_inconsistent_totals_fail_completeness) ... ok
+test_max_pages_invalid (test_bulk_shadow.PaginationTests.test_max_pages_invalid) ... ok
+test_no_files_not_zero (test_bulk_shadow.PaginationTests.test_no_files_not_zero) ... ok
+test_no_progress_in_expected_total_rejected (test_bulk_shadow.PaginationTests.test_no_progress_in_expected_total_rejected) ... ok
+test_one_short_page_terminal (test_bulk_shadow.PaginationTests.test_one_short_page_terminal) ... ok
+test_pagecap_at_1000_not_completeness (test_bulk_shadow.PaginationTests.test_pagecap_at_1000_not_completeness) ... ok
+test_bad_borrower_rejected (test_bulk_shadow.PositionPageTests.test_bad_borrower_rejected) ... ok
+test_bad_market_rejected (test_bulk_shadow.PositionPageTests.test_bad_market_rejected) ... ok
+test_chain_unavailable_in_row_never_authentic (test_bulk_shadow.PositionPageTests.test_chain_unavailable_in_row_never_authentic) ... ok
+test_duplicate_in_page_rejected (test_bulk_shadow.PositionPageTests.test_duplicate_in_page_rejected) ... ok
+test_float_count_rejected (test_bulk_shadow.PositionPageTests.test_float_count_rejected) ... ok
+test_invalid_json_duplicate_keys_rejected (test_bulk_shadow.PositionPageTests.test_invalid_json_duplicate_keys_rejected) ... ok
+test_missing_pageinfo_fail (test_bulk_shadow.PositionPageTests.test_missing_pageinfo_fail) ... ok
+test_page_count_mismatch (test_bulk_shadow.PositionPageTests.test_page_count_mismatch) ... ok
+test_page_gql_error_fail (test_bulk_shadow.PositionPageTests.test_page_gql_error_fail) ... ok
+test_page_more_than_1000 (test_bulk_shadow.PositionPageTests.test_page_more_than_1000) ... ok
+test_simple_page (test_bulk_shadow.PositionPageTests.test_simple_page) ... ok
+test_spoof_bad_counttotal (test_bulk_shadow.PositionPageTests.test_spoof_bad_counttotal) ... ok
+test_truncated_body_rejected (test_bulk_shadow.PositionPageTests.test_truncated_body_rejected) ... ok
+test_no_rest_pages_not_zero (test_bulk_shadow.RestMarketsTests.test_no_rest_pages_not_zero) ... ok
+test_rest_bad_token (test_bulk_shadow.RestMarketsTests.test_rest_bad_token) ... ok
+test_rest_chain_mismatch (test_bulk_shadow.RestMarketsTests.test_rest_chain_mismatch) ... ok
+test_rest_cursor_cycle (test_bulk_shadow.RestMarketsTests.test_rest_cursor_cycle) ... ok
+test_rest_duplicate_cross_page (test_bulk_shadow.RestMarketsTests.test_rest_duplicate_cross_page) ... ok
+test_rest_empty_with_cursor_rejected (test_bulk_shadow.RestMarketsTests.test_rest_empty_with_cursor_rejected) ... ok
+test_rest_missing_lltv (test_bulk_shadow.RestMarketsTests.test_rest_missing_lltv) ... ok
+test_rest_parser (test_bulk_shadow.RestMarketsTests.test_rest_parser) ... ok
+test_rest_skip_partial (test_bulk_shadow.RestMarketsTests.test_rest_skip_partial) ... ok
+test_rest_two_pages_full (test_bulk_shadow.RestMarketsTests.test_rest_two_pages_full) ... ok
+
+----------------------------------------------------------------------
+Ran 57 tests in 0.145s
+
+OK
+{
+  "query": "query NQCMassShadow($chainIds: [Int!], $hfLte: Float!, $first: Int!, $skip: Int!) {\n  marketPositions(\n    where: { chainId_in: $chainIds, healthFactor_lte: $hfLte, marketListed: true }\n    orderBy: HealthFactor\n    orderDirection: Asc\n    first: $first\n    skip: $skip\n  ) {\n    pageInfo { count countTotal }\n    items { market { marketId } user { address } }\n  }\n}",
+  "variables": {
+    "chainIds": [
+      1
+    ],
+    "hfLte": 1.02,
+    "first": 1000,
+    "skip": 0
+  }
+}

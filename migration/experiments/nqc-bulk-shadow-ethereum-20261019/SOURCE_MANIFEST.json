@@ -1,0 +1,37 @@
+{
+  "schema": "nqc-mass-shadow-source-manifest-v1",
+  "observation_local_date": "2026-10-19",
+  "base_repository": "josuechavando350-png/nexus-quant-capital",
+  "parent_branch": "research/commercial-audit-morpho-ethereum-30d-20261019",
+  "official_bot": {
+    "repository": "morpho-org/morpho-bots",
+    "commit": "08d0a415d6d027f7e401fd6a904b09bedb441668",
+    "file": "bots/blue-liquidation/src/discovery/borrowers.ts",
+    "blob_sha1": "2e4c3ff687defdf7035f303e69881273ad1aec18",
+    "use": "global server-side risk candidate scan, pageLimit 1000, skip paging, listed true. Bot itself Base/Robinhood; NQC import is Ethereum read-only query ONLY."
+  },
+  "nqc067": {
+    "relative_path": "migration/experiments/nqc-067-shadow-blue-public-indexer/shadow.py",
+    "blob_sha1": "dfb67d4783fa29a92d4da013d51d48ee80b7cc8e",
+    "sha256": "e69476912d553ecf3886bd8d8ee67918a3173be39df52b7fc66fc536874b3e83",
+    "bytes": 17468,
+    "use": "pinned file imported byte-for-byte for final 1-3 market detailed indexer snapshots"
+  },
+  "nqc055": {
+    "relative_path": "migration/experiments/nqc-055-sovereign-opportunity-radar/evidence/summary.json",
+    "blob_sha1": "305857b05d2c4869d862bdfdcd0b32208f35ac3e",
+    "use": "source counts only 142 dossiers, 61 markets, 54 pairs, 140 unknown + 2 evidence-required; archived and not recertified."
+  },
+  "official_public_docs": [
+    "https://docs.morpho.org/developers/api/get-started/",
+    "https://docs.morpho.org/developers/api/morpho/",
+    "https://docs.morpho.org/api/markets/list-markets/",
+    "https://docs.morpho.org/developers/borrow/tutorials/get-data/"
+  ],
+  "direct_API_query_performed": false,
+  "GraphQL_data_body_archived": false,
+  "actual_live_market_coverage_demonstrated": false,
+  "no_origin_or_runtime_attestation_in_source_code": true,
+  "blocked_runtime": "Existing NQC067 local Morpho DNS unavailable",
+  "blocked_remote": "Connected Desktop Commander device in monthly quota pause; first start_process denied before execution; do not retry/reconnect."
+}
