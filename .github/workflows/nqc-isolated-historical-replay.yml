@@ -1,0 +1,80 @@
+name: NQC isolated historical EVM replay
+'on':
+  push:
+    branches: [research/isolated-historical-replay-20261020]
+    paths: [.github/workflows/nqc-isolated-historical-replay.yml]
+permissions:
+  contents: read
+concurrency:
+  group: nqc-isolated-historical-replay-20261020
+  cancel-in-progress: false
+jobs:
+  replay:
+    if: github.repository == 'josuechavando350-png/nexus-quant-capital' && github.event.repository.private == false && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - name: Verify exact source and unchanged isolation baseline
+        shell: bash
+        env:
+          BASE: 16e352225ba8a6a931834c4edf3d86d9a2924b7d
+          SOURCE: bccca8537fc80f40e3d123ef3a5a743499b26f85
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = 'josuechavando350-png/nexus-quant-capital'
+          test "$GITHUB_REF" = 'refs/heads/research/isolated-historical-replay-20261020'
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          ROOT="$RUNNER_TEMP/nqc-replay-producer"
+          git init "$ROOT"
+          git -C "$ROOT" remote add origin https://github.com/josuechavando350-png/nexus-quant-capital.git
+          git -C "$ROOT" fetch --no-tags --depth=3 origin "$GITHUB_SHA"
+          git -C "$ROOT" checkout --detach FETCH_HEAD
+          test "$(git -C "$ROOT" rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git -C "$ROOT" rev-parse HEAD^)" = "$SOURCE"
+          test "$(git -C "$ROOT" rev-parse HEAD^^)" = "$BASE"
+          git -C "$ROOT" worktree add --detach "$RUNNER_TEMP/nqc-replay-base" "$BASE"
+          python3 "$RUNNER_TEMP/nqc-replay-base/migration/verify_isolation.py" --root "$RUNNER_TEMP/nqc-replay-base"
+          (cd "$RUNNER_TEMP/nqc-replay-base" && python3 -m unittest discover -v -s migration -p test_isolation.py)
+          export ROOT
+          python3 - <<'PY'
+          import os,subprocess,json
+          root=os.environ['ROOT'];base=os.environ['BASE']
+          prefix='migration/experiments/isolated-historical-replay-20261020/'
+          allowed={'.github/workflows/nqc-isolated-historical-replay.yml'}
+          allowed.update(prefix+n for n in ('source_bundle.json.gz','MANIFEST.json','MIGRATION_REVIEW.md'))
+          changes=subprocess.check_output(['git','-C',root,'diff','--name-status','--no-renames',base,'HEAD'],text=True).splitlines()
+          assert set(changes)=={'A\t'+name for name in allowed},changes
+          r=subprocess.run(['python3',root+'/migration/verify_isolation.py','--root',root],text=True,capture_output=True)
+          print('ISOLATION_REVIEW '+json.dumps({'baseline_verified':True,'additive_only':True,'new_producer_verifier_rc':r.returncode,'new_producer_verifier_output':r.stdout+r.stderr,'producer_sha':os.environ['GITHUB_SHA'],'source_sha':os.environ['SOURCE']}))
+          assert r.returncode==1 and (r.stdout+r.stderr).strip()=='ISOLATION_FAILED: forbidden active/client tree','Unexpected producer verifier outcome'
+          PY
+      - name: Decode and verify six pinned files
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import gzip,hashlib,json,os
+          from pathlib import Path
+          tmp=Path(os.environ['RUNNER_TEMP']);source=tmp/'nqc-replay-producer/migration/experiments/isolated-historical-replay-20261020'
+          raw=(source/'source_bundle.json.gz').read_bytes()
+          assert len(raw)==10052
+          assert hashlib.sha256(raw).hexdigest()=='712bc3461b04bb6411947ae0bed68704de2ff825e29ba05ee31d47f7c8918514'
+          manifest=json.loads((source/'MANIFEST.json').read_text());files=json.loads(gzip.decompress(raw))
+          assert set(files)==set(manifest['files']) and len(files)==6
+          runtime=tmp/'nqc-historical-runtime'
+          for name,text in files.items():
+              data=text.encode();record=manifest['files'][name]
+              assert len(data)==record['bytes'] and hashlib.sha256(data).hexdigest()==record['sha256'],name
+              p=runtime/name
+              assert p.resolve().is_relative_to(runtime.resolve())
+              p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(data)
+          print('SOURCES_VERIFIED '+json.dumps(manifest,sort_keys=True))
+          PY
+      - name: Compile and attempt baseline-first historical replay
+        shell: bash
+        env:
+          PYTHONUNBUFFERED: '1'
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/nqc-historical-runtime"
+          python3 run_replay.py
