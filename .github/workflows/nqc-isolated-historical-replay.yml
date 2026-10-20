@@ -12,13 +12,15 @@ jobs:
   replay:
     if: github.repository == 'josuechavando350-png/nexus-quant-capital' && github.event.repository.private == false && github.run_attempt == 1
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 18
     steps:
-      - name: Verify exact diagnostic identity and unchanged baseline
+      - name: Verify pinned review, unchanged original source and baseline isolation
         shell: bash
         env:
           BASE: 16e352225ba8a6a931834c4edf3d86d9a2924b7d
-          SOURCE: 66300b5d3ad2fc56efc30fa313c0b5dab03e2acb
+          PREVIOUS: 71fbfa2c30eb56b8c006dc33f294f284212cce01
+          REVIEW: 315e4019eb9fe1980f0ea21e925e69cd79dbd8d1
+          SOURCE: df29f5539910caae90604c0f6c39292998074f0c
         run: |
           set -euo pipefail
           test "$GITHUB_REPOSITORY" = 'josuechavando350-png/nexus-quant-capital'
@@ -27,11 +29,12 @@ jobs:
           ROOT="$RUNNER_TEMP/nqc-replay-producer"
           git init "$ROOT"
           git -C "$ROOT" remote add origin https://github.com/josuechavando350-png/nexus-quant-capital.git
-          git -C "$ROOT" fetch --no-tags --depth=8 origin "$GITHUB_SHA"
+          git -C "$ROOT" fetch --no-tags --depth=20 origin "$GITHUB_SHA"
           git -C "$ROOT" checkout --detach FETCH_HEAD
           test "$(git -C "$ROOT" rev-parse HEAD^)" = "$SOURCE"
-          test "$(git -C "$ROOT" rev-parse HEAD^^)" = '5790950a67ebdab0b04f638034cda513f5e0364a'
-          test "$(git -C "$ROOT" rev-parse HEAD~6)" = "$BASE"
+          test "$(git -C "$ROOT" rev-parse HEAD^^)" = "$REVIEW"
+          test "$(git -C "$ROOT" rev-parse HEAD~3)" = "$PREVIOUS"
+          test "$(git -C "$ROOT" ls-remote origin refs/heads/main | cut -f1)" = "$BASE"
           git -C "$ROOT" worktree add --detach "$RUNNER_TEMP/nqc-replay-base" "$BASE"
           python3 "$RUNNER_TEMP/nqc-replay-base/migration/verify_isolation.py" --root "$RUNNER_TEMP/nqc-replay-base"
           (cd "$RUNNER_TEMP/nqc-replay-base" && python3 -m unittest discover -v -s migration -p test_isolation.py)
@@ -39,15 +42,14 @@ jobs:
           python3 - <<'PY'
           import os,subprocess,json
           root=os.environ['ROOT'];prefix='migration/experiments/isolated-historical-replay-20261020/'
-          allowed={'.github/workflows/nqc-isolated-historical-replay.yml'}
-          allowed.update(prefix+n for n in ('source_bundle.json.gz','MANIFEST.json','MIGRATION_REVIEW.md','TRANSPORT_REVIEW.md','block_lookup_diagnostic.py'))
-          changes=subprocess.check_output(['git','-C',root,'diff','--name-status','--no-renames',os.environ['BASE'],'HEAD'],text=True).splitlines()
-          assert set(changes)=={'A\t'+name for name in allowed},changes
+          expected={'M\t.github/workflows/nqc-isolated-historical-replay.yml','A\t'+prefix+'ARCHIVE_CAPABILITY_REVIEW.md','A\t'+prefix+'archive_probe_replay.py'}
+          changes=subprocess.check_output(['git','-C',root,'diff','--name-status','--no-renames',os.environ['PREVIOUS'],'HEAD'],text=True).splitlines()
+          assert set(changes)==expected,changes
           r=subprocess.run(['python3',root+'/migration/verify_isolation.py','--root',root],text=True,capture_output=True)
-          print('ISOLATION_REVIEW '+json.dumps({'baseline_verified':True,'additive_only':True,'new_producer_verifier_rc':r.returncode,'new_producer_verifier_output':r.stdout+r.stderr,'producer_sha':os.environ['GITHUB_SHA']}))
+          print('ISOLATION_REVIEW '+json.dumps({'baseline_verified':True,'exact_three_path_delta':True,'new_producer_verifier_rc':r.returncode,'new_producer_verifier_output':r.stdout+r.stderr,'producer_sha':os.environ['GITHUB_SHA']}))
           assert r.returncode==1 and (r.stdout+r.stderr).strip()=='ISOLATION_FAILED: forbidden active/client tree'
           PY
-      - name: Verify source and run only the bounded block diagnostic
+      - name: Archive capability gate then unchanged baseline-first EVM proof
         shell: bash
         env:
           PYTHONUNBUFFERED: '1'
@@ -67,16 +69,12 @@ jobs:
               assert len(data)==record['bytes'] and hashlib.sha256(data).hexdigest()==record['sha256'],name
               p=runtime/name;assert p.resolve().is_relative_to(runtime.resolve())
               p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(data)
-          p=runtime/'rpc_guard.py';s=p.read_text();old="method.startswith('eth_getBlock')"
-          assert s.count(old)==1
-          s=s.replace(old,"method in ('eth_getBlockByNumber','eth_getBlockByHash')")
-          p.write_text(s)
-          assert hashlib.sha256(p.read_bytes()).hexdigest()=='2e083c0bbe758fd00dc9cfc3aba3aa813fa4d592e72811b3e61292582bc4ac39'
-          diag=(source/'block_lookup_diagnostic.py').read_bytes()
-          assert hashlib.sha256(diag).hexdigest()=='0aaaa383ec1e28a8c154464a333448ce4e21efe48be9d251f097151e6eedba6e'
-          (runtime/'block_lookup_diagnostic.py').write_bytes(diag)
-          print('VERIFIED: unchanged Solidity; separate collection-parser overlay; prior requests counted=5; new maximum=3')
+          driver=(source/'archive_probe_replay.py').read_bytes()
+          assert hashlib.sha256(driver).hexdigest()=='b7758aecc3381984d2f59154aebdf0fa834e3cdd18b328cbb01e7ef34a1a7068'
+          (runtime/'archive_probe_replay.py').write_bytes(driver)
+          print('VERIFIED: all six original files unchanged; new transport-only wrapper; no paid or debug RPC')
           PY
           cd "$RUNNER_TEMP/nqc-historical-runtime"
           python3 -m unittest -v test_guard
-          python3 block_lookup_diagnostic.py
+          python3 archive_probe_replay.py --offline-test
+          python3 archive_probe_replay.py
