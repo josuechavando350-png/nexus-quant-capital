@@ -1,0 +1,57 @@
+{
+  "study": "FXRP liquidation collateral sale indexer corroboration",
+  "date": "2026-10-19",
+  "chain": 1,
+  "market_id": "0x4fa31e3f8ba345227d44e1cf48559eea53a90dd5311dc006984c060f2f311d96",
+  "observed_transaction": {
+    "source_morpho": "https://app.morpho.org/ethereum/variable/0x4fa31e3f8ba345227d44e1cf48559eea53a90dd5311dc006984c060f2f311d96/rlusd-fxrp",
+    "source_swap": "https://whattofarm.io/de/pairs/ethereum-uniswapv-fxrp-usdt-created-2026-02-17",
+    "date_time_reported": "2026-10-15 02:28:59",
+    "morpho_liquidator_short": "0xBdE3...5c64",
+    "morpho_tx_short": "0x4df1...ecca",
+    "swap_tx_short": "0x4d...ecca",
+    "collateral_seized_FXRP_display": "1432.43",
+    "debt_repaid_RLUSD_display": "1717.97",
+    "executed_sale_FXRP_display": "1432.43",
+    "executed_sale_USDT_display": "1815.70",
+    "swap_maker_short": "0x473...13E1",
+    "swap_pool": "0x539bAc0745de77f8bFF38326eEcB8c36553e6C58",
+    "tokens": {
+      "FXRP": "0xCE6170EA245dC8D1f275A710a062b70f125F0110",
+      "USDT": "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+    }
+  },
+  "source_match": [
+    "same Ethereum network",
+    "same displayed date/time",
+    "same FXRP input size",
+    "compatible truncated transaction prefix and suffix"
+  ],
+  "confidence": "CORRELATED_TWO_PUBLIC_INDEXERS_NOT_FULL_CANONICAL_RECEIPT",
+  "full_hash": null,
+  "authenticated_receipt": false,
+  "contract_ownership_proven": false,
+  "sale_recipient_and_usdt_to_rlusd_settlement": "UNKNOWN",
+  "native_gas": "UNKNOWN",
+  "builder_bid": "UNKNOWN",
+  "financier": "UNKNOWN",
+  "Titan_specific_bundle": "UNKNOWN",
+  "other_documented_liquidity": [
+    {
+      "source": "https://investors.defillama.com/yields/pool/bb78714b-5da3-5298-8009-da2451208e67",
+      "kind": "Uniswap V3 RLUSD/FXRP",
+      "fee": "0.30%",
+      "TVL_USD_approx": "3050000",
+      "actual_quote": null,
+      "used_in_target_transaction": false
+    },
+    {
+      "source": "https://www.curve.finance/dex/ethereum/pools?sortBy=rewardsBase",
+      "kind": "Separate RLUSD/USDC and DAI/USDC/USDT pools",
+      "actual_conversion_quote": null,
+      "used_in_target_transaction": false
+    }
+  ],
+  "NQC_realized_profit": null,
+  "commercial_admission": false
+}

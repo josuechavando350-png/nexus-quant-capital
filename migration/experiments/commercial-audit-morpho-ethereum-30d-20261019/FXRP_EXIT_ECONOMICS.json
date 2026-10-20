@@ -1,0 +1,46 @@
+{
+  "case": "FXRP_SALE_MATCH_20261015.json",
+  "input_rounded": "1432.43 FXRP",
+  "sale_rounded": "1815.70 USDT",
+  "repaid_rounded": "1717.97 RLUSD",
+  "actual_reported_sold_USDT_per_FXRP_approx": "1.2675663034144775",
+  "required_RLUSD_per_FXRP_zero_cost": "1.1993395837841989",
+  "cross_token_stablecoin_parity_only_surplus": "97.73 RLUSD-equivalent",
+  "parity_coverage_stress": [
+    {
+      "hypothetical_other_cost_RLUSD_equivalent": "0.00",
+      "model_net_if_USDT_RLUSD_parity": "97.73",
+      "minimum_rlusd_per_usdt": "0.946175029"
+    },
+    {
+      "hypothetical_other_cost_RLUSD_equivalent": "10.00",
+      "model_net_if_USDT_RLUSD_parity": "87.73",
+      "minimum_rlusd_per_usdt": "0.951682547"
+    },
+    {
+      "hypothetical_other_cost_RLUSD_equivalent": "25.00",
+      "model_net_if_USDT_RLUSD_parity": "72.73",
+      "minimum_rlusd_per_usdt": "0.959943823"
+    },
+    {
+      "hypothetical_other_cost_RLUSD_equivalent": "50.00",
+      "model_net_if_USDT_RLUSD_parity": "47.73",
+      "minimum_rlusd_per_usdt": "0.973712618"
+    },
+    {
+      "hypothetical_other_cost_RLUSD_equivalent": "75.00",
+      "model_net_if_USDT_RLUSD_parity": "22.73",
+      "minimum_rlusd_per_usdt": "0.987481412"
+    },
+    {
+      "hypothetical_other_cost_RLUSD_equivalent": "100.00",
+      "model_net_if_USDT_RLUSD_parity": "-2.27",
+      "minimum_rlusd_per_usdt": "1.001250207"
+    }
+  ],
+  "no_other_cost_min_RLUSD_per_USDT": "0.94617502891446825",
+  "coverage_formula": "1815.70 * actual_RLUSD_per_USDT >= 1717.97 + total_remaining_costs_in_RLUSD",
+  "warning": "Two nonfungible stablecoins and rounded UI observations; no executed conversion authenticated, no canonical receipt, no gas/bid/financing or owner. These are not net realized revenue or prospective prices.",
+  "NQC_profit": null,
+  "commercial_admission": false
+}
