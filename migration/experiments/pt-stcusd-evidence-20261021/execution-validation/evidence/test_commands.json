@@ -1,0 +1,96 @@
+[
+  {
+    "name": "route_tests",
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-v",
+      "-s",
+      "migration/experiments/pt-stcusd-evidence-20261021/route-audit/tests"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "probe_tests",
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-v",
+      "-s",
+      "/workspace/scratch/cbef00700cbb/nexus-quant-capital/migration/experiments/pt-stcusd-evidence-20261021/execution-validation/input/NQC_ALCHEMY_HISTORICAL_PROBE_20261021/tests"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "isolation",
+    "command": [
+      "python3",
+      "migration/verify_isolation.py"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "isolation_tests",
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-v",
+      "-s",
+      "migration",
+      "-p",
+      "test_isolation.py"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "validation_tests",
+    "command": [
+      "python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-v",
+      "-s",
+      "/workspace/scratch/cbef00700cbb/nexus-quant-capital/migration/experiments/pt-stcusd-evidence-20261021/execution-validation/tests"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "replay_input_gate",
+    "command": [
+      "python3",
+      "-B",
+      "/workspace/scratch/cbef00700cbb/nexus-quant-capital/migration/experiments/pt-stcusd-evidence-20261021/execution-validation/src/preflight.py",
+      "--capture",
+      "/workspace/scratch/cbef00700cbb/nexus-quant-capital/migration/experiments/pt-stcusd-evidence-20261021/execution-validation/evidence/alchemy"
+    ],
+    "exit_code": 2
+  },
+  {
+    "name": "accounting",
+    "command": [
+      "python3",
+      "-B",
+      "/workspace/scratch/cbef00700cbb/nexus-quant-capital/migration/experiments/pt-stcusd-evidence-20261021/execution-validation/src/economic_audit.py"
+    ],
+    "exit_code": 0
+  },
+  {
+    "name": "attached_probe",
+    "command": [
+      "python3",
+      "-B",
+      "migration/experiments/pt-stcusd-evidence-20261021/execution-validation/input/NQC_ALCHEMY_HISTORICAL_PROBE_20261021/probe.py",
+      "--output",
+      "/workspace/scratch/cbef00700cbb/attached_probe_output"
+    ],
+    "exit_code": 2
+  }
+]

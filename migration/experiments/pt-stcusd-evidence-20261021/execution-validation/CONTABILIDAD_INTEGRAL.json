@@ -1,0 +1,260 @@
+{
+  "conditional_external_owner_residual": {
+    "ETH_base": "-1950204206046304",
+    "USDC_base": "23882951",
+    "WETH_base": "225720514923773",
+    "conditional_mark_USDC": {
+      "denominator": "10812056363358791000000",
+      "numerator": "223489755031081842514107"
+    },
+    "conditional_mark_USDC_truncated_6dp": "20.670420",
+    "historical_swap_mark_USDC_per_ETH": {
+      "denominator": "10812056363358791",
+      "numerator": "20141714000000000000"
+    },
+    "is_NQC_profit": false,
+    "is_audited_external_profit": false,
+    "is_executable_quote": false,
+    "other_obligations_complete": false,
+    "ownership_consolidation_verified": false
+  },
+  "double_count_rules": [
+    "Use swap output net of included pool fees; do not subtract them again.",
+    "Gas = base-fee burn + priority; never subtract total and priority again.",
+    "WETH unwrap changes denomination, not income; BuilderPaid event is not a second ETH transfer.",
+    "Starting from USDC payout already deducts USDC converted to WETH; track residual WETH and ETH separately.",
+    "Sponsor advance principal is financing, not profit. Reconcile repayment and unused advance before cost attribution.",
+    "Sponsor reimbursement that includes gas must not also be charged as a second independent gas cost."
+  ],
+  "historical_coinbase_receipts": {
+    "builder_net_profit": null,
+    "direct_transfer_wei": "32210448575152600",
+    "priority_wei": "1870816000000000",
+    "sponsor_receipts_verified": false,
+    "total_observed_wei": "34081264575152600"
+  },
+  "historical_deltas_base_units": {
+    "ETH": {
+      "BASEFEE_BURN": "79388206046304",
+      "EXECUTOR": "0",
+      "HISTORICAL_COINBASE": "34081264575152600",
+      "HISTORICAL_GAS_EOA": "-1950204206046304",
+      "WETH_CONTRACT": "-32210448575152600"
+    },
+    "USDC": {
+      "ADAPTER": "0",
+      "CUSD": "0",
+      "EXECUTOR": "0",
+      "MORPHO": "-84308093",
+      "PAYOUT": "23882951",
+      "POOL": "60425142",
+      "RESERVE": "0",
+      "STRATEGY": "0",
+      "SY": "0",
+      "VAULT": "0"
+    },
+    "WETH": {
+      "EXECUTOR": "225720514923773",
+      "POOL": "-32436169090076373",
+      "WETH_UNWRAP_BURN": "32210448575152600"
+    }
+  },
+  "historical_flow_journal": [
+    {
+      "amount_base": "3305262344",
+      "asset": "USDC",
+      "from": "MORPHO",
+      "source": "route-audit log 20",
+      "to": "ADAPTER"
+    },
+    {
+      "amount_base": "3305262344",
+      "asset": "USDC",
+      "from": "ADAPTER",
+      "source": "route-audit log 22",
+      "to": "VAULT"
+    },
+    {
+      "amount_base": "3305262344",
+      "asset": "USDC",
+      "from": "VAULT",
+      "source": "route-audit log 25",
+      "to": "STRATEGY"
+    },
+    {
+      "amount_base": "3305262344",
+      "asset": "USDC",
+      "from": "STRATEGY",
+      "source": "route-audit log 28",
+      "to": "RESERVE"
+    },
+    {
+      "amount_base": "3305262344",
+      "asset": "USDC",
+      "from": "RESERVE",
+      "source": "route-audit log 32",
+      "to": "CUSD"
+    },
+    {
+      "amount_base": "3305262344",
+      "asset": "USDC",
+      "from": "CUSD",
+      "source": "route-audit log 35",
+      "to": "SY"
+    },
+    {
+      "amount_base": "3305262344",
+      "asset": "USDC",
+      "from": "SY",
+      "source": "route-audit log 37",
+      "to": "EXECUTOR"
+    },
+    {
+      "amount_base": "3220954251",
+      "asset": "USDC",
+      "from": "EXECUTOR",
+      "source": "route-audit log 42",
+      "to": "MORPHO"
+    },
+    {
+      "amount_base": "32436169090076373",
+      "asset": "WETH",
+      "from": "POOL",
+      "source": "route-audit log 45",
+      "to": "EXECUTOR"
+    },
+    {
+      "amount_base": "60425142",
+      "asset": "USDC",
+      "from": "EXECUTOR",
+      "source": "route-audit log 46",
+      "to": "POOL"
+    },
+    {
+      "amount_base": "23882951",
+      "asset": "USDC",
+      "from": "EXECUTOR",
+      "source": "route-audit log 51",
+      "to": "PAYOUT"
+    },
+    {
+      "amount_base": "32210448575152600",
+      "asset": "WETH",
+      "from": "EXECUTOR",
+      "source": "route-audit log 49 Withdrawal, not ERC20 Transfer",
+      "to": "WETH_UNWRAP_BURN"
+    },
+    {
+      "amount_base": "32210448575152600",
+      "asset": "ETH",
+      "from": "WETH_CONTRACT",
+      "source": "CONTINUIDAD.md prior indexed native transfer 293",
+      "to": "EXECUTOR"
+    },
+    {
+      "amount_base": "32210448575152600",
+      "asset": "ETH",
+      "from": "EXECUTOR",
+      "source": "CONTINUIDAD.md prior indexed native transfer 294; BuilderPaid log is not another payment",
+      "to": "HISTORICAL_COINBASE"
+    },
+    {
+      "amount_base": "79388206046304",
+      "asset": "ETH",
+      "from": "HISTORICAL_GAS_EOA",
+      "source": "CONTINUIDAD.md gasUsed/effectiveGasPrice; indexed target base fee",
+      "to": "BASEFEE_BURN"
+    },
+    {
+      "amount_base": "1870816000000000",
+      "asset": "ETH",
+      "from": "HISTORICAL_GAS_EOA",
+      "source": "Priority portion ALREADY INCLUDED in total gas",
+      "to": "HISTORICAL_COINBASE"
+    }
+  ],
+  "historical_gas": {
+    "basefee_wei": "42435069",
+    "burn_wei": "79388206046304",
+    "effective_gas_price_wei": "1042435069",
+    "gas_limit": 2683545,
+    "gas_limit_times_max_fee_wei": "2911433691628380",
+    "gas_used": 1870816,
+    "max_fee_per_gas_wei": "1084920764",
+    "priority_wei": "1870816000000000",
+    "raw_receipt_recovered_this_run": false,
+    "total_wei": "1950204206046304",
+    "upfront_cap_is_not_final_cost": true
+  },
+  "historical_operator": "EXTERNAL_NOT_NQC",
+  "journal_balances_per_asset": true,
+  "morpho_liquidity_conditions": {
+    "actual_parent_USDC_balance": null,
+    "actual_withdrawable_market_assets": null,
+    "adapter_supply_shares": null,
+    "direct_callback_USDC_global_prefix_lower_bound_base": "3305262344",
+    "hypothetical_flash_from_same_morpho_empty_liquidation_callback": {
+      "classification": "CONDITIONAL_SEQUENCE_ARITHMETIC_NOT_EXECUTED",
+      "global_prefix_lower_bound_base": "3305262344",
+      "meaning": "Flash D; liquidate with empty callback and repay D first; redeem R; return flash D. Shares, withdrawals and route feasibility still unverified.",
+      "morpho_USDC_signed_sequence_base": [
+        "-3220954251",
+        "3220954251",
+        "-3305262344",
+        "3220954251"
+      ]
+    },
+    "hypothetical_flash_plus_nested_redemption_before_debt_repayment": {
+      "classification": "CONDITIONAL_SEQUENCE_ARITHMETIC_NOT_EXECUTED",
+      "global_prefix_lower_bound_base": "6526216595",
+      "meaning": "Holding borrowed D while withdrawing R needs D+R global USDC. Do not conflate the two call orders."
+    },
+    "liquidation_market_id": "0x03f715ef1ae508ab3e1faf4dffdbf2a077d1f0ad10c5aad42cf4438d5e3328af",
+    "withdrawal_market_id": "0x64d65c9a2d91c36d56fbc42d69e979335320169b3df63bf92789e2c8883fcc64"
+  },
+  "nqc_net_profit": null,
+  "nqc_original_replay_executed": false,
+  "nqc_settlement_or_realized_gain_demonstrated": false,
+  "nqc_unknown_costs": {
+    "approvals_gas": null,
+    "builder_payment": null,
+    "debt_at_execution": null,
+    "deployment_gas": null,
+    "execution_gas": null,
+    "financing_fee": null,
+    "minimum_operator_profit": null,
+    "other_attributable_costs": null,
+    "priority_fee": null,
+    "recoverable_real_output": null,
+    "revert_or_reorg_liability": null,
+    "sponsor_advance": null,
+    "sponsor_margin": null,
+    "sponsor_reimbursement": null,
+    "unused_advance_return": null
+  },
+  "nqc_variant_executed": false,
+  "schema": "nqc-pt-stcusd-integral-accounting-v1",
+  "source_limit": "53 normalized indexed logs plus prior gas/native transcription; not a raw authenticated receipt or complete pre/poststate.",
+  "sources": {
+    "new_block_metadata": "evidence/target_indexed_block.json",
+    "prior_gas_and_native": "../CONTINUIDAD.md",
+    "route": "../route-audit/inputs/route_evidence.json"
+  },
+  "strategies": {
+    "A_direct_morpho_callback": {
+      "executed": false,
+      "gas": null,
+      "net_USDC": null
+    },
+    "B_flash_loan_or_swap": {
+      "executed": false,
+      "financing_fee": null,
+      "gas": null,
+      "net_USDC": null
+    },
+    "winner": null
+  },
+  "unknown_costs_treated_as_zero": false,
+  "verdict": "NQC_NET_NOT_DETERMINABLE",
+  "zero_proprietary_capital_proven": false
+}

@@ -1,0 +1,27 @@
+{
+  "final_validation_tests": {
+    "exit_code": 0,
+    "command": [
+      "python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-v",
+      "-s",
+      "/workspace/scratch/cbef00700cbb/nexus-quant-capital/migration/experiments/pt-stcusd-evidence-20261021/execution-validation/tests"
+    ]
+  },
+  "final_isolation": {
+    "exit_code": 0,
+    "command": [
+      "python3",
+      "-B",
+      "migration/verify_isolation.py"
+    ]
+  },
+  "original_tracked_files_unchanged": true,
+  "original_route_files_sha256_match": true,
+  "known_secret_patterns_found": false,
+  "active_workflows_in_worktree": []
+}
