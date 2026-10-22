@@ -214,11 +214,13 @@ class LiquidationOrderBook:
             return []
         if current < previous:
             values = self._groups.get((oracle_id, "AT_OR_BELOW"), [])
+            # Newly liquidatable: current <= threshold < previous.
             hits = [(threshold, position) for threshold, position, _ in values
                     if current <= threshold < previous]
             hits.sort(key=lambda item: (item[0], item[1]), reverse=True)
             return [position for _, position in hits]
         values = self._groups.get((oracle_id, "AT_OR_ABOVE"), [])
+        # Newly liquidatable: previous < threshold <= current.
         hits = [(threshold, position) for threshold, position, _ in values
                 if previous < threshold <= current]
         hits.sort(key=lambda item: (item[0], item[1]))
