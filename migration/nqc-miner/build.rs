@@ -80,26 +80,25 @@ fn main() {
         hasher.update(fs::read(path).expect("source bytes"));
         hasher.update([0]);
     }
+    let lock_sha256 = format!("{:x}", Sha256::digest(&lock));
+    let source_sha256 = format!("{:x}", hasher.finalize());
+    let rustflags_sha256 = format!("{:x}", Sha256::digest(rustflags.as_bytes()));
+    let identity_material = format!(
+        "commit\0{commit}\0source\0{source_sha256}\0lock\0{lock_sha256}\0rustc\0{rustc_version}\0target\0{target}\0host\0{host}\0profile\0{profile}\0opt\0{opt_level}\0debug\0{debug}\0rustflags\0{rustflags_sha256}"
+    );
+    let build_identity_sha256 = format!("{:x}", Sha256::digest(identity_material.as_bytes()));
     println!("cargo:rustc-env=NQC_MINER_BUILD_COMMIT={commit}");
     println!("cargo:rustc-env=NQC_MINER_BUILD_DIRTY={dirty}");
-    println!(
-        "cargo:rustc-env=NQC_MINER_BUILD_LOCK_SHA256={:x}",
-        Sha256::digest(lock)
-    );
-    println!(
-        "cargo:rustc-env=NQC_MINER_BUILD_SOURCE_SHA256={:x}",
-        hasher.finalize()
-    );
+    println!("cargo:rustc-env=NQC_MINER_BUILD_LOCK_SHA256={lock_sha256}");
+    println!("cargo:rustc-env=NQC_MINER_BUILD_SOURCE_SHA256={source_sha256}");
     println!("cargo:rustc-env=NQC_MINER_BUILD_RUSTC_VERSION={rustc_version}");
     println!("cargo:rustc-env=NQC_MINER_BUILD_TARGET={target}");
     println!("cargo:rustc-env=NQC_MINER_BUILD_HOST={host}");
     println!("cargo:rustc-env=NQC_MINER_BUILD_PROFILE={profile}");
     println!("cargo:rustc-env=NQC_MINER_BUILD_OPT_LEVEL={opt_level}");
     println!("cargo:rustc-env=NQC_MINER_BUILD_DEBUG={debug}");
-    println!(
-        "cargo:rustc-env=NQC_MINER_BUILD_RUSTFLAGS_SHA256={:x}",
-        Sha256::digest(rustflags.as_bytes())
-    );
+    println!("cargo:rustc-env=NQC_MINER_BUILD_RUSTFLAGS_SHA256={rustflags_sha256}");
+    println!("cargo:rustc-env=NQC_MINER_BUILD_IDENTITY_SHA256={build_identity_sha256}");
     println!("cargo:rerun-if-changed=src");
     println!("cargo:rerun-if-changed=Cargo.toml");
     println!("cargo:rerun-if-changed=Cargo.lock");
