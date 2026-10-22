@@ -1,0 +1,52 @@
+{
+  "schema": "nqc-miner-termux-import-preflight-v1",
+  "status": "offline_pass_runtime_pending",
+  "checked_at_utc": "2026-10-22T22:08:10.613254+00:00",
+  "candidate_source_commit": "a1d0f150633fda2e5142fe59c0beda924c7bd830",
+  "global_completion_percent": 41,
+  "progress_credit_added": 0,
+  "new_python_tests": 4,
+  "all_python_tests_passed": 116,
+  "synthetic_fixtures_verified_by_real_rust": 16,
+  "sql_assertions_prepared": 35,
+  "bash_syntax": "pass",
+  "root_or_foreign_environment_guard": "pass",
+  "shellcheck": "not_available_not_run",
+  "sql_syntax": "pass",
+  "postgres_importer_runtime_executed": false,
+  "rust_recompiled_or_retested": false,
+  "new_database_connections_by_agent": 0,
+  "input_hashes": {
+    "postgres.sql": "5307880cd7f274f5f0ac4eb222e19ca34fb0e0a9abd59a2970be50611a259f21",
+    "postgres_import.sql": "4fe03449780702a9aa700540a473fa61396fb85fa60805fdf658e15a75741b0b",
+    "fixtures.sql": "88f84dcc9a29512c70cc3ac1697ff727af9fabd619490eca9ecc96ba71a4156a",
+    "fixture-verification.json": "0dff9d60aea09c3f3eb4278874e5901ab3947aae9d16af634d8fce99070d2210",
+    "cases.sql": "69b6d1da7d6f2f367e6a8539ba79e919dfc164a76a071fb6442b14f144a81dce",
+    "holder.sql": "0147a8fbcab22a0e71600e275d913e81903c77c273d1b6806b51eae29e09cfef"
+  },
+  "source_hashes": {
+    "scripts/build_termux_import_check.py": "cab09c9975dd84694bd169d2a0d87d2c5f147095e8bf1ec5d9de24b843d37578",
+    "scripts/postgres_import_cases.sql": "69b6d1da7d6f2f367e6a8539ba79e919dfc164a76a071fb6442b14f144a81dce",
+    "scripts/postgres_import_holder.sql": "0147a8fbcab22a0e71600e275d913e81903c77c273d1b6806b51eae29e09cfef",
+    "scripts/termux_import_check.template.sh": "1e01e718e2090e4c41c160d75b276df5697e104015fc75d283a1d49ac9c05291",
+    "scripts/nqc-miner-import-check.sh": "8a73eb9860a82193353df4b23f5d0abc08524e4430f42d7a541c9def4a8793c5",
+    "research/test_termux_import_runner.py": "47ad55e3de1077c75ea5f8111a10e1e38a4ef291339ac11630629d12c785935e"
+  },
+  "retained_evidence": {
+    "build.json": "1ef082ca1a16e41d011e0b27a467c9021476fa03da17bb3ef83ef395a9af93b5",
+    "fixture-verification.json": "0dff9d60aea09c3f3eb4278874e5901ab3947aae9d16af634d8fce99070d2210",
+    "isolation.json": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940",
+    "python-tests.log": "da547957023d582fa549532b00306a2de30df6eb5e7fd21b94f2fbedbd802eff",
+    "scope.json": "7a841def220cddf72d41fce5eb29fbbd0b5b0978eaec69f7bd17e3d4056a4ee3",
+    "sql-parser.json": "50a58bf687e0bbaf5dbfe17bab5aa9da1077fc462a7577f27fb8087092cb4f0c"
+  },
+  "observer_bridge_enabled": false,
+  "spending_authorized": false,
+  "limits": [
+    "awaiting user-run Termux evidence",
+    "no SQL name/type/runtime proof in preflight",
+    "backend termination is deliberate and scoped to fresh test cluster",
+    "restart is orderly, not server crash/power-loss",
+    "parent collection invalidation propagation is not tested"
+  ]
+}

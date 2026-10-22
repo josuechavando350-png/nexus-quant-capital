@@ -98,3 +98,5 @@ controlador padre a todas sus ventanas; este módulo recibe un journal individua
 Referencias de diseño: [locks transaccionales](https://www.postgresql.org/docs/18/explicit-locking.html)
 y [snapshots de funciones VOLATILE](https://www.postgresql.org/docs/18/xfunc-volatility.html).
 Estas reglas documentadas sustentan el diseño; no sustituyen su prueba real.
+
+Runner preparado para el gate pendiente: [prueba en Termux](termux-import.md). La preparación ahora pasa 116 pruebas Python; no añade ejecución PostgreSQL ni avance acreditado.

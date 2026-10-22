@@ -2,6 +2,10 @@
 
 Corte: 22 de octubre de 2026.
 
+Runner del importador listo para Termux: 16 fixtures verificados por Rust, 35
+aserciones SQL preparadas, concurrencia/interrupción/reinicio pendientes de
+ejecución. 116 Python PASS. Avance **41/100**. Véase `docs/termux-import.md`.
+
 Preparación más reciente: 13 pruebas nuevas del preparador PostgreSQL y 112
 pruebas Python completas PASS; fixture sintético verificado por Rust, sin
 conexión a base. Migración candidata: sintaxis revisada, runtime pendiente.
