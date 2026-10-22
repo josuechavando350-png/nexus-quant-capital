@@ -3,8 +3,8 @@
 Estado: **PREPARADA, NO EJECUTADA**.
 
 La configuración versionada es deliberadamente una plantilla no ejecutable:
-`config.template.json` contiene `__FROM_ABOUT__` en la identidad del código y
-del lock. Esto evita el problema circular de intentar guardar en el mismo commit
+`config.template.json` contiene `__FROM_ABOUT__` en commit, hash del
+`Cargo.lock` y `build_identity_sha256`. Esto evita el problema circular de intentar guardar en el mismo commit
 un archivo que pretende contener el SHA de ese commit.
 
 Antes de cada corrida:

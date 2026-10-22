@@ -101,12 +101,12 @@ rango afectado de RUSTSEC-2026-0097; se elevó a `0.8.6` y se actualizó el lock
 El SHA-256 del Cargo.lock preparado es
 `634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab`.
 La configuración de repetición ya no guarda un SHA de commit autorefencial:
-`config.template.json` es intencionalmente no ejecutable y
-`scripts/bind_run_config.py` la liga al `about` de un binario limpio justo
-antes de correr. Las seis regresiones del binder se ejecutaron por separado sobre
-los blobs publicados y pasaron 6/6; la evidencia está en
-`evidence/binder-python-20261022.json`. Esto valida ese módulo aislado, no la
-suite integral ni la resolución/compilación del nuevo Cargo.lock.
+`config.template.json` es intencionalmente no ejecutable. El schema v2 contiene
+placeholders para commit, Cargo.lock y `build_identity_sha256`;
+`scripts/bind_run_config.py` los liga al `about` de un binario limpio justo
+antes de correr. El binder recalcula además la identidad canónica a partir de
+commit, fuentes, lock, rustc, target, host, perfil, optimización, debug y RUSTFLAGS,
+por lo que un `about` internamente inconsistente se rechaza.
 
 La repetición multichain está preparada en
 `evidence/public-retry-20261022/` con `run_id` nuevo y lotes de 100 bloques.
@@ -135,18 +135,26 @@ Tampoco se atribuye identidad real a las direcciones observadas ni se certifica
 rentabilidad, cobertura o saturación. El criterio de admisión está centralizado en
 `docs/EVIDENCE_LEDGER.md`.
 
-### Contrato de identidad del toolchain
+### Contrato de identidad completa del build
 
-La auditoría detectó que el hash fuente embebido por `build.rs` no incluía
-`rust-toolchain.toml`. Eso permitía que un cambio local del compilador fijado no
-alterara `source_sha256` ni necesariamente activara `source_dirty`. El build
-script y `verify_offline.py` ahora incluyen ese archivo en el dirty-check, hash
-fuente y contrato de rerun de Cargo.
+La auditoría detectó dos huecos sucesivos. Primero, el hash fuente embebido por
+`build.rs` no incluía `rust-toolchain.toml`. Segundo, `scan` y `owner.json`
+solo quedaban ligados a commit + Cargo.lock: un binario construido con otro target,
+perfil o RUSTFLAGS podía compartir esa identidad.
 
-Dos regresiones Python ejecutadas contra los blobs publicados pasaron 2/2 y se
-guardaron en `evidence/build-identity-python-20261022.json`. Esta prueba valida
-el contrato textual/digest del toolchain; **el build.rs modificado aún necesita
-compilarse con Rust 1.90.0 dentro de la suite integral**.
+El contrato actual corrige ambos puntos. `source_sha256` incluye el toolchain y
+`about` declara rustc, target, host, perfil, optimización, debug y hash de
+RUSTFLAGS. `build.rs` deriva un `build_identity_sha256` canónico de esos campos;
+el binder lo recalcula y las nuevas configuraciones schema v2 lo almacenan.
+`scan` exige que ese build-id coincida exactamente y los nuevos journals usan
+`nqc-miner-owner-v2`. El parser conserva v1 solo para verificación histórica y
+`validate_runtime` impide usarlo en una lectura RPC nueva.
+
+Las pruebas Python aisladas del contrato actual pasaron **11/11** y el JSON Schema
+de owners pasó 4/4 casos de compatibilidad/rechazo. La evidencia exacta se conserva
+en `evidence/reproducibility-python-v2-20261022.json`. Las tres regresiones Rust
+v1/v2 están escritas pero **aún no se han compilado ni ejecutado**, por lo que este
+hallazgo no se acredita como cierre del gate integral.
 
 ### Revisión dirigida de dependencias
 

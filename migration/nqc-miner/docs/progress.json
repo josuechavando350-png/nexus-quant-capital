@@ -170,21 +170,27 @@
     "evidence/offline-v2-isolation-20261022/summary.json",
     "evidence/dependencies-full-20261022/provenance.json",
     "evidence/public-capture-v2-20261022/capture.json",
-    "evidence/public-parquet-v2-20261022/manifest.json"
+    "evidence/public-parquet-v2-20261022/manifest.json",
+    "evidence/reproducibility-python-v2-20261022.json"
   ],
   "notes": [
     "An implemented primitive is not an operational phase exit.",
     "Synthetic training/test metrics are not real investment results.",
     "The observer remains outside the scope of all changes.",
     "Independent indexed evidence corroborates three unique successful Aave liquidationCall transactions in the Ethereum sample window; it does not verify the earlier five-event log count and earns no additional progress.",
-    "HTTP pacing/retry/redaction, run-config identity binding and rand 0.8.6 remediation are published but receive no progress credit until rebuilt and fully tested.",
-    "All identified 2026 RustSec advisory ranges for packages in the current lock were reviewed after the rand remediation; a complete automated advisory scan remains mandatory.",
     "The six run-config binder regressions passed in an isolated Python 3.13.5 execution against the exact published blobs; this does not credit the repository-wide verification gate.",
     "A transient five-event observation has no durable versioned journal in this branch and is explicitly excluded from metrics and progress.",
-    "Toolchain pin bytes are now part of build source identity and dirty tracking; two isolated Python contract tests passed, but the modified build.rs remains uncompiled.",
     "Ethereum cross-check yields 3 unique successful transactions and 2 observed caller addresses; saturation remains unknown because eligibility latency, tips and coverage are missing.",
-    "Continuation supersedes pending full-software-verification notes above for source a841261 only: 141 Rust and 64 Python pass; full lock scan found zero known vulnerabilities and two unmaintained warnings.",
     "The bounded three-chain integration sample closes no economic phase exit. Prior v1 and current v2 samples repeat the same windows and are never summed.",
-    "All new changes remain inside migration/nqc-miner on a separate branch; observer integration stays disabled."
+    "All new changes remain inside migration/nqc-miner on a separate branch; observer integration stays disabled.",
+    "Legacy schema v1 is retained only for offline historical verification; new live RPC reads require schema v2 with exact build_identity_sha256.",
+    "Final full verification of source a841261 passed 141 Rust and 64 Python tests. Its exact local commits remain recoverable from the included Git bundle. Documentation-only reconciliation preserves later evidence references through cdab072 without changing the audited executable source."
+  ],
+  "historical_audit_notes_superseded_for_a841261": [
+    "HTTP pacing/retry/redaction, run-config identity binding and rand 0.8.6 remediation are published but receive no progress credit until rebuilt and fully tested.",
+    "All identified 2026 RustSec advisory ranges for packages in the current lock were reviewed after the rand remediation; a complete automated advisory scan remains mandatory.",
+    "Toolchain pin bytes are now part of build source identity and dirty tracking; two isolated Python contract tests passed, but the modified build.rs remains uncompiled.",
+    "Continuation supersedes pending full-software-verification notes above for source a841261 only: 141 Rust and 64 Python pass; full lock scan found zero known vulnerabilities and two unmaintained warnings.",
+    "Current build-bound v2 reproducibility contract passed 11/11 isolated Python regressions plus 4/4 owner-schema cases; the Rust v2 delta and three new Rust regressions remain uncompiled."
   ]
 }

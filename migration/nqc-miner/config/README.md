@@ -1,7 +1,9 @@
 # Configuración y evidencia separadas por ejecución
 
 El CLI admite JSON estricto, con `namespace=nqc_miner_v1`, `producer=nqc-miner`,
-identidad de commit, hash de `Cargo.lock`, clase de evidencia y scopes explícitos.
+identidad de commit, hash de `Cargo.lock`, `build_identity_sha256`, clase de
+evidencia y scopes explícitos. El schema v2 es obligatorio para nuevas lecturas
+RPC; v1 queda únicamente para reproducir/verificar evidencia histórica.
 Un scope declara cadena, contrato, firma del evento, intervalo inclusivo, tamaño
 del lote y al menos dos proveedores. Consulta `src/config.rs` para el contrato
 completo. Las variables RPC pertenecen exclusivamente al prefijo `NQC_MINER_RPC_`.
@@ -13,10 +15,12 @@ no se importan certificados, claves privadas ni configuraciones de otro trabajo.
 El almacén de confianza del entorno es una dependencia operacional explícita.
 Referencia: [rustls-native-certs](https://github.com/rustls/rustls-native-certs).
 
-La configuración de una ejecución real debe obtener su identidad de
-`nqc-miner about` después de construir el commit correspondiente. `scan` rechaza
-binarios con cambios de código sin commit, identidades distintas y presupuesto
-de gas positivo. `validate-config` no conecta a ninguna red.
+La configuración de una ejecución real debe generarse desde una plantilla v2 y
+el `nqc-miner about` del binario limpio mediante `scripts/bind_run_config.py`.
+El binder recalcula la identidad a partir de commit, hash de fuentes, Cargo.lock,
+rustc, target, host, perfil, nivel de optimización, debug y hash de RUSTFLAGS.
+`scan` rechaza builds sucios, schema v1, identidad de build distinta y
+presupuesto de gas positivo. `validate-config` no conecta a ninguna red.
 
 Para un registro histórico nuevo:
 
