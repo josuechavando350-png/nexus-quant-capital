@@ -2,7 +2,14 @@
 
 Corte: 22 de octubre de 2026.
 
-Último bloque: `a1f6006`, 155 Rust + 69 Python PASS en
+Último bloque de archivo: `169b82f`, 155 Rust + 91 Python PASS.
+`offline-archive-v2-20261022/` y `local-archive-v2-20261022/` acreditan
+publicación/repetición verificadas con UUID ligado a cada recibo. Se conservan
+17 archivos de origen y ocho registros de la muestra anterior; no son nuevos
+eventos. Avance 40/100. El baseline v1 de `005ab8c` queda histórico y no satisface
+el gate final v2. Véase `docs/AUDIT_ARCHIVE_20261022.md`.
+
+Bloque anterior del recolector: `a1f6006`, 155 Rust + 69 Python PASS en
 `offline-collector-20261022/`. `public-collector-20261022/` acredita tres ventanas
 Ethereum y reinicio entre procesos: 2 eventos, 8 registros; sus Parquet conservan
 los bytes originales. Se solapa con las capturas anteriores y no se suma.

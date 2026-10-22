@@ -122,3 +122,5 @@ Los exports Parquet admiten propietarios v1 históricos y v2, preservando su
 identidad de compilación y los bytes originales. El puente continúa desactivado.
 
 La auditoría más reciente del recolector está en [docs/AUDIT_COLLECTOR_20261022.md](docs/AUDIT_COLLECTOR_20261022.md): 39/100, 155 pruebas Rust y 69 Python, captura histórica con reinicio y exports verificados.
+
+El último bloque auditado está en [docs/AUDIT_ARCHIVE_20261022.md](docs/AUDIT_ARCHIVE_20261022.md): 40/100, 155 pruebas Rust y 91 Python, archivo local v2 con recuperación y revocación verificadas.

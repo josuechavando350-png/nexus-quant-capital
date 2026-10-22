@@ -2,6 +2,12 @@
 
 ## Delivery status
 
+The local v2 collection archive now has verified atomic publication, owner-bound
+receipts, crash recovery and explicit quarantine propagation. It uses local
+filesystems and the existing Parquet exporter. See `docs/archive.md` and
+`docs/AUDIT_ARCHIVE_20261022.md`; this does not validate a remote object store or
+a PostgreSQL service. Those operational integrations remain open.
+
 The rolling historical collector is now executable and audited with a bounded
 public restart capture. See `docs/collector.md` and
 `docs/AUDIT_COLLECTOR_20261022.md`. No persistent collector service is running.
