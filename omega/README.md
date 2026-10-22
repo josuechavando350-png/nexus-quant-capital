@@ -276,3 +276,28 @@ nuevas y 41/41 del ejecutor en ambos jobs remotos. Run
 productor `4a521dd42a0c816cd6959cd0fb4ac4e5b871dab0`: ambos jobs success,
 forks y replay completo aprobados, con auditoría posterior de identidad,
 integridad, aislamiento, resultados y tiempos. Certificación sigue 0/36.
+
+## H14 — datos por transacción, recuperación y artifacts
+
+`historical_intake.py` reproduce tres artifacts originales: 139 eventos,
+127 recibos dRPC y 139 legs de deuda/colateral. Conserva el fallo global del run
+de recibos, la falta de paridad independiente y los campos desconocidos como null.
+Gas se cuenta una vez por transacción; cantidades de tokens no se convierten
+automáticamente en USD, margen neto ni ganancias de NQC.
+
+`evidence_store.py` y `historical_pipeline.py` incorporan almacenamiento
+transaccional, recuperación tras terminar procesos, escrituras concurrentes,
+exportación/restauración verificadas y revocación local sin borrar evidencia.
+La consulta vuelve a comprobar las fuentes originales. La prueba de revocación
+es controlada; no certifica una reorganización real ni replicación remota.
+
+La migración revisada amplía cobertura CI a todo el Python/evidencia Omega y
+retiene un runtime.json acotado por job con el productor exacto. El consumidor
+`runtime_artifact.py` exige metadata obtenida externamente y su digest confiable;
+un archivo local con un hash propio no demuestra origen de GitHub.
+
+Regresión local H14: **415/415 pruebas**, incluidas **63 nuevas**, sin omisiones.
+Aislamiento completo: **104 archivos Omega**, 531 fuentes originales y 106
+workflows históricos desactivados. Ejecución remota y auditoría posterior se
+registran en [AUDIT_H14.md](AUDIT_H14.md). Producto final 45% aún no demostrado;
+ver [PRODUCT_PROGRESS.md](PRODUCT_PROGRESS.md). Certificación **0/36**.

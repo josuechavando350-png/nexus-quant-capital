@@ -21,8 +21,30 @@ ROOT = Path(__file__).resolve().parents[1]
 VERIFIER_BLOB = "3bb842872a4ca89e81bcf45839b42cc88d26f84e"
 OMEGA_WORKFLOW = ".github/workflows/omega-h2-audit.yml"
 WORKFLOW_TEMPLATE = "omega/h2_actions_workflow.yml.disabled"
-WORKFLOW_SHA256 = "a2d101c69a6ce5aa0dc46065429547dbafec79c0d253afffce6c57231d755f16"
+WORKFLOW_SHA256 = "8c1c20a8684a21728d7ebd83d0aac7ad93dc5840df34ec455e80e5eb0b3813be"
 EXTENSION_FILES = frozenset({
+    'omega/historical_intake.py',
+    'omega/test_historical_intake.py',
+    'omega/evidence_store.py',
+    'omega/test_evidence_store.py',
+    'omega/historical_pipeline.py',
+    'omega/test_historical_pipeline.py',
+    'omega/runtime_artifact.py',
+    'omega/test_runtime_artifact.py',
+    'omega/HISTORICAL_INTAKE_CONTRACT.md',
+    'omega/EVIDENCE_STORE_CONTRACT.md',
+    'omega/RUNTIME_ARTIFACT_MIGRATION.md',
+    'omega/AUDIT_H14.md',
+    'omega/PRODUCT_PROGRESS.md',
+    'omega/evidence/historical-intake-pin.json',
+    'omega/evidence/rmc016-events.zip',
+    'omega/evidence/rmc016-receipts.zip',
+    'omega/evidence/rmc016-legs.zip',
+    'omega/evidence/rmc016-events-metadata.json',
+    'omega/evidence/rmc016-receipts-metadata.json',
+    'omega/evidence/rmc016-legs-metadata.json',
+    'omega/evidence/h14-pipeline.json',
+
     "omega/README.md", "omega/architecture_v3.json", "omega/audit.py",
     "omega/test_audit.py", "omega/integrity.py", "omega/census_bridge.py",
     "omega/isolation.py", "omega/test_integration.py", "omega/census_map.json",

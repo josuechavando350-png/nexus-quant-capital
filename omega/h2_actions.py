@@ -1,6 +1,7 @@
 """Branch-scoped physical H2 audit. Evidence is printed to GitHub job logs.
 
-No uploads, caches, signing, broadcasts, subscriptions, or live acquisition.
+Bounded runtime evidence upload is delegated to the pinned workflow action.
+No caches, signing, broadcasts, subscriptions, or live acquisition.
 The job token is used only for GETs to the pinned original evidence repository.
 Run metadata must be independently read back before accepting these job claims.
 """
@@ -43,6 +44,7 @@ REPLAY_PATH = "ci/nqc-census/run_rmc006_recertification.py"
 REPLAY_BLOB = "a200f6d699df693f4087c6b7dc2c9027898ebba4"
 PROXY_PATH = "ci/nqc-protocol-fork/parity/http_rpc_throttle_proxy.py"
 PROXY_BLOB = "a4cc2d56bfc1ddce2995543c7c5271d7c734a451"
+_EVIDENCE_RECORDS = None
 
 
 def producer_context(env: dict, head: str, tree: str) -> dict:
@@ -104,8 +106,10 @@ def namespace_probe(parent: str, source: Path) -> None:
 
 def evidence(name: str, value: dict) -> None:
     raw = canonical(value)
-    print("OMEGA_H2_EVIDENCE " + json.dumps({"name": name, "sha256": digest(raw),
-                                          "value": value}, sort_keys=True), flush=True)
+    record = {"name": name, "sha256": digest(raw), "value": value}
+    if _EVIDENCE_RECORDS is not None:
+        _EVIDENCE_RECORDS.append(strict_json(canonical(record)))
+    print("OMEGA_H2_EVIDENCE " + json.dumps(record, sort_keys=True), flush=True)
 
 
 def clean_env(extra=None):
@@ -392,6 +396,7 @@ def forks(work: Path, source: Path, head: str):
 
 
 def main():
+    global _EVIDENCE_RECORDS
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--stage", choices=("forks", "replay"))
     parser.add_argument("--rpc-proxy", action="store_true")
@@ -419,6 +424,7 @@ def main():
     verify_checkout_bytes(ROOT, head)
     require((ROOT / WORKFLOW).is_file(), "active_workflow_missing")
     identity = producer_context(os.environ, head, tree)
+    _EVIDENCE_RECORDS = []
     evidence("producer", identity)
     work = Path(tempfile.mkdtemp(prefix="omega-h2-", dir=os.environ["RUNNER_TEMP"]))
     probe_source = work / "probe-source"
@@ -437,6 +443,21 @@ def main():
          "--pattern", "test_ci_evidence.py", "--report", work / "capture-tests.json"], ROOT)
     evidence("ci-capture-tests", strict_json(read_regular(work / "capture-tests.json")))
     run([sys.executable, ROOT / "omega/ci_evidence.py"], ROOT)
+    for name, pattern in (
+        ("historical-intake-tests", "test_historical_intake.py"),
+        ("evidence-store-tests", "test_evidence_store.py"),
+        ("historical-pipeline-tests", "test_historical_pipeline.py"),
+        ("runtime-artifact-tests", "test_runtime_artifact.py"),
+    ):
+        report_path = work / (name + ".json")
+        run([sys.executable, ROOT / "omega/regression.py", "--start-directory", ROOT / "omega",
+             "--pattern", pattern, "--report", report_path], ROOT)
+        evidence(name, strict_json(read_regular(report_path)))
+    pipeline = work / "historical-pipeline"
+    run([sys.executable, ROOT / "omega/historical_pipeline.py", "--output-directory", pipeline], ROOT)
+    run([sys.executable, ROOT / "omega/historical_pipeline.py", "--output-directory", pipeline,
+         "--verify"], ROOT)
+    evidence("historical-pipeline", strict_json(read_regular(pipeline / "report.json")))
     run(["rustup", "toolchain", "install", "1.98.1", "--profile", "minimal"], work)
     result = replay(work, head) if args.stage == "replay" else forks(work, source, head)
     verify_clean_head(ROOT, head)
@@ -445,6 +466,10 @@ def main():
     evidence("stage-complete", {"stage": args.stage, "status": "PHYSICAL_GATE_PASS",
              "producer": identity, "result_sha256": digest(canonical(result)),
              "certified_components": 0, **{k: False for k in FALSE_AUTHORITY}})
+    from runtime_artifact import write_packet
+    packet_dir = Path(os.environ["RUNNER_TEMP"]) / ("omega-evidence-" + args.stage)
+    commitment = write_packet(packet_dir, identity, args.stage, _EVIDENCE_RECORDS)
+    print("OMEGA_RUNTIME_PACKET " + json.dumps({"sha256": commitment, "stage": args.stage}), flush=True)
 
 
 if __name__ == "__main__":

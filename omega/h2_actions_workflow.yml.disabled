@@ -5,10 +5,9 @@ on:
     branches: [feat/omega-h2-executable-audit-20261022]
     paths:
       - .github/workflows/omega-h2-audit.yml
-      - omega/h2_actions.py
-      - omega/test_h2_actions.py
+      - omega/*.py
+      - omega/evidence/**
       - omega/h2_actions_workflow.yml.disabled
-      - omega/isolation.py
 
 permissions:
   contents: read
@@ -49,3 +48,13 @@ jobs:
           OMEGA_WORKFLOW_REF: ${{ github.workflow_ref }}
           OMEGA_REPOSITORY_VISIBILITY: ${{ github.event.repository.visibility }}
         run: python3 omega/h2_actions.py --stage "$OMEGA_STAGE"
+      - name: Retain bounded runtime evidence
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: omega-runtime-${{ matrix.stage }}-${{ github.sha }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/omega-evidence-${{ matrix.stage }}/runtime.json
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 6
+          overwrite: false
+          include-hidden-files: false
