@@ -6,18 +6,37 @@ use crate::{
     journal::{Journal, JournalError, Record},
     valid_hex,
 };
-use reqwest::blocking::Client;
+use reqwest::{blocking::Client, header::RETRY_AFTER, StatusCode};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use std::{
     collections::{BTreeMap, BTreeSet},
     io::Read,
-    time::Duration,
+    sync::Mutex,
+    time::{Duration, Instant},
 };
 use thiserror::Error;
 
 const MAX_RESPONSE: u64 = 16 * 1024 * 1024;
+const MAX_RPC_ATTEMPTS: usize = 4;
+const MIN_REQUEST_GAP: Duration = Duration::from_millis(125);
+const MAX_SERVER_RETRY: Duration = Duration::from_secs(5);
 const METHODS: &[&str] = &["eth_chainId", "eth_getBlockByNumber", "eth_getLogs"];
+
+fn retryable_status(status: StatusCode) -> bool {
+    matches!(status.as_u16(), 408 | 425 | 429 | 500 | 502 | 503 | 504)
+}
+
+fn retry_delay(status: Option<StatusCode>, retry_after: Option<&str>, attempt: usize) -> Duration {
+    let exponent = u32::try_from(attempt.min(3)).unwrap_or(3);
+    let base = Duration::from_millis(250u64.saturating_mul(2u64.pow(exponent)));
+    if status == Some(StatusCode::TOO_MANY_REQUESTS) {
+        if let Some(seconds) = retry_after.and_then(|value| value.trim().parse::<u64>().ok()) {
+            return base.max(Duration::from_secs(seconds).min(MAX_SERVER_RETRY));
+        }
+    }
+    base.min(MAX_SERVER_RETRY)
+}
 
 #[derive(Debug, Error)]
 pub enum IngestError {
@@ -40,6 +59,7 @@ pub struct HttpRpc {
     id: String,
     endpoint: reqwest::Url,
     client: Client,
+    last_request: Mutex<Option<Instant>>,
 }
 
 impl HttpRpc {
@@ -83,10 +103,25 @@ impl HttpRpc {
             id: id.into(),
             endpoint,
             client,
+            last_request: Mutex::new(None),
         })
     }
     fn host(&self) -> String {
         self.endpoint.host_str().unwrap_or_default().to_owned()
+    }
+    fn pace(&self) -> Result<(), IngestError> {
+        let mut last = self
+            .last_request
+            .lock()
+            .map_err(|_| IngestError::Provider(self.id.clone()))?;
+        if let Some(previous) = last.as_ref() {
+            let elapsed = previous.elapsed();
+            if elapsed < MIN_REQUEST_GAP {
+                std::thread::sleep(MIN_REQUEST_GAP - elapsed);
+            }
+        }
+        *last = Some(Instant::now());
+        Ok(())
     }
 }
 
@@ -101,11 +136,19 @@ impl ReadRpc for HttpRpc {
             ));
         }
         let body = json!({"jsonrpc":"2.0", "id":1, "method":method, "params":params});
-        // A failed chunk never advances its cursor. Retries are deliberately bounded.
-        for attempt in 0..3 {
+        // A failed chunk never advances its cursor. Requests are paced and retries stay bounded.
+        for attempt in 0..MAX_RPC_ATTEMPTS {
+            self.pace()?;
             let response = self.client.post(self.endpoint.clone()).json(&body).send();
+            let mut delay = retry_delay(None, None, attempt);
             if let Ok(response) = response {
-                if response.status().is_success() {
+                let status = response.status();
+                let retry_after = response
+                    .headers()
+                    .get(RETRY_AFTER)
+                    .and_then(|value| value.to_str().ok())
+                    .map(str::to_owned);
+                if status.is_success() {
                     let mut bytes = Vec::new();
                     if response
                         .take(MAX_RESPONSE + 1)
@@ -124,10 +167,14 @@ impl ReadRpc for HttpRpc {
                             }
                         }
                     }
+                } else if retryable_status(status) {
+                    delay = retry_delay(Some(status), retry_after.as_deref(), attempt);
+                } else {
+                    return Err(IngestError::Provider(self.id.clone()));
                 }
             }
-            if attempt < 2 {
-                std::thread::sleep(Duration::from_millis(100 * (attempt + 1)));
+            if attempt + 1 < MAX_RPC_ATTEMPTS {
+                std::thread::sleep(delay);
             }
         }
         Err(IngestError::Provider(self.id.clone()))
