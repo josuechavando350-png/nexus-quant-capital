@@ -1,0 +1,259 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "parquet-export",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "namespace",
+    "producer",
+    "run_id",
+    "data_class",
+    "owner",
+    "source_files",
+    "records",
+    "last_envelope_sha256",
+    "batches",
+    "polars_version",
+    "verifier_sha256",
+    "verifier_build",
+    "integrity_verified",
+    "authenticity_verified",
+    "uploaded",
+    "complete"
+  ],
+  "properties": {
+    "schema": {
+      "const": "nqc-miner-parquet-export-v1"
+    },
+    "namespace": {
+      "const": "nqc_miner_v1"
+    },
+    "producer": {
+      "const": "nqc-miner"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]{1,96}$"
+    },
+    "data_class": {
+      "enum": [
+        "synthetic",
+        "historical",
+        "shadow"
+      ]
+    },
+    "owner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "namespace",
+        "producer",
+        "run_id",
+        "data_class",
+        "config_sha256",
+        "code_commit",
+        "cargo_lock_sha256"
+      ],
+      "properties": {
+        "schema": {
+          "const": "nqc-miner-owner-v1"
+        },
+        "namespace": {
+          "const": "nqc_miner_v1"
+        },
+        "producer": {
+          "const": "nqc-miner"
+        },
+        "run_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]{1,96}$"
+        },
+        "data_class": {
+          "enum": [
+            "synthetic",
+            "historical",
+            "shadow"
+          ]
+        },
+        "config_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "code_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "cargo_lock_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "source_files": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "file",
+          "bytes",
+          "sha256"
+        ],
+        "properties": {
+          "file": {
+            "enum": [
+              "owner.json",
+              "config.json",
+              "events.jsonl"
+            ]
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 536870912
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "file"
+            ],
+            "properties": {
+              "file": {
+                "const": "owner.json"
+              }
+            }
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "file"
+            ],
+            "properties": {
+              "file": {
+                "const": "config.json"
+              }
+            }
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "file"
+            ],
+            "properties": {
+              "file": {
+                "const": "events.jsonl"
+              }
+            }
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      ]
+    },
+    "records": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1000000
+    },
+    "last_envelope_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "batches": {
+      "type": "array",
+      "maxItems": 1000000,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "file",
+          "rows",
+          "first_sequence",
+          "last_sequence",
+          "raw_bytes_sha256",
+          "parquet_sha256",
+          "bytes"
+        ],
+        "properties": {
+          "file": {
+            "type": "string",
+            "pattern": "^part-[0-9]{5,7}\\.parquet$"
+          },
+          "rows": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10000
+          },
+          "first_sequence": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 18446744073709551615
+          },
+          "last_sequence": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 18446744073709551615
+          },
+          "raw_bytes_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "parquet_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 536870912
+          }
+        }
+      }
+    },
+    "polars_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "verifier_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "verifier_build": {
+      "type": "object"
+    },
+    "integrity_verified": {
+      "const": true
+    },
+    "authenticity_verified": {
+      "const": false
+    },
+    "uploaded": {
+      "const": false
+    },
+    "complete": {
+      "const": true
+    }
+  },
+  "description": "Completion of the export, not completion of any scan or economic validation. Empty journals can have complete exports. ScopeCompleted is a separate source record."
+}

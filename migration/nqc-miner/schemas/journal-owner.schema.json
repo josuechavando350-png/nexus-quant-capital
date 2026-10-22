@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "journal-owner",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "namespace",
+    "producer",
+    "run_id",
+    "data_class",
+    "config_sha256",
+    "code_commit",
+    "cargo_lock_sha256"
+  ],
+  "properties": {
+    "schema": {
+      "enum": [
+        "nqc-miner-owner-v1",
+        "nqc-miner-owner-v2"
+      ]
+    },
+    "namespace": {
+      "const": "nqc_miner_v1"
+    },
+    "producer": {
+      "const": "nqc-miner"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]{1,96}$"
+    },
+    "data_class": {
+      "enum": [
+        "synthetic",
+        "historical",
+        "shadow"
+      ]
+    },
+    "config_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "code_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "cargo_lock_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "build_identity_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema": {
+            "const": "nqc-miner-owner-v2"
+          }
+        },
+        "required": [
+          "schema"
+        ]
+      },
+      "then": {
+        "required": [
+          "build_identity_sha256"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "schema": {
+            "const": "nqc-miner-owner-v1"
+          }
+        },
+        "required": [
+          "schema"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "build_identity_sha256"
+          ]
+        }
+      }
+    }
+  ]
+}

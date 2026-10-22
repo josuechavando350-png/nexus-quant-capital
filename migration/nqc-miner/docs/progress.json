@@ -1,0 +1,183 @@
+{
+  "schema": "nqc-miner-progress-v1",
+  "as_of": "2026-10-22",
+  "denominator": 100,
+  "global_completion_percent": 35,
+  "method": "Weighted engineering estimate with explicit operational phase exits, not a percentage of lines written",
+  "status": "build_bound_v2_hardening_published_pending_full_rust_verification",
+  "items": [
+    {
+      "phase": "scope",
+      "id": "requirements_and_isolation",
+      "weight": 5,
+      "earned": 5,
+      "acceptance": "Requirements matrix; standalone subtree, owner/config/credential namespace and bridge disabled"
+    },
+    {
+      "phase": "A",
+      "id": "finalized_ingestion_and_journal",
+      "weight": 7,
+      "earned": 7,
+      "acceptance": "Strict ABI, redundant reads, bounded finalization, idempotency, complete scopes and cross-scope canonicality"
+    },
+    {
+      "phase": "A",
+      "id": "saturation_and_scoped_coverage",
+      "weight": 5,
+      "earned": 5,
+      "acceptance": "Pure analytic APIs with unknown values preserved, canonical event identity and prospective coverage"
+    },
+    {
+      "phase": "A",
+      "id": "verified_local_parquet",
+      "weight": 2,
+      "earned": 2,
+      "acceptance": "Real Polars export and exact-byte roundtrip after Rust verification"
+    },
+    {
+      "phase": "A",
+      "id": "running_infrastructure",
+      "weight": 6,
+      "earned": 0,
+      "acceptance": "Continuous collectors, Redpanda, Temporal, ClickHouse, Postgres, object store and observability integrated and recovery-tested"
+    },
+    {
+      "phase": "A_exit",
+      "id": "calibrated_two_or_three_chain_measurement",
+      "weight": 10,
+      "earned": 0,
+      "acceptance": "Sufficient complete measurements with eligibility, gas/tips, prices and calibrated saturation; a bounded public sample does not close this gate"
+    },
+    {
+      "phase": "B",
+      "id": "lifecycle_closed_state_and_toxicity",
+      "weight": 3,
+      "earned": 3,
+      "acceptance": "Strict evidence gates, local REVM closed-state execution and supplied toxicity cases"
+    },
+    {
+      "phase": "B",
+      "id": "conditional_models",
+      "weight": 3,
+      "earned": 3,
+      "acceptance": "Explicit-assumption timelocks, interest, maturity, seeded bootstrap and rival monitor"
+    },
+    {
+      "phase": "B",
+      "id": "temporal_and_causal_wind_tunnel",
+      "weight": 8,
+      "earned": 0,
+      "acceptance": "Actual workflow integration and historical price/position/execution reconstruction with certified adapters"
+    },
+    {
+      "phase": "B",
+      "id": "prospective_shadow_exit",
+      "weight": 11,
+      "earned": 0,
+      "acceptance": "Prospective observations compared with real outcomes during a sufficiently long Shadow window"
+    },
+    {
+      "phase": "C",
+      "id": "adapter_and_budget_guards",
+      "weight": 2,
+      "earned": 2,
+      "acceptance": "Preparatory adapter evidence and fail-closed budget controls, no spending authority"
+    },
+    {
+      "phase": "C",
+      "id": "research_bandit",
+      "weight": 1,
+      "earned": 1,
+      "acceptance": "Seeded integer resource allocation and realized-outcome admission/retraction tests"
+    },
+    {
+      "phase": "C",
+      "id": "generated_adapter_certification",
+      "weight": 4,
+      "earned": 0,
+      "acceptance": "Quarantined generation, actual differential protocol testing and Foundry fuzzing"
+    },
+    {
+      "phase": "C",
+      "id": "external_signer_and_alert_integration",
+      "weight": 3,
+      "earned": 0,
+      "acceptance": "Separately configured and reviewed external signer, identities and notifications; no observer changes in this task"
+    },
+    {
+      "phase": "C",
+      "id": "approved_budgeted_canary_exit",
+      "weight": 5,
+      "earned": 0,
+      "acceptance": "Concrete proposal, explicit user approval and reconciled budgeted execution"
+    },
+    {
+      "phase": "D",
+      "id": "heuristic_discovery_primitives",
+      "weight": 1,
+      "earned": 1,
+      "acceptance": "Selector/MinHash candidates, timelocks, incentives, graph evidence and maturity primitives"
+    },
+    {
+      "phase": "D",
+      "id": "genome_research_pipeline",
+      "weight": 1,
+      "earned": 1,
+      "acceptance": "Actual fixture LightGBM/TreeSHAP, source binding, purged temporal holdout and deterministic environment"
+    },
+    {
+      "phase": "D",
+      "id": "continuous_discovery_collectors",
+      "weight": 4,
+      "earned": 0,
+      "acceptance": "Reliable continuous multi-chain inventories and governed search feedback"
+    },
+    {
+      "phase": "D",
+      "id": "validated_closed_learning_loop",
+      "weight": 9,
+      "earned": 0,
+      "acceptance": "Realized datasets, economic validation, drift/rollback and prospective improvement"
+    },
+    {
+      "phase": "delivery",
+      "id": "integration_audit_reproducibility_and_repository_delivery",
+      "weight": 10,
+      "earned": 5,
+      "acceptance": "Closed material review findings, retained exact-source verification, bounded public smoke test and isolated branch/PR delivery",
+      "earned_basis": "Material software findings closed; exact-source offline checks passed and source branch published. Public integration and final repository delivery remain open."
+    }
+  ],
+  "phase_exits_completed": [],
+  "observer_integration_enabled": false,
+  "spending_authorized": false,
+  "economic_certification": false,
+  "evidence": [
+    "docs/requirements.md",
+    "docs/AUDIT.md",
+    "evidence/offline-20261022/summary.json",
+    "evidence/public-20261022/execution.json",
+    "evidence/offline-native-ca-20261022/summary.json",
+    "evidence/public-retry-20261022/README.md",
+    "evidence/public-retry-20261022/config.template.json",
+    "evidence/public-crosscheck-20261022/aave-ethereum.json",
+    "evidence/supply-chain-review-20261022.json",
+    "evidence/binder-python-20261022.json",
+    "docs/EVIDENCE_LEDGER.md",
+    "evidence/public-crosscheck-20261022/aave-ethereum-partial-saturation.json",
+    "evidence/build-identity-python-20261022.json",
+    "evidence/reproducibility-python-v2-20261022.json"
+  ],
+  "notes": [
+    "An implemented primitive is not an operational phase exit.",
+    "Synthetic training/test metrics are not real investment results.",
+    "The observer remains outside the scope of all changes.",
+    "Independent indexed evidence corroborates three unique successful Aave liquidationCall transactions in the Ethereum sample window; it does not verify the earlier five-event log count and earns no additional progress.",
+    "HTTP pacing/retry/redaction, run-config identity binding and rand 0.8.6 remediation are published but receive no progress credit until rebuilt and fully tested.",
+    "All identified 2026 RustSec advisory ranges for packages in the current lock were reviewed after the rand remediation; a complete automated advisory scan remains mandatory.",
+    "A transient five-event observation has no durable versioned journal in this branch and is explicitly excluded from metrics and progress.",
+    "Ethereum cross-check yields 3 unique successful transactions and 2 observed caller addresses; saturation remains unknown because eligibility latency, tips and coverage are missing.",
+    "Current build-bound v2 reproducibility contract passed 11/11 isolated Python regressions plus 4/4 owner-schema cases; the Rust v2 delta and three new Rust regressions remain uncompiled.",
+    "Legacy schema v1 is retained only for offline historical verification; new live RPC reads require schema v2 with exact build_identity_sha256."
+  ]
+}

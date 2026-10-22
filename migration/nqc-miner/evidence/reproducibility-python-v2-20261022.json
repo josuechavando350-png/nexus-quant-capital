@@ -1,0 +1,52 @@
+{
+  "schema": "nqc-miner-python-reproducibility-contract-v2",
+  "tested_at": "2026-10-22",
+  "branch_head_after_rust_regressions": "94f2bd2fe20f79a46a1482d1c24623f3ccb1a61e",
+  "tested_blobs": {
+    "scripts/bind_run_config.py": "723be2e8f023dc2414a4d5c5cbfe2e3a9c26d70a",
+    "research/test_bind_run_config.py": "d61a97212fa4de3297072b93065f542f0d4c38bd",
+    "scripts/verify_offline.py": "50b082a4a4675e379a04c9656720a918eda8b9ab",
+    "research/test_build_identity_contract.py": "24efd3dfe0d44eb1f02cc4474ff83ab27f79669b",
+    "build.rs": "100ce8f986b9bf3a22709129f01e44f6ae71fb06",
+    "schemas/journal-owner.schema.json": "b8f700ed20a89948f6e8205463faa9c327ec2e82"
+  },
+  "python_environment": "3.13.5",
+  "unit_tests": {
+    "command": "python -m unittest discover -s research -p test_*.py -v (isolated fixture containing only the exact reproducibility files)",
+    "executed": 11,
+    "passed": 11,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "result": "pass",
+    "note": "A spreadsheet-runtime warmup warning emitted by the host Python environment before unittest execution was unrelated to these files; unittest itself exited 0."
+  },
+  "json_schema_checks": {
+    "library": "jsonschema",
+    "cases": 4,
+    "passed": 4,
+    "assertions": [
+      "legacy owner v1 without build identity is accepted",
+      "owner v2 with build identity is accepted",
+      "owner v2 without build identity is rejected",
+      "owner v1 claiming build identity is rejected"
+    ]
+  },
+  "guarantees_tested": [
+    "binder requires a clean isolated NQC Miner about record",
+    "binder rejects compiler/source fields whose build_identity_sha256 no longer matches",
+    "build identity changes with compiler/source/target/flags inputs",
+    "rust-toolchain.toml participates in the audited Rust source digest",
+    "owner schema separates legacy v1 from exact-build v2"
+  ],
+  "unverified": [
+    "current Rust sources have not been compiled after the v2 changes",
+    "current Rust tests, clippy and rustfmt have not been rerun",
+    "cross-language equality between build.rs output and Python recomputation awaits a compiled current binary",
+    "public multichain retry has not been executed"
+  ],
+  "observer_bridge_enabled": false,
+  "signing_enabled": false,
+  "spending_authorized": false,
+  "progress_credit_added": 0
+}

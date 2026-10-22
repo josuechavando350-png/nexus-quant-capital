@@ -1,0 +1,58 @@
+{
+  "schema": "nqc-miner-redpanda-contract-v1",
+  "status": "prepared_not_applied",
+  "namespace": "nqc_miner_v1",
+  "broker_endpoint": null,
+  "authentication_configured": false,
+  "producer_enabled": false,
+  "consumer_enabled": false,
+  "topic_creation_enabled": false,
+  "topics": [
+    {"name": "nqc_miner_v1.synthetic.ledger.v1", "data_class": "synthetic", "partitions": 3, "replication_factor": 3},
+    {"name": "nqc_miner_v1.historical.ledger.v1", "data_class": "historical", "partitions": 3, "replication_factor": 3},
+    {"name": "nqc_miner_v1.shadow.ledger.v1", "data_class": "shadow", "partitions": 3, "replication_factor": 3}
+  ],
+  "topic_config": {
+    "cleanup.policy": "delete",
+    "retention.ms": 604800000,
+    "retention.bytes": 10737418240,
+    "max.message.bytes": 1048577,
+    "min.insync.replicas": 2
+  },
+  "delivery_contract": {
+    "acks": "all",
+    "enable.idempotence": true,
+    "key_template": "nqc_miner_v1/{data_class}/{run_id}",
+    "value": "exact original UTF-8 journal envelope bytes including final newline",
+    "content_hash": "envelope_sha256 plus sha256 of the complete raw line",
+    "ordering": "all records of a run use one stable key and one partition; partition count must not change while runs are open",
+    "deduplication_key": ["namespace", "data_class", "run_id", "sequence"],
+    "conflict_policy": "same key with different bytes or owner quarantines the whole run",
+    "source_of_truth": "immutable verified journal and transactional PostgreSQL outbox; broker retention is not archival retention",
+    "commit_rule": "consumer offset committed only after idempotent durable insertion; offset is not a chain-finality claim",
+    "completion_rule": "ScopeCompleted required; ChunkCompleted alone never completes the scoped scan",
+    "invalidations": "append and retain; never compact away or convert into a positive counter"
+  },
+  "acl_intent": {
+    "default_allow_when_no_acl_found": false,
+    "wildcard_principal_or_resource_allowed": false,
+    "producer_principal": "User:nqc_miner_v1_ingest",
+    "consumer_principal": "User:nqc_miner_v1_projector",
+    "producer_topic_operations": ["Write", "Describe"],
+    "consumer_topic_operations": ["Read", "Describe"],
+    "topic_resource_pattern": "literal_each_listed_topic",
+    "consumer_groups": ["nqc_miner_v1.synthetic.projector.v1", "nqc_miner_v1.historical.projector.v1", "nqc_miner_v1.shadow.projector.v1"],
+    "consumer_group_operations": ["Read", "Describe"],
+    "transactional_ids": [],
+    "admin_operations": [],
+    "topic_autocreation_allowed": false,
+    "note": "These are reviewable intent records, not rpk input. Broker-specific idempotent-producer ACL requirements must be tested in a dedicated cluster; no cluster-wide permission is preapproved."
+  },
+  "readiness_gates": [
+    "three dedicated broker replicas available",
+    "literal resource ACL positive and negative tests",
+    "duplicate/conflict/restart/late-invalidation integration tests",
+    "transactional outbox relay implemented and reviewed",
+    "no observer endpoints, principals, topic names or consumer groups"
+  ]
+}

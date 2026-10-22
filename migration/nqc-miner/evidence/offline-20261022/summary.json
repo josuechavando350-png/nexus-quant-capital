@@ -1,0 +1,168 @@
+{
+  "audited_inputs_unchanged": true,
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "--offline"
+      ],
+      "elapsed_seconds": 7.229,
+      "exit_code": 0,
+      "log": "rust-build.txt",
+      "log_sha256": "d766f7142d32b0e3cdadf59c7e3e8723c1be616651f3468e7c5dc52c5f820935",
+      "name": "rust-build"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--all-targets",
+        "--locked",
+        "--offline"
+      ],
+      "elapsed_seconds": 5.908,
+      "exit_code": 0,
+      "failed": 0,
+      "ignored": 0,
+      "log": "rust-tests.txt",
+      "log_sha256": "419d01a7ad0abcc88b09215218b9a701818f2c4389f82986e9a90d3da84baae1",
+      "name": "rust-tests",
+      "passed": 136
+    },
+    {
+      "command": [
+        "cargo",
+        "clippy",
+        "--all-targets",
+        "--locked",
+        "--offline",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "elapsed_seconds": 6.869,
+      "exit_code": 0,
+      "log": "clippy.txt",
+      "log_sha256": "12adb25bcb201c0c20a187a374fd57bd926b5131a64d92841deb769492afd49a",
+      "name": "clippy"
+    },
+    {
+      "command": [
+        "cargo",
+        "fmt",
+        "--",
+        "--check"
+      ],
+      "elapsed_seconds": 0.141,
+      "exit_code": 0,
+      "log": "rustfmt.txt",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "rustfmt"
+    },
+    {
+      "command": [
+        "/workspace/scratch/fdce145ee709/tmp/miner-research-venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "research",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "elapsed_seconds": 3.111,
+      "executed": 38,
+      "exit_code": 0,
+      "log": "python-research-tests.txt",
+      "log_sha256": "e34945c8aaaafccb096de576e26d59c3f161dbbede5713e97d4b4325cbdf0899",
+      "name": "python-research-tests"
+    },
+    {
+      "command": [
+        "/workspace/scratch/fdce145ee709/tmp/miner-research-venv/bin/python",
+        "/workspace/scratch/fdce145ee709/nqc-miner-work/migration/verify_isolation.py"
+      ],
+      "elapsed_seconds": 0.118,
+      "exit_code": 0,
+      "log": "repository-isolation.txt",
+      "log_sha256": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940",
+      "name": "repository-isolation"
+    },
+    {
+      "command": [
+        "/workspace/scratch/fdce145ee709/tmp/miner-research-venv/bin/python",
+        "scripts/check_scope.py"
+      ],
+      "elapsed_seconds": 0.06,
+      "exit_code": 0,
+      "log": "miner-scope.txt",
+      "log_sha256": "685b2d678482d3513c3c4c38abbff6cd7d5ea599e94d23f8e281850e29dc9e61",
+      "name": "miner-scope"
+    },
+    {
+      "binary_source_matches_inputs": true,
+      "command": [
+        "/workspace/scratch/fdce145ee709/tmp/miner-target/debug/nqc-miner",
+        "about"
+      ],
+      "elapsed_seconds": 0.01,
+      "exit_code": 0,
+      "log": "build-identity.txt",
+      "log_sha256": "101afef69368c24953ad0b283bd38b152b10afdec16e40c527558df87be78410",
+      "name": "build-identity"
+    }
+  ],
+  "completed_at_utc": "2026-10-22T17:37:45.013519+00:00",
+  "economic_certification": false,
+  "infrastructure_runtime_checks_executed": false,
+  "inputs": {
+    "Cargo.lock": "6e8c71c5f4a7eaaf61580aa7ea02414276f01f7c5d9631f9ac8e159c30b36872",
+    "Cargo.toml": "a85060c574c8be2e11aff6c75b773485a244ca5db5792cf6eb0a2acb07063064",
+    "build.rs": "e51ac30178e6d00da026b1674311f93fde9ccc047d2960d6c3c633fbb98e60a0",
+    "fixtures/valuation.synthetic.json": "762f2680d408cfda4a50824e858d6163f1e7774132251fe9725d79af2cb6e4a5",
+    "infra/clickhouse.sql": "00d98c80b17d0b6ba4b078e3d07c11202ecd20b1cde181a7a8f21a2888cd6f8a",
+    "infra/default.nix": "76b342aacb9783339c1aa1621c05c79c39248084a5b4d9611c14c1f46038fdfa",
+    "infra/ownership-contract.json": "c7550e07f120e0935942df6eef29e11242d2123f601f58ae40faee410db53fc8",
+    "infra/postgres.sql": "5307880cd7f274f5f0ac4eb222e19ca34fb0e0a9abd59a2970be50611a259f21",
+    "infra/redpanda-contract.json": "62cb9a79a2af2b31a7b81ddfd8cd1abca9b46f9c7d7ccde4f08a24ffa7218a8b",
+    "infra/temporal-contract.json": "fc2e88f11535c389005397fd8723ffdd454211854b43a62f05b27bfd823a80a1",
+    "research/export_parquet.py": "b0f1a0fca0db3c21a01ec5f763a3e3a93bd953d9c869f47363e0ab33633a5cc2",
+    "research/genome.py": "cab7001ab9a91df66ff1d747ce4624afa3d1875141582b0d4f5667fbbf11513e",
+    "research/requirements.txt": "f8e1d7b9be68e4dbbd884104e07c89566175e5351cedf6b5ca6cc709d0921fd2",
+    "research/test_export_parquet.py": "4310fe04c54107751540e2200fa5759fde8508f5a47c3ddfc80791df8d2b980e",
+    "research/test_genome.py": "c34e946eaf9c070868a71c5d35bbbd7555d862ca44bc7d4314e28790b622b662",
+    "rust-toolchain.toml": "c33d1f0b1b8fda448bea32d7dc867aa64947c87169fd9de7122ffccad1dd80f9",
+    "schemas/README.md": "70859d6ec1ff48b27fd1db1fb8da08f446898b7d3013e7521356649b29bea6a1",
+    "schemas/journal-envelope.schema.json": "e202327a2dd0b9fbde4feed5f7af73ad4c8fd8144ca9795bce384ebb372d1d90",
+    "schemas/journal-owner.schema.json": "31daee26f7cf64cfabb29b8b2cd7203b6556a8f7e617ed3c4a618b30aef344ea",
+    "schemas/parquet-export.schema.json": "bd5dd594fabc1eb72ff8c4eeb8c16a54a045a06a92490604917d625a9ff3b3b8",
+    "scripts/check_scope.py": "944141b14991793e2a3384e115d447ab6d3c89c50c5e74d98af922cce3196645",
+    "scripts/verify_offline.py": "3264aa3ff3854f51159378cf9eb711edd41e6aab94b3712d2650d24a29afb2f2",
+    "src/analytics.rs": "80490ee502c9fa263e3cc83aeaa265d4bb3011edf46ea293a1cdc6e11208b455",
+    "src/bridge.rs": "8a5c319fb5971fbb8311d913916664a04c8205fa48474ee96edae6b67c4924cc",
+    "src/config.rs": "d247d775d9b8e1a870a59c7fe2da730d19fa2106a52aa69fa5552ef19f460876",
+    "src/controls.rs": "15a9ffb2da727b3cb3aeb170e6a8a43bcec60f19ffccf62b4daed7005f6714fb",
+    "src/discovery.rs": "b58944bb04f9bca775d4280f8850c2d1eef4ca8a34467784d934717987f7e250",
+    "src/evm.rs": "6437ac90f2f0cb0993eab22749a7574c6b142679cffd1823cf8c253273e76951",
+    "src/ingestion.rs": "a89dbb493e4ac3e1535970f9ff50147633cc6e1cd9bb8527921a6ae89ac919df",
+    "src/journal.rs": "ced498a5884c812c2d98d6da72e9be0a9be4ff357db6968fd9b8f9c884926de5",
+    "src/lib.rs": "bf601f1890f61075924b865c2469e27d89d26923c62102e43aa9729b4c1791e6",
+    "src/main.rs": "0b84df5101cfd3922c9802f58342967feb25cb698753144f93d87b5e487a131f",
+    "src/reporting.rs": "46e3b394c15814aceceec3a0aba056dc9a69a0d71dacde0564095220a496d16b",
+    "tests/analytics_tests.rs": "2cf4d677a6388f2b57dab4f06ecad7b86b14a404f7bedba748abc7bd2cf9bb15",
+    "tests/controls_tests.rs": "dfb780679a71ecf430c499c6fc979cb34b22fe9dafb5c855117caa9a55588f5e",
+    "tests/discovery_tests.rs": "86ae6b9659440dcb71b0af8bd1da8a0605832985a1e731779c679dd72c548d9b",
+    "tests/evm_tests.rs": "0afb174072c6f36965720ec6a8e977fc002da5fec9ffb35f3deeb59bd7f557e3",
+    "tests/pipeline_tests.rs": "e799731815f35aa1cbd065c5f890126e013f43393c65fc294d0c3cb0167ec8df"
+  },
+  "namespace": "nqc_miner_v1",
+  "network_required_for_checks": false,
+  "observer_bridge_enabled": false,
+  "producer": "nqc-miner",
+  "schema": "nqc-miner-offline-audit-v1",
+  "spending_authorized": false,
+  "status": "pass"
+}

@@ -1,0 +1,42 @@
+{
+  "schema": "nqc-miner-python-isolated-test-v1",
+  "tested_at": "2026-10-22",
+  "branch_head_at_test": "6461295a8cb182624adaa1c6bc2a7489087b6232",
+  "files": [
+    {
+      "path": "scripts/verify_offline.py",
+      "git_blob_sha": "7a89bc2349ef5a16a0da3f49b6123f40f72e217e"
+    },
+    {
+      "path": "research/test_build_identity_contract.py",
+      "git_blob_sha": "bf5677704266b34a0faf1c536706e334bc128952"
+    }
+  ],
+  "environment": {
+    "python": "3.13.5",
+    "execution": "isolated temporary directory populated with exact published file contents",
+    "rust_compiler_executed": false,
+    "network_required": false
+  },
+  "command": "python -m unittest discover -s research -p test_build_identity_contract.py -v",
+  "result": {
+    "executed": 2,
+    "passed": 2,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "status": "pass"
+  },
+  "covered": [
+    "rust source digest changes when rust-toolchain.toml bytes change",
+    "build.rs references rust-toolchain.toml in identity/dirty tracking and Cargo rerun contract"
+  ],
+  "limitations": [
+    "The Rust build script itself has not yet been compiled after this change.",
+    "This is not the repository-wide Python or Rust suite.",
+    "Compiler target/profile/RUSTFLAGS identity is not yet part of the binary about record."
+  ],
+  "observer_bridge_enabled": false,
+  "signing_enabled": false,
+  "spending_authorized": false
+}

@@ -1,0 +1,149 @@
+{
+  "schema": "nqc-miner-targeted-rustsec-review-v2",
+  "reviewed_at": "2026-10-22",
+  "cargo_lock_sha256": "634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab",
+  "status": "all_identified_2026_advisory_ranges_patched_full_database_scan_pending",
+  "full_cargo_audit_executed": false,
+  "reason_full_scan_pending": "available verification environments cannot currently execute the project Rust toolchain/cargo-audit",
+  "checksum_crosscheck": {
+    "package": "rand",
+    "version": "0.8.6",
+    "checksum": "5ca0ecfa931c29007047d1bc58e623ab12e5590e8c7cc53200d5202b69266d8a",
+    "corroborated_in_multiple_public_lock_or_port_manifests": true
+  },
+  "reviewed_2026": [
+    {
+      "package": "bytes",
+      "locked_versions": [
+        "1.12.1"
+      ],
+      "advisories": [
+        "RUSTSEC-2026-0007"
+      ],
+      "patched_floor": ">=1.11.1",
+      "result": "patched_range"
+    },
+    {
+      "package": "keccak",
+      "locked_versions": [
+        "0.1.6",
+        "0.2.2"
+      ],
+      "advisories": [
+        "RUSTSEC-2026-0012"
+      ],
+      "patched_floor": ">=0.1.6",
+      "result": "patched_range"
+    },
+    {
+      "package": "rand",
+      "locked_versions": [
+        "0.8.6",
+        "0.9.5",
+        "0.10.3"
+      ],
+      "advisories": [
+        "RUSTSEC-2026-0097"
+      ],
+      "patched_floor": "0.8.x >=0.8.6; 0.9.x >=0.9.3; 0.10.x >=0.10.1",
+      "result": "patched_range_after_remediation"
+    },
+    {
+      "package": "ruint",
+      "locked_versions": [
+        "1.20.1"
+      ],
+      "advisories": [
+        "RUSTSEC-2026-0220"
+      ],
+      "patched_floor": ">=1.20.0",
+      "result": "patched_range"
+    },
+    {
+      "package": "time",
+      "locked_versions": [
+        "0.3.55"
+      ],
+      "advisories": [
+        "RUSTSEC-2026-0009"
+      ],
+      "patched_floor": ">=0.3.47",
+      "result": "patched_range"
+    },
+    {
+      "package": "tokio",
+      "locked_versions": [
+        "1.54.1"
+      ],
+      "advisories": [
+        "RUSTSEC-2026-0384"
+      ],
+      "patched_floor": ">=1.54.1",
+      "result": "patched_range"
+    },
+    {
+      "package": "rustls",
+      "locked_versions": [
+        "0.23.46"
+      ],
+      "advisories": [
+        "RUSTSEC-2026-0285",
+        "RUSTSEC-2026-0346",
+        "RUSTSEC-2026-0347",
+        "RUSTSEC-2026-0348",
+        "RUSTSEC-2026-0349"
+      ],
+      "patched_floor": ">=0.23.46 for all reviewed October advisories; >=0.23.45 for RUSTSEC-2026-0285",
+      "result": "patched_range"
+    },
+    {
+      "package": "rustls-webpki",
+      "locked_versions": [
+        "0.103.16"
+      ],
+      "advisories": [
+        "RUSTSEC-2026-0049",
+        "RUSTSEC-2026-0098",
+        "RUSTSEC-2026-0099",
+        "RUSTSEC-2026-0104",
+        "RUSTSEC-2026-0382"
+      ],
+      "patched_floor": ">=0.103.16 covers all reviewed 0.103.x advisories",
+      "result": "patched_range"
+    },
+    {
+      "package": "quinn-proto",
+      "locked_versions": [
+        "0.11.19"
+      ],
+      "advisories": [
+        "RUSTSEC-2026-0037",
+        "RUSTSEC-2026-0185",
+        "RUSTSEC-2026-0338",
+        "RUSTSEC-2026-0339",
+        "RUSTSEC-2026-0340",
+        "RUSTSEC-2026-0341",
+        "RUSTSEC-2026-0342",
+        "RUSTSEC-2026-0343"
+      ],
+      "patched_floor": ">=0.11.18",
+      "result": "patched_range"
+    }
+  ],
+  "remediation": {
+    "finding": "rand 0.8.5 was inside RUSTSEC-2026-0097 affected range",
+    "change": "direct rand pin and lock entry moved to 0.8.6",
+    "old_version_absent_from_current_lock": true,
+    "current_rand_08_dependency_references": "rand 0.8.6"
+  },
+  "limitations": [
+    "This review covered all identified 2026 advisories for packages present in the current lock, plus selected older network-critical advisories.",
+    "It is not equivalent to cargo-audit/cargo-deny over the complete RustSec database and dependency graph.",
+    "The dependency change has not yet been compiled or exercised by the full project test suite.",
+    "A full advisory scan plus locked build/test run remains mandatory before merge or progress credit."
+  ],
+  "observer_bridge_enabled": false,
+  "signing_enabled": false,
+  "spending_authorized": false,
+  "economic_certification": false
+}
