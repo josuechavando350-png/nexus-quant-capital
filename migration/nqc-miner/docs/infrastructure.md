@@ -11,9 +11,9 @@ a PostgreSQL service. Those operational integrations remain open.
 The rolling historical collector is now executable and audited with a bounded
 public restart capture. See `docs/collector.md` and
 `docs/AUDIT_COLLECTOR_20261022.md`. No persistent collector service is running.
-Other server integrations below remain unexecuted.
+The other server integrations remain unexecuted apart from the bounded PostgreSQL tests below.
 
-The Parquet exporter is executable and tested against the actual Rust journal verifier and Polars. The PostgreSQL DDL has now passed a retained synthetic contract test in a new local Termux cluster, which was shut down afterward. A journal import preparer is now offline-tested, with a candidate SQL migration awaiting runtime validation; production integration remains unimplemented. ClickHouse, Redpanda, Temporal and Nix remain prepared contracts without server execution. No external infrastructure or Observer services were used.
+The Parquet exporter is executable and tested against the actual Rust journal verifier and Polars. The PostgreSQL DDL has now passed a retained synthetic contract test in a new local Termux cluster, which was shut down afterward. The offline preparer and individual-journal SQL importer have now passed a separate Rust-verified synthetic runtime experiment on PostgreSQL 18.6, including concurrency, interruption/retry and exact-byte restart checks; production integration remains unimplemented. ClickHouse, Redpanda, Temporal and Nix remain prepared contracts without server execution. No external infrastructure or Observer services were used.
 
 Every resource belongs to `nqc_miner_v1`. The namespace is distinct from any existing observer; ownership cannot be adopted by copying a name into an existing state directory. `infra/ownership-contract.json` defines the proposed database/schema/role/topic/workflow/bucket IDs. The bucket is a logical name only: no globally unique cloud bucket has been reserved. Export writes only to a new local directory and has no upload path.
 
@@ -22,13 +22,18 @@ Signing, broadcasting, the observer bridge, Telegram, KMS, spending and runtime 
 The returned PostgreSQL 18.6 evidence passed the exact-source runtime audit:
 30 SQL checks, three writer denials, schema guards and restart comparison.
 See `docs/AUDIT_POSTGRES_TERMUX_20261022.md`. This earns one infrastructure
-point (41/100 overall); importer and production gates stay open.
+point (historically 41/100 overall). The subsequent individual-journal importer
+audit adds one point: **42/100**, infrastructure **4/6**. It verifies 35 SQL checks,
+permissions, two blocked importers, interrupted-client rollback/retry and all
+persisted fixture rows. See `docs/AUDIT_IMPORT_TERMUX_20261022.md`. Parent collection
+revocation propagation and production integrations remain open.
 
 ## Contracts
 
 | File | Implemented content | Validation boundary |
 |---|---|---|
-| `infra/postgres.sql` | Dedicated-database guard, run provenance, append-only journal mirror, registry, gate reports, lifecycle journal and transactional outbox schema | Exact DDL applied to a new PostgreSQL 18.6 Termux cluster under a dedicated owner; 30 SQL checks, writer denials and orderly restart audited. No verified-journal importer or production integration |
+| `infra/postgres.sql` | Dedicated-database guard, run provenance, append-only journal mirror, registry, gate reports, lifecycle journal and transactional outbox schema | Exact DDL applied to a new PostgreSQL 18.6 Termux cluster under a dedicated owner; 30 SQL checks, writer denials and orderly restart audited. Separate importer audit below; no production integration |
+| `infra/postgres_import.sql` | UUID-bound individual-journal import, original-byte conflict quarantine and atomic ledger/outbox insertion | 16 Rust-verified synthetic fixtures, 35 SQL checks, permissions, concurrency, owned-client interruption/retry and orderly restart audited on PostgreSQL 18.6; no parent-collection or remote integration |
 | `infra/clickhouse.sql` | Raw delivery ledger, event projections, whole-scope completion, invalidation cutoffs, scoped saturation and coverage views | Parsed with a ClickHouse SQL dialect parser; no server execution or performance validation |
 | `infra/redpanda-contract.json` | Three class-specific ledger topics, stable run keys, deduplication/ordering rules, literal-resource ACL intent | JSON and namespace reviewed; no broker/ACL application or producer/consumer integration |
 | `infra/temporal-contract.json` | Workflow identity, Rust lifecycle transition mapping, retry/retirement/reactivation rules | JSON and Rust transition mapping reviewed; no SDK worker or Temporal deployment |
@@ -42,7 +47,7 @@ The DDL refuses any database whose name is not exactly `nqc_miner_v1`. It intent
 
 `runs` binds each run ID to one evidence class, owner hash, configuration hash, source commit and Cargo.lock hash. It preserves original owner/configuration bytes. `journal_ledger` preserves every original JSONL line, line hash, envelope hash and sequence. The importer must run the Rust verifier on the exact immutable segment before any transaction. SQL shape constraints do not establish source authenticity or recompute the Rust ABI/hash-chain rules.
 
-The candidate importer in `infra/postgres_import.sql` is designed to insert ledger rows and outbox rows in one transaction; its runtime validation is still pending (see `docs/postgres-import.md`). A duplicate primary key is accepted only after comparing the existing hashes **and original bytes**; conflicting content quarantines the run. An unconditional `ON CONFLICT DO NOTHING` would conceal corruption and is prohibited. A future consumer commits its broker offset only after durable, idempotent insertion. This provides a recoverable delivery design, not a claim of currently implemented end-to-end exactly-once processing.
+The importer in `infra/postgres_import.sql` inserts ledger and outbox rows in one transaction; its bounded synthetic runtime test has passed (see `docs/postgres-import.md`). A duplicate primary key is accepted only after comparing the existing hashes **and original bytes**; conflicting content quarantines the run. An unconditional `ON CONFLICT DO NOTHING` would conceal corruption and is prohibited. A future consumer commits its broker offset only after durable, idempotent insertion. This provides a recoverable delivery design, not a claim of currently implemented end-to-end exactly-once processing.
 
 The outbox cannot dispatch: `delivery_enabled` must remain false and `delivered_at` must remain null under this schema. No relay is implemented. The registry supports research states through `proposed` plus `retired`; `active` and `watched` require a separately reviewed migration and remain inaccessible here. The Rust lifecycle validates transitions, evidence, expiration and reorgs; a SQL row never substitutes for a gate pass. Retirement can restart at `detected` with a reason, the same mine/chain, and all accepted evidence cleared.
 
@@ -123,7 +128,7 @@ python -m unittest discover -s research -p test_export_parquet.py -v
 
 Static audits used pglast 7.21 for PostgreSQL parsing, sqlglot 27.29.0 with its ClickHouse dialect, and jsonschema 4.25.1 for JSON Schema 2020-12 definitions and fixture/manifest structure. These temporary audit tools are not production dependencies. Parser success is not database integration validation.
 
-Before deployment, the missing gates include real ClickHouse DDL execution and permission tests, PostgreSQL candidate-importer execution/permission/concurrency tests, importer/projection transaction and restart tests, late-invalidation integration tests, dedicated broker ACL/replication tests, a pinned Temporal worker with replay tests, cloud resource ownership/retention policy, Nix evaluation/build, authenticated source attestation and explicit operational authorization. No external resource is implied to exist because its contract is present.
+Before deployment, the missing gates include real ClickHouse DDL execution and permission tests, PostgreSQL parent-collection revocation propagation and deployed-role review, cross-service importer/projection transaction and restart tests, collection-level late-invalidation integration tests, dedicated broker ACL/replication tests, a pinned Temporal worker with replay tests, cloud resource ownership/retention policy, Nix evaluation/build, authenticated source attestation and explicit operational authorization. No external resource is implied to exist because its contract is present.
 
 ## Primary references
 

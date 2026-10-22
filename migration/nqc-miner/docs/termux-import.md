@@ -1,8 +1,11 @@
 # Prueba del importador en Termux
 
-Estado: **runner preparado y auditado offline; ejecución en el teléfono pendiente**.
-Avance global: **41/100**, sin incremento. La prueba anterior certificó el contrato
-DDL base. No se reutiliza esa prueba para acreditar el importador nuevo.
+Estado: **ejecución completada en Termux y evidencia auditada**.
+Avance global: **42/100**. El archivo original y las 35 comprobaciones, permisos,
+concurrencia, interrupción, bytes persistidos y reinicio están verificados en
+[la auditoría runtime](AUDIT_IMPORT_TERMUX_20261022.md). El servidor de prueba
+terminó apagado. Las instrucciones siguientes se conservan para reproducir el
+experimento; no es necesario repetirlo para esta entrega.
 
 ## Archivo y ejecución
 
@@ -57,7 +60,7 @@ creado. No usa `pkill`, no cambia paquetes/configuración compartida y no lee da
 del Observador. Termux comparte UID y paquetes entre sesiones; no se afirma
 aislamiento frente a un proceso hostil con el mismo UID.
 
-## Comprobaciones que debe ejecutar
+## Comprobaciones ejecutadas
 
 - 35 aserciones SQL: identidad del escritor, permisos, UUID, hash del transporte,
   importación/repetición/extensión/prefijo anterior, bytes originales, journal
@@ -92,5 +95,6 @@ ShellCheck no está disponible y no se reclama esa verificación.
 El DDL y el importador incluidos coinciden byte a byte con la fuente publicada
 `a1d0f150633fda2e5142fe59c0beda924c7bd830`; Rust y su lock no cambiaron ni se
 recompilaron. La evidencia offline se conserva en
-`evidence/termux-import-preflight-20261022/`. El resultado runtime se acreditará
-sólo después de recibir y auditar el archivo del teléfono.
+`evidence/termux-import-preflight-20261022/`. El resultado runtime posterior se conserva en
+`evidence/termux-import-20261022/`. Los estados pendientes dentro de la evidencia
+de preparación son históricos y no se reescriben.

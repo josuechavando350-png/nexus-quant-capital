@@ -1,9 +1,10 @@
-# Preparación e importador PostgreSQL candidato
+# Preparación e importador PostgreSQL
 
-Estado: **preparación offline verificada; migración SQL pendiente de ejecución**.
-El avance global permanece en **41/100**. La prueba anterior de Termux acredita
-el DDL base, no esta función ni sus nuevas tablas. Ningún servidor está conectado
-por este código y no se han creado roles, permisos, servicios o credenciales.
+Estado: **preparador verificado e importador ejecutado con fixtures sintéticos**.
+Avance global: **42/100**. La [auditoría de Termux](AUDIT_IMPORT_TERMUX_20261022.md)
+acredita esta función y sus tablas en una instancia desechable PostgreSQL 18.6,
+con permisos limitados, concurrencia, rollback, cuarentena y reinicio.
+La instancia quedó apagada; no hay conexión ni integración productiva.
 
 ## Preparador offline
 
@@ -85,13 +86,14 @@ aislamiento de rutas, límites y caracteres que intentarían escapar del SQL.
 El parser pglast 8.7 acepta las 11 sentencias SQL y las dos unidades PL/pgSQL.
 Es una revisión sintáctica: no prueba resolución de nombres/tipos ni comportamiento
 de tablas, permisos, rollback, UUID, duplicados, cuarentena o concurrencia.
-El motor PostgreSQL no se ejecutó para esta migración.
+En esa etapa de preparación el motor PostgreSQL todavía no se había ejecutado;
+la auditoría runtime posterior acredita los casos descritos a continuación.
 
-La siguiente prueba debe crear una instancia desechable con roles separados y
-ejecutar: importación/repetición/prefijo antiguo/extensión, conflicto de owner y
+La prueba posterior creó una instancia desechable con roles separados y
+ejecutó: importación/repetición/prefijo antiguo/extensión, conflicto de owner y
 línea, invalidez tardía, huecos/outbox inconsistente, error después de insertar
 ledger, UUID ajeno, permisos, dos importaciones concurrentes, caída del cliente
-y reinicio. Se deben auditar los bytes retornados antes de sumar avance.
+y reinicio. Los bytes retornados fueron auditados antes de sumar un punto de avance.
 La importación de colecciones requiere además propagar las revocaciones del
 controlador padre a todas sus ventanas; este módulo recibe un journal individual.
 
@@ -99,4 +101,7 @@ Referencias de diseño: [locks transaccionales](https://www.postgresql.org/docs/
 y [snapshots de funciones VOLATILE](https://www.postgresql.org/docs/18/xfunc-volatility.html).
 Estas reglas documentadas sustentan el diseño; no sustituyen su prueba real.
 
-Runner preparado para el gate pendiente: [prueba en Termux](termux-import.md). La preparación ahora pasa 116 pruebas Python; no añade ejecución PostgreSQL ni avance acreditado.
+El [runner de Termux](termux-import.md) conserva los pasos de reproducción.
+La preparación pasó 116 pruebas Python; la auditoría de la evidencia añade
+12 regresiones y la suite actual pasa 128. El preparador sigue siendo offline
+y recibe un journal individual; no conecta el recolector completo a PostgreSQL.

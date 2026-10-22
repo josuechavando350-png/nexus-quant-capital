@@ -2,20 +2,18 @@
 
 Corte: 22 de octubre de 2026.
 
-Runner del importador listo para Termux: 16 fixtures verificados por Rust, 35
-aserciones SQL preparadas, concurrencia/interrupción/reinicio pendientes de
-ejecución. 116 Python PASS. Avance **41/100**. Véase `docs/termux-import.md`.
+Bloque actual: importador de journal individual ejecutado por el usuario en
+PostgreSQL 18.6/Termux y auditado desde el archivo original. Runner `7ee9e9cb`,
+implementación `a1d0f150`: 42 hashes, seis entradas fijadas, 35 comprobaciones SQL,
+21 respuestas, cinco denegaciones de permisos, concurrencia real, interrupción y
+reintento, cuarentena y reinicio. Suite completa: **128 Python PASS**. Avance
+**42/100**. Véase `docs/AUDIT_IMPORT_TERMUX_20261022.md`.
 
-Preparación más reciente: 13 pruebas nuevas del preparador PostgreSQL y 112
-pruebas Python completas PASS; fixture sintético verificado por Rust, sin
-conexión a base. Migración candidata: sintaxis revisada, runtime pendiente.
-Avance permanece **41/100**. Véase `docs/postgres-import.md` y
-`evidence/postgres-import-preparation-20261022/`.
-
-Último bloque: contrato PostgreSQL ejecutado por el usuario en Termux 18.6 y
-auditado desde el archivo original. Fuente `6a89668`; 30 comprobaciones SQL,
-tres rechazos de permisos y reinicio verificado. Avance **41/100**; no se acredita
-importador ni operación productiva. Véase `docs/AUDIT_POSTGRES_TERMUX_20261022.md`.
+Etapas previas conservadas: preparación del importador (112 Python), runner
+(116 Python) y contrato DDL base `6a89668` (30 comprobaciones SQL y tres
+rechazos de permisos). Sus estados pendientes y avance 41/100 son históricos;
+la auditoría actual sustituye únicamente el gate runtime del journal individual.
+No acredita una colección completa, un servicio remoto ni operación productiva.
 
 Último bloque de archivo: `169b82f`, 155 Rust + 91 Python PASS.
 `offline-archive-v2-20261022/` y `local-archive-v2-20261022/` acreditan

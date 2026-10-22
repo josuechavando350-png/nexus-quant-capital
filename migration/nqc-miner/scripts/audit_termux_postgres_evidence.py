@@ -36,7 +36,7 @@ def source_bytes(name):
         f'{SOURCE}:migration/nqc-miner/{name}'])
 
 
-def read_archive(path):
+def read_archive(path, expected_files=FILES):
     need(path.stat().st_size <= 2_000_000, 'compressed archive too large')
     result = {}
     seen = set()
@@ -54,7 +54,7 @@ def read_archive(path):
             total += member.size
             need(total <= 10_000_000 and member.size <= 1_000_000, 'expanded archive too large')
             result[member.name.removeprefix('evidence/')] = archive.extractfile(member).read()
-    need(set(result) == FILES, 'unexpected or missing evidence files')
+    need(set(result) == expected_files, 'unexpected or missing evidence files')
     return result
 
 

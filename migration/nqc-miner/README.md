@@ -125,8 +125,8 @@ La auditoría más reciente del recolector está en [docs/AUDIT_COLLECTOR_202610
 
 El último bloque auditado está en [docs/AUDIT_ARCHIVE_20261022.md](docs/AUDIT_ARCHIVE_20261022.md): 40/100, 155 pruebas Rust y 91 Python, archivo local v2 con recuperación y revocación verificadas.
 
-La auditoría PostgreSQL de Termux está en [docs/AUDIT_POSTGRES_TERMUX_20261022.md](docs/AUDIT_POSTGRES_TERMUX_20261022.md): 41/100, contrato SQL ejecutado y evidencia verificada; importador e integración productiva pendientes.
+La auditoría base PostgreSQL está en [docs/AUDIT_POSTGRES_TERMUX_20261022.md](docs/AUDIT_POSTGRES_TERMUX_20261022.md), conservada como evidencia histórica de 41/100.
 
-Preparación PostgreSQL: [importador candidato](docs/postgres-import.md), con 112 pruebas Python aprobadas y runtime SQL todavía pendiente. Avance auditado: **41/100**, sin incremento por esta preparación.
+Estado actual: **42/100**. El [importador PostgreSQL](docs/postgres-import.md) pasó la [auditoría runtime en Termux](docs/AUDIT_IMPORT_TERMUX_20261022.md): 35 comprobaciones SQL, permisos, concurrencia, interrupción/reintento, bytes originales y reinicio verificados. Suite actual: 128 Python PASS. La instancia de prueba terminó apagada; siguen pendientes la propagación desde colecciones y la integración productiva.
 
-Prueba siguiente: [runner del importador para Termux](docs/termux-import.md), autocontenido y con evidencia de salida. Preparación auditada (116 Python); runtime pendiente y avance en **41/100**.
+El [runner de Termux](docs/termux-import.md) y el archivo original permiten reproducir y revisar el experimento sintético. Observador, firma y gasto permanecen desactivados.

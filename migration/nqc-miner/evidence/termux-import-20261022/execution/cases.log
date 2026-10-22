@@ -1,0 +1,269 @@
+SET
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:27: NOTICE:  00000: MINER_IMPORT_PASS: limited_writer_identity
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:28: NOTICE:  00000: MINER_IMPORT_PASS: outsider_function_denied
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:29: NOTICE:  00000: MINER_IMPORT_PASS: private_durable_instance
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:30: NOTICE:  00000: MINER_IMPORT_PASS: initial_prefix
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                                               expect_import                                                                                
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"run_id": "pgimp_normal", "status": "imported", "inserted": 2, "journal_sha256": "1a427e380c6fe5f5cd10db0b4a09b759e5242bc6758d793adef74f5e163bc9d3", "stored_records": 2}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:31: NOTICE:  00000: MINER_IMPORT_PASS: repeat_prefix
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                                                expect_import                                                                                 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"run_id": "pgimp_normal", "status": "idempotent", "inserted": 0, "journal_sha256": "1a427e380c6fe5f5cd10db0b4a09b759e5242bc6758d793adef74f5e163bc9d3", "stored_records": 2}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:32: NOTICE:  00000: MINER_IMPORT_PASS: append_extension
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                                               expect_import                                                                                
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"run_id": "pgimp_normal", "status": "imported", "inserted": 1, "journal_sha256": "59cf856dac503059463cc0f106b9eb33af0047ec9ef3fea7cfd4153ae5481bfc", "stored_records": 3}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:33: NOTICE:  00000: MINER_IMPORT_PASS: old_prefix_preserves_tip
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                                                expect_import                                                                                 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"run_id": "pgimp_normal", "status": "idempotent", "inserted": 0, "journal_sha256": "1a427e380c6fe5f5cd10db0b4a09b759e5242bc6758d793adef74f5e163bc9d3", "stored_records": 3}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:34: NOTICE:  00000: MINER_IMPORT_PASS: repeat_full
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                                                expect_import                                                                                 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"run_id": "pgimp_normal", "status": "idempotent", "inserted": 0, "journal_sha256": "59cf856dac503059463cc0f106b9eb33af0047ec9ef3fea7cfd4153ae5481bfc", "stored_records": 3}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:44: NOTICE:  00000: MINER_IMPORT_PASS: exact_original_bytes
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:45: NOTICE:  00000: MINER_IMPORT_PASS: empty_journal
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                                                expect_import                                                                                
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"run_id": "pgimp_empty", "status": "idempotent", "inserted": 0, "journal_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "stored_records": 0}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:47: NOTICE:  00000: MINER_IMPORT_PASS: empty_has_no_invented_rows
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:48: NOTICE:  00000: MINER_IMPORT_PASS: foreign_database_uuid
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_query 
+--------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:49: NOTICE:  00000: MINER_IMPORT_PASS: corrupt_transport_hash
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_query 
+--------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:50: NOTICE:  00000: MINER_IMPORT_PASS: rejected_transport_has_no_run
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+BEGIN
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:52: NOTICE:  00000: MINER_IMPORT_PASS: unsupported_isolation
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_query 
+--------------
+ 
+(1 row)
+
+COMMIT
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:55: NOTICE:  00000: MINER_IMPORT_PASS: conflict_seed
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                                                expect_import                                                                                 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"run_id": "pgimp_conflict", "status": "imported", "inserted": 3, "journal_sha256": "012ac164b98f43cdde28ac42fc49145a3a4cb1d52e5726eaf73e6d61f848453a", "stored_records": 3}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:56: NOTICE:  00000: MINER_IMPORT_PASS: raw_byte_conflict
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                                                      expect_import                                                                                       
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"reason": "journal_conflict", "run_id": "pgimp_conflict", "status": "quarantined", "inserted": 0, "journal_sha256": "1d5762a8f6feec36fa6f6c4a067f549cec4b8b498224b9fd5e188069d6b3958d"}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:61: NOTICE:  00000: MINER_IMPORT_PASS: conflict_preserves_prior_bytes
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:62: NOTICE:  00000: MINER_IMPORT_PASS: conflict_never_reactivated
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                                       expect_import                                                                        
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"run_id": "pgimp_conflict", "status": "quarantined", "inserted": 0, "journal_sha256": "012ac164b98f43cdde28ac42fc49145a3a4cb1d52e5726eaf73e6d61f848453a"}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:63: NOTICE:  00000: MINER_IMPORT_PASS: owner_seed
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                                               expect_import                                                                               
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"run_id": "pgimp_owner", "status": "imported", "inserted": 3, "journal_sha256": "fd410c1442d44713defb6281338d69793540b0afe69531937bb9fff7a594903e", "stored_records": 3}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:64: NOTICE:  00000: MINER_IMPORT_PASS: original_owner_byte_conflict
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                                                    expect_import                                                                                    
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"reason": "owner_conflict", "run_id": "pgimp_owner", "status": "quarantined", "inserted": 0, "journal_sha256": "fd410c1442d44713defb6281338d69793540b0afe69531937bb9fff7a594903e"}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:65: NOTICE:  00000: MINER_IMPORT_PASS: invalidation_seed
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                                                  expect_import                                                                                  
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"run_id": "pgimp_invalidated", "status": "imported", "inserted": 3, "journal_sha256": "914aea879f8b7bf45549b4a24ded813e4be158d93f980545c6182bf321667f24", "stored_records": 3}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:66: NOTICE:  00000: MINER_IMPORT_PASS: late_invalidation
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                                                         expect_import                                                                                          
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"reason": "journal_invalidated", "run_id": "pgimp_invalidated", "status": "quarantined", "inserted": 1, "journal_sha256": "23f3e1183e16e5df57778a3051088eaf30ecc73ec68d1c27c898433851d2166c"}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:67: NOTICE:  00000: MINER_IMPORT_PASS: invalidation_never_reactivated
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                                         expect_import                                                                         
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"run_id": "pgimp_invalidated", "status": "quarantined", "inserted": 0, "journal_sha256": "914aea879f8b7bf45549b4a24ded813e4be158d93f980545c6182bf321667f24"}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:69: NOTICE:  00000: MINER_IMPORT_PASS: invalidation_evidence_retained
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:71: NOTICE:  00000: MINER_IMPORT_PASS: gap_seed
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                                              expect_import                                                                              
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"run_id": "pgimp_gap", "status": "imported", "inserted": 3, "journal_sha256": "d15641b64c4cbdf66ac83b802a79851d9b16e234827e1a3b4c3ad235c54096a3", "stored_records": 3}
+(1 row)
+
+SET
+DELETE 1
+DELETE 1
+SET
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:76: NOTICE:  00000: MINER_IMPORT_PASS: gap_quarantined
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                                                  expect_import                                                                                  
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"reason": "database_gap", "run_id": "pgimp_gap", "status": "quarantined", "inserted": 0, "journal_sha256": "d15641b64c4cbdf66ac83b802a79851d9b16e234827e1a3b4c3ad235c54096a3"}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:77: NOTICE:  00000: MINER_IMPORT_PASS: outbox_seed
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                                               expect_import                                                                                
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"run_id": "pgimp_outbox", "status": "imported", "inserted": 3, "journal_sha256": "c49b588104815da8f89a9f3c7b0bf730662c599a3d3ef54239e7fa6820157240", "stored_records": 3}
+(1 row)
+
+SET
+DELETE 1
+SET
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:81: NOTICE:  00000: MINER_IMPORT_PASS: missing_outbox_quarantined
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                                                     expect_import                                                                                     
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"reason": "outbox_conflict", "run_id": "pgimp_outbox", "status": "quarantined", "inserted": 0, "journal_sha256": "c49b588104815da8f89a9f3c7b0bf730662c599a3d3ef54239e7fa6820157240"}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:82: NOTICE:  00000: MINER_IMPORT_PASS: payload_seed
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                                                expect_import                                                                                
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"run_id": "pgimp_payload", "status": "imported", "inserted": 3, "journal_sha256": "50dcd181c31687d3e261ce4ffb67605246764e181ff2a4c36edcb3cb77ef2157", "stored_records": 3}
+(1 row)
+
+SET
+UPDATE 1
+SET
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:86: NOTICE:  00000: MINER_IMPORT_PASS: changed_outbox_quarantined
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                                                     expect_import                                                                                      
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"reason": "outbox_conflict", "run_id": "pgimp_payload", "status": "quarantined", "inserted": 0, "journal_sha256": "50dcd181c31687d3e261ce4ffb67605246764e181ff2a4c36edcb3cb77ef2157"}
+(1 row)
+
+SET
+CREATE FUNCTION
+CREATE TRIGGER
+SET
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:97: NOTICE:  00000: MINER_IMPORT_PASS: outbox_failure_rejects_transaction
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_query 
+--------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:100: NOTICE:  00000: MINER_IMPORT_PASS: failed_outbox_rolls_back_all
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+SET
+DROP TRIGGER
+DROP FUNCTION
+SET
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:105: NOTICE:  00000: MINER_IMPORT_PASS: retry_after_rollback
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                                                expect_import                                                                                 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"run_id": "pgimp_rollback", "status": "imported", "inserted": 3, "journal_sha256": "aed8a8290901be3da8be1a41e6efe233c6a4277b24a065c02c084fb0e546d442", "stored_records": 3}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-import.wwUiMT/evidence/cases.sql:108: NOTICE:  00000: MINER_IMPORT_PASS: operational_controls_disabled
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+

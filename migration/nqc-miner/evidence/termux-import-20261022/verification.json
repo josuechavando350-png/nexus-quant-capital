@@ -1,0 +1,32 @@
+{
+  "schema": "nqc-miner-import-auditor-verification-v1",
+  "status": "pass",
+  "checked_at_utc": "2026-10-22T22:21:58.840259+00:00",
+  "runtime_source_commit": "7ee9e9cba98c876c72082580ae2e514867917e6f",
+  "candidate_source_commit": "a1d0f150633fda2e5142fe59c0beda924c7bd830",
+  "inputs": {
+    "scripts/audit_termux_import_evidence.py": "01df6fc66ffdbbba7fa0f9245c38aae9f9693ffe3901f2aed8da28afd18f90c1",
+    "scripts/audit_termux_postgres_evidence.py": "d152d62f50df2b978349a58ae0e92f22b64452faf7c1eb3186923018975d7686",
+    "research/test_import_evidence_audit.py": "37409da915f67d12dbddb51fcdb66e1f328c47ffd6cdcc2a207e93e1fdf70a54"
+  },
+  "python_tests_executed": 128,
+  "new_offline_auditor_tests": 12,
+  "python_log_sha256": "bbed407d4ac14de65bbfa7a4e6f3c91b3b62a3c55da8a07a2dbe28905b657a74",
+  "audit_report_sha256": "46c5ac7d352af637fbbbde87e02fb50d75bd49fbf05345f58d5fc415ab96f611",
+  "original_archive_sha256": "2ece1450711a6119ec47548f55c6f8f0e164671e6a36f1bf0db8c9366fb7819f",
+  "original_archive_preserved": true,
+  "unpacked_file_hashes_verified": 42,
+  "runtime_sql_and_runner_unchanged": true,
+  "new_postgres_server_executions_by_agent": 0,
+  "rust_rerun": false,
+  "raw_log_whitespace_preserved": true,
+  "overall_completion_percent": 42,
+  "infrastructure_earned": 4,
+  "infrastructure_weight": 6,
+  "observer_bridge_enabled": false,
+  "spending_authorized": false,
+  "retained_checks": {
+    "isolation.json": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940",
+    "scope.json": "b1fbeb3f9b8ccbc0334555e64cbb65a7a792080cf04f5c2c98cf69527491d387"
+  }
+}
