@@ -31,7 +31,8 @@ actual y queda verificado por `verify-journal`.
 Una afirmación operacional necesita, como mínimo:
 
 1. archivo versionado o artefacto durable con propietario/run_id;
-2. identidad del código y del Cargo.lock;
+2. identidad completa del build: commit, fuentes, Cargo.lock, toolchain,
+   compilador/target/perfil y RUSTFLAGS, ligada por `build_identity_sha256`;
 3. integridad verificada;
 4. alcance explícito de cadena/contrato/bloques;
 5. estado completo, no provisional;
