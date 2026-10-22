@@ -75,8 +75,7 @@ NQC ni a mercados actuales. Ver `AUDIT_H2.md` para resultados y bloqueos exactos
 ## Evaluación estática de Census
 
 `census_assessment.json` enlaza los nueve componentes Census del diseño con los
-Git blobs revisados. El resultado actual es **6 capacidades parciales, 3 no
-demostradas y 0 certificadas**. Ejecutar `python3 omega/census_assessment.py` y
+Git blobs revisados. El resultado actual es **7 foundational_partial, 2 historical_partial, 0 not_evidenced y 0 certificadas**. Ejecutar `python3 omega/census_assessment.py` y
 `python3 -m unittest -v omega/test_census_assessment.py` para validar el mapa.
 
 ## H4 · Opportunity Dossier / Evidence Vault
@@ -125,3 +124,15 @@ se refleja directamente por ese oráculo; no afirma inmunidad a liquidación.
 H7 tiene **18/18 pruebas nuevas aprobadas** y **76/76 combinadas H4–H7**. El
 componente 10 sube de `not_evidenced` a `foundational_partial`; falta poblar
 el catálogo real, probar semántica por protocolo y replay de depegs.
+
+## H8 · Long-Tail Research Prioritizer
+
+`long_tail.py` ordena cobertura de investigación con frentes Pareto sobre
+novedad, tamaño, L2 y complejidad de ruta. No usa pesos arbitrarios ni genera
+score económico, EV, captura probable o GO/NO-GO. Trade-offs permanecen en el
+mismo frente no dominado.
+
+H8 tiene **19/19 pruebas nuevas aprobadas**. El componente 32 sube de
+`not_evidenced` a `foundational_partial`. Con esto los **9/9 componentes Census
+tienen al menos una base demostrada**, pero ninguno está certificado: faltan
+población real completa, evidencia out-of-sample y los gates de H2.
