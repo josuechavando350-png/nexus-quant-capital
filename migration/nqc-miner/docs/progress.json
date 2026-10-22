@@ -4,7 +4,7 @@
   "denominator": 100,
   "global_completion_percent": 35,
   "method": "Weighted engineering estimate with explicit operational phase exits, not a percentage of lines written",
-  "status": "published_research_source_public_integration_under_validation",
+  "status": "network_hardening_published_pending_full_verification",
   "items": [
     {
       "phase": "scope",
@@ -157,11 +157,14 @@
     "docs/AUDIT.md",
     "evidence/offline-20261022/summary.json",
     "evidence/public-20261022/execution.json",
-    "evidence/offline-native-ca-20261022/summary.json"
+    "evidence/offline-native-ca-20261022/summary.json",
+    "evidence/public-retry-20261022/README.md",
+    "evidence/public-retry-20261022/config.json"
   ],
   "notes": [
     "An implemented primitive is not an operational phase exit.",
     "Synthetic training/test metrics are not real investment results.",
-    "The observer remains outside the scope of all changes."
+    "The observer remains outside the scope of all changes.",
+    "HTTP pacing/retry/redaction delta is published but not credited until the full test suite and public retry are rerun on commit 20a22c58b7bc64c6cda6d9610133b876452de0fe."
   ]
 }
