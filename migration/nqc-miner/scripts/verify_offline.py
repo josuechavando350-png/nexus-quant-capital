@@ -91,9 +91,15 @@ def main() -> int:
             check["executed"] = int(counts[-1]) if counts else None
         if name == "build-identity" and result.returncode == 0:
             identity = json.loads(text)
+            rustc = subprocess.run(["rustc", "--version"], cwd=module, env=environment,
+                                   stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False)
+            expected_rustc = rustc.stdout.decode("utf-8", errors="replace").strip()
             check["binary_source_matches_inputs"] = (
                 identity["source_sha256"] == rust_source_sha256(module)
                 and identity["cargo_lock_sha256"] == initial["Cargo.lock"]
+                and rustc.returncode == 0
+                and identity["rustc_version"] == expected_rustc
+                and identity["profile"] == "debug"
             )
             if not check["binary_source_matches_inputs"]:
                 check["exit_code"] = 1
