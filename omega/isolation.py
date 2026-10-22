@@ -51,6 +51,8 @@ EXTENSION_FILES = frozenset({
     "omega/evidence/h2-census-comparison.json", "omega/evidence/h2-omega.json",
     "omega/evidence/h2-historical.json", "omega/evidence/h2-fork-preflight.json",
     "omega/evidence/h2-execution-logs.json",
+    "omega/pft_source_binding.py", "omega/test_pft_source_binding.py",
+    "omega/PFT_SOURCE_BINDING_CONTRACT.md",
 })
 EXTENSION_DIRS = {"omega", "omega/evidence"}
 
