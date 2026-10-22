@@ -4,7 +4,7 @@
   "denominator": 100,
   "global_completion_percent": 35,
   "method": "Weighted engineering estimate with explicit operational phase exits, not a percentage of lines written",
-  "status": "network_hardening_published_pending_full_verification",
+  "status": "network_and_dependency_hardening_published_pending_full_verification",
   "items": [
     {
       "phase": "scope",
@@ -159,7 +159,7 @@
     "evidence/public-20261022/execution.json",
     "evidence/offline-native-ca-20261022/summary.json",
     "evidence/public-retry-20261022/README.md",
-    "evidence/public-retry-20261022/config.json",
+    "evidence/public-retry-20261022/config.template.json",
     "evidence/public-crosscheck-20261022/aave-ethereum.json",
     "evidence/supply-chain-review-20261022.json"
   ],
@@ -167,8 +167,8 @@
     "An implemented primitive is not an operational phase exit.",
     "Synthetic training/test metrics are not real investment results.",
     "The observer remains outside the scope of all changes.",
-    "HTTP pacing/retry/redaction delta is published but not credited until the full test suite and public retry are rerun on commit 20a22c58b7bc64c6cda6d9610133b876452de0fe.",
     "Independent indexed evidence corroborates three unique successful Aave liquidationCall transactions in the Ethereum sample window; it does not verify the earlier five-event log count and earns no additional progress.",
-    "Targeted RustSec review found reviewed locked versions in patched ranges; full Cargo.lock advisory scan remains mandatory and earns no progress yet."
+    "HTTP pacing/retry/redaction, run-config identity binding and rand 0.8.6 remediation are published but receive no progress credit until rebuilt and fully tested.",
+    "All identified 2026 RustSec advisory ranges for packages in the current lock were reviewed after the rand remediation; a complete automated advisory scan remains mandatory."
   ]
 }
