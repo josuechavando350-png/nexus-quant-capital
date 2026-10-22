@@ -1,6 +1,6 @@
 {
   "schema": "nqc.omega.census-assessment.v1",
-  "as_of_commit": "9ea47679dead5f41da6940739b6fabcce61a2704",
+  "as_of_commit": "a7ca212f1150b015e9e947e3b797a093e5f918aa",
   "assessment_scope": "STATIC_SOURCE_AND_AUTHENTICATED_HISTORICAL_EVIDENCE_ONLY",
   "census_closed": false,
   "certified_components": 0,
@@ -88,15 +88,27 @@
         {
           "path": "nqc-census/crates/nqc-census-portfolio/src/actionability.rs",
           "git_blob": "81a81c68c79e1bd9369c605fdf9f28c2f178d163"
+        },
+        {
+          "path": "omega/liquidation_order_book.py",
+          "git_blob": "278c53c4b702a8b086231babb5e470619d597ee5"
+        },
+        {
+          "path": "omega/LIQUIDATION_ORDER_BOOK_CONTRACT.md",
+          "git_blob": "c70c1e747735d186c5017057d0ec288250fbb3b1"
+        },
+        {
+          "path": "omega/AUDIT_H5.md",
+          "git_blob": "6d0d5494fca6427da92eb068155c315a1e3a4900"
         }
       ],
-      "supported_claim": "The actionability boundary conserves below-one borrower/debt/collateral pairs and binds them to PFT evidence.",
+      "supported_claim": "The actionability boundary conserves below-one position pairs, and Omega now adds an exact rational threshold index with deterministic newly-crossed queries; upstream threshold derivation and market population remain uncertified.",
       "missing_for_omega": [
-        "exact liquidation-price index",
-        "strict price ordering",
-        "binary/range crossing query",
+        "verified protocol-specific liquidation threshold derivation",
+        "complete scoped position population",
         "interest-accrual threshold refresh",
-        "cross-protocol order book"
+        "Causal Graph invalidation integration",
+        "full historical/current replay evidence"
       ]
     },
     {
