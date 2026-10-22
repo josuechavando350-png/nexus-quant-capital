@@ -1,0 +1,51 @@
+name: Omega H2 physical audit
+
+on:
+  push:
+    branches: [feat/omega-h2-executable-audit-20261022]
+    paths:
+      - .github/workflows/omega-h2-audit.yml
+      - omega/h2_actions.py
+      - omega/test_h2_actions.py
+      - omega/h2_actions_workflow.yml.disabled
+      - omega/isolation.py
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: omega-h2-physical-audit
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    if: github.repository_id == '1411047452' && github.event.repository.private == false && github.ref == 'refs/heads/feat/omega-h2-executable-audit-20261022'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        stage: [forks, replay]
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      CARGO_BUILD_JOBS: '2'
+      CARGO_INCREMENTAL: '0'
+      CARGO_PROFILE_DEV_DEBUG: '0'
+      CARGO_PROFILE_TEST_DEBUG: '0'
+    steps:
+      - name: Checkout exact producer without persisted credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Execute audited physical gate
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OMEGA_STAGE: ${{ matrix.stage }}
+          OMEGA_WORKFLOW_SHA: ${{ github.workflow_sha }}
+          OMEGA_WORKFLOW_REF: ${{ github.workflow_ref }}
+          OMEGA_REPOSITORY_VISIBILITY: ${{ github.event.repository.visibility }}
+        run: python3 omega/h2_actions.py --stage "$OMEGA_STAGE"
