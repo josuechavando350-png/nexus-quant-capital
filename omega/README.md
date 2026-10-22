@@ -67,9 +67,7 @@ Reproducir las entradas fijadas es obligatorio. El almacenamiento local es
 atómico y no sobrescribe evidencia existente; no equivale a un Evidence Vault
 certificado, replicado ni probado frente a reorganizaciones de cadena.
 
-Faltan paridad de las tres vías de verdad, todas las posiciones del alcance,
-el ledger por transacción, costos completos, ganadores, retrasos del oráculo y
-propinas al builder. No se extrapolan agregados de otros liquidadores a P&L de
+Existe ya el contrato offline de paridad de tres vías; faltan poblar triadas reales independientes, todas las posiciones del alcance, el ledger por transacción, costos completos, ganadores, retrasos del oráculo y propinas al builder. No se extrapolan agregados de otros liquidadores a P&L de
 NQC ni a mercados actuales. Ver `AUDIT_H2.md` para resultados y bloqueos exactos.
 
 ## Evaluación estática de Census
@@ -147,3 +145,15 @@ nombrada sin implementación real permanece no conformante.
 H9 tiene **20/20 pruebas nuevas aprobadas**. El componente 1 sigue
 `foundational_partial`, pero ya existe un contrato común auditable; faltan los
 adaptadores reales de Morpho y subastas, fixtures cross-adapter y PFT por familia.
+
+## H10 · Truth Triad
+
+`truth_engine.py` exige tres vías independientes por sujeto y estado:
+reconstrucción eventos/storage, lectura directa y replay EVM. La paridad es
+igualdad exacta; una discrepancia genera `MISMATCH`, sin mayoría ni tolerancias.
+Los batches requieren cobertura explícita de todos los sujetos esperados.
+
+H10 tiene **20/20 pruebas nuevas aprobadas**. El componente 6 sigue
+`foundational_partial`: falta poblar triadas reales completas y reestablecer
+el runtime closeout PFT vinculado al productor actual. `PARITY` nunca se
+presenta como certificación PFT.
