@@ -1,0 +1,63 @@
+{
+  "schema": "nqc-miner-partial-saturation-observation-v1",
+  "observed_date": "2026-10-22",
+  "source_evidence": "aave-ethereum.json",
+  "scope": {
+    "chain_id": 1,
+    "protocol": "aave-v3",
+    "contract": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+    "from_block": 26245612,
+    "to_block": 26249611
+  },
+  "observed_liquidation_transactions": [
+    {
+      "block_number": 26248076,
+      "transaction_hash": "0x0f41c4143e965fe9c26509f976cf31374460f6899ee796966a4b65b110e9aa2f",
+      "observed_caller": "0xD12810B19B596347a3AFAC206d3cA65d08594b3f"
+    },
+    {
+      "block_number": 26248114,
+      "transaction_hash": "0xb6eeb0b8a4af39d5d461fa985ada74c294b23d4b457b86d4a02012664352075d",
+      "observed_caller": "0x74edC79FEA13bdf1f7841570227127CEC493Bdd9"
+    },
+    {
+      "block_number": 26248379,
+      "transaction_hash": "0xeb7833abff05f15b7c6395a831144b9a736f1242be25830a37e6eb2a1929ffe6",
+      "observed_caller": "0xD12810B19B596347a3AFAC206d3cA65d08594b3f"
+    }
+  ],
+  "measurements": {
+    "unique_observed_callers": 2,
+    "unique_observed_caller_addresses": [
+      "0xD12810B19B596347a3AFAC206d3cA65d08594b3f",
+      "0x74edC79FEA13bdf1f7841570227127CEC493Bdd9"
+    ],
+    "caller_transaction_counts": {
+      "0xD12810B19B596347a3AFAC206d3cA65d08594b3f": 2,
+      "0x74edC79FEA13bdf1f7841570227127CEC493Bdd9": 1
+    },
+    "unique_successful_transactions": 3,
+    "earliest_observed_liquidation_block": 26248076,
+    "latest_observed_liquidation_block": 26248379,
+    "observed_liquidation_block_span": 303,
+    "exact_liquidation_log_count": null,
+    "first_eligible_block": null,
+    "blocks_from_eligibility_to_liquidation": null,
+    "builder_tip_fraction": null,
+    "failed_attempt_costs": null,
+    "gas_costs": null,
+    "coverage_denominator": null,
+    "coverage_fraction": null,
+    "saturation_classification": null
+  },
+  "interpretation": {
+    "state": "insufficient_for_saturation_classification",
+    "reason": "The PDF saturation index requires unique liquidators plus liquidation latency and builder-tip evidence. Only the first dimension is partially observed here.",
+    "address_is_not_entity_identity": true,
+    "zero_or_missing_values_are_not_imputed": true
+  },
+  "economic_certification": false,
+  "observer_bridge_enabled": false,
+  "signing_enabled": false,
+  "spending_authorized": false
+}
