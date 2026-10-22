@@ -93,3 +93,26 @@ La salida de fase A exige mediciones completas y calibradas en dos o tres cadena
 Persisten integraciones de infraestructura, fuentes históricas suficientes, certificación diferencial de protocolos y validación económica. Los estados `Active` y `Watched` están representados, pero son inalcanzables en este binario. Ningún porcentaje de implementación equivale a una garantía de ganancias o ausencia total de defectos.
 
 Consulta [docs/progress.json](docs/progress.json) para el denominador de progreso y [docs/AUDIT.md](docs/AUDIT.md) para la evidencia de verificación.
+
+## Captura durable de una lectura acotada
+
+La continuación auditada se documenta en [docs/AUDIT_CONTINUATION_20261022.md](docs/AUDIT_CONTINUATION_20261022.md).
+`scripts/capture_run.py` vincula una plantilla v2 a un binario limpio, valida la
+configuración, limita el tiempo de lectura y conserva también los intentos fallidos.
+Después verifica el journal, genera el informe y compara los hashes del binario.
+Solo declara la muestra completa si coinciden propietario, build y todos los
+ámbitos previstos. La configuración se publica una sola vez, sin seguir enlaces
+simbólicos ni sobrescribir a otro escritor.
+
+```bash
+python3 scripts/capture_run.py \
+  --binary /ruta/absoluta/nqc-miner \
+  --template evidence/capture-plan-v2-20261022/config.template.json \
+  --output /ruta/nueva/miner-capture \
+  --timeout-seconds 600 --transport-context public_rpc
+```
+
+Usa un `run_id` nuevo para cada captura. Los endpoints se suministran mediante las
+variables propias de la plantilla; el capturador no registra sus valores.
+Los exports Parquet admiten propietarios v1 históricos y v2, preservando su
+identidad de compilación y los bytes originales. El puente continúa desactivado.

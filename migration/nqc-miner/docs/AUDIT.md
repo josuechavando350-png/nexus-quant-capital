@@ -1,5 +1,10 @@
 # Auditoría de NQC Miner — 22 de octubre de 2026
 
+> Continuación posterior: [AUDIT_CONTINUATION_20261022.md](AUDIT_CONTINUATION_20261022.md)
+> contiene la nueva suite integral, capturas públicas v1/v2 durables y revisión
+> completa del lock. Las secciones siguientes conservan el corte anterior y sus
+> pendientes históricos; no sustituyen el estado actual de `progress.json`.
+
 ## Resultado y alcance
 
 La implementación de investigación pasó la verificación conjunta sobre el código

@@ -1,0 +1,26 @@
+{
+  "schema": "nqc-miner-dependency-audit-v1",
+  "cargo_audit_version": "0.22.2",
+  "database_repository": "https://github.com/RustSec/advisory-db",
+  "database_commit": "640bf5a9f06e66d8721e8772766531fe77c8630d",
+  "database_clean": true,
+  "advisory_file_manifest_sha256": "cd7c6df1959721835ff18c0ebc259af5715db1078983a83573cd7d03e3a90050",
+  "cargo_lock_sha256": "634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab",
+  "command": [
+    "cargo-audit",
+    "audit",
+    "--db",
+    "<pinned-local-advisory-db>",
+    "--no-fetch",
+    "--json"
+  ],
+  "known_vulnerabilities": 0,
+  "unmaintained_warnings": 2,
+  "yanked_check_enabled": true,
+  "advisories_ignored": [],
+  "scope": "entire Cargo.lock, all target platforms",
+  "maintenance_notes": {
+    "derivative": "Not in active cargo tree --target all; retained optional lock entry.",
+    "paste": "Build-time proc-macro dependency of pinned Alloy/REVM. Maintenance risk remains open; no known vulnerability in this scan."
+  }
+}

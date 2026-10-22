@@ -50,7 +50,7 @@ class ParquetExportTests(unittest.TestCase):
     def tearDown(self):
         self.temp.cleanup()
 
-    def fixture(self, *, complete=True, invalidated=False, empty=False):
+    def fixture(self, *, complete=True, invalidated=False, empty=False, version=1):
         providers = [{"id": "provider-a", "url_env": "NQC_MINER_RPC_A"},
                      {"id": "provider-b", "url_env": "NQC_MINER_RPC_B"}]
         config = {
@@ -63,9 +63,19 @@ class ParquetExportTests(unittest.TestCase):
                         "chunk_blocks": 1, "providers": providers,
                         "deployment_source": "https://github.com/morpho-org/morpho-blue"}],
         }
-        owner = {"schema": "nqc-miner-owner-v1", "namespace": "nqc_miner_v1", "producer": "nqc-miner",
+        if version == 2:
+            config["schema_version"] = 2
+            ordered = {}
+            for key, value in config.items():
+                ordered[key] = value
+                if key == "cargo_lock_sha256":
+                    ordered["build_identity_sha256"] = "3" * 64
+            config = ordered
+        owner = {"schema": f"nqc-miner-owner-v{version}", "namespace": "nqc_miner_v1", "producer": "nqc-miner",
                  "run_id": "parquet-test", "data_class": "synthetic", "config_sha256": digest(packed(config)),
                  "code_commit": config["code_commit"], "cargo_lock_sha256": config["cargo_lock_sha256"]}
+        if version == 2:
+            owner["build_identity_sha256"] = config["build_identity_sha256"]
         self.state.joinpath("owner.json").write_bytes(packed(owner))
         self.state.joinpath("config.json").write_bytes(packed(config))
         log = {"chain_id": 1, "address": address(1), "block_number": 10, "block_hash": h(2),
@@ -123,6 +133,28 @@ class ParquetExportTests(unittest.TestCase):
         manifest = self.export()
         row = pl.read_parquet(self.output / manifest["batches"][0]["file"]).to_dicts()[0]
         self.assertEqual(row["event_state"], "chunk_committed")
+
+    def test_v2_roundtrip_retains_exact_build_owner_and_source_bytes(self):
+        lines = self.fixture(version=2)
+        manifest = self.export()
+        self.assertEqual(manifest["owner"]["schema"], "nqc-miner-owner-v2")
+        self.assertEqual(manifest["owner"]["build_identity_sha256"], "3" * 64)
+        rows = pl.read_parquet(self.output / manifest["batches"][0]["file"]).to_dicts()
+        self.assertEqual([row["raw_line"] for row in rows], lines)
+
+    def test_v2_foreign_or_missing_build_is_rejected_before_export(self):
+        self.fixture(version=2)
+        path = self.state / "owner.json"
+        owner = json.loads(path.read_bytes())
+        owner["build_identity_sha256"] = "4" * 64
+        path.write_bytes(packed(owner))
+        with self.assertRaisesRegex(ExportError, "mixed build"):
+            self.export()
+        del owner["build_identity_sha256"]
+        path.write_bytes(packed(owner))
+        with self.assertRaisesRegex(ExportError, "owner schema"):
+            self.export()
+        self.assertFalse(self.output.exists())
 
     def test_invalidations_are_preserved_and_exclude_event(self):
         lines = self.fixture(invalidated=True)

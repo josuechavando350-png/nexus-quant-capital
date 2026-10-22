@@ -706,7 +706,9 @@ fn local_http_rpc(responses: Vec<String>) -> (String, Arc<AtomicUsize>, thread::
     let handle = thread::spawn(move || {
         for response in responses {
             let (mut stream, _) = listener.accept().unwrap();
-            stream.set_read_timeout(Some(Duration::from_secs(1))).unwrap();
+            stream
+                .set_read_timeout(Some(Duration::from_secs(1)))
+                .unwrap();
             let mut request = [0u8; 4096];
             let _ = stream.read(&mut request);
             observed.fetch_add(1, Ordering::SeqCst);

@@ -1,0 +1,115 @@
+{
+  "schema": "nqc-miner-capture-v1",
+  "producer": "nqc-miner",
+  "namespace": "nqc_miner_v1",
+  "started_at_utc": "2026-10-22T18:54:40.695212+00:00",
+  "completed_at_utc": "2026-10-22T18:55:22.864099+00:00",
+  "run_id": "miner-isolated-audit-20261022-v2-01",
+  "status": "complete_read_only_sample",
+  "transport_context": "public_rpc",
+  "checks": [
+    {
+      "name": "about-before",
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.004,
+      "command": [
+        "/workspace/scratch/1372b3d66995/tmp/miner-target/debug/nqc-miner",
+        "about"
+      ]
+    },
+    {
+      "name": "validate",
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.004,
+      "command": [
+        "/workspace/scratch/1372b3d66995/tmp/miner-target/debug/nqc-miner",
+        "validate-config",
+        "--config",
+        "/workspace/scratch/1372b3d66995/tmp/public-capture-v2-01/config.json"
+      ]
+    },
+    {
+      "name": "scan",
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 41.929,
+      "command": [
+        "/workspace/scratch/1372b3d66995/tmp/miner-target/debug/nqc-miner",
+        "scan",
+        "--config",
+        "/workspace/scratch/1372b3d66995/tmp/public-capture-v2-01/config.json",
+        "--state",
+        "/workspace/scratch/1372b3d66995/tmp/public-capture-v2-01/state"
+      ]
+    },
+    {
+      "name": "verify",
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.017,
+      "command": [
+        "/workspace/scratch/1372b3d66995/tmp/miner-target/debug/nqc-miner",
+        "verify-journal",
+        "--state",
+        "/workspace/scratch/1372b3d66995/tmp/public-capture-v2-01/state"
+      ]
+    },
+    {
+      "name": "report",
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.016,
+      "command": [
+        "/workspace/scratch/1372b3d66995/tmp/miner-target/debug/nqc-miner",
+        "report",
+        "--config",
+        "/workspace/scratch/1372b3d66995/tmp/public-capture-v2-01/config.json",
+        "--state",
+        "/workspace/scratch/1372b3d66995/tmp/public-capture-v2-01/state"
+      ]
+    },
+    {
+      "name": "about-after",
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.004,
+      "command": [
+        "/workspace/scratch/1372b3d66995/tmp/miner-target/debug/nqc-miner",
+        "about"
+      ]
+    }
+  ],
+  "rejection": null,
+  "binary_before_sha256": "a70b888c5c43a7e9d4b49dbd69820849c99dee6254d8b21b174dc13ce2b37c25",
+  "binary_after_sha256": "a70b888c5c43a7e9d4b49dbd69820849c99dee6254d8b21b174dc13ce2b37c25",
+  "binary_unchanged": true,
+  "template_sha256": "cabcc71845d7df2168cd6cf52a452085dd1fa1bb5dfe0dbedde70491fd37c396",
+  "capture_script_sha256": "f4b49b415eaf32e94ad73c69a060f3392a9e65d8e2ecb6f69f4bfb0bb1333533",
+  "files": {
+    "about-after.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "about-after.stdout": "04e5a15528467842ebb329c5d35a346dc525119e50b872ea57fece292676a195",
+    "about-before.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "about-before.stdout": "04e5a15528467842ebb329c5d35a346dc525119e50b872ea57fece292676a195",
+    "config.json": "6126a653d72398c8a783ab55870b402a9e0fc3c758492cd49dd0d0bf56a749f4",
+    "report.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "report.stdout": "c294b79a9f702e02979797b2d834e8d43d40981e9c16045e63fe30231b3b40da",
+    "scan.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scan.stdout": "2635f69b1ead1d85b6e074c395bcde7cf45b1688672151a559bb20b7dfae72cf",
+    "state/config.json": "e87b74f1e53aa88bebc92e4e4b38704e1bd39f25984014eb4cca756435e4492b",
+    "state/events.jsonl": "9563e32f70ef56fb69ddc04db8164650b184dbc91fd382548345e749409c337b",
+    "state/owner.json": "f85b423c38376e0c9d005d40b23b04d2241877a58e91bb416c2dcb4b14a9922f",
+    "validate.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validate.stdout": "d42bcbee90f5f80862da608765854a12fdf80968a987026f0c7e19f4c9d77686",
+    "verify.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "verify.stdout": "017b5949c0d16f7127d00493e4ec766bd029c7276523d47854d7371ff6fb3222"
+  },
+  "completed_scopes": 4,
+  "canonical_events": 3,
+  "observer_bridge_enabled": false,
+  "signing_enabled": false,
+  "spending_authorized": false,
+  "economic_certification": false,
+  "source_authentication": "RPC agreement and local integrity only"
+}

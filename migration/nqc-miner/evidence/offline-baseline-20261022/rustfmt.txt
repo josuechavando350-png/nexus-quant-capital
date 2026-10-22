@@ -1,0 +1,11 @@
+Diff in /workspace/scratch/1372b3d66995/nqc-miner-work/migration/nqc-miner/tests/pipeline_tests.rs:658:
+     let handle = thread::spawn(move || {
+         for response in responses {
+             let (mut stream, _) = listener.accept().unwrap();
+-            stream.set_read_timeout(Some(Duration::from_secs(1))).unwrap();
++            stream
++                .set_read_timeout(Some(Duration::from_secs(1)))
++                .unwrap();
+             let mut request = [0u8; 4096];
+             let _ = stream.read(&mut request);
+             observed.fetch_add(1, Ordering::SeqCst);

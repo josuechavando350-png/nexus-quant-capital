@@ -2,6 +2,8 @@ import importlib.util
 import json
 import tempfile
 import unittest
+from concurrent.futures import ThreadPoolExecutor
+from threading import Barrier
 from pathlib import Path
 
 MODULE = Path(__file__).resolve().parents[1] / "scripts" / "bind_run_config.py"
@@ -38,7 +40,7 @@ def about():
         "economic_certification": False,
         "code_commit": "a" * 40,
         "cargo_lock_sha256": "b" * 64,
-        "source_sha256": "e" * 64,
+        "source_sha256": "d" * 64,
         "rustc_version": "rustc 1.90.0 fixture",
         "target": "x86_64-unknown-linux-gnu",
         "host": "x86_64-unknown-linux-gnu",
@@ -131,6 +133,58 @@ class BindRunConfigTests(unittest.TestCase):
             with self.assertRaises(bind_run_config.BindError):
                 bind_run_config.write_new_atomic(path, template())
             self.assertEqual(path.read_text(encoding="utf-8"), "sentinel")
+
+    def test_output_rejects_symlinked_parent_and_dangling_target(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            foreign = root / "foreign"
+            foreign.mkdir()
+            (root / "link").symlink_to(foreign, target_is_directory=True)
+            dangling = root / "config.json"
+            dangling.symlink_to(foreign / "new.json")
+            for path in (root / "link" / "config.json", dangling):
+                with self.subTest(path=path), self.assertRaises(bind_run_config.BindError):
+                    bind_run_config.write_new_atomic(path, template())
+            self.assertEqual(list(foreign.iterdir()), [])
+            self.assertTrue(dangling.is_symlink())
+
+    def test_concurrent_publish_has_one_winner_and_never_overwrites(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "new" / "config.json"
+            barrier = Barrier(8)
+            def publish(number):
+                barrier.wait()
+                try:
+                    bind_run_config.write_new_atomic(path, {"writer": number})
+                    return number
+                except bind_run_config.BindError:
+                    return None
+            with ThreadPoolExecutor(max_workers=8) as pool:
+                winners = [n for n in pool.map(publish, range(8)) if n is not None]
+            self.assertEqual(len(winners), 1)
+            self.assertEqual(json.loads(path.read_text()), {"writer": winners[0]})
+            self.assertEqual([p.name for p in path.parent.iterdir()], ["config.json"])
+
+    def test_boolean_numeric_substitutions_and_missing_source_are_rejected(self):
+        for key, value in (("source_dirty", 0), ("signing_enabled", 0),
+                           ("gas_budget_mxn_centavos", False), ("source_sha256", None),
+                           ("rustc_version", "unknown")):
+            candidate = about()
+            candidate[key] = value
+            with self.subTest(key=key), self.assertRaises(bind_run_config.BindError):
+                bind_run_config.bind(template(), candidate)
+        candidate = template()
+        candidate["gas_budget_mxn_centavos"] = False
+        with self.assertRaises(bind_run_config.BindError):
+            bind_run_config.bind(candidate, about())
+
+    def test_nonfinite_and_oversize_json_are_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "input.json"
+            for content in ('{"n":NaN}', '{"n":Infinity}', ' ' * 1_048_577):
+                path.write_text(content)
+                with self.assertRaises(bind_run_config.BindError):
+                    bind_run_config.load_json_strict(path)
 
 
 if __name__ == "__main__":

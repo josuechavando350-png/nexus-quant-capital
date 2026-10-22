@@ -1,0 +1,95 @@
+{
+  "journal": {
+    "authenticity_verified": false,
+    "canonical_events": 3,
+    "completed_chunks": 10,
+    "completed_scopes": 4,
+    "integrity_verified": true,
+    "invalidated_events": 0,
+    "invalidated_from": {},
+    "last_sha256": "8ad665f3b8be9a7e2e1e92964c72ee1beb5218aaa253f4fb664bf49c777cbbc4",
+    "owner": {
+      "build_identity_sha256": "3cd0fd043fc2befe037ad67f679e16cfcea9ceddadf83a1cda2991dd69061c97",
+      "cargo_lock_sha256": "634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab",
+      "code_commit": "a841261f9c13b255905deaeef75d5b42cb8814e1",
+      "config_sha256": "343cdc0f8f039d69af142c044902c2b2a1757bf7b2ae0473a1e5dd47dd3cd5a5",
+      "data_class": "historical",
+      "namespace": "nqc_miner_v1",
+      "producer": "nqc-miner",
+      "run_id": "miner-isolated-audit-20261022-v2-01",
+      "schema": "nqc-miner-owner-v2"
+    },
+    "provisional_events": 0,
+    "records": 17
+  },
+  "scans": [
+    {
+      "chain_id": 1,
+      "complete": true,
+      "finalized_anchor": {
+        "hash": "0xcebf0a3fd4e5c8c90554f5387c52b82281ebeea4c6a4f18e92f9081c4ae66be9",
+        "number": 26249994,
+        "parent_hash": "0x39be9b9e282a8b66d46ae95893741fb81d409897800c99c893efbf501f90c456",
+        "timestamp": 1792694231
+      },
+      "from_block": 26248000,
+      "new_chunks": 4,
+      "new_events": 3,
+      "provider_agreement_is_not_source_authentication": true,
+      "resumed_after": null,
+      "scope_id": "ethereum-aave-liquidations",
+      "to_block": 26248399
+    },
+    {
+      "chain_id": 8453,
+      "complete": true,
+      "finalized_anchor": {
+        "hash": "0x0181e5003a85c9f7e5680ccd6207f2730d39987d13d0e364cd544491acd34191",
+        "number": 52952243,
+        "parent_hash": "0x52d8471947c1e8f9e92bc97b6e32be310029299714e097e1d828c5f0f661d3cb",
+        "timestamp": 1792693833
+      },
+      "from_block": 52950023,
+      "new_chunks": 1,
+      "new_events": 0,
+      "provider_agreement_is_not_source_authentication": true,
+      "resumed_after": null,
+      "scope_id": "base-aave-liquidations",
+      "to_block": 52950122
+    },
+    {
+      "chain_id": 42161,
+      "complete": true,
+      "finalized_anchor": {
+        "hash": "0xb6ce979c278fe5250f5a800fee8acdf6ec9f37f5a954643d3c9371c2e64f500b",
+        "number": 517304777,
+        "parent_hash": "0x32253ca6dcb849e2d75bb5cc49e5fe92a5e2e27286aad50ecd6f7500de00a38c",
+        "timestamp": 1792694054
+      },
+      "from_block": 517288425,
+      "new_chunks": 1,
+      "new_events": 0,
+      "provider_agreement_is_not_source_authentication": true,
+      "resumed_after": null,
+      "scope_id": "arbitrum-aave-liquidations",
+      "to_block": 517288524
+    },
+    {
+      "chain_id": 1,
+      "complete": true,
+      "finalized_anchor": {
+        "hash": "0xcebf0a3fd4e5c8c90554f5387c52b82281ebeea4c6a4f18e92f9081c4ae66be9",
+        "number": 26249994,
+        "parent_hash": "0x39be9b9e282a8b66d46ae95893741fb81d409897800c99c893efbf501f90c456",
+        "timestamp": 1792694231
+      },
+      "from_block": 26248000,
+      "new_chunks": 4,
+      "new_events": 0,
+      "provider_agreement_is_not_source_authentication": true,
+      "resumed_after": null,
+      "scope_id": "ethereum-morpho-births-liquidations",
+      "to_block": 26248399
+    }
+  ]
+}

@@ -2,6 +2,17 @@
 
 Corte: 22 de octubre de 2026.
 
+Actualización de la continuación: `offline-v2-isolation-20261022/` acredita
+141 Rust + 64 Python y los gates de software sobre `a841261`.
+`dependencies-full-20261022/` contiene el scan completo del lock (0 vulnerabilidades
+conocidas, 2 avisos de mantenimiento abiertos).
+`public-capture-v2-20261022/` conserva una lectura pública nueva, íntegra y completa
+en cuatro ámbitos de tres cadenas: 3 logs canónicos y 17 registros totales.
+`public-parquet-v2-20261022/` conserva su exportación local verificada. La captura
+v1 previa también se preserva; ambas repiten la misma selección y no se suman.
+Estas nuevas evidencias no recuperan ni certifican la observación transitoria de
+cinco eventos descrita abajo, ni cierran saturación, rentabilidad o una fase.
+
 Este ledger separa evidencia durable, evidencia auxiliar, planes no ejecutados y
 observaciones transitorias. Ningún elemento cambia de clase por aparecer en una
 conversación, log parcial o reporte humano.

@@ -2,9 +2,9 @@
   "schema": "nqc-miner-progress-v1",
   "as_of": "2026-10-22",
   "denominator": 100,
-  "global_completion_percent": 35,
+  "global_completion_percent": 38,
   "method": "Weighted engineering estimate with explicit operational phase exits, not a percentage of lines written",
-  "status": "network_and_dependency_hardening_published_pending_full_verification",
+  "status": "audited_isolated_v2_source_with_bounded_three_chain_capture",
   "items": [
     {
       "phase": "scope",
@@ -143,9 +143,9 @@
       "phase": "delivery",
       "id": "integration_audit_reproducibility_and_repository_delivery",
       "weight": 10,
-      "earned": 5,
+      "earned": 8,
       "acceptance": "Closed material review findings, retained exact-source verification, bounded public smoke test and isolated branch/PR delivery",
-      "earned_basis": "Material software findings closed; exact-source offline checks passed and source branch published. Public integration and final repository delivery remain open."
+      "earned_basis": "Prior 5 points retained. +1 exact-source full delta audit and complete advisory scan; +1 verified bounded capture across three chains; +1 isolated Git delivery with preserved provenance. Remaining 2 points reserved for hermetic reproducibility and final production integration audit."
     }
   ],
   "phase_exits_completed": [],
@@ -165,7 +165,12 @@
     "evidence/binder-python-20261022.json",
     "docs/EVIDENCE_LEDGER.md",
     "evidence/public-crosscheck-20261022/aave-ethereum-partial-saturation.json",
-    "evidence/build-identity-python-20261022.json"
+    "evidence/build-identity-python-20261022.json",
+    "docs/AUDIT_CONTINUATION_20261022.md",
+    "evidence/offline-v2-isolation-20261022/summary.json",
+    "evidence/dependencies-full-20261022/provenance.json",
+    "evidence/public-capture-v2-20261022/capture.json",
+    "evidence/public-parquet-v2-20261022/manifest.json"
   ],
   "notes": [
     "An implemented primitive is not an operational phase exit.",
@@ -177,6 +182,9 @@
     "The six run-config binder regressions passed in an isolated Python 3.13.5 execution against the exact published blobs; this does not credit the repository-wide verification gate.",
     "A transient five-event observation has no durable versioned journal in this branch and is explicitly excluded from metrics and progress.",
     "Toolchain pin bytes are now part of build source identity and dirty tracking; two isolated Python contract tests passed, but the modified build.rs remains uncompiled.",
-    "Ethereum cross-check yields 3 unique successful transactions and 2 observed caller addresses; saturation remains unknown because eligibility latency, tips and coverage are missing."
+    "Ethereum cross-check yields 3 unique successful transactions and 2 observed caller addresses; saturation remains unknown because eligibility latency, tips and coverage are missing.",
+    "Continuation supersedes pending full-software-verification notes above for source a841261 only: 141 Rust and 64 Python pass; full lock scan found zero known vulnerabilities and two unmaintained warnings.",
+    "The bounded three-chain integration sample closes no economic phase exit. Prior v1 and current v2 samples repeat the same windows and are never summed.",
+    "All new changes remain inside migration/nqc-miner on a separate branch; observer integration stays disabled."
   ]
 }
