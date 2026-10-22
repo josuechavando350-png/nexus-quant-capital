@@ -54,8 +54,11 @@ python3 scripts/verify_offline.py \
 ```
 
 La verificación incluye compilación, pruebas Rust/Python, Clippy sin advertencias,
-formato, aislamiento del repositorio e identidad de código del binario. No inicia
-servicios. Los contratos de infraestructura y sus comprobaciones pendientes están
+formato, aislamiento del repositorio e identidad completa del build: commit,
+fuentes, Cargo.lock, toolchain, rustc, target, perfil y hash de RUSTFLAGS. Las
+corridas nuevas usan manifest schema v2 y quedan ligadas a
+`build_identity_sha256`; evidencia histórica v1 sigue siendo verificable offline
+pero no es elegible para una lectura RPC nueva. No inicia servicios. Los contratos de infraestructura y sus comprobaciones pendientes están
 en [docs/infrastructure.md](docs/infrastructure.md).
 
 ## Comandos
