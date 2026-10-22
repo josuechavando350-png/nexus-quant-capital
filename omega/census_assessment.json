@@ -1,6 +1,6 @@
 {
   "schema": "nqc.omega.census-assessment.v1",
-  "as_of_commit": "7125ffad5d163027ddf618f7e87c32ec965a335d",
+  "as_of_commit": "c80a66cbfb70d518286dc283c12f7af2ecaeecc5",
   "assessment_scope": "STATIC_SOURCE_AND_AUTHENTICATED_HISTORICAL_EVIDENCE_ONLY",
   "census_closed": false,
   "certified_components": 0,
@@ -196,11 +196,23 @@
         {
           "path": "omega/evidence/historical-baseline.json",
           "git_blob": "7f3fd89cf9d32a5470e8c8c0bfe50896a3402697"
+        },
+        {
+          "path": "omega/competition_ledger.py",
+          "git_blob": "dacc3bfa847c7ab07fa5a3284c5a66755bb6225d"
+        },
+        {
+          "path": "omega/COMPETITION_LEDGER_CONTRACT.md",
+          "git_blob": "6991b7bcf69eced0d9fbe4d14faa65ee4a29b994"
+        },
+        {
+          "path": "omega/AUDIT_H11.md",
+          "git_blob": "78f610ef4011ec9dcbb866429cdedf6b61730039"
         }
       ],
-      "supported_claim": "Authenticated historical aggregates cover 127 winner transactions and 139 liquidation events in a bounded Aave V3 Ethereum interval.",
+      "supported_claim": "Authenticated historical aggregates cover 127 winner transactions/139 events, and Omega now has a fail-closed per-transaction winner ledger schema that derives oracle-to-winner delay without attributing market outcomes to NQC; real transaction rows are not yet materialized.",
       "missing_for_omega": [
-        "per-transaction winner ledger",
+        "authenticated per-transaction row population",
         "competitor strategy classification",
         "NQC detection-delay counterfactual",
         "lost-opportunity ledger",
@@ -224,15 +236,27 @@
         {
           "path": "omega/evidence/historical-baseline.json",
           "git_blob": "7f3fd89cf9d32a5470e8c8c0bfe50896a3402697"
+        },
+        {
+          "path": "omega/competition_ledger.py",
+          "git_blob": "dacc3bfa847c7ab07fa5a3284c5a66755bb6225d"
+        },
+        {
+          "path": "omega/COMPETITION_LEDGER_CONTRACT.md",
+          "git_blob": "6991b7bcf69eced0d9fbe4d14faa65ee4a29b994"
+        },
+        {
+          "path": "omega/AUDIT_H11.md",
+          "git_blob": "78f610ef4011ec9dcbb866429cdedf6b61730039"
         }
       ],
-      "supported_claim": "The economics crate requires all 14 cost categories including builder payment; the authenticated aggregate exposes gross and observed winner gas but explicitly lacks complete execution-cost reconciliation.",
+      "supported_claim": "The economics crate requires complete cost categories and Omega now adds exact per-transaction delay, builder-share and observed-winner-margin arithmetic that preserves incomplete values as null and negative margins; real rows and complete cost reconciliation are still absent.",
       "missing_for_omega": [
-        "per-liquidation bonus",
-        "oracle-to-winner block delay",
-        "builder-payment share of bonus",
-        "complete all-cost net margin",
-        "capture-probability calibration"
+        "authenticated per-transaction liquidation bonus",
+        "oracle-update to winner linkage",
+        "builder-payment reconciliation",
+        "complete observed winner cost reconciliation",
+        "NQC capture-probability calibration"
       ]
     },
     {
