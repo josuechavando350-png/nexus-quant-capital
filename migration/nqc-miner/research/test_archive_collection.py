@@ -294,3 +294,13 @@ a.archive_collection(Path(sys.argv[2]),Path(sys.argv[3]),Path(sys.argv[4]))
         with self.assertRaises(ExportError):self.capture()
         self.assertTrue(target.is_symlink())
         self.assertEqual(list((self.store/'commits').iterdir()),[])
+
+    def test_receipts_from_another_archive_cannot_be_adopted(self):
+        receipt=self.capture()['receipt']
+        other=self.root/'second-archive';other_id=str(uuid.uuid4())
+        archive.init_archive(other,other_id)
+        self.assertNotEqual(receipt['archive_id'],other_id)
+        for name in ('objects','commits'):
+            shutil.copytree(self.store/name,other/name,dirs_exist_ok=True)
+        with self.assertRaisesRegex(ExportError,'integrity'):
+            archive.resolve_collection(other,self.config['run_id'])

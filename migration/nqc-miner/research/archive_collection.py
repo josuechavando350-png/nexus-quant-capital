@@ -24,9 +24,9 @@ from export_parquet import (
     _copy_bounded, _file_sha, _json, _owner, _sha, _write_new, export_journal,
 )
 
-OWNER_SCHEMA = "nqc-miner-local-archive-v1"
+OWNER_SCHEMA = "nqc-miner-local-archive-v2"
 SNAPSHOT_SCHEMA = "nqc-miner-collection-snapshot-v1"
-RECEIPT_SCHEMA = "nqc-miner-archive-receipt-v1"
+RECEIPT_SCHEMA = "nqc-miner-archive-receipt-v2"
 ROOT_FILES = {"owner.json": 65536, "config.json": 1048576,
               "collector.json": 65536, "events.jsonl": MAX_SEGMENT}
 WINDOW_FILES = {k: v for k, v in ROOT_FILES.items() if k != "collector.json"}
@@ -188,6 +188,7 @@ def read_object(root, digest):
 
 
 def receipts(root):
+    archive_id = _json(_bounded_read(root / "owner.json", 65536))["archive_id"]
     entries = sorted((root / "commits").iterdir())
     if len(entries) > MAX_RECEIPTS:
         raise ExportError("archive receipt bound exceeded")
@@ -197,9 +198,10 @@ def receipts(root):
             raise ExportError("receipt sequence gap or foreign file")
         value = _json(_bounded_read(_check_path(path), 65536))
         fields = {k: v for k, v in value.items() if k != "sha256"}
-        if (set(value) != {"schema", "sequence", "previous_sha256", "collection_key", "snapshot_sha256",
+        if (set(value) != {"schema", "archive_id", "sequence", "previous_sha256", "collection_key", "snapshot_sha256",
                           "status", "published_at_utc", "sha256"}
-                or fields["schema"] != RECEIPT_SCHEMA or type(fields["sequence"]) is not int
+                or fields["schema"] != RECEIPT_SCHEMA or fields["archive_id"] != archive_id
+                or type(fields["sequence"]) is not int
                 or fields["sequence"] != index or fields["previous_sha256"] != previous
                 or _sha(packed(fields)) != value["sha256"]):
             raise ExportError("receipt integrity failure")
@@ -234,7 +236,8 @@ def transition(previous, candidate):
 def publish_receipt(root, manifest, snapshot_hash, prior):
     if len(prior) >= MAX_RECEIPTS:
         raise ExportError("archive requires reviewed rotation")
-    fields = {"schema": RECEIPT_SCHEMA, "sequence": len(prior),
+    fields = {"schema": RECEIPT_SCHEMA,
+        "archive_id": _json(_bounded_read(root / "owner.json", 65536))["archive_id"], "sequence": len(prior),
         "previous_sha256": prior[-1]["sha256"] if prior else "0" * 64,
         "collection_key": manifest["collection_key"], "snapshot_sha256": snapshot_hash,
         "status": manifest["status"], "published_at_utc": datetime.now(timezone.utc).isoformat()}

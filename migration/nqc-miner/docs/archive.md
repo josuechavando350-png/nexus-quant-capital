@@ -9,7 +9,7 @@ siguen pendientes de integración.
 ## Uso
 
 Usa el entorno de `research/requirements.txt` y el binario Miner auditado. El
-archivo tiene identidad UUID propia y exige un directorio nuevo bajo un padre
+archivo v2 tiene identidad UUID propia y exige un directorio nuevo bajo un padre
 existente. Cada colección conserva su `run_id`, clase y configuración.
 
 ```bash
@@ -39,7 +39,8 @@ ni modifica procesos para conseguir el lock.
 - El manifest registra hashes de cada archivo, fuentes originales, build del
   verificador y hash de los dos módulos Python que implementan la copia/export.
   Su SHA-256 da nombre a `objects/`. Se sincronizan archivos y directorios.
-- `commits/` es una secuencia de recibos enlazados por hashes. Un hardlink atómico
+- `commits/` es una secuencia de recibos v2 enlazados por hashes y ligados al UUID
+  del archivo; recibos de otro archivo se rechazan. Un hardlink atómico
   publica el recibo sin sobrescribir otro; la sincronización de su directorio
   precede al éxito. Solo objetos referenciados por recibos son visibles.
 - `resolve` valida los recibos, objetos y transiciones antes de devolver el último
@@ -67,6 +68,11 @@ invalidación no la reactiva. El lector también verifica esa regla al recorrer
 los recibos, incluso si alguien construye recibos con hashes coherentes. Continuar
 requiere una colección nueva y una revisión de la causa del cambio de historial.
 La revocación debe capturarse explícitamente: no se instala un watcher de fondo.
+
+El prototipo v1 previo no vinculaba el UUID en cada recibo y no se adopta
+automáticamente. Sus capturas se conservan como evidencia histórica verificable
+con el código original; el gate de entrega actual exige v2. No se reescribe la
+procedencia de un archivo para aparentar que fue producido por otra versión.
 
 ## Límites y condiciones
 
