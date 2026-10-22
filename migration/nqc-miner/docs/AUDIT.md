@@ -130,6 +130,19 @@ Tampoco se atribuye identidad real a las direcciones observadas ni se certifica
 rentabilidad, cobertura o saturación. El criterio de admisión está centralizado en
 `docs/EVIDENCE_LEDGER.md`.
 
+### Contrato de identidad del toolchain
+
+La auditoría detectó que el hash fuente embebido por `build.rs` no incluía
+`rust-toolchain.toml`. Eso permitía que un cambio local del compilador fijado no
+alterara `source_sha256` ni necesariamente activara `source_dirty`. El build
+script y `verify_offline.py` ahora incluyen ese archivo en el dirty-check, hash
+fuente y contrato de rerun de Cargo.
+
+Dos regresiones Python ejecutadas contra los blobs publicados pasaron 2/2 y se
+guardaron en `evidence/build-identity-python-20261022.json`. Esta prueba valida
+el contrato textual/digest del toolchain; **el build.rs modificado aún necesita
+compilarse con Rust 1.90.0 dentro de la suite integral**.
+
 ### Revisión dirigida de dependencias
 
 Se cruzó el lock con el inventario público de RustSec y se revisaron todos los
