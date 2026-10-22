@@ -1,0 +1,142 @@
+{
+  "schema": "nqc.omega.census-map.v1",
+  "scope": "CODE_AND_HISTORICAL_AGGREGATE_INTAKE_ONLY",
+  "certified_components": 0,
+  "census_closed": false,
+  "components": [
+    {
+      "id": 1,
+      "name": "Interfaz de protocolos certificables",
+      "component_certified": false,
+      "implementation_stage": "foundational_partial",
+      "sources_reviewed": [
+        "nqc-census/crates/nqc-census-aave-discovery/src/interface.rs",
+        "nqc-census/crates/nqc-census-aave-discovery/src/live.rs"
+      ],
+      "omega_code": [
+        "omega/protocol_adapters.py",
+        "omega/PROTOCOL_ADAPTER_CONTRACT.md"
+      ],
+      "remaining_requirement": "Implementar adaptadores reales Morpho Blue/Midnight/subastas, ligar capacidades a despliegues reales, conformance cross-adapter y Protocol/Fork Truth por familia."
+    },
+    {
+      "id": 6,
+      "name": "NQC Truth Engine",
+      "component_certified": false,
+      "implementation_stage": "foundational_partial",
+      "sources_reviewed": [
+        "nqc-census/crates/nqc-census-core/src/observation.rs",
+        "nqc-census/crates/nqc-census-chain/src/consensus.rs",
+        "ci/nqc-protocol-fork/PROTOCOL_FORK_FINAL_CLOSEOUT.json",
+        "ci/nqc-protocol-fork/PROTOCOL_FORK_TRUTH_CONTRACT.json"
+      ],
+      "omega_code": [
+        "omega/truth_engine.py",
+        "omega/TRUTH_TRIAD_CONTRACT.md"
+      ],
+      "remaining_requirement": "Poblar triadas reales independientes para todo el alcance, probar cobertura y reestablecer el runtime closeout PFT ligado a este repo/head/tree."
+    },
+    {
+      "id": 7,
+      "name": "NQC Causal Graph",
+      "component_certified": false,
+      "implementation_stage": "foundational_partial",
+      "sources_reviewed": [],
+      "omega_code": [
+        "omega/causal_graph.py",
+        "omega/CAUSAL_GRAPH_CONTRACT.md"
+      ],
+      "remaining_requirement": "Poblar el grafo desde todo el universo admitido, demostrar completitud, replay de invalidación y conectar recomputación selectiva con el Libro de órdenes."
+    },
+    {
+      "id": 8,
+      "name": "Libro de órdenes de liquidaciones",
+      "component_certified": false,
+      "implementation_stage": "foundational_partial",
+      "sources_reviewed": [],
+      "omega_code": [
+        "omega/liquidation_order_book.py",
+        "omega/LIQUIDATION_ORDER_BOOK_CONTRACT.md"
+      ],
+      "remaining_requirement": "Generar umbrales desde matemáticas de protocolo verificadas, poblar todas las posiciones del alcance, conectar accrual de intereses/Causal Graph y demostrar replay completo."
+    },
+    {
+      "id": 10,
+      "name": "Radar de depegs y oráculos de tasa fija",
+      "component_certified": false,
+      "implementation_stage": "foundational_partial",
+      "sources_reviewed": [],
+      "omega_code": [
+        "omega/oracle_semantics.py",
+        "omega/ORACLE_SEMANTICS_CONTRACT.md"
+      ],
+      "remaining_requirement": "Poblar semántica protocol-specific para todos los oráculos, probar bytecode/configuración/versiones, replay de depegs y conectar cambios al Causal Graph/Order Book."
+    },
+    {
+      "id": 24,
+      "name": "NQC Competitor Intelligence",
+      "component_certified": false,
+      "implementation_stage": "historical_partial",
+      "sources_reviewed": [
+        "ci/nqc-census/rmc016_winner_net_audit.py",
+        "ci/nqc-census/rmc016-production-evidence.json",
+        "ci/nqc-census/RMC016_WINNER_NET_EVIDENCE_CONTRACT.md"
+      ],
+      "omega_code": [
+        "omega/census_bridge.py",
+        "omega/competition_ledger.py",
+        "omega/COMPETITION_LEDGER_CONTRACT.md"
+      ],
+      "remaining_requirement": "Poblar filas autenticadas por transacción, clasificar estrategia/rival, medir retraso de detección NQC, oportunidades perdidas y refrescar mercado actual."
+    },
+    {
+      "id": 25,
+      "name": "Métrica decisiva de margen",
+      "component_certified": false,
+      "implementation_stage": "historical_partial",
+      "sources_reviewed": [
+        "ci/nqc-census/rmc016_winner_net_audit.py",
+        "ci/nqc-census/rmc016-production-evidence.json",
+        "ci/nqc-census/RMC016_WINNER_NET_EVIDENCE_CONTRACT.md"
+      ],
+      "omega_code": [
+        "omega/census_bridge.py",
+        "omega/competition_ledger.py",
+        "omega/COMPETITION_LEDGER_CONTRACT.md"
+      ],
+      "remaining_requirement": "Poblar bono/oracle→winner/builder payment/costos por transacción real, reconciliar costos completos y calibrar captura NQC sin extrapolar margen de rivales."
+    },
+    {
+      "id": 29,
+      "name": "NQC Evidence Vault",
+      "component_certified": false,
+      "implementation_stage": "foundational_partial",
+      "sources_reviewed": [
+        "nqc-census/crates/nqc-census-store/src/lib.rs",
+        "nqc-census/crates/nqc-census-store/src/store.rs",
+        "ci/nqc-census/rmc016_winner_net_audit.py",
+        "ci/nqc-census/rmc016-production-evidence.json",
+        "ci/nqc-census/RMC016_WINNER_NET_EVIDENCE_CONTRACT.md"
+      ],
+      "omega_code": [
+        "omega/census_bridge.py",
+        "omega/opportunity_vault.py",
+        "omega/OPPORTUNITY_DOSSIER_CONTRACT.md"
+      ],
+      "remaining_requirement": "Poblar expedientes con oportunidades reales, integrar dossier con nqc-census-store, probar recuperación/replicación/reorg y reconciliar costos/resultados reales por oportunidad."
+    },
+    {
+      "id": 32,
+      "name": "Caza de cola larga",
+      "component_certified": false,
+      "implementation_stage": "foundational_partial",
+      "sources_reviewed": [],
+      "omega_code": [
+        "omega/long_tail.py",
+        "omega/LONG_TAIL_CONTRACT.md"
+      ],
+      "remaining_requirement": "Poblar candidatos desde el universo completo admitido, validar procedencia de los cuatro ejes y demostrar out-of-sample que mejora cobertura sin ocultar mercados excluidos."
+    }
+  ],
+  "assessment_ref": "omega/census_assessment.json"
+}
