@@ -82,6 +82,23 @@ dependencias. Las versiones fijadas de `rustls` y `rustls-webpki` permanecen en
 La nueva muestra necesita configuración y directorio propios, ligados al commit y
 lock corregidos. Hasta que termine no se registra una lectura pública completa.
 
+### Delta de endurecimiento HTTP pendiente de reejecución completa
+
+Después de la última suite completa se publicó un delta adicional. El código de
+red quedó fijado en `20a22c58b7bc64c6cda6d9610133b876452de0fe`: serializa el
+ritmo por proveedor, limita los reintentos, trata 408/425/429/500/502/503/504 como
+transitorios y no incorpora endpoint, query string ni cuerpo remoto en el error.
+Se añadieron regresiones locales para 429 seguido de éxito y para 401 sin reintento
+ni fuga del token incluido deliberadamente en el URL de fixture.
+
+La repetición multichain está preparada en
+`evidence/public-retry-20261022/` con `run_id` nuevo y lotes de 100 bloques.
+**No se presenta como ejecutada.** La estación remota de verificación no estuvo
+disponible para una nueva corrida en esta ronda, por lo que los 136 + 38 tests del
+commit anterior no se heredan al delta. El avance permanece en 35/100 hasta
+reconstruir ese commit y repetir compilación, tests, Clippy, formato, aislamiento,
+identidad del binario y la muestra pública.
+
 ## Hallazgos cerrados
 
 | Hallazgo | Corrección y comprobación |
