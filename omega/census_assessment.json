@@ -1,14 +1,14 @@
 {
   "schema": "nqc.omega.census-assessment.v1",
-  "as_of_commit": "a7ca212f1150b015e9e947e3b797a093e5f918aa",
+  "as_of_commit": "05e0b60f29edb8baf93f7d6d940bbff956e5e251",
   "assessment_scope": "STATIC_SOURCE_AND_AUTHENTICATED_HISTORICAL_EVIDENCE_ONLY",
   "census_closed": false,
   "certified_components": 0,
   "summary": {
     "components_assessed": 9,
-    "foundational_partial": 4,
+    "foundational_partial": 5,
     "historical_partial": 2,
-    "not_evidenced": 3
+    "not_evidenced": 2
   },
   "components": [
     {
@@ -68,15 +68,29 @@
     {
       "id": 7,
       "name": "NQC Causal Graph",
-      "status": "not_evidenced",
+      "status": "foundational_partial",
       "component_certified": false,
-      "evidence": [],
-      "supported_claim": "No dedicated position-market-oracle-interest-liquidity-route dependency graph was established by the reviewed sources.",
+      "evidence": [
+        {
+          "path": "omega/causal_graph.py",
+          "git_blob": "91d454cb8a767d7af7a2c59071e169ce9c153bb6"
+        },
+        {
+          "path": "omega/CAUSAL_GRAPH_CONTRACT.md",
+          "git_blob": "12b64714ad2a692d0ee4c3829f46d50e79c36e79"
+        },
+        {
+          "path": "omega/AUDIT_H6.md",
+          "git_blob": "f207f5b0203b02bda6a475b26f4a0d354cea4763"
+        }
+      ],
+      "supported_claim": "Omega now has an exact offline dependency graph requiring every position to bind market, oracle, interest model, liquidity and route dependencies, with deterministic reverse invalidation and fail-closed graph validation.",
       "missing_for_omega": [
-        "typed dependency graph",
-        "incremental invalidation rules",
-        "graph completeness proof",
-        "replay tests"
+        "population from the complete admitted market/position universe",
+        "graph completeness proof against real sources",
+        "temporal invalidation replay",
+        "direct recomputation integration with liquidation order book",
+        "full repository regression"
       ]
     },
     {
