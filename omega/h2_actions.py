@@ -119,14 +119,48 @@ def clean_env(extra=None):
 
 def run(args, cwd: Path, timeout=1200, extra=None):
     print("OMEGA_H2_COMMAND " + json.dumps([str(x) for x in args]), flush=True)
-    result = subprocess.run([str(x) for x in args], cwd=cwd, env=clean_env(extra),
-                            stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                            timeout=timeout, check=False)
+    try:
+        result = subprocess.run([str(x) for x in args], cwd=cwd, env=clean_env(extra),
+                                stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                timeout=timeout, check=False)
+    except subprocess.TimeoutExpired as error:
+        output = error.output or b""
+        print(output.decode(errors="replace"), flush=True)
+        evidence("command-timeout", {"argv": [str(x) for x in args],
+                 "timeout_seconds": timeout, "exit_code": None,
+                 "partial_output_sha256": digest(output)})
+        raise
     print(result.stdout.decode(errors="replace"), flush=True)
     evidence("command", {"argv": [str(x) for x in args], "exit_code": result.returncode,
                          "output_sha256": digest(result.stdout)})
     require(result.returncode == 0, "command_failed: " + str(args[0]))
     return result.stdout
+
+
+def observed_replay(source: Path, out: Path, repo: Path, parent: str):
+    """Add progress messages around the pinned runner's unchanged assertions."""
+    path = repo / REPLAY_PATH
+    module = load_pinned_python(path, REPLAY_BLOB, "omega_observed_replay")
+    original_run = module.run
+
+    def observed(command, log=None, cwd=None, expected=0):
+        started = time.monotonic()
+        print("OMEGA_H2_REPLAY_STEP " + json.dumps({"state": "STARTED",
+              "argv": [str(x) for x in command], "log": str(log) if log else None}), flush=True)
+        result = original_run(command, log=log, cwd=cwd, expected=expected)
+        print("OMEGA_H2_REPLAY_STEP " + json.dumps({"state": "VERIFIED",
+              "argv": [str(x) for x in command],
+              "elapsed_seconds": round(time.monotonic() - started, 3)}), flush=True)
+        return result
+
+    module.run = observed
+    previous = sys.argv
+    try:
+        sys.argv = [str(path), "--source", str(source), "--out", str(out),
+                    "--repo", str(repo), "--parent-network-namespace", parent]
+        module.main()
+    finally:
+        sys.argv = previous
 
 
 def download(url: str, target: Path, *, api=False, sha256=None, limit=64*1024*1024):
@@ -259,9 +293,13 @@ def replay(work: Path, head: str):
     run(["cargo", "+1.98.1", "build", "--workspace", "--bins", "--release", "--locked", "--offline"], cargo)
     out = work / "replay-result"
     parent = os.readlink("/proc/self/ns/net")
-    run(["sudo", "-n", "unshare", "--net", "--mount", "--", sys.executable,
-         "-B", build / REPLAY_PATH, "--source", seed, "--out", out, "--repo", build,
-         "--parent-network-namespace", parent], work)
+    # The historical replay exceeded the generic 20-minute process budget.
+    # Preserve provider pacing and all crash cases; bound the root process group
+    # to 50 minutes within the existing 60-minute job.
+    run(["sudo", "-n", "timeout", "--signal=TERM", "--kill-after=30", "3000",
+         "unshare", "--net", "--mount", "--", sys.executable, "-B",
+         ROOT / "omega/h2_actions.py", "--replay-worker", "--source", seed,
+         "--out", out, "--repo", build, "--parent", parent], work, timeout=3060)
     verify_checkout_bytes(build, head)
     report = strict_json(read_regular(out / "offline-verification.json"))
     require(report["code_commit"] == head, "replay_producer_mismatch")
@@ -358,9 +396,17 @@ def main():
     parser.add_argument("--stage", choices=("forks", "replay"))
     parser.add_argument("--rpc-proxy", action="store_true")
     parser.add_argument("--namespace-probe", action="store_true")
+    parser.add_argument("--replay-worker", action="store_true")
+    parser.add_argument("--source", type=Path)
+    parser.add_argument("--out", type=Path)
+    parser.add_argument("--repo", type=Path)
     parser.add_argument("--parent")
     parser.add_argument("--probe-source", type=Path)
     args = parser.parse_args()
+    if args.replay_worker:
+        require(all((args.source, args.out, args.repo, args.parent)), "replay_arguments_required")
+        observed_replay(args.source, args.out, args.repo, args.parent)
+        return
     if args.rpc_proxy:
         proxy()
         return

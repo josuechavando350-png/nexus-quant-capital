@@ -18,9 +18,10 @@ Base: `NQC_Sovereign_Radar_Omega.pdf`, v1.0, 22 de octubre de 2026, SHA-256
   auténticos. Emite **OBSERVAR** ante evidencia histórica incompleta y **NO-GO**
   ante entradas inválidas. Nunca emite GO ni realiza llamadas de red.
 - `isolation.py`: adaptador de aislamiento que no modifica el verificador
-  histórico. Sólo aparta los archivos explícitos declarados en `EXTENSION_FILES` en una copia
-  temporal y entrega TODOS los demás archivos al verificador original.
-  No oculta workflows, archivos de clientes ni otras incorporaciones.
+  histórico. Aparta los archivos explícitos de `EXTENSION_FILES` y el único
+  workflow Omega revisado, después de comprobar su hash, bytes y modo. Entrega
+  todos los demás archivos al verificador original; otros workflows o archivos
+  de clientes siguen siendo rechazados.
 - `evidence/historical-baseline.json`: resultado determinista del replay de
   agregados, no de transacciones/EVM. Conserva IDs, alcance y bloqueos originales.
 
@@ -57,7 +58,8 @@ histórico directo sigue rechazando `omega/`; esto se conserva deliberadamente.
 
 Census y Shadow no conectan fondos. Observador, firmante y ejecutor siguen
 separados; este cambio no contiene firmante, broadcasting, despliegues ni
-workflows. Canary conserva el techo de **$2,000 MXN**, recargas máximas de
+ejecución con fondos. El workflow H2E sólo comprueba evidencia y forks locales.
+Canary conserva el techo de **$2,000 MXN**, recargas máximas de
 **$500 MXN** y revisión tras **$1,000 MXN** sin captura. Son límites del diseño,
 no autorización de gasto. La autoridad histórica con `OWN_CAPITAL = 0` no se
 reescribe para aparentar certificación bajo la política nueva.
@@ -232,8 +234,8 @@ y `evidence/h2-pft-*`.
 
 ## H2E · Runner físico en la rama de Omega
 
-Se prepara una migración nueva para `feat/omega-h2-executable-audit-20261022`:
-`h2_actions.py` ejecuta forks con dos proveedores y replay D06 desconectado en
+Se publicó y activó la migración para `feat/omega-h2-executable-audit-20261022`:
+`h2_actions.py` comprueba forks con dos proveedores y replay D06 desconectado en
 dos jobs Ubuntu estándar. Conserva los 106 workflows históricos desactivados.
 La única excepción activa revisada es `.github/workflows/omega-h2-audit.yml`,
 copia exacta de la plantilla fijada por SHA-256; ninguna otra ruta queda oculta

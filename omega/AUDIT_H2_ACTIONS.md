@@ -9,7 +9,7 @@ Alcance: migración nueva bajo `omega/` y una única copia activa revisada en
 `.github/workflows/omega-h2-audit.yml`; ninguna modificación al source histórico,
 Miner, main o repositorio original.
 
-## Revisión y pruebas locales
+## Preparación: revisión y pruebas locales
 
 - Omega completo: **303/303**, 30 pruebas nuevas; 0 skipped, errores o expected
   failures. D15B y D16 originales suministrados a las pruebas de archivo real.
@@ -40,14 +40,14 @@ SHA-256 `cf7e688ed0c4c48adffca788b496076e31060b67ac5afe1e43dbb5499c20c88b`.
 También se endureció la aceptación de números para rechazar bool/null y la
 suite del runner utiliza el recorder estricto que no convierte skips en PASS.
 
-## Pendiente de ejecución remota
+## Estado al publicar la preparación
 
 Los resultados unitarios son fixtures, no namespaces ni forks físicos. El
 container local conserva su bloqueo de unshare/RPC documentado. El seed D06
 fue leído desde GitHub: artifact 11143129177, digest original, expired=false;
 su acceso desde el token de una corrida nueva todavía debe probarse.
 
-Se publicará esta preparación y después la única copia activa en la misma rama.
+La preparación debía publicarse antes de la única copia activa en la misma rama.
 Se deben leer commit/tree/run/attempt/jobs/logs al finalizar. Una corrida exitosa
 sin artifact nuevo autenticado no certifica Census. La política de no uploads
 ni caches mantiene ese campo null y evita introducir esos consumos facturables.
@@ -86,5 +86,62 @@ JSON-RPC tampoco pasa. Se añade cobertura de transportes y diagnóstico de ambo
 
 Regresión completa tras las correcciones: **310/310**, 0 skipped/errores/fallos,
 con D15B/D16 auténticos. Aislamiento completo con objetos fuente: PASS, 76 archivos
-de extensión, 1 workflow Omega exacto, 0 workflows históricos activos. El cambio
-de transporte aún requiere una corrida física; no se da por resuelto HTTP 403.
+de extensión, 1 workflow Omega exacto, 0 workflows históricos activos. Al publicar
+esa corrección, el cambio de transporte aún requería una corrida física.
+
+## Tercera corrida: forks físicos aprobados
+
+Productor `81328bd216623e12e3743437f79c17decf88ad24`, árbol
+`7c5afb9a4e8219cd4e543035b787a58d5210634c`. Workflow ID `393369697`, run
+[39856119444](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/39856119444),
+attempt 1, evento push, repositorio `1411047452` y rama Omega exacta.
+Se leyeron commit/tree y jobs independientemente mediante la API de GitHub.
+
+El job forks `120094656747` finalizó success. Ambos RPC pasaron el preflight;
+el runner reprodujo el enlace PFT con HEAD limpio, 37/37 pruebas propias,
+56/56 Rust PFT, 14/14 Solidity y **4/4 ejecuciones históricas** (positivo y
+rechazo atómico por cada proveedor). El bloque es 25252136 y la transacción
+`0xc953d5da04ee4dc9f421ac5418f05add5244d9816c50420bbf7bb6cbafc1150a`.
+
+Auditoría posterior: se recalcularon los 29 compromisos SHA-256 del job, los
+conteos y la igualdad de resultados de ambos proveedores. Se repitió localmente
+`compare_forks` sobre los JSON originales de los logs. Aislamiento antes/después
+idéntico; todos los comandos registrados terminaron con código 0; producer,
+commit/tree, run/attempt y stage-complete coinciden. Resultado físico:
+`PHYSICAL_GATE_PASS`. El protocolo conserva `NOT_CLOSED` y todas las autoridades
+económicas false. El resultado del fork es una simulación histórica y no P&L
+real de NQC.
+
+Log descargado del job forks (487055 bytes, con salto final): SHA-256
+`08eb22592f8b5ad5f47d6ee0917d1bc58fdecb7bb8798b15f683d9e8c9cb59a7`.
+Compromiso `historical-forks`:
+`96338bad40dd243f0199172507cdca42849f5c1c76cae87da1687ce1a3b5a260`.
+Regresión local completa de 310 pruebas, SHA-256 del JSON:
+`e1df9d58c60d50ac37d889ffe11db2873abfcec4f72fecea9f57e0a56a57439f`.
+
+### Replay: límite de ejecución identificado
+
+El job replay `120094657212` de la tercera corrida terminó failure: la llamada
+al runner histórico alcanzó el timeout genérico de 1200 segundos. Antes aprobó
+la descarga y autenticación original de D06, 528/528 Rust y build release. El
+replay arrancó a las 21:20:00 UTC y fue interrumpido a las 21:40:00 UTC. No hay
+`stage-complete` de replay ni cierre de H2 para esta corrida.
+
+El diagnóstico local separado verificó el store con Rust y Python originales.
+El current replay release tardó 43.25 s y terminó 0. La inspección del código
+inmutable confirmó que `RpcClient::pace` conserva las pausas por proveedor
+también en replay. La matriz histórica tiene 755 intercambios, 70 manifiestos
+y cinco cortes de interrupción/recuperación. Ese trabajo no se elimina ni se
+acelera alterando el reloj, proveedores o aserciones.
+
+Se añade un observador de comandos que carga el runner por su Git blob original
+`a200f6d699df693f4087c6b7dc2c9027898ebba4`. Delega sin cambiar argumentos, resultados
+ni excepciones; sólo registra inicio, aceptación y duración de cada llamada.
+El supervisor conserva stdout parcial en timeouts. GNU timeout limita a 3000 s
+el grupo de procesos root (TERM, KILL tras 30 s); el límite exterior es 3060 s
+y el job sigue limitado a 60 minutos. No se modifica el workflow revisado.
+
+Regresión tras el observador: **314/314** con D15B/D16 auténticos y aislamiento
+completo PASS. Cuatro pruebas nuevas verifican delegación intacta, propagación
+de rechazo, rechazo de un blob alterado y conservación de evidencia al agotar
+el tiempo sin emitir éxito. Sigue pendiente auditar una corrida física completa.

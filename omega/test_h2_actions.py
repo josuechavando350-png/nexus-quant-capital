@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 from h2_actions import (BRANCH, DESTINATION, DESTINATION_ID, PARENT, TX, WORKFLOW,
                         SOURCE, PROVIDERS, clean_env, compare_forks, download, producer_context,
-                        probe_providers, rpc, rpc_readonly)
+                        observed_replay, probe_providers, rpc, rpc_readonly, run)
 from isolation import (EXTENSION_FILES, ROOT, WORKFLOW_TEMPLATE, inventory,
                        project_repository, reviewed_workflow)
 
@@ -78,6 +78,72 @@ class ContextTests(unittest.TestCase):
                                     env=env, capture_output=True)
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertEqual(list(target.rglob("__pycache__")), [])
+
+
+class ReplayDiagnosticsTests(unittest.TestCase):
+    def test_observation_preserves_original_arguments_and_result(self):
+        import contextlib
+        import io
+        import sys
+        from types import SimpleNamespace
+        from unittest.mock import Mock
+        original = Mock(return_value="unaltered original output")
+        module = SimpleNamespace(run=original)
+        previous = sys.argv
+        observed_args = []
+        def main():
+            observed_args.extend(sys.argv)
+            self.assertEqual(module.run(["read-only-binary"], log=Path("log"),
+                                       cwd=Path("work"), expected=1), "unaltered original output")
+        module.main = main
+        output = io.StringIO()
+        with patch("h2_actions.load_pinned_python", return_value=module) as loader, \
+             contextlib.redirect_stdout(output):
+            observed_replay(Path("seed"), Path("out"), Path("repo"), "net:[1]")
+        original.assert_called_once_with(["read-only-binary"], log=Path("log"), cwd=Path("work"), expected=1)
+        self.assertIs(sys.argv, previous)
+        self.assertIn("--parent-network-namespace", observed_args)
+        self.assertEqual(loader.call_args.args[1], "a200f6d699df693f4087c6b7dc2c9027898ebba4")
+        self.assertIn('"state": "VERIFIED"', output.getvalue())
+
+    def test_original_failure_is_propagated_without_verified_message(self):
+        import contextlib
+        import io
+        import sys
+        from types import SimpleNamespace
+        from unittest.mock import Mock
+        module = SimpleNamespace(run=Mock(side_effect=ValueError("original rejected")))
+        module.main = lambda: module.run(["failing-binary"])
+        previous = sys.argv
+        output = io.StringIO()
+        with patch("h2_actions.load_pinned_python", return_value=module), contextlib.redirect_stdout(output):
+            with self.assertRaisesRegex(ValueError, "original rejected"):
+                observed_replay(Path("seed"), Path("out"), Path("repo"), "net:[1]")
+        self.assertIs(sys.argv, previous)
+        self.assertNotIn('"state": "VERIFIED"', output.getvalue())
+
+    def test_changed_original_blob_never_runs(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = Path(temporary)
+            source = repo / "ci/nqc-census/run_rmc006_recertification.py"
+            source.parent.mkdir(parents=True)
+            source.write_text("raise AssertionError('untrusted code executed')\n")
+            with self.assertRaisesRegex(ValueError, "pinned_source_mismatch"):
+                observed_replay(repo / "seed", repo / "out", repo, "net:[1]")
+
+    def test_timeout_preserves_partial_diagnostic_and_never_records_success(self):
+        import contextlib
+        import io
+        import subprocess
+        output = io.StringIO()
+        error = subprocess.TimeoutExpired(["fixture"], 1, output=b"last verified step\n")
+        with patch("h2_actions.subprocess.run", side_effect=error), \
+             patch("h2_actions.evidence") as recorded, contextlib.redirect_stdout(output):
+            with self.assertRaises(subprocess.TimeoutExpired):
+                run(["fixture"], Path("."), timeout=1)
+        self.assertIn("last verified step", output.getvalue())
+        self.assertEqual(recorded.call_args.args[0], "command-timeout")
+        self.assertIsNone(recorded.call_args.args[1]["exit_code"])
 
 
 class RpcTests(unittest.TestCase):
