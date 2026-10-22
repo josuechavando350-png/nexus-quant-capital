@@ -21,6 +21,7 @@ Los datos usan exclusivamente el espacio `nqc_miner_v1`. Cada ejecución tiene d
 - Simulación local con REVM sobre un estado cerrado suministrado: las cuentas, slots o hashes de ancestros ausentes causan error. No se completan consultando un RPC ni suponiendo ceros.
 - Controles de ciclo de vida, caducidad, toxicidad, pruebas de adaptadores y presupuesto; asignación preparatoria por Thompson sampling.
 - Primitivas de timelocks, intereses Morpho bajo supuestos explícitos, vencimientos, similitud de bytecode, grafos heurísticos e incentivos.
+- Archivo local de colecciones con publicación atómica, snapshots verificados y propagación explícita de cuarentena; [operación y límites](docs/archive.md).
 - Exportación local a Parquet con Polars, comprobación por el verificador Rust y conservación exacta de los registros originales.
 - Pipeline de investigación LightGBM con contribuciones TreeSHAP, vinculación de fuentes y validación temporal. Sus pruebas entrenan fixtures artificiales, sin afirmar capacidad predictiva económica.
 
