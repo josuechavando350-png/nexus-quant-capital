@@ -50,10 +50,13 @@
       "id": 10,
       "name": "Radar de depegs y oráculos de tasa fija",
       "component_certified": false,
-      "implementation_stage": "not_evidenced",
+      "implementation_stage": "foundational_partial",
       "sources_reviewed": [],
-      "omega_code": [],
-      "remaining_requirement": "Distinguir oraculos de mercado de oraculos de tasa para evitar falsos positivos de depeg."
+      "omega_code": [
+        "omega/oracle_semantics.py",
+        "omega/ORACLE_SEMANTICS_CONTRACT.md"
+      ],
+      "remaining_requirement": "Poblar semántica protocol-specific para todos los oráculos, probar bytecode/configuración/versiones, replay de depegs y conectar cambios al Causal Graph/Order Book."
     },
     {
       "id": 24,
