@@ -15,6 +15,8 @@ conversación, log parcial o reporte humano.
 | `evidence/public-retry-20261022/config.template.json` | plan | NO EJECUTADO | Alcance y ventanas de la repetición propuesta, con identidad ligada en runtime | Lectura RPC, eventos o resultados |
 | `evidence/binder-python-20261022.json` | durable / módulo aislado | PASS 6/6 | El binder rechaza identidades sucias/operativas y sobrescrituras | Suite Python completa, Rust o RPC |
 | `evidence/supply-chain-review-20261022.json` | revisión dirigida | PASS PARCIAL | Ranges 2026 revisados; rand 0.8.5 remediado a 0.8.6 | `cargo audit`/grafo completo o compilación del lock nuevo |
+| `evidence/build-identity-python-20261022.json` | durable / módulo aislado | PASS 2/2 | El toolchain pin cambia el hash fuente y build.rs lo rastrea | Que el build.rs modificado compile o que el build sea reproducible entre plataformas |
+| `evidence/public-crosscheck-20261022/aave-ethereum-partial-saturation.json` | auxiliar / medición parcial | INSUFICIENTE | 3 tx exitosas, 2 direcciones liquidadoras observadas y span de bloques | Saturación, latencia, tips, cobertura o rentabilidad |
 
 ## Observaciones no admisibles como evidencia durable
 
