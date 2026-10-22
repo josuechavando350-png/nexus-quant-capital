@@ -83,9 +83,11 @@
         "ci/nqc-census/RMC016_WINNER_NET_EVIDENCE_CONTRACT.md"
       ],
       "omega_code": [
-        "omega/census_bridge.py"
+        "omega/census_bridge.py",
+        "omega/competition_ledger.py",
+        "omega/COMPETITION_LEDGER_CONTRACT.md"
       ],
-      "remaining_requirement": "Ganadores, estrategia, retraso de deteccion y oportunidades desaparecidas por transaccion."
+      "remaining_requirement": "Poblar filas autenticadas por transacción, clasificar estrategia/rival, medir retraso de detección NQC, oportunidades perdidas y refrescar mercado actual."
     },
     {
       "id": 25,
@@ -98,9 +100,11 @@
         "ci/nqc-census/RMC016_WINNER_NET_EVIDENCE_CONTRACT.md"
       ],
       "omega_code": [
-        "omega/census_bridge.py"
+        "omega/census_bridge.py",
+        "omega/competition_ledger.py",
+        "omega/COMPETITION_LEDGER_CONTRACT.md"
       ],
-      "remaining_requirement": "Bono, ganador, bloques desde el oraculo y porcentaje pagado al builder por liquidacion."
+      "remaining_requirement": "Poblar bono/oracle→winner/builder payment/costos por transacción real, reconciliar costos completos y calibrar captura NQC sin extrapolar margen de rivales."
     },
     {
       "id": 29,
