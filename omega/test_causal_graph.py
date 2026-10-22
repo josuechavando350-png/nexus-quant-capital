@@ -89,6 +89,7 @@ class CausalGraphTests(unittest.TestCase):
 
     def test_cycle_is_blocked(self):
         nodes, edges = fixture()
+        # Add a POSITION node as a forbidden target by mutating an otherwise valid edge kind.
         cycle = {
             "from_node": h("6"), "to_node": h("1"),
             "kind": "ROUTE_LIQUIDITY", "evidence_sha256": h("e"),
