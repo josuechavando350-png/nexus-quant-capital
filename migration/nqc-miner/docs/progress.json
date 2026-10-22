@@ -4,7 +4,7 @@
   "denominator": 100,
   "global_completion_percent": 35,
   "method": "Weighted engineering estimate with explicit operational phase exits, not a percentage of lines written",
-  "status": "network_and_dependency_hardening_published_pending_full_verification",
+  "status": "build_bound_v2_hardening_published_pending_full_rust_verification",
   "items": [
     {
       "phase": "scope",
@@ -165,7 +165,8 @@
     "evidence/binder-python-20261022.json",
     "docs/EVIDENCE_LEDGER.md",
     "evidence/public-crosscheck-20261022/aave-ethereum-partial-saturation.json",
-    "evidence/build-identity-python-20261022.json"
+    "evidence/build-identity-python-20261022.json",
+    "evidence/reproducibility-python-v2-20261022.json"
   ],
   "notes": [
     "An implemented primitive is not an operational phase exit.",
@@ -174,9 +175,9 @@
     "Independent indexed evidence corroborates three unique successful Aave liquidationCall transactions in the Ethereum sample window; it does not verify the earlier five-event log count and earns no additional progress.",
     "HTTP pacing/retry/redaction, run-config identity binding and rand 0.8.6 remediation are published but receive no progress credit until rebuilt and fully tested.",
     "All identified 2026 RustSec advisory ranges for packages in the current lock were reviewed after the rand remediation; a complete automated advisory scan remains mandatory.",
-    "The six run-config binder regressions passed in an isolated Python 3.13.5 execution against the exact published blobs; this does not credit the repository-wide verification gate.",
     "A transient five-event observation has no durable versioned journal in this branch and is explicitly excluded from metrics and progress.",
-    "Toolchain pin bytes are now part of build source identity and dirty tracking; two isolated Python contract tests passed, but the modified build.rs remains uncompiled.",
-    "Ethereum cross-check yields 3 unique successful transactions and 2 observed caller addresses; saturation remains unknown because eligibility latency, tips and coverage are missing."
+    "Ethereum cross-check yields 3 unique successful transactions and 2 observed caller addresses; saturation remains unknown because eligibility latency, tips and coverage are missing.",
+    "Current build-bound v2 reproducibility contract passed 11/11 isolated Python regressions plus 4/4 owner-schema cases; the Rust v2 delta and three new Rust regressions remain uncompiled.",
+    "Legacy schema v1 is retained only for offline historical verification; new live RPC reads require schema v2 with exact build_identity_sha256."
   ]
 }
