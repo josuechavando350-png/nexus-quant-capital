@@ -1,14 +1,14 @@
 {
   "schema": "nqc.omega.census-assessment.v1",
-  "as_of_commit": "084a15df05b83302b45896f381e345575bb690e2",
+  "as_of_commit": "29a79826a89f93b1c273279a70c08d9d648e8334",
   "assessment_scope": "STATIC_SOURCE_AND_AUTHENTICATED_HISTORICAL_EVIDENCE_ONLY",
   "census_closed": false,
   "certified_components": 0,
   "summary": {
     "components_assessed": 9,
-    "foundational_partial": 6,
+    "foundational_partial": 7,
     "historical_partial": 2,
-    "not_evidenced": 1
+    "not_evidenced": 0
   },
   "components": [
     {
@@ -248,21 +248,33 @@
     {
       "id": 32,
       "name": "Caza de cola larga",
-      "status": "not_evidenced",
+      "status": "foundational_partial",
       "component_certified": false,
       "evidence": [
         {
           "path": "nqc-census/crates/nqc-census-closeout/src/lib.rs",
           "git_blob": "d9d2fd5bcd5323d75ca848790b555753675ed4f5"
+        },
+        {
+          "path": "omega/long_tail.py",
+          "git_blob": "eb993febfc14d47b79d02316bfa88b78cb9cebf1"
+        },
+        {
+          "path": "omega/LONG_TAIL_CONTRACT.md",
+          "git_blob": "fc7ae9acd812db09f82f445992fe7976a2714123"
+        },
+        {
+          "path": "omega/AUDIT_H8.md",
+          "git_blob": "0927c224b4de1db69c63d5afb28159e1822f21b6"
         }
       ],
-      "supported_claim": "The structural closeout tracks a conservative market funnel and forbids unsupported global-completeness claims, but no long-tail prioritizer is established.",
+      "supported_claim": "The structural closeout tracks a conservative market funnel, and Omega now adds an evidence-bound Pareto research prioritizer for newer, smaller, L2 and complex-route markets without scalar economic weights or profitability claims.",
       "missing_for_omega": [
-        "new/small-market scoring",
-        "L2 small-position economics",
-        "complex-route score",
-        "anti-crowding signal",
-        "out-of-sample prioritization evidence"
+        "population from the complete admitted market universe",
+        "provenance/currentness for all research axes",
+        "out-of-sample coverage validation",
+        "Evidence Vault bias/coverage linkage",
+        "full repository regression"
       ]
     }
   ]
