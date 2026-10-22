@@ -18,7 +18,7 @@ Base: `NQC_Sovereign_Radar_Omega.pdf`, v1.0, 22 de octubre de 2026, SHA-256
   auténticos. Emite **OBSERVAR** ante evidencia histórica incompleta y **NO-GO**
   ante entradas inválidas. Nunca emite GO ni realiza llamadas de red.
 - `isolation.py`: adaptador de aislamiento que no modifica el verificador
-  histórico. Sólo aparta los 11 archivos explícitos de Omega en una copia
+  histórico. Sólo aparta los archivos explícitos declarados en `EXTENSION_FILES` en una copia
   temporal y entrega TODOS los demás archivos al verificador original.
   No oculta workflows, archivos de clientes ni otras incorporaciones.
 - `evidence/historical-baseline.json`: resultado determinista del replay de
@@ -71,3 +71,10 @@ Faltan paridad de las tres vías de verdad, todas las posiciones del alcance,
 el ledger por transacción, costos completos, ganadores, retrasos del oráculo y
 propinas al builder. No se extrapolan agregados de otros liquidadores a P&L de
 NQC ni a mercados actuales. Ver `AUDIT_H2.md` para resultados y bloqueos exactos.
+
+## Evaluación estática de Census
+
+`census_assessment.json` enlaza los nueve componentes Census del diseño con los
+Git blobs revisados. El resultado actual es **6 capacidades parciales, 3 no
+demostradas y 0 certificadas**. Ejecutar `python3 omega/census_assessment.py` y
+`python3 -m unittest -v omega/test_census_assessment.py` para validar el mapa.
