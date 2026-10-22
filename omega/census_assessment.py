@@ -13,6 +13,11 @@ EXPECTED_SUMMARY = {"components_assessed": 9, "foundational_partial": 4,
 BLOB = re.compile(r"^[0-9a-f]{40}$")
 COMMIT = re.compile(r"^[0-9a-f]{40}$")
 ALLOWED_PREFIXES = ("nqc-census/", "ci/nqc-census/", "ci/nqc-protocol-fork/", "omega/evidence/")
+ALLOWED_OMEGA_FILES = {
+    "omega/opportunity_vault.py",
+    "omega/OPPORTUNITY_DOSSIER_CONTRACT.md",
+    "omega/AUDIT_H4.md",
+}
 
 
 def load_strict(path: Path) -> object:
@@ -76,7 +81,10 @@ def verify_assessment(value: object) -> list[str]:
                 continue
             path = source.get("path")
             blob = source.get("git_blob")
-            if not isinstance(path, str) or not path.startswith(ALLOWED_PREFIXES) or path.startswith("/") or ".." in Path(path).parts:
+            valid_path = isinstance(path, str) and (
+                path.startswith(ALLOWED_PREFIXES) or path in ALLOWED_OMEGA_FILES
+            )
+            if not valid_path or path.startswith("/") or ".." in Path(path).parts:
                 errors.append("evidence_path_invalid")
             if not isinstance(blob, str) or not BLOB.fullmatch(blob):
                 errors.append("evidence_blob_invalid")
