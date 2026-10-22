@@ -85,14 +85,18 @@
       "component_certified": false,
       "implementation_stage": "foundational_partial",
       "sources_reviewed": [
+        "nqc-census/crates/nqc-census-store/src/lib.rs",
+        "nqc-census/crates/nqc-census-store/src/store.rs",
         "ci/nqc-census/rmc016_winner_net_audit.py",
         "ci/nqc-census/rmc016-production-evidence.json",
         "ci/nqc-census/RMC016_WINNER_NET_EVIDENCE_CONTRACT.md"
       ],
       "omega_code": [
-        "omega/census_bridge.py"
+        "omega/census_bridge.py",
+        "omega/opportunity_vault.py",
+        "omega/OPPORTUNITY_DOSSIER_CONTRACT.md"
       ],
-      "remaining_requirement": "Expediente completo por oportunidad con decisiones, costos, escenarios y resultados."
+      "remaining_requirement": "Poblar expedientes con oportunidades reales, integrar dossier con nqc-census-store, probar recuperación/replicación/reorg y reconciliar costos/resultados reales por oportunidad."
     },
     {
       "id": 32,
