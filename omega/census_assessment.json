@@ -1,6 +1,6 @@
 {
   "schema": "nqc.omega.census-assessment.v1",
-  "as_of_commit": "ffaf64256a957a3caf9112ddfacf74b86346f892",
+  "as_of_commit": "7125ffad5d163027ddf618f7e87c32ec965a335d",
   "assessment_scope": "STATIC_SOURCE_AND_AUTHENTICATED_HISTORICAL_EVIDENCE_ONLY",
   "census_closed": false,
   "certified_components": 0,
@@ -68,13 +68,27 @@
         {
           "path": "ci/nqc-protocol-fork/PROTOCOL_FORK_TRUTH_CONTRACT.json",
           "git_blob": "cad7c3612fbb8f61a58d5a859066cb47aa0a240a"
+        },
+        {
+          "path": "omega/truth_engine.py",
+          "git_blob": "9a08c35a5b0965b07f8187ab4b2b5ea51407cca1"
+        },
+        {
+          "path": "omega/TRUTH_TRIAD_CONTRACT.md",
+          "git_blob": "0e114bc6395746382ba8e6b026426e7868987e9e"
+        },
+        {
+          "path": "omega/AUDIT_H10.md",
+          "git_blob": "88602abd681c9113d52fd96957824c13d5c013bf"
         }
       ],
-      "supported_claim": "Typed state anchors/provenance and fail-closed provider agreement exist; tracked protocol/fork gates exist, but final PFT authority is explicitly NOT_CLOSED.",
+      "supported_claim": "Typed state anchors and fail-closed multi-provider agreement exist, and Omega now adds exact three-way subject parity across event/storage reconstruction, direct reads and EVM replay with source/producer independence and explicit batch coverage; PFT runtime closeout remains separate and not certified here.",
       "missing_for_omega": [
-        "new-repository exact-head runtime certificate",
-        "three-way per-candidate truth parity wired into Omega",
-        "certified current-market scope"
+        "real triads populated from independent sources for all scoped subjects",
+        "complete scoped coverage proof",
+        "new-repository exact-head Protocol/Fork runtime certificate",
+        "full PFT/fork replay",
+        "full repository regression"
       ]
     },
     {
