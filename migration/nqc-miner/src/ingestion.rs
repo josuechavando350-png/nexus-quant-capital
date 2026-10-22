@@ -664,6 +664,11 @@ pub fn validate_runtime(config: &MinerConfig) -> Result<(), IngestError> {
     config
         .validate()
         .map_err(|e| IngestError::Rejected(e.to_string()))?;
+    if config.schema_version != 2 || config.build_identity_sha256.is_none() {
+        return Err(IngestError::Rejected(
+            "live RPC requires schema v2 with exact build identity".into(),
+        ));
+    }
     if config.data_class == crate::config::DataClass::Synthetic {
         return Err(IngestError::Rejected(
             "synthetic runs cannot call live RPC".into(),
