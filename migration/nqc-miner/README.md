@@ -14,6 +14,7 @@ Los datos usan exclusivamente el espacio `nqc_miner_v1`. Cada ejecución tiene d
 
 - Decodificación estricta de nacimientos y liquidaciones de Morpho Blue, y eventos de reservas/liquidaciones de Aave V3, con Alloy. La coincidencia ABI produce candidatos, nunca certificación de contratos.
 - Ingesta finita en Rust desde dos o más proveedores RPC, verificando cadena, bloques finalizados, acuerdo de eventos y continuidad de checkpoints. No hay métodos de firma ni envío de transacciones.
+- Recolector histórico por ventanas con reinicio, espera de finalización y cuarentena de colección; [operación y límites](docs/collector.md).
 - Journal durable con hashes, deduplicación, reanudación y cuarentena por cambios de cadena. Los lotes provisionales y los escaneos incompletos no se presentan como cobertura completa.
 - Saturación y cobertura limitadas al universo declarado. Elegibilidad, propinas y precios ausentes permanecen desconocidos. Descubrir una mina después no mejora retroactivamente su cobertura.
 - Valuación condicional mediante bootstrap de economía diaria, con semillas reproducibles, escenarios, percentiles y costes de intentos fallidos. No sustituye una simulación completa de precios y ejecución.
@@ -69,6 +70,8 @@ nqc-miner topics
 nqc-miner validate-config --config /ruta/miner-config.json
 nqc-miner scan --config /ruta/miner-config.json --state /ruta/nueva/nqc-miner-run
 nqc-miner verify-journal --state /ruta/nqc-miner-run
+nqc-miner follow --config /ruta/miner-plan.json --state /ruta/nueva/coleccion --max-polls 2
+nqc-miner verify-collector --config /ruta/miner-plan.json --state /ruta/coleccion
 nqc-miner report --config /ruta/miner-config.json --state /ruta/nqc-miner-run
 nqc-miner report --config /ruta/miner-config.json --state /ruta/nqc-miner-run --prometheus
 nqc-miner value --input fixtures/valuation.synthetic.json

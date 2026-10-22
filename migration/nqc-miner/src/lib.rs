@@ -4,6 +4,7 @@
 
 pub mod analytics;
 pub mod bridge;
+pub mod collector;
 pub mod config;
 pub mod controls;
 pub mod discovery;

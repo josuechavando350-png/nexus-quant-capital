@@ -1,12 +1,14 @@
 use clap::{Parser, Subcommand};
-use nqc_miner::{analytics, config::MinerConfig, discovery, evm, ingestion, journal, reporting};
+use nqc_miner::{
+    analytics, collector, config::MinerConfig, discovery, evm, ingestion, journal, reporting,
+};
 use serde::Deserialize;
 use serde_json::json;
 use std::{
     error::Error,
     io::Read,
     path::{Path, PathBuf},
-    time::{SystemTime, UNIX_EPOCH},
+    time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
 #[derive(Parser)]
@@ -33,6 +35,24 @@ enum Command {
     },
     /// Finite, read-only, finalized scan. Endpoints are read only from Miner env vars.
     Scan {
+        #[arg(long)]
+        config: PathBuf,
+        #[arg(long)]
+        state: PathBuf,
+    },
+    /// Rolling historical windows; defaults to one poll. Zero max-polls runs until stopped.
+    Follow {
+        #[arg(long)]
+        config: PathBuf,
+        #[arg(long)]
+        state: PathBuf,
+        #[arg(long, default_value_t = 1)]
+        max_polls: u64,
+        #[arg(long, default_value_t = 15, value_parser = clap::value_parser!(u64).range(1..=300))]
+        poll_seconds: u64,
+    },
+    /// Offline whole-collection integrity check, including continuity and quarantine.
+    VerifyCollector {
         #[arg(long)]
         config: PathBuf,
         #[arg(long)]
@@ -104,6 +124,18 @@ fn print_json(value: &impl serde::Serialize) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+fn validate_live_build(config: &MinerConfig) -> Result<(), Box<dyn Error>> {
+    ingestion::validate_runtime(config)?;
+    if env!("NQC_MINER_BUILD_DIRTY") != "false"
+        || config.code_commit != env!("NQC_MINER_BUILD_COMMIT")
+        || config.cargo_lock_sha256 != env!("NQC_MINER_BUILD_LOCK_SHA256")
+        || config.build_identity_sha256.as_deref() != Some(env!("NQC_MINER_BUILD_IDENTITY_SHA256"))
+    {
+        return Err("live read-only evidence requires a clean committed build and matching code/lock/build identity; run about".into());
+    }
+    Ok(())
+}
+
 fn run(cli: Cli) -> Result<(), Box<dyn Error>> {
     match cli.command {
         Command::About => print_json(
@@ -131,15 +163,7 @@ fn run(cli: Cli) -> Result<(), Box<dyn Error>> {
         }
         Command::Scan { config, state } => {
             let config = MinerConfig::load(&config)?;
-            ingestion::validate_runtime(&config)?;
-            if env!("NQC_MINER_BUILD_DIRTY") != "false"
-                || config.code_commit != env!("NQC_MINER_BUILD_COMMIT")
-                || config.cargo_lock_sha256 != env!("NQC_MINER_BUILD_LOCK_SHA256")
-                || config.build_identity_sha256.as_deref()
-                    != Some(env!("NQC_MINER_BUILD_IDENTITY_SHA256"))
-            {
-                return Err("live read-only evidence requires a clean committed build and matching code/lock/build identity; run about".into());
-            }
+            validate_live_build(&config)?;
             let mut journal = journal::Journal::open(&state, &config)?;
             let mut reports = Vec::new();
             for scope in &config.scopes {
@@ -153,6 +177,65 @@ fn run(cli: Cli) -> Result<(), Box<dyn Error>> {
                 )?);
             }
             print_json(&json!({"scans":reports,"journal":journal.summary()}))
+        }
+        Command::Follow {
+            config,
+            state,
+            max_polls,
+            poll_seconds,
+        } => {
+            let config = MinerConfig::load(&config)?;
+            validate_live_build(&config)?;
+            let mut collector = collector::Collector::open(&state, &config)?;
+            let mut polls = 0u64;
+            let mut quorum = None;
+            loop {
+                polls = polls.checked_add(1).ok_or("poll counter overflow")?;
+                let observed_at = SystemTime::now().duration_since(UNIX_EPOCH)?.as_secs();
+                let result = (|| {
+                    if quorum.is_none() {
+                        quorum = Some(ingestion::QuorumRpc::from_scope(&config.scopes[0])?);
+                    }
+                    collector.poll(quorum.as_ref().expect("initialized quorum"), observed_at)
+                })();
+                let last_failed = match result {
+                    Ok(outcome) => {
+                        println!(
+                            "{}",
+                            serde_json::to_string(
+                                &json!({"poll":polls,"outcome":outcome,"collection":collector.status()?})
+                            )?
+                        );
+                        false
+                    }
+                    Err(ingestion::IngestError::Provider(_)) => {
+                        // Endpoint, response body and credentials are never emitted.
+                        println!(
+                            "{}",
+                            serde_json::to_string(
+                                &json!({"poll":polls,"outcome":{"status":"provider_unavailable"},"collection":collector.status()?})
+                            )?
+                        );
+                        true
+                    }
+                    Err(error) => return Err(error.into()),
+                };
+                if max_polls != 0 && polls >= max_polls {
+                    if last_failed {
+                        return Err("last collector poll failed; cursor did not advance for the incomplete window".into());
+                    }
+                    break;
+                }
+                std::thread::sleep(Duration::from_secs(poll_seconds));
+            }
+            Ok(())
+        }
+        Command::VerifyCollector { config, state } => {
+            let config = MinerConfig::load(&config)?;
+            if !state.is_dir() {
+                return Err("collector state does not exist".into());
+            }
+            print_json(&collector::Collector::open(&state, &config)?.status()?)
         }
         Command::Report {
             config,
