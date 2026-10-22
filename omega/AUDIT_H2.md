@@ -85,3 +85,31 @@ Los controles 1 y 2 están aprobados en esta auditoría local. El control 3 requ
 read-back de GitHub; su resultado se registra en el PR. El control 4 sigue
 pendiente. Máximo reportable después de publicar: **75% del hito H2**, no 75%
 del sistema. Avance funcional certificado: **0/36 (0%)**.
+
+
+## Addendum H2B · auditoría completa de objetos Git
+
+La limitación de checkout local permanece, pero el árbol Git completo ya fue
+auditado directamente contra `migration/source-manifest.json` y contra el
+repositorio fuente. Ver `AUDIT_H2_GIT_OBJECTS.md`.
+
+Resultados H2B:
+
+- 637/637 rutas manifestadas presentes.
+- 531 fuentes NQC + 106 workflows históricos deshabilitados.
+- 631/631 payloads byte-identical coinciden por Git blob.
+- 6/6 adaptaciones permitidas reconstruidas exactamente desde los blobs fuente.
+- 637/637 rutas/blobs/modos fuente coinciden con el commit/tree original.
+- 10/10 referencias históricas conservan exactamente su tree SHA.
+- 0 workflows activos, 0 symlinks, 0 rutas prohibidas y 0 cambios fuera de
+  `omega/` respecto a main.
+
+Esto cierra la identidad/aislamiento **a nivel de objetos Git**, pero no sustituye
+la ejecución física de `migration/verify_isolation.py --source-git`, ni la
+regresión Python/Rust/PFT.
+
+Medición actual del hito: **H2 = 88%** (87.5% redondeado). Los controles 1–3
+están cerrados; del control 4 queda cerrada la mitad estática de aislamiento y
+permanece pendiente su mitad ejecutable/regresión.
+
+Avance funcional certificado permanece **0/36 (0%)** y Census permanece abierto.
