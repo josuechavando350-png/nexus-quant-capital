@@ -180,3 +180,16 @@ rutas**, **631/631 blobs byte-identical**, **6/6 transformaciones autorizadas**,
 Con este control H2 avanza a **88%**. Sigue pendiente la parte ejecutable:
 verificador local con object store, regresión Python/Rust y PFT/fork replay.
 Esto no certifica ningún componente ni cierra Census.
+
+
+## H12 · Candidate Coherence Gate
+
+`candidate_coherence.py` conecta Adapter Registry, Truth Triad, Causal Graph,
+Liquidation Order Book, Oracle Semantics y Opportunity Dossier para una misma
+oportunidad. Exige el mismo estado, position/market/oracle coherentes y adapter
+conforme. El único resultado positivo es `FOUNDATION_COHERENT`; nunca GO ni
+certificación.
+
+H12 tiene **21/21 pruebas propias aprobadas**. Además, una regresión conjunta
+H4–H12 ejecutó **176/176 pruebas aprobadas** en el mismo entorno offline. Esto
+demuestra coherencia entre las fundaciones, no cierre de Census ni rentabilidad.
