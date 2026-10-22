@@ -9,9 +9,15 @@
       "name": "Interfaz de protocolos certificables",
       "component_certified": false,
       "implementation_stage": "foundational_partial",
-      "sources_reviewed": [],
-      "omega_code": [],
-      "remaining_requirement": "Adaptadores por protocolo sobre un nucleo comun; el puente de agregados no sustituye adaptadores on-chain."
+      "sources_reviewed": [
+        "nqc-census/crates/nqc-census-aave-discovery/src/interface.rs",
+        "nqc-census/crates/nqc-census-aave-discovery/src/live.rs"
+      ],
+      "omega_code": [
+        "omega/protocol_adapters.py",
+        "omega/PROTOCOL_ADAPTER_CONTRACT.md"
+      ],
+      "remaining_requirement": "Implementar adaptadores reales Morpho Blue/Midnight/subastas, ligar capacidades a despliegues reales, conformance cross-adapter y Protocol/Fork Truth por familia."
     },
     {
       "id": 6,
