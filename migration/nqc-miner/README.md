@@ -126,3 +126,5 @@ La auditoría más reciente del recolector está en [docs/AUDIT_COLLECTOR_202610
 El último bloque auditado está en [docs/AUDIT_ARCHIVE_20261022.md](docs/AUDIT_ARCHIVE_20261022.md): 40/100, 155 pruebas Rust y 91 Python, archivo local v2 con recuperación y revocación verificadas.
 
 La auditoría PostgreSQL de Termux está en [docs/AUDIT_POSTGRES_TERMUX_20261022.md](docs/AUDIT_POSTGRES_TERMUX_20261022.md): 41/100, contrato SQL ejecutado y evidencia verificada; importador e integración productiva pendientes.
+
+Preparación PostgreSQL: [importador candidato](docs/postgres-import.md), con 112 pruebas Python aprobadas y runtime SQL todavía pendiente. Avance auditado: **41/100**, sin incremento por esta preparación.

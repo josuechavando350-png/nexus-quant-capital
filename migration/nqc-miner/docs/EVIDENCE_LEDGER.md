@@ -2,6 +2,12 @@
 
 Corte: 22 de octubre de 2026.
 
+Preparación más reciente: 13 pruebas nuevas del preparador PostgreSQL y 112
+pruebas Python completas PASS; fixture sintético verificado por Rust, sin
+conexión a base. Migración candidata: sintaxis revisada, runtime pendiente.
+Avance permanece **41/100**. Véase `docs/postgres-import.md` y
+`evidence/postgres-import-preparation-20261022/`.
+
 Último bloque: contrato PostgreSQL ejecutado por el usuario en Termux 18.6 y
 auditado desde el archivo original. Fuente `6a89668`; 30 comprobaciones SQL,
 tres rechazos de permisos y reinicio verificado. Avance **41/100**; no se acredita

@@ -186,7 +186,9 @@
     "docs/AUDIT_POSTGRES_TERMUX_20261022.md",
     "evidence/termux-postgres-20261022/audit.json",
     "evidence/termux-postgres-20261022/received.tar.gz",
-    "evidence/termux-postgres-20261022/verification.json"
+    "evidence/termux-postgres-20261022/verification.json",
+    "docs/postgres-import.md",
+    "evidence/postgres-import-preparation-20261022/verification.json"
   ],
   "notes": [
     "An implemented primitive is not an operational phase exit.",
@@ -205,7 +207,8 @@
     "Archive v2 source 169b82f passed 155 Rust and 91 Python tests, including 22 actual Rust/Polars archive regressions. Initial v1 baseline source 005ab8c lacked archive-id binding in receipts and is superseded for the delivery gate; its original evidence is preserved.",
     "The archived three-window collection reuses the earlier 2 historical events and 8 records; zero new RPC observations. Capture/replay produced exactly one owner-bound receipt. Local archive verification does not close PostgreSQL, remote object storage, broker, workflow or economic gates.",
     "Historical preparation stage at 6a89668: the user screenshot demonstrated bootstrap only and the contract runner awaited execution; no credit was added then. Superseded by the retained runtime audit below.",
-    "User-operated PostgreSQL 18.6 Termux contract execution was audited from the original archive: 24 manifest hashes, 30 SQL checks, three actual writer denials, wrong-database/duplicate-schema guards, byte-identical restart snapshots and final shutdown. +1 infrastructure point, now 41/100. Fixtures are synthetic and not Rust-verified journals; importer, relay and production integration remain unexecuted."
+    "User-operated PostgreSQL 18.6 Termux contract execution was audited from the original archive: 24 manifest hashes, 30 SQL checks, three actual writer denials, wrong-database/duplicate-schema guards, byte-identical restart snapshots and final shutdown. +1 infrastructure point, now 41/100. Fixtures are synthetic and not Rust-verified journals; importer, relay and production integration remain unexecuted.",
+    "PostgreSQL importer preparation: 13 new actual Rust-verifier/Polars tests, 112 Python tests total, deterministic source-preserving UUID-bound SQL bundle and pglast syntax review. Candidate importer migration has NOT executed on PostgreSQL; no runtime, concurrency, permission or integration credit. Global progress remains 41/100."
   ],
   "historical_audit_notes_superseded_for_a841261": [
     "HTTP pacing/retry/redaction, run-config identity binding and rand 0.8.6 remediation are published but receive no progress credit until rebuilt and fully tested.",

@@ -13,7 +13,7 @@ public restart capture. See `docs/collector.md` and
 `docs/AUDIT_COLLECTOR_20261022.md`. No persistent collector service is running.
 Other server integrations below remain unexecuted.
 
-The Parquet exporter is executable and tested against the actual Rust journal verifier and Polars. The PostgreSQL DDL has now passed a retained synthetic contract test in a new local Termux cluster, which was shut down afterward. Its journal importer and production integration remain unimplemented. ClickHouse, Redpanda, Temporal and Nix remain prepared contracts without server execution. No external infrastructure or Observer services were used.
+The Parquet exporter is executable and tested against the actual Rust journal verifier and Polars. The PostgreSQL DDL has now passed a retained synthetic contract test in a new local Termux cluster, which was shut down afterward. A journal import preparer is now offline-tested, with a candidate SQL migration awaiting runtime validation; production integration remains unimplemented. ClickHouse, Redpanda, Temporal and Nix remain prepared contracts without server execution. No external infrastructure or Observer services were used.
 
 Every resource belongs to `nqc_miner_v1`. The namespace is distinct from any existing observer; ownership cannot be adopted by copying a name into an existing state directory. `infra/ownership-contract.json` defines the proposed database/schema/role/topic/workflow/bucket IDs. The bucket is a logical name only: no globally unique cloud bucket has been reserved. Export writes only to a new local directory and has no upload path.
 
@@ -42,7 +42,7 @@ The DDL refuses any database whose name is not exactly `nqc_miner_v1`. It intent
 
 `runs` binds each run ID to one evidence class, owner hash, configuration hash, source commit and Cargo.lock hash. It preserves original owner/configuration bytes. `journal_ledger` preserves every original JSONL line, line hash, envelope hash and sequence. The importer must run the Rust verifier on the exact immutable segment before any transaction. SQL shape constraints do not establish source authenticity or recompute the Rust ABI/hash-chain rules.
 
-A future importer must insert a ledger row and its outbox row in one transaction. A duplicate primary key is accepted only after comparing the existing hashes **and original bytes**; conflicting content quarantines the run. An unconditional `ON CONFLICT DO NOTHING` would conceal corruption and is prohibited. A future consumer commits its broker offset only after durable, idempotent insertion. This provides a recoverable delivery design, not a claim of currently implemented end-to-end exactly-once processing.
+The candidate importer in `infra/postgres_import.sql` is designed to insert ledger rows and outbox rows in one transaction; its runtime validation is still pending (see `docs/postgres-import.md`). A duplicate primary key is accepted only after comparing the existing hashes **and original bytes**; conflicting content quarantines the run. An unconditional `ON CONFLICT DO NOTHING` would conceal corruption and is prohibited. A future consumer commits its broker offset only after durable, idempotent insertion. This provides a recoverable delivery design, not a claim of currently implemented end-to-end exactly-once processing.
 
 The outbox cannot dispatch: `delivery_enabled` must remain false and `delivered_at` must remain null under this schema. No relay is implemented. The registry supports research states through `proposed` plus `retired`; `active` and `watched` require a separately reviewed migration and remain inaccessible here. The Rust lifecycle validates transitions, evidence, expiration and reorgs; a SQL row never substitutes for a gate pass. Retirement can restart at `detected` with a reason, the same mine/chain, and all accepted evidence cleared.
 
@@ -123,7 +123,7 @@ python -m unittest discover -s research -p test_export_parquet.py -v
 
 Static audits used pglast 7.21 for PostgreSQL parsing, sqlglot 27.29.0 with its ClickHouse dialect, and jsonschema 4.25.1 for JSON Schema 2020-12 definitions and fixture/manifest structure. These temporary audit tools are not production dependencies. Parser success is not database integration validation.
 
-Before deployment, the missing gates include real PostgreSQL/ClickHouse DDL execution and permission tests, importer/projection transaction and restart tests, late-invalidation integration tests, dedicated broker ACL/replication tests, a pinned Temporal worker with replay tests, cloud resource ownership/retention policy, Nix evaluation/build, authenticated source attestation and explicit operational authorization. No external resource is implied to exist because its contract is present.
+Before deployment, the missing gates include real ClickHouse DDL execution and permission tests, PostgreSQL candidate-importer execution/permission/concurrency tests, importer/projection transaction and restart tests, late-invalidation integration tests, dedicated broker ACL/replication tests, a pinned Temporal worker with replay tests, cloud resource ownership/retention policy, Nix evaluation/build, authenticated source attestation and explicit operational authorization. No external resource is implied to exist because its contract is present.
 
 ## Primary references
 
