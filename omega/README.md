@@ -193,3 +193,20 @@ certificación.
 H12 tiene **21/21 pruebas propias aprobadas**. Además, una regresión conjunta
 H4–H12 ejecutó **176/176 pruebas aprobadas** en el mismo entorno offline. Esto
 demuestra coherencia entre las fundaciones, no cierre de Census ni rentabilidad.
+
+## H2C · Regresión ejecutable del checkout completo
+
+H2 alcanza **94% de integración auditada**. El verificador original pasó con
+los 637 payloads y objetos fuente. Census Rust 1.98.1 aprobó 528 tests,
+fmt, Clippy (`-D warnings`) y build. Omega aprobó 241 tests sin omisiones.
+
+Discovery Python conserva siete errores de preparación heredados: 838 tests
+descubiertos y 664 ejecutados/aprobados. La comparación con el snapshot original
+es exacta. Las otras 174 pruebas aprobaron usando sus CLI, insumos auténticos
+y catálogos históricos en copias separadas. `regression.py` y
+`historical_regression.py` registran esa distinción sin convertir errores en PASS.
+
+PFT materializado desde su fuente original aprobó 56 tests Rust y 14 Solidity.
+Siguen pendientes forks (dos RPC con HTTP 403), replay desconectado (namespace
+no permitido), formato heredado y enlace al productor nuevo. **0/36 certificados;
+Census NO cerrado.** Ver [auditoría H2C](AUDIT_H2_EXECUTABLE.md) y `evidence/h2-*`.

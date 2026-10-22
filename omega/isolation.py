@@ -45,6 +45,12 @@ EXTENSION_FILES = frozenset({
     "omega/COMPETITION_LEDGER_CONTRACT.md", "omega/AUDIT_H11.md",
     "omega/candidate_coherence.py", "omega/test_candidate_coherence.py",
     "omega/CANDIDATE_COHERENCE_CONTRACT.md", "omega/AUDIT_H12.md",
+    "omega/regression.py", "omega/test_regression.py", "omega/historical_regression.py",
+    "omega/AUDIT_H2_EXECUTABLE.md", "omega/evidence/h2-executable.json",
+    "omega/evidence/h2-census-current.json", "omega/evidence/h2-census-source.json",
+    "omega/evidence/h2-census-comparison.json", "omega/evidence/h2-omega.json",
+    "omega/evidence/h2-historical.json", "omega/evidence/h2-fork-preflight.json",
+    "omega/evidence/h2-execution-logs.json",
 })
 EXTENSION_DIRS = {"omega", "omega/evidence"}
 

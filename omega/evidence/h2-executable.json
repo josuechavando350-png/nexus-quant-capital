@@ -1,0 +1,166 @@
+{
+  "audit_date": "2026-10-22",
+  "base_commit": "54318de74ad716b943c30c4deddb12ecf5fc54be",
+  "broadcast_authorized": false,
+  "canonical_recertification": false,
+  "census_closed": false,
+  "certified_component_count": 0,
+  "checks": {
+    "census_python_current": {
+      "discovered": 838,
+      "executed": 664,
+      "same_outcomes_as_original": true,
+      "setup_errors": 7,
+      "skipped": 0,
+      "status": "FAILED_INHERITED_SETUP_ERRORS",
+      "successes": 664,
+      "unexecuted": 174
+    },
+    "census_rust": {
+      "build": "PASS",
+      "clippy_warnings_denied": "PASS",
+      "fmt": "PASS",
+      "ignored": 0,
+      "locked": true,
+      "offline": true,
+      "rust": "1.98.1",
+      "status": "PASS",
+      "tests": 528
+    },
+    "d06_real_package": {
+      "included_in_census_python_current": true,
+      "status": "PASS",
+      "tests": 58
+    },
+    "disconnected_replay": {
+      "executed": false,
+      "reason": "unshare uid_map write: Operation not permitted",
+      "status": "BLOCKED"
+    },
+    "historical_cli_suites": {
+      "current_aggregate_pass": false,
+      "status": "PASS_IN_HISTORICAL_INPUT_SCOPE",
+      "suite_count": 7,
+      "tests": 174
+    },
+    "historical_forks": {
+      "executed": false,
+      "reason": "Both original public RPC endpoints returned HTTP 403 on eth_chainId",
+      "status": "BLOCKED"
+    },
+    "legacy_isolation_tests": {
+      "status": "PASS",
+      "tests": 9
+    },
+    "omega": {
+      "skipped": 0,
+      "status": "PASS",
+      "tests": 241
+    },
+    "parity_python": {
+      "status": "PASS",
+      "tests": 9
+    },
+    "pft_corpus": {
+      "fixture_count": 3,
+      "protocol_fork_truth": "NOT_CLOSED",
+      "status": "CONTRACT_PASS_ONLY"
+    },
+    "pft_materialization": {
+      "effective_tree_sha256": "cc83e9664cdf6e095e2abfce7d08202e166c2c0556b7283d2d294bcd098ebc66",
+      "original_certified_commit": "5b4a0cb778cb4370cd54eb6fcba765dc8d7cecdf",
+      "reimplementation_tree_sha256": "6be3a8ec1bbccfdd5cc650bc126d836a3eef1124cf3f99a11d5007a7e979addc",
+      "status": "PASS_ORIGINAL_SOURCE_SCOPE_ONLY"
+    },
+    "pft_rust": {
+      "clippy": "COMPLETED_WITH_WARNINGS",
+      "debug_all_targets_build": "PASS",
+      "fmt": "FAIL_INHERITED_FORMAT",
+      "ignored": 0,
+      "locked": true,
+      "offline": true,
+      "release_build": "NOT_RUN",
+      "rust": "1.98.1",
+      "status": "TESTS_PASS_WITH_REMAINING_CHECKS",
+      "tests": 56
+    },
+    "pft_solidity": {
+      "fmt": "FAIL_INHERITED_FORMAT",
+      "foundry": "1.7.1",
+      "fuzz_seed": "0x39",
+      "fuzz_tests": 2,
+      "runs_per_fuzz_test": 256,
+      "solc": "0.8.24+commit.e11b9ed9",
+      "status": "TESTS_PASS",
+      "tests": 14
+    },
+    "source_isolation": {
+      "active_workflows": 0,
+      "disabled_workflows": 106,
+      "original_refs": 10,
+      "payloads": 637,
+      "source_files": 531,
+      "status": "PASS"
+    },
+    "weth_python": {
+      "status": "PASS",
+      "tests": 25
+    }
+  },
+  "component_count": 36,
+  "evidence_sha256": {
+    "h2-census-comparison.json": "1b48fb93d112a939e83ee6bf40e5e68f49ea50055d8cc5a569200359c1e869ac",
+    "h2-census-current.json": "3841b9a29799900d28f3bab47e551837026de4e1108e95f1754c8a67ef743d68",
+    "h2-census-source.json": "3c798f5369e628b726ff651566f9b030eb4a38caa4f1f75e0079bd4f96ea524e",
+    "h2-execution-logs.json": "9351445ce023d785f2e8d02b07fa2d1d50a42af93353d0b68bbe764deaa7c6a3",
+    "h2-fork-preflight.json": "565f62be38cc1eb63940ba50ba1faa9eaa22b2db29910802a947154305ae270a",
+    "h2-historical.json": "d8498c360c7f3a4f4269aaf876d72b6bc1cedb5eb992fb86edc0d9511d904b44",
+    "h2-omega.json": "3d10e57cfbdbfda24c40d5181eec27ac325f23952fc46d31801fdafe667b4f92"
+  },
+  "h2_integration_progress_percent": 93.75,
+  "h2_progress_basis": "3 original controls + 3/4 of fourth control; PFT/forks/replay incomplete",
+  "pdf_sha256": "5c1739799ab5099bc95f7347aeed8bcc2e3b098e64c3688584331004f15edf0f",
+  "phase_advance_authorized": false,
+  "report_commitment_sha256": "036221e11a49d37e6ebbfbaf2f830ba68e9c7a44ca5cea0d7aa9b558d5465a42",
+  "repository": "josuechavando350-png/nexus-quant-capital",
+  "repository_id": 1411047452,
+  "requested_resume_commit": "84fbaa2dd7a1b93c432f6611622b98d81fd3c679",
+  "schema": "nqc.omega.h2-executable-audit.v1",
+  "signing_authorized": false,
+  "source_commit": "e259739c9f75fedcd1061d2f78d6b8852e7a3060",
+  "source_manifest_sha256": "07c126f5ccaba1d05d22e4adf964d57f59707d158ce76856ed92badec83a9b67",
+  "source_repository": "josuechavando350-png/nexus-engine",
+  "source_repository_id": 1333360261,
+  "spending_authorized": false,
+  "tested_omega_python_sha256": {
+    "audit.py": "557c5c4416ae6f25accdff7fa254510821bf52aecb0bf131117ebb4aea497315",
+    "candidate_coherence.py": "95fcab029fdfbb8e861afbd80c0f5a1e6e91e91fdbfc75f083f2ff6d967fbe5f",
+    "causal_graph.py": "27c56cfaf3c4bf9ffe5a0ae8108a73bdd7c1e7acca7909e1bc9bd6286cd66284",
+    "census_assessment.py": "1e53fd834df3b49f2ef3adaa66afdc0108a040d4dd9a2d930629f765f1a57688",
+    "census_bridge.py": "125b8d4fc2553ed4fa1322939736fe9a53ac5a1aa36bd4bc1564845cae947974",
+    "competition_ledger.py": "a44450fb8f759a37b046a3b986a28af1c80c016e6528f710e32ffac4e35952e4",
+    "historical_regression.py": "3a4b52428c108042c0509c57796dcf17c8adcd29db2e1bb76f41c99a5cc9d7bc",
+    "integrity.py": "f9502580ab5fa4995c1b80d1a17e00c33a66e08b3b5c963aca01391ba453d1d2",
+    "isolation.py": "eb5fbbabee2efd8d8f01e6d7d971f47c538cfd9a957bcf4ff0f522b36c45618a",
+    "liquidation_order_book.py": "5c22689e4be172bbcf54292a6fef42eca5ae24405cdb30e70fa09cf632b48ffc",
+    "long_tail.py": "3a850a278bf1fafa79fac1f66c5f31795482f663d7696dfbd31d46e6d4bdd880",
+    "opportunity_vault.py": "1818fbf5d9a1e4bf295ef1ee2174608a932b0db70645526164039cd8929bdafe",
+    "oracle_semantics.py": "602e260b5120a503e7df28018f3176a7f39619ae864aa2a608b38bd7aed72ac0",
+    "protocol_adapters.py": "d32e66647ad4d94852db18e9fecd1581c1a33910d364efb3a916e0150457c61e",
+    "regression.py": "6762b0382515f849da3ac69810c5c32ef9ce3014dfdbf9fc849e228d8d327dcb",
+    "test_audit.py": "9a5924672eb33cfb041965b966917113324e59406b9ac0ad92784d2b5812b933",
+    "test_candidate_coherence.py": "db9b1f13ebca26f75d1efae8d772a82ff33a51ad6248d58ee0dbcb2f2a6b47ab",
+    "test_causal_graph.py": "f5a28db416554865f013c694353dde65ab02447050c1a63bde82b71d94f53b1a",
+    "test_census_assessment.py": "2b51a80e948123f551a1ce58bc89bf727fd60f21f9f8ddd0f93b99a7e7b19b2a",
+    "test_competition_ledger.py": "28261d8c875ed5e91e8d51a1d9f83c7b03435f77827f9b9f7df0491b006c659b",
+    "test_integration.py": "3e616171744814e46e81cbf3db41896cbbe71979ab60186f06516aa8640461cf",
+    "test_liquidation_order_book.py": "63b38f50a125484adbce536ada698a5d0e610677eafb0e002e1dc8ff88b21891",
+    "test_long_tail.py": "77fecdd5e50efa12ed571cf036d7de3c5296cad20c7cd9622806e7a95158bf7d",
+    "test_opportunity_vault.py": "e86a9827ad5d0a783849fc773acfcf72f13cff47c7e607068da24c22ff1c4d47",
+    "test_oracle_semantics.py": "bfed041950262f73596f12d0447f09cee78bbb59121b55e216c9630553dcaaf1",
+    "test_protocol_adapters.py": "1a951a6cae6a1874c960ffcb66c11dc19bf3d675987c659fef90afa2d5438083",
+    "test_regression.py": "2c89b7a9770e4ec42b9b3e9dc0e593338af05676a6eb803ef11e0c970a1e8d0e",
+    "test_truth_engine.py": "8d5055f111fdc81f22ecff1fb2433bc42a8ab7f2795ac1c75b3a6e83b55a70ca",
+    "truth_engine.py": "26c4fde76d599837d6c6fb664e9167532fdccf102afb5f892ed62d7693f07777"
+  }
+}
