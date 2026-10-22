@@ -67,7 +67,7 @@ Reproducir las entradas fijadas es obligatorio. El almacenamiento local es
 atómico y no sobrescribe evidencia existente; no equivale a un Evidence Vault
 certificado, replicado ni probado frente a reorganizaciones de cadena.
 
-Existe ya el contrato offline de paridad de tres vías; faltan poblar triadas reales independientes, todas las posiciones del alcance, el ledger por transacción, costos completos, ganadores, retrasos del oráculo y propinas al builder. No se extrapolan agregados de otros liquidadores a P&L de
+Existe ya el contrato offline de paridad de tres vías y el esquema de ledger por transacción; faltan poblar triadas reales independientes, todas las posiciones del alcance y filas autenticadas con costos completos, ganadores, retrasos del oráculo y propinas al builder. No se extrapolan agregados de otros liquidadores a P&L de
 NQC ni a mercados actuales. Ver `AUDIT_H2.md` para resultados y bloqueos exactos.
 
 ## Evaluación estática de Census
@@ -157,3 +157,14 @@ H10 tiene **20/20 pruebas nuevas aprobadas**. El componente 6 sigue
 `foundational_partial`: falta poblar triadas reales completas y reestablecer
 el runtime closeout PFT vinculado al productor actual. `PARITY` nunca se
 presenta como certificación PFT.
+
+## H11 · Competition & Margin Ledger
+
+`competition_ledger.py` materializa el formato exacto por transacción para
+ganador, oracle update, bloque ganador, bono, builder payment, gas y otros costos.
+Los desconocidos permanecen `null`; el margen observado sólo se deriva cuando
+los costos están explícitamente completos y nunca se atribuye a NQC.
+
+H11 tiene **20/20 pruebas nuevas aprobadas**. Los componentes 24 y 25 siguen
+`historical_partial`: falta poblar las 127 transacciones con receipts/eventos
+autenticados, reconciliar costos reales y añadir counterfactual de detección NQC.
