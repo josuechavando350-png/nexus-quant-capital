@@ -338,6 +338,7 @@ class CandidateCoherenceTests(unittest.TestCase):
     def test_order_book_oracle_must_belong_to_market(self):
         alt = h("2")
         g = graph()
+        # Replace oracle node and all edges that target it.
         for node in g["nodes"]:
             if node["node_id"] == ORACLE:
                 node["node_id"] = alt
@@ -374,6 +375,7 @@ class CandidateCoherenceTests(unittest.TestCase):
     def test_unsupported_protocol_id_is_blocked(self):
         d = dossier()
         d["protocol"]["protocol_id"] = "unknown"
+        # opportunity_id depends on protocol; recompute it using module helper semantics
         from opportunity_vault import identity_payload
         d["opportunity_id"] = digest(canonical(identity_payload(d)))
         reseal(d, "dossier_commitment_sha256")
