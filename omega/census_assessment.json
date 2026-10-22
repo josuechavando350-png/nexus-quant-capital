@@ -1,6 +1,6 @@
 {
   "schema": "nqc.omega.census-assessment.v1",
-  "as_of_commit": "25ef2a1916b4a618b0e528b567ac20da92af4786",
+  "as_of_commit": "9ea47679dead5f41da6940739b6fabcce61a2704",
   "assessment_scope": "STATIC_SOURCE_AND_AUTHENTICATED_HISTORICAL_EVIDENCE_ONLY",
   "census_closed": false,
   "certified_components": 0,
@@ -17,11 +17,23 @@
       "status": "foundational_partial",
       "component_certified": false,
       "evidence": [
-        {"path": "nqc-census/crates/nqc-census-aave-discovery/src/interface.rs", "git_blob": "e32c096ef4f86b87f468d512cfc99855fd05fa46"},
-        {"path": "nqc-census/crates/nqc-census-aave-discovery/src/live.rs", "git_blob": "87bd90c8153c4b2a6db09b10ac9f02a58b30ca6f"}
+        {
+          "path": "nqc-census/crates/nqc-census-aave-discovery/src/interface.rs",
+          "git_blob": "e32c096ef4f86b87f468d512cfc99855fd05fa46"
+        },
+        {
+          "path": "nqc-census/crates/nqc-census-aave-discovery/src/live.rs",
+          "git_blob": "87bd90c8153c4b2a6db09b10ac9f02a58b30ca6f"
+        }
       ],
       "supported_claim": "Aave V3 discovery exposes pinned selectors, runtime checks, reserve events, exact anchors and multi-provider reads.",
-      "missing_for_omega": ["protocol-agnostic adapter contract", "Morpho Blue adapter", "Morpho Midnight adapter", "auction-protocol adapter", "cross-adapter conformance suite"]
+      "missing_for_omega": [
+        "protocol-agnostic adapter contract",
+        "Morpho Blue adapter",
+        "Morpho Midnight adapter",
+        "auction-protocol adapter",
+        "cross-adapter conformance suite"
+      ]
     },
     {
       "id": 6,
@@ -29,13 +41,29 @@
       "status": "foundational_partial",
       "component_certified": false,
       "evidence": [
-        {"path": "nqc-census/crates/nqc-census-core/src/observation.rs", "git_blob": "c944dd1a41d0381e0488c58fba85564a4bc188b8"},
-        {"path": "nqc-census/crates/nqc-census-chain/src/consensus.rs", "git_blob": "07275336f9633a9f7abf4d66616834f5cb3601ae"},
-        {"path": "ci/nqc-protocol-fork/PROTOCOL_FORK_FINAL_CLOSEOUT.json", "git_blob": "8c12db5323f2bcd0c50f242f7e720a9780b30b76"},
-        {"path": "ci/nqc-protocol-fork/PROTOCOL_FORK_TRUTH_CONTRACT.json", "git_blob": "cad7c3612fbb8f61a58d5a859066cb47aa0a240a"}
+        {
+          "path": "nqc-census/crates/nqc-census-core/src/observation.rs",
+          "git_blob": "c944dd1a41d0381e0488c58fba85564a4bc188b8"
+        },
+        {
+          "path": "nqc-census/crates/nqc-census-chain/src/consensus.rs",
+          "git_blob": "07275336f9633a9f7abf4d66616834f5cb3601ae"
+        },
+        {
+          "path": "ci/nqc-protocol-fork/PROTOCOL_FORK_FINAL_CLOSEOUT.json",
+          "git_blob": "8c12db5323f2bcd0c50f242f7e720a9780b30b76"
+        },
+        {
+          "path": "ci/nqc-protocol-fork/PROTOCOL_FORK_TRUTH_CONTRACT.json",
+          "git_blob": "cad7c3612fbb8f61a58d5a859066cb47aa0a240a"
+        }
       ],
       "supported_claim": "Typed state anchors/provenance and fail-closed provider agreement exist; tracked protocol/fork gates exist, but final PFT authority is explicitly NOT_CLOSED.",
-      "missing_for_omega": ["new-repository exact-head runtime certificate", "three-way per-candidate truth parity wired into Omega", "certified current-market scope"]
+      "missing_for_omega": [
+        "new-repository exact-head runtime certificate",
+        "three-way per-candidate truth parity wired into Omega",
+        "certified current-market scope"
+      ]
     },
     {
       "id": 7,
@@ -44,7 +72,12 @@
       "component_certified": false,
       "evidence": [],
       "supported_claim": "No dedicated position-market-oracle-interest-liquidity-route dependency graph was established by the reviewed sources.",
-      "missing_for_omega": ["typed dependency graph", "incremental invalidation rules", "graph completeness proof", "replay tests"]
+      "missing_for_omega": [
+        "typed dependency graph",
+        "incremental invalidation rules",
+        "graph completeness proof",
+        "replay tests"
+      ]
     },
     {
       "id": 8,
@@ -52,10 +85,19 @@
       "status": "foundational_partial",
       "component_certified": false,
       "evidence": [
-        {"path": "nqc-census/crates/nqc-census-portfolio/src/actionability.rs", "git_blob": "81a81c68c79e1bd9369c605fdf9f28c2f178d163"}
+        {
+          "path": "nqc-census/crates/nqc-census-portfolio/src/actionability.rs",
+          "git_blob": "81a81c68c79e1bd9369c605fdf9f28c2f178d163"
+        }
       ],
       "supported_claim": "The actionability boundary conserves below-one borrower/debt/collateral pairs and binds them to PFT evidence.",
-      "missing_for_omega": ["exact liquidation-price index", "strict price ordering", "binary/range crossing query", "interest-accrual threshold refresh", "cross-protocol order book"]
+      "missing_for_omega": [
+        "exact liquidation-price index",
+        "strict price ordering",
+        "binary/range crossing query",
+        "interest-accrual threshold refresh",
+        "cross-protocol order book"
+      ]
     },
     {
       "id": 10,
@@ -63,10 +105,18 @@
       "status": "not_evidenced",
       "component_certified": false,
       "evidence": [
-        {"path": "nqc-census/crates/nqc-census-aave-discovery/src/interface.rs", "git_blob": "e32c096ef4f86b87f468d512cfc99855fd05fa46"}
+        {
+          "path": "nqc-census/crates/nqc-census-aave-discovery/src/interface.rs",
+          "git_blob": "e32c096ef4f86b87f468d512cfc99855fd05fa46"
+        }
       ],
       "supported_claim": "Aave price-oracle discovery is evidenced; classification between market-price and exchange-rate/fixed-rate oracle semantics is not established.",
-      "missing_for_omega": ["oracle semantic classifier", "depeg behavior model", "rate-oracle registry", "false-positive regression corpus"]
+      "missing_for_omega": [
+        "oracle semantic classifier",
+        "depeg behavior model",
+        "rate-oracle registry",
+        "false-positive regression corpus"
+      ]
     },
     {
       "id": 24,
@@ -74,11 +124,23 @@
       "status": "historical_partial",
       "component_certified": false,
       "evidence": [
-        {"path": "ci/nqc-census/rmc016_winner_net_audit.py", "git_blob": "fb0c6988edb30542c899e80c32c355e73e37dba2"},
-        {"path": "omega/evidence/historical-baseline.json", "git_blob": "7f3fd89cf9d32a5470e8c8c0bfe50896a3402697"}
+        {
+          "path": "ci/nqc-census/rmc016_winner_net_audit.py",
+          "git_blob": "fb0c6988edb30542c899e80c32c355e73e37dba2"
+        },
+        {
+          "path": "omega/evidence/historical-baseline.json",
+          "git_blob": "7f3fd89cf9d32a5470e8c8c0bfe50896a3402697"
+        }
       ],
       "supported_claim": "Authenticated historical aggregates cover 127 winner transactions and 139 liquidation events in a bounded Aave V3 Ethereum interval.",
-      "missing_for_omega": ["per-transaction winner ledger", "competitor strategy classification", "NQC detection-delay counterfactual", "lost-opportunity ledger", "current-market refresh"]
+      "missing_for_omega": [
+        "per-transaction winner ledger",
+        "competitor strategy classification",
+        "NQC detection-delay counterfactual",
+        "lost-opportunity ledger",
+        "current-market refresh"
+      ]
     },
     {
       "id": 25,
@@ -86,12 +148,27 @@
       "status": "historical_partial",
       "component_certified": false,
       "evidence": [
-        {"path": "nqc-census/crates/nqc-census-economics/src/lib.rs", "git_blob": "7458b03f0a25f6e8091eb5b123df5dc21cfb0ab4"},
-        {"path": "ci/nqc-census/rmc016_winner_net_audit.py", "git_blob": "fb0c6988edb30542c899e80c32c355e73e37dba2"},
-        {"path": "omega/evidence/historical-baseline.json", "git_blob": "7f3fd89cf9d32a5470e8c8c0bfe50896a3402697"}
+        {
+          "path": "nqc-census/crates/nqc-census-economics/src/lib.rs",
+          "git_blob": "7458b03f0a25f6e8091eb5b123df5dc21cfb0ab4"
+        },
+        {
+          "path": "ci/nqc-census/rmc016_winner_net_audit.py",
+          "git_blob": "fb0c6988edb30542c899e80c32c355e73e37dba2"
+        },
+        {
+          "path": "omega/evidence/historical-baseline.json",
+          "git_blob": "7f3fd89cf9d32a5470e8c8c0bfe50896a3402697"
+        }
       ],
       "supported_claim": "The economics crate requires all 14 cost categories including builder payment; the authenticated aggregate exposes gross and observed winner gas but explicitly lacks complete execution-cost reconciliation.",
-      "missing_for_omega": ["per-liquidation bonus", "oracle-to-winner block delay", "builder-payment share of bonus", "complete all-cost net margin", "capture-probability calibration"]
+      "missing_for_omega": [
+        "per-liquidation bonus",
+        "oracle-to-winner block delay",
+        "builder-payment share of bonus",
+        "complete all-cost net margin",
+        "capture-probability calibration"
+      ]
     },
     {
       "id": 29,
@@ -99,11 +176,35 @@
       "status": "foundational_partial",
       "component_certified": false,
       "evidence": [
-        {"path": "nqc-census/crates/nqc-census-store/src/lib.rs", "git_blob": "2dd2fa0c4cbae1b77f07a5ac255fd355e50fc2a1"},
-        {"path": "nqc-census/crates/nqc-census-store/src/store.rs", "git_blob": "bb00725d0ed274eb98bf7b1f3ef1d53b5145ac53"}
+        {
+          "path": "nqc-census/crates/nqc-census-store/src/lib.rs",
+          "git_blob": "2dd2fa0c4cbae1b77f07a5ac255fd355e50fc2a1"
+        },
+        {
+          "path": "nqc-census/crates/nqc-census-store/src/store.rs",
+          "git_blob": "bb00725d0ed274eb98bf7b1f3ef1d53b5145ac53"
+        },
+        {
+          "path": "omega/opportunity_vault.py",
+          "git_blob": "6b797e035b330f8abcca4b1bf7abccce8fe112fc"
+        },
+        {
+          "path": "omega/OPPORTUNITY_DOSSIER_CONTRACT.md",
+          "git_blob": "30ca52935189da4a7d076420cc9ba4f7c5ab053a"
+        },
+        {
+          "path": "omega/AUDIT_H4.md",
+          "git_blob": "fc8aefd6e6352bd541c8b5e7f22068e0beb3a7cc"
+        }
       ],
-      "supported_claim": "A durable content-addressed, append-only evidence substrate with recovery and offline verification exists; its own documentation explicitly disclaims market discovery and completeness.",
-      "missing_for_omega": ["opportunity dossier schema", "decision and counterfactual linkage", "cost/result reconciliation per opportunity", "Omega-specific retention and query layer", "replicated durability audit"]
+      "supported_claim": "A durable content-addressed Census store exists, and Omega now adds a fail-closed per-opportunity dossier plus local content-addressed query layer; this is still not integrated durability or a certified Evidence Vault.",
+      "missing_for_omega": [
+        "real opportunity dossiers populated from admitted acquisition",
+        "physical integration with nqc-census-store",
+        "replicated durability and recovery audit",
+        "reorg reconciliation across dossier and store",
+        "real per-opportunity cost/result reconciliation"
+      ]
     },
     {
       "id": 32,
@@ -111,10 +212,19 @@
       "status": "not_evidenced",
       "component_certified": false,
       "evidence": [
-        {"path": "nqc-census/crates/nqc-census-closeout/src/lib.rs", "git_blob": "d9d2fd5bcd5323d75ca848790b555753675ed4f5"}
+        {
+          "path": "nqc-census/crates/nqc-census-closeout/src/lib.rs",
+          "git_blob": "d9d2fd5bcd5323d75ca848790b555753675ed4f5"
+        }
       ],
       "supported_claim": "The structural closeout tracks a conservative market funnel and forbids unsupported global-completeness claims, but no long-tail prioritizer is established.",
-      "missing_for_omega": ["new/small-market scoring", "L2 small-position economics", "complex-route score", "anti-crowding signal", "out-of-sample prioritization evidence"]
+      "missing_for_omega": [
+        "new/small-market scoring",
+        "L2 small-position economics",
+        "complex-route score",
+        "anti-crowding signal",
+        "out-of-sample prioritization evidence"
+      ]
     }
   ]
 }
