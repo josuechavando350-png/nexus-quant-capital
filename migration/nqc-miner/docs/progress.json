@@ -2,9 +2,9 @@
   "schema": "nqc-miner-progress-v1",
   "as_of": "2026-10-22",
   "denominator": 100,
-  "global_completion_percent": 40,
+  "global_completion_percent": 41,
   "method": "Weighted engineering estimate with explicit operational phase exits, not a percentage of lines written",
-  "status": "audited_local_collection_archive_v2_with_durable_revocation",
+  "status": "audited_postgres_contract_runtime_on_termux",
   "items": [
     {
       "phase": "scope",
@@ -38,9 +38,9 @@
       "phase": "A",
       "id": "running_infrastructure",
       "weight": 6,
-      "earned": 2,
+      "earned": 3,
       "acceptance": "Continuous collectors, Redpanda, Temporal, ClickHouse, Postgres, object store and observability integrated and recovery-tested",
-      "earned_basis": "2/6: one point for the audited rolling collector; one for the local collection archive with atomic publication, exact-byte Parquet, kernel-lock isolation, crash recovery and owner-bound monotonic revocation. Remaining 4 points require remote storage/database/broker/workflow integration, prolonged operation, observability and joint recovery. PostgreSQL and remote service tests were not executed."
+      "earned_basis": "3/6: one point for the audited rolling collector; one for the local collection archive; one for the exact PostgreSQL DDL/transaction contract executed on PostgreSQL 18.6 in native Termux with 30 SQL checks, three actual limited-writer denials, guards and orderly restart verification. Remaining 3 points require verified-journal importer and remote storage/database/broker/workflow integration, prolonged operation, observability and joint recovery. No operational phase exit is closed."
     },
     {
       "phase": "A_exit",
@@ -182,7 +182,11 @@
     "evidence/local-archive-v2-20261022/execution.json",
     "evidence/archive-artifact-verification-20261022.json",
     "evidence/archive-git-delivery-20261022.json",
-    "evidence/termux-postgres-preflight-20261022.json"
+    "evidence/termux-postgres-preflight-20261022.json",
+    "docs/AUDIT_POSTGRES_TERMUX_20261022.md",
+    "evidence/termux-postgres-20261022/audit.json",
+    "evidence/termux-postgres-20261022/received.tar.gz",
+    "evidence/termux-postgres-20261022/verification.json"
   ],
   "notes": [
     "An implemented primitive is not an operational phase exit.",
@@ -200,7 +204,8 @@
     "Three historical Ethereum windows completed across a process restart; 2 events and 8 records. The 300-block selection overlaps earlier captures and is not additive evidence. No persistent collector service, broker, database, workflow worker or economic phase exit is claimed.",
     "Archive v2 source 169b82f passed 155 Rust and 91 Python tests, including 22 actual Rust/Polars archive regressions. Initial v1 baseline source 005ab8c lacked archive-id binding in receipts and is superseded for the delivery gate; its original evidence is preserved.",
     "The archived three-window collection reuses the earlier 2 historical events and 8 records; zero new RPC observations. Capture/replay produced exactly one owner-bound receipt. Local archive verification does not close PostgreSQL, remote object storage, broker, workflow or economic gates.",
-    "User-supplied Termux screenshot shows PostgreSQL 18.6 bootstrap/query/shutdown success. The exact-schema runner has passed static preflight; its 30 SQL runtime checks, role denials and restart comparison await execution and retained evidence. No progress credit added."
+    "Historical preparation stage at 6a89668: the user screenshot demonstrated bootstrap only and the contract runner awaited execution; no credit was added then. Superseded by the retained runtime audit below.",
+    "User-operated PostgreSQL 18.6 Termux contract execution was audited from the original archive: 24 manifest hashes, 30 SQL checks, three actual writer denials, wrong-database/duplicate-schema guards, byte-identical restart snapshots and final shutdown. +1 infrastructure point, now 41/100. Fixtures are synthetic and not Rust-verified journals; importer, relay and production integration remain unexecuted."
   ],
   "historical_audit_notes_superseded_for_a841261": [
     "HTTP pacing/retry/redaction, run-config identity binding and rand 0.8.6 remediation are published but receive no progress credit until rebuilt and fully tested.",

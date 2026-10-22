@@ -1,0 +1,17 @@
+waiting for server to start.... done
+server started
+waiting for server to shut down.... done
+server stopped
+waiting for server to start....2026-10-22 15:16:22.417 CST [17907] LOG:  starting PostgreSQL 18.6 on aarch64-unknown-linux-android, compiled by Android (16134705, +pgo, +bolt, +lto, +mlgo, based on r574158c) clang version 21.0.0 (https://android.googlesource.com/toolchain/llvm-project 9f872551d3c681d06fd303b36f16ed5c274735eb), 64-bit
+2026-10-22 15:16:22.418 CST [17907] LOG:  listening on Unix socket "/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/s/.s.PGSQL.55432"
+2026-10-22 15:16:22.427 CST [17914] LOG:  database system was shut down at 2026-10-22 15:16:22 CST
+2026-10-22 15:16:22.440 CST [17907] LOG:  database system is ready to accept connections
+ done
+server started
+2026-10-22 15:16:22.587 CST [17907] LOG:  received fast shutdown request
+2026-10-22 15:16:22.588 CST [17907] LOG:  aborting any active transactions
+2026-10-22 15:16:22.595 CST [17907] LOG:  background worker "logical replication launcher" (PID 17917) exited with exit code 1
+2026-10-22 15:16:22.595 CST [17912] LOG:  shutting down
+2026-10-22 15:16:22.596 CST [17912] LOG:  checkpoint starting: shutdown immediate
+2026-10-22 15:16:22.615 CST [17912] LOG:  checkpoint complete: wrote 3 buffers (0.1%), wrote 3 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.003 s, sync=0.002 s, total=0.020 s; sync files=3, longest=0.001 s, average=0.001 s; distance=23 kB, estimate=23 kB; lsn=0/1BFD798, redo lsn=0/1BFD798
+2026-10-22 15:16:22.653 CST [17907] LOG:  database system is shut down

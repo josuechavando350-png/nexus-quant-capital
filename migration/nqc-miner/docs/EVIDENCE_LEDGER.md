@@ -2,6 +2,11 @@
 
 Corte: 22 de octubre de 2026.
 
+Último bloque: contrato PostgreSQL ejecutado por el usuario en Termux 18.6 y
+auditado desde el archivo original. Fuente `6a89668`; 30 comprobaciones SQL,
+tres rechazos de permisos y reinicio verificado. Avance **41/100**; no se acredita
+importador ni operación productiva. Véase `docs/AUDIT_POSTGRES_TERMUX_20261022.md`.
+
 Último bloque de archivo: `169b82f`, 155 Rust + 91 Python PASS.
 `offline-archive-v2-20261022/` y `local-archive-v2-20261022/` acreditan
 publicación/repetición verificadas con UUID ligado a cada recibo. Se conservan

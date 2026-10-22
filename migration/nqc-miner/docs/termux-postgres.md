@@ -1,10 +1,12 @@
 # PostgreSQL contract check on Termux
 
-Status: **prepared for user execution; runtime result pending**. Overall progress
-remains **40/100**. The user-provided screenshot from 2026-10-22 shows PostgreSQL
-18.6 initializing, starting, answering a local query against `nqc_miner_v1`, and
-stopping successfully on native aarch64 Termux. It is a bootstrap observation,
-not execution of the repository DDL or an audited importer integration.
+Status: **runtime contract execution received and audited: PASS**. Overall progress
+is **41/100**. The user ran PostgreSQL 18.6 on native aarch64 Termux and returned
+complete evidence. The 30 SQL checks, three actual writer denials, schema guards,
+restart comparison and final shutdown passed the retained audit. See
+`docs/AUDIT_POSTGRES_TERMUX_20261022.md` and
+`evidence/termux-postgres-20261022/audit.json`. This remains a synthetic contract
+test, not a verified-journal importer or production integration.
 
 The self-contained delivery is `scripts/nqc-miner-postgres-check.sh`. Run with
 `bash /absolute/path/to/nqc-miner-postgres-check.sh` as the ordinary Termux user.

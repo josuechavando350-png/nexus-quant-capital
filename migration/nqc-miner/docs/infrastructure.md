@@ -11,24 +11,24 @@ a PostgreSQL service. Those operational integrations remain open.
 The rolling historical collector is now executable and audited with a bounded
 public restart capture. See `docs/collector.md` and
 `docs/AUDIT_COLLECTOR_20261022.md`. No persistent collector service is running.
-The remaining server contracts below are still unexecuted.
+Other server integrations below remain unexecuted.
 
-The Parquet exporter is executable and tested against the actual Rust journal verifier and Polars. The PostgreSQL, ClickHouse, Redpanda, Temporal and Nix files are **prepared contracts, not deployed or integration-validated infrastructure**. No database, broker, workflow worker, container daemon, object bucket, signing service or notification service was started or contacted to apply these files. There are no endpoint URLs, credentials or operational observer settings in them.
+The Parquet exporter is executable and tested against the actual Rust journal verifier and Polars. The PostgreSQL DDL has now passed a retained synthetic contract test in a new local Termux cluster, which was shut down afterward. Its journal importer and production integration remain unimplemented. ClickHouse, Redpanda, Temporal and Nix remain prepared contracts without server execution. No external infrastructure or Observer services were used.
 
 Every resource belongs to `nqc_miner_v1`. The namespace is distinct from any existing observer; ownership cannot be adopted by copying a name into an existing state directory. `infra/ownership-contract.json` defines the proposed database/schema/role/topic/workflow/bucket IDs. The bucket is a logical name only: no globally unique cloud bucket has been reserved. Export writes only to a new local directory and has no upload path.
 
 Signing, broadcasting, the observer bridge, Telegram, KMS, spending and runtime deployment remain disabled. The configured gas budget is zero. A contract file is not permission to provision resources or enable any integration.
 
-The user has now demonstrated PostgreSQL 18.6 bootstrap/query/shutdown on native
-Termux. The exact-schema test runner and its static review are documented in
-`docs/termux-postgres.md`; runtime contract-test results are still pending.
-No infrastructure progress is credited for preparing that runner.
+The returned PostgreSQL 18.6 evidence passed the exact-source runtime audit:
+30 SQL checks, three writer denials, schema guards and restart comparison.
+See `docs/AUDIT_POSTGRES_TERMUX_20261022.md`. This earns one infrastructure
+point (41/100 overall); importer and production gates stay open.
 
 ## Contracts
 
 | File | Implemented content | Validation boundary |
 |---|---|---|
-| `infra/postgres.sql` | Dedicated-database guard, run provenance, append-only journal mirror, registry, gate reports, lifecycle journal and transactional outbox schema | Parsed with the PostgreSQL parser; not applied to PostgreSQL |
+| `infra/postgres.sql` | Dedicated-database guard, run provenance, append-only journal mirror, registry, gate reports, lifecycle journal and transactional outbox schema | Exact DDL applied to a new PostgreSQL 18.6 Termux cluster under a dedicated owner; 30 SQL checks, writer denials and orderly restart audited. No verified-journal importer or production integration |
 | `infra/clickhouse.sql` | Raw delivery ledger, event projections, whole-scope completion, invalidation cutoffs, scoped saturation and coverage views | Parsed with a ClickHouse SQL dialect parser; no server execution or performance validation |
 | `infra/redpanda-contract.json` | Three class-specific ledger topics, stable run keys, deduplication/ordering rules, literal-resource ACL intent | JSON and namespace reviewed; no broker/ACL application or producer/consumer integration |
 | `infra/temporal-contract.json` | Workflow identity, Rust lifecycle transition mapping, retry/retirement/reactivation rules | JSON and Rust transition mapping reviewed; no SDK worker or Temporal deployment |

@@ -124,3 +124,5 @@ identidad de compilación y los bytes originales. El puente continúa desactivad
 La auditoría más reciente del recolector está en [docs/AUDIT_COLLECTOR_20261022.md](docs/AUDIT_COLLECTOR_20261022.md): 39/100, 155 pruebas Rust y 69 Python, captura histórica con reinicio y exports verificados.
 
 El último bloque auditado está en [docs/AUDIT_ARCHIVE_20261022.md](docs/AUDIT_ARCHIVE_20261022.md): 40/100, 155 pruebas Rust y 91 Python, archivo local v2 con recuperación y revocación verificadas.
+
+La auditoría PostgreSQL de Termux está en [docs/AUDIT_POSTGRES_TERMUX_20261022.md](docs/AUDIT_POSTGRES_TERMUX_20261022.md): 41/100, contrato SQL ejecutado y evidencia verificada; importador e integración productiva pendientes.
