@@ -1,0 +1,94 @@
+{
+  "schema": "nqc-miner-targeted-rustsec-review-v1",
+  "reviewed_at": "2026-10-22",
+  "status": "targeted_review_pass_with_full_lockfile_scan_pending",
+  "full_cargo_audit_executed": false,
+  "reason_full_scan_pending": "current execution environments cannot run the project toolchain/cargo-audit",
+  "checked": [
+    {
+      "package": "rustls",
+      "locked_version": "0.23.46",
+      "advisories": [
+        "RUSTSEC-2026-0285",
+        "RUSTSEC-2026-0346",
+        "RUSTSEC-2026-0347",
+        "RUSTSEC-2026-0348",
+        "RUSTSEC-2026-0349"
+      ],
+      "result": "patched_range"
+    },
+    {
+      "package": "rustls-webpki",
+      "locked_version": "0.103.16",
+      "advisories": [
+        "RUSTSEC-2026-0049",
+        "RUSTSEC-2026-0099",
+        "RUSTSEC-2026-0104"
+      ],
+      "result": "patched_range"
+    },
+    {
+      "package": "quinn-proto",
+      "locked_version": "0.11.19",
+      "advisories": [
+        "RUSTSEC-2026-0037",
+        "RUSTSEC-2026-0185",
+        "RUSTSEC-2026-0338",
+        "RUSTSEC-2026-0339",
+        "RUSTSEC-2026-0340",
+        "RUSTSEC-2026-0341",
+        "RUSTSEC-2026-0342",
+        "RUSTSEC-2026-0343"
+      ],
+      "result": "patched_range"
+    },
+    {
+      "package": "ruint",
+      "locked_version": "1.20.1",
+      "advisories": [
+        "RUSTSEC-2025-0137",
+        "RUSTSEC-2026-0220"
+      ],
+      "result": "patched_range"
+    },
+    {
+      "package": "ring",
+      "locked_version": "0.17.14",
+      "advisories": [
+        "RUSTSEC-2025-0009"
+      ],
+      "result": "patched_range"
+    },
+    {
+      "package": "time",
+      "locked_version": "0.3.55",
+      "advisories": [
+        "RUSTSEC-2026-0009"
+      ],
+      "result": "patched_range"
+    },
+    {
+      "package": "alloy-json-abi",
+      "locked_version": "1.4.1",
+      "advisories": [
+        "RUSTSEC-2024-0362"
+      ],
+      "result": "patched_range"
+    },
+    {
+      "package": "alloy-family",
+      "locked_version": "1.4.1",
+      "advisories": [
+        "RUSTSEC-2025-0073"
+      ],
+      "result": "relevant_1.x_fix_present; alloy-dyn-abi_not_observed_in_lockfile_snapshot"
+    }
+  ],
+  "conclusions": [
+    "No checked network-critical locked version falls inside the affected ranges of the reviewed advisories.",
+    "This is not equivalent to scanning every Cargo.lock package against the full advisory database.",
+    "A full cargo-audit/cargo-deny run remains mandatory before this delta can be credited or merged."
+  ],
+  "observer_bridge_enabled": false,
+  "spending_authorized": false
+}
