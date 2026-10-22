@@ -23,17 +23,19 @@ The returned PostgreSQL 18.6 evidence passed the exact-source runtime audit:
 30 SQL checks, three writer denials, schema guards and restart comparison.
 See `docs/AUDIT_POSTGRES_TERMUX_20261022.md`. This earns one infrastructure
 point (historically 41/100 overall). The subsequent individual-journal importer
-audit adds one point: **42/100**, infrastructure **4/6**. It verifies 35 SQL checks,
+audit added one point: historically **42/100**, infrastructure **4/6**. It verifies 35 SQL checks,
 permissions, two blocked importers, interrupted-client rollback/retry and all
-persisted fixture rows. See `docs/AUDIT_IMPORT_TERMUX_20261022.md`. Parent collection
-revocation propagation and production integrations remain open.
+persisted fixture rows. See `docs/AUDIT_IMPORT_TERMUX_20261022.md`. Production integration remains open; the subsequent collection audit is below.
 
 The collection preparer now binds the latest archive receipt and both UUIDs,
 re-verifies the parent/windows with Rust, and prepares permanent parent revocation.
 The additive `infra/postgres_collection.sql` migration and its 33-assertion Termux
-runner remain runtime-pending. Full Python validation: 146 tests. The historical
-three-window/eight-record archive prepares without changing its 46 files. See
-`docs/postgres-collection.md`; progress remains 42/100.
+runner now have audited runtime evidence: parent/child revocation, receipt conflicts,
+permissions, atomic rollback, contention, interruption/retry and exact restart.
+Full Python validation: **160 tests**. The historical three-window/eight-record
+archive preparation retains its 46 unchanged files. See `docs/postgres-collection.md`
+and `docs/AUDIT_COLLECTION_TERMUX_20261022.md`. Progress: **43/100**, infrastructure
+**5/6**. Operational collector connection and remote service integrations remain open.
 
 ## Contracts
 
@@ -41,6 +43,7 @@ three-window/eight-record archive prepares without changing its 46 files. See
 |---|---|---|
 | `infra/postgres.sql` | Dedicated-database guard, run provenance, append-only journal mirror, registry, gate reports, lifecycle journal and transactional outbox schema | Exact DDL applied to a new PostgreSQL 18.6 Termux cluster under a dedicated owner; 30 SQL checks, writer denials and orderly restart audited. Separate importer audit below; no production integration |
 | `infra/postgres_import.sql` | UUID-bound individual-journal import, original-byte conflict quarantine and atomic ledger/outbox insertion | 16 Rust-verified synthetic fixtures, 35 SQL checks, permissions, concurrency, owned-client interruption/retry and orderly restart audited on PostgreSQL 18.6; no parent-collection or remote integration |
+| `infra/postgres_collection.sql` | UUID/receipt-bound atomic collection import and permanent parent quarantine with eligibility views | 12 artificial packages, 33 SQL checks, permissions, concurrency, second-window rollback, backend interruption/retry and exact rows/restart audited on PostgreSQL 18.6; no production integration |
 | `infra/clickhouse.sql` | Raw delivery ledger, event projections, whole-scope completion, invalidation cutoffs, scoped saturation and coverage views | Parsed with a ClickHouse SQL dialect parser; no server execution or performance validation |
 | `infra/redpanda-contract.json` | Three class-specific ledger topics, stable run keys, deduplication/ordering rules, literal-resource ACL intent | JSON and namespace reviewed; no broker/ACL application or producer/consumer integration |
 | `infra/temporal-contract.json` | Workflow identity, Rust lifecycle transition mapping, retry/retirement/reactivation rules | JSON and Rust transition mapping reviewed; no SDK worker or Temporal deployment |
@@ -135,7 +138,7 @@ python -m unittest discover -s research -p test_export_parquet.py -v
 
 Static audits used pglast 7.21 for PostgreSQL parsing, sqlglot 27.29.0 with its ClickHouse dialect, and jsonschema 4.25.1 for JSON Schema 2020-12 definitions and fixture/manifest structure. These temporary audit tools are not production dependencies. Parser success is not database integration validation.
 
-Before deployment, the missing gates include real ClickHouse DDL execution and permission tests, PostgreSQL parent-collection revocation propagation and deployed-role review, cross-service importer/projection transaction and restart tests, collection-level late-invalidation integration tests, dedicated broker ACL/replication tests, a pinned Temporal worker with replay tests, cloud resource ownership/retention policy, Nix evaluation/build, authenticated source attestation and explicit operational authorization. No external resource is implied to exist because its contract is present.
+Before deployment, the missing gates include real ClickHouse DDL execution and permission tests, operational PostgreSQL collection integration and deployed-role review, cross-service importer/projection transaction and restart tests, collection-level late-invalidation integration tests, dedicated broker ACL/replication tests, a pinned Temporal worker with replay tests, cloud resource ownership/retention policy, Nix evaluation/build, authenticated source attestation and explicit operational authorization. No external resource is implied to exist because its contract is present.
 
 ## Primary references
 

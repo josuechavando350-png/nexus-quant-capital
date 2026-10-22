@@ -1,8 +1,10 @@
 # Prueba de colecciones en Termux
 
-Estado: **runner preparado y verificado offline; ejecución y auditoría de resultados
-pendientes**. Avance global **42/100**. La prueba anterior acredita journals
-individuales; no se reutiliza para acreditar esta migración nueva.
+Estado: **ejecución y auditoría completas**, avance **43/100**. El archivo
+retornado pasa 33 comprobaciones SQL, permisos, concurrencia, rollback/reintento
+y reinicio. [Auditoría y límites](AUDIT_COLLECTION_TERMUX_20261022.md).
+No hace falta repetir la prueba ya recibida; estas instrucciones quedan para
+reproducción independiente.
 
 Guardar `scripts/nqc-miner-collection-check.sh` en Descargas con ese nombre.
 Requiere el Termux nativo y PostgreSQL 18.6 ya usados. No instala paquetes, descarga
@@ -48,5 +50,4 @@ La prueba incluye:
 
 La instancia se comparte con el UID de Termux; no es aislamiento ante un proceso
 hostil con el mismo UID. La prueba de interrupción no simula pérdida eléctrica.
-El archivo retornado deberá contrastarse con fuentes y fixtures antes de acreditar
-runtime. No hay conexión productiva, RPC, firma, gasto o integración con Observador.
+El archivo original ya se contrastó con fuentes y fixtures fijados en Git. No hay conexión productiva, RPC, firma, gasto o integración con Observador.

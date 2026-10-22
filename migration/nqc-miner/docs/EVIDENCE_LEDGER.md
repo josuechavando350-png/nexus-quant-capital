@@ -2,13 +2,16 @@
 
 Corte: 22 de octubre de 2026.
 
-Preparación actual de colecciones: 146 Python PASS, recibo/UUID de archivo y base
-vinculados, revocación del padre y preparación de la colección histórica existente
-(tres ventanas, ocho registros, 46 archivos intactos). Migración SQL adicional y
-runner de 33 aserciones pendientes de ejecución. Avance **42/100**, sin crédito
-nuevo. Véase `docs/postgres-collection.md`.
+Bloque actual: colecciones completas ejecutadas en PostgreSQL 18.6/Termux y
+auditadas contra la fuente `e4700af5`. 44 hashes, siete entradas, 33 comprobaciones
+SQL, 14 respuestas, cinco denegaciones, concurrencia, rollback, interrupción/reintento,
+revocaciones, elegibilidad y reinicio. **160 Python PASS; avance 43/100**.
+Véase `docs/AUDIT_COLLECTION_TERMUX_20261022.md` y `evidence/termux-collection-20261022/`.
+La preparación anterior (146 Python, tres ventanas históricas/ocho registros y 46
+archivos intactos) queda preservada; su gate SQL pendiente se cierra para esta
+prueba artificial, sin acreditar producción ni observaciones económicas nuevas.
 
-Bloque actual: importador de journal individual ejecutado por el usuario en
+Bloque anterior: importador de journal individual ejecutado por el usuario en
 PostgreSQL 18.6/Termux y auditado desde el archivo original. Runner `7ee9e9cb`,
 implementación `a1d0f150`: 42 hashes, seis entradas fijadas, 35 comprobaciones SQL,
 21 respuestas, cinco denegaciones de permisos, concurrencia real, interrupción y
@@ -18,8 +21,9 @@ reintento, cuarentena y reinicio. Suite completa: **128 Python PASS**. Avance
 Etapas previas conservadas: preparación del importador (112 Python), runner
 (116 Python) y contrato DDL base `6a89668` (30 comprobaciones SQL y tres
 rechazos de permisos). Sus estados pendientes y avance 41/100 son históricos;
-la auditoría actual sustituye únicamente el gate runtime del journal individual.
-No acredita una colección completa, un servicio remoto ni operación productiva.
+la auditoría individual sustituyó únicamente su gate runtime. La auditoría de
+colecciones indicada arriba es posterior. Ninguna acredita servicios remotos ni
+operación productiva.
 
 Último bloque de archivo: `169b82f`, 155 Rust + 91 Python PASS.
 `offline-archive-v2-20261022/` y `local-archive-v2-20261022/` acreditan

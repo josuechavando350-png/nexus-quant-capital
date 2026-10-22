@@ -123,12 +123,10 @@ identidad de compilación y los bytes originales. El puente continúa desactivad
 
 La auditoría más reciente del recolector está en [docs/AUDIT_COLLECTOR_20261022.md](docs/AUDIT_COLLECTOR_20261022.md): 39/100, 155 pruebas Rust y 69 Python, captura histórica con reinicio y exports verificados.
 
-El último bloque auditado está en [docs/AUDIT_ARCHIVE_20261022.md](docs/AUDIT_ARCHIVE_20261022.md): 40/100, 155 pruebas Rust y 91 Python, archivo local v2 con recuperación y revocación verificadas.
+El bloque de archivo local está en [docs/AUDIT_ARCHIVE_20261022.md](docs/AUDIT_ARCHIVE_20261022.md): 40/100, 155 pruebas Rust y 91 Python, archivo local v2 con recuperación y revocación verificadas.
 
 La auditoría base PostgreSQL está en [docs/AUDIT_POSTGRES_TERMUX_20261022.md](docs/AUDIT_POSTGRES_TERMUX_20261022.md), conservada como evidencia histórica de 41/100.
 
-Estado actual: **42/100**. El [importador PostgreSQL](docs/postgres-import.md) pasó la [auditoría runtime en Termux](docs/AUDIT_IMPORT_TERMUX_20261022.md): 35 comprobaciones SQL, permisos, concurrencia, interrupción/reintento, bytes originales y reinicio verificados. Suite actual: 128 Python PASS. La instancia de prueba terminó apagada; siguen pendientes la propagación desde colecciones y la integración productiva.
+Estado actual: **43/100**. La [importación de colecciones completas](docs/postgres-collection.md) pasó la [auditoría runtime en Termux](docs/AUDIT_COLLECTION_TERMUX_20261022.md): 33 comprobaciones SQL, permisos, concurrencia, rollback/reintento, revocaciones, bytes originales y reinicio verificados. Suite actual: **160 Python PASS**. La instancia de prueba terminó apagada; siguen pendientes conexión operacional del recolector e integración remota.
 
-El [runner de Termux](docs/termux-import.md) y el archivo original permiten reproducir y revisar el experimento sintético. Observador, firma y gasto permanecen desactivados.
-
-Siguiente bloque preparado: [importación de colecciones completas](docs/postgres-collection.md), con revocación del padre y exclusión de todas sus ventanas. 146 pruebas Python PASS; [runner de Termux](docs/termux-collection.md) listo para validar la nueva transacción. Avance **42/100**, sin acreditar aún ese runtime.
+La [auditoría individual anterior](docs/AUDIT_IMPORT_TERMUX_20261022.md) conserva su corte de 42/100 y 35 comprobaciones SQL. El [runner de colecciones](docs/termux-collection.md) y el archivo original permiten reproducir el experimento artificial. Observador, firma y gasto permanecen desactivados.

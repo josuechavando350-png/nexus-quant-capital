@@ -1,8 +1,8 @@
 # Importación PostgreSQL de colecciones completas
 
-Estado: **preparación offline verificada; migración y runner pendientes de ejecución
-en PostgreSQL**. Avance acreditado **42/100**, sin incremento por este bloque.
-El importador individual ya auditado permanece byte a byte sin cambios.
+Estado: **migración ejecutada en PostgreSQL 18.6/Termux y evidencia auditada**.
+Avance **43/100**. [Auditoría completa](AUDIT_COLLECTION_TERMUX_20261022.md).
+El importador individual permanece byte a byte sin cambios.
 
 ## Qué resuelve
 
@@ -92,8 +92,9 @@ journals acumulados, 10,000 registros acumulados, 2 MiB de manifest del snapshot
 y 32 MiB de request. No hay fragmentación automática para superar los límites.
 Las colecciones v2 deben ser históricas y de un scope, conforme al recolector actual.
 
-La suite completa pasa **146 pruebas Python**: 14 nuevas del preparador y cuatro
-del runner, además de las 128 anteriores. Usa Rust y Polars reales para verificar
+La suite completa pasa **160 pruebas Python**: 14 del preparador, cuatro
+del runner y 14 del auditor de evidencia, además de las 128 anteriores.
+Usa Rust y Polars reales para verificar
 bytes, extensión, revocación con hijos faltantes, identidad, integridad de archivo,
 no reactivación, bloqueo, límites, fallos parciales y reproducibilidad del paquete.
 No hay mock de PostgreSQL que se haga pasar por ejecución SQL.
@@ -111,17 +112,17 @@ instancia. El parser no prueba resolución de nombres, permisos, concurrencia ni
 rollback. ShellCheck no está disponible. Rust no cambió ni se recompiló; se usa
 el verificador auditado de `169b82f`, sin reclamar una nueva ejecución de sus 155 tests.
 
-## Prueba concreta pendiente
+## Prueba ejecutada y auditada
 
-[Instrucciones del runner de Termux](termux-collection.md). Prepara 33 aserciones
+[Instrucciones del runner de Termux](termux-collection.md). Ejecutó 33 aserciones
 SQL, cinco denegaciones de permisos, concurrencia, interrupción antes del COMMIT,
 reintento, reinicio y comparación de las doce tablas y las dos vistas.
 Los 12 paquetes son artificiales: 11 de colección y uno de invalidación de hijo.
 La clase histórica ejercita la admisión del recolector; no los convierte en datos
 de mercado. El reloj fijo de recibos sólo hace reproducibles estos fixtures.
 
-La auditoría de su archivo retornado sigue pendiente. Faltan además conexión
-operacional del recolector, transporte remoto, servicios de almacenamiento/broker/
+La auditoría del archivo retornado pasó y conserva todas las filas originales.
+Faltan conexión operacional del recolector, transporte remoto, servicios de almacenamiento/broker/
 workflow, observabilidad, operación prolongada y recuperación conjunta. Observador,
 firma y gasto permanecen desactivados.
 

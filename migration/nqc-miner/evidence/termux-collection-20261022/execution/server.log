@@ -1,0 +1,43 @@
+2026-10-22 16:48:38.666 CST [28226] LOG:  starting PostgreSQL 18.6 on aarch64-unknown-linux-android, compiled by Android (16134705, +pgo, +bolt, +lto, +mlgo, based on r574158c) clang version 21.0.0 (https://android.googlesource.com/toolchain/llvm-project 9f872551d3c681d06fd303b36f16ed5c274735eb), 64-bit
+2026-10-22 16:48:38.666 CST [28226] LOG:  listening on Unix socket "/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/s/.s.PGSQL.55434"
+2026-10-22 16:48:38.671 CST [28233] LOG:  database system was shut down at 2026-10-22 16:48:38 CST
+2026-10-22 16:48:38.678 CST [28226] LOG:  database system is ready to accept connections
+2026-10-22 16:48:39.197 CST [28246] ERROR:  Miner collection migration requires its dedicated database and owner
+2026-10-22 16:48:39.197 CST [28246] CONTEXT:  PL/pgSQL function inline_code_block line 4 at RAISE
+2026-10-22 16:48:39.197 CST [28246] STATEMENT:  DO $$ BEGIN
+	  IF current_database() <> 'nqc_miner_v1' OR NOT EXISTS (
+	      SELECT FROM pg_namespace WHERE nspname='nqc_miner_v1' AND nspowner=current_user::regrole) THEN
+	    RAISE EXCEPTION 'Miner collection migration requires its dedicated database and owner';
+	  END IF;
+	  IF NOT EXISTS (SELECT FROM nqc_miner_v1.import_identity
+	                 WHERE singleton AND contract='nqc-miner-postgres-import-v1') THEN
+	    RAISE EXCEPTION 'Miner journal importer identity missing';
+	  END IF;
+	END $$;
+2026-10-22 16:48:39.384 CST [28251] ERROR:  relation "collections" already exists
+2026-10-22 16:48:39.384 CST [28251] STATEMENT:  CREATE TABLE nqc_miner_v1.collections (
+	  parent_run_id text PRIMARY KEY REFERENCES nqc_miner_v1.runs(run_id),
+	  archive_id uuid NOT NULL,
+	  collection_key text NOT NULL UNIQUE CHECK (collection_key ~ '^[0-9a-f]{64}$'),
+	  collector_bytes bytea NOT NULL CHECK (octet_length(collector_bytes) BETWEEN 1 AND 65536),
+	  created_at timestamptz NOT NULL DEFAULT transaction_timestamp()
+	);
+2026-10-22 16:48:40.044 CST [28297] ERROR:  permission denied for table journal_ledger
+2026-10-22 16:48:40.044 CST [28297] STATEMENT:  UPDATE nqc_miner_v1.journal_ledger SET sequence=sequence
+2026-10-22 16:48:40.066 CST [28299] ERROR:  permission denied for table collection_quarantine
+2026-10-22 16:48:40.066 CST [28299] STATEMENT:  DELETE FROM nqc_miner_v1.collection_quarantine
+2026-10-22 16:48:40.092 CST [28301] ERROR:  permission denied for table collection_windows
+2026-10-22 16:48:40.092 CST [28301] STATEMENT:  TRUNCATE nqc_miner_v1.collection_windows
+2026-10-22 16:48:40.115 CST [28303] ERROR:  permission denied for table collections
+2026-10-22 16:48:40.115 CST [28303] STATEMENT:  UPDATE nqc_miner_v1.collections SET archive_id=archive_id
+2026-10-22 16:48:40.157 CST [28307] ERROR:  permission denied for function import_verified_collection
+2026-10-22 16:48:40.157 CST [28307] STATEMENT:  SELECT nqc_miner_v1.import_verified_collection('{}'::jsonb)
+2026-10-22 16:48:40.735 CST [28333] FATAL:  terminating connection due to administrator command
+2026-10-22 16:48:40.735 CST [28333] STATEMENT:  BEGIN; SELECT nqc_miner_v1.import_verified_collection(payload) FROM nqc_miner_v1.test_inputs WHERE name='interrupt'; SELECT pg_sleep(60); COMMIT;
+2026-10-22 16:48:41.061 CST [28226] LOG:  received fast shutdown request
+2026-10-22 16:48:41.061 CST [28226] LOG:  aborting any active transactions
+2026-10-22 16:48:41.065 CST [28226] LOG:  background worker "logical replication launcher" (PID 28236) exited with exit code 1
+2026-10-22 16:48:41.067 CST [28231] LOG:  shutting down
+2026-10-22 16:48:41.068 CST [28231] LOG:  checkpoint starting: shutdown immediate
+2026-10-22 16:48:41.243 CST [28231] LOG:  checkpoint complete: wrote 1082 buffers (26.4%), wrote 3 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.033 s, sync=0.127 s, total=0.177 s; sync files=373, longest=0.003 s, average=0.001 s; distance=5347 kB, estimate=5347 kB; lsn=0/1C9E868, redo lsn=0/1C9E868
+2026-10-22 16:48:41.280 CST [28226] LOG:  database system is shut down
