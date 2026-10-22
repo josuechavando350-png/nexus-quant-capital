@@ -41,8 +41,28 @@ class BuildIdentityContractTests(unittest.TestCase):
             "NQC_MINER_BUILD_OPT_LEVEL",
             "NQC_MINER_BUILD_DEBUG",
             "NQC_MINER_BUILD_RUSTFLAGS_SHA256",
+            "NQC_MINER_BUILD_IDENTITY_SHA256",
         ]:
             self.assertIn(field, build)
+
+    def test_python_recomputes_the_canonical_build_identity(self):
+        identity = {
+            "code_commit": "a" * 40,
+            "source_sha256": "b" * 64,
+            "cargo_lock_sha256": "c" * 64,
+            "rustc_version": "rustc 1.90.0 fixture",
+            "target": "x86_64-unknown-linux-gnu",
+            "host": "x86_64-unknown-linux-gnu",
+            "profile": "debug",
+            "opt_level": "0",
+            "debug": True,
+            "rustflags_sha256": "d" * 64,
+        }
+        before = verify_offline.build_identity_sha256(identity)
+        identity["target"] = "aarch64-unknown-linux-gnu"
+        after = verify_offline.build_identity_sha256(identity)
+        self.assertNotEqual(before, after)
+        self.assertEqual(len(before), 64)
 
 
 if __name__ == "__main__":
