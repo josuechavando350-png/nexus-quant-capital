@@ -163,7 +163,9 @@
     "evidence/public-crosscheck-20261022/aave-ethereum.json",
     "evidence/supply-chain-review-20261022.json",
     "evidence/binder-python-20261022.json",
-    "docs/EVIDENCE_LEDGER.md"
+    "docs/EVIDENCE_LEDGER.md",
+    "evidence/public-crosscheck-20261022/aave-ethereum-partial-saturation.json",
+    "evidence/build-identity-python-20261022.json"
   ],
   "notes": [
     "An implemented primitive is not an operational phase exit.",
@@ -173,6 +175,8 @@
     "HTTP pacing/retry/redaction, run-config identity binding and rand 0.8.6 remediation are published but receive no progress credit until rebuilt and fully tested.",
     "All identified 2026 RustSec advisory ranges for packages in the current lock were reviewed after the rand remediation; a complete automated advisory scan remains mandatory.",
     "The six run-config binder regressions passed in an isolated Python 3.13.5 execution against the exact published blobs; this does not credit the repository-wide verification gate.",
-    "A transient five-event observation has no durable versioned journal in this branch and is explicitly excluded from metrics and progress."
+    "A transient five-event observation has no durable versioned journal in this branch and is explicitly excluded from metrics and progress.",
+    "Toolchain pin bytes are now part of build source identity and dirty tracking; two isolated Python contract tests passed, but the modified build.rs remains uncompiled.",
+    "Ethereum cross-check yields 3 unique successful transactions and 2 observed caller addresses; saturation remains unknown because eligibility latency, tips and coverage are missing."
   ]
 }
