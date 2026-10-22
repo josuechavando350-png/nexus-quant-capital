@@ -136,3 +136,14 @@ H8 tiene **19/19 pruebas nuevas aprobadas**. El componente 32 sube de
 `not_evidenced` a `foundational_partial`. Con esto los **9/9 componentes Census
 tienen al menos una base demostrada**, pero ninguno está certificado: faltan
 población real completa, evidencia out-of-sample y los gates de H2.
+
+## H9 · Protocol Adapter Registry
+
+`protocol_adapters.py` define identidad y conformance común para adaptadores:
+familia, cadena, despliegue, versión/código y seis capacidades evidence-bound.
+Una capacidad sólo puede declararse soportada si lleva evidencia; una familia
+nombrada sin implementación real permanece no conformante.
+
+H9 tiene **20/20 pruebas nuevas aprobadas**. El componente 1 sigue
+`foundational_partial`, pero ya existe un contrato común auditable; faltan los
+adaptadores reales de Morpho y subastas, fixtures cross-adapter y PFT por familia.
