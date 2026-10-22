@@ -168,3 +168,15 @@ los costos están explícitamente completos y nunca se atribuye a NQC.
 H11 tiene **20/20 pruebas nuevas aprobadas**. Los componentes 24 y 25 siguen
 `historical_partial`: falta poblar las 127 transacciones con receipts/eventos
 autenticados, reconciliar costos reales y añadir counterfactual de detección NQC.
+
+
+## H2B · Full Git-object Isolation Audit
+
+La rama fue auditada contra el manifest y el árbol fuente completos: **637/637
+rutas**, **631/631 blobs byte-identical**, **6/6 transformaciones autorizadas**,
+**10/10 refs históricas**, **106 workflows deshabilitados**, **0 activos**,
+**0 symlinks** y **0 cambios fuera de `omega/`** respecto a main.
+
+Con este control H2 avanza a **88%**. Sigue pendiente la parte ejecutable:
+verificador local con object store, regresión Python/Rust y PFT/fork replay.
+Esto no certifica ningún componente ni cierra Census.
