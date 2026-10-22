@@ -1,7 +1,9 @@
 # Configuración y evidencia separadas por ejecución
 
 El CLI admite JSON estricto, con `namespace=nqc_miner_v1`, `producer=nqc-miner`,
-identidad de commit, hash de `Cargo.lock`, clase de evidencia y scopes explícitos.
+identidad de commit, hash de `Cargo.lock`, `build_identity_sha256`, clase de
+evidencia y scopes explícitos. El schema v2 es obligatorio para nuevas lecturas
+RPC; v1 queda únicamente para reproducir/verificar evidencia histórica.
 Un scope declara cadena, contrato, firma del evento, intervalo inclusivo, tamaño
 del lote y al menos dos proveedores. Consulta `src/config.rs` para el contrato
 completo. Las variables RPC pertenecen exclusivamente al prefijo `NQC_MINER_RPC_`.
