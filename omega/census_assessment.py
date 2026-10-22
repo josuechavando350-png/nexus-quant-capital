@@ -8,8 +8,8 @@ from pathlib import Path
 
 EXPECTED_IDS = {1, 6, 7, 8, 10, 24, 25, 29, 32}
 ALLOWED_STATUS = {"foundational_partial", "historical_partial", "not_evidenced"}
-EXPECTED_SUMMARY = {"components_assessed": 9, "foundational_partial": 6,
-                    "historical_partial": 2, "not_evidenced": 1}
+EXPECTED_SUMMARY = {"components_assessed": 9, "foundational_partial": 7,
+                    "historical_partial": 2, "not_evidenced": 0}
 BLOB = re.compile(r"^[0-9a-f]{40}$")
 COMMIT = re.compile(r"^[0-9a-f]{40}$")
 ALLOWED_PREFIXES = ("nqc-census/", "ci/nqc-census/", "ci/nqc-protocol-fork/", "omega/evidence/")
@@ -26,6 +26,9 @@ ALLOWED_OMEGA_FILES = {
     "omega/oracle_semantics.py",
     "omega/ORACLE_SEMANTICS_CONTRACT.md",
     "omega/AUDIT_H7.md",
+    "omega/long_tail.py",
+    "omega/LONG_TAIL_CONTRACT.md",
+    "omega/AUDIT_H8.md",
 }
 
 
@@ -121,7 +124,7 @@ def main() -> int:
     if errors:
         print("BLOCK:" + ",".join(errors))
         return 1
-    print("ASSESSMENT PASS: 9/9 Census components mapped; 6 partial, 3 not evidenced, 0 certified.")
+    print("ASSESSMENT PASS: 9/9 Census components mapped; 7 foundational partial, 2 historical partial, 0 not evidenced, 0 certified.")
     return 0
 
 
