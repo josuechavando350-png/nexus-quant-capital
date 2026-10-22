@@ -19,6 +19,9 @@ import tempfile
 import time
 import urllib.request
 
+# sudo removes PYTHONDONTWRITEBYTECODE; protect the checkout before local imports.
+sys.dont_write_bytecode = True
+
 from integrity import canonical, digest, load_pinned_python, read_regular, strict_json
 from isolation import verify_repository
 from pft_source_binding import (DESTINATION, DESTINATION_ID, FALSE_AUTHORITY, SOURCE,
@@ -233,7 +236,7 @@ def replay(work: Path, head: str):
     out = work / "replay-result"
     parent = os.readlink("/proc/self/ns/net")
     run(["sudo", "-n", "unshare", "--net", "--mount", "--", sys.executable,
-         build / REPLAY_PATH, "--source", seed, "--out", out, "--repo", build,
+         "-B", build / REPLAY_PATH, "--source", seed, "--out", out, "--repo", build,
          "--parent-network-namespace", parent], work)
     verify_checkout_bytes(build, head)
     report = strict_json(read_regular(out / "offline-verification.json"))
@@ -356,7 +359,7 @@ def main():
     (probe_source / "sentinel").write_text("immutable namespace probe\n")
     parent = os.readlink("/proc/self/ns/net")
     run(["sudo", "-n", "unshare", "--net", "--mount", "--", sys.executable,
-         ROOT / "omega/h2_actions.py", "--namespace-probe", "--parent", parent,
+         "-B", ROOT / "omega/h2_actions.py", "--namespace-probe", "--parent", parent,
          "--probe-source", probe_source], work, timeout=30)
     source = source_checkout(work)
     evidence("isolation-before", verify_repository(ROOT, source))

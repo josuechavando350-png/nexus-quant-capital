@@ -51,3 +51,19 @@ Se deben leer commit/tree/run/attempt/jobs/logs al finalizar. Una corrida exitos
 sin artifact nuevo autenticado no certifica Census. La política de no uploads
 ni caches mantiene ese campo null y evita introducir esos consumos facturables.
 El discovery Python Census conserva sus siete errores heredados de preparación.
+
+## Primera corrida física y corrección
+
+Preparación publicada en `a82ab1bbb47c592f1f6f65fda944a09cc735358e`;
+activación en `800d545aa857d0454f4a095ba4c82aadd26aa30c`, árbol
+`0536a17cd8e805c5e1604f3155ec48f25f1216cb`. GitHub run `39854791127`, attempt 1,
+confirmó la rama correcta y ejecutó ambos jobs en Ubuntu estándar. El probe real
+de namespace y bind mount readonly pasó en ambos. No pasó el gate completo:
+sudo eliminó PYTHONDONTWRITEBYTECODE y el intérprete hijo creó omega/__pycache__;
+el verificador rechazó correctamente ese directorio adicional.
+
+Corrección: `-B` explícito para ambos Python bajo sudo y `sys.dont_write_bytecode`
+antes de imports locales. Una prueba de regresión ejecuta el script en otro
+proceso sin esa variable de entorno y exige ausencia de __pycache__. No se
+oculta/borra el directorio para forzar PASS ni se debilita el inventario.
+Se repetirá el gate sobre el commit corregido; esta corrida fallida se conserva.

@@ -64,6 +64,20 @@ class ContextTests(unittest.TestCase):
         self.assertNotIn("GH_TOKEN", env)
         self.assertNotIn("GITHUB_TOKEN", env)
 
+    def test_script_never_writes_bytecode_when_sudo_removes_environment(self):
+        import shutil
+        import subprocess
+        import sys
+        with tempfile.TemporaryDirectory() as temporary:
+            target = Path(temporary) / "omega"
+            shutil.copytree(ROOT / "omega", target)
+            env = {k: v for k, v in os.environ.items()
+                   if k not in {"PYTHONDONTWRITEBYTECODE", "PYTHONPATH"}}
+            result = subprocess.run([sys.executable, str(target / "h2_actions.py"), "--help"],
+                                    env=env, capture_output=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(list(target.rglob("__pycache__")), [])
+
 
 class RpcTests(unittest.TestCase):
     def test_reads_allowed(self):
