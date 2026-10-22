@@ -32,7 +32,7 @@ def manifest(module: Path) -> dict[str, str]:
 
 
 def rust_source_sha256(module: Path) -> str:
-    files = [module / name for name in ("Cargo.toml", "Cargo.lock", "build.rs")]
+    files = [module / name for name in ("Cargo.toml", "Cargo.lock", "build.rs", "rust-toolchain.toml")]
     files.extend((module / "src").rglob("*.rs"))
     digest = hashlib.sha256()
     for path in sorted(files):
