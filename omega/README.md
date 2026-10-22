@@ -269,3 +269,10 @@ El verificador rechaza otra versión del código como productor esperado.
 Esto demuestra la auditoría offline de esa captura. No crea un artifact de
 Actions ni una certificación nueva; Census sigue en 0/9 y Omega en 0/36.
 Ver [contrato](CI_EVIDENCE_CONTRACT.md) y [auditoría H13](AUDIT_H13.md).
+
+**H13 100% dentro de ese alcance, auditado:** Omega 352/352 local; 38/38 pruebas
+nuevas y 41/41 del ejecutor en ambos jobs remotos. Run
+[39866201976](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/39866201976),
+productor `4a521dd42a0c816cd6959cd0fb4ac4e5b871dab0`: ambos jobs success,
+forks y replay completo aprobados, con auditoría posterior de identidad,
+integridad, aislamiento, resultados y tiempos. Certificación sigue 0/36.

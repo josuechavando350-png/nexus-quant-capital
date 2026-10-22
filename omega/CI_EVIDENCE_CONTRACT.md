@@ -50,3 +50,10 @@ The existing H2 workflow definition, permissions, triggers, historical disabled
 workflows and runner sizes are unchanged. Its Python entry point now runs this
 consumer and its adversarial tests before the physical gates. No artifact
 uploads, new service, subscription, secret or signing permission are added.
+
+The workflow retains its existing five-path trigger filter. H13 was tested
+remotely because this change updates `h2_actions.py` and `isolation.py`;
+future edits limited to the consumer/capture files alone do not trigger it.
+Run the affected offline tests and isolation on every such edit. Extending the
+workflow filter belongs to the next reviewed workflow migration; no automatic
+coverage of those future edits is claimed here.
