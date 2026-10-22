@@ -301,3 +301,17 @@ Aislamiento completo: **104 archivos Omega**, 531 fuentes originales y 106
 workflows históricos desactivados. Ejecución remota y auditoría posterior se
 registran en [AUDIT_H14.md](AUDIT_H14.md). Producto final 45% aún no demostrado;
 ver [PRODUCT_PROGRESS.md](PRODUCT_PROGRESS.md). Certificación **0/36**.
+
+## H15 — identidad de liquidadores con logs reales
+
+`liquidator_intake.py` enlaza 139 logs recién recuperados con todos los compromisos
+históricos originales. Identifica liquidadores por evento en las **127/127
+transacciones**, con **49 direcciones distintas**, y conserva 127 prestatarios.
+GasUsed/gasPrice también coincide con dRPC en todo el corpus. Esta concordancia
+no sustituye paridad completa de recibos ni demuestra margen neto.
+
+El resultado se almacena por separado del ledger histórico H14, con read-back,
+restauración y rechazo de identidades falsificadas. Oracle delay, costos completos,
+beneficiario económico y ejecución NQC permanecen desconocidos. La API no devolvió
+block hash ni removed: se mantiene explícita esa limitación.
+Ver [contrato H15](LIQUIDATOR_INTAKE_CONTRACT.md) y [auditoría H15](AUDIT_H15.md).

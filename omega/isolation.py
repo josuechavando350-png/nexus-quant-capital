@@ -23,6 +23,14 @@ OMEGA_WORKFLOW = ".github/workflows/omega-h2-audit.yml"
 WORKFLOW_TEMPLATE = "omega/h2_actions_workflow.yml.disabled"
 WORKFLOW_SHA256 = "8c1c20a8684a21728d7ebd83d0aac7ad93dc5840df34ec455e80e5eb0b3813be"
 EXTENSION_FILES = frozenset({
+    'omega/liquidator_intake.py',
+    'omega/test_liquidator_intake.py',
+    'omega/LIQUIDATOR_INTAKE_CONTRACT.md',
+    'omega/AUDIT_H15.md',
+    'omega/evidence/liquidator-capture-pin.json',
+    'omega/evidence/liquidator-log-capture.zip',
+    'omega/evidence/h15-liquidators.json',
+
     'omega/historical_intake.py',
     'omega/test_historical_intake.py',
     'omega/evidence_store.py',

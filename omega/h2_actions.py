@@ -444,7 +444,7 @@ def main():
     evidence("ci-capture-tests", strict_json(read_regular(work / "capture-tests.json")))
     run([sys.executable, ROOT / "omega/ci_evidence.py"], ROOT)
     for name, pattern in (
-        ("historical-intake-tests", "test_historical_intake.py"),
+        ("historical-intake-tests", "test*intake.py"),
         ("evidence-store-tests", "test_evidence_store.py"),
         ("historical-pipeline-tests", "test_historical_pipeline.py"),
         ("runtime-artifact-tests", "test_runtime_artifact.py"),

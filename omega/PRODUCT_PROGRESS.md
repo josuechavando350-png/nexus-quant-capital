@@ -28,6 +28,12 @@ crash/concurrency/recovery tests, full local pipeline replay, broader CI trigger
 and bounded authenticated-by-readback runtime artifacts. Their audited status is
 recorded in `AUDIT_H14.md`. None substitutes for missing market evidence above.
 
+H15 additionally identifies the protocol-event liquidator for 127/127 historical
+transactions, 49 distinct liquidator addresses and 127 borrowers, by matching all
+139 raw log payloads to original commitments. Gas metadata agrees with the dRPC
+receipt stage. This does not prove current coverage, oracle causality, complete
+costs or NQC profitability; details and limits are in `AUDIT_H15.md`.
+
 Progress reporting must keep three quantities separate:
 
 1. Completed engineering increments and their exact tests/producer evidence.
