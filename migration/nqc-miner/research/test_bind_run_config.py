@@ -37,6 +37,13 @@ def about():
         "economic_certification": False,
         "code_commit": "a" * 40,
         "cargo_lock_sha256": "b" * 64,
+        "rustc_version": "rustc 1.90.0 fixture",
+        "target": "x86_64-unknown-linux-gnu",
+        "host": "x86_64-unknown-linux-gnu",
+        "profile": "debug",
+        "opt_level": "0",
+        "debug": True,
+        "rustflags_sha256": "c" * 64,
     }
 
 
@@ -53,6 +60,22 @@ class BindRunConfigTests(unittest.TestCase):
             ("signing_enabled", True),
             ("gas_budget_mxn_centavos", 1),
             ("economic_certification", True),
+        ]:
+            candidate = about()
+            candidate[key] = value
+            with self.subTest(key=key):
+                with self.assertRaises(bind_run_config.BindError):
+                    bind_run_config.bind(template(), candidate)
+
+    def test_missing_compiler_identity_is_rejected(self):
+        for key, value in [
+            ("rustc_version", ""),
+            ("target", ""),
+            ("host", ""),
+            ("profile", ""),
+            ("opt_level", ""),
+            ("debug", "true"),
+            ("rustflags_sha256", "not-a-hash"),
         ]:
             candidate = about()
             candidate[key] = value
