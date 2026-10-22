@@ -90,3 +90,15 @@ El hito H4 tiene **19/19 pruebas nuevas aprobadas** y read-back de los Git blobs
 Esto completa el hito de implementación offline, pero el componente 29 sigue
 `foundational_partial`: falta poblar expedientes reales, integrarlos con el
 store Rust y probar recuperación/replicación/reorg de extremo a extremo.
+
+## H5 · Libro de órdenes de liquidaciones
+
+`liquidation_order_book.py` implementa un índice offline de umbrales racionales
+exactos, sin `float`, ligado a bloque y compromiso de evidencia. Detecta sólo
+posiciones que cruzan por primera vez entre dos precios y conserva el orden exacto
+de encuentro para movimientos ascendentes o descendentes.
+
+H5 tiene **19/19 pruebas nuevas aprobadas** y **38/38 combinadas H4 + H5**. El
+componente 8 sigue `foundational_partial`: faltan los umbrales generados por
+matemática de protocolo verificada, población completa, accrual de intereses,
+integración con Causal Graph y replay de mercado.
