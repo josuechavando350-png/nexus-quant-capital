@@ -239,6 +239,53 @@ fn configuration_rejects_crossing_observer_money_and_foreign_creds() {
     assert!(c.validate().is_err());
 }
 #[test]
+fn legacy_v1_is_offline_verifiable_but_never_live_rpc_eligible() {
+    let tmp = tempfile::tempdir().unwrap();
+    let path = tmp.path().join("legacy");
+    let mut legacy = config();
+    legacy.schema_version = 1;
+    legacy.build_identity_sha256 = None;
+    legacy.validate().unwrap();
+    assert!(ingestion::validate_runtime(&legacy).is_err());
+    drop(Journal::open(&path, &legacy).unwrap());
+    let summary = journal::verify(&path).unwrap();
+    assert_eq!(summary.owner.schema, "nqc-miner-owner-v1");
+    assert!(summary.owner.build_identity_sha256.is_none());
+}
+
+#[test]
+fn v2_requires_build_identity_and_v1_cannot_claim_one() {
+    let mut v2 = config();
+    v2.build_identity_sha256 = None;
+    assert!(v2.validate().is_err());
+
+    let mut v1 = config();
+    v1.schema_version = 1;
+    assert!(v1.validate().is_err());
+    v1.build_identity_sha256 = None;
+    v1.validate().unwrap();
+}
+
+#[test]
+fn existing_v2_journal_cannot_be_adopted_by_another_build_identity() {
+    let tmp = tempfile::tempdir().unwrap();
+    let path = tmp.path().join("miner");
+    let original = config();
+    drop(Journal::open(&path, &original).unwrap());
+
+    let mut different = original.clone();
+    different.build_identity_sha256 = Some("4".repeat(64));
+    assert!(different.validate().is_ok());
+    assert!(Journal::open(&path, &different).is_err());
+
+    let summary = journal::verify(&path).unwrap();
+    assert_eq!(
+        summary.owner.build_identity_sha256.as_deref(),
+        original.build_identity_sha256.as_deref()
+    );
+}
+
+#[test]
 fn unowned_directory_is_never_adopted() {
     let tmp = tempfile::tempdir().unwrap();
     fs::write(tmp.path().join("observer.txt"), "untouched").unwrap();
