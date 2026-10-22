@@ -19,6 +19,11 @@ Every resource belongs to `nqc_miner_v1`. The namespace is distinct from any exi
 
 Signing, broadcasting, the observer bridge, Telegram, KMS, spending and runtime deployment remain disabled. The configured gas budget is zero. A contract file is not permission to provision resources or enable any integration.
 
+The user has now demonstrated PostgreSQL 18.6 bootstrap/query/shutdown on native
+Termux. The exact-schema test runner and its static review are documented in
+`docs/termux-postgres.md`; runtime contract-test results are still pending.
+No infrastructure progress is credited for preparing that runner.
+
 ## Contracts
 
 | File | Implemented content | Validation boundary |

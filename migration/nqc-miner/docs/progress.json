@@ -181,7 +181,8 @@
     "evidence/offline-archive-v2-20261022/summary.json",
     "evidence/local-archive-v2-20261022/execution.json",
     "evidence/archive-artifact-verification-20261022.json",
-    "evidence/archive-git-delivery-20261022.json"
+    "evidence/archive-git-delivery-20261022.json",
+    "evidence/termux-postgres-preflight-20261022.json"
   ],
   "notes": [
     "An implemented primitive is not an operational phase exit.",
@@ -198,7 +199,8 @@
     "Collector source a1f6006 passed 155 Rust and 69 Python tests with clean exact build identity. The Rust count includes the subprocess helper for 13 new collector scenarios.",
     "Three historical Ethereum windows completed across a process restart; 2 events and 8 records. The 300-block selection overlaps earlier captures and is not additive evidence. No persistent collector service, broker, database, workflow worker or economic phase exit is claimed.",
     "Archive v2 source 169b82f passed 155 Rust and 91 Python tests, including 22 actual Rust/Polars archive regressions. Initial v1 baseline source 005ab8c lacked archive-id binding in receipts and is superseded for the delivery gate; its original evidence is preserved.",
-    "The archived three-window collection reuses the earlier 2 historical events and 8 records; zero new RPC observations. Capture/replay produced exactly one owner-bound receipt. Local archive verification does not close PostgreSQL, remote object storage, broker, workflow or economic gates."
+    "The archived three-window collection reuses the earlier 2 historical events and 8 records; zero new RPC observations. Capture/replay produced exactly one owner-bound receipt. Local archive verification does not close PostgreSQL, remote object storage, broker, workflow or economic gates.",
+    "User-supplied Termux screenshot shows PostgreSQL 18.6 bootstrap/query/shutdown success. The exact-schema runner has passed static preflight; its 30 SQL runtime checks, role denials and restart comparison await execution and retained evidence. No progress credit added."
   ],
   "historical_audit_notes_superseded_for_a841261": [
     "HTTP pacing/retry/redaction, run-config identity binding and rand 0.8.6 remediation are published but receive no progress credit until rebuilt and fully tested.",
