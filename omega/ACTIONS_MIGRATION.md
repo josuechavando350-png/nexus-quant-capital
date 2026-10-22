@@ -41,6 +41,11 @@ otro directorio con checkout sparse sólo NQC, verifican objetos y aislamiento.
   el autenticador original. Rust 1.98.1 corre tests y build release en un clon
   desechable del commit exacto. El runner histórico intacto ejecuta replay,
   crash/resume y closeout determinista dentro del namespace desconectado.
+  Un observador carga ese runner por su blob original y añade mensajes alrededor
+  de sus comandos; conserva argumentos, resultados y excepciones. El replay
+  mantiene las pausas de los proveedores y todos los casos de interrupción.
+  Su grupo de procesos tiene un límite de 50 minutos dentro del job de 60;
+  superar el límite produce fallo, con la salida parcial conservada.
 - `forks`: reproduce el materializador original y enlaza la copia con HEAD.
   Ejecuta Rust PFT y Solidity offline antes de los forks. Foundry 1.7.1 y solc
   0.8.24 se descargan con hashes fijados. Usa el test histórico inalterado y el
@@ -58,8 +63,10 @@ Esto permite auditar los gates físicos sin introducir almacenamiento facturable
 de artifacts. `artifact_id` queda null. Por tanto no satisface la recertificación
 canónica que exige artifact autenticado y validación posterior del consumidor.
 
-H2 continúa en 93.75% hasta tener resultados físicos auditados. Certificación
-0/36, Census abierto, protocolo `NOT_CLOSED` y permisos económicos todos false.
+H2 alcanzó 100% de integración auditada en el productor
+`e21d528dabd83d7f14e7f236b9e6d4e3fc1706f7`, run `39859932654`, attempt 1:
+ambos gates físicos success y auditoría posterior PASS. Ver `AUDIT_H2_ACTIONS.md`.
+Certificación 0/36, Census abierto, protocolo `NOT_CLOSED` y permisos económicos todos false.
 Errores, ausencia de seed, red bloqueada, jobs omitidos o resultados parciales
 no se convierten en PASS. La regresión Python Census mantiene los siete errores
 de preparación documentados y la validación histórica separada de 174 casos.

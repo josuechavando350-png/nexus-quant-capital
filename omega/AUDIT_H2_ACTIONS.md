@@ -1,13 +1,27 @@
 # Auditoría H2E — GitHub Actions en rama Omega
 
 Fecha: 2026-10-22. Auditoría de preparación completada antes de activar el flujo.
-**H2 93.75% (94% redondeado), certificación 0/36.** Hay resultados físicos parciales
-remotos; los dos gates completos siguen pendientes. La autorización del usuario
-abarca el nuevo flujo en la rama Omega.
+**H2 100% de integración y auditoría; certificación 0/36. Census abierto.**
+Los dos gates físicos aprobaron en la cuarta corrida y su auditoría posterior
+coincide con la lectura independiente de GitHub. Este porcentaje mide H2, no
+la terminación del sistema ni la certificación de sus componentes.
 
 Alcance: migración nueva bajo `omega/` y una única copia activa revisada en
 `.github/workflows/omega-h2-audit.yml`; ninguna modificación al source histórico,
 Miner, main o repositorio original.
+
+## Resultado vigente por control
+
+| Control | Evidencia y resultado |
+|---|---|
+| Checkout e identidad original | PASS; 637 payloads, objetos fuente y 106 workflows históricos desactivados |
+| Omega | 314/314 en el commit publicado, sin skips, con D15B/D16 originales |
+| Python Census | Regresión histórica clasificada en H2C: 664/838 en discovery, siete errores de preparación; otras 174/174 por sus CLI originales |
+| Rust Census | 528/528 y build release en la tercera y cuarta corrida; fmt/Clippy auditados en H2C |
+| Enlace PFT, Rust y Solidity | PASS en el productor nuevo; 56/56 Rust PFT y 14/14 Solidity |
+| Forks históricos | PASS en tercera y cuarta corrida; 4/4, dos proveedores con resultados iguales |
+| Replay desconectado completo | PASS en la cuarta corrida; 16 pasos originales verificados, fuente intacta y reproducción byte-idéntica |
+| Certificación / autoridad económica | 0/36; Census abierto, artifact nuevo null, permisos económicos false |
 
 ## Preparación: revisión y pruebas locales
 
@@ -145,3 +159,81 @@ Regresión tras el observador: **314/314** con D15B/D16 auténticos y aislamient
 completo PASS. Cuatro pruebas nuevas verifican delegación intacta, propagación
 de rechazo, rechazo de un blob alterado y conservación de evidencia al agotar
 el tiempo sin emitir éxito. Sigue pendiente auditar una corrida física completa.
+
+## Cuarta corrida: productor corregido
+
+Commit `e21d528dabd83d7f14e7f236b9e6d4e3fc1706f7`, árbol
+`9964778862574102ac2cbe907d0f40ae6c78b847`, run
+[39859932654](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/39859932654),
+attempt 1. Commit/tree se releen de la API y coinciden con la copia local limpia.
+La regresión completa repetida sobre el commit publicado aprobó **314/314**;
+SHA-256 del reporte `b501ac6a829afc20dedf712d7e7048d5f919aac15d5e51a434be2eef7e9c50cd`.
+
+Forks, job `120107692904`: success, 41/41 pruebas del runner, 56/56 Rust PFT,
+14/14 Solidity y 4/4 forks. Auditoría posterior de 29 compromisos, resultados
+de ambos proveedores, identidad Git/run y aislamiento antes/después: PASS.
+El resultado conserva exactamente el compromiso `historical-forks`
+`96338bad40dd243f0199172507cdca42849f5c1c76cae87da1687ce1a3b5a260` de la tercera
+corrida. Log de 488607 bytes: SHA-256
+`ffbdfb56ee5f2531b56eac4a56e15c3730584b726930aa5ec41ea68a8b70aec2`.
+
+La corrida anterior fallida se conserva: log replay de 135159 bytes, SHA-256
+`3964570eb89b5d753ebceb2dc814f934bf879686ffa7894e35a636206c56abfc`;
+20 compromisos recalculados, fuente autenticada y 528 tests comprobados, sin
+`stage-complete`. El archivo original descargado conserva 6709740 bytes y
+SHA-256 `1cdb46fca52ebf1e0e2094b1c14b19384ecb7beceb50229b967592ab7a0308b4`.
+
+### Replay aprobado y auditoría posterior
+
+Replay, job `120107692521`: success. Fuente D06 autenticada por el verificador
+original, 41/41 pruebas del runner, 528/528 Rust Census y build release PASS.
+El replay físico transcurrió del `2026-10-22T21:47:58.975971Z` al
+`2026-10-22T22:08:42.331238Z`: **1243.355267 segundos**. El timeout anterior de
+1200 s era inferior a la duración requerida. El paso crash/resume tardó
+1135.699 s; los dos current replay, 42.785 y 42.782 s. Se conservaron las pausas
+originales y todos los casos, sin alterar el código histórico.
+
+Auditoría del consumidor: **25 compromisos SHA-256 recalculados y 16 pares de
+comandos STARTED/VERIFIED cotejados**, sin timeout ni comandos fallidos. Se
+comprobaron run/attempt, commit/tree, fuente/ZIP original, timestamps y todos
+los flags. El namespace real `net:[4026532315]` difiere del padre
+`net:[4026531833]`, sólo contiene lo y no tiene red enrutable. El runner original
+exige bind readonly, ausencia de rutas útiles y sockets físicamente inalcanzables.
+
+`source_unchanged`, `current_replay_byte_identical`,
+`history_replay_byte_identical` y `closeout_byte_identical` son true.
+La raíz fuente y resultante es
+`e3d2b0739d3e5affea6b337540cf3cb9b2caaedd438656d2759105d39dacba03`.
+El compromiso del reporte `disconnected-replay` es
+`6838ba1dc247eaefea5ca307115258b06d2a951105e68f1b07a454ec476530e8`.
+Log de 155291 bytes: SHA-256
+`2c3a05ce89358570256b6aa227f7051f9343dbfeaae3985f2e1425b459b6aa68`.
+
+La API de GitHub confirma run `39859932654`, attempt 1, success, evento push,
+workflow `393369697`, ambos jobs success en el grupo GitHub Actions con etiqueta
+ubuntu-24.04, repositorio `1411047452`, rama y SHA exactos. El run terminó a las
+22:08:46 UTC, después de la verificación. La consulta de artifacts devuelve
+**total_count=0**. La identidad CI se auditó; la recertificación canónica sigue
+false porque no existe artifact nuevo autenticado ni cierre de sus demás gates.
+
+### Cierre del hito y siguiente alcance
+
+La medición mantiene los cuatro controles originales: los tres primeros suman
+75%; aislamiento, regresión Python clasificada, Rust y PFT/forks/replay completan
+el último 25%. **H2 alcanza 100% de integración auditada.** Esto conserva los
+siete errores históricos de preparación del discovery Python y sus 174 casos
+validados separadamente; no declara verde ese discovery agregado ni el formato
+PFT heredado. Las auditorías H2C/H2D conservan sus resultados y fechas originales.
+
+Los nueve componentes Census conservan 7 foundational_partial y 2 historical_partial;
+**0/9 Census y 0/36 Omega certificados**. El siguiente trabajo es producir y
+autenticar evidencia CI por commit, poblar triadas independientes y el universo
+completo de mercados/posiciones, completar adaptadores del alcance, integrar
+grafo/libro/oráculos, poblar ledger y reconciliar costos, y demostrar durabilidad,
+recuperación y reorgs del Evidence Vault. Luego se cierran gates por componente.
+H2 100% no es un porcentaje global de Omega ni autorización para Shadow/Canary.
+
+El productor físicamente probado es `e21d528dabd83d7f14e7f236b9e6d4e3fc1706f7`.
+El commit posterior de esta auditoría cambia únicamente documentación; no se
+atribuye a ese SHA posterior la corrida del productor. Todo permanece en la rama
+Omega y el PR 30 en borrador; Miner, main y source original no se modifican.

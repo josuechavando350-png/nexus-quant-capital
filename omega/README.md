@@ -3,6 +3,9 @@
 **Estado: 0/36 componentes certificados; Census no cerrado.** Hay código de
 integración y pruebas con evidencia histórica auténtica. No es un motor en vivo,
 una certificación del mercado actual ni una autorización para gastar.
+**H2: 100% de integración auditada**, con forks y replay desconectado físicos
+aprobados. Esto no mide la terminación global de Omega: Census mantiene 9/9
+componentes con base parcial y 0/9 certificados.
 
 Base: `NQC_Sovereign_Radar_Omega.pdf`, v1.0, 22 de octubre de 2026, SHA-256
 `5c1739799ab5099bc95f7347aeed8bcc2e3b098e64c3688584331004f15edf0f`.
@@ -227,8 +230,8 @@ El enlace real se ejecutó contra el commit publicado `b1a093e11e92acb59c796e220
 El commit posterior incorpora la evidencia y una prueba adicional de auditoría.
 
 El contrato original registra los fallos de formato sin exigir reescritura de
-fuentes; los fallos siguen visibles. Forks históricos y replay desconectado
-siguen sin ejecutarse. **H2: 94%; certificación: 0/36; Census NO cerrado.**
+fuentes; los fallos siguen visibles. Al terminar H2D, forks y replay seguían
+pendientes y H2 estaba en 94%. H2E, abajo, cierra esos gates físicos.
 Ver [contrato](PFT_SOURCE_BINDING_CONTRACT.md), [auditoría H2D](AUDIT_H2_PFT_BINDING.md)
 y `evidence/h2-pft-*`.
 
@@ -241,6 +244,17 @@ La única excepción activa revisada es `.github/workflows/omega-h2-audit.yml`,
 copia exacta de la plantilla fijada por SHA-256; ninguna otra ruta queda oculta
 al verificador original. Logs y contexto de productor no equivalen a artifact
 canónico autenticado. Certificación permanece en **0/36**.
+
+**H2 100% auditado:** run
+[39859932654](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/39859932654),
+commit `e21d528dabd83d7f14e7f236b9e6d4e3fc1706f7`, ambos jobs success.
+Omega 314/314, Rust Census 528/528, Rust PFT 56/56, Solidity 14/14, forks 4/4
+y replay físico byte-idéntico con fuente intacta. Identidad GitHub, compromisos,
+aislamiento y timestamps se auditaron después de la ejecución. El discovery Python
+genérico mantiene los siete errores heredados y la validación separada de 174 casos.
+Faltan las evidencias y cierres por componente descritos en `census_assessment.json`;
+los estados de ese catálogo corresponden a su `as_of_commit` histórico, no se
+reescriben como certificación nueva por haber cerrado H2.
 
 Ver [migración H2E](ACTIONS_MIGRATION.md) y [auditoría H2E](AUDIT_H2_ACTIONS.md)
 para resultados locales, estado remoto y límites. No trasladar a Miner ni main.
