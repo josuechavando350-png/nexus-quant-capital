@@ -8,7 +8,19 @@ use nqc_miner::{
     reporting,
 };
 use serde_json::{json, Value};
-use std::{cell::Cell, fs, io::Write, path::Path};
+use std::{
+    cell::Cell,
+    fs,
+    io::{Read, Write},
+    net::TcpListener,
+    path::Path,
+    sync::{
+        atomic::{AtomicUsize, Ordering},
+        Arc,
+    },
+    thread,
+    time::Duration,
+};
 
 fn h(n: u64) -> String {
     format!("0x{n:064x}")
@@ -638,6 +650,64 @@ fn failed_final_anchor_recheck_is_incomplete_until_successful_retry() {
     assert_eq!(summary.completed_scopes, 1);
     assert_eq!(summary.canonical_events, 1);
 }
+fn local_http_rpc(responses: Vec<String>) -> (String, Arc<AtomicUsize>, thread::JoinHandle<()>) {
+    let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+    let address = listener.local_addr().unwrap();
+    let hits = Arc::new(AtomicUsize::new(0));
+    let observed = Arc::clone(&hits);
+    let handle = thread::spawn(move || {
+        for response in responses {
+            let (mut stream, _) = listener.accept().unwrap();
+            stream.set_read_timeout(Some(Duration::from_secs(1))).unwrap();
+            let mut request = [0u8; 4096];
+            let _ = stream.read(&mut request);
+            observed.fetch_add(1, Ordering::SeqCst);
+            stream.write_all(response.as_bytes()).unwrap();
+            stream.flush().unwrap();
+        }
+    });
+    (
+        format!("http://{address}/private-path?token=never-print-this"),
+        hits,
+        handle,
+    )
+}
+
+fn http_response(status: &str, extra_headers: &str, body: &str) -> String {
+    format!(
+        "HTTP/1.1 {status}\\r\\nContent-Type: application/json\\r\\nContent-Length: {}\\r\\nConnection: close\\r\\n{extra_headers}\\r\\n{body}",
+        body.len()
+    )
+}
+
+#[test]
+fn http_rate_limit_is_retried_and_then_succeeds() {
+    let body = r#"{"jsonrpc":"2.0","id":1,"result":"0x1"}"#;
+    let responses = vec![
+        http_response("429 Too Many Requests", "Retry-After: 0\\r\\n", ""),
+        http_response("200 OK", "", body),
+    ];
+    let (url, hits, handle) = local_http_rpc(responses);
+    let rpc = ingestion::HttpRpc::new("fixture-http", &url).unwrap();
+    assert_eq!(rpc.call("eth_chainId", json!([])).unwrap(), json!("0x1"));
+    handle.join().unwrap();
+    assert_eq!(hits.load(Ordering::SeqCst), 2);
+}
+
+#[test]
+fn nonretryable_http_failure_is_single_shot_and_redacts_endpoint() {
+    let responses = vec![http_response("401 Unauthorized", "", "")];
+    let (url, hits, handle) = local_http_rpc(responses);
+    let rpc = ingestion::HttpRpc::new("fixture-http", &url).unwrap();
+    let error = rpc.call("eth_chainId", json!([])).unwrap_err().to_string();
+    handle.join().unwrap();
+    assert_eq!(hits.load(Ordering::SeqCst), 1);
+    assert!(error.contains("fixture-http"));
+    assert!(!error.contains("private-path"));
+    assert!(!error.contains("never-print-this"));
+    assert!(!error.contains("token="));
+}
+
 #[test]
 fn rpc_method_allowlist_and_url_rules_prevent_signing() {
     let rpc = ingestion::HttpRpc::new("local", "http://127.0.0.1:1").unwrap();
