@@ -56,9 +56,9 @@ def journal(path, config, records):
     (path/'events.jsonl').write_bytes(b''.join(lines))
 
 
-def fixture(path,topic,windows=2):
+def fixture(path,topic,windows=2, *, run_id='archive-fixture'):
     config={"schema_version":2,"namespace":"nqc_miner_v1","producer":"nqc-miner",
-        "run_id":"archive-fixture","data_class":"historical","code_commit":"1"*40,
+        "run_id":run_id,"data_class":"historical","code_commit":"1"*40,
         "cargo_lock_sha256":"2"*64,"build_identity_sha256":"3"*64,
         "observer_bridge_enabled":False,"signing_enabled":False,"gas_budget_mxn_centavos":0,
         "scopes":[{"id":"fixture","chain_id":1,"protocol":"aave-v3",

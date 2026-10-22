@@ -105,3 +105,8 @@ El [runner de Termux](termux-import.md) conserva los pasos de reproducción.
 La preparación pasó 116 pruebas Python; la auditoría de la evidencia añade
 12 regresiones y la suite actual pasa 128. El preparador sigue siendo offline
 y recibe un journal individual; no conecta el recolector completo a PostgreSQL.
+
+La [preparación de colecciones completas](postgres-collection.md) añade identidad
+de archivo, recibos, vínculos padre/ventana y cuarentena del conjunto. Su migración
+adicional necesita una prueba runtime propia; no cambia la evidencia ya auditada
+del importador individual.

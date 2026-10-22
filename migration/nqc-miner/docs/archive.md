@@ -103,9 +103,9 @@ Las pruebas usan el verificador Rust y Polars reales, con bloques inventados y s
 RPC. La etiqueta histórica ejercita el contrato de admisión del recolector; no
 convierte esos fixtures en observaciones del mercado.
 
-PostgreSQL no se ejecutó en este entorno: solo existe el UID 0 y no fue posible
-crear el proceso sin privilegios que exige el servidor. Esa limitación no se
-sustituyó por un mock de transacciones. Su DDL/importador, roles y recuperación
-siguen siendo gates abiertos. Los conceptos de transacción y locks usados para
-el diseño futuro se revisaron en la documentación primaria de PostgreSQL 18 y
-Psycopg; no constituyen evidencia de una integración ejecutada.
+La prueba base y el importador de journal individual se ejecutaron después en
+Termux y sus evidencias se auditaron; véase `docs/AUDIT_IMPORT_TERMUX_20261022.md`.
+La [preparación de colecciones para PostgreSQL](postgres-collection.md) ya usa
+el último recibo publicado de este archivo, incluidos los recibos de revocación.
+Su migración adicional está pendiente de ejecución y auditoría. Este archivo
+local conserva su formato v2 y sus fuentes originales sin cambios.

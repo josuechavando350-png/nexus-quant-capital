@@ -194,7 +194,11 @@
     "docs/AUDIT_IMPORT_TERMUX_20261022.md",
     "evidence/termux-import-20261022/received.tar.gz",
     "evidence/termux-import-20261022/audit.json",
-    "evidence/termux-import-20261022/verification.json"
+    "evidence/termux-import-20261022/verification.json",
+    "docs/postgres-collection.md",
+    "docs/termux-collection.md",
+    "evidence/collection-import-preflight-20261022/verification.json",
+    "evidence/collection-import-preflight-20261022/historical-replay.json"
   ],
   "notes": [
     "An implemented primitive is not an operational phase exit.",
@@ -216,7 +220,8 @@
     "User-operated PostgreSQL 18.6 Termux contract execution was audited from the original archive: 24 manifest hashes, 30 SQL checks, three actual writer denials, wrong-database/duplicate-schema guards, byte-identical restart snapshots and final shutdown. +1 infrastructure point, now 41/100. Fixtures are synthetic and not Rust-verified journals; importer, relay and production integration remain unexecuted.",
     "PostgreSQL importer preparation: 13 new actual Rust-verifier/Polars tests, 112 Python tests total, deterministic source-preserving UUID-bound SQL bundle and pglast syntax review. Candidate importer migration has NOT executed on PostgreSQL; no runtime, concurrency, permission or integration credit. Global progress remains 41/100.",
     "Termux importer runner prepared with 16 Rust-verified synthetic inputs, 35 SQL assertions, permission denials, deterministic lock contention, owned-backend interruption and restart comparison. 116 Python tests and Bash/SQL syntax checks pass. No PostgreSQL importer runtime execution yet; awaiting user-operated evidence. Progress remains 41/100.",
-    "The importer runtime audit supersedes the earlier pending-runtime notes for candidate a1d0f150 and runner 7ee9e9cb only: 42 manifest hashes, six exact pinned inputs, 16 Rust-verified synthetic fixtures, 35 SQL checks, 21 returned import results, four writer denials and one outsider denial, two concurrently blocked importers, owned-backend interruption/rollback/retry, all snapshot rows and orderly restart/shutdown verified. +1 infrastructure point: 42/100. Parent collection propagation, remote integration, relay and production/economic gates remain open."
+    "The importer runtime audit supersedes the earlier pending-runtime notes for candidate a1d0f150 and runner 7ee9e9cb only: 42 manifest hashes, six exact pinned inputs, 16 Rust-verified synthetic fixtures, 35 SQL checks, 21 returned import results, four writer denials and one outsider denial, two concurrently blocked importers, owned-backend interruption/rollback/retry, all snapshot rows and orderly restart/shutdown verified. +1 infrastructure point: 42/100. Parent collection propagation, remote integration, relay and production/economic gates remain open.",
+    "Collection importer preparation: latest published archive receipt, explicit archive/database UUIDs, real Rust/Polars verification and parent-revocation bundles. 14 new preparation regressions and four runner checks; 146 Python tests total. The existing historical collection prepares as three windows/eight records without changing its 46 archive files. A new additive PostgreSQL migration and 33-assertion Termux runner are prepared but have NOT executed on PostgreSQL. No new RPC observations or progress credit; remains 42/100 until returned runtime evidence is audited."
   ],
   "historical_audit_notes_superseded_for_a841261": [
     "HTTP pacing/retry/redaction, run-config identity binding and rand 0.8.6 remediation are published but receive no progress credit until rebuilt and fully tested.",

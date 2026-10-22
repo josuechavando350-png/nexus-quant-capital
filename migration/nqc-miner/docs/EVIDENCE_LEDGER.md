@@ -2,6 +2,12 @@
 
 Corte: 22 de octubre de 2026.
 
+Preparación actual de colecciones: 146 Python PASS, recibo/UUID de archivo y base
+vinculados, revocación del padre y preparación de la colección histórica existente
+(tres ventanas, ocho registros, 46 archivos intactos). Migración SQL adicional y
+runner de 33 aserciones pendientes de ejecución. Avance **42/100**, sin crédito
+nuevo. Véase `docs/postgres-collection.md`.
+
 Bloque actual: importador de journal individual ejecutado por el usuario en
 PostgreSQL 18.6/Termux y auditado desde el archivo original. Runner `7ee9e9cb`,
 implementación `a1d0f150`: 42 hashes, seis entradas fijadas, 35 comprobaciones SQL,

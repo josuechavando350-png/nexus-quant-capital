@@ -130,3 +130,5 @@ La auditoría base PostgreSQL está en [docs/AUDIT_POSTGRES_TERMUX_20261022.md](
 Estado actual: **42/100**. El [importador PostgreSQL](docs/postgres-import.md) pasó la [auditoría runtime en Termux](docs/AUDIT_IMPORT_TERMUX_20261022.md): 35 comprobaciones SQL, permisos, concurrencia, interrupción/reintento, bytes originales y reinicio verificados. Suite actual: 128 Python PASS. La instancia de prueba terminó apagada; siguen pendientes la propagación desde colecciones y la integración productiva.
 
 El [runner de Termux](docs/termux-import.md) y el archivo original permiten reproducir y revisar el experimento sintético. Observador, firma y gasto permanecen desactivados.
+
+Siguiente bloque preparado: [importación de colecciones completas](docs/postgres-collection.md), con revocación del padre y exclusión de todas sus ventanas. 146 pruebas Python PASS; [runner de Termux](docs/termux-collection.md) listo para validar la nueva transacción. Avance **42/100**, sin acreditar aún ese runtime.

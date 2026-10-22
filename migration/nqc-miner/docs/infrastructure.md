@@ -28,6 +28,13 @@ permissions, two blocked importers, interrupted-client rollback/retry and all
 persisted fixture rows. See `docs/AUDIT_IMPORT_TERMUX_20261022.md`. Parent collection
 revocation propagation and production integrations remain open.
 
+The collection preparer now binds the latest archive receipt and both UUIDs,
+re-verifies the parent/windows with Rust, and prepares permanent parent revocation.
+The additive `infra/postgres_collection.sql` migration and its 33-assertion Termux
+runner remain runtime-pending. Full Python validation: 146 tests. The historical
+three-window/eight-record archive prepares without changing its 46 files. See
+`docs/postgres-collection.md`; progress remains 42/100.
+
 ## Contracts
 
 | File | Implemented content | Validation boundary |
