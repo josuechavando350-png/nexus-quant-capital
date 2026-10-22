@@ -1,0 +1,107 @@
+{
+  "schema": "nqc.omega.census-map.v1",
+  "scope": "CODE_AND_HISTORICAL_AGGREGATE_INTAKE_ONLY",
+  "certified_components": 0,
+  "census_closed": false,
+  "components": [
+    {
+      "id": 1,
+      "name": "Interfaz de protocolos certificables",
+      "component_certified": false,
+      "implementation_stage": "not_assessed",
+      "sources_reviewed": [],
+      "omega_code": [],
+      "remaining_requirement": "Adaptadores por protocolo sobre un nucleo comun; el puente de agregados no sustituye adaptadores on-chain."
+    },
+    {
+      "id": 6,
+      "name": "NQC Truth Engine",
+      "component_certified": false,
+      "implementation_stage": "not_assessed",
+      "sources_reviewed": [],
+      "omega_code": [],
+      "remaining_requirement": "Paridad de tres vias independientes en el mismo bloque, contrato, version, parametros y oraculo."
+    },
+    {
+      "id": 7,
+      "name": "NQC Causal Graph",
+      "component_certified": false,
+      "implementation_stage": "not_assessed",
+      "sources_reviewed": [],
+      "omega_code": [],
+      "remaining_requirement": "Grafo posicion-mercado-oraculo-intereses-liquidez-rutas con invalidacion selectiva."
+    },
+    {
+      "id": 8,
+      "name": "Libro de órdenes de liquidaciones",
+      "component_certified": false,
+      "implementation_stage": "not_assessed",
+      "sources_reviewed": [],
+      "omega_code": [],
+      "remaining_requirement": "Umbrales exactos de liquidacion y consulta ordenada por precio."
+    },
+    {
+      "id": 10,
+      "name": "Radar de depegs y oráculos de tasa fija",
+      "component_certified": false,
+      "implementation_stage": "not_assessed",
+      "sources_reviewed": [],
+      "omega_code": [],
+      "remaining_requirement": "Distinguir oraculos de mercado de oraculos de tasa para evitar falsos positivos de depeg."
+    },
+    {
+      "id": 24,
+      "name": "NQC Competitor Intelligence",
+      "component_certified": false,
+      "implementation_stage": "partial_offline_integration",
+      "sources_reviewed": [
+        "ci/nqc-census/rmc016_winner_net_audit.py",
+        "ci/nqc-census/rmc016-production-evidence.json",
+        "ci/nqc-census/RMC016_WINNER_NET_EVIDENCE_CONTRACT.md"
+      ],
+      "omega_code": [
+        "omega/census_bridge.py"
+      ],
+      "remaining_requirement": "Ganadores, estrategia, retraso de deteccion y oportunidades desaparecidas por transaccion."
+    },
+    {
+      "id": 25,
+      "name": "Métrica decisiva de margen",
+      "component_certified": false,
+      "implementation_stage": "partial_offline_integration",
+      "sources_reviewed": [
+        "ci/nqc-census/rmc016_winner_net_audit.py",
+        "ci/nqc-census/rmc016-production-evidence.json",
+        "ci/nqc-census/RMC016_WINNER_NET_EVIDENCE_CONTRACT.md"
+      ],
+      "omega_code": [
+        "omega/census_bridge.py"
+      ],
+      "remaining_requirement": "Bono, ganador, bloques desde el oraculo y porcentaje pagado al builder por liquidacion."
+    },
+    {
+      "id": 29,
+      "name": "NQC Evidence Vault",
+      "component_certified": false,
+      "implementation_stage": "partial_offline_integration",
+      "sources_reviewed": [
+        "ci/nqc-census/rmc016_winner_net_audit.py",
+        "ci/nqc-census/rmc016-production-evidence.json",
+        "ci/nqc-census/RMC016_WINNER_NET_EVIDENCE_CONTRACT.md"
+      ],
+      "omega_code": [
+        "omega/census_bridge.py"
+      ],
+      "remaining_requirement": "Expediente completo por oportunidad con decisiones, costos, escenarios y resultados."
+    },
+    {
+      "id": 32,
+      "name": "Caza de cola larga",
+      "component_certified": false,
+      "implementation_stage": "not_assessed",
+      "sources_reviewed": [],
+      "omega_code": [],
+      "remaining_requirement": "Priorizacion demostrada de mercados nuevos, pequenos y rutas complejas."
+    }
+  ]
+}

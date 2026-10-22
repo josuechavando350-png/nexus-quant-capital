@@ -9,6 +9,8 @@ import json
 from collections import Counter
 from pathlib import Path
 
+from integrity import read_regular, strict_json
+
 HERE = Path(__file__).resolve().parent
 PHASES = ("Census", "Shadow", "Canary", "Escala")
 EXPECTED_COUNTS = {"Census": 9, "Shadow": 9, "Canary": 4, "Escala": 14}
@@ -58,9 +60,13 @@ def verify_plan(plan: object) -> list[str]:
         "live_operation_authorized", "legacy_workflows_enabled",
     )):
         problems.append("safety_boundary_broken")
+    budget = plan.get("canary_gas_budget_mxn")
+    if type(budget) is not dict or budget != {"total_cap": 2000, "topup_cap": 500, "review_without_capture_at": 1000} or any(type(value) is not int for value in budget.values()):
+        problems.append("canary_gas_budget_changed")
     acceptance = plan.get("acceptance")
     if not isinstance(acceptance, dict) or any(
         not isinstance(acceptance.get(p), list)
+        or any(type(gate) is not str for gate in acceptance[p])
         or set(acceptance[p]) != REQUIRED_ACCEPTANCE[p]
         or len(acceptance[p]) != len(REQUIRED_ACCEPTANCE[p])
         for p in PHASES
@@ -75,7 +81,9 @@ def verify_plan(plan: object) -> list[str]:
         return sorted(problems + ["component_not_object"])
     identifiers = [c.get("id") for c in components]
     if len(identifiers) != 36 or any(type(i) is not int for i in identifiers) or sorted(identifiers) != list(range(1, 37)):
-        problems.append("component_ids_invalid")
+        return sorted(set(problems + ["component_ids_invalid"]))
+    if any(type(c.get("phase")) is not str or type(c.get("layer")) is not str for c in components):
+        return sorted(set(problems + ["component_phase_or_layer_type_invalid"]))
     counts = Counter(c.get("phase") for c in components)
     if dict(counts) != EXPECTED_COUNTS:
         problems.append("wrong_phase_counts")
@@ -97,8 +105,8 @@ def verify_plan(plan: object) -> list[str]:
 
 def main() -> int:
     try:
-        plan = json.loads((HERE / "architecture_v3.json").read_text(encoding="utf-8"))
-    except (OSError, ValueError) as exc:
+        plan = strict_json(read_regular(HERE / "architecture_v3.json"))
+    except (OSError, ValueError, RecursionError) as exc:
         print(f"BLOCK: plan unavailable or malformed: {exc}")
         return 2
     errors = verify_plan(plan)

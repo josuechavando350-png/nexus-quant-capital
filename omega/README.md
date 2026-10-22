@@ -1,62 +1,73 @@
-# Sovereign Radar Omega — Fase 0 (solo diseño y prevalidación offline)
+# Sovereign Radar Omega — integración offline de Census
 
-**Estado:** integración inicial de arquitectura, **no** un motor operando ni un
-certificado de mercado. Entrada: `NQC_Sovereign_Radar_Omega.pdf`, v1.0 del
-2026-10-22, SHA-256 `5c1739799ab5099bc95f7347aeed8bcc2e3b098e64c3688584331004f15edf0f`.
-Este directorio es nuevo y no reescribe ningún byte PFT/Census importado.
+**Estado: 0/36 componentes certificados; Census no cerrado.** Hay código de
+integración y pruebas con evidencia histórica auténtica. No es un motor en vivo,
+una certificación del mercado actual ni una autorización para gastar.
 
-## Inventario verificable
+Base: `NQC_Sovereign_Radar_Omega.pdf`, v1.0, 22 de octubre de 2026, SHA-256
+`5c1739799ab5099bc95f7347aeed8bcc2e3b098e64c3688584331004f15edf0f`.
 
-`architecture_v3.json` transcribe las 36 capacidades, su capa y fase del
-catálogo (PDF pp. 5–7) y el orden de construcción (p. 9).
-La fase 0 comprende IDs **1, 6, 7, 8, 10, 24, 25, 29, 32** (9 de 36).
-Todo componente aparece con `omega_verification: not_assessed` porque una
-coincidencia de nombre con el código preexistente no demuestra paridad,
-completitud, rentabilidad ni pertenencia al nuevo alcance.
+## Qué incorpora
 
-`audit.py` verifica que el catálogo no se recorte, que cada componente tenga ID
-único y capa, que las fases tengan el recuento correcto, que los criterios de
-salida mínimos permanezcan y que el observador no obtenga permisos de gasto.
-Es un **control estructural**, no una auditoría de contratos, cadenas,
-datos en vivo, ni ejecución económica.
+- `architecture_v3.json`: los 36 componentes en 8 capas; fases Census/Shadow/
+  Canary/Escala = 9/9/4/14. El catálogo conserva `not_assessed`; el mapeo parcial
+  separado está en `census_map.json` y no certifica componentes.
+- `audit.py` e `integrity.py`: controles estructurales, tipos, claves JSON únicas,
+  límites de gas de diseño y carga de código original fijada por Git blob.
+- `census_bridge.py`: reproduce el auditor RMC-016 original con dos archivos ZIP
+  auténticos. Emite **OBSERVAR** ante evidencia histórica incompleta y **NO-GO**
+  ante entradas inválidas. Nunca emite GO ni realiza llamadas de red.
+- `isolation.py`: adaptador de aislamiento que no modifica el verificador
+  histórico. Sólo aparta los 11 archivos explícitos de Omega en una copia
+  temporal y entrega TODOS los demás archivos al verificador original.
+  No oculta workflows, archivos de clientes ni otras incorporaciones.
+- `evidence/historical-baseline.json`: resultado determinista del replay de
+  agregados, no de transacciones/EVM. Conserva IDs, alcance y bloqueos originales.
 
-Ejecutar desde este directorio (solo biblioteca estándar):
+## Reproducción
+
+Desde la raíz del repositorio, con Python 3.10+ en un sistema POSIX:
 
 ```sh
-PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s . -p 'test_audit.py' -v
-PYTHONDONTWRITEBYTECODE=1 python3 audit.py
+export PYTHONDONTWRITEBYTECODE=1
+python3 omega/audit.py
+python3 -m unittest discover -s omega -p 'test*.py' -v
+python3 ci/nqc-census/test_rmc016_winner_net_audit.py -v
 ```
 
-## Próximas puertas técnicas — NO aprobadas todavía
+Para ejecutar también las seis pruebas de archivos reales, suministrar
+`NQC_D15_ARCHIVE` y `NQC_D16_ARCHIVE` con las rutas de los ZIP originales de los
+artefactos `11504276505` y `11505504820` del repositorio fuente. Sin esas rutas,
+las seis pruebas se marcan SKIP; no se reemplazan por datos ficticios.
 
-1. Mapear por ID los módulos actuales de `nqc-census/` y `ci/nqc-census/` con su
-   alcance/certificación auténtica, sin reetiquetar las autoridades históricas.
-2. Certificar verdad de bloque con reconstrucción independiente, lectura directa
-   y reproducción EVM; bloquear toda discrepancia de cadena, bloque, contrato,
-   versión, parámetros u oráculo.
-3. Reconciliar **todas** las posiciones del alcance explícito, no extrapolar a
-   mercados no observados.
-4. Construir el ledger competitivo histórico con bono, ganador, bloque desde
-   oráculo y propina al builder; medir margen después de **todos** los costos y
-   cuantificar los casos perdidos o censurados.
-5. Someter los resultados al Evidence Vault y a una auditoría independiente;
-   si no queda margen probado, congelar el avance a Shadow.
+```sh
+python3 omega/census_bridge.py \
+  --d15-archive "$NQC_D15_ARCHIVE" \
+  --d16-archive "$NQC_D16_ARCHIVE" \
+  --out-dir /tmp/nqc-omega-evidence
+python3 omega/isolation.py
+```
 
-## Límites operativos obligatorios
+El último comando requiere el checkout COMPLETO. Conserva la opción
+`--source-git /ruta/al/almacen-original` del verificador histórico. Una copia
+parcial falla: las pruebas unitarias no reemplazan ese requisito. El comando
+histórico directo sigue rechazando `omega/`; esto se conserva deliberadamente.
 
-El observador **nunca** firma, transmite ni gasta. Ninguna API, llave, nodo,
-workflow o cuenta se activa por este cambio. Census y Shadow no conectan
-fondos. El techo de Canary del plano es **$2,000 MXN**, recarga máxima de
-**$500 MXN** y revisión obligatoria tras **$1,000 MXN** gastados sin captura;
-ninguno de esos montos constituye una autorización para gastar. Se mantienen
-las restricciones de `AGENTS.md` y `migration/IMPORT-PLAN.md`, incluyendo la
-prohibición de habilitar workflows heredados y de reclamar recertificación por
-traslado de evidencias.
+## Límites y aceptación
 
-## Qué significa avance
+Census y Shadow no conectan fondos. Observador, firmante y ejecutor siguen
+separados; este cambio no contiene firmante, broadcasting, despliegues ni
+workflows. Canary conserva el techo de **$2,000 MXN**, recargas máximas de
+**$500 MXN** y revisión tras **$1,000 MXN** sin captura. Son límites del diseño,
+no autorización de gasto. La autoridad histórica con `OWN_CAPITAL = 0` no se
+reescribe para aparentar certificación bajo la política nueva.
 
-- **Inventario y contratos de aceptación:** medible con `audit.py`.
-- **Componentes Omega verificados:** 0/36 hasta mapear implementación real,
-  correr pruebas afectadas y obtener evidencia nueva de su alcance.
-- **Fase de mercado cerrada:** ninguna por esta incorporación documental.
-- Un PASS estructural no autoriza declarar Census cerrado ni avanzar a Canary.
+Un hash detecta cambios, pero por sí solo no autentica un reporte externo.
+Reproducir las entradas fijadas es obligatorio. El almacenamiento local es
+atómico y no sobrescribe evidencia existente; no equivale a un Evidence Vault
+certificado, replicado ni probado frente a reorganizaciones de cadena.
+
+Faltan paridad de las tres vías de verdad, todas las posiciones del alcance,
+el ledger por transacción, costos completos, ganadores, retrasos del oráculo y
+propinas al builder. No se extrapolan agregados de otros liquidadores a P&L de
+NQC ni a mercados actuales. Ver `AUDIT_H2.md` para resultados y bloqueos exactos.
