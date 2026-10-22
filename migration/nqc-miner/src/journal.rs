@@ -42,6 +42,8 @@ pub struct RunIdentity {
     pub config_sha256: String,
     pub code_commit: String,
     pub cargo_lock_sha256: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub build_identity_sha256: Option<String>,
 }
 
 impl RunIdentity {
@@ -50,7 +52,12 @@ impl RunIdentity {
             .integrity_hash()
             .map_err(|e| JournalError::Rejected(e.to_string()))?;
         Ok(Self {
-            schema: "nqc-miner-owner-v1".into(),
+            schema: if config.schema_version == 1 {
+                "nqc-miner-owner-v1"
+            } else {
+                "nqc-miner-owner-v2"
+            }
+            .into(),
             namespace: NAMESPACE.into(),
             producer: PRODUCER.into(),
             run_id: config.run_id.clone(),
@@ -58,10 +65,16 @@ impl RunIdentity {
             config_sha256,
             code_commit: config.code_commit.clone(),
             cargo_lock_sha256: config.cargo_lock_sha256.clone(),
+            build_identity_sha256: config.build_identity_sha256.clone(),
         })
     }
     fn validate(&self) -> Result<(), JournalError> {
-        if self.schema != "nqc-miner-owner-v1"
+        let version_valid = match (self.schema.as_str(), self.build_identity_sha256.as_deref()) {
+            ("nqc-miner-owner-v1", None) => true,
+            ("nqc-miner-owner-v2", Some(value)) => crate::config::valid_sha256(value),
+            _ => false,
+        };
+        if !version_valid
             || self.namespace != NAMESPACE
             || self.producer != PRODUCER
             || !valid_identifier(&self.run_id)
