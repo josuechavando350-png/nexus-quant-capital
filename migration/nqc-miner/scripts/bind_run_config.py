@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Bind an NQC Miner run template to the exact clean binary identity."""
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -15,6 +16,23 @@ PLACEHOLDER = "__FROM_ABOUT__"
 
 class BindError(ValueError):
     pass
+
+
+def compute_build_identity(about):
+    fields = [
+        ("commit", about["code_commit"]),
+        ("source", about["source_sha256"]),
+        ("lock", about["cargo_lock_sha256"]),
+        ("rustc", about["rustc_version"]),
+        ("target", about["target"]),
+        ("host", about["host"]),
+        ("profile", about["profile"]),
+        ("opt", about["opt_level"]),
+        ("debug", "true" if about["debug"] else "false"),
+        ("rustflags", about["rustflags_sha256"]),
+    ]
+    material = "\0".join(part for pair in fields for part in pair)
+    return hashlib.sha256(material.encode("utf-8")).hexdigest()
 
 
 def load_json_strict(path: Path):
@@ -58,6 +76,10 @@ def validate_about(about):
         raise BindError("about code_commit is not a clean immutable SHA")
     if not isinstance(lock_hash, str) or not HEX64.fullmatch(lock_hash):
         raise BindError("about Cargo.lock SHA256 is invalid")
+    if not isinstance(about.get("source_sha256"), str) or not HEX64.fullmatch(
+        about["source_sha256"]
+    ):
+        raise BindError("about source SHA256 is invalid")
     for key in ("rustc_version", "target", "host", "profile", "opt_level"):
         if not isinstance(about.get(key), str) or not about[key].strip():
             raise BindError(f"about field {key} is missing build identity")
@@ -71,6 +93,8 @@ def validate_about(about):
         about["build_identity_sha256"]
     ):
         raise BindError("about build identity SHA256 is invalid")
+    if about["build_identity_sha256"] != compute_build_identity(about):
+        raise BindError("about build identity does not match its compiler/source fields")
     return commit, lock_hash
 
 
