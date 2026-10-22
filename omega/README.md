@@ -315,3 +315,16 @@ restauración y rechazo de identidades falsificadas. Oracle delay, costos comple
 beneficiario económico y ejecución NQC permanecen desconocidos. La API no devolvió
 block hash ni removed: se mantiene explícita esa limitación.
 Ver [contrato H15](LIQUIDATOR_INTAKE_CONTRACT.md) y [auditoría H15](AUDIT_H15.md).
+
+
+## H16: original WETH cashflow sample
+
+`cashflow_intake.py` combines the H14/H15 source-bound records with the original
+1979-byte price artifact 11527902751 (run 37726618359). Nine historical WETH/WETH
+transactions have exact raw gross-minus-full-transaction-gas arithmetic. Two
+have independently observed previous-block oracle references, at ranks 1 and 3;
+seven retain null price valuations. Five-bps flash fees are explicitly hypothetical.
+Complete net profit, oracle-delay and unknown costs remain null. Store admission,
+recovery and queries revalidate all underlying artifacts and derived ledgers.
+See `CASHFLOW_INTAKE_CONTRACT.md` and `AUDIT_H16.md`. This does not certify a
+component or establish the requested 45% completion target.

@@ -34,6 +34,12 @@ transactions, 49 distinct liquidator addresses and 127 borrowers, by matching al
 receipt stage. This does not prove current coverage, oracle causality, complete
 costs or NQC profitability; details and limits are in `AUDIT_H15.md`.
 
+H16 adds nine source-bound WETH/WETH gross-minus-full-transaction-gas records,
+two previous-block price references (ranks 1 and 3) and recoverable joined
+identity/economic evidence. Seven prices and all complete net profits remain
+unknown. Its 12 targeted tests and 445-test full local regression are documented
+in `AUDIT_H16.md`; these are not additional certified product components.
+
 Progress reporting must keep three quantities separate:
 
 1. Completed engineering increments and their exact tests/producer evidence.

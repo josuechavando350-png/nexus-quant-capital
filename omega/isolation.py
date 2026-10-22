@@ -23,6 +23,10 @@ OMEGA_WORKFLOW = ".github/workflows/omega-h2-audit.yml"
 WORKFLOW_TEMPLATE = "omega/h2_actions_workflow.yml.disabled"
 WORKFLOW_SHA256 = "8c1c20a8684a21728d7ebd83d0aac7ad93dc5840df34ec455e80e5eb0b3813be"
 EXTENSION_FILES = frozenset({
+    "omega/cashflow_intake.py", "omega/test_cashflow_intake.py",
+    "omega/CASHFLOW_INTAKE_CONTRACT.md", "omega/AUDIT_H16.md",
+    "omega/evidence/weth-price-original.zip", "omega/evidence/weth-price-metadata.json",
+    "omega/evidence/h16-cashflow.json",
     'omega/liquidator_intake.py',
     'omega/test_liquidator_intake.py',
     'omega/LIQUIDATOR_INTAKE_CONTRACT.md',
