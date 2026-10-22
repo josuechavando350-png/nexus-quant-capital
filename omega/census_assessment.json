@@ -1,6 +1,6 @@
 {
   "schema": "nqc.omega.census-assessment.v1",
-  "as_of_commit": "29a79826a89f93b1c273279a70c08d9d648e8334",
+  "as_of_commit": "ffaf64256a957a3caf9112ddfacf74b86346f892",
   "assessment_scope": "STATIC_SOURCE_AND_AUTHENTICATED_HISTORICAL_EVIDENCE_ONLY",
   "census_closed": false,
   "certified_components": 0,
@@ -24,15 +24,27 @@
         {
           "path": "nqc-census/crates/nqc-census-aave-discovery/src/live.rs",
           "git_blob": "87bd90c8153c4b2a6db09b10ac9f02a58b30ca6f"
+        },
+        {
+          "path": "omega/protocol_adapters.py",
+          "git_blob": "3435fff2021a48ad42782274b6b6601f48a34f99"
+        },
+        {
+          "path": "omega/PROTOCOL_ADAPTER_CONTRACT.md",
+          "git_blob": "ff0ba4d5301c740d1cf88411623011bf4cebd463"
+        },
+        {
+          "path": "omega/AUDIT_H9.md",
+          "git_blob": "aa566dc86df1d9748f61bcac31e564a19fc1619d"
         }
       ],
-      "supported_claim": "Aave V3 discovery exposes pinned selectors, runtime checks, reserve events, exact anchors and multi-provider reads.",
+      "supported_claim": "Aave V3 discovery already exposes pinned selectors/runtime checks, and Omega now adds a protocol-agnostic evidence-bound adapter identity/capability registry with fail-closed conformance; non-Aave families remain unimplemented until their capabilities carry real evidence.",
       "missing_for_omega": [
-        "protocol-agnostic adapter contract",
-        "Morpho Blue adapter",
-        "Morpho Midnight adapter",
-        "auction-protocol adapter",
-        "cross-adapter conformance suite"
+        "real Morpho Blue adapter",
+        "real Morpho Midnight adapter",
+        "real Dutch-auction adapter",
+        "cross-adapter conformance fixtures",
+        "Protocol/Fork Truth binding per protocol family"
       ]
     },
     {
