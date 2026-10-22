@@ -63,6 +63,8 @@ pub struct MinerConfig {
     /// Immutable code commit used by this run. Not inferred from a mutable branch.
     pub code_commit: String,
     pub cargo_lock_sha256: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub build_identity_sha256: Option<String>,
     pub observer_bridge_enabled: bool,
     pub signing_enabled: bool,
     pub gas_budget_mxn_centavos: u64,
@@ -162,7 +164,9 @@ impl MinerConfig {
 
     pub fn validate(&self) -> Result<(), ConfigError> {
         require(
-            self.schema_version == 1 && self.namespace == NAMESPACE && self.producer == PRODUCER,
+            matches!(self.schema_version, 1 | 2)
+                && self.namespace == NAMESPACE
+                && self.producer == PRODUCER,
             "foreign schema/producer/namespace",
         )?;
         require(valid_identifier(&self.run_id), "run id")?;
@@ -178,6 +182,14 @@ impl MinerConfig {
         require(
             valid_sha256(&self.cargo_lock_sha256),
             "Cargo.lock SHA256 required",
+        )?;
+        require(
+            match (self.schema_version, self.build_identity_sha256.as_deref()) {
+                (1, None) => true,
+                (2, Some(value)) => valid_sha256(value),
+                _ => false,
+            },
+            "schema v2 requires build identity; legacy v1 must not claim one",
         )?;
         require(
             !self.observer_bridge_enabled
