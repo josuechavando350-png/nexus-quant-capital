@@ -37,8 +37,11 @@
       "component_certified": false,
       "implementation_stage": "foundational_partial",
       "sources_reviewed": [],
-      "omega_code": [],
-      "remaining_requirement": "Umbrales exactos de liquidacion y consulta ordenada por precio."
+      "omega_code": [
+        "omega/liquidation_order_book.py",
+        "omega/LIQUIDATION_ORDER_BOOK_CONTRACT.md"
+      ],
+      "remaining_requirement": "Generar umbrales desde matemáticas de protocolo verificadas, poblar todas las posiciones del alcance, conectar accrual de intereses/Causal Graph y demostrar replay completo."
     },
     {
       "id": 10,
