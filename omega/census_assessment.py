@@ -29,6 +29,9 @@ ALLOWED_OMEGA_FILES = {
     "omega/long_tail.py",
     "omega/LONG_TAIL_CONTRACT.md",
     "omega/AUDIT_H8.md",
+    "omega/protocol_adapters.py",
+    "omega/PROTOCOL_ADAPTER_CONTRACT.md",
+    "omega/AUDIT_H9.md",
 }
 
 
