@@ -1,0 +1,94 @@
+{
+  "schema": "nqc-miner-closure-plan-v1",
+  "as_of": "2026-10-22",
+  "progress_source": "docs/progress.json",
+  "current": 43,
+  "remaining": 57,
+  "denominator": 100,
+  "new_progress_credit": 0,
+  "items": [
+    {
+      "id": "running_infrastructure",
+      "remaining_points": 1,
+      "acceptance": "Continuous collectors, Redpanda, Temporal, ClickHouse, Postgres, object store and observability integrated and recovery-tested",
+      "dependency": "persistent_isolated_runtime",
+      "next_step": "Execute the bounded worker with the pinned clean Rust build, native PostgreSQL and authorized read-only RPCs, then integrate and fault-test dedicated broker, workflow, analytics, object storage and observability.",
+      "status": "open"
+    },
+    {
+      "id": "calibrated_two_or_three_chain_measurement",
+      "remaining_points": 10,
+      "acceptance": "Sufficient complete measurements with eligibility, gas/tips, prices and calibrated saturation; a bounded public sample does not close this gate",
+      "dependency": "development_and_real_measurements",
+      "next_step": "Implement and authenticate protocol-specific position/price/eligibility/gas/tip inputs; collect sufficient complete two-or-three-chain measurements and calibrate on a reserved sample.",
+      "status": "open"
+    },
+    {
+      "id": "temporal_and_causal_wind_tunnel",
+      "remaining_points": 8,
+      "acceptance": "Actual workflow integration and historical price/position/execution reconstruction with certified adapters",
+      "dependency": "development_and_runtime",
+      "next_step": "Implement a dedicated workflow worker plus historical state/price/position reconstruction; differential-check causal execution against certified protocol adapters.",
+      "status": "open"
+    },
+    {
+      "id": "prospective_shadow_exit",
+      "remaining_points": 11,
+      "acceptance": "Prospective observations compared with real outcomes during a sufficiently long Shadow window",
+      "dependency": "prospective_time_and_outcomes",
+      "next_step": "Register predictions before outcomes; collect the agreed prospective observation window, reconcile real results and audit missing/censored cases.",
+      "status": "open"
+    },
+    {
+      "id": "generated_adapter_certification",
+      "remaining_points": 4,
+      "acceptance": "Quarantined generation, actual differential protocol testing and Foundry fuzzing",
+      "dependency": "development_and_toolchain",
+      "next_step": "Build quarantined adapter generation and run actual Foundry differential/property/fuzz tests against authenticated protocol implementations.",
+      "status": "open"
+    },
+    {
+      "id": "external_signer_and_alert_integration",
+      "remaining_points": 3,
+      "acceptance": "Separately configured and reviewed external signer, identities and notifications; no observer changes in this task",
+      "dependency": "development_and_specific_integration_review",
+      "next_step": "Prepare dedicated Miner-only external signer and alert identities with concrete permissions; review separately before enabling. Observer remains out of scope.",
+      "status": "open"
+    },
+    {
+      "id": "approved_budgeted_canary_exit",
+      "remaining_points": 5,
+      "acceptance": "Concrete proposal, explicit user approval and reconciled budgeted execution",
+      "dependency": "concrete_proposal_and_explicit_approval",
+      "next_step": "Only after prerequisites pass, present exact transactions, identities, limits, funded budget and stop rules for explicit approval; then reconcile authorized execution.",
+      "status": "open"
+    },
+    {
+      "id": "continuous_discovery_collectors",
+      "remaining_points": 4,
+      "acceptance": "Reliable continuous multi-chain inventories and governed search feedback",
+      "dependency": "development_and_sustained_runtime",
+      "next_step": "Build governed chain/factory/proxy inventories, certify sources and run reliable continuous collectors with monitored coverage and recovery.",
+      "status": "open"
+    },
+    {
+      "id": "validated_closed_learning_loop",
+      "remaining_points": 9,
+      "acceptance": "Realized datasets, economic validation, drift/rollback and prospective improvement",
+      "dependency": "realized_dataset_and_prospective_validation",
+      "next_step": "Integrate realized labels, temporal evaluation, economic validation, drift detection and rollback; demonstrate prospective improvement rather than fixture accuracy.",
+      "status": "open"
+    },
+    {
+      "id": "integration_audit_reproducibility_and_repository_delivery",
+      "remaining_points": 2,
+      "acceptance": "Closed material review findings, retained exact-source verification, bounded public smoke test and isolated branch/PR delivery",
+      "dependency": "hermetic_toolchain_and_final_runtime_audit",
+      "next_step": "Execute a hermetic dependency-closed build and full final production integration audit. Current host has no Nix/container runtime; offline tests alone do not meet that gate.",
+      "status": "open"
+    }
+  ],
+  "observer_changes_permitted": false,
+  "spending_authorized": false,
+  "phase_exits_completed": []
+}

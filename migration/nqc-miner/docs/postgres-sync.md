@@ -1,7 +1,9 @@
+> Actualización: el cliente local tiene evidencia nativa auditada en [AUDIT_SYNC_TERMUX_20261022.md](AUDIT_SYNC_TERMUX_20261022.md). La coordinación de ciclos está implementada en [collector-worker.md](collector-worker.md); su ejecución integral real sigue pendiente.
+
 # Sincronización local del recolector con PostgreSQL
 
-Estado: implementación y pruebas offline completas; **conexión del cliente nuevo
-a PostgreSQL real pendiente**. Avance global **43/100**, sin crédito adicional.
+Estado: implementación y pruebas offline completas; **cliente ejecutado en PostgreSQL
+nativo y evidencia auditada**. Avance global **43/100**, sin crédito adicional.
 La migración SQL conserva su auditoría anterior; este bloque no modifica SQL,
 Rust, archivo local, preparadores ni evidencia histórica.
 

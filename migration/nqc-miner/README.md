@@ -131,4 +131,18 @@ Estado actual: **43/100**. La [importación de colecciones completas](docs/postg
 
 La [auditoría individual anterior](docs/AUDIT_IMPORT_TERMUX_20261022.md) conserva su corte de 42/100 y 35 comprobaciones SQL. El [runner de colecciones](docs/termux-collection.md) y el archivo original permiten reproducir el experimento artificial. Observador, firma y gasto permanecen desactivados.
 
-Siguiente bloque implementado: [sincronización local del recolector](docs/postgres-sync.md), con confirmación posterior a COMMIT y recuperación de envíos inciertos. **189 Python PASS**; [prueba nativa del cliente](docs/termux-sync.md) preparada y pendiente de ejecución. Se conserva el avance **43/100**, sin atribuir ejecución PostgreSQL a los tests de protocolo.
+La [prueba nativa del cliente PostgreSQL](docs/AUDIT_SYNC_TERMUX_20261022.md)
+ya está auditada: **17 comprobaciones, 16 intentos, 74 hashes**, recuperación de
+acuse perdido, timeout antes de COMMIT, permisos, revocaciones y restart.
+
+El [coordinador de recolección y sincronización](docs/collector-worker.md) ya une
+los componentes locales con recuperación previa, ejecución acotada, exclusión de
+trabajadores y conservación de intentos inciertos. **16 pruebas del coordinador**
+usan Rust/Polars y locks reales con RPC/SQL modelados; la ejecución integral del
+coordinador con servicios reales sigue pendiente. Auditoría del bloque en
+[docs/AUDIT_WORKER_PREFLIGHT_20261022.md](docs/AUDIT_WORKER_PREFLIGHT_20261022.md).
+
+El [plan de cierre](docs/closure-plan.json) conserva los **57 puntos restantes**
+y sus criterios originales. No se han reponderado para declarar 100% a partir de
+código o fixtures: exige desarrollo e integración pendientes, mediciones reales,
+Shadow prospectivo, certificación de adaptadores y operación expresamente aprobada.

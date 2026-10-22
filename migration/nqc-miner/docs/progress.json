@@ -4,7 +4,7 @@
   "denominator": 100,
   "global_completion_percent": 43,
   "method": "Weighted engineering estimate with explicit operational phase exits, not a percentage of lines written",
-  "status": "audited_postgres_collection_import_and_revocation_runtime_on_termux",
+  "status": "audited_native_postgres_client_and_offline_bounded_worker",
   "items": [
     {
       "phase": "scope",
@@ -40,7 +40,7 @@
       "weight": 6,
       "earned": 5,
       "acceptance": "Continuous collectors, Redpanda, Temporal, ClickHouse, Postgres, object store and observability integrated and recovery-tested",
-      "earned_basis": "5/6: audited rolling collector, local collection archive, PostgreSQL base contract, individual-journal importer, and now atomic collection import with permanent parent revocation executed on PostgreSQL 18.6 in native Termux. Collection evidence verifies 33 SQL checks, actual permissions, concurrent writers, second-window rollback, interrupted-client rollback/retry, all original rows, receipts, eligibility views and orderly restart. The remaining point requires operational collector/database connection, remote storage/broker/workflow integration, prolonged operation, observability and joint recovery. No operational phase exit is closed."
+      "earned_basis": "5/6: audited rolling collector, local collection archive, PostgreSQL base contract, individual-journal importer, and now atomic collection import with permanent parent revocation executed on PostgreSQL 18.6 in native Termux. Collection evidence verifies 33 SQL checks, actual permissions, concurrent writers, second-window rollback, interrupted-client rollback/retry, all original rows, receipts, eligibility views and orderly restart. The remaining point requires operational collector/database connection, remote storage/broker/workflow integration, prolonged operation, observability and joint recovery. No operational phase exit is closed. Native local-client evidence now also audited: 17 checks, 16 attempts, lost acknowledgment/retry, precommit timeout, revocations, exact rows and restart. A bounded collector/archive/sync worker is implemented and tested with real Rust/Polars and explicit RPC/SQL doubles, including actual worker-lock SIGKILL recovery. Full worker real-service integration remains pending; no extra point is awarded."
     },
     {
       "phase": "A_exit",
@@ -206,7 +206,14 @@
     "docs/postgres-sync.md",
     "docs/termux-sync.md",
     "docs/AUDIT_SYNC_PREFLIGHT_20261022.md",
-    "evidence/sync-preflight-20261022/verification.json"
+    "evidence/sync-preflight-20261022/verification.json",
+    "docs/AUDIT_SYNC_TERMUX_20261022.md",
+    "evidence/termux-sync-20261022/received.tar.gz",
+    "evidence/termux-sync-20261022/audit.json",
+    "docs/collector-worker.md",
+    "docs/AUDIT_WORKER_PREFLIGHT_20261022.md",
+    "evidence/worker-preflight-20261022/verification.json",
+    "docs/closure-plan.json"
   ],
   "notes": [
     "An implemented primitive is not an operational phase exit.",
@@ -231,7 +238,8 @@
     "The importer runtime audit supersedes the earlier pending-runtime notes for candidate a1d0f150 and runner 7ee9e9cb only: 42 manifest hashes, six exact pinned inputs, 16 Rust-verified synthetic fixtures, 35 SQL checks, 21 returned import results, four writer denials and one outsider denial, two concurrently blocked importers, owned-backend interruption/rollback/retry, all snapshot rows and orderly restart/shutdown verified. +1 infrastructure point: 42/100. Parent collection propagation, remote integration, relay and production/economic gates remain open.",
     "Collection importer preparation: latest published archive receipt, explicit archive/database UUIDs, real Rust/Polars verification and parent-revocation bundles. 14 new preparation regressions and four runner checks; 146 Python tests total. The existing historical collection prepares as three windows/eight records without changing its 46 archive files. A new additive PostgreSQL migration and 33-assertion Termux runner are prepared but have NOT executed on PostgreSQL. No new RPC observations or progress credit; remains 42/100 until returned runtime evidence is audited.",
     "Collection runtime audit supersedes the earlier pending-runtime preparation note for source e4700af5 only: 44 manifest hashes, seven pinned inputs, 12 artificial Rust-verified packages, 33 SQL checks, 14 returned results, five permission denials, concurrency, second-window rollback, owned-backend interruption/retry, all rows/receipts/revocations/eligibility and orderly restart/shutdown pass. 160 Python tests include 14 new offline auditor regressions. +1 infrastructure point: 43/100, infrastructure 5/6. No new RPC observations, production integration or operational/economic phase exit; Observer remains untouched.",
-    "Local collection sync implementation prepared: paused collector capture, latest-receipt revalidation, real Rust/Polars preparation and cooperative locks through delivery. New standard-library client pins the local database/client/functions, generates fixed SQL, requires post-COMMIT readback, and treats missing/ambiguous acknowledgments as unknown. 189 Python tests pass (29 new); database-boundary tests explicitly use a fake client/socket metadata. A separate 17-check native Termux/PostgreSQL runner is prepared but NOT executed. No added runtime/production credit; remains 43/100. No Observer changes, new RPC observations, provisioning, relay, signing or spending."
+    "Local collection sync implementation prepared: paused collector capture, latest-receipt revalidation, real Rust/Polars preparation and cooperative locks through delivery. New standard-library client pins the local database/client/functions, generates fixed SQL, requires post-COMMIT readback, and treats missing/ambiguous acknowledgments as unknown. 189 Python tests pass (29 new); database-boundary tests explicitly use a fake client/socket metadata. A separate 17-check native Termux/PostgreSQL runner is prepared but NOT executed. No added runtime/production credit; remains 43/100. No Observer changes, new RPC observations, provisioning, relay, signing or spending.",
+    "The native sync audit supersedes pending native-client execution only for a1fb66a4: 74 manifest hashes, eight pinned inputs, 17 checks, 16 attempts, original rows and restart/shutdown verified. The bounded worker now reconciles before any poll and after failures, stops on uncertainty/revocation/capacity, retains incomplete sessions and excludes concurrent workers. Its new tests use actual Rust/Polars/storage and explicit RPC/SQL doubles; full real-service orchestration and all operational/economic exits remain open. The original weighted estimate is unchanged at 43/100; no relabeling of synthetic data or reweighting of gates."
   ],
   "historical_audit_notes_superseded_for_a841261": [
     "HTTP pacing/retry/redaction, run-config identity binding and rand 0.8.6 remediation are published but receive no progress credit until rebuilt and fully tested.",

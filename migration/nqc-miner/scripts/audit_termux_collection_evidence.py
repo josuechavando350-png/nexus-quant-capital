@@ -74,11 +74,13 @@ def jsonb_text(value):
     return json.dumps(value, ensure_ascii=False, allow_nan=False)
 
 
-def check_snapshot(snapshot, fixtures, start):
+def check_snapshot(snapshot, fixtures, start, *, sync=False):
     expected = {k: [] for k in ['runs', 'ledger', 'outbox', 'quarantine', 'collections',
                                'windows', 'receipts', 'revocations']}
     journals = {}
     selected = ['normal-three', 'child', 'conflict', 'rollback', 'concurrent', 'interrupt', 'revoked-first']
+    if sync:
+        selected = ['normal-three', 'child', 'rollback', 'concurrent', 'interrupt']
     for name in selected:
         p = fixtures[name]
         parent = p['control']['owner']['run_id']
@@ -120,6 +122,8 @@ def check_snapshot(snapshot, fixtures, start):
                 'incoming_owner_sha256': p['owner_sha256'], 'incoming_journal_sha256': p['journal_sha256']})
     for name in ['normal-two', 'normal-three', 'normal-revoked', 'child', 'conflict',
                  'rollback', 'concurrent', 'interrupt', 'revoked-first']:
+        if sync and name in ['conflict', 'revoked-first']:
+            continue
         p = fixtures[name]
         r = receipt(p)
         expected['receipts'].append({'parent_run_id': p['control']['owner']['run_id'],
@@ -130,6 +134,8 @@ def check_snapshot(snapshot, fixtures, start):
             'request_sha256': sha(jsonb_text(p).encode('utf-8'))})
     for name, reason in [('normal-revoked', 'parent_invalidated'), ('revoked-first', 'parent_invalidated'),
                          ('child', 'member_quarantined'), ('conflicting-receipt', 'receipt_conflict')]:
+        if sync and name in ['revoked-first', 'conflicting-receipt']:
+            continue
         p = fixtures[name]
         expected['revocations'].append({'parent_run_id': p['control']['owner']['run_id'],
             'reason': reason, 'receipt_sha256': receipt(p)['sha256'],

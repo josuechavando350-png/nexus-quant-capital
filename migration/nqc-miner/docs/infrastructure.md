@@ -41,8 +41,8 @@ A bounded local sync cycle and standard-library psql client are now implemented:
 source/receipt freshness under cooperative locks, post-COMMIT readback, explicit
 unknown/quarantined/superseded outcomes, durable attempts and local metrics.
 **189 Python tests pass**, including explicit fake-client protocol tests; the new
-17-check native client experiment remains unexecuted. See `docs/postgres-sync.md`
-and `docs/AUDIT_SYNC_PREFLIGHT_20261022.md`. Progress stays **43/100**.
+17-check native client experiment is now audited (74 hashes, 16 attempts, all rows, restart/shutdown). See `docs/postgres-sync.md`
+and `docs/AUDIT_SYNC_TERMUX_20261022.md`. The bounded orchestration worker is implemented and tested with real Rust/Polars plus explicit RPC/SQL doubles; combined native execution remains open. See `docs/collector-worker.md`. Progress stays **43/100**.
 
 ## Contracts
 

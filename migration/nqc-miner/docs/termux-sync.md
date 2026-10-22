@@ -1,6 +1,8 @@
+> Actualización: el archivo devuelto ya pasó la auditoría nativa de esta fuente. Ver [AUDIT_SYNC_TERMUX_20261022.md](AUDIT_SYNC_TERMUX_20261022.md). Las instrucciones siguientes permiten reproducir el experimento.
+
 # Prueba nativa del cliente de sincronización
 
-Estado: **preparada, no ejecutada todavía**. Avance global **43/100**. La prueba
+Estado: **ejecutada en Termux y evidencia auditada**. Avance global **43/100**. La prueba
 anterior validó las funciones SQL; ésta valida el cliente que las llama y exige
 confirmación posterior a COMMIT. No hace falta repetir las pruebas anteriores.
 

@@ -2,12 +2,23 @@
 
 Corte: 22 de octubre de 2026.
 
-Preparación posterior: ciclo de sincronización y cliente local con acuse posterior
-a COMMIT. **189 Python PASS**, 29 pruebas nuevas, con frontera de base modelada
-explícitamente; prueba nativa de 17 comprobaciones preparada, todavía no ejecutada.
-Sin crédito nuevo: **43/100**. Véase `docs/AUDIT_SYNC_PREFLIGHT_20261022.md`.
+Bloque actual: auditoría nativa del cliente local `a1fb66a4` aprobada: **74 hashes,
+ocho entradas fijadas, 17 comprobaciones y 16 intentos**, acuses, concurrencia,
+interrupción/reintento, revocaciones, originales y restart/shutdown. Ver
+`docs/AUDIT_SYNC_TERMUX_20261022.md`. No hay nuevos datos económicos.
 
-Bloque actual: colecciones completas ejecutadas en PostgreSQL 18.6/Termux y
+Coordinador acotado implementado con reconciliación previa y posterior, límites,
+workspace exclusivo y recuperación tras SIGKILL. El bloque tiene 12 regresiones
+nuevas del auditor y 16 del coordinador. RPC y SQL del coordinador están modelados;
+no hay ejecución integral real ni servicio instalado. Avance: **43/100**, sin
+crédito adicional. Ver `docs/AUDIT_WORKER_PREFLIGHT_20261022.md` y el desglose de
+los 57 puntos todavía abiertos en `docs/closure-plan.json`.
+
+Preparación histórica del cliente: **189 Python PASS**, 29 pruebas nuevas,
+`docs/AUDIT_SYNC_PREFLIGHT_20261022.md`. Su estado de ejecución nativa pendiente
+queda sustituido únicamente para la prueba y fuente descritas arriba.
+
+Bloque anterior: colecciones completas ejecutadas en PostgreSQL 18.6/Termux y
 auditadas contra la fuente `e4700af5`. 44 hashes, siete entradas, 33 comprobaciones
 SQL, 14 respuestas, cinco denegaciones, concurrencia, rollback, interrupción/reintento,
 revocaciones, elegibilidad y reinicio. **160 Python PASS; avance 43/100**.
