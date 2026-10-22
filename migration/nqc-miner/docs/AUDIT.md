@@ -84,19 +84,28 @@ lock corregidos. Hasta que termine no se registra una lectura pública completa.
 
 ### Delta de endurecimiento HTTP pendiente de reejecución completa
 
-Después de la última suite completa se publicó un delta adicional. El código de
-red quedó fijado en `20a22c58b7bc64c6cda6d9610133b876452de0fe`: serializa el
+Después de la última suite completa se publicó un delta adicional. El cambio de
+red introducido en `20a22c58b7bc64c6cda6d9610133b876452de0fe` serializa el
 ritmo por proveedor, limita los reintentos, trata 408/425/429/500/502/503/504 como
 transitorios y no incorpora endpoint, query string ni cuerpo remoto en el error.
 Se añadieron regresiones locales para 429 seguido de éxito y para 401 sin reintento
 ni fuga del token incluido deliberadamente en el URL de fixture.
 
+Una revisión posterior de RustSec encontró que el pin `rand 0.8.5` caía en el
+rango afectado de RUSTSEC-2026-0097; se elevó a `0.8.6` y se actualizó el lock.
+El SHA-256 del Cargo.lock preparado es
+`634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab`.
+La configuración de repetición ya no guarda un SHA de commit autorefencial:
+`config.template.json` es intencionalmente no ejecutable y
+`scripts/bind_run_config.py` la liga al `about` de un binario limpio justo
+antes de correr. Se añadieron seis pruebas Python para ese binder.
+
 La repetición multichain está preparada en
 `evidence/public-retry-20261022/` con `run_id` nuevo y lotes de 100 bloques.
-**No se presenta como ejecutada.** La estación remota de verificación no estuvo
-disponible para una nueva corrida en esta ronda, por lo que los 136 + 38 tests del
-commit anterior no se heredan al delta. El avance permanece en 35/100 hasta
-reconstruir ese commit y repetir compilación, tests, Clippy, formato, aislamiento,
+**No se presenta como ejecutada.** Los 136 + 38 tests del commit anterior no se
+heredan a estos cambios; tampoco se suman las nuevas pruebas del binder mientras no
+se ejecuten. El avance permanece en 35/100 hasta reconstruir la revisión actual y
+repetir compilación, tests, Clippy, formato, aislamiento, auditoría de dependencias,
 identidad del binario y la muestra pública.
 
 ### Cross-check independiente del tramo Ethereum
@@ -118,16 +127,18 @@ se certifica rentabilidad, cobertura o saturación.
 
 ### Revisión dirigida de dependencias
 
-Se contrastaron versiones de red/criptografía y aritmética fijadas en
-`Cargo.lock` contra avisos RustSec vigentes al 22 de octubre de 2026. Las
-versiones revisadas —incluidas rustls 0.23.46, rustls-webpki 0.103.16,
-quinn-proto 0.11.19, ruint 1.20.1, ring 0.17.14, time 0.3.55 y
-alloy-json-abi 1.4.1— están en rangos corregidos para los avisos contrastados.
+Se cruzó el lock con el inventario público de RustSec y se revisaron todos los
+avisos de **2026** identificados para paquetes presentes en el lock. El único pin
+detectado dentro de un rango afectado fue `rand 0.8.5`, que se corrigió a
+`0.8.6`. Tras esa remediación, las versiones revisadas de bytes, keccak, rand,
+ruint, time, tokio, rustls, rustls-webpki y quinn-proto quedan en rangos parchados
+para sus advisories 2026 identificados.
 
-El detalle está en `evidence/supply-chain-review-20261022.json`. Esto es una
-revisión dirigida y **no sustituye** un escaneo completo de `Cargo.lock` con
-`cargo audit`/equivalente. Ese escaneo permanece como requisito antes de
-acreditar el delta de red o fusionar la PR.
+El detalle está en `evidence/supply-chain-review-20261022.json`. Sigue siendo una
+revisión dirigida: **no sustituye** un `cargo audit`/`cargo deny` completo sobre
+todo el historial de la base RustSec y el grafo resuelto. El escaneo automático,
+la compilación con el lock nuevo y toda la suite permanecen como requisitos antes
+de acreditar el delta o fusionar la PR.
 
 ## Hallazgos cerrados
 
