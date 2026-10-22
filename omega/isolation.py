@@ -15,10 +15,13 @@ import tempfile
 from pathlib import Path
 
 from audit import verify_plan
-from integrity import load_pinned_python, read_regular, strict_json
+from integrity import digest, load_pinned_python, read_regular, strict_json
 
 ROOT = Path(__file__).resolve().parents[1]
 VERIFIER_BLOB = "3bb842872a4ca89e81bcf45839b42cc88d26f84e"
+OMEGA_WORKFLOW = ".github/workflows/omega-h2-audit.yml"
+WORKFLOW_TEMPLATE = "omega/h2_actions_workflow.yml.disabled"
+WORKFLOW_SHA256 = "a2d101c69a6ce5aa0dc46065429547dbafec79c0d253afffce6c57231d755f16"
 EXTENSION_FILES = frozenset({
     "omega/README.md", "omega/architecture_v3.json", "omega/audit.py",
     "omega/test_audit.py", "omega/integrity.py", "omega/census_bridge.py",
@@ -56,8 +59,23 @@ EXTENSION_FILES = frozenset({
     "omega/AUDIT_H2_PFT_BINDING.md", "omega/evidence/h2-pft-binding.json",
     "omega/evidence/h2-pft-audit.json", "omega/evidence/h2-pft-logs.json",
     "omega/evidence/h2-pft-omega.json",
+    "omega/h2_actions.py", "omega/test_h2_actions.py", WORKFLOW_TEMPLATE,
+    "omega/ACTIONS_MIGRATION.md", "omega/AUDIT_H2_ACTIONS.md",
 })
 EXTENSION_DIRS = {"omega", "omega/evidence"}
+
+
+def reviewed_workflow(root: Path) -> bool:
+    """One explicit new workflow exception; historical workflows stay disabled."""
+    template = read_regular(root / WORKFLOW_TEMPLATE)
+    if digest(template) != WORKFLOW_SHA256:
+        raise ValueError("workflow_template_digest_mismatch")
+    active = root / OMEGA_WORKFLOW
+    if not active.exists() and not active.is_symlink():
+        return False
+    if read_regular(active) != template or stat.S_IMODE(active.stat().st_mode) != 0o644:
+        raise ValueError("unreviewed_active_workflow")
+    return True
 
 
 def inventory(root: Path) -> list[Path]:
@@ -87,6 +105,7 @@ def inventory(root: Path) -> list[Path]:
                 files.append(path)
     if seen != EXTENSION_FILES:
         raise ValueError("missing_omega_paths: " + ",".join(sorted(EXTENSION_FILES - seen)))
+    reviewed_workflow(root)
     return sorted(files)
 
 
@@ -104,7 +123,7 @@ def project_repository(root: Path, destination: Path) -> None:
     destination.mkdir(parents=True, exist_ok=False)
     for path in files:
         relative = path.relative_to(root)
-        if relative.as_posix() in EXTENSION_FILES:
+        if relative.as_posix() in EXTENSION_FILES or relative.as_posix() == OMEGA_WORKFLOW:
             continue
         data = read_regular(path, limit=512 * 1024 * 1024)
         target = destination / relative
@@ -129,6 +148,8 @@ def verify_repository(root: Path = ROOT, source_git: Path | None = None) -> dict
             or result.get("active_workflows") != 0):
         raise ValueError("unexpected_original_verifier_result")
     return {"status": "OMEGA_OFFLINE_ISOLATION_PASS", "legacy_result": result,
+            "active_omega_workflows": int(reviewed_workflow(root)),
+            "active_workflow_sha256": WORKFLOW_SHA256 if reviewed_workflow(root) else None,
             "extension_file_count": len(EXTENSION_FILES),
             "canonical_recertification": False, "phase_advance_authorized": False}
 

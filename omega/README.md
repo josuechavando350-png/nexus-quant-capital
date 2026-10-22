@@ -229,3 +229,16 @@ fuentes; los fallos siguen visibles. Forks históricos y replay desconectado
 siguen sin ejecutarse. **H2: 94%; certificación: 0/36; Census NO cerrado.**
 Ver [contrato](PFT_SOURCE_BINDING_CONTRACT.md), [auditoría H2D](AUDIT_H2_PFT_BINDING.md)
 y `evidence/h2-pft-*`.
+
+## H2E · Runner físico en la rama de Omega
+
+Se prepara una migración nueva para `feat/omega-h2-executable-audit-20261022`:
+`h2_actions.py` ejecuta forks con dos proveedores y replay D06 desconectado en
+dos jobs Ubuntu estándar. Conserva los 106 workflows históricos desactivados.
+La única excepción activa revisada es `.github/workflows/omega-h2-audit.yml`,
+copia exacta de la plantilla fijada por SHA-256; ninguna otra ruta queda oculta
+al verificador original. Logs y contexto de productor no equivalen a artifact
+canónico autenticado. Certificación permanece en **0/36**.
+
+Ver [migración H2E](ACTIONS_MIGRATION.md) y [auditoría H2E](AUDIT_H2_ACTIONS.md)
+para resultados locales, estado remoto y límites. No trasladar a Miner ni main.
