@@ -43,6 +43,29 @@ def rust_source_sha256(module: Path) -> str:
     return digest.hexdigest()
 
 
+def build_identity_sha256(identity: dict) -> str:
+    required = (
+        "code_commit", "source_sha256", "cargo_lock_sha256", "rustc_version",
+        "target", "host", "profile", "opt_level", "debug", "rustflags_sha256",
+    )
+    if any(key not in identity for key in required) or not isinstance(identity["debug"], bool):
+        raise ValueError("incomplete build identity")
+    fields = [
+        ("commit", identity["code_commit"]),
+        ("source", identity["source_sha256"]),
+        ("lock", identity["cargo_lock_sha256"]),
+        ("rustc", identity["rustc_version"]),
+        ("target", identity["target"]),
+        ("host", identity["host"]),
+        ("profile", identity["profile"]),
+        ("opt", identity["opt_level"]),
+        ("debug", "true" if identity["debug"] else "false"),
+        ("rustflags", identity["rustflags_sha256"]),
+    ]
+    material = "\0".join(part for pair in fields for part in pair)
+    return sha(material.encode("utf-8"))
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
@@ -100,6 +123,7 @@ def main() -> int:
                 and rustc.returncode == 0
                 and identity["rustc_version"] == expected_rustc
                 and identity["profile"] == "debug"
+                and identity.get("build_identity_sha256") == build_identity_sha256(identity)
             )
             if not check["binary_source_matches_inputs"]:
                 check["exit_code"] = 1
