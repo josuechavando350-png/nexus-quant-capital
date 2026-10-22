@@ -15,7 +15,10 @@
   ],
   "properties": {
     "schema": {
-      "const": "nqc-miner-owner-v1"
+      "enum": [
+        "nqc-miner-owner-v1",
+        "nqc-miner-owner-v2"
+      ]
     },
     "namespace": {
       "const": "nqc_miner_v1"
@@ -45,6 +48,48 @@
     "cargo_lock_sha256": {
       "type": "string",
       "pattern": "^[0-9a-f]{64}$"
+    },
+    "build_identity_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema": {
+            "const": "nqc-miner-owner-v2"
+          }
+        },
+        "required": [
+          "schema"
+        ]
+      },
+      "then": {
+        "required": [
+          "build_identity_sha256"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "schema": {
+            "const": "nqc-miner-owner-v1"
+          }
+        },
+        "required": [
+          "schema"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "build_identity_sha256"
+          ]
+        }
+      }
+    }
+  ]
 }
