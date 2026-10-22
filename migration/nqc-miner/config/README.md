@@ -15,10 +15,12 @@ no se importan certificados, claves privadas ni configuraciones de otro trabajo.
 El almacén de confianza del entorno es una dependencia operacional explícita.
 Referencia: [rustls-native-certs](https://github.com/rustls/rustls-native-certs).
 
-La configuración de una ejecución real debe obtener su identidad de
-`nqc-miner about` después de construir el commit correspondiente. `scan` rechaza
-binarios con cambios de código sin commit, identidades distintas y presupuesto
-de gas positivo. `validate-config` no conecta a ninguna red.
+La configuración de una ejecución real debe generarse desde una plantilla v2 y
+el `nqc-miner about` del binario limpio mediante `scripts/bind_run_config.py`.
+El binder recalcula la identidad a partir de commit, hash de fuentes, Cargo.lock,
+rustc, target, host, perfil, nivel de optimización, debug y hash de RUSTFLAGS.
+`scan` rechaza builds sucios, schema v1, identidad de build distinta y
+presupuesto de gas positivo. `validate-config` no conecta a ninguna red.
 
 Para un registro histórico nuevo:
 
