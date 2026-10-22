@@ -123,10 +123,12 @@ casos aparecen transferencias desde Morpho Blue dentro de la ruta.
 Este control se conserva en
 `evidence/public-crosscheck-20261022/aave-ethereum.json`. No se usa para inflar el
 conteo del Miner: evidencia transaccional no equivale a contar logs
-`LiquidationCall`. Por tanto, el reporte previo de cinco eventos sigue siendo una
-observación del escaneo interrumpido, **no cinco eventos independientemente
-verificados**. Tampoco se atribuye identidad real a las direcciones observadas ni
-se certifica rentabilidad, cobertura o saturación.
+`LiquidationCall`. Durante una ejecución temporal se observó un conteo de cinco
+eventos, pero **no existe en la rama un journal durable/versionado de esa corrida**;
+ese número queda excluido de métricas y afirmaciones hasta repetirlo y verificarlo.
+Tampoco se atribuye identidad real a las direcciones observadas ni se certifica
+rentabilidad, cobertura o saturación. El criterio de admisión está centralizado en
+`docs/EVIDENCE_LEDGER.md`.
 
 ### Revisión dirigida de dependencias
 
