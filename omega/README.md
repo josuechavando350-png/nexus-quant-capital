@@ -102,3 +102,15 @@ H5 tiene **19/19 pruebas nuevas aprobadas** y **38/38 combinadas H4 + H5**. El
 componente 8 sigue `foundational_partial`: faltan los umbrales generados por
 matemática de protocolo verificada, población completa, accrual de intereses,
 integración con Causal Graph y replay de mercado.
+
+## H6 · Causal Graph
+
+`causal_graph.py` añade un grafo de dependencias offline, ligado a bloque y
+evidencia. Cada posición debe relacionarse con mercado, oráculo, modelo de
+intereses, liquidez y ruta; cambios en dependencias se propagan en reversa para
+identificar exactamente qué posiciones recalcular.
+
+H6 tiene **20/20 pruebas nuevas aprobadas** y **58/58 combinadas H4 + H5 + H6**.
+El componente 7 sube de `not_evidenced` a `foundational_partial`, no a
+certificado: todavía faltan población completa, prueba de completitud, replay
+temporal e integración directa con el Libro de órdenes.
