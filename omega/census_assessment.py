@@ -8,8 +8,8 @@ from pathlib import Path
 
 EXPECTED_IDS = {1, 6, 7, 8, 10, 24, 25, 29, 32}
 ALLOWED_STATUS = {"foundational_partial", "historical_partial", "not_evidenced"}
-EXPECTED_SUMMARY = {"components_assessed": 9, "foundational_partial": 4,
-                    "historical_partial": 2, "not_evidenced": 3}
+EXPECTED_SUMMARY = {"components_assessed": 9, "foundational_partial": 5,
+                    "historical_partial": 2, "not_evidenced": 2}
 BLOB = re.compile(r"^[0-9a-f]{40}$")
 COMMIT = re.compile(r"^[0-9a-f]{40}$")
 ALLOWED_PREFIXES = ("nqc-census/", "ci/nqc-census/", "ci/nqc-protocol-fork/", "omega/evidence/")
@@ -20,6 +20,9 @@ ALLOWED_OMEGA_FILES = {
     "omega/liquidation_order_book.py",
     "omega/LIQUIDATION_ORDER_BOOK_CONTRACT.md",
     "omega/AUDIT_H5.md",
+    "omega/causal_graph.py",
+    "omega/CAUSAL_GRAPH_CONTRACT.md",
+    "omega/AUDIT_H6.md",
 }
 
 
