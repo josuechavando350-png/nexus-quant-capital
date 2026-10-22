@@ -1,0 +1,47 @@
+{
+  "schema": "nqc-miner-python-isolated-test-v1",
+  "tested_at": "2026-10-22",
+  "branch_head_at_test": "0701b19ab56e8f9720daad2acbeef47dd7f6bf47",
+  "files": [
+    {
+      "path": "scripts/bind_run_config.py",
+      "git_blob_sha": "2798522732259052674de15bb934f0589c9495ba"
+    },
+    {
+      "path": "research/test_bind_run_config.py",
+      "git_blob_sha": "32b1371c824a278028def41e6c44b816bf97b574"
+    }
+  ],
+  "environment": {
+    "python": "3.13.5",
+    "execution": "isolated temporary directory populated with exact published file contents",
+    "rust_toolchain_used": false,
+    "network_required": false
+  },
+  "command": "python -m unittest discover -s research -p test_bind_run_config.py -v",
+  "result": {
+    "executed": 6,
+    "passed": 6,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "status": "pass"
+  },
+  "covered": [
+    "clean about identity binds exact commit and Cargo.lock hash",
+    "dirty build is rejected",
+    "observer bridge, signing, spending or economic certification cannot be enabled by about",
+    "stale pinned template identity is rejected",
+    "foreign namespace is rejected",
+    "duplicate JSON keys are rejected",
+    "output is create-only and existing files are preserved"
+  ],
+  "limitations": [
+    "This is not the repository-wide Python suite.",
+    "This does not compile Rust or validate Cargo.lock resolution.",
+    "This does not execute any RPC scan."
+  ],
+  "observer_bridge_enabled": false,
+  "signing_enabled": false,
+  "spending_authorized": false
+}
