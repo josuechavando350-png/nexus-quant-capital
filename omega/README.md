@@ -114,3 +114,14 @@ H6 tiene **20/20 pruebas nuevas aprobadas** y **58/58 combinadas H4 + H5 + H6**.
 El componente 7 sube de `not_evidenced` a `foundational_partial`, no a
 certificado: todavía faltan población completa, prueba de completitud, replay
 temporal e integración directa con el Libro de órdenes.
+
+## H7 · Oracle Semantics / Depeg Radar
+
+`oracle_semantics.py` clasifica oráculos únicamente mediante semántica
+evidence-bound: `MARKET_PRICE` o `EXCHANGE_RATE`. No usa símbolos, nombres ni
+heurísticas. La clasificación de exchange-rate sólo afirma que el depeg spot no
+se refleja directamente por ese oráculo; no afirma inmunidad a liquidación.
+
+H7 tiene **18/18 pruebas nuevas aprobadas** y **76/76 combinadas H4–H7**. El
+componente 10 sube de `not_evidenced` a `foundational_partial`; falta poblar
+el catálogo real, probar semántica por protocolo y replay de depegs.
