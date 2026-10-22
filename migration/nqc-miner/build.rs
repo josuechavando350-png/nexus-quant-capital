@@ -40,6 +40,7 @@ fn main() {
             "Cargo.toml",
             "Cargo.lock",
             "build.rs",
+            "rust-toolchain.toml",
         ],
     )
     .is_none_or(|s| !s.is_empty());
@@ -48,6 +49,7 @@ fn main() {
         root.join("Cargo.toml"),
         root.join("Cargo.lock"),
         root.join("build.rs"),
+        root.join("rust-toolchain.toml"),
     ];
     sources(&root.join("src"), &mut files);
     files.sort();
@@ -77,6 +79,7 @@ fn main() {
     println!("cargo:rerun-if-changed=Cargo.toml");
     println!("cargo:rerun-if-changed=Cargo.lock");
     println!("cargo:rerun-if-changed=build.rs");
+    println!("cargo:rerun-if-changed=rust-toolchain.toml");
     println!("cargo:rerun-if-changed=../../.git/HEAD");
     println!("cargo:rerun-if-changed=../../.git/index");
     if let Some(head) = git(&root, &["symbolic-ref", "--quiet", "HEAD"]) {
