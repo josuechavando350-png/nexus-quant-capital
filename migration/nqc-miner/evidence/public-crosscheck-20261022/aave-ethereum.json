@@ -1,0 +1,72 @@
+{
+  "schema": "nqc-miner-independent-crosscheck-v1",
+  "observed_date": "2026-10-22",
+  "source": {
+    "provider": "Blockscout",
+    "method": "indexed contract interactions plus transaction detail",
+    "source_is_separate_indexer": true,
+    "cryptographic_source_authentication": false
+  },
+  "scope": {
+    "chain_id": 1,
+    "protocol": "aave-v3",
+    "contract": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+    "from_block": 26245612,
+    "to_block": 26249611,
+    "from_block_hash": "0x53a3d4c4a7c031ecf3cf62b2eb502766088c81ab4fa9a9c69ed873fd3f0970d8",
+    "to_block_hash": "0xcbd276dfb910a96215aa6a456755d8c4e72cc026872399e935ec952422220cda",
+    "from_timestamp_utc": "2026-10-22T03:57:47Z",
+    "to_timestamp_utc": "2026-10-22T17:20:23Z",
+    "liquidation_call_selector": "0x00a718a9"
+  },
+  "unique_successful_transactions": [
+    {
+      "block_number": 26248379,
+      "timestamp_utc": "2026-10-22T13:13:23Z",
+      "transaction_hash": "0xeb7833abff05f15b7c6395a831144b9a736f1242be25830a37e6eb2a1929ffe6",
+      "observed_liquidation_caller": "0xD12810B19B596347a3AFAC206d3cA65d08594b3f",
+      "route_observations": [
+        "Aave variable-debt USDC burn is present",
+        "Aave WETH collateral burn/transfer is present",
+        "USDC and WETH transfers are present",
+        "Morpho Blue contract appears as a USDC source in the transaction"
+      ]
+    },
+    {
+      "block_number": 26248114,
+      "timestamp_utc": "2026-10-22T12:20:23Z",
+      "transaction_hash": "0xb6eeb0b8a4af39d5d461fa985ada74c294b23d4b457b86d4a02012664352075d",
+      "observed_liquidation_caller": "0x74edC79FEA13bdf1f7841570227127CEC493Bdd9",
+      "route_observations": [
+        "Aave variable-debt USDe burn is present",
+        "Aave PT-eUSDe collateral burn/transfer is present",
+        "PT/SY conversion-related transfers are present",
+        "Morpho Blue contract appears as a USDe source in the transaction"
+      ]
+    },
+    {
+      "block_number": 26248076,
+      "timestamp_utc": "2026-10-22T12:12:47Z",
+      "transaction_hash": "0x0f41c4143e965fe9c26509f976cf31374460f6899ee796966a4b65b110e9aa2f",
+      "observed_liquidation_caller": "0xD12810B19B596347a3AFAC206d3cA65d08594b3f",
+      "route_observations": [
+        "Aave variable-debt USDC burn is present",
+        "Aave WETH collateral burn/transfer is present",
+        "USDC and WETH transfers are present",
+        "Morpho Blue contract appears as a USDC source in the transaction"
+      ]
+    }
+  ],
+  "unique_successful_transaction_count": 3,
+  "exact_liquidation_event_count_verified": false,
+  "limitations": [
+    "Transaction-level indexed evidence does not establish the exact number of LiquidationCall log events.",
+    "The earlier Miner run that observed five events was interrupted later by provider rate limiting and is not promoted by this cross-check.",
+    "Address reuse does not establish real-world entity identity.",
+    "This cross-check does not establish profitability, saturation classification, complete coverage, or source independence at the node/provider level."
+  ],
+  "observer_bridge_enabled": false,
+  "signing_enabled": false,
+  "spending_authorized": false,
+  "economic_certification": false
+}
