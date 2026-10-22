@@ -58,6 +58,15 @@ def validate_about(about):
         raise BindError("about code_commit is not a clean immutable SHA")
     if not isinstance(lock_hash, str) or not HEX64.fullmatch(lock_hash):
         raise BindError("about Cargo.lock SHA256 is invalid")
+    for key in ("rustc_version", "target", "host", "profile", "opt_level"):
+        if not isinstance(about.get(key), str) or not about[key].strip():
+            raise BindError(f"about field {key} is missing build identity")
+    if not isinstance(about.get("debug"), bool):
+        raise BindError("about field debug is missing build identity")
+    if not isinstance(about.get("rustflags_sha256"), str) or not HEX64.fullmatch(
+        about["rustflags_sha256"]
+    ):
+        raise BindError("about rustflags SHA256 is invalid")
     return commit, lock_hash
 
 
@@ -121,6 +130,10 @@ def main(argv=None):
         "run_id": bound.get("run_id"),
         "code_commit": bound["code_commit"],
         "cargo_lock_sha256": bound["cargo_lock_sha256"],
+        "rustc_version": about["rustc_version"],
+        "target": about["target"],
+        "profile": about["profile"],
+        "rustflags_sha256": about["rustflags_sha256"],
         "observer_bridge_enabled": False,
         "signing_enabled": False,
         "gas_budget_mxn_centavos": 0,
