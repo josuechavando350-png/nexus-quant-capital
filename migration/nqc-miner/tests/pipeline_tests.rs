@@ -30,7 +30,7 @@ fn addr(n: u64) -> String {
 }
 fn config() -> MinerConfig {
     MinerConfig {
-        schema_version: 1,
+        schema_version: 2,
         namespace: "nqc_miner_v1".into(),
         producer: "nqc-miner".into(),
         run_id: "fixture-pipeline".into(),
@@ -38,6 +38,7 @@ fn config() -> MinerConfig {
         data_class: DataClass::Historical,
         code_commit: "1".repeat(40),
         cargo_lock_sha256: "2".repeat(64),
+        build_identity_sha256: Some("3".repeat(64)),
         observer_bridge_enabled: false,
         signing_enabled: false,
         gas_budget_mxn_centavos: 0,
