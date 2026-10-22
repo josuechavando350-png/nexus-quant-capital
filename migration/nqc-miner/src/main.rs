@@ -114,6 +114,7 @@ fn run(cli: Cli) -> Result<(), Box<dyn Error>> {
             "host":env!("NQC_MINER_BUILD_HOST"),"profile":env!("NQC_MINER_BUILD_PROFILE"),
             "opt_level":env!("NQC_MINER_BUILD_OPT_LEVEL"),"debug":env!("NQC_MINER_BUILD_DEBUG")=="true",
             "rustflags_sha256":env!("NQC_MINER_BUILD_RUSTFLAGS_SHA256"),
+            "build_identity_sha256":env!("NQC_MINER_BUILD_IDENTITY_SHA256"),
             "namespace":"nqc_miner_v1","observer_bridge_enabled":false,"signing_enabled":false,
             "gas_budget_mxn_centavos":0,"status":"preparatory-research-build","economic_certification":false}),
         ),
@@ -134,8 +135,10 @@ fn run(cli: Cli) -> Result<(), Box<dyn Error>> {
             if env!("NQC_MINER_BUILD_DIRTY") != "false"
                 || config.code_commit != env!("NQC_MINER_BUILD_COMMIT")
                 || config.cargo_lock_sha256 != env!("NQC_MINER_BUILD_LOCK_SHA256")
+                || config.build_identity_sha256.as_deref()
+                    != Some(env!("NQC_MINER_BUILD_IDENTITY_SHA256"))
             {
-                return Err("live read-only evidence requires a clean committed build and matching code/lock identity; run about".into());
+                return Err("live read-only evidence requires a clean committed build and matching code/lock/build identity; run about".into());
             }
             let mut journal = journal::Journal::open(&state, &config)?;
             let mut reports = Vec::new();
