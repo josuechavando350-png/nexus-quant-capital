@@ -28,7 +28,7 @@ def template():
 
 
 def about():
-    return {
+    value = {
         "name": "nqc-miner",
         "namespace": "nqc_miner_v1",
         "source_dirty": False,
@@ -38,6 +38,7 @@ def about():
         "economic_certification": False,
         "code_commit": "a" * 40,
         "cargo_lock_sha256": "b" * 64,
+        "source_sha256": "e" * 64,
         "rustc_version": "rustc 1.90.0 fixture",
         "target": "x86_64-unknown-linux-gnu",
         "host": "x86_64-unknown-linux-gnu",
@@ -45,8 +46,9 @@ def about():
         "opt_level": "0",
         "debug": True,
         "rustflags_sha256": "c" * 64,
-        "build_identity_sha256": "d" * 64,
     }
+    value["build_identity_sha256"] = bind_run_config.compute_build_identity(value)
+    return value
 
 
 class BindRunConfigTests(unittest.TestCase):
@@ -54,7 +56,7 @@ class BindRunConfigTests(unittest.TestCase):
         value = bind_run_config.bind(template(), about())
         self.assertEqual(value["code_commit"], "a" * 40)
         self.assertEqual(value["cargo_lock_sha256"], "b" * 64)
-        self.assertEqual(value["build_identity_sha256"], "d" * 64)
+        self.assertEqual(value["build_identity_sha256"], about()["build_identity_sha256"])
 
     def test_dirty_or_operational_about_is_rejected(self):
         for key, value in [
@@ -78,8 +80,24 @@ class BindRunConfigTests(unittest.TestCase):
             ("profile", ""),
             ("opt_level", ""),
             ("debug", "true"),
+            ("source_sha256", "not-a-hash"),
             ("rustflags_sha256", "not-a-hash"),
             ("build_identity_sha256", "not-a-hash"),
+        ]:
+            candidate = about()
+            candidate[key] = value
+            with self.subTest(key=key):
+                with self.assertRaises(bind_run_config.BindError):
+                    bind_run_config.bind(template(), candidate)
+
+    def test_build_identity_must_match_compiler_and_source_fields(self):
+        for key, value in [
+            ("code_commit", "f" * 40),
+            ("source_sha256", "f" * 64),
+            ("cargo_lock_sha256", "f" * 64),
+            ("rustc_version", "rustc 9.99.0 forged"),
+            ("target", "forged-target"),
+            ("rustflags_sha256", "f" * 64),
         ]:
             candidate = about()
             candidate[key] = value
