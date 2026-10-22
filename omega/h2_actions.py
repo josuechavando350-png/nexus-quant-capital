@@ -433,6 +433,10 @@ def main():
     run([sys.executable, ROOT / "omega/regression.py", "--start-directory", ROOT / "omega",
          "--pattern", "test_h2_actions.py", "--report", work / "runner-tests.json"], ROOT)
     evidence("runner-unit-tests", strict_json(read_regular(work / "runner-tests.json")))
+    run([sys.executable, ROOT / "omega/regression.py", "--start-directory", ROOT / "omega",
+         "--pattern", "test_ci_evidence.py", "--report", work / "capture-tests.json"], ROOT)
+    evidence("ci-capture-tests", strict_json(read_regular(work / "capture-tests.json")))
+    run([sys.executable, ROOT / "omega/ci_evidence.py"], ROOT)
     run(["rustup", "toolchain", "install", "1.98.1", "--profile", "minimal"], work)
     result = replay(work, head) if args.stage == "replay" else forks(work, source, head)
     verify_clean_head(ROOT, head)

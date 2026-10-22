@@ -258,3 +258,14 @@ reescriben como certificación nueva por haber cerrado H2.
 
 Ver [migración H2E](ACTIONS_MIGRATION.md) y [auditoría H2E](AUDIT_H2_ACTIONS.md)
 para resultados locales, estado remoto y límites. No trasladar a Miner ni main.
+
+## H13 — auditoría CI reproducible
+
+`ci_evidence.py` conserva y verifica el paquete real de logs y metadata del run
+H2 `39859932654`: identidad exacta, 54 compromisos y 16 pasos del replay.
+El ZIP de 98297 bytes queda en `evidence/h2-ci-capture.zip`, con pin revisado.
+El verificador rechaza otra versión del código como productor esperado.
+
+Esto demuestra la auditoría offline de esa captura. No crea un artifact de
+Actions ni una certificación nueva; Census sigue en 0/9 y Omega en 0/36.
+Ver [contrato](CI_EVIDENCE_CONTRACT.md) y [auditoría H13](AUDIT_H13.md).

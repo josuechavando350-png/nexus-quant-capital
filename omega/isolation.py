@@ -61,6 +61,9 @@ EXTENSION_FILES = frozenset({
     "omega/evidence/h2-pft-omega.json",
     "omega/h2_actions.py", "omega/test_h2_actions.py", WORKFLOW_TEMPLATE,
     "omega/ACTIONS_MIGRATION.md", "omega/AUDIT_H2_ACTIONS.md",
+    "omega/ci_evidence.py", "omega/test_ci_evidence.py", "omega/CI_EVIDENCE_CONTRACT.md",
+    "omega/AUDIT_H13.md", "omega/evidence/h2-ci-capture.zip",
+    "omega/evidence/h2-ci-capture-pin.json", "omega/evidence/h2-ci-capture-verification.json",
 })
 EXTENSION_DIRS = {"omega", "omega/evidence"}
 
