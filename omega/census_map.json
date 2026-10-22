@@ -26,10 +26,13 @@
       "id": 7,
       "name": "NQC Causal Graph",
       "component_certified": false,
-      "implementation_stage": "not_evidenced",
+      "implementation_stage": "foundational_partial",
       "sources_reviewed": [],
-      "omega_code": [],
-      "remaining_requirement": "Grafo posicion-mercado-oraculo-intereses-liquidez-rutas con invalidacion selectiva."
+      "omega_code": [
+        "omega/causal_graph.py",
+        "omega/CAUSAL_GRAPH_CONTRACT.md"
+      ],
+      "remaining_requirement": "Poblar el grafo desde todo el universo admitido, demostrar completitud, replay de invalidación y conectar recomputación selectiva con el Libro de órdenes."
     },
     {
       "id": 8,
