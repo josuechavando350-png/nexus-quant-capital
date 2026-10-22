@@ -99,6 +99,23 @@ commit anterior no se heredan al delta. El avance permanece en 35/100 hasta
 reconstruir ese commit y repetir compilación, tests, Clippy, formato, aislamiento,
 identidad del binario y la muestra pública.
 
+### Cross-check independiente del tramo Ethereum
+
+Como control separado del transporte RPC de Miner, un indexador Blockscout confirmó
+los hashes de los bloques extremos de la ventana Ethereum y **tres transacciones
+únicas exitosas** dentro de esa ventana que contienen la llamada
+`liquidationCall` al Pool de Aave V3. Las transacciones muestran además quemas de
+deuda Aave y movimientos de colateral compatibles con liquidación; en los tres
+casos aparecen transferencias desde Morpho Blue dentro de la ruta.
+
+Este control se conserva en
+`evidence/public-crosscheck-20261022/aave-ethereum.json`. No se usa para inflar el
+conteo del Miner: evidencia transaccional no equivale a contar logs
+`LiquidationCall`. Por tanto, el reporte previo de cinco eventos sigue siendo una
+observación del escaneo interrumpido, **no cinco eventos independientemente
+verificados**. Tampoco se atribuye identidad real a las direcciones observadas ni
+se certifica rentabilidad, cobertura o saturación.
+
 ## Hallazgos cerrados
 
 | Hallazgo | Corrección y comprobación |
