@@ -111,10 +111,13 @@
       "id": 32,
       "name": "Caza de cola larga",
       "component_certified": false,
-      "implementation_stage": "not_evidenced",
+      "implementation_stage": "foundational_partial",
       "sources_reviewed": [],
-      "omega_code": [],
-      "remaining_requirement": "Priorizacion demostrada de mercados nuevos, pequenos y rutas complejas."
+      "omega_code": [
+        "omega/long_tail.py",
+        "omega/LONG_TAIL_CONTRACT.md"
+      ],
+      "remaining_requirement": "Poblar candidatos desde el universo completo admitido, validar procedencia de los cuatro ejes y demostrar out-of-sample que mejora cobertura sin ocultar mercados excluidos."
     }
   ],
   "assessment_ref": "omega/census_assessment.json"
