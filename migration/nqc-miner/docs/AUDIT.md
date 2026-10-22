@@ -98,7 +98,10 @@ El SHA-256 del Cargo.lock preparado es
 La configuración de repetición ya no guarda un SHA de commit autorefencial:
 `config.template.json` es intencionalmente no ejecutable y
 `scripts/bind_run_config.py` la liga al `about` de un binario limpio justo
-antes de correr. Se añadieron seis pruebas Python para ese binder.
+antes de correr. Las seis regresiones del binder se ejecutaron por separado sobre
+los blobs publicados y pasaron 6/6; la evidencia está en
+`evidence/binder-python-20261022.json`. Esto valida ese módulo aislado, no la
+suite integral ni la resolución/compilación del nuevo Cargo.lock.
 
 La repetición multichain está preparada en
 `evidence/public-retry-20261022/` con `run_id` nuevo y lotes de 100 bloques.
