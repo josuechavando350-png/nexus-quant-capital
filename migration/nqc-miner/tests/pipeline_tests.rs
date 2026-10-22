@@ -675,7 +675,7 @@ fn local_http_rpc(responses: Vec<String>) -> (String, Arc<AtomicUsize>, thread::
 
 fn http_response(status: &str, extra_headers: &str, body: &str) -> String {
     format!(
-        "HTTP/1.1 {status}\\r\\nContent-Type: application/json\\r\\nContent-Length: {}\\r\\nConnection: close\\r\\n{extra_headers}\\r\\n{body}",
+        "HTTP/1.1 {status}\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n{extra_headers}\r\n{body}",
         body.len()
     )
 }
@@ -684,7 +684,7 @@ fn http_response(status: &str, extra_headers: &str, body: &str) -> String {
 fn http_rate_limit_is_retried_and_then_succeeds() {
     let body = r#"{"jsonrpc":"2.0","id":1,"result":"0x1"}"#;
     let responses = vec![
-        http_response("429 Too Many Requests", "Retry-After: 0\\r\\n", ""),
+        http_response("429 Too Many Requests", "Retry-After: 0\r\n", ""),
         http_response("200 OK", "", body),
     ];
     let (url, hits, handle) = local_http_rpc(responses);
