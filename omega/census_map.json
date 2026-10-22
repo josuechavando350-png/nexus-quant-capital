@@ -24,9 +24,17 @@
       "name": "NQC Truth Engine",
       "component_certified": false,
       "implementation_stage": "foundational_partial",
-      "sources_reviewed": [],
-      "omega_code": [],
-      "remaining_requirement": "Paridad de tres vias independientes en el mismo bloque, contrato, version, parametros y oraculo."
+      "sources_reviewed": [
+        "nqc-census/crates/nqc-census-core/src/observation.rs",
+        "nqc-census/crates/nqc-census-chain/src/consensus.rs",
+        "ci/nqc-protocol-fork/PROTOCOL_FORK_FINAL_CLOSEOUT.json",
+        "ci/nqc-protocol-fork/PROTOCOL_FORK_TRUTH_CONTRACT.json"
+      ],
+      "omega_code": [
+        "omega/truth_engine.py",
+        "omega/TRUTH_TRIAD_CONTRACT.md"
+      ],
+      "remaining_requirement": "Poblar triadas reales independientes para todo el alcance, probar cobertura y reestablecer el runtime closeout PFT ligado a este repo/head/tree."
     },
     {
       "id": 7,
