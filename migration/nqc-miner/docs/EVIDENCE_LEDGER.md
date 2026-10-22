@@ -2,6 +2,12 @@
 
 Corte: 22 de octubre de 2026.
 
+Último bloque: `a1f6006`, 155 Rust + 69 Python PASS en
+`offline-collector-20261022/`. `public-collector-20261022/` acredita tres ventanas
+Ethereum y reinicio entre procesos: 2 eventos, 8 registros; sus Parquet conservan
+los bytes originales. Se solapa con las capturas anteriores y no se suma.
+Avance 39/100; alcance y límites en `docs/AUDIT_COLLECTOR_20261022.md`.
+
 Actualización de la continuación: `offline-v2-isolation-20261022/` acredita
 141 Rust + 64 Python y los gates de software sobre `a841261`.
 `dependencies-full-20261022/` contiene el scan completo del lock (0 vulnerabilidades

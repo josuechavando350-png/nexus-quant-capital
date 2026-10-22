@@ -119,3 +119,5 @@ Usa un `run_id` nuevo para cada captura. Los endpoints se suministran mediante l
 variables propias de la plantilla; el capturador no registra sus valores.
 Los exports Parquet admiten propietarios v1 históricos y v2, preservando su
 identidad de compilación y los bytes originales. El puente continúa desactivado.
+
+La auditoría más reciente del recolector está en [docs/AUDIT_COLLECTOR_20261022.md](docs/AUDIT_COLLECTOR_20261022.md): 39/100, 155 pruebas Rust y 69 Python, captura histórica con reinicio y exports verificados.

@@ -2,6 +2,11 @@
 
 ## Delivery status
 
+The rolling historical collector is now executable and audited with a bounded
+public restart capture. See `docs/collector.md` and
+`docs/AUDIT_COLLECTOR_20261022.md`. No persistent collector service is running.
+The remaining server contracts below are still unexecuted.
+
 The Parquet exporter is executable and tested against the actual Rust journal verifier and Polars. The PostgreSQL, ClickHouse, Redpanda, Temporal and Nix files are **prepared contracts, not deployed or integration-validated infrastructure**. No database, broker, workflow worker, container daemon, object bucket, signing service or notification service was started or contacted to apply these files. There are no endpoint URLs, credentials or operational observer settings in them.
 
 Every resource belongs to `nqc_miner_v1`. The namespace is distinct from any existing observer; ownership cannot be adopted by copying a name into an existing state directory. `infra/ownership-contract.json` defines the proposed database/schema/role/topic/workflow/bucket IDs. The bucket is a logical name only: no globally unique cloud bucket has been reserved. Export writes only to a new local directory and has no upload path.

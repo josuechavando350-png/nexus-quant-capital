@@ -2,9 +2,9 @@
   "schema": "nqc-miner-progress-v1",
   "as_of": "2026-10-22",
   "denominator": 100,
-  "global_completion_percent": 38,
+  "global_completion_percent": 39,
   "method": "Weighted engineering estimate with explicit operational phase exits, not a percentage of lines written",
-  "status": "audited_isolated_v2_source_with_bounded_three_chain_capture",
+  "status": "audited_historical_collector_with_bounded_restart_capture",
   "items": [
     {
       "phase": "scope",
@@ -38,8 +38,9 @@
       "phase": "A",
       "id": "running_infrastructure",
       "weight": 6,
-      "earned": 0,
-      "acceptance": "Continuous collectors, Redpanda, Temporal, ClickHouse, Postgres, object store and observability integrated and recovery-tested"
+      "earned": 1,
+      "acceptance": "Continuous collectors, Redpanda, Temporal, ClickHouse, Postgres, object store and observability integrated and recovery-tested",
+      "earned_basis": "1/6 for the executable historical rolling collector, durable recovery/quarantine tests and a real bounded three-window restart capture. Remaining 5 points require integrated storage, broker, workflows, observability, retention and operational recovery; no persistent production service is claimed."
     },
     {
       "phase": "A_exit",
@@ -171,7 +172,11 @@
     "evidence/dependencies-full-20261022/provenance.json",
     "evidence/public-capture-v2-20261022/capture.json",
     "evidence/public-parquet-v2-20261022/manifest.json",
-    "evidence/reproducibility-python-v2-20261022.json"
+    "evidence/reproducibility-python-v2-20261022.json",
+    "docs/AUDIT_COLLECTOR_20261022.md",
+    "evidence/offline-collector-20261022/summary.json",
+    "evidence/public-collector-20261022/capture.json",
+    "evidence/collector-artifact-verification-20261022.json"
   ],
   "notes": [
     "An implemented primitive is not an operational phase exit.",
@@ -184,7 +189,9 @@
     "The bounded three-chain integration sample closes no economic phase exit. Prior v1 and current v2 samples repeat the same windows and are never summed.",
     "All new changes remain inside migration/nqc-miner on a separate branch; observer integration stays disabled.",
     "Legacy schema v1 is retained only for offline historical verification; new live RPC reads require schema v2 with exact build_identity_sha256.",
-    "Final full verification of source a841261 passed 141 Rust and 64 Python tests. Its exact local commits remain recoverable from the included Git bundle. Documentation-only reconciliation preserves later evidence references through cdab072 without changing the audited executable source."
+    "Final full verification of source a841261 passed 141 Rust and 64 Python tests. Its exact local commits remain recoverable from the included Git bundle. Documentation-only reconciliation preserves later evidence references through cdab072 without changing the audited executable source.",
+    "Collector source a1f6006 passed 155 Rust and 69 Python tests with clean exact build identity. The Rust count includes the subprocess helper for 13 new collector scenarios.",
+    "Three historical Ethereum windows completed across a process restart; 2 events and 8 records. The 300-block selection overlaps earlier captures and is not additive evidence. No persistent collector service, broker, database, workflow worker or economic phase exit is claimed."
   ],
   "historical_audit_notes_superseded_for_a841261": [
     "HTTP pacing/retry/redaction, run-config identity binding and rand 0.8.6 remediation are published but receive no progress credit until rebuilt and fully tested.",
