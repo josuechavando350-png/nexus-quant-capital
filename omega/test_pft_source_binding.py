@@ -6,6 +6,7 @@ import os
 import subprocess
 import tempfile
 import unittest
+import zlib
 from pathlib import Path
 from unittest.mock import patch
 
@@ -50,6 +51,15 @@ class GitFixture(unittest.TestCase):
     def test_changed_tree_rejected(self):
         with self.assertRaisesRegex(ValueError, "commit_tree_mismatch"):
             binding.verify_commit(self.repo, self.head, "0" * 40)
+
+    def test_changed_source_object_under_original_name_rejected(self):
+        path = self.repo / ".git/objects" / self.head[:2] / self.head[2:]
+        raw = zlib.decompress(path.read_bytes())
+        self.assertIn(b"synthetic child", raw)
+        path.chmod(0o644)  # Only this disposable synthetic object is corrupted.
+        path.write_bytes(zlib.compress(raw.replace(b"synthetic child", b"tampered! child")))
+        with self.assertRaisesRegex(ValueError, "commit_object_mismatch"):
+            binding.verify_commit(self.repo, self.head)
 
     def test_dirty_tracked_source_rejected(self):
         (self.repo / "source.txt").write_text("changed\n")

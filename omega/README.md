@@ -207,6 +207,25 @@ y catálogos históricos en copias separadas. `regression.py` y
 `historical_regression.py` registran esa distinción sin convertir errores en PASS.
 
 PFT materializado desde su fuente original aprobó 56 tests Rust y 14 Solidity.
-Siguen pendientes forks (dos RPC con HTTP 403), replay desconectado (namespace
-no permitido), formato heredado y enlace al productor nuevo. **0/36 certificados;
-Census NO cerrado.** Ver [auditoría H2C](AUDIT_H2_EXECUTABLE.md) y `evidence/h2-*`.
+En H2C quedaron pendientes forks, replay desconectado, revisión del formato
+heredado y enlace al productor nuevo. H2D, abajo, actualiza esos pendientes.
+Ver [auditoría H2C](AUDIT_H2_EXECUTABLE.md) y `evidence/h2-*`.
+
+## H2D · Fuente PFT vinculada a NQC
+
+`pft_source_binding.py` reproduce la materialización original conservando su
+gate de ascendencia en un checkout separado. Verifica objetos Git, los bytes
+protegidos, ambos árboles efectivos y el commit/tree limpio exacto de NQC.
+Los recibos históricos mantienen sus identidades. El resultado es evidencia
+local de procedencia; no crea autoridad de CI ni certificación.
+
+Auditoría: **32 pruebas nuevas**, **273/273 Omega**, **528/528 Rust Census**,
+**56/56 Rust PFT**, **14/14 Solidity**, más check/build release PFT y aislamiento.
+El enlace real se ejecutó contra el commit publicado `b1a093e11e92acb59c796e220786ff6346d2a1f9`.
+El commit posterior incorpora la evidencia y una prueba adicional de auditoría.
+
+El contrato original registra los fallos de formato sin exigir reescritura de
+fuentes; los fallos siguen visibles. Forks históricos y replay desconectado
+siguen sin ejecutarse. **H2: 94%; certificación: 0/36; Census NO cerrado.**
+Ver [contrato](PFT_SOURCE_BINDING_CONTRACT.md), [auditoría H2D](AUDIT_H2_PFT_BINDING.md)
+y `evidence/h2-pft-*`.
