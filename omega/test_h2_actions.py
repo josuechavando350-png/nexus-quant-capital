@@ -7,7 +7,8 @@ import unittest
 from unittest.mock import patch
 
 from h2_actions import (BRANCH, DESTINATION, DESTINATION_ID, PARENT, TX, WORKFLOW,
-                        SOURCE, clean_env, compare_forks, download, producer_context, rpc_readonly)
+                        SOURCE, PROVIDERS, clean_env, compare_forks, download, producer_context,
+                        probe_providers, rpc, rpc_readonly)
 from isolation import (EXTENSION_FILES, ROOT, WORKFLOW_TEMPLATE, inventory,
                        project_repository, reviewed_workflow)
 
@@ -80,6 +81,39 @@ class ContextTests(unittest.TestCase):
 
 
 class RpcTests(unittest.TestCase):
+    def fake_response(self, body, status=b"200"):
+        from subprocess import CompletedProcess
+        return CompletedProcess([], 0, body + b"\n" + status, b"")
+
+    def test_curl_preflight_accepts_json_result(self):
+        with patch("h2_actions.subprocess.run", return_value=self.fake_response(b'{"id":1,"result":"0x1"}')):
+            self.assertEqual(rpc(PROVIDERS[0][1], "eth_chainId", []), "0x1")
+
+    def test_http_error_includes_provider_and_never_passes(self):
+        with patch("h2_actions.subprocess.run", return_value=self.fake_response(b'Forbidden', b'403')):
+            with self.assertRaisesRegex(ValueError, "HTTP 403"):
+                rpc(PROVIDERS[0][1], "eth_chainId", [])
+
+    def test_http_200_rpc_error_or_wrong_id_does_not_pass(self):
+        for body in (b'{"id":1,"error":{"code":-32000}}', b'{"id":2,"result":"0x1"}'):
+            with patch("h2_actions.subprocess.run", return_value=self.fake_response(body)):
+                with self.assertRaises(ValueError):
+                    rpc(PROVIDERS[0][1], "eth_chainId", [])
+
+    def test_both_providers_are_checked_on_first_failure(self):
+        with patch("h2_actions.rpc", side_effect=ValueError("fixture blocked")) as called, \
+             patch("h2_actions.evidence") as recorded:
+            with self.assertRaisesRegex(ValueError, "preflight_blocked"):
+                probe_providers()
+        self.assertEqual(called.call_count, 2)
+        self.assertEqual([r['status'] for r in recorded.call_args.args[1]['providers']], ['BLOCKED','BLOCKED'])
+
+    def test_unknown_upstream_is_not_contacted(self):
+        with patch("h2_actions.subprocess.run") as called:
+            with self.assertRaisesRegex(ValueError, "unknown_upstream"):
+                rpc("https://example.org/", "eth_chainId", [])
+            called.assert_not_called()
+
     def test_reads_allowed(self):
         rpc_readonly({"jsonrpc": "2.0", "id": 1, "method": "eth_getStorageAt", "params": []})
 
@@ -130,6 +164,13 @@ class DownloadTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "api_scope"):
                     download(url, self.target, api=True)
                 called.assert_not_called()
+
+    def test_opaque_bearer_token_formats_are_not_restricted_to_a_prefix(self):
+        with patch.dict(os.environ, {"GH_TOKEN": "opaque.token-with_chars+/=="}), \
+             patch("h2_actions.subprocess.run", side_effect=self.fake_curl) as called, \
+             patch("h2_actions.evidence"):
+            download("https://api.github.com/repos/" + SOURCE + "/actions/artifacts/1", self.target, api=True)
+        self.assertIn(b"opaque.token-with_chars+/==", called.call_args.kwargs["input"])
 
     def test_missing_or_malformed_token_rejects_before_process(self):
         for value in ("", "injected\nheader=x", 'bad"quote'):

@@ -138,7 +138,9 @@ def download(url: str, target: Path, *, api=False, sha256=None, limit=64*1024*10
     if api:
         require(url.startswith("https://api.github.com/repos/" + SOURCE + "/"), "api_scope_rejected")
         token = os.environ.get("GH_TOKEN", "")
-        require(bool(re.fullmatch(r"[A-Za-z0-9_]+", token)), "missing_job_token")
+        # Bearer credentials are opaque; support RFC 6750 b64token characters.
+        # Reject CR/LF and curl-config quotes rather than assuming one token prefix.
+        require(bool(re.fullmatch(r"[A-Za-z0-9._~+/-]+={0,2}", token)), "invalid_or_missing_job_token")
         command += ["--config", "-", "--header", "Accept: application/vnd.github+json",
                     "--header", "X-GitHub-Api-Version: 2022-11-28"]
         # curl drops Authorization on cross-origin redirects. Never use location-trusted.
@@ -155,16 +157,38 @@ def download(url: str, target: Path, *, api=False, sha256=None, limit=64*1024*10
 def rpc(url: str, method: str, params: list):
     payload = {"jsonrpc": "2.0", "id": 1, "method": method, "params": params}
     rpc_readonly(payload)
-    req = urllib.request.Request(url, data=canonical(payload),
-                                 headers={"Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=30) as response:
-        require(response.status == 200, "rpc_http_error")
-        data = response.read(2*1024*1024 + 1)
+    require(url in {p[1] for p in PROVIDERS}, "unknown_upstream")
+    # Same ordinary curl transport verified on the user's phone. No proxy/tunnel
+    # or credential fallback. Record endpoint and status on failure.
+    result = subprocess.run(["curl", "-q", "-sS", "--proto", "=https",
+        "--connect-timeout", "10", "--max-time", "30", "--max-filesize", str(2*1024*1024),
+        "-H", "Content-Type: application/json", "--data", canonical(payload).decode(),
+        "--write-out", "\n%{http_code}", url], env=clean_env(), capture_output=True, timeout=35)
+    require(result.returncode == 0, "rpc_transport_failed: " + url + " " + method)
+    data, status = result.stdout.rsplit(b"\n", 1)
+    require(status == b"200", "rpc_http_error: " + url + " " + method + " HTTP "
+            + status.decode(errors="replace") + " " + data[:200].decode(errors="replace"))
     require(len(data) <= 2*1024*1024, "rpc_response_too_large")
     answer = strict_json(data)
     require(answer.get("id") == 1 and "error" not in answer and "result" in answer,
             "rpc_error")
     return answer["result"]
+
+
+def probe_providers():
+    reports = []
+    for name, url, _ in PROVIDERS:
+        try:
+            require(rpc(url, "eth_chainId", []) == "0x1", "wrong_chain")
+            tx = rpc(url, "eth_getTransactionByHash", [TX])
+            require(isinstance(tx, dict) and tx.get("hash") == TX
+                    and tx.get("blockNumber") == hex(25252136), "historical_transaction_missing")
+            reports.append({"provider": name, "url": url, "status": "PASS",
+                            "transaction_hash": TX, "block_number": 25252136})
+        except (OSError, ValueError, TypeError, subprocess.SubprocessError) as error:
+            reports.append({"provider": name, "url": url, "status": "BLOCKED", "reason": str(error)})
+    evidence("rpc-preflight", {"providers": reports, "canonical_recertification": False})
+    require(all(r["status"] == "PASS" for r in reports), "rpc_preflight_blocked")
 
 
 def compare_forks(left: dict, right: dict, nl: dict, nr: dict) -> dict:
@@ -262,6 +286,7 @@ def prepare_harness(effective: Path, work: Path) -> tuple[Path, Path]:
 
 
 def forks(work: Path, source: Path, head: str):
+    probe_providers()
     prior = work / "reference"
     run([sys.executable, source / "ci/nqc-census/materialize_effective_source.py", "--output", prior], source)
     bound = work / "bound"
@@ -289,10 +314,6 @@ def forks(work: Path, source: Path, head: str):
     run([forge, "build", "--force", "--offline", "--use", solc], harness)
     reports = []
     for index, (name, url, interval) in enumerate(PROVIDERS):
-        require(rpc(url, "eth_chainId", []) == "0x1", "wrong_chain")
-        tx = rpc(url, "eth_getTransactionByHash", [TX])
-        require(isinstance(tx, dict) and tx.get("hash") == TX and tx.get("blockNumber") == hex(25252136),
-                "historical_transaction_missing")
         port = 18581 + index
         output = outputs / (name + ".json")
         env = clean_env({"NQC_PFT_PROXY_PORT": str(port), "NQC_PFT_UPSTREAM_URL": url,

@@ -1,8 +1,9 @@
 # Auditoría H2E — GitHub Actions en rama Omega
 
 Fecha: 2026-10-22. Auditoría de preparación completada antes de activar el flujo.
-**H2 93.75% (94% redondeado), certificación 0/36.** Todavía no hay resultado físico
-remoto. La autorización del usuario abarca el nuevo flujo en la rama Omega.
+**H2 93.75% (94% redondeado), certificación 0/36.** Hay resultados físicos parciales
+remotos; los dos gates completos siguen pendientes. La autorización del usuario
+abarca el nuevo flujo en la rama Omega.
 
 Alcance: migración nueva bajo `omega/` y una única copia activa revisada en
 `.github/workflows/omega-h2-audit.yml`; ninguna modificación al source histórico,
@@ -67,3 +68,23 @@ antes de imports locales. Una prueba de regresión ejecuta el script en otro
 proceso sin esa variable de entorno y exige ausencia de __pycache__. No se
 oculta/borra el directorio para forzar PASS ni se debilita el inventario.
 Se repetirá el gate sobre el commit corregido; esta corrida fallida se conserva.
+
+La segunda corrida `39855080042`, commit `33c788b08fcfa3302e98f40a4d31cfdfe10e3386`,
+pasó namespace, aislamiento con objetos originales y 31/31 tests nuevos en replay.
+Se detuvo antes de descargar D06 por la validación local del token, demasiado
+restrictiva (sólo alfanuméricos/underscore). Se ajustó al alfabeto Bearer RFC 6750,
+sin mostrar ni inspeccionar la credencial. Se mantienen el rechazo de inyección
+CR/LF/comillas y la entrega por stdin a curl. Se añade regresión de token opaco.
+No se interpreta ese fallo de validación como denegación de acceso entre repositorios.
+
+El job forks de esa segunda corrida completó enlace PFT, 56/56 Rust y 14/14
+Solidity; falló después con HTTP 403 en el preflight urllib. Se cambia únicamente
+la consulta de preflight a curl normal, como en Termux, y se registran ambos
+proveedores, método, estado y motivo antes de compilar. No hay cambio de RPC,
+túnel, credencial ni relajación del requisito de consenso. HTTP 200 con error
+JSON-RPC tampoco pasa. Se añade cobertura de transportes y diagnóstico de ambos.
+
+Regresión completa tras las correcciones: **310/310**, 0 skipped/errores/fallos,
+con D15B/D16 auténticos. Aislamiento completo con objetos fuente: PASS, 76 archivos
+de extensión, 1 workflow Omega exacto, 0 workflows históricos activos. El cambio
+de transporte aún requiere una corrida física; no se da por resuelto HTTP 403.
