@@ -37,6 +37,13 @@ archive preparation retains its 46 unchanged files. See `docs/postgres-collectio
 and `docs/AUDIT_COLLECTION_TERMUX_20261022.md`. Progress: **43/100**, infrastructure
 **5/6**. Operational collector connection and remote service integrations remain open.
 
+A bounded local sync cycle and standard-library psql client are now implemented:
+source/receipt freshness under cooperative locks, post-COMMIT readback, explicit
+unknown/quarantined/superseded outcomes, durable attempts and local metrics.
+**189 Python tests pass**, including explicit fake-client protocol tests; the new
+17-check native client experiment remains unexecuted. See `docs/postgres-sync.md`
+and `docs/AUDIT_SYNC_PREFLIGHT_20261022.md`. Progress stays **43/100**.
+
 ## Contracts
 
 | File | Implemented content | Validation boundary |

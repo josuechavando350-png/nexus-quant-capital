@@ -92,7 +92,7 @@ journals acumulados, 10,000 registros acumulados, 2 MiB de manifest del snapshot
 y 32 MiB de request. No hay fragmentación automática para superar los límites.
 Las colecciones v2 deben ser históricas y de un scope, conforme al recolector actual.
 
-La suite completa pasa **160 pruebas Python**: 14 del preparador, cuatro
+La suite del bloque de colecciones pasó **160 pruebas Python**: 14 del preparador, cuatro
 del runner y 14 del auditor de evidencia, además de las 128 anteriores.
 Usa Rust y Polars reales para verificar
 bytes, extensión, revocación con hijos faltantes, identidad, integridad de archivo,

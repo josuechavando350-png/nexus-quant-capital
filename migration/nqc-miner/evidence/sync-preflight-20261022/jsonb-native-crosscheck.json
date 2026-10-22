@@ -1,0 +1,43 @@
+{
+  "status": "pass",
+  "basis": "exact request hashes from previously audited native PostgreSQL collection snapshot; no new server execution",
+  "checks": [
+    {
+      "fixture": "normal-two",
+      "request_sha256": "666579c3300ba2f303f25b66f809f788580590223a3962669917ddcf2c6839b4"
+    },
+    {
+      "fixture": "normal-three",
+      "request_sha256": "a07c7919b708750b4d9b0b9bcab7c74ec0ad7804b2a9a49dbe42bea6582b20ff"
+    },
+    {
+      "fixture": "normal-revoked",
+      "request_sha256": "ff42038bb44e47d1c7ac7212a7126c3049e970caaad8df19c5f21fed4ad75f49"
+    },
+    {
+      "fixture": "child",
+      "request_sha256": "92eb8e6c889ea12e10634749c768ce2fd51afcf0813dce37cf16bb372ac53c36"
+    },
+    {
+      "fixture": "conflict",
+      "request_sha256": "b73932a4f00401e23d8d3cbc9782c2280dfd741f38140c4b616073be14fd74d2"
+    },
+    {
+      "fixture": "rollback",
+      "request_sha256": "32d346c686b5e9c166f02d854454e8b5996002445c7e6bdd24f128324be1e747"
+    },
+    {
+      "fixture": "concurrent",
+      "request_sha256": "2a8de8ce60468eec93cef9cffe1639103cdb7bf5c9f337f69569770b5a79eb83"
+    },
+    {
+      "fixture": "interrupt",
+      "request_sha256": "cbe5162c3e38a2a0a80dab3a08c47e0c1e22bf3b6c821ddd2ba76181c8834b09"
+    },
+    {
+      "fixture": "revoked-first",
+      "request_sha256": "340142e97c681fb50dab6fe4458268bdd89181d8de6f7142a8c9963a779c7dcb"
+    }
+  ],
+  "new_postgres_executions": 0
+}

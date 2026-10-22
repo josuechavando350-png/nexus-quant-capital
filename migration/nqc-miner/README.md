@@ -127,6 +127,8 @@ El bloque de archivo local está en [docs/AUDIT_ARCHIVE_20261022.md](docs/AUDIT_
 
 La auditoría base PostgreSQL está en [docs/AUDIT_POSTGRES_TERMUX_20261022.md](docs/AUDIT_POSTGRES_TERMUX_20261022.md), conservada como evidencia histórica de 41/100.
 
-Estado actual: **43/100**. La [importación de colecciones completas](docs/postgres-collection.md) pasó la [auditoría runtime en Termux](docs/AUDIT_COLLECTION_TERMUX_20261022.md): 33 comprobaciones SQL, permisos, concurrencia, rollback/reintento, revocaciones, bytes originales y reinicio verificados. Suite actual: **160 Python PASS**. La instancia de prueba terminó apagada; siguen pendientes conexión operacional del recolector e integración remota.
+Estado actual: **43/100**. La [importación de colecciones completas](docs/postgres-collection.md) pasó la [auditoría runtime en Termux](docs/AUDIT_COLLECTION_TERMUX_20261022.md): 33 comprobaciones SQL, permisos, concurrencia, rollback/reintento, revocaciones, bytes originales y reinicio verificados. La suite de ese bloque pasó **160 pruebas Python**. La instancia de prueba terminó apagada; siguen pendientes conexión operacional del recolector e integración remota.
 
 La [auditoría individual anterior](docs/AUDIT_IMPORT_TERMUX_20261022.md) conserva su corte de 42/100 y 35 comprobaciones SQL. El [runner de colecciones](docs/termux-collection.md) y el archivo original permiten reproducir el experimento artificial. Observador, firma y gasto permanecen desactivados.
+
+Siguiente bloque implementado: [sincronización local del recolector](docs/postgres-sync.md), con confirmación posterior a COMMIT y recuperación de envíos inciertos. **189 Python PASS**; [prueba nativa del cliente](docs/termux-sync.md) preparada y pendiente de ejecución. Se conserva el avance **43/100**, sin atribuir ejecución PostgreSQL a los tests de protocolo.

@@ -2,6 +2,11 @@
 
 Corte: 22 de octubre de 2026.
 
+Preparación posterior: ciclo de sincronización y cliente local con acuse posterior
+a COMMIT. **189 Python PASS**, 29 pruebas nuevas, con frontera de base modelada
+explícitamente; prueba nativa de 17 comprobaciones preparada, todavía no ejecutada.
+Sin crédito nuevo: **43/100**. Véase `docs/AUDIT_SYNC_PREFLIGHT_20261022.md`.
+
 Bloque actual: colecciones completas ejecutadas en PostgreSQL 18.6/Termux y
 auditadas contra la fuente `e4700af5`. 44 hashes, siete entradas, 33 comprobaciones
 SQL, 14 respuestas, cinco denegaciones, concurrencia, rollback, interrupción/reintento,
