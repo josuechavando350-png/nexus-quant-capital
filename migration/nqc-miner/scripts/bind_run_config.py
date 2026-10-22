@@ -67,13 +67,17 @@ def validate_about(about):
         about["rustflags_sha256"]
     ):
         raise BindError("about rustflags SHA256 is invalid")
+    if not isinstance(about.get("build_identity_sha256"), str) or not HEX64.fullmatch(
+        about["build_identity_sha256"]
+    ):
+        raise BindError("about build identity SHA256 is invalid")
     return commit, lock_hash
 
 
 def bind(template, about):
     if not isinstance(template, dict):
         raise BindError("template must be a JSON object")
-    for field in ("code_commit", "cargo_lock_sha256"):
+    for field in ("code_commit", "cargo_lock_sha256", "build_identity_sha256"):
         if template.get(field) != PLACEHOLDER:
             raise BindError(f"template field {field} must equal {PLACEHOLDER}")
     if template.get("namespace") != "nqc_miner_v1" or template.get("producer") != "nqc-miner":
@@ -88,6 +92,7 @@ def bind(template, about):
     result = dict(template)
     result["code_commit"] = commit
     result["cargo_lock_sha256"] = lock_hash
+    result["build_identity_sha256"] = about["build_identity_sha256"]
     return result
 
 
@@ -130,6 +135,7 @@ def main(argv=None):
         "run_id": bound.get("run_id"),
         "code_commit": bound["code_commit"],
         "cargo_lock_sha256": bound["cargo_lock_sha256"],
+        "build_identity_sha256": bound["build_identity_sha256"],
         "rustc_version": about["rustc_version"],
         "target": about["target"],
         "profile": about["profile"],
