@@ -17,6 +17,7 @@ conversación, log parcial o reporte humano.
 | `evidence/supply-chain-review-20261022.json` | revisión dirigida | PASS PARCIAL | Ranges 2026 revisados; rand 0.8.5 remediado a 0.8.6 | `cargo audit`/grafo completo o compilación del lock nuevo |
 | `evidence/build-identity-python-20261022.json` | durable / módulo aislado | PASS 2/2 | El toolchain pin cambia el hash fuente y build.rs lo rastrea | Que el build.rs modificado compile o que el build sea reproducible entre plataformas |
 | `evidence/public-crosscheck-20261022/aave-ethereum-partial-saturation.json` | auxiliar / medición parcial | INSUFICIENTE | 3 tx exitosas, 2 direcciones liquidadoras observadas y span de bloques | Saturación, latencia, tips, cobertura o rentabilidad |
+| `evidence/reproducibility-python-v2-20261022.json` | durable / contrato aislado | PASS 11/11 + schema 4/4 | Binder y verificador recalculan la identidad completa; owners v1/v2 quedan separados | Que el Rust v2 compile, que sus regresiones pasen o que exista reproducibilidad bit-a-bit |
 
 ## Observaciones no admisibles como evidencia durable
 
