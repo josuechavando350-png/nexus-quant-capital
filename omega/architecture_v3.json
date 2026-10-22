@@ -1,0 +1,299 @@
+{
+  "schema": "nqc.omega.architecture.v1",
+  "source": {
+    "title": "NQC Sovereign Radar Omega",
+    "date": "2026-10-22",
+    "pdf_sha256": "5c1739799ab5099bc95f7347aeed8bcc2e3b098e64c3688584331004f15edf0f",
+    "pages": 11
+  },
+  "phase_order": [
+    "Census",
+    "Shadow",
+    "Canary",
+    "Escala"
+  ],
+  "safety": {
+    "observer_can_sign": false,
+    "observer_can_broadcast": false,
+    "observer_can_spend": false,
+    "live_operation_authorized": false,
+    "legacy_workflows_enabled": false
+  },
+  "acceptance": {
+    "Census": [
+      "historical_truth_parity",
+      "all_scoped_positions_reconciled",
+      "bonuses_winners_blocks_builder_tips_measured"
+    ],
+    "Shadow": [
+      "reorganization_replay",
+      "material_simulation_disagreements_resolved",
+      "latency_percentiles_measured",
+      "competitive_temporal_replay",
+      "complete_net_costs"
+    ],
+    "Canary": [
+      "executor_invariants_and_formal_verification",
+      "kill_switch_and_loss_budget",
+      "real_capture_with_bounded_gas"
+    ],
+    "Escala": [
+      "verified_real_canary_capture",
+      "out_of_sample_net_margin_improvement"
+    ]
+  },
+  "components": [
+    {
+      "id": 1,
+      "layer": "L0",
+      "phase": "Census",
+      "name": "Interfaz de protocolos certificables",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 2,
+      "layer": "L0",
+      "phase": "Escala",
+      "name": "NQC Hot Path",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 3,
+      "layer": "L0",
+      "phase": "Escala",
+      "name": "Red de escucha del mempool",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 4,
+      "layer": "L0",
+      "phase": "Escala",
+      "name": "Cálculo vectorizado SIMD/GPU",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 5,
+      "layer": "L0",
+      "phase": "Canary",
+      "name": "Bundles prefirmados por escenario",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 6,
+      "layer": "L1",
+      "phase": "Census",
+      "name": "NQC Truth Engine",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 7,
+      "layer": "L1",
+      "phase": "Census",
+      "name": "NQC Causal Graph",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 8,
+      "layer": "L1",
+      "phase": "Census",
+      "name": "Libro de órdenes de liquidaciones",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 9,
+      "layer": "L1",
+      "phase": "Shadow",
+      "name": "Mapa de posiciones protegidas",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 10,
+      "layer": "L1",
+      "phase": "Census",
+      "name": "Radar de depegs y oráculos de tasa fija",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 11,
+      "layer": "L2",
+      "phase": "Shadow",
+      "name": "NQC Third Eye",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 12,
+      "layer": "L2",
+      "phase": "Shadow",
+      "name": "Oráculo sombra",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 13,
+      "layer": "L2",
+      "phase": "Shadow",
+      "name": "Estimador Kalman del precio verdadero",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 14,
+      "layer": "L2",
+      "phase": "Canary",
+      "name": "Oráculos pull",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 15,
+      "layer": "L2",
+      "phase": "Escala",
+      "name": "Modelo Hawkes de contagio",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 16,
+      "layer": "L2",
+      "phase": "Shadow",
+      "name": "Calendario de volatilidad",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 17,
+      "layer": "L3",
+      "phase": "Shadow",
+      "name": "NQC Economic Intelligence",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 18,
+      "layer": "L3",
+      "phase": "Shadow",
+      "name": "Capital cero vía callback",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 19,
+      "layer": "L3",
+      "phase": "Escala",
+      "name": "Modelador de cascadas",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 20,
+      "layer": "L3",
+      "phase": "Escala",
+      "name": "Exposición cruzada entre protocolos",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 21,
+      "layer": "L4",
+      "phase": "Shadow",
+      "name": "NQC Adversarial Critic",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 22,
+      "layer": "L4",
+      "phase": "Escala",
+      "name": "NQC Multiverse",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 23,
+      "layer": "L4",
+      "phase": "Canary",
+      "name": "Contrato ejecutor blindado",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 24,
+      "layer": "L5",
+      "phase": "Census",
+      "name": "NQC Competitor Intelligence",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 25,
+      "layer": "L5",
+      "phase": "Census",
+      "name": "Métrica decisiva de margen",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 26,
+      "layer": "L5",
+      "phase": "Canary",
+      "name": "Inteligencia de inclusión con Titan",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 27,
+      "layer": "L5",
+      "phase": "Escala",
+      "name": "Pujas por teoría de juegos",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 28,
+      "layer": "L5",
+      "phase": "Escala",
+      "name": "Pujador profesional OEV",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 29,
+      "layer": "L6",
+      "phase": "Census",
+      "name": "NQC Evidence Vault",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 30,
+      "layer": "L6",
+      "phase": "Shadow",
+      "name": "Túnel de viento",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 31,
+      "layer": "L6",
+      "phase": "Escala",
+      "name": "NQC Meta-Learner",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 32,
+      "layer": "L7",
+      "phase": "Census",
+      "name": "Caza de cola larga",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 33,
+      "layer": "L7",
+      "phase": "Escala",
+      "name": "Pista de subastas holandesas",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 34,
+      "layer": "L7",
+      "phase": "Escala",
+      "name": "Radar como servicio B2B",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 35,
+      "layer": "L7",
+      "phase": "Escala",
+      "name": "Un motor, muchas pistas",
+      "omega_verification": "not_assessed"
+    },
+    {
+      "id": 36,
+      "layer": "L7",
+      "phase": "Escala",
+      "name": "NQC Miner / Adaptación autónoma",
+      "omega_verification": "not_assessed"
+    }
+  ]
+}
