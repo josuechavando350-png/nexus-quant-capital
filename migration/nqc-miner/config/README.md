@@ -6,6 +6,13 @@ Un scope declara cadena, contrato, firma del evento, intervalo inclusivo, tamañ
 del lote y al menos dos proveedores. Consulta `src/config.rs` para el contrato
 completo. Las variables RPC pertenecen exclusivamente al prefijo `NQC_MINER_RPC_`.
 
+El cliente HTTPS usa Rustls con el almacén de certificados raíz del sistema,
+incluida la selección estándar mediante `SSL_CERT_FILE`/`SSL_CERT_DIR` cuando el
+entorno la define. La verificación de certificados y nombres permanece activa;
+no se importan certificados, claves privadas ni configuraciones de otro trabajo.
+El almacén de confianza del entorno es una dependencia operacional explícita.
+Referencia: [rustls-native-certs](https://github.com/rustls/rustls-native-certs).
+
 La configuración de una ejecución real debe obtener su identidad de
 `nqc-miner about` después de construir el commit correspondiente. `scan` rechaza
 binarios con cambios de código sin commit, identidades distintas y presupuesto

@@ -8,9 +8,9 @@ ronda. Esta auditoría verifica comportamiento del software y separación del tr
 no acredita operación productiva, cobertura global, autenticidad independiente de
 fuentes ni rentabilidad.
 
-**Avance global en este punto: 30/100.** El denominador y sus criterios están en
-`progress.json`. La publicación remota y la prueba de integración pública están
-pendientes de registrar en la siguiente actualización de evidencia. Ninguna fase
+**Avance global en este punto: 35/100.** El denominador y sus criterios están en
+`progress.json`. La rama de código ya está publicada. La integración pública detectó un fallo TLS
+que se corrigió y cuya repetición se registrará con identidad nueva. Ninguna fase
 operacional A–D se marca completa.
 
 El alcance procede de `NQC_Miner.pdf` aportado por el usuario. SHA-256 del original:
@@ -20,7 +20,7 @@ El documento original confidencial no se ha copiado al repositorio público.
 ## Verificación ejecutada
 
 La ejecución íntegra se conserva en
-[`evidence/offline-20261022/summary.json`](../evidence/offline-20261022/summary.json),
+[`evidence/offline-native-ca-20261022/summary.json`](../evidence/offline-native-ca-20261022/summary.json),
 con comando, código de salida, log y hash de cada log. El runner confirma que los
 archivos de código, pruebas, esquemas e infraestructura no cambiaron durante la
 ejecución, y compara la identidad del binario con los bytes fuente.
@@ -50,15 +50,37 @@ artificiales y no se atribuyen resultados predictivos económicos.
 Identidad exacta de los fuentes Rust compilados:
 
 ```text
-source_sha256=b6e41055a80713dbcdfdd0587f758275b179a1e79081ba8840464920e1e140fa
-cargo_lock_sha256=6e8c71c5f4a7eaaf61580aa7ea02414276f01f7c5d9631f9ac8e159c30b36872
+source_sha256=6ac0ba660374a50c66af8a3e6fc08b304967c19bc927642e6e827c775aeeee4f
+cargo_lock_sha256=c840affc2bcf9f55429d92e20a5d46dc309d9fc606b738669ab2a709b087c80a
 rust=1.90.0
 ```
 
-La primera batería se ejecutó antes de publicar el commit; por eso su `about`
-conserva honestamente `source_dirty=true` y el HEAD base. Ese binario no puede
-ingestar datos públicos por el CLI. La muestra pública exige reconstruir desde el
-commit publicado, comprobar `source_dirty=false` y comparar el mismo hash fuente.
+Las baterías se ejecutaron antes de publicar sus respectivos commits, por lo que
+sus `about` conservan honestamente `source_dirty=true` y el HEAD de partida. La
+primera ejecución se preserva en `evidence/offline-20261022/`; la segunda, con
+raíces TLS nativas, vuelve a pasar los mismos 136 + 38 tests. No se suman las
+repeticiones como pruebas distintas. El CLI no admite escanear con esos binarios
+sin commit: exige reconstruir el commit publicado, `source_dirty=false` y el hash
+fuente esperado.
+
+### Hallazgo de integración TLS
+
+El primer intento con commit `15976fece06d1727fbe327b74d7808634f4719a5` se detuvo
+con `UnknownIssuer`: las raíces WebPKI compiladas no incluían la autoridad de
+certificados seleccionada por este entorno. Se conserva el intento completo en
+`evidence/public-20261022/`, con salida de error y journal verificado de **cero
+registros y cero scopes completos**. No se borró ni reinterpretó ese intento.
+
+La corrección cambia únicamente el feature de reqwest a
+`rustls-tls-native-roots`, conserva Rustls/ring y las verificaciones de certificado
+y hostname, y fija las dependencias adicionales en Cargo.lock. No añade un
+verificador permisivo, no acepta certificados inválidos ni modifica el almacén CA.
+La revisión independiente leyó el constructor de Miner y el código fijado de las
+dependencias. Las versiones fijadas de `rustls` y `rustls-webpki` permanecen en
+0.23.46 y 0.103.16; la corrección es de integración del almacén de confianza.
+
+La nueva muestra necesita configuración y directorio propios, ligados al commit y
+lock corregidos. Hasta que termine no se registra una lectura pública completa.
 
 ## Hallazgos cerrados
 

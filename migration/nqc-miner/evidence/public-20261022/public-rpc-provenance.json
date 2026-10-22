@@ -1,0 +1,74 @@
+{
+  "schema": "nqc-miner-public-preflight-v1",
+  "observed_at": 1792690695,
+  "method_allowlist": [
+    "eth_chainId",
+    "eth_getBlockByNumber"
+  ],
+  "networks": [
+    {
+      "id": "ethereum",
+      "chain_id": 1,
+      "pool": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+      "address_file": "AaveV3Ethereum.sol",
+      "address_sha256": "afe8adbbf8fe7d709ae1d2168b8d97ccb8110fdedb572fc2120ecae10ae7588b",
+      "urls": [
+        "https://ethereum-rpc.publicnode.com",
+        "https://eth.drpc.org"
+      ],
+      "anchor": {
+        "number": "0x190898b",
+        "hash": "0xcbd276dfb910a96215aa6a456755d8c4e72cc026872399e935ec952422220cda",
+        "parentHash": "0x3a19f6e50f645653ac7a6033ecbb249d18d6676fbd1d44470e2d2d48d2fe7e2a",
+        "timestamp": "0x6ada45d7"
+      },
+      "anchor_number": 26249611,
+      "address_book_commit": "e796b7d71f37a3e7f78a3b2c0b47ee8d56dcff92"
+    },
+    {
+      "id": "base",
+      "chain_id": 8453,
+      "pool": "0xa238dd80c259a72e81d7e4664a9801593f98d1c5",
+      "address_file": "AaveV3Base.sol",
+      "address_sha256": "135e2f325b53140c5a82895cf40debc80323fed77bd3ebb240a8d00248ba02ae",
+      "urls": [
+        "https://base-rpc.publicnode.com",
+        "https://mainnet.base.org"
+      ],
+      "anchor": {
+        "number": "0x327f46a",
+        "hash": "0xb4d0d57bd9bca53e767b97cd7d603cb826491192bbdaefb0a767566c4a16d391",
+        "parentHash": "0x18f29b4dce389c2f0a7cb8c0d30da5bba128397121e9b90f2b718fd279f0e5aa",
+        "timestamp": "0x6ada45b7"
+      },
+      "anchor_number": 52950122,
+      "address_book_commit": "e796b7d71f37a3e7f78a3b2c0b47ee8d56dcff92"
+    },
+    {
+      "id": "arbitrum",
+      "chain_id": 42161,
+      "pool": "0x794a61358d6845594f94dc1db02a252b5b4814ad",
+      "address_file": "AaveV3Arbitrum.sol",
+      "address_sha256": "6b8f9a12a904a2c13d59423fe9c60fd66ec868761704cbcc776d0c2fe1510b1c",
+      "urls": [
+        "https://arbitrum-one-rpc.publicnode.com",
+        "https://arb1.arbitrum.io/rpc"
+      ],
+      "anchor": {
+        "number": "0x1ed5324c",
+        "hash": "0x78182422f9e249fb773cf597381b096573ea9338b281c0e07e83200e3cbb1386",
+        "parentHash": "0x9e44de4cf30e2a22b2385a7e8bd29808ecb52ae102cf5ee238e0e39abe490879",
+        "timestamp": "0x6ada455c"
+      },
+      "anchor_number": 517288524,
+      "address_book_commit": "e796b7d71f37a3e7f78a3b2c0b47ee8d56dcff92"
+    }
+  ],
+  "morpho_ethereum": {
+    "address": "0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb",
+    "source": "https://docs.morpho.org/developers/contracts/addresses/",
+    "section": "Morpho Blue / Ethereum / Morpho",
+    "source_is_mutable_documentation": true,
+    "semantic_certification": false
+  }
+}

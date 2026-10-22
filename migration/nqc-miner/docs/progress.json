@@ -2,9 +2,9 @@
   "schema": "nqc-miner-progress-v1",
   "as_of": "2026-10-22",
   "denominator": 100,
-  "global_completion_percent": 30,
+  "global_completion_percent": 35,
   "method": "Weighted engineering estimate with explicit operational phase exits, not a percentage of lines written",
-  "status": "preparatory_implementation_pending_delivery_audit",
+  "status": "published_research_source_public_integration_under_validation",
   "items": [
     {
       "phase": "scope",
@@ -143,8 +143,9 @@
       "phase": "delivery",
       "id": "integration_audit_reproducibility_and_repository_delivery",
       "weight": 10,
-      "earned": 0,
-      "acceptance": "Closed material review findings, retained exact-source verification, bounded public smoke test and isolated branch/PR delivery"
+      "earned": 5,
+      "acceptance": "Closed material review findings, retained exact-source verification, bounded public smoke test and isolated branch/PR delivery",
+      "earned_basis": "Material software findings closed; exact-source offline checks passed and source branch published. Public integration and final repository delivery remain open."
     }
   ],
   "phase_exits_completed": [],
@@ -154,7 +155,9 @@
   "evidence": [
     "docs/requirements.md",
     "docs/AUDIT.md",
-    "evidence/offline-20261022/summary.json"
+    "evidence/offline-20261022/summary.json",
+    "evidence/public-20261022/execution.json",
+    "evidence/offline-native-ca-20261022/summary.json"
   ],
   "notes": [
     "An implemented primitive is not an operational phase exit.",
