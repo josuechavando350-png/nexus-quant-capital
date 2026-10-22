@@ -116,6 +116,19 @@ observación del escaneo interrumpido, **no cinco eventos independientemente
 verificados**. Tampoco se atribuye identidad real a las direcciones observadas ni
 se certifica rentabilidad, cobertura o saturación.
 
+### Revisión dirigida de dependencias
+
+Se contrastaron versiones de red/criptografía y aritmética fijadas en
+`Cargo.lock` contra avisos RustSec vigentes al 22 de octubre de 2026. Las
+versiones revisadas —incluidas rustls 0.23.46, rustls-webpki 0.103.16,
+quinn-proto 0.11.19, ruint 1.20.1, ring 0.17.14, time 0.3.55 y
+alloy-json-abi 1.4.1— están en rangos corregidos para los avisos contrastados.
+
+El detalle está en `evidence/supply-chain-review-20261022.json`. Esto es una
+revisión dirigida y **no sustituye** un escaneo completo de `Cargo.lock` con
+`cargo audit`/equivalente. Ese escaneo permanece como requisito antes de
+acreditar el delta de red o fusionar la PR.
+
 ## Hallazgos cerrados
 
 | Hallazgo | Corrección y comprobación |
