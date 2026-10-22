@@ -1,0 +1,62 @@
+{
+  "schema": "nqc-miner-infrastructure-ownership-v1",
+  "status": "prepared_not_deployed",
+  "namespace": "nqc_miner_v1",
+  "producer": "nqc-miner",
+  "data_classes": ["synthetic", "historical", "shadow"],
+  "postgres": {
+    "database": "nqc_miner_v1",
+    "schema": "nqc_miner_v1",
+    "owner_role": "nqc_miner_v1_owner",
+    "importer_role": "nqc_miner_v1_importer",
+    "reader_role": "nqc_miner_v1_reader",
+    "shared_database_allowed": false,
+    "connection_configured": false
+  },
+  "clickhouse": {
+    "database": "nqc_miner_v1",
+    "importer_role": "nqc_miner_v1_importer",
+    "reader_role": "nqc_miner_v1_reader",
+    "connection_configured": false,
+    "publication_requires_exact_raw_tip_and_all_projections": true,
+    "query_requires_immutable_published_snapshot": true,
+    "query_requires_same_verified_tip_before_and_after": true,
+    "concurrent_import_fencing_required": true,
+    "serializable_multitable_runtime_verified": false
+  },
+  "object_storage": {
+    "logical_bucket_id": "nqc-miner-v1",
+    "prefix_template": "nqc_miner_v1/{data_class}/{run_id}/{export_sha256}/",
+    "physical_bucket_reserved": false,
+    "upload_enabled": false,
+    "object_overwrite_allowed": false,
+    "external_bucket_configured": false,
+    "note": "Logical ID only; no account, endpoint, globally unique bucket or credentials provisioned."
+  },
+  "local_export": {
+    "new_directory_required": true,
+    "source_lock_or_mutation_allowed": false,
+    "completion_marker": "manifest.json",
+    "maximum_journal_bytes": 536870912,
+    "maximum_records": 1000000,
+    "maximum_batch_rows": 10000,
+    "maximum_batch_raw_bytes": 16777216,
+    "verifier": "nqc-miner verify-journal on a private immutable-byte copy"
+  },
+  "temporal": {
+    "namespace": "nqc_miner_v1",
+    "task_queue": "nqc_miner_v1.lifecycle.v1",
+    "worker_enabled": false,
+    "connection_configured": false
+  },
+  "controls": {
+    "observer_bridge_enabled": false,
+    "signing_enabled": false,
+    "broadcast_enabled": false,
+    "telegram_enabled": false,
+    "kms_enabled": false,
+    "gas_budget_mxn_centavos": 0,
+    "runtime_deployment_enabled": false,
+    "shared_observer_resources_allowed": false
+  }
+}

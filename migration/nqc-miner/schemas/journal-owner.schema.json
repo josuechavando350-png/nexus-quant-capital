@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "journal-owner",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "namespace",
+    "producer",
+    "run_id",
+    "data_class",
+    "config_sha256",
+    "code_commit",
+    "cargo_lock_sha256"
+  ],
+  "properties": {
+    "schema": {
+      "const": "nqc-miner-owner-v1"
+    },
+    "namespace": {
+      "const": "nqc_miner_v1"
+    },
+    "producer": {
+      "const": "nqc-miner"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]{1,96}$"
+    },
+    "data_class": {
+      "enum": [
+        "synthetic",
+        "historical",
+        "shadow"
+      ]
+    },
+    "config_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "code_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "cargo_lock_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

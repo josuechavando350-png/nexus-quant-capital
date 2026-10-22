@@ -1,0 +1,92 @@
+# NQC Miner — implementación aislada
+
+Miner descubre **mercados candidatos**, registra evidencia y permite estudiar su economía. Esta entrega es una base de investigación ejecutable: **no es un Miner de producción, no demuestra rentabilidad y no activa minas**.
+
+El alcance procede de `NQC_Miner.pdf`, versión 1.0 del 22 de octubre de 2026, páginas 1–9. La matriz completa está en [docs/requirements.md](docs/requirements.md). El documento original, marcado confidencial, no se copia al repositorio público.
+
+## Separación del observador
+
+Todo el código nuevo vive en `migration/nqc-miner/`, dentro de una rama propia. Este crate tiene su propio workspace y `Cargo.lock`. No modifica Census, el observador, las aplicaciones cliente ni los workflows existentes.
+
+Los datos usan exclusivamente el espacio `nqc_miner_v1`. Cada ejecución tiene directorio nuevo, `owner.json`, configuración inmutable, clase de evidencia y bloqueo exclusivo. Un directorio ajeno no se adopta. Las únicas variables de RPC admitidas empiezan por `NQC_MINER_RPC_`. El puente es un contrato de exportación local y permanece desactivado; no existe escritor hacia el observador.
+
+## Qué funciona
+
+- Decodificación estricta de nacimientos y liquidaciones de Morpho Blue, y eventos de reservas/liquidaciones de Aave V3, con Alloy. La coincidencia ABI produce candidatos, nunca certificación de contratos.
+- Ingesta finita en Rust desde dos o más proveedores RPC, verificando cadena, bloques finalizados, acuerdo de eventos y continuidad de checkpoints. No hay métodos de firma ni envío de transacciones.
+- Journal durable con hashes, deduplicación, reanudación y cuarentena por cambios de cadena. Los lotes provisionales y los escaneos incompletos no se presentan como cobertura completa.
+- Saturación y cobertura limitadas al universo declarado. Elegibilidad, propinas y precios ausentes permanecen desconocidos. Descubrir una mina después no mejora retroactivamente su cobertura.
+- Valuación condicional mediante bootstrap de economía diaria, con semillas reproducibles, escenarios, percentiles y costes de intentos fallidos. No sustituye una simulación completa de precios y ejecución.
+- Simulación local con REVM sobre un estado cerrado suministrado: las cuentas, slots o hashes de ancestros ausentes causan error. No se completan consultando un RPC ni suponiendo ceros.
+- Controles de ciclo de vida, caducidad, toxicidad, pruebas de adaptadores y presupuesto; asignación preparatoria por Thompson sampling.
+- Primitivas de timelocks, intereses Morpho bajo supuestos explícitos, vencimientos, similitud de bytecode, grafos heurísticos e incentivos.
+- Exportación local a Parquet con Polars, comprobación por el verificador Rust y conservación exacta de los registros originales.
+- Pipeline de investigación LightGBM con contribuciones TreeSHAP, vinculación de fuentes y validación temporal. Sus pruebas entrenan fixtures artificiales, sin afirmar capacidad predictiva económica.
+
+Los módulos de investigación e infraestructura documentan sus propios límites en `docs/`. Un archivo de configuración no acredita un servicio desplegado.
+
+## Compilar y verificar
+
+Requiere Rust **1.90.0**. Las dependencias están fijadas en `Cargo.lock`. Mantén los productos de compilación fuera del repositorio:
+
+```bash
+cd migration/nqc-miner
+export CARGO_TARGET_DIR=/tmp/nqc-miner-target
+cargo fetch --locked
+cargo test --all-targets --locked --offline
+cargo clippy --all-targets --locked --offline -- -D warnings
+cargo fmt -- --check
+python3 ../../migration/verify_isolation.py
+cargo run --locked --offline -- about
+```
+
+La primera descarga requiere red; los tests y el compilador no requieren RPC. Los tests usan fixtures sintéticos identificados como tales, sin demostrar comportamiento rentable en mercados reales.
+
+La investigación Python utiliza un entorno separado y las versiones de
+`research/requirements.txt`. Con ese entorno instalado, el siguiente comando
+ejecuta la batería completa y conserva sus resultados en un directorio nuevo:
+
+```bash
+python3 scripts/verify_offline.py \
+  --research-python /tmp/nqc-miner-research-venv/bin/python \
+  --binary "$CARGO_TARGET_DIR/debug/nqc-miner" \
+  --output /tmp/nqc-miner-audit-001
+```
+
+La verificación incluye compilación, pruebas Rust/Python, Clippy sin advertencias,
+formato, aislamiento del repositorio e identidad de código del binario. No inicia
+servicios. Los contratos de infraestructura y sus comprobaciones pendientes están
+en [docs/infrastructure.md](docs/infrastructure.md).
+
+## Comandos
+
+```bash
+nqc-miner about
+nqc-miner topics
+nqc-miner validate-config --config /ruta/miner-config.json
+nqc-miner scan --config /ruta/miner-config.json --state /ruta/nueva/nqc-miner-run
+nqc-miner verify-journal --state /ruta/nqc-miner-run
+nqc-miner report --config /ruta/miner-config.json --state /ruta/nqc-miner-run
+nqc-miner report --config /ruta/miner-config.json --state /ruta/nqc-miner-run --prometheus
+nqc-miner value --input fixtures/valuation.synthetic.json
+nqc-miner decode --input /ruta/log-con-scope.json
+nqc-miner simulate --input /ruta/estado-y-llamada.json
+```
+
+`scan` es una lectura acotada. Exige un binario construido desde un commit limpio y que el commit y SHA-256 de `Cargo.lock` coincidan con la configuración. `about` muestra ambas identidades. Los endpoints se proporcionan mediante las variables propias indicadas en cada scope; sus valores no se serializan ni se imprimen en errores. Dos nombres o hosts distintos no prueban que los proveedores tengan operadores independientes.
+
+El comando `report` sin un registro prospectivo de vigilancia no atribuye detección anticipada. El JSON distingue datos históricos, Shadow y sintéticos. No importa ganancias realizadas ni datos del observador.
+
+## Dinero y autorización
+
+El presupuesto activo de esta entrega es **cero**. `scan` no admite presupuesto de gas. No hay firmante, KMS, broadcast, alertas enviadas ni aprobaciones utilizables para operar.
+
+El módulo preparatorio de presupuesto conserva los límites históricos indicados por el usuario: MXN 2,000 de gas total, recargas máximas de MXN 500 y parada a MXN 1,000 consumidos sin captura realizada. No se ha autorizado ni ejecutado ninguna recarga. Las cifras se expresan como enteros en centavos; los resultados simulados no financian nada.
+
+## Qué falta para cerrar el PDF
+
+La salida de fase A exige mediciones completas y calibradas en dos o tres cadenas. La fase B exige comparación real durante Shadow. La fase C exige una propuesta concreta, aprobación explícita y ejecución presupuestada por un firmante externo. La fase D exige colectores, modelo validado y un ciclo de aprendizaje funcionando.
+
+Persisten integraciones de infraestructura, fuentes históricas suficientes, certificación diferencial de protocolos y validación económica. Los estados `Active` y `Watched` están representados, pero son inalcanzables en este binario. Ningún porcentaje de implementación equivale a una garantía de ganancias o ausencia total de defectos.
+
+Consulta [docs/progress.json](docs/progress.json) para el denominador de progreso y [docs/AUDIT.md](docs/AUDIT.md) para la evidencia de verificación.

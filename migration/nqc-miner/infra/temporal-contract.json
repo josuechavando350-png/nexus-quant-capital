@@ -1,0 +1,56 @@
+{
+  "schema": "nqc-miner-temporal-lifecycle-contract-v1",
+  "status": "workflow_contract_only_no_sdk_worker",
+  "namespace": "nqc_miner_v1",
+  "task_queue": "nqc_miner_v1.lifecycle.v1",
+  "workflow_type": "NqcMinerLifecycleV1",
+  "workflow_id_template": "nqc_miner_v1/{data_class}/{run_id}/{mine_id}",
+  "workflow_id_conflict_policy": "fail",
+  "workflow_id_reuse_policy": "reject_duplicate",
+  "server_endpoint": null,
+  "worker_enabled": false,
+  "authority": "src/controls.rs MineLifecycle and GateReport",
+  "evidence_binding": ["namespace", "data_class", "run_id", "mine_id", "code_commit", "source_hash", "adapter_hash", "chain_id", "block_hash", "policy_hash"],
+  "research_transitions": [
+    {"from": "detected", "gate": "toxicity", "to": "classified"},
+    {"from": "classified", "gate": "adapter", "to": "valued"},
+    {"from": "valued", "gate": "valuation", "to": "wind_tunnel"},
+    {"from": "wind_tunnel", "gate": "wind_tunnel", "to": "shadow"},
+    {"from": "shadow", "gate": "shadow", "to": "proposed"}
+  ],
+  "shadow_minimum": {"duration_seconds": 86400, "observations": 10},
+  "live_transitions": {
+    "proposed_to_active": "disabled_external_gate",
+    "active_to_watched": "disabled_external_gate",
+    "approval_automation_allowed": false,
+    "signing_or_broadcast_activity_allowed": false
+  },
+  "retirement": {
+    "reason_required": true,
+    "replay_must_preserve_original_decision": true,
+    "reactivation_target": "detected",
+    "reactivation_clears_all_accepted_evidence": true,
+    "reactivation_requires_same_mine_and_chain": true,
+    "reactivation_requires_all_gates_again": true,
+    "workflow_may_remain_open_while_retired": true
+  },
+  "activity_intent": {
+    "allowed": ["verify_evidence", "evaluate_rust_gate", "append_lifecycle_decision", "record_local_proposal"],
+    "idempotency_key": "sha256(workflow_id || lifecycle_version || gate_evidence_sha256)",
+    "timeout_seconds": 120,
+    "retry": {"maximum_attempts": 5, "initial_seconds": 1, "maximum_seconds": 30, "coefficient": 2},
+    "retryable_errors": ["transient_transport", "temporarily_unavailable"],
+    "nonretryable_errors": ["foreign_namespace", "mixed_class", "invalid_hash", "unverified_state", "failed_gate", "policy_mismatch"],
+    "network_in_workflow_code_allowed": false,
+    "wall_clock_randomness_in_workflow_code_allowed": false,
+    "temporal_run_id_used_as_mine_identity": false
+  },
+  "disabled_integrations": ["observer_bridge", "telegram", "kms", "wallet", "transaction_broadcast"],
+  "readiness_gates": [
+    "SDK implementation chosen and pinned",
+    "dedicated namespace and service identity reviewed",
+    "workflow replay and activity duplicate delivery tested",
+    "gate evidence changes cancel stale pending decisions",
+    "no active transition enabled by a retry, timer or signal"
+  ]
+}

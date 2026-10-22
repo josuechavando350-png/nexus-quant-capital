@@ -1,0 +1,337 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "journal-envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sequence",
+    "owner_sha256",
+    "previous_sha256",
+    "record",
+    "sha256"
+  ],
+  "properties": {
+    "sequence": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 18446744073709551615
+    },
+    "owner_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "previous_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "record": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "scope_id",
+            "log",
+            "decoded",
+            "block_timestamp",
+            "observed_at",
+            "providers"
+          ],
+          "properties": {
+            "kind": {
+              "const": "observed"
+            },
+            "scope_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 96
+            },
+            "log": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "chain_id",
+                "address",
+                "block_number",
+                "block_hash",
+                "transaction_hash",
+                "log_index",
+                "topics",
+                "data",
+                "removed"
+              ],
+              "properties": {
+                "chain_id": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 18446744073709551615
+                },
+                "address": {
+                  "type": "string",
+                  "pattern": "^0x[0-9a-f]{40}$"
+                },
+                "block_number": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 18446744073709551615
+                },
+                "block_hash": {
+                  "type": "string",
+                  "pattern": "^0x[0-9a-f]{64}$"
+                },
+                "transaction_hash": {
+                  "type": "string",
+                  "pattern": "^0x[0-9a-f]{64}$"
+                },
+                "log_index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "topics": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 4,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^0x[0-9a-f]{64}$"
+                  }
+                },
+                "data": {
+                  "type": "string",
+                  "pattern": "^0x([0-9a-f]{2})*$",
+                  "maxLength": 2097154
+                },
+                "removed": {
+                  "const": false
+                }
+              }
+            },
+            "decoded": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "payload"
+              ],
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "birth",
+                    "liquidation"
+                  ]
+                },
+                "payload": {
+                  "type": "object"
+                }
+              },
+              "description": "Payload semantics and exact ABI/raw-log equality are checked by the Rust verifier; this schema deliberately does not certify protocol behavior."
+            },
+            "block_timestamp": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615
+            },
+            "observed_at": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615
+            },
+            "providers": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 4,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 96
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "scope_id",
+            "chain_id",
+            "from_block",
+            "to_block",
+            "start_block_hash",
+            "start_parent_hash",
+            "end_block_hash",
+            "observed_at",
+            "providers",
+            "event_count",
+            "logs_sha256"
+          ],
+          "properties": {
+            "kind": {
+              "const": "chunk_completed"
+            },
+            "scope_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 96
+            },
+            "chain_id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 18446744073709551615
+            },
+            "from_block": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615
+            },
+            "to_block": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615
+            },
+            "start_block_hash": {
+              "type": "string",
+              "pattern": "^0x[0-9a-f]{64}$"
+            },
+            "start_parent_hash": {
+              "type": "string",
+              "pattern": "^0x[0-9a-f]{64}$"
+            },
+            "end_block_hash": {
+              "type": "string",
+              "pattern": "^0x[0-9a-f]{64}$"
+            },
+            "observed_at": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615
+            },
+            "providers": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 4,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 96
+              }
+            },
+            "event_count": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615
+            },
+            "logs_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "scope_id",
+            "chain_id",
+            "from_block",
+            "to_block",
+            "finalized_anchor_number",
+            "finalized_anchor_hash",
+            "observed_at",
+            "providers"
+          ],
+          "properties": {
+            "kind": {
+              "const": "scope_completed"
+            },
+            "scope_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 96
+            },
+            "chain_id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 18446744073709551615
+            },
+            "from_block": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615
+            },
+            "to_block": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615
+            },
+            "finalized_anchor_number": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615
+            },
+            "finalized_anchor_hash": {
+              "type": "string",
+              "pattern": "^0x[0-9a-f]{64}$"
+            },
+            "observed_at": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615
+            },
+            "providers": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 4,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 96
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "chain_id",
+            "from_block",
+            "reason"
+          ],
+          "properties": {
+            "kind": {
+              "const": "invalidated"
+            },
+            "chain_id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 18446744073709551615
+            },
+            "from_block": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1024
+            }
+          }
+        }
+      ]
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "description": "Structure only. SHA-256 tuple canonicalization, immutable owner/config binding, ABI canonicality, scope sequencing and invalidation semantics require nqc-miner verify-journal."
+}
