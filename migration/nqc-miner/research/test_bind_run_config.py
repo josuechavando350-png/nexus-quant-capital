@@ -12,13 +12,14 @@ SPEC.loader.exec_module(bind_run_config)
 
 def template():
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "namespace": "nqc_miner_v1",
         "producer": "nqc-miner",
         "run_id": "fixture-bind",
         "data_class": "historical",
         "code_commit": "__FROM_ABOUT__",
         "cargo_lock_sha256": "__FROM_ABOUT__",
+        "build_identity_sha256": "__FROM_ABOUT__",
         "observer_bridge_enabled": False,
         "signing_enabled": False,
         "gas_budget_mxn_centavos": 0,
@@ -44,6 +45,7 @@ def about():
         "opt_level": "0",
         "debug": True,
         "rustflags_sha256": "c" * 64,
+        "build_identity_sha256": "d" * 64,
     }
 
 
@@ -52,6 +54,7 @@ class BindRunConfigTests(unittest.TestCase):
         value = bind_run_config.bind(template(), about())
         self.assertEqual(value["code_commit"], "a" * 40)
         self.assertEqual(value["cargo_lock_sha256"], "b" * 64)
+        self.assertEqual(value["build_identity_sha256"], "d" * 64)
 
     def test_dirty_or_operational_about_is_rejected(self):
         for key, value in [
@@ -76,6 +79,7 @@ class BindRunConfigTests(unittest.TestCase):
             ("opt_level", ""),
             ("debug", "true"),
             ("rustflags_sha256", "not-a-hash"),
+            ("build_identity_sha256", "not-a-hash"),
         ]:
             candidate = about()
             candidate[key] = value
