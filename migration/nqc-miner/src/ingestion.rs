@@ -28,8 +28,7 @@ fn retryable_status(status: StatusCode) -> bool {
 }
 
 fn retry_delay(status: Option<StatusCode>, retry_after: Option<&str>, attempt: usize) -> Duration {
-    let exponent = u32::try_from(attempt.min(3)).unwrap_or(3);
-    let base = Duration::from_millis(250u64.saturating_mul(2u64.pow(exponent)));
+    let base = Duration::from_millis(250u64.saturating_mul(1u64 << attempt.min(3)));
     if status == Some(StatusCode::TOO_MANY_REQUESTS) {
         if let Some(seconds) = retry_after.and_then(|value| value.trim().parse::<u64>().ok()) {
             return base.max(Duration::from_secs(seconds).min(MAX_SERVER_RETRY));
