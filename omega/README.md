@@ -78,3 +78,15 @@ NQC ni a mercados actuales. Ver `AUDIT_H2.md` para resultados y bloqueos exactos
 Git blobs revisados. El resultado actual es **6 capacidades parciales, 3 no
 demostradas y 0 certificadas**. Ejecutar `python3 omega/census_assessment.py` y
 `python3 -m unittest -v omega/test_census_assessment.py` para validar el mapa.
+
+## H4 · Opportunity Dossier / Evidence Vault
+
+`opportunity_vault.py` añade un expediente Census ligado a bloque, mercado y
+posición, con decisión, vector de 14 costos, competencia, escenarios, outcome y
+referencias de evidencia. Census sólo admite `NO-GO` u `OBSERVAR`; `GO`,
+firma, broadcast, gasto, cierre de Census y P&L de NQC no demostrado se bloquean.
+
+El hito H4 tiene **19/19 pruebas nuevas aprobadas** y read-back de los Git blobs.
+Esto completa el hito de implementación offline, pero el componente 29 sigue
+`foundational_partial`: falta poblar expedientes reales, integrarlos con el
+store Rust y probar recuperación/replicación/reorg de extremo a extremo.
