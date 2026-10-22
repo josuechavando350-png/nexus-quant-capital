@@ -35,6 +35,9 @@ ALLOWED_OMEGA_FILES = {
     "omega/truth_engine.py",
     "omega/TRUTH_TRIAD_CONTRACT.md",
     "omega/AUDIT_H10.md",
+    "omega/competition_ledger.py",
+    "omega/COMPETITION_LEDGER_CONTRACT.md",
+    "omega/AUDIT_H11.md",
 }
 
 
