@@ -1,14 +1,14 @@
 {
   "schema": "nqc.omega.census-assessment.v1",
-  "as_of_commit": "05e0b60f29edb8baf93f7d6d940bbff956e5e251",
+  "as_of_commit": "084a15df05b83302b45896f381e345575bb690e2",
   "assessment_scope": "STATIC_SOURCE_AND_AUTHENTICATED_HISTORICAL_EVIDENCE_ONLY",
   "census_closed": false,
   "certified_components": 0,
   "summary": {
     "components_assessed": 9,
-    "foundational_partial": 5,
+    "foundational_partial": 6,
     "historical_partial": 2,
-    "not_evidenced": 2
+    "not_evidenced": 1
   },
   "components": [
     {
@@ -128,20 +128,33 @@
     {
       "id": 10,
       "name": "Radar de depegs y oráculos de tasa fija",
-      "status": "not_evidenced",
+      "status": "foundational_partial",
       "component_certified": false,
       "evidence": [
         {
           "path": "nqc-census/crates/nqc-census-aave-discovery/src/interface.rs",
           "git_blob": "e32c096ef4f86b87f468d512cfc99855fd05fa46"
+        },
+        {
+          "path": "omega/oracle_semantics.py",
+          "git_blob": "8555f5c69ab15705e358b142f193ef56166575ee"
+        },
+        {
+          "path": "omega/ORACLE_SEMANTICS_CONTRACT.md",
+          "git_blob": "10a2bc7ca9e13dc9e18d19cce086637ccac466b4"
+        },
+        {
+          "path": "omega/AUDIT_H7.md",
+          "git_blob": "85dd9dbe7a216e6712d128faf4063d75bd3aeebf"
         }
       ],
-      "supported_claim": "Aave price-oracle discovery is evidenced; classification between market-price and exchange-rate/fixed-rate oracle semantics is not established.",
+      "supported_claim": "Aave oracle discovery exists, and Omega now has a fail-closed evidence-bound semantic registry distinguishing direct market-price exposure from exchange-rate accounting without symbol/name heuristics.",
       "missing_for_omega": [
-        "oracle semantic classifier",
-        "depeg behavior model",
-        "rate-oracle registry",
-        "false-positive regression corpus"
+        "protocol-specific semantic population for all scoped oracles",
+        "bytecode/configuration/version proof for each semantic class",
+        "historical depeg and false-positive replay corpus",
+        "Causal Graph and Order Book integration",
+        "full repository regression"
       ]
     },
     {
