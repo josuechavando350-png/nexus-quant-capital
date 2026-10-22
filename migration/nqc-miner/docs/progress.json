@@ -162,7 +162,8 @@
     "evidence/public-retry-20261022/config.template.json",
     "evidence/public-crosscheck-20261022/aave-ethereum.json",
     "evidence/supply-chain-review-20261022.json",
-    "evidence/binder-python-20261022.json"
+    "evidence/binder-python-20261022.json",
+    "docs/EVIDENCE_LEDGER.md"
   ],
   "notes": [
     "An implemented primitive is not an operational phase exit.",
@@ -171,6 +172,7 @@
     "Independent indexed evidence corroborates three unique successful Aave liquidationCall transactions in the Ethereum sample window; it does not verify the earlier five-event log count and earns no additional progress.",
     "HTTP pacing/retry/redaction, run-config identity binding and rand 0.8.6 remediation are published but receive no progress credit until rebuilt and fully tested.",
     "All identified 2026 RustSec advisory ranges for packages in the current lock were reviewed after the rand remediation; a complete automated advisory scan remains mandatory.",
-    "The six run-config binder regressions passed in an isolated Python 3.13.5 execution against the exact published blobs; this does not credit the repository-wide verification gate."
+    "The six run-config binder regressions passed in an isolated Python 3.13.5 execution against the exact published blobs; this does not credit the repository-wide verification gate.",
+    "A transient five-event observation has no durable versioned journal in this branch and is explicitly excluded from metrics and progress."
   ]
 }
