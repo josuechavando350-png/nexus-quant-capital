@@ -33,6 +33,16 @@ class BuildIdentityContractTests(unittest.TestCase):
         build = (Path(__file__).resolve().parents[1] / "build.rs").read_text(encoding="utf-8")
         self.assertGreaterEqual(build.count('"rust-toolchain.toml"'), 2)
         self.assertIn("cargo:rerun-if-changed=rust-toolchain.toml", build)
+        for field in [
+            "NQC_MINER_BUILD_RUSTC_VERSION",
+            "NQC_MINER_BUILD_TARGET",
+            "NQC_MINER_BUILD_HOST",
+            "NQC_MINER_BUILD_PROFILE",
+            "NQC_MINER_BUILD_OPT_LEVEL",
+            "NQC_MINER_BUILD_DEBUG",
+            "NQC_MINER_BUILD_RUSTFLAGS_SHA256",
+        ]:
+            self.assertIn(field, build)
 
 
 if __name__ == "__main__":
