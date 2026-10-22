@@ -40,6 +40,8 @@ EXTENSION_FILES = frozenset({
     "omega/PROTOCOL_ADAPTER_CONTRACT.md", "omega/AUDIT_H9.md",
     "omega/truth_engine.py", "omega/test_truth_engine.py",
     "omega/TRUTH_TRIAD_CONTRACT.md", "omega/AUDIT_H10.md",
+    "omega/competition_ledger.py", "omega/test_competition_ledger.py",
+    "omega/COMPETITION_LEDGER_CONTRACT.md", "omega/AUDIT_H11.md",
 })
 EXTENSION_DIRS = {"omega", "omega/evidence"}
 
