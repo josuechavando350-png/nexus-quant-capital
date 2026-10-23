@@ -10,6 +10,11 @@ the original Omega PDF. Census/Shadow/Canary/Escala contain 9/9/4/14 components.
 Miner's independent work is not imported or credited here. Existing foundation
 coverage is 9/9 Census partials, not 9/9 complete components.
 
+Active user directive of 2026-10-23: **Titan supplies gas; the MXN 2,000 operator
+allowance is withdrawn.** No operator gas prefund or fallback is permitted.
+Execution-specific Titan coverage and repayment must still be evidence-bound.
+The current policy is in `TITAN_GAS_POLICY.md`; old source reports retain old scope.
+
 | Product gate | Evidence still required |
 |---|---|
 | Census truth | independent three-way parity across the declared scope |
@@ -223,3 +228,17 @@ Remote Rust transport and final artifact/API/log post-audit pass for producer
 561/561 local tests pass, including 29 new cases. See `AUDIT_H20.md`. Component
 certification remains 0/36; real canonical reorgs, inter-host recovery, complete
 market coverage and execution economics remain open.
+
+## H21 retained execution economics
+
+One authentic historical liquidation/gas diagnostic joins the nine WETH rows;
+eight remain unobserved. The existing corpus remains 127 transactions. All 14
+cost categories remain explicit, with measured EVM-call units, simulated flash
+fees, five hypothetical gas budgets and actual paid costs kept separate. No
+complete paid-cost row, Titan-covered execution or executable candidate is added.
+
+The active gas policy is Titan-only, with zero proprietary gas allowance. Runtime
+v4 binds this policy and the new economic reader. A sixth dependent batch rejects
+queries after ancestor revocation and preserves forensic bytes through SQLite
+restore. H21 does not add a new physical EVM execution or a Rust transport claim.
+Exact-producer CI and final audit are pending; see `AUDIT_H21.md`.

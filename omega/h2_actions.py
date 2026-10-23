@@ -337,6 +337,10 @@ def replay(work: Path, head: str):
     dependent = strict_json(read_regular(work / "dependency-store-bridge/report.json"))
     verify_dependency_report(dependent)
     evidence("dependency-store-bridge", dependent)
+    from execution_intake import verify_replay as verify_execution_replay
+    economics = strict_json(read_regular(work / "execution-economics/report.json"))
+    verify_execution_replay(economics)
+    evidence("execution-economics", economics)
     return report
 
 
@@ -449,6 +453,9 @@ def main():
                  args.repo / "nqc-census/target/release/examples/nqc_omega_bridge",
                  args.repo / "nqc-census/target/release/nqc-census-store-verify",
                  module.network_proof(args.parent))
+        from execution_intake import exercise as exercise_economics
+        exercise_economics(args.out.parent / "execution-economics",
+                           module.network_proof(args.parent))
         observed_replay(args.source, args.out, args.repo, args.parent)
         return
     if args.rpc_proxy:

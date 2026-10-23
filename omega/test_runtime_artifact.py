@@ -12,7 +12,8 @@ import ci_evidence
 from historical_pipeline import exercise
 from integrity import canonical, digest
 from runtime_artifact import (CODE_PATHS, LEGACY_SCHEMA, LEGACY_CODE_PATHS, MAX_PACKET, ROOT, SCHEMA,
-                              TRANSPORT_SCHEMA, TRANSPORT_CODE_PATHS, inspect_packet,
+                              TRANSPORT_SCHEMA, TRANSPORT_CODE_PATHS, DEPENDENCY_SCHEMA,
+                              DEPENDENCY_CODE_PATHS, inspect_packet,
                               unpack, verify_artifact, write_packet)
 
 
@@ -119,8 +120,8 @@ class RuntimeArtifactTests(unittest.TestCase):
     def dependent_packet(self):
         from test_rust_store_intake import synthetic_report
         from test_dependency_intake import synthetic_report as dependency_report
-        p=self.packet('replay');p['schema']=SCHEMA
-        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in CODE_PATHS}
+        p=self.packet('replay');p['schema']=DEPENDENCY_SCHEMA
+        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in DEPENDENCY_CODE_PATHS}
         network=next(r['value'] for r in p['records'] if r['name']=='network-isolation')
         extras=[copy.deepcopy(next(r for r in p['records'] if r['name']=='command'))]
         for name,value in (('rust-store-bridge',synthetic_report(network)),
@@ -145,6 +146,34 @@ class RuntimeArtifactTests(unittest.TestCase):
             mutate(record['value']);record['value']['report_commitment_sha256']=digest(canonical(
                 {k:v for k,v in record['value'].items() if k!='report_commitment_sha256'}))
             record['sha256']=digest(canonical(record['value']));self.seal(p)
+            with self.assertRaises(ValueError):self.inspect(p)
+
+    def economic_packet(self):
+        from test_execution_intake import synthetic_replay
+        p=self.dependent_packet();p['schema']=SCHEMA
+        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in CODE_PATHS}
+        network=next(r['value'] for r in p['records'] if r['name']=='network-isolation')
+        value=synthetic_replay(network)
+        p['records'][-1:-1]=[{'name':'execution-economics','value':value,'sha256':digest(canonical(value))}]
+        return self.seal(p)
+
+    def test_v4_requires_economics_record_and_keeps_v3_scope(self):
+        p=self.economic_packet();self.assertEqual(self.inspect(p)['records'],43)
+        p['records']=[r for r in p['records'] if r['name']!='execution-economics'];self.seal(p)
+        with self.assertRaisesRegex(ValueError,'record_inventory'):self.inspect(p)
+        p['schema']=DEPENDENCY_SCHEMA
+        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in DEPENDENCY_CODE_PATHS}
+        self.seal(p);self.assertEqual(self.inspect(p)['records'],42)
+
+    def test_v4_rejects_resealed_paid_cost_or_titan_coverage(self):
+        baseline=self.economic_packet()
+        for key,value in [('titan_covered_executions',1),('complete_paid_cost_rows',1)]:
+            p=copy.deepcopy(baseline)
+            r=next(r for r in p['records'] if r['name']=='execution-economics')
+            report=r['value']['economic_report'];report['summary'][key]=value
+            report['report_commitment_sha256']=digest(canonical({k:v for k,v in report.items() if k!='report_commitment_sha256'}))
+            r['value']['report_commitment_sha256']=digest(canonical({k:v for k,v in r['value'].items() if k!='report_commitment_sha256'}))
+            r['sha256']=digest(canonical(r['value']));self.seal(p)
             with self.assertRaises(ValueError):self.inspect(p)
 
     def test_artifact_matches_external_capture_without_self_authentication_claim(self):

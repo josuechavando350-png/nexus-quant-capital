@@ -16,7 +16,7 @@ Base: `NQC_Sovereign_Radar_Omega.pdf`, v1.0, 22 de octubre de 2026, SHA-256
   Canary/Escala = 9/9/4/14. El catálogo conserva `not_assessed`; el mapeo parcial
   separado está en `census_map.json` y no certifica componentes.
 - `audit.py` e `integrity.py`: controles estructurales, tipos, claves JSON únicas,
-  límites de gas de diseño y carga de código original fijada por Git blob.
+  política de gas Titan sin capital propio y carga de código original fijada por Git blob.
 - `census_bridge.py`: reproduce el auditor RMC-016 original con dos archivos ZIP
   auténticos. Emite **OBSERVAR** ante evidencia histórica incompleta y **NO-GO**
   ante entradas inválidas. Nunca emite GO ni realiza llamadas de red.
@@ -62,10 +62,12 @@ histórico directo sigue rechazando `omega/`; esto se conserva deliberadamente.
 Census y Shadow no conectan fondos. Observador, firmante y ejecutor siguen
 separados; este cambio no contiene firmante, broadcasting, despliegues ni
 ejecución con fondos. El workflow H2E sólo comprueba evidencia y forks locales.
-Canary conserva el techo de **$2,000 MXN**, recargas máximas de
-**$500 MXN** y revisión tras **$1,000 MXN** sin captura. Son límites del diseño,
-no autorización de gasto. La autoridad histórica con `OWN_CAPITAL = 0` no se
-reescribe para aparentar certificación bajo la política nueva.
+**Titan aporta el gas. El presupuesto propio de $2,000 MXN queda descartado**
+por instrucción del usuario del 23 de octubre de 2026. No hay anticipo propio ni
+alternativa de gas propio. La cobertura de Titan y su remuneración se deben
+acreditar por ejecución; una simulación positiva no prueba esa cobertura.
+Ver [política activa](TITAN_GAS_POLICY.md). Las autoridades y auditorías históricas
+conservan sus bytes y reglas originales, sin otorgar permisos actuales.
 
 Un hash detecta cambios, pero por sí solo no autentica un reporte externo.
 Reproducir las entradas fijadas es obligatorio. El almacenamiento local es
@@ -406,3 +408,17 @@ Ver [contrato H20](DEPENDENCY_REVOCATION_CONTRACT.md) y [auditoría H20](AUDIT_H
 Forks, replay aislado y auditoría posterior aprobaron el productor `641ffb4c5a49514fdca346e57b06f6526f4b7dcf`
 en el [run 40019225049](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/40019225049).
 Certificación del producto: 0/36.
+
+## H21 — evidencia económica y gas Titan
+
+El lector incorpora el fork histórico de liquidación y su gas medido: un caso
+de nueve WETH, cinco sensibilidades y catorce categorías de costo explícitas.
+La comisión del flash loan y el excedente WETH simulados, el gas medido y los
+presupuestos supuestos se conservan separados de pagos reales. Los costos
+completos, la cobertura concreta de Titan y la ganancia realizada siguen sin
+demostrarse. Ocho casos no tienen ese diagnóstico; no se inventan ceros.
+
+El sexto lote declara su dependencia temporal. Consultas, revocación y recuperación
+conservan esa relación. Runtime v4 exige su replay económico desconectado y vincula
+la política activa. H21 está pendiente de ejecución remota y auditoría final.
+Ver [contrato](EXECUTION_INTAKE_CONTRACT.md) y [auditoría](AUDIT_H21.md).

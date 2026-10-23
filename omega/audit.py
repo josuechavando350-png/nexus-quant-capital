@@ -60,9 +60,22 @@ def verify_plan(plan: object) -> list[str]:
         "live_operation_authorized", "legacy_workflows_enabled",
     )):
         problems.append("safety_boundary_broken")
-    budget = plan.get("canary_gas_budget_mxn")
-    if type(budget) is not dict or budget != {"total_cap": 2000, "topup_cap": 500, "review_without_capture_at": 1000} or any(type(value) is not int for value in budget.values()):
-        problems.append("canary_gas_budget_changed")
+    # User directive 2026-10-23 supersedes the PDF's proprietary gas allowance.
+    # A funding policy names the payer; it is not execution-specific coverage.
+    expected_gas = {"schema": "nqc.omega.titan-gas-policy.v1", "payer": "TITAN",
+        "operator_gas_cap_mxn": 0, "operator_prefund_allowed": False,
+        "operator_principal_allowed": False, "operator_collateral_allowed": False,
+        "operator_guarantees_allowed": False, "own_gas_fallback_allowed": False,
+        "per_execution_coverage_required": True, "execution_coverage_proven": False,
+        "funded_wallets_in_census_or_shadow_allowed": False,
+        "basis": "USER_DIRECTIVE_2026-10-23", "supersedes": "CANARY_2000_MXN_ALLOWANCE"}
+    policy = plan.get("gas_funding_policy")
+    if (type(policy) is not dict or set(policy) != set(expected_gas)
+            or any(type(policy[k]) is not type(v) or policy[k] != v
+                   for k, v in expected_gas.items())):
+        problems.append("gas_funding_policy_changed")
+    if "canary_gas_budget_mxn" in plan:
+        problems.append("obsolete_operator_gas_budget")
     acceptance = plan.get("acceptance")
     if not isinstance(acceptance, dict) or any(
         not isinstance(acceptance.get(p), list)

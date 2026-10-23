@@ -296,9 +296,19 @@
       "omega_verification": "not_assessed"
     }
   ],
-  "canary_gas_budget_mxn": {
-    "total_cap": 2000,
-    "topup_cap": 500,
-    "review_without_capture_at": 1000
+  "gas_funding_policy": {
+    "schema": "nqc.omega.titan-gas-policy.v1",
+    "payer": "TITAN",
+    "operator_gas_cap_mxn": 0,
+    "operator_prefund_allowed": false,
+    "operator_principal_allowed": false,
+    "operator_collateral_allowed": false,
+    "operator_guarantees_allowed": false,
+    "own_gas_fallback_allowed": false,
+    "per_execution_coverage_required": true,
+    "execution_coverage_proven": false,
+    "funded_wallets_in_census_or_shadow_allowed": false,
+    "basis": "USER_DIRECTIVE_2026-10-23",
+    "supersedes": "CANARY_2000_MXN_ALLOWANCE"
   }
 }
