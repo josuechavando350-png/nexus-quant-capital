@@ -218,7 +218,8 @@ reject invalidated descendants while forensic bytes and unrelated branches remai
 The whole intake sequence is not atomic; each complete stage is. Crash/recovery
 and concurrency checks cover the publication and revocation boundaries.
 
-Remote Rust transport and final artifact/API/log post-audit are pending. See
-`AUDIT_H20.md` for closure evidence; no H19 result is inherited. Component
+Remote Rust transport and final artifact/API/log post-audit pass for producer
+`641ffb4c5a49514fdca346e57b06f6526f4b7dcf`, run 40019225049. H20 closes **4/4 (100% within this increment)**;
+561/561 local tests pass, including 29 new cases. See `AUDIT_H20.md`. Component
 certification remains 0/36; real canonical reorgs, inter-host recovery, complete
 market coverage and execution economics remain open.
