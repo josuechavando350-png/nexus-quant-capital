@@ -350,3 +350,12 @@ Los tres HF previos superan 1; ninguna fila se convierte en oportunidad ejecutab
 La comisión calculada es condicional, no un costo pagado observado. El reporte
 H16 se conserva y el nuevo reporte se valida al guardar, recuperar y consultar.
 Ver `HISTORICAL_STATE_CONTRACT.md` y `AUDIT_H17.md`.
+
+**H17 implementado y auditado en su alcance:** 471/471 pruebas locales, incluidas
+26 nuevas. El productor `d99e0b332db7ef8cde70e195b67edd949ab17adb` aprobó forks
+y replay desconectado en el run
+[39884845749](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/39884845749).
+La auditoría posterior contrastó archivos, metadata de GitHub, logs y hashes del
+código y pruebas. Precios previos: 2/9 → 3/9 de la muestra WETH; certificación
+global: 0/36. Ver [auditoría final H17](AUDIT_H17.md) y
+[medidas de avance y pendientes](PRODUCT_PROGRESS.md).

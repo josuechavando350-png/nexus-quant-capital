@@ -43,8 +43,9 @@ in `AUDIT_H16.md`; these are not additional certified product components.
 Progress reporting must keep three quantities separate:
 
 1. Completed engineering increments and their exact tests/producer evidence.
-2. The approximately 20% historical estimate, explicitly uncertain until a
-   complete effort-weighted implementation inventory has been reviewed.
+2. Coverage ratios with a named scope and denominator, such as predecessor
+   prices for 3 of the 9 WETH/WETH sample transactions. These are not effort or
+   overall product-completion percentages. The earlier 20% estimate is withdrawn.
 3. Certified product components: **0/36**; Census **0/9** until terminal criteria
    are actually demonstrated. Neither passing tests nor adding documents changes
    this number.
@@ -71,14 +72,16 @@ are planning estimates rather than physical proof of readiness.
 
 Each number above has its own denominator and scope. A passing engineering
 increment cannot be added as arbitrary percentage points of the final product.
-No new completed-component percentage is asserted. The initial approximately
-20% remains an uncertain historical construction estimate, not a denominator
-for adding a promised 25 percentage points.
+No new overall construction percentage is asserted. The initial approximately
+20% is retained only as historical reporting context, not as a current metric
+or a denominator for adding a promised 25 percentage points.
 
 ## H17 predecessor-state increment
 
 The new report expands priced WETH rows from 2/9 to 3/9 and adds observed
 predecessor Pool rates and health factors for 3/9. H16 remains unchanged.
+Producer d99e0b332db7ef8cde70e195b67edd949ab17adb passed both physical stages in
+run 39884845749 and both independent artifact/API/log post-audits; see AUDIT_H17.md.
 All three health factors exceed one; six remain unknown. Three selected normalized
 receipts have source-observed two-operator agreement; 124 of 127 still lack that
 new join. No whole-corpus parity, paid flash fee, complete costs, oracle trigger
@@ -88,3 +91,28 @@ The approximately 20% is **withdrawn as a product measurement**: there is no
 reviewed effort-weighted denominator supporting it. Until a versioned complete
 scope/weight inventory exists, report concrete gate coverage and 0/36 certified
 components instead of repeating an unsupported overall percentage.
+
+## Current scope-specific delivery counters
+
+| Measure | Before H17 | After H17 | Meaning |
+|---|---:|---:|---|
+| Full local Omega regression | 445/445 | 471/471 | Unique tests, not product components |
+| Source-bound predecessor WETH prices | 2/9 (22.2%) | 3/9 (33.3%) | Nine-transaction WETH sample only |
+| Predecessor health joined into Omega | 0/9 | 3/9 (33.3%) | All three NOT below HF=1 |
+| Historical Pool premium parameter joined | 0/9 | 3/9 (33.3%) | A rate observation, not a paid fee |
+| Complete paid-cost rows | 0/127 | 0/127 | Unresolved, not zero costs |
+| Certified Omega components | 0/36 | 0/36 | Final admission criteria remain open |
+
+`census_assessment.json` is the explicitly dated H11 foundation snapshot at
+`c80a66cbfb70d518286dc283c12f7af2ecaeecc5`. Its 7/2 category split and static
+validator are preserved historical evidence, not a rolling count of all later
+deliveries. H14–H17 are recorded in their own audits and the counters above.
+Do not infer no engineering progress from an unchanged frozen assessment, and
+do not alter that snapshot's old evidence hashes to manufacture certification.
+
+The next specific temporal integration has an authenticated original candidate
+source: run 37740704145 / artifact 11533288894. Its three time-only fork cases
+produce one below-one crossing, with no original intra-block transactions replayed.
+Source review is complete, but this is not a new Omega execution or an implemented
+temporal predictor. An integration must bind timestamps and interest accrual,
+preserve the two non-crossing cases, and keep hindsight/causal/execution limits.
