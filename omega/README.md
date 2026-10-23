@@ -339,3 +339,14 @@ pruebas: Rust PFT 56, Rust Census 528, Solidity 14, forks 4 y replay de 16 pasos
 Se conservan fuente y estado originales; los cambios posteriores son documentación.
 Ver [auditoría final H16](AUDIT_H16.md). **Census sigue abierto, certificación
 0/36; el 45% global todavía no está demostrado.**
+
+
+## H17 — estado previo y comisión condicional
+
+`historical_state_intake.py` integra tres artifacts originales autenticados: el
+precio histórico de rango 2, tasas del Pool y estados de salud previos de los
+tres principales casos WETH. Quedan 3/9 con precios/estado/tasa y 6/9 desconocidos.
+Los tres HF previos superan 1; ninguna fila se convierte en oportunidad ejecutable.
+La comisión calculada es condicional, no un costo pagado observado. El reporte
+H16 se conserva y el nuevo reporte se valida al guardar, recuperar y consultar.
+Ver `HISTORICAL_STATE_CONTRACT.md` y `AUDIT_H17.md`.

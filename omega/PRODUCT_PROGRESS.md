@@ -74,3 +74,17 @@ increment cannot be added as arbitrary percentage points of the final product.
 No new completed-component percentage is asserted. The initial approximately
 20% remains an uncertain historical construction estimate, not a denominator
 for adding a promised 25 percentage points.
+
+## H17 predecessor-state increment
+
+The new report expands priced WETH rows from 2/9 to 3/9 and adds observed
+predecessor Pool rates and health factors for 3/9. H16 remains unchanged.
+All three health factors exceed one; six remain unknown. Three selected normalized
+receipts have source-observed two-operator agreement; 124 of 127 still lack that
+new join. No whole-corpus parity, paid flash fee, complete costs, oracle trigger
+or executable candidate is inferred. Negative precursor states remain visible.
+
+The approximately 20% is **withdrawn as a product measurement**: there is no
+reviewed effort-weighted denominator supporting it. Until a versioned complete
+scope/weight inventory exists, report concrete gate coverage and 0/36 certified
+components instead of repeating an unsupported overall percentage.
