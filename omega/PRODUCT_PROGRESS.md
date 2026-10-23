@@ -186,3 +186,20 @@ with artifact-only import and require zero claimed certified ranges. Sparse
 retrospective diagnostics do not justify inventing continuous chain checkpoints.
 The existing Rust verifier's orphan-artifact count must remain visible when no
 checkpoint references those objects; it must not be silently converted to zero.
+
+## H19 artifact-only Rust transport
+
+The bounded adapter is implemented and locally verified: 28 authentic artifacts,
+3,154,093 logical bytes, exact SQLite snapshot restore, source-bound temporal
+query, batch-local revocation preservation and physical corruption rejection.
+Full local Omega tests increase from **498/498 to 528/528**; **66 Rust store tests**
+also pass. Five new files are confined to Omega; preserved Rust sources and the
+workflow are unchanged. Physical execution in a disconnected remote namespace
+and its exact-producer post-audit are pending in `AUDIT_H19.md`.
+
+This advances the local Python/Rust transport gate only. All 28 Rust artifacts
+remain explicitly unreferenced by ranges: **zero certified ranges**, **0/36
+certified components**. Cross-batch dependency revocation, remote replication and
+real canonical reorg recovery are still open. This does not change 3/9 temporal
+sample coverage, 0/127 complete paid-cost rows, or the absence of a supported
+overall product percentage.

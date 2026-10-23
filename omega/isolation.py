@@ -23,6 +23,9 @@ OMEGA_WORKFLOW = ".github/workflows/omega-h2-audit.yml"
 WORKFLOW_TEMPLATE = "omega/h2_actions_workflow.yml.disabled"
 WORKFLOW_SHA256 = "8c1c20a8684a21728d7ebd83d0aac7ad93dc5840df34ec455e80e5eb0b3813be"
 EXTENSION_FILES = frozenset({
+    "omega/rust_store_intake.py", "omega/rust_store_bridge.rs",
+    "omega/test_rust_store_intake.py", "omega/RUST_STORE_TRANSPORT_CONTRACT.md",
+    "omega/AUDIT_H19.md",
     "omega/temporal_intake.py", "omega/test_temporal_intake.py",
     "omega/TEMPORAL_INTAKE_CONTRACT.md", "omega/AUDIT_H18.md",
     "omega/evidence/temporal-pin.json", "omega/evidence/temporal-original.zip",

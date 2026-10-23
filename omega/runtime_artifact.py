@@ -20,15 +20,17 @@ from integrity import canonical, digest, read_regular, strict_json
 from historical_intake import need, same, fields, utc
 from pft_source_binding import DESTINATION, DESTINATION_ID, FALSE_AUTHORITY, git, verify_commit
 
-SCHEMA = 'nqc.omega.runtime-artifact.v1'
+LEGACY_SCHEMA = 'nqc.omega.runtime-artifact.v1'
+SCHEMA = 'nqc.omega.runtime-artifact.v2'
 BRANCH = 'feat/omega-h2-executable-audit-20261022'
 WORKFLOW = '.github/workflows/omega-h2-audit.yml'
 ROOT = Path(__file__).resolve().parents[1]
 MAX_PACKET = 1024 * 1024
 MAX_ARCHIVE = MAX_PACKET + 65536
-CODE_PATHS = ('omega/historical_intake.py','omega/evidence_store.py',
+LEGACY_CODE_PATHS = ('omega/historical_intake.py','omega/evidence_store.py',
               'omega/historical_pipeline.py','omega/runtime_artifact.py',
               'omega/integrity.py','omega/h2_actions.py','omega/isolation.py',WORKFLOW)
+CODE_PATHS = LEGACY_CODE_PATHS + ('omega/rust_store_intake.py','omega/rust_store_bridge.rs')
 
 
 def reject_authority(value):
@@ -45,7 +47,9 @@ def reject_authority(value):
 def inspect_packet(packet, *, expected_producer, expected_tree, stage, root=ROOT):
     need(type(packet) is dict and set(packet)=={'schema','producer','stage','records',
         'code_sha256','packet_commitment_sha256'},'packet_shape')
-    need(packet['schema']==SCHEMA and packet['stage']==stage and stage in ('forks','replay'),'packet_scope')
+    need(packet['schema'] in (LEGACY_SCHEMA, SCHEMA) and packet['stage']==stage
+         and stage in ('forks','replay'),'packet_scope')
+    modern = packet['schema'] == SCHEMA
     need(packet['packet_commitment_sha256']==digest(canonical({
         k:v for k,v in packet.items() if k!='packet_commitment_sha256'})),'packet_commitment')
     reject_authority(packet)
@@ -57,7 +61,7 @@ def inspect_packet(packet, *, expected_producer, expected_tree, stage, root=ROOT
     for name in ('run_id','run_attempt'):
         need(type(identity[name]) is int and identity[name]>0,'invalid_run_identity')
     same(packet['code_sha256'],{p:digest(git(root,'show',expected_producer+':'+p))
-                               for p in CODE_PATHS},'producer_code_digests')
+                               for p in (CODE_PATHS if modern else LEGACY_CODE_PATHS)},'producer_code_digests')
     records=packet['records']
     need(type(records) is list and 1<len(records)<100,'record_inventory')
     for r in records:
@@ -70,10 +74,11 @@ def inspect_packet(packet, *, expected_producer, expected_tree, stage, root=ROOT
         'historical-pipeline-tests','runtime-artifact-tests','historical-pipeline','stage-complete'}
     stage_names=({'rpc-preflight','source-binding','blastapi-public','mevblocker-rpc','historical-forks'}
                  if stage=='forks' else {'network-isolation','disconnected-replay'})
+    if modern and stage == 'replay': stage_names.add('rust-store-bridge')
     need(set(counts)==common|stage_names|{'command','download'}
          and all(counts[n]==1 for n in common|stage_names),'record_inventory')
     # Exact command inventory inherited from H2 plus retained-capture and four new test suites.
-    need(counts['command']==(25 if stage=='forks' else 22)
+    need(counts['command']==(25 if stage=='forks' else (23 if modern else 22))
          and counts['download']==(2 if stage=='forks' else 4),'command_inventory')
     values={r['name']:r['value'] for r in records if counts[r['name']]==1}
     need(records[0]['name']=='producer' and records[-1]['name']=='stage-complete','record_order')
@@ -120,6 +125,10 @@ def inspect_packet(packet, *, expected_producer, expected_tree, stage, root=ROOT
         need(all(type(network.get(k)) is str and re.fullmatch(r'net:\[[0-9]+\]',network[k])
                  for k in ('network_namespace','parent_network_namespace'))
              and network['network_namespace']!=network['parent_network_namespace'],'network_namespace')
+        if modern:
+            from rust_store_intake import verify_report
+            transport = verify_report(values['rust-store-bridge'], root)
+            same(transport['network'], network, 'bridge_network_disagrees')
     fields(values['stage-complete'],{'stage':stage,'status':'PHYSICAL_GATE_PASS',
         'producer':identity,'result_sha256':digest(canonical(result)),'certified_components':0},'complete')
     return {'records':len(records),'tests':{n:values[n]['tests_run'] for n in common if n.endswith('-tests')},

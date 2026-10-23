@@ -295,6 +295,18 @@ def replay(work: Path, head: str):
     run(["cargo", "+1.98.1", "fetch", "--locked"], cargo)
     run(["cargo", "+1.98.1", "test", "--workspace", "--all-targets", "--locked", "--offline"], cargo)
     run(["cargo", "+1.98.1", "build", "--workspace", "--bins", "--release", "--locked", "--offline"], cargo)
+    # Add one Omega example to a disposable copy using its unchanged lockfile.
+    # Remove it before the original clean-tree and replay gates.
+    from rust_store_intake import BRIDGE_SOURCE, EXAMPLE
+    example = build / EXAMPLE
+    require(example.parent.is_dir() and not example.exists(), 'bridge_example_destination')
+    try:
+        with example.open('xb') as f: f.write(read_regular(ROOT / BRIDGE_SOURCE))
+        run(["cargo", "+1.98.1", "build", "-p", "nqc-census-store", "--example",
+             "nqc_omega_bridge", "--release", "--locked", "--offline"], cargo)
+    finally:
+        example.unlink(missing_ok=True)
+    verify_checkout_bytes(build, head)
     out = work / "replay-result"
     parent = os.readlink("/proc/self/ns/net")
     # The historical replay exceeded the generic 20-minute process budget.
@@ -309,6 +321,10 @@ def replay(work: Path, head: str):
     require(report["code_commit"] == head, "replay_producer_mismatch")
     evidence("network-isolation", strict_json(read_regular(out / "network-isolation.json")))
     evidence("disconnected-replay", report)
+    from rust_store_intake import verify_report
+    transport = strict_json(read_regular(work / "rust-store-bridge/report.json"))
+    verify_report(transport)
+    evidence("rust-store-bridge", transport)
     return report
 
 
@@ -410,6 +426,12 @@ def main():
     args = parser.parse_args()
     if args.replay_worker:
         require(all((args.source, args.out, args.repo, args.parent)), "replay_arguments_required")
+        from rust_store_intake import exercise
+        module = load_pinned_python(ROOT / REPLAY_PATH, REPLAY_BLOB, "omega_bridge_network")
+        exercise(args.out.parent / "rust-store-bridge",
+                 args.repo / "nqc-census/target/release/examples/nqc_omega_bridge",
+                 args.repo / "nqc-census/target/release/nqc-census-store-verify",
+                 module.network_proof(args.parent))
         observed_replay(args.source, args.out, args.repo, args.parent)
         return
     if args.rpc_proxy:

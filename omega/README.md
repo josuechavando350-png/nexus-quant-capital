@@ -377,3 +377,13 @@ aprobó ambas etapas físicas H2 y la auditoría de artefactos, metadata y logs 
 [run 39889427564](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/39889427564).
 La cobertura temporal integrada es 3/9 de la muestra WETH; son diagnósticos
 originales retenidos, no tres forks temporales nuevos. Certificación: **0/36**.
+
+### H19 — transporte de evidencia al almacén Rust
+
+El adaptador conserva objetos, snapshot y journal entre Python y el almacén Rust
+original. La comprobación exige inventario externo completo porque la raíz Rust
+excluye los artefactos sin referencias. Pruebas locales: **528/528 Omega** y
+**66/66 del almacén Rust**; ida y vuelta real de **28 artefactos**, sin pérdida de
+bytes ni del estado de revocación local. La validación remota aislada y su
+auditoría final están pendientes. Ver [contrato](RUST_STORE_TRANSPORT_CONTRACT.md)
+y [auditoría H19](AUDIT_H19.md). Cero rangos certificados; producto **0/36**.
