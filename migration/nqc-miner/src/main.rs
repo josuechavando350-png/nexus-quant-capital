@@ -1,6 +1,7 @@
 use clap::{Parser, Subcommand};
 use nqc_miner::{
-    analytics, collector, config::MinerConfig, discovery, evm, ingestion, journal, reporting,
+    analytics, collector, config::MinerConfig, discovery, evm, historical, ingestion, journal,
+    reporting,
 };
 use serde::Deserialize;
 use serde_json::json;
@@ -24,6 +25,20 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Command {
+    /// Validate historical read bounds and getter scope without network access.
+    ValidateAavePlan {
+        #[arg(long)]
+        config: PathBuf,
+        #[arg(long)]
+        plan: PathBuf,
+    },
+    /// Bounded Aave account/oracle reads at exact pre-event block hashes.
+    ReadAaveState {
+        #[arg(long)]
+        config: PathBuf,
+        #[arg(long)]
+        plan: PathBuf,
+    },
     /// Show exact build identity and enforced isolation settings.
     About,
     /// Supported canonical event signatures and protocol families.
@@ -138,6 +153,22 @@ fn validate_live_build(config: &MinerConfig) -> Result<(), Box<dyn Error>> {
 
 fn run(cli: Cli) -> Result<(), Box<dyn Error>> {
     match cli.command {
+        Command::ValidateAavePlan { config, plan } => {
+            let config = MinerConfig::load(&config)?;
+            let plan: historical::AaveReadPlan = read_json(&plan)?;
+            plan.validate(&config)?;
+            print_json(
+                &json!({"valid":true,"plan":plan,"network_used":false,"activation_allowed":false}),
+            )
+        }
+        Command::ReadAaveState { config, plan } => {
+            let config = MinerConfig::load(&config)?;
+            validate_live_build(&config)?;
+            let plan: historical::AaveReadPlan = read_json(&plan)?;
+            let scope = plan.validate(&config)?;
+            let quorum = ingestion::QuorumRpc::from_scope(scope)?;
+            print_json(&historical::read_aave(&config, &plan, &quorum)?)
+        }
         Command::About => print_json(
             &json!({"name":"nqc-miner","version":env!("CARGO_PKG_VERSION"),
             "code_commit":env!("NQC_MINER_BUILD_COMMIT"),"source_dirty":env!("NQC_MINER_BUILD_DIRTY")=="true",

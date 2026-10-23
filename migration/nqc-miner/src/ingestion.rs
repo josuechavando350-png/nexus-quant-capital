@@ -21,7 +21,12 @@ const MAX_RESPONSE: u64 = 16 * 1024 * 1024;
 const MAX_RPC_ATTEMPTS: usize = 4;
 const MIN_REQUEST_GAP: Duration = Duration::from_millis(125);
 const MAX_SERVER_RETRY: Duration = Duration::from_secs(5);
-const METHODS: &[&str] = &["eth_chainId", "eth_getBlockByNumber", "eth_getLogs"];
+const METHODS: &[&str] = &[
+    "eth_chainId",
+    "eth_getBlockByNumber",
+    "eth_getLogs",
+    "eth_call",
+];
 
 fn retryable_status(status: StatusCode) -> bool {
     matches!(status.as_u16(), 408 | 425 | 429 | 500 | 502 | 503 | 504)
@@ -133,6 +138,9 @@ impl ReadRpc for HttpRpc {
             return Err(IngestError::Rejected(
                 "method is not in the read-only allowlist".into(),
             ));
+        }
+        if method == "eth_call" {
+            crate::historical::validate_call_params(&params)?;
         }
         let body = json!({"jsonrpc":"2.0", "id":1, "method":method, "params":params});
         // A failed chunk never advances its cursor. Requests are paced and retries stay bounded.
@@ -283,6 +291,46 @@ pub struct QuorumRpc {
 }
 
 impl QuorumRpc {
+    pub fn chain_id(&self) -> u64 {
+        self.chain_id
+    }
+
+    /// Exact bytes from all configured providers. No latest/number fallback.
+    pub fn pinned_call(
+        &self,
+        block_hash: &str,
+        to: &str,
+        data: &str,
+    ) -> Result<crate::historical::CallEvidence, IngestError> {
+        let params = crate::historical::call_params(block_hash, to, data);
+        crate::historical::validate_call_params(&params)?;
+        let mut replies = Vec::new();
+        let mut accepted: Option<String> = None;
+        for provider in &self.providers {
+            let response = provider.call("eth_call", params.clone())?;
+            let raw = response
+                .as_str()
+                .ok_or_else(|| IngestError::Rejected("call result must be ABI bytes".into()))?;
+            if raw.len() > 2 + 6 * 64 {
+                return Err(IngestError::Rejected(
+                    "call result exceeds supported ABI bound".into(),
+                ));
+            }
+            let bytes = discovery::decode_hex(raw)
+                .map_err(|_| IngestError::Rejected("malformed call result".into()))?;
+            let normalized = crate::historical::hex(&bytes);
+            if accepted.as_ref().is_some_and(|prior| prior != &normalized) {
+                return Err(IngestError::Disagreement("historical call bytes".into()));
+            }
+            accepted = Some(normalized.clone());
+            replies.push(crate::historical::ProviderReply {
+                provider_id: provider.id().into(),
+                result: normalized,
+            });
+        }
+        Ok(crate::historical::CallEvidence { params, replies })
+    }
+
     pub fn new(chain_id: u64, providers: Vec<Box<dyn ReadRpc>>) -> Result<Self, IngestError> {
         if chain_id == 0
             || !(2..=4).contains(&providers.len())

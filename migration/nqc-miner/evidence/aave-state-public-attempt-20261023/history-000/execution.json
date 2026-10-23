@@ -1,0 +1,83 @@
+{
+  "schema": "nqc-miner-aave-read-attempt-v1",
+  "producer": "nqc-miner",
+  "namespace": "nqc_miner_v1",
+  "started_at_utc": "2026-10-23T00:39:35.876605+00:00",
+  "completed_at_utc": "2026-10-23T00:40:03.222165+00:00",
+  "status": "returned_report_requires_offline_audit",
+  "binary_sha256": "b199f60e13d64e39dd8b66f2f5cf32e63fa6df2d1a9f27d54a1339cb992a7af0",
+  "binary_and_inputs_unchanged": true,
+  "input_sha256": {
+    "template": "7682d2790d88b3a8e6ab9d65f68f1825ce1bf6017b5daece83c52883222cb53b",
+    "plan": "d123f4f730c62a089726fe3246796ee6391a55e3626364b828cc05e852da4a83"
+  },
+  "checks": [
+    {
+      "name": "about-before",
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.008,
+      "command": [
+        "/workspace/scratch/1372b3d66995/tmp/miner-target/debug/nqc-miner",
+        "about"
+      ]
+    },
+    {
+      "name": "validate-plan",
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.01,
+      "command": [
+        "/workspace/scratch/1372b3d66995/tmp/miner-target/debug/nqc-miner",
+        "validate-aave-plan",
+        "--config",
+        "/workspace/scratch/1372b3d66995/nqc-miner-work/migration/nqc-miner/evidence/aave-state-public-attempt-20261023/history-000/config.json",
+        "--plan",
+        "/workspace/scratch/1372b3d66995/nqc-miner-work/migration/nqc-miner/evidence/aave-state-public-attempt-20261023/history-000/plan.json"
+      ]
+    },
+    {
+      "name": "read-state",
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 27.146,
+      "command": [
+        "/workspace/scratch/1372b3d66995/tmp/miner-target/debug/nqc-miner",
+        "read-aave-state",
+        "--config",
+        "/workspace/scratch/1372b3d66995/nqc-miner-work/migration/nqc-miner/evidence/aave-state-public-attempt-20261023/history-000/config.json",
+        "--plan",
+        "/workspace/scratch/1372b3d66995/nqc-miner-work/migration/nqc-miner/evidence/aave-state-public-attempt-20261023/history-000/plan.json"
+      ]
+    },
+    {
+      "name": "about-after",
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.007,
+      "command": [
+        "/workspace/scratch/1372b3d66995/tmp/miner-target/debug/nqc-miner",
+        "about"
+      ]
+    }
+  ],
+  "report_returned": true,
+  "source_and_report_audit_completed": false,
+  "transport_context": "public_rpc",
+  "new_certified_measurements": 0,
+  "observer_bridge_enabled": false,
+  "economic_certification": false,
+  "activation_allowed": false,
+  "files": {
+    "about-after.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "about-after.stdout": "af164ea14184c4a3f919604864fa86a8917ecdbac337cf1e94fd5bbb4d529d2f",
+    "about-before.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "about-before.stdout": "af164ea14184c4a3f919604864fa86a8917ecdbac337cf1e94fd5bbb4d529d2f",
+    "config.json": "9e92cd9fa1a74ac5de7118d3ef22b277f485da8132894c41232bfc7e587b3dba",
+    "plan.json": "ec4d0c29415279145d8c4bd90cfda81005e85ca83cb2b97c5d02a512d3942e12",
+    "read-state.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "read-state.stdout": "10df2238dcfd9aa82eae16e042fc3ee61a4e3de21d2207adf70b7d78bf768049",
+    "validate-plan.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validate-plan.stdout": "cc4b996278d5b5d257f005c01b1fd7541419d2d31ec1c69c00ca2c5fc7029e92"
+  }
+}

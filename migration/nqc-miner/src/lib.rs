@@ -9,6 +9,7 @@ pub mod config;
 pub mod controls;
 pub mod discovery;
 pub mod evm;
+pub mod historical;
 pub mod ingestion;
 pub mod journal;
 pub mod reporting;

@@ -759,6 +759,24 @@ fn nonretryable_http_failure_is_single_shot_and_redacts_endpoint() {
 }
 
 #[test]
+fn pinned_getter_runs_over_actual_http_transport() {
+    let body = format!(r#"{{"jsonrpc":"2.0","id":1,"result":"0x{:064x}"}}"#, 100u64);
+    let (url, hits, handle) = local_http_rpc(vec![http_response("200 OK", "", &body)]);
+    let rpc = ingestion::HttpRpc::new("fixture-getter", &url).unwrap();
+    let params = nqc_miner::historical::call_params(
+        &format!("0x{:064x}", 1),
+        &format!("0x{:040x}", 1),
+        &nqc_miner::historical::calldata("BASE_CURRENCY_UNIT()", None).unwrap(),
+    );
+    assert_eq!(
+        rpc.call("eth_call", params).unwrap(),
+        json!(format!("0x{:064x}", 100u64))
+    );
+    handle.join().unwrap();
+    assert_eq!(hits.load(Ordering::SeqCst), 1);
+}
+
+#[test]
 fn rpc_method_allowlist_and_url_rules_prevent_signing() {
     let rpc = ingestion::HttpRpc::new("local", "http://127.0.0.1:1").unwrap();
     for method in [

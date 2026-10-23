@@ -20,7 +20,7 @@
       "remaining_points": 10,
       "acceptance": "Sufficient complete measurements with eligibility, gas/tips, prices and calibrated saturation; a bounded public sample does not close this gate",
       "dependency": "development_and_real_measurements",
-      "next_step": "Extend auxiliary Ethereum gas measurement to authenticated receipt/header evidence and rollup fee models; complete missing membership, protocol-specific prices, positions, eligibility and direct builder payments. Collect sufficient multi-chain data and calibrate on reserved observations. Current sample retains two measured fees and one unknown; no phase credit.",
+      "next_step": "Use the audited 48 Aave pre-event states as bounded historical observations; reconstruct intra-block state and protocol-specific executable eligibility, verify oracle freshness and authentic receipt/header evidence, add rollup fee models and direct builder payments. Collect sufficient multi-chain data and calibrate on reserved observations. Existing two measured fees and three event histories do not close this gate.",
       "status": "open"
     },
     {
@@ -28,7 +28,7 @@
       "remaining_points": 8,
       "acceptance": "Actual workflow integration and historical price/position/execution reconstruction with certified adapters",
       "dependency": "development_and_runtime",
-      "next_step": "Implement a dedicated workflow worker plus historical state/price/position reconstruction; differential-check causal execution against certified protocol adapters.",
+      "next_step": "Integrate a dedicated workflow worker and extend the now-executed end-of-block Aave history to intra-block positions/prices/execution with authenticated state and certified protocol adapters; differential-check causal execution.",
       "status": "open"
     },
     {

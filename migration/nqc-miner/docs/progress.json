@@ -4,7 +4,7 @@
   "denominator": 100,
   "global_completion_percent": 43,
   "method": "Weighted engineering estimate with explicit operational phase exits, not a percentage of lines written",
-  "status": "audited_native_sync_worker_and_partial_auxiliary_gas_measurement",
+  "status": "audited_aave_historical_health_and_oracle_reads",
   "items": [
     {
       "phase": "scope",
@@ -48,7 +48,7 @@
       "weight": 10,
       "earned": 0,
       "acceptance": "Sufficient complete measurements with eligibility, gas/tips, prices and calibrated saturation; a bounded public sample does not close this gate",
-      "implementation_status": "Offline Ethereum type-2 fee adapter implemented: exact integer accounting, transaction deduplication, source binding and incomplete membership rejection. Six retained Blockscout responses enrich the existing three-event capture: two auxiliary fees measured, one unknown. No prices, eligibility, direct builder payments or calibration; earned remains 0/10."
+      "implementation_status": "Offline Ethereum type-2 fee adapter implemented: exact integer accounting, transaction deduplication, source binding and incomplete membership rejection. Six retained Blockscout responses enrich the existing three-event capture: two auxiliary fees measured, one unknown. No prices, eligibility, direct builder payments or calibration; earned remains 0/10. Aave bounded EIP-1898 reader now executed and audited: 48 distinct pre-event end-of-block states, 336 agreed getters and 672 provider replies for the same three Ethereum events. Original journal binding and exact plan/export replay verified; health and oracle prices do not certify executable eligibility, freshness or profit. No added phase credit."
     },
     {
       "phase": "B",
@@ -69,7 +69,8 @@
       "id": "temporal_and_causal_wind_tunnel",
       "weight": 8,
       "earned": 0,
-      "acceptance": "Actual workflow integration and historical price/position/execution reconstruction with certified adapters"
+      "acceptance": "Actual workflow integration and historical price/position/execution reconstruction with certified adapters",
+      "implementation_status": "Bounded pre-event Aave account/oracle reconstruction implemented and publicly exercised. Per-block providers, hashes, units and non-monotonic health episodes retained. Intra-block state, protocol execution/certification and dedicated workflow integration remain open."
     },
     {
       "phase": "B",
@@ -217,7 +218,11 @@
     "docs/closure-plan.json",
     "docs/gas-measurement.md",
     "docs/AUDIT_GAS_MEASUREMENT_20261023.md",
-    "evidence/gas-measurement-20261023/verification.json"
+    "evidence/gas-measurement-20261023/verification.json",
+    "docs/aave-historical-state.md",
+    "docs/AUDIT_AAVE_STATE_20261023.md",
+    "evidence/aave-state-audit-20261023/summary.json",
+    "evidence/aave-state-audit-20261023/public-read-audit.json"
   ],
   "notes": [
     "An implemented primitive is not an operational phase exit.",
@@ -243,7 +248,8 @@
     "Collection importer preparation: latest published archive receipt, explicit archive/database UUIDs, real Rust/Polars verification and parent-revocation bundles. 14 new preparation regressions and four runner checks; 146 Python tests total. The existing historical collection prepares as three windows/eight records without changing its 46 archive files. A new additive PostgreSQL migration and 33-assertion Termux runner are prepared but have NOT executed on PostgreSQL. No new RPC observations or progress credit; remains 42/100 until returned runtime evidence is audited.",
     "Collection runtime audit supersedes the earlier pending-runtime preparation note for source e4700af5 only: 44 manifest hashes, seven pinned inputs, 12 artificial Rust-verified packages, 33 SQL checks, 14 returned results, five permission denials, concurrency, second-window rollback, owned-backend interruption/retry, all rows/receipts/revocations/eligibility and orderly restart/shutdown pass. 160 Python tests include 14 new offline auditor regressions. +1 infrastructure point: 43/100, infrastructure 5/6. No new RPC observations, production integration or operational/economic phase exit; Observer remains untouched.",
     "Local collection sync implementation prepared: paused collector capture, latest-receipt revalidation, real Rust/Polars preparation and cooperative locks through delivery. New standard-library client pins the local database/client/functions, generates fixed SQL, requires post-COMMIT readback, and treats missing/ambiguous acknowledgments as unknown. 189 Python tests pass (29 new); database-boundary tests explicitly use a fake client/socket metadata. A separate 17-check native Termux/PostgreSQL runner is prepared but NOT executed. No added runtime/production credit; remains 43/100. No Observer changes, new RPC observations, provisioning, relay, signing or spending.",
-    "The native sync audit supersedes pending native-client execution only for a1fb66a4: 74 manifest hashes, eight pinned inputs, 17 checks, 16 attempts, original rows and restart/shutdown verified. The bounded worker now reconciles before any poll and after failures, stops on uncertainty/revocation/capacity, retains incomplete sessions and excludes concurrent workers. Its new tests use actual Rust/Polars/storage and explicit RPC/SQL doubles; full real-service orchestration and all operational/economic exits remain open. The original weighted estimate is unchanged at 43/100; no relabeling of synthetic data or reweighting of gates."
+    "The native sync audit supersedes pending native-client execution only for a1fb66a4: 74 manifest hashes, eight pinned inputs, 17 checks, 16 attempts, original rows and restart/shutdown verified. The bounded worker now reconciles before any poll and after failures, stops on uncertainty/revocation/capacity, retains incomplete sessions and excludes concurrent workers. Its new tests use actual Rust/Polars/storage and explicit RPC/SQL doubles; full real-service orchestration and all operational/economic exits remain open. The original weighted estimate is unchanged at 43/100; no relabeling of synthetic data or reweighting of gates.",
+    "Aave historical continuation: 167 Rust and 242 Python tests pass. Native collection runner remains byte-identical to the audited Termux delivery; its regression now distinguishes current-verifier reproducibility from historical-build identity. Public reads add 48 distinct states to the same three events, with source-bound offline audit. No new liquidations, executable eligibility, economic certification or phase exit. Global weighted progress remains 43/100."
   ],
   "historical_audit_notes_superseded_for_a841261": [
     "HTTP pacing/retry/redaction, run-config identity binding and rand 0.8.6 remediation are published but receive no progress credit until rebuilt and fully tested.",

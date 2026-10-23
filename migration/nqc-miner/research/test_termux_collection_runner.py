@@ -44,12 +44,30 @@ class TermuxCollectionRunnerTests(unittest.TestCase):
         self.assertFalse(report['economic_evidence'])
         self.assertFalse(report['postgres_executed'])
 
-    def test_repeat_build_matches_delivery_byte_for_byte(self):
+    def test_repeat_build_is_identical_for_same_verifier_and_sources(self):
         script, inputs, labels = builder.render(self.binary)
         self.assertEqual(script, self.script)
         self.assertEqual(inputs, self.inputs)
         self.assertEqual(labels, self.labels)
-        self.assertEqual(script, (builder.ROOT / 'scripts/nqc-miner-collection-check.sh').read_text())
+
+    def test_current_verifier_binding_and_original_delivery_are_preserved(self):
+        # The historical native run pins its original executable. A new build
+        # must change generated fixture provenance, not rewrite that evidence.
+        current = json.loads(self.inputs['fixture-verification.json'])
+        binary_sha = hashlib.sha256(self.binary.read_bytes()).hexdigest()
+        about = json.loads(subprocess.check_output([str(self.binary), 'about']))
+        for fixture in current['fixtures'].values():
+            self.assertEqual(fixture['manifest']['verifier_sha256'], binary_sha)
+            self.assertEqual(fixture['manifest']['verifier_build'], about)
+        delivered = (builder.ROOT / 'scripts/nqc-miner-collection-check.sh').read_bytes()
+        native = json.loads((builder.ROOT / 'evidence/termux-collection-20261022/audit.json').read_bytes())
+        self.assertEqual(hashlib.sha256(delivered).hexdigest(), native['runner_sha256'])
+        old = json.loads(extract(delivered.decode())['fixture-verification.json'])
+        for fixture in old['fixtures'].values():
+            self.assertEqual(fixture['manifest']['verifier_sha256'],
+                             '47292cd97732d246099b63f07cea6dc128dfd5612efe3341a6cefb4e631d4548')
+        if binary_sha == '47292cd97732d246099b63f07cea6dc128dfd5612efe3341a6cefb4e631d4548':
+            self.assertEqual(self.script.encode(), delivered)
 
     def test_bash_syntax_and_foreign_environment_guard(self):
         with tempfile.TemporaryDirectory(prefix='nqc-collection-runner-') as work:
