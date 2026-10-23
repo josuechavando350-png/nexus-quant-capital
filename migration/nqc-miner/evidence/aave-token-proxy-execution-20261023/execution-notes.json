@@ -1,0 +1,14 @@
+{
+  "initial_targeted_result": "15 passed, 1 failed",
+  "initial_failure": "The test supplied the debt supply slot 58 to the aToken getter, which correctly rejected the missing slot 54 witness.",
+  "correction": "Read each token supply slot from its independently audited compiler storage layout. No fabricated zero slot or contract-source modification.",
+  "final_targeted_result": "16 passed, 0 failed, 0 ignored",
+  "new_rust_tests": 8,
+  "new_python_tests": 7,
+  "rust_new_attempts": 654,
+  "rust_new_successes": 634,
+  "rust_new_reverts": 18,
+  "rust_new_missing_witness_errors": 2,
+  "synthetic_example_gas": 215726,
+  "historical_state_authenticated": false
+}

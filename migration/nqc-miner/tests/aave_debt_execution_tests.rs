@@ -1,5 +1,6 @@
 //! Combined original Pool debt function + exact deployed token/strategy runtimes.
-//! Only Pool entrypoint, forwarding proxy, rewards behavior and state are synthetic.
+//! Original cases use a synthetic proxy; additional cases use the audited proxy.
+//! Pool entrypoint, rewards behavior and execution state remain synthetic.
 use alloy_primitives::{keccak256, U256};
 use nqc_miner::{aave_debt::*, discovery::decode_hex, evm::*, historical::hex};
 use rand::{Rng, SeedableRng};
@@ -22,6 +23,14 @@ fn addr(value: &str) -> U256 {
 }
 fn fixture() -> Value {
     serde_json::from_str(include_str!("../fixtures/aave_debt_execution.json")).unwrap()
+}
+fn proxy_fixture() -> Value {
+    serde_json::from_str(include_str!("../fixtures/aave_proxy_execution.json")).unwrap()
+}
+const ADMIN: &str = "0x64b761d848206f447fe2dd461b0c635ec39ebb27";
+const ALTERNATE: &str = "0x4444444444444444444444444444444444444444";
+fn implementation_slot() -> U256 {
+    U256::from_be_bytes(keccak256("eip1967.proxy.implementation").0) - U256::from(1)
 }
 fn encoded(values: &[U256]) -> String {
     "0x".to_owned()
@@ -89,7 +98,20 @@ fn setup(c: &Case, f: &Value) -> (PinnedSnapshot, SandboxCall) {
     let code = |name: &str| f["contracts"][name]["runtime_code"].as_str().unwrap();
     let mut pool = account(POOL, code("AaveDebtExecutionHarness"));
     pool.storage = (0..=10).map(|n| (n.to_string(), "0".into())).collect();
-    let mut token = account(TOKEN, code("SyntheticDebtProxy"));
+    let audited_proxy = f["contracts"].get("AuditedDebtProxy").is_some();
+    let mut token = account(
+        TOKEN,
+        code(if audited_proxy {
+            "AuditedDebtProxy"
+        } else {
+            "SyntheticDebtProxy"
+        }),
+    );
+    if audited_proxy {
+        token
+            .storage
+            .insert(implementation_slot().to_string(), addr(IMPL).to_string());
+    }
     token.storage.insert(
         mapping(USER, 56).to_string(),
         (c.balance | (U256::from(c.delegation) << 120usize) | (c.previous_index << 128usize))
@@ -557,6 +579,9 @@ fn actual_token_only_pool_guard_and_closed_state_missing_dependencies() {
 #[test]
 fn seeded_combined_execution_covers_rounding_usage_branches_and_packed_user_state() {
     let f = fixture();
+    seeded_cases(&f);
+}
+fn seeded_cases(f: &Value) {
     let mut rng = ChaCha8Rng::seed_from_u64(0x000a_11ce_b0de);
     for i in 0..600 {
         let balance = rng.gen_range(10u128..1_000_000_000_000);
@@ -586,7 +611,7 @@ fn seeded_combined_execution_covers_rounding_usage_branches_and_packed_user_stat
         } else if i % 3 == 1 {
             c.previous_index = c.index;
         }
-        check_success(&c, &f);
+        check_success(&c, f);
     }
     println!("600 seeded combined executions: exact outputs, complete logs and all changed contract slots; no historical eligibility claim");
 }
@@ -634,4 +659,335 @@ fn real_strategy_kink_zero_total_and_maximum_packed_balance() {
         ..Case::default()
     };
     check_success(&c, &f);
+}
+
+fn assert_no_contract_changes(out: &SandboxOutcome) {
+    assert!(out.logs.is_empty());
+    assert!(out.account_deltas.iter().all(|d| d.storage.is_empty()));
+}
+fn direct_proxy(caller: &str, calldata: String) -> (PinnedSnapshot, SandboxCall) {
+    let (mut s, mut q) = setup(&Case::default(), &proxy_fixture());
+    s.accounts.push(account(ADMIN, "0x"));
+    q.caller = caller.into();
+    q.to = TOKEN.into();
+    q.calldata = calldata;
+    (s, q)
+}
+fn abi_string_error(message: &str) -> String {
+    let mut data = message.as_bytes().to_vec();
+    data.resize(data.len().div_ceil(32) * 32, 0);
+    selector("Error(string)")
+        + &encoded(&[U256::from(32), U256::from(message.len())])[2..]
+        + &hex(&data)[2..]
+}
+fn address_bytes_call(signature: &str, address: &str, data: &str) -> String {
+    let mut bytes = decode_hex(data).unwrap();
+    let size = bytes.len();
+    bytes.resize(size.div_ceil(32) * 32, 0);
+    selector(signature)
+        + &encoded(&[addr(address), U256::from(64), U256::from(size)])[2..]
+        + &hex(&bytes)[2..]
+}
+#[test]
+fn audited_proxy_executes_complete_debt_case_and_exports_reproducible_example() {
+    let f = proxy_fixture();
+    let c = Case::default();
+    let out = check_success(&c, &f);
+    if let Ok(path) = std::env::var("NQC_MINER_PROXY_EVIDENCE_DIR") {
+        let directory = std::path::Path::new(&path);
+        std::fs::create_dir(directory).unwrap();
+        let (snapshot, call) = setup(&c, &f);
+        let input = serde_json::json!({"snapshot":snapshot,"call":call});
+        for (name, bytes) in [
+            ("input.json", serde_json::to_vec_pretty(&input).unwrap()),
+            ("output.json", serde_json::to_vec_pretty(&out).unwrap()),
+        ] {
+            use std::io::Write;
+            let mut file = std::fs::File::create_new(directory.join(name)).unwrap();
+            file.write_all(&bytes).unwrap();
+            file.write_all(b"\n").unwrap();
+        }
+    }
+}
+#[test]
+fn audited_proxy_runs_600_seeded_debt_token_rate_cases() {
+    seeded_cases(&proxy_fixture());
+}
+#[test]
+fn audited_proxy_bubbles_token_callback_and_later_failures_with_full_rollback() {
+    let f = proxy_fixture();
+    for (mode, error) in [
+        (1, selector("RewardsRejected()")),
+        (2, "0x".into()),
+        (3, selector("CallerMustBePool()")),
+    ] {
+        check_revert(
+            &Case {
+                rewards_mode: mode,
+                ..Case::default()
+            },
+            &f,
+            &error,
+        );
+    }
+    for c in [
+        Case {
+            factor: U256::from(10001),
+            ..Case::default()
+        },
+        Case {
+            virtual_balance: U256::from(u128::MAX),
+            ..Case::default()
+        },
+        Case {
+            total: U256::from(1),
+            ..Case::default()
+        },
+    ] {
+        check_revert(&c, &f, &panic());
+    }
+    check_revert(
+        &Case {
+            repayment: U256::from(1),
+            ..Case::default()
+        },
+        &f,
+        &selector("InvalidBurnAmount()"),
+    );
+}
+#[test]
+fn ten_historical_proxy_code_slot_samples_dispatch_to_actual_token_getters() {
+    let f = proxy_fixture();
+    let samples = f["proxy_samples"].as_array().unwrap();
+    assert_eq!(samples.len(), 10);
+    for sample in samples {
+        let address = sample["proxy"].as_str().unwrap();
+        let target = sample["implementation"].as_str().unwrap();
+        let contract = if sample["kind"] == "a_token" {
+            "ATokenInstance"
+        } else {
+            "VariableDebtTokenInstance"
+        };
+        let (mut s, mut q) = direct_proxy(CALLER, selector("scaledTotalSupply()"));
+        s.accounts
+            .retain(|a| a.address != TOKEN && a.address != IMPL);
+        let mut proxy = account(
+            address,
+            f["contracts"]["AuditedDebtProxy"]["runtime_code"]
+                .as_str()
+                .unwrap(),
+        );
+        assert_eq!(sample["implementation_slot_word"], encoded(&[addr(target)]));
+        proxy
+            .storage
+            .insert(implementation_slot().to_string(), addr(target).to_string());
+        let supply_slot = f["contracts"][contract]["storage_layout"]["storage"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|field| field["label"] == "_totalSupply")
+            .unwrap()["slot"]
+            .as_str()
+            .unwrap();
+        proxy.storage.insert(supply_slot.into(), "123456".into());
+        s.accounts.push(proxy);
+        s.accounts.push(account(
+            target,
+            f["contracts"][contract]["runtime_code"].as_str().unwrap(),
+        ));
+        q.to = address.into();
+        for (caller, signature, expected) in [
+            (CALLER, "scaledTotalSupply()", U256::from(123456)),
+            (ADMIN, "admin()", addr(ADMIN)),
+            (ADMIN, "implementation()", addr(target)),
+        ] {
+            q.caller = caller.into();
+            q.calldata = selector(signature);
+            let out = simulate(&s, &q).unwrap();
+            assert_eq!(out.status, VmStatus::Success, "{address} {signature}");
+            assert_eq!(out.output, encoded(&[expected]));
+            assert_no_contract_changes(&out);
+            assert!(!out.canonical_state_authenticated);
+        }
+    }
+}
+#[test]
+fn immutable_admin_cannot_fallback_and_nonadmin_cannot_use_proxy_admin_routes() {
+    for data in [
+        selector("scaledTotalSupply()"),
+        "0x12345678".into(),
+        "0x".into(),
+    ] {
+        let (s, q) = direct_proxy(ADMIN, data);
+        let out = simulate(&s, &q).unwrap();
+        assert_eq!(out.status, VmStatus::Revert);
+        assert_eq!(
+            out.output,
+            abi_string_error("Cannot call fallback function from the proxy admin")
+        );
+        assert_no_contract_changes(&out);
+    }
+    for data in [
+        selector("admin()"),
+        selector("implementation()"),
+        selector("upgradeTo(address)") + &encoded(&[addr(IMPL)])[2..],
+        address_bytes_call(
+            "upgradeToAndCall(address,bytes)",
+            IMPL,
+            &selector("scaledTotalSupply()"),
+        ),
+    ] {
+        let (s, q) = direct_proxy(CALLER, data);
+        let out = simulate(&s, &q).unwrap();
+        assert_eq!(out.status, VmStatus::Revert);
+        assert_eq!(out.output, "0x");
+        assert_no_contract_changes(&out);
+    }
+}
+#[test]
+fn actual_proxy_upgrade_changes_slot_and_dispatches_locally_without_touching_implementation() {
+    let f = proxy_fixture();
+    let (mut s, q) = direct_proxy(
+        ADMIN,
+        selector("upgradeTo(address)") + &encoded(&[addr(ALTERNATE)])[2..],
+    );
+    s.accounts.push(account(
+        ALTERNATE,
+        f["contracts"]["VariableDebtTokenInstance"]["runtime_code"]
+            .as_str()
+            .unwrap(),
+    ));
+    let out = simulate(&s, &q).unwrap();
+    assert_eq!(out.status, VmStatus::Success);
+    assert_eq!(out.output, "0x");
+    assert_eq!(
+        out.logs,
+        vec![event(TOKEN, "Upgraded(address)", &[ALTERNATE], &[])]
+    );
+    let changed: BTreeMap<_, _> = out
+        .account_deltas
+        .iter()
+        .filter(|d| !d.storage.is_empty())
+        .map(|d| (d.address.clone(), d.storage.clone()))
+        .collect();
+    assert_eq!(
+        changed,
+        BTreeMap::from([(
+            TOKEN.into(),
+            BTreeMap::from([(
+                implementation_slot().to_string(),
+                addr(ALTERNATE).to_string()
+            )])
+        )])
+    );
+    let token = s.accounts.iter_mut().find(|a| a.address == TOKEN).unwrap();
+    token.storage.insert(
+        implementation_slot().to_string(),
+        addr(ALTERNATE).to_string(),
+    );
+    // Removing the old target proves that the subsequent getter follows the slot.
+    s.accounts.retain(|a| a.address != IMPL);
+    let mut q = q;
+    q.caller = CALLER.into();
+    q.calldata = selector("scaledTotalSupply()");
+    let out = simulate(&s, &q).unwrap();
+    assert_eq!(out.status, VmStatus::Success);
+    assert_eq!(out.output, encoded(&[U256::from(1000)]));
+    assert_no_contract_changes(&out);
+}
+#[test]
+fn proxy_upgrade_and_call_failure_rolls_back_slot_and_event_and_reinitialization_fails() {
+    let f = proxy_fixture();
+    for data in [
+        selector("scaledTotalSupply()"),
+        selector("burn(address,uint256,uint256)")
+            + &encoded(&[addr(USER), U256::from(1), U256::from(RAY)])[2..],
+    ] {
+        let (mut s, q) = direct_proxy(
+            ADMIN,
+            address_bytes_call("upgradeToAndCall(address,bytes)", ALTERNATE, &data),
+        );
+        s.accounts.push(account(
+            ALTERNATE,
+            f["contracts"]["VariableDebtTokenInstance"]["runtime_code"]
+                .as_str()
+                .unwrap(),
+        ));
+        let out = simulate(&s, &q).unwrap();
+        assert_eq!(out.output, "0x");
+        if data == selector("scaledTotalSupply()") {
+            assert_eq!(out.status, VmStatus::Success);
+            assert_eq!(
+                out.logs,
+                vec![event(TOKEN, "Upgraded(address)", &[ALTERNATE], &[])]
+            );
+            let storage: BTreeMap<_, _> = out
+                .account_deltas
+                .iter()
+                .filter(|d| !d.storage.is_empty())
+                .map(|d| (d.address.clone(), d.storage.clone()))
+                .collect();
+            assert_eq!(
+                storage,
+                BTreeMap::from([(
+                    TOKEN.into(),
+                    BTreeMap::from([(
+                        implementation_slot().to_string(),
+                        addr(ALTERNATE).to_string()
+                    )])
+                )])
+            );
+        } else {
+            assert_eq!(out.status, VmStatus::Revert);
+            assert_no_contract_changes(&out);
+        }
+    }
+    let (mut s, q) = direct_proxy(
+        ADMIN,
+        selector("upgradeTo(address)") + &encoded(&[addr(ALTERNATE)])[2..],
+    );
+    s.accounts.push(account(ALTERNATE, "0x"));
+    let out = simulate(&s, &q).unwrap();
+    assert_eq!(out.status, VmStatus::Revert);
+    assert_eq!(
+        out.output,
+        abi_string_error("Cannot set a proxy implementation to a non-contract address")
+    );
+    assert_no_contract_changes(&out);
+    for caller in [CALLER, ADMIN] {
+        let (s, q) = direct_proxy(
+            caller,
+            address_bytes_call("initialize(address,bytes)", IMPL, "0x"),
+        );
+        let out = simulate(&s, &q).unwrap();
+        assert_eq!(out.status, VmStatus::Revert);
+        assert_eq!(out.output, "0x");
+        assert_no_contract_changes(&out);
+    }
+}
+#[test]
+fn actual_proxy_requires_slot_and_implementation_witnesses() {
+    let f = proxy_fixture();
+    for slot_missing in [true, false] {
+        let (mut s, q) = setup(&Case::default(), &f);
+        if slot_missing {
+            s.accounts
+                .iter_mut()
+                .find(|a| a.address == TOKEN)
+                .unwrap()
+                .storage
+                .remove(&implementation_slot().to_string());
+        } else {
+            s.accounts.retain(|a| a.address != IMPL);
+        }
+        let error = simulate(&s, &q).unwrap_err().to_string();
+        assert!(
+            error.contains(if slot_missing {
+                "missing storage witness"
+            } else {
+                "missing account witness"
+            }),
+            "{error}"
+        );
+    }
 }

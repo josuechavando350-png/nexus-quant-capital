@@ -163,3 +163,5 @@ El [plan de cierre](docs/closure-plan.json) conserva los **57 puntos restantes**
 y sus criterios originales. No se han reponderado para declarar 100% a partir de
 código o fixtures: exige desarrollo e integración pendientes, mediciones reales,
 Shadow prospectivo, certificación de adaptadores y operación expresamente aprobada.
+
+The [audited token-proxy execution](docs/aave-token-proxy-execution.md) replaces the synthetic forwarder for one verified proxy family while retaining synthetic execution-state limits.
