@@ -19,6 +19,7 @@ Los datos usan exclusivamente el espacio `nqc_miner_v1`. Cada ejecución tiene d
 - Saturación y cobertura limitadas al universo declarado. Elegibilidad, propinas y precios ausentes permanecen desconocidos. Descubrir una mina después no mejora retroactivamente su cobertura.
 - Medición auxiliar de gas Ethereum con enteros exactos, vínculo al journal y coste único por transacción; [contrato y límites](docs/gas-measurement.md). La muestra retenida mide dos transacciones y conserva una tercera pendiente; no certifica rentabilidad.
 - Lectura histórica de salud y precios Aave ligada a hashes de bloques y acuerdo de proveedores; [contrato y límites](docs/aave-historical-state.md). Hay 48 estados previos auditados de los tres eventos originales; no demuestran elegibilidad ejecutable.
+- Cálculos offline de condiciones iniciales, importes de liquidación e [índices y saldos escalados Aave](docs/aave-reserve-projection.md), contrastados con Solidity. Reciben entradas suministradas y todavía no componen una certificación de liquidación completa.
 - Valuación condicional mediante bootstrap de economía diaria, con semillas reproducibles, escenarios, percentiles y costes de intentos fallidos. No sustituye una simulación completa de precios y ejecución.
 - Simulación local con REVM sobre un estado cerrado suministrado: las cuentas, slots o hashes de ancestros ausentes causan error. No se completan consultando un RPC ni suponiendo ceros.
 - Controles de ciclo de vida, caducidad, toxicidad, pruebas de adaptadores y presupuesto; asignación preparatoria por Thompson sampling.
@@ -73,6 +74,8 @@ nqc-miner topics
 nqc-miner validate-config --config /ruta/miner-config.json
 nqc-miner validate-aave-plan --config /ruta/miner-config.json --plan /ruta/plan.json
 nqc-miner read-aave-state --config /ruta/miner-config.json --plan /ruta/plan.json
+nqc-miner project-aave-reserve --input /ruta/reserva.json
+nqc-miner calculate-aave-amounts --input /ruta/importes.json
 nqc-miner scan --config /ruta/miner-config.json --state /ruta/nueva/nqc-miner-run
 nqc-miner verify-journal --state /ruta/nqc-miner-run
 nqc-miner follow --config /ruta/miner-plan.json --state /ruta/nueva/coleccion --max-polls 2

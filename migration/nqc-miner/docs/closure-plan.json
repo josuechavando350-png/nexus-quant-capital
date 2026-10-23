@@ -28,7 +28,7 @@
       "remaining_points": 8,
       "acceptance": "Actual workflow integration and historical price/position/execution reconstruction with certified adapters",
       "dependency": "development_and_runtime",
-      "next_step": "Extend the audited revision-11 initial-condition and amount kernels into the full liquidation path: index updates, scaled balances, eMode selection, collateral consumption, deficit, liquidity and token operations. Amount/fee/dust calculations are differential-checked against an extracted original Solidity segment and imported unchanged internal helper, not the full transaction. Authenticate external dependencies and transaction-boundary state, extend per-block identities, execute the actual chain fork and integrate the workflow worker.",
+      "next_step": "Compose the audited revision-11 initial-condition, amount and reserve-update kernels with verified state. Next cover eMode and aggregate health, scaled collateral consumption, fee cap, debt burn and deficit, liquidity, token transfers and post-operation rate updates. Reserve update and token balance conversion now have a synthetic original-Solidity differential harness, including repeated same-block recaching, but historical inputs/dependencies and full execution remain unauthenticated. Reconstruct transaction-boundary state under the actual fork and integrate the workflow worker.",
       "status": "open"
     },
     {
