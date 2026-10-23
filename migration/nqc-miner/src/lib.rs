@@ -2,6 +2,8 @@
 //! Synthetic, historical, shadow and realized evidence have distinct meanings.
 #![forbid(unsafe_code)]
 
+pub mod aave_amounts;
+pub mod aave_validation;
 pub mod analytics;
 pub mod bridge;
 pub mod collector;

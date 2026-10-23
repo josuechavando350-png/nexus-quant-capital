@@ -25,6 +25,16 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Command {
+    /// Offline amount kernel only; supplied balances/prices are not authenticated.
+    CalculateAaveAmounts {
+        #[arg(long)]
+        input: PathBuf,
+    },
+    /// Offline revision-11 initial conditions only; never certifies execution.
+    CheckAaveConditions {
+        #[arg(long)]
+        input: PathBuf,
+    },
     /// Validate historical read bounds and getter scope without network access.
     ValidateAavePlan {
         #[arg(long)]
@@ -153,6 +163,16 @@ fn validate_live_build(config: &MinerConfig) -> Result<(), Box<dyn Error>> {
 
 fn run(cli: Cli) -> Result<(), Box<dyn Error>> {
     match cli.command {
+        Command::CalculateAaveAmounts { input } => {
+            let value: nqc_miner::aave_amounts::AmountInput = read_json(&input)?;
+            print_json(&nqc_miner::aave_amounts::calculate(&value).map_err(std::io::Error::other)?)
+        }
+        Command::CheckAaveConditions { input } => {
+            let value: nqc_miner::aave_validation::ValidationInput = read_json(&input)?;
+            print_json(
+                &nqc_miner::aave_validation::validate(&value).map_err(std::io::Error::other)?,
+            )
+        }
         Command::ValidateAavePlan { config, plan } => {
             let config = MinerConfig::load(&config)?;
             let plan: historical::AaveReadPlan = read_json(&plan)?;

@@ -1,0 +1,35 @@
+{
+  "schema": "nqc-miner-aave-initial-conditions-v1",
+  "profile": "ethereum-aave-pool-revision-11-validation-v1",
+  "input_sha256": "65d7de6623fac0a4b45faad7bd083f7a1d0490a00a07dd8343876a14bdd16b90",
+  "reference_liquidation_runtime_sha256": "b11e141dc76358768078be0818b39d60b5b68385aed43552a617ad572e821914",
+  "conditions": [
+    {
+      "name": "different_liquidator",
+      "passed": true
+    },
+    {
+      "name": "both_reserves_active",
+      "passed": true
+    },
+    {
+      "name": "both_reserves_unpaused",
+      "passed": true
+    },
+    {
+      "name": "both_grace_periods_expired",
+      "passed": true
+    },
+    {
+      "name": "health_below_one",
+      "passed": false
+    }
+  ],
+  "initial_conditions_passed": false,
+  "first_error": "HealthFactorNotBelowThreshold",
+  "revert_selector": "0x930bb771",
+  "input_state_authenticated": false,
+  "input_implementation_verified": false,
+  "executable_eligibility_verified": false,
+  "activation_allowed": false
+}

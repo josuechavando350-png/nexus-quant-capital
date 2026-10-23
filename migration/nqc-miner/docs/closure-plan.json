@@ -28,7 +28,7 @@
       "remaining_points": 8,
       "acceptance": "Actual workflow integration and historical price/position/execution reconstruction with certified adapters",
       "dependency": "development_and_runtime",
-      "next_step": "Use the audited compiled equivalence of the sampled revision-11 pool and five linked libraries (separate Cancun/Shanghai profiles); extend identity checks to every state used and external dependencies. Reconstruct authenticated intra-block positions/prices/execution and version-specific rules, then differential-check certified adapters and integrate a dedicated workflow worker. Three sampled blocks and bytecode equivalence alone do not close this gate.",
+      "next_step": "Extend the audited revision-11 initial-condition and amount kernels into the full liquidation path: index updates, scaled balances, eMode selection, collateral consumption, deficit, liquidity and token operations. Amount/fee/dust calculations are differential-checked against an extracted original Solidity segment and imported unchanged internal helper, not the full transaction. Authenticate external dependencies and transaction-boundary state, extend per-block identities, execute the actual chain fork and integrate the workflow worker.",
       "status": "open"
     },
     {
@@ -44,7 +44,7 @@
       "remaining_points": 4,
       "acceptance": "Quarantined generation, actual differential protocol testing and Foundry fuzzing",
       "dependency": "development_and_toolchain",
-      "next_step": "Build quarantined adapter generation and run actual Foundry differential/property/fuzz tests against authenticated protocol implementations.",
+      "next_step": "Extend the quarantined initial-validation harness to the full liquidation adapter and authenticated dependencies; run actual Foundry differential/property/fuzz tests. Current REVM differential execution covers only initial conditions and earns no certification points.",
       "status": "open"
     },
     {
