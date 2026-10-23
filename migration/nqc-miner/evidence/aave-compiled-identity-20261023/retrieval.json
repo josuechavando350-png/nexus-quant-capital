@@ -1,0 +1,24 @@
+{
+  "schema": "nqc-miner-source-retrieval-v1",
+  "records": [
+    {
+      "file": "source.json.gz",
+      "source_url": "https://sourcify.dev/server/v2/contract/1/0x728a138a4823392c2efa55e028d434f526fe03cf?fields=all",
+      "raw_sha256": "59ecb729ac98a438846769b2604770d14fc23c845abf1b380d942e16eb5cfdd6",
+      "raw_bytes": 1420780,
+      "local_file_completed_at_utc": "2026-10-23T01:25:20.455634+00:00"
+    },
+    {
+      "file": "compiler-list.json.gz",
+      "source_url": "https://raw.githubusercontent.com/ethereum/solc-bin/gh-pages/linux-amd64/list.json",
+      "raw_sha256": "b44c1d0e598ed0bcbf4ee49c86c5ae85b63718c1591689b02d12d7a11d45a2ac",
+      "raw_bytes": 48234,
+      "local_file_completed_at_utc": "2026-10-23T01:26:54.388887+00:00"
+    }
+  ],
+  "compiler_url": "https://raw.githubusercontent.com/ethereum/solc-bin/gh-pages/linux-amd64/solc-linux-amd64-v0.8.27+commit.40a35a09",
+  "compiler_bytes": 15753912,
+  "compiler_sha256": "b9977d500c17cba6f0032ca939ef98c4decf6363f19f386d05fb02f708115264",
+  "fallback_reason": "binaries.soliditylang.org list.json returned HTTP 403; GitHub connector could not read the official mirror file; downloaded the same official solc-bin mirror through HTTPS.",
+  "compiler_binary_retained_in_repository": false
+}

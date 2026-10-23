@@ -1,0 +1,35 @@
+{
+  "schema": "nqc-miner-source-rule-excerpts-v1",
+  "source": "source.json.gz",
+  "entries": [
+    {
+      "source_path": "lib/aave-v3-origin-private/src/contracts/protocol/libraries/logic/ValidationLogic.sol",
+      "source_sha256": "0bfb51e54f0a8589fbf24bbc03046b12ee6f189641b7a2a6f1b2874acbb2bb45",
+      "function": "validateLiquidationCall",
+      "excerpt": "ValidationLogic.validateLiquidationCall.txt",
+      "excerpt_sha256": "cc4dcadc0891676461290e34b86b13a4a7a7cfa729eb086a0aef2f4907171b4c",
+      "first_line": 253,
+      "last_line": 292
+    },
+    {
+      "source_path": "lib/aave-v3-origin-private/src/contracts/protocol/libraries/logic/LiquidationLogic.sol",
+      "source_sha256": "385c9761118ac72a443698b7b03749a60b0aa52f7b8d24478a979795afbcf9a0",
+      "function": "executeLiquidationCall",
+      "excerpt": "LiquidationLogic.executeLiquidationCall.txt",
+      "excerpt_sha256": "75315e3a1667f4cfbdb07cf6c692f95cd0ec17ba260dab56741187ab885771a9",
+      "first_line": 166,
+      "last_line": 460
+    },
+    {
+      "source_path": "lib/aave-v3-origin-private/src/contracts/protocol/pool/Pool.sol",
+      "source_sha256": "ec6dbae72f43777446d8320f94eccbc6ae1dbe5daf1942502264bf0e35ef00fc",
+      "function": "liquidationCall",
+      "excerpt": "Pool.liquidationCall.txt",
+      "excerpt_sha256": "17563e20d253c1ab72f0f9f320118b650ae18ce261dbfe2c64da532635174346",
+      "first_line": 348,
+      "last_line": 372
+    }
+  ],
+  "excerpts_are_complete_functions": true,
+  "executable_eligibility_verified": false
+}

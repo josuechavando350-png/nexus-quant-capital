@@ -4,7 +4,7 @@
   "denominator": 100,
   "global_completion_percent": 43,
   "method": "Weighted engineering estimate with explicit operational phase exits, not a percentage of lines written",
-  "status": "audited_aave_history_and_sampled_proxy_identity",
+  "status": "audited_aave_history_and_compiled_runtime_identity",
   "items": [
     {
       "phase": "scope",
@@ -70,7 +70,7 @@
       "weight": 8,
       "earned": 0,
       "acceptance": "Actual workflow integration and historical price/position/execution reconstruction with certified adapters",
-      "implementation_status": "Bounded pre-event Aave account/oracle reconstruction implemented and publicly exercised. Per-block providers, hashes, units and non-monotonic health episodes retained. Intra-block state, protocol execution/certification and dedicated workflow integration remain open."
+      "implementation_status": "Bounded pre-event Aave account/oracle reconstruction implemented and publicly exercised. Compiled runtime equivalence now verified for the sampled revision-11 pool and five linked libraries at three historical blocks through two providers (36 exact comparisons). Two local solc profiles are required: Cancun for pool/four libraries, Shanghai for reused FlashLoanLogic; the initial mismatch is retained and regression-tested. All runtime and metadata bytes compared with only compiler-declared deployment substitutions. Other blocks, external dependencies, authenticated state, intra-block execution and dedicated workflow integration remain open; no extra credit."
     },
     {
       "phase": "B",
@@ -225,7 +225,8 @@
     "evidence/aave-state-audit-20261023/public-read-audit.json",
     "docs/aave-version-gates.md",
     "evidence/aave-proxy-identity-20261023/audit.json",
-    "evidence/aave-proxy-identity-20261023/verification.json"
+    "evidence/aave-proxy-identity-20261023/verification.json",
+    "evidence/aave-compiled-identity-20261023/verification.json"
   ],
   "notes": [
     "An implemented primitive is not an operational phase exit.",
@@ -253,7 +254,8 @@
     "Local collection sync implementation prepared: paused collector capture, latest-receipt revalidation, real Rust/Polars preparation and cooperative locks through delivery. New standard-library client pins the local database/client/functions, generates fixed SQL, requires post-COMMIT readback, and treats missing/ambiguous acknowledgments as unknown. 189 Python tests pass (29 new); database-boundary tests explicitly use a fake client/socket metadata. A separate 17-check native Termux/PostgreSQL runner is prepared but NOT executed. No added runtime/production credit; remains 43/100. No Observer changes, new RPC observations, provisioning, relay, signing or spending.",
     "The native sync audit supersedes pending native-client execution only for a1fb66a4: 74 manifest hashes, eight pinned inputs, 17 checks, 16 attempts, original rows and restart/shutdown verified. The bounded worker now reconciles before any poll and after failures, stops on uncertainty/revocation/capacity, retains incomplete sessions and excludes concurrent workers. Its new tests use actual Rust/Polars/storage and explicit RPC/SQL doubles; full real-service orchestration and all operational/economic exits remain open. The original weighted estimate is unchanged at 43/100; no relabeling of synthetic data or reweighting of gates.",
     "Aave historical continuation: 167 Rust and 242 Python tests pass. Native collection runner remains byte-identical to the audited Termux delivery; its regression now distinguishes current-verifier reproducibility from historical-build identity. Public reads add 48 distinct states to the same three events, with source-bound offline audit. No new liquidations, executable eligibility, economic certification or phase exit. Global weighted progress remains 43/100.",
-    "Proxy identity continuation: 72 public read-only queries at three pre-event blocks agree on implementation 0x728a138a4823392c2efa55e028d434f526fe03cf and identical runtime bytes. Offline replay binds every record to the previously published source reports; seven probe tests pass. No assertion is made about other blocks, semantic version, compiled-source equivalence, cryptographic state authentication or executable eligibility. Rust CLI and historical native evidence are unchanged. Progress remains 43/100."
+    "Proxy identity continuation: 72 public read-only queries at three pre-event blocks agree on implementation 0x728a138a4823392c2efa55e028d434f526fe03cf and identical runtime bytes. Offline replay binds every record to the previously published source reports; seven probe tests pass. No assertion is made about other blocks, semantic version, compiled-source equivalence, cryptographic state authentication or executable eligibility. Rust CLI and historical native evidence are unchanged. Progress remains 43/100.",
+    "Compiled identity continuation: 90 bounded public read-only requests; two local compiler runs reproduce six Ethereum runtimes across three historical blocks and two providers. Preserved initial FlashLoanLogic mismatch; independently recovered its Ethereum source/settings and compiled Shanghai profile. Pool source revision is 11; semantic release tag, unique original source text (bytecodeHash=none), external dependency/state authentication and executable eligibility remain unverified. Observer unchanged; progress remains 43/100."
   ],
   "historical_audit_notes_superseded_for_a841261": [
     "HTTP pacing/retry/redaction, run-config identity binding and rand 0.8.6 remediation are published but receive no progress credit until rebuilt and fully tested.",
