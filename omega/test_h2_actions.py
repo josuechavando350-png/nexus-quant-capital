@@ -160,6 +160,24 @@ class RpcTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "HTTP 403"):
                 rpc(PROVIDERS[0][1], "eth_chainId", [])
 
+    def test_429_retries_identical_read_with_bounded_backoff(self):
+        responses=[self.fake_response(b'rate limited',b'429'),
+                   self.fake_response(b'rate limited',b'429'),
+                   self.fake_response(b'{"id":1,"result":"0x1"}')]
+        with patch('h2_actions.subprocess.run',side_effect=responses) as called, \
+             patch('h2_actions.time.sleep') as sleep:
+            self.assertEqual(rpc(PROVIDERS[0][1],'eth_chainId',[]),'0x1')
+        self.assertEqual(called.call_count,3)
+        self.assertTrue(all(c.args==called.call_args_list[0].args for c in called.call_args_list))
+        self.assertEqual([c.args[0] for c in sleep.call_args_list],[2,4])
+
+    def test_persistent_429_remains_failure_after_four_attempts(self):
+        with patch('h2_actions.subprocess.run',return_value=self.fake_response(b'limited',b'429')) as called, \
+             patch('h2_actions.time.sleep') as sleep:
+            with self.assertRaisesRegex(ValueError,'HTTP 429'):rpc(PROVIDERS[0][1],'eth_chainId',[])
+        self.assertEqual(called.call_count,4)
+        self.assertEqual([c.args[0] for c in sleep.call_args_list],[2,4,8])
+
     def test_http_200_rpc_error_or_wrong_id_does_not_pass(self):
         for body in (b'{"id":1,"error":{"code":-32000}}', b'{"id":2,"result":"0x1"}'):
             with patch("h2_actions.subprocess.run", return_value=self.fake_response(body)):

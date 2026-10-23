@@ -224,7 +224,7 @@ protegidos, ambos árboles efectivos y el commit/tree limpio exacto de NQC.
 Los recibos históricos mantienen sus identidades. El resultado es evidencia
 local de procedencia; no crea autoridad de CI ni certificación.
 
-Auditoría: **32 pruebas nuevas**, **273/273 Omega**, **528/528 Rust Census**,
+Auditoría: **32 pruebas nuevas**, **273/273 Omega**, **530/530 Rust Census**,
 **56/56 Rust PFT**, **14/14 Solidity**, más check/build release PFT y aislamiento.
 El enlace real se ejecutó contra el commit publicado `b1a093e11e92acb59c796e220786ff6346d2a1f9`.
 El commit posterior incorpora la evidencia y una prueba adicional de auditoría.
@@ -248,7 +248,7 @@ canónico autenticado. Certificación permanece en **0/36**.
 **H2 100% auditado:** run
 [39859932654](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/39859932654),
 commit `e21d528dabd83d7f14e7f236b9e6d4e3fc1706f7`, ambos jobs success.
-Omega 314/314, Rust Census 528/528, Rust PFT 56/56, Solidity 14/14, forks 4/4
+Omega 314/314, Rust Census 530/530, Rust PFT 56/56, Solidity 14/14, forks 4/4
 y replay físico byte-idéntico con fuente intacta. Identidad GitHub, compromisos,
 aislamiento y timestamps se auditaron después de la ejecución. El discovery Python
 genérico mantiene los siete errores heredados y la validación separada de 174 casos.
@@ -382,7 +382,7 @@ originales retenidos, no tres forks temporales nuevos. Certificación: **0/36**.
 
 El adaptador conserva objetos, snapshot y journal entre Python y el almacén Rust
 original. La comprobación exige inventario externo completo porque la raíz Rust
-excluye los artefactos sin referencias. Pruebas locales: **528/528 Omega** y
+excluye los artefactos sin referencias. Pruebas locales: **530/530 Omega** y
 **66/66 del almacén Rust**; ida y vuelta real de **28 artefactos**, sin pérdida de
 bytes ni del estado de revocación local. La validación remota aislada y su
 auditoría final están pendientes. Ver [contrato](RUST_STORE_TRANSPORT_CONTRACT.md)

@@ -1,7 +1,7 @@
 # H19 audit — artifact-only Rust transport
 
-Local regression passes **528/528**, including **30 new H19 tests** (27 transport
-and 3 runtime-packet cases). Local Rust store tests pass **66/66** without failures
+Local regression passes **530/530**, including **32 new H19 tests** (27 transport,
+3 runtime-packet and 2 HTTP-429 retry cases). Local Rust store tests pass **66/66** without failures
 or ignored tests. The new Rust example compiles with toolchain 1.98.1 and the
 unchanged lockfile in a disposable copy. Local isolation passes with 143 Omega
 files, 531 original files and 106 disabled historical workflows.
@@ -52,3 +52,21 @@ not isolated remote execution.
 - h19-isolation.json: SHA256 `31c7e821e300220862c3537450c77864d80ef39834d8bdc40641a2d709b0b3ad`.
 - h19-rust-tests.log: SHA256 `9e443211f82c36ba6e90449e7f12a6156c0d46a6bd221f06e71973833f432d5e`.
 - h19-independent-local-audit.json: SHA256 `46748d90334da4d7737685cd6932169d5b1426be09f7150fecec7fa71fa49cc3`.
+
+## First remote attempt and bounded RPC correction
+
+Run 39895197550, producer `1f54481ccb763a2fd1a547f84cf9fda654808085`,
+failed its forks job 120223904070 before forks because BlastAPI returned HTTP
+429 to `eth_chainId`. Mevblocker passed. This is not a successful gate. The
+full failed log is retained; the concurrent replay retains its own outcome.
+
+The read-only preflight now retries HTTP 429 up to four total attempts, waiting
+2, 4 and 8 seconds. Persistent rate limits still fail; other errors retain their
+original behavior. No provider, credentials, workflow or permission changes.
+Two regression cases verify identical-request retries and terminal failure.
+The final full local suite passes 530/530; exact-producer remote validation is
+still required after this correction.
+
+- h19-full-tests-retry-fix.json: SHA256 `642c90ebd95a68483eebd97dfbd510c8d6f8d8c5a643f5dced10277e460f929e`.
+- h19-rpc-retry-tests.json: SHA256 `e06e5a4e1c6fad7ce7eb47ae392edb9578026be035a7528e14078875b6bef64e`.
+- h19-first-forks-failed.log: SHA256 `49e94d3b57b32a3f834877e99a4f7455b81dcb9c90edae932910f11569103ce1`.

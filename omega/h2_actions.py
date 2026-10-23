@@ -198,12 +198,20 @@ def rpc(url: str, method: str, params: list):
     require(url in {p[1] for p in PROVIDERS}, "unknown_upstream")
     # Same ordinary curl transport verified on the user's phone. No proxy/tunnel
     # or credential fallback. Record endpoint and status on failure.
-    result = subprocess.run(["curl", "-q", "-sS", "--proto", "=https",
+    command = ["curl", "-q", "-sS", "--proto", "=https",
         "--connect-timeout", "10", "--max-time", "30", "--max-filesize", str(2*1024*1024),
         "-H", "Content-Type: application/json", "--data", canonical(payload).decode(),
-        "--write-out", "\n%{http_code}", url], env=clean_env(), capture_output=True, timeout=35)
-    require(result.returncode == 0, "rpc_transport_failed: " + url + " " + method)
-    data, status = result.stdout.rsplit(b"\n", 1)
+        "--write-out", "\n%{http_code}", url]
+    for attempt in range(4):
+        result = subprocess.run(command, env=clean_env(), capture_output=True, timeout=35)
+        require(result.returncode == 0, "rpc_transport_failed: " + url + " " + method)
+        data, status = result.stdout.rsplit(b"\n", 1)
+        if status != b"429" or attempt == 3:
+            break
+        delay = 2 ** (attempt + 1)
+        print("OMEGA_RPC_BACKOFF " + json.dumps({'provider':url,'method':method,
+            'http_status':429,'attempt':attempt+1,'wait_seconds':delay}), flush=True)
+        time.sleep(delay)
     require(status == b"200", "rpc_http_error: " + url + " " + method + " HTTP "
             + status.decode(errors="replace") + " " + data[:200].decode(errors="replace"))
     require(len(data) <= 2*1024*1024, "rpc_response_too_large")

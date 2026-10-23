@@ -192,7 +192,7 @@ checkpoint references those objects; it must not be silently converted to zero.
 The bounded adapter is implemented and locally verified: 28 authentic artifacts,
 3,154,093 logical bytes, exact SQLite snapshot restore, source-bound temporal
 query, batch-local revocation preservation and physical corruption rejection.
-Full local Omega tests increase from **498/498 to 528/528**; **66 Rust store tests**
+Full local Omega tests increase from **498/498 to 530/530**; **66 Rust store tests**
 also pass. Five new files are confined to Omega; preserved Rust sources and the
 workflow are unchanged. Physical execution in a disconnected remote namespace
 and its exact-producer post-audit are pending in `AUDIT_H19.md`.
