@@ -107,6 +107,15 @@ class RustTransportTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'destination_exists'):self.restore()
         self.assertEqual(dest.read_bytes(),b'preserve')
 
+    def test_restore_parent_traversal_cannot_enter_source(self):
+        protected=self.root/'protected';protected.mkdir()
+        staging=self.root/'staging';staging.mkdir()
+        dest=staging/'..'/'protected'/'must-not-exist.sqlite'
+        with patch('rust_store_intake.ROOT',protected),self.assertRaisesRegex(ValueError,'restore_inside_source'):
+            transport.restore_transport(self.directory,dest,snapshot_id=self.sid,
+                expected_inventory=self.index,expected_head=self.head)
+        self.assertFalse((protected/'must-not-exist.sqlite').exists())
+
     def test_output_symlink_and_existing_directory_reject(self):
         link=self.root/'link';link.symlink_to(self.directory,target_is_directory=True)
         with self.assertRaisesRegex(ValueError,'symlink'):transport.write_transport(link,self.objects)

@@ -95,7 +95,7 @@ def restore_transport(path, destination, *, snapshot_id, expected_inventory, exp
     snapshot = strict_json(objects[snapshot_id])
     need(objects == snapshot_objects(snapshot, expected_head), 'snapshot_inventory_mismatch')
     safe_path(destination)
-    need(not Path(destination).absolute().is_relative_to(ROOT), 'restore_inside_source')
+    need(not Path(destination).resolve().is_relative_to(ROOT.resolve()), 'restore_inside_source')
     return restore_store(destination, snapshot)
 
 
