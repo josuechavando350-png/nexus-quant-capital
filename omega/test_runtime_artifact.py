@@ -11,7 +11,8 @@ from unittest.mock import patch
 import ci_evidence
 from historical_pipeline import exercise
 from integrity import canonical, digest
-from runtime_artifact import (CODE_PATHS, LEGACY_SCHEMA, LEGACY_CODE_PATHS, MAX_PACKET, ROOT, SCHEMA, inspect_packet,
+from runtime_artifact import (CODE_PATHS, LEGACY_SCHEMA, LEGACY_CODE_PATHS, MAX_PACKET, ROOT, SCHEMA,
+                              TRANSPORT_SCHEMA, TRANSPORT_CODE_PATHS, inspect_packet,
                               unpack, verify_artifact, write_packet)
 
 
@@ -89,8 +90,8 @@ class RuntimeArtifactTests(unittest.TestCase):
             self.assertGreater(result['records'],30)
 
     def test_v2_replay_requires_bridge_and_rejects_scope_inheritance(self):
-        p=self.packet('replay');p['schema']=SCHEMA
-        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in CODE_PATHS}
+        p=self.packet('replay');p['schema']=TRANSPORT_SCHEMA
+        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in TRANSPORT_CODE_PATHS}
         self.seal(p)
         with self.assertRaisesRegex(ValueError,'record_inventory'):self.inspect(p)
 
@@ -102,8 +103,8 @@ class RuntimeArtifactTests(unittest.TestCase):
 
     def test_v2_replay_accepts_bound_bridge_and_rejects_changed_claims(self):
         from test_rust_store_intake import synthetic_report
-        p=self.packet('replay');p['schema']=SCHEMA
-        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in CODE_PATHS}
+        p=self.packet('replay');p['schema']=TRANSPORT_SCHEMA
+        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in TRANSPORT_CODE_PATHS}
         network=next(r['value'] for r in p['records'] if r['name']=='network-isolation')
         value=synthetic_report(network)
         record={'name':'rust-store-bridge','value':value,'sha256':digest(canonical(value))}
@@ -114,6 +115,37 @@ class RuntimeArtifactTests(unittest.TestCase):
         value['report_commitment_sha256']=digest(canonical({k:v for k,v in value.items() if k!='report_commitment_sha256'}))
         record['sha256']=digest(canonical(value));self.seal(p)
         with self.assertRaises(ValueError):self.inspect(p)
+
+    def dependent_packet(self):
+        from test_rust_store_intake import synthetic_report
+        from test_dependency_intake import synthetic_report as dependency_report
+        p=self.packet('replay');p['schema']=SCHEMA
+        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in CODE_PATHS}
+        network=next(r['value'] for r in p['records'] if r['name']=='network-isolation')
+        extras=[copy.deepcopy(next(r for r in p['records'] if r['name']=='command'))]
+        for name,value in (('rust-store-bridge',synthetic_report(network)),
+                           ('dependency-store-bridge',dependency_report(network))):
+            extras.append({'name':name,'value':value,'sha256':digest(canonical(value))})
+        p['records'][-1:-1]=extras;return self.seal(p)
+
+    def test_v3_requires_dependency_record_and_retains_v2_scope(self):
+        p=self.dependent_packet();self.assertEqual(self.inspect(p)['records'],42)
+        p['records']=[r for r in p['records'] if r['name']!='dependency-store-bridge'];self.seal(p)
+        with self.assertRaisesRegex(ValueError,'record_inventory'):self.inspect(p)
+        p['schema']=TRANSPORT_SCHEMA
+        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in TRANSPORT_CODE_PATHS}
+        self.seal(p);self.assertEqual(self.inspect(p)['records'],41)
+
+    def test_v3_resealed_dependency_claim_or_namespace_change_rejected(self):
+        baseline=self.dependent_packet()
+        for mutate in (lambda r:r.__setitem__('blocked_batches',4),
+                       lambda r:r['network'].__setitem__('network_namespace','net:[999999]')):
+            p=copy.deepcopy(baseline)
+            record=next(r for r in p['records'] if r['name']=='dependency-store-bridge')
+            mutate(record['value']);record['value']['report_commitment_sha256']=digest(canonical(
+                {k:v for k,v in record['value'].items() if k!='report_commitment_sha256'}))
+            record['sha256']=digest(canonical(record['value']));self.seal(p)
+            with self.assertRaises(ValueError):self.inspect(p)
 
     def test_artifact_matches_external_capture_without_self_authentication_claim(self):
         raw=self.archive(self.packet());report=self.verify(raw,self.capture(raw))

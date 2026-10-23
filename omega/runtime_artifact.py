@@ -21,7 +21,8 @@ from historical_intake import need, same, fields, utc
 from pft_source_binding import DESTINATION, DESTINATION_ID, FALSE_AUTHORITY, git, verify_commit
 
 LEGACY_SCHEMA = 'nqc.omega.runtime-artifact.v1'
-SCHEMA = 'nqc.omega.runtime-artifact.v2'
+TRANSPORT_SCHEMA = 'nqc.omega.runtime-artifact.v2'
+SCHEMA = 'nqc.omega.runtime-artifact.v3'
 BRANCH = 'feat/omega-h2-executable-audit-20261022'
 WORKFLOW = '.github/workflows/omega-h2-audit.yml'
 ROOT = Path(__file__).resolve().parents[1]
@@ -30,7 +31,8 @@ MAX_ARCHIVE = MAX_PACKET + 65536
 LEGACY_CODE_PATHS = ('omega/historical_intake.py','omega/evidence_store.py',
               'omega/historical_pipeline.py','omega/runtime_artifact.py',
               'omega/integrity.py','omega/h2_actions.py','omega/isolation.py',WORKFLOW)
-CODE_PATHS = LEGACY_CODE_PATHS + ('omega/rust_store_intake.py','omega/rust_store_bridge.rs')
+TRANSPORT_CODE_PATHS = LEGACY_CODE_PATHS + ('omega/rust_store_intake.py','omega/rust_store_bridge.rs')
+CODE_PATHS = TRANSPORT_CODE_PATHS + ('omega/dependency_intake.py',)
 
 
 def reject_authority(value):
@@ -47,9 +49,10 @@ def reject_authority(value):
 def inspect_packet(packet, *, expected_producer, expected_tree, stage, root=ROOT):
     need(type(packet) is dict and set(packet)=={'schema','producer','stage','records',
         'code_sha256','packet_commitment_sha256'},'packet_shape')
-    need(packet['schema'] in (LEGACY_SCHEMA, SCHEMA) and packet['stage']==stage
+    need(packet['schema'] in (LEGACY_SCHEMA, TRANSPORT_SCHEMA, SCHEMA) and packet['stage']==stage
          and stage in ('forks','replay'),'packet_scope')
-    modern = packet['schema'] == SCHEMA
+    modern = packet['schema'] != LEGACY_SCHEMA
+    dependent = packet['schema'] == SCHEMA
     need(packet['packet_commitment_sha256']==digest(canonical({
         k:v for k,v in packet.items() if k!='packet_commitment_sha256'})),'packet_commitment')
     reject_authority(packet)
@@ -61,7 +64,8 @@ def inspect_packet(packet, *, expected_producer, expected_tree, stage, root=ROOT
     for name in ('run_id','run_attempt'):
         need(type(identity[name]) is int and identity[name]>0,'invalid_run_identity')
     same(packet['code_sha256'],{p:digest(git(root,'show',expected_producer+':'+p))
-                               for p in (CODE_PATHS if modern else LEGACY_CODE_PATHS)},'producer_code_digests')
+                               for p in (CODE_PATHS if dependent else TRANSPORT_CODE_PATHS if modern
+                                         else LEGACY_CODE_PATHS)},'producer_code_digests')
     records=packet['records']
     need(type(records) is list and 1<len(records)<100,'record_inventory')
     for r in records:
@@ -75,6 +79,7 @@ def inspect_packet(packet, *, expected_producer, expected_tree, stage, root=ROOT
     stage_names=({'rpc-preflight','source-binding','blastapi-public','mevblocker-rpc','historical-forks'}
                  if stage=='forks' else {'network-isolation','disconnected-replay'})
     if modern and stage == 'replay': stage_names.add('rust-store-bridge')
+    if dependent and stage == 'replay': stage_names.add('dependency-store-bridge')
     need(set(counts)==common|stage_names|{'command','download'}
          and all(counts[n]==1 for n in common|stage_names),'record_inventory')
     # Exact command inventory inherited from H2 plus retained-capture and four new test suites.
@@ -129,6 +134,10 @@ def inspect_packet(packet, *, expected_producer, expected_tree, stage, root=ROOT
             from rust_store_intake import verify_report
             transport = verify_report(values['rust-store-bridge'], root)
             same(transport['network'], network, 'bridge_network_disagrees')
+        if dependent:
+            from dependency_intake import verify_report as verify_dependency_report
+            transport = verify_dependency_report(values['dependency-store-bridge'], root)
+            same(transport['network'], network, 'dependency_network_disagrees')
     fields(values['stage-complete'],{'stage':stage,'status':'PHYSICAL_GATE_PASS',
         'producer':identity,'result_sha256':digest(canonical(result)),'certified_components':0},'complete')
     return {'records':len(records),'tests':{n:values[n]['tests_run'] for n in common if n.endswith('-tests')},

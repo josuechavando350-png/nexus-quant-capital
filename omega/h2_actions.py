@@ -333,6 +333,10 @@ def replay(work: Path, head: str):
     transport = strict_json(read_regular(work / "rust-store-bridge/report.json"))
     verify_report(transport)
     evidence("rust-store-bridge", transport)
+    from dependency_intake import verify_report as verify_dependency_report
+    dependent = strict_json(read_regular(work / "dependency-store-bridge/report.json"))
+    verify_dependency_report(dependent)
+    evidence("dependency-store-bridge", dependent)
     return report
 
 
@@ -437,6 +441,11 @@ def main():
         from rust_store_intake import exercise
         module = load_pinned_python(ROOT / REPLAY_PATH, REPLAY_BLOB, "omega_bridge_network")
         exercise(args.out.parent / "rust-store-bridge",
+                 args.repo / "nqc-census/target/release/examples/nqc_omega_bridge",
+                 args.repo / "nqc-census/target/release/nqc-census-store-verify",
+                 module.network_proof(args.parent))
+        from dependency_intake import exercise as exercise_dependencies
+        exercise_dependencies(args.out.parent / "dependency-store-bridge",
                  args.repo / "nqc-census/target/release/examples/nqc_omega_bridge",
                  args.repo / "nqc-census/target/release/nqc-census-store-verify",
                  module.network_proof(args.parent))

@@ -208,3 +208,17 @@ overall product percentage.
 H19 engineering closure is **4/4 (100%)** within that increment only. Fresh full
 local verification after input recovery passes 532/532 without omissions. The
 final audit distinguishes retained remote evidence from pre-reset local reports.
+
+## H20 declared dependency invalidation
+
+New manifests bind explicit parent batch IDs, and committed revocation blocks all
+declared descendants. A five-stage authenticated intake supplies four known edges;
+it does not discover undeclared dependencies or migrate old IDs. Default reads
+reject invalidated descendants while forensic bytes and unrelated branches remain.
+The whole intake sequence is not atomic; each complete stage is. Crash/recovery
+and concurrency checks cover the publication and revocation boundaries.
+
+Remote Rust transport and final artifact/API/log post-audit are pending. See
+`AUDIT_H20.md` for closure evidence; no H19 result is inherited. Component
+certification remains 0/36; real canonical reorgs, inter-host recovery, complete
+market coverage and execution economics remain open.

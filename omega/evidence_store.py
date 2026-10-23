@@ -17,6 +17,7 @@ from urllib.parse import quote
 from integrity import canonical, digest, strict_json
 
 SCHEMA = "nqc.omega.evidence-store.v1"
+BATCH_V2 = "nqc.omega.dependent-batch.v1"
 HEX = re.compile(r"[0-9a-f]{64}\Z")
 NAME = re.compile(r"[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}\Z")
 MAX_OBJECT = 2 * 1024 * 1024
@@ -89,13 +90,31 @@ def create(path):
     return path
 
 
-def manifest_for(objects):
+def manifest_for(objects, parents=None):
     need(type(objects) is dict and 0 < len(objects) <= MAX_OBJECTS, 'invalid_object_inventory')
     need(all(type(n) is str and NAME.fullmatch(n) for n in objects), 'unsafe_object_name')
     need(all(type(b) is bytes and 0 < len(b) <= MAX_OBJECT for b in objects.values()), 'object_size')
     need(sum(map(len, objects.values())) <= MAX_TOTAL, 'total_size')
-    return {'schema': SCHEMA, 'objects': {n: {'sha256': digest(b), 'bytes': len(b)}
-                                         for n, b in sorted(objects.items())}}
+    manifest = {'schema': SCHEMA, 'objects': {n: {'sha256': digest(b), 'bytes': len(b)}
+                                            for n, b in sorted(objects.items())}}
+    if parents is not None:
+        need(type(parents) in (list, tuple) and len(parents) <= MAX_OBJECTS,
+             'invalid_dependencies')
+        need(all(type(p) is str and HEX.fullmatch(p) for p in parents)
+             and len(set(parents)) == len(parents), 'invalid_dependencies')
+        manifest.update(schema=BATCH_V2, parents=sorted(parents))
+    return manifest
+
+
+def dependency_blocks(order, parents, revoked):
+    """Replay a prior-admission DAG; retain all explicit revocation causes."""
+    blocked = {}
+    for batch in order:
+        causes = {batch} if batch in revoked else set()
+        for parent in parents[batch]:
+            causes.update(blocked[parent])
+        blocked[batch] = sorted(causes)
+    return blocked
 
 
 def decode(raw):
@@ -120,12 +139,14 @@ def audit_connection(db):
              and raw and digest(raw) == sha, 'stored_object_digest')
     count,size=db.execute('SELECT count(*),coalesce(max(length(manifest)),0) FROM batches').fetchone()
     need(count <= MAX_OBJECTS and size <= MAX_OBJECT, 'batch_bounds')
-    batches = {}
+    batches, parents = {}, {}
     referenced = set()
     for sha, raw in db.execute('SELECT sha256,manifest FROM batches'):
         manifest = decode(raw)
-        need(digest(raw) == sha and type(manifest) is dict and set(manifest) == {'schema','objects'}
-             and manifest['schema'] == SCHEMA and type(manifest['objects']) is dict,
+        need(digest(raw) == sha and type(manifest) is dict
+             and ((manifest.get('schema') == SCHEMA and set(manifest) == {'schema','objects'})
+                  or (manifest.get('schema') == BATCH_V2 and set(manifest) == {'schema','objects','parents'}))
+             and type(manifest['objects']) is dict,
              'batch_manifest_invalid')
         need(0 < len(manifest['objects']) <= MAX_OBJECTS, 'batch_empty_or_oversized')
         resolved = {}
@@ -138,12 +159,19 @@ def audit_connection(db):
             need(len(b) == ref['bytes'], 'object_length_mismatch')
             referenced.add(ref['sha256'])
             resolved[name] = b
-        need(canonical(manifest_for(resolved)) == raw, 'manifest_reconstruction')
+        deps = manifest.get('parents')
+        if manifest['schema'] == BATCH_V2:
+            need(type(deps) is list, 'invalid_dependencies')
+        need(canonical(manifest_for(resolved, deps)) == raw, 'manifest_reconstruction')
         batches[sha] = manifest
+        parents[sha] = deps if deps is not None else []
+    need(all(p in batches and p != b for b in parents for p in parents[b]),
+         'dependency_missing_or_self')
     count,size=db.execute('SELECT count(*),coalesce(max(length(event)),0) FROM journal').fetchone()
     need(count <= MAX_EVENTS and size <= MAX_OBJECT, 'journal_bounds')
     previous, sequence = ZERO, 0
     admitted, revoked = set(), set()
+    order, blocked = [], {}
     events = []
     for index, sha, raw in db.execute('SELECT sequence,sha256,event FROM journal ORDER BY sequence'):
         event = decode(raw)
@@ -158,24 +186,34 @@ def audit_connection(db):
         if event['kind'] == 'ADMIT':
             need(batch not in admitted and event['reason'] is None and event['evidence'] is None,
                  'duplicate_or_invalid_admission')
+            need(all(p in admitted and not blocked[p] for p in parents[batch]),
+                 'dependency_not_active_at_admission')
             admitted.add(batch)
+            order.append(batch)
+            blocked[batch] = []
         elif event['kind'] == 'REVOKE':
             need(batch in admitted and batch not in revoked and type(event['reason']) is str
                  and 0 < len(event['reason']) <= 200 and type(event['evidence']) is str
                  and event['evidence'] in objects, 'invalid_revocation')
             referenced.add(event['evidence'])
             revoked.add(batch)
+            blocked = dependency_blocks(order, parents, revoked)
         else:
             raise ValueError('unknown_journal_event')
         previous = sha
         events.append(event)
     need(admitted == set(batches), 'uncommitted_batch')
     need(referenced == set(objects), 'uncommitted_object')
-    return {'schema': SCHEMA, 'object_count': len(objects), 'batch_count': len(batches),
+    result = {'schema': SCHEMA, 'object_count': len(objects), 'batch_count': len(batches),
         'event_count': len(events), 'journal_head': previous,
-        'active_batches': sorted(admitted-revoked), 'revoked_batches': sorted(revoked),
+        'active_batches': sorted(b for b in admitted if not blocked[b]), 'revoked_batches': sorted(revoked),
         'local_integrity_verified': True, 'remote_replication_verified': False,
         'canonical_chain_verified': False, 'census_closed': False}
+    if any(m['schema'] == BATCH_V2 for m in batches.values()):
+        result.update(dependency_policy='DECLARED_TRANSITIVE_V1', dependencies=parents,
+                      invalidated_batches=sorted(b for b in admitted-revoked if blocked[b]),
+                      blocking_revocations={b: blocked[b] for b in sorted(admitted) if blocked[b]})
+    return result
 
 
 @contextlib.contextmanager
@@ -223,13 +261,20 @@ def journal_event(db, kind, batch, reason=None, evidence=None):
     db.execute('INSERT INTO journal VALUES (?,?,?)', (index, digest(raw), raw))
 
 
-def admit(path, objects, *, _fault=None):
-    """Atomically publish a complete batch. Optional hook is only fault injection."""
-    manifest = canonical(manifest_for(objects))
+def admit(path, objects, *, parents=None, _fault=None):
+    """Publish under one lock. parents=None preserves legacy batch-local identity.
+
+    An explicit list (including []) creates a dependency-aware manifest. The
+    caller declares logical dependence; shared bytes alone do not infer it.
+    """
+    manifest = canonical(manifest_for(objects, parents))
     batch = digest(manifest)
     with transaction(path, write=True) as db:
         status = audit_connection(db)
         need(batch not in status['revoked_batches'], 'cannot_readmit_revoked_batch')
+        need(batch not in status.get('invalidated_batches', []), 'cannot_readmit_invalidated_batch')
+        if parents is not None:
+            need(all(p in status['active_batches'] for p in parents), 'dependency_inactive_or_missing')
         if batch in status['active_batches']:
             return batch
         for raw in objects.values():
@@ -246,23 +291,31 @@ def admit(path, objects, *, _fault=None):
 
 
 def read_batch(path, batch, *, include_revoked=False):
+    """Default excludes all blocked batches; forensic override includes descendants."""
     need(type(batch) is str and HEX.fullmatch(batch), 'invalid_batch_id')
     with transaction(path) as db:
         status = audit_connection(db)
         need(batch in status['active_batches'] or
-             (include_revoked and batch in status['revoked_batches']), 'batch_inactive_or_missing')
+             (include_revoked and batch in status['revoked_batches'] + status.get('invalidated_batches', [])),
+             'batch_inactive_or_missing')
         manifest = decode(db.execute('SELECT manifest FROM batches WHERE sha256=?',(batch,)).fetchone()[0])
         return {name: db.execute('SELECT payload FROM objects WHERE sha256=?',(ref['sha256'],)).fetchone()[0]
                 for name, ref in manifest['objects'].items()}
 
 
-def revoke(path, batch, reason, evidence):
+def revoke(path, batch, reason, evidence, *, _fault=None):
     """Exclude a batch locally; supplied evidence does not establish chain truth."""
     need(type(reason) is str and 0 < len(reason) <= 200, 'invalid_revocation_reason')
+    need(type(batch) is str and HEX.fullmatch(batch), 'invalid_batch_id')
     with transaction(path, write=True) as db:
-        need(batch in audit_connection(db)['active_batches'], 'batch_inactive_or_missing')
+        status = audit_connection(db)
+        need(batch in status['active_batches'] + status.get('invalidated_batches', []),
+             'batch_inactive_or_missing')
         proof = insert_object(db, evidence)
+        if _fault: _fault('proof_written')
         journal_event(db, 'REVOKE', batch, reason, proof)
+        if _fault: _fault('before_commit')
+    if _fault: _fault('after_commit')
 
 
 def export_store(path):

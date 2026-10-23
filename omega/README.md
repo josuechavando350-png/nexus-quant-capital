@@ -392,3 +392,14 @@ y [auditoría H19](AUDIT_H19.md). Cero rangos certificados; producto **0/36**.
 Cierre de H19: **4/4 pasos (100% de este incremento)**. La regresión completa se
 repitió tras recuperar los ZIP históricos auténticos: 532/532, sin omisiones.
 La auditoría documenta qué evidencia local anterior no sobrevivió al reinicio.
+
+### H20 — revocación entre lotes con dependencias declaradas
+
+`dependency_intake.store_chain` admite cinco etapas históricas autenticadas bajo
+identidades nuevas y cuatro dependencias explícitas. Revocar la raíz bloquea las
+consultas de todos sus descendientes y conserva sus bytes para auditoría; una
+rama sin dependencia permanece activa. Los manifiestos anteriores mantienen su
+semántica. La copia recuperada exige el journal externo actual para rechazar
+snapshots previos a la revocación. No acredita una reorganización real de cadena.
+Ver [contrato H20](DEPENDENCY_REVOCATION_CONTRACT.md) y [auditoría H20](AUDIT_H20.md).
+La ejecución remota y el cierre posterior de H20 están pendientes.
