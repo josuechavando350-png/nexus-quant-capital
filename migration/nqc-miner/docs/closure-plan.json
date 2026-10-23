@@ -28,7 +28,7 @@
       "remaining_points": 8,
       "acceptance": "Actual workflow integration and historical price/position/execution reconstruction with certified adapters",
       "dependency": "development_and_runtime",
-      "next_step": "Authenticate actual aToken/vToken and rate-strategy implementations and their historical inputs; replace supplied token/strategy responses with verified execution. Compose initial conditions, reserve updates, amount/collateral and debt/deficit bookkeeping, cover multi-reserve _burnBadDebt and aggregate health/eMode, liquidity and transfers, reconstruct transaction-boundary state under the actual fork and integrate workflow execution. Partial original-function parity does not certify full liquidations.",
+      "next_step": "Use the runtime-matched aToken/vToken and rate-strategy sources to execute actual dependency behavior. Verify proxy dispatch, rewards-controller callbacks and underlying-asset transfers; authenticate balances, rate parameters and transaction-boundary state. Compose all partial kernels, cover multi-reserve _burnBadDebt and aggregate health/eMode, run under the historical fork and integrate workflow execution. Source/runtime equality alone does not certify full liquidation.",
       "status": "open"
     },
     {

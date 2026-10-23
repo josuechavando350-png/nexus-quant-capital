@@ -1,0 +1,42 @@
+{
+  "independent_recompilation_exact": true,
+  "files": [
+    {
+      "file": "compiler/0x9ec6f08190dea04a54f8afc53db96134e5e3fdfb-input.json.gz",
+      "sha256": "31a2e3c99286f18c62d752fc4f9d34129e2b3fe343727d4546cfdcfad250e68a"
+    },
+    {
+      "file": "compiler/0x9ec6f08190dea04a54f8afc53db96134e5e3fdfb-output.json.gz",
+      "sha256": "778bafe8f88f7f9ff0355a4bc50eac0b3d4385581e4bac43bf42baa22be8a89c"
+    },
+    {
+      "file": "compiler/0x9ec6f08190dea04a54f8afc53db96134e5e3fdfb.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "compiler/0xadc45df3cf1584624c97338bef33363bf5b97ada-input.json.gz",
+      "sha256": "43b73620e02c4ab58e6b78a31cde8c3d952475cd4cba86e7fe8e50422c7f9836"
+    },
+    {
+      "file": "compiler/0xadc45df3cf1584624c97338bef33363bf5b97ada-output.json.gz",
+      "sha256": "c91766a01239dcc101ae7703bf84c425208445561909b2a3ff01e4ae3fb5dba8"
+    },
+    {
+      "file": "compiler/0xadc45df3cf1584624c97338bef33363bf5b97ada.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "compiler/0xb27c52c7f84819e3157993489741cb60786ae330-input.json.gz",
+      "sha256": "7f19ef3e4b13e036b74a5a7eaf65a9bc1436f61051db0ccf9aa0bed92eb647f0"
+    },
+    {
+      "file": "compiler/0xb27c52c7f84819e3157993489741cb60786ae330-output.json.gz",
+      "sha256": "5006fde44810e83155e3a9fe28cb15b807e7437efd78c53b77e98832d8d91d08"
+    },
+    {
+      "file": "compiler/0xb27c52c7f84819e3157993489741cb60786ae330.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "command": "python research/build_aave_dependencies.py --compiler-directory <pinned-solc-directory> --output <new-output>"
+}

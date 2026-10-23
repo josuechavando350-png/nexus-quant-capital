@@ -1,0 +1,406 @@
+{
+  "activation_allowed": false,
+  "contracts": [
+    {
+      "address": "0x9ec6f08190dea04a54f8afc53db96134e5e3fdfb",
+      "compiler_version": "0.8.20+commit.a1b79de6",
+      "metadata_bytes_compared": true,
+      "runtime_bytes": 4038,
+      "runtime_sha256": "87c1df5203c16b1b0d41023a22dc9f629b37fd43eff2bcf0f9f68b4cd0adc948",
+      "samples": [
+        {
+          "block": 26248075,
+          "kind": "strategy",
+          "provider_comparisons": 2,
+          "proxy": null
+        },
+        {
+          "block": 26248113,
+          "kind": "strategy",
+          "provider_comparisons": 2,
+          "proxy": null
+        },
+        {
+          "block": 26248378,
+          "kind": "strategy",
+          "provider_comparisons": 2,
+          "proxy": null
+        }
+      ],
+      "substitutions": [
+        {
+          "length": 32,
+          "name": "ADDRESSES_PROVIDER",
+          "offset": 238,
+          "value": "0x0000000000000000000000002f39d218133afab8f2b819b1066c7e434ad94e9e"
+        },
+        {
+          "length": 32,
+          "name": "ADDRESSES_PROVIDER",
+          "offset": 1130,
+          "value": "0x0000000000000000000000002f39d218133afab8f2b819b1066c7e434ad94e9e"
+        },
+        {
+          "length": 32,
+          "name": "ADDRESSES_PROVIDER",
+          "offset": 2043,
+          "value": "0x0000000000000000000000002f39d218133afab8f2b819b1066c7e434ad94e9e"
+        }
+      ],
+      "target": "lib/aave-helpers/lib/aave-address-book/lib/aave-v3-origin/src/contracts/misc/DefaultReserveInterestRateStrategyV2.sol:DefaultReserveInterestRateStrategyV2"
+    },
+    {
+      "address": "0xadc45df3cf1584624c97338bef33363bf5b97ada",
+      "compiler_version": "0.8.27+commit.40a35a09",
+      "metadata_bytes_compared": true,
+      "runtime_bytes": 10477,
+      "runtime_sha256": "13c7f8a571a6ec24092b111794434d629fefc24c5b281426aac1d9dfee6b0517",
+      "samples": [
+        {
+          "block": 26248075,
+          "kind": "a_token",
+          "provider_comparisons": 2,
+          "proxy": "0x4d5f47fa6a74757f35c14fd3a6ef8e3c9bc514e8"
+        },
+        {
+          "block": 26248075,
+          "kind": "a_token",
+          "provider_comparisons": 2,
+          "proxy": "0x98c23e9d8f34fefb1b7bd6a91b7ff122f4e16f5c"
+        },
+        {
+          "block": 26248113,
+          "kind": "a_token",
+          "provider_comparisons": 2,
+          "proxy": "0x2edff5af94334fbd7c38ae318edf1c40e072b73b"
+        },
+        {
+          "block": 26248113,
+          "kind": "a_token",
+          "provider_comparisons": 2,
+          "proxy": "0x4f5923fc5fd4a93352581b38b7cd26943012decf"
+        },
+        {
+          "block": 26248378,
+          "kind": "a_token",
+          "provider_comparisons": 2,
+          "proxy": "0x4d5f47fa6a74757f35c14fd3a6ef8e3c9bc514e8"
+        },
+        {
+          "block": 26248378,
+          "kind": "a_token",
+          "provider_comparisons": 2,
+          "proxy": "0x98c23e9d8f34fefb1b7bd6a91b7ff122f4e16f5c"
+        }
+      ],
+      "substitutions": [
+        {
+          "length": 32,
+          "name": "TREASURY",
+          "offset": 702,
+          "value": "0x000000000000000000000000464c71f6c2f760dda6093dcb91c24c39e5d6e18c"
+        },
+        {
+          "length": 32,
+          "name": "TREASURY",
+          "offset": 1120,
+          "value": "0x000000000000000000000000464c71f6c2f760dda6093dcb91c24c39e5d6e18c"
+        },
+        {
+          "length": 32,
+          "name": "TREASURY",
+          "offset": 2579,
+          "value": "0x000000000000000000000000464c71f6c2f760dda6093dcb91c24c39e5d6e18c"
+        },
+        {
+          "length": 32,
+          "name": "TREASURY",
+          "offset": 3167,
+          "value": "0x000000000000000000000000464c71f6c2f760dda6093dcb91c24c39e5d6e18c"
+        },
+        {
+          "length": 32,
+          "name": "_chainId",
+          "offset": 5885,
+          "value": "0x0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "length": 32,
+          "name": "_addressesProvider",
+          "offset": 3666,
+          "value": "0x0000000000000000000000002f39d218133afab8f2b819b1066c7e434ad94e9e"
+        },
+        {
+          "length": 32,
+          "name": "POOL",
+          "offset": 911,
+          "value": "0x00000000000000000000000087870bca3f3fd6335c3f4ce8392d69350b4fa4e2"
+        },
+        {
+          "length": 32,
+          "name": "POOL",
+          "offset": 1658,
+          "value": "0x00000000000000000000000087870bca3f3fd6335c3f4ce8392d69350b4fa4e2"
+        },
+        {
+          "length": 32,
+          "name": "POOL",
+          "offset": 1828,
+          "value": "0x00000000000000000000000087870bca3f3fd6335c3f4ce8392d69350b4fa4e2"
+        },
+        {
+          "length": 32,
+          "name": "POOL",
+          "offset": 2038,
+          "value": "0x00000000000000000000000087870bca3f3fd6335c3f4ce8392d69350b4fa4e2"
+        },
+        {
+          "length": 32,
+          "name": "POOL",
+          "offset": 2209,
+          "value": "0x00000000000000000000000087870bca3f3fd6335c3f4ce8392d69350b4fa4e2"
+        },
+        {
+          "length": 32,
+          "name": "POOL",
+          "offset": 2346,
+          "value": "0x00000000000000000000000087870bca3f3fd6335c3f4ce8392d69350b4fa4e2"
+        },
+        {
+          "length": 32,
+          "name": "POOL",
+          "offset": 2465,
+          "value": "0x00000000000000000000000087870bca3f3fd6335c3f4ce8392d69350b4fa4e2"
+        },
+        {
+          "length": 32,
+          "name": "POOL",
+          "offset": 2546,
+          "value": "0x00000000000000000000000087870bca3f3fd6335c3f4ce8392d69350b4fa4e2"
+        },
+        {
+          "length": 32,
+          "name": "POOL",
+          "offset": 2820,
+          "value": "0x00000000000000000000000087870bca3f3fd6335c3f4ce8392d69350b4fa4e2"
+        },
+        {
+          "length": 32,
+          "name": "POOL",
+          "offset": 3082,
+          "value": "0x00000000000000000000000087870bca3f3fd6335c3f4ce8392d69350b4fa4e2"
+        },
+        {
+          "length": 32,
+          "name": "POOL",
+          "offset": 3418,
+          "value": "0x00000000000000000000000087870bca3f3fd6335c3f4ce8392d69350b4fa4e2"
+        },
+        {
+          "length": 32,
+          "name": "POOL",
+          "offset": 3569,
+          "value": "0x00000000000000000000000087870bca3f3fd6335c3f4ce8392d69350b4fa4e2"
+        },
+        {
+          "length": 32,
+          "name": "POOL",
+          "offset": 4859,
+          "value": "0x00000000000000000000000087870bca3f3fd6335c3f4ce8392d69350b4fa4e2"
+        },
+        {
+          "length": 32,
+          "name": "POOL",
+          "offset": 5093,
+          "value": "0x00000000000000000000000087870bca3f3fd6335c3f4ce8392d69350b4fa4e2"
+        },
+        {
+          "length": 32,
+          "name": "REWARDS_CONTROLLER",
+          "offset": 947,
+          "value": "0x0000000000000000000000008164cc65827dcfe994ab23944cbc90e0aa80bfcb"
+        },
+        {
+          "length": 32,
+          "name": "REWARDS_CONTROLLER",
+          "offset": 1243,
+          "value": "0x0000000000000000000000008164cc65827dcfe994ab23944cbc90e0aa80bfcb"
+        },
+        {
+          "length": 32,
+          "name": "REWARDS_CONTROLLER",
+          "offset": 3200,
+          "value": "0x0000000000000000000000008164cc65827dcfe994ab23944cbc90e0aa80bfcb"
+        },
+        {
+          "length": 32,
+          "name": "REWARDS_CONTROLLER",
+          "offset": 7567,
+          "value": "0x0000000000000000000000008164cc65827dcfe994ab23944cbc90e0aa80bfcb"
+        },
+        {
+          "length": 32,
+          "name": "REWARDS_CONTROLLER",
+          "offset": 7630,
+          "value": "0x0000000000000000000000008164cc65827dcfe994ab23944cbc90e0aa80bfcb"
+        },
+        {
+          "length": 32,
+          "name": "REWARDS_CONTROLLER",
+          "offset": 7780,
+          "value": "0x0000000000000000000000008164cc65827dcfe994ab23944cbc90e0aa80bfcb"
+        },
+        {
+          "length": 32,
+          "name": "REWARDS_CONTROLLER",
+          "offset": 8178,
+          "value": "0x0000000000000000000000008164cc65827dcfe994ab23944cbc90e0aa80bfcb"
+        },
+        {
+          "length": 32,
+          "name": "REWARDS_CONTROLLER",
+          "offset": 8238,
+          "value": "0x0000000000000000000000008164cc65827dcfe994ab23944cbc90e0aa80bfcb"
+        }
+      ],
+      "target": "lib/aave-v3-origin/src/contracts/instances/ATokenInstance.sol:ATokenInstance"
+    },
+    {
+      "address": "0xb27c52c7f84819e3157993489741cb60786ae330",
+      "compiler_version": "0.8.27+commit.40a35a09",
+      "metadata_bytes_compared": true,
+      "runtime_bytes": 7198,
+      "runtime_sha256": "65089e4cb6200ad2fde56df8692ffb4ec2fec9b6a8d54e0654a578bc4b7b5f92",
+      "samples": [
+        {
+          "block": 26248075,
+          "kind": "v_token",
+          "provider_comparisons": 2,
+          "proxy": "0xea51d7853eefb32b6ee06b1c12e6dcca88be0ffe"
+        },
+        {
+          "block": 26248075,
+          "kind": "v_token",
+          "provider_comparisons": 2,
+          "proxy": "0x72e95b8931767c79ba4eee721354d6e99a61d004"
+        },
+        {
+          "block": 26248113,
+          "kind": "v_token",
+          "provider_comparisons": 2,
+          "proxy": "0x22517fe16ded08e52e7ea3423a2ea4995b1f1731"
+        },
+        {
+          "block": 26248113,
+          "kind": "v_token",
+          "provider_comparisons": 2,
+          "proxy": "0x015396e1f286289ae23a762088e863b3ec465145"
+        },
+        {
+          "block": 26248378,
+          "kind": "v_token",
+          "provider_comparisons": 2,
+          "proxy": "0xea51d7853eefb32b6ee06b1c12e6dcca88be0ffe"
+        },
+        {
+          "block": 26248378,
+          "kind": "v_token",
+          "provider_comparisons": 2,
+          "proxy": "0x72e95b8931767c79ba4eee721354d6e99a61d004"
+        }
+      ],
+      "substitutions": [
+        {
+          "length": 32,
+          "name": "_chainId",
+          "offset": 2040,
+          "value": "0x0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "length": 32,
+          "name": "POOL",
+          "offset": 781,
+          "value": "0x00000000000000000000000087870bca3f3fd6335c3f4ce8392d69350b4fa4e2"
+        },
+        {
+          "length": 32,
+          "name": "POOL",
+          "offset": 1899,
+          "value": "0x00000000000000000000000087870bca3f3fd6335c3f4ce8392d69350b4fa4e2"
+        },
+        {
+          "length": 32,
+          "name": "POOL",
+          "offset": 2132,
+          "value": "0x00000000000000000000000087870bca3f3fd6335c3f4ce8392d69350b4fa4e2"
+        },
+        {
+          "length": 32,
+          "name": "POOL",
+          "offset": 2414,
+          "value": "0x00000000000000000000000087870bca3f3fd6335c3f4ce8392d69350b4fa4e2"
+        },
+        {
+          "length": 32,
+          "name": "POOL",
+          "offset": 2570,
+          "value": "0x00000000000000000000000087870bca3f3fd6335c3f4ce8392d69350b4fa4e2"
+        },
+        {
+          "length": 32,
+          "name": "POOL",
+          "offset": 2777,
+          "value": "0x00000000000000000000000087870bca3f3fd6335c3f4ce8392d69350b4fa4e2"
+        },
+        {
+          "length": 32,
+          "name": "POOL",
+          "offset": 3020,
+          "value": "0x00000000000000000000000087870bca3f3fd6335c3f4ce8392d69350b4fa4e2"
+        },
+        {
+          "length": 32,
+          "name": "REWARDS_CONTROLLER",
+          "offset": 841,
+          "value": "0x0000000000000000000000008164cc65827dcfe994ab23944cbc90e0aa80bfcb"
+        },
+        {
+          "length": 32,
+          "name": "REWARDS_CONTROLLER",
+          "offset": 1090,
+          "value": "0x0000000000000000000000008164cc65827dcfe994ab23944cbc90e0aa80bfcb"
+        },
+        {
+          "length": 32,
+          "name": "REWARDS_CONTROLLER",
+          "offset": 2655,
+          "value": "0x0000000000000000000000008164cc65827dcfe994ab23944cbc90e0aa80bfcb"
+        },
+        {
+          "length": 32,
+          "name": "REWARDS_CONTROLLER",
+          "offset": 5403,
+          "value": "0x0000000000000000000000008164cc65827dcfe994ab23944cbc90e0aa80bfcb"
+        },
+        {
+          "length": 32,
+          "name": "REWARDS_CONTROLLER",
+          "offset": 5493,
+          "value": "0x0000000000000000000000008164cc65827dcfe994ab23944cbc90e0aa80bfcb"
+        }
+      ],
+      "target": "lib/aave-v3-origin/src/contracts/instances/VariableDebtTokenInstance.sol:VariableDebtTokenInstance"
+    }
+  ],
+  "executable_eligibility_verified": false,
+  "external_behavior_verified": false,
+  "implementation_runtime_match_verified": true,
+  "new_source_events": 0,
+  "provider_runtime_comparisons": 30,
+  "proxy_dispatch_verified": false,
+  "schema": "nqc-miner-aave-dependency-compiled-audit-v1",
+  "state_authenticated": false,
+  "strategy_observations": 3,
+  "token_proxy_observations": 12,
+  "transaction_prestate": false
+}

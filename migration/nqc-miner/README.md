@@ -22,6 +22,7 @@ Los datos usan exclusivamente el espacio `nqc_miner_v1`. Cada ejecución tiene d
 - Cálculos offline de condiciones iniciales, importes de liquidación e [índices y saldos escalados Aave](docs/aave-reserve-projection.md), contrastados con Solidity. Reciben entradas suministradas y todavía no componen una certificación de liquidación completa.
 - [Consumo de colateral escalado y comisión final Aave](docs/aave-collateral.md): contempla redondeos separados y el saldo posterior suministrado; no ejecuta transferencias del token.
 - [Quema de deuda y déficit Aave](docs/aave-debt.md): comprueba contabilidad de deuda, indicador de préstamo, argumentos de tasas y liquidez virtual con respuestas externas suministradas.
+- [Identidad histórica de tokens y estrategia](docs/aave-dependencies.md): recompilación exacta de las implementaciones y comparación con dos proveedores en tres bloques; estado y ejecución externa siguen pendientes.
 - Valuación condicional mediante bootstrap de economía diaria, con semillas reproducibles, escenarios, percentiles y costes de intentos fallidos. No sustituye una simulación completa de precios y ejecución.
 - Simulación local con REVM sobre un estado cerrado suministrado: las cuentas, slots o hashes de ancestros ausentes causan error. No se completan consultando un RPC ni suponiendo ceros.
 - Controles de ciclo de vida, caducidad, toxicidad, pruebas de adaptadores y presupuesto; asignación preparatoria por Thompson sampling.

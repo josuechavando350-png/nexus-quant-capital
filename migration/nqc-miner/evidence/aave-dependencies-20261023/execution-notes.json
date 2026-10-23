@@ -1,0 +1,24 @@
+{
+  "blockscout": "Existing session rejected access; no new session, subscription or credentials created. Used established public read-only providers.",
+  "initial_capture": {
+    "path": "public-initial/failure.json",
+    "complete": false,
+    "http_status": 408,
+    "description": "Provider request timeout during initial block/event-header reads; restarted complete capture into a separate directory."
+  },
+  "preflight": [
+    {
+      "result": "NO TESTS RAN",
+      "exit_code": 5,
+      "reason": "Nonmatching unittest -k filter; not counted as a passing test. Five synthetic tests subsequently ran and passed."
+    },
+    {
+      "result": "solc 0.8.20 command rejected newer --no-import-callback flag",
+      "resolution": "Explicitly verify closed literal import set and run standard-json in empty directory."
+    },
+    {
+      "result": "Strict immutable checks rejected incomplete initial token profiles",
+      "resolution": "Inspect original AST and constructor constants; pin treasury, rewards controller and chain ID; only expect immutables actually emitted in each runtime."
+    }
+  ]
+}
