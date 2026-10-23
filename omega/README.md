@@ -382,8 +382,13 @@ originales retenidos, no tres forks temporales nuevos. Certificación: **0/36**.
 
 El adaptador conserva objetos, snapshot y journal entre Python y el almacén Rust
 original. La comprobación exige inventario externo completo porque la raíz Rust
-excluye los artefactos sin referencias. Pruebas locales: **531/531 Omega** y
+excluye los artefactos sin referencias. Pruebas locales: **532/532 Omega** y
 **66/66 del almacén Rust**; ida y vuelta real de **28 artefactos**, sin pérdida de
 bytes ni del estado de revocación local. La validación remota aislada y su
-auditoría final están pendientes. Ver [contrato](RUST_STORE_TRANSPORT_CONTRACT.md)
+auditoría final aprobaron el productor `fcbe6cac8c69c58b55d4ccf67c399dd359db6a96`,
+[run 39897180333](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/39897180333). Ver [contrato](RUST_STORE_TRANSPORT_CONTRACT.md)
 y [auditoría H19](AUDIT_H19.md). Cero rangos certificados; producto **0/36**.
+
+Cierre de H19: **4/4 pasos (100% de este incremento)**. La regresión completa se
+repitió tras recuperar los ZIP históricos auténticos: 532/532, sin omisiones.
+La auditoría documenta qué evidencia local anterior no sobrevivió al reinicio.

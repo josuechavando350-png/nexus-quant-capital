@@ -92,7 +92,7 @@ reviewed effort-weighted denominator supporting it. Until a versioned complete
 scope/weight inventory exists, report concrete gate coverage and 0/36 certified
 components instead of repeating an unsupported overall percentage.
 
-## Current scope-specific delivery counters
+## Scope-specific delivery counters through H18
 
 | Measure | Before H17 | After H17 | After H18 | Meaning |
 |---|---:|---:|---:|---|
@@ -192,10 +192,11 @@ checkpoint references those objects; it must not be silently converted to zero.
 The bounded adapter is implemented and locally verified: 28 authentic artifacts,
 3,154,093 logical bytes, exact SQLite snapshot restore, source-bound temporal
 query, batch-local revocation preservation and physical corruption rejection.
-Full local Omega tests increase from **498/498 to 531/531**; **66 Rust store tests**
+Full local Omega tests increase from **498/498 to 532/532**; **66 Rust store tests**
 also pass. Five new files are confined to Omega; preserved Rust sources and the
 workflow are unchanged. Physical execution in a disconnected remote namespace
-and its exact-producer post-audit are pending in `AUDIT_H19.md`.
+and both exact-producer post-audits pass for `fcbe6cac8c69c58b55d4ccf67c399dd359db6a96`,
+run 39897180333; see `AUDIT_H19.md`.
 
 This advances the local Python/Rust transport gate only. All 28 Rust artifacts
 remain explicitly unreferenced by ranges: **zero certified ranges**, **0/36
@@ -203,3 +204,7 @@ certified components**. Cross-batch dependency revocation, remote replication an
 real canonical reorg recovery are still open. This does not change 3/9 temporal
 sample coverage, 0/127 complete paid-cost rows, or the absence of a supported
 overall product percentage.
+
+H19 engineering closure is **4/4 (100%)** within that increment only. Fresh full
+local verification after input recovery passes 532/532 without omissions. The
+final audit distinguishes retained remote evidence from pre-reset local reports.
