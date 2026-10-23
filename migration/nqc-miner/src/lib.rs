@@ -4,6 +4,7 @@
 
 pub mod aave_amounts;
 pub mod aave_collateral;
+pub mod aave_debt;
 pub mod aave_reserve;
 pub mod aave_validation;
 pub mod analytics;

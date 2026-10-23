@@ -28,7 +28,7 @@
       "remaining_points": 8,
       "acceptance": "Actual workflow integration and historical price/position/execution reconstruction with certified adapters",
       "dependency": "development_and_runtime",
-      "next_step": "Compose initial-condition, amount, reserve and collateral kernels with verified state. Next cover debt burning and deficit, actual aToken/vToken implementations, health/eMode, liquidity, transfers and post-operation rates. Scaled consumption and final fee cap are checked against original source excerpts, but the intervening debt/token execution and post-liquidator balance remain unauthenticated. Reconstruct transaction-boundary state under the actual fork and integrate the workflow worker.",
+      "next_step": "Authenticate actual aToken/vToken and rate-strategy implementations and their historical inputs; replace supplied token/strategy responses with verified execution. Compose initial conditions, reserve updates, amount/collateral and debt/deficit bookkeeping, cover multi-reserve _burnBadDebt and aggregate health/eMode, liquidity and transfers, reconstruct transaction-boundary state under the actual fork and integrate workflow execution. Partial original-function parity does not certify full liquidations.",
       "status": "open"
     },
     {
@@ -44,7 +44,7 @@
       "remaining_points": 4,
       "acceptance": "Quarantined generation, actual differential protocol testing and Foundry fuzzing",
       "dependency": "development_and_toolchain",
-      "next_step": "Extend current synthetic REVM differential checks for initial conditions, amounts, reserve updates and collateral/fee excerpts to a full liquidation adapter with authenticated dependencies. Run actual Foundry differential/property/fuzz tests; the extracted kernels do not earn adapter certification points.",
+      "next_step": "Extend synthetic REVM differential checks for initial conditions, amounts, reserves, collateral/fee and original debt/deficit bookkeeping to the full adapter with authenticated token/strategy dependencies. Run actual Foundry differential/property/fuzz tests; current partial checks do not earn certification points.",
       "status": "open"
     },
     {

@@ -25,6 +25,11 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Command {
+    /// Offline debt burn/deficit bookkeeping with explicitly supplied external outcomes.
+    CalculateAaveDebt {
+        #[arg(long)]
+        input: PathBuf,
+    },
     /// Offline collateral exhaustion and fee cap; no token transfer is executed.
     CalculateAaveCollateral {
         #[arg(long)]
@@ -173,6 +178,10 @@ fn validate_live_build(config: &MinerConfig) -> Result<(), Box<dyn Error>> {
 
 fn run(cli: Cli) -> Result<(), Box<dyn Error>> {
     match cli.command {
+        Command::CalculateAaveDebt { input } => {
+            let value: nqc_miner::aave_debt::DebtInput = read_json(&input)?;
+            print_json(&nqc_miner::aave_debt::calculate(&value).map_err(std::io::Error::other)?)
+        }
         Command::CalculateAaveCollateral { input } => {
             let value: nqc_miner::aave_collateral::CollateralInput = read_json(&input)?;
             print_json(

@@ -1,0 +1,16 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/462bfc2f69c3/nqc-miner-work/migration/nqc-miner)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.80s
+     Running tests/aave_debt_tests.rs (/workspace/scratch/462bfc2f69c3/miner-target/debug/deps/aave_debt_tests-1ced4032b81bf80b)
+
+running 7 tests
+test strict_outcomes_bounds_and_no_execution_authority ... ok
+test partial_burn_floors_and_strategy_sees_deficit_and_pre_repayment_liquidity ... ok
+test no_collateral_burns_all_debt_and_accrues_only_unpaid_debt ... ok
+test zero_debt_skips_token_and_clears_legacy_flag_using_unchanged_cached_total ... ok
+test deficit_repayment_and_second_rate_casts_and_zero_debt_index_boundary ... ok
+test external_reverts_and_casts_preserve_first_error_and_rollback_logs ... ok
+Debt differential: 579 inputs, 1079 executions including rate probes; outcomes {"0x": 5, "0x13131313": 31, "0x4e487b71": 7, "0x6dfcc650": 2, "0x76543210": 32, "0x85e98beb": 2, "success": 500}
+test original_function_matches_boundaries_external_failures_and_seeded_states ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 8.03s
+
