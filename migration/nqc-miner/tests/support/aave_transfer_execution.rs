@@ -684,3 +684,6 @@ fn transfer_entrypoint_denies_non_pool_and_reverts_index_cast_overflow() {
     );
     assert_no_contract_changes(&out);
 }
+
+#[path = "aave_underlying_execution.rs"]
+mod underlying_execution;

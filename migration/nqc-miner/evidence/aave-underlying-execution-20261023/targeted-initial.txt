@@ -1,0 +1,16 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/462bfc2f69c3/nqc-miner-work/migration/nqc-miner)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.65s
+     Running tests/aave_debt_execution_tests.rs (/workspace/scratch/462bfc2f69c3/miner-target/debug/deps/aave_debt_execution_tests-17d48d7081572acf)
+
+running 8 tests
+test rewards_execution::transfer_execution::underlying_execution::underlying_insufficient_balance_reverts_prior_debt_rates_burn_and_rewards ... ok
+test rewards_execution::transfer_execution::underlying_execution::legacy_weth_uint256_recipient_addition_wraps_in_artificial_boundary_state ... ok
+test rewards_execution::transfer_execution::underlying_execution::post_weth_fee_and_reward_failure_roll_back_the_underlying_transfer_too ... ok
+test rewards_execution::transfer_execution::underlying_execution::original_collateral_burn_transfers_actual_weth_and_exports_closed_example ... ok
+test rewards_execution::transfer_execution::underlying_execution::missing_underlying_code_balance_slot_token_asset_or_rate_witness_fails_closed ... ok
+test rewards_execution::transfer_execution::underlying_execution::collateral_reserve_failure_and_zero_burn_revert_earlier_debt ... ok
+test rewards_execution::transfer_execution::underlying_execution::burn_exhaustion_cap_zero_fee_and_interest_mint_burn_branches ... ok
+test rewards_execution::transfer_execution::underlying_execution::seeded_original_burn_actual_weth_and_capped_fee_match_independent_results ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 32 filtered out; finished in 28.99s
+

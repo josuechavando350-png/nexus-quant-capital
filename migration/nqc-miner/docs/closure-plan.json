@@ -28,7 +28,7 @@
       "remaining_points": 8,
       "acceptance": "Actual workflow integration and historical price/position/execution reconstruction with certified adapters",
       "dependency": "development_and_runtime",
-      "next_step": "Extend the executed receive-aToken/debt/rate/rewards composition with collateral burn/underlying transfer and debt payment, initial reserve updates, aggregate health/eMode and multireserve bad debt. Authenticate balances, reward distributions, rate parameters and transaction prestate under the actual fork, then execute actual Pool/proxy entrypoints and integrate workflows. Deployed administrator behavior and reward claiming/transfer strategies remain outside current tests.",
+      "next_step": "Extend both executed collateral branches with actual debt payment, initial reserve updates, aggregate health/eMode, same-asset cache handling and multireserve bad debt. Resolve the explicit WETH metadata source mismatch; authenticate balances, distributions, rate parameters and transaction prestate under the actual fork. Execute deployed Pool/proxy entrypoints and integrate workflows. Reward claiming and deployed administrator behavior remain unverified.",
       "status": "open"
     },
     {
@@ -44,7 +44,7 @@
       "remaining_points": 4,
       "acceptance": "Quarantined generation, actual differential protocol testing and Foundry fuzzing",
       "dependency": "development_and_toolchain",
-      "next_step": "Complete both liquidation asset paths and debt payment with original Pool entrypoints and authenticated historical prestate. Run actual Foundry differential/property/fuzz certification. The current receive-aToken sequence uses actual token/proxy/rewards runtimes and real post-transfer balances in synthetic state, which does not earn phase credit.",
+      "next_step": "Compose actual debt repayment, initial validation/state updates and both asset paths through original Pool entrypoints with authenticated historical prestate. Resolve WETH metadata-source parity and test same-asset/multireserve paths. Run actual Foundry differential/property/fuzz certification; current synthetic-state REVM coverage earns no phase credit.",
       "status": "open"
     },
     {

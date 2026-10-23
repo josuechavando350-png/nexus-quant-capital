@@ -169,3 +169,5 @@ The [audited token-proxy execution](docs/aave-token-proxy-execution.md) replaces
 The [actual rewards execution](docs/aave-rewards-execution.md) covers the real rewards proxy/controller and the remaining token-proxy family, while balances and distributions remain synthetic.
 
 Actual aToken transfer composition: [scope and reproduction](docs/aave-transfer-execution.md), [audit](docs/AUDIT_AAVE_TRANSFER_EXECUTION_20261023.md).
+
+Underlying WETH execution: [scope and metadata gap](docs/aave-underlying-execution.md), [audit](docs/AUDIT_AAVE_UNDERLYING_EXECUTION_20261023.md).
