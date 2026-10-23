@@ -370,3 +370,10 @@ usan solo dRPC. Ningún resultado se convierte en señal prospectiva, causa orac
 demostrada, operación ejecutable o ganancia. Se conservan y validan todos los
 reportes y archivos originales al guardar, consultar y recuperar el almacenamiento.
 Ver [contrato H18](TEMPORAL_INTAKE_CONTRACT.md) y [auditoría H18](AUDIT_H18.md).
+
+**H18 implementado y auditado en su alcance:** **498/498 pruebas locales**,
+incluidas 27 nuevas. El productor `bd4b120e78603617473f2750bcff367271459375`
+aprobó ambas etapas físicas H2 y la auditoría de artefactos, metadata y logs del
+[run 39889427564](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/39889427564).
+La cobertura temporal integrada es 3/9 de la muestra WETH; son diagnósticos
+originales retenidos, no tres forks temporales nuevos. Certificación: **0/36**.

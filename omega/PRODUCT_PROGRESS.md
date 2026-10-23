@@ -94,28 +94,28 @@ components instead of repeating an unsupported overall percentage.
 
 ## Current scope-specific delivery counters
 
-| Measure | Before H17 | After H17 | Meaning |
-|---|---:|---:|---|
-| Full local Omega regression | 445/445 | 471/471 | Unique tests, not product components |
-| Source-bound predecessor WETH prices | 2/9 (22.2%) | 3/9 (33.3%) | Nine-transaction WETH sample only |
-| Predecessor health joined into Omega | 0/9 | 3/9 (33.3%) | All three NOT below HF=1 |
-| Historical Pool premium parameter joined | 0/9 | 3/9 (33.3%) | A rate observation, not a paid fee |
-| Complete paid-cost rows | 0/127 | 0/127 | Unresolved, not zero costs |
-| Certified Omega components | 0/36 | 0/36 | Final admission criteria remain open |
+| Measure | Before H17 | After H17 | After H18 | Meaning |
+|---|---:|---:|---:|---|
+| Full local Omega regression | 445/445 | 471/471 | 498/498 | Unique tests, not product components |
+| Source-bound predecessor WETH prices | 2/9 (22.2%) | 3/9 (33.3%) | 3/9 (33.3%) | Nine-transaction WETH sample only |
+| Predecessor health joined into Omega | 0/9 | 3/9 (33.3%) | 3/9 (33.3%) | All three NOT below HF=1 |
+| Historical Pool premium parameter joined | 0/9 | 3/9 (33.3%) | 3/9 (33.3%) | A rate observation, not a paid fee |
+| Retained time-only endpoints joined | 0/9 | 0/9 | 3/9 (33.3%) | One below HF=1, two not below, six unknown |
+| Complete paid-cost rows | 0/127 | 0/127 | 0/127 | Unresolved, not zero costs |
+| Certified Omega components | 0/36 | 0/36 | 0/36 | Final admission criteria remain open |
 
 `census_assessment.json` is the explicitly dated H11 foundation snapshot at
 `c80a66cbfb70d518286dc283c12f7af2ecaeecc5`. Its 7/2 category split and static
 validator are preserved historical evidence, not a rolling count of all later
-deliveries. H14–H17 are recorded in their own audits and the counters above.
+deliveries. H14–H18 are recorded in their own audits and the counters above.
 Do not infer no engineering progress from an unchanged frozen assessment, and
 do not alter that snapshot's old evidence hashes to manufacture certification.
 
-The next specific temporal integration has an authenticated original candidate
-source: run 37740704145 / artifact 11533288894. Its three time-only fork cases
-produce one below-one crossing, with no original intra-block transactions replayed.
-Source review is complete, but this is not a new Omega execution or an implemented
-temporal predictor. An integration must bind timestamps and interest accrual,
-preserve the two non-crossing cases, and keep hindsight/causal/execution limits.
+The H17 closeout identified authenticated original temporal source run 37740704145
+/ artifact 11533288894. Its three time-only fork cases produce one below-one
+crossing, with no original intra-block transactions replayed. H18's integration
+is recorded below. Neither source review nor intake implements a prospective
+temporal predictor or proves an actual interest-accrual cause.
 
 ## H18 temporal diagnostic integration
 
@@ -130,6 +130,59 @@ causality and executable candidates remain unresolved. Certified components
 remain **0/36**, Census **0/9**. Physical results are tracked in AUDIT_H18.md.
 
 H18 full local regression passes **498/498**, including **27 new tests**.
-The independent raw-source data audit passes. Remote physical evidence remains
-pending until recorded against the exact H18 producer. Repeated historical or
+The independent raw-source data audit passes. Both remote physical stages and
+their artifact/API/log post-audits pass for producer
+`bd4b120e78603617473f2750bcff367271459375`, run 39889427564. Repeated historical or
 remote executions are not additional unique tests or product percentage points.
+
+### Concrete next gates after the temporal join
+
+The original `RMC015_TEMPORAL_TRIGGER_CONTRACT.md` requires seven complete
+trigger classes over a declared canonical window. H18 is a diagnostic sample,
+not admission of any complete class. The original episode contract additionally
+requires PRE_TX / LOG / POST_TX / END_BLOCK ordering and conservation of every
+material trigger. Endpoint clocks cannot supply those missing transactions.
+
+| Next gate | Available evidence | Missing acceptance evidence |
+|---|---|---|
+| Position and configuration mutations | Original contracts and historical winners | All required mutation surfaces across the exact declared window |
+| Oracle transitions and rate/index segments | Three predecessor states and temporal endpoints | Complete, authenticated segments and decision-time oracle observations |
+| Derived interest-only crossings | One retained time-only endpoint crossing | Authenticated inputs, algorithm/equivalence commitments and no-look-ahead discovery |
+| Canonical reorg authority | Local revocation/restore tests | Real canonical invalidation and complete replay |
+| Episode lifecycle | Competitor inclusion and anchored endpoints | First actionable/executable states, trigger conservation and explicit censoring |
+| Execution economics | Reviewed original one-case liquidation fork | Exact pre-transaction state, complete own-transaction costs and inclusion evidence |
+
+Next execution source reviewed: original run 37741109591, artifact 11534051574,
+producer 5b5402ff373f06804f8714d91dfe247f0c230c92. Its two historical fork tests
+show a simulated WETH surplus after the Pool fee and atomic rejection of an
+impossible profit claim. They do not establish native gas funding or complete net
+profit. This source is not yet integrated as an Omega execution report and is not
+a new H18 physical execution. Its retained original source uses the historical
+funding assumptions recorded at that time; no funding authority is granted here.
+
+The companion gas-budget source is also reviewed: run 37742063251, artifact
+11533854519, producer 0d700182e776b8efc261e8e5c9ebcebdcbaf9d11. It measures
+562357 EVM-call gas units and five hypothetical overhead/tip budgets. It excludes
+actual top-level calldata/intrinsic/refund effects, failed attempts and builder
+payments; its winning-block base fee is retrospective. A later integration must
+keep measured units, assumed costs, paid costs and realized profit separate.
+
+Adding more retrospectively selected winners alone cannot close the full-window
+trigger, coverage or economics gates above. Current product certification remains
+0/36 until their actual scope and acceptance evidence are demonstrated.
+
+For the Evidence Vault integration, the preserved Rust store already exposes
+`Store::put_artifact`, `get_artifact`, `verify_artifact` and the standalone
+`nqc-census-store-verify` tool. A bounded Omega adapter can be built in a disposable
+copy without modifying original sources. Acceptance must include authentic
+Python-to-Rust byte/identity conservation, restore, corruption rejection and
+revocation across dependent batches. A plain content-addressed import must not
+manufacture block-range checkpoints or claim complete market coverage. This
+adapter is a planned next integration, not implemented or credited in H18.
+
+The reviewed Rust `ArtifactId` is plain SHA256 of the logical bytes, so the
+adapter can compare identities directly with the existing Python store. Begin
+with artifact-only import and require zero claimed certified ranges. Sparse
+retrospective diagnostics do not justify inventing continuous chain checkpoints.
+The existing Rust verifier's orphan-artifact count must remain visible when no
+checkpoint references those objects; it must not be silently converted to zero.

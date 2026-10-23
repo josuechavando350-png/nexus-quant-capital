@@ -39,6 +39,11 @@ or extra sources, altered upstream reports and revoked batches. Revocation retai
 source bytes; simulated revocation is not a demonstrated real chain reorg. The CLI
 rejects symlink paths, output inside the repository and existing output files.
 
+Revocation is batch-local. Duplicated source bytes in another active batch do not
+automatically inherit that revocation. Cross-batch dependency invalidation and
+current-chain canonicality require a separate integration before any reorg or
+live-candidate admission claim. H18 grants neither claim.
+
 H18 grants no certification, phase advancement, signing, broadcasting, spending or
 deployment authority. Certified components remain 0/36. Its tests are included by
 the existing CI intake pattern; no workflow or permission change is needed.
