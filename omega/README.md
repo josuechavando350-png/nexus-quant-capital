@@ -359,3 +359,14 @@ La auditoría posterior contrastó archivos, metadata de GitHub, logs y hashes d
 código y pruebas. Precios previos: 2/9 → 3/9 de la muestra WETH; certificación
 global: 0/36. Ver [auditoría final H17](AUDIT_H17.md) y
 [medidas de avance y pendientes](PRODUCT_PROGRESS.md).
+
+## H18 — evolución temporal histórica
+
+`temporal_intake.py` vincula los tres diagnósticos originales de avance de tiempo
+con el estado previo H17. Una medición cruza HF por debajo de uno, dos permanecen
+por encima y seis casos conservan `null`. El caso de rango 2 aumenta su HF.
+Las fechas de los bloques tienen acuerdo de dos proveedores; los forks originales
+usan solo dRPC. Ningún resultado se convierte en señal prospectiva, causa oracle
+demostrada, operación ejecutable o ganancia. Se conservan y validan todos los
+reportes y archivos originales al guardar, consultar y recuperar el almacenamiento.
+Ver [contrato H18](TEMPORAL_INTAKE_CONTRACT.md) y [auditoría H18](AUDIT_H18.md).

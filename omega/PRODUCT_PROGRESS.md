@@ -116,3 +116,20 @@ produce one below-one crossing, with no original intra-block transactions replay
 Source review is complete, but this is not a new Omega execution or an implemented
 temporal predictor. An integration must bind timestamps and interest accrual,
 preserve the two non-crossing cases, and keep hindsight/causal/execution limits.
+
+## H18 temporal diagnostic integration
+
+H18 now joins that retained source into the recoverable Omega evidence store.
+Temporal endpoint coverage within the nine-case WETH sample increases from 0/9
+to **3/9 (33.3%)**: one endpoint below HF=1, two not below and six unknown.
+The integration binds timestamps and measured account-state changes; it does not
+identify interest accrual as the actual cause or implement a prospective predictor.
+Original forks used one provider; two-provider agreement covers timestamps only.
+First crossing time, exact transaction prestate, complete paid costs, actual oracle
+causality and executable candidates remain unresolved. Certified components
+remain **0/36**, Census **0/9**. Physical results are tracked in AUDIT_H18.md.
+
+H18 full local regression passes **498/498**, including **27 new tests**.
+The independent raw-source data audit passes. Remote physical evidence remains
+pending until recorded against the exact H18 producer. Repeated historical or
+remote executions are not additional unique tests or product percentage points.
