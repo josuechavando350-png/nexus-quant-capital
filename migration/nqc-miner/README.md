@@ -167,3 +167,5 @@ Shadow prospectivo, certificación de adaptadores y operación expresamente apro
 The [audited token-proxy execution](docs/aave-token-proxy-execution.md) replaces the synthetic forwarder for one verified proxy family while retaining synthetic execution-state limits.
 
 The [actual rewards execution](docs/aave-rewards-execution.md) covers the real rewards proxy/controller and the remaining token-proxy family, while balances and distributions remain synthetic.
+
+Actual aToken transfer composition: [scope and reproduction](docs/aave-transfer-execution.md), [audit](docs/AUDIT_AAVE_TRANSFER_EXECUTION_20261023.md).

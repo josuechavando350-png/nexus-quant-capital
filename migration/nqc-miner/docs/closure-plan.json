@@ -28,7 +28,7 @@
       "remaining_points": 8,
       "acceptance": "Actual workflow integration and historical price/position/execution reconstruction with certified adapters",
       "dependency": "development_and_runtime",
-      "next_step": "Extend the executed original debt, actual token/rate code, both token-proxy families and real rewards-accrual path with aToken/underlying transfers, aggregate health/eMode and multireserve bad debt. Authenticate historical balances, reward distributions, rate parameters and transaction prestate under the actual fork. Deployed administrator behavior and reward claiming/transfer strategies remain outside the current callback tests. Integrate actual workflows after complete reconstruction.",
+      "next_step": "Extend the executed receive-aToken/debt/rate/rewards composition with collateral burn/underlying transfer and debt payment, initial reserve updates, aggregate health/eMode and multireserve bad debt. Authenticate balances, reward distributions, rate parameters and transaction prestate under the actual fork, then execute actual Pool/proxy entrypoints and integrate workflows. Deployed administrator behavior and reward claiming/transfer strategies remain outside current tests.",
       "status": "open"
     },
     {
@@ -44,7 +44,7 @@
       "remaining_points": 4,
       "acceptance": "Quarantined generation, actual differential protocol testing and Foundry fuzzing",
       "dependency": "development_and_toolchain",
-      "next_step": "Compose the currently executed debt/token/rate/rewards-accrual dependencies into complete liquidation with actual asset transfers and authenticated historical state. Run actual Foundry differential/property/fuzz certification. Both proxy families now match retained runtimes, but synthetic-state REVM cases and local admin tests earn no phase credit.",
+      "next_step": "Complete both liquidation asset paths and debt payment with original Pool entrypoints and authenticated historical prestate. Run actual Foundry differential/property/fuzz certification. The current receive-aToken sequence uses actual token/proxy/rewards runtimes and real post-transfer balances in synthetic state, which does not earn phase credit.",
       "status": "open"
     },
     {

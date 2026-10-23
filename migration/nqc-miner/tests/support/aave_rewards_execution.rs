@@ -610,3 +610,6 @@ fn standalone_controller_handles_zero_supply_zero_balance_and_floor_rounding() {
         &abi_string_error("INDEX_OVERFLOW"),
     );
 }
+
+#[path = "aave_transfer_execution.rs"]
+mod transfer_execution;

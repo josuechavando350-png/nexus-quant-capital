@@ -1,0 +1,76 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/462bfc2f69c3/nqc-miner-work/migration/nqc-miner)
+error[E0599]: no method named `random_range` found for struct `rand_chacha::ChaCha8Rng` in the current scope
+   --> tests/support/aave_transfer_execution.rs:209:25
+    |
+209 |         let balance=rng.random_range(2u64..100_000);
+    |                         ^^^^^^^^^^^^
+    |
+help: there is a method `gen_range` with a similar name
+    |
+209 -         let balance=rng.random_range(2u64..100_000);
+209 +         let balance=rng.gen_range(2u64..100_000);
+    |
+
+error[E0599]: no method named `random_range` found for struct `rand_chacha::ChaCha8Rng` in the current scope
+   --> tests/support/aave_transfer_execution.rs:210:50
+    |
+210 |         let index=U256::from(RAY)+U256::from(rng.random_range(0u128..3*RAY));
+    |                                                  ^^^^^^^^^^^^
+    |
+help: there is a method `gen_range` with a similar name
+    |
+210 -         let index=U256::from(RAY)+U256::from(rng.random_range(0u128..3*RAY));
+210 +         let index=U256::from(RAY)+U256::from(rng.gen_range(0u128..3*RAY));
+    |
+
+error[E0599]: no method named `random_range` found for struct `rand_chacha::ChaCha8Rng` in the current scope
+   --> tests/support/aave_transfer_execution.rs:212:24
+    |
+212 |         let amount=rng.random_range(0..=max);
+    |                        ^^^^^^^^^^^^
+    |
+help: there is a method `gen_range` with a similar name
+    |
+212 -         let amount=rng.random_range(0..=max);
+212 +         let amount=rng.gen_range(0..=max);
+    |
+
+error[E0599]: no method named `random_range` found for struct `rand_chacha::ChaCha8Rng` in the current scope
+   --> tests/support/aave_transfer_execution.rs:213:83
+    |
+213 | ...   let mut c=TransferCase{index,amount:U256::from(amount),fee:U256::from(rng.random_range(0..=max-amount)),balances:[U256::from(balanc...
+    |                                                                                 ^^^^^^^^^^^^
+    |
+help: there is a method `gen_range` with a similar name
+    |
+213 -         let mut c=TransferCase{index,amount:U256::from(amount),fee:U256::from(rng.random_range(0..=max-amount)),balances:[U256::from(balance),U256::from(rng.random_range(0u64..5000)),U256::from(rng.random_range(0u64..5000))],total:U256::from(balance+20_000),total_base:floor_balance(U256::from(balance),index),..TransferCase::default()};
+213 +         let mut c=TransferCase{index,amount:U256::from(amount),fee:U256::from(rng.gen_range(0..=max-amount)),balances:[U256::from(balance),U256::from(rng.random_range(0u64..5000)),U256::from(rng.random_range(0u64..5000))],total:U256::from(balance+20_000),total_base:floor_balance(U256::from(balance),index),..TransferCase::default()};
+    |
+
+error[E0599]: no method named `random_range` found for struct `rand_chacha::ChaCha8Rng` in the current scope
+   --> tests/support/aave_transfer_execution.rs:213:158
+    |
+213 | .....=max-amount)),balances:[U256::from(balance),U256::from(rng.random_range(0u64..5000)),U256::from(rng.random_range(0u64..5000))],total...
+    |                                                                 ^^^^^^^^^^^^
+    |
+help: there is a method `gen_range` with a similar name
+    |
+213 -         let mut c=TransferCase{index,amount:U256::from(amount),fee:U256::from(rng.random_range(0..=max-amount)),balances:[U256::from(balance),U256::from(rng.random_range(0u64..5000)),U256::from(rng.random_range(0u64..5000))],total:U256::from(balance+20_000),total_base:floor_balance(U256::from(balance),index),..TransferCase::default()};
+213 +         let mut c=TransferCase{index,amount:U256::from(amount),fee:U256::from(rng.random_range(0..=max-amount)),balances:[U256::from(balance),U256::from(rng.gen_range(0u64..5000)),U256::from(rng.random_range(0u64..5000))],total:U256::from(balance+20_000),total_base:floor_balance(U256::from(balance),index),..TransferCase::default()};
+    |
+
+error[E0599]: no method named `random_range` found for struct `rand_chacha::ChaCha8Rng` in the current scope
+   --> tests/support/aave_transfer_execution.rs:213:199
+    |
+213 | ...nce),U256::from(rng.random_range(0u64..5000)),U256::from(rng.random_range(0u64..5000))],total:U256::from(balance+20_000),total_base:fl...
+    |                                                                 ^^^^^^^^^^^^
+    |
+help: there is a method `gen_range` with a similar name
+    |
+213 -         let mut c=TransferCase{index,amount:U256::from(amount),fee:U256::from(rng.random_range(0..=max-amount)),balances:[U256::from(balance),U256::from(rng.random_range(0u64..5000)),U256::from(rng.random_range(0u64..5000))],total:U256::from(balance+20_000),total_base:floor_balance(U256::from(balance),index),..TransferCase::default()};
+213 +         let mut c=TransferCase{index,amount:U256::from(amount),fee:U256::from(rng.random_range(0..=max-amount)),balances:[U256::from(balance),U256::from(rng.random_range(0u64..5000)),U256::from(rng.gen_range(0u64..5000))],total:U256::from(balance+20_000),total_base:floor_balance(U256::from(balance),index),..TransferCase::default()};
+    |
+
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `nqc-miner` (test "aave_debt_execution_tests") due to 6 previous errors
+warning: build failed, waiting for other jobs to finish...
