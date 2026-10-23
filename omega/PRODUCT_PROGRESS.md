@@ -241,4 +241,6 @@ The active gas policy is Titan-only, with zero proprietary gas allowance. Runtim
 v4 binds this policy and the new economic reader. A sixth dependent batch rejects
 queries after ancestor revocation and preserves forensic bytes through SQLite
 restore. H21 does not add a new physical EVM execution or a Rust transport claim.
-Exact-producer CI and final audit are pending; see `AUDIT_H21.md`.
+Exact-producer CI and both post-audits pass: producer `668ddb5f26225e9f9f545b1c1e07740c01d783c8`,
+run 40027689852. H21 closes **4/4 (100% within this increment)**, with
+589/589 local Omega tests and 28 new cases. See `AUDIT_H21.md`.

@@ -420,5 +420,7 @@ demostrarse. Ocho casos no tienen ese diagnóstico; no se inventan ceros.
 
 El sexto lote declara su dependencia temporal. Consultas, revocación y recuperación
 conservan esa relación. Runtime v4 exige su replay económico desconectado y vincula
-la política activa. H21 está pendiente de ejecución remota y auditoría final.
+la política activa. **H21 cerrado y auditado: 589/589 pruebas, 28 nuevas, 4/4 controles.**
+Forks, replay y auditoría posterior aprobaron el productor `668ddb5f26225e9f9f545b1c1e07740c01d783c8`
+en el [run 40027689852](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/40027689852).
 Ver [contrato](EXECUTION_INTAKE_CONTRACT.md) y [auditoría](AUDIT_H21.md).
