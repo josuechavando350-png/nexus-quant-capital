@@ -1,6 +1,6 @@
 # H19 audit — artifact-only Rust transport
 
-Local regression passes **530/530**, including **32 new H19 tests** (27 transport,
+Local regression passes **531/531**, including **33 new H19 tests** (28 transport,
 3 runtime-packet and 2 HTTP-429 retry cases). Local Rust store tests pass **66/66** without failures
 or ignored tests. The new Rust example compiles with toolchain 1.98.1 and the
 unchanged lockfile in a disposable copy. Local isolation passes with 143 Omega
@@ -64,9 +64,20 @@ The read-only preflight now retries HTTP 429 up to four total attempts, waiting
 2, 4 and 8 seconds. Persistent rate limits still fail; other errors retain their
 original behavior. No provider, credentials, workflow or permission changes.
 Two regression cases verify identical-request retries and terminal failure.
-The final full local suite passes 530/530; exact-producer remote validation is
+The final full local suite passes 531/531; exact-producer remote validation is
 still required after this correction.
 
 - h19-full-tests-retry-fix.json: SHA256 `642c90ebd95a68483eebd97dfbd510c8d6f8d8c5a643f5dced10277e460f929e`.
 - h19-rpc-retry-tests.json: SHA256 `e06e5a4e1c6fad7ce7eb47ae392edb9578026be035a7528e14078875b6bef64e`.
 - h19-first-forks-failed.log: SHA256 `49e94d3b57b32a3f834877e99a4f7455b81dcb9c90edae932910f11569103ce1`.
+
+## Rust source pin review
+
+The unchanged workflow triggers Python but not standalone Rust edits. The
+adapter now binds its Rust source to explicit SHA256
+`6befee0d4e6d3ab1a2e778a1654ceb6682514fb83447134e10cc57afd375de39`.
+Compilation materialization and report validation reject drift. A legitimate
+Rust revision must update the reviewed Python pin, triggering the existing CI.
+The added rejection test brings the unique local suite to 531/531 (33 new).
+
+- h19-full-tests-source-pin.json: SHA256 `fd8952bfc82ae5c063877bb42bfb3327da1fd0905f7bec8ca11eb4371c1fd66a`.

@@ -23,10 +23,17 @@ from temporal_intake import query_temporal_report, store_temporal_report
 SCHEMA = 'nqc.omega.rust-artifact-transport.v1'
 MAX_TRANSPORT = 64 * 1024 * 1024
 BRIDGE_SOURCE = 'omega/rust_store_bridge.rs'
+BRIDGE_SOURCE_SHA256 = '6befee0d4e6d3ab1a2e778a1654ceb6682514fb83447134e10cc57afd375de39'
 EXAMPLE = 'nqc-census/crates/nqc-census-store/examples/nqc_omega_bridge.rs'
 REJECTION_CASES = ['corrupt_frame', 'corrupt_export', 'existing_import', 'existing_export',
                    'empty_import', 'malformed_name', 'digest_mismatch', 'symlink_input',
                    'missing_snapshot']
+
+
+def read_bridge_source(root=ROOT):
+    raw = read_regular(Path(root)/BRIDGE_SOURCE)
+    need(digest(raw) == BRIDGE_SOURCE_SHA256, 'bridge_source_pin_mismatch')
+    return raw
 
 
 def new_directory(path, root=ROOT):
@@ -160,7 +167,7 @@ def verify_report(report, root=ROOT):
         'snapshot_sha256': digest(canonical(snapshot)), 'journal_head': head,
         'inventory': expected, 'inventory_sha256': digest(canonical(expected)),
         'temporal_report_commitment': result['report']['report_commitment_sha256'],
-        'bridge_source_sha256': digest(read_regular(Path(root)/BRIDGE_SOURCE)),
+        'bridge_source_sha256': digest(read_bridge_source(root)),
         'rust_verifier': verifier, 'network': network,
         'rejection_cases': REJECTION_CASES,
         'byte_identical_restore': True, 'corruption_rejected': True,
@@ -235,7 +242,7 @@ def exercise(output, bridge, verifier, network, root=ROOT):
         'snapshot_sha256': snapshot_id, 'journal_head': head,
         'inventory': expected, 'inventory_sha256': digest(canonical(expected)),
         'temporal_report_commitment': batch['report']['report_commitment_sha256'],
-        'bridge_source_sha256': digest(read_regular(Path(root)/BRIDGE_SOURCE)),
+        'bridge_source_sha256': digest(read_bridge_source(root)),
         'rust_verifier': checked, 'network': network,
         'rejection_cases': REJECTION_CASES,
         'byte_identical_restore': True, 'corruption_rejected': True,

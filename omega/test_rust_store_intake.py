@@ -116,6 +116,13 @@ class RustTransportTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'unsafe_transport'):
             transport.new_directory(transport.ROOT/'omega/forbidden-output')
 
+    def test_bridge_source_requires_reviewed_python_pin_update(self):
+        raw=transport.read_bridge_source()
+        self.assertEqual(digest(raw),transport.BRIDGE_SOURCE_SHA256)
+        path=self.root/transport.BRIDGE_SOURCE;path.parent.mkdir();path.write_bytes(raw+b'\n')
+        with self.assertRaisesRegex(ValueError,'bridge_source_pin_mismatch'):
+            transport.read_bridge_source(self.root)
+
     def test_valid_orphan_inventory_is_exposed_without_range_claim(self):
         v=transport.parse_verifier(self.verifier(),self.index)
         self.assertEqual(v['orphan_artifacts'],len(self.index))

@@ -305,11 +305,11 @@ def replay(work: Path, head: str):
     run(["cargo", "+1.98.1", "build", "--workspace", "--bins", "--release", "--locked", "--offline"], cargo)
     # Add one Omega example to a disposable copy using its unchanged lockfile.
     # Remove it before the original clean-tree and replay gates.
-    from rust_store_intake import BRIDGE_SOURCE, EXAMPLE
+    from rust_store_intake import EXAMPLE, read_bridge_source
     example = build / EXAMPLE
     require(example.parent.is_dir() and not example.exists(), 'bridge_example_destination')
     try:
-        with example.open('xb') as f: f.write(read_regular(ROOT / BRIDGE_SOURCE))
+        with example.open('xb') as f: f.write(read_bridge_source(ROOT))
         run(["cargo", "+1.98.1", "build", "-p", "nqc-census-store", "--example",
              "nqc_omega_bridge", "--release", "--locked", "--offline"], cargo)
     finally:

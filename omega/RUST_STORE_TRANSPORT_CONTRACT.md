@@ -11,6 +11,12 @@ edited. The example is removed before the original replay checks. Both the
 adapter and unchanged standalone verifier execute inside the replay's isolated
 network namespace. No workflow bytes or permissions change.
 
+The Rust adapter bytes have an explicit SHA256 pin in `rust_store_intake.py`.
+The materializer and report verifier reject drift before use. The existing
+workflow triggers Python changes but not standalone `.rs` changes: a legitimate
+Rust update therefore requires a reviewed Python pin update, which also triggers
+the existing workflow. Editing only Rust is never sufficient for admission.
+
 Acceptance requires authentic H18 inputs, exact logical byte/ID conservation,
 idempotent object insertion, independent-process Rust reopen/export, exact
 SQLite snapshot restore, source-bound temporal query, preserved batch-local
