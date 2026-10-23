@@ -1,0 +1,43 @@
+{
+  "contracts": [
+    {
+      "address": "0x8164cc65827dcfe994ab23944cbc90e0aa80bfcb",
+      "compiler_output_sha256": "6e0997528a533fabf20fe388c41d6d84eaafdc1cdca906312195413ff966cd0b",
+      "compiler_sha256": "c7effacf28b9d64495f81b75228fbf4266ac0ec87e8f1adc489ddd8a4dd06d89",
+      "compiler_version": "0.8.10+commit.fc410830",
+      "immutables": {
+        "_admin": "0x2f39d218133afab8f2b819b1066c7e434ad94e9e"
+      },
+      "name": "rewards-proxy",
+      "settings_sha256": "8f00ef0a11564fd2f5b0cb5e926a669a16ed77561e766f153d03776bf85df0ea",
+      "sources_sha256": "f1072f0e3ef92a941faae860c5b4bce62f93708372564f6116a1b6ceb6937fb6",
+      "target": "@aave/core-v3/contracts/protocol/libraries/aave-upgradeability/InitializableImmutableAdminUpgradeabilityProxy.sol:InitializableImmutableAdminUpgradeabilityProxy"
+    },
+    {
+      "address": "0xe7b67f44ea304dd7f6d215b13686637ff64cd2b2",
+      "compiler_output_sha256": "819fe67c0aa5802f8a4360372b10a6d71f3ab669d95ceb2d8b81131a3b3f4c6d",
+      "compiler_sha256": "c7effacf28b9d64495f81b75228fbf4266ac0ec87e8f1adc489ddd8a4dd06d89",
+      "compiler_version": "0.8.10+commit.fc410830",
+      "immutables": {
+        "EMISSION_MANAGER": "0x223d844fc4b006d67c0cdbd39371a9f73f69d974"
+      },
+      "name": "rewards-implementation",
+      "settings_sha256": "8f00ef0a11564fd2f5b0cb5e926a669a16ed77561e766f153d03776bf85df0ea",
+      "sources_sha256": "59e11dc1a8b6f1b2d47252b594c46ad688c25277e6818d8c9b5abe29818308cf",
+      "target": "@aave/periphery-v3/contracts/rewards/RewardsController.sol:RewardsController"
+    },
+    {
+      "address": "0x2edff5af94334fbd7c38ae318edf1c40e072b73b",
+      "compiler_output_sha256": "49f8c79b242df937da71ceeeb3716e9c5f4a91442fb483494656ebd0d8b9c95e",
+      "compiler_sha256": "8be0aeb74fc1b8213292a09a84cb524a403602526df87ecad5f5cd2a7ea7d089",
+      "compiler_version": "0.8.22+commit.4fc1097e",
+      "immutables": {
+        "_admin": "0x64b761d848206f447fe2dd461b0c635ec39ebb27"
+      },
+      "name": "second-proxy",
+      "settings_sha256": "6b2cbf98b48ea5a9b8866dab5bfb65be37ec7dee0fa8e93470ffd49fd2c2bc04",
+      "sources_sha256": "0b3da5d3ec5f1716637b78502c5e2d4fec08b8619c74fbba5969a96e67fcd42e",
+      "target": "src/contracts/misc/aave-upgradeability/InitializableImmutableAdminUpgradeabilityProxy.sol:InitializableImmutableAdminUpgradeabilityProxy"
+    }
+  ]
+}

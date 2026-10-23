@@ -991,3 +991,6 @@ fn actual_proxy_requires_slot_and_implementation_witnesses() {
         );
     }
 }
+
+#[path = "support/aave_rewards_execution.rs"]
+mod rewards_execution;

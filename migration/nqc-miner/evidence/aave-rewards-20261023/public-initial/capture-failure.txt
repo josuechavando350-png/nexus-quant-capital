@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/workspace/scratch/462bfc2f69c3/nqc-miner-work/migration/nqc-miner/research/capture_aave_rewards.py", line 126, in <module>
+    if __name__ == '__main__': main()
+                               ^^^^^^
+  File "/workspace/scratch/462bfc2f69c3/nqc-miner-work/migration/nqc-miner/research/capture_aave_rewards.py", line 118, in main
+    result = capture_one(plan, rpc); name = f'rewards-{i:03d}.json'; probe.save(args.output / name, result)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/462bfc2f69c3/nqc-miner-work/migration/nqc-miner/research/capture_aave_rewards.py", line 76, in capture_one
+    slot = read(provider, 'eth_getStorageAt', [REWARDS, probe.SLOT, pin])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/462bfc2f69c3/nqc-miner-work/migration/nqc-miner/research/capture_aave_rewards.py", line 63, in read
+    r = query(provider, method, args); value = r['response']['result']
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/462bfc2f69c3/nqc-miner-work/migration/nqc-miner/research/capture_aave_rewards.py", line 54, in __call__
+    probe.check(value.get('jsonrpc') == '2.0' and type(value.get('id')) is int and value['id'] == self.sequence and 'result' in value and 'error' not in value, 'RPC envelope')
+  File "/workspace/scratch/462bfc2f69c3/nqc-miner-work/migration/nqc-miner/evidence/aave-proxy-identity-20261023/capture.py", line 26, in check
+    raise ValueError(message)
+ValueError: RPC envelope
