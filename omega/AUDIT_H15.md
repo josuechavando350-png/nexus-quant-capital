@@ -4,7 +4,10 @@ Local validation: **433/433** full Omega tests, zero failures/errors/skips,
 including 18 new identity tests. Original D15B/D16 data were supplied. Isolation
 passed with 111 reviewed Omega files, all 531 original source files intact,
 106 historical workflows disabled and one reviewed active workflow.
-Remote exact-producer execution remains pending. Product target 45% is not
+The unchanged H15 intake and its 18 tests passed in the combined H16 producer
+`af4fe54f1dc25d1e3b1ab620db874549b15af2ea`, run 39874530238, including the
+independent artifact/log post-audit documented in `AUDIT_H16.md`. The H15-only
+run was cancelled while pending, as recorded below. Product target 45% is not
 declared achieved; certified components remain 0/36.
 
 Real captures: two native Blockscout `direct_api_call` requests against chain 1,

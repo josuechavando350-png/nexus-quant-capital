@@ -328,3 +328,14 @@ Complete net profit, oracle-delay and unknown costs remain null. Store admission
 recovery and queries revalidate all underlying artifacts and derived ledgers.
 See `CASHFLOW_INTAKE_CONTRACT.md` and `AUDIT_H16.md`. This does not certify a
 component or establish the requested 45% completion target.
+
+
+**H14–H16 implementados y auditados en su alcance:** regresión local **445/445**,
+con **93 pruebas nuevas**. El productor combinado
+`af4fe54f1dc25d1e3b1ab620db874549b15af2ea` aprobó ambos jobs del run
+[39874530238](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/39874530238).
+La auditoría posterior contrastó artifacts, metadata externa, logs y hashes de
+pruebas: Rust PFT 56, Rust Census 528, Solidity 14, forks 4 y replay de 16 pasos.
+Se conservan fuente y estado originales; los cambios posteriores son documentación.
+Ver [auditoría final H16](AUDIT_H16.md). **Census sigue abierto, certificación
+0/36; el 45% global todavía no está demostrado.**

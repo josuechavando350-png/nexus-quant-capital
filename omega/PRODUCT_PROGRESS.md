@@ -60,7 +60,7 @@ are planning estimates rather than physical proof of readiness.
 | Requirement | Demonstrated scope | Still open |
 |---|---|---|
 | Original/source isolation | 531 original source files; 106 old workflows disabled | No expansion of original authority |
-| H2 physical runtime | H14 producer independently audited; final combined producer tracked in H16 | Final H16 replay/post-audit pending at this edit |
+| H2 physical runtime | H14 and combined H16 producers independently audited, including forks and disconnected replay | Runtime success does not close market/component gates |
 | Historical transaction intake | 139 event payloads, 127 receipts, 139 decoded legs | Independent complete receipt parity and event coverage |
 | Competitor identities | 127 transactions, 49 event-liquidator addresses, 127 borrowers | Ownership, strategy classification and current refresh |
 | Historical economic arithmetic | 9 WETH/WETH gross-minus-gas rows; 2 prior-block prices | 118 other transaction economics, 7 WETH price references, all complete net costs |
