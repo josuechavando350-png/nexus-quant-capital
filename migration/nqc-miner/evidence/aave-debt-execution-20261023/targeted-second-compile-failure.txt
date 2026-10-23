@@ -1,0 +1,15 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/462bfc2f69c3/nqc-miner-work/migration/nqc-miner)
+error[E0282]: type annotations needed
+  --> tests/aave_debt_execution_tests.rs:46:55
+   |
+46 |     token.storage.insert(mapping(USER,56).to_string(),(c.balance | (U256::from(c.delegation)<<120) | (c.previous_index<<128)).to_string());
+   |                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ cannot infer type
+
+error[E0282]: type annotations needed
+   --> tests/aave_debt_execution_tests.rs:123:53
+    |
+123 |     expected.insert(TOKEN.into(),[(mapping(USER,56),(balance|(U256::from(c.delegation)<<120)|(index<<128)).to_string()),(U256::from(58),s...
+    |                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ cannot infer type
+
+For more information about this error, try `rustc --explain E0282`.
+error: could not compile `nqc-miner` (test "aave_debt_execution_tests") due to 2 previous errors

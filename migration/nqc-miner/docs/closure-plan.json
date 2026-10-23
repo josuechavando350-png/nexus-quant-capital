@@ -28,7 +28,7 @@
       "remaining_points": 8,
       "acceptance": "Actual workflow integration and historical price/position/execution reconstruction with certified adapters",
       "dependency": "development_and_runtime",
-      "next_step": "Use the runtime-matched aToken/vToken and rate-strategy sources to execute actual dependency behavior. Verify proxy dispatch, rewards-controller callbacks and underlying-asset transfers; authenticate balances, rate parameters and transaction-boundary state. Compose all partial kernels, cover multi-reserve _burnBadDebt and aggregate health/eMode, run under the historical fork and integrate workflow execution. Source/runtime equality alone does not certify full liquidation.",
+      "next_step": "Extend the executed debt/token/rate composition with verified deployed proxy and rewards-controller behavior; authenticate historical balances, rate parameters and transaction prestate. Add actual aToken/underlying-asset transfers, multireserve bad debt and aggregate health/eMode, execute under the real historical fork and integrate workflows. Current combined execution is explicitly synthetic and does not certify complete liquidations.",
       "status": "open"
     },
     {
@@ -44,7 +44,7 @@
       "remaining_points": 4,
       "acceptance": "Quarantined generation, actual differential protocol testing and Foundry fuzzing",
       "dependency": "development_and_toolchain",
-      "next_step": "Extend synthetic REVM differential checks for initial conditions, amounts, reserves, collateral/fee and original debt/deficit bookkeeping to the full adapter with authenticated token/strategy dependencies. Run actual Foundry differential/property/fuzz tests; current partial checks do not earn certification points.",
+      "next_step": "Extend the combined original debt function, real variable-debt token and actual rate strategy execution to full liquidation with verified proxy/rewards and aToken/asset dependencies plus authenticated state. Run actual Foundry differential/property/fuzz certification; the synthetic REVM fixture alone earns no certification points.",
       "status": "open"
     },
     {

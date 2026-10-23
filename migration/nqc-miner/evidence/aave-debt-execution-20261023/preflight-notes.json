@@ -1,0 +1,8 @@
+{
+  "initial_solidity_compile": "Synthetic proxy address literal had an invalid mixed-case checksum. Corrected casing only; underlying address bytes unchanged.",
+  "initial_rust_compile": "The test helper used std Into<U256> instead of the pinned library inherent U256::from conversion. Replaced helper calls without dependency changes.",
+  "second_rust_compile": "Explicit usize shift widths resolve integer type inference in packed user-state expressions.",
+  "initial_runtime_test": "All seven tests stopped at a selector-format assertion: the compiler identifier omits 0x. Corrected comparison of the encoded selector; no protocol/source changes.",
+  "subsequent_validation": "Seven tests passed, then eight expanded tests and four Python tests passed. All actual dependency runtimes and original sources remained unchanged.",
+  "clippy_preflight": "Four test-style warnings: one hex seed grouping and three reassigned default fields. Corrected literal formatting/initializers without suppressing lints or changing scenario values."
+}

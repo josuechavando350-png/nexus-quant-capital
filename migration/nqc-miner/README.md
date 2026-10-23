@@ -23,6 +23,7 @@ Los datos usan exclusivamente el espacio `nqc_miner_v1`. Cada ejecución tiene d
 - [Consumo de colateral escalado y comisión final Aave](docs/aave-collateral.md): contempla redondeos separados y el saldo posterior suministrado; no ejecuta transferencias del token.
 - [Quema de deuda y déficit Aave](docs/aave-debt.md): comprueba contabilidad de deuda, indicador de préstamo, argumentos de tasas y liquidez virtual con respuestas externas suministradas.
 - [Identidad histórica de tokens y estrategia](docs/aave-dependencies.md): recompilación exacta de las implementaciones y comparación con dos proveedores en tres bloques; estado y ejecución externa siguen pendientes.
+- [Ejecución conjunta de deuda](docs/aave-debt-execution.md): función original del Pool, token de deuda y estrategia reales ejecutados juntos sobre estado sintético, con rollback y callbacks comprobados.
 - Valuación condicional mediante bootstrap de economía diaria, con semillas reproducibles, escenarios, percentiles y costes de intentos fallidos. No sustituye una simulación completa de precios y ejecución.
 - Simulación local con REVM sobre un estado cerrado suministrado: las cuentas, slots o hashes de ancestros ausentes causan error. No se completan consultando un RPC ni suponiendo ceros.
 - Controles de ciclo de vida, caducidad, toxicidad, pruebas de adaptadores y presupuesto; asignación preparatoria por Thompson sampling.

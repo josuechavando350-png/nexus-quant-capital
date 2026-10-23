@@ -1,0 +1,54 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/462bfc2f69c3/nqc-miner-work/migration/nqc-miner)
+error: digits of hex, binary or octal literal not in groups of equal size
+   --> tests/aave_debt_execution_tests.rs:554:45
+    |
+554 |     let mut rng = ChaCha8Rng::seed_from_u64(0xa11ce_b0de);
+    |                                             ^^^^^^^^^^^^ help: consider: `0x000a_11ce_b0de`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#unusual_byte_groupings
+    = note: `-D clippy::unusual-byte-groupings` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::unusual_byte_groupings)]`
+
+error: field assignment outside of initializer for an instance created with Default::default()
+   --> tests/aave_debt_execution_tests.rs:442:5
+    |
+442 |     c.repayment = U256::from(120);
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+note: consider initializing the variable with `Case { repayment: U256::from(120), ..Default::default() }` and removing relevant reassignments
+   --> tests/aave_debt_execution_tests.rs:441:5
+    |
+441 |     let mut c = Case::default();
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#field_reassign_with_default
+    = note: `-D clippy::field-reassign-with-default` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::field_reassign_with_default)]`
+
+error: field assignment outside of initializer for an instance created with Default::default()
+   --> tests/aave_debt_execution_tests.rs:474:5
+    |
+474 |     c.factor = U256::from(10001);
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+note: consider initializing the variable with `Case { factor: U256::from(10001), ..Default::default() }` and removing relevant reassignments
+   --> tests/aave_debt_execution_tests.rs:473:5
+    |
+473 |     let mut c = Case::default();
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#field_reassign_with_default
+
+error: field assignment outside of initializer for an instance created with Default::default()
+   --> tests/aave_debt_execution_tests.rs:491:5
+    |
+491 |     c.repayment = U256::from(1);
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+note: consider initializing the variable with `Case { repayment: U256::from(1), ..Default::default() }` and removing relevant reassignments
+   --> tests/aave_debt_execution_tests.rs:490:5
+    |
+490 |     let mut c = Case::default();
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#field_reassign_with_default
+
+error: could not compile `nqc-miner` (test "aave_debt_execution_tests") due to 4 previous errors
+warning: build failed, waiting for other jobs to finish...
