@@ -95,3 +95,8 @@ de rama pueden cambiar; los identificadores de blob registran lo revisado.
 
 Resultados y limitaciones de la ejecución real:
 [AUDIT_AAVE_STATE_20261023.md](AUDIT_AAVE_STATE_20261023.md).
+
+La continuación de [identidad de implementación y reglas por versión](aave-version-gates.md)
+conserva también tres lecturas históricas del slot ERC-1967 y del runtime,
+auditadas contra los informes originales. No certifica todavía la versión ni
+la elegibilidad ejecutable.
