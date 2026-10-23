@@ -1,8 +1,15 @@
 # NQC Miner — Ledger de evidencia
 
-Corte: 22 de octubre de 2026.
+Corte: 23 de octubre de 2026.
 
-Bloque actual: auditoría nativa del cliente local `a1fb66a4` aprobada: **74 hashes,
+Bloque actual: medición auxiliar de comisiones Ethereum vinculada al journal
+verificado. Se conservan seis respuestas públicas: dos costes medidos y uno
+desconocido por falta de pertenencia en una respuesta parcial. Son los mismos
+tres eventos históricos; cero eventos nuevos. Ver `docs/gas-measurement.md`,
+`docs/AUDIT_GAS_MEASUREMENT_20261023.md` y `evidence/gas-measurement-20261023/`.
+Avance global **43/100**; no se cierra el gate de medición calibrada.
+
+Bloque anterior: auditoría nativa del cliente local `a1fb66a4` aprobada: **74 hashes,
 ocho entradas fijadas, 17 comprobaciones y 16 intentos**, acuses, concurrencia,
 interrupción/reintento, revocaciones, originales y restart/shutdown. Ver
 `docs/AUDIT_SYNC_TERMUX_20261022.md`. No hay nuevos datos económicos.

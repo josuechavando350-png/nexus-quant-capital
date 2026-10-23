@@ -1,0 +1,1405 @@
+{
+  "schema": "nqc-miner-blockscout-fee-input-v1",
+  "namespace": "nqc_miner_v1",
+  "producer": "nqc-miner",
+  "data_class": "historical",
+  "source": "blockscout-mcp",
+  "server_version": "0.19.0",
+  "calls": [
+    {
+      "tool": "get_transaction_info",
+      "params": {
+        "chain_id": "1",
+        "transaction_hash": "0x0f41c4143e965fe9c26509f976cf31374460f6899ee796966a4b65b110e9aa2f"
+      },
+      "response": {
+        "data": {
+          "from": "0xBc5316d3CFbd0Bbc57182568BC200630E2dD8A2d",
+          "to": "0xD12810B19B596347a3AFAC206d3cA65d08594b3f",
+          "token_transfers": [
+            {
+              "from": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+              "to": "0xD12810B19B596347a3AFAC206d3cA65d08594b3f",
+              "token": {
+                "address_hash": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "circulating_market_cap": "71988850519.7515",
+                "circulating_supply": null,
+                "decimals": "6",
+                "exchange_rate": "0.999479",
+                "holders_count": "9507747",
+                "icon_url": "https://raw.githubusercontent.com/ulyanas/frontend-configs/add-usdc-eurc-latest-token-icons/configs/token-icons/USDC_latest.svg",
+                "name": "USDC",
+                "reputation": "ok",
+                "symbol": "USDC",
+                "total_supply": "48116100415858524",
+                "type": "ERC-20",
+                "volume_24h": "12986870457.479961"
+              },
+              "type": "token_transfer",
+              "log_index": 48,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "6",
+                "value": "800081671"
+              }
+            },
+            {
+              "from": "0x9F36F1F3B3dbF1939F318cD97D9412F056255C83",
+              "to": "0x0000000000000000000000000000000000000000",
+              "token": {
+                "address_hash": "0x72E95b8931767C79bA4EeE721354d6E99a61D004",
+                "circulating_market_cap": null,
+                "circulating_supply": null,
+                "decimals": "6",
+                "exchange_rate": null,
+                "holders_count": "12171",
+                "icon_url": null,
+                "name": "Aave Ethereum Variable Debt USDC",
+                "reputation": "ok",
+                "symbol": "variableDebtEthUSDC",
+                "total_supply": "2231244217689606",
+                "type": "ERC-20",
+                "volume_24h": null
+              },
+              "type": "token_burning",
+              "log_index": 49,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "6",
+                "value": "800000001"
+              }
+            },
+            {
+              "from": "0x9F36F1F3B3dbF1939F318cD97D9412F056255C83",
+              "to": "0x0000000000000000000000000000000000000000",
+              "token": {
+                "address_hash": "0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8",
+                "circulating_market_cap": "5791937310.222124",
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": "2391.7",
+                "holders_count": "47133",
+                "icon_url": "https://assets.coingecko.com/coins/images/32882/small/WETH_%281%29.png?1699716492",
+                "name": "Aave v3 WETH",
+                "reputation": "ok",
+                "symbol": "AWETH",
+                "total_supply": "2196142065943522942838695",
+                "type": "ERC-20",
+                "volume_24h": "0"
+              },
+              "type": "token_burning",
+              "log_index": 53,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "348234061359218151"
+              }
+            },
+            {
+              "from": "0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8",
+              "to": "0xD12810B19B596347a3AFAC206d3cA65d08594b3f",
+              "token": {
+                "address_hash": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+                "circulating_market_cap": "5325657338.91305",
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": "2392.67",
+                "holders_count": "3358469",
+                "icon_url": "https://assets.coingecko.com/coins/images/2518/small/weth.png?1696503332",
+                "name": "WETH",
+                "reputation": "ok",
+                "symbol": "WETH",
+                "total_supply": "2226684899084612607566971",
+                "type": "ERC-20",
+                "volume_24h": "228406619.46292982"
+              },
+              "type": "token_transfer",
+              "log_index": 55,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "348234266128917069"
+              }
+            },
+            {
+              "from": "0x0000000000000000000000000000000000000000",
+              "to": "0x464C71f6c2F760DdA6093dCB91C24c39e5d6e18c",
+              "token": {
+                "address_hash": "0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8",
+                "circulating_market_cap": "5791937310.222124",
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": "2391.7",
+                "holders_count": "47133",
+                "icon_url": "https://assets.coingecko.com/coins/images/32882/small/WETH_%281%29.png?1699716492",
+                "name": "Aave v3 WETH",
+                "reputation": "ok",
+                "symbol": "AWETH",
+                "total_supply": "2196142065943522942838695",
+                "type": "ERC-20",
+                "volume_24h": "0"
+              },
+              "type": "token_minting",
+              "log_index": 56,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "3719025159904115"
+              }
+            },
+            {
+              "from": "0x9F36F1F3B3dbF1939F318cD97D9412F056255C83",
+              "to": "0x464C71f6c2F760DdA6093dCB91C24c39e5d6e18c",
+              "token": {
+                "address_hash": "0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8",
+                "circulating_market_cap": "5791937310.222124",
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": "2391.7",
+                "holders_count": "47133",
+                "icon_url": "https://assets.coingecko.com/coins/images/32882/small/WETH_%281%29.png?1699716492",
+                "name": "Aave v3 WETH",
+                "reputation": "ok",
+                "symbol": "AWETH",
+                "total_supply": "2196142065943522942838695",
+                "type": "ERC-20",
+                "volume_24h": "0"
+              },
+              "type": "token_transfer",
+              "log_index": 58,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "1666192660903910"
+              }
+            },
+            {
+              "from": "0xD12810B19B596347a3AFAC206d3cA65d08594b3f",
+              "to": "0x98C23E9d8f34FEFb1B7BD6a91B7FF122F4e16F5c",
+              "token": {
+                "address_hash": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "circulating_market_cap": "71988850519.7515",
+                "circulating_supply": null,
+                "decimals": "6",
+                "exchange_rate": "0.999479",
+                "holders_count": "9507747",
+                "icon_url": "https://raw.githubusercontent.com/ulyanas/frontend-configs/add-usdc-eurc-latest-token-icons/configs/token-icons/USDC_latest.svg",
+                "name": "USDC",
+                "reputation": "ok",
+                "symbol": "USDC",
+                "total_supply": "48116100415858524",
+                "type": "ERC-20",
+                "volume_24h": "12986870457.479961"
+              },
+              "type": "token_transfer",
+              "log_index": 60,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "6",
+                "value": "800001671"
+              }
+            },
+            {
+              "from": "0xD12810B19B596347a3AFAC206d3cA65d08594b3f",
+              "to": "0x5fcA7A90Fc92e7390De8F3493693FeD68BAd299C",
+              "token": {
+                "address_hash": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+                "circulating_market_cap": "5325657338.91305",
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": "2392.67",
+                "holders_count": "3358469",
+                "icon_url": "https://assets.coingecko.com/coins/images/2518/small/weth.png?1696503332",
+                "name": "WETH",
+                "reputation": "ok",
+                "symbol": "WETH",
+                "total_supply": "2226684899084612607566971",
+                "type": "ERC-20",
+                "volume_24h": "228406619.46292982"
+              },
+              "type": "token_transfer",
+              "log_index": 62,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "337316211129834005"
+              }
+            },
+            {
+              "from": "0xE0554a476A092703abdB3Ef35c80e0D76d32939F",
+              "to": "0xD12810B19B596347a3AFAC206d3cA65d08594b3f",
+              "token": {
+                "address_hash": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "circulating_market_cap": "71988850519.7515",
+                "circulating_supply": null,
+                "decimals": "6",
+                "exchange_rate": "0.999479",
+                "holders_count": "9507747",
+                "icon_url": "https://raw.githubusercontent.com/ulyanas/frontend-configs/add-usdc-eurc-latest-token-icons/configs/token-icons/USDC_latest.svg",
+                "name": "USDC",
+                "reputation": "ok",
+                "symbol": "USDC",
+                "total_supply": "48116100415858524",
+                "type": "ERC-20",
+                "volume_24h": "12986870457.479961"
+              },
+              "type": "token_transfer",
+              "log_index": 63,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "6",
+                "value": "800001671"
+              }
+            },
+            {
+              "from": "0x5fcA7A90Fc92e7390De8F3493693FeD68BAd299C",
+              "to": "0xE0554a476A092703abdB3Ef35c80e0D76d32939F",
+              "token": {
+                "address_hash": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+                "circulating_market_cap": "5325657338.91305",
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": "2392.67",
+                "holders_count": "3358469",
+                "icon_url": "https://assets.coingecko.com/coins/images/2518/small/weth.png?1696503332",
+                "name": "WETH",
+                "reputation": "ok",
+                "symbol": "WETH",
+                "total_supply": "2226684899084612607566971",
+                "type": "ERC-20",
+                "volume_24h": "228406619.46292982"
+              },
+              "type": "token_transfer",
+              "log_index": 64,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "333274875585239858"
+              }
+            }
+          ],
+          "decoded_input": null,
+          "user_operations": null,
+          "raw_input": "0xc2e75b01000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000026cf000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000001f8a0b86991c6218b36c1d19d4a2e9eb0ce3606eb489f36f1f3b3dbf1939f318cd97d9412f056255c83c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2d12810b19b596347a3afac206d3ca65d08594b3f000000000000000000000000000000000000000000000000000000002fb047079c40084088000000ffffffff",
+          "raw_input_truncated": true,
+          "priority_fee": "0",
+          "is_pending_update": false,
+          "result": "success",
+          "max_fee_per_gas": "223254141",
+          "revert_reason": null,
+          "confirmation_duration": [
+            0,
+            12000
+          ],
+          "transaction_burnt_fee": "95545794283100",
+          "type": 2,
+          "token_transfers_overflow": true,
+          "confirmations": 3553,
+          "position": 3,
+          "max_priority_fee_per_gas": "0",
+          "transaction_tag": null,
+          "created_contract": null,
+          "value": "0",
+          "gas_used": "615980",
+          "status": "ok",
+          "authorization_list": [],
+          "method": "0xc2e75b01",
+          "fee": {
+            "type": "actual",
+            "value": "95545794283100"
+          },
+          "gas_limit": "828100",
+          "gas_price": "155111845",
+          "fhe_operations_count": 0,
+          "base_fee_per_gas": "155111845",
+          "timestamp": "2026-10-22T12:12:47.000000Z",
+          "nonce": 254,
+          "historic_exchange_rate": null,
+          "transaction_types": [
+            "contract_call",
+            "token_transfer"
+          ],
+          "exchange_rate": "2385.11",
+          "block_number": 26248076,
+          "has_error_in_internal_transactions": false
+        },
+        "data_description": null,
+        "notes": [
+          "One or more large data fields in this response have been truncated (indicated by \"value_truncated\": true or \"raw_input_truncated\": true).",
+          "To get the full, untruncated data, fetch it from the Blockscout PRO API endpoint:\n`https://api.blockscout.com/1/api/v2/transactions/0x0f41c4143e965fe9c26509f976cf31374460f6899ee796966a4b65b110e9aa2f`",
+          "See the `web3-dev` skill for how to call it.",
+          "Free session budget: 6 of 8 tool calls remaining. Requests authorized with a client-supplied Blockscout PRO API key are not metered — get a key at https://mcp.blockscout.com.",
+          "Starting 10/08/2026, all requests to the Blockscout MCP server will require a PRO API key for authorization. More information on how to get a PRO API key and setup instructions on https://mcp.blockscout.com/."
+        ],
+        "instructions": [
+          "To get a transaction summary, use `direct_api_call` with `endpoint_path='/api/v2/transactions/0x0f41c4143e965fe9c26509f976cf31374460f6899ee796966a4b65b110e9aa2f/summary'`.",
+          "To get event logs, use `direct_api_call` with `endpoint_path='/api/v2/transactions/0x0f41c4143e965fe9c26509f976cf31374460f6899ee796966a4b65b110e9aa2f/logs'`."
+        ],
+        "pagination": null
+      }
+    },
+    {
+      "tool": "get_block_info",
+      "params": {
+        "chain_id": "1",
+        "number_or_hash": "0x93c3ada980ac14c3a0a64f3ef98d3e8639ffd1ce42b6e2e74ee44c1bddcb5053",
+        "include_transactions": true
+      },
+      "response": {
+        "data": {
+          "block_details": {
+            "base_fee_per_gas": "155111845",
+            "beacon_deposits_count": 0,
+            "blob_gas_price": "9718378",
+            "blob_gas_used": "524288",
+            "blob_transactions_count": 2,
+            "burnt_blob_fees": "5095228964864",
+            "burnt_fees": "5102400263478875",
+            "burnt_fees_percentage": 25.740555256356895,
+            "difficulty": "0",
+            "excess_blob_gas": "188000857",
+            "gas_limit": "60000000",
+            "gas_target_percentage": 9.649916666666666,
+            "gas_used": "32894975",
+            "gas_used_percentage": 54.824958333333335,
+            "hash": "0x93c3ada980ac14c3a0a64f3ef98d3e8639ffd1ce42b6e2e74ee44c1bddcb5053",
+            "height": 26248076,
+            "internal_transactions_count": 1358,
+            "is_pending_update": false,
+            "miner": {
+              "ens_domain_name": null,
+              "hash": "0x4838B106FCe9647Bdf1E7877BF73cE8B0BAD5f97",
+              "implementations": [],
+              "is_contract": false,
+              "is_scam": false,
+              "is_verified": false,
+              "metadata": null,
+              "name": null,
+              "private_tags": [],
+              "proxy_type": null,
+              "public_tags": [],
+              "reputation": "ok",
+              "watchlist_names": []
+            },
+            "nonce": "0x0000000000000000",
+            "parent_hash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+            "priority_fee": "14720016979128139",
+            "rewards": [
+              {
+                "reward": "14720016979128139",
+                "type": "Miner Reward"
+              }
+            ],
+            "size": 147560,
+            "timestamp": "2026-10-22T12:12:47.000000Z",
+            "total_difficulty": "58750003716598352816469",
+            "transaction_fees": "19822417242607014",
+            "transactions_count": 291,
+            "type": "block",
+            "uncles_hashes": [],
+            "withdrawals_count": 16
+          },
+          "transaction_hashes": [
+            "0xd6c4a170f69dc764aeb628fc12cb948041ce97d9d1e5c443d1723b30370dda64",
+            "0x811fbc9900ab7495d0e9e5c12d0cd031cd90c7436cf3b4ebeb9bc153c8164bbd",
+            "0x10e99bcc568652f9bcee47bbd27a3f5da898bb9481a4261cef07bbb24544be27",
+            "0x0f41c4143e965fe9c26509f976cf31374460f6899ee796966a4b65b110e9aa2f",
+            "0x37ba16e8a3b9575c6e681a0e162b39a54cf1ba09b65357d814ea067a51f6455a",
+            "0xcfa8c5a1d47663049640d3623393ef5dcc35c39ee7282554ef5a36c201eabbd3",
+            "0x7a230f6815cf1fb98ad15405995215481bd52911683db2b6c246b0c9fa6886c8",
+            "0xd4889d69543ab982b70032ac21d0cfb920abc7d8317e2835354500e2943ee9f6",
+            "0xb9a99dd6e4a7dbad171bc45538fdd14fba48ec88e1eb813ead4bec78303c840b",
+            "0xf02ee8d01f50b773cc24607eed8edfc7ddb46fc4717d7b46ed4bda09902b44d0",
+            "0x8c5d000d76a11309e95f5e5ecf54bdbd1bd3cdc4a46f30a2c59a3016f737592d",
+            "0x0eeda1a6611ee87852c997a93b4bcabb3db1a0af7f3fd16d46a7423d331d0ae7",
+            "0xbca91c35a059a2025e421eee5228ab653167fff3de0c4e84f83ddfc6aaeb4f17",
+            "0x05f30241ec502e1bfaa5bb91adfd50b63972f57e5be30c0e4f9410a5a1a74b85",
+            "0xf71b13e7c1f82726923ca1a3ba6d36be60c4307198c0e545dd5ed854d06687c5",
+            "0xf7a7cdbddc98c588ea1722af7e90ba4bba5d7d1271b5b5c9f789924d28e8e48e",
+            "0xac3c1f826a9611da16671e14c6a8412ab4651be872d396446e8c916c509f8054",
+            "0x85b76ef6b3644d2f1b58144ebc328b7a7a706dc38d8cfcf4c0a9166be2d7bb77",
+            "0x97e40a3f79191f6eb7cec1097065a58634d2763854336cbcf868a8330277538d",
+            "0x0bb3c5690dc8f69f8d76654b6bb8262e983ea5ed9af5b7ae72b3463eabd5195a",
+            "0x2a85632f2f0e60bdabcbad6257db85d653f424b2ebdc8191bf5bef4136e7bbfa",
+            "0x5c4750b074cce32bf1837a8bd2cca039c8543cb910472b5dfc6d46beaae5ff28",
+            "0xf6d7e517044c1244679e598345545132a365570b45b5c6c3bfcfea684b1dc151",
+            "0x4ada235c4b52095c1c9911567f18b011be95bdd070f908154ed1c6114be53dfb",
+            "0xa53be9e4403697ed9233e33c32e8f38769f37d200484833be37069455118f463",
+            "0xe09164bbf6fa364e4ef4ead782e52c20ea954fce1bb7fde201b4f85e75dcd776",
+            "0xe654d601ca6d2d7028bb670161bd90fff7aa83c64fa756eb77f4b16ce6e51a0e",
+            "0x561fa03209b690729ee1fa943c81859fbae8a5d77cfd07702855cd55021160db",
+            "0xf294a90b5a92966f9837d01984dcd10a853bd3137cf0bd02223466e6919338c9",
+            "0x8238a0ee2e67c3b8ce44d950a2bf3b764d2aab4aeb2f70abaca88666a9ae3d80",
+            "0x6fff0381d8c63b8cced2b826253b5616b86814a7494c045982b5d8690a7ed317",
+            "0x455c67e79474fb8c6f478c0cb884b964f4a36db8d2c8afde30b84428c56aede1",
+            "0x0ba7f76adebb60c2f137b1e2cbeaf58464e58ae2ac7b13ecdf0bf07960bbb3f9",
+            "0xab28db1381eaf62e3c5224f68fbfd796f40d9beddbcf37ca3d36454fb5e0c353",
+            "0xe06d0d86c39eb06185f26fd43161201f09bb9671d05be3d7b8aa91400365b6b2",
+            "0xfdcd98094c15fcb3cf565bcf92ffb3af54d39837e0e9be68e19eaefea5c95196",
+            "0x9104b10c332aaaf6f55bca93271dc3b2f8fe3565e709207749bebe2084934e38",
+            "0x539bb68f640749bb2e48ae8df567ad64cfa03cdd1bde4913fa0768d245eacbf5",
+            "0x7e473c1beaa3701d796c3c2eb38d0b07dc8873e2c4ab25554dd7b157d774d81d",
+            "0xed36814e0848174fb25710bcc79265f3a43d82cf77e3c5296c82b9be0c4f6ad1",
+            "0xf4008c117329291d0a6a4178af8469ab381d5f165e7738fcfd92efec1a56bfec",
+            "0xf179f6f674d4e32e0135e69e2dd0db4bbbc6beafc014a3be78e2d4ba1cf10195",
+            "0xed2a1628032e6cc0f276bb7bbefe692bc480e22efd83534165925c8b26ad4078",
+            "0xa848debe5eab6175a999ca0302afcd8611763e27bb0776a42ce8607f9ff511ed",
+            "0x3fe647e0a8bd2ab2634045eb0c3a874d3ce2d76df55c593c68dcd5417d0ed8f0",
+            "0x5a662afa214f20abf9da2ca5910f98040bba78d0be2a49da7e330948cd7fe366",
+            "0x03c78458ba3067db1b58b2efa79bf840b251848ffdbb2ab9c56e4da5aca8f49c",
+            "0xa043c1a5efea3be44c1b917e75c01f7b868970dc92b261db961d8885ac09cfea",
+            "0x84437db0c424aad9572c3bb1f0c056aae5b0561f25503fa36c8b22f952c0dcf7",
+            "0x6d691b8dfd805a6791c388b38e3758db0ba8c7187945d3a5c9c0c5fff0786a14"
+          ]
+        },
+        "data_description": null,
+        "notes": [
+          "Free session budget: 2 of 8 tool calls remaining. Requests authorized with a client-supplied Blockscout PRO API key are not metered — get a key at https://mcp.blockscout.com.",
+          "Starting 10/08/2026, all requests to the Blockscout MCP server will require a PRO API key for authorization. More information on how to get a PRO API key and setup instructions on https://mcp.blockscout.com/."
+        ],
+        "instructions": null,
+        "pagination": null
+      }
+    },
+    {
+      "tool": "get_transaction_info",
+      "params": {
+        "chain_id": "1",
+        "transaction_hash": "0xb6eeb0b8a4af39d5d461fa985ada74c294b23d4b457b86d4a02012664352075d"
+      },
+      "response": {
+        "data": {
+          "from": "0xd694Da172D0b3f4389A4eA909134d47fCD3AcF6B",
+          "to": "0x74edC79FEA13bdf1f7841570227127CEC493Bdd9",
+          "token_transfers": [
+            {
+              "from": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+              "to": "0x74edC79FEA13bdf1f7841570227127CEC493Bdd9",
+              "token": {
+                "address_hash": "0x4c9EDD5852cd905f086C759E8383e09bff1E68B3",
+                "circulating_market_cap": "4648011140.061744",
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": "0.999285",
+                "holders_count": "47782",
+                "icon_url": "https://assets.coingecko.com/coins/images/33613/small/usde.png?1733810059",
+                "name": "Ethena USDe",
+                "reputation": "ok",
+                "symbol": "USDE",
+                "total_supply": "4631345229247468992523503861",
+                "type": "ERC-20",
+                "volume_24h": "25834343.96640263"
+              },
+              "type": "token_transfer",
+              "log_index": 910,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "50513122305927164763"
+              }
+            },
+            {
+              "from": "0x03ad8d216e33f59F76D09466FAC243f2DF9f8124",
+              "to": "0x0000000000000000000000000000000000000000",
+              "token": {
+                "address_hash": "0x015396E1F286289aE23a762088E863b3ec465145",
+                "circulating_market_cap": null,
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": null,
+                "holders_count": "921",
+                "icon_url": null,
+                "name": "Aave Ethereum Variable Debt USDe",
+                "reputation": "ok",
+                "symbol": "variableDebtEthUSDe",
+                "total_supply": "11997940664506428655039970",
+                "type": "ERC-20",
+                "volume_24h": null
+              },
+              "type": "token_burning",
+              "log_index": 912,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "47786618562478121271"
+              }
+            },
+            {
+              "from": "0x03ad8d216e33f59F76D09466FAC243f2DF9f8124",
+              "to": "0x0000000000000000000000000000000000000000",
+              "token": {
+                "address_hash": "0x2eDff5AF94334fBd7C38ae318edf1c40e072b73B",
+                "circulating_market_cap": null,
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": null,
+                "holders_count": "28",
+                "icon_url": null,
+                "name": "Aave Ethereum PT_eUSDe_14AUG2025",
+                "reputation": "ok",
+                "symbol": "aEthPT_eUSDe_14AUG2025",
+                "total_supply": "716705700239255975113",
+                "type": "ERC-20",
+                "volume_24h": null
+              },
+              "type": "token_burning",
+              "log_index": 916,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "50916835114344757617"
+              }
+            },
+            {
+              "from": "0x2eDff5AF94334fBd7C38ae318edf1c40e072b73B",
+              "to": "0x74edC79FEA13bdf1f7841570227127CEC493Bdd9",
+              "token": {
+                "address_hash": "0x14Bdc3A3AE09f5518b923b69489CBcAfB238e617",
+                "circulating_market_cap": null,
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": null,
+                "holders_count": "73",
+                "icon_url": null,
+                "name": "PT Ethereal eUSDE 14AUG2025",
+                "reputation": "ok",
+                "symbol": "PT-eUSDE-14AUG2025",
+                "total_supply": "36914493835528017154070",
+                "type": "ERC-20",
+                "volume_24h": null
+              },
+              "type": "token_transfer",
+              "log_index": 918,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "50916835114344757617"
+              }
+            },
+            {
+              "from": "0x03ad8d216e33f59F76D09466FAC243f2DF9f8124",
+              "to": "0x464C71f6c2F760DdA6093dCB91C24c39e5d6e18c",
+              "token": {
+                "address_hash": "0x2eDff5AF94334fBd7C38ae318edf1c40e072b73B",
+                "circulating_market_cap": null,
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": null,
+                "holders_count": "28",
+                "icon_url": null,
+                "name": "Aave Ethereum PT_eUSDe_14AUG2025",
+                "reputation": "ok",
+                "symbol": "aEthPT_eUSDe_14AUG2025",
+                "total_supply": "716705700239255975113",
+                "type": "ERC-20",
+                "volume_24h": null
+              },
+              "type": "token_transfer",
+              "log_index": 919,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "50462671074672704"
+              }
+            },
+            {
+              "from": "0x74edC79FEA13bdf1f7841570227127CEC493Bdd9",
+              "to": "0x4F5923Fc5FD4a93352581b38B7cD26943012DECF",
+              "token": {
+                "address_hash": "0x4c9EDD5852cd905f086C759E8383e09bff1E68B3",
+                "circulating_market_cap": "4648011140.061744",
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": "0.999285",
+                "holders_count": "47782",
+                "icon_url": "https://assets.coingecko.com/coins/images/33613/small/usde.png?1733810059",
+                "name": "Ethena USDe",
+                "reputation": "ok",
+                "symbol": "USDE",
+                "total_supply": "4631345229247468992523503861",
+                "type": "ERC-20",
+                "volume_24h": "25834343.96640263"
+              },
+              "type": "token_transfer",
+              "log_index": 921,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "50462671074672703289"
+              }
+            },
+            {
+              "from": "0x74edC79FEA13bdf1f7841570227127CEC493Bdd9",
+              "to": "0xe8eF806c8aaDc541408dcAd36107c7d26a391712",
+              "token": {
+                "address_hash": "0x14Bdc3A3AE09f5518b923b69489CBcAfB238e617",
+                "circulating_market_cap": null,
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": null,
+                "holders_count": "73",
+                "icon_url": null,
+                "name": "PT Ethereal eUSDE 14AUG2025",
+                "reputation": "ok",
+                "symbol": "PT-eUSDE-14AUG2025",
+                "total_supply": "36914493835528017154070",
+                "type": "ERC-20",
+                "volume_24h": null
+              },
+              "type": "token_transfer",
+              "log_index": 923,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "50916835114344757617"
+              }
+            },
+            {
+              "from": "0xe8eF806c8aaDc541408dcAd36107c7d26a391712",
+              "to": "0x0000000000000000000000000000000000000000",
+              "token": {
+                "address_hash": "0x14Bdc3A3AE09f5518b923b69489CBcAfB238e617",
+                "circulating_market_cap": null,
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": null,
+                "holders_count": "73",
+                "icon_url": null,
+                "name": "PT Ethereal eUSDE 14AUG2025",
+                "reputation": "ok",
+                "symbol": "PT-eUSDE-14AUG2025",
+                "total_supply": "36914493835528017154070",
+                "type": "ERC-20",
+                "volume_24h": null
+              },
+              "type": "token_burning",
+              "log_index": 924,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "50916835114344757617"
+              }
+            },
+            {
+              "from": "0xe8eF806c8aaDc541408dcAd36107c7d26a391712",
+              "to": "0x74edC79FEA13bdf1f7841570227127CEC493Bdd9",
+              "token": {
+                "address_hash": "0x7ac8ca87959b1d5EDfe2df5325A37c304DCea4D0",
+                "circulating_market_cap": null,
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": null,
+                "holders_count": "44",
+                "icon_url": null,
+                "name": "SY Ethereal eUSDE",
+                "reputation": "ok",
+                "symbol": "SY-eUSDE",
+                "total_supply": "183860493933370073148644",
+                "type": "ERC-20",
+                "volume_24h": null
+              },
+              "type": "token_transfer",
+              "log_index": 926,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "50916835113837398035"
+              }
+            },
+            {
+              "from": "0x74edC79FEA13bdf1f7841570227127CEC493Bdd9",
+              "to": "0x0000000000000000000000000000000000000000",
+              "token": {
+                "address_hash": "0x7ac8ca87959b1d5EDfe2df5325A37c304DCea4D0",
+                "circulating_market_cap": null,
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": null,
+                "holders_count": "44",
+                "icon_url": null,
+                "name": "SY Ethereal eUSDE",
+                "reputation": "ok",
+                "symbol": "SY-eUSDE",
+                "total_supply": "183860493933370073148644",
+                "type": "ERC-20",
+                "volume_24h": null
+              },
+              "type": "token_burning",
+              "log_index": 928,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "50916835113837398035"
+              }
+            }
+          ],
+          "decoded_input": null,
+          "user_operations": null,
+          "raw_input": "0x91a59f890000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000001b0000000000000000000000004c9edd5852cd905f086c759e8383e09bff1e68b300000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000004b70422283708aa000000000000000000000000000000000000000000000000000000000000044000000000000000000000000000000000000000000000000000000000000003442921e14a00000000000000000000000087870bca3f3fd6335c3f4ce8",
+          "raw_input_truncated": true,
+          "priority_fee": "0",
+          "is_pending_update": false,
+          "result": "success",
+          "max_fee_per_gas": "153084536",
+          "revert_reason": null,
+          "confirmation_duration": [
+            0,
+            12000
+          ],
+          "transaction_burnt_fee": "123310512255216",
+          "type": 2,
+          "token_transfers_overflow": true,
+          "confirmations": 3515,
+          "position": 328,
+          "max_priority_fee_per_gas": "0",
+          "transaction_tag": null,
+          "created_contract": null,
+          "value": "0",
+          "gas_used": "805506",
+          "status": "ok",
+          "authorization_list": [],
+          "method": "0x91a59f89",
+          "fee": {
+            "type": "actual",
+            "value": "123310512255216"
+          },
+          "gas_limit": "1205113",
+          "gas_price": "153084536",
+          "fhe_operations_count": 0,
+          "base_fee_per_gas": "153084536",
+          "timestamp": "2026-10-22T12:20:23.000000Z",
+          "nonce": 77,
+          "historic_exchange_rate": null,
+          "transaction_types": [
+            "contract_call",
+            "token_transfer"
+          ],
+          "exchange_rate": "2386.63",
+          "block_number": 26248114,
+          "has_error_in_internal_transactions": false
+        },
+        "data_description": null,
+        "notes": [
+          "One or more large data fields in this response have been truncated (indicated by \"value_truncated\": true or \"raw_input_truncated\": true).",
+          "To get the full, untruncated data, fetch it from the Blockscout PRO API endpoint:\n`https://api.blockscout.com/1/api/v2/transactions/0xb6eeb0b8a4af39d5d461fa985ada74c294b23d4b457b86d4a02012664352075d`",
+          "See the `web3-dev` skill for how to call it.",
+          "Free session budget: 5 of 8 tool calls remaining. Requests authorized with a client-supplied Blockscout PRO API key are not metered — get a key at https://mcp.blockscout.com.",
+          "Starting 10/08/2026, all requests to the Blockscout MCP server will require a PRO API key for authorization. More information on how to get a PRO API key and setup instructions on https://mcp.blockscout.com/."
+        ],
+        "instructions": [
+          "To get a transaction summary, use `direct_api_call` with `endpoint_path='/api/v2/transactions/0xb6eeb0b8a4af39d5d461fa985ada74c294b23d4b457b86d4a02012664352075d/summary'`.",
+          "To get event logs, use `direct_api_call` with `endpoint_path='/api/v2/transactions/0xb6eeb0b8a4af39d5d461fa985ada74c294b23d4b457b86d4a02012664352075d/logs'`."
+        ],
+        "pagination": null
+      }
+    },
+    {
+      "tool": "get_block_info",
+      "params": {
+        "chain_id": "1",
+        "number_or_hash": "0x7d0b9646f0090f9f467a31a07cbe5c0c1259badfc5ba93e0072c114b6c9f41af",
+        "include_transactions": true
+      },
+      "response": {
+        "data": {
+          "block_details": {
+            "base_fee_per_gas": "153084536",
+            "beacon_deposits_count": 0,
+            "blob_gas_price": "9396764",
+            "blob_gas_used": "131072",
+            "blob_transactions_count": 1,
+            "burnt_blob_fees": "1231652651008",
+            "burnt_fees": "7333935679554000",
+            "burnt_fees_percentage": 25.005884354245698,
+            "difficulty": "0",
+            "excess_blob_gas": "187607628",
+            "gas_limit": "60000000",
+            "gas_target_percentage": 59.6925,
+            "gas_used": "47907750",
+            "gas_used_percentage": 79.84625,
+            "hash": "0x7d0b9646f0090f9f467a31a07cbe5c0c1259badfc5ba93e0072c114b6c9f41af",
+            "height": 26248114,
+            "internal_transactions_count": 2773,
+            "is_pending_update": false,
+            "miner": {
+              "ens_domain_name": null,
+              "hash": "0x4838B106FCe9647Bdf1E7877BF73cE8B0BAD5f97",
+              "implementations": [],
+              "is_contract": false,
+              "is_scam": false,
+              "is_verified": false,
+              "metadata": null,
+              "name": null,
+              "private_tags": [],
+              "proxy_type": null,
+              "public_tags": [],
+              "reputation": "ok",
+              "watchlist_names": []
+            },
+            "nonce": "0x0000000000000000",
+            "parent_hash": "0x4c2657a2baada85d84c19d27b83e7be675b42a04122d988280361fc8a6bb21f6",
+            "priority_fee": "21994903787420445",
+            "rewards": [
+              {
+                "reward": "21994903787420445",
+                "type": "Miner Reward"
+              }
+            ],
+            "size": 282364,
+            "timestamp": "2026-10-22T12:20:23.000000Z",
+            "total_difficulty": "58750003716598352816469",
+            "transaction_fees": "29328839466974445",
+            "transactions_count": 440,
+            "type": "block",
+            "uncles_hashes": [],
+            "withdrawals_count": 16
+          },
+          "transaction_hashes": [
+            "0x759d230d9a9ab11f4241a4051895bdac9a45ea8b32e41828377ba903e41b109d",
+            "0xd56b288c5b55410501a6a82cb0f58c35b9c81e8984e93c5fca91287bcc6f39d1",
+            "0x544d2dd29885270f406f08fb9148664d269f164afd90bececc219c4a87b2bc0b",
+            "0xfdf9fe7a32ac7c12e3ef9029580b870b0d10dc90180f5edefdd4b8f210f9e768",
+            "0xeae4df04a534f92916ed5a39b6fa015c406166a9b58f34576b47103bde3942d3",
+            "0x32e6db6cd7a373a9214c92c4a1a37b178a3f16ec90d26ac0ff794b77029f35b2",
+            "0x97af24a7706f6fcb50ec7f7c62991df4d55bc72894f54f79494c7ed24aee50c3",
+            "0xcc8b37a02d9345ebdc85249f5058b66f34dce7b3a1c0be62d0ea51616ab23534",
+            "0xd574fdb62d730c9fa0d035c4f48e9e7077b7dcffb52c2ba40e97bb3040e23291",
+            "0x592017dd8281f3a6634f2b38aa2bbe30fa59952761aea57e64bf268e7de7be78",
+            "0x58f88252a223f0bf5f9a267e2cdce40bcf3994e933746bebf2e8ca79d6be08dd",
+            "0x7d65e58e91a73f8ef1eb9b9f95c49e26e4cf19fda0b7041cea653e0bea95b44c",
+            "0x580a1807b3b43395a0888af4ba4d7921e8de29e9969ff6dbc0cdd5924b509394",
+            "0x922ebafbbc32c4b6838587772ae83873976b305389ec05c489517ef01a9fe527",
+            "0x816ef981e7d0ff92481493d09677dc0fe4b20bcda47f914bf88c83d939711a00",
+            "0x1136fd250251d22ba5d8284bf0422bad4bdf31c9e3e97c498ce2e94e0bfb05f7",
+            "0xf0115b898c55ed32c65aa85015ef141398ec6c0ba0b99bfd6194aeb288d27004",
+            "0x5fc5c0aea21afc522b2c39ec63666c33b664f7a936ddc33422bc01797dc35c33",
+            "0x0a78333cd5dc2d39198a1b36fe975e9ee52af6bbfd7e5b67bb9233670afe7a6e",
+            "0xd5b51d0eb74739c535b1c471fdad7ef791612aa1ae30dc5f8e59d714c4113957",
+            "0xa46027bfb577b499d0c7380663406641f90d63a179e1e5c8e8c22cba67412e14",
+            "0x3d0c811aa53a4b855b0d98cab7d0fbbc72a55cae3342755c9cc4cca1ee839b5a",
+            "0x243253fe397e17b23cd71a5e5fac88826b51c7bb94af69328b9ea9fad17632ed",
+            "0x5842720561d920993d440b97e0546609f421cdbe7a3fe944e9e82b87e495f1ef",
+            "0xed7bccf3f8022e25b0ea6282dba5b1690570acf56a81cf57d06b3a036723653e",
+            "0x95d07b36ed833830f5414746744dfa6337ae79c26724b4c62d1d94600772f17b",
+            "0x1fedb815f1b071ea766a7dd0568b10adf614856e0de7aa3eb95e037e32554f53",
+            "0xdeb8ecd9eade2126c03481f73cb5fed67bc53ff3ca64ca71d5a4c697d3b335ae",
+            "0x8c87c0f1d5fe72ad23b14ed9297181c46449237798a1d7f9b35490e3fcc84786",
+            "0x7fd1fd73f86259862226359cd8d9159819bda1d54011b98db5c98eb994b751d7",
+            "0x75aa135eb0cd3134156bc9ce7b0cefa9cf222a9472dd0a5def0418f25ed11ff4",
+            "0x1d54a0b3671d4b03f4184590cb31286a249e79a4c379af6ced4e12dea51ab658",
+            "0x436f0a20245dff71471e6a8a9641551c110a3bb4f3b537cf960e31164728e19f",
+            "0x2cc253c7247a4a5247d8ff4902cd1a2313c993909f5f7e4a287d80abbaa82a8b",
+            "0xcdad7cbd408c22a7aff77aa9955903c1834c2cdc4d025e06bb0310624a40e7ec",
+            "0x06e149e603c00116b6e20b8c2847e221394ec1e408e97d19ed72fcf5db83b079",
+            "0xb8512b0d6c01229c3393ee935797474dc411f0b5a6ff95eee8a774cd40a19bb4",
+            "0x26ff9f25b75c556bf6a93cf628f4888bb7e902300da11a35231aa3161cfb5a29",
+            "0x74246bb897e12d8f19aa2b73f0141e55ce472e0f45b7bc1ac9ceb9c3f1bed2e4",
+            "0x72fd382ca30a916b9bea0fa9dd64333f9151ba2f59dbe5ef02d190b7f05976de",
+            "0x65adc6430dcb96cb72d5ec78f805ab7b6544e29847fab94ea56cb4b06b4fbd4d",
+            "0xbf67f6ae83a3ca41d031353efffe4b4a646f570cacb24da62db4c578d153b7e8",
+            "0x507ced2aa28cb6615d10eb3ce8793200e2b9ac6821fd30ae4eaea66e6ff43fb4",
+            "0xe2f09456c3c6fda75dd02eeeadc2053b0b4d10d5b62c77e40b664a9dbb82ca2f",
+            "0x4f8aa3806b8c93b86b2c3b64c6a81e6d62f54e06ba71ee15b4c411d9b516459c",
+            "0xbc8f491785ab45d4b273b1a3cdb8cdb0548d5e357f2a5e4ae93cbb843c2844e8",
+            "0xa95eec2c343abef4bd090a907c506acb202546fdaae3e4feaab6f794fc6f0089",
+            "0x6a2ddaefcf6707b391ffe8ee025b347c3be4aae1429a234e1c682d68650ca3db",
+            "0xe7ec13ef42942d60130575fd43b238ce0c476ac7fd2ad1b7a1b908540d5a19fe",
+            "0xec0deae7a37d1d408b55c58e8b4c19d84608c34189313497911ed4d9375a3188"
+          ]
+        },
+        "data_description": null,
+        "notes": [
+          "Free session budget: 3 of 8 tool calls remaining. Requests authorized with a client-supplied Blockscout PRO API key are not metered — get a key at https://mcp.blockscout.com.",
+          "Starting 10/08/2026, all requests to the Blockscout MCP server will require a PRO API key for authorization. More information on how to get a PRO API key and setup instructions on https://mcp.blockscout.com/."
+        ],
+        "instructions": null,
+        "pagination": null
+      }
+    },
+    {
+      "tool": "get_transaction_info",
+      "params": {
+        "chain_id": "1",
+        "transaction_hash": "0xeb7833abff05f15b7c6395a831144b9a736f1242be25830a37e6eb2a1929ffe6"
+      },
+      "response": {
+        "data": {
+          "from": "0x88042BB4d8F436C1Ab27199d93C68d48e194b82d",
+          "to": "0xD12810B19B596347a3AFAC206d3cA65d08594b3f",
+          "token_transfers": [
+            {
+              "from": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+              "to": "0xD12810B19B596347a3AFAC206d3cA65d08594b3f",
+              "token": {
+                "address_hash": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "circulating_market_cap": "71988850519.7515",
+                "circulating_supply": null,
+                "decimals": "6",
+                "exchange_rate": "0.999479",
+                "holders_count": "9507747",
+                "icon_url": "https://raw.githubusercontent.com/ulyanas/frontend-configs/add-usdc-eurc-latest-token-icons/configs/token-icons/USDC_latest.svg",
+                "name": "USDC",
+                "reputation": "ok",
+                "symbol": "USDC",
+                "total_supply": "48116100415858524",
+                "type": "ERC-20",
+                "volume_24h": "12986870457.479961"
+              },
+              "type": "token_transfer",
+              "log_index": 9,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "6",
+                "value": "1188109517"
+              }
+            },
+            {
+              "from": "0x0cA643F8e9D80FcC59E6595ABF3ba42a4e616F11",
+              "to": "0x0000000000000000000000000000000000000000",
+              "token": {
+                "address_hash": "0x72E95b8931767C79bA4EeE721354d6E99a61D004",
+                "circulating_market_cap": null,
+                "circulating_supply": null,
+                "decimals": "6",
+                "exchange_rate": null,
+                "holders_count": "12171",
+                "icon_url": null,
+                "name": "Aave Ethereum Variable Debt USDC",
+                "reputation": "ok",
+                "symbol": "variableDebtEthUSDC",
+                "total_supply": "2231244217689606",
+                "type": "ERC-20",
+                "volume_24h": null
+              },
+              "type": "token_burning",
+              "log_index": 10,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "6",
+                "value": "1168154841"
+              }
+            },
+            {
+              "from": "0x0cA643F8e9D80FcC59E6595ABF3ba42a4e616F11",
+              "to": "0x0000000000000000000000000000000000000000",
+              "token": {
+                "address_hash": "0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8",
+                "circulating_market_cap": "5791937310.222124",
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": "2391.7",
+                "holders_count": "47133",
+                "icon_url": "https://assets.coingecko.com/coins/images/32882/small/WETH_%281%29.png?1699716492",
+                "name": "Aave v3 WETH",
+                "reputation": "ok",
+                "symbol": "AWETH",
+                "total_supply": "2196142065943522942838695",
+                "type": "ERC-20",
+                "volume_24h": "0"
+              },
+              "type": "token_burning",
+              "log_index": 14,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "518127706285196654"
+              }
+            },
+            {
+              "from": "0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8",
+              "to": "0xD12810B19B596347a3AFAC206d3cA65d08594b3f",
+              "token": {
+                "address_hash": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+                "circulating_market_cap": "5325657338.91305",
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": "2392.67",
+                "holders_count": "3358469",
+                "icon_url": "https://assets.coingecko.com/coins/images/2518/small/weth.png?1696503332",
+                "name": "WETH",
+                "reputation": "ok",
+                "symbol": "WETH",
+                "total_supply": "2226684899084612607566971",
+                "type": "ERC-20",
+                "volume_24h": "228406619.46292982"
+              },
+              "type": "token_transfer",
+              "log_index": 16,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "518128921365729591"
+              }
+            },
+            {
+              "from": "0x0000000000000000000000000000000000000000",
+              "to": "0x464C71f6c2F760DdA6093dCB91C24c39e5d6e18c",
+              "token": {
+                "address_hash": "0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8",
+                "circulating_market_cap": "5791937310.222124",
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": "2391.7",
+                "holders_count": "47133",
+                "icon_url": "https://assets.coingecko.com/coins/images/32882/small/WETH_%281%29.png?1699716492",
+                "name": "Aave v3 WETH",
+                "reputation": "ok",
+                "symbol": "AWETH",
+                "total_supply": "2196142065943522942838695",
+                "type": "ERC-20",
+                "volume_24h": "0"
+              },
+              "type": "token_minting",
+              "log_index": 17,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "6629424710406916"
+              }
+            },
+            {
+              "from": "0x0cA643F8e9D80FcC59E6595ABF3ba42a4e616F11",
+              "to": "0x464C71f6c2F760DdA6093dCB91C24c39e5d6e18c",
+              "token": {
+                "address_hash": "0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8",
+                "circulating_market_cap": "5791937310.222124",
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": "2391.7",
+                "holders_count": "47133",
+                "icon_url": "https://assets.coingecko.com/coins/images/32882/small/WETH_%281%29.png?1699716492",
+                "name": "Aave v3 WETH",
+                "reputation": "ok",
+                "symbol": "AWETH",
+                "total_supply": "2196142065943522942838695",
+                "type": "ERC-20",
+                "volume_24h": "0"
+              },
+              "type": "token_transfer",
+              "log_index": 19,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "2479085748161386"
+              }
+            },
+            {
+              "from": "0xD12810B19B596347a3AFAC206d3cA65d08594b3f",
+              "to": "0x98C23E9d8f34FEFb1B7BD6a91B7FF122F4e16F5c",
+              "token": {
+                "address_hash": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "circulating_market_cap": "71988850519.7515",
+                "circulating_supply": null,
+                "decimals": "6",
+                "exchange_rate": "0.999479",
+                "holders_count": "9507747",
+                "icon_url": "https://raw.githubusercontent.com/ulyanas/frontend-configs/add-usdc-eurc-latest-token-icons/configs/token-icons/USDC_latest.svg",
+                "name": "USDC",
+                "reputation": "ok",
+                "symbol": "USDC",
+                "total_supply": "48116100415858524",
+                "type": "ERC-20",
+                "volume_24h": "12986870457.479961"
+              },
+              "type": "token_transfer",
+              "log_index": 21,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "6",
+                "value": "1187990718"
+              }
+            },
+            {
+              "from": "0xD12810B19B596347a3AFAC206d3cA65d08594b3f",
+              "to": "0x5fcA7A90Fc92e7390De8F3493693FeD68BAd299C",
+              "token": {
+                "address_hash": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+                "circulating_market_cap": "5325657338.91305",
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": "2392.67",
+                "holders_count": "3358469",
+                "icon_url": "https://assets.coingecko.com/coins/images/2518/small/weth.png?1696503332",
+                "name": "WETH",
+                "reputation": "ok",
+                "symbol": "WETH",
+                "total_supply": "2226684899084612607566971",
+                "type": "ERC-20",
+                "volume_24h": "228406619.46292982"
+              },
+              "type": "token_transfer",
+              "log_index": 23,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "502025277063037897"
+              }
+            },
+            {
+              "from": "0xE0554a476A092703abdB3Ef35c80e0D76d32939F",
+              "to": "0xD12810B19B596347a3AFAC206d3cA65d08594b3f",
+              "token": {
+                "address_hash": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "circulating_market_cap": "71988850519.7515",
+                "circulating_supply": null,
+                "decimals": "6",
+                "exchange_rate": "0.999479",
+                "holders_count": "9507747",
+                "icon_url": "https://raw.githubusercontent.com/ulyanas/frontend-configs/add-usdc-eurc-latest-token-icons/configs/token-icons/USDC_latest.svg",
+                "name": "USDC",
+                "reputation": "ok",
+                "symbol": "USDC",
+                "total_supply": "48116100415858524",
+                "type": "ERC-20",
+                "volume_24h": "12986870457.479961"
+              },
+              "type": "token_transfer",
+              "log_index": 24,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "6",
+                "value": "1187990718"
+              }
+            },
+            {
+              "from": "0x5fcA7A90Fc92e7390De8F3493693FeD68BAd299C",
+              "to": "0xE0554a476A092703abdB3Ef35c80e0D76d32939F",
+              "token": {
+                "address_hash": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+                "circulating_market_cap": "5325657338.91305",
+                "circulating_supply": null,
+                "decimals": "18",
+                "exchange_rate": "2392.67",
+                "holders_count": "3358469",
+                "icon_url": "https://assets.coingecko.com/coins/images/2518/small/weth.png?1696503332",
+                "name": "WETH",
+                "reputation": "ok",
+                "symbol": "WETH",
+                "total_supply": "2226684899084612607566971",
+                "type": "ERC-20",
+                "volume_24h": "228406619.46292982"
+              },
+              "type": "token_transfer",
+              "log_index": 25,
+              "method": null,
+              "token_type": "ERC-20",
+              "total": {
+                "decimals": "18",
+                "value": "496011807870643963"
+              }
+            }
+          ],
+          "decoded_input": null,
+          "user_operations": null,
+          "raw_input": "0xc2e75b01000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000026bd000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000001f8a0b86991c6218b36c1d19d4a2e9eb0ce3606eb480ca643f8e9d80fcc59e6595abf3ba42a4e616f11c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2d12810b19b596347a3afac206d3ca65d08594b3f0000000000000000000000000000000000000000000000000000000046d11ccd9c40084088000000ffffffff",
+          "raw_input_truncated": true,
+          "priority_fee": "0",
+          "is_pending_update": false,
+          "result": "success",
+          "max_fee_per_gas": "421070001",
+          "revert_reason": null,
+          "confirmation_duration": [
+            0,
+            12000
+          ],
+          "transaction_burnt_fee": "181924692449274",
+          "type": 2,
+          "token_transfers_overflow": true,
+          "confirmations": 3250,
+          "position": 2,
+          "max_priority_fee_per_gas": "0",
+          "transaction_tag": null,
+          "created_contract": null,
+          "value": "0",
+          "gas_used": "587161",
+          "status": "ok",
+          "authorization_list": [],
+          "method": "0xc2e75b01",
+          "fee": {
+            "type": "actual",
+            "value": "181924692449274"
+          },
+          "gas_limit": "796399",
+          "gas_price": "309837834",
+          "fhe_operations_count": 0,
+          "base_fee_per_gas": "309837834",
+          "timestamp": "2026-10-22T13:13:23.000000Z",
+          "nonce": 226,
+          "historic_exchange_rate": null,
+          "transaction_types": [
+            "contract_call",
+            "token_transfer"
+          ],
+          "exchange_rate": "2385.11",
+          "block_number": 26248379,
+          "has_error_in_internal_transactions": false
+        },
+        "data_description": null,
+        "notes": [
+          "One or more large data fields in this response have been truncated (indicated by \"value_truncated\": true or \"raw_input_truncated\": true).",
+          "To get the full, untruncated data, fetch it from the Blockscout PRO API endpoint:\n`https://api.blockscout.com/1/api/v2/transactions/0xeb7833abff05f15b7c6395a831144b9a736f1242be25830a37e6eb2a1929ffe6`",
+          "See the `web3-dev` skill for how to call it.",
+          "Free session budget: 7 of 8 tool calls remaining. Requests authorized with a client-supplied Blockscout PRO API key are not metered — get a key at https://mcp.blockscout.com.",
+          "Starting 10/08/2026, all requests to the Blockscout MCP server will require a PRO API key for authorization. More information on how to get a PRO API key and setup instructions on https://mcp.blockscout.com/."
+        ],
+        "instructions": [
+          "To get a transaction summary, use `direct_api_call` with `endpoint_path='/api/v2/transactions/0xeb7833abff05f15b7c6395a831144b9a736f1242be25830a37e6eb2a1929ffe6/summary'`.",
+          "To get event logs, use `direct_api_call` with `endpoint_path='/api/v2/transactions/0xeb7833abff05f15b7c6395a831144b9a736f1242be25830a37e6eb2a1929ffe6/logs'`."
+        ],
+        "pagination": null
+      }
+    },
+    {
+      "tool": "get_block_info",
+      "params": {
+        "chain_id": "1",
+        "number_or_hash": "0xdae4dbfeda7cdae9955cb0ae394e2987977313f53f0eb906ea6fe030a949bf8c",
+        "include_transactions": true
+      },
+      "response": {
+        "data": {
+          "block_details": {
+            "base_fee_per_gas": "309837834",
+            "beacon_deposits_count": 0,
+            "blob_gas_price": "16403440",
+            "blob_gas_used": "524288",
+            "blob_transactions_count": 1,
+            "burnt_blob_fees": "8600126750720",
+            "burnt_fees": "9623217654855090",
+            "burnt_fees_percentage": 38.84506361775694,
+            "difficulty": "0",
+            "excess_blob_gas": "194117459",
+            "gas_limit": "60000000",
+            "gas_target_percentage": 3.5296166666666666,
+            "gas_used": "31058885",
+            "gas_used_percentage": 51.764808333333335,
+            "hash": "0xdae4dbfeda7cdae9955cb0ae394e2987977313f53f0eb906ea6fe030a949bf8c",
+            "height": 26248379,
+            "internal_transactions_count": 1663,
+            "is_pending_update": false,
+            "miner": {
+              "ens_domain_name": null,
+              "hash": "0x4838B106FCe9647Bdf1E7877BF73cE8B0BAD5f97",
+              "implementations": [],
+              "is_contract": false,
+              "is_scam": false,
+              "is_verified": false,
+              "metadata": null,
+              "name": null,
+              "private_tags": [],
+              "proxy_type": null,
+              "public_tags": [],
+              "reputation": "ok",
+              "watchlist_names": []
+            },
+            "nonce": "0x0000000000000000",
+            "parent_hash": "0xbc4a436f1031cea8d37bf13aca17bfb034ba76d505273c37493f4de46083d922",
+            "priority_fee": "15150117123405133",
+            "rewards": [
+              {
+                "reward": "15150117123405133",
+                "type": "Miner Reward"
+              }
+            ],
+            "size": 115205,
+            "timestamp": "2026-10-22T13:13:23.000000Z",
+            "total_difficulty": "58750003716598352816469",
+            "transaction_fees": "24773334778260223",
+            "transactions_count": 221,
+            "type": "block",
+            "uncles_hashes": [],
+            "withdrawals_count": 16
+          },
+          "transaction_hashes": [
+            "0xd06a07efb631076d7ce70b715fd3b48d3a77e01fee670dd774bf8a577e0702ef",
+            "0xe67366ba46a14ee588585257ed17d66bf91d65158ca441dea6020397fd71af00",
+            "0xeb7833abff05f15b7c6395a831144b9a736f1242be25830a37e6eb2a1929ffe6",
+            "0x8265b467f7e89728d268b50feabad4da9b94ac89e917642dea3bfc6f2062f8c1",
+            "0x24158f40926ac851848921b15e844d84b071e044fa4f881e8c56daf2453a30a4",
+            "0x259d5cff90204bd417cd09295dc4513c1e72a8fae7542bc288365af86405184d",
+            "0xf37f9168c1bb9e8f313a71763d12748c46675ec3c26ffd5195291b27c27a1efe",
+            "0xa04eb4f76985844968204a138fb5b0d83e218d246f5d846fcd901a7880576a5b",
+            "0x039622e6a94912e78fa12d5549660c7b95070e890d7bfa5d259e16ccec1046d3",
+            "0x9702ef421e6babcb5048b26e7218981232cb99d90693d10918d1fde5d921fa04",
+            "0x8e43fcae93517af04a14dd37c25db40ca130f44e6ed610576c8b13fdaa74266d",
+            "0x33b3ef89db8c72fd8d751285eef3e675996ef8a02faecdaddb686359f679a0f7",
+            "0x0d31d20b2d6dcaa6cf50f850dff9388d9fa820e3609b472a030e5afe7e6e3547",
+            "0xe4393d79323289d50ee036fd15f8c5d2e6beb7b81e7b668148c6e99d846946c1",
+            "0x75d0bc5b83ae950069e7e266eba16e709db531bd894297ca7ba31d241540d444",
+            "0x6a2e8d5cd783fbb163e9e44f7b9011e6f13df862db4bd3b771f6f3135651c976",
+            "0xfc8ca4bc3b2ec06d4edc3c3a9bf75481cc0e96833252c7f33719505772cda9ce",
+            "0x51e3a81890d36ea9b771ca68ac4228669974459444b601ac12aae62f1cf02117",
+            "0x0756b65dfbca3581d60edf2cde499f1b8e745155665a3ffed16147cd07915bb0",
+            "0x33c84d5471317ca155ffb0315b8197d6694ec7cf67e7398720fbf78612c71f1e",
+            "0x3203947bb2ded71ddbac8091cd7f309c6820c1431a9477abe7c6552bd90abcb0",
+            "0x3ee272b0faaaa13646671867b4dcd4037ec86a20d9d8246d7b4045ca5cc4c5c6",
+            "0x638a4560f8f67e22d4e3594945044c13409f35644ae38ab11f4b1c6d01421436",
+            "0x2424f49f37880b56535c5b7520e8e0c7b9b0f376b7af9071dd87e1b6f2bead56",
+            "0xc227b772ca776ebbd8b2f4e655147d9b4810b3d99b3f72e343b971233e6fefb0",
+            "0x7303c86412354fff5b0ae98399f515aead90d657fd0a7dc1db83373d0b9cab3f",
+            "0xcf4efc2339c33cbdea7807fb867f9ffa72196fb56bdd8558fdc14fb6e35ca9c6",
+            "0xdeacd52579c673161311ce9d94ad412f5573f57ea86bc9bcb88c747dcbdc64ed",
+            "0x67106b59b008e0090964909b6240203b4654d181c43be26ac5c88d6235a64315",
+            "0x11a52aa02b23b7499e2c1028e86fad1c7172299f2766499d025549a9a4269622",
+            "0xaf4e259c9ea2c8f433c6c314024a3d913b7d6c359689e0452d0bae23c16d3b32",
+            "0xb766096ca2dc2c71fd86163f6412c2eec5f24baf3a9126133ab599657edaa7b4",
+            "0xe03af14c65d0f515e013dd4e77337efc98193c95907d879d2bbbd94da06869b4",
+            "0x32f37edd72c9f25f4babcd5ac82522c6dde12241b504c5488903f4265204956b",
+            "0x32703ca1203cd046e4d7b2048e3fe876e333cc385cd26cabb8e3a5c9e37939b2",
+            "0xfe1c1a1e6f81ac7946016f4b4d497b6aa45fa6856d6a573134c7f8d983a06f59",
+            "0x1be8b5da4d119412aab096cb17c58ae708ecd58888541a2e7aa792ec49dded5f",
+            "0xb4b7a84cff58891056571fe0ddbcbebafa180454a519dc3896aa3b9e2e9afedc",
+            "0xe6c2522e77dcf9c722fe904d15b3c9e77c534087450c163fde9d1f6d792db5d2",
+            "0x82745180d6c6d81923725aa2c6a1fd7cbf5c946f1140fb1a8a254b90242169f7",
+            "0xda3f572fb295568979bcb6618b031e668fb18913b7112e2ab51d0aeaa37cf7b8",
+            "0x40dfa41a0cae4dd9c3df23ab808e36e047651d97420b5afc38e142a06a374d95",
+            "0xcc7fef179b07659143370d91d92c9502148fef1c4c04c117380733c3823b5191",
+            "0x249cf7c6b6232b1f3bac0201fb98aacbd462ad25e33939a3d04d2aafad7f5c46",
+            "0x01c5e37d7bec1c95092b6e6ab38fe1dc6613812452fd4fb26917bf95e255431a",
+            "0xbeaf748023366b95b67071c3e4e9da4f04782f210157b883ea467953403ac3fc",
+            "0xd514fa8b661b10c9ca343af74be39d36c466841c6e4373b3a181c03c914739a1",
+            "0xf1b0676028fd950558ec3673991f06c5388fca6ccb386ab21d8427dcd7837918",
+            "0x888fb90edf644a528a775904bff24f6052ed43267e70518d3018eaf9da24d118",
+            "0x36c6b6dfd7cf8d1d2843dd376905ee65eae09a522ad272747c9befd1cd5f2ed4"
+          ]
+        },
+        "data_description": null,
+        "notes": [
+          "Free session budget: 4 of 8 tool calls remaining. Requests authorized with a client-supplied Blockscout PRO API key are not metered — get a key at https://mcp.blockscout.com.",
+          "Starting 10/08/2026, all requests to the Blockscout MCP server will require a PRO API key for authorization. More information on how to get a PRO API key and setup instructions on https://mcp.blockscout.com/."
+        ],
+        "instructions": null,
+        "pagination": null
+      }
+    }
+  ]
+}

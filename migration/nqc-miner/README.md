@@ -17,6 +17,7 @@ Los datos usan exclusivamente el espacio `nqc_miner_v1`. Cada ejecución tiene d
 - Recolector histórico por ventanas con reinicio, espera de finalización y cuarentena de colección; [operación y límites](docs/collector.md).
 - Journal durable con hashes, deduplicación, reanudación y cuarentena por cambios de cadena. Los lotes provisionales y los escaneos incompletos no se presentan como cobertura completa.
 - Saturación y cobertura limitadas al universo declarado. Elegibilidad, propinas y precios ausentes permanecen desconocidos. Descubrir una mina después no mejora retroactivamente su cobertura.
+- Medición auxiliar de gas Ethereum con enteros exactos, vínculo al journal y coste único por transacción; [contrato y límites](docs/gas-measurement.md). La muestra retenida mide dos transacciones y conserva una tercera pendiente; no certifica rentabilidad.
 - Valuación condicional mediante bootstrap de economía diaria, con semillas reproducibles, escenarios, percentiles y costes de intentos fallidos. No sustituye una simulación completa de precios y ejecución.
 - Simulación local con REVM sobre un estado cerrado suministrado: las cuentas, slots o hashes de ancestros ausentes causan error. No se completan consultando un RPC ni suponiendo ceros.
 - Controles de ciclo de vida, caducidad, toxicidad, pruebas de adaptadores y presupuesto; asignación preparatoria por Thompson sampling.

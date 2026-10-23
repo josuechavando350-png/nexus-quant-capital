@@ -1,6 +1,6 @@
 {
   "schema": "nqc-miner-closure-plan-v1",
-  "as_of": "2026-10-22",
+  "as_of": "2026-10-23",
   "progress_source": "docs/progress.json",
   "current": 43,
   "remaining": 57,
@@ -20,7 +20,7 @@
       "remaining_points": 10,
       "acceptance": "Sufficient complete measurements with eligibility, gas/tips, prices and calibrated saturation; a bounded public sample does not close this gate",
       "dependency": "development_and_real_measurements",
-      "next_step": "Implement and authenticate protocol-specific position/price/eligibility/gas/tip inputs; collect sufficient complete two-or-three-chain measurements and calibrate on a reserved sample.",
+      "next_step": "Extend auxiliary Ethereum gas measurement to authenticated receipt/header evidence and rollup fee models; complete missing membership, protocol-specific prices, positions, eligibility and direct builder payments. Collect sufficient multi-chain data and calibrate on reserved observations. Current sample retains two measured fees and one unknown; no phase credit.",
       "status": "open"
     },
     {
