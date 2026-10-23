@@ -4,7 +4,7 @@
   "denominator": 100,
   "global_completion_percent": 43,
   "method": "Weighted engineering estimate with explicit operational phase exits, not a percentage of lines written",
-  "status": "audited_aave_initial_amount_and_reserve_kernels",
+  "status": "audited_aave_initial_amount_reserve_and_collateral_kernels",
   "items": [
     {
       "phase": "scope",
@@ -70,7 +70,7 @@
       "weight": 8,
       "earned": 0,
       "acceptance": "Actual workflow integration and historical price/position/execution reconstruction with certified adapters",
-      "implementation_status": "Bounded pre-event Aave account/oracle reconstruction implemented and publicly exercised. Compiled runtime equivalence now verified for the sampled revision-11 pool and five linked libraries at three historical blocks through two providers (36 exact comparisons). Two local solc profiles are required: Cancun for pool/four libraries, Shanghai for reused FlashLoanLogic; the initial mismatch is retained and regression-tested. All runtime and metadata bytes compared with only compiler-declared deployment substitutions. Other blocks, external dependencies, authenticated state, intra-block execution and dedicated workflow integration remain open; no extra credit. Revision-11 initial-condition model added as an offline CLI: exact first-error ordering and strict integer/bitmap/grace boundaries, differential-checked through the unchanged Solidity function in a synthetic REVM harness. Three previously sampled blocks are enriched with reserve, user-configuration, grace and selected-debt reads; one set passes initial conditions and two fail health. The synthetic condition check is not historical transaction replay or economic certification. Amount kernel now differentially checked against an original byte-exact Solidity segment and unchanged imported helper over 2206 synthetic executions; full liquidation, authenticated inputs and original phase exits remain open. Reserve cache/updateState, treasury accrual and scaled-to-underlying balances are now implemented in a separate offline kernel and compared with unchanged imported Solidity functions. Supplied token totals and state remain synthetic/unauthenticated; composition with the full liquidation is pending."
+      "implementation_status": "Bounded pre-event Aave account/oracle reconstruction implemented and publicly exercised. Compiled runtime equivalence now verified for the sampled revision-11 pool and five linked libraries at three historical blocks through two providers (36 exact comparisons). Two local solc profiles are required: Cancun for pool/four libraries, Shanghai for reused FlashLoanLogic; the initial mismatch is retained and regression-tested. All runtime and metadata bytes compared with only compiler-declared deployment substitutions. Other blocks, external dependencies, authenticated state, intra-block execution and dedicated workflow integration remain open; no extra credit. Revision-11 initial-condition model added as an offline CLI: exact first-error ordering and strict integer/bitmap/grace boundaries, differential-checked through the unchanged Solidity function in a synthetic REVM harness. Three previously sampled blocks are enriched with reserve, user-configuration, grace and selected-debt reads; one set passes initial conditions and two fail health. The synthetic condition check is not historical transaction replay or economic certification. Amount kernel now differentially checked against an original byte-exact Solidity segment and unchanged imported helper over 2206 synthetic executions; full liquidation, authenticated inputs and original phase exits remain open. Reserve cache/updateState, treasury accrual and scaled-to-underlying balances are now implemented in a separate offline kernel and compared with unchanged imported Solidity functions. Supplied token totals and state remain synthetic/unauthenticated; composition with the full liquidation is pending. Scaled collateral exhaustion and the final fee cap now have a byte-exact extracted Solidity differential harness with a synthetic post-transfer token balance. A CLI composition test links reserve, amount and collateral outputs. Debt/token execution between these excerpts remains omitted; this is not complete historical liquidation parity."
     },
     {
       "phase": "B",
@@ -234,7 +234,10 @@
     "evidence/aave-amounts-20261022/verification.json",
     "docs/aave-reserve-projection.md",
     "docs/AUDIT_AAVE_RESERVE_20261022.md",
-    "evidence/aave-reserve-20261022/verification.json"
+    "evidence/aave-reserve-20261022/verification.json",
+    "docs/aave-collateral.md",
+    "docs/AUDIT_AAVE_COLLATERAL_20261023.md",
+    "evidence/aave-collateral-20261023/verification.json"
   ],
   "notes": [
     "An implemented primitive is not an operational phase exit.",
@@ -266,7 +269,8 @@
     "Compiled identity continuation: 90 bounded public read-only requests; two local compiler runs reproduce six Ethereum runtimes across three historical blocks and two providers. Preserved initial FlashLoanLogic mismatch; independently recovered its Ethereum source/settings and compiled Shanghai profile. Pool source revision is 11; semantic release tag, unique original source text (bytecodeHash=none), external dependency/state authentication and executable eligibility remain unverified. Observer unchanged; progress remains 43/100.",
     "Initial-condition continuation: 96 read-only RPC records at three previously retained end-of-block states, 21 agreed getters (including three repeated account-data checks), exact source/publication binding and local CLI audit. One sample passes initial conditions; two fail HealthFactorNotBelowThreshold. A retrospective event liquidator and unauthenticated variable-debt balanceOf are explicit assumptions. No transaction-boundary state, executable eligibility, new liquidation, phase exit or extra weighted progress is claimed. Global progress remains 43/100.",
     "Amount-kernel continuation (2026-10-22 America/Mexico_City): exact uint256 close factor, collateral cap, bonus, fee and dust model; extracted original Solidity segment plus unchanged imported helper. Synthetic differential checks cover amounts and full revert bytes. Inputs, index updates, token transfers, transaction prestate and economic results remain uncertified; no new historical observations, phase exit or progress points.",
-    "Reserve continuation: 1106 input sets each compared after one and two original Solidity updates (2212 synthetic executions). Same-block recaching, exact polynomial interest, treasury accrual, floor collateral/ceil debt and complete revert data are covered. No new historical observations, automated composition, full token execution or economic progress credit."
+    "Reserve continuation: 1106 input sets each compared after one and two original Solidity updates (2212 synthetic executions). Same-block recaching, exact polynomial interest, treasury accrual, floor collateral/ceil debt and complete revert data are covered. No new historical observations, automated composition, full token execution or economic progress credit.",
+    "Collateral continuation: original scaled-consumption and fee-cap excerpts differentially checked over 1089 main synthetic executions plus seven targeted reference calls. A real CLI composition test links supplied reserve, amount and collateral inputs. Post-liquidator scaled balance remains supplied; omitted token/debt execution and authenticated historical state prevent executable eligibility or new phase credit. Progress remains 43/100."
   ],
   "historical_audit_notes_superseded_for_a841261": [
     "HTTP pacing/retry/redaction, run-config identity binding and rand 0.8.6 remediation are published but receive no progress credit until rebuilt and fully tested.",

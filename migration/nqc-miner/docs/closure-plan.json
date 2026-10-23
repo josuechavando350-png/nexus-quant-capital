@@ -28,7 +28,7 @@
       "remaining_points": 8,
       "acceptance": "Actual workflow integration and historical price/position/execution reconstruction with certified adapters",
       "dependency": "development_and_runtime",
-      "next_step": "Compose the audited revision-11 initial-condition, amount and reserve-update kernels with verified state. Next cover eMode and aggregate health, scaled collateral consumption, fee cap, debt burn and deficit, liquidity, token transfers and post-operation rate updates. Reserve update and token balance conversion now have a synthetic original-Solidity differential harness, including repeated same-block recaching, but historical inputs/dependencies and full execution remain unauthenticated. Reconstruct transaction-boundary state under the actual fork and integrate the workflow worker.",
+      "next_step": "Compose initial-condition, amount, reserve and collateral kernels with verified state. Next cover debt burning and deficit, actual aToken/vToken implementations, health/eMode, liquidity, transfers and post-operation rates. Scaled consumption and final fee cap are checked against original source excerpts, but the intervening debt/token execution and post-liquidator balance remain unauthenticated. Reconstruct transaction-boundary state under the actual fork and integrate the workflow worker.",
       "status": "open"
     },
     {
@@ -44,7 +44,7 @@
       "remaining_points": 4,
       "acceptance": "Quarantined generation, actual differential protocol testing and Foundry fuzzing",
       "dependency": "development_and_toolchain",
-      "next_step": "Extend the quarantined initial-validation harness to the full liquidation adapter and authenticated dependencies; run actual Foundry differential/property/fuzz tests. Current REVM differential execution covers only initial conditions and earns no certification points.",
+      "next_step": "Extend current synthetic REVM differential checks for initial conditions, amounts, reserve updates and collateral/fee excerpts to a full liquidation adapter with authenticated dependencies. Run actual Foundry differential/property/fuzz tests; the extracted kernels do not earn adapter certification points.",
       "status": "open"
     },
     {

@@ -25,6 +25,11 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Command {
+    /// Offline collateral exhaustion and fee cap; no token transfer is executed.
+    CalculateAaveCollateral {
+        #[arg(long)]
+        input: PathBuf,
+    },
     /// Offline reserve update and balances; does not authenticate supplied state.
     ProjectAaveReserve {
         #[arg(long)]
@@ -168,6 +173,12 @@ fn validate_live_build(config: &MinerConfig) -> Result<(), Box<dyn Error>> {
 
 fn run(cli: Cli) -> Result<(), Box<dyn Error>> {
     match cli.command {
+        Command::CalculateAaveCollateral { input } => {
+            let value: nqc_miner::aave_collateral::CollateralInput = read_json(&input)?;
+            print_json(
+                &nqc_miner::aave_collateral::calculate(&value).map_err(std::io::Error::other)?,
+            )
+        }
         Command::ProjectAaveReserve { input } => {
             let value: nqc_miner::aave_reserve::ReserveInput = read_json(&input)?;
             print_json(&nqc_miner::aave_reserve::project(&value).map_err(std::io::Error::other)?)

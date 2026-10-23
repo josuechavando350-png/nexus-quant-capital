@@ -3,6 +3,7 @@
 #![forbid(unsafe_code)]
 
 pub mod aave_amounts;
+pub mod aave_collateral;
 pub mod aave_reserve;
 pub mod aave_validation;
 pub mod analytics;
