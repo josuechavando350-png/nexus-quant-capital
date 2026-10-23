@@ -40,3 +40,11 @@ and sidecars are rejected; protection against an attacker concurrently replacing
 parent directories is not claimed. A database checksum is integrity, not origin
 authentication. Trusted source pins and separately retained journal heads supply
 the relevant trust anchors.
+
+
+The logical 16-MiB object limit is not a physical SQLite-file quota. SQLite's
+integrity scan can inspect a much larger corrupt file before logical payload
+bounds reject it. This prototype assumes a private local store directory; a
+production service admitting hostile database files still needs an operating
+system file-size/I/O budget or an explicit physical file-size admission limit.
+This is an outstanding resource-hardening requirement, not a tested capacity claim.

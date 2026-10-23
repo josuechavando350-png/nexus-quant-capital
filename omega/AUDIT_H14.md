@@ -1,7 +1,7 @@
 # H14 — transaction intake, durable recovery and runtime artifacts
 
-Status: local regression and isolation PASS; remote exact-producer execution
-pending. This record will be updated with actual remote outcomes after audit.
+Status: local regression, isolation, exact-producer remote execution and
+independent post-audit PASS. The producer identity and artifacts are below.
 The requested 45% product target is not yet demonstrated. Certification 0/36.
 
 Scope: original 139 events / 127 receipts / 139 decoded legs, retained metadata,
@@ -40,3 +40,37 @@ local restoration is not remote replication; controlled revocation is not a
 real chain reorg. Rust-store integration remains pending. The external API capture
 trust anchor must be established independently. Runtime artifact correspondence
 does not certify Census or transfer original authority to the new producer.
+
+
+## Remote execution and independent post-audit
+
+Producer `a82aed357513653d6cfb9375af54223657db7b1f`, tree
+`6b15c09d721a58faf9e040da23f860c1a15611b5`, run **39872518839**, attempt 1,
+completed successfully at 2026-10-22T23:56:03Z. Jobs 120150118729 (forks) and
+120150118501 (replay) both succeeded, including their bounded uploads.
+
+| Stage | Artifact | ZIP SHA256 | Captured API metadata SHA256 |
+|---|---|---|---|
+| forks | 12467560072 | `41424573ced6ebb2c4f5ffb68aa18c8f2f9712d768053b9b0deca0a37914ff90` | `1bebeffb615a732c620ec013ae0d3ae70e60981ae29916fef3d264c9128889b1` |
+| replay | 12468435387 | `68daf40b70e8ab88f1a9000af1d87fa2b3d88545221f567569e1c0f101b68545` | `be31ec71e32ec367a5cf817faa180032455251a5d1b52df7e103485f85e13761` |
+
+Both archives were downloaded through GitHub after their jobs completed. The
+external captures were independently retrieved and include the run, exact Git
+commit/tree, artifact identity and complete two-job metadata. The offline consumer
+reproduced the H14 pipeline and matched these captures. A separate post-audit
+also matched every packet record against the raw job logs (43 forks / 39 replay),
+verified all test-source hashes against the producer, and checked physical counts:
+
+- 56 PFT Rust tests, 14 Solidity tests and 4 historical fork test executions.
+- 528 Census Rust tests, zero ignored; 16 matched replay STARTED/VERIFIED pairs,
+  1258.949 cumulative step seconds; distinct network namespace, loopback only,
+  exact original/result store root and unchanged original source.
+- Both jobs executed 41 runner, 38 capture, 25 intake, 16 store, 10 pipeline and
+  12 artifact-consumer tests. Repeated tests in two jobs are not unique new tests.
+
+Post-audit commitments: forks
+`27beeecd0cf409aaf8195251d9025c1d10064a3173a9b916ffb15f38bc44c4b8`;
+replay `108f7213a387542730a583991a436915bcbb6f01508850322d120f12d1d1fdb6`.
+These results belong to the producer above, not automatically to later commits.
+They neither repair the seven inherited generic Python setup errors nor convert
+historical validation into product certification. Census remains 0/9 certified.

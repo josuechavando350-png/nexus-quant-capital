@@ -53,3 +53,24 @@ No automatic phase advancement, funds, signing or execution authority is derived
 from a percentage. A future weighted plan must be versioned before credit is
 counted, cover all 36 components, preserve unmet gates, and state that weights
 are planning estimates rather than physical proof of readiness.
+
+
+## Closure ledger after H14–H16 implementation
+
+| Requirement | Demonstrated scope | Still open |
+|---|---|---|
+| Original/source isolation | 531 original source files; 106 old workflows disabled | No expansion of original authority |
+| H2 physical runtime | H14 producer independently audited; final combined producer tracked in H16 | Final H16 replay/post-audit pending at this edit |
+| Historical transaction intake | 139 event payloads, 127 receipts, 139 decoded legs | Independent complete receipt parity and event coverage |
+| Competitor identities | 127 transactions, 49 event-liquidator addresses, 127 borrowers | Ownership, strategy classification and current refresh |
+| Historical economic arithmetic | 9 WETH/WETH gross-minus-gas rows; 2 prior-block prices | 118 other transaction economics, 7 WETH price references, all complete net costs |
+| Oracle causality | Source anchors retained, no fabricated delay | 127 authenticated update-to-liquidation links |
+| Durable evidence | Transactional local publication, crash tests, restore, revocation | Rust-store integration, remote recovery, actual chain reorg |
+| Census truth and coverage | Nine partial component foundations and prior PFT replay | Complete independent triads, all scoped positions and other protocol adapters |
+| Shadow / Canary / Scale | No phase closure granted | Their original acceptance gates remain required |
+
+Each number above has its own denominator and scope. A passing engineering
+increment cannot be added as arbitrary percentage points of the final product.
+No new completed-component percentage is asserted. The initial approximately
+20% remains an uncertain historical construction estimate, not a denominator
+for adding a promised 25 percentage points.

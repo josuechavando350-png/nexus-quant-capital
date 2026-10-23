@@ -35,3 +35,23 @@ CI's existing `test*intake.py` pattern includes these tests alongside H14/H15.
 Workflow bytes, permissions, artifact bounds and physical-gate steps are unchanged.
 The bounded runtime pipeline report still represents H14; the intake test record
 also binds the later test source hashes. Pending runs are not passing evidence.
+
+
+## Exact producer and interim physical readback
+
+Producer `af4fe54f1dc25d1e3b1ab620db874549b15af2ea`, tree
+`900e024ccee683698a85af58fc5afe5fa570f48a`, run **39874530238**, attempt 1.
+The forks job **120158225851** completed successfully at
+2026-10-23T00:00:04Z. Its artifact **12468117396** is 14615 bytes, SHA256
+`6264fecb69117c0e752645b446c976e21627209784bb2cdf5aaa176d05eb01eb`.
+
+The downloaded packet contains 43 records. Intake coverage increased to 55 tests
+(25 historical + 18 liquidator + 12 cashflow). Other suites: 41 runner, 38 capture,
+16 store, 10 pipeline, 12 artifact. The raw job log confirms 56 PFT Rust tests,
+14 Solidity unit tests and 4 historical fork test executions, all passing.
+These repeated cases are not additional unique tests beyond the 445 local tests.
+
+The replay job **120158226063** is still running at this interim edit. The final
+external capture must contain both completed jobs before the full runtime-artifact
+consumer and log post-audit can pass. No pending replay outcome is inferred from
+H14 or from the successful fork stage. Final completion will be appended below.

@@ -40,3 +40,12 @@ H15 execute in the same two physical jobs. It preserves existing workflow bytes,
 permissions, artifact bounds and physical gate requirements. The runtime packet
 records the intake tests and their exact source hashes; its market pipeline
 report remains the separately reproducible H14 report.
+
+
+## Producer scheduling record
+
+H15 was published as `9495a04bcc3efea8440383afb5c4de649fb4c71d`, tree
+`c9f7163b8ccb489cbe5947f0a73f2beca783947a`. Its run 39873763981 was cancelled
+while pending when H16 superseded the queued run under the existing concurrency
+policy. It is **not** counted as a passing run. H16 includes this implementation
+and its 18 tests; its physical outcome is recorded in `AUDIT_H16.md` after audit.
