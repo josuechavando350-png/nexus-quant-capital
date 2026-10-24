@@ -1,8 +1,9 @@
 # H22 - historical execution fee observations
 
 Predecessor: H21 closure `0aaa9a51e125e29567602d2e8d09921271cfc944`.
-Implementation and local verification are recorded here. H21 remote results
-do not certify this increment; no new exact-producer remote audit is claimed.
+The initial local checkpoint and subsequent exact-producer closure are recorded
+separately below. H21 remote results do not certify this increment. H22's own
+remote execution and independent post-audit now pass.
 
 ## New evidence
 
@@ -116,3 +117,52 @@ Additional read-only research could not retrieve the exact historical transactio
 through the public Etherscan page or either web search engine. No trace or payment
 observation was added. Titan's official Sponsored Bundles documentation was
 rechecked; its conditional sponsorship is not execution-specific coverage.
+
+## Final exact-producer outcome
+
+Run **40046132439**, attempt 1, producer
+`811c549b3561dcdd0719993a2a12852068f5920b`, tree
+`f3467c329333eb7397f6539cd1f0973be1c95868`, completed successfully at
+2026-10-24T01:12:57Z. Both jobs and every step passed. Closure changes after this
+producer are Markdown only; no later code is certified by this run.
+
+| Stage | Job | Artifact | ZIP SHA256 | External capture SHA256 |
+|---|---|---|---|---|
+| forks | 120728173838 | 12541940779 | `a8eead11fef81761892836eb2c5b05533f5d3d7fa856832108e8c0eaae21d19b` | `42754c80aac6ca52d5c9ebd8093bd4a39e9ea8a8a598b23cb4ee7ae8947a4949` |
+| replay | 120728174039 | 12542770356 | `5a0641ebafb2839a8905bf43d19d2e43d714eb80b4da4775f3d6637f9867c63d` | `d76de90e01b475d01daba60d653543b5657ee8f2b27d1aebebd04f4059755802` |
+
+Independent GitHub API readback, downloaded artifact bytes and decoded full logs
+agree on the exact commit/tree, workflow, run/attempt and every evidence record:
+43 for forks and 44 for replay. Each job passes 201 intake, 43 runner, 38 capture,
+33 store, 10 pipeline and 22 runtime-packet tests: 347 executions per job, not
+additional unique tests. All selected test-source hashes match the producer.
+Physical checks pass 56 PFT Rust, 528 Census Rust, 14 offline Solidity tests, four
+historical fork executions and 16 verified disconnected replay steps.
+
+Both remote isolation checks validate the original Git objects before and after
+execution: 531 original files, 106 disabled legacy workflows, 164 reviewed Omega
+files and unchanged active workflow bytes/permissions. Historical source/store
+roots remain unchanged. The H19/H20 Rust probes retain their own scopes.
+
+H22's inclusion report is reconstructed inside the physical disconnected worker,
+with only loopback and a different network namespace from its parent. Seven
+batches remain blocked after root revocation and SQLite restore; forensic bytes
+match. The worker's emitted report exactly matches the v5 artifact. Independent
+integer calculations confirm the three observed fee splits, without turning zero
+priority fees into zero direct builder payments or complete costs.
+
+The exact active gas policy remains Titan-only: zero operator allowance, no
+prefund and no own-gas fallback. Its hash is
+`e2c0b1ea247597de667d093385990880a31519b594f68cae31618ba425f87540`.
+No Titan submission, coverage receipt, signing, broadcast, deployment or funded
+wallet is added. The new seventh batch does not claim physical Rust transport.
+
+- Forks post-audit commitment: `15dc12e73958090bb17c8074ad539115560848ce0f895672862500f268ca865f`; log SHA256: `84b0a3308a03fb65c3aef2f711734894e7ea2decc1194a4aca850adc2f8181dc`.
+- Replay post-audit commitment: `bf4f3ea881357774446f90d8007d03c4bb0ee8e8a95ef7e8c567fd76b0e91b52`; log SHA256: `9916a7de29b7d2976d63e58815edb8a8287fdba902a2d8e615bec917f45d028f`.
+- Inclusion replay commitment: `f48c72b8269bf0b6d7ab4e72c2c389f0b344ea3319b54399f4121301557d826c`.
+
+H22 engineering closure: **4/4 (100% of this increment)**, with **622/622** local
+unique Omega tests and 33 new cases over H21. Product certification remains 0/36,
+Census 0/9, complete paid-cost rows 0/127 and Titan-covered executions zero.
+Separate subsequent H23 research observes one direct fee-recipient transfer; it
+does not rewrite this frozen H22 report or inherit H22's remote validation.

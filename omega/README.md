@@ -437,4 +437,7 @@ certificados. Añade un séptimo lote dependiente de H21, verificable y revocabl
 El paquete runtime v5 exige reconstruir ese lote en el worker desconectado y
 vincularlo a la política Titan: capital propio cero, sin anticipo ni alternativa
 propia. Rechaza cobertura inventada y conserva el alcance original de v1-v4.
+**H22 cerrado: 622/622 pruebas locales y 4/4 controles del incremento.** Forks,
+replay y auditoría posterior aprobaron el productor `811c549b3561dcdd0719993a2a12852068f5920b`
+en el [run 40046132439](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/40046132439).
 Ver [contrato](INCLUSION_FEE_CONTRACT.md) y [auditoría](AUDIT_H22.md).
