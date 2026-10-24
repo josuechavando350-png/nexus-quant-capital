@@ -309,10 +309,13 @@ def payees(recs, top=15):
     Un destinatario que cobra de varios liquidadores distintos es una subasta o un builder; uno
     que solo cobra de un liquidador puede ser la tesorería del mismo bot (y entonces lo "pagado
     a terceros" sería ganancia)."""
-    by = defaultdict(lambda: {"eth": 0.0, "usd": 0.0, "liquidators": set(), "n": 0, "coinbase": 0, "entry": 0})
+    by = defaultdict(lambda: {"eth": 0.0, "usd": 0.0, "liquidators": set(), "n": 0, "coinbase": 0, "entry": 0,
+                              "swap": 0})
     for r in recs:
+        cps = r.get("counterparties") or {}
         for a, eth in (r.get("third_party_to") or {}).items():
             d = by[(r["chain"], a)]
+            d["swap"] += int(a in cps and cps[a][1] > 0)      # devolvió tokens: pago de un swap
             d["eth"] += eth
             d["usd"] += eth * (r.get("eth_usd") or 0)
             d["liquidators"].add(r.get("liquidator"))
@@ -321,7 +324,7 @@ def payees(recs, top=15):
             d["entry"] += int(a == r.get("tx_to"))
     rows = []
     for (chain, a), d in by.items():
-        kind = "builder" if d["coinbase"] >= d["n"] / 2 else (
+        kind = "builder" if d["coinbase"] >= d["n"] / 2 else "swap" if d["swap"] >= d["n"] / 2 else (
             "compartido" if len(d["liquidators"]) >= 2 or (chain, a) in KNOWN_SHARED_ENTRIES else "un_solo_liquidador")
         rows.append({"chain": chain, "payee": a, "usd": d["usd"], "eth": d["eth"], "liquidations": d["n"],
                      "liquidators": len(d["liquidators"]), "kind": kind, "is_entry": d["entry"] > 0})
@@ -677,8 +680,9 @@ def render_md(res, title_date):
     L.append("")
     L.append("### ¿A quién va el ETH que sale del liquidador?")
     L.append("")
-    L.append("\"compartido\": cobra de 2 o más liquidadores (subasta, builder). \"un_solo_liquidador\": puede ser la "
-             "tesorería del mismo bot; si lo es, ese pago es ganancia y no OEV.")
+    L.append("\"compartido\": cobra de 2 o más liquidadores (subasta). \"swap\": devolvió tokens (pago de un swap con "
+             "ETH nativo, p. ej. el PoolManager de Uniswap V4; no es OEV). \"un_solo_liquidador\": puede ser la "
+             "tesorería del mismo bot.")
     L.append("")
     L.append("| Cadena | Destinatario | Tipo | USD | Liq. | Liquidadores | Es la entrada |")
     L.append("|---|---|---|---:|---:|---:|---|")
