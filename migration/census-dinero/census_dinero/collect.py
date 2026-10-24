@@ -634,8 +634,32 @@ class Collector:
         paid = {a: max(0, v - in_eth.get(a, 0)) for a, v in out_eth.items()}
         third_wei = sum(paid.values())
         usd, unpriced, parts = 0.0, [], []
-        tokens = [t for t, v in net.items() if v and t not in ("ETH", weth)]
+        crossing = {tok for tok, f, t, _ in moves if (f in w) != (t in w)}
+        tokens = [t for t in crossing if t not in ("ETH", weth)]
         prices = self.prices.llama_many([f"{self.chain.llama}:{t}" for t in tokens], ts) if tokens else {}
+
+        def value(tok, v):
+            if tok in ("ETH", weth):
+                return v / 1e18 * eth_usd if eth_usd is not None else None
+            meta = self.token(tok)
+            p = prices.get(f"{self.chain.llama}:{tok}")
+            return v / 10 ** meta["decimals"] * p if p is not None and meta["decimals"] is not None else None
+
+        # Contrapartes fuera de W: cuánto les sale y cuánto vuelve de cada una. Un destino al que solo
+        # le sale valor (sumidero) es subasta, builder o tesorería del bot; si devuelve algo, es un swap.
+        cps = {}
+        for tok, f, t, v in moves:
+            if (f in w) == (t in w):
+                continue
+            a, k = (t, 0) if f in w else (f, 1)
+            c = cps.setdefault(a, [0.0, 0.0, 0.0, False])
+            x = value(tok, v)
+            if x is None:
+                c[3] = True                     # algo sin precio pasó por esta contraparte
+            else:
+                c[k] += x
+            if tok == "ETH" and k == 0:
+                c[2] += v / 1e18
         for tok, v in net.items():
             if not v:
                 continue
@@ -662,6 +686,8 @@ class Collector:
             "third_party_eth": third_wei / 1e18 if native is not None else None,
             "third_party_to": {a: v / 1e18 for a, v in sorted(paid.items(), key=lambda kv: -kv[1])[:3] if v}
             if native is not None else {},
+            "counterparties": {a: [round(c[0], 4), round(c[1], 4), c[2], c[3]]
+                               for a, c in sorted(cps.items(), key=lambda kv: -max(kv[1][0], kv[1][1]))[:8]},
             "unpriced": unpriced,
             "net_flows": ", ".join(f"{sym} {amt:+.6g}" for sym, amt in parts)[:240],
         }
@@ -705,6 +731,18 @@ class Collector:
             return v
 
         out = variant(s0, {ZERO, coinbase, weth, tx_to})
+        # Refinanciación: el colateral embargado vuelve al mismo protocolo en la tx (el liquidador
+        # reabre la posición); el bono queda dentro de una posición y no es dinero que se mueva.
+        pool = norm(group[0]["pool"])
+        seized = {}
+        for r in group:
+            if r.get("collateral"):
+                seized[norm(r["collateral"])] = seized.get(norm(r["collateral"]), 0) + int(r.get("collateral_raw") or 0)
+        back = {}
+        for tok, f, t, v in moves:
+            if tok in seized and f in s0 and t == pool:
+                back[tok] = back.get(tok, 0) + v
+        out["redeposit"] = bool(seized) and all(back.get(t, 0) >= 0.9 * v for t, v in seized.items() if v)
         protocol = {norm(m.pool) for m in self.chain.aave} | ({norm(self.chain.morpho)} if self.chain.morpho else set())
         if tx_to not in s0 and tx_to != ZERO and tx_to not in protocol:
             out["with_entry"] = variant(s0 | {tx_to}, {ZERO, coinbase, weth})
@@ -721,7 +759,7 @@ class Collector:
         for v in [variant] + list(variant.get("fallbacks") or []):
             if v.get("realized_usd") is not None and lo <= v["realized_usd"] <= hi:
                 if v is not variant:
-                    v = dict(v, w_minimal=True, with_entry=variant.get("with_entry"))
+                    v = dict(v, w_minimal=True, with_entry=variant.get("with_entry"), redeposit=variant.get("redeposit"))
                 return v
         return dict(variant, realized_complete=False, anomaly="neto_fuera_de_rango")
 
@@ -819,6 +857,10 @@ class Collector:
                 r["third_party_eth"] = real["third_party_eth"] * wgt
             if real.get("third_party_to"):
                 r["third_party_to"] = {a: v * wgt for a, v in real["third_party_to"].items()}
+            if real.get("counterparties") is not None:
+                r["counterparties"] = {a: [c[0] * wgt, c[1] * wgt, c[2] * wgt, c[3]]
+                                       for a, c in real["counterparties"].items()}
+            r["redeposit"] = bool(real.get("redeposit"))
             alt = real.get("with_entry")
             if alt:
                 r["entry_variant"] = {
@@ -830,6 +872,8 @@ class Collector:
                     "w_extra": alt.get("w_extra") or [],
                     "net_flows": alt["net_flows"],
                     "third_party_to": {a: v * wgt for a, v in (alt.get("third_party_to") or {}).items()},
+                    "counterparties": {a: [c[0] * wgt, c[1] * wgt, c[2] * wgt, c[3]]
+                                       for a, c in (alt.get("counterparties") or {}).items()},
                 }
             if eth_usd:
                 r["gas_usd"] = r["gas_eth"] * eth_usd

@@ -423,6 +423,49 @@ class TestOracleInTxAndPayees(unittest.TestCase):
         self.assertEqual(kinds[fc.BUILDER], "builder")
 
 
+class TestCounterparties(unittest.TestCase):
+    def run_d(self, chain=None):
+        col, chain = make_collector(chain=chain)
+        tmp = tempfile.mkdtemp()
+        col.run(1, tmp)
+        with open(os.path.join(tmp, "liquidaciones.jsonl")) as fh:
+            return {r["tx_hash"]: r for r in map(json.loads, fh)}
+
+    def test_counterparties_split_swaps_from_sinks(self):
+        d = self.run_d()[fc.th(0xD)]
+        cps = d["counterparties"]
+        self.assertAlmostEqual(cps[fc.AUCTION][0], 80.0, places=4)          # sumidero: solo recibe
+        self.assertEqual(cps[fc.AUCTION][1], 0.0)
+        self.assertGreater(cps[fc.POOLX][1], 0)                           # swap: devuelve USDC
+        self.assertFalse(d["redeposit"])
+
+    def test_redeposit_of_collateral_is_refinancing(self):
+        chain = fc.FakeChain()
+        rc = chain.receipts[fc.th(0xB)]
+        rc["logs"].append({"address": fc.WSTETH, "topics": [fc.ERC20_TRANSFER_TOPIC, "0x" + fc.encode_address(fc.BOT_B),
+                                                             "0x" + fc.encode_address(fc.MORPHO)],
+                           "data": "0x" + fc.w(4 * 10 ** 18)})
+        b = self.run_d(chain)[fc.th(0xB)]
+        self.assertTrue(b["redeposit"])
+        an.derive(b)
+        self.assertEqual(b["route"], "refinanciacion")
+
+    def test_sink_attribution_with_dataset(self):
+        base = TestAnalyzeTranches.rec
+        mk = lambda tx, liq, sinks: base(None, tx, liquidator=liq, tx_to=liq, realized_usd=5.0, bonus_usd=100.0,
+                                         counterparties=sinks)
+        a = mk("0x1", "0xbot1", {"0xauction": [90.0, 0.0, 0.03, False], "0xpool": [500.0, 505.0, 0.0, False]})
+        b = mk("0x2", "0xbot2", {"0xauction": [80.0, 0.0, 0.03, False]})
+        c = mk("0x3", "0xbot3", {"0xsafe": [70.0, 0.0, 0.0, False]})
+        users = an.sink_users([a, b, c])
+        for r in (a, b, c):
+            an.derive(r, users)
+        self.assertEqual((a["oev_usd"], a["treasury_usd"], a["realized_usd"], a["route"]), (90.0, 0.0, 5.0, "subasta"))
+        self.assertEqual((c["oev_usd"], c["treasury_usd"], c["realized_usd"], c["route"]), (0.0, 70.0, 75.0, "directa"))
+        an.derive(c, users)                                # idempotente
+        self.assertEqual(c["realized_usd"], 75.0)
+
+
 class TestAnalyzeTranches(unittest.TestCase):
     def _tranche(self, recs, meta):
         d = tempfile.mkdtemp()

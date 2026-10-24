@@ -21,7 +21,8 @@ LIQ_FIELDS = [
     "liquidator", "tx_from", "tx_to", "borrower", "collateral_symbol", "debt_symbol", "collateral_amount",
     "debt_amount", "debt_usd", "bonus_usd", "bonus_source", "lif", "gas_usd", "priority_usd", "builder_usd",
     "net_usd", "builder_share", "builder_payment_complete", "direct_source", "realized_usd", "realized_complete",
-    "third_party_usd", "oev_usd", "order_paid_usd", "route", "paid_over_bonus", "entry", "realized_base_usd",
+    "third_party_usd", "oev_usd", "builder_direct_usd", "treasury_usd", "realized_raw_usd", "order_paid_usd", "route",
+    "paid_over_bonus", "redeposit", "entry", "realized_base_usd",
     "realized_anomaly",
     "net_flows", "native_source",
     "beneficiaries", "unpriced_tokens",
@@ -115,25 +116,78 @@ def resolve_entries(recs):
     return recs
 
 
-def derive(r):
-    """Campos derivados: propina en USD, pago por el orden, OEV y ruta de la liquidación."""
+MEASURED_ROUTES = ("directa", "subasta")
+ZERO = "0x" + "0" * 40
+
+
+def sink_users(recs):
+    """Liquidadores distintos que mandan valor a cada sumidero (contraparte que no devuelve nada)."""
+    users = defaultdict(set)
+    for r in recs:
+        for a, c in (r.get("counterparties") or {}).items():
+            if c[0] > 0 and c[1] == 0:
+                users[(r["chain"], a)].add(r.get("liquidator"))
+    return users
+
+
+def sink_kind(r, a, users):
+    if a == r.get("builder_coinbase"):
+        return "builder"
+    key = (r["chain"], a)
+    if key in KNOWN_SHARED_ENTRIES or len(users.get(key, ())) >= 2:
+        return "compartido"
+    return "tesoreria"
+
+
+def derive(r, users=None):
+    """Campos derivados: propina, pagos por el orden (OEV y builder), tesorería del bot y ruta.
+
+    Con `counterparties` (corridas nuevas) cada contraparte fuera de W se clasifica: si devuelve
+    algo es un swap o préstamo (su costo queda en "resto"); si solo recibe, es el builder del bloque,
+    una subasta compartida (≥ 2 liquidadores o conocida) o la tesorería del mismo bot, cuyo saldo
+    cuenta como ganancia. Sin `counterparties` (corridas viejas) se usa solo el ETH a terceros."""
     eth = r.get("eth_usd")
     prio = (r.get("priority_eth") or 0) * eth if eth else None
-    direct = (r.get("direct_eth") or 0) * eth if eth else None
-    third = r.get("third_party_usd")
     r["priority_usd"] = prio
-    r["order_paid_usd"] = None if third is None or prio is None else third + prio
-    # OEV/subasta: ETH a terceros que no es pago directo al builder del bloque.
-    r["oev_usd"] = None if third is None or direct is None else max(0.0, third - direct)
+    cps = r.get("counterparties")
+    if cps is not None and not r.get("_attributed"):
+        r["_attributed"] = True
+        builder = oev = treasury = 0.0
+        for a, (out, inn, _eth, _unpriced) in cps.items():
+            if out <= 0 or inn > 0 or a == ZERO:
+                continue
+            kind = sink_kind(r, a, users or {})
+            if kind == "builder":
+                builder += out
+            elif kind == "compartido":
+                oev += out
+            else:
+                treasury += out
+        r["builder_direct_usd"], r["oev_usd"], r["treasury_usd"] = builder, oev, treasury
+        if r.get("realized_usd") is not None:
+            r["realized_raw_usd"] = r["realized_usd"]
+            r["realized_usd"] = r["realized_usd"] + treasury
+        r["order_paid_usd"] = None if prio is None else builder + oev + prio
+    elif cps is None:
+        direct = (r.get("direct_eth") or 0) * eth if eth else None
+        third = r.get("third_party_usd")
+        r["order_paid_usd"] = None if third is None or prio is None else third + prio
+        r["oev_usd"] = None if third is None or direct is None else max(0.0, third - direct)
+        r["builder_direct_usd"] = None if third is None or r["oev_usd"] is None else third - r["oev_usd"]
     b, real = r.get("bonus_usd"), r.get("realized_usd")
     # Pagó por el orden mucho más que el bono: la tx probablemente incluye otra liquidación fuera
     # del alcance (otro protocolo) o arbitraje. Se marca; el bono medido es solo el de Aave/Morpho.
-    r["paid_over_bonus"] = bool(b is not None and r["order_paid_usd"] is not None
+    r["paid_over_bonus"] = bool(b is not None and r.get("order_paid_usd") is not None
                                 and r["order_paid_usd"] > max(1.5 * b, b + 20))
-    if not r.get("realized_complete") or b is None or real is None or r["order_paid_usd"] is None:
+    gas = r.get("gas_usd") or 0
+    if r.get("redeposit"):
+        r["route"] = "refinanciacion"
+    elif not r.get("realized_complete") or b is None or real is None or r.get("order_paid_usd") is None:
         r["route"] = "sin_medir"
     elif r["order_paid_usd"] >= max(ORDER_PAID_SHARE * b, 1.0):
         r["route"] = "subasta"
+    elif b >= 20 and abs(real) <= gas + 1 and cps is not None:
+        r["route"] = "sin_rastro"           # ni el ganador ni un sumidero se quedaron con el bono
     else:
         r["route"] = "directa"
     return r
@@ -181,7 +235,7 @@ def summarize_group(rs):
     blocks = [r.get("blocks_since_oracle") for r in rs if r.get("blocks_since_oracle") is not None]
     wt = winners_table(rs)
     complete = [r for r in rs if r.get("builder_payment_complete") or r.get("direct_source") == "no_aplica_l2"]
-    real = [r for r in rs if r.get("realized_complete") and r.get("realized_usd") is not None]
+    real = [r for r in rs if r.get("route") in MEASURED_ROUTES]
     real_bonus = _sum(r.get("bonus_usd") for r in real)
     direct = [r for r in real if r.get("route") == "directa"]
     return {
@@ -221,15 +275,18 @@ def _quantile(xs, q):
 
 def money_flow(rs):
     """A dónde se va el bono, solo con liquidaciones de medición completa."""
-    real = [r for r in rs if r.get("route") != "sin_medir"]
+    real = [r for r in rs if r.get("route") in MEASURED_ROUTES]
     bonus = _sum(r["bonus_usd"] for r in real)
     kept = _sum(r["realized_usd"] for r in real)
     prio = _sum(r.get("priority_usd") for r in real)
     gas_base = _sum((r.get("gas_usd") or 0) - (r.get("priority_usd") or 0) for r in real)
     oev = _sum(r.get("oev_usd") for r in real)
-    direct = _sum(r.get("third_party_usd") for r in real) - oev
+    direct = _sum(r.get("builder_direct_usd") for r in real)
+    other = {k: (sum(1 for r in rs if r.get("route") == k), _sum(r.get("bonus_usd") for r in rs if r.get("route") == k))
+             for k in ("sin_medir", "sin_rastro", "refinanciacion")}
     return {"n": len(real), "n_total": len(rs), "bonus": bonus, "kept": kept, "oev": oev, "builder_direct": direct,
-            "priority": prio, "gas_base": gas_base, "rest": bonus - kept - prio - gas_base - oev - direct}
+            "priority": prio, "gas_base": gas_base, "rest": bonus - kept - prio - gas_base - oev - direct,
+            "treasury": _sum(r.get("treasury_usd") for r in real), "other": other}
 
 
 def payees(recs, top=15):
@@ -292,7 +349,7 @@ def small_actor(recs, chain_days):
     for chain in sorted({r["chain"] for r in recs}):
         rs = [r for r in recs if r["chain"] == chain and r.get("route") == "directa"]
         row = {"chain": chain, "days": chain_days.get(chain), "direct": len(rs),
-               "measured": sum(1 for r in recs if r["chain"] == chain and r.get("route") != "sin_medir"),
+               "measured": sum(1 for r in recs if r["chain"] == chain and r.get("route") in MEASURED_ROUTES),
                "total": sum(1 for r in recs if r["chain"] == chain),
                "kept_usd": _sum(r["realized_usd"] for r in rs),
                "winners": len({r.get("liquidator") for r in rs}),
@@ -356,9 +413,10 @@ def coverage(metas, expected=None):
 
 def analyze(recs, metas, expected=None):
     resolve_entries(recs)
+    users = sink_users(recs)
     for r in recs:
         r["market_label"] = label(r)
-        derive(r)
+        derive(r, users)
     markets = defaultdict(list)
     for r in recs:
         markets[market_key(r)].append(r)
@@ -414,7 +472,7 @@ def analyze(recs, metas, expected=None):
                             "bonus_usd": s_["bonus_usd"], "kept_share": s_["kept_share"],
                             "third_party_usd": s_["third_party_usd"],
                             "auction_pct": (sum(1 for r in rs if r["route"] == "subasta") /
-                                            max(1, sum(1 for r in rs if r["route"] != "sin_medir")))})
+                                            max(1, sum(1 for r in rs if r["route"] in MEASURED_ROUTES)))})
     cov = coverage(metas, expected)
     for c in cov:
         c["anomalies"] = sum(1 for r in recs if r["chain"] == c["chain"] and r.get("realized_anomaly"))
@@ -515,26 +573,37 @@ def render_md(res, title_date):
                  + (f" En L2 no hay builder; la propina de prioridad fue: {l2_txt}." if l2_txt else ""))
     elif l2_txt:
         L.append(f"4. **¿Qué porcentaje dejó al builder?** En L2 no hay builder; la propina de prioridad fue: {l2_txt}.")
-    L.append(f"5. **¿Cuánto se queda realmente el ganador?** En las {num(f.get('n'))} liquidaciones con medición "
-             f"completa ({pct(_share(f.get('n'), f.get('n_total')))} del total): bono {usd(f.get('bonus'))}, "
-             f"el ganador se quedó **{usd(f.get('kept'))} ({pct(_share(f.get('kept'), f.get('bonus')))})**; "
+    oth = f.get("other") or {}
+    L.append(f"5. **¿Cuánto se queda realmente el ganador?** En las {num(f.get('n'))} liquidaciones rastreables "
+             f"({pct(_share(f.get('n'), f.get('n_total')))} del total): bono {usd(f.get('bonus'))}, "
+             f"el ganador se quedó **{usd(f.get('kept'))} ({pct(_share(f.get('kept'), f.get('bonus')))})** "
+             f"(de eso {usd(f.get('treasury'))} lo mandó a su tesorería); "
              f"a subastas de oráculo/OEV {usd(f.get('oev'))} ({pct(_share(f.get('oev'), f.get('bonus')))}), "
              f"al builder en directo {usd(f.get('builder_direct'))}, en propina {usd(f.get('priority'))}, "
-             f"gas base {usd(f.get('gas_base'))}, resto (deslizamiento, comisiones) {usd(f.get('rest'))}.")
+             f"gas base {usd(f.get('gas_base'))}, resto (deslizamiento, comisiones) {usd(f.get('rest'))}. "
+             f"Fuera de la cuenta: sin medir {num(oth.get('sin_medir', (0, 0))[0])} liq. ({usd(oth.get('sin_medir', (0, 0))[1])}), "
+             f"sin rastro {num(oth.get('sin_rastro', (0, 0))[0])} ({usd(oth.get('sin_rastro', (0, 0))[1])}), "
+             f"refinanciaciones {num(oth.get('refinanciacion', (0, 0))[0])} ({usd(oth.get('refinanciacion', (0, 0))[1])}).")
     L.append("")
     L.append("## ¿A dónde se va el bono?")
     L.append("")
-    L.append("Solo liquidaciones con medición completa (todos los movimientos de tokens y ETH de la transacción "
-             "valuados). OEV = ETH pagado a terceros que no son el builder del bloque (subastas de oráculo como "
-             "SVR/Atlas). Resto = bono − todo lo anterior: deslizamiento al vender, comisiones, pagos en tokens.")
+    L.append("Solo liquidaciones rastreables (todos los movimientos de tokens y ETH valuados). Cada contraparte que solo "
+             "recibe se clasifica: builder del bloque, subasta compartida (OEV: la usan 2 o más liquidadores o es una "
+             "subasta conocida) o tesorería del mismo bot (cuenta como del ganador). Lo que va a contrapartes que "
+             "devuelven algo (swaps, préstamos) queda en Resto: deslizamiento y comisiones. \"Sin rastro\": ni el "
+             "ganador ni un sumidero se quedaron con el bono. \"Refinanciación\": el colateral volvió al protocolo en la "
+             "misma tx (no es dinero que se mueva).")
     L.append("")
-    L.append("| Cadena | Protocolo | Medidas | Bono | Ganador | % | OEV | Builder directo | Propina | Gas base | Resto |")
-    L.append("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|")
+    L.append("| Cadena | Protocolo | Rastreables | Bono | Ganador | % | (tesorería) | OEV | Builder directo | Propina | Gas base | Resto | Sin medir · sin rastro · refin. |")
+    L.append("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|")
     for c in res["by_chain_protocol"]:
         fl = c["flow"]
+        o = fl.get("other") or {}
         L.append(f"| {c['chain']} | {c['protocol']} | {fl['n']}/{fl['n_total']} | {usd(fl['bonus'])} | {usd(fl['kept'])} | "
-                 f"{pct(_share(fl['kept'], fl['bonus']))} | {usd(fl['oev'])} | {usd(fl['builder_direct'])} | "
-                 f"{usd(fl['priority'])} | {usd(fl['gas_base'])} | {usd(fl['rest'])} |")
+                 f"{pct(_share(fl['kept'], fl['bonus']))} | {usd(fl.get('treasury'))} | {usd(fl['oev'])} | "
+                 f"{usd(fl['builder_direct'])} | {usd(fl['priority'])} | {usd(fl['gas_base'])} | {usd(fl['rest'])} | "
+                 + " · ".join(f"{o.get(k, (0, 0))[0]} ({usd(o.get(k, (0, 0))[1])})"
+                              for k in ("sin_medir", "sin_rastro", "refinanciacion")) + " |")
     L.append("")
     L.append("## Por cadena y protocolo")
     L.append("")
@@ -557,7 +626,7 @@ def render_md(res, title_date):
     L.append("|---|---|---:|---:|---:|---:|---:|---:|---:|")
     for s in res["routes"]:
         L.append(f"| {s['chain']} | {s['route']} | {s['liquidations']} | {usd(s['bonus_usd'])} | "
-                 f"{usd(s['realized_usd']) if s['route'] != 'sin_medir' else '—'} | {pct(s['kept_share'])} | "
+                 f"{usd(s['realized_usd']) if s['route'] in MEASURED_ROUTES else '—'} | {pct(s['kept_share'])} | "
                  f"{usd(s['realized_median'])} | {s['winners']} | {num(s['blocks_median'])} |")
     L.append("")
     L.append("## ¿Queda margen para un actor pequeño?")

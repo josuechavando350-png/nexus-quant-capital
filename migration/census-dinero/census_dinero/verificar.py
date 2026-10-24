@@ -15,7 +15,7 @@ import os
 from collections import defaultdict
 
 from .abi import norm
-from .analyze import derive, resolve_entries
+from .analyze import derive, resolve_entries, sink_users
 from .collect import liquidator_set
 from .config import CHAINS
 from .prices import LLAMA
@@ -255,8 +255,9 @@ def verify_tx(ex, chain, rows, prices_at):
             continue
         usd += v / 10 ** dec * p
     usd -= fee_wei / 1e18 * eth_usd
-    census_real = sum(r["realized_usd"] for r in rows if r.get("realized_usd") is not None) \
-        if any(r.get("realized_usd") is not None for r in rows) else None
+    # Se compara el neto medido de W, antes de sumarle la tesorería que atribuye el análisis.
+    raw = [r.get("realized_raw_usd", r.get("realized_usd")) for r in rows]
+    census_real = sum(x for x in raw if x is not None) if any(x is not None for x in raw) else None
     census_third = sum(r["third_party_eth"] for r in rows if r.get("third_party_eth") is not None) \
         if any(r.get("third_party_eth") is not None for r in rows) else None
     census_gas = sum(r.get("gas_eth") or 0 for r in rows)
@@ -317,9 +318,10 @@ def verify(recs, web=None, per_chain=4, explorers=None, evidence=None):
     el explorador (Blockscout, si responde) y la evidencia cruda recalculada con este módulo."""
     web = web or WebClient(rps=3)
     resolve_entries(recs)
+    users = sink_users(recs)
     for r in recs:
         if "route" not in r:
-            derive(r)
+            derive(r, users)
     by_tx = defaultdict(list)
     for r in recs:
         by_tx[(r["chain"], r["tx_hash"])].append(r)
