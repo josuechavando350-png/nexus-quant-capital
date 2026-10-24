@@ -1,0 +1,30 @@
+[21:52:37] base: ventana bloques 52004527..52134126 (3 días), 10 proveedores responden
+[21:52:37] base: fase ventana: 10.9 s
+[21:52:48] base: sonda: proveedor | ms | getLogs máx | archivo | debug viejo | trace viejo
+[21:52:48] base: sonda: https://base-rpc.publicnode.com | 106 | 50,000 | sí | 0/2 | 0/2
+[21:52:48] base: sonda: https://base.drpc.org | 46 | 0 | sí | 0/2 | 2/2
+[21:52:48] base: sonda: https://mainnet.base.org | 100 | 0 | sí | 0/2 | 0/2
+[21:52:48] base: sonda: https://1rpc.io/base | caído: HTTP 410 en 1rpc.io
+[21:52:48] base: sonda: https://base.meowrpc.com | 283 | 0 | no | 0/2 | 0/2
+[21:52:48] base: sonda: https://base-mainnet.public.blastapi.io | 112 | 0 | sí | 0/2 | 0/2
+[21:52:48] base: sonda: https://gateway.tenderly.co/public/base | 131 | 1,000 | sí | 0/2 | 0/2
+[21:52:48] base: sonda: https://base.api.onfinality.io/public | caído: HTTP 429 en base.api.onfinality.io
+[21:52:48] base: sonda: https://base-pokt.nodies.app | 111 | 0 | sí | 0/2 | 0/2
+[21:52:48] base: sonda: https://api.zan.top/base-mainnet | 916 | 0 | no | 0/2 | 0/2
+[21:53:06] base: fuentes web: {"blockscout": {"ok": false, "error": "HTTP 403 en https://base.blockscout.com/api/v2/transactions/0x0710b8ba406c7dc732f26574da5da2fa682e1832dd2dcda19035872062"}, "defillama": {"ok": true}}
+[21:53:06] base: fase sonda: 28.7 s
+[21:53:15] base: 15 liquidaciones Aave
+[21:53:24] base: 37 liquidaciones Morpho
+[21:53:24] base: fase eventos: 18.0 s
+[21:53:39] base: fase metadatos: 15.3 s
+[21:54:09] base: oráculos 2/2: bloque 52,100,726 (81%), 1,660 logs, tramo de 1,000 bloques
+[21:54:10] base: oráculos 1/2: bloque 52,044,726 (49%), 2,453 logs, tramo de 1,000 bloques
+[21:54:32] base: 6205 actualizaciones de oráculo en 44 contratos
+[21:54:32] base: fase oraculos: 52.7 s
+[21:55:08] base: 48/48 transacciones enriquecidas
+[21:55:08] base: fase enriquecimiento: 35.7 s
+[21:55:08] base: segunda pasada de trazas para 5 transacciones
+[21:55:39] base: 5/5 transacciones reintentadas
+[21:55:39] base: fase segunda_pasada: 31.2 s
+[21:55:52] base: fase evidencia: 13.4 s
+[21:55:52] base: listo — 52 eventos, 52 enriquecidos, 1095 llamadas RPC, 205.9 s
