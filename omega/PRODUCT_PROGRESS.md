@@ -282,3 +282,13 @@ SQLite batch and runtime v6 now bind the observation to H22 and the Titan policy
 The disconnected worker revokes the root, restores the snapshot and checks normal
 reads are blocked while forensic bytes survive for all eight batches. Historical
 v1-v5 proof scopes remain frozen. Exact-producer remote H23 validation remains open.
+
+## H24 historical flash financing (local draft)
+
+One retained receipt observes a Morpho FlashLoan event and equal WETH principal
+and repayment, corroborated by H23's indexed call/callback. The observed WETH
+repayment premium is zero. Original dRPC-normalized receipt fields agree, with no
+full raw receipt parity claim. The Aave fork's simulated fee remains a separate
+route diagnostic. NQC's Morpho route, gas profile, current liquidity, execution
+and full economics remain unvalidated. Titan-only gas policy is unchanged.
+The ninth store batch, runtime integration and remote H24 verification remain open.

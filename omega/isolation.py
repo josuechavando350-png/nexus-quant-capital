@@ -23,6 +23,9 @@ OMEGA_WORKFLOW = ".github/workflows/omega-h2-audit.yml"
 WORKFLOW_TEMPLATE = "omega/h2_actions_workflow.yml.disabled"
 WORKFLOW_SHA256 = "8c1c20a8684a21728d7ebd83d0aac7ad93dc5840df34ec455e80e5eb0b3813be"
 EXTENSION_FILES = frozenset({
+    "omega/flash_financing_intake.py", "omega/test_flash_financing_intake.py",
+    "omega/FLASH_FINANCING_CONTRACT.md", "omega/AUDIT_H24.md",
+    "omega/evidence/flash-financing-capture.json", "omega/evidence/h24-flash-financing.json",
     "omega/direct_payment_intake.py", "omega/test_direct_payment_intake.py",
     "omega/DIRECT_PAYMENT_CONTRACT.md", "omega/AUDIT_H23.md",
     "omega/evidence/direct-payment-capture.json", "omega/evidence/h23-direct-payment.json",

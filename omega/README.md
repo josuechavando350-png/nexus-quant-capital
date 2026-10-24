@@ -455,3 +455,14 @@ invalidar los ocho lotes y preservar sus bytes tras restaurar. Vincula la polít
 Titan y rechaza cobertura o utilidad inventadas; conserva el alcance de v1-v5.
 La validación remota del productor exacto sigue pendiente. Ver
 [contrato](DIRECT_PAYMENT_CONTRACT.md) y [auditoría](AUDIT_H23.md).
+
+## H24 — financiación histórica con Morpho (borrador local)
+
+El recibo del primer ganador vincula el evento de Morpho y dos transferencias
+WETH: recibió y devolvió `10684013854557827871` wei. El recargo observado en esa
+devolución WETH es cero. Los otros costos siguen abiertos; el costo simulado de
+Aave en el fork no se atribuye a este ganador. El lector contrasta el recibo con
+el resumen dRPC original y las llamadas retenidas por H23. Esto aún no valida una
+ruta Morpho para NQC. **Titan continúa siendo el proveedor exigido para el gas**,
+sin aporte ni alternativa propia. Ver [contrato](FLASH_FINANCING_CONTRACT.md) y
+[auditoría](AUDIT_H24.md).
