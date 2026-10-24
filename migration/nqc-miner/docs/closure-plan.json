@@ -28,7 +28,7 @@
       "remaining_points": 8,
       "acceptance": "Actual workflow integration and historical price/position/execution reconstruction with certified adapters",
       "dependency": "development_and_runtime",
-      "next_step": "The observed AaveOracle and WETH EACAggregatorProxy now execute with exact recompiled runtime in the synthetic two-asset composition. Authenticate and execute the caller/time-dependent DualAggregator and USDC adapter, fresh round state and transaction prestate; preserve the proxy caller when selecting round data. Complete same-asset/multireserve paths, real Pool entrypoints, WETH/USDC metadata parity, actual-fork and Foundry/workflow certification. No operational phase credit is earned by synthetic state or proxy tests.",
+      "next_step": "Observed AaveOracle, WETH EACAggregatorProxy and DualAggregator now execute together with original caller/time/round selection. Nine price reads reproduce three blocks using observed slots in an explicitly synthetic environment. Replace the USDC feed, authenticate full round/transaction prestate and actual fork, enforce justified freshness criteria, then complete real Pool entry, additional reserves, same-asset/multireserve paths, token metadata parity and Foundry/workflow certification. No operational phase credit is earned by these bounded read samples or synthetic liquidation tests.",
       "status": "open"
     },
     {
@@ -44,7 +44,7 @@
       "remaining_points": 4,
       "acceptance": "Quarantined generation, actual differential protocol testing and Foundry fuzzing",
       "dependency": "development_and_toolchain",
-      "next_step": "The observed AaveOracle and WETH EACAggregatorProxy now execute with exact recompiled runtime in the synthetic two-asset composition. Authenticate and execute the caller/time-dependent DualAggregator and USDC adapter, fresh round state and transaction prestate; preserve the proxy caller when selecting round data. Complete same-asset/multireserve paths, real Pool entrypoints, WETH/USDC metadata parity, actual-fork and Foundry/workflow certification. No operational phase credit is earned by synthetic state or proxy tests.",
+      "next_step": "Observed AaveOracle, WETH EACAggregatorProxy and DualAggregator now execute together with original caller/time/round selection. Nine price reads reproduce three blocks using observed slots in an explicitly synthetic environment. Replace the USDC feed, authenticate full round/transaction prestate and actual fork, enforce justified freshness criteria, then complete real Pool entry, additional reserves, same-asset/multireserve paths, token metadata parity and Foundry/workflow certification. No operational phase credit is earned by these bounded read samples or synthetic liquidation tests.",
       "status": "open"
     },
     {

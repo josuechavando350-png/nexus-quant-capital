@@ -1,4 +1,6 @@
 //! Actual WETH feed proxy; aggregator answers and controller are explicit doubles.
+#[path = "aave_dual_aggregator_execution.rs"]
+mod aave_dual_aggregator_execution;
 use super::*;
 const CONTROLLER: &str = "0x8888888888888888888888888888888888888888";
 fn weth_feed_fixture() -> Value {
