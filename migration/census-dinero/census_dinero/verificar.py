@@ -214,8 +214,14 @@ def verify_tx(ex, chain, rows, prices_at):
         s0.add(tx_to)                    # el contrato de entrada es del mismo bot (ver resolve_entries)
     else:
         exclude.add(tx_to)
-    w, benef = liquidator_set(s0, [(f, to) for _, f, to, _, _, _ in flows], exclude,
-                              lambda a: not ex.is_contract(a))
+    if "w_extra" in rows[0]:
+        # Mismo W que usó el census (incluye su decisión de descartar cuentas agregadas); lo que
+        # se verifica aquí son los flujos y su valor, no la definición de W.
+        benef = set(rows[0]["w_extra"] or [])
+        w = s0 | benef
+    else:
+        w, benef = liquidator_set(s0, [(f, to) for _, f, to, _, _, _ in flows], exclude,
+                                  lambda a: not ex.is_contract(a))
     net = defaultdict(int)
     meta = {}
     third_wei = defaultdict(int)

@@ -101,7 +101,7 @@ jobs:
     needs: [plan, collect]
     if: always() && github.repository_id == 1411047452 && needs.plan.result == 'success'
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 45
     defaults:
       run:
         working-directory: migration/census-dinero

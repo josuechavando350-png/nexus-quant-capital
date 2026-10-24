@@ -684,13 +684,46 @@ class Collector:
         pairs = [(f, t) for _, f, t, _ in moves]
         s0 = {norm(tx["from"])} | {r["liquidator"] for r in group}
         tx_to = norm(tx.get("to") or ZERO)
-        w, benef = liquidator_set(s0, pairs, {ZERO, coinbase, weth, tx_to}, self.is_eoa)
-        out = self._net_usd(w, moves, native, gas_wei, eth_usd, ts)
-        out["beneficiaries"] = len(benef)
-        if tx_to not in s0 and tx_to != ZERO:
-            w2, _ = liquidator_set(s0 | {tx_to}, pairs, {ZERO, coinbase, weth}, self.is_eoa)
-            out["with_entry"] = self._net_usd(w2, moves, native, gas_wei, eth_usd, ts)
+        def variant(base, exclude):
+            w, benef = liquidator_set(base, pairs, exclude, self.is_eoa)
+            v = self._net_usd(w, moves, native, gas_wei, eth_usd, ts)
+            v["beneficiaries"] = len(benef)
+            v["w_extra"] = sorted(benef)
+            # Respaldo por si el neto sale fuera de rango: hay protocolos con "bolsillos" sin código
+            # (PSM de Maker) que parecen billeteras del bot. Se quitan las cuentas agregadas de la que
+            # más recibe a la que menos, una por una.
+            got = {a: (self._net_usd({a}, moves, native, 0, eth_usd, ts)["realized_usd"] or float("inf"))
+                   for a in benef}
+            fallbacks, w_cur = [], set(w)
+            for a in sorted(benef, key=lambda a: -abs(got[a])):
+                w_cur.discard(a)
+                fb = self._net_usd(set(w_cur), moves, native, gas_wei, eth_usd, ts)
+                fb["beneficiaries"] = len(w_cur - base)
+                fb["w_extra"] = sorted(w_cur - base)
+                fallbacks.append(fb)
+            v["fallbacks"] = fallbacks
+            return v
+
+        out = variant(s0, {ZERO, coinbase, weth, tx_to})
+        protocol = {norm(m.pool) for m in self.chain.aave} | ({norm(self.chain.morpho)} if self.chain.morpho else set())
+        if tx_to not in s0 and tx_to != ZERO and tx_to not in protocol:
+            out["with_entry"] = variant(s0 | {tx_to}, {ZERO, coinbase, weth})
         return out
+
+    @staticmethod
+    def pick_in_range(variant, bonus, gas_usd):
+        """Devuelve la variante (completa o mínima) cuyo neto cabe en el rango posible para el bono;
+        si ninguna cabe, la completa marcada como anomalía."""
+        if variant is None or variant.get("realized_usd") is None or bonus is None:
+            return variant
+        slack = max(REALIZED_SLACK_SHARE * abs(bonus), REALIZED_SLACK_USD)
+        lo, hi = -(abs(bonus) + gas_usd + slack), bonus + slack
+        for v in [variant] + list(variant.get("fallbacks") or []):
+            if v.get("realized_usd") is not None and lo <= v["realized_usd"] <= hi:
+                if v is not variant:
+                    v = dict(v, w_minimal=True, with_entry=variant.get("with_entry"))
+                return v
+        return dict(variant, realized_complete=False, anomaly="neto_fuera_de_rango")
 
     # -- paso 5: enriquecimiento por transacción --------------------------------------
     def enrich_tx(self, group, feeds_by_key, tries=3):
@@ -748,14 +781,12 @@ class Collector:
             real = {"realized_usd": None, "realized_complete": False, "third_party_eth": None,
                     "beneficiaries": 0, "unpriced": [], "realized_error": str(e)[:200]}
         bonus_total = [r.get("bonus_usd") for r in group]
-        for variant in (real, real.get("with_entry")):
-            if not variant or variant["realized_usd"] is None or not eth_usd or None in bonus_total:
-                continue
-            b = sum(bonus_total)
-            slack = max(REALIZED_SLACK_SHARE * abs(b), REALIZED_SLACK_USD)
-            if variant["realized_usd"] > b + slack or variant["realized_usd"] < -(abs(b) + gas_wei / 1e18 * eth_usd + slack):
-                variant["realized_complete"] = False
-                variant["anomaly"] = "neto_fuera_de_rango"
+        if eth_usd and None not in bonus_total:
+            b, gas_usd = sum(bonus_total), gas_wei / 1e18 * eth_usd
+            entry = real.get("with_entry")
+            real = self.pick_in_range(real, b, gas_usd)
+            if entry:
+                real["with_entry"] = self.pick_in_range(entry, b, gas_usd)
 
         # Gas y pagos de la transacción se reparten entre sus liquidaciones según el bono.
         bonuses = [r.get("bonus_usd") for r in group]
@@ -774,6 +805,8 @@ class Collector:
             r["realized_complete"] = real["realized_complete"]
             r["beneficiaries"] = real["beneficiaries"]
             r["net_flows"] = real.get("net_flows")
+            r["w_minimal"] = bool(real.get("w_minimal"))
+            r["w_extra"] = real.get("w_extra") or []
             if real.get("anomaly"):
                 r["realized_anomaly"] = real["anomaly"]
             else:
@@ -793,6 +826,8 @@ class Collector:
                     "third_party_eth": None if alt["third_party_eth"] is None else alt["third_party_eth"] * wgt,
                     "realized_complete": alt["realized_complete"],
                     "anomaly": alt.get("anomaly"),
+                    "w_minimal": bool(alt.get("w_minimal")),
+                    "w_extra": alt.get("w_extra") or [],
                     "net_flows": alt["net_flows"],
                     "third_party_to": {a: v * wgt for a, v in (alt.get("third_party_to") or {}).items()},
                 }

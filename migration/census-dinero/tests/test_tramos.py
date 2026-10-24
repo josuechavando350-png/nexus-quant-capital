@@ -258,6 +258,28 @@ class TestLiquidatorSet(unittest.TestCase):
         self.assertNotIn(pool, w)
         self.assertNotIn(auction, w)
 
+    def test_codeless_protocol_pocket_falls_back_to_minimal_w(self):
+        pocket = fc.norm("0x" + "3a" * 20)        # como el bolsillo del PSM de Maker: sin código
+        chain = fc.FakeChain()
+        rc = chain.receipts[fc.th(0xD)]
+        def tr(tok, frm, to, amt):
+            return {"address": tok, "topics": [fc.ERC20_TRANSFER_TOPIC, "0x" + fc.encode_address(frm),
+                                                "0x" + fc.encode_address(to)], "data": "0x" + fc.w(amt)}
+        rc["logs"] += [tr(fc.USDC, fc.BOT_A, pocket, 35_000 * 10 ** 6), tr(fc.WSTETH, fc.POOLX, fc.BOT_A, 10 ** 19)]
+        fc.EOAS.add(pocket)
+        try:
+            col, _ = make_collector(chain=chain)
+            tmp = tempfile.mkdtemp()
+            col.run(1, tmp)
+        finally:
+            fc.EOAS.discard(pocket)
+        with open(os.path.join(tmp, "liquidaciones.jsonl")) as fh:
+            d = next(r for r in map(json.loads, fh) if r["tx_hash"] == fc.th(0xD))
+        gas = 350_000 * 12e9 / 1e18 * 3000
+        self.assertTrue(d["w_minimal"])
+        self.assertTrue(d["realized_complete"])
+        self.assertAlmostEqual(d["realized_usd"], 15.0 - gas, places=6)
+
     def test_out_of_range_realized_is_flagged(self):
         chain = fc.FakeChain()
         rc = chain.receipts[fc.th(0xD)]
@@ -391,6 +413,10 @@ class TestAnalyzeTranches(unittest.TestCase):
                       entry_variant=dict(alt, realized_usd=97.0))
         known = self.rec("0xd", chain="arbitrum", tx_to="0x8ad1ae9d97c79aa68a0a151e83ff3942f68f86c1",
                          liquidator="0xsolver3", entry_variant=dict(alt, realized_usd=97.0))
+        direct = self.rec("0xe", tx_to="0xpool", pool="0xpool", liquidator="0xeoa", realized_usd=170.0,
+                          entry_variant=dict(alt, realized_usd=-0.02))
+        an.resolve_entries([direct])
+        self.assertEqual((direct["entry"], direct["realized_usd"]), ("liquidador", 170.0))
         an.resolve_entries([own, s1, s2, known])
         self.assertEqual([r["entry"] for r in (own, s1, s2, known)], ["propia", "compartida", "compartida", "compartida"])
         self.assertEqual((own["realized_usd"], own["realized_base_usd"]), (90.0, -1.0))

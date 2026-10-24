@@ -21,7 +21,8 @@ LIQ_FIELDS = [
     "liquidator", "tx_from", "tx_to", "borrower", "collateral_symbol", "debt_symbol", "collateral_amount",
     "debt_amount", "debt_usd", "bonus_usd", "bonus_source", "lif", "gas_usd", "priority_usd", "builder_usd",
     "net_usd", "builder_share", "builder_payment_complete", "direct_source", "realized_usd", "realized_complete",
-    "third_party_usd", "oev_usd", "order_paid_usd", "route", "entry", "realized_base_usd", "realized_anomaly",
+    "third_party_usd", "oev_usd", "order_paid_usd", "route", "paid_over_bonus", "entry", "realized_base_usd",
+    "realized_anomaly",
     "net_flows", "native_source",
     "beneficiaries", "unpriced_tokens",
     "blocks_since_oracle", "seconds_since_oracle", "same_tx_as_oracle", "oracle_in_tx", "oracle_status", "liqs_in_tx",
@@ -88,7 +89,8 @@ def resolve_entries(recs):
             users[(r["chain"], to)].add(r.get("liquidator"))
     for r in recs:
         alt = r.get("entry_variant")
-        if not alt:
+        if not alt or r.get("tx_to") == r.get("pool"):
+            # Sin entrada aparte, o la tx llama directo al protocolo (un EOA que liquida en Morpho).
             r["entry"] = "liquidador"
             continue
         key = (r["chain"], r.get("tx_to"))
@@ -104,6 +106,8 @@ def resolve_entries(recs):
         r["realized_complete"] = bool(alt.get("realized_complete"))
         r["net_flows"] = alt.get("net_flows")
         r["third_party_to"] = alt.get("third_party_to") or {}
+        r["w_minimal"] = bool(alt.get("w_minimal"))
+        r["w_extra"] = alt.get("w_extra") or []
         if alt.get("anomaly"):
             r["realized_anomaly"] = alt["anomaly"]
         else:
@@ -122,6 +126,10 @@ def derive(r):
     # OEV/subasta: ETH a terceros que no es pago directo al builder del bloque.
     r["oev_usd"] = None if third is None or direct is None else max(0.0, third - direct)
     b, real = r.get("bonus_usd"), r.get("realized_usd")
+    # Pagó por el orden mucho más que el bono: la tx probablemente incluye otra liquidación fuera
+    # del alcance (otro protocolo) o arbitraje. Se marca; el bono medido es solo el de Aave/Morpho.
+    r["paid_over_bonus"] = bool(b is not None and r["order_paid_usd"] is not None
+                                and r["order_paid_usd"] > max(1.5 * b, b + 20))
     if not r.get("realized_complete") or b is None or real is None or r["order_paid_usd"] is None:
         r["route"] = "sin_medir"
     elif r["order_paid_usd"] >= max(ORDER_PAID_SHARE * b, 1.0):
@@ -410,6 +418,7 @@ def analyze(recs, metas, expected=None):
     cov = coverage(metas, expected)
     for c in cov:
         c["anomalies"] = sum(1 for r in recs if r["chain"] == c["chain"] and r.get("realized_anomaly"))
+        c["paid_over_bonus"] = sum(1 for r in recs if r["chain"] == c["chain"] and r.get("paid_over_bonus"))
     chain_days = {c["chain"]: c["days"] for c in cov}
     anomalies = sorted((r for r in recs if r.get("realized_anomaly")), key=lambda r: -(r.get("bonus_usd") or 0))
     return {
@@ -493,10 +502,19 @@ def render_md(res, title_date):
     L.append(f"3. **¿Llegan a tiempo? ¿En cuántos bloques?** Mediana de **{num(o.get('blocks_median'))} bloques** "
              f"({num(o.get('seconds_median'))} s) desde la última actualización del oráculo; "
              f"**{pct(o.get('same_block_pct'))}** en el mismo bloque.")
+    l2 = defaultdict(lambda: [0.0, 0.0])
+    for c in res["by_chain_protocol"]:
+        if c["chain"] != "ethereum":
+            l2[c["chain"]][0] += c["builder_usd"]
+            l2[c["chain"]][1] += c["bonus_usd"]
+    l2_txt = ", ".join(f"{k} {pct(_share(v[0], v[1]))}" for k, v in sorted(l2.items()))
     if eth_rows:
         eb = sum(c["bonus_usd"] for c in eth_rows)
-        L.append(f"4. **¿Qué porcentaje dejó al builder (Ethereum)?** **{pct(_share(sum(c['builder_usd'] for c in eth_rows), eb))}** "
-                 f"del bono (propina + pago directo al coinbase).")
+        L.append(f"4. **¿Qué porcentaje dejó al builder?** Ethereum: **{pct(_share(sum(c['builder_usd'] for c in eth_rows), eb))}** "
+                 f"del bono (propina + pago directo al coinbase, que incluye las pujas de Chainlink SVR)."
+                 + (f" En L2 no hay builder; la propina de prioridad fue: {l2_txt}." if l2_txt else ""))
+    elif l2_txt:
+        L.append(f"4. **¿Qué porcentaje dejó al builder?** En L2 no hay builder; la propina de prioridad fue: {l2_txt}.")
     L.append(f"5. **¿Cuánto se queda realmente el ganador?** En las {num(f.get('n'))} liquidaciones con medición "
              f"completa ({pct(_share(f.get('n'), f.get('n_total')))} del total): bono {usd(f.get('bonus'))}, "
              f"el ganador se quedó **{usd(f.get('kept'))} ({pct(_share(f.get('kept'), f.get('bonus')))})**; "
@@ -647,6 +665,12 @@ def render_md(res, title_date):
                  f"{', '.join(f'{k}: {v}' for k, v in c['native'].items()) or '—'} | "
                  f"oráculo {ps.get('oraculo', 0)}, mercado {ps.get('defillama', 0)}, sin {ps.get('sin_precio', 0)} | "
                  f"{c['budget_hit']} |")
+    over = [(c["chain"], c["paid_over_bonus"]) for c in cov if c.get("paid_over_bonus")]
+    if over:
+        L.append("")
+        L.append("Liquidaciones cuya tx pagó por el orden más de 1.5× su bono (probable liquidación de otro protocolo "
+                 "o arbitraje en la misma tx; el pago completo cuenta como OEV/builder): "
+                 + ", ".join(f"{c}: {n}" for c, n in over) + ".")
     if res.get("anomalies"):
         L.append("")
         L.append(f"Netos fuera de rango (no se cuentan como medidos; revisar a mano): "

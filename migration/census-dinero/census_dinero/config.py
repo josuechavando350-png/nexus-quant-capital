@@ -200,10 +200,13 @@ THRESHOLDS = Thresholds()
 
 # Contratos de entrada compartidos (subastas de orden) conocidos. Además de estos, el
 # análisis trata como compartida toda entrada que usan dos o más contratos liquidadores.
-# - Arbitrum 0x8ad1…86c1: `metacall` de la subasta OEV (verificado a mano: tx 0x7aca33d6…753e
-#   pagó 1.16 ETH a la subasta y el ganador se quedó $6.41 de un bono de ~$3,320).
+# - Arbitrum 0x8ad1…86c1 y Base 0x583d…9b77: `metacall` de la subasta OEV. Verificado a mano con
+#   evidencia cruda: tx 0x7aca33d6…753e (Arbitrum) pagó 1.16 ETH y el ganador se quedó $6.41 de un
+#   bono de $3,117; tx 0x7360c374…1e1c (Base, 15 liquidaciones Morpho) pagó 3.048 ETH de un bono de
+#   $7,357 y perdió $87.81. En ambas cadenas el ETH termina en 0x52b9…c506.
 KNOWN_SHARED_ENTRIES = frozenset({
     ("arbitrum", "0x8ad1ae9d97c79aa68a0a151e83ff3942f68f86c1"),
+    ("base", "0x583dcfef0d240dc80753f0f0b26513fee27d9b77"),
 })
 
 # Ventana extra antes del inicio para encontrar la última actualización de
