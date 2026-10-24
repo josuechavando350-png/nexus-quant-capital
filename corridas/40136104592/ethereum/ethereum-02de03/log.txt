@@ -1,0 +1,33 @@
+[21:52:35] ethereum: ventana bloques 26121243..26192992 (10 días), 8 proveedores responden
+[21:52:35] ethereum: fase ventana: 9.2 s
+[21:52:43] ethereum: sonda: proveedor | ms | getLogs máx | archivo | debug viejo | trace viejo
+[21:52:43] ethereum: sonda: https://ethereum-rpc.publicnode.com | 76 | 0 | no | 0/2 | 0/2
+[21:52:43] ethereum: sonda: https://eth.drpc.org | 74 | 0 | sí | 2/2 | 2/2
+[21:52:43] ethereum: sonda: https://1rpc.io/eth | 112 | 0 | no | 0/2 | 0/2
+[21:52:43] ethereum: sonda: https://rpc.mevblocker.io | 187 | 10,000 | sí | 0/2 | 0/2
+[21:52:43] ethereum: sonda: https://eth-mainnet.public.blastapi.io | 86 | 0 | sí | 0/2 | 0/2
+[21:52:43] ethereum: sonda: https://gateway.tenderly.co/public/mainnet | 162 | 100,000 | sí | 0/2 | 0/2
+[21:52:43] ethereum: sonda: https://eth-pokt.nodies.app | 101 | 0 | sí | 0/2 | 0/2
+[21:52:43] ethereum: sonda: https://api.zan.top/eth-mainnet | 972 | 0 | no | 0/2 | 0/2
+[21:52:44] ethereum: fuentes web: {"blockscout": {"ok": true, "ms": 196}, "defillama": {"ok": true}}
+[21:52:44] ethereum: fase sonda: 9.3 s
+[21:52:46] ethereum: 48 liquidaciones Aave
+[21:52:46] ethereum: 33 liquidaciones Morpho
+[21:52:46] ethereum: fase eventos: 2.4 s
+[21:53:22] ethereum: fase metadatos: 35.6 s
+[21:53:24] ethereum: 5612 actualizaciones de oráculo en 92 contratos
+[21:53:24] ethereum: fase oraculos: 1.8 s
+[21:53:39] ethereum: 74/74 transacciones enriquecidas
+[21:53:39] ethereum: fase enriquecimiento: 15.6 s
+[21:53:39] ethereum: fase segunda_pasada: 0.0 s
+[21:53:40] ethereum: falla: AttributeError: 'NoneType' object has no attribute 'get'
+[21:53:40] Traceback (most recent call last):
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 1055, in run
+    self.evidence_rows = self.evidence(groups)
+                         ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 999, in evidence
+    for lg in rc.get("logs") or []:
+              ^^^^^^
+AttributeError: 'NoneType' object has no attribute 'get'
+
+[21:53:40] ethereum: listo — 81 eventos, 2 enriquecidos, 701 llamadas RPC, 74.4 s
