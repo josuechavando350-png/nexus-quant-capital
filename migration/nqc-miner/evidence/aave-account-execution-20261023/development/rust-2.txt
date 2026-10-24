@@ -1,0 +1,17 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/162ea5393283/nqc/migration/nqc-miner)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.89s
+     Running tests/aave_debt_execution_tests.rs (/tmp/nqc-miner-target/debug/deps/aave_debt_execution_tests-17d48d7081572acf)
+
+running 9 tests
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::oracle_failure_precedes_validation_but_reserve_failure_precedes_oracle ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::missing_oracle_price_list_and_token_witnesses_fail_closed_and_late_payment_rolls_back_copies ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::account_overflow_zero_collateral_price_and_malformed_oracle_revert_atomically ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::original_account_health_and_prices_drive_both_payments_and_export_examples ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::computed_health_at_one_rejects_and_one_base_step_below_succeeds ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::empty_and_gap_flags_and_zero_debt_price_use_original_no_debt_health_rule ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::former_supplied_health_and_aggregate_values_have_no_effect_on_new_abi ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::emode_bitmap_selects_threshold_bonus_and_can_flip_initial_eligibility ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::seeded_thresholds_prices_indices_and_emode_select_actual_health_bonus_and_payment ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 73 filtered out; finished in 31.31s
+

@@ -1,5 +1,7 @@
 //! Original close factor, collateral cap, fee and dust drive both delivery/payment modes.
 //! Prices, aggregate account values, all state and Pool entry remain synthetic.
+#[path = "aave_account_execution.rs"]
+mod aave_account_execution;
 use super::*;
 use nqc_miner::aave_amounts::{calculate, AmountInput, Amounts};
 

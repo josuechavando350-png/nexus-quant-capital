@@ -1,0 +1,414 @@
+// SPDX-License-Identifier: BUSL-1.1
+pragma solidity ^0.8.27;
+// GENERATED: original excerpts and internal debt function; synthetic Pool entrypoint/state.
+import {DataTypes} from "lib/aave-v3-origin-private/src/contracts/protocol/libraries/types/DataTypes.sol";
+import {LiquidationLogic} from "lib/aave-v3-origin-private/src/contracts/protocol/libraries/logic/LiquidationLogic.sol";
+import {UserConfiguration} from "lib/aave-v3-origin-private/src/contracts/protocol/libraries/configuration/UserConfiguration.sol";
+import {TokenMath} from "lib/aave-v3-origin-private/src/contracts/protocol/libraries/helpers/TokenMath.sol";
+import {IAToken} from "lib/aave-v3-origin-private/src/contracts/interfaces/IAToken.sol";
+import {IVariableDebtToken} from "lib/aave-v3-origin-private/src/contracts/interfaces/IVariableDebtToken.sol";
+import {IERC20} from "lib/aave-helpers/lib/aave-address-book/lib/aave-v3-origin/lib/solidity-utils/lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
+import {GPv2SafeERC20} from "lib/aave-v3-origin-private/src/contracts/dependencies/gnosis/contracts/GPv2SafeERC20.sol";
+import {IPool} from "lib/aave-v3-origin-private/src/contracts/interfaces/IPool.sol";
+import {ReserveLogic} from "lib/aave-v3-origin-private/src/contracts/protocol/libraries/logic/ReserveLogic.sol";
+import {ValidationLogic} from "lib/aave-v3-origin-private/src/contracts/protocol/libraries/logic/ValidationLogic.sol";
+import {PercentageMath} from "lib/aave-v3-origin-private/src/contracts/protocol/libraries/math/PercentageMath.sol";
+import {MathUtils} from "lib/aave-v3-origin-private/src/contracts/protocol/libraries/math/MathUtils.sol";
+import {ReserveConfiguration} from "lib/aave-v3-origin-private/src/contracts/protocol/libraries/configuration/ReserveConfiguration.sol";
+import {Errors} from "lib/aave-v3-origin-private/src/contracts/protocol/libraries/helpers/Errors.sol";
+import {GenericLogic} from "lib/aave-v3-origin-private/src/contracts/protocol/libraries/logic/GenericLogic.sol";
+import {EModeConfiguration} from "lib/aave-v3-origin-private/src/contracts/protocol/libraries/configuration/EModeConfiguration.sol";
+import {IPriceOracleGetter} from "lib/aave-v3-origin-private/src/contracts/interfaces/IPriceOracleGetter.sol";
+contract AaveAccountExecutionHarness {
+  using PercentageMath for uint256;
+  using ReserveConfiguration for DataTypes.ReserveConfigurationMap;
+  using ReserveLogic for DataTypes.ReserveData;
+  using GPv2SafeERC20 for IERC20;
+  using TokenMath for uint256;
+  using UserConfiguration for DataTypes.UserConfigurationMap;
+  DataTypes.ReserveData private debtReserve;
+  DataTypes.UserConfigurationMap private borrowerConfig;
+  DataTypes.ReserveData private collateralReserve;
+
+  uint256 internal constant DEFAULT_LIQUIDATION_CLOSE_FACTOR = 0.5e4;
+  uint256 public constant CLOSE_FACTOR_HF_THRESHOLD = 0.95e18;
+  uint256 public constant MIN_BASE_MAX_CLOSE_FACTOR_THRESHOLD = 2000e8;
+  uint256 public constant MIN_LEFTOVER_BASE = MIN_BASE_MAX_CLOSE_FACTOR_THRESHOLD / 2;
+  // Copies provide the storage mappings required by original GenericLogic.
+  // This is a synthetic Pool layout, not the deployed Pool storage/entrypoint.
+  mapping(address => DataTypes.ReserveData) private reservesData;
+  mapping(uint256 => address) private reservesList;
+  mapping(uint8 => DataTypes.EModeCategory) private eModeCategories;
+  struct Mode {
+    uint16 ltv; uint16 threshold; uint16 bonus; uint128 collateralBitmap;
+    bool isolated; uint128 zeroBitmap;
+  }
+  struct Start {
+    uint128 liquidityIndex; uint128 borrowIndex; uint128 liquidityRate; uint128 borrowRate;
+    uint128 accrued; uint40 lastUpdate; uint256 configuration; uint40 grace;
+  }
+  struct Input {
+    uint256 debtToCover; uint128 deficit; uint128 virtualBalance; uint16 debtId; uint256 config;
+    address aToken; address liquidator; uint16 collateralId;
+    uint128 collateralVirtual; uint128 collateralDeficit; bool receiveAToken;
+    Start debtStart; Start collateralStart; uint8 category; Mode mode;
+  }
+  function calculate(Input memory input) external returns (uint256[47] memory result) {
+    LiquidationLogic.LiquidationCallLocalVars memory vars;
+    DataTypes.ExecuteLiquidationCallParams memory params;
+    params.borrower = address(0xCAFE);
+    params.liquidator = input.liquidator;
+    params.receiveAToken = input.receiveAToken;
+    params.collateralAsset = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
+    params.debtAsset = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48;
+    params.interestRateStrategyAddress = 0x9ec6F08190DeA04A54f8Afc53Db96134e5E3FdFB;
+    params.debtToCover = input.debtToCover;
+    params.priceOracle = 0x5555555555555555555555555555555555555555;
+    params.borrowerEModeCategory = input.category;
+    debtReserve.deficit = input.deficit;
+    debtReserve.virtualUnderlyingBalance = input.virtualBalance;
+    debtReserve.id = input.debtId;
+    borrowerConfig.data = input.config;
+    collateralReserve.id = input.collateralId;
+    collateralReserve.deficit = input.collateralDeficit;
+    collateralReserve.virtualUnderlyingBalance = input.collateralVirtual;
+    _initialize(debtReserve, input.debtStart,
+      0x98C23E9d8f34FEFb1B7BD6a91B7FF122F4e16F5c, 0x72E95b8931767C79bA4EeE721354d6E99a61D004);
+    _initialize(collateralReserve, input.collateralStart,
+      input.aToken, 0xeA51d7853EEFb32b6ee06b1C12E6dcCA88Be0fFE);
+    vars.debtReserveCache = debtReserve.cache();
+    debtReserve.updateState(vars.debtReserveCache);
+    // caching of the collateral happens after debtReserveCache is updated
+    // this ensures a non stale cache is used
+    vars.collateralReserveCache = collateralReserve.cache();
+    collateralReserve.updateState(vars.collateralReserveCache);
+
+    reservesData[params.debtAsset] = debtReserve;
+    reservesData[params.collateralAsset] = collateralReserve;
+    reservesList[debtReserve.id] = params.debtAsset;
+    reservesList[collateralReserve.id] = params.collateralAsset;
+    DataTypes.EModeCategory storage mode = eModeCategories[input.category];
+    mode.ltv = input.mode.ltv;
+    mode.liquidationThreshold = input.mode.threshold;
+    mode.liquidationBonus = input.mode.bonus;
+    mode.collateralBitmap = input.mode.collateralBitmap;
+    mode.isolated = input.mode.isolated;
+    mode.ltvzeroBitmap = input.mode.zeroBitmap;
+    (
+      vars.totalCollateralInBaseCurrency,
+      vars.totalDebtInBaseCurrency,
+      ,
+      ,
+      vars.healthFactor,
+
+    ) = GenericLogic.calculateUserAccountData(
+      reservesData,
+      reservesList,
+      eModeCategories,
+      DataTypes.CalculateUserAccountDataParams({
+        userConfig: borrowerConfig,
+        user: params.borrower,
+        oracle: params.priceOracle,
+        userEModeCategory: params.borrowerEModeCategory
+      })
+    );
+
+    vars.borrowerScaledCollateralBalance = IAToken(vars.collateralReserveCache.aTokenAddress)
+      .scaledBalanceOf(params.borrower);
+    vars.borrowerCollateralBalance = vars.borrowerScaledCollateralBalance.getATokenBalance(
+      vars.collateralReserveCache.nextLiquidityIndex
+    );
+    vars.borrowerReserveDebt = IVariableDebtToken(vars.debtReserveCache.variableDebtTokenAddress)
+      .scaledBalanceOf(params.borrower)
+      .getVTokenBalance(vars.debtReserveCache.nextVariableBorrowIndex);
+
+    ValidationLogic.validateLiquidationCall(
+      borrowerConfig,
+      collateralReserve,
+      debtReserve,
+      DataTypes.ValidateLiquidationCallParams({
+        debtReserveCache: vars.debtReserveCache,
+        totalDebt: vars.borrowerReserveDebt,
+        healthFactor: vars.healthFactor,
+        borrower: params.borrower,
+        liquidator: params.liquidator
+      })
+    );
+
+    if (
+      params.borrowerEModeCategory != 0 &&
+      EModeConfiguration.isReserveEnabledOnBitmap(
+        eModeCategories[params.borrowerEModeCategory].collateralBitmap,
+        collateralReserve.id
+      )
+    ) {
+      vars.liquidationBonus = eModeCategories[params.borrowerEModeCategory].liquidationBonus;
+    } else {
+      vars.liquidationBonus = vars
+        .collateralReserveCache
+        .reserveConfiguration
+        .getLiquidationBonus();
+    }
+    vars.collateralAssetPrice = IPriceOracleGetter(params.priceOracle).getAssetPrice(
+      params.collateralAsset
+    );
+    vars.debtAssetPrice = IPriceOracleGetter(params.priceOracle).getAssetPrice(params.debtAsset);
+    vars.collateralAssetUnit = 10 ** vars.collateralReserveCache.reserveConfiguration.getDecimals();
+    vars.debtAssetUnit = 10 ** vars.debtReserveCache.reserveConfiguration.getDecimals();
+
+    vars.borrowerReserveDebtInBaseCurrency = MathUtils.mulDivCeil(
+      vars.borrowerReserveDebt,
+      vars.debtAssetPrice,
+      vars.debtAssetUnit
+    );
+
+    // @note floor rounding
+    vars.borrowerReserveCollateralInBaseCurrency =
+      (vars.borrowerCollateralBalance * vars.collateralAssetPrice) /
+      vars.collateralAssetUnit;
+
+    // by default whole debt in the reserve could be liquidated
+    uint256 maxLiquidatableDebt = vars.borrowerReserveDebt;
+    // but if debt and collateral is above or equal MIN_BASE_MAX_CLOSE_FACTOR_THRESHOLD
+    // and health factor is above CLOSE_FACTOR_HF_THRESHOLD this amount may be adjusted
+    if (
+      vars.borrowerReserveCollateralInBaseCurrency >= MIN_BASE_MAX_CLOSE_FACTOR_THRESHOLD &&
+      vars.borrowerReserveDebtInBaseCurrency >= MIN_BASE_MAX_CLOSE_FACTOR_THRESHOLD &&
+      vars.healthFactor > CLOSE_FACTOR_HF_THRESHOLD
+    ) {
+      uint256 totalDefaultLiquidatableDebtInBaseCurrency = vars.totalDebtInBaseCurrency.percentMul(
+        DEFAULT_LIQUIDATION_CLOSE_FACTOR
+      );
+
+      // if the debt is more then DEFAULT_LIQUIDATION_CLOSE_FACTOR % of the whole,
+      // then we CAN liquidate only up to DEFAULT_LIQUIDATION_CLOSE_FACTOR %
+      if (vars.borrowerReserveDebtInBaseCurrency > totalDefaultLiquidatableDebtInBaseCurrency) {
+        maxLiquidatableDebt =
+          (totalDefaultLiquidatableDebtInBaseCurrency * vars.debtAssetUnit) /
+          vars.debtAssetPrice;
+      }
+    }
+
+    vars.actualDebtToLiquidate = params.debtToCover > maxLiquidatableDebt
+      ? maxLiquidatableDebt
+      : params.debtToCover;
+
+    (
+      vars.actualCollateralToLiquidate,
+      vars.actualDebtToLiquidate,
+      vars.liquidationProtocolFeeAmount
+    ) = _calculateAvailableCollateralToLiquidate(
+      vars.collateralReserveCache.reserveConfiguration,
+      vars.collateralAssetPrice,
+      vars.collateralAssetUnit,
+      vars.debtAssetPrice,
+      vars.debtAssetUnit,
+      vars.actualDebtToLiquidate,
+      vars.borrowerCollateralBalance,
+      vars.liquidationBonus
+    );
+
+    // to prevent accumulation of dust on the protocol, it is enforced that you either
+    // 1. liquidate all debt
+    // 2. liquidate all collateral
+    // 3. leave more than MIN_LEFTOVER_BASE of collateral & debt
+    if (
+      vars.actualDebtToLiquidate < vars.borrowerReserveDebt &&
+      vars.actualCollateralToLiquidate + vars.liquidationProtocolFeeAmount <
+      vars.borrowerCollateralBalance
+    ) {
+      bool isDebtMoreThanLeftoverThreshold = MathUtils.mulDivCeil(
+        vars.borrowerReserveDebt - vars.actualDebtToLiquidate,
+        vars.debtAssetPrice,
+        vars.debtAssetUnit
+      ) >= MIN_LEFTOVER_BASE;
+
+      // @note floor rounding
+      bool isCollateralMoreThanLeftoverThreshold = ((vars.borrowerCollateralBalance -
+        vars.actualCollateralToLiquidate -
+        vars.liquidationProtocolFeeAmount) * vars.collateralAssetPrice) /
+        vars.collateralAssetUnit >=
+        MIN_LEFTOVER_BASE;
+
+      require(
+        isDebtMoreThanLeftoverThreshold && isCollateralMoreThanLeftoverThreshold,
+        Errors.MustNotLeaveDust()
+      );
+    }
+
+    uint256 computedFee = vars.liquidationProtocolFeeAmount;
+    bool hasNoCollateralLeft;
+    {
+      uint256 scaledCollateralConsumed = vars.actualCollateralToLiquidate.getATokenBurnScaledAmount(
+          vars.collateralReserveCache.nextLiquidityIndex
+        ) +
+        vars.liquidationProtocolFeeAmount.getATokenTransferScaledAmount(
+          vars.collateralReserveCache.nextLiquidityIndex
+        );
+
+      // Cap to the actual scaled balance (the fee transfer is capped on-chain too, see L430)
+      if (scaledCollateralConsumed > vars.borrowerScaledCollateralBalance) {
+        scaledCollateralConsumed = vars.borrowerScaledCollateralBalance;
+      }
+
+      bool reserveFullyConsumed = scaledCollateralConsumed == vars.borrowerScaledCollateralBalance;
+
+      // Compute consumed$ from the capped scaled consumption.
+      // When reserveFullyConsumed, this equals the reserve's full base value.
+      // When not, a few-wei leftover that rounds to $0 makes consumed$ == totalCollateral$ too.
+      uint256 consumedInBaseCurrency = (scaledCollateralConsumed.getATokenBalance(
+          vars.collateralReserveCache.nextLiquidityIndex
+        ) * vars.collateralAssetPrice) / vars.collateralAssetUnit;
+
+      hasNoCollateralLeft = consumedInBaseCurrency == vars.totalCollateralInBaseCurrency;
+
+      // Clear the collateral flag when:
+      // - the reserve's scaled balance will be zero post-transfer, or
+      // - all user collateral is consumed (deficit will be created)
+      if (reserveFullyConsumed || hasNoCollateralLeft) {
+        borrowerConfig.setUsingAsCollateral(
+          collateralReserve.id,
+          params.collateralAsset,
+          params.borrower,
+          false
+        );
+      }
+    }
+
+    LiquidationLogic._burnDebtTokens(vars.debtReserveCache, debtReserve, borrowerConfig,
+      params.borrower, params.debtAsset, vars.borrowerReserveDebt, vars.actualDebtToLiquidate,
+      hasNoCollateralLeft, params.interestRateStrategyAddress);
+    if (params.receiveAToken) {
+      IAToken(vars.collateralReserveCache.aTokenAddress).transferOnLiquidation(
+        params.borrower,
+        params.liquidator,
+        vars.actualCollateralToLiquidate,
+        vars.actualCollateralToLiquidate.getATokenTransferScaledAmount(
+          vars.collateralReserveCache.nextLiquidityIndex
+        ),
+        vars.collateralReserveCache.nextLiquidityIndex
+      );
+    } else {
+      // @note Manually updating the cache in case the debt and collateral are the same asset.
+      // This ensures the rates are updated correctly, considering the burning of debt
+      // in the `_burnDebtTokens` function.
+      if (params.collateralAsset == params.debtAsset) {
+        vars.collateralReserveCache.nextScaledVariableDebt = vars
+          .debtReserveCache
+          .nextScaledVariableDebt;
+      }
+
+      _burnCollateralATokens(collateralReserve, params, vars);
+    }
+
+    // Transfer fee to treasury if it is non-zero
+    if (vars.liquidationProtocolFeeAmount != 0) {
+      // getATokenTransferScaledAmount has been used because under the hood, transferOnLiquidation is calling AToken.transfer
+      uint256 scaledDownLiquidationProtocolFee = vars
+        .liquidationProtocolFeeAmount
+        .getATokenTransferScaledAmount(vars.collateralReserveCache.nextLiquidityIndex);
+      uint256 scaledDownBorrowerBalance = IAToken(vars.collateralReserveCache.aTokenAddress)
+        .scaledBalanceOf(params.borrower);
+      // To avoid trying to send more aTokens than available on balance, due to 1 wei imprecision
+      if (scaledDownLiquidationProtocolFee > scaledDownBorrowerBalance) {
+        scaledDownLiquidationProtocolFee = scaledDownBorrowerBalance;
+        vars.liquidationProtocolFeeAmount = scaledDownBorrowerBalance.getATokenBalance(
+          vars.collateralReserveCache.nextLiquidityIndex
+        );
+      }
+      IAToken(vars.collateralReserveCache.aTokenAddress).transferOnLiquidation({
+        from: params.borrower,
+        to: IAToken(vars.collateralReserveCache.aTokenAddress).RESERVE_TREASURY_ADDRESS(),
+        amount: vars.liquidationProtocolFeeAmount,
+        scaledAmount: scaledDownLiquidationProtocolFee,
+        index: vars.collateralReserveCache.nextLiquidityIndex
+      });
+    }
+
+
+    // Multi-reserve _burnBadDebt and actual Pool entry remain omitted; oracle/state are synthetic.
+    // Transfers the debt asset being repaid to the aToken, where the liquidity is kept
+    IERC20(params.debtAsset).safeTransferFrom(
+      params.liquidator,
+      vars.debtReserveCache.aTokenAddress,
+      vars.actualDebtToLiquidate
+    );
+
+    emit IPool.LiquidationCall(
+      params.collateralAsset,
+      params.debtAsset,
+      params.borrower,
+      vars.actualDebtToLiquidate,
+      vars.actualCollateralToLiquidate,
+      params.liquidator,
+      params.receiveAToken
+    );
+
+    IAToken token = IAToken(input.aToken);
+    IVariableDebtToken debt = IVariableDebtToken(vars.debtReserveCache.variableDebtTokenAddress);
+    result = [vars.debtReserveCache.nextScaledVariableDebt, vars.borrowerReserveDebt - vars.actualDebtToLiquidate,
+      uint256(debtReserve.deficit), borrowerConfig.data, uint256(debtReserve.virtualUnderlyingBalance),
+      uint256(debtReserve.currentLiquidityRate), uint256(debtReserve.currentVariableBorrowRate),
+      debt.scaledBalanceOf(params.borrower), debt.getPreviousIndex(params.borrower), debt.scaledTotalSupply(),
+      token.scaledBalanceOf(params.borrower), token.scaledBalanceOf(params.liquidator),
+      token.scaledBalanceOf(token.RESERVE_TREASURY_ADDRESS()), token.scaledTotalSupply(),
+      token.getPreviousIndex(params.borrower), token.getPreviousIndex(params.liquidator),
+      token.getPreviousIndex(token.RESERVE_TREASURY_ADDRESS()), vars.liquidationProtocolFeeAmount,
+      hasNoCollateralLeft ? 1 : 0, uint256(collateralReserve.virtualUnderlyingBalance),
+      uint256(collateralReserve.currentLiquidityRate), uint256(collateralReserve.currentVariableBorrowRate),
+      IERC20(params.debtAsset).balanceOf(params.liquidator),
+      IERC20(params.debtAsset).balanceOf(vars.debtReserveCache.aTokenAddress),
+      IERC20(params.debtAsset).allowance(params.liquidator, address(this)),
+      uint256(debtReserve.liquidityIndex), uint256(debtReserve.variableBorrowIndex),
+      uint256(debtReserve.accruedToTreasury), uint256(debtReserve.lastUpdateTimestamp),
+      uint256(collateralReserve.liquidityIndex), uint256(collateralReserve.variableBorrowIndex),
+      uint256(collateralReserve.accruedToTreasury), uint256(collateralReserve.lastUpdateTimestamp),
+      vars.borrowerReserveDebt, vars.borrowerCollateralBalance,
+      vars.debtReserveCache.currScaledVariableDebt, vars.collateralReserveCache.currScaledVariableDebt,
+      maxLiquidatableDebt, vars.actualDebtToLiquidate, vars.actualCollateralToLiquidate,
+      computedFee, vars.borrowerReserveDebtInBaseCurrency, vars.borrowerReserveCollateralInBaseCurrency,
+      vars.healthFactor, vars.totalCollateralInBaseCurrency, vars.totalDebtInBaseCurrency, vars.liquidationBonus];
+  }
+
+  function _burnCollateralATokens(
+    DataTypes.ReserveData storage reserve,
+    DataTypes.ExecuteLiquidationCallParams memory params,
+    LiquidationLogic.LiquidationCallLocalVars memory vars
+  ) internal {
+    LiquidationLogic._burnCollateralATokens(reserve, params, vars);
+  }
+
+  // Synthetic initial reserve storage; original cache reads the observed token implementations.
+  function _initialize(DataTypes.ReserveData storage reserve, Start memory start,
+    address aToken, address vToken) internal {
+    reserve.liquidityIndex = start.liquidityIndex;
+    reserve.variableBorrowIndex = start.borrowIndex;
+    reserve.currentLiquidityRate = start.liquidityRate;
+    reserve.currentVariableBorrowRate = start.borrowRate;
+    reserve.accruedToTreasury = start.accrued;
+    reserve.lastUpdateTimestamp = start.lastUpdate;
+    reserve.configuration.data = start.configuration;
+    reserve.liquidationGracePeriodUntil = start.grace;
+    reserve.aTokenAddress = aToken;
+    reserve.variableDebtTokenAddress = vToken;
+  }
+  function _calculateAvailableCollateralToLiquidate(
+    DataTypes.ReserveConfigurationMap memory config,
+    uint256 collateralPrice, uint256 collateralUnit,
+    uint256 debtPrice, uint256 debtUnit, uint256 debtToCover,
+    uint256 balance, uint256 bonus
+  ) internal pure returns (uint256, uint256, uint256) {
+    return LiquidationLogic._calculateAvailableCollateralToLiquidate(
+      config, collateralPrice, collateralUnit, debtPrice, debtUnit, debtToCover, balance, bonus);
+  }
+}
+
+// Explicit test double: supplied prices, not the deployed Aave oracle or Chainlink.
+contract SyntheticAccountOracle {
+  mapping(address => uint256) private prices;
+  bool private blocked;
+  function getAssetPrice(address asset) external view returns (uint256) {
+    require(!blocked, "synthetic oracle blocked");
+    return prices[asset];
+  }
+}
