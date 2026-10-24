@@ -28,7 +28,7 @@
       "remaining_points": 8,
       "acceptance": "Actual workflow integration and historical price/position/execution reconstruction with certified adapters",
       "dependency": "development_and_runtime",
-      "next_step": "Extend both executed collateral branches with actual debt payment, initial reserve updates, aggregate health/eMode, same-asset cache handling and multireserve bad debt. Resolve the explicit WETH metadata source mismatch; authenticate balances, distributions, rate parameters and transaction prestate under the actual fork. Execute deployed Pool/proxy entrypoints and integrate workflows. Reward claiming and deployed administrator behavior remain unverified.",
+      "next_step": "Extend observed USDC payment from the underlying-collateral experiment to the receive-aToken branch, then compose initial reserve updates, aggregate health/eMode, same-asset cache handling and multireserve bad debt. Resolve the explicit WETH and USDC metadata source mismatches; authenticate balances, approvals, distributions, rate parameters and transaction prestate under the actual fork. Execute deployed Pool/proxy entrypoints and integrate workflows. Reward claiming and deployed administrator behavior remain unverified.",
       "status": "open"
     },
     {
@@ -44,7 +44,7 @@
       "remaining_points": 4,
       "acceptance": "Quarantined generation, actual differential protocol testing and Foundry fuzzing",
       "dependency": "development_and_toolchain",
-      "next_step": "Compose actual debt repayment, initial validation/state updates and both asset paths through original Pool entrypoints with authenticated historical prestate. Resolve WETH metadata-source parity and test same-asset/multireserve paths. Run actual Foundry differential/property/fuzz certification; current synthetic-state REVM coverage earns no phase credit.",
+      "next_step": "Extend the composed observed-USDC payment to both asset paths, then execute initial validation/state updates through original Pool entrypoints with authenticated historical prestate. Resolve WETH and USDC metadata-source parity and test same-asset/multireserve paths. Run actual Foundry differential/property/fuzz certification; current synthetic-state REVM coverage earns no phase credit.",
       "status": "open"
     },
     {

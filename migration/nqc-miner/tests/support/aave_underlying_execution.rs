@@ -506,3 +506,6 @@ fn legacy_weth_uint256_recipient_addition_wraps_in_artificial_boundary_state() {
         ..UnderCase::default()
     });
 }
+
+#[path = "aave_payment_execution.rs"]
+mod payment_execution;
