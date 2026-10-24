@@ -105,6 +105,35 @@ class Prices:
             self.llama_cache[key] = price
         return price
 
+    def llama_many(self, coins, ts):
+        """Precios de varias monedas en una sola consulta; {coin: precio o None}."""
+        bucket = ts - ts % 300
+        out, missing = {}, []
+        with self.lock:
+            for c in dict.fromkeys(coins):
+                key = (c, bucket)
+                if key in self.llama_cache:
+                    out[c] = self.llama_cache[key]
+                else:
+                    missing.append(c)
+        for i in range(0, len(missing), 25):
+            part = missing[i:i + 25]
+            got, cache = {}, True
+            try:
+                data = self.web.get(self.llama_url.format(ts=bucket, coins=",".join(part)))
+                lower = {k.lower(): v for k, v in (data.get("coins") or {}).items()}
+                for c in part:
+                    entry = lower.get(c.lower())
+                    got[c] = float(entry["price"]) if entry and entry.get("price") is not None else None
+            except (WebError, ValueError, TypeError, AttributeError):
+                got, cache = {c: None for c in part}, False
+            if cache:
+                with self.lock:
+                    for c, p in got.items():
+                        self.llama_cache[(c, bucket)] = p
+            out.update(got)
+        return out
+
     # -- API de alto nivel -------------------------------------------------------
     def token_usd(self, asset, block, ts, oracle=None):
         """Devuelve (precio, fuente). Prioriza el oráculo del mercado en el bloque exacto."""

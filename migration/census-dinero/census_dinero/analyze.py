@@ -14,12 +14,14 @@ LIQ_FIELDS = [
     "chain", "protocol", "market", "market_label", "block", "timestamp", "tx_hash", "log_index", "tx_index",
     "liquidator", "tx_from", "tx_to", "borrower", "collateral_symbol", "debt_symbol", "collateral_amount",
     "debt_amount", "debt_usd", "bonus_usd", "bonus_source", "lif", "gas_usd", "builder_usd", "net_usd",
-    "builder_share", "builder_payment_complete", "direct_source", "blocks_since_oracle", "seconds_since_oracle",
+    "builder_share", "builder_payment_complete", "direct_source", "realized_usd", "realized_complete",
+    "third_party_usd", "native_source", "beneficiaries", "unpriced_tokens", "blocks_since_oracle", "seconds_since_oracle",
     "same_tx_as_oracle", "oracle_status", "liqs_in_tx", "enriched", "error",
 ]
 MARKET_FIELDS = [
     "chain", "protocol", "market_label", "market", "liquidations", "valued", "bonus_usd", "net_usd", "gas_usd",
-    "builder_usd", "builder_share_median", "winners", "top_winner", "top_winner_share", "blocks_median",
+    "builder_usd", "realized_usd", "realized_median", "kept_share", "realized_coverage", "third_party_usd",
+    "builder_share_median", "winners", "top_winner", "top_winner_share", "blocks_median",
     "same_block_pct", "seconds_median", "net_median", "state",
 ]
 
@@ -70,10 +72,13 @@ def classify(m, th=THRESHOLDS):
     if m["winners"] <= th.virgin_max_winners and (bs is None or bs < th.virgin_max_builder_share) \
             and (blocks is None or blocks >= th.virgin_min_blocks):
         return "virgen"
+    margin = m.get("realized_median")
+    if margin is None:
+        margin = m.get("net_median")
     if m["winners"] >= th.dead_min_winners and (
             (bs is not None and bs >= th.dead_min_builder_share)
             or (blocks == 0 and bs is not None and bs >= th.dead_same_block_builder_share)
-            or (m["net_median"] is not None and m["net_median"] <= 0)):
+            or (margin is not None and margin <= 0)):
         return "muerta"
     return "disputada"
 
@@ -92,7 +97,15 @@ def summarize_group(rs):
     blocks = [r.get("blocks_since_oracle") for r in rs if r.get("blocks_since_oracle") is not None]
     wt = winners_table(rs)
     complete = [r for r in rs if r.get("builder_payment_complete") or r.get("direct_source") == "no_aplica_l2"]
+    real = [r for r in rs if r.get("realized_complete") and r.get("realized_usd") is not None]
+    real_bonus = _sum(r.get("bonus_usd") for r in real)
     return {
+        "realized_usd": _sum(r["realized_usd"] for r in real),
+        "realized_median": _median([r["realized_usd"] for r in real]),
+        "realized_coverage": (len(real) / len(rs)) if rs else None,
+        "kept_share": (_sum(r["realized_usd"] for r in real) / real_bonus) if real_bonus > 0 else None,
+        "bonus_usd_measured": real_bonus,
+        "third_party_usd": _sum(r.get("third_party_usd") for r in rs),
         "liquidations": len(rs),
         "valued": len(valued),
         "bonus_usd": _sum(r.get("bonus_usd") for r in rs),
@@ -124,7 +137,7 @@ def analyze(recs, metas):
                   "market_label": rs[0]["market_label"]})
         m["state"] = classify(m)
         market_rows.append(m)
-    market_rows.sort(key=lambda m: -(m["net_usd"] or 0))
+    market_rows.sort(key=lambda m: -(m["realized_usd"] if m["realized_coverage"] else (m["net_usd"] or 0)))
 
     by_cp = defaultdict(list)
     for r in recs:
@@ -146,7 +159,18 @@ def analyze(recs, metas):
     overall = summarize_group(recs) if recs else {}
     overall["top3_share"] = sum(x[2] for x in winners_table(recs)[:3]) if recs else None
     states = Counter(m["state"] for m in market_rows)
+    entry = defaultdict(list)
+    for r in recs:
+        if r.get("tx_to"):
+            entry[(r["chain"], r["tx_to"])].append(r)
+    entrypoints = []
+    for (c, to), rs in sorted(entry.items(), key=lambda kv: -len(kv[1]))[:12]:
+        s_ = summarize_group(rs)
+        entrypoints.append({"chain": c, "tx_to": to, "liquidations": len(rs), "senders": len({r.get("tx_from") for r in rs}),
+                            "bonus_usd": s_["bonus_usd"], "kept_share": s_["kept_share"],
+                            "third_party_usd": s_["third_party_usd"]})
     return {
+        "entrypoints": entrypoints,
         "overall": overall,
         "by_chain_protocol": chain_rows,
         "markets": market_rows,
@@ -202,6 +226,11 @@ def render_md(res, title_date):
     L.append(f"1. **¿Cuánto dinero hay?** Bono total pagado a liquidadores: **{usd(o.get('bonus_usd'))}** "
              f"en {num(o.get('liquidations'))} liquidaciones. Después de gas y pagos al builder les quedó "
              f"**{usd(o.get('net_usd'))}** (antes del costo de vender el colateral).")
+    L.append(f"   **Lo que realmente se quedaron**, sumando todos los movimientos de tokens y ETH de cada "
+             f"transacción (venta del colateral, flash loan, pujas a subastas de oráculo, builder y gas): "
+             f"**{usd(o.get('realized_usd'))}**, el **{pct(o.get('kept_share'))}** del bono "
+             f"(medido en {pct(o.get('realized_coverage'))} de las liquidaciones). Pagado en ETH a terceros "
+             f"(subastas y builders): {usd(o.get('third_party_usd'))}.")
     L.append(f"2. **¿Quién se lo lleva?** {num(o.get('winners'))} liquidadores distintos; los 3 mayores se "
              f"llevan **{pct(o.get('top3_share'))}** del bono.")
     L.append(f"3. **¿En cuántos bloques?** Mediana de **{num(o.get('blocks_median'))} bloques** "
@@ -213,14 +242,16 @@ def render_md(res, title_date):
     L.append("")
     L.append("## Por cadena y protocolo")
     L.append("")
-    L.append("| Cadena | Protocolo | Liq. | Bono | Neto | Builder | Ganadores | Top 3 | Bloques | Seg. |")
-    L.append("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|")
+    L.append("| Cadena | Protocolo | Liq. | Bono | Real | % quedó | A terceros | Ganadores | Top 3 | Bloques | Seg. |")
+    L.append("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|")
     for c in res["by_chain_protocol"]:
         L.append(f"| {c['chain']} | {c['protocol']} | {num(c['liquidations'])} | {usd(c['bonus_usd'])} | "
-                 f"{usd(c['net_usd'])} | {usd(c['builder_usd'])} | {num(c['winners'])} | {pct(c.get('top3_share'))} | "
+                 f"{usd(c['realized_usd'])} | {pct(c['kept_share'])} | {usd(c['third_party_usd'])} | "
+                 f"{num(c['winners'])} | {pct(c.get('top3_share'))} | "
                  f"{num(c['blocks_median'])} | {num(c['seconds_median'])} |")
     L.append("")
-    L.append("Bloques y segundos: mediana desde la última actualización del oráculo involucrado.")
+    L.append("Real: lo que se quedaron los liquidadores en las transacciones con medición completa. "
+             "Bloques y segundos: mediana desde la última actualización del oráculo involucrado.")
     L.append("")
     L.append("## Saturación de mercados")
     L.append("")
@@ -231,29 +262,40 @@ def render_md(res, title_date):
     L.append("")
     L.append("### Los 15 mercados que más dejaron a sus ganadores")
     L.append("")
-    L.append("| Cadena | Mercado | Liq. | Bono | Neto | Ganadores | Top | Bloques | Builder | Estado |")
+    L.append("| Cadena | Mercado | Liq. | Bono | Real | % quedó | Ganadores | Top | Bloques | Estado |")
     L.append("|---|---|---:|---:|---:|---:|---:|---:|---:|---|")
     for m in res["markets"][:15]:
         L.append(f"| {m['chain']} | {m['market_label']} | {m['liquidations']} | {usd(m['bonus_usd'])} | "
-                 f"{usd(m['net_usd'])} | {m['winners']} | {pct(m['top_winner_share'])} | {num(m['blocks_median'])} | "
-                 f"{pct(m['builder_share_median'])} | {m['state']} |")
+                 f"{usd(m['realized_usd'])} | {pct(m['kept_share'])} | {m['winners']} | {pct(m['top_winner_share'])} | "
+                 f"{num(m['blocks_median'])} | {m['state']} |")
     virgins = [m for m in res["markets"] if m["state"] == "virgen"]
     if virgins:
         L.append("")
         L.append("### Mercados vírgenes (un solo ganador, poca propina, sin carrera de bloque)")
         L.append("")
         for m in virgins[:20]:
-            L.append(f"- {m['chain']} · {m['market_label']}: {m['liquidations']} liq., neto {usd(m['net_usd'])}, "
+            L.append(f"- {m['chain']} · {m['market_label']}: {m['liquidations']} liq., real {usd(m['realized_usd'])}, "
                      f"ganador {short(m['top_winner'])}")
     L.append("")
     L.append("## Por tamaño del bono")
     L.append("")
-    L.append("| Bono | Liq. | Neto total | Neto mediano | Ganadores | Builder (mediana) |")
+    L.append("| Bono | Liq. | Real total | Real mediano | % quedó | Ganadores |")
     L.append("|---|---:|---:|---:|---:|---:|")
     for s in res["sizes"]:
         rng = f"{usd(s['lo'])}–{usd(s['hi'])}" if s["hi"] != float("inf") else f"≥ {usd(s['lo'])}"
-        L.append(f"| {rng} | {num(s.get('liquidations'))} | {usd(s.get('net_usd'))} | {usd(s.get('net_median'))} | "
-                 f"{num(s.get('winners'))} | {pct(s.get('builder_share_median'))} |")
+        L.append(f"| {rng} | {num(s.get('liquidations'))} | {usd(s.get('realized_usd'))} | "
+                 f"{usd(s.get('realized_median'))} | {pct(s.get('kept_share'))} | {num(s.get('winners'))} |")
+    L.append("")
+    L.append("## ¿Por dónde entran? (contrato llamado por la transacción)")
+    L.append("")
+    L.append("Si un mismo contrato recibe transacciones de muchos firmantes distintos y se queda con mucho en ETH, "
+             "es una subasta o un enrutador compartido, no el bot de alguien.")
+    L.append("")
+    L.append("| Cadena | Contrato | Liq. | Firmantes | Bono | % quedó | A terceros |")
+    L.append("|---|---|---:|---:|---:|---:|---:|")
+    for e in res.get("entrypoints", []):
+        L.append(f"| {e['chain']} | `{short(e['tx_to'])}` | {e['liquidations']} | {e['senders']} | {usd(e['bonus_usd'])} | "
+                 f"{pct(e['kept_share'])} | {usd(e['third_party_usd'])} |")
     L.append("")
     L.append("## Ganadores principales")
     L.append("")
@@ -262,22 +304,26 @@ def render_md(res, title_date):
     L.append("")
     L.append("## Cobertura de la medición")
     L.append("")
-    L.append("| Cadena | Eventos | Valuados | Con bloques de oráculo | Pago directo medido | Precio | Tiempo agotado |")
-    L.append("|---|---:|---:|---:|---|---|---|")
+    L.append("| Cadena | Eventos | Valuados | Real completo | Con bloques de oráculo | Trazas de ETH | Precio | Tiempo agotado |")
+    L.append("|---|---:|---:|---:|---:|---|---|---|")
     for m in metas:
         ps = m.get("price_sources", {})
-        dp = m.get("direct_payment_sources", {})
-        L.append(f"| {m['chain']} | {m['events']} | {m['with_bonus_usd']} | {m['with_oracle_delta']} | "
+        dp = m.get("native_trace_sources", m.get("direct_payment_sources", {}))
+        L.append(f"| {m['chain']} | {m['events']} | {m['with_bonus_usd']} | {m.get('with_realized_complete', 0)} | "
+                 f"{m['with_oracle_delta']} | "
                  f"{', '.join(f'{k}: {v}' for k, v in dp.items()) or '—'} | "
                  f"oráculo {ps.get('oraculo', 0)}, mercado {ps.get('defillama', 0)}, sin {ps.get('sin_precio', 0)} | "
                  f"{'sí' if m.get('time_budget_hit') else 'no'} |")
     L.append("")
     L.append("## Qué NO dice este census")
     L.append("")
-    L.append("- El bono está a precio de oráculo. No descuenta lo que cuesta vender el colateral (deslizamiento), "
-             "así que la ganancia real es menor, sobre todo en colaterales poco líquidos.")
-    L.append("- \"Neto\" = bono − gas − pagos directos al builder. Es lo que se quedaron los ganadores, no lo que "
-             "ganaría NQC: para eso hay que ganarles la carrera.")
+    L.append("- \"Real\" es lo que se quedaron los ganadores actuales, no lo que ganaría NQC: para eso hay que "
+             "ganarles la carrera o la subasta.")
+    L.append("- Para medir \"Real\" se cuenta como del liquidador: el firmante, el contrato que llamó al protocolo y "
+             "las cuentas sin código que solo reciben. Si un bot manda su ganancia a otro contrato propio, aquí se "
+             "ve como pago a terceros y el \"Real\" sale menor.")
+    L.append("- El bono está a precio de oráculo (o de mercado si no hubo nodo de archivo); \"Real\" ya incluye "
+             "el deslizamiento de vender el colateral.")
     L.append("- En L2 no hay subasta de builders; la propina de prioridad sí se cuenta. Las pujas de Timeboost "
              "(Arbitrum) y la recaptura de Chainlink SVR (Aave en Ethereum) se pagan por fuera y no se ven aquí.")
     L.append("- No incluye pre-liquidaciones de Morpho ni otros protocolos (Spark, Compound, Euler, Fluid).")

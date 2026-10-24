@@ -8,9 +8,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from census_dinero import analyze as an  # noqa: E402
-from census_dinero.abi import decode_string, words  # noqa: E402
+from census_dinero.abi import decode_string, encode_address  # noqa: E402
 from census_dinero.collect import (Collector, blockscout_value_to, call_frames_value_to, decode_aave,  # noqa: E402
-                                   decode_morpho, morpho_lif, parity_traces_value_to)
+                                   decode_morpho, morpho_lif, parity_traces_value_to, token_flows)
 from census_dinero.config import SELECTOR_SIGNATURES, SEL, SIGNATURES  # noqa: E402
 from census_dinero.keccak import keccak256, selector, topic  # noqa: E402
 from census_dinero.rpc import Rpc, RpcError  # noqa: E402
@@ -22,11 +22,22 @@ def no_sleep(_):
     return None
 
 
+PRICE_TABLE = {f"ethereum:{fc.WETH}": 3000, f"ethereum:{fc.USDC}": 1.0, f"ethereum:{fc.WSTETH}": 3500,
+               "coingecko:ethereum": 3000}
+
+
+def llama_getter(url, timeout):
+    """Simula DefiLlama; cualquier otra URL (Blockscout) falla como sin red."""
+    if "coins.llama.fi" not in url:
+        raise WebError("sin red")
+    coins = url.split("/")[6].split("?")[0].split(",")
+    return {"coins": {c: {"price": PRICE_TABLE[c]} for c in coins if c in PRICE_TABLE}}
+
+
 def make_collector(chain=None, web_getter=None, **kw):
     chain = chain or fc.FakeChain(**kw)
     rpc = Rpc(["https://fake"], transport=chain, sleep=no_sleep, rps=0, expected_chain_id=1, log_chunk=50_000)
-    web = WebClient(rps=0, getter=web_getter or (lambda url, t: (_ for _ in ()).throw(WebError("sin red"))),
-                    sleep=no_sleep, retries=1)
+    web = WebClient(rps=0, getter=web_getter or llama_getter, sleep=no_sleep, retries=1)
     return Collector("ethereum", rpc=rpc, web=web, workers=2), chain
 
 
@@ -100,6 +111,24 @@ class TestBuilderPayments(unittest.TestCase):
         self.assertEqual(blockscout_value_to(items, fc.BUILDER), 9)
 
 
+class TestTokenFlows(unittest.TestCase):
+    def test_weth_withdrawal_not_double_counted(self):
+        weth, bot = fc.WETH, fc.BOT_A
+        rc = {"logs": [
+            {"address": weth, "topics": [fc.ERC20_TRANSFER_TOPIC, "0x" + encode_address(bot), "0x" + "0" * 64],
+             "data": "0x" + fc.w(5)},
+            {"address": weth, "topics": [fc.WITHDRAWAL_TOPIC, "0x" + encode_address(bot)], "data": "0x" + fc.w(5)},
+        ]}
+        flows = token_flows(rc, weth)
+        self.assertEqual(len(flows), 1)
+        self.assertEqual(flows[0][1:], (bot, "0x" + "0" * 40, 5))
+
+    def test_erc721_transfer_ignored(self):
+        rc = {"logs": [{"address": fc.USDC, "topics": [fc.ERC20_TRANSFER_TOPIC, "0x" + "0" * 64, "0x" + "0" * 64,
+                                                       "0x" + fc.w(1)], "data": "0x"}]}
+        self.assertEqual(token_flows(rc, fc.WETH), [])
+
+
 class TestRpc(unittest.TestCase):
     def test_refuses_write_methods(self):
         rpc = Rpc(["https://fake"], transport=fc.FakeChain(), sleep=no_sleep, rps=0)
@@ -112,6 +141,30 @@ class TestRpc(unittest.TestCase):
         rpc = Rpc(["https://fake"], transport=chain, sleep=no_sleep, rps=0, log_chunk=50_000)
         logs = rpc.get_logs(None, [None], 1, 20_100)
         self.assertEqual(len(logs), len(chain.logs))
+
+    def test_quota_error_switches_provider_instead_of_splitting(self):
+        chain = fc.FakeChain()
+        calls = {"mala": 0}
+
+        def transport(url, payload, timeout):
+            if "mala" in url:
+                calls["mala"] += 1
+                return {"jsonrpc": "2.0", "id": payload["id"], "error": {
+                    "code": -32000, "message": "You've reached the usage limit for your current plan"}}
+            return chain(url, payload, timeout)
+        rpc = Rpc(["https://mala", "https://buena"], transport=transport, sleep=no_sleep, rps=0)
+        logs = rpc.get_logs(None, [None], 1, 20_100)
+        self.assertEqual(len(logs), len(chain.logs))
+        self.assertEqual(calls["mala"], 1)      # se descarta tras el primer error de cuota
+
+    def test_range_error_tries_other_provider_first(self):
+        small, big = fc.FakeChain(log_range_limit=100), fc.FakeChain()
+
+        def transport(url, payload, timeout):
+            return (small if "chico" in url else big)(url, payload, timeout)
+        rpc = Rpc(["https://chico", "https://grande"], transport=transport, sleep=no_sleep, rps=0)
+        self.assertEqual(len(rpc.get_logs(None, [None], 1, 20_100)), len(big.logs))
+        self.assertEqual(rpc.log_chunk, 50_000)
 
     def test_falls_back_to_second_provider(self):
         chain = fc.FakeChain()
@@ -135,8 +188,8 @@ class TestEndToEnd(unittest.TestCase):
 
     def test_full_pipeline_values(self):
         recs, meta, tmp, _ = self.run_collect()
-        self.assertEqual(meta["events"], 4)
-        self.assertEqual(meta["enriched"], 4)
+        self.assertEqual(meta["events"], 5)
+        self.assertEqual(meta["enriched"], 5)
         a = next(r for r in recs if r["tx_hash"] == fc.th(0xA))
         self.assertAlmostEqual(a["bonus_usd"], 50.0, places=6)
         self.assertEqual(a["bonus_source"], "oraculo@bloque")
@@ -164,12 +217,22 @@ class TestEndToEnd(unittest.TestCase):
         self.assertAlmostEqual(cs[0]["gas_usd"] / cs[1]["gas_usd"], 3.0, places=2)
         self.assertEqual(cs[0]["blocks_since_oracle"], 1)   # wstETH vía adaptador CAPO -> feed ETH
 
+    def test_realized_net_counts_auction_bid_and_beneficiary(self):
+        recs, meta, tmp, _ = self.run_collect()
+        d = next(r for r in recs if r["tx_hash"] == fc.th(0xD))
+        self.assertAlmostEqual(d["bonus_usd"], 100.0, places=6)
+        self.assertTrue(d["realized_complete"])
+        self.assertEqual(d["beneficiaries"], 1)
+        gas = 350_000 * 12e9 / 1e18 * 3000
+        self.assertAlmostEqual(d["realized_usd"], 15.0 - gas, places=6)
+        self.assertAlmostEqual(d["third_party_usd"], 80.0, places=4)
+        self.assertAlmostEqual(d["direct_eth"], 0.0, places=12)
+        a = next(r for r in recs if r["tx_hash"] == fc.th(0xA))
+        self.assertAlmostEqual(a["realized_usd"], -15.0 - 10.8, places=6)
+        self.assertAlmostEqual(a["third_party_eth"], 0.005, places=12)
+
     def test_archive_missing_falls_back_to_market_price(self):
-        def getter(url, timeout):
-            coins = url.split("/")[6].split("?")[0].split(",")
-            table = {f"ethereum:{fc.WETH}": 3000, f"ethereum:{fc.USDC}": 1.0, f"ethereum:{fc.WSTETH}": 3500}
-            return {"coins": {c: {"price": table[c]} for c in coins if c in table}}
-        col, chain = make_collector(web_getter=getter, archive=False)
+        col, chain = make_collector(archive=False)
         tmp = tempfile.mkdtemp()
         col.run(1, tmp)
         with open(os.path.join(tmp, "liquidaciones.jsonl")) as fh:
@@ -197,8 +260,10 @@ class TestEndToEnd(unittest.TestCase):
         out = tempfile.mkdtemp()
         md = an.write_outputs(res, loaded, out, "2026-10-24")
         self.assertIn("Census del dinero", md)
-        self.assertEqual(res["overall"]["liquidations"], 4)
-        self.assertAlmostEqual(res["overall"]["bonus_usd"], 50 + 10_000 * (1 / (1 - 0.3 * 0.14) - 1) + 20, places=2)
+        self.assertEqual(res["overall"]["liquidations"], 5)
+        self.assertAlmostEqual(res["overall"]["bonus_usd"], 50 + 10_000 * (1 / (1 - 0.3 * 0.14) - 1) + 20 + 100,
+                               places=2)
+        self.assertIn("realized_usd", res["overall"])
         for f in ("RESUMEN.md", "mercados.csv", "liquidaciones.csv", "resumen.json"):
             self.assertTrue(os.path.exists(os.path.join(out, f)), f)
 

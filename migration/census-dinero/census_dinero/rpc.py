@@ -19,18 +19,20 @@ ALLOWED_METHODS = frozenset({
     "eth_call",
     "eth_getTransactionByHash",
     "eth_getTransactionReceipt",
+    "eth_getCode",
     "debug_traceTransaction",
     "trace_transaction",
 })
 
-# Errores que dependen del proveedor (no del dato): probar otro proveedor.
-_PROVIDER_HINTS = (
-    "missing trie node", "header not found", "archive", "pruned", "not supported",
-    "method not found", "does not exist", "not available", "unsupported", "historical state",
-    "rate", "limit", "exceeded", "too many", "timeout", "capacity", "unauthorized", "forbidden",
-    "upgrade", "plan", "internal error", "busy", "unavailable", "block range", "range",
-    "state is not available", "is not archive", "beyond", "temporarily",
-)
+# Clasificación de errores del proveedor (no del dato).
+_ARCHIVE_HINTS = ("missing trie", "header not found", "archive", "pruned", "historical state",
+                  "state is not available", "state histories", "not available for block")
+_QUOTA_HINTS = ("usage limit", "upgrade", "your plan", "current plan", "quota", "credits", "pricing",
+                "subscription", "unauthorized", "api key", "apikey", "forbidden", "payment required",
+                "daily limit", "monthly limit")
+_NO_METHOD_HINTS = ("method not found", "not supported", "does not exist", "unsupported", "not whitelisted",
+                    "not allowed", "disabled", "not available on")
+_RATE_HINTS = ("rate limit", "too many request", "capacity", "busy", "429", "slow down", "throttl")
 
 
 class RpcError(Exception):
@@ -122,7 +124,9 @@ class Rpc:
         order = self._order(mkey)
         if not order:
             raise RpcError(f"ningún proveedor soporta {mkey}")
+        range_error = None
         for url in order:
+            transport_failures = 0
             for attempt in range(self.retries):
                 self.buckets[url].wait(self.sleep)
                 payload = {"jsonrpc": "2.0", "id": self._next_id(), "method": method, "params": params}
@@ -131,8 +135,13 @@ class Rpc:
                 except RpcError as e:
                     last = e
                     self.stats[url]["err"] += 1
-                    if e.code in (401, 403, 404, 405):
+                    transport_failures += 1
+                    if e.code in (401, 402, 403, 404, 405):
+                        self._kill(url, 900)
                         break
+                    if e.code == 429:
+                        self.sleep(min(10.0, 1.0 * 2 ** attempt) + random.random())
+                        continue
                     self.sleep(min(8.0, 0.5 * 2 ** attempt) + random.random() * 0.3)
                     continue
                 if "error" in resp and resp["error"] is not None:
@@ -141,35 +150,40 @@ class Rpc:
                     code = err.get("code") if isinstance(err, dict) else None
                     low = msg.lower()
                     self.stats[url]["err"] += 1
-                    archive_issue = any(h in low for h in ("missing trie", "header not found", "archive",
-                                                            "pruned", "historical state", "state is not available"))
+                    last = RpcError(msg, code)
+                    archive_issue = any(h in low for h in _ARCHIVE_HINTS)
                     if method == "eth_call" and ("revert" in low or code == 3) and not archive_issue:
                         raise CallReverted(msg)
+                    if any(h in low for h in _QUOTA_HINTS):
+                        self._kill(url, 900)          # sin cuota o sin permiso: fuera 15 min
+                        break
                     if mkey.endswith("@archive") and archive_issue:
                         self.no_method[(url, mkey)] = True
-                        last = RpcError(msg, code)
                         break
-                    if code == -32601 or "method not found" in low or "not supported" in low \
-                            or "does not exist" in low or "unsupported" in low:
+                    if code == -32601 or any(h in low for h in _NO_METHOD_HINTS):
                         self.no_method[(url, mkey)] = True
-                        last = RpcError(msg, code)
                         break
-                    last = RpcError(msg, code)
-                    if any(h in low for h in ("rate", "too many request", "capacity", "busy", "429")):
+                    if any(h in low for h in _RATE_HINTS):
                         self.sleep(min(10.0, 1.0 * 2 ** attempt) + random.random())
                         continue
                     if method == "eth_getLogs":
-                        raise last          # lo maneja get_logs reduciendo el rango
-                    break                   # error de proveedor (archivo, rango...) -> siguiente
+                        range_error = last            # probar el mismo rango con otro proveedor
+                    break
                 if "result" not in resp:
                     last = RpcError(f"respuesta sin result: {str(resp)[:200]}")
                     self.stats[url]["err"] += 1
                     continue
                 self.stats[url]["ok"] += 1
                 return resp["result"]
-            with self.lock:
-                self.dead[url] = time.monotonic() + 30
+            if transport_failures >= self.retries:
+                self._kill(url, 30)
+        if range_error is not None:
+            raise range_error                       # get_logs lo maneja reduciendo el rango
         raise last or RpcError(f"{method} falló en todos los proveedores")
+
+    def _kill(self, url, seconds):
+        with self.lock:
+            self.dead[url] = max(self.dead.get(url, 0), time.monotonic() + seconds)
 
     # -- utilidades -------------------------------------------------------------
     def chain_id(self):

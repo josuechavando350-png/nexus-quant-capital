@@ -91,49 +91,102 @@ def decode_morpho(log_, chain_key):
     return rec
 
 
-def call_frames_value_to(frame, target):
-    """Suma el ETH enviado a `target` en un árbol de callTracer, ignorando subárboles revertidos."""
+WETH_DEPOSIT_TOPIC = topic("Deposit(address,uint256)")
+WETH_WITHDRAWAL_TOPIC = topic("Withdrawal(address,uint256)")
+_VALUE_FRAMES = ("CALL", "CREATE", "CREATE2", "SELFDESTRUCT")
+
+
+def call_frames_transfers(frame, out=None):
+    """[(desde, hacia, wei)] de un árbol de callTracer, ignorando subárboles revertidos."""
+    out = [] if out is None else out
     if frame.get("error"):
-        return 0
-    total = 0
+        return out
     kind = (frame.get("type") or "").upper()
-    if kind in ("CALL", "CREATE", "CREATE2", "SELFDESTRUCT") and norm(frame.get("to") or ZERO) == target:
-        total += to_int(frame.get("value") or "0x0")
+    value = to_int(frame.get("value") or "0x0") or 0
+    if kind in _VALUE_FRAMES and value and frame.get("to"):
+        out.append((norm(frame.get("from") or ZERO), norm(frame["to"]), value))
     for child in frame.get("calls") or []:
-        total += call_frames_value_to(child, target)
-    return total
+        call_frames_transfers(child, out)
+    return out
 
 
-def parity_traces_value_to(traces, target):
-    total = 0
+def parity_transfers(traces):
+    out = []
     for tr in traces or []:
         if tr.get("error"):
             continue
         action = tr.get("action") or {}
         kind = tr.get("type")
-        if kind == "call" and (action.get("callType") or "call") == "call":
-            if norm(action.get("to") or ZERO) == target:
-                total += to_int(action.get("value") or "0x0")
-        elif kind == "create" and norm((tr.get("result") or {}).get("address") or ZERO) == target:
-            total += to_int(action.get("value") or "0x0")
-        elif kind in ("suicide", "selfdestruct") and norm(action.get("refundAddress") or ZERO) == target:
-            total += to_int(action.get("balance") or "0x0")
-    return total
+        if kind == "call" and (action.get("callType") or "call") == "call" and action.get("to"):
+            v = to_int(action.get("value") or "0x0")
+            if v:
+                out.append((norm(action.get("from") or ZERO), norm(action["to"]), v))
+        elif kind == "create":
+            v = to_int(action.get("value") or "0x0")
+            addr = (tr.get("result") or {}).get("address")
+            if v and addr:
+                out.append((norm(action.get("from") or ZERO), norm(addr), v))
+        elif kind in ("suicide", "selfdestruct"):
+            v = to_int(action.get("balance") or "0x0")
+            if v and action.get("refundAddress"):
+                out.append((norm(action.get("address") or ZERO), norm(action["refundAddress"]), v))
+    return out
 
 
-def blockscout_value_to(items, target):
-    total = 0
+def blockscout_transfers(items):
+    out = []
     for it in items or []:
         if it.get("success") is False or it.get("error"):
             continue
         kind = f"{it.get('type') or ''} {it.get('call_type') or ''}".lower()
         if "delegate" in kind or "static" in kind:
             continue
-        to = it.get("to") or {}
+        frm, to = it.get("from") or {}, it.get("to") or {}
+        frm = frm.get("hash") if isinstance(frm, dict) else frm
         to = to.get("hash") if isinstance(to, dict) else to
-        if to and norm(to) == target:
-            total += int(it.get("value") or 0)
-    return total
+        v = int(it.get("value") or 0)
+        if v and to:
+            out.append((norm(frm or ZERO), norm(to), v))
+    return out
+
+
+def call_frames_value_to(frame, target):
+    return sum(v for _, t, v in call_frames_transfers(frame) if t == target)
+
+
+def parity_traces_value_to(traces, target):
+    return sum(v for _, t, v in parity_transfers(traces) if t == target)
+
+
+def blockscout_value_to(items, target):
+    return sum(v for _, t, v in blockscout_transfers(items) if t == target)
+
+
+def token_flows(receipt, weth):
+    """[(token, desde, hacia, cantidad)] de los logs del recibo (ERC-20 y Deposit/Withdrawal de WETH)."""
+    flows, wraps = [], []
+    for lg in receipt.get("logs") or []:
+        t = [x.lower() for x in (lg.get("topics") or [])]
+        if not t:
+            continue
+        addr = norm(lg.get("address") or ZERO)
+        data = lg.get("data") or "0x"
+        if t[0] == ERC20_TRANSFER_TOPIC and len(t) == 3 and len(data) == 66:
+            flows.append((addr, address_from_topic(t[1]), address_from_topic(t[2]), int(data, 16)))
+        elif addr == weth and len(t) == 2 and len(data) == 66 and t[0] in (WETH_DEPOSIT_TOPIC, WETH_WITHDRAWAL_TOPIC):
+            who, amt = address_from_topic(t[1]), int(data, 16)
+            wraps.append((addr, weth, who, amt) if t[0] == WETH_DEPOSIT_TOPIC else (addr, who, weth, amt))
+    # Un WETH que emita Transfer desde/hacia 0x0 y además Deposit/Withdrawal se contaría doble.
+    burns = [(f, a) for tok, f, to, a in flows if tok == weth and to == ZERO]
+    mints = [(to, a) for tok, f, to, a in flows if tok == weth and f == ZERO]
+    for w_ in wraps:
+        key = (w_[1], w_[3]) if w_[2] == weth else (w_[2], w_[3])
+        pool = burns if w_[2] == weth else mints
+        if key in pool:
+            pool.remove(key)
+            continue
+        flows.append(w_)
+    return flows
 
 
 class Collector:
@@ -157,6 +210,7 @@ class Collector:
         self.feed_cache = {}
         self.updates = {}
         self.direct_stats = {}
+        self.code_cache = {}
         self.errors = []
 
     # -- utilidades con caché -----------------------------------------------------
@@ -374,42 +428,112 @@ class Collector:
                     best = cand
         return best if best else ("sin_ver" if watched else None)
 
-    # -- paso 4: pagos al builder ---------------------------------------------------------
-    def direct_payment(self, tx, receipt, coinbase):
-        """ETH enviado directamente al coinbase dentro de la transacción. None si no se pudo medir."""
+    # -- paso 4: flujos de ETH y pagos a terceros -------------------------------------
+    def native_transfers(self, tx):
+        """Movimientos de ETH nativo dentro de la transacción: [(desde, hacia, wei)] o None si no hay trazas."""
         h = tx["hash"]
-        weth = norm(self.chain.weth)
-        weth_wei = 0
-        for lg in receipt.get("logs") or []:
-            t = lg.get("topics") or []
-            if norm(lg.get("address") or ZERO) == weth and len(t) == 3 and t[0].lower() == ERC20_TRANSFER_TOPIC \
-                    and address_from_topic(t[2]) == coinbase:
-                weth_wei += to_int(lg["data"])
         try:
             frame = self.rpc.call("debug_traceTransaction", [h, {"tracer": "callTracer"}])
-            return call_frames_value_to(frame, coinbase) + weth_wei, "debug_traceTransaction"
+            if isinstance(frame, dict):
+                return call_frames_transfers(frame), "debug_traceTransaction"
         except RpcError:
             pass
         try:
             traces = self.rpc.call("trace_transaction", [h])
-            return parity_traces_value_to(traces, coinbase) + weth_wei, "trace_transaction"
+            if isinstance(traces, list):
+                return parity_transfers(traces), "trace_transaction"
         except RpcError:
             pass
         if self.chain.blockscout:
             try:
-                total = to_int(tx.get("value") or "0x0") if norm(tx.get("to") or ZERO) == coinbase else 0
+                out = []
+                if to_int(tx.get("value") or "0x0") and tx.get("to"):
+                    out.append((norm(tx["from"]), norm(tx["to"]), to_int(tx["value"])))
                 url = f"{self.chain.blockscout}/api/v2/transactions/{h}/internal-transactions"
                 for _ in range(10):
                     data = self.web.get(url)
-                    total += blockscout_value_to(data.get("items"), coinbase)
+                    out += blockscout_transfers(data.get("items"))
                     nxt = data.get("next_page_params")
                     if not nxt:
-                        return total + weth_wei, "blockscout"
+                        return out, "blockscout"
                     q = "&".join(f"{k}={v}" for k, v in nxt.items())
                     url = f"{self.chain.blockscout}/api/v2/transactions/{h}/internal-transactions?{q}"
-            except (WebError, AttributeError, ValueError, TypeError):
+            except (WebError, AttributeError, ValueError, TypeError, KeyError):
                 pass
         return None, "no_medido"
+
+    def is_eoa(self, addr):
+        with self.lock:
+            if addr in self.code_cache:
+                return self.code_cache[addr]
+        try:
+            code = self.rpc.call("eth_getCode", [addr, "latest"])
+            eoa = code in ("0x", "0x0", "", None)
+        except RpcError:
+            eoa = False
+        with self.lock:
+            self.code_cache[addr] = eoa
+        return eoa
+
+    def realized(self, tx, rc, group, native, gas_wei, eth_usd, ts):
+        """Lo que el liquidador realmente se quedó en la transacción, en USD.
+
+        Suma todos los movimientos de tokens (logs Transfer/Deposit/Withdrawal) y de ETH
+        (trazas) que entran o salen del conjunto W = {EOA firmante, contrato liquidador,
+        beneficiarios EOA que solo reciben}, valuados a precio de mercado, menos el gas.
+        Así quedan descontados la venta del colateral, comisiones de flash loan, pujas a
+        subastas de oráculo (OEV) y pagos al builder, sin modelar cada uno.
+        """
+        weth = norm(self.chain.weth)
+        coinbase = self.header(group[0]["block"])["miner"]
+        flows = token_flows(rc, weth)
+        nat = [("ETH", f, t, v) for f, t, v in (native or [])]
+        s0 = {norm(tx["from"])} | {r["liquidator"] for r in group}
+        senders = {f for _, f, _, _ in flows + nat}
+        tx_to = norm(tx.get("to") or ZERO)
+        cands = {t for _, f, t, _ in flows + nat if f in s0 and t not in s0}
+        cands -= {ZERO, coinbase, weth, tx_to}
+        benef = {a for a in cands if a not in senders and self.is_eoa(a)}
+        w = s0 | benef
+        net = {}
+        out_eth, in_eth = {}, {}
+        for tok, f, t, v in flows + nat:
+            if f in w and t not in w:
+                net[tok] = net.get(tok, 0) - v
+                if tok == "ETH" and t != weth:
+                    out_eth[t] = out_eth.get(t, 0) + v
+            elif t in w and f not in w:
+                net[tok] = net.get(tok, 0) + v
+                if tok == "ETH":
+                    in_eth[f] = in_eth.get(f, 0) + v
+        third_wei = sum(max(0, v - in_eth.get(a, 0)) for a, v in out_eth.items())
+        usd, unpriced = 0.0, []
+        tokens = [t for t, v in net.items() if v and t not in ("ETH", weth)]
+        prices = self.prices.llama_many([f"{self.chain.llama}:{t}" for t in tokens], ts) if tokens else {}
+        for tok, v in net.items():
+            if not v:
+                continue
+            if tok in ("ETH", weth):
+                if eth_usd is None:
+                    unpriced.append("ETH")
+                    continue
+                usd += v / 1e18 * eth_usd
+                continue
+            meta = self.token(tok)
+            p = prices.get(f"{self.chain.llama}:{tok}")
+            if p is None or meta["decimals"] is None:
+                unpriced.append(meta["symbol"])
+                continue
+            usd += v / 10 ** meta["decimals"] * p
+        if eth_usd is not None:
+            usd -= gas_wei / 1e18 * eth_usd
+        return {
+            "realized_usd": usd if eth_usd is not None else None,
+            "realized_complete": native is not None and not unpriced and eth_usd is not None,
+            "third_party_eth": third_wei / 1e18 if native is not None else None,
+            "beneficiaries": len(benef),
+            "unpriced": unpriced,
+        }
 
     # -- paso 5: enriquecimiento por transacción --------------------------------------
     def enrich_tx(self, group, feeds_by_key):
@@ -424,12 +548,19 @@ class Collector:
         l1 = to_int(rc.get("l1Fee") or "0x0")
         gas_wei = gas_used * eff + l1
         priority_wei = max(0, eff - hd["base_fee"]) * gas_used if hd["base_fee"] else 0
+        native, native_src = self.native_transfers(tx)
+        with self.lock:
+            self.direct_stats[native_src] = self.direct_stats.get(native_src, 0) + 1
         if self.chain.builder_market:
-            direct_wei, direct_src = self.direct_payment(tx, rc, hd["miner"])
+            if native is None:
+                direct_wei, direct_src = None, "no_medido"
+            else:
+                weth = norm(self.chain.weth)
+                direct_wei = sum(v for f, t, v in native if t == hd["miner"])
+                direct_wei += sum(v for tok, f, t, v in token_flows(rc, weth) if tok == weth and t == hd["miner"])
+                direct_src = native_src
         else:
             direct_wei, direct_src = 0, "no_aplica_l2"
-        with self.lock:
-            self.direct_stats[direct_src] = self.direct_stats.get(direct_src, 0) + 1
         eth_usd, eth_src = self.prices.eth_usd(group[0]["block"], hd["timestamp"])
 
         for r in group:
@@ -449,6 +580,12 @@ class Collector:
             else:
                 r["oracle_status"] = upd or "sin_fuente"
 
+        try:
+            real = self.realized(tx, rc, group, native, gas_wei, eth_usd, hd["timestamp"])
+        except (RpcError, ValueError, KeyError, TypeError) as e:
+            real = {"realized_usd": None, "realized_complete": False, "third_party_eth": None,
+                    "beneficiaries": 0, "unpriced": [], "realized_error": str(e)[:200]}
+
         # Gas y pagos de la transacción se reparten entre sus liquidaciones según el bono.
         bonuses = [r.get("bonus_usd") for r in group]
         if all(b is not None and b > 0 for b in bonuses):
@@ -460,12 +597,23 @@ class Collector:
             r["priority_eth"] = priority_wei * wgt / 1e18
             r["direct_eth"] = None if direct_wei is None else direct_wei * wgt / 1e18
             r["direct_source"] = direct_src
+            r["native_source"] = native_src
             r["eth_usd"] = eth_usd
             r["eth_price_source"] = eth_src
+            r["realized_complete"] = real["realized_complete"]
+            r["beneficiaries"] = real["beneficiaries"]
+            if real["unpriced"]:
+                r["unpriced_tokens"] = ",".join(real["unpriced"])[:120]
+            if real["realized_usd"] is not None:
+                r["realized_usd"] = real["realized_usd"] * wgt
+            if real["third_party_eth"] is not None:
+                r["third_party_eth"] = real["third_party_eth"] * wgt
             if eth_usd:
                 r["gas_usd"] = r["gas_eth"] * eth_usd
                 builder_eth = r["priority_eth"] + (r["direct_eth"] or 0)
                 r["builder_usd"] = builder_eth * eth_usd
+                if r.get("third_party_eth") is not None:
+                    r["third_party_usd"] = r["third_party_eth"] * eth_usd
                 if r.get("bonus_usd") is not None:
                     r["net_usd"] = r["bonus_usd"] - r["gas_usd"] - (r["direct_eth"] or 0) * eth_usd
                     if r["bonus_usd"] > 0:
@@ -557,7 +705,9 @@ class Collector:
             "with_bonus_usd": sum(1 for r in recs if r.get("bonus_usd") is not None),
             "price_sources": self.prices.stats,
             "archive_disabled": self.prices.archive_disabled,
-            "direct_payment_sources": self.direct_stats,
+            "native_trace_sources": self.direct_stats,
+            "with_realized": sum(1 for r in recs if r.get("realized_usd") is not None),
+            "with_realized_complete": sum(1 for r in recs if r.get("realized_complete")),
             "oracle_contracts_watched": len(self.updates),
             "with_oracle_delta": sum(1 for r in recs if r.get("blocks_since_oracle") is not None),
             "time_budget_hit": stopped,

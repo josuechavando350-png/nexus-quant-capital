@@ -1,7 +1,11 @@
 """Cadena falsa en memoria para probar el census sin red. Todos los datos son sintéticos."""
 
 from census_dinero.abi import encode_address, norm, strip0x
-from census_dinero.config import AAVE_LIQUIDATION_TOPIC, ANSWER_UPDATED_TOPIC, MORPHO_LIQUIDATE_TOPIC, SEL
+from census_dinero.config import (AAVE_LIQUIDATION_TOPIC, ANSWER_UPDATED_TOPIC, ERC20_TRANSFER_TOPIC,
+                                  MORPHO_LIQUIDATE_TOPIC, SEL)
+from census_dinero.keccak import topic
+
+WITHDRAWAL_TOPIC = topic("Withdrawal(address,uint256)")
 from census_dinero.rpc import RpcError
 
 T0 = 1_700_000_000
@@ -22,6 +26,11 @@ P_USDC, AGG_USDC = norm("0x" + "21" * 20), norm("0x" + "22" * 20)
 CAPO_WSTETH = norm("0x" + "31" * 20)
 MORPHO_ORACLE = norm("0x" + "41" * 20)
 MARKET_ID = "0x" + "ab" * 32
+EOA_BENEF = norm("0x" + "be" * 20)
+AUSDC, AWETH = norm("0x" + "51" * 20), norm("0x" + "52" * 20)
+POOLX, POOLY = norm("0x" + "61" * 20), norm("0x" + "62" * 20)
+AUCTION = norm("0x" + "71" * 20)
+EOAS = {EOA_A, EOA_B, EOA_BENEF, BORROWER}
 GWEI = 10 ** 9
 
 
@@ -70,10 +79,10 @@ class FakeChain:
                               "0x" + encode_address(BORROWER)],
                   w(1000 * 10 ** 6) + w(35 * 10 ** 16) + encode_address(BOT_A) + w(0), 19990, 5, txa, 1)
         self._tx(txa, EOA_A, BOT_A, 19990, 300_000, 12)
-        self.traces_by_tx[txa] = {"type": "CALL", "to": BOT_A, "value": "0x0", "calls": [
-            {"type": "CALL", "to": BUILDER, "value": hex(5 * 10 ** 15)},
-            {"type": "CALL", "to": BUILDER, "value": hex(10 ** 18), "error": "execution reverted"},
-            {"type": "DELEGATECALL", "to": BUILDER, "value": hex(10 ** 18)},
+        self.traces_by_tx[txa] = {"type": "CALL", "from": EOA_A, "to": BOT_A, "value": "0x0", "calls": [
+            {"type": "CALL", "from": BOT_A, "to": BUILDER, "value": hex(5 * 10 ** 15)},
+            {"type": "CALL", "from": BOT_A, "to": BUILDER, "value": hex(10 ** 18), "error": "execution reverted"},
+            {"type": "DELEGATECALL", "from": BOT_A, "to": BUILDER, "value": hex(10 ** 18)},
         ]}
 
         # tx B: Morpho, 10,000 USDC repagados, lltv 86%.
@@ -82,7 +91,7 @@ class FakeChain:
                            "0x" + encode_address(BORROWER)],
                   w(10_000 * 10 ** 6) + w(123) + w(4 * 10 ** 18) + w(0) + w(0), 19995, 3, txb, 0)
         self._tx(txb, EOA_B, BOT_B, 19995, 400_000, 10)
-        self.traces_by_tx[txb] = {"type": "CALL", "to": BOT_B, "value": "0x0", "calls": []}
+        self.traces_by_tx[txb] = {"type": "CALL", "from": EOA_B, "to": BOT_B, "value": "0x0", "calls": []}
 
         # tx C: dos liquidaciones Aave wstETH/USDC en la misma transacción.
         txc = th(0xC)
@@ -92,7 +101,35 @@ class FakeChain:
                                   "0x" + encode_address(BORROWER)],
                       w(debt * 10 ** 6) + w(seized) + encode_address(BOT_A) + w(1), 19999, li, txc, 2)
         self._tx(txc, EOA_A, BOT_A, 19999, 500_000, 11)
-        self.traces_by_tx[txc] = {"type": "CALL", "to": BOT_A, "value": "0x0", "calls": []}
+        self.traces_by_tx[txc] = {"type": "CALL", "from": EOA_A, "to": BOT_A, "value": "0x0", "calls": []}
+
+        # tx D: liquidación con flash loan, venta del colateral, puja en ETH a una subasta y ganancia a un EOA.
+        txd = th(0xD)
+        self._log(AAVE_POOL, [AAVE_LIQUIDATION_TOPIC, "0x" + encode_address(WETH), "0x" + encode_address(USDC),
+                              "0x" + encode_address(BORROWER)],
+                  w(2000 * 10 ** 6) + w(7 * 10 ** 17) + encode_address(BOT_A) + w(0), 19997, 4, txd, 3)
+        bid = 80 * 10 ** 18 // 3000
+
+        def tr(token, frm, to, amt):
+            return {"address": token, "topics": [ERC20_TRANSFER_TOPIC, "0x" + encode_address(frm),
+                                                 "0x" + encode_address(to)], "data": "0x" + w(amt)}
+        logs = [
+            tr(USDC, MORPHO, BOT_A, 2000 * 10 ** 6),
+            tr(USDC, BOT_A, AUSDC, 2000 * 10 ** 6),
+            tr(WETH, AWETH, BOT_A, 7 * 10 ** 17),
+            tr(WETH, BOT_A, POOLX, 7 * 10 ** 17),
+            tr(USDC, POOLX, BOT_A, 2095 * 10 ** 6),
+            tr(USDC, BOT_A, MORPHO, 2000 * 10 ** 6),
+            tr(USDC, BOT_A, EOA_BENEF, 15 * 10 ** 6),
+            tr(USDC, BOT_A, POOLY, 80 * 10 ** 6),
+            tr(WETH, POOLY, BOT_A, bid),
+            {"address": WETH, "topics": [WITHDRAWAL_TOPIC, "0x" + encode_address(BOT_A)], "data": "0x" + w(bid)},
+        ]
+        self._tx(txd, EOA_A, BOT_A, 19997, 350_000, 12, logs_extra=logs)
+        self.traces_by_tx[txd] = {"type": "CALL", "from": EOA_A, "to": BOT_A, "value": "0x0", "calls": [
+            {"type": "CALL", "from": WETH, "to": BOT_A, "value": hex(bid)},
+            {"type": "CALL", "from": BOT_A, "to": AUCTION, "value": hex(bid)},
+        ]}
 
     # -- respuestas -----------------------------------------------------------------
     def block(self, n):
@@ -168,6 +205,8 @@ class FakeChain:
                 res = self.get_logs(p[0])
             elif m == "eth_call":
                 res = self.eth_call(p[0]["to"], p[0]["data"], p[1])
+            elif m == "eth_getCode":
+                res = "0x" if norm(p[0]) in EOAS else "0x6080604052"
             elif m == "eth_getTransactionByHash":
                 res = self.txs.get(p[0])
             elif m == "eth_getTransactionReceipt":
