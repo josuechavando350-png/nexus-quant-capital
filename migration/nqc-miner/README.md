@@ -218,3 +218,11 @@ AaveOracle observado integrado: [alcance](docs/aave-oracle-execution.md) y
 recompilación y dos proveedores en tres bloques. Captura acotada de 144 lecturas;
 fuentes y fallback de precios aún simulados, frescura/preestado no autenticados.
 Política Titan intacta, avance **43/100**, sin crédito de fase ni gasto real.
+
+Proxy observado de la fuente WETH integrado: [alcance](docs/aave-weth-feed-execution.md)
+y [auditoría](docs/AUDIT_AAVE_WETH_FEED_EXECUTION_20261023.md). **718 pruebas aprobadas
+(307 Rust + 411 Python)**. Sus 9571 bytes coinciden íntegramente con recompilación
+y dos proveedores en tres bloques. La captura conserva la identidad del proxy
+porque el agregado puede devolver otro precio a un llamante directo. Agregado,
+fuente USDC y estado siguen simulados; frescura/preestado no autenticados. Política
+Titan intacta, avance **43/100**, sin crédito de fase ni gasto real.
