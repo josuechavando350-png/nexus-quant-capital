@@ -183,3 +183,10 @@ Cobro USDC tras entregar WETH: [alcance y reproducción](docs/aave-payment-execu
 de USDC y proxy ejecutado sobre estado artificial, con diferencias de metadata
 explícitas. Política Titan intacta; avance **43/100**, sin certificación histórica
 completa ni autorización de gasto.
+
+Ambas rutas de colateral con cobro USDC: [alcance](docs/aave-delivery-execution.md)
+y [auditoría](docs/AUDIT_AAVE_DELIVERY_EXECUTION_20261023.md). **632 pruebas
+aprobadas (268 Rust + 364 Python)**. Una misma envoltura ejecuta el if/else original:
+recibir aTokens conserva oferta y no necesita WETH; recibir WETH conserva la
+ejecución anterior. Ambas revierten todos los efectos si falla el pago. Estado
+artificial, política Titan intacta y avance **43/100**, sin crédito adicional de fase.
