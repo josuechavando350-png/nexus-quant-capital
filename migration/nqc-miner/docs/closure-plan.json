@@ -28,7 +28,7 @@
       "remaining_points": 8,
       "acceptance": "Actual workflow integration and historical price/position/execution reconstruction with certified adapters",
       "dependency": "development_and_runtime",
-      "next_step": "Original reserve updates, GenericLogic health/eMode, amount calculation and byte-matched observed AaveOracle now precede both payment routes in a synthetic composition. Replace feed/fallback doubles with observed adaptor/proxy/aggregator execution and authenticated fresh round state; exercise same-asset/multireserve paths. Resolve WETH/USDC metadata gaps, authenticate transaction prestate under the actual fork, execute deployed Pool entrypoints and integrate workflows.",
+      "next_step": "The observed AaveOracle and WETH EACAggregatorProxy now execute with exact recompiled runtime in the synthetic two-asset composition. Authenticate and execute the caller/time-dependent DualAggregator and USDC adapter, fresh round state and transaction prestate; preserve the proxy caller when selecting round data. Complete same-asset/multireserve paths, real Pool entrypoints, WETH/USDC metadata parity, actual-fork and Foundry/workflow certification. No operational phase credit is earned by synthetic state or proxy tests.",
       "status": "open"
     },
     {
@@ -44,7 +44,7 @@
       "remaining_points": 4,
       "acceptance": "Quarantined generation, actual differential protocol testing and Foundry fuzzing",
       "dependency": "development_and_toolchain",
-      "next_step": "Extend the tested two-asset composition and fully recompiled observed AaveOracle to actual price-feed dependencies and authenticated fresh state, then additional reserves. Exercise same-asset/multireserve paths and real Pool entrypoints using authenticated transaction prestate. Resolve WETH/USDC metadata parity and execute actual Foundry differential/property/fuzz certification; synthetic feed/state and REVM coverage earn no phase credit.",
+      "next_step": "The observed AaveOracle and WETH EACAggregatorProxy now execute with exact recompiled runtime in the synthetic two-asset composition. Authenticate and execute the caller/time-dependent DualAggregator and USDC adapter, fresh round state and transaction prestate; preserve the proxy caller when selecting round data. Complete same-asset/multireserve paths, real Pool entrypoints, WETH/USDC metadata parity, actual-fork and Foundry/workflow certification. No operational phase credit is earned by synthetic state or proxy tests.",
       "status": "open"
     },
     {

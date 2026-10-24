@@ -1,0 +1,10 @@
+{
+  "source_retrieval_sha256": "c2e2a1256ad941fa7fd58de6b6abbfc1fb80b3d5aa2bcde9a42a3827c7000ba2",
+  "source_path": "src/DualAggregator.sol",
+  "source_sha256": "63e415e12be911a069e27d19ef86381f269317f2a91676b3f4c54f5b03a1e5e6",
+  "inspected_function": "function _getLatestRound() internal view returns (uint32) {\n    // Get the latest round ids.\n    uint32 latestAggregatorRoundId = s_hotVars.latestAggregatorRoundId;\n    uint32 latestSecondaryRoundId = s_hotVars.latestSecondaryRoundId;\n    bool isLatestSecondary = s_hotVars.isLatestSecondary;\n\n    // Check if the message sender is the secondary proxy.\n    if (msg.sender == i_secondaryProxy) {\n      // In case the latest secondary round does not accomplish the cutoff time condition,\n      // get the round id syncing with the primary rounds.\n      if (s_transmissions[latestSecondaryRoundId].recordedTimestamp + s_cutoffTime < block.timestamp) {\n        return _getSyncPrimaryRound();\n      }\n\n      // In case the latest secondary round accomplish the cutoff time condition, return it.\n      return latestSecondaryRoundId;\n    }\n    // In case the report was sent by the secondary proxy.\n    if (latestAggregatorRoundId == latestSecondaryRoundId) {\n      // In case the transmission was sent in this same block only by the secondary proxy, return the previous round id.\n      if (isLatestSecondary && s_transmissions[latestAggregatorRoundId].recordedTimestamp == block.timestamp) {\n        return latestAggregatorRoundId - 1;\n      }\n    }\n\n    return latestAggregatorRoundId;\n  }",
+  "function_sha256": "f8b9e0c6f389a71cf9548a2cb5f914b6e38edce827c9080a1a647b67b64f0f20",
+  "runtime_recompiled": false,
+  "runtime_executed": false,
+  "state_authenticated": false
+}

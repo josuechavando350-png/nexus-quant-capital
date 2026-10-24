@@ -1,4 +1,6 @@
 //! Observed, fully recompiled AaveOracle with explicit synthetic feed/fallback code.
+#[path = "aave_weth_feed_execution.rs"]
+mod aave_weth_feed_execution;
 use super::*;
 const AAVE_ORACLE: &str = "0x54586be62e3c3580375ae3723c145253060ca0c2";
 const FALLBACK: &str = "0x7777777777777777777777777777777777777777";
