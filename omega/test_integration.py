@@ -48,16 +48,27 @@ class SchemaTests(unittest.TestCase):
             plan["acceptance"]["Census"] = value
             self.assertIn("phase_gates_missing_or_changed", verify_plan(plan))
 
-    def test_gas_budget_mutations_fail_closed(self):
-        for key in self.plan["canary_gas_budget_mxn"]:
-            for value in (None, True, [], {}, "2000", 0, 999999):
+    def test_gas_policy_mutations_fail_closed(self):
+        for key, original in self.plan["gas_funding_policy"].items():
+            for value in (None, True, False, [], {}, "2000", 0, 999999):
+                if type(value) is type(original) and value == original:
+                    continue
                 plan = copy.deepcopy(self.plan)
-                plan["canary_gas_budget_mxn"][key] = value
-                self.assertIn("canary_gas_budget_changed", verify_plan(plan))
+                plan["gas_funding_policy"][key] = value
+                self.assertIn("gas_funding_policy_changed", verify_plan(plan))
 
     def test_missing_gas_policy_is_blocked(self):
-        del self.plan["canary_gas_budget_mxn"]
-        self.assertIn("canary_gas_budget_changed", verify_plan(self.plan))
+        del self.plan["gas_funding_policy"]
+        self.assertIn("gas_funding_policy_changed", verify_plan(self.plan))
+
+    def test_old_operator_allowance_cannot_coexist_with_titan(self):
+        self.plan["canary_gas_budget_mxn"] = {"total_cap": 2000,
+            "topup_cap": 500, "review_without_capture_at": 1000}
+        self.assertIn("obsolete_operator_gas_budget", verify_plan(self.plan))
+
+    def test_titan_policy_cannot_claim_execution_coverage(self):
+        self.plan["gas_funding_policy"]["execution_coverage_proven"] = True
+        self.assertIn("gas_funding_policy_changed", verify_plan(self.plan))
 
     def test_duplicate_keys_are_blocked_at_any_depth(self):
         for raw in (b'{"x":1,"x":2}', b'{"a":{"x":1,"x":2}}'):

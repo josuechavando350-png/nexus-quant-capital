@@ -3,6 +3,9 @@
 **Estado: 0/36 componentes certificados; Census no cerrado.** Hay código de
 integración y pruebas con evidencia histórica auténtica. No es un motor en vivo,
 una certificación del mercado actual ni una autorización para gastar.
+**H2: 100% de integración auditada**, con forks y replay desconectado físicos
+aprobados. Esto no mide la terminación global de Omega: Census mantiene 9/9
+componentes con base parcial y 0/9 certificados.
 
 Base: `NQC_Sovereign_Radar_Omega.pdf`, v1.0, 22 de octubre de 2026, SHA-256
 `5c1739799ab5099bc95f7347aeed8bcc2e3b098e64c3688584331004f15edf0f`.
@@ -13,14 +16,15 @@ Base: `NQC_Sovereign_Radar_Omega.pdf`, v1.0, 22 de octubre de 2026, SHA-256
   Canary/Escala = 9/9/4/14. El catálogo conserva `not_assessed`; el mapeo parcial
   separado está en `census_map.json` y no certifica componentes.
 - `audit.py` e `integrity.py`: controles estructurales, tipos, claves JSON únicas,
-  límites de gas de diseño y carga de código original fijada por Git blob.
+  política de gas Titan sin capital propio y carga de código original fijada por Git blob.
 - `census_bridge.py`: reproduce el auditor RMC-016 original con dos archivos ZIP
   auténticos. Emite **OBSERVAR** ante evidencia histórica incompleta y **NO-GO**
   ante entradas inválidas. Nunca emite GO ni realiza llamadas de red.
 - `isolation.py`: adaptador de aislamiento que no modifica el verificador
-  histórico. Sólo aparta los archivos explícitos declarados en `EXTENSION_FILES` en una copia
-  temporal y entrega TODOS los demás archivos al verificador original.
-  No oculta workflows, archivos de clientes ni otras incorporaciones.
+  histórico. Aparta los archivos explícitos de `EXTENSION_FILES` y el único
+  workflow Omega revisado, después de comprobar su hash, bytes y modo. Entrega
+  todos los demás archivos al verificador original; otros workflows o archivos
+  de clientes siguen siendo rechazados.
 - `evidence/historical-baseline.json`: resultado determinista del replay de
   agregados, no de transacciones/EVM. Conserva IDs, alcance y bloqueos originales.
 
@@ -57,10 +61,13 @@ histórico directo sigue rechazando `omega/`; esto se conserva deliberadamente.
 
 Census y Shadow no conectan fondos. Observador, firmante y ejecutor siguen
 separados; este cambio no contiene firmante, broadcasting, despliegues ni
-workflows. Canary conserva el techo de **$2,000 MXN**, recargas máximas de
-**$500 MXN** y revisión tras **$1,000 MXN** sin captura. Son límites del diseño,
-no autorización de gasto. La autoridad histórica con `OWN_CAPITAL = 0` no se
-reescribe para aparentar certificación bajo la política nueva.
+ejecución con fondos. El workflow H2E sólo comprueba evidencia y forks locales.
+**Titan aporta el gas. El presupuesto propio de $2,000 MXN queda descartado**
+por instrucción del usuario del 23 de octubre de 2026. No hay anticipo propio ni
+alternativa de gas propio. La cobertura de Titan y su remuneración se deben
+acreditar por ejecución; una simulación positiva no prueba esa cobertura.
+Ver [política activa](TITAN_GAS_POLICY.md). Las autoridades y auditorías históricas
+conservan sus bytes y reglas originales, sin otorgar permisos actuales.
 
 Un hash detecta cambios, pero por sí solo no autentica un reporte externo.
 Reproducir las entradas fijadas es obligatorio. El almacenamiento local es
@@ -193,3 +200,281 @@ certificación.
 H12 tiene **21/21 pruebas propias aprobadas**. Además, una regresión conjunta
 H4–H12 ejecutó **176/176 pruebas aprobadas** en el mismo entorno offline. Esto
 demuestra coherencia entre las fundaciones, no cierre de Census ni rentabilidad.
+
+## H2C · Regresión ejecutable del checkout completo
+
+H2 alcanza **94% de integración auditada**. El verificador original pasó con
+los 637 payloads y objetos fuente. Census Rust 1.98.1 aprobó 528 tests,
+fmt, Clippy (`-D warnings`) y build. Omega aprobó 241 tests sin omisiones.
+
+Discovery Python conserva siete errores de preparación heredados: 838 tests
+descubiertos y 664 ejecutados/aprobados. La comparación con el snapshot original
+es exacta. Las otras 174 pruebas aprobaron usando sus CLI, insumos auténticos
+y catálogos históricos en copias separadas. `regression.py` y
+`historical_regression.py` registran esa distinción sin convertir errores en PASS.
+
+PFT materializado desde su fuente original aprobó 56 tests Rust y 14 Solidity.
+En H2C quedaron pendientes forks, replay desconectado, revisión del formato
+heredado y enlace al productor nuevo. H2D, abajo, actualiza esos pendientes.
+Ver [auditoría H2C](AUDIT_H2_EXECUTABLE.md) y `evidence/h2-*`.
+
+## H2D · Fuente PFT vinculada a NQC
+
+`pft_source_binding.py` reproduce la materialización original conservando su
+gate de ascendencia en un checkout separado. Verifica objetos Git, los bytes
+protegidos, ambos árboles efectivos y el commit/tree limpio exacto de NQC.
+Los recibos históricos mantienen sus identidades. El resultado es evidencia
+local de procedencia; no crea autoridad de CI ni certificación.
+
+Auditoría: **32 pruebas nuevas**, **273/273 Omega**, **531/531 Rust Census**,
+**56/56 Rust PFT**, **14/14 Solidity**, más check/build release PFT y aislamiento.
+El enlace real se ejecutó contra el commit publicado `b1a093e11e92acb59c796e220786ff6346d2a1f9`.
+El commit posterior incorpora la evidencia y una prueba adicional de auditoría.
+
+El contrato original registra los fallos de formato sin exigir reescritura de
+fuentes; los fallos siguen visibles. Al terminar H2D, forks y replay seguían
+pendientes y H2 estaba en 94%. H2E, abajo, cierra esos gates físicos.
+Ver [contrato](PFT_SOURCE_BINDING_CONTRACT.md), [auditoría H2D](AUDIT_H2_PFT_BINDING.md)
+y `evidence/h2-pft-*`.
+
+## H2E · Runner físico en la rama de Omega
+
+Se publicó y activó la migración para `feat/omega-h2-executable-audit-20261022`:
+`h2_actions.py` comprueba forks con dos proveedores y replay D06 desconectado en
+dos jobs Ubuntu estándar. Conserva los 106 workflows históricos desactivados.
+La única excepción activa revisada es `.github/workflows/omega-h2-audit.yml`,
+copia exacta de la plantilla fijada por SHA-256; ninguna otra ruta queda oculta
+al verificador original. Logs y contexto de productor no equivalen a artifact
+canónico autenticado. Certificación permanece en **0/36**.
+
+**H2 100% auditado:** run
+[39859932654](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/39859932654),
+commit `e21d528dabd83d7f14e7f236b9e6d4e3fc1706f7`, ambos jobs success.
+Omega 314/314, Rust Census 531/531, Rust PFT 56/56, Solidity 14/14, forks 4/4
+y replay físico byte-idéntico con fuente intacta. Identidad GitHub, compromisos,
+aislamiento y timestamps se auditaron después de la ejecución. El discovery Python
+genérico mantiene los siete errores heredados y la validación separada de 174 casos.
+Faltan las evidencias y cierres por componente descritos en `census_assessment.json`;
+los estados de ese catálogo corresponden a su `as_of_commit` histórico, no se
+reescriben como certificación nueva por haber cerrado H2.
+
+Ver [migración H2E](ACTIONS_MIGRATION.md) y [auditoría H2E](AUDIT_H2_ACTIONS.md)
+para resultados locales, estado remoto y límites. No trasladar a Miner ni main.
+
+## H13 — auditoría CI reproducible
+
+`ci_evidence.py` conserva y verifica el paquete real de logs y metadata del run
+H2 `39859932654`: identidad exacta, 54 compromisos y 16 pasos del replay.
+El ZIP de 98297 bytes queda en `evidence/h2-ci-capture.zip`, con pin revisado.
+El verificador rechaza otra versión del código como productor esperado.
+
+Esto demuestra la auditoría offline de esa captura. No crea un artifact de
+Actions ni una certificación nueva; Census sigue en 0/9 y Omega en 0/36.
+Ver [contrato](CI_EVIDENCE_CONTRACT.md) y [auditoría H13](AUDIT_H13.md).
+
+**H13 100% dentro de ese alcance, auditado:** Omega 352/352 local; 38/38 pruebas
+nuevas y 41/41 del ejecutor en ambos jobs remotos. Run
+[39866201976](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/39866201976),
+productor `4a521dd42a0c816cd6959cd0fb4ac4e5b871dab0`: ambos jobs success,
+forks y replay completo aprobados, con auditoría posterior de identidad,
+integridad, aislamiento, resultados y tiempos. Certificación sigue 0/36.
+
+## H14 — datos por transacción, recuperación y artifacts
+
+`historical_intake.py` reproduce tres artifacts originales: 139 eventos,
+127 recibos dRPC y 139 legs de deuda/colateral. Conserva el fallo global del run
+de recibos, la falta de paridad independiente y los campos desconocidos como null.
+Gas se cuenta una vez por transacción; cantidades de tokens no se convierten
+automáticamente en USD, margen neto ni ganancias de NQC.
+
+`evidence_store.py` y `historical_pipeline.py` incorporan almacenamiento
+transaccional, recuperación tras terminar procesos, escrituras concurrentes,
+exportación/restauración verificadas y revocación local sin borrar evidencia.
+La consulta vuelve a comprobar las fuentes originales. La prueba de revocación
+es controlada; no certifica una reorganización real ni replicación remota.
+
+La migración revisada amplía cobertura CI a todo el Python/evidencia Omega y
+retiene un runtime.json acotado por job con el productor exacto. El consumidor
+`runtime_artifact.py` exige metadata obtenida externamente y su digest confiable;
+un archivo local con un hash propio no demuestra origen de GitHub.
+
+Regresión local H14: **415/415 pruebas**, incluidas **63 nuevas**, sin omisiones.
+Aislamiento completo: **104 archivos Omega**, 531 fuentes originales y 106
+workflows históricos desactivados. Ejecución remota y auditoría posterior se
+registran en [AUDIT_H14.md](AUDIT_H14.md). Producto final 45% aún no demostrado;
+ver [PRODUCT_PROGRESS.md](PRODUCT_PROGRESS.md). Certificación **0/36**.
+
+## H15 — identidad de liquidadores con logs reales
+
+`liquidator_intake.py` enlaza 139 logs recién recuperados con todos los compromisos
+históricos originales. Identifica liquidadores por evento en las **127/127
+transacciones**, con **49 direcciones distintas**, y conserva 127 prestatarios.
+GasUsed/gasPrice también coincide con dRPC en todo el corpus. Esta concordancia
+no sustituye paridad completa de recibos ni demuestra margen neto.
+
+El resultado se almacena por separado del ledger histórico H14, con read-back,
+restauración y rechazo de identidades falsificadas. Oracle delay, costos completos,
+beneficiario económico y ejecución NQC permanecen desconocidos. La API no devolvió
+block hash ni removed: se mantiene explícita esa limitación.
+Ver [contrato H15](LIQUIDATOR_INTAKE_CONTRACT.md) y [auditoría H15](AUDIT_H15.md).
+
+
+## H16: original WETH cashflow sample
+
+`cashflow_intake.py` combines the H14/H15 source-bound records with the original
+1979-byte price artifact 11527902751 (run 37726618359). Nine historical WETH/WETH
+transactions have exact raw gross-minus-full-transaction-gas arithmetic. Two
+have independently observed previous-block oracle references, at ranks 1 and 3;
+seven retain null price valuations. Five-bps flash fees are explicitly hypothetical.
+Complete net profit, oracle-delay and unknown costs remain null. Store admission,
+recovery and queries revalidate all underlying artifacts and derived ledgers.
+See `CASHFLOW_INTAKE_CONTRACT.md` and `AUDIT_H16.md`. This does not certify a
+component or establish the requested 45% completion target.
+
+
+**H14–H16 implementados y auditados en su alcance:** regresión local **445/445**,
+con **93 pruebas nuevas**. El productor combinado
+`af4fe54f1dc25d1e3b1ab620db874549b15af2ea` aprobó ambos jobs del run
+[39874530238](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/39874530238).
+La auditoría posterior contrastó artifacts, metadata externa, logs y hashes de
+pruebas: Rust PFT 56, Rust Census 528, Solidity 14, forks 4 y replay de 16 pasos.
+Se conservan fuente y estado originales; los cambios posteriores son documentación.
+Ver [auditoría final H16](AUDIT_H16.md). **Census sigue abierto, certificación
+0/36; el 45% global todavía no está demostrado.**
+
+
+## H17 — estado previo y comisión condicional
+
+`historical_state_intake.py` integra tres artifacts originales autenticados: el
+precio histórico de rango 2, tasas del Pool y estados de salud previos de los
+tres principales casos WETH. Quedan 3/9 con precios/estado/tasa y 6/9 desconocidos.
+Los tres HF previos superan 1; ninguna fila se convierte en oportunidad ejecutable.
+La comisión calculada es condicional, no un costo pagado observado. El reporte
+H16 se conserva y el nuevo reporte se valida al guardar, recuperar y consultar.
+Ver `HISTORICAL_STATE_CONTRACT.md` y `AUDIT_H17.md`.
+
+**H17 implementado y auditado en su alcance:** 471/471 pruebas locales, incluidas
+26 nuevas. El productor `d99e0b332db7ef8cde70e195b67edd949ab17adb` aprobó forks
+y replay desconectado en el run
+[39884845749](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/39884845749).
+La auditoría posterior contrastó archivos, metadata de GitHub, logs y hashes del
+código y pruebas. Precios previos: 2/9 → 3/9 de la muestra WETH; certificación
+global: 0/36. Ver [auditoría final H17](AUDIT_H17.md) y
+[medidas de avance y pendientes](PRODUCT_PROGRESS.md).
+
+## H18 — evolución temporal histórica
+
+`temporal_intake.py` vincula los tres diagnósticos originales de avance de tiempo
+con el estado previo H17. Una medición cruza HF por debajo de uno, dos permanecen
+por encima y seis casos conservan `null`. El caso de rango 2 aumenta su HF.
+Las fechas de los bloques tienen acuerdo de dos proveedores; los forks originales
+usan solo dRPC. Ningún resultado se convierte en señal prospectiva, causa oracle
+demostrada, operación ejecutable o ganancia. Se conservan y validan todos los
+reportes y archivos originales al guardar, consultar y recuperar el almacenamiento.
+Ver [contrato H18](TEMPORAL_INTAKE_CONTRACT.md) y [auditoría H18](AUDIT_H18.md).
+
+**H18 implementado y auditado en su alcance:** **498/498 pruebas locales**,
+incluidas 27 nuevas. El productor `bd4b120e78603617473f2750bcff367271459375`
+aprobó ambas etapas físicas H2 y la auditoría de artefactos, metadata y logs del
+[run 39889427564](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/39889427564).
+La cobertura temporal integrada es 3/9 de la muestra WETH; son diagnósticos
+originales retenidos, no tres forks temporales nuevos. Certificación: **0/36**.
+
+### H19 — transporte de evidencia al almacén Rust
+
+El adaptador conserva objetos, snapshot y journal entre Python y el almacén Rust
+original. La comprobación exige inventario externo completo porque la raíz Rust
+excluye los artefactos sin referencias. Pruebas locales: **532/532 Omega** y
+**66/66 del almacén Rust**; ida y vuelta real de **28 artefactos**, sin pérdida de
+bytes ni del estado de revocación local. La validación remota aislada y su
+auditoría final aprobaron el productor `fcbe6cac8c69c58b55d4ccf67c399dd359db6a96`,
+[run 39897180333](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/39897180333). Ver [contrato](RUST_STORE_TRANSPORT_CONTRACT.md)
+y [auditoría H19](AUDIT_H19.md). Cero rangos certificados; producto **0/36**.
+
+Cierre de H19: **4/4 pasos (100% de este incremento)**. La regresión completa se
+repitió tras recuperar los ZIP históricos auténticos: 532/532, sin omisiones.
+La auditoría documenta qué evidencia local anterior no sobrevivió al reinicio.
+
+### H20 — revocación entre lotes con dependencias declaradas
+
+`dependency_intake.store_chain` admite cinco etapas históricas autenticadas bajo
+identidades nuevas y cuatro dependencias explícitas. Revocar la raíz bloquea las
+consultas de todos sus descendientes y conserva sus bytes para auditoría; una
+rama sin dependencia permanece activa. Los manifiestos anteriores mantienen su
+semántica. La copia recuperada exige el journal externo actual para rechazar
+snapshots previos a la revocación. No acredita una reorganización real de cadena.
+Ver [contrato H20](DEPENDENCY_REVOCATION_CONTRACT.md) y [auditoría H20](AUDIT_H20.md).
+**H20 cerrado y auditado: 561/561 pruebas, 29 nuevas; 4/4 pasos de este incremento.**
+Forks, replay aislado y auditoría posterior aprobaron el productor `641ffb4c5a49514fdca346e57b06f6526f4b7dcf`
+en el [run 40019225049](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/40019225049).
+Certificación del producto: 0/36.
+
+## H21 — evidencia económica y gas Titan
+
+El lector incorpora el fork histórico de liquidación y su gas medido: un caso
+de nueve WETH, cinco sensibilidades y catorce categorías de costo explícitas.
+La comisión del flash loan y el excedente WETH simulados, el gas medido y los
+presupuestos supuestos se conservan separados de pagos reales. Los costos
+completos, la cobertura concreta de Titan y la ganancia realizada siguen sin
+demostrarse. Ocho casos no tienen ese diagnóstico; no se inventan ceros.
+
+El sexto lote declara su dependencia temporal. Consultas, revocación y recuperación
+conservan esa relación. Runtime v4 exige su replay económico desconectado y vincula
+la política activa. **H21 cerrado y auditado: 589/589 pruebas, 28 nuevas, 4/4 controles.**
+Forks, replay y auditoría posterior aprobaron el productor `668ddb5f26225e9f9f545b1c1e07740c01d783c8`
+en el [run 40027689852](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/40027689852).
+Ver [contrato](EXECUTION_INTAKE_CONTRACT.md) y [auditoría](AUDIT_H21.md).
+
+## H22 - gas quemado y propinas observadas
+
+`inclusion_fee_intake.py` incorpora seis respuestas de Blockscout para los tres
+primeros ganadores WETH de la muestra histórica. Contrasta gas, precio efectivo,
+bloque, índice, tarifa base y desglose. La propina ya está incluida en el gas total;
+no se vuelve a restar. Las tres propinas observadas son cero, pero los pagos
+directos al builder siguen desconocidos. Las otras seis filas permanecen sin
+desglose observado. No cambia 0/127 filas de costos completos ni 0/36 componentes
+certificados. Añade un séptimo lote dependiente de H21, verificable y revocable.
+El paquete runtime v5 exige reconstruir ese lote en el worker desconectado y
+vincularlo a la política Titan: capital propio cero, sin anticipo ni alternativa
+propia. Rechaza cobertura inventada y conserva el alcance original de v1-v4.
+**H22 cerrado: 622/622 pruebas locales y 4/4 controles del incremento.** Forks,
+replay y auditoría posterior aprobaron el productor `811c549b3561dcdd0719993a2a12852068f5920b`
+en el [run 40046132439](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/40046132439).
+Ver [contrato](INCLUSION_FEE_CONTRACT.md) y [auditoría](AUDIT_H22.md).
+
+## H23 — pago directo observado al receptor de comisiones
+
+El primer ganador histórico muestra un pago directo de `95915734379292898` wei,
+aproximadamente 99.75% del excedente bruto de ese caso, además del gas. El lector
+reconcilia tres páginas con 57 operaciones indexadas y conserva el valor inicial
+de 9975 wei y el remanente enviado a otra dirección. No identifica al builder,
+no atribuye cobertura a Titan y no presenta el remanente como ganancia neta.
+Las otras ocho filas siguen sin observación de pago directo. H23 añade un octavo
+lote dependiente de H22. Runtime v6 exige reproducirlo en el worker desconectado,
+invalidar los ocho lotes y preservar sus bytes tras restaurar. Vincula la política
+Titan y rechaza cobertura o utilidad inventadas; conserva el alcance de v1-v5.
+**H23 cerrado: 654/654 pruebas locales y 4/4 controles del incremento.** Forks,
+replay desconectado y auditoría independiente de artefactos/API/logs aprobaron el
+productor `3448f173305d765f3cdf9a5494571b34a16c0e34` en el
+[run 40050771588](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/40050771588).
+No cambia la ausencia de cobertura Titan por operación ni de costos completos. Ver
+[contrato](DIRECT_PAYMENT_CONTRACT.md) y [auditoría](AUDIT_H23.md).
+
+## H24 — financiación histórica con Morpho y replay dependiente
+
+El recibo del primer ganador vincula el evento de Morpho y dos transferencias
+WETH: recibió y devolvió `10684013854557827871` wei. El recargo observado en esa
+devolución WETH es cero. Los otros costos siguen abiertos; el costo simulado de
+Aave en el fork no se atribuye a este ganador. El lector contrasta el recibo con
+el resumen dRPC original y las llamadas retenidas por H23. Esto aún no valida una
+ruta Morpho para NQC. **Titan continúa siendo el proveedor exigido para el gas**,
+sin aporte ni alternativa propia. Un noveno lote depende de H23; runtime v7 exige
+reproducirlo sin red, revocar los nueve lotes, restaurarlos y conservar sus datos
+forenses mientras bloquea las lecturas normales. Vincula los compromisos previos
+y la misma política Titan, conservando el alcance de v1-v6. **H24 cerrado:
+688/688 pruebas locales y 4/4 controles del incremento.** Forks, replay desconectado
+y auditoría independiente de API/artefactos/logs aprobaron el productor
+`7dd91b7f95b400b6abecaba0119da5bce0491999` en el
+[run 40054817457](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/40054817457).
+La ruta Morpho de NQC, costos completos y cobertura Titan por operación siguen abiertos. Ver [contrato](FLASH_FINANCING_CONTRACT.md) y
+[auditoría](AUDIT_H24.md).

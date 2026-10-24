@@ -15,11 +15,77 @@ import tempfile
 from pathlib import Path
 
 from audit import verify_plan
-from integrity import load_pinned_python, read_regular, strict_json
+from integrity import digest, load_pinned_python, read_regular, strict_json
 
 ROOT = Path(__file__).resolve().parents[1]
 VERIFIER_BLOB = "3bb842872a4ca89e81bcf45839b42cc88d26f84e"
+OMEGA_WORKFLOW = ".github/workflows/omega-h2-audit.yml"
+WORKFLOW_TEMPLATE = "omega/h2_actions_workflow.yml.disabled"
+WORKFLOW_SHA256 = "8c1c20a8684a21728d7ebd83d0aac7ad93dc5840df34ec455e80e5eb0b3813be"
 EXTENSION_FILES = frozenset({
+    "omega/flash_financing_intake.py", "omega/test_flash_financing_intake.py",
+    "omega/FLASH_FINANCING_CONTRACT.md", "omega/AUDIT_H24.md",
+    "omega/evidence/flash-financing-capture.json", "omega/evidence/h24-flash-financing.json",
+    "omega/direct_payment_intake.py", "omega/test_direct_payment_intake.py",
+    "omega/DIRECT_PAYMENT_CONTRACT.md", "omega/AUDIT_H23.md",
+    "omega/evidence/direct-payment-capture.json", "omega/evidence/h23-direct-payment.json",
+    "omega/inclusion_fee_intake.py", "omega/test_inclusion_fee_intake.py",
+    "omega/INCLUSION_FEE_CONTRACT.md", "omega/AUDIT_H22.md",
+    "omega/evidence/inclusion-fee-capture.json", "omega/evidence/h22-inclusion-fees.json",
+    "omega/execution_intake.py", "omega/test_execution_intake.py",
+    "omega/EXECUTION_INTAKE_CONTRACT.md", "omega/TITAN_GAS_POLICY.md", "omega/AUDIT_H21.md",
+    "omega/evidence/execution-pin.json", "omega/evidence/execution-fork-original.zip",
+    "omega/evidence/execution-fork-metadata.json", "omega/evidence/execution-gas-original.zip",
+    "omega/evidence/execution-gas-metadata.json", "omega/evidence/h21-execution.json",
+    "omega/dependency_intake.py", "omega/test_dependency_intake.py",
+    "omega/DEPENDENCY_REVOCATION_CONTRACT.md", "omega/AUDIT_H20.md",
+    "omega/rust_store_intake.py", "omega/rust_store_bridge.rs",
+    "omega/test_rust_store_intake.py", "omega/RUST_STORE_TRANSPORT_CONTRACT.md",
+    "omega/AUDIT_H19.md",
+    "omega/temporal_intake.py", "omega/test_temporal_intake.py",
+    "omega/TEMPORAL_INTAKE_CONTRACT.md", "omega/AUDIT_H18.md",
+    "omega/evidence/temporal-pin.json", "omega/evidence/temporal-original.zip",
+    "omega/evidence/temporal-metadata.json", "omega/evidence/h18-temporal.json",
+    "omega/historical_state_intake.py", "omega/test_historical_state_intake.py",
+    "omega/HISTORICAL_STATE_CONTRACT.md", "omega/AUDIT_H17.md",
+    "omega/evidence/historical-state-pin.json", "omega/evidence/h17-historical-state.json",
+    "omega/evidence/rank2-price-original.zip", "omega/evidence/rank2-price-metadata.json",
+    "omega/evidence/aave-premium-original.zip", "omega/evidence/aave-premium-metadata.json",
+    "omega/evidence/top3-health-original.zip", "omega/evidence/top3-health-metadata.json",
+    "omega/cashflow_intake.py", "omega/test_cashflow_intake.py",
+    "omega/CASHFLOW_INTAKE_CONTRACT.md", "omega/AUDIT_H16.md",
+    "omega/evidence/weth-price-original.zip", "omega/evidence/weth-price-metadata.json",
+    "omega/evidence/h16-cashflow.json",
+    'omega/liquidator_intake.py',
+    'omega/test_liquidator_intake.py',
+    'omega/LIQUIDATOR_INTAKE_CONTRACT.md',
+    'omega/AUDIT_H15.md',
+    'omega/evidence/liquidator-capture-pin.json',
+    'omega/evidence/liquidator-log-capture.zip',
+    'omega/evidence/h15-liquidators.json',
+
+    'omega/historical_intake.py',
+    'omega/test_historical_intake.py',
+    'omega/evidence_store.py',
+    'omega/test_evidence_store.py',
+    'omega/historical_pipeline.py',
+    'omega/test_historical_pipeline.py',
+    'omega/runtime_artifact.py',
+    'omega/test_runtime_artifact.py',
+    'omega/HISTORICAL_INTAKE_CONTRACT.md',
+    'omega/EVIDENCE_STORE_CONTRACT.md',
+    'omega/RUNTIME_ARTIFACT_MIGRATION.md',
+    'omega/AUDIT_H14.md',
+    'omega/PRODUCT_PROGRESS.md',
+    'omega/evidence/historical-intake-pin.json',
+    'omega/evidence/rmc016-events.zip',
+    'omega/evidence/rmc016-receipts.zip',
+    'omega/evidence/rmc016-legs.zip',
+    'omega/evidence/rmc016-events-metadata.json',
+    'omega/evidence/rmc016-receipts-metadata.json',
+    'omega/evidence/rmc016-legs-metadata.json',
+    'omega/evidence/h14-pipeline.json',
+
     "omega/README.md", "omega/architecture_v3.json", "omega/audit.py",
     "omega/test_audit.py", "omega/integrity.py", "omega/census_bridge.py",
     "omega/isolation.py", "omega/test_integration.py", "omega/census_map.json",
@@ -45,8 +111,37 @@ EXTENSION_FILES = frozenset({
     "omega/COMPETITION_LEDGER_CONTRACT.md", "omega/AUDIT_H11.md",
     "omega/candidate_coherence.py", "omega/test_candidate_coherence.py",
     "omega/CANDIDATE_COHERENCE_CONTRACT.md", "omega/AUDIT_H12.md",
+    "omega/regression.py", "omega/test_regression.py", "omega/historical_regression.py",
+    "omega/AUDIT_H2_EXECUTABLE.md", "omega/evidence/h2-executable.json",
+    "omega/evidence/h2-census-current.json", "omega/evidence/h2-census-source.json",
+    "omega/evidence/h2-census-comparison.json", "omega/evidence/h2-omega.json",
+    "omega/evidence/h2-historical.json", "omega/evidence/h2-fork-preflight.json",
+    "omega/evidence/h2-execution-logs.json",
+    "omega/pft_source_binding.py", "omega/test_pft_source_binding.py",
+    "omega/PFT_SOURCE_BINDING_CONTRACT.md",
+    "omega/AUDIT_H2_PFT_BINDING.md", "omega/evidence/h2-pft-binding.json",
+    "omega/evidence/h2-pft-audit.json", "omega/evidence/h2-pft-logs.json",
+    "omega/evidence/h2-pft-omega.json",
+    "omega/h2_actions.py", "omega/test_h2_actions.py", WORKFLOW_TEMPLATE,
+    "omega/ACTIONS_MIGRATION.md", "omega/AUDIT_H2_ACTIONS.md",
+    "omega/ci_evidence.py", "omega/test_ci_evidence.py", "omega/CI_EVIDENCE_CONTRACT.md",
+    "omega/AUDIT_H13.md", "omega/evidence/h2-ci-capture.zip",
+    "omega/evidence/h2-ci-capture-pin.json", "omega/evidence/h2-ci-capture-verification.json",
 })
 EXTENSION_DIRS = {"omega", "omega/evidence"}
+
+
+def reviewed_workflow(root: Path) -> bool:
+    """One explicit new workflow exception; historical workflows stay disabled."""
+    template = read_regular(root / WORKFLOW_TEMPLATE)
+    if digest(template) != WORKFLOW_SHA256:
+        raise ValueError("workflow_template_digest_mismatch")
+    active = root / OMEGA_WORKFLOW
+    if not active.exists() and not active.is_symlink():
+        return False
+    if read_regular(active) != template or stat.S_IMODE(active.stat().st_mode) != 0o644:
+        raise ValueError("unreviewed_active_workflow")
+    return True
 
 
 def inventory(root: Path) -> list[Path]:
@@ -76,6 +171,7 @@ def inventory(root: Path) -> list[Path]:
                 files.append(path)
     if seen != EXTENSION_FILES:
         raise ValueError("missing_omega_paths: " + ",".join(sorted(EXTENSION_FILES - seen)))
+    reviewed_workflow(root)
     return sorted(files)
 
 
@@ -93,7 +189,7 @@ def project_repository(root: Path, destination: Path) -> None:
     destination.mkdir(parents=True, exist_ok=False)
     for path in files:
         relative = path.relative_to(root)
-        if relative.as_posix() in EXTENSION_FILES:
+        if relative.as_posix() in EXTENSION_FILES or relative.as_posix() == OMEGA_WORKFLOW:
             continue
         data = read_regular(path, limit=512 * 1024 * 1024)
         target = destination / relative
@@ -118,6 +214,8 @@ def verify_repository(root: Path = ROOT, source_git: Path | None = None) -> dict
             or result.get("active_workflows") != 0):
         raise ValueError("unexpected_original_verifier_result")
     return {"status": "OMEGA_OFFLINE_ISOLATION_PASS", "legacy_result": result,
+            "active_omega_workflows": int(reviewed_workflow(root)),
+            "active_workflow_sha256": WORKFLOW_SHA256 if reviewed_workflow(root) else None,
             "extension_file_count": len(EXTENSION_FILES),
             "canonical_recertification": False, "phase_advance_authorized": False}
 
