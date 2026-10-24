@@ -285,13 +285,16 @@ class TestBudgetAndRetry(unittest.TestCase):
 
 
 class TestLiquidatorSet(unittest.TestCase):
-    def test_owner_wallets_join_w_but_third_parties_do_not(self):
+    def test_receive_only_owner_wallets_join_w(self):
         from census_dinero.collect import liquidator_set
         bot, signer, owner, fund, pool, auction = "0xb", "0xs", "0xo", "0xf", "0xp", "0xa"
         pairs = [(fund, bot), (bot, pool), (pool, bot), (bot, owner), (bot, auction), (pool, "0xq")]
         eoas = {owner, fund, signer}
         w, extra = liquidator_set({bot, signer}, pairs, {"0x0"}, lambda a: a in eoas)
-        self.assertEqual(extra, {owner, fund})
+        self.assertEqual(extra, {owner})               # quien manda (fund) no entra: puede ser un bolsillo
+        psm = "0x37305b1cd40574e4c5ce33f8e8306be057fd7341"
+        w, extra = liquidator_set({bot}, [(bot, psm)], set(), lambda a: True)
+        self.assertEqual(extra, set())
         self.assertNotIn(pool, w)
         self.assertNotIn(auction, w)
 
@@ -434,6 +437,8 @@ class TestCounterparties(unittest.TestCase):
     def test_counterparties_split_swaps_from_sinks(self):
         d = self.run_d()[fc.th(0xD)]
         cps = d["counterparties"]
+        self.assertFalse(cps[fc.AUCTION][4])                              # no reenvía
+        self.assertTrue(cps[fc.POOLX][4])
         self.assertAlmostEqual(cps[fc.AUCTION][0], 80.0, places=4)          # sumidero: solo recibe
         self.assertEqual(cps[fc.AUCTION][1], 0.0)
         self.assertGreater(cps[fc.POOLX][1], 0)                           # swap: devuelve USDC
@@ -456,7 +461,8 @@ class TestCounterparties(unittest.TestCase):
                                          counterparties=sinks)
         a = mk("0x1", "0xbot1", {"0xauction": [90.0, 0.0, 0.03, False], "0xpool": [500.0, 505.0, 0.0, False]})
         b = mk("0x2", "0xbot2", {"0xauction": [80.0, 0.0, 0.03, False]})
-        c = mk("0x3", "0xbot3", {"0xsafe": [70.0, 0.0, 0.0, False]})
+        c = mk("0x3", "0xbot3", {"0xsafe": [70.0, 0.0, 0.0, False, False],
+                                  "0xpool2": [60.0, 0.0, 0.0, False, True]})      # reenvía: tramo de una ruta
         users = an.sink_users([a, b, c])
         for r in (a, b, c):
             an.derive(r, users)

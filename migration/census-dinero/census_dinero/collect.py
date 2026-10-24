@@ -16,7 +16,8 @@ import traceback
 
 from .abi import (address_from_topic, address_from_word, decode_string, encode_address,
                   encode_bytes32, norm, to_int, words)
-from .config import (AAVE_LIQUIDATION_TOPIC, ANSWER_UPDATED_TOPIC, CHAINS, ERC20_TRANSFER_TOPIC,
+from .config import (AAVE_LIQUIDATION_TOPIC, ANSWER_UPDATED_TOPIC, CHAINS, CODELESS_PROTOCOL_ACCOUNTS,
+                     ERC20_TRANSFER_TOPIC,
                      MORPHO_LIQUIDATE_TOPIC, MORPHO_LIQUIDATION_CURSOR, MORPHO_MAX_LIF,
                      ORACLE_LOOKBACK_SECONDS, SEL)
 from .keccak import topic
@@ -196,14 +197,18 @@ def token_flows(receipt, weth):
 
 def liquidator_set(s0, pairs, exclude, is_eoa):
     """W: firmante y contrato liquidador, más las cuentas sin código que en esta transacción
-    solo tratan con ellos (billeteras del mismo dueño que reciben la ganancia o ponen capital).
+    solo reciben de ellos (billeteras del mismo dueño a las que se barre la ganancia).
 
-    `pairs` son (desde, hacia) de todos los movimientos. Devuelve (W, cuentas agregadas)."""
-    partners = {}
+    Una cuenta sin código que les manda algo no entra: el bolsillo del PSM de Maker también
+    es una cuenta sin código y paga USDC en los swaps DAI→USDC. `pairs` son (desde, hacia)
+    de todos los movimientos. Devuelve (W, cuentas agregadas)."""
+    receives, sends = {}, set()
     for f, t in pairs:
-        partners.setdefault(f, set()).add(t)
-        partners.setdefault(t, set()).add(f)
-    cands = {a for a, ps in partners.items() if a not in s0 and a not in exclude and ps <= s0}
+        receives.setdefault(t, set()).add(f)
+        sends.add(f)
+    cands = {a for a, src in receives.items()
+             if a not in s0 and a not in exclude and a not in CODELESS_PROTOCOL_ACCOUNTS and a not in sends
+             and src <= s0}
     extra = {a for a in cands if is_eoa(a)}
     return s0 | extra, extra
 
@@ -648,6 +653,7 @@ class Collector:
         # Contrapartes fuera de W: cuánto les sale y cuánto vuelve de cada una. Un destino al que solo
         # le sale valor (sumidero) es subasta, builder o tesorería del bot; si devuelve algo, es un swap.
         cps = {}
+        senders = {f for _, f, _, _ in moves}
         for tok, f, t, v in moves:
             if (f in w) == (t in w):
                 continue
@@ -686,8 +692,12 @@ class Collector:
             "third_party_eth": third_wei / 1e18 if native is not None else None,
             "third_party_to": {a: v / 1e18 for a, v in sorted(paid.items(), key=lambda kv: -kv[1])[:3] if v}
             if native is not None else {},
-            "counterparties": {a: [round(c[0], 4), round(c[1], 4), c[2], c[3]]
-                               for a, c in sorted(cps.items(), key=lambda kv: -max(kv[1][0], kv[1][1]))[:8]},
+            # Las 8 contrapartes más grandes y, siempre, toda la que recibió ETH (pujas y builder).
+            # El quinto campo dice si esa cuenta le mandó algo a cualquiera en la tx (un pool o un
+            # enrutador reenvía; una tesorería solo recibe).
+            "counterparties": {a: [round(c[0], 4), round(c[1], 4), c[2], c[3], a in senders]
+                               for i, (a, c) in enumerate(sorted(cps.items(), key=lambda kv: -max(kv[1][0], kv[1][1])))
+                               if i < 8 or c[2] > 0},
             "unpriced": unpriced,
             "net_flows": ", ".join(f"{sym} {amt:+.6g}" for sym, amt in parts)[:240],
         }
@@ -858,7 +868,7 @@ class Collector:
             if real.get("third_party_to"):
                 r["third_party_to"] = {a: v * wgt for a, v in real["third_party_to"].items()}
             if real.get("counterparties") is not None:
-                r["counterparties"] = {a: [c[0] * wgt, c[1] * wgt, c[2] * wgt, c[3]]
+                r["counterparties"] = {a: [c[0] * wgt, c[1] * wgt, c[2] * wgt] + list(c[3:])
                                        for a, c in real["counterparties"].items()}
             r["redeposit"] = bool(real.get("redeposit"))
             alt = real.get("with_entry")
@@ -872,7 +882,7 @@ class Collector:
                     "w_extra": alt.get("w_extra") or [],
                     "net_flows": alt["net_flows"],
                     "third_party_to": {a: v * wgt for a, v in (alt.get("third_party_to") or {}).items()},
-                    "counterparties": {a: [c[0] * wgt, c[1] * wgt, c[2] * wgt, c[3]]
+                    "counterparties": {a: [c[0] * wgt, c[1] * wgt, c[2] * wgt] + list(c[3:])
                                        for a, c in (alt.get("counterparties") or {}).items()},
                 }
             if eth_usd:

@@ -209,6 +209,13 @@ KNOWN_SHARED_ENTRIES = frozenset({
     ("base", "0x583dcfef0d240dc80753f0f0b26513fee27d9b77"),
 })
 
+# Cuentas sin código que son parte de un protocolo (no billeteras de un bot). Verificado a mano:
+# el bolsillo del LitePSM-USDC de Maker recibe y paga USDC en los swaps DAI↔USDC
+# (tx 0x7fc99655…a5cd y 0x5453e660…959b en Ethereum).
+CODELESS_PROTOCOL_ACCOUNTS = frozenset({
+    "0x37305b1cd40574e4c5ce33f8e8306be057fd7341",
+})
+
 # Ventana extra antes del inicio para encontrar la última actualización de
 # oráculo de las primeras liquidaciones (heartbeats de hasta 24 h).
 ORACLE_LOOKBACK_SECONDS = 26 * 3600

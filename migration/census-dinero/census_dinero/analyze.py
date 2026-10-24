@@ -121,11 +121,14 @@ ZERO = "0x" + "0" * 40
 
 
 def sink_users(recs):
-    """Liquidadores distintos que mandan valor a cada sumidero (contraparte que no devuelve nada)."""
+    """Por destino (cadena, dirección): liquidadores distintos que le mandan valor sin recibir nada
+    de vuelta, y si en algún lado del conjunto ese destino le devolvió algo a un liquidador."""
     users = defaultdict(set)
     for r in recs:
         for a, c in (r.get("counterparties") or {}).items():
-            if c[0] > 0 and c[1] == 0:
+            if c[1] > 0:
+                users[("devuelve", r["chain"], a)].add(r.get("liquidator"))
+            elif c[0] > 0:
                 users[(r["chain"], a)].add(r.get("liquidator"))
     return users
 
@@ -136,16 +139,18 @@ def sink_kind(r, a, users):
     key = (r["chain"], a)
     if key in KNOWN_SHARED_ENTRIES or len(users.get(key, ())) >= 2:
         return "compartido"
-    return "tesoreria"
+    return "uno"
 
 
 def derive(r, users=None):
     """Campos derivados: propina, pagos por el orden (OEV y builder), tesorería del bot y ruta.
 
     Con `counterparties` (corridas nuevas) cada contraparte fuera de W se clasifica: si devuelve
-    algo es un swap o préstamo (su costo queda en "resto"); si solo recibe, es el builder del bloque,
-    una subasta compartida (≥ 2 liquidadores o conocida) o la tesorería del mismo bot, cuyo saldo
-    cuenta como ganancia. Sin `counterparties` (corridas viejas) se usa solo el ETH a terceros."""
+    algo es un swap o préstamo (su costo queda en "resto"). Si solo recibe: el coinbase es el
+    builder; el ETH a un destino que cobra de 2 o más liquidadores (o subasta conocida) es OEV;
+    un destino de un solo liquidador que no reenvía nada en la tx, nunca le devuelve nada a un
+    liquidador y recibe a lo más el bono es la tesorería del bot (cuenta como ganancia). Lo demás (pago de deuda al aToken, tramos de una
+    ruta de swaps) queda en "resto". Sin `counterparties` (corridas viejas) se usa el ETH a terceros."""
     eth = r.get("eth_usd")
     prio = (r.get("priority_eth") or 0) * eth if eth else None
     r["priority_usd"] = prio
@@ -153,16 +158,25 @@ def derive(r, users=None):
     if cps is not None and not r.get("_attributed"):
         r["_attributed"] = True
         builder = oev = treasury = 0.0
-        for a, (out, inn, _eth, _unpriced) in cps.items():
+        b = r.get("bonus_usd") or 0.0
+        cps = dict(cps)
+        for a, e in (r.get("third_party_to") or {}).items():
+            if a not in cps and eth:
+                cps[a] = [e * eth, 0.0, e, False]      # corridas con contrapartes truncadas a 8
+        for a, c in cps.items():
+            out, inn, out_eth = c[0], c[1], c[2]
+            forwards = c[4] if len(c) > 4 else None       # None: corrida sin ese dato
             if out <= 0 or inn > 0 or a == ZERO:
-                continue
+                continue                     # swap, préstamo o quema: su costo queda en "resto"
             kind = sink_kind(r, a, users or {})
+            eth_part = min(out, out_eth * eth) if eth else 0.0
             if kind == "builder":
                 builder += out
             elif kind == "compartido":
-                oev += out
-            else:
-                treasury += out
+                oev += eth_part              # las subastas cobran en ETH; tokens a un aToken o pool no son OEV
+            elif (forwards is False and not (users or {}).get(("devuelve", r["chain"], a))
+                  and out <= max(1.1 * b, b + 25)):
+                treasury += out              # barrido de ganancia a otro contrato del mismo bot
         r["builder_direct_usd"], r["oev_usd"], r["treasury_usd"] = builder, oev, treasury
         if r.get("realized_usd") is not None:
             r["realized_raw_usd"] = r["realized_usd"]
