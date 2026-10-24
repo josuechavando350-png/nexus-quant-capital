@@ -453,7 +453,11 @@ Las otras ocho filas siguen sin observación de pago directo. H23 añade un octa
 lote dependiente de H22. Runtime v6 exige reproducirlo en el worker desconectado,
 invalidar los ocho lotes y preservar sus bytes tras restaurar. Vincula la política
 Titan y rechaza cobertura o utilidad inventadas; conserva el alcance de v1-v5.
-La validación remota del productor exacto sigue pendiente. Ver
+**H23 cerrado: 654/654 pruebas locales y 4/4 controles del incremento.** Forks,
+replay desconectado y auditoría independiente de artefactos/API/logs aprobaron el
+productor `3448f173305d765f3cdf9a5494571b34a16c0e34` en el
+[run 40050771588](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/40050771588).
+No cambia la ausencia de cobertura Titan por operación ni de costos completos. Ver
 [contrato](DIRECT_PAYMENT_CONTRACT.md) y [auditoría](AUDIT_H23.md).
 
 ## H24 — financiación histórica con Morpho (borrador local)

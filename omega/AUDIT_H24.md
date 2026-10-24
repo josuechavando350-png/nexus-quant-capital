@@ -1,7 +1,7 @@
 # H24 — historical flash financing, initial draft
 
 Base: H23 producer `3448f173305d765f3cdf9a5494571b34a16c0e34`.
-H23's ongoing remote run has no H24 scope.
+H23's exact-producer remote run completed successfully; it has no H24 scope.
 
 Read-only public Routescan acquisition returned the exact historical rank-1 receipt
 with 17 logs. HTTP 200, the exact URL, retrieval time and original response body
@@ -50,3 +50,31 @@ These are session results, not remote CI artifacts. No ninth store batch or new
 runtime/physical execution is claimed. Original sources, workflow and Titan-only
 zero-operator-gas policy remain unchanged. Product certification 0/36, complete
 paid-cost rows 0/127, Titan coverage 0.
+
+## Complete local regression
+
+**672/672 unique Omega tests pass**, including 18 new financing cases, with zero
+failures, errors, skips or expected failures (654.659 seconds). All recorded test
+source hashes still match the published code. Full result SHA256:
+`16f3a5cb7a9d811ec483e9ed4d7a9b76ce0df3c70b95a4230a77756c8477d025`;
+commitment `7a89111a55093e89aba63e2ed030c22ef7c94584efb6de55b35dbeaa9739a9a9`.
+Final isolation passes with the same 176/531/106 counts and unchanged workflow.
+
+Feature commit: `a33fa4249d1f96765854c9d29c5e3d9e089d6521`; tree:
+`3bcd8e67397bc431eaae88ddd3dec4bffd3fe54b`. PR #33 remains a local-tested draft.
+Only Markdown is updated after this tested source checkpoint. No H24 remote run,
+NQC Morpho execution, new store/runtime integration or Titan coverage is claimed.
+
+Next bounded work: bind this reader as H23's dependent ninth batch and add an
+independently reproduced disconnected runtime record. A separate Morpho execution
+experiment must use an additive overlay/fresh build copy, authenticate the lender's
+deployed code and anchor liquidity, and measure repayment plus gas. Do not reuse
+the Aave fork's gas profile or infer savings from its different fee. Preserve Titan
+as gas payer and keep executable admission blocked until operation-specific
+coverage, repayment, compensation and complete costs are evidenced.
+
+## Upstream documentation synchronization
+
+H23 Markdown-only closure `92867c001394ae3aa8091c8b82fcf0bfd13b4ce6` is merged into this draft.
+The H24 feature/test/capture bytes remain those of `a33fa4249d1f96765854c9d29c5e3d9e089d6521`.
+The successful H23 run does not validate H24; this PR remains a local-tested draft.

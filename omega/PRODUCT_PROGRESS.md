@@ -281,7 +281,13 @@ not a complete paid-cost row or a Titan-covered NQC execution. An eighth depende
 SQLite batch and runtime v6 now bind the observation to H22 and the Titan policy.
 The disconnected worker revokes the root, restores the snapshot and checks normal
 reads are blocked while forensic bytes survive for all eight batches. Historical
-v1-v5 proof scopes remain frozen. Exact-producer remote H23 validation remains open.
+v1-v5 proof scopes remain frozen.
+
+H23 closes **4/4 (100% of this increment)**: **654/654 local tests**, exact-producer
+forks/replay and independent API/artifact/log verification pass for producer
+`3448f173305d765f3cdf9a5494571b34a16c0e34`, run 40050771588. Eight batches remain
+blocked after controlled root revocation/restore with preserved forensic bytes.
+No new Rust transport, NQC execution or operation-specific Titan coverage is claimed.
 
 ## H24 historical flash financing (local draft)
 
