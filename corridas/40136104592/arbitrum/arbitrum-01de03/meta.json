@@ -1,0 +1,816 @@
+{
+  "archive_disabled": false,
+  "chain": "arbitrum",
+  "elapsed_s": 113.9,
+  "enriched": 79,
+  "errors_sample": [],
+  "events": 79,
+  "events_complete": true,
+  "events_cover_block": 511709322,
+  "fatal_error": null,
+  "interrupted": false,
+  "native_trace_sources": {
+    "debug_traceTransaction": 79
+  },
+  "oracle_contracts_watched": 23,
+  "oracle_status": {
+    "sin_ver": 10
+  },
+  "phases_s": {
+    "enriquecimiento": 35.8,
+    "eventos": 1.9,
+    "evidencia": 10.4,
+    "metadatos": 7.2,
+    "oraculos": 20.2,
+    "segunda_pasada": 0.0,
+    "sonda": 28.2,
+    "ventana": 10.0
+  },
+  "price_sources": {
+    "defillama": 0,
+    "oraculo": 227,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "aave",
+    "morpho"
+  ],
+  "rpc_calls": 1040,
+  "rpc_providers": {
+    "https://1rpc.io/arb": {
+      "en_rotacion": true,
+      "err": 2,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 2,
+          "errores": {
+            "missing trie node 1924cacc1a3c6d9c05ff38a2b9d4e9074cb6fb95a0b375caa0fd8b0b425dac98 (path ) state 0x1": 1,
+            "missing trie node cb45f5de6e899a8369e8e70d61f5548e01745ad53a1cc7c91f6f4e343fc209e8 (path ) state 0xc": 1
+          },
+          "ms_prom": 435,
+          "ok": 6
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 5,
+      "sin_metodo": [
+        "debug_traceTransaction",
+        "eth_call@archive",
+        "eth_getLogs",
+        "trace_transaction"
+      ]
+    },
+    "https://api.zan.top/arb-one": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    },
+    "https://arb-pokt.nodies.app": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 1
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "debug_traceTransaction",
+        "eth_getLogs",
+        "trace_transaction"
+      ]
+    },
+    "https://arb1.arbitrum.io/rpc": {
+      "en_rotacion": true,
+      "err": 1,
+      "getlogs_max": 100000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 105,
+          "ok": 60
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 106,
+          "ok": 118
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 135,
+          "ok": 1
+        },
+        "eth_getLogs": {
+          "err": 1,
+          "errores": {
+            "HTTP 429 en arb1.arbitrum.io": 1,
+            "query spans 112502 blocks (508324527 to 508437028), but only 100000 are allowed for this request; na": 1
+          },
+          "ms_prom": 178,
+          "ok": 20
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 106,
+          "ok": 1
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 153,
+          "ok": 3
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 203,
+      "sin_metodo": [
+        "debug_traceTransaction",
+        "trace_transaction"
+      ]
+    },
+    "https://arbitrum-one-rpc.publicnode.com": {
+      "en_rotacion": true,
+      "err": 8,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 112,
+          "ok": 70
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 114,
+          "ok": 80
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 111,
+          "ok": 8
+        },
+        "eth_getTransactionReceipt": {
+          "err": 8,
+          "errores": {
+            "HTTP 403 en arbitrum-one-rpc.publicnode.com": 8
+          },
+          "ms_prom": 114,
+          "ok": 0
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 158,
+      "sin_metodo": [
+        "debug_traceTransaction",
+        "eth_getLogs"
+      ]
+    },
+    "https://arbitrum-one.public.blastapi.io": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 109,
+          "ok": 2
+        },
+        "eth_call@archive": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 148,
+          "ok": 212
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 112,
+          "ok": 2
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 113,
+          "ok": 66
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 146,
+          "ok": 73
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 118,
+          "ok": 1
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 355,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    },
+    "https://arbitrum.api.onfinality.io/public": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://arbitrum.blockpi.network/v1/rpc/public": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://arbitrum.drpc.org": {
+      "en_rotacion": true,
+      "err": 3,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 3,
+          "errores": {
+            "historical state is not available": 3
+          },
+          "ms_prom": 253,
+          "ok": 86
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 105,
+          "ok": 4
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 111,
+          "ok": 2
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 110,
+          "ok": 2
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 201,
+          "ok": 1
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 93,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    },
+    "https://arbitrum.llamarpc.com": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://arbitrum.meowrpc.com": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    },
+    "https://arbitrum.rpc.subquery.network/public": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://endpoints.omniatech.io/v1/arbitrum/one/public": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://gateway.tenderly.co/public/arbitrum": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 101,
+          "ok": 3
+        },
+        "eth_call@archive": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 1
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 97,
+          "ok": 2
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 97,
+          "ok": 1
+        },
+        "eth_getLogs": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 779,
+          "ok": 22
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 95,
+          "ok": 1
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 133,
+          "ok": 80
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 109,
+      "sin_metodo": []
+    }
+  },
+  "second_pass": {
+    "intentadas": 0
+  },
+  "sonda": [
+    {
+      "archivo": false,
+      "archivo_error": "HTTP 403 en arbitrum-one-rpc.publicnode.com",
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 403 en arbitrum-one-rpc.publicnode.com",
+      "getlogs_max": 0,
+      "ms": 123,
+      "proveedor": "https://arbitrum-one-rpc.publicnode.com",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 403 en arbitrum-one-rpc.publicnode.com",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 403 en arbitrum-one-rpc.publicnode.com",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "archivo": false,
+      "archivo_error": "HTTP 400 en arbitrum.drpc.org",
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "ok": 1
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "ok": 2
+      },
+      "getlogs_error": "HTTP 400 en arbitrum.drpc.org",
+      "getlogs_max": 0,
+      "ms": 44,
+      "proveedor": "https://arbitrum.drpc.org",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 400 en arbitrum.drpc.org",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 400 en arbitrum.drpc.org",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "archivo": false,
+      "archivo_error": "historical state 93d182e1bb4c6398488d677a6cffd79f7f7d07d23645597397cf6be597159366 is not available",
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "getlogs_max": 2000000,
+      "getlogs_ms": 125,
+      "ms": 105,
+      "proveedor": "https://arb1.arbitrum.io/rpc",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "the method trace_transaction does not exist/is not available",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "the method trace_transaction does not exist/is not available",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "archivo": true,
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "Method debug_traceTransaction not allowed",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "Method debug_traceTransaction not allowed",
+        "ok": 0
+      },
+      "getlogs_error": "eth_getLogs is limited to 0 - 50 blocks range",
+      "getlogs_max": 0,
+      "ms": 117,
+      "proveedor": "https://1rpc.io/arb",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "Method trace_transaction not allowed",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "Method trace_transaction not allowed",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "archivo": false,
+      "archivo_error": "HTTP 429 en arbitrum.meowrpc.com",
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "The method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 429 en arbitrum.meowrpc.com",
+        "ok": 0
+      },
+      "getlogs_error": "The method eth_getLogs is not supported.",
+      "getlogs_max": 0,
+      "ms": 259,
+      "proveedor": "https://arbitrum.meowrpc.com",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 429 en arbitrum.meowrpc.com",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 429 en arbitrum.meowrpc.com",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "archivo": true,
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "HTTP 401 en arbitrum-one.public.blastapi.io",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 401 en arbitrum-one.public.blastapi.io",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 400 en arbitrum-one.public.blastapi.io",
+      "getlogs_max": 0,
+      "ms": 116,
+      "proveedor": "https://arbitrum-one.public.blastapi.io",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 401 en arbitrum-one.public.blastapi.io",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 401 en arbitrum-one.public.blastapi.io",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "archivo": true,
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "HTTP 429 en gateway.tenderly.co",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 429 en gateway.tenderly.co",
+        "ok": 0
+      },
+      "getlogs_max": 2000000,
+      "getlogs_ms": 193,
+      "ms": 168,
+      "proveedor": "https://gateway.tenderly.co/public/arbitrum",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 429 en gateway.tenderly.co",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 429 en gateway.tenderly.co",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "error": "HTTP 429 en arbitrum.api.onfinality.io",
+      "ms": 1176,
+      "proveedor": "https://arbitrum.api.onfinality.io/public",
+      "vivo": false
+    },
+    {
+      "archivo": true,
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "Method not available on this plan: debug_traceTransaction. Upgrade your subscription at https://nodies.app/pricing for full method access.",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "Method not available on this plan: debug_traceTransaction. Upgrade your subscription at https://nodies.app/pricing for full method access.",
+        "ok": 0
+      },
+      "getlogs_error": "Block range too large: maximum allowed is 50 blocks on your current plan. Upgrade your subscription at https://nodies.app/pricing for larger ranges.",
+      "getlogs_max": 0,
+      "ms": 105,
+      "proveedor": "https://arb-pokt.nodies.app",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "Method not available on this plan: trace_transaction. Upgrade your subscription at https://nodies.app/pricing for full method access.",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "Method not available on this plan: trace_transaction. Upgrade your subscription at https://nodies.app/pricing for full method access.",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "archivo": false,
+      "archivo_error": "HTTP 429 en api.zan.top",
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "HTTP 429 en api.zan.top",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 429 en api.zan.top",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 429 en api.zan.top",
+      "getlogs_max": 0,
+      "ms": 781,
+      "proveedor": "https://api.zan.top/arb-one",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 400 en api.zan.top",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 400 en api.zan.top",
+        "ok": 0
+      },
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {
+    "debug_traceTransaction: historical state is not available": 3
+  },
+  "tramo": {
+    "end_ts": 1791144000,
+    "label": "arbitrum-01de03",
+    "start_ts": 1790280000
+  },
+  "transactions": 79,
+  "web_calls": 42,
+  "web_sources": {
+    "blockscout": {
+      "error": "HTTP 403 en https://arbitrum.blockscout.com/api/v2/transactions/0xae443af85bf506f8dae84db819b7d76456999648240ef63987e9ac",
+      "ok": false
+    },
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 0.2733,
+    "days": 10.0,
+    "end_block": 511709322,
+    "end_ts": 1791144000,
+    "first_block_ts": 1790280000,
+    "lookback_block": 508199526,
+    "start_block": 508545155,
+    "start_ts": 1790280000
+  },
+  "with_bonus_usd": 79,
+  "with_oracle_delta": 69,
+  "with_realized": 79,
+  "with_realized_complete": 75
+}
