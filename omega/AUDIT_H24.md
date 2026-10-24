@@ -128,3 +128,134 @@ original Git objects remain unchecked locally.
 | Isolation | `4b5f1c8abce1b3008500444cfa2c31772274726684812cceae31575494d056a6` |
 | Independent retained bytes/boundaries | `c77f473d5cbe2714796e65b10f2132d6afbed700ca07d4ddf071803774d8e2b9` |
 | Authentic H23 v6 compatibility | `5523c478bc0d381b3d95b4ddbad40061c8376e8016a4c91ee4813152f57b70d4` |
+
+## Complete integration regression
+
+The first full invocation omitted `NQC_D15_ARCHIVE` and `NQC_D16_ARCHIVE`.
+It executed 688 cases but skipped six real-archive cases, so the strict recorder
+correctly reported `TESTS_INCOMPLETE_OR_FAILED` despite unittest's permissive
+success flag. It is not counted as a full pass. Report SHA256:
+`6e2c6142f0ae4918dd2e3b53e648d003f821faba464965f2357780981029b3c9`.
+
+The same producer was rerun with the retained D15/D16 archives supplied.
+**688/688 unique cases pass** in 1029.848 seconds: zero failures, errors, skips,
+expected failures or unexpected successes. All 30 test-source hashes match the
+producer. Strict report SHA256:
+`db21ed8de60a05c4e18b40926e9f22e7bde3f930a39eb37b60b0140003394594`;
+report commitment:
+`0d19b86cf38278739c0eb902c497b1692456861bbfb9ac37b9e7dbc6c300c00f`.
+Both reports and logs are retained so the incomplete invocation is not hidden.
+No code was changed between the two invocations.
+
+Exact producer `7dd91b7f95b400b6abecaba0119da5bce0491999`, tree
+`8f5d85ad7cc22cd02c158791f4252f385cbc99b3`, was promoted by a non-force
+fast-forward of the existing audit branch. Run 40054817457, attempt 1, started
+at 2026-10-24T02:35:39Z using the unchanged workflow. PR #33 was automatically
+marked merged by GitHub. These facts alone do not establish a successful remote
+audit; the final API/artifact/log outcome is recorded below when complete.
+
+## Separate read-only Morpho research checkpoint
+
+After the H24 producer was fixed, a separate scratch experiment authenticated the
+Morpho runtime at the end of historical block 25938048, hash
+`0xf143f9988199037938e4dff57aaf24301a4c26770aefc0ec64774954cbf2dbe4`.
+The verified source was compiled with exact Solidity 0.8.19 settings, and only its
+two compiler-declared DOMAIN_SEPARATOR immutable slots were populated. All 15,623
+runtime bytes, including metadata, matched two public RPC providers. Runtime
+Keccak: `0xfa259fa317198f88f5fa3c119f06c066295dbcd47d715e0a30e1bcf94c02ef8c`.
+
+Offline account-proof verification traversed eight nodes per provider, bound the
+code hash to stateRoot and recomputed the 21-field RLP header to the previously
+captured block hash. Fourteen deliberate proof/header/code alterations rejected.
+This establishes membership relative to that captured block hash, not independent
+consensus/finality verification, transaction-prestate or token storage proofs.
+
+Both providers also returned the same read-only eth_call creation simulation:
+10684013854557827871 WETH wei borrowed and repaid, one authenticated callback,
+zero probe balance before/after, zero remaining allowance and unchanged lender
+balance. Wrong-block and wrong-code controls rejected on both providers (4/4).
+The measured 161955 inner-call gas excludes deployment, intrinsic gas and final
+refund accounting; it is not an all-in execution cost, gas saving or paid fee.
+No signed transaction, public-chain deployment, state override or funding occurred.
+
+Five offline research verifiers pass, including request/compiler/response hash
+bindings. Their source, captured responses, compiler inputs/outputs and reports
+are retained in the evidence bundle. The first large-literal probe compiler attempt
+terminated with SIGSEGV; only the compact code-hash-guard probe produced successful
+compilation and simulation. The failed input is retained separately.
+
+This later experiment is not an H24 runtime record or an NQC liquidation route.
+It does not alter H24's original witness flags or inherit the producer's remote
+execution. Current liquidity, transaction-prestate, complete costs, realized profit
+and operation-specific Titan coverage remain unproven. Admission stays blocked:
+Titan must pay gas, operator allowance is zero and own-gas fallback is forbidden.
+
+| Separate research report | SHA256 |
+|---|---|
+| Source/runtime reproduction | `a6dd309bed068379f661beb4177ea29ffe45a130bf4c2d074702f531d7849311` |
+| Header/account proof | `30f59938887269167cc7ec966cfc23df4506fa477dffe947274ff3ab36d4f8c2` |
+| Two-provider round trip | `398bb96a908c8e172965c27b66b870c26876b3cfa22f54bfb2be1fcd6e488617` |
+| RPC negative controls | `bbc000588bf4f04fd8de2d62f63a126ba7fba292d1d6b7a20c51d3cdd0f79e31` |
+| Request/compiler bindings | `fcccc0d97592386921b98e9ed2f3ca43bd821e6823ce0e2d37de70f4ebbf5318` |
+
+A local final-isolation precheck rejected one generated `omega/__pycache__` file.
+Only that generated `.pyc` was removed; no tracked bytes changed. Rechecking with
+`PYTHONDONTWRITEBYTECODE=1` passes the same 176/531/106 boundary. The rejected
+precheck and successful result are both retained. Original Git object verification
+remains a remote-job responsibility.
+
+## Final exact-producer outcome
+
+Run **40054817457**, attempt 1, producer
+`7dd91b7f95b400b6abecaba0119da5bce0491999`, tree `8f5d85ad7cc22cd02c158791f4252f385cbc99b3`,
+completed successfully at 2026-10-24T03:12:02Z. Both jobs and every step passed.
+Closure edits after this producer are Markdown only; later code cannot inherit
+this execution.
+
+| Stage | Job | Artifact | ZIP SHA256 | External capture SHA256 |
+|---|---|---|---|---|
+| forks | 120755351970 | 12545945409 | `1b39a9041ed2ee14b1095a3c8103d89a1cbc70597ea22fe4b59ce8d96ed96981` | `e8c3edfd1b3fc60b611d385557c53238332684c10acc26c541fd99296de9ac3c` |
+| replay | 120755351762 | 12545957463 | `8717e18e2c1de3d1da09563aea59549467e1925c9fd9d9b67de86262fb8e978c` | `3a856c8b0ae9f37389b67f49b33fa0e15d2c862fe9dd58499adb7d575779d85c` |
+
+Independent GitHub API readback, downloaded ZIPs and full decoded job logs agree
+on repository, commit/tree, workflow, run/attempt and all evidence records: 43 for
+forks and 46 for replay. Each job passes 261 intake, 43 runner, 38 capture, 33 store,
+10 pipeline and 28 runtime tests: 413 executions per job, not additional unique
+cases. Every recorded test-source hash matches the producer. Physical checks pass
+56 PFT Rust, 528 Census Rust, 14 offline Solidity tests, four historical fork
+executions and 16 verified disconnected replay steps.
+
+Original Git objects and isolation pass before/after both jobs: 176 reviewed Omega
+files, 531 original files, 106 disabled legacy workflows and the unchanged active
+workflow/permissions. Historical source/store roots remain unchanged. Existing
+H19/H20 Rust transport probes and historical Aave execution retain their scope.
+
+The new H24 record is reconstructed in the same physical disconnected worker:
+loopback only, a namespace distinct from its parent and no routable network. All
+nine normal batch reads fail after controlled root revocation in both source and
+restored SQLite stores; every batch's forensic object bytes survive. The emitted
+worker report equals the v7 artifact and binds H23's batch/root/report, H21's
+economics commitment and the exact Titan policy. This is not new Rust transport,
+canonical reorg recovery or a Morpho liquidation executed by NQC.
+
+Independent checks retain the same historical principal and repayment:
+10684013854557827871 WETH wei each, with zero observed WETH repayment premium.
+The H24 runtime record leaves other financing costs, deployed lender-code identity,
+current liquidity and the NQC Morpho route unproven. The later code/account proof
+has its separate scope above. Gas and direct fee-recipient payment remain separate.
+No zero total-cost or realized-profit claim is admitted.
+
+Titan remains the required gas payer: zero operator allowance, no prefund and no
+own-gas fallback. Policy hash:
+`e2c0b1ea247597de667d093385990880a31519b594f68cae31618ba425f87540`.
+No Titan submission, coverage receipt, signing, broadcast, funding or deployment
+was added.
+
+- Forks post-audit commitment: `08c274e021f2e81d01158394f9663d72063968a30dfe981e049434f9dd88606f`; log SHA256: `8a9c288dddda645f63436f22a7b29bf78407aedeed5f6fbcad5b5ac9769cdacf`.
+- Replay post-audit commitment: `a757920ef41553b2e0413ac05071d0fb10a0839f99d276cafe8a83fed598dd73`; log SHA256: `e6cca668913b636f7e3ecf14b8cdb70d9f84d93fbb25cf0e4cc9e8bc70ea17fa`.
+- Financing replay commitment: `8344a3c4c66fffa5778d17415ab8c84f5eb24b0f53425d2522e7d9a317d7ec93`.
+
+H24 engineering closure: **4/4 (100% of this increment)**, with **688/688** unique
+local tests, 34 new cases over H23 and 16 over the initial H24 intake. Product
+certification remains 0/36, Census 0/9, complete paid-cost rows 0/127 and
+Titan-covered NQC executions zero. The next execution experiment remains separate.

@@ -302,5 +302,10 @@ batch/root/report, H21 economics and the unchanged Titan gas policy. All nine
 normal reads must remain blocked after controlled revocation and exact restore,
 while all forensic bytes survive. The packet consumer independently reproduces
 the result in the same isolated-namespace scope as the other replay records.
-Historical v1-v6 scopes remain frozen. Full integration regression and remote H24
-verification remain pending; the earlier 672-test result covers the intake draft.
+Historical v1-v6 scopes remain frozen.
+
+H24 closes **4/4 (100% of this increment)**: **688/688 local tests**, exact-producer
+forks/replay and independent API/artifact/log verification pass for producer
+`7dd91b7f95b400b6abecaba0119da5bce0491999`, run 40054817457. Nine batches remain blocked after controlled
+root revocation/restore with preserved forensic bytes. No new Rust transport,
+NQC Morpho execution, full-cost row or operation-specific Titan coverage is claimed.

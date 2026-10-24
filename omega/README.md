@@ -471,6 +471,10 @@ ruta Morpho para NQC. **Titan continúa siendo el proveedor exigido para el gas*
 sin aporte ni alternativa propia. Un noveno lote depende de H23; runtime v7 exige
 reproducirlo sin red, revocar los nueve lotes, restaurarlos y conservar sus datos
 forenses mientras bloquea las lecturas normales. Vincula los compromisos previos
-y la misma política Titan, conservando el alcance de v1-v6. La validación del
-productor H24 exacto sigue pendiente. Ver [contrato](FLASH_FINANCING_CONTRACT.md) y
+y la misma política Titan, conservando el alcance de v1-v6. **H24 cerrado:
+688/688 pruebas locales y 4/4 controles del incremento.** Forks, replay desconectado
+y auditoría independiente de API/artefactos/logs aprobaron el productor
+`7dd91b7f95b400b6abecaba0119da5bce0491999` en el
+[run 40054817457](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/40054817457).
+La ruta Morpho de NQC, costos completos y cobertura Titan por operación siguen abiertos. Ver [contrato](FLASH_FINANCING_CONTRACT.md) y
 [auditoría](AUDIT_H24.md).
