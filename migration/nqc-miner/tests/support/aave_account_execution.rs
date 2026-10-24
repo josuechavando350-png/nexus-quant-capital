@@ -1,4 +1,6 @@
 //! Original GenericLogic over two observed token paths and an explicit synthetic oracle.
+#[path = "aave_oracle_execution.rs"]
+mod aave_oracle_execution;
 use super::*;
 const ORACLE: &str = "0x5555555555555555555555555555555555555555";
 #[derive(Clone, Debug)]

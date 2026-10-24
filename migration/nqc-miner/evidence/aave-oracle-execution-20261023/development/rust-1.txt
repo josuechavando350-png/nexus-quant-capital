@@ -1,0 +1,15 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/162ea5393283/nqc/migration/nqc-miner)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.45s
+     Running tests/aave_debt_execution_tests.rs (/tmp/nqc-miner-target/debug/deps/aave_debt_execution_tests-17d48d7081572acf)
+
+running 7 tests
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::aave_oracle_execution::original_base_currency_and_maximum_signed_positive_answers_are_exact_read_only_calls ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::aave_oracle_execution::missing_routing_feed_account_and_answer_witnesses_fail_closed ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::aave_oracle_execution::fallback_failure_zero_address_and_late_usdc_failure_revert_complete_composition ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::aave_oracle_execution::actual_oracle_runtime_and_observed_source_routes_preserve_both_complete_payments ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::aave_oracle_execution::positive_source_ignores_fallback_but_source_revert_and_malformed_return_do_not_trigger_it ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::aave_oracle_execution::missing_source_zero_and_negative_signed_answers_use_original_fallback_for_both_assets ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::aave_oracle_execution::seeded_prices_thresholds_and_emode_match_prior_account_composition ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 82 filtered out; finished in 29.77s
+
