@@ -449,6 +449,9 @@ aproximadamente 99.75% del excedente bruto de ese caso, además del gas. El lect
 reconcilia tres páginas con 57 operaciones indexadas y conserva el valor inicial
 de 9975 wei y el remanente enviado a otra dirección. No identifica al builder,
 no atribuye cobertura a Titan y no presenta el remanente como ganancia neta.
-Las otras ocho filas siguen sin observación de pago directo. Es un incremento
-local separado de H22, pendiente de integración al store/runtime y auditoría
-remota. Ver [contrato](DIRECT_PAYMENT_CONTRACT.md) y [auditoría](AUDIT_H23.md).
+Las otras ocho filas siguen sin observación de pago directo. H23 añade un octavo
+lote dependiente de H22. Runtime v6 exige reproducirlo en el worker desconectado,
+invalidar los ocho lotes y preservar sus bytes tras restaurar. Vincula la política
+Titan y rechaza cobertura o utilidad inventadas; conserva el alcance de v1-v5.
+La validación remota del productor exacto sigue pendiente. Ver
+[contrato](DIRECT_PAYMENT_CONTRACT.md) y [auditoría](AUDIT_H23.md).

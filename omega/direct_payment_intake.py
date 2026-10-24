@@ -7,15 +7,21 @@ import argparse
 import copy
 import json
 from pathlib import Path
+import re
+import tempfile
 from urllib.parse import parse_qs, urlsplit
 
 from cashflow_intake import build_cashflow
+from evidence_store import admit, audit_store, create, export_store, read_batch, restore_store, revoke
 from execution_intake import build_execution_report, seal
 from historical_intake import AUTHORITIES, EVIDENCE, ROOT, build_ledger, need, same, utc
-from inclusion_fee_intake import address, build_inclusion_report, load_capture as inclusion_capture, uint
+from inclusion_fee_intake import (address, build_inclusion_report, load_capture as inclusion_capture,
+    query_inclusion_report, store_inclusion_report, uint)
 from integrity import canonical, digest, read_regular, strict_json
 
 CAPTURE_NAME = 'direct-payment-capture.json'
+REPORT_NAME = 'direct-payment-report.json'
+BINDING_NAME = 'direct-payment-parent.json'
 CAPTURE_SHA256 = 'b139de8b1dd63d1c87c629b6dbab4f4239c7a03b7a2d69082cffff61d6c43f12'
 BASE = 'https://api.routescan.io'
 PATH = '/v2/network/mainnet/evm/1/internal-operations'
@@ -164,6 +170,97 @@ def build_report(directory=EVIDENCE, root=ROOT):
 def verify_report(report, directory=EVIDENCE, root=ROOT):
     expected = build_report(directory, root)
     same(report, expected, 'direct_report_differs_from_sources'); return expected
+
+
+def store_report(path, root=ROOT):
+    upstream = store_inclusion_report(path, root)
+    parent = upstream['batch']; objects = read_batch(path, parent)
+    objects[CAPTURE_NAME] = read_regular(Path(root)/'omega/evidence'/CAPTURE_NAME)
+    with tempfile.TemporaryDirectory(prefix='omega-direct-admit-') as tmp:
+        for name, raw in objects.items(): (Path(tmp)/name).write_bytes(raw)
+        report = build_report(Path(tmp), root)
+    objects[REPORT_NAME] = canonical(report)
+    objects[BINDING_NAME] = canonical({'inclusion_batch': parent})
+    return {'batch': admit(path, objects, parents=[parent]), 'parent': parent,
+            'root_batch': upstream['root_batch'], 'report': report}
+
+
+def query_report(path, batch, root=ROOT):
+    objects = read_batch(path, batch)
+    binding = strict_json(objects[BINDING_NAME])
+    need(set(binding) == {'inclusion_batch'}, 'direct_parent_inventory')
+    parent = binding['inclusion_batch']
+    same(audit_store(path)['dependencies'].get(batch), [parent], 'direct_missing_declared_parent')
+    query_inclusion_report(path, parent, root)
+    inherited = read_batch(path, parent)
+    need(set(objects) == set(inherited) | {CAPTURE_NAME, REPORT_NAME, BINDING_NAME},
+         'direct_batch_inventory')
+    need(all(objects[n] == b for n, b in inherited.items()), 'direct_inherited_bytes_changed')
+    with tempfile.TemporaryDirectory(prefix='omega-direct-query-') as tmp:
+        for name, raw in objects.items(): (Path(tmp)/name).write_bytes(raw)
+        return verify_report(strict_json(objects[REPORT_NAME]), Path(tmp), root)
+
+
+def exercise_fields(directory, root=ROOT):
+    """Replay eight dependent batches; preserve all bytes after root revocation."""
+    directory = Path(directory); path = create(directory/'source.sqlite')
+    result = store_report(path, root); batch = result['batch']
+    same(query_report(path, batch, root), result['report'], 'direct_query_mismatch')
+    before = {b: read_batch(path, b) for b in audit_store(path)['active_batches']}
+    need(len(before) == 8 and batch in before, 'direct_active_inventory')
+    revoke(path, result['root_batch'], 'CONTROLLED_DIRECT_PAYMENT_DEPENDENCY_TEST',
+           b'TEST_ONLY_NOT_A_REAL_CANONICAL_REORG')
+    status = audit_store(path); snapshot = export_store(path)
+    restored = directory/'restored.sqlite'; restore_store(restored, snapshot)
+    same(audit_store(restored)['journal_head'], status['journal_head'], 'direct_restore_head')
+    same(export_store(restored), snapshot, 'direct_restore_changed')
+    for database in (path, restored):
+        try: query_report(database, batch, root)
+        except ValueError as e: need(str(e) == 'batch_inactive_or_missing', 'direct_block_reason')
+        else: raise ValueError('revoked_direct_query_accepted')
+        for ancestor, raw_objects in before.items():
+            try: read_batch(database, ancestor)
+            except ValueError as e: need(str(e) == 'batch_inactive_or_missing', 'direct_ancestor_block_reason')
+            else: raise ValueError('revoked_direct_ancestor_accepted')
+            need(read_batch(database, ancestor, include_revoked=True) == raw_objects,
+                 'direct_forensic_bytes_changed')
+    need(status['revoked_batches'] == [result['root_batch']]
+         and set(status['invalidated_batches']) == set(before)-{result['root_batch']}
+         and status['active_batches'] == [], 'direct_invalidation_partition')
+    report = result['report']
+    return {'schema': 'nqc.omega.direct-payment-local-replay.v1',
+        'status': 'DIRECT_PAYMENT_LOCAL_REPLAY_PASS', 'direct_payment_report': report,
+        'gas_funding_policy': copy.deepcopy(report['gas_funding_policy']),
+        'gas_policy_sha256': report['gas_policy_sha256'],
+        'direct_payment_batch': batch, 'inclusion_batch': result['parent'],
+        'root_batch': result['root_batch'], 'snapshot_sha256': digest(canonical(snapshot)),
+        'journal_head': status['journal_head'], 'blocked_batches': 8,
+        'forensic_bytes_preserved': True, 'restore_byte_identical': True,
+        'revoked_query_rejected': True, 'rust_transport_performed': False,
+        'certified_components': 0, 'census_closed': False}
+
+
+def verify_replay(report, root=ROOT):
+    network = report.get('network', {})
+    need(network.get('interfaces') == ['lo'] and network.get('routable_network') is False
+         and all(type(network.get(k)) is str and re.fullmatch(r'net:\[[0-9]+\]', network[k])
+                 for k in ('network_namespace', 'parent_network_namespace'))
+         and network['network_namespace'] != network['parent_network_namespace'], 'direct_network')
+    with tempfile.TemporaryDirectory(prefix='omega-direct-verify-') as tmp:
+        expected = exercise_fields(tmp, root)
+    expected['network'] = network
+    same(report, seal(expected), 'direct_replay_differs_from_sources'); return report
+
+
+def exercise(directory, network, root=ROOT):
+    from rust_store_intake import new_directory
+    directory = new_directory(directory, root)
+    print('OMEGA_DIRECT_PAYMENT_BEGIN', flush=True)
+    report = exercise_fields(directory, root); report['network'] = network; seal(report)
+    verify_replay(report, root)
+    (directory/'report.json').write_bytes(canonical(report))
+    print('OMEGA_DIRECT_PAYMENT_REPORT ' + canonical(report).decode().strip(), flush=True)
+    return report
 
 
 def main():

@@ -345,6 +345,10 @@ def replay(work: Path, head: str):
     inclusion = strict_json(read_regular(work / "inclusion-fees/report.json"))
     verify_inclusion_replay(inclusion)
     evidence("inclusion-fees", inclusion)
+    from direct_payment_intake import verify_replay as verify_direct_replay
+    payments = strict_json(read_regular(work / "direct-payments/report.json"))
+    verify_direct_replay(payments)
+    evidence("direct-payments", payments)
     return report
 
 
@@ -462,6 +466,9 @@ def main():
                            module.network_proof(args.parent))
         from inclusion_fee_intake import exercise as exercise_inclusion
         exercise_inclusion(args.out.parent / "inclusion-fees",
+                           module.network_proof(args.parent))
+        from direct_payment_intake import exercise as exercise_direct_payments
+        exercise_direct_payments(args.out.parent / "direct-payments",
                            module.network_proof(args.parent))
         observed_replay(args.source, args.out, args.repo, args.parent)
         return

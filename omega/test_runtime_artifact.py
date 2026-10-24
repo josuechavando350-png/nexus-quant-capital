@@ -13,7 +13,7 @@ from historical_pipeline import exercise
 from integrity import canonical, digest
 from runtime_artifact import (CODE_PATHS, LEGACY_SCHEMA, LEGACY_CODE_PATHS, MAX_PACKET, ROOT, SCHEMA,
                               TRANSPORT_SCHEMA, TRANSPORT_CODE_PATHS, DEPENDENCY_SCHEMA,
-                              DEPENDENCY_CODE_PATHS, ECONOMIC_SCHEMA, ECONOMIC_CODE_PATHS, inspect_packet,
+                              DEPENDENCY_CODE_PATHS, ECONOMIC_SCHEMA, ECONOMIC_CODE_PATHS, INCLUSION_SCHEMA, INCLUSION_CODE_PATHS, inspect_packet,
                               unpack, verify_artifact, write_packet)
 
 
@@ -178,8 +178,8 @@ class RuntimeArtifactTests(unittest.TestCase):
 
     def inclusion_packet(self):
         from test_inclusion_fee_intake import synthetic_replay
-        p=self.economic_packet();p['schema']=SCHEMA
-        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in CODE_PATHS}
+        p=self.economic_packet();p['schema']=INCLUSION_SCHEMA
+        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in INCLUSION_CODE_PATHS}
         network=next(r['value'] for r in p['records'] if r['name']=='network-isolation')
         value=synthetic_replay(network)
         p['records'][-1:-1]=[{'name':'inclusion-fees','value':value,'sha256':digest(canonical(value))}]
@@ -211,6 +211,40 @@ class RuntimeArtifactTests(unittest.TestCase):
             value['report_commitment_sha256']=digest(canonical(
                 {k:v for k,v in value.items() if k!='report_commitment_sha256'}))
             r['sha256']=digest(canonical(value));self.seal(p)
+            with self.assertRaisesRegex(ValueError,'differs_from_sources'):self.inspect(p)
+
+    def direct_payment_packet(self):
+        from test_direct_payment_intake import synthetic_replay
+        p=self.inclusion_packet();p['schema']=SCHEMA
+        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in CODE_PATHS}
+        network=next(r['value'] for r in p['records'] if r['name']=='network-isolation')
+        value=synthetic_replay(network)
+        p['records'][-1:-1]=[{'name':'direct-payments','value':value,'sha256':digest(canonical(value))}]
+        return self.seal(p)
+
+    def test_v6_requires_direct_payment_record_and_preserves_v5_scope(self):
+        p=self.direct_payment_packet();self.assertEqual(self.inspect(p)['records'],45)
+        self.assertLessEqual(len(canonical(p)),MAX_PACKET)
+        p['records']=[r for r in p['records'] if r['name']!='direct-payments'];self.seal(p)
+        with self.assertRaisesRegex(ValueError,'record_inventory'):self.inspect(p)
+        p['schema']=INCLUSION_SCHEMA
+        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in INCLUSION_CODE_PATHS}
+        self.seal(p);self.assertEqual(self.inspect(p)['records'],44)
+
+    def test_v6_rejects_direct_payment_proof_from_another_namespace(self):
+        from test_direct_payment_intake import reseal
+        p=self.direct_payment_packet();r=next(r for r in p['records'] if r['name']=='direct-payments')
+        r['value']['network']['network_namespace']='net:[999999]';reseal(r['value'])
+        r['sha256']=digest(canonical(r['value']));self.seal(p)
+        with self.assertRaisesRegex(ValueError,'direct_network_disagrees'):self.inspect(p)
+
+    def test_v6_rejects_resealed_profit_and_titan_coverage(self):
+        from test_direct_payment_intake import reseal
+        baseline=self.direct_payment_packet()
+        for key,value in [('complete_net_profit_wei','1'),('titan_coverage_proven',True)]:
+            p=copy.deepcopy(baseline);r=next(r for r in p['records'] if r['name']=='direct-payments')
+            report=r['value']['direct_payment_report'];report['records'][0][key]=value;reseal(report)
+            reseal(r['value']);r['sha256']=digest(canonical(r['value']));self.seal(p)
             with self.assertRaisesRegex(ValueError,'differs_from_sources'):self.inspect(p)
 
     def test_artifact_matches_external_capture_without_self_authentication_claim(self):

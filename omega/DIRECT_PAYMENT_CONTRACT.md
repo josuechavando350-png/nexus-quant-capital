@@ -45,8 +45,25 @@ paid-cost rows remain 0/127 and Titan-covered executions remain zero. Current
 Titan-only policy still prohibits operator gas, prefund and own-gas fallback.
 
 H22 source/report bytes and its exact-producer audit retain their original scope.
-This H23 reader has no eighth store batch, new runtime record, Rust transport or
-remote physical execution claim. Those are subsequent integration work.
+Admission adds an eighth SQLite batch with the H22 inclusion batch as its sole
+declared parent. Queries authenticate the parent recursively, reject extra or
+altered inherited objects and recompute the report from the pinned raw capture.
+Revoking either the immediate parent or any ancestor blocks the dependent query.
+
+Runtime v6 requires a `direct-payments` replay record. The worker reconstructs
+all eight batches in the existing disconnected namespace, revokes the root and
+restores an exact snapshot. Normal reads of every batch must fail in both stores;
+every batch's forensic bytes must remain identical. The consumer reproduces this
+exercise and binds the namespace, root and inclusion batch, H22 report commitment
+and exact Titan policy to the existing replay records. No changed payer, operator
+allowance, prefund, own-gas fallback, coverage or profit claim can pass by resealing.
+Historical v1-v5 packets retain their exact prior scope and cannot supply v6 proof.
+
+This is SQLite dependency/recovery validation, not new physical Rust transport,
+canonical reorg recovery, full trace execution or live Titan funding. Workflow,
+permissions, providers and Rust/Solidity source remain unchanged. Exact-producer
+remote execution and independent API/artifact/log verification are tracked in
+`AUDIT_H23.md`; the earlier H22 run cannot certify this increment.
 
 ```sh
 PYTHONDONTWRITEBYTECODE=1 python3 omega/direct_payment_intake.py

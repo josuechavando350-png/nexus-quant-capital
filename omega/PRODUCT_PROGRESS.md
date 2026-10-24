@@ -268,7 +268,7 @@ H22 closes **4/4 (100% within this increment)**, with **622/622 local tests** an
 source/store roots. The seventh batch's proof is SQLite replay/recovery, with no
 new physical Rust transport or execution-specific Titan coverage claim.
 
-## H23 direct fee-recipient observation (local checkpoint)
+## H23 direct fee-recipient observation and dependent replay
 
 One historical winner now has an indexed direct native payment to its block fee
 recipient. Three linked pages cover operation indices 0–56; a second API view
@@ -277,5 +277,8 @@ The reader binds original block/receipt identities, preserves the separate root
 value and distinguishes the residual recipient from the gas-paying sender.
 Builder identity, total compensation, full native balances and net profit remain
 unproven. This is one direct-payment observation in the nine-case WETH sample,
-not a complete paid-cost row or a Titan-covered NQC execution. Integration into
-an eighth store batch, a new runtime proof and remote H23 validation remain open.
+not a complete paid-cost row or a Titan-covered NQC execution. An eighth dependent
+SQLite batch and runtime v6 now bind the observation to H22 and the Titan policy.
+The disconnected worker revokes the root, restores the snapshot and checks normal
+reads are blocked while forensic bytes survive for all eight batches. Historical
+v1-v5 proof scopes remain frozen. Exact-producer remote H23 validation remains open.
