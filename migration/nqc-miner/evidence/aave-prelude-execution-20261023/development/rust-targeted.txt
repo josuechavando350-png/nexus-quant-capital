@@ -1,0 +1,15 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/162ea5393283/nqc/migration/nqc-miner)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.54s
+     Running tests/aave_debt_execution_tests.rs (/tmp/nqc-miner-target/debug/deps/aave_debt_execution_tests-17d48d7081572acf)
+
+running 7 tests
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::late_usdc_failure_reverts_initial_accrual_and_all_later_effects_in_both_modes ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::both_modes_require_actual_collateral_debt_total_and_implementation_witnesses ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::earlier_reserve_failure_wins_over_health_and_rolls_back_both_reserves ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::actual_token_caches_updated_indices_validation_and_both_payments_export_examples ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::every_initial_validation_failure_rolls_back_prior_index_and_treasury_updates ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::same_timestamp_skips_interest_and_zero_rates_preserve_indices ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::seeded_interest_reserve_factors_balances_and_two_delivery_modes_match_models ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 59 filtered out; finished in 22.98s
+

@@ -28,7 +28,7 @@
       "remaining_points": 8,
       "acceptance": "Actual workflow integration and historical price/position/execution reconstruction with certified adapters",
       "dependency": "development_and_runtime",
-      "next_step": "Both original collateral-delivery branches now compose observed USDC payment over synthetic state. Next compose initial reserve updates, aggregate health/eMode, same-asset cache handling and multireserve bad debt. Resolve WETH and USDC metadata source mismatches; authenticate balances, approvals, distributions, rate parameters and transaction prestate under the actual fork. Execute deployed Pool/proxy entrypoints and integrate workflows. Reward claiming and deployed administrator behavior remain unverified.",
+      "next_step": "Original reserve cache/update and initial validation now precede both payment-complete delivery modes, with token-derived selected balances. Next integrate GenericLogic aggregate health/eMode, oracle prices and calculated amounts; exercise same-asset/multireserve paths. Resolve metadata gaps and authenticate reserve/token state and transaction prestate under the actual fork. Execute deployed Pool/proxy entrypoints and integrate workflows.",
       "status": "open"
     },
     {
@@ -44,7 +44,7 @@
       "remaining_points": 4,
       "acceptance": "Quarantined generation, actual differential protocol testing and Foundry fuzzing",
       "dependency": "development_and_toolchain",
-      "next_step": "Compose initial validation/state updates and calculated amounts with both payment-complete collateral branches, then execute original Pool entrypoints with authenticated historical prestate. Resolve WETH and USDC metadata-source parity and exercise same-asset/multireserve paths. Run actual Foundry differential/property/fuzz certification; synthetic-state REVM coverage earns no phase credit.",
+      "next_step": "Compose calculated health/eMode and amounts with the tested reserve prelude, initial validation and both payment-complete delivery branches. Exercise same-asset/multireserve paths and actual Pool entrypoints using authenticated historical prestate. Resolve WETH/USDC metadata parity and run actual Foundry differential/property/fuzz certification; synthetic REVM coverage earns no phase credit.",
       "status": "open"
     },
     {

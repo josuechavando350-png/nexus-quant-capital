@@ -369,3 +369,6 @@ fn invalid_boolean_or_truncated_mode_is_rejected_before_contract_changes() {
         assert_no_contract_changes(&out);
     }
 }
+
+#[path = "aave_prelude_execution.rs"]
+mod prelude_execution;
