@@ -25,7 +25,8 @@ TRANSPORT_SCHEMA = 'nqc.omega.runtime-artifact.v2'
 DEPENDENCY_SCHEMA = 'nqc.omega.runtime-artifact.v3'
 ECONOMIC_SCHEMA = 'nqc.omega.runtime-artifact.v4'
 INCLUSION_SCHEMA = 'nqc.omega.runtime-artifact.v5'
-SCHEMA = 'nqc.omega.runtime-artifact.v6'
+DIRECT_PAYMENT_SCHEMA = 'nqc.omega.runtime-artifact.v6'
+SCHEMA = 'nqc.omega.runtime-artifact.v7'
 BRANCH = 'feat/omega-h2-executable-audit-20261022'
 WORKFLOW = '.github/workflows/omega-h2-audit.yml'
 ROOT = Path(__file__).resolve().parents[1]
@@ -39,7 +40,8 @@ DEPENDENCY_CODE_PATHS = TRANSPORT_CODE_PATHS + ('omega/dependency_intake.py',)
 ECONOMIC_CODE_PATHS = DEPENDENCY_CODE_PATHS + ('omega/execution_intake.py', 'omega/audit.py',
                                     'omega/architecture_v3.json')
 INCLUSION_CODE_PATHS = ECONOMIC_CODE_PATHS + ('omega/inclusion_fee_intake.py',)
-CODE_PATHS = INCLUSION_CODE_PATHS + ('omega/direct_payment_intake.py',)
+DIRECT_PAYMENT_CODE_PATHS = INCLUSION_CODE_PATHS + ('omega/direct_payment_intake.py',)
+CODE_PATHS = DIRECT_PAYMENT_CODE_PATHS + ('omega/flash_financing_intake.py',)
 
 
 def reject_authority(value):
@@ -56,13 +58,14 @@ def reject_authority(value):
 def inspect_packet(packet, *, expected_producer, expected_tree, stage, root=ROOT):
     need(type(packet) is dict and set(packet)=={'schema','producer','stage','records',
         'code_sha256','packet_commitment_sha256'},'packet_shape')
-    need(packet['schema'] in (LEGACY_SCHEMA, TRANSPORT_SCHEMA, DEPENDENCY_SCHEMA, ECONOMIC_SCHEMA, INCLUSION_SCHEMA, SCHEMA) and packet['stage']==stage
+    need(packet['schema'] in (LEGACY_SCHEMA, TRANSPORT_SCHEMA, DEPENDENCY_SCHEMA, ECONOMIC_SCHEMA, INCLUSION_SCHEMA, DIRECT_PAYMENT_SCHEMA, SCHEMA) and packet['stage']==stage
          and stage in ('forks','replay'),'packet_scope')
     modern = packet['schema'] != LEGACY_SCHEMA
-    dependent = packet['schema'] in (DEPENDENCY_SCHEMA, ECONOMIC_SCHEMA, INCLUSION_SCHEMA, SCHEMA)
-    economic = packet['schema'] in (ECONOMIC_SCHEMA, INCLUSION_SCHEMA, SCHEMA)
-    inclusion = packet['schema'] in (INCLUSION_SCHEMA, SCHEMA)
-    direct_payment = packet['schema'] == SCHEMA
+    dependent = packet['schema'] in (DEPENDENCY_SCHEMA, ECONOMIC_SCHEMA, INCLUSION_SCHEMA, DIRECT_PAYMENT_SCHEMA, SCHEMA)
+    economic = packet['schema'] in (ECONOMIC_SCHEMA, INCLUSION_SCHEMA, DIRECT_PAYMENT_SCHEMA, SCHEMA)
+    inclusion = packet['schema'] in (INCLUSION_SCHEMA, DIRECT_PAYMENT_SCHEMA, SCHEMA)
+    direct_payment = packet['schema'] in (DIRECT_PAYMENT_SCHEMA, SCHEMA)
+    financing = packet['schema'] == SCHEMA
     need(packet['packet_commitment_sha256']==digest(canonical({
         k:v for k,v in packet.items() if k!='packet_commitment_sha256'})),'packet_commitment')
     reject_authority(packet)
@@ -74,7 +77,7 @@ def inspect_packet(packet, *, expected_producer, expected_tree, stage, root=ROOT
     for name in ('run_id','run_attempt'):
         need(type(identity[name]) is int and identity[name]>0,'invalid_run_identity')
     same(packet['code_sha256'],{p:digest(git(root,'show',expected_producer+':'+p))
-                               for p in (CODE_PATHS if direct_payment else INCLUSION_CODE_PATHS if inclusion else ECONOMIC_CODE_PATHS if economic else DEPENDENCY_CODE_PATHS if dependent else TRANSPORT_CODE_PATHS if modern
+                               for p in (CODE_PATHS if financing else DIRECT_PAYMENT_CODE_PATHS if direct_payment else INCLUSION_CODE_PATHS if inclusion else ECONOMIC_CODE_PATHS if economic else DEPENDENCY_CODE_PATHS if dependent else TRANSPORT_CODE_PATHS if modern
                                          else LEGACY_CODE_PATHS)},'producer_code_digests')
     records=packet['records']
     need(type(records) is list and 1<len(records)<100,'record_inventory')
@@ -93,6 +96,7 @@ def inspect_packet(packet, *, expected_producer, expected_tree, stage, root=ROOT
     if economic and stage == 'replay': stage_names.add('execution-economics')
     if inclusion and stage == 'replay': stage_names.add('inclusion-fees')
     if direct_payment and stage == 'replay': stage_names.add('direct-payments')
+    if financing and stage == 'replay': stage_names.add('flash-financing')
     need(set(counts)==common|stage_names|{'command','download'}
          and all(counts[n]==1 for n in common|stage_names),'record_inventory')
     # Exact command inventory inherited from H2 plus retained-capture and four new test suites.
@@ -173,6 +177,18 @@ def inspect_packet(packet, *, expected_producer, expected_tree, stage, root=ROOT
                  fees['inclusion_report']['report_commitment_sha256'], 'direct_inclusion_report_disagrees')
             same(payments['gas_funding_policy'], fees['gas_funding_policy'], 'direct_gas_policy_disagrees')
             same(payments['gas_policy_sha256'], fees['gas_policy_sha256'], 'direct_gas_policy_digest_disagrees')
+        if financing:
+            from flash_financing_intake import verify_replay as verify_financing_replay
+            funding = verify_financing_replay(values['flash-financing'], root)
+            same(funding['network'], network, 'financing_network_disagrees')
+            same(funding['direct_payment_batch'], payments['direct_payment_batch'], 'financing_payment_batch_disagrees')
+            same(funding['root_batch'], payments['root_batch'], 'financing_root_batch_disagrees')
+            same(funding['flash_financing_report']['direct_payment_report_commitment'],
+                 payments['direct_payment_report']['report_commitment_sha256'], 'financing_payment_report_disagrees')
+            same(funding['flash_financing_report']['execution_report_commitment'],
+                 economics['economic_report']['report_commitment_sha256'], 'financing_economics_disagrees')
+            same(funding['gas_funding_policy'], payments['gas_funding_policy'], 'financing_gas_policy_disagrees')
+            same(funding['gas_policy_sha256'], payments['gas_policy_sha256'], 'financing_gas_policy_digest_disagrees')
     fields(values['stage-complete'],{'stage':stage,'status':'PHYSICAL_GATE_PASS',
         'producer':identity,'result_sha256':digest(canonical(result)),'certified_components':0},'complete')
     return {'records':len(records),'tests':{n:values[n]['tests_run'] for n in common if n.endswith('-tests')},

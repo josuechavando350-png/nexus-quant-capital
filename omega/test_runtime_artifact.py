@@ -14,6 +14,7 @@ from integrity import canonical, digest
 from runtime_artifact import (CODE_PATHS, LEGACY_SCHEMA, LEGACY_CODE_PATHS, MAX_PACKET, ROOT, SCHEMA,
                               TRANSPORT_SCHEMA, TRANSPORT_CODE_PATHS, DEPENDENCY_SCHEMA,
                               DEPENDENCY_CODE_PATHS, ECONOMIC_SCHEMA, ECONOMIC_CODE_PATHS, INCLUSION_SCHEMA, INCLUSION_CODE_PATHS, inspect_packet,
+                              DIRECT_PAYMENT_SCHEMA, DIRECT_PAYMENT_CODE_PATHS,
                               unpack, verify_artifact, write_packet)
 
 
@@ -215,8 +216,8 @@ class RuntimeArtifactTests(unittest.TestCase):
 
     def direct_payment_packet(self):
         from test_direct_payment_intake import synthetic_replay
-        p=self.inclusion_packet();p['schema']=SCHEMA
-        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in CODE_PATHS}
+        p=self.inclusion_packet();p['schema']=DIRECT_PAYMENT_SCHEMA
+        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in DIRECT_PAYMENT_CODE_PATHS}
         network=next(r['value'] for r in p['records'] if r['name']=='network-isolation')
         value=synthetic_replay(network)
         p['records'][-1:-1]=[{'name':'direct-payments','value':value,'sha256':digest(canonical(value))}]
@@ -245,6 +246,42 @@ class RuntimeArtifactTests(unittest.TestCase):
             p=copy.deepcopy(baseline);r=next(r for r in p['records'] if r['name']=='direct-payments')
             report=r['value']['direct_payment_report'];report['records'][0][key]=value;reseal(report)
             reseal(r['value']);r['sha256']=digest(canonical(r['value']));self.seal(p)
+            with self.assertRaisesRegex(ValueError,'differs_from_sources'):self.inspect(p)
+
+    def financing_packet(self):
+        from test_flash_financing_intake import synthetic_replay
+        p=self.direct_payment_packet();p['schema']=SCHEMA
+        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in CODE_PATHS}
+        network=next(r['value'] for r in p['records'] if r['name']=='network-isolation')
+        value=synthetic_replay(network)
+        p['records'][-1:-1]=[{'name':'flash-financing','value':value,'sha256':digest(canonical(value))}]
+        return self.seal(p)
+
+    def test_v7_requires_financing_record_and_preserves_v6_scope(self):
+        p=self.financing_packet();self.assertEqual(self.inspect(p)['records'],46)
+        self.assertLessEqual(len(canonical(p)),MAX_PACKET)
+        p['records']=[r for r in p['records'] if r['name']!='flash-financing'];self.seal(p)
+        with self.assertRaisesRegex(ValueError,'record_inventory'):self.inspect(p)
+        p['schema']=DIRECT_PAYMENT_SCHEMA
+        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in DIRECT_PAYMENT_CODE_PATHS}
+        self.seal(p);self.assertEqual(self.inspect(p)['records'],45)
+
+    def test_v7_rejects_financing_proof_from_another_namespace(self):
+        from test_flash_financing_intake import reseal
+        p=self.financing_packet();r=next(r for r in p['records'] if r['name']=='flash-financing')
+        r['value']['network']['network_namespace']='net:[999999]';reseal(r['value'])
+        r['sha256']=digest(canonical(r['value']));self.seal(p)
+        with self.assertRaisesRegex(ValueError,'financing_network_disagrees'):self.inspect(p)
+
+    def test_v7_rejects_resealed_route_savings_and_titan_coverage(self):
+        from test_flash_financing_intake import reseal
+        baseline=self.financing_packet()
+        for key in ('nqc_morpho_route_validated','nqc_cost_saving_proven','titan_coverage_proven'):
+            p=copy.deepcopy(baseline);r=next(r for r in p['records'] if r['name']=='flash-financing')
+            report=r['value']['flash_financing_report'];row=report['records'][0]
+            target=row if key=='titan_coverage_proven' else row['financing_witness']
+            target[key]=True;reseal(report);reseal(r['value'])
+            r['sha256']=digest(canonical(r['value']));self.seal(p)
             with self.assertRaisesRegex(ValueError,'differs_from_sources'):self.inspect(p)
 
     def test_artifact_matches_external_capture_without_self_authentication_claim(self):

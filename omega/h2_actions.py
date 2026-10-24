@@ -349,6 +349,10 @@ def replay(work: Path, head: str):
     payments = strict_json(read_regular(work / "direct-payments/report.json"))
     verify_direct_replay(payments)
     evidence("direct-payments", payments)
+    from flash_financing_intake import verify_replay as verify_financing_replay
+    financing = strict_json(read_regular(work / "flash-financing/report.json"))
+    verify_financing_replay(financing)
+    evidence("flash-financing", financing)
     return report
 
 
@@ -469,6 +473,9 @@ def main():
                            module.network_proof(args.parent))
         from direct_payment_intake import exercise as exercise_direct_payments
         exercise_direct_payments(args.out.parent / "direct-payments",
+                           module.network_proof(args.parent))
+        from flash_financing_intake import exercise as exercise_financing
+        exercise_financing(args.out.parent / "flash-financing",
                            module.network_proof(args.parent))
         observed_replay(args.source, args.out, args.repo, args.parent)
         return

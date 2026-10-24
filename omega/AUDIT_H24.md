@@ -1,4 +1,4 @@
-# H24 — historical flash financing, initial draft
+# H24 — historical flash financing and dependent replay
 
 Base: H23 producer `3448f173305d765f3cdf9a5494571b34a16c0e34`.
 H23's exact-producer remote run completed successfully; it has no H24 scope.
@@ -78,3 +78,53 @@ coverage, repayment, compensation and complete costs are evidenced.
 H23 Markdown-only closure `92867c001394ae3aa8091c8b82fcf0bfd13b4ce6` is merged into this draft.
 The H24 feature/test/capture bytes remain those of `a33fa4249d1f96765854c9d29c5e3d9e089d6521`.
 The successful H23 run does not validate H24; this PR remains a local-tested draft.
+
+## Ninth-batch and runtime integration
+
+Continued from documentation head `72123d3ed24d47b8619f587b9a8dc730cfc42c91`.
+The original receipt capture and financing observation report are unchanged.
+The ninth SQLite batch declares H23 as its sole parent and recursively verifies
+the inherited bytes, exact inventory, pinned capture and recomputed report.
+Revoking H23 blocks its financing child and readmission of that child.
+
+Runtime v7 requires the `flash-financing` record in the disconnected worker. Both
+worker and consumer reconstruct the nine batches, revoke their root and restore
+the exact snapshot. All nine normal reads fail in both stores, while every batch's
+forensic object bytes survive. The new record binds H23's batch/root/report and
+H21's economics report, matching the physical network namespace and Titan policy.
+Historical v1-v6 retain their original inventories and proof scopes.
+
+Thirteen store/replay cases and three runtime v7 cases are added. Targeted checks
+and the full integration regression are pending at this checkpoint. The previous
+672-test result covers the intake draft only. Original Git objects are not supplied
+locally; remote isolation must verify them. No source, workflow, permission,
+Rust/Solidity implementation, Miner or execution authorization is changed.
+
+The read-only execution review confirms the recovered `NqcAaveV3Executor.sol`
+couples flash borrowing and liquidation through the same Aave pool. Substituting
+Morpho's address cannot create a valid route. A later experiment must explicitly
+separate lender and liquidation pool, authenticate the callback against an active
+plan, verify historical deployed code and liquidity, and measure its own gas.
+The existing H2 fork's different transaction and USDC debt route cannot supply
+rank-1 WETH/Morpho execution evidence. This review adds no execution code.
+
+## Targeted integration verification
+
+The financing/store/replay suite passes **31/31** tests (134.171 seconds), and
+the runtime suite passes **28/28** (574.856 seconds), with zero failures, errors,
+skips or expected failures. All recorded test-source hashes match. The complete
+688-case regression is running; the remote exact-producer audit remains pending.
+
+Authentic H23 v6 artifacts pass the new consumer with their original 43/45 record
+scopes. This is compatibility verification, not a new remote H23 or H24 execution.
+Independent retained-byte checks confirm unchanged H23/H24 captures and reports,
+active workflow, original source files and Miner. Isolation passes 176/531/106;
+original Git objects remain unchecked locally.
+
+| Integration check | SHA256 |
+|---|---|
+| Financing/store/replay | `cd3e7008a5df0f2240da814d4505618e07e35fda10bf18ab0c370a53aec4794b` |
+| Runtime v7 | `765feb4a90d6d43f8f10f619c96b4e3a6de61c1f2fc5be9ea0e550e06ed59295` |
+| Isolation | `4b5f1c8abce1b3008500444cfa2c31772274726684812cceae31575494d056a6` |
+| Independent retained bytes/boundaries | `c77f473d5cbe2714796e65b10f2132d6afbed700ca07d4ddf071803774d8e2b9` |
+| Authentic H23 v6 compatibility | `5523c478bc0d381b3d95b4ddbad40061c8376e8016a4c91ee4813152f57b70d4` |

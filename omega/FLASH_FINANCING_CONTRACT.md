@@ -35,8 +35,22 @@ fallback. Neither the loan nor its repayment proves Titan funding for NQC.
 All nine historical rows remain; eight financing witnesses stay null. Complete
 paid-cost rows remain 0/127 and Titan-covered NQC executions zero.
 
-This local intake draft adds no ninth store batch, new runtime record, Rust
-transport, physical fork or remote H24 validation. H23's run cannot certify H24.
+The ninth SQLite batch declares H23's direct-payment batch as its only parent.
+Reads recursively verify the parent, byte-identical inherited objects, exact
+inventory, the pinned receipt capture and a recomputed financing report. Changing
+the parent, adding objects or resealing altered evidence cannot admit a valid view.
+
+Runtime v7 requires a `flash-financing` record in the physical disconnected worker.
+It reconstructs nine batches, revokes their root and restores the exact snapshot.
+Normal reads of all nine batches must fail in both stores while each batch's
+forensic object bytes remain identical. The consumer independently reproduces the
+exercise and binds H23's batch/root/report, H21's economics commitment and the exact
+Titan policy. All records must share the same isolated network namespace.
+
+The new proof covers SQLite dependencies and recovery, not a canonical reorg, new
+Rust transport or NQC Morpho execution. Runtime v1-v6 preserve their original code
+inventories and proof scopes. H23's run cannot certify H24; a new exact-producer
+run and independent artifact/API/log audit remain required.
 
 ```sh
 PYTHONDONTWRITEBYTECODE=1 python3 omega/flash_financing_intake.py

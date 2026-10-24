@@ -54,3 +54,15 @@ All four proofs must use the physical replay's isolated network namespace. The
 new record must match the economic record's source commitment and policy.
 Prior versions remain accepted only with their own record/code inventories;
 in particular, v4 evidence cannot satisfy the v5 inclusion requirement.
+
+H23 runtime v6 adds `direct-payments` and the eighth dependent SQLite batch.
+H24 runtime v7 adds `flash-financing` and the ninth batch, with the same unchanged
+workflow, permissions and two physical jobs. The financing record must bind the
+direct-payment batch/root/report, economic report commitment and exact Titan gas
+policy, and share the physical worker's isolated namespace. Its producer code
+inventory includes `flash_financing_intake.py`; the v6 inventory remains frozen.
+The new reader does not promote v1-v6 artifacts into v7 financing evidence.
+
+The ninth batch's controlled root revocation and exact restore block all nine
+normal reads while preserving forensic object bytes. This is not new physical
+Rust transport, chain-reorg recovery, a Morpho execution or proof of gas coverage.

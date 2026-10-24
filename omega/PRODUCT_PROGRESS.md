@@ -289,7 +289,7 @@ forks/replay and independent API/artifact/log verification pass for producer
 blocked after controlled root revocation/restore with preserved forensic bytes.
 No new Rust transport, NQC execution or operation-specific Titan coverage is claimed.
 
-## H24 historical flash financing (local draft)
+## H24 historical flash financing and dependent replay
 
 One retained receipt observes a Morpho FlashLoan event and equal WETH principal
 and repayment, corroborated by H23's indexed call/callback. The observed WETH
@@ -297,4 +297,10 @@ repayment premium is zero. Original dRPC-normalized receipt fields agree, with n
 full raw receipt parity claim. The Aave fork's simulated fee remains a separate
 route diagnostic. NQC's Morpho route, gas profile, current liquidity, execution
 and full economics remain unvalidated. Titan-only gas policy is unchanged.
-The ninth store batch, runtime integration and remote H24 verification remain open.
+A ninth dependent SQLite batch and runtime v7 bind the financing evidence to H23's
+batch/root/report, H21 economics and the unchanged Titan gas policy. All nine
+normal reads must remain blocked after controlled revocation and exact restore,
+while all forensic bytes survive. The packet consumer independently reproduces
+the result in the same isolated-namespace scope as the other replay records.
+Historical v1-v6 scopes remain frozen. Full integration regression and remote H24
+verification remain pending; the earlier 672-test result covers the intake draft.

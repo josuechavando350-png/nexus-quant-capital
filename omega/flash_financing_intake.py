@@ -4,15 +4,20 @@ import copy
 import json
 from pathlib import Path
 import re
+import tempfile
 
 from cashflow_intake import build_cashflow
-from direct_payment_intake import build_report as build_payments, load_capture as operation_capture
+from direct_payment_intake import (build_report as build_payments, load_capture as operation_capture,
+    query_report as query_payments, store_report as store_payments)
+from evidence_store import admit, audit_store, create, export_store, read_batch, restore_store, revoke
 from execution_intake import build_execution_report, seal
 from historical_intake import AUTHORITIES, EVIDENCE, ROOT, build_ledger, need, original_validator, same, utc
 from inclusion_fee_intake import address, uint
 from integrity import canonical, digest, read_regular, strict_json
 
 CAPTURE_NAME = 'flash-financing-capture.json'
+REPORT_NAME = 'flash-financing-report.json'
+BINDING_NAME = 'flash-financing-parent.json'
 CAPTURE_SHA256 = '8bb0bde55bd501175f54148561a508fcab0bf296e5bfa10123b4fde3acdc8701'
 MORPHO = '0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb'
 WETH = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
@@ -149,6 +154,97 @@ def build_report(directory=EVIDENCE,root=ROOT):
 
 def verify_report(report,directory=EVIDENCE,root=ROOT):
     expected=build_report(directory,root); same(report,expected,'financing_report_differs_from_sources'); return expected
+
+
+def store_report(path, root=ROOT):
+    upstream = store_payments(path, root)
+    parent = upstream['batch']; objects = read_batch(path, parent)
+    objects[CAPTURE_NAME] = read_regular(Path(root)/'omega/evidence'/CAPTURE_NAME)
+    with tempfile.TemporaryDirectory(prefix='omega-financing-admit-') as tmp:
+        for name, raw in objects.items(): (Path(tmp)/name).write_bytes(raw)
+        report = build_report(Path(tmp), root)
+    objects[REPORT_NAME] = canonical(report)
+    objects[BINDING_NAME] = canonical({'direct_payment_batch': parent})
+    return {'batch': admit(path, objects, parents=[parent]), 'parent': parent,
+            'root_batch': upstream['root_batch'], 'report': report}
+
+
+def query_report(path, batch, root=ROOT):
+    objects = read_batch(path, batch)
+    binding = strict_json(objects[BINDING_NAME])
+    need(set(binding) == {'direct_payment_batch'}, 'financing_parent_inventory')
+    parent = binding['direct_payment_batch']
+    same(audit_store(path)['dependencies'].get(batch), [parent], 'financing_missing_declared_parent')
+    query_payments(path, parent, root)
+    inherited = read_batch(path, parent)
+    need(set(objects) == set(inherited) | {CAPTURE_NAME, REPORT_NAME, BINDING_NAME},
+         'financing_batch_inventory')
+    need(all(objects[n] == b for n, b in inherited.items()), 'financing_inherited_bytes_changed')
+    with tempfile.TemporaryDirectory(prefix='omega-financing-query-') as tmp:
+        for name, raw in objects.items(): (Path(tmp)/name).write_bytes(raw)
+        return verify_report(strict_json(objects[REPORT_NAME]), Path(tmp), root)
+
+
+def exercise_fields(directory, root=ROOT):
+    """Replay nine dependent batches; preserve all bytes after root revocation."""
+    directory = Path(directory); path = create(directory/'source.sqlite')
+    result = store_report(path, root); batch = result['batch']
+    same(query_report(path, batch, root), result['report'], 'financing_query_mismatch')
+    before = {b: read_batch(path, b) for b in audit_store(path)['active_batches']}
+    need(len(before) == 9 and batch in before, 'financing_active_inventory')
+    revoke(path, result['root_batch'], 'CONTROLLED_FLASH_FINANCING_DEPENDENCY_TEST',
+           b'TEST_ONLY_NOT_A_REAL_CANONICAL_REORG')
+    status = audit_store(path); snapshot = export_store(path)
+    restored = directory/'restored.sqlite'; restore_store(restored, snapshot)
+    same(audit_store(restored)['journal_head'], status['journal_head'], 'financing_restore_head')
+    same(export_store(restored), snapshot, 'financing_restore_changed')
+    for database in (path, restored):
+        try: query_report(database, batch, root)
+        except ValueError as e: need(str(e) == 'batch_inactive_or_missing', 'financing_block_reason')
+        else: raise ValueError('revoked_financing_query_accepted')
+        for ancestor, raw_objects in before.items():
+            try: read_batch(database, ancestor)
+            except ValueError as e: need(str(e) == 'batch_inactive_or_missing', 'financing_ancestor_block_reason')
+            else: raise ValueError('revoked_financing_ancestor_accepted')
+            need(read_batch(database, ancestor, include_revoked=True) == raw_objects,
+                 'financing_forensic_bytes_changed')
+    need(status['revoked_batches'] == [result['root_batch']]
+         and set(status['invalidated_batches']) == set(before)-{result['root_batch']}
+         and status['active_batches'] == [], 'financing_invalidation_partition')
+    report = result['report']
+    return {'schema': 'nqc.omega.flash-financing-local-replay.v1',
+        'status': 'FLASH_FINANCING_LOCAL_REPLAY_PASS', 'flash_financing_report': report,
+        'gas_funding_policy': copy.deepcopy(report['gas_funding_policy']),
+        'gas_policy_sha256': report['gas_policy_sha256'],
+        'flash_financing_batch': batch, 'direct_payment_batch': result['parent'],
+        'root_batch': result['root_batch'], 'snapshot_sha256': digest(canonical(snapshot)),
+        'journal_head': status['journal_head'], 'blocked_batches': 9,
+        'forensic_bytes_preserved': True, 'restore_byte_identical': True,
+        'revoked_query_rejected': True, 'rust_transport_performed': False,
+        'certified_components': 0, 'census_closed': False}
+
+
+def verify_replay(report, root=ROOT):
+    network = report.get('network', {})
+    need(network.get('interfaces') == ['lo'] and network.get('routable_network') is False
+         and all(type(network.get(k)) is str and re.fullmatch(r'net:\[[0-9]+\]', network[k])
+                 for k in ('network_namespace', 'parent_network_namespace'))
+         and network['network_namespace'] != network['parent_network_namespace'], 'financing_network')
+    with tempfile.TemporaryDirectory(prefix='omega-financing-verify-') as tmp:
+        expected = exercise_fields(tmp, root)
+    expected['network'] = network
+    same(report, seal(expected), 'financing_replay_differs_from_sources'); return report
+
+
+def exercise(directory, network, root=ROOT):
+    from rust_store_intake import new_directory
+    directory = new_directory(directory, root)
+    print('OMEGA_FLASH_FINANCING_BEGIN', flush=True)
+    report = exercise_fields(directory, root); report['network'] = network; seal(report)
+    verify_replay(report, root)
+    (directory/'report.json').write_bytes(canonical(report))
+    print('OMEGA_FLASH_FINANCING_REPORT ' + canonical(report).decode().strip(), flush=True)
+    return report
 
 
 def main():
