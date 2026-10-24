@@ -198,6 +198,14 @@ class Thresholds:
 
 THRESHOLDS = Thresholds()
 
+# Contratos de entrada compartidos (subastas de orden) conocidos. Además de estos, el
+# análisis trata como compartida toda entrada que usan dos o más contratos liquidadores.
+# - Arbitrum 0x8ad1…86c1: `metacall` de la subasta OEV (verificado a mano: tx 0x7aca33d6…753e
+#   pagó 1.16 ETH a la subasta y el ganador se quedó $6.41 de un bono de ~$3,320).
+KNOWN_SHARED_ENTRIES = frozenset({
+    ("arbitrum", "0x8ad1ae9d97c79aa68a0a151e83ff3942f68f86c1"),
+})
+
 # Ventana extra antes del inicio para encontrar la última actualización de
 # oráculo de las primeras liquidaciones (heartbeats de hasta 24 h).
 ORACLE_LOOKBACK_SECONDS = 26 * 3600

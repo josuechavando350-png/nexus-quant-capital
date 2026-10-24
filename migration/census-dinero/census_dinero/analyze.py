@@ -6,7 +6,7 @@ import os
 import statistics
 from collections import Counter, defaultdict
 
-from .config import THRESHOLDS
+from .config import KNOWN_SHARED_ENTRIES, THRESHOLDS
 
 SIZE_BUCKETS = [(0, 10), (10, 100), (100, 1_000), (1_000, 10_000), (10_000, float("inf"))]
 
@@ -21,7 +21,9 @@ LIQ_FIELDS = [
     "liquidator", "tx_from", "tx_to", "borrower", "collateral_symbol", "debt_symbol", "collateral_amount",
     "debt_amount", "debt_usd", "bonus_usd", "bonus_source", "lif", "gas_usd", "priority_usd", "builder_usd",
     "net_usd", "builder_share", "builder_payment_complete", "direct_source", "realized_usd", "realized_complete",
-    "third_party_usd", "oev_usd", "order_paid_usd", "route", "native_source", "beneficiaries", "unpriced_tokens",
+    "third_party_usd", "oev_usd", "order_paid_usd", "route", "entry", "realized_base_usd", "realized_anomaly",
+    "net_flows", "native_source",
+    "beneficiaries", "unpriced_tokens",
     "blocks_since_oracle", "seconds_since_oracle", "same_tx_as_oracle", "oracle_status", "liqs_in_tx",
     "enriched", "error",
 ]
@@ -71,6 +73,41 @@ def market_key(r):
     if r["protocol"] == "morpho":
         return (r["chain"], "morpho", r["market"])
     return (r["chain"], r.get("market", "aave"), f"{r.get('collateral')}|{r.get('debt')}")
+
+
+def resolve_entries(recs):
+    """Decide con todo el conjunto si el contrato llamado por la transacción es del bot o compartido.
+
+    Compartido (subasta, enrutador): está en KNOWN_SHARED_ENTRIES o lo usan dos o más contratos
+    liquidadores. Propio: lo usa un solo liquidador; entonces su saldo cuenta como del ganador y se
+    usa la variante del neto que lo incluye en W."""
+    users = defaultdict(set)
+    for r in recs:
+        to = r.get("tx_to")
+        if to and to != r.get("liquidator"):
+            users[(r["chain"], to)].add(r.get("liquidator"))
+    for r in recs:
+        alt = r.get("entry_variant")
+        if not alt:
+            r["entry"] = "liquidador"
+            continue
+        key = (r["chain"], r.get("tx_to"))
+        r["entry"] = "compartida" if key in KNOWN_SHARED_ENTRIES or len(users[key]) >= 2 else "propia"
+        if r["entry"] != "propia" or r.get("_entry_applied"):
+            continue
+        r["_entry_applied"] = True
+        r["realized_base_usd"] = r.get("realized_usd")
+        r["realized_usd"] = alt.get("realized_usd")
+        r["third_party_eth"] = alt.get("third_party_eth")
+        eth = r.get("eth_usd")
+        r["third_party_usd"] = alt["third_party_eth"] * eth if alt.get("third_party_eth") is not None and eth else None
+        r["realized_complete"] = bool(alt.get("realized_complete"))
+        r["net_flows"] = alt.get("net_flows")
+        if alt.get("anomaly"):
+            r["realized_anomaly"] = alt["anomaly"]
+        else:
+            r.pop("realized_anomaly", None)
+    return recs
 
 
 def derive(r):
@@ -283,6 +320,7 @@ def coverage(metas, expected=None):
 
 
 def analyze(recs, metas, expected=None):
+    resolve_entries(recs)
     for r in recs:
         r["market_label"] = label(r)
         derive(r)
@@ -343,7 +381,10 @@ def analyze(recs, metas, expected=None):
                             "auction_pct": (sum(1 for r in rs if r["route"] == "subasta") /
                                             max(1, sum(1 for r in rs if r["route"] != "sin_medir")))})
     cov = coverage(metas, expected)
+    for c in cov:
+        c["anomalies"] = sum(1 for r in recs if r["chain"] == c["chain"] and r.get("realized_anomaly"))
     chain_days = {c["chain"]: c["days"] for c in cov}
+    anomalies = sorted((r for r in recs if r.get("realized_anomaly")), key=lambda r: -(r.get("bonus_usd") or 0))
     return {
         "entrypoints": entrypoints,
         "overall": overall,
@@ -357,6 +398,8 @@ def analyze(recs, metas, expected=None):
         "bots_auction": bots(recs, "subasta"),
         "small_actor": small_actor(recs, chain_days),
         "coverage": cov,
+        "anomalies": [{k: r.get(k) for k in ("chain", "tx_hash", "market_label", "bonus_usd", "realized_usd",
+                                              "net_flows", "liquidator")} for r in anomalies[:20]],
         "metas": metas,
     }
 
@@ -565,6 +608,11 @@ def render_md(res, title_date):
                  f"{', '.join(f'{k}: {v}' for k, v in c['native'].items()) or '—'} | "
                  f"oráculo {ps.get('oraculo', 0)}, mercado {ps.get('defillama', 0)}, sin {ps.get('sin_precio', 0)} | "
                  f"{c['budget_hit']} |")
+    if res.get("anomalies"):
+        L.append("")
+        L.append(f"Netos fuera de rango (no se cuentan como medidos; revisar a mano): "
+                 + "; ".join(f"{a['chain']} `{a['tx_hash']}` bono {usd(a['bonus_usd'])}, neto {usd(a['realized_usd'])} "
+                             f"({a['net_flows'] or '—'})" for a in res["anomalies"][:8]) + ".")
     errs = [(c["chain"], k, v) for c in cov for k, v in c["trace_errors"].items()]
     if errs:
         L.append("")

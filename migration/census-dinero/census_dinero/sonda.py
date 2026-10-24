@@ -61,15 +61,23 @@ def probe_provider(rpc, url, plan, timeout=25):
         return out
     out["atraso_bloques"] = max(0, plan["end"] - head) if head < plan["end"] else 0
 
-    # getLogs: el rango más grande que acepta, sobre el mismo filtro que usa el census.
+    # getLogs: el rango más grande que acepta, sobre el mismo filtro que usa el census. Si
+    # rechaza el primero por ritmo o tiempo, se prueba una vez con 100 bloques tras una pausa.
     best, fail = 0, None
-    for span in LOG_RANGES:
+    ranges = list(LOG_RANGES)
+    while ranges:
+        span = ranges.pop(0)
         lo = max(0, plan["end"] - span + 1)
         flt = {"fromBlock": hex(lo), "toBlock": hex(plan["end"]), "topics": plan["log_topics"],
                "address": plan["log_address"]}
         ok, res, dt = raw_call(rpc, url, "eth_getLogs", [flt], timeout)
         if not ok or not isinstance(res, list):
             fail = res if not ok else "respuesta no es lista"
+            transient = any(h in str(fail).lower() for h in ("429", "408", "timeout", "transporte", "rate"))
+            if best == 0 and span == LOG_RANGES[0] and transient:
+                time.sleep(2)
+                ranges = [100]
+                continue
             break
         best = span
         out["getlogs_ms"] = round(1000 * dt)

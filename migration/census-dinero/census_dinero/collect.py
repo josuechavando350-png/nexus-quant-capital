@@ -194,6 +194,26 @@ def token_flows(receipt, weth):
     return flows
 
 
+def liquidator_set(s0, pairs, exclude, is_eoa):
+    """W: firmante y contrato liquidador, más las cuentas sin código que en esta transacción
+    solo tratan con ellos (billeteras del mismo dueño que reciben la ganancia o ponen capital).
+
+    `pairs` son (desde, hacia) de todos los movimientos. Devuelve (W, cuentas agregadas)."""
+    partners = {}
+    for f, t in pairs:
+        partners.setdefault(f, set()).add(t)
+        partners.setdefault(t, set()).add(f)
+    cands = {a for a, ps in partners.items() if a not in s0 and a not in exclude and ps <= s0}
+    extra = {a for a in cands if is_eoa(a)}
+    return s0 | extra, extra
+
+
+# Un neto fuera de [-(bono + gas + holgura), bono + holgura] no es la ganancia de la liquidación:
+# capital que entra o sale de otra cuenta del dueño, o un movimiento que no se pudo atribuir.
+REALIZED_SLACK_SHARE = 0.25
+REALIZED_SLACK_USD = 25.0
+
+
 class Collector:
     def __init__(self, chain_key, *, rpc=None, web=None, protocols=("aave", "morpho"), workers=6,
                  time_budget_s=5 * 3600, rps=12, extra_rpcs=()):
@@ -225,6 +245,7 @@ class Collector:
         self.oracle_cover = {}          # dirección -> último bloque leído de sus actualizaciones
         self.events_cover = None        # último bloque leído de eventos de liquidación
         self.interrupted = False
+        self.evidence_rows = []
         self.fatal = None
         self.budget_hit = False
         self.second_pass = {}
@@ -596,29 +617,12 @@ class Collector:
             self.code_cache[addr] = eoa
         return eoa
 
-    def realized(self, tx, rc, group, native, gas_wei, eth_usd, ts):
-        """Lo que el liquidador realmente se quedó en la transacción, en USD.
-
-        Suma todos los movimientos de tokens (logs Transfer/Deposit/Withdrawal) y de ETH
-        (trazas) que entran o salen del conjunto W = {EOA firmante, contrato liquidador,
-        beneficiarios EOA que solo reciben}, valuados a precio de mercado, menos el gas.
-        Así quedan descontados la venta del colateral, comisiones de flash loan, pujas a
-        subastas de oráculo (OEV) y pagos al builder, sin modelar cada uno.
-        """
+    def _net_usd(self, w, moves, native, gas_wei, eth_usd, ts):
+        """Neto en USD de los movimientos que cruzan la frontera de W, menos gas."""
         weth = norm(self.chain.weth)
-        coinbase = self.header(group[0]["block"])["miner"]
-        flows = token_flows(rc, weth)
-        nat = [("ETH", f, t, v) for f, t, v in (native or [])]
-        s0 = {norm(tx["from"])} | {r["liquidator"] for r in group}
-        senders = {f for _, f, _, _ in flows + nat}
-        tx_to = norm(tx.get("to") or ZERO)
-        cands = {t for _, f, t, _ in flows + nat if f in s0 and t not in s0}
-        cands -= {ZERO, coinbase, weth, tx_to}
-        benef = {a for a in cands if a not in senders and self.is_eoa(a)}
-        w = s0 | benef
         net = {}
         out_eth, in_eth = {}, {}
-        for tok, f, t, v in flows + nat:
+        for tok, f, t, v in moves:
             if f in w and t not in w:
                 net[tok] = net.get(tok, 0) - v
                 if tok == "ETH" and t != weth:
@@ -628,13 +632,14 @@ class Collector:
                 if tok == "ETH":
                     in_eth[f] = in_eth.get(f, 0) + v
         third_wei = sum(max(0, v - in_eth.get(a, 0)) for a, v in out_eth.items())
-        usd, unpriced = 0.0, []
+        usd, unpriced, parts = 0.0, [], []
         tokens = [t for t, v in net.items() if v and t not in ("ETH", weth)]
         prices = self.prices.llama_many([f"{self.chain.llama}:{t}" for t in tokens], ts) if tokens else {}
         for tok, v in net.items():
             if not v:
                 continue
             if tok in ("ETH", weth):
+                parts.append(("ETH" if tok == "ETH" else "WETH", v / 1e18))
                 if eth_usd is None:
                     unpriced.append("ETH")
                     continue
@@ -642,6 +647,8 @@ class Collector:
                 continue
             meta = self.token(tok)
             p = prices.get(f"{self.chain.llama}:{tok}")
+            if meta["decimals"] is not None:
+                parts.append((meta["symbol"], v / 10 ** meta["decimals"]))
             if p is None or meta["decimals"] is None:
                 unpriced.append(meta["symbol"])
                 continue
@@ -652,9 +659,35 @@ class Collector:
             "realized_usd": usd if eth_usd is not None else None,
             "realized_complete": native is not None and not unpriced and eth_usd is not None,
             "third_party_eth": third_wei / 1e18 if native is not None else None,
-            "beneficiaries": len(benef),
             "unpriced": unpriced,
+            "net_flows": ", ".join(f"{sym} {amt:+.6g}" for sym, amt in parts)[:240],
         }
+
+    def realized(self, tx, rc, group, native, gas_wei, eth_usd, ts):
+        """Lo que el liquidador realmente se quedó en la transacción, en USD.
+
+        Suma todos los movimientos de tokens (logs Transfer/Deposit/Withdrawal) y de ETH
+        (trazas) que entran o salen del conjunto W (ver liquidator_set), valuados a precio
+        de mercado, menos el gas. Así quedan descontados la venta del colateral, comisiones
+        de flash loan, pujas a subastas de oráculo (OEV) y pagos al builder, sin modelarlos.
+
+        El contrato llamado por la transacción (tx_to) puede ser una subasta compartida
+        (Atlas) o el contrato principal del mismo bot. Aquí no se sabe cuál: se devuelven
+        las dos variantes y el análisis elige con todo el conjunto de datos (with_entry).
+        """
+        weth = norm(self.chain.weth)
+        coinbase = self.header(group[0]["block"])["miner"]
+        moves = token_flows(rc, weth) + [("ETH", f, t, v) for f, t, v in (native or [])]
+        pairs = [(f, t) for _, f, t, _ in moves]
+        s0 = {norm(tx["from"])} | {r["liquidator"] for r in group}
+        tx_to = norm(tx.get("to") or ZERO)
+        w, benef = liquidator_set(s0, pairs, {ZERO, coinbase, weth, tx_to}, self.is_eoa)
+        out = self._net_usd(w, moves, native, gas_wei, eth_usd, ts)
+        out["beneficiaries"] = len(benef)
+        if tx_to not in s0 and tx_to != ZERO:
+            w2, _ = liquidator_set(s0 | {tx_to}, pairs, {ZERO, coinbase, weth}, self.is_eoa)
+            out["with_entry"] = self._net_usd(w2, moves, native, gas_wei, eth_usd, ts)
+        return out
 
     # -- paso 5: enriquecimiento por transacción --------------------------------------
     def enrich_tx(self, group, feeds_by_key, tries=3):
@@ -704,6 +737,15 @@ class Collector:
         except (RpcError, ValueError, KeyError, TypeError) as e:
             real = {"realized_usd": None, "realized_complete": False, "third_party_eth": None,
                     "beneficiaries": 0, "unpriced": [], "realized_error": str(e)[:200]}
+        bonus_total = [r.get("bonus_usd") for r in group]
+        for variant in (real, real.get("with_entry")):
+            if not variant or variant["realized_usd"] is None or not eth_usd or None in bonus_total:
+                continue
+            b = sum(bonus_total)
+            slack = max(REALIZED_SLACK_SHARE * abs(b), REALIZED_SLACK_USD)
+            if variant["realized_usd"] > b + slack or variant["realized_usd"] < -(abs(b) + gas_wei / 1e18 * eth_usd + slack):
+                variant["realized_complete"] = False
+                variant["anomaly"] = "neto_fuera_de_rango"
 
         # Gas y pagos de la transacción se reparten entre sus liquidaciones según el bono.
         bonuses = [r.get("bonus_usd") for r in group]
@@ -721,12 +763,26 @@ class Collector:
             r["eth_price_source"] = eth_src
             r["realized_complete"] = real["realized_complete"]
             r["beneficiaries"] = real["beneficiaries"]
+            r["net_flows"] = real.get("net_flows")
+            if real.get("anomaly"):
+                r["realized_anomaly"] = real["anomaly"]
+            else:
+                r.pop("realized_anomaly", None)
             if real["unpriced"]:
                 r["unpriced_tokens"] = ",".join(real["unpriced"])[:120]
             if real["realized_usd"] is not None:
                 r["realized_usd"] = real["realized_usd"] * wgt
             if real["third_party_eth"] is not None:
                 r["third_party_eth"] = real["third_party_eth"] * wgt
+            alt = real.get("with_entry")
+            if alt:
+                r["entry_variant"] = {
+                    "realized_usd": None if alt["realized_usd"] is None else alt["realized_usd"] * wgt,
+                    "third_party_eth": None if alt["third_party_eth"] is None else alt["third_party_eth"] * wgt,
+                    "realized_complete": alt["realized_complete"],
+                    "anomaly": alt.get("anomaly"),
+                    "net_flows": alt["net_flows"],
+                }
             if eth_usd:
                 r["gas_usd"] = r["gas_eth"] * eth_usd
                 builder_eth = r["priority_eth"] + (r["direct_eth"] or 0)
@@ -861,6 +917,59 @@ class Collector:
         self.enrich(groups, feeds, hashes=pending, workers=2, tries=5, label="reintentadas", first=False)
         self.second_pass["recuperadas"] = sum(1 for h in pending if groups[h][0].get("native_source") != "no_medido")
 
+    def evidence(self, groups, k=5):
+        """Datos crudos de una muestra de transacciones (tx, recibo, traza, código de las cuentas y
+        tokens) para verificarlas a mano o con verificar.py sin volver a consultar la cadena."""
+        done = [g for g in groups.values() if g[0].get("enriched") and not g[0].get("error")]
+        tot = lambda g, f: sum(r.get(f) or 0 for r in g)  # noqa: E731
+        keys = [lambda g: -tot(g, "bonus_usd"), lambda g: -tot(g, "realized_usd"),
+                lambda g: -tot(g, "third_party_usd"),
+                lambda g: -(tot(g, "bonus_usd") if tot(g, "third_party_usd") < 0.1 * tot(g, "bonus_usd") else 0),
+                lambda g: abs(tot(g, "bonus_usd") - 50)]
+        picks = []
+        for key in keys:
+            for g in sorted(done, key=key):
+                if g[0]["tx_hash"] not in {p[0]["tx_hash"] for p in picks}:
+                    picks.append(g)
+                    break
+        out = []
+        for g in picks[:k]:
+            if time.monotonic() > self.deadline + 300:
+                break
+            h = g[0]["tx_hash"]
+            try:
+                tx = self.rpc.call("eth_getTransactionByHash", [h])
+                rc = self.rpc.call("eth_getTransactionReceipt", [h])
+                trace, kind = None, None
+                for method in sonda.TRACE_METHODS:
+                    if trace is None and self.trace_viable(method):
+                        try:
+                            trace, kind = self.rpc.call(method, sonda.trace_params(method, h)), method
+                        except RpcError:
+                            trace = None
+                addrs = {norm(tx["from"]), norm(tx.get("to") or ZERO)}
+                for lg in rc.get("logs") or []:
+                    t = lg.get("topics") or []
+                    if len(t) == 3 and t[0].lower() == ERC20_TRANSFER_TOPIC:
+                        addrs |= {address_from_topic(t[1]), address_from_topic(t[2])}
+                if kind == "debug_traceTransaction" and isinstance(trace, dict):
+                    addrs |= {a for f, t, _ in call_frames_transfers(trace) for a in (f, t)}
+                elif isinstance(trace, list):
+                    addrs |= {a for f, t, _ in parity_transfers(trace) for a in (f, t)}
+                tokens = {norm(lg["address"]) for lg in rc.get("logs") or [] if lg.get("topics")}
+                out.append({
+                    "tx": tx, "receipt": rc, "trace": trace, "trace_kind": kind,
+                    "miner": self.header(g[0]["block"])["miner"],
+                    "has_code": {a: not self.is_eoa(a) for a in sorted(addrs) if a != ZERO},
+                    "tokens": {t: self.token(t) for t in sorted(tokens)},
+                    "rows": [{k_: r.get(k_) for k_ in ("log_index", "liquidator", "bonus_usd", "realized_usd",
+                                                       "third_party_eth", "gas_eth", "collateral_amount",
+                                                       "debt_amount", "eth_usd", "net_flows")} for r in g],
+                })
+            except (RpcError, KeyError, TypeError, ValueError) as e:
+                self.errors.append(self.rpc.scrub(f"evidencia {h}: {e}")[:200])
+        return out
+
     def run(self, days, out_dir, end_block=None, start_ts=None, end_ts=None, tramo=None):
         t0 = time.time()
         recs, groups, win = [], {}, None
@@ -894,6 +1003,9 @@ class Collector:
             t = time.monotonic()
             self.retry_traces(groups, feeds)
             self._phase("segunda_pasada", t)
+            t = time.monotonic()
+            self.evidence_rows = self.evidence(groups)
+            self._phase("evidencia", t)
         except KeyboardInterrupt:
             self.interrupted = True
             log(f"{self.chain.key}: interrumpido; se guarda lo que haya")
@@ -916,6 +1028,9 @@ class Collector:
                 row.pop("_feeds", None)
                 row.setdefault("enriched", False)
                 fh.write(json.dumps(row, sort_keys=True, default=str) + "\n")
+        if self.evidence_rows:
+            with open(os.path.join(out_dir, "evidencia.json"), "w") as fh:
+                json.dump(self.evidence_rows, fh, default=str)
         native = {}
         for g in groups.values():
             k = g[0].get("native_source", "sin_enriquecer")

@@ -97,6 +97,25 @@ class TestRouting(unittest.TestCase):
         # Aprendido el límite, ya no se le piden rangos que rechaza.
         self.assertLessEqual(max(calls["grande"][-3:]), 5000)
 
+    def test_punished_provider_does_not_drive_chunk_size(self):
+        chain = fc.FakeChain()
+        calls = {"grande": 0}
+
+        def transport(url, payload, timeout):
+            if "grande" in url and payload["method"] == "eth_getLogs":
+                calls["grande"] += 1
+                raise RpcError("HTTP 403 en grande", code=403)
+            return chain(url, payload, timeout)
+        rpc = Rpc(["https://grande", "https://chico"], transport=transport, sleep=no_sleep, rps=0)
+        rpc.log_limit.update({"https://grande": 50_000, "https://chico": 1_000})
+        logs = rpc.get_logs(None, [None], 1, 20_100)
+        self.assertEqual(len(logs), len(chain.logs))
+        self.assertEqual(calls["grande"], 1)          # un 403 lo castiga y ya no se le piden rangos
+
+    def test_trace_calls_are_gated(self):
+        rpc = Rpc(["https://a"], transport=fc.FakeChain(), sleep=no_sleep, rps=0, trace_concurrency=2)
+        self.assertEqual(rpc.gates["debug_traceTransaction"]._value, 2)
+
     def test_range_too_large_when_no_provider_fits(self):
         rpc = Rpc(["https://a"], transport=fc.FakeChain(), sleep=no_sleep, rps=0)
         rpc.log_limit["https://a"] = 100
@@ -228,6 +247,97 @@ class TestBudgetAndRetry(unittest.TestCase):
         self.assertTrue(a["realized_complete"])
 
 
+class TestLiquidatorSet(unittest.TestCase):
+    def test_owner_wallets_join_w_but_third_parties_do_not(self):
+        from census_dinero.collect import liquidator_set
+        bot, signer, owner, fund, pool, auction = "0xb", "0xs", "0xo", "0xf", "0xp", "0xa"
+        pairs = [(fund, bot), (bot, pool), (pool, bot), (bot, owner), (bot, auction), (pool, "0xq")]
+        eoas = {owner, fund, signer}
+        w, extra = liquidator_set({bot, signer}, pairs, {"0x0"}, lambda a: a in eoas)
+        self.assertEqual(extra, {owner, fund})
+        self.assertNotIn(pool, w)
+        self.assertNotIn(auction, w)
+
+    def test_out_of_range_realized_is_flagged(self):
+        chain = fc.FakeChain()
+        rc = chain.receipts[fc.th(0xD)]
+        rc["logs"].append({"address": fc.USDC, "topics": [fc.ERC20_TRANSFER_TOPIC, "0x" + fc.encode_address(fc.POOLX),
+                                                           "0x" + fc.encode_address(fc.BOT_A)],
+                           "data": "0x" + fc.w(50_000 * 10 ** 6)})
+        col, _ = make_collector(chain=chain)
+        tmp = tempfile.mkdtemp()
+        meta = col.run(1, tmp)
+        with open(os.path.join(tmp, "liquidaciones.jsonl")) as fh:
+            d = next(r for r in map(json.loads, fh) if r["tx_hash"] == fc.th(0xD))
+        self.assertEqual(d["realized_anomaly"], "neto_fuera_de_rango")
+        self.assertFalse(d["realized_complete"])
+        self.assertIn("USDC +50015", d["net_flows"])
+        self.assertEqual(meta["with_realized_complete"], 4)
+
+
+class FakeExplorer:
+    """Blockscout falso armado con los mismos hechos de FakeChain, pero con su propio formato."""
+
+    BASE = "https://explorador.falso"
+
+    def __init__(self, chain):
+        self.chain = chain
+
+    def __call__(self, url, timeout):
+        if "coins.llama.fi" in url:
+            return llama_getter(url, timeout)
+        path = url[len(self.BASE):].split("?")[0].strip("/").split("/")
+        c = self.chain
+        if path[:3] == ["api", "v2", "blocks"]:
+            return {"miner": {"hash": fc.BUILDER}}
+        if path[:3] == ["api", "v2", "addresses"]:
+            return {"is_contract": fc.norm(path[3]) not in fc.EOAS}
+        h = path[3]
+        tx, rc = c.txs[h], c.receipts[h]
+        if len(path) == 4:
+            return {"from": {"hash": tx["from"]}, "to": {"hash": tx["to"]}, "value": "0",
+                    "block_number": int(tx["blockNumber"], 16),
+                    "fee": {"type": "actual", "value": str(int(rc["gasUsed"], 16) * int(rc["effectiveGasPrice"], 16))}}
+        if path[4] == "token-transfers":
+            items = []
+            for lg in rc["logs"]:
+                if lg["topics"][0] != fc.ERC20_TRANSFER_TOPIC:
+                    continue
+                dec = 18 if fc.norm(lg["address"]) == fc.WETH else 6
+                items.append({"from": {"hash": "0x" + lg["topics"][1][-40:]}, "to": {"hash": "0x" + lg["topics"][2][-40:]},
+                              "token": {"address_hash": lg["address"], "symbol": "T", "type": "ERC-20", "decimals": str(dec)},
+                              "total": {"value": str(int(lg["data"], 16)), "decimals": str(dec)}})
+            return {"items": items, "next_page_params": None}
+        if path[4] == "internal-transactions":
+            items = [{"from": {"hash": k["from"]}, "to": {"hash": k["to"]}, "value": str(int(k["value"], 16)),
+                      "type": "call", "success": not k.get("error")}
+                     for k in c.traces_by_tx[h].get("calls", []) if k["type"] == "CALL"]
+            return {"items": items, "next_page_params": None}
+        raise AssertionError(url)
+
+
+class TestVerificar(unittest.TestCase):
+    def test_explorer_recomputation_matches_census(self):
+        from census_dinero import verificar
+        col, chain = make_collector()
+        tmp = tempfile.mkdtemp()
+        col.run(1, tmp)
+        recs, _ = an.load([os.path.join(tmp, "liquidaciones.jsonl")])
+        web = WebClient(rps=0, getter=FakeExplorer(chain), sleep=no_sleep, retries=1)
+        with open(os.path.join(tmp, "evidencia.json")) as fh:
+            evidence = json.load(fh)
+        self.assertIn(fc.th(0xD), {e["tx"]["hash"] for e in evidence})
+        res = verificar.verify(recs, web=web, explorers={"ethereum": FakeExplorer.BASE}, evidence=evidence)
+        for fuente in ("Blockscout", "evidencia RPC"):
+            d = next(r for r in res if r["tx_hash"] == fc.th(0xD) and r["fuente"] == fuente)
+            self.assertEqual(d["ok"], {"gas": True, "terceros": True, "neto": True, "colateral": True}, fuente)
+            self.assertAlmostEqual(d["third_party_eth"]["explorer"], 80 / 3000, places=9)
+        a = next(r for r in res if r["tx_hash"] == fc.th(0xA) and r["fuente"] == "evidencia RPC")
+        self.assertTrue(a["ok"]["neto"] and a["ok"]["terceros"])
+        md = verificar.render(res)
+        self.assertIn(fc.th(0xD), md)
+
+
 class TestAnalyzeTranches(unittest.TestCase):
     def _tranche(self, recs, meta):
         d = tempfile.mkdtemp()
@@ -245,6 +355,22 @@ class TestAnalyzeTranches(unittest.TestCase):
              "gas_usd": 1.0, "priority_eth": 0.0, "direct_eth": 0.0, "eth_usd": 3000.0, "timestamp": 1}
         r.update(kw)
         return r
+
+    def test_entry_contract_own_vs_shared(self):
+        alt = {"realized_usd": 90.0, "third_party_eth": 0.0, "realized_complete": True, "net_flows": "USDC +91"}
+        own = self.rec("0xa", tx_to="0xmain", liquidator="0xhelper", realized_usd=-1.0, entry_variant=alt)
+        s1 = self.rec("0xb", tx_to="0xatlas", liquidator="0xsolver1", third_party_usd=95.0, realized_usd=2.0,
+                      entry_variant=dict(alt, realized_usd=97.0))
+        s2 = self.rec("0xc", tx_to="0xatlas", liquidator="0xsolver2", third_party_usd=95.0, realized_usd=2.0,
+                      entry_variant=dict(alt, realized_usd=97.0))
+        known = self.rec("0xd", chain="arbitrum", tx_to="0x8ad1ae9d97c79aa68a0a151e83ff3942f68f86c1",
+                         liquidator="0xsolver3", entry_variant=dict(alt, realized_usd=97.0))
+        an.resolve_entries([own, s1, s2, known])
+        self.assertEqual([r["entry"] for r in (own, s1, s2, known)], ["propia", "compartida", "compartida", "compartida"])
+        self.assertEqual((own["realized_usd"], own["realized_base_usd"]), (90.0, -1.0))
+        self.assertEqual(s1["realized_usd"], 2.0)
+        an.resolve_entries([own])                      # idempotente
+        self.assertEqual(own["realized_usd"], 90.0)
 
     def test_merge_dedupe_and_routes(self):
         m = {"chain": "base", "events": 2, "window": {"days": 3.0}, "events_complete": True}

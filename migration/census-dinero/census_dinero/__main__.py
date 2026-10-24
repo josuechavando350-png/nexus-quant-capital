@@ -4,6 +4,7 @@
   python -m census_dinero collect --chain ethereum --days 30 --out out/ethereum
   python -m census_dinero collect --chain base --start-ts 1790000000 --end-ts 1790259200 --out out/base-01
   python -m census_dinero analyze --out resultados out/*/liquidaciones.jsonl
+  python -m census_dinero verificar --out resultados out/*/liquidaciones.jsonl
 """
 
 import argparse
@@ -14,6 +15,7 @@ import signal
 import sys
 import time
 
+from . import verificar
 from .analyze import analyze, load, write_outputs
 from .collect import Collector
 
@@ -78,10 +80,22 @@ def main(argv=None):
     a.add_argument("--run-json", help="run.json de la corrida, para saber qué tramos se esperaban")
     a.add_argument("inputs", nargs="+")
 
+    v = sub.add_parser("verificar", help="compara una muestra de filas contra el explorador")
+    v.add_argument("--out", required=True)
+    v.add_argument("--per-chain", type=int, default=4)
+    v.add_argument("inputs", nargs="+")
+
     args = ap.parse_args(argv)
     if args.cmd == "plan":
         with open(args.run_json) as fh:
             cfg = json.load(fh)
+        if cfg.get("modo") == "verificar":
+            # Solo verificar una corrida anterior: la matriz queda con un tramo simbólico que no corre.
+            print("modo=verificar")
+            print(f"fuente={int(cfg['corrida'])}")
+            print('matrix={"include":[{"chain":"ninguna","label":"sin-recoleccion"}]}')
+            return 0
+        print("modo=recolectar")
         matrix, info = plan(cfg)
         if info["jobs"] > MAX_JOBS:
             print(f"aviso: {info['jobs']} trabajos; más de {MAX_JOBS} esperarán turno", file=sys.stderr)
@@ -101,6 +115,16 @@ def main(argv=None):
         sys.stderr.flush()
         # Sin esperar a hilos de red que ya no importan: lo recolectado ya está escrito.
         os._exit(130 if meta.get("interrupted") else 1 if meta.get("fatal_error") else 0)
+    if args.cmd == "verificar":
+        recs, _ = load(args.inputs)
+        evidence = []
+        for p_ in args.inputs:
+            ev_path = os.path.join(os.path.dirname(p_), "evidencia.json")
+            if os.path.exists(ev_path):
+                with open(ev_path) as fh:
+                    evidence += json.load(fh)
+        print(verificar.write(verificar.verify(recs, per_chain=args.per_chain, evidence=evidence), args.out))
+        return 0
     recs, metas = load(args.inputs)
     expected = None
     if args.run_json:

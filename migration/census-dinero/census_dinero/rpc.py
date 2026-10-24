@@ -122,7 +122,8 @@ class _Bucket:
 
 class Rpc:
     def __init__(self, urls, *, timeout=20, retries=2, rps=12, transport=None, sleep=time.sleep,
-                 expected_chain_id=None, log_chunk=50_000, max_log_chunk=2_000_000, public=None):
+                 expected_chain_id=None, log_chunk=50_000, max_log_chunk=2_000_000, public=None,
+                 trace_concurrency=3):
         urls = [u for u in urls if u]
         if not urls:
             raise ValueError("sin proveedores RPC")
@@ -144,6 +145,9 @@ class Rpc:
         self.log_chunk = log_chunk
         self.max_log_chunk = max_log_chunk
         self.calls = 0
+        # Trazar es caro: pocos proveedores lo sirven y responden 429 si se les pide en paralelo.
+        self.gates = {m: threading.BoundedSemaphore(trace_concurrency)
+                      for m in ("debug_traceTransaction", "trace_transaction")}
         # URLs públicas se muestran tal cual; las de secrets solo como "secretoN (dominio)".
         public = set(self.urls if public is None else public)
         self.labels = {}
@@ -225,13 +229,25 @@ class Rpc:
         rest = sorted((u for u in usable if self.dead.get(u, 0) > now), key=lambda u: self.dead.get(u, 0))
         return alive + rest
 
-    def max_log_limit(self):
-        lims = [self.log_limit.get(u, _INF) for u in self.urls if not self.no_method.get((u, "eth_getLogs"))]
+    def max_log_limit(self, alive_only=False):
+        """Mayor rango de getLogs aceptado; con alive_only, solo entre proveedores no castigados."""
+        now = time.monotonic()
+        urls = [u for u in self.urls if not self.no_method.get((u, "eth_getLogs"))]
+        if alive_only and any(self.dead.get(u, 0) <= now for u in urls):
+            urls = [u for u in urls if self.dead.get(u, 0) <= now]
+        lims = [self.log_limit.get(u, _INF) for u in urls]
         return max(lims) if lims else 0
 
     def call(self, method, params):
         if method not in ALLOWED_METHODS:
             raise ValueError(f"método no permitido en census de solo lectura: {method}")
+        gate = self.gates.get(method)
+        if gate is None:
+            return self._call(method, params)
+        with gate:
+            return self._call(method, params)
+
+    def _call(self, method, params):
         last = None
         mkey = method + ("@archive" if method == "eth_call" and params[1] != "latest" else "")
         span = None
@@ -407,7 +423,8 @@ class Rpc:
         while start <= to_block:
             if deadline is not None and time.monotonic() > deadline:
                 raise BudgetExceeded(out, start)
-            cap = self.max_log_limit()
+            # Tope: el mayor rango entre los proveedores vivos; un castigado no arrastra el tamaño.
+            cap = self.max_log_limit(alive_only=True)
             chunk = int(max(1, min(chunk, cap, self.max_log_chunk)))
             end = min(to_block, start + chunk - 1)
             flt = {"fromBlock": hex(start), "toBlock": hex(end), "topics": topics}

@@ -20,8 +20,9 @@ Alcance: Aave V3 (core, Lido, EtherFi en Ethereum; Base; Arbitrum) y Morpho Blue
 | Bloques desde oráculo | Última `AnswerUpdated` / `NewTransmission` de los feeds detrás de la fuente de precio del activo (proxy de Chainlink, adaptadores CAPO, feeds del oráculo de Morpho). |
 | Pago al builder | Propina de prioridad + ETH/WETH enviado directo al coinbase (callTracer, trace_transaction o Blockscout). Solo Ethereum tiene subasta de builders. |
 | Neto del ganador | Bono − gas total − pagos directos. No descuenta el deslizamiento al vender el colateral. |
-| Se queda realmente | Todos los movimientos de tokens y ETH que entran o salen del liquidador (firmante, contrato y EOAs que solo reciben) valuados a mercado, menos gas. Ya descuenta venta del colateral, flash loans, subastas de oráculo y builder. |
-| Ruta | `subasta` si lo pagado a terceros en ETH más la propina es ≥ 30% del bono; `directa` si no; `sin_medir` si faltaron trazas o precios. |
+| Se queda realmente | Todos los movimientos de tokens y ETH que entran o salen del liquidador (firmante, contrato y cuentas sin código que en esa tx solo tratan con ellos) valuados a mercado, menos gas. Ya descuenta venta del colateral, flash loans, subastas de oráculo y builder. |
+| Ruta | `subasta` si lo pagado a terceros en ETH más la propina es ≥ 30% del bono; `directa` si no; `sin_medir` si faltaron trazas o precios, o si el neto quedó fuera de [−(bono + gas + 25%), bono + 25%] (`realized_anomaly`). |
+| Contrato de entrada | Si la tx llama a un contrato distinto del liquidador: `compartida` (subasta conocida o usado por ≥ 2 liquidadores; su saldo es de terceros) o `propia` (un solo liquidador; su saldo cuenta como del ganador). |
 
 Por mercado agrega bono, neto, ganadores únicos, participación del mayor,
 mediana de bloques y de propina, y lo clasifica como virgen, disputado o muerto
@@ -50,6 +51,13 @@ Usa RPC públicos por defecto. Si existen los secrets `NQC_CENSUS_RPC_ETHEREUM`,
 `NQC_CENSUS_RPC_BASE` y `NQC_CENSUS_RPC_ARBITRUM` (URLs separadas por coma), se
 prueban junto con los públicos. Sus URLs nunca se escriben en los resultados:
 aparecen como `secretoN (dominio)`.
+
+Cada tramo guarda además `evidencia.json`: tx, recibo, traza y código de las cuentas de
+una muestra de 5 transacciones. El job `report` corre `verificar`, que recalcula esas
+transacciones con código aparte del recolector desde dos fuentes (la evidencia cruda y
+la API de Blockscout, cuando responde) y publica `VERIFICACION.md`. Con
+`{"modo": "verificar", "corrida": <run_id>}` en `run.json` solo se verifica una corrida
+anterior, sin recolectar.
 
 Si se acaba el tiempo o se cancela, el tramo guarda lo que tenga y lo marca
 (`events_complete`, `time_budget_hit`, `interrupted`, `oracle_status: sin_cobertura`).

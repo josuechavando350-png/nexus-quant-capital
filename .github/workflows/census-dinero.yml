@@ -22,6 +22,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     outputs:
+      modo: ${{ steps.plan.outputs.modo }}
+      fuente: ${{ steps.plan.outputs.fuente }}
       matrix: ${{ steps.plan.outputs.matrix }}
       protocols: ${{ steps.plan.outputs.protocols }}
       budget: ${{ steps.plan.outputs.budget }}
@@ -53,7 +55,7 @@ jobs:
 
   collect:
     needs: plan
-    if: github.repository_id == 1411047452
+    if: github.repository_id == 1411047452 && needs.plan.outputs.modo == 'recolectar'
     name: collect (${{ matrix.label }})
     runs-on: ubuntu-24.04
     timeout-minutes: 350
@@ -109,21 +111,35 @@ jobs:
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
-      - name: Juntar tramos y escribir el reporte
+      - name: Juntar tramos, escribir el reporte y verificar contra el explorador
         env:
           GH_TOKEN: ${{ github.token }}
+          MODO: ${{ needs.plan.outputs.modo }}
+          FUENTE: ${{ needs.plan.outputs.fuente }}
         run: |
           git clone -q --depth 1 --branch census-dinero/resultados \
             "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" /tmp/res
-          files=$(ls /tmp/res/corridas/${GITHUB_RUN_ID}/*/*/liquidaciones.jsonl 2>/dev/null || true)
+          src="${FUENTE:-$GITHUB_RUN_ID}"
+          files=$(ls /tmp/res/corridas/${src}/*/*/liquidaciones.jsonl /tmp/res/corridas/${src}/*/liquidaciones.jsonl 2>/dev/null || true)
           if [ -z "$files" ]; then
-            echo "Ningún tramo produjo resultados en esta corrida." | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "Ningún tramo produjo resultados en la corrida ${src}." | tee -a "$GITHUB_STEP_SUMMARY"
             exit 1
           fi
-          python3 -m census_dinero analyze --run-json run.json --out /tmp/reporte $files > /dev/null
-          cat /tmp/reporte/RESUMEN.md >> "$GITHUB_STEP_SUMMARY"
+          mkdir -p /tmp/reporte
+          if [ "$MODO" = "recolectar" ]; then
+            python3 -m census_dinero analyze --run-json run.json --out /tmp/reporte $files > /dev/null
+            cat /tmp/reporte/RESUMEN.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+          python3 -m census_dinero verificar --out /tmp/reporte $files > /dev/null \
+            || echo "La verificación contra el explorador falló; el reporte sigue." >> "$GITHUB_STEP_SUMMARY"
+          [ -f /tmp/reporte/VERIFICACION.md ] && cat /tmp/reporte/VERIFICACION.md >> "$GITHUB_STEP_SUMMARY"
           cp run.json /tmp/reporte/run.json
-          python3 ci/push_results.py --src /tmp/reporte --dest "corridas/${GITHUB_RUN_ID}/reporte" \
-            --message "census reporte run ${GITHUB_RUN_ID}"
-          python3 ci/push_results.py --src /tmp/reporte --dest "ultimo" \
-            --message "census último reporte (run ${GITHUB_RUN_ID})"
+          if [ "$MODO" = "recolectar" ]; then
+            python3 ci/push_results.py --src /tmp/reporte --dest "corridas/${GITHUB_RUN_ID}/reporte" \
+              --message "census reporte run ${GITHUB_RUN_ID}"
+            python3 ci/push_results.py --src /tmp/reporte --dest "ultimo" \
+              --message "census último reporte (run ${GITHUB_RUN_ID})"
+          else
+            python3 ci/push_results.py --src /tmp/reporte --dest "corridas/${src}/verificacion-${GITHUB_RUN_ID}" \
+              --message "census verificación de run ${src} (run ${GITHUB_RUN_ID})"
+          fi
