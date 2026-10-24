@@ -204,3 +204,10 @@ y [auditoría](docs/AUDIT_AAVE_SIZING_EXECUTION_20261023.md). **662 pruebas apro
 colateral y remanentes calculados alimentan quema/entrega/pago. Salud, precios y
 totales agregados siguen suministrados; solo eMode cero. Estado artificial,
 política Titan intacta y avance **43/100**, sin crédito de fase ni gasto real.
+
+Salud y eMode originales integrados: [alcance](docs/aave-account-execution.md) y
+[auditoría](docs/AUDIT_AAVE_ACCOUNT_EXECUTION_20261023.md). **679 pruebas aprobadas
+(291 Rust + 388 Python)**. GenericLogic deriva totales y salud para las dos reservas;
+eMode y llamadas de precio alimentan ambas rutas de entrega/pago. El oráculo y su
+estado son explícitamente sintéticos: precios históricos aún no autenticados.
+Política Titan intacta, avance **43/100**, sin crédito de fase ni gasto real.
