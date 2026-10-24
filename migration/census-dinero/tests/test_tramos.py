@@ -47,6 +47,43 @@ class TestPlan(unittest.TestCase):
         self.assertEqual(len(matrix["include"]), 1)
 
 
+class TestResume(unittest.TestCase):
+    def test_only_listed_tranches_run(self):
+        cfg = {"days": 30, "end_utc": "2026-10-24T00:00:00Z", "chains": ["ethereum", "base"],
+               "tramos": {"ethereum": 3, "base": 2}, "solo": ["ethereum-02de03"]}
+        matrix, _ = plan(cfg)
+        self.assertEqual([r["label"] for r in matrix["include"]], ["ethereum-02de03"])
+
+    def test_tranche_files_prefer_successful_run(self):
+        from census_dinero.__main__ import tranche_files
+        root = tempfile.mkdtemp()
+
+        def put(run, label, fatal):
+            d = os.path.join(root, "corridas", run, label.split("-")[0], label)
+            os.makedirs(d)
+            open(os.path.join(d, "liquidaciones.jsonl"), "w").close()
+            with open(os.path.join(d, "meta.json"), "w") as fh:
+                json.dump({"fatal_error": "x" if fatal else None}, fh)
+        put("100", "ethereum-01de02", True)
+        put("100", "base-01de01", False)
+        put("200", "ethereum-01de02", False)
+        files = tranche_files(root, ["200", "100"])
+        self.assertEqual(sorted(os.path.relpath(f, root).split(os.sep)[1] for f in files), ["100", "200"])
+        self.assertIn(os.path.join("corridas", "200", "ethereum", "ethereum-01de02", "liquidaciones.jsonl"),
+                      [os.path.relpath(f, root) for f in files])
+
+    def test_null_receipt_tries_next_provider(self):
+        chain = fc.FakeChain()
+
+        def transport(url, payload, timeout):
+            if "podado" in url and payload["method"] in ("eth_getTransactionReceipt", "eth_getTransactionByHash"):
+                return {"jsonrpc": "2.0", "id": payload["id"], "result": None}
+            return chain(url, payload, timeout)
+        rpc = Rpc(["https://podado", "https://completo"], transport=transport, sleep=no_sleep, rps=0)
+        rc = rpc.call("eth_getTransactionReceipt", [fc.th(0xA)])
+        self.assertEqual(rc["transactionHash"], fc.th(0xA))
+
+
 class TestWindowPartition(unittest.TestCase):
     def test_adjacent_tranches_share_no_block(self):
         chain = fc.FakeChain()

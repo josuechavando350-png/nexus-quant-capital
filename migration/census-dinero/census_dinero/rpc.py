@@ -43,6 +43,10 @@ _RATE_HINTS = ("rate limit", "too many request", "capacity", "busy", "429", "slo
 _LOG_SIZE_HINTS = ("results", "response size", "too many logs", "too big", "size limit", "log response")
 _LOG_RANGE_HINTS = ("range", "block", "exceed", "too large", "too wide", "limit", "max")
 _INF = float("inf")
+# Métodos donde `null` significa "este proveedor no lo tiene" (índice de tx podado, nodo sin
+# estado viejo), no "no existe": se prueba el siguiente proveedor.
+_NULL_IS_MISS = frozenset({"eth_getTransactionByHash", "eth_getTransactionReceipt", "debug_traceTransaction",
+                           "trace_transaction"})
 
 
 class RpcError(Exception):
@@ -324,6 +328,10 @@ class Rpc:
                     last = RpcError(f"respuesta sin result: {str(resp)[:200]}")
                     self._record(url, mkey, False, dt, "respuesta sin result")
                     continue
+                if resp["result"] is None and method in _NULL_IS_MISS:
+                    last = RpcError(f"{method}: resultado nulo en {host_of(url)}")
+                    self._record(url, mkey, False, dt, "resultado nulo")
+                    break
                 self._record(url, mkey, True, dt)
                 if self.strikes.get(url):
                     with self.lock:

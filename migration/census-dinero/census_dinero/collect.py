@@ -1014,7 +1014,7 @@ class Collector:
                                                        "third_party_eth", "gas_eth", "collateral_amount",
                                                        "debt_amount", "eth_usd", "net_flows")} for r in g],
                 })
-            except (RpcError, KeyError, TypeError, ValueError) as e:
+            except (RpcError, KeyError, TypeError, ValueError, AttributeError) as e:
                 self.errors.append(self.rpc.scrub(f"evidencia {h}: {e}")[:200])
         return out
 

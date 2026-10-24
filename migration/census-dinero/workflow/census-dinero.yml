@@ -120,7 +120,7 @@ jobs:
           git clone -q --depth 1 --branch census-dinero/resultados \
             "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" /tmp/res
           src="${FUENTE:-$GITHUB_RUN_ID}"
-          files=$(ls /tmp/res/corridas/${src}/*/*/liquidaciones.jsonl /tmp/res/corridas/${src}/*/liquidaciones.jsonl 2>/dev/null || true)
+          files=$(python3 -m census_dinero archivos --res /tmp/res --run "$src" --run-json run.json)
           if [ -z "$files" ]; then
             echo "Ningún tramo produjo resultados en la corrida ${src}." | tee -a "$GITHUB_STEP_SUMMARY"
             exit 1
