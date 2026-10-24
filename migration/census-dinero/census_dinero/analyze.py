@@ -24,7 +24,7 @@ LIQ_FIELDS = [
     "third_party_usd", "oev_usd", "order_paid_usd", "route", "entry", "realized_base_usd", "realized_anomaly",
     "net_flows", "native_source",
     "beneficiaries", "unpriced_tokens",
-    "blocks_since_oracle", "seconds_since_oracle", "same_tx_as_oracle", "oracle_status", "liqs_in_tx",
+    "blocks_since_oracle", "seconds_since_oracle", "same_tx_as_oracle", "oracle_in_tx", "oracle_status", "liqs_in_tx",
     "enriched", "error",
 ]
 MARKET_FIELDS = [
@@ -103,6 +103,7 @@ def resolve_entries(recs):
         r["third_party_usd"] = alt["third_party_eth"] * eth if alt.get("third_party_eth") is not None and eth else None
         r["realized_complete"] = bool(alt.get("realized_complete"))
         r["net_flows"] = alt.get("net_flows")
+        r["third_party_to"] = alt.get("third_party_to") or {}
         if alt.get("anomaly"):
             r["realized_anomaly"] = alt["anomaly"]
         else:
@@ -221,6 +222,32 @@ def money_flow(rs):
     direct = _sum(r.get("third_party_usd") for r in real) - oev
     return {"n": len(real), "n_total": len(rs), "bonus": bonus, "kept": kept, "oev": oev, "builder_direct": direct,
             "priority": prio, "gas_base": gas_base, "rest": bonus - kept - prio - gas_base - oev - direct}
+
+
+def payees(recs, top=15):
+    """A quién va el ETH que sale del liquidador: subastas, builders o tesorerías del propio bot.
+
+    Un destinatario que cobra de varios liquidadores distintos es una subasta o un builder; uno
+    que solo cobra de un liquidador puede ser la tesorería del mismo bot (y entonces lo "pagado
+    a terceros" sería ganancia)."""
+    by = defaultdict(lambda: {"eth": 0.0, "usd": 0.0, "liquidators": set(), "n": 0, "coinbase": 0, "entry": 0})
+    for r in recs:
+        for a, eth in (r.get("third_party_to") or {}).items():
+            d = by[(r["chain"], a)]
+            d["eth"] += eth
+            d["usd"] += eth * (r.get("eth_usd") or 0)
+            d["liquidators"].add(r.get("liquidator"))
+            d["n"] += 1
+            d["coinbase"] += int(a == r.get("builder_coinbase"))
+            d["entry"] += int(a == r.get("tx_to"))
+    rows = []
+    for (chain, a), d in by.items():
+        kind = "builder" if d["coinbase"] >= d["n"] / 2 else (
+            "compartido" if len(d["liquidators"]) >= 2 or (chain, a) in KNOWN_SHARED_ENTRIES else "un_solo_liquidador")
+        rows.append({"chain": chain, "payee": a, "usd": d["usd"], "eth": d["eth"], "liquidations": d["n"],
+                     "liquidators": len(d["liquidators"]), "kind": kind, "is_entry": d["entry"] > 0})
+    rows.sort(key=lambda x: -x["usd"])
+    return rows[:top]
 
 
 def bots(recs, route="directa"):
@@ -394,6 +421,7 @@ def analyze(recs, metas, expected=None):
         "sizes": sizes,
         "states": dict(states),
         "winners_top": [{"liquidator": w, "bonus_usd": v, "share": s} for w, v, s in winners_table(recs)[:15]],
+        "payees": payees(recs),
         "bots_direct": bots(recs, "directa"),
         "bots_auction": bots(recs, "subasta"),
         "small_actor": small_actor(recs, chain_days),
@@ -545,6 +573,17 @@ def render_md(res, title_date):
     for b in res["bots_auction"][:12]:
         L.append(f"| {b['chain']} | `{short(b['liquidator'])}` | {b['signers']} | {b['liquidations']} | {usd(b['bonus_usd'])} | "
                  f"{usd(b['realized_usd'])} | {pct(b['kept_share'])} | {usd(b['order_paid_usd'])} | {num(b['blocks_median'])} |")
+    L.append("")
+    L.append("### ¿A quién va el ETH que sale del liquidador?")
+    L.append("")
+    L.append("\"compartido\": cobra de 2 o más liquidadores (subasta, builder). \"un_solo_liquidador\": puede ser la "
+             "tesorería del mismo bot; si lo es, ese pago es ganancia y no OEV.")
+    L.append("")
+    L.append("| Cadena | Destinatario | Tipo | USD | Liq. | Liquidadores | Es la entrada |")
+    L.append("|---|---|---|---:|---:|---:|---|")
+    for p_ in res.get("payees", []):
+        L.append(f"| {p_['chain']} | `{p_['payee']}` | {p_['kind']} | {usd(p_['usd'])} | {p_['liquidations']} | "
+                 f"{p_['liquidators']} | {'sí' if p_['is_entry'] else 'no'} |")
     L.append("")
     L.append("## Saturación de mercados")
     L.append("")

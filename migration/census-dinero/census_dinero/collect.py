@@ -631,7 +631,8 @@ class Collector:
                 net[tok] = net.get(tok, 0) + v
                 if tok == "ETH":
                     in_eth[f] = in_eth.get(f, 0) + v
-        third_wei = sum(max(0, v - in_eth.get(a, 0)) for a, v in out_eth.items())
+        paid = {a: max(0, v - in_eth.get(a, 0)) for a, v in out_eth.items()}
+        third_wei = sum(paid.values())
         usd, unpriced, parts = 0.0, [], []
         tokens = [t for t, v in net.items() if v and t not in ("ETH", weth)]
         prices = self.prices.llama_many([f"{self.chain.llama}:{t}" for t in tokens], ts) if tokens else {}
@@ -659,6 +660,8 @@ class Collector:
             "realized_usd": usd if eth_usd is not None else None,
             "realized_complete": native is not None and not unpriced and eth_usd is not None,
             "third_party_eth": third_wei / 1e18 if native is not None else None,
+            "third_party_to": {a: v / 1e18 for a, v in sorted(paid.items(), key=lambda kv: -kv[1])[:3] if v}
+            if native is not None else {},
             "unpriced": unpriced,
             "net_flows": ", ".join(f"{sym} {amt:+.6g}" for sym, amt in parts)[:240],
         }
@@ -723,6 +726,13 @@ class Collector:
             r["liqs_in_tx"] = len(group)
             self.value(r, hd)
             upd = self.last_update(r, feeds_by_key)
+            in_tx = [lg for lg in rc.get("logs") or [] if (lg.get("topics") or [""])[0].lower() in ORACLE_UPDATE_TOPICS
+                     and int(lg["logIndex"], 16) < r["log_index"]]
+            if in_tx:
+                # La actualización del oráculo viene en la misma transacción (SVR / subasta atómica),
+                # aunque su agregador no sea el que se vigila por getLogs.
+                r["oracle_in_tx"] = norm(in_tx[-1]["address"])
+                upd = (r["block"], int(in_tx[-1]["logIndex"], 16), r["tx_hash"])
             if isinstance(upd, tuple):
                 r["oracle_update_block"] = upd[0]
                 r["oracle_update_tx"] = upd[2]
@@ -774,6 +784,8 @@ class Collector:
                 r["realized_usd"] = real["realized_usd"] * wgt
             if real["third_party_eth"] is not None:
                 r["third_party_eth"] = real["third_party_eth"] * wgt
+            if real.get("third_party_to"):
+                r["third_party_to"] = {a: v * wgt for a, v in real["third_party_to"].items()}
             alt = real.get("with_entry")
             if alt:
                 r["entry_variant"] = {
@@ -782,6 +794,7 @@ class Collector:
                     "realized_complete": alt["realized_complete"],
                     "anomaly": alt.get("anomaly"),
                     "net_flows": alt["net_flows"],
+                    "third_party_to": {a: v * wgt for a, v in (alt.get("third_party_to") or {}).items()},
                 }
             if eth_usd:
                 r["gas_usd"] = r["gas_eth"] * eth_usd

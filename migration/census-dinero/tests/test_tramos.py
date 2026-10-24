@@ -338,6 +338,32 @@ class TestVerificar(unittest.TestCase):
         self.assertIn(fc.th(0xD), md)
 
 
+class TestOracleInTxAndPayees(unittest.TestCase):
+    def test_oracle_update_in_same_tx_counts_as_zero_blocks(self):
+        chain = fc.FakeChain()
+        svr = fc.norm("0x" + "5f" * 20)          # agregador SVR que no está en la cadena de fuentes vigilada
+        chain.receipts[fc.th(0xB)]["logs"].insert(0, {"address": svr, "topics": [fc.ANSWER_UPDATED_TOPIC, fc.th(1), fc.th(2)],
+                                                      "data": "0x" + fc.w(0), "logIndex": hex(1)})
+        col, _ = make_collector(chain=chain)
+        tmp = tempfile.mkdtemp()
+        col.run(1, tmp)
+        with open(os.path.join(tmp, "liquidaciones.jsonl")) as fh:
+            b = next(r for r in map(json.loads, fh) if r["tx_hash"] == fc.th(0xB))
+        self.assertEqual(b["blocks_since_oracle"], 0)
+        self.assertTrue(b["same_tx_as_oracle"])
+        self.assertEqual(b["oracle_in_tx"], svr)
+
+    def test_payees_show_who_gets_the_eth(self):
+        col, chain = make_collector()
+        tmp = tempfile.mkdtemp()
+        col.run(1, tmp)
+        recs, metas = an.load([os.path.join(tmp, "liquidaciones.jsonl")])
+        res = an.analyze(recs, metas)
+        kinds = {p["payee"]: p["kind"] for p in res["payees"]}
+        self.assertEqual(kinds[fc.AUCTION], "un_solo_liquidador")
+        self.assertEqual(kinds[fc.BUILDER], "builder")
+
+
 class TestAnalyzeTranches(unittest.TestCase):
     def _tranche(self, recs, meta):
         d = tempfile.mkdtemp()
