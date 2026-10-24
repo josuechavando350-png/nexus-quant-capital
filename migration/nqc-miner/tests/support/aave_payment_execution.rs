@@ -338,3 +338,6 @@ fn original_safe_transfer_wrapper_rejects_false_malformed_and_no_code_tokens_ato
         payment_revert(&s, &q, error);
     }
 }
+
+#[path = "aave_delivery_execution.rs"]
+mod delivery_execution;
