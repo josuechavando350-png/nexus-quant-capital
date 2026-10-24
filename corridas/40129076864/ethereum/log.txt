@@ -1,0 +1,23 @@
+[20:17:06] ethereum: ventana bloques 26250410..26264762 (2.0 días)
+[20:22:05] ethereum: 23 liquidaciones Aave
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/__main__.py", line 48, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/__main__.py", line 38, in main
+    col.run(args.days, args.out, end_block=args.end_block)
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 514, in run
+    recs = self.fetch_liquidations(win["start_block"], win["end_block"])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 278, in fetch_liquidations
+    logs = self.rpc.get_logs(self.chain.morpho, [MORPHO_LIQUIDATE_TOPIC], start, end)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 220, in get_logs
+    logs = self.call("eth_getLogs", [flt])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 162, in call
+    raise last          # lo maneja get_logs reduciendo el rango
+    ^^^^^^^^^^
+census_dinero.rpc.RpcError: You've reached the usage limit for your current plan. To continue with higher limits and uninterrupted access, please upgrade here: https://www.1rpc.io/#pricing
