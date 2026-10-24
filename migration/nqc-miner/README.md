@@ -226,3 +226,11 @@ y dos proveedores en tres bloques. La captura conserva la identidad del proxy
 porque el agregado puede devolver otro precio a un llamante directo. Agregado,
 fuente USDC y estado siguen simulados; frescura/preestado no autenticados. Política
 Titan intacta, avance **43/100**, sin crédito de fase ni gasto real.
+
+DualAggregator WETH observado integrado: [alcance](docs/aave-dual-aggregator-execution.md)
+y [auditoría](docs/AUDIT_AAVE_DUAL_AGGREGATOR_EXECUTION_20261023.md). **740 pruebas
+aprobadas (317 Rust + 423 Python)**. Sus 23186 bytes coinciden íntegramente con
+recompilación y dos proveedores en tres bloques. Nueve lecturas locales reproducen
+rondas/precios usando slots observados; el entorno no autentica el estado de
+Ethereum ni frescura. La liquidación y fuente USDC conservan estado suministrado.
+Gas exclusivo de Titan, avance **43/100**, sin gasto o crédito de fase.
