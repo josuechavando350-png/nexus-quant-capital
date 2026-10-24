@@ -1,0 +1,770 @@
+{
+  "archive_disabled": false,
+  "chain": "base",
+  "elapsed_s": 371.1,
+  "enriched": 39,
+  "errors_sample": [],
+  "events": 39,
+  "events_complete": true,
+  "events_cover_block": 52998126,
+  "fatal_error": null,
+  "interrupted": false,
+  "native_trace_sources": {
+    "debug_traceTransaction": 37,
+    "no_medido": 2
+  },
+  "oracle_contracts_watched": 13,
+  "oracle_status": {
+    "sin_ver": 1
+  },
+  "phases_s": {
+    "enriquecimiento": 40.1,
+    "eventos": 4.3,
+    "metadatos": 4.0,
+    "oraculos": 258.0,
+    "segunda_pasada": 30.8,
+    "sonda": 26.6,
+    "ventana": 7.3
+  },
+  "price_sources": {
+    "defillama": 0,
+    "oraculo": 148,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "aave",
+    "morpho"
+  ],
+  "rpc_calls": 826,
+  "rpc_providers": {
+    "https://1rpc.io/base": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 1
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "debug_traceTransaction",
+        "eth_getLogs",
+        "trace_transaction"
+      ]
+    },
+    "https://api.zan.top/base-mainnet": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    },
+    "https://base-mainnet.public.blastapi.io": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 1
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    },
+    "https://base-pokt.nodies.app": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 1
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "debug_traceTransaction",
+        "eth_getLogs",
+        "trace_transaction"
+      ]
+    },
+    "https://base-rpc.publicnode.com": {
+      "en_rotacion": true,
+      "err": 76,
+      "getlogs_max": 50000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 65,
+          "ok": 40
+        },
+        "eth_call@archive": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 1
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 79,
+          "ok": 59
+        },
+        "eth_getLogs": {
+          "err": 76,
+          "errores": {
+            "HTTP 403 en base-rpc.publicnode.com": 76
+          },
+          "ms_prom": 3039,
+          "ok": 2
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 101,
+      "sin_metodo": [
+        "debug_traceTransaction"
+      ]
+    },
+    "https://base.api.onfinality.io/public": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://base.blockpi.network/v1/rpc/public": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://base.drpc.org": {
+      "en_rotacion": true,
+      "err": 110,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 110,
+          "errores": {
+            "HTTP 408 en base.drpc.org": 21,
+            "HTTP 429 en base.drpc.org": 89
+          },
+          "ms_prom": 339,
+          "ok": 39
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 55,
+          "ok": 1
+        },
+        "eth_call@archive": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 68,
+          "ok": 42
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 47,
+          "ok": 1
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 55,
+          "ok": 3
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 83,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    },
+    "https://base.lava.build": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://base.llamarpc.com": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://base.meowrpc.com": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    },
+    "https://base.rpc.subquery.network/public": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://developer-access-mainnet.base.org": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://endpoints.omniatech.io/v1/base/mainnet/public": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://gateway.tenderly.co/public/base": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": 1000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 72,
+          "ok": 3
+        },
+        "eth_call@archive": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 1
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 90,
+          "ok": 59
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 72,
+          "ok": 4
+        },
+        "eth_getLogs": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 166,
+          "ok": 125
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 77,
+          "ok": 49
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 96,
+          "ok": 46
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 286,
+      "sin_metodo": []
+    },
+    "https://mainnet.base.org": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 39,
+          "ok": 1
+        },
+        "eth_call@archive": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 44,
+          "ok": 69
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 46,
+          "ok": 1
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 36,
+          "ok": 1
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 55,
+          "ok": 1
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 38,
+          "ok": 1
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 73,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    }
+  },
+  "second_pass": {
+    "intentadas": 11,
+    "recuperadas": 9
+  },
+  "sonda": [
+    {
+      "archivo": true,
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "getlogs_error": "exceed maximum block range: 50000",
+      "getlogs_max": 50000,
+      "getlogs_ms": 1550,
+      "ms": 49,
+      "proveedor": "https://base-rpc.publicnode.com",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 403 en base-rpc.publicnode.com",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 403 en base-rpc.publicnode.com",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "archivo": true,
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "ok": 1
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "ok": 2
+      },
+      "getlogs_error": "HTTP 400 en base.drpc.org",
+      "getlogs_max": 0,
+      "ms": 34,
+      "proveedor": "https://base.drpc.org",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "ok": 1
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 408 en base.drpc.org",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "archivo": true,
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "HTTP 401 en mainnet.base.org",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 401 en mainnet.base.org",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 429 en mainnet.base.org",
+      "getlogs_max": 0,
+      "ms": 38,
+      "proveedor": "https://mainnet.base.org",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 401 en mainnet.base.org",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 401 en mainnet.base.org",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "archivo": true,
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "Method debug_traceTransaction not allowed",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "Method debug_traceTransaction not allowed",
+        "ok": 0
+      },
+      "getlogs_error": "eth_getLogs is limited to 0 - 50 blocks range",
+      "getlogs_max": 0,
+      "ms": 24,
+      "proveedor": "https://1rpc.io/base",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "Method trace_transaction not allowed",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "Method trace_transaction not allowed",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "archivo": false,
+      "archivo_error": "The method eth_call is not supported.",
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "HTTP 429 en base.meowrpc.com",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 429 en base.meowrpc.com",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 429 en base.meowrpc.com",
+      "getlogs_max": 0,
+      "ms": 191,
+      "proveedor": "https://base.meowrpc.com",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 429 en base.meowrpc.com",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 429 en base.meowrpc.com",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "archivo": true,
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "HTTP 401 en base-mainnet.public.blastapi.io",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 401 en base-mainnet.public.blastapi.io",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 400 en base-mainnet.public.blastapi.io",
+      "getlogs_max": 0,
+      "ms": 50,
+      "proveedor": "https://base-mainnet.public.blastapi.io",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 401 en base-mainnet.public.blastapi.io",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 401 en base-mainnet.public.blastapi.io",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "archivo": true,
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "HTTP 429 en gateway.tenderly.co",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 429 en gateway.tenderly.co",
+        "ok": 0
+      },
+      "getlogs_error": "invalid params",
+      "getlogs_max": 1000,
+      "getlogs_ms": 191,
+      "ms": 117,
+      "proveedor": "https://gateway.tenderly.co/public/base",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 429 en gateway.tenderly.co",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 429 en gateway.tenderly.co",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "archivo": true,
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "Method not available on this plan: debug_traceTransaction. Upgrade your subscription at https://nodies.app/pricing for full method access.",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "Method not available on this plan: debug_traceTransaction. Upgrade your subscription at https://nodies.app/pricing for full method access.",
+        "ok": 0
+      },
+      "getlogs_error": "Block range too large: maximum allowed is 50 blocks on your current plan. Upgrade your subscription at https://nodies.app/pricing for larger ranges.",
+      "getlogs_max": 0,
+      "ms": 34,
+      "proveedor": "https://base-pokt.nodies.app",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "Method not available on this plan: trace_transaction. Upgrade your subscription at https://nodies.app/pricing for full method access.",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "Method not available on this plan: trace_transaction. Upgrade your subscription at https://nodies.app/pricing for full method access.",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "archivo": false,
+      "archivo_error": "HTTP 429 en api.zan.top",
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "HTTP 429 en api.zan.top",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 429 en api.zan.top",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 429 en api.zan.top",
+      "getlogs_max": 0,
+      "ms": 899,
+      "proveedor": "https://api.zan.top/base-mainnet",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 429 en api.zan.top",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 429 en api.zan.top",
+        "ok": 0
+      },
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {
+    "debug_traceTransaction: HTTP 408 en base.drpc.org": 5,
+    "debug_traceTransaction: HTTP 429 en base.drpc.org": 44
+  },
+  "tramo": {
+    "end_ts": 1792785600,
+    "label": "base-01de02",
+    "start_ts": 1792699200
+  },
+  "transactions": 39,
+  "web_calls": 36,
+  "web_sources": {
+    "blockscout": {
+      "error": "HTTP 403 en https://base.blockscout.com/api/v2/transactions/0x1c584321ad18c0c28bca88c717c4e1c35ab9b9729e0ecbc9c9f95fbcb6",
+      "ok": false
+    },
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 2.0,
+    "days": 1.0,
+    "end_block": 52998126,
+    "end_ts": 1792785600,
+    "first_block_ts": 1792699201,
+    "lookback_block": 52908127,
+    "start_block": 52954927,
+    "start_ts": 1792699200
+  },
+  "with_bonus_usd": 39,
+  "with_oracle_delta": 38,
+  "with_realized": 39,
+  "with_realized_complete": 37
+}
