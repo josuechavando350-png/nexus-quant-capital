@@ -1,0 +1,40 @@
+[21:52:33] base: ventana bloques 52522927..52652526 (3 días), 9 proveedores responden
+[21:52:33] base: fase ventana: 8.0 s
+[21:52:46] base: sonda: proveedor | ms | getLogs máx | archivo | debug viejo | trace viejo
+[21:52:46] base: sonda: https://base-rpc.publicnode.com | 26 | 50,000 | sí | 0/2 | 0/2
+[21:52:46] base: sonda: https://base.drpc.org | 43 | 0 | sí | 0/2 | 1/2
+[21:52:46] base: sonda: https://mainnet.base.org | 31 | 0 | sí | 0/2 | 0/2
+[21:52:46] base: sonda: https://1rpc.io/base | 60 | 0 | sí | 0/2 | 0/2
+[21:52:46] base: sonda: https://base.meowrpc.com | 212 | 0 | no | 0/2 | 0/2
+[21:52:46] base: sonda: https://base-mainnet.public.blastapi.io | 36 | 0 | sí | 0/2 | 0/2
+[21:52:46] base: sonda: https://gateway.tenderly.co/public/base | 46 | 1,000 | sí | 0/2 | 0/2
+[21:52:46] base: sonda: https://base-pokt.nodies.app | 34 | 0 | sí | 0/2 | 0/2
+[21:52:46] base: sonda: https://api.zan.top/base-mainnet | 1069 | 0 | no | 0/2 | 0/2
+[21:53:03] base: fuentes web: {"blockscout": {"ok": false, "error": "HTTP 403 en https://base.blockscout.com/api/v2/transactions/0xfe635ab94d1846cc608930664b8bdf83fb2891d6677899e0cef68e4209"}, "defillama": {"ok": true}}
+[21:53:03] base: fase sonda: 29.6 s
+[21:53:15] base: 35 liquidaciones Aave
+[21:53:30] base: 611 liquidaciones Morpho
+[21:53:30] base: fase eventos: 27.9 s
+[21:53:50] base: fase metadatos: 19.9 s
+[21:54:20] base: oráculos 1/2: bloque 52,572,126 (54%), 3,043 logs, tramo de 1,000 bloques
+[21:54:22] base: oráculos 2/2: bloque 52,575,126 (56%), 2,636 logs, tramo de 1,000 bloques
+[21:54:42] base: 12275 actualizaciones de oráculo en 63 contratos
+[21:54:42] base: fase oraculos: 51.3 s
+[21:55:48] base: 33/224 transacciones enriquecidas, 1,092 llamadas RPC, 15 web
+[21:56:49] base: 88/224 transacciones enriquecidas, 1,493 llamadas RPC, 30 web
+[21:57:51] base: 127/224 transacciones enriquecidas, 1,721 llamadas RPC, 31 web
+[21:58:51] base: 167/224 transacciones enriquecidas, 1,964 llamadas RPC, 35 web
+[21:59:57] base: 211/224 transacciones enriquecidas, 2,278 llamadas RPC, 44 web
+[22:00:08] base: 224/224 transacciones enriquecidas
+[22:00:08] base: fase enriquecimiento: 326.3 s
+[22:00:08] base: segunda pasada de trazas para 88 transacciones
+[22:01:10] base: 17/88 transacciones reintentadas, 2,457 llamadas RPC, 49 web
+[22:02:11] base: 29/88 transacciones reintentadas, 2,547 llamadas RPC, 49 web
+[22:03:12] base: 49/88 transacciones reintentadas, 2,657 llamadas RPC, 49 web
+[22:04:12] base: 58/88 transacciones reintentadas, 2,737 llamadas RPC, 49 web
+[22:05:16] base: 68/88 transacciones reintentadas, 2,823 llamadas RPC, 49 web
+[22:06:19] base: 76/88 transacciones reintentadas, 2,903 llamadas RPC, 49 web
+[22:06:56] base: 88/88 transacciones reintentadas
+[22:06:56] base: fase segunda_pasada: 407.7 s
+[22:07:21] base: fase evidencia: 25.3 s
+[22:07:21] base: listo — 646 eventos, 646 enriquecidos, 3038 llamadas RPC, 896.1 s
