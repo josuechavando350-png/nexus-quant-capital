@@ -25,6 +25,11 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Command {
+    /// Review supplied Titan gas terms offline; never verifies or authorizes funding.
+    AssessGasFunding {
+        #[arg(long)]
+        input: PathBuf,
+    },
     /// Offline debt burn/deficit bookkeeping with explicitly supplied external outcomes.
     CalculateAaveDebt {
         #[arg(long)]
@@ -178,6 +183,10 @@ fn validate_live_build(config: &MinerConfig) -> Result<(), Box<dyn Error>> {
 
 fn run(cli: Cli) -> Result<(), Box<dyn Error>> {
     match cli.command {
+        Command::AssessGasFunding { input } => {
+            let value: nqc_miner::funding::FundingInput = read_json(&input)?;
+            print_json(&nqc_miner::funding::assess(&value).map_err(std::io::Error::other)?)
+        }
         Command::CalculateAaveDebt { input } => {
             let value: nqc_miner::aave_debt::DebtInput = read_json(&input)?;
             print_json(&nqc_miner::aave_debt::calculate(&value).map_err(std::io::Error::other)?)
@@ -228,7 +237,8 @@ fn run(cli: Cli) -> Result<(), Box<dyn Error>> {
             "rustflags_sha256":env!("NQC_MINER_BUILD_RUSTFLAGS_SHA256"),
             "build_identity_sha256":env!("NQC_MINER_BUILD_IDENTITY_SHA256"),
             "namespace":"nqc_miner_v1","observer_bridge_enabled":false,"signing_enabled":false,
-            "gas_budget_mxn_centavos":0,"status":"preparatory-research-build","economic_certification":false}),
+            "gas_budget_mxn_centavos":0,"funding_policy":nqc_miner::funding::policy(),
+            "status":"preparatory-research-build","economic_certification":false}),
         ),
         Command::Topics => print_json(&json!({
             "morpho-blue":discovery::event_topics(discovery::ProtocolFamily::MorphoBlue),

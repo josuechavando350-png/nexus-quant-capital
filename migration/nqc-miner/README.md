@@ -74,6 +74,7 @@ en [docs/infrastructure.md](docs/infrastructure.md).
 
 ```bash
 nqc-miner about
+nqc-miner assess-gas-funding --input fixtures/gas_funding.synthetic.json
 nqc-miner topics
 nqc-miner validate-config --config /ruta/miner-config.json
 nqc-miner validate-aave-plan --config /ruta/miner-config.json --plan /ruta/plan.json
@@ -101,7 +102,9 @@ El comando `report` sin un registro prospectivo de vigilancia no atribuye detecc
 
 El presupuesto activo de esta entrega es **cero**. `scan` no admite presupuesto de gas. No hay firmante, KMS, broadcast, alertas enviadas ni aprobaciones utilizables para operar.
 
-El módulo preparatorio de presupuesto conserva los límites históricos indicados por el usuario: MXN 2,000 de gas total, recargas máximas de MXN 500 y parada a MXN 1,000 consumidos sin captura realizada. No se ha autorizado ni ejecutado ninguna recarga. Las cifras se expresan como enteros en centavos; los resultados simulados no financian nada.
+La política vigente exige **gas de Titan y cero aportación propia**: no se permiten prefondo de gas, fallback, principal, colateral, garantías ni recurso contra el operador. Los límites anteriores de MXN 2,000/500/1,000 quedan únicamente en el módulo de contabilidad histórica `controls::historical_own_gas`; ya no son la política actual.
+
+El comando [assess-gas-funding](docs/gas-funding.md) revisa términos suministrados por ejecución: bundle, cadena, código, bloque, vigencia y límites para éxito y fallo. Un anuncio general, una simulación o un dato ausente no demuestra cobertura. Incluso términos consistentes conservan `execution_gas_coverage_verified=false`: la identidad del patrocinador y su compromiso concreto todavía deben autenticarse. No activa fondos ni minas.
 
 ## Qué falta para cerrar el PDF
 
