@@ -82,7 +82,7 @@ class _Bucket:
 
 
 class Rpc:
-    def __init__(self, urls, *, timeout=30, retries=3, rps=12, transport=None, sleep=time.sleep,
+    def __init__(self, urls, *, timeout=20, retries=2, rps=12, transport=None, sleep=time.sleep,
                  expected_chain_id=None, log_chunk=50_000, max_log_chunk=2_000_000):
         urls = [u for u in urls if u]
         if not urls:
@@ -94,6 +94,7 @@ class Rpc:
         self.sleep = sleep
         self.buckets = {u: _Bucket(rps) for u in self.urls}
         self.dead = {}                 # url -> monotonic hasta cuándo evitarlo
+        self.strikes = {}              # url -> fallas de transporte seguidas (castigo creciente)
         self.no_method = {}            # (url, method) -> True
         self.stats = {u: {"ok": 0, "err": 0} for u in self.urls}
         self.lock = threading.Lock()
@@ -110,10 +111,16 @@ class Rpc:
             self.calls += 1
             return self._id
 
+    def _score(self, url):
+        st = self.stats[url]
+        return (st["err"] + 1) / (st["ok"] + st["err"] + 2)
+
     def _order(self, method):
+        """Proveedores vivos primero, ordenados por tasa de error; los castigados al final."""
         now = time.monotonic()
-        alive = [u for u in self.urls if self.dead.get(u, 0) <= now and not self.no_method.get((u, method))]
-        rest = [u for u in self.urls if u not in alive and not self.no_method.get((u, method))]
+        usable = [u for u in self.urls if not self.no_method.get((u, method))]
+        alive = sorted((u for u in usable if self.dead.get(u, 0) <= now), key=self._score)
+        rest = sorted((u for u in usable if self.dead.get(u, 0) > now), key=lambda u: self.dead.get(u, 0))
         return alive + rest
 
     def call(self, method, params):
@@ -174,12 +181,22 @@ class Rpc:
                     self.stats[url]["err"] += 1
                     continue
                 self.stats[url]["ok"] += 1
+                if self.strikes.get(url):
+                    with self.lock:
+                        self.strikes[url] = 0
                 return resp["result"]
             if transport_failures >= self.retries:
-                self._kill(url, 30)
+                with self.lock:
+                    self.strikes[url] = self.strikes.get(url, 0) + 1
+                    k = self.strikes[url]
+                self._kill(url, min(600, 30 * 2 ** (k - 1)))
         if range_error is not None:
             raise range_error                       # get_logs lo maneja reduciendo el rango
         raise last or RpcError(f"{method} falló en todos los proveedores")
+
+    def dead_for_all(self, method):
+        """True si ningún proveedor soporta el método (todos lo rechazaron como no disponible)."""
+        return all(self.no_method.get((u, method)) for u in self.urls)
 
     def _kill(self, url, seconds):
         with self.lock:

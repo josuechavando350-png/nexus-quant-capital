@@ -211,6 +211,7 @@ class Collector:
         self.updates = {}
         self.direct_stats = {}
         self.code_cache = {}
+        self.trace_errors = {}
         self.errors = []
 
     # -- utilidades con caché -----------------------------------------------------
@@ -432,18 +433,21 @@ class Collector:
     def native_transfers(self, tx):
         """Movimientos de ETH nativo dentro de la transacción: [(desde, hacia, wei)] o None si no hay trazas."""
         h = tx["hash"]
-        try:
-            frame = self.rpc.call("debug_traceTransaction", [h, {"tracer": "callTracer"}])
-            if isinstance(frame, dict):
-                return call_frames_transfers(frame), "debug_traceTransaction"
-        except RpcError:
-            pass
+        for attempt in range(2):
+            try:
+                frame = self.rpc.call("debug_traceTransaction", [h, {"tracer": "callTracer", "timeout": "20s"}])
+                if isinstance(frame, dict):
+                    return call_frames_transfers(frame), "debug_traceTransaction"
+            except RpcError as e:
+                self._trace_error("debug_traceTransaction", e)
+                if self.rpc.dead_for_all("debug_traceTransaction"):
+                    break
         try:
             traces = self.rpc.call("trace_transaction", [h])
             if isinstance(traces, list):
                 return parity_transfers(traces), "trace_transaction"
-        except RpcError:
-            pass
+        except RpcError as e:
+            self._trace_error("trace_transaction", e)
         if self.chain.blockscout:
             try:
                 out = []
@@ -458,9 +462,14 @@ class Collector:
                         return out, "blockscout"
                     q = "&".join(f"{k}={v}" for k, v in nxt.items())
                     url = f"{self.chain.blockscout}/api/v2/transactions/{h}/internal-transactions?{q}"
-            except (WebError, AttributeError, ValueError, TypeError, KeyError):
-                pass
+            except (WebError, AttributeError, ValueError, TypeError, KeyError) as e:
+                self._trace_error("blockscout", e)
         return None, "no_medido"
+
+    def _trace_error(self, source, err):
+        key = f"{source}: {str(err)[:90]}"
+        with self.lock:
+            self.trace_errors[key] = self.trace_errors.get(key, 0) + 1
 
     def is_eoa(self, addr):
         with self.lock:
@@ -706,6 +715,7 @@ class Collector:
             "price_sources": self.prices.stats,
             "archive_disabled": self.prices.archive_disabled,
             "native_trace_sources": self.direct_stats,
+            "trace_errors": dict(sorted(self.trace_errors.items(), key=lambda kv: -kv[1])[:20]),
             "with_realized": sum(1 for r in recs if r.get("realized_usd") is not None),
             "with_realized_complete": sum(1 for r in recs if r.get("realized_complete")),
             "oracle_contracts_watched": len(self.updates),
