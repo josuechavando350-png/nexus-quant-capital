@@ -190,3 +190,10 @@ aprobadas (268 Rust + 364 Python)**. Una misma envoltura ejecuta el if/else orig
 recibir aTokens conserva oferta y no necesita WETH; recibir WETH conserva la
 ejecución anterior. Ambas revierten todos los efectos si falla el pago. Estado
 artificial, política Titan intacta y avance **43/100**, sin crédito adicional de fase.
+
+Reservas y validación inicial integradas: [alcance](docs/aave-prelude-execution.md)
+y [auditoría](docs/AUDIT_AAVE_PRELUDE_EXECUTION_20261023.md). **647 pruebas
+aprobadas (275 Rust + 372 Python)**. Ambas reservas actualizan índices/tesorería
+y derivan saldos desde los tokens antes del validador original y las dos rutas
+de entrega/pago. Salud agregada e importes siguen suministrados; estado artificial,
+política Titan intacta y avance **43/100**, sin certificación histórica completa.
