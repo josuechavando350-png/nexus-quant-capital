@@ -176,3 +176,10 @@ Actual aToken transfer composition: [scope and reproduction](docs/aave-transfer-
 Underlying WETH execution: [scope and metadata gap](docs/aave-underlying-execution.md), [audit](docs/AUDIT_AAVE_UNDERLYING_EXECUTION_20261023.md).
 
 Auditoría vigente de política de gas: [Titan por ejecución](docs/AUDIT_TITAN_GAS_POLICY_20261023.md), **589 pruebas aprobadas (249 Rust + 340 Python)** sobre la misma fuente tras restaurar objetos Git históricos. Se conservan el intento inicial fallido y una repetición interrumpida. Avance **43/100**, sin cobertura de patrocinio ni operación certificada.
+
+Cobro USDC tras entregar WETH: [alcance y reproducción](docs/aave-payment-execution.md),
+[auditoría](docs/AUDIT_AAVE_PAYMENT_EXECUTION_20261023.md). **614 pruebas aprobadas
+(259 Rust + 355 Python)**; rollback completo ante fallos de pago. Código observado
+de USDC y proxy ejecutado sobre estado artificial, con diferencias de metadata
+explícitas. Política Titan intacta; avance **43/100**, sin certificación histórica
+completa ni autorización de gasto.
