@@ -1,84 +1,198 @@
 # Census del dinero · 2026-10-24
 
-Ventana: **2 días** · cadenas: arbitrum · protocolos: Aave V3 y Morpho Blue.
+Ventana: **2 días** · cadenas: ethereum, base, arbitrum · protocolos: Aave V3 y Morpho Blue.
 
 ## Respuesta corta
 
-1. **¿Cuánto dinero hay?** Bono total pagado a liquidadores: **$4,316** en 18 liquidaciones. Después de gas y pagos al builder les quedó **$4,314** (antes del costo de vender el colateral).
-   **Lo que realmente se quedaron**, sumando todos los movimientos de tokens y ETH de cada transacción (venta del colateral, flash loan, pujas a subastas de oráculo, builder y gas): **$59**, el **2%** del bono (medido en 61% de las liquidaciones). Pagado en ETH a terceros (subastas y builders): $3,156.
-2. **¿Quién se lo lleva?** 8 liquidadores distintos; los 3 mayores se llevan **98%** del bono.
-3. **¿En cuántos bloques?** Mediana de **8 bloques** (2 s) desde la última actualización del oráculo; **0%** ocurren en el mismo bloque.
+1. **¿Cuánto dinero hay?** Bono total pagado a liquidadores: **$51.8 k** en 356 liquidaciones.
+2. **¿Quién se lo lleva?** 59 liquidadores distintos; los 3 mayores se llevan **58%** del bono.
+3. **¿Llegan a tiempo? ¿En cuántos bloques?** Mediana de **1 bloques** (2 s) desde la última actualización del oráculo; **25%** en el mismo bloque.
+4. **¿Qué porcentaje dejó al builder (Ethereum)?** **103%** del bono (propina + pago directo al coinbase).
+5. **¿Cuánto se queda realmente el ganador?** En las 346 liquidaciones con medición completa (97% del total): bono $51.2 k, el ganador se quedó **$123.9 k (242%)**; a subastas de oráculo/OEV $28.0 k (55%), al builder en directo $18.6 k, en propina $338, gas base $25, resto (deslizamiento, comisiones) -$119.7 k.
+
+## ¿A dónde se va el bono?
+
+Solo liquidaciones con medición completa (todos los movimientos de tokens y ETH de la transacción valuados). OEV = ETH pagado a terceros que no son el builder del bloque (subastas de oráculo como SVR/Atlas). Resto = bono − todo lo anterior: deslizamiento al vender, comisiones, pagos en tokens.
+
+| Cadena | Protocolo | Medidas | Bono | Ganador | % | OEV | Builder directo | Propina | Gas base | Resto |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| arbitrum | aave | 15/15 | $4,013 | $117 | 3% | $3,532 | $0 | $1 | $1 | $362 |
+| arbitrum | morpho | 3/3 | $0 | -$0 | — | $0 | $0 | $0 | $0 | $0 |
+| base | aave | 60/62 | $5,177 | $4 | 0% | $4,966 | $0 | $3 | $1 | $203 |
+| base | morpho | 223/231 | $23.1 k | $2,547 | 11% | $19.5 k | $0 | $150 | $3 | $936 |
+| ethereum | aave | 23/23 | $9,319 | $11 | 0% | $1 | $9,203 | $0 | $14 | $89 |
+| ethereum | morpho | 22/22 | $9,577 | $121.3 k | 1266% | $0 | $9,398 | $184 | $6 | -$121.3 k |
 
 ## Por cadena y protocolo
 
-| Cadena | Protocolo | Liq. | Bono | Real | % quedó | A terceros | Ganadores | Top 3 | Bloques | Seg. |
-|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| arbitrum | aave | 15 | $4,316 | $59 | 2% | $3,156 | 6 | 98% | 8 | 2 |
-| arbitrum | morpho | 3 | $0 | -$0 | -665% | $0 | 2 | 100% | 1 | 0 |
+| Cadena | Protocolo | Liq. | Bono | Ganadores | Top 3 | Bloques (p25·med·p75) | Seg. | Mismo bloque | Builder (Eth) |
+|---|---|---:|---:|---:|---:|---|---:|---:|---:|
+| arbitrum | aave | 15 | $4,013 | 6 | 98% | 8 · 8 · 9 | 2 | 0% | n/a |
+| arbitrum | morpho | 3 | $0 | 2 | 100% | 1 · 1 · 1 | 0 | 0% | n/a |
+| base | aave | 62 | $5,177 | 7 | 100% | 16 · 116 · 366 | 232 | 0% | n/a |
+| base | morpho | 231 | $23.7 k | 29 | 79% | 0 · 1 · 2 | 2 | 28% | n/a |
+| ethereum | aave | 23 | $9,319 | 10 | 93% | 0 · 0 · 1 | 0 | 74% | 106% |
+| ethereum | morpho | 22 | $9,577 | 12 | 96% | 0 · 0 · 96 | 0 | 55% | 100% |
 
-Real: lo que se quedaron los liquidadores en las transacciones con medición completa. Bloques y segundos: mediana desde la última actualización del oráculo involucrado.
+## Subasta vs. directa
+
+"Subasta": lo pagado a terceros en ETH más la propina es ≥ 30% del bono (subasta de oráculo, builder o guerra de prioridad). "Directa": el ganador no pagó por el orden. "Sin medir": faltaron trazas o precios.
+
+| Cadena | Ruta | Liq. | Bono | Ganador se queda | % | Mediana por liq. | Ganadores | Bloques |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| arbitrum | directa | 8 | $115 | $110 | 96% | $0 | 4 | 8 |
+| arbitrum | subasta | 10 | $3,898 | $7 | 0% | $0 | 4 | 8 |
+| base | directa | 169 | $2,827 | $2,569 | 91% | -$0 | 28 | 1 |
+| base | sin_medir | 10 | $559 | — | — | — | 7 | 0 |
+| base | subasta | 114 | $25.5 k | -$19 | -0% | -$0 | 11 | 1 |
+| ethereum | directa | 18 | $890 | $177 | 20% | $0 | 10 | 71 |
+| ethereum | subasta | 27 | $18.0 k | $121.1 k | 673% | $0 | 12 | 0 |
+
+## ¿Queda margen para un actor pequeño?
+
+Liquidaciones directas (sin pagar subasta ni builder) y lo que realmente se quedó el ganador.
+
+| Cadena | Días | Directas / medidas / total | Se quedaron | ≥ $10 (n · $ · top) | ≥ $100 (n · $ · top) | Ganadores | Bloques | ≥ 2 bloques |
+|---|---:|---|---:|---|---|---:|---:|---:|
+| arbitrum | 2.0 | 8 / 18 / 18 | $110 | 2 · $110 · 100% | 0 · $0 · — | 4 | 8 | 83% |
+| base | 2.0 | 169 / 283 / 293 | $2,569 | 8 · $2,559 · 84% | 2 · $2,407 · 89% | 28 | 1 | 43% |
+| ethereum | 2.0 | 18 / 45 / 45 | $177 | 1 · $173 · 100% | 1 · $173 · 100% | 10 | 71 | 62% |
+
+"top": parte del neto que se llevó el mayor ganador de ese grupo. "≥ 2 bloques": liquidaciones que llegaron 2 o más bloques después del oráculo (no fue carrera de mismo bloque).
+
+### Bots que ganan por fuera de subastas
+
+| Cadena | Contrato liquidador | Firmantes | Liq. | Bono | Se quedó | % | Mediana | Bloques | Días | Mercados |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| base | `0xa1018068bb72f2b9f309267ed48767b8ac19be93` | 1 | 1 | $2,281 | $2,147 | 94% | $2,147 | 0 | 1 | Morpho cbETH/USDC lltv 77.0% (1) |
+| base | `0x5ef5ffc16baacc0f97ec5e5284ef9b1487264170` | 1 | 1 | $271 | $260 | 96% | $260 | 0 | 1 | Morpho cbETH/USDC lltv 77.0% (1) |
+| ethereum | `0xe7cd2fa44cce16e70867338f7b9fd60ad3b9d4b5` | 1 | 1 | $193 | $173 | 89% | $173 | — | 1 | Morpho STONE/WETH lltv 94.5% (1) |
+| arbitrum | `0x5ac9bc14376bf2727c6211960cf3cec1e2f295bd` | 1 | 3 | $115 | $110 | 96% | $53 | 10 | 1 | aave-v3-arbitrum WBTC→USDC (3) |
+| base | `0x4b5f9d861d15961cc0108ca9c1462cd38aaf571e` | 1 | 2 | $75 | $68 | 91% | $34 | 0 | 1 | Morpho cbETH/USDC lltv 77.0% (2) |
+| base | `0x97c4e986d7c270f4951cc09e6de0bc66d4778c24` | 1 | 3 | $51 | $43 | 85% | $13 | 0 | 1 | Morpho cbETH/USDC lltv 77.0% (3) |
+| base | `0x3b5e286bd3f7b6b3c858665a368866ca254e85e9` | 1 | 1 | $44 | $42 | 95% | $42 | 0 | 1 | Morpho cbETH/USDC lltv 77.0% (1) |
+| base | `0x37a4341548526400abea62e8bd481856366c9b71` | 1 | 2 | $20 | $15 | 75% | $7 | 0 | 2 | Morpho AERO/USDC lltv 62.5% (2) |
+| ethereum | `0xe08d97e151473a848c3d9ca3f323cb720472d015` | 1 | 2 | $5 | $4 | 78% | $2 | 0 | 1 | Morpho PT-slvlUSD-25SEP2025/lvlUSD lltv 91.5% (1); Morpho cbBTC/USDC lltv 86.0% (1) |
+| base | `0xc5d32cc840373a5541f07fd108311d35492764d6` | 5 | 13 | $7 | $2 | 28% | $0 | 0 | 1 | Morpho cbETH/USDC lltv 77.0% (13) |
+| base | `0x7a08760fa8897a6574bbbe7511217d2a06664d44` | 1 | 1 | $1 | $1 | — | $1 | 0 | 1 | Morpho cbETH/USDC lltv 77.0% (1) |
+| base | `0xd8413bf7e7782b536abdeebbcb9e7c4fc481e2e7` | 1 | 1 | $1 | $1 | — | $1 | 0 | 1 | Morpho cbETH/USDC lltv 77.0% (1) |
+| base | `0xdb9c0247c67fa19e4e730fae129a346ba6f3093f` | 2 | 4 | $0 | $0 | — | $0 | — | 1 | Morpho WETH/WETH lltv 62.5% (4) |
+| base | `0x8407699e359ae158bd7ec0668600cc19a79f17c3` | 1 | 1 | $0 | $0 | — | $0 | 1 | 1 | aave-v3-base WETH→GHO (1) |
+| base | `0xcd74023f92b529a9b933ca73c89f9412d4984a46` | 1 | 1 | $1 | $0 | — | $0 | 1 | 1 | Morpho cbZEC/USDC lltv 62.5% (1) |
+| ethereum | `0xc2f175d0568b7f7142c969ed418f5022b9392348` | 1 | 1 | $0 | $0 | — | $0 | 7 | 1 | Morpho WBTC/USDC lltv 86.0% (1) |
+| base | `0x5ac9bc14376bf2727c6211960cf3cec1e2f295bd` | 1 | 4 | $0 | $0 | — | $0 | 9 | 2 | aave-v3-base WETH→GHO (2); Morpho cbETH/USDC lltv 77.0% (1); aave-v3-base WETH→WETH (1) |
+| base | `0xdb61a25516b4480df393d7bfe2d8e33fdaaf079a` | 7 | 21 | $10 | $0 | 1% | $0 | 1 | 2 | Morpho JitoSOL/USDC lltv 62.5% (5); Morpho SOL/USDC lltv 62.5% (5); Morpho cbLTC/USDC lltv 62.5% (4) |
+| base | `0x859bcb5d6951930ec2680ab02a9ec04a47f350f2` | 1 | 1 | $0 | $0 | — | $0 | — | 1 | Morpho WETH/WETH lltv 62.5% (1) |
+| ethereum | `0x00acd5005200e7009beb000000e35e1e002b5565` | 1 | 6 | $1 | $0 | 7% | $0 | 2,504 | 2 | Morpho PT-srUSDe-2APR2026/USDC lltv 91.5% (2); Morpho beraSTONE/WETH lltv 91.5% (1); Morpho sDOLA/USDC lltv 91.5% (1) |
+
+### Contratos que pagan por el orden (subastas)
+
+| Cadena | Contrato liquidador | Firmantes | Liq. | Bono | Se quedó | % | Pagado por orden | Bloques |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| ethereum | `0x6f28…5443` | 1 | 1 | $5,092 | $121.3 k | 2381% | $4,970 | — |
+| base | `0xcd74…4a46` | 1 | 1 | $114 | $74 | 65% | $39 | 0 |
+| ethereum | `0x2945…284f` | 2 | 2 | $1,411 | $14 | 1% | $1,377 | 0 |
+| base | `0x2ea8…907f` | 1 | 1 | $1,384 | $13 | 1% | $1,261 | 1 |
+| ethereum | `0x5ac9…95bd` | 2 | 4 | $2,999 | $7 | 0% | $3,151 | 0 |
+| arbitrum | `0x3e7a…d288` | 2 | 2 | $3,137 | $7 | 0% | $2,777 | 8 |
+| base | `0xbd0d…0005` | 4 | 12 | $3,335 | $6 | 0% | $3,250 | 2 |
+| ethereum | `0x1633…5d41` | 1 | 1 | $70 | $3 | 4% | $70 | 0 |
+| base | `0x5ac9…95bd` | 1 | 1 | $7 | $3 | 44% | $3 | 976 |
+| ethereum | `0x875a…a0be` | 1 | 1 | $91 | $2 | 2% | $87 | 0 |
+| base | `0xc5d3…64d6` | 2 | 2 | $4 | $1 | 27% | $2 | 0 |
+| arbitrum | `0x92e1…2b3e` | 1 | 1 | $79 | $1 | 1% | $75 | 8 |
 
 ## Saturación de mercados
 
-Vírgenes: **0** · disputados: **2** · muertos: **0** · con muestra insuficiente (<3): 7.
+Vírgenes: **3** · disputados: **18** · muertos: **1** · con muestra insuficiente (<3): 51.
 
 ### Los 15 mercados que más dejaron a sus ganadores
 
-| Cadena | Mercado | Liq. | Bono | Real | % quedó | Ganadores | Top | Bloques | Estado |
-|---|---|---:|---:|---:|---:|---:|---:|---:|---|
-| arbitrum | aave-v3-arbitrum WBTC→USDC | 5 | $232 | $53 | 65% | 3 | 54% | 8 | disputada |
-| arbitrum | aave-v3-arbitrum ARB→USDC | 1 | $3,320 | $6 | 0% | 1 | 100% | 7 | muestra_insuficiente |
-| arbitrum | aave-v3-arbitrum WBTC→USD₮0 | 1 | $79 | $1 | 1% | 1 | 100% | 8 | muestra_insuficiente |
-| arbitrum | aave-v3-arbitrum WETH→USD₮0 | 2 | $341 | $0 | 0% | 1 | 100% | 8 | muestra_insuficiente |
-| arbitrum | Morpho WETH/USD₮0 lltv 86.0% | 1 | $0 | $0 | — | 1 | 100% | 1 | muestra_insuficiente |
-| arbitrum | aave-v3-arbitrum WETH→DAI | 1 | $0 | $0 | 25% | 1 | 100% | 8 | muestra_insuficiente |
-| arbitrum | aave-v3-arbitrum WETH→WETH | 1 | $0 | $0 | — | 1 | 100% | 8 | muestra_insuficiente |
-| arbitrum | Morpho PT-USDai-20NOV2025/USDC lltv 91.5% | 2 | $0 | -$0 | -665% | 1 | 100% | — | muestra_insuficiente |
-| arbitrum | aave-v3-arbitrum WETH→USDC | 4 | $343 | -$1 | -0% | 2 | 96% | 8 | disputada |
+| Cadena | Mercado | Liq. | Bono | Real | % quedó | Directas | Ganadores | Top | Bloques | Estado |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| ethereum | Morpho USDe/DAI lltv 86.0% | 1 | $5,092 | $121.3 k | 2381% | 0 | 1 | 100% | — | muestra_insuficiente |
+| base | Morpho cbETH/USDC lltv 77.0% | 58 | $3,447 | $2,622 | 91% | 47 | 17 | 66% | 0 | disputada |
+| ethereum | Morpho STONE/WETH lltv 94.5% | 1 | $193 | $173 | 89% | 1 | 1 | 100% | — | muestra_insuficiente |
+| arbitrum | aave-v3-arbitrum WBTC→USDC | 5 | $220 | $111 | 50% | 3 | 3 | 52% | 8 | disputada |
+| ethereum | aave-v3-core WETH→USDT | 8 | $2,786 | $14 | 0% | 0 | 2 | 51% | 0 | disputada |
+| base | Morpho cbZEC/USDC lltv 62.5% | 3 | $1,401 | $13 | 1% | 1 | 3 | 99% | 1 | disputada |
+| base | Morpho AERO/USDC lltv 62.5% | 3 | $20 | $11 | 56% | 2 | 2 | 98% | 0 | disputada |
+| arbitrum | aave-v3-arbitrum ARB→USDC | 1 | $3,117 | $6 | 0% | 0 | 1 | 100% | 7 | muestra_insuficiente |
+| ethereum | Morpho cbBTC/USDC lltv 86.0% | 2 | $1,115 | $6 | 1% | 1 | 2 | 100% | 0 | muestra_insuficiente |
+| ethereum | Morpho cbBTC/USDT lltv 86.0% | 1 | $2,991 | $5 | 0% | 0 | 1 | 100% | — | muestra_insuficiente |
+| ethereum | Morpho WBTC/USDT lltv 86.0% | 2 | $161 | $5 | 3% | 0 | 2 | 56% | 0 | muestra_insuficiente |
+| base | aave-v3-base cbBTC→USDC | 3 | $860 | $3 | 0% | 0 | 2 | 95% | 2 | disputada |
+| base | Morpho cbHYPE/USDC lltv 62.5% | 2 | $9 | $3 | 34% | 0 | 2 | 78% | 488 | muestra_insuficiente |
+| ethereum | Morpho mMEV/USDC lltv 91.5% | 1 | $5 | $1 | 33% | 0 | 1 | 100% | — | muestra_insuficiente |
+| base | Morpho JitoSOL/USDC lltv 62.5% | 16 | $1,273 | $1 | 0% | 5 | 1 | 100% | — | virgen |
+
+### Mercados vírgenes (un solo ganador, poca propina, sin carrera de bloque)
+
+- base · Morpho JitoSOL/USDC lltv 62.5%: 16 liq., real $1, ganador 0xdb61…079a
+- base · Morpho cbDOGE/USDC lltv 62.5%: 8 liq., real $0, ganador 0xdb61…079a
+- base · Morpho SOL/USDC lltv 62.5%: 21 liq., real -$1, ganador 0xdb61…079a
 
 ## Por tamaño del bono
 
-| Bono | Liq. | Real total | Real mediano | % quedó | Ganadores |
-|---|---:|---:|---:|---:|---:|
-| $0–$10 | 7 | -$0 | -$0 | -1% | 5 |
-| $10–$100 | 8 | $54 | $0 | 21% | 5 |
-| $100–$1,000 | 2 | -$1 | -$1 | -0% | 1 |
-| $1,000–$10.0 k | 1 | $6 | $6 | 0% | 1 |
-| ≥ $10.0 k | 0 | — | — | — | — |
+| Bono | Liq. | Real total | Real mediano | % quedó | Directas | Ganadores |
+|---|---:|---:|---:|---:|---:|---:|
+| $0–$10 | 248 | -$187 | -$0 | -57% | 180 | 40 |
+| $10–$100 | 60 | $272 | $0 | 11% | 9 | 17 |
+| $100–$1,000 | 32 | $507 | $0 | 4% | 4 | 9 |
+| $1,000–$10.0 k | 15 | $123.4 k | $1 | 333% | 1 | 9 |
+| ≥ $10.0 k | 0 | — | — | — | — | — |
 
 ## ¿Por dónde entran? (contrato llamado por la transacción)
 
-Si un mismo contrato recibe transacciones de muchos firmantes distintos y se queda con mucho en ETH, es una subasta o un enrutador compartido, no el bot de alguien.
+Si un mismo contrato recibe transacciones de muchos firmantes distintos y casi todo sale en ETH, es una subasta o un enrutador compartido, no el bot de alguien.
 
-| Cadena | Contrato | Liq. | Firmantes | Bono | % quedó | A terceros |
-|---|---|---:|---:|---:|---:|---:|
-| arbitrum | `0x8ad1…86c1` | 12 | 5 | $4,190 | 0% | $3,156 |
-| arbitrum | `0x5ac9…95bd` | 3 | 1 | $126 | 87% | $0 |
-| arbitrum | `0x2384…f8a1` | 2 | 1 | $0 | -665% | $0 |
-| arbitrum | `0x9355…5fdb` | 1 | 1 | $0 | — | $0 |
+| Cadena | Contrato | Liq. | Firmantes | Bono | % quedó | A terceros | % subasta |
+|---|---|---:|---:|---:|---:|---:|---:|
+| base | `0x583d…9b77` | 143 | 9 | $25.4 k | -0% | $24.5 k | 74% |
+| base | `0x16e4…7b19` | 47 | 1 | $0 | — | $0 | 0% |
+| base | `0x659b…7a08` | 21 | 6 | $11 | -34% | $0 | 0% |
+| base | `0xc5d3…64d6` | 18 | 5 | $14 | 27% | $0 | 13% |
+| arbitrum | `0x8ad1…86c1` | 12 | 5 | $3,898 | 0% | $3,532 | 83% |
+| base | `0xf4b7…7f47` | 12 | 2 | $3 | -504% | $0 | 8% |
+| base | `0x418c…bdfc` | 12 | 2 | $105 | -8% | $0 | 0% |
+| ethereum | `0xd128…4b3f` | 11 | 3 | $3,857 | 0% | $4,553 | 100% |
+| ethereum | `0x00ac…5565` | 7 | 1 | $4 | 10% | $0 | 14% |
+| base | `0x5ac9…95bd` | 5 | 1 | $7 | 44% | $0 | 20% |
+| base | `0xdb9c…093f` | 4 | 2 | $0 | — | $0 | 0% |
+| ethereum | `0x5ac9…95bd` | 4 | 2 | $2,999 | 0% | $3,151 | 100% |
+| arbitrum | `0x5ac9…95bd` | 3 | 1 | $115 | 96% | $0 | 0% |
+| base | `0x97c4…8c24` | 3 | 1 | $51 | 85% | $0 | 0% |
+| arbitrum | `0x2384…f8a1` | 2 | 1 | $0 | — | $0 | 0% |
 
-## Ganadores principales
+## Ganadores principales (por bono)
 
-- `0x3e7a65a9394e289dd23d9b393a8f8e02be62d288` — $3,341 (77%)
-- `0xd12810b19b596347a3afac206d3ca65d08594b3f` — $754 (17%)
-- `0x5ac9bc14376bf2727c6211960cf3cec1e2f295bd` — $126 (3%)
-- `0x92e1bce22f594657dc373b103559d32e2abc2b3e` — $79 (2%)
-- `0xac27cbd94bfa3db2da4a94f4881572692f6adedd` — $15 (0%)
-- `0x3f2097279b1c83f75ff55434418df4d74900a979` — $0 (0%)
-- `0x9355ec6d797b6c8b73de9b52fffdb3bfa6d05fdb` — $0 (0%)
-- `0x2384923d232eccecb03e329d919f3e1b6dbcf8a1` — $0 (0%)
+- `0xdb61a25516b4480df393d7bfe2d8e33fdaaf079a` — $12.9 k (25%)
+- `0xd12810b19b596347a3afac206d3ca65d08594b3f` — $12.3 k (24%)
+- `0x6f28ca8cb6b35f0cf2b4a47739f14d0205f35443` — $5,092 (10%)
+- `0xeef1b06e23a39f05b6b34ff1052d7a6ca3a00005` — $4,471 (9%)
+- `0xbd0dd817c608e552d5f1ae701ab6c4da4fb00005` — $3,335 (6%)
+- `0x3e7a65a9394e289dd23d9b393a8f8e02be62d288` — $3,137 (6%)
+- `0x5ac9bc14376bf2727c6211960cf3cec1e2f295bd` — $3,120 (6%)
+- `0xa1018068bb72f2b9f309267ed48767b8ac19be93` — $2,281 (4%)
+- `0x29452e8332912533130fb708984722d92184284f` — $1,411 (3%)
+- `0x2ea89fc4b65ed6fa0494b6c9b15403bf1137907f` — $1,384 (3%)
 
 ## Cobertura de la medición
 
-| Cadena | Eventos | Valuados | Real completo | Con bloques de oráculo | Trazas de ETH | Precio | Tiempo agotado |
-|---|---:|---:|---:|---:|---|---|---|
-| arbitrum | 18 | 18 | 11 | 16 | debug_traceTransaction: 11, no_medido: 6 | oráculo 4, mercado 46, sin 0 | no |
+| Cadena | Tramos | Días | Eventos | Valuados | Real completo | Con bloques de oráculo | Trazas de ETH | Precio | Sin tiempo |
+|---|---|---:|---:|---:|---:|---:|---|---|---:|
+| ethereum | 2/2 | 2.0 | 45 | 45 | 45 (100%) | 34 (76%) | debug_traceTransaction: 36 | oráculo 102, mercado 2, sin 0 | 0 |
+| base | 2/2 | 2.0 | 293 | 293 | 283 (97%) | 269 (92%) | debug_traceTransaction: 152, no_medido: 10, trace_transaction: 1 | oráculo 668, mercado 0, sin 0 | 0 |
+| arbitrum | 1/1 | 2.0 | 18 | 18 | 18 (100%) | 16 (89%) | debug_traceTransaction: 17 | oráculo 59, mercado 0, sin 0 | 0 |
+
+Errores de trazas más comunes: base: debug_traceTransaction: HTTP 429 en base.drpc.org (146); base: debug_traceTransaction: HTTP 408 en base.drpc.org (82); base: trace_transaction: HTTP 429 en base.drpc.org (63); base: trace_transaction: HTTP 408 en base.drpc.org (42); arbitrum: debug_traceTransaction: historical state is not available (22).
 
 ## Qué NO dice este census
 
-- "Real" es lo que se quedaron los ganadores actuales, no lo que ganaría NQC: para eso hay que ganarles la carrera o la subasta.
-- Para medir "Real" se cuenta como del liquidador: el firmante, el contrato que llamó al protocolo y las cuentas sin código que solo reciben. Si un bot manda su ganancia a otro contrato propio, aquí se ve como pago a terceros y el "Real" sale menor.
-- El bono está a precio de oráculo (o de mercado si no hubo nodo de archivo); "Real" ya incluye el deslizamiento de vender el colateral.
-- En L2 no hay subasta de builders; la propina de prioridad sí se cuenta. Las pujas de Timeboost (Arbitrum) y la recaptura de Chainlink SVR (Aave en Ethereum) se pagan por fuera y no se ven aquí.
+- "Se queda" es lo que se quedaron los ganadores actuales, no lo que ganaría NQC: para eso hay que ganarles la carrera o la subasta.
+- Para medir lo que se quedan se cuenta como del liquidador: el firmante, el contrato que llamó al protocolo y las cuentas sin código que solo reciben. Si un bot manda su ganancia a otro contrato propio, aquí se ve como pago a terceros y sale menor (y la liquidación puede clasificarse como "subasta").
+- El bono está a precio de oráculo (o de mercado si no hubo nodo de archivo); lo que se quedan ya incluye el deslizamiento de vender el colateral.
+- En L2 no hay subasta de builders; la propina de prioridad sí se cuenta. Las pujas de Timeboost (Arbitrum) se pagan por fuera de la transacción y no se ven aquí.
 - No incluye pre-liquidaciones de Morpho ni otros protocolos (Spark, Compound, Euler, Fluid).
+- No reconcilia todas las posiciones del alcance (puerta "cobertura del mercado" de Omega): solo mide las liquidaciones que sí ocurrieron.
 - Los umbrales de virgen / disputada / muerta son iniciales y se calibran con estos mismos datos.
