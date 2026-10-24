@@ -244,3 +244,15 @@ restore. H21 does not add a new physical EVM execution or a Rust transport claim
 Exact-producer CI and both post-audits pass: producer `668ddb5f26225e9f9f545b1c1e07740c01d783c8`,
 run 40027689852. H21 closes **4/4 (100% within this increment)**, with
 589/589 local Omega tests and 28 new cases. See `AUDIT_H21.md`.
+
+## H22 observed execution-fee split
+
+Three of nine retrospective WETH rows now have fresh retained Blockscout
+transaction/block observations matching original dRPC receipt gas fields.
+This adds fee-decomposition coverage, not three new winners, full receipt parity
+or current-market coverage. All three priority fees are zero; direct builder
+payments remain unknown after a recorded acquisition failure. Gas total already
+includes priority fees. A seventh dependent evidence batch preserves the result
+through restore and ancestor revocation. Local validation is in `AUDIT_H22.md`;
+no new remote exact-producer result is claimed. Complete paid costs remain 0/127,
+Titan-covered executions 0 and certified components 0/36.

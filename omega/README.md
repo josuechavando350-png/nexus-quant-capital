@@ -424,3 +424,14 @@ la política activa. **H21 cerrado y auditado: 589/589 pruebas, 28 nuevas, 4/4 c
 Forks, replay y auditoría posterior aprobaron el productor `668ddb5f26225e9f9f545b1c1e07740c01d783c8`
 en el [run 40027689852](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/40027689852).
 Ver [contrato](EXECUTION_INTAKE_CONTRACT.md) y [auditoría](AUDIT_H21.md).
+
+## H22 - gas quemado y propinas observadas
+
+`inclusion_fee_intake.py` incorpora seis respuestas de Blockscout para los tres
+primeros ganadores WETH de la muestra histórica. Contrasta gas, precio efectivo,
+bloque, índice, tarifa base y desglose. La propina ya está incluida en el gas total;
+no se vuelve a restar. Las tres propinas observadas son cero, pero los pagos
+directos al builder siguen desconocidos. Las otras seis filas permanecen sin
+desglose observado. No cambia 0/127 filas de costos completos ni 0/36 componentes
+certificados. Añade un séptimo lote dependiente de H21, verificable y revocable.
+Ver [contrato](INCLUSION_FEE_CONTRACT.md) y [verificación local](AUDIT_H22.md).
