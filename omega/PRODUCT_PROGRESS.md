@@ -15,6 +15,13 @@ allowance is withdrawn.** No operator gas prefund or fallback is permitted.
 Execution-specific Titan coverage and repayment must still be evidence-bound.
 The current policy is in `TITAN_GAS_POLICY.md`; old source reports retain old scope.
 
+H25 adds a separate research probe for a Morpho-funded WETH/Aave liquidation,
+36 passing Solidity unit tests (256 fuzz cases) and 26 passing Python tests.
+Its 15 retained RPC captures are incomplete after a network-policy block.
+The abstract historical scaffold compiles but has not executed. This advances
+offline experiment preparation only; it does not certify a component, a route,
+Titan gas coverage or a net-profit result. See `AUDIT_H25.md`.
+
 | Product gate | Evidence still required |
 |---|---|
 | Census truth | independent three-way parity across the declared scope |

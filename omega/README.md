@@ -12,6 +12,10 @@ Base: `NQC_Sovereign_Radar_Omega.pdf`, v1.0, 22 de octubre de 2026, SHA-256
 
 ## Qué incorpora
 
+- H25 prepara una sonda Morpho/Aave separada: 36 pruebas Solidity y 26 Python
+  offline aprobadas. El fork histórico sigue pendiente por captura incompleta
+  y bloqueo de red. Ver `AUDIT_H25.md` y `MORPHO_EXPERIMENT_CONTRACT.md`.
+  No cambia el runtime H24 v7 ni acredita cobertura de gas Titan.
 - `architecture_v3.json`: los 36 componentes en 8 capas; fases Census/Shadow/
   Canary/Escala = 9/9/4/14. El catálogo conserva `not_assessed`; el mapeo parcial
   separado está en `census_map.json` y no certifica componentes.
