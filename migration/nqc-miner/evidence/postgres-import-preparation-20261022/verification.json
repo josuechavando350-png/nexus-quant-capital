@@ -1,0 +1,52 @@
+{
+  "schema": "nqc-miner-postgres-import-preparation-audit-v1",
+  "status": "offline_preparation_pass_runtime_pending",
+  "checked_at_utc": "2026-10-22T21:47:59.554231+00:00",
+  "base_commit": "c7cf93bf98864b4d22c966f971f79010f9d89543",
+  "global_completion_percent": 41,
+  "progress_credit_added": 0,
+  "python_tests_passed": 112,
+  "new_preparation_tests": 13,
+  "postgres_importer_executed": false,
+  "rust_rebuilt_or_retested": false,
+  "real_rust_verifier_used": true,
+  "synthetic_example_records": 3,
+  "source_bytes_and_generated_hashes_verified": true,
+  "prior_rust_and_postgres_contract_sources_unchanged": true,
+  "inputs": {
+    "research/prepare_postgres_import.py": "41df5aa0d4d7ffce8605a7a5335e2435eb70bfb4f101b87e281eaa8ec15fd7ae",
+    "research/test_prepare_postgres_import.py": "15ede701307f3072e871cf65fd433dbea13037a68b8a1b42a883496e34ac5131",
+    "infra/postgres_import.sql": "4fe03449780702a9aa700540a473fa61396fb85fa60805fdf658e15a75741b0b"
+  },
+  "evidence": {
+    "isolation.json": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940",
+    "python-tests.log": "a06c8a1fb63c4aaaad2f6b96b9ad7fa14d4015295b38c0f3ceb2071ec1d9adcb",
+    "scope.json": "4d620e7d98d975c9da40a7af0d5be84c4982b15ec8c523831456062c794ff071",
+    "sql-parser.json": "3c330bc2392ae3c27550c861fe2b678003a0c89cf7781a2eaec6b88bc421ad31",
+    "synthetic-example/import-owner.json": "5a9cc8faefe01f10468cd77611f31ef02a614aba84dfa6c2137d00da5a820e5a",
+    "synthetic-example/import.sql": "bbfed974e136a1c9b84997e102a4c3115510dc29cc739fcff8c513833f792f45",
+    "synthetic-example/manifest.json": "5015445b9892e7a2a47d5894256c64a27b1bc5fcc256b7173b88898762112be3",
+    "synthetic-example/request.json": "7fca396df9f6f1f027a85f92dcbbbe7cda33a1985baba9ed134ca9943a88ae30",
+    "synthetic-example/verified-export/export-owner.json": "d647e243b5351839af867f05e5fb2f9943c1ecaa077f788ddae4ec3b5172a0f0",
+    "synthetic-example/verified-export/manifest.json": "7e593846ec1271e335aa107112bea08522a4a9fc4fb4144293daf42fb4516a5a",
+    "synthetic-example/verified-export/part-00000.parquet": "b9c152f1ef5ed1b71dd38abf83bfdff5a5832327104cd00dfb1c4d0ba0e95f4b",
+    "synthetic-example/verified-export/source/config.json": "766dffd5d8d05fe798ce27a73344408ab52d5deb8125ca5c3e41b7176e5d79a8",
+    "synthetic-example/verified-export/source/events.jsonl": "1e2d74e709aaf607e1e44597f5bb05c606d44bfb12fd64ecf7feccc92a0f722e",
+    "synthetic-example/verified-export/source/owner.json": "b93c058b704a1538d4bd080bfc1a9272608190b9def69924fc6979b97724f482",
+    "synthetic-example/verified-export/source/writer.lock": "43c8e64a10567ebdac71ba0ef7f166fb585df7a03b3a4c2c19aeb6aaaf8453b4",
+    "synthetic-example/verified-export/verification.json": "07583e6eb7647887d3989169ed454facafbdd22b976769cd38011ae82e34d1b3"
+  },
+  "observer_bridge_enabled": false,
+  "database_connection_attempts": 0,
+  "runtime_gates_pending": [
+    "SQL type/name resolution",
+    "database identity rejection",
+    "repeat and old-prefix import",
+    "atomic ledger/outbox rollback",
+    "conflict and invalidation quarantine",
+    "limited role permissions",
+    "concurrent importers",
+    "client interruption and database restart",
+    "parent collection quarantine propagation"
+  ]
+}

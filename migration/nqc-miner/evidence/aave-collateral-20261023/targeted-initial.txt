@@ -1,0 +1,14 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/462bfc2f69c3/nqc-miner-work/migration/nqc-miner)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.33s
+     Running tests/aave_collateral_tests.rs (/workspace/scratch/462bfc2f69c3/miner-target/debug/deps/aave_collateral_tests-d25d334285fa3e17)
+
+running 5 tests
+test malformed_inputs_are_distinct_from_solidity_reverts_and_no_authority_is_granted ... ok
+test worthless_dust_can_clear_the_flag_with_scaled_collateral_remaining ... ok
+test independent_ceil_consumption_can_exhaust_more_than_unscaled_arithmetic ... ok
+test fee_cap_uses_supplied_post_transfer_balance_and_still_calls_on_zero_cap ... ok
+Collateral differential: 1089 executions; outcomes {"0x": 4, "0x4e487b71": 4, "success": 1081}
+test original_excerpts_match_boundaries_and_seeded_inputs_with_full_revert_bytes ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.29s
+

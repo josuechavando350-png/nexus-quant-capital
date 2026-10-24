@@ -1,0 +1,59 @@
+{
+  "schema": "nqc-miner-collector-artifact-audit-v1",
+  "verified_at_utc": "2026-10-22T19:24:21.765270+00:00",
+  "status": "pass",
+  "code_commit": "a1f600697e0f9de776956472033bcb9146d646e7",
+  "audited_inputs_unchanged": true,
+  "capture_files_verified": 32,
+  "capture_sha256": "4897d77780765c3f9be67fa62b1a19a6c62f32ea287349852dc82623c62492bd",
+  "collector_after_exports": {
+    "schema": "nqc-miner-collector-status-v1",
+    "run_id": "miner-collector-restart-20261022-01",
+    "plan_sha256": "36f724f14eba96dfe978eac6b104a54556244eb57b92c321278d890394d6587f",
+    "completed_windows": 3,
+    "incomplete_window": false,
+    "next_from_block": 26248300,
+    "canonical_events_in_completed_windows": 2,
+    "collection_sha256": "3c3bdca124b51416049a505b632aa8bc311b220755814e95a5ee22179de38ad7",
+    "integrity_verified": true,
+    "chain_authenticity_verified": false,
+    "data_class": "historical",
+    "observer_bridge_enabled": false,
+    "signing_enabled": false,
+    "economic_certification": false
+  },
+  "parquet_exports": [
+    {
+      "window": 0,
+      "records": 3,
+      "manifest_sha256": "f62bd13ae1584fbf00912c2bc67d6438e9986ce98e1e8ae4afdde982b41614dc",
+      "exact_raw_roundtrip": true
+    },
+    {
+      "window": 1,
+      "records": 3,
+      "manifest_sha256": "8d225fa712a22197eeb094e2abbed9578d1635578f27031f1e4a218d0353301e",
+      "exact_raw_roundtrip": true
+    },
+    {
+      "window": 2,
+      "records": 2,
+      "manifest_sha256": "ffd416e31de7d20d0427d4284dca536e7c5b5b05e345de781715d970f98c2f03",
+      "exact_raw_roundtrip": true
+    }
+  ],
+  "records_exported": 8,
+  "events_repeated_from_previous_capture": 2,
+  "new_independent_market_events": 0,
+  "scope": {
+    "base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
+    "changed_paths": 246,
+    "observer_files_changed": 0,
+    "outside_miner": [],
+    "remote_branches_modified_by_this_check": false,
+    "status": "MINER_SCOPE_PASS"
+  },
+  "observer_bridge_enabled": false,
+  "spending_authorized": false,
+  "economic_certification": false
+}

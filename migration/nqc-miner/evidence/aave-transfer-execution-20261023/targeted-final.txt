@@ -1,0 +1,16 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/462bfc2f69c3/nqc-miner-work/migration/nqc-miner)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.85s
+     Running tests/aave_debt_execution_tests.rs (/workspace/scratch/462bfc2f69c3/miner-target/debug/deps/aave_debt_execution_tests-17d48d7081572acf)
+
+running 8 tests
+test rewards_execution::transfer_execution::transfer_missing_atoken_and_nested_reward_witnesses_fail_closed ... ok
+test rewards_execution::transfer_execution::transfer_entrypoint_denies_non_pool_and_reverts_index_cast_overflow ... ok
+test rewards_execution::transfer_execution::late_transfer_and_fee_failures_roll_back_debt_rates_flags_and_all_rewards ... ok
+test rewards_execution::transfer_execution::actual_transfers_execute_through_each_retained_atoken_proxy_family ... ok
+test rewards_execution::transfer_execution::real_atoken_transfers_follow_debt_and_cap_fee_from_actual_post_transfer_balance ... ok
+test rewards_execution::transfer_execution::collateral_exhaustion_clears_flag_and_creates_deficit_in_same_transaction ... ok
+test rewards_execution::transfer_execution::actual_atoken_covers_zero_fee_zero_transfer_and_recipient_treasury_alias ... ok
+test rewards_execution::transfer_execution::seeded_real_atoken_transfers_check_all_outputs_logs_and_changed_storage ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 24 filtered out; finished in 35.99s
+

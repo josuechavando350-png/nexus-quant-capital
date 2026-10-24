@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/workspace/scratch/162ea5393283/nqc/migration/nqc-miner/research/build_aave_sizing_execution.py", line 117, in <module>
+    args = p.parse_args(); build(args.compiler, args.output)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/162ea5393283/nqc/migration/nqc-miner/research/build_aave_sizing_execution.py", line 100, in build
+    value, harness, _ = harness_input()
+                        ^^^^^^^^^^^^^^^
+  File "/workspace/scratch/162ea5393283/nqc/migration/nqc-miner/research/build_aave_sizing_execution.py", line 53, in harness_input
+    identity.check(original.count(bonus) == 1, 'reserve bonus selection')
+  File "/workspace/scratch/162ea5393283/nqc/migration/nqc-miner/research/aave_runtime_identity.py", line 49, in check
+    raise ValueError(message)
+ValueError: reserve bonus selection

@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "namespace": "nqc_miner_v1",
+  "producer": "nqc-miner",
+  "run_id": "miner-isolated-audit-20261022-01",
+  "data_class": "historical",
+  "code_commit": "39fd15cf0ed26cf33066c1263b9085aa6493b801",
+  "cargo_lock_sha256": "634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab",
+  "observer_bridge_enabled": false,
+  "signing_enabled": false,
+  "gas_budget_mxn_centavos": 0,
+  "scopes": [
+    {
+      "id": "ethereum-aave-liquidations",
+      "chain_id": 1,
+      "protocol": "aave-v3",
+      "contract": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+      "event_topics": [
+        "0xe413a321e8681d831f4dbccbca790d2952b56f977908e45be37335533e005286"
+      ],
+      "from_block": 26248000,
+      "to_block": 26248399,
+      "chunk_blocks": 100,
+      "providers": [
+        {
+          "id": "ethereum-primary",
+          "url_env": "NQC_MINER_RPC_ETHEREUM_PRIMARY"
+        },
+        {
+          "id": "ethereum-secondary",
+          "url_env": "NQC_MINER_RPC_ETHEREUM_SECONDARY"
+        }
+      ],
+      "deployment_source": "https://raw.githubusercontent.com/aave-dao/aave-address-book/e796b7d71f37a3e7f78a3b2c0b47ee8d56dcff92/src/AaveV3Ethereum.sol"
+    },
+    {
+      "id": "base-aave-liquidations",
+      "chain_id": 8453,
+      "protocol": "aave-v3",
+      "contract": "0xa238dd80c259a72e81d7e4664a9801593f98d1c5",
+      "event_topics": [
+        "0xe413a321e8681d831f4dbccbca790d2952b56f977908e45be37335533e005286"
+      ],
+      "from_block": 52950023,
+      "to_block": 52950122,
+      "chunk_blocks": 100,
+      "providers": [
+        {
+          "id": "base-primary",
+          "url_env": "NQC_MINER_RPC_BASE_PRIMARY"
+        },
+        {
+          "id": "base-secondary",
+          "url_env": "NQC_MINER_RPC_BASE_SECONDARY"
+        }
+      ],
+      "deployment_source": "https://raw.githubusercontent.com/aave-dao/aave-address-book/e796b7d71f37a3e7f78a3b2c0b47ee8d56dcff92/src/AaveV3Base.sol"
+    },
+    {
+      "id": "arbitrum-aave-liquidations",
+      "chain_id": 42161,
+      "protocol": "aave-v3",
+      "contract": "0x794a61358d6845594f94dc1db02a252b5b4814ad",
+      "event_topics": [
+        "0xe413a321e8681d831f4dbccbca790d2952b56f977908e45be37335533e005286"
+      ],
+      "from_block": 517288425,
+      "to_block": 517288524,
+      "chunk_blocks": 100,
+      "providers": [
+        {
+          "id": "arbitrum-primary",
+          "url_env": "NQC_MINER_RPC_ARBITRUM_PRIMARY"
+        },
+        {
+          "id": "arbitrum-secondary",
+          "url_env": "NQC_MINER_RPC_ARBITRUM_SECONDARY"
+        }
+      ],
+      "deployment_source": "https://raw.githubusercontent.com/aave-dao/aave-address-book/e796b7d71f37a3e7f78a3b2c0b47ee8d56dcff92/src/AaveV3Arbitrum.sol"
+    },
+    {
+      "id": "ethereum-morpho-births-liquidations",
+      "chain_id": 1,
+      "protocol": "morpho-blue",
+      "contract": "0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb",
+      "event_topics": [
+        "0xac4b2400f169220b0c0afdde7a0b32e775ba727ea1cb30b35f935cdaab8683ac",
+        "0xa4946ede45d0c6f06a0f5ce92c9ad3b4751452d2fe0e25010783bcab57a67e41"
+      ],
+      "from_block": 26248000,
+      "to_block": 26248399,
+      "chunk_blocks": 100,
+      "providers": [
+        {
+          "id": "ethereum-primary",
+          "url_env": "NQC_MINER_RPC_ETHEREUM_PRIMARY"
+        },
+        {
+          "id": "ethereum-secondary",
+          "url_env": "NQC_MINER_RPC_ETHEREUM_SECONDARY"
+        }
+      ],
+      "deployment_source": "https://docs.morpho.org/developers/contracts/addresses/"
+    }
+  ]
+}

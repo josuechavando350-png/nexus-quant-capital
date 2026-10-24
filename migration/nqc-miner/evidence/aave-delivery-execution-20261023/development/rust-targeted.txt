@@ -1,0 +1,17 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/162ea5393283/nqc/migration/nqc-miner)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.35s
+     Running tests/aave_debt_execution_tests.rs (/tmp/nqc-miner-target/debug/deps/aave_debt_execution_tests-17d48d7081572acf)
+
+running 9 tests
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::invalid_boolean_or_truncated_mode_is_rejected_before_contract_changes ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::treasury_failure_precedes_payment_pause_and_reverts_both_modes ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::underlying_mode_still_requires_weth_and_collateral_rate_witnesses ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::atoken_mode_does_not_access_weth_or_collateral_rate_witnesses_or_burn_supply ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::both_original_delivery_branches_pay_usdc_and_export_distinct_closed_examples ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::missing_usdc_account_implementation_routing_and_approval_fail_closed_in_both_modes ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::all_usdc_payment_rejections_roll_back_both_collateral_modes ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::exhausted_collateral_capped_fee_zero_fee_and_treasury_alias_work_in_both_modes ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::seeded_both_modes_match_independent_delivery_models_and_payment_state ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 50 filtered out; finished in 40.61s
+

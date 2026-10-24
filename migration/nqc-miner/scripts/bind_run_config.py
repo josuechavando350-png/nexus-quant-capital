@@ -5,8 +5,9 @@ import hashlib
 import json
 import os
 import re
+import secrets
+import stat
 import sys
-import tempfile
 from pathlib import Path
 
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
@@ -44,11 +45,17 @@ def load_json_strict(path: Path):
             out[key] = value
         return out
 
-    data = path.read_bytes()
+    with path.open("rb") as handle:
+        if not stat.S_ISREG(os.fstat(handle.fileno()).st_mode):
+            raise BindError("input JSON must be a regular file")
+        data = handle.read(1_048_577)
     if len(data) > 1_048_576:
         raise BindError("input JSON exceeds 1 MiB")
     try:
-        return json.loads(data.decode("utf-8"), object_pairs_hook=no_dupes)
+        def no_constant(value):
+            raise BindError(f"nonfinite JSON constant: {value}")
+        return json.loads(data.decode("utf-8"), object_pairs_hook=no_dupes,
+                          parse_constant=no_constant)
     except UnicodeDecodeError as exc:
         raise BindError("input JSON is not UTF-8") from exc
     except json.JSONDecodeError as exc:
@@ -68,7 +75,7 @@ def validate_about(about):
     if not isinstance(about, dict):
         raise BindError("about must be a JSON object")
     for key, expected in required.items():
-        if about.get(key) != expected:
+        if type(about.get(key)) is not type(expected) or about[key] != expected:
             raise BindError(f"about field {key} is not the required isolated value")
     commit = about.get("code_commit")
     lock_hash = about.get("cargo_lock_sha256")
@@ -76,12 +83,11 @@ def validate_about(about):
         raise BindError("about code_commit is not a clean immutable SHA")
     if not isinstance(lock_hash, str) or not HEX64.fullmatch(lock_hash):
         raise BindError("about Cargo.lock SHA256 is invalid")
-    if not isinstance(about.get("source_sha256"), str) or not HEX64.fullmatch(
-        about["source_sha256"]
-    ):
+    source_hash = about.get("source_sha256")
+    if not isinstance(source_hash, str) or not HEX64.fullmatch(source_hash):
         raise BindError("about source SHA256 is invalid")
     for key in ("rustc_version", "target", "host", "profile", "opt_level"):
-        if not isinstance(about.get(key), str) or not about[key].strip():
+        if not isinstance(about.get(key), str) or about[key].strip() in ("", "unknown"):
             raise BindError(f"about field {key} is missing build identity")
     if not isinstance(about.get("debug"), bool):
         raise BindError("about field debug is missing build identity")
@@ -110,7 +116,7 @@ def bind(template, about):
         raise BindError("observer bridge must remain disabled")
     if template.get("signing_enabled") is not False:
         raise BindError("signing must remain disabled")
-    if template.get("gas_budget_mxn_centavos") != 0:
+    if type(template.get("gas_budget_mxn_centavos")) is not int or template["gas_budget_mxn_centavos"] != 0:
         raise BindError("active gas budget must remain zero")
     commit, lock_hash = validate_about(about)
     result = dict(template)
@@ -121,24 +127,44 @@ def bind(template, about):
 
 
 def write_new_atomic(path: Path, payload):
-    path = path.resolve()
-    path.parent.mkdir(parents=True, exist_ok=True)
-    if path.exists() or path.is_symlink():
-        raise BindError("output path already exists")
-    encoded = (json.dumps(payload, indent=2) + "\n").encode("utf-8")
-    fd, tmp_name = tempfile.mkstemp(prefix=".nqc-miner-config-", dir=path.parent)
+    """Publish once under descriptor-pinned, non-symlink POSIX directories.
+
+    An atomic hard link fails if *anything* wins the output name, including a
+    dangling symlink. os.replace would overwrite a concurrent writer's file.
+    """
+    path = path.absolute()
+    if ".." in path.parts or not path.name:
+        raise BindError("output path must not contain parent traversal")
+    encoded = (json.dumps(payload, indent=2, allow_nan=False) + "\n").encode("utf-8")
+    directory_flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
+    parent_fd = os.open(path.anchor, directory_flags)
+    tmp_name = ".nqc-miner-config-" + secrets.token_hex(16)
+    created = False
     try:
+        for part in path.parent.parts[1:]:
+            try:
+                os.mkdir(part, mode=0o700, dir_fd=parent_fd)
+            except FileExistsError:
+                pass
+            next_fd = os.open(part, directory_flags, dir_fd=parent_fd)
+            os.close(parent_fd)
+            parent_fd = next_fd
+        fd = os.open(tmp_name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+                     0o600, dir_fd=parent_fd)
+        created = True
         with os.fdopen(fd, "wb") as handle:
             handle.write(encoded)
             handle.flush()
             os.fsync(handle.fileno())
-        os.replace(tmp_name, path)
-    except Exception:
-        try:
-            os.unlink(tmp_name)
-        except FileNotFoundError:
-            pass
-        raise
+        os.link(tmp_name, path.name, src_dir_fd=parent_fd, dst_dir_fd=parent_fd,
+                follow_symlinks=False)
+        os.fsync(parent_fd)
+    except OSError as exc:
+        raise BindError("output must be new and its directories must not be symlinks") from exc
+    finally:
+        if created:
+            os.unlink(tmp_name, dir_fd=parent_fd)
+        os.close(parent_fd)
 
 
 def main(argv=None):

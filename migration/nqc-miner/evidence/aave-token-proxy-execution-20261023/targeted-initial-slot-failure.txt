@@ -1,0 +1,36 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/462bfc2f69c3/nqc-miner-work/migration/nqc-miner)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.40s
+     Running tests/aave_debt_execution_tests.rs (/workspace/scratch/462bfc2f69c3/miner-target/debug/deps/aave_debt_execution_tests-17d48d7081572acf)
+
+running 16 tests
+test actual_proxy_requires_slot_and_implementation_witnesses ... ok
+test callback_failures_and_reentrant_burn_attempt_revert_entire_composition ... ok
+test actual_proxy_upgrade_changes_slot_and_dispatches_locally_without_touching_implementation ... ok
+test audited_proxy_executes_complete_debt_case_and_exports_reproducible_example ... ok
+test later_pool_and_rate_failures_undo_successful_token_burn_and_callback ... ok
+test audited_proxy_bubbles_token_callback_and_later_failures_with_full_rollback ... ok
+test real_token_emits_mint_on_interest_heavy_burn_and_actual_rates_replace_quotes ... ok
+test actual_token_only_pool_guard_and_closed_state_missing_dependencies ... ok
+test full_partial_zero_and_exhausted_collateral_cover_true_token_return ... ok
+
+thread 'ten_historical_proxy_code_slot_samples_dispatch_to_actual_token_getters' panicked at tests/aave_debt_execution_tests.rs:798:40:
+called `Result::unwrap()` on an `Err` value: SandboxError("closed sandbox execution rejected: database error: missing storage witness 0x4d5f47fa6a74757f35c14fd3a6ef8e3c9bc514e8:54")
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test ten_historical_proxy_code_slot_samples_dispatch_to_actual_token_getters ... FAILED
+test proxy_upgrade_and_call_failure_rolls_back_slot_and_event_and_reinitialization_fails ... ok
+test immutable_admin_cannot_fallback_and_nonadmin_cannot_use_proxy_admin_routes ... ok
+test real_strategy_kink_zero_total_and_maximum_packed_balance ... ok
+test token_zero_rounding_balance_supply_index_and_cast_boundaries ... ok
+600 seeded combined executions: exact outputs, complete logs and all changed contract slots; no historical eligibility claim
+test seeded_combined_execution_covers_rounding_usage_branches_and_packed_user_state ... ok
+600 seeded combined executions: exact outputs, complete logs and all changed contract slots; no historical eligibility claim
+test audited_proxy_runs_600_seeded_debt_token_rate_cases ... ok
+
+failures:
+
+failures:
+    ten_historical_proxy_code_slot_samples_dispatch_to_actual_token_getters
+
+test result: FAILED. 15 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 14.81s
+
+error: test failed, to rerun pass `--test aave_debt_execution_tests`

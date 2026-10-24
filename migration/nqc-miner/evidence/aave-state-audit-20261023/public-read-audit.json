@@ -1,0 +1,211 @@
+{
+  "schema": "nqc-miner-aave-public-audit-v1",
+  "status": "pass",
+  "completed_at_utc": "2026-10-23T00:42:51.274113+00:00",
+  "audit_script_sha256": "9ea710f9e4537bce9ee2a9c88a3a44977791ad1b1e8948063c469aaca215d1fa",
+  "verifier_sha256": "b199f60e13d64e39dd8b66f2f5cf32e63fa6df2d1a9f27d54a1339cb992a7af0",
+  "source_files": {
+    "config.json": "e87b74f1e53aa88bebc92e4e4b38704e1bd39f25984014eb4cca756435e4492b",
+    "events.jsonl": "9563e32f70ef56fb69ddc04db8164650b184dbc91fd382548345e749409c337b",
+    "owner.json": "f85b423c38376e0c9d005d40b23b04d2241877a58e91bb416c2dcb4b14a9922f"
+  },
+  "source_unchanged": true,
+  "plan_replays": [
+    {
+      "directory": "evidence/aave-state-smoke-plan-20261023",
+      "files_matched": 13
+    },
+    {
+      "directory": "evidence/aave-state-plans-20261023",
+      "files_matched": 13
+    }
+  ],
+  "runs": [
+    {
+      "run": "run-001",
+      "source_binding_verified_in_this_audit": true,
+      "samples": 1,
+      "agreed_getters": 7,
+      "raw_provider_replies": 14,
+      "event_identity": {
+        "chain_id": 1,
+        "contract": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+        "block_number": 26248076,
+        "block_hash": "0x93c3ada980ac14c3a0a64f3ef98d3e8639ffd1ce42b6e2e74ee44c1bddcb5053",
+        "transaction_hash": "0x0f41c4143e965fe9c26509f976cf31374460f6899ee796966a4b65b110e9aa2f",
+        "log_index": 61
+      },
+      "breach_episodes": [],
+      "last_health_factor_wad": "1000234567630119811",
+      "last_prices": [
+        {
+          "asset": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+          "price_base": "99983478"
+        },
+        {
+          "asset": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+          "price_base": "240275000000"
+        }
+      ],
+      "last_oracle": "0x54586be62e3c3580375ae3723c145253060ca0c2",
+      "last_base_currency": "0x0000000000000000000000000000000000000000",
+      "last_base_currency_unit": "100000000"
+    },
+    {
+      "run": "history-000",
+      "source_binding_verified_in_this_audit": true,
+      "samples": 16,
+      "agreed_getters": 112,
+      "raw_provider_replies": 224,
+      "event_identity": {
+        "chain_id": 1,
+        "contract": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+        "block_number": 26248076,
+        "block_hash": "0x93c3ada980ac14c3a0a64f3ef98d3e8639ffd1ce42b6e2e74ee44c1bddcb5053",
+        "transaction_hash": "0x0f41c4143e965fe9c26509f976cf31374460f6899ee796966a4b65b110e9aa2f",
+        "log_index": 61
+      },
+      "breach_episodes": [],
+      "last_health_factor_wad": "1000234567630119811",
+      "last_prices": [
+        {
+          "asset": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+          "price_base": "99983478"
+        },
+        {
+          "asset": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+          "price_base": "240275000000"
+        }
+      ],
+      "last_oracle": "0x54586be62e3c3580375ae3723c145253060ca0c2",
+      "last_base_currency": "0x0000000000000000000000000000000000000000",
+      "last_base_currency_unit": "100000000"
+    },
+    {
+      "run": "history-001",
+      "source_binding_verified_in_this_audit": true,
+      "samples": 16,
+      "agreed_getters": 112,
+      "raw_provider_replies": 224,
+      "event_identity": {
+        "chain_id": 1,
+        "contract": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+        "block_number": 26248114,
+        "block_hash": "0x7d0b9646f0090f9f467a31a07cbe5c0c1259badfc5ba93e0072c114b6c9f41af",
+        "transaction_hash": "0xb6eeb0b8a4af39d5d461fa985ada74c294b23d4b457b86d4a02012664352075d",
+        "log_index": 922
+      },
+      "breach_episodes": [
+        {
+          "first_sampled_block": 26248113,
+          "last_sampled_block": 26248113,
+          "left_censored": false,
+          "right_censored": true
+        }
+      ],
+      "last_health_factor_wad": "999999987794950345",
+      "last_prices": [
+        {
+          "asset": "0x14bdc3a3ae09f5518b923b69489cbcafb238e617",
+          "price_base": "99886444"
+        },
+        {
+          "asset": "0x4c9edd5852cd905f086c759e8383e09bff1e68b3",
+          "price_base": "99886444"
+        }
+      ],
+      "last_oracle": "0x54586be62e3c3580375ae3723c145253060ca0c2",
+      "last_base_currency": "0x0000000000000000000000000000000000000000",
+      "last_base_currency_unit": "100000000"
+    },
+    {
+      "run": "history-002",
+      "source_binding_verified_in_this_audit": true,
+      "samples": 16,
+      "agreed_getters": 112,
+      "raw_provider_replies": 224,
+      "event_identity": {
+        "chain_id": 1,
+        "contract": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+        "block_number": 26248379,
+        "block_hash": "0xdae4dbfeda7cdae9955cb0ae394e2987977313f53f0eb906ea6fe030a949bf8c",
+        "transaction_hash": "0xeb7833abff05f15b7c6395a831144b9a736f1242be25830a37e6eb2a1929ffe6",
+        "log_index": 22
+      },
+      "breach_episodes": [],
+      "last_health_factor_wad": "1000521727527941698",
+      "last_prices": [
+        {
+          "asset": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+          "price_base": "99983478"
+        },
+        {
+          "asset": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+          "price_base": "240029113527"
+        }
+      ],
+      "last_oracle": "0x54586be62e3c3580375ae3723c145253060ca0c2",
+      "last_base_currency": "0x0000000000000000000000000000000000000000",
+      "last_base_currency_unit": "100000000"
+    }
+  ],
+  "unique_historical_states": 48,
+  "distinct_source_events": 3,
+  "smoke_state_repeats_first_history": true,
+  "source_journal_binding_verified": true,
+  "state_authentication_verified": false,
+  "provider_independence_verified": false,
+  "executable_eligibility_verified": false,
+  "prices_freshness_verified": false,
+  "economic_certification": false,
+  "observer_bridge_enabled": false,
+  "activation_allowed": false,
+  "files": {
+    "audit.py": "9ea710f9e4537bce9ee2a9c88a3a44977791ad1b1e8948063c469aaca215d1fa",
+    "capture.py": "511d56b8b3f567799fb119fea95e8b984a8216d432dc88e19b6da5cb2c8de12d",
+    "history-000/about-after.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "history-000/about-after.stdout": "af164ea14184c4a3f919604864fa86a8917ecdbac337cf1e94fd5bbb4d529d2f",
+    "history-000/about-before.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "history-000/about-before.stdout": "af164ea14184c4a3f919604864fa86a8917ecdbac337cf1e94fd5bbb4d529d2f",
+    "history-000/config.json": "9e92cd9fa1a74ac5de7118d3ef22b277f485da8132894c41232bfc7e587b3dba",
+    "history-000/execution.json": "9413bf64a5205a684dd99e2f68597c178e489c05fca87501c38016eb24ec0d9a",
+    "history-000/plan.json": "ec4d0c29415279145d8c4bd90cfda81005e85ca83cb2b97c5d02a512d3942e12",
+    "history-000/read-state.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "history-000/read-state.stdout": "10df2238dcfd9aa82eae16e042fc3ee61a4e3de21d2207adf70b7d78bf768049",
+    "history-000/validate-plan.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "history-000/validate-plan.stdout": "cc4b996278d5b5d257f005c01b1fd7541419d2d31ec1c69c00ca2c5fc7029e92",
+    "history-001/about-after.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "history-001/about-after.stdout": "af164ea14184c4a3f919604864fa86a8917ecdbac337cf1e94fd5bbb4d529d2f",
+    "history-001/about-before.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "history-001/about-before.stdout": "af164ea14184c4a3f919604864fa86a8917ecdbac337cf1e94fd5bbb4d529d2f",
+    "history-001/config.json": "9e92cd9fa1a74ac5de7118d3ef22b277f485da8132894c41232bfc7e587b3dba",
+    "history-001/execution.json": "a59ff70610c337fb00933332435dacd62a9f62624a1068e83c91fec4bcf96bd1",
+    "history-001/plan.json": "d47a39d0c0505cd17539ce5a3445bb9279e9c46ead6a81ccf636f67790472ce5",
+    "history-001/read-state.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "history-001/read-state.stdout": "3cfc376b8b7ef802eff3a23b898208b49ef0963a3e37559b942eb1c5238bf91b",
+    "history-001/validate-plan.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "history-001/validate-plan.stdout": "3973c344c9b9baec65e81e52dfc54b1588ff97e6ae8487648f442cf022d50543",
+    "history-002/about-after.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "history-002/about-after.stdout": "af164ea14184c4a3f919604864fa86a8917ecdbac337cf1e94fd5bbb4d529d2f",
+    "history-002/about-before.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "history-002/about-before.stdout": "af164ea14184c4a3f919604864fa86a8917ecdbac337cf1e94fd5bbb4d529d2f",
+    "history-002/config.json": "9e92cd9fa1a74ac5de7118d3ef22b277f485da8132894c41232bfc7e587b3dba",
+    "history-002/execution.json": "7d6542bb62e215a4074d7d5dba563651e6a4fddb0817b6b560edf8fb82778975",
+    "history-002/plan.json": "2bc82aae30467243532ff8e9ceb6259d2ee9cdb56efaa5f308354349593e478d",
+    "history-002/read-state.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "history-002/read-state.stdout": "dd694ecd903f957bf59907d69c1f2fb24704488feb865c7844358402f087a31b",
+    "history-002/validate-plan.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "history-002/validate-plan.stdout": "bd74b53838edcba26e1a3beac98b555a7c15487e9f1635fc423d9bd20f642216",
+    "run-001/about-after.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "run-001/about-after.stdout": "af164ea14184c4a3f919604864fa86a8917ecdbac337cf1e94fd5bbb4d529d2f",
+    "run-001/about-before.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "run-001/about-before.stdout": "af164ea14184c4a3f919604864fa86a8917ecdbac337cf1e94fd5bbb4d529d2f",
+    "run-001/config.json": "fa5453b7653c7ffeee05e48ce8341397a98cce89b96f96a0ceab4804f4b0da2e",
+    "run-001/execution.json": "cada9b98f0790406072a08c9409df64b0b25ee57eab77c03fa66d844b407025a",
+    "run-001/plan.json": "99f756f4bae6be52add4a880cbd1de052f301b6a0457d6d1ba3a62e74dc61d6d",
+    "run-001/read-state.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "run-001/read-state.stdout": "65e9b9f78fb86afcb412649978d1150379446a9ea116e58b73211507b5cdadd2",
+    "run-001/validate-plan.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "run-001/validate-plan.stdout": "a6c3a6814833e5d76f79728c7c41cfdd6dd70599fd3ee81757a80000a5258457"
+  }
+}

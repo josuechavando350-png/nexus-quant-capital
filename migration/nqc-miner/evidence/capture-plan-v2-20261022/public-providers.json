@@ -1,0 +1,17 @@
+{
+  "schema": "nqc-miner-public-provider-selection-v1",
+  "credentials_used": false,
+  "public_urls": {
+    "NQC_MINER_RPC_ETHEREUM_PRIMARY": "https://ethereum-rpc.publicnode.com",
+    "NQC_MINER_RPC_ETHEREUM_SECONDARY": "https://rpc.flashbots.net",
+    "NQC_MINER_RPC_BASE_PRIMARY": "https://base-rpc.publicnode.com",
+    "NQC_MINER_RPC_BASE_SECONDARY": "https://base-mainnet.g.alchemy.com/public",
+    "NQC_MINER_RPC_ARBITRUM_PRIMARY": "https://arb1.arbitrum.io/rpc",
+    "NQC_MINER_RPC_ARBITRUM_SECONDARY": "https://arb-mainnet.g.alchemy.com/public"
+  },
+  "limitations": [
+    "Public addresses deliberately recorded for reproducibility; capture script never dumps environment variables.",
+    "Distinct URLs are not proof of independent upstream operators.",
+    "Selection also used for preserved v1 run."
+  ]
+}

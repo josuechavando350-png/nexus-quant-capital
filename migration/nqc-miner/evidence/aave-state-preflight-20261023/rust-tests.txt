@@ -1,0 +1,223 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/1372b3d66995/nqc-miner-work/migration/nqc-miner)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.17s
+     Running unittests src/lib.rs (/workspace/scratch/1372b3d66995/tmp/miner-target/debug/deps/nqc_miner-6e88e305eee48149)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (/workspace/scratch/1372b3d66995/tmp/miner-target/debug/deps/nqc_miner-40f4f5aa510bdde7)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/analytics_tests.rs (/workspace/scratch/1372b3d66995/tmp/miner-target/debug/deps/analytics_tests-3c50e53d284f8f3b)
+
+running 44 tests
+test backdated_watch_registration_is_rejected ... ok
+test a_missing_tip_or_eligibility_measurement_is_not_zero ... ok
+test budget_defaults_to_zero_and_plans_never_authorize_spending ... ok
+test canonical_block_hash_and_transaction_location_conflicts_are_rejected ... ok
+test complete_low_competition_fixture_can_be_classified_only_as_fixture ... ok
+test coverage_cannot_silently_exclude_unknown_scopes ... ok
+test coverage_is_chain_specific_and_duplicate_safe ... ok
+test coverage_has_no_denominator_when_scan_empty_or_incomplete ... ok
+test coverage_rejects_block_global_log_collisions_across_contracts ... ok
+test coverage_is_prospective_and_never_repaired_by_later_discovery ... ok
+test dead_market_requires_all_measured_dimensions ... ok
+test deduplication_cannot_inflate_sample_count ... ok
+test incomplete_or_uncalibrated_measurements_cannot_claim_market_state ... ok
+test ineligible_mines_cannot_receive_research_allocation ... ok
+test invalid_beta_priors_are_rejected_before_sampling ... ok
+test mixed_classes_and_mines_are_rejected ... ok
+test no_observations_are_not_a_virgin_mine ... ok
+test only_finalized_realized_net_can_change_posterior ... ok
+test orphaned_or_unfinalized_events_do_not_become_evidence ... ok
+test overlapping_ranges_are_not_a_valid_coverage_denominator ... ok
+test realized_settlements_are_deduplicated_by_physical_event_and_id ... ok
+test reorg_reset_does_not_retain_the_old_rival_posterior ... ok
+test reorg_retraction_restores_only_the_removed_outcome_contribution ... ok
+test retired_watch_does_not_cover_future_events ... ok
+test rival_monitor_detects_unseen_liquidators_without_claiming_entity_identity ... ok
+test rival_observations_require_canonical_finality_and_unique_ids ... ok
+test rival_same_block_conflict_cannot_mutate_causal_history ... ok
+test rival_update_is_idempotent_and_rejects_out_of_order_data ... ok
+test saturation_rejects_distinct_transactions_at_the_same_block_log_position ... ok
+test scan_end_hash_is_bound_to_canonical_events ... ok
+test thompson_plan_is_seeded_integer_capped_and_does_not_split_requests ... ok
+test unknown_or_zero_bonus_does_not_produce_a_zero_tip_fraction ... ok
+test valid_same_block_events_are_ordered_by_log_position_not_transaction_hash ... ok
+test duplicate_event_with_changed_profit_is_rejected ... ok
+test an_explicit_zero_day_is_valid_but_not_implicitly_filled ... ok
+test valuation_rejects_unknown_days_nonfinite_rates_and_zero_effort ... ok
+test bayesian_change_likelihood_increases_after_a_stable_low_competition_period ... ok
+test zero_captures_still_pay_all_attempt_costs ... ok
+test valuation_matches_an_independent_constant_cashflow_calculation ... ok
+test valuation_rejects_a_nonfinite_priority_and_mixed_history ... ok
+test bootstrap_is_reproducible_and_returns_distribution_not_a_single_number ... ok
+test any_research_budget_remains_conserved ... ok
+test extra_failed_gas_never_improves_the_same_seed_valuation ... ok
+test duplicate_input_never_changes_saturation_measurements ... ok
+
+test result: ok. 44 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.25s
+
+     Running tests/collector_tests.rs (/workspace/scratch/1372b3d66995/tmp/miner-target/debug/deps/collector_tests-cf839569d546304f)
+
+running 14 tests
+test crash_child ... ok
+test collector_refuses_shadow_synthetic_legacy_and_multiple_scopes ... ok
+test legacy_lock_is_never_automatically_removed ... ok
+test disagreement_is_rejected_without_claiming_success ... ok
+test foreign_owner_data_and_concurrent_collectors_rejected ... ok
+test broken_window_boundary_quarantines_without_skipping ... ok
+test symlink_state_and_lock_rejected ... ok
+test windows_are_contiguous_and_identity_bound ... ok
+test changed_finalized_history_durably_quarantines_whole_collection ... ok
+test waiting_does_not_create_or_advance_window ... ok
+test partial_window_resumes_after_provider_failure ... ok
+test missing_and_truncated_evidence_never_advance_cursor ... ok
+test restart_reconstructs_progress_without_duplicate_windows ... ok
+test killed_process_releases_collection_and_journal_locks ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+     Running tests/controls_tests.rs (/workspace/scratch/1372b3d66995/tmp/miner-target/debug/deps/controls_tests-667115825ab3957d)
+
+running 35 tests
+test absent_or_unfinalized_block_is_not_assumed_canonical ... ok
+test adapter_reports_from_another_contract_or_block_cannot_be_combined ... ok
+test a_capture_before_threshold_changes_accounting_but_never_total_cap ... ok
+test adapter_requires_all_three_distinct_test_families_and_artifacts ... ok
+test default_budget_is_zero_and_references_never_enable_money ... ok
+test deserialization_does_not_bypass_scope_validation ... ok
+test hard_budget_caps_are_integer_centavos ... ok
+test canonical_reorg_invalidates_old_gate_and_proposal ... ok
+test exact_gate_order_reaches_advisory_proposal_but_never_active ... ok
+test historical_context_is_required_validated_and_integrity_bound ... ok
+test mine_chain_source_and_adapter_must_match ... ok
+test noncanonical_accounting_is_rejected_and_later_reorg_latches_stop ... ok
+test nonpositive_or_undersampled_valuation_fails ... ok
+test oversized_observed_topup_is_retained_as_a_breach ... ok
+test overspending_remains_visible_and_receipts_cannot_be_double_counted ... ok
+test paper_profit_never_avoids_no_capture_stop ... ok
+test expiry_and_future_boundaries_fail_closed ... ok
+test reactivation_replays_new_gates_without_requiring_retired_fork_canonicality ... ok
+test journal_replays_deterministically_and_roundtrips ... ok
+test any_paper_profit_is_never_realized_or_spendable ... ok
+test retired_history_replays_after_reorg_and_expiry_without_current_old_blocks ... ok
+test replay_rejects_current_reorg_even_when_historical_context_was_valid ... ok
+test retired_history_still_requires_original_gate_shape_time_and_admission ... ok
+test modified_journal_cannot_inject_live_state_or_forge_chain_tip ... ok
+test stale_prior_evidence_invalidates_a_later_step ... ok
+test retirement_and_reactivation_reset_all_gates ... ok
+test replay_rejects_stale_current_evidence_and_future_log_time ... ok
+test synthetic_fixture_evidence_cannot_be_promoted_to_proposal ... ok
+test unknown_or_failed_toxicity_never_advances ... ok
+test transition_context_retains_only_relevant_blocks_and_finalized_head ... ok
+test shadow_requires_realtime_observations_after_shadow_admission ... ok
+test retirement_reason_is_required_and_mine_cannot_change_on_restart ... ok
+test evidence_hashes_roundtrip_without_truncation ... ok
+test arbitrary_skipped_gate_never_changes_detected_state ... ok
+test gas_accounting_is_exact_and_stop_is_monotonic ... ok
+
+test result: ok. 35 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+
+     Running tests/discovery_tests.rs (/workspace/scratch/1372b3d66995/tmp/miner-target/debug/deps/discovery_tests-0a66b97bce4fb4e8)
+
+running 16 tests
+test incentive_and_maturity_signals_are_time_bounded_and_not_liquidations ... ok
+test exact_morpho_rounding_and_overflow ... ok
+test graph_never_uses_future_or_low_confidence_edges_as_identity ... ok
+test aave_reserve_and_liquidation_decoders_are_not_interchangeable ... ok
+test proxy_identity_must_match_both_code_hashes ... ok
+test morpho_liquidation_abi_is_decoded_with_units_and_identity ... ok
+test rejects_noncanonical_lengths_addresses_and_hex ... ok
+test morpho_birth_checks_market_hash_and_never_certifies ... ok
+test incomplete_push_tail_is_preserved_without_certifying_runtime ... ok
+test rejects_reorgs_chain_contract_and_scope_confusion ... ok
+test snapshot_integer_serialization_preserves_full_u128 ... ok
+test timelocks_respect_predecessors_cancellation_and_actual_execution ... ok
+test minhash_is_stable_and_selector_extraction_skips_push_data ... ok
+test taylor_projection_is_monotone ... ok
+test arbitrary_bytes_never_panic_in_decoder ... ok
+test fingerprints_of_valid_small_programs_are_deterministic ... ok
+
+test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.69s
+
+     Running tests/evm_tests.rs (/workspace/scratch/1372b3d66995/tmp/miner-target/debug/deps/evm_tests-733c9646e7190243)
+
+running 12 tests
+test malformed_eof_and_future_delegation_never_panic_or_silently_use_newer_rules ... ok
+test hidden_transfer_fees_and_cheap_oracle_manipulation_are_rejected ... ok
+test differential_harness_detects_values_state_gas_and_input_mismatch ... ok
+test duplicate_inconsistent_or_incomplete_witnesses_fail ... ok
+test ancestor_hash_reads_require_explicit_witness ... ok
+test real_revm_executes_return_value_and_is_deterministic ... ok
+test missing_accounts_cannot_be_defaulted_to_empty ... ok
+test missing_toxicity_evidence_never_means_safe ... ok
+test revert_halt_and_resource_bounds_are_explicit ... ok
+test transfer_result_cannot_be_relabelled_as_a_different_actor_or_amount ... ok
+test missing_storage_is_an_error_and_explicit_zero_is_valid ... ok
+test arbitrary_short_bytecode_fails_or_halts_without_fetching ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+
+     Running tests/historical_tests.rs (/workspace/scratch/1372b3d66995/tmp/miner-target/debug/deps/historical_tests-2f08399f7aa4b13b)
+
+running 11 tests
+test checks_chain_provider_order_and_expected_event_hash ... ok
+test plan_validation_prevents_gaps_post_event_shadow_and_unbounded_reads ... ok
+test selectors_encoding_unknown_json_fields_and_ambiguous_types_are_rejected ... ok
+test rejects_disagreement_and_archive_unavailability ... ok
+test reads_every_block_and_preserves_non_monotonic_breach_episodes ... ok
+test detects_oracle_changes_without_converting_non_usd_or_aggregating_prices ... ok
+test rejects_malformed_or_zero_abi_results_and_out_of_range_basis_points ... ok
+test permits_equal_timestamps_for_multiple_l2_blocks_in_one_second ... ok
+test getter_allowlist_rejects_unpinned_overrides_values_and_arbitrary_calldata_before_network ... ok
+test zero_debt_and_exact_threshold_do_not_create_breach ... ok
+test revalidates_interior_event_parent_and_finalized_anchor ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+     Running tests/pipeline_tests.rs (/workspace/scratch/1372b3d66995/tmp/miner-target/debug/deps/pipeline_tests-ca3eb575620244d2)
+
+running 35 tests
+test bridge_is_review_only_and_has_no_delivery_capability ... ok
+test configuration_rejects_crossing_observer_money_and_foreign_creds ... ok
+test decoded_payload_cannot_disagree_with_raw_log ... ok
+test failed_provider_never_advances_the_cursor ... ok
+test exclusive_lock_blocks_concurrent_writer_and_verifier ... ok
+test existing_v2_journal_cannot_be_adopted_by_another_build_identity ... ok
+test adjacent_chunk_parent_mismatch_quarantines_earlier_chunks ... ok
+test earlier_scope_is_revalidated_after_later_scope_finishes ... ok
+test failed_final_anchor_recheck_is_incomplete_until_successful_retry ... ok
+test immutable_run_configuration_cannot_be_reused ... ok
+test final_anchor_change_cannot_return_complete ... ok
+test interrupted_events_are_provisional_and_cannot_be_closed_as_empty ... ok
+test empty_scopes_cannot_complete_on_different_chain_histories ... ok
+test journal_rejects_conflicting_empty_chunks_across_scopes ... ok
+test interrupted_scan_resumes_with_same_event_set_without_duplicates ... ok
+test legacy_v1_is_offline_verifiable_but_never_live_rpc_eligible ... ok
+test log_block_hash_must_match_quorum_header ... ok
+test finalized_scan_replays_idempotently_and_reports_only_scoped_coverage ... ok
+test provider_disagreement_does_not_complete_a_chunk ... ok
+test no_events_does_not_mean_full_coverage_or_virgin_market ... ok
+test logs_are_ordered_by_block_and_log_index_not_transaction_hash ... ok
+test symlink_cannot_redirect_miner_state_into_observer ... ok
+test same_log_index_with_conflicting_transaction_is_rejected ... ok
+test persisted_reorg_quarantines_all_dependent_evidence ... ok
+test synthetic_class_and_foreign_scope_cannot_enter_live_scan_api ... ok
+test unfinalized_range_cannot_be_scanned ... ok
+test v2_requires_build_identity_and_v1_cannot_claim_one ... ok
+test unowned_directory_is_never_adopted ... ok
+test torn_record_is_preserved_and_fails_verification ... ok
+test wrong_chain_duplicate_and_removed_logs_are_rejected ... ok
+test tampered_manifest_and_hashchain_are_rejected ... ok
+test nonretryable_http_failure_is_single_shot_and_redacts_endpoint ... ok
+test rpc_method_allowlist_and_url_rules_prevent_signing ... ok
+test pinned_getter_runs_over_actual_http_transport ... ok
+test http_rate_limit_is_retried_and_then_succeeds ... ok
+
+test result: ok. 35 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.29s
+

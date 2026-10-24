@@ -1,0 +1,191 @@
+{
+  "artifact_sha256": {
+    "README.md": "f7959b31eb565a47e2bee096dfd0d39f9eb3caa71446dbc258443fbe1c8a5397",
+    "capture.txt": "ffc33d4595815ed62fb786ba37f0d1951d503cf9a7e0ffbf1f8ca81fa3cace1a",
+    "clippy-targeted.txt": "c18f2b86ffd4d6163cc89c70272385ecf065c3cd737ba265dd4f506ef55fa9f4",
+    "compiler-retrieval.json": "0af6c4de7639a02a43a3400922b162f7cf7dd179b899f8df2b04832576f188de",
+    "compiler/harness-input.json.gz": "1003cfe6a597d7958692839f01be56dad22718c1430fbd203b96531ba1f7f1b7",
+    "compiler/harness-output.json.gz": "dd50ff1ac9a5fb252540d8bc1c64d75b587da01b230adaf77ac9426e7c073d1d",
+    "compiler/harness.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "compiler/weth-input.json.gz": "7cf54d557bf804ad383b0e529b5980acd89699dc9ee5bc34a3705a70c8883ab4",
+    "compiler/weth-output.json.gz": "acf2e79471c971053f6a1b525255ce201af835a1e6ed4a78828b73a4b6cf2fef",
+    "compiler/weth.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "execution-notes.json": "dc494e29d1a6484d31598a5df78f7a12d7828aea10c511c9ecee9c167751297a",
+    "offline/build-identity.txt": "e454c2ee9df559312fb0d9ca7b87925f79d270e3709c54f3ce8d8e6d8b4c83c5",
+    "offline/clippy.txt": "b0514f664c6e687899c65227c7a7d116f8a311e846fadb97fb2def572cc2f14a",
+    "offline/miner-scope.txt": "e24ec9a8a8084f044b42676b539578a60fc6b6938ad736c6e6006e73649042a3",
+    "offline/python-research-tests.txt": "6a2eee958b3f7573a3a96507cc1c5e40be1bd4304827d6c1a1d7b680f9c36288",
+    "offline/repository-isolation.txt": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940",
+    "offline/rust-build.txt": "10279ebfff00f78395879323d1cf2cf7ad1a17722f9b1fa491cd9f9e7b5e9707",
+    "offline/rust-tests.txt": "29f7c171f6a051586ee7cbb35145f1d11508ad63b1f2394977fa2afd3732f1b9",
+    "offline/rustfmt.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "offline/summary.json": "79e34c012b3f6fa3af7e38fd61102eb1f0cd56ad0ea4edb1b37f9de8e54b7ac8",
+    "preflight/harness-output.json.gz": "dd50ff1ac9a5fb252540d8bc1c64d75b587da01b230adaf77ac9426e7c073d1d",
+    "preflight/weth-output.json.gz": "acf2e79471c971053f6a1b525255ce201af835a1e6ed4a78828b73a4b6cf2fef",
+    "preflight/weth.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "public/manifest.json": "e3f817817431bb94d00b547a6e7cb924ec76cdd966dd7bee36810c24706c317f",
+    "public/weth-000.json": "244515de7eaa4bcbd409d3e80c0fabe8f6ad4e9aceec64367d7c6b5da3efe6d5",
+    "public/weth-001.json": "c23e64595cd464a0a79177eccb4957cbe58847ca3b2b8f2a5ec26cfa84f3f728",
+    "public/weth-002.json": "f4cc165c660a36ac35ee619a44301afa572bb4761efd09b58ddd144b427dc6db",
+    "python-targeted.txt": "bc0e6ad636ba861cd7fd922a637598524674fa27e2914d66a9b4bef24c1b18e2",
+    "recompilation.json": "0a5b9bd27c66cd59254b853ea9623f2e76d7d2dc884a24c115e5190ea871b714",
+    "retrieval.json": "5b7bea3cf36aec600ce595340ac94c494e20b262f028aac2f45e26ef80097a46",
+    "runtime-audit.json": "acf6d7f4981eeca4457dff0a5854fee345a3347cf32f31057f933e14cc946c06",
+    "source-history.bundle": "583f65049cab4724c1757f45609b8096a069f11a98c21ce610471ce957281da6",
+    "synthetic/input.json": "001d56d2e77b83f01080df16060e75c85b19edd1b1ad1c28636b47ba3983f661",
+    "synthetic/output.json": "205988bc51ec5cba92e9b769c51d5f5d1967004c78767d9f73684a6a63f65150",
+    "targeted-initial.txt": "217f60537f816fd5fdb52d766ad78a29724b7e860165cbec0c4202ba634bc670",
+    "weth-source.json.gz": "afab0a5dc36f661ad0208fdad72bfd20b874122d778391dbda4c708284eeb860"
+  },
+  "as_of": "2026-10-23",
+  "audited_input_hashes_rechecked": 158,
+  "audited_inputs_unchanged": true,
+  "binary_sha256": "5747eaaa99db330f7056a5d5c3985c594bcfa5269114fad175e662899b79ace1",
+  "checks": {
+    "build-identity": {
+      "exit_code": 0,
+      "log_sha256": "e454c2ee9df559312fb0d9ca7b87925f79d270e3709c54f3ce8d8e6d8b4c83c5"
+    },
+    "clippy": {
+      "exit_code": 0,
+      "log_sha256": "b0514f664c6e687899c65227c7a7d116f8a311e846fadb97fb2def572cc2f14a"
+    },
+    "miner-scope": {
+      "exit_code": 0,
+      "log_sha256": "e24ec9a8a8084f044b42676b539578a60fc6b6938ad736c6e6006e73649042a3"
+    },
+    "python-research-tests": {
+      "exit_code": 0,
+      "log_sha256": "6a2eee958b3f7573a3a96507cc1c5e40be1bd4304827d6c1a1d7b680f9c36288"
+    },
+    "repository-isolation": {
+      "exit_code": 0,
+      "log_sha256": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940"
+    },
+    "rust-build": {
+      "exit_code": 0,
+      "log_sha256": "10279ebfff00f78395879323d1cf2cf7ad1a17722f9b1fa491cd9f9e7b5e9707"
+    },
+    "rust-tests": {
+      "exit_code": 0,
+      "log_sha256": "29f7c171f6a051586ee7cbb35145f1d11508ad63b1f2394977fa2afd3732f1b9"
+    },
+    "rustfmt": {
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "document_sha256": {
+    "README.md": "63fca23ba1a7b5a2ceab99f9f0aad57db1a4f9562e511a6ea8687474a67d5ac6",
+    "docs/AUDIT_AAVE_UNDERLYING_EXECUTION_20261023.md": "3f3063f024d86dac7cbce38faaeff27789d81d734fbbe14ef49dcc5d7f803549",
+    "docs/aave-underlying-execution.md": "fd2e3ad48bd7b33286658fd10a6cbad5512e2d5373d6ccf8026474216433d048",
+    "docs/closure-plan.json": "0e8ed26541fbbafe13d6b67e8bfe6a1b8c0c2a621e5c63dcae88743f6c1e1419",
+    "docs/progress.json": "f5dd26887137126022db2597a7289a8b4409285930c35af44b5a5f7d475ffc18"
+  },
+  "fixture_sha256": "0fc1be6b85ebc64f1e11245111f0d5f6cbb3ed629d0774a5d6d4d9f3a6a474db",
+  "global_completion_percent": 43,
+  "isolation": {
+    "active_workflows": 0,
+    "canonical_recertification": false,
+    "destination_repository_id": 1411047452,
+    "disabled_workflows": 106,
+    "original_objects_checked": false,
+    "source_commit": "e259739c9f75fedcd1061d2f78d6b8852e7a3060",
+    "source_files": 531,
+    "status": "ISOLATED_SOURCE_IDENTITY_PASS"
+  },
+  "limits": {
+    "debt_payment_executed": false,
+    "economic_certification": false,
+    "executable_historical_eligibility_certified": false,
+    "execution_state_synthetic": true,
+    "full_liquidation_certified": false,
+    "historical_fork_certified": false,
+    "historical_state_authenticated": false,
+    "initial_health_validation_executed": false,
+    "liquidation_amounts_supplied": true,
+    "observer_bridge_enabled": false,
+    "phase_exits_completed": [],
+    "pool_entrypoint_synthetic": true,
+    "receive_underlying_only": true,
+    "spending_authorized": false,
+    "underlying_transfer_executed": true
+  },
+  "new_progress_credit": 0,
+  "new_public_rpc_capture": {
+    "code_and_slot_reads_canonical_hash_pinned": true,
+    "full_runtime_provider_comparisons": 6,
+    "historical_balances_captured": false,
+    "historical_blocks": 3,
+    "new_liquidation_events": 0,
+    "providers": 2,
+    "requests": 66,
+    "underlying_slot_provider_comparisons": 6
+  },
+  "offline_summary_sha256": "79e34c012b3f6fa3af7e38fd61102eb1f0cd56ad0ea4edb1b37f9de8e54b7ac8",
+  "publication_base_commit": "2955dbbce58d7d74df4a6c4eaa79188e3285cb04",
+  "recompilation": {
+    "compiler_executions_per_profile": 3,
+    "deployed_runtime_metadata_not_patched_into_compiler_output": true,
+    "harness_input_sha256": "542f7125c8270facb56926ad0a8f4e81548ba96081d30add04d0ac4284636b7b",
+    "harness_output_sha256": "57df637166e1de4d12dc7b7ee331ef208755d7a9ad021dd56495af201ef7e33a",
+    "metadata_mismatch_retained": true,
+    "original_sources_unchanged": true,
+    "outputs_byte_identical": true,
+    "weth_input_sha256": "683ffaac31ad850a911ff84b4963ca5ac33f3dbef7714622e53784ed369b5c4a",
+    "weth_output_sha256": "d1e7339d0e43608999ffbc50d572686077225b6b077e7d3cac033c7097764114"
+  },
+  "schema": "nqc-miner-aave-underlying-execution-verification-v1",
+  "scope": {
+    "base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
+    "changed_paths": 1198,
+    "observer_files_changed": 0,
+    "outside_miner": [],
+    "remote_branches_modified_by_this_check": false,
+    "status": "MINER_SCOPE_PASS"
+  },
+  "source_dirty": false,
+  "source_history_bundle_verified": true,
+  "source_sha256": "55fda12687fb2e74135a8bb5582043223618de26ea2a6647d7712c8649ac1fbc",
+  "status": "pass",
+  "synthetic_example": {
+    "changed_storage_slots": 21,
+    "gas_represents_full_liquidation": false,
+    "gas_used": 439195,
+    "ordered_events": 14,
+    "output_words": 24
+  },
+  "targeted_attempts": {
+    "compilation_failures": 0,
+    "existing_rust_tests_intentionally_filtered": 32,
+    "python_failed": 0,
+    "python_passed": 12,
+    "python_skipped": 0,
+    "rust_failed": 0,
+    "rust_ignored": 0,
+    "rust_passed": 8
+  },
+  "tested_source_commit": "4bfae245e78ce99d37131198275867d5a3f04302",
+  "tests": {
+    "added_python": 12,
+    "added_rust": 8,
+    "preceding_reference_executions_per_seeded_case": 2,
+    "python_failed": 0,
+    "python_passed": 334,
+    "python_skipped": 0,
+    "rust_failed": 0,
+    "rust_ignored": 0,
+    "rust_passed": 234,
+    "seeded_cases": 240,
+    "total_passed": 568
+  },
+  "weth": {
+    "compiled_runtime_metadata_patched": false,
+    "complete_observed_runtime_executed": true,
+    "full_source_runtime_match": false,
+    "matching_executable_prefix_bytes": 3081,
+    "metadata_hash_bytes_differing": 32,
+    "observed_runtime_bytes": 3124,
+    "storage_layout_kind": "original_declaration_order_and_executed_getters_not_compiler_storageLayout"
+  }
+}

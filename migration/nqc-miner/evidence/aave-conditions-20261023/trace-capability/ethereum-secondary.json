@@ -1,0 +1,23 @@
+{
+  "provider_id": "ethereum-secondary",
+  "url": "https://eth.drpc.org/",
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "debug_traceTransaction",
+    "params": [
+      "0x0f41c4143e965fe9c26509f976cf31374460f6899ee796966a4b65b110e9aa2f",
+      {
+        "tracer": "prestateTracer",
+        "timeout": "10s",
+        "reexec": 64,
+        "tracerConfig": {
+          "diffMode": false
+        }
+      }
+    ]
+  },
+  "started_at_utc": "2026-10-23T01:52:20.839823+00:00",
+  "error_type": "HTTPError",
+  "completed_at_utc": "2026-10-23T01:52:25.016988+00:00"
+}

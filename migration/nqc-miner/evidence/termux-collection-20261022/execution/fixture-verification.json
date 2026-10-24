@@ -1,0 +1,1280 @@
+{
+  "data_origin": "artificial fixtures; historical class exercises collector admission only",
+  "database_id": "dfb1a49f-38d1-40ab-b19d-90a9577271be",
+  "economic_evidence": false,
+  "fixtures": {
+    "child": {
+      "manifest": {
+        "archive_id": "9ff8211f-7187-466f-8dfb-46b3df60795d",
+        "authenticity_verified": false,
+        "complete": true,
+        "data_class": "historical",
+        "database_applied": false,
+        "database_id": "dfb1a49f-38d1-40ab-b19d-90a9577271be",
+        "delivery_enabled": false,
+        "installer_sha256": "90de39223b0265d8b2ca2d8ee73127571018040c7865917653d3444dcf8ef350",
+        "live_chain_revalidated": false,
+        "namespace": "nqc_miner_v1",
+        "observer_bridge_enabled": false,
+        "preparer_sha256": "e11cddc1a9cbe283de6ff8752aca13f10fe98382f7e44a0fb8f37f8bdb6d936a",
+        "producer": "nqc-miner",
+        "receipt_sequence": 0,
+        "receipt_sha256": "923c786d626357a19a9cfd5650fdf01ff0c27afeb6d8afcad64cfbc836eac371",
+        "records": 4,
+        "request_sha256": "b1c1671227f3aa94dd8c200b74f8f1de7540002f8a5b9a2a9bf3084acbab70fa",
+        "run_id": "pgcoll_child",
+        "schema": "nqc-miner-postgres-collection-v1",
+        "snapshot_sha256": "3a62c4a98c03639beedcbec472a16c6a860fb97ec9631feea955708d440c26f3",
+        "source_files": {
+          "collector.json": {
+            "bytes": 116,
+            "sha256": "326f327b9625448b3f6ef883e49b8d93230a2afe987ffe843cdfc3f5dda0edf0"
+          },
+          "config.json": {
+            "bytes": 863,
+            "sha256": "5ed300cd6982e3235355fbe0dd56b9787015423e7f2b09bbac8335b1900cddc9"
+          },
+          "events.jsonl": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "owner.json": {
+            "bytes": 449,
+            "sha256": "bfc84cfbbf2a18bf7f19d2d364bd173aee16eab2f002b4d433942f07067ef4e2"
+          },
+          "window-00000000000000000000/config.json": {
+            "bytes": 922,
+            "sha256": "dd5c9d6b7135e8dd4a2873668189eaee953875a4255d5861ecf217cf396f5bf9"
+          },
+          "window-00000000000000000000/events.jsonl": {
+            "bytes": 1312,
+            "sha256": "cb3d06f81151a8a9b0295ad21d439d10f4b842c30edb483c1089e102f0ccd295"
+          },
+          "window-00000000000000000000/owner.json": {
+            "bytes": 508,
+            "sha256": "e41663bbe209a274dcf2162dcce5b7619694e4f13af9228a43a5ae5a0adc43e6"
+          },
+          "window-00000000000000000001/config.json": {
+            "bytes": 922,
+            "sha256": "d254904e6fc1b7dbd41810b605916d7f22d006c102a73ad76870483d853778ea"
+          },
+          "window-00000000000000000001/events.jsonl": {
+            "bytes": 1312,
+            "sha256": "9cf52e50d4bdf721988e0cd7233b1dadb8c3551bed3a344dae4ee24422874f50"
+          },
+          "window-00000000000000000001/owner.json": {
+            "bytes": 508,
+            "sha256": "8112cf568d7785c25d8f96815460eef7c8325689361b713bb529d8d6bc8e40ae"
+          }
+        },
+        "sql_sha256": "3ae000eeedc855e60786dc9b3d6d20f4160de94e45debd658c9d6d05c5a0e223",
+        "status": "verified_historical_snapshot",
+        "verifier_build": {
+          "build_identity_sha256": "a778d942b39a682fa114e2eb8df0d837c5178d26607824a5bcbaaddce071db63",
+          "cargo_lock_sha256": "634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab",
+          "code_commit": "169b82f6a02de161f6c42c94af5c4a18e6f13165",
+          "debug": true,
+          "economic_certification": false,
+          "gas_budget_mxn_centavos": 0,
+          "host": "x86_64-unknown-linux-gnu",
+          "name": "nqc-miner",
+          "namespace": "nqc_miner_v1",
+          "observer_bridge_enabled": false,
+          "opt_level": "0",
+          "profile": "debug",
+          "rustc_version": "rustc 1.90.0 (1159e78c4 2025-09-14)",
+          "rustflags_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "signing_enabled": false,
+          "source_dirty": false,
+          "source_sha256": "3b7ad83406f8dcea6537be014e607e07d5413d5b40e87efa5d20cf0b93e62a39",
+          "status": "preparatory-research-build",
+          "target": "x86_64-unknown-linux-gnu",
+          "version": "0.1.0"
+        },
+        "verifier_sha256": "47292cd97732d246099b63f07cea6dc128dfd5612efe3341a6cefb4e631d4548",
+        "windows": 2
+      },
+      "request_sha256": "b1c1671227f3aa94dd8c200b74f8f1de7540002f8a5b9a2a9bf3084acbab70fa",
+      "rust_verification": {
+        "canonical_events_in_completed_windows": 0,
+        "chain_authenticity_verified": false,
+        "collection_sha256": "936070728c10e001f701891bfb60ab247d587f72a98de79c8cd12ab7ed7fb140",
+        "completed_windows": 2,
+        "data_class": "historical",
+        "economic_certification": false,
+        "incomplete_window": false,
+        "integrity_verified": true,
+        "next_from_block": 12,
+        "observer_bridge_enabled": false,
+        "plan_sha256": "5ed300cd6982e3235355fbe0dd56b9787015423e7f2b09bbac8335b1900cddc9",
+        "run_id": "pgcoll_child",
+        "schema": "nqc-miner-collector-status-v1",
+        "signing_enabled": false
+      }
+    },
+    "child-invalidated": {
+      "manifest": {
+        "authenticity_verified": false,
+        "complete": true,
+        "contains_invalidation": true,
+        "data_class": "historical",
+        "database_applied": false,
+        "database_id": "dfb1a49f-38d1-40ab-b19d-90a9577271be",
+        "delivery_enabled": false,
+        "installer_sha256": "4fe03449780702a9aa700540a473fa61396fb85fa60805fdf658e15a75741b0b",
+        "integrity_verified": true,
+        "journal_sha256": "80cff23e8f6d0cb0690bccf286ed1bb1021d9e1f9096d3d714805b8a15a36368",
+        "last_envelope_sha256": "0f508bcc95984c4c5967a9ea849545d0afe7408c7b9d280cbb08e1ea5f0fb39a",
+        "namespace": "nqc_miner_v1",
+        "observer_bridge_enabled": false,
+        "original_config_sha256": "dd5c9d6b7135e8dd4a2873668189eaee953875a4255d5861ecf217cf396f5bf9",
+        "original_owner_sha256": "e41663bbe209a274dcf2162dcce5b7619694e4f13af9228a43a5ae5a0adc43e6",
+        "owner_sha256": "e41663bbe209a274dcf2162dcce5b7619694e4f13af9228a43a5ae5a0adc43e6",
+        "preparer_sha256": "41df5aa0d4d7ffce8605a7a5335e2435eb70bfb4f101b87e281eaa8ec15fd7ae",
+        "producer": "nqc-miner",
+        "records": 3,
+        "request_sha256": "26c4de362b92e9bee87c50fb7d2d742faa15890240231deab04ad8269a212954",
+        "run_id": "window-43800500e1c967947865b30fdd5345414543699e028382e7bf25e5d2ab9bbe80",
+        "schema": "nqc-miner-postgres-import-v1",
+        "sql_sha256": "92c2014112bb2140f38ce06f96cc777ce0537ab8ae42a2a9df7eff8f0a506ab5",
+        "verifier_build": {
+          "build_identity_sha256": "a778d942b39a682fa114e2eb8df0d837c5178d26607824a5bcbaaddce071db63",
+          "cargo_lock_sha256": "634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab",
+          "code_commit": "169b82f6a02de161f6c42c94af5c4a18e6f13165",
+          "debug": true,
+          "economic_certification": false,
+          "gas_budget_mxn_centavos": 0,
+          "host": "x86_64-unknown-linux-gnu",
+          "name": "nqc-miner",
+          "namespace": "nqc_miner_v1",
+          "observer_bridge_enabled": false,
+          "opt_level": "0",
+          "profile": "debug",
+          "rustc_version": "rustc 1.90.0 (1159e78c4 2025-09-14)",
+          "rustflags_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "signing_enabled": false,
+          "source_dirty": false,
+          "source_sha256": "3b7ad83406f8dcea6537be014e607e07d5413d5b40e87efa5d20cf0b93e62a39",
+          "status": "preparatory-research-build",
+          "target": "x86_64-unknown-linux-gnu",
+          "version": "0.1.0"
+        },
+        "verifier_sha256": "47292cd97732d246099b63f07cea6dc128dfd5612efe3341a6cefb4e631d4548"
+      },
+      "request_sha256": "26c4de362b92e9bee87c50fb7d2d742faa15890240231deab04ad8269a212954",
+      "rust_verification": {
+        "authenticity_verified": false,
+        "canonical_events": 0,
+        "completed_chunks": 0,
+        "completed_scopes": 0,
+        "integrity_verified": true,
+        "invalidated_events": 0,
+        "invalidated_from": {
+          "1": 10
+        },
+        "last_sha256": "0f508bcc95984c4c5967a9ea849545d0afe7408c7b9d280cbb08e1ea5f0fb39a",
+        "owner": {
+          "build_identity_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+          "cargo_lock_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+          "code_commit": "1111111111111111111111111111111111111111",
+          "config_sha256": "dd5c9d6b7135e8dd4a2873668189eaee953875a4255d5861ecf217cf396f5bf9",
+          "data_class": "historical",
+          "namespace": "nqc_miner_v1",
+          "producer": "nqc-miner",
+          "run_id": "window-43800500e1c967947865b30fdd5345414543699e028382e7bf25e5d2ab9bbe80",
+          "schema": "nqc-miner-owner-v2"
+        },
+        "provisional_events": 0,
+        "records": 3
+      }
+    },
+    "concurrent": {
+      "manifest": {
+        "archive_id": "9ff8211f-7187-466f-8dfb-46b3df60795d",
+        "authenticity_verified": false,
+        "complete": true,
+        "data_class": "historical",
+        "database_applied": false,
+        "database_id": "dfb1a49f-38d1-40ab-b19d-90a9577271be",
+        "delivery_enabled": false,
+        "installer_sha256": "90de39223b0265d8b2ca2d8ee73127571018040c7865917653d3444dcf8ef350",
+        "live_chain_revalidated": false,
+        "namespace": "nqc_miner_v1",
+        "observer_bridge_enabled": false,
+        "preparer_sha256": "e11cddc1a9cbe283de6ff8752aca13f10fe98382f7e44a0fb8f37f8bdb6d936a",
+        "producer": "nqc-miner",
+        "receipt_sequence": 0,
+        "receipt_sha256": "c0825f971760e543194f0b0d12c362e13ecdc5da5b3978d78da78d21faa0bd92",
+        "records": 4,
+        "request_sha256": "929295583a803f7d553a5565db4b4135e320ee47286aaa795476188ac866e93a",
+        "run_id": "pgcoll_concurrent",
+        "schema": "nqc-miner-postgres-collection-v1",
+        "snapshot_sha256": "0b6aec0279fa4b655c0488eea967cf59e034325bb28be0b8344d551ea68547f5",
+        "source_files": {
+          "collector.json": {
+            "bytes": 116,
+            "sha256": "55f84b2dfebd0b2df88357479ef95a0df1eac136adcbbfb23f8a23c8a66a83d3"
+          },
+          "config.json": {
+            "bytes": 868,
+            "sha256": "5684489b0f55003b89674895ee03b9c5f3520bda205f2209ee341f8420e0bd1e"
+          },
+          "events.jsonl": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "owner.json": {
+            "bytes": 454,
+            "sha256": "ee1bafdb72d1f51e77143d861815e3883fb1b36ae475b4ce184cfb1d7c69cbfe"
+          },
+          "window-00000000000000000000/config.json": {
+            "bytes": 922,
+            "sha256": "4a05b8de4fdeee449f126dbc163420c470790522f6dab305ff423803d87fcbea"
+          },
+          "window-00000000000000000000/events.jsonl": {
+            "bytes": 1312,
+            "sha256": "16c5a7c4dab07b438d28e1ec31c3fbe2d12ce73a5755ec0679c25e4fd62873c1"
+          },
+          "window-00000000000000000000/owner.json": {
+            "bytes": 508,
+            "sha256": "963f5b77a52d9aee2cd0c97cda6eb5cc4837b1102f73edb8dc3810c946c08b5d"
+          },
+          "window-00000000000000000001/config.json": {
+            "bytes": 922,
+            "sha256": "4b59df4507db50fc75ca73c1fdd69c277367256cec6b596f059943e07d955dd0"
+          },
+          "window-00000000000000000001/events.jsonl": {
+            "bytes": 1312,
+            "sha256": "3e4d6cb117ebd0572b34bf6837a680c6e55439d675077b91065b00393876fd35"
+          },
+          "window-00000000000000000001/owner.json": {
+            "bytes": 508,
+            "sha256": "ef29abbcdab91e6e66d4a987e97e8b626c365fc2fe257b389be73cf0025f859f"
+          }
+        },
+        "sql_sha256": "5f7dcd924860d21e70c25d2226361275ef634771bc499a2def463256ed3c328e",
+        "status": "verified_historical_snapshot",
+        "verifier_build": {
+          "build_identity_sha256": "a778d942b39a682fa114e2eb8df0d837c5178d26607824a5bcbaaddce071db63",
+          "cargo_lock_sha256": "634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab",
+          "code_commit": "169b82f6a02de161f6c42c94af5c4a18e6f13165",
+          "debug": true,
+          "economic_certification": false,
+          "gas_budget_mxn_centavos": 0,
+          "host": "x86_64-unknown-linux-gnu",
+          "name": "nqc-miner",
+          "namespace": "nqc_miner_v1",
+          "observer_bridge_enabled": false,
+          "opt_level": "0",
+          "profile": "debug",
+          "rustc_version": "rustc 1.90.0 (1159e78c4 2025-09-14)",
+          "rustflags_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "signing_enabled": false,
+          "source_dirty": false,
+          "source_sha256": "3b7ad83406f8dcea6537be014e607e07d5413d5b40e87efa5d20cf0b93e62a39",
+          "status": "preparatory-research-build",
+          "target": "x86_64-unknown-linux-gnu",
+          "version": "0.1.0"
+        },
+        "verifier_sha256": "47292cd97732d246099b63f07cea6dc128dfd5612efe3341a6cefb4e631d4548",
+        "windows": 2
+      },
+      "request_sha256": "929295583a803f7d553a5565db4b4135e320ee47286aaa795476188ac866e93a",
+      "rust_verification": {
+        "canonical_events_in_completed_windows": 0,
+        "chain_authenticity_verified": false,
+        "collection_sha256": "26b4599e66a76ebf4cba64abf26c081b1d25020076fc5e5fcf965d72f52a33d0",
+        "completed_windows": 2,
+        "data_class": "historical",
+        "economic_certification": false,
+        "incomplete_window": false,
+        "integrity_verified": true,
+        "next_from_block": 12,
+        "observer_bridge_enabled": false,
+        "plan_sha256": "5684489b0f55003b89674895ee03b9c5f3520bda205f2209ee341f8420e0bd1e",
+        "run_id": "pgcoll_concurrent",
+        "schema": "nqc-miner-collector-status-v1",
+        "signing_enabled": false
+      }
+    },
+    "conflict": {
+      "manifest": {
+        "archive_id": "9ff8211f-7187-466f-8dfb-46b3df60795d",
+        "authenticity_verified": false,
+        "complete": true,
+        "data_class": "historical",
+        "database_applied": false,
+        "database_id": "dfb1a49f-38d1-40ab-b19d-90a9577271be",
+        "delivery_enabled": false,
+        "installer_sha256": "90de39223b0265d8b2ca2d8ee73127571018040c7865917653d3444dcf8ef350",
+        "live_chain_revalidated": false,
+        "namespace": "nqc_miner_v1",
+        "observer_bridge_enabled": false,
+        "preparer_sha256": "e11cddc1a9cbe283de6ff8752aca13f10fe98382f7e44a0fb8f37f8bdb6d936a",
+        "producer": "nqc-miner",
+        "receipt_sequence": 0,
+        "receipt_sha256": "c12f943e8092322cf4f9fa8d89d1abd0606726c00f169ad4048e3e9ae1f403d7",
+        "records": 4,
+        "request_sha256": "d361aaa63b32b8e11044411f55078bd9754e5fa27b9737ecef6c7251ac75a48c",
+        "run_id": "pgcoll_conflict",
+        "schema": "nqc-miner-postgres-collection-v1",
+        "snapshot_sha256": "f83876380894fa39a72e7aadf1c48b40777a6a7fbfebd58a35e1be734410458f",
+        "source_files": {
+          "collector.json": {
+            "bytes": 116,
+            "sha256": "ea7eb40ef2e140de7a36891164c77eeeb98555df535d04c76268e10c0af243de"
+          },
+          "config.json": {
+            "bytes": 866,
+            "sha256": "ff57106a5abdb4bddcd150dcea9c1839214e2a10dee3b785580e6c3a224c5526"
+          },
+          "events.jsonl": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "owner.json": {
+            "bytes": 452,
+            "sha256": "c5b658b71bc25427424b7217291f0bc09683134701dd4ba486093fbff1e2dd51"
+          },
+          "window-00000000000000000000/config.json": {
+            "bytes": 922,
+            "sha256": "97b2ccaf6c76b4cf71cdb9ceb0213ba7adf65ec988d9b43541facb95a64a7e31"
+          },
+          "window-00000000000000000000/events.jsonl": {
+            "bytes": 1312,
+            "sha256": "8a64d158ebe5e9d7fe3005882ae864007f28ec10cd626e21e3e0ff03c45708bd"
+          },
+          "window-00000000000000000000/owner.json": {
+            "bytes": 508,
+            "sha256": "0eb064849f4c975b3c81ccdd3639cdabea901be0ed3d344ab8e4595e9a21a38d"
+          },
+          "window-00000000000000000001/config.json": {
+            "bytes": 922,
+            "sha256": "51f590bf0276f6c49531f6ef1d3f4cbf80dcd57a768943fe97a04be7a1c5316f"
+          },
+          "window-00000000000000000001/events.jsonl": {
+            "bytes": 1312,
+            "sha256": "f2190ad86cd32237d59b152c6d2405e54c5b60a4dd6f49f943d284667297fd0b"
+          },
+          "window-00000000000000000001/owner.json": {
+            "bytes": 508,
+            "sha256": "31aa39df6ace89ec5637494fa14195b612c1c56f72a98af5b45afc481ce9adc0"
+          }
+        },
+        "sql_sha256": "55f240bb7faf6f085c39d3e184b2501ab678357ec666622d0f6b5ba94c6071ce",
+        "status": "verified_historical_snapshot",
+        "verifier_build": {
+          "build_identity_sha256": "a778d942b39a682fa114e2eb8df0d837c5178d26607824a5bcbaaddce071db63",
+          "cargo_lock_sha256": "634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab",
+          "code_commit": "169b82f6a02de161f6c42c94af5c4a18e6f13165",
+          "debug": true,
+          "economic_certification": false,
+          "gas_budget_mxn_centavos": 0,
+          "host": "x86_64-unknown-linux-gnu",
+          "name": "nqc-miner",
+          "namespace": "nqc_miner_v1",
+          "observer_bridge_enabled": false,
+          "opt_level": "0",
+          "profile": "debug",
+          "rustc_version": "rustc 1.90.0 (1159e78c4 2025-09-14)",
+          "rustflags_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "signing_enabled": false,
+          "source_dirty": false,
+          "source_sha256": "3b7ad83406f8dcea6537be014e607e07d5413d5b40e87efa5d20cf0b93e62a39",
+          "status": "preparatory-research-build",
+          "target": "x86_64-unknown-linux-gnu",
+          "version": "0.1.0"
+        },
+        "verifier_sha256": "47292cd97732d246099b63f07cea6dc128dfd5612efe3341a6cefb4e631d4548",
+        "windows": 2
+      },
+      "request_sha256": "d361aaa63b32b8e11044411f55078bd9754e5fa27b9737ecef6c7251ac75a48c",
+      "rust_verification": {
+        "canonical_events_in_completed_windows": 0,
+        "chain_authenticity_verified": false,
+        "collection_sha256": "d0216f6c9e75c9fb5604b993cb266ccd5b8ca5988b1a6172fc4a0db5182b32da",
+        "completed_windows": 2,
+        "data_class": "historical",
+        "economic_certification": false,
+        "incomplete_window": false,
+        "integrity_verified": true,
+        "next_from_block": 12,
+        "observer_bridge_enabled": false,
+        "plan_sha256": "ff57106a5abdb4bddcd150dcea9c1839214e2a10dee3b785580e6c3a224c5526",
+        "run_id": "pgcoll_conflict",
+        "schema": "nqc-miner-collector-status-v1",
+        "signing_enabled": false
+      }
+    },
+    "conflicting-receipt": {
+      "manifest": {
+        "archive_id": "9ff8211f-7187-466f-8dfb-46b3df60795d",
+        "authenticity_verified": false,
+        "complete": true,
+        "data_class": "historical",
+        "database_applied": false,
+        "database_id": "dfb1a49f-38d1-40ab-b19d-90a9577271be",
+        "delivery_enabled": false,
+        "installer_sha256": "90de39223b0265d8b2ca2d8ee73127571018040c7865917653d3444dcf8ef350",
+        "live_chain_revalidated": false,
+        "namespace": "nqc_miner_v1",
+        "observer_bridge_enabled": false,
+        "preparer_sha256": "e11cddc1a9cbe283de6ff8752aca13f10fe98382f7e44a0fb8f37f8bdb6d936a",
+        "producer": "nqc-miner",
+        "receipt_sequence": 0,
+        "receipt_sha256": "dd41d1644fcfc89e29ec576f6292512e14d95f357ef1c80922fb50c359fd3ad8",
+        "records": 4,
+        "request_sha256": "af13ad71c5fddd5cb1c65c80565f74dcd366c9e3cbaba523747d7830b5635e25",
+        "run_id": "pgcoll_conflict",
+        "schema": "nqc-miner-postgres-collection-v1",
+        "snapshot_sha256": "82dbc3d573f0e891cb5304970ddaf37f51a78c5a2d893b709409137529386162",
+        "source_files": {
+          "collector.json": {
+            "bytes": 116,
+            "sha256": "ea7eb40ef2e140de7a36891164c77eeeb98555df535d04c76268e10c0af243de"
+          },
+          "config.json": {
+            "bytes": 866,
+            "sha256": "ff57106a5abdb4bddcd150dcea9c1839214e2a10dee3b785580e6c3a224c5526"
+          },
+          "events.jsonl": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "owner.json": {
+            "bytes": 452,
+            "sha256": "c5b658b71bc25427424b7217291f0bc09683134701dd4ba486093fbff1e2dd51"
+          },
+          "window-00000000000000000000/config.json": {
+            "bytes": 922,
+            "sha256": "97b2ccaf6c76b4cf71cdb9ceb0213ba7adf65ec988d9b43541facb95a64a7e31"
+          },
+          "window-00000000000000000000/events.jsonl": {
+            "bytes": 1312,
+            "sha256": "293ac401ea3fd6d15e65fd30182e9305394607f9362a11c306a5af14ae25d905"
+          },
+          "window-00000000000000000000/owner.json": {
+            "bytes": 508,
+            "sha256": "0eb064849f4c975b3c81ccdd3639cdabea901be0ed3d344ab8e4595e9a21a38d"
+          },
+          "window-00000000000000000001/config.json": {
+            "bytes": 922,
+            "sha256": "51f590bf0276f6c49531f6ef1d3f4cbf80dcd57a768943fe97a04be7a1c5316f"
+          },
+          "window-00000000000000000001/events.jsonl": {
+            "bytes": 1312,
+            "sha256": "f2190ad86cd32237d59b152c6d2405e54c5b60a4dd6f49f943d284667297fd0b"
+          },
+          "window-00000000000000000001/owner.json": {
+            "bytes": 508,
+            "sha256": "31aa39df6ace89ec5637494fa14195b612c1c56f72a98af5b45afc481ce9adc0"
+          }
+        },
+        "sql_sha256": "847ca1ae6a7f0b5966e02383d4f652c1c4e4bffaac8993bf5cb04649d4e1d8ce",
+        "status": "verified_historical_snapshot",
+        "verifier_build": {
+          "build_identity_sha256": "a778d942b39a682fa114e2eb8df0d837c5178d26607824a5bcbaaddce071db63",
+          "cargo_lock_sha256": "634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab",
+          "code_commit": "169b82f6a02de161f6c42c94af5c4a18e6f13165",
+          "debug": true,
+          "economic_certification": false,
+          "gas_budget_mxn_centavos": 0,
+          "host": "x86_64-unknown-linux-gnu",
+          "name": "nqc-miner",
+          "namespace": "nqc_miner_v1",
+          "observer_bridge_enabled": false,
+          "opt_level": "0",
+          "profile": "debug",
+          "rustc_version": "rustc 1.90.0 (1159e78c4 2025-09-14)",
+          "rustflags_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "signing_enabled": false,
+          "source_dirty": false,
+          "source_sha256": "3b7ad83406f8dcea6537be014e607e07d5413d5b40e87efa5d20cf0b93e62a39",
+          "status": "preparatory-research-build",
+          "target": "x86_64-unknown-linux-gnu",
+          "version": "0.1.0"
+        },
+        "verifier_sha256": "47292cd97732d246099b63f07cea6dc128dfd5612efe3341a6cefb4e631d4548",
+        "windows": 2
+      },
+      "request_sha256": "af13ad71c5fddd5cb1c65c80565f74dcd366c9e3cbaba523747d7830b5635e25",
+      "rust_verification": {
+        "canonical_events_in_completed_windows": 0,
+        "chain_authenticity_verified": false,
+        "collection_sha256": "9c553bbb1b747a8b57d67df66d22c04c3da499177d71962dab61b6273f26ba0e",
+        "completed_windows": 2,
+        "data_class": "historical",
+        "economic_certification": false,
+        "incomplete_window": false,
+        "integrity_verified": true,
+        "next_from_block": 12,
+        "observer_bridge_enabled": false,
+        "plan_sha256": "ff57106a5abdb4bddcd150dcea9c1839214e2a10dee3b785580e6c3a224c5526",
+        "run_id": "pgcoll_conflict",
+        "schema": "nqc-miner-collector-status-v1",
+        "signing_enabled": false
+      }
+    },
+    "foreign-archive": {
+      "manifest": {
+        "archive_id": "21ce0f48-4a6a-479b-b7be-c04fa193a156",
+        "authenticity_verified": false,
+        "complete": true,
+        "data_class": "historical",
+        "database_applied": false,
+        "database_id": "dfb1a49f-38d1-40ab-b19d-90a9577271be",
+        "delivery_enabled": false,
+        "installer_sha256": "90de39223b0265d8b2ca2d8ee73127571018040c7865917653d3444dcf8ef350",
+        "live_chain_revalidated": false,
+        "namespace": "nqc_miner_v1",
+        "observer_bridge_enabled": false,
+        "preparer_sha256": "e11cddc1a9cbe283de6ff8752aca13f10fe98382f7e44a0fb8f37f8bdb6d936a",
+        "producer": "nqc-miner",
+        "receipt_sequence": 0,
+        "receipt_sha256": "0b3d935d5b3d84526f06ad46e0c1667acdf824bc7b2987fde79b7cd9d0a177ca",
+        "records": 4,
+        "request_sha256": "d6faec4d01904042b75e453bee4dc85fed2fa53e72b076c2c9594f42641072ba",
+        "run_id": "pgcoll_normal",
+        "schema": "nqc-miner-postgres-collection-v1",
+        "snapshot_sha256": "5110a6a7f11a58cab12f8e85434608e3908d434b4696debc6f5218a41b5aae01",
+        "source_files": {
+          "collector.json": {
+            "bytes": 116,
+            "sha256": "08642fc940ca08b1e74b9adfedd292c8b85ec8da192c5fea71571b796f4f7875"
+          },
+          "config.json": {
+            "bytes": 864,
+            "sha256": "a25726999c03972a0a3d4e34a7390cb00c1ad635113a2de52a81e8ddcad43daa"
+          },
+          "events.jsonl": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "owner.json": {
+            "bytes": 450,
+            "sha256": "c9e008493fb02a9aaba8ff74517ac523a69e3b11c202a012be2ba432aa9acc52"
+          },
+          "window-00000000000000000000/config.json": {
+            "bytes": 922,
+            "sha256": "066d532cd181b1703a87df6113e32f11ef386e4ccf827fcffaf7195275cf55ba"
+          },
+          "window-00000000000000000000/events.jsonl": {
+            "bytes": 1312,
+            "sha256": "a613f7946865c2f26daae7f46364a7cf5c26b02a780cbc71be7834cefbd74df3"
+          },
+          "window-00000000000000000000/owner.json": {
+            "bytes": 508,
+            "sha256": "14df1c80e2bbf8918400033a34366d6e874c58ae97c7d1860c6fd8536119d11b"
+          },
+          "window-00000000000000000001/config.json": {
+            "bytes": 922,
+            "sha256": "b3983692fed8b4d8bbcaa62636609c6e5add2c27efa53558dc86113d38c974a3"
+          },
+          "window-00000000000000000001/events.jsonl": {
+            "bytes": 1312,
+            "sha256": "ea38d0f0699aa17f6c33e118ef9b1137a73265309cb7937436599f9d010ce9e6"
+          },
+          "window-00000000000000000001/owner.json": {
+            "bytes": 508,
+            "sha256": "47f15205af5f252ba0fbb28f90ff25197760cb4819e7d332c2a92dab765d03ab"
+          }
+        },
+        "sql_sha256": "4fe028ef3af1c498b0604f2c6ef7a1a42fd5b8bb8410c7de84ece44934798cbe",
+        "status": "verified_historical_snapshot",
+        "verifier_build": {
+          "build_identity_sha256": "a778d942b39a682fa114e2eb8df0d837c5178d26607824a5bcbaaddce071db63",
+          "cargo_lock_sha256": "634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab",
+          "code_commit": "169b82f6a02de161f6c42c94af5c4a18e6f13165",
+          "debug": true,
+          "economic_certification": false,
+          "gas_budget_mxn_centavos": 0,
+          "host": "x86_64-unknown-linux-gnu",
+          "name": "nqc-miner",
+          "namespace": "nqc_miner_v1",
+          "observer_bridge_enabled": false,
+          "opt_level": "0",
+          "profile": "debug",
+          "rustc_version": "rustc 1.90.0 (1159e78c4 2025-09-14)",
+          "rustflags_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "signing_enabled": false,
+          "source_dirty": false,
+          "source_sha256": "3b7ad83406f8dcea6537be014e607e07d5413d5b40e87efa5d20cf0b93e62a39",
+          "status": "preparatory-research-build",
+          "target": "x86_64-unknown-linux-gnu",
+          "version": "0.1.0"
+        },
+        "verifier_sha256": "47292cd97732d246099b63f07cea6dc128dfd5612efe3341a6cefb4e631d4548",
+        "windows": 2
+      },
+      "request_sha256": "d6faec4d01904042b75e453bee4dc85fed2fa53e72b076c2c9594f42641072ba",
+      "rust_verification": {
+        "canonical_events_in_completed_windows": 0,
+        "chain_authenticity_verified": false,
+        "collection_sha256": "3aa8090c819ebd76f859f81aad880ce348fecd49b03029bca35dd04704e88972",
+        "completed_windows": 2,
+        "data_class": "historical",
+        "economic_certification": false,
+        "incomplete_window": false,
+        "integrity_verified": true,
+        "next_from_block": 12,
+        "observer_bridge_enabled": false,
+        "plan_sha256": "a25726999c03972a0a3d4e34a7390cb00c1ad635113a2de52a81e8ddcad43daa",
+        "run_id": "pgcoll_normal",
+        "schema": "nqc-miner-collector-status-v1",
+        "signing_enabled": false
+      }
+    },
+    "interrupt": {
+      "manifest": {
+        "archive_id": "9ff8211f-7187-466f-8dfb-46b3df60795d",
+        "authenticity_verified": false,
+        "complete": true,
+        "data_class": "historical",
+        "database_applied": false,
+        "database_id": "dfb1a49f-38d1-40ab-b19d-90a9577271be",
+        "delivery_enabled": false,
+        "installer_sha256": "90de39223b0265d8b2ca2d8ee73127571018040c7865917653d3444dcf8ef350",
+        "live_chain_revalidated": false,
+        "namespace": "nqc_miner_v1",
+        "observer_bridge_enabled": false,
+        "preparer_sha256": "e11cddc1a9cbe283de6ff8752aca13f10fe98382f7e44a0fb8f37f8bdb6d936a",
+        "producer": "nqc-miner",
+        "receipt_sequence": 0,
+        "receipt_sha256": "bfc3234f803937ea078c82527507548c574c67cfa6d6858c1e8f7d5854a1b640",
+        "records": 4,
+        "request_sha256": "8f270abf35f2153c50eafed2291a037d4f261af7276330a0d52343d5383a1eb5",
+        "run_id": "pgcoll_interrupt",
+        "schema": "nqc-miner-postgres-collection-v1",
+        "snapshot_sha256": "597c841bb66791291e1f2944ae13b9bab6109777b63b62e9ab92eb1d42a8be61",
+        "source_files": {
+          "collector.json": {
+            "bytes": 116,
+            "sha256": "2031379ae149d3aed98122471eb5f0343cfd55f4fe302f2266f77777ebaecee6"
+          },
+          "config.json": {
+            "bytes": 867,
+            "sha256": "080f49607696ee55d62caba76b0f48bc7973909073d9327861a9edf90e6bd4df"
+          },
+          "events.jsonl": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "owner.json": {
+            "bytes": 453,
+            "sha256": "3d98183d9ba0f0c1ef59007dde77f0a5d4a5b2f8111824be52bd59c0963b0614"
+          },
+          "window-00000000000000000000/config.json": {
+            "bytes": 922,
+            "sha256": "48ebc334ae6614b4c3329859eb53d7a93bae6e27c9b6a05165d2d0fe4976b707"
+          },
+          "window-00000000000000000000/events.jsonl": {
+            "bytes": 1312,
+            "sha256": "56cc722b0a5d3257878b32f3998ff8b932f88700be997a7d48033a3c2c64821b"
+          },
+          "window-00000000000000000000/owner.json": {
+            "bytes": 508,
+            "sha256": "23c61f05a05a8ab268f482b6d60a89d7d23d131c5a11163f7e1e0fdcd9a110ee"
+          },
+          "window-00000000000000000001/config.json": {
+            "bytes": 922,
+            "sha256": "c27251ca28538f0fdaa652165e09436b85f2d9829ac28c76f5ada47a25446bcd"
+          },
+          "window-00000000000000000001/events.jsonl": {
+            "bytes": 1312,
+            "sha256": "51849785ef820de327955d4ac60ce8accbe0d195d5bfac0b129e505b4e1e578d"
+          },
+          "window-00000000000000000001/owner.json": {
+            "bytes": 508,
+            "sha256": "97000545d47c11d07ee71ffa097c366551303abb1bef85f87b1823c8676e2b70"
+          }
+        },
+        "sql_sha256": "968ad5f90d37a9355aac379647e53135ed294d500403201fcdc03f3d86c3ec47",
+        "status": "verified_historical_snapshot",
+        "verifier_build": {
+          "build_identity_sha256": "a778d942b39a682fa114e2eb8df0d837c5178d26607824a5bcbaaddce071db63",
+          "cargo_lock_sha256": "634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab",
+          "code_commit": "169b82f6a02de161f6c42c94af5c4a18e6f13165",
+          "debug": true,
+          "economic_certification": false,
+          "gas_budget_mxn_centavos": 0,
+          "host": "x86_64-unknown-linux-gnu",
+          "name": "nqc-miner",
+          "namespace": "nqc_miner_v1",
+          "observer_bridge_enabled": false,
+          "opt_level": "0",
+          "profile": "debug",
+          "rustc_version": "rustc 1.90.0 (1159e78c4 2025-09-14)",
+          "rustflags_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "signing_enabled": false,
+          "source_dirty": false,
+          "source_sha256": "3b7ad83406f8dcea6537be014e607e07d5413d5b40e87efa5d20cf0b93e62a39",
+          "status": "preparatory-research-build",
+          "target": "x86_64-unknown-linux-gnu",
+          "version": "0.1.0"
+        },
+        "verifier_sha256": "47292cd97732d246099b63f07cea6dc128dfd5612efe3341a6cefb4e631d4548",
+        "windows": 2
+      },
+      "request_sha256": "8f270abf35f2153c50eafed2291a037d4f261af7276330a0d52343d5383a1eb5",
+      "rust_verification": {
+        "canonical_events_in_completed_windows": 0,
+        "chain_authenticity_verified": false,
+        "collection_sha256": "ae53f04b121164fd01a9fb4d73d9829ebca9c559b68d8d097f8aea84d1a1966d",
+        "completed_windows": 2,
+        "data_class": "historical",
+        "economic_certification": false,
+        "incomplete_window": false,
+        "integrity_verified": true,
+        "next_from_block": 12,
+        "observer_bridge_enabled": false,
+        "plan_sha256": "080f49607696ee55d62caba76b0f48bc7973909073d9327861a9edf90e6bd4df",
+        "run_id": "pgcoll_interrupt",
+        "schema": "nqc-miner-collector-status-v1",
+        "signing_enabled": false
+      }
+    },
+    "normal-revoked": {
+      "manifest": {
+        "archive_id": "9ff8211f-7187-466f-8dfb-46b3df60795d",
+        "authenticity_verified": false,
+        "complete": true,
+        "data_class": "historical",
+        "database_applied": false,
+        "database_id": "dfb1a49f-38d1-40ab-b19d-90a9577271be",
+        "delivery_enabled": false,
+        "installer_sha256": "90de39223b0265d8b2ca2d8ee73127571018040c7865917653d3444dcf8ef350",
+        "live_chain_revalidated": false,
+        "namespace": "nqc_miner_v1",
+        "observer_bridge_enabled": false,
+        "preparer_sha256": "e11cddc1a9cbe283de6ff8752aca13f10fe98382f7e44a0fb8f37f8bdb6d936a",
+        "producer": "nqc-miner",
+        "receipt_sequence": 2,
+        "receipt_sha256": "a2f789ff905d4d1f745b71e010bf17e100b39acf29d05e72e943d37f288478b0",
+        "records": 1,
+        "request_sha256": "1c083cf576fc73da2d391993d19c56a180e0dc33778be72d3193ff749ca70ba9",
+        "run_id": "pgcoll_normal",
+        "schema": "nqc-miner-postgres-collection-v1",
+        "snapshot_sha256": "4588aae8c11296ea1a31d6a91a2ed53da167efc2455c8b3084dc29e68053475b",
+        "source_files": {
+          "collector.json": {
+            "bytes": 116,
+            "sha256": "08642fc940ca08b1e74b9adfedd292c8b85ec8da192c5fea71571b796f4f7875"
+          },
+          "config.json": {
+            "bytes": 864,
+            "sha256": "a25726999c03972a0a3d4e34a7390cb00c1ad635113a2de52a81e8ddcad43daa"
+          },
+          "events.jsonl": {
+            "bytes": 378,
+            "sha256": "17eec162f743fa97420be76e2105f20681b75cee1c156b248637657105e9a7d5"
+          },
+          "owner.json": {
+            "bytes": 450,
+            "sha256": "c9e008493fb02a9aaba8ff74517ac523a69e3b11c202a012be2ba432aa9acc52"
+          }
+        },
+        "sql_sha256": "a7d60ca4c36446c44f27061c60fb3c9ba69754af4d8e595c811639eeb39bb326",
+        "status": "quarantined",
+        "verifier_build": {
+          "build_identity_sha256": "a778d942b39a682fa114e2eb8df0d837c5178d26607824a5bcbaaddce071db63",
+          "cargo_lock_sha256": "634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab",
+          "code_commit": "169b82f6a02de161f6c42c94af5c4a18e6f13165",
+          "debug": true,
+          "economic_certification": false,
+          "gas_budget_mxn_centavos": 0,
+          "host": "x86_64-unknown-linux-gnu",
+          "name": "nqc-miner",
+          "namespace": "nqc_miner_v1",
+          "observer_bridge_enabled": false,
+          "opt_level": "0",
+          "profile": "debug",
+          "rustc_version": "rustc 1.90.0 (1159e78c4 2025-09-14)",
+          "rustflags_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "signing_enabled": false,
+          "source_dirty": false,
+          "source_sha256": "3b7ad83406f8dcea6537be014e607e07d5413d5b40e87efa5d20cf0b93e62a39",
+          "status": "preparatory-research-build",
+          "target": "x86_64-unknown-linux-gnu",
+          "version": "0.1.0"
+        },
+        "verifier_sha256": "47292cd97732d246099b63f07cea6dc128dfd5612efe3341a6cefb4e631d4548",
+        "windows": 0
+      },
+      "request_sha256": "1c083cf576fc73da2d391993d19c56a180e0dc33778be72d3193ff749ca70ba9",
+      "rust_verification": {
+        "control": {
+          "authenticity_verified": false,
+          "canonical_events": 0,
+          "completed_chunks": 0,
+          "completed_scopes": 0,
+          "integrity_verified": true,
+          "invalidated_events": 0,
+          "invalidated_from": {
+            "1": 10
+          },
+          "last_sha256": "e0a777ca48a32cadddea46de0556aa96753ed1c26229307965cdece2fb577742",
+          "owner": {
+            "build_identity_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+            "cargo_lock_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+            "code_commit": "1111111111111111111111111111111111111111",
+            "config_sha256": "a25726999c03972a0a3d4e34a7390cb00c1ad635113a2de52a81e8ddcad43daa",
+            "data_class": "historical",
+            "namespace": "nqc_miner_v1",
+            "producer": "nqc-miner",
+            "run_id": "pgcoll_normal",
+            "schema": "nqc-miner-owner-v2"
+          },
+          "provisional_events": 0,
+          "records": 1
+        },
+        "status": "quarantined"
+      }
+    },
+    "normal-three": {
+      "manifest": {
+        "archive_id": "9ff8211f-7187-466f-8dfb-46b3df60795d",
+        "authenticity_verified": false,
+        "complete": true,
+        "data_class": "historical",
+        "database_applied": false,
+        "database_id": "dfb1a49f-38d1-40ab-b19d-90a9577271be",
+        "delivery_enabled": false,
+        "installer_sha256": "90de39223b0265d8b2ca2d8ee73127571018040c7865917653d3444dcf8ef350",
+        "live_chain_revalidated": false,
+        "namespace": "nqc_miner_v1",
+        "observer_bridge_enabled": false,
+        "preparer_sha256": "e11cddc1a9cbe283de6ff8752aca13f10fe98382f7e44a0fb8f37f8bdb6d936a",
+        "producer": "nqc-miner",
+        "receipt_sequence": 1,
+        "receipt_sha256": "f0864eeac2ffaaaac298ec2cbadd2c7b505f47f0dfe676847c3d4fc6d74a6446",
+        "records": 6,
+        "request_sha256": "966e9b28a53c6f24c1223f79c4359aba24cf4b75b3e6ea8ce4d103061bb3aeff",
+        "run_id": "pgcoll_normal",
+        "schema": "nqc-miner-postgres-collection-v1",
+        "snapshot_sha256": "a627a34d3c2bba0a51b2d77673010233ab6e23b5e38b025adaff9ab6f2ddd261",
+        "source_files": {
+          "collector.json": {
+            "bytes": 116,
+            "sha256": "08642fc940ca08b1e74b9adfedd292c8b85ec8da192c5fea71571b796f4f7875"
+          },
+          "config.json": {
+            "bytes": 864,
+            "sha256": "a25726999c03972a0a3d4e34a7390cb00c1ad635113a2de52a81e8ddcad43daa"
+          },
+          "events.jsonl": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "owner.json": {
+            "bytes": 450,
+            "sha256": "c9e008493fb02a9aaba8ff74517ac523a69e3b11c202a012be2ba432aa9acc52"
+          },
+          "window-00000000000000000000/config.json": {
+            "bytes": 922,
+            "sha256": "066d532cd181b1703a87df6113e32f11ef386e4ccf827fcffaf7195275cf55ba"
+          },
+          "window-00000000000000000000/events.jsonl": {
+            "bytes": 1312,
+            "sha256": "a613f7946865c2f26daae7f46364a7cf5c26b02a780cbc71be7834cefbd74df3"
+          },
+          "window-00000000000000000000/owner.json": {
+            "bytes": 508,
+            "sha256": "14df1c80e2bbf8918400033a34366d6e874c58ae97c7d1860c6fd8536119d11b"
+          },
+          "window-00000000000000000001/config.json": {
+            "bytes": 922,
+            "sha256": "b3983692fed8b4d8bbcaa62636609c6e5add2c27efa53558dc86113d38c974a3"
+          },
+          "window-00000000000000000001/events.jsonl": {
+            "bytes": 1312,
+            "sha256": "ea38d0f0699aa17f6c33e118ef9b1137a73265309cb7937436599f9d010ce9e6"
+          },
+          "window-00000000000000000001/owner.json": {
+            "bytes": 508,
+            "sha256": "47f15205af5f252ba0fbb28f90ff25197760cb4819e7d332c2a92dab765d03ab"
+          },
+          "window-00000000000000000002/config.json": {
+            "bytes": 922,
+            "sha256": "0622ea1646e35d55f95ab46b63e77f8bb26ad4c385c6ec6845837350e03f544c"
+          },
+          "window-00000000000000000002/events.jsonl": {
+            "bytes": 1312,
+            "sha256": "abd30396f93d4437808fafc3f7b67afdcd2940be8d5e80b7959dafa0be4c983c"
+          },
+          "window-00000000000000000002/owner.json": {
+            "bytes": 508,
+            "sha256": "e6aa74dfe823e1c8281074d66e109580c8e497b02eb5af9aa9ee5e69eeb9a0eb"
+          }
+        },
+        "sql_sha256": "74e3b1d4988eab32f09368ff280e18bf64d52e03339010c9b4ce1ddd1b8ddc43",
+        "status": "verified_historical_snapshot",
+        "verifier_build": {
+          "build_identity_sha256": "a778d942b39a682fa114e2eb8df0d837c5178d26607824a5bcbaaddce071db63",
+          "cargo_lock_sha256": "634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab",
+          "code_commit": "169b82f6a02de161f6c42c94af5c4a18e6f13165",
+          "debug": true,
+          "economic_certification": false,
+          "gas_budget_mxn_centavos": 0,
+          "host": "x86_64-unknown-linux-gnu",
+          "name": "nqc-miner",
+          "namespace": "nqc_miner_v1",
+          "observer_bridge_enabled": false,
+          "opt_level": "0",
+          "profile": "debug",
+          "rustc_version": "rustc 1.90.0 (1159e78c4 2025-09-14)",
+          "rustflags_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "signing_enabled": false,
+          "source_dirty": false,
+          "source_sha256": "3b7ad83406f8dcea6537be014e607e07d5413d5b40e87efa5d20cf0b93e62a39",
+          "status": "preparatory-research-build",
+          "target": "x86_64-unknown-linux-gnu",
+          "version": "0.1.0"
+        },
+        "verifier_sha256": "47292cd97732d246099b63f07cea6dc128dfd5612efe3341a6cefb4e631d4548",
+        "windows": 3
+      },
+      "request_sha256": "966e9b28a53c6f24c1223f79c4359aba24cf4b75b3e6ea8ce4d103061bb3aeff",
+      "rust_verification": {
+        "canonical_events_in_completed_windows": 0,
+        "chain_authenticity_verified": false,
+        "collection_sha256": "2d3487c64ff8bc424732688c3efb7973005770d2ece6a34aea24cd7dd83f7b57",
+        "completed_windows": 3,
+        "data_class": "historical",
+        "economic_certification": false,
+        "incomplete_window": false,
+        "integrity_verified": true,
+        "next_from_block": 13,
+        "observer_bridge_enabled": false,
+        "plan_sha256": "a25726999c03972a0a3d4e34a7390cb00c1ad635113a2de52a81e8ddcad43daa",
+        "run_id": "pgcoll_normal",
+        "schema": "nqc-miner-collector-status-v1",
+        "signing_enabled": false
+      }
+    },
+    "normal-two": {
+      "manifest": {
+        "archive_id": "9ff8211f-7187-466f-8dfb-46b3df60795d",
+        "authenticity_verified": false,
+        "complete": true,
+        "data_class": "historical",
+        "database_applied": false,
+        "database_id": "dfb1a49f-38d1-40ab-b19d-90a9577271be",
+        "delivery_enabled": false,
+        "installer_sha256": "90de39223b0265d8b2ca2d8ee73127571018040c7865917653d3444dcf8ef350",
+        "live_chain_revalidated": false,
+        "namespace": "nqc_miner_v1",
+        "observer_bridge_enabled": false,
+        "preparer_sha256": "e11cddc1a9cbe283de6ff8752aca13f10fe98382f7e44a0fb8f37f8bdb6d936a",
+        "producer": "nqc-miner",
+        "receipt_sequence": 0,
+        "receipt_sha256": "ab83da94b658f7adad8804d6fbeeb7318ddfd0f63981d31d91b24c469889fff5",
+        "records": 4,
+        "request_sha256": "c382cba5300d39acf4d0ddfe50554546cb691cb846337fbf960e2a14eba91341",
+        "run_id": "pgcoll_normal",
+        "schema": "nqc-miner-postgres-collection-v1",
+        "snapshot_sha256": "5110a6a7f11a58cab12f8e85434608e3908d434b4696debc6f5218a41b5aae01",
+        "source_files": {
+          "collector.json": {
+            "bytes": 116,
+            "sha256": "08642fc940ca08b1e74b9adfedd292c8b85ec8da192c5fea71571b796f4f7875"
+          },
+          "config.json": {
+            "bytes": 864,
+            "sha256": "a25726999c03972a0a3d4e34a7390cb00c1ad635113a2de52a81e8ddcad43daa"
+          },
+          "events.jsonl": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "owner.json": {
+            "bytes": 450,
+            "sha256": "c9e008493fb02a9aaba8ff74517ac523a69e3b11c202a012be2ba432aa9acc52"
+          },
+          "window-00000000000000000000/config.json": {
+            "bytes": 922,
+            "sha256": "066d532cd181b1703a87df6113e32f11ef386e4ccf827fcffaf7195275cf55ba"
+          },
+          "window-00000000000000000000/events.jsonl": {
+            "bytes": 1312,
+            "sha256": "a613f7946865c2f26daae7f46364a7cf5c26b02a780cbc71be7834cefbd74df3"
+          },
+          "window-00000000000000000000/owner.json": {
+            "bytes": 508,
+            "sha256": "14df1c80e2bbf8918400033a34366d6e874c58ae97c7d1860c6fd8536119d11b"
+          },
+          "window-00000000000000000001/config.json": {
+            "bytes": 922,
+            "sha256": "b3983692fed8b4d8bbcaa62636609c6e5add2c27efa53558dc86113d38c974a3"
+          },
+          "window-00000000000000000001/events.jsonl": {
+            "bytes": 1312,
+            "sha256": "ea38d0f0699aa17f6c33e118ef9b1137a73265309cb7937436599f9d010ce9e6"
+          },
+          "window-00000000000000000001/owner.json": {
+            "bytes": 508,
+            "sha256": "47f15205af5f252ba0fbb28f90ff25197760cb4819e7d332c2a92dab765d03ab"
+          }
+        },
+        "sql_sha256": "d2c5a413b406239db45dd79d6ca79ed03dd498337f5242f8fd615c09c0d6093e",
+        "status": "verified_historical_snapshot",
+        "verifier_build": {
+          "build_identity_sha256": "a778d942b39a682fa114e2eb8df0d837c5178d26607824a5bcbaaddce071db63",
+          "cargo_lock_sha256": "634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab",
+          "code_commit": "169b82f6a02de161f6c42c94af5c4a18e6f13165",
+          "debug": true,
+          "economic_certification": false,
+          "gas_budget_mxn_centavos": 0,
+          "host": "x86_64-unknown-linux-gnu",
+          "name": "nqc-miner",
+          "namespace": "nqc_miner_v1",
+          "observer_bridge_enabled": false,
+          "opt_level": "0",
+          "profile": "debug",
+          "rustc_version": "rustc 1.90.0 (1159e78c4 2025-09-14)",
+          "rustflags_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "signing_enabled": false,
+          "source_dirty": false,
+          "source_sha256": "3b7ad83406f8dcea6537be014e607e07d5413d5b40e87efa5d20cf0b93e62a39",
+          "status": "preparatory-research-build",
+          "target": "x86_64-unknown-linux-gnu",
+          "version": "0.1.0"
+        },
+        "verifier_sha256": "47292cd97732d246099b63f07cea6dc128dfd5612efe3341a6cefb4e631d4548",
+        "windows": 2
+      },
+      "request_sha256": "c382cba5300d39acf4d0ddfe50554546cb691cb846337fbf960e2a14eba91341",
+      "rust_verification": {
+        "canonical_events_in_completed_windows": 0,
+        "chain_authenticity_verified": false,
+        "collection_sha256": "3aa8090c819ebd76f859f81aad880ce348fecd49b03029bca35dd04704e88972",
+        "completed_windows": 2,
+        "data_class": "historical",
+        "economic_certification": false,
+        "incomplete_window": false,
+        "integrity_verified": true,
+        "next_from_block": 12,
+        "observer_bridge_enabled": false,
+        "plan_sha256": "a25726999c03972a0a3d4e34a7390cb00c1ad635113a2de52a81e8ddcad43daa",
+        "run_id": "pgcoll_normal",
+        "schema": "nqc-miner-collector-status-v1",
+        "signing_enabled": false
+      }
+    },
+    "revoked-first": {
+      "manifest": {
+        "archive_id": "9ff8211f-7187-466f-8dfb-46b3df60795d",
+        "authenticity_verified": false,
+        "complete": true,
+        "data_class": "historical",
+        "database_applied": false,
+        "database_id": "dfb1a49f-38d1-40ab-b19d-90a9577271be",
+        "delivery_enabled": false,
+        "installer_sha256": "90de39223b0265d8b2ca2d8ee73127571018040c7865917653d3444dcf8ef350",
+        "live_chain_revalidated": false,
+        "namespace": "nqc_miner_v1",
+        "observer_bridge_enabled": false,
+        "preparer_sha256": "e11cddc1a9cbe283de6ff8752aca13f10fe98382f7e44a0fb8f37f8bdb6d936a",
+        "producer": "nqc-miner",
+        "receipt_sequence": 0,
+        "receipt_sha256": "185d515afcac89c67928270b7ab611d1aa1dccb8ed21da3566c8492831518b85",
+        "records": 1,
+        "request_sha256": "d65e379261d6bee5227bc27701452644543a3a987cf6f4ac994c0cce495d2359",
+        "run_id": "pgcoll_revoked_first",
+        "schema": "nqc-miner-postgres-collection-v1",
+        "snapshot_sha256": "4a7a7334e91d5e6bd85b72d7015ff3185254994570ca7b881bbb03af03fc4e63",
+        "source_files": {
+          "collector.json": {
+            "bytes": 116,
+            "sha256": "a2ec2ae2bfb00a24f870dde8c308ef56548ebcbb68fe0736b6e74c5256fd6b13"
+          },
+          "config.json": {
+            "bytes": 871,
+            "sha256": "c27364bbb2c21337d74842f50b406edc29cfff44cc29bbb4526ea2be19b4c33e"
+          },
+          "events.jsonl": {
+            "bytes": 372,
+            "sha256": "a5dbb7747649ea702c0d22783988d8d1ade581eb60b19e8eddc780fb19dd1595"
+          },
+          "owner.json": {
+            "bytes": 457,
+            "sha256": "9c08bb2aa4520169944b2231226e9a130a696b8f8c66027d12a8485163ccf061"
+          }
+        },
+        "sql_sha256": "996742e455895d83b27e5d5e540d4914482cc67fcaabf5165159c8b3a585c151",
+        "status": "quarantined",
+        "verifier_build": {
+          "build_identity_sha256": "a778d942b39a682fa114e2eb8df0d837c5178d26607824a5bcbaaddce071db63",
+          "cargo_lock_sha256": "634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab",
+          "code_commit": "169b82f6a02de161f6c42c94af5c4a18e6f13165",
+          "debug": true,
+          "economic_certification": false,
+          "gas_budget_mxn_centavos": 0,
+          "host": "x86_64-unknown-linux-gnu",
+          "name": "nqc-miner",
+          "namespace": "nqc_miner_v1",
+          "observer_bridge_enabled": false,
+          "opt_level": "0",
+          "profile": "debug",
+          "rustc_version": "rustc 1.90.0 (1159e78c4 2025-09-14)",
+          "rustflags_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "signing_enabled": false,
+          "source_dirty": false,
+          "source_sha256": "3b7ad83406f8dcea6537be014e607e07d5413d5b40e87efa5d20cf0b93e62a39",
+          "status": "preparatory-research-build",
+          "target": "x86_64-unknown-linux-gnu",
+          "version": "0.1.0"
+        },
+        "verifier_sha256": "47292cd97732d246099b63f07cea6dc128dfd5612efe3341a6cefb4e631d4548",
+        "windows": 0
+      },
+      "request_sha256": "d65e379261d6bee5227bc27701452644543a3a987cf6f4ac994c0cce495d2359",
+      "rust_verification": {
+        "control": {
+          "authenticity_verified": false,
+          "canonical_events": 0,
+          "completed_chunks": 0,
+          "completed_scopes": 0,
+          "integrity_verified": true,
+          "invalidated_events": 0,
+          "invalidated_from": {
+            "1": 10
+          },
+          "last_sha256": "7f8ab965ceccf1a88e707f7800b183bad9af98e4a1ea5008bcb197210aca77b2",
+          "owner": {
+            "build_identity_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+            "cargo_lock_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+            "code_commit": "1111111111111111111111111111111111111111",
+            "config_sha256": "c27364bbb2c21337d74842f50b406edc29cfff44cc29bbb4526ea2be19b4c33e",
+            "data_class": "historical",
+            "namespace": "nqc_miner_v1",
+            "producer": "nqc-miner",
+            "run_id": "pgcoll_revoked_first",
+            "schema": "nqc-miner-owner-v2"
+          },
+          "provisional_events": 0,
+          "records": 1
+        },
+        "status": "quarantined"
+      }
+    },
+    "rollback": {
+      "manifest": {
+        "archive_id": "9ff8211f-7187-466f-8dfb-46b3df60795d",
+        "authenticity_verified": false,
+        "complete": true,
+        "data_class": "historical",
+        "database_applied": false,
+        "database_id": "dfb1a49f-38d1-40ab-b19d-90a9577271be",
+        "delivery_enabled": false,
+        "installer_sha256": "90de39223b0265d8b2ca2d8ee73127571018040c7865917653d3444dcf8ef350",
+        "live_chain_revalidated": false,
+        "namespace": "nqc_miner_v1",
+        "observer_bridge_enabled": false,
+        "preparer_sha256": "e11cddc1a9cbe283de6ff8752aca13f10fe98382f7e44a0fb8f37f8bdb6d936a",
+        "producer": "nqc-miner",
+        "receipt_sequence": 0,
+        "receipt_sha256": "e6e4ed734484b748b84d699725f59318f8b6e26b4dcc769721748119f61aba2c",
+        "records": 4,
+        "request_sha256": "df2bc0a3ab1c176e1bd08adb7bfa1a3d7dbf8cd349b3a9fa4b08833c784db24d",
+        "run_id": "pgcoll_rollback",
+        "schema": "nqc-miner-postgres-collection-v1",
+        "snapshot_sha256": "4430c9cf937ee023f39d87729cfb9ae5084a6888adae4e69dd4f9e976ad504c9",
+        "source_files": {
+          "collector.json": {
+            "bytes": 116,
+            "sha256": "febaebf5abf81e96d58191ddd3f2f95151ac8efa74799d944d338841f962d452"
+          },
+          "config.json": {
+            "bytes": 866,
+            "sha256": "fc67de6df3063aa1108225f0e266e04fe116825bcb3003dbfff49e8bdbf69562"
+          },
+          "events.jsonl": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "owner.json": {
+            "bytes": 452,
+            "sha256": "a8ca2c2c4aca5e507250afff9920f13e43c866caaf3dfdc4ac3034deb7f1a639"
+          },
+          "window-00000000000000000000/config.json": {
+            "bytes": 922,
+            "sha256": "24d14ebd47b5ea9f6a3adfb93112de98831b5b4d2e2256b6e9cff7a5ee7e1718"
+          },
+          "window-00000000000000000000/events.jsonl": {
+            "bytes": 1312,
+            "sha256": "31de3c37bdf4a4c85d1f0543bac7855827049379b7e3dc43cbfcced83fb875d3"
+          },
+          "window-00000000000000000000/owner.json": {
+            "bytes": 508,
+            "sha256": "51c139bc332b439260f3c84ce02c1dc57aa7a40ac95cf4d0b46624643aeb72e8"
+          },
+          "window-00000000000000000001/config.json": {
+            "bytes": 922,
+            "sha256": "e5324a325ae9978e6d5da99151e095ac4fbb3d5225b1e7bb5b2b495e625dddee"
+          },
+          "window-00000000000000000001/events.jsonl": {
+            "bytes": 1312,
+            "sha256": "8e4be218852f78fbaaae38b15a51822002c3c9619080a42494320b6524ce4ae7"
+          },
+          "window-00000000000000000001/owner.json": {
+            "bytes": 508,
+            "sha256": "465f5b346dee213cee9a5b06b1212cd3b71836c35b4506be6aa4245e5176bc26"
+          }
+        },
+        "sql_sha256": "b55de44665e55acac4a6ad7f09f0b0bd2238f1eadd976e45dd4eeff06a05d15d",
+        "status": "verified_historical_snapshot",
+        "verifier_build": {
+          "build_identity_sha256": "a778d942b39a682fa114e2eb8df0d837c5178d26607824a5bcbaaddce071db63",
+          "cargo_lock_sha256": "634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab",
+          "code_commit": "169b82f6a02de161f6c42c94af5c4a18e6f13165",
+          "debug": true,
+          "economic_certification": false,
+          "gas_budget_mxn_centavos": 0,
+          "host": "x86_64-unknown-linux-gnu",
+          "name": "nqc-miner",
+          "namespace": "nqc_miner_v1",
+          "observer_bridge_enabled": false,
+          "opt_level": "0",
+          "profile": "debug",
+          "rustc_version": "rustc 1.90.0 (1159e78c4 2025-09-14)",
+          "rustflags_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "signing_enabled": false,
+          "source_dirty": false,
+          "source_sha256": "3b7ad83406f8dcea6537be014e607e07d5413d5b40e87efa5d20cf0b93e62a39",
+          "status": "preparatory-research-build",
+          "target": "x86_64-unknown-linux-gnu",
+          "version": "0.1.0"
+        },
+        "verifier_sha256": "47292cd97732d246099b63f07cea6dc128dfd5612efe3341a6cefb4e631d4548",
+        "windows": 2
+      },
+      "request_sha256": "df2bc0a3ab1c176e1bd08adb7bfa1a3d7dbf8cd349b3a9fa4b08833c784db24d",
+      "rust_verification": {
+        "canonical_events_in_completed_windows": 0,
+        "chain_authenticity_verified": false,
+        "collection_sha256": "838f5f2b8bb24c2412c1cc3d5738821d940ad2ac7c9502037e557243505bfee4",
+        "completed_windows": 2,
+        "data_class": "historical",
+        "economic_certification": false,
+        "incomplete_window": false,
+        "integrity_verified": true,
+        "next_from_block": 12,
+        "observer_bridge_enabled": false,
+        "plan_sha256": "fc67de6df3063aa1108225f0e266e04fe116825bcb3003dbfff49e8bdbf69562",
+        "run_id": "pgcoll_rollback",
+        "schema": "nqc-miner-collector-status-v1",
+        "signing_enabled": false
+      }
+    }
+  },
+  "new_rpc_observations": 0,
+  "postgres_executed": false,
+  "schema": "nqc-miner-collection-fixtures-v1",
+  "source_hashes": {
+    "infra/postgres_collection.sql": "90de39223b0265d8b2ca2d8ee73127571018040c7865917653d3444dcf8ef350",
+    "research/archive_collection.py": "b1d76941c1ba7b2be9c76ca7214e38175454e181477b58f0ded9e81a92675bd0",
+    "research/prepare_postgres_collection.py": "e11cddc1a9cbe283de6ff8752aca13f10fe98382f7e44a0fb8f37f8bdb6d936a",
+    "research/prepare_postgres_import.py": "41df5aa0d4d7ffce8605a7a5335e2435eb70bfb4f101b87e281eaa8ec15fd7ae",
+    "research/test_archive_collection.py": "fe02ecb0a4248642a17eb8abbc922d28ea6c2a76f0d25fc527ec3703a22a5828"
+  }
+}

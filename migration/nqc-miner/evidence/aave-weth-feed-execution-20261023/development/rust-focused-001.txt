@@ -1,0 +1,17 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/162ea5393283/nqc/migration/nqc-miner)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.60s
+     Running tests/aave_debt_execution_tests.rs (/tmp/nqc-miner-target/debug/deps/aave_debt_execution_tests-17d48d7081572acf)
+
+running 9 tests
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::aave_oracle_execution::aave_weth_feed_execution::late_usdc_failure_rolls_back_reserves_rewards_and_transfers_after_feed_proxy_execution ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::aave_oracle_execution::aave_weth_feed_execution::missing_proxy_route_controller_and_aggregator_witnesses_fail_closed ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::aave_oracle_execution::aave_weth_feed_execution::aggregator_revert_empty_and_malformed_controller_returns_never_trigger_fallback ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::aave_oracle_execution::aave_weth_feed_execution::observed_weth_proxy_preserves_both_complete_payments_and_exports_evidence ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::aave_oracle_execution::aave_weth_feed_execution::downstream_observes_proxy_caller_even_when_direct_price_is_different ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::aave_oracle_execution::aave_weth_feed_execution::controller_checks_actual_oracle_caller_proxy_and_calldata_with_atomic_denial ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::aave_oracle_execution::aave_weth_feed_execution::signed_aggregator_answers_reach_oracle_fallback_and_positive_limit_is_unchanged ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::aave_oracle_execution::aave_weth_feed_execution::packed_phase_extremes_alternate_aggregator_and_observed_routes_use_only_current_phase ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::aave_account_execution::aave_oracle_execution::aave_weth_feed_execution::seeded_prices_emode_and_rates_preserve_full_effects_through_real_proxy ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 89 filtered out; finished in 26.41s
+

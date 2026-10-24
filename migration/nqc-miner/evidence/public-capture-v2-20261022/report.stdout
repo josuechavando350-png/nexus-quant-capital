@@ -1,0 +1,190 @@
+{
+  "schema": "nqc-miner-report-v1",
+  "owner": {
+    "schema": "nqc-miner-owner-v2",
+    "namespace": "nqc_miner_v1",
+    "producer": "nqc-miner",
+    "run_id": "miner-isolated-audit-20261022-v2-01",
+    "data_class": "historical",
+    "config_sha256": "343cdc0f8f039d69af142c044902c2b2a1757bf7b2ae0473a1e5dd47dd3cd5a5",
+    "code_commit": "a841261f9c13b255905deaeef75d5b42cb8814e1",
+    "cargo_lock_sha256": "634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab",
+    "build_identity_sha256": "3cd0fd043fc2befe037ad67f679e16cfcea9ceddadf83a1cda2991dd69061c97"
+  },
+  "scope_completion": [
+    {
+      "scope_id": "ethereum-aave-liquidations",
+      "chain_id": 1,
+      "from_block": 26248000,
+      "to_block": 26248399,
+      "completed_through": 26248399,
+      "complete": true
+    },
+    {
+      "scope_id": "base-aave-liquidations",
+      "chain_id": 8453,
+      "from_block": 52950023,
+      "to_block": 52950122,
+      "completed_through": 52950122,
+      "complete": true
+    },
+    {
+      "scope_id": "arbitrum-aave-liquidations",
+      "chain_id": 42161,
+      "from_block": 517288425,
+      "to_block": 517288524,
+      "completed_through": 517288524,
+      "complete": true
+    },
+    {
+      "scope_id": "ethereum-morpho-births-liquidations",
+      "chain_id": 1,
+      "from_block": 26248000,
+      "to_block": 26248399,
+      "completed_through": 26248399,
+      "complete": true
+    }
+  ],
+  "birth_candidates": [],
+  "saturations": [
+    {
+      "mine_id": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2:0x14bdc3a3ae09f5518b923b69489cbcafb238e617:0x4c9edd5852cd905f086c759e8383e09bff1e68b3",
+      "chain_id": 1,
+      "first_block": 26248000,
+      "last_block": 26248399,
+      "evidence_class": "historical",
+      "calibration_id": "unconfigured-no-economic-admission",
+      "state": "insufficient_data",
+      "liquidations": 1,
+      "unique_liquidators": 1,
+      "median_delay_blocks": null,
+      "delay_observations": 0,
+      "mean_builder_tip_share": null,
+      "tip_observations": 0,
+      "deduplicated": 0,
+      "excluded_noncanonical": 0,
+      "excluded_unfinalized": 0
+    },
+    {
+      "mine_id": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2:0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+      "chain_id": 1,
+      "first_block": 26248000,
+      "last_block": 26248399,
+      "evidence_class": "historical",
+      "calibration_id": "unconfigured-no-economic-admission",
+      "state": "insufficient_data",
+      "liquidations": 2,
+      "unique_liquidators": 1,
+      "median_delay_blocks": null,
+      "delay_observations": 0,
+      "mean_builder_tip_share": null,
+      "tip_observations": 0,
+      "deduplicated": 0,
+      "excluded_noncanonical": 0,
+      "excluded_unfinalized": 0
+    }
+  ],
+  "coverage": {
+    "manifest": {
+      "scan_id": "miner-isolated-audit-20261022-v2-01",
+      "evidence_class": "historical",
+      "ranges": [
+        {
+          "chain_id": 1,
+          "contract": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+          "topic0": "0xe413a321e8681d831f4dbccbca790d2952b56f977908e45be37335533e005286",
+          "first_block": 26248000,
+          "last_block": 26248399,
+          "last_block_hash": "0xfc37ecba71d59e997c5b0da0d28276795b07e61e6c238bd511a1901493f9f9dc",
+          "complete": true,
+          "finalized": true
+        },
+        {
+          "chain_id": 8453,
+          "contract": "0xa238dd80c259a72e81d7e4664a9801593f98d1c5",
+          "topic0": "0xe413a321e8681d831f4dbccbca790d2952b56f977908e45be37335533e005286",
+          "first_block": 52950023,
+          "last_block": 52950122,
+          "last_block_hash": "0xb4d0d57bd9bca53e767b97cd7d603cb826491192bbdaefb0a767566c4a16d391",
+          "complete": true,
+          "finalized": true
+        },
+        {
+          "chain_id": 42161,
+          "contract": "0x794a61358d6845594f94dc1db02a252b5b4814ad",
+          "topic0": "0xe413a321e8681d831f4dbccbca790d2952b56f977908e45be37335533e005286",
+          "first_block": 517288425,
+          "last_block": 517288524,
+          "last_block_hash": "0x78182422f9e249fb773cf597381b096573ea9338b281c0e07e83200e3cbb1386",
+          "complete": true,
+          "finalized": true
+        },
+        {
+          "chain_id": 1,
+          "contract": "0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb",
+          "topic0": "0xac4b2400f169220b0c0afdde7a0b32e775ba727ea1cb30b35f935cdaab8683ac",
+          "first_block": 26248000,
+          "last_block": 26248399,
+          "last_block_hash": "0xfc37ecba71d59e997c5b0da0d28276795b07e61e6c238bd511a1901493f9f9dc",
+          "complete": true,
+          "finalized": true
+        },
+        {
+          "chain_id": 1,
+          "contract": "0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb",
+          "topic0": "0xa4946ede45d0c6f06a0f5ce92c9ad3b4751452d2fe0e25010783bcab57a67e41",
+          "first_block": 26248000,
+          "last_block": 26248399,
+          "last_block_hash": "0xfc37ecba71d59e997c5b0da0d28276795b07e61e6c238bd511a1901493f9f9dc",
+          "complete": true,
+          "finalized": true
+        }
+      ]
+    },
+    "status": "complete",
+    "total_finalized_liquidations": 3,
+    "watched_when_liquidated": 0,
+    "fraction": 0.0,
+    "blindspots": [
+      {
+        "event_id": {
+          "chain_id": 1,
+          "block_hash": "0x93c3ada980ac14c3a0a64f3ef98d3e8639ffd1ce42b6e2e74ee44c1bddcb5053",
+          "transaction_hash": "0x0f41c4143e965fe9c26509f976cf31374460f6899ee796966a4b65b110e9aa2f",
+          "log_index": 61
+        },
+        "mine_id": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2:0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+        "reason": "unregistered_scope"
+      },
+      {
+        "event_id": {
+          "chain_id": 1,
+          "block_hash": "0x7d0b9646f0090f9f467a31a07cbe5c0c1259badfc5ba93e0072c114b6c9f41af",
+          "transaction_hash": "0xb6eeb0b8a4af39d5d461fa985ada74c294b23d4b457b86d4a02012664352075d",
+          "log_index": 922
+        },
+        "mine_id": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2:0x14bdc3a3ae09f5518b923b69489cbcafb238e617:0x4c9edd5852cd905f086c759e8383e09bff1e68b3",
+        "reason": "unregistered_scope"
+      },
+      {
+        "event_id": {
+          "chain_id": 1,
+          "block_hash": "0xdae4dbfeda7cdae9955cb0ae394e2987977313f53f0eb906ea6fe030a949bf8c",
+          "transaction_hash": "0xeb7833abff05f15b7c6395a831144b9a736f1242be25830a37e6eb2a1929ffe6",
+          "log_index": 22
+        },
+        "mine_id": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2:0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+        "reason": "unregistered_scope"
+      }
+    ],
+    "deduplicated": 0,
+    "excluded_noncanonical": 0,
+    "excluded_unfinalized": 0
+  },
+  "coverage_unavailable_reason": null,
+  "observed_liquidations": 3,
+  "measured_realized_profit": null,
+  "money_unit": "USD millionths (no realized ledger imported)",
+  "source_authentication": "provider agreement and local integrity; no independent chain proof",
+  "activation_permitted": false
+}

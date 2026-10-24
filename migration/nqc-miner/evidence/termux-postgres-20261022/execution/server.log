@@ -1,0 +1,28 @@
+2026-10-22 15:16:20.816 CST [17844] LOG:  starting PostgreSQL 18.6 on aarch64-unknown-linux-android, compiled by Android (16134705, +pgo, +bolt, +lto, +mlgo, based on r574158c) clang version 21.0.0 (https://android.googlesource.com/toolchain/llvm-project 9f872551d3c681d06fd303b36f16ed5c274735eb), 64-bit
+2026-10-22 15:16:20.817 CST [17844] LOG:  listening on Unix socket "/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/s/.s.PGSQL.55432"
+2026-10-22 15:16:20.827 CST [17851] LOG:  database system was shut down at 2026-10-22 15:16:20 CST
+2026-10-22 15:16:20.838 CST [17844] LOG:  database system is ready to accept connections
+2026-10-22 15:16:21.335 CST [17863] ERROR:  Refusing foreign database: expected nqc_miner_v1
+2026-10-22 15:16:21.335 CST [17863] CONTEXT:  PL/pgSQL function inline_code_block line 4 at RAISE
+2026-10-22 15:16:21.335 CST [17863] STATEMENT:  DO $$
+	BEGIN
+	    IF current_database() <> 'nqc_miner_v1' THEN
+	        RAISE EXCEPTION 'Refusing foreign database: expected nqc_miner_v1';
+	    END IF;
+	END;
+	$$;
+2026-10-22 15:16:21.575 CST [17870] ERROR:  schema "nqc_miner_v1" already exists
+2026-10-22 15:16:21.575 CST [17870] STATEMENT:  CREATE SCHEMA nqc_miner_v1;
+2026-10-22 15:16:21.816 CST [17876] ERROR:  permission denied for table journal_ledger
+2026-10-22 15:16:21.816 CST [17876] STATEMENT:  UPDATE nqc_miner_v1.journal_ledger SET sequence=sequence
+2026-10-22 15:16:21.862 CST [17878] ERROR:  permission denied for table outbox
+2026-10-22 15:16:21.862 CST [17878] STATEMENT:  DELETE FROM nqc_miner_v1.outbox
+2026-10-22 15:16:21.901 CST [17881] ERROR:  permission denied for table journal_ledger
+2026-10-22 15:16:21.901 CST [17881] STATEMENT:  TRUNCATE nqc_miner_v1.journal_ledger
+2026-10-22 15:16:22.041 CST [17844] LOG:  received fast shutdown request
+2026-10-22 15:16:22.042 CST [17844] LOG:  aborting any active transactions
+2026-10-22 15:16:22.046 CST [17844] LOG:  background worker "logical replication launcher" (PID 17854) exited with exit code 1
+2026-10-22 15:16:22.049 CST [17849] LOG:  shutting down
+2026-10-22 15:16:22.050 CST [17849] LOG:  checkpoint starting: shutdown immediate
+2026-10-22 15:16:22.236 CST [17849] LOG:  checkpoint complete: wrote 992 buffers (24.2%), wrote 3 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.050 s, sync=0.117 s, total=0.187 s; sync files=336, longest=0.004 s, average=0.001 s; distance=4679 kB, estimate=4679 kB; lsn=0/1BF78C8, redo lsn=0/1BF78C8
+2026-10-22 15:16:22.283 CST [17844] LOG:  database system is shut down

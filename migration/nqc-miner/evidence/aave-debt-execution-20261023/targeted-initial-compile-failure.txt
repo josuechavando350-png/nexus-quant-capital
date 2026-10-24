@@ -1,0 +1,1516 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/462bfc2f69c3/nqc-miner-work/migration/nqc-miner)
+error[E0277]: the trait bound `Uint<256, 4>: From<u64>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:25:69
+   |
+25 |     U256::from_be_bytes(keccak256(decode_hex(&encoded(&[addr(key),u(slot)])).unwrap()).0)
+   |                                                                   - ^^^^ the trait `From<u64>` is not implemented for `Uint<256, 4>`
+   |                                                                   |
+   |                                                                   required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `u64` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:38:40
+   |
+38 |     fn default()->Self { Self { debt:u(150),repayment:u(40),no_collateral:false,index:u(3*RAY/2),cached:u(9999),
+   |                                      - ^^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+   |                                      |
+   |                                      required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:38:57
+   |
+38 |     fn default()->Self { Self { debt:u(150),repayment:u(40),no_collateral:false,index:u(3*RAY/2),cached:u(9999),
+   |                                                       - ^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+   |                                                       |
+   |                                                       required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:38:89
+   |
+38 |     fn default()->Self { Self { debt:u(150),repayment:u(40),no_collateral:false,index:u(3*RAY/2),cached:u(9999),
+   |                                                                                       - ^^^^^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+   |                                                                                       |
+   |                                                                                       required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:38:107
+   |
+38 |     fn default()->Self { Self { debt:u(150),repayment:u(40),no_collateral:false,index:u(3*RAY/2),cached:u(9999),
+   |                                                                                                         - ^^^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+   |                                                                                                         |
+   |                                                                                                         required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:39:19
+   |
+39 |         deficit:u(5),virtual_balance:u(200),reserve_id:1,config:u(255),factor:u(1000),
+   |                 - ^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+   |                 |
+   |                 required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:39:40
+   |
+39 |         deficit:u(5),virtual_balance:u(200),reserve_id:1,config:u(255),factor:u(1000),
+   |                                      - ^^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+   |                                      |
+   |                                      required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:39:67
+   |
+39 |         deficit:u(5),virtual_balance:u(200),reserve_id:1,config:u(255),factor:u(1000),
+   |                                                                 - ^^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+   |                                                                 |
+   |                                                                 required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:39:81
+   |
+39 |         deficit:u(5),virtual_balance:u(200),reserve_id:1,config:u(255),factor:u(1000),
+   |                                                                               - ^^^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+   |                                                                               |
+   |                                                                               required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:40:19
+   |
+40 |         balance:u(100),total:u(1000),previous_index:u(RAY),delegation:2,rates:[8000,100,400,6000],rewards_mode:0 } }
+   |                 - ^^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+   |                 |
+   |                 required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:40:32
+   |
+40 |         balance:u(100),total:u(1000),previous_index:u(RAY),delegation:2,rates:[8000,100,400,6000],rewards_mode:0 } }
+   |                              - ^^^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+   |                              |
+   |                              required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:40:55
+   |
+40 |         balance:u(100),total:u(1000),previous_index:u(RAY),delegation:2,rates:[8000,100,400,6000],rewards_mode:0 } }
+   |                                                     - ^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+   |                                                     |
+   |                                                     required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u8>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:47:71
+   |
+47 |     token.storage.insert(mapping(USER,56).to_string(),(c.balance | (u(c.delegation)<<120) | (c.previous_index<<128)).to_string());
+   |                                                                     - ^^^^^^^^^^^^ the trait `From<u8>` is not implemented for `Uint<256, 4>`
+   |                                                                     |
+   |                                                                     required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `u8` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u32>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:50:61
+   |
+50 |     strategy.storage.insert(mapping(ASSET,0).to_string(),(u(c.rates[0])|(u(c.rates[1])<<16)|(u(c.rates[2])<<48)|(u(c.rates[3])<<80)).to_s...
+   |                                                           - ^^^^^^^^^^ the trait `From<u32>` is not implemented for `Uint<256, 4>`
+   |                                                           |
+   |                                                           required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `u32` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u32>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:50:76
+   |
+50 | ...0).to_string(),(u(c.rates[0])|(u(c.rates[1])<<16)|(u(c.rates[2])<<48)|(u(c.rates[3])<<80)).to_string());
+   |                                   - ^^^^^^^^^^ the trait `From<u32>` is not implemented for `Uint<256, 4>`
+   |                                   |
+   |                                   required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `u32` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u32>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:50:96
+   |
+50 | ...rates[0])|(u(c.rates[1])<<16)|(u(c.rates[2])<<48)|(u(c.rates[3])<<80)).to_string());
+   |                                   - ^^^^^^^^^^ the trait `From<u32>` is not implemented for `Uint<256, 4>`
+   |                                   |
+   |                                   required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `u32` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u32>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:50:116
+   |
+50 | ...[1])<<16)|(u(c.rates[2])<<48)|(u(c.rates[3])<<80)).to_string());
+   |                                   - ^^^^^^^^^^ the trait `From<u32>` is not implemented for `Uint<256, 4>`
+   |                                   |
+   |                                   required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `u32` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<bool>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:60:37
+   |
+60 |     let words=[c.debt,c.repayment,u(c.no_collateral),c.index,c.cached,c.deficit,c.virtual_balance,u(c.reserve_id),c.config,c.factor];
+   |                                   - ^^^^^^^^^^^^^^^ the trait `From<bool>` is not implemented for `Uint<256, 4>`
+   |                                   |
+   |                                   required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `bool` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u16>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:60:101
+   |
+60 |     let words=[c.debt,c.repayment,u(c.no_collateral),c.index,c.cached,c.deficit,c.virtual_balance,u(c.reserve_id),c.config,c.factor];
+   |                                                                                                   - ^^^^^^^^^^^^ the trait `From<u16>` is not implemented for `Uint<256, 4>`
+   |                                                                                                   |
+   |                                                                                                   required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `u16` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:65:47
+   |
+65 | fn ceil(a:U256,b:U256)->U256 { let p=a*b; p/u(RAY)+u(p%u(RAY)!=U256::ZERO) }
+   |                                             - ^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+   |                                             |
+   |                                             required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:65:58
+   |
+65 | fn ceil(a:U256,b:U256)->U256 { let p=a*b; p/u(RAY)+u(p%u(RAY)!=U256::ZERO) }
+   |                                                        - ^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+   |                                                        |
+   |                                                        required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<bool>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:65:54
+   |
+65 | fn ceil(a:U256,b:U256)->U256 { let p=a*b; p/u(RAY)+u(p%u(RAY)!=U256::ZERO) }
+   |                                                    - ^^^^^^^^^^^^^^^^^^^^ the trait `From<bool>` is not implemented for `Uint<256, 4>`
+   |                                                    |
+   |                                                    required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `bool` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:66:42
+   |
+66 | fn ray_mul(a:U256,b:U256)->U256 { (a*b+u(RAY/2))/u(RAY) }
+   |                                        - ^^^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+   |                                        |
+   |                                        required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:66:52
+   |
+66 | fn ray_mul(a:U256,b:U256)->U256 { (a*b+u(RAY/2))/u(RAY) }
+   |                                                  - ^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+   |                                                  |
+   |                                                  required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:67:40
+   |
+67 | fn ray_div(a:U256,b:U256)->U256 { (a*u(RAY)+b/u(2))/b }
+   |                                      - ^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+   |                                      |
+   |                                      required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:67:49
+   |
+67 | fn ray_div(a:U256,b:U256)->U256 { (a*u(RAY)+b/u(2))/b }
+   |                                               - ^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+   |                                               |
+   |                                               required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u32>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:69:28
+   |
+69 |     let r=c.rates.map(|n|u(n)*u(100_000_000_000_000_000_000_000u128));
+   |                          - ^ the trait `From<u32>` is not implemented for `Uint<256, 4>`
+   |                          |
+   |                          required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `u32` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:69:33
+   |
+69 |     let r=c.rates.map(|n|u(n)*u(100_000_000_000_000_000_000_000u128));
+   |                               - ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+   |                               |
+   |                               required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:74:80
+   |
+74 |     let variable=if borrow>r[0] { r[1]+r[2]+ray_mul(r[3],ray_div(borrow-r[0],u(RAY)-r[0])) }
+   |                                                                              - ^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+   |                                                                              |
+   |                                                                              required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:76:35
+   |
+76 |     ((ray_mul(variable,supply)*(u(10000)-c.factor)+u(5000))/u(10000),variable)
+   |                                 - ^^^^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+   |                                 |
+   |                                 required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:76:54
+   |
+76 |     ((ray_mul(variable,supply)*(u(10000)-c.factor)+u(5000))/u(10000),variable)
+   |                                                    - ^^^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+   |                                                    |
+   |                                                    required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:76:63
+   |
+76 |     ((ray_mul(variable,supply)*(u(10000)-c.factor)+u(5000))/u(10000),variable)
+   |                                                             - ^^^^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+   |                                                             |
+   |                                                             required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+  --> tests/aave_debt_execution_tests.rs:83:76
+   |
+83 |     let amount=if burn {(if c.no_collateral {c.debt} else {c.repayment})*u(RAY)/c.index} else {U256::ZERO};
+   |                                                                          - ^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+   |                                                                          |
+   |                                                                          required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+             `Uint<256, 4>` implements `From<FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+             `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+             `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+   = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+  --> tests/aave_debt_execution_tests.rs:20:18
+   |
+20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+   |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:119:139
+    |
+119 | ...],&[liquidity,U256::ZERO,variable,u(RAY),c.index]));
+    |                                      - ^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+    |                                      |
+    |                                      required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u16>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:123:85
+    |
+123 | ...(2,variable<<128),(3,deficit|(u(c.reserve_id)<<168)),(8,(c.virtual_balance+c.repayment)<<128),(10,config)].into_iter().map(|(k,v)|(k.t...
+    |                                  - ^^^^^^^^^^^^ the trait `From<u16>` is not implemented for `Uint<256, 4>`
+    |                                  |
+    |                                  required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `u16` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u8>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:124:65
+    |
+124 | ...,[(mapping(USER,56),(balance|(u(c.delegation)<<120)|(index<<128)).to_string()),(u(58),supply.to_string())].into_iter().map(|(k,v)|(k.t...
+    |                                  - ^^^^^^^^^^^^ the trait `From<u8>` is not implemented for `Uint<256, 4>`
+    |                                  |
+    |                                  required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `u8` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:124:115
+    |
+124 | ...20)|(index<<128)).to_string()),(u(58),supply.to_string())].into_iter().map(|(k,v)|(k.to_string(),v)).collect());
+    |                                    - ^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+    |                                    |
+    |                                    required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<bool>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:125:51
+    |
+125 |     expected.insert(REWARDS.into(),[("1".into(),u(burn).to_string())].into_iter().collect());
+    |                                                 - ^^^^ the trait `From<bool>` is not implemented for `Uint<256, 4>`
+    |                                                 |
+    |                                                 required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `bool` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:141:58
+    |
+141 | fn panic()->String {"0x4e487b71".to_owned()+&encoded(&[u(0x11)])[2..]}
+    |                                                        - ^^^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+    |                                                        |
+    |                                                        required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:146:45
+    |
+146 |     assert_eq!(out.logs[0].data,encoded(&[u(1000),u(100),u(974),u(74),u(3*RAY/2)]));
+    |                                           - ^^^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+    |                                           |
+    |                                           required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:146:53
+    |
+146 |     assert_eq!(out.logs[0].data,encoded(&[u(1000),u(100),u(974),u(74),u(3*RAY/2)]));
+    |                                                   - ^^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+    |                                                   |
+    |                                                   required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:146:60
+    |
+146 |     assert_eq!(out.logs[0].data,encoded(&[u(1000),u(100),u(974),u(74),u(3*RAY/2)]));
+    |                                                          - ^^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+    |                                                          |
+    |                                                          required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:146:67
+    |
+146 |     assert_eq!(out.logs[0].data,encoded(&[u(1000),u(100),u(974),u(74),u(3*RAY/2)]));
+    |                                                                 - ^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+    |                                                                 |
+    |                                                                 required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:146:73
+    |
+146 |     assert_eq!(out.logs[0].data,encoded(&[u(1000),u(100),u(974),u(74),u(3*RAY/2)]));
+    |                                                                       - ^^^^^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+    |                                                                       |
+    |                                                                       required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:150:61
+    |
+150 |     let f=fixture();let mut c=Case::default();c.repayment=u(120);check_success(&c,&f);
+    |                                                           - ^^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+    |                                                           |
+    |                                                           required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:154:36
+    |
+154 |     c.cached=U256::ZERO;c.factor=u(10001);check_success(&c,&f);
+    |                                  - ^^^^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+    |                                  |
+    |                                  required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:163:58
+    |
+163 |     let f=fixture();let mut c=Case::default();c.factor=u(10001);check_revert(&c,&f,&panic());
+    |                                                        - ^^^^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+    |                                                        |
+    |                                                        required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:165:44
+    |
+165 |     c=Case::default();c.repayment=c.debt+u(1);check_revert(&c,&f,&panic());
+    |                                          - ^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+    |                                          |
+    |                                          required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:166:43
+    |
+166 |     c=Case::default();c.virtual_balance=u(u128::MAX);check_revert(&c,&f,&panic());
+    |                                         - ^^^^^^^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+    |                                         |
+    |                                         required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:170:61
+    |
+170 |     let f=fixture();let mut c=Case::default();c.repayment=u(1);check_revert(&c,&f,&selector("InvalidBurnAmount()"));
+    |                                                           - ^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+    |                                                           |
+    |                                                           required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:171:37
+    |
+171 |     c=Case::default();c.repayment=u(1000);check_revert(&c,&f,&panic());
+    |                                   - ^^^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+    |                                   |
+    |                                   required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:172:33
+    |
+172 |     c=Case::default();c.total=u(1);check_revert(&c,&f,&panic());
+    |                               - ^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+    |                               |
+    |                               required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:173:50
+    |
+173 |     c=Case::default();c.previous_index=c.index+u(RAY);check_revert(&c,&f,&panic());
+    |                                                - ^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+    |                                                |
+    |                                                required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:174:33
+    |
+174 |     c=Case::default();c.index=u(u128::MAX)+u(1);c.repayment=c.index/u(RAY)+u(1);
+    |                               - ^^^^^^^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+    |                               |
+    |                               required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:174:46
+    |
+174 |     c=Case::default();c.index=u(u128::MAX)+u(1);c.repayment=c.index/u(RAY)+u(1);
+    |                                            - ^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+    |                                            |
+    |                                            required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:174:71
+    |
+174 |     c=Case::default();c.index=u(u128::MAX)+u(1);c.repayment=c.index/u(RAY)+u(1);
+    |                                                                     - ^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+    |                                                                     |
+    |                                                                     required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:174:78
+    |
+174 |     c=Case::default();c.index=u(u128::MAX)+u(1);c.repayment=c.index/u(RAY)+u(1);
+    |                                                                            - ^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+    |                                                                            |
+    |                                                                            required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:175:85
+    |
+175 |     let data=selector("SafeCastOverflowedUintDowncast(uint8,uint256)")+&encoded(&[u(128),c.index])[2..];check_revert(&c,&f,&data);
+    |                                                                                   - ^^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+    |                                                                                   |
+    |                                                                                   required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:181:100
+    |
+181 |     q.to=TOKEN.into();q.calldata=selector("burn(address,uint256,uint256)")+&encoded(&[addr(USER),u(1),u(RAY)])[2..];
+    |                                                                                                  - ^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+    |                                                                                                  |
+    |                                                                                                  required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:181:105
+    |
+181 |     q.to=TOKEN.into();q.calldata=selector("burn(address,uint256,uint256)")+&encoded(&[addr(USER),u(1),u(RAY)])[2..];
+    |                                                                                                       - ^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+    |                                                                                                       |
+    |                                                                                                       required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:184:61
+    |
+184 |     for(address,slot) in [(TOKEN,mapping(USER,56)),(TOKEN,u(58)),(STRATEGY,mapping(ASSET,0)),(REWARDS,u(1))] {
+    |                                                           - ^^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+    |                                                           |
+    |                                                           required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:184:105
+    |
+184 |     for(address,slot) in [(TOKEN,mapping(USER,56)),(TOKEN,u(58)),(STRATEGY,mapping(ASSET,0)),(REWARDS,u(1))] {
+    |                                                                                                       - ^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+    |                                                                                                       |
+    |                                                                                                       required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:195:25
+    |
+195 |         let debt=ceil(u(balance),u(index));
+    |                       - ^^^^^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+    |                       |
+    |                       required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:195:36
+    |
+195 |         let debt=ceil(u(balance),u(index));
+    |                                  - ^^^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+    |                                  |
+    |                                  required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:196:35
+    |
+196 | ...   let mut c=Case {balance:u(balance),total:u(balance+rng.gen_range(0..10_000_000_000_000u128)),index:u(index),previous_index:u(RAY),d...
+    |                               - ^^^^^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+    |                               |
+    |                               required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:196:52
+    |
+196 | ...nce),total:u(balance+rng.gen_range(0..10_000_000_000_000u128)),index:u(index),previous_index:u(RAY),debt,
+    |               - ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+    |               |
+    |               required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:196:110
+    |
+196 | .....10_000_000_000_000u128)),index:u(index),previous_index:u(RAY),debt,
+    |                                     - ^^^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+    |                                     |
+    |                                     required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:196:134
+    |
+196 | ...8)),index:u(index),previous_index:u(RAY),debt,
+    |                                      - ^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+    |                                      |
+    |                                      required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<{integer}>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:197:30
+    |
+197 | ...   repayment:debt/u(2),virtual_balance:u(rng.gen_range(1..20_000_000_000_000u128)),deficit:u(rng.gen_range(0..1_000_000u64)),factor:u(...
+    |                      - ^ the trait `From<{integer}>` is not implemented for `Uint<256, 4>`
+    |                      |
+    |                      required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `{integer}` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u128>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:197:51
+    |
+197 | ...irtual_balance:u(rng.gen_range(1..20_000_000_000_000u128)),deficit:u(rng.gen_range(0..1_000_000u64)),factor:u(rng.gen_range(0..=10000u...
+    |                   - ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `From<u128>` is not implemented for `Uint<256, 4>`
+    |                   |
+    |                   required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `u128` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u64>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:197:103
+    |
+197 | ...00_000u128)),deficit:u(rng.gen_range(0..1_000_000u64)),factor:u(rng.gen_range(0..=10000u64)),delegation:rng.gen_range(0..=255),rates:[...
+    |                         - ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `From<u64>` is not implemented for `Uint<256, 4>`
+    |                         |
+    |                         required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `u64` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+error[E0277]: the trait bound `Uint<256, 4>: From<u64>` is not satisfied
+   --> tests/aave_debt_execution_tests.rs:197:144
+    |
+197 | ...1_000_000u64)),factor:u(rng.gen_range(0..=10000u64)),delegation:rng.gen_range(0..=255),rates:[rng.gen_range(100..=9900),rng.gen_range(...
+    |                          - ^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `From<u64>` is not implemented for `Uint<256, 4>`
+    |                          |
+    |                          required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `From<T>`:
+              `Uint<256, 4>` implements `From<FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_primitives::bits::fixed::FixedBytes<32>>`
+              `Uint<256, 4>` implements `From<alloy_primitives::utils::units::ParseUnits>`
+              `Uint<256, 4>` implements `From<alloy_sol_types::types::error::Panic>`
+    = note: required for `u64` to implement `Into<Uint<256, 4>>`
+note: required by a bound in `u`
+   --> tests/aave_debt_execution_tests.rs:20:18
+    |
+ 20 | fn u(value: impl Into<U256>) -> U256 { value.into() }
+    |                  ^^^^^^^^^^ required by this bound in `u`
+
+For more information about this error, try `rustc --explain E0277`.
+error: could not compile `nqc-miner` (test "aave_debt_execution_tests") due to 72 previous errors
+warning: build failed, waiting for other jobs to finish...

@@ -1,3 +1,5 @@
+// The former MXN limits are historical replay fixtures, never current funding.
+use nqc_miner::controls::historical_own_gas::*;
 use nqc_miner::controls::*;
 use proptest::prelude::*;
 use std::collections::BTreeMap;

@@ -150,15 +150,19 @@ def _binary_json(binary: Path, *args: str) -> dict[str, Any]:
 
 def _owner(value: Any) -> dict[str, Any]:
     expected = {"schema", "namespace", "producer", "run_id", "data_class", "config_sha256", "code_commit", "cargo_lock_sha256"}
+    if isinstance(value, dict) and value.get("schema") == "nqc-miner-owner-v2":
+        expected.add("build_identity_sha256")
     if not isinstance(value, dict) or set(value) != expected or any(not isinstance(item, str) for item in value.values()):
         raise ExportError("unexpected journal owner schema")
-    if value["schema"] != "nqc-miner-owner-v1" or value["namespace"] != NAMESPACE or value["producer"] != PRODUCER:
+    if value["schema"] not in {"nqc-miner-owner-v1", "nqc-miner-owner-v2"} or value["namespace"] != NAMESPACE or value["producer"] != PRODUCER:
         raise ExportError("foreign namespace or producer")
     if value["data_class"] not in CLASSES or not re.fullmatch(r"[a-z0-9_-]{1,96}", value["run_id"]):
         raise ExportError("invalid run or evidence class; realized data is not an ingestion class")
     for key, length in (("config_sha256", 64), ("cargo_lock_sha256", 64), ("code_commit", 40)):
         if not isinstance(value[key], str) or not re.fullmatch(rf"[0-9a-f]{{{length}}}", value[key]):
             raise ExportError("invalid owner provenance")
+    if "build_identity_sha256" in value and not re.fullmatch(r"[0-9a-f]{64}", value["build_identity_sha256"]):
+        raise ExportError("invalid owner build identity")
     return value
 
 
@@ -226,6 +230,8 @@ def export_journal(state: Path, output: Path, verifier: Path, *, batch_rows: int
     config = _json(_bounded_read(state / "config.json", 1024 * 1024))
     if not isinstance(config, dict) or any(config.get(k) != owner[k] for k in ("namespace", "producer", "run_id", "data_class", "code_commit", "cargo_lock_sha256")):
         raise ExportError("configuration has mixed run, class or namespace")
+    if config.get("build_identity_sha256") != owner.get("build_identity_sha256"):
+        raise ExportError("configuration has mixed build identity")
     verifier_hash = _file_sha(verifier, 512 * 1024 * 1024)
     about = _binary_json(verifier, "about")
     if about.get("name") != PRODUCER or about.get("namespace") != NAMESPACE or about.get("signing_enabled") is not False or about.get("observer_bridge_enabled") is not False:

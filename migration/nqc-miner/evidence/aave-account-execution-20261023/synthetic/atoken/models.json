@@ -1,0 +1,67 @@
+{
+  "account_expected": [
+    "751807228915662650",
+    "15600000000000",
+    "16600000000000",
+    "10500"
+  ],
+  "amount_expected": {
+    "activation_allowed": false,
+    "amount_calculation_passed": true,
+    "amounts": {
+      "collateral_to_liquidator": "41",
+      "debt_to_liquidate": "40",
+      "max_liquidatable_debt": "166",
+      "protocol_fee_collateral": "1",
+      "reserve_collateral_base": "15600000000000",
+      "reserve_debt_base": "16600000000000"
+    },
+    "executable_eligibility_verified": false,
+    "initial_conditions_checked": false,
+    "input_sha256": "f6a3dd5c3ffd045eb154a6093d042ac3442e2ed7a1001cf556e721dc70ebc753",
+    "input_state_authenticated": false,
+    "profile": "ethereum-aave-pool-revision-11-amount-kernel-v1",
+    "reference_liquidation_runtime_sha256": "b11e141dc76358768078be0818b39d60b5b68385aed43552a617ad572e821914",
+    "revert_data": null,
+    "schema": "nqc-miner-aave-amounts-v1"
+  },
+  "amount_input": {
+    "collateral_balance": "156",
+    "collateral_decimals": 0,
+    "collateral_price": "100000000000",
+    "debt_decimals": 0,
+    "debt_price": "100000000000",
+    "debt_to_cover": "40",
+    "health_factor_wad": "751807228915662650",
+    "liquidation_bonus_bps": 10500,
+    "liquidation_protocol_fee_bps": 1000,
+    "reserve_debt": "166",
+    "total_debt_base": "16600000000000"
+  },
+  "collateral_input": {
+    "accrued_to_treasury_scaled": "11",
+    "last_update_timestamp": 1000,
+    "liquidity_index_ray": "1500000000000000000000000000",
+    "liquidity_rate_ray": "40000000000000000000000000",
+    "reserve_factor_bps": 1000,
+    "timestamp": 31537000,
+    "total_scaled_variable_debt": "2000",
+    "user_scaled_collateral": "100",
+    "user_scaled_variable_debt": "0",
+    "variable_borrow_index_ray": "1200000000000000000000000000",
+    "variable_borrow_rate_ray": "83333333333333333333333333"
+  },
+  "debt_input": {
+    "accrued_to_treasury_scaled": "7",
+    "last_update_timestamp": 1000,
+    "liquidity_index_ray": "1100000000000000000000000000",
+    "liquidity_rate_ray": "50000000000000000000000000",
+    "reserve_factor_bps": 1000,
+    "timestamp": 31537000,
+    "total_scaled_variable_debt": "1000",
+    "user_scaled_collateral": "0",
+    "user_scaled_variable_debt": "100",
+    "variable_borrow_index_ray": "1500000000000000000000000000",
+    "variable_borrow_rate_ray": "100000000000000000000000000"
+  }
+}

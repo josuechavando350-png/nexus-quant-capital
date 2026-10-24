@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/workspace/scratch/162ea5393283/nqc/migration/nqc-miner/research/build_aave_payment_execution.py", line 235, in <module>
+    main()
+  File "/workspace/scratch/162ea5393283/nqc/migration/nqc-miner/research/build_aave_payment_execution.py", line 222, in main
+    value, harness, _ = harness_input()
+                        ^^^^^^^^^^^^^^^
+  File "/workspace/scratch/162ea5393283/nqc/migration/nqc-miner/research/build_aave_payment_execution.py", line 153, in harness_input
+    path = re.search(r'import \{' + name + r'\} from "([^"]+)";', original).group(1)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'

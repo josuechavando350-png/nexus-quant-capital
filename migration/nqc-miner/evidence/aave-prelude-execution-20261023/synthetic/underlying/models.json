@@ -1,0 +1,128 @@
+{
+  "collateral_expected": {
+    "activation_allowed": false,
+    "executable_eligibility_verified": false,
+    "input_sha256": "61524cd0a6a96642f399e83ed9d8c2447cd8b8e9578246d1a5ea3dd3d14027b9",
+    "input_state_authenticated": false,
+    "profile": "ethereum-aave-pool-revision-11-reserve-update-v1",
+    "projected": {
+      "accrued_to_treasury_scaled": "24",
+      "last_update_timestamp": 31537000,
+      "liquidity_index_ray": "1560000000000000000000000000",
+      "user_collateral_balance": "156",
+      "user_variable_debt_balance": "0",
+      "variable_borrow_index_ray": "1304282407407407407407407407"
+    },
+    "projection_passed": true,
+    "reference_liquidation_runtime_sha256": "b11e141dc76358768078be0818b39d60b5b68385aed43552a617ad572e821914",
+    "revert_data": null,
+    "schema": "nqc-miner-aave-reserve-projection-v1",
+    "token_implementation_verified": false
+  },
+  "collateral_input": {
+    "accrued_to_treasury_scaled": "11",
+    "last_update_timestamp": 1000,
+    "liquidity_index_ray": "1500000000000000000000000000",
+    "liquidity_rate_ray": "40000000000000000000000000",
+    "reserve_factor_bps": 1000,
+    "timestamp": 31537000,
+    "total_scaled_variable_debt": "2000",
+    "user_scaled_collateral": "100",
+    "user_scaled_variable_debt": "0",
+    "variable_borrow_index_ray": "1200000000000000000000000000",
+    "variable_borrow_rate_ray": "83333333333333333333333333"
+  },
+  "conditions_expected": {
+    "activation_allowed": false,
+    "conditions": [
+      {
+        "name": "different_liquidator",
+        "passed": true
+      },
+      {
+        "name": "both_reserves_active",
+        "passed": true
+      },
+      {
+        "name": "both_reserves_unpaused",
+        "passed": true
+      },
+      {
+        "name": "both_grace_periods_expired",
+        "passed": true
+      },
+      {
+        "name": "health_below_one",
+        "passed": true
+      },
+      {
+        "name": "collateral_reserve_id_in_bitmap",
+        "passed": true
+      },
+      {
+        "name": "borrower_enabled_collateral",
+        "passed": true
+      },
+      {
+        "name": "selected_asset_has_debt",
+        "passed": true
+      }
+    ],
+    "executable_eligibility_verified": false,
+    "first_error": null,
+    "initial_conditions_passed": true,
+    "input_implementation_verified": false,
+    "input_sha256": "16cb67fe6df064320d3a698e90ca08d222f2b4f186d2bbb1af4734f2c538b764",
+    "input_state_authenticated": false,
+    "profile": "ethereum-aave-pool-revision-11-validation-v1",
+    "reference_liquidation_runtime_sha256": "b11e141dc76358768078be0818b39d60b5b68385aed43552a617ad572e821914",
+    "revert_selector": null,
+    "schema": "nqc-miner-aave-initial-conditions-v1"
+  },
+  "conditions_input": {
+    "borrower": "0x000000000000000000000000000000000000cafe",
+    "collateral_configuration": "18446816131303589543936",
+    "collateral_grace_until": 0,
+    "collateral_reserve_id": 2,
+    "debt_configuration": "18446816131303589543936",
+    "debt_grace_until": 0,
+    "health_factor_wad": "900000000000000000",
+    "liquidator": "0x1111111111111111111111111111111111111111",
+    "selected_debt": "166",
+    "timestamp": 31537000,
+    "user_configuration": "255"
+  },
+  "debt_expected": {
+    "activation_allowed": false,
+    "executable_eligibility_verified": false,
+    "input_sha256": "e6a0c5e062d4e70150b68c8b367265f72c0affd4a8c9a2edddee5bae7c614522",
+    "input_state_authenticated": false,
+    "profile": "ethereum-aave-pool-revision-11-reserve-update-v1",
+    "projected": {
+      "accrued_to_treasury_scaled": "20",
+      "last_update_timestamp": 31537000,
+      "liquidity_index_ray": "1155000000000000000000000000",
+      "user_collateral_balance": "0",
+      "user_variable_debt_balance": "166",
+      "variable_borrow_index_ray": "1657750000000000000000000001"
+    },
+    "projection_passed": true,
+    "reference_liquidation_runtime_sha256": "b11e141dc76358768078be0818b39d60b5b68385aed43552a617ad572e821914",
+    "revert_data": null,
+    "schema": "nqc-miner-aave-reserve-projection-v1",
+    "token_implementation_verified": false
+  },
+  "debt_input": {
+    "accrued_to_treasury_scaled": "7",
+    "last_update_timestamp": 1000,
+    "liquidity_index_ray": "1100000000000000000000000000",
+    "liquidity_rate_ray": "50000000000000000000000000",
+    "reserve_factor_bps": 1000,
+    "timestamp": 31537000,
+    "total_scaled_variable_debt": "1000",
+    "user_scaled_collateral": "0",
+    "user_scaled_variable_debt": "100",
+    "variable_borrow_index_ray": "1500000000000000000000000000",
+    "variable_borrow_rate_ray": "100000000000000000000000000"
+  }
+}

@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/workspace/scratch/162ea5393283/nqc/migration/nqc-miner/research/build_aave_prelude_execution.py", line 155, in <module>
+    args = p.parse_args(); build(args.compiler, args.output)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/162ea5393283/nqc/migration/nqc-miner/research/build_aave_prelude_execution.py", line 140, in build
+    result = fixture(value, raw)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/162ea5393283/nqc/migration/nqc-miner/research/build_aave_prelude_execution.py", line 114, in fixture
+    identity.check(not any(e.get('severity') == 'error' for e in out.get('errors', [])), 'prelude compiler errors')
+  File "/workspace/scratch/162ea5393283/nqc/migration/nqc-miner/research/aave_runtime_identity.py", line 49, in check
+    raise ValueError(message)
+ValueError: prelude compiler errors

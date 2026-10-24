@@ -1,0 +1,79 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/462bfc2f69c3/nqc-miner-work/migration/nqc-miner)
+error[E0407]: method `abi_decode_returns_with_config` is not a member of trait `alloy_sol_types::SolCall`
+  --> tests/aave_debt_tests.rs:9:1
+   |
+ 9 | / sol! {
+10 | |     struct HarnessInput {
+11 | |         uint256 debt; uint256 repayment; bool noCollateral;
+12 | |         uint256 index; uint256 currentScaledDebt;
+...  |
+19 | |     function calculate(HarnessInput input, bool probeRates) external returns (uint256[10]);
+20 | | }
+   | |_^ not a member of trait `alloy_sol_types::SolCall`
+   |
+   = note: this error originates in the macro `sol` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0433]: failed to resolve: could not find `AbiDecoderConfig` in `abi`
+  --> tests/aave_debt_tests.rs:9:1
+   |
+ 9 | / sol! {
+10 | |     struct HarnessInput {
+11 | |         uint256 debt; uint256 repayment; bool noCollateral;
+12 | |         uint256 index; uint256 currentScaledDebt;
+...  |
+19 | |     function calculate(HarnessInput input, bool probeRates) external returns (uint256[10]);
+20 | | }
+   | |_^ could not find `AbiDecoderConfig` in `abi`
+   |
+   = note: this error originates in the macro `sol` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0412]: cannot find type `AbiDecoderConfig` in module `alloy_sol_types::abi`
+  --> tests/aave_debt_tests.rs:9:1
+   |
+ 9 | / sol! {
+10 | |     struct HarnessInput {
+11 | |         uint256 debt; uint256 repayment; bool noCollateral;
+12 | |         uint256 index; uint256 currentScaledDebt;
+...  |
+19 | |     function calculate(HarnessInput input, bool probeRates) external returns (uint256[10]);
+20 | | }
+   | |_^ not found in `alloy_sol_types::abi`
+   |
+   = note: this error originates in the macro `sol` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0576]: cannot find method or associated constant `abi_decode_sequence_with_config` in trait `alloy_sol_types::SolType`
+  --> tests/aave_debt_tests.rs:9:1
+   |
+ 9 | / sol! {
+10 | |     struct HarnessInput {
+11 | |         uint256 debt; uint256 repayment; bool noCollateral;
+12 | |         uint256 index; uint256 currentScaledDebt;
+...  |
+19 | |     function calculate(HarnessInput input, bool probeRates) external returns (uint256[10]);
+20 | | }
+   | |_^ not found in `alloy_sol_types::SolType`
+   |
+   = note: this error originates in the macro `sol` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0599]: no function or associated item named `abi_decode_returns_with_config` found for struct `calculateCall` in the current scope
+  --> tests/aave_debt_tests.rs:9:1
+   |
+ 9 |    sol! {
+   |  __^
+   | | _|
+   | ||
+10 | ||     struct HarnessInput {
+11 | ||         uint256 debt; uint256 repayment; bool noCollateral;
+12 | ||         uint256 index; uint256 currentScaledDebt;
+...  ||
+19 | ||     function calculate(HarnessInput input, bool probeRates) external returns (uint256[10]);
+   | ||______________________- function or associated item `abi_decode_returns_with_config` not found for this struct
+20 | |  }
+   | |__^ function or associated item not found in `calculateCall`
+   |
+   = note: this error originates in the macro `sol` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+Some errors have detailed explanations: E0407, E0412, E0433, E0576, E0599.
+For more information about an error, try `rustc --explain E0407`.
+error: could not compile `nqc-miner` (test "aave_debt_tests") due to 5 previous errors
+warning: build failed, waiting for other jobs to finish...

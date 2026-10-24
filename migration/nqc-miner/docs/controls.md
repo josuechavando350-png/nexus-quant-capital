@@ -34,7 +34,19 @@ Every transition stores its input, previous state, new state, injected timestamp
 
 Historical contexts are caller-supplied claims about what was known at a transition, not independently authenticated chain snapshots or finality proofs. Replay establishes internal consistency with those claims. Hash chaining detects modifications relative to an expected journal; it is not source authentication or proof against an attacker who can replace an entire journal and its trusted tip. A trusted external checkpoint and independent source verification are required for those guarantees.
 
-## Budget accounting
+## Current gas policy
+
+The current policy is [Titan-only gas](gas-funding.md): zero operator prefunding,
+fallback, principal, collateral, guarantees or recourse. The current command
+reviews supplied execution-specific terms; it never authenticates or authorizes
+funding. The historical MXN allowance below does not apply to new plans.
+
+## Historical budget accounting (superseded)
+
+`controls::historical_own_gas` retains the former ledger for historical replay
+only. Its types are no longer exported directly from `controls`. This explicit
+import change prevents a current consumer from silently treating the old
+allowance as the current policy. No old journal or evidence bytes are rewritten.
 
 Amounts are integer MXN centavos. Defaults are zero. Planning policies cannot exceed:
 
@@ -42,7 +54,7 @@ Amounts are integer MXN centavos. Defaults are zero. Planning policies cannot ex
 - Single top-up: 50,000 centavos (MXN 500).
 - Stop with no realized capture: 100,000 centavos consumed (MXN 1,000).
 
-The limits implement prior project constraints; they do not authorize spending. `spending_enabled()` is always false. `request_spend()` always fails with `OperationalBridgeDisabled`.
+These superseded limits reproduce prior project constraints; they do not authorize spending or apply to current plans. `spending_enabled()` is always false. `request_spend()` always fails with `OperationalBridgeDisabled`.
 
 `assess_top_up()` is a numerical assessment only. Observed accounting entries are retained even when they show that a limit was exceeded, so a breach cannot be hidden by refusing to record the observation. Such entries latch a halt. A later capture cannot clear the stop requiring review.
 

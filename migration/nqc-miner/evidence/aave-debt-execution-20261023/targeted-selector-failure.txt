@@ -1,0 +1,63 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/462bfc2f69c3/nqc-miner-work/migration/nqc-miner)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.94s
+     Running tests/aave_debt_execution_tests.rs (/workspace/scratch/462bfc2f69c3/miner-target/debug/deps/aave_debt_execution_tests-17d48d7081572acf)
+
+running 7 tests
+
+thread 'callback_failures_and_reentrant_burn_attempt_revert_entire_composition' panicked at tests/aave_debt_execution_tests.rs:58:5:
+assertion `left == right` failed
+  left: "0x7a5ab45b"
+ right: String("7a5ab45b")
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test callback_failures_and_reentrant_burn_attempt_revert_entire_composition ... FAILED
+
+thread 'full_partial_zero_and_exhausted_collateral_cover_true_token_return' panicked at tests/aave_debt_execution_tests.rs:58:5:
+assertion `left == right` failed
+  left: "0x7a5ab45b"
+ right: String("7a5ab45b")
+test full_partial_zero_and_exhausted_collateral_cover_true_token_return ... FAILED
+
+thread 'later_pool_and_rate_failures_undo_successful_token_burn_and_callback' panicked at tests/aave_debt_execution_tests.rs:58:5:
+assertion `left == right` failed
+  left: "0x7a5ab45b"
+ right: String("7a5ab45b")
+test later_pool_and_rate_failures_undo_successful_token_burn_and_callback ... FAILED
+
+thread 'real_token_emits_mint_on_interest_heavy_burn_and_actual_rates_replace_quotes' panicked at tests/aave_debt_execution_tests.rs:58:5:
+assertion `left == right` failed
+  left: "0x7a5ab45b"
+ right: String("7a5ab45b")
+test real_token_emits_mint_on_interest_heavy_burn_and_actual_rates_replace_quotes ... FAILED
+
+thread 'seeded_combined_execution_covers_rounding_usage_branches_and_packed_user_state' panicked at tests/aave_debt_execution_tests.rs:58:5:
+assertion `left == right` failed
+  left: "0x7a5ab45b"
+ right: String("7a5ab45b")
+test seeded_combined_execution_covers_rounding_usage_branches_and_packed_user_state ... FAILED
+
+thread 'actual_token_only_pool_guard_and_closed_state_missing_dependencies' panicked at tests/aave_debt_execution_tests.rs:58:5:
+assertion `left == right` failed
+  left: "0x7a5ab45b"
+ right: String("7a5ab45b")
+test actual_token_only_pool_guard_and_closed_state_missing_dependencies ... FAILED
+
+thread 'token_zero_rounding_balance_supply_index_and_cast_boundaries' panicked at tests/aave_debt_execution_tests.rs:58:5:
+assertion `left == right` failed
+  left: "0x7a5ab45b"
+ right: String("7a5ab45b")
+test token_zero_rounding_balance_supply_index_and_cast_boundaries ... FAILED
+
+failures:
+
+failures:
+    actual_token_only_pool_guard_and_closed_state_missing_dependencies
+    callback_failures_and_reentrant_burn_attempt_revert_entire_composition
+    full_partial_zero_and_exhausted_collateral_cover_true_token_return
+    later_pool_and_rate_failures_undo_successful_token_burn_and_callback
+    real_token_emits_mint_on_interest_heavy_burn_and_actual_rates_replace_quotes
+    seeded_combined_execution_covers_rounding_usage_branches_and_packed_user_state
+    token_zero_rounding_balance_supply_index_and_cast_boundaries
+
+test result: FAILED. 0 passed; 7 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+error: test failed, to rerun pass `--test aave_debt_execution_tests`

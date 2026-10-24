@@ -1,0 +1,227 @@
+SET
+SET
+CREATE FUNCTION
+CREATE FUNCTION
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:27: NOTICE:  00000: MINER_PASS: dedicated_database
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:28: NOTICE:  00000: MINER_PASS: no_tcp_listener
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:29: NOTICE:  00000: MINER_PASS: durable_commit_settings
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:31: NOTICE:  00000: MINER_PASS: six_tables_owned_by_dedicated_role
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:32: NOTICE:  00000: MINER_PASS: outsider_schema_denied
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:35: NOTICE:  00000: MINER_PASS: outsider_table_access_denied
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+INSERT 0 1
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:41: NOTICE:  00000: MINER_PASS: bridge_disabled
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_sql 
+------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:42: NOTICE:  00000: MINER_PASS: signing_disabled
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_sql 
+------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:43: NOTICE:  00000: MINER_PASS: notifications_disabled
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_sql 
+------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:44: NOTICE:  00000: MINER_PASS: kms_disabled
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_sql 
+------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:45: NOTICE:  00000: MINER_PASS: spending_disabled
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_sql 
+------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:46: NOTICE:  00000: MINER_PASS: unknown_class_rejected
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_sql 
+------------
+ 
+(1 row)
+
+BEGIN
+INSERT 0 1
+INSERT 0 1
+COMMIT
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:55: NOTICE:  00000: MINER_PASS: ledger_outbox_commit
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:57: NOTICE:  00000: MINER_PASS: exact_binary_bytes
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:58: NOTICE:  00000: MINER_PASS: duplicate_ledger_rejected
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_sql 
+------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:59: NOTICE:  00000: MINER_PASS: duplicate_outbox_rejected
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_sql 
+------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:60: NOTICE:  00000: MINER_PASS: foreign_owner_rejected
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_sql 
+------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:61: NOTICE:  00000: MINER_PASS: negative_sequence_rejected
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_sql 
+------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:62: NOTICE:  00000: MINER_PASS: sequence_overflow_rejected
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_sql 
+------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:63: NOTICE:  00000: MINER_PASS: outbox_foreign_envelope_rejected
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_sql 
+------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:64: NOTICE:  00000: MINER_PASS: cross_class_topic_rejected
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_sql 
+------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:65: NOTICE:  00000: MINER_PASS: foreign_message_key_rejected
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_sql 
+------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:66: NOTICE:  00000: MINER_PASS: relay_disabled
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_sql 
+------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:67: NOTICE:  00000: MINER_PASS: delivery_ack_disabled
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_sql 
+------------
+ 
+(1 row)
+
+DO
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:83: NOTICE:  00000: MINER_PASS: failed_outbox_rolls_back_ledger
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+BEGIN
+INSERT 0 1
+INSERT 0 1
+ROLLBACK
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:93: NOTICE:  00000: MINER_PASS: explicit_transaction_rollback
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+INSERT 0 1
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:97: NOTICE:  00000: MINER_PASS: active_state_unavailable
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_sql 
+------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:98: NOTICE:  00000: MINER_PASS: watched_state_unavailable
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_sql 
+------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:99: NOTICE:  00000: MINER_PASS: cross_class_registry_rejected
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_sql 
+------------
+ 
+(1 row)
+
+GRANT
+GRANT
+psql:/data/data/com.termux/files/home/nqc-miner-check.rqvdKm/evidence/cases.sql:107: NOTICE:  00000: MINER_PASS: writer_privileges_append_only
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+

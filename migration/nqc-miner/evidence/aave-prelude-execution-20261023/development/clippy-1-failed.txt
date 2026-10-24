@@ -1,0 +1,28 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/162ea5393283/nqc/migration/nqc-miner)
+error: calling `as_bytes` after slicing a string
+   --> tests/support/aave_prelude_execution.rs:167:5
+    |
+167 | /     out.output[2..]
+168 | |         .as_bytes()
+    | |___________________^ help: try: `&out.output.as_bytes()[2..]`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#sliced_string_as_bytes
+    = note: `-D clippy::sliced-string-as-bytes` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::sliced_string_as_bytes)]`
+
+error: field assignment outside of initializer for an instance created with Default::default()
+   --> tests/support/aave_prelude_execution.rs:398:13
+    |
+398 |             c.health = U256::MAX;
+    |             ^^^^^^^^^^^^^^^^^^^^^
+    |
+note: consider initializing the variable with `rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::PreludeCase { health: U256::MAX, ..Default::default() }` and removing relevant reassignments
+   --> tests/support/aave_prelude_execution.rs:397:13
+    |
+397 |             let mut c = PreludeCase::default();
+    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#field_reassign_with_default
+    = note: `-D clippy::field-reassign-with-default` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::field_reassign_with_default)]`
+
+error: could not compile `nqc-miner` (test "aave_debt_execution_tests") due to 2 previous errors

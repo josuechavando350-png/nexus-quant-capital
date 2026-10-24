@@ -14,12 +14,21 @@ Los datos usan exclusivamente el espacio `nqc_miner_v1`. Cada ejecución tiene d
 
 - Decodificación estricta de nacimientos y liquidaciones de Morpho Blue, y eventos de reservas/liquidaciones de Aave V3, con Alloy. La coincidencia ABI produce candidatos, nunca certificación de contratos.
 - Ingesta finita en Rust desde dos o más proveedores RPC, verificando cadena, bloques finalizados, acuerdo de eventos y continuidad de checkpoints. No hay métodos de firma ni envío de transacciones.
+- Recolector histórico por ventanas con reinicio, espera de finalización y cuarentena de colección; [operación y límites](docs/collector.md).
 - Journal durable con hashes, deduplicación, reanudación y cuarentena por cambios de cadena. Los lotes provisionales y los escaneos incompletos no se presentan como cobertura completa.
 - Saturación y cobertura limitadas al universo declarado. Elegibilidad, propinas y precios ausentes permanecen desconocidos. Descubrir una mina después no mejora retroactivamente su cobertura.
+- Medición auxiliar de gas Ethereum con enteros exactos, vínculo al journal y coste único por transacción; [contrato y límites](docs/gas-measurement.md). La muestra retenida mide dos transacciones y conserva una tercera pendiente; no certifica rentabilidad.
+- Lectura histórica de salud y precios Aave ligada a hashes de bloques y acuerdo de proveedores; [contrato y límites](docs/aave-historical-state.md). Hay 48 estados previos auditados de los tres eventos originales; no demuestran elegibilidad ejecutable.
+- Cálculos offline de condiciones iniciales, importes de liquidación e [índices y saldos escalados Aave](docs/aave-reserve-projection.md), contrastados con Solidity. Reciben entradas suministradas y todavía no componen una certificación de liquidación completa.
+- [Consumo de colateral escalado y comisión final Aave](docs/aave-collateral.md): contempla redondeos separados y el saldo posterior suministrado; no ejecuta transferencias del token.
+- [Quema de deuda y déficit Aave](docs/aave-debt.md): comprueba contabilidad de deuda, indicador de préstamo, argumentos de tasas y liquidez virtual con respuestas externas suministradas.
+- [Identidad histórica de tokens y estrategia](docs/aave-dependencies.md): recompilación exacta de las implementaciones y comparación con dos proveedores en tres bloques; estado y ejecución externa siguen pendientes.
+- [Ejecución conjunta de deuda](docs/aave-debt-execution.md): función original del Pool, token de deuda y estrategia reales ejecutados juntos sobre estado sintético, con rollback y callbacks comprobados.
 - Valuación condicional mediante bootstrap de economía diaria, con semillas reproducibles, escenarios, percentiles y costes de intentos fallidos. No sustituye una simulación completa de precios y ejecución.
 - Simulación local con REVM sobre un estado cerrado suministrado: las cuentas, slots o hashes de ancestros ausentes causan error. No se completan consultando un RPC ni suponiendo ceros.
 - Controles de ciclo de vida, caducidad, toxicidad, pruebas de adaptadores y presupuesto; asignación preparatoria por Thompson sampling.
 - Primitivas de timelocks, intereses Morpho bajo supuestos explícitos, vencimientos, similitud de bytecode, grafos heurísticos e incentivos.
+- Archivo local de colecciones con publicación atómica, snapshots verificados y propagación explícita de cuarentena; [operación y límites](docs/archive.md).
 - Exportación local a Parquet con Polars, comprobación por el verificador Rust y conservación exacta de los registros originales.
 - Pipeline de investigación LightGBM con contribuciones TreeSHAP, vinculación de fuentes y validación temporal. Sus pruebas entrenan fixtures artificiales, sin afirmar capacidad predictiva económica.
 
@@ -65,10 +74,19 @@ en [docs/infrastructure.md](docs/infrastructure.md).
 
 ```bash
 nqc-miner about
+nqc-miner assess-gas-funding --input fixtures/gas_funding.synthetic.json
 nqc-miner topics
 nqc-miner validate-config --config /ruta/miner-config.json
+nqc-miner validate-aave-plan --config /ruta/miner-config.json --plan /ruta/plan.json
+nqc-miner read-aave-state --config /ruta/miner-config.json --plan /ruta/plan.json
+nqc-miner project-aave-reserve --input /ruta/reserva.json
+nqc-miner calculate-aave-amounts --input /ruta/importes.json
+nqc-miner calculate-aave-collateral --input /ruta/colateral.json
+nqc-miner calculate-aave-debt --input /ruta/deuda.json
 nqc-miner scan --config /ruta/miner-config.json --state /ruta/nueva/nqc-miner-run
 nqc-miner verify-journal --state /ruta/nqc-miner-run
+nqc-miner follow --config /ruta/miner-plan.json --state /ruta/nueva/coleccion --max-polls 2
+nqc-miner verify-collector --config /ruta/miner-plan.json --state /ruta/coleccion
 nqc-miner report --config /ruta/miner-config.json --state /ruta/nqc-miner-run
 nqc-miner report --config /ruta/miner-config.json --state /ruta/nqc-miner-run --prometheus
 nqc-miner value --input fixtures/valuation.synthetic.json
@@ -84,7 +102,9 @@ El comando `report` sin un registro prospectivo de vigilancia no atribuye detecc
 
 El presupuesto activo de esta entrega es **cero**. `scan` no admite presupuesto de gas. No hay firmante, KMS, broadcast, alertas enviadas ni aprobaciones utilizables para operar.
 
-El módulo preparatorio de presupuesto conserva los límites históricos indicados por el usuario: MXN 2,000 de gas total, recargas máximas de MXN 500 y parada a MXN 1,000 consumidos sin captura realizada. No se ha autorizado ni ejecutado ninguna recarga. Las cifras se expresan como enteros en centavos; los resultados simulados no financian nada.
+La política vigente exige **gas de Titan y cero aportación propia**: no se permiten prefondo de gas, fallback, principal, colateral, garantías ni recurso contra el operador. Los límites anteriores de MXN 2,000/500/1,000 quedan únicamente en el módulo de contabilidad histórica `controls::historical_own_gas`; ya no son la política actual.
+
+El comando [assess-gas-funding](docs/gas-funding.md) revisa términos suministrados por ejecución: bundle, cadena, código, bloque, vigencia y límites para éxito y fallo. Un anuncio general, una simulación o un dato ausente no demuestra cobertura. Incluso términos consistentes conservan `execution_gas_coverage_verified=false`: la identidad del patrocinador y su compromiso concreto todavía deben autenticarse. No activa fondos ni minas.
 
 ## Qué falta para cerrar el PDF
 
@@ -93,3 +113,124 @@ La salida de fase A exige mediciones completas y calibradas en dos o tres cadena
 Persisten integraciones de infraestructura, fuentes históricas suficientes, certificación diferencial de protocolos y validación económica. Los estados `Active` y `Watched` están representados, pero son inalcanzables en este binario. Ningún porcentaje de implementación equivale a una garantía de ganancias o ausencia total de defectos.
 
 Consulta [docs/progress.json](docs/progress.json) para el denominador de progreso y [docs/AUDIT.md](docs/AUDIT.md) para la evidencia de verificación.
+
+La [auditoría del lector histórico Aave](docs/AUDIT_AAVE_STATE_20261023.md)
+registra **167 pruebas Rust y 242 Python aprobadas**, además de la revisión de
+las respuestas públicas y su vínculo con el journal original. Avance: **43/100**.
+
+## Captura durable de una lectura acotada
+
+La continuación auditada se documenta en [docs/AUDIT_CONTINUATION_20261022.md](docs/AUDIT_CONTINUATION_20261022.md).
+`scripts/capture_run.py` vincula una plantilla v2 a un binario limpio, valida la
+configuración, limita el tiempo de lectura y conserva también los intentos fallidos.
+Después verifica el journal, genera el informe y compara los hashes del binario.
+Solo declara la muestra completa si coinciden propietario, build y todos los
+ámbitos previstos. La configuración se publica una sola vez, sin seguir enlaces
+simbólicos ni sobrescribir a otro escritor.
+
+```bash
+python3 scripts/capture_run.py \
+  --binary /ruta/absoluta/nqc-miner \
+  --template evidence/capture-plan-v2-20261022/config.template.json \
+  --output /ruta/nueva/miner-capture \
+  --timeout-seconds 600 --transport-context public_rpc
+```
+
+Usa un `run_id` nuevo para cada captura. Los endpoints se suministran mediante las
+variables propias de la plantilla; el capturador no registra sus valores.
+Los exports Parquet admiten propietarios v1 históricos y v2, preservando su
+identidad de compilación y los bytes originales. El puente continúa desactivado.
+
+La auditoría más reciente del recolector está en [docs/AUDIT_COLLECTOR_20261022.md](docs/AUDIT_COLLECTOR_20261022.md): 39/100, 155 pruebas Rust y 69 Python, captura histórica con reinicio y exports verificados.
+
+El bloque de archivo local está en [docs/AUDIT_ARCHIVE_20261022.md](docs/AUDIT_ARCHIVE_20261022.md): 40/100, 155 pruebas Rust y 91 Python, archivo local v2 con recuperación y revocación verificadas.
+
+La auditoría base PostgreSQL está en [docs/AUDIT_POSTGRES_TERMUX_20261022.md](docs/AUDIT_POSTGRES_TERMUX_20261022.md), conservada como evidencia histórica de 41/100.
+
+Estado actual: **43/100**. La [importación de colecciones completas](docs/postgres-collection.md) pasó la [auditoría runtime en Termux](docs/AUDIT_COLLECTION_TERMUX_20261022.md): 33 comprobaciones SQL, permisos, concurrencia, rollback/reintento, revocaciones, bytes originales y reinicio verificados. La suite de ese bloque pasó **160 pruebas Python**. La instancia de prueba terminó apagada; siguen pendientes conexión operacional del recolector e integración remota.
+
+La [auditoría individual anterior](docs/AUDIT_IMPORT_TERMUX_20261022.md) conserva su corte de 42/100 y 35 comprobaciones SQL. El [runner de colecciones](docs/termux-collection.md) y el archivo original permiten reproducir el experimento artificial. Observador, firma y gasto permanecen desactivados.
+
+La [prueba nativa del cliente PostgreSQL](docs/AUDIT_SYNC_TERMUX_20261022.md)
+ya está auditada: **17 comprobaciones, 16 intentos, 74 hashes**, recuperación de
+acuse perdido, timeout antes de COMMIT, permisos, revocaciones y restart.
+
+El [coordinador de recolección y sincronización](docs/collector-worker.md) ya une
+los componentes locales con recuperación previa, ejecución acotada, exclusión de
+trabajadores y conservación de intentos inciertos. **16 pruebas del coordinador**
+usan Rust/Polars y locks reales con RPC/SQL modelados; la ejecución integral del
+coordinador con servicios reales sigue pendiente. Auditoría del bloque en
+[docs/AUDIT_WORKER_PREFLIGHT_20261022.md](docs/AUDIT_WORKER_PREFLIGHT_20261022.md).
+
+El [plan de cierre](docs/closure-plan.json) conserva los **57 puntos restantes**
+y sus criterios originales. No se han reponderado para declarar 100% a partir de
+código o fixtures: exige desarrollo e integración pendientes, mediciones reales,
+Shadow prospectivo, certificación de adaptadores y operación expresamente aprobada.
+
+The [audited token-proxy execution](docs/aave-token-proxy-execution.md) replaces the synthetic forwarder for one verified proxy family while retaining synthetic execution-state limits.
+
+The [actual rewards execution](docs/aave-rewards-execution.md) covers the real rewards proxy/controller and the remaining token-proxy family, while balances and distributions remain synthetic.
+
+Actual aToken transfer composition: [scope and reproduction](docs/aave-transfer-execution.md), [audit](docs/AUDIT_AAVE_TRANSFER_EXECUTION_20261023.md).
+
+Underlying WETH execution: [scope and metadata gap](docs/aave-underlying-execution.md), [audit](docs/AUDIT_AAVE_UNDERLYING_EXECUTION_20261023.md).
+
+Auditoría vigente de política de gas: [Titan por ejecución](docs/AUDIT_TITAN_GAS_POLICY_20261023.md), **589 pruebas aprobadas (249 Rust + 340 Python)** sobre la misma fuente tras restaurar objetos Git históricos. Se conservan el intento inicial fallido y una repetición interrumpida. Avance **43/100**, sin cobertura de patrocinio ni operación certificada.
+
+Cobro USDC tras entregar WETH: [alcance y reproducción](docs/aave-payment-execution.md),
+[auditoría](docs/AUDIT_AAVE_PAYMENT_EXECUTION_20261023.md). **614 pruebas aprobadas
+(259 Rust + 355 Python)**; rollback completo ante fallos de pago. Código observado
+de USDC y proxy ejecutado sobre estado artificial, con diferencias de metadata
+explícitas. Política Titan intacta; avance **43/100**, sin certificación histórica
+completa ni autorización de gasto.
+
+Ambas rutas de colateral con cobro USDC: [alcance](docs/aave-delivery-execution.md)
+y [auditoría](docs/AUDIT_AAVE_DELIVERY_EXECUTION_20261023.md). **632 pruebas
+aprobadas (268 Rust + 364 Python)**. Una misma envoltura ejecuta el if/else original:
+recibir aTokens conserva oferta y no necesita WETH; recibir WETH conserva la
+ejecución anterior. Ambas revierten todos los efectos si falla el pago. Estado
+artificial, política Titan intacta y avance **43/100**, sin crédito adicional de fase.
+
+Reservas y validación inicial integradas: [alcance](docs/aave-prelude-execution.md)
+y [auditoría](docs/AUDIT_AAVE_PRELUDE_EXECUTION_20261023.md). **647 pruebas
+aprobadas (275 Rust + 372 Python)**. Ambas reservas actualizan índices/tesorería
+y derivan saldos desde los tokens antes del validador original y las dos rutas
+de entrega/pago. Salud agregada e importes siguen suministrados; estado artificial,
+política Titan intacta y avance **43/100**, sin certificación histórica completa.
+
+Importes originales integrados con ambas rutas: [alcance](docs/aave-sizing-execution.md)
+y [auditoría](docs/AUDIT_AAVE_SIZING_EXECUTION_20261023.md). **662 pruebas aprobadas
+(282 Rust + 380 Python)**. Factor de cierre, bonificación, comisión, límite de
+colateral y remanentes calculados alimentan quema/entrega/pago. Salud, precios y
+totales agregados siguen suministrados; solo eMode cero. Estado artificial,
+política Titan intacta y avance **43/100**, sin crédito de fase ni gasto real.
+
+Salud y eMode originales integrados: [alcance](docs/aave-account-execution.md) y
+[auditoría](docs/AUDIT_AAVE_ACCOUNT_EXECUTION_20261023.md). **679 pruebas aprobadas
+(291 Rust + 388 Python)**. GenericLogic deriva totales y salud para las dos reservas;
+eMode y llamadas de precio alimentan ambas rutas de entrega/pago. El oráculo y su
+estado son explícitamente sintéticos: precios históricos aún no autenticados.
+Política Titan intacta, avance **43/100**, sin crédito de fase ni gasto real.
+
+AaveOracle observado integrado: [alcance](docs/aave-oracle-execution.md) y
+[auditoría](docs/AUDIT_AAVE_ORACLE_EXECUTION_20261023.md). **698 pruebas aprobadas
+(298 Rust + 400 Python)**. Sus 3405 bytes, incluida metadata, coinciden con la
+recompilación y dos proveedores en tres bloques. Captura acotada de 144 lecturas;
+fuentes y fallback de precios aún simulados, frescura/preestado no autenticados.
+Política Titan intacta, avance **43/100**, sin crédito de fase ni gasto real.
+
+Proxy observado de la fuente WETH integrado: [alcance](docs/aave-weth-feed-execution.md)
+y [auditoría](docs/AUDIT_AAVE_WETH_FEED_EXECUTION_20261023.md). **718 pruebas aprobadas
+(307 Rust + 411 Python)**. Sus 9571 bytes coinciden íntegramente con recompilación
+y dos proveedores en tres bloques. La captura conserva la identidad del proxy
+porque el agregado puede devolver otro precio a un llamante directo. Agregado,
+fuente USDC y estado siguen simulados; frescura/preestado no autenticados. Política
+Titan intacta, avance **43/100**, sin crédito de fase ni gasto real.
+
+DualAggregator WETH observado integrado: [alcance](docs/aave-dual-aggregator-execution.md)
+y [auditoría](docs/AUDIT_AAVE_DUAL_AGGREGATOR_EXECUTION_20261023.md). **740 pruebas
+aprobadas (317 Rust + 423 Python)**. Sus 23186 bytes coinciden íntegramente con
+recompilación y dos proveedores en tres bloques. Nueve lecturas locales reproducen
+rondas/precios usando slots observados; el entorno no autentica el estado de
+Ethereum ni frescura. La liquidación y fuente USDC conservan estado suministrado.
+Gas exclusivo de Titan, avance **43/100**, sin gasto o crédito de fase.

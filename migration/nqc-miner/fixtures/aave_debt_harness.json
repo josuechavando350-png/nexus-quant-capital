@@ -1,0 +1,419 @@
+{
+  "activation_allowed": false,
+  "compiler_input_sha256": "2651346b71196825e69ee66f14dad63e90eb1ca23038ff9b50efe9db77a63c3b",
+  "compiler_output_sha256": "9a65c1250d9a0dffe26bd4bfc8950e052f5a3702fb52a6791a64219bffc04b02",
+  "compiler_sha256": "b9977d500c17cba6f0032ca939ef98c4decf6363f19f386d05fb02f708115264",
+  "compiler_version": "0.8.27+commit.40a35a09",
+  "dynamic_bytes_slots": [
+    15,
+    19
+  ],
+  "dynamic_bytes_zero_words_per_root": 128,
+  "executable_eligibility_verified": false,
+  "explicit_zero_slots": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22
+  ],
+  "external_outcomes_supplied": true,
+  "harness_source_sha256": "884f4ab4875e35c5408c3ebe4d19f94d4f984ac58183d72e569d20bc836ea054",
+  "kind": "synthetic_fixture",
+  "original_sources": {
+    "lib/aave-helpers/lib/aave-address-book/lib/aave-v3-origin/lib/solidity-utils/lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol": "30edf7394bab78d48b7db3a059248e1ea7c2c77d2ec0e37a13bb91415aafbe5a",
+    "lib/aave-helpers/lib/aave-address-book/lib/aave-v3-origin/lib/solidity-utils/lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/contracts/utils/Address.sol": "8228692ef1ccb4cfe5b7cc58324cadd06045e10e386185f9e4d45173d6d6c633",
+    "lib/aave-helpers/lib/aave-address-book/lib/aave-v3-origin/lib/solidity-utils/lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/contracts/utils/Context.sol": "847fda5460fee70f56f4200f59b82ae622bb03c79c77e67af010e31b7e2cc5b6",
+    "lib/aave-helpers/lib/aave-address-book/lib/aave-v3-origin/lib/solidity-utils/lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/contracts/utils/Errors.sol": "0704b9d6c032cca8512a3bc3f30f49f86f1f03102d2896a3d23e794b82efea66",
+    "lib/aave-helpers/lib/aave-address-book/lib/aave-v3-origin/lib/solidity-utils/lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/contracts/utils/Multicall.sol": "1f9eaa29689a4810ac91bebef305b700e7d0b387d12de41caa6209ed37435b89",
+    "lib/aave-helpers/lib/aave-address-book/lib/aave-v3-origin/lib/solidity-utils/lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/contracts/utils/math/SafeCast.sol": "9769274bf53f26a7c7896c526ea1980dc9bea5bf5c2a5fd04870008c4afc1de9",
+    "lib/aave-v3-origin-private/src/contracts/dependencies/gnosis/contracts/GPv2SafeERC20.sol": "f0ad28730616718a0d86eaebdaf1935ebdafcbf0fb4df4385cfac07c4515c02c",
+    "lib/aave-v3-origin-private/src/contracts/dependencies/openzeppelin/contracts/Address.sol": "1cb950c9d451fa88a3fcbec365945024eb7af7d100b240e7ae6ff6b89294188b",
+    "lib/aave-v3-origin-private/src/contracts/instances/PoolInstance.sol": "0062f84b7d8597fc9d25853a73fff8100e41cc9d6d3bc51b5571d15c1ae4c918",
+    "lib/aave-v3-origin-private/src/contracts/interfaces/IACLManager.sol": "079fec6a41263f1794fe150ef72afe3a91206a0e747b08e089a68241054c556a",
+    "lib/aave-v3-origin-private/src/contracts/interfaces/IAToken.sol": "d469a2379e46863f10835a93d4fadff7b75012352e65efc6de5d9c19de9cf665",
+    "lib/aave-v3-origin-private/src/contracts/interfaces/IERC20WithPermit.sol": "a171a6516109f7c0ba287460aa03ad5f88582182f0b15b6c27b96c7fb0587cef",
+    "lib/aave-v3-origin-private/src/contracts/interfaces/IInitializableAToken.sol": "314516bf207b02544a3bf78d9f572b91ad69de57f472a25bdc263e82eec8fef0",
+    "lib/aave-v3-origin-private/src/contracts/interfaces/IInitializableDebtToken.sol": "2de2252df825dbe518b1ab79507e937784a1e0e6b3ce80c45eae837a3ed10d5c",
+    "lib/aave-v3-origin-private/src/contracts/interfaces/IPool.sol": "ee58bacafc0b033adeaf673da3b08130d9f3a9a3eb563f7f19a03240e488eba7",
+    "lib/aave-v3-origin-private/src/contracts/interfaces/IPoolAddressesProvider.sol": "6a44f3a913093d62dd072d1691cf605a76262f56da42cbecdcf80607d8aeef94",
+    "lib/aave-v3-origin-private/src/contracts/interfaces/IPriceOracleGetter.sol": "9bd6289493f501da6c097bedc6a01c69ea67eec5b15e644c585006452354580b",
+    "lib/aave-v3-origin-private/src/contracts/interfaces/IReserveInterestRateStrategy.sol": "e41e6d44206136dbba842ba00a24e7269ab9640fe81d44b1a51592b5a31b500e",
+    "lib/aave-v3-origin-private/src/contracts/interfaces/IScaledBalanceToken.sol": "ff2163d0ce74219b0df0211a1684d042aa6e545a01df5a78cef796673711b278",
+    "lib/aave-v3-origin-private/src/contracts/interfaces/IVariableDebtToken.sol": "0eec64cb5200a1a2fe2b4cdffa1716a00d132ddd0e3f1f709096f4996b7583c8",
+    "lib/aave-v3-origin-private/src/contracts/misc/aave-upgradeability/VersionedInitializable.sol": "e948550a169e8060c75a55f9c003b80b7db4fbb6715723caa24be6f022f57ba3",
+    "lib/aave-v3-origin-private/src/contracts/misc/flashloan/interfaces/IFlashLoanReceiver.sol": "1a0594fad068a04caf68d224954627dcc16f6ebcac9af8bf8a8eb1aadf7bc755",
+    "lib/aave-v3-origin-private/src/contracts/misc/flashloan/interfaces/IFlashLoanSimpleReceiver.sol": "ce956d7975d0bdb4b3f62596a58ffb4f60d2cba8d1d301ff1e5b2e424e2c78c5",
+    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/configuration/EModeConfiguration.sol": "45c6e5140676fe39e4da32c3a77b4578862c72547ca48bc703f891bf592c8b9f",
+    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/configuration/ReserveConfiguration.sol": "2c8bc42461625030d09ff1f82a2d0ff4ddb0843c633fe1f0c514998ce6ee422e",
+    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/configuration/UserConfiguration.sol": "1cb5d65909b7e2d1c9fceb190d0e766a9a136454c62eec6fff63ee770052344c",
+    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/helpers/Errors.sol": "3fcb25a17432c5787cb09e318a5f799ba9e87f890cc66b75f0a61ba3116c1e02",
+    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/helpers/TokenMath.sol": "11ef1a7ea98b3fe23ff54a0de7b70e53a637ec40d74a7babcf3db89476d3c859",
+    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/logic/BorrowLogic.sol": "daf57b87b1f9b669b7103c156ac6ae192b31ec74a60d57dc69e63730345d30bc",
+    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/logic/FlashLoanLogic.sol": "90df1fdadaa7702316e2847faa0ff99d36c27e56974a9d7abf393ece3e387b0c",
+    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/logic/GenericLogic.sol": "4b18019505e4fbfab2624f371f28946557588c22f5c51e331fd2595613ba516d",
+    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/logic/LiquidationLogic.sol": "385c9761118ac72a443698b7b03749a60b0aa52f7b8d24478a979795afbcf9a0",
+    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/logic/PoolLogic.sol": "1033a6ef0d1031f5e165faf7d3a912316310af7c37ac395379e3fbd2f8ca88d9",
+    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/logic/ReserveLogic.sol": "1c32cb87bbc151310f151b9a3636086ecf6adfdc78610f4bf5b69e3299221d1a",
+    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/logic/SupplyLogic.sol": "51a8ed9ed08bbe673809dd09af698f8a3f8de1f4aef9c83a04ae2fcfa62161a6",
+    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/logic/ValidationLogic.sol": "0bfb51e54f0a8589fbf24bbc03046b12ee6f189641b7a2a6f1b2874acbb2bb45",
+    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/math/MathUtils.sol": "92f6bc251d3ffb59eb2b338ae0a96da56016e2d37799b3587a34c943e39fa7b4",
+    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/math/PercentageMath.sol": "26133fc790a19ad46e56a57e3698c1f03f651017fdeca13dcc808647c07b9e7f",
+    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/math/WadRayMath.sol": "5155df4a005cb2e2901ae6752b3a30d57eb900eb91d2cd1bad0b9e12837c0d41",
+    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/types/DataTypes.sol": "fe0d923f73941f9dd674bbad4533379e2451fd04518bcd7bb6b3c14e57c49db1",
+    "lib/aave-v3-origin-private/src/contracts/protocol/pool/Pool.sol": "ec6dbae72f43777446d8320f94eccbc6ae1dbe5daf1942502264bf0e35ef00fc",
+    "lib/aave-v3-origin-private/src/contracts/protocol/pool/PoolStorage.sol": "4433c66e52cb7e419da3dd523e6cbf324e87c2baaaa3c752f2b10513b7e147d2"
+  },
+  "rate_strategy_verified": false,
+  "reference_function": "LiquidationLogic._burnDebtTokens",
+  "reference_runtime_audit": "evidence/aave-compiled-identity-20261023/local/audit.json",
+  "runtime_code": "0x608060405234801561000f575f5ffd5b506004361061003f575f3560e01c8063b7dc9cec14610043578063b90db31b1461006c578063f5298aca14610094575b5f5ffd5b610056610051366004610b7d565b6100be565b6040516100639190610d08565b60405180910390f35b61007f61007a366004610d4f565b61030f565b60408051928352602083019190915201610063565b6100a76100a2366004610dcd565b6103f1565b604080519215158352602083019190915201610063565b6100c66109b9565b60e083015160038054610100860151600880546001600160801b03928316600160801b0290831617905561012087015161ffff16600160a81b0276ffff0000000000ffffffffffffffffffffffffffffffff19909216931692909217919091179055610140830151600a55600b805460ff199081169091555f600c556060840151600d556101c0840151600e8054911515919092161790556101e0830151600f906101719082610e81565b5060a08301516010805491151560ff1992831617905560c084015160115561020084015160128054911515919092161790556102208301516013906101b69082610e81565b506101808301516014556101a08301516015556016805460ff19168315151790556101df6109d8565b608084015160208083019190915260608086015160a08401526b033b2e3c9fd0803ce800000090830152610160808601516101008401523090830181905285519186015160408701516102449385935f93600a9361cafe9361d00d93909291906104a2565b604080516101408101909152600b54819060ff16610262575f610265565b60015b60ff168152602001600c548152602001826020015181526020018560200151865f01516102929190610f50565b81526003546001600160801b039081166020830152600a546040830152600854600160801b908190048216606084015260015481900482166080840152600254041660a0820152600b5460c09091019060ff1615806102f3575060105460ff165b6102fd575f610300565b60015b60ff1690529150505b92915050565b6012545f90819060ff16156103af576103af6013805461032e90610dfd565b80601f016020809104026020016040519081016040528092919081815260200182805461035a90610dfd565b80156103a55780601f1061037c576101008083540402835291602001916103a5565b820191905f5260205f20905b81548152906001019060200180831161038857829003601f168201915b5050505050610659565b60165460ff16156103e2576103e2836040516020016103ce9190610f63565b604051602081830303815290604052610659565b60145460155491509150915091565b5f806001600160a01b03851661cafe14801561040e5750600d5483145b61045f5760405162461bcd60e51b815260206004820152601960248201527f756e6578706563746564206275726e20617267756d656e74730000000000000060448201526064015b60405180910390fd5b600b805460ff19166001179055600c849055600e5460ff161561048c5761048c600f805461032e90610dfd565b505060105460115460ff90911690935093915050565b60018415610567575f836104b657846104b8565b855b90508a61016001516001600160a01b031663f5298aca896104e68e60a001518561066190919063ffffffff16565b60a08f01516040516001600160e01b031960e086901b1681526001600160a01b0390931660048401526024830191909152604482015260640160408051808303815f875af115801561053a573d5f5f3e3d5ffd5b505050506040513d601f19601f8201168201806040525081019061055e9190610fc2565b60208d01529150505b5f6105728587610f50565b905083801561058057508015155b1561061c5761058e81610673565b60038b0180545f906105aa9084906001600160801b0316610fee565b92506101000a8154816001600160801b0302191690836001600160801b03160217905550866001600160a01b0316886001600160a01b03167f2bccfb3fad376d59d7accf970515eb77b2f27b082c90ed0fb15583dd5a9426998360405161061391815260200190565b60405180910390a35b811561063e5760038a015461063e908a90600160a81b900461ffff165f6106aa565b61064c8a8c89885f886106f0565b5050505050505050505050565b805160208201fd5b5f61066c8383610949565b9392505050565b5f6001600160801b038211156106a6576040516306dfcc6560e41b81526080600482015260248101839052604401610456565b5090565b608082106106cb576040516385e98beb60e01b815260040160405180910390fd5b600182811b1b81156106e2578354811784556106ea565b835481191684555b50505050565b5f61070c8660a00151876020015161098490919063ffffffff16565b60408051610100808201835260038b01546001600160801b0390811683526020830189905282840188905260608301859052908a015160808301526001600160a01b0389811660a0840152600160c084015260088c0154600160801b900490911660e0830152915163b90db31b60e01b81529293505f92839286169163b90db31b9161079b9190600401610f63565b6040805180830381865afa1580156107b5573d5f5f3e3d5ffd5b505050506040513d601f19601f820116820180604052508101906107d9919061100d565b915091506107e682610673565b60018a0180546001600160801b03928316600160801b02921691909117905561080e81610673565b60028a0180546001600160801b03928316600160801b02921691909117905585156108855761083c86610673565b60088a018054601090610860908490600160801b90046001600160801b0316610fee565b92506101000a8154816001600160801b0302191690836001600160801b031602179055505b84156108dd5761089485610673565b60088a0180546010906108b8908490600160801b90046001600160801b031661102f565b92506101000a8154816001600160801b0302191690836001600160801b031602179055505b60608881015160a0808b0151604080518781525f602082015280820187905294850193909352608084015290516001600160a01b038a16927f804c9b842b2748a22bb64b345453a3de7ca54a6ca45ce00d415894979e22897a92908290030190a2505050505050505050565b5f8115744f3a68dbc8f03f243baf513267aa9a3ee524f8e0288411171561096e575f5ffd5b506b033b2e3c9fd0803ce8000000919091020490565b5f61066c83835f815f190483111582151761099d575f5ffd5b506b033b2e3c9fd0803ce8000000910281810491900615150190565b604051806101400160405280600a906020820280368337509192915050565b604051806101a001604052805f81526020015f81526020015f81526020015f81526020015f81526020015f81526020015f81526020015f81526020015f8152602001610a2f60405180602001604052805f81525090565b81525f602082018190526040820181905260609091015290565b634e487b7160e01b5f52604160045260245ffd5b604051610240810167ffffffffffffffff81118282101715610a8157610a81610a49565b60405290565b604051610100810167ffffffffffffffff81118282101715610a8157610a81610a49565b8015158114610ab8575f5ffd5b50565b8035610ac681610aab565b919050565b80356001600160801b0381168114610ac6575f5ffd5b803561ffff81168114610ac6575f5ffd5b5f82601f830112610b01575f5ffd5b813567ffffffffffffffff811115610b1b57610b1b610a49565b604051601f8201601f19908116603f0116810167ffffffffffffffff81118282101715610b4a57610b4a610a49565b604052818152838201602001851015610b61575f5ffd5b816020850160208301375f918101602001919091529392505050565b5f5f60408385031215610b8e575f5ffd5b823567ffffffffffffffff811115610ba4575f5ffd5b83016102408186031215610bb6575f5ffd5b610bbe610a5d565b8135815260208083013590820152610bd860408301610abb565b60408201526060828101359082015260808083013590820152610bfd60a08301610abb565b60a082015260c08281013590820152610c1860e08301610acb565b60e0820152610c2a6101008301610acb565b610100820152610c3d6101208301610ae1565b6101208201526101408281013590820152610160808301359082015261018080830135908201526101a08083013590820152610c7c6101c08301610abb565b6101c08201526101e082013567ffffffffffffffff811115610c9c575f5ffd5b610ca887828501610af2565b6101e083015250610cbc6102008301610abb565b61020082015261022082013567ffffffffffffffff811115610cdc575f5ffd5b610ce887828501610af2565b610220830152509250610cff905060208401610abb565b90509250929050565b610140810181835f5b600a811015610d30578151835260209283019290910190600101610d11565b50505092915050565b80356001600160a01b0381168114610ac6575f5ffd5b5f610100828403128015610d61575f5ffd5b50610d6a610a87565b8235815260208084013590820152604080840135908201526060808401359082015260808084013590820152610da260a08401610d39565b60a082015260c0830135610db581610aab565b60c082015260e0928301359281019290925250919050565b5f5f5f60608486031215610ddf575f5ffd5b610de884610d39565b95602085013595506040909401359392505050565b600181811c90821680610e1157607f821691505b602082108103610e2f57634e487b7160e01b5f52602260045260245ffd5b50919050565b601f821115610e7c57805f5260205f20601f840160051c81016020851015610e5a5750805b601f840160051c820191505b81811015610e79575f8155600101610e66565b50505b505050565b815167ffffffffffffffff811115610e9b57610e9b610a49565b610eaf81610ea98454610dfd565b84610e35565b6020601f821160018114610ee1575f8315610eca5750848201515b5f19600385901b1c1916600184901b178455610e79565b5f84815260208120601f198516915b82811015610f105787850151825560209485019460019092019101610ef0565b5084821015610f2d57868401515f19600387901b60f8161c191681555b50505050600190811b01905550565b634e487b7160e01b5f52601160045260245ffd5b8181038181111561030957610309610f3c565b815181526020808301519082015260408083015190820152606080830151908201526080808301519082015260a0808301516001600160a01b03169082015260c08083015115159082015260e091820151918101919091526101000190565b5f5f60408385031215610fd3575f5ffd5b8251610fde81610aab565b6020939093015192949293505050565b6001600160801b03818116838216019081111561030957610309610f3c565b5f5f6040838503121561101e575f5ffd5b505080516020909101519092909150565b6001600160801b03828116828216039081111561030957610309610f3c56fea164736f6c634300081b000a",
+  "runtime_sha256": "deba25955bc2b2bcac2d4811352c49869b675c098f6006c323911d1222f59fe8",
+  "schema": "nqc-miner-aave-debt-harness-v1",
+  "selector": "0xb7dc9cec",
+  "storage_layout": {
+    "storage": [
+      {
+        "astId": 8,
+        "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+        "label": "reserve",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_struct(ReserveData)13165_storage"
+      },
+      {
+        "astId": 11,
+        "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+        "label": "borrowerConfig",
+        "offset": 0,
+        "slot": "10",
+        "type": "t_struct(UserConfigurationMap)13172_storage"
+      },
+      {
+        "astId": 13,
+        "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+        "label": "tokenCalled",
+        "offset": 0,
+        "slot": "11",
+        "type": "t_bool"
+      },
+      {
+        "astId": 15,
+        "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+        "label": "burnedScaled",
+        "offset": 0,
+        "slot": "12",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 17,
+        "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+        "label": "expectedIndex",
+        "offset": 0,
+        "slot": "13",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 19,
+        "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+        "label": "burnReverts",
+        "offset": 0,
+        "slot": "14",
+        "type": "t_bool"
+      },
+      {
+        "astId": 21,
+        "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+        "label": "burnData",
+        "offset": 0,
+        "slot": "15",
+        "type": "t_bytes_storage"
+      },
+      {
+        "astId": 23,
+        "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+        "label": "returnNoMore",
+        "offset": 0,
+        "slot": "16",
+        "type": "t_bool"
+      },
+      {
+        "astId": 25,
+        "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+        "label": "returnScaled",
+        "offset": 0,
+        "slot": "17",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 27,
+        "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+        "label": "rateReverts",
+        "offset": 0,
+        "slot": "18",
+        "type": "t_bool"
+      },
+      {
+        "astId": 29,
+        "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+        "label": "rateData",
+        "offset": 0,
+        "slot": "19",
+        "type": "t_bytes_storage"
+      },
+      {
+        "astId": 31,
+        "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+        "label": "quoteLiquidity",
+        "offset": 0,
+        "slot": "20",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 33,
+        "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+        "label": "quoteVariable",
+        "offset": 0,
+        "slot": "21",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 35,
+        "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+        "label": "captureRates",
+        "offset": 0,
+        "slot": "22",
+        "type": "t_bool"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_bytes_storage": {
+        "encoding": "bytes",
+        "label": "bytes",
+        "numberOfBytes": "32"
+      },
+      "t_struct(ReserveConfigurationMap)13168_storage": {
+        "encoding": "inplace",
+        "label": "struct DataTypes.ReserveConfigurationMap",
+        "members": [
+          {
+            "astId": 13167,
+            "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+            "label": "data",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint256"
+          }
+        ],
+        "numberOfBytes": "32"
+      },
+      "t_struct(ReserveData)13165_storage": {
+        "encoding": "inplace",
+        "label": "struct DataTypes.ReserveData",
+        "members": [
+          {
+            "astId": 13131,
+            "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+            "label": "configuration",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_struct(ReserveConfigurationMap)13168_storage"
+          },
+          {
+            "astId": 13133,
+            "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+            "label": "liquidityIndex",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint128"
+          },
+          {
+            "astId": 13135,
+            "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+            "label": "currentLiquidityRate",
+            "offset": 16,
+            "slot": "1",
+            "type": "t_uint128"
+          },
+          {
+            "astId": 13137,
+            "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+            "label": "variableBorrowIndex",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint128"
+          },
+          {
+            "astId": 13139,
+            "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+            "label": "currentVariableBorrowRate",
+            "offset": 16,
+            "slot": "2",
+            "type": "t_uint128"
+          },
+          {
+            "astId": 13142,
+            "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+            "label": "deficit",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_uint128"
+          },
+          {
+            "astId": 13144,
+            "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+            "label": "lastUpdateTimestamp",
+            "offset": 16,
+            "slot": "3",
+            "type": "t_uint40"
+          },
+          {
+            "astId": 13146,
+            "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+            "label": "id",
+            "offset": 21,
+            "slot": "3",
+            "type": "t_uint16"
+          },
+          {
+            "astId": 13148,
+            "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+            "label": "liquidationGracePeriodUntil",
+            "offset": 23,
+            "slot": "3",
+            "type": "t_uint40"
+          },
+          {
+            "astId": 13150,
+            "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+            "label": "aTokenAddress",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_address"
+          },
+          {
+            "astId": 13152,
+            "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+            "label": "__deprecatedStableDebtTokenAddress",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_address"
+          },
+          {
+            "astId": 13154,
+            "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+            "label": "variableDebtTokenAddress",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_address"
+          },
+          {
+            "astId": 13156,
+            "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+            "label": "__deprecatedInterestRateStrategyAddress",
+            "offset": 0,
+            "slot": "7",
+            "type": "t_address"
+          },
+          {
+            "astId": 13158,
+            "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+            "label": "accruedToTreasury",
+            "offset": 0,
+            "slot": "8",
+            "type": "t_uint128"
+          },
+          {
+            "astId": 13160,
+            "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+            "label": "virtualUnderlyingBalance",
+            "offset": 16,
+            "slot": "8",
+            "type": "t_uint128"
+          },
+          {
+            "astId": 13162,
+            "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+            "label": "__deprecatedIsolationModeTotalDebt",
+            "offset": 0,
+            "slot": "9",
+            "type": "t_uint128"
+          },
+          {
+            "astId": 13164,
+            "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+            "label": "__deprecatedVirtualUnderlyingBalance",
+            "offset": 16,
+            "slot": "9",
+            "type": "t_uint128"
+          }
+        ],
+        "numberOfBytes": "320"
+      },
+      "t_struct(UserConfigurationMap)13172_storage": {
+        "encoding": "inplace",
+        "label": "struct DataTypes.UserConfigurationMap",
+        "members": [
+          {
+            "astId": 13171,
+            "contract": "fixtures/AaveDebtHarness.sol:AaveDebtHarness",
+            "label": "data",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint256"
+          }
+        ],
+        "numberOfBytes": "32"
+      },
+      "t_uint128": {
+        "encoding": "inplace",
+        "label": "uint128",
+        "numberOfBytes": "16"
+      },
+      "t_uint16": {
+        "encoding": "inplace",
+        "label": "uint16",
+        "numberOfBytes": "2"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      },
+      "t_uint40": {
+        "encoding": "inplace",
+        "label": "uint40",
+        "numberOfBytes": "5"
+      }
+    }
+  },
+  "token_implementation_verified": false
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": 2,
+  "namespace": "nqc_miner_v1",
+  "producer": "nqc-miner",
+  "run_id": "window-5b243c4192c43a1b8d6abd49cfccde418475854b840142788bf47378d3eaad52",
+  "data_class": "historical",
+  "code_commit": "a1f600697e0f9de776956472033bcb9146d646e7",
+  "cargo_lock_sha256": "634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab",
+  "build_identity_sha256": "bd07ac7ea9f6443cf03ea4c941d10e2c23b6775e80fe594654eb8bfb93de8fc3",
+  "observer_bridge_enabled": false,
+  "signing_enabled": false,
+  "gas_budget_mxn_centavos": 0,
+  "scopes": [
+    {
+      "id": "ethereum-aave-liquidations",
+      "chain_id": 1,
+      "protocol": "aave-v3",
+      "contract": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+      "event_topics": [
+        "0xe413a321e8681d831f4dbccbca790d2952b56f977908e45be37335533e005286"
+      ],
+      "from_block": 26248200,
+      "to_block": 26248299,
+      "chunk_blocks": 100,
+      "providers": [
+        {
+          "id": "ethereum-primary",
+          "url_env": "NQC_MINER_RPC_ETHEREUM_PRIMARY"
+        },
+        {
+          "id": "ethereum-secondary",
+          "url_env": "NQC_MINER_RPC_ETHEREUM_SECONDARY"
+        }
+      ],
+      "deployment_source": "https://raw.githubusercontent.com/aave-dao/aave-address-book/e796b7d71f37a3e7f78a3b2c0b47ee8d56dcff92/src/AaveV3Ethereum.sol"
+    }
+  ]
+}

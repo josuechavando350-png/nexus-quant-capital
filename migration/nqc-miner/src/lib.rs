@@ -2,12 +2,20 @@
 //! Synthetic, historical, shadow and realized evidence have distinct meanings.
 #![forbid(unsafe_code)]
 
+pub mod aave_amounts;
+pub mod aave_collateral;
+pub mod aave_debt;
+pub mod aave_reserve;
+pub mod aave_validation;
 pub mod analytics;
 pub mod bridge;
+pub mod collector;
 pub mod config;
 pub mod controls;
 pub mod discovery;
 pub mod evm;
+pub mod funding;
+pub mod historical;
 pub mod ingestion;
 pub mod journal;
 pub mod reporting;

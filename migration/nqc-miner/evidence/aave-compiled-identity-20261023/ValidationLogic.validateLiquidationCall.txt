@@ -1,0 +1,40 @@
+  function validateLiquidationCall(
+    DataTypes.UserConfigurationMap storage borrowerConfig,
+    DataTypes.ReserveData storage collateralReserve,
+    DataTypes.ReserveData storage debtReserve,
+    DataTypes.ValidateLiquidationCallParams memory params
+  ) internal view {
+    ValidateLiquidationCallLocalVars memory vars;
+
+    require(params.borrower != params.liquidator, Errors.SelfLiquidation());
+
+    (vars.collateralReserveActive, , , vars.collateralReservePaused) = collateralReserve
+      .configuration
+      .getFlags();
+
+    (vars.principalReserveActive, , , vars.principalReservePaused) = params
+      .debtReserveCache
+      .reserveConfiguration
+      .getFlags();
+
+    require(vars.collateralReserveActive && vars.principalReserveActive, Errors.ReserveInactive());
+    require(!vars.collateralReservePaused && !vars.principalReservePaused, Errors.ReservePaused());
+
+    require(
+      collateralReserve.liquidationGracePeriodUntil < uint40(block.timestamp) &&
+        debtReserve.liquidationGracePeriodUntil < uint40(block.timestamp),
+      Errors.LiquidationGraceSentinelCheckFailed()
+    );
+
+    require(
+      params.healthFactor < HEALTH_FACTOR_LIQUIDATION_THRESHOLD,
+      Errors.HealthFactorNotBelowThreshold()
+    );
+
+    //if collateral isn't enabled as collateral by user, it cannot be liquidated
+    require(
+      borrowerConfig.isUsingAsCollateral(collateralReserve.id),
+      Errors.CollateralCannotBeLiquidated()
+    );
+    require(params.totalDebt != 0, Errors.SpecifiedCurrencyNotBorrowedByUser());
+  }

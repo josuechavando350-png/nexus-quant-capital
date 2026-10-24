@@ -1,0 +1,245 @@
+SET
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:24: NOTICE:  00000: MINER_COLLECTION_PASS: limited_collection_writer
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:25: NOTICE:  00000: MINER_COLLECTION_PASS: private_durable_instance
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:26: NOTICE:  00000: MINER_COLLECTION_PASS: initial_two_windows
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                 expect_import                                                  
+----------------------------------------------------------------------------------------------------------------
+ {"reason": null, "status": "imported", "inserted": 4, "parent_run_id": "pgcoll_normal", "receipt_sequence": 0}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:27: NOTICE:  00000: MINER_COLLECTION_PASS: same_receipt_repeat
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                  expect_import                                                   
+------------------------------------------------------------------------------------------------------------------
+ {"reason": null, "status": "idempotent", "inserted": 0, "parent_run_id": "pgcoll_normal", "receipt_sequence": 0}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:29: NOTICE:  00000: MINER_COLLECTION_PASS: whole_collection_visible
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:30: NOTICE:  00000: MINER_COLLECTION_PASS: append_third_window
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                 expect_import                                                  
+----------------------------------------------------------------------------------------------------------------
+ {"reason": null, "status": "imported", "inserted": 2, "parent_run_id": "pgcoll_normal", "receipt_sequence": 1}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:31: NOTICE:  00000: MINER_COLLECTION_PASS: old_receipt_cannot_regress
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                            expect_import                             
+----------------------------------------------------------------------
+ {"status": "stale", "inserted": 0, "parent_run_id": "pgcoll_normal"}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:37: NOTICE:  00000: MINER_COLLECTION_PASS: original_window_bytes_preserved
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:38: NOTICE:  00000: MINER_COLLECTION_PASS: foreign_archive_rejected
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_query 
+--------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:39: NOTICE:  00000: MINER_COLLECTION_PASS: foreign_database_rejected
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_query 
+--------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:40: NOTICE:  00000: MINER_COLLECTION_PASS: altered_child_transport_rejected
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_query 
+--------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:42: NOTICE:  00000: MINER_COLLECTION_PASS: rejected_bundle_has_no_partial_parent
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:44: NOTICE:  00000: MINER_COLLECTION_PASS: parent_revocation_imported
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                           expect_import                                                           
+-----------------------------------------------------------------------------------------------------------------------------------
+ {"reason": "parent_invalidated", "status": "quarantined", "inserted": 1, "parent_run_id": "pgcoll_normal", "receipt_sequence": 2}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:46: NOTICE:  00000: MINER_COLLECTION_PASS: all_windows_excluded_by_parent
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:48: NOTICE:  00000: MINER_COLLECTION_PASS: child_evidence_not_deleted
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:51: NOTICE:  00000: MINER_COLLECTION_PASS: revocation_receipt_retained
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:52: NOTICE:  00000: MINER_COLLECTION_PASS: old_bundle_never_reactivates
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                               expect_import                                
+----------------------------------------------------------------------------
+ {"status": "quarantined", "inserted": 0, "parent_run_id": "pgcoll_normal"}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:53: NOTICE:  00000: MINER_COLLECTION_PASS: repeat_revocation
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                               expect_import                                
+----------------------------------------------------------------------------
+ {"status": "quarantined", "inserted": 0, "parent_run_id": "pgcoll_normal"}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:54: NOTICE:  00000: MINER_COLLECTION_PASS: revocation_before_any_child_import
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                              expect_import                                                               
+------------------------------------------------------------------------------------------------------------------------------------------
+ {"reason": "parent_invalidated", "status": "quarantined", "inserted": 1, "parent_run_id": "pgcoll_revoked_first", "receipt_sequence": 0}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:56: NOTICE:  00000: MINER_COLLECTION_PASS: revocation_needs_no_child_files
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:58: NOTICE:  00000: MINER_COLLECTION_PASS: child_invalidation_seed
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                 expect_import                                                 
+---------------------------------------------------------------------------------------------------------------
+ {"reason": null, "status": "imported", "inserted": 4, "parent_run_id": "pgcoll_child", "receipt_sequence": 0}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:59: NOTICE:  00000: MINER_COLLECTION_PASS: independent_child_invalidation
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:60: NOTICE:  00000: MINER_COLLECTION_PASS: one_invalid_child_blocks_whole_collection
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:61: NOTICE:  00000: MINER_COLLECTION_PASS: child_quarantine_propagates_on_replay
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                          expect_import                                                           
+----------------------------------------------------------------------------------------------------------------------------------
+ {"reason": "member_quarantined", "status": "quarantined", "inserted": 0, "parent_run_id": "pgcoll_child", "receipt_sequence": 0}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:62: NOTICE:  00000: MINER_COLLECTION_PASS: receipt_conflict_seed
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                  expect_import                                                   
+------------------------------------------------------------------------------------------------------------------
+ {"reason": null, "status": "imported", "inserted": 4, "parent_run_id": "pgcoll_conflict", "receipt_sequence": 0}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:63: NOTICE:  00000: MINER_COLLECTION_PASS: same_sequence_changed_receipt_quarantined
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                           expect_import                                                           
+-----------------------------------------------------------------------------------------------------------------------------------
+ {"reason": "receipt_conflict", "status": "quarantined", "inserted": 0, "parent_run_id": "pgcoll_conflict", "receipt_sequence": 0}
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:65: NOTICE:  00000: MINER_COLLECTION_PASS: conflict_preserves_prior_rows
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:66: NOTICE:  00000: MINER_COLLECTION_PASS: conflicting_collection_stays_quarantined
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                expect_import                                 
+------------------------------------------------------------------------------
+ {"status": "quarantined", "inserted": 0, "parent_run_id": "pgcoll_conflict"}
+(1 row)
+
+SET
+CREATE FUNCTION
+CREATE TRIGGER
+SET
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:78: NOTICE:  00000: MINER_COLLECTION_PASS: second_window_failure_rolls_back_transaction
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_query 
+--------------
+ 
+(1 row)
+
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:81: NOTICE:  00000: MINER_COLLECTION_PASS: no_partial_parent_or_first_window
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+
+SET
+DROP TRIGGER
+DROP FUNCTION
+SET
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:86: NOTICE:  00000: MINER_COLLECTION_PASS: retry_after_collection_rollback
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+                                                  expect_import                                                   
+------------------------------------------------------------------------------------------------------------------
+ {"reason": null, "status": "imported", "inserted": 4, "parent_run_id": "pgcoll_rollback", "receipt_sequence": 0}
+(1 row)
+
+BEGIN
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:88: NOTICE:  00000: MINER_COLLECTION_PASS: unsupported_collection_isolation
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ reject_query 
+--------------
+ 
+(1 row)
+
+COMMIT
+psql:/data/data/com.termux/files/home/nqc-miner-collection.wSjuI4/evidence/cases.sql:91: NOTICE:  00000: MINER_COLLECTION_PASS: operational_controls_stay_disabled
+LOCATION:  exec_stmt_raise, pl_exec.c:3923
+ check_ok 
+----------
+ 
+(1 row)
+

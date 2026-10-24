@@ -1,0 +1,67 @@
+{
+  "base_published_commit": "a1fb66a40f55728ecc5dd4913e2450bde8929473",
+  "binary_sha256": "47292cd97732d246099b63f07cea6dc128dfd5612efe3341a6cefb4e631d4548",
+  "checked_at_utc": "2026-10-22T23:54:53.393746+00:00",
+  "final_auditor_tests_passed": 12,
+  "limits": [
+    "No Nix/container runtime or closed hermetic build here",
+    "No continuous service provisioned or installed",
+    "No prospective/economic phase exit",
+    "Cooperating writers, private local filesystem and configured local database required"
+  ],
+  "native_client_attempts": 16,
+  "native_client_audit": "evidence/termux-sync-20261022/audit.json",
+  "native_client_checks": 17,
+  "native_evidence": {
+    "evidence/termux-sync-20261022/audit.json": "325a976d809fa2345a5ace802c5767aa778894a8a99c8cf9ba0192510f49e4a2",
+    "evidence/termux-sync-20261022/received.tar.gz": "4dcc65211506c40853ea5a2b6f88500e640c5d40316e11db6aacb8f447df2a57"
+  },
+  "native_worker_rpc_postgres_integration_executed": false,
+  "new_auditor_tests": 12,
+  "new_rpc_observations": 0,
+  "new_worker_tests": 16,
+  "observer_bridge_enabled": false,
+  "observer_files_changed": 0,
+  "production_integration": false,
+  "progress_credit_added": 0,
+  "progress_percent": 43,
+  "python_tests_passed": 217,
+  "real_worker_lock_sigkill_test": true,
+  "remaining_points": 57,
+  "retained_evidence": {
+    "auditor-final-tests.log": "875adc539f6e94850aa633442ad2abb6888c0bdbdac88313bdb58faeace5858b",
+    "isolation.json": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940",
+    "python-tests.log": "00e5c64db01db1f5b245b2d058f252f30222a9771a7434f0bc78a2521bcd8dc6",
+    "scope.json": "7b04a8ebde63c4624a21050d7cdf24a33372358e0cd0335520b86728f2f7f36e"
+  },
+  "rust_and_polars_verification": "actual",
+  "rust_recompiled_or_retested": false,
+  "schema": "nqc-miner-worker-preflight-v1",
+  "source_hashes": {
+    "research/collector_worker.py": "6602da2cb3cc3c7347098eb2b595a5eb0f3bb36d8104326d32536ad61c7cd8c2",
+    "research/test_collector_worker.py": "8c84e6300ad26dbff59ff757b208e5aebb581e075cec030abcfa4e5c6ab10c4d",
+    "research/test_sync_evidence_audit.py": "dcaacee30654def0aa84afdff96e4cb5de2dd64de0fc60282b51ff7fc78b9c5a",
+    "scripts/audit_termux_collection_evidence.py": "69e84330d1f476c6f272ee835ba66dcbe113b260eae79864e8fc1efa7777ad9e",
+    "scripts/audit_termux_sync_evidence.py": "650ccf1d5ed0c9c717e19da135d25c0bddedf88f1a1dd7c3f34abada302faac3"
+  },
+  "spending_authorized": false,
+  "status": "offline_pass_native_worker_integration_pending",
+  "unchanged_inputs": {
+    "Cargo.lock": "634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab",
+    "build.rs": "17486b3d54dab52750da74f03fa0e0399f7f5d4979d16745e59aef8226351d4d",
+    "infra/postgres.sql": "5307880cd7f274f5f0ac4eb222e19ca34fb0e0a9abd59a2970be50611a259f21",
+    "infra/postgres_collection.sql": "90de39223b0265d8b2ca2d8ee73127571018040c7865917653d3444dcf8ef350",
+    "infra/postgres_import.sql": "4fe03449780702a9aa700540a473fa61396fb85fa60805fdf658e15a75741b0b",
+    "research/archive_collection.py": "b1d76941c1ba7b2be9c76ca7214e38175454e181477b58f0ded9e81a92675bd0",
+    "research/export_parquet.py": "3f36165c0bd4c11c8d74d87ed03452bc80bb1b7aa871d018982bcbc8ad7f747a",
+    "research/prepare_postgres_collection.py": "e11cddc1a9cbe283de6ff8752aca13f10fe98382f7e44a0fb8f37f8bdb6d936a",
+    "research/prepare_postgres_import.py": "41df5aa0d4d7ffce8605a7a5335e2435eb70bfb4f101b87e281eaa8ec15fd7ae",
+    "research/sync_postgres_collection.py": "bd38627952d4c106a9e1ad86645c2865803492938c39149c1d2f5465312bc5e9",
+    "scripts/collection_transport.py": "886163d380e1849e3ba71e19eef11e4cab192427ef5759fe98785a2c10aa0bc6",
+    "scripts/nqc-miner-sync-check.sh": "bb59f9cff444990ff909fbc1af26b259ac92864fe8555a25b368ded3301aa4fb",
+    "scripts/postgres_transport_runtime.py": "6a8940618ad94365b94139f2991d0d235c202a604a89b77051e6c78d51affa7a",
+    "src/main.rs": "563d72099c982820abbf5e05839391856d4805cbf2a72b905a867b65757f5101"
+  },
+  "worker_database_boundary": "explicit_fake_client",
+  "worker_rpc_boundary": "explicit_fixture_double"
+}

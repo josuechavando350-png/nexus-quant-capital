@@ -1,0 +1,100 @@
+{
+  "schema": "nqc-miner-closure-plan-v1",
+  "as_of": "2026-10-23",
+  "progress_source": "docs/progress.json",
+  "current": 43,
+  "remaining": 57,
+  "denominator": 100,
+  "new_progress_credit": 0,
+  "items": [
+    {
+      "id": "running_infrastructure",
+      "remaining_points": 1,
+      "acceptance": "Continuous collectors, Redpanda, Temporal, ClickHouse, Postgres, object store and observability integrated and recovery-tested",
+      "dependency": "persistent_isolated_runtime",
+      "next_step": "Execute the bounded worker with the pinned clean Rust build, native PostgreSQL and authorized read-only RPCs, then integrate and fault-test dedicated broker, workflow, analytics, object storage and observability.",
+      "status": "open"
+    },
+    {
+      "id": "calibrated_two_or_three_chain_measurement",
+      "remaining_points": 10,
+      "acceptance": "Sufficient complete measurements with eligibility, gas/tips, prices and calibrated saturation; a bounded public sample does not close this gate",
+      "dependency": "development_and_real_measurements",
+      "next_step": "Use the audited 48 Aave pre-event states as bounded historical observations; reconstruct intra-block state and protocol-specific executable eligibility, verify oracle freshness and authentic receipt/header evidence, add rollup fee models and direct builder payments. Collect sufficient multi-chain data and calibrate on reserved observations. Existing two measured fees and three event histories do not close this gate.",
+      "status": "open"
+    },
+    {
+      "id": "temporal_and_causal_wind_tunnel",
+      "remaining_points": 8,
+      "acceptance": "Actual workflow integration and historical price/position/execution reconstruction with certified adapters",
+      "dependency": "development_and_runtime",
+      "next_step": "Observed AaveOracle, WETH EACAggregatorProxy and DualAggregator now execute together with original caller/time/round selection. Nine price reads reproduce three blocks using observed slots in an explicitly synthetic environment. Replace the USDC feed, authenticate full round/transaction prestate and actual fork, enforce justified freshness criteria, then complete real Pool entry, additional reserves, same-asset/multireserve paths, token metadata parity and Foundry/workflow certification. No operational phase credit is earned by these bounded read samples or synthetic liquidation tests.",
+      "status": "open"
+    },
+    {
+      "id": "prospective_shadow_exit",
+      "remaining_points": 11,
+      "acceptance": "Prospective observations compared with real outcomes during a sufficiently long Shadow window",
+      "dependency": "prospective_time_and_outcomes",
+      "next_step": "Register predictions before outcomes; collect the agreed prospective observation window, reconcile real results and audit missing/censored cases.",
+      "status": "open"
+    },
+    {
+      "id": "generated_adapter_certification",
+      "remaining_points": 4,
+      "acceptance": "Quarantined generation, actual differential protocol testing and Foundry fuzzing",
+      "dependency": "development_and_toolchain",
+      "next_step": "Observed AaveOracle, WETH EACAggregatorProxy and DualAggregator now execute together with original caller/time/round selection. Nine price reads reproduce three blocks using observed slots in an explicitly synthetic environment. Replace the USDC feed, authenticate full round/transaction prestate and actual fork, enforce justified freshness criteria, then complete real Pool entry, additional reserves, same-asset/multireserve paths, token metadata parity and Foundry/workflow certification. No operational phase credit is earned by these bounded read samples or synthetic liquidation tests.",
+      "status": "open"
+    },
+    {
+      "id": "external_signer_and_alert_integration",
+      "remaining_points": 3,
+      "acceptance": "Separately configured and reviewed external signer, identities and notifications; no observer changes in this task",
+      "dependency": "development_and_specific_integration_review",
+      "next_step": "Prepare dedicated Miner-only external signer and alert identities with concrete permissions; review separately before enabling. Observer remains out of scope.",
+      "status": "open"
+    },
+    {
+      "id": "approved_budgeted_canary_exit",
+      "remaining_points": 5,
+      "acceptance": "Concrete proposal, explicit user approval and reconciled budgeted execution",
+      "dependency": "concrete_proposal_and_explicit_approval",
+      "next_step": "Authenticate Titan identity and exact execution-specific gas terms, including failure exposure and zero operator prefunding/fallback/recourse. Establish independent principal financing, complete preceding gates, obtain explicit approval for a concrete proposal and reconcile actual execution. The offline term-review command is structural only and grants no spending authority.",
+      "status": "open"
+    },
+    {
+      "id": "continuous_discovery_collectors",
+      "remaining_points": 4,
+      "acceptance": "Reliable continuous multi-chain inventories and governed search feedback",
+      "dependency": "development_and_sustained_runtime",
+      "next_step": "Build governed chain/factory/proxy inventories, certify sources and run reliable continuous collectors with monitored coverage and recovery.",
+      "status": "open"
+    },
+    {
+      "id": "validated_closed_learning_loop",
+      "remaining_points": 9,
+      "acceptance": "Realized datasets, economic validation, drift/rollback and prospective improvement",
+      "dependency": "realized_dataset_and_prospective_validation",
+      "next_step": "Integrate realized labels, temporal evaluation, economic validation, drift detection and rollback; demonstrate prospective improvement rather than fixture accuracy.",
+      "status": "open"
+    },
+    {
+      "id": "integration_audit_reproducibility_and_repository_delivery",
+      "remaining_points": 2,
+      "acceptance": "Closed material review findings, retained exact-source verification, bounded public smoke test and isolated branch/PR delivery",
+      "dependency": "hermetic_toolchain_and_final_runtime_audit",
+      "next_step": "Execute a hermetic dependency-closed build and full final production integration audit. Current host has no Nix/container runtime; offline tests alone do not meet that gate.",
+      "status": "open"
+    }
+  ],
+  "observer_changes_permitted": false,
+  "spending_authorized": false,
+  "phase_exits_completed": [],
+  "funding_policy": {
+    "id": "nqc-miner-titan-only-gas-v1",
+    "gas_sponsor": "titan",
+    "operator_gas_allowance": 0,
+    "execution_specific_coverage_verified": false
+  }
+}

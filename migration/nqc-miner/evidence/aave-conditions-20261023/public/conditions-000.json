@@ -1,0 +1,782 @@
+{
+  "activation_allowed": false,
+  "block": {
+    "hash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+    "number": 26248075,
+    "parent_hash": "0xff1463a901915404f125039bb883d0677b1e13f85609f7b41c2b1e22ab00e936",
+    "timestamp": 1792671155
+  },
+  "debt_basis": "pinned_variable_debt_token_balanceOf_not_authenticated",
+  "event_anchor": {
+    "hash": "0x93c3ada980ac14c3a0a64f3ef98d3e8639ffd1ce42b6e2e74ee44c1bddcb5053",
+    "number": 26248076,
+    "parent_hash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+    "timestamp": 1792671167
+  },
+  "event_log_index": 61,
+  "event_transaction": "0x0f41c4143e965fe9c26509f976cf31374460f6899ee796966a4b65b110e9aa2f",
+  "executable_eligibility_verified": false,
+  "inputs": {
+    "borrower": "0x9f36f1f3b3dbf1939f318cd97d9412f056255c83",
+    "collateral_configuration": "7237005577332262213973186942896404392671584917584971852904788901765910896498",
+    "collateral_grace_until": 0,
+    "collateral_reserve_id": 0,
+    "debt_configuration": "7237005577332262213973186574461225012726266025894705449840963830289119321420",
+    "debt_grace_until": 0,
+    "health_factor_wad": "1000234567630119811",
+    "liquidator": "0xd12810b19b596347a3afac206d3ca65d08594b3f",
+    "selected_debt": "800001657",
+    "timestamp": 1792671155,
+    "user_configuration": "66"
+  },
+  "liquidator_basis": "retrospective_event",
+  "records": [
+    {
+      "provider_id": "ethereum-primary",
+      "request": {
+        "id": 1,
+        "jsonrpc": "2.0",
+        "method": "eth_chainId",
+        "params": []
+      },
+      "response": {
+        "id": 1,
+        "jsonrpc": "2.0",
+        "result": "0x1"
+      }
+    },
+    {
+      "provider_id": "ethereum-primary",
+      "request": {
+        "id": 2,
+        "jsonrpc": "2.0",
+        "method": "eth_getBlockByNumber",
+        "params": [
+          "finalized",
+          false
+        ]
+      },
+      "response": {
+        "id": 2,
+        "jsonrpc": "2.0",
+        "result": {
+          "hash": "0x447d0bf32bd1b1da016c9ecd1f57b886034ece8367279648653ab1bd8620b978",
+          "number": "0x1909362",
+          "parentHash": "0xe3110f7224fe3d19289c95955d3cbcd20171921aa62d4e4aad4c3454aa025292",
+          "timestamp": "0x6adabc57"
+        }
+      }
+    },
+    {
+      "provider_id": "ethereum-primary",
+      "request": {
+        "id": 3,
+        "jsonrpc": "2.0",
+        "method": "eth_getBlockByNumber",
+        "params": [
+          "0x190838b",
+          false
+        ]
+      },
+      "response": {
+        "id": 3,
+        "jsonrpc": "2.0",
+        "result": {
+          "hash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+          "number": "0x190838b",
+          "parentHash": "0xff1463a901915404f125039bb883d0677b1e13f85609f7b41c2b1e22ab00e936",
+          "timestamp": "0x6ad9fdb3"
+        }
+      }
+    },
+    {
+      "provider_id": "ethereum-primary",
+      "request": {
+        "id": 4,
+        "jsonrpc": "2.0",
+        "method": "eth_getBlockByNumber",
+        "params": [
+          "0x190838c",
+          false
+        ]
+      },
+      "response": {
+        "id": 4,
+        "jsonrpc": "2.0",
+        "result": {
+          "hash": "0x93c3ada980ac14c3a0a64f3ef98d3e8639ffd1ce42b6e2e74ee44c1bddcb5053",
+          "number": "0x190838c",
+          "parentHash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+          "timestamp": "0x6ad9fdbf"
+        }
+      }
+    },
+    {
+      "provider_id": "ethereum-primary",
+      "request": {
+        "id": 5,
+        "jsonrpc": "2.0",
+        "method": "eth_call",
+        "params": [
+          {
+            "data": "0x35ea6a75000000000000000000000000c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+            "from": "0x0000000000000000000000000000000000000000",
+            "gas": "0x1e8480",
+            "to": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+            "value": "0x0"
+          },
+          {
+            "blockHash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+            "requireCanonical": true
+          }
+        ]
+      },
+      "response": {
+        "id": 5,
+        "jsonrpc": "2.0",
+        "result": "0x100000000000000000000103e80002932e0000249f0005dc85122904206c1f7200000000000000000000000000000000000000000376f3fd0f65de4abaa10e4a0000000000000000000000000000000000000000000aab4f8999cb771227b5f60000000000000000000000000000000000000000039563c74ddda7f296d264ae0000000000000000000000000000000000000000000ff358332dc7b0590899980000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006ad9fcff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000004d5f47fa6a74757f35c14fd3a6ef8e3c9bc514e8000000000000000000000000102633152313c81cd80419b6ecf66d14ad68949a000000000000000000000000ea51d7853eefb32b6ee06b1c12e6dcca88be0ffe0000000000000000000000009ec6f08190dea04a54f8afc53db96134e5e3fdfb00000000000000000000000000000000000000000000000004095226f8ff804200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    {
+      "provider_id": "ethereum-primary",
+      "request": {
+        "id": 6,
+        "jsonrpc": "2.0",
+        "method": "eth_call",
+        "params": [
+          {
+            "data": "0x35ea6a75000000000000000000000000a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "from": "0x0000000000000000000000000000000000000000",
+            "gas": "0x1e8480",
+            "to": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+            "value": "0x0"
+          },
+          {
+            "blockHash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+            "requireCanonical": true
+          }
+        ]
+      },
+      "response": {
+        "id": 6,
+        "jsonrpc": "2.0",
+        "result": "0x100000000000000000000007d00b2d05e000a0eebb0003e8850628d21e781d4c000000000000000000000000000000000000000003d8da414991d2a486189e460000000000000000000000000000000000000000001f74a7b4af7cf80865f4bd0000000000000000000000000000000000000000040e27f07910dd932b124cbe0000000000000000000000000000000000000000002533cfafc8e1ce3c5aec4f0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006ad9fdb3000000000000000000000000000000000000000000000000000000000000000300000000000000000000000098c23e9d8f34fefb1b7bd6a91b7ff122f4e16f5c000000000000000000000000102633152313c81cd80419b6ecf66d14ad68949a00000000000000000000000072e95b8931767c79ba4eee721354d6e99a61d0040000000000000000000000009ec6f08190dea04a54f8afc53db96134e5e3fdfb00000000000000000000000000000000000000000000000000000000214915e700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    {
+      "provider_id": "ethereum-primary",
+      "request": {
+        "id": 7,
+        "jsonrpc": "2.0",
+        "method": "eth_call",
+        "params": [
+          {
+            "data": "0x5c9a8b18000000000000000000000000c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+            "from": "0x0000000000000000000000000000000000000000",
+            "gas": "0x1e8480",
+            "to": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+            "value": "0x0"
+          },
+          {
+            "blockHash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+            "requireCanonical": true
+          }
+        ]
+      },
+      "response": {
+        "id": 7,
+        "jsonrpc": "2.0",
+        "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    {
+      "provider_id": "ethereum-primary",
+      "request": {
+        "id": 8,
+        "jsonrpc": "2.0",
+        "method": "eth_call",
+        "params": [
+          {
+            "data": "0x5c9a8b18000000000000000000000000a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "from": "0x0000000000000000000000000000000000000000",
+            "gas": "0x1e8480",
+            "to": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+            "value": "0x0"
+          },
+          {
+            "blockHash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+            "requireCanonical": true
+          }
+        ]
+      },
+      "response": {
+        "id": 8,
+        "jsonrpc": "2.0",
+        "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    {
+      "provider_id": "ethereum-primary",
+      "request": {
+        "id": 9,
+        "jsonrpc": "2.0",
+        "method": "eth_call",
+        "params": [
+          {
+            "data": "0x4417a5830000000000000000000000009f36f1f3b3dbf1939f318cd97d9412f056255c83",
+            "from": "0x0000000000000000000000000000000000000000",
+            "gas": "0x1e8480",
+            "to": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+            "value": "0x0"
+          },
+          {
+            "blockHash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+            "requireCanonical": true
+          }
+        ]
+      },
+      "response": {
+        "id": 9,
+        "jsonrpc": "2.0",
+        "result": "0x0000000000000000000000000000000000000000000000000000000000000042"
+      }
+    },
+    {
+      "provider_id": "ethereum-primary",
+      "request": {
+        "id": 10,
+        "jsonrpc": "2.0",
+        "method": "eth_call",
+        "params": [
+          {
+            "data": "0xbf92857c0000000000000000000000009f36f1f3b3dbf1939f318cd97d9412f056255c83",
+            "from": "0x0000000000000000000000000000000000000000",
+            "gas": "0x1e8480",
+            "to": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+            "value": "0x0"
+          },
+          {
+            "blockHash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+            "requireCanonical": true
+          }
+        ]
+      },
+      "response": {
+        "id": 10,
+        "jsonrpc": "2.0",
+        "result": "0x00000000000000000000000000000000000000000000000000000016716fa333000000000000000000000000000000000000000000000000000000129f97f7e90000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000206c0000000000000000000000000000000000000000000000000000000000001f720000000000000000000000000000000000000000000000000de18c0a2fa8e383"
+      }
+    },
+    {
+      "provider_id": "ethereum-primary",
+      "request": {
+        "id": 11,
+        "jsonrpc": "2.0",
+        "method": "eth_call",
+        "params": [
+          {
+            "data": "0x70a082310000000000000000000000009f36f1f3b3dbf1939f318cd97d9412f056255c83",
+            "from": "0x0000000000000000000000000000000000000000",
+            "gas": "0x1e8480",
+            "to": "0x72e95b8931767c79ba4eee721354d6e99a61d004",
+            "value": "0x0"
+          },
+          {
+            "blockHash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+            "requireCanonical": true
+          }
+        ]
+      },
+      "response": {
+        "id": 11,
+        "jsonrpc": "2.0",
+        "result": "0x000000000000000000000000000000000000000000000000000000002faf0e79"
+      }
+    },
+    {
+      "provider_id": "ethereum-primary",
+      "request": {
+        "id": 12,
+        "jsonrpc": "2.0",
+        "method": "eth_getBlockByNumber",
+        "params": [
+          "0x190838b",
+          false
+        ]
+      },
+      "response": {
+        "id": 12,
+        "jsonrpc": "2.0",
+        "result": {
+          "hash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+          "number": "0x190838b",
+          "parentHash": "0xff1463a901915404f125039bb883d0677b1e13f85609f7b41c2b1e22ab00e936",
+          "timestamp": "0x6ad9fdb3"
+        }
+      }
+    },
+    {
+      "provider_id": "ethereum-primary",
+      "request": {
+        "id": 13,
+        "jsonrpc": "2.0",
+        "method": "eth_getBlockByNumber",
+        "params": [
+          "0x190838c",
+          false
+        ]
+      },
+      "response": {
+        "id": 13,
+        "jsonrpc": "2.0",
+        "result": {
+          "hash": "0x93c3ada980ac14c3a0a64f3ef98d3e8639ffd1ce42b6e2e74ee44c1bddcb5053",
+          "number": "0x190838c",
+          "parentHash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+          "timestamp": "0x6ad9fdbf"
+        }
+      }
+    },
+    {
+      "provider_id": "ethereum-primary",
+      "request": {
+        "id": 14,
+        "jsonrpc": "2.0",
+        "method": "eth_getBlockByNumber",
+        "params": [
+          "0x1909362",
+          false
+        ]
+      },
+      "response": {
+        "id": 14,
+        "jsonrpc": "2.0",
+        "result": {
+          "hash": "0x447d0bf32bd1b1da016c9ecd1f57b886034ece8367279648653ab1bd8620b978",
+          "number": "0x1909362",
+          "parentHash": "0xe3110f7224fe3d19289c95955d3cbcd20171921aa62d4e4aad4c3454aa025292",
+          "timestamp": "0x6adabc57"
+        }
+      }
+    },
+    {
+      "provider_id": "ethereum-secondary",
+      "request": {
+        "id": 15,
+        "jsonrpc": "2.0",
+        "method": "eth_chainId",
+        "params": []
+      },
+      "response": {
+        "id": 15,
+        "jsonrpc": "2.0",
+        "result": "0x1"
+      }
+    },
+    {
+      "provider_id": "ethereum-secondary",
+      "request": {
+        "id": 16,
+        "jsonrpc": "2.0",
+        "method": "eth_getBlockByNumber",
+        "params": [
+          "finalized",
+          false
+        ]
+      },
+      "response": {
+        "id": 16,
+        "jsonrpc": "2.0",
+        "result": {
+          "hash": "0x447d0bf32bd1b1da016c9ecd1f57b886034ece8367279648653ab1bd8620b978",
+          "number": "0x1909362",
+          "parentHash": "0xe3110f7224fe3d19289c95955d3cbcd20171921aa62d4e4aad4c3454aa025292",
+          "timestamp": "0x6adabc57"
+        }
+      }
+    },
+    {
+      "provider_id": "ethereum-secondary",
+      "request": {
+        "id": 17,
+        "jsonrpc": "2.0",
+        "method": "eth_getBlockByNumber",
+        "params": [
+          "0x190838b",
+          false
+        ]
+      },
+      "response": {
+        "id": 17,
+        "jsonrpc": "2.0",
+        "result": {
+          "hash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+          "number": "0x190838b",
+          "parentHash": "0xff1463a901915404f125039bb883d0677b1e13f85609f7b41c2b1e22ab00e936",
+          "timestamp": "0x6ad9fdb3"
+        }
+      }
+    },
+    {
+      "provider_id": "ethereum-secondary",
+      "request": {
+        "id": 18,
+        "jsonrpc": "2.0",
+        "method": "eth_getBlockByNumber",
+        "params": [
+          "0x190838c",
+          false
+        ]
+      },
+      "response": {
+        "id": 18,
+        "jsonrpc": "2.0",
+        "result": {
+          "hash": "0x93c3ada980ac14c3a0a64f3ef98d3e8639ffd1ce42b6e2e74ee44c1bddcb5053",
+          "number": "0x190838c",
+          "parentHash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+          "timestamp": "0x6ad9fdbf"
+        }
+      }
+    },
+    {
+      "provider_id": "ethereum-secondary",
+      "request": {
+        "id": 19,
+        "jsonrpc": "2.0",
+        "method": "eth_call",
+        "params": [
+          {
+            "data": "0x35ea6a75000000000000000000000000c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+            "from": "0x0000000000000000000000000000000000000000",
+            "gas": "0x1e8480",
+            "to": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+            "value": "0x0"
+          },
+          {
+            "blockHash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+            "requireCanonical": true
+          }
+        ]
+      },
+      "response": {
+        "id": 19,
+        "jsonrpc": "2.0",
+        "result": "0x100000000000000000000103e80002932e0000249f0005dc85122904206c1f7200000000000000000000000000000000000000000376f3fd0f65de4abaa10e4a0000000000000000000000000000000000000000000aab4f8999cb771227b5f60000000000000000000000000000000000000000039563c74ddda7f296d264ae0000000000000000000000000000000000000000000ff358332dc7b0590899980000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006ad9fcff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000004d5f47fa6a74757f35c14fd3a6ef8e3c9bc514e8000000000000000000000000102633152313c81cd80419b6ecf66d14ad68949a000000000000000000000000ea51d7853eefb32b6ee06b1c12e6dcca88be0ffe0000000000000000000000009ec6f08190dea04a54f8afc53db96134e5e3fdfb00000000000000000000000000000000000000000000000004095226f8ff804200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    {
+      "provider_id": "ethereum-secondary",
+      "request": {
+        "id": 20,
+        "jsonrpc": "2.0",
+        "method": "eth_call",
+        "params": [
+          {
+            "data": "0x35ea6a75000000000000000000000000a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "from": "0x0000000000000000000000000000000000000000",
+            "gas": "0x1e8480",
+            "to": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+            "value": "0x0"
+          },
+          {
+            "blockHash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+            "requireCanonical": true
+          }
+        ]
+      },
+      "response": {
+        "id": 20,
+        "jsonrpc": "2.0",
+        "result": "0x100000000000000000000007d00b2d05e000a0eebb0003e8850628d21e781d4c000000000000000000000000000000000000000003d8da414991d2a486189e460000000000000000000000000000000000000000001f74a7b4af7cf80865f4bd0000000000000000000000000000000000000000040e27f07910dd932b124cbe0000000000000000000000000000000000000000002533cfafc8e1ce3c5aec4f0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006ad9fdb3000000000000000000000000000000000000000000000000000000000000000300000000000000000000000098c23e9d8f34fefb1b7bd6a91b7ff122f4e16f5c000000000000000000000000102633152313c81cd80419b6ecf66d14ad68949a00000000000000000000000072e95b8931767c79ba4eee721354d6e99a61d0040000000000000000000000009ec6f08190dea04a54f8afc53db96134e5e3fdfb00000000000000000000000000000000000000000000000000000000214915e700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    {
+      "provider_id": "ethereum-secondary",
+      "request": {
+        "id": 21,
+        "jsonrpc": "2.0",
+        "method": "eth_call",
+        "params": [
+          {
+            "data": "0x5c9a8b18000000000000000000000000c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+            "from": "0x0000000000000000000000000000000000000000",
+            "gas": "0x1e8480",
+            "to": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+            "value": "0x0"
+          },
+          {
+            "blockHash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+            "requireCanonical": true
+          }
+        ]
+      },
+      "response": {
+        "id": 21,
+        "jsonrpc": "2.0",
+        "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    {
+      "provider_id": "ethereum-secondary",
+      "request": {
+        "id": 22,
+        "jsonrpc": "2.0",
+        "method": "eth_call",
+        "params": [
+          {
+            "data": "0x5c9a8b18000000000000000000000000a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "from": "0x0000000000000000000000000000000000000000",
+            "gas": "0x1e8480",
+            "to": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+            "value": "0x0"
+          },
+          {
+            "blockHash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+            "requireCanonical": true
+          }
+        ]
+      },
+      "response": {
+        "id": 22,
+        "jsonrpc": "2.0",
+        "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    {
+      "provider_id": "ethereum-secondary",
+      "request": {
+        "id": 23,
+        "jsonrpc": "2.0",
+        "method": "eth_call",
+        "params": [
+          {
+            "data": "0x4417a5830000000000000000000000009f36f1f3b3dbf1939f318cd97d9412f056255c83",
+            "from": "0x0000000000000000000000000000000000000000",
+            "gas": "0x1e8480",
+            "to": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+            "value": "0x0"
+          },
+          {
+            "blockHash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+            "requireCanonical": true
+          }
+        ]
+      },
+      "response": {
+        "id": 23,
+        "jsonrpc": "2.0",
+        "result": "0x0000000000000000000000000000000000000000000000000000000000000042"
+      }
+    },
+    {
+      "provider_id": "ethereum-secondary",
+      "request": {
+        "id": 24,
+        "jsonrpc": "2.0",
+        "method": "eth_call",
+        "params": [
+          {
+            "data": "0xbf92857c0000000000000000000000009f36f1f3b3dbf1939f318cd97d9412f056255c83",
+            "from": "0x0000000000000000000000000000000000000000",
+            "gas": "0x1e8480",
+            "to": "0x87870bca3f3fd6335c3f4ce8392d69350b4fa4e2",
+            "value": "0x0"
+          },
+          {
+            "blockHash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+            "requireCanonical": true
+          }
+        ]
+      },
+      "response": {
+        "id": 24,
+        "jsonrpc": "2.0",
+        "result": "0x00000000000000000000000000000000000000000000000000000016716fa333000000000000000000000000000000000000000000000000000000129f97f7e90000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000206c0000000000000000000000000000000000000000000000000000000000001f720000000000000000000000000000000000000000000000000de18c0a2fa8e383"
+      }
+    },
+    {
+      "provider_id": "ethereum-secondary",
+      "request": {
+        "id": 25,
+        "jsonrpc": "2.0",
+        "method": "eth_call",
+        "params": [
+          {
+            "data": "0x70a082310000000000000000000000009f36f1f3b3dbf1939f318cd97d9412f056255c83",
+            "from": "0x0000000000000000000000000000000000000000",
+            "gas": "0x1e8480",
+            "to": "0x72e95b8931767c79ba4eee721354d6e99a61d004",
+            "value": "0x0"
+          },
+          {
+            "blockHash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+            "requireCanonical": true
+          }
+        ]
+      },
+      "response": {
+        "id": 25,
+        "jsonrpc": "2.0",
+        "result": "0x000000000000000000000000000000000000000000000000000000002faf0e79"
+      }
+    },
+    {
+      "provider_id": "ethereum-secondary",
+      "request": {
+        "id": 26,
+        "jsonrpc": "2.0",
+        "method": "eth_getBlockByNumber",
+        "params": [
+          "0x190838b",
+          false
+        ]
+      },
+      "response": {
+        "id": 26,
+        "jsonrpc": "2.0",
+        "result": {
+          "hash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+          "number": "0x190838b",
+          "parentHash": "0xff1463a901915404f125039bb883d0677b1e13f85609f7b41c2b1e22ab00e936",
+          "timestamp": "0x6ad9fdb3"
+        }
+      }
+    },
+    {
+      "provider_id": "ethereum-secondary",
+      "request": {
+        "id": 27,
+        "jsonrpc": "2.0",
+        "method": "eth_getBlockByNumber",
+        "params": [
+          "0x190838c",
+          false
+        ]
+      },
+      "response": {
+        "id": 27,
+        "jsonrpc": "2.0",
+        "result": {
+          "hash": "0x93c3ada980ac14c3a0a64f3ef98d3e8639ffd1ce42b6e2e74ee44c1bddcb5053",
+          "number": "0x190838c",
+          "parentHash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+          "timestamp": "0x6ad9fdbf"
+        }
+      }
+    },
+    {
+      "provider_id": "ethereum-secondary",
+      "request": {
+        "id": 28,
+        "jsonrpc": "2.0",
+        "method": "eth_getBlockByNumber",
+        "params": [
+          "0x1909362",
+          false
+        ]
+      },
+      "response": {
+        "id": 28,
+        "jsonrpc": "2.0",
+        "result": {
+          "hash": "0x447d0bf32bd1b1da016c9ecd1f57b886034ece8367279648653ab1bd8620b978",
+          "number": "0x1909362",
+          "parentHash": "0xe3110f7224fe3d19289c95955d3cbcd20171921aa62d4e4aad4c3454aa025292",
+          "timestamp": "0x6adabc57"
+        }
+      }
+    },
+    {
+      "provider_id": "ethereum-primary",
+      "request": {
+        "id": 29,
+        "jsonrpc": "2.0",
+        "method": "eth_getBlockByNumber",
+        "params": [
+          "0x190838b",
+          false
+        ]
+      },
+      "response": {
+        "id": 29,
+        "jsonrpc": "2.0",
+        "result": {
+          "hash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+          "number": "0x190838b",
+          "parentHash": "0xff1463a901915404f125039bb883d0677b1e13f85609f7b41c2b1e22ab00e936",
+          "timestamp": "0x6ad9fdb3"
+        }
+      }
+    },
+    {
+      "provider_id": "ethereum-primary",
+      "request": {
+        "id": 30,
+        "jsonrpc": "2.0",
+        "method": "eth_getBlockByNumber",
+        "params": [
+          "0x190838c",
+          false
+        ]
+      },
+      "response": {
+        "id": 30,
+        "jsonrpc": "2.0",
+        "result": {
+          "hash": "0x93c3ada980ac14c3a0a64f3ef98d3e8639ffd1ce42b6e2e74ee44c1bddcb5053",
+          "number": "0x190838c",
+          "parentHash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+          "timestamp": "0x6ad9fdbf"
+        }
+      }
+    },
+    {
+      "provider_id": "ethereum-secondary",
+      "request": {
+        "id": 31,
+        "jsonrpc": "2.0",
+        "method": "eth_getBlockByNumber",
+        "params": [
+          "0x190838b",
+          false
+        ]
+      },
+      "response": {
+        "id": 31,
+        "jsonrpc": "2.0",
+        "result": {
+          "hash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+          "number": "0x190838b",
+          "parentHash": "0xff1463a901915404f125039bb883d0677b1e13f85609f7b41c2b1e22ab00e936",
+          "timestamp": "0x6ad9fdb3"
+        }
+      }
+    },
+    {
+      "provider_id": "ethereum-secondary",
+      "request": {
+        "id": 32,
+        "jsonrpc": "2.0",
+        "method": "eth_getBlockByNumber",
+        "params": [
+          "0x190838c",
+          false
+        ]
+      },
+      "response": {
+        "id": 32,
+        "jsonrpc": "2.0",
+        "result": {
+          "hash": "0x93c3ada980ac14c3a0a64f3ef98d3e8639ffd1ce42b6e2e74ee44c1bddcb5053",
+          "number": "0x190838c",
+          "parentHash": "0xaa5d5445424fa891cf0fb474235ffd2dd23d1081fc01f21beae9588609a5efd0",
+          "timestamp": "0x6ad9fdbf"
+        }
+      }
+    }
+  ],
+  "schema": "nqc-miner-aave-condition-observation-v1",
+  "state_authenticated": false,
+  "transaction_prestate": false
+}

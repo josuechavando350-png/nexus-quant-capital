@@ -1,0 +1,173 @@
+{
+  "artifact_sha256": {
+    "README.md": "6362ccf51e0193ad5c038a02776e6a1caffbe27458cb3fc978c3c1eebdb132ab",
+    "clippy-targeted.txt": "1ed56a1a7d7436c428c3d0439c005630ef1b84dd5196c20f79466fd8c42a0b09",
+    "compiler/compiler.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "compiler/input.json.gz": "cebc9f20c420989943b9ad522d9a9ef2bcd3d06ac0cb27fc61b2ff4f84e6bedb",
+    "compiler/output.json.gz": "aaa8c9e540cf6e6fa58aa6da37fe7fae857a2b334107accc0574e4988159a4f4",
+    "execution-notes.json": "6063981b3892630ccfcf438b653a929584e7a75cee1de4266a09289dd8eb5c73",
+    "initial-extraction-failure.txt": "10d14f99f481452ab67329a941f0b88d91979cb65c2423a25219dbfac6006239",
+    "offline/build-identity.txt": "7893ea77b0853a9e8592de0d320a98f92b05320a8f4a5a81a4675e44ab168288",
+    "offline/clippy.txt": "9edb0be50185dc6da54ef11da2c9e4f820a557f7a44b3b1539d4e6181d296b1b",
+    "offline/miner-scope.txt": "9344f2f026a402003404af4f79e63202834a7a337a6c8963854e822449e13143",
+    "offline/python-research-tests.txt": "fab7084f284850701287fad4bb0ceae2452ed61273288fe641f77be9025f881a",
+    "offline/repository-isolation.txt": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940",
+    "offline/rust-build.txt": "cc7dd8ed0f041e9c72981a0eb8027deeb606c7b26872a01ebeada35205dd143b",
+    "offline/rust-tests.txt": "70b46a84aa9eeda533bf39cd6adc718e4dbee841f91c6fe7d318c50a5adc0661",
+    "offline/rustfmt.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "offline/summary.json": "a068f14e748c2b44aa036e32f56b35036b41798761337da6271c7de3e9e6c25e",
+    "python-targeted-final.txt": "ed0f68cc8fb0303cd0f6007230ca420d87b6278d62112d10771278c70b1271ec",
+    "python-targeted-initial.txt": "56784d8fb07eeaacd95757e8f52a683130fdc21fef74e9304ea399bbd6b1b191",
+    "recompilation.json": "66ce59c04fc11656083953174044fee847ed0d001424eb7e9ece0255dabd358c",
+    "source-history.bundle": "51b9b551287b2190029a84159d9a1de8d9ff10edc728df9a68540a9b66054da0",
+    "synthetic/input.json": "3975abba75db7a5e900df1cbc6a6a9355da03a79e1f1b4c0662ae6271d90873e",
+    "synthetic/output.json": "b66f1d96a51101b8fb8d253f118dab4d46d88e6b2f940af7ef6b0160657107a5",
+    "targeted-final.txt": "ccb01879fafa9083a352cb5eedaef15ec132a682bb43e64214824d70e45bcc15",
+    "targeted-fourth.txt": "45ef2f06b3ddb1c43df3a07b02cb148a7462af913cbf5344002c414a126bba3a",
+    "targeted-initial.txt": "d4274abd3069d807dda13ed1026d4b3426e0af80ee23d282c8ccd070a7d02dab",
+    "targeted-second.txt": "07f2a9c0bb8c9eb5ad2f9b0c27cc166d963ec48c3e3bde68e39c06c5f267b5ed",
+    "targeted-third.txt": "80a9f8fbbc0a21f8291005317b78575ba60f708a547ce9f31007f054099a40c7"
+  },
+  "as_of": "2026-10-23",
+  "atoken_proxies_exercised": 4,
+  "audited_input_hashes_rechecked": 152,
+  "audited_inputs_unchanged": true,
+  "binary_sha256": "3f1c735c9353483f410d832d4a737268e5a1f3150662ccfca39cee2e4e0cf4b3",
+  "checks": {
+    "build-identity": {
+      "exit_code": 0,
+      "log_sha256": "7893ea77b0853a9e8592de0d320a98f92b05320a8f4a5a81a4675e44ab168288"
+    },
+    "clippy": {
+      "exit_code": 0,
+      "log_sha256": "9edb0be50185dc6da54ef11da2c9e4f820a557f7a44b3b1539d4e6181d296b1b"
+    },
+    "miner-scope": {
+      "exit_code": 0,
+      "log_sha256": "9344f2f026a402003404af4f79e63202834a7a337a6c8963854e822449e13143"
+    },
+    "python-research-tests": {
+      "exit_code": 0,
+      "log_sha256": "fab7084f284850701287fad4bb0ceae2452ed61273288fe641f77be9025f881a"
+    },
+    "repository-isolation": {
+      "exit_code": 0,
+      "log_sha256": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940"
+    },
+    "rust-build": {
+      "exit_code": 0,
+      "log_sha256": "cc7dd8ed0f041e9c72981a0eb8027deeb606c7b26872a01ebeada35205dd143b"
+    },
+    "rust-tests": {
+      "exit_code": 0,
+      "log_sha256": "70b46a84aa9eeda533bf39cd6adc718e4dbee841f91c6fe7d318c50a5adc0661"
+    },
+    "rustfmt": {
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "document_sha256": {
+    "README.md": "e439c220097ad69e5e1ddb82085163e713a278bb912fb171740834df35c0f68e",
+    "docs/AUDIT_AAVE_TRANSFER_EXECUTION_20261023.md": "ff0720cf49b868a7fd51220b09e4cdff3ee46b8bd0e7ba90223170b0d5cea9e0",
+    "docs/aave-transfer-execution.md": "ed60f230cc66c9ddb79f4e3fda15221520c30c93a28600bde92f0044e44f114b",
+    "docs/closure-plan.json": "0df6264eacc779db5c33d0a531a4b1554d416a699277f7e4854091fada678c49",
+    "docs/progress.json": "251cd40c1b9df8642ee0e4cdedd8929a4c00f8027d59d464d360615ecb6f4a17"
+  },
+  "earlier_attempts": {
+    "final_targeted_run_passed": true,
+    "fourth_run_interrupted": true,
+    "initial_extraction_failed_before_compile": true,
+    "initial_rust_compile_failed": true,
+    "second_rust_run": {
+      "failed": 5,
+      "passed": 3
+    },
+    "third_rust_run": {
+      "failed": 1,
+      "passed": 7
+    }
+  },
+  "fixture_sha256": "96f90bdbc51e66baec516f60ae51bc6cacb170e3534f8cbfbdd9fea4fe01ea16",
+  "global_completion_percent": 43,
+  "isolation": {
+    "active_workflows": 0,
+    "canonical_recertification": false,
+    "destination_repository_id": 1411047452,
+    "disabled_workflows": 106,
+    "original_objects_checked": false,
+    "source_commit": "e259739c9f75fedcd1061d2f78d6b8852e7a3060",
+    "source_files": 531,
+    "status": "ISOLATED_SOURCE_IDENTITY_PASS"
+  },
+  "limits": {
+    "debt_payment_executed": false,
+    "economic_certification": false,
+    "executable_historical_eligibility_certified": false,
+    "execution_state_synthetic": true,
+    "full_liquidation_certified": false,
+    "historical_fork_certified": false,
+    "historical_state_authenticated": false,
+    "initial_health_validation_executed": false,
+    "liquidation_amounts_supplied": true,
+    "observer_bridge_enabled": false,
+    "phase_exits_completed": [],
+    "pool_entrypoint_synthetic": true,
+    "post_transfer_balance_supplied": false,
+    "receive_atoken_only": true,
+    "spending_authorized": false,
+    "underlying_transfer_executed": false
+  },
+  "new_network_requests": 0,
+  "new_progress_credit": 0,
+  "offline_summary_sha256": "a068f14e748c2b44aa036e32f56b35036b41798761337da6271c7de3e9e6c25e",
+  "proxy_families_exercised": 2,
+  "publication_base_commit": "4cceb0975d80e4c9c72b297b7c02b07f4bbd0699",
+  "recompilation": {
+    "compiler_executions": 2,
+    "compiler_sha256": "b9977d500c17cba6f0032ca939ef98c4decf6363f19f386d05fb02f708115264",
+    "extracted_segments": {
+      "consumption_and_flag": "f210603ff66c55ac91aa308bb5f77b09692d7a00957f7b8f8b34afc89b95b2e5",
+      "fee_transfer": "84fc732ef4b9549c19a6b1d4c2c9f76efe449e5ba8f94d5495825aed49d6ae26",
+      "receive_atoken_transfer": "d4033aa5860540b7e7d904f4dff07ca83cbb4be3cbc7967a2f1d00a06ae2b796",
+      "structure": "3b7ce82d3b7ee42e3f15d84a6aa22fa5e21072f52557d5573a0ec76b500188e6"
+    },
+    "input_sha256": "5ad287c00997c9cf50180cbb45e1c54400e2d715e61c802142039b2a37a240a8",
+    "original_sources_unchanged": true,
+    "output_sha256": "ce641b4e7556ed29e6d17ba1da5b09a7e2f2f61d34f336faa59d1f9c78469943",
+    "outputs_byte_identical": true
+  },
+  "schema": "nqc-miner-aave-transfer-execution-verification-v1",
+  "scope": {
+    "base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
+    "changed_paths": 1153,
+    "observer_files_changed": 0,
+    "outside_miner": [],
+    "remote_branches_modified_by_this_check": false,
+    "status": "MINER_SCOPE_PASS"
+  },
+  "source_dirty": false,
+  "source_sha256": "55fda12687fb2e74135a8bb5582043223618de26ea2a6647d7712c8649ac1fbc",
+  "status": "pass",
+  "synthetic_example": {
+    "changed_storage_slots": 17,
+    "gas_represents_full_liquidation": false,
+    "gas_used": 360764,
+    "ordered_events": 17,
+    "output_words": 19
+  },
+  "tested_source_commit": "424775f2b17fdc2581fcd8cd70f50abe6c126e06",
+  "tests": {
+    "added_python": 8,
+    "added_rust": 8,
+    "preceding_reference_executions_per_seeded_case": 2,
+    "python_failed": 0,
+    "python_passed": 322,
+    "python_skipped": 0,
+    "rust_failed": 0,
+    "rust_ignored": 0,
+    "rust_passed": 226,
+    "seeded_cases": 320,
+    "total_passed": 548
+  }
+}

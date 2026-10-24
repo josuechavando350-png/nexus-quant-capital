@@ -1,0 +1,24 @@
+{
+  "schema": "nqc-miner-gas-funding-input-v1",
+  "plan": {
+    "chain_id": 1,
+    "bundle_digest": "1111111111111111111111111111111111111111111111111111111111111111",
+    "execution_code_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "parent_block": {"number": 100, "hash": "3333333333333333333333333333333333333333333333333333333333333333"},
+    "target_block": 101,
+    "gas_limit": 300000,
+    "max_fee_per_gas_wei": "30000000000",
+    "additional_network_fee_cap_wei": "9007199254740993",
+    "operator_prefund_wei": "0",
+    "operator_principal_required": false,
+    "operator_collateral_required": false,
+    "operator_guarantee_required": false,
+    "operator_gas_fallback": false
+  },
+  "context": {
+    "chain_id": 1,
+    "parent_block": {"number": 100, "hash": "3333333333333333333333333333333333333333333333333333333333333333"},
+    "now_unix_seconds": 1000
+  },
+  "claim": null
+}

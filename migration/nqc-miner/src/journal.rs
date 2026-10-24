@@ -10,8 +10,8 @@ use serde::{Deserialize, Serialize};
 use std::{
     collections::{BTreeMap, BTreeSet},
     fs::{self, File, OpenOptions},
-    io::{BufRead, BufReader, Write},
-    path::{Path, PathBuf},
+    io::{BufRead, BufReader, Read, Write},
+    path::Path,
 };
 use thiserror::Error;
 
@@ -343,14 +343,14 @@ pub struct JournalSummary {
     pub authenticity_verified: bool,
 }
 
-struct LockGuard(PathBuf);
-impl Drop for LockGuard {
-    fn drop(&mut self) {
-        let _ = fs::remove_file(&self.0);
-    }
+// The kernel releases this lock even on SIGKILL. Never unlink its inode: doing
+// so could let two writers lock different files with the same pathname.
+struct LockGuard {
+    _file: File,
 }
+const LOCK_MAGIC: &[u8] = b"nqc-miner-kernel-lock-v1\n";
 
-fn reject_symlink(path: &Path) -> Result<(), JournalError> {
+pub(crate) fn reject_symlink(path: &Path) -> Result<(), JournalError> {
     // Do not follow even an ancestor symlink into another workspace/state directory.
     for component in path.ancestors() {
         if component.as_os_str().is_empty() {
@@ -370,23 +370,35 @@ fn reject_symlink(path: &Path) -> Result<(), JournalError> {
 
 fn acquire_lock(path: &Path) -> Result<LockGuard, JournalError> {
     let lock_path = path.join("writer.lock");
-    let mut lock = OpenOptions::new()
+    reject_symlink(&lock_path)?;
+    let (mut lock, created) = match OpenOptions::new()
+        .read(true)
         .write(true)
         .create_new(true)
         .open(&lock_path)
-        .map_err(|error| {
-            if error.kind() == std::io::ErrorKind::AlreadyExists {
-                JournalError::Rejected(
-                    "state is locked; never remove another run's lock automatically".into(),
-                )
-            } else {
-                error.into()
-            }
-        })?;
-    let guard = LockGuard(lock_path);
-    writeln!(lock, "{}", std::process::id())?;
-    lock.sync_all()?;
-    Ok(guard)
+    {
+        Ok(file) => (file, true),
+        Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => (
+            OpenOptions::new().read(true).write(true).open(&lock_path)?,
+            false,
+        ),
+        Err(error) => return Err(error.into()),
+    };
+    lock.try_lock().map_err(|_| {
+        JournalError::Rejected("state is locked or filesystem locking is unsupported".into())
+    })?;
+    if created {
+        lock.write_all(LOCK_MAGIC)?;
+        lock.sync_all()?;
+        File::open(path)?.sync_all()?;
+    } else {
+        let mut bytes = Vec::new();
+        (&mut lock).take(128).read_to_end(&mut bytes)?;
+        if bytes != LOCK_MAGIC {
+            return Err(JournalError::Rejected("legacy, incomplete or foreign lock; requires manual inspection, never automatic removal".into()));
+        }
+    }
+    Ok(LockGuard { _file: lock })
 }
 
 pub struct Journal {

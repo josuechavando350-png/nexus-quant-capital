@@ -1,0 +1,57 @@
+{
+  "schema": "nqc-miner-sync-preflight-v1",
+  "status": "offline_pass_client_runtime_pending",
+  "checked_at_utc": "2026-10-22T23:29:13.168135+00:00",
+  "base_published_commit": "30816a004dbd70f6478d05c9fe48ac2c9b57a163",
+  "fixture_source_commit": "e4700af5bed905e6b071d93cbc17f7489521b342",
+  "progress_percent": 43,
+  "progress_credit_added": 0,
+  "python_tests_passed": 189,
+  "new_protocol_tests": 15,
+  "new_sync_tests": 10,
+  "new_runner_tests": 4,
+  "native_checks_prepared": 17,
+  "native_postgres_client_executed": false,
+  "new_database_connections_by_agent": 0,
+  "rust_recompiled_or_retested": false,
+  "verifier_sha256": "47292cd97732d246099b63f07cea6dc128dfd5612efe3341a6cefb4e631d4548",
+  "source_hashes": {
+    "research/sync_postgres_collection.py": "bd38627952d4c106a9e1ad86645c2865803492938c39149c1d2f5465312bc5e9",
+    "research/test_sync_postgres_collection.py": "3574cc1943bb25970ad9af7ea905cea64e6878a0262a2db30491b92f748357f7",
+    "research/test_collection_transport.py": "f86294d3a51da8180510b05c9fe054c3ca4eff87e7e64a0ae521cd49e03f36d2",
+    "research/test_termux_sync_runner.py": "ceb12df6adc4701782cbc7778c63ab5d780a3f420215e199de4b86d035926438",
+    "scripts/collection_transport.py": "886163d380e1849e3ba71e19eef11e4cab192427ef5759fe98785a2c10aa0bc6",
+    "scripts/postgres_transport_runtime.py": "6a8940618ad94365b94139f2991d0d235c202a604a89b77051e6c78d51affa7a",
+    "scripts/build_termux_sync_check.py": "fc56d51b8fe482b6309fabd25c342ea9bfd49be91e217a95dc4ca547ceba7e97",
+    "scripts/termux_sync_check.template.sh": "c50d69d5ddd2ecd7498a92511f7741a77f51bf141c3234f6a2edaa8433e55282",
+    "scripts/nqc-miner-sync-check.sh": "bb59f9cff444990ff909fbc1af26b259ac92864fe8555a25b368ded3301aa4fb"
+  },
+  "unchanged_inputs": {
+    "infra/postgres.sql": "5307880cd7f274f5f0ac4eb222e19ca34fb0e0a9abd59a2970be50611a259f21",
+    "infra/postgres_import.sql": "4fe03449780702a9aa700540a473fa61396fb85fa60805fdf658e15a75741b0b",
+    "infra/postgres_collection.sql": "90de39223b0265d8b2ca2d8ee73127571018040c7865917653d3444dcf8ef350",
+    "research/archive_collection.py": "b1d76941c1ba7b2be9c76ca7214e38175454e181477b58f0ded9e81a92675bd0",
+    "research/prepare_postgres_collection.py": "e11cddc1a9cbe283de6ff8752aca13f10fe98382f7e44a0fb8f37f8bdb6d936a",
+    "research/prepare_postgres_import.py": "41df5aa0d4d7ffce8605a7a5335e2435eb70bfb4f101b87e281eaa8ec15fd7ae",
+    "research/export_parquet.py": "3f36165c0bd4c11c8d74d87ed03452bc80bb1b7aa871d018982bcbc8ad7f747a",
+    "Cargo.lock": "634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab"
+  },
+  "retained_evidence": {
+    "build.json": "4ce2814e9e183fc6658a305e05ba38acb8b859037d393f98d796afd7a1ad7a46",
+    "sql-parser.json": "6a8ed3687ae25e8368dc013e7a3dd5fa038fd2c1e2611991059b72fdce12881f",
+    "environment.json": "f1d3ab5801b35cd6eec524bab3b3de4d22dc16c0fee298866eca50e7ddaf3028",
+    "isolation.json": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940",
+    "scope.json": "1ce55c21c5386c9f673287eeec925757fb6f2e4473a3faccb81c0e42389d9637",
+    "python-tests.log": "d7f4d8b5d5bdc4f0171e0ad6c668ff73c2d5ff89b735cb113a2c4eb75c8c71ac",
+    "jsonb-native-crosscheck.json": "d973419061a398c0daa4a487076a792d1177f420b48434c599b89d27e7e9f194"
+  },
+  "observer_bridge_enabled": false,
+  "spending_authorized": false,
+  "production_integration": false,
+  "limits": [
+    "DB boundary in local tests explicitly uses a fake client/socket metadata",
+    "native Termux client execution and returned-evidence audit pending",
+    "no remote provisioning, daemon, broker, workflow or external relay",
+    "cooperating writers and explicit source pause required"
+  ]
+}

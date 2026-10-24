@@ -1,0 +1,25 @@
+  function liquidationCall(
+    address collateralAsset,
+    address debtAsset,
+    address borrower,
+    uint256 debtToCover,
+    bool receiveAToken
+  ) public virtual override {
+    LiquidationLogic.executeLiquidationCall(
+      _reserves,
+      _reservesList,
+      _usersConfig,
+      _eModeCategories,
+      DataTypes.ExecuteLiquidationCallParams({
+        liquidator: _msgSender(),
+        debtToCover: debtToCover,
+        collateralAsset: collateralAsset,
+        debtAsset: debtAsset,
+        borrower: borrower,
+        receiveAToken: receiveAToken,
+        priceOracle: ADDRESSES_PROVIDER.getPriceOracle(),
+        borrowerEModeCategory: _usersEModeCategory[borrower],
+        interestRateStrategyAddress: RESERVE_INTEREST_RATE_STRATEGY
+      })
+    );
+  }

@@ -1,0 +1,18 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/162ea5393283/nqc/migration/nqc-miner)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.94s
+     Running tests/aave_debt_execution_tests.rs (/tmp/nqc-miner-target/debug/deps/aave_debt_execution_tests-17d48d7081572acf)
+
+running 10 tests
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::dust_debt_repayment_is_rejected_before_payment_without_any_persistent_changes ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::recipient_255_bit_overflow_reverts_after_attempted_sender_debit ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::original_safe_transfer_wrapper_rejects_false_malformed_and_no_code_tokens_atomically ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::insufficient_usdc_balance_or_approval_rolls_back_delivered_weth_and_all_prior_effects ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::usdc_proxy_admin_cannot_use_fallback_and_failure_is_atomic ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::paused_or_blacklisted_spender_liquidator_or_vault_rolls_back_entire_composition ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::payment_missing_code_routing_pause_blacklist_balance_or_allowance_witness_fails_closed ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::original_usdc_payment_and_liquidation_event_export_closed_example ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::exact_allowance_balance_and_maximum_approval_are_decremented ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::seeded_usdc_payment_composes_prior_burn_rates_fee_rewards_and_exact_events ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 40 filtered out; finished in 25.85s
+

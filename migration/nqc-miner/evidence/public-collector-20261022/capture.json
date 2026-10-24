@@ -1,0 +1,162 @@
+{
+  "schema": "nqc-miner-collector-smoke-v1",
+  "status": "complete_bounded_restart_smoke",
+  "started_at_utc": "2026-10-22T19:20:52.670766+00:00",
+  "completed_at_utc": "2026-10-22T19:21:18.896247+00:00",
+  "transport_context": "public_rpc",
+  "checks": [
+    {
+      "name": "about-before",
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.004,
+      "command": [
+        "/workspace/scratch/1372b3d66995/tmp/miner-target/debug/nqc-miner",
+        "about"
+      ]
+    },
+    {
+      "name": "validate",
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.008,
+      "command": [
+        "/workspace/scratch/1372b3d66995/tmp/miner-target/debug/nqc-miner",
+        "validate-config",
+        "--config",
+        "/workspace/scratch/1372b3d66995/nqc-miner-work/migration/nqc-miner/evidence/public-collector-20261022/config.json"
+      ]
+    },
+    {
+      "name": "follow-initial",
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 15.671,
+      "command": [
+        "/workspace/scratch/1372b3d66995/tmp/miner-target/debug/nqc-miner",
+        "follow",
+        "--config",
+        "/workspace/scratch/1372b3d66995/nqc-miner-work/migration/nqc-miner/evidence/public-collector-20261022/config.json",
+        "--state",
+        "/workspace/scratch/1372b3d66995/nqc-miner-work/migration/nqc-miner/evidence/public-collector-20261022/state",
+        "--max-polls",
+        "2",
+        "--poll-seconds",
+        "1"
+      ]
+    },
+    {
+      "name": "verify-initial",
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.016,
+      "command": [
+        "/workspace/scratch/1372b3d66995/tmp/miner-target/debug/nqc-miner",
+        "verify-collector",
+        "--config",
+        "/workspace/scratch/1372b3d66995/nqc-miner-work/migration/nqc-miner/evidence/public-collector-20261022/config.json",
+        "--state",
+        "/workspace/scratch/1372b3d66995/nqc-miner-work/migration/nqc-miner/evidence/public-collector-20261022/state"
+      ]
+    },
+    {
+      "name": "follow-resumed",
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 10.418,
+      "command": [
+        "/workspace/scratch/1372b3d66995/tmp/miner-target/debug/nqc-miner",
+        "follow",
+        "--config",
+        "/workspace/scratch/1372b3d66995/nqc-miner-work/migration/nqc-miner/evidence/public-collector-20261022/config.json",
+        "--state",
+        "/workspace/scratch/1372b3d66995/nqc-miner-work/migration/nqc-miner/evidence/public-collector-20261022/state",
+        "--max-polls",
+        "1",
+        "--poll-seconds",
+        "1"
+      ]
+    },
+    {
+      "name": "verify-final",
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.016,
+      "command": [
+        "/workspace/scratch/1372b3d66995/tmp/miner-target/debug/nqc-miner",
+        "verify-collector",
+        "--config",
+        "/workspace/scratch/1372b3d66995/nqc-miner-work/migration/nqc-miner/evidence/public-collector-20261022/config.json",
+        "--state",
+        "/workspace/scratch/1372b3d66995/nqc-miner-work/migration/nqc-miner/evidence/public-collector-20261022/state"
+      ]
+    },
+    {
+      "name": "about-after",
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.009,
+      "command": [
+        "/workspace/scratch/1372b3d66995/tmp/miner-target/debug/nqc-miner",
+        "about"
+      ]
+    }
+  ],
+  "rejection": null,
+  "binary_before_sha256": "f72c75c46eb24ada3680ef68f60f75883fbf68299274011f187ccac102612c65",
+  "binary_after_sha256": "f72c75c46eb24ada3680ef68f60f75883fbf68299274011f187ccac102612c65",
+  "binary_unchanged": true,
+  "prior_windows_unchanged": true,
+  "prior_window_files": {
+    "state/window-00000000000000000000/config.json": "a7ee56f1fe74fa2bb1d662143d8f7e361c7a901fc126337d00b121acbb72dd42",
+    "state/window-00000000000000000000/events.jsonl": "350ff2a2a17175d20296fc7fa8074fd77461408ab9686557546f1c69a62b105f",
+    "state/window-00000000000000000000/owner.json": "0308c6098d45c661416c20361563aa14d9ee639ff1a5df898a9fbfd39bbdd345",
+    "state/window-00000000000000000000/writer.lock": "43c8e64a10567ebdac71ba0ef7f166fb585df7a03b3a4c2c19aeb6aaaf8453b4",
+    "state/window-00000000000000000001/config.json": "9ce1bd53001ec8a6a810bfd65b59eb885d2f20f9163e3f52280105b9686cb6dc",
+    "state/window-00000000000000000001/events.jsonl": "2fc48dbffd2fc838289e6e70df3a8c70330dd7385dc9061e931b35f7396c6a74",
+    "state/window-00000000000000000001/owner.json": "4b35d137f07e00c33bc1fd8904d8e8e15d059475c63d9b2a0d4818e215e48944",
+    "state/window-00000000000000000001/writer.lock": "43c8e64a10567ebdac71ba0ef7f166fb585df7a03b3a4c2c19aeb6aaaf8453b4"
+  },
+  "template_sha256": "7e57fdd9fcb82124837a3c78be62bfb262fffa23c03aa0743bd48964aa208695",
+  "capture_script_sha256": "a808e4790e3026613fdb56c8e879ab7f8be1f6b1b5d2f26ab682a387be2e8e72",
+  "completed_windows": 3,
+  "canonical_events": 2,
+  "files": {
+    "about-after.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "about-after.stdout": "ba69f23b1c5f6c5659ad3cae07b10383d89ba25b451adae3ff4afa89d8c2d617",
+    "about-before.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "about-before.stdout": "ba69f23b1c5f6c5659ad3cae07b10383d89ba25b451adae3ff4afa89d8c2d617",
+    "config.json": "4c73fc57499544ac2ea8bfdac949cb4fc88f9d47b0d2b5960f2f1eaa50985171",
+    "follow-initial.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "follow-initial.stdout": "a841212017ce379949afc4e47bca90bcea156254e81824ccec10fb69c4b3af2e",
+    "follow-resumed.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "follow-resumed.stdout": "d5150f805c12b0c4ff34e31cc10c15189bae6b6cebeaab141972e4d7cfc51301",
+    "state/collector.json": "dba278434da096e91b056384f0455787c41c95bfa62ab11cd6b13add55251d04",
+    "state/config.json": "59ac5327d23534ecdca63ded9c3d64bc609a12496fae8abb3e423820c339574c",
+    "state/events.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "state/owner.json": "1d37fba1d0b83f573d09a09da2a6c98549abe3b1f2d9ee6131782c9ce48e34da",
+    "state/window-00000000000000000000/config.json": "a7ee56f1fe74fa2bb1d662143d8f7e361c7a901fc126337d00b121acbb72dd42",
+    "state/window-00000000000000000000/events.jsonl": "350ff2a2a17175d20296fc7fa8074fd77461408ab9686557546f1c69a62b105f",
+    "state/window-00000000000000000000/owner.json": "0308c6098d45c661416c20361563aa14d9ee639ff1a5df898a9fbfd39bbdd345",
+    "state/window-00000000000000000000/writer.lock": "43c8e64a10567ebdac71ba0ef7f166fb585df7a03b3a4c2c19aeb6aaaf8453b4",
+    "state/window-00000000000000000001/config.json": "9ce1bd53001ec8a6a810bfd65b59eb885d2f20f9163e3f52280105b9686cb6dc",
+    "state/window-00000000000000000001/events.jsonl": "2fc48dbffd2fc838289e6e70df3a8c70330dd7385dc9061e931b35f7396c6a74",
+    "state/window-00000000000000000001/owner.json": "4b35d137f07e00c33bc1fd8904d8e8e15d059475c63d9b2a0d4818e215e48944",
+    "state/window-00000000000000000001/writer.lock": "43c8e64a10567ebdac71ba0ef7f166fb585df7a03b3a4c2c19aeb6aaaf8453b4",
+    "state/window-00000000000000000002/config.json": "52fe98d4c90f098288c69c29c367a8d8a174d3cb4c03f8929f8222a48744d56e",
+    "state/window-00000000000000000002/events.jsonl": "1d717b579002eb0460853877b8a8e8b9e647d2780dea3589ce30844a405ab9fa",
+    "state/window-00000000000000000002/owner.json": "81d195e41c56606b6f05a3c6242aef73c13c62a3289527d596ab5fc35dd1f2a4",
+    "state/window-00000000000000000002/writer.lock": "43c8e64a10567ebdac71ba0ef7f166fb585df7a03b3a4c2c19aeb6aaaf8453b4",
+    "state/writer.lock": "43c8e64a10567ebdac71ba0ef7f166fb585df7a03b3a4c2c19aeb6aaaf8453b4",
+    "validate.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validate.stdout": "7ec492e90c96a8ad3160a09469d40d30a9eacbca33633284fed7351345bf1937",
+    "verify-final.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "verify-final.stdout": "33c3ee29044f8bb7fc70e8acc57cc447b25f8957a4605c602db340bb3d3531d3",
+    "verify-initial.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "verify-initial.stdout": "2a137fef3e42d89d1b4f0a7434810f90876269dd4d51a38797a80781d50eea48"
+  },
+  "observer_bridge_enabled": false,
+  "spending_authorized": false,
+  "persistent_service_started": false,
+  "economic_certification": false
+}

@@ -1,0 +1,171 @@
+{
+  "audited_inputs_unchanged": true,
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "--offline"
+      ],
+      "elapsed_seconds": 30.189,
+      "exit_code": 0,
+      "log": "rust-build.txt",
+      "log_sha256": "470a44d9e5b109f9dd4000ad1270659447fe65cec622c6184a2a770bbeb63e16",
+      "name": "rust-build"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--all-targets",
+        "--locked",
+        "--offline"
+      ],
+      "elapsed_seconds": 37.722,
+      "exit_code": 0,
+      "failed": 0,
+      "ignored": 0,
+      "log": "rust-tests.txt",
+      "log_sha256": "565da4680bc8412a0ecba9784d3b45f0598add04411c3ade999a1bebf5ead04d",
+      "name": "rust-tests",
+      "passed": 138
+    },
+    {
+      "command": [
+        "cargo",
+        "clippy",
+        "--all-targets",
+        "--locked",
+        "--offline",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "elapsed_seconds": 27.475,
+      "exit_code": 0,
+      "log": "clippy.txt",
+      "log_sha256": "db3e5317d6e1a5d9c7aad480181375b9382ea5b6b9a63b10ae35cb01708009fb",
+      "name": "clippy"
+    },
+    {
+      "command": [
+        "cargo",
+        "fmt",
+        "--",
+        "--check"
+      ],
+      "elapsed_seconds": 0.217,
+      "exit_code": 1,
+      "log": "rustfmt.txt",
+      "log_sha256": "a6625d63055c73df99d59cfb1637fca407784681e73c319c5931a99a44942e1d",
+      "name": "rustfmt"
+    },
+    {
+      "command": [
+        "/workspace/scratch/1372b3d66995/tmp/miner-research-venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "research",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "elapsed_seconds": 3.409,
+      "executed": 47,
+      "exit_code": 0,
+      "log": "python-research-tests.txt",
+      "log_sha256": "0336004eabdf2cdd726cac00c1b64f3fb1d4308abc384d1612f82fdbd1279052",
+      "name": "python-research-tests"
+    },
+    {
+      "command": [
+        "/workspace/scratch/1372b3d66995/tmp/miner-research-venv/bin/python",
+        "/workspace/scratch/1372b3d66995/nqc-miner-work/migration/verify_isolation.py"
+      ],
+      "elapsed_seconds": 0.128,
+      "exit_code": 0,
+      "log": "repository-isolation.txt",
+      "log_sha256": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940",
+      "name": "repository-isolation"
+    },
+    {
+      "command": [
+        "/workspace/scratch/1372b3d66995/tmp/miner-research-venv/bin/python",
+        "scripts/check_scope.py"
+      ],
+      "elapsed_seconds": 0.065,
+      "exit_code": 0,
+      "log": "miner-scope.txt",
+      "log_sha256": "f052ecfa0b9fb6e9d74227b439365bf2f6909a689c58aa8409660fd76793e268",
+      "name": "miner-scope"
+    },
+    {
+      "binary_source_matches_inputs": true,
+      "command": [
+        "/workspace/scratch/1372b3d66995/tmp/miner-target/debug/nqc-miner",
+        "about"
+      ],
+      "elapsed_seconds": 0.003,
+      "exit_code": 0,
+      "log": "build-identity.txt",
+      "log_sha256": "c035fb7ba6cc547f2d8715d13c8e799e538990fea6fc8891b179c9551fa7a590",
+      "name": "build-identity"
+    }
+  ],
+  "completed_at_utc": "2026-10-22T18:45:14.298709+00:00",
+  "economic_certification": false,
+  "infrastructure_runtime_checks_executed": false,
+  "inputs": {
+    "Cargo.lock": "634f6b4361a2b29a6eeb55338422f5dbb0902fefa231433bfd385b6240a0daab",
+    "Cargo.toml": "8a2007f8d37871fcd46f9281779944c02f5e98d524196387ba85792f6e2ed9f3",
+    "build.rs": "c604b3f25eb2ddc758c4126a5d56d94136c27fea2276dd37a9fc7524c58d8108",
+    "fixtures/valuation.synthetic.json": "762f2680d408cfda4a50824e858d6163f1e7774132251fe9725d79af2cb6e4a5",
+    "infra/clickhouse.sql": "00d98c80b17d0b6ba4b078e3d07c11202ecd20b1cde181a7a8f21a2888cd6f8a",
+    "infra/default.nix": "76b342aacb9783339c1aa1621c05c79c39248084a5b4d9611c14c1f46038fdfa",
+    "infra/ownership-contract.json": "c7550e07f120e0935942df6eef29e11242d2123f601f58ae40faee410db53fc8",
+    "infra/postgres.sql": "5307880cd7f274f5f0ac4eb222e19ca34fb0e0a9abd59a2970be50611a259f21",
+    "infra/redpanda-contract.json": "62cb9a79a2af2b31a7b81ddfd8cd1abca9b46f9c7d7ccde4f08a24ffa7218a8b",
+    "infra/temporal-contract.json": "fc2e88f11535c389005397fd8723ffdd454211854b43a62f05b27bfd823a80a1",
+    "research/export_parquet.py": "b0f1a0fca0db3c21a01ec5f763a3e3a93bd953d9c869f47363e0ab33633a5cc2",
+    "research/genome.py": "cab7001ab9a91df66ff1d747ce4624afa3d1875141582b0d4f5667fbbf11513e",
+    "research/requirements.txt": "f8e1d7b9be68e4dbbd884104e07c89566175e5351cedf6b5ca6cc709d0921fd2",
+    "research/test_bind_run_config.py": "eb1102a780271dbe8ba30bee507d486a189394b2eb6e39826777481d62f756f7",
+    "research/test_build_identity_contract.py": "a405d71e37d2c252f36cdfb4bb1a1bbbe933d5d257ad003f04c58297c7cf26d0",
+    "research/test_export_parquet.py": "4310fe04c54107751540e2200fa5759fde8508f5a47c3ddfc80791df8d2b980e",
+    "research/test_genome.py": "c34e946eaf9c070868a71c5d35bbbd7555d862ca44bc7d4314e28790b622b662",
+    "rust-toolchain.toml": "c33d1f0b1b8fda448bea32d7dc867aa64947c87169fd9de7122ffccad1dd80f9",
+    "schemas/README.md": "70859d6ec1ff48b27fd1db1fb8da08f446898b7d3013e7521356649b29bea6a1",
+    "schemas/journal-envelope.schema.json": "e202327a2dd0b9fbde4feed5f7af73ad4c8fd8144ca9795bce384ebb372d1d90",
+    "schemas/journal-owner.schema.json": "31daee26f7cf64cfabb29b8b2cd7203b6556a8f7e617ed3c4a618b30aef344ea",
+    "schemas/parquet-export.schema.json": "bd5dd594fabc1eb72ff8c4eeb8c16a54a045a06a92490604917d625a9ff3b3b8",
+    "scripts/bind_run_config.py": "db98dc3a61b4212437e75657ea368fd82fcf62e25a0102df00e66da416e4e3e4",
+    "scripts/check_scope.py": "944141b14991793e2a3384e115d447ab6d3c89c50c5e74d98af922cce3196645",
+    "scripts/verify_offline.py": "c3651b4f29d501870241f31d568dbb852b80df20e4c9ec68771cd8b82a3d1cf3",
+    "src/analytics.rs": "80490ee502c9fa263e3cc83aeaa265d4bb3011edf46ea293a1cdc6e11208b455",
+    "src/bridge.rs": "8a5c319fb5971fbb8311d913916664a04c8205fa48474ee96edae6b67c4924cc",
+    "src/config.rs": "d247d775d9b8e1a870a59c7fe2da730d19fa2106a52aa69fa5552ef19f460876",
+    "src/controls.rs": "15a9ffb2da727b3cb3aeb170e6a8a43bcec60f19ffccf62b4daed7005f6714fb",
+    "src/discovery.rs": "b58944bb04f9bca775d4280f8850c2d1eef4ca8a34467784d934717987f7e250",
+    "src/evm.rs": "6437ac90f2f0cb0993eab22749a7574c6b142679cffd1823cf8c253273e76951",
+    "src/ingestion.rs": "e2371daba61188f84a85a214e75406799fc899fe52502841bf39fa386545e50a",
+    "src/journal.rs": "ced498a5884c812c2d98d6da72e9be0a9be4ff357db6968fd9b8f9c884926de5",
+    "src/lib.rs": "bf601f1890f61075924b865c2469e27d89d26923c62102e43aa9729b4c1791e6",
+    "src/main.rs": "ec42c4b09e223c4b33d9307df2ef93eb3fa2536ad51f05382d68959218eb123a",
+    "src/reporting.rs": "46e3b394c15814aceceec3a0aba056dc9a69a0d71dacde0564095220a496d16b",
+    "tests/analytics_tests.rs": "2cf4d677a6388f2b57dab4f06ecad7b86b14a404f7bedba748abc7bd2cf9bb15",
+    "tests/controls_tests.rs": "dfb780679a71ecf430c499c6fc979cb34b22fe9dafb5c855117caa9a55588f5e",
+    "tests/discovery_tests.rs": "86ae6b9659440dcb71b0af8bd1da8a0605832985a1e731779c679dd72c548d9b",
+    "tests/evm_tests.rs": "0afb174072c6f36965720ec6a8e977fc002da5fec9ffb35f3deeb59bd7f557e3",
+    "tests/pipeline_tests.rs": "404285b079105b2c93f01c79c40377e8836fd58ef113131dfdc4e219d8618282"
+  },
+  "namespace": "nqc_miner_v1",
+  "network_required_for_checks": false,
+  "observer_bridge_enabled": false,
+  "producer": "nqc-miner",
+  "schema": "nqc-miner-offline-audit-v1",
+  "spending_authorized": false,
+  "status": "fail"
+}

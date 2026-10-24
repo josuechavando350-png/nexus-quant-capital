@@ -706,7 +706,9 @@ fn local_http_rpc(responses: Vec<String>) -> (String, Arc<AtomicUsize>, thread::
     let handle = thread::spawn(move || {
         for response in responses {
             let (mut stream, _) = listener.accept().unwrap();
-            stream.set_read_timeout(Some(Duration::from_secs(1))).unwrap();
+            stream
+                .set_read_timeout(Some(Duration::from_secs(1)))
+                .unwrap();
             let mut request = [0u8; 4096];
             let _ = stream.read(&mut request);
             observed.fetch_add(1, Ordering::SeqCst);
@@ -754,6 +756,24 @@ fn nonretryable_http_failure_is_single_shot_and_redacts_endpoint() {
     assert!(!error.contains("private-path"));
     assert!(!error.contains("never-print-this"));
     assert!(!error.contains("token="));
+}
+
+#[test]
+fn pinned_getter_runs_over_actual_http_transport() {
+    let body = format!(r#"{{"jsonrpc":"2.0","id":1,"result":"0x{:064x}"}}"#, 100u64);
+    let (url, hits, handle) = local_http_rpc(vec![http_response("200 OK", "", &body)]);
+    let rpc = ingestion::HttpRpc::new("fixture-getter", &url).unwrap();
+    let params = nqc_miner::historical::call_params(
+        &format!("0x{:064x}", 1),
+        &format!("0x{:040x}", 1),
+        &nqc_miner::historical::calldata("BASE_CURRENCY_UNIT()", None).unwrap(),
+    );
+    assert_eq!(
+        rpc.call("eth_call", params).unwrap(),
+        json!(format!("0x{:064x}", 100u64))
+    );
+    handle.join().unwrap();
+    assert_eq!(hits.load(Ordering::SeqCst), 1);
 }
 
 #[test]

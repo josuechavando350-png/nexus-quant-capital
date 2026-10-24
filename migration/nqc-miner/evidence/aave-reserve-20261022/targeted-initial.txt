@@ -1,0 +1,14 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/462bfc2f69c3/nqc-miner-work/migration/nqc-miner)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.73s
+     Running tests/aave_reserve_tests.rs (/workspace/scratch/1372b3d66995/tmp/miner-target/debug/deps/aave_reserve_tests-c24c3c60a8569ab7)
+
+running 5 tests
+test zero_debt_and_zero_liquidity_rate_skip_their_index_updates ... ok
+test rejects_malformed_widths_and_preserves_downcast_vs_arithmetic_errors ... ok
+test one_year_interest_and_treasury_are_computed_and_no_authority_is_granted ... ok
+test same_block_update_is_idempotent_and_collateral_floor_differs_from_debt_ceil ... ok
+Reserve differential: 1106 inputs, 2212 executions; input outcomes {"0x": 5, "0x4e487b71": 7, "0x6dfcc650": 3, "success": 1091}
+test original_reserve_functions_match_boundaries_seeded_values_and_repeated_updates ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.29s
+

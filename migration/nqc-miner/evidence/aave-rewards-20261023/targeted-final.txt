@@ -1,0 +1,17 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/462bfc2f69c3/nqc-miner-work/migration/nqc-miner)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.01s
+     Running tests/aave_debt_execution_tests.rs (/workspace/scratch/462bfc2f69c3/miner-target/debug/deps/aave_debt_execution_tests-17d48d7081572acf)
+
+running 8 tests
+test rewards_execution::later_rate_failure_rolls_back_actual_rewards_changes_and_events ... ok
+test rewards_execution::real_rewards_use_preburn_balance_and_supply_and_export_complete_example ... ok
+test rewards_execution::second_proxy_family_dispatches_both_actual_token_getters_and_admin_routes ... ok
+test rewards_execution::real_rewards_missing_proxy_implementation_and_nested_storage_are_rejected ... ok
+test rewards_execution::rewards_index_cast_underflow_and_accrual_overflow_revert_token_and_pool ... ok
+test rewards_execution::standalone_controller_handles_zero_supply_zero_balance_and_floor_rounding ... ok
+test rewards_execution::actual_rewards_cover_empty_multiple_zero_emission_expired_and_same_timestamp ... ok
+400 seeded real-controller compositions with independent reward arithmetic, complete logs and storage; synthetic state only
+test rewards_execution::seeded_real_rewards_accrual_and_full_debt_composition ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 16 filtered out; finished in 23.70s
+

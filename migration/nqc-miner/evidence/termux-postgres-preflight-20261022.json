@@ -1,0 +1,58 @@
+{
+  "schema": "nqc-miner-termux-postgres-preflight-v1",
+  "status": "static_checks_pass_runtime_pending",
+  "checked_at_utc": "2026-10-22T21:10:20.386963+00:00",
+  "source_base_commit": "2c93979481402e05686bbb55abf75700ff5bb6f6",
+  "inputs": {
+    "infra/postgres.sql": "5307880cd7f274f5f0ac4eb222e19ca34fb0e0a9abd59a2970be50611a259f21",
+    "scripts/postgres_contract_cases.sql": "e0d321b30d43e1199bba3bd439087e1d404d876307edff70959de4a03ae86fff",
+    "scripts/termux_postgres_check.template.sh": "e4bb2e4d500118d2d92b64dfe677f30e9b3c0f11cd1d73c8a5f29f33b4920993",
+    "scripts/build_termux_postgres_check.py": "02e6127babd5d72d361ee7f3aef0bee68865ba65574fbb69e848f6b970a3aaaa",
+    "scripts/nqc-miner-postgres-check.sh": "ed966c715e422fe18eda02afc78fed9a0316df2fd708e91152f6ae3c21e34102"
+  },
+  "checks": {
+    "bash_syntax": true,
+    "deterministic_regeneration": true,
+    "exact_embedded_sql_bytes": true,
+    "embedded_input_hashes": true,
+    "reject_root_before_side_effects": true,
+    "sql_and_plpgsql_parse": {
+      "infra/postgres.sql": {
+        "sql_statements": 14,
+        "plpgsql_blocks": 1
+      },
+      "scripts/postgres_contract_cases.sql": {
+        "sql_statements": 47,
+        "plpgsql_blocks": 3
+      }
+    }
+  },
+  "parser_version": "v8.7",
+  "postgres_schema_runtime_executed_by_agent": false,
+  "termux_runtime_results_received": false,
+  "user_bootstrap_screenshot": {
+    "file": "Screenshot_2026-10-22-15-01-01-450_com.termux.jpg",
+    "sha256": "907f2654215dcb7636eea805365cd5d2714f30565133d058f3a07d49d7f665fc",
+    "observed": [
+      "PostgreSQL 18.6",
+      "initdb succeeded",
+      "server started",
+      "query returned nqc_miner_v1",
+      "listen_addresses empty",
+      "server stopped"
+    ],
+    "evidence_type": "user_supplied_screenshot_not_machine_log"
+  },
+  "prepared_sql_checks": 30,
+  "overall_completion_percent": 40,
+  "observer_bridge_enabled": false,
+  "spending_authorized": false,
+  "existing_python_suite": {
+    "executed": 91,
+    "exit_code": 0,
+    "log": "termux-preparation-python-20261022.log",
+    "log_sha256": "644bd907d4ec4f99355d3a21e0cf08572627def32870d124f6e2bb320fc161db",
+    "verifier_source_commit": "169b82f6a02de161f6c42c94af5c4a18e6f13165",
+    "postgres_runtime_tests_included": false
+  }
+}

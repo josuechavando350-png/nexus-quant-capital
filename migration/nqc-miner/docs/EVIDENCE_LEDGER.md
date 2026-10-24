@@ -1,6 +1,76 @@
 # NQC Miner — Ledger de evidencia
 
-Corte: 22 de octubre de 2026.
+Corte: 23 de octubre de 2026.
+
+Bloque actual: medición auxiliar de comisiones Ethereum vinculada al journal
+verificado. Se conservan seis respuestas públicas: dos costes medidos y uno
+desconocido por falta de pertenencia en una respuesta parcial. Son los mismos
+tres eventos históricos; cero eventos nuevos. Ver `docs/gas-measurement.md`,
+`docs/AUDIT_GAS_MEASUREMENT_20261023.md` y `evidence/gas-measurement-20261023/`.
+Avance global **43/100**; no se cierra el gate de medición calibrada.
+
+Bloque anterior: auditoría nativa del cliente local `a1fb66a4` aprobada: **74 hashes,
+ocho entradas fijadas, 17 comprobaciones y 16 intentos**, acuses, concurrencia,
+interrupción/reintento, revocaciones, originales y restart/shutdown. Ver
+`docs/AUDIT_SYNC_TERMUX_20261022.md`. No hay nuevos datos económicos.
+
+Coordinador acotado implementado con reconciliación previa y posterior, límites,
+workspace exclusivo y recuperación tras SIGKILL. El bloque tiene 12 regresiones
+nuevas del auditor y 16 del coordinador. RPC y SQL del coordinador están modelados;
+no hay ejecución integral real ni servicio instalado. Avance: **43/100**, sin
+crédito adicional. Ver `docs/AUDIT_WORKER_PREFLIGHT_20261022.md` y el desglose de
+los 57 puntos todavía abiertos en `docs/closure-plan.json`.
+
+Preparación histórica del cliente: **189 Python PASS**, 29 pruebas nuevas,
+`docs/AUDIT_SYNC_PREFLIGHT_20261022.md`. Su estado de ejecución nativa pendiente
+queda sustituido únicamente para la prueba y fuente descritas arriba.
+
+Bloque anterior: colecciones completas ejecutadas en PostgreSQL 18.6/Termux y
+auditadas contra la fuente `e4700af5`. 44 hashes, siete entradas, 33 comprobaciones
+SQL, 14 respuestas, cinco denegaciones, concurrencia, rollback, interrupción/reintento,
+revocaciones, elegibilidad y reinicio. **160 Python PASS; avance 43/100**.
+Véase `docs/AUDIT_COLLECTION_TERMUX_20261022.md` y `evidence/termux-collection-20261022/`.
+La preparación anterior (146 Python, tres ventanas históricas/ocho registros y 46
+archivos intactos) queda preservada; su gate SQL pendiente se cierra para esta
+prueba artificial, sin acreditar producción ni observaciones económicas nuevas.
+
+Bloque anterior: importador de journal individual ejecutado por el usuario en
+PostgreSQL 18.6/Termux y auditado desde el archivo original. Runner `7ee9e9cb`,
+implementación `a1d0f150`: 42 hashes, seis entradas fijadas, 35 comprobaciones SQL,
+21 respuestas, cinco denegaciones de permisos, concurrencia real, interrupción y
+reintento, cuarentena y reinicio. Suite completa: **128 Python PASS**. Avance
+**42/100**. Véase `docs/AUDIT_IMPORT_TERMUX_20261022.md`.
+
+Etapas previas conservadas: preparación del importador (112 Python), runner
+(116 Python) y contrato DDL base `6a89668` (30 comprobaciones SQL y tres
+rechazos de permisos). Sus estados pendientes y avance 41/100 son históricos;
+la auditoría individual sustituyó únicamente su gate runtime. La auditoría de
+colecciones indicada arriba es posterior. Ninguna acredita servicios remotos ni
+operación productiva.
+
+Último bloque de archivo: `169b82f`, 155 Rust + 91 Python PASS.
+`offline-archive-v2-20261022/` y `local-archive-v2-20261022/` acreditan
+publicación/repetición verificadas con UUID ligado a cada recibo. Se conservan
+17 archivos de origen y ocho registros de la muestra anterior; no son nuevos
+eventos. Avance 40/100. El baseline v1 de `005ab8c` queda histórico y no satisface
+el gate final v2. Véase `docs/AUDIT_ARCHIVE_20261022.md`.
+
+Bloque anterior del recolector: `a1f6006`, 155 Rust + 69 Python PASS en
+`offline-collector-20261022/`. `public-collector-20261022/` acredita tres ventanas
+Ethereum y reinicio entre procesos: 2 eventos, 8 registros; sus Parquet conservan
+los bytes originales. Se solapa con las capturas anteriores y no se suma.
+Avance 39/100; alcance y límites en `docs/AUDIT_COLLECTOR_20261022.md`.
+
+Actualización de la continuación: `offline-v2-isolation-20261022/` acredita
+141 Rust + 64 Python y los gates de software sobre `a841261`.
+`dependencies-full-20261022/` contiene el scan completo del lock (0 vulnerabilidades
+conocidas, 2 avisos de mantenimiento abiertos).
+`public-capture-v2-20261022/` conserva una lectura pública nueva, íntegra y completa
+en cuatro ámbitos de tres cadenas: 3 logs canónicos y 17 registros totales.
+`public-parquet-v2-20261022/` conserva su exportación local verificada. La captura
+v1 previa también se preserva; ambas repiten la misma selección y no se suman.
+Estas nuevas evidencias no recuperan ni certifican la observación transitoria de
+cinco eventos descrita abajo, ni cierran saturación, rentabilidad o una fase.
 
 Este ledger separa evidencia durable, evidencia auxiliar, planes no ejecutados y
 observaciones transitorias. Ningún elemento cambia de clase por aparecer en una
