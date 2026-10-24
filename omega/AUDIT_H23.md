@@ -103,3 +103,71 @@ The independent stdlib check confirms all five raw response hashes, operation
 indices 0–56, the direct/native split and unchanged retained captures, reports and
 workflow bytes. Original Git objects remain unchecked locally; remote isolation
 must verify them. These result files are session outputs, not remote CI artifacts.
+
+## Complete local regression and remote launch
+
+**654/654 unique Omega tests pass**, with zero failures, errors, skips or expected
+failures (650.999 seconds). There are 32 new cases over H22 and 16 over the initial
+H23 intake. The full result SHA256 is
+`2148d586598b4b0fe7ab2a542722668ba261b91e99c9aac23daad09133c39404`;
+its commitment is `3c048b95a67e1b1a1dd660d3eb0a512936cf8c341f52381726e1d4fd43ce4f0a`.
+All recorded test-source hashes still match the producer; final isolation passes.
+
+Exact producer `3448f173305d765f3cdf9a5494571b34a16c0e34`, tree
+`0a67bcd30deffc6da5cc71e55278c57d3b406527`, was fast-forwarded to the existing
+audit branch after those local checks. Run
+[40050771588](https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/40050771588),
+attempt 1, started at 2026-10-24T01:39:17Z. Remote checks and independent artifact,
+API and log verification remain pending at this launch checkpoint. Subsequent
+closure edits are Markdown only and cannot claim execution of new code.
+
+## Final exact-producer outcome
+
+Run **40050771588**, attempt 1, producer
+`3448f173305d765f3cdf9a5494571b34a16c0e34`, tree
+`0a67bcd30deffc6da5cc71e55278c57d3b406527`, completed successfully at
+2026-10-24T02:13:09Z. Both jobs and every step passed. Closure edits after this
+producer are Markdown only; later code cannot inherit this execution.
+
+| Stage | Job | Artifact | ZIP SHA256 | External capture SHA256 |
+|---|---|---|---|---|
+| forks | 120742714686 | 12543218899 | `fba452f736f0499871f1b299db60f3470083c42a304cc6021b09ea856b545040` | `1e22f8afb663b4be208e7e97876ebdb7dc65e21b4095368a56400c2bd47c00c4` |
+| replay | 120742714941 | 12544675202 | `9fca63cb7c1ebb88d0bf95473b10408d27f4fdf0dea726649e6cd4719500fd89` | `4c13e8ab6f6296882f1e185ad83a8ad3de207f0270b05ff989e2fd9668f599bf` |
+
+Independent GitHub API readback, downloaded artifacts and full decoded job logs
+agree on repository, commit/tree, workflow, run/attempt and every evidence record:
+43 for forks, 45 for replay. Each job passes 230 intake, 43 runner, 38 capture,
+33 store, 10 pipeline and 25 runtime tests: 379 executions per job, not additional
+unique cases. Every selected test-source hash matches the producer. Physical
+checks pass 56 PFT Rust, 528 Census Rust, 14 offline Solidity tests, four historical
+fork executions and 16 verified disconnected replay steps.
+
+Original Git objects and isolation pass before/after both jobs: 170 reviewed Omega
+files, 531 original files, 106 disabled legacy workflows and the unchanged active
+workflow/permissions. Historical source/store roots remain unchanged. Existing
+H19/H20 Rust transport probes keep their original scope.
+
+The new H23 record is reconstructed inside the same physical disconnected worker
+as the prior replay records: loopback only, a network namespace distinct from its
+parent, and no routable network. All eight normal batch reads fail after controlled
+root revocation in both source and restored SQLite stores; every batch's forensic
+object bytes survive. The emitted worker report equals the v6 artifact and binds
+H22's batch/root/report commitment plus the exact Titan-only policy. No new Rust
+transport, canonical reorg recovery or NQC liquidation execution is claimed.
+
+Independent integer checks reconfirm the historical direct payment of
+95915734379292898 wei, its split with the residual, the separate 9975 wei root value
+and 19694395579376 wei execution gas. Builder identity, complete costs and actual
+profit remain unknown. The policy remains Titan-only, zero operator allowance,
+no prefund and no own-gas fallback; its hash is
+`e2c0b1ea247597de667d093385990880a31519b594f68cae31618ba425f87540`.
+No Titan submission, coverage receipt, signing, broadcast or funding was added.
+
+- Forks post-audit commitment: `8653467cc8a43522b32e5068556262a4fdf256b30e4e64f4fdb5d14093780d9f`; log SHA256: `7de554f2d92893d42a1a176fd5cd8a0595992e2a370928dbd1ed72b1c8596df8`.
+- Replay post-audit commitment: `72f2f21ffa0d1c2f0e0a852804a6eb4cccd68297bf2591b79663244b6ddf5bd2`; log SHA256: `320d75896f307f9497af78345838c9fca5deac18221e789cdff2df7d4605f77d`.
+- Direct-payment replay commitment: `6fbd23e386c3340bccceb8772c49ed3e1989ffecb59c4c86995bcf903e5f6fa6`.
+
+H23 engineering closure: **4/4 (100% of this increment)**, with **654/654** unique
+local tests and 32 new cases over H22. Product certification remains 0/36, Census
+0/9, complete paid-cost rows 0/127 and Titan-covered NQC executions zero.
+Separate H24 financing research remains a draft and does not inherit this run.
