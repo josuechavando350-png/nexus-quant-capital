@@ -23,6 +23,9 @@ OMEGA_WORKFLOW = ".github/workflows/omega-h2-audit.yml"
 WORKFLOW_TEMPLATE = "omega/h2_actions_workflow.yml.disabled"
 WORKFLOW_SHA256 = "8c1c20a8684a21728d7ebd83d0aac7ad93dc5840df34ec455e80e5eb0b3813be"
 EXTENSION_FILES = frozenset({
+    "omega/direct_payment_intake.py", "omega/test_direct_payment_intake.py",
+    "omega/DIRECT_PAYMENT_CONTRACT.md", "omega/AUDIT_H23.md",
+    "omega/evidence/direct-payment-capture.json", "omega/evidence/h23-direct-payment.json",
     "omega/inclusion_fee_intake.py", "omega/test_inclusion_fee_intake.py",
     "omega/INCLUSION_FEE_CONTRACT.md", "omega/AUDIT_H22.md",
     "omega/evidence/inclusion-fee-capture.json", "omega/evidence/h22-inclusion-fees.json",

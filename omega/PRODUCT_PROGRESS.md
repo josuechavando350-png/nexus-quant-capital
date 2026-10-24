@@ -263,3 +263,15 @@ rejects own funds and fabricated Titan coverage even after commitments are
 recomputed. Authentic H21 v4 evidence still validates with its original scope.
 Remote execution of this continuation remains pending until independently
 retrieved and audited.
+
+## H23 direct fee-recipient observation (local checkpoint)
+
+One historical winner now has an indexed direct native payment to its block fee
+recipient. Three linked pages cover operation indices 0–56; a second API view
+from the same provider agrees on the three positive internal value transfers.
+The reader binds original block/receipt identities, preserves the separate root
+value and distinguishes the residual recipient from the gas-paying sender.
+Builder identity, total compensation, full native balances and net profit remain
+unproven. This is one direct-payment observation in the nine-case WETH sample,
+not a complete paid-cost row or a Titan-covered NQC execution. Integration into
+an eighth store batch, a new runtime proof and remote H23 validation remain open.

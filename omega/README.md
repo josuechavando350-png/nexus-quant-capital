@@ -438,3 +438,14 @@ El paquete runtime v5 exige reconstruir ese lote en el worker desconectado y
 vincularlo a la política Titan: capital propio cero, sin anticipo ni alternativa
 propia. Rechaza cobertura inventada y conserva el alcance original de v1-v4.
 Ver [contrato](INCLUSION_FEE_CONTRACT.md) y [auditoría](AUDIT_H22.md).
+
+## H23 — pago directo observado al receptor de comisiones
+
+El primer ganador histórico muestra un pago directo de `95915734379292898` wei,
+aproximadamente 99.75% del excedente bruto de ese caso, además del gas. El lector
+reconcilia tres páginas con 57 operaciones indexadas y conserva el valor inicial
+de 9975 wei y el remanente enviado a otra dirección. No identifica al builder,
+no atribuye cobertura a Titan y no presenta el remanente como ganancia neta.
+Las otras ocho filas siguen sin observación de pago directo. Es un incremento
+local separado de H22, pendiente de integración al store/runtime y auditoría
+remota. Ver [contrato](DIRECT_PAYMENT_CONTRACT.md) y [auditoría](AUDIT_H23.md).
