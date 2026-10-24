@@ -211,3 +211,10 @@ Salud y eMode originales integrados: [alcance](docs/aave-account-execution.md) y
 eMode y llamadas de precio alimentan ambas rutas de entrega/pago. El oráculo y su
 estado son explícitamente sintéticos: precios históricos aún no autenticados.
 Política Titan intacta, avance **43/100**, sin crédito de fase ni gasto real.
+
+AaveOracle observado integrado: [alcance](docs/aave-oracle-execution.md) y
+[auditoría](docs/AUDIT_AAVE_ORACLE_EXECUTION_20261023.md). **698 pruebas aprobadas
+(298 Rust + 400 Python)**. Sus 3405 bytes, incluida metadata, coinciden con la
+recompilación y dos proveedores en tres bloques. Captura acotada de 144 lecturas;
+fuentes y fallback de precios aún simulados, frescura/preestado no autenticados.
+Política Titan intacta, avance **43/100**, sin crédito de fase ni gasto real.
