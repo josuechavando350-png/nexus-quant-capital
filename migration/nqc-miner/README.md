@@ -197,3 +197,10 @@ aprobadas (275 Rust + 372 Python)**. Ambas reservas actualizan índices/tesorer�
 y derivan saldos desde los tokens antes del validador original y las dos rutas
 de entrega/pago. Salud agregada e importes siguen suministrados; estado artificial,
 política Titan intacta y avance **43/100**, sin certificación histórica completa.
+
+Importes originales integrados con ambas rutas: [alcance](docs/aave-sizing-execution.md)
+y [auditoría](docs/AUDIT_AAVE_SIZING_EXECUTION_20261023.md). **662 pruebas aprobadas
+(282 Rust + 380 Python)**. Factor de cierre, bonificación, comisión, límite de
+colateral y remanentes calculados alimentan quema/entrega/pago. Salud, precios y
+totales agregados siguen suministrados; solo eMode cero. Estado artificial,
+política Titan intacta y avance **43/100**, sin crédito de fase ni gasto real.
