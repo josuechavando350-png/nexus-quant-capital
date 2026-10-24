@@ -1,0 +1,709 @@
+{
+  "archive_disabled": false,
+  "chain": "ethereum",
+  "elapsed_s": 175.4,
+  "enriched": 149,
+  "errors_sample": [],
+  "events": 149,
+  "events_complete": true,
+  "events_cover_block": 26264760,
+  "fatal_error": null,
+  "interrupted": false,
+  "native_trace_sources": {
+    "debug_traceTransaction": 134
+  },
+  "oracle_contracts_watched": 124,
+  "oracle_status": {
+    "sin_ver": 43
+  },
+  "phases_s": {
+    "enriquecimiento": 70.1,
+    "eventos": 2.1,
+    "evidencia": 25.1,
+    "metadatos": 56.9,
+    "oraculos": 2.7,
+    "segunda_pasada": 0.0,
+    "sonda": 9.1,
+    "ventana": 9.3
+  },
+  "price_sources": {
+    "defillama": 5,
+    "oraculo": 358,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "aave",
+    "morpho"
+  ],
+  "rpc_calls": 1908,
+  "rpc_providers": {
+    "https://1rpc.io/eth": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "debug_traceTransaction",
+        "eth_getLogs",
+        "trace_transaction"
+      ]
+    },
+    "https://api.zan.top/eth-mainnet": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    },
+    "https://endpoints.omniatech.io/v1/eth/mainnet/public": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://eth-mainnet.public.blastapi.io": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 1
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    },
+    "https://eth-pokt.nodies.app": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 1
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "debug_traceTransaction",
+        "eth_getLogs",
+        "trace_transaction"
+      ]
+    },
+    "https://eth.api.onfinality.io/public": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://eth.drpc.org": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 409,
+          "ok": 141
+        },
+        "eth_call@archive": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 118,
+          "ok": 309
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 122,
+          "ok": 1
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 110,
+          "ok": 1
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 118,
+          "ok": 1
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 121,
+          "ok": 1
+        },
+        "trace_transaction": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 2
+        }
+      },
+      "ok": 451,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    },
+    "https://eth.llamarpc.com": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://eth.merkle.io": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://eth1.lava.build": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://ethereum-rpc.publicnode.com": {
+      "en_rotacion": true,
+      "err": 8,
+      "getlogs_max": 5000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 121,
+          "ok": 755
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 151,
+          "ok": 214
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 132,
+          "ok": 92
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 122,
+          "ok": 136
+        },
+        "eth_getTransactionReceipt": {
+          "err": 8,
+          "errores": {
+            "resultado nulo": 8
+          },
+          "ms_prom": 118,
+          "ok": 0
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 1197,
+      "sin_metodo": [
+        "debug_traceTransaction"
+      ]
+    },
+    "https://ethereum.blockpi.network/v1/rpc/public": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://ethereum.rpc.subquery.network/public": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://gateway.tenderly.co/public/mainnet": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 1
+        },
+        "eth_getLogs": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 784,
+          "ok": 1
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 1,
+      "sin_metodo": []
+    },
+    "https://rpc.mevblocker.io": {
+      "en_rotacion": true,
+      "err": 2,
+      "getlogs_max": 50000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 206,
+          "ok": 3
+        },
+        "eth_call@archive": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 1
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 208,
+          "ok": 1
+        },
+        "eth_getLogs": {
+          "err": 1,
+          "errores": {
+            "service temporarily unavailable": 1
+          },
+          "ms_prom": 708,
+          "ok": 11
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 298,
+          "ok": 2
+        },
+        "eth_getTransactionReceipt": {
+          "err": 1,
+          "errores": {
+            "transporte: TimeoutError en rpc.mevblocker.io": 1
+          },
+          "ms_prom": 621,
+          "ok": 138
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 155,
+      "sin_metodo": []
+    },
+    "https://rpc.payload.de": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    }
+  },
+  "second_pass": {
+    "intentadas": 0
+  },
+  "sonda": [
+    {
+      "archivo": false,
+      "archivo_error": "HTTP 403 en ethereum-rpc.publicnode.com",
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 403 en ethereum-rpc.publicnode.com",
+      "getlogs_max": 5000,
+      "getlogs_ms": 202,
+      "ms": 106,
+      "proveedor": "https://ethereum-rpc.publicnode.com",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 403 en ethereum-rpc.publicnode.com",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 403 en ethereum-rpc.publicnode.com",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "archivo": true,
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "ok": 1
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "ok": 2
+      },
+      "getlogs_error": "HTTP 400 en eth.drpc.org",
+      "getlogs_max": 0,
+      "ms": 94,
+      "proveedor": "https://eth.drpc.org",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "ok": 1
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "ok": 2
+      },
+      "vivo": true
+    },
+    {
+      "archivo": false,
+      "archivo_error": "HTTP 503 en 1rpc.io",
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "Method debug_traceTransaction not allowed",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "Method debug_traceTransaction not allowed",
+        "ok": 0
+      },
+      "getlogs_error": "eth_getLogs is limited to 0 - 50 blocks range",
+      "getlogs_max": 0,
+      "ms": 110,
+      "proveedor": "https://1rpc.io/eth",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "Method trace_transaction not allowed",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "Method trace_transaction not allowed",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "error": "HTTP 429 en eth.merkle.io",
+      "ms": 111,
+      "proveedor": "https://eth.merkle.io",
+      "vivo": false
+    },
+    {
+      "archivo": true,
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "HTTP 406 en rpc.mevblocker.io",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 406 en rpc.mevblocker.io",
+        "ok": 0
+      },
+      "getlogs_error": "service temporarily unavailable",
+      "getlogs_max": 50000,
+      "getlogs_ms": 434,
+      "ms": 210,
+      "proveedor": "https://rpc.mevblocker.io",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 406 en rpc.mevblocker.io",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 406 en rpc.mevblocker.io",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "archivo": true,
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "HTTP 401 en eth-mainnet.public.blastapi.io",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 401 en eth-mainnet.public.blastapi.io",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 400 en eth-mainnet.public.blastapi.io",
+      "getlogs_max": 0,
+      "ms": 110,
+      "proveedor": "https://eth-mainnet.public.blastapi.io",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 401 en eth-mainnet.public.blastapi.io",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 401 en eth-mainnet.public.blastapi.io",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "archivo": true,
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "HTTP 429 en gateway.tenderly.co",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 429 en gateway.tenderly.co",
+        "ok": 0
+      },
+      "getlogs_max": 100000,
+      "getlogs_ms": 251,
+      "ms": 168,
+      "proveedor": "https://gateway.tenderly.co/public/mainnet",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 429 en gateway.tenderly.co",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 429 en gateway.tenderly.co",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "archivo": true,
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "Method not available on this plan: debug_traceTransaction. Upgrade your subscription at https://nodies.app/pricing for full method access.",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "Method not available on this plan: debug_traceTransaction. Upgrade your subscription at https://nodies.app/pricing for full method access.",
+        "ok": 0
+      },
+      "getlogs_error": "Block range too large: maximum allowed is 50 blocks on your current plan. Upgrade your subscription at https://nodies.app/pricing for larger ranges.",
+      "getlogs_max": 0,
+      "ms": 126,
+      "proveedor": "https://eth-pokt.nodies.app",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "Method not available on this plan: trace_transaction. Upgrade your subscription at https://nodies.app/pricing for full method access.",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "Method not available on this plan: trace_transaction. Upgrade your subscription at https://nodies.app/pricing for full method access.",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "archivo": false,
+      "archivo_error": "cu limit exceeded; Request too fast per second. Please visit https://zan.top/ and register to unlock more.",
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "cu limit exceeded; Method \"debug_traceTransaction\" is not available for unregistered accounts. Please visit https://zan.top/ and register to unlock more.",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "cu limit exceeded; Method \"debug_traceTransaction\" is not available for unregistered accounts. Please visit https://zan.top/ and register to unlock more.",
+        "ok": 0
+      },
+      "getlogs_error": "cu limit exceeded; Method \"eth_getLogs\" is not available for unregistered accounts. Please visit https://zan.top/ and register to unlock more.",
+      "getlogs_max": 0,
+      "ms": 929,
+      "proveedor": "https://api.zan.top/eth-mainnet",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "cu limit exceeded; Method \"trace_transaction\" is not available for unregistered accounts. Please visit https://zan.top/ and register to unlock more.",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "cu limit exceeded; Method \"trace_transaction\" is not available for unregistered accounts. Please visit https://zan.top/ and register to unlock more.",
+        "ok": 0
+      },
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792872000,
+    "label": "ethereum-03de03",
+    "start_ts": 1792008000
+  },
+  "transactions": 134,
+  "web_calls": 127,
+  "web_sources": {
+    "blockscout": {
+      "ms": 1255,
+      "ok": true
+    },
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 12.0386,
+    "days": 10.0,
+    "end_block": 26264760,
+    "end_ts": 1792872000,
+    "first_block_ts": 1792008011,
+    "lookback_block": 26185223,
+    "start_block": 26192993,
+    "start_ts": 1792008000
+  },
+  "with_bonus_usd": 149,
+  "with_oracle_delta": 106,
+  "with_realized": 149,
+  "with_realized_complete": 145
+}
