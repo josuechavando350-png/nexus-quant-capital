@@ -76,7 +76,7 @@ class Chain:
     chain_id: int
     llama: str                      # prefijo de DefiLlama
     weth: str
-    public_rpcs: tuple
+    public_rpcs: tuple              # candidatos sin llave; la sonda descarta los que no sirven
     aave: tuple = ()
     morpho: str = ""
     builder_market: bool = False    # True solo donde hay subasta de builders (Ethereum L1)
@@ -95,6 +95,18 @@ CHAINS = {
             "https://eth.drpc.org",
             "https://eth.llamarpc.com",
             "https://1rpc.io/eth",
+            "https://eth.merkle.io",
+            "https://rpc.mevblocker.io",
+            "https://eth-mainnet.public.blastapi.io",
+            "https://ethereum.blockpi.network/v1/rpc/public",
+            "https://gateway.tenderly.co/public/mainnet",
+            "https://eth.api.onfinality.io/public",
+            "https://eth1.lava.build",
+            "https://eth-pokt.nodies.app",
+            "https://api.zan.top/eth-mainnet",
+            "https://endpoints.omniatech.io/v1/eth/mainnet/public",
+            "https://ethereum.rpc.subquery.network/public",
+            "https://rpc.payload.de",
         ),
         aave=(
             AaveMarket("aave-v3-core", "0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2", "0x54586bE62E3c3580375aE3723C145253060Ca0C2"),
@@ -116,6 +128,18 @@ CHAINS = {
             "https://base.drpc.org",
             "https://mainnet.base.org",
             "https://base.llamarpc.com",
+            "https://1rpc.io/base",
+            "https://base.meowrpc.com",
+            "https://base-mainnet.public.blastapi.io",
+            "https://base.blockpi.network/v1/rpc/public",
+            "https://gateway.tenderly.co/public/base",
+            "https://base.api.onfinality.io/public",
+            "https://base.lava.build",
+            "https://base-pokt.nodies.app",
+            "https://api.zan.top/base-mainnet",
+            "https://endpoints.omniatech.io/v1/base/mainnet/public",
+            "https://base.rpc.subquery.network/public",
+            "https://developer-access-mainnet.base.org",
         ),
         aave=(
             AaveMarket("aave-v3-base", "0xA238Dd80C259a72e81d7e4664a9801593F98d1c5", "0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156"),
@@ -134,6 +158,16 @@ CHAINS = {
             "https://arbitrum.drpc.org",
             "https://arb1.arbitrum.io/rpc",
             "https://1rpc.io/arb",
+            "https://arbitrum.llamarpc.com",
+            "https://arbitrum.meowrpc.com",
+            "https://arbitrum-one.public.blastapi.io",
+            "https://arbitrum.blockpi.network/v1/rpc/public",
+            "https://gateway.tenderly.co/public/arbitrum",
+            "https://arbitrum.api.onfinality.io/public",
+            "https://arb-pokt.nodies.app",
+            "https://api.zan.top/arb-one",
+            "https://endpoints.omniatech.io/v1/arbitrum/one/public",
+            "https://arbitrum.rpc.subquery.network/public",
         ),
         aave=(
             AaveMarket("aave-v3-arbitrum", "0x794a61358D6845594F94dc1DB02A252b5b4814aD", "0xb56c2F0B653B2e0b10C9b928C8580Ac5Df02C7C7"),

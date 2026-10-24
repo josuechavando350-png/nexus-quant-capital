@@ -250,8 +250,9 @@ class TestEndToEnd(unittest.TestCase):
 
     def test_wrong_chain_is_rejected(self):
         col, _ = make_collector(chain=fc.FakeChain(chain_id=8453))
-        with self.assertRaises(RpcError):
-            col.run(1, tempfile.mkdtemp())
+        meta = col.run(1, tempfile.mkdtemp())
+        self.assertIn("chainId", meta["fatal_error"])
+        self.assertEqual(meta["events"], 0)
 
     def test_analyze_and_report(self):
         recs, meta, tmp, _ = self.run_collect()

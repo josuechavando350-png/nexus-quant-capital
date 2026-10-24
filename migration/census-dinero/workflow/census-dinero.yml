@@ -17,14 +17,50 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  collect:
+  plan:
     if: github.repository_id == 1411047452
     runs-on: ubuntu-24.04
-    timeout-minutes: 340
+    timeout-minutes: 10
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      protocols: ${{ steps.plan.outputs.protocols }}
+      budget: ${{ steps.plan.outputs.budget }}
+    defaults:
+      run:
+        working-directory: migration/census-dinero
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Checkout sin credenciales persistidas
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Pruebas offline y aislamiento
+        run: |
+          python3 -m unittest discover -s tests
+          python3 check_isolation.py
+      - name: Partir la ventana en tramos
+        id: plan
+        run: |
+          python3 -m census_dinero plan --run-json run.json | tee -a "$GITHUB_OUTPUT"
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          c = json.load(open("run.json"))
+          print(f"protocols={c.get('protocols', 'aave,morpho')}")
+          print(f"budget={c.get('time_budget_min', 300)}")
+          PY
+
+  collect:
+    needs: plan
+    if: github.repository_id == 1411047452
+    name: collect (${{ matrix.label }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
     strategy:
       fail-fast: false
-      matrix:
-        chain: [ethereum, base, arbitrum]
+      max-parallel: 20
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
     defaults:
       run:
         working-directory: migration/census-dinero
@@ -39,48 +75,29 @@ jobs:
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
-      - name: Leer configuración de la corrida
-        id: cfg
+      - name: Recolectar ${{ matrix.label }}
         run: |
-          python3 - <<'PY' >> "$GITHUB_OUTPUT"
-          import json, os
-          c = json.load(open("run.json"))
-          print("run=" + ("true" if os.environ["CHAIN"] in c["chains"] else "false"))
-          print(f"days={c['days']}")
-          print(f"protocols={c.get('protocols', 'aave,morpho')}")
-          print(f"budget={c.get('time_budget_min', 300)}")
-          PY
-        env:
-          CHAIN: ${{ matrix.chain }}
-      - name: Pruebas offline y aislamiento
-        if: steps.cfg.outputs.run == 'true'
-        run: |
-          python3 -m unittest discover -s tests
-          python3 check_isolation.py
-      - name: Recolectar ${{ matrix.chain }}
-        if: steps.cfg.outputs.run == 'true'
-        run: |
-          mkdir -p "out/${{ matrix.chain }}"
+          mkdir -p "out/${{ matrix.label }}"
           set -o pipefail
           python3 -m census_dinero collect --chain "${{ matrix.chain }}" \
-            --days "${{ steps.cfg.outputs.days }}" \
-            --protocols "${{ steps.cfg.outputs.protocols }}" \
-            --time-budget-min "${{ steps.cfg.outputs.budget }}" \
-            --out "out/${{ matrix.chain }}" 2>&1 | tee "out/${{ matrix.chain }}/log.txt"
-      - name: Publicar resultados de la cadena
-        if: always() && steps.cfg.outputs.run == 'true'
+            --start-ts "${{ matrix.start_ts }}" --end-ts "${{ matrix.end_ts }}" --tramo "${{ matrix.label }}" \
+            --protocols "${{ needs.plan.outputs.protocols }}" \
+            --time-budget-min "${{ needs.plan.outputs.budget }}" \
+            --out "out/${{ matrix.label }}" 2>&1 | tee -i "out/${{ matrix.label }}/log.txt"
+      - name: Publicar resultados del tramo
+        if: always()
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          mkdir -p "out/${{ matrix.chain }}"
-          echo "commit=${GITHUB_SHA} run=${GITHUB_RUN_ID} attempt=${GITHUB_RUN_ATTEMPT}" > "out/${{ matrix.chain }}/origen.txt"
-          python3 ci/push_results.py --src "out/${{ matrix.chain }}" \
-            --dest "corridas/${GITHUB_RUN_ID}/${{ matrix.chain }}" \
-            --message "census ${{ matrix.chain }} run ${GITHUB_RUN_ID}"
+          mkdir -p "out/${{ matrix.label }}"
+          echo "commit=${GITHUB_SHA} run=${GITHUB_RUN_ID} attempt=${GITHUB_RUN_ATTEMPT}" > "out/${{ matrix.label }}/origen.txt"
+          python3 ci/push_results.py --src "out/${{ matrix.label }}" \
+            --dest "corridas/${GITHUB_RUN_ID}/${{ matrix.chain }}/${{ matrix.label }}" \
+            --message "census ${{ matrix.label }} run ${GITHUB_RUN_ID}"
 
   report:
-    needs: collect
-    if: always() && github.repository_id == 1411047452
+    needs: [plan, collect]
+    if: always() && github.repository_id == 1411047452 && needs.plan.result == 'success'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     defaults:
@@ -92,18 +109,18 @@ jobs:
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
-      - name: Juntar cadenas y escribir el reporte
+      - name: Juntar tramos y escribir el reporte
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           git clone -q --depth 1 --branch census-dinero/resultados \
             "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" /tmp/res
-          files=$(ls /tmp/res/corridas/${GITHUB_RUN_ID}/*/liquidaciones.jsonl 2>/dev/null || true)
+          files=$(ls /tmp/res/corridas/${GITHUB_RUN_ID}/*/*/liquidaciones.jsonl 2>/dev/null || true)
           if [ -z "$files" ]; then
-            echo "Ninguna cadena produjo resultados en esta corrida." | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "Ningún tramo produjo resultados en esta corrida." | tee -a "$GITHUB_STEP_SUMMARY"
             exit 1
           fi
-          python3 -m census_dinero analyze --out /tmp/reporte $files > /dev/null
+          python3 -m census_dinero analyze --run-json run.json --out /tmp/reporte $files > /dev/null
           cat /tmp/reporte/RESUMEN.md >> "$GITHUB_STEP_SUMMARY"
           cp run.json /tmp/reporte/run.json
           python3 ci/push_results.py --src /tmp/reporte --dest "corridas/${GITHUB_RUN_ID}/reporte" \

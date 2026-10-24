@@ -3,11 +3,13 @@
 Solo se usa dentro de GitHub Actions. La rama de resultados no comparte historia
 con el código: contiene únicamente salidas del census. Varios jobs pueden
 empujar a la vez porque cada uno escribe en su propia ruta; si el push choca,
-se reintenta sobre la punta nueva.
+se reintenta sobre la punta nueva (con espera aleatoria: hasta 20 tramos
+terminan casi juntos).
 """
 
 import argparse
 import os
+import random
 import shutil
 import subprocess
 import sys
@@ -15,6 +17,7 @@ import tempfile
 import time
 
 BRANCH = "census-dinero/resultados"
+ATTEMPTS = 20
 
 
 def git(*args, cwd, check=True):
@@ -37,7 +40,7 @@ def main():
     git("config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com", cwd=work)
     git("remote", "add", "origin", remote, cwd=work)
 
-    for attempt in range(8):
+    for attempt in range(ATTEMPTS):
         exists = git("ls-remote", "--exit-code", "--heads", "origin", BRANCH, cwd=work, check=False).returncode == 0
         if exists:
             git("fetch", "-q", "--depth=1", "origin", BRANCH, cwd=work)
@@ -62,8 +65,8 @@ def main():
             return 0
         print(f"push rechazado (intento {attempt + 1}), reintentando: {push.stderr.strip()[:200]}", file=sys.stderr)
         git("reset", "-q", "--hard", cwd=work, check=False)
-        time.sleep(3 + 2 * attempt)
-    print("no se pudo publicar tras 8 intentos", file=sys.stderr)
+        time.sleep(2 + random.uniform(0, 4 + 2 * attempt))
+    print(f"no se pudo publicar tras {ATTEMPTS} intentos", file=sys.stderr)
     return 1
 
 

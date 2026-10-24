@@ -134,7 +134,7 @@ class FakeChain:
     # -- respuestas -----------------------------------------------------------------
     def block(self, n):
         return {"number": hex(n), "timestamp": hex(T0 + 12 * n), "baseFeePerGas": hex(10 * GWEI),
-                "miner": BUILDER}
+                "miner": BUILDER, "transactions": [th(0xA), th(0xB)]}
 
     def eth_call(self, to, data, tag):
         to = norm(to)
