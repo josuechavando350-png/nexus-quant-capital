@@ -1,0 +1,15 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/162ea5393283/nqc/migration/nqc-miner)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.75s
+     Running tests/aave_debt_execution_tests.rs (/tmp/nqc-miner-target/debug/deps/aave_debt_execution_tests-17d48d7081572acf)
+
+running 7 tests
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::late_payment_failure_and_missing_witnesses_cannot_leave_computed_liquidation_effects ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::computed_amounts_drive_both_delivery_payments_and_export_examples ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::arithmetic_errors_are_exact_and_initial_validation_precedes_sizing ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::exact_dust_boundary_accepts_then_rejects_and_restores_initial_accrual ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::collateral_exhaustion_and_reserve_decimals_compute_repayment_and_fee ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::close_factor_health_boundary_total_debt_and_request_caps_affect_actual_payment ... ok
+test rewards_execution::transfer_execution::underlying_execution::payment_execution::delivery_execution::prelude_execution::aave_sizing_execution::seeded_bonus_fees_prices_indices_and_close_factor_match_complete_state_and_logs ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 66 filtered out; finished in 44.71s
+

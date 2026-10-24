@@ -1,0 +1,101 @@
+{
+  "amount_expected": {
+    "activation_allowed": false,
+    "amount_calculation_passed": true,
+    "amounts": {
+      "collateral_to_liquidator": "41",
+      "debt_to_liquidate": "40",
+      "max_liquidatable_debt": "166",
+      "protocol_fee_collateral": "1",
+      "reserve_collateral_base": "15600000000000",
+      "reserve_debt_base": "16600000000000"
+    },
+    "executable_eligibility_verified": false,
+    "initial_conditions_checked": false,
+    "input_sha256": "19f5a5a59f47008382344653d690c9b3afb40760a0275d193e373c7f951880d4",
+    "input_state_authenticated": false,
+    "profile": "ethereum-aave-pool-revision-11-amount-kernel-v1",
+    "reference_liquidation_runtime_sha256": "b11e141dc76358768078be0818b39d60b5b68385aed43552a617ad572e821914",
+    "revert_data": null,
+    "schema": "nqc-miner-aave-amounts-v1"
+  },
+  "amount_input": {
+    "collateral_balance": "156",
+    "collateral_decimals": 0,
+    "collateral_price": "100000000000",
+    "debt_decimals": 0,
+    "debt_price": "100000000000",
+    "debt_to_cover": "40",
+    "health_factor_wad": "900000000000000000",
+    "liquidation_bonus_bps": 10500,
+    "liquidation_protocol_fee_bps": 1000,
+    "reserve_debt": "166",
+    "total_debt_base": "16600000000000"
+  },
+  "collateral_expected": {
+    "activation_allowed": false,
+    "executable_eligibility_verified": false,
+    "input_sha256": "61524cd0a6a96642f399e83ed9d8c2447cd8b8e9578246d1a5ea3dd3d14027b9",
+    "input_state_authenticated": false,
+    "profile": "ethereum-aave-pool-revision-11-reserve-update-v1",
+    "projected": {
+      "accrued_to_treasury_scaled": "24",
+      "last_update_timestamp": 31537000,
+      "liquidity_index_ray": "1560000000000000000000000000",
+      "user_collateral_balance": "156",
+      "user_variable_debt_balance": "0",
+      "variable_borrow_index_ray": "1304282407407407407407407407"
+    },
+    "projection_passed": true,
+    "reference_liquidation_runtime_sha256": "b11e141dc76358768078be0818b39d60b5b68385aed43552a617ad572e821914",
+    "revert_data": null,
+    "schema": "nqc-miner-aave-reserve-projection-v1",
+    "token_implementation_verified": false
+  },
+  "collateral_input": {
+    "accrued_to_treasury_scaled": "11",
+    "last_update_timestamp": 1000,
+    "liquidity_index_ray": "1500000000000000000000000000",
+    "liquidity_rate_ray": "40000000000000000000000000",
+    "reserve_factor_bps": 1000,
+    "timestamp": 31537000,
+    "total_scaled_variable_debt": "2000",
+    "user_scaled_collateral": "100",
+    "user_scaled_variable_debt": "0",
+    "variable_borrow_index_ray": "1200000000000000000000000000",
+    "variable_borrow_rate_ray": "83333333333333333333333333"
+  },
+  "debt_expected": {
+    "activation_allowed": false,
+    "executable_eligibility_verified": false,
+    "input_sha256": "e6a0c5e062d4e70150b68c8b367265f72c0affd4a8c9a2edddee5bae7c614522",
+    "input_state_authenticated": false,
+    "profile": "ethereum-aave-pool-revision-11-reserve-update-v1",
+    "projected": {
+      "accrued_to_treasury_scaled": "20",
+      "last_update_timestamp": 31537000,
+      "liquidity_index_ray": "1155000000000000000000000000",
+      "user_collateral_balance": "0",
+      "user_variable_debt_balance": "166",
+      "variable_borrow_index_ray": "1657750000000000000000000001"
+    },
+    "projection_passed": true,
+    "reference_liquidation_runtime_sha256": "b11e141dc76358768078be0818b39d60b5b68385aed43552a617ad572e821914",
+    "revert_data": null,
+    "schema": "nqc-miner-aave-reserve-projection-v1",
+    "token_implementation_verified": false
+  },
+  "debt_input": {
+    "accrued_to_treasury_scaled": "7",
+    "last_update_timestamp": 1000,
+    "liquidity_index_ray": "1100000000000000000000000000",
+    "liquidity_rate_ray": "50000000000000000000000000",
+    "reserve_factor_bps": 1000,
+    "timestamp": 31537000,
+    "total_scaled_variable_debt": "1000",
+    "user_scaled_collateral": "0",
+    "user_scaled_variable_debt": "100",
+    "variable_borrow_index_ray": "1500000000000000000000000000",
+    "variable_borrow_rate_ray": "100000000000000000000000000"
+  }
+}

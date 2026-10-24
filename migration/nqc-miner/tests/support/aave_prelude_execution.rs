@@ -1,5 +1,7 @@
 //! Initial reserve cache/update and validation before both original delivery paths.
 //! Health and amounts are supplied; state and Pool entry remain synthetic.
+#[path = "aave_sizing_execution.rs"]
+mod aave_sizing_execution;
 use super::*;
 use nqc_miner::aave_reserve::{project, ProjectedReserve, ReserveInput};
 use nqc_miner::aave_validation::{validate, ValidationInput};
