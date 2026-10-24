@@ -253,16 +253,20 @@ This adds fee-decomposition coverage, not three new winners, full receipt parity
 or current-market coverage. All three priority fees are zero; direct builder
 payments remain unknown after a recorded acquisition failure. Gas total already
 includes priority fees. A seventh dependent evidence batch preserves the result
-through restore and ancestor revocation. Local validation is in `AUDIT_H22.md`;
-no new remote exact-producer result is claimed. Complete paid costs remain 0/127,
-Titan-covered executions 0 and certified components 0/36.
+through restore and ancestor revocation. Validation is in `AUDIT_H22.md`.
+Complete paid costs remain 0/127, Titan-covered executions 0 and certified
+components 0/36.
 
 Runtime v5 now requires H22's seven-batch replay in the disconnected worker,
 matching H21's economic commitment and exact Titan-only policy. The consumer
 rejects own funds and fabricated Titan coverage even after commitments are
 recomputed. Authentic H21 v4 evidence still validates with its original scope.
-Remote execution of this continuation remains pending until independently
-retrieved and audited.
+Exact-producer forks, disconnected replay and independent API/artifact/log audits
+pass for producer `811c549b3561dcdd0719993a2a12852068f5920b`, run 40046132439.
+H22 closes **4/4 (100% within this increment)**, with **622/622 local tests** and
+33 new cases over H21. Both jobs validate original Git objects and preserve the
+source/store roots. The seventh batch's proof is SQLite replay/recovery, with no
+new physical Rust transport or execution-specific Titan coverage claim.
 
 ## H23 direct fee-recipient observation (local checkpoint)
 
