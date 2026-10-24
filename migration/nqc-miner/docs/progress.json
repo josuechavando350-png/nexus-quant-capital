@@ -4,7 +4,7 @@
   "denominator": 100,
   "global_completion_percent": 43,
   "method": "Weighted engineering estimate with explicit operational phase exits, not a percentage of lines written",
-  "status": "audited_aave_underlying_weth_execution",
+  "status": "audited_titan_only_gas_policy",
   "items": [
     {
       "phase": "scope",
@@ -246,7 +246,9 @@
     "evidence/aave-transfer-execution-20261023/verification.json",
     "docs/aave-underlying-execution.md",
     "docs/AUDIT_AAVE_UNDERLYING_EXECUTION_20261023.md",
-    "evidence/aave-underlying-execution-20261023/verification.json"
+    "evidence/aave-underlying-execution-20261023/verification.json",
+    "docs/AUDIT_TITAN_GAS_POLICY_20261023.md",
+    "evidence/titan-gas-policy-20261023/verification.json"
   ],
   "notes": [
     "An implemented primitive is not an operational phase exit.",
@@ -280,7 +282,8 @@
     "Amount-kernel continuation (2026-10-22 America/Mexico_City): exact uint256 close factor, collateral cap, bonus, fee and dust model; extracted original Solidity segment plus unchanged imported helper. Synthetic differential checks cover amounts and full revert bytes. Inputs, index updates, token transfers, transaction prestate and economic results remain uncertified; no new historical observations, phase exit or progress points.",
     "Reserve continuation: 1106 input sets each compared after one and two original Solidity updates (2212 synthetic executions). Same-block recaching, exact polynomial interest, treasury accrual, floor collateral/ceil debt and complete revert data are covered. No new historical observations, automated composition, full token execution or economic progress credit.",
     "Collateral continuation: original scaled-consumption and fee-cap excerpts differentially checked over 1089 main synthetic executions plus seven targeted reference calls. A real CLI composition test links supplied reserve, amount and collateral inputs. Post-liquidator scaled balance remains supplied; omitted token/debt execution and authenticated historical state prevent executable eligibility or new phase credit. Progress remains 43/100.",
-    "Debt continuation: 579 main input sets, 500 successful strategy-input probes and 24 targeted calls compare original _burnDebtTokens and ReserveLogic bookkeeping against Rust. Zero-debt legacy flags, floor burn/ceil debt, deficit casts, external revert ordering, virtual liquidity and event/storage rollback are covered. External outcomes remain supplied; no authenticated token/strategy, historical event, full liquidation or added phase credit. Progress remains 43/100."
+    "Debt continuation: 579 main input sets, 500 successful strategy-input probes and 24 targeted calls compare original _burnDebtTokens and ReserveLogic bookkeeping against Rust. Zero-debt legacy flags, floor burn/ceil debt, deficit casts, external revert ordering, virtual liquidity and event/storage rollback are covered. External outcomes remain supplied; no authenticated token/strategy, historical event, full liquidation or added phase credit. Progress remains 43/100.",
+    "Titan-only policy continuation: former own-gas MXN allowance moved unchanged to historical_own_gas replay. Current offline funding review binds exact plan/code/chain/parent, checks claimed caps for success/failure, validity and operator exposure; matching untrusted terms never authenticate sponsorship or enable money. Same-source verification passes 249 Rust and 340 Python tests (21 new). Initial Python errors from missing shallow-clone historical objects and one interrupted rerun are retained; complete rerun passes after object restoration. No new historical/financial evidence, operational phase exit or progress credit; remains 43/100."
   ],
   "historical_audit_notes_superseded_for_a841261": [
     "HTTP pacing/retry/redaction, run-config identity binding and rand 0.8.6 remediation are published but receive no progress credit until rebuilt and fully tested.",
@@ -288,5 +291,13 @@
     "Toolchain pin bytes are now part of build source identity and dirty tracking; two isolated Python contract tests passed, but the modified build.rs remains uncompiled.",
     "Continuation supersedes pending full-software-verification notes above for source a841261 only: 141 Rust and 64 Python pass; full lock scan found zero known vulnerabilities and two unmaintained warnings.",
     "Current build-bound v2 reproducibility contract passed 11/11 isolated Python regressions plus 4/4 owner-schema cases; the Rust v2 delta and three new Rust regressions remain uncompiled."
-  ]
+  ],
+  "funding_policy": {
+    "id": "nqc-miner-titan-only-gas-v1",
+    "designated_gas_sponsor": "titan",
+    "operator_gas_allowance": 0,
+    "own_principal_collateral_guarantees_allowed": false,
+    "execution_specific_coverage_verified": false,
+    "documentation": "docs/gas-funding.md"
+  }
 }

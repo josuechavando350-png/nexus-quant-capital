@@ -174,3 +174,5 @@ The [actual rewards execution](docs/aave-rewards-execution.md) covers the real r
 Actual aToken transfer composition: [scope and reproduction](docs/aave-transfer-execution.md), [audit](docs/AUDIT_AAVE_TRANSFER_EXECUTION_20261023.md).
 
 Underlying WETH execution: [scope and metadata gap](docs/aave-underlying-execution.md), [audit](docs/AUDIT_AAVE_UNDERLYING_EXECUTION_20261023.md).
+
+Auditoría vigente de política de gas: [Titan por ejecución](docs/AUDIT_TITAN_GAS_POLICY_20261023.md), **589 pruebas aprobadas (249 Rust + 340 Python)** sobre la misma fuente tras restaurar objetos Git históricos. Se conservan el intento inicial fallido y una repetición interrumpida. Avance **43/100**, sin cobertura de patrocinio ni operación certificada.

@@ -1,0 +1,29 @@
+{
+  "schema": "nqc-miner-python-rerun-v1",
+  "source_commit": "ebdee791fdc80a49aa699373dd2c1dad792073d4",
+  "command": [
+    "/tmp/nqc-research-venv/bin/python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "research",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "exit_code": 0,
+  "executed": 340,
+  "elapsed_seconds": 152.064,
+  "log": "python-research-tests.txt",
+  "log_sha256": "c6a8c7a1b448c0fcf2f2ec2c5a25632e7c31e8378a6d70b8dfe2c41279f481b0",
+  "restored_historical_commits": [
+    "6a89668b5c326a0e120288a0631204ec4a082827",
+    "7ee9e9cba98c876c72082580ae2e514867917e6f",
+    "a1d0f150633fda2e5142fe59c0beda924c7bd830",
+    "e4700af5bed905e6b071d93cbc17f7489521b342",
+    "a1fb66a40f55728ecc5dd4913e2450bde8929473"
+  ],
+  "inputs_unchanged": true,
+  "skipped": false
+}

@@ -60,7 +60,7 @@
       "remaining_points": 5,
       "acceptance": "Concrete proposal, explicit user approval and reconciled budgeted execution",
       "dependency": "concrete_proposal_and_explicit_approval",
-      "next_step": "Only after prerequisites pass, present exact transactions, identities, limits, funded budget and stop rules for explicit approval; then reconcile authorized execution.",
+      "next_step": "Authenticate Titan identity and exact execution-specific gas terms, including failure exposure and zero operator prefunding/fallback/recourse. Establish independent principal financing, complete preceding gates, obtain explicit approval for a concrete proposal and reconcile actual execution. The offline term-review command is structural only and grants no spending authority.",
       "status": "open"
     },
     {
@@ -90,5 +90,11 @@
   ],
   "observer_changes_permitted": false,
   "spending_authorized": false,
-  "phase_exits_completed": []
+  "phase_exits_completed": [],
+  "funding_policy": {
+    "id": "nqc-miner-titan-only-gas-v1",
+    "gas_sponsor": "titan",
+    "operator_gas_allowance": 0,
+    "execution_specific_coverage_verified": false
+  }
 }

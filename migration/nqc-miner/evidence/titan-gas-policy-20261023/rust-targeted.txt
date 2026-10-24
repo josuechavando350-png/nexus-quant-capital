@@ -1,0 +1,64 @@
+   Compiling nqc-miner v0.1.0 (/workspace/scratch/162ea5393283/nqc/migration/nqc-miner)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.14s
+     Running tests/controls_tests.rs (/tmp/nqc-miner-target/debug/deps/controls_tests-667115825ab3957d)
+
+running 35 tests
+test absent_or_unfinalized_block_is_not_assumed_canonical ... ok
+test a_capture_before_threshold_changes_accounting_but_never_total_cap ... ok
+test adapter_reports_from_another_contract_or_block_cannot_be_combined ... ok
+test adapter_requires_all_three_distinct_test_families_and_artifacts ... ok
+test default_budget_is_zero_and_references_never_enable_money ... ok
+test deserialization_does_not_bypass_scope_validation ... ok
+test hard_budget_caps_are_integer_centavos ... ok
+test canonical_reorg_invalidates_old_gate_and_proposal ... ok
+test exact_gate_order_reaches_advisory_proposal_but_never_active ... ok
+test mine_chain_source_and_adapter_must_match ... ok
+test historical_context_is_required_validated_and_integrity_bound ... ok
+test noncanonical_accounting_is_rejected_and_later_reorg_latches_stop ... ok
+test journal_replays_deterministically_and_roundtrips ... ok
+test oversized_observed_topup_is_retained_as_a_breach ... ok
+test overspending_remains_visible_and_receipts_cannot_be_double_counted ... ok
+test nonpositive_or_undersampled_valuation_fails ... ok
+test paper_profit_never_avoids_no_capture_stop ... ok
+test any_paper_profit_is_never_realized_or_spendable ... ok
+test replay_rejects_current_reorg_even_when_historical_context_was_valid ... ok
+test retired_history_replays_after_reorg_and_expiry_without_current_old_blocks ... ok
+test modified_journal_cannot_inject_live_state_or_forge_chain_tip ... ok
+test reactivation_replays_new_gates_without_requiring_retired_fork_canonicality ... ok
+test retired_history_still_requires_original_gate_shape_time_and_admission ... ok
+test retirement_reason_is_required_and_mine_cannot_change_on_restart ... ok
+test stale_prior_evidence_invalidates_a_later_step ... ok
+test retirement_and_reactivation_reset_all_gates ... ok
+test synthetic_fixture_evidence_cannot_be_promoted_to_proposal ... ok
+test replay_rejects_stale_current_evidence_and_future_log_time ... ok
+test unknown_or_failed_toxicity_never_advances ... ok
+test transition_context_retains_only_relevant_blocks_and_finalized_head ... ok
+test expiry_and_future_boundaries_fail_closed ... ok
+test evidence_hashes_roundtrip_without_truncation ... ok
+test shadow_requires_realtime_observations_after_shadow_admission ... ok
+test arbitrary_skipped_gate_never_changes_detected_state ... ok
+test gas_accounting_is_exact_and_stop_is_monotonic ... ok
+
+test result: ok. 35 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+
+     Running tests/funding_tests.rs (/tmp/nqc-miner-target/debug/deps/funding_tests-84591dda268db080)
+
+running 15 tests
+test cost_arithmetic_detects_multiplication_and_addition_overflow ... ok
+test current_policy_has_no_operator_allowance_and_consistent_claim_never_enables_money ... ok
+test context_chain_reorg_and_stale_target_are_rechecked_without_changing_plan ... ok
+test malformed_decimal_and_non_string_wei_are_rejected_without_rounding ... ok
+test invalid_schema_zero_chain_time_gas_and_target_are_errors ... ok
+test claim_times_and_revocation_fail_closed_including_expiry_boundary ... ok
+test missing_operator_zero_fields_and_unknown_authority_flags_are_not_defaults ... ok
+test failure_coverage_cannot_be_inferred_from_success_or_omitted_as_zero ... ok
+test missing_terms_are_unknown_and_general_statement_cannot_cover_an_execution ... ok
+test simulated_and_shadow_claims_never_count_as_external_funding ... ok
+test all_operator_exposures_are_rejected_even_with_rebound_titan_terms ... ok
+test report_is_reproducible_and_time_revocation_and_artifact_change_its_digest ... ok
+test every_plan_field_is_bound_to_claim_and_report_identity ... ok
+test any_nonzero_operator_prefunding_is_forbidden ... ok
+test cost_is_exact_and_matching_terms_never_authenticate_sponsor ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+

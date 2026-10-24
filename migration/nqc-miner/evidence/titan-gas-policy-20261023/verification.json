@@ -1,0 +1,179 @@
+{
+  "audited_inputs_unchanged": true,
+  "build_identity_sha256": "e7299a0a64b22aa76f7fcde1879f95135a7430a141f3dad1b79c5244b3bdac09",
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "--offline"
+      ],
+      "elapsed_seconds": 2.243,
+      "exit_code": 0,
+      "log": "initial-full/rust-build.txt",
+      "log_sha256": "69ec83f540dbf01d1d686ac3155daddfa91cf39e180bf61c44684d91fa175c03",
+      "name": "rust-build"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--all-targets",
+        "--locked",
+        "--offline"
+      ],
+      "elapsed_seconds": 72.655,
+      "exit_code": 0,
+      "failed": 0,
+      "ignored": 0,
+      "log": "initial-full/rust-tests.txt",
+      "log_sha256": "9530107d5d72d308ce3f88726fb79af49de69f165df297c4e253fad0e45b9fcc",
+      "name": "rust-tests",
+      "passed": 249
+    },
+    {
+      "command": [
+        "cargo",
+        "clippy",
+        "--all-targets",
+        "--locked",
+        "--offline",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "elapsed_seconds": 14.133,
+      "exit_code": 0,
+      "log": "initial-full/clippy.txt",
+      "log_sha256": "44fe2362592729fab95fe5c4920b1e6efca29925d41b43107c81955d6777151c",
+      "name": "clippy"
+    },
+    {
+      "command": [
+        "cargo",
+        "fmt",
+        "--",
+        "--check"
+      ],
+      "elapsed_seconds": 0.223,
+      "exit_code": 0,
+      "log": "initial-full/rustfmt.txt",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "rustfmt"
+    },
+    {
+      "command": [
+        "/tmp/nqc-research-venv/bin/python",
+        "/workspace/scratch/162ea5393283/nqc/migration/verify_isolation.py"
+      ],
+      "elapsed_seconds": 0.14,
+      "exit_code": 0,
+      "log": "initial-full/repository-isolation.txt",
+      "log_sha256": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940",
+      "name": "repository-isolation"
+    },
+    {
+      "command": [
+        "/tmp/nqc-research-venv/bin/python",
+        "scripts/check_scope.py"
+      ],
+      "elapsed_seconds": 0.058,
+      "exit_code": 0,
+      "log": "initial-full/miner-scope.txt",
+      "log_sha256": "376f13d76af54db0a86cae784eb6ed96771ff767801173fcb0b2527f6d0b33ac",
+      "name": "miner-scope"
+    },
+    {
+      "binary_source_matches_inputs": true,
+      "command": [
+        "/tmp/nqc-miner-target/debug/nqc-miner",
+        "about"
+      ],
+      "elapsed_seconds": 0.003,
+      "exit_code": 0,
+      "log": "initial-full/build-identity.txt",
+      "log_sha256": "e0ffe6098bca26b5b4a93aa6d337c7750341c31406f49963c528d1d9a291dde1",
+      "name": "build-identity"
+    },
+    {
+      "command": [
+        "/tmp/nqc-research-venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "research",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "elapsed_seconds": 152.064,
+      "executed": 340,
+      "exit_code": 0,
+      "inputs_unchanged": true,
+      "log": "python-final/python-research-tests.txt",
+      "log_sha256": "c6a8c7a1b448c0fcf2f2ec2c5a25632e7c31e8378a6d70b8dfe2c41279f481b0",
+      "name": "python-research-tests",
+      "restored_historical_commits": [
+        "6a89668b5c326a0e120288a0631204ec4a082827",
+        "7ee9e9cba98c876c72082580ae2e514867917e6f",
+        "a1d0f150633fda2e5142fe59c0beda924c7bd830",
+        "e4700af5bed905e6b071d93cbc17f7489521b342",
+        "a1fb66a40f55728ecc5dd4913e2450bde8929473"
+      ],
+      "schema": "nqc-miner-python-rerun-v1",
+      "skipped": false,
+      "source_commit": "ebdee791fdc80a49aa699373dd2c1dad792073d4"
+    }
+  ],
+  "execution_gas_coverage_verified": false,
+  "files": {
+    "README.md": "8e9b5ff2f4e4aeb65b8cdf751efc526710dcf3acb1eef20e998a5985c32bf64d",
+    "continuity.json": "062f116bc615382cc756682ed2870ae1e97edcf6bf85b13405d724de07628a24",
+    "initial-full/build-identity.txt": "e0ffe6098bca26b5b4a93aa6d337c7750341c31406f49963c528d1d9a291dde1",
+    "initial-full/clippy.txt": "44fe2362592729fab95fe5c4920b1e6efca29925d41b43107c81955d6777151c",
+    "initial-full/miner-scope.txt": "376f13d76af54db0a86cae784eb6ed96771ff767801173fcb0b2527f6d0b33ac",
+    "initial-full/python-research-tests.txt": "402a81fef1e8913f0bc073770d4f2dd3d79cdc57df4244fadbdfed74916396bd",
+    "initial-full/repository-isolation.txt": "166c7b964f5c89d048e1142091443f153c3277af5a5f64e1bfd1029bfd7c9940",
+    "initial-full/rust-build.txt": "69ec83f540dbf01d1d686ac3155daddfa91cf39e180bf61c44684d91fa175c03",
+    "initial-full/rust-tests.txt": "9530107d5d72d308ce3f88726fb79af49de69f165df297c4e253fad0e45b9fcc",
+    "initial-full/rustfmt.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "initial-full/summary.json": "90836e31f6f15c5b9fa181fb72cad2cbe0990d01a46584fc418b08687cf4a3a3",
+    "interrupted-python/interruption.json": "7215c92723ce5d15cb6e132005345ef164be7038d2d03d1c7443e8d2ebf86262",
+    "interrupted-python/python-research-tests.txt": "b85d3b5a31e0800c8eccf14177314732554362424957af440045a04820be27e0",
+    "python-final/python-research-tests.txt": "c6a8c7a1b448c0fcf2f2ec2c5a25632e7c31e8378a6d70b8dfe2c41279f481b0",
+    "python-final/summary.json": "b18ba3fc05a69a73303986c97564e37cb84c56f736ec7b8407a35a7f77f9d72c",
+    "python-targeted.txt": "fb03cf10036d3a38ebfe456bd4f34cda6782ac0cbd768374bbe04804eab9aab6",
+    "rust-targeted.txt": "cc82f16d2e7cbcd408259fdd0014c6cb180f71e5060edd88f7186f1ce588f4ef",
+    "synthetic/input.json": "b5ce77db407cbb9e391424c0c255f8949ee3027f39f18d89403420a819c6ba28",
+    "synthetic/output.json": "421deab6bd9a211beb750e80416fa87ee53c0471675d3f730a90475b79e0e56d",
+    "targeted-initial-compile.txt": "f321fc83acad3cdcd4a9217174ef4abc75e8b6fa4b49d0351ffb48a777d17a9c"
+  },
+  "final_failed": 0,
+  "final_skipped": 0,
+  "global_completion_percent": 43,
+  "new_historical_observations": 0,
+  "new_progress_credit": 0,
+  "new_public_rpc_requests": 0,
+  "new_python_tests": 6,
+  "new_rust_tests": 15,
+  "observer_bridge_enabled": false,
+  "python_passed": 340,
+  "retained_initial_failure": {
+    "cause": "missing historical Git objects in shallow clone; restored exact commits before rerun",
+    "executed_python_tests": 336,
+    "path": "initial-full/summary.json",
+    "reported_python_errors": 95
+  },
+  "retained_interruption": "interrupted-python/interruption.json",
+  "rust_passed": 249,
+  "schema": "nqc-miner-titan-gas-policy-verification-v1",
+  "source_commit": "ebdee791fdc80a49aa699373dd2c1dad792073d4",
+  "source_sha256": "1a86208607b0cec9b9eb614517be697681ff9c05acd169c9bbe7f38a92c963e3",
+  "source_tree": "a96f9e3f4cd6452dca11b4e973a32e7a5f6dcf63",
+  "spending_authorized": false,
+  "status": "pass",
+  "total_distinct_passed": 589,
+  "validation_kind": "same_source_checks_with_complete_python_rerun"
+}
