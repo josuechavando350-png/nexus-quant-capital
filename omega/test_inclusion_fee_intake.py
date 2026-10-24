@@ -1,4 +1,6 @@
 import copy
+import contextlib
+import io
 from pathlib import Path
 import tempfile
 import unittest
@@ -8,9 +10,20 @@ from cashflow_intake import build_cashflow
 from evidence_store import admit, audit_store, create, export_store, read_batch, restore_store, revoke
 from historical_intake import build_ledger
 from inclusion_fee_intake import (BINDING_NAME, CAPTURE_NAME, EVIDENCE, REPORT_NAME,
-    build_inclusion_report, load_capture, query_inclusion_report, reconcile,
-    split_execution_fee, store_inclusion_report, verify_inclusion_report)
+    build_inclusion_report, exercise, exercise_fields, load_capture, query_inclusion_report,
+    reconcile, seal, split_execution_fee, store_inclusion_report, verify_inclusion_report,
+    verify_replay)
 from integrity import canonical, digest, strict_json
+
+
+def reseal(report):
+    report.pop('report_commitment_sha256', None); return seal(report)
+
+
+def synthetic_replay(network):
+    # Namespace IDs are a fixture, never evidence of a physical disconnected run.
+    with tempfile.TemporaryDirectory() as tmp: report = exercise_fields(tmp)
+    report['network'] = copy.deepcopy(network); return seal(report)
 
 
 class FeeArithmeticTests(unittest.TestCase):
@@ -192,6 +205,64 @@ class InclusionStoreTests(unittest.TestCase):
                 objects = dict(self.objects); v = strict_json(objects[name]); v['records'][0]['complete_costs'] = True
                 objects[name] = canonical(v); bad = admit(db, objects, parents=[self.result['parent']])
                 with self.assertRaises(ValueError): query_inclusion_report(db, bad)
+
+
+class InclusionReplayTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.network = {'interfaces': ['lo'], 'routable_network': False,
+                       'network_namespace': 'net:[2]', 'parent_network_namespace': 'net:[1]'}
+        cls.report = synthetic_replay(cls.network)
+
+    def test_seven_batch_restore_replay_binds_titan_only_policy_offline(self):
+        with patch('socket.socket', side_effect=AssertionError('network forbidden')):
+            self.assertEqual(verify_replay(self.report), self.report)
+        self.assertEqual(self.report['blocked_batches'], 7)
+        self.assertTrue(self.report['forensic_bytes_preserved'])
+        self.assertTrue(self.report['restore_byte_identical'])
+        policy = self.report['gas_funding_policy']
+        self.assertEqual(policy['payer'], 'TITAN')
+        self.assertEqual(policy['operator_gas_cap_mxn'], 0)
+        self.assertFalse(policy['operator_prefund_allowed'])
+        self.assertFalse(policy['own_gas_fallback_allowed'])
+        self.assertFalse(policy['execution_coverage_proven'])
+        self.assertEqual(self.report['gas_policy_sha256'], digest(canonical(policy)))
+
+    def test_resealed_operator_gas_or_titan_coverage_claims_rejected(self):
+        for key, value in [('payer', 'OPERATOR'), ('operator_gas_cap_mxn', 1),
+                           ('operator_prefund_allowed', True), ('own_gas_fallback_allowed', True),
+                           ('execution_coverage_proven', True)]:
+            with self.subTest(key=key):
+                r = copy.deepcopy(self.report); r['gas_funding_policy'][key] = value
+                r['gas_policy_sha256'] = digest(canonical(r['gas_funding_policy']))
+                with self.assertRaisesRegex(ValueError, 'differs_from_sources'): verify_replay(reseal(r))
+
+    def test_observed_competitor_fees_cannot_become_titan_coverage_or_complete_costs(self):
+        for key in ('titan_covered_executions', 'complete_paid_cost_rows'):
+            r = copy.deepcopy(self.report); report = r['inclusion_report']
+            report['summary'][key] = 1; reseal(report)
+            with self.assertRaisesRegex(ValueError, 'differs_from_sources'): verify_replay(reseal(r))
+
+    def test_routable_shared_or_malformed_namespace_rejected(self):
+        for key, value in [('routable_network', True), ('interfaces', ['lo', 'eth0']),
+                           ('network_namespace', 'net:[1]'), ('network_namespace', 2)]:
+            r = copy.deepcopy(self.report); r['network'][key] = value
+            with self.assertRaisesRegex(ValueError, 'inclusion_network'): verify_replay(reseal(r))
+
+    def test_changed_restore_or_parent_commitment_rejected(self):
+        for key, value in [('blocked_batches', 6), ('forensic_bytes_preserved', False),
+                           ('execution_report_commitment', '0'*64)]:
+            r = copy.deepcopy(self.report); r[key] = value
+            with self.assertRaisesRegex(ValueError, 'differs_from_sources'): verify_replay(reseal(r))
+
+    def test_worker_output_is_exact_and_cannot_overwrite_or_follow_symlink(self):
+        with tempfile.TemporaryDirectory() as tmp, contextlib.redirect_stdout(io.StringIO()):
+            p = Path(tmp)/'worker'; r = exercise(p, self.network)
+            self.assertEqual(r, self.report)
+            self.assertEqual((p/'report.json').read_bytes(), canonical(r))
+            with self.assertRaises((FileExistsError, ValueError)): exercise(p, self.network)
+            link = Path(tmp)/'link'; link.symlink_to(p, target_is_directory=True)
+            with self.assertRaises(ValueError): exercise(link, self.network)
 
 
 if __name__ == '__main__': unittest.main()

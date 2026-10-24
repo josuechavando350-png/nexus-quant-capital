@@ -434,4 +434,7 @@ no se vuelve a restar. Las tres propinas observadas son cero, pero los pagos
 directos al builder siguen desconocidos. Las otras seis filas permanecen sin
 desglose observado. No cambia 0/127 filas de costos completos ni 0/36 componentes
 certificados. Añade un séptimo lote dependiente de H21, verificable y revocable.
-Ver [contrato](INCLUSION_FEE_CONTRACT.md) y [verificación local](AUDIT_H22.md).
+El paquete runtime v5 exige reconstruir ese lote en el worker desconectado y
+vincularlo a la política Titan: capital propio cero, sin anticipo ni alternativa
+propia. Rechaza cobertura inventada y conserva el alcance original de v1-v4.
+Ver [contrato](INCLUSION_FEE_CONTRACT.md) y [auditoría](AUDIT_H22.md).

@@ -24,7 +24,7 @@ The report records the source representation, acquisition failure and exact
 limits of the join. SHA pins preserve reviewed bytes; they are not cryptographic
 proofs of chain state. See `INCLUSION_FEE_CONTRACT.md`.
 
-## Verification record
+## Initial fee-reader verification record
 
 The 24 new tests pass. They exercise positive-priority arithmetic (the authentic
 sample has zero priority), integer precision, invalid inputs, cross-source
@@ -80,3 +80,39 @@ Next evidence target: retain complete internal value-transfer pages or raw trace
 for these exact transactions, validate successful ancestry and native balance
 effects, then attribute direct fee-recipient/bundle payments without double
 counting execution gas. Zero priority fees alone cannot close that gate.
+
+## Runtime v5 continuation
+
+The user's Titan-only instruction is now also bound directly into H22's
+disconnected-worker record. The active policy and historical capture/report bytes
+are unchanged. Seven dependent batches are rebuilt, revoked from their root and
+restored; all remain blocked while forensic bytes match. The packet consumer
+requires matching network namespaces and the exact H21 economics commitment and
+gas policy. It rejects a substituted payer, positive operator allowance, prefund,
+own-gas fallback or invented execution-specific Titan coverage.
+
+Targeted local checks: 30/30 inclusion tests and 22/22 runtime-packet tests pass.
+These include six new worker cases and three new v5 packet cases. A freshly
+retrieved authentic H21 v4 replay artifact (ID 12535070907, original ZIP SHA256
+`59a2c1930a50ddd8a046ac60c41cab5d06097a6700e0b68bdd71372f8e059599`)
+passes the new reader with its 43 records and old scope, without an H22 claim.
+Compatibility result SHA256:
+`00fad9dae099cfd957964b30507a765e1f56072622031c092c9aa9aba9acd8ae`.
+
+Final full local regression: **622/622 unique tests pass**, with zero failures,
+errors, skips or expected failures (399.422 seconds). Nine cases are new in this
+continuation, 33 over H21. Full result SHA256:
+`f0d591cae84b7d4256deb57476b031405187ecc1c85d716810e3eaefa3a2b367`.
+Final isolation passes with the same 164/531/106 file counts and unchanged
+workflow; its result SHA256 remains
+`315faaa32eff0ed6b3db2a31b7fd1c5a8bb099f77051a748ad33f488bd5076ab`.
+Original Git objects remain unchecked locally and must be checked in the remote
+jobs. Remote exact-producer execution is pending at this pre-publication
+checkpoint. No workflow, permissions, provider, Rust or Solidity source is changed.
+The older source digests above identify the initial fee-reader checkpoint, not
+these subsequently extended reader/test files.
+
+Additional read-only research could not retrieve the exact historical transaction
+through the public Etherscan page or either web search engine. No trace or payment
+observation was added. Titan's official Sponsored Bundles documentation was
+rechecked; its conditional sponsorship is not execution-specific coverage.

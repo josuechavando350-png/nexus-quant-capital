@@ -44,6 +44,22 @@ recomputed report. Ancestor revocation blocks normal queries while restoration
 preserves forensic bytes. Local tests do not prove physical Rust transport,
 canonical reorg recovery, inter-host recovery or remote exact-producer execution.
 
+Runtime v5 adds a required `inclusion-fees` record on the replay stage. The worker
+reconstructs the seven batches inside the existing disconnected namespace, binds
+the H21 economic report and its exact Titan-only policy, revokes the root, restores
+SQLite and checks blocked queries plus unchanged forensic bytes. The packet
+consumer independently reproduces this result and requires the same namespace as
+the physical replay and the same economic commitment/policy as the H21 record.
+Payer, zero operator allowance, no prefund, no own-gas fallback and the absence of
+execution-specific Titan coverage are source-bound; resealing a changed claim
+cannot authorize it. Historical v1-v4 packets retain their prior scope and cannot
+substitute for this v5 record. The H22 capture/report bytes remain unchanged.
+
+The workflow, permissions, providers, Rust/Solidity sources and authority gates
+are unchanged. The worker adds no network request, Titan submission, signing,
+funding or new liquidation EVM execution. Any exact-producer remote result must
+be independently retrieved and documented in `AUDIT_H22.md`.
+
 Reproduce from the repository root:
 
 ```sh

@@ -13,7 +13,7 @@ from historical_pipeline import exercise
 from integrity import canonical, digest
 from runtime_artifact import (CODE_PATHS, LEGACY_SCHEMA, LEGACY_CODE_PATHS, MAX_PACKET, ROOT, SCHEMA,
                               TRANSPORT_SCHEMA, TRANSPORT_CODE_PATHS, DEPENDENCY_SCHEMA,
-                              DEPENDENCY_CODE_PATHS, inspect_packet,
+                              DEPENDENCY_CODE_PATHS, ECONOMIC_SCHEMA, ECONOMIC_CODE_PATHS, inspect_packet,
                               unpack, verify_artifact, write_packet)
 
 
@@ -150,8 +150,8 @@ class RuntimeArtifactTests(unittest.TestCase):
 
     def economic_packet(self):
         from test_execution_intake import synthetic_replay
-        p=self.dependent_packet();p['schema']=SCHEMA
-        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in CODE_PATHS}
+        p=self.dependent_packet();p['schema']=ECONOMIC_SCHEMA
+        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in ECONOMIC_CODE_PATHS}
         network=next(r['value'] for r in p['records'] if r['name']=='network-isolation')
         value=synthetic_replay(network)
         p['records'][-1:-1]=[{'name':'execution-economics','value':value,'sha256':digest(canonical(value))}]
@@ -175,6 +175,43 @@ class RuntimeArtifactTests(unittest.TestCase):
             r['value']['report_commitment_sha256']=digest(canonical({k:v for k,v in r['value'].items() if k!='report_commitment_sha256'}))
             r['sha256']=digest(canonical(r['value']));self.seal(p)
             with self.assertRaises(ValueError):self.inspect(p)
+
+    def inclusion_packet(self):
+        from test_inclusion_fee_intake import synthetic_replay
+        p=self.economic_packet();p['schema']=SCHEMA
+        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in CODE_PATHS}
+        network=next(r['value'] for r in p['records'] if r['name']=='network-isolation')
+        value=synthetic_replay(network)
+        p['records'][-1:-1]=[{'name':'inclusion-fees','value':value,'sha256':digest(canonical(value))}]
+        return self.seal(p)
+
+    def test_v5_requires_inclusion_record_and_keeps_v4_scope(self):
+        p=self.inclusion_packet();self.assertEqual(self.inspect(p)['records'],44)
+        self.assertLessEqual(len(canonical(p)),MAX_PACKET)
+        p['records']=[r for r in p['records'] if r['name']!='inclusion-fees'];self.seal(p)
+        with self.assertRaisesRegex(ValueError,'record_inventory'):self.inspect(p)
+        p['schema']=ECONOMIC_SCHEMA
+        p['code_sha256']={f:digest((ROOT/f).read_bytes()) for f in ECONOMIC_CODE_PATHS}
+        self.seal(p);self.assertEqual(self.inspect(p)['records'],43)
+
+    def test_v5_rejects_inclusion_proof_from_another_namespace(self):
+        p=self.inclusion_packet();r=next(r for r in p['records'] if r['name']=='inclusion-fees')
+        r['value']['network']['network_namespace']='net:[999999]'
+        r['value']['report_commitment_sha256']=digest(canonical(
+            {k:v for k,v in r['value'].items() if k!='report_commitment_sha256'}))
+        r['sha256']=digest(canonical(r['value']));self.seal(p)
+        with self.assertRaisesRegex(ValueError,'inclusion_network_disagrees'):self.inspect(p)
+
+    def test_v5_rejects_resealed_operator_fallback_and_invented_titan_coverage(self):
+        baseline=self.inclusion_packet()
+        for key in ('own_gas_fallback_allowed','execution_coverage_proven'):
+            p=copy.deepcopy(baseline);r=next(r for r in p['records'] if r['name']=='inclusion-fees')
+            value=r['value'];value['gas_funding_policy'][key]=True
+            value['gas_policy_sha256']=digest(canonical(value['gas_funding_policy']))
+            value['report_commitment_sha256']=digest(canonical(
+                {k:v for k,v in value.items() if k!='report_commitment_sha256'}))
+            r['sha256']=digest(canonical(value));self.seal(p)
+            with self.assertRaisesRegex(ValueError,'differs_from_sources'):self.inspect(p)
 
     def test_artifact_matches_external_capture_without_self_authentication_claim(self):
         raw=self.archive(self.packet());report=self.verify(raw,self.capture(raw))

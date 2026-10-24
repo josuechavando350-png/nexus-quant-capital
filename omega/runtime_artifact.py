@@ -23,7 +23,8 @@ from pft_source_binding import DESTINATION, DESTINATION_ID, FALSE_AUTHORITY, git
 LEGACY_SCHEMA = 'nqc.omega.runtime-artifact.v1'
 TRANSPORT_SCHEMA = 'nqc.omega.runtime-artifact.v2'
 DEPENDENCY_SCHEMA = 'nqc.omega.runtime-artifact.v3'
-SCHEMA = 'nqc.omega.runtime-artifact.v4'
+ECONOMIC_SCHEMA = 'nqc.omega.runtime-artifact.v4'
+SCHEMA = 'nqc.omega.runtime-artifact.v5'
 BRANCH = 'feat/omega-h2-executable-audit-20261022'
 WORKFLOW = '.github/workflows/omega-h2-audit.yml'
 ROOT = Path(__file__).resolve().parents[1]
@@ -34,8 +35,9 @@ LEGACY_CODE_PATHS = ('omega/historical_intake.py','omega/evidence_store.py',
               'omega/integrity.py','omega/h2_actions.py','omega/isolation.py',WORKFLOW)
 TRANSPORT_CODE_PATHS = LEGACY_CODE_PATHS + ('omega/rust_store_intake.py','omega/rust_store_bridge.rs')
 DEPENDENCY_CODE_PATHS = TRANSPORT_CODE_PATHS + ('omega/dependency_intake.py',)
-CODE_PATHS = DEPENDENCY_CODE_PATHS + ('omega/execution_intake.py', 'omega/audit.py',
+ECONOMIC_CODE_PATHS = DEPENDENCY_CODE_PATHS + ('omega/execution_intake.py', 'omega/audit.py',
                                     'omega/architecture_v3.json')
+CODE_PATHS = ECONOMIC_CODE_PATHS + ('omega/inclusion_fee_intake.py',)
 
 
 def reject_authority(value):
@@ -52,11 +54,12 @@ def reject_authority(value):
 def inspect_packet(packet, *, expected_producer, expected_tree, stage, root=ROOT):
     need(type(packet) is dict and set(packet)=={'schema','producer','stage','records',
         'code_sha256','packet_commitment_sha256'},'packet_shape')
-    need(packet['schema'] in (LEGACY_SCHEMA, TRANSPORT_SCHEMA, DEPENDENCY_SCHEMA, SCHEMA) and packet['stage']==stage
+    need(packet['schema'] in (LEGACY_SCHEMA, TRANSPORT_SCHEMA, DEPENDENCY_SCHEMA, ECONOMIC_SCHEMA, SCHEMA) and packet['stage']==stage
          and stage in ('forks','replay'),'packet_scope')
     modern = packet['schema'] != LEGACY_SCHEMA
-    dependent = packet['schema'] in (DEPENDENCY_SCHEMA, SCHEMA)
-    economic = packet['schema'] == SCHEMA
+    dependent = packet['schema'] in (DEPENDENCY_SCHEMA, ECONOMIC_SCHEMA, SCHEMA)
+    economic = packet['schema'] in (ECONOMIC_SCHEMA, SCHEMA)
+    inclusion = packet['schema'] == SCHEMA
     need(packet['packet_commitment_sha256']==digest(canonical({
         k:v for k,v in packet.items() if k!='packet_commitment_sha256'})),'packet_commitment')
     reject_authority(packet)
@@ -68,7 +71,7 @@ def inspect_packet(packet, *, expected_producer, expected_tree, stage, root=ROOT
     for name in ('run_id','run_attempt'):
         need(type(identity[name]) is int and identity[name]>0,'invalid_run_identity')
     same(packet['code_sha256'],{p:digest(git(root,'show',expected_producer+':'+p))
-                               for p in (CODE_PATHS if economic else DEPENDENCY_CODE_PATHS if dependent else TRANSPORT_CODE_PATHS if modern
+                               for p in (CODE_PATHS if inclusion else ECONOMIC_CODE_PATHS if economic else DEPENDENCY_CODE_PATHS if dependent else TRANSPORT_CODE_PATHS if modern
                                          else LEGACY_CODE_PATHS)},'producer_code_digests')
     records=packet['records']
     need(type(records) is list and 1<len(records)<100,'record_inventory')
@@ -85,6 +88,7 @@ def inspect_packet(packet, *, expected_producer, expected_tree, stage, root=ROOT
     if modern and stage == 'replay': stage_names.add('rust-store-bridge')
     if dependent and stage == 'replay': stage_names.add('dependency-store-bridge')
     if economic and stage == 'replay': stage_names.add('execution-economics')
+    if inclusion and stage == 'replay': stage_names.add('inclusion-fees')
     need(set(counts)==common|stage_names|{'command','download'}
          and all(counts[n]==1 for n in common|stage_names),'record_inventory')
     # Exact command inventory inherited from H2 plus retained-capture and four new test suites.
@@ -147,6 +151,14 @@ def inspect_packet(packet, *, expected_producer, expected_tree, stage, root=ROOT
             from execution_intake import verify_replay
             economics = verify_replay(values['execution-economics'], root)
             same(economics['network'], network, 'execution_network_disagrees')
+        if inclusion:
+            from inclusion_fee_intake import verify_replay as verify_inclusion_replay
+            fees = verify_inclusion_replay(values['inclusion-fees'], root)
+            same(fees['network'], network, 'inclusion_network_disagrees')
+            same(fees['execution_report_commitment'],
+                 economics['economic_report']['report_commitment_sha256'], 'inclusion_economics_disagrees')
+            same(fees['gas_funding_policy'], economics['economic_report']['gas_funding_policy'],
+                 'inclusion_gas_policy_disagrees')
     fields(values['stage-complete'],{'stage':stage,'status':'PHYSICAL_GATE_PASS',
         'producer':identity,'result_sha256':digest(canonical(result)),'certified_components':0},'complete')
     return {'records':len(records),'tests':{n:values[n]['tests_run'] for n in common if n.endswith('-tests')},

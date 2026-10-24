@@ -256,3 +256,10 @@ includes priority fees. A seventh dependent evidence batch preserves the result
 through restore and ancestor revocation. Local validation is in `AUDIT_H22.md`;
 no new remote exact-producer result is claimed. Complete paid costs remain 0/127,
 Titan-covered executions 0 and certified components 0/36.
+
+Runtime v5 now requires H22's seven-batch replay in the disconnected worker,
+matching H21's economic commitment and exact Titan-only policy. The consumer
+rejects own funds and fabricated Titan coverage even after commitments are
+recomputed. Authentic H21 v4 evidence still validates with its original scope.
+Remote execution of this continuation remains pending until independently
+retrieved and audited.

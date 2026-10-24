@@ -45,3 +45,12 @@ Original phase criteria and per-component certification remain unsatisfied.
 
 Primary references reviewed: the exact action.yml above and
 https://docs.github.com/en/rest/actions/artifacts?apiVersion=2022-11-28 .
+
+H22 runtime v5 keeps this existing workflow unchanged. Replay requires the new
+`inclusion-fees` proof alongside the v2 Rust transport, v3 dependency and v4
+economics proofs. It binds the inclusion reader's producer bytes, the retained
+capture, the seven-batch SQLite recovery and the current Titan-only gas policy.
+All four proofs must use the physical replay's isolated network namespace. The
+new record must match the economic record's source commitment and policy.
+Prior versions remain accepted only with their own record/code inventories;
+in particular, v4 evidence cannot satisfy the v5 inclusion requirement.

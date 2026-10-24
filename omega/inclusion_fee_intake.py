@@ -14,8 +14,9 @@ import re
 import tempfile
 
 from cashflow_intake import build_cashflow
-from evidence_store import admit, audit_store, read_batch
-from execution_intake import query_execution_report, store_execution_report
+from evidence_store import (admit, audit_store, create, export_store, read_batch,
+                            restore_store, revoke)
+from execution_intake import query_execution_report, seal, store_execution_report
 from historical_intake import AUTHORITIES, EVIDENCE, ROOT, build_ledger, need, same, utc
 from integrity import canonical, digest, read_regular, strict_json
 
@@ -209,6 +210,63 @@ def query_inclusion_report(path, batch, root=ROOT):
     with tempfile.TemporaryDirectory(prefix='omega-inclusion-query-') as tmp:
         for name, raw in objects.items(): (Path(tmp)/name).write_bytes(raw)
         return verify_inclusion_report(strict_json(objects[REPORT_NAME]), Path(tmp), root)
+
+
+def exercise_fields(directory, root=ROOT):
+    """Replay seven dependent batches; bind funding policy without granting it."""
+    directory = Path(directory); path = create(directory/'source.sqlite')
+    result = store_inclusion_report(path, root); batch = result['batch']
+    same(query_inclusion_report(path, batch, root), result['report'], 'inclusion_query_mismatch')
+    economics = query_execution_report(path, result['parent'], root)
+    before = read_batch(path, batch)
+    revoke(path, result['root_batch'], 'CONTROLLED_INCLUSION_DEPENDENCY_TEST',
+           b'TEST_ONLY_NOT_A_REAL_CANONICAL_REORG')
+    status = audit_store(path); snapshot = export_store(path)
+    restored = directory/'restored.sqlite'
+    restore_store(restored, snapshot)
+    same(audit_store(restored)['journal_head'], status['journal_head'], 'inclusion_restore_head')
+    same(export_store(restored), snapshot, 'inclusion_restore_changed')
+    for database in (path, restored):
+        try: query_inclusion_report(database, batch, root)
+        except ValueError as e: need(str(e) == 'batch_inactive_or_missing', 'inclusion_block_reason')
+        else: raise ValueError('revoked_inclusion_query_accepted')
+        need(read_batch(database, batch, include_revoked=True) == before, 'inclusion_forensic_bytes_changed')
+    need(len(status['revoked_batches']) == 1 and len(status['invalidated_batches']) == 6
+         and status['active_batches'] == [], 'inclusion_invalidation_partition')
+    return {'schema': 'nqc.omega.inclusion-local-replay.v1',
+        'status': 'INCLUSION_LOCAL_REPLAY_PASS', 'inclusion_report': result['report'],
+        'execution_report_commitment': economics['report_commitment_sha256'],
+        'gas_funding_policy': copy.deepcopy(economics['gas_funding_policy']),
+        'gas_policy_sha256': economics['gas_policy_sha256'],
+        'inclusion_batch': batch, 'execution_batch': result['parent'],
+        'root_batch': result['root_batch'], 'snapshot_sha256': digest(canonical(snapshot)),
+        'journal_head': status['journal_head'], 'blocked_batches': 7,
+        'forensic_bytes_preserved': True, 'restore_byte_identical': True,
+        'revoked_query_rejected': True, 'rust_transport_performed': False,
+        'certified_components': 0, 'census_closed': False}
+
+
+def verify_replay(report, root=ROOT):
+    network = report.get('network', {})
+    need(network.get('interfaces') == ['lo'] and network.get('routable_network') is False
+         and all(type(network.get(k)) is str and re.fullmatch(r'net:\[[0-9]+\]', network[k])
+                 for k in ('network_namespace', 'parent_network_namespace'))
+         and network['network_namespace'] != network['parent_network_namespace'], 'inclusion_network')
+    with tempfile.TemporaryDirectory(prefix='omega-inclusion-verify-') as tmp:
+        expected = exercise_fields(tmp, root)
+    expected['network'] = network
+    same(report, seal(expected), 'inclusion_replay_differs_from_sources'); return report
+
+
+def exercise(directory, network, root=ROOT):
+    from rust_store_intake import new_directory
+    directory = new_directory(directory, root)
+    print('OMEGA_INCLUSION_BEGIN', flush=True)
+    report = exercise_fields(directory, root); report['network'] = network; seal(report)
+    verify_replay(report, root)
+    (directory/'report.json').write_bytes(canonical(report))
+    print('OMEGA_INCLUSION_REPORT ' + canonical(report).decode().strip(), flush=True)
+    return report
 
 
 def main():

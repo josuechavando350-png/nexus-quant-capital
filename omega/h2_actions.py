@@ -341,6 +341,10 @@ def replay(work: Path, head: str):
     economics = strict_json(read_regular(work / "execution-economics/report.json"))
     verify_execution_replay(economics)
     evidence("execution-economics", economics)
+    from inclusion_fee_intake import verify_replay as verify_inclusion_replay
+    inclusion = strict_json(read_regular(work / "inclusion-fees/report.json"))
+    verify_inclusion_replay(inclusion)
+    evidence("inclusion-fees", inclusion)
     return report
 
 
@@ -455,6 +459,9 @@ def main():
                  module.network_proof(args.parent))
         from execution_intake import exercise as exercise_economics
         exercise_economics(args.out.parent / "execution-economics",
+                           module.network_proof(args.parent))
+        from inclusion_fee_intake import exercise as exercise_inclusion
+        exercise_inclusion(args.out.parent / "inclusion-fees",
                            module.network_proof(args.parent))
         observed_replay(args.source, args.out, args.repo, args.parent)
         return
