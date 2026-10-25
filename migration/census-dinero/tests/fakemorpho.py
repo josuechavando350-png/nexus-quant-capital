@@ -34,7 +34,11 @@ _SEL = {
     "rate": selector("borrowRateView((address,address,address,address,uint256),"
                      "(uint128,uint128,uint128,uint128,uint128,uint128))"),
     "asset_price": selector("getAssetPrice(address)"),
+    "base_feed_1": selector("BASE_FEED_1()"), "base_feed_2": selector("BASE_FEED_2()"),
+    "quote_feed_1": selector("QUOTE_FEED_1()"), "quote_feed_2": selector("QUOTE_FEED_2()"), "base_vault": selector("BASE_VAULT()"),
+    "round": selector("latestRoundData()"), "description": selector("description()"), "aggregator": selector("aggregator()"),
 }
+ANSWER_UPDATED = topic("AnswerUpdated(int256,uint256,uint256)")
 _T = {n: topic(s) for n, s in mo.EVENT_SIGNATURES.items()}
 
 
@@ -79,6 +83,7 @@ class FakeMorpho:
             "label": label, "params": mo.Params(loan, coll, norm("0x" + format(0x2000 + i, "040x")),
                                                 norm("0x" + format(0x3000 + i, "040x")), lltv),
             "price": price, "rate": rate, "oracle_reverts": False,
+            "feed": norm("0x" + format(0xFEED00 + i, "040x")), "feed_round": 1, "feed_updated": T0 + 2 * self.head,
             "state": [supply, supply * 10 ** 6, 0, 0, T0 + 2 * self.head, 0]}       # tsa, tss, tba, tbs, last, fee
         self._snap(self.head)                       # el mercado ya existe en el estado del bloque actual
         return mid
@@ -138,8 +143,14 @@ class FakeMorpho:
         return [lg]
 
     def _do_set_price(self, n, ts, h, ti, li, mid, price, **kw):
-        self.markets[mid]["price"] = price
-        return []
+        m = self.markets[mid]
+        m["price"] = price
+        m["feed_round"] += 1
+        m["feed_updated"] = ts
+        lg = {"address": m["feed"], "topics": [ANSWER_UPDATED, "0x" + format(price // 10 ** 18, "064x"), "0x" + format(m["feed_round"], "064x")],
+              "data": "0x" + format(ts, "064x"), "blockNumber": hex(n), "logIndex": hex(li), "transactionHash": h,
+              "transactionIndex": hex(ti), "removed": False}
+        return self._emit(lg)
 
     def _do_supply_collateral(self, n, ts, h, ti, li, mid, user, assets, **kw):
         caller = kw.get("caller", user)
@@ -233,7 +244,8 @@ class FakeMorpho:
     def _snap(self, n):
         self.history[n] = {"markets": deepcopy({k: (v["state"], v["price"], v["rate"], v["oracle_reverts"])
                                                  for k, v in self.markets.items()}),
-                           "positions": deepcopy(self.positions), "ts": int(self.headers[n]["timestamp"], 16)}
+                           "positions": deepcopy(self.positions), "ts": int(self.headers[n]["timestamp"], 16),
+                           "feeds": {k: (v["feed_round"], v["feed_updated"]) for k, v in self.markets.items()}}
 
     def _state_at(self, tag):
         n = self.head if tag == "latest" else int(tag, 16)
@@ -276,6 +288,21 @@ class FakeMorpho:
                 return b"".join(word(int(x, 16)) for x in (p.loan, p.collateral, p.oracle, p.irm)) + word(p.lltv)
             raise Revert()
         for mid, m in self.markets.items():
+            if to == m["params"].oracle and sel == _SEL["base_feed_1"]:
+                return word(int(m["feed"], 16))
+            if to == m["params"].oracle and sel in (_SEL["base_feed_2"], _SEL["quote_feed_1"], _SEL["quote_feed_2"], _SEL["base_vault"]):
+                return word(0)
+            if to == m["feed"]:
+                rnd, upd = snap["feeds"][mid]
+                if sel == _SEL["round"]:
+                    return word(rnd) + word(snap["markets"][mid][1] // 10 ** 18) + word(upd) + word(upd) + word(rnd)
+                if sel == _SEL["description"]:
+                    text = f"{m['label']} / USD".encode()
+                    return word(32) + word(len(text)) + text.ljust(32 * ((len(text) + 31) // 32), b"\0")
+                if sel == _SEL["decimals"]:
+                    return word(8)
+                if sel == _SEL["aggregator"]:
+                    return word(int(m["feed"], 16) + 1)
             if to == m["params"].oracle and sel == _SEL["price"]:
                 if snap["markets"][mid][3]:
                     raise Revert()

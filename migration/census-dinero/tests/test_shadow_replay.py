@@ -14,8 +14,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fakemorpho as fm  # noqa: E402
 from census_dinero import morpho as mo  # noqa: E402
 from census_dinero.rpc import RpcError  # noqa: E402
-from census_dinero.shadow_replay import (RDEFAULTS, earliest_available, event_bonus, prior_kept, run_replay, scan_logs,  # noqa: E402
-                                          select_events)  # noqa: E402
+from census_dinero.shadow_replay import (RDEFAULTS, earliest_available, event_bonus, pick_diag, prior_kept, run_replay,  # noqa: E402
+                                          scan_logs, select_events)  # noqa: E402
 from test_shadow_live import B, DROP, Env, S, U  # noqa: E402
 
 
@@ -203,6 +203,75 @@ class TestBookCoverage(unittest.TestCase):
         meta, rows, _ = replay(env, min_bonus_usd=0.1, block_time_s=43_200, libro_dias=0)
         self.assertNotIn("libro_edad_dias", rows[0])
         self.assertFalse(meta["borrow_scan"]["completo"])
+
+
+class TestDiagnostic(unittest.TestCase):
+    """La lupa: precio, salud y feeds del oráculo bloque a bloque alrededor de cada liquidación."""
+
+    def same_block_update(self):
+        env = Env().ready((U[0], 1700))
+        for _ in range(6):
+            env.step()
+        env.step([("set_price", env.mid, DROP), ("liquidate", env.mid, B[0], U[0])])   # el precio se actualiza y se liquida en el mismo bloque
+        env.step()
+        return env
+
+    def test_update_and_liquidation_in_the_same_block_are_visible(self):
+        from census_dinero import shadow_report as sr
+        env = self.same_block_update()
+        meta, rows, out = replay(env, min_bonus_usd=0.1, diag=5)
+        self.assertEqual(meta["diag"], {"filas": 1, "con_error": 0})
+        with open(os.path.join(out, "diag.jsonl")) as fh:
+            d = [json.loads(x) for x in fh][0]
+        b = d["bloque_liquidacion"]
+        by = {x["bloque"]: x for x in d["serie"]}
+        self.assertFalse(by[b - 1]["liquidable"])
+        self.assertTrue(by[b]["liquidable"] or by[b]["salud"] is None)             # tras liquidar ya no tiene deuda; antes estaba por debajo
+        self.assertNotEqual(by[b - 1]["precio"], by[b]["precio"])
+        self.assertNotEqual(by[b - 1]["feeds"]["BASE_FEED_1"]["ronda"], by[b]["feeds"]["BASE_FEED_1"]["ronda"])
+        self.assertEqual(d["actualizacion_previa"]["tx_index"], 0)                  # la actualización fue la transacción 0 del bloque
+        self.assertEqual(d["tx_index"], 1)                                          # y la liquidación la 1
+        with open(os.path.join(out, "diag_oraculos.json")) as fh:
+            orc = list(json.load(fh).values())[0]
+        self.assertIn("M0 / USD", orc["detalle"]["BASE_FEED_1"]["descripcion"])
+        with open(os.path.join(out, "diag_oraculos.json")) as fh:
+            oracles = json.load(fh)
+        a = sr.analyze_diag([d], oracles)
+        self.assertEqual((a["n"], a["liquidable_un_bloque_antes"], a["precio_cambio_en_el_bloque"], a["feed_cambio_en_el_bloque"]), (1, 0, 1, 1))
+        self.assertEqual(a["con_actualizacion_antes_en_el_bloque"], 1)
+        self.assertEqual(a["tx_entre_actualizacion_y_liquidacion_mediana"], 1)
+
+    def test_an_update_a_block_earlier_is_seen_as_liquidable_before(self):
+        from census_dinero import shadow_report as sr
+        env = Env().ready((U[0], 1700))
+        for _ in range(6):
+            env.step()
+        env.step([("set_price", env.mid, DROP)])
+        env.step([("liquidate", env.mid, B[0], U[0])])
+        env.step()
+        meta, rows, out = replay(env, min_bonus_usd=0.1, diag=5)
+        self.assertEqual(rows[0]["delta_bloques"], 1)
+        with open(os.path.join(out, "diag.jsonl")) as fh:
+            d = [json.loads(x) for x in fh][0]
+        a = sr.analyze_diag([d])
+        self.assertEqual((a["liquidable_un_bloque_antes"], a["precio_cambio_en_el_bloque"], a["feed_cambio_en_el_bloque"]), (1, 0, 0))
+        self.assertEqual(a["filas"][0]["bloques_desde_el_ultimo_cambio_de_feed"], 1)
+        self.assertIsNone(d["actualizacion_previa"])
+
+    def test_picks_are_spread_across_markets_and_skip_auctions(self):
+        rows = [{"mercado": "A", "via": "directa", "bono_usd": 100 - i} for i in range(5)] + \
+               [{"mercado": "B", "via": "directa", "bono_usd": 10 - i} for i in range(3)] + \
+               [{"mercado": "C", "via": "subasta", "bono_usd": 1000}, {"mercado": "D", "via": "directa", "bono_usd": 5, "sin_dato": True}]
+        picks = pick_diag(rows, 4)
+        self.assertEqual([(p["mercado"], p["bono_usd"]) for p in picks], [("A", 100), ("B", 10), ("A", 99), ("B", 9)])
+        self.assertEqual(pick_diag(rows, 0), [])
+        self.assertEqual(len(pick_diag(rows, 100)), 8)
+
+    def test_diag_off_by_default_and_errors_are_isolated(self):
+        env = self.same_block_update()
+        meta, rows, out = replay(env, min_bonus_usd=0.1)
+        self.assertNotIn("diag", meta)
+        self.assertFalse(os.path.exists(os.path.join(out, "diag.jsonl")))
 
 
 class TestParallelScan(unittest.TestCase):

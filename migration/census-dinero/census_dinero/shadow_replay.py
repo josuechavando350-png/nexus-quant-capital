@@ -22,6 +22,7 @@ from concurrent.futures import ThreadPoolExecutor
 from . import morpho as mo
 from .abi import norm
 from .config import SHADOW_PRIOR_KEPT_ALL
+from .keccak import selector
 from .rpc import BudgetExceeded, RpcError
 from .shadow_live import AUCTION_ENTRIES, Out, Shadow, log, make_rpc
 
@@ -31,7 +32,41 @@ RDEFAULTS = {
     "libro_dias": 90,           # cuántos días antes de la ventana se buscan los Borrow para medir la cobertura del libro (0 = no)
     "libro_min": 20.0,          # tiempo máximo de esa búsqueda (en Base son ~100 consultas de 50 mil bloques)
     "scan_workers": 4,          # trozos de getLogs que se piden a la vez al buscar eventos de un rango largo
+    "diag": 0,                  # cuántas liquidaciones directas se miran con lupa (precio, feeds del oráculo y su actualización)
 }
+
+ORACLE_GETTERS = ("BASE_FEED_1", "BASE_FEED_2", "QUOTE_FEED_1", "QUOTE_FEED_2", "BASE_VAULT")
+
+
+def _word_address(data):
+    if len(data) == 32 and int.from_bytes(data, "big"):
+        return "0x" + data[12:].hex()
+    return None
+
+
+def _decode_string(data):
+    try:
+        off = int.from_bytes(data[0:32], "big")
+        n = int.from_bytes(data[off:off + 32], "big")
+        return data[off + 32:off + 32 + n].decode("utf-8", "replace")
+    except (ValueError, IndexError):
+        return None
+
+
+def pick_diag(rows, n):
+    """Las liquidaciones directas más grandes, repartidas entre los mercados (no solo las del mercado más grande)."""
+    direct = sorted((r for r in rows if r.get("via") == "directa" and not r.get("sin_dato")), key=lambda r: -r["bono_usd"])
+    per_market = {}
+    for r in direct:
+        per_market.setdefault(r["mercado"], []).append(r)
+    order = sorted(per_market, key=lambda m: -per_market[m][0]["bono_usd"])
+    picks, i = [], 0
+    while len(picks) < n and any(i < len(per_market[m]) for m in order):
+        for m in order:
+            if i < len(per_market[m]) and len(picks) < n:
+                picks.append(per_market[m][i])
+        i += 1
+    return picks
 
 
 EARLIEST = re.compile(r"earliest available[^0-9]*(\d+)", re.I)
@@ -278,6 +313,84 @@ class Replay:
             row["paridad"] = self.parity(ev, info)
         return row
 
+    # -- diagnóstico: una mirada directa, bloque a bloque, a unas liquidaciones ----------------------
+    def diag_oracle(self, info, block):
+        """Qué feeds hay detrás del oráculo del mercado (MorphoChainlinkOracleV2 y parecidos) y cómo se llaman."""
+        oracle = info.params.oracle
+        res = self.sh.mcall([(oracle, selector(f"{g}()")) for g in ORACLE_GETTERS], block, recent=False)
+        feeds = {g: _word_address(data) for g, (ok, data) in zip(ORACLE_GETTERS, res) if ok}
+        feeds = {g: a for g, a in feeds.items() if a}
+        out = {"oraculo": oracle, "feeds": feeds, "detalle": {}}
+        for g, addr in feeds.items():
+            if g == "BASE_VAULT":
+                continue
+            r = self.sh.mcall([(addr, selector("description()")), (addr, selector("decimals()")), (addr, selector("aggregator()"))],
+                              block, recent=False)
+            out["detalle"][g] = {"direccion": addr, "descripcion": _decode_string(r[0][1]) if r[0][0] else None,
+                                 "decimales": int.from_bytes(r[1][1], "big") if r[1][0] and len(r[1][1]) == 32 else None,
+                                 "agregador": _word_address(r[2][1]) if r[2][0] else None}
+        return out
+
+    def diag_feeds_at(self, oracle_info, block):
+        """Respuesta de cada feed en el estado final de `block`: ronda, valor y hora de actualización."""
+        out = {}
+        items = [(g, d["direccion"]) for g, d in oracle_info["detalle"].items()]
+        if not items:
+            return out
+        res = self.sh.mcall([(a, selector("latestRoundData()")) for _, a in items], block, recent=False)
+        for (g, a), (ok, data) in zip(items, res):
+            if ok and len(data) >= 160:
+                w = [int.from_bytes(data[i:i + 32], "big") for i in range(0, 160, 32)]
+                ans = w[1] - (1 << 256) if w[1] >> 255 else w[1]
+                out[g] = {"ronda": w[0], "respuesta": ans, "actualizado": w[3]}
+        return out
+
+    def diagnose(self, rows, n):
+        picks = pick_diag(rows, n)
+        oracles, out_rows = {}, []
+        for r in picks:
+            info = self.sh.markets[r["mercado"]]
+            b = r["bloque_liquidacion"]
+            try:
+                if info.params.oracle not in oracles:
+                    oracles[info.params.oracle] = self.diag_oracle(info, b)
+                orc = oracles[info.params.oracle]
+                serie = []
+                for k in range(b - 4, b + 2):
+                    try:
+                        st = self.status(r["mercado"], r["prestatario"], k)
+                        feeds = self.diag_feeds_at(orc, k)
+                    except RpcError:
+                        st, feeds = None, {}              # p. ej. un bloque posterior a la cabeza
+                    serie.append({"bloque": k, "precio": None if st is None else st["price"],
+                                  "salud": None if st is None else st["ratio"], "liquidable": None if st is None else st["liq"],
+                                  "feeds": feeds})
+                addrs = [d["direccion"] for d in orc["detalle"].values()] + [d["agregador"] for d in orc["detalle"].values() if d["agregador"]]
+                logs = []
+                if addrs:
+                    for k in (b - 1, b):
+                        for lg in self.sh.rpc.call("eth_getLogs", [{"fromBlock": hex(k), "toBlock": hex(k), "address": addrs}]):
+                            logs.append({"bloque": k, "direccion": norm(lg["address"]), "tx": lg["transactionHash"],
+                                         "tx_index": int(lg["transactionIndex"], 16), "log_index": int(lg["logIndex"], 16),
+                                         "topic0": (lg.get("topics") or [None])[0]})
+                before = [x for x in logs if x["bloque"] == b and x["tx_index"] < r["tx_index"]]
+                upd = max(before, key=lambda x: x["tx_index"]) if before else None
+                upd_tx = None
+                if upd:
+                    tx = self.sh.rpc.call("eth_getTransactionByHash", [upd["tx"]])
+                    if tx:
+                        upd_tx = {"tx": upd["tx"], "tx_index": upd["tx_index"], "from": norm(tx["from"]), "to": norm(tx.get("to") or mo.ZERO)}
+                out_rows.append({"mercado": r["mercado"], "etiqueta": r["etiqueta"], "prestatario": r["prestatario"], "bloque_liquidacion": b,
+                                 "tx": r["tx"], "tx_index": r["tx_index"], "firmante": r.get("firmante"), "entrada": r.get("entrada"),
+                                 "bono_usd": r["bono_usd"], "serie": serie, "logs_feed": logs, "actualizacion_previa": upd_tx})
+            except RpcError as e:
+                out_rows.append({"mercado": r["mercado"], "etiqueta": r["etiqueta"], "bloque_liquidacion": b, "tx": r["tx"],
+                                 "error": self.sh.rpc.scrub(e)[:160]})
+        for row in out_rows:
+            self.out.write("diag.jsonl", row)
+        self.out.json("diag_oraculos.json", oracles)
+        return out_rows
+
     # -- ejecución -----------------------------------------------------------------------------
     def run(self, events):
         first, last_seen = {}, {}
@@ -289,6 +402,7 @@ class Replay:
         chosen = select_events(events, self.sh.markets, self.cfg)
         deadline = time.monotonic() + self.cfg["presupuesto_min"] * 60
         done, failed, skipped = [], 0, 0
+        self.rows_done = done
 
         def work(ev):
             nonlocal skipped
@@ -400,6 +514,13 @@ def run_replay(cfg, out_dir, rpc=None, markets=None):
         # una cobertura a medias engaña: sin búsqueda completa no se mide
     rp = Replay(sh, out_dir, rcfg, borrows, borrow_from)
     meta = rp.run(events)
+    if rcfg["diag"]:
+        try:
+            diag = rp.diagnose(rp.rows_done, rcfg["diag"])
+            meta["diag"] = {"filas": len(diag), "con_error": sum(1 for d in diag if "error" in d)}
+            log(f"replay: diagnóstico de {len(diag)} liquidaciones directas")
+        except RpcError as e:
+            meta["diag"] = {"error": rpc.scrub(e)[:160]}
     meta.update({"estado": "completo", "borrow_scan": scan, "ventana": window,
                  "config": rcfg, "segundos": round(time.monotonic() - t0, 1), "multicall_ok": sh.multicall_ok,
                  "mercados": {i: m.label for i, m in sh.markets.items()}, "rpc": rpc.report(), "rpc_llamadas": rpc.calls})

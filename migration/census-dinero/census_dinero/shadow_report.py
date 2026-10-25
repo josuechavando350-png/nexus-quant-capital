@@ -221,6 +221,50 @@ def analyze_replay(rows, errors, meta, cfg):
     return out
 
 
+def analyze_diag(diag_rows, oracles=None):
+    """Qué pasó con el precio y los feeds del oráculo justo antes de cada liquidación directa mirada con lupa."""
+    ok = [d for d in diag_rows if "serie" in d]
+    out = {"n": len(ok), "errores": len(diag_rows) - len(ok), "oraculos": {}}
+    rows, gaps = [], []
+    for d in ok:
+        b = d["bloque_liquidacion"]
+        by = {x["bloque"]: x for x in d["serie"]}
+        prev, cur = by.get(b - 1), by.get(b)
+        liq_prev = None if not prev else prev["liquidable"]
+        price_changed = None
+        feed_changed = None
+        if prev and cur and prev["precio"] is not None and cur["precio"] is not None:
+            price_changed = cur["precio"] != prev["precio"]
+        if prev and cur and prev["feeds"] and cur["feeds"]:
+            feed_changed = any(cur["feeds"].get(g, {}).get("ronda") != p_.get("ronda") for g, p_ in prev["feeds"].items())
+        last_change = None                                   # bloques entre el último cambio de feed y la liquidación
+        ks = sorted(by)
+        for a, c in zip(ks, ks[1:]):
+            if c > b:
+                continue
+            fa, fc = by[a]["feeds"], by[c]["feeds"]
+            if fa and fc and any(fc.get(g, {}).get("ronda") != x.get("ronda") for g, x in fa.items()):
+                last_change = b - c
+        upd = d.get("actualizacion_previa")
+        gap = None if not upd else d["tx_index"] - upd["tx_index"]
+        if gap is not None:
+            gaps.append(gap)
+        rows.append({"etiqueta": d["etiqueta"], "bloque": b, "liquidable_un_bloque_antes": liq_prev, "precio_cambio_en_el_bloque": price_changed,
+                     "feed_cambio_en_el_bloque": feed_changed, "bloques_desde_el_ultimo_cambio_de_feed": last_change,
+                     "tx_entre_actualizacion_y_liquidacion": gap,
+                     "mismo_actor": None if not upd else (upd["from"] == (d.get("firmante") or "").lower() or upd["to"] == (d.get("entrada") or "").lower())})
+    out["filas"] = rows
+    out["liquidable_un_bloque_antes"] = sum(1 for r in rows if r["liquidable_un_bloque_antes"])
+    out["precio_cambio_en_el_bloque"] = sum(1 for r in rows if r["precio_cambio_en_el_bloque"])
+    out["feed_cambio_en_el_bloque"] = sum(1 for r in rows if r["feed_cambio_en_el_bloque"])
+    out["con_actualizacion_antes_en_el_bloque"] = len(gaps)
+    out["tx_entre_actualizacion_y_liquidacion_mediana"] = median(gaps)
+    out["mismo_actor"] = sum(1 for r in rows if r["mismo_actor"])
+    for addr, o in (oracles or {}).items():
+        out["oraculos"][addr] = {g: (d.get("descripcion"), d.get("direccion")) for g, d in (o.get("detalle") or {}).items()}
+    return out
+
+
 # --- En vivo ----------------------------------------------------------------------------
 def analyze_live(bloques, decisiones, resultados, sistema, cercanas, meta, cfg):
     meta = meta or {}
@@ -446,6 +490,11 @@ def build(live_dir=None, replay_dir=None, cfg=None):
         if rows or replay_meta:
             replay = analyze_replay(rows, errs, replay_meta, cfg)
     res["vivo"], res["replay"] = live, replay
+    res["diagnostico"] = None
+    if replay_dir and os.path.isdir(replay_dir):
+        drows, _ = read_jsonl(os.path.join(replay_dir, "diag.jsonl"))
+        if drows:
+            res["diagnostico"] = analyze_diag(drows, read_json(os.path.join(replay_dir, "diag_oraculos.json")))
     res["metodos_rpc"] = sorted(rpc_methods(live_meta, replay_meta))
     res["puertas"] = gates(live, replay, set(res["metodos_rpc"]))
     res["no_prueba"] = list(NOT_PROVEN)
@@ -568,6 +617,22 @@ def render(res):
                      "—" if m_["mediana_bloques"] is None else f"{m_['mediana_bloques']:g}", pct(m_["parte_2_o_mas"]))
                     for m_ in rp["por_mercado"][:8]]
             L += table(["Mercado", "n", "Bono (est.)", "Mediana (bloques)", "≥ 2 bloques"], rows)
+
+    dg = res.get("diagnostico")
+    if dg:
+        L += ["", "### Diagnóstico del oráculo (muestra de las liquidaciones directas más grandes)", ""]
+        n = dg["n"]
+        L.append(f"De {n} liquidaciones miradas bloque a bloque: la posición ya era liquidable un bloque antes en {dg['liquidable_un_bloque_antes']}; "
+                 f"el precio de Morpho cambió en el mismo bloque de la liquidación en {dg['precio_cambio_en_el_bloque']}; "
+                 f"algún feed del oráculo cambió de ronda en ese bloque en {dg['feed_cambio_en_el_bloque']}.")
+        if dg["con_actualizacion_antes_en_el_bloque"]:
+            L.append(f"En {dg['con_actualizacion_antes_en_el_bloque']} hubo una actualización del feed en el mismo bloque, antes de la liquidación "
+                     f"(mediana {dg['tx_entre_actualizacion_y_liquidacion_mediana']:g} transacciones antes); quien actualizó fue el mismo actor "
+                     f"que liquidó en {dg['mismo_actor']}.")
+        for addr, feeds in list(dg["oraculos"].items())[:4]:
+            L.append(f"- Oráculo {short(addr)}: " + ", ".join(f"{g} = {d[0] or '?'} ({short(d[1])})" for g, d in feeds.items()))
+        if dg["errores"]:
+            L.append(f"({dg['errores']} sin leer por errores de RPC.)")
 
     L += ["", "## 2. En vivo", ""]
     if not lv:
