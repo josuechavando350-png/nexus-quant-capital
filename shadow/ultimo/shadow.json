@@ -1,0 +1,273 @@
+{
+ "generado": "2026-10-25 01:07:40 UTC",
+ "config": {
+  "min_bonus_usd": 10,
+  "min_net_usd": 5
+ },
+ "fuentes": {
+  "vivo": {
+   "bloques": 12,
+   "decisiones": 72,
+   "resultados": 72,
+   "lineas_cortadas": 0,
+   "meta": true
+  }
+ },
+ "supuestos": {
+  "priors": "census run 40141321042 (24 sep–24 oct 2026), Base/Morpho, 30 días",
+  "submit_ms": 150,
+  "bloque_ms": 2000
+ },
+ "vivo": {
+  "ventana": {
+   "bloques": 12,
+   "bloques_en_rango": 235,
+   "cobertura": 0.05106382978723404,
+   "desde_bloque": 53050292,
+   "hasta_bloque": 53050526,
+   "desde_ts": 1792889931,
+   "hasta_ts": 1792890399,
+   "horas": 0.13
+  },
+  "latencia": {
+   "visto_ms": {
+    "p50": 307,
+    "p90": 427,
+    "p99": 1296,
+    "min": 45,
+    "max": 1296,
+    "n": 12
+   },
+   "proceso_ms": {
+    "p50": 650,
+    "p90": 9071,
+    "p99": 11225,
+    "min": 585,
+    "max": 11225,
+    "n": 12
+   },
+   "visto_mas_proceso_ms": {
+    "p50": 957,
+    "p90": 10367,
+    "p99": 11652,
+    "min": 675,
+    "max": 11652,
+    "n": 12
+   },
+   "fases_ms": {
+    "cabecera_ms": {
+     "p50": 105,
+     "p90": 150,
+     "p99": 4267,
+     "min": 53,
+     "max": 4267,
+     "n": 12
+    },
+    "logs_ms": {
+     "p50": 129,
+     "p90": 4415,
+     "p99": 4683,
+     "min": 77,
+     "max": 4683,
+     "n": 12
+    },
+    "lectura_ms": {
+     "p50": 180,
+     "p90": 2049,
+     "p99": 4385,
+     "min": 101,
+     "max": 4385,
+     "n": 12
+    },
+    "evaluar_ms": {
+     "p50": 231,
+     "p90": 237,
+     "p99": 241,
+     "min": 217,
+     "max": 241,
+     "n": 12
+    }
+   },
+   "decision": {
+    "visto_ms": {
+     "p50": 307,
+     "p90": 427,
+     "p99": 1296,
+     "min": 45,
+     "max": 1296,
+     "n": 72
+    },
+    "decidido_ms": {
+     "p50": 42520,
+     "p90": 48835,
+     "p99": 51612,
+     "min": 38884,
+     "max": 51612,
+     "n": 72
+    },
+    "x_ms": {
+     "p50": 43029,
+     "p90": 50281,
+     "p99": 52189,
+     "min": 39215,
+     "max": 52189,
+     "n": 72
+    },
+    "bloque_de_llegada": {
+     "26": 6,
+     "23": 12,
+     "21": 18,
+     "20": 6,
+     "24": 6,
+     "22": 18,
+     "27": 6
+    }
+   },
+   "nota": "visto_ms es cota superior: el timestamp del bloque tiene resolución de 1 s; se mide desde un servidor de GitHub Actions"
+  },
+  "decisiones": {
+   "por_decision": {
+    "NO-GO": 72
+   },
+   "por_razon": {
+    "NO-GO:bono_bajo": 36,
+    "NO-GO:deuda_mala": 36
+   }
+  },
+  "go": {
+   "n": 0,
+   "destino": {},
+   "llegada_medida": {
+    "antes": {
+     "n": 0,
+     "bono_usd": 0,
+     "neto_modelo_usd": 0
+    },
+    "empate": {
+     "n": 0,
+     "bono_usd": 0,
+     "neto_modelo_usd": 0
+    },
+    "tarde": {
+     "n": 0,
+     "bono_usd": 0,
+     "neto_modelo_usd": 0
+    }
+   },
+   "liquidadas_por_subasta": 0,
+   "bono_usd": 0,
+   "neto_modelo_usd": 0,
+   "cerrados": 0
+  },
+  "liquidaciones": {
+   "n": 0,
+   "bono_usd": 0,
+   "clases": {},
+   "vias": {},
+   "recall_visibles": null,
+   "parte_mismo_bloque": null,
+   "fuera_del_libro": []
+  },
+  "descartadas_que_pasaron": [],
+  "candidatas_sin_liquidar": {
+   "perdida_por_salto": 66,
+   "abierta_al_cierre": 6
+  },
+  "calidad": {
+   "contadores": {
+    "bloques": 12,
+    "candidatas": 72,
+    "posiciones_sincronizadas": 432576,
+    "saltos": 12
+   },
+   "eventos_del_sistema": {
+    "salto": 12
+   },
+   "multicall_ok": true,
+   "libro": {
+    "bloque": 53050144,
+    "candidatos": 36048,
+    "con_deuda": 30321,
+    "desde_cache": false,
+    "dias_atras": 30,
+    "leidos": 36048,
+    "libro_parcial": false,
+    "segundos": 288.2
+   },
+   "libro_deriva": 0,
+   "pendientes_al_cierre": 0,
+   "inicio": 1792889634.532576,
+   "fin": 1792890439.6786988,
+   "supuestos": {
+    "interes": "se acumula con el IRM solo para posiciones a menos de 0.5% del umbral",
+    "kept_prior_global": 0.678,
+    "latencia": "visto_ms = hora en que vimos el bloque - timestamp del bloque (segundos enteros: ±1 s)",
+    "priors": "census run 40141321042 (24 sep–24 oct 2026), Base/Morpho, 30 días",
+    "submit_ms": 150
+   },
+   "mercados": 19,
+   "excluidos": {}
+  },
+  "cercanas": {
+   "bloque": 53050465,
+   "n": 3,
+   "deuda_usd": 4894.417521,
+   "mas_cercana_pct": 0.296,
+   "fotos": 2
+  }
+ },
+ "replay": null,
+ "metodos_rpc": [
+  "eth_blockNumber",
+  "eth_call",
+  "eth_getBlockByNumber",
+  "eth_getLogs"
+ ],
+ "puertas": [
+  {
+   "puerta": "Decisiones en tiempo real sin enviar nada",
+   "estado": "cumple",
+   "evidencia": "72 decisiones; solo métodos de lectura (4 distintos)"
+  },
+  {
+   "puerta": "Cada GO comparado con lo que ocurrió",
+   "estado": "sin_datos",
+   "evidencia": "ningún GO en la ventana en vivo"
+  },
+  {
+   "puerta": "Control de reorganizaciones",
+   "estado": "parcial",
+   "evidencia": "0 reorgs vistos, 12 saltos de atraso, 0 bloques perdidos; el reinicio del libro se prueba con una cadena falsa"
+  },
+  {
+   "puerta": "Simulaciones: divergencias investigadas",
+   "estado": "parcial",
+   "evidencia": "libro sin deriva (0 posiciones reconciliadas)"
+  },
+  {
+   "puerta": "Latencia en infraestructura real",
+   "estado": "parcial",
+   "evidencia": "p50 957 ms, p90 10,367 ms, p99 11,652 ms (n=12); medida desde GitHub Actions, no desde la infraestructura de Titan"
+  },
+  {
+   "puerta": "Detección competitiva (replay)",
+   "estado": "sin_datos",
+   "evidencia": "el replay no produjo liquidaciones directas elegibles"
+  },
+  {
+   "puerta": "Economía con costos completos",
+   "estado": "sin_datos",
+   "evidencia": "sin liquidaciones elegibles"
+  }
+ ],
+ "no_prueba": [
+  "La latencia se mide desde un servidor de GitHub Actions hacia RPC públicos. La infraestructura real (nodo propio, cercanía al secuenciador de Base, Titan) puede ser mejor o peor: es una referencia conservadora, no una certificación.",
+  "No se envió nada, así que no se midió el envío (se supone 150 ms), ni la inclusión, ni el orden dentro del bloque.",
+  "Un empate (llegar en el mismo bloque que el ganador) lo decide la propina y el orden del secuenciador: aquí solo se cuenta.",
+  "Los bloques de Base son de 2 s y el timestamp es entero. Con Flashblocks (200 ms) algunos bots ven antes del bloque: las liquidaciones en el mismo bloque del cruce no se pueden ganar sin ver antes de que el bloque cierre.",
+  "El replay solo ve posiciones que terminaron liquidadas; las que se recuperaron o quedaron sin liquidar las mide el modo en vivo.",
+  "El neto usa la retención observada del Census (bono × proporción que se quedaron los ganadores); no es una ejecución simulada con nuestra ruta, liquidez, flash loan ni slippage.",
+  "El gas y la propina del replay son los de quien ganó, no los nuestros.",
+  "Una ventana corta no sustituye semanas de Shadow ni cubre los picos: en el Census el 95% del margen cayó en 3 de 30 días."
+ ]
+}
