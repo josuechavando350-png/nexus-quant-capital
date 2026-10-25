@@ -107,6 +107,7 @@ def analyze_replay(rows, errors, meta, cfg):
     exact = [r for r in usable if not r.get("censurado")]
     censored = [r for r in usable if r.get("censurado")]
     out = {"filas": len(rows), "sin_dato": len(rows) - len(usable), "censuradas": len(censored), "errores": len(errors),
+           "residuales": sum(1 for r in usable if r.get("residual_de_liquidacion_parcial")),
            "meta": {k: meta.get(k) for k in ("eventos_en_ventana", "elegibles", "elegidos", "procesados", "fallidos",
                                               "omitidos_por_tiempo", "bono_total_usd", "bono_elegible_usd", "bono_elegido_usd",
                                               "ventana", "segundos", "sondeos_de_archivo")}}
@@ -474,7 +475,8 @@ def render(res):
             cover = share(m.get("bono_elegido_usd") or 0, m.get("bono_elegible_usd"))
             L.append(f"Muestra: {num(m['procesados'])} reconstruidas de {num(m['elegibles'])} liquidaciones con bono ≥ mínimo "
                      f"({num(m['eventos_en_ventana'])} en total), que cubren {pct(cover)} del bono. "
-                     f"Sin dato: {rp['sin_dato']}, censuradas (≥ ventana): {rp['censuradas']}, con error: {rp['errores']}"
+                     f"Sin dato: {rp['sin_dato']}, censuradas (≥ ventana): {rp['censuradas']}, con error: {rp['errores']}, "
+                     f"residuos de liquidaciones parciales: {rp['residuales']}"
                      f"{', omitidas por tiempo: ' + str(m['omitidos_por_tiempo']) if m.get('omitidos_por_tiempo') else ''}.")
         L += ["", "Bloques entre el cruce (primer bloque liquidable) y la liquidación:", ""]
         rows = [(b["etiqueta"], b["n_directa"], b["n_subasta"], usd(b["bono_directo_est_usd"]), pct(b["parte_del_bono_directo"]))

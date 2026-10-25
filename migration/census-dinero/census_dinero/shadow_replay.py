@@ -195,6 +195,11 @@ class Replay:
     def process(self, ev, first_in_block):
         info = self.sh.markets[ev["market"]]
         fc = self.find_cross(ev["market"], ev["user"], ev["block"])
+        residual = False
+        prev = ev.get("_prev_liq")
+        if fc is not None and prev is not None and prev >= fc["b_c"]:
+            # Ya la liquidaron antes y siguió liquidable (liquidación parcial): la carrera por el residuo empieza ahí.
+            fc, residual = {"b_c": prev, "censurado": False}, True
         bonus = ev["repaid_assets"] * (info.lif - mo.WAD) / mo.WAD / 10 ** info.loan_dec * info.loan_usd
         kept = prior_kept(info.prior, self.sh.cfg["prior_min_n"])
         row = {"mercado": ev["market"], "etiqueta": info.label, "prestatario": ev["user"], "bloque_liquidacion": ev["block"],
@@ -204,7 +209,8 @@ class Replay:
         if fc is None:
             row["sin_dato"] = True
         else:
-            row.update(bloque_cruce=fc["b_c"], delta_bloques=ev["block"] - fc["b_c"], censurado=fc["censurado"])
+            row.update(bloque_cruce=fc["b_c"], delta_bloques=ev["block"] - fc["b_c"], censurado=fc["censurado"],
+                       residual_de_liquidacion_parcial=residual)
         row.update(self.tx_info(ev["tx_hash"], ev["block"]))
         if first_in_block:
             row["paridad"] = self.parity(ev, info)
@@ -212,11 +218,13 @@ class Replay:
 
     # -- ejecución -----------------------------------------------------------------------------
     def run(self, events):
-        chosen = select_events(events, self.sh.markets, self.cfg)
-        first = {}
-        for e in events:
+        first, last_seen = {}, {}
+        for e in sorted(events, key=lambda e: (e["block"], e["log_index"])):
             k = (e["market"], e["block"])
             first[k] = min(first.get(k, e["log_index"]), e["log_index"])
+            e["_prev_liq"] = last_seen.get((e["market"], e["user"]))        # liquidación anterior de la misma posición
+            last_seen[(e["market"], e["user"])] = e["block"]
+        chosen = select_events(events, self.sh.markets, self.cfg)
         deadline = time.monotonic() + self.cfg["presupuesto_min"] * 60
         done, failed, skipped = [], 0, 0
 

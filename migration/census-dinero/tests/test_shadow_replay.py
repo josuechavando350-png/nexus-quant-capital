@@ -91,6 +91,37 @@ class TestFindCross(unittest.TestCase):
         self.assertEqual((rows[0]["bloque_cruce"], rows[0]["delta_bloques"]), (n_cross, 2))
 
 
+class TestResidual(unittest.TestCase):
+    def test_race_for_the_residual_starts_at_the_partial_liquidation(self):
+        env = Env().ready((U[0], 1700))
+        for _ in range(10):
+            env.step()                            # historia suficiente: la búsqueda hacia atrás no sale de la cadena falsa
+        env.step([("set_price", env.mid, DROP)])
+        n_cross = env.chain.head
+        env.step()
+        tenth = env.chain.positions[(env.mid, U[0])][1] // 10                       # un 10% no la deja sana
+        env.step([("liquidate", env.mid, B[0], U[0], {"repaid_shares": tenth})])
+        n_partial = env.chain.head
+        env.step()
+        env.step()
+        env.step([("liquidate", env.mid, B[1], U[0])])                              # el resto, 3 bloques después de la parcial
+        _, rows, _ = replay(env, min_bonus_usd=0.01)
+        first, second = sorted(rows, key=lambda r: r["bloque_liquidacion"])
+        self.assertEqual((first["bloque_cruce"], first["delta_bloques"], first["residual_de_liquidacion_parcial"]), (n_cross, 2, False))
+        self.assertEqual((second["bloque_cruce"], second["delta_bloques"], second["residual_de_liquidacion_parcial"]), (n_partial, 3, True))
+
+    def test_two_liquidations_in_one_block_count_as_same_block_for_the_second(self):
+        env = Env().ready((U[0], 1700))
+        env.step([("set_price", env.mid, DROP)])
+        env.step()
+        tenth = env.chain.positions[(env.mid, U[0])][1] // 10
+        env.step([("liquidate", env.mid, B[0], U[0], {"repaid_shares": tenth}), ("liquidate", env.mid, B[1], U[0])])
+        _, rows, _ = replay(env, min_bonus_usd=0.01)
+        first, second = sorted(rows, key=lambda r: (r["bloque_liquidacion"], r["liquidador"]))
+        self.assertEqual({r["delta_bloques"] for r in rows if r["residual_de_liquidacion_parcial"]}, {0})
+        self.assertEqual(len(rows), 2)
+
+
 class TestParity(unittest.TestCase):
     def test_exact_match_in_both_liquidation_modes(self):
         env = Env().ready((U[0], 1700), (U[1], 1700))
