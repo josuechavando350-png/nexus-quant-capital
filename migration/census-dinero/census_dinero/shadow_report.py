@@ -300,7 +300,25 @@ def analyze_diag(diag_rows, oracles=None):
 
 
 # --- En vivo ----------------------------------------------------------------------------
-def analyze_live(bloques, decisiones, resultados, sistema, cercanas, meta, cfg, cruces=None):
+def flash_profile(perfiles):
+    """Cómo se llena un bloque de Base en el estado pendiente: transacciones por bloque y por trozo, y la parte del bloque que
+    llevan acumulada los trozos. Solo con bloques vistos desde el principio (la primera foto traía pocas transacciones)."""
+    full = [p for p in perfiles if p.get("trozos") and p.get("primera_foto", 10 ** 9) <= 5]
+    sizes, finals, counts, frac = [], [], [], {}
+    for p in full:
+        cum = [n for _, n in p["trozos"]]
+        finals.append(cum[-1])
+        counts.append(len(cum))
+        prev = 0
+        for k, n in enumerate(cum):
+            sizes.append(n - prev)
+            prev = n
+            frac.setdefault(k, []).append(n / cum[-1])
+    return {"bloques": len(perfiles), "completos": len(full), "txs_por_bloque": quantiles(finals), "trozos_por_bloque": quantiles(counts),
+            "txs_por_trozo": quantiles(sizes), "fraccion_acumulada_p50": [quantiles(v)["p50"] for _, v in sorted(frac.items())]}
+
+
+def analyze_live(bloques, decisiones, resultados, sistema, cercanas, meta, cfg, cruces=None, perfiles=None):
     meta = meta or {}
     out = {}
     numbers = sorted({b["bloque"] for b in bloques})
@@ -371,6 +389,8 @@ def analyze_live(bloques, decisiones, resultados, sistema, cercanas, meta, cfg, 
                            "reaccion_ms": quantiles([r["flash"]["reaccion_ms"] for r in rows if "reaccion_ms" in r["flash"]]),
                            "t_liquidacion_ms": quantiles([r["flash"]["t_liquidacion_ms"] for r in rows if "t_liquidacion_ms" in r["flash"]])}
         out["flash"] = {"n": len(fl), "grupos": groups, "watcher": meta.get("flashblocks")}
+    if perfiles:
+        out["flash_perfil"] = flash_profile(perfiles)
     if cruces is not None or meta.get("flash_evaluador"):
         fc = cruces or []
         liquidated = [r for r in fc if r.get("resultado") == "liquidada"]
@@ -555,9 +575,10 @@ def build(live_dir=None, replay_dir=None, cfg=None, diag_dir=None):
                                   "meta": live_meta is not None}
         crs, bad6 = read_jsonl(os.path.join(live_dir, "flash_cruces.jsonl"))
         cruces = crs if (crs or os.path.exists(os.path.join(live_dir, "flash_cruces.jsonl"))) else None
-        res["fuentes"]["vivo"]["lineas_cortadas"] += bad6
+        perfiles, bad7 = read_jsonl(os.path.join(live_dir, "flash_bloques.jsonl"))
+        res["fuentes"]["vivo"]["lineas_cortadas"] += bad6 + bad7
         if b or d or r or live_meta:
-            live = analyze_live(b, d, r, s, cc, live_meta, cfg, cruces)
+            live = analyze_live(b, d, r, s, cc, live_meta, cfg, cruces, perfiles)
     if replay_dir and os.path.isdir(replay_dir):
         rows, bad1 = read_jsonl(os.path.join(replay_dir, "replay.jsonl"))
         errs, bad2 = read_jsonl(os.path.join(replay_dir, "replay_errores.jsonl"))
@@ -616,7 +637,9 @@ def separation_lines(sp):
         L.append("Según cómo se actualizó el oráculo: " + "; ".join(parts) + ".")
     pr = sp.get("prioridad_de_la_liquidacion_vs_actualizacion") or {}
     if pr:
-        L.append("Prioridad que pagó la liquidación frente a la de la actualización: " + ", ".join(f"{k} {v}" for k, v in sorted(pr.items())) + ".")
+        L.append("Prioridad que pagó la liquidación frente a la de la actualización: " + ", ".join(f"{k} {v}" for k, v in sorted(pr.items())) +
+                 ". Dentro de un trozo de 200 ms las transacciones se ordenan por prioridad: pagar más y caer después de la actualización "
+                 "implica un trozo posterior; pagar igual o menos no descarta el mismo trozo.")
     if t["fraccion"]["n"]:
         L.append("_Los milisegundos son una aproximación: suponen que las transacciones se reparten parejo en los 2 s del bloque; el sello exacto "
                  "de cada transacción solo se ve en vivo, por trozos de 200 ms._")
@@ -816,6 +839,11 @@ def render(res):
                          + (f"; en {g['con_actualizacion_por_subasta']} la actualización pasó por la subasta de oráculo (OEV)"
                             if g["con_actualizacion_por_subasta"] else "") + "." +
                          (f" Reacción tras la actualización: mediana {ms(r_['p50'])}, p90 {ms(r_['p90'])}." if r_["n"] else ""))
+        fp = lv.get("flash_perfil")
+        if fp and fp["completos"]:
+            L.append(f"- Perfil de los bloques ({num(fp['completos'])} vistos desde el principio): mediana {num(fp['txs_por_bloque']['p50'])} transacciones "
+                     f"por bloque en {fp['trozos_por_bloque']['p50']:g} trozos (≈ {num(fp['txs_por_trozo']['p50'])} por trozo); parte del bloque "
+                     "acumulada al terminar cada trozo (mediana): " + ", ".join(pct(x) for x in fp["fraccion_acumulada_p50"]) + ".")
         fe = lv.get("flash_cruces")
         if fe:
             ev_ = fe.get("evaluador") or {}

@@ -35,6 +35,33 @@ class TestIngest(unittest.TestCase):
         self.assertEqual(w.first_photo_size(7), 2)
         self.assertEqual([c[1] for c in w.block_chunks(7)], [2, 5, 6])
 
+    def test_the_profile_of_a_block_is_emitted_when_the_next_one_starts(self):
+        w = self.watcher()
+        got = []
+        w.on_block = got.append
+        w.ingest(10.00, 7, [h(1), h(2)])
+        w.ingest(10.20, 7, [h(1), h(2), h(3), h(4), h(5)])
+        w.ingest(10.40, 7, [h(1), h(2), h(3), h(4), h(5), h(6)])
+        self.assertEqual(got, [])                                           # el bloque 7 sigue abierto
+        w.ingest(10.62, 8, [h(11)])
+        self.assertEqual(got, [{"bloque": 7, "t0": 10.0, "primera_foto": 2, "trozos": [[0, 2], [200, 5], [400, 6]]}])
+        w.ingest(10.80, 7, [h(1)])                                          # una foto rezagada de un bloque viejo no cierra nada
+        w.ingest(10.82, 8, [h(11), h(12)])
+        self.assertEqual(len(got), 1)
+        w.ingest(12.62, 10, [h(21)])                                        # se saltó el 9: se cierra el 8 igual
+        self.assertEqual([g["bloque"] for g in got], [7, 8])
+
+    def test_a_failing_profile_sink_does_not_stop_the_watcher(self):
+        w = self.watcher()
+
+        def boom(_):
+            raise OSError("disco lleno")
+        w.on_block = boom
+        w.ingest(1.0, 7, [h(1)])
+        w.ingest(3.0, 8, [h(2)])                                            # intenta emitir el 7 y falla sin propagar
+        self.assertEqual(w.errors, {"perfil de bloque": 1})
+        self.assertEqual(w.seen(8, h(2)), (3.0, 0))
+
     def test_blocks_are_independent_and_old_ones_are_dropped(self):
         w = self.watcher(keep=3)
         for n in range(1, 6):

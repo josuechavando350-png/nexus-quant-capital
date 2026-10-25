@@ -1031,6 +1031,24 @@ class TestFlashEvaluator(unittest.TestCase):
         self.assertEqual(seen["known"], {(env.mid, U[0])})
         self.assertTrue(seen["alive"])
 
+    def test_run_live_writes_the_chunk_profile_of_each_sealed_pending_block(self):
+        env = Env({"flash_url": "https://pre"})
+        env.chain.mine(env.open_position(U[0], 1700))
+        out = tempfile.mkdtemp()
+
+        def on_ready(sh):
+            tx = lambda i: "0x" + format(i, "064x")                      # noqa: E731
+            sh.flash.ingest(1.00, 900_000, [tx(1), tx(2)])
+            sh.flash.ingest(1.20, 900_000, [tx(1), tx(2), tx(3), tx(4)])
+            sh.flash.ingest(3.00, 900_001, [tx(9)])                      # empezó otro bloque: el 900000 queda registrado
+            sh.stop = True
+        run_live({"flash_url": "https://pre", "flash_interval": 0.01, "minutos": 5}, out, rpc=env.rpc, markets=env.cfg_markets,
+                 head_source=lambda last: (None, None, None, None), sleep=no_sleep, on_ready=on_ready)
+        with open(os.path.join(out, "flash_bloques.jsonl")) as fh:
+            recs = {r["bloque"]: r for r in map(json.loads, fh)}
+        self.assertEqual(recs[900_000]["trozos"], [[0, 2], [200, 4]])
+        self.assertEqual(recs[900_000]["primera_foto"], 2)
+
     def test_pending_snapshot_decodes_a_multicall_on_another_rpc(self):
         env, w, ev, st = self.make()
         snap = env.sh.pending_snapshot(env.rpc)

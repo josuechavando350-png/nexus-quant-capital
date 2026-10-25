@@ -16,9 +16,12 @@ from .sonda import raw_call
 
 
 class FlashWatcher:
-    def __init__(self, rpc, url, interval=0.05, keep_blocks=8, wall=time.time, mono=time.monotonic, sleep=time.sleep, on_chunk=None):
+    def __init__(self, rpc, url, interval=0.05, keep_blocks=8, wall=time.time, mono=time.monotonic, sleep=time.sleep, on_chunk=None,
+                 on_block=None):
         self.rpc, self.url, self.interval, self.keep = rpc, url, interval, keep_blocks
         self.on_chunk = on_chunk            # on_chunk(número de bloque pendiente, número de trozo, hora): trozo nuevo visto
+        self.on_block = on_block            # on_block(perfil): el bloque pendiente anterior ya se selló; trae sus trozos (ver `profile`)
+        self.latest = None                  # número del bloque pendiente que se está siguiendo
         self.wall, self.mono, self.sleep = wall, mono, sleep
         self.lock = threading.Lock()
         self.blocks = OrderedDict()         # número -> {"t0", "first": {hash: (hora, trozo)}, "chunks": [(hora, transacciones)]}
@@ -59,10 +62,13 @@ class FlashWatcher:
         """Registra una foto del bloque pendiente: las transacciones nuevas reciben la hora y el número de trozo."""
         if not txs:
             return
-        notify = None
+        notify = closed = None
         with self.lock:
             b = self.blocks.get(number)
             if b is None:
+                if self.latest in self.blocks and number > self.latest:
+                    closed = self.profile(self.latest)           # llegó un bloque más nuevo: el anterior ya está completo
+                self.latest = number
                 b = self.blocks[number] = {"t0": t, "first": {}, "chunks": [], "n": 0, "last": None, "primera_foto": len(txs)}
                 while len(self.blocks) > self.keep:
                     self.blocks.popitem(last=False)
@@ -80,6 +86,19 @@ class FlashWatcher:
                 notify = (number, chunk, t)
         if notify and self.on_chunk:
             self.on_chunk(*notify)
+        if closed and self.on_block:
+            try:
+                self.on_block(closed)
+            except Exception:                              # el perfil es un extra: un fallo al escribirlo no debe parar el seguimiento
+                self.errors["perfil de bloque"] = self.errors.get("perfil de bloque", 0) + 1
+
+    def profile(self, number):
+        """Cómo se fue llenando un bloque: [milisegundos desde la primera foto, transacciones acumuladas] por trozo, más cuántas
+        traía la primera foto (si es mucho, se empezó a mirar con el bloque avanzado). Con eso se reparte un bloque ya sellado en
+        trozos aproximados sin volver a verlo en vivo. Se llama con el cerrojo tomado."""
+        b = self.blocks[number]
+        return {"bloque": number, "t0": round(b["t0"], 3), "primera_foto": b["primera_foto"],
+                "trozos": [[round((t - b["t0"]) * 1000), n] for t, n in b["chunks"]]}
 
     def seen(self, number, tx_hash):
         """(hora de la primera foto en que apareció, número de trozo) o None si nunca se vio."""

@@ -222,6 +222,30 @@ class TestFlashCrossings(unittest.TestCase):
         self.assertNotIn("flash_cruces", a)
 
 
+class TestFlashProfile(unittest.TestCase):
+    PERFILES = [{"bloque": 1, "primera_foto": 1, "trozos": [[0, 10], [200, 120], [400, 250], [600, 400]]},
+                {"bloque": 2, "primera_foto": 3, "trozos": [[0, 12], [200, 130], [400, 260], [600, 410]]},
+                {"bloque": 3, "primera_foto": 180, "trozos": [[0, 180], [200, 300]]}]          # se empezó a ver tarde: no cuenta
+
+    def test_only_blocks_seen_from_the_start_describe_how_a_block_fills(self):
+        p = sr.flash_profile(self.PERFILES)
+        self.assertEqual((p["bloques"], p["completos"]), (3, 2))
+        self.assertEqual((p["trozos_por_bloque"]["p50"], p["txs_por_bloque"]["max"]), (4, 410))
+        self.assertEqual(len(p["fraccion_acumulada_p50"]), 4)
+        self.assertEqual(p["fraccion_acumulada_p50"][-1], 1.0)
+        self.assertEqual(p["txs_por_trozo"]["n"], 8)
+
+    def test_rendered_in_the_flashblocks_section_and_absent_without_profiles(self):
+        meta = {"contadores": {}, "flashblocks": {"intervalo_de_consulta_ms": 100, "fotos": 5}}
+        base = [{"bloque": 1, "ts": 1, "visto_ms": 1, "total_ms": 1}]
+        a = sr.analyze_live(base, [], [], [], [], meta, CFG, None, self.PERFILES)
+        res = sr.build(None, None)
+        res["vivo"] = {**a, "ventana": {"horas": 1, "bloques": 1, "bloques_en_rango": 1, "cobertura": 1, "desde_bloque": 1, "hasta_bloque": 1}}
+        self.assertIn("Perfil de los bloques (2 vistos desde el principio)", sr.render(res))
+        none = sr.analyze_live(base, [], [], [], [], meta, CFG)
+        self.assertNotIn("flash_perfil", none)
+
+
 class TestSeparation(unittest.TestCase):
     AUCTION = sorted(sr.AUCTION_ENTRIES)[0]
 

@@ -1285,6 +1285,7 @@ def run_live(cfg, out_dir, cache_path=None, rpc=None, markets=None, head_source=
         from .flash_watch import FlashWatcher
         flash = FlashWatcher(rpc, shadow.cfg["flash_url"], interval=shadow.cfg["flash_interval"])
         shadow.flash = flash
+        flash.on_block = lambda rec: shadow.out.write("flash_bloques.jsonl", rec)    # perfil de trozos de cada bloque ya sellado
         if shadow.cfg["flash_eval"]:
             pre = Rpc([shadow.cfg["flash_url"]], rps=20, expected_chain_id=CHAINS["base"].chain_id, public={shadow.cfg["flash_url"]},
                       transport=KeepAlive())

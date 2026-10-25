@@ -168,7 +168,9 @@ Solo ve posiciones que **terminaron liquidadas**. Las que se recuperaron las mid
 ## Archivos
 
 `shadow-vivo/`: `bloques.jsonl` (latencia y fases por bloque), `decisiones.jsonl`,
-`resultados.jsonl` (con `flash` y `flash_cruce` si se sigue el bloque pendiente), `flash_cruces.jsonl`, `cercanas.jsonl` (foto cada 5 min de las posiciones a menos de 2% del
+`resultados.jsonl` (con `flash` y `flash_cruce` si se sigue el bloque pendiente), `flash_cruces.jsonl`,
+`flash_bloques.jsonl` (cómo se llenó cada bloque sellado: milisegundos y transacciones acumuladas por trozo; sirve para
+repartir en trozos un bloque histórico), `cercanas.jsonl` (foto cada 5 min de las posiciones a menos de 2% del
 umbral), `eventos_del_sistema.jsonl` (reorgs, saltos, bloques perdidos, deriva del libro),
 `meta.json`, `log.txt`.
 `shadow-replay/`: `replay.jsonl`, `replay_errores.jsonl`, `replay_meta.json`, `log.txt`.
