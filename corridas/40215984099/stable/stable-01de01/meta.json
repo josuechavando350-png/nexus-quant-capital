@@ -1,0 +1,129 @@
+{
+  "archive_disabled": false,
+  "chain": "stable",
+  "elapsed_s": 654.5,
+  "enriched": 0,
+  "errors_sample": [],
+  "events": 0,
+  "events_complete": true,
+  "events_cover_block": 44388844,
+  "fatal_error": null,
+  "interrupted": false,
+  "native_trace_sources": {},
+  "oracle_contracts_watched": 0,
+  "oracle_status": {},
+  "phases_s": {
+    "enriquecimiento": 0.0,
+    "eventos": 639.0,
+    "evidencia": 0.0,
+    "metadatos": 0.0,
+    "oraculos": 0.0,
+    "segunda_pasada": 0.0,
+    "sonda": 2.7,
+    "ventana": 12.7
+  },
+  "price_sources": {
+    "defillama": 0,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 3759,
+  "rpc_providers": {
+    "https://rpc.stable.xyz": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": 1000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 184,
+          "ok": 75
+        },
+        "eth_getLogs": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 174,
+          "ok": 3677
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 3752,
+      "sin_metodo": [
+        "trace_transaction"
+      ]
+    }
+  },
+  "second_pass": {
+    "intentadas": 0
+  },
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "rpc error: code = Unknown desc = codespace sdk code 38: not found: failed to load state at height 40712454; historical version not found: 40712454: invalid heig",
+        "ok": 0
+      },
+      "getlogs_error": "maximum [from, to] blocks distance: 1024",
+      "getlogs_max": 1000,
+      "getlogs_ms": 187,
+      "ms": 152,
+      "proveedor": "https://rpc.stable.xyz",
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "the method trace_transaction does not exist/is not available",
+        "ok": 0
+      },
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "stable-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 0,
+  "web_calls": 1,
+  "web_sources": {
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 0.7019,
+    "days": 30.0,
+    "end_block": 44388844,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352000,
+    "lookback_block": 40579910,
+    "start_block": 40712452,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 0,
+  "with_oracle_delta": 0,
+  "with_realized": 0,
+  "with_realized_complete": 0
+}
