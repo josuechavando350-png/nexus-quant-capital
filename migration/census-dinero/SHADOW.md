@@ -70,6 +70,13 @@ En cada bloque nuevo, con el mismo bloque como instantánea:
 | OBSERVAR | `oraculo_anomalo` (el precio saltó más de 30% entre bloques) |
 | GO | pasó todo lo anterior |
 
+Si el Shadow se atrasa más de 15 bloques (o termina de armar el libro y la cadena ya avanzó), se pone al
+día con **una sola búsqueda de los eventos del hueco** y sigue; no vuelve a leer las decenas de miles de
+posiciones del libro. Lo que se pierde es la hora exacta de los cruces dentro del hueco, así que las
+candidatas que ya eran liquidables al arrancar o que aparecen en el primer bloque tras un hueco se marcan
+con `cruce_incierto` y no cuentan en las tablas de llegada. Un bloque que no se pudo procesar se da por
+perdido, se sigue, y se intenta recuperar sus eventos más tarde (`bloques_recuperados`).
+
 El **crítico** es independiente del libro: lee la posición directamente en la cadena en ese bloque,
 y si no coincide con el libro, es NO-GO (regla del Omega: discrepancia = NO-GO).
 
@@ -103,7 +110,7 @@ del resto, con peso para estimar el total), con `eth_call` en bloques pasados:
   residuo se mide desde esa liquidación;
 - mide la **cobertura del libro**: busca los `Borrow` de los `libro_dias` (90) días antes de la ventana y
   cuenta qué parte de los prestatarios liquidados un libro armado mirando 7, 30, 60 o 90 días atrás ya habría
-  conocido. Es el límite del `recall` del modo en vivo.
+  conocido. Es el límite del `recall` del modo en vivo. La búsqueda tiene su propio tiempo (`libro_min`, 20 min).
 
 Solo ve posiciones que **terminaron liquidadas**. Las que se recuperaron las mide el modo en vivo.
 

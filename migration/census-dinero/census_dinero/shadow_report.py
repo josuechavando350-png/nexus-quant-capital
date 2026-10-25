@@ -225,12 +225,15 @@ def analyze_live(bloques, decisiones, resultados, sistema, cercanas, meta, cfg):
     by_id = {r["id"]: r for r in resultados if r.get("id")}
     go = [d for d in decisiones if d["decision"] == "GO"]
     fate = Counter((by_id.get(d["id"]) or {}).get("resultado", "sin_cierre") for d in go)
-    liq_go = [by_id[d["id"]] for d in go if (by_id.get(d["id"]) or {}).get("resultado") == "liquidada"]
+    liq_go_all = [by_id[d["id"]] for d in go if (by_id.get(d["id"]) or {}).get("resultado") == "liquidada"]
+    liq_go = [r for r in liq_go_all if not r.get("cruce_incierto")]          # sin hora de cruce conocida no hay carrera que medir
     arrivals = {}
     for g in ("antes", "empate", "tarde"):
         sel = [r for r in liq_go if r.get("llegada") == g]
         arrivals[g] = {"n": len(sel), "bono_usd": sum(r["bono_usd"] for r in sel), "neto_modelo_usd": sum(r.get("neto_modelo_usd") or 0 for r in sel)}
     out["go"] = {"n": len(go), "destino": dict(fate), "llegada_medida": arrivals,
+                 "con_cruce_incierto": sum(1 for d in go if d.get("cruce_incierto")),
+                 "liquidadas_con_cruce_incierto": len(liq_go_all) - len(liq_go),
                  "liquidadas_por_subasta": sum(1 for r in liq_go if r.get("via") == "subasta"),
                  "bono_usd": sum(d["bono_usd"] for d in go), "neto_modelo_usd": sum(d["neto_modelo_usd"] for d in go),
                  "cerrados": sum(n for k, n in fate.items() if k not in ("sin_cierre", "abierta_al_cierre"))}
@@ -320,8 +323,11 @@ def gates(live, replay, methods):
         G.append(gate("Control de reorganizaciones", "sin_datos", "sin corrida en vivo"))
     else:
         reorgs, jumps, lost = c.get("reorgs", 0), c.get("saltos", 0), c.get("bloques_perdidos", 0)
-        G.append(gate("Control de reorganizaciones", "falla" if lost else "parcial",
-                      f"{reorgs} reorgs vistos, {jumps} saltos de atraso, {lost} bloques perdidos; el reinicio del libro se prueba con una cadena falsa"))
+        pending_lost = c.get("bloques_perdidos", 0) - c.get("bloques_recuperados", 0) - c.get("bloques_perdidos_definitivos", 0)
+        G.append(gate("Control de reorganizaciones", "falla" if c.get("bloques_perdidos_definitivos") else "parcial",
+                      f"{reorgs} reorgs vistos, {jumps} saltos de atraso ({c.get('bloques_saltados', 0)} bloques cubiertos con eventos), "
+                      f"{lost} bloques perdidos ({c.get('bloques_recuperados', 0)} recuperados, {max(0, pending_lost)} sin recuperar, "
+                      f"{c.get('bloques_perdidos_definitivos', 0)} definitivos); la recuperación se prueba con una cadena falsa"))
 
     # Simulaciones: divergencias
     div = []
@@ -552,6 +558,9 @@ def render(res):
             if any(x["n"] for x in a.values()):
                 L.append("Los GO liquidados por otro, con la latencia medida: " +
                          ", ".join(f"{k} {x['n']} ({usd(x['bono_usd'])})" for k, x in a.items()) + ".")
+            if go["con_cruce_incierto"]:
+                L.append(f"{go['con_cruce_incierto']} GO tienen el cruce incierto (ya eran liquidables al arrancar o se detectaron tras un hueco); "
+                         f"no cuentan en la llegada.")
             if go["liquidadas_por_subasta"]:
                 L.append(f"⚠️ GO liquidados por la subasta: {go['liquidadas_por_subasta']}; el supuesto de «directa» falló.")
         lq = lv["liquidaciones"]

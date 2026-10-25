@@ -465,6 +465,225 @@ class TestSystem(unittest.TestCase):
             self.assertTrue(os.path.exists(os.path.join(out, name)), name)
 
 
+class TestCatchUp(unittest.TestCase):
+    """Tras un atraso (o tras armar el libro) se cubre el hueco con eventos, sin releer todas las posiciones."""
+
+    def position_reads(self, env, since):
+        return sum(1 for c in env.chain.calls[since:] if c[0] == "eth_call")
+
+    def test_gap_is_covered_with_events_and_keeps_pending(self):
+        env = Env({"max_catchup": 3}).ready((U[0], 1700), (U[1], 1700), (U[2], 1000))
+        env.step([("set_price", env.mid, DROP)])                              # U0 y U1 cruzan, se marcan
+        self.assertEqual(len(env.rows("decisiones.jsonl")), 2)
+        n_cross = env.chain.head
+        for _ in range(5):
+            env.chain.mine()                                                  # el Shadow "no vio" estos bloques
+        n_liq = env.chain.mine([("liquidate", env.mid, B[0], U[0])])
+        env.chain.mine([("repay", env.mid, U[2], 10 ** 6)])
+        head = env.chain.mine()
+        ts = int(env.chain.headers[head]["timestamp"], 16)
+        state = {"n": 0}
+
+        def head_source(last):
+            state["n"] += 1
+            if state["n"] > 1:
+                env.sh.stop = True
+                return None, None, None, None
+            return head, ts + 1.0, env.clock.mono(), None
+        calls_before = len(env.chain.calls)
+        env.sh.run(5, head_source, no_sleep)
+        res = {r["prestatario"]: r for r in env.rows("resultados.jsonl")}
+        self.assertEqual(res[U[0]]["resultado"], "liquidada")
+        self.assertEqual(res[U[0]]["delta_bloques"], n_liq - n_cross)          # la hora exacta de la liquidación sí se conserva
+        self.assertEqual(res[U[0]]["bloque_liquidacion"], n_liq)
+        self.assertEqual(res[U[1]]["resultado"], "abierta_al_cierre")          # U1 siguió liquidable: no se dio por "perdida"
+        self.assertFalse(res[U[0]]["cruce_incierto"])                         # se vio cruzar bloque a bloque antes del hueco
+        self.assertEqual(env.sh.counts["saltos"], 1)
+        self.assertEqual(env.sh.counts["bloques_saltados"], head - 1 - n_cross)
+        self.assertEqual(env.sh.counts["eventos_en_hueco"], 2)
+        self.assertEqual(env.sh.book.pos[(env.mid, U[2])].borrow_shares, env.chain.positions[(env.mid, U[2])][1])
+        # Una sola búsqueda de logs para todo el hueco y ninguna relectura de todo el libro.
+        gap_logs = [c for c in env.chain.calls[calls_before:] if c[0] == "eth_getLogs"]
+        self.assertLessEqual(len(gap_logs), 1 + 1 + 1)                        # hueco + el bloque head por hash (+ posible reintento)
+        self.assertLessEqual(self.position_reads(env, calls_before), 8)
+
+    def test_candidates_first_seen_after_a_gap_have_an_uncertain_cross(self):
+        env = Env({"max_catchup": 3}).ready((U[0], 1700))
+        for _ in range(4):
+            env.chain.mine()
+        env.chain.mine([("set_price", env.mid, DROP)])                        # cruzó dentro del hueco
+        head = env.chain.mine()
+        ts = int(env.chain.headers[head]["timestamp"], 16)
+        state = {"n": 0}
+
+        def head_source(last):
+            state["n"] += 1
+            if state["n"] > 1:
+                env.sh.stop = True
+                return None, None, None, None
+            return head, ts + 1.0, env.clock.mono(), None
+        env.sh.run(5, head_source, no_sleep)
+        dec = env.rows("decisiones.jsonl")
+        self.assertEqual(len(dec), 1)
+        self.assertTrue(dec[0]["cruce_incierto"])
+        self.assertEqual(dec[0]["bloque_cruce"], head)                        # lo único que se sabe: ya era liquidable aquí
+        env.step([("set_price", env.mid, fm.PRICE_2000)])
+        self.assertTrue(env.rows("resultados.jsonl")[0]["cruce_incierto"])
+        env.step([("set_price", env.mid, DROP)])                              # un cruce visto bloque a bloque ya es cierto
+        self.assertFalse(env.rows("decisiones.jsonl")[1]["cruce_incierto"])
+
+    def test_positions_already_liquidatable_at_startup_are_uncertain(self):
+        env = Env().ready((U[0], 1700))
+        env.chain.mine([("set_price", env.mid, DROP)])                        # ya liquidable cuando arranca el libro
+        env.sh.bootstrap(env.chain.head)
+        env.step()
+        dec = env.rows("decisiones.jsonl")
+        self.assertEqual(len(dec), 1)
+        self.assertTrue(dec[0]["cruce_incierto"])
+
+    def test_huge_gap_falls_back_to_full_reread(self):
+        env = Env({"max_catchup": 3, "max_gap_blocks": 4}).ready((U[0], 1700), (U[1], 1000))
+        for _ in range(8):
+            env.chain.mine()
+        env.chain.mine([("set_price", env.mid, DROP)])
+        head = env.chain.mine()
+        ts = int(env.chain.headers[head]["timestamp"], 16)
+        state = {"n": 0}
+
+        def head_source(last):
+            state["n"] += 1
+            if state["n"] > 1:
+                env.sh.stop = True
+                return None, None, None, None
+            return head, ts + 1.0, env.clock.mono(), None
+        env.sh.run(5, head_source, no_sleep)
+        self.assertEqual(env.sh.counts["saltos"], 1)
+        self.assertEqual(len(env.rows("decisiones.jsonl")), 1)
+        self.assertEqual(env.sh.book.active_count(), 2)
+
+    def test_gap_failure_is_retried_without_applying_events_twice(self):
+        env = Env({"max_catchup": 3}).ready((U[0], 1700))
+        for _ in range(4):
+            env.chain.mine()
+        env.chain.mine([("repay", env.mid, U[0], 10 ** 6)])
+        head = env.chain.mine()
+        ts = int(env.chain.headers[head]["timestamp"], 16)
+        env.chain.fail("eth_getLogs", times=45, message="boom", when=lambda p: "blockHash" not in p[0])   # agota los reintentos de una búsqueda
+        state = {"n": 0}
+
+        def head_source(last):
+            state["n"] += 1
+            if state["n"] > 6:
+                env.sh.stop = True
+                return None, None, None, None
+            return head, ts + 1.0, env.clock.mono(), None
+        env.sh.run(5, head_source, no_sleep)
+        self.assertGreaterEqual(env.sh.counts["errores_periodicos"], 1)
+        self.assertEqual(env.sh.book.pos[(env.mid, U[0])].borrow_shares, env.chain.positions[(env.mid, U[0])][1])
+
+
+class TestLostBlocks(unittest.TestCase):
+    def test_lost_block_events_are_recovered_later(self):
+        env = Env({"retry_blocks": 2}).ready((U[0], 1700), (U[1], 1000))
+        env.step([("set_price", env.mid, DROP)])
+        n_cross = env.chain.head
+        n = env.chain.mine([("liquidate", env.mid, B[0], U[0])])
+        ts = int(env.chain.headers[n]["timestamp"], 16)
+        env.chain.fail("eth_getBlockByNumber", times=2, message="header not found", when=lambda p: p[0] == hex(n))
+        state = {"n": 0}
+
+        def head_source(last):
+            state["n"] += 1
+            if state["n"] > 12:
+                env.sh.stop = True
+                return None, None, None, None
+            return n, ts + 1.0, env.clock.mono(), None
+        env.sh.run(5, head_source, no_sleep)
+        self.assertEqual(env.sh.counts["bloques_perdidos"], 1)
+        self.assertEqual(env.sh.counts["bloques_recuperados"], 1)
+        self.assertEqual(env.sh.lost, {})
+        res = [r for r in env.rows("resultados.jsonl") if r.get("prestatario") == U[0]]
+        self.assertEqual([r["resultado"] for r in res if "bloque_liquidacion" in r], ["liquidada"])
+        self.assertEqual(env.sh.book.pos[(env.mid, U[0])].borrow_shares, env.chain.positions[(env.mid, U[0])][1])
+        self.assertEqual(env.sh.counts["saltos"], 0)                           # sin releer todo el libro
+
+    def test_block_that_never_comes_back_is_given_up_with_a_record(self):
+        env = Env({"retry_blocks": 1, "lost_retries": 3}).ready((U[0], 1700))
+        n = env.chain.mine([("repay", env.mid, U[0], 10 ** 6)])
+        ts = int(env.chain.headers[n]["timestamp"], 16)
+        env.chain.fail("eth_getBlockByNumber", times=1, message="header not found", when=lambda p: p[0] == hex(n))
+        env.chain.fail("eth_getLogs", times=1000, message="boom")
+        env.sh.t_lost = -100.0
+        state = {"n": 0}
+
+        def head_source(last):
+            state["n"] += 1
+            if state["n"] > 12:
+                env.sh.stop = True
+                return None, None, None, None
+            env.sh.t_lost = -100.0
+            return n, ts + 1.0, env.clock.mono(), None
+        env.sh.run(5, head_source, no_sleep)
+        self.assertEqual(env.sh.counts["bloques_perdidos_definitivos"], 1)
+        self.assertEqual(env.sh.lost, {})
+        self.assertIn("bloque_perdido_definitivo", [r["evento"] for r in env.rows("eventos_del_sistema.jsonl")])
+
+
+class TestEvaluationSpeedup(unittest.TestCase):
+    def test_float_prefilter_never_hides_a_liquidatable_or_near_position(self):
+        import random
+        env = Env().open()
+        rnd = random.Random(7)
+        sh = env.sh
+        state = mo.MarketState(10 ** 14, 10 ** 20, 5 * 10 ** 13, 5 * 10 ** 19, 0, 0)
+        price = 2000 * 10 ** 24
+        lltv = sh.markets[env.mid].params.lltv
+        # posiciones sembradas justo alrededor del umbral (salud entre 0.9999 y 1.03) y otras claramente sanas o rotas
+        for i in range(3000):
+            collateral = rnd.randint(10 ** 15, 10 ** 21)
+            limit_assets = mo.max_borrow(collateral, price, lltv)
+            target = limit_assets / rnd.choice([0.9999, 0.99999, 1.0, 1.000001, 1.00001, 1.0001, 1.01, 1.0199, 1.021, 1.5, 3.0])
+            shares = max(1, int(target * (state.total_borrow_shares + mo.VIRTUAL_SHARES) / (state.total_borrow_assets + mo.VIRTUAL_ASSETS)))
+            sh.book.set_state(env.mid, f"0x{i:040x}", shares, collateral, 1)
+        got = sh._evaluate({env.mid: (state, price)}, 1, 0)                   # ts = last_update: sin interés que acumular
+        want_liq, want_near = set(), set()
+        for (mid, user), p in sh.book.pos.items():
+            if p.borrow_shares == 0:
+                continue
+            borrowed = mo.borrowed_assets(p.borrow_shares, state)
+            mb = mo.max_borrow(p.collateral, price, lltv)
+            if mb < borrowed:
+                want_liq.add((mid, user))
+            elif mb / borrowed < 1 + sh.cfg["near_band"]:
+                want_near.add((mid, user))
+        self.assertGreater(len(want_liq), 100)
+        self.assertGreater(len(want_near), 100)
+        self.assertEqual({k for k, v in got.items() if not v["accrual"]}, want_liq)
+        self.assertEqual(set(sh.last_near), want_near)
+
+
+class TestParallelReads(unittest.TestCase):
+    def test_parallel_position_reads_match_single_reads(self):
+        env = Env().ready((U[0], 1700), (U[1], 1000), (U[2], 500), (U[3], 800))
+        keys = [(env.mid, u) for u in U[:4]] * 3
+        env.sh.cfg["read_batch"] = 2
+        env.sh.cfg["read_workers"] = 4
+        par = env.sh.read_positions(keys, env.chain.head)
+        env.sh.cfg["read_workers"] = 1
+        seq = env.sh.read_positions(keys, env.chain.head)
+        self.assertEqual(par, seq)
+        self.assertEqual(len(par), 4)
+
+    def test_snapshot_runs_alongside_header_and_logs_and_errors_surface(self):
+        env = Env().ready((U[0], 1700))
+        env.chain.fail("eth_call", times=1000, message="boom", when=lambda p: p[1] != "latest")
+        env.chain.mine()
+        n = env.chain.head
+        env.sh.cfg["retry_blocks"] = 99
+        with self.assertRaises(RpcError):
+            env.sh.process_block(n, None, None, None)
+
+
 class TestLaggingProvider(unittest.TestCase):
     """Un respaldo atrasado detrás de un balanceador contesta `[]` a getLogs por número: así se pierde un evento sin error."""
 

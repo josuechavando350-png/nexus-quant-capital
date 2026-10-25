@@ -23,6 +23,7 @@ import sys
 import threading
 import time
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor
 
 from . import morpho as mo
 from .abi import norm
@@ -41,12 +42,15 @@ DEFAULTS = {
     "near_band": 0.02,              # "cerca del umbral": salud entre 1.00 y 1.02
     "accrual_band": 0.005,          # dentro de esta banda se calcula el interés acumulado con el IRM
     "reconcile_s": 45.0,            # cada cuánto se compara el libro con la cadena
-    "reconcile_batch": 200,
+    "reconcile_batch": 400,
     "snapshot_s": 300.0,            # cada cuánto se guarda la foto de las más cercanas al umbral
     "near_top": 30,
     "max_catchup": 15,              # más bloques de atraso que esto: se salta (se anota y se resincroniza)
     "block_time_s": 2.0,
-    "read_batch": 150,
+    "read_batch": 400,             # posiciones por multicall (cada una cuesta ~7k de gas: de sobra dentro del tope de eth_call)
+    "read_workers": 4,             # lecturas de posiciones en paralelo (el límite de llamadas por segundo del cliente manda)
+    "max_gap_blocks": 20000,       # un hueco mayor que esto (11 h) ya no se cubre con eventos: se vuelve a leer todo el libro
+    "lost_retries": 10,            # intentos de recuperar los eventos de un bloque perdido antes de rendirse
     "lookback_days": 30,            # cuánto atrás se buscan prestatarios al armar el libro por primera vez
     "book_budget_s": 1200.0,
     "auction_prior_bonus": 0.90,    # mercado cuyo bono fue >= 90% subasta en el censo ...
@@ -190,6 +194,11 @@ class Shadow:
         self.multicall_ok = True
         self.multicall_proved = False
         self.stop = False
+        self.lost = {}                           # bloque perdido -> intentos de recuperar sus eventos
+        self.first_eval_block = None             # primer bloque evaluado tras un hueco: sus cruces son inciertos
+        self.uncertain_keys = set()              # ya eran liquidables cuando arrancó el libro: su hora de cruce no se conoce
+        self._pool = None
+        self.t_lost = self.mono()
         self.logs_by_hash, self.hash_fail_streak = True, 0
         self.eth_usd_cache = (0.0, None)
         self.t_reconcile = self.mono()
@@ -258,19 +267,34 @@ class Shadow:
 
     def read_positions(self, pairs, block, recent=True):
         """{(mercado, usuario): (shares de deuda, colateral)} leído en `block`."""
-        out = {}
         step = self.cfg["read_batch"]
-        for i in range(0, len(pairs), step):
-            chunk = pairs[i:i + step]
+        chunks = [pairs[i:i + step] for i in range(0, len(pairs), step)]
+
+        def one(chunk):
             res = self.mcall([(self.morpho, mo.call_position(m, u)) for m, u in chunk], block, recent=recent)
+            got = {}
             for key, (ok, data) in zip(chunk, res):
                 if ok:
                     try:
                         _, bs, coll = mo.decode_position(data)
-                        out[key] = (bs, coll)
+                        got[key] = (bs, coll)
                     except ValueError:
                         pass
+            return got
+        out = {}
+        if len(chunks) > 2 and self.cfg["read_workers"] > 1:
+            with ThreadPoolExecutor(max_workers=self.cfg["read_workers"]) as ex:
+                for got in ex.map(one, chunks):
+                    out.update(got)
+        else:
+            for chunk in chunks:
+                out.update(one(chunk))
         return out
+
+    def _executor(self):
+        if self._pool is None:
+            self._pool = ThreadPoolExecutor(max_workers=2)
+        return self._pool
 
     def eth_usd(self):
         t, v = self.eth_usd_cache
@@ -361,8 +385,14 @@ class Shadow:
         for (mid, user), (bs, coll) in got.items():
             self.book.set_state(mid, user, bs, coll, head)
         self.last_block = head
-        for mid, (_, price) in self._snapshot(head, None).items():
+        snap0 = self._snapshot(head, None)
+        for mid, (_, price) in snap0.items():
             self.prev_price[mid] = price                # sin precio previo el crítico no vería un salto en el primer bloque
+        try:
+            # Lo que ya es liquidable al arrancar no tiene hora de cruce conocida: se anota para no tomarlo por un cruce nuevo.
+            self.uncertain_keys = set(self._evaluate(snap0, head, self._header(head, None)["ts"]))
+        except RpcError:
+            self.first_eval_block = head + 1
         self.cands = cands
         self.meta["libro"] = {"bloque": head, "candidatos": len(pairs), "leidos": len(got), "con_deuda": self.book.active_count(),
                               "libro_parcial": self.libro_parcial, "segundos": round(self.mono() - t0, 1),
@@ -474,11 +504,18 @@ class Shadow:
     def _evaluate(self, snap, n, ts):
         """{(mercado, usuario): datos} de las posiciones liquidables ahora (con interés acumulado si están al borde)."""
         liq, near, self.last_near = {}, [], {}
+        limit = 1 + self.cfg["near_band"] + 1e-6
         for mid, (state, price) in snap.items():
             info = self.markets[mid]
             lltv = info.params.lltv
+            # Descarte rápido, en coma flotante, de las claramente sanas (decenas de miles por bloque). El margen de 1e-6
+            # cubre de sobra el error de los flotantes (~1e-15): las que quedan cerca se calculan con enteros exactos.
+            per_share = (state.total_borrow_assets + mo.VIRTUAL_ASSETS) / (state.total_borrow_shares + mo.VIRTUAL_SHARES)
+            cap = price / 1e36 * lltv / 1e18
             edge = []
             for user, p in self.book.by_market.get(mid, {}).items():
+                if p.collateral * cap >= p.borrow_shares * per_share * limit:
+                    continue
                 borrowed = mo.borrowed_assets(p.borrow_shares, state)
                 if borrowed == 0:
                     continue
@@ -539,7 +576,7 @@ class Shadow:
             return False, "datos_viejos", det
         return True, "ok", det
 
-    def _decide(self, key, info_ev, snap, hdr, n, seen_wall, seen_mono, prefer, residual):
+    def _decide(self, key, info_ev, snap, hdr, n, seen_wall, seen_mono, prefer, residual, uncertain=False):
         mid, user = key
         info, pos = self.markets[mid], self.book.pos[key]
         state, price = snap[mid]
@@ -564,10 +601,12 @@ class Shadow:
         k = None if x_ms is None else max(1, math.ceil(x_ms / (self.cfg["block_time_s"] * 1000)))
         cand = {"id": f"{mid[2:10]}-{user[2:10]}-{n}", "key": key, "b_c": n, "ts_c": hdr["ts"], "decision": decision,
                 "razon": reason, "bono_usd": eco["bono_usd"], "neto_modelo_usd": eco["neto_modelo_usd"], "price_c": price,
-                "visto_ms": visto_ms, "decidido_ms": decided_ms, "x_ms": x_ms, "k": k, "residual": residual}
+                "visto_ms": visto_ms, "decidido_ms": decided_ms, "x_ms": x_ms, "k": k, "residual": residual,
+                "incierto": uncertain}
         row = {"id": cand["id"], "mercado": mid, "etiqueta": info.label, "prestatario": user, "bloque_cruce": n,
                "ts_bloque": hdr["ts"], "decision": decision, "razon": reason, "visto_ms": visto_ms, "decidido_ms": decided_ms,
                "x_ms": x_ms, "bloque_llegada_propia": None if k is None else n + k, "residual_de_liquidacion_parcial": residual,
+               "cruce_incierto": uncertain,
                "salud": info_ev["ratio"], "con_interes": info_ev["accrual"],
                "deuda_shares": pos.borrow_shares, "colateral": pos.collateral, "precio": price,
                "embargo": q["seized_assets"], "repago_assets": q["repaid_assets"], "critico": crit,
@@ -613,7 +652,7 @@ class Shadow:
             row.update(resultado="liquidada", detectada_antes=True, id=cand["id"], bloque_cruce=cand["b_c"], delta_bloques=delta,
                        decision=cand["decision"], razon=cand["razon"], visto_ms=cand["visto_ms"], x_ms=cand["x_ms"],
                        bloque_llegada_propia=None if cand["k"] is None else cand["b_c"] + cand["k"],
-                       neto_modelo_usd=cand["neto_modelo_usd"], residual=cand["residual"])
+                       neto_modelo_usd=cand["neto_modelo_usd"], residual=cand["residual"], cruce_incierto=cand["incierto"])
             if cand["k"] is not None:
                 row["llegada"] = "antes" if n > cand["b_c"] + cand["k"] else "empate" if n == cand["b_c"] + cand["k"] else "tarde"
         elif was_expired:
@@ -638,7 +677,8 @@ class Shadow:
         self.out.write("resultados.jsonl", {"mercado": key[0], "etiqueta": self.markets[key[0]].label, "prestatario": key[1],
                                             "id": cand["id"], "bloque_cruce": cand["b_c"], "bloque_cierre": n, "resultado": resultado,
                                             "duracion_bloques": n - cand["b_c"], "decision": cand["decision"], "razon": cand["razon"],
-                                            "bono_usd": cand["bono_usd"], "detectada_antes": True, **extra})
+                                            "bono_usd": cand["bono_usd"], "detectada_antes": True,
+                                            "cruce_incierto": cand["incierto"], **extra})
         self.outcomes[resultado] += 1
         if cand["decision"] == "GO":
             self.outcomes[f"GO_{resultado}"] += 1
@@ -646,6 +686,8 @@ class Shadow:
     # -- bucle principal de un bloque ---------------------------------------------------------
     def process_block(self, n, seen_wall=None, seen_mono=None, prefer=None):
         t0 = self.mono()
+        # La lectura del mercado no depende de la cabecera ni de los logs: corre en paralelo con ellos.
+        snap_future = self._executor().submit(self._snapshot, n, prefer)
         hdr = self._header(n, prefer)
         t_hdr = self.mono()
         if n - 1 in self.hashes and hdr["parent"] and hdr["parent"] != self.hashes[n - 1]:
@@ -661,7 +703,7 @@ class Shadow:
             if self.book.apply(e) == "deriva":
                 self.counts["deriva_por_eventos"] += 1
         self._sync_unsynced(n, prefer)
-        snap = self._snapshot(n, prefer)
+        snap = snap_future.result()
         t_snap = self.mono()
         self.last_near_prev = dict(self.last_near)
         liq_now = self._evaluate(snap, n, hdr["ts"])
@@ -670,10 +712,15 @@ class Shadow:
             if e["kind"] == "Liquidate":
                 self._resolve_liquidation(e, hdr, n, known_before, snap)
         liquidated_now = {(e["market"], e["user"]) for e in events if e["kind"] == "Liquidate"}
+        after_gap = self.first_eval_block is not None and n >= self.first_eval_block
         for key, ev_info in liq_now.items():
             if key in self.pending or key in self.expired:
                 continue
-            self._decide(key, ev_info, snap, hdr, n, seen_wall, seen_mono, prefer, residual=key in liquidated_now)
+            self._decide(key, ev_info, snap, hdr, n, seen_wall, seen_mono, prefer, residual=key in liquidated_now,
+                         uncertain=after_gap or key in self.uncertain_keys)
+        if after_gap:
+            self.first_eval_block = None
+        self.uncertain_keys &= set(liq_now)       # los que dejaron de ser liquidables ya no cuentan: un cruce nuevo sí es cierto
         for key in list(self.pending):
             if key[0] not in snap:
                 continue                          # no se pudo leer ese mercado: no se concluye nada
@@ -760,11 +807,19 @@ class Shadow:
         while self.mono() < deadline and not self.stop:
             head, wall, mono, url = head_source(self.last_block)
             if head is None or head <= self.last_block:
+                if self.lost and self.mono() - self.t_lost >= 5:
+                    self._safely(self._recover_lost)
                 if self.mono() - self.t_reconcile >= self.cfg["reconcile_s"]:
                     self._safely(self.reconcile)
                 continue
             if head - self.last_block > self.cfg["max_catchup"]:
-                self._jump(head)
+                try:
+                    self._catch_up(head - 1)
+                except RpcError as e:
+                    self.counts["errores_periodicos"] += 1
+                    log(f"shadow: no se pudo cubrir el hueco: {self.rpc.scrub(e)[:140]}")
+                    sleep(0.5)
+                    continue
             for n in range(self.last_block + 1, head + 1):
                 last = n == head
                 try:
@@ -789,35 +844,102 @@ class Shadow:
             self.counts["errores_periodicos"] += 1
             log(f"shadow: {fn.__name__} falló: {self.rpc.scrub(e)[:120]}")
 
-    def _jump(self, head):
-        gap = head - self.last_block
+    def _apply_events(self, events, sync_at):
+        """Aplica al libro los eventos de varios bloques (en orden) y resuelve las liquidaciones que traen.
+        El libro se modifica entero antes de la primera llamada a la red: si algo falla después, reintentar no
+        vuelve a aplicar nada."""
+        by_block = defaultdict(list)
+        for e in events:
+            by_block[e["block"]].append(e)
+        liquidations = []
+        for b in sorted(by_block):
+            evs = by_block[b]
+            known = {(e["market"], e["user"]) for e in evs if e["kind"] == "Liquidate" and self.book.is_active(e["market"], e["user"])}
+            for e in evs:
+                if self.book.apply(e) == "deriva":
+                    self.counts["deriva_por_eventos"] += 1
+            liquidations += [(e, b, known) for e in evs if e["kind"] == "Liquidate"]
+        self.counts["eventos_en_hueco"] += len(events)
+        return liquidations
+
+    def _resolve_late(self, liquidations):
+        headers = {}
+        for e, b, known in liquidations:
+            if b not in headers:
+                try:
+                    headers[b] = self._header(b, None)
+                except RpcError:
+                    headers[b] = {"ts": 0, "hash": None, "parent": None, "base_fee": 0, "txs": [], "perdida": True}
+                    self.counts["cabeceras_perdidas"] += 1
+            self._resolve_liquidation(e, headers[b], b, known, None)
+
+    def _catch_up(self, upto):
+        """Ponerse al día tras un atraso (o tras armar el libro) sin releerlo: los eventos de todo el hueco en una sola
+        búsqueda. Lo que se pierde es la hora exacta de los cruces dentro del hueco, y queda anotado."""
+        a = self.last_block + 1
+        if upto < a:
+            return
+        gap = upto - a + 1
         self.counts["saltos"] += 1
-        log(f"shadow: {gap} bloques de atraso; se salta al {head - 1} y se resincroniza el libro")
-        self.out.write("eventos_del_sistema.jsonl", {"evento": "salto", "desde": self.last_block, "hasta": head - 1})
+        self.counts["bloques_saltados"] += gap
+        log(f"shadow: {gap} bloques de atraso; se cubren con los eventos del hueco {a}..{upto}")
+        self.out.write("eventos_del_sistema.jsonl", {"evento": "salto", "desde": a, "hasta": upto, "bloques": gap})
+        if gap > self.cfg["max_gap_blocks"]:
+            self._resync_all(upto)
+            return
+        events = self._events(a, upto, None)
+        liquidations = self._apply_events(events, upto)
+        self.last_block = upto
+        self.first_eval_block = upto + 1
+        self._safely(self._sync_unsynced, upto, None)
+        self._resolve_late(liquidations)
+
+    def _resync_all(self, upto):
+        """Un hueco enorme: ya no se puede reconstruir con eventos; se vuelve a leer todo el libro."""
+        log(f"shadow: hueco demasiado grande; se vuelve a leer todo el libro en el bloque {upto}")
         for key in list(self.pending):
-            self._close_pending(key, "perdida_por_salto", head - 1)
-        self.last_block = head - 1
+            self._close_pending(key, "perdida_por_salto", upto)
+        self.last_block = upto
+        self.first_eval_block = upto + 1
         for key in self.book.pos:
             self.book.unsynced.add(key)
             self.book.pos[key].synced = -1
         self.book.by_market.clear()
-        self._sync_unsynced(head - 1, None)
+        self._sync_unsynced(upto, None)
 
     def _skip(self, n):
+        """El bloque no se pudo procesar tras muchos intentos: se sigue y se intenta recuperar sus eventos más tarde."""
         self.counts["bloques_perdidos"] += 1
-        log(f"shadow: se da por perdido el bloque {n}")
+        log(f"shadow: se da por perdido el bloque {n}; se intentará recuperar sus eventos")
         self.out.write("eventos_del_sistema.jsonl", {"evento": "bloque_perdido", "bloque": n})
+        self.lost[n] = 0
         self.last_block = n
-        for key in self.book.pos:
-            self.book.pos[key].synced = -1
-            self.book.unsynced.add(key)
-        self.book.by_market.clear()
+        self.first_eval_block = n + 1
+
+    def _recover_lost(self):
+        self.t_lost = self.mono()
+        for n in sorted(self.lost):
+            try:
+                events = self._events(n, n, None)
+            except RpcError:
+                self.lost[n] += 1
+                if self.lost[n] >= self.cfg["lost_retries"]:
+                    del self.lost[n]
+                    self.counts["bloques_perdidos_definitivos"] += 1
+                    self.out.write("eventos_del_sistema.jsonl", {"evento": "bloque_perdido_definitivo", "bloque": n})
+                continue
+            del self.lost[n]
+            self.counts["bloques_recuperados"] += 1
+            liquidations = self._apply_events(events, self.last_block)
+            self._safely(self._sync_unsynced, self.last_block, None)
+            self._resolve_late(liquidations)
 
     def write_meta(self, final=False):
         meta = dict(self.meta)
         meta.update({
             "fin": self.wall() if final else None, "bloque_actual": self.last_block, "contadores": dict(self.counts),
             "decisiones": dict(self.decisions), "resultados": dict(self.outcomes), "pendientes": len(self.pending),
+            "bloques_perdidos_sin_recuperar": sorted(self.lost),
             "latencia_visto_ms": quantiles(self.lat_visto), "latencia_proceso_ms": quantiles(self.lat_proc),
             "latencia_visto_mas_proceso_ms": quantiles(self.lat_total), "libro_deriva": self.book.drift,
             "multicall_ok": self.multicall_ok, "rpc_llamadas": self.rpc.calls, "rpc": self.rpc.report(),
@@ -825,6 +947,11 @@ class Shadow:
         self.out.json("meta.json", meta)
 
     def finish(self):
+        if self.lost:
+            self._safely(self._recover_lost)
+        if self._pool is not None:
+            self._pool.shutdown(wait=False)
+            self._pool = None
         for key in list(self.pending):
             self._close_pending(key, "abierta_al_cierre", self.last_block)
         self.write_meta(final=True)

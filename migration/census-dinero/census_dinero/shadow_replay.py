@@ -28,6 +28,7 @@ RDEFAULTS = {
     "dias": 30, "max": 300, "top": 100, "min_bonus_usd": 5.0, "ventana_bloques": 1800, "trabajadores": 6,
     "presupuesto_min": 40.0, "margen_cabeza": 30,
     "libro_dias": 90,           # cuántos días antes de la ventana se buscan los Borrow para medir la cobertura del libro (0 = no)
+    "libro_min": 20.0,          # tiempo máximo de esa búsqueda (en Base son ~100 consultas de 50 mil bloques)
 }
 
 
@@ -321,7 +322,7 @@ def run_replay(cfg, out_dir, rpc=None, markets=None):
         log(f"replay: buscando Borrow desde el bloque {b_start:,} para medir la cobertura del libro")
         try:
             blogs = rpc.get_logs(sh.morpho, [[mo.EVENT_TOPICS["Borrow"]], sh.ids], b_start, scanned_to,
-                                 deadline=time.monotonic() + max(60.0, 0.25 * rcfg["presupuesto_min"] * 60))
+                                 deadline=time.monotonic() + max(60.0, rcfg["libro_min"] * 60))
             scan["completo"] = True
         except BudgetExceeded as e:
             blogs = e.logs
