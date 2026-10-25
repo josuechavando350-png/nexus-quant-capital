@@ -16,7 +16,7 @@ from collections import Counter
 from .analyze import num, pct, short, usd
 from .config import SHADOW_BASE_MARKETS, SHADOW_PRIORS_SOURCE
 from .rpc import ALLOWED_METHODS
-from .orden import CLASES, analyze_order, clasificar, validate_classifier
+from .orden import CLASES, MAX_INTENTOS, MORPHO_BLUE, analyze_order, clasificar, validate_classifier
 from .shadow_live import AUCTION_ENTRIES, DEFAULTS, quantiles
 
 BLOCK_MS = int(DEFAULTS["block_time_s"] * 1000)
@@ -269,6 +269,71 @@ def separation(rows):
     return out
 
 
+AFTER_WINNER = ("mismo_trozo_menos_propina", "trozo_posterior", "tarde_con_mas_propina")
+
+
+def bot_key(to, frm):
+    """Un bot se reconoce por su contrato; quien llama a Morpho directo, por su firmante."""
+    to = (to or "").lower()
+    return to if to and to != MORPHO_BLUE else (frm or "").lower()
+
+
+def competition(items):
+    """Quién más intentó liquidar la misma posición en el bloque del ganador (`orden.intentos`) y dónde quedó. `items`:
+    [{"bono_usd", "peso", "clase", "ganador", "intentos"}]. El primer rival detrás del ganador (el segundo) dice cómo se perdió
+    la carrera: por llegar tarde (un trozo posterior, o detrás pagando más) o por pagar menos en el mismo trozo."""
+    rows = [x for x in items if x.get("intentos") and "error" not in x["intentos"]]
+    wt = lambda x: x["peso"] if x.get("peso") is not None else 1.0                                       # noqa: E731
+    total = sum((x.get("bono_usd") or 0.0) * wt(x) for x in rows)
+    places, second, ratios, delays, n_rivals, own = Counter(), {}, [], [], [], 0
+    bots, by_class, with_rivals, capped = {}, {}, [], 0
+    for x in rows:
+        att = x["intentos"]
+        capped += att.get("n", 0) > len(att.get("lista") or [])
+        rivals = [a for a in att.get("lista") or [] if not a.get("mismo_bot") and not a.get("tambien_liquido")]
+        own += sum(1 for a in att.get("lista") or [] if a.get("mismo_bot"))
+        keys = {bot_key(a.get("a"), a.get("de")) for a in rivals}
+        n_rivals.append(len(keys))
+        b = (x.get("bono_usd") or 0.0) * wt(x)
+        win = x.get("ganador")
+        if win:
+            s = bots.setdefault(win, {"gana": 0, "pierde": 0, "bono_ganado_usd": 0.0})
+            s["gana"] += 1
+            s["bono_ganado_usd"] += b
+        for k in keys - {win}:
+            bots.setdefault(k, {"gana": 0, "pierde": 0, "bono_ganado_usd": 0.0})["pierde"] += 1
+        for a in rivals:
+            places[a["lugar"]] += 1
+        after = [a for a in rivals if a["lugar"] in AFTER_WINNER]
+        tag = after[0]["lugar"] if after else ("solo_antes" if rivals else "sin_rivales")
+        if rivals:
+            with_rivals.append(x)
+        g = second.setdefault(tag, {"n": 0, "bono_est_usd": 0.0})
+        g["n"] += 1
+        g["bono_est_usd"] += b
+        if after:
+            p2, p1 = after[0].get("propina"), att.get("propina_ganador")
+            if p2 is not None and p1:
+                ratios.append(round(p2 / p1, 3))
+            if after[0].get("ms_tras_ganador") is not None:
+                delays.append(after[0]["ms_tras_ganador"])
+        if x.get("clase"):
+            c = by_class.setdefault(x["clase"], {"n": 0, "con_rivales": 0, "segundo": Counter()})
+            c["n"] += 1
+            c["con_rivales"] += bool(rivals)
+            c["segundo"][tag] += 1
+    for g in second.values():
+        g["parte_del_bono"] = share(g["bono_est_usd"], total)
+    top = sorted(bots.items(), key=lambda kv: -(kv[1]["gana"] + kv[1]["pierde"]))[:8]
+    return {"liquidaciones": len(rows), "ganador_lleva_prestatario": sum(1 for x in rows if x["intentos"].get("ganador_lleva_prestatario")),
+            "con_rivales": len(with_rivals), "bono_con_rivales": share(sum((x.get("bono_usd") or 0.0) * wt(x) for x in with_rivals), total),
+            "rivales_por_liquidacion": quantiles(n_rivals), "intentos_por_lugar": dict(places), "intentos_del_mismo_bot": own,
+            "segundo": second, "segundo_propina_vs_ganador": quantiles(ratios), "segundo_ms_tras_ganador": quantiles(delays),
+            "por_clase": {k: dict(v, segundo=dict(v["segundo"])) for k, v in by_class.items()},
+            "bots": [dict(v, bot=k) for k, v in top], "listas_recortadas": capped, "con_pesos": bool(rows) and all(x.get("peso") is not None for x in rows),
+            "con_error": sum(1 for x in items if "error" in (x.get("intentos") or {}))}
+
+
 def analyze_diag(diag_rows, oracles=None, weights=None):
     """Qué pasó con el precio y los feeds del oráculo justo antes de cada liquidación directa mirada con lupa.
     `weights` {(tx, mercado, prestatario): peso} son los pesos de la muestra del replay, para estimar bonos de todo el período."""
@@ -312,6 +377,8 @@ def analyze_diag(diag_rows, oracles=None, weights=None):
                      ("mayor" if prio_l > prio_u else "igual" if prio_l == prio_u else "menor"),
                      "mismo_actor": None if not upd else (upd["from"] == (d.get("firmante") or "").lower() or upd["to"] == (d.get("entrada") or "").lower())})
     out["filas"] = rows
+    out["rivales"] = competition([{"bono_usd": r["bono_usd"], "peso": r["peso"], "clase": r["clase"], "intentos": d.get("intentos"),
+                                   "ganador": bot_key(d.get("entrada"), d.get("firmante"))} for r, d in zip(rows, ok)])
     out["liquidable_un_bloque_antes"] = sum(1 for r in rows if r["liquidable_un_bloque_antes"])
     out["precio_cambio_en_el_bloque"] = sum(1 for r in rows if r["precio_cambio_en_el_bloque"])
     out["feed_cambio_en_el_bloque"] = sum(1 for r in rows if r["feed_cambio_en_el_bloque"])
@@ -433,6 +500,19 @@ def analyze_live(bloques, decisiones, resultados, sistema, cercanas, meta, cfg, 
                            "gap_tx": (f.get("propinas") or {}).get("gap")})
     if clased:
         out["clases_en_vivo"] = clased
+    rival_items = [{"bono_usd": r["bono_usd"], "clase": clasificar((r.get("flash") or {}).get("propinas")),
+                    "intentos": (r.get("flash") or {}).get("intentos"), "ganador": bot_key(r.get("entrada"), r.get("firmante")),
+                    "etiqueta": r["etiqueta"], "tx": r["tx"]} for r in liqs if (r.get("flash") or {}).get("intentos")]
+    if rival_items:
+        rv = competition(rival_items)
+        rv["casos"] = []
+        for x in sorted(rival_items, key=lambda x: -x["bono_usd"])[:10]:
+            att = x["intentos"]
+            rivals = [a for a in att["lista"] if not a.get("mismo_bot") and not a.get("tambien_liquido")]
+            after = [a for a in rivals if a["lugar"] in AFTER_WINNER]
+            rv["casos"].append({"etiqueta": x["etiqueta"], "bono_usd": x["bono_usd"], "tx": x["tx"], "rivales": len(rivals),
+                                "segundo": after[0] if after else None})
+        out["rivales_en_vivo"] = rv
     if perfiles:
         out["flash_perfil"] = flash_profile(perfiles, {b["bloque"]: b["n_tx"] for b in bloques if b.get("n_tx")})
     if cruces is not None or meta.get("flash_evaluador"):
@@ -711,6 +791,41 @@ def via_rapida_lines(vr):
     return L
 
 
+SEGUNDO = {"mismo_trozo_menos_propina": "en el trozo del ganador, detrás, pagando lo mismo o menos (perdió por propina)",
+           "trozo_posterior": "en un trozo posterior (llegó tarde)",
+           "tarde_con_mas_propina": "detrás del ganador pagando más (llegó tarde: con esa propina, a tiempo habría ido primero)",
+           "solo_antes": "solo antes del ganador (disparó antes de tiempo y falló)"}
+
+
+def rivals_lines(rv):
+    """Texto de los rivales que perdieron (ver `competition`)."""
+    n = rv["liquidaciones"]
+    if not n:
+        return []
+    q = rv["rivales_por_liquidacion"]
+    L = [f"**Rivales que perdieron** ({n} liquidaciones con el bloque leído entero; rival = otra transacción con la dirección del prestatario en sus "
+         f"datos, de otro bot): hubo al menos uno en {rv['con_rivales']} ({pct(rv['bono_con_rivales'])} del bono); bots rivales por liquidación: "
+         f"mediana {num(q['p50'])}, p90 {num(q['p90'])}, máx {num(q['max'])}."]
+    sg = rv["segundo"]
+    parts = [f"{SEGUNDO[k]}: {sg[k]['n']} ({pct(sg[k]['parte_del_bono'])} del bono)" for k in SEGUNDO if k in sg]
+    if parts:
+        L.append("Dónde quedó el segundo (el primer rival detrás del ganador) — " + "; ".join(parts) + ".")
+    r, d = rv["segundo_propina_vs_ganador"], rv["segundo_ms_tras_ganador"]
+    if r["n"]:
+        L.append(f"Propina del segundo frente a la del ganador: mediana {r['p50']:g}× (p90 {r['p90']:g}×, n={r['n']})"
+                 + (f"; llegó por WebSocket {ms(d['p50'])} después que el ganador (mediana, n={d['n']})" if d["n"] else "") + ".")
+    tc = (rv.get("por_clase") or {}).get("trozo_siguiente")
+    if tc and tc["n"]:
+        L.append(f"De las que se ganaron reaccionando en un trozo posterior (las que se pueden competir): {tc['con_rivales']} de {tc['n']} tuvieron rivales; "
+                 "el segundo quedó " + ", ".join(f"{k.replace('_', ' ')} {v}" for k, v in sorted(tc["segundo"].items(), key=lambda kv: -kv[1])) + ".")
+    bots = [b for b in rv["bots"] if b["gana"] + b["pierde"] >= 2]
+    if bots:
+        L.append("Bots que más aparecen (ganó / perdió): " + "; ".join(f"{short(b['bot'])} {b['gana']}/{b['pierde']}" for b in bots[:6]) + ".")
+    L.append(f"_Es un mínimo: un bot que esconde o comprime la dirección no aparece. El ganador la llevaba en sus datos en {rv['ganador_lleva_prestatario']} "
+             f"de {n}" + (f"; {rv['listas_recortadas']} listas recortadas a {MAX_INTENTOS} intentos" if rv["listas_recortadas"] else "") + "._")
+    return L
+
+
 def separation_lines(sp):
     """Texto de la separación entre la actualización del oráculo y la liquidación (ver `separation`)."""
     t = sp["todas"]
@@ -784,6 +899,14 @@ def headline(res):
         L.append(f"**Dentro del bloque** (lupa de {dg['n']} liquidaciones directas): {part('mayor')} del bono lo ganaron bots que pagaron más prioridad que "
                  f"la actualización del oráculo y cayeron en un trozo posterior (reaccionaron: se puede competir); {part('igual')} iba empaquetado con la "
                  f"actualización (misma prioridad: no hay carrera); {part('menor')} es ambiguo.")
+    rv = (dg or {}).get("rivales") or {}
+    if rv.get("con_rivales"):
+        sg = rv["segundo"]
+        late = sum((sg.get(k) or {}).get("parte_del_bono") or 0.0 for k in ("trozo_posterior", "tarde_con_mas_propina"))
+        L.append(f"**Rivales** (lupa de {rv['liquidaciones']}): en {pct(rv['bono_con_rivales'])} del bono al menos otro bot lo intentó y perdió; el segundo "
+                 f"perdió por llegar tarde en {pct(late)} del bono y por pagar menos en el mismo trozo en "
+                 f"{pct((sg.get('mismo_trozo_menos_propina') or {}).get('parte_del_bono') or 0.0)} (mínimo: solo se ven los bots que llevan la "
+                 "dirección del prestatario en sus datos).")
     if lv:
         v, t = lv["ventana"], lv["latencia"]["visto_mas_proceso_ms"]
         go = lv["go"]
@@ -890,6 +1013,9 @@ def render(res):
         sp = dg.get("separacion")
         if sp and sp["todas"]["n"]:
             L += ["", *separation_lines(sp)]
+        rv = dg.get("rivales")
+        if rv and rv["liquidaciones"]:
+            L += ["", *rivals_lines(rv)]
         oh = res.get("orden_historico")
         if oh and oh["bloques"]:
             L.append(f"Orden de propinas en {oh['bloques']} bloques llenos (mediana {num(oh['transacciones']['p50'])} transacciones): la propina sube de una "
@@ -987,6 +1113,15 @@ def render(res):
         vr = lv.get("via_rapida")
         if vr:
             L += via_rapida_lines(vr)
+        rl = lv.get("rivales_en_vivo")
+        if rl:
+            L += [f"- {x}" for x in rivals_lines(rl)]
+            for c in rl["casos"][:5]:
+                s = c["segundo"]
+                L.append(f"  - {c['etiqueta']}, bono {usd(c['bono_usd'])}: {c['rivales']} intentos rivales" +
+                         ("" if not s else f"; el segundo quedó {s['lugar'].replace('_', ' ')}" +
+                          (f", {s['ms_tras_ganador']:,} ms después por WebSocket" if s.get("ms_tras_ganador") is not None else "") +
+                          (f", trozo {s['trozo']}" if s.get("trozo") is not None else "")) + f" ({short(c['tx'])}).")
         pv = lv.get("prueba_clasificador")
         if pv and pv["bloques"]:
             rate = lambda x: pct(x["bien"] / x["n"]) if x["n"] else "—"                  # noqa: E731

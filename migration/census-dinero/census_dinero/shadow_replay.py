@@ -24,7 +24,7 @@ from .abi import norm
 from .config import SHADOW_PRIOR_KEPT_ALL
 from .keccak import selector
 from .rpc import BudgetExceeded, RpcError
-from .orden import propinas_alrededor
+from .orden import intentos, propinas_alrededor
 from .shadow_live import AUCTION_ENTRIES, Out, Shadow, log, make_rpc
 
 RDEFAULTS = {
@@ -143,6 +143,8 @@ class Replay:
         self.hdr, self.stat = {}, {}
         self.n_sondeos = 0
         self._tips = {}                     # bloque -> propina de cada transacción (solo los últimos bloques mirados con lupa)
+        self._blk = (None, None)            # el último bloque entero leído (con transacciones)
+        self.liq_txs = {}                   # (bloque, prestatario) -> hashes que liquidaron a ese prestatario en ese bloque
 
     # -- lecturas de archivo -------------------------------------------------------------------
     def header(self, b):
@@ -322,11 +324,17 @@ class Replay:
                 out[g] = {"ronda": w[0], "respuesta": ans, "actualizado": w[3]}
         return out
 
+    def block_full(self, b):
+        """El bloque entero con transacciones (pesa: se guarda solo el último)."""
+        if self._blk[0] != b:
+            self._blk = (b, self.sh.rpc.call("eth_getBlockByNumber", [hex(b), True]))
+        return self._blk[1]
+
     def block_tip_list(self, b):
         """La propina de cada transacción del bloque, en su orden (el bloque entero con transacciones: pesa, así que se guarda poco)."""
         from .orden import block_tips
         if b not in self._tips:
-            blk = self.sh.rpc.call("eth_getBlockByNumber", [hex(b), True])
+            blk = self.block_full(b)
             self._tips[b] = block_tips(blk)[1] if blk else None
             for old in list(self._tips)[:-64]:
                 del self._tips[old]
@@ -384,10 +392,17 @@ class Replay:
                         propinas = propinas_alrededor(self.block_tip_list(b), upd_tx["tx_index"], r["tx_index"])
                     except RpcError:
                         propinas = None                  # sin las propinas del bloque la fila sigue sirviendo para lo demás
+                try:
+                    rivales = intentos(self.block_full(b), r["prestatario"], r["tx_index"], upd_tx["tx_index"] if upd_tx else None,
+                                       self.liq_txs.get((b, r["prestatario"]), ()))
+                except RpcError:
+                    rivales = None
+                except (ValueError, TypeError, KeyError):  # un bloque con datos raros no debe tumbar la lupa entera
+                    rivales = {"error": "datos del bloque ilegibles"}
                 out_rows.append({"mercado": r["mercado"], "etiqueta": r["etiqueta"], "prestatario": r["prestatario"], "bloque_liquidacion": b,
                                  "tx": r["tx"], "tx_index": r["tx_index"], "firmante": r.get("firmante"), "entrada": r.get("entrada"),
                                  "bono_usd": r["bono_usd"], "bloque_n_tx": r.get("bloque_n_tx"), "prioridad_wei": r.get("prioridad_wei"),
-                                 "propinas": propinas, "serie": serie, "logs_feed": logs, "actualizacion_previa": upd_tx})
+                                 "propinas": propinas, "intentos": rivales, "serie": serie, "logs_feed": logs, "actualizacion_previa": upd_tx})
             except RpcError as e:
                 out_rows.append({"mercado": r["mercado"], "etiqueta": r["etiqueta"], "bloque_liquidacion": b, "tx": r["tx"],
                                  "error": self.sh.rpc.scrub(e)[:160]})
@@ -424,6 +439,7 @@ class Replay:
             first[k] = min(first.get(k, e["log_index"]), e["log_index"])
             e["_prev_liq"] = last_seen.get((e["market"], e["user"]))        # liquidación anterior de la misma posición
             last_seen[(e["market"], e["user"])] = e["block"]
+            self.liq_txs.setdefault((e["block"], e["user"]), set()).add(e["tx_hash"].lower())
         chosen = select_events(events, self.sh.markets, self.cfg)
         deadline = time.monotonic() + self.cfg["presupuesto_min"] * 60
         done, failed, skipped = [], 0, 0

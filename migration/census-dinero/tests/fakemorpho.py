@@ -103,8 +103,11 @@ class FakeMorpho:
             log_index += len(logs)
             frm = kw.get("sender") or SIGNERS[0]
             to = kw.get("to") or MORPHO
+            data = kw.get("input")
+            if data is None:            # liquidate(marketParams, borrower, ...) lleva la dirección del prestatario en los datos
+                data = "0xd8eabcb8" + "0" * 24 + args[2][2:] if kind == "liquidate" else "0x"
             self.txs[h] = {"hash": h, "from": frm, "to": to, "blockNumber": hex(n), "transactionIndex": hex(tx_index),
-                           "gasPrice": hex(kw.get("gas_price", 10 ** 7)), "value": "0x0", "input": "0x"}
+                           "gasPrice": hex(kw.get("gas_price", 10 ** 7)), "value": "0x0", "input": data}
             self.receipts[h] = {"transactionHash": h, "status": "0x1", "gasUsed": hex(kw.get("gas_used", 400_000)),
                                 "effectiveGasPrice": hex(kw.get("gas_price", 10 ** 7)), "l1Fee": hex(kw.get("l1_fee", 10 ** 12)),
                                 "blockNumber": hex(n), "transactionIndex": hex(tx_index), "from": frm, "to": to,

@@ -142,3 +142,76 @@ def analyze_order(samples, profiles=None):
             if rel:
                 out["frontera" if i + 1 in cuts else "dentro"][rel] += 1
     return out
+
+
+# --- Quién más lo intentó ---------------------------------------------------------------------------
+MORPHO_BLUE = "0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb"
+MAX_INTENTOS = 40            # cuántos intentos por liquidación se guardan con detalle (el total se cuenta siempre)
+
+LUGARES = {
+    "antes_de_la_actualizacion": "antes de la actualización del oráculo: disparó sin el precio nuevo",
+    "antes_del_ganador": "después de la actualización y antes del ganador, y aun así no liquidó",
+    "mismo_trozo_menos_propina": "en el trozo del ganador, detrás de él, pagando lo mismo o menos: perdió por propina (o entró a medio armar el trozo)",
+    "trozo_posterior": "en un trozo posterior al del ganador: llegó tarde",
+    "tarde_con_mas_propina": "detrás del ganador pagando más propina: llegó tarde (a tiempo, con esa propina, habría ido primero)",
+}
+
+
+def fronteras(tips, a, b):
+    """Comienzos de trozo entre las posiciones `a` y `b` del bloque (a < b), con la regla de `clasificar`: una subida de propina es
+    el comienzo de un trozo nuevo si la transacción siguiente no vuelve al nivel de antes; si vuelve, es un pico dentro del trozo."""
+    idx = [i for i in range(max(0, a), len(tips)) if tips[i] is not None]
+    n = 0
+    for k in range(1, len(idx)):
+        i = idx[k]
+        if i > b:
+            break
+        prev = tips[idx[k - 1]]
+        if tips[i] > prev and k + 1 < len(idx) and tips[idx[k + 1]] > prev:
+            n += 1
+    return n
+
+
+def lugar(tips, i, l, u=None):
+    """Dónde quedó un intento (posición `i`) respecto al ganador (`l`) y a la actualización del oráculo (`u`); ver `LUGARES`."""
+    if i < l:
+        return "antes_de_la_actualizacion" if u is not None and i < u else "antes_del_ganador"
+    if tips[i] is not None and tips[l] is not None and tips[i] > tips[l]:
+        return "tarde_con_mas_propina"
+    return "mismo_trozo_menos_propina" if fronteras(tips, l, i) == 0 else "trozo_posterior"
+
+
+def intentos(block, prestatario, l, u=None, liquidaciones=(), llegadas=None):
+    """Las otras transacciones del bloque con la dirección del prestatario en sus datos: la llamada a `liquidate` de Morpho la lleva,
+    sea directa o dentro del contrato de un bot. Se dejan fuera las del propio prestatario, la actualización del oráculo (`u`) y la
+    del ganador (`l`). `liquidaciones`: hashes que también liquidaron esa posición en el bloque (no perdieron: se la repartieron).
+    `llegadas`: hash -> hora de llegada por WebSocket (en vivo), para medir cuánto después del ganador llegó cada uno.
+    Un bot que esconde o comprime sus datos no aparece: es un mínimo, no un censo. None si no se puede."""
+    who = (prestatario or "").lower()
+    txs = (block or {}).get("transactions") or []
+    if len(who) != 42 or not 0 <= l < len(txs) or not isinstance(txs[l], dict):
+        return None
+    _, tips = block_tips(block)
+    needle, win = who[2:], txs[l]
+    w_from, w_to = (win.get("from") or "").lower(), (win.get("to") or "").lower()
+    liqs = {h.lower() for h in liquidaciones or ()}
+    t_win = llegadas(win.get("hash")) if llegadas else None
+    found = []
+    for i, tx in enumerate(txs):
+        if i in (l, u) or not isinstance(tx, dict) or needle not in (tx.get("input") or "").lower():
+            continue
+        frm, to, h = (tx.get("from") or "").lower(), (tx.get("to") or "").lower(), (tx.get("hash") or "").lower()
+        if frm == who:
+            continue
+        row = {"i": i, "tx": h, "propina": tips[i], "de": frm, "a": to, "lugar": lugar(tips, i, l, u),
+               "mismo_bot": frm == w_from or (to == w_to and to != MORPHO_BLUE)}
+        if i > l:
+            row["trozos_despues"] = fronteras(tips, l, i)
+        if h in liqs:
+            row["tambien_liquido"] = True
+        t = llegadas(h) if llegadas and t_win is not None else None
+        if t is not None:
+            row["ms_tras_ganador"] = round((t - t_win) * 1000)
+        found.append(row)
+    return {"ganador_lleva_prestatario": needle in (win.get("input") or "").lower(), "propina_ganador": tips[l],
+            "n": len(found), "lista": found[:MAX_INTENTOS]}

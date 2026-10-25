@@ -159,6 +159,17 @@ evalúa el libro en memoria sin consultar a la red y anota cuánto tardó en dec
 por WebSocket que por la consulta. Archivos: `flash_rapido.jsonl` y `via_rapida` / `flash_ws` en `meta.json`. El cliente WebSocket solo
 acepta `eth_subscribe` y `eth_unsubscribe`.
 
+**Rivales que perdieron** (`orden.intentos`; en la lupa del replay y en cada liquidación en vivo). Ganar o perder se decide contra
+los demás bots, no contra un reloj. En el bloque de cada liquidación se buscan las otras transacciones que llevan la dirección del prestatario
+en sus datos (la llamada a `liquidate` de Morpho la lleva, directa o dentro del contrato de un bot), sin las del propio prestatario, la de la
+actualización y las que también liquidaron esa posición. Cada intento queda en un lugar: *antes de la actualización* (disparó sin el precio
+nuevo), *antes del ganador*, *mismo trozo con menos propina* (detrás del ganador en su trozo, pagando lo mismo o menos: perdió por propina, o
+entró a medio armar el trozo), *trozo posterior* (llegó tarde) o *tarde con más propina* (detrás pagando más: con esa propina, a tiempo, habría
+ido primero). Los trozos se reconocen con la misma regla de propinas de `clasificar`; en vivo además se anota el trozo en que se vio cada
+intento y cuántos ms después del ganador llegó por WebSocket. El reporte cuenta en qué parte del bono hubo rivales, cuántos, dónde quedó el
+segundo (el primer rival detrás del ganador), su propina frente a la del ganador, y qué bots ganan y pierden más. Es un mínimo: un bot que
+esconde o comprime la dirección no aparece (el reporte dice en cuántas el ganador la llevaba visible).
+
 **Conexiones persistentes.** Todos los clientes RPC del Shadow reutilizan la conexión (`rpc.KeepAlive`, HTTP/1.1
 keep-alive por hilo). Antes cada consulta abría TCP y TLS de nuevo (~3 viajes de ida y vuelta) y la latencia medida
 salía ~3 veces peor que la de un sistema real. Con conexiones persistentes, desde Actions: ver un trozo nuevo del

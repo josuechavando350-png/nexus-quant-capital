@@ -273,6 +273,8 @@ class Shadow:
         self.last_liq_keys = set()               # liquidables en el último bloque sellado
         self.feed_addrs = []                     # feeds y agregadores detrás de los oráculos de los mercados vigilados
         self.feed_log_cache = {}
+        self._blk = (None, None)                 # el último bloque sellado leído entero (con transacciones)
+        self.liq_txs_now = {}                    # prestatario -> hashes que lo liquidaron en el bloque que se procesa
         self.bloom = None                        # LogBloom, tras setup()
         self.bloom_ok = False                    # solo se usa para saltarse getLogs si se comprobó con bloques reales
         self.first_eval_block = None             # primer bloque evaluado tras un hueco: sus cruces son inciertos
@@ -867,6 +869,9 @@ class Shadow:
                 w = self.fast.window_for(upd["tx"], e["tx_hash"])
                 if w is not None:
                     out["ws_ventana_ms"] = w                 # llegada de la liquidación menos llegada de la actualización, por WebSocket
+        rivals = self._rivales(e, n, upd)
+        if rivals:
+            out["intentos"] = rivals
         if liq is None or t0 is None:
             return out
         out.update(visto=True, trozo_liquidacion=liq[1], t_liquidacion_ms=round((liq[0] - t0) * 1000))
@@ -881,10 +886,37 @@ class Shadow:
         distingue a quien se coló en el mismo trozo de quien reaccionó en uno posterior (ver `orden.clasificar`)."""
         from .orden import block_tips, propinas_alrededor
         try:
-            blk = self.rpc.call("eth_getBlockByNumber", [hex(n), True], recent=True)
+            blk = self._full_block(n)
+            return propinas_alrededor(block_tips(blk)[1], upd["tx_index"], e["tx_index"]) if blk else None
         except RpcError:
             return None
-        return propinas_alrededor(block_tips(blk)[1], upd["tx_index"], e["tx_index"]) if blk else None
+        except Exception:                          # un bloque con datos raros no debe tumbar el Shadow
+            self.counts["propinas_sin_leer"] += 1
+            return None
+
+    def _full_block(self, n):
+        """El bloque sellado con sus transacciones (se guarda el último: puede traer varias liquidaciones)."""
+        if self._blk[0] != n:
+            self._blk = (n, self.rpc.call("eth_getBlockByNumber", [hex(n), True], recent=True))
+        return self._blk[1]
+
+    def _rivales(self, e, n, upd):
+        """Quién más intentó liquidar esa posición en el bloque (`orden.intentos`), con la hora de llegada por WebSocket de cada
+        intento respecto a la del ganador y el trozo en que se vio en el bloque pendiente."""
+        from .orden import intentos
+        try:
+            blk = self._full_block(n)
+            seen = self.stream.seen if self.stream is not None else None
+            out = intentos(blk, e["user"], e["tx_index"], upd["tx_index"] if upd else None, self.liq_txs_now.get(e["user"], ()), seen)
+            if out and self.flash is not None:
+                for a in out["lista"]:
+                    s = self.flash.seen(n, a["tx"])
+                    if s:
+                        a["trozo"] = s[1]
+            return out
+        except Exception:                          # es un extra: que falle no debe afectar al Shadow
+            self.counts["rivales_sin_leer"] += 1
+            return None
 
     def _resolve_liquidation(self, e, hdr, n, known_before, snap):
         key = (e["market"], e["user"])
@@ -974,6 +1006,10 @@ class Shadow:
         self.last_near_prev = dict(self.last_near)
         liq_now = self._evaluate(snap, n, hdr["ts"])
         t_eval = self.mono()
+        self.liq_txs_now, self._blk = {}, (None, None)       # el bloque entero se guarda solo mientras se procesa (por si hubo reorg)
+        for e in events:
+            if e["kind"] == "Liquidate":
+                self.liq_txs_now.setdefault(e["user"], set()).add(e["tx_hash"])
         for e in events:
             if e["kind"] == "Liquidate":
                 self._resolve_liquidation(e, hdr, n, known_before, snap)
