@@ -1,0 +1,213 @@
+{
+  "archive_disabled": false,
+  "chain": "celo",
+  "elapsed_s": 118.2,
+  "enriched": 0,
+  "errors_sample": [],
+  "events": 0,
+  "events_complete": true,
+  "events_cover_block": 81043241,
+  "fatal_error": null,
+  "interrupted": false,
+  "native_trace_sources": {},
+  "oracle_contracts_watched": 0,
+  "oracle_status": {},
+  "phases_s": {
+    "enriquecimiento": 0.0,
+    "eventos": 107.6,
+    "evidencia": 0.0,
+    "metadatos": 0.0,
+    "oraculos": 0.0,
+    "segunda_pasada": 0.0,
+    "sonda": 2.7,
+    "ventana": 7.8
+  },
+  "price_sources": {
+    "defillama": 0,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 607,
+  "rpc_providers": {
+    "https://celo-rpc.publicnode.com": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": 5000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "debug_traceTransaction"
+      ]
+    },
+    "https://celo.drpc.org": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://forno.celo.org": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": 5000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 120,
+          "ok": 65
+        },
+        "eth_getLogs": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 207,
+          "ok": 519
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 584,
+      "sin_metodo": []
+    }
+  },
+  "second_pass": {
+    "intentadas": 0
+  },
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "HTTP 403 en forno.celo.org",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 403 en forno.celo.org",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 400 en forno.celo.org",
+      "getlogs_max": 5000,
+      "getlogs_ms": 243,
+      "ms": 95,
+      "proveedor": "https://forno.celo.org",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 403 en forno.celo.org",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 403 en forno.celo.org",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 403 en celo-rpc.publicnode.com",
+      "getlogs_max": 5000,
+      "getlogs_ms": 75,
+      "ms": 53,
+      "proveedor": "https://celo-rpc.publicnode.com",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 403 en celo-rpc.publicnode.com",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 403 en celo-rpc.publicnode.com",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "error": "HTTP 400 en celo.drpc.org",
+      "ms": 55,
+      "proveedor": "https://celo.drpc.org",
+      "vivo": false
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "celo-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 0,
+  "web_calls": 2,
+  "web_sources": {
+    "blockscout": {
+      "ms": 923,
+      "ok": true
+    },
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 1.0,
+    "days": 30.0,
+    "end_block": 81043241,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352000,
+    "lookback_block": 78357642,
+    "start_block": 78451242,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 0,
+  "with_oracle_delta": 0,
+  "with_realized": 0,
+  "with_realized_complete": 0
+}
