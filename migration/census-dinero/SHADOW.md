@@ -115,8 +115,9 @@ de ~200 ms (Flashblocks) que Base publica antes de sellarlo. En 6 de las 14 la a
 contrato de subasta de oráculo (OEV) y la liquidación iba justo detrás: subasta disfrazada de directa.
 
 Por eso hay un observador (`flash_watch.py`) que pregunta por el bloque `pending` de un RPC con
-preconfirmaciones (`https://mainnet-preconf.base.org`, público; desde Actions: 26 ms de latencia, 0 errores,
-trozos nuevos cada 198 ms) y anota la hora y el número de trozo en que entró cada transacción. Al sellarse el
+preconfirmaciones (`https://mainnet-preconf.base.org`, público; desde Actions: 16 a 80 ms de latencia según el
+servidor que toque, 0 errores, trozos nuevos cada ~197 ms) y anota la hora y el número de trozo en que entró cada
+transacción. Al sellarse el
 bloque, cada liquidación real queda medida contra la transacción que actualizó el feed del oráculo: ¿en el mismo
 trozo (empaquetada, nadie la gana), en el siguiente (hay que reaccionar en <200 ms) o 2+ trozos después?
 Se activa con `config: {"flash_url": "https://mainnet-preconf.base.org", "flash_interval": 0.1}`.
@@ -205,7 +206,10 @@ ignora una última línea cortada.
   certificación. `visto` es cota superior (el timestamp del bloque es entero).
 - No se midió el envío ni la inclusión; el orden dentro del bloque y los empates los decide el
   secuenciador.
-- Con Flashblocks algunos bots ven antes de que el bloque cierre; el mismo bloque del cruce no se gana desde RPC públicos.
+- La carrera es dentro del bloque: en el replay el 99% del bono directo se liquidó en el mismo bloque en que cambió el
+  precio del oráculo, así que desde bloques sellados no se gana. Solo cabe pelear viendo el bloque pendiente (Flashblocks)
+  y con una transacción que llegue al secuenciador antes de que se arme el trozo siguiente (~200 ms). Aquí eso se mide desde
+  Actions (decisión ~110 ms + envío supuesto de 150 ms); no es una infraestructura propia ni mide el envío real.
 - El neto usa la retención de los ganadores del Census (incluye swap, gas y propinas de ellos); no se
   simuló nuestra ruta, flash loan ni slippage.
 - Una ventana corta no sustituye semanas de Shadow ni cubre los picos: en el Census el 95% del margen

@@ -29,6 +29,8 @@ jobs:
       budget: ${{ steps.plan.outputs.budget }}
       vivo: ${{ steps.plan.outputs.vivo }}
       replay: ${{ steps.plan.outputs.replay }}
+      fuente_replay: ${{ steps.plan.outputs.fuente_replay }}
+      fuente_lupa: ${{ steps.plan.outputs.fuente_lupa }}
     defaults:
       run:
         working-directory: migration/census-dinero
@@ -279,13 +281,20 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           FUENTE: ${{ needs.plan.outputs.fuente }}
+          FUENTE_REPLAY: ${{ needs.plan.outputs.fuente_replay }}
+          FUENTE_LUPA: ${{ needs.plan.outputs.fuente_lupa }}
         run: |
           git clone -q --depth 1 --branch census-dinero/resultados \
             "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" /tmp/res
+          # El vivo, el replay y la lupa del oráculo pueden venir de corridas distintas (run.json: corrida,
+          # corrida_replay, corrida_lupa); por omisión, todo de la misma corrida.
           src="${FUENTE:-$GITHUB_RUN_ID}"
+          rsrc="${FUENTE_REPLAY:-$src}"
+          lsrc="${FUENTE_LUPA:-$rsrc}"
           args=()
           if [ -d "/tmp/res/corridas/${src}/shadow-vivo" ]; then args+=(--live "/tmp/res/corridas/${src}/shadow-vivo"); fi
-          if [ -d "/tmp/res/corridas/${src}/shadow-replay" ]; then args+=(--replay "/tmp/res/corridas/${src}/shadow-replay"); fi
+          if [ -d "/tmp/res/corridas/${rsrc}/shadow-replay" ]; then args+=(--replay "/tmp/res/corridas/${rsrc}/shadow-replay"); fi
+          if [ "$lsrc" != "$rsrc" ] && [ -d "/tmp/res/corridas/${lsrc}/shadow-replay" ]; then args+=(--diag "/tmp/res/corridas/${lsrc}/shadow-replay"); fi
           if [ "${#args[@]}" -eq 0 ]; then
             echo "Ni el vivo ni el replay produjeron resultados en la corrida ${src}." | tee -a "$GITHUB_STEP_SUMMARY"
             exit 1
@@ -294,6 +303,7 @@ jobs:
           python3 -m census_dinero shadow-report "${args[@]}" --run-json run.json --out /tmp/reporte > /dev/null
           cat /tmp/reporte/RESUMEN_SHADOW.md >> "$GITHUB_STEP_SUMMARY"
           cp run.json /tmp/reporte/run.json
+          echo "vivo=${src} replay=${rsrc} lupa=${lsrc} reporte=${GITHUB_RUN_ID} commit=${GITHUB_SHA}" > /tmp/reporte/fuentes.txt
           python3 ci/push_results.py --src /tmp/reporte --dest "corridas/${src}/shadow-reporte-${GITHUB_RUN_ID}" \
             --message "shadow reporte de run ${src} (run ${GITHUB_RUN_ID})"
           python3 ci/push_results.py --src /tmp/reporte --dest "shadow/ultimo" \

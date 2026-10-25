@@ -1,15 +1,20 @@
 {
   "modo": "shadow",
   "shadow": {
-    "minutos": 300,
+    "minutos": 330,
     "vivo": true,
-    "replay": false,
-    "config": {
+    "replay": {
+      "diag": 100,
+      "libro_dias": 0,
       "min_bonus_usd": 10,
-      "min_net_usd": 5,
+      "min_net_usd": 5
+    },
+    "config": {
+      "min_bonus_usd": 0.05,
+      "min_net_usd": 0.02,
       "flash_url": "https://mainnet-preconf.base.org",
       "flash_interval": 0.1
     }
   },
-  "nota": "Shadow v5: 5 horas en vivo con evaluación del bloque pendiente (Flashblocks), conexiones persistentes y evaluador que arranca con el libro listo. Solo lectura."
+  "nota": "Shadow v6: 5.5 horas en vivo con umbral de GO bajo (0.05 USD) para tener más decisiones que comparar con lo que pasó, perfil de trozos de cada bloque (flash_bloques.jsonl) y tamaño de bloque; en paralelo, replay de 30 días con lupa del oráculo en las 100 mayores liquidaciones directas (tamaño del bloque y prioridad de cada transacción). El reporte puede juntar el vivo, el replay y la lupa de corridas distintas. Solo lectura."
 }

@@ -795,6 +795,8 @@ def render(res):
         v, lat = lv["ventana"], lv["latencia"]
         L.append(f"Ventana: {v['horas']:.2f} h, bloques {v['desde_bloque']}–{v['hasta_bloque']} "
                  f"({num(v['bloques'])} de {num(v['bloques_en_rango'])}, cobertura {pct(v['cobertura'])}).")
+        L.append(f"Umbral para decidir GO en esta corrida: bono ≥ ${res['config']['min_bonus_usd']:g} y neto del modelo ≥ "
+                 f"${res['config']['min_net_usd']:g} (el de operación sería ${DEFAULTS['min_bonus_usd']:g} y ${DEFAULTS['min_net_usd']:g}).")
         rows = [("Visto (desde el timestamp del bloque)", ms(lat["visto_ms"]["p50"]), ms(lat["visto_ms"]["p90"]), ms(lat["visto_ms"]["p99"]))]
         rows += [("Proceso (leer + decidir)", ms(lat["proceso_ms"]["p50"]), ms(lat["proceso_ms"]["p90"]), ms(lat["proceso_ms"]["p99"])),
                  ("Visto + proceso", ms(lat["visto_mas_proceso_ms"]["p50"]), ms(lat["visto_mas_proceso_ms"]["p90"]),
