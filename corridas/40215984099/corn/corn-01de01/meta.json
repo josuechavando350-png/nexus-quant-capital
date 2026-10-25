@@ -1,0 +1,77 @@
+{
+  "archive_disabled": false,
+  "chain": "corn",
+  "elapsed_s": 0.7,
+  "enriched": 0,
+  "errors_sample": [],
+  "events": 0,
+  "events_complete": false,
+  "events_cover_block": null,
+  "fatal_error": "RpcError: We are not able to process your request at this time. Please contact thirdweb support 4952ec78-bc4e-43c0-8eea-7d4363158656.",
+  "interrupted": false,
+  "native_trace_sources": {},
+  "oracle_contracts_watched": 0,
+  "oracle_status": {},
+  "phases_s": {},
+  "price_sources": {
+    "defillama": 0,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 4,
+  "rpc_providers": {
+    "https://21000000.rpc.thirdweb.com": {
+      "en_rotacion": true,
+      "err": 2,
+      "getlogs_max": null,
+      "metodos": {
+        "eth_blockNumber": {
+          "err": 1,
+          "errores": {
+            "We are not able to process your request at this time. Please contact thirdweb support 4952ec78-bc4e-": 1
+          },
+          "ms_prom": 166,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 1,
+          "errores": {
+            "We are not able to process your request at this time. Please contact thirdweb support 5466f306-2e07-": 1
+          },
+          "ms_prom": 218,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://mainnet.corn-rpc.com": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    }
+  },
+  "second_pass": {},
+  "sonda": [],
+  "time_budget_hit": false,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "corn-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 0,
+  "web_calls": 0,
+  "web_sources": {},
+  "window": null,
+  "with_bonus_usd": 0,
+  "with_oracle_delta": 0,
+  "with_realized": 0,
+  "with_realized_complete": 0
+}
