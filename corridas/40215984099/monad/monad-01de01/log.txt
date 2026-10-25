@@ -1,0 +1,30 @@
+[17:20:54] monad: ventana bloques 107935036..116511627 (30 días), 3 proveedores responden
+[17:20:54] monad: fase ventana: 8.8 s
+[17:20:55] monad: sonda: proveedor | ms | getLogs máx | archivo | debug viejo | trace viejo
+[17:20:55] monad: sonda: https://rpc.monad.xyz | 124 | 0 | no | 2/2 | 0/2
+[17:20:55] monad: sonda: https://rpc1.monad.xyz | 186 | 0 | no | 2/2 | 0/2
+[17:20:55] monad: sonda: https://monad-mainnet.drpc.org | 239 | 0 | no | 0/2 | 0/2
+[17:20:56] monad: fuentes web: {"defillama": {"ok": true}}
+[17:20:56] monad: fase sonda: 1.6 s
+[17:20:56] monad: falla: RpcError: ningún proveedor soporta eth_getLogs
+[17:20:56] Traceback (most recent call last):
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 1091, in run
+    recs = self.fetch_liquidations(win["start_block"], win["end_block"])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 409, in fetch_liquidations
+    logs, got = self._logs("eventos Morpho", self.chain.morpho, [MORPHO_LIQUIDATE_TOPIC], start, end)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 387, in _logs
+    return self.rpc.get_logs(address, topics, lo, hi, on_progress=self._progress(what, lo, hi),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 522, in get_logs
+    logs = self.call("eth_getLogs", [flt])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 325, in call
+    return self._call(method, params, recent, prefer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 344, in _call
+    raise RpcError(f"ningún proveedor soporta {mkey}")
+census_dinero.rpc.RpcError: ningún proveedor soporta eth_getLogs
+
+[17:20:56] monad: listo — 0 eventos, 0 enriquecidos, 97 llamadas RPC, 10.4 s
