@@ -187,17 +187,21 @@ ignora una última línea cortada.
 
 ## Lo medido en la primera tanda (25 oct 2026; parcial)
 
-Replay de 30 días (corrida `40171040689`, bloques 51,765,101–53,061,101) y vivo (`40163135976`, 2.2 h; `40171040689`, en curso):
+Replay de 30 días (corrida `40176606411`, hasta 800 liquidaciones reconstruidas) y vivo (`40163135976`, 2.2 h; `40171040689`, 1.4 h; `40176606411`, en curso):
 
-- **Matemática**: 91 de 92 liquidaciones coinciden exactamente con la matemática de Morpho; error relativo máximo 1.8e-14.
+- **Matemática**: 186 de 191 liquidaciones coinciden exactamente con la matemática de Morpho (las 5 restantes con error relativo ≤ 7e-13).
   En vivo, deriva 0 en más de 56,000 posiciones comparadas, sin huecos de bloques y 0 errores en ~38,000 evaluaciones del estado pendiente.
-- **Dónde está la carrera**: 2,647 liquidaciones en los 19 mercados (1,212 con bono ≥ $10; la muestra de 300 cubre 77% del bono). El 99% del
-  bono directo (≈ $101k en 30 días, entre todos los bots; 96% en 3 días) se liquidó en el mismo bloque del cruce. La lupa de 96 directas:
-  en 95 el precio de Morpho cambió en el mismo bloque de la liquidación. Desde bloques sellados no se gana.
-- **Dentro del bloque** (91 con la actualización del oráculo localizada, comparando la prioridad que pagó cada liquidación con la de la
-  actualización): 67% del bono (≈ $62k) lo ganaron bots que pagaron más prioridad y cayeron en un trozo posterior (reaccionaron: se puede
-  competir); 22% (≈ $20k) iba empaquetado con la actualización (misma prioridad, subasta OEV: no hay carrera); 11% ambiguo. Un solo contrato liquidador
-  se lleva el 31% de la muestra, casi todo lo empaquetado.
+- **Dónde está la carrera**: 2,647 liquidaciones en los 19 mercados (1,212 con bono ≥ $10). El 99% del bono directo (≈ $99k en 30 días,
+  entre todos los bots; 96% en 3 días) se liquidó en el mismo bloque del cruce. La lupa de 284 directas: en 279 el precio de Morpho cambió en
+  el mismo bloque de la liquidación. Desde bloques sellados no se gana.
+- **El orden dentro del bloque es por propina** (comprobado). En 12 bloques históricos llenos (2.7 a 3.6 mil transacciones) la propina sube de una
+  transacción a la siguiente 26 a 143 veces por bloque; con las mismas propinas en orden de llegada al azar subiría 1.1 a 1.5 mil veces. En vivo,
+  con los trozos conocidos de bloques sellados: dentro de un trozo la propina sube en 1% de los pares, y al empezar un trozo nuevo sube en el 100% de las
+  fronteras (89 de 89). Cada trozo de 200 ms se ordena de más a menos propina.
+- **Dentro del bloque** (267 con la actualización del oráculo localizada, comparando la prioridad que pagó cada liquidación con la de la
+  actualización): 66% del bono (≈ $60k) lo ganaron bots que pagaron más prioridad y cayeron en un trozo posterior (reaccionaron: se puede
+  competir); 25% (≈ $23k) iba empaquetado con la actualización (misma prioridad, subasta OEV: no hay carrera); 9% ambiguo. Un solo contrato
+  liquidador se lleva ~31% de la muestra, casi todo lo empaquetado.
 - **Propinas de los ganadores** (directas): mediana 2.4% del bono entre $10 y $1,000 (p90 16%), 0.2% por encima de $1,000 (p90 7%); en los eventos
   grandes de cbETH pagaron $780 y $850 (7% y 17%). Ganar el orden dentro de un trozo cuesta propina, no solo velocidad.
 - **En vivo, primer caso real** (AERO/USDC, bono $0.13): el ganador cayó un trozo (≈ 200 ms) después de la actualización del oráculo. Nuestra
