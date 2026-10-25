@@ -205,14 +205,14 @@ Replay de 30 días (corrida `40190198885`: **todas** las liquidaciones con bono 
 `40176606411`, 3.3 h; `40190198885`, en curso):
 
 - **Matemática**: 250 de 256 liquidaciones coinciden exactamente con la matemática de Morpho (las 6 restantes con error relativo ≤ 7e-13).
-  En vivo, deriva 0 en más de 97,000 posiciones comparadas, sin huecos de bloques y 0 errores en ~55,000 evaluaciones del estado pendiente.
+  En vivo (v7, 3.3 h), deriva 0 en más de 97,000 posiciones comparadas, sin huecos de bloques y 0 errores en ~55,000 evaluaciones del estado pendiente.
 - **Dónde está la carrera**: 2,648 liquidaciones en los 19 mercados (1,213 con bono ≥ $10). El 99% del bono directo (≈ $102k en 30 días,
   entre todos los bots; 96% en 3 días) se liquidó en el mismo bloque del cruce. En la lupa de las 454 directas el precio de Morpho cambió en
   el mismo bloque de la liquidación casi siempre. Desde bloques sellados no se gana.
 - **El orden dentro del bloque es por propina** (comprobado). En 12 bloques históricos llenos (2.7 a 3.6 mil transacciones) la propina sube de una
   transacción a la siguiente 26 a 143 veces por bloque; con las mismas propinas en orden de llegada al azar subiría 1.1 a 1.5 mil veces. En vivo,
   con los trozos conocidos de bloques sellados: dentro de un trozo la propina sube en 1.4% de los pares, y al empezar un trozo nuevo sube en el 99.8% de las
-  fronteras (485 de 486). Cada trozo de 200 ms se ordena de más a menos propina.
+  fronteras (484 de 485). Cada trozo de 200 ms se ordena de más a menos propina.
 - **Quién gana dentro del bloque** (435 con la actualización del oráculo localizada, clasificadas por las propinas de la actualización, de la
   liquidación y de sus vecinas): 64% del bono (≈ $61k) lo ganó quien reaccionó en un trozo posterior al de la actualización (se puede competir
   con velocidad y propina); 25% (≈ $24k) iba empaquetado con la actualización (misma propina, subasta OEV: no hay carrera); 9% ambiguo;
