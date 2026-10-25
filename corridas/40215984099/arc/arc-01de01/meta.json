@@ -1,0 +1,273 @@
+{
+  "archive_disabled": false,
+  "chain": "arc",
+  "elapsed_s": 1735.6,
+  "enriched": 1,
+  "errors_sample": [
+    "enriquecimiento: RpcError: eth_getTransactionByHash: resultado nulo en rpc.mainnet.arc.io",
+    "enriquecimiento: RpcError: eth_getTransactionByHash: resultado nulo en rpc.mainnet.arc.io",
+    "enriquecimiento: RpcError: eth_getTransactionByHash: resultado nulo en rpc.mainnet.arc.io",
+    "enriquecimiento: RpcError: eth_getTransactionByHash: resultado nulo en rpc.mainnet.arc.io"
+  ],
+  "events": 5,
+  "events_complete": true,
+  "events_cover_block": 27819506,
+  "fatal_error": null,
+  "interrupted": false,
+  "native_trace_sources": {
+    "no_medido": 1,
+    "sin_enriquecer": 3
+  },
+  "oracle_contracts_watched": 3,
+  "oracle_status": {},
+  "phases_s": {
+    "enriquecimiento": 3.7,
+    "eventos": 966.7,
+    "evidencia": 2.0,
+    "metadatos": 3.4,
+    "oraculos": 743.2,
+    "segunda_pasada": 2.2,
+    "sonda": 6.0,
+    "ventana": 8.3
+  },
+  "price_sources": {
+    "defillama": 2,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 3684,
+  "rpc_providers": {
+    "https://rpc.blockdaemon.mainnet.arc.io": {
+      "en_rotacion": true,
+      "err": 1551,
+      "getlogs_max": 100000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 419,
+          "ok": 10
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 404,
+          "ok": 1
+        },
+        "eth_getLogs": {
+          "err": 1541,
+          "errores": {
+            "pruned history unavailable": 1541
+          },
+          "ms_prom": 421,
+          "ok": 15
+        },
+        "eth_getTransactionByHash": {
+          "err": 3,
+          "errores": {
+            "resultado nulo": 3
+          },
+          "ms_prom": 420,
+          "ok": 3
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 411,
+          "ok": 1
+        },
+        "trace_transaction": {
+          "err": 11,
+          "errores": {
+            "HTTP 403 en rpc.blockdaemon.mainnet.arc.io": 7
+          },
+          "ms_prom": 264,
+          "ok": 0
+        }
+      },
+      "ok": 30,
+      "sin_metodo": [
+        "debug_traceTransaction"
+      ]
+    },
+    "https://rpc.mainnet.arc.io": {
+      "en_rotacion": true,
+      "err": 375,
+      "getlogs_max": 10000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 108,
+          "ok": 8
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 113,
+          "ok": 70
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 101,
+          "ok": 4
+        },
+        "eth_getLogs": {
+          "err": 372,
+          "errores": {
+            "HTTP 429 en rpc.mainnet.arc.io": 372
+          },
+          "ms_prom": 110,
+          "ok": 1621
+        },
+        "eth_getTransactionByHash": {
+          "err": 3,
+          "errores": {
+            "resultado nulo": 3
+          },
+          "ms_prom": 100,
+          "ok": 0
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 99,
+          "ok": 2
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 1705,
+      "sin_metodo": [
+        "debug_traceTransaction",
+        "trace_transaction"
+      ]
+    }
+  },
+  "second_pass": {
+    "intentadas": 1,
+    "recuperadas": 0
+  },
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "method not supported: debug_traceTransaction",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "method not supported: debug_traceTransaction",
+        "ok": 0
+      },
+      "getlogs_error": "requested range too large",
+      "getlogs_max": 10000,
+      "getlogs_ms": 111,
+      "ms": 100,
+      "proveedor": "https://rpc.mainnet.arc.io",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "method not supported: trace_transaction",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "method not supported: trace_transaction",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "Method not found",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "Method not found",
+        "ok": 0
+      },
+      "getlogs_error": "pruned history unavailable",
+      "getlogs_max": 100000,
+      "getlogs_ms": 552,
+      "ms": 491,
+      "proveedor": "https://rpc.blockdaemon.mainnet.arc.io",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 403 en rpc.blockdaemon.mainnet.arc.io",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 403 en rpc.blockdaemon.mainnet.arc.io",
+        "ok": 0
+      },
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {
+    "trace_transaction: HTTP 403 en rpc.blockdaemon.mainnet.arc.io": 6
+  },
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "arc-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 4,
+  "web_calls": 3,
+  "web_sources": {
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 0.5071,
+    "days": 30.0,
+    "end_block": 27819506,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352000,
+    "lookback_block": 22528334,
+    "start_block": 22712768,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 1,
+  "with_oracle_delta": 1,
+  "with_realized": 1,
+  "with_realized_complete": 0
+}
