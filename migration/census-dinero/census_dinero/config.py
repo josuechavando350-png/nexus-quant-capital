@@ -216,6 +216,60 @@ CODELESS_PROTOCOL_ACCOUNTS = frozenset({
     "0x37305b1cd40574e4c5ce33f8e8306be057fd7341",
 })
 
+# --- Shadow Base/Morpho ------------------------------------------------------------------
+# Mercados vigilados y valores de referencia, sacados de la corrida de 30 días del census
+# (run 40141321042, 24 sep 20:00 – 24 oct 20:00 UTC, Base/Morpho): mercados con préstamo en USDC
+# y (>= 5 liquidaciones o >= $40 de bono directo). Los valores de referencia son del pasado:
+#   n          liquidaciones en 30 días        n_dir      las que NO pagaron subasta ("directas")
+#   dir_bonus  bono de las directas, USD       kept_dir   parte del bono directo que el ganador se quedó
+#   auc_n / auc_bonus  parte de las liquidaciones / del bono que fue por subasta
+# El Shadow los usa solo como supuesto declarado; lo que mide en vivo no depende de ellos.
+SHADOW_PRIORS_SOURCE = "census run 40141321042 (24 sep–24 oct 2026), Base/Morpho, 30 días"
+SHADOW_BASE_USDC = "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913"
+SHADOW_PRIOR_KEPT_ALL = 0.678       # neto/bono ponderado de las 830 liquidaciones directas con bono >= $1
+SHADOW_PRIOR_KEPT_MEDIAN = 0.80     # mediana por liquidación
+SHADOW_PRIOR_GAS_USD = 0.31         # gas mediano de una liquidación directa en Base (p90: $2.83)
+SHADOW_BASE_MARKETS = [
+    {"id": "0xd4a903dc6d949519060c7707f9604fdc9772c046e05c2e3a8fce0bd7196e4109", "label": "cbXRP/USDC lltv 62.5%",
+     "n": 778, "n_dir": 450, "dir_bonus": 59560, "kept_dir": 0.584, "auc_n": 0.36, "auc_bonus": 0.8},
+    {"id": "0x8793cf302b8ffd655ab97bd1c695dbd967807e8367a65cb2f4edaf1380ba1bda", "label": "WETH/USDC lltv 86.0%",
+     "n": 538, "n_dir": 257, "dir_bonus": 3613, "kept_dir": 0.943, "auc_n": 0.46, "auc_bonus": 0.96},
+    {"id": "0x0ca10126f6c94cbd9cf0a48cc9516ae5e3dec5aa68303e6d988ee37c5149bf0d", "label": "cbETH/USDC lltv 77.0%",
+     "n": 471, "n_dir": 392, "dir_bonus": 29272, "kept_dir": 0.876, "auc_n": 0.11, "auc_bonus": 0.02},
+    {"id": "0x09276541cfecb6920a80679a1deced4dde3ae64bf5fc2c9c1f9c21e0c152e1a5", "label": "JitoSOL/USDC lltv 62.5%",
+     "n": 217, "n_dir": 58, "dir_bonus": 129, "kept_dir": 0.53, "auc_n": 0.7, "auc_bonus": 0.99},
+    {"id": "0x7dc02ff6c536b1d49d7fba770438d79f5bd1f1c78884629b7d1aaee19675782b", "label": "SOL/USDC lltv 62.5%",
+     "n": 197, "n_dir": 42, "dir_bonus": 127, "kept_dir": 0.886, "auc_n": 0.76, "auc_bonus": 1.0},
+    {"id": "0x73527ddd796e6d4f48387adaae36f6f3d49d606d7f2a15eb0c931416a58875d8", "label": "cbDOGE/USDC lltv 62.5%",
+     "n": 135, "n_dir": 24, "dir_bonus": 13, "kept_dir": 0.184, "auc_n": 0.77, "auc_bonus": 1.0},
+    {"id": "0xd7520ad198b497b6eb75bc690268f4597630dbc12e305e9d4105843bab36e41d", "label": "cbADA/USDC lltv 62.5%",
+     "n": 85, "n_dir": 10, "dir_bonus": 15, "kept_dir": 0.031, "auc_n": 0.88, "auc_bonus": 1.0},
+    {"id": "0x9125d0fa03c3137166df68bcc72283477830de2a4a5536512374c573ad4583c3", "label": "cbLTC/USDC lltv 62.5%",
+     "n": 84, "n_dir": 21, "dir_bonus": 71, "kept_dir": 0.673, "auc_n": 0.74, "auc_bonus": 1.0},
+    {"id": "0xe458a501c1103ca3b256f2bcb45d223263fb34b6349d82675494ce3a94ce1327", "label": "cbZEC/USDC lltv 62.5%",
+     "n": 61, "n_dir": 19, "dir_bonus": 5933, "kept_dir": 0.47, "auc_n": 0.65, "auc_bonus": 0.35},
+    {"id": "0x34f676bd8db106d6cdc90d0fb44145cea2f393310a794812cb1c5a8726b60913", "label": "wbCOIN/USDC lltv 86.0%",
+     "n": 28, "n_dir": 28, "dir_bonus": 7, "kept_dir": 0.757, "auc_n": 0.0, "auc_bonus": 0.0},
+    {"id": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836", "label": "cbBTC/USDC lltv 86.0%",
+     "n": 12, "n_dir": 4, "dir_bonus": 1, "kept_dir": None, "auc_n": 0.64, "auc_bonus": 1.0},
+    {"id": "0xdaa04f6819210b11fe4e3b65300c725c32e55755e3598671559b9ae3bac453d7", "label": "AERO/USDC lltv 62.5%",
+     "n": 9, "n_dir": 7, "dir_bonus": 50, "kept_dir": 0.713, "auc_n": 0.22, "auc_bonus": 0.05},
+    {"id": "0x76629002c9fdb20fb2092053a4f22c5c65e04a81887218b9546f2a2d82b4c0a8", "label": "cbHYPE/USDC lltv 62.5%",
+     "n": 8, "n_dir": 0, "dir_bonus": 0, "kept_dir": None, "auc_n": 1.0, "auc_bonus": 1.0},
+    {"id": "0x45f3b5688e7ba25071f78d1ce51d1b893faa3c86897b12204cdff3af6b3611f8", "label": "mBASIS/USDC lltv 86.0%",
+     "n": 7, "n_dir": 5, "dir_bonus": 12, "kept_dir": 0.78, "auc_n": 0.29, "auc_bonus": 0.34},
+    {"id": "0x1c21c59df9db44bf6f645d854ee710a8ca17b479451447e9f56758aee10a2fad", "label": "cbETH/USDC lltv 86.0%",
+     "n": 5, "n_dir": 1, "dir_bonus": 44, "kept_dir": 0.971, "auc_n": 0.75, "auc_bonus": 0.05},
+    {"id": "0xb3920b96dec75b6a1144b71f963f30236fb200f3e33e93c2e9c0d222c1fa53c2", "label": "stkWELL/USDC lltv 62.5%",
+     "n": 5, "n_dir": 5, "dir_bonus": 102, "kept_dir": 0.704, "auc_n": 0.0, "auc_bonus": 0.0},
+    {"id": "0x1a3e69d0109bb1be42b80e11034bb6ee98fc466721f26845dc83b2aa8d979137", "label": "yoUSD/USDC lltv 91.5%",
+     "n": 3, "n_dir": 1, "dir_bonus": 191, "kept_dir": 1.0, "auc_n": 0.67, "auc_bonus": 0.05},
+    {"id": "0xdba352d93a64b17c71104cbddc6aef85cd432322a1446b5b65163cbbc615cd0c", "label": "cbETH/USDC lltv 86.0%",
+     "n": 2, "n_dir": 1, "dir_bonus": 198, "kept_dir": 0.952, "auc_n": 0.5, "auc_bonus": 0.01},
+    {"id": "0x3b82e29f0890186d7a66059699e522930c4cbe78ffbccb468c577daa5bc4bc10", "label": "cbZEC/USDC lltv 77.0%",
+     "n": 1, "n_dir": 1, "dir_bonus": 257, "kept_dir": 0.235, "auc_n": 0.0, "auc_bonus": 0.0},
+]
+
 # Ventana extra antes del inicio para encontrar la última actualización de
 # oráculo de las primeras liquidaciones (heartbeats de hasta 24 h).
 ORACLE_LOOKBACK_SECONDS = 26 * 3600

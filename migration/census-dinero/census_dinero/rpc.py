@@ -242,22 +242,27 @@ class Rpc:
         lims = [self.log_limit.get(u, _INF) for u in urls]
         return max(lims) if lims else 0
 
-    def call(self, method, params):
+    def call(self, method, params, *, recent=False, prefer=None):
+        """`recent`: la llamada apunta a un bloque de la punta de la cadena. Un "header not found" es
+        entonces un proveedor atrasado (se prueba el siguiente), no un proveedor sin archivo.
+        `prefer`: URL a la que se le pregunta primero (el proveedor que vio el bloque primero)."""
         if method not in ALLOWED_METHODS:
             raise ValueError(f"método no permitido en census de solo lectura: {method}")
         gate = self.gates.get(method)
         if gate is None:
-            return self._call(method, params)
+            return self._call(method, params, recent, prefer)
         with gate:
-            return self._call(method, params)
+            return self._call(method, params, recent, prefer)
 
-    def _call(self, method, params):
+    def _call(self, method, params, recent=False, prefer=None):
         last = None
-        mkey = method + ("@archive" if method == "eth_call" and params[1] != "latest" else "")
+        mkey = method + ("@archive" if method == "eth_call" and params[1] != "latest" and not recent else "")
         span = None
         if method == "eth_getLogs":
             span = int(params[0]["toBlock"], 16) - int(params[0]["fromBlock"], 16) + 1
         order = self._order(mkey, span)
+        if prefer in order:
+            order = [prefer] + [u for u in order if u != prefer]
         if not order:
             if span is not None and self.max_log_limit() > 0:
                 raise RangeTooLarge(f"ningún proveedor acepta {span} bloques en getLogs", int(self.max_log_limit()))
@@ -328,7 +333,7 @@ class Rpc:
                     last = RpcError(f"respuesta sin result: {str(resp)[:200]}")
                     self._record(url, mkey, False, dt, "respuesta sin result")
                     continue
-                if resp["result"] is None and method in _NULL_IS_MISS:
+                if resp["result"] is None and (method in _NULL_IS_MISS or (recent and method == "eth_getBlockByNumber")):
                     last = RpcError(f"{method}: resultado nulo en {host_of(url)}")
                     self._record(url, mkey, False, dt, "resultado nulo")
                     break
@@ -410,16 +415,16 @@ class Rpc:
     def block_number(self):
         return int(self.call("eth_blockNumber", []), 16)
 
-    def block(self, number):
+    def block(self, number, recent=False, prefer=None):
         tag = number if isinstance(number, str) else hex(number)
-        b = self.call("eth_getBlockByNumber", [tag, False])
+        b = self.call("eth_getBlockByNumber", [tag, False], recent=recent, prefer=prefer)
         if b is None:
             raise RpcError(f"bloque {number} no disponible")
         return b
 
-    def eth_call(self, to, data, block="latest"):
+    def eth_call(self, to, data, block="latest", recent=False, prefer=None):
         tag = block if isinstance(block, str) else hex(block)
-        return self.call("eth_call", [{"to": to, "data": data}, tag])
+        return self.call("eth_call", [{"to": to, "data": data}, tag], recent=recent, prefer=prefer)
 
     def get_logs(self, address, topics, from_block, to_block, on_progress=None, deadline=None):
         """getLogs que parte el rango cuando el proveedor lo rechaza y lo agranda cuando funciona."""
