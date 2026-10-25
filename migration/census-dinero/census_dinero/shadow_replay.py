@@ -1,0 +1,282 @@
+"""Replay histórico del Shadow (el "túnel de viento" del Omega, versión mínima). Solo lectura.
+
+Para liquidaciones que ya pasaron en Base/Morpho reconstruye, con lecturas de archivo, en qué bloque
+la posición se volvió liquidable ("cruce") y compara con el bloque en que alguien la liquidó. Esa
+distancia es el margen de tiempo que hubo: lo que decide si un actor con cierta latencia llegaba.
+
+También comprueba la matemática contra la cadena: con el estado anterior a la liquidación, el precio
+y el interés, ¿el contrato habría dado el embargo y el repago que dice el evento?
+
+Límite: solo ve posiciones que terminaron liquidadas. No sabe nada de las que se volvieron
+liquidables y se recuperaron o se quedaron sin liquidar (eso lo mide el modo en vivo).
+"""
+
+import os
+import threading
+import time
+from concurrent.futures import ThreadPoolExecutor
+
+from . import morpho as mo
+from .abi import norm
+from .config import SHADOW_PRIOR_KEPT_ALL
+from .rpc import BudgetExceeded, RpcError
+from .shadow_live import AUCTION_ENTRIES, Out, Shadow, log, make_rpc
+
+RDEFAULTS = {
+    "dias": 30, "max": 300, "top": 100, "min_bonus_usd": 5.0, "ventana_bloques": 1800, "trabajadores": 6,
+    "presupuesto_min": 40.0, "margen_cabeza": 30,
+}
+
+
+def select_events(events, markets, cfg):
+    """Las liquidaciones a reconstruir: las `top` de mayor bono y una muestra pareja del resto (determinista)."""
+    scored = []
+    for e in events:
+        info = markets.get(e["market"])
+        if info is None:
+            continue
+        bonus = e["repaid_assets"] * (info.lif - mo.WAD) / mo.WAD / 10 ** info.loan_dec * info.loan_usd
+        if bonus >= cfg["min_bonus_usd"]:
+            scored.append((bonus, e))
+    scored.sort(key=lambda x: (-x[0], x[1]["block"], x[1]["log_index"]))
+    top = scored[:cfg["top"]]
+    rest = scored[cfg["top"]:]
+    room = max(0, cfg["max"] - len(top))
+    if room and rest:
+        stride = max(1, len(rest) / room)
+        rest = [rest[int(i * stride)] for i in range(min(room, len(rest)))]
+    else:
+        rest = []
+    return [e for _, e in top + rest]
+
+
+def prior_kept(prior, min_n=30):
+    kept = prior.get("kept_dir")
+    return kept if kept is not None and prior.get("n_dir", 0) >= min_n else SHADOW_PRIOR_KEPT_ALL
+
+
+class Replay:
+    def __init__(self, shadow, out_dir, cfg=None):
+        self.sh = shadow
+        self.cfg = {**RDEFAULTS, **(cfg or {})}
+        self.out = Out(out_dir)
+        self.lock = threading.Lock()
+        self.hdr, self.stat = {}, {}
+        self.n_sondeos = 0
+
+    # -- lecturas de archivo -------------------------------------------------------------------
+    def header(self, b):
+        h = self.hdr.get(b)
+        if h is None:
+            blk = self.sh.rpc.block(b)
+            h = {"ts": int(blk["timestamp"], 16), "base_fee": int(blk.get("baseFeePerGas") or "0x0", 16)}
+            self.hdr[b] = h
+        return h
+
+    def _rate(self, info, state, b):
+        if info.params.irm == mo.ZERO:
+            return 0
+        ok, data = self.sh._single(info.params.irm, mo.call_rate(info.params, state), b, recent=False)
+        try:
+            return mo.decode_uint(data) if ok else None
+        except ValueError:
+            return None
+
+    def status(self, mid, user, b):
+        """Estado de la posición al cierre del bloque b: ¿liquidable? (con interés si está al borde)."""
+        key = (mid, user, b)
+        if key in self.stat:
+            return self.stat[key]
+        info = self.sh.markets[mid]
+        res = self.sh.mcall([(self.sh.morpho, mo.call_market(mid)), (info.params.oracle, mo.SEL_PRICE),
+                             (self.sh.morpho, mo.call_position(mid, user))], b, recent=False)
+        self.n_sondeos += 1
+        if not all(ok for ok, _ in res):
+            self.stat[key] = None
+            return None
+        state, price = mo.decode_market(res[0][1]), mo.decode_uint(res[1][1])
+        _, shares, coll = mo.decode_position(res[2][1])
+        out = {"liq": False, "ratio": None, "state": state, "price": price, "shares": shares, "coll": coll, "con_interes": False}
+        if shares > 0:
+            lltv = info.params.lltv
+            out["ratio"] = mo.health_ratio(shares, coll, price, lltv, state)
+            out["liq"] = not mo.is_healthy(shares, coll, price, lltv, state)
+            if not out["liq"] and out["ratio"] < 1 + self.sh.cfg["accrual_band"]:
+                rate = self._rate(info, state, b)
+                if rate:
+                    aged = mo.accrue(state, rate, self.header(b)["ts"])
+                    if not mo.is_healthy(shares, coll, price, lltv, aged):
+                        out["liq"], out["con_interes"] = True, True
+        self.stat[key] = out
+        return out
+
+    def find_cross(self, mid, user, b_l):
+        """Primer bloque desde el que la posición estuvo liquidable de corrido hasta la liquidación."""
+        window = self.cfg["ventana_bloques"]
+        prev = self.status(mid, user, b_l - 1)
+        if prev is None:
+            return None
+        if not prev["liq"]:
+            return {"b_c": b_l, "censurado": False}
+        hi, step, lo = b_l - 1, 1, None
+        while lo is None:
+            cand = max(hi - step, b_l - window)
+            s = self.status(mid, user, cand)
+            if s is None:
+                return None
+            if not s["liq"]:
+                lo = cand
+            else:
+                hi = cand
+                if cand <= b_l - window:
+                    return {"b_c": hi, "censurado": True}
+                step *= 2
+        while hi - lo > 1:
+            m = (lo + hi) // 2
+            s = self.status(mid, user, m)
+            if s is None:
+                return None
+            if s["liq"]:
+                hi = m
+            else:
+                lo = m
+        return {"b_c": hi, "censurado": False}
+
+    def parity(self, ev, info):
+        """¿El contrato habría dado lo que dice el evento? Estado previo + precio + interés hasta la liquidación."""
+        if ev["bad_debt_shares"] > 0:
+            return {"omitida": "deuda_mala"}
+        prev = self.status(ev["market"], ev["user"], ev["block"] - 1)
+        res = self.sh.mcall([(info.params.oracle, mo.SEL_PRICE)], ev["block"], recent=False)
+        if prev is None or not res[0][0]:
+            return {"omitida": "sin_lectura"}
+        price = mo.decode_uint(res[0][1])
+        state = prev["state"]
+        rate = self._rate(info, state, ev["block"] - 1)
+        if rate:
+            state = mo.accrue(state, rate, self.header(ev["block"])["ts"])
+        lltv = info.params.lltv
+        seized_pred, repaid_pred = mo.predict_from_repaid_shares(ev["repaid_shares"], price, lltv, state)
+        shares_pred, repaid_pred2 = mo.predict_from_seized_assets(ev["seized_assets"], price, lltv, state)
+        err_seized = abs(seized_pred - ev["seized_assets"]) / max(1, ev["seized_assets"])
+        err_shares = abs(shares_pred - ev["repaid_shares"]) / max(1, ev["repaid_shares"])
+        by_shares = err_seized <= err_shares
+        repaid = repaid_pred if by_shares else repaid_pred2
+        return {"modo": "repaid_shares" if by_shares else "seized_assets", "err_embargo": err_seized if by_shares else 0.0,
+                "err_shares": 0.0 if by_shares else err_shares,
+                "err_repago": abs(repaid - ev["repaid_assets"]) / max(1, ev["repaid_assets"]), "con_interes": bool(rate)}
+
+    def tx_info(self, h, b):
+        tx = self.sh.rpc.call("eth_getTransactionByHash", [h])
+        rc = self.sh.rpc.call("eth_getTransactionReceipt", [h])
+        if not tx or not rc:
+            return {}
+        hdr = self.header(b)
+        gas_used = int(rc["gasUsed"], 16)
+        eff = int(rc.get("effectiveGasPrice") or tx.get("gasPrice") or "0x0", 16)
+        l1 = int(rc.get("l1Fee") or "0x0", 16)
+        eth = self.sh.eth_usd()
+        to = norm(tx.get("to") or mo.ZERO)
+        return {"firmante": norm(tx["from"]), "entrada": to, "via": "subasta" if to in AUCTION_ENTRIES else "directa",
+                "gas_usd": (gas_used * eff + l1) / 1e18 * eth,
+                "propina_usd": max(0, eff - hdr["base_fee"]) * gas_used / 1e18 * eth, "eth_usd_actual": eth}
+
+    def process(self, ev, first_in_block):
+        info = self.sh.markets[ev["market"]]
+        fc = self.find_cross(ev["market"], ev["user"], ev["block"])
+        bonus = ev["repaid_assets"] * (info.lif - mo.WAD) / mo.WAD / 10 ** info.loan_dec * info.loan_usd
+        kept = prior_kept(info.prior, self.sh.cfg["prior_min_n"])
+        row = {"mercado": ev["market"], "etiqueta": info.label, "prestatario": ev["user"], "bloque_liquidacion": ev["block"],
+               "tx": ev["tx_hash"], "tx_index": ev["tx_index"], "liquidador": ev["caller"], "bono_usd": bonus,
+               "retencion_prior": kept, "neto_modelo_usd": bonus * kept, "deuda_mala": ev["bad_debt_shares"] > 0}
+        if fc is None:
+            row["sin_dato"] = True
+        else:
+            row.update(bloque_cruce=fc["b_c"], delta_bloques=ev["block"] - fc["b_c"], censurado=fc["censurado"])
+        row.update(self.tx_info(ev["tx_hash"], ev["block"]))
+        if first_in_block:
+            row["paridad"] = self.parity(ev, info)
+        return row
+
+    # -- ejecución -----------------------------------------------------------------------------
+    def run(self, events):
+        chosen = select_events(events, self.sh.markets, self.cfg)
+        first = {}
+        for e in events:
+            k = (e["market"], e["block"])
+            first[k] = min(first.get(k, e["log_index"]), e["log_index"])
+        deadline = time.monotonic() + self.cfg["presupuesto_min"] * 60
+        done, failed, skipped = [], 0, 0
+
+        def work(ev):
+            nonlocal skipped
+            if time.monotonic() > deadline:
+                skipped += 1
+                return None
+            try:
+                row = self.process(ev, first[(ev["market"], ev["block"])] == ev["log_index"])
+            except RpcError as e:
+                return {"error": self.sh.rpc.scrub(e)[:160], "tx": ev["tx_hash"], "mercado": ev["market"]}
+            with self.lock:
+                self.out.write("replay.jsonl", row)
+            return row
+        log(f"replay: {len(chosen)} liquidaciones elegidas de {len(events)}")
+        with ThreadPoolExecutor(max_workers=self.cfg["trabajadores"]) as ex:
+            for i, row in enumerate(ex.map(work, chosen)):
+                if row is None:
+                    continue
+                if "error" in row:
+                    failed += 1
+                    with self.lock:
+                        self.out.write("replay_errores.jsonl", row)
+                else:
+                    done.append(row)
+                if (i + 1) % 25 == 0:
+                    log(f"replay: {i + 1}/{len(chosen)} reconstruidas, {self.sh.rpc.calls:,} llamadas RPC")
+        return self.summary(events, chosen, done, failed, skipped)
+
+    def summary(self, events, chosen, done, failed, skipped):
+        par = [r["paridad"] for r in done if r.get("paridad") and "modo" in r["paridad"]]
+        errs = sorted(max(p["err_embargo"], p["err_shares"], p["err_repago"]) for p in par)
+        return {"eventos_en_ventana": len(events), "elegidos": len(chosen), "procesados": len(done), "fallidos": failed,
+                "omitidos_por_tiempo": skipped, "sin_dato": sum(1 for r in done if r.get("sin_dato")),
+                "censurados": sum(1 for r in done if r.get("censurado")),
+                "sondeos_de_archivo": self.n_sondeos,
+                "paridad": {"n": len(errs), "omitidas": sum(1 for r in done if r.get("paridad") and "omitida" in r["paridad"]),
+                            "max": errs[-1] if errs else None, "mediana": errs[len(errs) // 2] if errs else None,
+                            "exactas": sum(1 for x in errs if x == 0), "dentro_1e9": sum(1 for x in errs if x <= 1e-9),
+                            "dentro_1e6": sum(1 for x in errs if x <= 1e-6), "dentro_1e3": sum(1 for x in errs if x <= 1e-3)}}
+
+
+def run_replay(cfg, out_dir, rpc=None, markets=None):
+    """Punto de entrada: arma los mercados, busca las liquidaciones de la ventana y las reconstruye."""
+    rcfg = {**RDEFAULTS, **{k: v for k, v in cfg.items() if k in RDEFAULTS}}
+    rpc = rpc or make_rpc()
+    sh = Shadow(rpc, os.path.join(out_dir, "_sombra"), cfg, markets=markets).setup()
+    head = rpc.block_number() - rcfg["margen_cabeza"]
+    start = max(1, head - int(rcfg["dias"] * 86400 / sh.cfg["block_time_s"]))
+    t0 = time.monotonic()
+    log(f"replay: buscando liquidaciones en los bloques {start:,}..{head:,}")
+    deadline = time.monotonic() + max(60.0, 0.4 * rcfg["presupuesto_min"] * 60)     # la búsqueda de eventos usa hasta 40%
+    try:
+        logs = rpc.get_logs(sh.morpho, [[mo.EVENT_TOPICS["Liquidate"]], sh.ids], start, head, deadline=deadline)
+        scanned_to = head
+    except BudgetExceeded as e:
+        logs, scanned_to = e.logs, e.next_block - 1
+        log(f"replay: ventana parcial: la búsqueda llegó al bloque {scanned_to:,}")
+    events = []
+    for lg in logs:
+        try:
+            ev = mo.decode_event(lg)
+        except ValueError:
+            continue
+        if ev and ev["kind"] == "Liquidate" and not lg.get("removed"):
+            events.append(ev)
+    rp = Replay(sh, out_dir, rcfg)
+    meta = rp.run(events)
+    meta.update({"ventana": {"desde": start, "hasta_pedido": head, "hasta_leido": scanned_to, "dias": rcfg["dias"]},
+                 "config": rcfg, "segundos": round(time.monotonic() - t0, 1), "multicall_ok": sh.multicall_ok,
+                 "mercados": {i: m.label for i, m in sh.markets.items()}, "rpc": rpc.report(), "rpc_llamadas": rpc.calls})
+    rp.out.json("replay_meta.json", meta)
+    log(f"replay: listo: {meta['procesados']} reconstruidas, paridad {meta['paridad']}")
+    return meta

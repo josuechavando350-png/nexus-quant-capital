@@ -187,6 +187,8 @@ class FakeMorpho:
         else:
             shares = kw.get("repaid_shares", pos[1])
             seized = mo.mul_div_down(mo.w_mul_down(mo.to_assets_down(shares, st[2], st[3]), f), mo.ORACLE_PRICE_SCALE, price)
+        if seized > pos[2] or shares > pos[1]:
+            raise AssertionError("la prueba intenta embargar o repagar más de lo que hay")
         repaid = mo.to_assets_up(shares, st[2], st[3])
         pos[1] -= shares
         st[3] -= shares
