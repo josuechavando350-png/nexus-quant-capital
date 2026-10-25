@@ -1,0 +1,215 @@
+{
+  "archive_disabled": false,
+  "chain": "katana",
+  "elapsed_s": 47.7,
+  "enriched": 17,
+  "errors_sample": [],
+  "events": 17,
+  "events_complete": true,
+  "events_cover_block": 46201188,
+  "fatal_error": null,
+  "interrupted": false,
+  "native_trace_sources": {
+    "debug_traceTransaction": 17
+  },
+  "oracle_contracts_watched": 16,
+  "oracle_status": {
+    "sin_ver": 12
+  },
+  "phases_s": {
+    "enriquecimiento": 14.8,
+    "eventos": 2.8,
+    "evidencia": 6.4,
+    "metadatos": 10.5,
+    "oraculos": 3.8,
+    "segunda_pasada": 0.0,
+    "sonda": 2.7,
+    "ventana": 6.7
+  },
+  "price_sources": {
+    "defillama": 34,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 303,
+  "rpc_providers": {
+    "https://katana.drpc.org": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 136,
+          "ok": 24
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 139,
+          "ok": 15
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 140,
+          "ok": 20
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 293,
+          "ok": 15
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 149,
+          "ok": 22
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 141,
+          "ok": 22
+        },
+        "trace_transaction": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 2
+        }
+      },
+      "ok": 116,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    },
+    "https://rpc.katana.network": {
+      "en_rotacion": true,
+      "err": 15,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 14,
+          "errores": {
+            "HTTP 429 en rpc.katana.network": 14
+          },
+          "ms_prom": 84,
+          "ok": 64
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 87,
+          "ok": 70
+        },
+        "eth_getLogs": {
+          "err": 1,
+          "errores": {
+            "HTTP 429 en rpc.katana.network": 1
+          },
+          "ms_prom": 245,
+          "ok": 18
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 152,
+      "sin_metodo": []
+    }
+  },
+  "second_pass": {
+    "intentadas": 0
+  },
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 401 en rpc.katana.network",
+        "ok": 0
+      },
+      "getlogs_max": 2000000,
+      "getlogs_ms": 86,
+      "ms": 96,
+      "proveedor": "https://rpc.katana.network",
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 401 en rpc.katana.network",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "ok": 2
+      },
+      "getlogs_error": "HTTP 400 en katana.drpc.org",
+      "getlogs_max": 0,
+      "ms": 44,
+      "proveedor": "https://katana.drpc.org",
+      "trace_transaction_vieja": {
+        "de": 2,
+        "ok": 2
+      },
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "katana-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 17,
+  "web_calls": 50,
+  "web_sources": {
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 1.0,
+    "days": 30.0,
+    "end_block": 46201188,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352000,
+    "lookback_block": 43515589,
+    "start_block": 43609189,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 17,
+  "with_oracle_delta": 5,
+  "with_realized": 17,
+  "with_realized_complete": 17
+}
