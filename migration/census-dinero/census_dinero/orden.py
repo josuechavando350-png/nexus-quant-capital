@@ -7,6 +7,8 @@ de un bloque y mide cuántos pares consecutivos suben o bajan, dentro de cada tr
 Solo lee lo que ya devolvió el RPC (`eth_getBlockByNumber` con las transacciones completas); no toca la red.
 """
 
+from collections import Counter
+
 from .shadow_live import quantiles
 
 
@@ -30,6 +32,17 @@ def ascents(tips):
     return sum(1 for a, b in zip(xs, xs[1:]) if b > a)
 
 
+def expected_random_ascents(tips):
+    """Cuántas subidas de propina habría, en promedio, si las mismas transacciones estuvieran en orden de llegada al azar
+    (probabilidad de que dos vecinas tengan propinas distintas, entre dos: la mitad suben)."""
+    xs = [t for t in tips if t is not None]
+    n = len(xs)
+    if n < 2:
+        return 0.0
+    same = sum(c * (c - 1) for c in Counter(xs).values())
+    return (n - 1) * (1 - same / (n * (n - 1))) / 2
+
+
 def compare(a, b):
     return None if a is None or b is None else ("baja" if b < a else "igual" if b == a else "sube")
 
@@ -40,6 +53,7 @@ def analyze_order(samples, profiles=None):
     profiles = {p["bloque"]: p for p in (profiles or []) if p.get("trozos")}
     out = {"bloques": len(samples), "transacciones": quantiles([len(s["tips"]) for s in samples]),
            "ascensos_por_bloque": quantiles([ascents(s["tips"]) for s in samples]),
+           "ascensos_si_fuera_al_azar": quantiles([round(expected_random_ascents(s["tips"])) for s in samples]),
            "con_perfil": 0, "dentro": {"baja": 0, "igual": 0, "sube": 0}, "frontera": {"baja": 0, "igual": 0, "sube": 0}}
     for s in samples:
         p = profiles.get(s["bloque"])

@@ -146,6 +146,16 @@ class TestGates(unittest.TestCase):
         self.assertEqual(self.find(G, "Simulaciones")["estado"], "cumple")
         self.assertEqual(self.find(G, "Cada GO")["estado"], "cumple")
 
+    def test_go_with_only_uncertain_crossings_do_not_complete_the_comparison_gate(self):
+        lv = {"latencia": {"visto_mas_proceso_ms": {"n": 0}, "visto_ms": {"n": 0}}, "decisiones": {"por_decision": {"GO": 2}},
+              "go": {"n": 2, "cerrados": 2, "destino": {"expirada": 2}, "con_cruce_incierto": 2},
+              "calidad": {"contadores": {}}, "liquidaciones": {"clases": {}}}
+        gate = self.find(sr.gates(lv, None, {"eth_call"}), "Cada GO")
+        self.assertEqual(gate["estado"], "parcial")
+        self.assertIn("cruce incierto", gate["evidencia"])
+        lv["go"] = {"n": 3, "cerrados": 3, "destino": {"expirada": 2, "liquidada": 1}, "con_cruce_incierto": 2}      # uno sí midió una carrera
+        self.assertEqual(self.find(sr.gates(lv, None, {"eth_call"}), "Cada GO")["estado"], "cumple")
+
     def test_divergences_fail_the_simulations_gate(self):
         lv = {"latencia": {"visto_mas_proceso_ms": {"n": 0}, "visto_ms": {"n": 0}}, "decisiones": {"por_decision": {}},
               "go": {"n": 0, "cerrados": 0, "destino": {}}, "calidad": {"contadores": {"deriva_reconciliacion": 2}},

@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from census_dinero import shadow_report as sr  # noqa: E402
-from census_dinero.orden import analyze_order, ascents, block_tips  # noqa: E402
+from census_dinero.orden import analyze_order, ascents, block_tips, expected_random_ascents  # noqa: E402
 from test_shadow_live import Env, U  # noqa: E402
 from test_shadow_replay import replay, scenario  # noqa: E402
 
@@ -40,6 +40,30 @@ class TestBlockTips(unittest.TestCase):
     def test_ascents_ignore_deposits_and_only_count_strict_rises(self):
         self.assertEqual(ascents([None, 5, 5, 3, 4, 4, 1, 9]), 2)
         self.assertEqual(ascents([]), 0)
+
+
+class TestRandomBaseline(unittest.TestCase):
+    def test_expected_rises_in_a_random_order(self):
+        self.assertEqual(expected_random_ascents([None, 5]), 0.0)
+        self.assertEqual(expected_random_ascents([7, 7, 7, 7]), 0.0)                     # todas iguales: nunca suben
+        self.assertAlmostEqual(expected_random_ascents([1, 2]), 0.5)                      # un par distinto: sube la mitad de las veces
+        self.assertAlmostEqual(expected_random_ascents([1, 2, 3]), 1.0)                   # 2 pares vecinos, todos distintos
+        # coincide con simular muchas mezclas
+        import random
+        rnd = random.Random(3)
+        tips = [0] * 30 + [5] * 10 + [9] * 5 + list(range(100, 110))
+        sim = []
+        for _ in range(400):
+            ys = tips[:]
+            rnd.shuffle(ys)
+            sim.append(ascents(ys))
+        self.assertAlmostEqual(sum(sim) / len(sim), expected_random_ascents(tips), delta=1.0)
+
+    def test_the_summary_compares_real_and_random_rises(self):
+        tips = [None] + sorted([0] * 30 + [5] * 10 + [9] * 5 + list(range(100, 110)), reverse=True)
+        out = analyze_order([{"bloque": 1, "tips": tips}])
+        self.assertEqual(out["ascensos_por_bloque"]["p50"], 0)
+        self.assertGreater(out["ascensos_si_fuera_al_azar"]["p50"], 5)
 
 
 class TestAnalyzeOrder(unittest.TestCase):

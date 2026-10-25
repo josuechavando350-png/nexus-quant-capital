@@ -493,8 +493,10 @@ def gates(live, replay, methods):
         G.append(gate("Cada GO comparado con lo que ocurrió", "sin_datos", "ningún GO en la ventana en vivo"))
     else:
         open_ = go["n"] - go["cerrados"]
-        G.append(gate("Cada GO comparado con lo que ocurrió", "cumple" if open_ == 0 else "parcial",
-                      f"{go['cerrados']} de {go['n']} GO con desenlace conocido ({', '.join(f'{k} {v}' for k, v in sorted(go['destino'].items()))})"))
+        certain = go["n"] - go.get("con_cruce_incierto", 0)          # los de cruce incierto (ya liquidables al arrancar) no miden una carrera
+        G.append(gate("Cada GO comparado con lo que ocurrió", "cumple" if open_ == 0 and certain > 0 else "parcial",
+                      f"{go['cerrados']} de {go['n']} GO con desenlace conocido ({', '.join(f'{k} {v}' for k, v in sorted(go['destino'].items()))})"
+                      + ("" if certain else "; todos con cruce incierto (ya eran liquidables al arrancar): no miden una carrera")))
 
     # Reorganizaciones
     if not live:
@@ -823,9 +825,9 @@ def render(res):
         oh = res.get("orden_historico")
         if oh and oh["bloques"]:
             L.append(f"Orden de propinas en {oh['bloques']} bloques llenos (mediana {num(oh['transacciones']['p50'])} transacciones): la propina sube de una "
-                     f"transacción a la siguiente {num(oh['ascensos_por_bloque']['p50'])} veces por bloque (mediana; p90 {num(oh['ascensos_por_bloque']['p90'])}). "
-                     "Si cada trozo se ordena por prioridad, los ascensos son del orden de uno por trozo (~10) más los de transacciones que dependen "
-                     "de otra del mismo remitente; si el orden fuera de llegada, serían muchos más.")
+                     f"transacción a la siguiente {num(oh['ascensos_por_bloque']['p50'])} veces por bloque (mediana; p90 {num(oh['ascensos_por_bloque']['p90'])}); "
+                     f"con las mismas propinas en orden de llegada al azar subiría ≈ {num(oh['ascensos_si_fuera_al_azar']['p50'])} veces. "
+                     "Un orden por prioridad dentro de cada trozo solo deja subidas al empezar cada trozo (~10) y las de transacciones que dependen de otra del mismo remitente.")
         for addr, feeds in list(dg["oraculos"].items())[:4]:
             L.append(f"- Oráculo {short(addr)}: " + ", ".join(f"{g} = {d[0] or '?'} ({short(d[1])})" for g, d in feeds.items()))
         if dg["errores"]:
