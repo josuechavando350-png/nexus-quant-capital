@@ -44,6 +44,10 @@ Tres trabajos (los dos primeros en paralelo):
 | `shadow_report` | Junta ambos y escribe `RESUMEN_SHADOW.md` y `shadow.json`. | `corridas/<run>/shadow-reporte-<run>/` y `shadow/ultimo/` |
 
 `{"modo": "shadow_reporte", "corrida": <run_id>}` rehace solo el reporte de una corrida anterior.
+El vivo, el replay y la lupa del oráculo pueden venir de corridas distintas (el vivo largo de una,
+el replay de otra): `"corrida"` es la del vivo; `"corrida_replay"` y `"corrida_lupa"` (opcionales, por
+omisión la misma) son las del replay y de la carpeta con `diag.jsonl`. El reporte deja en
+`fuentes.txt` de qué corrida salió cada parte. Los ids son números (acaban en una ruta del workflow).
 El libro de prestatarios queda guardado en `shadow/cache/libro.json` para que la siguiente
 corrida arranque en minutos en vez de releer 30 días de eventos.
 

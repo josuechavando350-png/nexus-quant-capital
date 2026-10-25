@@ -71,6 +71,20 @@ class TestPlan(unittest.TestCase):
         p = parse(run_main("plan", "--run-json", write_json({"modo": "shadow_reporte", "corrida": 123}))[1])
         self.assertEqual((p["modo"], p["fuente"], p["vivo"], p["replay"]), ("shadow_reporte", "123", "false", "false"))
 
+    def test_shadow_report_mode_can_take_replay_and_lupa_from_other_runs(self):
+        p = parse(run_main("plan", "--run-json", write_json({"modo": "shadow_reporte", "corrida": 123,
+                                                              "corrida_replay": 456, "corrida_lupa": "789"}))[1])
+        self.assertEqual((p["fuente"], p["fuente_replay"], p["fuente_lupa"]), ("123", "456", "789"))
+        p = parse(run_main("plan", "--run-json", write_json({"modo": "shadow_reporte", "corrida": 123}))[1])
+        self.assertEqual((p["fuente_replay"], p["fuente_lupa"]), ("", ""))             # por omisión, todo de la misma corrida
+        p = parse(run_main("plan", "--run-json", write_json({"modo": "shadow", "corrida_replay": 456}))[1])
+        self.assertEqual((p["fuente_replay"], p["fuente_lupa"]), ("", ""))             # fuera de shadow_reporte no se usan
+
+    def test_a_source_run_id_must_be_a_number(self):
+        # el id acaba en una ruta del workflow: que no sea un número es un error, no una ruta
+        with self.assertRaises(ValueError):
+            run_main("plan", "--run-json", write_json({"modo": "shadow_reporte", "corrida": 1, "corrida_replay": "../x"}))
+
     def test_census_modes_are_untouched(self):
         p = parse(run_main("plan", "--run-json", write_json({"modo": "reporte", "corrida": 5}))[1])
         self.assertEqual((p["modo"], p["fuente"]), ("reporte", "5"))
@@ -101,6 +115,30 @@ class TestShadowReportCommand(unittest.TestCase):
         code, text = run_main("shadow-report", "--live", env.out, "--out", out)
         self.assertEqual(code, 0)
         self.assertIn("Sin datos del replay", text)
+        self.assertIn("este reporte no incluye un replay", text)           # y las puertas lo dicen, sin culpar al replay
+
+    def test_the_oracle_lupa_can_come_from_another_run_folder(self):
+        env, _, _ = scenario()
+        env.sh.finish()
+        _, _, rdir = replay(env, min_bonus_usd=1)                              # filas del replay, sin lupa
+        _, _, ldir = replay(env, min_bonus_usd=0.1, diag=5)                    # otra corrida: con lupa
+        self.assertFalse(os.path.exists(os.path.join(rdir, "diag.jsonl")))
+        self.assertTrue(os.path.exists(os.path.join(ldir, "diag.jsonl")))
+        run_json = write_json({"modo": "shadow", "shadow": {"config": {"min_bonus_usd": 1, "min_net_usd": 0}}})
+        out = tempfile.mkdtemp()
+        run_main("shadow-report", "--live", env.out, "--replay", rdir, "--run-json", run_json, "--out", out)
+        with open(os.path.join(out, "shadow.json")) as fh:
+            self.assertIsNone(json.load(fh)["diagnostico"])
+        out = tempfile.mkdtemp()
+        code, text = run_main("shadow-report", "--live", env.out, "--replay", rdir, "--diag", ldir,
+                              "--run-json", run_json, "--out", out)
+        self.assertEqual(code, 0)
+        with open(os.path.join(out, "shadow.json")) as fh:
+            data = json.load(fh)
+        self.assertEqual(data["replay"]["ganables"]["elegibles"], 2)           # las filas siguen siendo las del replay
+        self.assertGreaterEqual(data["diagnostico"]["n"], 1)                   # y la lupa viene de la otra carpeta
+        self.assertEqual(data["fuentes"]["lupa"]["filas"], data["diagnostico"]["n"] + data["diagnostico"]["errores"])
+        self.assertIn("Diagnóstico del oráculo", text)
 
 
 class TestReadOnlyGuard(unittest.TestCase):

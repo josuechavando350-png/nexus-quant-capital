@@ -134,9 +134,10 @@ def main(argv=None):
     r_.add_argument("--run-json", required=True)
     r_.add_argument("--out", required=True)
 
-    sr_ = sub.add_parser("shadow-report", help="junta el vivo y el replay en RESUMEN_SHADOW.md y shadow.json")
+    sr_ = sub.add_parser("shadow-report", help="junta el vivo, el replay y la lupa en RESUMEN_SHADOW.md y shadow.json")
     sr_.add_argument("--live")
     sr_.add_argument("--replay")
+    sr_.add_argument("--diag", help="carpeta con diag.jsonl de otra corrida (por defecto, la del replay)")
     sr_.add_argument("--run-json")
     sr_.add_argument("--out", required=True)
 
@@ -156,6 +157,9 @@ def main(argv=None):
             _, _, live_on, replay_on = shadow_settings(cfg)
             print(f"modo={cfg['modo']}")
             print(f"fuente={int(cfg['corrida']) if cfg['modo'] == 'shadow_reporte' else ''}")
+            # El reporte puede tomar el replay y la lupa del oráculo de otras corridas (por omisión, de `corrida`).
+            for key, name in (("corrida_replay", "fuente_replay"), ("corrida_lupa", "fuente_lupa")):
+                print(f"{name}={int(cfg[key]) if cfg['modo'] == 'shadow_reporte' and cfg.get(key) else ''}")
             print(f"vivo={'true' if live_on and cfg['modo'] == 'shadow' else 'false'}")
             print(f"replay={'true' if replay_on and cfg['modo'] == 'shadow' else 'false'}")
             print('matrix={"include":[{"chain":"ninguna","label":"sin-recoleccion"}]}')
@@ -229,7 +233,7 @@ def main(argv=None):
             with open(args.run_json) as fh:
                 live_cfg, replay_cfg, _, _ = shadow_settings(json.load(fh))
             cfg = {k: v for k, v in {**replay_cfg, **live_cfg}.items() if k in ("min_bonus_usd", "min_net_usd", "submit_ms")}
-        print(shadow_report.write(shadow_report.build(args.live, args.replay, cfg), args.out))
+        print(shadow_report.write(shadow_report.build(args.live, args.replay, cfg, diag_dir=args.diag), args.out))
         return 0
     recs, metas = load(args.inputs)
     expected = None

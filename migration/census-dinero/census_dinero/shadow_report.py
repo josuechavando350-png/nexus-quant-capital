@@ -467,7 +467,9 @@ def gates(live, replay, methods):
                       f"p50 {num(t['p50'])} ms, p90 {num(t['p90'])} ms, p99 {num(t['p99'])} ms (n={t['n']}); medida desde GitHub Actions, no desde la infraestructura de Titan"))
 
     # Detección competitiva
-    if not replay or not replay["ganables"]["elegibles"]:
+    if not replay:
+        G.append(gate("Detección competitiva (replay)", "sin_datos", "este reporte no incluye un replay"))
+    elif not replay["ganables"]["elegibles"]:
         G.append(gate("Detección competitiva (replay)", "sin_datos", "el replay no produjo liquidaciones directas elegibles"))
     else:
         g = replay["ganables"]
@@ -475,7 +477,9 @@ def gates(live, replay, methods):
                       f"{g['elegibles']} liquidaciones directas elegibles reconstruidas; versión mínima del túnel (cruce → liquidación), no reproduce NQC completo"))
 
     # Economía
-    if not replay or not replay["ganables"]["elegibles"]:
+    if not replay:
+        G.append(gate("Economía con costos completos", "sin_datos", "este reporte no incluye un replay"))
+    elif not replay["ganables"]["elegibles"]:
         G.append(gate("Economía con costos completos", "sin_datos", "sin liquidaciones elegibles"))
     else:
         G.append(gate("Economía con costos completos", "parcial",
@@ -499,7 +503,9 @@ NOT_PROVEN = (
 
 
 # --- Armado -----------------------------------------------------------------------------
-def build(live_dir=None, replay_dir=None, cfg=None):
+def build(live_dir=None, replay_dir=None, cfg=None, diag_dir=None):
+    """Junta el vivo, el replay y la lupa del oráculo; cada parte puede venir de una corrida distinta.
+    La lupa (diag.jsonl, diag_oraculos.json) se lee de `diag_dir`, o del replay si no se indica."""
     cfg = {"min_bonus_usd": DEFAULTS["min_bonus_usd"], "min_net_usd": DEFAULTS["min_net_usd"], **(cfg or {})}
     res = {"generado": time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime()), "config": cfg, "fuentes": {},
            "supuestos": {"priors": SHADOW_PRIORS_SOURCE, "submit_ms": cfg.get("submit_ms", DEFAULTS["submit_ms"]),
@@ -528,10 +534,12 @@ def build(live_dir=None, replay_dir=None, cfg=None):
             replay = analyze_replay(rows, errs, replay_meta, cfg)
     res["vivo"], res["replay"] = live, replay
     res["diagnostico"] = None
-    if replay_dir and os.path.isdir(replay_dir):
-        drows, _ = read_jsonl(os.path.join(replay_dir, "diag.jsonl"))
+    diag_dir = diag_dir or replay_dir
+    if diag_dir and os.path.isdir(diag_dir):
+        drows, _ = read_jsonl(os.path.join(diag_dir, "diag.jsonl"))
         if drows:
-            res["diagnostico"] = analyze_diag(drows, read_json(os.path.join(replay_dir, "diag_oraculos.json")))
+            res["diagnostico"] = analyze_diag(drows, read_json(os.path.join(diag_dir, "diag_oraculos.json")))
+            res["fuentes"]["lupa"] = {"filas": len(drows)}
     res["metodos_rpc"] = sorted(rpc_methods(live_meta, replay_meta))
     res["puertas"] = gates(live, replay, set(res["metodos_rpc"]))
     res["no_prueba"] = list(NOT_PROVEN)
