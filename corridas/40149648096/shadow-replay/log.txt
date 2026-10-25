@@ -1,0 +1,25 @@
+[01:11:40] shadow: multicall verificado
+[01:11:41] shadow: 19 mercados vigilados, 0 excluidos
+[01:11:41] replay: buscando liquidaciones en los bloques 51,754,647..53,050,647
+[01:19:36] replay: buscando Borrow desde el bloque 47,866,647 para medir la cobertura del libro
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/__main__.py", line 246, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/__main__.py", line 221, in main
+    shadow_replay.run_replay(replay_cfg, args.out)
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/shadow_replay.py", line 324, in run_replay
+    blogs = rpc.get_logs(sh.morpho, [[mo.EVENT_TOPICS["Borrow"]], sh.ids], b_start, scanned_to,
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 450, in get_logs
+    logs = self.call("eth_getLogs", [flt])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 253, in call
+    return self._call(method, params, recent, prefer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 354, in _call
+    raise range_error                       # get_logs lo maneja reduciendo el rango
+    ^^^^^^^^^^^^^^^^^
+census_dinero.rpc.RpcError: pruned history unavailable: requested 47866647, earliest available 51500000
