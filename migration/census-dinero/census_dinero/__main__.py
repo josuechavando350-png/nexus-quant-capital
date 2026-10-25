@@ -8,6 +8,7 @@
   python -m census_dinero shadow --run-json run.json --out out/shadow-vivo --cache cache/libro.json
   python -m census_dinero replay --run-json run.json --out out/shadow-replay
   python -m census_dinero shadow-report --live out/shadow-vivo --replay out/shadow-replay --out reporte
+  python -m census_dinero shadow-acumulado --resultados /tmp/res --desde 40207318890 --out acumulado
 """
 
 import argparse
@@ -141,7 +142,19 @@ def main(argv=None):
     sr_.add_argument("--run-json")
     sr_.add_argument("--out", required=True)
 
+    ac_ = sub.add_parser("shadow-acumulado", help="junta varias corridas en vivo: peleables, ventana frente al ganador, holgura y rivales")
+    ac_.add_argument("--live", nargs="*", default=[], help="carpetas shadow-vivo")
+    ac_.add_argument("--resultados", help="copia local de la rama de resultados: toma corridas/<id>/shadow-vivo")
+    ac_.add_argument("--desde", help="con --resultados, solo las corridas con id mayor o igual")
+    ac_.add_argument("--min-bono", type=float, default=1.0)
+    ac_.add_argument("--out", required=True)
+
     args = ap.parse_args(argv)
+    if args.cmd == "shadow-acumulado":
+        from . import shadow_acumulado as sa
+        dirs = list(args.live) + (sa.run_dirs(args.resultados, args.desde) if args.resultados else [])
+        print(sa.write(sa.acumulado(dirs, min_bono=args.min_bono), args.out))
+        return 0
     if args.cmd == "plan":
         with open(args.run_json) as fh:
             cfg = json.load(fh)

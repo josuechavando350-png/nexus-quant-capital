@@ -150,7 +150,7 @@ class TestReadOnlyGuard(unittest.TestCase):
     def test_shadow_sources_have_no_signing_or_sending(self):
         base = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "census_dinero")
         for name in ("shadow_live.py", "shadow_replay.py", "shadow_report.py", "morpho.py", "flash_watch.py", "flash_eval.py",
-                     "flash_stream.py", "flash_fast.py", "ws.py", "orden.py", "flash_probe.py"):
+                     "flash_stream.py", "flash_fast.py", "ws.py", "orden.py", "flash_probe.py", "shadow_acumulado.py"):
             with open(os.path.join(base, name), encoding="utf-8") as fh:
                 src = fh.read()
             for word in self.FORBIDDEN:

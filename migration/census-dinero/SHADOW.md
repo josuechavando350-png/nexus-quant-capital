@@ -251,7 +251,13 @@ Replay de 30 días (corrida `40190198885`: **todas** las liquidaciones con bono 
 - **Piso económico**: con el umbral de GO en $0.05 (v6), dos posiciones de ≈ $0.5 y $0.15 de bono, liquidables desde antes de arrancar la v5 y
   todavía en la v6 (más de 2 h), nadie las liquidó: el piso del mercado está por encima de ~$0.5 de bono.
 
+- **El dinero se concentra en pocos días.** En los 30 días del replay, un solo día (≈ 8–9 oct) tuvo 701 de las 1,213 liquidaciones con bono ≥ $10 (55% del bono), los 5 días más movidos el 88%, y el día mediano tuvo **una**; 12 de 30 días no tuvieron ninguna. En vivo, 13 h repartidas en 12 corridas (todas en días tranquilos) vieron 2 liquidaciones reales. Para medir la carrera en vivo hay que estar observando cuando el mercado se mueve: por eso el Shadow se encadena (abajo).
+
 No es una certificación: la latencia es la de un servidor de Actions, no se midió el envío ni la inclusión, y la muestra en vivo es pequeña.
+
+## Observación continua y acumulado
+
+Una corrida en vivo dura ~5.5 h. Para no perderse los días movidos, las corridas se encadenan (una tarea programada lanza la siguiente cuando termina la anterior; nunca se empuja `run.json` con una corrida en curso porque la cancelaría). `python -m census_dinero shadow-acumulado --resultados <copia de la rama de resultados> --desde <corrida>` junta todas las corridas en vivo y cuenta lo que hace falta para decidir: liquidaciones peleables (directas y el ganador en un trozo posterior al de la actualización), la ventana medida por WebSocket entre la actualización y el ganador, si con lo que tardamos en decidir más 20 ms supuestos de red habríamos llegado a tiempo para el trozo del ganador (cota optimista: el trozo cierra un poco antes de publicarse y dentro del trozo gana la propina más alta), la holgura de los cruces que vio la vía rápida y los rivales. La meta de muestra es de 20 casos peleables con bono ≥ $1 y ventana medida. GitHub Actions es para construir y probar: unos días de prueba están bien; observar semanas sin parar debería ir en un servidor propio.
 
 ## Qué cubre del Omega y qué no
 
