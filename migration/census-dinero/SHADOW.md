@@ -130,6 +130,11 @@ decidimos más tarde que el ganador) quedan contadas aparte.
 Es la medida correcta de "llegar a tiempo", pero sigue siendo la visión de un servidor de GitHub Actions: no
 mide el envío ni el orden de prioridad (propina) dentro del trozo.
 
+**Conexiones persistentes.** Todos los clientes RPC del Shadow reutilizan la conexión (`rpc.KeepAlive`, HTTP/1.1
+keep-alive por hilo). Antes cada consulta abría TCP y TLS de nuevo (~3 viajes de ida y vuelta) y la latencia medida
+salía ~3 veces peor que la de un sistema real. Con conexiones persistentes, desde Actions: ver un trozo nuevo del
+bloque pendiente ~16 ms, leer el estado pendiente ~35 ms, procesar un bloque sellado ~365 ms (mediana).
+
 ## Replay (túnel de viento mínimo)
 
 Para una muestra de liquidaciones de los últimos días (las 100 de mayor bono más una muestra pareja
