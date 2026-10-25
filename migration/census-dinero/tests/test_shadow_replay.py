@@ -230,6 +230,9 @@ class TestDiagnostic(unittest.TestCase):
         self.assertNotEqual(by[b - 1]["precio"], by[b]["precio"])
         self.assertNotEqual(by[b - 1]["feeds"]["BASE_FEED_1"]["ronda"], by[b]["feeds"]["BASE_FEED_1"]["ronda"])
         self.assertEqual(d["actualizacion_previa"]["tx_index"], 0)                  # la actualización fue la transacción 0 del bloque
+        self.assertEqual(d["actualizacion_previa"]["valor_wei"], 0)
+        self.assertEqual(d["actualizacion_previa"]["n_logs"], 1)                    # el recibo trae su log (AnswerUpdated del feed)
+        self.assertEqual(len(d["actualizacion_previa"]["logs"]), 1)
         self.assertEqual(d["tx_index"], 1)                                          # y la liquidación la 1
         with open(os.path.join(out, "diag_oraculos.json")) as fh:
             orc = list(json.load(fh).values())[0]

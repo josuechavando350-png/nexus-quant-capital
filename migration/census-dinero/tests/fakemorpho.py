@@ -248,7 +248,7 @@ class FakeMorpho:
                            "feeds": {k: (v["feed_round"], v["feed_updated"]) for k, v in self.markets.items()}}
 
     def _state_at(self, tag):
-        n = self.head if tag == "latest" else int(tag, 16)
+        n = self.head if tag in ("latest", "pending") else int(tag, 16)        # el pendiente de la falsa es el último sellado
         if n > self.head:
             raise RpcError("header not found", -32000)
         if self.archive_blocks is not None and self.head - n > self.archive_blocks:

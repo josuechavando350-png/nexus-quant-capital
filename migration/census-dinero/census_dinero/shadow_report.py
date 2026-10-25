@@ -267,7 +267,7 @@ def analyze_diag(diag_rows, oracles=None):
 
 
 # --- En vivo ----------------------------------------------------------------------------
-def analyze_live(bloques, decisiones, resultados, sistema, cercanas, meta, cfg):
+def analyze_live(bloques, decisiones, resultados, sistema, cercanas, meta, cfg, cruces=None):
     meta = meta or {}
     out = {}
     numbers = sorted({b["bloque"] for b in bloques})
@@ -338,6 +338,20 @@ def analyze_live(bloques, decisiones, resultados, sistema, cercanas, meta, cfg):
                            "reaccion_ms": quantiles([r["flash"]["reaccion_ms"] for r in rows if "reaccion_ms" in r["flash"]]),
                            "t_liquidacion_ms": quantiles([r["flash"]["t_liquidacion_ms"] for r in rows if "t_liquidacion_ms" in r["flash"]])}
         out["flash"] = {"n": len(fl), "grupos": groups, "watcher": meta.get("flashblocks")}
+    if cruces is not None or meta.get("flash_evaluador"):
+        fc = cruces or []
+        liquidated = [r for r in fc if r.get("resultado") == "liquidada"]
+        with_slack = [r for r in liquidated if r.get("holgura_ms") is not None]
+        out["flash_cruces"] = {
+            "n": len(fc), "go": sum(1 for r in fc if r.get("decision") == "GO"),
+            "resultados": dict(Counter(r.get("resultado") for r in fc)),
+            "decision_ms": quantiles([r["decision_ms"] for r in fc if r.get("decision_ms") is not None]),
+            "mismo_trozo": sum(1 for r in liquidated if r.get("mismo_trozo")),
+            "holgura": {"n": len(with_slack), "positivas": sum(1 for r in with_slack if r["holgura_ms"] > 0),
+                        "ms": quantiles([r["holgura_ms"] for r in with_slack]),
+                        "bono_usd": sum(r["bono_usd"] for r in with_slack), "bono_positivo_usd": sum(r["bono_usd"] for r in with_slack if r["holgura_ms"] > 0)},
+            "liquidaciones_sin_cruce_visto": sum(1 for r in liqs if "flash_cruce" in r and r["flash_cruce"] is None),
+            "evaluador": meta.get("flash_evaluador")}
     dropped = [r for r in liqs if r.get("resultado") == "liquidada" and r.get("decision") != "GO" and way(r) == "directa"
                and r["bono_usd"] >= cfg["min_bonus_usd"]]
     dropped.sort(key=lambda r: -r["bono_usd"])
@@ -500,8 +514,11 @@ def build(live_dir=None, replay_dir=None, cfg=None):
         live_meta = read_json(os.path.join(live_dir, "meta.json"))
         res["fuentes"]["vivo"] = {"bloques": len(b), "decisiones": len(d), "resultados": len(r), "lineas_cortadas": bad1 + bad2 + bad3 + bad4 + bad5,
                                   "meta": live_meta is not None}
+        crs, bad6 = read_jsonl(os.path.join(live_dir, "flash_cruces.jsonl"))
+        cruces = crs if (crs or os.path.exists(os.path.join(live_dir, "flash_cruces.jsonl"))) else None
+        res["fuentes"]["vivo"]["lineas_cortadas"] += bad6
         if b or d or r or live_meta:
-            live = analyze_live(b, d, r, s, cc, live_meta, cfg)
+            live = analyze_live(b, d, r, s, cc, live_meta, cfg, cruces)
     if replay_dir and os.path.isdir(replay_dir):
         rows, bad1 = read_jsonl(os.path.join(replay_dir, "replay.jsonl"))
         errs, bad2 = read_jsonl(os.path.join(replay_dir, "replay_errores.jsonl"))
@@ -730,6 +747,21 @@ def render(res):
                          + (f"; en {g['con_actualizacion_por_subasta']} la actualización pasó por la subasta de oráculo (OEV)"
                             if g["con_actualizacion_por_subasta"] else "") + "." +
                          (f" Reacción tras la actualización: mediana {ms(r_['p50'])}, p90 {ms(r_['p90'])}." if r_["n"] else ""))
+        fe = lv.get("flash_cruces")
+        if fe:
+            ev_ = fe.get("evaluador") or {}
+            L.append(f"- Evaluador del estado pendiente: {fe['n']} cruces vistos antes de sellarse el bloque ({fe['go']} GO); decidimos "
+                     f"{ms(fe['decision_ms']['p50'])} después de ver el trozo (p90 {ms(fe['decision_ms']['p90'])}); lectura del estado pendiente "
+                     f"p50 {ms((ev_.get('lectura_pendiente_ms') or {}).get('p50'))}. Desenlace: "
+                     + (", ".join(f"{k} {n}" for k, n in sorted(fe["resultados"].items())) or "ninguno") + ".")
+            h = fe["holgura"]
+            if h["n"]:
+                L.append(f"- Holgura frente al ganador (nuestra transacción habría llegado {num(ev_.get('supuesto_envio_ms'))} ms después de decidir): "
+                         f"positiva en {h['positivas']} de {h['n']} (bono {usd(h['bono_positivo_usd'])} de {usd(h['bono_usd'])}); "
+                         f"mediana {ms(h['ms']['p50'])}; el ganador entró en el mismo trozo en que lo vimos en {fe['mismo_trozo']}.")
+            if fe["liquidaciones_sin_cruce_visto"]:
+                L.append(f"- {fe['liquidaciones_sin_cruce_visto']} liquidaciones reales no se vieron cruzar antes en el estado pendiente "
+                         f"(el precio y la liquidación llegaron en el mismo trozo).")
         if lv["descartadas_que_pasaron"]:
             L += ["", "Directas que descartamos y alguien liquidó:", ""]
             L += table(["Mercado", "Razón del NO-GO", "Bono", "Bloques"],

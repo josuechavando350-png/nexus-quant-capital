@@ -16,8 +16,9 @@ from .sonda import raw_call
 
 
 class FlashWatcher:
-    def __init__(self, rpc, url, interval=0.05, keep_blocks=8, wall=time.time, mono=time.monotonic, sleep=time.sleep):
+    def __init__(self, rpc, url, interval=0.05, keep_blocks=8, wall=time.time, mono=time.monotonic, sleep=time.sleep, on_chunk=None):
         self.rpc, self.url, self.interval, self.keep = rpc, url, interval, keep_blocks
+        self.on_chunk = on_chunk            # on_chunk(número de bloque pendiente, número de trozo, hora): trozo nuevo visto
         self.wall, self.mono, self.sleep = wall, mono, sleep
         self.lock = threading.Lock()
         self.blocks = OrderedDict()         # número -> {"t0", "first": {hash: (hora, trozo)}, "chunks": [(hora, transacciones)]}
@@ -58,6 +59,7 @@ class FlashWatcher:
         """Registra una foto del bloque pendiente: las transacciones nuevas reciben la hora y el número de trozo."""
         if not txs:
             return
+        notify = None
         with self.lock:
             b = self.blocks.get(number)
             if b is None:
@@ -75,6 +77,9 @@ class FlashWatcher:
             b["n"], b["last"] = len(txs), txs[-1]
             if new:
                 b["chunks"].append((t, len(txs)))
+                notify = (number, chunk, t)
+        if notify and self.on_chunk:
+            self.on_chunk(*notify)
 
     def seen(self, number, tx_hash):
         """(hora de la primera foto en que apareció, número de trozo) o None si nunca se vio."""

@@ -197,6 +197,31 @@ class TestFlashSection(unittest.TestCase):
         self.assertNotIn("flash", none)
 
 
+class TestFlashCrossings(unittest.TestCase):
+    def test_summary_of_crossings_seen_in_the_pending_state(self):
+        cruces = [{"resultado": "liquidada", "decision": "GO", "decision_ms": 70, "holgura_ms": 40, "mismo_trozo": False, "bono_usd": 300},
+                  {"resultado": "liquidada", "decision": "GO", "decision_ms": 90, "holgura_ms": -120, "mismo_trozo": True, "bono_usd": 100},
+                  {"resultado": "no_liquidada_en_el_bloque", "decision": "NO-GO", "decision_ms": 80, "bono_usd": 5}]
+        liqs = [{"bloque_liquidacion": 1, "tx": "0x1", "prestatario": "0xa", "etiqueta": "M", "via": "directa", "bono_usd": 400,
+                 "resultado": "liquidada_sin_aviso", "clase": "mismo_bloque", "flash_cruce": None}]
+        a = sr.analyze_live([{"bloque": 1, "ts": 1, "visto_ms": 1, "total_ms": 1}], [], liqs, [], [],
+                            {"contadores": {}, "flash_evaluador": {"lectura_pendiente_ms": {"p50": 60}, "supuesto_envio_ms": 150}}, CFG, cruces)
+        f = a["flash_cruces"]
+        self.assertEqual((f["n"], f["go"], f["mismo_trozo"], f["liquidaciones_sin_cruce_visto"]), (3, 2, 1, 1))
+        self.assertEqual((f["holgura"]["n"], f["holgura"]["positivas"], f["holgura"]["bono_positivo_usd"]), (2, 1, 300))
+        self.assertEqual(f["decision_ms"]["p50"], 80)
+        res = sr.build(None, None)
+        res["vivo"] = {**a, "ventana": {"horas": 1, "bloques": 1, "bloques_en_rango": 1, "cobertura": 1, "desde_bloque": 1, "hasta_bloque": 1}}
+        md = sr.render(res)
+        self.assertIn("Evaluador del estado pendiente: 3 cruces vistos", md)
+        self.assertIn("Holgura frente al ganador", md)
+        self.assertIn("1 liquidaciones reales no se vieron cruzar antes", md)
+
+    def test_absent_without_the_evaluator(self):
+        a = sr.analyze_live([{"bloque": 1, "ts": 1, "visto_ms": 1, "total_ms": 1}], [], [], [], [], {"contadores": {}}, CFG)
+        self.assertNotIn("flash_cruces", a)
+
+
 class TestInputs(unittest.TestCase):
     def test_read_jsonl_tolerates_a_cut_last_line(self):
         d = tempfile.mkdtemp()

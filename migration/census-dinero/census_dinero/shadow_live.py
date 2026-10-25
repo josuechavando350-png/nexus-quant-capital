@@ -62,6 +62,7 @@ DEFAULTS = {
     "bloom_sample": 40,             # aun si el bloom dice "sin logs", se piden los de 1 de cada tantos bloques para comprobarlo
     "flash_url": None,              # RPC con preconfirmaciones (Flashblocks) para medir la reacción de los ganadores dentro del bloque
     "flash_interval": 0.05,         # cada cuánto se pregunta por el bloque pendiente
+    "flash_eval": True,             # con flash_url: además, evaluar el estado pendiente en cada trozo nuevo
 }
 ORACLE_GETTERS = ("BASE_FEED_1", "BASE_FEED_2", "QUOTE_FEED_1", "QUOTE_FEED_2", "BASE_VAULT")
 AUCTION_ENTRIES = {a for c, a in KNOWN_SHARED_ENTRIES if c == "base"}
@@ -168,6 +169,12 @@ class Book:
         self.by_market = defaultdict(dict)       # mercado -> {usuario: Pos} con deuda y sincronizadas
         self.unsynced = set()
         self.drift = 0
+        self.lock = threading.RLock()            # el libro lo modifica el ciclo de bloques y lo lee el evaluador de Flashblocks
+
+    def positions_of(self, mid):
+        """Copia de las posiciones con deuda de un mercado, tomada con el candado."""
+        with self.lock:
+            return list(self.by_market.get(mid, {}).items())
 
     def is_active(self, mid, user):
         p = self.pos.get((mid, user))
@@ -180,36 +187,39 @@ class Book:
             self.by_market[mid].pop(user, None)
 
     def set_state(self, mid, user, borrow_shares, collateral, block):
-        p = self.pos.get((mid, user))
-        if p is None:
-            p = self.pos[(mid, user)] = Pos()
-        p.borrow_shares, p.collateral, p.synced = borrow_shares, collateral, block
-        self.unsynced.discard((mid, user))
-        self._index(mid, user, p)
+        with self.lock:
+            p = self.pos.get((mid, user))
+            if p is None:
+                p = self.pos[(mid, user)] = Pos()
+            p.borrow_shares, p.collateral, p.synced = borrow_shares, collateral, block
+            self.unsynced.discard((mid, user))
+            self._index(mid, user, p)
 
     def apply(self, ev):
-        key = (ev["market"], ev["user"])
-        p = self.pos.get(key)
-        if p is None:
-            p = self.pos[key] = Pos()
-        if p.synced < 0:
-            self.unsynced.add(key)
-            return "sin_sincronizar"
-        if ev["block"] <= p.synced:
-            return "ya_incluido"
-        nb, nc = p.borrow_shares + ev["d_shares"], p.collateral + ev["d_collateral"]
-        if nb < 0 or nc < 0:                      # el libro no puede estar bien: se vuelve a leer
-            self.drift += 1
-            p.synced = -1
-            self.unsynced.add(key)
+        with self.lock:
+            key = (ev["market"], ev["user"])
+            p = self.pos.get(key)
+            if p is None:
+                p = self.pos[key] = Pos()
+            if p.synced < 0:
+                self.unsynced.add(key)
+                return "sin_sincronizar"
+            if ev["block"] <= p.synced:
+                return "ya_incluido"
+            nb, nc = p.borrow_shares + ev["d_shares"], p.collateral + ev["d_collateral"]
+            if nb < 0 or nc < 0:                      # el libro no puede estar bien: se vuelve a leer
+                self.drift += 1
+                p.synced = -1
+                self.unsynced.add(key)
+                self._index(key[0], key[1], p)
+                return "deriva"
+            p.borrow_shares, p.collateral = nb, nc
             self._index(key[0], key[1], p)
-            return "deriva"
-        p.borrow_shares, p.collateral = nb, nc
-        self._index(key[0], key[1], p)
-        return "ok"
+            return "ok"
 
     def active_count(self):
-        return sum(len(v) for v in self.by_market.values())
+        with self.lock:
+            return sum(len(v) for v in self.by_market.values())
 
 
 class MarketInfo:
@@ -250,6 +260,7 @@ class Shadow:
         self.lost = {}                           # bloque perdido -> intentos de recuperar sus eventos
         self.rate_cache = {}
         self.flash = None                        # FlashWatcher (opcional)
+        self.flash_eval = None                   # FlashEvaluator (opcional)
         self.feed_addrs = []                     # feeds y agregadores detrás de los oráculos de los mercados vigilados
         self.feed_log_cache = {}
         self.bloom = None                        # LogBloom, tras setup()
@@ -586,12 +597,14 @@ class Shadow:
         evs.sort(key=lambda e: (e["block"], e["log_index"]))
         return evs
 
-    def _snapshot(self, block, prefer):
+    def _snapshot_calls(self):
         calls = []
         for mid in self.ids:
             calls.append((self.morpho, mo.call_market(mid)))
             calls.append((self.markets[mid].params.oracle, mo.SEL_PRICE))
-        res = self.mcall(calls, block, prefer)
+        return calls
+
+    def _decode_snapshot(self, res):
         snap = {}
         for i, mid in enumerate(self.ids):
             (ok_m, dm), (ok_p, dp) = res[2 * i], res[2 * i + 1]
@@ -605,6 +618,21 @@ class Shadow:
                 pass
             self.counts["lecturas_de_mercado_fallidas"] += 1
         return snap
+
+    def _snapshot(self, block, prefer):
+        return self._decode_snapshot(self.mcall(self._snapshot_calls(), block, prefer))
+
+    def pending_snapshot(self, rpc):
+        """Mercados y precios en el estado PENDIENTE (preconfirmado) de un RPC con Flashblocks. Lanza RpcError si no se puede."""
+        calls = self._snapshot_calls()
+        data = mo.encode_aggregate3([(t, True, d) for t, d in calls])
+        try:
+            res = mo.decode_aggregate3(rpc.call("eth_call", [{"to": mo.MULTICALL3, "data": data}, "pending"], recent=True))
+        except ValueError as e:
+            raise RpcError(f"multicall pendiente ilegible: {e}")
+        if len(res) != len(calls):
+            raise RpcError("multicall pendiente devolvió otra cantidad de resultados")
+        return self._decode_snapshot(res)
 
     def _sync_unsynced(self, n, prefer):
         keys = [k for k in sorted(self.book.unsynced) if k[0] in self.markets]
@@ -634,9 +662,9 @@ class Shadow:
             self.rate_cache[mid] = (key, self.mono(), rate)
         return rate
 
-    def _evaluate(self, snap, n, ts):
-        """{(mercado, usuario): datos} de las posiciones liquidables ahora (con interés acumulado si están al borde)."""
-        liq, near, self.last_near = {}, [], {}
+    def _evaluate_core(self, snap, n, ts):
+        """(liquidables, cerca del umbral) sin tocar el estado del Shadow: lo usan el ciclo de bloques y el evaluador de Flashblocks."""
+        liq, near, near_map = {}, [], {}
         limit = 1 + self.cfg["near_band"] + 1e-6
         for mid, (state, price) in snap.items():
             info = self.markets[mid]
@@ -646,7 +674,7 @@ class Shadow:
             per_share = (state.total_borrow_assets + mo.VIRTUAL_ASSETS) / (state.total_borrow_shares + mo.VIRTUAL_SHARES)
             cap = price / 1e36 * lltv / 1e18
             edge = []
-            for user, p in self.book.by_market.get(mid, {}).items():
+            for user, p in self.book.positions_of(mid):
                 if p.collateral * cap >= p.borrow_shares * per_share * limit:
                     continue
                 borrowed = mo.borrowed_assets(p.borrow_shares, state)
@@ -660,7 +688,7 @@ class Shadow:
                 if ratio < 1 + self.cfg["accrual_band"]:
                     edge.append((user, p))
                 if ratio < 1 + self.cfg["near_band"]:
-                    self.last_near[(mid, user)] = ratio
+                    near_map[(mid, user)] = ratio
                     near.append((ratio, mid, user, borrowed))
             if edge and ts - state.last_update > 5:
                 rate = self._rate(mid, state, n, ts)
@@ -671,6 +699,11 @@ class Shadow:
                             liq[(mid, user)] = {"ratio": mo.health_ratio(p.borrow_shares, p.collateral, price, lltv, aged),
                                                 "state": aged, "accrual": True}
         near.sort()
+        return liq, near, near_map
+
+    def _evaluate(self, snap, n, ts):
+        """{(mercado, usuario): datos} de las posiciones liquidables ahora (con interés acumulado si están al borde)."""
+        liq, near, self.last_near = self._evaluate_core(snap, n, ts)
         self.near_list = near[:self.cfg["near_top"]]
         return liq
 
@@ -709,6 +742,19 @@ class Shadow:
             return False, "datos_viejos", det
         return True, "ok", det
 
+    def _screen(self, info, eco):
+        """Primer filtro económico de una candidata: la razón de NO-GO, o None si pasa a la revisión del crítico."""
+        pr = info.prior
+        if eco["deuda_mala"]:
+            return "deuda_mala"
+        if eco["bono_usd"] < self.cfg["min_bonus_usd"]:
+            return "bono_bajo"
+        if pr.get("auc_bonus", 0) >= self.cfg["auction_prior_bonus"] and pr.get("dir_bonus", 0) < self.cfg["auction_prior_direct_usd"]:
+            return "mercado_de_subasta"
+        if eco["neto_modelo_usd"] < self.cfg["min_net_usd"]:
+            return "neto_bajo"
+        return None
+
     def _decide(self, key, info_ev, snap, hdr, n, seen_wall, seen_mono, prefer, residual, uncertain=False):
         mid, user = key
         info, pos = self.markets[mid], self.book.pos[key]
@@ -717,16 +763,8 @@ class Shadow:
         q, eco = self._economics(info, pos, price, state)
         pr = info.prior
         visto_ms = None if seen_wall is None else round((seen_wall - hdr["ts"]) * 1000)
-        decision, reason, crit = "NO-GO", None, None
-        if eco["deuda_mala"]:
-            reason = "deuda_mala"
-        elif eco["bono_usd"] < self.cfg["min_bonus_usd"]:
-            reason = "bono_bajo"
-        elif pr.get("auc_bonus", 0) >= self.cfg["auction_prior_bonus"] and pr.get("dir_bonus", 0) < self.cfg["auction_prior_direct_usd"]:
-            reason = "mercado_de_subasta"
-        elif eco["neto_modelo_usd"] < self.cfg["min_net_usd"]:
-            reason = "neto_bajo"
-        else:
+        decision, reason, crit = "NO-GO", self._screen(info, eco), None
+        if reason is None:
             ok, why, crit = self._critic(key, pos, price, n, hdr, seen_wall)
             decision, reason = ("GO", "ok") if ok else (("OBSERVAR" if why == "oraculo_anomalo" else "NO-GO"), why)
         decided_ms = None if seen_mono is None else round((self.mono() - seen_mono) * 1000)
@@ -848,6 +886,8 @@ class Shadow:
         row.update(self._tx_info(e["tx_hash"], hdr))
         if self.flash is not None:
             row["flash"] = self._flash_timing(e, hdr, n)
+        if self.flash_eval is not None:
+            row["flash_cruce"] = self.flash_eval.match(key, n, e["tx_hash"])
         self.out.write("resultados.jsonl", row)
         self.outcomes[row["resultado"] if cand else row["clase"]] += 1
         if cand and cand["decision"] == "GO":
@@ -906,6 +946,8 @@ class Shadow:
             if e["kind"] == "Liquidate":
                 self._resolve_liquidation(e, hdr, n, known_before, snap)
         liquidated_now = {(e["market"], e["user"]) for e in events if e["kind"] == "Liquidate"}
+        if self.flash_eval is not None:
+            self.flash_eval.on_block(n, {(e["market"], e["user"]): e for e in events if e["kind"] == "Liquidate"}, set(liq_now))
         after_gap = self.first_eval_block is not None and n >= self.first_eval_block
         for key, ev_info in liq_now.items():
             if key in self.pending or key in self.expired:
@@ -1095,10 +1137,11 @@ class Shadow:
             self._close_pending(key, "perdida_por_salto", upto)
         self.last_block = upto
         self.first_eval_block = upto + 1
-        for key in self.book.pos:
-            self.book.unsynced.add(key)
-            self.book.pos[key].synced = -1
-        self.book.by_market.clear()
+        with self.book.lock:
+            for key in self.book.pos:
+                self.book.unsynced.add(key)
+                self.book.pos[key].synced = -1
+            self.book.by_market.clear()
         self._sync_unsynced(upto, None)
 
     def _skip(self, n):
@@ -1135,6 +1178,7 @@ class Shadow:
             "decisiones": dict(self.decisions), "resultados": dict(self.outcomes), "pendientes": len(self.pending),
             "bloques_perdidos_sin_recuperar": sorted(self.lost),
             "flashblocks": None if self.flash is None else self.flash.report(),
+            "flash_evaluador": None if self.flash_eval is None else self.flash_eval.report(),
             "latencia_visto_ms": quantiles(self.lat_visto), "latencia_proceso_ms": quantiles(self.lat_proc),
             "latencia_visto_mas_proceso_ms": quantiles(self.lat_total), "libro_deriva": self.book.drift,
             "multicall_ok": self.multicall_ok, "rpc_llamadas": self.rpc.calls, "rpc": self.rpc.report(),
@@ -1231,12 +1275,22 @@ def run_live(cfg, out_dir, cache_path=None, rpc=None, markets=None, head_source=
     `on_ready(shadow)` se llama con el libro ya armado, justo antes de empezar a vigilar bloques."""
     rpc = rpc or make_rpc()
     shadow = Shadow(rpc, out_dir, cfg, markets=markets).setup()
-    flash = None
+    flash = evaluator = None
     if shadow.cfg["flash_url"]:
+        from .flash_eval import FlashEvaluator
         from .flash_watch import FlashWatcher
-        flash = FlashWatcher(rpc, shadow.cfg["flash_url"], interval=shadow.cfg["flash_interval"]).start()
+        flash = FlashWatcher(rpc, shadow.cfg["flash_url"], interval=shadow.cfg["flash_interval"])
         shadow.flash = flash
-        log(f"shadow: siguiendo el bloque pendiente (Flashblocks) en {shadow.cfg['flash_url']} cada {shadow.cfg['flash_interval'] * 1000:.0f} ms")
+        if shadow.cfg["flash_eval"]:
+            pre = Rpc([shadow.cfg["flash_url"]], rps=20, expected_chain_id=CHAINS["base"].chain_id, public={shadow.cfg["flash_url"]})
+            evaluator = FlashEvaluator(shadow, flash, lambda: shadow.pending_snapshot(pre))
+            shadow.flash_eval = evaluator
+            flash.on_chunk = evaluator.notify
+        flash.start()
+        if evaluator:
+            evaluator.start()
+        log(f"shadow: siguiendo el bloque pendiente (Flashblocks) en {shadow.cfg['flash_url']} cada {shadow.cfg['flash_interval'] * 1000:.0f} ms"
+            + (" y evaluando cada trozo" if evaluator else ""))
     cache = None
     if cache_path and os.path.exists(cache_path):
         try:
@@ -1263,3 +1317,5 @@ def run_live(cfg, out_dir, cache_path=None, rpc=None, markets=None, head_source=
             watcher.stop()
         if flash:
             flash.stop()
+        if evaluator:
+            evaluator.stop()

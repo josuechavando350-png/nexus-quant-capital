@@ -14,6 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fakemorpho as fm  # noqa: E402
 from census_dinero import morpho as mo  # noqa: E402
 from census_dinero.rpc import Rpc, RpcError  # noqa: E402
+from census_dinero.flash_eval import FlashEvaluator  # noqa: E402
 from census_dinero.flash_watch import FlashWatcher  # noqa: E402
 from census_dinero.shadow_live import HeadWatcher, LogBloom, Shadow, bloom_bits, bloom_has, run_live  # noqa: E402
 
@@ -866,6 +867,145 @@ class TestFlashTiming(unittest.TestCase):
         f = self.result(env)["flash"]
         self.assertTrue(f["visto"])
         self.assertNotIn("reaccion_ms", f)
+
+
+class TestFlashEvaluator(unittest.TestCase):
+    """Decisiones sobre el estado pendiente: cuándo vimos cruzar a una posición y con qué holgura frente al ganador."""
+
+    def make(self, cfg=None):
+        env = Env({"flash_url": "https://pre", **(cfg or {})}).ready((U[0], 1700), (U[1], 1000))
+        w = FlashWatcher(env.rpc, "https://pre")
+        env.sh.flash = w
+        state = {"price": fm.PRICE_2000, "wall": 100.0}
+
+        def snapshot():
+            snap = env.sh._snapshot(env.chain.head, None)
+            return {env.mid: (snap[env.mid][0], state["price"])}
+        ev = FlashEvaluator(env.sh, w, snapshot, wall=lambda: state["wall"], mono=env.clock.mono)
+        env.sh.flash_eval = ev
+        return env, w, ev, state
+
+    def block(self, env):
+        n = env.chain.mine([("set_price", env.mid, DROP), ("liquidate", env.mid, B[0], U[0])])
+        upd, liq = env.chain.headers[n]["transactions"]
+        return n, upd, liq
+
+    def rows(self, env, name="flash_cruces.jsonl"):
+        return env.rows(name)
+
+    def test_crossing_seen_in_chunk_0_liquidated_in_chunk_1(self):
+        env, w, ev, st = self.make()
+        n, upd, liq = self.block(env)
+        w.ingest(100.00, n, [upd])                                 # la actualización del oráculo entra en el trozo 0
+        st["price"], st["wall"] = DROP, 100.06                     # el estado pendiente ya trae el precio nuevo; decidimos 60 ms después
+        ev.run_once(n, 0, 100.00)
+        w.ingest(100.23, n, [upd, liq])                            # el ganador aparece en el trozo siguiente
+        env.sh.process_block(n, None, None, None)
+        row = self.rows(env)[0]
+        self.assertEqual((row["resultado"], row["decision"], row["razon"]), ("liquidada", "GO", "ok"))
+        self.assertEqual((row["trozo"], row["trozo_ganador"], row["mismo_trozo"]), (0, 1, False))
+        self.assertEqual(row["decision_ms"], 60)
+        self.assertEqual(row["visto_a_liquidacion_ms"], 230)
+        self.assertEqual(row["holgura_ms"], 230 - 60 - 150)       # envío supuesto: 150 ms
+        res = [r for r in env.rows("resultados.jsonl") if "bloque_liquidacion" in r][0]
+        self.assertEqual(res["flash_cruce"]["holgura_ms"], 20)
+        rep = env.sh.write_meta() or ev.report()
+        self.assertEqual((rep["cruces"], rep["cruces_liquidados"], rep["holgura_positiva"]), (1, 1, 1))
+        from census_dinero import shadow_report as sr
+        res = sr.build(env.out, None, {"min_bonus_usd": 1, "min_net_usd": 0})          # el reporte lee los archivos que escribió el Shadow
+        f = res["vivo"]["flash_cruces"]
+        self.assertEqual((f["n"], f["go"], f["holgura"]["positivas"]), (1, 1, 1))
+        self.assertEqual(f["evaluador"]["supuesto_envio_ms"], 150)
+        self.assertIn("Evaluador del estado pendiente", sr.render(res))
+
+    def test_liquidation_in_the_same_chunk_leaves_no_slack(self):
+        env, w, ev, st = self.make()
+        n, upd, liq = self.block(env)
+        w.ingest(100.00, n, [upd, liq])
+        st["price"], st["wall"] = DROP, 100.05
+        ev.run_once(n, 0, 100.00)
+        env.sh.process_block(n, None, None, None)
+        row = self.rows(env)[0]
+        self.assertTrue(row["mismo_trozo"])
+        self.assertLess(row["holgura_ms"], 0)
+
+    def test_crossing_nobody_liquidated_in_the_block(self):
+        env, w, ev, st = self.make()
+        n = env.chain.mine([("set_price", env.mid, DROP)])
+        upd = env.chain.headers[n]["transactions"][0]
+        w.ingest(100.00, n, [upd])
+        st["price"], st["wall"] = DROP, 100.04
+        ev.run_once(n, 0, 100.00)
+        env.sh.process_block(n, None, None, None)
+        self.assertEqual(self.rows(env)[0]["resultado"], "no_liquidada_en_el_bloque")
+        self.assertEqual(ev.report()["cruces_sin_liquidar"], 1)
+
+    def test_liquidation_without_a_crossing_seen_is_marked(self):
+        env, w, ev, st = self.make()
+        n, upd, liq = self.block(env)
+        w.ingest(100.00, n, [upd, liq])                            # el evaluador no llegó a ver el cruce
+        env.sh.process_block(n, None, None, None)
+        res = [r for r in env.rows("resultados.jsonl") if "bloque_liquidacion" in r][0]
+        self.assertIn("flash_cruce", res)
+        self.assertIsNone(res["flash_cruce"])
+        self.assertEqual(self.rows(env), [])
+
+    def test_no_go_crossings_are_recorded_with_their_reason(self):
+        env, w, ev, st = self.make({"min_bonus_usd": 100_000})
+        n, upd, liq = self.block(env)
+        w.ingest(100.00, n, [upd])
+        st["price"], st["wall"] = DROP, 100.05
+        ev.run_once(n, 0, 100.00)
+        env.sh.process_block(n, None, None, None)
+        row = self.rows(env)[0]
+        self.assertEqual((row["decision"], row["razon"]), ("NO-GO", "bono_bajo"))
+
+    def test_known_crossings_are_not_flagged_twice_and_sealed_state_resets_them(self):
+        env, w, ev, st = self.make()
+        n = env.chain.head + 1
+        w.ingest(100.00, n, ["0x" + "11" * 32])
+        st["price"], st["wall"] = DROP, 100.05
+        ev.run_once(n, 0, 100.00)
+        ev.run_once(n, 1, 100.20)                                   # otro trozo, la misma posición: no es un cruce nuevo
+        self.assertEqual(ev.report()["cruces"], 1)
+        ev.on_block(n, {}, {(env.mid, U[0])})                       # el bloque se selló y la posición sigue liquidable
+        st["wall"] = 102.0
+        ev.run_once(n + 1, 0, 102.00)
+        self.assertEqual(ev.report()["cruces"], 1)                  # sigue sin contarse como cruce nuevo
+
+    def test_snapshot_errors_are_counted_not_raised(self):
+        env, w, ev, st = self.make()
+
+        def boom():
+            raise RpcError("pending no soportado")
+        ev.snapshot_fn = boom
+        ev.run_once(env.chain.head + 1, 0, 100.0)
+        self.assertEqual(ev.report()["errores"], 1)
+
+    def test_thread_runs_the_latest_chunk_only(self):
+        env, w, ev, st = self.make()
+        w.on_chunk = ev.notify
+        n = env.chain.head + 1
+        st["price"], st["wall"] = DROP, 100.05
+        ev.start()
+        try:
+            w.ingest(100.00, n, ["0x" + "22" * 32])
+            deadline = time.time() + 3
+            while time.time() < deadline and ev.report()["evaluaciones"] < 1:
+                time.sleep(0.01)
+        finally:
+            ev.stop()
+        self.assertGreaterEqual(ev.report()["evaluaciones"], 1)
+        self.assertEqual(ev.report()["cruces"], 1)
+
+    def test_pending_snapshot_decodes_a_multicall_on_another_rpc(self):
+        env, w, ev, st = self.make()
+        snap = env.sh.pending_snapshot(env.rpc)
+        self.assertEqual(set(snap), {env.mid})
+        self.assertEqual(snap[env.mid][1], fm.PRICE_2000)
+        env.chain.fail("eth_call", times=5, message="pending no soportado", when=lambda p: p[1] == "pending")
+        with self.assertRaises(RpcError):
+            env.sh.pending_snapshot(env.rpc)
 
 
 class TestRateCache(unittest.TestCase):

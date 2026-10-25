@@ -349,7 +349,16 @@ class Replay:
                 if upd:
                     tx = self.sh.rpc.call("eth_getTransactionByHash", [upd["tx"]])
                     if tx:
-                        upd_tx = {"tx": upd["tx"], "tx_index": upd["tx_index"], "from": norm(tx["from"]), "to": norm(tx.get("to") or mo.ZERO)}
+                        upd_tx = {"tx": upd["tx"], "tx_index": upd["tx_index"], "from": norm(tx["from"]), "to": norm(tx.get("to") or mo.ZERO),
+                                  "valor_wei": int(tx.get("value") or "0x0", 16)}
+                        # Qué hizo esa transacción (¿pagó algo? ¿a quién?): resumen de su recibo
+                        rc = self.sh.rpc.call("eth_getTransactionReceipt", [upd["tx"]])
+                        if rc:
+                            rlogs = rc.get("logs") or []
+                            upd_tx.update(n_logs=len(rlogs), gas_usado=int(rc.get("gasUsed") or "0x0", 16),
+                                          logs=[{"direccion": norm(lg["address"]), "topic0": (lg.get("topics") or [None])[0],
+                                                 "topics": (lg.get("topics") or [])[1:3], "datos": (lg.get("data") or "")[:130]}
+                                                for lg in rlogs[:16]])
                 out_rows.append({"mercado": r["mercado"], "etiqueta": r["etiqueta"], "prestatario": r["prestatario"], "bloque_liquidacion": b,
                                  "tx": r["tx"], "tx_index": r["tx_index"], "firmante": r.get("firmante"), "entrada": r.get("entrada"),
                                  "bono_usd": r["bono_usd"], "serie": serie, "logs_feed": logs, "actualizacion_previa": upd_tx})

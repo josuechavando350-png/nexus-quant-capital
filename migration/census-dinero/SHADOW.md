@@ -117,6 +117,16 @@ bloque, cada liquidación real queda medida contra la transacción que actualiz�
 trozo (empaquetada, nadie la gana), en el siguiente (hay que reaccionar en <200 ms) o 2+ trozos después?
 Se activa con `config: {"flash_url": "https://mainnet-preconf.base.org", "flash_interval": 0.1}`.
 
+Además hay un **evaluador del estado pendiente** (`flash_eval.py`, activo con `flash_url`; se apaga con `flash_eval: false`):
+cada trozo nuevo dispara una lectura de mercados y precios en el estado pendiente (`eth_call` con la etiqueta
+`pending`), se evalúa el libro y, si una posición acaba de volverse liquidable, anota en `flash_cruces.jsonl` cuándo
+la vimos (trozo y ms desde que empezó el bloque), cuánto tardamos en decidir y qué habríamos decidido (mismo filtro
+económico que el modo sellado). Al sellarse el bloque, se mide la **holgura**:
+`(hora en que apareció la liquidación del ganador − hora en que vimos el cruce) − lo que tardamos en decidir − tiempo
+de envío supuesto`. Positiva = nuestra transacción habría llegado a tiempo, sin contar el orden por propina dentro del
+trozo. Las liquidaciones cuyo cruce no vimos antes (la actualización y la liquidación llegaron en el mismo trozo, o
+decidimos más tarde que el ganador) quedan contadas aparte.
+
 Es la medida correcta de "llegar a tiempo", pero sigue siendo la visión de un servidor de GitHub Actions: no
 mide el envío ni el orden de prioridad (propina) dentro del trozo.
 
@@ -142,7 +152,7 @@ Solo ve posiciones que **terminaron liquidadas**. Las que se recuperaron las mid
 ## Archivos
 
 `shadow-vivo/`: `bloques.jsonl` (latencia y fases por bloque), `decisiones.jsonl`,
-`resultados.jsonl`, `cercanas.jsonl` (foto cada 5 min de las posiciones a menos de 2% del
+`resultados.jsonl` (con `flash` y `flash_cruce` si se sigue el bloque pendiente), `flash_cruces.jsonl`, `cercanas.jsonl` (foto cada 5 min de las posiciones a menos de 2% del
 umbral), `eventos_del_sistema.jsonl` (reorgs, saltos, bloques perdidos, deriva del libro),
 `meta.json`, `log.txt`.
 `shadow-replay/`: `replay.jsonl`, `replay_errores.jsonl`, `replay_meta.json`, `log.txt`.
