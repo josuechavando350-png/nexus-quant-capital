@@ -1,0 +1,24 @@
+{
+  "modo": "shadow",
+  "shadow": {
+    "minutos": 330,
+    "vivo": true,
+    "replay": {
+      "max": 1300,
+      "diag": 600,
+      "orden": 12,
+      "libro_dias": 0,
+      "min_bonus_usd": 10,
+      "min_net_usd": 5
+    },
+    "config": {
+      "min_bonus_usd": 0.05,
+      "min_net_usd": 0.02,
+      "flash_url": "https://mainnet-preconf.base.org",
+      "flash_interval": 0.1,
+      "orden_cada": 60,
+      "orden_max": 150
+    }
+  },
+  "nota": "Shadow v8: igual que la v7 y además: cada liquidación (replay y vivo) guarda las propinas de la actualización del oráculo, de la liquidación y de sus vecinas, para separar a quien se coló en el mismo trozo de quien reaccionó en un trozo posterior; el replay reconstruye todas las liquidaciones de 30 días con bono >= 10 USD (sin muestreo) y mira con lupa todas las directas. Solo lectura."
+}
