@@ -1,0 +1,19 @@
+{
+  "modo": "shadow",
+  "shadow": {
+    "minutos": 330,
+    "vivo": true,
+    "replay": false,
+    "config": {
+      "min_bonus_usd": 0.05,
+      "min_net_usd": 0.02,
+      "flash_url": "https://mainnet-preconf.base.org",
+      "flash_interval": 0.1,
+      "flash_ws": "wss://mainnet-preconf.base.org",
+      "submit_rapido_ms": 20,
+      "orden_cada": 60,
+      "orden_max": 150
+    }
+  },
+  "nota": "Shadow v9: vía rápida. Además de consultar el bloque pendiente cada 100 ms, recibe los trozos por WebSocket (newFlashblockTransactions y pendingLogs de los feeds del oráculo), calcula el precio nuevo del oráculo en casa al llegar su actualización y decide sin consultar a la red; mide los ms para decidir, cuánto antes llega por WebSocket y la ventana real hasta la liquidación del ganador. El replay completo ya está en la corrida 40190198885. Solo lectura: no se firma ni se envía nada."
+}
