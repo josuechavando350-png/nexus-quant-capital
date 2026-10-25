@@ -22,6 +22,8 @@ Alcance: Aave V3 (core, Lido, EtherFi en Ethereum; Base; Arbitrum) y Morpho Blue
 | Neto del ganador | Bono − gas total − pagos directos. No descuenta el deslizamiento al vender el colateral. |
 | Se queda realmente | Todos los movimientos de tokens y ETH que entran o salen del liquidador (firmante, contrato y cuentas sin código que en esa tx solo tratan con ellos) valuados a mercado, menos gas. Ya descuenta venta del colateral, flash loans, subastas de oráculo y builder. |
 | Ruta | `subasta` si lo pagado a terceros en ETH más la propina es ≥ 30% del bono; `directa` si no; `sin_medir` si faltaron trazas o precios, o si el neto quedó fuera de [−(bono + gas + 25%), bono + 25%] (`realized_anomaly`). |
+| Destinos del valor | Cada contraparte fuera del liquidador se clasifica: si devuelve algo es swap o préstamo (su costo va a "resto"); si solo recibe, es el builder (coinbase), una subasta compartida (ETH a un destino que cobra de ≥ 2 liquidadores, o conocida: OEV) o la tesorería del bot (un solo liquidador, no reenvía, nunca devuelve, recibe ≤ bono; cuenta como ganancia). |
+| Otras rutas | `refinanciacion`: el colateral vuelve al protocolo y nadie paga por el orden; `sin_rastro`: ni el ganador ni un sumidero se quedan el bono. Ambas quedan fuera del % que se queda el ganador. |
 | Contrato de entrada | Si la tx llama a un contrato distinto del liquidador: `compartida` (subasta conocida o usado por ≥ 2 liquidadores; su saldo es de terceros) o `propia` (un solo liquidador; su saldo cuenta como del ganador). |
 
 Por mercado agrega bono, neto, ganadores únicos, participación del mayor,
@@ -57,7 +59,9 @@ una muestra de 5 transacciones. El job `report` corre `verificar`, que recalcula
 transacciones con código aparte del recolector desde dos fuentes (la evidencia cruda y
 la API de Blockscout, cuando responde) y publica `VERIFICACION.md`. Con
 `{"modo": "verificar", "corrida": <run_id>}` en `run.json` solo se verifica una corrida
-anterior, sin recolectar.
+anterior, sin recolectar; con `"modo": "reporte"` además se vuelve a analizar y se publica
+en `ultimo/`. Para repetir solo algunos tramos: `"solo": [etiquetas]` y
+`"incluir_corridas": [run_id]` (el reporte toma los demás tramos de esa corrida).
 
 Si se acaba el tiempo o se cancela, el tramo guarda lo que tenga y lo marca
 (`events_complete`, `time_budget_hit`, `interrupted`, `oracle_status: sin_cobertura`).

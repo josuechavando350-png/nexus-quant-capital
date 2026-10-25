@@ -194,12 +194,15 @@ def derive(r, users=None):
     r["paid_over_bonus"] = bool(b is not None and r.get("order_paid_usd") is not None
                                 and r["order_paid_usd"] > max(1.5 * b, b + 20))
     gas = r.get("gas_usd") or 0
-    if r.get("redeposit"):
-        r["route"] = "refinanciacion"
-    elif not r.get("realized_complete") or b is None or real is None or r.get("order_paid_usd") is None:
-        r["route"] = "sin_medir"
-    elif r["order_paid_usd"] >= max(ORDER_PAID_SHARE * b, 1.0):
+    paid = r.get("order_paid_usd")
+    if paid is not None and b is not None and r.get("realized_complete") and paid >= max(ORDER_PAID_SHARE * b, 1.0):
+        # Aunque el colateral vuelva al protocolo (un tercero financia la puja y se queda la posición,
+        # visto en la subasta de Base), si se pagó por el orden es subasta.
         r["route"] = "subasta"
+    elif r.get("redeposit"):
+        r["route"] = "refinanciacion"
+    elif not r.get("realized_complete") or b is None or real is None or paid is None:
+        r["route"] = "sin_medir"
     elif b >= 20 and abs(real) <= gas + 1 and cps is not None:
         r["route"] = "sin_rastro"           # ni el ganador ni un sumidero se quedaron con el bono
     else:

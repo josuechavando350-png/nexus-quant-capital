@@ -126,7 +126,7 @@ jobs:
             exit 1
           fi
           mkdir -p /tmp/reporte
-          if [ "$MODO" = "recolectar" ]; then
+          if [ "$MODO" != "verificar" ]; then
             python3 -m census_dinero analyze --run-json run.json --out /tmp/reporte $files > /dev/null
             cat /tmp/reporte/RESUMEN.md >> "$GITHUB_STEP_SUMMARY"
           fi
@@ -139,6 +139,11 @@ jobs:
               --message "census reporte run ${GITHUB_RUN_ID}"
             python3 ci/push_results.py --src /tmp/reporte --dest "ultimo" \
               --message "census último reporte (run ${GITHUB_RUN_ID})"
+          elif [ "$MODO" = "reporte" ]; then
+            python3 ci/push_results.py --src /tmp/reporte --dest "corridas/${src}/reporte-${GITHUB_RUN_ID}" \
+              --message "census reporte de run ${src} rehecho (run ${GITHUB_RUN_ID})"
+            python3 ci/push_results.py --src /tmp/reporte --dest "ultimo" \
+              --message "census último reporte (run ${src}, rehecho en run ${GITHUB_RUN_ID})"
           else
             python3 ci/push_results.py --src /tmp/reporte --dest "corridas/${src}/verificacion-${GITHUB_RUN_ID}" \
               --message "census verificación de run ${src} (run ${GITHUB_RUN_ID})"

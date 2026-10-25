@@ -116,9 +116,10 @@ def main(argv=None):
     if args.cmd == "plan":
         with open(args.run_json) as fh:
             cfg = json.load(fh)
-        if cfg.get("modo") == "verificar":
-            # Solo verificar una corrida anterior: la matriz queda con un tramo simbólico que no corre.
-            print("modo=verificar")
+        if cfg.get("modo") in ("verificar", "reporte"):
+            # Solo verificar (o volver a analizar y publicar) una corrida anterior, sin recolectar:
+            # la matriz queda con un tramo simbólico que no corre.
+            print(f"modo={cfg['modo']}")
             print(f"fuente={int(cfg['corrida'])}")
             print('matrix={"include":[{"chain":"ninguna","label":"sin-recoleccion"}]}')
             return 0

@@ -452,8 +452,15 @@ class TestCounterparties(unittest.TestCase):
                            "data": "0x" + fc.w(4 * 10 ** 18)})
         b = self.run_d(chain)[fc.th(0xB)]
         self.assertTrue(b["redeposit"])
-        an.derive(b)
-        self.assertEqual(b["route"], "refinanciacion")
+        an.derive(dict(b))
+        self.assertEqual(an.derive(dict(b))["route"], "refinanciacion")
+        # Como la tx 0x624b1a94…0f1f de Base: el colateral vuelve a Morpho, el neto del solver es ~0
+        # y un tercero financia la puja de ~99% del bono a la subasta.
+        paid = dict(b, counterparties={fc.AUCTION: [b["bonus_usd"] * 0.99, 0.0, 1.0, False, True]},
+                    builder_coinbase=fc.BUILDER, eth_usd=b["bonus_usd"] * 0.99, realized_complete=True,
+                    realized_usd=0.0, realized_anomaly=None)
+        users = {("ethereum", fc.AUCTION): {"0xotro", fc.BOT_B}}
+        self.assertEqual(an.derive(paid, users)["route"], "subasta")     # la puja la financió un tercero
 
     def test_sink_attribution_with_dataset(self):
         base = TestAnalyzeTranches.rec
