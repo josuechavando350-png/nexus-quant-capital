@@ -1,0 +1,34 @@
+[17:21:26] cronos: ventana bloques 96112024..102053205 (30 días), 3 proveedores responden
+[17:21:26] cronos: fase ventana: 12.4 s
+[17:21:29] cronos: sonda: proveedor | ms | getLogs máx | archivo | debug viejo | trace viejo
+[17:21:29] cronos: sonda: https://evm.cronos.org | 123 | 1,000 | no | — | —
+[17:21:29] cronos: sonda: https://cronos-evm-rpc.publicnode.com | 107 | 10,000 | no | — | —
+[17:21:29] cronos: sonda: https://cronos.drpc.org | 69 | 0 | no | — | —
+[17:21:30] cronos: fuentes web: {"defillama": {"ok": true}}
+[17:21:30] cronos: fase sonda: 3.7 s
+[17:22:00] cronos: eventos Morpho: bloque 96,262,836 (3%), 0 logs, tramo de 1,000 bloques
+[17:22:30] cronos: eventos Morpho: bloque 96,440,836 (6%), 0 logs, tramo de 1,000 bloques
+[17:23:00] cronos: eventos Morpho: bloque 96,490,482 (6%), 0 logs, tramo de 39 bloques
+[17:23:27] cronos: falla: RpcError: failed to fetch block result for height 96490772: height 96490772 is not available, lowest height is 101563773
+[17:23:27] Traceback (most recent call last):
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 1091, in run
+    recs = self.fetch_liquidations(win["start_block"], win["end_block"])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 409, in fetch_liquidations
+    logs, got = self._logs("eventos Morpho", self.chain.morpho, [MORPHO_LIQUIDATE_TOPIC], start, end)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 387, in _logs
+    return self.rpc.get_logs(address, topics, lo, hi, on_progress=self._progress(what, lo, hi),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 522, in get_logs
+    logs = self.call("eth_getLogs", [flt])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 325, in call
+    return self._call(method, params, recent, prefer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 426, in _call
+    raise range_error                       # get_logs lo maneja reduciendo el rango
+    ^^^^^^^^^^^^^^^^^
+census_dinero.rpc.RpcError: failed to fetch block result for height 96490772: height 96490772 is not available, lowest height is 101563773
+
+[17:23:27] cronos: listo — 0 eventos, 0 enriquecidos, 505 llamadas RPC, 132.7 s

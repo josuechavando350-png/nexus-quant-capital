@@ -1,0 +1,161 @@
+{
+  "archive_disabled": false,
+  "chain": "cronos",
+  "elapsed_s": 132.7,
+  "enriched": 0,
+  "errors_sample": [],
+  "events": 0,
+  "events_complete": false,
+  "events_cover_block": null,
+  "fatal_error": "RpcError: failed to fetch block result for height 96490772: height 96490772 is not available, lowest height is 101563773",
+  "interrupted": false,
+  "native_trace_sources": {},
+  "oracle_contracts_watched": 0,
+  "oracle_status": {},
+  "phases_s": {
+    "sonda": 3.7,
+    "ventana": 12.4
+  },
+  "price_sources": {
+    "defillama": 0,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 505,
+  "rpc_providers": {
+    "https://cronos-evm-rpc.publicnode.com": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": 1,
+      "metodos": {
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getLogs": {
+          "err": 0,
+          "errores": {
+            "failed to fetch block result for height 96122024: height 96122024 is not available, lowest height is": 1,
+            "failed to fetch block result for height 96137024: height 96137024 is not available, lowest height is": 1,
+            "failed to fetch block result for height 96142024: height 96142024 is not available, lowest height is": 1,
+            "failed to fetch block result for height 96143274: height 96143274 is not available, lowest height is": 1,
+            "failed to fetch block result for height 96488962: height 96488962 is not available, lowest height is": 1,
+            "failed to fetch block result for height 96490210: height 96490210 is not available, lowest height is": 2
+          },
+          "ms_prom": 184,
+          "ok": 33
+        }
+      },
+      "ok": 33,
+      "sin_metodo": []
+    },
+    "https://cronos.drpc.org": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    },
+    "https://evm.cronos.org": {
+      "en_rotacion": true,
+      "err": 22,
+      "getlogs_max": 1000,
+      "metodos": {
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 144,
+          "ok": 78
+        },
+        "eth_getLogs": {
+          "err": 22,
+          "errores": {
+            "HTTP 429 en evm.cronos.org": 22
+          },
+          "ms_prom": 183,
+          "ok": 345
+        }
+      },
+      "ok": 423,
+      "sin_metodo": []
+    }
+  },
+  "second_pass": {},
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "getlogs_error": "maximum [from, to] blocks distance: 2000",
+      "getlogs_max": 1000,
+      "getlogs_ms": 183,
+      "ms": 123,
+      "proveedor": "https://evm.cronos.org",
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "getlogs_error": "maximum [from, to] blocks distance: 10000",
+      "getlogs_max": 10000,
+      "getlogs_ms": 421,
+      "ms": 107,
+      "proveedor": "https://cronos-evm-rpc.publicnode.com",
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "getlogs_error": "HTTP 400 en cronos.drpc.org",
+      "getlogs_max": 0,
+      "ms": 69,
+      "proveedor": "https://cronos.drpc.org",
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "cronos-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 0,
+  "web_calls": 1,
+  "web_sources": {
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 0.4984,
+    "days": 30.0,
+    "end_block": 102053205,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352000,
+    "lookback_block": 95889722,
+    "start_block": 96112024,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 0,
+  "with_oracle_delta": 0,
+  "with_realized": 0,
+  "with_realized_complete": 0
+}
