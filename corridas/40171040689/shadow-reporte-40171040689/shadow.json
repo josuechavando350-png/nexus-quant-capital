@@ -1,0 +1,2344 @@
+{
+ "generado": "2026-10-25 08:26:37 UTC",
+ "config": {
+  "min_bonus_usd": 0.05,
+  "min_net_usd": 0.02,
+  "replay_min_bonus_usd": 10,
+  "replay_min_net_usd": 5
+ },
+ "fuentes": {
+  "vivo": {
+   "bloques": 2588,
+   "decisiones": 5,
+   "resultados": 5,
+   "lineas_cortadas": 0,
+   "meta": true
+  },
+  "replay": {
+   "filas": 300,
+   "errores": 0,
+   "lineas_cortadas": 0,
+   "meta": true
+  },
+  "lupa": {
+   "filas": 96
+  }
+ },
+ "supuestos": {
+  "priors": "census run 40141321042 (24 sep–24 oct 2026), Base/Morpho, 30 días",
+  "submit_ms": 150,
+  "bloque_ms": 2000
+ },
+ "vivo": {
+  "ventana": {
+   "bloques": 2588,
+   "bloques_en_rango": 2588,
+   "cobertura": 1.0,
+   "desde_bloque": 53061133,
+   "hasta_bloque": 53063720,
+   "desde_ts": 1792911613,
+   "hasta_ts": 1792916787,
+   "horas": 1.4372222222222222
+  },
+  "latencia": {
+   "visto_ms": {
+    "p50": 329,
+    "p90": 537,
+    "p99": 1435,
+    "min": 107,
+    "max": 2154,
+    "n": 2033
+   },
+   "proceso_ms": {
+    "p50": 115,
+    "p90": 316,
+    "p99": 4760,
+    "min": 55,
+    "max": 13333,
+    "n": 2588
+   },
+   "visto_mas_proceso_ms": {
+    "p50": 477,
+    "p90": 776,
+    "p99": 5949,
+    "min": 198,
+    "max": 13141,
+    "n": 2033
+   },
+   "fases_ms": {
+    "cabecera_ms": {
+     "p50": 42,
+     "p90": 110,
+     "p99": 4368,
+     "min": 21,
+     "max": 8926,
+     "n": 2588
+    },
+    "logs_ms": {
+     "p50": 0,
+     "p90": 226,
+     "p99": 1464,
+     "min": 0,
+     "max": 9524,
+     "n": 2588
+    },
+    "lectura_ms": {
+     "p50": 38,
+     "p90": 85,
+     "p99": 197,
+     "min": 0,
+     "max": 3473,
+     "n": 2588
+    },
+    "evaluar_ms": {
+     "p50": 4,
+     "p90": 13,
+     "p99": 213,
+     "min": 4,
+     "max": 373,
+     "n": 2588
+    }
+   },
+   "decision": {
+    "visto_ms": {
+     "p50": null,
+     "p90": null,
+     "p99": null,
+     "min": null,
+     "max": null,
+     "n": 0
+    },
+    "decidido_ms": {
+     "p50": null,
+     "p90": null,
+     "p99": null,
+     "min": null,
+     "max": null,
+     "n": 0
+    },
+    "x_ms": {
+     "p50": null,
+     "p90": null,
+     "p99": null,
+     "min": null,
+     "max": null,
+     "n": 0
+    },
+    "bloque_de_llegada": {}
+   },
+   "nota": "visto_ms es cota superior: el timestamp del bloque tiene resolución de 1 s; se mide desde un servidor de GitHub Actions"
+  },
+  "decisiones": {
+   "por_decision": {
+    "GO": 2,
+    "NO-GO": 3
+   },
+   "por_razon": {
+    "GO:ok": 2,
+    "NO-GO:deuda_mala": 3
+   }
+  },
+  "go": {
+   "n": 2,
+   "destino": {
+    "expirada": 2
+   },
+   "llegada_medida": {
+    "antes": {
+     "n": 0,
+     "bono_usd": 0,
+     "neto_modelo_usd": 0
+    },
+    "empate": {
+     "n": 0,
+     "bono_usd": 0,
+     "neto_modelo_usd": 0
+    },
+    "tarde": {
+     "n": 0,
+     "bono_usd": 0,
+     "neto_modelo_usd": 0
+    }
+   },
+   "con_cruce_incierto": 2,
+   "liquidadas_con_cruce_incierto": 0,
+   "liquidadas_por_subasta": 0,
+   "bono_usd": 0.640086,
+   "neto_modelo_usd": 0.43397830800000003,
+   "cerrados": 2
+  },
+  "liquidaciones": {
+   "n": 0,
+   "bono_usd": 0,
+   "clases": {},
+   "vias": {},
+   "recall_visibles": null,
+   "parte_mismo_bloque": null,
+   "fuera_del_libro": []
+  },
+  "flash": {
+   "n": 0,
+   "grupos": {
+    "directa": {
+     "n": 0,
+     "por_tipo": {},
+     "con_actualizacion_por_subasta": 0,
+     "bono_usd": {},
+     "reaccion_ms": {
+      "p50": null,
+      "p90": null,
+      "p99": null,
+      "min": null,
+      "max": null,
+      "n": 0
+     },
+     "t_liquidacion_ms": {
+      "p50": null,
+      "p90": null,
+      "p99": null,
+      "min": null,
+      "max": null,
+      "n": 0
+     }
+    },
+    "subasta": {
+     "n": 0,
+     "por_tipo": {},
+     "con_actualizacion_por_subasta": 0,
+     "bono_usd": {},
+     "reaccion_ms": {
+      "p50": null,
+      "p90": null,
+      "p99": null,
+      "min": null,
+      "max": null,
+      "n": 0
+     },
+     "t_liquidacion_ms": {
+      "p50": null,
+      "p90": null,
+      "p99": null,
+      "min": null,
+      "max": null,
+      "n": 0
+     }
+    }
+   },
+   "watcher": {
+    "errores": {},
+    "fotos": 50911,
+    "intervalo_de_consulta_ms": 100,
+    "intervalo_entre_trozos_ms": {
+     "max": 205,
+     "min": 88,
+     "n": 80,
+     "p50": 197,
+     "p90": 202,
+     "p99": 205
+    },
+    "rtt_ms": {
+     "max": 324,
+     "min": 36,
+     "n": 50911,
+     "p50": 44,
+     "p90": 51,
+     "p99": 65
+    },
+    "url": "https://mainnet-preconf.base.org"
+   }
+  },
+  "flash_perfil": {
+   "bloques": 2588,
+   "completos": 2578,
+   "txs_por_bloque": {
+    "p50": 126,
+    "p90": 184,
+    "p99": 289,
+    "min": 75,
+    "max": 446,
+    "n": 2578
+   },
+   "trozos_por_bloque": {
+    "p50": 11,
+    "p90": 11,
+    "p99": 11,
+    "min": 9,
+    "max": 11,
+    "n": 2578
+   },
+   "txs_por_trozo": {
+    "p50": 10,
+    "p90": 25,
+    "p99": 53,
+    "min": 1,
+    "max": 251,
+    "n": 28229
+   },
+   "fraccion_acumulada_p50": [
+    0.008,
+    0.25,
+    0.31210191082802546,
+    0.392,
+    0.48031496062992124,
+    0.5703125,
+    0.6415094339622641,
+    0.7258064516129032,
+    0.8062015503875969,
+    0.8846153846153846,
+    1.0
+   ],
+   "ultimo_trozo_completo": 1.0
+  },
+  "flash_cruces": {
+   "n": 0,
+   "go": 0,
+   "resultados": {},
+   "decision_ms": {
+    "p50": null,
+    "p90": null,
+    "p99": null,
+    "min": null,
+    "max": null,
+    "n": 0
+   },
+   "mismo_trozo": 0,
+   "holgura": {
+    "n": 0,
+    "positivas": 0,
+    "ms": {
+     "p50": null,
+     "p90": null,
+     "p99": null,
+     "min": null,
+     "max": null,
+     "n": 0
+    },
+    "bono_usd": 0,
+    "bono_positivo_usd": 0
+   },
+   "liquidaciones_sin_cruce_visto": 0,
+   "evaluador": {
+    "cruces": 0,
+    "cruces_liquidados": 0,
+    "cruces_sin_liquidar": 0,
+    "decision_ms": {
+     "max": null,
+     "min": null,
+     "n": 0,
+     "p50": null,
+     "p90": null,
+     "p99": null
+    },
+    "errores": 0,
+    "evaluaciones": 21719,
+    "holgura_ms": {
+     "max": null,
+     "min": null,
+     "n": 0,
+     "p50": null,
+     "p90": null,
+     "p99": null
+    },
+    "holgura_positiva": 0,
+    "lectura_pendiente_ms": {
+     "max": 864,
+     "min": 41,
+     "n": 21719,
+     "p50": 62,
+     "p90": 76,
+     "p99": 98
+    },
+    "supuesto_envio_ms": 150
+   }
+  },
+  "descartadas_que_pasaron": [],
+  "candidatas_sin_liquidar": {
+   "expirada": 5
+  },
+  "calidad": {
+   "contadores": {
+    "bloques": 2542,
+    "bloques_sin_logs_por_bloom": 2001,
+    "candidatas": 5,
+    "deriva_reconciliacion": 0,
+    "posiciones_sincronizadas": 19,
+    "reconciliadas": 43348,
+    "tasa_sin_leer": 346
+   },
+   "eventos_del_sistema": {},
+   "multicall_ok": true,
+   "libro": {
+    "bloque": 53061132,
+    "candidatos": 36133,
+    "con_deuda": 30393,
+    "desde_cache": true,
+    "dias_atras": 30,
+    "leidos": 36133,
+    "libro_parcial": false,
+    "segundos": 13.9
+   },
+   "libro_deriva": 0,
+   "pendientes_al_cierre": 0,
+   "inicio": 1792911603.564296,
+   "fin": null,
+   "supuestos": {
+    "interes": "se acumula con el IRM solo para posiciones a menos de 0.5% del umbral",
+    "kept_prior_global": 0.678,
+    "latencia": "visto_ms = hora en que llegó la respuesta del primer proveedor que ya tenía el bloque - timestamp del bloque (segundos enteros: ±1 s); incluye el intervalo de sondeo",
+    "priors": "census run 40141321042 (24 sep–24 oct 2026), Base/Morpho, 30 días",
+    "submit_ms": 150
+   },
+   "bloom": {
+    "bloques_con_eventos": 12,
+    "descartados_por_error": 0,
+    "ok": true
+   },
+   "mercados": 19,
+   "excluidos": {}
+  },
+  "cercanas": {
+   "bloque": 53063674,
+   "n": 4,
+   "deuda_usd": 5006.540574,
+   "mas_cercana_pct": 0.291,
+   "fotos": 17
+  }
+ },
+ "replay": {
+  "filas": 300,
+  "sin_dato": 0,
+  "censuradas": 0,
+  "errores": 0,
+  "residuales": 1,
+  "meta": {
+   "eventos_en_ventana": 2647,
+   "elegibles": 1212,
+   "elegidos": 300,
+   "procesados": 300,
+   "fallidos": 0,
+   "omitidos_por_tiempo": 0,
+   "bono_total_usd": 645184.9419405889,
+   "bono_elegible_usd": 641581.9712204679,
+   "bono_elegido_usd": 491394.5594636547,
+   "ventana": {
+    "completa": true,
+    "desde": 51765101,
+    "desde_pedido": 51765101,
+    "dias": 30,
+    "dias_reales": 30.0,
+    "hasta_leido": 53061101,
+    "hasta_pedido": 53061101
+   },
+   "segundos": 443.5,
+   "sondeos_de_archivo": 301
+  },
+  "por_distancia": [
+   {
+    "tramo": "0",
+    "etiqueta": "mismo bloque",
+    "n": 299,
+    "n_directa": 95,
+    "n_subasta": 204,
+    "bono_directo_est_usd": 100613.68378426987,
+    "bono_subasta_est_usd": 544170.658781752,
+    "parte_del_bono_directo": 0.9922469305549448
+   },
+   {
+    "tramo": "1",
+    "etiqueta": "1 bloque",
+    "n": 1,
+    "n_directa": 1,
+    "n_subasta": 0,
+    "bono_directo_est_usd": 786.1600308161117,
+    "bono_subasta_est_usd": 0,
+    "parte_del_bono_directo": 0.00775306944505519
+   },
+   {
+    "tramo": "2",
+    "etiqueta": "2 bloques",
+    "n": 0,
+    "n_directa": 0,
+    "n_subasta": 0,
+    "bono_directo_est_usd": 0,
+    "bono_subasta_est_usd": 0,
+    "parte_del_bono_directo": 0.0
+   },
+   {
+    "tramo": "3-5",
+    "etiqueta": "3 a 5 bloques",
+    "n": 0,
+    "n_directa": 0,
+    "n_subasta": 0,
+    "bono_directo_est_usd": 0,
+    "bono_subasta_est_usd": 0,
+    "parte_del_bono_directo": 0.0
+   },
+   {
+    "tramo": "6-15",
+    "etiqueta": "6 a 15 bloques",
+    "n": 0,
+    "n_directa": 0,
+    "n_subasta": 0,
+    "bono_directo_est_usd": 0,
+    "bono_subasta_est_usd": 0,
+    "parte_del_bono_directo": 0.0
+   },
+   {
+    "tramo": "16+",
+    "etiqueta": "16 o más",
+    "n": 0,
+    "n_directa": 0,
+    "n_subasta": 0,
+    "bono_directo_est_usd": 0,
+    "bono_subasta_est_usd": 0,
+    "parte_del_bono_directo": 0.0
+   }
+  ],
+  "ganables": {
+   "elegibles": 96,
+   "elegibles_est": 456.23999999999995,
+   "bono_est_usd": 101399.84381508599,
+   "neto_est_usd": 70395.6247884525,
+   "por_tiempo_total": [
+    {
+     "k": 1,
+     "tiempo_total": "hasta 2 s",
+     "antes": {
+      "n": 0,
+      "n_est": 0,
+      "bono_est_usd": 0,
+      "neto_est_usd": 0,
+      "parte_n": 0.0,
+      "parte_bono": 0.0
+     },
+     "empate": {
+      "n": 1,
+      "n_est": 5.56,
+      "bono_est_usd": 786.1600308161117,
+      "neto_est_usd": 688.6761869949139,
+      "parte_n": 0.01218656847273365,
+      "parte_bono": 0.00775306944505519
+     },
+     "tarde": {
+      "n": 95,
+      "n_est": 450.67999999999995,
+      "bono_est_usd": 100613.68378426987,
+      "neto_est_usd": 69706.94860145758,
+      "parte_n": 0.9878134315272663,
+      "parte_bono": 0.9922469305549448
+     }
+    },
+    {
+     "k": 2,
+     "tiempo_total": "hasta 4 s",
+     "antes": {
+      "n": 0,
+      "n_est": 0,
+      "bono_est_usd": 0,
+      "neto_est_usd": 0,
+      "parte_n": 0.0,
+      "parte_bono": 0.0
+     },
+     "empate": {
+      "n": 0,
+      "n_est": 0,
+      "bono_est_usd": 0,
+      "neto_est_usd": 0,
+      "parte_n": 0.0,
+      "parte_bono": 0.0
+     },
+     "tarde": {
+      "n": 96,
+      "n_est": 456.23999999999995,
+      "bono_est_usd": 101399.84381508599,
+      "neto_est_usd": 70395.6247884525,
+      "parte_n": 1.0,
+      "parte_bono": 1.0
+     }
+    },
+    {
+     "k": 3,
+     "tiempo_total": "hasta 6 s",
+     "antes": {
+      "n": 0,
+      "n_est": 0,
+      "bono_est_usd": 0,
+      "neto_est_usd": 0,
+      "parte_n": 0.0,
+      "parte_bono": 0.0
+     },
+     "empate": {
+      "n": 0,
+      "n_est": 0,
+      "bono_est_usd": 0,
+      "neto_est_usd": 0,
+      "parte_n": 0.0,
+      "parte_bono": 0.0
+     },
+     "tarde": {
+      "n": 96,
+      "n_est": 456.23999999999995,
+      "bono_est_usd": 101399.84381508599,
+      "neto_est_usd": 70395.6247884525,
+      "parte_n": 1.0,
+      "parte_bono": 1.0
+     }
+    }
+   ],
+   "censuradas": {
+    "n": 0,
+    "bono_est_usd": 0
+   },
+   "muestra_pequena": false
+  },
+  "vias": {
+   "subasta": {
+    "n": 204,
+    "bono_est_usd": 544170.658781752
+   },
+   "directa": {
+    "n": 96,
+    "bono_est_usd": 101399.84381508599
+   }
+  },
+  "por_mercado": [
+   {
+    "mercado": "cbXRP/USDC lltv 62.5%",
+    "n": 133,
+    "n_directa": 56,
+    "bono_directo_est_usd": 58163.64048750422,
+    "mediana_bloques": 0.0,
+    "parte_2_o_mas": 0.0
+   },
+   {
+    "mercado": "cbETH/USDC lltv 77.0%",
+    "n": 25,
+    "n_directa": 25,
+    "bono_directo_est_usd": 32239.258337712694,
+    "mediana_bloques": 0,
+    "parte_2_o_mas": 0.0
+   },
+   {
+    "mercado": "cbZEC/USDC lltv 62.5%",
+    "n": 7,
+    "n_directa": 4,
+    "bono_directo_est_usd": 8158.990433258028,
+    "mediana_bloques": 0.0,
+    "parte_2_o_mas": 0.0
+   },
+   {
+    "mercado": "WETH/USDC lltv 86.0%",
+    "n": 54,
+    "n_directa": 9,
+    "bono_directo_est_usd": 2702.5625669248434,
+    "mediana_bloques": 0,
+    "parte_2_o_mas": 0.0
+   },
+   {
+    "mercado": "SOL/USDC lltv 62.5%",
+    "n": 28,
+    "n_directa": 1,
+    "bono_directo_est_usd": 69.04161801633802,
+    "mediana_bloques": 0,
+    "parte_2_o_mas": 0.0
+   },
+   {
+    "mercado": "AERO/USDC lltv 62.5%",
+    "n": 1,
+    "n_directa": 1,
+    "bono_directo_est_usd": 66.35037166985916,
+    "mediana_bloques": 0,
+    "parte_2_o_mas": 0.0
+   },
+   {
+    "mercado": "JitoSOL/USDC lltv 62.5%",
+    "n": 16,
+    "n_directa": 0,
+    "bono_directo_est_usd": 0,
+    "mediana_bloques": null,
+    "parte_2_o_mas": null
+   },
+   {
+    "mercado": "cbADA/USDC lltv 62.5%",
+    "n": 14,
+    "n_directa": 0,
+    "bono_directo_est_usd": 0,
+    "mediana_bloques": null,
+    "parte_2_o_mas": null
+   },
+   {
+    "mercado": "cbDOGE/USDC lltv 62.5%",
+    "n": 10,
+    "n_directa": 0,
+    "bono_directo_est_usd": 0,
+    "mediana_bloques": null,
+    "parte_2_o_mas": null
+   },
+   {
+    "mercado": "cbHYPE/USDC lltv 62.5%",
+    "n": 2,
+    "n_directa": 0,
+    "bono_directo_est_usd": 0,
+    "mediana_bloques": null,
+    "parte_2_o_mas": null
+   },
+   {
+    "mercado": "cbLTC/USDC lltv 62.5%",
+    "n": 10,
+    "n_directa": 0,
+    "bono_directo_est_usd": 0,
+    "mediana_bloques": null,
+    "parte_2_o_mas": null
+   }
+  ],
+  "costos_del_ganador": {
+   "gas_usd": {
+    "p50": 1.4514057256722055,
+    "p90": 34.25603034292323,
+    "p99": 781.9712740483919,
+    "min": 0.01221071983676608,
+    "max": 847.542577963413,
+    "n": 96
+   },
+   "propina_usd": {
+    "p50": 0.9149355728407519,
+    "p90": 34.24946914014082,
+    "p99": 781.8599809180339,
+    "min": 0.00269198689611495,
+    "max": 847.5315045817867,
+    "n": 96
+   },
+   "nota": "gas y propina que pagó quien liquidó (no los nuestros)"
+  },
+  "distancia_directas": {
+   "p50": 0,
+   "p90": 0,
+   "p99": 0,
+   "min": 0,
+   "max": 1,
+   "n": 96
+  },
+  "paridad": {
+   "n": 92,
+   "omitidas": {},
+   "max": 1.782164113872464e-14,
+   "mediana": 0.0,
+   "exactas": 91,
+   "dentro_1e9": 92,
+   "dentro_1e6": 92,
+   "con_interes": 92,
+   "peores": [
+    {
+     "tx": "0xd48e1b3a1ebc009dec368dcf1abed3fa9be329792f0d871a66bc05097e1007e1",
+     "mercado": "cbXRP/USDC lltv 62.5%",
+     "error": 1.782164113872464e-14
+    },
+    {
+     "tx": "0x049327359c7be3409a6f0d2f2f0d1d41b32ba7d109d583be0bfe6c696932c0aa",
+     "mercado": "cbXRP/USDC lltv 62.5%",
+     "error": 0.0
+    },
+    {
+     "tx": "0x288927b9861944bd8fdfbb2ccfd436c7a108258b9e105b129bde8ef665500ff8",
+     "mercado": "cbLTC/USDC lltv 62.5%",
+     "error": 0.0
+    },
+    {
+     "tx": "0x76a4c8ed78f4c3217d2186280cf6ec4737173a6afd21ba927ca68ba1c24ce616",
+     "mercado": "cbXRP/USDC lltv 62.5%",
+     "error": 0.0
+    },
+    {
+     "tx": "0xa3f666b3ca61732ea02a4ea65263949cb62bbe120a99ad3e67ead9e9a483340b",
+     "mercado": "cbXRP/USDC lltv 62.5%",
+     "error": 0.0
+    }
+   ]
+  },
+  "ganadores": {
+   "distintos": 68,
+   "bono_est_usd": 101399.84381508599,
+   "top1": 0.12011419774032324,
+   "top3": 0.31818926016562415,
+   "top10": 0.6528684075434026
+  },
+  "concentracion_dias": {
+   "dias_con_liquidaciones": 9,
+   "bono_est_usd": 101399.84381508602,
+   "top1": 0.8165035748675293,
+   "top3": 0.9555725735889111
+  },
+  "flashblocks": null,
+  "control_census": {
+   "bono_directo_replay_est_usd": 101399.84381508599,
+   "bono_directo_census_usd": 99595.0,
+   "razon": 1.018121831568713,
+   "nota": "el replay solo cuenta liquidaciones de al menos el mínimo de bono; el Census cuenta todas"
+  }
+ },
+ "diagnostico": {
+  "n": 96,
+  "errores": 0,
+  "oraculos": {
+   "0x031b2efc8d70042ac8d9f5c793c4149ec4b60fde": {
+    "BASE_FEED_1": [
+     "XRP / USD",
+     "0x9f0c1dd78c4cbdf5b9cf923a549a201edc676d34"
+    ]
+   },
+   "0x96f1485daf396c2ab7e53dc76d7b330143cb2269": {
+    "BASE_FEED_1": [
+     "AERO / USD",
+     "0x4ec5970fc728c5f65ba413992cd5ff6fd70fcff0"
+    ],
+    "QUOTE_FEED_1": [
+     "USDC / USD",
+     "0x7e860098f58bbfc8648a4311b374b1d669a2bc6b"
+    ]
+   },
+   "0x97ff9cbd7e77348b2b8ffbb883bf29452ad18295": {
+    "BASE_FEED_1": [
+     "CBETH / USD",
+     "0xd7818272b9e248357d13057aab0b417af31e817d"
+    ]
+   },
+   "0xa3cb2d7204f47a468b82c6fab1ca9675e9f7a272": {
+    "BASE_FEED_1": [
+     "ZEC / USD",
+     "0xc4a161651546983083aedddec5878a2eaf604890"
+    ]
+   },
+   "0xe9725430f3a72611ac72eddc650625bce4f45dc7": {
+    "BASE_FEED_1": [
+     "SOL / USD",
+     "0x975043adbb80fc32276cbf9bbcfd4a601a12462d"
+    ]
+   },
+   "0xfea2d58cefcb9fcb597723c6bae66ffe4193afe4": {
+    "BASE_FEED_1": [
+     "ETH / USD",
+     "0x71041dddad3595f9ced3dccfbe3d1f4b0a16bb70"
+    ],
+    "QUOTE_FEED_1": [
+     "USDC / USD",
+     "0x7e860098f58bbfc8648a4311b374b1d669a2bc6b"
+    ]
+   }
+  },
+  "filas": [
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52342201,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 99,
+    "bloque_n_tx": 1994,
+    "fraccion_del_bloque": 0.04964894684052156,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbZEC/USDC lltv 62.5%",
+    "bloque": 51917436,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": null,
+    "bloque_n_tx": 374,
+    "fraccion_del_bloque": null,
+    "via_actualizacion": null,
+    "prioridad_vs_actualizacion": null,
+    "mismo_actor": null
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341575,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 1,
+    "bloque_n_tx": 2034,
+    "fraccion_del_bloque": 0.0004916420845624386,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "WETH/USDC lltv 86.0%",
+    "bloque": 52341833,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 1,
+    "bloque_n_tx": 3457,
+    "fraccion_del_bloque": 0.0002892681515765114,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "SOL/USDC lltv 62.5%",
+    "bloque": 52342180,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 3,
+    "bloque_n_tx": 1791,
+    "fraccion_del_bloque": 0.0016750418760469012,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "igual",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "AERO/USDC lltv 62.5%",
+    "bloque": 51863954,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 14,
+    "bloque_n_tx": 203,
+    "fraccion_del_bloque": 0.06896551724137931,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52344648,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 35,
+    "bloque_n_tx": 1221,
+    "fraccion_del_bloque": 0.028665028665028666,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbZEC/USDC lltv 62.5%",
+    "bloque": 51927732,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": null,
+    "bloque_n_tx": 632,
+    "fraccion_del_bloque": null,
+    "via_actualizacion": null,
+    "prioridad_vs_actualizacion": null,
+    "mismo_actor": null
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52620863,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 1,
+    "bloque_n_tx": 3330,
+    "fraccion_del_bloque": 0.0003003003003003003,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "WETH/USDC lltv 86.0%",
+    "bloque": 52341833,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 558,
+    "bloque_n_tx": 3457,
+    "fraccion_del_bloque": 0.16141162857969338,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 53032839,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 2,
+    "bloque_n_tx": 1703,
+    "fraccion_del_bloque": 0.0011743981209630064,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbZEC/USDC lltv 62.5%",
+    "bloque": 52088534,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": null,
+    "bloque_n_tx": 1022,
+    "fraccion_del_bloque": null,
+    "via_actualizacion": null,
+    "prioridad_vs_actualizacion": null,
+    "mismo_actor": null
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 1,
+    "bloque_n_tx": 3387,
+    "fraccion_del_bloque": 0.0002952465308532625,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "igual",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "WETH/USDC lltv 86.0%",
+    "bloque": 52342208,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 899,
+    "bloque_n_tx": 2975,
+    "fraccion_del_bloque": 0.3021848739495798,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52341841,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 181,
+    "bloque_n_tx": 2137,
+    "fraccion_del_bloque": 0.08469817501169864,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbZEC/USDC lltv 62.5%",
+    "bloque": 52046652,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": null,
+    "bloque_n_tx": 199,
+    "fraccion_del_bloque": null,
+    "via_actualizacion": null,
+    "prioridad_vs_actualizacion": null,
+    "mismo_actor": null
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 1,
+    "bloque_n_tx": 3387,
+    "fraccion_del_bloque": 0.0002952465308532625,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "igual",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "WETH/USDC lltv 86.0%",
+    "bloque": 52341833,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 557,
+    "bloque_n_tx": 3457,
+    "fraccion_del_bloque": 0.16112236042811687,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52342201,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 102,
+    "bloque_n_tx": 1994,
+    "fraccion_del_bloque": 0.05115346038114343,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 1,
+    "bloque_n_tx": 3387,
+    "fraccion_del_bloque": 0.0002952465308532625,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "igual",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "WETH/USDC lltv 86.0%",
+    "bloque": 52341758,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 1,
+    "bloque_n_tx": 2941,
+    "fraccion_del_bloque": 0.00034002040122407346,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52341676,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 4,
+    "bloque_n_tx": 1269,
+    "fraccion_del_bloque": 0.0031520882584712374,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "igual",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 10,
+    "bloque_n_tx": 3387,
+    "fraccion_del_bloque": 0.002952465308532625,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "igual",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "WETH/USDC lltv 86.0%",
+    "bloque": 52341833,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 558,
+    "bloque_n_tx": 3457,
+    "fraccion_del_bloque": 0.16141162857969338,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52344648,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 38,
+    "bloque_n_tx": 1221,
+    "fraccion_del_bloque": 0.031122031122031123,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341830,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 37,
+    "bloque_n_tx": 3292,
+    "fraccion_del_bloque": 0.011239368165249088,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "WETH/USDC lltv 86.0%",
+    "bloque": 52342208,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 891,
+    "bloque_n_tx": 2975,
+    "fraccion_del_bloque": 0.2994957983193277,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52342187,
+    "liquidable_un_bloque_antes": true,
+    "precio_cambio_en_el_bloque": false,
+    "feed_cambio_en_el_bloque": false,
+    "bloques_desde_el_ultimo_cambio_de_feed": 1,
+    "tx_entre_actualizacion_y_liquidacion": null,
+    "bloque_n_tx": 1418,
+    "fraccion_del_bloque": null,
+    "via_actualizacion": null,
+    "prioridad_vs_actualizacion": null,
+    "mismo_actor": null
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 10,
+    "bloque_n_tx": 3387,
+    "fraccion_del_bloque": 0.002952465308532625,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "igual",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "WETH/USDC lltv 86.0%",
+    "bloque": 52342208,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 535,
+    "bloque_n_tx": 2975,
+    "fraccion_del_bloque": 0.17983193277310924,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52342081,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 74,
+    "bloque_n_tx": 1157,
+    "fraccion_del_bloque": 0.06395851339671564,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 10,
+    "bloque_n_tx": 3387,
+    "fraccion_del_bloque": 0.002952465308532625,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "igual",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "WETH/USDC lltv 86.0%",
+    "bloque": 52341758,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 1,
+    "bloque_n_tx": 2941,
+    "fraccion_del_bloque": 0.00034002040122407346,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52620815,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 5,
+    "bloque_n_tx": 3133,
+    "fraccion_del_bloque": 0.0015959144589849984,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52620863,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 2,
+    "bloque_n_tx": 3330,
+    "fraccion_del_bloque": 0.0006006006006006006,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52344648,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 45,
+    "bloque_n_tx": 1221,
+    "fraccion_del_bloque": 0.036855036855036855,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 14,
+    "bloque_n_tx": 3387,
+    "fraccion_del_bloque": 0.004133451431945674,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "igual",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 53032824,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 2,
+    "bloque_n_tx": 2346,
+    "fraccion_del_bloque": 0.0008525149190110827,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52620863,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 3,
+    "bloque_n_tx": 3330,
+    "fraccion_del_bloque": 0.0009009009009009009,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52621010,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 78,
+    "bloque_n_tx": 1432,
+    "fraccion_del_bloque": 0.05446927374301676,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341830,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 37,
+    "bloque_n_tx": 3292,
+    "fraccion_del_bloque": 0.011239368165249088,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52341766,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 100,
+    "bloque_n_tx": 2056,
+    "fraccion_del_bloque": 0.048638132295719845,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341815,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 15,
+    "bloque_n_tx": 3051,
+    "fraccion_del_bloque": 0.004916420845624385,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "igual",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 53032839,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 5,
+    "bloque_n_tx": 1703,
+    "fraccion_del_bloque": 0.002935995302407516,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341830,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 41,
+    "bloque_n_tx": 3292,
+    "fraccion_del_bloque": 0.012454434993924665,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52344648,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 45,
+    "bloque_n_tx": 1221,
+    "fraccion_del_bloque": 0.036855036855036855,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 447,
+    "bloque_n_tx": 3387,
+    "fraccion_del_bloque": 0.13197519929140833,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52342216,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 60,
+    "bloque_n_tx": 1500,
+    "fraccion_del_bloque": 0.04,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 153,
+    "bloque_n_tx": 3387,
+    "fraccion_del_bloque": 0.045172719220549155,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52341841,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 191,
+    "bloque_n_tx": 2137,
+    "fraccion_del_bloque": 0.08937763219466542,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 148,
+    "bloque_n_tx": 3387,
+    "fraccion_del_bloque": 0.04369648656628285,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52343147,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 50,
+    "bloque_n_tx": 2015,
+    "fraccion_del_bloque": 0.02481389578163772,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "igual",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341575,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 1,
+    "bloque_n_tx": 2034,
+    "fraccion_del_bloque": 0.0004916420845624386,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52341766,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 100,
+    "bloque_n_tx": 2056,
+    "fraccion_del_bloque": 0.048638132295719845,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341815,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 394,
+    "bloque_n_tx": 3051,
+    "fraccion_del_bloque": 0.1291379875450672,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "igual",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 53032810,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 18,
+    "bloque_n_tx": 1635,
+    "fraccion_del_bloque": 0.011009174311926606,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 211,
+    "bloque_n_tx": 3387,
+    "fraccion_del_bloque": 0.06229701801003838,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52531717,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 2,
+    "bloque_n_tx": 1218,
+    "fraccion_del_bloque": 0.0016420361247947454,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 148,
+    "bloque_n_tx": 3387,
+    "fraccion_del_bloque": 0.04369648656628285,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52342847,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 95,
+    "bloque_n_tx": 1583,
+    "fraccion_del_bloque": 0.06001263423878711,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 148,
+    "bloque_n_tx": 3387,
+    "fraccion_del_bloque": 0.04369648656628285,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52620995,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 60,
+    "bloque_n_tx": 3568,
+    "fraccion_del_bloque": 0.016816143497757848,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 150,
+    "bloque_n_tx": 3387,
+    "fraccion_del_bloque": 0.04428697962798937,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52620815,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 876,
+    "bloque_n_tx": 3133,
+    "fraccion_del_bloque": 0.2796042132141717,
+    "via_actualizacion": "normal",
+    "prioridad_vs_actualizacion": "igual",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341815,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 478,
+    "bloque_n_tx": 3051,
+    "fraccion_del_bloque": 0.15666994428056374,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341575,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 1,
+    "bloque_n_tx": 2034,
+    "fraccion_del_bloque": 0.0004916420845624386,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341575,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 1,
+    "bloque_n_tx": 2034,
+    "fraccion_del_bloque": 0.0004916420845624386,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341710,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 148,
+    "bloque_n_tx": 2812,
+    "fraccion_del_bloque": 0.05263157894736842,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52344891,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 1,
+    "bloque_n_tx": 2153,
+    "fraccion_del_bloque": 0.00046446818392940084,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341830,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 159,
+    "bloque_n_tx": 3292,
+    "fraccion_del_bloque": 0.04829890643985419,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52321958,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 6,
+    "bloque_n_tx": 2385,
+    "fraccion_del_bloque": 0.0025157232704402514,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "igual",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341815,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 608,
+    "bloque_n_tx": 3051,
+    "fraccion_del_bloque": 0.19927892494264177,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52345477,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 123,
+    "bloque_n_tx": 3158,
+    "fraccion_del_bloque": 0.038948701709943,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 216,
+    "bloque_n_tx": 3387,
+    "fraccion_del_bloque": 0.0637732506643047,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341830,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 411,
+    "bloque_n_tx": 3292,
+    "fraccion_del_bloque": 0.12484811664641556,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52345477,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 122,
+    "bloque_n_tx": 3158,
+    "fraccion_del_bloque": 0.038632045598480054,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 223,
+    "bloque_n_tx": 3387,
+    "fraccion_del_bloque": 0.06583997638027753,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341815,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 431,
+    "bloque_n_tx": 3051,
+    "fraccion_del_bloque": 0.141265158964274,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 156,
+    "bloque_n_tx": 3387,
+    "fraccion_del_bloque": 0.046058458813108945,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 219,
+    "bloque_n_tx": 3387,
+    "fraccion_del_bloque": 0.06465899025686449,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52344891,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 178,
+    "bloque_n_tx": 2153,
+    "fraccion_del_bloque": 0.08267533673943335,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 221,
+    "bloque_n_tx": 3387,
+    "fraccion_del_bloque": 0.065249483318571,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52344891,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 179,
+    "bloque_n_tx": 2153,
+    "fraccion_del_bloque": 0.08313980492336275,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52345477,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 125,
+    "bloque_n_tx": 3158,
+    "fraccion_del_bloque": 0.039582013932868906,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341710,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 150,
+    "bloque_n_tx": 2812,
+    "fraccion_del_bloque": 0.05334281650071124,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52344891,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 178,
+    "bloque_n_tx": 2153,
+    "fraccion_del_bloque": 0.08267533673943335,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341830,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 437,
+    "bloque_n_tx": 3292,
+    "fraccion_del_bloque": 0.13274605103280682,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52344891,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 175,
+    "bloque_n_tx": 2153,
+    "fraccion_del_bloque": 0.08128193218764515,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341710,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 148,
+    "bloque_n_tx": 2812,
+    "fraccion_del_bloque": 0.05263157894736842,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341830,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 547,
+    "bloque_n_tx": 3292,
+    "fraccion_del_bloque": 0.16616038882138517,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341830,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 1138,
+    "bloque_n_tx": 3292,
+    "fraccion_del_bloque": 0.3456865127582017,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341710,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 154,
+    "bloque_n_tx": 2812,
+    "fraccion_del_bloque": 0.05476529160739687,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "menor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 235,
+    "bloque_n_tx": 3387,
+    "fraccion_del_bloque": 0.06938293475051668,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341815,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 496,
+    "bloque_n_tx": 3051,
+    "fraccion_del_bloque": 0.162569649295313,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341830,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 153,
+    "bloque_n_tx": 3292,
+    "fraccion_del_bloque": 0.04647630619684082,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341830,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 157,
+    "bloque_n_tx": 3292,
+    "fraccion_del_bloque": 0.047691373025516404,
+    "via_actualizacion": "subasta",
+    "prioridad_vs_actualizacion": "mayor",
+    "mismo_actor": false
+   }
+  ],
+  "liquidable_un_bloque_antes": 1,
+  "precio_cambio_en_el_bloque": 95,
+  "feed_cambio_en_el_bloque": 95,
+  "con_actualizacion_antes_en_el_bloque": 91,
+  "tx_entre_actualizacion_y_liquidacion_mediana": 102,
+  "mismo_actor": 0,
+  "separacion": {
+   "todas": {
+    "n": 91,
+    "tx": {
+     "p50": 102,
+     "p90": 535,
+     "p99": 899,
+     "min": 1,
+     "max": 1138,
+     "n": 91
+    },
+    "fraccion": {
+     "p50": 0.045172719220549155,
+     "p90": 0.16141162857969338,
+     "p99": 0.3021848739495798,
+     "min": 0.0002892681515765114,
+     "max": 0.3456865127582017,
+     "n": 91
+    },
+    "ms_aprox": {
+     "p50": 90.34543844109831,
+     "p90": 322.82325715938674,
+     "p99": 604.3697478991596,
+     "min": 0.5785363031530228,
+     "max": 691.3730255164035,
+     "n": 91
+    },
+    "tramos": {
+     "pegada (hasta 1 tx)": 12,
+     "hasta 10 tx": 13,
+     "hasta 100 tx": 20,
+     "más de 100 tx": 46
+    }
+   },
+   "por_via": {
+    "subasta": {
+     "n": 66,
+     "tx": {
+      "p50": 150,
+      "p90": 557,
+      "p99": 899,
+      "min": 1,
+      "max": 1138,
+      "n": 66
+     },
+     "fraccion": {
+      "p50": 0.04647630619684082,
+      "p90": 0.162569649295313,
+      "p99": 0.3021848739495798,
+      "min": 0.0002892681515765114,
+      "max": 0.3456865127582017,
+      "n": 66
+     },
+     "ms_aprox": {
+      "p50": 92.95261239368165,
+      "p90": 325.139298590626,
+      "p99": 604.3697478991596,
+      "min": 0.5785363031530228,
+      "max": 691.3730255164035,
+      "n": 66
+     },
+     "tramos": {
+      "pegada (hasta 1 tx)": 12,
+      "hasta 10 tx": 7,
+      "hasta 100 tx": 5,
+      "más de 100 tx": 42
+     }
+    },
+    "normal": {
+     "n": 25,
+     "tx": {
+      "p50": 50,
+      "p90": 181,
+      "p99": 876,
+      "min": 2,
+      "max": 876,
+      "n": 25
+     },
+     "fraccion": {
+      "p50": 0.036855036855036855,
+      "p90": 0.08469817501169864,
+      "p99": 0.2796042132141717,
+      "min": 0.0008525149190110827,
+      "max": 0.2796042132141717,
+      "n": 25
+     },
+     "ms_aprox": {
+      "p50": 73.71007371007371,
+      "p90": 169.39635002339728,
+      "p99": 559.2084264283435,
+      "min": 1.7050298380221653,
+      "max": 559.2084264283435,
+      "n": 25
+     },
+     "tramos": {
+      "pegada (hasta 1 tx)": 0,
+      "hasta 10 tx": 6,
+      "hasta 100 tx": 15,
+      "más de 100 tx": 4
+     }
+    }
+   },
+   "prioridad_de_la_liquidacion_vs_actualizacion": {
+    "mayor": 52,
+    "igual": 14,
+    "menor": 25
+   }
+  }
+ },
+ "metodos_rpc": [
+  "eth_blockNumber",
+  "eth_call",
+  "eth_getBlockByNumber",
+  "eth_getLogs",
+  "eth_getTransactionByHash",
+  "eth_getTransactionReceipt"
+ ],
+ "puertas": [
+  {
+   "puerta": "Decisiones en tiempo real sin enviar nada",
+   "estado": "cumple",
+   "evidencia": "5 decisiones; solo métodos de lectura (6 distintos)"
+  },
+  {
+   "puerta": "Cada GO comparado con lo que ocurrió",
+   "estado": "cumple",
+   "evidencia": "2 de 2 GO con desenlace conocido (expirada 2)"
+  },
+  {
+   "puerta": "Control de reorganizaciones",
+   "estado": "parcial",
+   "evidencia": "0 reorgs vistos, 0 saltos de atraso (0 bloques cubiertos con eventos), 0 bloques perdidos (0 recuperados, 0 sin recuperar, 0 definitivos); la recuperación se prueba con una cadena falsa"
+  },
+  {
+   "puerta": "Simulaciones: divergencias investigadas",
+   "estado": "cumple",
+   "evidencia": "paridad 91/92 exacta, máx 1.8e-14; libro sin deriva (43348 posiciones reconciliadas)"
+  },
+  {
+   "puerta": "Latencia en infraestructura real",
+   "estado": "parcial",
+   "evidencia": "p50 477 ms, p90 776 ms, p99 5,949 ms (n=2033); medida desde GitHub Actions, no desde la infraestructura de Titan"
+  },
+  {
+   "puerta": "Detección competitiva (replay)",
+   "estado": "parcial",
+   "evidencia": "96 liquidaciones directas elegibles reconstruidas; versión mínima del túnel (cruce → liquidación), no reproduce NQC completo"
+  },
+  {
+   "puerta": "Economía con costos completos",
+   "estado": "parcial",
+   "evidencia": "bono × retención observada en el Census (incluye swap, gas y propinas de los ganadores reales); no se simuló nuestra ruta ni su liquidez"
+  }
+ ],
+ "no_prueba": [
+  "La latencia se mide desde un servidor de GitHub Actions hacia RPC públicos. La infraestructura real (nodo propio, cercanía al secuenciador de Base, Titan) puede ser mejor o peor: es una referencia conservadora, no una certificación.",
+  "No se envió nada, así que no se midió el envío (se supone 150 ms), ni la inclusión, ni el orden dentro del bloque.",
+  "Un empate (llegar en el mismo bloque que el ganador) lo decide la propina y el orden del secuenciador: aquí solo se cuenta.",
+  "Los bloques de Base son de 2 s y el timestamp es entero. Con Flashblocks (200 ms) algunos bots ven antes del bloque: las liquidaciones en el mismo bloque del cruce no se pueden ganar sin ver antes de que el bloque cierre.",
+  "El replay solo ve posiciones que terminaron liquidadas; las que se recuperaron o quedaron sin liquidar las mide el modo en vivo.",
+  "El neto usa la retención observada del Census (bono × proporción que se quedaron los ganadores); no es una ejecución simulada con nuestra ruta, liquidez, flash loan ni slippage.",
+  "El gas y la propina del replay son los de quien ganó, no los nuestros.",
+  "Una ventana corta no sustituye semanas de Shadow ni cubre los picos: en el Census el 95% del margen cayó en 3 de 30 días."
+ ]
+}
