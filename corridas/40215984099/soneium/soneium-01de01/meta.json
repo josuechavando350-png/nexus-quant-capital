@@ -1,0 +1,192 @@
+{
+  "archive_disabled": false,
+  "chain": "soneium",
+  "elapsed_s": 70.7,
+  "enriched": 0,
+  "errors_sample": [],
+  "events": 0,
+  "events_complete": false,
+  "events_cover_block": null,
+  "fatal_error": "RpcError: HTTP 429 en rpc.soneium.org",
+  "interrupted": false,
+  "native_trace_sources": {},
+  "oracle_contracts_watched": 0,
+  "oracle_status": {},
+  "phases_s": {
+    "sonda": 5.1,
+    "ventana": 6.8
+  },
+  "price_sources": {
+    "defillama": 0,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 320,
+  "rpc_providers": {
+    "https://rpc.soneium.org": {
+      "en_rotacion": true,
+      "err": 14,
+      "getlogs_max": 1000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 64,
+          "ok": 63
+        },
+        "eth_getLogs": {
+          "err": 14,
+          "errores": {
+            "HTTP 429 en rpc.soneium.org": 14
+          },
+          "ms_prom": 56,
+          "ok": 224
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 287,
+      "sin_metodo": []
+    },
+    "https://soneium.drpc.org": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    }
+  },
+  "second_pass": {},
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "HTTP 403 en rpc.soneium.org",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 403 en rpc.soneium.org",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 400 en rpc.soneium.org",
+      "getlogs_max": 1000,
+      "getlogs_ms": 48,
+      "ms": 44,
+      "proveedor": "https://rpc.soneium.org",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 403 en rpc.soneium.org",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 403 en rpc.soneium.org",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "HTTP 500 en soneium.drpc.org",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 400 en soneium.drpc.org",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 400 en soneium.drpc.org",
+      "getlogs_max": 0,
+      "ms": 56,
+      "proveedor": "https://soneium.drpc.org",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 400 en soneium.drpc.org",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 500 en soneium.drpc.org",
+        "ok": 0
+      },
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "soneium-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 0,
+  "web_calls": 2,
+  "web_sources": {
+    "blockscout": {
+      "ms": 1525,
+      "ok": true
+    },
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 2.0,
+    "days": 30.0,
+    "end_block": 29904624,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352001,
+    "lookback_block": 28561825,
+    "start_block": 28608625,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 0,
+  "with_oracle_delta": 0,
+  "with_realized": 0,
+  "with_realized_complete": 0
+}
