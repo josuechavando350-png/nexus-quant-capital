@@ -1,12 +1,12 @@
 {
- "generado": "2026-10-25 04:35:37 UTC",
+ "generado": "2026-10-25 04:47:21 UTC",
  "config": {
   "min_bonus_usd": 10,
   "min_net_usd": 5
  },
  "fuentes": {
   "vivo": {
-   "bloques": 375,
+   "bloques": 330,
    "decisiones": 5,
    "resultados": 0,
    "lineas_cortadas": 0,
@@ -26,72 +26,72 @@
  },
  "vivo": {
   "ventana": {
-   "bloques": 375,
-   "bloques_en_rango": 375,
+   "bloques": 330,
+   "bloques_en_rango": 330,
    "cobertura": 1.0,
-   "desde_bloque": 53056415,
-   "hasta_bloque": 53056789,
-   "desde_ts": 1792902177,
-   "hasta_ts": 1792902925,
-   "horas": 0.20777777777777778
+   "desde_bloque": 53056814,
+   "hasta_bloque": 53057143,
+   "desde_ts": 1792902975,
+   "hasta_ts": 1792903633,
+   "horas": 0.1827777777777778
   },
   "latencia": {
    "visto_ms": {
-    "p50": 228,
-    "p90": 396,
-    "p99": 497,
-    "min": 82,
-    "max": 1573,
-    "n": 364
+    "p50": 182,
+    "p90": 348,
+    "p99": 438,
+    "min": 53,
+    "max": 449,
+    "n": 318
    },
    "proceso_ms": {
-    "p50": 252,
-    "p90": 434,
-    "p99": 970,
-    "min": 125,
-    "max": 4501,
-    "n": 375
+    "p50": 157,
+    "p90": 273,
+    "p99": 515,
+    "min": 149,
+    "max": 4512,
+    "n": 330
    },
    "visto_mas_proceso_ms": {
-    "p50": 519,
-    "p90": 743,
-    "p99": 1762,
-    "min": 262,
-    "max": 4656,
-    "n": 364
+    "p50": 365,
+    "p90": 555,
+    "p99": 725,
+    "min": 210,
+    "max": 4735,
+    "n": 318
    },
    "fases_ms": {
     "cabecera_ms": {
-     "p50": 106,
-     "p90": 123,
-     "p99": 297,
-     "min": 47,
-     "max": 1921,
-     "n": 375
+     "p50": 17,
+     "p90": 26,
+     "p99": 116,
+     "min": 13,
+     "max": 4348,
+     "n": 330
     },
     "logs_ms": {
      "p50": 0,
-     "p90": 246,
-     "p99": 357,
+     "p90": 111,
+     "p99": 256,
      "min": 0,
-     "max": 4398,
-     "n": 375
+     "max": 4366,
+     "n": 330
     },
     "lectura_ms": {
-     "p50": 136,
-     "p90": 208,
-     "p99": 387,
+     "p50": 130,
+     "p90": 146,
+     "p99": 214,
      "min": 0,
-     "max": 851,
-     "n": 375
+     "max": 299,
+     "n": 330
     },
     "evaluar_ms": {
-     "p50": 5,
-     "p90": 13,
-     "p99": 180,
-     "min": 4,
-     "max": 244,
-     "n": 375
+     "p50": 6,
+     "p90": 22,
+     "p99": 214,
+     "min": 5,
+     "max": 283,
+     "n": 330
     }
    },
    "decision": {
@@ -218,23 +218,23 @@
    },
    "watcher": {
     "errores": {},
-    "fotos": 5592,
+    "fotos": 5931,
     "intervalo_de_consulta_ms": 100,
     "intervalo_entre_trozos_ms": {
-     "max": 235,
-     "min": 99,
-     "n": 74,
-     "p50": 118,
-     "p90": 217,
-     "p99": 222
+     "max": 250,
+     "min": 45,
+     "n": 70,
+     "p50": 199,
+     "p90": 202,
+     "p99": 208
     },
     "rtt_ms": {
-     "max": 319,
-     "min": 95,
-     "n": 5592,
-     "p50": 105,
-     "p90": 112,
-     "p99": 126
+     "max": 245,
+     "min": 13,
+     "n": 5931,
+     "p50": 16,
+     "p90": 19,
+     "p99": 40
     },
     "url": "https://mainnet-preconf.base.org"
    }
@@ -246,11 +246,11 @@
     "no_liquidada_en_el_bloque": 5
    },
    "decision_ms": {
-    "p50": 1107,
-    "p90": 1107,
-    "p99": 1107,
-    "min": 1107,
-    "max": 1107,
+    "p50": 575,
+    "p90": 575,
+    "p99": 575,
+    "min": 575,
+    "max": 575,
     "n": 5
    },
    "mismo_trozo": 0,
@@ -274,15 +274,15 @@
     "cruces_liquidados": 0,
     "cruces_sin_liquidar": 5,
     "decision_ms": {
-     "max": 1107,
-     "min": 1107,
+     "max": 575,
+     "min": 575,
      "n": 5,
-     "p50": 1107,
-     "p90": 1107,
-     "p99": 1107
+     "p50": 575,
+     "p90": 575,
+     "p99": 575
     },
-    "errores": 0,
-    "evaluaciones": 2755,
+    "errores": 15,
+    "evaluaciones": 2674,
     "holgura_ms": {
      "max": null,
      "min": null,
@@ -293,12 +293,12 @@
     },
     "holgura_positiva": 0,
     "lectura_pendiente_ms": {
-     "max": 448,
-     "min": 109,
-     "n": 2755,
-     "p50": 129,
-     "p90": 142,
-     "p99": 162
+     "max": 290,
+     "min": 17,
+     "n": 2674,
+     "p50": 34,
+     "p90": 45,
+     "p99": 62
     },
     "supuesto_envio_ms": 150
    }
@@ -307,27 +307,28 @@
   "candidatas_sin_liquidar": {},
   "calidad": {
    "contadores": {
-    "bloques": 297,
-    "bloques_sin_logs_por_bloom": 246,
+    "bloques": 298,
+    "bloques_sin_logs_por_bloom": 233,
     "candidatas": 5,
     "deriva_reconciliacion": 0,
-    "reconciliadas": 4800
+    "posiciones_sincronizadas": 4,
+    "reconciliadas": 5200
    },
    "eventos_del_sistema": {},
    "multicall_ok": true,
    "libro": {
-    "bloque": 53056414,
-    "candidatos": 36105,
-    "con_deuda": 30367,
+    "bloque": 53056813,
+    "candidatos": 36106,
+    "con_deuda": 30369,
     "desde_cache": true,
     "dias_atras": 30,
-    "leidos": 36105,
+    "leidos": 36106,
     "libro_parcial": false,
-    "segundos": 14.9
+    "segundos": 13.7
    },
    "libro_deriva": 0,
    "pendientes_al_cierre": 5,
-   "inicio": 1792902167.2708604,
+   "inicio": 1792902966.4766734,
    "fin": null,
    "supuestos": {
     "interes": "se acumula con el IRM solo para posiciones a menos de 0.5% del umbral",
@@ -345,7 +346,7 @@
    "excluidos": {}
   },
   "cercanas": {
-   "bloque": 53056711,
+   "bloque": 53057111,
    "n": 4,
    "deuda_usd": 4895.425602,
    "mas_cercana_pct": 0.294,
@@ -370,14 +371,14 @@
    "bono_elegido_usd": 158906.62342789592,
    "ventana": {
     "completa": true,
-    "desde": 51760382,
-    "desde_pedido": 51760382,
+    "desde": 51760784,
+    "desde_pedido": 51760784,
     "dias": 30,
     "dias_reales": 30.0,
-    "hasta_leido": 53056382,
-    "hasta_pedido": 53056382
+    "hasta_leido": 53056784,
+    "hasta_pedido": 53056784
    },
-   "segundos": 63.9,
+   "segundos": 61.8,
    "sondeos_de_archivo": 30
   },
   "por_distancia": [
@@ -668,12 +669,12 @@
      "error": 0.0
     },
     {
-     "tx": "0xa3f666b3ca61732ea02a4ea65263949cb62bbe120a99ad3e67ead9e9a483340b",
-     "mercado": "cbXRP/USDC lltv 62.5%",
+     "tx": "0x5cad6debff5638debdc6f560e9d7486c6f4c8265b411ca918dadd4c693d67aa0",
+     "mercado": "WETH/USDC lltv 86.0%",
      "error": 0.0
     },
     {
-     "tx": "0x9305cf96014e47fef2db0fd3a5c0042f61010ca8349d818f52c850e91061b312",
+     "tx": "0xa3f666b3ca61732ea02a4ea65263949cb62bbe120a99ad3e67ead9e9a483340b",
      "mercado": "cbXRP/USDC lltv 62.5%",
      "error": 0.0
     }
@@ -824,12 +825,12 @@
   {
    "puerta": "Simulaciones: divergencias investigadas",
    "estado": "parcial",
-   "evidencia": "paridad 14/14 exacta, máx 0.0e+00; libro sin deriva (4800 posiciones reconciliadas)"
+   "evidencia": "paridad 14/14 exacta, máx 0.0e+00; libro sin deriva (5200 posiciones reconciliadas)"
   },
   {
    "puerta": "Latencia en infraestructura real",
    "estado": "parcial",
-   "evidencia": "p50 519 ms, p90 743 ms, p99 1,762 ms (n=364); medida desde GitHub Actions, no desde la infraestructura de Titan"
+   "evidencia": "p50 365 ms, p90 555 ms, p99 725 ms (n=318); medida desde GitHub Actions, no desde la infraestructura de Titan"
   },
   {
    "puerta": "Detección competitiva (replay)",
