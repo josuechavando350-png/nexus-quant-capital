@@ -1,0 +1,298 @@
+{
+  "archive_disabled": false,
+  "chain": "unichain",
+  "elapsed_s": 71.2,
+  "enriched": 2,
+  "errors_sample": [],
+  "events": 2,
+  "events_complete": true,
+  "events_cover_block": 62195640,
+  "fatal_error": null,
+  "interrupted": false,
+  "native_trace_sources": {
+    "debug_traceTransaction": 2
+  },
+  "oracle_contracts_watched": 2,
+  "oracle_status": {
+    "sin_ver": 2
+  },
+  "phases_s": {
+    "enriquecimiento": 2.1,
+    "eventos": 26.4,
+    "evidencia": 3.4,
+    "metadatos": 1.3,
+    "oraculos": 27.1,
+    "segunda_pasada": 0.0,
+    "sonda": 4.2,
+    "ventana": 6.8
+  },
+  "price_sources": {
+    "defillama": 4,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 677,
+  "rpc_providers": {
+    "https://mainnet.unichain.org": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": 10000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 73,
+          "ok": 29
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 79,
+          "ok": 67
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 83,
+          "ok": 8
+        },
+        "eth_getLogs": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 80,
+          "ok": 529
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 74,
+          "ok": 3
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 75,
+          "ok": 3
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 639,
+      "sin_metodo": []
+    },
+    "https://unichain-rpc.publicnode.com": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": 5000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "debug_traceTransaction"
+      ]
+    },
+    "https://unichain.drpc.org": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 136,
+          "ok": 6
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 194,
+          "ok": 1
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 187,
+          "ok": 1
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 167,
+          "ok": 1
+        },
+        "trace_transaction": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 2
+        }
+      },
+      "ok": 7,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    }
+  },
+  "second_pass": {
+    "intentadas": 0
+  },
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "HTTP 403 en mainnet.unichain.org",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 403 en mainnet.unichain.org",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 400 en mainnet.unichain.org",
+      "getlogs_max": 10000,
+      "getlogs_ms": 70,
+      "ms": 73,
+      "proveedor": "https://mainnet.unichain.org",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 403 en mainnet.unichain.org",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 403 en mainnet.unichain.org",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 403 en unichain-rpc.publicnode.com",
+      "getlogs_max": 5000,
+      "getlogs_ms": 79,
+      "ms": 72,
+      "proveedor": "https://unichain-rpc.publicnode.com",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 403 en unichain-rpc.publicnode.com",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 403 en unichain-rpc.publicnode.com",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "ok": 1
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "ok": 2
+      },
+      "getlogs_error": "HTTP 400 en unichain.drpc.org",
+      "getlogs_max": 0,
+      "ms": 162,
+      "proveedor": "https://unichain.drpc.org",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "ok": 1
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "ok": 2
+      },
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "unichain-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 2,
+  "web_calls": 7,
+  "web_sources": {
+    "blockscout": {
+      "ms": 2028,
+      "ok": true
+    },
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 1.0,
+    "days": 30.0,
+    "end_block": 62195640,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352000,
+    "lookback_block": 59510041,
+    "start_block": 59603641,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 2,
+  "with_oracle_delta": 0,
+  "with_realized": 2,
+  "with_realized_complete": 2
+}
