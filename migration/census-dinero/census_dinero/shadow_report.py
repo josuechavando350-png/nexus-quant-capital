@@ -697,6 +697,13 @@ def headline(res):
         L.append("**Replay**: no produjo liquidaciones directas elegibles; ver cobertura abajo.")
     else:
         L.append("**Replay**: sin datos.")
+    dg = res.get("diagnostico")
+    pp = ((dg or {}).get("separacion") or {}).get("por_prioridad") or {}
+    if dg and any(x["n"] for x in pp.values()):
+        part = lambda k: f"{pct(pp[k]['parte_del_bono'])}" + (f" (≈ {usd(pp[k]['bono_est_usd'])})" if dg["separacion"].get("con_pesos") else "")   # noqa: E731
+        L.append(f"**Dentro del bloque** (lupa de {dg['n']} liquidaciones directas): {part('mayor')} del bono lo ganaron bots que pagaron más prioridad que "
+                 f"la actualización del oráculo y cayeron en un trozo posterior (reaccionaron: se puede competir); {part('igual')} iba empaquetado con la "
+                 f"actualización (misma prioridad: no hay carrera); {part('menor')} es ambiguo.")
     if lv:
         v, t = lv["ventana"], lv["latencia"]["visto_mas_proceso_ms"]
         go = lv["go"]

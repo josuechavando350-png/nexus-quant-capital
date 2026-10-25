@@ -304,6 +304,10 @@ class TestSeparation(unittest.TestCase):
         sp2 = sr.analyze_diag([a, b, c])["separacion"]                                    # sin pesos: no se presentan dólares estimados
         self.assertFalse(sp2["con_pesos"])
         self.assertNotIn("$3,000", "\n".join(sr.separation_lines(sp2)))
+        head = " ".join(sr.headline({"replay": None, "vivo": None, "puertas": [], "diagnostico": sr.analyze_diag([a, b, c], None, w)}))
+        self.assertIn("Dentro del bloque", head)                                          # y la respuesta corta lo dice
+        self.assertIn("29% (≈ $2,000) del bono lo ganaron bots que pagaron más prioridad", head)
+        self.assertIn("43% (≈ $3,000) iba empaquetado", head)
 
     def test_old_diag_rows_without_block_size_still_work(self):
         d = self.diag(10, 4, None)
