@@ -854,6 +854,10 @@ class Shadow:
             if upd.get("a"):
                 out.update(actualizacion_tx=upd["tx"], actualizacion_de=upd["de"], actualizacion_a=upd["a"],
                            actualizacion_por_subasta=upd["a"] in AUCTION_ENTRIES)
+        if upd:
+            p = self._propinas_vecinas(e, n, upd)
+            if p:
+                out["propinas"] = p
         if liq is None or t0 is None:
             return out
         out.update(visto=True, trozo_liquidacion=liq[1], t_liquidacion_ms=round((liq[0] - t0) * 1000))
@@ -862,6 +866,16 @@ class Shadow:
             out.update(trozo_actualizacion=u[1], t_actualizacion_ms=round((u[0] - t0) * 1000), reaccion_ms=round((liq[0] - u[0]) * 1000),
                        trozos_entre=liq[1] - u[1])
         return out
+
+    def _propinas_vecinas(self, e, n, upd):
+        """Las propinas de la actualización de oráculo, de la liquidación y de sus vecinas en el bloque sellado: con ellas el reporte
+        distingue a quien se coló en el mismo trozo de quien reaccionó en uno posterior (ver `orden.clasificar`)."""
+        from .orden import block_tips, propinas_alrededor
+        try:
+            blk = self.rpc.call("eth_getBlockByNumber", [hex(n), True], recent=True)
+        except RpcError:
+            return None
+        return propinas_alrededor(block_tips(blk)[1], upd["tx_index"], e["tx_index"]) if blk else None
 
     def _resolve_liquidation(self, e, hdr, n, known_before, snap):
         key = (e["market"], e["user"])

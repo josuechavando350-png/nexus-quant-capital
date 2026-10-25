@@ -815,6 +815,10 @@ class TestFlashTiming(unittest.TestCase):
         self.assertEqual(f["reaccion_ms"], 230)
         self.assertEqual((f["t_actualizacion_ms"], f["t_liquidacion_ms"]), (0, 230))
         self.assertEqual((f["actualizacion_tx_index"], f["tx_entre_actualizacion_y_liquidacion"]), (0, 1))
+        # y trae las propinas de la actualización y de la liquidación (gas 1e7 menos la base 5e6) con sus vecinas, para clasificarla después
+        p = f["propinas"]
+        self.assertEqual((p["u"], p["l"], p["gap"], p["n"], p["antes_de_l"], p["despues_de_l"]), (5_000_000, 5_000_000, 1, 2, 5_000_000, None))
+        self.assertEqual(p["entre"], [5_000_000, 5_000_000])
 
     def test_update_transaction_is_identified_and_flagged_when_it_goes_through_the_auction(self):
         env, w = self.make()

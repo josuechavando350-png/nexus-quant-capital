@@ -16,7 +16,7 @@ from collections import Counter
 from .analyze import num, pct, short, usd
 from .config import SHADOW_BASE_MARKETS, SHADOW_PRIORS_SOURCE
 from .rpc import ALLOWED_METHODS
-from .orden import analyze_order
+from .orden import CLASES, analyze_order, clasificar
 from .shadow_live import AUCTION_ENTRIES, DEFAULTS, quantiles
 
 BLOCK_MS = int(DEFAULTS["block_time_s"] * 1000)
@@ -257,6 +257,14 @@ def separation(rows):
         b = sum((r.get("bono_usd") or 0.0) * wt(r) for r in part)
         out["por_prioridad"][tag] = {"n": len(part), "bono_est_usd": b, "parte_del_bono": share(b, total)}
     out["con_pesos"] = bool(tagged) and all(r.get("peso") is not None for r in tagged)
+    # Clase de cada liquidación según las propinas vecinas (ver orden.clasificar): empaquetada / en el mismo trozo / en un trozo posterior / ambigua
+    classed = [r for r in same if r.get("clase")]
+    total_c = sum((r.get("bono_usd") or 0.0) * wt(r) for r in classed)
+    out["por_clase"] = {}
+    for k in CLASES:
+        part = [r for r in classed if r["clase"] == k]
+        b = sum((r.get("bono_usd") or 0.0) * wt(r) for r in part)
+        out["por_clase"][k] = {"n": len(part), "bono_est_usd": b, "parte_del_bono": share(b, total_c)}
     return out
 
 
@@ -297,6 +305,7 @@ def analyze_diag(diag_rows, oracles=None, weights=None):
                      "feed_cambio_en_el_bloque": feed_changed, "bloques_desde_el_ultimo_cambio_de_feed": last_change,
                      "tx_entre_actualizacion_y_liquidacion": gap,
                      "bloque_n_tx": n_tx, "fraccion_del_bloque": gap / n_tx if gap is not None and n_tx else None,
+                     "clase": clasificar(d.get("propinas")),
                      "via_actualizacion": None if not upd else ("subasta" if upd.get("to") in AUCTION_ENTRIES else "normal"),
                      "prioridad_vs_actualizacion": None if prio_l is None or prio_u is None else
                      ("mayor" if prio_l > prio_u else "igual" if prio_l == prio_u else "menor"),
@@ -410,6 +419,15 @@ def analyze_live(bloques, decisiones, resultados, sistema, cercanas, meta, cfg, 
                            "reaccion_ms": quantiles([r["flash"]["reaccion_ms"] for r in rows if "reaccion_ms" in r["flash"]]),
                            "t_liquidacion_ms": quantiles([r["flash"]["t_liquidacion_ms"] for r in rows if "t_liquidacion_ms" in r["flash"]])}
         out["flash"] = {"n": len(fl), "grupos": groups, "watcher": meta.get("flashblocks")}
+    clased = []
+    for r in liqs:
+        f = r.get("flash") or {}
+        k = clasificar(f.get("propinas"))
+        if k:
+            clased.append({"clase": k, "bono_usd": r["bono_usd"], "etiqueta": r["etiqueta"], "trozos_entre": f.get("trozos_entre"),
+                           "gap_tx": (f.get("propinas") or {}).get("gap")})
+    if clased:
+        out["clases_en_vivo"] = clased
     if perfiles:
         out["flash_perfil"] = flash_profile(perfiles, {b["bloque"]: b["n_tx"] for b in bloques if b.get("n_tx")})
     if cruces is not None or meta.get("flash_evaluador"):
@@ -678,13 +696,22 @@ def separation_lines(sp):
         L.append("Según cómo se actualizó el oráculo: " + "; ".join(parts) + ".")
     pp = sp.get("por_prioridad") or {}
     if any(x["n"] for x in pp.values()):
-        names = {"mayor": "pagó más prioridad que la actualización (reaccionó en un trozo posterior)",
-                 "igual": "pagó la misma (empaquetada con la actualización: no hay carrera)",
-                 "menor": "pagó menos (puede ser el mismo trozo o uno posterior)"}
+        names = {"mayor": "pagó más prioridad que la actualización", "igual": "pagó la misma", "menor": "pagó menos"}
         parts = [f"{names[k]}: {x['n']} casos, {pct(x['parte_del_bono'])} del bono" + (f" ({usd(x['bono_est_usd'])})" if sp.get("con_pesos") else "")
                  for k, x in pp.items() if x["n"]]
-        L.append("Prioridad que pagó la liquidación frente a la de la actualización — " + "; ".join(parts) + ". Dentro de un trozo de 200 ms las "
-                 "transacciones se ordenan por prioridad: pagar más y caer después de la actualización implica un trozo posterior.")
+        L.append("Prioridad que pagó la liquidación frente a la de la actualización — " + "; ".join(parts) + ". Es una primera lectura: pagar más puede "
+                 "ser un trozo posterior, pero también alguien que se coló tarde en el mismo trozo; la clasificación de abajo lo separa.")
+    pc = sp.get("por_clase") or {}
+    if any(x["n"] for x in pc.values()):
+        short_names = {"trozo_siguiente": "en un trozo posterior (reaccionó al trozo publicado)",
+                       "mismo_trozo": "colada en el mismo trozo, justo tras la actualización (vio la actualización antes de que se confirmara)",
+                       "empaquetada": "empaquetada con la actualización (misma propina, subasta OEV)",
+                       "ambigua": "ambigua (paga menos que la actualización)"}
+        parts = [f"{short_names[k]}: {pc[k]['n']} casos, {pct(pc[k]['parte_del_bono'])} del bono" +
+                 (f" ({usd(pc[k]['bono_est_usd'])})" if sp.get("con_pesos") else "") for k in short_names if pc[k]["n"]]
+        L.append("**Clasificación por las propinas vecinas** (dentro de un trozo la propina baja; una que sube justo en la liquidación y vuelve al "
+                 "nivel de antes es un pico que entró tarde al mismo trozo; una que está en la cabeza ordenada de otro trozo es una reacción): " +
+                 "; ".join(parts) + ".")
     if t["fraccion"]["n"]:
         L.append("_Los milisegundos son una aproximación: suponen que las transacciones se reparten parejo en los 2 s del bloque; el sello exacto "
                  "de cada transacción solo se ve en vivo, por trozos de 200 ms._")
@@ -710,8 +737,16 @@ def headline(res):
     else:
         L.append("**Replay**: sin datos.")
     dg = res.get("diagnostico")
-    pp = ((dg or {}).get("separacion") or {}).get("por_prioridad") or {}
-    if dg and any(x["n"] for x in pp.values()):
+    sp_ = (dg or {}).get("separacion") or {}
+    pc = sp_.get("por_clase") or {}
+    pp = sp_.get("por_prioridad") or {}
+    if dg and any(x["n"] for x in pc.values()):
+        part = lambda k: f"{pct(pc[k]['parte_del_bono'])}" + (f" (≈ {usd(pc[k]['bono_est_usd'])})" if sp_.get("con_pesos") else "")   # noqa: E731
+        L.append(f"**Quién gana dentro del bloque** (lupa de {dg['n']} liquidaciones directas): {part('trozo_siguiente')} del bono lo ganó quien reaccionó en un trozo "
+                 f"posterior al de la actualización (se puede competir con velocidad y propina); {part('mismo_trozo')} quien se coló en el mismo trozo justo "
+                 f"después de la actualización (vio la actualización antes de que se confirmara: otra clase de infraestructura); {part('empaquetada')} iba "
+                 f"empaquetado con la actualización (subasta OEV: no hay carrera); {part('ambigua')} es ambiguo.")
+    elif dg and any(x["n"] for x in pp.values()):
         part = lambda k: f"{pct(pp[k]['parte_del_bono'])}" + (f" (≈ {usd(pp[k]['bono_est_usd'])})" if dg["separacion"].get("con_pesos") else "")   # noqa: E731
         L.append(f"**Dentro del bloque** (lupa de {dg['n']} liquidaciones directas): {part('mayor')} del bono lo ganaron bots que pagaron más prioridad que "
                  f"la actualización del oráculo y cayeron en un trozo posterior (reaccionaron: se puede competir); {part('igual')} iba empaquetado con la "

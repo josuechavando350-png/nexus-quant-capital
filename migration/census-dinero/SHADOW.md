@@ -141,6 +141,14 @@ es acumulado (el trozo *j* puede llegar a *j*/10 del límite del bloque). Ademá
 una con propina alta que llega tarde puede quedar detrás de otra ya confirmada con menos. Dónde está físicamente el secuenciador no es público;
 no se supone nada de eso aquí.
 
+**Quién gana dentro del bloque.** Con las propinas de la actualización, de la liquidación y de sus vecinas (`propinas` en `diag.jsonl` y en
+`resultados.jsonl`) el reporte clasifica cada liquidación: *empaquetada* (misma propina que la actualización y pegada a ella: subasta OEV),
+*mismo trozo* (la propina sube justo en la liquidación y vuelve al nivel de antes: un pico que entró tarde al trozo de la actualización, es decir,
+alguien que la vio antes de que se confirmara), *trozo siguiente* (cabeza ordenada de otro trozo, o paga más que la actualización sin ser un
+pico: reaccionó al trozo ya publicado) y *ambigua*. Es una inferencia a partir del orden por propina; en vivo se contrasta con los trozos medidos
+(`clases_en_vivo`). Distinguir «mismo trozo» de «trozo siguiente» importa: lo primero exige ver la transacción de la actualización antes de que
+entre al bloque, lo segundo solo velocidad sobre el flujo de Flashblocks.
+
 **Conexiones persistentes.** Todos los clientes RPC del Shadow reutilizan la conexión (`rpc.KeepAlive`, HTTP/1.1
 keep-alive por hilo). Antes cada consulta abría TCP y TLS de nuevo (~3 viajes de ida y vuelta) y la latencia medida
 salía ~3 veces peor que la de un sistema real. Con conexiones persistentes, desde Actions: ver un trozo nuevo del

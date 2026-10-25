@@ -249,6 +249,8 @@ class TestDiagnostic(unittest.TestCase):
         self.assertEqual((sp["todas"]["n"], sp["todas"]["fraccion"]["p50"], sp["por_via"]["normal"]["n"]), (1, 0.5, 1))
         self.assertEqual(sp["prioridad_de_la_liquidacion_vs_actualizacion"], {"igual": 1})
         self.assertEqual(rows[0]["bloque_n_tx"], 2)                                  # y las filas del replay lo traen siempre
+        self.assertEqual((d["propinas"]["u"], d["propinas"]["l"], d["propinas"]["gap"]), (5_000_000, 5_000_000, 1))
+        self.assertEqual(a["filas"][0]["clase"], "empaquetada")                      # misma propina y pegada a la actualización
 
     def test_an_update_a_block_earlier_is_seen_as_liquidable_before(self):
         from census_dinero import shadow_report as sr

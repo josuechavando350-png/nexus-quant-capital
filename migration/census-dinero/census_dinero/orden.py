@@ -43,6 +43,46 @@ def expected_random_ascents(tips):
     return (n - 1) * (1 - same / (n * (n - 1))) / 2
 
 
+# --- Qué pasó con una liquidación respecto a la actualización del oráculo --------------------------
+MAX_ENTRE = 700              # hasta cuántas propinas entre la actualización y la liquidación se guardan completas
+EMPAQUETADA_GAP = 50         # misma propina que la actualización y a esta distancia o menos: iban juntas (más lejos puede ser casualidad)
+LLENO_GAP = 0.25             # una separación de esta parte del bloque o más no cabe en un solo trozo
+
+CLASES = {
+    "empaquetada": "misma propina que la actualización y pegada a ella: iba empaquetada (subasta OEV)",
+    "mismo_trozo": "pico de propina justo después de la actualización, en su mismo trozo: alguien vio la actualización antes de que se confirmara",
+    "trozo_siguiente": "en un trozo posterior: reaccionó después de que se publicó el trozo de la actualización",
+    "ambigua": "paga menos que la actualización y sin pico: pudo ser el mismo trozo o uno posterior",
+}
+
+
+def propinas_alrededor(tips, u, l):
+    """Lo que hace falta de un bloque para clasificar una liquidación: la propina de la actualización (índice u) y de la liquidación
+    (índice l), las de sus vecinas y todas las de en medio si no son demasiadas. `None` si no se puede."""
+    if not tips or u is None or l is None or not 0 <= u < l < len(tips):
+        return None
+    return {"u": tips[u], "l": tips[l], "gap": l - u, "n": len(tips),
+            "antes_de_l": tips[l - 1] if l > 0 else None, "despues_de_l": tips[l + 1] if l + 1 < len(tips) else None,
+            "entre": tips[u:l + 1] if l - u <= MAX_ENTRE else None}
+
+
+def clasificar(p):
+    """Clase de una liquidación según `propinas_alrededor`. Se apoya en que dentro de un trozo las propinas bajan: una que sube justo en la
+    liquidación y vuelve al nivel de antes es un pico que entró tarde en el mismo trozo; una que está dentro de la cabeza ordenada de otro
+    trozo, o que paga más que la actualización sin ser un pico, está en un trozo posterior."""
+    if not p or p.get("u") is None or p.get("l") is None:
+        return None
+    u, l, gap, n = p["u"], p["l"], p["gap"], p.get("n")
+    if l == u and gap <= EMPAQUETADA_GAP:
+        return "empaquetada"
+    if n and gap >= LLENO_GAP * n:
+        return "trozo_siguiente"
+    prev, nxt = p.get("antes_de_l"), p.get("despues_de_l")
+    if prev is not None and l > prev:
+        return "trozo_siguiente" if nxt is not None and nxt > prev else "mismo_trozo"
+    return "trozo_siguiente" if l > u else "ambigua"
+
+
 def compare(a, b):
     return None if a is None or b is None else ("baja" if b < a else "igual" if b == a else "sube")
 

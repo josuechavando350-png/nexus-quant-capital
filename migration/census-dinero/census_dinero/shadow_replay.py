@@ -24,6 +24,7 @@ from .abi import norm
 from .config import SHADOW_PRIOR_KEPT_ALL
 from .keccak import selector
 from .rpc import BudgetExceeded, RpcError
+from .orden import propinas_alrededor
 from .shadow_live import AUCTION_ENTRIES, Out, Shadow, log, make_rpc
 
 RDEFAULTS = {
@@ -141,6 +142,7 @@ class Replay:
         self.lock = threading.Lock()
         self.hdr, self.stat = {}, {}
         self.n_sondeos = 0
+        self._tips = {}                     # bloque -> propina de cada transacción (solo los últimos bloques mirados con lupa)
 
     # -- lecturas de archivo -------------------------------------------------------------------
     def header(self, b):
@@ -320,6 +322,16 @@ class Replay:
                 out[g] = {"ronda": w[0], "respuesta": ans, "actualizado": w[3]}
         return out
 
+    def block_tip_list(self, b):
+        """La propina de cada transacción del bloque, en su orden (el bloque entero con transacciones: pesa, así que se guarda poco)."""
+        from .orden import block_tips
+        if b not in self._tips:
+            blk = self.sh.rpc.call("eth_getBlockByNumber", [hex(b), True])
+            self._tips[b] = block_tips(blk)[1] if blk else None
+            for old in list(self._tips)[:-64]:
+                del self._tips[old]
+        return self._tips[b]
+
     def diagnose(self, rows, n):
         picks = pick_diag(rows, n)
         oracles, out_rows = {}, []
@@ -366,10 +378,16 @@ class Replay:
                                           logs=[{"direccion": norm(lg["address"]), "topic0": (lg.get("topics") or [None])[0],
                                                  "topics": (lg.get("topics") or [])[1:3], "datos": (lg.get("data") or "")[:130]}
                                                 for lg in rlogs[:16]])
+                propinas = None
+                if upd_tx:
+                    try:
+                        propinas = propinas_alrededor(self.block_tip_list(b), upd_tx["tx_index"], r["tx_index"])
+                    except RpcError:
+                        propinas = None                  # sin las propinas del bloque la fila sigue sirviendo para lo demás
                 out_rows.append({"mercado": r["mercado"], "etiqueta": r["etiqueta"], "prestatario": r["prestatario"], "bloque_liquidacion": b,
                                  "tx": r["tx"], "tx_index": r["tx_index"], "firmante": r.get("firmante"), "entrada": r.get("entrada"),
                                  "bono_usd": r["bono_usd"], "bloque_n_tx": r.get("bloque_n_tx"), "prioridad_wei": r.get("prioridad_wei"),
-                                 "serie": serie, "logs_feed": logs, "actualizacion_previa": upd_tx})
+                                 "propinas": propinas, "serie": serie, "logs_feed": logs, "actualizacion_previa": upd_tx})
             except RpcError as e:
                 out_rows.append({"mercado": r["mercado"], "etiqueta": r["etiqueta"], "bloque_liquidacion": b, "tx": r["tx"],
                                  "error": self.sh.rpc.scrub(e)[:160]})

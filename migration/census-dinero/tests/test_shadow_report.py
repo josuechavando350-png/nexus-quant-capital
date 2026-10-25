@@ -10,6 +10,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from census_dinero import shadow_report as sr  # noqa: E402
+from census_dinero.orden import propinas_alrededor  # noqa: E402
 from test_shadow_replay import replay, scenario  # noqa: E402
 
 CFG = {"min_bonus_usd": 10.0, "min_net_usd": 5.0}
@@ -309,8 +310,7 @@ class TestSeparation(unittest.TestCase):
         self.assertEqual((pp["mayor"]["bono_est_usd"], pp["igual"]["bono_est_usd"], pp["menor"]["bono_est_usd"]), (2000.0, 3000.0, 2000.0))
         self.assertAlmostEqual(pp["igual"]["parte_del_bono"], 3000 / 7000)
         md = "\n".join(sr.separation_lines(sp))
-        self.assertIn("empaquetada con la actualización", md)
-        self.assertIn("43% del bono ($3,000)", md)
+        self.assertIn("pagó la misma: 1 casos, 43% del bono ($3,000)", md)
         sp2 = sr.analyze_diag([a, b, c])["separacion"]                                    # sin pesos: no se presentan dólares estimados
         self.assertFalse(sp2["con_pesos"])
         self.assertNotIn("$3,000", "\n".join(sr.separation_lines(sp2)))
@@ -318,6 +318,36 @@ class TestSeparation(unittest.TestCase):
         self.assertIn("Dentro del bloque", head)                                          # y la respuesta corta lo dice
         self.assertIn("29% (≈ $2,000) del bono lo ganaron bots que pagaron más prioridad", head)
         self.assertIn("43% (≈ $3,000) iba empaquetado", head)
+
+    def test_the_neighbor_tips_split_the_same_chunk_from_the_next_one(self):
+        pad = [1] * 100
+        nxt = [None, 90, 80, 5, 4, 3, 100, 70, 60, 2, 1] + pad          # u=3, l=6: sube y la siguiente sigue alta -> empieza un trozo
+        late = [None, 90, 80, 5, 4, 3, 100, 2, 1, 1, 0] + pad           # u=3, l=6: pico que vuelve al nivel de antes -> mismo trozo
+        bundle = [None, 90, 177, 50, 177, 3, 2] + pad                    # misma propina y pegada -> empaquetada
+        rows = []
+        for i, (tips, u, l, bono) in enumerate(((nxt, 3, 6, 1000.0), (late, 3, 6, 3000.0), (bundle, 2, 4, 500.0))):
+            d = self.diag(l, u, len(tips))
+            d.update(bono_usd=bono, tx=f"0x{i}", mercado="0xm", prestatario=f"0xp{i}", propinas=propinas_alrededor(tips, u, l))
+            rows.append(d)
+        w = {("0x0", "0xm", "0xp0"): 1.0, ("0x1", "0xm", "0xp1"): 1.0, ("0x2", "0xm", "0xp2"): 2.0}
+        a = sr.analyze_diag(rows, None, w)
+        pc = a["separacion"]["por_clase"]
+        self.assertEqual({k: v["n"] for k, v in pc.items()}, {"empaquetada": 1, "mismo_trozo": 1, "trozo_siguiente": 1, "ambigua": 0})
+        self.assertAlmostEqual(pc["mismo_trozo"]["parte_del_bono"], 3000 / 5000)
+        head = " ".join(sr.headline({"replay": None, "vivo": None, "puertas": [], "diagnostico": a}))
+        self.assertIn("Quién gana dentro del bloque", head)
+        self.assertIn("60% (≈ $3,000) quien se coló en el mismo trozo", head)
+        md = "\n".join(sr.separation_lines(a["separacion"]))
+        self.assertIn("Clasificación por las propinas vecinas", md)
+
+    def test_live_liquidations_keep_the_class_next_to_what_was_measured(self):
+        pad = [1] * 100
+        late = [None, 90, 80, 5, 4, 3, 100, 2, 1, 1, 0] + pad
+        liq = {"bloque_liquidacion": 1, "tx": "0x1", "prestatario": "0xa", "etiqueta": "AERO/USDC", "via": "directa", "bono_usd": 31.0,
+               "resultado": "liquidada_sin_aviso", "clase": "mismo_bloque", "flash_cruce": None,
+               "flash": {"visto": True, "trozos_entre": 0, "propinas": propinas_alrededor(late, 3, 6)}}
+        a = sr.analyze_live([{"bloque": 1, "ts": 1, "visto_ms": 1, "total_ms": 1}], [], [liq], [], [], {"contadores": {}}, CFG)
+        self.assertEqual(a["clases_en_vivo"], [{"clase": "mismo_trozo", "bono_usd": 31.0, "etiqueta": "AERO/USDC", "trozos_entre": 0, "gap_tx": 3}])
 
     def test_old_diag_rows_without_block_size_still_work(self):
         d = self.diag(10, 4, None)
