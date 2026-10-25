@@ -521,5 +521,22 @@ class TestHeadWatcher(unittest.TestCase):
             w.stop()
 
 
+    def test_first_sight_is_stamped_when_the_answer_arrives_not_when_it_was_asked(self):
+        chain = fm.FakeMorpho()
+        clock = {"t": 1000.0}
+
+        def slow(url, payload, timeout):
+            clock["t"] += 0.3                                  # lo que tarda la respuesta
+            return chain(url, payload, timeout)
+        rpc = Rpc(["https://a"], transport=slow, sleep=no_sleep, rps=0)
+        w = HeadWatcher(rpc, rpc.urls, interval=3600, wall=lambda: clock["t"], mono=lambda: clock["t"])
+        t = threading.Thread(target=w._loop, args=(rpc.urls[0],), daemon=True)
+        t.start()
+        head, wall, mono, url = w.wait(0, timeout=2)
+        w.stop()
+        self.assertEqual(head, chain.head)
+        self.assertAlmostEqual(wall, 1000.3, places=6)        # no 1000.0
+
+
 if __name__ == "__main__":
     unittest.main()

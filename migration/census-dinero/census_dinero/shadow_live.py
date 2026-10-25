@@ -201,7 +201,8 @@ class Shadow:
         self.meta = {"inicio": self.wall(), "supuestos": {
             "submit_ms": self.cfg["submit_ms"], "priors": SHADOW_PRIORS_SOURCE, "kept_prior_global": SHADOW_PRIOR_KEPT_ALL,
             "interes": "se acumula con el IRM solo para posiciones a menos de %.1f%% del umbral" % (100 * self.cfg["accrual_band"]),
-            "latencia": "visto_ms = hora en que vimos el bloque - timestamp del bloque (segundos enteros: ±1 s)"}}
+            "latencia": "visto_ms = hora en que llegó la respuesta del primer proveedor que ya tenía el bloque - timestamp del "
+                        "bloque (segundos enteros: ±1 s); incluye el intervalo de sondeo"}}
         self.libro_parcial = False
 
     # -- lecturas ---------------------------------------------------------------------------
@@ -842,8 +843,8 @@ class HeadWatcher:
 
     def _loop(self, url):
         while self.alive:
-            t_wall, t_mono = self.wall(), self.mono()
             ok, res, _ = raw_call(self.rpc, url, "eth_blockNumber", [], 5)
+            t_wall, t_mono = self.wall(), self.mono()       # cuando llegó la respuesta: antes no sabíamos que existía el bloque
             if ok:
                 try:
                     n = int(res, 16)
