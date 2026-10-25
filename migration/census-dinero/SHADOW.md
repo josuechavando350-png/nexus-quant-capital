@@ -178,6 +178,28 @@ umbral), `eventos_del_sistema.jsonl` (reorgs, saltos, bloques perdidos, deriva d
 Los `.jsonl` se escriben línea a línea: una cancelación no deja nada a medias y el reporte
 ignora una última línea cortada.
 
+## Lo medido en la primera tanda (25 oct 2026; parcial)
+
+Replay de 30 días (corrida `40171040689`, bloques 51,765,101–53,061,101) y vivo (`40163135976`, 2.2 h; `40171040689`, en curso):
+
+- **Matemática**: 91 de 92 liquidaciones coinciden exactamente con la matemática de Morpho; error relativo máximo 1.8e-14.
+  En vivo, deriva 0 en más de 56,000 posiciones comparadas, sin huecos de bloques y 0 errores en ~38,000 evaluaciones del estado pendiente.
+- **Dónde está la carrera**: 2,647 liquidaciones en los 19 mercados (1,212 con bono ≥ $10; la muestra de 300 cubre 77% del bono). El 99% del
+  bono directo (≈ $101k en 30 días, entre todos los bots; 96% en 3 días) se liquidó en el mismo bloque del cruce. La lupa de 96 directas:
+  en 95 el precio de Morpho cambió en el mismo bloque de la liquidación. Desde bloques sellados no se gana.
+- **Dentro del bloque** (91 con la actualización del oráculo localizada, comparando la prioridad que pagó cada liquidación con la de la
+  actualización): 67% del bono (≈ $62k) lo ganaron bots que pagaron más prioridad y cayeron en un trozo posterior (reaccionaron: se puede
+  competir); 22% (≈ $20k) iba empaquetado con la actualización (misma prioridad, subasta OEV: no hay carrera); 11% ambiguo. Un solo contrato liquidador
+  se lleva el 31% de la muestra, casi todo lo empaquetado.
+- **Propinas de los ganadores** (directas): mediana 2.4% del bono entre $10 y $1,000 (p90 16%), 0.2% por encima de $1,000 (p90 7%); en los eventos
+  grandes de cbETH pagaron $780 y $850 (7% y 17%). Ganar el orden dentro de un trozo cuesta propina, no solo velocidad.
+- **En vivo, primer caso real** (AERO/USDC, bono $0.13): el ganador cayó un trozo (≈ 200 ms) después de la actualización del oráculo. Nuestra
+  decisión desde Actions tardó 112 ms; con 150 ms de envío supuesto habríamos llegado 61 ms tarde. Es un solo caso y de bono mínimo.
+- **Piso económico**: con el umbral de GO en $0.05 (v6), dos posiciones de ≈ $0.5 y $0.15 de bono, liquidables desde antes de arrancar la v5 y
+  todavía en la v6 (más de 2 h), nadie las liquidó: el piso del mercado está por encima de ~$0.5 de bono.
+
+No es una certificación: la latencia es la de un servidor de Actions, no se midió el envío ni la inclusión, y la muestra en vivo es pequeña.
+
 ## Qué cubre del Omega y qué no
 
 | Componente de la fase Shadow | Estado |
