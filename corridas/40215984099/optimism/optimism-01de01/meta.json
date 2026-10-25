@@ -1,0 +1,304 @@
+{
+  "archive_disabled": false,
+  "chain": "optimism",
+  "elapsed_s": 57.2,
+  "enriched": 1,
+  "errors_sample": [],
+  "events": 1,
+  "events_complete": true,
+  "events_cover_block": 158672611,
+  "fatal_error": null,
+  "interrupted": false,
+  "native_trace_sources": {
+    "debug_traceTransaction": 1
+  },
+  "oracle_contracts_watched": 2,
+  "oracle_status": {
+    "sin_ver": 1
+  },
+  "phases_s": {
+    "enriquecimiento": 2.0,
+    "eventos": 22.1,
+    "evidencia": 1.8,
+    "metadatos": 1.6,
+    "oraculos": 8.5,
+    "segunda_pasada": 0.0,
+    "sonda": 5.2,
+    "ventana": 15.9
+  },
+  "price_sources": {
+    "defillama": 2,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 176,
+  "rpc_providers": {
+    "https://1rpc.io/op": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://mainnet.optimism.io": {
+      "en_rotacion": true,
+      "err": 18,
+      "getlogs_max": 100000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 257,
+          "ok": 62
+        },
+        "eth_getLogs": {
+          "err": 18,
+          "errores": {
+            "HTTP 413 en mainnet.optimism.io": 18
+          },
+          "ms_prom": 337,
+          "ok": 35
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 97,
+      "sin_metodo": []
+    },
+    "https://optimism-rpc.publicnode.com": {
+      "en_rotacion": true,
+      "err": 1,
+      "getlogs_max": 5000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getLogs": {
+          "err": 1,
+          "errores": {
+            "HTTP 403 en optimism-rpc.publicnode.com": 1
+          },
+          "ms_prom": 99,
+          "ok": 0
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "debug_traceTransaction"
+      ]
+    },
+    "https://optimism.drpc.org": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 114,
+          "ok": 4
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 129,
+          "ok": 17
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 97,
+          "ok": 1
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 170,
+          "ok": 2
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 220,
+          "ok": 2
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 283,
+          "ok": 2
+        },
+        "trace_transaction": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 2
+        }
+      },
+      "ok": 26,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    }
+  },
+  "second_pass": {
+    "intentadas": 0
+  },
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "HTTP 403 en mainnet.optimism.io",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 403 en mainnet.optimism.io",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 413 en mainnet.optimism.io",
+      "getlogs_max": 100000,
+      "getlogs_ms": 226,
+      "ms": 213,
+      "proveedor": "https://mainnet.optimism.io",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 403 en mainnet.optimism.io",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 403 en mainnet.optimism.io",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 403 en optimism-rpc.publicnode.com",
+      "getlogs_max": 5000,
+      "getlogs_ms": 225,
+      "ms": 110,
+      "proveedor": "https://optimism-rpc.publicnode.com",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 403 en optimism-rpc.publicnode.com",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 403 en optimism-rpc.publicnode.com",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "ok": 1
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "ok": 2
+      },
+      "getlogs_error": "HTTP 400 en optimism.drpc.org",
+      "getlogs_max": 0,
+      "ms": 37,
+      "proveedor": "https://optimism.drpc.org",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "ok": 1
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "ok": 2
+      },
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "optimism-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 1,
+  "web_calls": 5,
+  "web_sources": {
+    "blockscout": {
+      "ms": 2104,
+      "ok": true
+    },
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 2.0,
+    "days": 30.0,
+    "end_block": 158672611,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352001,
+    "lookback_block": 157329812,
+    "start_block": 157376612,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 1,
+  "with_oracle_delta": 0,
+  "with_realized": 1,
+  "with_realized_complete": 1
+}
