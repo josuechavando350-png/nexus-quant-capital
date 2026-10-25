@@ -222,6 +222,47 @@ class TestFlashCrossings(unittest.TestCase):
         self.assertNotIn("flash_cruces", a)
 
 
+class TestSeparation(unittest.TestCase):
+    AUCTION = sorted(sr.AUCTION_ENTRIES)[0]
+
+    def diag(self, liq_idx, upd_idx, n_tx, to="0xaaaa", prio_liq=7, prio_upd=5):
+        return {"etiqueta": "M/USDC", "bloque_liquidacion": 100, "tx_index": liq_idx, "bloque_n_tx": n_tx, "prioridad_wei": prio_liq,
+                "firmante": "0xf1", "entrada": "0xe1",
+                "serie": [{"bloque": 99, "precio": 1, "liquidable": False, "feeds": {"F": {"ronda": 1}}},
+                          {"bloque": 100, "precio": 2, "liquidable": True, "feeds": {"F": {"ronda": 2}}}],
+                "actualizacion_previa": None if upd_idx is None else {"tx_index": upd_idx, "from": "0xa1", "to": to, "prioridad_wei": prio_upd}}
+
+    def test_how_long_after_the_oracle_update_and_in_what_way(self):
+        a = sr.analyze_diag([self.diag(1793, 1694, 2000),                            # transmisor normal: 99 tx después (~5% del bloque)
+                             self.diag(46, 45, 100, to=self.AUCTION),                # subasta: pegada
+                             self.diag(2224, 302, 2300, to=self.AUCTION, prio_liq=5),  # subasta, casi todo el bloque después
+                             self.diag(622, 531, 1400, prio_liq=3),
+                             self.diag(1552, None, 2000)])                           # sin actualización previa en el bloque
+        sp = a["separacion"]
+        t = sp["todas"]
+        self.assertEqual((t["n"], t["tx"]["p50"], t["tx"]["max"]), (4, 99, 1922))                  # quantiles toma el valor del medio superior
+        self.assertEqual(t["tramos"], {"pegada (hasta 1 tx)": 1, "hasta 10 tx": 0, "hasta 100 tx": 2, "más de 100 tx": 1})
+        self.assertEqual((sp["por_via"]["subasta"]["n"], sp["por_via"]["normal"]["n"]), (2, 2))
+        self.assertAlmostEqual(sp["por_via"]["normal"]["fraccion"]["p50"], 91 / 1400, places=6)
+        self.assertEqual(sp["prioridad_de_la_liquidacion_vs_actualizacion"], {"mayor": 2, "igual": 1, "menor": 1})
+
+    def test_text_says_what_is_measured_and_what_is_approximate(self):
+        sp = sr.analyze_diag([self.diag(1793, 1694, 2000), self.diag(46, 45, 100, to=self.AUCTION)])["separacion"]
+        md = "\n".join(sr.separation_lines(sp))
+        self.assertIn("2 casos", md)
+        self.assertIn("por la subasta OEV 1", md)
+        self.assertIn("por un transmisor normal 1", md)
+        self.assertIn("aproximación", md)
+
+    def test_old_diag_rows_without_block_size_still_work(self):
+        d = self.diag(10, 4, None)
+        d.pop("bloque_n_tx")
+        d.pop("prioridad_wei")
+        sp = sr.analyze_diag([d])["separacion"]
+        self.assertEqual((sp["todas"]["n"], sp["todas"]["fraccion"]["n"], sp["prioridad_de_la_liquidacion_vs_actualizacion"]), (1, 0, {}))
+        self.assertIn("transacciones", "\n".join(sr.separation_lines(sp)))
+
+
 class TestInputs(unittest.TestCase):
     def test_read_jsonl_tolerates_a_cut_last_line(self):
         d = tempfile.mkdtemp()

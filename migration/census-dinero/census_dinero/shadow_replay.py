@@ -146,7 +146,8 @@ class Replay:
         h = self.hdr.get(b)
         if h is None:
             blk = self.sh.rpc.block(b)
-            h = {"ts": int(blk["timestamp"], 16), "base_fee": int(blk.get("baseFeePerGas") or "0x0", 16)}
+            h = {"ts": int(blk["timestamp"], 16), "base_fee": int(blk.get("baseFeePerGas") or "0x0", 16),
+                 "n_tx": len(blk.get("transactions") or [])}
             self.hdr[b] = h
         return h
 
@@ -254,9 +255,12 @@ class Replay:
         l1 = int(rc.get("l1Fee") or "0x0", 16)
         eth = self.sh.eth_usd()
         to = norm(tx.get("to") or mo.ZERO)
+        prio = max(0, eff - hdr["base_fee"])
         return {"firmante": norm(tx["from"]), "entrada": to, "via": "subasta" if to in AUCTION_ENTRIES else "directa",
                 "gas_usd": (gas_used * eff + l1) / 1e18 * eth,
-                "propina_usd": max(0, eff - hdr["base_fee"]) * gas_used / 1e18 * eth, "eth_usd_actual": eth}
+                "propina_usd": prio * gas_used / 1e18 * eth, "eth_usd_actual": eth,
+                # dónde cayó dentro del bloque: cuántas transacciones tuvo y cuánto pagó por prioridad (wei por unidad de gas)
+                "bloque_n_tx": hdr["n_tx"], "prioridad_wei": prio}
 
     def book_age_days(self, ev):
         """Días entre el último Borrow del prestatario y la liquidación: ¿un libro que mira N días atrás lo conocía?
@@ -355,13 +359,16 @@ class Replay:
                         rc = self.sh.rpc.call("eth_getTransactionReceipt", [upd["tx"]])
                         if rc:
                             rlogs = rc.get("logs") or []
-                            upd_tx.update(n_logs=len(rlogs), gas_usado=int(rc.get("gasUsed") or "0x0", 16),
+                            eff = int(rc.get("effectiveGasPrice") or tx.get("gasPrice") or "0x0", 16)
+                            upd_tx.update(prioridad_wei=max(0, eff - self.header(b)["base_fee"]),
+                                          n_logs=len(rlogs), gas_usado=int(rc.get("gasUsed") or "0x0", 16),
                                           logs=[{"direccion": norm(lg["address"]), "topic0": (lg.get("topics") or [None])[0],
                                                  "topics": (lg.get("topics") or [])[1:3], "datos": (lg.get("data") or "")[:130]}
                                                 for lg in rlogs[:16]])
                 out_rows.append({"mercado": r["mercado"], "etiqueta": r["etiqueta"], "prestatario": r["prestatario"], "bloque_liquidacion": b,
                                  "tx": r["tx"], "tx_index": r["tx_index"], "firmante": r.get("firmante"), "entrada": r.get("entrada"),
-                                 "bono_usd": r["bono_usd"], "serie": serie, "logs_feed": logs, "actualizacion_previa": upd_tx})
+                                 "bono_usd": r["bono_usd"], "bloque_n_tx": r.get("bloque_n_tx"), "prioridad_wei": r.get("prioridad_wei"),
+                                 "serie": serie, "logs_feed": logs, "actualizacion_previa": upd_tx})
             except RpcError as e:
                 out_rows.append({"mercado": r["mercado"], "etiqueta": r["etiqueta"], "bloque_liquidacion": b, "tx": r["tx"],
                                  "error": self.sh.rpc.scrub(e)[:160]})

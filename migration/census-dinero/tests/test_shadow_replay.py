@@ -243,6 +243,12 @@ class TestDiagnostic(unittest.TestCase):
         self.assertEqual((a["n"], a["liquidable_un_bloque_antes"], a["precio_cambio_en_el_bloque"], a["feed_cambio_en_el_bloque"]), (1, 0, 1, 1))
         self.assertEqual(a["con_actualizacion_antes_en_el_bloque"], 1)
         self.assertEqual(a["tx_entre_actualizacion_y_liquidacion_mediana"], 1)
+        # dónde cae dentro del bloque: 2 transacciones (actualización y liquidación), misma prioridad
+        self.assertEqual((d["bloque_n_tx"], d["prioridad_wei"], d["actualizacion_previa"]["prioridad_wei"]), (2, 5_000_000, 5_000_000))
+        sp = a["separacion"]
+        self.assertEqual((sp["todas"]["n"], sp["todas"]["fraccion"]["p50"], sp["por_via"]["normal"]["n"]), (1, 0.5, 1))
+        self.assertEqual(sp["prioridad_de_la_liquidacion_vs_actualizacion"], {"igual": 1})
+        self.assertEqual(rows[0]["bloque_n_tx"], 2)                                  # y las filas del replay lo traen siempre
 
     def test_an_update_a_block_earlier_is_seen_as_liquidable_before(self):
         from census_dinero import shadow_report as sr

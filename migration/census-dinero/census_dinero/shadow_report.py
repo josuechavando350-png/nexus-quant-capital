@@ -16,7 +16,7 @@ from collections import Counter
 from .analyze import num, pct, short, usd
 from .config import SHADOW_BASE_MARKETS, SHADOW_PRIORS_SOURCE
 from .rpc import ALLOWED_METHODS
-from .shadow_live import DEFAULTS, quantiles
+from .shadow_live import AUCTION_ENTRIES, DEFAULTS, quantiles
 
 BLOCK_MS = int(DEFAULTS["block_time_s"] * 1000)
 MIN_SAMPLE = 30           # por debajo, una proporción se marca como muestra pequeña
@@ -222,6 +222,32 @@ def analyze_replay(rows, errors, meta, cfg):
     return out
 
 
+SEPARATION_STEPS = ((1, "pegada (hasta 1 tx)"), (10, "hasta 10 tx"), (100, "hasta 100 tx"), (None, "más de 100 tx"))
+
+
+def separation(rows):
+    """Cuánto después de la actualización del oráculo cae la liquidación, dentro del mismo bloque: en transacciones y en
+    parte del bloque (que aproxima el tiempo si las transacciones se reparten parejo en los 2 s)."""
+    def one(rs):
+        g = [r["tx_entre_actualizacion_y_liquidacion"] for r in rs]
+        f = [r["fraccion_del_bloque"] for r in rs if r["fraccion_del_bloque"] is not None]
+        steps, lo = {}, -1
+        for hi, label in SEPARATION_STEPS:
+            steps[label] = sum(1 for x in g if x > lo and (hi is None or x <= hi))
+            lo = hi if hi is not None else lo
+        return {"n": len(g), "tx": quantiles(g), "fraccion": quantiles(f),
+                "ms_aprox": quantiles([x * BLOCK_MS for x in f]), "tramos": steps}
+    same = [r for r in rows if r["tx_entre_actualizacion_y_liquidacion"] is not None and r["tx_entre_actualizacion_y_liquidacion"] >= 0]
+    out = {"todas": one(same), "por_via": {}}
+    for via in ("subasta", "normal"):
+        part = [r for r in same if r["via_actualizacion"] == via]
+        if part:
+            out["por_via"][via] = one(part)
+    prio = Counter(r["prioridad_vs_actualizacion"] for r in same if r["prioridad_vs_actualizacion"])
+    out["prioridad_de_la_liquidacion_vs_actualizacion"] = dict(prio)
+    return out
+
+
 def analyze_diag(diag_rows, oracles=None):
     """Qué pasó con el precio y los feeds del oráculo justo antes de cada liquidación directa mirada con lupa."""
     ok = [d for d in diag_rows if "serie" in d]
@@ -250,9 +276,15 @@ def analyze_diag(diag_rows, oracles=None):
         gap = None if not upd else d["tx_index"] - upd["tx_index"]
         if gap is not None:
             gaps.append(gap)
+        n_tx = d.get("bloque_n_tx")
+        prio_l, prio_u = d.get("prioridad_wei"), (upd or {}).get("prioridad_wei")
         rows.append({"etiqueta": d["etiqueta"], "bloque": b, "liquidable_un_bloque_antes": liq_prev, "precio_cambio_en_el_bloque": price_changed,
                      "feed_cambio_en_el_bloque": feed_changed, "bloques_desde_el_ultimo_cambio_de_feed": last_change,
                      "tx_entre_actualizacion_y_liquidacion": gap,
+                     "bloque_n_tx": n_tx, "fraccion_del_bloque": gap / n_tx if gap is not None and n_tx else None,
+                     "via_actualizacion": None if not upd else ("subasta" if upd.get("to") in AUCTION_ENTRIES else "normal"),
+                     "prioridad_vs_actualizacion": None if prio_l is None or prio_u is None else
+                     ("mayor" if prio_l > prio_u else "igual" if prio_l == prio_u else "menor"),
                      "mismo_actor": None if not upd else (upd["from"] == (d.get("firmante") or "").lower() or upd["to"] == (d.get("entrada") or "").lower())})
     out["filas"] = rows
     out["liquidable_un_bloque_antes"] = sum(1 for r in rows if r["liquidable_un_bloque_antes"])
@@ -261,6 +293,7 @@ def analyze_diag(diag_rows, oracles=None):
     out["con_actualizacion_antes_en_el_bloque"] = len(gaps)
     out["tx_entre_actualizacion_y_liquidacion_mediana"] = median(gaps)
     out["mismo_actor"] = sum(1 for r in rows if r["mismo_actor"])
+    out["separacion"] = separation(rows)
     for addr, o in (oracles or {}).items():
         out["oraculos"][addr] = {g: (d.get("descripcion"), d.get("direccion")) for g, d in (o.get("detalle") or {}).items()}
     return out
@@ -565,6 +598,31 @@ def cell(g, k_total=None):
 ESTADO = {"cumple": "✅ cumple", "parcial": "🟡 parcial", "sin_datos": "⚪ sin datos", "falla": "❌ falla"}
 
 
+def separation_lines(sp):
+    """Texto de la separación entre la actualización del oráculo y la liquidación (ver `separation`)."""
+    t = sp["todas"]
+
+    def how(x):
+        s = f"mediana {x['tx']['p50']:g} transacciones, p90 {x['tx']['p90']:g}"
+        if x["fraccion"]["n"]:
+            s += f" (≈ {pct(x['fraccion']['p50'])} del bloque, unos {ms(x['ms_aprox']['p50'])}; p90 {ms(x['ms_aprox']['p90'])})"
+        return s
+    L = [f"Separación entre la actualización del oráculo y la liquidación, dentro del mismo bloque ({t['n']} casos): {how(t)}. "
+         "Tramos: " + ", ".join(f"{k} {v}" for k, v in t["tramos"].items()) + "."]
+    vias = {"subasta": "por la subasta OEV", "normal": "por un transmisor normal"}
+    parts = [f"{vias[v]} {x['n']} (mediana {x['tx']['p50']:g} tx" + (f", unos {ms(x['ms_aprox']['p50'])}" if x["ms_aprox"]["n"] else "") + ")"
+             for v, x in sp["por_via"].items()]
+    if parts:
+        L.append("Según cómo se actualizó el oráculo: " + "; ".join(parts) + ".")
+    pr = sp.get("prioridad_de_la_liquidacion_vs_actualizacion") or {}
+    if pr:
+        L.append("Prioridad que pagó la liquidación frente a la de la actualización: " + ", ".join(f"{k} {v}" for k, v in sorted(pr.items())) + ".")
+    if t["fraccion"]["n"]:
+        L.append("_Los milisegundos son una aproximación: suponen que las transacciones se reparten parejo en los 2 s del bloque; el sello exacto "
+                 "de cada transacción solo se ve en vivo, por trozos de 200 ms._")
+    return L
+
+
 def headline(res):
     L = []
     rp, lv = res.get("replay"), res.get("vivo")
@@ -685,6 +743,9 @@ def render(res):
             L.append(f"En {dg['con_actualizacion_antes_en_el_bloque']} hubo una actualización del feed en el mismo bloque, antes de la liquidación "
                      f"(mediana {dg['tx_entre_actualizacion_y_liquidacion_mediana']:g} transacciones antes); quien actualizó fue el mismo actor "
                      f"que liquidó en {dg['mismo_actor']}.")
+        sp = dg.get("separacion")
+        if sp and sp["todas"]["n"]:
+            L += ["", *separation_lines(sp)]
         for addr, feeds in list(dg["oraculos"].items())[:4]:
             L.append(f"- Oráculo {short(addr)}: " + ", ".join(f"{g} = {d[0] or '?'} ({short(d[1])})" for g, d in feeds.items()))
         if dg["errores"]:

@@ -149,12 +149,19 @@ del resto, con peso para estimar el total), con `eth_call` en bloques pasados:
 - compara la matemática: con el estado anterior, el precio y el interés, ¿el contrato habría dado
   el embargo y el repago que dice el evento? (solo la primera liquidación de cada mercado en un
   bloque, porque las siguientes ya parten de otro estado);
-- reconstruye gas, propina y vía del ganador;
+- reconstruye gas, propina y vía del ganador, y dónde cayó dentro del bloque (`bloque_n_tx`, `prioridad_wei`);
 - si una posición ya había sido liquidada antes y seguía liquidable (liquidación parcial), la carrera por el
   residuo se mide desde esa liquidación;
 - mide la **cobertura del libro**: busca los `Borrow` de los `libro_dias` (90) días antes de la ventana y
   cuenta qué parte de los prestatarios liquidados un libro armado mirando 7, 30, 60 o 90 días atrás ya habría
   conocido. Es el límite del `recall` del modo en vivo. La búsqueda tiene su propio tiempo (`libro_min`, 20 min).
+
+Con `diag: N` mira bloque a bloque las N liquidaciones directas más grandes (repartidas entre mercados): si ya
+eran liquidables un bloque antes, qué feed del oráculo cambió, **quién actualizó el oráculo** (¿la subasta OEV
+o un transmisor normal?) y cuántas transacciones separan esa actualización de la liquidación dentro del mismo
+bloque (`diag.jsonl`). El reporte la resume como «Separación»: transacciones, parte del bloque y, si las
+transacciones se reparten parejo en los 2 s, un tiempo aproximado; y si la liquidación pagó más, igual o menos
+prioridad que la actualización. Los milisegundos son una aproximación; el sello exacto solo sale en vivo (200 ms).
 
 Solo ve posiciones que **terminaron liquidadas**. Las que se recuperaron las mide el modo en vivo.
 
