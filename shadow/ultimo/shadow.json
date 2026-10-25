@@ -1,16 +1,22 @@
 {
- "generado": "2026-10-25 01:07:40 UTC",
+ "generado": "2026-10-25 01:30:48 UTC",
  "config": {
   "min_bonus_usd": 10,
   "min_net_usd": 5
  },
  "fuentes": {
   "vivo": {
-   "bloques": 12,
-   "decisiones": 72,
-   "resultados": 72,
+   "bloques": 567,
+   "decisiones": 5,
+   "resultados": 0,
    "lineas_cortadas": 0,
    "meta": true
+  },
+  "replay": {
+   "filas": 0,
+   "errores": 0,
+   "lineas_cortadas": 0,
+   "meta": false
   }
  },
  "supuestos": {
@@ -20,118 +26,110 @@
  },
  "vivo": {
   "ventana": {
-   "bloques": 12,
-   "bloques_en_rango": 235,
-   "cobertura": 0.05106382978723404,
-   "desde_bloque": 53050292,
-   "hasta_bloque": 53050526,
-   "desde_ts": 1792889931,
-   "hasta_ts": 1792890399,
-   "horas": 0.13
+   "bloques": 567,
+   "bloques_en_rango": 567,
+   "cobertura": 1.0,
+   "desde_bloque": 53050679,
+   "hasta_bloque": 53051245,
+   "desde_ts": 1792890705,
+   "hasta_ts": 1792891837,
+   "horas": 0.31444444444444447
   },
   "latencia": {
    "visto_ms": {
-    "p50": 307,
-    "p90": 427,
-    "p99": 1296,
-    "min": 45,
-    "max": 1296,
-    "n": 12
+    "p50": 269,
+    "p90": 467,
+    "p99": 577,
+    "min": 92,
+    "max": 1251,
+    "n": 534
    },
    "proceso_ms": {
-    "p50": 650,
-    "p90": 9071,
-    "p99": 11225,
-    "min": 585,
-    "max": 11225,
-    "n": 12
+    "p50": 475,
+    "p90": 702,
+    "p99": 4505,
+    "min": 431,
+    "max": 9099,
+    "n": 567
    },
    "visto_mas_proceso_ms": {
-    "p50": 957,
-    "p90": 10367,
-    "p99": 11652,
-    "min": 675,
-    "max": 11652,
-    "n": 12
+    "p50": 817,
+    "p90": 1052,
+    "p99": 4590,
+    "min": 551,
+    "max": 9235,
+    "n": 534
    },
    "fases_ms": {
     "cabecera_ms": {
-     "p50": 105,
-     "p90": 150,
-     "p99": 4267,
-     "min": 53,
-     "max": 4267,
-     "n": 12
+     "p50": 85,
+     "p90": 94,
+     "p99": 309,
+     "min": 34,
+     "max": 4258,
+     "n": 567
     },
     "logs_ms": {
-     "p50": 129,
-     "p90": 4415,
-     "p99": 4683,
-     "min": 77,
-     "max": 4683,
-     "n": 12
+     "p50": 118,
+     "p90": 405,
+     "p99": 3959,
+     "min": 43,
+     "max": 4947,
+     "n": 567
     },
     "lectura_ms": {
-     "p50": 180,
-     "p90": 2049,
-     "p99": 4385,
-     "min": 101,
-     "max": 4385,
-     "n": 12
+     "p50": 6,
+     "p90": 38,
+     "p99": 122,
+     "min": 0,
+     "max": 383,
+     "n": 567
     },
     "evaluar_ms": {
-     "p50": 231,
-     "p90": 237,
-     "p99": 241,
-     "min": 217,
-     "max": 241,
-     "n": 12
+     "p50": 233,
+     "p90": 313,
+     "p99": 525,
+     "min": 218,
+     "max": 648,
+     "n": 567
     }
    },
    "decision": {
     "visto_ms": {
-     "p50": 307,
-     "p90": 427,
-     "p99": 1296,
-     "min": 45,
-     "max": 1296,
-     "n": 72
+     "p50": null,
+     "p90": null,
+     "p99": null,
+     "min": null,
+     "max": null,
+     "n": 0
     },
     "decidido_ms": {
-     "p50": 42520,
-     "p90": 48835,
-     "p99": 51612,
-     "min": 38884,
-     "max": 51612,
-     "n": 72
+     "p50": null,
+     "p90": null,
+     "p99": null,
+     "min": null,
+     "max": null,
+     "n": 0
     },
     "x_ms": {
-     "p50": 43029,
-     "p90": 50281,
-     "p99": 52189,
-     "min": 39215,
-     "max": 52189,
-     "n": 72
+     "p50": null,
+     "p90": null,
+     "p99": null,
+     "min": null,
+     "max": null,
+     "n": 0
     },
-    "bloque_de_llegada": {
-     "26": 6,
-     "23": 12,
-     "21": 18,
-     "20": 6,
-     "24": 6,
-     "22": 18,
-     "27": 6
-    }
+    "bloque_de_llegada": {}
    },
    "nota": "visto_ms es cota superior: el timestamp del bloque tiene resolución de 1 s; se mide desde un servidor de GitHub Actions"
   },
   "decisiones": {
    "por_decision": {
-    "NO-GO": 72
+    "NO-GO": 5
    },
    "por_razon": {
-    "NO-GO:bono_bajo": 36,
-    "NO-GO:deuda_mala": 36
+    "NO-GO:bono_bajo": 2,
+    "NO-GO:deuda_mala": 3
    }
   },
   "go": {
@@ -154,6 +152,8 @@
      "neto_modelo_usd": 0
     }
    },
+   "con_cruce_incierto": 0,
+   "liquidadas_con_cruce_incierto": 0,
    "liquidadas_por_subasta": 0,
    "bono_usd": 0,
    "neto_modelo_usd": 0,
@@ -169,39 +169,35 @@
    "fuera_del_libro": []
   },
   "descartadas_que_pasaron": [],
-  "candidatas_sin_liquidar": {
-   "perdida_por_salto": 66,
-   "abierta_al_cierre": 6
-  },
+  "candidatas_sin_liquidar": {},
   "calidad": {
    "contadores": {
-    "bloques": 12,
-    "candidatas": 72,
-    "posiciones_sincronizadas": 432576,
-    "saltos": 12
+    "bloques": 451,
+    "candidatas": 5,
+    "deriva_reconciliacion": 0,
+    "posiciones_sincronizadas": 10,
+    "reconciliadas": 7600
    },
-   "eventos_del_sistema": {
-    "salto": 12
-   },
+   "eventos_del_sistema": {},
    "multicall_ok": true,
    "libro": {
-    "bloque": 53050144,
-    "candidatos": 36048,
-    "con_deuda": 30321,
-    "desde_cache": false,
+    "bloque": 53050678,
+    "candidatos": 36054,
+    "con_deuda": 30324,
+    "desde_cache": true,
     "dias_atras": 30,
-    "leidos": 36048,
+    "leidos": 36054,
     "libro_parcial": false,
-    "segundos": 288.2
+    "segundos": 12.3
    },
    "libro_deriva": 0,
-   "pendientes_al_cierre": 0,
-   "inicio": 1792889634.532576,
-   "fin": 1792890439.6786988,
+   "pendientes_al_cierre": 5,
+   "inicio": 1792890702.3249846,
+   "fin": null,
    "supuestos": {
     "interes": "se acumula con el IRM solo para posiciones a menos de 0.5% del umbral",
     "kept_prior_global": 0.678,
-    "latencia": "visto_ms = hora en que vimos el bloque - timestamp del bloque (segundos enteros: ±1 s)",
+    "latencia": "visto_ms = hora en que llegó la respuesta del primer proveedor que ya tenía el bloque - timestamp del bloque (segundos enteros: ±1 s); incluye el intervalo de sondeo",
     "priors": "census run 40141321042 (24 sep–24 oct 2026), Base/Morpho, 30 días",
     "submit_ms": 150
    },
@@ -209,11 +205,11 @@
    "excluidos": {}
   },
   "cercanas": {
-   "bloque": 53050465,
+   "bloque": 53051129,
    "n": 3,
    "deuda_usd": 4894.417521,
    "mas_cercana_pct": 0.296,
-   "fotos": 2
+   "fotos": 3
   }
  },
  "replay": null,
@@ -227,7 +223,7 @@
   {
    "puerta": "Decisiones en tiempo real sin enviar nada",
    "estado": "cumple",
-   "evidencia": "72 decisiones; solo métodos de lectura (4 distintos)"
+   "evidencia": "5 decisiones; solo métodos de lectura (4 distintos)"
   },
   {
    "puerta": "Cada GO comparado con lo que ocurrió",
@@ -237,17 +233,17 @@
   {
    "puerta": "Control de reorganizaciones",
    "estado": "parcial",
-   "evidencia": "0 reorgs vistos, 12 saltos de atraso, 0 bloques perdidos; el reinicio del libro se prueba con una cadena falsa"
+   "evidencia": "0 reorgs vistos, 0 saltos de atraso (0 bloques cubiertos con eventos), 0 bloques perdidos (0 recuperados, 0 sin recuperar, 0 definitivos); la recuperación se prueba con una cadena falsa"
   },
   {
    "puerta": "Simulaciones: divergencias investigadas",
    "estado": "parcial",
-   "evidencia": "libro sin deriva (0 posiciones reconciliadas)"
+   "evidencia": "libro sin deriva (7600 posiciones reconciliadas)"
   },
   {
    "puerta": "Latencia en infraestructura real",
    "estado": "parcial",
-   "evidencia": "p50 957 ms, p90 10,367 ms, p99 11,652 ms (n=12); medida desde GitHub Actions, no desde la infraestructura de Titan"
+   "evidencia": "p50 817 ms, p90 1,052 ms, p99 4,590 ms (n=534); medida desde GitHub Actions, no desde la infraestructura de Titan"
   },
   {
    "puerta": "Detección competitiva (replay)",
