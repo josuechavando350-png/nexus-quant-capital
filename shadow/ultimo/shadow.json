@@ -1,17 +1,10 @@
 {
- "generado": "2026-10-25 01:47:49 UTC",
+ "generado": "2026-10-25 01:52:51 UTC",
  "config": {
   "min_bonus_usd": 10,
   "min_net_usd": 5
  },
  "fuentes": {
-  "vivo": {
-   "bloques": 493,
-   "decisiones": 5,
-   "resultados": 0,
-   "lineas_cortadas": 0,
-   "meta": true
-  },
   "replay": {
    "filas": 300,
    "errores": 0,
@@ -24,200 +17,7 @@
   "submit_ms": 150,
   "bloque_ms": 2000
  },
- "vivo": {
-  "ventana": {
-   "bloques": 493,
-   "bloques_en_rango": 493,
-   "cobertura": 1.0,
-   "desde_bloque": 53051264,
-   "hasta_bloque": 53051756,
-   "desde_ts": 1792891875,
-   "hasta_ts": 1792892859,
-   "horas": 0.2733333333333333
-  },
-  "latencia": {
-   "visto_ms": {
-    "p50": 276,
-    "p90": 484,
-    "p99": 553,
-    "min": 87,
-    "max": 3282,
-    "n": 467
-   },
-   "proceso_ms": {
-    "p50": 203,
-    "p90": 407,
-    "p99": 4037,
-    "min": 179,
-    "max": 9414,
-    "n": 493
-   },
-   "visto_mas_proceso_ms": {
-    "p50": 512,
-    "p90": 751,
-    "p99": 3927,
-    "min": 281,
-    "max": 9566,
-    "n": 467
-   },
-   "fases_ms": {
-    "cabecera_ms": {
-     "p50": 68,
-     "p90": 108,
-     "p99": 3827,
-     "min": 41,
-     "max": 4990,
-     "n": 493
-    },
-    "logs_ms": {
-     "p50": 0,
-     "p90": 113,
-     "p99": 1673,
-     "min": 0,
-     "max": 5039,
-     "n": 493
-    },
-    "lectura_ms": {
-     "p50": 125,
-     "p90": 142,
-     "p99": 225,
-     "min": 0,
-     "max": 3525,
-     "n": 493
-    },
-    "evaluar_ms": {
-     "p50": 2,
-     "p90": 5,
-     "p99": 243,
-     "min": 2,
-     "max": 269,
-     "n": 493
-    }
-   },
-   "decision": {
-    "visto_ms": {
-     "p50": null,
-     "p90": null,
-     "p99": null,
-     "min": null,
-     "max": null,
-     "n": 0
-    },
-    "decidido_ms": {
-     "p50": null,
-     "p90": null,
-     "p99": null,
-     "min": null,
-     "max": null,
-     "n": 0
-    },
-    "x_ms": {
-     "p50": null,
-     "p90": null,
-     "p99": null,
-     "min": null,
-     "max": null,
-     "n": 0
-    },
-    "bloque_de_llegada": {}
-   },
-   "nota": "visto_ms es cota superior: el timestamp del bloque tiene resolución de 1 s; se mide desde un servidor de GitHub Actions"
-  },
-  "decisiones": {
-   "por_decision": {
-    "NO-GO": 5
-   },
-   "por_razon": {
-    "NO-GO:bono_bajo": 2,
-    "NO-GO:deuda_mala": 3
-   }
-  },
-  "go": {
-   "n": 0,
-   "destino": {},
-   "llegada_medida": {
-    "antes": {
-     "n": 0,
-     "bono_usd": 0,
-     "neto_modelo_usd": 0
-    },
-    "empate": {
-     "n": 0,
-     "bono_usd": 0,
-     "neto_modelo_usd": 0
-    },
-    "tarde": {
-     "n": 0,
-     "bono_usd": 0,
-     "neto_modelo_usd": 0
-    }
-   },
-   "con_cruce_incierto": 0,
-   "liquidadas_con_cruce_incierto": 0,
-   "liquidadas_por_subasta": 0,
-   "bono_usd": 0,
-   "neto_modelo_usd": 0,
-   "cerrados": 0
-  },
-  "liquidaciones": {
-   "n": 0,
-   "bono_usd": 0,
-   "clases": {},
-   "vias": {},
-   "recall_visibles": null,
-   "parte_mismo_bloque": null,
-   "fuera_del_libro": []
-  },
-  "descartadas_que_pasaron": [],
-  "candidatas_sin_liquidar": {},
-  "calidad": {
-   "contadores": {
-    "bloques": 451,
-    "bloques_sin_logs_por_bloom": 312,
-    "candidatas": 5,
-    "deriva_reconciliacion": 0,
-    "posiciones_sincronizadas": 10,
-    "reconciliadas": 7600
-   },
-   "eventos_del_sistema": {},
-   "multicall_ok": true,
-   "libro": {
-    "bloque": 53051263,
-    "candidatos": 36063,
-    "con_deuda": 30339,
-    "desde_cache": true,
-    "dias_atras": 30,
-    "leidos": 36063,
-    "libro_parcial": false,
-    "segundos": 13.5
-   },
-   "libro_deriva": 0,
-   "pendientes_al_cierre": 5,
-   "inicio": 1792891872.9928694,
-   "fin": null,
-   "supuestos": {
-    "interes": "se acumula con el IRM solo para posiciones a menos de 0.5% del umbral",
-    "kept_prior_global": 0.678,
-    "latencia": "visto_ms = hora en que llegó la respuesta del primer proveedor que ya tenía el bloque - timestamp del bloque (segundos enteros: ±1 s); incluye el intervalo de sondeo",
-    "priors": "census run 40141321042 (24 sep–24 oct 2026), Base/Morpho, 30 días",
-    "submit_ms": 150
-   },
-   "bloom": {
-    "bloques_con_eventos": 12,
-    "descartados_por_error": 0,
-    "ok": true
-   },
-   "mercados": 19,
-   "excluidos": {}
-  },
-  "cercanas": {
-   "bloque": 53051714,
-   "n": 3,
-   "deuda_usd": 4894.417521,
-   "mas_cercana_pct": 0.296,
-   "fotos": 3
-  }
- },
+ "vivo": null,
  "replay": {
   "filas": 300,
   "sin_dato": 0,
@@ -236,14 +36,14 @@
    "bono_elegido_usd": 491394.5594636547,
    "ventana": {
     "completa": true,
-    "desde": 51755233,
-    "desde_pedido": 51755233,
+    "desde": 51755744,
+    "desde_pedido": 51755744,
     "dias": 30,
     "dias_reales": 30.0,
-    "hasta_leido": 53051233,
-    "hasta_pedido": 53051233
+    "hasta_leido": 53051744,
+    "hasta_pedido": 53051744
    },
-   "segundos": 257.4,
+   "segundos": 259.2,
    "sondeos_de_archivo": 301
   },
   "por_distancia": [
@@ -507,19 +307,19 @@
   ],
   "costos_del_ganador": {
    "gas_usd": {
-    "p50": 1.4620457392324115,
-    "p90": 34.507155594064656,
-    "p99": 787.7037751763678,
-    "min": 0.012300234589495125,
-    "max": 853.7557713957361,
+    "p50": 1.464331675800607,
+    "p90": 34.561108193986946,
+    "p99": 788.9353651439476,
+    "min": 0.012319466242302563,
+    "max": 855.0906349268635,
     "n": 96
    },
    "propina_usd": {
-    "p50": 0.9216428130903602,
-    "p90": 34.50054629219779,
-    "p99": 787.5916661746134,
-    "min": 0.0027117214035458715,
-    "max": 853.744616836994,
+    "p50": 0.9230838193138481,
+    "p90": 34.55448855834978,
+    "p99": 788.8230808576176,
+    "min": 0.002715961231995,
+    "max": 855.0794629277548,
     "n": 96
    },
    "nota": "gas y propina que pagó quien liquidó (no los nuestros)"
@@ -548,7 +348,7 @@
      "error": 1.782164113872464e-14
     },
     {
-     "tx": "0xa3f666b3ca61732ea02a4ea65263949cb62bbe120a99ad3e67ead9e9a483340b",
+     "tx": "0x049327359c7be3409a6f0d2f2f0d1d41b32ba7d109d583be0bfe6c696932c0aa",
      "mercado": "cbXRP/USDC lltv 62.5%",
      "error": 0.0
     },
@@ -558,13 +358,13 @@
      "error": 0.0
     },
     {
-     "tx": "0x049327359c7be3409a6f0d2f2f0d1d41b32ba7d109d583be0bfe6c696932c0aa",
+     "tx": "0xa3f666b3ca61732ea02a4ea65263949cb62bbe120a99ad3e67ead9e9a483340b",
      "mercado": "cbXRP/USDC lltv 62.5%",
      "error": 0.0
     },
     {
-     "tx": "0x5cad6debff5638debdc6f560e9d7486c6f4c8265b411ca918dadd4c693d67aa0",
-     "mercado": "WETH/USDC lltv 86.0%",
+     "tx": "0x76a4c8ed78f4c3217d2186280cf6ec4737173a6afd21ba927ca68ba1c24ce616",
+     "mercado": "cbXRP/USDC lltv 62.5%",
      "error": 0.0
     }
    ]
@@ -589,6 +389,204 @@
    "nota": "el replay solo cuenta liquidaciones de al menos el mínimo de bono; el Census cuenta todas"
   }
  },
+ "diagnostico": {
+  "n": 14,
+  "errores": 0,
+  "oraculos": {
+   "0x031b2efc8d70042ac8d9f5c793c4149ec4b60fde": {
+    "BASE_FEED_1": [
+     "XRP / USD",
+     "0x9f0c1dd78c4cbdf5b9cf923a549a201edc676d34"
+    ]
+   },
+   "0x96f1485daf396c2ab7e53dc76d7b330143cb2269": {
+    "BASE_FEED_1": [
+     "AERO / USD",
+     "0x4ec5970fc728c5f65ba413992cd5ff6fd70fcff0"
+    ],
+    "QUOTE_FEED_1": [
+     "USDC / USD",
+     "0x7e860098f58bbfc8648a4311b374b1d669a2bc6b"
+    ]
+   },
+   "0x97ff9cbd7e77348b2b8ffbb883bf29452ad18295": {
+    "BASE_FEED_1": [
+     "CBETH / USD",
+     "0xd7818272b9e248357d13057aab0b417af31e817d"
+    ]
+   },
+   "0xa3cb2d7204f47a468b82c6fab1ca9675e9f7a272": {
+    "BASE_FEED_1": [
+     "ZEC / USD",
+     "0xc4a161651546983083aedddec5878a2eaf604890"
+    ]
+   },
+   "0xe9725430f3a72611ac72eddc650625bce4f45dc7": {
+    "BASE_FEED_1": [
+     "SOL / USD",
+     "0x975043adbb80fc32276cbf9bbcfd4a601a12462d"
+    ]
+   },
+   "0xfea2d58cefcb9fcb597723c6bae66ffe4193afe4": {
+    "BASE_FEED_1": [
+     "ETH / USD",
+     "0x71041dddad3595f9ced3dccfbe3d1f4b0a16bb70"
+    ],
+    "QUOTE_FEED_1": [
+     "USDC / USD",
+     "0x7e860098f58bbfc8648a4311b374b1d669a2bc6b"
+    ]
+   }
+  },
+  "filas": [
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52342201,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 99,
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbZEC/USDC lltv 62.5%",
+    "bloque": 51917436,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": null,
+    "mismo_actor": null
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341575,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 1,
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "WETH/USDC lltv 86.0%",
+    "bloque": 52341833,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 1,
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "SOL/USDC lltv 62.5%",
+    "bloque": 52342180,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 3,
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "AERO/USDC lltv 62.5%",
+    "bloque": 51863954,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 14,
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52344648,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 35,
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbZEC/USDC lltv 62.5%",
+    "bloque": 51927732,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": null,
+    "mismo_actor": null
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52620863,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 1,
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "WETH/USDC lltv 86.0%",
+    "bloque": 52341833,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 558,
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 53032839,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 2,
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbZEC/USDC lltv 62.5%",
+    "bloque": 52088534,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": null,
+    "mismo_actor": null
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 1,
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "WETH/USDC lltv 86.0%",
+    "bloque": 52342208,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 899,
+    "mismo_actor": false
+   }
+  ],
+  "liquidable_un_bloque_antes": 0,
+  "precio_cambio_en_el_bloque": 14,
+  "feed_cambio_en_el_bloque": 14,
+  "con_actualizacion_antes_en_el_bloque": 11,
+  "tx_entre_actualizacion_y_liquidacion_mediana": 3,
+  "mismo_actor": 0
+ },
  "metodos_rpc": [
   "eth_blockNumber",
   "eth_call",
@@ -600,8 +598,8 @@
  "puertas": [
   {
    "puerta": "Decisiones en tiempo real sin enviar nada",
-   "estado": "cumple",
-   "evidencia": "5 decisiones; solo métodos de lectura (6 distintos)"
+   "estado": "parcial",
+   "evidencia": "solo métodos de lectura, pero ninguna decisión en la ventana"
   },
   {
    "puerta": "Cada GO comparado con lo que ocurrió",
@@ -610,18 +608,18 @@
   },
   {
    "puerta": "Control de reorganizaciones",
-   "estado": "parcial",
-   "evidencia": "0 reorgs vistos, 0 saltos de atraso (0 bloques cubiertos con eventos), 0 bloques perdidos (0 recuperados, 0 sin recuperar, 0 definitivos); la recuperación se prueba con una cadena falsa"
+   "estado": "sin_datos",
+   "evidencia": "sin corrida en vivo"
   },
   {
    "puerta": "Simulaciones: divergencias investigadas",
-   "estado": "cumple",
-   "evidencia": "paridad 91/92 exacta, máx 1.8e-14; libro sin deriva (7600 posiciones reconciliadas)"
+   "estado": "parcial",
+   "evidencia": "paridad 91/92 exacta, máx 1.8e-14"
   },
   {
    "puerta": "Latencia en infraestructura real",
-   "estado": "parcial",
-   "evidencia": "p50 512 ms, p90 751 ms, p99 3,927 ms (n=467); medida desde GitHub Actions, no desde la infraestructura de Titan"
+   "estado": "sin_datos",
+   "evidencia": "sin bloques con latencia medida"
   },
   {
    "puerta": "Detección competitiva (replay)",
