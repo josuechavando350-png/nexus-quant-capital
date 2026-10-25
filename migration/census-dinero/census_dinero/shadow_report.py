@@ -24,6 +24,8 @@ MIN_SAMPLE = 30           # por debajo, una proporción se marca como muestra pe
 # Distancia entre el cruce y la liquidación, en bloques.
 BUCKETS = (("0", "mismo bloque", 0, 0), ("1", "1 bloque", 1, 1), ("2", "2 bloques", 2, 2),
            ("3-5", "3 a 5 bloques", 3, 5), ("6-15", "6 a 15 bloques", 6, 15), ("16+", "16 o más", 16, None))
+# Días hacia atrás que podría mirar el libro al armarse, para medir qué parte de los prestatarios liquidados conocería.
+LIBRO_DIAS = (7, 30, 60, 90)
 # Tiempo total desde el bloque del cruce hasta que nuestra transacción llega, y el primer bloque en que cae.
 LANDINGS = ((1, "hasta 2 s"), (2, "hasta 4 s"), (3, "hasta 6 s"))
 
@@ -172,6 +174,16 @@ def analyze_replay(rows, errors, meta, cfg):
                       "peores": sorted(({"tx": r["tx"], "mercado": r["etiqueta"], "error": max(r["paridad"]["err_embargo"], r["paridad"]["err_shares"],
                                                                                               r["paridad"]["err_repago"])}
                                         for r in rows if r.get("paridad") and "modo" in r["paridad"]), key=lambda x: -x["error"])[:5]}
+
+    scan = meta.get("borrow_scan") or {}
+    if scan.get("completo") and rows:
+        total_n, total_b = wcount(rows), wsum(rows, "bono_usd")
+        table_ = []
+        for days in LIBRO_DIAS:
+            sel = [r for r in rows if r.get("libro_edad_dias") is not None and r["libro_edad_dias"] <= days]
+            table_.append({"dias": days, "parte_n": share(wcount(sel), total_n), "parte_bono": share(wsum(sel, "bono_usd"), total_b)})
+        out["cobertura_libro"] = {"por_dias_atras": table_, "escaneado_dias": scan.get("dias"), "borrows": scan.get("borrows"),
+                                  "mas_viejos_que_lo_escaneado": sum(1 for r in rows if r.get("libro_edad_dias") is None)}
 
     # Control cruzado contra el Census: el bono directo estimado por el replay debe parecerse al del Census.
     ids = set((meta.get("mercados") or {}).keys())
@@ -501,6 +513,10 @@ def render(res):
         if c["gas_usd"]["n"]:
             L.append(f"Costo de quien ganó (directas): gas mediano ${c['gas_usd']['p50']:.2f} (p90 ${c['gas_usd']['p90']:.2f}), "
                      f"propina mediana ${c['propina_usd']['p50']:.2f} (p90 ${c['propina_usd']['p90']:.2f}).")
+        cl = rp.get("cobertura_libro")
+        if cl:
+            L.append("Cobertura del libro (prestatarios liquidados que un libro armado mirando N días atrás ya conocería): " +
+                     ", ".join(f"{x['dias']} d {pct(x['parte_n'])} ({pct(x['parte_bono'])} del bono)" for x in cl["por_dias_atras"]) + ".")
         cc = rp["control_census"]
         if cc["razon"] is not None:
             L.append(f"Control contra el Census: bono directo estimado {usd(cc['bono_directo_replay_est_usd'])} vs {usd(cc['bono_directo_census_usd'])} "

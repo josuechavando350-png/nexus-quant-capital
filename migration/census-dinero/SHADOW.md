@@ -98,7 +98,12 @@ del resto, con peso para estimar el total), con `eth_call` en bloques pasados:
 - compara la matemática: con el estado anterior, el precio y el interés, ¿el contrato habría dado
   el embargo y el repago que dice el evento? (solo la primera liquidación de cada mercado en un
   bloque, porque las siguientes ya parten de otro estado);
-- reconstruye gas, propina y vía del ganador.
+- reconstruye gas, propina y vía del ganador;
+- si una posición ya había sido liquidada antes y seguía liquidable (liquidación parcial), la carrera por el
+  residuo se mide desde esa liquidación;
+- mide la **cobertura del libro**: busca los `Borrow` de los `libro_dias` (90) días antes de la ventana y
+  cuenta qué parte de los prestatarios liquidados un libro armado mirando 7, 30, 60 o 90 días atrás ya habría
+  conocido. Es el límite del `recall` del modo en vivo.
 
 Solo ve posiciones que **terminaron liquidadas**. Las que se recuperaron las mide el modo en vivo.
 

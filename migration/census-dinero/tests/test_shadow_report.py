@@ -198,7 +198,7 @@ class TestEndToEnd(unittest.TestCase):
         self.assertIn("eth_call", self.res["metodos_rpc"])
         md = sr.render(self.res)
         for text in ("## Respuesta corta", "Llegas antes", "Visto + proceso", "Puertas del Omega", "Qué NO prueba",
-                     "GO liquidados por la subasta: 1"):
+                     "GO liquidados por la subasta: 1", "Cobertura del libro"):
             self.assertIn(text, md)
         out = tempfile.mkdtemp()
         sr.write(self.res, out)

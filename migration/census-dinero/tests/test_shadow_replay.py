@@ -122,6 +122,50 @@ class TestResidual(unittest.TestCase):
         self.assertEqual(len(rows), 2)
 
 
+class TestBookCoverage(unittest.TestCase):
+    """¿Un libro que mira N días atrás conocería al prestatario? Con bloques de medio día para poder probarlo."""
+
+    def make(self):
+        env = Env().ready((U[0], 1700))
+        for _ in range(30):
+            env.step()
+        env.step(env.open_position(U[1], 1700))                      # U1 pide prestado 30 bloques (15 días) después
+        for _ in range(10):
+            env.step()
+        env.step([("set_price", env.mid, DROP)])
+        env.step([("liquidate", env.mid, B[0], U[0]), ("liquidate", env.mid, B[1], U[1])])
+        return env
+
+    def test_age_of_last_borrow_before_liquidation(self):
+        env = self.make()
+        _, rows, _ = replay(env, min_bonus_usd=0.1, block_time_s=43_200)
+        age = {r["prestatario"]: r["libro_edad_dias"] for r in rows}
+        self.assertAlmostEqual(age[U[1]], 12 * 0.5)                  # 12 bloques de medio día
+        self.assertAlmostEqual(age[U[0]], 43 * 0.5)
+
+    def test_coverage_table_in_report(self):
+        from census_dinero import shadow_report as sr
+        env = self.make()
+        meta, rows, _ = replay(env, min_bonus_usd=0.1, block_time_s=43_200)
+        self.assertTrue(meta["borrow_scan"]["completo"])
+        a = sr.analyze_replay(rows, [], meta, {"min_bonus_usd": 0.1, "min_net_usd": 0})
+        cov = {x["dias"]: x["parte_n"] for x in a["cobertura_libro"]["por_dias_atras"]}
+        self.assertEqual((cov[7], cov[30], cov[90]), (0.5, 1.0, 1.0))        # U1 (6 d) cabe en 7 días; U0 (21.5 d) en 30
+
+    def test_borrow_older_than_the_scan_is_reported_as_unknown(self):
+        env = self.make()
+        meta, rows, _ = replay(env, min_bonus_usd=0.1, block_time_s=43_200, dias=10, libro_dias=5)   # ventana de 20 bloques + 10 antes
+        by = {r["prestatario"]: r["libro_edad_dias"] for r in rows}
+        self.assertIsNone(by[U[0]])
+        self.assertIsNotNone(by[U[1]])
+
+    def test_switch_off(self):
+        env = self.make()
+        meta, rows, _ = replay(env, min_bonus_usd=0.1, block_time_s=43_200, libro_dias=0)
+        self.assertNotIn("libro_edad_dias", rows[0])
+        self.assertFalse(meta["borrow_scan"]["completo"])
+
+
 class TestParity(unittest.TestCase):
     def test_exact_match_in_both_liquidation_modes(self):
         env = Env().ready((U[0], 1700), (U[1], 1700))

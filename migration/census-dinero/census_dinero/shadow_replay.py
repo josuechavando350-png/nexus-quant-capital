@@ -11,9 +11,11 @@ Límite: solo ve posiciones que terminaron liquidadas. No sabe nada de las que s
 liquidables y se recuperaron o se quedaron sin liquidar (eso lo mide el modo en vivo).
 """
 
+import bisect
 import os
 import threading
 import time
+from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 
 from . import morpho as mo
@@ -25,6 +27,7 @@ from .shadow_live import AUCTION_ENTRIES, Out, Shadow, log, make_rpc
 RDEFAULTS = {
     "dias": 30, "max": 300, "top": 100, "min_bonus_usd": 5.0, "ventana_bloques": 1800, "trabajadores": 6,
     "presupuesto_min": 40.0, "margen_cabeza": 30,
+    "libro_dias": 90,           # cuántos días antes de la ventana se buscan los Borrow para medir la cobertura del libro (0 = no)
 }
 
 
@@ -67,8 +70,9 @@ def prior_kept(prior, min_n=30):
 
 
 class Replay:
-    def __init__(self, shadow, out_dir, cfg=None):
+    def __init__(self, shadow, out_dir, cfg=None, borrows=None):
         self.sh = shadow
+        self.borrows = borrows              # {(mercado, usuario): [bloques de Borrow]} o None si no se midió
         self.cfg = {**RDEFAULTS, **(cfg or {})}
         self.out = Out(out_dir)
         self.lock = threading.Lock()
@@ -192,6 +196,17 @@ class Replay:
                 "gas_usd": (gas_used * eff + l1) / 1e18 * eth,
                 "propina_usd": max(0, eff - hdr["base_fee"]) * gas_used / 1e18 * eth, "eth_usd_actual": eth}
 
+    def book_age_days(self, ev):
+        """Días entre el último Borrow del prestatario y la liquidación: ¿un libro que mira N días atrás lo conocía?
+        None: no hubo Borrow en todo lo escaneado (más viejo que eso)."""
+        blocks = (self.borrows or {}).get((ev["market"], ev["user"]))
+        if not blocks:
+            return None
+        i = bisect.bisect_right(blocks, ev["block"]) - 1
+        if i < 0:
+            return None
+        return (ev["block"] - blocks[i]) * self.sh.cfg["block_time_s"] / 86400
+
     def process(self, ev, first_in_block):
         info = self.sh.markets[ev["market"]]
         fc = self.find_cross(ev["market"], ev["user"], ev["block"])
@@ -206,6 +221,8 @@ class Replay:
                "tx": ev["tx_hash"], "tx_index": ev["tx_index"], "liquidador": ev["caller"], "bono_usd": bonus,
                "retencion_prior": kept, "neto_modelo_usd": bonus * kept, "deuda_mala": ev["bad_debt_shares"] > 0,
                "grupo": ev.get("_grupo"), "peso": ev.get("_peso", 1.0)}
+        if self.borrows is not None:
+            row["libro_edad_dias"] = self.book_age_days(ev)
         if fc is None:
             row["sin_dato"] = True
         else:
@@ -298,8 +315,33 @@ def run_replay(cfg, out_dir, rpc=None, markets=None):
             continue
         if ev and ev["kind"] == "Liquidate" and not lg.get("removed"):
             events.append(ev)
-    rp = Replay(sh, out_dir, rcfg)
+    borrows, scan = None, {"dias": rcfg["libro_dias"], "completo": False, "borrows": 0}
+    if rcfg["libro_dias"] > 0 and events:
+        b_start = max(1, start - int(rcfg["libro_dias"] * 86400 / sh.cfg["block_time_s"]))
+        log(f"replay: buscando Borrow desde el bloque {b_start:,} para medir la cobertura del libro")
+        try:
+            blogs = rpc.get_logs(sh.morpho, [[mo.EVENT_TOPICS["Borrow"]], sh.ids], b_start, scanned_to,
+                                 deadline=time.monotonic() + max(60.0, 0.25 * rcfg["presupuesto_min"] * 60))
+            scan["completo"] = True
+        except BudgetExceeded as e:
+            blogs = e.logs
+            log(f"replay: la búsqueda de Borrow quedó incompleta en el bloque {e.next_block:,}")
+        borrows = defaultdict(list)
+        for lg in blogs:
+            try:
+                ev = mo.decode_event(lg)
+            except ValueError:
+                continue
+            if ev and ev["kind"] == "Borrow" and not lg.get("removed"):
+                borrows[(ev["market"], ev["user"])].append(ev["block"])
+        for blocks in borrows.values():
+            blocks.sort()
+        scan.update(desde=b_start, borrows=sum(len(v) for v in borrows.values()))
+        if not scan["completo"]:
+            borrows = None                      # una cobertura a medias engaña: mejor no medirla
+    rp = Replay(sh, out_dir, rcfg, borrows)
     meta = rp.run(events)
+    meta.update({"borrow_scan": scan})
     meta.update({"ventana": {"desde": start, "hasta_pedido": head, "hasta_leido": scanned_to, "dias": rcfg["dias"]},
                  "config": rcfg, "segundos": round(time.monotonic() - t0, 1), "multicall_ok": sh.multicall_ok,
                  "mercados": {i: m.label for i, m in sh.markets.items()}, "rpc": rpc.report(), "rpc_llamadas": rpc.calls})
