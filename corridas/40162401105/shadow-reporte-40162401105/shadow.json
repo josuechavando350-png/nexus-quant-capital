@@ -1,0 +1,856 @@
+{
+ "generado": "2026-10-25 04:47:21 UTC",
+ "config": {
+  "min_bonus_usd": 10,
+  "min_net_usd": 5
+ },
+ "fuentes": {
+  "vivo": {
+   "bloques": 330,
+   "decisiones": 5,
+   "resultados": 0,
+   "lineas_cortadas": 0,
+   "meta": true
+  },
+  "replay": {
+   "filas": 30,
+   "errores": 0,
+   "lineas_cortadas": 0,
+   "meta": true
+  }
+ },
+ "supuestos": {
+  "priors": "census run 40141321042 (24 sep–24 oct 2026), Base/Morpho, 30 días",
+  "submit_ms": 150,
+  "bloque_ms": 2000
+ },
+ "vivo": {
+  "ventana": {
+   "bloques": 330,
+   "bloques_en_rango": 330,
+   "cobertura": 1.0,
+   "desde_bloque": 53056814,
+   "hasta_bloque": 53057143,
+   "desde_ts": 1792902975,
+   "hasta_ts": 1792903633,
+   "horas": 0.1827777777777778
+  },
+  "latencia": {
+   "visto_ms": {
+    "p50": 182,
+    "p90": 348,
+    "p99": 438,
+    "min": 53,
+    "max": 449,
+    "n": 318
+   },
+   "proceso_ms": {
+    "p50": 157,
+    "p90": 273,
+    "p99": 515,
+    "min": 149,
+    "max": 4512,
+    "n": 330
+   },
+   "visto_mas_proceso_ms": {
+    "p50": 365,
+    "p90": 555,
+    "p99": 725,
+    "min": 210,
+    "max": 4735,
+    "n": 318
+   },
+   "fases_ms": {
+    "cabecera_ms": {
+     "p50": 17,
+     "p90": 26,
+     "p99": 116,
+     "min": 13,
+     "max": 4348,
+     "n": 330
+    },
+    "logs_ms": {
+     "p50": 0,
+     "p90": 111,
+     "p99": 256,
+     "min": 0,
+     "max": 4366,
+     "n": 330
+    },
+    "lectura_ms": {
+     "p50": 130,
+     "p90": 146,
+     "p99": 214,
+     "min": 0,
+     "max": 299,
+     "n": 330
+    },
+    "evaluar_ms": {
+     "p50": 6,
+     "p90": 22,
+     "p99": 214,
+     "min": 5,
+     "max": 283,
+     "n": 330
+    }
+   },
+   "decision": {
+    "visto_ms": {
+     "p50": null,
+     "p90": null,
+     "p99": null,
+     "min": null,
+     "max": null,
+     "n": 0
+    },
+    "decidido_ms": {
+     "p50": null,
+     "p90": null,
+     "p99": null,
+     "min": null,
+     "max": null,
+     "n": 0
+    },
+    "x_ms": {
+     "p50": null,
+     "p90": null,
+     "p99": null,
+     "min": null,
+     "max": null,
+     "n": 0
+    },
+    "bloque_de_llegada": {}
+   },
+   "nota": "visto_ms es cota superior: el timestamp del bloque tiene resolución de 1 s; se mide desde un servidor de GitHub Actions"
+  },
+  "decisiones": {
+   "por_decision": {
+    "NO-GO": 5
+   },
+   "por_razon": {
+    "NO-GO:bono_bajo": 2,
+    "NO-GO:deuda_mala": 3
+   }
+  },
+  "go": {
+   "n": 0,
+   "destino": {},
+   "llegada_medida": {
+    "antes": {
+     "n": 0,
+     "bono_usd": 0,
+     "neto_modelo_usd": 0
+    },
+    "empate": {
+     "n": 0,
+     "bono_usd": 0,
+     "neto_modelo_usd": 0
+    },
+    "tarde": {
+     "n": 0,
+     "bono_usd": 0,
+     "neto_modelo_usd": 0
+    }
+   },
+   "con_cruce_incierto": 0,
+   "liquidadas_con_cruce_incierto": 0,
+   "liquidadas_por_subasta": 0,
+   "bono_usd": 0,
+   "neto_modelo_usd": 0,
+   "cerrados": 0
+  },
+  "liquidaciones": {
+   "n": 0,
+   "bono_usd": 0,
+   "clases": {},
+   "vias": {},
+   "recall_visibles": null,
+   "parte_mismo_bloque": null,
+   "fuera_del_libro": []
+  },
+  "flash": {
+   "n": 0,
+   "grupos": {
+    "directa": {
+     "n": 0,
+     "por_tipo": {},
+     "con_actualizacion_por_subasta": 0,
+     "bono_usd": {},
+     "reaccion_ms": {
+      "p50": null,
+      "p90": null,
+      "p99": null,
+      "min": null,
+      "max": null,
+      "n": 0
+     },
+     "t_liquidacion_ms": {
+      "p50": null,
+      "p90": null,
+      "p99": null,
+      "min": null,
+      "max": null,
+      "n": 0
+     }
+    },
+    "subasta": {
+     "n": 0,
+     "por_tipo": {},
+     "con_actualizacion_por_subasta": 0,
+     "bono_usd": {},
+     "reaccion_ms": {
+      "p50": null,
+      "p90": null,
+      "p99": null,
+      "min": null,
+      "max": null,
+      "n": 0
+     },
+     "t_liquidacion_ms": {
+      "p50": null,
+      "p90": null,
+      "p99": null,
+      "min": null,
+      "max": null,
+      "n": 0
+     }
+    }
+   },
+   "watcher": {
+    "errores": {},
+    "fotos": 5931,
+    "intervalo_de_consulta_ms": 100,
+    "intervalo_entre_trozos_ms": {
+     "max": 250,
+     "min": 45,
+     "n": 70,
+     "p50": 199,
+     "p90": 202,
+     "p99": 208
+    },
+    "rtt_ms": {
+     "max": 245,
+     "min": 13,
+     "n": 5931,
+     "p50": 16,
+     "p90": 19,
+     "p99": 40
+    },
+    "url": "https://mainnet-preconf.base.org"
+   }
+  },
+  "flash_cruces": {
+   "n": 5,
+   "go": 0,
+   "resultados": {
+    "no_liquidada_en_el_bloque": 5
+   },
+   "decision_ms": {
+    "p50": 575,
+    "p90": 575,
+    "p99": 575,
+    "min": 575,
+    "max": 575,
+    "n": 5
+   },
+   "mismo_trozo": 0,
+   "holgura": {
+    "n": 0,
+    "positivas": 0,
+    "ms": {
+     "p50": null,
+     "p90": null,
+     "p99": null,
+     "min": null,
+     "max": null,
+     "n": 0
+    },
+    "bono_usd": 0,
+    "bono_positivo_usd": 0
+   },
+   "liquidaciones_sin_cruce_visto": 0,
+   "evaluador": {
+    "cruces": 5,
+    "cruces_liquidados": 0,
+    "cruces_sin_liquidar": 5,
+    "decision_ms": {
+     "max": 575,
+     "min": 575,
+     "n": 5,
+     "p50": 575,
+     "p90": 575,
+     "p99": 575
+    },
+    "errores": 15,
+    "evaluaciones": 2674,
+    "holgura_ms": {
+     "max": null,
+     "min": null,
+     "n": 0,
+     "p50": null,
+     "p90": null,
+     "p99": null
+    },
+    "holgura_positiva": 0,
+    "lectura_pendiente_ms": {
+     "max": 290,
+     "min": 17,
+     "n": 2674,
+     "p50": 34,
+     "p90": 45,
+     "p99": 62
+    },
+    "supuesto_envio_ms": 150
+   }
+  },
+  "descartadas_que_pasaron": [],
+  "candidatas_sin_liquidar": {},
+  "calidad": {
+   "contadores": {
+    "bloques": 298,
+    "bloques_sin_logs_por_bloom": 233,
+    "candidatas": 5,
+    "deriva_reconciliacion": 0,
+    "posiciones_sincronizadas": 4,
+    "reconciliadas": 5200
+   },
+   "eventos_del_sistema": {},
+   "multicall_ok": true,
+   "libro": {
+    "bloque": 53056813,
+    "candidatos": 36106,
+    "con_deuda": 30369,
+    "desde_cache": true,
+    "dias_atras": 30,
+    "leidos": 36106,
+    "libro_parcial": false,
+    "segundos": 13.7
+   },
+   "libro_deriva": 0,
+   "pendientes_al_cierre": 5,
+   "inicio": 1792902966.4766734,
+   "fin": null,
+   "supuestos": {
+    "interes": "se acumula con el IRM solo para posiciones a menos de 0.5% del umbral",
+    "kept_prior_global": 0.678,
+    "latencia": "visto_ms = hora en que llegó la respuesta del primer proveedor que ya tenía el bloque - timestamp del bloque (segundos enteros: ±1 s); incluye el intervalo de sondeo",
+    "priors": "census run 40141321042 (24 sep–24 oct 2026), Base/Morpho, 30 días",
+    "submit_ms": 150
+   },
+   "bloom": {
+    "bloques_con_eventos": 12,
+    "descartados_por_error": 0,
+    "ok": true
+   },
+   "mercados": 19,
+   "excluidos": {}
+  },
+  "cercanas": {
+   "bloque": 53057111,
+   "n": 4,
+   "deuda_usd": 4895.425602,
+   "mas_cercana_pct": 0.294,
+   "fotos": 2
+  }
+ },
+ "replay": {
+  "filas": 30,
+  "sin_dato": 0,
+  "censuradas": 0,
+  "errores": 0,
+  "residuales": 0,
+  "meta": {
+   "eventos_en_ventana": 2646,
+   "elegibles": 1212,
+   "elegidos": 30,
+   "procesados": 30,
+   "fallidos": 0,
+   "omitidos_por_tiempo": 0,
+   "bono_total_usd": 645184.8156292649,
+   "bono_elegible_usd": 641581.9712204679,
+   "bono_elegido_usd": 158906.62342789592,
+   "ventana": {
+    "completa": true,
+    "desde": 51760784,
+    "desde_pedido": 51760784,
+    "dias": 30,
+    "dias_reales": 30.0,
+    "hasta_leido": 53056784,
+    "hasta_pedido": 53056784
+   },
+   "segundos": 61.8,
+   "sondeos_de_archivo": 30
+  },
+  "por_distancia": [
+   {
+    "tramo": "0",
+    "etiqueta": "mismo bloque",
+    "n": 30,
+    "n_directa": 7,
+    "n_subasta": 23,
+    "bono_directo_est_usd": 27818.789714571554,
+    "bono_subasta_est_usd": 1017828.756238348,
+    "parte_del_bono_directo": 1.0
+   },
+   {
+    "tramo": "1",
+    "etiqueta": "1 bloque",
+    "n": 0,
+    "n_directa": 0,
+    "n_subasta": 0,
+    "bono_directo_est_usd": 0,
+    "bono_subasta_est_usd": 0,
+    "parte_del_bono_directo": 0.0
+   },
+   {
+    "tramo": "2",
+    "etiqueta": "2 bloques",
+    "n": 0,
+    "n_directa": 0,
+    "n_subasta": 0,
+    "bono_directo_est_usd": 0,
+    "bono_subasta_est_usd": 0,
+    "parte_del_bono_directo": 0.0
+   },
+   {
+    "tramo": "3-5",
+    "etiqueta": "3 a 5 bloques",
+    "n": 0,
+    "n_directa": 0,
+    "n_subasta": 0,
+    "bono_directo_est_usd": 0,
+    "bono_subasta_est_usd": 0,
+    "parte_del_bono_directo": 0.0
+   },
+   {
+    "tramo": "6-15",
+    "etiqueta": "6 a 15 bloques",
+    "n": 0,
+    "n_directa": 0,
+    "n_subasta": 0,
+    "bono_directo_est_usd": 0,
+    "bono_subasta_est_usd": 0,
+    "parte_del_bono_directo": 0.0
+   },
+   {
+    "tramo": "16+",
+    "etiqueta": "16 o más",
+    "n": 0,
+    "n_directa": 0,
+    "n_subasta": 0,
+    "bono_directo_est_usd": 0,
+    "bono_subasta_est_usd": 0,
+    "parte_del_bono_directo": 0.0
+   }
+  ],
+  "ganables": {
+   "elegibles": 7,
+   "elegibles_est": 361.6,
+   "bono_est_usd": 27818.789714571554,
+   "neto_est_usd": 20058.437271452953,
+   "por_tiempo_total": [
+    {
+     "k": 1,
+     "tiempo_total": "hasta 2 s",
+     "antes": {
+      "n": 0,
+      "n_est": 0,
+      "bono_est_usd": 0,
+      "neto_est_usd": 0,
+      "parte_n": 0.0,
+      "parte_bono": 0.0
+     },
+     "empate": {
+      "n": 0,
+      "n_est": 0,
+      "bono_est_usd": 0,
+      "neto_est_usd": 0,
+      "parte_n": 0.0,
+      "parte_bono": 0.0
+     },
+     "tarde": {
+      "n": 7,
+      "n_est": 361.6,
+      "bono_est_usd": 27818.789714571554,
+      "neto_est_usd": 20058.437271452953,
+      "parte_n": 1.0,
+      "parte_bono": 1.0
+     }
+    },
+    {
+     "k": 2,
+     "tiempo_total": "hasta 4 s",
+     "antes": {
+      "n": 0,
+      "n_est": 0,
+      "bono_est_usd": 0,
+      "neto_est_usd": 0,
+      "parte_n": 0.0,
+      "parte_bono": 0.0
+     },
+     "empate": {
+      "n": 0,
+      "n_est": 0,
+      "bono_est_usd": 0,
+      "neto_est_usd": 0,
+      "parte_n": 0.0,
+      "parte_bono": 0.0
+     },
+     "tarde": {
+      "n": 7,
+      "n_est": 361.6,
+      "bono_est_usd": 27818.789714571554,
+      "neto_est_usd": 20058.437271452953,
+      "parte_n": 1.0,
+      "parte_bono": 1.0
+     }
+    },
+    {
+     "k": 3,
+     "tiempo_total": "hasta 6 s",
+     "antes": {
+      "n": 0,
+      "n_est": 0,
+      "bono_est_usd": 0,
+      "neto_est_usd": 0,
+      "parte_n": 0.0,
+      "parte_bono": 0.0
+     },
+     "empate": {
+      "n": 0,
+      "n_est": 0,
+      "bono_est_usd": 0,
+      "neto_est_usd": 0,
+      "parte_n": 0.0,
+      "parte_bono": 0.0
+     },
+     "tarde": {
+      "n": 7,
+      "n_est": 361.6,
+      "bono_est_usd": 27818.789714571554,
+      "neto_est_usd": 20058.437271452953,
+      "parte_n": 1.0,
+      "parte_bono": 1.0
+     }
+    }
+   ],
+   "censuradas": {
+    "n": 0,
+    "bono_est_usd": 0
+   },
+   "muestra_pequena": true
+  },
+  "vias": {
+   "subasta": {
+    "n": 23,
+    "bono_est_usd": 1017828.756238348
+   },
+   "directa": {
+    "n": 7,
+    "bono_est_usd": 27818.789714571554
+   }
+  },
+  "por_mercado": [
+   {
+    "mercado": "cbETH/USDC lltv 77.0%",
+    "n": 2,
+    "n_directa": 2,
+    "bono_directo_est_usd": 13394.066823306766,
+    "mediana_bloques": 0.0,
+    "parte_2_o_mas": 0.0
+   },
+   {
+    "mercado": "cbXRP/USDC lltv 62.5%",
+    "n": 16,
+    "n_directa": 4,
+    "bono_directo_est_usd": 12595.0296641831,
+    "mediana_bloques": 0.0,
+    "parte_2_o_mas": 0.0
+   },
+   {
+    "mercado": "JitoSOL/USDC lltv 62.5%",
+    "n": 2,
+    "n_directa": 1,
+    "bono_directo_est_usd": 1829.69322708169,
+    "mediana_bloques": 0,
+    "parte_2_o_mas": 0.0
+   },
+   {
+    "mercado": "SOL/USDC lltv 62.5%",
+    "n": 2,
+    "n_directa": 0,
+    "bono_directo_est_usd": 0,
+    "mediana_bloques": null,
+    "parte_2_o_mas": null
+   },
+   {
+    "mercado": "WETH/USDC lltv 86.0%",
+    "n": 2,
+    "n_directa": 0,
+    "bono_directo_est_usd": 0,
+    "mediana_bloques": null,
+    "parte_2_o_mas": null
+   },
+   {
+    "mercado": "cbADA/USDC lltv 62.5%",
+    "n": 3,
+    "n_directa": 0,
+    "bono_directo_est_usd": 0,
+    "mediana_bloques": null,
+    "parte_2_o_mas": null
+   },
+   {
+    "mercado": "cbLTC/USDC lltv 62.5%",
+    "n": 2,
+    "n_directa": 0,
+    "bono_directo_est_usd": 0,
+    "mediana_bloques": null,
+    "parte_2_o_mas": null
+   },
+   {
+    "mercado": "cbZEC/USDC lltv 62.5%",
+    "n": 1,
+    "n_directa": 0,
+    "bono_directo_est_usd": 0,
+    "mediana_bloques": null,
+    "parte_2_o_mas": null
+   }
+  ],
+  "costos_del_ganador": {
+   "gas_usd": {
+    "p50": 1.511567374791954,
+    "p90": 8.857370782686065,
+    "p99": 789.7316484045014,
+    "min": 0.0418446324769338,
+    "max": 789.7316484045014,
+    "n": 7
+   },
+   "propina_usd": {
+    "p50": 1.307698706553195,
+    "p90": 8.792571314788535,
+    "p99": 789.6192507881045,
+    "min": 0.015480928518419841,
+    "max": 789.6192507881045,
+    "n": 7
+   },
+   "nota": "gas y propina que pagó quien liquidó (no los nuestros)"
+  },
+  "distancia_directas": {
+   "p50": 0,
+   "p90": 0,
+   "p99": 0,
+   "min": 0,
+   "max": 0,
+   "n": 7
+  },
+  "paridad": {
+   "n": 14,
+   "omitidas": {},
+   "max": 0.0,
+   "mediana": 0.0,
+   "exactas": 14,
+   "dentro_1e9": 14,
+   "dentro_1e6": 14,
+   "con_interes": 14,
+   "peores": [
+    {
+     "tx": "0x049327359c7be3409a6f0d2f2f0d1d41b32ba7d109d583be0bfe6c696932c0aa",
+     "mercado": "cbXRP/USDC lltv 62.5%",
+     "error": 0.0
+    },
+    {
+     "tx": "0x76a4c8ed78f4c3217d2186280cf6ec4737173a6afd21ba927ca68ba1c24ce616",
+     "mercado": "cbXRP/USDC lltv 62.5%",
+     "error": 0.0
+    },
+    {
+     "tx": "0x288927b9861944bd8fdfbb2ccfd436c7a108258b9e105b129bde8ef665500ff8",
+     "mercado": "cbLTC/USDC lltv 62.5%",
+     "error": 0.0
+    },
+    {
+     "tx": "0x5cad6debff5638debdc6f560e9d7486c6f4c8265b411ca918dadd4c693d67aa0",
+     "mercado": "WETH/USDC lltv 86.0%",
+     "error": 0.0
+    },
+    {
+     "tx": "0xa3f666b3ca61732ea02a4ea65263949cb62bbe120a99ad3e67ead9e9a483340b",
+     "mercado": "cbXRP/USDC lltv 62.5%",
+     "error": 0.0
+    }
+   ]
+  },
+  "ganadores": {
+   "distintos": 7,
+   "bono_est_usd": 27818.789714571554,
+   "top1": 0.4009848583058882,
+   "top3": 0.7971141530806679,
+   "top10": 1.0
+  },
+  "concentracion_dias": {
+   "dias_con_liquidaciones": 2,
+   "bono_est_usd": 27818.789714571554,
+   "top1": 0.9742358870776108,
+   "top3": 1.0
+  },
+  "flashblocks": null,
+  "control_census": {
+   "bono_directo_replay_est_usd": 27818.789714571554,
+   "bono_directo_census_usd": 99595.0,
+   "razon": 0.279319139661344,
+   "nota": "el replay solo cuenta liquidaciones de al menos el mínimo de bono; el Census cuenta todas"
+  }
+ },
+ "diagnostico": {
+  "n": 7,
+  "errores": 0,
+  "oraculos": {
+   "0x031b2efc8d70042ac8d9f5c793c4149ec4b60fde": {
+    "BASE_FEED_1": [
+     "XRP / USD",
+     "0x9f0c1dd78c4cbdf5b9cf923a549a201edc676d34"
+    ]
+   },
+   "0x78f772f5fcc03256260cc1165e34da9bb3f9be1c": {},
+   "0x97ff9cbd7e77348b2b8ffbb883bf29452ad18295": {
+    "BASE_FEED_1": [
+     "CBETH / USD",
+     "0xd7818272b9e248357d13057aab0b417af31e817d"
+    ]
+   }
+  },
+  "filas": [
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52342201,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 99,
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52341575,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 1,
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "JitoSOL/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": null,
+    "bloques_desde_el_ultimo_cambio_de_feed": null,
+    "tx_entre_actualizacion_y_liquidacion": null,
+    "mismo_actor": null
+   },
+   {
+    "etiqueta": "cbETH/USDC lltv 77.0%",
+    "bloque": 52342847,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 91,
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52342205,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 1922,
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52345477,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 122,
+    "mismo_actor": false
+   },
+   {
+    "etiqueta": "cbXRP/USDC lltv 62.5%",
+    "bloque": 52321958,
+    "liquidable_un_bloque_antes": false,
+    "precio_cambio_en_el_bloque": true,
+    "feed_cambio_en_el_bloque": true,
+    "bloques_desde_el_ultimo_cambio_de_feed": 0,
+    "tx_entre_actualizacion_y_liquidacion": 6,
+    "mismo_actor": false
+   }
+  ],
+  "liquidable_un_bloque_antes": 0,
+  "precio_cambio_en_el_bloque": 7,
+  "feed_cambio_en_el_bloque": 6,
+  "con_actualizacion_antes_en_el_bloque": 6,
+  "tx_entre_actualizacion_y_liquidacion_mediana": 95.0,
+  "mismo_actor": 0
+ },
+ "metodos_rpc": [
+  "eth_blockNumber",
+  "eth_call",
+  "eth_getBlockByNumber",
+  "eth_getLogs",
+  "eth_getTransactionByHash",
+  "eth_getTransactionReceipt"
+ ],
+ "puertas": [
+  {
+   "puerta": "Decisiones en tiempo real sin enviar nada",
+   "estado": "cumple",
+   "evidencia": "5 decisiones; solo métodos de lectura (6 distintos)"
+  },
+  {
+   "puerta": "Cada GO comparado con lo que ocurrió",
+   "estado": "sin_datos",
+   "evidencia": "ningún GO en la ventana en vivo"
+  },
+  {
+   "puerta": "Control de reorganizaciones",
+   "estado": "parcial",
+   "evidencia": "0 reorgs vistos, 0 saltos de atraso (0 bloques cubiertos con eventos), 0 bloques perdidos (0 recuperados, 0 sin recuperar, 0 definitivos); la recuperación se prueba con una cadena falsa"
+  },
+  {
+   "puerta": "Simulaciones: divergencias investigadas",
+   "estado": "parcial",
+   "evidencia": "paridad 14/14 exacta, máx 0.0e+00; libro sin deriva (5200 posiciones reconciliadas)"
+  },
+  {
+   "puerta": "Latencia en infraestructura real",
+   "estado": "parcial",
+   "evidencia": "p50 365 ms, p90 555 ms, p99 725 ms (n=318); medida desde GitHub Actions, no desde la infraestructura de Titan"
+  },
+  {
+   "puerta": "Detección competitiva (replay)",
+   "estado": "parcial",
+   "evidencia": "7 liquidaciones directas elegibles reconstruidas; versión mínima del túnel (cruce → liquidación), no reproduce NQC completo"
+  },
+  {
+   "puerta": "Economía con costos completos",
+   "estado": "parcial",
+   "evidencia": "bono × retención observada en el Census (incluye swap, gas y propinas de los ganadores reales); no se simuló nuestra ruta ni su liquidez"
+  }
+ ],
+ "no_prueba": [
+  "La latencia se mide desde un servidor de GitHub Actions hacia RPC públicos. La infraestructura real (nodo propio, cercanía al secuenciador de Base, Titan) puede ser mejor o peor: es una referencia conservadora, no una certificación.",
+  "No se envió nada, así que no se midió el envío (se supone 150 ms), ni la inclusión, ni el orden dentro del bloque.",
+  "Un empate (llegar en el mismo bloque que el ganador) lo decide la propina y el orden del secuenciador: aquí solo se cuenta.",
+  "Los bloques de Base son de 2 s y el timestamp es entero. Con Flashblocks (200 ms) algunos bots ven antes del bloque: las liquidaciones en el mismo bloque del cruce no se pueden ganar sin ver antes de que el bloque cierre.",
+  "El replay solo ve posiciones que terminaron liquidadas; las que se recuperaron o quedaron sin liquidar las mide el modo en vivo.",
+  "El neto usa la retención observada del Census (bono × proporción que se quedaron los ganadores); no es una ejecución simulada con nuestra ruta, liquidez, flash loan ni slippage.",
+  "El gas y la propina del replay son los de quien ganó, no los nuestros.",
+  "Una ventana corta no sustituye semanas de Shadow ni cubre los picos: en el Census el 95% del margen cayó en 3 de 30 días."
+ ]
+}

@@ -1,0 +1,22 @@
+{
+  "modo": "shadow",
+  "shadow": {
+    "minutos": 300,
+    "vivo": true,
+    "replay": {
+      "dias": 30,
+      "max": 30,
+      "top": 10,
+      "presupuesto_min": 20,
+      "libro_dias": 0,
+      "diag": 14
+    },
+    "config": {
+      "min_bonus_usd": 10,
+      "min_net_usd": 5,
+      "flash_url": "https://mainnet-preconf.base.org",
+      "flash_interval": 0.1
+    }
+  },
+  "nota": "Shadow v4: 5 horas en vivo con evaluación del bloque pendiente (Flashblocks) y conexiones persistentes (sin handshake TLS por consulta, que inflaba la latencia medida). Solo lectura."
+}
