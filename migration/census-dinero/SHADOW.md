@@ -201,25 +201,29 @@ ignora una última línea cortada.
 
 ## Lo medido en la primera tanda (25 oct 2026; parcial)
 
-Replay de 30 días (corrida `40176606411`, hasta 800 liquidaciones reconstruidas) y vivo (`40163135976`, 2.2 h; `40171040689`, 1.4 h; `40176606411`, en curso):
+Replay de 30 días (corrida `40190198885`: **todas** las liquidaciones con bono ≥ $10, sin muestreo) y vivo (`40163135976`, 2.2 h; `40171040689`, 1.4 h;
+`40176606411`, 3.3 h; `40190198885`, en curso):
 
-- **Matemática**: 186 de 191 liquidaciones coinciden exactamente con la matemática de Morpho (las 5 restantes con error relativo ≤ 7e-13).
-  En vivo, deriva 0 en más de 56,000 posiciones comparadas, sin huecos de bloques y 0 errores en ~38,000 evaluaciones del estado pendiente.
-- **Dónde está la carrera**: 2,647 liquidaciones en los 19 mercados (1,212 con bono ≥ $10). El 99% del bono directo (≈ $99k en 30 días,
-  entre todos los bots; 96% en 3 días) se liquidó en el mismo bloque del cruce. La lupa de 284 directas: en 279 el precio de Morpho cambió en
-  el mismo bloque de la liquidación. Desde bloques sellados no se gana.
+- **Matemática**: 250 de 256 liquidaciones coinciden exactamente con la matemática de Morpho (las 6 restantes con error relativo ≤ 7e-13).
+  En vivo, deriva 0 en más de 97,000 posiciones comparadas, sin huecos de bloques y 0 errores en ~55,000 evaluaciones del estado pendiente.
+- **Dónde está la carrera**: 2,648 liquidaciones en los 19 mercados (1,213 con bono ≥ $10). El 99% del bono directo (≈ $102k en 30 días,
+  entre todos los bots; 96% en 3 días) se liquidó en el mismo bloque del cruce. En la lupa de las 454 directas el precio de Morpho cambió en
+  el mismo bloque de la liquidación casi siempre. Desde bloques sellados no se gana.
 - **El orden dentro del bloque es por propina** (comprobado). En 12 bloques históricos llenos (2.7 a 3.6 mil transacciones) la propina sube de una
   transacción a la siguiente 26 a 143 veces por bloque; con las mismas propinas en orden de llegada al azar subiría 1.1 a 1.5 mil veces. En vivo,
-  con los trozos conocidos de bloques sellados: dentro de un trozo la propina sube en 1% de los pares, y al empezar un trozo nuevo sube en el 100% de las
-  fronteras (89 de 89). Cada trozo de 200 ms se ordena de más a menos propina.
-- **Dentro del bloque** (267 con la actualización del oráculo localizada, comparando la prioridad que pagó cada liquidación con la de la
-  actualización): 66% del bono (≈ $60k) lo ganaron bots que pagaron más prioridad y cayeron en un trozo posterior (reaccionaron: se puede
-  competir); 25% (≈ $23k) iba empaquetado con la actualización (misma prioridad, subasta OEV: no hay carrera); 9% ambiguo. Un solo contrato
-  liquidador se lleva ~31% de la muestra, casi todo lo empaquetado.
+  con los trozos conocidos de bloques sellados: dentro de un trozo la propina sube en 1.4% de los pares, y al empezar un trozo nuevo sube en el 99.8% de las
+  fronteras (485 de 486). Cada trozo de 200 ms se ordena de más a menos propina.
+- **Quién gana dentro del bloque** (435 con la actualización del oráculo localizada, clasificadas por las propinas de la actualización, de la
+  liquidación y de sus vecinas): 64% del bono (≈ $61k) lo ganó quien reaccionó en un trozo posterior al de la actualización (se puede competir
+  con velocidad y propina); 25% (≈ $24k) iba empaquetado con la actualización (misma propina, subasta OEV: no hay carrera); 9% ambiguo;
+  2% (≈ $2k, 24 casos) se coló en el mismo trozo justo después de la actualización (vio la actualización antes de confirmarse: hace falta otra
+  clase de infraestructura). De los que reaccionan, el 87% del bono cae en el trozo siguiente (la ventana es de ~200 ms), 8% uno o dos trozos más
+  tarde y 5% mucho más tarde. Un solo contrato liquidador se lleva ~31% del bono, casi todo lo empaquetado.
 - **Propinas de los ganadores** (directas): mediana 2.4% del bono entre $10 y $1,000 (p90 16%), 0.2% por encima de $1,000 (p90 7%); en los eventos
   grandes de cbETH pagaron $780 y $850 (7% y 17%). Ganar el orden dentro de un trozo cuesta propina, no solo velocidad.
-- **En vivo, primer caso real** (AERO/USDC, bono $0.13): el ganador cayó un trozo (≈ 200 ms) después de la actualización del oráculo. Nuestra
-  decisión desde Actions tardó 112 ms; con 150 ms de envío supuesto habríamos llegado 61 ms tarde. Es un solo caso y de bono mínimo.
+- **En vivo, dos casos reales**: (1) AERO/USDC, bono $0.13: el ganador cayó un trozo (≈ 200 ms) después de la actualización del oráculo; nuestra
+  decisión desde Actions tardó 112 ms y con 150 ms de envío supuesto habríamos llegado 61 ms tarde. (2) AERO/USDC, bono $31: el ganador cayó una
+  transacción después de la actualización, en su mismo trozo, pagando 4.6 gwei (el tipo raro de arriba). Son dos casos de bono chico.
 - **Piso económico**: con el umbral de GO en $0.05 (v6), dos posiciones de ≈ $0.5 y $0.15 de bono, liquidables desde antes de arrancar la v5 y
   todavía en la v6 (más de 2 h), nadie las liquidó: el piso del mercado está por encima de ~$0.5 de bono.
 
