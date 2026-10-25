@@ -1,0 +1,10 @@
+[17:21:35] abstract: falla: RpcError: el fin del tramo (1792944000) es posterior al último bloque final (1792859198)
+[17:21:35] Traceback (most recent call last):
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 1083, in run
+    win = self.resolve_window(days, end_block, start_ts, end_ts)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 361, in resolve_window
+    raise RpcError(f"el fin del tramo ({end_ts}) es posterior al último bloque final ({head_ts})")
+census_dinero.rpc.RpcError: el fin del tramo (1792944000) es posterior al último bloque final (1792859198)
+
+[17:21:35] abstract: listo — 0 eventos, 0 enriquecidos, 4 llamadas RPC, 1.7 s
