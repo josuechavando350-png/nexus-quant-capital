@@ -13,6 +13,7 @@ liquidables y se recuperaron o se quedaron sin liquidar (eso lo mide el modo en 
 
 import bisect
 import os
+import re
 import threading
 import time
 from collections import defaultdict
@@ -29,7 +30,48 @@ RDEFAULTS = {
     "presupuesto_min": 40.0, "margen_cabeza": 30,
     "libro_dias": 90,           # cuántos días antes de la ventana se buscan los Borrow para medir la cobertura del libro (0 = no)
     "libro_min": 20.0,          # tiempo máximo de esa búsqueda (en Base son ~100 consultas de 50 mil bloques)
+    "scan_workers": 4,          # trozos de getLogs que se piden a la vez al buscar eventos de un rango largo
 }
+
+
+EARLIEST = re.compile(r"earliest available[^0-9]*(\d+)", re.I)
+
+
+def earliest_available(err):
+    """El proveedor ya no guarda tanta historia de logs: "... requested 47866647, earliest available 51500000"."""
+    m = EARLIEST.search(str(err))
+    return int(m.group(1)) if m else None
+
+
+def scan_logs(rpc, address, topics, start, end, deadline=None, workers=4, chunk=50_000):
+    """getLogs de un rango largo en trozos, varios a la vez.
+
+    Devuelve (logs, desde, hasta, completo). Si el proveedor no guarda tanta historia, empieza donde sí la tiene
+    (`desde` mayor que `start`). Si se acaba el tiempo, devuelve lo leído de corrido desde el inicio (`completo` False)."""
+    first = start
+    for _ in range(2):
+        ranges = [(a, min(end, a + chunk - 1)) for a in range(first, end + 1, chunk)]
+        out, reached, complete = [], first - 1, True
+        ex = ThreadPoolExecutor(max_workers=max(1, workers))
+        try:
+            futures = [ex.submit(rpc.get_logs, address, topics, a, b, None, deadline) for a, b in ranges]
+            for (a, b), f in zip(ranges, futures):
+                try:
+                    out.extend(f.result())
+                    reached = b
+                except BudgetExceeded as e:
+                    out.extend(e.logs)
+                    reached, complete = e.next_block - 1, False
+                    break
+            return out, first, reached, complete
+        except RpcError as e:
+            nxt = earliest_available(e)
+            if nxt is None or nxt <= first or nxt > end:
+                raise
+            first = nxt
+        finally:
+            ex.shutdown(wait=False, cancel_futures=True)
+    raise RpcError("no se pudo leer el historial de logs")
 
 
 def event_bonus(e, markets):
@@ -71,9 +113,10 @@ def prior_kept(prior, min_n=30):
 
 
 class Replay:
-    def __init__(self, shadow, out_dir, cfg=None, borrows=None):
+    def __init__(self, shadow, out_dir, cfg=None, borrows=None, borrow_from=None):
         self.sh = shadow
         self.borrows = borrows              # {(mercado, usuario): [bloques de Borrow]} o None si no se midió
+        self.borrow_from = borrow_from      # primer bloque que cubre esa búsqueda
         self.cfg = {**RDEFAULTS, **(cfg or {})}
         self.out = Out(out_dir)
         self.lock = threading.Lock()
@@ -224,6 +267,7 @@ class Replay:
                "grupo": ev.get("_grupo"), "peso": ev.get("_peso", 1.0)}
         if self.borrows is not None:
             row["libro_edad_dias"] = self.book_age_days(ev)
+            row["libro_historia_dias"] = (ev["block"] - self.borrow_from) * self.sh.cfg["block_time_s"] / 86400
         if fc is None:
             row["sin_dato"] = True
         else:
@@ -297,16 +341,18 @@ def run_replay(cfg, out_dir, rpc=None, markets=None):
     rcfg = {**RDEFAULTS, **{k: v for k, v in cfg.items() if k in RDEFAULTS}}
     rpc = rpc or make_rpc()
     sh = Shadow(rpc, os.path.join(out_dir, "_sombra"), cfg, markets=markets).setup()
+    bt = sh.cfg["block_time_s"]
     head = rpc.block_number() - rcfg["margen_cabeza"]
-    start = max(1, head - int(rcfg["dias"] * 86400 / sh.cfg["block_time_s"]))
+    start = max(1, head - int(rcfg["dias"] * 86400 / bt))
     t0 = time.monotonic()
     log(f"replay: buscando liquidaciones en los bloques {start:,}..{head:,}")
     deadline = time.monotonic() + max(60.0, 0.4 * rcfg["presupuesto_min"] * 60)     # la búsqueda de eventos usa hasta 40%
-    try:
-        logs = rpc.get_logs(sh.morpho, [[mo.EVENT_TOPICS["Liquidate"]], sh.ids], start, head, deadline=deadline)
-        scanned_to = head
-    except BudgetExceeded as e:
-        logs, scanned_to = e.logs, e.next_block - 1
+    logs, start_used, scanned_to, complete = scan_logs(rpc, sh.morpho, [[mo.EVENT_TOPICS["Liquidate"]], sh.ids], start, head,
+                                                       deadline, rcfg["scan_workers"])
+    if start_used > start:
+        log(f"replay: el proveedor solo guarda logs desde el bloque {start_used:,}; la ventana se acorta a "
+            f"{(head - start_used) * bt / 86400:.1f} días")
+    if not complete:
         log(f"replay: ventana parcial: la búsqueda llegó al bloque {scanned_to:,}")
     events = []
     for lg in logs:
@@ -316,34 +362,45 @@ def run_replay(cfg, out_dir, rpc=None, markets=None):
             continue
         if ev and ev["kind"] == "Liquidate" and not lg.get("removed"):
             events.append(ev)
-    borrows, scan = None, {"dias": rcfg["libro_dias"], "completo": False, "borrows": 0}
+    window = {"desde": start_used, "desde_pedido": start, "hasta_pedido": head, "hasta_leido": scanned_to, "dias": rcfg["dias"],
+              "dias_reales": round((scanned_to - start_used) * bt / 86400, 2), "completa": complete}
+    early = Out(out_dir)
+    early.json("replay_meta.json", {"estado": "en_curso", "ventana": window, "eventos_en_ventana": len(events), "config": rcfg,
+                                     "segundos": round(time.monotonic() - t0, 1)})
+    log(f"replay: {len(events)} liquidaciones en la ventana ({time.monotonic() - t0:.0f} s)")
+
+    borrows, borrow_from, scan = None, None, {"dias": rcfg["libro_dias"], "completo": False, "borrows": 0}
     if rcfg["libro_dias"] > 0 and events:
-        b_start = max(1, start - int(rcfg["libro_dias"] * 86400 / sh.cfg["block_time_s"]))
+        b_start = max(1, start_used - int(rcfg["libro_dias"] * 86400 / bt))
         log(f"replay: buscando Borrow desde el bloque {b_start:,} para medir la cobertura del libro")
         try:
-            blogs = rpc.get_logs(sh.morpho, [[mo.EVENT_TOPICS["Borrow"]], sh.ids], b_start, scanned_to,
-                                 deadline=time.monotonic() + max(60.0, rcfg["libro_min"] * 60))
-            scan["completo"] = True
-        except BudgetExceeded as e:
-            blogs = e.logs
-            log(f"replay: la búsqueda de Borrow quedó incompleta en el bloque {e.next_block:,}")
-        borrows = defaultdict(list)
-        for lg in blogs:
-            try:
-                ev = mo.decode_event(lg)
-            except ValueError:
-                continue
-            if ev and ev["kind"] == "Borrow" and not lg.get("removed"):
-                borrows[(ev["market"], ev["user"])].append(ev["block"])
-        for blocks in borrows.values():
-            blocks.sort()
-        scan.update(desde=b_start, borrows=sum(len(v) for v in borrows.values()))
-        if not scan["completo"]:
-            borrows = None                      # una cobertura a medias engaña: mejor no medirla
-    rp = Replay(sh, out_dir, rcfg, borrows)
+            blogs, b_from, b_to, ok = scan_logs(rpc, sh.morpho, [[mo.EVENT_TOPICS["Borrow"]], sh.ids], b_start, scanned_to,
+                                                time.monotonic() + max(60.0, rcfg["libro_min"] * 60), rcfg["scan_workers"])
+            scan.update(completo=ok, desde=b_from, hasta=b_to)
+            if b_from > b_start:
+                log(f"replay: los Borrow solo se pueden leer desde el bloque {b_from:,}")
+            if not ok:
+                log(f"replay: la búsqueda de Borrow quedó incompleta en el bloque {b_to:,}")
+        except RpcError as e:
+            blogs = []
+            scan["error"] = rpc.scrub(e)[:160]
+            log(f"replay: no se pudo medir la cobertura del libro: {scan['error']}")
+        if scan["completo"]:
+            borrows, borrow_from = defaultdict(list), scan["desde"]
+            for lg in blogs:
+                try:
+                    ev = mo.decode_event(lg)
+                except ValueError:
+                    continue
+                if ev and ev["kind"] == "Borrow" and not lg.get("removed"):
+                    borrows[(ev["market"], ev["user"])].append(ev["block"])
+            for blocks in borrows.values():
+                blocks.sort()
+            scan["borrows"] = sum(len(v) for v in borrows.values())
+        # una cobertura a medias engaña: sin búsqueda completa no se mide
+    rp = Replay(sh, out_dir, rcfg, borrows, borrow_from)
     meta = rp.run(events)
-    meta.update({"borrow_scan": scan})
-    meta.update({"ventana": {"desde": start, "hasta_pedido": head, "hasta_leido": scanned_to, "dias": rcfg["dias"]},
+    meta.update({"estado": "completo", "borrow_scan": scan, "ventana": window,
                  "config": rcfg, "segundos": round(time.monotonic() - t0, 1), "multicall_ok": sh.multicall_ok,
                  "mercados": {i: m.label for i, m in sh.markets.items()}, "rpc": rpc.report(), "rpc_llamadas": rpc.calls})
     rp.out.json("replay_meta.json", meta)

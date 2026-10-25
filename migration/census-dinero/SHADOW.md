@@ -70,6 +70,13 @@ En cada bloque nuevo, con el mismo bloque como instantánea:
 | OBSERVAR | `oraculo_anomalo` (el precio saltó más de 30% entre bloques) |
 | GO | pasó todo lo anterior |
 
+Para no pedir logs de todos los bloques, mira el `logsBloom` de la cabecera: si el bloom no contiene la
+dirección de Morpho, algún evento nuestro ni algún mercado vigilado, no hay nada que leer (un "no" del bloom
+es seguro). Solo se usa si al arrancar se comprobó con bloques reales con eventos (al menos 3) que el bloom
+no los descarta, y 1 de cada 40 bloques "vacíos" se consulta de todos modos; si alguna vez aparece un
+evento donde el bloom decía que no, se apaga y se piden los logs de todos los bloques. Implementación
+comprobada contra la librería de referencia `eth-bloom` (3000 valores y 300 blooms al azar, sin diferencias).
+
 Si el Shadow se atrasa más de 15 bloques (o termina de armar el libro y la cadena ya avanzó), se pone al
 día con **una sola búsqueda de los eventos del hueco** y sigue; no vuelve a leer las decenas de miles de
 posiciones del libro. Lo que se pierde es la hora exacta de los cruces dentro del hueco, así que las

@@ -29,6 +29,7 @@ from . import morpho as mo
 from .abi import norm
 from .config import (CHAINS, KNOWN_SHARED_ENTRIES, SEL, SHADOW_BASE_MARKETS, SHADOW_BASE_USDC, SHADOW_PRIOR_GAS_USD,
                      SHADOW_PRIOR_KEPT_ALL, SHADOW_PRIORS_SOURCE)
+from .keccak import keccak256
 from .rpc import BudgetExceeded, CallReverted, Rpc, RpcError
 from .sonda import raw_call
 
@@ -57,6 +58,8 @@ DEFAULTS = {
     "auction_prior_direct_usd": 500.0,   # ... y con < $500 de bono directo en 30 días: NO-GO de mercado
     "prior_min_n": 30,              # mínimo de liquidaciones directas para usar la retención propia del mercado
     "retry_blocks": 25,
+    "rate_ttl_s": 30.0,             # cuánto se reutiliza el tipo de interés del IRM mientras el mercado no cambie
+    "bloom_sample": 40,             # aun si el bloom dice "sin logs", se piden los de 1 de cada tantos bloques para comprobarlo
 }
 AUCTION_ENTRIES = {a for c, a in KNOWN_SHARED_ENTRIES if c == "base"}
 CACHE_VERSION = 1
@@ -75,6 +78,37 @@ def quantiles(xs, qs=(0.5, 0.9, 0.99)):
         return {f"p{int(q * 100)}": None for q in qs} | {"min": None, "max": None, "n": 0}
     out = {f"p{int(q * 100)}": xs[min(len(xs) - 1, int(q * (len(xs) - 1) + 0.5))] for q in qs}
     return out | {"min": xs[0], "max": xs[-1], "n": len(xs)}
+
+
+def bloom_bits(data):
+    """Las 3 posiciones (0..2047) que un valor activa en el bloom de logs de Ethereum (yellow paper, M3:2048)."""
+    h = keccak256(data)
+    return tuple(((h[i] << 8) | h[i + 1]) & 2047 for i in (0, 2, 4))
+
+
+def bloom_has(bloom, bits):
+    """`bloom`: los 256 bytes del campo logsBloom. El bit 0 es el menos significativo del último byte."""
+    return all(bloom[255 - (b >> 3)] & (1 << (b & 7)) for b in bits)
+
+
+class LogBloom:
+    """¿Puede un bloque tener logs de Morpho que nos interesen? El bloom del bloque contiene la dirección y todos los
+    topics de todos sus logs: un "no" es seguro (no hace falta pedir logs); un "sí" hay que confirmarlo con getLogs."""
+
+    def __init__(self, address, topic0s, ids):
+        self.address = bloom_bits(bytes.fromhex(address[2:]))
+        self.topics = [bloom_bits(bytes.fromhex(t[2:])) for t in topic0s]
+        self.ids = [bloom_bits(bytes.fromhex(i[2:])) for i in ids]
+
+    def maybe(self, bloom_hex):
+        try:
+            raw = bytes.fromhex(bloom_hex[2:])
+        except (TypeError, ValueError):
+            return True
+        if len(raw) != 256:
+            return True
+        return (bloom_has(raw, self.address) and any(bloom_has(raw, t) for t in self.topics)
+                and any(bloom_has(raw, i) for i in self.ids))
 
 
 class Out:
@@ -195,6 +229,9 @@ class Shadow:
         self.multicall_proved = False
         self.stop = False
         self.lost = {}                           # bloque perdido -> intentos de recuperar sus eventos
+        self.rate_cache = {}
+        self.bloom = None                        # LogBloom, tras setup()
+        self.bloom_ok = False                    # solo se usa para saltarse getLogs si se comprobó con bloques reales
         self.first_eval_block = None             # primer bloque evaluado tras un hueco: sus cruces son inciertos
         self.uncertain_keys = set()              # ya eran liquidables cuando arrancó el libro: su hora de cruce no se conoce
         self._pool = None
@@ -337,11 +374,38 @@ class Shadow:
             else:
                 self.markets[m["id"]] = MarketInfo(m["id"], m["label"], p, dec[p.loan], dec[p.collateral], m)
         self.ids = list(self.markets)
+        self.bloom = LogBloom(self.morpho, mo.BOOK_EVENTS, self.ids)
         self.meta["mercados"] = {i: {"label": m.label, "lltv": m.params.lltv, "oraculo": m.params.oracle, "irm": m.params.irm}
                                  for i, m in self.markets.items()}
         self.meta["mercados_excluidos"] = self.excluded
         log(f"shadow: {len(self.markets)} mercados vigilados, {len(self.excluded)} excluidos")
         return self
+
+    def prove_bloom(self, head, event_blocks):
+        """Comprueba con bloques reales que el bloom no descarta ningún bloque con eventos nuestros. Solo si pasa
+        (y hay suficientes bloques para saberlo) se deja de pedir los logs de los bloques que el bloom descarta."""
+        blocks = sorted(set(event_blocks))[-12:]
+        if len(blocks) < 3:
+            try:
+                recent = self.rpc.call("eth_getLogs", [{"fromBlock": hex(max(1, head - 20000)), "toBlock": hex(head),
+                                                        "address": self.morpho, "topics": [mo.BOOK_EVENTS, self.ids]}])
+                blocks = sorted({int(lg["blockNumber"], 16) for lg in recent if not lg.get("removed")})[-12:]
+            except RpcError as e:
+                log(f"shadow: no se pudo probar el bloom: {self.rpc.scrub(e)[:100]}")
+                blocks = []
+        bad, seen = 0, 0
+        for b in blocks:
+            try:
+                hdr = self._header(b, None)
+            except RpcError:
+                continue
+            seen += 1
+            if not (hdr["bloom"] and self.bloom.maybe(hdr["bloom"])):
+                bad += 1
+        self.bloom_ok = seen >= 3 and bad == 0
+        self.meta["bloom"] = {"ok": self.bloom_ok, "bloques_con_eventos": seen, "descartados_por_error": bad}
+        log(f"shadow: bloom {'verificado' if self.bloom_ok else 'NO verificado'} con {seen} bloques con eventos"
+            + (f" ({bad} descartados por error)" if bad else ""))
 
     def bootstrap(self, head, cache=None, deadline=None):
         """Arma el libro: busca prestatarios en los eventos y lee su posición exacta en `head`."""
@@ -350,6 +414,7 @@ class Shadow:
             and norm((cache or {}).get("morpho", "0x0")) == self.morpho else {}
         cands = defaultdict(set)
         starts = defaultdict(list)
+        event_blocks = []
         for mid in self.ids:
             c = cache_markets.get(mid)
             if c:
@@ -379,6 +444,7 @@ class Shadow:
                     continue
                 if ev and not lg.get("removed"):
                     cands[ev["market"]].add(ev["user"])
+                    event_blocks.append(ev["block"])
         pairs = [(mid, user) for mid, users in cands.items() for user in sorted(users) if mid in self.markets]
         log(f"shadow: {len(pairs)} prestatarios candidatos; leyendo posiciones en el bloque {head}")
         got = self.read_positions(pairs, head)
@@ -394,6 +460,7 @@ class Shadow:
         except RpcError:
             self.first_eval_block = head + 1
         self.cands = cands
+        self.prove_bloom(head, event_blocks)
         self.meta["libro"] = {"bloque": head, "candidatos": len(pairs), "leidos": len(got), "con_deuda": self.book.active_count(),
                               "libro_parcial": self.libro_parcial, "segundos": round(self.mono() - t0, 1),
                               "desde_cache": bool(cache_markets), "dias_atras": self.cfg["lookback_days"]}
@@ -420,7 +487,8 @@ class Shadow:
     def _header(self, n, prefer):
         b = self.rpc.block(n, recent=True, prefer=prefer)
         return {"ts": int(b["timestamp"], 16), "hash": b.get("hash"), "parent": b.get("parentHash"),
-                "base_fee": int(b.get("baseFeePerGas") or "0x0", 16), "txs": b.get("transactions") or []}
+                "base_fee": int(b.get("baseFeePerGas") or "0x0", 16), "txs": b.get("transactions") or [],
+                "bloom": b.get("logsBloom")}
 
     def _logs_of_block(self, n, block_hash, prefer):
         """Logs de un bloque. Con el hash del bloque, un proveedor atrasado contesta con error y se prueba otro;
@@ -492,14 +560,23 @@ class Shadow:
         self.counts["posiciones_sincronizadas"] += len(got)
 
     def _rate(self, mid, state, n, ts):
+        """Tipo de interés del IRM para estimar el interés acumulado. Solo hace falta cerca del umbral y cambia muy
+        despacio, así que se reutiliza mientras el mercado no cambie (una llamada por bloque costaba ~200 ms)."""
         info = self.markets[mid]
         if info.params.irm == mo.ZERO:
             return 0
+        key = (state.last_update, state.total_supply_assets, state.total_borrow_assets)
+        hit = self.rate_cache.get(mid)
+        if hit and hit[0] == key and self.mono() - hit[1] < self.cfg["rate_ttl_s"]:
+            return hit[2]
         ok, data = self._single(info.params.irm, mo.call_rate(info.params, state), n)
         try:
-            return mo.decode_uint(data) if ok else None
+            rate = mo.decode_uint(data) if ok else None
         except ValueError:
-            return None
+            rate = None
+        if rate is not None:
+            self.rate_cache[mid] = (key, self.mono(), rate)
+        return rate
 
     def _evaluate(self, snap, n, ts):
         """{(mercado, usuario): datos} de las posiciones liquidables ahora (con interés acumulado si están al borde)."""
@@ -694,7 +771,18 @@ class Shadow:
             self._reorg(n)
         self.hashes[n] = hdr["hash"]
         self.hashes.pop(n - 80, None)
-        events = self._events(n, n, prefer, hdr["hash"])
+        no_logs = self.bloom_ok and bool(hdr["bloom"]) and not self.bloom.maybe(hdr["bloom"])
+        if no_logs and not (self.cfg["bloom_sample"] and n % self.cfg["bloom_sample"] == 0):
+            events = []                           # el bloom del bloque descarta cualquier log nuestro: ni se piden
+            self.counts["bloques_sin_logs_por_bloom"] += 1
+        else:
+            events = self._events(n, n, prefer, hdr["hash"])
+            if no_logs and events:                # la muestra de control encontró eventos donde el bloom decía que no había
+                self.bloom_ok = False
+                self.counts["bloom_falsos_negativos"] += 1
+                self.meta["bloom"] = {**self.meta.get("bloom", {}), "ok": False, "falso_negativo_en": n}
+                log(f"shadow: el bloom descartó el bloque {n} pero tenía eventos; se vuelve a pedir los logs de todos los bloques")
+                self.out.write("eventos_del_sistema.jsonl", {"evento": "bloom_falso_negativo", "bloque": n})
         t_logs = self.mono()
         known_before = {(e["market"], e["user"]) for e in events if e["kind"] == "Liquidate"
                         and self.book.is_active(e["market"], e["user"])}

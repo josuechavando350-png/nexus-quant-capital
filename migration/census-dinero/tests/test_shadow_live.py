@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fakemorpho as fm  # noqa: E402
 from census_dinero import morpho as mo  # noqa: E402
 from census_dinero.rpc import Rpc, RpcError  # noqa: E402
-from census_dinero.shadow_live import HeadWatcher, Shadow, run_live  # noqa: E402
+from census_dinero.shadow_live import HeadWatcher, LogBloom, Shadow, bloom_bits, bloom_has, run_live  # noqa: E402
 
 
 def no_sleep(_):
@@ -386,7 +386,7 @@ class TestSystem(unittest.TestCase):
         self.assertEqual(sh2.book.active_count(), 2)
         self.assertTrue(sh2.meta["libro"]["desde_cache"])
         scans = [c for c in env.chain.calls if c[0] == "eth_getLogs"]
-        self.assertEqual(len(scans), 1)
+        self.assertEqual(len(scans), 2)                       # solo lo nuevo + una consulta corta para comprobar el bloom
 
     def test_cache_from_other_morpho_is_ignored(self):
         env = Env().ready((U[0], 1700))
@@ -660,6 +660,172 @@ class TestEvaluationSpeedup(unittest.TestCase):
         self.assertGreater(len(want_near), 100)
         self.assertEqual({k for k, v in got.items() if not v["accrual"]}, want_liq)
         self.assertEqual(set(sh.last_near), want_near)
+
+
+# Bloom de un bloque con un log de Liquidate de Morpho en el mercado cbXRP/USDC, calculado con la librería de referencia
+# eth-bloom (py-evm): dirección de Morpho + topic0 de Liquidate + id de mercado.
+REF_BLOOM = ("000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+             "000080000000000000000000000000000000000000100000000000000000000000000000000080000080000000000000"
+             "000000000000000000000000000000080000000000000000000000000000000000000000000000080000000000000000"
+             "000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000"
+             "200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+             "00000000000000000000000000000000")
+MORPHO_ADDR = "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb"
+CBXRP_ID = "0xd4a903dc6d949519060c7707f9604fdc9772c046e05c2e3a8fce0bd7196e4109"
+
+
+class TestBloom(unittest.TestCase):
+    def three_event_blocks(self):
+        env = Env()
+        for u in U[:3]:
+            env.chain.mine(env.open_position(u, 1700))              # tres bloques con eventos de Morpho, para poder comprobar el bloom
+        return env
+
+    def test_bits_match_the_reference_implementation(self):
+        morpho = bytes.fromhex(MORPHO_ADDR[2:])
+        liq = bytes.fromhex(mo.EVENT_TOPICS["Liquidate"][2:])
+        mid = bytes.fromhex(CBXRP_ID[2:])
+        self.assertEqual(bloom_bits(morpho), (1492, 963, 509))      # posiciones que da eth-bloom
+        self.assertEqual(bloom_bits(liq), (1647, 1335, 2023))
+        self.assertEqual(bloom_bits(mid), (1155, 624, 1359))
+        raw = bytes.fromhex(REF_BLOOM)
+        self.assertEqual(len(raw), 256)
+        for item in (morpho, liq, mid):
+            self.assertTrue(bloom_has(raw, bloom_bits(item)))
+        self.assertFalse(bloom_has(raw, bloom_bits(bytes.fromhex(mo.EVENT_TOPICS["Borrow"][2:]))))
+
+    def test_logbloom_needs_address_event_and_market(self):
+        lb = LogBloom(MORPHO_ADDR, mo.BOOK_EVENTS, [CBXRP_ID])
+        self.assertTrue(lb.maybe("0x" + REF_BLOOM))
+        self.assertFalse(lb.maybe("0x" + "00" * 256))
+        other_market = LogBloom(MORPHO_ADDR, mo.BOOK_EVENTS, ["0x" + "ab" * 32])
+        self.assertFalse(other_market.maybe("0x" + REF_BLOOM))         # el log es de otro mercado
+        other_addr = LogBloom("0x" + "11" * 20, mo.BOOK_EVENTS, [CBXRP_ID])
+        self.assertFalse(other_addr.maybe("0x" + REF_BLOOM))
+        self.assertTrue(lb.maybe("0x1234"))                            # un bloom raro: ante la duda, se piden los logs
+        self.assertTrue(lb.maybe(None))
+
+    def test_fake_chain_bloom_agrees_with_the_package_for_real_logs(self):
+        env = self.three_event_blocks()
+        lb = LogBloom(env.sh.morpho, mo.BOOK_EVENTS, [env.mid])
+        for n in range(env.chain.head - 2, env.chain.head + 1):
+            self.assertTrue(lb.maybe(env.chain.headers[n]["logsBloom"]), n)
+        empty = env.chain.mine()
+        self.assertFalse(lb.maybe(env.chain.headers[empty]["logsBloom"]))
+
+    def test_proved_bloom_skips_get_logs_for_quiet_blocks(self):
+        env = self.three_event_blocks()
+        env.open()
+        self.assertTrue(env.sh.bloom_ok)
+        self.assertEqual(env.sh.meta["bloom"]["bloques_con_eventos"], 3)
+        env.sh.cfg["bloom_sample"] = 0
+        before = len([c for c in env.chain.calls if c[0] == "eth_getLogs"])
+        for _ in range(5):
+            env.step()
+        self.assertEqual(len([c for c in env.chain.calls if c[0] == "eth_getLogs"]), before)       # ninguna consulta de logs
+        self.assertEqual(env.sh.counts["bloques_sin_logs_por_bloom"], 5)
+        env.step([("set_price", env.mid, DROP)])
+        env.step([("liquidate", env.mid, B[0], U[0])])                                              # un bloque con evento sí se consulta
+        self.assertEqual([r["resultado"] for r in env.rows("resultados.jsonl")], ["liquidada"])
+        self.assertGreater(len([c for c in env.chain.calls if c[0] == "eth_getLogs"]), before)
+
+    def test_blocks_with_events_for_other_markets_are_skipped_too(self):
+        env = self.three_event_blocks()
+        other = env.chain.add_market("OTRO")
+        env.open()
+        env.sh.cfg["bloom_sample"] = 0
+        n_before = env.sh.counts["bloques_sin_logs_por_bloom"]
+        env.step(env.open_position(U[3], 500, mid=other))                                          # evento de un mercado que no vigilamos
+        self.assertEqual(env.sh.counts["bloques_sin_logs_por_bloom"], n_before + 1)
+
+    def test_control_sample_detects_a_bloom_that_lies_and_turns_it_off(self):
+        env = self.three_event_blocks()
+        env.open()
+        env.sh.cfg["bloom_sample"] = 1                                                             # se revisa cada bloque
+        n = env.chain.mine(env.open_position(U[3], 800))
+        env.chain.headers[n] = dict(env.chain.headers[n], logsBloom="0x" + "00" * 256)             # el bloom miente
+        env.sh.process_block(n, None, None, None)
+        self.assertFalse(env.sh.bloom_ok)
+        self.assertEqual(env.sh.counts["bloom_falsos_negativos"], 1)
+        self.assertEqual(env.sh.book.pos[(env.mid, U[3])].borrow_shares, env.chain.positions[(env.mid, U[3])][1])    # el evento sí se aplicó
+        self.assertIn("bloom_falso_negativo", [r["evento"] for r in env.rows("eventos_del_sistema.jsonl")])
+        before = len([c for c in env.chain.calls if c[0] == "eth_getLogs"])
+        env.step()
+        self.assertEqual(len([c for c in env.chain.calls if c[0] == "eth_getLogs"]), before + 1)     # ya se piden los logs de todos
+
+    def test_a_bloom_that_does_not_match_real_blocks_is_not_trusted(self):
+        env = self.three_event_blocks()
+        for n in range(env.chain.head - 2, env.chain.head + 1):
+            env.chain.headers[n] = dict(env.chain.headers[n], logsBloom="0x" + "00" * 256)
+        env.open()
+        self.assertFalse(env.sh.bloom_ok)
+        self.assertFalse(env.sh.meta["bloom"]["ok"])
+        before = len([c for c in env.chain.calls if c[0] == "eth_getLogs"])
+        env.step()
+        self.assertEqual(len([c for c in env.chain.calls if c[0] == "eth_getLogs"]), before + 1)
+
+    def test_too_few_event_blocks_to_prove_it_means_not_trusted(self):
+        env = Env().ready((U[0], 1700))                                                            # un solo bloque con eventos
+        self.assertFalse(env.sh.bloom_ok)
+        self.assertEqual(env.sh.meta["bloom"]["bloques_con_eventos"], 1)
+
+
+class TestRateCache(unittest.TestCase):
+    RATE = int(0.4 / 31_536_000 * 1e18)
+
+    def count_irm(self, env):
+        """Cuenta las llamadas que llegan al IRM del mercado."""
+        irm = env.sh.markets[env.mid].params.irm.lower()
+        count = {"n": 0}
+        orig = env.rpc.transport
+
+        def counting(url, payload, timeout):
+            if payload["method"] == "eth_call" and payload["params"][0].get("to", "").lower() == irm:
+                count["n"] += 1
+            return orig(url, payload, timeout)
+        env.rpc.transport = counting
+        return count
+
+    def test_irm_rate_is_reused_while_the_market_does_not_change(self):
+        env = Env(rate=self.RATE).ready((U[0], 1715))                         # a menos de 0.5% del umbral: cada bloque necesita el interés
+        for _ in range(3):
+            env.chain.mine()                                                  # pasan >5 s desde la última interacción con el mercado
+        count = self.count_irm(env)
+        for _ in range(8):
+            env.step()
+        self.assertEqual(count["n"], 1)                                       # una vez, no ocho
+
+    def test_rate_is_requeried_when_the_market_changes(self):
+        env = Env(rate=self.RATE).ready((U[0], 1715), (U[1], 1000))
+        for _ in range(3):
+            env.chain.mine()
+        count = self.count_irm(env)
+        for _ in range(3):
+            env.step()
+        before = count["n"]
+        self.assertEqual(before, 1)
+        env.step([("borrow", env.mid, U[1], 10 ** 6)])                        # cambia la deuda total: cambia la utilización
+        for _ in range(4):
+            env.step()                                                        # y pasan >5 s sin tocar el mercado otra vez
+        self.assertEqual(count["n"], before + 1)
+
+    def test_rate_is_requeried_after_the_ttl(self):
+        env = Env({"rate_ttl_s": 0.0}, rate=self.RATE).ready((U[0], 1715))
+        for _ in range(3):
+            env.chain.mine()
+        count = self.count_irm(env)
+        for _ in range(4):
+            env.step()
+        self.assertEqual(count["n"], 4)
+
+    def test_interest_still_flips_a_position_with_a_cached_rate(self):
+        env = Env(rate=int(2.0 / 31_536_000 * 1e18)).ready((U[0], 1719))
+        for _ in range(3):
+            env.step()
+        self.assertEqual(env.rows("decisiones.jsonl"), [])
+        env.step(dt=40_000_000)                                               # mucho tiempo sin tocar el mercado: el interés la cruza
+        self.assertEqual(len(env.rows("decisiones.jsonl")), 1)
+        self.assertTrue(env.rows("decisiones.jsonl")[0]["con_interes"])
 
 
 class TestParallelReads(unittest.TestCase):

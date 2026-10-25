@@ -201,12 +201,14 @@ def analyze_replay(rows, errors, meta, cfg):
 
     scan = meta.get("borrow_scan") or {}
     if scan.get("completo") and rows:
-        total_n, total_b = wcount(rows), wsum(rows, "bono_usd")
         table_ = []
         for days in LIBRO_DIAS:
-            sel = [r for r in rows if r.get("libro_edad_dias") is not None and r["libro_edad_dias"] <= days]
-            table_.append({"dias": days, "parte_n": share(wcount(sel), total_n), "parte_bono": share(wsum(sel, "bono_usd"), total_b)})
-        out["cobertura_libro"] = {"por_dias_atras": table_, "escaneado_dias": scan.get("dias"), "borrows": scan.get("borrows"),
+            # Solo cuentan las liquidaciones con al menos esa historia disponible antes de ellas en lo escaneado.
+            pool = [r for r in rows if r.get("libro_historia_dias") is not None and r["libro_historia_dias"] >= days]
+            cov = [r for r in pool if r.get("libro_edad_dias") is not None and r["libro_edad_dias"] <= days]
+            table_.append({"dias": days, "n": len(pool), "parte_n": share(wcount(cov), wcount(pool)),
+                           "parte_bono": share(wsum(cov, "bono_usd"), wsum(pool, "bono_usd"))})
+        out["cobertura_libro"] = {"por_dias_atras": table_, "escaneado_desde": scan.get("desde"), "borrows": scan.get("borrows"),
                                   "mas_viejos_que_lo_escaneado": sum(1 for r in rows if r.get("libro_edad_dias") is None)}
 
     # Control cruzado contra el Census: el bono directo estimado por el replay debe parecerse al del Census.
@@ -285,7 +287,7 @@ def analyze_live(bloques, decisiones, resultados, sistema, cercanas, meta, cfg):
     events = Counter(s.get("evento") for s in sistema)
     out["calidad"] = {"contadores": c, "eventos_del_sistema": dict(events), "multicall_ok": meta.get("multicall_ok"),
                       "libro": meta.get("libro"), "libro_deriva": meta.get("libro_deriva"), "pendientes_al_cierre": meta.get("pendientes"),
-                      "inicio": meta.get("inicio"), "fin": meta.get("fin"), "supuestos": meta.get("supuestos"),
+                      "inicio": meta.get("inicio"), "fin": meta.get("fin"), "supuestos": meta.get("supuestos"), "bloom": meta.get("bloom"),
                       "mercados": len(meta.get("mercados") or {}), "excluidos": meta.get("mercados_excluidos")}
     last = cercanas[-1] if cercanas else None
     if last:
@@ -545,8 +547,10 @@ def render(res):
                      f"propina mediana ${c['propina_usd']['p50']:.2f} (p90 ${c['propina_usd']['p90']:.2f}).")
         cl = rp.get("cobertura_libro")
         if cl:
-            L.append("Cobertura del libro (prestatarios liquidados que un libro armado mirando N días atrás ya conocería): " +
-                     ", ".join(f"{x['dias']} d {pct(x['parte_n'])} ({pct(x['parte_bono'])} del bono)" for x in cl["por_dias_atras"]) + ".")
+            L.append("Cobertura del libro (prestatarios liquidados que un libro armado mirando N días atrás ya conocería, entre las "
+                     "liquidaciones con esa historia disponible): " +
+                     ", ".join(f"{x['dias']} d " + (f"{pct(x['parte_n'])} ({pct(x['parte_bono'])} del bono, n={x['n']})" if x["n"]
+                                                   else "sin historia suficiente") for x in cl["por_dias_atras"]) + ".")
         gw, cd = rp.get("ganadores"), rp.get("concentracion_dias")
         if gw and gw["distintos"]:
             L.append(f"Quién se lleva el bono directo: {gw['distintos']} firmantes distintos en la muestra; el mayor {pct(gw['top1'])}, "
@@ -579,6 +583,12 @@ def render(res):
         L += ["", *table(["Latencia", "p50", "p90", "p99"], rows), "", "_" + lat["nota"] + "._"]
         ph = lat["fases_ms"]
         L.append("Dónde se va el tiempo (p50): " + ", ".join(f"{k.replace('_ms', '')} {ms(q['p50'])}" for k, q in ph.items()) + ".")
+        cn_ = lv["calidad"]["contadores"]
+        bl = (lv["calidad"].get("bloom") or {})
+        if cn_.get("bloques_sin_logs_por_bloom") or bl:
+            L.append(f"Logs: {num(cn_.get('bloques_sin_logs_por_bloom', 0))} de {num(v['bloques'])} bloques sin pedir logs porque el bloom del bloque "
+                     f"descarta a Morpho (bloom {'verificado' if bl.get('ok') else 'no verificado'} con {bl.get('bloques_con_eventos', 0)} bloques con "
+                     f"eventos; falsos negativos: {cn_.get('bloom_falsos_negativos', 0)}).")
         dec = lv["decisiones"]
         L += ["", "Decisiones: " + (", ".join(f"{k} {n}" for k, n in sorted(dec["por_razon"].items())) or "ninguna") + "."]
         go = lv["go"]

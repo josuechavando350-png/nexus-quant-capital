@@ -236,10 +236,21 @@ jobs:
           ref: ${{ github.sha }}
           persist-credentials: false
       - name: Replay histórico
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p out/shadow-replay
-          set -o pipefail
-          python3 -m census_dinero replay --run-json run.json --out out/shadow-replay 2>&1 | tee -i out/shadow-replay/log.txt
+          # Cada 10 minutos se sube lo que haya (solo el publicador tiene el token).
+          ( while sleep 600; do
+              python3 ci/push_results.py --src out/shadow-replay --dest "corridas/${GITHUB_RUN_ID}/shadow-replay" \
+                --message "shadow replay run ${GITHUB_RUN_ID} (parcial)" || true
+            done ) &
+          pub=$!
+          set +e
+          env -u GH_TOKEN python3 -m census_dinero replay --run-json run.json --out out/shadow-replay 2>&1 | tee -i out/shadow-replay/log.txt
+          code=${PIPESTATUS[0]}
+          kill "$pub" 2>/dev/null
+          exit "$code"
       - name: Publicar el replay
         if: always()
         env:

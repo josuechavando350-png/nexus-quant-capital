@@ -53,10 +53,11 @@ class Revert(Exception):
 class FakeMorpho:
     chain_id = 8453
 
-    def __init__(self, head=5_000, archive_blocks=None, multicall=True, eth_usd=2500):
+    def __init__(self, head=5_000, archive_blocks=None, multicall=True, eth_usd=2500, logs_from=None):
         self.head = head
         self.archive_blocks = archive_blocks        # None: archivo completo; n: solo los últimos n bloques
         self.multicall = multicall
+        self.logs_from = logs_from                  # None: logs desde el inicio; n: el proveedor solo guarda logs desde el bloque n
         self.eth_usd = eth_usd
         self.markets, self.positions = {}, {}
         self.logs, self.txs, self.receipts, self.headers, self.history = [], {}, {}, {}, {}
@@ -212,10 +213,22 @@ class FakeMorpho:
     def _hash(self, n):
         return "0x" + format(n * 1_000_003 + self.hash_salt.get(n, 0) * 7_777_777, "064x")
 
+    def _bloom(self, n):
+        """logsBloom del bloque n (yellow paper): cada dirección y cada topic activa 3 bits de un entero de 2048 bits."""
+        value = 0
+        for lg in self.logs:
+            if int(lg["blockNumber"], 16) != n:
+                continue
+            for item in [lg["address"]] + list(lg["topics"]):
+                h = keccak256(bytes.fromhex(item[2:]))
+                for i in (0, 2, 4):
+                    value |= 1 << (int.from_bytes(h[i:i + 2], "big") % 2048)
+        return "0x" + value.to_bytes(256, "big").hex()
+
     def _header(self, n, ts, hashes):
         return {"number": hex(n), "hash": self._hash(n), "parentHash": self.headers[n - 1]["hash"] if n - 1 in self.headers
                 else self._hash(n - 1), "timestamp": hex(ts), "baseFeePerGas": hex(5_000_000), "miner": BUILDER,
-                "transactions": list(hashes)}
+                "transactions": list(hashes), "logsBloom": self._bloom(n)}
 
     def _snap(self, n):
         self.history[n] = {"markets": deepcopy({k: (v["state"], v["price"], v["rate"], v["oracle_reverts"])
@@ -311,6 +324,8 @@ class FakeMorpho:
             lo, hi = int(flt["fromBlock"], 16), int(flt["toBlock"], 16)
         if hi > self.head:
             raise RpcError("block range extends beyond current head block", -32000)
+        if self.logs_from is not None and lo < self.logs_from:
+            raise RpcError(f"pruned history unavailable: requested {lo}, earliest available {self.logs_from}", -32000)
         addrs = flt.get("address")
         addrs = None if addrs is None else {norm(a) for a in (addrs if isinstance(addrs, list) else [addrs])}
         topics = flt.get("topics") or []

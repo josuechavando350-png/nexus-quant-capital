@@ -4,6 +4,7 @@ import json
 import os
 import sys
 import tempfile
+import time
 import unittest
 from dataclasses import replace as dc_replace
 
@@ -12,7 +13,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import fakemorpho as fm  # noqa: E402
 from census_dinero import morpho as mo  # noqa: E402
-from census_dinero.shadow_replay import RDEFAULTS, event_bonus, prior_kept, run_replay, select_events  # noqa: E402
+from census_dinero.rpc import RpcError  # noqa: E402
+from census_dinero.shadow_replay import (RDEFAULTS, earliest_available, event_bonus, prior_kept, run_replay, scan_logs,  # noqa: E402
+                                          select_events)  # noqa: E402
 from test_shadow_live import B, DROP, Env, S, U  # noqa: E402
 
 
@@ -159,11 +162,77 @@ class TestBookCoverage(unittest.TestCase):
         self.assertIsNone(by[U[0]])
         self.assertIsNotNone(by[U[1]])
 
+    def test_pruned_log_history_is_handled_and_reduces_the_measurable_lookback(self):
+        from census_dinero import shadow_report as sr
+        env = self.make()
+        env.chain.logs_from = 5020                                   # el proveedor ya no guarda logs anteriores al bloque 5020
+        meta, rows, _ = replay(env, min_bonus_usd=0.1, block_time_s=43_200, dias=10)
+        self.assertEqual(meta["borrow_scan"]["desde"], 5020)
+        self.assertTrue(meta["borrow_scan"]["completo"])
+        by = {r["prestatario"]: r for r in rows}
+        self.assertIsNone(by[U[0]]["libro_edad_dias"])               # su Borrow (5001) cae en lo que ya no se puede leer
+        self.assertAlmostEqual(by[U[1]]["libro_historia_dias"], (5044 - 5020) * 0.5)
+        a = sr.analyze_replay(rows, [], meta, {"min_bonus_usd": 0.1, "min_net_usd": 0})
+        cov = {x["dias"]: x for x in a["cobertura_libro"]["por_dias_atras"]}
+        self.assertEqual((cov[7]["n"], cov[7]["parte_n"]), (2, 0.5))   # con 7 días de historia: U1 conocido, U0 no
+        self.assertEqual((cov[30]["n"], cov[30]["parte_n"]), (0, None))
+        sr.render(sr.build(None, None))
+        self.assertIn("sin historia suficiente", sr.render({**sr.build(None, None), "replay": a}))
+
+    def test_scan_failure_of_the_book_coverage_does_not_abort_the_replay(self):
+        env = self.make()
+        env.chain.fail("eth_getLogs", times=10_000, message="boom", when=lambda p: p[0].get("topics", [[None]])[0] ==
+                       [mo.EVENT_TOPICS["Borrow"]])
+        meta, rows, _ = replay(env, min_bonus_usd=0.1, block_time_s=43_200)
+        self.assertEqual(meta["procesados"], 2)
+        self.assertFalse(meta["borrow_scan"]["completo"])
+        self.assertIn("boom", meta["borrow_scan"]["error"])
+        self.assertNotIn("libro_edad_dias", rows[0])
+
+    def test_events_window_is_shortened_when_logs_are_pruned(self):
+        env = self.make()
+        env.chain.logs_from = 5030
+        meta, rows, _ = replay(env, min_bonus_usd=0.1, block_time_s=43_200, dias=30)
+        self.assertEqual(meta["ventana"]["desde"], 5030)
+        self.assertEqual(meta["ventana"]["desde_pedido"], 5044 - 60)
+        self.assertEqual(meta["procesados"], 2)
+        self.assertEqual(meta["estado"], "completo")
+
     def test_switch_off(self):
         env = self.make()
         meta, rows, _ = replay(env, min_bonus_usd=0.1, block_time_s=43_200, libro_dias=0)
         self.assertNotIn("libro_edad_dias", rows[0])
         self.assertFalse(meta["borrow_scan"]["completo"])
+
+
+class TestParallelScan(unittest.TestCase):
+    def test_chunks_come_back_in_order_and_complete(self):
+        env = Env().ready((U[0], 1700))
+        for _ in range(40):
+            env.step()
+        logs, first, last, complete = scan_logs(env.rpc, env.sh.morpho, [mo.BOOK_EVENTS, env.sh.ids], 1, env.chain.head, workers=4, chunk=7)
+        direct = env.rpc.get_logs(env.sh.morpho, [mo.BOOK_EVENTS, env.sh.ids], 1, env.chain.head)
+        self.assertEqual(logs, direct)
+        self.assertEqual((first, last, complete), (1, env.chain.head, True))
+
+    def test_budget_returns_the_contiguous_prefix(self):
+        env = Env().ready((U[0], 1700))
+        for _ in range(20):
+            env.step()
+        logs, first, last, complete = scan_logs(env.rpc, env.sh.morpho, [mo.BOOK_EVENTS, env.sh.ids], 1, env.chain.head,
+                                                deadline=time.monotonic() - 1, workers=2, chunk=5)
+        self.assertFalse(complete)
+        self.assertLess(last, env.chain.head)
+
+    def test_earliest_available_is_parsed(self):
+        self.assertEqual(earliest_available(RpcError("pruned history unavailable: requested 47866647, earliest available 51500000")), 51500000)
+        self.assertIsNone(earliest_available(RpcError("boom")))
+
+    def test_other_errors_are_raised(self):
+        env = Env().ready((U[0], 1700))
+        env.chain.fail("eth_getLogs", times=10_000, message="boom")
+        with self.assertRaises(RpcError):
+            scan_logs(env.rpc, env.sh.morpho, [mo.BOOK_EVENTS, env.sh.ids], 1, env.chain.head, workers=2, chunk=5)
 
 
 class TestParity(unittest.TestCase):
