@@ -653,9 +653,12 @@ class Shadow:
         hit = self.rate_cache.get(mid)
         if hit and hit[0] == key and self.mono() - hit[1] < self.cfg["rate_ttl_s"]:
             return hit[2]
-        ok, data = self._single(info.params.irm, mo.call_rate(info.params, state), n)
         try:
+            ok, data = self._single(info.params.irm, mo.call_rate(info.params, state), n)
             rate = mo.decode_uint(data) if ok else None
+        except RpcError:
+            self.counts["tasa_sin_leer"] += 1               # sin la tasa solo se pierde el refinamiento del interés cerca del umbral
+            return None
         except ValueError:
             rate = None
         if rate is not None:
@@ -1289,8 +1292,6 @@ def run_live(cfg, out_dir, cache_path=None, rpc=None, markets=None, head_source=
             shadow.flash_eval = evaluator
             flash.on_chunk = evaluator.notify
         flash.start()
-        if evaluator:
-            evaluator.start()
         log(f"shadow: siguiendo el bloque pendiente (Flashblocks) en {shadow.cfg['flash_url']} cada {shadow.cfg['flash_interval'] * 1000:.0f} ms"
             + (" y evaluando cada trozo" if evaluator else ""))
     cache = None
@@ -1311,6 +1312,9 @@ def run_live(cfg, out_dir, cache_path=None, rpc=None, markets=None, head_source=
         watcher = HeadWatcher(rpc, urls).start()
         head_source = lambda last: watcher.wait(last)    # noqa: E731
     try:
+        if evaluator:
+            evaluator.known = set(shadow.uncertain_keys)       # lo que ya era liquidable al arrancar no es un cruce nuevo
+            evaluator.start()                                  # hasta aquí el libro estaba a medias: evaluar antes daría cruces falsos
         if on_ready:
             on_ready(shadow)
         return shadow.run(cfg.get("minutos", 90), head_source, sleep)

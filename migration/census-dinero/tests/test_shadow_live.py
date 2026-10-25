@@ -1005,6 +1005,32 @@ class TestFlashEvaluator(unittest.TestCase):
         self.assertGreaterEqual(ev.report()["evaluaciones"], 1)
         self.assertEqual(ev.report()["cruces"], 1)
 
+    def test_interest_rate_read_failure_does_not_break_evaluation(self):
+        env = Env(rate=int(0.4 / 31_536_000 * 1e18)).ready((U[0], 1715))
+        for _ in range(3):
+            env.chain.mine()
+        irm = env.sh.markets[env.mid].params.irm
+        env.chain.fail("eth_call", times=1000, message="HTTP 429", code=429,
+                       when=lambda p: p[0].get("to", "").lower() == irm.lower())
+        env.step()                                                 # el bloque se procesa igual, sin el refinamiento del interés
+        self.assertGreaterEqual(env.sh.counts["tasa_sin_leer"], 1)
+
+    def test_run_live_starts_the_evaluator_after_the_book_with_known_crossings_seeded(self):
+        env = Env({"flash_url": "https://pre"})
+        env.chain.mine(env.open_position(U[0], 1700))
+        env.chain.mine([("set_price", env.mid, DROP)])                # ya liquidable cuando arranca
+        out = tempfile.mkdtemp()
+        seen = {}
+
+        def on_ready(sh):
+            seen["known"] = set(sh.flash_eval.known)
+            seen["alive"] = sh.flash_eval.alive
+            sh.stop = True
+        run_live({"flash_url": "https://pre", "flash_interval": 0.01, "minutos": 5}, out, rpc=env.rpc, markets=env.cfg_markets,
+                 head_source=lambda last: (None, None, None, None), sleep=no_sleep, on_ready=on_ready)
+        self.assertEqual(seen["known"], {(env.mid, U[0])})
+        self.assertTrue(seen["alive"])
+
     def test_pending_snapshot_decodes_a_multicall_on_another_rpc(self):
         env, w, ev, st = self.make()
         snap = env.sh.pending_snapshot(env.rpc)
