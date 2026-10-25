@@ -1,0 +1,109 @@
+{
+  "archive_disabled": false,
+  "chain": "eden",
+  "elapsed_s": 155.0,
+  "enriched": 0,
+  "errors_sample": [],
+  "events": 0,
+  "events_complete": true,
+  "events_cover_block": 231555397,
+  "fatal_error": null,
+  "interrupted": false,
+  "native_trace_sources": {},
+  "oracle_contracts_watched": 0,
+  "oracle_status": {},
+  "phases_s": {
+    "enriquecimiento": 0.0,
+    "eventos": 102.9,
+    "evidencia": 0.0,
+    "metadatos": 0.0,
+    "oraculos": 0.0,
+    "segunda_pasada": 0.0,
+    "sonda": 25.2,
+    "ventana": 26.9
+  },
+  "price_sources": {
+    "defillama": 0,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 348,
+  "rpc_providers": {
+    "https://rpc.eden.gateway.fm": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": 100000,
+      "metodos": {
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 358,
+          "ok": 85
+        },
+        "eth_getLogs": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 403,
+          "ok": 255
+        }
+      },
+      "ok": 340,
+      "sin_metodo": []
+    }
+  },
+  "second_pass": {
+    "intentadas": 0
+  },
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "getlogs_error": "query exceeds max block range 100000",
+      "getlogs_max": 100000,
+      "getlogs_ms": 404,
+      "ms": 337,
+      "proveedor": "https://rpc.eden.gateway.fm",
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "eden-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 0,
+  "web_calls": 5,
+  "web_sources": {
+    "blockscout": {
+      "error": "HTTP 422 en https://eden.blockscout.com/api/v2/transactions/0x0000000000000000000000000000000000000000/internal-transact",
+      "ok": false
+    },
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 0.1018,
+    "days": 30.0,
+    "end_block": 231555397,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352000,
+    "lookback_block": 205173583,
+    "start_block": 206093411,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 0,
+  "with_oracle_delta": 0,
+  "with_realized": 0,
+  "with_realized_complete": 0
+}
