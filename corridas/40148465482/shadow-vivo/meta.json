@@ -1,39 +1,39 @@
 {
-  "bloque_actual": 53050292,
+  "bloque_actual": 53050526,
   "contadores": {
-    "bloques": 1,
-    "candidatas": 6,
-    "posiciones_sincronizadas": 36048,
-    "saltos": 1
+    "bloques": 12,
+    "candidatas": 72,
+    "posiciones_sincronizadas": 432576,
+    "saltos": 12
   },
   "decisiones": {
-    "NO-GO:bono_bajo": 3,
-    "NO-GO:deuda_mala": 3
+    "NO-GO:bono_bajo": 36,
+    "NO-GO:deuda_mala": 36
   },
-  "fin": null,
+  "fin": 1792890439.6786988,
   "inicio": 1792889634.532576,
   "latencia_proceso_ms": {
-    "max": 9071,
-    "min": 9071,
-    "n": 1,
-    "p50": 9071,
+    "max": 11225,
+    "min": 585,
+    "n": 12,
+    "p50": 650,
     "p90": 9071,
-    "p99": 9071
+    "p99": 11225
   },
   "latencia_visto_mas_proceso_ms": {
-    "max": 10367,
-    "min": 10367,
-    "n": 1,
-    "p50": 10367,
+    "max": 11652,
+    "min": 675,
+    "n": 12,
+    "p50": 957,
     "p90": 10367,
-    "p99": 10367
+    "p99": 11652
   },
   "latencia_visto_ms": {
     "max": 1296,
-    "min": 1296,
-    "n": 1,
-    "p50": 1296,
-    "p90": 1296,
+    "min": 45,
+    "n": 12,
+    "p50": 307,
+    "p90": 427,
     "p99": 1296
   },
   "libro": {
@@ -170,9 +170,12 @@
     "ok": true
   },
   "multicall_ok": true,
-  "pendientes": 6,
+  "pendientes": 0,
   "reconstruible_desde": "bloques.jsonl, decisiones.jsonl, resultados.jsonl",
-  "resultados": {},
+  "resultados": {
+    "abierta_al_cierre": 6,
+    "perdida_por_salto": 66
+  },
   "rpc": {
     "https://1rpc.io/base": {
       "en_rotacion": true,
@@ -256,8 +259,14 @@
         "eth_call": {
           "err": 0,
           "errores": {},
-          "ms_prom": 158,
-          "ok": 490
+          "ms_prom": 160,
+          "ok": 3171
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 104,
+          "ok": 9
         },
         "eth_getLogs": {
           "err": 0,
@@ -270,11 +279,11 @@
         "eth_getLogs@hash": {
           "err": 0,
           "errores": {},
-          "ms_prom": 85,
-          "ok": 1
+          "ms_prom": 81,
+          "ok": 10
         }
       },
-      "ok": 521,
+      "ok": 3220,
       "sin_metodo": []
     },
     "https://base.api.onfinality.io/public": {
@@ -304,22 +313,24 @@
     },
     "https://base.drpc.org": {
       "en_rotacion": true,
-      "err": 8,
+      "err": 13,
       "getlogs_max": null,
       "metodos": {
         "eth_call": {
+          "err": 3,
+          "errores": {
+            "HTTP 429 en base.drpc.org": 3
+          },
+          "ms_prom": 102,
+          "ok": 3
+        },
+        "eth_getBlockByNumber": {
           "err": 2,
           "errores": {
             "HTTP 429 en base.drpc.org": 2
           },
-          "ms_prom": 45,
-          "ok": 0
-        },
-        "eth_getBlockByNumber": {
-          "err": 0,
-          "errores": {},
-          "ms_prom": 52,
-          "ok": 1
+          "ms_prom": 70,
+          "ok": 3
         },
         "eth_getLogs": {
           "err": 4,
@@ -330,15 +341,15 @@
           "ok": 0
         },
         "eth_getLogs@hash": {
-          "err": 2,
+          "err": 4,
           "errores": {
-            "HTTP 429 en base.drpc.org": 2
+            "HTTP 429 en base.drpc.org": 4
           },
-          "ms_prom": 55,
-          "ok": 0
+          "ms_prom": 103,
+          "ok": 2
         }
       },
-      "ok": 1,
+      "ok": 8,
       "sin_metodo": []
     },
     "https://base.lava.build": {
@@ -435,7 +446,7 @@
       "sin_metodo": []
     }
   },
-  "rpc_llamadas": 913,
+  "rpc_llamadas": 6529,
   "supuestos": {
     "interes": "se acumula con el IRM solo para posiciones a menos de 0.5% del umbral",
     "kept_prior_global": 0.678,
