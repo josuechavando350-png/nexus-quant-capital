@@ -302,7 +302,13 @@ class FakeMorpho:
 
     # -- eth_getLogs ------------------------------------------------------------------------
     def _get_logs(self, flt):
-        lo, hi = int(flt["fromBlock"], 16), int(flt["toBlock"], 16)
+        if "blockHash" in flt:
+            found = [n for n, h in self.headers.items() if h["hash"] == flt["blockHash"]]
+            if not found:
+                raise RpcError("unknown block", -32000)
+            lo = hi = found[0]
+        else:
+            lo, hi = int(flt["fromBlock"], 16), int(flt["toBlock"], 16)
         if hi > self.head:
             raise RpcError("block range extends beyond current head block", -32000)
         addrs = flt.get("address")

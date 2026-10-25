@@ -15,6 +15,7 @@ from collections import Counter
 
 from .analyze import num, pct, short, usd
 from .config import SHADOW_BASE_MARKETS, SHADOW_PRIORS_SOURCE
+from .rpc import ALLOWED_METHODS
 from .shadow_live import DEFAULTS, quantiles
 
 BLOCK_MS = int(DEFAULTS["block_time_s"] * 1000)
@@ -26,10 +27,9 @@ BUCKETS = (("0", "mismo bloque", 0, 0), ("1", "1 bloque", 1, 1), ("2", "2 bloque
 # Tiempo total desde el bloque del cruce hasta que nuestra transacción llega, y el primer bloque en que cae.
 LANDINGS = ((1, "hasta 2 s"), (2, "hasta 4 s"), (3, "hasta 6 s"))
 
-# Métodos de RPC que el Shadow puede usar: todos de lectura.
-READ_ONLY = {"eth_blockNumber", "eth_chainId", "eth_getBlockByNumber", "eth_getBlockByHash", "eth_getLogs", "eth_call",
-             "eth_getTransactionByHash", "eth_getTransactionReceipt", "eth_getCode", "eth_getBalance", "eth_gasPrice",
-             "eth_feeHistory", "eth_maxPriorityFeePerGas", "net_version", "web3_clientVersion", "eth_syncing"}
+# Métodos de RPC de solo lectura: los que el cliente deja pasar (rpc.ALLOWED_METHODS) y otros de lectura comunes.
+READ_ONLY = set(ALLOWED_METHODS) | {"eth_getBlockByHash", "eth_getBalance", "eth_gasPrice", "eth_feeHistory",
+                                    "eth_maxPriorityFeePerGas", "net_version", "web3_clientVersion", "eth_syncing"}
 DANGEROUS_PREFIXES = ("eth_send", "eth_sign", "personal_", "eth_accounts", "eth_submit", "eth_signTransaction",
                       "debug_setHead", "miner_", "admin_", "txpool_")
 

@@ -465,6 +465,44 @@ class TestSystem(unittest.TestCase):
             self.assertTrue(os.path.exists(os.path.join(out, name)), name)
 
 
+class TestLaggingProvider(unittest.TestCase):
+    """Un respaldo atrasado detrás de un balanceador contesta `[]` a getLogs por número: así se pierde un evento sin error."""
+
+    def make(self):
+        env = Env().ready((U[0], 1700))
+        chain = env.chain
+
+        def transport(url, payload, timeout):
+            if url == "https://lagging" and payload["method"] == "eth_getLogs":
+                flt = payload["params"][0]
+                if "blockHash" in flt:
+                    return {"jsonrpc": "2.0", "id": payload["id"], "error": {"code": -32000, "message": "unknown block"}}
+                return {"jsonrpc": "2.0", "id": payload["id"], "result": []}      # el bloque aún no está en ese respaldo
+            return chain(url, payload, timeout)
+        env.rpc = Rpc(["https://lagging", "https://good"], transport=transport, sleep=no_sleep, rps=0, expected_chain_id=8453)
+        env.sh.rpc = env.rpc
+        return env
+
+    def test_logs_by_hash_never_return_a_silent_empty_list(self):
+        env = self.make()
+        env.chain.mine([("set_price", env.mid, DROP)])
+        n = env.chain.mine([("liquidate", env.mid, B[0], U[0])])
+        ts = int(env.chain.headers[n]["timestamp"], 16)
+        env.sh.process_block(n - 1, ts, env.clock.mono(), "https://lagging")
+        env.sh.process_block(n, ts + 1.0, env.clock.mono(), "https://lagging")      # se prefiere al proveedor atrasado
+        res = env.rows("resultados.jsonl")
+        self.assertEqual([r["resultado"] for r in res], ["liquidada"])               # el evento no se perdió
+        self.assertEqual(env.sh.counts["logs_por_hash_fallidos"], 0)
+
+    def test_falls_back_to_block_number_when_no_provider_serves_block_hash(self):
+        env = Env().ready((U[0], 1700))
+        env.chain.fail("eth_getLogs", times=3, message="invalid argument 0: blockHash not supported",
+                       when=lambda p: "blockHash" in p[0])
+        env.step([("set_price", env.mid, DROP)])
+        self.assertEqual(len(env.rows("decisiones.jsonl")), 1)                       # igual se vio el cruce
+        self.assertGreaterEqual(env.sh.counts["logs_por_hash_fallidos"], 1)
+
+
 class TestHeadWatcher(unittest.TestCase):
     def test_reports_first_sight_of_new_head(self):
         chain = fm.FakeMorpho()

@@ -66,6 +66,12 @@ en `ultimo/`. Para repetir solo algunos tramos: `"solo": [etiquetas]` y
 Si se acaba el tiempo o se cancela, el tramo guarda lo que tenga y lo marca
 (`events_complete`, `time_budget_hit`, `interrupted`, `oracle_status: sin_cobertura`).
 
+## Shadow (Base/Morpho)
+
+El único hueco que dejó el Census (Base/Morpho fuera de subasta) tiene su Shadow: simula
+decisiones en vivo sin enviar nada y reconstruye el histórico para medir cuánto margen de
+tiempo hubo. Se corre con `"modo": "shadow"` en `run.json`; ver `SHADOW.md`.
+
 Local, sin red:
 
 ```

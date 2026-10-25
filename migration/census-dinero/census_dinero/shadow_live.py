@@ -390,9 +390,21 @@ class Shadow:
         return {"ts": int(b["timestamp"], 16), "hash": b.get("hash"), "parent": b.get("parentHash"),
                 "base_fee": int(b.get("baseFeePerGas") or "0x0", 16), "txs": b.get("transactions") or []}
 
-    def _events(self, a, b, prefer):
-        flt = {"fromBlock": hex(a), "toBlock": hex(b), "address": self.morpho, "topics": [mo.BOOK_EVENTS, self.ids]}
-        logs = self.rpc.call("eth_getLogs", [flt], prefer=prefer) if a == b else \
+    def _logs_of_block(self, n, block_hash, prefer):
+        """Logs de un bloque. Con el hash del bloque, un proveedor atrasado contesta con error y se prueba otro;
+        con solo el número contestaría una lista vacía y se perdería el evento sin que nadie lo note."""
+        topics = [mo.BOOK_EVENTS, self.ids]
+        if block_hash:
+            try:
+                return self.rpc.call("eth_getLogs", [{"blockHash": block_hash, "address": self.morpho, "topics": topics}], prefer=prefer)
+            except RpcError as e:
+                self.counts["logs_por_hash_fallidos"] += 1
+                log(f"shadow: logs por hash fallaron en el bloque {n} ({self.rpc.scrub(e)[:100]}); se prueba por número")
+        return self.rpc.call("eth_getLogs", [{"fromBlock": hex(n), "toBlock": hex(n), "address": self.morpho, "topics": topics}],
+                             prefer=prefer)
+
+    def _events(self, a, b, prefer, block_hash=None):
+        logs = self._logs_of_block(a, block_hash, prefer) if a == b else \
             self.rpc.get_logs(self.morpho, [mo.BOOK_EVENTS, self.ids], a, b)
         evs = []
         for lg in logs:
@@ -629,7 +641,7 @@ class Shadow:
             self._reorg(n)
         self.hashes[n] = hdr["hash"]
         self.hashes.pop(n - 80, None)
-        events = self._events(n, n, prefer)
+        events = self._events(n, n, prefer, hdr["hash"])
         t_logs = self.mono()
         known_before = {(e["market"], e["user"]) for e in events if e["kind"] == "Liquidate"
                         and self.book.is_active(e["market"], e["user"])}

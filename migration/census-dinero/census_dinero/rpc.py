@@ -259,7 +259,10 @@ class Rpc:
         mkey = method + ("@archive" if method == "eth_call" and params[1] != "latest" and not recent else "")
         span = None
         if method == "eth_getLogs":
-            span = int(params[0]["toBlock"], 16) - int(params[0]["fromBlock"], 16) + 1
+            f = params[0]
+            span = 1 if "blockHash" in f else int(f["toBlock"], 16) - int(f["fromBlock"], 16) + 1
+            if "blockHash" in f:
+                mkey = "eth_getLogs@hash"           # un proveedor sin filtro por hash sigue sirviendo getLogs por rango
         order = self._order(mkey, span)
         if prefer in order:
             order = [prefer] + [u for u in order if u != prefer]

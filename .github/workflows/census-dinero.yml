@@ -27,6 +27,8 @@ jobs:
       matrix: ${{ steps.plan.outputs.matrix }}
       protocols: ${{ steps.plan.outputs.protocols }}
       budget: ${{ steps.plan.outputs.budget }}
+      vivo: ${{ steps.plan.outputs.vivo }}
+      replay: ${{ steps.plan.outputs.replay }}
     defaults:
       run:
         working-directory: migration/census-dinero
@@ -99,7 +101,7 @@ jobs:
 
   report:
     needs: [plan, collect]
-    if: always() && github.repository_id == 1411047452 && needs.plan.result == 'success'
+    if: always() && github.repository_id == 1411047452 && needs.plan.result == 'success' && !startsWith(needs.plan.outputs.modo, 'shadow')
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     defaults:
@@ -148,3 +150,140 @@ jobs:
             python3 ci/push_results.py --src /tmp/reporte --dest "corridas/${src}/verificacion-${GITHUB_RUN_ID}" \
               --message "census verificación de run ${src} (run ${GITHUB_RUN_ID})"
           fi
+
+  # --- Shadow de Base/Morpho (modo "shadow" en run.json) --------------------------------
+  # Solo lectura. Nada se firma ni se envía; el proceso que lee la cadena no recibe el token.
+  shadow:
+    needs: plan
+    if: github.repository_id == 1411047452 && needs.plan.outputs.modo == 'shadow' && needs.plan.outputs.vivo == 'true'
+    name: shadow en vivo (Base/Morpho)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    defaults:
+      run:
+        working-directory: migration/census-dinero
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      NQC_CENSUS_RPC_BASE: ${{ secrets.NQC_CENSUS_RPC_BASE }}
+    steps:
+      - name: Checkout sin credenciales persistidas
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Cargar el libro guardado de una corrida anterior
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p cache out/shadow-vivo
+          if git clone -q --depth 1 --branch census-dinero/resultados \
+               "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" /tmp/res 2>/dev/null \
+             && [ -f /tmp/res/shadow/cache/libro.json ]; then
+            cp /tmp/res/shadow/cache/libro.json cache/libro.json
+            echo "Libro guardado cargado."
+          else
+            echo "Sin libro guardado: se arma desde cero."
+          fi
+          rm -rf /tmp/res
+      - name: Shadow en vivo
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Cada 10 minutos se sube lo que haya (solo el publicador tiene el token).
+          ( while sleep 600; do
+              python3 ci/push_results.py --src out/shadow-vivo --dest "corridas/${GITHUB_RUN_ID}/shadow-vivo" \
+                --message "shadow vivo run ${GITHUB_RUN_ID} (parcial)" || true
+            done ) &
+          pub=$!
+          set +e
+          env -u GH_TOKEN python3 -m census_dinero shadow --run-json run.json --out out/shadow-vivo \
+            --cache cache/libro.json 2>&1 | tee -i out/shadow-vivo/log.txt
+          code=${PIPESTATUS[0]}
+          kill "$pub" 2>/dev/null
+          exit "$code"
+      - name: Publicar el Shadow en vivo
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p out/shadow-vivo /tmp/cache-out
+          echo "commit=${GITHUB_SHA} run=${GITHUB_RUN_ID} attempt=${GITHUB_RUN_ATTEMPT}" > out/shadow-vivo/origen.txt
+          [ -f out/shadow-vivo/libro.json ] && mv out/shadow-vivo/libro.json /tmp/cache-out/libro.json
+          rm -f out/shadow-vivo/*.tmp
+          python3 ci/push_results.py --src out/shadow-vivo --dest "corridas/${GITHUB_RUN_ID}/shadow-vivo" \
+            --message "shadow vivo run ${GITHUB_RUN_ID}"
+          if [ -f /tmp/cache-out/libro.json ]; then
+            python3 ci/push_results.py --src /tmp/cache-out --dest shadow/cache \
+              --message "shadow libro guardado (run ${GITHUB_RUN_ID})"
+          fi
+
+  replay:
+    needs: plan
+    if: github.repository_id == 1411047452 && needs.plan.outputs.modo == 'shadow' && needs.plan.outputs.replay == 'true'
+    name: shadow replay (Base/Morpho)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    defaults:
+      run:
+        working-directory: migration/census-dinero
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      NQC_CENSUS_RPC_BASE: ${{ secrets.NQC_CENSUS_RPC_BASE }}
+    steps:
+      - name: Checkout sin credenciales persistidas
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Replay histórico
+        run: |
+          mkdir -p out/shadow-replay
+          set -o pipefail
+          python3 -m census_dinero replay --run-json run.json --out out/shadow-replay 2>&1 | tee -i out/shadow-replay/log.txt
+      - name: Publicar el replay
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p out/shadow-replay
+          echo "commit=${GITHUB_SHA} run=${GITHUB_RUN_ID} attempt=${GITHUB_RUN_ATTEMPT}" > out/shadow-replay/origen.txt
+          python3 ci/push_results.py --src out/shadow-replay --dest "corridas/${GITHUB_RUN_ID}/shadow-replay" \
+            --message "shadow replay run ${GITHUB_RUN_ID}"
+
+  shadow_report:
+    needs: [plan, shadow, replay]
+    if: always() && github.repository_id == 1411047452 && needs.plan.result == 'success' && (needs.plan.outputs.modo == 'shadow' || needs.plan.outputs.modo == 'shadow_reporte')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: migration/census-dinero
+    steps:
+      - name: Checkout sin credenciales persistidas
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Juntar el vivo y el replay y escribir el reporte
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FUENTE: ${{ needs.plan.outputs.fuente }}
+        run: |
+          git clone -q --depth 1 --branch census-dinero/resultados \
+            "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" /tmp/res
+          src="${FUENTE:-$GITHUB_RUN_ID}"
+          args=()
+          if [ -d "/tmp/res/corridas/${src}/shadow-vivo" ]; then args+=(--live "/tmp/res/corridas/${src}/shadow-vivo"); fi
+          if [ -d "/tmp/res/corridas/${src}/shadow-replay" ]; then args+=(--replay "/tmp/res/corridas/${src}/shadow-replay"); fi
+          if [ "${#args[@]}" -eq 0 ]; then
+            echo "Ni el vivo ni el replay produjeron resultados en la corrida ${src}." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+          mkdir -p /tmp/reporte
+          python3 -m census_dinero shadow-report "${args[@]}" --run-json run.json --out /tmp/reporte > /dev/null
+          cat /tmp/reporte/RESUMEN_SHADOW.md >> "$GITHUB_STEP_SUMMARY"
+          cp run.json /tmp/reporte/run.json
+          python3 ci/push_results.py --src /tmp/reporte --dest "corridas/${src}/shadow-reporte-${GITHUB_RUN_ID}" \
+            --message "shadow reporte de run ${src} (run ${GITHUB_RUN_ID})"
+          python3 ci/push_results.py --src /tmp/reporte --dest "shadow/ultimo" \
+            --message "shadow último reporte (run ${src}, hecho en run ${GITHUB_RUN_ID})"
