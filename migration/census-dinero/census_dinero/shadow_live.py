@@ -30,7 +30,7 @@ from .abi import norm
 from .config import (CHAINS, KNOWN_SHARED_ENTRIES, SEL, SHADOW_BASE_MARKETS, SHADOW_BASE_USDC, SHADOW_PRIOR_GAS_USD,
                      SHADOW_PRIOR_KEPT_ALL, SHADOW_PRIORS_SOURCE)
 from .keccak import keccak256, selector
-from .rpc import BudgetExceeded, CallReverted, Rpc, RpcError
+from .rpc import BudgetExceeded, CallReverted, KeepAlive, Rpc, RpcError
 from .sonda import raw_call
 
 DEFAULTS = {
@@ -1266,7 +1266,8 @@ def choose_watchers(rpc, k=3):
 def make_rpc(rps=8):
     urls = [u.strip() for u in os.environ.get(CHAINS["base"].extra_rpcs_env, "").split(",") if u.strip()]
     urls += list(CHAINS["base"].public_rpcs)
-    return Rpc(urls, rps=rps, expected_chain_id=CHAINS["base"].chain_id, public=set(CHAINS["base"].public_rpcs))
+    # Conexiones persistentes: un sistema real no repite el handshake TLS en cada consulta (eso triplicaba la latencia medida).
+    return Rpc(urls, rps=rps, expected_chain_id=CHAINS["base"].chain_id, public=set(CHAINS["base"].public_rpcs), transport=KeepAlive())
 
 
 def run_live(cfg, out_dir, cache_path=None, rpc=None, markets=None, head_source=None, sleep=time.sleep, on_ready=None):
@@ -1282,7 +1283,8 @@ def run_live(cfg, out_dir, cache_path=None, rpc=None, markets=None, head_source=
         flash = FlashWatcher(rpc, shadow.cfg["flash_url"], interval=shadow.cfg["flash_interval"])
         shadow.flash = flash
         if shadow.cfg["flash_eval"]:
-            pre = Rpc([shadow.cfg["flash_url"]], rps=20, expected_chain_id=CHAINS["base"].chain_id, public={shadow.cfg["flash_url"]})
+            pre = Rpc([shadow.cfg["flash_url"]], rps=20, expected_chain_id=CHAINS["base"].chain_id, public={shadow.cfg["flash_url"]},
+                      transport=KeepAlive())
             evaluator = FlashEvaluator(shadow, flash, lambda: shadow.pending_snapshot(pre))
             shadow.flash_eval = evaluator
             flash.on_chunk = evaluator.notify

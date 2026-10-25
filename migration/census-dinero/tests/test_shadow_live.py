@@ -772,6 +772,13 @@ class TestBloom(unittest.TestCase):
         self.assertEqual(env.sh.meta["bloom"]["bloques_con_eventos"], 1)
 
 
+class TestPersistentConnections(unittest.TestCase):
+    def test_the_real_rpc_client_keeps_connections_open(self):
+        from census_dinero.rpc import KeepAlive
+        from census_dinero.shadow_live import make_rpc
+        self.assertIsInstance(make_rpc().transport, KeepAlive)
+
+
 class TestFlashTiming(unittest.TestCase):
     """Cuándo apareció cada transacción en el bloque pendiente y cuánto tardó el ganador tras la actualización del oráculo."""
 

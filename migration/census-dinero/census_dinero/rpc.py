@@ -8,6 +8,7 @@ estado viejo deja de recibir esas llamadas sin dejar de servir las demás, y
 eth_getLogs recuerda el rango máximo que acepta cada proveedor.
 """
 
+import http.client
 import json
 import random
 import re
@@ -98,6 +99,77 @@ def http_transport(url, payload, timeout):
         raise RpcError(f"HTTP {e.code} en {host_of(url)}", code=e.code) from None
     except (urllib.error.URLError, TimeoutError, OSError, json.JSONDecodeError) as e:
         raise RpcError(f"transporte: {type(e).__name__} en {host_of(url)}") from None
+
+
+class KeepAlive:
+    """Transporte JSON-RPC con conexión persistente por hilo (HTTP/1.1 keep-alive).
+
+    http_transport abre una conexión nueva en cada consulta (TCP + TLS: ~3 viajes de ida y vuelta). Un sistema real no paga eso en
+    cada bloque: reutiliza la conexión. Si el servidor la cierra, se reconecta y se reintenta una vez; los errores HTTP salen igual
+    que con http_transport (RpcError con el código), para que el enrutamiento por proveedor no cambie."""
+
+    def __init__(self):
+        self.local = threading.local()
+
+    def _connection(self, parts, timeout):
+        conns = getattr(self.local, "conns", None)
+        if conns is None:
+            conns = self.local.conns = {}
+        key = (parts.scheme, parts.netloc)
+        conn = conns.get(key)
+        if conn is None:
+            cls = http.client.HTTPSConnection if parts.scheme == "https" else http.client.HTTPConnection
+            conn = conns[key] = cls(parts.netloc, timeout=timeout)
+        else:
+            conn.timeout = timeout
+            if conn.sock is not None:
+                conn.sock.settimeout(timeout)
+        return conn
+
+    def _drop(self, parts):
+        conn = getattr(self.local, "conns", {}).pop((parts.scheme, parts.netloc), None)
+        if conn is not None:
+            try:
+                conn.close()
+            except OSError:
+                pass
+
+    def close(self):
+        """Cierra las conexiones de este hilo (los otros hilos cierran las suyas)."""
+        for conn in list(getattr(self.local, "conns", {}).values()):
+            try:
+                conn.close()
+            except OSError:
+                pass
+        self.local.conns = {}
+
+    def __call__(self, url, payload, timeout):
+        parts = urllib.parse.urlsplit(url)
+        path = (parts.path or "/") + (("?" + parts.query) if parts.query else "")
+        body = json.dumps(payload).encode()
+        headers = {"content-type": "application/json", "user-agent": "nqc-census-dinero/1.0", "connection": "keep-alive"}
+        for attempt in (0, 1):
+            conn = self._connection(parts, timeout)
+            try:
+                conn.request("POST", path, body=body, headers=headers)
+                resp = conn.getresponse()
+                data = resp.read()
+            except (http.client.HTTPException, OSError) as e:
+                self._drop(parts)                       # la conexión reutilizada pudo haberla cerrado el servidor
+                if attempt:
+                    raise RpcError(f"transporte: {type(e).__name__} en {host_of(url)}") from None
+                continue
+            if resp.status >= 400:
+                if resp.will_close:
+                    self._drop(parts)
+                raise RpcError(f"HTTP {resp.status} en {host_of(url)}", code=resp.status)
+            if resp.will_close:
+                self._drop(parts)
+            try:
+                return json.loads(data.decode())
+            except (ValueError, UnicodeDecodeError):
+                raise RpcError(f"transporte: JSONDecodeError en {host_of(url)}") from None
+        raise RpcError(f"transporte: sin respuesta de {host_of(url)}")
 
 
 def hinted_limit(message, span):
