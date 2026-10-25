@@ -1,0 +1,164 @@
+{
+  "archive_disabled": false,
+  "chain": "megaeth",
+  "elapsed_s": 21.4,
+  "enriched": 1,
+  "errors_sample": [],
+  "events": 1,
+  "events_complete": true,
+  "events_cover_block": 30146988,
+  "fatal_error": null,
+  "interrupted": false,
+  "native_trace_sources": {
+    "debug_traceTransaction": 1
+  },
+  "oracle_contracts_watched": 2,
+  "oracle_status": {
+    "sin_ver": 1
+  },
+  "phases_s": {
+    "enriquecimiento": 2.3,
+    "eventos": 1.7,
+    "evidencia": 2.4,
+    "metadatos": 1.3,
+    "oraculos": 1.8,
+    "segunda_pasada": 0.0,
+    "sonda": 2.9,
+    "ventana": 9.0
+  },
+  "price_sources": {
+    "defillama": 2,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 137,
+  "rpc_providers": {
+    "https://mainnet.megaeth.com/rpc": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 137,
+          "ok": 4
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 84,
+          "ok": 27
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 140,
+          "ok": 66
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 109,
+          "ok": 6
+        },
+        "eth_getLogs": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 194,
+          "ok": 18
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 134,
+          "ok": 2
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 137,
+          "ok": 2
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 123,
+      "sin_metodo": [
+        "trace_transaction"
+      ]
+    }
+  },
+  "second_pass": {
+    "intentadas": 0
+  },
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "ok": 1
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "ok": 2
+      },
+      "getlogs_max": 2000000,
+      "getlogs_ms": 186,
+      "ms": 94,
+      "proveedor": "https://mainnet.megaeth.com/rpc",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "trace_transaction is not supported",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "trace_transaction is not supported",
+        "ok": 0
+      },
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "megaeth-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 1,
+  "web_calls": 4,
+  "web_sources": {
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 1.0,
+    "days": 30.0,
+    "end_block": 30146988,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352000,
+    "lookback_block": 27461389,
+    "start_block": 27554989,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 1,
+  "with_oracle_delta": 0,
+  "with_realized": 1,
+  "with_realized_complete": 1
+}
