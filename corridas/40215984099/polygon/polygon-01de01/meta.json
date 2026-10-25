@@ -1,0 +1,248 @@
+{
+  "archive_disabled": false,
+  "chain": "polygon",
+  "elapsed_s": 118.4,
+  "enriched": 34,
+  "errors_sample": [
+    "logs de or\u00e1culo: HTTP 403 en polygon-bor-rpc.publicnode.com"
+  ],
+  "events": 34,
+  "events_complete": true,
+  "events_cover_block": 96159085,
+  "fatal_error": null,
+  "interrupted": false,
+  "native_trace_sources": {
+    "debug_traceTransaction": 34
+  },
+  "oracle_contracts_watched": 0,
+  "oracle_status": {
+    "sin_fuente": 34
+  },
+  "phases_s": {
+    "enriquecimiento": 28.2,
+    "eventos": 22.6,
+    "evidencia": 9.8,
+    "metadatos": 4.8,
+    "oraculos": 42.9,
+    "segunda_pasada": 0.0,
+    "sonda": 2.8,
+    "ventana": 7.4
+  },
+  "price_sources": {
+    "defillama": 68,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 529,
+  "rpc_providers": {
+    "https://1rpc.io/matic": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://polygon-bor-rpc.publicnode.com": {
+      "en_rotacion": true,
+      "err": 9,
+      "getlogs_max": 10000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 124,
+          "ok": 47
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getLogs": {
+          "err": 9,
+          "errores": {
+            "HTTP 403 en polygon-bor-rpc.publicnode.com": 9
+          },
+          "ms_prom": 275,
+          "ok": 173
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 220,
+      "sin_metodo": [
+        "debug_traceTransaction"
+      ]
+    },
+    "https://polygon-rpc.com": {
+      "en_rotacion": false,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://polygon.drpc.org": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 666,
+          "ok": 41
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 106,
+          "ok": 36
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 111,
+          "ok": 99
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 121,
+          "ok": 26
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 115,
+          "ok": 39
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 128,
+          "ok": 39
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 278,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    }
+  },
+  "second_pass": {
+    "intentadas": 0
+  },
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "ok": 1
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "ok": 2
+      },
+      "getlogs_error": "HTTP 400 en polygon.drpc.org",
+      "getlogs_max": 0,
+      "ms": 72,
+      "proveedor": "https://polygon.drpc.org",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 400 en polygon.drpc.org",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 400 en polygon.drpc.org",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "getlogs_error": "exceed maximum block range: 10000",
+      "getlogs_max": 10000,
+      "getlogs_ms": 107,
+      "ms": 87,
+      "proveedor": "https://polygon-bor-rpc.publicnode.com",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 403 en polygon-bor-rpc.publicnode.com",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 403 en polygon-bor-rpc.publicnode.com",
+        "ok": 0
+      },
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "polygon-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 34,
+  "web_calls": 100,
+  "web_sources": {
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 1.5,
+    "days": 30.0,
+    "end_block": 96159085,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352000,
+    "lookback_block": 94368840,
+    "start_block": 94431240,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 34,
+  "with_oracle_delta": 0,
+  "with_realized": 34,
+  "with_realized_complete": 5
+}
