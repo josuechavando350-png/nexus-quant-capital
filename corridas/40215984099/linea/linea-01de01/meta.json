@@ -1,0 +1,75 @@
+{
+  "archive_disabled": false,
+  "chain": "linea",
+  "elapsed_s": 0.4,
+  "enriched": 0,
+  "errors_sample": [],
+  "events": 0,
+  "events_complete": false,
+  "events_cover_block": null,
+  "fatal_error": "RpcError: el fin del tramo (1792944000) es posterior al \u00faltimo bloque final (1792942838)",
+  "interrupted": false,
+  "native_trace_sources": {},
+  "oracle_contracts_watched": 0,
+  "oracle_status": {},
+  "phases_s": {},
+  "price_sources": {
+    "defillama": 0,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 6,
+  "rpc_providers": {
+    "https://linea-rpc.publicnode.com": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://linea.drpc.org": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {},
+      "ok": 0,
+      "sin_metodo": []
+    },
+    "https://rpc.linea.build": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 69,
+          "ok": 3
+        }
+      },
+      "ok": 3,
+      "sin_metodo": []
+    }
+  },
+  "second_pass": {},
+  "sonda": [],
+  "time_budget_hit": false,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "linea-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 0,
+  "web_calls": 0,
+  "web_sources": {},
+  "window": null,
+  "with_bonus_usd": 0,
+  "with_oracle_delta": 0,
+  "with_realized": 0,
+  "with_realized_complete": 0
+}
