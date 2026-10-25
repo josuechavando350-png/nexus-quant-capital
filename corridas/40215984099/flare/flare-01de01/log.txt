@@ -1,0 +1,29 @@
+[17:21:19] flare: ventana bloques 70611914..72951535 (30 días), 2 proveedores responden
+[17:21:19] flare: fase ventana: 9.2 s
+[17:21:24] flare: sonda: proveedor | ms | getLogs máx | archivo | debug viejo | trace viejo
+[17:21:24] flare: sonda: https://flare-api.flare.network/ext/C/rpc | 400 | 0 | no | 0/2 | 0/2
+[17:21:24] flare: sonda: https://flare.drpc.org | 84 | 0 | no | 0/2 | 0/2
+[17:21:25] flare: fuentes web: {"blockscout": {"ok": true, "ms": 274}, "defillama": {"ok": true}}
+[17:21:25] flare: fase sonda: 5.2 s
+[17:21:25] flare: falla: RpcError: ningún proveedor soporta eth_getLogs
+[17:21:25] Traceback (most recent call last):
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 1091, in run
+    recs = self.fetch_liquidations(win["start_block"], win["end_block"])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 409, in fetch_liquidations
+    logs, got = self._logs("eventos Morpho", self.chain.morpho, [MORPHO_LIQUIDATE_TOPIC], start, end)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 387, in _logs
+    return self.rpc.get_logs(address, topics, lo, hi, on_progress=self._progress(what, lo, hi),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 522, in get_logs
+    logs = self.call("eth_getLogs", [flt])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 325, in call
+    return self._call(method, params, recent, prefer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 344, in _call
+    raise RpcError(f"ningún proveedor soporta {mkey}")
+census_dinero.rpc.RpcError: ningún proveedor soporta eth_getLogs
+
+[17:21:25] flare: listo — 0 eventos, 0 enriquecidos, 82 llamadas RPC, 14.5 s
