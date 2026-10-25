@@ -1,22 +1,1355 @@
 [
   {
-    "chain": "arbitrum",
-    "tx_hash": "0xe04f1ec5387e1474646eb67716454b088d0fe41b17022fc5f4bdb2716047fa6a",
+    "chain": "arc",
+    "tx_hash": "0xfe8dabfd2ef1fe9b95c53f194276f8a9b2f26643ff4081f7424f123dca0571e9",
+    "fuente": "evidencia RPC",
+    "error": "ValueError: la evidencia no trae traza"
+  },
+  {
+    "chain": "hemi",
+    "tx_hash": "0x47e8553560abb31863ed078b138bbd958ca69efa0136c6028aa498b58b5d8568",
+    "fuente": "evidencia RPC",
+    "error": "ValueError: la evidencia no trae traza"
+  },
+  {
+    "chain": "hemi",
+    "tx_hash": "0x47e8553560abb31863ed078b138bbd958ca69efa0136c6028aa498b58b5d8568",
     "rows": 1,
-    "route": "subasta",
-    "entry": "compartida",
-    "bonus_usd": 17490.77387000562,
+    "route": "sin_medir",
+    "entry": "liquidador",
+    "bonus_usd": 0,
     "gas_eth": {
-      "census": 4.58793610926e-05,
-      "explorer": 4.58793610926e-05
+      "census": 1.3229379567141e-05,
+      "explorer": 1.3229379567141e-05
     },
     "third_party_eth": {
-      "census": 6.437367560242457,
-      "explorer": 6.437367560242457
+      "census": 0.0,
+      "explorer": 0.0
     },
     "realized_usd": {
-      "census": 201.4843381708818,
-      "explorer": 201.48433817088016
+      "census": 0.012029458396312316,
+      "explorer": null
+    },
+    "beneficiaries": {
+      "census": 0,
+      "explorer": 0
+    },
+    "unpriced_explorer": [
+      "msETH",
+      "rETH"
+    ],
+    "amounts": [
+      {
+        "collateral": "rETH",
+        "log_index": 4,
+        "collateral_census": 0.000225537853701044,
+        "found_in_explorer": true
+      }
+    ],
+    "fuente": "Blockscout",
+    "ok": {
+      "gas": true,
+      "terceros": true,
+      "neto": null,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "hemi",
+    "tx_hash": "0x570998b0b8dc76fc36e6845e54ef57e4bf6e83e985df40459b9c99499c04adfd",
+    "fuente": "evidencia RPC",
+    "error": "ValueError: la evidencia no trae traza"
+  },
+  {
+    "chain": "hemi",
+    "tx_hash": "0x570998b0b8dc76fc36e6845e54ef57e4bf6e83e985df40459b9c99499c04adfd",
+    "rows": 1,
+    "route": "sin_medir",
+    "entry": "liquidador",
+    "bonus_usd": 0,
+    "gas_eth": {
+      "census": 5.26339390525e-07,
+      "explorer": 5.26339390525e-07
+    },
+    "third_party_eth": {
+      "census": 0.0,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": 0.000462004452807824,
+      "explorer": null
+    },
+    "beneficiaries": {
+      "census": 0,
+      "explorer": 0
+    },
+    "unpriced_explorer": [
+      "msETH",
+      "rETH"
+    ],
+    "amounts": [
+      {
+        "collateral": "rETH",
+        "log_index": 6,
+        "collateral_census": 1.2332229327405e-05,
+        "found_in_explorer": true
+      }
+    ],
+    "fuente": "Blockscout",
+    "ok": {
+      "gas": true,
+      "terceros": true,
+      "neto": null,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "hemi",
+    "tx_hash": "0x6d710ce20218eee2b4b1f745ab72d1d878533e5dd77b3376df0ff0d9edd51c91",
+    "fuente": "evidencia RPC",
+    "error": "ValueError: la evidencia no trae traza"
+  },
+  {
+    "chain": "hemi",
+    "tx_hash": "0x6d710ce20218eee2b4b1f745ab72d1d878533e5dd77b3376df0ff0d9edd51c91",
+    "rows": 1,
+    "route": "sin_medir",
+    "entry": "liquidador",
+    "bonus_usd": 0,
+    "gas_eth": {
+      "census": 2.45651955502e-07,
+      "explorer": 2.45651955502e-07
+    },
+    "third_party_eth": {
+      "census": 0.0,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": 5.791739257893886e-05,
+      "explorer": null
+    },
+    "beneficiaries": {
+      "census": 0,
+      "explorer": 0
+    },
+    "unpriced_explorer": [
+      "msETH",
+      "rETH"
+    ],
+    "amounts": [
+      {
+        "collateral": "rETH",
+        "log_index": 4,
+        "collateral_census": 4.31113780696e-06,
+        "found_in_explorer": true
+      }
+    ],
+    "fuente": "Blockscout",
+    "ok": {
+      "gas": true,
+      "terceros": true,
+      "neto": null,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "kaia",
+    "tx_hash": "0xf38469c0a5a5bc037e5b8f570274f5d7b50012abb3e957c862bffb17d591c143",
+    "fuente": "evidencia RPC",
+    "error": "ValueError: la evidencia no trae traza"
+  },
+  {
+    "chain": "katana",
+    "tx_hash": "0x554da3c353375ec3a3a89d166e63f2ed2e12c1a3b6940e9e241b5cbd5ef62c3c",
+    "rows": 1,
+    "route": "directa",
+    "entry": "liquidador",
+    "bonus_usd": 2.87204325942833,
+    "gas_eth": {
+      "census": 5.42664591937e-07,
+      "explorer": 5.42664591937e-07
+    },
+    "third_party_eth": {
+      "census": 0.0,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": 2.5649075339821796,
+      "explorer": 2.5649075339821796
+    },
+    "beneficiaries": {
+      "census": 1,
+      "explorer": 1
+    },
+    "unpriced_explorer": [],
+    "amounts": [
+      {
+        "collateral": "LBTC",
+        "log_index": 2,
+        "collateral_census": 0.00137823,
+        "found_in_explorer": true
+      }
+    ],
+    "fuente": "evidencia RPC",
+    "ok": {
+      "gas": true,
+      "terceros": true,
+      "neto": true,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "katana",
+    "tx_hash": "0x0761b5165f4c57cbaaa623e45dd838787ba9c9434f3e7677b4ae34f53f7ac60a",
+    "rows": 1,
+    "route": "directa",
+    "entry": "liquidador",
+    "bonus_usd": 0.761015250960367,
+    "gas_eth": {
+      "census": 2.99990756118e-06,
+      "explorer": 2.99990756118e-06
+    },
+    "third_party_eth": {
+      "census": 0.0,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": 2.2928491473812875,
+      "explorer": 2.2928491473812875
+    },
+    "beneficiaries": {
+      "census": 1,
+      "explorer": 1
+    },
+    "unpriced_explorer": [],
+    "amounts": [
+      {
+        "collateral": "avKAT",
+        "log_index": 2,
+        "collateral_census": 1682.4544124355577,
+        "found_in_explorer": true
+      }
+    ],
+    "fuente": "evidencia RPC",
+    "ok": {
+      "gas": true,
+      "terceros": true,
+      "neto": true,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "katana",
+    "tx_hash": "0xf90610ea3d6af1a570a45d7093a4b199c04108b9ef1105957e311f0fe8a1c398",
+    "rows": 1,
+    "route": "directa",
+    "entry": "liquidador",
+    "bonus_usd": 0.27027753485329187,
+    "gas_eth": {
+      "census": 1.62288608279e-07,
+      "explorer": 1.62288608279e-07
+    },
+    "third_party_eth": {
+      "census": 0.0,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": 0.2797192622263574,
+      "explorer": 0.2797192622263574
+    },
+    "beneficiaries": {
+      "census": 0,
+      "explorer": 0
+    },
+    "unpriced_explorer": [],
+    "amounts": [
+      {
+        "collateral": "yvvbUSDT",
+        "log_index": 2,
+        "collateral_census": 6.281687,
+        "found_in_explorer": true
+      }
+    ],
+    "fuente": "evidencia RPC",
+    "ok": {
+      "gas": true,
+      "terceros": true,
+      "neto": true,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "katana",
+    "tx_hash": "0x1e0deebf9d86f7ad8cdfdf3c641c3283d3f190f48d503f1ede5c897e8288780d",
+    "rows": 1,
+    "route": "directa",
+    "entry": "liquidador",
+    "bonus_usd": 1.7614328085865134,
+    "gas_eth": {
+      "census": 5.44708532645e-07,
+      "explorer": 5.44708532645e-07
+    },
+    "third_party_eth": {
+      "census": 0.0,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": 1.5466951579216475,
+      "explorer": 1.5466951579216475
+    },
+    "beneficiaries": {
+      "census": 1,
+      "explorer": 1
+    },
+    "unpriced_explorer": [],
+    "amounts": [
+      {
+        "collateral": "LBTC",
+        "log_index": 2,
+        "collateral_census": 0.00082384,
+        "found_in_explorer": true
+      }
+    ],
+    "fuente": "evidencia RPC",
+    "ok": {
+      "gas": true,
+      "terceros": true,
+      "neto": true,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "katana",
+    "tx_hash": "0x2565809a9e73506afa7ecee4555c01dd562e6181a41714ca44411c1278061918",
+    "rows": 1,
+    "route": "directa",
+    "entry": "liquidador",
+    "bonus_usd": 0.580007877563916,
+    "gas_eth": {
+      "census": 5.44840729615e-07,
+      "explorer": 5.44840729615e-07
+    },
+    "third_party_eth": {
+      "census": 0.0,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": 0.5069999259717043,
+      "explorer": 0.5069999259717043
+    },
+    "beneficiaries": {
+      "census": 1,
+      "explorer": 1
+    },
+    "unpriced_explorer": [],
+    "amounts": [
+      {
+        "collateral": "LBTC",
+        "log_index": 2,
+        "collateral_census": 0.00026982,
+        "found_in_explorer": true
+      }
+    ],
+    "fuente": "evidencia RPC",
+    "ok": {
+      "gas": true,
+      "terceros": true,
+      "neto": true,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "megaeth",
+    "tx_hash": "0x89c65c1eba600899fc8a747226d32c2d1541d694ba52df30e80d5995f8cc2add",
+    "rows": 1,
+    "route": "directa",
+    "entry": "liquidador",
+    "bonus_usd": 6.142109644890386,
+    "gas_eth": {
+      "census": 1.646571786802e-06,
+      "explorer": 1.646571786802e-06
+    },
+    "third_party_eth": {
+      "census": 0.0,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": 6.810853049013591,
+      "explorer": 6.810853049013591
+    },
+    "beneficiaries": {
+      "census": 0,
+      "explorer": 0
+    },
+    "unpriced_explorer": [],
+    "amounts": [
+      {
+        "collateral": "wiTRY",
+        "log_index": 100,
+        "collateral_census": 3730.11186914899,
+        "found_in_explorer": true
+      }
+    ],
+    "fuente": "evidencia RPC",
+    "ok": {
+      "gas": true,
+      "terceros": true,
+      "neto": true,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "morph",
+    "tx_hash": "0x66f359f51eb097dad66f5752613b1f855b1a0ccef845e919c53dd777f6335bdc",
+    "fuente": "evidencia RPC",
+    "error": "ValueError: la evidencia no trae traza"
+  },
+  {
+    "chain": "morph",
+    "tx_hash": "0x66f359f51eb097dad66f5752613b1f855b1a0ccef845e919c53dd777f6335bdc",
+    "fuente": "Blockscout",
+    "error": "WebError: HTTP 404 en https://explorer.morphl2.io/api/v2/transactions/0x66f359f51eb097dad66f5752613b1f855b1a0ccef845e919c53dd777f6335bdc"
+  },
+  {
+    "chain": "optimism",
+    "tx_hash": "0x02c9f00cf6b4d77703c04f088c0d2ff0f33fc321d87c7f93f5e994ff88fe7a6a",
+    "rows": 1,
+    "route": "directa",
+    "entry": "liquidador",
+    "bonus_usd": 0.00023808346870641118,
+    "gas_eth": {
+      "census": 5.283069369e-09,
+      "explorer": 5.283069369e-09
+    },
+    "third_party_eth": {
+      "census": 0.0,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": 0.0002246013319302354,
+      "explorer": 0.0002246013319302354
+    },
+    "beneficiaries": {
+      "census": 0,
+      "explorer": 0
+    },
+    "unpriced_explorer": [],
+    "amounts": [
+      {
+        "collateral": "sUSDC",
+        "log_index": 334,
+        "collateral_census": 0.012960848895184186,
+        "found_in_explorer": true
+      }
+    ],
+    "fuente": "evidencia RPC",
+    "ok": {
+      "gas": true,
+      "terceros": true,
+      "neto": true,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "optimism",
+    "tx_hash": "0x02c9f00cf6b4d77703c04f088c0d2ff0f33fc321d87c7f93f5e994ff88fe7a6a",
+    "rows": 1,
+    "route": "directa",
+    "entry": "liquidador",
+    "bonus_usd": 0.00023808346870641118,
+    "gas_eth": {
+      "census": 5.283069369e-09,
+      "explorer": 5.283069369e-09
+    },
+    "third_party_eth": {
+      "census": 0.0,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": 0.0002246013319302354,
+      "explorer": 0.0002246013319302354
+    },
+    "beneficiaries": {
+      "census": 0,
+      "explorer": 0
+    },
+    "unpriced_explorer": [],
+    "amounts": [
+      {
+        "collateral": "sUSDC",
+        "log_index": 334,
+        "collateral_census": 0.012960848895184186,
+        "found_in_explorer": true
+      }
+    ],
+    "fuente": "Blockscout",
+    "ok": {
+      "gas": true,
+      "terceros": true,
+      "neto": true,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "plume",
+    "tx_hash": "0x24d2847c9690f835fd05eab42fdfa23d7d0dae449c1f245743bec621bedd0f53",
+    "fuente": "evidencia RPC",
+    "error": "ValueError: la evidencia no trae traza"
+  },
+  {
+    "chain": "plume",
+    "tx_hash": "0x24d2847c9690f835fd05eab42fdfa23d7d0dae449c1f245743bec621bedd0f53",
+    "rows": 1,
+    "route": "directa",
+    "entry": "liquidador",
+    "bonus_usd": 6.108407249042694,
+    "gas_eth": {
+      "census": 0.317553,
+      "explorer": 0.317553
+    },
+    "third_party_eth": {
+      "census": 0.0,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": 5.761841445843648,
+      "explorer": 5.761841445843648
+    },
+    "beneficiaries": {
+      "census": 0,
+      "explorer": 0
+    },
+    "unpriced_explorer": [],
+    "amounts": [
+      {
+        "collateral": "nCREDIT",
+        "log_index": 2,
+        "collateral_census": 229.448781,
+        "found_in_explorer": true
+      }
+    ],
+    "fuente": "Blockscout",
+    "ok": {
+      "gas": true,
+      "terceros": true,
+      "neto": true,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "plume",
+    "tx_hash": "0xba93bc9e146ab3f997926d339b3489674bdda768d3137ca21b7407ba484e095a",
+    "fuente": "evidencia RPC",
+    "error": "ValueError: la evidencia no trae traza"
+  },
+  {
+    "chain": "plume",
+    "tx_hash": "0xba93bc9e146ab3f997926d339b3489674bdda768d3137ca21b7407ba484e095a",
+    "rows": 1,
+    "route": "directa",
+    "entry": "liquidador",
+    "bonus_usd": 5.361740614116674,
+    "gas_eth": {
+      "census": 0.303945,
+      "explorer": 0.303945
+    },
+    "third_party_eth": {
+      "census": 0.0,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": 5.063215090476803,
+      "explorer": 5.063215090476803
+    },
+    "beneficiaries": {
+      "census": 0,
+      "explorer": 0
+    },
+    "unpriced_explorer": [],
+    "amounts": [
+      {
+        "collateral": "nALPHA",
+        "log_index": 2,
+        "collateral_census": 187.003632,
+        "found_in_explorer": true
+      }
+    ],
+    "fuente": "Blockscout",
+    "ok": {
+      "gas": true,
+      "terceros": true,
+      "neto": true,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "plume",
+    "tx_hash": "0x95b45e2e91fbca486c2bdda3d1bcdc7f8cc4e11a1709332df59b15a880264d75",
+    "fuente": "evidencia RPC",
+    "error": "ValueError: la evidencia no trae traza"
+  },
+  {
+    "chain": "plume",
+    "tx_hash": "0x95b45e2e91fbca486c2bdda3d1bcdc7f8cc4e11a1709332df59b15a880264d75",
+    "rows": 5,
+    "route": "directa",
+    "entry": "liquidador",
+    "bonus_usd": 0.08458112599331911,
+    "gas_eth": {
+      "census": 0.477335,
+      "explorer": 0.477335
+    },
+    "third_party_eth": {
+      "census": 0.0,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": 0.07324798531496993,
+      "explorer": 0.07324798531496993
+    },
+    "beneficiaries": {
+      "census": 1,
+      "explorer": 1
+    },
+    "unpriced_explorer": [],
+    "amounts": [
+      {
+        "collateral": "nCREDIT",
+        "log_index": 5,
+        "collateral_census": 0.720341,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 9,
+        "collateral_census": 0.720327,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 13,
+        "collateral_census": 0.342439,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 17,
+        "collateral_census": 0.072034,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 21,
+        "collateral_census": 0.072034,
+        "found_in_explorer": true
+      }
+    ],
+    "fuente": "Blockscout",
+    "ok": {
+      "gas": true,
+      "terceros": true,
+      "neto": true,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "plume",
+    "tx_hash": "0xc4513cf0329f75b2dfeccb24ced7f1173dbab3413ffb2710b43a54f2bb03fcf8",
+    "fuente": "evidencia RPC",
+    "error": "ValueError: la evidencia no trae traza"
+  },
+  {
+    "chain": "plume",
+    "tx_hash": "0xc4513cf0329f75b2dfeccb24ced7f1173dbab3413ffb2710b43a54f2bb03fcf8",
+    "rows": 1,
+    "route": "directa",
+    "entry": "liquidador",
+    "bonus_usd": 5.3009264700687115,
+    "gas_eth": {
+      "census": 0.303902,
+      "explorer": 0.303902
+    },
+    "third_party_eth": {
+      "census": 0.0,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": 4.999057929638547,
+      "explorer": 4.999057929638547
+    },
+    "beneficiaries": {
+      "census": 0,
+      "explorer": 0
+    },
+    "unpriced_explorer": [],
+    "amounts": [
+      {
+        "collateral": "nALPHA",
+        "log_index": 2,
+        "collateral_census": 185.233107,
+        "found_in_explorer": true
+      }
+    ],
+    "fuente": "Blockscout",
+    "ok": {
+      "gas": true,
+      "terceros": true,
+      "neto": true,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "plume",
+    "tx_hash": "0xd4791d3d6cbc28a26562d087045e4de40187c0146c7ea48f953cef08510b8f9e",
+    "fuente": "evidencia RPC",
+    "error": "ValueError: la evidencia no trae traza"
+  },
+  {
+    "chain": "plume",
+    "tx_hash": "0xd4791d3d6cbc28a26562d087045e4de40187c0146c7ea48f953cef08510b8f9e",
+    "rows": 99,
+    "route": "sin_medir",
+    "entry": "liquidador",
+    "bonus_usd": 0.843127184531797,
+    "gas_eth": {
+      "census": 4.086165,
+      "explorer": 4.086165
+    },
+    "third_party_eth": {
+      "census": null,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": 0.7301350828767197,
+      "explorer": 0.7301350828767197
+    },
+    "beneficiaries": {
+      "census": 1,
+      "explorer": 1
+    },
+    "unpriced_explorer": [],
+    "amounts": [
+      {
+        "collateral": "nCREDIT",
+        "log_index": 5,
+        "collateral_census": 0.949841,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 9,
+        "collateral_census": 0.949822,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 13,
+        "collateral_census": 0.949808,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 17,
+        "collateral_census": 0.949802,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 21,
+        "collateral_census": 0.949794,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 25,
+        "collateral_census": 0.949792,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 29,
+        "collateral_census": 0.949792,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 33,
+        "collateral_census": 0.949743,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 37,
+        "collateral_census": 0.949715,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 41,
+        "collateral_census": 0.949639,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 45,
+        "collateral_census": 0.949635,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 49,
+        "collateral_census": 0.949623,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 53,
+        "collateral_census": 0.949623,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 57,
+        "collateral_census": 0.949623,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 61,
+        "collateral_census": 0.949588,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 65,
+        "collateral_census": 0.189967,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 69,
+        "collateral_census": 0.189967,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 73,
+        "collateral_census": 0.123472,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 77,
+        "collateral_census": 0.094983,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 81,
+        "collateral_census": 0.094983,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 85,
+        "collateral_census": 0.094983,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 89,
+        "collateral_census": 0.094983,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 93,
+        "collateral_census": 0.094983,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 97,
+        "collateral_census": 0.094983,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 101,
+        "collateral_census": 0.09498,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 105,
+        "collateral_census": 0.09498,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 109,
+        "collateral_census": 0.09498,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 113,
+        "collateral_census": 0.09498,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 117,
+        "collateral_census": 0.094981,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 121,
+        "collateral_census": 0.09498,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 125,
+        "collateral_census": 0.094979,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 129,
+        "collateral_census": 0.094979,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 133,
+        "collateral_census": 0.094979,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 137,
+        "collateral_census": 0.094979,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 141,
+        "collateral_census": 0.094979,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 145,
+        "collateral_census": 0.094979,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 149,
+        "collateral_census": 0.094978,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 153,
+        "collateral_census": 0.094978,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 157,
+        "collateral_census": 0.094978,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 161,
+        "collateral_census": 0.094979,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 165,
+        "collateral_census": 0.094978,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 169,
+        "collateral_census": 0.094978,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 173,
+        "collateral_census": 0.094978,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 177,
+        "collateral_census": 0.094976,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 181,
+        "collateral_census": 0.094976,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 185,
+        "collateral_census": 0.094976,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 189,
+        "collateral_census": 0.094976,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 193,
+        "collateral_census": 0.094976,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 197,
+        "collateral_census": 0.094976,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 201,
+        "collateral_census": 0.094976,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 205,
+        "collateral_census": 0.094976,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 209,
+        "collateral_census": 0.094976,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 213,
+        "collateral_census": 0.094976,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 217,
+        "collateral_census": 0.094973,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 221,
+        "collateral_census": 0.09497,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 225,
+        "collateral_census": 0.094968,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 229,
+        "collateral_census": 0.094964,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 233,
+        "collateral_census": 0.094964,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 237,
+        "collateral_census": 0.094961,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 241,
+        "collateral_census": 0.094928,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 245,
+        "collateral_census": 0.094928,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 249,
+        "collateral_census": 0.094928,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 253,
+        "collateral_census": 0.094928,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 257,
+        "collateral_census": 0.090233,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 261,
+        "collateral_census": 0.018995,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 265,
+        "collateral_census": 0.018995,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 269,
+        "collateral_census": 0.009497,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 273,
+        "collateral_census": 0.009497,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 277,
+        "collateral_census": 0.009497,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 281,
+        "collateral_census": 0.009497,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 285,
+        "collateral_census": 0.009497,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 289,
+        "collateral_census": 0.009497,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 293,
+        "collateral_census": 0.009497,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 297,
+        "collateral_census": 0.009497,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 301,
+        "collateral_census": 0.009497,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 305,
+        "collateral_census": 0.009497,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 309,
+        "collateral_census": 0.009497,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 313,
+        "collateral_census": 0.009497,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 317,
+        "collateral_census": 0.009497,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 321,
+        "collateral_census": 0.009497,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 325,
+        "collateral_census": 0.009497,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 329,
+        "collateral_census": 0.009497,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 333,
+        "collateral_census": 0.009497,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 337,
+        "collateral_census": 0.009496,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 341,
+        "collateral_census": 0.000949,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 345,
+        "collateral_census": 0.000949,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 349,
+        "collateral_census": 0.000949,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 353,
+        "collateral_census": 0.000949,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 357,
+        "collateral_census": 0.000949,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 361,
+        "collateral_census": 0.000949,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 365,
+        "collateral_census": 0.000948,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 369,
+        "collateral_census": 0.000948,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 373,
+        "collateral_census": 0.000947,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 377,
+        "collateral_census": 0.000761,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 381,
+        "collateral_census": 0.000552,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 385,
+        "collateral_census": 9.4e-05,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 389,
+        "collateral_census": 9.4e-05,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 393,
+        "collateral_census": 9.4e-05,
+        "found_in_explorer": true
+      },
+      {
+        "collateral": "nCREDIT",
+        "log_index": 397,
+        "collateral_census": 9.4e-05,
+        "found_in_explorer": true
+      }
+    ],
+    "fuente": "Blockscout",
+    "ok": {
+      "gas": true,
+      "terceros": null,
+      "neto": true,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "polygon",
+    "tx_hash": "0x3818ab4bdb0c7e725ef5174de887bd914bfae50e8824deb7488d9d4aa4824520",
+    "rows": 1,
+    "route": "sin_rastro",
+    "entry": "propia",
+    "bonus_usd": 201.21424852911923,
+    "gas_eth": {
+      "census": 0.3416734678834757,
+      "explorer": 0.3416734678834757
+    },
+    "third_party_eth": {
+      "census": 0.0,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": -0.03812951064708004,
+      "explorer": -0.03812951064708004
     },
     "beneficiaries": {
       "census": 0,
@@ -26,8 +1359,8 @@
     "amounts": [
       {
         "collateral": "WBTC",
-        "log_index": 17,
-        "collateral_census": 3.53966994,
+        "log_index": 153,
+        "collateral_census": 0.05752261,
         "found_in_explorer": true
       }
     ],
@@ -40,29 +1373,23 @@
     }
   },
   {
-    "chain": "arbitrum",
-    "tx_hash": "0xe04f1ec5387e1474646eb67716454b088d0fe41b17022fc5f4bdb2716047fa6a",
-    "fuente": "Blockscout",
-    "error": "WebError: HTTP 403 en https://arbitrum.blockscout.com/api/v2/transactions/0xe04f1ec5387e1474646eb67716454b088d0fe41b17022fc5f4bdb2716047fa6a"
-  },
-  {
-    "chain": "arbitrum",
-    "tx_hash": "0x8a51d6624c278d41aa6aeb61bdc090c245bc5f7da25f2fe6d827f3e86f729c41",
+    "chain": "polygon",
+    "tx_hash": "0x65dec4bb58080a43275c28ed741fd080b0e5db443d56299739f3fcff0ceb4f81",
     "rows": 1,
     "route": "subasta",
-    "entry": "compartida",
-    "bonus_usd": 71.86138239740649,
+    "entry": "liquidador",
+    "bonus_usd": 46.79415750369362,
     "gas_eth": {
-      "census": 5.50879605664e-05,
-      "explorer": 5.50879605664e-05
+      "census": 456.5962222425977,
+      "explorer": 456.5962222425977
     },
     "third_party_eth": {
-      "census": 0.03406435009384003,
-      "explorer": 0.03406435009384003
+      "census": 0.0,
+      "explorer": 0.0
     },
     "realized_usd": {
-      "census": 2.92366847462846,
-      "explorer": 2.923668474628467
+      "census": 12.311501008942336,
+      "explorer": 12.311501008942336
     },
     "beneficiaries": {
       "census": 0,
@@ -71,9 +1398,9 @@
     "unpriced_explorer": [],
     "amounts": [
       {
-        "collateral": "USDC",
-        "log_index": 16,
-        "collateral_census": 1668.807615,
+        "collateral": "TESOURO",
+        "log_index": 5,
+        "collateral_census": 4397.033013,
         "found_in_explorer": true
       }
     ],
@@ -86,63 +1413,183 @@
     }
   },
   {
-    "chain": "arbitrum",
-    "tx_hash": "0x1df416a99ae1946ae1ba03ebd5123e58343934b4ea7a9dc721ea5aeb615f5a19",
+    "chain": "polygon",
+    "tx_hash": "0xd83ae45975c3bfc1ee1ae522661e70f3bae07c2e61de2a65cb7273f2750b47e7",
     "rows": 1,
-    "route": "subasta",
-    "entry": "compartida",
-    "bonus_usd": 16.33510179567122,
-    "gas_eth": {
-      "census": 4.4579132546e-05,
-      "explorer": 4.4579132546e-05
-    },
-    "third_party_eth": {
-      "census": 0.005970724020074728,
-      "explorer": 0.005970724020074728
-    },
-    "realized_usd": {
-      "census": 0.18115917648359472,
-      "explorer": 0.18115917648359584
-    },
-    "beneficiaries": {
-      "census": 1,
-      "explorer": 1
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "WETH",
-        "log_index": 22,
-        "collateral_census": 0.14177715285694117,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "arbitrum",
-    "tx_hash": "0x9c1df2cf55fc30be4870a6d26c91562dce7d8ee2344d87b2755dfacd14e90c46",
-    "rows": 1,
-    "route": "directa",
+    "route": "sin_medir",
     "entry": "propia",
-    "bonus_usd": 1.5141643577010697,
+    "bonus_usd": 2.5702800533670414,
     "gas_eth": {
-      "census": 5.64711e-05,
-      "explorer": 5.64711e-05
+      "census": 0.2050069721885042,
+      "explorer": 0.2050069721885042
     },
     "third_party_eth": {
       "census": 0.0,
       "explorer": 0.0
     },
     "realized_usd": {
-      "census": -0.15251082322871598,
-      "explorer": -0.15251082322871598
+      "census": -20.300708148751962,
+      "explorer": null
+    },
+    "beneficiaries": {
+      "census": 1,
+      "explorer": 1
+    },
+    "unpriced_explorer": [
+      "0x357661f9"
+    ],
+    "amounts": [
+      {
+        "collateral": "0x357661f9",
+        "log_index": 1530,
+        "collateral_census": 62.142793,
+        "found_in_explorer": true
+      }
+    ],
+    "fuente": "evidencia RPC",
+    "ok": {
+      "gas": true,
+      "terceros": true,
+      "neto": null,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "polygon",
+    "tx_hash": "0xb42be35cd32e9e23ab5ad744225dfdabb1e388d5249b5f54fc38545b0069c600",
+    "rows": 1,
+    "route": "sin_rastro",
+    "entry": "propia",
+    "bonus_usd": 41.792403457045836,
+    "gas_eth": {
+      "census": 0.37096043696829717,
+      "explorer": 0.37096043696829717
+    },
+    "third_party_eth": {
+      "census": 0.0,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": -0.03737130836866095,
+      "explorer": -0.03737130836866095
+    },
+    "beneficiaries": {
+      "census": 0,
+      "explorer": 0
+    },
+    "unpriced_explorer": [],
+    "amounts": [
+      {
+        "collateral": "WETH",
+        "log_index": 2523,
+        "collateral_census": 0.3915359651773538,
+        "found_in_explorer": true
+      }
+    ],
+    "fuente": "evidencia RPC",
+    "ok": {
+      "gas": true,
+      "terceros": true,
+      "neto": true,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "polygon",
+    "tx_hash": "0x557ac3df9fbc70fa1f6ee5b203afee858385ae9965e9e6583d647229db6ba6db",
+    "rows": 1,
+    "route": "sin_medir",
+    "entry": "liquidador",
+    "bonus_usd": 7.191689918159398,
+    "gas_eth": {
+      "census": 0.005342428721528704,
+      "explorer": 0.005342428721528704
+    },
+    "third_party_eth": {
+      "census": 0.0,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": -97.03619044330527,
+      "explorer": null
+    },
+    "beneficiaries": {
+      "census": 0,
+      "explorer": 0
+    },
+    "unpriced_explorer": [
+      "vDEMKAMALANO"
+    ],
+    "amounts": [
+      {
+        "collateral": "vDEMKAMALANO",
+        "log_index": 910,
+        "collateral_census": 114.05,
+        "found_in_explorer": true
+      }
+    ],
+    "fuente": "evidencia RPC",
+    "ok": {
+      "gas": true,
+      "terceros": true,
+      "neto": null,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "robinhood",
+    "tx_hash": "0x58da6d5840dbbfa1f787b3d3663e06a2ca1f42630c637e511d344e62c6da3171",
+    "fuente": "evidencia RPC",
+    "error": "ValueError: la evidencia no trae traza"
+  },
+  {
+    "chain": "robinhood",
+    "tx_hash": "0x58da6d5840dbbfa1f787b3d3663e06a2ca1f42630c637e511d344e62c6da3171",
+    "fuente": "Blockscout",
+    "error": "WebError: HTTP 403 en https://robinhoodchain.blockscout.com/api/v2/transactions/0x58da6d5840dbbfa1f787b3d3663e06a2ca1f42630c637e511d344e62c6da3171"
+  },
+  {
+    "chain": "robinhood",
+    "tx_hash": "0x63986a9f1d123b4c2bc55ccc3cb0a048bccf44f4a9eb952c5461a826ca71f75a",
+    "fuente": "evidencia RPC",
+    "error": "ValueError: la evidencia no trae traza"
+  },
+  {
+    "chain": "robinhood",
+    "tx_hash": "0x9ae045a565c5552b222a6ed673efd83856828d54c8de4e23de2ddd6d21a01871",
+    "fuente": "evidencia RPC",
+    "error": "ValueError: la evidencia no trae traza"
+  },
+  {
+    "chain": "robinhood",
+    "tx_hash": "0x9f2be22e1f0ef106d2582ccce4131143771f891ff3872268703ad5b7c80a0b67",
+    "fuente": "evidencia RPC",
+    "error": "ValueError: la evidencia no trae traza"
+  },
+  {
+    "chain": "robinhood",
+    "tx_hash": "0x0239ef38ee7b0fc77536170472fc17c48f679a3dbd22ed356b5cac7f73b344e2",
+    "fuente": "evidencia RPC",
+    "error": "ValueError: la evidencia no trae traza"
+  },
+  {
+    "chain": "unichain",
+    "tx_hash": "0xb86f3a64ad5e644861b25dcedb1ae908f16ff48ad7542aec8311d66a81c7aa2a",
+    "rows": 1,
+    "route": "directa",
+    "entry": "liquidador",
+    "bonus_usd": 0.03830542847135258,
+    "gas_eth": {
+      "census": 3.236458008302e-06,
+      "explorer": 3.236458008302e-06
+    },
+    "third_party_eth": {
+      "census": 0.0,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": 0.030053411128976432,
+      "explorer": 0.030053411128976432
     },
     "beneficiaries": {
       "census": 0,
@@ -153,7 +1600,7 @@
       {
         "collateral": "WETH",
         "log_index": 20,
-        "collateral_census": 0.0130197419839478,
+        "collateral_census": 0.000386931724735789,
         "found_in_explorer": true
       }
     ],
@@ -166,109 +1613,23 @@
     }
   },
   {
-    "chain": "arbitrum",
-    "tx_hash": "0x01e161ef62182a19dabe0380cae74aff88baf85359d622f302fc969be87261c0",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "compartida",
-    "bonus_usd": 9.004390299670405,
-    "gas_eth": {
-      "census": 4.4536254144e-05,
-      "explorer": 4.4536254144e-05
-    },
-    "third_party_eth": {
-      "census": 0.003214525937760516,
-      "explorer": 0.003214525937760516
-    },
-    "realized_usd": {
-      "census": 0.36850349824336165,
-      "explorer": 0.3685034982433627
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "WETH",
-        "log_index": 17,
-        "collateral_census": 0.0784016679469411,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "arbitrum",
-    "tx_hash": "0xf7caebbd16819cb91f126b6b384d2dd1af0960c5bc16df01c6418c37b8d5585c",
-    "rows": 2,
-    "route": "subasta",
-    "entry": "compartida",
-    "bonus_usd": 693.447527010145,
-    "gas_eth": {
-      "census": 7.21193911244e-05,
-      "explorer": 7.21193911244e-05
-    },
-    "third_party_eth": {
-      "census": 0.27586048333778707,
-      "explorer": 0.27586048333778707
-    },
-    "realized_usd": {
-      "census": 11.16622825689793,
-      "explorer": 11.166228256897877
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "WETH",
-        "log_index": 18,
-        "collateral_census": 5.712866681873473,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "WETH",
-        "log_index": 35,
-        "collateral_census": 0.8455364248703939,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "arbitrum",
-    "tx_hash": "0x8736c5075e64dc0da6eb12571f6fa3a487b76850a5629c6d6a0fb857874230d1",
+    "chain": "unichain",
+    "tx_hash": "0xb86f3a64ad5e644861b25dcedb1ae908f16ff48ad7542aec8311d66a81c7aa2a",
     "rows": 1,
     "route": "directa",
     "entry": "liquidador",
-    "bonus_usd": 56.25983709999218,
+    "bonus_usd": 0.03830542847135258,
     "gas_eth": {
-      "census": 1.0762975e-05,
-      "explorer": 1.0762975e-05
+      "census": 3.236458008302e-06,
+      "explorer": 3.236458008302e-06
     },
     "third_party_eth": {
       "census": 0.0,
       "explorer": 0.0
     },
     "realized_usd": {
-      "census": 53.12055507486873,
-      "explorer": 53.12055507486873
+      "census": 0.030053411128976432,
+      "explorer": 0.030053411128976432
     },
     "beneficiaries": {
       "census": 0,
@@ -278,430 +1639,12 @@
     "amounts": [
       {
         "collateral": "WETH",
-        "log_index": 16,
-        "collateral_census": 0.5399295948795904,
+        "log_index": 20,
+        "collateral_census": 0.000386931724735789,
         "found_in_explorer": true
       }
     ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "arbitrum",
-    "tx_hash": "0xe4c2a9e2909d0ea3fa9c21d61ca68211a194f8408af37fa5370d696fe24cea2b",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "compartida",
-    "bonus_usd": 356.66370465599266,
-    "gas_eth": {
-      "census": 5.61090457148e-05,
-      "explorer": 5.61090457148e-05
-    },
-    "third_party_eth": {
-      "census": 0.1463941578374648,
-      "explorer": 0.1463941578374648
-    },
-    "realized_usd": {
-      "census": 1.095185070686851,
-      "explorer": 1.0951850706868163
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "USD\u20ae0",
-        "log_index": 15,
-        "collateral_census": 8289.138236,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "arbitrum",
-    "tx_hash": "0x80c51553162ab2a72435305324a190ec03a64d92e88c18fe68ed21abb5c887d9",
-    "rows": 2,
-    "route": "sin_rastro",
-    "entry": "compartida",
-    "bonus_usd": 172.7342256324817,
-    "gas_eth": {
-      "census": 0.0002168487549502,
-      "explorer": 0.0002168487549502
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 0.05436888577990983,
-      "explorer": 0.05436888577990984
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "WETH",
-        "log_index": 19,
-        "collateral_census": 1.501948942965214,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "WETH",
-        "log_index": 41,
-        "collateral_census": 0.030366979241046334,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "arbitrum",
-    "tx_hash": "0x431ed9b9fa5607114da2db55b4a1b0904e9d273696df9ad287a353773f268987",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "compartida",
-    "bonus_usd": 50.534010525600934,
-    "gas_eth": {
-      "census": 5.6309094184e-05,
-      "explorer": 5.6309094184e-05
-    },
-    "third_party_eth": {
-      "census": 0.019890875872955883,
-      "explorer": 0.019890875872955883
-    },
-    "realized_usd": {
-      "census": 1.0364937561717291,
-      "explorer": 1.0364937561717202
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "WETH",
-        "log_index": 27,
-        "collateral_census": 0.45134342961393026,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "arbitrum",
-    "tx_hash": "0x7aca33d67b0318d4dad5e8df31075ab7c05cf5984b6892b85363de183818753e",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "compartida",
-    "bonus_usd": 3117.1307922561828,
-    "gas_eth": {
-      "census": 7.5160086e-05,
-      "explorer": 7.5160086e-05
-    },
-    "third_party_eth": {
-      "census": 1.1599426275354219,
-      "explorer": 1.1599426275354219
-    },
-    "realized_usd": {
-      "census": 6.408228614819016,
-      "explorer": 6.408228614818521
-    },
-    "beneficiaries": {
-      "census": 1,
-      "explorer": 1
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "ARB",
-        "log_index": 23,
-        "collateral_census": 222808.85772721763,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "arbitrum",
-    "tx_hash": "0x34a09af12e87030f63b091b5cf61e0bb094665c45c6e8078e0673a29e1de5346",
-    "rows": 1,
-    "route": "directa",
-    "entry": "propia",
-    "bonus_usd": 464.6854722078324,
-    "gas_eth": {
-      "census": 2.1058036676e-05,
-      "explorer": 2.1058036676e-05
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 476.9665019553299,
-      "explorer": 476.9665019553299
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "ARB",
-        "log_index": 16,
-        "collateral_census": 28684.288407890876,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "arbitrum",
-    "tx_hash": "0x7a206ee8262aaf18c6a428a71984ac8fdc6f93a5b7adc06ccaa807d457b49bf4",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "compartida",
-    "bonus_usd": 1146.6838526936117,
-    "gas_eth": {
-      "census": 6.4147474625e-05,
-      "explorer": 6.4147474625e-05
-    },
-    "third_party_eth": {
-      "census": 0.4650716755154947,
-      "explorer": 0.4650716755154947
-    },
-    "realized_usd": {
-      "census": 5.585038119532532,
-      "explorer": 5.585038119532532
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "WBTC",
-        "log_index": 15,
-        "collateral_census": 0.24093458,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "arbitrum",
-    "tx_hash": "0x7f790ca71260da7804f095996037ffed72abb64c1b0c167295835d5d8483aae1",
-    "rows": 2,
-    "route": "sin_rastro",
-    "entry": "compartida",
-    "bonus_usd": 97.28242141138276,
-    "gas_eth": {
-      "census": 0.000104538143982,
-      "explorer": 0.000104538143982
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 0.02296061373836672,
-      "explorer": 0.02296061373836672
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "WETH",
-        "log_index": 33,
-        "collateral_census": 0.5033542617409477,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "WETH",
-        "log_index": 55,
-        "collateral_census": 0.46552397555190417,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "arbitrum",
-    "tx_hash": "0x87b0443ce3d4699570ee13c09c2b15a96b6b394d9deafe718f87cfee568ac343",
-    "rows": 1,
-    "route": "directa",
-    "entry": "liquidador",
-    "bonus_usd": 54.56476419551677,
-    "gas_eth": {
-      "census": 8.256878444034e-05,
-      "explorer": 8.256878444034e-05
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 52.76384008982328,
-      "explorer": 52.76384008982328
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "WBTC",
-        "log_index": 53,
-        "collateral_census": 0.01150914,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x1fadad037540174670a17c198e01277a8c3aaa2b8b541fb37a62555f8013810d",
-    "rows": 1,
-    "route": "directa",
-    "entry": "liquidador",
-    "bonus_usd": 190.73908226739223,
-    "gas_eth": {
-      "census": 1.063687354759e-06,
-      "explorer": 1.063687354759e-06
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 190.6646620164497,
-      "explorer": 190.6646620164497
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "yoUSD",
-        "log_index": 607,
-        "collateral_census": 7025.2,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x1fadad037540174670a17c198e01277a8c3aaa2b8b541fb37a62555f8013810d",
     "fuente": "Blockscout",
-    "error": "WebError: HTTP 403 en https://base.blockscout.com/api/v2/transactions/0x1fadad037540174670a17c198e01277a8c3aaa2b8b541fb37a62555f8013810d"
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x5c8051a950d006b7aaf77dfb5be813c6623ecde2ea501df76248410b666c08af",
-    "rows": 1,
-    "route": "directa",
-    "entry": "liquidador",
-    "bonus_usd": 11.931965146840035,
-    "gas_eth": {
-      "census": 0.001311240785428008,
-      "explorer": 0.001311240785428008
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 8.357468199954196,
-      "explorer": 8.357468199954196
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "AERO",
-        "log_index": 207,
-        "collateral_census": 126.81594587530121,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
     "ok": {
       "gas": true,
       "terceros": true,
@@ -710,23 +1653,23 @@
     }
   },
   {
-    "chain": "base",
-    "tx_hash": "0xa5e0d3d1b9e328deb8fd296e48714c9e559c3e8f73d5a3d0a0cea8ca60abb906",
+    "chain": "unichain",
+    "tx_hash": "0xc53033608aebda0d21601ab4b0bdab3e249103c27c643be43a29b4330cc9e613",
     "rows": 1,
     "route": "directa",
     "entry": "liquidador",
-    "bonus_usd": 0.01150263990606576,
+    "bonus_usd": 0.036361635957754934,
     "gas_eth": {
-      "census": 3.223066075341e-06,
-      "explorer": 3.223066075341e-06
+      "census": 4.531062271964e-06,
+      "explorer": 4.531062271964e-06
     },
     "third_party_eth": {
       "census": 0.0,
       "explorer": 0.0
     },
     "realized_usd": {
-      "census": 0.0026975300403706496,
-      "explorer": 0.0026975300403706496
+      "census": 0.025291136851790418,
+      "explorer": 0.025291136851790418
     },
     "beneficiaries": {
       "census": 0,
@@ -736,8 +1679,8 @@
     "amounts": [
       {
         "collateral": "WETH",
-        "log_index": 312,
-        "collateral_census": 9.9389158053166e-05,
+        "log_index": 4,
+        "collateral_census": 0.000369501134615606,
         "found_in_explorer": true
       }
     ],
@@ -750,201 +1693,23 @@
     }
   },
   {
-    "chain": "base",
-    "tx_hash": "0xa0eb5e89897c4fc30ad3b48ae249d63dcf1883937e9fdb6982c482ea5d45adfa",
+    "chain": "unichain",
+    "tx_hash": "0xc53033608aebda0d21601ab4b0bdab3e249103c27c643be43a29b4330cc9e613",
     "rows": 1,
     "route": "directa",
     "entry": "liquidador",
-    "bonus_usd": 0.5027376882561143,
+    "bonus_usd": 0.036361635957754934,
     "gas_eth": {
-      "census": 7.138816696403e-06,
-      "explorer": 7.138816696403e-06
+      "census": 4.531062271964e-06,
+      "explorer": 4.531062271964e-06
     },
     "third_party_eth": {
       "census": 0.0,
       "explorer": 0.0
     },
     "realized_usd": {
-      "census": 0.4854020099534958,
-      "explorer": 0.4854020099534958
-    },
-    "beneficiaries": {
-      "census": 1,
-      "explorer": 1
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "USDe",
-        "log_index": 521,
-        "collateral_census": 19.717804,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0xedbd68d3d397fb4c815289f62ccff59fcc621f929b8b3ddf9f6cd879c14e195a",
-    "rows": 1,
-    "route": "directa",
-    "entry": "liquidador",
-    "bonus_usd": 0.11813960440349991,
-    "gas_eth": {
-      "census": 3.697343120245e-06,
-      "explorer": 3.697343120245e-06
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 0.10548308449363865,
-      "explorer": 0.10548308449363865
-    },
-    "beneficiaries": {
-      "census": 1,
-      "explorer": 1
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "USDbC",
-        "log_index": 545,
-        "collateral_census": 2.743854,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0xa778c23ea8dd217aa95b833e2779c387ef0064e5db462f33f958f6d60fb7aed2",
-    "rows": 1,
-    "route": "directa",
-    "entry": "liquidador",
-    "bonus_usd": 5007.856053506527,
-    "gas_eth": {
-      "census": 0.17315676945353695,
-      "explorer": 0.17315676945353695
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 2071.0611631368392,
-      "explorer": 2071.0611631368392
-    },
-    "beneficiaries": {
-      "census": 1,
-      "explorer": 1
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "cbZEC",
-        "log_index": 2,
-        "collateral_census": 30.4111704,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x1c645f5db47f5724bc687d6fdf763106c560c1f932ad687012a4da6e47af3edf",
-    "rows": 1,
-    "route": "directa",
-    "entry": "liquidador",
-    "bonus_usd": 408.252058542123,
-    "gas_eth": {
-      "census": 0.029116912288229962,
-      "explorer": 0.029116912288229962
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 311.89578094065456,
-      "explorer": 311.89578094065456
-    },
-    "beneficiaries": {
-      "census": 1,
-      "explorer": 1
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "cbZEC",
-        "log_index": 2,
-        "collateral_census": 2.61570272,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0xc4cb69ba108f5c2bbe25b398b45f82d829af197df11250b3f09906b8f7ffe51c",
-    "fuente": "evidencia RPC",
-    "error": "ValueError: la evidencia no trae traza"
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x0c61d449690729556d55f6aafcc5466b2dc2d44eb29d400aa9e0eb933cf58fe8",
-    "fuente": "evidencia RPC",
-    "error": "ValueError: la evidencia no trae traza"
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x929d5fab1e0a0911a5c77ef931102e8820991115c5d7f8e8f274c9201af0e75f",
-    "fuente": "evidencia RPC",
-    "error": "ValueError: la evidencia no trae traza"
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x624b1a94924a0f3f1dd5534042a6074ee169e1ec1c429c0d74b879d4f9820f1f",
-    "rows": 4,
-    "route": "subasta",
-    "entry": "compartida",
-    "bonus_usd": 276.0981374090512,
-    "gas_eth": {
-      "census": 0.00012330045092168,
-      "explorer": 0.00012330045092168
-    },
-    "third_party_eth": {
-      "census": 0.10282126862336721,
-      "explorer": 0.1028212686233672
-    },
-    "realized_usd": {
-      "census": 0.011899804793406467,
-      "explorer": 0.011899804793406465
+      "census": 0.025291136851790418,
+      "explorer": 0.025291136851790418
     },
     "beneficiaries": {
       "census": 0,
@@ -953,1963 +1718,147 @@
     "unpriced_explorer": [],
     "amounts": [
       {
-        "collateral": "cbXRP",
-        "log_index": 25,
-        "collateral_census": 706.322154,
+        "collateral": "WETH",
+        "log_index": 4,
+        "collateral_census": 0.000369501134615606,
         "found_in_explorer": true
-      },
+      }
+    ],
+    "fuente": "Blockscout",
+    "ok": {
+      "gas": true,
+      "terceros": true,
+      "neto": true,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "worldchain",
+    "tx_hash": "0x16796c96b9b3d91faa0f2c2ea989c6ff958d14580e2b0bf4c62d338bf0c0e176",
+    "fuente": "evidencia RPC",
+    "error": "ValueError: la evidencia no trae traza"
+  },
+  {
+    "chain": "worldchain",
+    "tx_hash": "0x16796c96b9b3d91faa0f2c2ea989c6ff958d14580e2b0bf4c62d338bf0c0e176",
+    "rows": 1,
+    "route": "directa",
+    "entry": "liquidador",
+    "bonus_usd": 157.44469709572658,
+    "gas_eth": {
+      "census": 1.681306603007e-06,
+      "explorer": 1.681306603007e-06
+    },
+    "third_party_eth": {
+      "census": 0.0,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": 98.94106100625145,
+      "explorer": 98.94106100625145
+    },
+    "beneficiaries": {
+      "census": 1,
+      "explorer": 1
+    },
+    "unpriced_explorer": [],
+    "amounts": [
       {
-        "collateral": "cbXRP",
-        "log_index": 27,
-        "collateral_census": 586.459726,
+        "collateral": "WETH",
+        "log_index": 68,
+        "collateral_census": 1.4738473758795922,
         "found_in_explorer": true
-      },
+      }
+    ],
+    "fuente": "Blockscout",
+    "ok": {
+      "gas": true,
+      "terceros": true,
+      "neto": true,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "worldchain",
+    "tx_hash": "0xe97a23b98402b05c22a6722a39c6b4c169f6a9b6f0e42f2b8c9bbc46fea0998d",
+    "fuente": "evidencia RPC",
+    "error": "ValueError: la evidencia no trae traza"
+  },
+  {
+    "chain": "worldchain",
+    "tx_hash": "0xe97a23b98402b05c22a6722a39c6b4c169f6a9b6f0e42f2b8c9bbc46fea0998d",
+    "rows": 1,
+    "route": "directa",
+    "entry": "liquidador",
+    "bonus_usd": 118.31522582086899,
+    "gas_eth": {
+      "census": 2.634216402102e-06,
+      "explorer": 2.634216402102e-06
+    },
+    "third_party_eth": {
+      "census": 0.0,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": 103.59886189768947,
+      "explorer": 103.59886189768947
+    },
+    "beneficiaries": {
+      "census": 1,
+      "explorer": 1
+    },
+    "unpriced_explorer": [],
+    "amounts": [
       {
-        "collateral": "cbXRP",
+        "collateral": "WLD",
+        "log_index": 84,
+        "collateral_census": 3488.690624379212,
+        "found_in_explorer": true
+      }
+    ],
+    "fuente": "Blockscout",
+    "ok": {
+      "gas": true,
+      "terceros": true,
+      "neto": true,
+      "colateral": true
+    }
+  },
+  {
+    "chain": "worldchain",
+    "tx_hash": "0x94c186d8deced74b506b85785fe118c30d72a5d983135d4ced39097e19ff6b8a",
+    "fuente": "evidencia RPC",
+    "error": "ValueError: la evidencia no trae traza"
+  },
+  {
+    "chain": "worldchain",
+    "tx_hash": "0x94c186d8deced74b506b85785fe118c30d72a5d983135d4ced39097e19ff6b8a",
+    "rows": 1,
+    "route": "directa",
+    "entry": "liquidador",
+    "bonus_usd": 0.0020275498079760303,
+    "gas_eth": {
+      "census": 2.07461517209e-07,
+      "explorer": 2.07461517209e-07
+    },
+    "third_party_eth": {
+      "census": 0.0,
+      "explorer": 0.0
+    },
+    "realized_usd": {
+      "census": 0.0015958584019914234,
+      "explorer": 0.0015958584019914234
+    },
+    "beneficiaries": {
+      "census": 0,
+      "explorer": 0
+    },
+    "unpriced_explorer": [],
+    "amounts": [
+      {
+        "collateral": "WETH",
         "log_index": 29,
-        "collateral_census": 318.983736,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 31,
-        "collateral_census": 77.780372,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x35b30c3e8f11331aa709de2c778018a574a238589c88844b0ce08bf323b3a732",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "liquidador",
-    "bonus_usd": 114.36326779416875,
-    "gas_eth": {
-      "census": 0.014655156148729353,
-      "explorer": 0.014655156148729353
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 75.62044590249877,
-      "explorer": 75.62044590249877
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "cbZEC",
-        "log_index": 2,
-        "collateral_census": 0.78569181,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x158359cf24cd8cb98f4b7edd8e234426ec3f94a8858445c8dfe41317f94e2438",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "compartida",
-    "bonus_usd": 48.90057420583116,
-    "gas_eth": {
-      "census": 4.2363686294843e-05,
-      "explorer": 4.2363686294843e-05
-    },
-    "third_party_eth": {
-      "census": 0.019980928446529,
-      "explorer": 0.019980928446529
-    },
-    "realized_usd": {
-      "census": -4.3627197215727325,
-      "explorer": -4.362719721572735
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "WETH",
-        "log_index": 855,
-        "collateral_census": 0.41863757502165805,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x79e53719c42922bc4a050c6e9cae2fb21c8883e8f5b0717c43e2d517a334514e",
-    "rows": 1,
-    "route": "directa",
-    "entry": "liquidador",
-    "bonus_usd": 44.05941975651762,
-    "gas_eth": {
-      "census": 0.003337467989251131,
-      "explorer": 0.003337467989251131
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 34.34696137914321,
-      "explorer": 34.34696137914321
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "cbZEC",
-        "log_index": 2,
-        "collateral_census": 0.29937832,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x3f9d75b95942ac1eef5a39f6da75262789fc665aaf037307f021e2a8e4395116",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "compartida",
-    "bonus_usd": 14.769647892872168,
-    "gas_eth": {
-      "census": 0.000194371586561716,
-      "explorer": 0.000194371586561716
-    },
-    "third_party_eth": {
-      "census": 0.005508569967527893,
-      "explorer": 0.005508569967527893
-    },
-    "realized_usd": {
-      "census": 0.02095030442026169,
-      "explorer": 0.02095030442026169
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "cbDOGE",
-        "log_index": 534,
-        "collateral_census": 1441.26047774,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x803ee3a5bfe15e9dba58da42b449038b226e032724d1e3cba0f7e0a15c94b63f",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "compartida",
-    "bonus_usd": 109.20197545274277,
-    "gas_eth": {
-      "census": 2.6219856917932e-05,
-      "explorer": 2.6219856917932e-05
-    },
-    "third_party_eth": {
-      "census": 0.042133470488470645,
-      "explorer": 0.042133470488470645
-    },
-    "realized_usd": {
-      "census": -4.608152055676884,
-      "explorer": -4.60815205567689
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "WETH",
-        "log_index": 334,
-        "collateral_census": 0.944963187939622,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x64c56473f5b9cd173f9fec7350d4c7322a167f679496ef0eaff3ca00f811d0bc",
-    "rows": 1,
-    "route": "directa",
-    "entry": "liquidador",
-    "bonus_usd": 24.751227621694852,
-    "gas_eth": {
-      "census": 0.001610475947630142,
-      "explorer": 0.001610475947630142
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 20.374939389127924,
-      "explorer": 20.374939389127924
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "USDC",
-        "log_index": 12,
-        "collateral_census": 574.808427,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0xb164292214f6abfcf66922b181725b2823212181840eef60eea8ee9982b8e444",
-    "fuente": "evidencia RPC",
-    "error": "ValueError: la evidencia no trae traza"
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x0c0f420bd55271e92e552d9293789a3f1cc9df2c11ab90e637f18f04c7700d14",
-    "fuente": "evidencia RPC",
-    "error": "ValueError: la evidencia no trae traza"
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x619ddb680f7f148ccacef03023982a95b536fdd256e60cc31d88118dccdc5a6a",
-    "fuente": "evidencia RPC",
-    "error": "ValueError: la evidencia no trae traza"
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x2c8a9255602e2848236eb13a9bd2916bfa35b3a5c6c1c5e92b2ab6e275894e59",
-    "rows": 1,
-    "route": "refinanciacion",
-    "entry": "liquidador",
-    "bonus_usd": 222702.48503493197,
-    "gas_eth": {
-      "census": 1.547795813796e-06,
-      "explorer": 1.547795813796e-06
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": -0.0038382690741851364,
-      "explorer": -0.0038382690741851364
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "RSS",
-        "log_index": 659,
-        "collateral_census": 222521.94092263794,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x526e82ed7c96d4fa8149b43cc8e7ead24d081e0fdb301d1ee7b5ac8b3336a8fc",
-    "rows": 19,
-    "route": "directa",
-    "entry": "liquidador",
-    "bonus_usd": 5795.420166585684,
-    "gas_eth": {
-      "census": 0.0037520576057963094,
-      "explorer": 0.003752057605796309
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 5629.813314500715,
-      "explorer": 5629.813314500715
-    },
-    "beneficiaries": {
-      "census": 1,
-      "explorer": 1
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "cbXRP",
-        "log_index": 127,
-        "collateral_census": 21949.627438,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 136,
-        "collateral_census": 2740.166423,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 145,
-        "collateral_census": 2193.506795,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 154,
-        "collateral_census": 1790.950686,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 163,
-        "collateral_census": 1589.094929,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 172,
-        "collateral_census": 895.036164,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 181,
-        "collateral_census": 885.933868,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 190,
-        "collateral_census": 790.133317,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 199,
-        "collateral_census": 703.541299,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 208,
-        "collateral_census": 693.810714,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 217,
-        "collateral_census": 676.251742,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 226,
-        "collateral_census": 470.766801,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 235,
-        "collateral_census": 417.879117,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 244,
-        "collateral_census": 338.11743,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 253,
-        "collateral_census": 294.697345,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 262,
-        "collateral_census": 227.234201,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 271,
-        "collateral_census": 204.058157,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 280,
-        "collateral_census": 201.939187,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 289,
-        "collateral_census": 145.806023,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x7d033a7dbc3aac740c3189793b50966b333f2a2f6c70b3083c0cac387306533d",
-    "rows": 10,
-    "route": "subasta",
-    "entry": "compartida",
-    "bonus_usd": 30244.726311301714,
-    "gas_eth": {
-      "census": 0.0005100469179561659,
-      "explorer": 0.000510046917956166
-    },
-    "third_party_eth": {
-      "census": 8.460166076903697,
-      "explorer": 8.460166076903697
-    },
-    "realized_usd": {
-      "census": 54.12815610405097,
-      "explorer": 54.12815610404774
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "cbXRP",
-        "log_index": 15,
-        "collateral_census": 64543.779277,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 17,
-        "collateral_census": 24770.394013,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 19,
-        "collateral_census": 23351.356855,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 21,
-        "collateral_census": 20126.359962,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 23,
-        "collateral_census": 18072.672965,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 25,
-        "collateral_census": 13807.4651,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 27,
-        "collateral_census": 12776.9234,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 29,
-        "collateral_census": 12679.990063,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 31,
-        "collateral_census": 3631.38616,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 33,
-        "collateral_census": 3295.238037,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0xc3efc4caf742909fa7933360b7f75d5a4fd017c86dbd93802b5aa276e919ba25",
-    "rows": 1,
-    "route": "directa",
-    "entry": "liquidador",
-    "bonus_usd": 11152.61375498153,
-    "gas_eth": {
-      "census": 0.3345370438512429,
-      "explorer": 0.3345370438512429
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": -821.5040049428725,
-      "explorer": -821.5040049428725
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "cbETH",
-        "log_index": 1176,
-        "collateral_census": 57.885739292879755,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x6ff99a4c1fcc62238787c5cce5594433c41efbb5971de4c2d443d8b26ba1ee9d",
-    "rows": 5,
-    "route": "directa",
-    "entry": "propia",
-    "bonus_usd": 49.88196463618812,
-    "gas_eth": {
-      "census": 0.000619998267413753,
-      "explorer": 0.000619998267413753
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": -1.5377910403858375,
-      "explorer": -1.5377910403858375
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "SOL",
-        "log_index": 149,
-        "collateral_census": 1.580823182,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "SOL",
-        "log_index": 156,
-        "collateral_census": 1.231855399,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "SOL",
-        "log_index": 163,
-        "collateral_census": 0.666000557,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "SOL",
-        "log_index": 170,
-        "collateral_census": 0.295409473,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "SOL",
-        "log_index": 177,
-        "collateral_census": 0.284749225,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x260a6fccc7b77efae82bcf38168b637205fd1660fbfff74e3897aed3823eeddf",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "compartida",
-    "bonus_usd": 54.64392688808425,
-    "gas_eth": {
-      "census": 2.3802573770988e-05,
-      "explorer": 2.3802573770988e-05
-    },
-    "third_party_eth": {
-      "census": 0.021578958814315662,
-      "explorer": 0.021578958814315662
-    },
-    "realized_usd": {
-      "census": 0.23831556867558246,
-      "explorer": 0.23831556867559212
-    },
-    "beneficiaries": {
-      "census": 1,
-      "explorer": 1
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "WETH",
-        "log_index": 307,
-        "collateral_census": 0.5052908604374577,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0xc90c33553b9d0443422e3c72b26500c128f40b42ffdf17fe847efb34df8334fc",
-    "rows": 1,
-    "route": "directa",
-    "entry": "liquidador",
-    "bonus_usd": 1.751623928663462,
-    "gas_eth": {
-      "census": 2.825662340935e-06,
-      "explorer": 2.825662340935e-06
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 3.934980403610533,
-      "explorer": 3.934980403610533
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "WETH",
-        "log_index": 116,
-        "collateral_census": 0.01751366203028184,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x07695781e48cdbf773740a0799827f46ee729e8c3903b9cda859e16ce29a9738",
-    "rows": 1,
-    "route": "directa",
-    "entry": "liquidador",
-    "bonus_usd": 0.2191722453863586,
-    "gas_eth": {
-      "census": 1.4161092746528e-05,
-      "explorer": 1.4161092746528e-05
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 0.2128647996189687,
-      "explorer": 0.2128647996189687
-    },
-    "beneficiaries": {
-      "census": 1,
-      "explorer": 1
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "WETH",
-        "log_index": 199,
-        "collateral_census": 0.00220193112875231,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x1f68b028266ef9cd4a0c5de7add2b78d436a13a3605b5a7fe81f10e4fb9135e6",
-    "rows": 1,
-    "route": "directa",
-    "entry": "liquidador",
-    "bonus_usd": 1.5342049725193225,
-    "gas_eth": {
-      "census": 1.42620244181e-06,
-      "explorer": 1.42620244181e-06
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": -0.0035581183758764245,
-      "explorer": -0.0035581183758764245
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "WETH",
-        "log_index": 505,
-        "collateral_census": 0.01541351679380506,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0xcaca4c228567972189fd893c9b9bcc4039d9954599e5a77a79fa17ce6d4016b9",
-    "rows": 1,
-    "route": "directa",
-    "entry": "liquidador",
-    "bonus_usd": 0.16661921982644748,
-    "gas_eth": {
-      "census": 9.150900950017e-06,
-      "explorer": 9.150900950017e-06
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 0.1282447650909686,
-      "explorer": 0.1282447650909686
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "stEUR",
-        "log_index": 3,
-        "collateral_census": 8.748036065227815,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x76a4c8ed78f4c3217d2186280cf6ec4737173a6afd21ba927ca68ba1c24ce616",
-    "fuente": "evidencia RPC",
-    "error": "ValueError: la evidencia no trae traza"
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0xdb478207d9a5ee26ec69341cd8833c990c7043fc1df380227b1e7cd34ce8fdc2",
-    "fuente": "evidencia RPC",
-    "error": "ValueError: la evidencia no trae traza"
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x5bc6b67722b3e93d35cf01644401d9a145580c4337c65a2583672cc21569d25a",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "compartida",
-    "bonus_usd": 12288.407244160557,
-    "gas_eth": {
-      "census": 2.8047039269664e-05,
-      "explorer": 2.8047039269664e-05
-    },
-    "third_party_eth": {
-      "census": 4.732637652665597,
-      "explorer": 4.732637652665597
-    },
-    "realized_usd": {
-      "census": 9.697825343108379,
-      "explorer": 9.697825343107324
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "cbLTC",
-        "log_index": 434,
-        "collateral_census": 1829.09441309,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0xc0eb42bbc9176eb14d6c4ca2efc08f9e3567b23088fea261661252636846a180",
-    "fuente": "evidencia RPC",
-    "error": "ValueError: la evidencia no trae traza"
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x044d99c130aed9115296fe6768314ba6b52c0299207f7e1f39032cd51c6db530",
-    "rows": 4,
-    "route": "subasta",
-    "entry": "compartida",
-    "bonus_usd": 50.05663717757857,
-    "gas_eth": {
-      "census": 2.8908108383546e-05,
-      "explorer": 2.8908108383546e-05
-    },
-    "third_party_eth": {
-      "census": 0.02054510144787833,
-      "explorer": 0.02054510144787833
-    },
-    "realized_usd": {
-      "census": 0.006045325191103069,
-      "explorer": 0.006045325191103804
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "cbLTC",
-        "log_index": 461,
-        "collateral_census": 4.79257847,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbLTC",
-        "log_index": 463,
-        "collateral_census": 1.51946883,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbLTC",
-        "log_index": 465,
-        "collateral_census": 0.72022423,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbLTC",
-        "log_index": 467,
-        "collateral_census": 0.3767696,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0xc0a51904f3bd704512b5c502e3812e7568cbbe6191c8110b4aa110899c26c1f9",
-    "rows": 32,
-    "route": "subasta",
-    "entry": "compartida",
-    "bonus_usd": 20969.07930612509,
-    "gas_eth": {
-      "census": 0.000156674461438596,
-      "explorer": 0.000156674461438596
-    },
-    "third_party_eth": {
-      "census": 8.05640341032943,
-      "explorer": 8.05640341032943
-    },
-    "realized_usd": {
-      "census": 0.005556125397085666,
-      "explorer": 0.005556125397085665
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "cbXRP",
-        "log_index": 1238,
-        "collateral_census": 97173.030404,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1240,
-        "collateral_census": 13450.646064,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1242,
-        "collateral_census": 11333.423786,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1244,
-        "collateral_census": 11008.278701,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1246,
-        "collateral_census": 7034.809209,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1248,
-        "collateral_census": 1000.374202,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1250,
-        "collateral_census": 884.818848,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1252,
-        "collateral_census": 777.511364,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1254,
-        "collateral_census": 745.903547,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1256,
-        "collateral_census": 710.238934,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1258,
-        "collateral_census": 555.366153,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1260,
-        "collateral_census": 544.234861,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1262,
-        "collateral_census": 440.210494,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1264,
-        "collateral_census": 376.821696,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1266,
-        "collateral_census": 368.173408,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1268,
-        "collateral_census": 350.576062,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1270,
-        "collateral_census": 202.798077,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1272,
-        "collateral_census": 189.39739,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1274,
-        "collateral_census": 155.72513,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1276,
-        "collateral_census": 155.636596,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1278,
-        "collateral_census": 108.08125,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1280,
-        "collateral_census": 98.376179,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1282,
-        "collateral_census": 70.414807,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1284,
-        "collateral_census": 65.218077,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1286,
-        "collateral_census": 56.753299,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1288,
-        "collateral_census": 53.892549,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1290,
-        "collateral_census": 52.551892,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1292,
-        "collateral_census": 39.051368,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1294,
-        "collateral_census": 33.642364,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1296,
-        "collateral_census": 30.54654,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1298,
-        "collateral_census": 27.445955,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1300,
-        "collateral_census": 6.32402,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x7952e30f83910d99f3e5dcc5a18eaec29879ab8643e41a92d16d64da96d7540d",
-    "rows": 5,
-    "route": "directa",
-    "entry": "liquidador",
-    "bonus_usd": 124.97213443552664,
-    "gas_eth": {
-      "census": 0.013491250332430005,
-      "explorer": 0.013491250332430003
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 86.3687410768998,
-      "explorer": 86.3687410768998
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "cbXRP",
-        "log_index": 1972,
-        "collateral_census": 223.337203,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1981,
-        "collateral_census": 191.740506,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1990,
-        "collateral_census": 185.667931,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1999,
-        "collateral_census": 136.858969,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 2008,
-        "collateral_census": 136.642908,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x1d5b2e412d490fddf02457416badb906c1395a23b5bd31fce2f909efbf987776",
-    "rows": 15,
-    "route": "subasta",
-    "entry": "compartida",
-    "bonus_usd": 9553.409248696347,
-    "gas_eth": {
-      "census": 0.0015477315548359499,
-      "explorer": 0.00154773155483595
-    },
-    "third_party_eth": {
-      "census": 3.947887529410365,
-      "explorer": 3.947887529410365
-    },
-    "realized_usd": {
-      "census": 16.68450251657061,
-      "explorer": 16.684502516569275
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "cbXRP",
-        "log_index": 1905,
-        "collateral_census": 14099.867631,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1907,
-        "collateral_census": 10041.191952,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1909,
-        "collateral_census": 10019.860038,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1911,
-        "collateral_census": 6408.902382,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1913,
-        "collateral_census": 4553.586776,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1915,
-        "collateral_census": 4169.923338,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1917,
-        "collateral_census": 4164.555978,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1919,
-        "collateral_census": 3508.516238,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1921,
-        "collateral_census": 3372.463182,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1923,
-        "collateral_census": 2728.463096,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1925,
-        "collateral_census": 2064.924391,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1927,
-        "collateral_census": 509.715992,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1929,
-        "collateral_census": 476.372627,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1931,
-        "collateral_census": 429.606578,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbXRP",
-        "log_index": 1933,
-        "collateral_census": 283.30336,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x6f3a491346d30c87ef510a326fb3500d3837c9b8e51f5b7ecc89f8db092b3a0b",
-    "fuente": "evidencia RPC",
-    "error": "ValueError: la evidencia no trae traza"
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x668860a8fa5894a299c59fe3bfbfcd0631828578962687d094ce47984e56b874",
-    "rows": 2,
-    "route": "subasta",
-    "entry": "compartida",
-    "bonus_usd": 41.70505285727146,
-    "gas_eth": {
-      "census": 0.00021002348424173798,
-      "explorer": 0.000210023484241738
-    },
-    "third_party_eth": {
-      "census": 0.016736016869506334,
-      "explorer": 0.016736016869506334
-    },
-    "realized_usd": {
-      "census": 0.006240203759983465,
-      "explorer": 0.006240203759973362
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "cbADA",
-        "log_index": 1266,
-        "collateral_census": 1594.792854,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbADA",
-        "log_index": 1268,
-        "collateral_census": 124.284469,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0xe5fd7c3d9f963e0f0f81b3e7437e269df10d7c23b6994409f11de6ce1db62d60",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "liquidador",
-    "bonus_usd": 7.065154957693118,
-    "gas_eth": {
-      "census": 0.00140271879850762,
-      "explorer": 0.00140271879850762
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 3.1533802801267794,
-      "explorer": 3.1533802801267794
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "yoUSD",
-        "log_index": 2,
-        "collateral_census": 259.488389,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x0ac547a93c1abd268816d96215ff6672fdc02be492076d81bace64cae29e8018",
-    "rows": 1,
-    "route": "directa",
-    "entry": "liquidador",
-    "bonus_usd": 6.695906279753032,
-    "gas_eth": {
-      "census": 2.9982878665855e-05,
-      "explorer": 2.9982878665855e-05
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 5.7950080283181915,
-      "explorer": 5.7950080283181915
-    },
-    "beneficiaries": {
-      "census": 1,
-      "explorer": 1
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "mBASIS",
-        "log_index": 13,
-        "collateral_census": 130.6177566780311,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0xf7e0559bdc4ecd72211ee0e9027e47b538b2ed69c37f89883f2f5d6d8dc7df98",
-    "rows": 1,
-    "route": "directa",
-    "entry": "compartida",
-    "bonus_usd": 0.06488813338369355,
-    "gas_eth": {
-      "census": 4.8081674915427e-05,
-      "explorer": 4.8081674915427e-05
-    },
-    "third_party_eth": {
-      "census": 2.6333921215853e-05,
-      "explorer": 2.6333921215853e-05
-    },
-    "realized_usd": {
-      "census": 0.007128614690397939,
-      "explorer": 0.007128614690397939
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "cbXRP",
-        "log_index": 175,
-        "collateral_census": 0.424268,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0xfb196dba6852efbf9d7e211e6f51936b82b984b005d8c1480aa263fc1c57acb4",
-    "rows": 1,
-    "route": "directa",
-    "entry": "liquidador",
-    "bonus_usd": 0.43836026490562335,
-    "gas_eth": {
-      "census": 1.053066373233e-06,
-      "explorer": 1.053066373233e-06
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 1.4592355664517183,
-      "explorer": 1.4592355664517183
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "cbBTC",
-        "log_index": 1650,
-        "collateral_census": 0.00013917,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x8d422c8acb458ab8adb0fe4151d2e1edeec9e985f3aed273050206d60596a9e2",
-    "rows": 1,
-    "route": "directa",
-    "entry": "liquidador",
-    "bonus_usd": 0.43836013339759644,
-    "gas_eth": {
-      "census": 0.000296522811837466,
-      "explorer": 0.000296522811837466
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 0.7072684322108371,
-      "explorer": 0.7072684322108371
-    },
-    "beneficiaries": {
-      "census": 1,
-      "explorer": 1
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "cbBTC",
-        "log_index": 2,
-        "collateral_census": 0.00013917,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x7360c3745f68aaacb4cfc367dded122f6110ff2595b1ff651a5ee7b99a921e1c",
-    "fuente": "evidencia RPC",
-    "error": "ValueError: la evidencia no trae traza"
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0xfebf9f9806d7859272a8a745a5a096dfcd1998fe5ea7dbffc641ff02d097a5ae",
-    "rows": 1,
-    "route": "directa",
-    "entry": "liquidador",
-    "bonus_usd": 2280.5429557635703,
-    "gas_eth": {
-      "census": 0.013755971657806964,
-      "explorer": 0.013755971657806964
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 2147.1536895483973,
-      "explorer": 2147.1536895483973
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "cbETH",
-        "log_index": 1537,
-        "collateral_census": 12.633244738496002,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x4152eac214148c4a20c34e0e7a2223422c8c37f88e5d98964d7f8dcd38d387b3",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "compartida",
-    "bonus_usd": 4229.331582606916,
-    "gas_eth": {
-      "census": 0.000649835137860874,
-      "explorer": 0.000649835137860874
-    },
-    "third_party_eth": {
-      "census": 1.7532617256047476,
-      "explorer": 1.7532617256047476
-    },
-    "realized_usd": {
-      "census": 0.6804501590910896,
-      "explorer": 0.6804501590916545
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "WETH",
-        "log_index": 763,
-        "collateral_census": 42.8321226133339,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x1f6159d5e0fb269e5ec3983c8e10145fab18583ee64de27edd2d4ad8509cdec6",
-    "fuente": "evidencia RPC",
-    "error": "ValueError: la evidencia no trae traza"
-  },
-  {
-    "chain": "base",
-    "tx_hash": "0x78e99663506f1c9c4537d091372c3807cdfdefe92dc39c955546c1cd21feddb2",
-    "rows": 3,
-    "route": "directa",
-    "entry": "liquidador",
-    "bonus_usd": 50.544131727639524,
-    "gas_eth": {
-      "census": 0.0030580394322717534,
-      "explorer": 0.003058039432271753
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 42.75082898547579,
-      "explorer": 42.750828985475785
-    },
-    "beneficiaries": {
-      "census": 1,
-      "explorer": 1
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "cbETH",
-        "log_index": 255,
-        "collateral_census": 0.08617902170101148,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbETH",
-        "log_index": 265,
-        "collateral_census": 0.06627210021715203,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "cbETH",
-        "log_index": 277,
-        "collateral_census": 0.12565544987777524,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0xe0292666c290dc9cc11fabea8b97e8a10702c16ea714ef8f5476634140c439fc",
-    "rows": 1,
-    "route": "sin_medir",
-    "entry": "liquidador",
-    "bonus_usd": 23390.777560920502,
-    "gas_eth": {
-      "census": 4.4740916418296e-05,
-      "explorer": 4.4740916418296e-05
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": -0.12015762789411785,
-      "explorer": null
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [
-      "sNUSD",
-      "luloUSDC"
-    ],
-    "amounts": [
-      {
-        "collateral": "sNUSD",
-        "log_index": 1011,
-        "collateral_census": 861884.0734127966,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": null,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0xe0292666c290dc9cc11fabea8b97e8a10702c16ea714ef8f5476634140c439fc",
-    "rows": 1,
-    "route": "sin_medir",
-    "entry": "liquidador",
-    "bonus_usd": 23390.777560920502,
-    "gas_eth": {
-      "census": 4.4740916418296e-05,
-      "explorer": 4.4740916418296e-05
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": -0.12015762789411785,
-      "explorer": null
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [
-      "SNUSD",
-      "luloUSDC"
-    ],
-    "amounts": [
-      {
-        "collateral": "sNUSD",
-        "log_index": 1011,
-        "collateral_census": 861884.0734127966,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "Blockscout",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": null,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0x97113645e8aae912a8cc6ea3f476b4349ec3298473683d819f55013b52444e90",
-    "rows": 1,
-    "route": "sin_medir",
-    "entry": "liquidador",
-    "bonus_usd": 180.04296376518138,
-    "gas_eth": {
-      "census": 9.5335722449508e-05,
-      "explorer": 9.5335722449508e-05
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 1070.2867831153033,
-      "explorer": 1070.2867831153033
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "ynETHx",
-        "log_index": 61,
-        "collateral_census": 2.7013257162699515,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0x97113645e8aae912a8cc6ea3f476b4349ec3298473683d819f55013b52444e90",
-    "rows": 1,
-    "route": "sin_medir",
-    "entry": "liquidador",
-    "bonus_usd": 180.04296376518138,
-    "gas_eth": {
-      "census": 9.5335722449508e-05,
-      "explorer": 9.5335722449508e-05
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 1070.2867831153033,
-      "explorer": 1070.2867831153033
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "ynETHx",
-        "log_index": 61,
-        "collateral_census": 2.7013257162699515,
+        "collateral_census": 1.8033085592559e-05,
         "found_in_explorer": true
       }
     ],
@@ -2922,1082 +1871,52 @@
     }
   },
   {
-    "chain": "ethereum",
-    "tx_hash": "0xdfc0a646fee87f01f9298594660660872fa5c662f5fc801f9d3b861e2a6af3c6",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "liquidador",
-    "bonus_usd": 1614.3623220169065,
-    "gas_eth": {
-      "census": 0.000125866027505664,
-      "explorer": 0.000125866027505664
-    },
-    "third_party_eth": {
-      "census": 0.6297027462460184,
-      "explorer": 0.6297027462460184
-    },
-    "realized_usd": {
-      "census": 0.1737914463765287,
-      "explorer": 0.1737914463771036
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "AAVE",
-        "log_index": 24,
-        "collateral_census": 167.15621437985158,
-        "found_in_explorer": true
-      }
-    ],
+    "chain": "worldchain",
+    "tx_hash": "0xcd60725f4d4dda24020c7601a2a284488fe4ba28ed619ba727b57adfed85f6d1",
     "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
+    "error": "ValueError: la evidencia no trae traza"
   },
   {
-    "chain": "ethereum",
-    "tx_hash": "0xdfc0a646fee87f01f9298594660660872fa5c662f5fc801f9d3b861e2a6af3c6",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "liquidador",
-    "bonus_usd": 1614.3623220169065,
-    "gas_eth": {
-      "census": 0.000125866027505664,
-      "explorer": 0.000125866027505664
-    },
-    "third_party_eth": {
-      "census": 0.6297027462460184,
-      "explorer": 0.6297027462460184
-    },
-    "realized_usd": {
-      "census": 0.1737914463765287,
-      "explorer": 0.1737914463771036
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "AAVE",
-        "log_index": 24,
-        "collateral_census": 167.15621437985158,
-        "found_in_explorer": true
-      }
-    ],
+    "chain": "worldchain",
+    "tx_hash": "0xcd60725f4d4dda24020c7601a2a284488fe4ba28ed619ba727b57adfed85f6d1",
     "fuente": "Blockscout",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
+    "error": "TypeError: unsupported operand type(s) for *: 'float' and 'NoneType'"
   },
   {
-    "chain": "ethereum",
-    "tx_hash": "0xf5038b41cdc7b3135007eade0c2b64f560c3886b0dce1d589a89a2ed0ec47817",
-    "rows": 1,
-    "route": "sin_medir",
-    "entry": "liquidador",
-    "bonus_usd": 12834.820291401951,
-    "gas_eth": {
-      "census": 5.5956416439924e-05,
-      "explorer": 5.5956416439924e-05
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": -0.1502783314051027,
-      "explorer": null
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [
-      "sNUSD",
-      "luloUSDC"
-    ],
-    "amounts": [
-      {
-        "collateral": "sNUSD",
-        "log_index": 185,
-        "collateral_census": 472926.86895273486,
-        "found_in_explorer": true
-      }
-    ],
+    "chain": "worldchain",
+    "tx_hash": "0x97247a5835253ff360bbae783b226d478a06a29333a96ae08f9bb473f505da8b",
     "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": null,
-      "colateral": true
-    }
+    "error": "ValueError: la evidencia no trae traza"
   },
   {
-    "chain": "ethereum",
-    "tx_hash": "0xf5038b41cdc7b3135007eade0c2b64f560c3886b0dce1d589a89a2ed0ec47817",
-    "rows": 1,
-    "route": "sin_medir",
-    "entry": "liquidador",
-    "bonus_usd": 12834.820291401951,
-    "gas_eth": {
-      "census": 5.5956416439924e-05,
-      "explorer": 5.5956416439924e-05
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": -0.1502783314051027,
-      "explorer": null
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [
-      "SNUSD",
-      "luloUSDC"
-    ],
-    "amounts": [
-      {
-        "collateral": "sNUSD",
-        "log_index": 185,
-        "collateral_census": 472926.86895273486,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "Blockscout",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": null,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0x49581113d8cce7cd9a0a0f2ab2827b3f69ba3c4cb821baba9ebae70bfe8c3c47",
-    "rows": 1,
-    "route": "sin_medir",
-    "entry": "liquidador",
-    "bonus_usd": 48.339174209242564,
-    "gas_eth": {
-      "census": 3.419453022898e-05,
-      "explorer": 3.419453022898e-05
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": -0.09179917108499772,
-      "explorer": null
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [
-      "sNUSD",
-      "luloUSDC"
-    ],
-    "amounts": [
-      {
-        "collateral": "sNUSD",
-        "log_index": 700,
-        "collateral_census": 1781.1808544271782,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": null,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0x49581113d8cce7cd9a0a0f2ab2827b3f69ba3c4cb821baba9ebae70bfe8c3c47",
-    "rows": 1,
-    "route": "sin_medir",
-    "entry": "liquidador",
-    "bonus_usd": 48.339174209242564,
-    "gas_eth": {
-      "census": 3.419453022898e-05,
-      "explorer": 3.419453022898e-05
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": -0.09179917108499772,
-      "explorer": null
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [
-      "SNUSD",
-      "luloUSDC"
-    ],
-    "amounts": [
-      {
-        "collateral": "sNUSD",
-        "log_index": 700,
-        "collateral_census": 1781.1808544271782,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "Blockscout",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": null,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0x87914bfd04c9264e777c457621dc34ff28342d1f0bc654985bd57b1f0e54b419",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "propia",
-    "bonus_usd": 166269.66324207187,
-    "gas_eth": {
-      "census": 0.002802720581063896,
-      "explorer": 0.002802720581063896
-    },
-    "third_party_eth": {
-      "census": 59.73901082839135,
-      "explorer": 59.73901082839135
-    },
-    "realized_usd": {
-      "census": 295.9225336068068,
-      "explorer": 295.9225336068165
-    },
-    "beneficiaries": {
-      "census": 1,
-      "explorer": 1
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "weETH",
-        "log_index": 24,
-        "collateral_census": 1007.5096037236339,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0x87914bfd04c9264e777c457621dc34ff28342d1f0bc654985bd57b1f0e54b419",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "propia",
-    "bonus_usd": 166269.66324207187,
-    "gas_eth": {
-      "census": 0.002802720581063896,
-      "explorer": 0.002802720581063896
-    },
-    "third_party_eth": {
-      "census": 59.73901082839135,
-      "explorer": 59.73901082839135
-    },
-    "realized_usd": {
-      "census": 295.9225336068068,
-      "explorer": 295.9225336068165
-    },
-    "beneficiaries": {
-      "census": 1,
-      "explorer": 1
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "weETH",
-        "log_index": 24,
-        "collateral_census": 1007.5096037236339,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "Blockscout",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0x8d65c1529549286e6b69d76be3e4d3d0236793519c6d8f8a49e5f13cef13f97b",
+    "chain": "worldchain",
+    "tx_hash": "0x97247a5835253ff360bbae783b226d478a06a29333a96ae08f9bb473f505da8b",
     "rows": 1,
     "route": "directa",
     "entry": "liquidador",
-    "bonus_usd": 2596.9872997903512,
+    "bonus_usd": 48.635826035484406,
     "gas_eth": {
-      "census": 0.002231931598469142,
-      "explorer": 0.002231931598469142
+      "census": 5.67109842014e-07,
+      "explorer": 5.67109842014e-07
     },
     "third_party_eth": {
       "census": 0.0,
       "explorer": 0.0
     },
     "realized_usd": {
-      "census": 2561.960639706054,
-      "explorer": 2561.960639706054
+      "census": 27.26877244330713,
+      "explorer": 27.268772443306997
     },
     "beneficiaries": {
       "census": 0,
       "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "WETH",
-        "log_index": 138,
-        "collateral_census": 25.02734752094359,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0x8d65c1529549286e6b69d76be3e4d3d0236793519c6d8f8a49e5f13cef13f97b",
-    "rows": 1,
-    "route": "directa",
-    "entry": "liquidador",
-    "bonus_usd": 2596.9872997903512,
-    "gas_eth": {
-      "census": 0.002231931598469142,
-      "explorer": 0.002231931598469142
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 2561.960639706054,
-      "explorer": 2561.960639706054
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "WETH",
-        "log_index": 138,
-        "collateral_census": 25.02734752094359,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "Blockscout",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0xab217ed6b95ede87513c0f0dff053048d6bcf43a1e0b06403f83d5392387bf6e",
-    "rows": 3,
-    "route": "subasta",
-    "entry": "liquidador",
-    "bonus_usd": 20738.232784750926,
-    "gas_eth": {
-      "census": 0.004371406521793236,
-      "explorer": 0.004371406521793236
-    },
-    "third_party_eth": {
-      "census": 7.961697371012782,
-      "explorer": 7.961697371012782
-    },
-    "realized_usd": {
-      "census": 86.54668436701304,
-      "explorer": 86.54668436701309
-    },
-    "beneficiaries": {
-      "census": 1,
-      "explorer": 1
     },
     "unpriced_explorer": [],
     "amounts": [
       {
         "collateral": "WBTC",
-        "log_index": 24,
-        "collateral_census": 4.84516686,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "WBTC",
-        "log_index": 54,
-        "collateral_census": 1.10409029,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "USDT",
-        "log_index": 81,
-        "collateral_census": 1056.641112,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0xab217ed6b95ede87513c0f0dff053048d6bcf43a1e0b06403f83d5392387bf6e",
-    "rows": 3,
-    "route": "subasta",
-    "entry": "liquidador",
-    "bonus_usd": 20738.232784750926,
-    "gas_eth": {
-      "census": 0.004371406521793236,
-      "explorer": 0.004371406521793236
-    },
-    "third_party_eth": {
-      "census": 7.961697371012782,
-      "explorer": 7.961697371012782
-    },
-    "realized_usd": {
-      "census": 86.54668436701304,
-      "explorer": 86.54668436701309
-    },
-    "beneficiaries": {
-      "census": 1,
-      "explorer": 1
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "WBTC",
-        "log_index": 24,
-        "collateral_census": 4.84516686,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "WBTC",
-        "log_index": 54,
-        "collateral_census": 1.10409029,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "USDT",
-        "log_index": 81,
-        "collateral_census": 1056.641112,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "Blockscout",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0x01b0199c9b369e43e47b05874ac103dc95b7eb5ca2dff49cedf9a943418a293b",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "liquidador",
-    "bonus_usd": 594.1975322666513,
-    "gas_eth": {
-      "census": 0.22707891482775244,
-      "explorer": 0.22707891482775244
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 1.6217383498515119,
-      "explorer": 1.6217383498515119
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "LINK",
-        "log_index": 17,
-        "collateral_census": 762.7782875080285,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0x01b0199c9b369e43e47b05874ac103dc95b7eb5ca2dff49cedf9a943418a293b",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "liquidador",
-    "bonus_usd": 594.1975322666513,
-    "gas_eth": {
-      "census": 0.22707891482775244,
-      "explorer": 0.22707891482775244
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 1.6217383498515119,
-      "explorer": 1.6217383498515119
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "LINK",
-        "log_index": 17,
-        "collateral_census": 762.7782875080285,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "Blockscout",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0xeeab50c30c883578acdfd796e2bc4a5c84fbf9264879234afb251e348732f9f3",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "liquidador",
-    "bonus_usd": 50.46129951493087,
-    "gas_eth": {
-      "census": 0.001166663554580622,
-      "explorer": 0.001166663554580622
-    },
-    "third_party_eth": {
-      "census": 0.019199392329892866,
-      "explorer": 0.019199392329892866
-    },
-    "realized_usd": {
-      "census": 1.2565753943937428,
-      "explorer": 1.25657539439374
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "cbBTC",
-        "log_index": 5,
-        "collateral_census": 0.01491781,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0xeeab50c30c883578acdfd796e2bc4a5c84fbf9264879234afb251e348732f9f3",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "liquidador",
-    "bonus_usd": 50.46129951493087,
-    "gas_eth": {
-      "census": 0.001166663554580622,
-      "explorer": 0.001166663554580622
-    },
-    "third_party_eth": {
-      "census": 0.019199392329892866,
-      "explorer": 0.019199392329892866
-    },
-    "realized_usd": {
-      "census": 1.2565753943937428,
-      "explorer": 1.25657539439374
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "cbBTC",
-        "log_index": 5,
-        "collateral_census": 0.01491781,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "Blockscout",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0x5453e6606e250461c12ee5bb789aa464461f1420a172554c56b3947b1526959b",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "liquidador",
-    "bonus_usd": 85622.59494587546,
-    "gas_eth": {
-      "census": 0.00702820715650636,
-      "explorer": 0.00702820715650636
-    },
-    "third_party_eth": {
-      "census": 132.94249112651977,
-      "explorer": 132.94249112651977
-    },
-    "realized_usd": {
-      "census": 4951.270303128948,
-      "explorer": 4951.270303128885
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "wstETH",
-        "log_index": 170,
-        "collateral_census": 576.4400714895814,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0x5453e6606e250461c12ee5bb789aa464461f1420a172554c56b3947b1526959b",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "liquidador",
-    "bonus_usd": 85622.59494587546,
-    "gas_eth": {
-      "census": 0.00702820715650636,
-      "explorer": 0.00702820715650636
-    },
-    "third_party_eth": {
-      "census": 132.94249112651977,
-      "explorer": 132.94249112651977
-    },
-    "realized_usd": {
-      "census": 4951.270303128948,
-      "explorer": 4951.270303128885
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "wstETH",
-        "log_index": 170,
-        "collateral_census": 576.4400714895814,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "Blockscout",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0x9f374452bd5b74ed65e637a208561a3c09571e595d8415e60109e193c3c81ede",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "liquidador",
-    "bonus_usd": 53633.25980515685,
-    "gas_eth": {
-      "census": 0.00582258710410656,
-      "explorer": 0.00582258710410656
-    },
-    "third_party_eth": {
-      "census": 10.983401626332773,
-      "explorer": 10.983401626332773
-    },
-    "realized_usd": {
-      "census": 1659.6887763283598,
-      "explorer": 1659.6887763283446
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "sUSDe",
-        "log_index": 61,
-        "collateral_census": 1578658.8040808807,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0x9f374452bd5b74ed65e637a208561a3c09571e595d8415e60109e193c3c81ede",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "liquidador",
-    "bonus_usd": 53633.25980515685,
-    "gas_eth": {
-      "census": 0.00582258710410656,
-      "explorer": 0.00582258710410656
-    },
-    "third_party_eth": {
-      "census": 10.983401626332773,
-      "explorer": 10.983401626332773
-    },
-    "realized_usd": {
-      "census": 1659.6887763283598,
-      "explorer": 1659.6887763283446
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "sUSDe",
-        "log_index": 61,
-        "collateral_census": 1578658.8040808807,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "Blockscout",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0xfb85d3d3ba5056efabc7f21c772c73b89a14e7171c9e1f6f3cb5b7831dbf4a2c",
-    "rows": 2,
-    "route": "subasta",
-    "entry": "liquidador",
-    "bonus_usd": 20734.175075358897,
-    "gas_eth": {
-      "census": 0.00183792503466726,
-      "explorer": 0.00183792503466726
-    },
-    "third_party_eth": {
-      "census": 7.730309309760359,
-      "explorer": 7.730309309760359
-    },
-    "realized_usd": {
-      "census": 409.22846727824646,
-      "explorer": 409.22846727824833
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "WETH",
-        "log_index": 19,
-        "collateral_census": 205.89604832333495,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "WETH",
-        "log_index": 32,
-        "collateral_census": 0.03264086416683899,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0xfb85d3d3ba5056efabc7f21c772c73b89a14e7171c9e1f6f3cb5b7831dbf4a2c",
-    "rows": 2,
-    "route": "subasta",
-    "entry": "liquidador",
-    "bonus_usd": 20734.175075358897,
-    "gas_eth": {
-      "census": 0.00183792503466726,
-      "explorer": 0.00183792503466726
-    },
-    "third_party_eth": {
-      "census": 7.730309309760359,
-      "explorer": 7.730309309760359
-    },
-    "realized_usd": {
-      "census": 409.22846727824646,
-      "explorer": 409.22846727824833
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "WETH",
-        "log_index": 19,
-        "collateral_census": 205.89604832333495,
-        "found_in_explorer": true
-      },
-      {
-        "collateral": "WETH",
-        "log_index": 32,
-        "collateral_census": 0.03264086416683899,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "Blockscout",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0x4591655467f4cf2984d341ab57ee3a670343f7567e5414c4472cdeeec6837e25",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "propia",
-    "bonus_usd": 514.8387409185498,
-    "gas_eth": {
-      "census": 8.9152840690056e-05,
-      "explorer": 8.9152840690056e-05
-    },
-    "third_party_eth": {
-      "census": 0.2149297927559049,
-      "explorer": 0.2149297927559049
-    },
-    "realized_usd": {
-      "census": 154.89435201827484,
-      "explorer": 154.89435201827484
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "AAVE",
-        "log_index": 45,
-        "collateral_census": 59.97983457037355,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0x4591655467f4cf2984d341ab57ee3a670343f7567e5414c4472cdeeec6837e25",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "propia",
-    "bonus_usd": 514.8387409185498,
-    "gas_eth": {
-      "census": 8.9152840690056e-05,
-      "explorer": 8.9152840690056e-05
-    },
-    "third_party_eth": {
-      "census": 0.2149297927559049,
-      "explorer": 0.2149297927559049
-    },
-    "realized_usd": {
-      "census": 154.89435201827484,
-      "explorer": 154.89435201827484
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "AAVE",
-        "log_index": 45,
-        "collateral_census": 59.97983457037355,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "Blockscout",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0x485c12cd2cdf8768af3405d2aab0dbebe6d38e5b28615221913b751073e2bb9f",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "liquidador",
-    "bonus_usd": 50.937366368702676,
-    "gas_eth": {
-      "census": 0.017820532013408767,
-      "explorer": 0.017820532013408767
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 0.00011011942932270813,
-      "explorer": 0.00011011942929428642
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "beraSTONE",
-        "log_index": 14,
-        "collateral_census": 0.8447900916166206,
-        "found_in_explorer": true
-      }
-    ],
-    "fuente": "evidencia RPC",
-    "ok": {
-      "gas": true,
-      "terceros": true,
-      "neto": true,
-      "colateral": true
-    }
-  },
-  {
-    "chain": "ethereum",
-    "tx_hash": "0x485c12cd2cdf8768af3405d2aab0dbebe6d38e5b28615221913b751073e2bb9f",
-    "rows": 1,
-    "route": "subasta",
-    "entry": "liquidador",
-    "bonus_usd": 50.937366368702676,
-    "gas_eth": {
-      "census": 0.017820532013408767,
-      "explorer": 0.017820532013408767
-    },
-    "third_party_eth": {
-      "census": 0.0,
-      "explorer": 0.0
-    },
-    "realized_usd": {
-      "census": 0.00011011942932270813,
-      "explorer": 0.00011011942929428642
-    },
-    "beneficiaries": {
-      "census": 0,
-      "explorer": 0
-    },
-    "unpriced_explorer": [],
-    "amounts": [
-      {
-        "collateral": "beraSTONE",
-        "log_index": 14,
-        "collateral_census": 0.8447900916166206,
+        "log_index": 83,
+        "collateral_census": 0.01367874,
         "found_in_explorer": true
       }
     ],

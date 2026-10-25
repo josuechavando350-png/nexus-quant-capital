@@ -1,14 +1,16 @@
 # Census del dinero · 2026-10-25
 
-Ventana: **30 días** · cadenas: ethereum, base, arbitrum · protocolos: Aave V3 y Morpho Blue.
+Ventana: **30 días** · cadenas: polygon, optimism, unichain, katana, hyperevm, worldchain, sonic, bsc, linea, scroll, sei, monad, celo, etherlink, hemi, ink, lisk, soneium, fraxtal, mode, plume, corn, tac, flare, cronos, xdc, kaia, zerog, abstract, morph, megaeth, robinhood, stable, tempo, arc, bitlayer, gensyn, eden · protocolos: Aave V3 y Morpho Blue.
+
+> **Cobertura incompleta:** hyperevm (1/1 tramos, eventos cortados); linea (1/1 tramos, eventos cortados); scroll (1/1 tramos, eventos cortados); sei (1/1 tramos, eventos cortados); monad (1/1 tramos, eventos cortados); lisk (1/1 tramos, eventos cortados); soneium (1/1 tramos, eventos cortados); corn (1/1 tramos, eventos cortados); flare (1/1 tramos, eventos cortados); cronos (1/1 tramos, eventos cortados); abstract (1/1 tramos, eventos cortados); gensyn (1/1 tramos, eventos cortados). Ver la sección de cobertura.
 
 ## Respuesta corta
 
-1. **¿Cuánto dinero hay?** Bono total pagado a liquidadores: **$1.37 M** en 3,529 liquidaciones.
-2. **¿Quién se lo lleva?** 287 liquidadores distintos; los 3 mayores se llevan **39%** del bono.
-3. **¿Llegan a tiempo? ¿En cuántos bloques?** Mediana de **1 bloques** (2 s) desde la última actualización del oráculo; **17%** en el mismo bloque.
-4. **¿Qué porcentaje dejó al builder?** Ethereum: **77%** del bono (propina + pago directo al coinbase, que incluye las pujas de Chainlink SVR). En L2 no hay builder; la propina de prioridad fue: arbitrum 0%, base 1%.
-5. **¿Cuánto se queda realmente el ganador?** En las 3,170 liquidaciones rastreables (90% del total): bono $1.04 M, el ganador se quedó **$81.9 k (8%)** (de eso $28.5 k lo mandó a su tesorería); a subastas de oráculo/OEV $465.5 k (45%), al builder en directo $349.8 k, en propina $6,071, gas base $440, resto (deslizamiento, comisiones) $138.3 k. Fuera de la cuenta: sin medir 238 liq. ($71.7 k), sin rastro 56 ($19.8 k), refinanciaciones 65 ($237.8 k).
+1. **¿Cuánto dinero hay?** Bono total pagado a liquidadores: **$58.2 k** en 2,781 liquidaciones.
+2. **¿Quién se lo lleva?** 107 liquidadores distintos; los 3 mayores se llevan **72%** del bono.
+3. **¿Llegan a tiempo? ¿En cuántos bloques?** Mediana de **1 bloques** (2 s) desde la última actualización del oráculo; **32%** en el mismo bloque.
+4. **¿Qué porcentaje dejó al builder?** En L2 no hay builder; la propina de prioridad fue: arc —, hemi —, kaia 0%, katana 0%, megaeth 0%, morph —, optimism —, plume 0%, polygon 14%, robinhood 0%, unichain —, worldchain 0%.
+5. **¿Cuánto se queda realmente el ganador?** En las 1,505 liquidaciones rastreables (54% del total): bono $913, el ganador se quedó **$633 (69%)** (de eso $0 lo mandó a su tesorería); a subastas de oráculo/OEV $0 (0%), al builder en directo $0, en propina $53, gas base $2, resto (deslizamiento, comisiones) $226. Fuera de la cuenta: sin medir 1,272 liq. ($57.1 k), sin rastro 2 ($243), refinanciaciones 2 ($1).
 
 ## ¿A dónde se va el bono?
 
@@ -16,23 +18,35 @@ Solo liquidaciones rastreables (todos los movimientos de tokens y ETH valuados).
 
 | Cadena | Protocolo | Rastreables | Bono | Ganador | % | (tesorería) | OEV | Builder directo | Propina | Gas base | Resto | Sin medir · sin rastro · refin. |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| arbitrum | aave | 235/242 | $27.0 k | $937 | 3% | $4 | $25.5 k | $0 | $13 | $10 | $529 | 3 ($0) · 4 ($303) · 0 ($0) |
-| arbitrum | morpho | 30/46 | $73 | $74 | 101% | $0 | $0 | $0 | $0 | $0 | -$2 | 16 ($2) · 0 ($0) · 0 ($0) |
-| base | aave | 192/194 | $17.6 k | $191 | 1% | $0 | $17.4 k | $0 | $31 | $4 | -$23 | 2 ($0) · 0 ($0) · 0 ($0) |
-| base | morpho | 2443/2723 | $587.4 k | $69.3 k | 12% | $28.3 k | $422.6 k | $0 | $4,606 | $67 | $90.8 k | 163 ($23.1 k) · 52 ($19.5 k) · 65 ($237.8 k) |
-| ethereum | aave | 158/159 | $393.2 k | $11.0 k | 3% | $97 | $1 | $334.0 k | $1,182 | $280 | $46.8 k | 1 ($0) · 0 ($0) · 0 ($0) |
-| ethereum | morpho | 112/165 | $16.7 k | $417 | 2% | $107 | $0 | $15.8 k | $238 | $79 | $185 | 53 ($48.6 k) · 0 ($0) · 0 ($0) |
+| arc | morpho | 0/5 | $0 | $0 | — | $0 | $0 | $0 | $0 | $0 | $0 | 5 ($0) · 0 ($0) · 0 ($0) |
+| hemi | morpho | 0/3 | $0 | $0 | — | $0 | $0 | $0 | $0 | $0 | $0 | 3 ($0) · 0 ($0) · 0 ($0) |
+| kaia | morpho | 0/1 | $0 | $0 | — | $0 | $0 | $0 | $0 | $0 | $0 | 1 ($2) · 0 ($0) · 0 ($0) |
+| katana | morpho | 17/17 | $7 | $8 | 113% | $0 | $0 | $0 | $0 | $0 | -$1 | 0 ($0) · 0 ($0) · 0 ($0) |
+| megaeth | morpho | 1/1 | $6 | $7 | 111% | $0 | $0 | $0 | $0 | $0 | -$1 | 0 ($0) · 0 ($0) · 0 ($0) |
+| morph | morpho | 0/1 | $0 | $0 | — | $0 | $0 | $0 | $0 | $0 | $0 | 1 ($0) · 0 ($0) · 0 ($0) |
+| optimism | morpho | 1/1 | $0 | $0 | — | $0 | $0 | $0 | $0 | $0 | $0 | 0 ($0) · 0 ($0) · 0 ($0) |
+| plume | morpho | 486/745 | $28 | $24 | 86% | $0 | $0 | $0 | $0 | $1 | $2 | 259 ($1) · 0 ($0) · 0 ($0) |
+| polygon | morpho | 3/34 | $47 | $12 | 26% | $0 | $0 | $0 | $49 | $0 | -$15 | 29 ($58) · 2 ($243) · 0 ($0) |
+| robinhood | morpho | 0/292 | $0 | $0 | — | $0 | $0 | $0 | $0 | $0 | $0 | 290 ($56.7 k) · 0 ($0) · 2 ($1) |
+| unichain | morpho | 2/2 | $0 | $0 | — | $0 | $0 | $0 | $0 | $0 | $0 | 0 ($0) · 0 ($0) · 0 ($0) |
+| worldchain | morpho | 995/1679 | $826 | $582 | 70% | $0 | $0 | $0 | $4 | $0 | $240 | 684 ($317) · 0 ($0) · 0 ($0) |
 
 ## Por cadena y protocolo
 
 | Cadena | Protocolo | Liq. | Bono | Ganadores | Top 3 | Bloques (p25·med·p75) | Seg. | Mismo bloque | Builder (Eth) |
 |---|---|---:|---:|---:|---:|---|---:|---:|---:|
-| arbitrum | aave | 242 | $27.3 k | 32 | 88% | 9 · 104 · 533 | 27 | 0% | n/a |
-| arbitrum | morpho | 46 | $75 | 16 | 83% | 687 · 919 · 8,649 | 235 | 6% | n/a |
-| base | aave | 194 | $17.6 k | 33 | 91% | 1 · 46 · 366 | 91 | 0% | n/a |
-| base | morpho | 2,723 | $867.8 k | 144 | 53% | 1 · 1 · 2 | 2 | 18% | n/a |
-| ethereum | aave | 159 | $393.2 k | 41 | 84% | 0 · 1 · 111 | 12 | 42% | 85% |
-| ethereum | morpho | 165 | $65.3 k | 52 | 88% | 0 · 11 · 1,286 | 132 | 33% | 25% |
+| arc | morpho | 5 | $0 | 4 | 100% | 21 · 21 · 21 | 11 | 0% | n/a |
+| hemi | morpho | 3 | $0 | 1 | 0% | — · — · — | — | — | n/a |
+| kaia | morpho | 1 | $2 | 1 | 100% | — · — · — | — | — | n/a |
+| katana | morpho | 17 | $7 | 5 | 100% | 1 · 10,896 · 10,936 | 10,896 | 0% | n/a |
+| megaeth | morpho | 1 | $6 | 1 | 100% | — · — · — | — | — | n/a |
+| morph | morpho | 1 | $0 | 1 | 100% | — · — · — | — | — | n/a |
+| optimism | morpho | 1 | $0 | 1 | 100% | — · — · — | — | — | n/a |
+| plume | morpho | 745 | $29 | 9 | 83% | — · — · — | — | — | n/a |
+| polygon | morpho | 34 | $348 | 5 | 97% | — · — · — | — | — | n/a |
+| robinhood | morpho | 292 | $56.7 k | 68 | 74% | 206,400 · 351,484 · 486,795 | 35,568 | 0% | n/a |
+| unichain | morpho | 2 | $0 | 1 | 100% | — · — · — | — | — | n/a |
+| worldchain | morpho | 1,679 | $1,142 | 16 | 93% | 0 · 1 · 2 | 2 | 33% | n/a |
 
 ## Subasta vs. directa
 
@@ -40,18 +54,24 @@ Solo liquidaciones rastreables (todos los movimientos de tokens y ETH valuados).
 
 | Cadena | Ruta | Liq. | Bono | Ganador se queda | % | Mediana por liq. | Ganadores | Bloques |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
-| arbitrum | directa | 217 | $803 | $739 | 92% | -$0 | 33 | 163 |
-| arbitrum | sin_medir | 19 | $2 | — | — | — | 5 | 928 |
-| arbitrum | sin_rastro | 4 | $303 | — | — | — | 2 | 9 |
-| arbitrum | subasta | 48 | $26.2 k | $272 | 1% | $0 | 13 | 8 |
-| base | directa | 1520 | $99.6 k | $67.5 k | 68% | $1 | 141 | 1 |
-| base | refinanciacion | 65 | $237.8 k | — | — | — | 9 | 1 |
-| base | sin_medir | 165 | $23.1 k | — | — | — | 31 | 1 |
-| base | sin_rastro | 52 | $19.5 k | — | — | — | 8 | 2 |
-| base | subasta | 1115 | $505.4 k | $2,026 | 0% | $0 | 46 | 1 |
-| ethereum | directa | 131 | $3,942 | $3,542 | 90% | $0 | 43 | 106 |
-| ethereum | sin_medir | 54 | $48.6 k | — | — | — | 10 | 106 |
-| ethereum | subasta | 139 | $406.0 k | $7,835 | 2% | $0 | 48 | 0 |
+| arc | sin_medir | 5 | $0 | — | — | — | 4 | 21 |
+| hemi | sin_medir | 3 | $0 | — | — | — | 1 | — |
+| kaia | sin_medir | 1 | $2 | — | — | — | 1 | — |
+| katana | directa | 17 | $7 | $8 | 113% | $0 | 5 | 10,896 |
+| megaeth | directa | 1 | $6 | $7 | 111% | $7 | 1 | — |
+| morph | sin_medir | 1 | $0 | — | — | — | 1 | — |
+| optimism | directa | 1 | $0 | $0 | — | $0 | 1 | — |
+| plume | directa | 486 | $28 | $24 | 86% | $0 | 9 | — |
+| plume | sin_medir | 259 | $1 | — | — | — | 2 | — |
+| polygon | directa | 2 | $0 | $0 | — | $0 | 2 | — |
+| polygon | sin_medir | 29 | $58 | — | — | — | 2 | — |
+| polygon | sin_rastro | 2 | $243 | — | — | — | 1 | — |
+| polygon | subasta | 1 | $47 | $12 | 26% | $12 | 1 | — |
+| robinhood | refinanciacion | 2 | $1 | — | — | — | 1 | — |
+| robinhood | sin_medir | 290 | $56.7 k | — | — | — | 67 | 351,484 |
+| unichain | directa | 2 | $0 | $0 | — | $0 | 1 | — |
+| worldchain | directa | 995 | $826 | $582 | 70% | $0 | 15 | 1 |
+| worldchain | sin_medir | 684 | $317 | — | — | — | 10 | 1 |
 
 ## ¿Queda margen para un actor pequeño?
 
@@ -59,9 +79,18 @@ Liquidaciones directas (sin pagar subasta ni builder) y lo que realmente se qued
 
 | Cadena | Días | Directas / medidas / total | Se quedaron | ≥ $10 (n · $ · top) | ≥ $100 (n · $ · top) | Ganadores | Bloques | ≥ 2 bloques |
 |---|---:|---|---:|---|---|---:|---:|---:|
-| arbitrum | 30.0 | 217 / 265 / 288 | $739 | 7 · $698 · 67% | 1 · $477 · 100% | 33 | 163 | 95% |
-| base | 30.0 | 1520 / 2635 / 2917 | $67.5 k | 343 · $66.0 k · 30% | 90 · $56.9 k · 34% | 141 | 1 | 43% |
-| ethereum | 30.0 | 131 / 270 / 324 | $3,542 | 8 · $3,573 · 67% | 6 · $3,536 · 67% | 43 | 106 | 79% |
+| arc | 30.0 | 0 / 0 / 5 | $0 | 0 · $0 · — | 0 · $0 · — | 0 | — | — |
+| hemi | 30.0 | 0 / 0 / 3 | $0 | 0 · $0 · — | 0 · $0 · — | 0 | — | — |
+| kaia | 30.0 | 0 / 0 / 1 | $0 | 0 · $0 · — | 0 · $0 · — | 0 | — | — |
+| katana | 30.0 | 17 / 17 / 17 | $8 | 0 · $0 · — | 0 · $0 · — | 5 | 10,896 | 60% |
+| megaeth | 30.0 | 1 / 1 / 1 | $7 | 0 · $0 · — | 0 · $0 · — | 1 | — | — |
+| morph | 30.0 | 0 / 0 / 1 | $0 | 0 · $0 · — | 0 · $0 · — | 0 | — | — |
+| optimism | 30.0 | 1 / 1 / 1 | $0 | 0 · $0 · — | 0 · $0 · — | 1 | — | — |
+| plume | 30.0 | 486 / 486 / 745 | $24 | 0 · $0 · — | 0 · $0 · — | 9 | — | — |
+| polygon | 30.0 | 2 / 3 / 34 | $0 | 0 · $0 · — | 0 · $0 · — | 2 | — | — |
+| robinhood | 30.0 | 0 / 0 / 292 | $0 | 0 · $0 · — | 0 · $0 · — | 0 | — | — |
+| unichain | 30.0 | 2 / 2 / 2 | $0 | 0 · $0 · — | 0 · $0 · — | 1 | — | — |
+| worldchain | 30.0 | 995 / 995 / 1679 | $582 | 16 · $470 · 60% | 1 · $104 · 100% | 15 | 1 | 39% |
 
 "top": parte del neto que se llevó el mayor ganador de ese grupo. "≥ 2 bloques": liquidaciones que llegaron 2 o más bloques después del oráculo (no fue carrera de mismo bloque).
 
@@ -69,43 +98,32 @@ Liquidaciones directas (sin pagar subasta ni builder) y lo que realmente se qued
 
 | Cadena | Contrato liquidador | Firmantes | Liq. | Bono | Se quedó | % | Mediana | Bloques | Días | Mercados |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| base | `0xac5c4ccfc12b2b85c091d12e78d675e888ce10c4` | 24 | 70 | $29.2 k | $17.3 k | 59% | $42 | 1 | 2 | Morpho cbXRP/USDC lltv 62.5% (46); Morpho SOL/USDC lltv 62.5% (13); Morpho WETH/USDC lltv 86.0% (10) |
-| base | `0xa00003b2e58e808bcb536041045a5d0f7750c777` | 1 | 1 | $11.2 k | $9,660 | 87% | $9,660 | 0 | 1 | Morpho cbETH/USDC lltv 77.0% (1) |
-| base | `0x97c4e986d7c270f4951cc09e6de0bc66d4778c24` | 2 | 60 | $8,851 | $8,551 | 97% | $63 | 2 | 2 | Morpho WETH/USDC lltv 86.0% (30); Morpho cbXRP/USDC lltv 62.5% (26); Morpho cbETH/USDC lltv 77.0% (3) |
-| base | `0x759915f8e7b07a5c0a3a3a7ee52ee3643feea0d3` | 3 | 10 | $13.1 k | $8,549 | 65% | $319 | 0 | 3 | Morpho cbETH/USDC lltv 77.0% (5); Morpho cbZEC/USDC lltv 62.5% (3); Morpho WETH/USDC lltv 86.0% (2) |
-| base | `0xcb8d367fbfcef1a652bd9322523d03be1169f800` | 4 | 4 | $6,490 | $5,383 | 83% | $1,220 | 1 | 1 | Morpho cbXRP/USDC lltv 62.5% (4) |
-| base | `0xc4bfb65f09174569eac5d849fec32431d0d0fc51` | 32 | 136 | $7,802 | $3,333 | 43% | $15 | 1 | 2 | Morpho cbXRP/USDC lltv 62.5% (119); Morpho WETH/USDC lltv 86.0% (17) |
-| ethereum | `0x7e9cca6d42a076e02b063a7e4d8249452b7211af` | 1 | 1 | $2,597 | $2,562 | 99% | $2,562 | 0 | 1 | aave-v3-core WETH→USDC (1) |
-| base | `0xa1018068bb72f2b9f309267ed48767b8ac19be93` | 1 | 1 | $2,281 | $2,147 | 94% | $2,147 | 0 | 1 | Morpho cbETH/USDC lltv 77.0% (1) |
-| base | `0xaa9e48dadf4ae8472b67f1da0326623266c17443` | 21 | 24 | $3,139 | $2,026 | 65% | $3 | 2 | 2 | Morpho cbXRP/USDC lltv 62.5% (19); Morpho WETH/USDC lltv 86.0% (3); Morpho cbETH/USDC lltv 77.0% (1) |
-| base | `0x5feae2565fdc0034ca64461c32d95c9e8eb95652` | 2 | 2 | $1,342 | $1,311 | 98% | $655 | 0 | 1 | Morpho cbETH/USDC lltv 77.0% (2) |
-| base | `0x5ef5ffc16baacc0f97ec5e5284ef9b1487264170` | 1 | 6 | $1,153 | $1,132 | 98% | $188 | 0 | 3 | Morpho cbETH/USDC lltv 77.0% (6) |
-| base | `0x35302b7ab4346aec5a91234d492b0033b3004bb6` | 1 | 12 | $1,269 | $1,110 | 87% | $55 | 0 | 2 | Morpho cbETH/USDC lltv 77.0% (12) |
-| base | `0xcee740502c9e84118e4a13efc085dff70784863d` | 31 | 39 | $5,059 | $1,010 | 20% | $16 | 2 | 2 | Morpho cbXRP/USDC lltv 62.5% (38); Morpho cbZEC/USDC lltv 62.5% (1) |
-| base | `0x9a039ccdb7cfa560e004419f3aa7a552e040e88c` | 8 | 85 | $1,578 | $825 | 52% | $3 | 1 | 3 | Morpho cbXRP/USDC lltv 62.5% (44); Morpho WETH/USDC lltv 86.0% (37); Morpho SOL/USDC lltv 62.5% (3) |
-| base | `0x1af6740124b83e9ab5fe7df812a108d9a6b1c2d4` | 1 | 5 | $920 | $753 | 82% | $181 | 1 | 1 | Morpho cbXRP/USDC lltv 62.5% (5) |
-| base | `0xe1f760baef51d0736482e5ddfab7fe3c4444a47b` | 2 | 4 | $665 | $638 | 96% | $141 | 0 | 1 | Morpho cbETH/USDC lltv 77.0% (4) |
-| ethereum | `0x875a5cf56ebce1c6fb84d24495728e6d6f39a0be` | 1 | 2 | $856 | $576 | 67% | $288 | 0 | 1 | aave-v3-core WETH→USDC (2) |
-| base | `0x7a08760fa8897a6574bbbe7511217d2a06664d44` | 4 | 20 | $547 | $546 | 100% | $1 | 0 | 5 | Morpho cbETH/USDC lltv 77.0% (13); Morpho cbXRP/USDC lltv 62.5% (6); Morpho cbLTC/USDC lltv 62.5% (1) |
-| base | `0xe9674a87681bda6f5eaceabe61c01537e4283137` | 1 | 47 | $557 | $504 | 91% | $2 | 0 | 3 | Morpho cbETH/USDC lltv 77.0% (43); Morpho cbXRP/USDC lltv 62.5% (2); Morpho AERO/USDC lltv 62.5% (1) |
-| arbitrum | `0x9355ec6d797b6c8b73de9b52fffdb3bfa6d05fdb` | 2 | 4 | $465 | $477 | 103% | $0 | 60 | 3 | aave-v3-arbitrum ARB→USD₮0 (1); aave-v3-arbitrum USDC→USDC (1); aave-v3-arbitrum WETH→WETH (1) |
+| worldchain | `0x352109400458bf3e951f3147c71bec5845b1ee3c` | 1 | 89 | $532 | $404 | 76% | $0 | 0 | 16 | Morpho WLD/USDC lltv 77.0% (79); Morpho WBTC/USDC lltv 86.0% (7); Morpho WETH/USDC lltv 86.0% (3) |
+| worldchain | `0xf8e00ed238692b5f5b2a05a5d4b6672272e396a9` | 4 | 23 | $121 | $106 | 88% | $0 | 0 | 3 | Morpho WLD/USDC lltv 77.0% (18); Morpho WBTC/USDC lltv 86.0% (3); Morpho WETH/USDC lltv 86.0% (2) |
+| worldchain | `0x5ac9bc14376bf2727c6211960cf3cec1e2f295bd` | 2 | 24 | $105 | $29 | 28% | $0 | 0 | 4 | Morpho WLD/USDC lltv 77.0% (19); Morpho WBTC/USDC lltv 86.0% (5) |
+| worldchain | `0x5fd52383db85758d9bec63f5a40c7f0bcbc9dc80` | 5 | 451 | $49 | $28 | 56% | $0 | 2 | 16 | Morpho WLD/USDC lltv 77.0% (336); Morpho WBTC/WLD lltv 86.0% (46); Morpho WETH/WLD lltv 86.0% (36) |
+| plume | `0x72497cfe78eedbc9d9f73510b72c9c2199b2a09e` | 1 | 8 | $18 | $17 | 94% | $0 | — | 6 | Morpho nALPHA/pUSD lltv 91.5% (5); Morpho nCREDIT/pUSD lltv 91.5% (2); Morpho nTBILL/pUSD lltv 91.5% (1) |
+| worldchain | `0xb3044425cc1f75f05b35ab53611f4b325aafbb36` | 4 | 4 | $8 | $7 | 93% | $0 | 0 | 2 | Morpho WBTC/USDC lltv 86.0% (2); Morpho WLD/USDC lltv 77.0% (2) |
+| megaeth | `0xb10ff755b35db703d2c2a4c2632015254dfa73e1` | 1 | 1 | $6 | $7 | 111% | $7 | — | 1 | Morpho wiTRY/USDm lltv 77.0% (1) |
+| katana | `0xfbf7559998b9a2b3ec8621ee9e48e2a36b7ce6ba` | 9 | 9 | $6 | $5 | 89% | $0 | 1 | 6 | Morpho LBTC/vbWBTC lltv 91.5% (7); Morpho wstETH/vbETH lltv 94.5% (1); Morpho KAT/vbUSDC lltv 62.5% (1) |
+| worldchain | `0x3439682f62c7ffc1ecf95dc48b2a893f340a64c1` | 4 | 177 | $4 | $4 | 94% | $0 | 0 | 17 | Morpho WLD/USDC lltv 77.0% (177) |
+| katana | `0xcbe3ad3bd665871eadbbf85ca94d2d7e2b32a66d` | 1 | 1 | $1 | $2 | — | $2 | 1 | 1 | Morpho avKAT/vbUSDC lltv 62.5% (1) |
+| plume | `0xcbe3ad3bd665871eadbbf85ca94d2d7e2b32a66d` | 1 | 10 | $2 | $2 | 97% | $0 | — | 6 | Morpho WETH/pUSD lltv 86.0% (8); Morpho nALPHA/pUSD lltv 91.5% (2) |
+| plume | `0xd720c8dd1c9b98d232350cc8e97bd2d8d05a7fc7` | 1 | 136 | $2 | $2 | 86% | $0 | — | 6 | Morpho nALPHA/pUSD lltv 91.5% (68); Morpho nCREDIT/pUSD lltv 86.0% (36); Morpho nTBILL/pUSD lltv 91.5% (20) |
+| plume | `0x199a4c6cc0d901b036163fac90ef6a5eda9be8d1` | 4 | 263 | $3 | $2 | 52% | $0 | — | 17 | Morpho WETH/pUSD lltv 86.0% (182); Morpho nALPHA/pUSD lltv 91.5% (81) |
+| worldchain | `0xe81073d32b7c85624dfb9a0420385a9a8860f3a6` | 1 | 2 | $2 | $1 | 72% | $1 | 2 | 2 | Morpho WBTC/WLD lltv 86.0% (1); Morpho WLD/USDC lltv 77.0% (1) |
+| plume | `0xaba996f3f6170a85a31d7f8f4b54816e141278f8` | 1 | 45 | $1 | $1 | 88% | $0 | — | 3 | Morpho nALPHA/pUSD lltv 91.5% (45) |
+| worldchain | `0x5f17a8598b72f6788dc8711f33a3d0a24f8e60bd` | 1 | 69 | $1 | $1 | — | $0 | 1 | 12 | Morpho WLD/USDC lltv 77.0% (49); Morpho WETH/WLD lltv 86.0% (12); Morpho WBTC/WLD lltv 86.0% (6) |
+| worldchain | `0xcbe3ad3bd665871eadbbf85ca94d2d7e2b32a66d` | 1 | 6 | $3 | $1 | 18% | $0 | 1 | 5 | Morpho WLD/USDC lltv 77.0% (3); Morpho WBTC/WLD lltv 86.0% (3) |
+| plume | `0x087fc07f6b3c396dc75dfb14360c6a7012b0ee92` | 1 | 2 | $1 | $1 | 51% | $0 | — | 2 | Morpho nALPHA/pUSD lltv 91.5% (2) |
+| worldchain | `0x00751dde4231e5abdb569eb182b249628c085bec` | 1 | 17 | $1 | $1 | — | $0 | 0 | 10 | Morpho WLD/USDC lltv 77.0% (15); Morpho WETH/WLD lltv 86.0% (1); Morpho WBTC/WLD lltv 86.0% (1) |
+| katana | `0xe29b7303937fac8f7f24670c7cc08005ac14ebe9` | 1 | 3 | $0 | $0 | — | $0 | 10,936 | 1 | Morpho yvvbUSDT/dUSD lltv 86.0% (3) |
 
 ### Contratos que pagan por el orden (subastas)
 
 | Cadena | Contrato liquidador | Firmantes | Liq. | Bono | Se quedó | % | Pagado por orden | Bloques |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
-| ethereum | `0xf686…edde` | 1 | 2 | $139.3 k | $6,611 | 5% | $103.9 k | 0 |
-| base | `0xd128…4b3f` | 10 | 178 | $53.3 k | $1,503 | 3% | $48.5 k | 1 |
-| ethereum | `0x875a…a0be` | 1 | 6 | $22.6 k | $432 | 2% | $19.8 k | 0 |
-| ethereum | `0xbde3…5c64` | 4 | 4 | $166.4 k | $304 | 0% | $150.6 k | 2,551 |
-| base | `0x2ea8…907f` | 4 | 8 | $20.6 k | $211 | 1% | $16.1 k | 2 |
-| arbitrum | `0x754b…acd5` | 1 | 1 | $17.5 k | $201 | 1% | $17.3 k | 9 |
-| base | `0x40fe…3d88` | 1 | 3 | $361 | $195 | 54% | $157 | 1 |
-| ethereum | `0x854a…57ab` | 1 | 3 | $693 | $153 | 22% | $679 | 1 |
-| ethereum | `0xb82a…97d4` | 1 | 1 | $972 | $117 | 12% | $860 | 1 |
-| ethereum | `0xa000…c777` | 1 | 1 | $2,769 | $89 | 3% | $2,598 | 0 |
-| ethereum | `0x63f7…59e9` | 1 | 4 | $20.8 k | $87 | 0% | $19.2 k | 709 |
-| ethereum | `0x6f28…5443` | 1 | 1 | $5,092 | $80 | 2% | $4,970 | — |
+| polygon | `0xc14e…7d98` | 1 | 1 | $47 | $12 | 26% | $49 | — |
 
 ### ¿A quién va el ETH que sale del liquidador?
 
@@ -113,60 +131,47 @@ Liquidaciones directas (sin pagar subasta ni builder) y lo que realmente se qued
 
 | Cadena | Destinatario | Tipo | USD | Liq. | Liquidadores | Es la entrada |
 |---|---|---|---:|---:|---:|---|
-| base | `0x1c6ec84518b859ae6a96c7dd0c78048be7def976` | compartido | $441.7 k | 1196 | 29 | no |
-| ethereum | `0x4838b106fce9647bdf1e7877bf73ce8b0bad5f97` | builder | $282.7 k | 122 | 44 | no |
-| ethereum | `0x000000000004444c5dc75cb358380d2e3de08a90` | swap | $249.4 k | 11 | 9 | no |
-| ethereum | `0xdadb0d80178819f2319190d340ce9a924f783711` | builder | $35.5 k | 44 | 26 | no |
-| ethereum | `0xd87f3d6c5624e8b02be13c2c92f8511b88b94d96` | builder | $26.1 k | 2 | 2 | no |
-| arbitrum | `0xab6deeaf17d69f091e6fe8e9f472a69c7112ce45` | compartido | $25.5 k | 56 | 12 | no |
-| ethereum | `0x6adb3bab5730852eb53987ea89d8e8f16393c200` | builder | $5,003 | 2 | 2 | no |
-| base | `0x498581ff718922c3f8e6a244956af099b2652b2b` | swap | $1,330 | 4 | 3 | no |
-| ethereum | `0x396343362be2a4da1ce0c1c210945346fb82aa49` | builder | $469 | 8 | 8 | no |
-| ethereum | `0x97dec872013f6b5fb443861090ad931542878126` | swap | $110 | 1 | 1 | no |
-| ethereum | `0x2aae699ed04bbbd068f67a5b3c813ebb35f2c9e8` | un_solo_liquidador | $100 | 1 | 1 | no |
-| arbitrum | `0x35c43aff60e94a64799782574f179d4865e9b377` | un_solo_liquidador | $35 | 1 | 1 | no |
-| arbitrum | `0xde632c3a214d5f14c1d8ddf0b92f8bcd188fee45` | un_solo_liquidador | $26 | 1 | 1 | no |
-| base | `0x9af4392e4f4575d3155fec6efb34e878b04384c4` | un_solo_liquidador | $12 | 16 | 1 | no |
-| arbitrum | `0xe40a526a79b704a1de69907905ae6f60966a966e` | un_solo_liquidador | $11 | 1 | 1 | no |
 
 ## Saturación de mercados
 
-Vírgenes: **2** · disputados: **64** · muertos: **15** · con muestra insuficiente (<3): 179.
+Vírgenes: **4** · disputados: **19** · muertos: **0** · con muestra insuficiente (<3): 34.
 
 ### Los 15 mercados que más dejaron a sus ganadores
 
 | Cadena | Mercado | Liq. | Bono | Real | % quedó | Directas | Ganadores | Top | Bloques | Estado |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| base | Morpho RSS/USDC lltv 77.0% | 2 | $222.7 k | $0 | — | 0 | 2 | 100% | — | muestra_insuficiente |
-| ethereum | Morpho sNUSD/USDC lltv 91.5% | 42 | $48.0 k | $0 | — | 0 | 2 | 100% | — | disputada |
-| base | Morpho cbXRP/USDC lltv 62.5% | 778 | $325.3 k | $36.0 k | 12% | 450 | 51 | 19% | 2 | disputada |
-| base | Morpho cbETH/USDC lltv 77.0% | 471 | $32.5 k | $26.0 k | 87% | 392 | 46 | 34% | 0 | disputada |
-| ethereum | aave-v3-core wstETH→USDC | 10 | $86.3 k | $4,939 | 6% | 3 | 9 | 99% | 1 | muerta |
-| base | Morpho WETH/USDC lltv 86.0% | 538 | $92.8 k | $3,355 | 4% | 257 | 34 | 64% | 1 | disputada |
-| ethereum | aave-v3-core WETH→USDC | 28 | $19.9 k | $3,140 | 16% | 8 | 10 | 41% | 1 | muerta |
-| base | Morpho cbZEC/USDC lltv 62.5% | 61 | $11.8 k | $2,879 | 32% | 19 | 17 | 49% | 1 | disputada |
-| ethereum | aave-v3-core sUSDe→USDtb | 1 | $53.6 k | $1,660 | 3% | 0 | 1 | 100% | 0 | muestra_insuficiente |
-| ethereum | aave-v3-core WETH→USDT | 33 | $29.6 k | $629 | 2% | 8 | 14 | 71% | 0 | muerta |
-| arbitrum | aave-v3-arbitrum ARB→USD₮0 | 1 | $465 | $477 | 103% | 1 | 1 | 100% | 4 | muestra_insuficiente |
-| ethereum | aave-v3-core weETH→USDT | 1 | $166.3 k | $296 | 0% | 0 | 1 | 100% | 0 | muestra_insuficiente |
-| base | Morpho JitoSOL/USDC lltv 62.5% | 217 | $20.0 k | $208 | 2% | 58 | 22 | 33% | — | disputada |
-| arbitrum | aave-v3-arbitrum WBTC→WBTC | 2 | $17.5 k | $201 | 1% | 1 | 2 | 100% | 146 | muestra_insuficiente |
-| base | Morpho yoUSD/USDC lltv 91.5% | 3 | $200 | $194 | 97% | 1 | 3 | 95% | — | disputada |
+| robinhood | Morpho wsNET/USDG lltv 62.5% | 202 | $46.4 k | $0 | — | 0 | 36 | 51% | — | disputada |
+| robinhood | Morpho USDe/USDG lltv 91.5% | 36 | $6,598 | $0 | — | 0 | 10 | 99% | — | disputada |
+| robinhood | Morpho PONS/USDG lltv 38.5% | 7 | $2,053 | $0 | — | 0 | 6 | 44% | 247,395 | disputada |
+| robinhood | Morpho USDe/USDG lltv 91.5% | 1 | $600 | $0 | — | 0 | 1 | 100% | — | muestra_insuficiente |
+| robinhood | Morpho Index/USDG lltv 38.5% | 8 | $398 | $0 | — | 0 | 7 | 58% | 473,978 | disputada |
+| worldchain | Morpho WLD/USDC lltv 77.0% | 1424 | $536 | $348 | 95% | 821 | 16 | 73% | 1 | disputada |
+| robinhood | Morpho DELTA/USDG lltv 38.5% | 2 | $260 | $0 | — | 0 | 2 | 100% | 452,578 | muestra_insuficiente |
+| robinhood | Morpho PONS/USDG lltv 62.5% | 6 | $242 | $0 | — | 0 | 2 | 97% | — | disputada |
+| polygon | Morpho WBTC/USDC lltv 86.0% | 1 | $201 | $0 | — | 0 | 1 | 100% | — | muestra_insuficiente |
+| worldchain | Morpho WBTC/USDC lltv 86.0% | 45 | $331 | $106 | 42% | 24 | 5 | 58% | 1 | disputada |
+| worldchain | Morpho WETH/USDC lltv 86.0% | 56 | $222 | $99 | 63% | 41 | 7 | 76% | 1 | disputada |
+| robinhood | Morpho STEERUV417/USDG lltv 38.5% | 1 | $69 | $0 | — | 0 | 1 | 100% | 578,483 | muestra_insuficiente |
+| robinhood | Morpho CASHCAT/USDG lltv 62.5% | 3 | $54 | $0 | — | 0 | 2 | 100% | — | disputada |
+| polygon | Morpho vDEMKAMALANO/USDC lltv 77.0% | 11 | $47 | $0 | — | 0 | 1 | 100% | — | virgen |
+| worldchain | Morpho WBTC/WLD lltv 86.0% | 75 | $53 | $28 | 54% | 57 | 6 | 92% | 2 | disputada |
 
 ### Mercados vírgenes (un solo ganador, poca propina, sin carrera de bloque)
 
-- ethereum · aave-v3-core WETH→USDe: 3 liq., real $0, ganador 0xc4dd…ca1e
-- arbitrum · Morpho thBILL/USDC lltv 94.5%: 9 liq., real -$0, ganador 0x4716…e252
+- polygon · Morpho vDEMKAMALANO/USDC lltv 77.0%: 11 liq., real $0, ganador 0x52a2…bab6
+- katana · Morpho yvvbUSDT/dUSD lltv 86.0%: 3 liq., real $0, ganador 0xe29b…ebe9
+- hemi · Morpho rETH/msETH lltv 91.5%: 3 liq., real $0, ganador —
+- polygon · Morpho 0x357661f9/USDC lltv 62.5%: 17 liq., real -$0, ganador 0x9439…53d0
 
 ## Por tamaño del bono
 
 | Bono | Liq. | Real total | Real mediano | % quedó | Directas | Ganadores |
 |---|---:|---:|---:|---:|---:|---:|
-| $0–$10 | 2,076 | $965 | $0 | 26% | 1,436 | 217 |
-| $10–$100 | 810 | $7,373 | $1 | 27% | 280 | 98 |
-| $100–$1,000 | 475 | $20.5 k | $2 | 15% | 128 | 74 |
-| $1,000–$10.0 k | 144 | $35.4 k | $3 | 10% | 20 | 34 |
-| ≥ $10.0 k | 19 | $17.7 k | $42 | 4% | 1 | 13 |
+| $0–$10 | 2,573 | $124 | $0 | 96% | 1,485 | 81 |
+| $10–$100 | 89 | $306 | $12 | 60% | 17 | 22 |
+| $100–$1,000 | 55 | $203 | $101 | 73% | 2 | 21 |
+| $1,000–$10.0 k | 13 | $0 | — | — | 0 | 6 |
+| ≥ $10.0 k | 0 | — | — | — | — | — |
 
 ## ¿Por dónde entran? (contrato llamado por la transacción)
 
@@ -174,48 +179,81 @@ Si un mismo contrato recibe transacciones de muchos firmantes distintos y casi t
 
 | Cadena | Contrato | Liq. | Firmantes | Bono | % quedó | A terceros | % subasta |
 |---|---|---:|---:|---:|---:|---:|---:|
-| base | `0x583d…9b77` | 1353 | 10 | $558.9 k | 0% | $441.8 k | 86% |
-| base | `0xc4bf…fc51` | 139 | 32 | $7,905 | 43% | $0 | 0% |
-| base | `0x30e9…eab3` | 124 | 2 | $463 | 79% | $0 | 22% |
-| base | `0x9a03…e88c` | 85 | 8 | $1,578 | 52% | $0 | 0% |
-| base | `0xb445…14b2` | 70 | 24 | $29.2 k | 59% | $0 | 0% |
-| arbitrum | `0x8ad1…86c1` | 64 | 9 | $26.6 k | 1% | $25.5 k | 73% |
-| base | `0x16e4…7b19` | 62 | 1 | $0 | — | $0 | 0% |
-| base | `0x89d5…3fec` | 60 | 10 | $32 | 62% | $0 | 0% |
-| base | `0x97c4…8c24` | 60 | 2 | $8,851 | 97% | $0 | 0% |
-| base | `0xe967…3137` | 54 | 1 | $593 | 88% | $0 | 13% |
-| base | `0xaf16…f182` | 46 | 1 | $96 | 80% | $0 | 0% |
-| arbitrum | `0x58ea…2073` | 44 | 1 | $0 | — | $0 | 0% |
-| base | `0x2b68…778f` | 44 | 2 | $1,541 | -1% | $0 | 0% |
-| base | `0xcee7…863d` | 43 | 35 | $5,348 | 20% | $0 | 0% |
-| base | `0x561b…fc54` | 43 | 7 | $140 | 67% | $0 | 0% |
+| worldchain | `0x5fd5…dc80` | 785 | 5 | $49 | 56% | $0 | 0% |
+| plume | `0x199a…e8d1` | 342 | 4 | $3 | 52% | $0 | 0% |
+| plume | `0xd720…7fc7` | 316 | 1 | $3 | 86% | $0 | 0% |
+| worldchain | `0x3439…64c1` | 289 | 4 | $9 | 94% | $0 | 0% |
+| worldchain | `0x5f17…60bd` | 130 | 1 | $1 | — | $0 | 0% |
+| worldchain | `0x3521…ee3c` | 126 | 1 | $753 | 76% | $0 | 0% |
+| robinhood | `0x1977…8fa4` | 107 | 75 | $23.7 k | — | $0 | 0% |
+| worldchain | `0xf8e0…96a9` | 99 | 4 | $202 | 88% | $0 | 0% |
+| worldchain | `0x5ac9…95bd` | 71 | 3 | $106 | 28% | $0 | 0% |
+| worldchain | `0xe741…f432` | 63 | 1 | $0 | — | $0 | 0% |
+| plume | `0xaba9…78f8` | 45 | 1 | $1 | 88% | $0 | 0% |
+| worldchain | `0x12b7…52f4` | 36 | 1 | $0 | — | $0 | 0% |
+| robinhood | `0x085b…48c0` | 25 | 25 | $47 | — | $0 | 0% |
+| robinhood | `0x7251…7cee` | 20 | 11 | $10.7 k | — | $0 | 0% |
+| worldchain | `0x0075…5bec` | 20 | 1 | $1 | — | $0 | 0% |
 
 ## Ganadores principales (por bono)
 
-- `0x03bdf75d11237c0560f48527f360640d9c7ddcaa` — $222.7 k (16%)
-- `0xbde3e91f09a9489f1b53eaa21eb32c89b2fd5c64` — $166.4 k (12%)
-- `0x4c0f054ff82accb847d59e3b6b3d46f1ceef19f4` — $152.2 k (11%)
-- `0xf6860780cd7b673a37cfc2716efd3742e09aedde` — $139.3 k (10%)
-- `0xc921309ba3fe346db84b7fd9959ae82d924bbf04` — $86.3 k (6%)
-- `0xbd0dd817c608e552d5f1ae701ab6c4da4fb00005` — $71.0 k (5%)
-- `0xd12810b19b596347a3afac206d3ca65d08594b3f` — $68.7 k (5%)
-- `0x8b61f5925f4515edb0b7b76c38036aaf9a818472` — $60.4 k (4%)
-- `0x3ae5122d62e78dc14b98d8d30aca4faf9d1f1bba` — $53.5 k (4%)
-- `0xe683b8ee2710eabcbf347b7cb0735cda11ef31ba` — $48.0 k (3%)
+- `0x3586aa1db9523bb223916b8ec0405261c8a625e1` — $23.7 k (41%)
+- `0x72512e63c0c70797b96902228fa8acc1211b7cee` — $10.7 k (18%)
+- `0x7961e142750f3b44bf8b844d433c387b8cbb316f` — $7,379 (13%)
+- `0xad389f432f7ce2d3f2c57f0083915cf1f364af95` — $3,265 (6%)
+- `0x5589d381e74e49eb15af6caf1920c0804c5e3653` — $1,905 (3%)
+- `0x5820e320fd59b275f783ee7bded23fd05620a214` — $1,321 (2%)
+- `0xf5623988974e9fd63be3b896c0e975f2ffd74f54` — $1,043 (2%)
+- `0xd1cdc4027a3befc9f577768d121a265171338b42` — $950 (2%)
+- `0x53a340f48e3a0b67adb76c892750586cd3a7ca50` — $905 (2%)
+- `0xffc4eacab4c39145daca6961ceb72d91f28ecbac` — $826 (1%)
 
 ## Cobertura de la medición
 
 | Cadena | Tramos | Días | Eventos | Valuados | Real completo | Con bloques de oráculo | Trazas de ETH | Precio | Sin tiempo |
 |---|---|---:|---:|---:|---:|---:|---|---|---:|
-| ethereum | 3/3 | 30.0 | 324 | 324 | 270 (83%) | 208 (64%) | debug_traceTransaction: 300 | oráculo 770, mercado 13, sin 0 | 0 |
-| base | 10/10 | 30.0 | 2917 | 2915 | 2735 (94%) | 2621 (90%) | debug_traceTransaction: 1250, no_medido: 74, trace_transaction: 68 | oráculo 5159, mercado 17, sin 2 | 0 |
-| arbitrum | 3/3 | 30.0 | 288 | 288 | 269 (93%) | 273 (95%) | debug_traceTransaction: 265 | oráculo 795, mercado 0, sin 0 | 0 |
+| polygon | 1/1 | 30.0 | 34 | 34 | 5 (15%) | 0 (0%) | debug_traceTransaction: 34 | oráculo 0, mercado 68, sin 0 | 0 |
+| optimism | 1/1 | 30.0 | 1 | 1 | 1 (100%) | 0 (0%) | debug_traceTransaction: 1 | oráculo 0, mercado 2, sin 0 | 0 |
+| unichain | 1/1 | 30.0 | 2 | 2 | 2 (100%) | 0 (0%) | debug_traceTransaction: 2 | oráculo 0, mercado 4, sin 0 | 0 |
+| katana | 1/1 | 30.0 | 17 | 17 | 17 (100%) | 5 (29%) | debug_traceTransaction: 17 | oráculo 0, mercado 34, sin 0 | 0 |
+| hyperevm | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| worldchain | 1/1 | 30.0 | 1679 | 1635 | 995 (59%) | 1679 (100%) | blockscout: 1023, trace_transaction: 18 | oráculo 0, mercado 1617, sin 1103 | 0 |
+| sonic | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| bsc | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| linea | 1/1 | 0.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| scroll | 1/1 | 0.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| sei | 1/1 | 0.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| monad | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| celo | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| etherlink | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| hemi | 1/1 | 30.0 | 3 | 0 | 0 (0%) | 0 (0%) | blockscout: 3 | oráculo 0, mercado 3, sin 3 | 0 |
+| ink | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| lisk | 1/1 | 0.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| soneium | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| fraxtal | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| mode | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| plume | 1/1 | 30.0 | 745 | 745 | 486 (65%) | 0 (0%) | blockscout: 109, no_medido: 3 | oráculo 0, mercado 1119, sin 0 | 0 |
+| corn | 1/1 | 0.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| tac | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| flare | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| cronos | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| xdc | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| kaia | 1/1 | 30.0 | 1 | 1 | 0 (0%) | 0 (0%) | no_medido: 1 | oráculo 0, mercado 2, sin 0 | 0 |
+| zerog | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| abstract | 1/1 | 0.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| morph | 1/1 | 30.0 | 1 | 1 | 0 (0%) | 0 (0%) | no_medido: 1 | oráculo 0, mercado 2, sin 0 | 0 |
+| megaeth | 1/1 | 30.0 | 1 | 1 | 1 (100%) | 0 (0%) | debug_traceTransaction: 1 | oráculo 0, mercado 2, sin 0 | 0 |
+| robinhood | 1/1 | 30.0 | 292 | 292 | 0 (0%) | 28 (10%) | no_medido: 246 | oráculo 0, mercado 537, sin 1 | 0 |
+| stable | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| tempo | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| arc | 1/1 | 30.0 | 5 | 1 | 0 (0%) | 1 (20%) | no_medido: 1, sin_enriquecer: 3 | oráculo 0, mercado 2, sin 0 | 0 |
+| bitlayer | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| gensyn | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| eden | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
 
-Liquidaciones cuya tx pagó por el orden más de 1.5× su bono (probable liquidación de otro protocolo o arbitraje en la misma tx; el pago completo cuenta como OEV/builder): ethereum: 7.
+Netos fuera de rango (no se cuentan como medidos; revisar a mano): robinhood `0xf9463d5df6be57e07ac2508a833ec0cc3520727154a0d0709670c5bfaec175cc` bono $425, neto $728 (USDG +727.924); robinhood `0xf62910ad45edc074b43080c9bbf6a639be73037383ed73a8392262717cdf3f87` bono $386, neto $627 (USDG +626.759); robinhood `0xc409c18338d1666ac1a5fd33b3729b1724afc9327d36217db7d3c3f10fe1db82` bono $300, neto $626 (USDG +910.72); robinhood `0x4258042324961a4f8ba803aeb56b3cf9f2d077fc5ffe1605282d41fe662181a4` bono $134, neto $175 (USDG +174.624); robinhood `0xc409c18338d1666ac1a5fd33b3729b1724afc9327d36217db7d3c3f10fe1db82` bono $133, neto $278 (USDG +910.72); robinhood `0x5ac61946b228e5a850062716c38a9ffa95fded9274ec32e3ea112b0ce2fb30b0` bono $99, neto $190 (USDG +253.91); robinhood `0x8872cd3629311652636010f432766472463c5a09c8bd9e3d54fc5eb118c68626` bono $74, neto $124 (USDG +124.06); robinhood `0x5362d77208452da536630212224d3895e60e608cc5018bee57c6d0cea7c4d824` bono $68, neto $119 (USDG +118.681).
 
-Netos fuera de rango (no se cuentan como medidos; revisar a mano): ethereum `0x97113645e8aae912a8cc6ea3f476b4349ec3298473683d819f55013b52444e90` bono $180, neto $1,070 (ynETHx +2.70133, msETH -2.88781); ethereum `0x8037223f3d4290e91e63e5a9c97ecc238201ec2df8307d59a62b96716dc179b8` bono $118, neto $734 (ynETHx +1.77939, msETH -1.90242); ethereum `0xdc687eefd6408705860dae9522647643bcb3c324e390c0abebdf19eafd127355` bono $100, neto $857 (ETH +0.318399); ethereum `0x4bd6a34c6bc48a8d0e41cc1bf003feb1ed82c861da254eda053259ed0d8d191d` bono $94, neto $557 (ynETHx +1.40615, msETH -1.50322); ethereum `0xbc783801c22ef7604dd637b99bdcfc3dc12dd97fc3c0e286a495ee67792c3f1e` bono $61, neto $370 (ynETHx +0.92113, msETH -0.984718); ethereum `0x87f0e8242f3e52a0acaf05a4fee22b3cf6af88a8eed8ec648cc37605951027df` bono $3, neto -$128 (sNUSD +123.626, USDC -128.231); arbitrum `0xb5eefa72cfbcb01ca2e4a860677f7e92968d6f40bf15ff8fd65a23276969d50a` bono $1, neto -$47 (PT-USDai-18JUN2026 +48.6253, USDC -47.3854); ethereum `0x96d31552654be3ba9bbc9205dd48c64b6d8e2db71b25bf189908934ec3d7d40f` bono $1, neto -$46 (sNUSD +44.1223, USDC -45.7657).
-
-Errores de trazas más comunes: base: debug_traceTransaction: HTTP 408 en base.drpc.org (1042); base: debug_traceTransaction: HTTP 429 en base.drpc.org (539); base: trace_transaction: HTTP 408 en base.drpc.org (475); base: trace_transaction: HTTP 429 en base.drpc.org (270).
+Errores de trazas más comunes: worldchain: trace_transaction: failed to apply blockhash contract call: database error: Database error: state at block #3 (2039); worldchain: debug_traceTransaction: HTTP 401 en worldchain-mainnet.g.alchemy.com (7); worldchain: trace_transaction: HTTP 401 en worldchain-mainnet.g.alchemy.com (5); worldchain: debug_traceTransaction: Invalid method debug_traceTransaction (3); plume: debug_traceTransaction: HTTP 401 en rpc.plume.org (20); plume: trace_transaction: HTTP 401 en rpc.plume.org (16); robinhood: trace_transaction: trace_transaction is not available without an API key on this endpoint (standard eth_/net_ (12); robinhood: debug_traceTransaction: the network is busy, please try again in a moment (11).
 
 ## Qué NO dice este census
 
