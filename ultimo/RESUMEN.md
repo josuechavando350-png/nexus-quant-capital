@@ -1,4 +1,4 @@
-# Census del dinero · 2026-10-24
+# Census del dinero · 2026-10-25
 
 Ventana: **30 días** · cadenas: ethereum, base, arbitrum · protocolos: Aave V3 y Morpho Blue.
 
@@ -8,7 +8,7 @@ Ventana: **30 días** · cadenas: ethereum, base, arbitrum · protocolos: Aave V
 2. **¿Quién se lo lleva?** 287 liquidadores distintos; los 3 mayores se llevan **39%** del bono.
 3. **¿Llegan a tiempo? ¿En cuántos bloques?** Mediana de **1 bloques** (2 s) desde la última actualización del oráculo; **17%** en el mismo bloque.
 4. **¿Qué porcentaje dejó al builder?** Ethereum: **77%** del bono (propina + pago directo al coinbase, que incluye las pujas de Chainlink SVR). En L2 no hay builder; la propina de prioridad fue: arbitrum 0%, base 1%.
-5. **¿Cuánto se queda realmente el ganador?** En las 3,066 liquidaciones rastreables (87% del total): bono $898.9 k, el ganador se quedó **$81.9 k (9%)** (de eso $28.5 k lo mandó a su tesorería); a subastas de oráculo/OEV $353.0 k (39%), al builder en directo $349.8 k, en propina $6,057, gas base $438, resto (deslizamiento, comisiones) $107.7 k. Fuera de la cuenta: sin medir 238 liq. ($71.7 k), sin rastro 56 ($19.8 k), refinanciaciones 169 ($380.9 k).
+5. **¿Cuánto se queda realmente el ganador?** En las 3,170 liquidaciones rastreables (90% del total): bono $1.04 M, el ganador se quedó **$81.9 k (8%)** (de eso $28.5 k lo mandó a su tesorería); a subastas de oráculo/OEV $465.5 k (45%), al builder en directo $349.8 k, en propina $6,071, gas base $440, resto (deslizamiento, comisiones) $138.3 k. Fuera de la cuenta: sin medir 238 liq. ($71.7 k), sin rastro 56 ($19.8 k), refinanciaciones 65 ($237.8 k).
 
 ## ¿A dónde se va el bono?
 
@@ -19,7 +19,7 @@ Solo liquidaciones rastreables (todos los movimientos de tokens y ETH valuados).
 | arbitrum | aave | 235/242 | $27.0 k | $937 | 3% | $4 | $25.5 k | $0 | $13 | $10 | $529 | 3 ($0) · 4 ($303) · 0 ($0) |
 | arbitrum | morpho | 30/46 | $73 | $74 | 101% | $0 | $0 | $0 | $0 | $0 | -$2 | 16 ($2) · 0 ($0) · 0 ($0) |
 | base | aave | 192/194 | $17.6 k | $191 | 1% | $0 | $17.4 k | $0 | $31 | $4 | -$23 | 2 ($0) · 0 ($0) · 0 ($0) |
-| base | morpho | 2339/2723 | $444.3 k | $69.3 k | 16% | $28.3 k | $310.1 k | $0 | $4,593 | $65 | $60.2 k | 163 ($23.1 k) · 52 ($19.5 k) · 169 ($380.9 k) |
+| base | morpho | 2443/2723 | $587.4 k | $69.3 k | 12% | $28.3 k | $422.6 k | $0 | $4,606 | $67 | $90.8 k | 163 ($23.1 k) · 52 ($19.5 k) · 65 ($237.8 k) |
 | ethereum | aave | 158/159 | $393.2 k | $11.0 k | 3% | $97 | $1 | $334.0 k | $1,182 | $280 | $46.8 k | 1 ($0) · 0 ($0) · 0 ($0) |
 | ethereum | morpho | 112/165 | $16.7 k | $417 | 2% | $107 | $0 | $15.8 k | $238 | $79 | $185 | 53 ($48.6 k) · 0 ($0) · 0 ($0) |
 
@@ -45,10 +45,10 @@ Solo liquidaciones rastreables (todos los movimientos de tokens y ETH valuados).
 | arbitrum | sin_rastro | 4 | $303 | — | — | — | 2 | 9 |
 | arbitrum | subasta | 48 | $26.2 k | $272 | 1% | $0 | 13 | 8 |
 | base | directa | 1520 | $99.6 k | $67.5 k | 68% | $1 | 141 | 1 |
-| base | refinanciacion | 169 | $380.9 k | — | — | — | 10 | 1 |
+| base | refinanciacion | 65 | $237.8 k | — | — | — | 9 | 1 |
 | base | sin_medir | 165 | $23.1 k | — | — | — | 31 | 1 |
 | base | sin_rastro | 52 | $19.5 k | — | — | — | 8 | 2 |
-| base | subasta | 1011 | $362.3 k | $2,025 | 1% | $0 | 44 | 1 |
+| base | subasta | 1115 | $505.4 k | $2,026 | 0% | $0 | 46 | 1 |
 | ethereum | directa | 131 | $3,942 | $3,542 | 90% | $0 | 43 | 106 |
 | ethereum | sin_medir | 54 | $48.6 k | — | — | — | 10 | 106 |
 | ethereum | subasta | 139 | $406.0 k | $7,835 | 2% | $0 | 48 | 0 |
@@ -60,7 +60,7 @@ Liquidaciones directas (sin pagar subasta ni builder) y lo que realmente se qued
 | Cadena | Días | Directas / medidas / total | Se quedaron | ≥ $10 (n · $ · top) | ≥ $100 (n · $ · top) | Ganadores | Bloques | ≥ 2 bloques |
 |---|---:|---|---:|---|---|---:|---:|---:|
 | arbitrum | 30.0 | 217 / 265 / 288 | $739 | 7 · $698 · 67% | 1 · $477 · 100% | 33 | 163 | 95% |
-| base | 30.0 | 1520 / 2531 / 2917 | $67.5 k | 343 · $66.0 k · 30% | 90 · $56.9 k · 34% | 141 | 1 | 43% |
+| base | 30.0 | 1520 / 2635 / 2917 | $67.5 k | 343 · $66.0 k · 30% | 90 · $56.9 k · 34% | 141 | 1 | 43% |
 | ethereum | 30.0 | 131 / 270 / 324 | $3,542 | 8 · $3,573 · 67% | 6 · $3,536 · 67% | 43 | 106 | 79% |
 
 "top": parte del neto que se llevó el mayor ganador de ese grupo. "≥ 2 bloques": liquidaciones que llegaron 2 o más bloques después del oráculo (no fue carrera de mismo bloque).
@@ -95,7 +95,7 @@ Liquidaciones directas (sin pagar subasta ni builder) y lo que realmente se qued
 | Cadena | Contrato liquidador | Firmantes | Liq. | Bono | Se quedó | % | Pagado por orden | Bloques |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
 | ethereum | `0xf686…edde` | 1 | 2 | $139.3 k | $6,611 | 5% | $103.9 k | 0 |
-| base | `0xd128…4b3f` | 10 | 165 | $43.7 k | $1,503 | 3% | $39.6 k | 1 |
+| base | `0xd128…4b3f` | 10 | 178 | $53.3 k | $1,503 | 3% | $48.5 k | 1 |
 | ethereum | `0x875a…a0be` | 1 | 6 | $22.6 k | $432 | 2% | $19.8 k | 0 |
 | ethereum | `0xbde3…5c64` | 4 | 4 | $166.4 k | $304 | 0% | $150.6 k | 2,551 |
 | base | `0x2ea8…907f` | 4 | 8 | $20.6 k | $211 | 1% | $16.1 k | 2 |
@@ -109,20 +109,20 @@ Liquidaciones directas (sin pagar subasta ni builder) y lo que realmente se qued
 
 ### ¿A quién va el ETH que sale del liquidador?
 
-"compartido": cobra de 2 o más liquidadores (subasta, builder). "un_solo_liquidador": puede ser la tesorería del mismo bot; si lo es, ese pago es ganancia y no OEV.
+"compartido": cobra de 2 o más liquidadores (subasta). "swap": devolvió tokens (pago de un swap con ETH nativo, p. ej. el PoolManager de Uniswap V4; no es OEV). "un_solo_liquidador": puede ser la tesorería del mismo bot.
 
 | Cadena | Destinatario | Tipo | USD | Liq. | Liquidadores | Es la entrada |
 |---|---|---|---:|---:|---:|---|
 | base | `0x1c6ec84518b859ae6a96c7dd0c78048be7def976` | compartido | $441.7 k | 1196 | 29 | no |
 | ethereum | `0x4838b106fce9647bdf1e7877bf73ce8b0bad5f97` | builder | $282.7 k | 122 | 44 | no |
-| ethereum | `0x000000000004444c5dc75cb358380d2e3de08a90` | compartido | $249.4 k | 11 | 9 | no |
+| ethereum | `0x000000000004444c5dc75cb358380d2e3de08a90` | swap | $249.4 k | 11 | 9 | no |
 | ethereum | `0xdadb0d80178819f2319190d340ce9a924f783711` | builder | $35.5 k | 44 | 26 | no |
 | ethereum | `0xd87f3d6c5624e8b02be13c2c92f8511b88b94d96` | builder | $26.1 k | 2 | 2 | no |
 | arbitrum | `0xab6deeaf17d69f091e6fe8e9f472a69c7112ce45` | compartido | $25.5 k | 56 | 12 | no |
 | ethereum | `0x6adb3bab5730852eb53987ea89d8e8f16393c200` | builder | $5,003 | 2 | 2 | no |
-| base | `0x498581ff718922c3f8e6a244956af099b2652b2b` | compartido | $1,330 | 4 | 3 | no |
+| base | `0x498581ff718922c3f8e6a244956af099b2652b2b` | swap | $1,330 | 4 | 3 | no |
 | ethereum | `0x396343362be2a4da1ce0c1c210945346fb82aa49` | builder | $469 | 8 | 8 | no |
-| ethereum | `0x97dec872013f6b5fb443861090ad931542878126` | un_solo_liquidador | $110 | 1 | 1 | no |
+| ethereum | `0x97dec872013f6b5fb443861090ad931542878126` | swap | $110 | 1 | 1 | no |
 | ethereum | `0x2aae699ed04bbbd068f67a5b3c813ebb35f2c9e8` | un_solo_liquidador | $100 | 1 | 1 | no |
 | arbitrum | `0x35c43aff60e94a64799782574f179d4865e9b377` | un_solo_liquidador | $35 | 1 | 1 | no |
 | arbitrum | `0xde632c3a214d5f14c1d8ddf0b92f8bcd188fee45` | un_solo_liquidador | $26 | 1 | 1 | no |
@@ -139,7 +139,7 @@ Vírgenes: **2** · disputados: **64** · muertos: **15** · con muestra insufic
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | base | Morpho RSS/USDC lltv 77.0% | 2 | $222.7 k | $0 | — | 0 | 2 | 100% | — | muestra_insuficiente |
 | ethereum | Morpho sNUSD/USDC lltv 91.5% | 42 | $48.0 k | $0 | — | 0 | 2 | 100% | — | disputada |
-| base | Morpho cbXRP/USDC lltv 62.5% | 778 | $325.3 k | $36.0 k | 16% | 450 | 51 | 19% | 2 | disputada |
+| base | Morpho cbXRP/USDC lltv 62.5% | 778 | $325.3 k | $36.0 k | 12% | 450 | 51 | 19% | 2 | disputada |
 | base | Morpho cbETH/USDC lltv 77.0% | 471 | $32.5 k | $26.0 k | 87% | 392 | 46 | 34% | 0 | disputada |
 | ethereum | aave-v3-core wstETH→USDC | 10 | $86.3 k | $4,939 | 6% | 3 | 9 | 99% | 1 | muerta |
 | base | Morpho WETH/USDC lltv 86.0% | 538 | $92.8 k | $3,355 | 4% | 257 | 34 | 64% | 1 | disputada |
@@ -162,11 +162,11 @@ Vírgenes: **2** · disputados: **64** · muertos: **15** · con muestra insufic
 
 | Bono | Liq. | Real total | Real mediano | % quedó | Directas | Ganadores |
 |---|---:|---:|---:|---:|---:|---:|
-| $0–$10 | 2,076 | $965 | $0 | 27% | 1,436 | 217 |
-| $10–$100 | 810 | $7,373 | $1 | 29% | 280 | 98 |
-| $100–$1,000 | 475 | $20.5 k | $3 | 16% | 128 | 74 |
-| $1,000–$10.0 k | 144 | $35.4 k | $4 | 11% | 20 | 34 |
-| ≥ $10.0 k | 19 | $17.7 k | $296 | 4% | 1 | 13 |
+| $0–$10 | 2,076 | $965 | $0 | 26% | 1,436 | 217 |
+| $10–$100 | 810 | $7,373 | $1 | 27% | 280 | 98 |
+| $100–$1,000 | 475 | $20.5 k | $2 | 15% | 128 | 74 |
+| $1,000–$10.0 k | 144 | $35.4 k | $3 | 10% | 20 | 34 |
+| ≥ $10.0 k | 19 | $17.7 k | $42 | 4% | 1 | 13 |
 
 ## ¿Por dónde entran? (contrato llamado por la transacción)
 
@@ -174,7 +174,7 @@ Si un mismo contrato recibe transacciones de muchos firmantes distintos y casi t
 
 | Cadena | Contrato | Liq. | Firmantes | Bono | % quedó | A terceros | % subasta |
 |---|---|---:|---:|---:|---:|---:|---:|
-| base | `0x583d…9b77` | 1353 | 10 | $558.9 k | 0% | $441.8 k | 85% |
+| base | `0x583d…9b77` | 1353 | 10 | $558.9 k | 0% | $441.8 k | 86% |
 | base | `0xc4bf…fc51` | 139 | 32 | $7,905 | 43% | $0 | 0% |
 | base | `0x30e9…eab3` | 124 | 2 | $463 | 79% | $0 | 22% |
 | base | `0x9a03…e88c` | 85 | 8 | $1,578 | 52% | $0 | 0% |
