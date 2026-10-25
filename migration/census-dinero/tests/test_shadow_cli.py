@@ -149,7 +149,8 @@ class TestReadOnlyGuard(unittest.TestCase):
 
     def test_shadow_sources_have_no_signing_or_sending(self):
         base = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "census_dinero")
-        for name in ("shadow_live.py", "shadow_replay.py", "shadow_report.py", "morpho.py"):
+        for name in ("shadow_live.py", "shadow_replay.py", "shadow_report.py", "morpho.py", "flash_watch.py", "flash_eval.py",
+                     "flash_stream.py", "flash_fast.py", "ws.py", "orden.py", "flash_probe.py"):
             with open(os.path.join(base, name), encoding="utf-8") as fh:
                 src = fh.read()
             for word in self.FORBIDDEN:
@@ -163,7 +164,7 @@ class TestReadOnlyGuard(unittest.TestCase):
         base = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "census_dinero")
         used = set()
         import re
-        for name in ("shadow_live.py", "shadow_replay.py", "rpc.py", "sonda.py"):
+        for name in ("shadow_live.py", "shadow_replay.py", "rpc.py", "sonda.py", "ws.py", "flash_stream.py", "flash_fast.py", "flash_watch.py"):
             with open(os.path.join(base, name), encoding="utf-8") as fh:
                 used |= set(re.findall(r'"((?:eth|net|web3|debug|trace|personal|txpool|admin|miner)_[A-Za-z_]+)"', fh.read()))
         extra = {m for m in used if m not in sr.READ_ONLY}

@@ -32,7 +32,8 @@ LANDINGS = ((1, "hasta 2 s"), (2, "hasta 4 s"), (3, "hasta 6 s"))
 
 # Métodos de RPC de solo lectura: los que el cliente deja pasar (rpc.ALLOWED_METHODS) y otros de lectura comunes.
 READ_ONLY = set(ALLOWED_METHODS) | {"eth_getBlockByHash", "eth_getBalance", "eth_gasPrice", "eth_feeHistory",
-                                    "eth_maxPriorityFeePerGas", "net_version", "web3_clientVersion", "eth_syncing"}
+                                    "eth_maxPriorityFeePerGas", "net_version", "web3_clientVersion", "eth_syncing",
+                                    "eth_subscribe", "eth_unsubscribe"}
 DANGEROUS_PREFIXES = ("eth_send", "eth_sign", "personal_", "eth_accounts", "eth_submit", "eth_signTransaction",
                       "debug_setHead", "miner_", "admin_", "txpool_")
 
@@ -348,7 +349,7 @@ def flash_profile(perfiles, n_tx=None):
             "ultimo_trozo_completo": None if not last_seen else sum(last_seen) / len(last_seen)}
 
 
-def analyze_live(bloques, decisiones, resultados, sistema, cercanas, meta, cfg, cruces=None, perfiles=None):
+def analyze_live(bloques, decisiones, resultados, sistema, cercanas, meta, cfg, cruces=None, perfiles=None, rapido=None):
     meta = meta or {}
     out = {}
     numbers = sorted({b["bloque"] for b in bloques})
@@ -419,6 +420,10 @@ def analyze_live(bloques, decisiones, resultados, sistema, cercanas, meta, cfg, 
                            "reaccion_ms": quantiles([r["flash"]["reaccion_ms"] for r in rows if "reaccion_ms" in r["flash"]]),
                            "t_liquidacion_ms": quantiles([r["flash"]["t_liquidacion_ms"] for r in rows if "t_liquidacion_ms" in r["flash"]])}
         out["flash"] = {"n": len(fl), "grupos": groups, "watcher": meta.get("flashblocks")}
+    if meta.get("via_rapida") or meta.get("flash_ws"):
+        wins = [r["flash"]["ws_ventana_ms"] for r in liqs if (r.get("flash") or {}).get("ws_ventana_ms") is not None]
+        out["via_rapida"] = {"resumen": meta.get("via_rapida"), "ws": meta.get("flash_ws"), "cruces": rapido or [],
+                             "ventana_ws_ms": quantiles(wins)}
     clased = []
     for r in liqs:
         f = r.get("flash") or {}
@@ -624,9 +629,10 @@ def build(live_dir=None, replay_dir=None, cfg=None, diag_dir=None):
         crs, bad6 = read_jsonl(os.path.join(live_dir, "flash_cruces.jsonl"))
         cruces = crs if (crs or os.path.exists(os.path.join(live_dir, "flash_cruces.jsonl"))) else None
         perfiles, bad7 = read_jsonl(os.path.join(live_dir, "flash_bloques.jsonl"))
-        res["fuentes"]["vivo"]["lineas_cortadas"] += bad6 + bad7
+        rapido, bad9 = read_jsonl(os.path.join(live_dir, "flash_rapido.jsonl"))
+        res["fuentes"]["vivo"]["lineas_cortadas"] += bad6 + bad7 + bad9
         if b or d or r or live_meta:
-            live = analyze_live(b, d, r, s, cc, live_meta, cfg, cruces, perfiles)
+            live = analyze_live(b, d, r, s, cc, live_meta, cfg, cruces, perfiles, rapido)
             muestras, bad8 = read_jsonl(os.path.join(live_dir, "orden_bloques.jsonl"))
             res["fuentes"]["vivo"]["lineas_cortadas"] += bad8
             if muestras:
@@ -677,6 +683,32 @@ def cell(g, k_total=None):
 
 
 ESTADO = {"cumple": "✅ cumple", "parcial": "🟡 parcial", "sin_datos": "⚪ sin datos", "falla": "❌ falla"}
+
+
+def via_rapida_lines(vr):
+    """Texto de la vía rápida: trozos por WebSocket y precio del oráculo calculado en casa."""
+    L = []
+    r, ws = vr.get("resumen") or {}, vr.get("ws") or {}
+    if ws:
+        subs = ", ".join(f"{k} {v}" for k, v in sorted((ws.get("suscripciones") or {}).items())) or "ninguna"
+        L.append(f"- WebSocket ({ws.get('url')}): suscripciones {subs}; {num(ws.get('transacciones', 0))} transacciones y {num(ws.get('logs', 0))} logs "
+                 f"recibidos; {ws.get('conexiones', 0)} conexiones" + (f"; errores {ws['errores']}" if ws.get("errores") else "") +
+                 (f"; silencio entre trozos p50 {ms((ws.get('silencio_entre_trozos_ms') or {}).get('p50'))}" if (ws.get("silencio_entre_trozos_ms") or {}).get("n") else "") + ".")
+    if r:
+        d, v = r.get("decision_ms") or {}, r.get("ventaja_frente_a_la_consulta_ms") or {}
+        L.append(f"- Vía rápida (precio del oráculo calculado en casa al llegar su actualización): {num(r.get('actualizaciones', 0))} actualizaciones; decidir "
+                 f"tomó p50 {ms(d.get('p50'))} (p90 {ms(d.get('p90'))}) desde que llegó la actualización, sin consultar a la red"
+                 + (f"; el WebSocket trajo la actualización {ms(v.get('p50'))} antes que la consulta del bloque pendiente (p50, n={v['n']})" if v.get("n") else "")
+                 + f"; {r.get('cruces', 0)} cruces vistos así, {r.get('cruces_liquidados', 0)} liquidados.")
+        h = r.get("holgura_ms") or {}
+        if h.get("n"):
+            L.append(f"- Holgura de la vía rápida frente al ganador (envío supuesto de {r.get('supuesto_envio_ms')} ms): positiva en {r.get('holgura_positiva')} "
+                     f"de {h['n']}; mediana {ms(h.get('p50'))}.")
+    w = vr.get("ventana_ws_ms") or {}
+    if w.get("n"):
+        L.append(f"- Ventana medida por WebSocket entre la actualización del oráculo y la liquidación del ganador: mediana {ms(w['p50'])}, "
+                 f"mín {ms(w['min'])}, máx {ms(w['max'])} (n={w['n']}). Es el tiempo que hubo para ver, decidir y enviar.")
+    return L
 
 
 def separation_lines(sp):
@@ -952,6 +984,9 @@ def render(res):
             L.append(f"- Orden dentro del bloque comprobado en {od['con_perfil']} bloques sellados con trozos conocidos: dentro de un trozo la propina baja en "
                      f"{din('baja')}, queda igual en {din('igual')} y sube en {din('sube')} de los pares consecutivos; al empezar un trozo nuevo sube en "
                      f"{fro('sube')} de {sum(od['frontera'].values())} fronteras. Un orden por prioridad casi no tiene ascensos dentro del trozo.")
+        vr = lv.get("via_rapida")
+        if vr:
+            L += via_rapida_lines(vr)
         pv = lv.get("prueba_clasificador")
         if pv and pv["bloques"]:
             rate = lambda x: pct(x["bien"] / x["n"]) if x["n"] else "—"                  # noqa: E731

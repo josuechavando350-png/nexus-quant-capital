@@ -149,6 +149,16 @@ pico: reaccionó al trozo ya publicado) y *ambigua*. Es una inferencia a partir 
 (`clases_en_vivo`). Distinguir «mismo trozo» de «trozo siguiente» importa: lo primero exige ver la transacción de la actualización antes de que
 entre al bloque, lo segundo solo velocidad sobre el flujo de Flashblocks.
 
+**Vía rápida** (`config: {"flash_ws": "wss://mainnet-preconf.base.org"}`). Lo que haría un sistema que quiere ganar el trozo siguiente:
+en vez de preguntar cada 100 ms, se suscribe por WebSocket (`ws.py`, `flash_stream.py`) a `newFlashblockTransactions` (cada transacción
+preconfirmada, con su hora de llegada) y a `pendingLogs` de los feeds del oráculo. Cuando llega un `AnswerUpdated`, `flash_fast.py` calcula el
+precio nuevo del oráculo en casa (último precio × respuesta nueva / respuesta anterior del feed; al revés si es el feed de cotización),
+evalúa el libro en memoria sin consultar a la red y anota cuánto tardó en decidir. Al sellarse el bloque mide, para cada liquidación real, la
+**ventana** entre la llegada de la actualización y la de la liquidación del ganador (ambas por WebSocket) y la holgura con un envío supuesto de
+`submit_rapido_ms` (20 ms: un servidor cerca del secuenciador; no se mide ni se envía nada). También mide cuánto antes llega la actualización
+por WebSocket que por la consulta. Archivos: `flash_rapido.jsonl` y `via_rapida` / `flash_ws` en `meta.json`. El cliente WebSocket solo
+acepta `eth_subscribe` y `eth_unsubscribe`.
+
 **Conexiones persistentes.** Todos los clientes RPC del Shadow reutilizan la conexión (`rpc.KeepAlive`, HTTP/1.1
 keep-alive por hilo). Antes cada consulta abría TCP y TLS de nuevo (~3 viajes de ida y vuelta) y la latencia medida
 salía ~3 veces peor que la de un sistema real. Con conexiones persistentes, desde Actions: ver un trozo nuevo del

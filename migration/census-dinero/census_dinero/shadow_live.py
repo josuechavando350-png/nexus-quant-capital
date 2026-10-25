@@ -63,6 +63,8 @@ DEFAULTS = {
     "flash_url": None,              # RPC con preconfirmaciones (Flashblocks) para medir la reacción de los ganadores dentro del bloque
     "flash_interval": 0.05,         # cada cuánto se pregunta por el bloque pendiente
     "flash_eval": True,             # con flash_url: además, evaluar el estado pendiente en cada trozo nuevo
+    "flash_ws": None,               # WebSocket con preconfirmaciones: trozos empujados y vía rápida (precio del oráculo calculado en casa)
+    "submit_rapido_ms": 20,         # supuesto de envío para la vía rápida (servidor cerca del secuenciador): no se mide, no se envía
     "orden_cada": 0,                # cada tantos bloques, guarda la secuencia de propinas del bloque sellado (0 = no): comprueba el orden por prioridad
     "orden_max": 150,               # tope de bloques muestreados
 }
@@ -266,6 +268,9 @@ class Shadow:
         self.flash = None                        # FlashWatcher (opcional)
         self.flash_eval = None                   # FlashEvaluator (opcional)
         self.order_sampled = 0                   # bloques sellados guardados para comprobar el orden por prioridad
+        self.fast = self.stream = None           # vía rápida y flujo por WebSocket (opcionales)
+        self.last_snap = None                    # última foto de mercados y precios (la vía rápida parte de aquí)
+        self.last_liq_keys = set()               # liquidables en el último bloque sellado
         self.feed_addrs = []                     # feeds y agregadores detrás de los oráculos de los mercados vigilados
         self.feed_log_cache = {}
         self.bloom = None                        # LogBloom, tras setup()
@@ -858,6 +863,10 @@ class Shadow:
             p = self._propinas_vecinas(e, n, upd)
             if p:
                 out["propinas"] = p
+            if self.fast is not None:
+                w = self.fast.window_for(upd["tx"], e["tx_hash"])
+                if w is not None:
+                    out["ws_ventana_ms"] = w                 # llegada de la liquidación menos llegada de la actualización, por WebSocket
         if liq is None or t0 is None:
             return out
         out.update(visto=True, trozo_liquidacion=liq[1], t_liquidacion_ms=round((liq[0] - t0) * 1000))
@@ -960,6 +969,7 @@ class Shadow:
                 self.counts["deriva_por_eventos"] += 1
         self._sync_unsynced(n, prefer)
         snap = snap_future.result()
+        self.last_snap = snap
         t_snap = self.mono()
         self.last_near_prev = dict(self.last_near)
         liq_now = self._evaluate(snap, n, hdr["ts"])
@@ -970,6 +980,11 @@ class Shadow:
         liquidated_now = {(e["market"], e["user"]) for e in events if e["kind"] == "Liquidate"}
         if self.flash_eval is not None:
             self.flash_eval.on_block(n, {(e["market"], e["user"]): e for e in events if e["kind"] == "Liquidate"}, set(liq_now))
+        self.last_liq_keys = set(liq_now)
+        if self.fast is not None:
+            self.fast.on_block(n, {(e["market"], e["user"]): e for e in events if e["kind"] == "Liquidate"})
+            if n % 30 == 0:
+                threading.Thread(target=self._safely, args=(self.fast.refresh, n), daemon=True).start()   # por si se perdió algún log
         after_gap = self.first_eval_block is not None and n >= self.first_eval_block
         for key, ev_info in liq_now.items():
             if key in self.pending or key in self.expired:
@@ -1217,6 +1232,8 @@ class Shadow:
             "bloques_perdidos_sin_recuperar": sorted(self.lost),
             "flashblocks": None if self.flash is None else self.flash.report(),
             "flash_evaluador": None if self.flash_eval is None else self.flash_eval.report(),
+            "flash_ws": None if self.stream is None else self.stream.report(),
+            "via_rapida": None if self.fast is None else self.fast.report(),
             "latencia_visto_ms": quantiles(self.lat_visto), "latencia_proceso_ms": quantiles(self.lat_proc),
             "latencia_visto_mas_proceso_ms": quantiles(self.lat_total), "libro_deriva": self.book.drift,
             "multicall_ok": self.multicall_ok, "rpc_llamadas": self.rpc.calls, "rpc": self.rpc.report(),
@@ -1330,6 +1347,15 @@ def run_live(cfg, out_dir, cache_path=None, rpc=None, markets=None, head_source=
         flash.start()
         log(f"shadow: siguiendo el bloque pendiente (Flashblocks) en {shadow.cfg['flash_url']} cada {shadow.cfg['flash_interval'] * 1000:.0f} ms"
             + (" y evaluando cada trozo" if evaluator else ""))
+    stream = None
+    if shadow.cfg["flash_ws"]:
+        from .flash_fast import FastPath, describe
+        from .flash_stream import FlashStream
+        fast = FastPath(shadow).setup()
+        stream = FlashStream(shadow.cfg["flash_ws"], fast.addresses(), on_log=fast.on_log)
+        fast.stream = stream
+        shadow.fast, shadow.stream = fast, stream
+        describe(fast)
     cache = None
     if cache_path and os.path.exists(cache_path):
         try:
@@ -1351,6 +1377,10 @@ def run_live(cfg, out_dir, cache_path=None, rpc=None, markets=None, head_source=
         if evaluator:
             evaluator.known = set(shadow.uncertain_keys)       # lo que ya era liquidable al arrancar no es un cruce nuevo
             evaluator.start()                                  # hasta aquí el libro estaba a medias: evaluar antes daría cruces falsos
+        if stream:
+            shadow.last_liq_keys = set(shadow.uncertain_keys)
+            stream.start()
+            log(f"shadow: trozos por WebSocket en {shadow.cfg['flash_ws']} y vía rápida con el precio del oráculo calculado en casa")
         if on_ready:
             on_ready(shadow)
         return shadow.run(cfg.get("minutos", 90), head_source, sleep)
@@ -1361,3 +1391,5 @@ def run_live(cfg, out_dir, cache_path=None, rpc=None, markets=None, head_source=
             flash.stop()
         if evaluator:
             evaluator.stop()
+        if stream:
+            stream.stop()
