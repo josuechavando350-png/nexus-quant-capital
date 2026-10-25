@@ -233,6 +233,9 @@ def main(argv=None):
             with open(args.run_json) as fh:
                 live_cfg, replay_cfg, _, _ = shadow_settings(json.load(fh))
             cfg = {k: v for k, v in {**replay_cfg, **live_cfg}.items() if k in ("min_bonus_usd", "min_net_usd", "submit_ms")}
+            for k in ("min_bonus_usd", "min_net_usd"):          # el replay conserva su umbral aunque el vivo use otro
+                if k in replay_cfg:
+                    cfg["replay_" + k] = replay_cfg[k]
         print(shadow_report.write(shadow_report.build(args.live, args.replay, cfg, diag_dir=args.diag), args.out))
         return 0
     recs, metas = load(args.inputs)

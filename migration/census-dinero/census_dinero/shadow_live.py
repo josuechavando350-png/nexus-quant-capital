@@ -985,7 +985,7 @@ class Shadow:
         row = {"bloque": n, "ts": hdr["ts"], "visto_ms": visto, "cabecera_ms": round((t_hdr - t0) * 1000),
                "logs_ms": round((t_logs - t_hdr) * 1000), "lectura_ms": round((t_snap - t_logs) * 1000),
                "evaluar_ms": round((t_eval - t_snap) * 1000), "total_ms": round(total * 1000), "eventos": n_events,
-               "liquidables": n_liq, "activas": self.book.active_count()}
+               "liquidables": n_liq, "activas": self.book.active_count(), "n_tx": len(hdr.get("txs") or [])}
         self.out.write("bloques.jsonl", row)
         if visto is not None:
             self.lat_visto.append(visto)

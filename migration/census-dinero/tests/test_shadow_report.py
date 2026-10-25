@@ -234,6 +234,14 @@ class TestFlashProfile(unittest.TestCase):
         self.assertEqual(len(p["fraccion_acumulada_p50"]), 4)
         self.assertEqual(p["fraccion_acumulada_p50"][-1], 1.0)
         self.assertEqual(p["txs_por_trozo"]["n"], 8)
+        self.assertIsNone(p["ultimo_trozo_completo"])                          # sin el tamaño del bloque sellado no se puede saber
+
+    def test_the_sealed_block_size_corrects_a_last_chunk_that_slipped_between_two_photos(self):
+        p = sr.flash_profile(self.PERFILES, {1: 400, 2: 520})                  # el bloque 2 traía 520: faltó un trozo de 110
+        self.assertEqual(p["txs_por_bloque"]["max"], 520)
+        self.assertEqual(p["ultimo_trozo_completo"], 0.5)                      # 400/400 sí; 410/520 no
+        solo = sr.flash_profile([self.PERFILES[1]], {2: 520})                  # un solo bloque: la fracción final es lo que vio sobre el total
+        self.assertAlmostEqual(solo["fraccion_acumulada_p50"][-1], 410 / 520, places=6)
 
     def test_rendered_in_the_flashblocks_section_and_absent_without_profiles(self):
         meta = {"contadores": {}, "flashblocks": {"intervalo_de_consulta_ms": 100, "fotos": 5}}
@@ -344,6 +352,15 @@ class TestEndToEnd(unittest.TestCase):
         self.assertEqual((k1["antes"]["n"], k1["empate"]["n"], k1["tarde"]["n"]), (1, 0, 1))
         self.assertEqual(rp["vias"]["subasta"]["n"], 1)
         self.assertEqual((rp["paridad"]["n"], rp["paridad"]["exactas"]), (3, 3))
+
+    def test_the_replay_keeps_its_own_thresholds_when_the_live_run_uses_a_lower_one(self):
+        cfg = {"min_bonus_usd": 1, "min_net_usd": 0, "replay_min_bonus_usd": 1e9, "replay_min_net_usd": 0}     # el vivo vigila lo chico; el replay, nada
+        res = sr.build(self.env.out, self.rdir, cfg)
+        self.assertEqual(res["replay"]["ganables"]["elegibles"], 0)               # con el umbral del replay no queda ninguna
+        self.assertEqual(res["vivo"]["decisiones"]["por_decision"], {"GO": 4})    # el vivo no cambia: no usa el umbral del replay
+        self.assertEqual(sr.replay_thresholds({"min_bonus_usd": 7, "min_net_usd": 3}), {"min_bonus_usd": 7, "min_net_usd": 3})
+        self.assertEqual(sr.replay_thresholds(cfg), {"min_bonus_usd": 1e9, "min_net_usd": 0})
+        self.assertEqual(self.res["replay"]["ganables"]["elegibles"], 2)          # y sin umbral propio sigue igual
 
     def test_gates_and_markdown(self):
         states = {g["puerta"]: g["estado"] for g in self.res["puertas"]}

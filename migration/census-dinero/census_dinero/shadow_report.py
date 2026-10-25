@@ -300,22 +300,28 @@ def analyze_diag(diag_rows, oracles=None):
 
 
 # --- En vivo ----------------------------------------------------------------------------
-def flash_profile(perfiles):
+def flash_profile(perfiles, n_tx=None):
     """Cómo se llena un bloque de Base en el estado pendiente: transacciones por bloque y por trozo, y la parte del bloque que
-    llevan acumulada los trozos. Solo con bloques vistos desde el principio (la primera foto traía pocas transacciones)."""
+    llevan acumulada los trozos. Solo con bloques vistos desde el principio (la primera foto traía pocas transacciones).
+    `n_tx` {bloque: transacciones del bloque sellado} corrige el total si el último trozo se escapó entre dos fotos."""
+    n_tx = n_tx or {}
     full = [p for p in perfiles if p.get("trozos") and p.get("primera_foto", 10 ** 9) <= 5]
-    sizes, finals, counts, frac = [], [], [], {}
+    sizes, finals, counts, frac, last_seen = [], [], [], {}, []
     for p in full:
         cum = [n for _, n in p["trozos"]]
-        finals.append(cum[-1])
+        total = max(n_tx.get(p["bloque"]) or 0, cum[-1])
+        finals.append(total)
         counts.append(len(cum))
+        if n_tx.get(p["bloque"]):
+            last_seen.append(cum[-1] >= 0.98 * total)         # ¿el último trozo observado ya traía (casi) todo el bloque?
         prev = 0
         for k, n in enumerate(cum):
             sizes.append(n - prev)
             prev = n
-            frac.setdefault(k, []).append(n / cum[-1])
+            frac.setdefault(k, []).append(n / total)
     return {"bloques": len(perfiles), "completos": len(full), "txs_por_bloque": quantiles(finals), "trozos_por_bloque": quantiles(counts),
-            "txs_por_trozo": quantiles(sizes), "fraccion_acumulada_p50": [quantiles(v)["p50"] for _, v in sorted(frac.items())]}
+            "txs_por_trozo": quantiles(sizes), "fraccion_acumulada_p50": [quantiles(v)["p50"] for _, v in sorted(frac.items())],
+            "ultimo_trozo_completo": None if not last_seen else sum(last_seen) / len(last_seen)}
 
 
 def analyze_live(bloques, decisiones, resultados, sistema, cercanas, meta, cfg, cruces=None, perfiles=None):
@@ -390,7 +396,7 @@ def analyze_live(bloques, decisiones, resultados, sistema, cercanas, meta, cfg, 
                            "t_liquidacion_ms": quantiles([r["flash"]["t_liquidacion_ms"] for r in rows if "t_liquidacion_ms" in r["flash"]])}
         out["flash"] = {"n": len(fl), "grupos": groups, "watcher": meta.get("flashblocks")}
     if perfiles:
-        out["flash_perfil"] = flash_profile(perfiles)
+        out["flash_perfil"] = flash_profile(perfiles, {b["bloque"]: b["n_tx"] for b in bloques if b.get("n_tx")})
     if cruces is not None or meta.get("flash_evaluador"):
         fc = cruces or []
         liquidated = [r for r in fc if r.get("resultado") == "liquidada"]
@@ -556,6 +562,12 @@ NOT_PROVEN = (
 
 
 # --- Armado -----------------------------------------------------------------------------
+def replay_thresholds(cfg):
+    """Umbrales de bono y de neto con los que se lee el replay: los suyos (replay_*) o, si no los hay, los generales."""
+    return {"min_bonus_usd": cfg.get("replay_min_bonus_usd", cfg["min_bonus_usd"]),
+            "min_net_usd": cfg.get("replay_min_net_usd", cfg["min_net_usd"])}
+
+
 def build(live_dir=None, replay_dir=None, cfg=None, diag_dir=None):
     """Junta el vivo, el replay y la lupa del oráculo; cada parte puede venir de una corrida distinta.
     La lupa (diag.jsonl, diag_oraculos.json) se lee de `diag_dir`, o del replay si no se indica."""
@@ -585,7 +597,8 @@ def build(live_dir=None, replay_dir=None, cfg=None, diag_dir=None):
         replay_meta = read_json(os.path.join(replay_dir, "replay_meta.json"))
         res["fuentes"]["replay"] = {"filas": len(rows), "errores": len(errs), "lineas_cortadas": bad1 + bad2, "meta": replay_meta is not None}
         if rows or replay_meta:
-            replay = analyze_replay(rows, errs, replay_meta, cfg)
+            # El replay puede tener su propio umbral (el vivo puede usar uno más bajo para juntar más GO que comparar).
+            replay = analyze_replay(rows, errs, replay_meta, {**cfg, **replay_thresholds(cfg)})
     res["vivo"], res["replay"] = live, replay
     res["diagnostico"] = None
     diag_dir = diag_dir or replay_dir
@@ -702,8 +715,9 @@ def render(res):
                 for b in rp["por_distancia"]]
         L += table(["Distancia", "Directas", "Subasta", "Bono directo (est.)", "% del bono"], rows)
         g = rp["ganables"]
-        L += ["", f"**Si tu tiempo total** (visto + decisión + envío) es… Solo directas con bono ≥ {usd(res['config']['min_bonus_usd'])} y "
-                  f"neto ≥ {usd(res['config']['min_net_usd'])}, sin deuda mala ({g['elegibles']} en la muestra):", ""]
+        th = replay_thresholds(res["config"])
+        L += ["", f"**Si tu tiempo total** (visto + decisión + envío) es… Solo directas con bono ≥ {usd(th['min_bonus_usd'])} y "
+                  f"neto ≥ {usd(th['min_net_usd'])}, sin deuda mala ({g['elegibles']} en la muestra):", ""]
         rows = [(t["tiempo_total"], cell(t["antes"]), cell(t["empate"]), cell(t["tarde"])) for t in g["por_tiempo_total"]]
         L += table(["Tiempo total", "Llegas antes", "Empate", "Llegas tarde"], rows)
         L += ["", "Cada celda: % de las liquidaciones · bono estimado. «Tarde» = alguien liquidó antes de que tu transacción pudiera caer."]
@@ -843,7 +857,9 @@ def render(res):
         if fp and fp["completos"]:
             L.append(f"- Perfil de los bloques ({num(fp['completos'])} vistos desde el principio): mediana {num(fp['txs_por_bloque']['p50'])} transacciones "
                      f"por bloque en {fp['trozos_por_bloque']['p50']:g} trozos (≈ {num(fp['txs_por_trozo']['p50'])} por trozo); parte del bloque "
-                     "acumulada al terminar cada trozo (mediana): " + ", ".join(pct(x) for x in fp["fraccion_acumulada_p50"]) + ".")
+                     "acumulada al terminar cada trozo (mediana): " + ", ".join(pct(x) for x in fp["fraccion_acumulada_p50"]) + "."
+                     + ("" if fp["ultimo_trozo_completo"] is None else
+                        f" El último trozo observado ya traía todo el bloque en {pct(fp['ultimo_trozo_completo'])} de los casos."))
         fe = lv.get("flash_cruces")
         if fe:
             ev_ = fe.get("evaluador") or {}
