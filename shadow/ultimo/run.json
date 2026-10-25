@@ -4,8 +4,8 @@
     "minutos": 330,
     "vivo": true,
     "replay": {
-      "max": 800,
-      "diag": 300,
+      "max": 1300,
+      "diag": 600,
       "orden": 12,
       "libro_dias": 0,
       "min_bonus_usd": 10,
@@ -20,5 +20,5 @@
       "orden_max": 150
     }
   },
-  "nota": "Shadow v7: igual que la v6 (5.5 h en vivo con umbral de GO bajo, perfil de trozos, replay de 30 días con lupa del oráculo) y además: replay de hasta 800 liquidaciones con lupa en todas las directas (muestra más grande) y comprobación del orden por prioridad dentro de cada trozo con bloques reales (vivo y replay). Solo lectura."
+  "nota": "Shadow v8: igual que la v7 y además: cada liquidación (replay y vivo) guarda las propinas de la actualización del oráculo, de la liquidación y de sus vecinas, para separar a quien se coló en el mismo trozo de quien reaccionó en un trozo posterior; el replay reconstruye todas las liquidaciones de 30 días con bono >= 10 USD (sin muestreo) y mira con lupa todas las directas. Solo lectura."
 }
