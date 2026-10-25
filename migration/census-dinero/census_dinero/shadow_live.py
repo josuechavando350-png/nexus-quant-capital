@@ -63,6 +63,8 @@ DEFAULTS = {
     "flash_url": None,              # RPC con preconfirmaciones (Flashblocks) para medir la reacción de los ganadores dentro del bloque
     "flash_interval": 0.05,         # cada cuánto se pregunta por el bloque pendiente
     "flash_eval": True,             # con flash_url: además, evaluar el estado pendiente en cada trozo nuevo
+    "orden_cada": 0,                # cada tantos bloques, guarda la secuencia de propinas del bloque sellado (0 = no): comprueba el orden por prioridad
+    "orden_max": 150,               # tope de bloques muestreados
 }
 ORACLE_GETTERS = ("BASE_FEED_1", "BASE_FEED_2", "QUOTE_FEED_1", "QUOTE_FEED_2", "BASE_VAULT")
 AUCTION_ENTRIES = {a for c, a in KNOWN_SHARED_ENTRIES if c == "base"}
@@ -136,12 +138,14 @@ class Out:
 
     def __init__(self, directory):
         self.dir = directory
+        self.lock = threading.Lock()         # escriben el ciclo de bloques, el observador de Flashblocks y el muestreo del orden
         os.makedirs(directory, exist_ok=True)
 
     def write(self, name, row):
         # Se abre y se cierra en cada línea: unas pocas por bloque, y nada queda a medias si el job se cancela.
-        with open(os.path.join(self.dir, name), "a") as fh:
-            fh.write(json.dumps(row, sort_keys=True, default=str) + "\n")
+        line = json.dumps(row, sort_keys=True, default=str) + "\n"
+        with self.lock, open(os.path.join(self.dir, name), "a") as fh:
+            fh.write(line)
 
     def json(self, name, obj):
         tmp = os.path.join(self.dir, name + ".tmp")
@@ -261,6 +265,7 @@ class Shadow:
         self.rate_cache = {}
         self.flash = None                        # FlashWatcher (opcional)
         self.flash_eval = None                   # FlashEvaluator (opcional)
+        self.order_sampled = 0                   # bloques sellados guardados para comprobar el orden por prioridad
         self.feed_addrs = []                     # feeds y agregadores detrás de los oráculos de los mercados vigilados
         self.feed_log_cache = {}
         self.bloom = None                        # LogBloom, tras setup()
@@ -977,7 +982,23 @@ class Shadow:
         self.last_block = n
         self._block_row(n, hdr, seen_wall, t0, t_hdr, t_logs, t_snap, t_eval, len(events), len(liq_now))
         self._periodic(n, snap)
+        every = self.cfg["orden_cada"]
+        if every and n % every == 0 and self.order_sampled < self.cfg["orden_max"]:
+            self.order_sampled += 1
+            threading.Thread(target=self._sample_order, args=(n,), daemon=True).start()   # aparte: no suma a la latencia del bloque
         return {"eventos": len(events), "liquidables": len(liq_now)}
+
+    def _sample_order(self, n):
+        """Guarda la propina de cada transacción de un bloque sellado, en su orden, para comprobar si dentro de cada trozo van
+        por prioridad (se junta después con el perfil de trozos de `flash_bloques.jsonl`)."""
+        from .orden import block_tips
+        try:
+            blk = self.rpc.call("eth_getBlockByNumber", [hex(n), True], recent=True)
+            if blk:
+                base, tips = block_tips(blk)
+                self.out.write("orden_bloques.jsonl", {"bloque": n, "base_fee": base, "tips": tips})
+        except Exception:                          # es un extra: que falle no debe afectar al Shadow
+            self.counts["orden_sin_leer"] += 1
 
     def _block_row(self, n, hdr, seen_wall, t0, t_hdr, t_logs, t_snap, t_eval, n_events, n_liq):
         total = self.mono() - t0

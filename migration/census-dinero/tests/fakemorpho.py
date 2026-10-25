@@ -393,6 +393,8 @@ class FakeMorpho:
                 else:
                     n = self.head if tag in ("latest", "finalized") else int(tag, 16)
                     res = self.headers.get(n)
+                    if res is not None and len(p) > 1 and p[1] is True:          # con las transacciones completas
+                        res = dict(res, transactions=[self.txs[h] for h in res["transactions"]])
             elif m == "eth_getLogs":
                 res = self._get_logs(p[0])
             elif m == "eth_call":

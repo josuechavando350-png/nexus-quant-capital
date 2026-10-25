@@ -34,6 +34,7 @@ RDEFAULTS = {
     "scan_workers": 4,          # trozos de getLogs que se piden a la vez al buscar eventos de un rango largo
     "diag": 0,                  # cuántas liquidaciones directas se miran con lupa (precio, feeds del oráculo y su actualización)
     "flash_probe": 0,           # segundos de sonda de Flashblocks (bloque pendiente de un RPC con preconfirmaciones); 0 = no
+    "orden": 0,                 # de los bloques mirados con lupa, cuántos de los más llenos se guardan con la propina de cada transacción (0 = no)
 }
 
 def pick_diag(rows, n):
@@ -377,6 +378,26 @@ class Replay:
         self.out.json("diag_oraculos.json", oracles)
         return out_rows
 
+    def sample_order(self, diag_rows, n):
+        """Los `n` bloques más llenos entre los mirados con lupa, con la propina de cada transacción en su orden: sirve para
+        comprobar si dentro de cada trozo de 200 ms van por prioridad (muchos ascensos de propina = no, pocos = sí)."""
+        from .orden import block_tips
+        sizes = {}
+        for d in diag_rows:
+            if d.get("bloque_n_tx"):
+                sizes[d["bloque_liquidacion"]] = d["bloque_n_tx"]
+        done = 0
+        for b, _ in sorted(sizes.items(), key=lambda kv: -kv[1])[:n]:
+            try:
+                blk = self.sh.rpc.call("eth_getBlockByNumber", [hex(b), True])
+            except RpcError:
+                continue
+            if blk:
+                base, tips = block_tips(blk)
+                self.out.write("orden_bloques.jsonl", {"bloque": b, "base_fee": base, "tips": tips})
+                done += 1
+        return done
+
     # -- ejecución -----------------------------------------------------------------------------
     def run(self, events):
         first, last_seen = {}, {}
@@ -505,6 +526,9 @@ def run_replay(cfg, out_dir, rpc=None, markets=None):
             diag = rp.diagnose(rp.rows_done, rcfg["diag"])
             meta["diag"] = {"filas": len(diag), "con_error": sum(1 for d in diag if "error" in d)}
             log(f"replay: diagnóstico de {len(diag)} liquidaciones directas")
+            if rcfg["orden"]:
+                meta["diag"]["bloques_con_propinas"] = rp.sample_order(diag, rcfg["orden"])
+                log(f"replay: propinas de {meta['diag']['bloques_con_propinas']} bloques llenos guardadas")
         except RpcError as e:
             meta["diag"] = {"error": rpc.scrub(e)[:160]}
     if rcfg["flash_probe"]:

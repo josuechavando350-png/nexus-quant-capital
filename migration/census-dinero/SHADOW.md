@@ -164,6 +164,12 @@ bloque (`diag.jsonl`). El reporte la resume como «Separación»: transacciones,
 transacciones se reparten parejo en los 2 s, un tiempo aproximado; y si la liquidación pagó más, igual o menos
 prioridad que la actualización. Los milisegundos son una aproximación; el sello exacto solo sale en vivo (200 ms).
 
+**Comprobación del orden por prioridad.** La lectura de «reaccionó / iba empaquetado» supone que, dentro de un trozo de 200 ms, el
+secuenciador pone primero a quien paga más propina. Se comprueba con bloques reales: `orden_cada` (vivo) y `orden` (replay) guardan la
+propina de cada transacción. En vivo se juntan con el perfil de trozos (`flash_bloques.jsonl`) y el reporte da, dentro de un trozo, qué parte
+de los pares consecutivos baja, iguala o sube su propina, y cuántas veces sube al empezar un trozo nuevo. En bloques históricos cuenta los
+ascensos de propina por bloque. Si el supuesto fallara, esa lectura no se sostiene y hay que decirlo.
+
 Solo ve posiciones que **terminaron liquidadas**. Las que se recuperaron las mide el modo en vivo.
 
 ## Archivos
@@ -173,8 +179,9 @@ Solo ve posiciones que **terminaron liquidadas**. Las que se recuperaron las mid
 `flash_bloques.jsonl` (cómo se llenó cada bloque sellado: milisegundos y transacciones acumuladas por trozo; sirve para
 repartir en trozos un bloque histórico), `cercanas.jsonl` (foto cada 5 min de las posiciones a menos de 2% del
 umbral), `eventos_del_sistema.jsonl` (reorgs, saltos, bloques perdidos, deriva del libro),
-`meta.json`, `log.txt`.
-`shadow-replay/`: `replay.jsonl`, `replay_errores.jsonl`, `replay_meta.json`, `log.txt`.
+`meta.json`, `log.txt`. Con `orden_cada: N`, además `orden_bloques.jsonl`: la propina de cada transacción de 1 de cada N bloques sellados.
+`shadow-replay/`: `replay.jsonl`, `replay_errores.jsonl`, `replay_meta.json`, `log.txt`, y con `diag` los `diag.jsonl` y `diag_oraculos.json`
+(con `orden: M`, `orden_bloques.jsonl` con la propina de cada transacción de los M bloques más llenos mirados con lupa).
 Los `.jsonl` se escriben línea a línea: una cancelación no deja nada a medias y el reporte
 ignora una última línea cortada.
 

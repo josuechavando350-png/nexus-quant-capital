@@ -16,6 +16,7 @@ from collections import Counter
 from .analyze import num, pct, short, usd
 from .config import SHADOW_BASE_MARKETS, SHADOW_PRIORS_SOURCE
 from .rpc import ALLOWED_METHODS
+from .orden import analyze_order
 from .shadow_live import AUCTION_ENTRIES, DEFAULTS, quantiles
 
 BLOCK_MS = int(DEFAULTS["block_time_s"] * 1000)
@@ -606,6 +607,10 @@ def build(live_dir=None, replay_dir=None, cfg=None, diag_dir=None):
         res["fuentes"]["vivo"]["lineas_cortadas"] += bad6 + bad7
         if b or d or r or live_meta:
             live = analyze_live(b, d, r, s, cc, live_meta, cfg, cruces, perfiles)
+            muestras, bad8 = read_jsonl(os.path.join(live_dir, "orden_bloques.jsonl"))
+            res["fuentes"]["vivo"]["lineas_cortadas"] += bad8
+            if muestras:
+                live["orden"] = analyze_order(muestras, perfiles)
     if replay_dir and os.path.isdir(replay_dir):
         rows, bad1 = read_jsonl(os.path.join(replay_dir, "replay.jsonl"))
         errs, bad2 = read_jsonl(os.path.join(replay_dir, "replay_errores.jsonl"))
@@ -616,6 +621,11 @@ def build(live_dir=None, replay_dir=None, cfg=None, diag_dir=None):
             # El replay puede tener su propio umbral (el vivo puede usar uno más bajo para juntar más GO que comparar).
             replay = analyze_replay(rows, errs, replay_meta, {**cfg, **replay_thresholds(cfg)})
     res["vivo"], res["replay"] = live, replay
+    res["orden_historico"] = None
+    if replay_dir and os.path.isdir(replay_dir):
+        historicos, _ = read_jsonl(os.path.join(replay_dir, "orden_bloques.jsonl"))
+        if historicos:
+            res["orden_historico"] = analyze_order(historicos)
     res["diagnostico"] = None
     diag_dir = diag_dir or replay_dir
     if diag_dir and os.path.isdir(diag_dir):
@@ -810,6 +820,12 @@ def render(res):
         sp = dg.get("separacion")
         if sp and sp["todas"]["n"]:
             L += ["", *separation_lines(sp)]
+        oh = res.get("orden_historico")
+        if oh and oh["bloques"]:
+            L.append(f"Orden de propinas en {oh['bloques']} bloques llenos (mediana {num(oh['transacciones']['p50'])} transacciones): la propina sube de una "
+                     f"transacción a la siguiente {num(oh['ascensos_por_bloque']['p50'])} veces por bloque (mediana; p90 {num(oh['ascensos_por_bloque']['p90'])}). "
+                     "Si cada trozo se ordena por prioridad, los ascensos son del orden de uno por trozo (~10) más los de transacciones que dependen "
+                     "de otra del mismo remitente; si el orden fuera de llegada, serían muchos más.")
         for addr, feeds in list(dg["oraculos"].items())[:4]:
             L.append(f"- Oráculo {short(addr)}: " + ", ".join(f"{g} = {d[0] or '?'} ({short(d[1])})" for g, d in feeds.items()))
         if dg["errores"]:
@@ -889,6 +905,15 @@ def render(res):
                      "acumulada al terminar cada trozo (mediana): " + ", ".join(pct(x) for x in fp["fraccion_acumulada_p50"]) + "."
                      + ("" if fp["ultimo_trozo_completo"] is None else
                         f" El último trozo observado ya traía todo el bloque en {pct(fp['ultimo_trozo_completo'])} de los casos."))
+        od = lv.get("orden")
+        if od and od["con_perfil"]:
+            def share_of(d_):
+                tot_ = sum(d_.values())
+                return (lambda k: pct(d_[k] / tot_)) if tot_ else (lambda k: "—")
+            din, fro = share_of(od["dentro"]), share_of(od["frontera"])
+            L.append(f"- Orden dentro del bloque comprobado en {od['con_perfil']} bloques sellados con trozos conocidos: dentro de un trozo la propina baja en "
+                     f"{din('baja')}, queda igual en {din('igual')} y sube en {din('sube')} de los pares consecutivos; al empezar un trozo nuevo sube en "
+                     f"{fro('sube')} de {sum(od['frontera'].values())} fronteras. Un orden por prioridad casi no tiene ascensos dentro del trozo.")
         fe = lv.get("flash_cruces")
         if fe:
             ev_ = fe.get("evaluador") or {}

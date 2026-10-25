@@ -4,7 +4,9 @@
     "minutos": 330,
     "vivo": true,
     "replay": {
-      "diag": 100,
+      "max": 800,
+      "diag": 300,
+      "orden": 12,
       "libro_dias": 0,
       "min_bonus_usd": 10,
       "min_net_usd": 5
@@ -13,8 +15,10 @@
       "min_bonus_usd": 0.05,
       "min_net_usd": 0.02,
       "flash_url": "https://mainnet-preconf.base.org",
-      "flash_interval": 0.1
+      "flash_interval": 0.1,
+      "orden_cada": 60,
+      "orden_max": 150
     }
   },
-  "nota": "Shadow v6: 5.5 horas en vivo con umbral de GO bajo (0.05 USD) para tener más decisiones que comparar con lo que pasó, perfil de trozos de cada bloque (flash_bloques.jsonl) y tamaño de bloque; en paralelo, replay de 30 días con lupa del oráculo en las 100 mayores liquidaciones directas (tamaño del bloque y prioridad de cada transacción). El reporte puede juntar el vivo, el replay y la lupa de corridas distintas. Solo lectura."
+  "nota": "Shadow v7: igual que la v6 (5.5 h en vivo con umbral de GO bajo, perfil de trozos, replay de 30 días con lupa del oráculo) y además: replay de hasta 800 liquidaciones con lupa en todas las directas (muestra más grande) y comprobación del orden por prioridad dentro de cada trozo con bloques reales (vivo y replay). Solo lectura."
 }
