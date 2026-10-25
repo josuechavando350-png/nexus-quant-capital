@@ -222,7 +222,7 @@ def analyze_replay(rows, errors, meta, cfg):
     return out
 
 
-SEPARATION_STEPS = ((1, "pegada (hasta 1 tx)"), (10, "hasta 10 tx"), (100, "hasta 100 tx"), (None, "más de 100 tx"))
+SEPARATION_STEPS = ((1, "hasta 1 tx"), (10, "hasta 10 tx"), (100, "hasta 100 tx"), (None, "más de 100 tx"))
 
 
 def separation(rows):
@@ -245,11 +245,23 @@ def separation(rows):
             out["por_via"][via] = one(part)
     prio = Counter(r["prioridad_vs_actualizacion"] for r in same if r["prioridad_vs_actualizacion"])
     out["prioridad_de_la_liquidacion_vs_actualizacion"] = dict(prio)
+    # Con cuánto bono (estimado con los pesos de la muestra del replay, si los hay) se queda cada caso: pagar más prioridad que la
+    # actualización y caer después implica un trozo posterior (reaccionó); la misma prioridad es lo típico de lo empaquetado con ella.
+    wt = lambda r: r["peso"] if r.get("peso") is not None else 1.0                                       # noqa: E731
+    tagged = [r for r in same if r["prioridad_vs_actualizacion"]]
+    total = sum((r.get("bono_usd") or 0.0) * wt(r) for r in tagged)
+    out["por_prioridad"] = {}
+    for tag in ("mayor", "igual", "menor"):
+        part = [r for r in tagged if r["prioridad_vs_actualizacion"] == tag]
+        b = sum((r.get("bono_usd") or 0.0) * wt(r) for r in part)
+        out["por_prioridad"][tag] = {"n": len(part), "bono_est_usd": b, "parte_del_bono": share(b, total)}
+    out["con_pesos"] = bool(tagged) and all(r.get("peso") is not None for r in tagged)
     return out
 
 
-def analyze_diag(diag_rows, oracles=None):
-    """Qué pasó con el precio y los feeds del oráculo justo antes de cada liquidación directa mirada con lupa."""
+def analyze_diag(diag_rows, oracles=None, weights=None):
+    """Qué pasó con el precio y los feeds del oráculo justo antes de cada liquidación directa mirada con lupa.
+    `weights` {(tx, mercado, prestatario): peso} son los pesos de la muestra del replay, para estimar bonos de todo el período."""
     ok = [d for d in diag_rows if "serie" in d]
     out = {"n": len(ok), "errores": len(diag_rows) - len(ok), "oraculos": {}}
     rows, gaps = [], []
@@ -278,7 +290,9 @@ def analyze_diag(diag_rows, oracles=None):
             gaps.append(gap)
         n_tx = d.get("bloque_n_tx")
         prio_l, prio_u = d.get("prioridad_wei"), (upd or {}).get("prioridad_wei")
-        rows.append({"etiqueta": d["etiqueta"], "bloque": b, "liquidable_un_bloque_antes": liq_prev, "precio_cambio_en_el_bloque": price_changed,
+        rows.append({"etiqueta": d["etiqueta"], "bloque": b, "bono_usd": d.get("bono_usd"),
+                     "peso": (weights or {}).get((d.get("tx"), d.get("mercado"), d.get("prestatario"))),
+                     "liquidable_un_bloque_antes": liq_prev, "precio_cambio_en_el_bloque": price_changed,
                      "feed_cambio_en_el_bloque": feed_changed, "bloques_desde_el_ultimo_cambio_de_feed": last_change,
                      "tx_entre_actualizacion_y_liquidacion": gap,
                      "bloque_n_tx": n_tx, "fraccion_del_bloque": gap / n_tx if gap is not None and n_tx else None,
@@ -576,6 +590,7 @@ def build(live_dir=None, replay_dir=None, cfg=None, diag_dir=None):
            "supuestos": {"priors": SHADOW_PRIORS_SOURCE, "submit_ms": cfg.get("submit_ms", DEFAULTS["submit_ms"]),
                          "bloque_ms": BLOCK_MS}}
     live = replay = live_meta = replay_meta = None
+    weights = None
     if live_dir and os.path.isdir(live_dir):
         b, bad1 = read_jsonl(os.path.join(live_dir, "bloques.jsonl"))
         d, bad2 = read_jsonl(os.path.join(live_dir, "decisiones.jsonl"))
@@ -595,6 +610,7 @@ def build(live_dir=None, replay_dir=None, cfg=None, diag_dir=None):
         rows, bad1 = read_jsonl(os.path.join(replay_dir, "replay.jsonl"))
         errs, bad2 = read_jsonl(os.path.join(replay_dir, "replay_errores.jsonl"))
         replay_meta = read_json(os.path.join(replay_dir, "replay_meta.json"))
+        weights = {(r.get("tx"), r.get("mercado"), r.get("prestatario")): weight(r) for r in rows}
         res["fuentes"]["replay"] = {"filas": len(rows), "errores": len(errs), "lineas_cortadas": bad1 + bad2, "meta": replay_meta is not None}
         if rows or replay_meta:
             # El replay puede tener su propio umbral (el vivo puede usar uno más bajo para juntar más GO que comparar).
@@ -605,7 +621,7 @@ def build(live_dir=None, replay_dir=None, cfg=None, diag_dir=None):
     if diag_dir and os.path.isdir(diag_dir):
         drows, _ = read_jsonl(os.path.join(diag_dir, "diag.jsonl"))
         if drows:
-            res["diagnostico"] = analyze_diag(drows, read_json(os.path.join(diag_dir, "diag_oraculos.json")))
+            res["diagnostico"] = analyze_diag(drows, read_json(os.path.join(diag_dir, "diag_oraculos.json")), weights)
             res["fuentes"]["lupa"] = {"filas": len(drows)}
     res["metodos_rpc"] = sorted(rpc_methods(live_meta, replay_meta))
     res["puertas"] = gates(live, replay, set(res["metodos_rpc"]))
@@ -648,11 +664,15 @@ def separation_lines(sp):
              for v, x in sp["por_via"].items()]
     if parts:
         L.append("Según cómo se actualizó el oráculo: " + "; ".join(parts) + ".")
-    pr = sp.get("prioridad_de_la_liquidacion_vs_actualizacion") or {}
-    if pr:
-        L.append("Prioridad que pagó la liquidación frente a la de la actualización: " + ", ".join(f"{k} {v}" for k, v in sorted(pr.items())) +
-                 ". Dentro de un trozo de 200 ms las transacciones se ordenan por prioridad: pagar más y caer después de la actualización "
-                 "implica un trozo posterior; pagar igual o menos no descarta el mismo trozo.")
+    pp = sp.get("por_prioridad") or {}
+    if any(x["n"] for x in pp.values()):
+        names = {"mayor": "pagó más prioridad que la actualización (reaccionó en un trozo posterior)",
+                 "igual": "pagó la misma (empaquetada con la actualización: no hay carrera)",
+                 "menor": "pagó menos (puede ser el mismo trozo o uno posterior)"}
+        parts = [f"{names[k]}: {x['n']} casos, {pct(x['parte_del_bono'])} del bono" + (f" ({usd(x['bono_est_usd'])})" if sp.get("con_pesos") else "")
+                 for k, x in pp.items() if x["n"]]
+        L.append("Prioridad que pagó la liquidación frente a la de la actualización — " + "; ".join(parts) + ". Dentro de un trozo de 200 ms las "
+                 "transacciones se ordenan por prioridad: pagar más y caer después de la actualización implica un trozo posterior.")
     if t["fraccion"]["n"]:
         L.append("_Los milisegundos son una aproximación: suponen que las transacciones se reparten parejo en los 2 s del bloque; el sello exacto "
                  "de cada transacción solo se ve en vivo, por trozos de 200 ms._")

@@ -273,7 +273,7 @@ class TestSeparation(unittest.TestCase):
         sp = a["separacion"]
         t = sp["todas"]
         self.assertEqual((t["n"], t["tx"]["p50"], t["tx"]["max"]), (4, 99, 1922))                  # quantiles toma el valor del medio superior
-        self.assertEqual(t["tramos"], {"pegada (hasta 1 tx)": 1, "hasta 10 tx": 0, "hasta 100 tx": 2, "más de 100 tx": 1})
+        self.assertEqual(t["tramos"], {"hasta 1 tx": 1, "hasta 10 tx": 0, "hasta 100 tx": 2, "más de 100 tx": 1})
         self.assertEqual((sp["por_via"]["subasta"]["n"], sp["por_via"]["normal"]["n"]), (2, 2))
         self.assertAlmostEqual(sp["por_via"]["normal"]["fraccion"]["p50"], 91 / 1400, places=6)
         self.assertEqual(sp["prioridad_de_la_liquidacion_vs_actualizacion"], {"mayor": 2, "igual": 1, "menor": 1})
@@ -285,6 +285,25 @@ class TestSeparation(unittest.TestCase):
         self.assertIn("por la subasta OEV 1", md)
         self.assertIn("por un transmisor normal 1", md)
         self.assertIn("aproximación", md)
+
+    def test_bonus_by_priority_uses_the_sample_weights(self):
+        a = self.diag(1793, 1694, 2000, prio_liq=7, prio_upd=5)                           # más prioridad: reaccionó
+        b = self.diag(46, 45, 100, to=self.AUCTION, prio_liq=5, prio_upd=5)               # la misma: empaquetada
+        c = self.diag(622, 531, 1400, prio_liq=3, prio_upd=5)                             # menos: ambigua
+        for i, (d, bono) in enumerate(((a, 1000.0), (b, 3000.0), (c, 500.0))):
+            d.update(bono_usd=bono, tx=f"0x{i}", mercado="0xm", prestatario=f"0xp{i}")
+        w = {("0x0", "0xm", "0xp0"): 2.0, ("0x1", "0xm", "0xp1"): 1.0, ("0x2", "0xm", "0xp2"): 4.0}
+        sp = sr.analyze_diag([a, b, c], None, w)["separacion"]
+        pp = sp["por_prioridad"]
+        self.assertTrue(sp["con_pesos"])
+        self.assertEqual((pp["mayor"]["bono_est_usd"], pp["igual"]["bono_est_usd"], pp["menor"]["bono_est_usd"]), (2000.0, 3000.0, 2000.0))
+        self.assertAlmostEqual(pp["igual"]["parte_del_bono"], 3000 / 7000)
+        md = "\n".join(sr.separation_lines(sp))
+        self.assertIn("empaquetada con la actualización", md)
+        self.assertIn("43% del bono ($3,000)", md)
+        sp2 = sr.analyze_diag([a, b, c])["separacion"]                                    # sin pesos: no se presentan dólares estimados
+        self.assertFalse(sp2["con_pesos"])
+        self.assertNotIn("$3,000", "\n".join(sr.separation_lines(sp2)))
 
     def test_old_diag_rows_without_block_size_still_work(self):
         d = self.diag(10, 4, None)
