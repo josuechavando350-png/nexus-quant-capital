@@ -135,6 +135,12 @@ decidimos más tarde que el ganador) quedan contadas aparte.
 Es la medida correcta de "llegar a tiempo", pero sigue siendo la visión de un servidor de GitHub Actions: no
 mide el envío ni el orden de prioridad (propina) dentro del trozo.
 
+Lo que dice la documentación de Base (docs.base.org, «Transaction ordering» y «Flashblocks») coincide con lo medido: cada bloque trae 10 trozos de
+200 ms (más el índice 0 con las transacciones del sistema), cada trozo se arma como subasta de propina de mayor a menor y el presupuesto de gas
+es acumulado (el trozo *j* puede llegar a *j*/10 del límite del bloque). Además, el constructor sigue aceptando transacciones mientras arma el trozo:
+una con propina alta que llega tarde puede quedar detrás de otra ya confirmada con menos. Dónde está físicamente el secuenciador no es público;
+no se supone nada de eso aquí.
+
 **Conexiones persistentes.** Todos los clientes RPC del Shadow reutilizan la conexión (`rpc.KeepAlive`, HTTP/1.1
 keep-alive por hilo). Antes cada consulta abría TCP y TLS de nuevo (~3 viajes de ida y vuelta) y la latencia medida
 salía ~3 veces peor que la de un sistema real. Con conexiones persistentes, desde Actions: ver un trozo nuevo del
