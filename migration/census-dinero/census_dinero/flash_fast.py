@@ -94,7 +94,7 @@ class FastPath:
         if not snap:
             return
         number = int(lg.get("blockNumber") or "0x0", 16)
-        liq, _, _ = self.sh._evaluate_core(snap, number, int(self.wall()))
+        liq, _, _ = self.sh._evaluate_core(snap, number, int(self.wall()), offline=True)      # nada de red en el camino crítico
         t_ready = self.wall()
         dms = round((t_ready - t_recv) * 1000, 1)
         known = self.sh.last_liq_keys or set()
@@ -137,6 +137,7 @@ class FastPath:
                 u["ventaja_ms"] = None if polled is None else round((polled[0] - u["t_log"]) * 1000)
                 if u["ventaja_ms"] is not None:
                     self.ventaja_ms.append(u["ventaja_ms"])
+                self.sh.out.write("flash_actualizaciones.jsonl", u)          # una por actualización: para explicar los casos lentos
             for key, rec in list(self.crossings.items()):
                 if rec["bloque_pendiente"] > n:
                     continue
@@ -165,7 +166,9 @@ class FastPath:
 
     def report(self):
         with self.lock:
-            return {**self.stats, "decision_ms": quantiles(self.decision_ms), "ventaja_frente_a_la_consulta_ms": quantiles(self.ventaja_ms),
+            return {**self.stats, "decision_ms": quantiles(self.decision_ms),
+                    "evaluar_ms": quantiles([u["evaluar_ms"] for u in self.updates.values()]),
+                    "ventaja_frente_a_la_consulta_ms": quantiles(self.ventaja_ms),
                     "ventana_ms": quantiles(self.ventana_ms), "holgura_ms": quantiles(self.holgura_ms),
                     "holgura_positiva": sum(1 for x in self.holgura_ms if x > 0), "supuesto_envio_ms": self.sh.cfg["submit_rapido_ms"],
                     "feeds": len(self.by_addr)}

@@ -655,14 +655,19 @@ class Shadow:
             self.book.set_state(key[0], key[1], bs, coll, n)
         self.counts["posiciones_sincronizadas"] += len(got)
 
-    def _rate(self, mid, state, n, ts):
+    def _rate(self, mid, state, n, ts, offline=False):
         """Tipo de interés del IRM para estimar el interés acumulado. Solo hace falta cerca del umbral y cambia muy
-        despacio, así que se reutiliza mientras el mercado no cambie (una llamada por bloque costaba ~200 ms)."""
+        despacio, así que se reutiliza mientras el mercado no cambie (una llamada por bloque costaba ~200 ms).
+        `offline`: la vía rápida no espera a la red; usa la última tasa leída de ese mercado, aunque haya caducado."""
         info = self.markets[mid]
         if info.params.irm == mo.ZERO:
             return 0
         key = (state.last_update, state.total_supply_assets, state.total_borrow_assets)
         hit = self.rate_cache.get(mid)
+        if offline:
+            if hit is None:
+                self.counts["tasa_sin_cache_via_rapida"] += 1
+            return None if hit is None else hit[2]
         if hit and hit[0] == key and self.mono() - hit[1] < self.cfg["rate_ttl_s"]:
             return hit[2]
         try:
@@ -677,8 +682,9 @@ class Shadow:
             self.rate_cache[mid] = (key, self.mono(), rate)
         return rate
 
-    def _evaluate_core(self, snap, n, ts):
-        """(liquidables, cerca del umbral) sin tocar el estado del Shadow: lo usan el ciclo de bloques y el evaluador de Flashblocks."""
+    def _evaluate_core(self, snap, n, ts, offline=False):
+        """(liquidables, cerca del umbral) sin tocar el estado del Shadow: lo usan el ciclo de bloques y el evaluador de Flashblocks.
+        `offline`: sin ninguna consulta a la red (la vía rápida)."""
         liq, near, near_map = {}, [], {}
         limit = 1 + self.cfg["near_band"] + 1e-6
         for mid, (state, price) in snap.items():
@@ -706,7 +712,7 @@ class Shadow:
                     near_map[(mid, user)] = ratio
                     near.append((ratio, mid, user, borrowed))
             if edge and ts - state.last_update > 5:
-                rate = self._rate(mid, state, n, ts)
+                rate = self._rate(mid, state, n, ts, offline)
                 if rate:
                     aged = mo.accrue(state, rate, ts)
                     for user, p in edge:

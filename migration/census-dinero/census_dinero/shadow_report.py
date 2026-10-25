@@ -775,9 +775,10 @@ def via_rapida_lines(vr):
                  f"recibidos; {ws.get('conexiones', 0)} conexiones" + (f"; errores {ws['errores']}" if ws.get("errores") else "") +
                  (f"; silencio entre trozos p50 {ms((ws.get('silencio_entre_trozos_ms') or {}).get('p50'))}" if (ws.get("silencio_entre_trozos_ms") or {}).get("n") else "") + ".")
     if r:
-        d, v = r.get("decision_ms") or {}, r.get("ventaja_frente_a_la_consulta_ms") or {}
+        d, v, e = r.get("decision_ms") or {}, r.get("ventaja_frente_a_la_consulta_ms") or {}, r.get("evaluar_ms") or {}
         L.append(f"- Vía rápida (precio del oráculo calculado en casa al llegar su actualización): {num(r.get('actualizaciones', 0))} actualizaciones; decidir "
-                 f"tomó p50 {ms(d.get('p50'))} (p90 {ms(d.get('p90'))}) desde que llegó la actualización, sin consultar a la red"
+                 f"tomó p50 {ms(d.get('p50'))} (p90 {ms(d.get('p90'))}, máx {ms(d.get('max'))}) desde que llegó la actualización, sin consultar a la red"
+                 + (f" (evaluar el libro: p50 {e['p50']:g} ms, máx {e['max']:g} ms)" if e.get("n") else "")
                  + (f"; el WebSocket trajo la actualización {ms(v.get('p50'))} antes que la consulta del bloque pendiente (p50, n={v['n']})" if v.get("n") else "")
                  + f"; {r.get('cruces', 0)} cruces vistos así, {r.get('cruces_liquidados', 0)} liquidados.")
         h = r.get("holgura_ms") or {}

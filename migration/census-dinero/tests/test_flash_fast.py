@@ -97,7 +97,7 @@ class TestFastPath(unittest.TestCase):
     def test_quote_feeds_move_the_price_the_other_way(self):
         env, fast, _, _ = self.make()
         seen = {}
-        env.sh._evaluate_core = lambda snap, n, ts: (seen.update(snap) or {}, [], {})
+        env.sh._evaluate_core = lambda snap, n, ts, **kw: (seen.update(snap) or {}, [], {})
         quote = "0x" + "34" * 20
         fast.by_addr[quote] = [(env.mid, "QUOTE_FEED_1", quote)]
         fast.answers[(env.mid, "QUOTE_FEED_1")] = 100
@@ -110,6 +110,59 @@ class TestFastPath(unittest.TestCase):
         env.sh.last_snap = None
         fast.on_log(answer_log(env.chain.markets[env.mid]["feed"], DROP, env.chain.head + 1), 100.0)
         self.assertEqual((fast.crossings, fast.stats["sin_precio_base"]), ({}, 1))
+
+
+    def test_each_update_is_logged_with_its_timings_when_the_block_seals(self):
+        env, fast, st, clock = self.make()
+        n = env.chain.head + 1
+        fast.on_log(answer_log(env.chain.markets[env.mid]["feed"], DROP, n, tx="0x" + "78" * 32), 100.0)
+        self.assertEqual(env.rows("flash_actualizaciones.jsonl"), [])         # todavía no se selló el bloque
+        n2 = env.chain.mine([("set_price", env.mid, DROP)])
+        env.sh.process_block(n2, 101.0, env.clock.mono())
+        rows = env.rows("flash_actualizaciones.jsonl")
+        self.assertEqual(len(rows), 1)
+        self.assertEqual((rows[0]["tx"], rows[0]["decision_ms"], rows[0]["mercados"]), ("0x" + "78" * 32, 5.0, [env.mid]))
+        self.assertIn("evaluar_ms", rows[0])
+        self.assertEqual(fast.report()["evaluar_ms"]["n"], 1)
+
+
+class TestNoNetworkInTheFastPath(unittest.TestCase):
+    RATE = int(0.05 / 31_536_000 * 1e18)              # 5% al año
+
+    def make(self):
+        env = Env({"flash_url": "https://pre", "rate_ttl_s": 0.0, "min_bonus_usd": 0, "min_net_usd": 0},
+                  rate=self.RATE).ready((U[0], 1630))                         # tras la caída queda a 0.25% del umbral: hay que mirar el interés
+        env.sh.flash = FlashWatcher(env.rpc, "https://pre")
+        env.step()
+        later = {"wall": int(env.chain.headers[env.chain.head]["timestamp"], 16) + 60}
+        fast = FastPath(env.sh, StreamStub(), wall=lambda: later["wall"]).setup()
+        env.sh.fast = fast
+        return env, fast
+
+    def test_without_a_cached_rate_it_decides_without_waiting_for_one(self):
+        env, fast = self.make()
+        env.sh.rate_cache.clear()
+        calls = len(env.chain.calls)
+        fast.on_log(answer_log(env.chain.markets[env.mid]["feed"], DROP, env.chain.head + 1), 100.0)
+        self.assertEqual(len(env.chain.calls), calls)                         # ni la tasa del IRM se pide a la red
+        self.assertEqual(env.sh.counts["tasa_sin_cache_via_rapida"], 1)
+        self.assertEqual(fast.report()["actualizaciones"], 1)
+
+    def test_an_expired_cached_rate_is_used_as_is(self):
+        env, fast = self.make()
+        env.sh.rate_cache[env.mid] = (("otro", "estado", 0), -1e9, self.RATE)  # caducada y de otro estado: igual sirve en la vía rápida
+        calls = len(env.chain.calls)
+        fast.on_log(answer_log(env.chain.markets[env.mid]["feed"], DROP, env.chain.head + 1), 100.0)
+        self.assertEqual(len(env.chain.calls), calls)
+        self.assertEqual(env.sh.counts["tasa_sin_cache_via_rapida"], 0)
+
+    def test_the_sealed_block_loop_still_reads_the_rate(self):
+        env, _ = self.make()
+        env.sh.rate_cache.clear()
+        for _ in range(3):
+            env.step()                                                        # que pasen más de 5 s sin tocar el mercado
+        env.step([("set_price", env.mid, DROP)])
+        self.assertIn(env.mid, env.sh.rate_cache)                             # fuera de la vía rápida se sigue leyendo de la red
 
 
 if __name__ == "__main__":
