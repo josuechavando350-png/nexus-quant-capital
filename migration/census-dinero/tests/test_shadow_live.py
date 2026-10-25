@@ -14,6 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fakemorpho as fm  # noqa: E402
 from census_dinero import morpho as mo  # noqa: E402
 from census_dinero.rpc import Rpc, RpcError  # noqa: E402
+from census_dinero.flash_watch import FlashWatcher  # noqa: E402
 from census_dinero.shadow_live import HeadWatcher, LogBloom, Shadow, bloom_bits, bloom_has, run_live  # noqa: E402
 
 
@@ -768,6 +769,86 @@ class TestBloom(unittest.TestCase):
         env = Env().ready((U[0], 1700))                                                            # un solo bloque con eventos
         self.assertFalse(env.sh.bloom_ok)
         self.assertEqual(env.sh.meta["bloom"]["bloques_con_eventos"], 1)
+
+
+class TestFlashTiming(unittest.TestCase):
+    """Cuándo apareció cada transacción en el bloque pendiente y cuánto tardó el ganador tras la actualización del oráculo."""
+
+    def make(self):
+        env = Env({"flash_url": "https://pre"}).ready((U[0], 1700))
+        w = FlashWatcher(env.rpc, "https://pre")                 # sin hilo: las fotos del bloque pendiente se guionizan a mano
+        env.sh.flash = w
+        return env, w
+
+    def liquidation_block(self, env):
+        n = env.chain.mine([("set_price", env.mid, DROP), ("liquidate", env.mid, B[0], U[0])])
+        upd, liq = env.chain.headers[n]["transactions"]
+        return n, upd, liq
+
+    def result(self, env):
+        return [r for r in env.rows("resultados.jsonl") if "bloque_liquidacion" in r][0]
+
+    def test_feeds_behind_the_oracles_are_discovered(self):
+        env, _ = self.make()
+        feed = env.chain.markets[env.mid]["feed"]
+        self.assertIn(feed, env.sh.feed_addrs)
+        self.assertEqual(len(env.sh.feed_addrs), 2)                       # el feed y su agregador
+        self.assertEqual(env.sh.meta["feeds"][env.mid]["BASE_FEED_1"][0], "M0 / USD")
+
+    def test_reaction_in_ms_and_chunks(self):
+        env, w = self.make()
+        n, upd, liq = self.liquidation_block(env)
+        w.ingest(100.00, n, [upd])
+        w.ingest(100.23, n, [upd, liq])                                    # la liquidación entra un trozo (230 ms) después
+        env.sh.process_block(n, None, None, None)
+        f = self.result(env)["flash"]
+        self.assertTrue(f["visto"])
+        self.assertEqual((f["trozo_actualizacion"], f["trozo_liquidacion"], f["trozos_entre"]), (0, 1, 1))
+        self.assertEqual(f["reaccion_ms"], 230)
+        self.assertEqual((f["t_actualizacion_ms"], f["t_liquidacion_ms"]), (0, 230))
+        self.assertEqual((f["actualizacion_tx_index"], f["tx_entre_actualizacion_y_liquidacion"]), (0, 1))
+
+    def test_bundled_liquidation_lands_in_the_same_chunk(self):
+        env, w = self.make()
+        n, upd, liq = self.liquidation_block(env)
+        w.ingest(100.00, n, [upd, liq])
+        env.sh.process_block(n, None, None, None)
+        f = self.result(env)["flash"]
+        self.assertEqual((f["trozos_entre"], f["reaccion_ms"]), (0, 0))
+
+    def test_liquidation_the_watcher_never_saw_is_marked_unseen(self):
+        env, w = self.make()
+        n, upd, liq = self.liquidation_block(env)
+        w.ingest(100.00, n, [upd])
+        env.sh.process_block(n, None, None, None)
+        f = self.result(env)["flash"]
+        self.assertFalse(f["visto"])
+        self.assertNotIn("reaccion_ms", f)
+        self.assertEqual(f["actualizacion_tx_index"], 0)
+
+    def test_without_watcher_rows_have_no_flash_data(self):
+        env = Env().ready((U[0], 1700))
+        env.step([("set_price", env.mid, DROP)])
+        env.step([("liquidate", env.mid, B[0], U[0])])
+        self.assertNotIn("flash", self.result(env))
+        self.assertIsNone(env.sh.write_meta() or env.sh.meta.get("flashblocks"))
+
+    def test_watcher_report_goes_to_meta(self):
+        env, w = self.make()
+        w.ingest(1.0, 5, ["0x" + "11" * 32])
+        env.sh.write_meta()
+        with open(os.path.join(env.out, "meta.json")) as fh:
+            self.assertEqual(json.load(fh)["flashblocks"]["url"], "https://pre")
+
+    def test_a_failing_logs_lookup_does_not_break_resolution(self):
+        env, w = self.make()
+        n, upd, liq = self.liquidation_block(env)
+        w.ingest(100.00, n, [upd, liq])
+        env.chain.fail("eth_getLogs", times=100, message="boom", when=lambda p: "blockHash" in p[0] and "topics" not in p[0])
+        env.sh.process_block(n, None, None, None)
+        f = self.result(env)["flash"]
+        self.assertTrue(f["visto"])
+        self.assertNotIn("reaccion_ms", f)
 
 
 class TestRateCache(unittest.TestCase):

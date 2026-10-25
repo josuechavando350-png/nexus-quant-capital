@@ -36,24 +36,6 @@ RDEFAULTS = {
     "flash_probe": 0,           # segundos de sonda de Flashblocks (bloque pendiente de un RPC con preconfirmaciones); 0 = no
 }
 
-ORACLE_GETTERS = ("BASE_FEED_1", "BASE_FEED_2", "QUOTE_FEED_1", "QUOTE_FEED_2", "BASE_VAULT")
-
-
-def _word_address(data):
-    if len(data) == 32 and int.from_bytes(data, "big"):
-        return "0x" + data[12:].hex()
-    return None
-
-
-def _decode_string(data):
-    try:
-        off = int.from_bytes(data[0:32], "big")
-        n = int.from_bytes(data[off:off + 32], "big")
-        return data[off + 32:off + 32 + n].decode("utf-8", "replace")
-    except (ValueError, IndexError):
-        return None
-
-
 def pick_diag(rows, n):
     """Las liquidaciones directas más grandes, repartidas entre los mercados (no solo las del mercado más grande)."""
     direct = sorted((r for r in rows if r.get("via") == "directa" and not r.get("sin_dato")), key=lambda r: -r["bono_usd"])
@@ -316,21 +298,8 @@ class Replay:
 
     # -- diagnóstico: una mirada directa, bloque a bloque, a unas liquidaciones ----------------------
     def diag_oracle(self, info, block):
-        """Qué feeds hay detrás del oráculo del mercado (MorphoChainlinkOracleV2 y parecidos) y cómo se llaman."""
-        oracle = info.params.oracle
-        res = self.sh.mcall([(oracle, selector(f"{g}()")) for g in ORACLE_GETTERS], block, recent=False)
-        feeds = {g: _word_address(data) for g, (ok, data) in zip(ORACLE_GETTERS, res) if ok}
-        feeds = {g: a for g, a in feeds.items() if a}
-        out = {"oraculo": oracle, "feeds": feeds, "detalle": {}}
-        for g, addr in feeds.items():
-            if g == "BASE_VAULT":
-                continue
-            r = self.sh.mcall([(addr, selector("description()")), (addr, selector("decimals()")), (addr, selector("aggregator()"))],
-                              block, recent=False)
-            out["detalle"][g] = {"direccion": addr, "descripcion": _decode_string(r[0][1]) if r[0][0] else None,
-                                 "decimales": int.from_bytes(r[1][1], "big") if r[1][0] and len(r[1][1]) == 32 else None,
-                                 "agregador": _word_address(r[2][1]) if r[2][0] else None}
-        return out
+        """Qué feeds hay detrás del oráculo del mercado y cómo se llaman (la misma lectura que usa el modo en vivo)."""
+        return self.sh.oracle_feeds(info, block, recent=False)
 
     def diag_feeds_at(self, oracle_info, block):
         """Respuesta de cada feed en el estado final de `block`: ronda, valor y hora de actualización."""

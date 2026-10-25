@@ -157,6 +157,43 @@ class TestGates(unittest.TestCase):
         self.assertIn("fuera_del_libro 1", g["evidencia"])
 
 
+class TestFlashSection(unittest.TestCase):
+    def live(self, rows, flashblocks=None):
+        return sr.analyze_live([{"bloque": 1, "ts": 1, "visto_ms": 300, "total_ms": 400}], [], rows, [], [],
+                               {"flashblocks": flashblocks, "contadores": {}}, CFG)
+
+    def liq(self, via, bono, flash):
+        return {"bloque_liquidacion": 10, "tx": "0x1", "prestatario": "0xa", "etiqueta": "M", "via": via, "bono_usd": bono,
+                "resultado": "liquidada_sin_aviso", "clase": "mismo_bloque", "flash": flash}
+
+    def test_groups_by_reaction_and_via(self):
+        rows = [self.liq("directa", 100, {"visto": True, "trozos_entre": 0, "reaccion_ms": 0, "t_liquidacion_ms": 300}),
+                self.liq("directa", 50, {"visto": True, "trozos_entre": 1, "reaccion_ms": 210, "t_liquidacion_ms": 900}),
+                self.liq("directa", 20, {"visto": True, "trozos_entre": 3, "reaccion_ms": 640, "t_liquidacion_ms": 1500}),
+                self.liq("directa", 10, {"visto": True}),
+                self.liq("directa", 5, {"visto": False}),
+                self.liq("subasta", 400, {"visto": True, "trozos_entre": 0, "reaccion_ms": 0, "t_liquidacion_ms": 100})]
+        a = self.live(rows, {"intervalo_de_consulta_ms": 50, "rtt_ms": {"p50": 26}, "fotos": 100, "intervalo_entre_trozos_ms": {"p50": 198}})
+        d = a["flash"]["grupos"]["directa"]
+        self.assertEqual(d["n"], 5)
+        self.assertEqual(d["por_tipo"], {"mismo_trozo": 1, "siguiente_trozo": 1, "dos_o_mas": 1, "sin_actualizacion": 1, "no_visto": 1})
+        self.assertEqual(d["bono_usd"]["mismo_trozo"], 100)
+        self.assertEqual(d["reaccion_ms"]["p50"], 210)
+        self.assertEqual(a["flash"]["grupos"]["subasta"]["por_tipo"], {"mismo_trozo": 1})
+
+    def test_rendering_and_absence(self):
+        rows = [self.liq("directa", 100, {"visto": True, "trozos_entre": 0, "reaccion_ms": 0, "t_liquidacion_ms": 300})]
+        res = sr.build(None, None)
+        res["vivo"] = {**self.live(rows, {"intervalo_de_consulta_ms": 50, "rtt_ms": {"p50": 26}, "fotos": 100,
+                                          "intervalo_entre_trozos_ms": {"p50": 198}}),
+                       "ventana": {"horas": 1, "bloques": 1, "bloques_en_rango": 1, "cobertura": 1, "desde_bloque": 1, "hasta_bloque": 1}}
+        md = sr.render(res)
+        self.assertIn("Flashblocks (bloque pendiente de Base", md)
+        self.assertIn("en el mismo trozo que la actualización del oráculo 1", md)
+        none = self.live([self.liq("directa", 1, None)])
+        self.assertNotIn("flash", none)
+
+
 class TestInputs(unittest.TestCase):
     def test_read_jsonl_tolerates_a_cut_last_line(self):
         d = tempfile.mkdtemp()

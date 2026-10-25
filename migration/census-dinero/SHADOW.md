@@ -102,6 +102,24 @@ propina pagados. Las candidatas que no se liquidan se cierran como `recuperada` 
   mismo, **tarde** si es anterior. `b_L = b_c` (mismo bloque) no se puede ganar sin ver antes de
   que el bloque cierre.
 
+## Dentro del bloque: Flashblocks
+
+El replay y una lupa bloque a bloque sobre 14 liquidaciones directas mostraron que **la posición no era
+liquidable al cierre del bloque anterior**: el precio del oráculo cambió *dentro del mismo bloque* de la
+liquidación, unas pocas transacciones antes. La carrera es **dentro de los 2 s del bloque**, en los trozos
+de ~200 ms (Flashblocks) que Base publica antes de sellarlo. En 6 de las 14 la actualización pasaba por el
+contrato de subasta de oráculo (OEV) y la liquidación iba justo detrás: subasta disfrazada de directa.
+
+Por eso hay un observador (`flash_watch.py`) que pregunta por el bloque `pending` de un RPC con
+preconfirmaciones (`https://mainnet-preconf.base.org`, público; desde Actions: 26 ms de latencia, 0 errores,
+trozos nuevos cada 198 ms) y anota la hora y el número de trozo en que entró cada transacción. Al sellarse el
+bloque, cada liquidación real queda medida contra la transacción que actualizó el feed del oráculo: ¿en el mismo
+trozo (empaquetada, nadie la gana), en el siguiente (hay que reaccionar en <200 ms) o 2+ trozos después?
+Se activa con `config: {"flash_url": "https://mainnet-preconf.base.org", "flash_interval": 0.1}`.
+
+Es la medida correcta de "llegar a tiempo", pero sigue siendo la visión de un servidor de GitHub Actions: no
+mide el envío ni el orden de prioridad (propina) dentro del trozo.
+
 ## Replay (túnel de viento mínimo)
 
 Para una muestra de liquidaciones de los últimos días (las 100 de mayor bono más una muestra pareja

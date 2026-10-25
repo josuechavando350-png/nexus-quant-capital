@@ -319,6 +319,24 @@ def analyze_live(bloques, decisiones, resultados, sistema, cercanas, meta, cfg):
         "parte_mismo_bloque": share(kinds.get("mismo_bloque", 0), len(liqs)),
         "fuera_del_libro": [{"mercado": r["etiqueta"], "prestatario": r["prestatario"], "bono_usd": r["bono_usd"], "tx": r["tx"]}
                             for r in liqs if r.get("clase") == "fuera_del_libro"][:10]}
+    fl = [r for r in liqs if r.get("flash")]
+    if fl or meta.get("flashblocks"):
+        def kind(r):
+            f = r["flash"]
+            if not f.get("visto"):
+                return "no_visto"
+            if "trozos_entre" not in f:
+                return "sin_actualizacion"                 # no se encontró la actualización del feed antes, en ese bloque
+            return "mismo_trozo" if f["trozos_entre"] <= 0 else "siguiente_trozo" if f["trozos_entre"] == 1 else "dos_o_mas"
+        groups = {}
+        for via in ("directa", "subasta"):
+            rows = [r for r in fl if way(r) == via]
+            kinds = Counter(kind(r) for r in rows)
+            groups[via] = {"n": len(rows), "por_tipo": dict(kinds),
+                           "bono_usd": {k: sum(r["bono_usd"] for r in rows if kind(r) == k) for k in kinds},
+                           "reaccion_ms": quantiles([r["flash"]["reaccion_ms"] for r in rows if "reaccion_ms" in r["flash"]]),
+                           "t_liquidacion_ms": quantiles([r["flash"]["t_liquidacion_ms"] for r in rows if "t_liquidacion_ms" in r["flash"]])}
+        out["flash"] = {"n": len(fl), "grupos": groups, "watcher": meta.get("flashblocks")}
     dropped = [r for r in liqs if r.get("resultado") == "liquidada" and r.get("decision") != "GO" and way(r) == "directa"
                and r["bono_usd"] >= cfg["min_bonus_usd"]]
     dropped.sort(key=lambda r: -r["bono_usd"])
@@ -693,6 +711,22 @@ def render(res):
                          ", ".join(f"{x['mercado']} {usd(x['bono_usd'])}" for x in lq["fuera_del_libro"]) + ".")
         else:
             L.append("No hubo liquidaciones en los mercados vigilados durante la ventana (el Census ya mostró que se concentran en pocos días).")
+        fb = lv.get("flash")
+        if fb:
+            w_ = fb.get("watcher") or {}
+            L += ["", "Flashblocks (bloque pendiente de Base, trozos de ~200 ms):"]
+            L.append(f"- Seguimiento cada {w_.get('intervalo_de_consulta_ms', '?')} ms, latencia p50 {ms((w_.get('rtt_ms') or {}).get('p50'))}, "
+                     f"{num(w_.get('fotos', 0))} fotos; trozos nuevos cada {ms((w_.get('intervalo_entre_trozos_ms') or {}).get('p50'))} (mediana).")
+            names = {"mismo_trozo": "en el mismo trozo que la actualización del oráculo", "siguiente_trozo": "en el siguiente trozo",
+                     "dos_o_mas": "2 o más trozos después", "sin_actualizacion": "sin actualización localizada", "no_visto": "sin verse en el pendiente"}
+            for via in ("directa", "subasta"):
+                g = fb["grupos"][via]
+                if not g["n"]:
+                    continue
+                parts = ", ".join(f"{names[k]} {n} ({usd(g['bono_usd'].get(k, 0))})" for k, n in sorted(g["por_tipo"].items()))
+                r_ = g["reaccion_ms"]
+                L.append(f"- {via.capitalize()}s medidas: {g['n']}: {parts}." +
+                         (f" Reacción tras la actualización: mediana {ms(r_['p50'])}, p90 {ms(r_['p90'])}." if r_["n"] else ""))
         if lv["descartadas_que_pasaron"]:
             L += ["", "Directas que descartamos y alguien liquidó:", ""]
             L += table(["Mercado", "Razón del NO-GO", "Bono", "Bloques"],

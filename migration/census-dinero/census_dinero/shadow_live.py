@@ -29,7 +29,7 @@ from . import morpho as mo
 from .abi import norm
 from .config import (CHAINS, KNOWN_SHARED_ENTRIES, SEL, SHADOW_BASE_MARKETS, SHADOW_BASE_USDC, SHADOW_PRIOR_GAS_USD,
                      SHADOW_PRIOR_KEPT_ALL, SHADOW_PRIORS_SOURCE)
-from .keccak import keccak256
+from .keccak import keccak256, selector
 from .rpc import BudgetExceeded, CallReverted, Rpc, RpcError
 from .sonda import raw_call
 
@@ -60,7 +60,10 @@ DEFAULTS = {
     "retry_blocks": 25,
     "rate_ttl_s": 30.0,             # cuánto se reutiliza el tipo de interés del IRM mientras el mercado no cambie
     "bloom_sample": 40,             # aun si el bloom dice "sin logs", se piden los de 1 de cada tantos bloques para comprobarlo
+    "flash_url": None,              # RPC con preconfirmaciones (Flashblocks) para medir la reacción de los ganadores dentro del bloque
+    "flash_interval": 0.05,         # cada cuánto se pregunta por el bloque pendiente
 }
+ORACLE_GETTERS = ("BASE_FEED_1", "BASE_FEED_2", "QUOTE_FEED_1", "QUOTE_FEED_2", "BASE_VAULT")
 AUCTION_ENTRIES = {a for c, a in KNOWN_SHARED_ENTRIES if c == "base"}
 CACHE_VERSION = 1
 
@@ -70,6 +73,22 @@ def log(msg):
         print(f"[{time.strftime('%H:%M:%S')}] {msg}", file=sys.stderr, flush=True)
     except OSError:
         pass
+
+
+def word_address(data):
+    """Dirección contenida en una respuesta de 32 bytes (None si está vacía o es cero)."""
+    if len(data) == 32 and int.from_bytes(data, "big"):
+        return "0x" + data[12:].hex()
+    return None
+
+
+def decode_string(data):
+    try:
+        off = int.from_bytes(data[0:32], "big")
+        n = int.from_bytes(data[off:off + 32], "big")
+        return data[off + 32:off + 32 + n].decode("utf-8", "replace")
+    except (ValueError, IndexError):
+        return None
 
 
 def quantiles(xs, qs=(0.5, 0.9, 0.99)):
@@ -230,6 +249,9 @@ class Shadow:
         self.stop = False
         self.lost = {}                           # bloque perdido -> intentos de recuperar sus eventos
         self.rate_cache = {}
+        self.flash = None                        # FlashWatcher (opcional)
+        self.feed_addrs = []                     # feeds y agregadores detrás de los oráculos de los mercados vigilados
+        self.feed_log_cache = {}
         self.bloom = None                        # LogBloom, tras setup()
         self.bloom_ok = False                    # solo se usa para saltarse getLogs si se comprobó con bloques reales
         self.first_eval_block = None             # primer bloque evaluado tras un hueco: sus cruces son inciertos
@@ -333,6 +355,38 @@ class Shadow:
             self._pool = ThreadPoolExecutor(max_workers=2)
         return self._pool
 
+    def oracle_feeds(self, info, block, recent=True):
+        """Feeds detrás del oráculo de un mercado (MorphoChainlinkOracleV2 y parecidos): nombre, dirección, descripción, agregador."""
+        oracle = info.params.oracle
+        res = self.mcall([(oracle, selector(f"{g}()")) for g in ORACLE_GETTERS], block, recent=recent)
+        feeds = {g: word_address(data) for g, (ok, data) in zip(ORACLE_GETTERS, res) if ok}
+        feeds = {g: a for g, a in feeds.items() if a}
+        out = {"oraculo": oracle, "feeds": feeds, "detalle": {}}
+        for g, addr in feeds.items():
+            if g == "BASE_VAULT":
+                continue
+            r = self.mcall([(addr, selector("description()")), (addr, selector("decimals()")), (addr, selector("aggregator()"))],
+                           block, recent=recent)
+            out["detalle"][g] = {"direccion": addr, "descripcion": decode_string(r[0][1]) if r[0][0] else None,
+                                 "decimales": int.from_bytes(r[1][1], "big") if r[1][0] and len(r[1][1]) == 32 else None,
+                                 "agregador": word_address(r[2][1]) if r[2][0] else None}
+        return out
+
+    def discover_feeds(self):
+        addrs, desc = set(), {}
+        for mid, info in self.markets.items():
+            try:
+                o = self.oracle_feeds(info, "latest")
+            except RpcError:
+                continue
+            desc[mid] = {g: (d["descripcion"], d["direccion"]) for g, d in o["detalle"].items()}
+            for d in o["detalle"].values():
+                addrs.add(norm(d["direccion"]))
+                if d["agregador"]:
+                    addrs.add(norm(d["agregador"]))
+        self.feed_addrs = sorted(addrs)
+        self.meta["feeds"] = desc
+
     def eth_usd(self):
         t, v = self.eth_usd_cache
         if v is not None and self.mono() - t < 60:
@@ -375,6 +429,8 @@ class Shadow:
                 self.markets[m["id"]] = MarketInfo(m["id"], m["label"], p, dec[p.loan], dec[p.collateral], m)
         self.ids = list(self.markets)
         self.bloom = LogBloom(self.morpho, mo.BOOK_EVENTS, self.ids)
+        if self.cfg["flash_url"]:
+            self.discover_feeds()
         self.meta["mercados"] = {i: {"label": m.label, "lltv": m.params.lltv, "oraculo": m.params.oracle, "irm": m.params.irm}
                                  for i, m in self.markets.items()}
         self.meta["mercados_excluidos"] = self.excluded
@@ -713,6 +769,44 @@ class Shadow:
                 "propina_usd": max(0, eff - hdr["base_fee"]) * gas_used / 1e18 * eth,
                 "propina_gwei": max(0, eff - hdr["base_fee"]) / 1e9, "eth_usd": eth}
 
+    def _feed_update_before(self, hdr, e):
+        """La transacción que actualizó un feed del oráculo en este bloque, justo antes de la liquidación (o None)."""
+        if not self.feed_addrs or not hdr.get("hash"):
+            return None
+        key = hdr["hash"]
+        logs = self.feed_log_cache.get(key)
+        if logs is None:
+            try:
+                logs = self.rpc.call("eth_getLogs", [{"blockHash": key, "address": self.feed_addrs}])
+            except RpcError:
+                return None
+            self.feed_log_cache[key] = logs
+            for old in list(self.feed_log_cache)[:-20]:
+                del self.feed_log_cache[old]
+        before = [lg for lg in logs if int(lg["transactionIndex"], 16) < e["tx_index"]]
+        if not before:
+            return None
+        lg = max(before, key=lambda x: int(x["transactionIndex"], 16))
+        return {"tx": lg["transactionHash"], "tx_index": int(lg["transactionIndex"], 16)}
+
+    def _flash_timing(self, e, hdr, n):
+        """Cuándo apareció cada transacción en el bloque pendiente (Flashblocks): cuánto tardó el ganador tras la actualización."""
+        f = self.flash
+        out = {"visto": False, "primera_foto_txs": f.first_photo_size(n)}
+        liq, t0 = f.seen(n, e["tx_hash"]), f.block_start(n)
+        upd = self._feed_update_before(hdr, e)
+        if upd:
+            out["actualizacion_tx_index"] = upd["tx_index"]
+            out["tx_entre_actualizacion_y_liquidacion"] = e["tx_index"] - upd["tx_index"]
+        if liq is None or t0 is None:
+            return out
+        out.update(visto=True, trozo_liquidacion=liq[1], t_liquidacion_ms=round((liq[0] - t0) * 1000))
+        u = f.seen(n, upd["tx"]) if upd else None
+        if u:
+            out.update(trozo_actualizacion=u[1], t_actualizacion_ms=round((u[0] - t0) * 1000), reaccion_ms=round((liq[0] - u[0]) * 1000),
+                       trozos_entre=liq[1] - u[1])
+        return out
+
     def _resolve_liquidation(self, e, hdr, n, known_before, snap):
         key = (e["market"], e["user"])
         info = self.markets[e["market"]]
@@ -742,6 +836,8 @@ class Shadow:
             if clase == "mismo_bloque" and key in self.last_near_prev:
                 row["salud_bloque_anterior"] = self.last_near_prev[key]
         row.update(self._tx_info(e["tx_hash"], hdr))
+        if self.flash is not None:
+            row["flash"] = self._flash_timing(e, hdr, n)
         self.out.write("resultados.jsonl", row)
         self.outcomes[row["resultado"] if cand else row["clase"]] += 1
         if cand and cand["decision"] == "GO":
@@ -1028,6 +1124,7 @@ class Shadow:
             "fin": self.wall() if final else None, "bloque_actual": self.last_block, "contadores": dict(self.counts),
             "decisiones": dict(self.decisions), "resultados": dict(self.outcomes), "pendientes": len(self.pending),
             "bloques_perdidos_sin_recuperar": sorted(self.lost),
+            "flashblocks": None if self.flash is None else self.flash.report(),
             "latencia_visto_ms": quantiles(self.lat_visto), "latencia_proceso_ms": quantiles(self.lat_proc),
             "latencia_visto_mas_proceso_ms": quantiles(self.lat_total), "libro_deriva": self.book.drift,
             "multicall_ok": self.multicall_ok, "rpc_llamadas": self.rpc.calls, "rpc": self.rpc.report(),
@@ -1124,6 +1221,12 @@ def run_live(cfg, out_dir, cache_path=None, rpc=None, markets=None, head_source=
     `on_ready(shadow)` se llama con el libro ya armado, justo antes de empezar a vigilar bloques."""
     rpc = rpc or make_rpc()
     shadow = Shadow(rpc, out_dir, cfg, markets=markets).setup()
+    flash = None
+    if shadow.cfg["flash_url"]:
+        from .flash_watch import FlashWatcher
+        flash = FlashWatcher(rpc, shadow.cfg["flash_url"], interval=shadow.cfg["flash_interval"]).start()
+        shadow.flash = flash
+        log(f"shadow: siguiendo el bloque pendiente (Flashblocks) en {shadow.cfg['flash_url']} cada {shadow.cfg['flash_interval'] * 1000:.0f} ms")
     cache = None
     if cache_path and os.path.exists(cache_path):
         try:
@@ -1148,3 +1251,5 @@ def run_live(cfg, out_dir, cache_path=None, rpc=None, markets=None, head_source=
     finally:
         if watcher:
             watcher.stop()
+        if flash:
+            flash.stop()
