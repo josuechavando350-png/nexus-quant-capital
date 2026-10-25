@@ -16,7 +16,7 @@ from collections import Counter
 from .analyze import num, pct, short, usd
 from .config import SHADOW_BASE_MARKETS, SHADOW_PRIORS_SOURCE
 from .rpc import ALLOWED_METHODS
-from .orden import CLASES, analyze_order, clasificar
+from .orden import CLASES, analyze_order, clasificar, validate_classifier
 from .shadow_live import AUCTION_ENTRIES, DEFAULTS, quantiles
 
 BLOCK_MS = int(DEFAULTS["block_time_s"] * 1000)
@@ -631,6 +631,7 @@ def build(live_dir=None, replay_dir=None, cfg=None, diag_dir=None):
             res["fuentes"]["vivo"]["lineas_cortadas"] += bad8
             if muestras:
                 live["orden"] = analyze_order(muestras, perfiles)
+                live["prueba_clasificador"] = validate_classifier(muestras, perfiles, {x["bloque"]: x.get("n_tx") for x in b})
     if replay_dir and os.path.isdir(replay_dir):
         rows, bad1 = read_jsonl(os.path.join(replay_dir, "replay.jsonl"))
         errs, bad2 = read_jsonl(os.path.join(replay_dir, "replay_errores.jsonl"))
@@ -951,6 +952,12 @@ def render(res):
             L.append(f"- Orden dentro del bloque comprobado en {od['con_perfil']} bloques sellados con trozos conocidos: dentro de un trozo la propina baja en "
                      f"{din('baja')}, queda igual en {din('igual')} y sube en {din('sube')} de los pares consecutivos; al empezar un trozo nuevo sube en "
                      f"{fro('sube')} de {sum(od['frontera'].values())} fronteras. Un orden por prioridad casi no tiene ascensos dentro del trozo.")
+        pv = lv.get("prueba_clasificador")
+        if pv and pv["bloques"]:
+            rate = lambda x: pct(x["bien"] / x["n"]) if x["n"] else "—"                  # noqa: E731
+            L.append(f"- Prueba del clasificador «mismo trozo / trozo posterior» con {pv['bloques']} bloques de trozos conocidos: reconoce el comienzo de un "
+                     f"trozo en {rate(pv['fronteras'])} de {pv['fronteras']['n']} fronteras, un pico dentro del trozo en {rate(pv['picos'])} de {pv['picos']['n']} "
+                     f"(el resto lo toma por un trozo nuevo), y la cabeza de un trozo nuevo como trozo posterior en {rate(pv['cabezas'])} de {pv['cabezas']['n']}.")
         fe = lv.get("flash_cruces")
         if fe:
             ev_ = fe.get("evaluador") or {}

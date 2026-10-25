@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from census_dinero import shadow_report as sr  # noqa: E402
-from census_dinero.orden import analyze_order, ascents, block_tips, expected_random_ascents  # noqa: E402
+from census_dinero.orden import analyze_order, ascents, block_tips, expected_random_ascents, validate_classifier  # noqa: E402
 from test_shadow_live import Env, U  # noqa: E402
 from test_shadow_replay import replay, scenario  # noqa: E402
 
@@ -89,6 +89,34 @@ class TestAnalyzeOrder(unittest.TestCase):
         self.assertEqual((out["bloques"], out["con_perfil"]), (2, 0))
         self.assertEqual(out["dentro"], {"baja": 0, "igual": 0, "sube": 0})
         self.assertEqual(out["transacciones"]["max"], 20)
+
+
+class TestClassifierSelfTest(unittest.TestCase):
+    @staticmethod
+    def block_with_known_chunks():
+        """Índice 0 (sistema) y 10 trozos de 7 transacciones ordenadas de más a menos propina; en el trozo 5, un pico que entró tarde
+        (lejos de la cabeza: un pico dentro de la cabeza de un trozo nuevo se confunde con el mismo trozo, ver el caso real en la prueba)."""
+        tips, trozos = [None], [[0, 1]]
+        for k in range(10):
+            chunk = [100 + k, 80, 60, 50, 40, 30, 20]
+            if k == 5:
+                chunk = [100 + k, 80, 60, 50, 40, 500, 20]                        # pico: sube y luego el orden sigue donde iba
+            tips += chunk
+            trozos.append([200 * (k + 1), len(tips)])
+        return tips, trozos
+
+    def test_boundaries_spikes_and_chunk_heads(self):
+        tips, trozos = self.block_with_known_chunks()
+        out = validate_classifier([{"bloque": 9, "tips": tips}], [{"bloque": 9, "trozos": trozos}], {9: len(tips)})
+        self.assertEqual(out["bloques"], 1)
+        self.assertEqual((out["fronteras"]["n"], out["fronteras"]["bien"]), (9, 9))      # las 9 fronteras entre los trozos 1 a 10
+        self.assertEqual((out["picos"]["n"], out["picos"]["bien"]), (1, 1))
+        self.assertEqual(out["cabezas"]["n"], out["cabezas"]["bien"])
+
+    def test_incomplete_or_mismatched_blocks_are_skipped(self):
+        tips, trozos = self.block_with_known_chunks()
+        self.assertEqual(validate_classifier([{"bloque": 9, "tips": tips}], [{"bloque": 9, "trozos": trozos[:-1]}])["bloques"], 0)
+        self.assertEqual(validate_classifier([{"bloque": 9, "tips": tips}], [{"bloque": 9, "trozos": trozos}], {9: len(tips) + 7})["bloques"], 0)
 
 
 class TestSamplers(unittest.TestCase):

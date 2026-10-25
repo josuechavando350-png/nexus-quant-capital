@@ -219,6 +219,9 @@ Replay de 30 días (corrida `40190198885`: **todas** las liquidaciones con bono 
   2% (≈ $2k, 24 casos) se coló en el mismo trozo justo después de la actualización (vio la actualización antes de confirmarse: hace falta otra
   clase de infraestructura). De los que reaccionan, el 87% del bono cae en el trozo siguiente (la ventana es de ~200 ms), 8% uno o dos trozos más
   tarde y 5% mucho más tarde. Un solo contrato liquidador se lleva ~31% del bono, casi todo lo empaquetado.
+  La regla de clasificación se probó con 166 bloques en vivo cuyos trozos se conocen: reconoce el comienzo de un trozo en el 99.7% de las fronteras
+  (1,489 de 1,493) y la cabeza de un trozo nuevo como trozo posterior en el 98%; un pico dentro del trozo lo reconoce en el 79% (el resto lo toma por
+  un trozo nuevo). Si acaso, «mismo trozo» está algo subestimado: corrigiendo por eso rondaría el 3% del bono, no el 2%.
 - **Propinas de los ganadores** (directas): mediana 2.4% del bono entre $10 y $1,000 (p90 16%), 0.2% por encima de $1,000 (p90 7%); en los eventos
   grandes de cbETH pagaron $780 y $850 (7% y 17%). Ganar el orden dentro de un trozo cuesta propina, no solo velocidad.
 - **En vivo, dos casos reales**: (1) AERO/USDC, bono $0.13: el ganador cayó un trozo (≈ 200 ms) después de la actualización del oráculo; nuestra

@@ -83,6 +83,39 @@ def clasificar(p):
     return "trozo_siguiente" if l > u else "ambigua"
 
 
+def validate_classifier(samples, profiles, n_tx=None):
+    """Prueba la regla de `clasificar` con bloques en vivo cuyos trozos se conocen (perfil de `flash_bloques.jsonl`): cada subida de
+    propina es el comienzo de un trozo o un pico dentro de uno, y las transacciones de la cabeza de un trozo nuevo están en un trozo
+    posterior al de la última del trozo anterior. Solo bloques vistos enteros (11 fotos y el mismo tamaño que el bloque sellado)."""
+    profiles = {p["bloque"]: p for p in (profiles or []) if p.get("trozos")}
+    out = {"bloques": 0, "fronteras": {"n": 0, "bien": 0}, "picos": {"n": 0, "bien": 0}, "cabezas": {"n": 0, "bien": 0}}
+    for smp in samples:
+        p, tips = profiles.get(smp["bloque"]), smp["tips"]
+        if not p or len(p["trozos"]) != 11 or (n_tx and n_tx.get(smp["bloque"]) not in (None, len(tips))):
+            continue
+        n = len(tips)
+        cuts = sorted({c for _, c in p["trozos"] if 0 < c < n})
+        cutset = set(cuts)
+        out["bloques"] += 1
+        for i in range(2, n - 1):
+            a, b = tips[i - 1], tips[i]
+            if a is None or b is None or b <= a:
+                continue
+            got = clasificar({"u": a, "l": b, "gap": 1, "n": n, "antes_de_l": a, "despues_de_l": tips[i + 1]})
+            key, want = ("fronteras", "trozo_siguiente") if i in cutset else ("picos", "mismo_trozo")
+            out[key]["n"] += 1
+            out[key]["bien"] += got == want
+        for c in cuts:
+            for k in (1, 2, 3):
+                L = c + k
+                if L + 1 >= n or tips[c - 1] is None or tips[L] is None or any(x in cutset for x in range(c + 1, L + 1)):
+                    continue
+                got = clasificar({"u": tips[c - 1], "l": tips[L], "gap": L - c + 1, "n": n, "antes_de_l": tips[L - 1], "despues_de_l": tips[L + 1]})
+                out["cabezas"]["n"] += 1
+                out["cabezas"]["bien"] += got == "trozo_siguiente"
+    return out
+
+
 def compare(a, b):
     return None if a is None or b is None else ("baja" if b < a else "igual" if b == a else "sube")
 
