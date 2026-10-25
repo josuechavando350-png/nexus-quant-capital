@@ -156,8 +156,13 @@ class Prices:
         return None, "sin_precio"
 
     def eth_usd(self, block, ts):
+        """Precio del token con que se paga el gas (ETH en casi todas las cadenas del census)."""
+        if getattr(self.chain, "native_usd", None):
+            return self.chain.native_usd, "nativo_estable"
         p, src = self.token_usd(self.chain.weth, block, ts)
         if p:
             return p, src
+        if not getattr(self.chain, "native_eth", True):
+            return None, "sin_precio"            # el gas no es ETH: mejor sin precio que con el de otra moneda
         p = self.llama("coingecko:ethereum", ts)
         return (p, "mercado_defillama") if p else (None, "sin_precio")

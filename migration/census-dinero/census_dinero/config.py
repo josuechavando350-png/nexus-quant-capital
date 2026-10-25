@@ -2,7 +2,8 @@
 
 Fuentes de las direcciones (verificadas el 24 oct 2026):
 - Aave V3: bgd-labs/aave-address-book, src/AaveV3<Red>.sol (POOL, ORACLE, WETH_UNDERLYING).
-- Morpho Blue: morpho-org/sdks, packages/morpho-ts/src/addresses.ts (campo `blue`).
+- Morpho Blue: morpho-org/sdks, packages/morpho-ts/src/addresses.ts (campo `blue`); las demás cadenas del mapa ampliado, del
+  paquete publicado @morpho-org/morpho-ts 4.1.0 (25 oct 2026).
 - Eventos: aave-address-book IPool.LiquidationCall y morpho-blue src/libraries/EventsLib.sol.
 """
 
@@ -82,6 +83,8 @@ class Chain:
     builder_market: bool = False    # True solo donde hay subasta de builders (Ethereum L1)
     blockscout: str = ""
     extra_rpcs_env: str = ""
+    native_eth: bool = True         # el gas se paga en ETH: sin precio del nativo se puede usar el de ETH
+    native_usd: float = None        # precio fijo del gas en USD cuando el nativo es una moneda estable (p. ej. USDT0)
 
 
 CHAINS = {
@@ -177,6 +180,100 @@ CHAINS = {
         extra_rpcs_env="NQC_CENSUS_RPC_ARBITRUM",
     ),
 }
+
+# --- Mapa ampliado: Morpho Blue en otras cadenas -------------------------------------------
+# Solo Morpho Blue. Direcciones del registro oficial de Morpho (@morpho-org/morpho-ts 4.1.0, lib/esm/addresses.js:
+# campos `blue` y `wNative`; leídas el 25 oct 2026). RPC: el público por omisión de viem 2.57.11 (chains/definitions) más
+# proveedores públicos conocidos; la sonda y la comprobación de chain_id descartan los que no responden o no son de esa cadena.
+# El prefijo de DefiLlama es la mejor estimación: si no da precio, una deuda en moneda estable se valúa por su símbolo.
+# Fila: clave, chain_id, prefijo DefiLlama, gas en ETH, precio fijo del gas (USD), wNative, Morpho Blue, explorador blockscout, RPC.
+_ZERO = "0x0000000000000000000000000000000000000000"
+_MORPHO_ONLY_CHAINS = (
+    ("polygon", 137, "polygon", False, None, "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", "0x1bF0c2541F820E775182832f06c0B7Fc27A25f67", "",
+     ("https://polygon.drpc.org", "https://polygon-bor-rpc.publicnode.com", "https://polygon-rpc.com", "https://1rpc.io/matic")),
+    ("optimism", 10, "optimism", True, None, "0x4200000000000000000000000000000000000006", "0xce95AfbB8EA029495c66020883F87aaE8864AF92",
+     "https://optimism.blockscout.com",
+     ("https://mainnet.optimism.io", "https://optimism-rpc.publicnode.com", "https://optimism.drpc.org", "https://1rpc.io/op")),
+    ("unichain", 130, "unichain", True, None, "0x4200000000000000000000000000000000000006", "0x8f5ae9CddB9f68de460C77730b018Ae7E04a140A",
+     "https://unichain.blockscout.com", ("https://mainnet.unichain.org", "https://unichain-rpc.publicnode.com", "https://unichain.drpc.org")),
+    ("katana", 747474, "katana", True, None, "0xEE7D8BCFb72bC1880D0Cf19822eB0A2e6577aB62", "0xD50F2DffFd62f94Ee4AEd9ca05C61d0753268aBc", "",
+     ("https://rpc.katana.network", "https://katana.drpc.org")),
+    ("hyperevm", 999, "hyperliquid", False, None, "0x5555555555555555555555555555555555555555", "0x68e37dE8d93d3496ae143F2E900490f6280C57cD", "",
+     ("https://rpc.hyperliquid.xyz/evm", "https://hyperliquid.drpc.org", "https://rpc.hypurrscan.io")),
+    ("worldchain", 480, "wc", True, None, "0x4200000000000000000000000000000000000006", "0xE741BC7c34758b4caE05062794E8Ae24978AF432",
+     "https://worldchain-mainnet.explorer.alchemy.com",
+     ("https://worldchain-mainnet.g.alchemy.com/public", "https://worldchain.drpc.org", "https://480.rpc.thirdweb.com")),
+    ("sonic", 146, "sonic", False, None, "0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38", "0xd6c916eB7542D0Ad3f18AEd0FCBD50C582cfa95f", "",
+     ("https://rpc.soniclabs.com", "https://sonic-rpc.publicnode.com", "https://sonic.drpc.org")),
+    ("bsc", 56, "bsc", False, None, "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", "0x01b0Bd309AA75547f7a37Ad7B1219A898E67a83a", "",
+     ("https://bsc-rpc.publicnode.com", "https://bsc.drpc.org", "https://bsc-dataseed.bnbchain.org", "https://56.rpc.thirdweb.com")),
+    ("linea", 59144, "linea", True, None, "0xe5D7C2a44FfDDf6b295A15c148167daaAf5Cf34f", "0x6B0D716aC0A45536172308e08fC2C40387262c9F", "",
+     ("https://rpc.linea.build", "https://linea-rpc.publicnode.com", "https://linea.drpc.org")),
+    ("scroll", 534352, "scroll", True, None, "0x5300000000000000000000000000000000000004", "0x2d012EdbAdc37eDc2BC62791B666f9193FDF5a55", "",
+     ("https://rpc.scroll.io", "https://scroll-rpc.publicnode.com", "https://scroll.drpc.org")),
+    ("sei", 1329, "sei", False, None, "0xE30feDd158A2e3b13e9badaeABaFc5516e95e8C7", "0xc9cDAc20FCeAAF616f7EB0bb6Cd2c69dcfa9094c", "",
+     ("https://evm-rpc.sei-apis.com", "https://sei-evm-rpc.publicnode.com")),
+    ("monad", 143, "monad", False, None, "0x3bd359C1119dA7Da1D913D1C4D2B7c461115433A", "0xD5D960E8C380B724a48AC59E2DfF1b2CB4a1eAee", "",
+     ("https://rpc.monad.xyz", "https://rpc1.monad.xyz", "https://monad-mainnet.drpc.org")),
+    ("celo", 42220, "celo", False, None, _ZERO, "0xd24ECdD8C1e0E57a4E26B1a7bbeAa3e95466A569", "https://celo.blockscout.com",
+     ("https://forno.celo.org", "https://celo-rpc.publicnode.com", "https://celo.drpc.org")),
+    ("etherlink", 42793, "etherlink", False, None, "0xc9B53AB2679f573e480d01e0f49e2B5CFB7a3EAb", "0xbCE7364E63C3B13C73E9977a83c9704E2aCa876e",
+     "https://explorer.etherlink.com", ("https://node.mainnet.etherlink.com",)),
+    ("hemi", 43111, "hemi", True, None, "0x4200000000000000000000000000000000000006", "0xa4Ca2c2e25b97DA19879201bA49422bc6f181f42",
+     "https://explorer.hemi.xyz", ("https://rpc.hemi.network/rpc",)),
+    ("ink", 57073, "ink", True, None, "0x4200000000000000000000000000000000000006", "0x857f3EefE8cbda3Bc49367C996cd664A880d3042",
+     "https://explorer.inkonchain.com", ("https://rpc-gel.inkonchain.com", "https://rpc-qnd.inkonchain.com", "https://ink.drpc.org")),
+    ("lisk", 1135, "lisk", True, None, "0x4200000000000000000000000000000000000006", "0x00cD58DEEbd7A2F1C55dAec715faF8aed5b27BF8",
+     "https://blockscout.lisk.com", ("https://rpc.api.lisk.com", "https://lisk.drpc.org")),
+    ("soneium", 1868, "soneium", True, None, "0x4200000000000000000000000000000000000006", "0xE75Fc5eA6e74B824954349Ca351eb4e671ADA53a",
+     "https://soneium.blockscout.com", ("https://rpc.soneium.org", "https://soneium.drpc.org")),
+    ("fraxtal", 252, "fraxtal", False, None, "0xFC00000000000000000000000000000000000006", "0xa6030627d724bA78a59aCf43Be7550b4C5a0653b", "",
+     ("https://rpc.frax.com", "https://fraxtal.drpc.org")),
+    ("mode", 34443, "mode", True, None, "0x4200000000000000000000000000000000000006", "0xd85cE6BD68487E0AaFb0858FDE1Cd18c76840564",
+     "https://explorer.mode.network", ("https://mainnet.mode.network", "https://mode.drpc.org")),
+    ("plume", 98866, "plume_mainnet", False, None, "0xEa237441c92CAe6FC17Caaf9a7acB3f953be4bd1", "0x42b18785CE0Aed7BF7Ca43a39471ED4C0A3e0bB5",
+     "https://explorer.plume.org", ("https://rpc.plume.org",)),
+    ("corn", 21000000, "corn", False, None, "0xda5dDd7270381A7C2717aD10D1c0ecB19e3CDFb2", "0xc2B1E031540e3F3271C5F3819F0cC7479a8DdD90", "",
+     ("https://21000000.rpc.thirdweb.com", "https://mainnet.corn-rpc.com")),
+    ("tac", 239, "tac", False, None, "0xB63B9f0eb4A6E6f191529D71d4D88cc8900Df2C9", "0x918B9F2E4B44E20c6423105BB6cCEB71473aD35c",
+     "https://tac.blockscout.com", ("https://rpc.ankr.com/tac", "https://rpc.tac.build")),
+    ("flare", 14, "flare", False, None, "0x1D80c49BbBCd1C0911346656B529DF9E5c2F783d", "0xF4346F5132e810f80a28487a79c7559d9797E8B0",
+     "https://flare-explorer.flare.network", ("https://flare-api.flare.network/ext/C/rpc", "https://flare.drpc.org")),
+    ("cronos", 25, "cronos", False, None, "0x5C7F8A570d578ED84E63fdFA7b1eE72dEae1AE23", "0xDF9a1DC07e5dEe5ccCCaBeC35e446C70fAF7434e", "",
+     ("https://evm.cronos.org", "https://cronos-evm-rpc.publicnode.com", "https://cronos.drpc.org")),
+    ("xdc", 50, "xdc", False, None, "0x951857744785E80e2De051c32EE7b25f9c458C42", "0xEa49B0fE898aF913A3826F9f462eE2cDcb854fD9", "",
+     ("https://rpc.xdcrpc.com", "https://erpc.xinfin.network")),
+    ("kaia", 8217, "klaytn", False, None, "0x19Aac5f612f524B754CA7e7c41cbFa2E981A4432", "0xA8BEebdca34d83C697c302A0594f3c41f3994cd2", "",
+     ("https://public-en.node.kaia.io", "https://kaia.drpc.org")),
+    ("zerog", 16661, "0g", False, None, "0x1Cd0690fF9a693f5EF2dD976660a8dAFc81A109c", "0x9CDD13a2212D94C4f12190cA30783B743E83C89e", "",
+     ("https://evmrpc.0g.ai",)),
+    ("abstract", 2741, "abstract", True, None, "0x3439153EB7AF838Ad19d56E1571FBD09333C2809", "0xc85CE8ffdA27b646D269516B8d0Fa6ec2E958B55", "",
+     ("https://api.mainnet.abs.xyz",)),
+    ("morph", 2818, "morph", True, None, "0x5300000000000000000000000000000000000011", "0xAd10d07901Dc3195c3cb5e78E061F4EA8D9B4905",
+     "https://explorer.morphl2.io", ("https://rpc.morphl2.io",)),
+    ("megaeth", 4326, "megaeth", True, None, "0x4200000000000000000000000000000000000006", "0x18120312A7cf44DcfEc6dCe5632a431579ED9100", "",
+     ("https://mainnet.megaeth.com/rpc",)),
+    ("robinhood", 4663, "robinhood", True, None, "0x0Bd7D308f8E1639FAb988df18A8011f41EAcAD73", "0x9D53d5E3bd5E8d4Cbfa6DB1ca238AEA02E651010",
+     "https://robinhoodchain.blockscout.com", ("https://rpc.mainnet.chain.robinhood.com", "https://rpc.ordofi.network")),
+    ("stable", 988, "stable", False, 1.0, _ZERO, "0xa40103088A899514E3fe474cD3cc5bf811b1102e", "", ("https://rpc.stable.xyz",)),
+    ("tempo", 4217, "tempo", False, 1.0, _ZERO, "0x10EE9AAC980A180dd4DcFc96C746d60B0EA88f97", "", ("https://rpc.tempo.xyz",)),
+    ("arc", 5042, "arc", False, 1.0, _ZERO, "0x34CD04070dD72b14E241112F6d83812Df5Af7fCD", "",
+     ("https://rpc.mainnet.arc.io", "https://rpc.blockdaemon.mainnet.arc.io")),
+    ("bitlayer", 200901, "bitlayer", False, None, "0xfF204e2681A6fA0e2C3FaDe68a1B28fb90E4Fc5F", "0xAeA7eFF1bD3c875c18ef50F0387892dF181431C6", "",
+     ("https://rpc.bitlayer.org",)),
+    ("gensyn", 685689, "gensyn", True, None, "0x4200000000000000000000000000000000000006", "0x8c45B34999883FF4B47cD3be095D585682cd9227", "",
+     ("https://gensyn-mainnet.g.alchemy.com/public",)),
+    ("eden", 714, "eden", False, None, "0x00000000000000000000000000000000ce1E571a", "0xF050a2BB0468FF23cF2964AC182196C94D6815C3",
+     "https://eden.blockscout.com", ("https://rpc.eden.gateway.fm",)),
+)
+for _key, _cid, _llama, _eth, _fixed, _wn, _blue, _bs, _rpcs in _MORPHO_ONLY_CHAINS:
+    CHAINS[_key] = Chain(key=_key, chain_id=_cid, llama=_llama, weth=_wn, public_rpcs=_rpcs, morpho=_blue, blockscout=_bs,
+                         extra_rpcs_env=f"NQC_CENSUS_RPC_{_key.upper()}", native_eth=_eth, native_usd=_fixed)
+MORPHO_ONLY_CHAINS = tuple(k for k, *_ in _MORPHO_ONLY_CHAINS)
+
+# Deudas en estas monedas se valúan a 1 USD si DefiLlama no tiene su precio en esa cadena (se marca la fuente).
+USD_STABLE_SYMBOLS = frozenset({"USDC", "USDT", "USDT0", "USD₮0", "DAI", "USDS", "USDE", "AUSD", "USDC.E", "USDBC", "PYUSD", "USD1",
+                                "RLUSD", "FRXUSD", "FRAX", "GHO", "LUSD", "USDG", "USDH", "USDHL", "USDTB", "FDUSD", "USDX", "MUSD"})
 
 
 @dataclass(frozen=True)

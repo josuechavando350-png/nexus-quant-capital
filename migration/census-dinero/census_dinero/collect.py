@@ -19,7 +19,7 @@ from .abi import (address_from_topic, address_from_word, decode_string, encode_a
 from .config import (AAVE_LIQUIDATION_TOPIC, ANSWER_UPDATED_TOPIC, CHAINS, CODELESS_PROTOCOL_ACCOUNTS,
                      ERC20_TRANSFER_TOPIC,
                      MORPHO_LIQUIDATE_TOPIC, MORPHO_LIQUIDATION_CURSOR, MORPHO_MAX_LIF,
-                     ORACLE_LOOKBACK_SECONDS, SEL)
+                     ORACLE_LOOKBACK_SECONDS, SEL, USD_STABLE_SYMBOLS)
 from .keccak import topic
 from . import sonda
 from .prices import Prices
@@ -910,6 +910,8 @@ class Collector:
             r["collateral_amount"] = r["collateral_raw"] / 10 ** dc
         if r["protocol"] == "morpho":
             p, src = self.prices.token_usd(r["debt"], r["block"], ts)
+            if p is None and (r.get("debt_symbol") or "").upper() in USD_STABLE_SYMBOLS:
+                p, src = 1.0, "estable_por_simbolo"      # cadena sin precio en DefiLlama: moneda estable a 1 USD
             if p is None:
                 r["bonus_source"] = "sin_precio"
                 return

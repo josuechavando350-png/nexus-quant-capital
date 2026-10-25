@@ -23,6 +23,7 @@ import time
 from . import verificar
 from .analyze import analyze, load, write_outputs
 from .collect import Collector
+from .config import CHAINS
 
 MAX_JOBS = 20      # trabajos simultáneos de Actions en una cuenta gratuita
 
@@ -98,7 +99,7 @@ def main(argv=None):
     p.add_argument("--run-json", required=True)
 
     c = sub.add_parser("collect", help="recolecta y enriquece liquidaciones de una cadena")
-    c.add_argument("--chain", required=True, choices=["ethereum", "base", "arbitrum"])
+    c.add_argument("--chain", required=True, choices=sorted(CHAINS))
     c.add_argument("--days", type=float, default=30)
     c.add_argument("--start-ts", type=int)
     c.add_argument("--end-ts", type=int)

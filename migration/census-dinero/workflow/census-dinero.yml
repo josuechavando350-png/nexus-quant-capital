@@ -12,8 +12,10 @@ on:
 permissions:
   contents: write
 
+# El Shadow y el census van en grupos aparte: lanzar uno no cancela al otro. El grupo sale del mensaje del commit (un census
+# se lanza con un commit que empieza con "Census"); dentro de cada grupo, una corrida nueva cancela a la anterior.
 concurrency:
-  group: census-dinero
+  group: census-dinero-${{ startsWith(github.event.head_commit.message, 'Census') && 'census' || 'shadow' }}
   cancel-in-progress: true
 
 jobs:
