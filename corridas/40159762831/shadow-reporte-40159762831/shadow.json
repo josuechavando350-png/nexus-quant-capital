@@ -1,0 +1,339 @@
+{
+ "generado": "2026-10-25 04:04:52 UTC",
+ "config": {
+  "min_bonus_usd": 10,
+  "min_net_usd": 5
+ },
+ "fuentes": {
+  "vivo": {
+   "bloques": 376,
+   "decisiones": 5,
+   "resultados": 0,
+   "lineas_cortadas": 0,
+   "meta": true
+  }
+ },
+ "supuestos": {
+  "priors": "census run 40141321042 (24 sep–24 oct 2026), Base/Morpho, 30 días",
+  "submit_ms": 150,
+  "bloque_ms": 2000
+ },
+ "vivo": {
+  "ventana": {
+   "bloques": 376,
+   "bloques_en_rango": 376,
+   "cobertura": 1.0,
+   "desde_bloque": 53055492,
+   "hasta_bloque": 53055867,
+   "desde_ts": 1792900331,
+   "hasta_ts": 1792901081,
+   "horas": 0.20833333333333334
+  },
+  "latencia": {
+   "visto_ms": {
+    "p50": 282,
+    "p90": 497,
+    "p99": 565,
+    "min": 87,
+    "max": 626,
+    "n": 361
+   },
+   "proceso_ms": {
+    "p50": 219,
+    "p90": 449,
+    "p99": 3968,
+    "min": 165,
+    "max": 8456,
+    "n": 376
+   },
+   "visto_mas_proceso_ms": {
+    "p50": 534,
+    "p90": 780,
+    "p99": 4340,
+    "min": 302,
+    "max": 8881,
+    "n": 361
+   },
+   "fases_ms": {
+    "cabecera_ms": {
+     "p50": 83,
+     "p90": 93,
+     "p99": 264,
+     "min": 34,
+     "max": 4978,
+     "n": 376
+    },
+    "logs_ms": {
+     "p50": 0,
+     "p90": 139,
+     "p99": 464,
+     "min": 0,
+     "max": 5487,
+     "n": 376
+    },
+    "lectura_ms": {
+     "p50": 127,
+     "p90": 139,
+     "p99": 275,
+     "min": 0,
+     "max": 3918,
+     "n": 376
+    },
+    "evaluar_ms": {
+     "p50": 4,
+     "p90": 4,
+     "p99": 249,
+     "min": 3,
+     "max": 589,
+     "n": 376
+    }
+   },
+   "decision": {
+    "visto_ms": {
+     "p50": null,
+     "p90": null,
+     "p99": null,
+     "min": null,
+     "max": null,
+     "n": 0
+    },
+    "decidido_ms": {
+     "p50": null,
+     "p90": null,
+     "p99": null,
+     "min": null,
+     "max": null,
+     "n": 0
+    },
+    "x_ms": {
+     "p50": null,
+     "p90": null,
+     "p99": null,
+     "min": null,
+     "max": null,
+     "n": 0
+    },
+    "bloque_de_llegada": {}
+   },
+   "nota": "visto_ms es cota superior: el timestamp del bloque tiene resolución de 1 s; se mide desde un servidor de GitHub Actions"
+  },
+  "decisiones": {
+   "por_decision": {
+    "NO-GO": 5
+   },
+   "por_razon": {
+    "NO-GO:bono_bajo": 2,
+    "NO-GO:deuda_mala": 3
+   }
+  },
+  "go": {
+   "n": 0,
+   "destino": {},
+   "llegada_medida": {
+    "antes": {
+     "n": 0,
+     "bono_usd": 0,
+     "neto_modelo_usd": 0
+    },
+    "empate": {
+     "n": 0,
+     "bono_usd": 0,
+     "neto_modelo_usd": 0
+    },
+    "tarde": {
+     "n": 0,
+     "bono_usd": 0,
+     "neto_modelo_usd": 0
+    }
+   },
+   "con_cruce_incierto": 0,
+   "liquidadas_con_cruce_incierto": 0,
+   "liquidadas_por_subasta": 0,
+   "bono_usd": 0,
+   "neto_modelo_usd": 0,
+   "cerrados": 0
+  },
+  "liquidaciones": {
+   "n": 0,
+   "bono_usd": 0,
+   "clases": {},
+   "vias": {},
+   "recall_visibles": null,
+   "parte_mismo_bloque": null,
+   "fuera_del_libro": []
+  },
+  "flash": {
+   "n": 0,
+   "grupos": {
+    "directa": {
+     "n": 0,
+     "por_tipo": {},
+     "bono_usd": {},
+     "reaccion_ms": {
+      "p50": null,
+      "p90": null,
+      "p99": null,
+      "min": null,
+      "max": null,
+      "n": 0
+     },
+     "t_liquidacion_ms": {
+      "p50": null,
+      "p90": null,
+      "p99": null,
+      "min": null,
+      "max": null,
+      "n": 0
+     }
+    },
+    "subasta": {
+     "n": 0,
+     "por_tipo": {},
+     "bono_usd": {},
+     "reaccion_ms": {
+      "p50": null,
+      "p90": null,
+      "p99": null,
+      "min": null,
+      "max": null,
+      "n": 0
+     },
+     "t_liquidacion_ms": {
+      "p50": null,
+      "p90": null,
+      "p99": null,
+      "min": null,
+      "max": null,
+      "n": 0
+     }
+    }
+   },
+   "watcher": {
+    "errores": {},
+    "fotos": 5824,
+    "intervalo_de_consulta_ms": 100,
+    "intervalo_entre_trozos_ms": {
+     "max": 217,
+     "min": 91,
+     "n": 74,
+     "p50": 195,
+     "p90": 206,
+     "p99": 212
+    },
+    "rtt_ms": {
+     "max": 476,
+     "min": 78,
+     "n": 5824,
+     "p50": 85,
+     "p90": 93,
+     "p99": 146
+    },
+    "url": "https://mainnet-preconf.base.org"
+   }
+  },
+  "descartadas_que_pasaron": [],
+  "candidatas_sin_liquidar": {},
+  "calidad": {
+   "contadores": {
+    "bloques": 296,
+    "bloques_sin_logs_por_bloom": 216,
+    "candidatas": 5,
+    "deriva_reconciliacion": 0,
+    "posiciones_sincronizadas": 4,
+    "reconciliadas": 4800
+   },
+   "eventos_del_sistema": {},
+   "multicall_ok": true,
+   "libro": {
+    "bloque": 53055491,
+    "candidatos": 36098,
+    "con_deuda": 30361,
+    "desde_cache": true,
+    "dias_atras": 30,
+    "leidos": 36098,
+    "libro_parcial": false,
+    "segundos": 14.3
+   },
+   "libro_deriva": 0,
+   "pendientes_al_cierre": 5,
+   "inicio": 1792900320.7718887,
+   "fin": null,
+   "supuestos": {
+    "interes": "se acumula con el IRM solo para posiciones a menos de 0.5% del umbral",
+    "kept_prior_global": 0.678,
+    "latencia": "visto_ms = hora en que llegó la respuesta del primer proveedor que ya tenía el bloque - timestamp del bloque (segundos enteros: ±1 s); incluye el intervalo de sondeo",
+    "priors": "census run 40141321042 (24 sep–24 oct 2026), Base/Morpho, 30 días",
+    "submit_ms": 150
+   },
+   "bloom": {
+    "bloques_con_eventos": 12,
+    "descartados_por_error": 0,
+    "ok": true
+   },
+   "mercados": 19,
+   "excluidos": {}
+  },
+  "cercanas": {
+   "bloque": 53055787,
+   "n": 4,
+   "deuda_usd": 4895.425587,
+   "mas_cercana_pct": 0.294,
+   "fotos": 2
+  }
+ },
+ "replay": null,
+ "diagnostico": null,
+ "metodos_rpc": [
+  "eth_blockNumber",
+  "eth_call",
+  "eth_getBlockByNumber",
+  "eth_getLogs"
+ ],
+ "puertas": [
+  {
+   "puerta": "Decisiones en tiempo real sin enviar nada",
+   "estado": "cumple",
+   "evidencia": "5 decisiones; solo métodos de lectura (4 distintos)"
+  },
+  {
+   "puerta": "Cada GO comparado con lo que ocurrió",
+   "estado": "sin_datos",
+   "evidencia": "ningún GO en la ventana en vivo"
+  },
+  {
+   "puerta": "Control de reorganizaciones",
+   "estado": "parcial",
+   "evidencia": "0 reorgs vistos, 0 saltos de atraso (0 bloques cubiertos con eventos), 0 bloques perdidos (0 recuperados, 0 sin recuperar, 0 definitivos); la recuperación se prueba con una cadena falsa"
+  },
+  {
+   "puerta": "Simulaciones: divergencias investigadas",
+   "estado": "parcial",
+   "evidencia": "libro sin deriva (4800 posiciones reconciliadas)"
+  },
+  {
+   "puerta": "Latencia en infraestructura real",
+   "estado": "parcial",
+   "evidencia": "p50 534 ms, p90 780 ms, p99 4,340 ms (n=361); medida desde GitHub Actions, no desde la infraestructura de Titan"
+  },
+  {
+   "puerta": "Detección competitiva (replay)",
+   "estado": "sin_datos",
+   "evidencia": "el replay no produjo liquidaciones directas elegibles"
+  },
+  {
+   "puerta": "Economía con costos completos",
+   "estado": "sin_datos",
+   "evidencia": "sin liquidaciones elegibles"
+  }
+ ],
+ "no_prueba": [
+  "La latencia se mide desde un servidor de GitHub Actions hacia RPC públicos. La infraestructura real (nodo propio, cercanía al secuenciador de Base, Titan) puede ser mejor o peor: es una referencia conservadora, no una certificación.",
+  "No se envió nada, así que no se midió el envío (se supone 150 ms), ni la inclusión, ni el orden dentro del bloque.",
+  "Un empate (llegar en el mismo bloque que el ganador) lo decide la propina y el orden del secuenciador: aquí solo se cuenta.",
+  "Los bloques de Base son de 2 s y el timestamp es entero. Con Flashblocks (200 ms) algunos bots ven antes del bloque: las liquidaciones en el mismo bloque del cruce no se pueden ganar sin ver antes de que el bloque cierre.",
+  "El replay solo ve posiciones que terminaron liquidadas; las que se recuperaron o quedaron sin liquidar las mide el modo en vivo.",
+  "El neto usa la retención observada del Census (bono × proporción que se quedaron los ganadores); no es una ejecución simulada con nuestra ruta, liquidez, flash loan ni slippage.",
+  "El gas y la propina del replay son los de quien ganó, no los nuestros.",
+  "Una ventana corta no sustituye semanas de Shadow ni cubre los picos: en el Census el 95% del margen cayó en 3 de 30 días."
+ ]
+}
