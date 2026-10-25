@@ -4,90 +4,43 @@
 
 ## Respuesta corta
 
-- **Replay**: de unas 362 liquidaciones directas con margen (muestra de 7, muestra pequeña), con un tiempo total de hasta 2 s llegaríamos antes en 0% de los casos (0% del bono), empataríamos en 0% y llegaríamos tarde en 100% (100% del bono: liquidadas en el mismo bloque del cruce).
-- Bono directo ganable estimado (hasta 2 s): $0 antes + $0 en empate, de $27.8 k en la ventana (neto del modelo $0 + $0).
-- **En vivo** (0.2 h, 330 bloques): 5 decisiones, 0 GO, 0 liquidaciones reales; latencia visto+proceso p50 365 ms, p90 555 ms.
-- **Puertas del Omega (Shadow)**: 1 cumple, 5 parcial, 1 sin datos.
+- **Replay**: sin datos.
+- **En vivo** (2.2 h, 3,943 bloques): 5 decisiones, 0 GO, 1 liquidaciones reales; latencia visto+proceso p50 460 ms, p90 676 ms.
+- **Puertas del Omega (Shadow)**: 1 cumple, 3 parcial, 3 sin datos.
 
 ## 1. Margen de tiempo (replay histórico)
 
-Muestra: 30 reconstruidas de 1,212 liquidaciones con bono ≥ mínimo (2,646 en total), que cubren 25% del bono. Sin dato: 0, censuradas (≥ ventana): 0, con error: 0, residuos de liquidaciones parciales: 0.
-
-Bloques entre el cruce (primer bloque liquidable) y la liquidación:
-
-| Distancia | Directas | Subasta | Bono directo (est.) | % del bono |
-|---|---|---|---|---|
-| mismo bloque | 7 | 23 | $27.8 k | 100% |
-| 1 bloque | 0 | 0 | $0 | 0% |
-| 2 bloques | 0 | 0 | $0 | 0% |
-| 3 a 5 bloques | 0 | 0 | $0 | 0% |
-| 6 a 15 bloques | 0 | 0 | $0 | 0% |
-| 16 o más | 0 | 0 | $0 | 0% |
-
-**Si tu tiempo total** (visto + decisión + envío) es… Solo directas con bono ≥ $10 y neto ≥ $5, sin deuda mala (7 en la muestra):
-
-| Tiempo total | Llegas antes | Empate | Llegas tarde |
-|---|---|---|---|
-| hasta 2 s | 0% · $0 | 0% · $0 | 100% · $27.8 k |
-| hasta 4 s | 0% · $0 | 0% · $0 | 100% · $27.8 k |
-| hasta 6 s | 0% · $0 | 0% · $0 | 100% · $27.8 k |
-
-Cada celda: % de las liquidaciones · bono estimado. «Tarde» = alguien liquidó antes de que tu transacción pudiera caer.
-
-Vía: directa 7 ($27.8 k), subasta 23 ($1.02 M). Las de subasta no son para un actor pequeño (el bono se cede en la puja).
-Distancia de las directas: mediana 0 bloques, p90 0, máx 0.
-Costo de quien ganó (directas): gas mediano $1.51 (p90 $8.86), propina mediana $1.31 (p90 $8.79).
-Quién se lleva el bono directo: 7 firmantes distintos en la muestra; el mayor 40%, los 3 mayores 80%, los 10 mayores 100%.
-Cuándo cae: 2 días con liquidaciones directas; los 3 mejores días tienen 100% del bono (el mejor, 97%).
-Control contra el Census: bono directo estimado $27.8 k vs $99.6 k del Census (28%).
-
-Por mercado (directas):
-
-| Mercado | n | Bono (est.) | Mediana (bloques) | ≥ 2 bloques |
-|---|---|---|---|---|
-| cbETH/USDC lltv 77.0% | 2 | $13.4 k | 0 | 0% |
-| cbXRP/USDC lltv 62.5% | 4 | $12.6 k | 0 | 0% |
-| JitoSOL/USDC lltv 62.5% | 1 | $1,830 | 0 | 0% |
-| SOL/USDC lltv 62.5% | 0 | $0 | — | — |
-| WETH/USDC lltv 86.0% | 0 | $0 | — | — |
-| cbADA/USDC lltv 62.5% | 0 | $0 | — | — |
-| cbLTC/USDC lltv 62.5% | 0 | $0 | — | — |
-| cbZEC/USDC lltv 62.5% | 0 | $0 | — | — |
-
-### Diagnóstico del oráculo (muestra de las liquidaciones directas más grandes)
-
-De 7 liquidaciones miradas bloque a bloque: la posición ya era liquidable un bloque antes en 0; el precio de Morpho cambió en el mismo bloque de la liquidación en 7; algún feed del oráculo cambió de ronda en ese bloque en 6.
-En 6 hubo una actualización del feed en el mismo bloque, antes de la liquidación (mediana 95 transacciones antes); quien actualizó fue el mismo actor que liquidó en 0.
-- Oráculo 0x031b…0fde: BASE_FEED_1 = XRP / USD (0x9f0c…6d34)
-- Oráculo 0x78f7…be1c: 
-- Oráculo 0x97ff…8295: BASE_FEED_1 = CBETH / USD (0xd781…817d)
+Sin datos del replay.
 
 ## 2. En vivo
 
-Ventana: 0.18 h, bloques 53056814–53057143 (330 de 330, cobertura 100%).
+Ventana: 2.19 h, bloques 53057166–53061108 (3,943 de 3,943, cobertura 100%).
 
 | Latencia | p50 | p90 | p99 |
 |---|---|---|---|
-| Visto (desde el timestamp del bloque) | 182 ms | 348 ms | 438 ms |
-| Proceso (leer + decidir) | 157 ms | 273 ms | 515 ms |
-| Visto + proceso | 365 ms | 555 ms | 725 ms |
+| Visto (desde el timestamp del bloque) | 242 ms | 418 ms | 538 ms |
+| Proceso (leer + decidir) | 221 ms | 321 ms | 3,747 ms |
+| Visto + proceso | 460 ms | 676 ms | 2,610 ms |
 
 _visto_ms es cota superior: el timestamp del bloque tiene resolución de 1 s; se mide desde un servidor de GitHub Actions._
-Dónde se va el tiempo (p50): cabecera 17 ms, logs 0 ms, lectura 130 ms, evaluar 6 ms.
-Logs: 233 de 330 bloques sin pedir logs porque el bloom del bloque descarta a Morpho (bloom verificado con 12 bloques con eventos; falsos negativos: 0).
+Dónde se va el tiempo (p50): cabecera 77 ms, logs 0 ms, lectura 89 ms, evaluar 7 ms.
+Logs: 2,980 de 3,943 bloques sin pedir logs porque el bloom del bloque descarta a Morpho (bloom verificado con 12 bloques con eventos; falsos negativos: 0).
 
 Decisiones: NO-GO:bono_bajo 2, NO-GO:deuda_mala 3.
-No hubo liquidaciones en los mercados vigilados durante la ventana (el Census ya mostró que se concentran en pocos días).
+Liquidaciones reales en la ventana: 1 (bono $0). Clases: mismo_bloque 1. Vía: directa 1.
 
 Flashblocks (bloque pendiente de Base, trozos de ~200 ms):
-- Seguimiento cada 100 ms, latencia p50 16 ms, 5,931 fotos; trozos nuevos cada 199 ms (mediana).
-- Evaluador del estado pendiente: 5 cruces vistos antes de sellarse el bloque (0 GO); decidimos 575 ms después de ver el trozo (p90 575 ms); lectura del estado pendiente p50 34 ms. Desenlace: no_liquidada_en_el_bloque 5.
-Última foto de posiciones cerca del umbral: 4 dentro del 2%, deuda $4,895, la más cercana a 0.29% de caída.
+- Seguimiento cada 100 ms, latencia p50 79 ms, 77,538 fotos; trozos nuevos cada 195 ms (mediana).
+- Directas medidas: 1: en el siguiente trozo 1 ($0). Reacción tras la actualización: mediana 201 ms, p90 201 ms.
+- Evaluador del estado pendiente: 1 cruces vistos antes de sellarse el bloque (0 GO); decidimos 112 ms después de ver el trozo (p90 112 ms); lectura del estado pendiente p50 97 ms. Desenlace: liquidada 1.
+- Holgura frente al ganador (nuestra transacción habría llegado 150 ms después de decidir): positiva en 0 de 1 (bono $0 de $0); mediana -61 ms; el ganador entró en el mismo trozo en que lo vimos en 0.
+Candidatas que nadie liquidó: expirada 5.
+Última foto de posiciones cerca del umbral: 4 dentro del 2%, deuda $5,007, la más cercana a 0.29% de caída.
 
 ## 3. ¿La matemática coincide con la cadena?
 
-Replay: 14 de 14 liquidaciones coinciden exactamente con la matemática de Morpho (14 dentro de 1e-9; 14 incluyen interés acumulado). Error máximo 0.00e+00, omitidas 0.
-Libro en vivo: 5200 posiciones comparadas con la cadena, deriva por eventos 0, en el crítico 0, por reconciliación 0; reorgs 0, saltos 0, bloques perdidos 0.
+Sin comparación de paridad en esta corrida.
+Libro en vivo: 67340 posiciones comparadas con la cadena, deriva por eventos 0, en el crítico 0, por reconciliación 0; reorgs 0, saltos 0, bloques perdidos 0.
 
 ## 4. Puertas del Omega para la fase Shadow
 
@@ -96,10 +49,10 @@ Libro en vivo: 5200 posiciones comparadas con la cadena, deriva por eventos 0, e
 | Decisiones en tiempo real sin enviar nada | ✅ cumple | 5 decisiones; solo métodos de lectura (6 distintos) |
 | Cada GO comparado con lo que ocurrió | ⚪ sin datos | ningún GO en la ventana en vivo |
 | Control de reorganizaciones | 🟡 parcial | 0 reorgs vistos, 0 saltos de atraso (0 bloques cubiertos con eventos), 0 bloques perdidos (0 recuperados, 0 sin recuperar, 0 definitivos); la recuperación se prueba con una cadena falsa |
-| Simulaciones: divergencias investigadas | 🟡 parcial | paridad 14/14 exacta, máx 0.0e+00; libro sin deriva (5200 posiciones reconciliadas) |
-| Latencia en infraestructura real | 🟡 parcial | p50 365 ms, p90 555 ms, p99 725 ms (n=318); medida desde GitHub Actions, no desde la infraestructura de Titan |
-| Detección competitiva (replay) | 🟡 parcial | 7 liquidaciones directas elegibles reconstruidas; versión mínima del túnel (cruce → liquidación), no reproduce NQC completo |
-| Economía con costos completos | 🟡 parcial | bono × retención observada en el Census (incluye swap, gas y propinas de los ganadores reales); no se simuló nuestra ruta ni su liquidez |
+| Simulaciones: divergencias investigadas | 🟡 parcial | libro sin deriva (67340 posiciones reconciliadas) |
+| Latencia en infraestructura real | 🟡 parcial | p50 460 ms, p90 676 ms, p99 2,610 ms (n=3887); medida desde GitHub Actions, no desde la infraestructura de Titan |
+| Detección competitiva (replay) | ⚪ sin datos | el replay no produjo liquidaciones directas elegibles |
+| Economía con costos completos | ⚪ sin datos | sin liquidaciones elegibles |
 
 ## 5. Qué NO prueba este Shadow
 
@@ -116,5 +69,5 @@ Libro en vivo: 5200 posiciones comparadas con la cadena, deriva por eventos 0, e
 
 - Priors: census run 40141321042 (24 sep–24 oct 2026), Base/Morpho, 30 días.
 - Envío supuesto: 150 ms. Bloque: 2000 ms.
-- Archivos leídos: {"vivo": {"bloques": 330, "decisiones": 5, "resultados": 0, "lineas_cortadas": 0, "meta": true}, "replay": {"filas": 30, "errores": 0, "lineas_cortadas": 0, "meta": true}}.
+- Archivos leídos: {"vivo": {"bloques": 3943, "decisiones": 5, "resultados": 6, "lineas_cortadas": 0, "meta": true}}.
 - Métodos RPC usados: eth_blockNumber, eth_call, eth_getBlockByNumber, eth_getLogs, eth_getTransactionByHash, eth_getTransactionReceipt.
