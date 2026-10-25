@@ -1,10 +1,10 @@
 {
   "modo": "shadow",
   "shadow": {
-    "minutos": 75,
-    "vivo": false,
-    "replay": {"dias": 30, "max": 30, "top": 10, "presupuesto_min": 20, "libro_dias": 0, "diag": 0, "flash_probe": 40},
-    "config": {"min_bonus_usd": 10, "min_net_usd": 5}
+    "minutos": 300,
+    "vivo": true,
+    "replay": false,
+    "config": {"min_bonus_usd": 10, "min_net_usd": 5, "flash_url": "https://mainnet-preconf.base.org", "flash_interval": 0.1}
   },
-  "nota": "Sonda de Flashblocks: ¿se puede seguir el bloque pendiente (preconfirmaciones de Base) por HTTP, con qué latencia y a qué cadencia? Solo lectura."
+  "nota": "Shadow en vivo con seguimiento de Flashblocks durante 5 horas: reacción de los ganadores dentro del bloque. Solo lectura."
 }
