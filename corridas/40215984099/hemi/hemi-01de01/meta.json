@@ -1,0 +1,171 @@
+{
+  "archive_disabled": false,
+  "chain": "hemi",
+  "elapsed_s": 19.5,
+  "enriched": 3,
+  "errors_sample": [],
+  "events": 3,
+  "events_complete": true,
+  "events_cover_block": 5589774,
+  "fatal_error": null,
+  "interrupted": false,
+  "native_trace_sources": {
+    "blockscout": 3
+  },
+  "oracle_contracts_watched": 3,
+  "oracle_status": {
+    "sin_ver": 3
+  },
+  "phases_s": {
+    "enriquecimiento": 3.6,
+    "eventos": 0.4,
+    "evidencia": 2.9,
+    "metadatos": 2.2,
+    "oraculos": 0.4,
+    "segunda_pasada": 0.0,
+    "sonda": 2.4,
+    "ventana": 7.6
+  },
+  "price_sources": {
+    "defillama": 3,
+    "oraculo": 0,
+    "sin_precio": 3
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 121,
+  "rpc_providers": {
+    "https://rpc.hemi.network/rpc": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 137,
+          "ok": 27
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 137,
+          "ok": 59
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 129,
+          "ok": 5
+        },
+        "eth_getLogs": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 129,
+          "ok": 6
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 135,
+          "ok": 6
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 127,
+          "ok": 6
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 109,
+      "sin_metodo": [
+        "debug_traceTransaction",
+        "trace_transaction"
+      ]
+    }
+  },
+  "second_pass": {
+    "intentadas": 0
+  },
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "getlogs_max": 500000,
+      "getlogs_ms": 138,
+      "ms": 133,
+      "proveedor": "https://rpc.hemi.network/rpc",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "the method trace_transaction does not exist/is not available",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "the method trace_transaction does not exist/is not available",
+        "ok": 0
+      },
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "hemi-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 3,
+  "web_calls": 14,
+  "web_sources": {
+    "blockscout": {
+      "ms": 229,
+      "ok": true
+    },
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 12.0,
+    "days": 30.0,
+    "end_block": 5589774,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352011,
+    "lookback_block": 5365975,
+    "start_block": 5373775,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 0,
+  "with_oracle_delta": 0,
+  "with_realized": 3,
+  "with_realized_complete": 0
+}
