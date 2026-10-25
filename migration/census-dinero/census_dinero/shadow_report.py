@@ -333,6 +333,7 @@ def analyze_live(bloques, decisiones, resultados, sistema, cercanas, meta, cfg):
             rows = [r for r in fl if way(r) == via]
             kinds = Counter(kind(r) for r in rows)
             groups[via] = {"n": len(rows), "por_tipo": dict(kinds),
+                           "con_actualizacion_por_subasta": sum(1 for r in rows if r["flash"].get("actualizacion_por_subasta")),
                            "bono_usd": {k: sum(r["bono_usd"] for r in rows if kind(r) == k) for k in kinds},
                            "reaccion_ms": quantiles([r["flash"]["reaccion_ms"] for r in rows if "reaccion_ms" in r["flash"]]),
                            "t_liquidacion_ms": quantiles([r["flash"]["t_liquidacion_ms"] for r in rows if "t_liquidacion_ms" in r["flash"]])}
@@ -725,7 +726,9 @@ def render(res):
                     continue
                 parts = ", ".join(f"{names[k]} {n} ({usd(g['bono_usd'].get(k, 0))})" for k, n in sorted(g["por_tipo"].items()))
                 r_ = g["reaccion_ms"]
-                L.append(f"- {via.capitalize()}s medidas: {g['n']}: {parts}." +
+                L.append(f"- {via.capitalize()}s medidas: {g['n']}: {parts}"
+                         + (f"; en {g['con_actualizacion_por_subasta']} la actualización pasó por la subasta de oráculo (OEV)"
+                            if g["con_actualizacion_por_subasta"] else "") + "." +
                          (f" Reacción tras la actualización: mediana {ms(r_['p50'])}, p90 {ms(r_['p90'])}." if r_["n"] else ""))
         if lv["descartadas_que_pasaron"]:
             L += ["", "Directas que descartamos y alguien liquidó:", ""]

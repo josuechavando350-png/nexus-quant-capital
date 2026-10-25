@@ -808,6 +808,23 @@ class TestFlashTiming(unittest.TestCase):
         self.assertEqual((f["t_actualizacion_ms"], f["t_liquidacion_ms"]), (0, 230))
         self.assertEqual((f["actualizacion_tx_index"], f["tx_entre_actualizacion_y_liquidacion"]), (0, 1))
 
+    def test_update_transaction_is_identified_and_flagged_when_it_goes_through_the_auction(self):
+        env, w = self.make()
+        n = env.chain.mine([("set_price", env.mid, DROP, {"to": fm.AUCTION_ENTRY, "sender": S[1]}), ("liquidate", env.mid, B[0], U[0])])
+        upd, liq = env.chain.headers[n]["transactions"]
+        w.ingest(100.0, n, [upd, liq])
+        env.sh.process_block(n, None, None, None)
+        f = self.result(env)["flash"]
+        self.assertTrue(f["actualizacion_por_subasta"])
+        self.assertEqual((f["actualizacion_a"], f["actualizacion_de"], f["actualizacion_tx"]), (fm.AUCTION_ENTRY, S[1], upd))
+
+    def test_plain_update_is_not_flagged_as_auction(self):
+        env, w = self.make()
+        n, upd, liq = self.liquidation_block(env)
+        w.ingest(100.0, n, [upd, liq])
+        env.sh.process_block(n, None, None, None)
+        self.assertFalse(self.result(env)["flash"]["actualizacion_por_subasta"])
+
     def test_bundled_liquidation_lands_in_the_same_chunk(self):
         env, w = self.make()
         n, upd, liq = self.liquidation_block(env)

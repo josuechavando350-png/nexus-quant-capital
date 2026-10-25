@@ -180,6 +180,9 @@ class TestFlashSection(unittest.TestCase):
         self.assertEqual(d["bono_usd"]["mismo_trozo"], 100)
         self.assertEqual(d["reaccion_ms"]["p50"], 210)
         self.assertEqual(a["flash"]["grupos"]["subasta"]["por_tipo"], {"mismo_trozo": 1})
+        rows[0]["flash"]["actualizacion_por_subasta"] = True
+        a2 = self.live(rows)
+        self.assertEqual(a2["flash"]["grupos"]["directa"]["con_actualizacion_por_subasta"], 1)
 
     def test_rendering_and_absence(self):
         rows = [self.liq("directa", 100, {"visto": True, "trozos_entre": 0, "reaccion_ms": 0, "t_liquidacion_ms": 300})]

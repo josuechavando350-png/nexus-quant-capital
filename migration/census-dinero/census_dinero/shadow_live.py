@@ -787,7 +787,14 @@ class Shadow:
         if not before:
             return None
         lg = max(before, key=lambda x: int(x["transactionIndex"], 16))
-        return {"tx": lg["transactionHash"], "tx_index": int(lg["transactionIndex"], 16)}
+        upd = {"tx": lg["transactionHash"], "tx_index": int(lg["transactionIndex"], 16)}
+        try:
+            tx = self.rpc.call("eth_getTransactionByHash", [upd["tx"]])
+            if tx:
+                upd.update(de=norm(tx["from"]), a=norm(tx.get("to") or mo.ZERO))
+        except RpcError:
+            pass
+        return upd
 
     def _flash_timing(self, e, hdr, n):
         """Cuándo apareció cada transacción en el bloque pendiente (Flashblocks): cuánto tardó el ganador tras la actualización."""
@@ -798,6 +805,9 @@ class Shadow:
         if upd:
             out["actualizacion_tx_index"] = upd["tx_index"]
             out["tx_entre_actualizacion_y_liquidacion"] = e["tx_index"] - upd["tx_index"]
+            if upd.get("a"):
+                out.update(actualizacion_tx=upd["tx"], actualizacion_de=upd["de"], actualizacion_a=upd["a"],
+                           actualizacion_por_subasta=upd["a"] in AUCTION_ENTRIES)
         if liq is None or t0 is None:
             return out
         out.update(visto=True, trozo_liquidacion=liq[1], t_liquidacion_ms=round((liq[0] - t0) * 1000))
