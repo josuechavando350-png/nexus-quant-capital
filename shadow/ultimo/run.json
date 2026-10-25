@@ -3,13 +3,8 @@
   "shadow": {
     "minutos": 300,
     "vivo": true,
-    "replay": false,
-    "config": {
-      "min_bonus_usd": 10,
-      "min_net_usd": 5,
-      "flash_url": "https://mainnet-preconf.base.org",
-      "flash_interval": 0.1
-    }
+    "replay": {"dias": 30, "max": 30, "top": 10, "presupuesto_min": 20, "libro_dias": 0, "diag": 14},
+    "config": {"min_bonus_usd": 10, "min_net_usd": 5, "flash_url": "https://mainnet-preconf.base.org", "flash_interval": 0.1}
   },
-  "nota": "Shadow en vivo con seguimiento de Flashblocks durante 5 horas (v2: identifica la transacción que actualiza el oráculo y si pasó por la subasta OEV). Solo lectura."
+  "nota": "Shadow v3: 5 horas en vivo con seguimiento y evaluación del bloque pendiente (Flashblocks), más la lupa del oráculo con los recibos de las actualizaciones. Solo lectura."
 }
