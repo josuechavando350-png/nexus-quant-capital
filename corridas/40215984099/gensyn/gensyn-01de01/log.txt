@@ -1,0 +1,28 @@
+[17:22:16] gensyn: ventana bloques 15817921..17113920 (30 días), 1 proveedores responden
+[17:22:16] gensyn: fase ventana: 7.1 s
+[17:22:17] gensyn: sonda: proveedor | ms | getLogs máx | archivo | debug viejo | trace viejo
+[17:22:17] gensyn: sonda: https://gensyn-mainnet.g.alchemy.com/public | 95 | 0 | no | — | —
+[17:22:17] gensyn: fuentes web: {"defillama": {"ok": true}}
+[17:22:17] gensyn: fase sonda: 1.7 s
+[17:22:17] gensyn: falla: RpcError: ningún proveedor soporta eth_getLogs
+[17:22:17] Traceback (most recent call last):
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 1091, in run
+    recs = self.fetch_liquidations(win["start_block"], win["end_block"])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 409, in fetch_liquidations
+    logs, got = self._logs("eventos Morpho", self.chain.morpho, [MORPHO_LIQUIDATE_TOPIC], start, end)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 387, in _logs
+    return self.rpc.get_logs(address, topics, lo, hi, on_progress=self._progress(what, lo, hi),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 522, in get_logs
+    logs = self.call("eth_getLogs", [flt])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 325, in call
+    return self._call(method, params, recent, prefer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 344, in _call
+    raise RpcError(f"ningún proveedor soporta {mkey}")
+census_dinero.rpc.RpcError: ningún proveedor soporta eth_getLogs
+
+[17:22:17] gensyn: listo — 0 eventos, 0 enriquecidos, 75 llamadas RPC, 8.8 s

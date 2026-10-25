@@ -1,0 +1,92 @@
+{
+  "archive_disabled": false,
+  "chain": "gensyn",
+  "elapsed_s": 8.8,
+  "enriched": 0,
+  "errors_sample": [],
+  "events": 0,
+  "events_complete": false,
+  "events_cover_block": null,
+  "fatal_error": "RpcError: ning\u00fan proveedor soporta eth_getLogs",
+  "interrupted": false,
+  "native_trace_sources": {},
+  "oracle_contracts_watched": 0,
+  "oracle_status": {},
+  "phases_s": {
+    "sonda": 1.7,
+    "ventana": 7.1
+  },
+  "price_sources": {
+    "defillama": 0,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 75,
+  "rpc_providers": {
+    "https://gensyn-mainnet.g.alchemy.com/public": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 114,
+          "ok": 72
+        }
+      },
+      "ok": 72,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    }
+  },
+  "second_pass": {},
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "getlogs_error": "HTTP 400 en gensyn-mainnet.g.alchemy.com",
+      "getlogs_max": 0,
+      "ms": 95,
+      "proveedor": "https://gensyn-mainnet.g.alchemy.com/public",
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "gensyn-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 0,
+  "web_calls": 1,
+  "web_sources": {
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 2.0,
+    "days": 30.0,
+    "end_block": 17113920,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352001,
+    "lookback_block": 15771121,
+    "start_block": 15817921,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 0,
+  "with_oracle_delta": 0,
+  "with_realized": 0,
+  "with_realized_complete": 0
+}
