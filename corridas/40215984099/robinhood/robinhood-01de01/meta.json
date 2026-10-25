@@ -1,0 +1,238 @@
+{
+  "archive_disabled": false,
+  "chain": "robinhood",
+  "elapsed_s": 303.2,
+  "enriched": 292,
+  "errors_sample": [],
+  "events": 292,
+  "events_complete": true,
+  "events_cover_block": 97708020,
+  "fatal_error": null,
+  "interrupted": false,
+  "native_trace_sources": {
+    "no_medido": 246
+  },
+  "oracle_contracts_watched": 46,
+  "oracle_status": {
+    "sin_ver": 264
+  },
+  "phases_s": {
+    "enriquecimiento": 191.5,
+    "eventos": 1.9,
+    "evidencia": 4.6,
+    "metadatos": 23.3,
+    "oraculos": 53.2,
+    "segunda_pasada": 0.0,
+    "sonda": 21.1,
+    "ventana": 7.6
+  },
+  "price_sources": {
+    "defillama": 537,
+    "oraculo": 0,
+    "sin_precio": 1
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 1759,
+  "rpc_providers": {
+    "https://rpc.mainnet.chain.robinhood.com": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": 100000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 43,
+          "ok": 267
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 43,
+          "ok": 336
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 45,
+          "ok": 46
+        },
+        "eth_getLogs": {
+          "err": 0,
+          "errores": {
+            "query spans 112502 blocks (71549244 to 71661745), but only 100000 are allowed for this request; narr": 2
+          },
+          "ms_prom": 43,
+          "ok": 550
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 49,
+          "ok": 251
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 46,
+          "ok": 251
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 1701,
+      "sin_metodo": [
+        "debug_traceTransaction",
+        "trace_transaction"
+      ]
+    },
+    "https://rpc.ordofi.network": {
+      "en_rotacion": true,
+      "err": 34,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 26,
+          "errores": {
+            "the network is busy, please try again in a moment": 22
+          },
+          "ms_prom": 425,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "trace_transaction": {
+          "err": 16,
+          "errores": {
+            "trace_transaction is not available without an API key on this endpoint (standard eth_/net_ reads and": 12
+          },
+          "ms_prom": 118,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    }
+  },
+  "second_pass": {
+    "intentadas": 246,
+    "omitida": "ninguna fuente de trazas funciona"
+  },
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "getlogs_max": 2000000,
+      "getlogs_ms": 42,
+      "ms": 53,
+      "proveedor": "https://rpc.mainnet.chain.robinhood.com",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "the method trace_transaction does not exist/is not available",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "the method trace_transaction does not exist/is not available",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "the network is busy, please try again in a moment",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "the network is busy, please try again in a moment",
+        "ok": 0
+      },
+      "getlogs_error": "the network is busy, please try again in a moment",
+      "getlogs_max": 0,
+      "ms": 276,
+      "proveedor": "https://rpc.ordofi.network",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "trace_transaction is not available without an API key on this endpoint (standard eth_/net_ reads and eth_sendRawTransaction are open); keys at https://app.ordof",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "trace_transaction is not available without an API key on this endpoint (standard eth_/net_ reads and eth_sendRawTransaction are open); keys at https://app.ordof",
+        "ok": 0
+      },
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {
+    "debug_traceTransaction: the network is busy, please try again in a moment": 11,
+    "trace_transaction: trace_transaction is not available without an API key on this endpoint (standard eth_/net_": 12
+  },
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "robinhood-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 246,
+  "web_calls": 720,
+  "web_sources": {
+    "blockscout": {
+      "error": "HTTP 403 en https://robinhoodchain.blockscout.com/api/v2/transactions/0xe9cfa34e681572b376131956161c17b505a33da736823dd2",
+      "ok": false
+    },
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 0.104,
+    "days": 30.0,
+    "end_block": 97708020,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352000,
+    "lookback_block": 71424243,
+    "start_block": 72353028,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 292,
+  "with_oracle_delta": 28,
+  "with_realized": 292,
+  "with_realized_complete": 0
+}
