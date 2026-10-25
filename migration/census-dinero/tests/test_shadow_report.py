@@ -91,6 +91,31 @@ class TestReplayTables(unittest.TestCase):
         self.assertAlmostEqual(a["control_census"]["razon"], 1000 / (full / 2))
 
 
+class TestConcentration(unittest.TestCase):
+    def test_winners_and_days(self):
+        day = 43_200
+        rows = [row(2, 600, firmante="0xA", bloque_liquidacion=1000), row(2, 300, firmante="0xB", bloque_liquidacion=1000 + day),
+                row(2, 100, firmante="0xC", bloque_liquidacion=1000 + 5 * day), row(1, 50, via="subasta", firmante="0xD")]
+        a = sr.analyze_replay(rows, [], {"ventana": {"desde": 1000}}, CFG)
+        gw, cd = a["ganadores"], a["concentracion_dias"]
+        self.assertEqual(gw["distintos"], 3)                                  # la subasta no cuenta
+        self.assertAlmostEqual(gw["top1"], 0.6)
+        self.assertAlmostEqual(gw["top3"], 1.0)
+        self.assertEqual(cd["dias_con_liquidaciones"], 3)
+        self.assertAlmostEqual(cd["top1"], 0.6)
+        self.assertAlmostEqual(cd["top3"], 1.0)
+
+    def test_weights_count_and_missing_fields_do_not_break(self):
+        rows = [row(2, 100, peso=3.0, firmante="0xA", bloque_liquidacion=10), row(2, 100, liquidador="0xB", bloque_liquidacion=10)]
+        a = sr.analyze_replay(rows, [], None, CFG)
+        self.assertAlmostEqual(a["ganadores"]["top1"], 0.75)
+        self.assertEqual(a["concentracion_dias"]["dias_con_liquidaciones"], 1)
+        empty = sr.analyze_replay([], [], None, CFG)
+        self.assertEqual(empty["ganadores"]["distintos"], 0)
+        self.assertIsNone(empty["ganadores"]["top1"])
+        sr.render(sr.build(None, None))
+
+
 class TestGates(unittest.TestCase):
     def find(self, G, text):
         return next(g for g in G if text in g["puerta"])

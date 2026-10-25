@@ -175,6 +175,30 @@ def analyze_replay(rows, errors, meta, cfg):
                                                                                               r["paridad"]["err_repago"])}
                                         for r in rows if r.get("paridad") and "modo" in r["paridad"]), key=lambda x: -x["error"])[:5]}
 
+    # ¿Quién se lleva el bono directo y en cuántos días cae? (con peso: la muestra representa toda la ventana)
+    direct_rows = [r for r in usable if way(r) == "directa"]
+    by_winner = Counter()
+    for r in direct_rows:
+        by_winner[r.get("firmante") or r.get("liquidador") or "?"] += weight(r) * (r.get("bono_usd") or 0.0)
+    total_w = sum(by_winner.values())
+    ranked = by_winner.most_common()
+    out["ganadores"] = {"distintos": len(by_winner), "bono_est_usd": total_w,
+                        "top1": share(ranked[0][1], total_w) if ranked else None,
+                        "top3": share(sum(v for _, v in ranked[:3]), total_w) if ranked else None,
+                        "top10": share(sum(v for _, v in ranked[:10]), total_w) if ranked else None}
+    start_block = (meta.get("ventana") or {}).get("desde")
+    per_day = Counter()
+    if direct_rows:
+        origin = start_block if start_block is not None else min(r["bloque_liquidacion"] for r in direct_rows)
+        blocks_per_day = int(86400 / DEFAULTS["block_time_s"])
+        for r in direct_rows:
+            per_day[max(0, (r["bloque_liquidacion"] - origin) // blocks_per_day)] += weight(r) * (r.get("bono_usd") or 0.0)
+    total_d = sum(per_day.values())
+    days_ranked = per_day.most_common()
+    out["concentracion_dias"] = {"dias_con_liquidaciones": len(per_day), "bono_est_usd": total_d,
+                                 "top1": share(days_ranked[0][1], total_d) if days_ranked else None,
+                                 "top3": share(sum(v for _, v in days_ranked[:3]), total_d) if days_ranked else None}
+
     scan = meta.get("borrow_scan") or {}
     if scan.get("completo") and rows:
         total_n, total_b = wcount(rows), wsum(rows, "bono_usd")
@@ -523,6 +547,13 @@ def render(res):
         if cl:
             L.append("Cobertura del libro (prestatarios liquidados que un libro armado mirando N días atrás ya conocería): " +
                      ", ".join(f"{x['dias']} d {pct(x['parte_n'])} ({pct(x['parte_bono'])} del bono)" for x in cl["por_dias_atras"]) + ".")
+        gw, cd = rp.get("ganadores"), rp.get("concentracion_dias")
+        if gw and gw["distintos"]:
+            L.append(f"Quién se lleva el bono directo: {gw['distintos']} firmantes distintos en la muestra; el mayor {pct(gw['top1'])}, "
+                     f"los 3 mayores {pct(gw['top3'])}, los 10 mayores {pct(gw['top10'])}.")
+        if cd and cd["dias_con_liquidaciones"]:
+            L.append(f"Cuándo cae: {cd['dias_con_liquidaciones']} días con liquidaciones directas; los 3 mejores días tienen {pct(cd['top3'])} del bono "
+                     f"(el mejor, {pct(cd['top1'])}).")
         cc = rp["control_census"]
         if cc["razon"] is not None:
             L.append(f"Control contra el Census: bono directo estimado {usd(cc['bono_directo_replay_est_usd'])} vs {usd(cc['bono_directo_census_usd'])} "
