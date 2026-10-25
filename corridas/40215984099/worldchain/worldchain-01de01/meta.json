@@ -1,0 +1,380 @@
+{
+  "archive_disabled": false,
+  "chain": "worldchain",
+  "elapsed_s": 5744.2,
+  "enriched": 1679,
+  "errors_sample": [],
+  "events": 1679,
+  "events_complete": true,
+  "events_cover_block": 36804180,
+  "fatal_error": null,
+  "interrupted": false,
+  "native_trace_sources": {
+    "blockscout": 1023,
+    "trace_transaction": 18
+  },
+  "oracle_contracts_watched": 8,
+  "oracle_status": {},
+  "phases_s": {
+    "enriquecimiento": 4143.8,
+    "eventos": 488.5,
+    "evidencia": 11.7,
+    "metadatos": 5.0,
+    "oraculos": 1085.5,
+    "segunda_pasada": 0.0,
+    "sonda": 3.5,
+    "ventana": 6.2
+  },
+  "price_sources": {
+    "defillama": 1617,
+    "oraculo": 0,
+    "sin_precio": 1103
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 8620,
+  "rpc_providers": {
+    "https://480.rpc.thirdweb.com": {
+      "en_rotacion": true,
+      "err": 167,
+      "getlogs_max": 1000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 7,
+          "errores": {
+            "Invalid method debug_traceTransaction": 3
+          },
+          "ms_prom": 20,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 195,
+          "ok": 26
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 2,
+          "errores": {
+            "HTTP 429 en 480.rpc.thirdweb.com": 2
+          },
+          "ms_prom": 151,
+          "ok": 8
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 280,
+          "ok": 19
+        },
+        "eth_getLogs": {
+          "err": 149,
+          "errores": {
+            "HTTP 429 en 480.rpc.thirdweb.com": 147,
+            "We are not able to process your request at this time. Please contact thirdweb support 9f2cc66a-5473-": 1,
+            "We are not able to process your request at this time. Please contact thirdweb support fe96448a-7602-": 1
+          },
+          "ms_prom": 482,
+          "ok": 2641
+        },
+        "eth_getTransactionByHash": {
+          "err": 2,
+          "errores": {
+            "HTTP 429 en 480.rpc.thirdweb.com": 2
+          },
+          "ms_prom": 177,
+          "ok": 11
+        },
+        "eth_getTransactionReceipt": {
+          "err": 8,
+          "errores": {
+            "HTTP 429 en 480.rpc.thirdweb.com": 8
+          },
+          "ms_prom": 75,
+          "ok": 5
+        },
+        "trace_transaction": {
+          "err": 7,
+          "errores": {
+            "Invalid method trace_transaction": 3
+          },
+          "ms_prom": 36,
+          "ok": 0
+        }
+      },
+      "ok": 2710,
+      "sin_metodo": [
+        "debug_traceTransaction",
+        "trace_transaction"
+      ]
+    },
+    "https://worldchain-mainnet.g.alchemy.com/public": {
+      "en_rotacion": true,
+      "err": 15,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 14,
+          "errores": {
+            "HTTP 401 en worldchain-mainnet.g.alchemy.com": 10
+          },
+          "ms_prom": 41,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 71,
+          "ok": 77
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 64,
+          "ok": 70
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 89,
+          "ok": 1
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 441,
+          "ok": 8
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 428,
+          "ok": 8
+        },
+        "trace_transaction": {
+          "err": 9,
+          "errores": {
+            "HTTP 401 en worldchain-mainnet.g.alchemy.com": 5
+          },
+          "ms_prom": 32,
+          "ok": 0
+        }
+      },
+      "ok": 164,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    },
+    "https://worldchain.drpc.org": {
+      "en_rotacion": true,
+      "err": 2065,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 14,
+          "errores": {
+            "failed to apply blockhash contract call: database error: Database error: state at block #35508310 is": 2,
+            "failed to apply blockhash contract call: database error: Database error: state at block #35508555 is": 2,
+            "failed to apply blockhash contract call: database error: Database error: state at block #35511320 is": 1,
+            "failed to apply blockhash contract call: database error: Database error: state at block #35514724 is": 1,
+            "failed to apply blockhash contract call: database error: Database error: state at block #35522873 is": 1,
+            "failed to apply blockhash contract call: database error: Database error: state at block #35522878 is": 1
+          },
+          "ms_prom": 258,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 186,
+          "ok": 4
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 189,
+          "ok": 1388
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 386,
+          "ok": 1
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 190,
+          "ok": 1027
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 358,
+          "ok": 1033
+        },
+        "trace_transaction": {
+          "err": 2059,
+          "errores": {
+            "failed to apply blockhash contract call: database error: Database error: state at block #35508310 is": 3,
+            "failed to apply blockhash contract call: database error: Database error: state at block #35508555 is": 1,
+            "failed to apply blockhash contract call: database error: Database error: state at block #35511320 is": 2,
+            "failed to apply blockhash contract call: database error: Database error: state at block #35525229 is": 2,
+            "failed to apply blockhash contract call: database error: Database error: state at block #35526770 is": 2,
+            "failed to apply blockhash contract call: database error: Database error: state at block #35528393 is": 2
+          },
+          "ms_prom": 337,
+          "ok": 18
+        }
+      },
+      "ok": 3471,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    }
+  },
+  "second_pass": {
+    "intentadas": 0
+  },
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "HTTP 401 en worldchain-mainnet.g.alchemy.com",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 401 en worldchain-mainnet.g.alchemy.com",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 400 en worldchain-mainnet.g.alchemy.com",
+      "getlogs_max": 0,
+      "ms": 56,
+      "proveedor": "https://worldchain-mainnet.g.alchemy.com/public",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 401 en worldchain-mainnet.g.alchemy.com",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 401 en worldchain-mainnet.g.alchemy.com",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "ok": 1
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "failed to apply blockhash contract call: database error: Database error: state at block #35508181 is pruned",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 400 en worldchain.drpc.org",
+      "getlogs_max": 0,
+      "ms": 39,
+      "proveedor": "https://worldchain.drpc.org",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "ok": 1
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "failed to apply blockhash contract call: database error: Database error: state at block #35508181 is pruned",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "Invalid method debug_traceTransaction",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "Invalid method debug_traceTransaction",
+        "ok": 0
+      },
+      "getlogs_error": "Log response size exceeded. Maximum allowed number of requested blocks is 1000",
+      "getlogs_max": 1000,
+      "getlogs_ms": 147,
+      "ms": 176,
+      "proveedor": "https://480.rpc.thirdweb.com",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "Invalid method trace_transaction",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "Invalid method trace_transaction",
+        "ok": 0
+      },
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {
+    "debug_traceTransaction: HTTP 401 en worldchain-mainnet.g.alchemy.com": 7,
+    "debug_traceTransaction: Invalid method debug_traceTransaction": 3,
+    "trace_transaction: HTTP 401 en worldchain-mainnet.g.alchemy.com": 5,
+    "trace_transaction: failed to apply blockhash contract call: database error: Database error: state at block #3": 2039
+  },
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "worldchain-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 1041,
+  "web_calls": 8932,
+  "web_sources": {
+    "blockscout": {
+      "ms": 577,
+      "ok": true
+    },
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 2.0,
+    "days": 30.0,
+    "end_block": 36804180,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352001,
+    "lookback_block": 35461381,
+    "start_block": 35508181,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 1635,
+  "with_oracle_delta": 1679,
+  "with_realized": 998,
+  "with_realized_complete": 995
+}
