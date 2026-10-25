@@ -190,6 +190,7 @@ class Shadow:
         self.multicall_ok = True
         self.multicall_proved = False
         self.stop = False
+        self.logs_by_hash, self.hash_fail_streak = True, 0
         self.eth_usd_cache = (0.0, None)
         self.t_reconcile = self.mono()
         self.t_snapshot = self.mono()
@@ -395,12 +396,21 @@ class Shadow:
         """Logs de un bloque. Con el hash del bloque, un proveedor atrasado contesta con error y se prueba otro;
         con solo el número contestaría una lista vacía y se perdería el evento sin que nadie lo note."""
         topics = [mo.BOOK_EVENTS, self.ids]
-        if block_hash:
+        if block_hash and self.logs_by_hash:
             try:
-                return self.rpc.call("eth_getLogs", [{"blockHash": block_hash, "address": self.morpho, "topics": topics}], prefer=prefer)
+                logs = self.rpc.call("eth_getLogs", [{"blockHash": block_hash, "address": self.morpho, "topics": topics}], prefer=prefer)
+                self.hash_fail_streak = 0
+                return logs
             except RpcError as e:
                 self.counts["logs_por_hash_fallidos"] += 1
-                log(f"shadow: logs por hash fallaron en el bloque {n} ({self.rpc.scrub(e)[:100]}); se prueba por número")
+                self.hash_fail_streak += 1
+                if self.hash_fail_streak >= 3:
+                    # Si ningún proveedor sirve el filtro por hash, cada bloque perdería un viaje de ida y vuelta de más.
+                    self.logs_by_hash = False
+                    self.meta["logs_por_hash"] = "desactivado tras 3 fallos seguidos: " + self.rpc.scrub(e)[:100]
+                    log(f"shadow: el filtro de logs por hash no funciona ({self.rpc.scrub(e)[:100]}); se piden por número de bloque")
+                else:
+                    log(f"shadow: logs por hash fallaron en el bloque {n} ({self.rpc.scrub(e)[:100]}); se prueba por número")
         return self.rpc.call("eth_getLogs", [{"fromBlock": hex(n), "toBlock": hex(n), "address": self.morpho, "topics": topics}],
                              prefer=prefer)
 

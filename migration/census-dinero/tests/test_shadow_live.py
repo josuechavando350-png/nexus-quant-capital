@@ -503,6 +503,33 @@ class TestLaggingProvider(unittest.TestCase):
         self.assertGreaterEqual(env.sh.counts["logs_por_hash_fallidos"], 1)
 
 
+    def test_hash_filter_is_dropped_after_three_failures_in_a_row(self):
+        env = Env().ready((U[0], 1700))
+        env.chain.fail("eth_getLogs", times=10_000, message="invalid argument 0: unknown field blockHash",
+                       when=lambda p: "blockHash" in p[0])
+        for _ in range(8):
+            env.step()
+        hash_calls = [c for c in env.chain.calls if c[0] == "eth_getLogs"]
+        self.assertFalse(env.sh.logs_by_hash)
+        self.assertEqual(env.sh.counts["logs_por_hash_fallidos"], 3)
+        self.assertIn("desactivado", env.sh.meta["logs_por_hash"])
+        before = len(env.chain.calls)
+        env.step()
+        new = env.chain.calls[before:]
+        self.assertEqual(sum(1 for c in new if c[0] == "eth_getLogs"), 1)        # una sola llamada por número, sin intento por hash
+        self.assertTrue(hash_calls)
+
+    def test_a_success_resets_the_failure_streak(self):
+        env = Env().ready((U[0], 1700))
+        env.chain.fail("eth_getLogs", times=2, message="boom", when=lambda p: "blockHash" in p[0])
+        for _ in range(3):
+            env.step()
+        env.chain.fail("eth_getLogs", times=2, message="boom", when=lambda p: "blockHash" in p[0])
+        for _ in range(3):
+            env.step()
+        self.assertTrue(env.sh.logs_by_hash)
+
+
 class TestHeadWatcher(unittest.TestCase):
     def test_reports_first_sight_of_new_head(self):
         chain = fm.FakeMorpho()
