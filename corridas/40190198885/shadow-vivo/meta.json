@@ -4,16 +4,16 @@
     "descartados_por_error": 0,
     "ok": true
   },
-  "bloque_actual": 53071537,
+  "bloque_actual": 53071839,
   "bloques_perdidos_sin_recuperar": [],
   "contadores": {
-    "bloques": 1802,
-    "bloques_sin_logs_por_bloom": 1099,
+    "bloques": 2104,
+    "bloques_sin_logs_por_bloom": 1285,
     "candidatas": 5,
     "deriva_reconciliacion": 0,
-    "posiciones_sincronizadas": 28,
-    "reconciliadas": 31200,
-    "tasa_sin_leer": 540
+    "posiciones_sincronizadas": 35,
+    "reconciliadas": 36199,
+    "tasa_sin_leer": 631
   },
   "decisiones": {
     "GO:ok": 2,
@@ -175,7 +175,7 @@
       "p99": null
     },
     "errores": 0,
-    "evaluaciones": 18780,
+    "evaluaciones": 21962,
     "holgura_ms": {
       "max": null,
       "min": null,
@@ -188,32 +188,32 @@
     "lectura_pendiente_ms": {
       "max": 667,
       "min": 75,
-      "n": 18780,
+      "n": 21962,
       "p50": 98,
       "p90": 114,
-      "p99": 145
+      "p99": 146
     },
     "supuesto_envio_ms": 150
   },
   "flashblocks": {
     "errores": {},
-    "fotos": 35626,
+    "fotos": 41615,
     "intervalo_de_consulta_ms": 100,
     "intervalo_entre_trozos_ms": {
-      "max": 245,
-      "min": 94,
-      "n": 71,
-      "p50": 194,
-      "p90": 203,
+      "max": 221,
+      "min": 79,
+      "n": 72,
+      "p50": 198,
+      "p90": 202,
       "p99": 207
     },
     "rtt_ms": {
       "max": 468,
       "min": 72,
-      "n": 35626,
+      "n": 41615,
       "p50": 76,
-      "p90": 80,
-      "p99": 113
+      "p90": 81,
+      "p99": 112
     },
     "url": "https://mainnet-preconf.base.org"
   },
@@ -221,26 +221,26 @@
   "latencia_proceso_ms": {
     "max": 8946,
     "min": 88,
-    "n": 1802,
+    "n": 2104,
     "p50": 219,
     "p90": 328,
-    "p99": 3995
+    "p99": 4060
   },
   "latencia_visto_mas_proceso_ms": {
     "max": 9103,
     "min": 225,
-    "n": 1760,
-    "p50": 520,
+    "n": 2058,
+    "p50": 516,
     "p90": 739,
-    "p99": 4342
+    "p99": 4350
   },
   "latencia_visto_ms": {
     "max": 1035,
     "min": 99,
-    "n": 1760,
-    "p50": 278,
-    "p90": 480,
-    "p99": 570
+    "n": 2058,
+    "p50": 276,
+    "p90": 481,
+    "p99": 569
   },
   "libro": {
     "bloque": 53069735,
@@ -457,8 +457,8 @@
           "errores": {
             "HTTP 429 en base-pokt.nodies.app": 2
           },
-          "ms_prom": 103,
-          "ok": 267
+          "ms_prom": 102,
+          "ok": 309
         },
         "eth_getLogs@hash": {
           "err": 2,
@@ -466,15 +466,15 @@
             "HTTP 429 en base-pokt.nodies.app": 2
           },
           "ms_prom": 81,
-          "ok": 98
+          "ok": 117
         }
       },
-      "ok": 365,
+      "ok": 426,
       "sin_metodo": []
     },
     "https://base-rpc.publicnode.com": {
       "en_rotacion": true,
-      "err": 579,
+      "err": 675,
       "getlogs_max": null,
       "metodos": {
         "eth_blockNumber": {
@@ -484,7 +484,7 @@
           "ok": 2
         },
         "eth_call": {
-          "err": 579,
+          "err": 675,
           "errores": {
             "block not found: 0x329c7be": 1,
             "block not found: 0x329c7cf": 1,
@@ -493,8 +493,8 @@
             "block not found: 0x329c7fe": 1,
             "block not found: 0x329c802": 3
           },
-          "ms_prom": 125,
-          "ok": 558
+          "ms_prom": 123,
+          "ok": 561
         },
         "eth_getBlockByNumber": {
           "err": 0,
@@ -512,10 +512,10 @@
           "err": 0,
           "errores": {},
           "ms_prom": 91,
-          "ok": 470
+          "ok": 543
         }
       },
-      "ok": 1045,
+      "ok": 1121,
       "sin_metodo": []
     },
     "https://base.api.onfinality.io/public": {
@@ -536,7 +536,7 @@
     },
     "https://base.drpc.org": {
       "en_rotacion": true,
-      "err": 59,
+      "err": 70,
       "getlogs_max": null,
       "metodos": {
         "eth_call": {
@@ -549,23 +549,23 @@
           "ok": 18
         },
         "eth_getBlockByNumber": {
-          "err": 36,
+          "err": 39,
           "errores": {
-            "HTTP 429 en base.drpc.org": 36
+            "HTTP 429 en base.drpc.org": 39
           },
-          "ms_prom": 37,
-          "ok": 347
+          "ms_prom": 36,
+          "ok": 408
         },
         "eth_getLogs@hash": {
-          "err": 19,
+          "err": 27,
           "errores": {
-            "HTTP 429 en base.drpc.org": 19
+            "HTTP 429 en base.drpc.org": 27
           },
-          "ms_prom": 143,
-          "ok": 135
+          "ms_prom": 136,
+          "ok": 159
         }
       },
-      "ok": 500,
+      "ok": 585,
       "sin_metodo": [
         "eth_call"
       ]
@@ -631,11 +631,11 @@
     },
     "https://gateway.tenderly.co/public/base": {
       "en_rotacion": true,
-      "err": 541,
+      "err": 632,
       "getlogs_max": null,
       "metodos": {
         "eth_call": {
-          "err": 541,
+          "err": 632,
           "errores": {
             "block not found: 0x329c7f0": 1,
             "block not found: 0x329c7fe": 1,
@@ -645,19 +645,19 @@
             "block not found: 0x329c81e": 2
           },
           "ms_prom": 86,
-          "ok": 28
+          "ok": 33
         }
       },
-      "ok": 28,
+      "ok": 33,
       "sin_metodo": []
     },
     "https://mainnet.base.org": {
       "en_rotacion": true,
-      "err": 582,
+      "err": 681,
       "getlogs_max": null,
       "metodos": {
         "eth_call": {
-          "err": 578,
+          "err": 677,
           "errores": {
             "block not found: 0x329c7df": 1,
             "block not found: 0x329c7f0": 1,
@@ -667,13 +667,13 @@
             "block not found: 0x329c812": 1
           },
           "ms_prom": 90,
-          "ok": 1682
+          "ok": 2035
         },
         "eth_getBlockByNumber": {
           "err": 0,
           "errores": {},
           "ms_prom": 79,
-          "ok": 1217
+          "ok": 1421
         },
         "eth_getLogs@hash": {
           "err": 4,
@@ -684,11 +684,11 @@
           "ok": 0
         }
       },
-      "ok": 2899,
+      "ok": 3456,
       "sin_metodo": []
     }
   },
-  "rpc_llamadas": 66444,
+  "rpc_llamadas": 77586,
   "supuestos": {
     "interes": "se acumula con el IRM solo para posiciones a menos de 0.5% del umbral",
     "kept_prior_global": 0.678,
