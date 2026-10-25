@@ -1,12 +1,12 @@
 {
- "generado": "2026-10-25 04:04:52 UTC",
+ "generado": "2026-10-25 04:22:19 UTC",
  "config": {
   "min_bonus_usd": 10,
   "min_net_usd": 5
  },
  "fuentes": {
   "vivo": {
-   "bloques": 376,
+   "bloques": 500,
    "decisiones": 5,
    "resultados": 0,
    "lineas_cortadas": 0,
@@ -20,72 +20,72 @@
  },
  "vivo": {
   "ventana": {
-   "bloques": 376,
-   "bloques_en_rango": 376,
+   "bloques": 500,
+   "bloques_en_rango": 500,
    "cobertura": 1.0,
-   "desde_bloque": 53055492,
-   "hasta_bloque": 53055867,
-   "desde_ts": 1792900331,
-   "hasta_ts": 1792901081,
-   "horas": 0.20833333333333334
+   "desde_bloque": 53055891,
+   "hasta_bloque": 53056390,
+   "desde_ts": 1792901129,
+   "hasta_ts": 1792902127,
+   "horas": 0.2772222222222222
   },
   "latencia": {
    "visto_ms": {
-    "p50": 282,
-    "p90": 497,
-    "p99": 565,
-    "min": 87,
-    "max": 626,
-    "n": 361
+    "p50": 301,
+    "p90": 538,
+    "p99": 574,
+    "min": 114,
+    "max": 1064,
+    "n": 478
    },
    "proceso_ms": {
-    "p50": 219,
-    "p90": 449,
-    "p99": 3968,
-    "min": 165,
-    "max": 8456,
-    "n": 376
+    "p50": 241,
+    "p90": 360,
+    "p99": 4807,
+    "min": 186,
+    "max": 8194,
+    "n": 500
    },
    "visto_mas_proceso_ms": {
-    "p50": 534,
-    "p90": 780,
-    "p99": 4340,
-    "min": 302,
-    "max": 8881,
-    "n": 361
+    "p50": 572,
+    "p90": 812,
+    "p99": 5067,
+    "min": 318,
+    "max": 8535,
+    "n": 478
    },
    "fases_ms": {
     "cabecera_ms": {
-     "p50": 83,
-     "p90": 93,
-     "p99": 264,
-     "min": 34,
-     "max": 4978,
-     "n": 376
+     "p50": 99,
+     "p90": 106,
+     "p99": 1777,
+     "min": 47,
+     "max": 4297,
+     "n": 500
     },
     "logs_ms": {
      "p50": 0,
-     "p90": 139,
-     "p99": 464,
+     "p90": 123,
+     "p99": 1956,
      "min": 0,
-     "max": 5487,
-     "n": 376
+     "max": 6539,
+     "n": 500
     },
     "lectura_ms": {
-     "p50": 127,
-     "p90": 139,
-     "p99": 275,
+     "p50": 135,
+     "p90": 143,
+     "p99": 191,
      "min": 0,
-     "max": 3918,
-     "n": 376
+     "max": 4254,
+     "n": 500
     },
     "evaluar_ms": {
-     "p50": 4,
-     "p90": 4,
-     "p99": 249,
+     "p50": 3,
+     "p90": 101,
+     "p99": 239,
      "min": 3,
-     "max": 589,
-     "n": 376
+     "max": 489,
+     "n": 500
     }
    },
    "decision": {
@@ -168,6 +168,7 @@
     "directa": {
      "n": 0,
      "por_tipo": {},
+     "con_actualizacion_por_subasta": 0,
      "bono_usd": {},
      "reaccion_ms": {
       "p50": null,
@@ -189,6 +190,7 @@
     "subasta": {
      "n": 0,
      "por_tipo": {},
+     "con_actualizacion_por_subasta": 0,
      "bono_usd": {},
      "reaccion_ms": {
       "p50": null,
@@ -210,23 +212,23 @@
    },
    "watcher": {
     "errores": {},
-    "fotos": 5824,
+    "fotos": 8563,
     "intervalo_de_consulta_ms": 100,
     "intervalo_entre_trozos_ms": {
-     "max": 217,
-     "min": 91,
+     "max": 221,
+     "min": 96,
      "n": 74,
-     "p50": 195,
-     "p90": 206,
-     "p99": 212
+     "p50": 199,
+     "p90": 212,
+     "p99": 220
     },
     "rtt_ms": {
-     "max": 476,
-     "min": 78,
-     "n": 5824,
-     "p50": 85,
-     "p90": 93,
-     "p99": 146
+     "max": 407,
+     "min": 95,
+     "n": 8563,
+     "p50": 103,
+     "p90": 109,
+     "p99": 126
     },
     "url": "https://mainnet-preconf.base.org"
    }
@@ -235,28 +237,28 @@
   "candidatas_sin_liquidar": {},
   "calidad": {
    "contadores": {
-    "bloques": 296,
-    "bloques_sin_logs_por_bloom": 216,
+    "bloques": 447,
+    "bloques_sin_logs_por_bloom": 348,
     "candidatas": 5,
     "deriva_reconciliacion": 0,
-    "posiciones_sincronizadas": 4,
-    "reconciliadas": 4800
+    "posiciones_sincronizadas": 5,
+    "reconciliadas": 7600
    },
    "eventos_del_sistema": {},
    "multicall_ok": true,
    "libro": {
-    "bloque": 53055491,
-    "candidatos": 36098,
-    "con_deuda": 30361,
+    "bloque": 53055890,
+    "candidatos": 36100,
+    "con_deuda": 30363,
     "desde_cache": true,
     "dias_atras": 30,
-    "leidos": 36098,
+    "leidos": 36100,
     "libro_parcial": false,
-    "segundos": 14.3
+    "segundos": 17.0
    },
    "libro_deriva": 0,
    "pendientes_al_cierre": 5,
-   "inicio": 1792900320.7718887,
+   "inicio": 1792901119.0642931,
    "fin": null,
    "supuestos": {
     "interes": "se acumula con el IRM solo para posiciones a menos de 0.5% del umbral",
@@ -274,11 +276,11 @@
    "excluidos": {}
   },
   "cercanas": {
-   "bloque": 53055787,
+   "bloque": 53056337,
    "n": 4,
-   "deuda_usd": 4895.425587,
+   "deuda_usd": 4895.425602,
    "mas_cercana_pct": 0.294,
-   "fotos": 2
+   "fotos": 3
   }
  },
  "replay": null,
@@ -308,12 +310,12 @@
   {
    "puerta": "Simulaciones: divergencias investigadas",
    "estado": "parcial",
-   "evidencia": "libro sin deriva (4800 posiciones reconciliadas)"
+   "evidencia": "libro sin deriva (7600 posiciones reconciliadas)"
   },
   {
    "puerta": "Latencia en infraestructura real",
    "estado": "parcial",
-   "evidencia": "p50 534 ms, p90 780 ms, p99 4,340 ms (n=361); medida desde GitHub Actions, no desde la infraestructura de Titan"
+   "evidencia": "p50 572 ms, p90 812 ms, p99 5,067 ms (n=478); medida desde GitHub Actions, no desde la infraestructura de Titan"
   },
   {
    "puerta": "Detección competitiva (replay)",
