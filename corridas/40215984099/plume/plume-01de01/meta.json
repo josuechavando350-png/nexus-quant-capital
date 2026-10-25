@@ -1,0 +1,177 @@
+{
+  "archive_disabled": false,
+  "chain": "plume",
+  "elapsed_s": 184.7,
+  "enriched": 745,
+  "errors_sample": [],
+  "events": 745,
+  "events_complete": true,
+  "events_cover_block": 101631852,
+  "fatal_error": null,
+  "interrupted": false,
+  "native_trace_sources": {
+    "blockscout": 109,
+    "no_medido": 3
+  },
+  "oracle_contracts_watched": 8,
+  "oracle_status": {
+    "sin_ver": 745
+  },
+  "phases_s": {
+    "enriquecimiento": 143.4,
+    "eventos": 2.4,
+    "evidencia": 5.5,
+    "metadatos": 4.9,
+    "oraculos": 1.8,
+    "segunda_pasada": 12.0,
+    "sonda": 3.5,
+    "ventana": 11.2
+  },
+  "price_sources": {
+    "defillama": 1119,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 573,
+  "rpc_providers": {
+    "https://rpc.plume.org": {
+      "en_rotacion": true,
+      "err": 36,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 24,
+          "errores": {
+            "HTTP 401 en rpc.plume.org": 20
+          },
+          "ms_prom": 128,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 159,
+          "ok": 69
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 160,
+          "ok": 181
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 174,
+          "ok": 10
+        },
+        "eth_getLogs": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 192,
+          "ok": 22
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 161,
+          "ok": 120
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 217,
+          "ok": 120
+        },
+        "trace_transaction": {
+          "err": 20,
+          "errores": {
+            "HTTP 401 en rpc.plume.org": 16
+          },
+          "ms_prom": 124,
+          "ok": 0
+        }
+      },
+      "ok": 522,
+      "sin_metodo": []
+    }
+  },
+  "second_pass": {
+    "intentadas": 3,
+    "recuperadas": 0
+  },
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "HTTP 401 en rpc.plume.org",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 401 en rpc.plume.org",
+        "ok": 0
+      },
+      "getlogs_max": 2000000,
+      "getlogs_ms": 243,
+      "ms": 153,
+      "proveedor": "https://rpc.plume.org",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 401 en rpc.plume.org",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 401 en rpc.plume.org",
+        "ok": 0
+      },
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {
+    "debug_traceTransaction: HTTP 401 en rpc.plume.org": 20,
+    "trace_transaction: HTTP 401 en rpc.plume.org": 16
+  },
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "plume-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 112,
+  "web_calls": 589,
+  "web_sources": {
+    "blockscout": {
+      "ms": 801,
+      "ok": true
+    },
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 0.4,
+    "days": 30.0,
+    "end_block": 101631852,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352000,
+    "lookback_block": 95262575,
+    "start_block": 95481381,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 745,
+  "with_oracle_delta": 0,
+  "with_realized": 745,
+  "with_realized_complete": 486
+}
