@@ -578,6 +578,7 @@ class Shadow:
         key = (e["market"], e["user"])
         info = self.markets[e["market"]]
         cand = self.pending.pop(key, None)
+        was_expired = key in self.expired
         self.expired.discard(key)
         bonus_usd = e["repaid_assets"] * (info.lif - mo.WAD) / mo.WAD / 10 ** info.loan_dec * info.loan_usd
         row = {"mercado": e["market"], "etiqueta": info.label, "prestatario": e["user"], "bloque_liquidacion": n,
@@ -592,6 +593,9 @@ class Shadow:
                        neto_modelo_usd=cand["neto_modelo_usd"], residual=cand["residual"])
             if cand["k"] is not None:
                 row["llegada"] = "antes" if n > cand["b_c"] + cand["k"] else "empate" if n == cand["b_c"] + cand["k"] else "tarde"
+        elif was_expired:
+            # Llevaba más de `expire_blocks` liquidable sin que nadie la tomara: no fue una carrera.
+            row.update(resultado="liquidada_tras_expirar", detectada_antes=True, clase="tras_expirar", delta_bloques=None, llegada=None)
         else:
             clase = "mismo_bloque" if key in known_before else "fuera_del_libro"
             row.update(resultado="liquidada_sin_aviso", detectada_antes=False, clase=clase, delta_bloques=0 if clase == "mismo_bloque" else None,
@@ -876,8 +880,10 @@ def make_rpc(rps=8):
     return Rpc(urls, rps=rps, expected_chain_id=CHAINS["base"].chain_id, public=set(CHAINS["base"].public_rpcs))
 
 
-def run_live(cfg, out_dir, cache_path=None, rpc=None, markets=None, head_source=None, sleep=time.sleep):
-    """Punto de entrada del modo en vivo (también lo usan las pruebas con una cadena falsa)."""
+def run_live(cfg, out_dir, cache_path=None, rpc=None, markets=None, head_source=None, sleep=time.sleep, on_ready=None):
+    """Punto de entrada del modo en vivo (también lo usan las pruebas con una cadena falsa).
+
+    `on_ready(shadow)` se llama con el libro ya armado, justo antes de empezar a vigilar bloques."""
     rpc = rpc or make_rpc()
     shadow = Shadow(rpc, out_dir, cfg, markets=markets).setup()
     cache = None
@@ -898,6 +904,8 @@ def run_live(cfg, out_dir, cache_path=None, rpc=None, markets=None, head_source=
         watcher = HeadWatcher(rpc, urls).start()
         head_source = lambda last: watcher.wait(last)    # noqa: E731
     try:
+        if on_ready:
+            on_ready(shadow)
         return shadow.run(cfg.get("minutos", 90), head_source, sleep)
     finally:
         if watcher:

@@ -5,6 +5,9 @@
   python -m census_dinero collect --chain base --start-ts 1790000000 --end-ts 1790259200 --out out/base-01
   python -m census_dinero analyze --out resultados out/*/liquidaciones.jsonl
   python -m census_dinero verificar --out resultados out/*/liquidaciones.jsonl
+  python -m census_dinero shadow --run-json run.json --out out/shadow-vivo --cache cache/libro.json
+  python -m census_dinero replay --run-json run.json --out out/shadow-replay
+  python -m census_dinero shadow-report --live out/shadow-vivo --replay out/shadow-replay --out reporte
 """
 
 import argparse
@@ -76,6 +79,16 @@ def _interrupt(signum, frame):
     raise KeyboardInterrupt
 
 
+def shadow_settings(cfg):
+    """(config del vivo, config del replay, ¿correr vivo?, ¿correr replay?) a partir de run.json["shadow"]."""
+    sh = cfg.get("shadow") or {}
+    common = dict(sh.get("config") or {})
+    replay = sh.get("replay", True)
+    live_cfg = {**common, "minutos": min(float(sh.get("minutos", 90)), 330.0)}
+    replay_cfg = {**common, **(replay if isinstance(replay, dict) else {})}
+    return live_cfg, replay_cfg, sh.get("vivo", True) is not False, replay is not False
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="census_dinero")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -112,6 +125,21 @@ def main(argv=None):
     v.add_argument("--per-chain", type=int, default=4)
     v.add_argument("inputs", nargs="+")
 
+    s_ = sub.add_parser("shadow", help="Shadow en vivo de Base/Morpho: decisiones simuladas, sin enviar nada")
+    s_.add_argument("--run-json", required=True)
+    s_.add_argument("--out", required=True)
+    s_.add_argument("--cache", help="libro de posiciones guardado de una corrida anterior (se reescribe al terminar)")
+
+    r_ = sub.add_parser("replay", help="replay histórico de liquidaciones de Base/Morpho para el Shadow")
+    r_.add_argument("--run-json", required=True)
+    r_.add_argument("--out", required=True)
+
+    sr_ = sub.add_parser("shadow-report", help="junta el vivo y el replay en RESUMEN_SHADOW.md y shadow.json")
+    sr_.add_argument("--live")
+    sr_.add_argument("--replay")
+    sr_.add_argument("--run-json")
+    sr_.add_argument("--out", required=True)
+
     args = ap.parse_args(argv)
     if args.cmd == "plan":
         with open(args.run_json) as fh:
@@ -121,6 +149,15 @@ def main(argv=None):
             # la matriz queda con un tramo simbólico que no corre.
             print(f"modo={cfg['modo']}")
             print(f"fuente={int(cfg['corrida'])}")
+            print('matrix={"include":[{"chain":"ninguna","label":"sin-recoleccion"}]}')
+            return 0
+        if cfg.get("modo") in ("shadow", "shadow_reporte"):
+            # Shadow de Base/Morpho: el vivo y el replay son trabajos propios; no hay tramos del census.
+            _, _, live_on, replay_on = shadow_settings(cfg)
+            print(f"modo={cfg['modo']}")
+            print(f"fuente={int(cfg['corrida']) if cfg['modo'] == 'shadow_reporte' else ''}")
+            print(f"vivo={'true' if live_on and cfg['modo'] == 'shadow' else 'false'}")
+            print(f"replay={'true' if replay_on and cfg['modo'] == 'shadow' else 'false'}")
             print('matrix={"include":[{"chain":"ninguna","label":"sin-recoleccion"}]}')
             return 0
         print("modo=recolectar")
@@ -158,6 +195,41 @@ def main(argv=None):
                 with open(ev_path) as fh:
                     evidence += json.load(fh)
         print(verificar.write(verificar.verify(recs, per_chain=args.per_chain, evidence=evidence), args.out))
+        return 0
+    if args.cmd == "shadow":
+        from . import shadow_live
+        with open(args.run_json) as fh:
+            live_cfg, _, _, _ = shadow_settings(json.load(fh))
+        os.makedirs(args.out, exist_ok=True)
+
+        def _graceful(shadow):
+            def handler(signum, frame):
+                shadow.stop = True            # termina el bloque en curso y escribe lo que falta
+            signal.signal(signal.SIGTERM, handler)
+            signal.signal(signal.SIGINT, handler)
+        signal.signal(signal.SIGTERM, _interrupt)
+        shadow_live.run_live(live_cfg, args.out, cache_path=args.cache, on_ready=_graceful)
+        sys.stdout.flush()
+        sys.stderr.flush()
+        os._exit(0)       # sin esperar a hilos de red que ya no importan
+    if args.cmd == "replay":
+        from . import shadow_replay
+        with open(args.run_json) as fh:
+            _, replay_cfg, _, _ = shadow_settings(json.load(fh))
+        os.makedirs(args.out, exist_ok=True)
+        signal.signal(signal.SIGTERM, _interrupt)
+        shadow_replay.run_replay(replay_cfg, args.out)
+        sys.stdout.flush()
+        sys.stderr.flush()
+        os._exit(0)
+    if args.cmd == "shadow-report":
+        from . import shadow_report
+        cfg = {}
+        if args.run_json:
+            with open(args.run_json) as fh:
+                live_cfg, replay_cfg, _, _ = shadow_settings(json.load(fh))
+            cfg = {k: v for k, v in {**replay_cfg, **live_cfg}.items() if k in ("min_bonus_usd", "min_net_usd", "submit_ms")}
+        print(shadow_report.write(shadow_report.build(args.live, args.replay, cfg), args.out))
         return 0
     recs, metas = load(args.inputs)
     expected = None

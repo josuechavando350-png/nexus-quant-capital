@@ -176,6 +176,19 @@ class TestFlow(unittest.TestCase):
         env.step([("set_price", env.mid, DROP)])
         self.assertEqual(len(env.rows("decisiones.jsonl")), 2)
 
+    def test_liquidation_after_expiry_is_not_a_same_block_miss(self):
+        env = Env({"expire_blocks": 3}).ready((U[0], 1700))
+        env.step([("set_price", env.mid, DROP)])
+        for _ in range(5):
+            env.step()
+        env.step([("liquidate", env.mid, B[0], U[0])])
+        last = env.rows("resultados.jsonl")[-1]
+        self.assertEqual((last["resultado"], last["clase"]), ("liquidada_tras_expirar", "tras_expirar"))
+        self.assertIsNone(last["delta_bloques"])
+        self.assertIsNone(last["llegada"])
+        self.assertEqual(env.sh.outcomes["tras_expirar"], 1)
+        self.assertEqual(env.sh.outcomes["mismo_bloque"], 0)
+
     def test_partial_liquidation_leaves_residual_candidate(self):
         env = Env().ready((U[0], 1700))
         env.step([("set_price", env.mid, DROP)])
@@ -430,6 +443,26 @@ class TestSystem(unittest.TestCase):
         self.assertEqual(meta["libro"]["con_deuda"], 1)
         with open(os.path.join(out, "meta.json")) as fh:
             self.assertEqual(json.load(fh)["resultados"]["liquidada"], 1)
+
+
+    def test_on_ready_hook_can_stop_the_loop_and_state_is_still_saved(self):
+        env = Env()
+        env.chain.mine(env.open_position(U[0], 1700))
+        out = tempfile.mkdtemp()
+        seen = []
+
+        def on_ready(sh):
+            seen.append(sh.book.active_count())
+            sh.stop = True                    # como cuando Actions cancela la corrida
+
+        def head_source(last):
+            raise AssertionError("no debe vigilar bloques si se pidió parar")
+        meta = run_live({"minutos": 5}, out, rpc=env.rpc, markets=env.cfg_markets, head_source=head_source, sleep=no_sleep,
+                        on_ready=on_ready)
+        self.assertEqual(seen, [1])
+        self.assertEqual(meta["libro"]["con_deuda"], 1)
+        for name in ("meta.json", "libro.json"):
+            self.assertTrue(os.path.exists(os.path.join(out, name)), name)
 
 
 class TestHeadWatcher(unittest.TestCase):

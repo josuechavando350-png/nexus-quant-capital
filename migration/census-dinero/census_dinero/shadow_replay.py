@@ -28,26 +28,37 @@ RDEFAULTS = {
 }
 
 
+def event_bonus(e, markets):
+    """Bono de la liquidación en USD: repago x (LIF - 1). None si el mercado no se vigila."""
+    info = markets.get(e["market"])
+    if info is None:
+        return None
+    return e["repaid_assets"] * (info.lif - mo.WAD) / mo.WAD / 10 ** info.loan_dec * info.loan_usd
+
+
 def select_events(events, markets, cfg):
-    """Las liquidaciones a reconstruir: las `top` de mayor bono y una muestra pareja del resto (determinista)."""
+    """Las liquidaciones a reconstruir: las `top` de mayor bono y una muestra pareja del resto (determinista).
+
+    Cada evento elegido lleva su grupo y su peso (1 para las mayores; el tamaño del resto dividido entre la muestra
+    para las demás) para poder estimar totales de toda la ventana a partir de la muestra."""
     scored = []
     for e in events:
-        info = markets.get(e["market"])
-        if info is None:
-            continue
-        bonus = e["repaid_assets"] * (info.lif - mo.WAD) / mo.WAD / 10 ** info.loan_dec * info.loan_usd
-        if bonus >= cfg["min_bonus_usd"]:
+        bonus = event_bonus(e, markets)
+        if bonus is not None and bonus >= cfg["min_bonus_usd"]:
             scored.append((bonus, e))
     scored.sort(key=lambda x: (-x[0], x[1]["block"], x[1]["log_index"]))
     top = scored[:cfg["top"]]
     rest = scored[cfg["top"]:]
     room = max(0, cfg["max"] - len(top))
+    weight = 1.0
     if room and rest:
+        weight = max(1.0, len(rest) / room)
         stride = max(1, len(rest) / room)
         rest = [rest[int(i * stride)] for i in range(min(room, len(rest)))]
     else:
         rest = []
-    return [e for _, e in top + rest]
+    return ([{**e, "_grupo": "top", "_peso": 1.0} for _, e in top]
+            + [{**e, "_grupo": "muestra", "_peso": weight} for _, e in rest])
 
 
 def prior_kept(prior, min_n=30):
@@ -188,7 +199,8 @@ class Replay:
         kept = prior_kept(info.prior, self.sh.cfg["prior_min_n"])
         row = {"mercado": ev["market"], "etiqueta": info.label, "prestatario": ev["user"], "bloque_liquidacion": ev["block"],
                "tx": ev["tx_hash"], "tx_index": ev["tx_index"], "liquidador": ev["caller"], "bono_usd": bonus,
-               "retencion_prior": kept, "neto_modelo_usd": bonus * kept, "deuda_mala": ev["bad_debt_shares"] > 0}
+               "retencion_prior": kept, "neto_modelo_usd": bonus * kept, "deuda_mala": ev["bad_debt_shares"] > 0,
+               "grupo": ev.get("_grupo"), "peso": ev.get("_peso", 1.0)}
         if fc is None:
             row["sin_dato"] = True
         else:
@@ -236,9 +248,15 @@ class Replay:
         return self.summary(events, chosen, done, failed, skipped)
 
     def summary(self, events, chosen, done, failed, skipped):
+        bonos = [event_bonus(e, self.sh.markets) for e in events]
+        bonos = [b for b in bonos if b is not None]
         par = [r["paridad"] for r in done if r.get("paridad") and "modo" in r["paridad"]]
         errs = sorted(max(p["err_embargo"], p["err_shares"], p["err_repago"]) for p in par)
-        return {"eventos_en_ventana": len(events), "elegidos": len(chosen), "procesados": len(done), "fallidos": failed,
+        elegible = [b for b in bonos if b >= self.cfg["min_bonus_usd"]]
+        return {"eventos_en_ventana": len(events), "elegibles": len(elegible), "bono_total_usd": sum(bonos),
+                "bono_elegible_usd": sum(elegible), "elegidos": len(chosen),
+                "bono_elegido_usd": sum(event_bonus(e, self.sh.markets) for e in chosen),
+                "procesados": len(done), "fallidos": failed,
                 "omitidos_por_tiempo": skipped, "sin_dato": sum(1 for r in done if r.get("sin_dato")),
                 "censurados": sum(1 for r in done if r.get("censurado")),
                 "sondeos_de_archivo": self.n_sondeos,

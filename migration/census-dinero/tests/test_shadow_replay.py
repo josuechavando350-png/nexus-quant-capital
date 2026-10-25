@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import fakemorpho as fm  # noqa: E402
 from census_dinero import morpho as mo  # noqa: E402
-from census_dinero.shadow_replay import RDEFAULTS, prior_kept, run_replay, select_events  # noqa: E402
+from census_dinero.shadow_replay import RDEFAULTS, event_bonus, prior_kept, run_replay, select_events  # noqa: E402
 from test_shadow_live import B, DROP, Env, S, U  # noqa: E402
 
 
@@ -150,6 +150,19 @@ class TestRunMechanics(unittest.TestCase):
         small = select_events(evs, info, {**RDEFAULTS, "top": 5, "max": 25, "min_bonus_usd": 100_000})
         self.assertEqual(small, [])
 
+    def test_sample_weights_estimate_the_whole_window(self):
+        env = Env().open()
+        info = env.sh.markets
+        evs = [{"market": env.mid, "block": 100 + i, "log_index": 0, "repaid_assets": (1000 - i) * 10 ** 6} for i in range(200)]
+        chosen = select_events(evs, info, {**RDEFAULTS, "top": 5, "max": 25, "min_bonus_usd": 1})
+        self.assertEqual([e["_grupo"] for e in chosen[:5]], ["top"] * 5)
+        self.assertTrue(all(e["_grupo"] == "muestra" and e["_peso"] == 195 / 20 for e in chosen[5:]))
+        total = sum(event_bonus(e, info) for e in evs)
+        estimated = sum(event_bonus(e, info) * e["_peso"] for e in chosen)
+        self.assertAlmostEqual(estimated / total, 1.0, delta=0.02)           # la muestra reparte bien el total
+        few = select_events(evs[:10], info, {**RDEFAULTS, "top": 5, "max": 25, "min_bonus_usd": 1})
+        self.assertEqual({e["_peso"] for e in few}, {1.0})                   # si cabe todo, nada se pondera
+
     def test_prior_kept_needs_enough_samples(self):
         self.assertEqual(prior_kept({"kept_dir": 0.9, "n_dir": 40}), 0.9)
         self.assertEqual(prior_kept({"kept_dir": 0.9, "n_dir": 3}), 0.678)
@@ -185,6 +198,9 @@ class TestRunMechanics(unittest.TestCase):
         env, _, _ = scenario()
         meta, _, out = replay(env, min_bonus_usd=1, dias=1)
         self.assertEqual(meta["ventana"]["hasta_leido"], env.chain.head)
+        self.assertEqual(meta["eventos_en_ventana"], 3)
+        self.assertGreater(meta["bono_total_usd"], 0)
+        self.assertAlmostEqual(meta["bono_elegido_usd"], meta["bono_elegible_usd"], places=6)
         self.assertIn("rpc", meta)
         self.assertTrue(os.path.exists(os.path.join(out, "replay_meta.json")))
 
