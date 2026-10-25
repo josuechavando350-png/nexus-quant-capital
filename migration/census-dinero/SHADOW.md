@@ -157,7 +157,7 @@ evalúa el libro en memoria sin consultar a la red y anota cuánto tardó en dec
 **ventana** entre la llegada de la actualización y la de la liquidación del ganador (ambas por WebSocket) y la holgura con un envío supuesto de
 `submit_rapido_ms` (20 ms: un servidor cerca del secuenciador; no se mide ni se envía nada). También mide cuánto antes llega la actualización
 por WebSocket que por la consulta. En la vía rápida no hay ninguna consulta a la red: cerca del umbral el interés se estima con la última tasa del IRM leída para ese mercado, aunque haya caducado (en la v9 una actualización tardó 33 ms en decidirse con mediana de 0.1 ms; lo más probable es que fuera esa lectura, sin confirmar: desde la v10 cada actualización queda registrada para comprobarlo). Archivos: `flash_rapido.jsonl`, `flash_actualizaciones.jsonl` (una línea por actualización: ms para decidir, ms de evaluación, mercados y cuánto antes llegó) y `via_rapida` / `flash_ws` en `meta.json`. El cliente WebSocket solo
-acepta `eth_subscribe` y `eth_unsubscribe`.
+acepta `eth_subscribe` y `eth_unsubscribe`. Pendiente, sin activar: `newFlashblockTransactions` con `true` como segundo parámetro entrega cada transacción completa con los campos de su recibo (logs, gas usado), según la referencia de la API de Base; con eso se verían en vivo los intentos de los rivales y si fallaron, sin esperar al bloque sellado (más datos por el socket: se probaría antes aparte).
 
 **Rivales que perdieron** (`orden.intentos`; en la lupa del replay y en cada liquidación en vivo). Ganar o perder se decide contra
 los demás bots, no contra un reloj. En el bloque de cada liquidación se buscan las otras transacciones que llevan la dirección del prestatario
