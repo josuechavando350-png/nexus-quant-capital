@@ -1,0 +1,163 @@
+{
+  "archive_disabled": false,
+  "chain": "morph",
+  "elapsed_s": 110.2,
+  "enriched": 1,
+  "errors_sample": [],
+  "events": 1,
+  "events_complete": true,
+  "events_cover_block": 28813104,
+  "fatal_error": null,
+  "interrupted": false,
+  "native_trace_sources": {
+    "no_medido": 1
+  },
+  "oracle_contracts_watched": 2,
+  "oracle_status": {
+    "sin_ver": 1
+  },
+  "phases_s": {
+    "enriquecimiento": 1.7,
+    "eventos": 46.2,
+    "evidencia": 1.8,
+    "metadatos": 2.1,
+    "oraculos": 45.9,
+    "segunda_pasada": 0.0,
+    "sonda": 2.8,
+    "ventana": 9.7
+  },
+  "price_sources": {
+    "defillama": 2,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 699,
+  "rpc_providers": {
+    "https://rpc.morphl2.io": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": 5000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 167,
+          "ok": 19
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 153,
+          "ok": 70
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 157,
+          "ok": 4
+        },
+        "eth_getLogs": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 155,
+          "ok": 595
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 164,
+          "ok": 2
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 150,
+          "ok": 2
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 692,
+      "sin_metodo": [
+        "debug_traceTransaction",
+        "trace_transaction"
+      ]
+    }
+  },
+  "second_pass": {
+    "intentadas": 1,
+    "omitida": "ninguna fuente de trazas funciona"
+  },
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "getlogs_error": "block range is larger than max block range, block range = 10000, max block range = 5000",
+      "getlogs_max": 5000,
+      "getlogs_ms": 153,
+      "ms": 151,
+      "proveedor": "https://rpc.morphl2.io",
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "the method trace_transaction does not exist/is not available",
+        "ok": 0
+      },
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "morph-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 1,
+  "web_calls": 5,
+  "web_sources": {
+    "blockscout": {
+      "error": "HTTP 404 en https://explorer.morphl2.io/api/v2/transactions/0x7cfd39e29b35ee67a56929edfc9b6e7517a48a3ea4986c38ebf76f2547",
+      "ok": false
+    },
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 1.8268,
+    "days": 30.0,
+    "end_block": 28813104,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352000,
+    "lookback_block": 27298237,
+    "start_block": 27356978,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 1,
+  "with_oracle_delta": 0,
+  "with_realized": 1,
+  "with_realized_complete": 0
+}
