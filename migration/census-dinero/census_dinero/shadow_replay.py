@@ -33,6 +33,7 @@ RDEFAULTS = {
     "libro_min": 20.0,          # tiempo máximo de esa búsqueda (en Base son ~100 consultas de 50 mil bloques)
     "scan_workers": 4,          # trozos de getLogs que se piden a la vez al buscar eventos de un rango largo
     "diag": 0,                  # cuántas liquidaciones directas se miran con lupa (precio, feeds del oráculo y su actualización)
+    "flash_probe": 0,           # segundos de sonda de Flashblocks (bloque pendiente de un RPC con preconfirmaciones); 0 = no
 }
 
 ORACLE_GETTERS = ("BASE_FEED_1", "BASE_FEED_2", "QUOTE_FEED_1", "QUOTE_FEED_2", "BASE_VAULT")
@@ -521,6 +522,13 @@ def run_replay(cfg, out_dir, rpc=None, markets=None):
             log(f"replay: diagnóstico de {len(diag)} liquidaciones directas")
         except RpcError as e:
             meta["diag"] = {"error": rpc.scrub(e)[:160]}
+    if rcfg["flash_probe"]:
+        from . import flash_probe
+        try:
+            meta["flashblocks"] = flash_probe.probe(rpc, flash_probe.PRECONF_URLS, seconds=float(rcfg["flash_probe"]))
+            log(f"replay: sonda de Flashblocks: {meta['flashblocks']}")
+        except Exception as e:                   # la sonda es opcional: nunca debe tumbar el replay
+            meta["flashblocks"] = {"error": str(e)[:160]}
     meta.update({"estado": "completo", "borrow_scan": scan, "ventana": window,
                  "config": rcfg, "segundos": round(time.monotonic() - t0, 1), "multicall_ok": sh.multicall_ok,
                  "mercados": {i: m.label for i, m in sh.markets.items()}, "rpc": rpc.report(), "rpc_llamadas": rpc.calls})

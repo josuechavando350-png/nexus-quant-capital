@@ -407,6 +407,22 @@ class TestRunMechanics(unittest.TestCase):
         meta, rows, _ = replay(env, min_bonus_usd=1, presupuesto_min=0.0)
         self.assertEqual((meta["procesados"], meta["omitidos_por_tiempo"]), (0, 1))
 
+    def test_flashblocks_probe_is_optional_and_reported(self):
+        env, _, _ = scenario()
+        meta, _, _ = replay(env, min_bonus_usd=1)
+        self.assertNotIn("flashblocks", meta)
+        meta, rows, _ = replay(env, min_bonus_usd=1, flash_probe=0.4)
+        self.assertEqual(meta["procesados"], 3)
+        probe = list(meta["flashblocks"].values())[0]
+        self.assertGreater(probe["llamadas"], 0)
+
+    def test_flashblocks_probe_failure_never_breaks_the_replay(self):
+        env, _, _ = scenario()
+        env.chain.fail("eth_getBlockByNumber", times=10_000, message="pending no soportado", when=lambda p: p[0] == "pending")
+        meta, rows, _ = replay(env, min_bonus_usd=1, flash_probe=0.3)
+        self.assertEqual(meta["procesados"], 3)
+        self.assertIn("pending no soportado", list(list(meta["flashblocks"].values())[0]["errores"])[0])
+
     def test_meta_has_window_and_rpc_report(self):
         env, _, _ = scenario()
         meta, _, out = replay(env, min_bonus_usd=1, dias=1)

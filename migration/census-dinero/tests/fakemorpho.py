@@ -383,8 +383,16 @@ class FakeMorpho:
                 res = hex(self.head)
             elif m == "eth_getBlockByNumber":
                 tag = p[0]
-                n = self.head if tag in ("latest", "finalized") else int(tag, 16)
-                res = self.headers.get(n)
+                if tag == "pending":
+                    # Flashblocks: el bloque pendiente suma una transacción cada 2 consultas, hasta 10, y luego el bloque se sella
+                    self.pending_calls = getattr(self, "pending_calls", 0) + 1
+                    k = (self.pending_calls // 2) % 11
+                    base = self.pending_calls // 22
+                    res = {"number": hex(self.head + 1 + base), "hash": None, "timestamp": hex(0),
+                           "transactions": ["0x" + format(i, "064x") for i in range(k)]}
+                else:
+                    n = self.head if tag in ("latest", "finalized") else int(tag, 16)
+                    res = self.headers.get(n)
             elif m == "eth_getLogs":
                 res = self._get_logs(p[0])
             elif m == "eth_call":

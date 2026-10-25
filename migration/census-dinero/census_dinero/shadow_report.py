@@ -199,6 +199,7 @@ def analyze_replay(rows, errors, meta, cfg):
                                  "top1": share(days_ranked[0][1], total_d) if days_ranked else None,
                                  "top3": share(sum(v for _, v in days_ranked[:3]), total_d) if days_ranked else None}
 
+    out["flashblocks"] = meta.get("flashblocks")
     scan = meta.get("borrow_scan") or {}
     if scan.get("completo") and rows:
         table_ = []
@@ -594,6 +595,17 @@ def render(res):
         if c["gas_usd"]["n"]:
             L.append(f"Costo de quien ganó (directas): gas mediano ${c['gas_usd']['p50']:.2f} (p90 ${c['gas_usd']['p90']:.2f}), "
                      f"propina mediana ${c['propina_usd']['p50']:.2f} (p90 ${c['propina_usd']['p90']:.2f}).")
+        fb = rp.get("flashblocks")
+        if fb:
+            for url, r in fb.items():
+                if url == "error":
+                    L.append(f"Sonda de Flashblocks: {fb['error']}.")
+                    continue
+                iv = r.get("intervalo_entre_trozos_ms") or {}
+                L.append(f"Sonda de Flashblocks ({short(url)}): {r.get('llamadas', 0)} consultas, latencia p50 {ms((r.get('rtt_ms') or {}).get('p50'))}; "
+                         f"trozos nuevos del bloque pendiente: {r.get('trozos_nuevos_vistos', 0)}"
+                         + (f", cada {ms(iv.get('p50'))} (p90 {ms(iv.get('p90'))})" if iv.get("n") else "")
+                         + (f"; errores: {r['errores']}" if r.get("errores") else "") + ".")
         cl = rp.get("cobertura_libro")
         if cl:
             L.append("Cobertura del libro (prestatarios liquidados que un libro armado mirando N días atrás ya conocería, entre las "
