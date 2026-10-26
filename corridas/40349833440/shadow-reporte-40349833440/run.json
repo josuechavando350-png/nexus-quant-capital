@@ -1,0 +1,26 @@
+{
+  "modo": "shadow",
+  "shadow": {
+    "minutos": 330,
+    "vivo": true,
+    "replay": {
+      "max": 1300,
+      "diag": 600,
+      "orden": 0,
+      "libro_dias": 0,
+      "min_bonus_usd": 10,
+      "min_net_usd": 5
+    },
+    "config": {
+      "min_bonus_usd": 0.05,
+      "min_net_usd": 0.02,
+      "flash_url": "https://mainnet-preconf.base.org",
+      "flash_interval": 0.1,
+      "flash_ws": "wss://mainnet-preconf.base.org",
+      "submit_rapido_ms": 20,
+      "orden_cada": 60,
+      "orden_max": 150
+    }
+  },
+  "nota": "Shadow v10: igual que la v9 (vía rápida por WebSocket, ahora sin ninguna consulta a la red al decidir) y además los rivales que perdieron, en cada liquidación del vivo y en la lupa del replay de 30 días (todas las directas con bono >= 10 USD). Solo lectura: no se firma ni se envía nada."
+}
