@@ -1,0 +1,225 @@
+{
+  "archive_disabled": false,
+  "chain": "scroll",
+  "elapsed_s": 16.8,
+  "enriched": 0,
+  "errors_sample": [],
+  "events": 0,
+  "events_complete": true,
+  "events_cover_block": 35493890,
+  "fatal_error": null,
+  "interrupted": false,
+  "native_trace_sources": {},
+  "oracle_contracts_watched": 0,
+  "oracle_status": {},
+  "phases_s": {
+    "enriquecimiento": 0.0,
+    "eventos": 0.5,
+    "evidencia": 0.0,
+    "metadatos": 0.0,
+    "oraculos": 0.0,
+    "segunda_pasada": 0.0,
+    "sonda": 8.3,
+    "ventana": 8.0
+  },
+  "price_sources": {
+    "defillama": 0,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 100,
+  "rpc_providers": {
+    "https://rpc.scroll.io": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 122,
+          "ok": 70
+        },
+        "eth_getLogs": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 119,
+          "ok": 4
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 74,
+      "sin_metodo": [
+        "debug_traceTransaction",
+        "trace_transaction"
+      ]
+    },
+    "https://scroll-rpc.publicnode.com": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": 50000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "debug_traceTransaction",
+        "trace_transaction"
+      ]
+    },
+    "https://scroll.drpc.org": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    }
+  },
+  "second_pass": {
+    "intentadas": 0
+  },
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "getlogs_max": 500000,
+      "getlogs_ms": 95,
+      "ms": 145,
+      "proveedor": "https://rpc.scroll.io",
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "the method trace_transaction does not exist/is not available",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "getlogs_error": "exceed maximum block range: 50000",
+      "getlogs_max": 50000,
+      "getlogs_ms": 128,
+      "ms": 145,
+      "proveedor": "https://scroll-rpc.publicnode.com",
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "the method trace_transaction does not exist/is not available",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 408 en scroll.drpc.org",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 400 en scroll.drpc.org",
+      "getlogs_max": 0,
+      "ms": 95,
+      "proveedor": "https://scroll.drpc.org",
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 500 en scroll.drpc.org",
+        "ok": 0
+      },
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "scroll-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 0,
+  "web_calls": 1,
+  "web_sources": {
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 8.2681,
+    "days": 30.0,
+    "end_block": 35493890,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352000,
+    "lookback_block": 35163426,
+    "start_block": 35177599,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 0,
+  "with_oracle_delta": 0,
+  "with_realized": 0,
+  "with_realized_complete": 0
+}
