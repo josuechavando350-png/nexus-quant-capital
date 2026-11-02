@@ -1,0 +1,194 @@
+{
+  "archive_disabled": false,
+  "chain": "lisk",
+  "elapsed_s": 80.5,
+  "enriched": 1,
+  "errors_sample": [],
+  "events": 1,
+  "events_complete": true,
+  "events_cover_block": 39107604,
+  "fatal_error": null,
+  "interrupted": false,
+  "native_trace_sources": {
+    "debug_traceTransaction": 1
+  },
+  "oracle_contracts_watched": 2,
+  "oracle_status": {
+    "sin_ver": 1
+  },
+  "phases_s": {
+    "enriquecimiento": 3.7,
+    "eventos": 8.8,
+    "evidencia": 5.7,
+    "metadatos": 4.1,
+    "oraculos": 8.2,
+    "segunda_pasada": 0.0,
+    "sonda": 24.4,
+    "ventana": 25.5
+  },
+  "price_sources": {
+    "defillama": 2,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 160,
+  "rpc_providers": {
+    "https://lisk.drpc.org": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 233,
+          "ok": 2
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 221,
+          "ok": 14
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 291,
+          "ok": 8
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 243,
+          "ok": 1
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 227,
+          "ok": 1
+        }
+      },
+      "ok": 26,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    },
+    "https://rpc.api.lisk.com": {
+      "en_rotacion": true,
+      "err": 1,
+      "getlogs_max": 100000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 1,
+          "errores": {
+            "HTTP 403 en rpc.api.lisk.com": 1
+          },
+          "ms_prom": 601,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 368,
+          "ok": 13
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 377,
+          "ok": 80
+        },
+        "eth_getLogs": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 630,
+          "ok": 27
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 175,
+          "ok": 1
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 605,
+          "ok": 1
+        }
+      },
+      "ok": 122,
+      "sin_metodo": []
+    }
+  },
+  "second_pass": {
+    "intentadas": 0
+  },
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "getlogs_error": "query exceeds max block range 100000",
+      "getlogs_max": 100000,
+      "getlogs_ms": 368,
+      "ms": 169,
+      "proveedor": "https://rpc.api.lisk.com",
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "getlogs_error": "HTTP 400 en lisk.drpc.org",
+      "getlogs_max": 0,
+      "ms": 82,
+      "proveedor": "https://lisk.drpc.org",
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "lisk-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 1,
+  "web_calls": 7,
+  "web_sources": {
+    "blockscout": {
+      "error": "HTTP 422 en https://blockscout.lisk.com/api/v2/transactions/0x0000000000000000000000000000000000000000/internal-transact",
+      "ok": false
+    },
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 2.0,
+    "days": 30.0,
+    "end_block": 39107604,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352001,
+    "lookback_block": 37764805,
+    "start_block": 37811605,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 1,
+  "with_oracle_delta": 0,
+  "with_realized": 1,
+  "with_realized_complete": 1
+}
