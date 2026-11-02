@@ -1,5 +1,35 @@
 # Shadow Base/Morpho
 
+## Continuación v11 · 1 nov 2026
+
+El siguiente corte conserva el observador v10 y agrega evidencia de tiempo comparable:
+`flash.ws_decision` registra la ventana desde **el log que dispara la decisión** hasta la
+notificación de la transacción ganadora. La ventana histórica `ws_ventana_ms` mide
+hash→hash y se conserva como dato descriptivo: su origen puede diferir del del log.
+Las horas registradas son del proceso receptor, no marcas de llegada al secuenciador.
+
+El acumulado v2 cuenta cada `(tx, log_index)` una sola vez. La meta de 20 eventos con
+bono ≥ US$1 exige trozos medidos y evidencia de la decisión unida a la misma corrida,
+actualización, mercado y bloque, con el mismo origen temporal. Las medianas de corrida,
+las clasificaciones por propinas y los datos incompletos se muestran aparte; no cubren
+faltantes de la muestra. Se conservan las ventanas cero/negativas para no seleccionar
+solo resultados favorables. Veinte eventos abren una revisión; no equivalen a veinte
+observaciones independientes ni prueban rentabilidad, inclusión o captura.
+
+La corrida v11 dura como máximo 330 minutos de observación (más preparación). No repite
+el replay histórico ya guardado en `corridas/40349833440/shadow-replay`. El informe al
+terminar incluye `acumulado/ACUMULADO.md`, `acumulado/acumulado.json`, hashes SHA-256 de
+las entradas y el commit de la rama de resultados. El workflow existente mantiene su
+repositorio, rama, permisos, límites y publicación periódica; no se agrega un programador
+continuo. Este corte no implica observación perpetua.
+
+Estado inicial reproducido: 13 corridas, 23.3 horas sumadas de ventanas observadas,
+6 liquidaciones reales ajenas, 2 clasificadas como peleables, 0 con bono ≥ US$1 y
+ventana medida. Muestra v2: 0/20. Es información histórica, no dinero capturado por NQC.
+Las horas sumadas no afirman continuidad y pueden solaparse si futuras corridas se pisan.
+
+---
+
 Fase 1 del Omega (cap. 5): **¿llegaríamos a tiempo y con margen?** Criterio de salida:
 decisiones simuladas en tiempo real sin enviar nada, cada GO comparado con lo que
 realmente ocurrió, latencia medida en infraestructura real.

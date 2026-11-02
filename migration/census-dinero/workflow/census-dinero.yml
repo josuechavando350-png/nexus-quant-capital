@@ -304,8 +304,11 @@ jobs:
           mkdir -p /tmp/reporte
           python3 -m census_dinero shadow-report "${args[@]}" --run-json run.json --out /tmp/reporte > /dev/null
           cat /tmp/reporte/RESUMEN_SHADOW.md >> "$GITHUB_STEP_SUMMARY"
+          python3 -m census_dinero shadow-acumulado --resultados /tmp/res --out /tmp/reporte/acumulado > /dev/null
+          cat /tmp/reporte/acumulado/ACUMULADO.md >> "$GITHUB_STEP_SUMMARY"
           cp run.json /tmp/reporte/run.json
           echo "vivo=${src} replay=${rsrc} lupa=${lsrc} reporte=${GITHUB_RUN_ID} commit=${GITHUB_SHA}" > /tmp/reporte/fuentes.txt
+          git -C /tmp/res rev-parse HEAD >> /tmp/reporte/fuentes.txt
           python3 ci/push_results.py --src /tmp/reporte --dest "corridas/${src}/shadow-reporte-${GITHUB_RUN_ID}" \
             --message "shadow reporte de run ${src} (run ${GITHUB_RUN_ID})"
           python3 ci/push_results.py --src /tmp/reporte --dest "shadow/ultimo" \

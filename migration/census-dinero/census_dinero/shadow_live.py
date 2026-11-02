@@ -875,6 +875,9 @@ class Shadow:
                 w = self.fast.window_for(upd["tx"], e["tx_hash"])
                 if w is not None:
                     out["ws_ventana_ms"] = w                 # llegada de la liquidación menos llegada de la actualización, por WebSocket
+                timing = self.fast.decision_timing_for(upd["tx"], e["tx_hash"], e["market"], n)
+                if timing is not None:
+                    out["ws_decision"] = timing
         rivals = self._rivales(e, n, upd)
         if rivals:
             out["intentos"] = rivals

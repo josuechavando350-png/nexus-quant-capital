@@ -94,6 +94,21 @@ class TestFastPath(unittest.TestCase):
         fast.on_log({**answer_log(env.chain.markets[env.mid]["feed"], DROP, n), "topics": ["0x" + "ab" * 32]}, 100.0)
         self.assertEqual(fast.report()["actualizaciones"], 1)
 
+    def test_liquidation_records_log_time_instead_of_hash_time_and_binds_market(self):
+        env, fast, st, clock = self.make()
+        n = env.chain.mine([("set_price", env.mid, DROP), ("liquidate", env.mid, B[0], U[0])])
+        upd, liq = env.chain.headers[n]["transactions"]
+        clock["wall"] = 100.150
+        fast.on_log(answer_log(env.chain.markets[env.mid]["feed"], DROP, n, tx=upd), 100.100)
+        st.t[upd.lower()], st.t[liq.lower()] = 100.0, 100.160
+        env.sh.process_block(n, 101.0, env.clock.mono())
+        result = next(r for r in env.rows("resultados.jsonl") if "bloque_liquidacion" in r)
+        timing = result["flash"]["ws_decision"]
+        self.assertEqual((result["flash"]["ws_ventana_ms"], timing["ventana_ms"], timing["decision_ms"]), (160, 60, 50))
+        self.assertEqual((timing["mercado"], timing["bloque"], timing["liquidacion_tx"]), (env.mid, n, liq.lower()))
+        self.assertIsNone(fast.decision_timing_for(upd, liq, "other", n))
+        self.assertIsNone(fast.decision_timing_for(upd, liq, env.mid, n + 1))
+
     def test_quote_feeds_move_the_price_the_other_way(self):
         env, fast, _, _ = self.make()
         seen = {}

@@ -164,6 +164,25 @@ class FastPath:
         a, b = self.stream.seen(upd_tx), self.stream.seen(liq_tx)
         return None if a is None or b is None else round((b - a) * 1000, 1)
 
+    def decision_timing_for(self, upd_tx, liq_tx, market, block):
+        """Ventana desde el log que disparó la decisión, no desde la notificación del hash.
+
+        Ambos mensajes pueden llegar en momentos distintos. Conservar los tiempos permite
+        auditar la resta sin mezclar el origen del tiempo de decisión con el del hash.
+        Son tiempos observados por este proceso, no marcas de ingreso al secuenciador.
+        """
+        if self.stream is None:
+            return None
+        with self.lock:
+            u = dict(self.updates.get((upd_tx or "").lower()) or {})
+        t_winner = self.stream.seen(liq_tx)
+        if not u or u["bloque"] != block or market not in u["mercados"] or t_winner is None:
+            return None
+        return {"schema": "nqc-shadow-log-window-v1", "actualizacion_tx": upd_tx.lower(),
+                "liquidacion_tx": liq_tx.lower(), "mercado": market, "bloque": block,
+                "t_log": u["t_log"], "t_liquidacion": t_winner, "decision_ms": u["decision_ms"],
+                "ventana_ms": round((t_winner - u["t_log"]) * 1000, 1)}
+
     def report(self):
         with self.lock:
             return {**self.stats, "decision_ms": quantiles(self.decision_ms),
