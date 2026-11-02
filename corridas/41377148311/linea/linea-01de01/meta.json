@@ -1,0 +1,245 @@
+{
+  "archive_disabled": false,
+  "chain": "linea",
+  "elapsed_s": 16.6,
+  "enriched": 0,
+  "errors_sample": [],
+  "events": 0,
+  "events_complete": true,
+  "events_cover_block": 32422999,
+  "fatal_error": null,
+  "interrupted": false,
+  "native_trace_sources": {},
+  "oracle_contracts_watched": 0,
+  "oracle_status": {},
+  "phases_s": {
+    "enriquecimiento": 0.0,
+    "eventos": 3.3,
+    "evidencia": 0.0,
+    "metadatos": 0.0,
+    "oraculos": 0.0,
+    "segunda_pasada": 0.0,
+    "sonda": 5.7,
+    "ventana": 7.6
+  },
+  "price_sources": {
+    "defillama": 0,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 123,
+  "rpc_providers": {
+    "https://linea-rpc.publicnode.com": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "debug_traceTransaction",
+        "eth_getLogs"
+      ]
+    },
+    "https://linea.drpc.org": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 2
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "trace_transaction": {
+          "err": 2,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 1
+        }
+      },
+      "ok": 0,
+      "sin_metodo": [
+        "eth_getLogs"
+      ]
+    },
+    "https://rpc.linea.build": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": 10000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 2
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 118,
+          "ok": 65
+        },
+        "eth_getLogs": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 110,
+          "ok": 29
+        },
+        "trace_transaction": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 2
+        }
+      },
+      "ok": 94,
+      "sin_metodo": []
+    }
+  },
+  "second_pass": {
+    "intentadas": 0
+  },
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "ok": 1
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "ok": 2
+      },
+      "getlogs_error": "range 49999 exceeds limit of 10000",
+      "getlogs_max": 10000,
+      "getlogs_ms": 141,
+      "ms": 101,
+      "proveedor": "https://rpc.linea.build",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "ok": 1
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "ok": 2
+      },
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 403 en linea-rpc.publicnode.com",
+      "getlogs_max": 0,
+      "ms": 118,
+      "proveedor": "https://linea-rpc.publicnode.com",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 403 en linea-rpc.publicnode.com",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 403 en linea-rpc.publicnode.com",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "ok": 1
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "ok": 2
+      },
+      "getlogs_error": "HTTP 400 en linea.drpc.org",
+      "getlogs_max": 0,
+      "ms": 114,
+      "proveedor": "https://linea.drpc.org",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "ok": 1
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 408 en linea.drpc.org",
+        "ok": 1
+      },
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "linea-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 0,
+  "web_calls": 1,
+  "web_sources": {
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 9.1793,
+    "days": 30.0,
+    "end_block": 32422999,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352001,
+    "lookback_block": 32131499,
+    "start_block": 32142351,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 0,
+  "with_oracle_delta": 0,
+  "with_realized": 0,
+  "with_realized_complete": 0
+}
