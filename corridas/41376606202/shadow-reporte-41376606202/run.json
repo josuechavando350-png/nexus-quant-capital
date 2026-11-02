@@ -1,0 +1,19 @@
+{
+  "modo": "shadow",
+  "shadow": {
+    "minutos": 330,
+    "vivo": true,
+    "replay": false,
+    "config": {
+      "min_bonus_usd": 0.05,
+      "min_net_usd": 0.02,
+      "flash_url": "https://mainnet-preconf.base.org",
+      "flash_interval": 0.1,
+      "flash_ws": "wss://mainnet-preconf.base.org",
+      "submit_rapido_ms": 20,
+      "orden_cada": 60,
+      "orden_max": 150
+    }
+  },
+  "nota": "Shadow v11: una observación acotada de 330 minutos. Ventana log→ganador con origen común al tiempo de decisión; acumulado automático con eventos únicos y sin imputar medianas a la muestra de 20 casos. Reutiliza el libro guardado; no repite el replay histórico de la corrida 40349833440. Los umbrales bajos del vivo son diagnósticos; la muestra exige bono >= 1 USD. Solo lectura: no se firma ni se envía nada."
+}
