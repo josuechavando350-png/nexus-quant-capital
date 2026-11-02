@@ -1,0 +1,153 @@
+{
+  "archive_disabled": false,
+  "chain": "abstract",
+  "elapsed_s": 92.6,
+  "enriched": 42,
+  "errors_sample": [],
+  "events": 42,
+  "events_complete": true,
+  "events_cover_block": 88246238,
+  "fatal_error": null,
+  "interrupted": false,
+  "native_trace_sources": {
+    "debug_traceTransaction": 42
+  },
+  "oracle_contracts_watched": 3,
+  "oracle_status": {
+    "sin_ver": 42
+  },
+  "phases_s": {
+    "enriquecimiento": 32.4,
+    "eventos": 3.6,
+    "evidencia": 15.9,
+    "metadatos": 4.5,
+    "oraculos": 3.1,
+    "segunda_pasada": 0.0,
+    "sonda": 7.8,
+    "ventana": 25.3
+  },
+  "price_sources": {
+    "defillama": 84,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 354,
+  "rpc_providers": {
+    "https://api.mainnet.abs.xyz": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": null,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 980,
+          "ok": 49
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 374,
+          "ok": 43
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 445,
+          "ok": 128
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 529,
+          "ok": 11
+        },
+        "eth_getLogs": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 372,
+          "ok": 18
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 365,
+          "ok": 47
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 329,
+          "ok": 47
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 341,
+      "sin_metodo": []
+    }
+  },
+  "second_pass": {
+    "intentadas": 0
+  },
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "ok": 2
+      },
+      "getlogs_max": 2000000,
+      "getlogs_ms": 279,
+      "ms": 193,
+      "proveedor": "https://api.mainnet.abs.xyz",
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 403 en api.mainnet.abs.xyz",
+        "ok": 0
+      },
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "abstract-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 42,
+  "web_calls": 110,
+  "web_sources": {
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 1.7859,
+    "days": 30.0,
+    "end_block": 88246238,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352000,
+    "lookback_block": 85305935,
+    "start_block": 85484789,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 42,
+  "with_oracle_delta": 0,
+  "with_realized": 42,
+  "with_realized_complete": 0
+}
