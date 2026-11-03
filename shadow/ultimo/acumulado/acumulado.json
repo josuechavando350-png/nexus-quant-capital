@@ -1,5 +1,5 @@
 {
-  "bloques": 61485,
+  "bloques": 71397,
   "calidad": {
     "conflictos": 0,
     "eventos_duplicados": 0,
@@ -140,8 +140,123 @@
       "lineas_invalidas": 0,
       "liquidaciones": 2,
       "via_rapida": true
+    },
+    {
+      "bloques": 9912,
+      "corrida": "41611134490",
+      "decision_p50_ms": 1.0,
+      "horas": 5.51,
+      "lineas_invalidas": 0,
+      "liquidaciones": 0,
+      "via_rapida": true
     }
   ],
+  "embudo_muestra": {
+    "casos_excluidos": [
+      {
+        "bono_bruto_usd": 1.0285197620041753,
+        "corrida": "40349833440",
+        "log_index": 3,
+        "primera_exclusion": "via_no_directa",
+        "tx": "0x7501e183580e66877bac47b3ad42bffb0300cef182efabf5a6dfeca0b920523b"
+      },
+      {
+        "bono_bruto_usd": 164.7223933943662,
+        "corrida": "41376606202",
+        "log_index": 317,
+        "primera_exclusion": "via_no_directa",
+        "tx": "0x76da2ddf59ad427b4b24a297110b22487c7b1f2b46c13e0908edf700a847f277"
+      },
+      {
+        "bono_bruto_usd": 1673.6702465915494,
+        "corrida": "41571735530",
+        "log_index": 299,
+        "primera_exclusion": "via_no_directa",
+        "tx": "0x2d56cc606a28bfb7d3ac8beb792fe666c6a54a6159d11b3c10d0b0dc063c01c1"
+      },
+      {
+        "bono_bruto_usd": 52.500078380281685,
+        "corrida": "41571735530",
+        "log_index": 301,
+        "primera_exclusion": "via_no_directa",
+        "tx": "0x2d56cc606a28bfb7d3ac8beb792fe666c6a54a6159d11b3c10d0b0dc063c01c1"
+      },
+      {
+        "bono_bruto_usd": 0.12631132394366199,
+        "corrida": "40163135976",
+        "log_index": 294,
+        "primera_exclusion": "bono_inferior_o_no_medido",
+        "tx": "0x9875f85579cecd41f7f279dfcb386b4a49cea50cd76cdced3019c046ad974950"
+      },
+      {
+        "bono_bruto_usd": 0.007411459720730398,
+        "corrida": "40349833440",
+        "log_index": 505,
+        "primera_exclusion": "bono_inferior_o_no_medido",
+        "tx": "0x4f9fbc178418e1c965623e1645c24eb954dbd12c905bf4ac0f748e2579ac4963"
+      },
+      {
+        "bono_bruto_usd": 0.007411459720730398,
+        "corrida": "40349833440",
+        "log_index": 829,
+        "primera_exclusion": "bono_inferior_o_no_medido",
+        "tx": "0x01f504c431afe1a5c14e5f3ddf6e48ddc28ec31c49274ff39913ef5a1d64f9a9"
+      },
+      {
+        "bono_bruto_usd": 0.007411459720730398,
+        "corrida": "40349833440",
+        "log_index": 184,
+        "primera_exclusion": "bono_inferior_o_no_medido",
+        "tx": "0x7bc76442fb32f03a0cc954c808bcb3ba7dd63f529de4d09293f22203c0abc1db"
+      },
+      {
+        "bono_bruto_usd": 30.60639608450704,
+        "corrida": "40176606411",
+        "log_index": 441,
+        "primera_exclusion": "sin_trozo_posterior_medido",
+        "tx": "0xecee963d755165c39fecfedeb8080200c9452dc81df31ac5ad21065c95487939"
+      }
+    ],
+    "etapas": [
+      {
+        "bono_bruto_usd": 1922.6761799158144,
+        "etapa": "observadas_unicas",
+        "n": 9
+      },
+      {
+        "bono_bruto_usd": 30.754941787612893,
+        "etapa": "directas",
+        "n": 5
+      },
+      {
+        "bono_bruto_usd": 30.60639608450704,
+        "etapa": "bono_minimo",
+        "n": 1
+      },
+      {
+        "bono_bruto_usd": 0,
+        "etapa": "trozo_posterior_medido",
+        "n": 0
+      },
+      {
+        "bono_bruto_usd": 0,
+        "etapa": "tiempos_origen_comun",
+        "n": 0
+      },
+      {
+        "bono_bruto_usd": 0,
+        "etapa": "integridad",
+        "n": 0
+      }
+    ],
+    "min_bono_usd": 1.0,
+    "orden_excluyente": true,
+    "primera_exclusion": {
+      "bono_inferior_o_no_medido": 4,
+      "sin_trozo_posterior_medido": 1,
+      "via_no_directa": 4
+    }
+  },
   "envio_supuesto_ms": 20,
   "fuentes": [
     {
@@ -263,9 +378,18 @@
         "meta.json": "adc74e372a8bac31dbc0d64625e12ec55186f5b54220d1ba1f4422cd7f882f08",
         "resultados.jsonl": "4ef921811cc8a5f0b403d490914dbf9631cd71747e2edc267c10f24bcdc5e86b"
       }
+    },
+    {
+      "corrida": "41611134490",
+      "sha256": {
+        "bloques.jsonl": "092226ba9fbb249ba97c192d704e7232ed14804911774afc5fe17ea0de805b4c",
+        "flash_actualizaciones.jsonl": "c323adae8b19713905fec2a19fa9a1cac9046c69d8872d70de629b6dd1cfe796",
+        "meta.json": "6cf66b38d086a7595fd65dbcf6dd71121fca83c4ea0306e0c3375db1a3e0ab9d",
+        "resultados.jsonl": "dcc374d387f55f96b71d40d450f423a04c977f511d4d4a79d02ee88f17ea18cb"
+      }
     }
   ],
-  "horas": 34.28,
+  "horas": 39.79,
   "liquidaciones": {
     "bono_usd": 1922.6761799158144,
     "directas": 5,
@@ -360,6 +484,12 @@
       },
       {
         "bono_ganado_usd": 0.0,
+        "bot": "0xcee740502c9e84118e4a13efc085dff70784863d",
+        "gana": 0,
+        "pierde": 2
+      },
+      {
+        "bono_ganado_usd": 0.0,
         "bot": "0xe7488b1ada40fcbb9e657c27978464669b92d339",
         "gana": 0,
         "pierde": 2
@@ -367,12 +497,6 @@
       {
         "bono_ganado_usd": 0.0,
         "bot": "0x27c5fa3137e5225905e9ab76ecaa912afd2f0652",
-        "gana": 0,
-        "pierde": 2
-      },
-      {
-        "bono_ganado_usd": 0.0,
-        "bot": "0xdd761e1e829191dfa8d5d4c4354c5af09ba06cc6",
         "gana": 0,
         "pierde": 2
       }

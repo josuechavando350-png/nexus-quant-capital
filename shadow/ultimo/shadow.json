@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-03 08:53:36 UTC",
+ "generado": "2026-11-03 14:58:51 UTC",
  "config": {
   "min_bonus_usd": 0.05,
   "min_net_usd": 0.02,
@@ -8,9 +8,9 @@
  },
  "fuentes": {
   "vivo": {
-   "bloques": 9901,
+   "bloques": 9912,
    "decisiones": 5,
-   "resultados": 7,
+   "resultados": 5,
    "lineas_cortadas": 0,
    "meta": true
   }
@@ -20,104 +20,126 @@
   "submit_ms": 150,
   "bloque_ms": 2000
  },
+ "financiacion": {
+  "politica": {
+   "gas_payer": "TITAN",
+   "principal_source": "FLASH_LOAN",
+   "operator_gas_allowance": 0,
+   "operator_principal_allowance": 0,
+   "operator_prefund": false,
+   "own_gas_fallback": false
+  },
+  "decisiones": 5,
+  "capturas_de_entrada": 5,
+  "sin_captura": 0,
+  "pendientes": {
+   "prestamista_liquidez_comision": 5,
+   "ruta_swap_salida_minima": 5,
+   "simulacion_atomica_y_repago": 5,
+   "titan_cobertura_cadena_y_candidata": 5,
+   "gas_l1_l2_y_reembolso_sin_doble_conteo": 5,
+   "compensacion_builder": 5
+  },
+  "neto_propio_usd": null,
+  "beneficio_realizado_usd": null,
+  "alcance": "entradas para simulacion; neto_modelo_usd sigue siendo un prior de terceros"
+ },
  "vivo": {
   "ventana": {
-   "bloques": 9901,
-   "bloques_en_rango": 9901,
+   "bloques": 9912,
+   "bloques_en_rango": 9912,
    "cobertura": 1.0,
-   "desde_bloque": 53443417,
-   "hasta_bloque": 53453317,
-   "desde_ts": 1793676181,
-   "hasta_ts": 1793695981,
-   "horas": 5.5
+   "desde_bloque": 53454362,
+   "hasta_bloque": 53464273,
+   "desde_ts": 1793698071,
+   "hasta_ts": 1793717893,
+   "horas": 5.506111111111111
   },
   "latencia": {
    "visto_ms": {
-    "p50": 304,
-    "p90": 505,
-    "p99": 587,
-    "min": 91,
-    "max": 1955,
-    "n": 9774
+    "p50": 256,
+    "p90": 439,
+    "p99": 568,
+    "min": 96,
+    "max": 1769,
+    "n": 9708
    },
    "proceso_ms": {
-    "p50": 218,
-    "p90": 344,
-    "p99": 3361,
-    "min": 84,
-    "max": 9847,
-    "n": 9901
+    "p50": 235,
+    "p90": 388,
+    "p99": 4314,
+    "min": 90,
+    "max": 9501,
+    "n": 9912
    },
    "visto_mas_proceso_ms": {
-    "p50": 537,
-    "p90": 768,
-    "p99": 3666,
-    "min": 220,
-    "max": 10106,
-    "n": 9774
+    "p50": 532,
+    "p90": 765,
+    "p99": 4554,
+    "min": 211,
+    "max": 9754,
+    "n": 9708
    },
    "fases_ms": {
     "cabecera_ms": {
-     "p50": 71,
-     "p90": 80,
-     "p99": 1510,
-     "min": 38,
-     "max": 5111,
-     "n": 9901
+     "p50": 80,
+     "p90": 137,
+     "p99": 3417,
+     "min": 18,
+     "max": 6581,
+     "n": 9912
     },
     "logs_ms": {
      "p50": 0,
-     "p90": 100,
-     "p99": 299,
+     "p90": 254,
+     "p99": 1311,
      "min": 0,
-     "max": 5957,
-     "n": 9901
+     "max": 8303,
+     "n": 9912
     },
     "lectura_ms": {
-     "p50": 119,
-     "p90": 139,
-     "p99": 174,
+     "p50": 63,
+     "p90": 150,
+     "p99": 269,
      "min": 0,
-     "max": 1414,
-     "n": 9901
+     "max": 5034,
+     "n": 9912
     },
     "evaluar_ms": {
-     "p50": 12,
-     "p90": 116,
-     "p99": 244,
-     "min": 6,
-     "max": 563,
-     "n": 9901
+     "p50": 10,
+     "p90": 86,
+     "p99": 202,
+     "min": 3,
+     "max": 914,
+     "n": 9912
     }
    },
    "decision": {
     "visto_ms": {
-     "p50": 1955,
-     "p90": 1955,
-     "p99": 1955,
-     "min": 1955,
-     "max": 1955,
-     "n": 5
+     "p50": null,
+     "p90": null,
+     "p99": null,
+     "min": null,
+     "max": null,
+     "n": 0
     },
     "decidido_ms": {
-     "p50": 276,
-     "p90": 276,
-     "p99": 276,
-     "min": 275,
-     "max": 276,
-     "n": 5
+     "p50": null,
+     "p90": null,
+     "p99": null,
+     "min": null,
+     "max": null,
+     "n": 0
     },
     "x_ms": {
-     "p50": 2381,
-     "p90": 2381,
-     "p99": 2381,
-     "min": 2380,
-     "max": 2381,
-     "n": 5
+     "p50": null,
+     "p90": null,
+     "p99": null,
+     "min": null,
+     "max": null,
+     "n": 0
     },
-    "bloque_de_llegada": {
-     "2": 5
-    }
+    "bloque_de_llegada": {}
    },
    "nota": "visto_ms es cota superior: el timestamp del bloque tiene resolución de 1 s; se mide desde un servidor de GitHub Actions"
   },
@@ -157,20 +179,16 @@
    "cerrados": 0
   },
   "liquidaciones": {
-   "n": 2,
-   "bono_usd": 1726.170324971831,
-   "clases": {
-    "mismo_bloque": 2
-   },
-   "vias": {
-    "subasta": 2
-   },
+   "n": 0,
+   "bono_usd": 0,
+   "clases": {},
+   "vias": {},
    "recall_visibles": null,
-   "parte_mismo_bloque": 1.0,
+   "parte_mismo_bloque": null,
    "fuera_del_libro": []
   },
   "flash": {
-   "n": 2,
+   "n": 0,
    "grupos": {
     "directa": {
      "n": 0,
@@ -195,14 +213,10 @@
      }
     },
     "subasta": {
-     "n": 2,
-     "por_tipo": {
-      "sin_actualizacion": 2
-     },
+     "n": 0,
+     "por_tipo": {},
      "con_actualizacion_por_subasta": 0,
-     "bono_usd": {
-      "sin_actualizacion": 1726.170324971831
-     },
+     "bono_usd": {},
      "reaccion_ms": {
       "p50": null,
       "p90": null,
@@ -212,61 +226,61 @@
       "n": 0
      },
      "t_liquidacion_ms": {
-      "p50": 1000,
-      "p90": 1000,
-      "p99": 1000,
-      "min": 1000,
-      "max": 1000,
-      "n": 2
+      "p50": null,
+      "p90": null,
+      "p99": null,
+      "min": null,
+      "max": null,
+      "n": 0
      }
     }
    },
    "watcher": {
     "errores": {
-     "HTTP 429 en mainnet-preconf.base.org": 2
+     "HTTP 429 en mainnet-preconf.base.org": 1
     },
-    "fotos": 195960,
+    "fotos": 193741,
     "intervalo_de_consulta_ms": 100,
     "intervalo_entre_trozos_ms": {
-     "max": 242,
-     "min": 86,
-     "n": 70,
-     "p50": 194,
-     "p90": 204,
-     "p99": 212
+     "max": 298,
+     "min": 80,
+     "n": 72,
+     "p50": 189,
+     "p90": 205,
+     "p99": 289
     },
     "rtt_ms": {
-     "max": 875,
-     "min": 67,
-     "n": 195960,
-     "p50": 73,
-     "p90": 81,
-     "p99": 122
+     "max": 1879,
+     "min": 73,
+     "n": 193741,
+     "p50": 82,
+     "p90": 92,
+     "p99": 143
     },
     "url": "https://mainnet-preconf.base.org"
    }
   },
   "via_rapida": {
    "resumen": {
-    "actualizaciones": 154,
-    "cruces": 2,
+    "actualizaciones": 227,
+    "cruces": 0,
     "cruces_liquidados": 0,
     "decision_ms": {
-     "max": 58.4,
+     "max": 6.9,
      "min": 0.0,
-     "n": 154,
-     "p50": 1.3,
-     "p90": 6.4,
-     "p99": 7.3
+     "n": 227,
+     "p50": 1.0,
+     "p90": 5.0,
+     "p99": 6.0
     },
     "errores": 0,
     "evaluar_ms": {
-     "max": 58.4,
+     "max": 6.9,
      "min": 0.0,
-     "n": 154,
-     "p50": 1.3,
-     "p90": 6.4,
-     "p99": 7.3
+     "n": 227,
+     "p50": 1.0,
+     "p90": 5.0,
+     "p99": 6.0
     },
     "feeds": 32,
     "holgura_ms": {
@@ -281,12 +295,12 @@
     "sin_precio_base": 0,
     "supuesto_envio_ms": 20,
     "ventaja_frente_a_la_consulta_ms": {
-     "max": 195,
-     "min": -43,
-     "n": 154,
-     "p50": 45,
-     "p90": 95,
-     "p99": 131
+     "max": 276,
+     "min": -102,
+     "n": 225,
+     "p50": 53,
+     "p90": 109,
+     "p99": 267
     },
     "ventana_ms": {
      "max": null,
@@ -298,57 +312,29 @@
     }
    },
    "ws": {
-    "conexiones": 1,
-    "errores": {},
-    "logs": 471,
-    "mensajes": 1536509,
+    "conexiones": 3,
+    "errores": {
+     "WsError: conexión cerrada por el servidor": 1,
+     "WsError: el servidor cerró el WebSocket": 1
+    },
+    "logs": 698,
+    "mensajes": 2062296,
     "silencio_entre_trozos_ms": {
-     "max": 834,
+     "max": 1726,
      "min": 50,
-     "n": 36587,
-     "p50": 169,
+     "n": 33659,
+     "p50": 167,
      "p90": 198,
-     "p99": 499
+     "p99": 469
     },
     "suscripciones": {
      "logs": "ok",
      "transacciones": "ok"
     },
-    "transacciones": 1536036,
+    "transacciones": 2061592,
     "url": "wss://mainnet-preconf.base.org"
    },
-   "cruces": [
-    {
-     "bloque_pendiente": 53447308,
-     "bono_usd": 1673.669342,
-     "decision": "GO",
-     "decision_ms": 0.2,
-     "etiqueta": "cbZEC/USDC lltv 62.5%",
-     "mercado": "0xe458a501c1103ca3b256f2bcb45d223263fb34b6349d82675494ce3a94ce1327",
-     "neto_modelo_usd": 1134.747813876,
-     "prestatario": "0x41a4d40c04662e12a5f6745942a7307d03c117a1",
-     "razon": "ok",
-     "resultado": "no_liquidada_en_el_bloque",
-     "salud": 0.9957496924434737,
-     "t_log": 1793683961.192095,
-     "tx_actualizacion": "0x330f4be56372d8ccde5df09a2ea28a4a2bcf199cbeb64e441a00c63ddec2b8ce"
-    },
-    {
-     "bloque_pendiente": 53447308,
-     "bono_usd": 52.50007,
-     "decision": "GO",
-     "decision_ms": 0.2,
-     "etiqueta": "cbZEC/USDC lltv 62.5%",
-     "mercado": "0xe458a501c1103ca3b256f2bcb45d223263fb34b6349d82675494ce3a94ce1327",
-     "neto_modelo_usd": 35.59504746,
-     "prestatario": "0xe6ee41c9c6b7b3ba057177c0c68cb8d3ba8205d8",
-     "razon": "ok",
-     "resultado": "no_liquidada_en_el_bloque",
-     "salud": 0.9964976202838748,
-     "t_log": 1793683961.192095,
-     "tx_actualizacion": "0x330f4be56372d8ccde5df09a2ea28a4a2bcf199cbeb64e441a00c63ddec2b8ce"
-    }
-   ],
+   "cruces": [],
    "ventana_ws_ms": {
     "p50": null,
     "p90": null,
@@ -358,243 +344,106 @@
     "n": 0
    }
   },
-  "rivales_en_vivo": {
-   "liquidaciones": 2,
-   "ganador_lleva_prestatario": 2,
-   "con_rivales": 2,
-   "bono_con_rivales": 1.0,
-   "rivales_por_liquidacion": {
-    "p50": 13,
-    "p90": 13,
-    "p99": 13,
-    "min": 12,
-    "max": 13,
-    "n": 2
-   },
-   "intentos_por_lugar": {
-    "antes_del_ganador": 35,
-    "tarde_con_mas_propina": 13,
-    "trozo_posterior": 7
-   },
-   "intentos_del_mismo_bot": 0,
-   "segundo": {
-    "tarde_con_mas_propina": {
-     "n": 2,
-     "bono_est_usd": 1726.170324971831,
-     "parte_del_bono": 1.0
-    }
-   },
-   "segundo_propina_vs_ganador": {
-    "p50": 288.544,
-    "p90": 288.544,
-    "p99": 288.544,
-    "min": 76.192,
-    "max": 288.544,
-    "n": 2
-   },
-   "segundo_ms_tras_ganador": {
-    "p50": 0,
-    "p90": 0,
-    "p99": 0,
-    "min": 0,
-    "max": 0,
-    "n": 2
-   },
-   "por_clase": {},
-   "bots": [
-    {
-     "gana": 2,
-     "pierde": 0,
-     "bono_ganado_usd": 1726.170324971831,
-     "bot": "0x583dcfef0d240dc80753f0f0b26513fee27d9b77"
-    },
-    {
-     "gana": 0,
-     "pierde": 2,
-     "bono_ganado_usd": 0.0,
-     "bot": "0x5ac9bc14376bf2727c6211960cf3cec1e2f295bd"
-    },
-    {
-     "gana": 0,
-     "pierde": 2,
-     "bono_ganado_usd": 0.0,
-     "bot": "0xe7488b1ada40fcbb9e657c27978464669b92d339"
-    },
-    {
-     "gana": 0,
-     "pierde": 2,
-     "bono_ganado_usd": 0.0,
-     "bot": "0xdd761e1e829191dfa8d5d4c4354c5af09ba06cc6"
-    },
-    {
-     "gana": 0,
-     "pierde": 2,
-     "bono_ganado_usd": 0.0,
-     "bot": "0x9158e88a8ae4d66440f1fd9ef9f02f63de384ffb"
-    },
-    {
-     "gana": 0,
-     "pierde": 2,
-     "bono_ganado_usd": 0.0,
-     "bot": "0x27c5fa3137e5225905e9ab76ecaa912afd2f0652"
-    },
-    {
-     "gana": 0,
-     "pierde": 2,
-     "bono_ganado_usd": 0.0,
-     "bot": "0xb34c3829a53df776be6e69dc2a9d049e1515eb63"
-    },
-    {
-     "gana": 0,
-     "pierde": 2,
-     "bono_ganado_usd": 0.0,
-     "bot": "0xcee740502c9e84118e4a13efc085dff70784863d"
-    }
-   ],
-   "listas_recortadas": 0,
-   "con_pesos": false,
-   "con_error": 0,
-   "casos": [
-    {
-     "etiqueta": "cbZEC/USDC lltv 62.5%",
-     "bono_usd": 1673.6702465915494,
-     "tx": "0x2d56cc606a28bfb7d3ac8beb792fe666c6a54a6159d11b3c10d0b0dc063c01c1",
-     "rivales": 26,
-     "segundo": {
-      "a": "0x5b74448dfeb7c8d21686dda74ff00bcab4bc6d21",
-      "de": "0x3619254b06fed23214329e1f7b7b4aac22059a16",
-      "i": 133,
-      "lugar": "tarde_con_mas_propina",
-      "mismo_bot": false,
-      "ms_tras_ganador": 0,
-      "propina": 10565858645,
-      "trozo": 7,
-      "trozos_despues": 1,
-      "tx": "0xa3cbf2f4e3e36d1826685f1a3a568014d4bd26296d63a4fec96d499dc5bfb764"
-     }
-    },
-    {
-     "etiqueta": "cbZEC/USDC lltv 62.5%",
-     "bono_usd": 52.500078380281685,
-     "tx": "0x2d56cc606a28bfb7d3ac8beb792fe666c6a54a6159d11b3c10d0b0dc063c01c1",
-     "rivales": 29,
-     "segundo": {
-      "a": "0xc4f4ee986138ab96d7364f6aaa5f3834fdb24987",
-      "de": "0x1b11b0863bd89eec22f34277c66d8a80bb76f683",
-      "i": 135,
-      "lugar": "tarde_con_mas_propina",
-      "mismo_bot": false,
-      "ms_tras_ganador": 0,
-      "propina": 2789977169,
-      "trozo": 7,
-      "trozos_despues": 1,
-      "tx": "0x38bb72a6a73e2de896c8b3af03740120e1b38681dcf0605de5ab9d3b296d17bc"
-     }
-    }
-   ]
-  },
   "flash_perfil": {
-   "bloques": 9924,
-   "completos": 6693,
+   "bloques": 9914,
+   "completos": 7781,
    "txs_por_bloque": {
-    "p50": 146,
-    "p90": 215,
-    "p99": 349,
-    "min": 76,
-    "max": 662,
-    "n": 6693
+    "p50": 180,
+    "p90": 336,
+    "p99": 621,
+    "min": 95,
+    "max": 1313,
+    "n": 7781
    },
    "trozos_por_bloque": {
     "p50": 11,
     "p90": 11,
     "p99": 11,
-    "min": 8,
+    "min": 3,
     "max": 11,
-    "n": 6693
+    "n": 7781
    },
    "txs_por_trozo": {
-    "p50": 12,
-    "p90": 29,
-    "p99": 64,
+    "p50": 15,
+    "p90": 39,
+    "p99": 99,
     "min": 1,
-    "max": 486,
-    "n": 71646
+    "max": 616,
+    "n": 83756
    },
    "fraccion_acumulada_p50": [
-    0.006896551724137931,
-    0.26229508196721313,
-    0.33043478260869563,
-    0.41732283464566927,
-    0.5039370078740157,
-    0.5903083700440529,
-    0.6698113207547169,
-    0.7515151515151515,
-    0.8303571428571429,
-    0.90625,
+    0.00558659217877095,
+    0.24836601307189543,
+    0.32142857142857145,
+    0.4142857142857143,
+    0.5035460992907801,
+    0.5922330097087378,
+    0.6721311475409836,
+    0.7556818181818182,
+    0.8346456692913385,
+    0.912,
     1.0
    ],
-   "ultimo_trozo_completo": 1.0
+   "ultimo_trozo_completo": 0.9998714652956299
   },
   "flash_cruces": {
-   "n": 2,
-   "go": 2,
-   "resultados": {
-    "liquidada": 2
-   },
+   "n": 0,
+   "go": 0,
+   "resultados": {},
    "decision_ms": {
-    "p50": 208,
-    "p90": 208,
-    "p99": 208,
-    "min": 208,
-    "max": 208,
-    "n": 2
+    "p50": null,
+    "p90": null,
+    "p99": null,
+    "min": null,
+    "max": null,
+    "n": 0
    },
-   "mismo_trozo": 2,
+   "mismo_trozo": 0,
    "holgura": {
-    "n": 2,
+    "n": 0,
     "positivas": 0,
     "ms": {
-     "p50": -358,
-     "p90": -358,
-     "p99": -358,
-     "min": -358,
-     "max": -358,
-     "n": 2
+     "p50": null,
+     "p90": null,
+     "p99": null,
+     "min": null,
+     "max": null,
+     "n": 0
     },
-    "bono_usd": 1726.170337,
+    "bono_usd": 0,
     "bono_positivo_usd": 0
    },
    "liquidaciones_sin_cruce_visto": 0,
    "evaluador": {
-    "cruces": 2,
-    "cruces_liquidados": 2,
+    "cruces": 0,
+    "cruces_liquidados": 0,
     "cruces_sin_liquidar": 0,
     "decision_ms": {
-     "max": 208,
-     "min": 208,
-     "n": 2,
-     "p50": 208,
-     "p90": 208,
-     "p99": 208
+     "max": null,
+     "min": null,
+     "n": 0,
+     "p50": null,
+     "p90": null,
+     "p99": null
     },
     "errores": 0,
-    "evaluaciones": 86784,
+    "evaluaciones": 92789,
     "holgura_ms": {
-     "max": -358,
-     "min": -358,
-     "n": 2,
-     "p50": -358,
-     "p90": -358,
-     "p99": -358
+     "max": null,
+     "min": null,
+     "n": 0,
+     "p50": null,
+     "p90": null,
+     "p99": null
     },
     "holgura_positiva": 0,
     "lectura_pendiente_ms": {
-     "max": 828,
-     "min": 75,
-     "n": 86784,
-     "p50": 95,
-     "p90": 110,
-     "p99": 137
+     "max": 2038,
+     "min": 81,
+     "n": 92789,
+     "p50": 105,
+     "p90": 125,
+     "p99": 191
     },
     "supuesto_envio_ms": 150
    }
@@ -605,36 +454,30 @@
   },
   "calidad": {
    "contadores": {
-    "bloques": 9901,
-    "bloques_saltados": 18,
-    "bloques_sin_logs_por_bloom": 6894,
+    "bloques": 9912,
+    "bloques_sin_logs_por_bloom": 5586,
     "candidatas": 5,
     "deriva_reconciliacion": 0,
-    "eventos_en_hueco": 5,
-    "posiciones_sincronizadas": 124,
-    "reconciliadas": 170795,
-    "saltos": 1,
-    "tasa_sin_cache_via_rapida": 1,
-    "tasa_sin_leer": 3
+    "posiciones_sincronizadas": 177,
+    "reconciliadas": 170509,
+    "tasa_sin_leer": 1
    },
-   "eventos_del_sistema": {
-    "salto": 1
-   },
+   "eventos_del_sistema": {},
    "multicall_ok": true,
    "libro": {
-    "bloque": 53443398,
-    "candidatos": 41709,
-    "con_deuda": 33275,
+    "bloque": 53454361,
+    "candidatos": 41837,
+    "con_deuda": 33379,
     "desde_cache": true,
     "dias_atras": 30,
-    "leidos": 41709,
+    "leidos": 41837,
     "libro_parcial": false,
-    "segundos": 35.1
+    "segundos": 17.7
    },
    "libro_deriva": 0,
    "pendientes_al_cierre": 0,
-   "inicio": 1793676129.4239407,
-   "fin": 1793695985.3634539,
+   "inicio": 1793698055.9589725,
+   "fin": 1793717893.831462,
    "supuestos": {
     "interes": "se acumula con el IRM solo para posiciones a menos de 0.5% del umbral",
     "kept_prior_global": 0.678,
@@ -651,63 +494,63 @@
    "excluidos": {}
   },
   "cercanas": {
-   "bloque": 53453176,
+   "bloque": 53464139,
    "n": 30,
-   "deuda_usd": 114719.99128700001,
-   "mas_cercana_pct": 0.14,
+   "deuda_usd": 115519.255325,
+   "mas_cercana_pct": 0.131,
    "fotos": 65
   },
   "orden": {
    "bloques": 150,
    "transacciones": {
-    "p50": 141,
-    "p90": 212,
-    "p99": 275,
-    "min": 86,
-    "max": 300,
+    "p50": 163,
+    "p90": 319,
+    "p99": 742,
+    "min": 102,
+    "max": 799,
     "n": 150
    },
    "ascensos_por_bloque": {
-    "p50": 10,
-    "p90": 11,
-    "p99": 13,
-    "min": 8,
-    "max": 57,
+    "p50": 11,
+    "p90": 13,
+    "p99": 18,
+    "min": 9,
+    "max": 53,
     "n": 150
    },
    "ascensos_si_fuera_al_azar": {
-    "p50": 65,
-    "p90": 100,
-    "p99": 133,
-    "min": 38,
-    "max": 143,
+    "p50": 75,
+    "p90": 154,
+    "p99": 355,
+    "min": 47,
+    "max": 390,
     "n": 150
    },
    "con_perfil": 150,
    "dentro": {
-    "baja": 13721,
-    "igual": 7041,
-    "sube": 258
+    "baja": 18406,
+    "igual": 8979,
+    "sube": 378
    },
    "frontera": {
-    "baja": 1,
-    "igual": 2,
-    "sube": 1290
+    "baja": 0,
+    "igual": 0,
+    "sube": 1301
    }
   },
   "prueba_clasificador": {
-   "bloques": 66,
+   "bloques": 89,
    "fronteras": {
-    "n": 592,
-    "bien": 589
+    "n": 801,
+    "bien": 800
    },
    "picos": {
-    "n": 74,
-    "bien": 61
+    "n": 166,
+    "bien": 129
    },
    "cabezas": {
-    "n": 1766,
-    "bien": 1713
+    "n": 2397,
+    "bien": 2375
    }
   }
  },
@@ -718,15 +561,13 @@
   "eth_blockNumber",
   "eth_call",
   "eth_getBlockByNumber",
-  "eth_getLogs",
-  "eth_getTransactionByHash",
-  "eth_getTransactionReceipt"
+  "eth_getLogs"
  ],
  "puertas": [
   {
    "puerta": "Decisiones en tiempo real sin enviar nada",
    "estado": "cumple",
-   "evidencia": "5 decisiones; solo métodos de lectura (6 distintos)"
+   "evidencia": "5 decisiones; solo métodos de lectura (4 distintos)"
   },
   {
    "puerta": "Cada GO comparado con lo que ocurrió",
@@ -736,17 +577,17 @@
   {
    "puerta": "Control de reorganizaciones",
    "estado": "parcial",
-   "evidencia": "0 reorgs vistos, 1 saltos de atraso (18 bloques cubiertos con eventos), 0 bloques perdidos (0 recuperados, 0 sin recuperar, 0 definitivos); la recuperación se prueba con una cadena falsa"
+   "evidencia": "0 reorgs vistos, 0 saltos de atraso (0 bloques cubiertos con eventos), 0 bloques perdidos (0 recuperados, 0 sin recuperar, 0 definitivos); la recuperación se prueba con una cadena falsa"
   },
   {
    "puerta": "Simulaciones: divergencias investigadas",
    "estado": "parcial",
-   "evidencia": "libro sin deriva (170795 posiciones reconciliadas)"
+   "evidencia": "libro sin deriva (170509 posiciones reconciliadas)"
   },
   {
    "puerta": "Latencia en infraestructura real",
    "estado": "parcial",
-   "evidencia": "p50 537 ms, p90 768 ms, p99 3,666 ms (n=9774); medida desde GitHub Actions, no desde la infraestructura de Titan"
+   "evidencia": "p50 532 ms, p90 765 ms, p99 4,554 ms (n=9708); medida desde GitHub Actions, no desde la infraestructura de Titan"
   },
   {
    "puerta": "Detección competitiva (replay)",
