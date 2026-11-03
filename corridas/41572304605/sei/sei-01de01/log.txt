@@ -1,0 +1,25 @@
+[03:27:50] sei: falla: RpcError: requested height 232336156 has been pruned; earliest available is 237206378
+[03:27:50] Traceback (most recent call last):
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 1093, in run
+    win = self.resolve_window(days, end_block, start_ts, end_ts)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 366, in resolve_window
+    start = find(start_ts)
+            ^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 353, in find
+    if self.header(lo)["timestamp"] >= ts:
+       ^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 264, in header
+    b = self.rpc.block(number)
+        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 504, in block
+    b = self.call("eth_getBlockByNumber", [tag, False], recent=recent, prefer=prefer)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 334, in call
+    return self._call(method, params, recent, prefer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 436, in _call
+    raise last or RpcError(f"{method} falló en todos los proveedores")
+census_dinero.rpc.RpcError: requested height 232336156 has been pruned; earliest available is 237206378
+
+[03:27:50] sei: listo — 0 eventos, 0 enriquecidos, 29 llamadas RPC, 4.8 s
