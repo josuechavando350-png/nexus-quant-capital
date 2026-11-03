@@ -1,0 +1,179 @@
+{
+  "archive_disabled": false,
+  "chain": "cronos",
+  "elapsed_s": 1200.1,
+  "enriched": 0,
+  "errors_sample": [
+    "eventos Morpho: tiempo agotado en el bloque 99861562"
+  ],
+  "events": 0,
+  "events_complete": false,
+  "events_cover_block": 99861561,
+  "fatal_error": null,
+  "interrupted": false,
+  "log_interruptions": [],
+  "native_trace_sources": {},
+  "oracle_contracts_watched": 0,
+  "oracle_status": {},
+  "phases_s": {
+    "enriquecimiento": 0.0,
+    "eventos": 1188.4,
+    "evidencia": 0.0,
+    "metadatos": 0.0,
+    "oraculos": 0.0,
+    "segunda_pasada": 0.0,
+    "sonda": 2.8,
+    "ventana": 8.8
+  },
+  "price_sources": {
+    "defillama": 0,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 5008,
+  "rpc_providers": {
+    "https://cronos-evm-rpc.publicnode.com": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": 62,
+      "metodos": {
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getLogs": {
+          "err": 0,
+          "errores": {
+            "failed to fetch block result for height 96125225: height 96125225 is not available, lowest height is": 1,
+            "failed to fetch block result for height 96132829: height 96132829 is not available, lowest height is": 1,
+            "failed to fetch block result for height 96136631: height 96136631 is not available, lowest height is": 1,
+            "failed to fetch block result for height 99436581: height 99436581 is not available, lowest height is": 1,
+            "failed to fetch block result for height 99437331: height 99437331 is not available, lowest height is": 2
+          },
+          "ms_prom": 230,
+          "ok": 13
+        }
+      },
+      "ok": 13,
+      "sin_metodo": []
+    },
+    "https://cronos.drpc.org": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": 100,
+      "metodos": {
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getLogs": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 217,
+          "ok": 1272
+        }
+      },
+      "ok": 1272,
+      "sin_metodo": []
+    },
+    "https://evm.cronos.org": {
+      "en_rotacion": true,
+      "err": 13,
+      "getlogs_max": 1000,
+      "metodos": {
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 115,
+          "ok": 86
+        },
+        "eth_getLogs": {
+          "err": 13,
+          "errores": {
+            "HTTP 429 en evm.cronos.org": 12,
+            "HTTP 503 en evm.cronos.org": 1
+          },
+          "ms_prom": 245,
+          "ok": 3600
+        }
+      },
+      "ok": 3686,
+      "sin_metodo": []
+    }
+  },
+  "second_pass": {
+    "intentadas": 0
+  },
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "getlogs_error": "maximum [from, to] blocks distance: 2000",
+      "getlogs_max": 1000,
+      "getlogs_ms": 140,
+      "getlogs_status": "supported",
+      "ms": 108,
+      "proveedor": "https://evm.cronos.org",
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "getlogs_error": "failed to fetch block result for height 102053205: height 102053205 is not available, lowest height is 103103213",
+      "getlogs_max": 0,
+      "getlogs_status": "unverified",
+      "ms": 108,
+      "proveedor": "https://cronos-evm-rpc.publicnode.com",
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "getlogs_error": "HTTP 400 en cronos.drpc.org",
+      "getlogs_max": 100,
+      "getlogs_ms": 309,
+      "getlogs_status": "supported",
+      "ms": 55,
+      "proveedor": "https://cronos.drpc.org",
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": false,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "cronos-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 0,
+  "web_calls": 1,
+  "web_sources": {
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 0.4564,
+    "days": 30.0,
+    "end_block": 102053205,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352000,
+    "lookback_block": 95889722,
+    "start_block": 96112024,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 0,
+  "with_oracle_delta": 0,
+  "with_realized": 0,
+  "with_realized_complete": 0
+}
