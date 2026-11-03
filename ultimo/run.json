@@ -43,15 +43,20 @@
   "tramos": 1,
   "protocols": "morpho",
   "time_budget_min": 20,
-  "nota": "Census: recuperación acotada de cuatro tramos detenidos por finalización insuficiente. Conserva la ventana 25 sep–25 oct 2026, incorpora los demás tramos de la corrida 40215984099 y no cancela Shadow v11. Solo lectura, presupuesto de recolección de 20 minutos por cadena; los resultados parciales conservan sus límites.",
+  "nota": "Census v12: recuperación acotada de las ocho cadenas aún incompletas, con sonda que comienza en un bloque y retención del prefijo leído ante fallas RPC. Conserva la ventana 25 sep–25 oct 2026 y los resultados previos; no recorta el período ni certifica datos faltantes. Máximo 20 minutos de recolección por cadena, RPC públicos existentes, sin fondos, firmas ni cambios de permisos. Shadow v12 corre por separado.",
   "end_utc": "2026-10-25T16:00:00Z",
   "solo": [
-    "scroll-01de01",
-    "linea-01de01",
-    "lisk-01de01",
-    "abstract-01de01"
+    "hyperevm-01de01",
+    "sei-01de01",
+    "monad-01de01",
+    "soneium-01de01",
+    "corn-01de01",
+    "flare-01de01",
+    "cronos-01de01",
+    "gensyn-01de01"
   ],
   "incluir_corridas": [
+    41377148311,
     40215984099
   ]
 }

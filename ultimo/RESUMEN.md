@@ -1,16 +1,16 @@
-# Census del dinero · 2026-11-02
+# Census del dinero · 2026-11-03
 
 Ventana: **30 días** · cadenas: polygon, optimism, unichain, katana, hyperevm, worldchain, sonic, bsc, linea, scroll, sei, monad, celo, etherlink, hemi, ink, lisk, soneium, fraxtal, mode, plume, corn, tac, flare, cronos, xdc, kaia, zerog, abstract, morph, megaeth, robinhood, stable, tempo, arc, bitlayer, gensyn, eden · protocolos: Aave V3 y Morpho Blue.
 
-> **Cobertura incompleta:** hyperevm (1/1 tramos, eventos cortados); sei (1/1 tramos, eventos cortados); monad (1/1 tramos, eventos cortados); soneium (1/1 tramos, eventos cortados); corn (1/1 tramos, eventos cortados); flare (1/1 tramos, eventos cortados); cronos (1/1 tramos, eventos cortados); gensyn (1/1 tramos, eventos cortados). Ver la sección de cobertura.
+> **Cobertura incompleta:** hyperevm (1/1 tramos, eventos cortados, 1 tramos sin tiempo); sei (1/1 tramos, eventos cortados); monad (1/1 tramos, eventos cortados); corn (1/1 tramos, eventos cortados); flare (1/1 tramos, eventos cortados, 1 tramos sin tiempo); cronos (1/1 tramos, eventos cortados); gensyn (1/1 tramos, eventos cortados). Ver la sección de cobertura.
 
 ## Respuesta corta
 
-1. **¿Cuánto dinero hay?** Bono total pagado a liquidadores: **$59.9 k** en 2,824 liquidaciones.
-2. **¿Quién se lo lleva?** 109 liquidadores distintos; los 3 mayores se llevan **70%** del bono.
+1. **¿Cuánto dinero hay?** Bono total pagado a liquidadores: **$60.0 k** en 2,894 liquidaciones.
+2. **¿Quién se lo lleva?** 128 liquidadores distintos; los 3 mayores se llevan **70%** del bono.
 3. **¿Llegan a tiempo? ¿En cuántos bloques?** Mediana de **1 bloques** (2 s) desde la última actualización del oráculo; **32%** en el mismo bloque.
-4. **¿Qué porcentaje dejó al builder?** En L2 no hay builder; la propina de prioridad fue: abstract 0%, arc —, hemi —, kaia 0%, katana 0%, lisk —, megaeth 0%, morph —, optimism —, plume 0%, polygon 14%, robinhood 0%, unichain —, worldchain 0%.
-5. **¿Cuánto se queda realmente el ganador?** En las 1,506 liquidaciones rastreables (53% del total): bono $913, el ganador se quedó **$633 (69%)** (de eso $0 lo mandó a su tesorería); a subastas de oráculo/OEV $0 (0%), al builder en directo $0, en propina $53, gas base $2, resto (deslizamiento, comisiones) $226. Fuera de la cuenta: sin medir 1,314 liq. ($58.8 k), sin rastro 2 ($243), refinanciaciones 2 ($1).
+4. **¿Qué porcentaje dejó al builder?** En L2 no hay builder; la propina de prioridad fue: abstract 0%, arc —, flare 16%, hemi —, hyperevm 13%, kaia 0%, katana 0%, lisk —, megaeth 0%, morph —, optimism —, plume 0%, polygon 14%, robinhood 0%, unichain —, worldchain 0%.
+5. **¿Cuánto se queda realmente el ganador?** En las 1,522 liquidaciones rastreables (53% del total): bono $999, el ganador se quedó **$647 (65%)** (de eso $0 lo mandó a su tesorería); a subastas de oráculo/OEV $0 (0%), al builder en directo $0, en propina $64, gas base $3, resto (deslizamiento, comisiones) $285. Fuera de la cuenta: sin medir 1,368 liq. ($58.8 k), sin rastro 2 ($243), refinanciaciones 2 ($1).
 
 ## ¿A dónde se va el bono?
 
@@ -20,7 +20,9 @@ Solo liquidaciones rastreables (todos los movimientos de tokens y ETH valuados).
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | abstract | morpho | 0/42 | $0 | $0 | — | $0 | $0 | $0 | $0 | $0 | $0 | 42 ($1,732) · 0 ($0) · 0 ($0) |
 | arc | morpho | 0/5 | $0 | $0 | — | $0 | $0 | $0 | $0 | $0 | $0 | 5 ($0) · 0 ($0) · 0 ($0) |
+| flare | morpho | 8/22 | $4 | $3 | 83% | $0 | $0 | $0 | $1 | $0 | $0 | 14 ($0) · 0 ($0) · 0 ($0) |
 | hemi | morpho | 0/3 | $0 | $0 | — | $0 | $0 | $0 | $0 | $0 | $0 | 3 ($0) · 0 ($0) · 0 ($0) |
+| hyperevm | morpho | 8/48 | $82 | $12 | 14% | $0 | $0 | $0 | $11 | $1 | $59 | 40 ($0) · 0 ($0) · 0 ($0) |
 | kaia | morpho | 0/1 | $0 | $0 | — | $0 | $0 | $0 | $0 | $0 | $0 | 1 ($2) · 0 ($0) · 0 ($0) |
 | katana | morpho | 17/17 | $7 | $8 | 113% | $0 | $0 | $0 | $0 | $0 | -$1 | 0 ($0) · 0 ($0) · 0 ($0) |
 | lisk | morpho | 1/1 | $0 | $0 | — | $0 | $0 | $0 | $0 | $0 | -$0 | 0 ($0) · 0 ($0) · 0 ($0) |
@@ -39,7 +41,9 @@ Solo liquidaciones rastreables (todos los movimientos de tokens y ETH valuados).
 |---|---|---:|---:|---:|---:|---|---:|---:|---:|
 | abstract | morpho | 42 | $1,732 | 3 | 100% | — · — · — | — | — | n/a |
 | arc | morpho | 5 | $0 | 4 | 100% | 21 · 21 · 21 | 11 | 0% | n/a |
+| flare | morpho | 22 | $4 | 4 | 100% | — · — · — | — | — | n/a |
 | hemi | morpho | 3 | $0 | 1 | 0% | — · — · — | — | — | n/a |
+| hyperevm | morpho | 48 | $82 | 17 | 100% | — · — · — | — | — | n/a |
 | kaia | morpho | 1 | $2 | 1 | 100% | — · — · — | — | — | n/a |
 | katana | morpho | 17 | $7 | 5 | 100% | 1 · 10,896 · 10,936 | 10,896 | 0% | n/a |
 | lisk | morpho | 1 | $0 | 1 | 100% | — · — · — | — | — | n/a |
@@ -60,7 +64,12 @@ Solo liquidaciones rastreables (todos los movimientos de tokens y ETH valuados).
 |---|---|---:|---:|---:|---:|---:|---:|---:|
 | abstract | sin_medir | 42 | $1,732 | — | — | — | 3 | — |
 | arc | sin_medir | 5 | $0 | — | — | — | 4 | 21 |
+| flare | directa | 8 | $4 | $3 | 83% | $0 | 3 | — |
+| flare | sin_medir | 14 | $0 | — | — | — | 4 | — |
 | hemi | sin_medir | 3 | $0 | — | — | — | 1 | — |
+| hyperevm | directa | 7 | $81 | $11 | 13% | $0 | 5 | — |
+| hyperevm | sin_medir | 40 | $0 | — | — | — | 13 | — |
+| hyperevm | subasta | 1 | $1 | $1 | — | $1 | 1 | — |
 | kaia | sin_medir | 1 | $2 | — | — | — | 1 | — |
 | katana | directa | 17 | $7 | $8 | 113% | $0 | 5 | 10,896 |
 | lisk | directa | 1 | $0 | $0 | — | $0 | 1 | — |
@@ -87,7 +96,9 @@ Liquidaciones directas (sin pagar subasta ni builder) y lo que realmente se qued
 |---|---:|---|---:|---|---|---:|---:|---:|
 | abstract | 30.0 | 0 / 0 / 42 | $0 | 0 · $0 · — | 0 · $0 · — | 0 | — | — |
 | arc | 30.0 | 0 / 0 / 5 | $0 | 0 · $0 · — | 0 · $0 · — | 0 | — | — |
+| flare | 30.0 | 8 / 8 / 22 | $3 | 0 · $0 · — | 0 · $0 · — | 3 | — | — |
 | hemi | 30.0 | 0 / 0 / 3 | $0 | 0 · $0 · — | 0 · $0 · — | 0 | — | — |
+| hyperevm | 30.0 | 7 / 8 / 48 | $11 | 0 · $0 · — | 0 · $0 · — | 5 | — | — |
 | kaia | 30.0 | 0 / 0 / 1 | $0 | 0 · $0 · — | 0 · $0 · — | 0 | — | — |
 | katana | 30.0 | 17 / 17 / 17 | $8 | 0 · $0 · — | 0 · $0 · — | 5 | 10,896 | 60% |
 | lisk | 30.0 | 1 / 1 / 1 | $0 | 0 · $0 · — | 0 · $0 · — | 1 | — | — |
@@ -111,27 +122,28 @@ Liquidaciones directas (sin pagar subasta ni builder) y lo que realmente se qued
 | worldchain | `0x5ac9bc14376bf2727c6211960cf3cec1e2f295bd` | 2 | 24 | $105 | $29 | 28% | $0 | 0 | 4 | Morpho WLD/USDC lltv 77.0% (19); Morpho WBTC/USDC lltv 86.0% (5) |
 | worldchain | `0x5fd52383db85758d9bec63f5a40c7f0bcbc9dc80` | 5 | 451 | $49 | $28 | 56% | $0 | 2 | 16 | Morpho WLD/USDC lltv 77.0% (336); Morpho WBTC/WLD lltv 86.0% (46); Morpho WETH/WLD lltv 86.0% (36) |
 | plume | `0x72497cfe78eedbc9d9f73510b72c9c2199b2a09e` | 1 | 8 | $18 | $17 | 94% | $0 | — | 6 | Morpho nALPHA/pUSD lltv 91.5% (5); Morpho nCREDIT/pUSD lltv 91.5% (2); Morpho nTBILL/pUSD lltv 91.5% (1) |
+| hyperevm | `0x2a7bd4089c77925f9fcc8bd177deae84737066d6` | 1 | 1 | $76 | $8 | 10% | $8 | — | 1 | Morpho WHYPE/USD₮0 lltv 77.0% (1) |
 | worldchain | `0xb3044425cc1f75f05b35ab53611f4b325aafbb36` | 4 | 4 | $8 | $7 | 93% | $0 | 0 | 2 | Morpho WBTC/USDC lltv 86.0% (2); Morpho WLD/USDC lltv 77.0% (2) |
 | megaeth | `0xb10ff755b35db703d2c2a4c2632015254dfa73e1` | 1 | 1 | $6 | $7 | 111% | $7 | — | 1 | Morpho wiTRY/USDm lltv 77.0% (1) |
 | katana | `0xfbf7559998b9a2b3ec8621ee9e48e2a36b7ce6ba` | 9 | 9 | $6 | $5 | 89% | $0 | 1 | 6 | Morpho LBTC/vbWBTC lltv 91.5% (7); Morpho wstETH/vbETH lltv 94.5% (1); Morpho KAT/vbUSDC lltv 62.5% (1) |
 | worldchain | `0x3439682f62c7ffc1ecf95dc48b2a893f340a64c1` | 4 | 177 | $4 | $4 | 94% | $0 | 0 | 17 | Morpho WLD/USDC lltv 77.0% (177) |
+| hyperevm | `0x7250f80367c82452e843d292778b3dab346ad387` | 1 | 1 | $4 | $3 | 83% | $3 | — | 1 | Morpho beHYPE/WHYPE lltv 91.5% (1) |
 | katana | `0xcbe3ad3bd665871eadbbf85ca94d2d7e2b32a66d` | 1 | 1 | $1 | $2 | — | $2 | 1 | 1 | Morpho avKAT/vbUSDC lltv 62.5% (1) |
 | plume | `0xcbe3ad3bd665871eadbbf85ca94d2d7e2b32a66d` | 1 | 10 | $2 | $2 | 97% | $0 | — | 6 | Morpho WETH/pUSD lltv 86.0% (8); Morpho nALPHA/pUSD lltv 91.5% (2) |
+| flare | `0x11e8c4e6840a6f61e4579de70c16bd667c0c09da` | 1 | 3 | $2 | $2 | 99% | $1 | — | 2 | Morpho USD₮0/WFLR lltv 62.5% (2); Morpho WFLR/USD₮0 lltv 62.5% (1) |
 | plume | `0xd720c8dd1c9b98d232350cc8e97bd2d8d05a7fc7` | 1 | 136 | $2 | $2 | 86% | $0 | — | 6 | Morpho nALPHA/pUSD lltv 91.5% (68); Morpho nCREDIT/pUSD lltv 86.0% (36); Morpho nTBILL/pUSD lltv 91.5% (20) |
 | plume | `0x199a4c6cc0d901b036163fac90ef6a5eda9be8d1` | 4 | 263 | $3 | $2 | 52% | $0 | — | 17 | Morpho WETH/pUSD lltv 86.0% (182); Morpho nALPHA/pUSD lltv 91.5% (81) |
 | worldchain | `0xe81073d32b7c85624dfb9a0420385a9a8860f3a6` | 1 | 2 | $2 | $1 | 72% | $1 | 2 | 2 | Morpho WBTC/WLD lltv 86.0% (1); Morpho WLD/USDC lltv 77.0% (1) |
+| flare | `0x4a38eaad9310d08dd05d9ee71fd4095a4293895b` | 1 | 4 | $2 | $1 | 65% | $0 | — | 2 | Morpho FXRP/USD₮0 lltv 77.0% (2); Morpho WFLR/USD₮0 lltv 62.5% (1); Morpho USD₮0/FXRP lltv 77.0% (1) |
 | plume | `0xaba996f3f6170a85a31d7f8f4b54816e141278f8` | 1 | 45 | $1 | $1 | 88% | $0 | — | 3 | Morpho nALPHA/pUSD lltv 91.5% (45) |
 | worldchain | `0x5f17a8598b72f6788dc8711f33a3d0a24f8e60bd` | 1 | 69 | $1 | $1 | — | $0 | 1 | 12 | Morpho WLD/USDC lltv 77.0% (49); Morpho WETH/WLD lltv 86.0% (12); Morpho WBTC/WLD lltv 86.0% (6) |
-| worldchain | `0xcbe3ad3bd665871eadbbf85ca94d2d7e2b32a66d` | 1 | 6 | $3 | $1 | 18% | $0 | 1 | 5 | Morpho WLD/USDC lltv 77.0% (3); Morpho WBTC/WLD lltv 86.0% (3) |
-| plume | `0x087fc07f6b3c396dc75dfb14360c6a7012b0ee92` | 1 | 2 | $1 | $1 | 51% | $0 | — | 2 | Morpho nALPHA/pUSD lltv 91.5% (2) |
-| worldchain | `0x00751dde4231e5abdb569eb182b249628c085bec` | 1 | 17 | $1 | $1 | — | $0 | 0 | 10 | Morpho WLD/USDC lltv 77.0% (15); Morpho WETH/WLD lltv 86.0% (1); Morpho WBTC/WLD lltv 86.0% (1) |
-| katana | `0xe29b7303937fac8f7f24670c7cc08005ac14ebe9` | 1 | 3 | $0 | $0 | — | $0 | 10,936 | 1 | Morpho yvvbUSDT/dUSD lltv 86.0% (3) |
 
 ### Contratos que pagan por el orden (subastas)
 
 | Cadena | Contrato liquidador | Firmantes | Liq. | Bono | Se quedó | % | Pagado por orden | Bloques |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
 | polygon | `0xc14e…7d98` | 1 | 1 | $47 | $12 | 26% | $49 | — |
+| hyperevm | `0x2a7b…66d6` | 1 | 1 | $1 | $1 | — | $8 | — |
 
 ### ¿A quién va el ETH que sale del liquidador?
 
@@ -139,11 +151,12 @@ Liquidaciones directas (sin pagar subasta ni builder) y lo que realmente se qued
 
 | Cadena | Destinatario | Tipo | USD | Liq. | Liquidadores | Es la entrada |
 |---|---|---|---:|---:|---:|---|
+| hyperevm | `0xf2314753fa7f6cdcc4d27cc6755077a68a6e2fe9` | swap | $67 | 2 | 2 | sí |
 | abstract | `0x0000000000000000000000000000000000008001` | compartido | $56 | 42 | 3 | no |
 
 ## Saturación de mercados
 
-Vírgenes: **6** · disputados: **19** · muertos: **0** · con muestra insuficiente (<3): 36.
+Vírgenes: **6** · disputados: **28** · muertos: **0** · con muestra insuficiente (<3): 58.
 
 ### Los 15 mercados que más dejaron a sus ganadores
 
@@ -178,8 +191,8 @@ Vírgenes: **6** · disputados: **19** · muertos: **0** · con muestra insufici
 
 | Bono | Liq. | Real total | Real mediano | % quedó | Directas | Ganadores |
 |---|---:|---:|---:|---:|---:|---:|
-| $0–$10 | 2,612 | $124 | $0 | 96% | 1,486 | 82 |
-| $10–$100 | 91 | $306 | $12 | 60% | 17 | 23 |
+| $0–$10 | 2,627 | $131 | $0 | 94% | 1,500 | 89 |
+| $10–$100 | 92 | $314 | $12 | 54% | 18 | 24 |
 | $100–$1,000 | 56 | $203 | $101 | 73% | 2 | 22 |
 | $1,000–$10.0 k | 14 | $0 | — | — | 0 | 7 |
 | ≥ $10.0 k | 0 | — | — | — | — | — |
@@ -208,7 +221,7 @@ Si un mismo contrato recibe transacciones de muchos firmantes distintos y casi t
 
 ## Ganadores principales (por bono)
 
-- `0x3586aa1db9523bb223916b8ec0405261c8a625e1` — $23.7 k (40%)
+- `0x3586aa1db9523bb223916b8ec0405261c8a625e1` — $23.7 k (39%)
 - `0x72512e63c0c70797b96902228fa8acc1211b7cee` — $10.7 k (18%)
 - `0x7961e142750f3b44bf8b844d433c387b8cbb316f` — $7,379 (12%)
 - `0xad389f432f7ce2d3f2c57f0083915cf1f364af95` — $3,265 (5%)
@@ -227,7 +240,7 @@ Si un mismo contrato recibe transacciones de muchos firmantes distintos y casi t
 | optimism | 1/1 | 30.0 | 1 | 1 | 1 (100%) | 0 (0%) | debug_traceTransaction: 1 | oráculo 0, mercado 2, sin 0 | 0 |
 | unichain | 1/1 | 30.0 | 2 | 2 | 2 (100%) | 0 (0%) | debug_traceTransaction: 2 | oráculo 0, mercado 4, sin 0 | 0 |
 | katana | 1/1 | 30.0 | 17 | 17 | 17 (100%) | 5 (29%) | debug_traceTransaction: 17 | oráculo 0, mercado 34, sin 0 | 0 |
-| hyperevm | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| hyperevm | 1/1 | 30.0 | 48 | 8 | 8 (17%) | 0 (0%) | debug_traceTransaction: 8, sin_enriquecer: 40 | oráculo 0, mercado 15, sin 1 | 1 |
 | worldchain | 1/1 | 30.0 | 1679 | 1635 | 995 (59%) | 1679 (100%) | blockscout: 1023, trace_transaction: 18 | oráculo 0, mercado 1617, sin 1103 | 0 |
 | sonic | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
 | bsc | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
@@ -246,7 +259,7 @@ Si un mismo contrato recibe transacciones de muchos firmantes distintos y casi t
 | plume | 1/1 | 30.0 | 745 | 745 | 486 (65%) | 0 (0%) | blockscout: 109, no_medido: 3 | oráculo 0, mercado 1119, sin 0 | 0 |
 | corn | 1/1 | 0.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
 | tac | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
-| flare | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
+| flare | 1/1 | 30.0 | 22 | 8 | 8 (36%) | 0 (0%) | blockscout: 8, sin_enriquecer: 14 | oráculo 0, mercado 16, sin 0 | 1 |
 | cronos | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
 | xdc | 1/1 | 30.0 | 0 | 0 | 0 (—) | 0 (—) | — | oráculo 0, mercado 0, sin 0 | 0 |
 | kaia | 1/1 | 30.0 | 1 | 1 | 0 (0%) | 0 (0%) | no_medido: 1 | oráculo 0, mercado 2, sin 0 | 0 |
@@ -264,7 +277,7 @@ Si un mismo contrato recibe transacciones de muchos firmantes distintos y casi t
 
 Netos fuera de rango (no se cuentan como medidos; revisar a mano): robinhood `0xf9463d5df6be57e07ac2508a833ec0cc3520727154a0d0709670c5bfaec175cc` bono $425, neto $728 (USDG +727.924); robinhood `0xf62910ad45edc074b43080c9bbf6a639be73037383ed73a8392262717cdf3f87` bono $386, neto $627 (USDG +626.759); robinhood `0xc409c18338d1666ac1a5fd33b3729b1724afc9327d36217db7d3c3f10fe1db82` bono $300, neto $626 (USDG +910.72); robinhood `0x4258042324961a4f8ba803aeb56b3cf9f2d077fc5ffe1605282d41fe662181a4` bono $134, neto $175 (USDG +174.624); robinhood `0xc409c18338d1666ac1a5fd33b3729b1724afc9327d36217db7d3c3f10fe1db82` bono $133, neto $278 (USDG +910.72); robinhood `0x5ac61946b228e5a850062716c38a9ffa95fded9274ec32e3ea112b0ce2fb30b0` bono $99, neto $190 (USDG +253.91); robinhood `0x8872cd3629311652636010f432766472463c5a09c8bd9e3d54fc5eb118c68626` bono $74, neto $124 (USDG +124.06); robinhood `0x5362d77208452da536630212224d3895e60e608cc5018bee57c6d0cea7c4d824` bono $68, neto $119 (USDG +118.681).
 
-Errores de trazas más comunes: worldchain: trace_transaction: failed to apply blockhash contract call: database error: Database error: state at block #3 (2039); worldchain: debug_traceTransaction: HTTP 401 en worldchain-mainnet.g.alchemy.com (7); worldchain: trace_transaction: HTTP 401 en worldchain-mainnet.g.alchemy.com (5); worldchain: debug_traceTransaction: Invalid method debug_traceTransaction (3); plume: debug_traceTransaction: HTTP 401 en rpc.plume.org (20); plume: trace_transaction: HTTP 401 en rpc.plume.org (16); robinhood: trace_transaction: trace_transaction is not available without an API key on this endpoint (standard eth_/net_ (12); robinhood: debug_traceTransaction: the network is busy, please try again in a moment (11).
+Errores de trazas más comunes: worldchain: trace_transaction: failed to apply blockhash contract call: database error: Database error: state at block #3 (2039); worldchain: debug_traceTransaction: HTTP 401 en worldchain-mainnet.g.alchemy.com (7); worldchain: trace_transaction: HTTP 401 en worldchain-mainnet.g.alchemy.com (5); worldchain: debug_traceTransaction: Invalid method debug_traceTransaction (3); plume: debug_traceTransaction: HTTP 401 en rpc.plume.org (20); plume: trace_transaction: HTTP 401 en rpc.plume.org (16); flare: debug_traceTransaction: HTTP 500 en flare.drpc.org (11); flare: trace_transaction: HTTP 400 en flare.drpc.org (8).
 
 ## Qué NO dice este census
 
