@@ -44,10 +44,14 @@ de oportunidades ni porcentaje global de finalización de NQC.
 | Flare | 10.3863% | 22 | Presupuesto agotado; faltan 2,096,622 bloques |
 | Sei | Sin ventana resuelta | Desconocido | Historia podada |
 | Corn | Sin ventana resuelta | Desconocido | Proveedor indisponible |
-| HyperEVM | Pendiente al corte | Pendiente | Job todavía activo |
+| HyperEVM | 98.1817% | 48 | Presupuesto agotado; faltan 47,911 bloques |
 
 Los 22 eventos de Flare se recuperaron como prefijo histórico. No acreditan
 costes, rentabilidad ni casos de la muestra prospectiva de Base.
+HyperEVM terminó después del primer corte: recuperó otros 48 eventos, ocho con
+valoración y trazas completas según el Collector. En conjunto son 70 eventos
+históricos recuperados en prefijos incompletos. El cálculo de terceros conserva
+sus límites de atribución; no demuestra financiación ni ganancias propias.
 
 ### Correcciones derivadas de los resultados
 
@@ -87,7 +91,7 @@ prefijo, selección de cobertura completa y diagnóstico de la muestra. Verifica
 de aislamiento: PASS; no recertifica los objetos originales. No se ejecutaron
 pruebas Rust/Solidity, porque este cambio es Python y no modifica esos componentes.
 
-Dejar terminar Shadow v12 y HyperEVM; usar las revisiones ya programadas para
+Dejar terminar Shadow v12 y el reporte integrado; usar las revisiones ya programadas para
 continuar las ventanas autorizadas con el nuevo productor. Antes de repetir
 Census, preparar tramos que cubran las partes faltantes y verificar que el reporte
 las combine sin huecos ni solapamientos. No volver a escanear a ciegas los mismos

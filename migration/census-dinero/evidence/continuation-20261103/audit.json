@@ -1,4 +1,11 @@
 {
+  "hyperevm_economics": {
+    "events": 48,
+    "measured_complete": 8,
+    "missing_cost_rows": 40,
+    "own_route_validated": false,
+    "source_metric": "realized_usd del Collector: terceros, no P&L NQC"
+  },
   "independent_financing_read": "Blockscout initialization timed out; no new financing data verified",
   "inputs": [
     {
@@ -45,6 +52,16 @@
       "path": "shadow-41376606202-resultados.jsonl",
       "sha256": "0302c56890e28e0738c7fa95c42f809ffa7fab99f4489053fbfcfbd591c145de",
       "source_path": "corridas/41376606202/shadow-vivo/resultados.jsonl"
+    },
+    {
+      "path": "recovery-hyperevm-meta.json",
+      "sha256": "b7ace55e2d839513056251bcdf0d0ab33b53a456c878d5cd809daaaf2057e646",
+      "source_path": "corridas/41572304605/hyperevm/hyperevm-01de01/meta.json"
+    },
+    {
+      "path": "recovery-hyperevm-resultados.jsonl",
+      "sha256": "5bf857b0d5115514adae53ec8dc97bfbc872933193991a182caf1469d87067e1",
+      "source_path": "corridas/41572304605/hyperevm/hyperevm-01de01/liquidaciones.jsonl"
     }
   ],
   "profitability_demonstrated": false,
@@ -131,6 +148,65 @@
       "source_producer": "259a796ee96433c4fea1c026b4040440aa644234",
       "source_run": 41572304605,
       "start": 107935036
+    },
+    {
+      "budget_errors": [
+        "eventos Morpho: tiempo agotado en el bloque 49450816",
+        "or\u00e1culos 1/2: tiempo agotado en el bloque 46768656",
+        "or\u00e1culos 2/2: tiempo agotado en el bloque 46768656",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado",
+        "sin enriquecer: presupuesto de tiempo agotado"
+      ],
+      "chain": "hyperevm",
+      "covered_percent": 98.1817,
+      "covered_through": 49450815,
+      "end": 49498726,
+      "events": 48,
+      "events_complete": false,
+      "remaining_blocks": 47911,
+      "remaining_from": 49450816,
+      "reported_time_budget_hit": true,
+      "source_producer": "259a796ee96433c4fea1c026b4040440aa644234",
+      "source_run": 41572304605,
+      "start": 46863816
     }
   ],
   "sample_funnel": {

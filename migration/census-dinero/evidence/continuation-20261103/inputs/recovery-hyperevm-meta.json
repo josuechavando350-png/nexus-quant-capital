@@ -1,0 +1,349 @@
+{
+  "archive_disabled": false,
+  "chain": "hyperevm",
+  "elapsed_s": 1619.2,
+  "enriched": 8,
+  "errors_sample": [
+    "eventos Morpho: tiempo agotado en el bloque 49450816",
+    "oráculos 1/2: tiempo agotado en el bloque 46768656",
+    "oráculos 2/2: tiempo agotado en el bloque 46768656",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado"
+  ],
+  "events": 48,
+  "events_complete": false,
+  "events_cover_block": 49450815,
+  "fatal_error": null,
+  "interrupted": false,
+  "log_interruptions": [],
+  "native_trace_sources": {
+    "debug_traceTransaction": 8,
+    "sin_enriquecer": 40
+  },
+  "oracle_contracts_watched": 41,
+  "oracle_status": {
+    "sin_cobertura": 8
+  },
+  "phases_s": {
+    "enriquecimiento": 394.6,
+    "eventos": 1162,
+    "evidencia": 0,
+    "metadatos": 24.4,
+    "oraculos": 0,
+    "segunda_pasada": 0,
+    "sonda": 4.2,
+    "ventana": 34
+  },
+  "price_sources": {
+    "defillama": 15,
+    "oraculo": 0,
+    "sin_precio": 1
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 2965,
+  "rpc_providers": {
+    "https://hyperliquid.drpc.org": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": 100,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 194,
+          "ok": 10
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 291,
+          "ok": 1
+        },
+        "trace_transaction": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 2
+        }
+      },
+      "ok": 9,
+      "sin_metodo": []
+    },
+    "https://rpc.hyperliquid.xyz/evm": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": 100,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 153,
+          "ok": 2
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 452,
+          "ok": 74
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 159,
+          "ok": 1
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 77,
+      "sin_metodo": []
+    },
+    "https://rpc.hypurrscan.io": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": 1000,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 338,
+          "ok": 229
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 340,
+          "ok": 8
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 369,
+          "ok": 1
+        },
+        "eth_getLogs": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 449,
+          "ok": 2587
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 343,
+          "ok": 8
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 385,
+          "ok": 8
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 2841,
+      "sin_metodo": [
+        "debug_traceTransaction",
+        "trace_transaction"
+      ]
+    }
+  },
+  "second_pass": {
+    "intentadas": 0
+  },
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "rate limited",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "rate limited",
+        "ok": 0
+      },
+      "getlogs_error": "rate limited",
+      "getlogs_max": 100,
+      "getlogs_ms": 140,
+      "getlogs_status": "supported",
+      "ms": 133,
+      "proveedor": "https://rpc.hyperliquid.xyz/evm",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "rate limited",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "rate limited",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "ok": 1
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "ok": 2
+      },
+      "getlogs_error": "HTTP 400 en hyperliquid.drpc.org",
+      "getlogs_max": 100,
+      "getlogs_ms": 220,
+      "getlogs_status": "supported",
+      "ms": 50,
+      "proveedor": "https://hyperliquid.drpc.org",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "ok": 1
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "ok": 2
+      },
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "Method not found",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "Method not found",
+        "ok": 0
+      },
+      "getlogs_error": "query exceeds max block range 1000",
+      "getlogs_max": 1000,
+      "getlogs_ms": 385,
+      "getlogs_status": "supported",
+      "ms": 337,
+      "proveedor": "https://rpc.hypurrscan.io",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "Method not found",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "Method not found",
+        "ok": 0
+      },
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": true,
+  "trace_errors": {},
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "hyperevm-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 48,
+  "web_calls": 55,
+  "web_sources": {
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 0.9836,
+    "days": 30,
+    "end_block": 49498726,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352000,
+    "lookback_block": 46768656,
+    "start_block": 46863816,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 8,
+  "with_oracle_delta": 0,
+  "with_realized": 8,
+  "with_realized_complete": 8
+}
