@@ -1,5 +1,5 @@
 {
-  "bloques": 71397,
+  "bloques": 81307,
   "calidad": {
     "conflictos": 0,
     "eventos_duplicados": 0,
@@ -149,6 +149,15 @@
       "lineas_invalidas": 0,
       "liquidaciones": 0,
       "via_rapida": true
+    },
+    {
+      "bloques": 9910,
+      "corrida": "41665272732",
+      "decision_p50_ms": 1.2,
+      "horas": 5.5,
+      "lineas_invalidas": 0,
+      "liquidaciones": 2,
+      "via_rapida": true
     }
   ],
   "embudo_muestra": {
@@ -182,6 +191,13 @@
         "tx": "0x2d56cc606a28bfb7d3ac8beb792fe666c6a54a6159d11b3c10d0b0dc063c01c1"
       },
       {
+        "bono_bruto_usd": 1.7345088538622129,
+        "corrida": "41665272732",
+        "log_index": 6,
+        "primera_exclusion": "via_no_directa",
+        "tx": "0xd1867db5ba132a89d478614c217730d1ccc0a4256e30d00519f393d331abea83"
+      },
+      {
         "bono_bruto_usd": 0.12631132394366199,
         "corrida": "40163135976",
         "log_index": 294,
@@ -210,6 +226,13 @@
         "tx": "0x7bc76442fb32f03a0cc954c808bcb3ba7dd63f529de4d09293f22203c0abc1db"
       },
       {
+        "bono_bruto_usd": 0.3181528935281837,
+        "corrida": "41665272732",
+        "log_index": 618,
+        "primera_exclusion": "bono_inferior_o_no_medido",
+        "tx": "0x587401e96dbe42ed259746c0763832aa411ade23729108e4f291d4d0b621c6e1"
+      },
+      {
         "bono_bruto_usd": 30.60639608450704,
         "corrida": "40176606411",
         "log_index": 441,
@@ -219,14 +242,14 @@
     ],
     "etapas": [
       {
-        "bono_bruto_usd": 1922.6761799158144,
+        "bono_bruto_usd": 1924.7288416632048,
         "etapa": "observadas_unicas",
-        "n": 9
+        "n": 11
       },
       {
-        "bono_bruto_usd": 30.754941787612893,
+        "bono_bruto_usd": 31.073094681141075,
         "etapa": "directas",
-        "n": 5
+        "n": 6
       },
       {
         "bono_bruto_usd": 30.60639608450704,
@@ -252,9 +275,9 @@
     "min_bono_usd": 1.0,
     "orden_excluyente": true,
     "primera_exclusion": {
-      "bono_inferior_o_no_medido": 4,
+      "bono_inferior_o_no_medido": 5,
       "sin_trozo_posterior_medido": 1,
-      "via_no_directa": 4
+      "via_no_directa": 5
     }
   },
   "envio_supuesto_ms": 20,
@@ -387,13 +410,23 @@
         "meta.json": "6cf66b38d086a7595fd65dbcf6dd71121fca83c4ea0306e0c3375db1a3e0ab9d",
         "resultados.jsonl": "dcc374d387f55f96b71d40d450f423a04c977f511d4d4a79d02ee88f17ea18cb"
       }
+    },
+    {
+      "corrida": "41665272732",
+      "sha256": {
+        "bloques.jsonl": "9275745de19d091eda61379afdeccf2ba96f467e4ed660de8db7057238f7626e",
+        "flash_actualizaciones.jsonl": "484edffcbe066204b8c389df65bcbc603ec3b1a2507b3545a034c9dbc78dcbe9",
+        "flash_rapido.jsonl": "5137ea104f2eb25f440df5a43e0b43e48669f928efb75991b242dfe98516c598",
+        "meta.json": "d962d3070c49b6373d78c67f46e53c648714195f0e3d85b3e2ec76f8a6a92bae",
+        "resultados.jsonl": "b554460a6b69b19b3552c111ba768b4867b4f4ad9352a6b3e4e49828e9454ba4"
+      }
     }
   ],
-  "horas": 39.79,
+  "horas": 45.29,
   "liquidaciones": {
-    "bono_usd": 1922.6761799158144,
-    "directas": 5,
-    "n": 9
+    "bono_usd": 1924.7288416632048,
+    "directas": 6,
+    "n": 11
   },
   "meta_muestra": 20,
   "muestra": {
@@ -450,19 +483,19 @@
     }
   },
   "rivales": {
-    "bono_con_rivales": 0.9999882478628536,
+    "bono_con_rivales": 0.9998202809042035,
     "bots": [
       {
-        "bono_ganado_usd": 1891.9212381282014,
+        "bono_ganado_usd": 1893.6557469820636,
         "bot": "0x583dcfef0d240dc80753f0f0b26513fee27d9b77",
-        "gana": 4,
+        "gana": 5,
         "pierde": 0
       },
       {
         "bono_ganado_usd": 0.0,
         "bot": "0x5ac9bc14376bf2727c6211960cf3cec1e2f295bd",
         "gana": 0,
-        "pierde": 3
+        "pierde": 4
       },
       {
         "bono_ganado_usd": 0.014822919441460795,
@@ -490,29 +523,29 @@
       },
       {
         "bono_ganado_usd": 0.0,
-        "bot": "0xe7488b1ada40fcbb9e657c27978464669b92d339",
+        "bot": "0xbb032ca08d1964c1932ee10776b3f4a4c94e64ab",
         "gana": 0,
         "pierde": 2
       },
       {
         "bono_ganado_usd": 0.0,
-        "bot": "0x27c5fa3137e5225905e9ab76ecaa912afd2f0652",
+        "bot": "0x9158e88a8ae4d66440f1fd9ef9f02f63de384ffb",
         "gana": 0,
         "pierde": 2
       }
     ],
     "con_error": 0,
     "con_pesos": false,
-    "con_rivales": 4,
-    "ganador_lleva_prestatario": 7,
-    "intentos_del_mismo_bot": 1,
+    "con_rivales": 5,
+    "ganador_lleva_prestatario": 9,
+    "intentos_del_mismo_bot": 2,
     "intentos_por_lugar": {
-      "antes_del_ganador": 40,
-      "mismo_trozo_menos_propina": 1,
+      "antes_del_ganador": 42,
+      "mismo_trozo_menos_propina": 3,
       "tarde_con_mas_propina": 19,
-      "trozo_posterior": 8
+      "trozo_posterior": 9
     },
-    "liquidaciones": 7,
+    "liquidaciones": 9,
     "listas_recortadas": 0,
     "por_clase": {
       "mismo_trozo": {
@@ -533,36 +566,41 @@
     "rivales_por_liquidacion": {
       "max": 13,
       "min": 0,
-      "n": 7,
-      "p50": 4,
+      "n": 9,
+      "p50": 3,
       "p90": 12,
       "p99": 13
     },
     "segundo": {
+      "mismo_trozo_menos_propina": {
+        "bono_est_usd": 1.7345088538622129,
+        "n": 1,
+        "parte_del_bono": 0.0009157932386935437
+      },
       "sin_rivales": {
-        "bono_est_usd": 0.022234379162191193,
-        "n": 3,
-        "parte_del_bono": 1.1752137146425581e-05
+        "bono_est_usd": 0.3403872726903749,
+        "n": 4,
+        "parte_del_bono": 0.00017971909579652328
       },
       "tarde_con_mas_propina": {
         "bono_est_usd": 1891.9212381282014,
         "n": 4,
-        "parte_del_bono": 0.9999882478628536
+        "parte_del_bono": 0.9989044876655099
       }
     },
     "segundo_ms_tras_ganador": {
       "max": 402,
       "min": 0,
-      "n": 4,
+      "n": 5,
       "p50": 0,
       "p90": 402,
       "p99": 402
     },
     "segundo_propina_vs_ganador": {
       "max": 391.786,
-      "min": 25.021,
-      "n": 4,
-      "p50": 288.544,
+      "min": 0.039,
+      "n": 5,
+      "p50": 76.192,
       "p90": 391.786,
       "p99": 391.786
     }
