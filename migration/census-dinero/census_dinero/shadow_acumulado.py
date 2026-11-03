@@ -12,6 +12,7 @@ import json
 import math
 import os
 import re
+from collections import Counter
 
 from .orden import clasificar
 from .shadow_report import bot_key, competition, ms, read_json, read_jsonl, usd
@@ -78,6 +79,41 @@ def exact_timing(r):
     if len(matches) != 1 or abs(round((e["t_liquidacion"] - e["t_log"]) * 1000, 1) - e["ventana_ms"]) > 0.051:
         return None
     return e
+
+
+def admission_funnel(liqs, min_bono):
+    """Causas excluyentes en orden: distingue escasez de oportunidades de falta de medición.
+
+    No modifica los criterios de muestra ni elimina holguras negativas.
+    El bono es bruto del evento de terceros, nunca P&L de NQC.
+    """
+    checks = (
+        ("directas", "via_no_directa", lambda r: r.get("via") == "directa"),
+        ("bono_minimo", "bono_inferior_o_no_medido", lambda r: finite(r.get("bono_usd")) and r["bono_usd"] >= min_bono),
+        ("trozo_posterior_medido", "sin_trozo_posterior_medido",
+         lambda r: finite((r.get("flash") or {}).get("trozos_entre")) and r["flash"]["trozos_entre"] >= 1),
+        ("tiempos_origen_comun", "sin_tiempos_con_origen_comun", lambda r: exact_timing(r) is not None),
+        ("integridad", "identidad_o_integridad_incompleta",
+         lambda r: event_key(r) is not None and not r["_bad"] and not r["_conflict"]),
+    )
+    def count(stage, rows):
+        return {"etapa": stage, "n": len(rows),
+                "bono_bruto_usd": sum(r["bono_usd"] for r in rows if finite(r.get("bono_usd")))}
+    remaining, reasons, cases = list(liqs), Counter(), []
+    stages = [count("observadas_unicas", remaining)]
+    for stage, reason, check in checks:
+        accepted = []
+        for r in remaining:
+            if check(r):
+                accepted.append(r)
+            else:
+                reasons[reason] += 1
+                cases.append({"corrida": r["_run"], "tx": r.get("tx"), "log_index": r.get("log_index"),
+                              "bono_bruto_usd": r.get("bono_usd"), "primera_exclusion": reason})
+        remaining = accepted
+        stages.append(count(stage, remaining))
+    return {"etapas": stages, "primera_exclusion": dict(reasons), "casos_excluidos": cases,
+            "orden_excluyente": True, "min_bono_usd": min_bono}
 
 
 def acumulado(dirs, submit_ms=SUBMIT_MS, min_bono=1.0):
@@ -164,6 +200,7 @@ def acumulado(dirs, submit_ms=SUBMIT_MS, min_bono=1.0):
                           for r in liqs if (r.get("flash") or {}).get("intentos")])
     seen_ok = [x for x in crossings if x.get("holgura_ms") is not None]
     return {"schema": "nqc-shadow-acumulado-v2", "fuentes": inputs,
+            "embudo_muestra": admission_funnel(liqs, min_bono),
             "calidad": {"eventos_duplicados": duplicates, "conflictos": conflicts, "lineas_invalidas": bad_lines},
             "muestra": {"n": len(sample), "meta": META_MUESTRA, "faltan": max(0, META_MUESTRA - len(sample)),
                         "estado": "LISTA_PARA_REVISION" if len(sample) >= META_MUESTRA else "INSUFICIENTE",
@@ -205,6 +242,12 @@ def render(a):
          f"- Calidad: {a['calidad']['eventos_duplicados']} eventos duplicados omitidos; {a['calidad']['conflictos']} conflictos; "
          f"{a['calidad']['lineas_invalidas']} líneas inválidas. Los archivos de entrada quedan identificados por SHA-256."]
     v = a["via_rapida_vio_el_cruce"]
+    if a.get("embudo_muestra"):
+        L += ["", "## Dónde se reduce la muestra", "",
+              "Filtros consecutivos; los casos excluidos se atribuyen al primer filtro que falla. "
+              "El bono es de liquidaciones de terceros, no beneficio propio.", "",
+              "| Etapa | Casos restantes | Bono bruto |", "|---|---:|---:|"]
+        L += [f"| {s['etapa']} | {s['n']} | {usd(s['bono_bruto_usd'])} |" for s in a["embudo_muestra"]["etapas"]]
     if v["n"]:
         L.append(f"- La vía rápida vio cruzar la posición antes que el ganador la liquidara en {v['n']} casos; holgura positiva en {v['positivas']} "
                  f"(mediana {ms(v['holgura_ms']['p50'])}).")

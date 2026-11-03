@@ -63,7 +63,7 @@ class TestResume(unittest.TestCase):
             os.makedirs(d)
             open(os.path.join(d, "liquidaciones.jsonl"), "w").close()
             with open(os.path.join(d, "meta.json"), "w") as fh:
-                json.dump({"fatal_error": "x" if fatal else None}, fh)
+                json.dump({"fatal_error": "x" if fatal else None, "events_complete": not fatal}, fh)
         put("100", "ethereum-01de02", True)
         put("100", "base-01de01", False)
         put("200", "ethereum-01de02", False)
@@ -71,6 +71,21 @@ class TestResume(unittest.TestCase):
         self.assertEqual(sorted(os.path.relpath(f, root).split(os.sep)[1] for f in files), ["100", "200"])
         self.assertIn(os.path.join("corridas", "200", "ethereum", "ethereum-01de02", "liquidaciones.jsonl"),
                       [os.path.relpath(f, root) for f in files])
+
+    def test_partial_success_cannot_displace_complete_event_coverage(self):
+        from census_dinero.__main__ import tranche_files
+        with tempfile.TemporaryDirectory() as root:
+            paths = []
+            for run, complete in (("300", False), ("200", None), ("100", True)):
+                d = os.path.join(root, 'corridas', run, 'gensyn', 'gensyn-01de01')
+                os.makedirs(d)
+                p = os.path.join(d, 'liquidaciones.jsonl')
+                open(p, 'w').close()
+                with open(os.path.join(d, 'meta.json'), 'w') as fh:
+                    json.dump({'fatal_error': None, 'interrupted': False, 'events_complete': complete}, fh)
+                paths.append(p)
+            self.assertEqual(tranche_files(root, ['300', '200', '100']), [paths[-1]])
+            self.assertEqual(tranche_files(root, ['300', '200']), [paths[0]])
 
     def test_null_receipt_tries_next_provider(self):
         chain = fc.FakeChain()
@@ -246,6 +261,10 @@ class TestBudgetAndRetry(unittest.TestCase):
         tmp = tempfile.mkdtemp()
         meta = col.run(1, tmp)
         self.assertFalse(meta["events_complete"])
+        self.assertTrue(meta["time_budget_hit"])
+        self.assertIn("presupuesto de tiempo", meta["fatal_error"])
+        self.assertTrue(meta["log_interruptions"])
+        self.assertTrue(all(x["reason"] == "time_budget" for x in meta["log_interruptions"]))
         self.assertTrue(os.path.exists(os.path.join(tmp, "liquidaciones.jsonl")))
 
     def test_oracle_gap_is_not_a_last_update(self):

@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from census_dinero import sonda
-from census_dinero.rpc import LogQueryInterrupted, Rpc, RpcError
+from census_dinero.rpc import BudgetExceeded, LogQueryInterrupted, Rpc, RpcError
 from test_census import make_collector, no_sleep
 from test_tramos import error
 import fakechain as fc
@@ -99,6 +99,52 @@ class TestProbeRecovery(unittest.TestCase):
 
 
 class TestRetainedLogPrefix(unittest.TestCase):
+    def test_budget_exhaustion_preserves_prefix_and_marks_metadata(self):
+        col, chain = make_collector()
+        def partial(address, topics, lo, hi, **kw):
+            logs = [x for x in chain.logs if lo <= int(x['blockNumber'], 16) < 19994
+                    and x['topics'][0] in topics[0:1]]
+            raise BudgetExceeded(logs, 19994)
+        col.rpc.get_logs = partial
+        records = col.fetch_liquidations(19989, 20003)
+        self.assertEqual([r['block'] for r in records], [19990])
+        with tempfile.TemporaryDirectory() as tmp:
+            meta = col.write(tmp, records, {}, {'start_block': 19989, 'end_block': 20003}, time.time())
+        self.assertEqual(meta['events_cover_block'], 19993)
+        self.assertTrue(meta['time_budget_hit'])
+        self.assertFalse(meta['events_complete'])
+        self.assertTrue(meta['fatal_error'])
+        self.assertEqual([x['next_block'] for x in meta['log_interruptions']], [19994, 19994])
+
+    def test_oracle_budget_failure_does_not_invalidate_completed_event_query(self):
+        col, _ = make_collector()
+        def partial(*args, **kw):
+            raise BudgetExceeded([], 20)
+        col.rpc.get_logs = partial
+        self.assertEqual(col._logs('oraculos', fc.AGG_ETH, [None], 10, 30), ([], 19))
+        self.assertFalse(col.budget_hit)  # un subpresupuesto no agota el plazo global
+        self.assertIsNone(col.fatal)
+
+    def test_budget_prefix_does_not_start_enrichment_after_global_deadline(self):
+        col, chain = make_collector()
+        col.resolve_window = lambda *a: {'start_block': 19989, 'end_block': 20003, 'days': 1}
+        col.probe = lambda *a: None
+        def partial(address, topics, lo, hi, **kw):
+            logs = [x for x in chain.logs if lo <= int(x['blockNumber'], 16) < 19994
+                    and x['topics'][0] in topics[0:1]]
+            raise BudgetExceeded(logs, 19994)
+        col.rpc.get_logs = partial
+        attempted = []
+        col.attach_metadata = lambda recs: attempted.append('metadata')
+        with tempfile.TemporaryDirectory() as tmp:
+            meta = col.run(1, tmp)
+            with open(os.path.join(tmp, 'liquidaciones.jsonl')) as fh:
+                records = [json.loads(x) for x in fh]
+        self.assertFalse(attempted)
+        self.assertEqual([r['block'] for r in records], [19990])
+        self.assertFalse(records[0]['enriched'])
+        self.assertTrue(meta['time_budget_hit'])
+
     def broken_rpc(self, fail_at):
         chain = fc.FakeChain()
         def transport(url, payload, timeout):

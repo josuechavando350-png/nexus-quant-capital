@@ -39,6 +39,16 @@ def liq(bono, via="directa", **flash):
 
 
 class TestAccumulated(unittest.TestCase):
+    def test_funnel_separates_market_filters_from_missing_measurements(self):
+        root = self.make()
+        a = sa.acumulado(sa.run_dirs(root))
+        f = a['embudo_muestra']
+        self.assertEqual([x['n'] for x in f['etapas']], [7, 6, 5, 3, 0, 0])
+        self.assertEqual(sum(f['primera_exclusion'].values()) + a['muestra']['n'], a['liquidaciones']['n'])
+        self.assertEqual(f['primera_exclusion']['sin_tiempos_con_origen_comun'], 3)
+        self.assertEqual(f['etapas'][-1]['n'], a['muestra']['n'])
+        self.assertIn('Dónde se reduce la muestra', sa.render(a))
+
     def make(self):
         root = tempfile.mkdtemp()
         write_run(root, 100, [liq(5, trozos_entre=0, ws_ventana_ms=3)])                    # misma trozo: no se pelea; corrida vieja
@@ -131,6 +141,7 @@ class TestEvidenceSample(unittest.TestCase):
         c = a["muestra"]["casos"][0]
         self.assertEqual((c["ventana_ms"], c["decision_ms"], c["holgura_est_ms"]), (60, 50, -10))
         self.assertEqual(a["muestra"]["a_tiempo_estimado"], 0)  # usar la ventana del hash (400) daría un falso positivo
+        self.assertEqual(a['embudo_muestra']['etapas'][-1]['n'], 1)  # conserva holgura negativa
 
     def test_cannot_borrow_a_matching_update_from_another_run(self):
         r, u = exact_case()
@@ -208,6 +219,7 @@ class TestEvidenceSample(unittest.TestCase):
         write_run(self.root, 1, rows, updates=[exact_case()[1]])
         a = self.build()
         self.assertEqual((a["muestra"]["n"], a["muestra"]["faltan"], a["muestra"]["estado"]), (20, 0, "LISTA_PARA_REVISION"))
+        self.assertEqual(a['embudo_muestra']['etapas'][-1]['n'], 20)
         self.assertFalse(a["muestra"]["captura_demostrada"])
         self.assertFalse(a["muestra"]["rentabilidad_demostrada"])
 

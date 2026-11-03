@@ -389,6 +389,12 @@ class Collector:
                                      deadline=self.deadline), hi
         except BudgetExceeded as e:
             self.errors.append(f"{what}: tiempo agotado en el bloque {e.next_block}")
+            self.log_interruptions.append({"query": what, "from_block": lo, "to_block": hi,
+                                           "next_block": e.next_block, "retained_logs": len(e.logs),
+                                           "reason": "time_budget", "error": "presupuesto de tiempo agotado"})
+            if what.startswith("eventos"):
+                self.budget_hit = True
+                self.fatal = f"consulta de eventos incompleta en {e.next_block}: presupuesto de tiempo agotado"
             return e.logs, e.next_block - 1
         except LogQueryInterrupted as e:
             cause = self.rpc.scrub(str(e))[:300]
@@ -1100,6 +1106,9 @@ class Collector:
             t = time.monotonic()
             recs = self.fetch_liquidations(win["start_block"], win["end_block"])
             self._phase("eventos", t)
+            if self.budget_hit:
+                # El prefijo se conserva; no iniciar más RPC después del plazo global.
+                return self.write(out_dir, recs, groups, win, t0, tramo)
             t = time.monotonic()
             feeds = self.attach_metadata(recs)
             self._phase("metadatos", t)

@@ -61,7 +61,7 @@ def plan(cfg, now=None):
 
 def tranche_files(res_root, run_ids):
     """liquidaciones.jsonl por tramo: de cada etiqueta se toma la primera corrida (en el orden dado)
-    donde el tramo terminó sin falla; si ninguna terminó bien, la primera que lo tenga."""
+    donde el tramo terminó sin falla y con eventos completos; si no, la primera que lo tenga."""
     best = {}
     for rid in run_ids:
         for p in sorted(glob.glob(os.path.join(res_root, "corridas", str(rid), "*", "*", "liquidaciones.jsonl"))):
@@ -71,7 +71,8 @@ def tranche_files(res_root, run_ids):
             if os.path.exists(meta):
                 with open(meta) as fh:
                     m = json.load(fh)
-                ok = not m.get("fatal_error") and not m.get("interrupted")
+                ok = (m.get("events_complete") is True and not m.get("fatal_error")
+                      and not m.get("interrupted"))
             if label not in best or (ok and not best[label][1]):
                 best[label] = (p, ok)
     return [p for p, _ in best.values()]

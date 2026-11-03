@@ -1,0 +1,282 @@
+{
+  "archive_disabled": false,
+  "chain": "flare",
+  "elapsed_s": 1377.9,
+  "enriched": 8,
+  "errors_sample": [
+    "eventos Morpho: tiempo agotado en el bloque 70854914",
+    "oráculos 1/1: tiempo agotado en el bloque 70528256",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado",
+    "sin enriquecer: presupuesto de tiempo agotado"
+  ],
+  "events": 22,
+  "events_complete": false,
+  "events_cover_block": 70854913,
+  "fatal_error": null,
+  "interrupted": false,
+  "log_interruptions": [],
+  "native_trace_sources": {
+    "blockscout": 8,
+    "sin_enriquecer": 14
+  },
+  "oracle_contracts_watched": 9,
+  "oracle_status": {
+    "sin_cobertura": 8
+  },
+  "phases_s": {
+    "enriquecimiento": 161.8,
+    "eventos": 1178.4,
+    "evidencia": 9,
+    "metadatos": 6.5,
+    "oraculos": 0,
+    "segunda_pasada": 0,
+    "sonda": 6.5,
+    "ventana": 15.7
+  },
+  "price_sources": {
+    "defillama": 16,
+    "oraculo": 0,
+    "sin_precio": 0
+  },
+  "protocols": [
+    "morpho"
+  ],
+  "rpc_calls": 2694,
+  "rpc_providers": {
+    "https://flare-api.flare.network/ext/C/rpc": {
+      "en_rotacion": true,
+      "err": 0,
+      "getlogs_max": 30,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 255,
+          "ok": 26
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 215,
+          "ok": 72
+        },
+        "eth_getCode": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 234,
+          "ok": 11
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 172,
+          "ok": 5
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 190,
+          "ok": 5
+        },
+        "trace_transaction": {
+          "err": 4,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        }
+      },
+      "ok": 119,
+      "sin_metodo": [
+        "debug_traceTransaction",
+        "trace_transaction"
+      ]
+    },
+    "https://flare.drpc.org": {
+      "en_rotacion": true,
+      "err": 40,
+      "getlogs_max": 100,
+      "metodos": {
+        "debug_traceTransaction": {
+          "err": 26,
+          "errores": {
+            "HTTP 500 en flare.drpc.org": 22
+          },
+          "ms_prom": 217,
+          "ok": 0
+        },
+        "eth_call": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 116,
+          "ok": 58
+        },
+        "eth_call@archive": {
+          "err": 3,
+          "errores": {},
+          "ms_prom": 0,
+          "ok": 0
+        },
+        "eth_getBlockByNumber": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 123,
+          "ok": 8
+        },
+        "eth_getLogs": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 485,
+          "ok": 2430
+        },
+        "eth_getTransactionByHash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 130,
+          "ok": 8
+        },
+        "eth_getTransactionReceipt": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 115,
+          "ok": 8
+        },
+        "trace_transaction": {
+          "err": 22,
+          "errores": {
+            "HTTP 400 en flare.drpc.org": 14,
+            "HTTP 500 en flare.drpc.org": 4
+          },
+          "ms_prom": 143,
+          "ok": 0
+        }
+      },
+      "ok": 2512,
+      "sin_metodo": []
+    }
+  },
+  "second_pass": {
+    "intentadas": 0
+  },
+  "sonda": [
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "the method debug_traceTransaction does not exist/is not available",
+        "ok": 0
+      },
+      "getlogs_error": "requested too many blocks from 72951436 to 72951535, maximum is set to 30",
+      "getlogs_max": 30,
+      "getlogs_ms": 573,
+      "getlogs_status": "supported",
+      "ms": 163,
+      "proveedor": "https://flare-api.flare.network/ext/C/rpc",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "the method trace_transaction does not exist/is not available",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "the method trace_transaction does not exist/is not available",
+        "ok": 0
+      },
+      "vivo": true
+    },
+    {
+      "atraso_bloques": 0,
+      "debug_traceTransaction_reciente": {
+        "de": 1,
+        "error": "HTTP 500 en flare.drpc.org",
+        "ok": 0
+      },
+      "debug_traceTransaction_vieja": {
+        "de": 2,
+        "error": "HTTP 500 en flare.drpc.org",
+        "ok": 0
+      },
+      "getlogs_error": "HTTP 400 en flare.drpc.org",
+      "getlogs_max": 100,
+      "getlogs_ms": 614,
+      "getlogs_status": "supported",
+      "ms": 85,
+      "proveedor": "https://flare.drpc.org",
+      "trace_transaction_reciente": {
+        "de": 1,
+        "error": "HTTP 500 en flare.drpc.org",
+        "ok": 0
+      },
+      "trace_transaction_vieja": {
+        "de": 2,
+        "error": "HTTP 500 en flare.drpc.org",
+        "ok": 0
+      },
+      "vivo": true
+    }
+  ],
+  "time_budget_hit": true,
+  "trace_errors": {
+    "debug_traceTransaction: HTTP 500 en flare.drpc.org": 11,
+    "trace_transaction: HTTP 400 en flare.drpc.org": 8,
+    "trace_transaction: HTTP 500 en flare.drpc.org": 1
+  },
+  "tramo": {
+    "end_ts": 1792944000,
+    "label": "flare-01de01",
+    "start_ts": 1790352000
+  },
+  "transactions": 22,
+  "web_calls": 58,
+  "web_sources": {
+    "blockscout": {
+      "ms": 386,
+      "ok": true
+    },
+    "defillama": {
+      "ok": true
+    }
+  },
+  "window": {
+    "avg_block_time_s": 1.0925,
+    "days": 30,
+    "end_block": 72951535,
+    "end_ts": 1792944000,
+    "first_block_ts": 1790352000,
+    "lookback_block": 70528256,
+    "start_block": 70611914,
+    "start_ts": 1790352000
+  },
+  "with_bonus_usd": 8,
+  "with_oracle_delta": 0,
+  "with_realized": 8,
+  "with_realized_complete": 8
+}

@@ -1,5 +1,7 @@
 # Shadow: muestra y financiación Titan / flash
 
+Actualización posterior: [causas de exclusión, cobertura recuperada y correcciones](CONTINUATION_20261103.md).
+
 Directiva reafirmada por el usuario: Titan financia el gas; préstamos flash
 aportan el principal. Aportación propia cero, sin prefondos ni alternativa de gas
 propio. La política ya estaba fijada en
