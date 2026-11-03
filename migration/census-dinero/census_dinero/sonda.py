@@ -12,7 +12,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from .rpc import _NO_METHOD_HINTS, ALLOWED_METHODS, RpcError
 
-LOG_RANGES = (1_000, 5_000, 10_000, 50_000, 100_000, 500_000, 2_000_000)
+LOG_RANGES = (1, 10, 30, 100, 1_000, 5_000, 10_000, 50_000, 100_000, 500_000, 2_000_000)
 TRACE_METHODS = ("debug_traceTransaction", "trace_transaction")
 SLOW_S = 8.0          # un proveedor que tarda más que esto en eth_blockNumber no entra a la rotación
 
@@ -61,9 +61,10 @@ def probe_provider(rpc, url, plan, timeout=25):
         return out
     out["atraso_bloques"] = max(0, plan["end"] - head) if head < plan["end"] else 0
 
-    # getLogs: el rango más grande que acepta, sobre el mismo filtro que usa el census. Si
-    # rechaza el primero por ritmo o tiempo, se prueba una vez con 100 bloques tras una pausa.
+    # Primero probar un bloque: rechazar 1,000 bloques no significa carecer del método.
+    # Crecer solo tras una respuesta válida. Una falla transitoria no prueba incapacidad.
     best, fail = 0, None
+    retried = False
     ranges = list(LOG_RANGES)
     while ranges:
         span = ranges.pop(0)
@@ -74,16 +75,21 @@ def probe_provider(rpc, url, plan, timeout=25):
         if not ok or not isinstance(res, list):
             fail = res if not ok else "respuesta no es lista"
             transient = any(h in str(fail).lower() for h in ("429", "408", "timeout", "transporte", "rate"))
-            if best == 0 and span == LOG_RANGES[0] and transient:
-                time.sleep(2)
-                ranges = [100]
+            if best == 0 and not retried and transient:
+                rpc.sleep(2)
+                ranges = [span]
+                retried = True
                 continue
             break
-        best = span
+        best = plan["end"] - lo + 1
         out["getlogs_ms"] = round(1000 * dt)
         if lo == 0 or span >= plan["max_span"]:
             break
     out["getlogs_max"] = best
+    # No marcar como ausente un método por HTTP 400/429, una historia podada o un rango.
+    unavailable = any(h in str(fail).lower() for h in
+                      ("method not found", "does not exist", "method is disabled", "method not available"))
+    out["getlogs_status"] = "supported" if best else "unavailable" if unavailable else "unverified"
     if fail:
         out["getlogs_error"] = fail
 
@@ -119,9 +125,9 @@ def apply(rpc, results, urls):
         if not r.get("vivo"):
             rpc.drop(url)
             continue
-        if not r.get("getlogs_max"):
+        if r.get("getlogs_status") == "unavailable":
             rpc.no_method[(url, "eth_getLogs")] = True
-        elif r.get("getlogs_error"):
+        elif r.get("getlogs_max") and r.get("getlogs_error"):
             rpc.log_limit[url] = r["getlogs_max"]      # sin error: aceptó toda la ventana, sin límite
         rpc.seed(url, "eth_call@archive", ok=1 if r.get("archivo") else 0, err=0 if r.get("archivo") else 3)
         for method in TRACE_METHODS:

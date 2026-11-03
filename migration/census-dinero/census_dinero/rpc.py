@@ -81,6 +81,15 @@ class BudgetExceeded(Exception):
         self.next_block = next_block
 
 
+class LogQueryInterrupted(RpcError):
+    """Un fallo deja un prefijo leído; nunca acredita el bloque que falló ni los posteriores."""
+
+    def __init__(self, cause, logs, next_block):
+        super().__init__(str(cause), code=cause.code, provider_issue=cause.provider_issue)
+        self.logs = logs
+        self.next_block = next_block
+
+
 def host_of(url):
     return urllib.parse.urlsplit(url).netloc or url
 
@@ -523,13 +532,13 @@ class Rpc:
             except RangeTooLarge as e:
                 failures += 1
                 if failures > 40 or e.limit < 1:
-                    raise
+                    raise LogQueryInterrupted(e, out, start) from e
                 chunk = max(1, min(chunk // 2, int(e.limit)))
                 continue
-            except RpcError:
+            except RpcError as e:
                 failures += 1
                 if chunk <= 1 or failures > 40:
-                    raise
+                    raise LogQueryInterrupted(e, out, start) from e
                 chunk = max(1, chunk // 4 if failures > 3 else chunk // 2)
                 if failures > 3:
                     self.sleep(min(10.0, 0.5 * failures))

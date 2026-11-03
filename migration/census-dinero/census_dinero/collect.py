@@ -23,7 +23,7 @@ from .config import (AAVE_LIQUIDATION_TOPIC, ANSWER_UPDATED_TOPIC, CHAINS, CODEL
 from .keccak import topic
 from . import sonda
 from .prices import Prices
-from .rpc import BudgetExceeded, CallReverted, Rpc, RpcError
+from .rpc import BudgetExceeded, CallReverted, LogQueryInterrupted, Rpc, RpcError
 from .web import WebClient, WebError
 
 NEW_TRANSMISSION_OCR1 = topic("NewTransmission(uint32,int192,address,int192[],bytes,bytes32)")
@@ -244,6 +244,7 @@ class Collector:
         self.code_cache = {}
         self.trace_errors = {}
         self.errors = []
+        self.log_interruptions = []
         self.phases = {}
         self.sonda = []
         self.web_sources = {}
@@ -388,6 +389,15 @@ class Collector:
                                      deadline=self.deadline), hi
         except BudgetExceeded as e:
             self.errors.append(f"{what}: tiempo agotado en el bloque {e.next_block}")
+            return e.logs, e.next_block - 1
+        except LogQueryInterrupted as e:
+            cause = self.rpc.scrub(str(e))[:300]
+            self.errors.append(f"{what}: lectura interrumpida en {e.next_block}: {cause}")
+            self.log_interruptions.append({"query": what, "from_block": lo, "to_block": hi,
+                                           "next_block": e.next_block, "retained_logs": len(e.logs),
+                                           "error": cause})
+            if what.startswith("eventos"):
+                self.fatal = f"consulta de eventos incompleta en {e.next_block}: {cause}"
             return e.logs, e.next_block - 1
 
     def fetch_liquidations(self, start, end):
@@ -1149,6 +1159,7 @@ class Collector:
             "tramo": tramo,
             "window": win,
             "events_cover_block": self.events_cover,
+            "log_interruptions": self.log_interruptions,
             "events_complete": bool(win) and self.events_cover == win["end_block"],
             "events": len(recs),
             "transactions": len(groups),
