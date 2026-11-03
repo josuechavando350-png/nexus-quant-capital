@@ -1,0 +1,181 @@
+{
+  "date_utc": "2026-11-03",
+  "slot": 1,
+  "base_producer": "bcf02ec7283886be7c17005ffcde74f27e4d5693",
+  "prior_shadow": {
+    "run": 41571735530,
+    "producer": "51e79b7a4b8bfa19d82f9940072eb635b7cb8e3c",
+    "status": "success",
+    "blocks": 9901,
+    "first": 53443417,
+    "last": 53453317,
+    "unrecovered_blocks": [],
+    "catchup_blocks": 18,
+    "invalid_lines": 0,
+    "sample": {
+      "a_tiempo_estimado": 0,
+      "captura_demostrada": false,
+      "casos": [],
+      "estado": "INSUFICIENTE",
+      "faltan": 20,
+      "meta": 20,
+      "n": 0,
+      "rentabilidad_demostrada": false
+    },
+    "quality": {
+      "conflictos": 0,
+      "eventos_duplicados": 0,
+      "lineas_invalidas": 0
+    },
+    "hours_cumulative": 34.28,
+    "events": [
+      {
+        "tx": "0x2d56cc606a28bfb7d3ac8beb792fe666c6a54a6159d11b3c10d0b0dc063c01c1",
+        "log_index": 299,
+        "via": "subasta",
+        "bonus_usd": 1673.6702465915494
+      },
+      {
+        "tx": "0x2d56cc606a28bfb7d3ac8beb792fe666c6a54a6159d11b3c10d0b0dc063c01c1",
+        "log_index": 301,
+        "via": "subasta",
+        "bonus_usd": 52.500078380281685
+      }
+    ]
+  },
+  "census": {
+    "run": 41572304605,
+    "producer": "259a796ee96433c4fea1c026b4040440aa644234",
+    "status": "failure",
+    "report": "success",
+    "chains": [
+      {
+        "chain": "hyperevm",
+        "path": "corridas/41572304605/hyperevm/hyperevm-01de01/meta.json",
+        "blob": "954ebf9f919ad4c66aa22f315b716a9080369acf",
+        "events": 48,
+        "complete": false,
+        "cover": 49450815,
+        "end": 49498726,
+        "budget": true,
+        "fatal": null
+      },
+      {
+        "chain": "sei",
+        "path": "corridas/41572304605/sei/sei-01de01/meta.json",
+        "blob": "2f446e3c50ecbf4d05aca63bc750c503ca332ab7",
+        "events": 0,
+        "complete": false,
+        "cover": null,
+        "end": null,
+        "budget": false,
+        "fatal": "RpcError: requested height 232336156 has been pruned; earliest available is 237206378"
+      },
+      {
+        "chain": "monad",
+        "path": "corridas/41572304605/monad/monad-01de01/meta.json",
+        "blob": "6c95b73f28f4bde8e2620f3edda69ba80f54edd0",
+        "events": 0,
+        "complete": false,
+        "cover": 109111585,
+        "end": 116511627,
+        "budget": false,
+        "fatal": null
+      },
+      {
+        "chain": "soneium",
+        "path": "corridas/41572304605/soneium/soneium-01de01/meta.json",
+        "blob": "f118896946d48bea304af066aecd640d294df8bc",
+        "events": 0,
+        "complete": true,
+        "cover": 29904624,
+        "end": 29904624,
+        "budget": false,
+        "fatal": null
+      },
+      {
+        "chain": "corn",
+        "path": "corridas/41572304605/corn/corn-01de01/meta.json",
+        "blob": "345f3d16dfac3208e64a525837296a923c701e9c",
+        "events": 0,
+        "complete": false,
+        "cover": null,
+        "end": null,
+        "budget": false,
+        "fatal": "RpcError: We are not able to process your request at this time. Please contact thirdweb support 3bec18a8-d67d-474d-bb94-a70e34bc4e60."
+      },
+      {
+        "chain": "flare",
+        "path": "corridas/41572304605/flare/flare-01de01/meta.json",
+        "blob": "af0fdafde87acf59f0afc8744417aa6f287c3006",
+        "events": 22,
+        "complete": false,
+        "cover": 70854913,
+        "end": 72951535,
+        "budget": true,
+        "fatal": null
+      },
+      {
+        "chain": "cronos",
+        "path": "corridas/41572304605/cronos/cronos-01de01/meta.json",
+        "blob": "e5b0425e2e1d6ce952fd45bd525c5c67c3dbd135",
+        "events": 0,
+        "complete": false,
+        "cover": 99861561,
+        "end": 102053205,
+        "budget": false,
+        "fatal": null
+      },
+      {
+        "chain": "gensyn",
+        "path": "corridas/41572304605/gensyn/gensyn-01de01/meta.json",
+        "blob": "c89f22233e0e9df687736b6cfef03549167b5338",
+        "events": 0,
+        "complete": false,
+        "cover": 17009420,
+        "end": 17113920,
+        "budget": false,
+        "fatal": null
+      }
+    ]
+  },
+  "economics": {
+    "policy": {
+      "gas": "TITAN",
+      "principal": "FLASH_LOAN",
+      "own_capital": 0
+    },
+    "financing_captures": 0,
+    "reason": "v12 producer predates financing capture; five sealed decisions rejected for bad debt",
+    "flash_lender": null,
+    "liquidity": null,
+    "premium": null,
+    "swap_output": null,
+    "atomic_repayment": null,
+    "gas_repayment": null,
+    "builder_compensation": null,
+    "titan_base_candidate_coverage": null,
+    "own_simulated_net": null,
+    "realized_pnl": null,
+    "official_docs_reviewed": [
+      "https://docs.titanbuilder.xyz/",
+      "https://docs.titanbuilder.xyz/api/eth_sendbundle"
+    ],
+    "docs_scope": "conditional sponsorship mechanism; no Base or candidate-specific coverage verified"
+  },
+  "continuation": {
+    "minutes": 330,
+    "markets": 19,
+    "min_sample_bonus_usd": 1,
+    "assumed_submit_ms": 20,
+    "prior_continuations": 0,
+    "code_changes": false
+  },
+  "validation": {
+    "offline_tests": 341,
+    "result": "PASS",
+    "isolation": "PASS",
+    "original_objects_checked": false,
+    "remote_ci": "pending new run"
+  }
+}
