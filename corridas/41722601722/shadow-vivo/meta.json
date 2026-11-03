@@ -4,15 +4,15 @@
     "descartados_por_error": 0,
     "ok": true
   },
-  "bloque_actual": 53477602,
+  "bloque_actual": 53477902,
   "bloques_perdidos_sin_recuperar": [],
   "contadores": {
-    "bloques": 1498,
-    "bloques_sin_logs_por_bloom": 849,
+    "bloques": 1798,
+    "bloques_sin_logs_por_bloom": 1040,
     "candidatas": 5,
     "deriva_reconciliacion": 0,
-    "posiciones_sincronizadas": 33,
-    "reconciliadas": 25600
+    "posiciones_sincronizadas": 42,
+    "reconciliadas": 30800
   },
   "decisiones": {
     "GO:ok": 1,
@@ -174,7 +174,7 @@
       "p99": null
     },
     "errores": 0,
-    "evaluaciones": 14437,
+    "evaluaciones": 17265,
     "holgura_ms": {
       "max": null,
       "min": null,
@@ -187,52 +187,52 @@
     "lectura_pendiente_ms": {
       "max": 698,
       "min": 83,
-      "n": 14437,
+      "n": 17265,
       "p50": 106,
-      "p90": 123,
-      "p99": 153
+      "p90": 122,
+      "p99": 152
     },
     "supuesto_envio_ms": 150
   },
   "flash_ws": {
     "conexiones": 1,
     "errores": {},
-    "logs": 43,
-    "mensajes": 231049,
+    "logs": 61,
+    "mensajes": 273754,
     "silencio_entre_trozos_ms": {
       "max": 689,
-      "min": 51,
-      "n": 16391,
+      "min": 50,
+      "n": 19700,
       "p50": 166,
       "p90": 198,
-      "p99": 441
+      "p99": 442
     },
     "suscripciones": {
       "logs": "ok",
       "transacciones": "ok"
     },
-    "transacciones": 231004,
+    "transacciones": 273691,
     "url": "wss://mainnet-preconf.base.org"
   },
   "flashblocks": {
     "errores": {},
-    "fotos": 29568,
+    "fotos": 35430,
     "intervalo_de_consulta_ms": 100,
     "intervalo_entre_trozos_ms": {
-      "max": 212,
-      "min": 91,
-      "n": 69,
-      "p50": 197,
-      "p90": 207,
-      "p99": 209
+      "max": 211,
+      "min": 85,
+      "n": 70,
+      "p50": 196,
+      "p90": 203,
+      "p99": 210
     },
     "rtt_ms": {
-      "max": 497,
+      "max": 592,
       "min": 73,
-      "n": 29568,
+      "n": 35430,
       "p50": 84,
       "p90": 92,
-      "p99": 120
+      "p99": 124
     },
     "url": "https://mainnet-preconf.base.org"
   },
@@ -240,26 +240,26 @@
   "latencia_proceso_ms": {
     "max": 8810,
     "min": 85,
-    "n": 1498,
-    "p50": 240,
-    "p90": 438,
-    "p99": 2480
+    "n": 1798,
+    "p50": 238,
+    "p90": 436,
+    "p99": 1962
   },
   "latencia_visto_mas_proceso_ms": {
     "max": 9010,
-    "min": 203,
-    "n": 1471,
-    "p50": 521,
-    "p90": 760,
-    "p99": 2981
+    "min": 189,
+    "n": 1771,
+    "p50": 519,
+    "p90": 754,
+    "p99": 2285
   },
   "latencia_visto_ms": {
     "max": 1004,
     "min": 84,
-    "n": 1471,
-    "p50": 227,
-    "p90": 412,
-    "p99": 530
+    "n": 1771,
+    "p50": 226,
+    "p90": 408,
+    "p99": 526
   },
   "libro": {
     "bloque": 53476104,
@@ -429,7 +429,7 @@
     },
     "https://base-mainnet.public.blastapi.io": {
       "en_rotacion": true,
-      "err": 7,
+      "err": 9,
       "getlogs_max": null,
       "metodos": {
         "eth_call": {
@@ -441,39 +441,45 @@
           "ok": 0
         },
         "eth_getLogs@hash": {
-          "err": 6,
+          "err": 8,
           "errores": {
-            "HTTP 429 en base-mainnet.public.blastapi.io": 6
+            "HTTP 429 en base-mainnet.public.blastapi.io": 8
           },
-          "ms_prom": 109,
-          "ok": 123
+          "ms_prom": 106,
+          "ok": 171
         }
       },
-      "ok": 123,
+      "ok": 171,
       "sin_metodo": [
         "eth_call"
       ]
     },
     "https://base-pokt.nodies.app": {
       "en_rotacion": true,
-      "err": 3,
+      "err": 4,
       "getlogs_max": null,
       "metodos": {
         "eth_call": {
-          "err": 3,
+          "err": 4,
           "errores": {
-            "HTTP 403 en base-pokt.nodies.app": 3
+            "HTTP 403 en base-pokt.nodies.app": 4
           },
-          "ms_prom": 1629,
-          "ok": 141
+          "ms_prom": 1616,
+          "ok": 178
+        },
+        "eth_getLogs@hash": {
+          "err": 0,
+          "errores": {},
+          "ms_prom": 191,
+          "ok": 1
         }
       },
-      "ok": 141,
+      "ok": 179,
       "sin_metodo": []
     },
     "https://base-rpc.publicnode.com": {
       "en_rotacion": true,
-      "err": 114,
+      "err": 145,
       "getlogs_max": null,
       "metodos": {
         "eth_blockNumber": {
@@ -483,7 +489,7 @@
           "ok": 2
         },
         "eth_call": {
-          "err": 111,
+          "err": 142,
           "errores": {
             "block not found: 0x32ffb20": 1,
             "block not found: 0x32ffb30": 1,
@@ -492,16 +498,16 @@
             "block not found: 0x32ffb4f": 1,
             "block not found: 0x32ffb50": 1
           },
-          "ms_prom": 186,
-          "ok": 1066
+          "ms_prom": 187,
+          "ok": 1165
         },
         "eth_getBlockByNumber": {
           "err": 1,
           "errores": {
             "resultado nulo": 1
           },
-          "ms_prom": 130,
-          "ok": 473
+          "ms_prom": 133,
+          "ok": 571
         },
         "eth_getLogs": {
           "err": 0,
@@ -515,10 +521,10 @@
             "HTTP 403 en base-rpc.publicnode.com": 2
           },
           "ms_prom": 119,
-          "ok": 378
+          "ok": 412
         }
       },
-      "ok": 1920,
+      "ok": 2151,
       "sin_metodo": []
     },
     "https://base.api.onfinality.io/public": {
@@ -555,8 +561,8 @@
           "errores": {
             "HTTP 429 en base.drpc.org": 17
           },
-          "ms_prom": 70,
-          "ok": 334
+          "ms_prom": 71,
+          "ok": 405
         },
         "eth_getLogs@hash": {
           "err": 18,
@@ -564,11 +570,11 @@
             "HTTP 408 en base.drpc.org": 1,
             "HTTP 429 en base.drpc.org": 17
           },
-          "ms_prom": 138,
-          "ok": 148
+          "ms_prom": 137,
+          "ok": 174
         }
       },
-      "ok": 494,
+      "ok": 591,
       "sin_metodo": [
         "eth_call"
       ]
@@ -643,11 +649,11 @@
     },
     "https://gateway.tenderly.co/public/base": {
       "en_rotacion": true,
-      "err": 124,
+      "err": 160,
       "getlogs_max": null,
       "metodos": {
         "eth_call": {
-          "err": 124,
+          "err": 160,
           "errores": {
             "block not found: 0x32ffb30": 1,
             "block not found: 0x32ffbce": 1,
@@ -665,11 +671,11 @@
     },
     "https://mainnet.base.org": {
       "en_rotacion": true,
-      "err": 136,
+      "err": 172,
       "getlogs_max": null,
       "metodos": {
         "eth_call": {
-          "err": 132,
+          "err": 168,
           "errores": {
             "block not found: 0x32ffb30": 1,
             "block not found: 0x32ffb3f": 1,
@@ -679,13 +685,13 @@
             "block not found: 0x32ffbce": 1
           },
           "ms_prom": 86,
-          "ok": 953
+          "ok": 1221
         },
         "eth_getBlockByNumber": {
           "err": 0,
           "errores": {},
-          "ms_prom": 84,
-          "ok": 729
+          "ms_prom": 83,
+          "ok": 865
         },
         "eth_getLogs@hash": {
           "err": 4,
@@ -696,11 +702,11 @@
           "ok": 0
         }
       },
-      "ok": 1682,
+      "ok": 2086,
       "sin_metodo": []
     }
   },
-  "rpc_llamadas": 53256,
+  "rpc_llamadas": 63865,
   "supuestos": {
     "interes": "se acumula con el IRM solo para posiciones a menos de 0.5% del umbral",
     "kept_prior_global": 0.678,
@@ -709,25 +715,25 @@
     "submit_ms": 150
   },
   "via_rapida": {
-    "actualizaciones": 14,
+    "actualizaciones": 20,
     "cruces": 0,
     "cruces_liquidados": 0,
     "decision_ms": {
-      "max": 3.8,
+      "max": 4.6,
       "min": 0.0,
-      "n": 14,
-      "p50": 0.9,
+      "n": 20,
+      "p50": 0.8,
       "p90": 3.6,
-      "p99": 3.8
+      "p99": 4.6
     },
     "errores": 0,
     "evaluar_ms": {
-      "max": 3.8,
+      "max": 4.6,
       "min": 0.0,
-      "n": 14,
-      "p50": 0.9,
+      "n": 20,
+      "p50": 0.8,
       "p90": 3.6,
-      "p99": 3.8
+      "p99": 4.6
     },
     "feeds": 32,
     "holgura_ms": {
@@ -743,10 +749,10 @@
     "supuesto_envio_ms": 20,
     "ventaja_frente_a_la_consulta_ms": {
       "max": 96,
-      "min": -4,
-      "n": 14,
-      "p50": 74,
-      "p90": 89,
+      "min": -25,
+      "n": 20,
+      "p50": 67,
+      "p90": 83,
       "p99": 96
     },
     "ventana_ms": {
