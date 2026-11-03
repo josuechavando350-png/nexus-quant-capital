@@ -18,6 +18,7 @@ from .config import SHADOW_BASE_MARKETS, SHADOW_PRIORS_SOURCE
 from .rpc import ALLOWED_METHODS
 from .orden import CLASES, MAX_INTENTOS, MORPHO_BLUE, analyze_order, clasificar, validate_classifier
 from .shadow_live import AUCTION_ENTRIES, DEFAULTS, quantiles
+from .shadow_financing import summarize as financing_summary
 
 BLOCK_MS = int(DEFAULTS["block_time_s"] * 1000)
 MIN_SAMPLE = 30           # por debajo, una proporción se marca como muestra pequeña
@@ -696,10 +697,12 @@ def build(live_dir=None, replay_dir=None, cfg=None, diag_dir=None):
            "supuestos": {"priors": SHADOW_PRIORS_SOURCE, "submit_ms": cfg.get("submit_ms", DEFAULTS["submit_ms"]),
                          "bloque_ms": BLOCK_MS}}
     live = replay = live_meta = replay_meta = None
+    res["financiacion"] = financing_summary([])
     weights = None
     if live_dir and os.path.isdir(live_dir):
         b, bad1 = read_jsonl(os.path.join(live_dir, "bloques.jsonl"))
         d, bad2 = read_jsonl(os.path.join(live_dir, "decisiones.jsonl"))
+        res["financiacion"] = financing_summary(d)
         r, bad3 = read_jsonl(os.path.join(live_dir, "resultados.jsonl"))
         s, bad4 = read_jsonl(os.path.join(live_dir, "eventos_del_sistema.jsonl"))
         cc, bad5 = read_jsonl(os.path.join(live_dir, "cercanas.jsonl"))
@@ -927,6 +930,13 @@ def render(res):
          "los $ del replay son estimados para todo el período a partir de una muestra ponderada.", "",
          "## Respuesta corta", ""]
     L += [f"- {x}" for x in headline(res)]
+    f = res.get("financiacion")
+    if f:
+        L += ["", "**Financiación requerida: gas de Titan y principal de préstamo flash; aportación propia cero.**",
+              f"Capturas de entrada para simular la ruta propia: {f['capturas_de_entrada']}/{f['decisiones']} decisiones. "
+              "El neto del modelo usa retención histórica de terceros; el neto propio y el beneficio realizado siguen sin calcular.",
+              "Pendientes: liquidez y comisión del préstamo, salida del swap, repago atómico, cobertura de Titan en esta cadena "
+              "y para esta candidata, gas y compensación del builder. Un dato faltante no equivale a coste cero."]
     rp, lv = res.get("replay"), res.get("vivo")
 
     L += ["", "## 1. Margen de tiempo (replay histórico)", ""]

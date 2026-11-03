@@ -407,6 +407,18 @@ class TestEndToEnd(unittest.TestCase):
         self.assertGreater(lv["latencia"]["visto_mas_proceso_ms"]["p50"], 1000)
         self.assertEqual(lv["ventana"]["cobertura"], 1.0)
 
+    def test_financing_inputs_are_not_reported_as_own_profit(self):
+        f = self.res["financiacion"]
+        self.assertEqual((f["capturas_de_entrada"], f["decisiones"]), (4, 4))
+        self.assertIsNone(f["neto_propio_usd"])
+        self.assertIsNone(f["beneficio_realizado_usd"])
+        self.assertEqual(f["pendientes"]["titan_cobertura_cadena_y_candidata"], 4)
+        self.assertIn("gas de Titan", sr.render(self.res))
+        from census_dinero.shadow_financing import summarize
+        legacy = summarize([{"neto_modelo_usd": 100, "decision": "GO"}])
+        self.assertEqual((legacy["capturas_de_entrada"], legacy["sin_captura"]), (0, 1))
+        self.assertIsNone(legacy["neto_propio_usd"])
+
     def test_replay_section_matches_the_scenario(self):
         rp = self.res["replay"]
         g = rp["ganables"]

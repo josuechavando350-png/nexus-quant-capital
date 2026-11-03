@@ -91,6 +91,27 @@ DROP = 1900 * 10 ** 24          # con 1 token y 86%: liquidable si debe más de 
 
 
 class TestFlow(unittest.TestCase):
+    def test_financing_capture_reproduces_quote_without_claiming_profit(self):
+        env = Env().ready((U[0], 1700))
+        n = env.step([("set_price", env.mid, DROP)])
+        d = env.rows("decisiones.jsonl")[0]
+        f = d["financiacion"]
+        self.assertEqual(f["ancla"]["hash_observado"], env.chain.headers[n]["hash"])
+        self.assertEqual(f["ancla"]["chain_id"], 8453)
+        self.assertEqual(f["prestamo_flash"]["activo"], env.sh.markets[env.mid].params.loan)
+        self.assertEqual(int(f["prestamo_flash"]["principal_modelo_raw"]), d["repago_assets"])
+        state = mo.MarketState(**{k: int(v) for k, v in f["estado_usado_raw"].items()})
+        pos = f["posicion_raw"]
+        q = mo.full_quote(int(pos["borrow_shares"]), int(pos["collateral"]), int(f["precio_oraculo_raw"]),
+                          int(f["parametros"]["lltv"]), state)
+        self.assertEqual({k: str(v) for k, v in q.items()}, f["cotizacion_modelo_raw"])
+        self.assertEqual(f["politica"]["gas_payer"], "TITAN")
+        self.assertIsNone(f["prestamo_flash"]["comision_raw"])
+        self.assertIsNone(f["cobertura_titan"])
+        self.assertIsNone(f["neto_propio_usd"])
+        self.assertIsNone(f["beneficio_realizado_usd"])
+        self.assertGreater(d["neto_modelo_usd"], 0)
+
     def test_cross_go_then_liquidated_by_someone_else(self):
         env = Env().ready((U[0], 1700), (U[1], 1000))
         self.assertEqual(env.sh.book.active_count(), 2)
@@ -247,6 +268,10 @@ class TestDecisions(unittest.TestCase):
         d = self.only(env)
         self.assertEqual((d["decision"], d["razon"]), ("NO-GO", "discrepancia_libro"))
         self.assertFalse(d["critico"]["paridad_libro"])
+        # La captura conserva la entrada realmente cotizada, antes de corregir el libro.
+        self.assertEqual(d["financiacion"]["posicion_raw"]["collateral"], str(10 ** 18))
+        self.assertEqual(d["colateral"], 10 ** 18)
+        self.assertNotEqual(d["colateral"], d["critico"]["lectura_directa"]["colateral"])
         # el libro se corrige con la lectura directa
         self.assertEqual(env.sh.book.pos[(env.mid, U[0])].collateral, env.chain.positions[(env.mid, U[0])][2])
 

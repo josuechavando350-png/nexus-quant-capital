@@ -26,6 +26,7 @@ from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 
 from . import morpho as mo
+from . import shadow_financing as financing
 from .abi import norm
 from .config import (CHAINS, KNOWN_SHARED_ENTRIES, SEL, SHADOW_BASE_MARKETS, SHADOW_BASE_USDC, SHADOW_PRIOR_GAS_USD,
                      SHADOW_PRIOR_KEPT_ALL, SHADOW_PRIORS_SOURCE)
@@ -782,6 +783,8 @@ class Shadow:
         state, price = snap[mid]
         state = info_ev["state"]
         q, eco = self._economics(info, pos, price, state)
+        funding = financing.capture(CHAINS["base"].chain_id, self.morpho, info, pos, state,
+                                    price, q, hdr, n, info_ev["accrual"])
         pr = info.prior
         visto_ms = None if seen_wall is None else round((seen_wall - hdr["ts"]) * 1000)
         decision, reason, crit = "NO-GO", self._screen(info, eco), None
@@ -800,9 +803,11 @@ class Shadow:
                "x_ms": x_ms, "bloque_llegada_propia": None if k is None else n + k, "residual_de_liquidacion_parcial": residual,
                "cruce_incierto": uncertain,
                "salud": info_ev["ratio"], "con_interes": info_ev["accrual"],
-               "deuda_shares": pos.borrow_shares, "colateral": pos.collateral, "precio": price,
+               "deuda_shares": int(funding["posicion_raw"]["borrow_shares"]),
+               "colateral": int(funding["posicion_raw"]["collateral"]), "precio": price,
                "embargo": q["seized_assets"], "repago_assets": q["repaid_assets"], "critico": crit,
-               "prior": {"retencion": eco["retencion_prior"], "fuente": SHADOW_PRIORS_SOURCE}, **eco}
+               "prior": {"retencion": eco["retencion_prior"], "fuente": SHADOW_PRIORS_SOURCE}, **eco,
+               "financiacion": funding}
         self.out.write("decisiones.jsonl", row)
         self.decisions[f"{decision}:{reason}"] += 1
         self.counts["candidatas"] += 1
