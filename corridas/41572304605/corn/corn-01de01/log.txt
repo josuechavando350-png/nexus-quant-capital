@@ -1,0 +1,35 @@
+[03:27:45] corn: falla: RpcError: We are not able to process your request at this time. Please contact thirdweb support 3bec18a8-d67d-474d-bb94-a70e34bc4e60.
+[03:27:45] Traceback (most recent call last):
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 338, in resolve_window
+    head = int(self.rpc.block("finalized")["number"], 16)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 504, in block
+    b = self.call("eth_getBlockByNumber", [tag, False], recent=recent, prefer=prefer)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 334, in call
+    return self._call(method, params, recent, prefer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 436, in _call
+    raise last or RpcError(f"{method} falló en todos los proveedores")
+census_dinero.rpc.RpcError: We are not able to process your request at this time. Please contact thirdweb support 772b44b3-2457-4127-bb0b-09bd288e5761.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 1093, in run
+    win = self.resolve_window(days, end_block, start_ts, end_ts)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/collect.py", line 340, in resolve_window
+    head = self.rpc.block_number() - 64
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 500, in block_number
+    return int(self.call("eth_blockNumber", []), 16)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 334, in call
+    return self._call(method, params, recent, prefer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/nexus-quant-capital/nexus-quant-capital/migration/census-dinero/census_dinero/rpc.py", line 436, in _call
+    raise last or RpcError(f"{method} falló en todos los proveedores")
+census_dinero.rpc.RpcError: We are not able to process your request at this time. Please contact thirdweb support 3bec18a8-d67d-474d-bb94-a70e34bc4e60.
+
+[03:27:45] corn: listo — 0 eventos, 0 enriquecidos, 4 llamadas RPC, 0.9 s
