@@ -1,0 +1,289 @@
+{
+  "date_utc": "2026-11-03",
+  "slot": 2,
+  "base_producer": "c6fb71557cb9562f2b924d0d5ec965c017663471",
+  "prior_shadow": {
+    "run": 41611134490,
+    "producer": "c90020deea4e23aca4a88c2cfb12ec92470cad72",
+    "run_url": "https://github.com/josuechavando350-png/nexus-quant-capital/actions/runs/41611134490",
+    "status": "success",
+    "first": 53454362,
+    "last": 53464273,
+    "blocks": 9912,
+    "block_coverage": 1,
+    "unrecovered_blocks": [],
+    "ws": {
+      "conexiones": 3,
+      "errores": {
+        "WsError: conexión cerrada por el servidor": 1,
+        "WsError: el servidor cerró el WebSocket": 1
+      },
+      "logs": 698,
+      "mensajes": 2062296,
+      "silencio_entre_trozos_ms": {
+        "max": 1726,
+        "min": 50,
+        "n": 33659,
+        "p50": 167,
+        "p90": 198,
+        "p99": 469
+      },
+      "suscripciones": {
+        "logs": "ok",
+        "transacciones": "ok"
+      },
+      "transacciones": 2061592,
+      "url": "wss://mainnet-preconf.base.org"
+    },
+    "preconfirmation_coverage_complete": null,
+    "continuity_note": "Two recovered WS closures and transient RPC errors; complete sealed-block coverage does not imply complete preconfirmation coverage. No event admitted from missing timing.",
+    "invalid_lines": 0,
+    "decisions": 5,
+    "go": 0,
+    "liquidations": 0
+  },
+  "cumulative": {
+    "runs": 16,
+    "hours": 39.79,
+    "sample": {
+      "a_tiempo_estimado": 0,
+      "captura_demostrada": false,
+      "casos": [],
+      "estado": "INSUFICIENTE",
+      "faltan": 20,
+      "meta": 20,
+      "n": 0,
+      "rentabilidad_demostrada": false
+    },
+    "quality": {
+      "conflictos": 0,
+      "eventos_duplicados": 0,
+      "lineas_invalidas": 0
+    },
+    "funnel": {
+      "casos_excluidos": [
+        {
+          "bono_bruto_usd": 1.0285197620041753,
+          "corrida": "40349833440",
+          "log_index": 3,
+          "primera_exclusion": "via_no_directa",
+          "tx": "0x7501e183580e66877bac47b3ad42bffb0300cef182efabf5a6dfeca0b920523b"
+        },
+        {
+          "bono_bruto_usd": 164.7223933943662,
+          "corrida": "41376606202",
+          "log_index": 317,
+          "primera_exclusion": "via_no_directa",
+          "tx": "0x76da2ddf59ad427b4b24a297110b22487c7b1f2b46c13e0908edf700a847f277"
+        },
+        {
+          "bono_bruto_usd": 1673.6702465915494,
+          "corrida": "41571735530",
+          "log_index": 299,
+          "primera_exclusion": "via_no_directa",
+          "tx": "0x2d56cc606a28bfb7d3ac8beb792fe666c6a54a6159d11b3c10d0b0dc063c01c1"
+        },
+        {
+          "bono_bruto_usd": 52.500078380281685,
+          "corrida": "41571735530",
+          "log_index": 301,
+          "primera_exclusion": "via_no_directa",
+          "tx": "0x2d56cc606a28bfb7d3ac8beb792fe666c6a54a6159d11b3c10d0b0dc063c01c1"
+        },
+        {
+          "bono_bruto_usd": 0.12631132394366199,
+          "corrida": "40163135976",
+          "log_index": 294,
+          "primera_exclusion": "bono_inferior_o_no_medido",
+          "tx": "0x9875f85579cecd41f7f279dfcb386b4a49cea50cd76cdced3019c046ad974950"
+        },
+        {
+          "bono_bruto_usd": 0.007411459720730398,
+          "corrida": "40349833440",
+          "log_index": 505,
+          "primera_exclusion": "bono_inferior_o_no_medido",
+          "tx": "0x4f9fbc178418e1c965623e1645c24eb954dbd12c905bf4ac0f748e2579ac4963"
+        },
+        {
+          "bono_bruto_usd": 0.007411459720730398,
+          "corrida": "40349833440",
+          "log_index": 829,
+          "primera_exclusion": "bono_inferior_o_no_medido",
+          "tx": "0x01f504c431afe1a5c14e5f3ddf6e48ddc28ec31c49274ff39913ef5a1d64f9a9"
+        },
+        {
+          "bono_bruto_usd": 0.007411459720730398,
+          "corrida": "40349833440",
+          "log_index": 184,
+          "primera_exclusion": "bono_inferior_o_no_medido",
+          "tx": "0x7bc76442fb32f03a0cc954c808bcb3ba7dd63f529de4d09293f22203c0abc1db"
+        },
+        {
+          "bono_bruto_usd": 30.60639608450704,
+          "corrida": "40176606411",
+          "log_index": 441,
+          "primera_exclusion": "sin_trozo_posterior_medido",
+          "tx": "0xecee963d755165c39fecfedeb8080200c9452dc81df31ac5ad21065c95487939"
+        }
+      ],
+      "etapas": [
+        {
+          "bono_bruto_usd": 1922.6761799158144,
+          "etapa": "observadas_unicas",
+          "n": 9
+        },
+        {
+          "bono_bruto_usd": 30.754941787612893,
+          "etapa": "directas",
+          "n": 5
+        },
+        {
+          "bono_bruto_usd": 30.60639608450704,
+          "etapa": "bono_minimo",
+          "n": 1
+        },
+        {
+          "bono_bruto_usd": 0,
+          "etapa": "trozo_posterior_medido",
+          "n": 0
+        },
+        {
+          "bono_bruto_usd": 0,
+          "etapa": "tiempos_origen_comun",
+          "n": 0
+        },
+        {
+          "bono_bruto_usd": 0,
+          "etapa": "integridad",
+          "n": 0
+        }
+      ],
+      "min_bono_usd": 1,
+      "orden_excluyente": true,
+      "primera_exclusion": {
+        "bono_inferior_o_no_medido": 4,
+        "sin_trozo_posterior_medido": 1,
+        "via_no_directa": 4
+      }
+    },
+    "assumed_submit_ms": 20
+  },
+  "economics": {
+    "policy": {
+      "gas": "TITAN",
+      "principal": "FLASH_LOAN",
+      "own_capital": 0,
+      "prefund": false,
+      "own_gas_fallback": false
+    },
+    "input_path": "migration/census-dinero/evidence/titan-flash-slot2-input.jsonl",
+    "source_path": "corridas/41611134490/shadow-vivo/decisiones.jsonl",
+    "source_blob": "f4cf31b8f92736dd2540f20a2e29e39e6ec7cb02",
+    "flash_lender": null,
+    "flash_liquidity": null,
+    "flash_premium": null,
+    "swap_output": null,
+    "atomic_repayment": null,
+    "gas_l1_l2": null,
+    "titan_repayment": null,
+    "builder_compensation": null,
+    "titan_base_coverage": null,
+    "titan_candidate_coverage": null,
+    "own_simulated_margin": null,
+    "inclusion": null,
+    "realized_profit": null,
+    "accounting": "Own residual = swap output - flash principal - flash premium - actual gas/sponsorship charge - incremental builder compensation. Do not deduct sponsored gas twice if included in reimbursement; deduct only incremental builder payment beyond any included gas/tip. All unmeasured inputs remain null.",
+    "limitations": [
+      "Raw quote replay is arithmetic, not atomic execution simulation.",
+      "Model oracle collateral value is not swap proceeds.",
+      "Morpho state fee is not flash-loan premium.",
+      "Canonicality not revalidated; reads by block number.",
+      "No H24 Ethereum zero premium transferred to Base.",
+      "Historical neto_modelo_usd is third-party prior, not NQC income.",
+      "All five decisions NO-GO:deuda_mala; this filter does not itself quantify net loss."
+    ],
+    "official_docs_reviewed": [
+      "https://docs.titanbuilder.xyz/",
+      "https://docs.titanbuilder.xyz/api/eth_sendbundle"
+    ],
+    "docs_scope": "Conditional sponsorship mechanism; reviewed pages do not certify Base or any NQC candidate.",
+    "reproduced_quotes": [
+      {
+        "id": "34f676bd-0044fbc8-53454362",
+        "decision": "NO-GO",
+        "quote_exact": true,
+        "principal_raw": "61685040",
+        "principal_usdc": "61.685040",
+        "oracle_bonus_raw": "2704352",
+        "bad_debt_raw": "5832987"
+      },
+      {
+        "id": "34f676bd-89909aa3-53454362",
+        "decision": "NO-GO",
+        "quote_exact": true,
+        "principal_raw": "82645864",
+        "principal_usdc": "82.645864",
+        "oracle_bonus_raw": "3623303",
+        "bad_debt_raw": "18891271"
+      },
+      {
+        "id": "34f676bd-96fb3ffb-53454362",
+        "decision": "NO-GO",
+        "quote_exact": true,
+        "principal_raw": "49771767",
+        "principal_usdc": "49.771767",
+        "oracle_bonus_raw": "2182058",
+        "bad_debt_raw": "12483053"
+      },
+      {
+        "id": "34f676bd-ce029f6e-53454362",
+        "decision": "NO-GO",
+        "quote_exact": true,
+        "principal_raw": "16563488",
+        "principal_usdc": "16.563488",
+        "oracle_bonus_raw": "726163",
+        "bad_debt_raw": "5748858"
+      },
+      {
+        "id": "34f676bd-db18c06f-53454362",
+        "decision": "NO-GO",
+        "quote_exact": true,
+        "principal_raw": "49685300",
+        "principal_usdc": "49.685300",
+        "oracle_bonus_raw": "2178267",
+        "bad_debt_raw": "18426544"
+      }
+    ],
+    "input_sha256": "196eb3568087333ebe90251652e0dd15e47506dc2148d7ee81e0b9484dab5c7e"
+  },
+  "census": {
+    "run": 41572304605,
+    "producer": "259a796ee96433c4fea1c026b4040440aa644234",
+    "status": "failure",
+    "prior_evidence": "migration/census-dinero/evidence/titan-flash-slot1-20261103.json",
+    "rerun": false,
+    "blockers": [
+      "Sei pruned history",
+      "Corn provider failure",
+      "Other incomplete ranges retained; no zero-event inference outside coverage"
+    ]
+  },
+  "continuation": {
+    "prior_runs": [
+      41611134490
+    ],
+    "minutes": 330,
+    "markets": 19,
+    "only_config_change": "nota",
+    "sample_threshold_usd": 1,
+    "assumed_submit_ms": 20
+  },
+  "report_caveat": "RESUMEN_SHADOW.md generic replay text says 150 ms; actual fast sample setting and acumulado envio_supuesto_ms are 20 ms. Neither is a measured send.",
+  "validation": {
+    "offline_tests": 341,
+    "result": "PASS",
+    "isolation": "PASS",
+    "original_objects_checked": false,
+    "remote_ci": "not yet executed for next producer"
+  }
+}
