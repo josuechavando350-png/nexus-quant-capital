@@ -1,57 +1,19 @@
 {
-  "days": 30,
-  "chains": [
-    "polygon",
-    "optimism",
-    "unichain",
-    "katana",
-    "hyperevm",
-    "worldchain",
-    "sonic",
-    "bsc",
-    "linea",
-    "scroll",
-    "sei",
-    "monad",
-    "celo",
-    "etherlink",
-    "hemi",
-    "ink",
-    "lisk",
-    "soneium",
-    "fraxtal",
-    "mode",
-    "plume",
-    "corn",
-    "tac",
-    "flare",
-    "cronos",
-    "xdc",
-    "kaia",
-    "zerog",
-    "abstract",
-    "morph",
-    "megaeth",
-    "robinhood",
-    "stable",
-    "tempo",
-    "arc",
-    "bitlayer",
-    "gensyn",
-    "eden"
-  ],
-  "tramos": 1,
-  "protocols": "morpho",
-  "time_budget_min": 20,
-  "nota": "Census: recuperación acotada de cuatro tramos detenidos por finalización insuficiente. Conserva la ventana 25 sep–25 oct 2026, incorpora los demás tramos de la corrida 40215984099 y no cancela Shadow v11. Solo lectura, presupuesto de recolección de 20 minutos por cadena; los resultados parciales conservan sus límites.",
-  "end_utc": "2026-10-25T16:00:00Z",
-  "solo": [
-    "scroll-01de01",
-    "linea-01de01",
-    "lisk-01de01",
-    "abstract-01de01"
-  ],
-  "incluir_corridas": [
-    40215984099
-  ]
+  "modo": "shadow",
+  "shadow": {
+    "minutos": 330,
+    "vivo": true,
+    "replay": false,
+    "config": {
+      "min_bonus_usd": 0.05,
+      "min_net_usd": 0.02,
+      "flash_url": "https://mainnet-preconf.base.org",
+      "flash_interval": 0.1,
+      "flash_ws": "wss://mainnet-preconf.base.org",
+      "submit_rapido_ms": 20,
+      "orden_cada": 60,
+      "orden_max": 150
+    }
+  },
+  "nota": "Shadow v12: nueva observación acotada de 330 minutos para ampliar la muestra prospectiva desde el libro guardado. Conserva mediciones log→ganador con origen común, deduplicación y umbral de muestra de USD 1; 20 ms de envío siguen siendo un supuesto. No repite replay ni cambia la ruta económica. Solo lectura, sin firmas, transmisiones ni fondos."
 }
