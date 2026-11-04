@@ -1,0 +1,362 @@
+{
+  "schema_version": 1,
+  "items": [
+    {
+      "id": 1,
+      "title": "Consultas de grafos personalizadas (SlithIR)",
+      "status": "PLANNED",
+      "scope": "Pendiente: no hay SlithIR integrado ni trazado de fondos implementado.",
+      "components": []
+    },
+    {
+      "id": 2,
+      "title": "Análisis de contaminación de entradas (taint analysis)",
+      "status": "PLANNED",
+      "scope": "Pendiente: análisis estático de datos en código propio; las reglas de scope no son taint analysis.",
+      "components": []
+    },
+    {
+      "id": 3,
+      "title": "Fuzzing dinámico guiado por invariantes",
+      "status": "PLANNED",
+      "scope": "Pendiente: no se ha conectado un fuzzer; las pruebas unitarias existentes no son millones de transacciones.",
+      "components": []
+    },
+    {
+      "id": 4,
+      "title": "Fuzzing con bifurcación de red",
+      "status": "PLANNED",
+      "scope": "Pendiente: estados locales autorizados; no hay motor de forks integrado ni RPC activado.",
+      "components": []
+    },
+    {
+      "id": 5,
+      "title": "Simulador de préstamos flash",
+      "status": "REDESIGN_REQUIRED",
+      "scope": "Reformular como pruebas de solvencia en modelos propios; no generador de ataques para drenar pools.",
+      "components": []
+    },
+    {
+      "id": 6,
+      "title": "Analizador de integración de oráculos",
+      "status": "PLANNED",
+      "scope": "Pendiente: comprobaciones contextuales de fuentes, frescura y unidades; spot/TWAP no decide por sí solo la seguridad.",
+      "components": []
+    },
+    {
+      "id": 7,
+      "title": "Inferencia simbólica estocástica",
+      "status": "PLANNED",
+      "scope": "Pendiente experimental: hipótesis sujetas a validación, no deducción garantizada de todas las reglas.",
+      "components": []
+    },
+    {
+      "id": 8,
+      "title": "Estrategias de pruebas multibloque",
+      "status": "REDESIGN_REQUIRED",
+      "scope": "Reformular como pruebas de propiedades temporales en modelos propios, no planificador autónomo de ataques.",
+      "components": []
+    },
+    {
+      "id": 9,
+      "title": "Fuzzer de estado y memoria en laboratorio",
+      "status": "PLANNED",
+      "scope": "Pendiente: escenarios artificiales etiquetados como contrafactuales, nunca como explotabilidad demostrada.",
+      "components": []
+    },
+    {
+      "id": 10,
+      "title": "Orquestador LLM y simbólico",
+      "status": "PLANNED",
+      "scope": "Pendiente: propuestas revisables y comprobaciones deterministas; no se promete ausencia absoluta de alucinaciones.",
+      "components": []
+    },
+    {
+      "id": 11,
+      "title": "Diferenciales de bytecode",
+      "status": "PLANNED",
+      "scope": "Pendiente: comparación de versiones; el inventario SHA actual no es análisis semántico de bytecode.",
+      "components": []
+    },
+    {
+      "id": 12,
+      "title": "Simulación de corridas bancarias",
+      "status": "PLANNED",
+      "scope": "Pendiente: modelos de riesgo con supuestos explícitos y sensibilidad; no daño financiero garantizado.",
+      "components": []
+    },
+    {
+      "id": 13,
+      "title": "Taint analysis binario dinámico",
+      "status": "PLANNED",
+      "scope": "Pendiente: pruebas de software nativo propio; no hay instrumentación CPU/memoria integrada.",
+      "components": []
+    },
+    {
+      "id": 14,
+      "title": "Grafos de permisos",
+      "status": "PLANNED",
+      "scope": "Pendiente: grafo de autorizaciones; ScopeGuard no implementa análisis de escalada de privilegios.",
+      "components": []
+    },
+    {
+      "id": 15,
+      "title": "Extractor automático de reproducciones",
+      "status": "REDESIGN_REQUIRED",
+      "scope": "Reformular como reducción de tests fallidos en código propio, no generación autónoma de exploits de terceros.",
+      "components": []
+    },
+    {
+      "id": 16,
+      "title": "Validación de firmas criptográficas",
+      "status": "PLANNED",
+      "scope": "Pendiente: regresiones locales de autorización, nonces y dominios; no extracción de claves.",
+      "components": []
+    },
+    {
+      "id": 17,
+      "title": "Inyección de fallos en sistemas distribuidos",
+      "status": "PLANNED",
+      "scope": "Pendiente: pruebas de fallos en infraestructura propia aislada; no perturbación de servicios ajenos.",
+      "components": []
+    },
+    {
+      "id": 18,
+      "title": "Análisis de reentrancia entre contratos",
+      "status": "PLANNED",
+      "scope": "Pendiente: revisión defensiva de llamadas y propiedades; no motor autónomo de explotación.",
+      "components": []
+    },
+    {
+      "id": 19,
+      "title": "Efectos del compilador",
+      "status": "PLANNED",
+      "scope": "Pendiente: verificar compilaciones equivalentes y diferencias; no hay análisis de optimizadores implementado.",
+      "components": []
+    },
+    {
+      "id": 20,
+      "title": "Fuzzer de API por gramáticas",
+      "status": "PLANNED",
+      "scope": "Pendiente: pruebas funcionales sobre APIs propias de laboratorio, sin encadenamiento ofensivo.",
+      "components": []
+    },
+    {
+      "id": 21,
+      "title": "Fuzzing de protocolos de red",
+      "status": "REDESIGN_REQUIRED",
+      "scope": "Reformular como validación de parsers propios mediante tráfico de laboratorio; no fuzzing activo de terceros.",
+      "components": []
+    },
+    {
+      "id": 22,
+      "title": "Análisis de canales laterales",
+      "status": "REDESIGN_REQUIRED",
+      "scope": "Reformular como medición de posibles fugas con secretos de prueba; no extracción de claves reales.",
+      "components": []
+    },
+    {
+      "id": 23,
+      "title": "Consistencia HTTP y caché",
+      "status": "REDESIGN_REQUIRED",
+      "scope": "Reformular como revisión de configuración y conformidad proxy/backend; no secuestro de sesiones ni ataques automatizados.",
+      "components": []
+    },
+    {
+      "id": 24,
+      "title": "Consistencia de RBAC mutable",
+      "status": "PLANNED",
+      "scope": "Pendiente: modelos RBAC y revocación; el control de alcance actual no demuestra esta capacidad.",
+      "components": []
+    },
+    {
+      "id": 25,
+      "title": "Análisis de deserialización",
+      "status": "REDESIGN_REQUIRED",
+      "scope": "Reformular como identificación de deserialización insegura y dependencias; no construcción de cadenas RCE.",
+      "components": []
+    },
+    {
+      "id": 26,
+      "title": "Verificación de circuitos ZK",
+      "status": "PLANNED",
+      "scope": "Pendiente: revisión de restricciones en circuitos propios; no motor ZK implementado.",
+      "components": []
+    },
+    {
+      "id": 27,
+      "title": "Concurrencia y memoria compartida",
+      "status": "PLANNED",
+      "scope": "Pendiente: instrumentación de concurrencia para programas propios; no primitivas de explotación.",
+      "components": []
+    },
+    {
+      "id": 28,
+      "title": "Consenso y fallos bizantinos",
+      "status": "REDESIGN_REQUIRED",
+      "scope": "Reformular como simulación de tolerancia a fallos; no interrupción de consenso en redes externas.",
+      "components": []
+    },
+    {
+      "id": 29,
+      "title": "Fugas de información en logs",
+      "status": "PLANNED",
+      "scope": "Pendiente: revisión y redacción de logs autorizados, sin almacenar secretos innecesariamente.",
+      "components": []
+    },
+    {
+      "id": 30,
+      "title": "Dependencias vulnerables y alcanzabilidad",
+      "status": "PLANNED",
+      "scope": "Pendiente: inventario y alcanzabilidad; los hashes de fuentes no equivalen a un análisis de dependencias vulnerables.",
+      "components": []
+    },
+    {
+      "id": 31,
+      "title": "Integridad de carga de bibliotecas",
+      "status": "REDESIGN_REQUIRED",
+      "scope": "Reformular como verificación de procedencia y configuración de bibliotecas; no inyección ni desvío de ejecución.",
+      "components": []
+    },
+    {
+      "id": 32,
+      "title": "Validación de aislamiento de sandboxes",
+      "status": "REDESIGN_REQUIRED",
+      "scope": "Reformular como comprobación de aislamiento; no evolución de payloads para evadir sandboxes.",
+      "components": []
+    },
+    {
+      "id": 33,
+      "title": "Consistencia documentación/código",
+      "status": "PLANNED",
+      "scope": "Pendiente: no hay comparador semántico de especificaciones y código.",
+      "components": []
+    },
+    {
+      "id": 34,
+      "title": "Verificación formal acotada",
+      "status": "PLANNED",
+      "scope": "Pendiente: pruebas limitadas por modelo, propiedades y profundidad; sin garantía universal de cero falsos negativos.",
+      "components": []
+    },
+    {
+      "id": 35,
+      "title": "Planificación de experimentos mediante MCTS",
+      "status": "REDESIGN_REQUIRED",
+      "scope": "Reformular como asignación de presupuesto de pruebas por cobertura; no planificación ni encadenamiento de exploits.",
+      "components": []
+    },
+    {
+      "id": 36,
+      "title": "Grafo de conocimiento entre dominios",
+      "status": "REDESIGN_REQUIRED",
+      "scope": "Reformular como correlación defensiva de dependencias y riesgos, no diseño de ataques integrales.",
+      "components": []
+    },
+    {
+      "id": 37,
+      "title": "Triaje e impacto económico",
+      "status": "PLANNED",
+      "scope": "Pendiente: el puente recibe declaraciones económicas; RMC-016 calcula capacidad, no impacto de vulnerabilidades ni severidad oficial.",
+      "components": []
+    },
+    {
+      "id": 38,
+      "title": "Aprendizaje con retroalimentación humana",
+      "status": "REDESIGN_REQUIRED",
+      "scope": "Reformular con consentimiento, feedback explícito y cambios revisados; no observación encubierta ni autoedición sin pruebas.",
+      "components": []
+    },
+    {
+      "id": 39,
+      "title": "Auditor visual de interfaz",
+      "status": "PLANNED",
+      "scope": "Pendiente: revisión de UI propia y comprobaciones del navegador; una imagen por sí sola no demuestra un fallo.",
+      "components": []
+    },
+    {
+      "id": 40,
+      "title": "Análisis de grafos mediante modelos",
+      "status": "PLANNED",
+      "scope": "Pendiente experimental: grafos como datos; no detección instantánea ni certeza a partir de imágenes.",
+      "components": []
+    },
+    {
+      "id": 41,
+      "title": "Diagramas y especificaciones visuales",
+      "status": "PLANNED",
+      "scope": "Pendiente: extracción de especificaciones con referencias verificables y revisión de ambigüedades.",
+      "components": []
+    },
+    {
+      "id": 42,
+      "title": "Detección visual de exposición de secretos",
+      "status": "REDESIGN_REQUIRED",
+      "scope": "Reformular para material propio autorizado y redacción; no vigilancia de terceros ni recolección de credenciales.",
+      "components": []
+    },
+    {
+      "id": 43,
+      "title": "Automatización de navegador para QA",
+      "status": "REDESIGN_REQUIRED",
+      "scope": "Reformular como automatización identificada de pruebas; sin evasión de WAF, bots ni captchas.",
+      "components": []
+    },
+    {
+      "id": 44,
+      "title": "Generación adaptativa de entradas de prueba",
+      "status": "REDESIGN_REQUIRED",
+      "scope": "Reformular como pruebas de contratos de entrada y sanitización propios; no evasión adaptativa de filtros.",
+      "components": []
+    },
+    {
+      "id": 45,
+      "title": "Orquestación de entornos de prueba",
+      "status": "PARTIAL",
+      "scope": "Parcial: proceso local acotado para componentes fijados; no clonación Docker/DB/RPC ni sandbox para código hostil.",
+      "components": [
+        "lab"
+      ]
+    },
+    {
+      "id": 46,
+      "title": "Validación de propiedades con contratos de prueba",
+      "status": "REDESIGN_REQUIRED",
+      "scope": "Reformular como tests de propiedades de contratos propios; no contratos autónomos de drenaje ni promesas de recompensa.",
+      "components": []
+    },
+    {
+      "id": 47,
+      "title": "Reportes técnicos y ejecutivos",
+      "status": "PARTIAL",
+      "scope": "Parcial: borradores Markdown y reporte de QA vinculados a evidencias; faltan informe corporativo completo y PDF.",
+      "components": [
+        "transport",
+        "quality"
+      ]
+    },
+    {
+      "id": 48,
+      "title": "Verificación de parches y regresiones",
+      "status": "PARTIAL",
+      "scope": "Parcial: regresiones del propio paquete y control de fuentes; no monitorización de parches externos ni reproducción de exploits.",
+      "components": [
+        "quality"
+      ]
+    },
+    {
+      "id": 49,
+      "title": "Inteligencia de amenazas públicas",
+      "status": "PLANNED",
+      "scope": "Pendiente: fuentes públicas y revisión de reglas antes de activarlas; sin escaneo ofensivo automático.",
+      "components": []
+    },
+    {
+      "id": 50,
+      "title": "Mapeo de controles de cumplimiento",
+      "status": "PLANNED",
+      "scope": "Pendiente: sugerencias trazables de controles; no certificación automática ni dictamen de incumplimiento legal.",
+      "components": []
+    }
+  ]
+}

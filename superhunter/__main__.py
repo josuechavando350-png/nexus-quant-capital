@@ -13,6 +13,9 @@ from .safe_io import canonical, read_artifact, write_new_bundle
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ("check", "verify-check", "capabilities"):
+        from .quality import main as quality_main
+        return quality_main(argv)
     if argv and argv[0] in ("local-lab", "verify-lab"):
         from .lab_cli import main as lab_main
         return lab_main(argv[1:], verify=argv[0] == "verify-lab")

@@ -62,7 +62,7 @@ El cierre histórico Protocol/Fork no se admite como Reconstruction.
 python3 -m unittest discover -s superhunter/tests -v
 ```
 
-Suite de esta entrega: 102 pruebas ejecutadas, sin fallos, errores ni omisiones.
+Suite de esta entrega: 157 pruebas ejecutadas, sin fallos, errores ni omisiones.
 El laboratorio necesita Linux/POSIX, Python 3.11+ y PyYAML 6.0.3; no instala
 dependencias automáticamente. Los demás adaptadores usan la librería estándar.
 
@@ -73,6 +73,14 @@ completada, nunca vulnerabilidad confirmada.
 
 No hay integración autónoma de los motores de búsqueda de vulnerabilidades,
 Forge, forks, RPC, firma, broadcasts ni envíos de reportes. No se heredan
-certificaciones históricas de NQC. Los registros anteriores VALIDATION.md y
-validation-results.json se conservan como historia; el resultado de esta
-entrega está en local-validation.json y LOCAL_LAB.md.
+certificaciones históricas de NQC. VALIDATION.md, validation-results.json,
+local-validation.json y LOCAL_LAB.md conservan las entregas anteriores.
+El resultado actual está en quality-validation.json y QUALITY_GATE.md.
+
+## Comprobación conjunta y checklist de capacidades
+
+La entrega 4 añade `check`, `verify-check` y `capabilities`, más validación
+semántica entre la bitácora DIABLO y los cálculos NQC. Suite ampliada: 157 tests
+aprobados frente a 102 de la entrega previa.
+Ver [QUALITY_GATE.md](QUALITY_GATE.md) y [CAPABILITIES.md](CAPABILITIES.md).
+Ninguna de las 50 capacidades se declara completa por pasar estas pruebas.
