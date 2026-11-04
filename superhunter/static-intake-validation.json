@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-04",
+  "base_commit": "adc28a062668de996848ace5d233d2fa055fbd4c",
+  "scope": "Offline normalization of supplied Slither JSON, not analyzer execution",
+  "python": "3.13.5",
+  "published_variant": {
+    "tests_run": 298,
+    "existing_tests": 251,
+    "new_static_intake_tests": 47,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "source_digest": "cdf3689a1a4efe76c9799124738eaa145bedd8f15b30b36c7ee995f74fe04d34",
+    "test_log_sha256": "c68b7d594eeed0c06976622fe2a44f00ee3b7ff8fbf37904344c9cff9c04a5e8",
+    "separate_verify_check_passed": true
+  },
+  "local_consolidated_variant_not_fully_published_here": {
+    "input_artifact": "SUPERHUNTER_permisos_integrados_487.zip",
+    "baseline_tests_reexecuted": 487,
+    "tests_run": 547,
+    "new_static_intake_tests": 47,
+    "new_initiative_registry_tests": 13,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "source_digest": "2d9783ce83630642b7ce1349f9c2107f67c21e3575cfa6e5138b1637de7a43b5",
+    "test_log_sha256": "e083772569f7c5fe649eafc7f92816efe5ba7f08bb67cd854655bc0161ee9184",
+    "fixed_numeric_cases": 5,
+    "generated_numeric_cases": 256,
+    "separate_verify_platform_passed": true
+  },
+  "cli_demo": {
+    "input": "Benign Solidity source and explicitly synthetic Slither-shaped records",
+    "import_static_exit": 0,
+    "verify_static_separate_process_exit": 0,
+    "changed_source_rejected_exit": 2,
+    "records_received": 2,
+    "groups_preserving_records": 1,
+    "slither_executed": false
+  },
+  "tested_file_blobs": {
+    "superhunter/static_intake.py": "546bbb1d49574329041de33bf395276b5289ba27",
+    "superhunter/tests/test_static_intake.py": "6a3d94ea8b80f22d91514164e4288679c6261145",
+    "superhunter/__main__.py": "03254f0cdbbbb60b0399cf874d56d2d5ee2bac10",
+    "superhunter/quality.py": "cd545ac19e008e5b7ffa1d665af592d5aae83e44",
+    "superhunter/STATIC_INTAKE.md": "4528de53cf51e1a1ffb0bd46c69fcde3bfa049e9"
+  },
+  "slither_executed": false,
+  "solidity_compiled": false,
+  "forge_executed": false,
+  "external_target_executed": false,
+  "github_actions_run": false,
+  "full_historical_nqc_suite_run": false,
+  "full_isolation_verifier_run": false,
+  "vulnerability_confirmed": false,
+  "platform_complete": false,
+  "limitations": "Only superhunter package tests and synthetic fixtures were executed. Historical repository isolation is checked by unchanged Git trees, not a complete checkout. Hashes establish byte consistency, not producer authentication, program authorization or exploitability. This focused publication does not include all prior local permissions/privacy/regression/consolidation changes or the new local 25-initiative registry."
+}
