@@ -19,6 +19,7 @@ from .safe_io import canonical, read_artifact, strict_json, write_new_bundle
 
 ROOT = Path(__file__).resolve().parent
 COMPONENTS = {
+    'source_graph': {'files': ['source_graph.py'], 'tests': ['test_source_graph.'], 'depends': ['io']},
     'static-intake': {'files': ['static_intake.py'], 'tests': ['test_static_intake.'], 'depends': ['io']},
     'io': {'files': ['safe_io.py'], 'tests': ['test_integration.'], 'depends': []},
     'transport': {'files': ['bridge.py', 'integration.py'], 'tests': ['test_bridge.', 'test_integration.'], 'depends': ['io']},
@@ -31,10 +32,10 @@ COMPONENTS = {
             'tests': ['test_local_lab.', 'test_audit_links.'], 'depends': ['native', 'audit']},
     'fuzz': {'files': ['fuzz_lab.py', 'fuzz_worker.py', 'fuzz_cli.py'],
              'tests': ['test_fuzz_lab.', 'test_fuzz_evidence.'], 'depends': ['native', 'lab', 'audit']},
-    'quality': {'files': ['quality.py', 'quality_worker.py'], 'tests': ['test_quality.'], 'depends': ['transport', 'lab', 'fuzz', 'static-intake']},
+    'quality': {'files': ['quality.py', 'quality_worker.py'], 'tests': ['test_quality.'], 'depends': ['transport', 'lab', 'fuzz', 'static-intake', 'source_graph']},
     'review': {'files': ['review.py'], 'tests': ['test_review.'], 'depends': ['quality', 'lab', 'fuzz']},
     'entrypoints': {'files': ['__init__.py', '__main__.py'],
-                    'tests': ['test_integration.', 'test_local_lab.', 'test_fuzz_lab.'], 'depends': ['transport', 'lab', 'fuzz', 'quality', 'review', 'static-intake']},
+                    'tests': ['test_integration.', 'test_local_lab.', 'test_fuzz_lab.'], 'depends': ['transport', 'lab', 'fuzz', 'quality', 'review', 'static-intake', 'source_graph']},
 }
 REQUIRED_TESTS = (
     'test_bridge.BridgeTests.test_forge_wrong_target',
@@ -60,6 +61,11 @@ REQUIRED_TESTS += (
     'test_static_intake.StaticIntakeTests.test_expected_source_span_and_rule',
     'test_static_intake.StaticIntakeTests.test_source_hash_mismatch_rejected',
     'test_static_intake.StaticIntakeTests.test_missing_detector_key_is_unknown_not_clean',
+)
+REQUIRED_TESTS += (
+    'test_source_graph.SourceGraphTests.test_removed_module_detected',
+    'test_source_graph.SourceGraphTests.test_no_analyzed_code_is_executed',
+    'test_source_graph.SourceGraphTests.test_resealed_runtime_claim_rejected',
 )
 FILES = {'receipt.json', 'quality.json', 'source-snapshot.json', 'CHECKLIST.md', 'tests.log'}
 
