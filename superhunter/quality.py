@@ -31,8 +31,9 @@ COMPONENTS = {
     'fuzz': {'files': ['fuzz_lab.py', 'fuzz_worker.py', 'fuzz_cli.py'],
              'tests': ['test_fuzz_lab.', 'test_fuzz_evidence.'], 'depends': ['native', 'lab', 'audit']},
     'quality': {'files': ['quality.py', 'quality_worker.py'], 'tests': ['test_quality.'], 'depends': ['transport', 'lab', 'fuzz']},
+    'review': {'files': ['review.py'], 'tests': ['test_review.'], 'depends': ['quality', 'lab', 'fuzz']},
     'entrypoints': {'files': ['__init__.py', '__main__.py'],
-                    'tests': ['test_integration.', 'test_local_lab.', 'test_fuzz_lab.'], 'depends': ['transport', 'lab', 'fuzz', 'quality']},
+                    'tests': ['test_integration.', 'test_local_lab.', 'test_fuzz_lab.'], 'depends': ['transport', 'lab', 'fuzz', 'quality', 'review']},
 }
 REQUIRED_TESTS = (
     'test_bridge.BridgeTests.test_forge_wrong_target',
@@ -51,6 +52,8 @@ REQUIRED_TESTS = (
     'test_fuzz_lab.FuzzLabTests.test_cli_runs_bounded_fuzz_and_reverification',
     'test_fuzz_evidence.FuzzEvidenceTests.test_contradictory_completion_rejected_after_rehash',
     'test_fuzz_evidence.FuzzEvidenceTests.test_counts_require_integers',
+    'test_review.ReviewTests.test_resealed_report_cannot_claim_production',
+    'test_review.ReviewTests.test_missing_milestone_test_blocks_review',
 )
 FILES = {'receipt.json', 'quality.json', 'source-snapshot.json', 'CHECKLIST.md', 'tests.log'}
 
@@ -69,7 +72,7 @@ def source_snapshot(root: Path = ROOT) -> dict[str, str]:
                 raise ValueError('source directory symlink rejected')
         for name in sorted(files):
             rel = (Path(base)/name).relative_to(root).as_posix()
-            if name.endswith('.py') or rel in ('capabilities.json', 'requirements-local-lab.txt'):
+            if name.endswith('.py') or rel in ('capabilities.json', 'integration_milestones.json', 'requirements-local-lab.txt'):
                 result[rel] = sha(read_artifact(root, rel))
                 if len(result) > 500:
                     raise ValueError('source inventory limit exceeded')
