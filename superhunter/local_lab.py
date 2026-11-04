@@ -16,9 +16,11 @@ import uuid
 from .native_runtime import load_components, source_inventory
 from .audit_links import verify_audit_links
 from .safe_io import canonical, read_artifact, strict_json, write_new_bundle
+from .proof_graph import build_graph, verify_graph
 
 WAD = 10**18
-BUNDLE_FILES = {"lab-result.json", "nqc-results.json", "diablo-audit.json", "source-provenance.json"}
+BUNDLE_FILES = {"lab-result.json", "nqc-results.json", "diablo-audit.json",
+                "source-provenance.json", "proof-graph.json"}
 
 
 def _row(name: str, start: int, end: int, value: int, amount: int, resource: str = "fixture-capital") -> dict:
@@ -147,9 +149,13 @@ def execute_local() -> dict[str, bytes]:
         "audit_head": audit.head, "audit_count": len(audit),
         "native_functions": ["DIABLO.ScopeGuard.assert_allowed", "DIABLO.AuditLog.append/verify", "NQC.RMC016.solve"],
     }
+    entries = [asdict(e) for e in audit.entries]
+    sources = list(native.provenance)
+    graph = build_graph(results, entries, sources, verdict)
     return {"lab-result.json": canonical(verdict), "nqc-results.json": canonical({"cases": results}),
-            "diablo-audit.json": canonical({"entries": [asdict(e) for e in audit.entries]}),
-            "source-provenance.json": canonical({"sources": list(native.provenance)})}
+            "diablo-audit.json": canonical({"entries": entries}),
+            "source-provenance.json": canonical({"sources": sources}),
+            "proof-graph.json": canonical(graph)}
 
 
 def run_local(out: Path) -> dict:
@@ -206,6 +212,9 @@ def verify_local_bundle(root: Path) -> dict:
     if result.get("cases_passed") != 5 or result.get("scope_negative_passed") is not True or result.get("duplicate_negative_passed") is not True:
         raise ValueError("lab acceptance mismatch")
     verify_audit_links(entries, result, cases)
+    verify_graph(values["proof-graph.json"], cases=cases, entries=entries,
+                 provenance=values["source-provenance.json"]["sources"], summary=result)
     return {"status": result["status"], "run_id": result["run_id"], "cases_passed": 5,
-            "verification_level": "artifact-integrity-and-reference-recalculation",
+            "verification_level": "artifact-integrity-reference-and-causal-graph",
+            "proof_graph_root": values["proof-graph.json"]["root_sha256"],
             "vulnerability_confirmed": False}
