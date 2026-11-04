@@ -116,7 +116,7 @@ class QualityTests(unittest.TestCase):
     def test_all_50_ids_preserved_and_none_complete(self):
         data=quality.catalog()
         self.assertEqual([i['id'] for i in data['items']],list(range(1,51)))
-        self.assertEqual(sum(i['status']=='PARTIAL' for i in data['items']),3)
+        self.assertEqual(sum(i['status']=='PARTIAL' for i in data['items']),4)
         self.assertFalse(any(i['status']=='IMPLEMENTED' for i in data['items']))
 
     def test_catalog_rejects_unearned_complete(self):
