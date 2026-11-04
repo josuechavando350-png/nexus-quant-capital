@@ -37,8 +37,7 @@ class BridgeTests(unittest.TestCase):
             "attacker_cost": {"usd": 250.0}, "net_profit_usd": 49750.0,
             "reproducible": True, "economic_severity": "critical", "confidence": 0.99, "notes": "Synthetic test fixture",
         }
-        self.statement = {key: copy.deepcopy(self.r[key]) for key in
-                          ("candidate_id", "state_anchor", "protocol_model", "funds_at_risk", "attacker_cost", "net_profit_usd", "reproducible")}
+        self.statement = copy.deepcopy(self.r)
         self.evidence_bytes = json.dumps(self.statement, sort_keys=True).encode()
         (self.root / "nqc.json").write_bytes(self.evidence_bytes)
         self.a = {
@@ -58,7 +57,7 @@ class BridgeTests(unittest.TestCase):
         }
 
     def go(self):
-        return evaluate(self.c, self.r, self.a, evidence_root=self.root, report_path="reports/report.md")
+        return evaluate(self.c, self.r, self.a, evidence_root=self.root, report_path="reports/review.md")
 
     def rejected(self, match):
         result = self.go()
@@ -68,11 +67,14 @@ class BridgeTests(unittest.TestCase):
 
     def test_valid_bridge_and_calibration(self):
         result = self.go()
-        self.assertEqual(result["status"], "REPORT_READY")
-        f = result["finding"]
+        self.assertEqual(result["status"], "REVIEW_REQUIRED")
+        f = result["draft"]
         self.assertEqual(f["id"], self.cid)
-        self.assertEqual(f["final_severity"], "high")
-        self.assertTrue(f["scope_pass"] and f["forge_pass"])
+        self.assertEqual(f["proposed_severity"], "high")
+        self.assertTrue(f["declared_scope_approved"] and f["declared_forge_pass"])
+        self.assertFalse(result["execution_verified"])
+        self.assertNotIn("finding", result)
+        self.assertNotIn("final_severity", f)
         self.assertEqual(f["dup_check"], "none")
         self.assertIn("human review", render_report(f))
 
@@ -165,7 +167,7 @@ class BridgeTests(unittest.TestCase):
 
     def test_severity_cap(self):
         self.a["severity"]["program_cap"] = "medium"
-        self.assertEqual(self.go()["finding"]["final_severity"], "medium")
+        self.assertEqual(self.go()["draft"]["proposed_severity"], "medium")
 
     def test_missing_policy_hash(self):
         self.a["scope"]["policy_sha256"] = "bad"
@@ -208,8 +210,8 @@ class BridgeTests(unittest.TestCase):
                                "--evidence-root", str(self.root), "--out", str(self.root / "reports")],
                               cwd=base, capture_output=True, text=True)
         self.assertEqual(proc.returncode, 0, proc.stderr + proc.stdout)
-        self.assertTrue((self.root / "reports/report.md").is_file())
-        self.assertEqual(json.loads((self.root / "reports/decision.json").read_text())["status"], "REPORT_READY")
+        self.assertTrue((self.root / "reports/review.md").is_file())
+        self.assertEqual(json.loads((self.root / "reports/decision.json").read_text())["status"], "REVIEW_REQUIRED")
 
     def test_cli_never_writes_report_when_rejected(self):
         self.a["forge"]["target_bound"] = False
@@ -221,7 +223,7 @@ class BridgeTests(unittest.TestCase):
                                "--evidence-root", str(self.root), "--out", str(self.root / "reports")],
                               cwd=base, capture_output=True, text=True)
         self.assertEqual(proc.returncode, 1, proc.stderr + proc.stdout)
-        self.assertFalse((self.root / "reports/report.md").exists())
+        self.assertFalse((self.root / "reports/review.md").exists())
 
 
 if __name__ == "__main__":

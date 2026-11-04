@@ -11,6 +11,8 @@ import json
 import math
 import re
 import uuid
+
+from .safe_io import strict_json, read_artifact, read_json
 from pathlib import Path
 from typing import Any
 
@@ -36,6 +38,7 @@ def require(ok: bool, reason: str) -> None:
 
 def fields(obj: Any, required: set[str], *, name: str) -> dict:
     require(type(obj) is dict, f"{name}: expected object")
+    require(all(type(key) is str for key in obj), f"{name}: string keys required")
     require(set(obj) == required,
             f"{name}: fields mismatch (missing={sorted(required - set(obj))}, extra={sorted(set(obj) - required)})")
     return obj
@@ -49,7 +52,11 @@ def string(value: Any, name: str, pattern: re.Pattern | None = None) -> str:
 
 
 def number(value: Any, name: str, *, minimum: float | None = None) -> float:
-    require(type(value) in (float, int) and math.isfinite(value), f"{name}: finite number required")
+    require(type(value) in (float, int), f"{name}: finite number required")
+    try:
+        require(math.isfinite(value), f"{name}: finite number required")
+    except OverflowError as exc:
+        raise ContractError(f"{name}: finite number required") from exc
     if minimum is not None:
         require(value >= minimum, f"{name}: must be >= {minimum}")
     return float(value)
@@ -94,9 +101,12 @@ def candidate(data: Any) -> dict:
     require(target["fork_block"] is None or
             (type(target["fork_block"]) is int and target["fork_block"] >= 0),
             "Candidate.target.fork_block: invalid")
-    require(data["family"] in FAMILIES, "Candidate.family: unsupported")
+    require(type(data["family"]) is str and data["family"] in FAMILIES, "Candidate.family: unsupported")
     string(data["invariant_broken"], "Candidate.invariant_broken")
     string(data["poc_path"], "Candidate.poc_path", TEST_REF)
+    poc_file = data["poc_path"].split("::")[0]
+    require(not Path(poc_file).is_absolute() and ".." not in Path(poc_file).parts and
+            "\\" not in poc_file, "Candidate.poc_path: unsafe path")
     addresses(data["affected_contracts"], "Candidate.affected_contracts")
     require(data["prelim_severity"] == "unverified", "Candidate.prelim_severity: must be unverified")
     sha256_text(data["forge_evidence_sha"], "Candidate.forge_evidence_sha")
@@ -114,7 +124,9 @@ def reconstruction(data: Any) -> dict:
     string(data["protocol_model"], "Reconstruction.protocol_model", SLUG)
     funds = fields(data["funds_at_risk"], {"token", "amount_wei", "usd"}, name="Reconstruction.funds_at_risk")
     string(funds["token"], "Reconstruction.funds_at_risk.token", ADDRESS)
-    require(type(funds["amount_wei"]) is str and funds["amount_wei"].isdigit(),
+    require(type(funds["amount_wei"]) is str and
+            re.fullmatch(r"(?:0|[1-9][0-9]{0,77})", funds["amount_wei"]) is not None and
+            int(funds["amount_wei"]) < 2**256,
             "Reconstruction.funds_at_risk.amount_wei: decimal string required")
     number(funds["usd"], "Reconstruction.funds_at_risk.usd", minimum=0)
     cost = fields(data["attacker_cost"], {"usd"}, name="Reconstruction.attacker_cost")
@@ -129,20 +141,17 @@ def reconstruction(data: Any) -> dict:
 
 
 def _load_artifact(root: Path, relative: Any) -> bytes:
-    rel = Path(string(relative, "artifact path"))
-    require(not rel.is_absolute() and ".." not in rel.parts, "artifact: absolute/traversal path rejected")
-    root = root.resolve()
-    dest = (root / rel).resolve()
-    require(dest.is_relative_to(root) and dest.is_file(), "artifact: file not found inside evidence root")
-    require(dest.stat().st_size <= MAX_ARTIFACT_BYTES, "artifact: file too large")
-    return dest.read_bytes()
+    try:
+        return read_artifact(root, string(relative, "artifact path"))
+    except (ValueError, OSError) as exc:
+        raise ContractError(str(exc)) from exc
 
 
 def _same_addresses(left: list[str], right: list[str]) -> bool:
     return {x.lower() for x in left} == {x.lower() for x in right}
 
 
-def evaluate(c: Any, r: Any, admission: Any, *, evidence_root: Path, report_path: str) -> dict:
+def _evaluate_claims(c: Any, r: Any, admission: Any, *, evidence_root: Path, report_path: str) -> dict:
     """Return REJECTED or a flattened Finding, never execute untrusted code."""
     c, r = candidate(c), reconstruction(r)
     require(type(admission) is dict, "admission: object required")
@@ -153,7 +162,7 @@ def evaluate(c: Any, r: Any, admission: Any, *, evidence_root: Path, report_path
     def gate(name: str, fn) -> None:
         try:
             fn()
-        except (ContractError, OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        except (ValueError, OSError, UnicodeDecodeError, TypeError, AttributeError, KeyError, OverflowError) as exc:
             errors.append(f"{name}: {exc}")
 
     def scope_gate() -> None:
@@ -211,14 +220,17 @@ def evaluate(c: Any, r: Any, admission: Any, *, evidence_root: Path, report_path
         raw = _load_artifact(evidence_root, n["evidence_file"])
         require(hashlib.sha256(raw).hexdigest() == sha256_text(n["evidence_sha256"], "nqc evidence hash"),
                 "NQC evidence SHA256 mismatch")
-        statement = json.loads(raw)
+        statement = reconstruction(strict_json(raw))
         require(type(statement) is dict and statement.get("candidate_id") == r["candidate_id"] and
                 statement.get("state_anchor") == r["state_anchor"] and
                 statement.get("protocol_model") == r["protocol_model"] and
                 statement.get("funds_at_risk") == r["funds_at_risk"] and
                 statement.get("attacker_cost") == r["attacker_cost"] and
                 statement.get("net_profit_usd") == r["net_profit_usd"] and
-                statement.get("reproducible") is True, "NQC evidence does not bind economics to candidate")
+                statement.get("reproducible") is True and
+                statement.get("economic_severity") == r["economic_severity"] and
+                statement.get("confidence") == r["confidence"] and
+                statement.get("notes") == r["notes"], "NQC evidence does not bind economics to candidate")
 
     def duplicate_gate() -> None:
         d = fields(a["duplicate"], {"result", "checked_sources", "reviewed_by"}, name="duplicate")
@@ -250,6 +262,28 @@ def evaluate(c: Any, r: Any, admission: Any, *, evidence_root: Path, report_path
     }}
 
 
+def evaluate(c: Any, r: Any, admission: Any, *, evidence_root: Path, report_path: str) -> dict:
+    """Check declared artifacts. Never promote self-attestation to a Finding.
+
+    Backward compatibility: all legacy gates still execute; success is now a
+    REVIEW_REQUIRED draft rather than the misleading REPORT_READY designation.
+    """
+    try:
+        result = _evaluate_claims(c, r, admission, evidence_root=evidence_root,
+                                  report_path=report_path)
+    except (TypeError, AttributeError, KeyError, OverflowError, RecursionError) as exc:
+        raise ContractError("malformed contract field type") from exc
+    if result["status"] == "REJECTED":
+        return result
+    draft = result["finding"]
+    draft["proposed_severity"] = draft.pop("final_severity")
+    draft["declared_scope_approved"] = draft.pop("scope_pass")
+    draft["declared_forge_pass"] = draft.pop("forge_pass")
+    return {"status": "REVIEW_REQUIRED", "verification_level": "artifact-consistency-only",
+            "execution_verified": False, "draft": draft,
+            "reasons": ["Producer identity, target binding and impact require independent review."]}
+
+
 def render_report(finding: dict) -> str:
     """Minimal report draft; never assert live exploit or paid bounty."""
     target = finding["target"]
@@ -267,11 +301,14 @@ def render_report(finding: dict) -> str:
             f"- Funds at risk (modeled): USD {finding['funds_at_risk']['usd']}\n"
             f"- Attacker cost (modeled): USD {finding['attacker_cost']['usd']}\n"
             f"- Net profit (modeled): USD {finding['net_profit_usd']}\n"
-            f"- Calibrated severity: **{finding['final_severity']}**\n"
+            f"- Proposed severity (not confirmed): **{finding['proposed_severity']}**\n"
             f"- Reconstruction confidence (claimed): {finding['confidence']}\n\n"
             f"## Notes\n\n{finding['notes']}\n\n"
             f"This is an offline review draft, NOT independent proof of exploitability.\n")
 
 
 def load_json(path: Path) -> dict:
-    return json.loads(path.read_text(encoding="utf-8"))
+    try:
+        return read_json(path)
+    except (ValueError, OSError, RecursionError) as exc:
+        raise ContractError(str(exc)) from exc

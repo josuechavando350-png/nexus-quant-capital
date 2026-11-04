@@ -1,42 +1,130 @@
-# SUPERHUNTER — fase 1 (puente de contratos)
+# SUPERHUNTER — adaptadores de evidencias offline
 
-Este directorio vive **solo en `nexus-quant-capital`**, sin modificar código histórico de NQC ni el repositorio de DIABLO. La transferencia es mediante archivos JSON tipados y evidencias locales. No hay importación de código de DIABLO, transacciones en cadena, RPC de producción, firma, secretos ni workflows nuevos.
+Estado: **intercambio de datos implementado; motores de investigación no conectados**.
+Todo el código de integración vive en NQC. DIABLO y los motores históricos de
+NQC permanecen sin cambios. No se ejecutan PoCs, Forge, RPC, transacciones,
+exploración de objetivos ni envíos de reportes.
 
-## Contratos
+## Flujo implementado
 
-1. `Candidate`: DIABLO propone sospechoso `unverified`, identidad de código y objetivo, invariante, PoC y SHA256 del stdout real de Forge. No asigna severidad final.
-2. `Reconstruction`: NQC asocia candidato, bloque+hash, modelo de protocolo, fondos expuestos, costo estimado, beneficio neto, reproducibilidad, confianza y severidad económica propuesta.
-3. `Finding`: combinación **aplanada** de ambos contratos más `scope_pass`, `dup_check`, `forge_pass`, `final_severity` y `report_md`, **solo** si pasan todas las puertas.
+1. `export_diablo()` recibe un `Finding` nativo de DIABLO (dataclass o JSON),
+   contexto explícito del objetivo y un archivo de resultados ya existente.
+   Produce `Candidate` sin verificar y `request.json` con identificadores
+   deterministas, cadena, bloque, hash de bloque y hashes de contenido.
+2. `import_nqc()` recibe esa solicitud y una respuesta de evidencia existente.
+   Comprueba la asociación solicitud/respuesta, cadena y estado antes de aplicar
+   las puertas de revisión del puente. No ejecuta una reconstrucción.
+3. Produce `decision.json`, `diablo-feedback.json` y, cuando corresponde,
+   `review.md`. El feedback conserva el ID original de DIABLO.
 
-Los ejemplos del usuario se preservan en estos contratos. Se exige una entrada `admission.json` adicional con evidencia y revisiones independientes para no confiar en los booleanos autocontenidos de un sospechoso:
+El `Finding` nativo de DIABLO NO se considera un hallazgo confirmado. Su
+severidad y su descripción no acreditan la ejecución de una prueba.
 
-- `scope`: política aprobada por operador, repo+commit exactos, contratos permitidos/excluidos, fuente y hash de reglas.
-- `forge`: manifiesto del test, stdout SHA256 verificado, éxito, identidad del objetivo, fork y enlace afirmado al contrato.
-- `nqc`: evidencia JSON de reconstrucción, SHA256, estado y datos económicos ligados al candidato.
-- `duplicate`: revisión de auditorías/avisos, `result=none`, fuentes y revisor.
-- `severity`: límite por reglas del programa y nivel de impacto revisado.
+## Veredictos y cambio respecto a fase 1
 
-`prelim_severity=unverified` es un **estado**, no un grado ordinal. Por ello no puede computarse literalmente `min(prelim,economic)`; la severidad final es el mínimo de `economic_severity`, el máximo del programa y el impacto verificado por un revisor. En esta fase se trata de calificaciones de un manifiesto externo, no de un cálculo autónomo.
+- `EXPORTED_UNVERIFIED`: candidato exportado; no confirma alcance ni ejecución.
+- `REJECTED`: datos inválidos o comprobaciones de consistencia fallidas.
+- `INCOMPLETE`: artefacto sin la reconstrucción requerida.
+- `REVIEW_REQUIRED`: declaraciones y artefactos consistentes; falta revisión.
 
-## Ejecución local
+**Se retira `REPORT_READY`. No se emite un `Finding` final.** El resultado válido
+contiene `draft`, `execution_verified=false` y `proposed_severity`, no
+`final_severity`. Los antiguos `scope_pass` y `forge_pass` se identifican como
+`declared_scope_approved` y `declared_forge_pass`: son declaraciones, no hechos
+verificados por el conector. Esta es una modificación deliberada del contrato
+para evitar una confirmación falsa.
 
-Requiere Python 3.11 o posterior, solo librería estándar.
+Un SHA-256 vincula bytes, pero no autentica al productor. El manifiesto de
+alcance, el nombre del revisor, `target_bound`, `run_ok` y la confianza siguen
+siendo declaraciones externas. La coincidencia de cadena entre solicitud y
+respuesta tampoco constituye autorización del programa para esa cadena.
+
+## Uso
+
+Python 3.11+ y librería estándar. IO seguro requiere POSIX con openat/O_NOFOLLOW.
+Desde la raíz del repositorio:
 
 ```bash
 python3 -m unittest discover -s superhunter/tests -v
-python3 -m superhunter candidate.json reconstruction.json admission.json \
-  --evidence-root /directorio/con/forge.log/y/nqc.json --out /directorio/privado/reportes
+
+python3 -m superhunter export-diablo \
+  diablo-finding.json context.json forge.log \
+  --out /directorio-privado/caso-001-request
+
+python3 -m superhunter import-nqc \
+  /directorio-privado/caso-001-request/request.json \
+  nqc-response.json admission.json \
+  --evidence-root /directorio-privado/evidencias \
+  --out /directorio-privado/caso-001-review
 ```
 
-El comando retorna `0` si se genera borrador, `1` si una puerta se rechaza y `2` ante datos inválidos. Siempre escribe `decision.json` si el esquema de entrada era válido; **nunca** produce `report.md` cuando se rechaza.
+`context.json` requiere `scope_id`, `repo`, `commit`, `chain`, `chain_id`,
+`fork_block`, `block_hash`, `family` y `poc_path`. No se deduce la función de
+prueba a partir del nombre de un archivo. El contexto debe precisar
+`archivo.t.sol::test_nombre`. Para un bloque conocido se exige su hash.
 
-## Límites conocidos y siguiente etapa
+Respuesta de intercambio para evidencia de reconstrucción:
 
-Este es un **puente offline de contratos y verificaciones estructurales**, no un motor autónomo. La validez del `scope` depende de la revisión humana de reglas vigentes. `target_bound=true`, `run_ok=true` y el manifest NQC son **atestaciones externas**, no pruebas de que el código realmente ejecutó contra el objetivo. Un hash demuestra integridad de bytes, no su verdad. Antes de usar este sistema para afirmar hallazgos reales, construir productores verificables que:
+```json
+{
+  "schema_version": 1,
+  "request_sha256": "hash de la solicitud exportada",
+  "chain_id": 31337,
+  "reconstruction": {"...": "Reconstruction original completa"}
+}
+```
 
-- ejecuten el `forge` exactamente en el commit del objetivo, inspeccionen direcciones y generen metadatos del ejecutor de forma independiente;
-- reconstruyan estado y resultados económicos directamente mediante NQC y verifiquen diferencias de balance con un motor independiente;
-- protejan las evidencias y reportes no divulgados fuera del repositorio público;
-- cotejen las reglas actuales de cada programa en su canal oficial.
+Ese formato define un **contrato de recepción**, no un productor ya construido
+dentro del motor NQC. Una reconstrucción debe suministrarse desde un proceso
+independiente de revisión. No generar datos inventados para satisfacerlo.
 
-Los tests incluidos usan fixtures sintéticos. Un `REPORT_READY` significa **borrador apto para revisión**, no explotación validada de un contrato de producción, certificación ni derecho a recompensa.
+El puente legacy también conserva su interfaz de argumentos original:
+
+```bash
+python3 -m superhunter candidate.json reconstruction.json admission.json \
+  --evidence-root /directorio-privado/evidencias \
+  --out /directorio-privado/caso-002-review
+```
+
+`Admission` conserva sus secciones `scope`, `forge`, `nqc`, `duplicate` y
+`severity`. El archivo NQC referenciado debe contener la Reconstruction completa,
+incluidos severidad, confianza y notas. Los importes no se recalculan ni se
+presentan como mediciones realizadas por este módulo. `amount_wei` se conserva
+por compatibilidad: el productor debe precisar la unidad mínima y decimales del
+token; el nombre del campo no autoriza asumir 18 decimales.
+
+Códigos de salida: 0 para exportación o borrador de revisión, 1 para rechazo o
+información incompleta, 2 para error de esquema/IO. **0 no significa hallazgo**.
+La consola no imprime reportes ni datos económicos. Cada ejecución necesita un
+directorio nuevo: no se sobrescriben decisiones anteriores.
+
+## Compatibilidad nativa comprobada
+
+- Modelo DIABLO: `nexus-offensive/core/models.py`, commit
+  `0c27792fba1af1f925bfff03fbcc6fd82a3791b0`, blob
+  `bd832c728e71dc18bb4e9fa76bca7b36bf714a8b`.
+- Cierre NQC: `ci/nqc-protocol-fork/PROTOCOL_FORK_FINAL_CLOSEOUT.json`, commit
+  `16e352225ba8a6a931834c4edf3d86d9a2924b7d`, blob
+  `8c12db5323f2bcd0c50f242f7e720a9780b30b76`.
+
+El segundo es un documento de políticas/historia, **no** una reconstrucción de
+un candidato. El adaptador devuelve `INCOMPLETE`, aunque sus checkpoints digan
+PASS. No convierte resultados de trading o liquidaciones históricas en pérdidas
+por vulnerabilidades.
+
+## Protección de artefactos
+
+JSON sin claves duplicadas ni números no finitos; límites de tamaño; tipos
+estrictos; enteros canónicos hasta uint256; lectura sin symlinks, dispositivos o
+traversal. Las salidas usan directorios 0700 y archivos 0600. `COMPLETE.json`
+se escribe al final con hashes; un consumidor debe comprobarlo antes de usar
+una carpeta. Un cierre abrupto puede dejar una carpeta incompleta, no un caso
+válido. El contenido sensible debe mantenerse fuera del checkout público.
+
+## Qué falta y qué no se afirma
+
+No hay ejecución coordinada de los motores DIABLO y NQC, reconstrucción
+independiente, confirmación de vulnerabilidades, autenticación criptográfica de
+productores, actualización automática de reglas de bounty ni envío automático.
+No hay certificación nueva de PFT/Census ni evidencia de recompensas.
+Ver `VALIDATION.md` para el alcance real de las pruebas ejecutadas.

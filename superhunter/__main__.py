@@ -1,34 +1,63 @@
-"""Run: python -m superhunter candidate.json reconstruction.json admission.json --evidence-root ... --out ..."""
+"""Offline evidence bridge. No subprocess, RPC, scanners or automatic disclosure."""
+from __future__ import annotations
 
 import argparse
 import json
 from pathlib import Path
+import sys
 
 from .bridge import ContractError, evaluate, load_json, render_report
+from .integration import export_diablo, import_nqc
+from .safe_io import canonical, read_artifact, write_new_bundle
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Offline SUPERHUNTER candidate/reconstruction gate")
-    parser.add_argument("candidate", type=Path)
-    parser.add_argument("reconstruction", type=Path)
-    parser.add_argument("admission", type=Path)
-    parser.add_argument("--evidence-root", required=True, type=Path)
-    parser.add_argument("--out", required=True, type=Path, help="directory for report.md and decision.json")
-    args = parser.parse_args()
-    report_path = str(args.out / "report.md")
+    argv = sys.argv[1:]
+    mode = argv.pop(0) if argv and argv[0] in ("export-diablo", "import-nqc") else "legacy"
+    parser = argparse.ArgumentParser(description="Offline SUPERHUNTER evidence adapters")
+    if mode == "export-diablo":
+        parser.add_argument("finding", type=Path)
+        parser.add_argument("context", type=Path)
+        parser.add_argument("forge_output", type=Path)
+    elif mode == "import-nqc":
+        parser.add_argument("request", type=Path)
+        parser.add_argument("response", type=Path)
+        parser.add_argument("admission", type=Path)
+    else:
+        parser.add_argument("candidate", type=Path)
+        parser.add_argument("reconstruction", type=Path)
+        parser.add_argument("admission", type=Path)
+    if mode != "export-diablo":
+        parser.add_argument("--evidence-root", required=True, type=Path)
+    parser.add_argument("--out", required=True, type=Path, help="NEW private output directory; never overwritten")
+    args = parser.parse_args(argv)
     try:
-        decision = evaluate(load_json(args.candidate), load_json(args.reconstruction),
-                            load_json(args.admission), evidence_root=args.evidence_root,
-                            report_path=report_path)
-    except (ContractError, OSError, ValueError) as exc:
-        print(json.dumps({"status": "REJECTED", "reasons": [str(exc)]}, indent=2))
+        if mode == "export-diablo":
+            request = export_diablo(load_json(args.finding), load_json(args.context),
+                                   read_artifact(args.forge_output.parent, args.forge_output.name))
+            write_new_bundle(args.out, {"candidate.json": canonical(request["candidate"]),
+                                       "request.json": canonical(request)})
+            print(json.dumps({"status": "EXPORTED_UNVERIFIED", "candidate_id": request["candidate"]["id"]}))
+            return 0
+        report_path = str(args.out / "review.md")
+        if mode == "import-nqc":
+            result = import_nqc(load_json(args.request), load_json(args.response), load_json(args.admission),
+                                evidence_root=args.evidence_root, report_path=report_path)
+        else:
+            result = evaluate(load_json(args.candidate), load_json(args.reconstruction), load_json(args.admission),
+                              evidence_root=args.evidence_root, report_path=report_path)
+        files = {"decision.json": canonical(result)}
+        if "diablo_feedback" in result:
+            files["diablo-feedback.json"] = canonical(result["diablo_feedback"])
+        if result["status"] == "REVIEW_REQUIRED":
+            files["review.md"] = render_report(result["draft"]).encode()
+        write_new_bundle(args.out, files)
+        print(json.dumps({"status": result["status"], "execution_verified": False}))
+        return 0 if result["status"] == "REVIEW_REQUIRED" else 1
+    except (ContractError, OSError, ValueError, TypeError, KeyError, AttributeError, RecursionError) as exc:
+        # No raw evidence, amounts, reports or keys printed to shared console logs.
+        print(json.dumps({"status": "REJECTED", "error_type": type(exc).__name__, "reason": str(exc)[:300]}))
         return 2
-    args.out.mkdir(parents=True, exist_ok=True)
-    if decision["status"] == "REPORT_READY":
-        (args.out / "report.md").write_text(render_report(decision["finding"]), encoding="utf-8")
-    (args.out / "decision.json").write_text(json.dumps(decision, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps(decision, indent=2))
-    return 0 if decision["status"] == "REPORT_READY" else 1
 
 
 if __name__ == "__main__":
