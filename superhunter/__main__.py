@@ -13,6 +13,9 @@ from .safe_io import canonical, read_artifact, write_new_bundle
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ('import-static', 'verify-static'):
+        from .static_intake import main as static_main
+        return static_main(argv)
     if argv and argv[0] in ("review", "verify-review"):
         from .review import main as review_main
         return review_main(argv)
