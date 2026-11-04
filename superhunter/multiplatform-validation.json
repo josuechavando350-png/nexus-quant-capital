@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-11-04T19:34:22.914479+00:00",
+  "publication_parent": "56038908d0487b91994f9060afa5b2051b5558a6",
+  "local_consolidated": {
+    "tests_run": 834,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "previous_unique_ids_preserved": 765,
+    "new_tests": 69,
+    "source_digest": "6a8d2b539f5f6b3602b9c91ee53fc0e8340fe525d7dd75ec5bf932b9298784a5",
+    "test_log_sha256": "c5b3f67e638a2dda37bdc911f603455ca615f96d1f7d43c1697288617809a1a3",
+    "five_native_cases": true,
+    "numerical_fuzz_cases": 256,
+    "combined_cli_and_separate_verifier_passed": true
+  },
+  "focused_publication": {
+    "tests_run": 390,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "previous_tests_preserved": 329,
+    "new_tests": 61,
+    "source_digest": "61b90380c8102c111a04b478d44c3f87601e397591b5c8b358f7d843e3576332",
+    "test_log_sha256": "eb242f0e5b3cc0af19f420642992638f61534cc45a707e188ae89b935e216a6d"
+  },
+  "program_scenarios": {
+    "platform_labels": 8,
+    "synthetic_programs": 20,
+    "eligible_baseline": 20,
+    "mixed": {
+      "LOCAL_REVIEW_ELIGIBLE": 10,
+      "BLOCKED": 7,
+      "REVIEW_REQUIRED": 3
+    },
+    "expired": {
+      "BLOCKED": 20
+    },
+    "separate_verifier_passed": true,
+    "accounts_connected": 0,
+    "external_actions_executed": 0
+  },
+  "initial_incomplete_runs": [
+    "Two initial combined baseline attempts hit the execution timeout; neither is counted as a pass."
+  ],
+  "source_blobs": {
+    "superhunter/program_registry.py": "3ebca0d1bb7cc4b4486970fb58c0296c639d8067",
+    "superhunter/privacy.py": "a9133370118e94d7ec26062d7297690ba267ad4b",
+    "superhunter/tests/test_program_registry.py": "7e78325b44024c88da7fad8c59d010e40a19addd",
+    "superhunter/__main__.py": "80be86e571c56de2f949e63f3f6378a226b6c16c",
+    "superhunter/quality.py": "2e50b58cb48be0e450b926a8af614a1f07818cc6",
+    "superhunter/MULTIPLATFORM.md": "744ae257fda6a0e1c688e966c69e340d5e4fc244"
+  },
+  "main_modified": false,
+  "github_actions_run": false,
+  "full_historical_nqc_suite_run": false,
+  "full_isolation_verifier_run": false,
+  "slither_executed": false,
+  "solc_executed": false,
+  "forge_executed": false,
+  "platform_complete": false,
+  "vulnerability_confirmed": false,
+  "limitations": "Offline policy snapshots and human declarations only. No account/API connections, scope fetching, active testing or report submission. Hashes do not authenticate authorization. The full local consolidation and review-platform integration are not all present in the focused publication."
+}

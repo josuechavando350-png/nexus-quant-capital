@@ -19,6 +19,7 @@ from .safe_io import canonical, read_artifact, strict_json, write_new_bundle
 
 ROOT = Path(__file__).resolve().parent
 COMPONENTS = {
+    'programs': {'files': ['program_registry.py', 'privacy.py'], 'tests': ['test_program_registry.'], 'depends': ['native', 'io']},
     'source_graph': {'files': ['source_graph.py'], 'tests': ['test_source_graph.'], 'depends': ['io']},
     'static-intake': {'files': ['static_intake.py'], 'tests': ['test_static_intake.'], 'depends': ['io']},
     'io': {'files': ['safe_io.py'], 'tests': ['test_integration.'], 'depends': []},
@@ -67,7 +68,15 @@ REQUIRED_TESTS += (
     'test_source_graph.SourceGraphTests.test_no_analyzed_code_is_executed',
     'test_source_graph.SourceGraphTests.test_resealed_runtime_claim_rejected',
 )
-FILES = {'receipt.json', 'quality.json', 'source-snapshot.json', 'CHECKLIST.md', 'tests.log'}
+REQUIRED_TESTS += (
+    'test_program_registry.ProgramRegistryTests.test_exclusion_overrides_inclusion',
+    'test_program_registry.ProgramRegistryTests.test_normalized_change_invalidates_review',
+    'test_program_registry.ProgramRegistryTests.test_historical_success_can_be_currently_expired',
+    'test_program_registry.ProgramRegistryTests.test_live_scan_and_submission_are_never_enabled',
+)
+COMPONENTS['quality']['depends'].append('programs')
+COMPONENTS['entrypoints']['depends'].append('programs')
+FILES = {'receipt.json' , 'quality.json', 'source-snapshot.json', 'CHECKLIST.md', 'tests.log'}
 
 
 def sha(value: bytes) -> str:
@@ -143,7 +152,7 @@ def catalog(root: Path = ROOT) -> dict:
             raise ValueError('capability fields mismatch')
         if item['status'] not in ('PLANNED', 'PARTIAL', 'REDESIGN_REQUIRED'):
             raise ValueError('no capability may be certified complete by this catalog')
-        if any(type(item[k]) is not str or not item[k].strip() for k in ('title', 'scope')):
+        if any(type(item[k]) is not str or not item[k].strip() for k in ('title','scope')):
             raise ValueError('capability title/scope missing')
         refs = item['components']
         if (type(refs) is not list or any(type(ref) is not str or ref not in COMPONENTS for ref in refs) or
