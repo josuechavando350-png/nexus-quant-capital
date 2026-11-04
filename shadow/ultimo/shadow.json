@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-03 21:06:40 UTC",
+ "generado": "2026-11-04 03:03:44 UTC",
  "config": {
   "min_bonus_usd": 0.05,
   "min_net_usd": 0.02,
@@ -8,9 +8,9 @@
  },
  "fuentes": {
   "vivo": {
-   "bloques": 9910,
-   "decisiones": 6,
-   "resultados": 7,
+   "bloques": 9890,
+   "decisiones": 5,
+   "resultados": 190,
    "lineas_cortadas": 0,
    "meta": true
   }
@@ -29,16 +29,16 @@
    "operator_prefund": false,
    "own_gas_fallback": false
   },
-  "decisiones": 6,
-  "capturas_de_entrada": 6,
+  "decisiones": 5,
+  "capturas_de_entrada": 5,
   "sin_captura": 0,
   "pendientes": {
-   "prestamista_liquidez_comision": 6,
-   "ruta_swap_salida_minima": 6,
-   "simulacion_atomica_y_repago": 6,
-   "titan_cobertura_cadena_y_candidata": 6,
-   "gas_l1_l2_y_reembolso_sin_doble_conteo": 6,
-   "compensacion_builder": 6
+   "prestamista_liquidez_comision": 5,
+   "ruta_swap_salida_minima": 5,
+   "simulacion_atomica_y_repago": 5,
+   "titan_cobertura_cadena_y_candidata": 5,
+   "gas_l1_l2_y_reembolso_sin_doble_conteo": 5,
+   "compensacion_builder": 5
   },
   "neto_propio_usd": null,
   "beneficio_realizado_usd": null,
@@ -46,116 +46,118 @@
  },
  "vivo": {
   "ventana": {
-   "bloques": 9910,
-   "bloques_en_rango": 9910,
-   "cobertura": 1.0,
-   "desde_bloque": 53465379,
-   "hasta_bloque": 53475288,
-   "desde_ts": 1793720105,
-   "hasta_ts": 1793739923,
-   "horas": 5.505
+   "bloques": 9890,
+   "bloques_en_rango": 9905,
+   "cobertura": 0.9984856133266027,
+   "desde_bloque": 53476105,
+   "hasta_bloque": 53486009,
+   "desde_ts": 1793741557,
+   "hasta_ts": 1793761365,
+   "horas": 5.502222222222223
   },
   "latencia": {
    "visto_ms": {
-    "p50": 222,
-    "p90": 377,
-    "p99": 472,
-    "min": 50,
-    "max": 1262,
-    "n": 9810
+    "p50": 237,
+    "p90": 422,
+    "p99": 557,
+    "min": 72,
+    "max": 1300,
+    "n": 9674
    },
    "proceso_ms": {
-    "p50": 163,
-    "p90": 345,
-    "p99": 850,
-    "min": 29,
-    "max": 11422,
-    "n": 9910
+    "p50": 243,
+    "p90": 453,
+    "p99": 3862,
+    "min": 85,
+    "max": 31485,
+    "n": 9890
    },
    "visto_mas_proceso_ms": {
-    "p50": 390,
-    "p90": 625,
-    "p99": 1128,
-    "min": 127,
-    "max": 11584,
-    "n": 9810
+    "p50": 529,
+    "p90": 778,
+    "p99": 4048,
+    "min": 189,
+    "max": 32562,
+    "n": 9674
    },
    "fases_ms": {
     "cabecera_ms": {
-     "p50": 25,
-     "p90": 54,
-     "p99": 278,
-     "min": 13,
-     "max": 11043,
-     "n": 9910
+     "p50": 83,
+     "p90": 143,
+     "p99": 1376,
+     "min": 28,
+     "max": 5047,
+     "n": 9890
     },
     "logs_ms": {
-     "p50": 19,
-     "p90": 126,
-     "p99": 224,
+     "p50": 0,
+     "p90": 263,
+     "p99": 1001,
      "min": 0,
-     "max": 8165,
-     "n": 9910
+     "max": 9612,
+     "n": 9890
     },
     "lectura_ms": {
-     "p50": 98,
-     "p90": 134,
-     "p99": 225,
+     "p50": 62,
+     "p90": 165,
+     "p99": 392,
      "min": 0,
-     "max": 2128,
-     "n": 9910
+     "max": 1663,
+     "n": 9890
     },
     "evaluar_ms": {
-     "p50": 11,
-     "p90": 121,
-     "p99": 262,
+     "p50": 9,
+     "p90": 100,
+     "p99": 251,
      "min": 6,
-     "max": 611,
-     "n": 9910
+     "max": 1473,
+     "n": 9890
     }
    },
    "decision": {
     "visto_ms": {
-     "p50": 320,
-     "p90": 320,
-     "p99": 320,
-     "min": 320,
-     "max": 320,
-     "n": 1
+     "p50": null,
+     "p90": null,
+     "p99": null,
+     "min": null,
+     "max": null,
+     "n": 0
     },
     "decidido_ms": {
-     "p50": 482,
-     "p90": 482,
-     "p99": 482,
-     "min": 482,
-     "max": 482,
-     "n": 1
+     "p50": null,
+     "p90": null,
+     "p99": null,
+     "min": null,
+     "max": null,
+     "n": 0
     },
     "x_ms": {
-     "p50": 952,
-     "p90": 952,
-     "p99": 952,
-     "min": 952,
-     "max": 952,
-     "n": 1
+     "p50": null,
+     "p90": null,
+     "p99": null,
+     "min": null,
+     "max": null,
+     "n": 0
     },
-    "bloque_de_llegada": {
-     "1": 1
-    }
+    "bloque_de_llegada": {}
    },
    "nota": "visto_ms es cota superior: el timestamp del bloque tiene resolución de 1 s; se mide desde un servidor de GitHub Actions"
   },
   "decisiones": {
    "por_decision": {
-    "NO-GO": 6
+    "GO": 1,
+    "NO-GO": 4
    },
    "por_razon": {
-    "NO-GO:deuda_mala": 6
+    "GO:ok": 1,
+    "NO-GO:deuda_mala": 4
    }
   },
   "go": {
-   "n": 0,
-   "destino": {},
+   "n": 1,
+   "destino": {
+    "expirada": 1
+   },
    "llegada_medida": {
     "antes": {
      "n": 0,
@@ -173,65 +175,132 @@
      "neto_modelo_usd": 0
     }
    },
-   "con_cruce_incierto": 0,
+   "con_cruce_incierto": 1,
    "liquidadas_con_cruce_incierto": 0,
    "liquidadas_por_subasta": 0,
-   "bono_usd": 0,
-   "neto_modelo_usd": 0,
-   "cerrados": 0
+   "bono_usd": 2.960097,
+   "neto_modelo_usd": 2.0069457660000003,
+   "cerrados": 1
   },
   "liquidaciones": {
-   "n": 2,
-   "bono_usd": 2.0526617473903968,
+   "n": 185,
+   "bono_usd": 34095.33845025699,
    "clases": {
-    "con_aviso": 1,
-    "mismo_bloque": 1
+    "mismo_bloque": 141,
+    "fuera_del_libro": 44
    },
    "vias": {
-    "directa": 1,
-    "subasta": 1
+    "subasta": 46,
+    "directa": 139
    },
-   "recall_visibles": 1.0,
-   "parte_mismo_bloque": 0.5,
-   "fuera_del_libro": []
+   "recall_visibles": 0.0,
+   "parte_mismo_bloque": 0.7621621621621621,
+   "fuera_del_libro": [
+    {
+     "mercado": "cbBTC/USDC lltv 86.0%",
+     "prestatario": "0x3b60395b6e8ffbfb2c10847b313abef3edefa5ff",
+     "bono_usd": 44.465942229645094,
+     "tx": "0x84ad9a9ae08c6cd7370b401f2bd372356f18296c89eed795b9300ceb724924ca"
+    },
+    {
+     "mercado": "cbBTC/USDC lltv 86.0%",
+     "prestatario": "0xbc35e34c57c57bd922256889fc132efc5af1b4ca",
+     "bono_usd": 59.82326743841336,
+     "tx": "0xf6be51cb15b80cd2c9047c26d20e106a38c85a1425026794bc6203f3f9360dae"
+    },
+    {
+     "mercado": "cbBTC/USDC lltv 86.0%",
+     "prestatario": "0x1febec56e9ff1e6a942571fa26d8f7d1fb133c7f",
+     "bono_usd": 39.14040369519833,
+     "tx": "0xcc7bdb4206e44965dd222a5a6244942822dd79793a68bb4eb61d2f1c9eea5d2a"
+    },
+    {
+     "mercado": "cbBTC/USDC lltv 86.0%",
+     "prestatario": "0x779e917e064ecb9c24e9ad1e35b68d9d2143a101",
+     "bono_usd": 39.13235460125261,
+     "tx": "0xbfafdfa0cee596d7303c031b89fd6597a81d5a3d14680d0af834760e1a3b720d"
+    },
+    {
+     "mercado": "cbBTC/USDC lltv 86.0%",
+     "prestatario": "0xc8f3d5a14b2a90958e4a3659ac360f563d57c7c1",
+     "bono_usd": 30.792677736951983,
+     "tx": "0x6ac5bd7b6e3e33f11141bec8c39cdee056e8feb6226353e1b54ad3301afbf964"
+    },
+    {
+     "mercado": "cbBTC/USDC lltv 86.0%",
+     "prestatario": "0x9a5735489710631b506b598bee77e7cf0db63dc5",
+     "bono_usd": 23.790701223382044,
+     "tx": "0x6ac5bd7b6e3e33f11141bec8c39cdee056e8feb6226353e1b54ad3301afbf964"
+    },
+    {
+     "mercado": "cbBTC/USDC lltv 86.0%",
+     "prestatario": "0x17e75025f888deed8409ec2ecb1bbdc9fa7df815",
+     "bono_usd": 22.588650964509394,
+     "tx": "0x6ac5bd7b6e3e33f11141bec8c39cdee056e8feb6226353e1b54ad3301afbf964"
+    },
+    {
+     "mercado": "cbBTC/USDC lltv 86.0%",
+     "prestatario": "0x36460e93e0a4dd67634c3cffe5ab13fca354beb9",
+     "bono_usd": 7.261095732776617,
+     "tx": "0x6ac5bd7b6e3e33f11141bec8c39cdee056e8feb6226353e1b54ad3301afbf964"
+    },
+    {
+     "mercado": "cbBTC/USDC lltv 86.0%",
+     "prestatario": "0x6dd698590761d5bb029556fe5156118983b550e9",
+     "bono_usd": 3.977576286012526,
+     "tx": "0x6ac5bd7b6e3e33f11141bec8c39cdee056e8feb6226353e1b54ad3301afbf964"
+    },
+    {
+     "mercado": "cbBTC/USDC lltv 86.0%",
+     "prestatario": "0x5f671c6aa7ca0e38894677fbbaeedb9eb0e20159",
+     "bono_usd": 3.8443343549060542,
+     "tx": "0x6ac5bd7b6e3e33f11141bec8c39cdee056e8feb6226353e1b54ad3301afbf964"
+    }
+   ]
   },
   "flash": {
-   "n": 2,
+   "n": 185,
    "grupos": {
     "directa": {
-     "n": 1,
+     "n": 139,
      "por_tipo": {
-      "sin_actualizacion": 1
+      "sin_actualizacion": 66,
+      "no_visto": 60,
+      "mismo_trozo": 13
      },
-     "con_actualizacion_por_subasta": 0,
+     "con_actualizacion_por_subasta": 14,
      "bono_usd": {
-      "sin_actualizacion": 0.3181528935281837
+      "sin_actualizacion": 30769.344858949335,
+      "no_visto": 120.69401842797494,
+      "mismo_trozo": 23.840448206680584
      },
      "reaccion_ms": {
-      "p50": null,
-      "p90": null,
-      "p99": null,
-      "min": null,
-      "max": null,
-      "n": 0
+      "p50": 0,
+      "p90": 0,
+      "p99": 0,
+      "min": 0,
+      "max": 0,
+      "n": 13
      },
      "t_liquidacion_ms": {
-      "p50": 1310,
-      "p90": 1310,
-      "p99": 1310,
-      "min": 1310,
-      "max": 1310,
-      "n": 1
+      "p50": 318,
+      "p90": 1150,
+      "p99": 2808,
+      "min": 0,
+      "max": 2808,
+      "n": 79
      }
     },
     "subasta": {
-     "n": 1,
+     "n": 46,
      "por_tipo": {
-      "sin_actualizacion": 1
+      "sin_actualizacion": 44,
+      "no_visto": 2
      },
      "con_actualizacion_por_subasta": 0,
      "bono_usd": {
-      "sin_actualizacion": 1.7345088538622129
+      "sin_actualizacion": 3177.2919086729985,
+      "no_visto": 4.167216
      },
      "reaccion_ms": {
       "p50": null,
@@ -242,62 +311,62 @@
       "n": 0
      },
      "t_liquidacion_ms": {
-      "p50": 105,
-      "p90": 105,
-      "p99": 105,
-      "min": 105,
-      "max": 105,
-      "n": 1
+      "p50": 944,
+      "p90": 1150,
+      "p99": 1150,
+      "min": 399,
+      "max": 1150,
+      "n": 44
      }
     }
    },
    "watcher": {
     "errores": {
-     "HTTP 429 en mainnet-preconf.base.org": 7,
-     "HTTP 502 en mainnet-preconf.base.org": 3
+     "HTTP 429 en mainnet-preconf.base.org": 2,
+     "HTTP 502 en mainnet-preconf.base.org": 1
     },
-    "fotos": 196438,
+    "fotos": 193254,
     "intervalo_de_consulta_ms": 100,
     "intervalo_entre_trozos_ms": {
-     "max": 297,
-     "min": 19,
-     "n": 78,
-     "p50": 194,
-     "p90": 204,
-     "p99": 294
+     "max": 2998,
+     "min": 86,
+     "n": 26,
+     "p50": 210,
+     "p90": 1215,
+     "p99": 2998
     },
     "rtt_ms": {
-     "max": 2611,
-     "min": 14,
-     "n": 196438,
-     "p50": 22,
-     "p90": 33,
-     "p99": 70
+     "max": 5468,
+     "min": 71,
+     "n": 193254,
+     "p50": 84,
+     "p90": 95,
+     "p99": 141
     },
     "url": "https://mainnet-preconf.base.org"
    }
   },
   "via_rapida": {
    "resumen": {
-    "actualizaciones": 155,
-    "cruces": 1,
+    "actualizaciones": 288,
+    "cruces": 163,
     "cruces_liquidados": 0,
     "decision_ms": {
-     "max": 6.9,
+     "max": 39.5,
      "min": 0.0,
-     "n": 155,
-     "p50": 1.2,
-     "p90": 5.2,
-     "p99": 5.9
+     "n": 288,
+     "p50": 1.0,
+     "p90": 5.4,
+     "p99": 6.9
     },
     "errores": 0,
     "evaluar_ms": {
-     "max": 6.9,
+     "max": 39.5,
      "min": 0.0,
-     "n": 155,
-     "p50": 1.2,
-     "p90": 5.1,
-     "p99": 5.9
+     "n": 288,
+     "p50": 1.0,
+     "p90": 5.4,
+     "p99": 6.9
     },
     "feeds": 32,
     "holgura_ms": {
@@ -312,12 +381,12 @@
     "sin_precio_base": 0,
     "supuesto_envio_ms": 20,
     "ventaja_frente_a_la_consulta_ms": {
-     "max": 214,
-     "min": -141,
-     "n": 155,
-     "p50": 56,
-     "p90": 98,
-     "p99": 143
+     "max": 545,
+     "min": -30,
+     "n": 279,
+     "p50": 61,
+     "p90": 105,
+     "p99": 220
     },
     "ventana_ms": {
      "max": null,
@@ -329,306 +398,1918 @@
     }
    },
    "ws": {
-    "conexiones": 1,
-    "errores": {},
-    "logs": 493,
-    "mensajes": 1836590,
+    "conexiones": 5,
+    "errores": {
+     "WsError: conexión cerrada por el servidor": 3,
+     "WsError: el servidor cerró el WebSocket": 1
+    },
+    "logs": 883,
+    "mensajes": 2007432,
     "silencio_entre_trozos_ms": {
-     "max": 717,
+     "max": 1650,
      "min": 50,
-     "n": 26480,
+     "n": 36885,
      "p50": 167,
-     "p90": 200,
-     "p99": 445
+     "p90": 197,
+     "p99": 441
     },
     "suscripciones": {
      "logs": "ok",
      "transacciones": "ok"
     },
-    "transacciones": 1836095,
+    "transacciones": 2006539,
     "url": "wss://mainnet-preconf.base.org"
    },
    "cruces": [
     {
-     "bloque_pendiente": 53470203,
-     "bono_usd": 1.734506,
-     "decision": "GO",
-     "decision_ms": 1.6,
-     "etiqueta": "WETH/USDC lltv 86.0%",
-     "mercado": "0x8793cf302b8ffd655ab97bd1c695dbd967807e8367a65cb2f4edaf1380ba1bda",
-     "neto_modelo_usd": 1.635639158,
-     "prestatario": "0x697c6cd9b242c736bcd3abce138b0242afe4445d",
-     "razon": "ok",
+     "bloque_pendiente": 53483662,
+     "bono_usd": 0.319769,
+     "decision": "NO-GO",
+     "decision_ms": 0.1,
+     "etiqueta": "cbHYPE/USDC lltv 62.5%",
+     "mercado": "0x76629002c9fdb20fb2092053a4f22c5c65e04a81887218b9546f2a2d82b4c0a8",
+     "neto_modelo_usd": 0.21680338200000004,
+     "prestatario": "0xb7a4f10608aa95dccd1b081151cff61f30ad208b",
+     "razon": "mercado_de_subasta",
      "resultado": "no_liquidada_en_el_bloque",
-     "salud": 0.9985657168229853,
-     "t_log": 1793729752.608277,
-     "tx_actualizacion": "0xbaab0e748ecbb60d62cf39d62e86b0f1cc761fe08a8013d266af7b6696f2f1ab"
+     "salud": 0.9992111445064341,
+     "t_log": 1793756669.9632816,
+     "tx_actualizacion": "0x40b7ea3de9841a380c94c84ae08a1a6c4c5a2306f8e114032fe6971e2ee4a336"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 274.529268,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 186.130843704,
+     "prestatario": "0x0bd46338be12d5f063c6f233776215e7aa3b4d18",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9992850791119617,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 3.665694,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 2.485340532,
+     "prestatario": "0x12ae9e031cf88e426931935e38551141621f5122",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.998707758333132,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 3.239922,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 2.196667116,
+     "prestatario": "0x1af0159ee316f7ee78756678865876b8fcbb0af5",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.999985415508707,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 14.917486,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 10.114055508000002,
+     "prestatario": "0x1c4620d10c6870d28d14d99d6590fcb4522da159",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9975852384350238,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 0.336291,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.22800529800000002,
+     "prestatario": "0x1c915a594e0e9565e0ce18ef6da730839c87a203",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9987925730731805,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 0.268876,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.18229792800000003,
+     "prestatario": "0x1fe11dbe74c5507140ccedd5584e9ef8ae2fbff9",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9977107143124352,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 35.817305,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 24.28413279,
+     "prestatario": "0x21576a11decd10ef89a4e7eb77f8b79f3bf1ac98",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9993893601119248,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 0.792855,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.53755569,
+     "prestatario": "0x21b0f2c08c44fc9f14239612cadb45a238c1c0f8",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9997286717503674,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 0.322172,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.21843261600000002,
+     "prestatario": "0x25f2b3d81560789732b856657f05da5a3780e3ff",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9987922038990289,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 0.355845,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.24126291000000002,
+     "prestatario": "0x287ce0bc4943102c50ccc75e6d3c86f92883f57b",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9977558640040537,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 0.295527,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.200367306,
+     "prestatario": "0x2cdd5a9133f9fe62a3f5e1a9a68a7c3816433f97",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9976902126460562,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 2.569206,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 1.741921668,
+     "prestatario": "0x2e82a4c35ebc7e0ac9ee44092b20379f61f57d2b",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9980273187289067,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 3.325219,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 2.2544984820000002,
+     "prestatario": "0x3575168ae383cb97086485dd421d750cde70d66d",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9983809512621953,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 1.442418,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.977959404,
+     "prestatario": "0x3b7187d6e820a59ebc3b3321a342dee7f898004d",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9982706830759304,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 1.332362,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.903341436,
+     "prestatario": "0x3dffab19e07f73eea4b1607ac8f0856c2c202b52",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9994247238192524,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 0.805857,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.5463710460000001,
+     "prestatario": "0x417cfaf3bf4f5ca4146e38c391d380563026cd47",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9984206086580608,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 0.664339,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.450421842,
+     "prestatario": "0x45393a9bba845a7a9da95f578d57a4d7e23e361b",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9989629423821496,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 0.761596,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.516362088,
+     "prestatario": "0x47d6ff54174c22fbfe888687e9ceaece136de89a",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9977216413524654,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 8.118595,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 5.50440741,
+     "prestatario": "0x4ebf9122540147029a0810027e4b7a1840414dc1",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9982137608599998,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 27.305673,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 18.513246294,
+     "prestatario": "0x5f36b013c38d8068def19bcc22e88099ddf599d3",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9987790989649885,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 3401.75008,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 2306.38655424,
+     "prestatario": "0x6315ba808acaf1ccb032cca023e462d5fec844f6",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9987293705991649,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 0.277571,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.188193138,
+     "prestatario": "0x63ca18a6ce9b7d170c1d967b5b417dcc014bd7c7",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.999114276772007,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 70.432133,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 47.752986174,
+     "prestatario": "0x6503914e1b3eb0050409013dd8d061ce555fd8ca",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9989779958816225,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 0.198245,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.13441011,
+     "prestatario": "0x6510b71b8ce1452b4b3e3fed5d55139be2e47954",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9975343405154689,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 0.294431,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.19962421800000002,
+     "prestatario": "0x69de2b49f86a7492f0de603e6550e9531362cbcf",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.998485678743396,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 3.427129,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 2.3235934620000003,
+     "prestatario": "0x6dc89cb966ea7fa89677e605a039712273d635f3",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9986482392591696,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 859.716585,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 582.88784463,
+     "prestatario": "0x72cb861bcba7df7f283675d6c5aedf1a14391bb5",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.99931007731745,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 3.28083,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 2.22440274,
+     "prestatario": "0x74cebd0c6707cd1d55317062cf0c5541f441fb62",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9995221163175885,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 3.462686,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 2.3477011080000003,
+     "prestatario": "0x78388fde3bd53156dafc7c6eea6a610424f6138f",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.999875228579849,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 35.851211,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 24.307121058,
+     "prestatario": "0x8056cec7d52ae97f9f67b693268dced9cb8f3593",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9973498202590275,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 0.233819,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.15852928200000002,
+     "prestatario": "0x857669a3b6fcf20eb248cf79f5355e85d6cfa698",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9979383304569763,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 0.33576,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.22764528,
+     "prestatario": "0x8ef4615a0e244f72a8cecc4419850d22302daff9",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9997397953561631,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 10.066817,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 6.825301926000001,
+     "prestatario": "0x919dbed75976db2b1170c6e91cb52b5f72b11902",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9980592486680231,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 10.409636,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 7.057733208000001,
+     "prestatario": "0x92c52f83444e8bf949cdccf31a9b106d667fcca7",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9976496502459132,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 1.831158,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 1.241525124,
+     "prestatario": "0x953e5805d8a52a5c9495fa434805771fcb31a701",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9973347037238584,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 4.315749,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 2.9260778220000003,
+     "prestatario": "0x978264b38917987c7e996e94d9a1678bf875c7ff",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9998448671771826,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 1.479488,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 1.003092864,
+     "prestatario": "0x9a1fa3689f1a7e67d475d83bb30fd3e2b5109014",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9981295824075376,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 24.913933,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 16.891646574000003,
+     "prestatario": "0xa0d867dd1f0f7a9a08958b5073c150e3435715cf",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9994138246694196,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 15.317002,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 10.384927356,
+     "prestatario": "0xa8c2fc323180879fa38be34ff2ede0bbe0c1bd91",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9985711490698596,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 0.329211,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.223205058,
+     "prestatario": "0xb3a865538355b3e40b407cfda9774fa4494d40a0",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9995494046817186,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 20.127856,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 13.646686368000001,
+     "prestatario": "0xb87933783ff7c560e8f9808a3cc26e3b2247f2f9",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9984466577353881,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 14.833243,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 10.056938754,
+     "prestatario": "0xbc4f982c13adb6d161674233e4af26b8faaec5cc",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9983232113567072,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 4682.911672,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 3175.0141136160005,
+     "prestatario": "0xc0c11a91874398cd8bda8cde58ea130f62d87ee7",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9983199562396841,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 17.240606,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 11.689130868000001,
+     "prestatario": "0xc3fd72cf507111bc888ac413648e2424ed2b85d4",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9997396869130124,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 0.445434,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.30200425200000003,
+     "prestatario": "0xc7db52d6dcf76d6c8009e5f972c2b59c014486f6",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9974885564871628,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 0.705936,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.47862460800000006,
+     "prestatario": "0xc8e975974d6c8c8f022cfcf728499e5a62a5e6a7",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.999521912083475,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 18.111493,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 12.279592254,
+     "prestatario": "0xd692e5f6c6d3ca31c47a8458a655bc50f018ab09",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9990319208773566,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 0.136348,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.092443944,
+     "prestatario": "0xe5200ed3dc52c278f49ddc371fae45ee6424aafd",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9997623070350693,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 11.943341,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 8.097585198,
+     "prestatario": "0xebe11c1a86696840d54ffc6fcca1b249df78ef9f",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9986906015878669,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 2979.249776,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 2019.9313481280003,
+     "prestatario": "0xee13837ba2f59bfc205e0220dd9f697e389dbcd4",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9997603027650085,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485935,
+     "bono_usd": 3.686532,
+     "decision": "NO-GO",
+     "decision_ms": 6.8,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 2.499468696,
+     "prestatario": "0xfbb1accefb82444de8f1120a95cec4814532ea91",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.997410916578028,
+     "t_log": 1793761215.5343692,
+     "tx_actualizacion": "0x61b8e3d2814703a53644c66e95a8018b37ee5c9d2a5656d482c71b82c69ded47"
+    },
+    {
+     "bloque_pendiente": 53485951,
+     "bono_usd": 0.35255,
+     "decision": "NO-GO",
+     "decision_ms": 0.6,
+     "etiqueta": "SOL/USDC lltv 62.5%",
+     "mercado": "0x7dc02ff6c536b1d49d7fba770438d79f5bd1f1c78884629b7d1aaee19675782b",
+     "neto_modelo_usd": 0.3123593,
+     "prestatario": "0x1855943f3861ee8b4775dcaaa01b063e7c906bcb",
+     "razon": "mercado_de_subasta",
+     "resultado": "vencido",
+     "salud": 0.9999072359217028,
+     "t_log": 1793761247.376714,
+     "tx_actualizacion": "0x3798e47c0800559a3fd65ef75a2d0faa67fff7e58162a7526590a74b28ff6d36"
+    },
+    {
+     "bloque_pendiente": 53485961,
+     "bono_usd": 0.097503,
+     "decision": "NO-GO",
+     "decision_ms": 0.2,
+     "etiqueta": "cbLTC/USDC lltv 62.5%",
+     "mercado": "0x9125d0fa03c3137166df68bcc72283477830de2a4a5536512374c573ad4583c3",
+     "neto_modelo_usd": 0.06610703400000001,
+     "prestatario": "0x20b30e184ab6960d4b4ab7c3c58f84d30e0104d0",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9956292990368077,
+     "t_log": 1793761267.3324382,
+     "tx_actualizacion": "0x03453647d3e80afbbe87c12a7411076f07d60c26891fa49bedbafe25c16b48b4"
+    },
+    {
+     "bloque_pendiente": 53485961,
+     "bono_usd": 9.736773,
+     "decision": "NO-GO",
+     "decision_ms": 0.2,
+     "etiqueta": "cbLTC/USDC lltv 62.5%",
+     "mercado": "0x9125d0fa03c3137166df68bcc72283477830de2a4a5536512374c573ad4583c3",
+     "neto_modelo_usd": 6.601532094,
+     "prestatario": "0x2e281a87554ea4d5202318940e1c7f05f0381e59",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.998438922805963,
+     "t_log": 1793761267.3324382,
+     "tx_actualizacion": "0x03453647d3e80afbbe87c12a7411076f07d60c26891fa49bedbafe25c16b48b4"
+    },
+    {
+     "bloque_pendiente": 53485961,
+     "bono_usd": 0.255287,
+     "decision": "NO-GO",
+     "decision_ms": 0.2,
+     "etiqueta": "cbLTC/USDC lltv 62.5%",
+     "mercado": "0x9125d0fa03c3137166df68bcc72283477830de2a4a5536512374c573ad4583c3",
+     "neto_modelo_usd": 0.173084586,
+     "prestatario": "0x94cabd8b980a0351289e548cca6f973fdba20370",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.997392194657872,
+     "t_log": 1793761267.3324382,
+     "tx_actualizacion": "0x03453647d3e80afbbe87c12a7411076f07d60c26891fa49bedbafe25c16b48b4"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 0.248734,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.16864165200000003,
+     "prestatario": "0x2a49ca5b0360e8b194fd8c3379fb7d6852145a7b",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9992775846913484,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 4.476007,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 3.0347327460000004,
+     "prestatario": "0x2c77bc425a05362cd7af42f09ef95cd8dab42267",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.99961481190716,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 1.447931,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.9816972180000001,
+     "prestatario": "0x2ee5e3450fe9be5116bd090a53082d5601e690da",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9997810410294051,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 250.181054,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 169.622754612,
+     "prestatario": "0x4b3f09e43821262b5af7f1d7fcce8f2cdaa9ca21",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9996230510853418,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 0.187325,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.12700635,
+     "prestatario": "0x553fa576f3a17b9bbd84e2f1f50d12af1fe5bc89",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.999133383817942,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 1.326051,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.8990625780000001,
+     "prestatario": "0x572f4b0c94e3bc4a8fc12dbb816d880d6b20924e",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9993638252513974,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 1.046472,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.7095080160000001,
+     "prestatario": "0x6975407ab1922332c852fa5c5f475bdd3ed9daca",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9998106421775605,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 22.235202,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 15.075466956000001,
+     "prestatario": "0x6ec3f34b8a780580372eb9bd8962b71d5310dc94",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9993693694437968,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 2.695511,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 1.8275564580000003,
+     "prestatario": "0x751a1c61f711bda5e04b0b23cba02ae68ec0e6cc",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9995051090319879,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 0.212491,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.14406889800000003,
+     "prestatario": "0x79859c2eb2c94405ebfc152c1492e45ab5db77be",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9991746854105878,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 639.906473,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 433.85658869400004,
+     "prestatario": "0x7e5a6215d7040f90fdede929f518b91ed00e43f9",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9992002400724291,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 2.728008,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 1.8495894240000001,
+     "prestatario": "0x86ab0fe9b9aa6873225c6b8b374e5f62a93dfce8",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9988838766713609,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 210.649174,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 142.820139972,
+     "prestatario": "0x888f831f8553da85f33efd62605c7ffd8a9d6fa3",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9997535292810895,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 0.894524,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.6064872720000001,
+     "prestatario": "0x941dc0f6ca72a68bfb4bbe5327e111394d86bbfd",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9994043754511722,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 1387.683979,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 940.849737762,
+     "prestatario": "0x973ae55c16ac00706b57d86de37d9d21387e6df4",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9992240485119,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 0.123585,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.08379063,
+     "prestatario": "0x97a98c072008c1b19029b19c0cb883e8aaadce3f",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9998283031465484,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 927.516378,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 628.856104284,
+     "prestatario": "0x9862825070e85d9be0ed33ed263fea1d9bc2e39d",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9995406651431946,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 5.841387,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 3.9604603860000003,
+     "prestatario": "0x991f2497284d10094c8915c9b3205659d62e49b7",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9995297228693495,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 98.286573,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 66.638296494,
+     "prestatario": "0xa0b3fa29ca72e359bfae910acf68a6c07ea38e15",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9997265178528583,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 0.171521,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.11629123800000002,
+     "prestatario": "0xa90fefa8f6570700bb2bd9a850ba65deedbc2d88",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9989786655139741,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 13.313132,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 9.026303496,
+     "prestatario": "0xaefcde30291fb3e071de0738cf10d65350187be9",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9997928965417163,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 2345.429299,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 1590.201064722,
+     "prestatario": "0xba28cc2da6336d0eaa8249bcfe2876d16de425fb",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9991407733155162,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 50.74983,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 34.40838474,
+     "prestatario": "0xccaa6b008a8b705f368cf405a73e0d10b417aae7",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9996187453730532,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 9.142236,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 6.198436008000001,
+     "prestatario": "0xcebe184de3c970189ae7b1ded34b83d7f0518835",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9995135379735913,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 3043.519961,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 2063.5065335580002,
+     "prestatario": "0xcf1d3905588251237d8d3edfed00b59a7a0f94e9",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9986809946614746,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 2.662876,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 1.805429928,
+     "prestatario": "0xdf6f3a5802ae7d85edbca23819055e07f0e62dac",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9997190278908235,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 94.928114,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 64.361261292,
+     "prestatario": "0xe1e6bf4e127e5c6d85c3872c52a208db7cf03e47",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.999427603079374,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 7171.463944,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 4862.252554032,
+     "prestatario": "0xe5e4ad84303aa58d13eb0530dfd2b2b5ab06d462",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9997284224350276,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 1.059554,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.7183776120000002,
+     "prestatario": "0xe910b6dde153d7ab4f7d01dc9ee66698ff46dce4",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9991899513941889,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 171.052082,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 115.97331159600002,
+     "prestatario": "0xf3208675c54a607d508913f03209bb0a8512f081",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9999257376056179,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 0.213249,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.144582822,
+     "prestatario": "0xfaa86c5944218fba847884725aaaa2e11d40bf0e",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9998596796428806,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
+    },
+    {
+     "bloque_pendiente": 53485965,
+     "bono_usd": 1.149676,
+     "decision": "NO-GO",
+     "decision_ms": 5.6,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "mercado": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+     "neto_modelo_usd": 0.779480328,
+     "prestatario": "0xfc5439d9bf65897e21c8f7b1abce0730a612cc50",
+     "razon": "mercado_de_subasta",
+     "resultado": "no_liquidada_en_el_bloque",
+     "salud": 0.9997779441470632,
+     "t_log": 1793761275.4862792,
+     "tx_actualizacion": "0x94a2741cb1bcfa476413c5b967e930916f06305a38f73713e14ed5de71fcac0f"
     }
    ],
    "ventana_ws_ms": {
-    "p50": null,
-    "p90": null,
-    "p99": null,
-    "min": null,
-    "max": null,
-    "n": 0
+    "p50": 0.8,
+    "p90": 1.6,
+    "p99": 1.6,
+    "min": 0.8,
+    "max": 1.6,
+    "n": 14
    }
   },
+  "clases_en_vivo": [
+   {
+    "clase": "trozo_siguiente",
+    "bono_usd": 6.922927515657619,
+    "etiqueta": "cbBTC/USDC lltv 86.0%",
+    "trozos_entre": 0,
+    "gap_tx": 23
+   },
+   {
+    "clase": "trozo_siguiente",
+    "bono_usd": 3.6178200688935283,
+    "etiqueta": "cbBTC/USDC lltv 86.0%",
+    "trozos_entre": 0,
+    "gap_tx": 23
+   },
+   {
+    "clase": "trozo_siguiente",
+    "bono_usd": 3.2272720647181625,
+    "etiqueta": "cbBTC/USDC lltv 86.0%",
+    "trozos_entre": 0,
+    "gap_tx": 23
+   },
+   {
+    "clase": "trozo_siguiente",
+    "bono_usd": 2.187712615866388,
+    "etiqueta": "cbBTC/USDC lltv 86.0%",
+    "trozos_entre": 0,
+    "gap_tx": 23
+   },
+   {
+    "clase": "trozo_siguiente",
+    "bono_usd": 1.832480649269311,
+    "etiqueta": "cbBTC/USDC lltv 86.0%",
+    "trozos_entre": 0,
+    "gap_tx": 23
+   },
+   {
+    "clase": "trozo_siguiente",
+    "bono_usd": 1.5948624926931105,
+    "etiqueta": "cbBTC/USDC lltv 86.0%",
+    "trozos_entre": 0,
+    "gap_tx": 23
+   },
+   {
+    "clase": "trozo_siguiente",
+    "bono_usd": 1.0693295574112736,
+    "etiqueta": "cbBTC/USDC lltv 86.0%",
+    "trozos_entre": 0,
+    "gap_tx": 23
+   },
+   {
+    "clase": "trozo_siguiente",
+    "bono_usd": 0.9089094175365345,
+    "etiqueta": "cbBTC/USDC lltv 86.0%",
+    "trozos_entre": 0,
+    "gap_tx": 23
+   },
+   {
+    "clase": "trozo_siguiente",
+    "bono_usd": 0.7366641294363256,
+    "etiqueta": "cbBTC/USDC lltv 86.0%",
+    "trozos_entre": 0,
+    "gap_tx": 23
+   },
+   {
+    "clase": "trozo_siguiente",
+    "bono_usd": 0.6848694488517746,
+    "etiqueta": "cbBTC/USDC lltv 86.0%",
+    "trozos_entre": 0,
+    "gap_tx": 23
+   },
+   {
+    "clase": "trozo_siguiente",
+    "bono_usd": 0.5796544947807933,
+    "etiqueta": "cbBTC/USDC lltv 86.0%",
+    "trozos_entre": 0,
+    "gap_tx": 23
+   },
+   {
+    "clase": "ambigua",
+    "bono_usd": 0.2868630688935282,
+    "etiqueta": "cbBTC/USDC lltv 86.0%",
+    "trozos_entre": 0,
+    "gap_tx": 29
+   },
+   {
+    "clase": "ambigua",
+    "bono_usd": 0.19108268267223383,
+    "etiqueta": "cbBTC/USDC lltv 86.0%",
+    "trozos_entre": 0,
+    "gap_tx": 29
+   },
+   {
+    "clase": "ambigua",
+    "bono_usd": 0.1515274509394572,
+    "etiqueta": "cbBTC/USDC lltv 86.0%",
+    "trozos_entre": null,
+    "gap_tx": 29
+   }
+  ],
   "rivales_en_vivo": {
-   "liquidaciones": 2,
-   "ganador_lleva_prestatario": 2,
-   "con_rivales": 1,
-   "bono_con_rivales": 0.8450047145212015,
+   "liquidaciones": 185,
+   "ganador_lleva_prestatario": 185,
+   "con_rivales": 183,
+   "bono_con_rivales": 0.999992451497548,
    "rivales_por_liquidacion": {
-    "p50": 3,
-    "p90": 3,
-    "p99": 3,
+    "p50": 4,
+    "p90": 8,
+    "p99": 11,
     "min": 0,
-    "max": 3,
-    "n": 2
+    "max": 13,
+    "n": 185
    },
    "intentos_por_lugar": {
-    "antes_del_ganador": 2,
-    "mismo_trozo_menos_propina": 2,
-    "trozo_posterior": 1
+    "antes_del_ganador": 318,
+    "mismo_trozo_menos_propina": 404,
+    "trozo_posterior": 3004,
+    "tarde_con_mas_propina": 175,
+    "antes_de_la_actualizacion": 22
    },
-   "intentos_del_mismo_bot": 1,
+   "intentos_del_mismo_bot": 410,
    "segundo": {
-    "sin_rivales": {
-     "n": 1,
-     "bono_est_usd": 0.3181528935281837,
-     "parte_del_bono": 0.1549952854787984
-    },
     "mismo_trozo_menos_propina": {
-     "n": 1,
-     "bono_est_usd": 1.7345088538622129,
-     "parte_del_bono": 0.8450047145212015
+     "n": 109,
+     "bono_est_usd": 30817.88568368664,
+     "parte_del_bono": 0.9038738749770162
+    },
+    "sin_rivales": {
+     "n": 2,
+     "bono_est_usd": 0.2573687458907936,
+     "parte_del_bono": 7.548502451919604e-06
+    },
+    "trozo_posterior": {
+     "n": 30,
+     "bono_est_usd": 832.6859888545972,
+     "parte_del_bono": 0.024422282537814814
+    },
+    "solo_antes": {
+     "n": 10,
+     "bono_est_usd": 169.8723209414273,
+     "parte_del_bono": 0.0049822740780022055
+    },
+    "tarde_con_mas_propina": {
+     "n": 34,
+     "bono_est_usd": 2274.637088028434,
+     "parte_del_bono": 0.06671401990471483
     }
    },
    "segundo_propina_vs_ganador": {
-    "p50": 0.039,
-    "p90": 0.039,
-    "p99": 0.039,
-    "min": 0.039,
-    "max": 0.039,
-    "n": 1
+    "p50": 0.332,
+    "p90": 2.227,
+    "p99": 256.689,
+    "min": 0.007,
+    "max": 750.2,
+    "n": 173
    },
    "segundo_ms_tras_ganador": {
-    "p50": 0,
-    "p90": 0,
-    "p99": 0,
+    "p50": 3,
+    "p90": 207,
+    "p99": 2634,
     "min": 0,
-    "max": 0,
-    "n": 1
+    "max": 4294,
+    "n": 173
    },
-   "por_clase": {},
+   "por_clase": {
+    "trozo_siguiente": {
+     "n": 11,
+     "con_rivales": 11,
+     "segundo": {
+      "mismo_trozo_menos_propina": 11
+     }
+    },
+    "ambigua": {
+     "n": 3,
+     "con_rivales": 3,
+     "segundo": {
+      "mismo_trozo_menos_propina": 3
+     }
+    }
+   },
    "bots": [
     {
-     "gana": 1,
-     "pierde": 0,
-     "bono_ganado_usd": 0.3181528935281837,
-     "bot": "0x8407699e359ae158bd7ec0668600cc19a79f17c3"
+     "gana": 2,
+     "pierde": 97,
+     "bono_ganado_usd": 0.296352350730689,
+     "bot": "0x2375664e8544a6944a75f24c30f09f67b4cec519"
     },
     {
-     "gana": 1,
-     "pierde": 0,
-     "bono_ganado_usd": 1.7345088538622129,
+     "gana": 10,
+     "pierde": 84,
+     "bono_ganado_usd": 10.094840248434238,
+     "bot": "0xe94d7caffddef9123dcff0223932c4e57db8e419"
+    },
+    {
+     "gana": 53,
+     "pierde": 14,
+     "bono_ganado_usd": 374.31603905010434,
+     "bot": "0x0f7fa49f82a92beb5866f56ecac10b98c2f7736d"
+    },
+    {
+     "gana": 46,
+     "pierde": 17,
+     "bono_ganado_usd": 3181.4591246729988,
      "bot": "0x583dcfef0d240dc80753f0f0b26513fee27d9b77"
     },
     {
-     "gana": 0,
-     "pierde": 1,
-     "bono_ganado_usd": 0.0,
-     "bot": "0xbb032ca08d1964c1932ee10776b3f4a4c94e64ab"
+     "gana": 3,
+     "pierde": 60,
+     "bono_ganado_usd": 1.9191300845070423,
+     "bot": "0xa8458a69c93a42e3342adb93df050c6fb13f60c7"
     },
     {
      "gana": 0,
-     "pierde": 1,
+     "pierde": 59,
      "bono_ganado_usd": 0.0,
-     "bot": "0x5ac9bc14376bf2727c6211960cf3cec1e2f295bd"
+     "bot": "0xc84b2f267567495d063d45c3229518c0cebbfe52"
     },
     {
      "gana": 0,
-     "pierde": 1,
+     "pierde": 58,
      "bono_ganado_usd": 0.0,
-     "bot": "0x5b3557051fc10d6d57008480a4ed68785b280a7f"
+     "bot": "0xfc3e7b43c82111f5f053c7c6fd36b1c7c4100533"
+    },
+    {
+     "gana": 4,
+     "pierde": 51,
+     "bono_ganado_usd": 1679.3792928288099,
+     "bot": "0x69db5c15a64c51d534900b4bb1663a4743cc1d86"
     }
    ],
-   "listas_recortadas": 0,
+   "listas_recortadas": 95,
    "con_pesos": false,
    "con_error": 0,
    "casos": [
     {
-     "etiqueta": "WETH/USDC lltv 86.0%",
-     "bono_usd": 1.7345088538622129,
-     "tx": "0xd1867db5ba132a89d478614c217730d1ccc0a4256e30d00519f393d331abea83",
-     "rivales": 5,
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "bono_usd": 7171.464427797495,
+     "tx": "0xb928d3c094fa01b2b3bd989cac0e3eab170bd2df651ff250bc1d86d1f5d55ab7",
+     "rivales": 40,
      "segundo": {
-      "a": "0xbb032ca08d1964c1932ee10776b3f4a4c94e64ab",
-      "de": "0x9d1e49aa0e3075f94764f293b45bda6be4071f23",
-      "i": 27,
+      "a": "0x759915f8e7b07a5c0a3a3a7ee52ee3643feea0d3",
+      "de": "0x0d35bdf9faa813ffe91bd6ca5b3d905b422a282b",
+      "i": 2,
       "lugar": "mismo_trozo_menos_propina",
       "mismo_bot": false,
       "ms_tras_ganador": 0,
-      "propina": 1000000,
+      "propina": 1251668517819,
       "trozo": 1,
       "trozos_despues": 0,
-      "tx": "0xb47c8bf699ce4d365892796b82d1aa8358966fe94da9bd404165d6024adfb784"
+      "tx": "0xc42a4534358155f91d9352cc3aa58421c1134078b30a33493bf42865c93d52ff"
      }
     },
     {
-     "etiqueta": "wbCOIN/USDC lltv 86.0%",
-     "bono_usd": 0.3181528935281837,
-     "tx": "0x587401e96dbe42ed259746c0763832aa411ade23729108e4f291d4d0b621c6e1",
-     "rivales": 0,
-     "segundo": null
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "bono_usd": 4682.911843359081,
+     "tx": "0xc0726a2ebd1bd69ac1f6a81560e756c9650222a9088e9a9abad5f66a018e5885",
+     "rivales": 40,
+     "segundo": {
+      "a": "0x759915f8e7b07a5c0a3a3a7ee52ee3643feea0d3",
+      "de": "0x0d35bdf9faa813ffe91bd6ca5b3d905b422a282b",
+      "i": 2,
+      "lugar": "mismo_trozo_menos_propina",
+      "mismo_bot": false,
+      "ms_tras_ganador": 0,
+      "propina": 880164516584,
+      "trozo": 0,
+      "trozos_despues": 0,
+      "tx": "0xed4790a293ec15636dca41d16f45d9d2a2402f5250bb9be265e2fc55b7a5f646"
+     }
+    },
+    {
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "bono_usd": 3401.7507492463465,
+     "tx": "0xc0726a2ebd1bd69ac1f6a81560e756c9650222a9088e9a9abad5f66a018e5885",
+     "rivales": 40,
+     "segundo": {
+      "a": "0x759915f8e7b07a5c0a3a3a7ee52ee3643feea0d3",
+      "de": "0x17837ae772f70e9190727b8991dff1317144e312",
+      "i": 4,
+      "lugar": "mismo_trozo_menos_propina",
+      "mismo_bot": false,
+      "ms_tras_ganador": 0,
+      "propina": 560459100399,
+      "trozo": 0,
+      "trozos_despues": 0,
+      "tx": "0xc71e92e486b66f844451f7110e430336d8d5673623aec417779384fa78eaf5a2"
+     }
+    },
+    {
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "bono_usd": 3027.7624091022963,
+     "tx": "0x0208bd3a674e6f074bf1a120d71be9a6e548b8479623ffe0a2a1f49c6d684a6a",
+     "rivales": 39,
+     "segundo": {
+      "a": "0x69db5c15a64c51d534900b4bb1663a4743cc1d86",
+      "de": "0xa182387eaf43d21affdf00fd9a69a54b8ba5091e",
+      "i": 9,
+      "lugar": "mismo_trozo_menos_propina",
+      "mismo_bot": false,
+      "ms_tras_ganador": 0,
+      "propina": 124622888855,
+      "trozo": 1,
+      "trozos_despues": 0,
+      "tx": "0x4b13d3ae7108bb3122802de0248f9120249bf172a76b9de3ab46ce228ceb4347"
+     }
+    },
+    {
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "bono_usd": 2979.2504239665973,
+     "tx": "0x3d89a71ff7054f1a0358d4dac240f6b4485b933999c56b2dff01adadc3ab36a5",
+     "rivales": 40,
+     "segundo": {
+      "a": "0x759915f8e7b07a5c0a3a3a7ee52ee3643feea0d3",
+      "de": "0x07f36befd6701e506f565beb2ca08031377e9ac2",
+      "i": 5,
+      "lugar": "mismo_trozo_menos_propina",
+      "mismo_bot": false,
+      "ms_tras_ganador": 0,
+      "propina": 241137694028,
+      "trozo": 0,
+      "trozos_despues": 0,
+      "tx": "0x48ebb84289200b79acbfde9282125b0c6c2277bf0625de8559499732784b8491"
+     }
+    },
+    {
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "bono_usd": 2333.286163070981,
+     "tx": "0xcaf599904edd1433a46d60e963b2dd878176d520bd34ff914da8b983e1a60b77",
+     "rivales": 39,
+     "segundo": {
+      "a": "0x69db5c15a64c51d534900b4bb1663a4743cc1d86",
+      "de": "0xa182387eaf43d21affdf00fd9a69a54b8ba5091e",
+      "i": 9,
+      "lugar": "mismo_trozo_menos_propina",
+      "mismo_bot": false,
+      "ms_tras_ganador": 0,
+      "propina": 124622888855,
+      "trozo": 1,
+      "trozos_despues": 0,
+      "tx": "0x4b13d3ae7108bb3122802de0248f9120249bf172a76b9de3ab46ce228ceb4347"
+     }
+    },
+    {
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "bono_usd": 1387.6844604175365,
+     "tx": "0x0bae0e09d084e9aab119f98eaf1016c981800ba88ebb44649e5cc32fb1fa1f4e",
+     "rivales": 40,
+     "segundo": {
+      "a": "0x759915f8e7b07a5c0a3a3a7ee52ee3643feea0d3",
+      "de": "0x30ab523e80ded53b13aa5ad954f6a3b8a4f5d64b",
+      "i": 6,
+      "lugar": "mismo_trozo_menos_propina",
+      "mismo_bot": false,
+      "ms_tras_ganador": 0,
+      "propina": 260267058477,
+      "trozo": 1,
+      "trozos_despues": 0,
+      "tx": "0x084e74d2d5a106d6f257aa5685abd0df6e3a48969eac5275687566e27accebe6"
+     }
+    },
+    {
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "bono_usd": 922.7143419895616,
+     "tx": "0x9db01c31d853a8aae259648f45e7ae61428d18d7b9d265d8a13ea1fb587043bf",
+     "rivales": 40,
+     "segundo": {
+      "a": "0x69db5c15a64c51d534900b4bb1663a4743cc1d86",
+      "de": "0xa182387eaf43d21affdf00fd9a69a54b8ba5091e",
+      "i": 9,
+      "lugar": "mismo_trozo_menos_propina",
+      "mismo_bot": false,
+      "ms_tras_ganador": 0,
+      "propina": 124622888855,
+      "trozo": 1,
+      "trozos_despues": 0,
+      "tx": "0x4b13d3ae7108bb3122802de0248f9120249bf172a76b9de3ab46ce228ceb4347"
+     }
+    },
+    {
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "bono_usd": 900.0017241231733,
+     "tx": "0x8445c42762c190207fc83c8dec790b60386da7134e2f606b4cd599c87e6a431c",
+     "rivales": 39,
+     "segundo": {
+      "a": "0x69db5c15a64c51d534900b4bb1663a4743cc1d86",
+      "de": "0xa182387eaf43d21affdf00fd9a69a54b8ba5091e",
+      "i": 9,
+      "lugar": "mismo_trozo_menos_propina",
+      "mismo_bot": false,
+      "ms_tras_ganador": 0,
+      "propina": 124622888855,
+      "trozo": 1,
+      "trozos_despues": 0,
+      "tx": "0x4b13d3ae7108bb3122802de0248f9120249bf172a76b9de3ab46ce228ceb4347"
+     }
+    },
+    {
+     "etiqueta": "cbBTC/USDC lltv 86.0%",
+     "bono_usd": 859.7173317933193,
+     "tx": "0x785e6f63b4cc293d1a031aa83a8a543bbbb7c3a9a6b699b575444b1aa4d050e6",
+     "rivales": 40,
+     "segundo": {
+      "a": "0x759915f8e7b07a5c0a3a3a7ee52ee3643feea0d3",
+      "de": "0x2e8bd3a23a68beb94537efa06b8615724a47986e",
+      "i": 8,
+      "lugar": "mismo_trozo_menos_propina",
+      "mismo_bot": false,
+      "ms_tras_ganador": 0,
+      "propina": 99222342704,
+      "trozo": 0,
+      "trozos_despues": 0,
+      "tx": "0x9b7d5c88e9280a0d6f469b26aab144df9fb5659c25dcb388d0939a97ec0e2f2a"
+     }
     }
    ]
   },
   "flash_perfil": {
-   "bloques": 9913,
-   "completos": 8193,
+   "bloques": 9911,
+   "completos": 8327,
    "txs_por_bloque": {
-    "p50": 172,
-    "p90": 257,
-    "p99": 420,
-    "min": 98,
-    "max": 932,
-    "n": 8193
+    "p50": 173,
+    "p90": 321,
+    "p99": 630,
+    "min": 86,
+    "max": 2436,
+    "n": 8327
    },
    "trozos_por_bloque": {
     "p50": 11,
     "p90": 11,
     "p99": 11,
-    "min": 7,
+    "min": 1,
     "max": 11,
-    "n": 8193
+    "n": 8327
    },
    "txs_por_trozo": {
     "p50": 14,
-    "p90": 34,
-    "p99": 73,
+    "p90": 38,
+    "p99": 99,
     "min": 1,
-    "max": 479,
-    "n": 89262
+    "max": 692,
+    "n": 90220
    },
    "fraccion_acumulada_p50": [
-    0.005847953216374269,
-    0.23703703703703705,
-    0.30952380952380953,
-    0.39855072463768115,
-    0.4897959183673469,
-    0.5806451612903226,
-    0.6641221374045801,
-    0.7447698744769874,
-    0.8255813953488372,
-    0.9047619047619048,
+    0.005813953488372093,
+    0.2357142857142857,
+    0.3111111111111111,
+    0.40268456375838924,
+    0.49514563106796117,
+    0.5878787878787879,
+    0.671875,
+    0.7510548523206751,
+    0.8296703296703297,
+    0.9060402684563759,
     1.0
    ],
-   "ultimo_trozo_completo": 0.99951171875
+   "ultimo_trozo_completo": 0.9993983152827918
   },
   "flash_cruces": {
-   "n": 1,
-   "go": 1,
+   "n": 58,
+   "go": 0,
    "resultados": {
-    "liquidada": 1
+    "liquidada": 57,
+    "vencido": 1
    },
    "decision_ms": {
-    "p50": 107,
-    "p90": 107,
-    "p99": 107,
-    "min": 107,
-    "max": 107,
-    "n": 1
+    "p50": 189,
+    "p90": 234,
+    "p99": 778,
+    "min": 117,
+    "max": 3083,
+    "n": 58
    },
-   "mismo_trozo": 1,
+   "mismo_trozo": 32,
    "holgura": {
-    "n": 1,
-    "positivas": 0,
+    "n": 56,
+    "positivas": 8,
     "ms": {
-     "p50": -257,
-     "p90": -257,
-     "p99": -257,
-     "min": -257,
-     "max": -257,
-     "n": 1
+     "p50": -279,
+     "p90": 23,
+     "p99": 23,
+     "min": -339,
+     "max": 23,
+     "n": 56
     },
-    "bono_usd": 1.734506,
-    "bono_positivo_usd": 0
+    "bono_usd": 2564.276958,
+    "bono_positivo_usd": 6.456312
    },
-   "liquidaciones_sin_cruce_visto": 1,
+   "liquidaciones_sin_cruce_visto": 128,
    "evaluador": {
-    "cruces": 1,
-    "cruces_liquidados": 1,
-    "cruces_sin_liquidar": 0,
+    "cruces": 133,
+    "cruces_liquidados": 57,
+    "cruces_sin_liquidar": 1,
     "decision_ms": {
-     "max": 107,
-     "min": 107,
-     "n": 1,
-     "p50": 107,
-     "p90": 107,
-     "p99": 107
+     "max": 3469,
+     "min": 117,
+     "n": 133,
+     "p50": 3469,
+     "p90": 3469,
+     "p99": 3469
     },
     "errores": 0,
-    "evaluaciones": 104087,
+    "evaluaciones": 93230,
     "holgura_ms": {
-     "max": -257,
-     "min": -257,
-     "n": 1,
-     "p50": -257,
-     "p90": -257,
-     "p99": -257
+     "max": 23,
+     "min": -339,
+     "n": 56,
+     "p50": -279,
+     "p90": 23,
+     "p99": 23
     },
-    "holgura_positiva": 0,
+    "holgura_positiva": 8,
     "lectura_pendiente_ms": {
-     "max": 2732,
-     "min": 18,
-     "n": 104087,
-     "p50": 46,
-     "p90": 65,
-     "p99": 108
+     "max": 5898,
+     "min": 81,
+     "n": 93230,
+     "p50": 107,
+     "p90": 127,
+     "p99": 184
     },
     "supuesto_envio_ms": 150
    }
   },
-  "descartadas_que_pasaron": [
-   {
-    "mercado": "wbCOIN/USDC lltv 86.0%",
-    "razon": "deuda_mala",
-    "bono_usd": 0.3181528935281837,
-    "delta_bloques": 666,
-    "tx": "0x587401e96dbe42ed259746c0763832aa411ade23729108e4f291d4d0b621c6e1"
-   }
-  ],
+  "descartadas_que_pasaron": [],
   "candidatas_sin_liquidar": {
    "expirada": 5
   },
   "calidad": {
    "contadores": {
-    "bloques": 9910,
-    "bloques_sin_logs_por_bloom": 4819,
-    "candidatas": 6,
+    "bloques": 9890,
+    "bloques_saltados": 15,
+    "bloques_sin_logs_por_bloom": 5201,
+    "candidatas": 5,
     "deriva_reconciliacion": 0,
-    "posiciones_sincronizadas": 261,
-    "reconciliadas": 169160,
-    "tasa_sin_leer": 10157
+    "eventos_en_hueco": 8,
+    "posiciones_sincronizadas": 275,
+    "reconciliadas": 169239,
+    "saltos": 1,
+    "tasa_sin_cache_via_rapida": 4,
+    "tasa_sin_leer": 2
    },
-   "eventos_del_sistema": {},
+   "eventos_del_sistema": {
+    "salto": 1
+   },
    "multicall_ok": true,
    "libro": {
-    "bloque": 53465378,
-    "candidatos": 42027,
-    "con_deuda": 33506,
+    "bloque": 53476104,
+    "candidatos": 42297,
+    "con_deuda": 33748,
     "desde_cache": true,
     "dias_atras": 30,
-    "leidos": 42027,
+    "leidos": 42297,
     "libro_parcial": false,
-    "segundos": 17.1
+    "segundos": 17.4
    },
    "libro_deriva": 0,
    "pendientes_al_cierre": 0,
-   "inicio": 1793720089.4690964,
-   "fin": 1793739924.6488397,
+   "inicio": 1793741541.7996178,
+   "fin": 1793761380.112905,
    "supuestos": {
     "interes": "se acumula con el IRM solo para posiciones a menos de 0.5% del umbral",
     "kept_prior_global": 0.678,
@@ -645,63 +2326,63 @@
    "excluidos": {}
   },
   "cercanas": {
-   "bloque": 53475165,
-   "n": 3,
-   "deuda_usd": 4911.2772110000005,
-   "mas_cercana_pct": 0.12,
+   "bloque": 53485886,
+   "n": 30,
+   "deuda_usd": 115529.005256,
+   "mas_cercana_pct": 0.103,
    "fotos": 65
   },
   "orden": {
    "bloques": 150,
    "transacciones": {
-    "p50": 172,
-    "p90": 274,
-    "p99": 560,
-    "min": 105,
-    "max": 607,
+    "p50": 177,
+    "p90": 303,
+    "p99": 510,
+    "min": 101,
+    "max": 593,
     "n": 150
    },
    "ascensos_por_bloque": {
-    "p50": 10,
-    "p90": 12,
-    "p99": 14,
+    "p50": 11,
+    "p90": 13,
+    "p99": 23,
     "min": 9,
-    "max": 15,
+    "max": 36,
     "n": 150
    },
    "ascensos_si_fuera_al_azar": {
-    "p50": 79,
-    "p90": 131,
-    "p99": 274,
-    "min": 47,
-    "max": 296,
+    "p50": 83,
+    "p90": 145,
+    "p99": 250,
+    "min": 46,
+    "max": 290,
     "n": 150
    },
    "con_perfil": 150,
    "dentro": {
-    "baja": 18080,
-    "igual": 8776,
-    "sube": 285
+    "baja": 18328,
+    "igual": 9481,
+    "sube": 360
    },
    "frontera": {
-    "baja": 1,
+    "baja": 2,
     "igual": 0,
-    "sube": 1317
+    "sube": 1312
    }
   },
   "prueba_clasificador": {
-   "bloques": 110,
+   "bloques": 117,
    "fronteras": {
-    "n": 989,
-    "bien": 989
+    "n": 1052,
+    "bien": 1048
    },
    "picos": {
-    "n": 182,
-    "bien": 149
+    "n": 262,
+    "bien": 205
    },
    "cabezas": {
-    "n": 2965,
-    "bien": 2946
+    "n": 3149,
+    "bien": 3109
    }
   }
  },
@@ -720,27 +2401,27 @@
   {
    "puerta": "Decisiones en tiempo real sin enviar nada",
    "estado": "cumple",
-   "evidencia": "6 decisiones; solo métodos de lectura (6 distintos)"
+   "evidencia": "5 decisiones; solo métodos de lectura (6 distintos)"
   },
   {
    "puerta": "Cada GO comparado con lo que ocurrió",
-   "estado": "sin_datos",
-   "evidencia": "ningún GO en la ventana en vivo"
+   "estado": "parcial",
+   "evidencia": "1 de 1 GO con desenlace conocido (expirada 1); todos con cruce incierto (ya eran liquidables al arrancar): no miden una carrera"
   },
   {
    "puerta": "Control de reorganizaciones",
    "estado": "parcial",
-   "evidencia": "0 reorgs vistos, 0 saltos de atraso (0 bloques cubiertos con eventos), 0 bloques perdidos (0 recuperados, 0 sin recuperar, 0 definitivos); la recuperación se prueba con una cadena falsa"
+   "evidencia": "0 reorgs vistos, 1 saltos de atraso (15 bloques cubiertos con eventos), 0 bloques perdidos (0 recuperados, 0 sin recuperar, 0 definitivos); la recuperación se prueba con una cadena falsa"
   },
   {
    "puerta": "Simulaciones: divergencias investigadas",
-   "estado": "parcial",
-   "evidencia": "libro sin deriva (169160 posiciones reconciliadas)"
+   "estado": "falla",
+   "evidencia": "hay que investigar: fuera_del_libro 44"
   },
   {
    "puerta": "Latencia en infraestructura real",
    "estado": "parcial",
-   "evidencia": "p50 390 ms, p90 625 ms, p99 1,128 ms (n=9810); medida desde GitHub Actions, no desde la infraestructura de Titan"
+   "evidencia": "p50 529 ms, p90 778 ms, p99 4,048 ms (n=9674); medida desde GitHub Actions, no desde la infraestructura de Titan"
   },
   {
    "puerta": "Detección competitiva (replay)",
