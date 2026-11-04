@@ -13,6 +13,9 @@ from .safe_io import canonical, read_artifact, write_new_bundle
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ("review-programs", "verify-programs"):
+        from .program_registry import main as programs_main
+        return programs_main(argv)
     if argv and argv[0] in ("audit-wiring", "verify-wiring"):
         from .source_graph import main as wiring_main
         return wiring_main(argv)
