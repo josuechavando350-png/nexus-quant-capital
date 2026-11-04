@@ -84,3 +84,22 @@ semántica entre la bitácora DIABLO y los cálculos NQC. Suite ampliada: 157 te
 aprobados frente a 102 de la entrega previa.
 Ver [QUALITY_GATE.md](QUALITY_GATE.md) y [CAPABILITIES.md](CAPABILITIES.md).
 Ninguna de las 50 capacidades se declara completa por pasar estas pruebas.
+
+## Grafo causal verificable entre componentes
+
+La ejecución `local-lab` ahora emite `proof-graph.json` con 24 nodos y
+un `proof_graph_root` reproducible: procedencia del código, decisiones de
+alcance DIABLO, entradas numéricas, resultados del solver NQC, comprobación
+independiente, bitácora y veredicto. `verify-lab` reconstruye el grafo,
+comprueba todas las dependencias y rechaza modificaciones aun cuando alguien
+regenere `COMPLETE.json`. Ver [PROOF_GRAPH.md](PROOF_GRAPH.md).
+
+La suite histórica de esta rama quedó documentada con 157 pruebas previamente
+ejecutadas. Esta ampliación superó **118 pruebas en el checkout local basado
+en la entrega v3**, incluidos 16 tests nuevos del grafo. Esas 118 pruebas
+NO incluyen los archivos adicionales de auditoría y QA incorporados a la
+rama después de la entrega v3. **Falta ejecutar y certificar la suite completa
+del HEAD combinado**. Ver [proof-validation.json](proof-validation.json).
+
+El catálogo de 50 requisitos permanece en `capabilities.json`; ninguna
+capacidad se acredita completa sin su propio benchmark y evidencia independiente.
