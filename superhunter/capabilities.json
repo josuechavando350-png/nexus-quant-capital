@@ -18,9 +18,11 @@
     {
       "id": 3,
       "title": "Fuzzing dinámico guiado por invariantes",
-      "status": "PLANNED",
-      "scope": "Pendiente: no se ha conectado un fuzzer; las pruebas unitarias existentes no son millones de transacciones.",
-      "components": []
+      "status": "PARTIAL",
+      "scope": "Parcial y solo numérico: el laboratorio ejecuta el solucionador NQC con casos generados, oráculo independiente e invariantes metamórficas bajo ScopeGuard/AuditLog de DIABLO; NO fuzzing de transacciones EVM ni contratos reales.",
+      "components": [
+        "fuzz"
+      ]
     },
     {
       "id": 4,
