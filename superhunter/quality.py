@@ -24,7 +24,8 @@ COMPONENTS = {
     'native': {'files': ['native_runtime.py', 'native_sources/diablo/models.py', 'native_sources/diablo/audit.py',
                          'native_sources/diablo/scope.py', 'native_sources/nqc/capacity.py'],
                'tests': ['test_local_lab.'], 'depends': ['io']},
-    'audit': {'files': ['audit_links.py'], 'tests': ['test_audit_links.'], 'depends': ['io']},
+    'audit': {'files': ['audit_links.py', 'proof_graph.py'],
+              'tests': ['test_audit_links.', 'test_proof_graph.'], 'depends': ['io']},
     'lab': {'files': ['local_lab.py', 'lab_worker.py', 'lab_cli.py'],
             'tests': ['test_local_lab.', 'test_audit_links.'], 'depends': ['native', 'audit']},
     'quality': {'files': ['quality.py', 'quality_worker.py'], 'tests': ['test_quality.'], 'depends': ['transport', 'lab']},
@@ -40,6 +41,7 @@ REQUIRED_TESTS = (
     'test_local_lab.LocalLabTests.test_real_nqc_and_diablo_functions_are_called',
     'test_local_lab.LocalLabTests.test_cli_complete_run_and_verification',
     'test_audit_links.AuditLinkTests.test_input_hash_substitution_rejected_even_after_rehash',
+    'test_proof_graph.CausalGraphTests.test_stored_bundle_receipt_catches_graph_reseal',
     'test_quality.QualityTests.test_skip_never_counts_as_pass',
     'test_quality.QualityTests.test_source_change_blocks_success',
 )
