@@ -1,0 +1,550 @@
+{
+  "schema_version": 1,
+  "capabilities": [
+    {
+      "id": 1,
+      "title": "Consultas de grafos SlithIR",
+      "status": "pending",
+      "dependencies": [],
+      "code_refs": [],
+      "scope": "Trazabilidad estática del código autorizado, sin ejecución de objetivos.",
+      "acceptance": "Comparar flujos con un corpus etiquetado y cuantificar errores."
+    },
+    {
+      "id": 2,
+      "title": "Análisis de contaminación de datos",
+      "status": "pending",
+      "dependencies": [
+        1
+      ],
+      "code_refs": [],
+      "scope": "Verificación defensiva de entradas y controles de autorización.",
+      "acceptance": "Validar rutas permitidas y prohibidas con ejemplos conocidos y corregidos."
+    },
+    {
+      "id": 3,
+      "title": "Fuzzing guiado por invariantes",
+      "status": "pending",
+      "dependencies": [],
+      "code_refs": [],
+      "scope": "Pruebas de propiedades sobre código propio o laboratorios delimitados.",
+      "acceptance": "Registrar semillas, cobertura y contraejemplos; cero éxitos simulados."
+    },
+    {
+      "id": 4,
+      "title": "Fuzzing sobre estado local reproducible",
+      "status": "pending",
+      "dependencies": [
+        3
+      ],
+      "code_refs": [],
+      "scope": "Estado aislado y anclado, sin transacciones contra sistemas ajenos.",
+      "acceptance": "Comprobar identidad de código y estado; distinguir datos artificiales."
+    },
+    {
+      "id": 5,
+      "title": "Simulador de préstamos flash",
+      "status": "redesign",
+      "dependencies": [
+        3,
+        4
+      ],
+      "code_refs": [],
+      "scope": "Modelar obligaciones y solvencia; no automatizar drenajes de protocolos.",
+      "acceptance": "Pruebas de conservación, costos y repago en modelos de laboratorio."
+    },
+    {
+      "id": 6,
+      "title": "Integración de oráculos",
+      "status": "pending",
+      "dependencies": [
+        1,
+        3
+      ],
+      "code_refs": [],
+      "scope": "Comprobar unidades, frescura, configuración y coherencia del precio.",
+      "acceptance": "Casos correctos, obsoletos y divergentes; spot/TWAP no decide por sí solo."
+    },
+    {
+      "id": 7,
+      "title": "Inferencia de propiedades",
+      "status": "pending",
+      "dependencies": [
+        1
+      ],
+      "code_refs": [],
+      "scope": "Propuestas de propiedades pendientes de validación, no verdad automática.",
+      "acceptance": "Rechazar hipótesis contradichas por estados legítimos y documentar supuestos."
+    },
+    {
+      "id": 8,
+      "title": "Pruebas de propiedades temporales multibloque",
+      "status": "redesign",
+      "dependencies": [
+        3,
+        4
+      ],
+      "code_refs": [],
+      "scope": "Regresiones temporales locales; no planificador autónomo de explotación.",
+      "acceptance": "Reproducir las transiciones permitidas en un modelo temporal explícito."
+    },
+    {
+      "id": 9,
+      "title": "Mutaciones controladas de estado",
+      "status": "pending",
+      "dependencies": [
+        3,
+        4
+      ],
+      "code_refs": [],
+      "scope": "Inyección de fallos en fixtures; estados artificiales no acreditan explotabilidad.",
+      "acceptance": "Etiquetar todas las mutaciones y rechazar afirmaciones fuera del modelo."
+    },
+    {
+      "id": 10,
+      "title": "Coordinación de hipótesis y verificadores",
+      "status": "pending",
+      "dependencies": [
+        7,
+        34
+      ],
+      "code_refs": [],
+      "scope": "IA propone; pruebas delimitadas revisan y pueden refutar.",
+      "acceptance": "Ninguna hipótesis de un modelo puede sustituir resultados verificables."
+    },
+    {
+      "id": 11,
+      "title": "Diferenciales de bytecode",
+      "status": "pending",
+      "dependencies": [
+        1
+      ],
+      "code_refs": [],
+      "scope": "Comparación defensiva de versiones y configuraciones de compilación.",
+      "acceptance": "Validar diferencias intencionales y regresiones etiquetadas."
+    },
+    {
+      "id": 12,
+      "title": "Pruebas de liquidez bajo estrés",
+      "status": "pending",
+      "dependencies": [
+        3
+      ],
+      "code_refs": [],
+      "scope": "Escenarios económicos explícitos; no predicciones ciertas de conducta humana.",
+      "acceptance": "Contrastar conservación y obligaciones bajo escenarios definidos."
+    },
+    {
+      "id": 13,
+      "title": "Análisis dinámico de datos en binarios",
+      "status": "pending",
+      "dependencies": [],
+      "code_refs": [],
+      "scope": "Instrumentación de binarios propios para diagnósticos de memoria.",
+      "acceptance": "Benchmark etiquetado y separación entre señal y fallo demostrado."
+    },
+    {
+      "id": 14,
+      "title": "Grafo de permisos",
+      "status": "pending",
+      "dependencies": [
+        1
+      ],
+      "code_refs": [],
+      "scope": "Verificar relaciones y límites de autorización.",
+      "acceptance": "Detectar contradicciones en fixtures y no alertar sobre permisos legítimos."
+    },
+    {
+      "id": 15,
+      "title": "Reducción de contraejemplos",
+      "status": "redesign",
+      "dependencies": [
+        3
+      ],
+      "code_refs": [],
+      "scope": "Generar pruebas mínimas de regresión; no exploits operativos automáticos.",
+      "acceptance": "La prueba reducida conserva la propiedad fallida y el objetivo local exacto."
+    },
+    {
+      "id": 16,
+      "title": "Validación de firmas y autorizaciones",
+      "status": "pending",
+      "dependencies": [
+        3
+      ],
+      "code_refs": [],
+      "scope": "Pruebas de nonces, dominio y validación con claves de laboratorio.",
+      "acceptance": "Rechazos esperados y casos válidos; no extraer ni utilizar claves de terceros."
+    },
+    {
+      "id": 17,
+      "title": "Fallos causales en sistemas distribuidos",
+      "status": "pending",
+      "dependencies": [],
+      "code_refs": [],
+      "scope": "Inyección controlada de fallos en entornos propios.",
+      "acceptance": "Restauración y consistencia comprobadas con límites de recursos."
+    },
+    {
+      "id": 18,
+      "title": "Consistencia entre llamadas de contratos",
+      "status": "pending",
+      "dependencies": [
+        1,
+        3
+      ],
+      "code_refs": [],
+      "scope": "Propiedades de reentrada y consistencia de componentes de laboratorio.",
+      "acceptance": "Probar invariantes entre llamadas y contrastar versiones corregidas."
+    },
+    {
+      "id": 19,
+      "title": "Regresiones del compilador",
+      "status": "pending",
+      "dependencies": [
+        11
+      ],
+      "code_refs": [],
+      "scope": "Comparar semántica observable en compilaciones controladas.",
+      "acceptance": "Separar cambios de optimización válidos de discrepancias reproducibles."
+    },
+    {
+      "id": 20,
+      "title": "Validación de APIs basada en esquemas",
+      "status": "pending",
+      "dependencies": [],
+      "code_refs": [],
+      "scope": "Pruebas funcionales y de autorización en APIs propias aisladas.",
+      "acceptance": "Casos negativos y secuencias válidas documentadas sin evasión."
+    },
+    {
+      "id": 21,
+      "title": "Pruebas de parsers de protocolos",
+      "status": "pending",
+      "dependencies": [],
+      "code_refs": [],
+      "scope": "Parsers y tráfico de laboratorio suministrado con autorización.",
+      "acceptance": "Pruebas de estructura y robustez sin capturar tráfico ajeno."
+    },
+    {
+      "id": 22,
+      "title": "Comprobación de canales laterales",
+      "status": "redesign",
+      "dependencies": [],
+      "code_refs": [],
+      "scope": "Evaluar constancia temporal; no extraer claves ni secretos.",
+      "acceptance": "Método estadístico, límites del reloj y resultados de controles conocidos."
+    },
+    {
+      "id": 23,
+      "title": "Consistencia HTTP entre componentes",
+      "status": "redesign",
+      "dependencies": [
+        20
+      ],
+      "code_refs": [],
+      "scope": "Validar configuración y parsers locales; no secuestro de sesiones.",
+      "acceptance": "Corpus de equivalencia entre parsers y mitigaciones comprobadas."
+    },
+    {
+      "id": 24,
+      "title": "Consistencia dinámica RBAC",
+      "status": "pending",
+      "dependencies": [
+        14
+      ],
+      "code_refs": [],
+      "scope": "Pruebas delimitadas de asignación y revocación de permisos.",
+      "acceptance": "Modelar transiciones y contrastar decisiones con la política."
+    },
+    {
+      "id": 25,
+      "title": "Deserialización y dependencias peligrosas",
+      "status": "redesign",
+      "dependencies": [
+        30
+      ],
+      "code_refs": [],
+      "scope": "Identificar riesgos y comprobar mitigaciones; no construir cadenas RCE.",
+      "acceptance": "Alcanzabilidad defensiva y regresiones que no ejecuten cargas maliciosas."
+    },
+    {
+      "id": 26,
+      "title": "Propiedades de circuitos ZK",
+      "status": "pending",
+      "dependencies": [
+        34
+      ],
+      "code_refs": [],
+      "scope": "Revisión de restricciones en circuitos propios de laboratorio.",
+      "acceptance": "Cobertura explícita de restricciones y contraejemplos no operativos."
+    },
+    {
+      "id": 27,
+      "title": "Concurrencia de memoria compartida",
+      "status": "pending",
+      "dependencies": [
+        13
+      ],
+      "code_refs": [],
+      "scope": "Regresiones y diagnóstico de carreras en código propio.",
+      "acceptance": "Intercalados delimitados, resultados repetibles y versiones corregidas."
+    },
+    {
+      "id": 28,
+      "title": "Resiliencia de consenso",
+      "status": "redesign",
+      "dependencies": [
+        17
+      ],
+      "code_refs": [],
+      "scope": "Simulación de fallos bizantinos en laboratorio, no interrupción de validadores ajenos.",
+      "acceptance": "Propiedades de seguridad y progreso bajo un modelo explícito."
+    },
+    {
+      "id": 29,
+      "title": "Detección defensiva de secretos en logs",
+      "status": "pending",
+      "dependencies": [],
+      "code_refs": [],
+      "scope": "Archivos propios: alertar y redactar sin exponer valores de credenciales.",
+      "acceptance": "Medir falsos positivos con tokens sintéticos y garantizar redacción."
+    },
+    {
+      "id": 30,
+      "title": "Dependencias y alcanzabilidad",
+      "status": "pending",
+      "dependencies": [
+        1
+      ],
+      "code_refs": [],
+      "scope": "Inventario y análisis defensivo de funciones vulnerables conocidas.",
+      "acceptance": "Asociación de versiones, rutas alcanzables y evidencia rastreable."
+    },
+    {
+      "id": 31,
+      "title": "Integridad de carga de bibliotecas",
+      "status": "redesign",
+      "dependencies": [
+        30
+      ],
+      "code_refs": [],
+      "scope": "Validar rutas, firmas y procedencia; no desviar ejecución con inyección.",
+      "acceptance": "Rechazar bibliotecas alteradas en fixtures y admitir referencias válidas."
+    },
+    {
+      "id": 32,
+      "title": "Validación del aislamiento",
+      "status": "redesign",
+      "dependencies": [],
+      "code_refs": [],
+      "scope": "Pruebas de restricciones y configuración; no motor de evasión de sandboxes.",
+      "acceptance": "Controles de límites del proceso y garantías documentadas sin exagerarlas."
+    },
+    {
+      "id": 33,
+      "title": "Consistencia entre especificación y código",
+      "status": "pending",
+      "dependencies": [
+        1,
+        7
+      ],
+      "code_refs": [],
+      "scope": "Contrastar requisitos versionados con pruebas trazables.",
+      "acceptance": "Cada conclusión señala requisito, implementación, test y límite."
+    },
+    {
+      "id": 34,
+      "title": "Verificación formal acotada",
+      "status": "pending",
+      "dependencies": [],
+      "code_refs": [],
+      "scope": "Propiedades y límites explícitos; no promesa universal de cero falsos negativos.",
+      "acceptance": "Distinguir prueba dentro del límite, contraejemplo, desconocido y timeout."
+    },
+    {
+      "id": 35,
+      "title": "Planificación de pruebas MCTS",
+      "status": "redesign",
+      "dependencies": [
+        3
+      ],
+      "code_refs": [],
+      "scope": "Priorizar cobertura defensiva; no encadenar exploits autónomamente.",
+      "acceptance": "Comparar cobertura y costo con una política base en un benchmark."
+    },
+    {
+      "id": 36,
+      "title": "Grafo de conocimiento entre dominios",
+      "status": "pending",
+      "dependencies": [
+        1,
+        14,
+        30
+      ],
+      "code_refs": [],
+      "scope": "Relacionar activos, dependencias y controles sin diseñar ataques integrales.",
+      "acceptance": "Cada relación tiene procedencia y vigencia comprobables."
+    },
+    {
+      "id": 37,
+      "title": "Triaje e impacto económico",
+      "status": "partial",
+      "dependencies": [],
+      "code_refs": [
+        "bridge.py",
+        "integration.py"
+      ],
+      "scope": "Hay revisión de datos y severidad propuesta; no cálculo real de daño.",
+      "acceptance": "Reconstrucción independiente, precios documentados y reglas de severidad por programa."
+    },
+    {
+      "id": 38,
+      "title": "Aprendizaje con retroalimentación explícita",
+      "status": "redesign",
+      "dependencies": [],
+      "code_refs": [],
+      "scope": "Consentimiento y evaluación offline; sin vigilancia oculta ni autoalteración libre.",
+      "acceptance": "Versionar cambios y aprobarlos solo tras una comparación independiente."
+    },
+    {
+      "id": 39,
+      "title": "Auditoría de interfaz visual",
+      "status": "pending",
+      "dependencies": [
+        20
+      ],
+      "code_refs": [],
+      "scope": "Revisar interfaces propias con evidencias visuales y comprobaciones técnicas.",
+      "acceptance": "Una captura no demuestra vulnerabilidad: exigir pruebas complementarias."
+    },
+    {
+      "id": 40,
+      "title": "Análisis de topología de código",
+      "status": "pending",
+      "dependencies": [
+        1
+      ],
+      "code_refs": [],
+      "scope": "Evaluar modelos de grafos; señales no equivalen a fallos.",
+      "acceptance": "Benchmark ciego y comparación con algoritmos de referencia."
+    },
+    {
+      "id": 41,
+      "title": "Contraste de diagramas y especificaciones",
+      "status": "pending",
+      "dependencies": [
+        33
+      ],
+      "code_refs": [],
+      "scope": "Documentos aportados con autorización y trazabilidad a requisitos.",
+      "acceptance": "Verificar la extracción y toda correspondencia con código."
+    },
+    {
+      "id": 42,
+      "title": "Prevención de exposición visual de secretos",
+      "status": "redesign",
+      "dependencies": [
+        29,
+        39
+      ],
+      "code_refs": [],
+      "scope": "Material propio consentido: detección y redacción, no extracción de credenciales.",
+      "acceptance": "No guardar ni mostrar secretos; validar con datos sintéticos."
+    },
+    {
+      "id": 43,
+      "title": "Navegación automatizada transparente",
+      "status": "redesign",
+      "dependencies": [
+        20
+      ],
+      "code_refs": [],
+      "scope": "Pruebas UI normales; sin evasión de WAF, detección de bots o captchas.",
+      "acceptance": "Flujos autorizados repetibles con límites de tráfico y acciones."
+    },
+    {
+      "id": 44,
+      "title": "Entradas adaptativas de prueba",
+      "status": "redesign",
+      "dependencies": [
+        3,
+        20
+      ],
+      "code_refs": [],
+      "scope": "Pruebas de robustez de validadores locales; no evasión de filtros de terceros.",
+      "acceptance": "Corpus reproducible, entradas válidas/invalidas y resultados delimitados."
+    },
+    {
+      "id": 45,
+      "title": "Orquestación de entornos aislados",
+      "status": "partial",
+      "dependencies": [],
+      "code_refs": [
+        "lab_cli.py",
+        "lab_worker.py"
+      ],
+      "scope": "Existe worker local limitado; no clona infraestructuras completas.",
+      "acceptance": "Aislamiento verificable, dependencias fijadas, restauración y secretos separados."
+    },
+    {
+      "id": 46,
+      "title": "Validación local de contratos",
+      "status": "redesign",
+      "dependencies": [
+        3,
+        4
+      ],
+      "code_refs": [],
+      "scope": "Pruebas de seguridad y regresión; no generación/despliegue autónomo de contratos de ataque.",
+      "acceptance": "Evidencia limitada al entorno y ninguna garantía de recompensa."
+    },
+    {
+      "id": 47,
+      "title": "Informes técnicos y ejecutivos",
+      "status": "partial",
+      "dependencies": [
+        37
+      ],
+      "code_refs": [
+        "bridge.py"
+      ],
+      "scope": "Existe borrador Markdown de revisión, no informe corporativo completo.",
+      "acceptance": "Toda afirmación remite a evidencia; revisión humana y protección de datos."
+    },
+    {
+      "id": 48,
+      "title": "Verificación de correcciones y regresiones",
+      "status": "pending",
+      "dependencies": [
+        3,
+        15
+      ],
+      "code_refs": [],
+      "scope": "Comparar versiones propias con las mismas pruebas y condiciones.",
+      "acceptance": "El defecto corregido deja de reproducirse y pasan los controles negativos."
+    },
+    {
+      "id": 49,
+      "title": "Inteligencia defensiva de amenazas",
+      "status": "pending",
+      "dependencies": [
+        30
+      ],
+      "code_refs": [],
+      "scope": "Avisos públicos aplicables a activos autorizados; reglas nuevas se revisan.",
+      "acceptance": "Fuentes verificables, deduplicación y ningún despliegue automático sin evaluación."
+    },
+    {
+      "id": 50,
+      "title": "Mapeo a controles de cumplimiento",
+      "status": "pending",
+      "dependencies": [
+        47
+      ],
+      "code_refs": [],
+      "scope": "Mapeo orientativo con versiones; no certificación automática ni conclusión legal.",
+      "acceptance": "Cada mapeo tiene evidencia y referencia; admite no aplicable y revisión experta."
+    }
+  ]
+}

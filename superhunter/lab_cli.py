@@ -9,7 +9,7 @@ import subprocess
 import sys
 
 
-def main(argv: list[str], *, verify: bool = False) -> int:
+def main(argv: list[str], *, verify: bool = False, system: bool = False) -> int:
     parser = argparse.ArgumentParser(description="Execute or verify the fixed DIABLO/NQC local lab")
     parser.add_argument("--bundle" if verify else "--out", required=True, type=Path, dest="directory")
     args = parser.parse_args(argv)
@@ -17,7 +17,8 @@ def main(argv: list[str], *, verify: bool = False) -> int:
         print(json.dumps({"status": "LOCAL_INTEGRATION_ERROR", "reason": "POSIX worker required"}))
         return 2
     worker = Path(__file__).with_name("lab_worker.py").resolve()
-    command = [sys.executable, "-I", "-B", str(worker), "verify" if verify else "run", str(args.directory.absolute())]
+    mode = ("verify-system" if verify else "system") if system else ("verify" if verify else "run")
+    command = [sys.executable, "-I", "-B", str(worker), mode, str(args.directory.absolute())]
     # Do not forward RPC URLs, API keys, PYTHONPATH or shell configuration.
     env = {"LANG": "C.UTF-8", "LC_ALL": "C.UTF-8"}
     try:
@@ -33,7 +34,8 @@ def main(argv: list[str], *, verify: bool = False) -> int:
         return 2
     try:
         result = json.loads(proc.stdout)
-        if result["status"] != "LOCAL_INTEGRATION_PASS" or result["vulnerability_confirmed"] is not False:
+        expected = "LOCAL_DEFENSIVE_CHECKS_PASS" if system else "LOCAL_INTEGRATION_PASS"
+        if result["status"] != expected or result["vulnerability_confirmed"] is not False:
             raise ValueError("unexpected worker verdict")
     except (ValueError, KeyError, TypeError):
         print(json.dumps({"status": "LOCAL_INTEGRATION_ERROR", "reason": "invalid worker response"}))

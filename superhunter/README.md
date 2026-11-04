@@ -1,6 +1,18 @@
 # SUPERHUNTER — integración en NQC
 
-Hay dos recorridos separados. No deben confundirse sus resultados.
+## Comprobación conjunta y checklist
+
+```bash
+python3 -m superhunter system-check --out /tmp/superhunter-system-001
+python3 -m superhunter verify-system --bundle /tmp/superhunter-system-001
+```
+
+Este recorrido reúne el laboratorio nativo, un grafo de 30 nodos de evidencia,
+1,728 casos de un dominio numérico finito y el checklist de los 50 requisitos.
+Solo acredita pruebas defensivas locales. No acredita un Hunter terminado.
+Detalles y brecha de consistencia corregida: [CONNECTED_CHECKS.md](CONNECTED_CHECKS.md).
+
+Los dos recorridos anteriores siguen disponibles; no se deben confundir sus resultados.
 
 ## 1. Ejecución nativa local
 
@@ -62,7 +74,7 @@ El cierre histórico Protocol/Fork no se admite como Reconstruction.
 python3 -m unittest discover -s superhunter/tests -v
 ```
 
-Suite de esta entrega: 102 pruebas ejecutadas, sin fallos, errores ni omisiones.
+Suite de esta entrega: 146 pruebas ejecutadas, sin fallos, errores ni omisiones.
 El laboratorio necesita Linux/POSIX, Python 3.11+ y PyYAML 6.0.3; no instala
 dependencias automáticamente. Los demás adaptadores usan la librería estándar.
 
@@ -74,5 +86,6 @@ completada, nunca vulnerabilidad confirmada.
 No hay integración autónoma de los motores de búsqueda de vulnerabilidades,
 Forge, forks, RPC, firma, broadcasts ni envíos de reportes. No se heredan
 certificaciones históricas de NQC. Los registros anteriores VALIDATION.md y
-validation-results.json se conservan como historia; el resultado de esta
-entrega está en local-validation.json y LOCAL_LAB.md.
+validation-results.json se conservan como historia; los resultados anteriores
+están en local-validation.json y LOCAL_LAB.md. La entrega actual está registrada
+en connected-validation.json y CONNECTED_CHECKS.md.

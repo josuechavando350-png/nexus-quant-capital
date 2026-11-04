@@ -14,10 +14,11 @@ from pathlib import Path
 import uuid
 
 from .native_runtime import load_components, source_inventory
+from .evidence_links import make_graph, check_graph
 from .safe_io import canonical, read_artifact, strict_json, write_new_bundle
 
 WAD = 10**18
-BUNDLE_FILES = {"lab-result.json", "nqc-results.json", "diablo-audit.json", "source-provenance.json"}
+BUNDLE_FILES = {"lab-result.json", "nqc-results.json", "diablo-audit.json", "source-provenance.json", "evidence-graph.json"}
 
 
 def _row(name: str, start: int, end: int, value: int, amount: int, resource: str = "fixture-capital") -> dict:
@@ -119,6 +120,7 @@ def execute_local() -> dict[str, bytes]:
         reference = independent_reference(rows)
         _check_native_result(output, reference)
         audit.append("lab.nqc.finish", {"case": name, "output_commitment": output["commitment"]})
+        audit.append("lab.reference.finish", {"case": name, "reference_sha256": hashlib.sha256(canonical(reference)).hexdigest(), "matched": True})
         results.append({"case": name, "inputs": rows, "nqc": output, "independent": reference, "match": True})
     denied = not guard.check(native.models.Target(value="blocked.lab.invalid", kind="fixture", chain="offline")).allowed
     if not denied:
@@ -131,12 +133,13 @@ def execute_local() -> dict[str, bytes]:
         if "duplicate opportunity_id" not in str(exc):
             raise
         duplicate_rejected = True
+        audit.append("lab.nqc.reject", {"case": "duplicate-id", "error": "duplicate opportunity_id"})
     else:
         raise ValueError("NQC accepted duplicate numerical records")
     audit.append("lab.completed", {"run_id": run_id, "cases": len(results), "vulnerability_confirmed": False})
     audit.assert_intact()
     verdict = {
-        "schema_version": 1, "status": "LOCAL_INTEGRATION_PASS", "run_id": run_id,
+        "schema_version": 2, "status": "LOCAL_INTEGRATION_PASS", "run_id": run_id,
         "started_at": started, "completed_at": datetime.now(timezone.utc).isoformat(),
         "verification_level": "pinned-native-local-regression", "local_component_execution": True,
         "fixture_only": True, "vulnerability_confirmed": False, "forge_executed": False,
@@ -146,9 +149,12 @@ def execute_local() -> dict[str, bytes]:
         "audit_head": audit.head, "audit_count": len(audit),
         "native_functions": ["DIABLO.ScopeGuard.assert_allowed", "DIABLO.AuditLog.append/verify", "NQC.RMC016.solve"],
     }
+    entries = [asdict(e) for e in audit.entries]
+    provenance = {"sources": list(native.provenance)}
+    graph = make_graph(verdict, results, entries, provenance)
     return {"lab-result.json": canonical(verdict), "nqc-results.json": canonical({"cases": results}),
-            "diablo-audit.json": canonical({"entries": [asdict(e) for e in audit.entries]}),
-            "source-provenance.json": canonical({"sources": list(native.provenance)})}
+            "diablo-audit.json": canonical({"entries": entries}),
+            "source-provenance.json": canonical(provenance), "evidence-graph.json": canonical(graph)}
 
 
 def run_local(out: Path) -> dict:
@@ -171,6 +177,13 @@ def verify_local_bundle(root: Path) -> dict:
         if hashlib.sha256(raw).hexdigest() != expected:
             raise ValueError("lab artifact digest mismatch")
         values[name] = strict_json(raw)
+    return verify_local_values(values)
+
+
+def verify_local_values(values: dict) -> dict:
+    """Verify the local circuit within either a local-only or system bundle."""
+    if set(values) != BUNDLE_FILES:
+        raise ValueError("unexpected circuit artifact set")
     result = values["lab-result.json"]
     if (result.get("status") != "LOCAL_INTEGRATION_PASS" or result.get("fixture_only") is not True or
             result.get("vulnerability_confirmed") is not False or result.get("forge_executed") is not False or
@@ -190,7 +203,7 @@ def verify_local_bundle(root: Path) -> dict:
         _check_native_result(case["nqc"], reference)
     native = load_components()
     entries = values["diablo-audit.json"].get("entries")
-    if type(entries) is not list or len(entries) != result.get("audit_count") or len(entries) != 18:
+    if type(entries) is not list or len(entries) != result.get("audit_count") or len(entries) != 24:
         raise ValueError("audit length mismatch")
     previous = "0" * 64
     for i, row in enumerate(entries):
@@ -204,6 +217,9 @@ def verify_local_bundle(root: Path) -> dict:
         raise ValueError("audit completion mismatch")
     if result.get("cases_passed") != 5 or result.get("scope_negative_passed") is not True or result.get("duplicate_negative_passed") is not True:
         raise ValueError("lab acceptance mismatch")
+    graph = make_graph(result, cases, entries, values["source-provenance.json"])
+    check_graph(values["evidence-graph.json"], graph)
     return {"status": result["status"], "run_id": result["run_id"], "cases_passed": 5,
+            "evidence_root_sha256": graph["root_sha256"], "linked_nodes": len(graph["nodes"]),
             "verification_level": "artifact-integrity-and-reference-recalculation",
             "vulnerability_confirmed": False}

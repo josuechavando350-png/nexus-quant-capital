@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "checked_at_utc": "2026-11-04T05:58:03.236664+00:00",
+  "base_commit": "665728368468988204d43cbfb7c06f2c8502059f",
+  "python": "3.13.5",
+  "baseline": {
+    "tests": 102,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "updated": {
+    "tests": 146,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "finite_cases": 1728,
+  "reference_subsets": 13824,
+  "linked_nodes": 30,
+  "tests_log_sha256": "b929bae46aabe287520bd6b41d9e4054c01e35900b03ace4461328fb25c9bc5d",
+  "system_result": {
+    "bounded_cases": 1728,
+    "capabilities": {
+      "implemented_end_to_end": 0,
+      "listed": 50,
+      "states": {
+        "partial": 3,
+        "pending": 32,
+        "redesign": 15
+      }
+    },
+    "linked_nodes": 30,
+    "producer_authenticated": false,
+    "root_sha256": "6634ffa07a0cf6a96c9366c65743a59bdc304345f7818f222c8ac3d5bf8732ec",
+    "run_id": "a1265c1e-ad02-47a1-a701-63de7792a3e7",
+    "status": "LOCAL_DEFENSIVE_CHECKS_PASS",
+    "universal_security_proof": false,
+    "vulnerability_confirmed": false
+  },
+  "forge_executed": false,
+  "live_rpc_used": false,
+  "full_nqc_tests_run": false,
+  "full_isolation_verifier_run": false,
+  "github_actions_run": false,
+  "files": {
+    "superhunter/CONNECTED_CHECKS.md": {
+      "git_blob": "c5302a61a8f3fa382308e464497c4b551cfa1547",
+      "sha256": "647521850d34b102640b1b1b661be9976693f8c4049e839d030cb95a0e2d155a",
+      "bytes": 5578
+    },
+    "superhunter/LOCAL_LAB.md": {
+      "git_blob": "066c8c6e797fbbb31a9f9a4e65d717356b074c15",
+      "sha256": "460007632b1e8ae63f0ba6762b5b4bb6059039898194b55a73f80cd2005980c0",
+      "bytes": 5442
+    },
+    "superhunter/README.md": {
+      "git_blob": "d455f1d5ea9e389501b57a9699637d8ecdcab1b4",
+      "sha256": "8703ac005a4548902891c1df2e1cd9f1b93eb4fded0fd5c724026feefbf14874",
+      "bytes": 4152
+    },
+    "superhunter/__main__.py": {
+      "git_blob": "c728ced72e673eb0fe0bca9efd99c28faa7c7def",
+      "sha256": "32cffda0bed843342fb689b9fc30ffd8da0e851985c4580511beb933ff1056b0",
+      "bytes": 3589
+    },
+    "superhunter/bounded_capacity.py": {
+      "git_blob": "7e706917f2673fd92f1b86abc450d1d41c3c268b",
+      "sha256": "693d4060107ff38527fd1d5f5a3fd3c6e9cb6f5b8af407e4950ddb689b3c9fb4",
+      "bytes": 3716
+    },
+    "superhunter/capabilities.json": {
+      "git_blob": "95ea3b6b54fba29fecdc9da70479ee3f0425e575",
+      "sha256": "81f63abed43124588f26472cccac03caa3889ef1ef81ecda429388697f2ed9af",
+      "bytes": 17991
+    },
+    "superhunter/capability_status.py": {
+      "git_blob": "19c248d1972c6e00555c0b19142088678be25add",
+      "sha256": "4a916116e8ef358a0c83d251148dbb4f6243d0dc57effde61ab7eef978a34862",
+      "bytes": 5251
+    },
+    "superhunter/evidence_links.py": {
+      "git_blob": "4158ab0b58523bbb385c88d76c9adcb83903d620",
+      "sha256": "726d298d203adcb21b4f0b74ceddce969d6e79dbdc3e0adabafd33953d3bb0e4",
+      "bytes": 7918
+    },
+    "superhunter/lab_cli.py": {
+      "git_blob": "a6dcb753cf9440e3c6e506c4b66ee56be8da6aad",
+      "sha256": "86a777edd79c5cea3f45aa5829d3627c1f68cf9ba3be5aa8ab438018964923cb",
+      "bytes": 2205
+    },
+    "superhunter/lab_worker.py": {
+      "git_blob": "f5f26919b457f9fba52d83b356b8c7079e9aca9b",
+      "sha256": "f023da4d4286f2daaa52d2c0e62c6882d229ed9e76d0ea6b45edac1a428b58ac",
+      "bytes": 2364
+    },
+    "superhunter/local_lab.py": {
+      "git_blob": "9ac4199fb6f5812f10a2bb5c9ed3fc36d61da5a1",
+      "sha256": "a619cdc329aef77900f3d0b0366dfb5c79a14fce7ae71fdb545fcc2e00fe30d8",
+      "bytes": 12324
+    },
+    "superhunter/system_check.py": {
+      "git_blob": "5cfbbc50b479caf7989734fb5eca912361f002af",
+      "sha256": "bda15eb2a290f00ec0fbeabbb8a2327d8e3da53fca8e53d536d645b1a4ed6033",
+      "bytes": 4991
+    },
+    "superhunter/tests/test_connected_checks.py": {
+      "git_blob": "717d4ebf59ec6c1c49adcd52b918ff35effe9bd9",
+      "sha256": "173d955596e843a3f6a055904fb62ef4e5bec82756b68db977003a9d740c36bd",
+      "bytes": 16664
+    },
+    "superhunter/tests/test_local_lab.py": {
+      "git_blob": "17a7bb3af7e0bb4bb76f7c441a0d78d2a2b6a691",
+      "sha256": "29e528de8d4d1beb68f5aa34d999ff128e893283351ba9a8ecf10901239ccf12",
+      "bytes": 13242
+    }
+  }
+}

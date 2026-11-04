@@ -72,7 +72,7 @@ class LocalLabTests(unittest.TestCase):
             files = execute_local()
         self.assertEqual(solve.call_count, 6)  # five valid cases, one expected duplicate rejection
         self.assertEqual(scope.call_count, 5)
-        self.assertEqual(strict_json(files["lab-result.json"])["audit_count"], 18)
+        self.assertEqual(strict_json(files["lab-result.json"])["audit_count"], 24)
 
     def test_expected_values_not_just_engine_agreement(self):
         expected = {"overlap": (["b","c"],150*WAD), "adjacent": (["a","b"],16*WAD),

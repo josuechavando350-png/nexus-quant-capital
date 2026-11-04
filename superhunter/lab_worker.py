@@ -19,7 +19,7 @@ def deny_external_execution(event: str, args: tuple) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Fixed local native-component regressions")
-    parser.add_argument("mode", choices=("run", "verify"))
+    parser.add_argument("mode", choices=("run", "verify", "system", "verify-system"))
     parser.add_argument("directory", type=Path)
     args = parser.parse_args()
     # Hard bounds apply to this short-lived process, not the caller.
@@ -38,8 +38,12 @@ def main() -> int:
             pass
         else:
             raise RuntimeError("network guard self-test failed")
-        from superhunter.local_lab import run_local, verify_local_bundle
-        result = run_local(args.directory) if args.mode == "run" else verify_local_bundle(args.directory)
+        if args.mode in ("system", "verify-system"):
+            from superhunter.system_check import run_system, verify_system
+            result = run_system(args.directory) if args.mode == "system" else verify_system(args.directory)
+        else:
+            from superhunter.local_lab import run_local, verify_local_bundle
+            result = run_local(args.directory) if args.mode == "run" else verify_local_bundle(args.directory)
         print(json.dumps(result, sort_keys=True))
         return 0
     except Exception as exc:

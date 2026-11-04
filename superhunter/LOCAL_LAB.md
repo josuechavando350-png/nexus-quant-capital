@@ -89,3 +89,10 @@ se limita a hashes y diff remoto; solo cambia `superhunter/`. No hay ejecución
 GitHub Actions, evidencia de bugs reales ni integración operativa del Hunter
 completo. Los archivos VALIDATION.md y validation-results.json previos se
 conservan como registros de la entrega anterior, no como resultados de esta.
+
+## Actualización de comprobaciones enlazadas
+
+El circuito actual incorpora `evidence-graph.json`, schema de resultado 2 y 24
+eventos: las cinco referencias y el rechazo de duplicados también se registran.
+La nueva suite tiene 146 pruebas; los números anteriores de este documento
+son el registro histórico de la entrega de 102 pruebas. Ver CONNECTED_CHECKS.md.

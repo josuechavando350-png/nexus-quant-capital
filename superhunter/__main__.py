@@ -13,9 +13,10 @@ from .safe_io import canonical, read_artifact, write_new_bundle
 
 def main() -> int:
     argv = sys.argv[1:]
-    if argv and argv[0] in ("local-lab", "verify-lab"):
+    if argv and argv[0] in ("local-lab", "verify-lab", "system-check", "verify-system"):
         from .lab_cli import main as lab_main
-        return lab_main(argv[1:], verify=argv[0] == "verify-lab")
+        return lab_main(argv[1:], verify=argv[0] in ("verify-lab", "verify-system"),
+                        system=argv[0] in ("system-check", "verify-system"))
     mode = argv.pop(0) if argv and argv[0] in ("export-diablo", "import-nqc") else "legacy"
     parser = argparse.ArgumentParser(description="Offline SUPERHUNTER evidence adapters")
     if mode == "export-diablo":
