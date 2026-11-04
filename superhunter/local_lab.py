@@ -14,6 +14,7 @@ from pathlib import Path
 import uuid
 
 from .native_runtime import load_components, source_inventory
+from .lab_integrity import verify_semantics
 from .safe_io import canonical, read_artifact, strict_json, write_new_bundle
 
 WAD = 10**18
@@ -163,7 +164,9 @@ def run_local(out: Path) -> dict:
 def verify_local_bundle(root: Path) -> dict:
     """Integrity/recalculation check, NOT authentication of an external producer."""
     marker = strict_json(read_artifact(root, "COMPLETE.json"))
-    if marker.get("schema_version") != 1 or set(marker.get("sha256", {})) != BUNDLE_FILES:
+    if (type(marker.get("schema_version")) is not int or marker["schema_version"] != 1 or
+            set(marker) != {"schema_version", "sha256"} or
+            type(marker.get("sha256")) is not dict or set(marker["sha256"]) != BUNDLE_FILES):
         raise ValueError("incomplete or unexpected lab bundle")
     values = {}
     for name, expected in marker["sha256"].items():
@@ -204,6 +207,7 @@ def verify_local_bundle(root: Path) -> dict:
         raise ValueError("audit completion mismatch")
     if result.get("cases_passed") != 5 or result.get("scope_negative_passed") is not True or result.get("duplicate_negative_passed") is not True:
         raise ValueError("lab acceptance mismatch")
+    verify_semantics(result, entries, cases)
     return {"status": result["status"], "run_id": result["run_id"], "cases_passed": 5,
             "verification_level": "artifact-integrity-and-reference-recalculation",
             "vulnerability_confirmed": False}

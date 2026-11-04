@@ -1,6 +1,15 @@
 # SUPERHUNTER — integración en NQC
 
-Hay dos recorridos separados. No deben confundirse sus resultados.
+La puerta de calidad `verify-project` ejecuta y vincula los dos recorridos
+locales descritos abajo, sus pruebas y su checklist. Ver [ASSURANCE.md](ASSURANCE.md)
+y [CHECKLIST.md](CHECKLIST.md). Ninguno certifica el Hunter completo.
+
+```bash
+python3 -m superhunter verify-project --out /tmp/superhunter-verification-001
+python3 -m superhunter verify-project-bundle --bundle /tmp/superhunter-verification-001
+```
+
+Hay dos recorridos de componentes separados. No deben confundirse sus resultados.
 
 ## 1. Ejecución nativa local
 
@@ -62,7 +71,7 @@ El cierre histórico Protocol/Fork no se admite como Reconstruction.
 python3 -m unittest discover -s superhunter/tests -v
 ```
 
-Suite de esta entrega: 102 pruebas ejecutadas, sin fallos, errores ni omisiones.
+Suite actual: 139 pruebas ejecutadas, sin fallos, errores ni omisiones.
 El laboratorio necesita Linux/POSIX, Python 3.11+ y PyYAML 6.0.3; no instala
 dependencias automáticamente. Los demás adaptadores usan la librería estándar.
 
@@ -74,5 +83,6 @@ completada, nunca vulnerabilidad confirmada.
 No hay integración autónoma de los motores de búsqueda de vulnerabilidades,
 Forge, forks, RPC, firma, broadcasts ni envíos de reportes. No se heredan
 certificaciones históricas de NQC. Los registros anteriores VALIDATION.md y
-validation-results.json se conservan como historia; el resultado de esta
-entrega está en local-validation.json y LOCAL_LAB.md.
+validation-results.json se conservan como historia; el registro del laboratorio anterior está en
+local-validation.json y LOCAL_LAB.md. La verificación enlazada actual se documenta
+en ASSURANCE.md y genera un paquete de evidencias por ejecución.
