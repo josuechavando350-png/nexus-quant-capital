@@ -15,6 +15,7 @@ import tempfile
 import uuid
 
 from . import quality, local_lab, fuzz_lab
+from .source_graph import current_graph
 from .safe_io import canonical, read_artifact, strict_json, write_new_bundle
 
 ROOT = Path(__file__).resolve().parent
@@ -88,6 +89,7 @@ def _facts(packed: dict[str, bytes], checked: dict, plan: dict, caps: dict) -> d
             raise ValueError('milestone lacks an executed passing test: '+item['id'])
     return {
         'status': 'LOCAL_REVIEW_PASS',
+        'source_wiring': current_graph(),
         'source_digest': checked['qa']['source_digest'],
         'unit_tests': checked['qa']['tests_run'],
         'components': checked['qa']['components'],
