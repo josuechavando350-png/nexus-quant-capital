@@ -28,9 +28,11 @@ COMPONENTS = {
               'tests': ['test_audit_links.', 'test_proof_graph.'], 'depends': ['io']},
     'lab': {'files': ['local_lab.py', 'lab_worker.py', 'lab_cli.py'],
             'tests': ['test_local_lab.', 'test_audit_links.'], 'depends': ['native', 'audit']},
-    'quality': {'files': ['quality.py', 'quality_worker.py'], 'tests': ['test_quality.'], 'depends': ['transport', 'lab']},
+    'fuzz': {'files': ['fuzz_lab.py', 'fuzz_worker.py', 'fuzz_cli.py'],
+             'tests': ['test_fuzz_lab.'], 'depends': ['native', 'lab', 'audit']},
+    'quality': {'files': ['quality.py', 'quality_worker.py'], 'tests': ['test_quality.'], 'depends': ['transport', 'lab', 'fuzz']},
     'entrypoints': {'files': ['__init__.py', '__main__.py'],
-                    'tests': ['test_integration.', 'test_local_lab.'], 'depends': ['transport', 'lab', 'quality']},
+                    'tests': ['test_integration.', 'test_local_lab.', 'test_fuzz_lab.'], 'depends': ['transport', 'lab', 'fuzz', 'quality']},
 }
 REQUIRED_TESTS = (
     'test_bridge.BridgeTests.test_forge_wrong_target',
@@ -44,6 +46,9 @@ REQUIRED_TESTS = (
     'test_proof_graph.CausalGraphTests.test_stored_bundle_receipt_catches_graph_reseal',
     'test_quality.QualityTests.test_skip_never_counts_as_pass',
     'test_quality.QualityTests.test_source_change_blocks_success',
+    'test_fuzz_lab.FuzzLabTests.test_differential_64_cases',
+    'test_fuzz_lab.FuzzLabTests.test_resealed_scope_decision_mismatch',
+    'test_fuzz_lab.FuzzLabTests.test_cli_runs_bounded_fuzz_and_reverification',
 )
 FILES = {'receipt.json', 'quality.json', 'source-snapshot.json', 'CHECKLIST.md', 'tests.log'}
 
