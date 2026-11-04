@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-11-04T21:34:04.109762+00:00",
+  "publication_parent": "6aeb35414a9fa8ac7f98b452bd3ff473d639a846",
+  "baseline_reexecuted": {
+    "tests": 767,
+    "exit": 0,
+    "historical_test_ids_preserved": 767
+  },
+  "local_accumulated": {
+    "tests_run": 809,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0
+  },
+  "remote_focused": {
+    "tests_run": 420,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0
+  },
+  "local_source_digest": "cbd696eefe11af0e823f0cec12a1c49d1598bf258038ee2c29ebdc7a107b3bcd",
+  "remote_source_digest": "153e55142aa3dbd6a92b102f3066385e35bb224b0fdf8686468fecc93a0875ea",
+  "new_tests": 42,
+  "deleted_previous_tests": 0,
+  "local_combined_run_exit": 0,
+  "local_separate_verifier_exit": 0,
+  "remote_qa_exit": 0,
+  "remote_separate_verifier_exit": 0,
+  "synthetic_control": {
+    "cases": 20,
+    "platform_labels": 8,
+    "initially_eligible_local": 20,
+    "lost_local_eligibility": 8,
+    "still_eligible_local": 12,
+    "simulated_clock_expiry_blocked": 20,
+    "false_permission_resealed_report_rejected_exit": 2
+  },
+  "regression": {
+    "issue": "Changed document bytes were blocked but absent from change summary",
+    "new_test_failed_before_fix": true,
+    "new_test_passed_after_fix": true
+  },
+  "raw_log_sha256": {
+    "baseline767": "7e6f468f9d30f765f3f74245490f45e03ed72359e28770cc978f92426d17baef",
+    "local809": "ec2d8917767a315df9e26bd71113975a10519c7efbe50bed944ea39db2702feb",
+    "remote420": "e36ba01050d9fd8719cc11981cd673eb14e7c604f49bed3ebdbe7179b8f8bd6b",
+    "regression_before": "86680055d02a71ccc5742f207de1d2562985006a7691e5ec702d5e89cf14eb85",
+    "regression_after": "2e39792422bba6a3e492cc0a43964d370a6bc0948ffdc374336a19ed02c30408"
+  },
+  "published_files": {
+    "program_changes.py": {
+      "sha256": "2a8dbb09cc15ab2325e971d2644b391d6e55ef9883783872685172a3165d139b",
+      "git_blob": "568a40a755173bca5da102c128976f2d541c1cd7",
+      "bytes": 14731
+    },
+    "tests/test_program_changes.py": {
+      "sha256": "93184baeddd722c1d78aee4df09fbf730aa190f99e3bcfd8df52e885e7af0b68",
+      "git_blob": "279656b1fb3920607dbbc1566bfb6ea6e1a5dbe8",
+      "bytes": 16531
+    },
+    "__main__.py": {
+      "sha256": "27d04056306854226675153d1866eae969b8a279d7109cefdd641e929e2e5c3b",
+      "git_blob": "77aca780bf75ccf52730631f2c7e116322092585",
+      "bytes": 4573
+    },
+    "quality.py": {
+      "sha256": "9e6686af0b38e5e84bfbefcb9558e0a912708d9e6e6df3bf89ebf3f62a8b6a51",
+      "git_blob": "e4fff252db37ee299a0acc93a8b732ca8c255e44",
+      "bytes": 16965
+    },
+    "PROGRAM_CHANGES.md": {
+      "sha256": "b760cec643f0c1ad1ce828fc0fef215faa479cc876cb1075de1f9fcddc6e6e14",
+      "git_blob": "392ce69982a93d54212891ec18c336819c63ef47",
+      "bytes": 4191
+    }
+  },
+  "scope": "Offline comparison of supplied operator-reviewed program policy snapshots; not platform API connectors",
+  "not_executed": [
+    "Slither",
+    "solc",
+    "Forge",
+    "EVM targets",
+    "GitHub Actions",
+    "full historical NQC suite",
+    "full repository isolation verifier"
+  ],
+  "live_testing_authorized": false,
+  "vulnerability_confirmed": false,
+  "platform_complete": false,
+  "consolidation_limit": "Accumulated 809-test code is separate from the 420-test focused remote publication. PR41 is a parallel policy implementation and has not been silently merged.",
+  "recovery": "The 767-ID baseline was reconstructed from the supplied 640 accounting, 622 wiring and 638 SMT packages and PR42 registry. All historical 767 test IDs match, but historical full source-byte identity is not asserted."
+}

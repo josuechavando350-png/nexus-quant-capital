@@ -76,6 +76,15 @@ REQUIRED_TESTS += (
 )
 COMPONENTS['quality']['depends'].append('program_registry')
 COMPONENTS['entrypoints']['depends'].append('program_registry')
+COMPONENTS['program_changes'] = {'files': ['program_changes.py'], 'tests': ['test_program_changes.'], 'depends': ['program_registry', 'native', 'io']}
+COMPONENTS['quality']['depends'].append('program_changes')
+COMPONENTS['entrypoints']['depends'].append('program_changes')
+REQUIRED_TESTS += (
+    'test_program_changes.ProgramChangeTests.test_case_removal_cannot_improve_result',
+    'test_program_changes.ProgramChangeTests.test_expiry_is_separated_from_policy_mutation',
+    'test_program_changes.ProgramChangeTests.test_resealed_approval_claim_rejected',
+    'test_program_changes.ProgramChangeTests.test_changed_document_without_metadata_is_reported',
+)
 FILES = {'receipt.json', 'quality.json', 'source-snapshot.json', 'CHECKLIST.md', 'tests.log'}
 
 

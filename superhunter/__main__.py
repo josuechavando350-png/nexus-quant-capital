@@ -13,6 +13,9 @@ from .safe_io import canonical, read_artifact, write_new_bundle
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ("compare-programs", "verify-program-changes"):
+        from .program_changes import main as changes_main
+        return changes_main(argv)
     if argv and argv[0] in ("review-programs", "verify-programs", "program-platforms"):
         from .program_registry import main as programs_main
         return programs_main(argv)
