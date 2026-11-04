@@ -13,6 +13,9 @@ from .safe_io import canonical, read_artifact, write_new_bundle
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ("review-platform", "verify-platform"):
+        from .platform import main as platform_main
+        return platform_main(argv)
     if argv and argv[0] in ("check", "verify-check", "capabilities"):
         from .quality import main as quality_main
         return quality_main(argv)

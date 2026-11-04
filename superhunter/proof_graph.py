@@ -102,5 +102,5 @@ def verify_graph(graph: Any, *, cases: list[dict], entries: list[dict],
                  provenance: list[dict], summary: dict) -> None:
     """Recompute every node and dependency from supplied, otherwise verified artifacts."""
     expected = build_graph(cases, entries, provenance, summary)
-    if type(graph) is not dict or graph != expected:
+    if type(graph) is not dict or canonical(graph) != canonical(expected):
         raise ValueError("causal graph mismatch: changed node, dependency, run, or root")

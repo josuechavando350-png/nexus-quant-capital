@@ -115,6 +115,18 @@ class CausalGraphTests(unittest.TestCase):
             verify_graph(other_graph, cases=self.cases, entries=self.entries,
                          provenance=self.provenance, summary=self.result)
 
+    def test_boolean_schema_is_not_integer_version(self):
+        self.graph['schema_version'] = True
+        with self.assertRaisesRegex(ValueError, 'causal graph mismatch'):
+            verify_graph(self.graph, cases=self.cases, entries=self.entries,
+                         provenance=self.provenance, summary=self.result)
+
+    def test_numeric_false_is_not_boolean_authentication(self):
+        self.graph['independently_authenticated'] = 0
+        with self.assertRaisesRegex(ValueError, 'causal graph mismatch'):
+            verify_graph(self.graph, cases=self.cases, entries=self.entries,
+                         provenance=self.provenance, summary=self.result)
+
     def test_stored_bundle_receipt_catches_graph_reseal(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)/'case'

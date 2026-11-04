@@ -1,8 +1,32 @@
 # SUPERHUNTER — integración en NQC
 
-Hay dos recorridos separados. No deben confundirse sus resultados.
+Estado: integración defensiva local y revisión de evidencias. **No es el Hunter
+completo ni confirma vulnerabilidades reales.** Se conservan los 27 puntos de
+integración y las 50 capacidades adicionales, sin convertir tests de laboratorio
+en una certificación de producción.
 
-## 1. Ejecución nativa local
+## Comprobación integrada
+
+```bash
+python3 -m superhunter review-platform --out /tmp/superhunter-review-001
+python3 -m superhunter verify-platform --bundle /tmp/superhunter-review-001
+```
+
+El comando ejecuta la suite del paquete, el laboratorio nativo y fuzzing
+numérico, verifica sus artefactos y genera un estado único con ambos checklists.
+No recibe objetivos, PoCs, RPC ni comandos externos. Devuelve
+`LOCAL_DEFENSIVE_REVIEW_PASS` solo para ese recorrido y mantiene
+`platform_complete=false`. Ver [PLATFORM_REVIEW.md](PLATFORM_REVIEW.md).
+
+Suite actual: **261 pruebas ejecutadas**, sin fallos, errores ni omisiones.
+La base combinada anterior se verificó con 199 pruebas. Se cerró la deuda de
+validación conjunta que antes existía entre QA, grafos y fuzzing. Se conservaron
+los 25 tests de evidencia numérica incorporados concurrentemente y se reejecutó
+el conjunto conciliado.
+Los registros de entregas anteriores se preservan; el registro actual está en
+`platform-validation.json`.
+
+## Ejecución nativa local
 
 `local-lab` ejecuta componentes originales de DIABLO (Target, ScopeGuard y
 AuditLog) junto con el solucionador de capacidad RMC-016 de NQC. Compara sus
@@ -15,18 +39,35 @@ python3 -m superhunter local-lab --out /tmp/superhunter-local-001
 python3 -m superhunter verify-lab --bundle /tmp/superhunter-local-001
 ```
 
-Son cinco casos numéricos fijos y controles negativos; **no es el Hunter
-completo ni una reconstrucción de vulnerabilidades**. Las cantidades son
-sintéticas. `LOCAL_INTEGRATION_PASS` acredita esas regresiones, no un Finding,
-una severidad ni una recompensa. Detalles, dependencias y límites del worker:
+Son cinco casos numéricos fijos y controles negativos; no una reconstrucción
+de vulnerabilidades. Las cantidades son sintéticas. `LOCAL_INTEGRATION_PASS`
+acredita esas regresiones, no un Finding, severidad o recompensa. Detalles:
 [LOCAL_LAB.md](LOCAL_LAB.md).
 
-## 2. Intercambio offline de evidencias
+La ejecución emite `proof-graph.json` con 24 nodos: procedencia, decisiones de
+alcance, entradas, resultados NQC, comparación independiente, bitácora y
+veredicto. `verify-lab` reconstruye el grafo y comprueba sus dependencias.
+La comparación distingue tipos JSON, incluidos booleanos y números.
+Ver [PROOF_GRAPH.md](PROOF_GRAPH.md).
+
+## Fuzzing numérico
+
+```bash
+python3 -m superhunter fuzz-lab --seed 20261103 --cases 256 --out /tmp/sh-fuzz-001
+python3 -m superhunter verify-fuzz --bundle /tmp/sh-fuzz-001
+```
+
+Hasta 256 casos sintéticos por semilla, controlados y auditados por DIABLO,
+calculados por NQC y contrastados con una referencia y propiedades metamórficas.
+No es fuzzing EVM ni detección de vulnerabilidades. El punto 3 continúa parcial.
+Ver [FUZZ_LAB.md](FUZZ_LAB.md).
+
+## Intercambio offline de evidencias
 
 `export-diablo` convierte un Finding nativo existente en Candidate unverified.
-Requiere contexto explícito: scope_id, repo, commit, chain, chain_id,
-fork_block, block_hash, family y poc_path (archivo.t.sol::test_nombre).
-No deduce autorización ni ejecución a partir del texto de un reporte.
+Requiere scope_id, repo, commit, chain, chain_id, fork_block, block_hash, family
+y poc_path (archivo.t.sol::test_nombre). No deduce autorización ni ejecución del
+texto de un reporte.
 
 ```bash
 python3 -m superhunter export-diablo finding.json context.json forge.log \
@@ -37,12 +78,11 @@ python3 -m superhunter import-nqc solicitud.json respuesta.json admission.json \
 ```
 
 La respuesta NQC requiere schema_version=1, request_sha256, chain_id y la
-Reconstruction completa. Es un contrato de recepción de evidencia existente,
-no un productor automático de reconstrucciones de contratos.
-`Admission` conserva scope, forge, nqc, duplicate y severity. El archivo de
-reconstrucción debe vincular también severidad, confianza y notas.
+Reconstruction completa. Es recepción de evidencia existente, no reconstrucción
+automática de contratos. Admission conserva scope, forge, nqc, duplicate y
+severity. La evidencia debe vincular severidad, confianza y notas.
 
-El modo legacy permanece disponible:
+Se conserva la interfaz legacy:
 
 ```bash
 python3 -m superhunter candidate.json reconstruction.json admission.json \
@@ -50,73 +90,31 @@ python3 -m superhunter candidate.json reconstruction.json admission.json \
   --out /directorio-privado/revision-nueva
 ```
 
-Este recorrido devuelve EXPORTED_UNVERIFIED, REJECTED, INCOMPLETE o
-REVIEW_REQUIRED. No emite REPORT_READY ni Finding confirmado. Los hashes
-comprueban bytes, no la veracidad del productor. target_bound, run_ok,
-confianza y nombres de revisores siguen siendo declaraciones externas.
-El cierre histórico Protocol/Fork no se admite como Reconstruction.
+Los estados siguen siendo EXPORTED_UNVERIFIED, REJECTED, INCOMPLETE o
+REVIEW_REQUIRED. No se emiten REPORT_READY ni Findings confirmados.
+target_bound, run_ok, confianza y revisores son declaraciones externas.
+El cierre histórico Protocol/Fork no se acepta como Reconstruction.
 
-## Pruebas y operación
+## QA y registro de requisitos
 
 ```bash
 python3 -m unittest discover -s superhunter/tests -v
+python3 -m superhunter check --out /tmp/superhunter-qa-001
+python3 -m superhunter verify-check --bundle /tmp/superhunter-qa-001
+python3 -m superhunter capabilities
 ```
 
-Suite de esta entrega: 157 pruebas ejecutadas, sin fallos, errores ni omisiones.
-El laboratorio necesita Linux/POSIX, Python 3.11+ y PyYAML 6.0.3; no instala
-dependencias automáticamente. Los demás adaptadores usan la librería estándar.
+`capabilities.json` conserva los 50 puntos; `integration-checklist.json`, los 27
+originales. La revisión conjunta comprueba el inventario completo de tests,
+no solo una lista de pruebas obligatorias. Ver [QUALITY_GATE.md](QUALITY_GATE.md)
+y [PLATFORM_REVIEW.md](PLATFORM_REVIEW.md).
 
-Las salidas requieren una carpeta nueva y privada; no se sobrescriben.
-COMPLETE.json se escribe al final con hashes. No guardar casos sensibles en
-este repositorio público. Código de salida 0 significa ejecución/revisión
-completada, nunca vulnerabilidad confirmada.
+Requisitos: Linux/POSIX, Python 3.11+ y PyYAML 6.0.3 para las fuentes nativas.
+No se instalan dependencias automáticamente. Las salidas usan carpetas nuevas,
+privadas y fuera del checkout. COMPLETE.json se escribe al final con hashes.
+Un código 0 significa recorrido local aprobado, nunca plataforma completa.
 
-No hay integración autónoma de los motores de búsqueda de vulnerabilidades,
-Forge, forks, RPC, firma, broadcasts ni envíos de reportes. No se heredan
-certificaciones históricas de NQC. VALIDATION.md, validation-results.json,
-local-validation.json y LOCAL_LAB.md conservan las entregas anteriores.
-El resultado actual está en quality-validation.json y QUALITY_GATE.md.
-
-## Comprobación conjunta y checklist de capacidades
-
-La entrega 4 añade `check`, `verify-check` y `capabilities`, más validación
-semántica entre la bitácora DIABLO y los cálculos NQC. Suite ampliada: 157 tests
-aprobados frente a 102 de la entrega previa.
-Ver [QUALITY_GATE.md](QUALITY_GATE.md) y [CAPABILITIES.md](CAPABILITIES.md).
-Ninguna de las 50 capacidades se declara completa por pasar estas pruebas.
-
-## Grafo causal verificable entre componentes
-
-La ejecución `local-lab` ahora emite `proof-graph.json` con 24 nodos y
-un `proof_graph_root` reproducible: procedencia del código, decisiones de
-alcance DIABLO, entradas numéricas, resultados del solver NQC, comprobación
-independiente, bitácora y veredicto. `verify-lab` reconstruye el grafo,
-comprueba todas las dependencias y rechaza modificaciones aun cuando alguien
-regenere `COMPLETE.json`. Ver [PROOF_GRAPH.md](PROOF_GRAPH.md).
-
-La suite histórica de esta rama quedó documentada con 157 pruebas previamente
-ejecutadas. Esta ampliación superó **118 pruebas en el checkout local basado
-en la entrega v3**, incluidos 16 tests nuevos del grafo. Esas 118 pruebas
-NO incluyen los archivos adicionales de auditoría y QA incorporados a la
-rama después de la entrega v3. **Falta ejecutar y certificar la suite completa
-del HEAD combinado**. Ver [proof-validation.json](proof-validation.json).
-
-El catálogo de 50 requisitos permanece en `capabilities.json`; ninguna
-capacidad se acredita completa sin su propio benchmark y evidencia independiente.
-
-## Fuzzing numérico verificable DIABLO + NQC
-
-La fase añadida `fuzz-lab` produce hasta 256 casos sintéticos reproducibles por
-semilla. DIABLO admite y audita cada caso; NQC ejecuta su solucionador económico;
-una referencia independiente y dos propiedades metamórficas comprueban los
-resultados. `verify-fuzz` recalcula cada caso y valida toda la bitácora.
-
-```bash
-python3 -m superhunter fuzz-lab --seed 20261103 --cases 256 --out /tmp/sh-fuzz-001
-python3 -m superhunter verify-fuzz --bundle /tmp/sh-fuzz-001
-```
-
-Ver [FUZZ_LAB.md](FUZZ_LAB.md). Se trata de comprobación de modelos numéricos
-**no** fuzzing EVM, PoCs, vulnerabilidades reales, pérdidas demostradas ni
-certificación de las 50 capacidades. El catálogo #3 figura parcialmente
-probado, y el gate central de QA exige sus pruebas.
+No hay explotación autónoma de terceros, Forge, forks, RPC, firma, broadcasts
+ni envío de reportes. No se heredan certificaciones históricas de NQC. Los
+controles de proceso no son un sandbox para código hostil. Los hashes prueban
+consistencia de bytes, no autenticidad de un productor remoto ni seguridad total.
