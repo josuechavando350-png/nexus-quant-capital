@@ -1,4 +1,4 @@
-"""Offline evidence bridge. No subprocess, RPC, scanners or automatic disclosure."""
+"""Offline evidence bridge and fixed native lab; no RPC or automatic disclosure."""
 from __future__ import annotations
 
 import argparse
@@ -13,6 +13,9 @@ from .safe_io import canonical, read_artifact, write_new_bundle
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ("local-lab", "verify-lab"):
+        from .lab_cli import main as lab_main
+        return lab_main(argv[1:], verify=argv[0] == "verify-lab")
     mode = argv.pop(0) if argv and argv[0] in ("export-diablo", "import-nqc") else "legacy"
     parser = argparse.ArgumentParser(description="Offline SUPERHUNTER evidence adapters")
     if mode == "export-diablo":
