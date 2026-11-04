@@ -103,3 +103,20 @@ del HEAD combinado**. Ver [proof-validation.json](proof-validation.json).
 
 El catálogo de 50 requisitos permanece en `capabilities.json`; ninguna
 capacidad se acredita completa sin su propio benchmark y evidencia independiente.
+
+## Fuzzing numérico verificable DIABLO + NQC
+
+La fase añadida `fuzz-lab` produce hasta 256 casos sintéticos reproducibles por
+semilla. DIABLO admite y audita cada caso; NQC ejecuta su solucionador económico;
+una referencia independiente y dos propiedades metamórficas comprueban los
+resultados. `verify-fuzz` recalcula cada caso y valida toda la bitácora.
+
+```bash
+python3 -m superhunter fuzz-lab --seed 20261103 --cases 256 --out /tmp/sh-fuzz-001
+python3 -m superhunter verify-fuzz --bundle /tmp/sh-fuzz-001
+```
+
+Ver [FUZZ_LAB.md](FUZZ_LAB.md). Se trata de comprobación de modelos numéricos
+**no** fuzzing EVM, PoCs, vulnerabilidades reales, pérdidas demostradas ni
+certificación de las 50 capacidades. El catálogo #3 figura parcialmente
+probado, y el gate central de QA exige sus pruebas.
