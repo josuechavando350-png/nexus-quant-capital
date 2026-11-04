@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-04",
+  "publication_parent": "56038908d0487b91994f9060afa5b2051b5558a6",
+  "new_tests": 51,
+  "published_variant": {
+    "tests_run": 380,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "execution": "quality worker, then separate verify-check",
+    "source_digest": "c4961092b19c462274d5848f8f8fa471d98f6e0ab144b1156e1a8a0a5eed2da5"
+  },
+  "local_consolidated_variant": {
+    "tests_run": 769,
+    "previous_distinct_ids_preserved": 718,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "execution": "six disjoint real unittest groups; same before/after source snapshot; aggregate inventory checked",
+    "source_digest": "4345410bad053c17b84c9c9f3b003fc3e564bf17d341a4721c5474f48b412ffe",
+    "fixed_numeric_cases": 5,
+    "fuzz_numeric_cases": 256,
+    "accounting_controls": 3,
+    "separate_platform_verifier": true,
+    "not_fully_published_in_this_branch": true
+  },
+  "synthetic_program_cli": {
+    "programs": 20,
+    "platform_identifiers": 8,
+    "initial": {"LOCAL_SCOPE_ELIGIBLE": 15, "LOCAL_SCOPE_DENIED": 2, "LOCAL_SCOPE_REVIEW_REQUIRED": 3},
+    "after_expiry": {"LOCAL_SCOPE_DENIED": 2, "LOCAL_SCOPE_REVIEW_REQUIRED": 18},
+    "verified_in_separate_processes": true,
+    "real_program_authorizations": 0,
+    "active_platform_connectors": 0
+  },
+  "initial_incomplete_runs": "Long whole-suite attempts and one group attempt exceeded the session timeout; their logs are retained and not counted as passes.",
+  "limitations": "Local JSON policy review only. No account enrollment, source authentication, live policy fetch, target execution, automated reports, new vulnerability discovery, Slither, solc, Forge, full historical NQC tests or global isolation verifier. Tests and demo policies are synthetic. Hashes establish internal consistency, not external trust."
+}

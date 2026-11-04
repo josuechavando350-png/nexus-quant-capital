@@ -37,6 +37,10 @@ COMPONENTS = {
     'entrypoints': {'files': ['__init__.py', '__main__.py'],
                     'tests': ['test_integration.', 'test_local_lab.', 'test_fuzz_lab.'], 'depends': ['transport', 'lab', 'fuzz', 'quality', 'review', 'static-intake', 'source_graph']},
 }
+COMPONENTS['programs'] = {'files': ['program_registry.py'], 'tests': ['test_program_registry.'],
+                          'depends': ['io', 'native', 'source_graph', 'transport']}
+COMPONENTS['quality']['depends'].append('programs')
+COMPONENTS['entrypoints']['depends'].append('programs')
 REQUIRED_TESTS = (
     'test_bridge.BridgeTests.test_forge_wrong_target',
     'test_bridge.BridgeTests.test_nqc_unbound_economics',
@@ -66,6 +70,12 @@ REQUIRED_TESTS += (
     'test_source_graph.SourceGraphTests.test_removed_module_detected',
     'test_source_graph.SourceGraphTests.test_no_analyzed_code_is_executed',
     'test_source_graph.SourceGraphTests.test_resealed_runtime_claim_rejected',
+)
+REQUIRED_TESTS += (
+    'test_program_registry.ProgramRegistryTests.test_twenty_programs_eight_platforms_without_cross_authorization',
+    'test_program_registry.ProgramRegistryTests.test_changed_rules_invalidate_previous_approval',
+    'test_program_registry.ProgramRegistryTests.test_verifier_rechecks_expiry_at_current_time',
+    'test_program_registry.ProgramRegistryTests.test_candidate_adapter_checks_repo_and_all_contracts',
 )
 FILES = {'receipt.json', 'quality.json', 'source-snapshot.json', 'CHECKLIST.md', 'tests.log'}
 
@@ -212,7 +222,7 @@ def checklist(data: dict, result: dict | None = None) -> str:
 
 
 def verify_bundle(root: Path) -> dict:
-    marker = strict_json(read_artifact(root, 'COMPLETE.json'))
+    marker = strict_json(read_artifact(root,'COMPLETE.json'))
     if (type(marker.get('schema_version')) is not int or marker['schema_version'] != 1 or
             type(marker.get('sha256')) is not dict or set(marker['sha256']) != FILES):
         raise ValueError('QA bundle manifest mismatch')
