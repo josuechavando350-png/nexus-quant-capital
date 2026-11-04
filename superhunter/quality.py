@@ -29,7 +29,7 @@ COMPONENTS = {
     'lab': {'files': ['local_lab.py', 'lab_worker.py', 'lab_cli.py'],
             'tests': ['test_local_lab.', 'test_audit_links.'], 'depends': ['native', 'audit']},
     'fuzz': {'files': ['fuzz_lab.py', 'fuzz_worker.py', 'fuzz_cli.py'],
-             'tests': ['test_fuzz_lab.'], 'depends': ['native', 'lab', 'audit']},
+             'tests': ['test_fuzz_lab.', 'test_fuzz_evidence.'], 'depends': ['native', 'lab', 'audit']},
     'quality': {'files': ['quality.py', 'quality_worker.py'], 'tests': ['test_quality.'], 'depends': ['transport', 'lab', 'fuzz']},
     'entrypoints': {'files': ['__init__.py', '__main__.py'],
                     'tests': ['test_integration.', 'test_local_lab.', 'test_fuzz_lab.'], 'depends': ['transport', 'lab', 'fuzz', 'quality']},
@@ -49,6 +49,8 @@ REQUIRED_TESTS = (
     'test_fuzz_lab.FuzzLabTests.test_differential_64_cases',
     'test_fuzz_lab.FuzzLabTests.test_resealed_scope_decision_mismatch',
     'test_fuzz_lab.FuzzLabTests.test_cli_runs_bounded_fuzz_and_reverification',
+    'test_fuzz_evidence.FuzzEvidenceTests.test_contradictory_completion_rejected_after_rehash',
+    'test_fuzz_evidence.FuzzEvidenceTests.test_counts_require_integers',
 )
 FILES = {'receipt.json', 'quality.json', 'source-snapshot.json', 'CHECKLIST.md', 'tests.log'}
 

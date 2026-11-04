@@ -15,6 +15,7 @@ from pathlib import Path
 import uuid
 
 from .native_runtime import load_components, source_inventory
+from .audit_links import verify_fuzz_audit_links
 from .local_lab import independent_reference, _check_native_result, _row, WAD
 from .safe_io import canonical, read_artifact, strict_json, write_new_bundle
 
@@ -32,8 +33,8 @@ def validate_parameters(seed: int, cases: int) -> None:
 
 def make_case(seed: int, index: int) -> list[dict]:
     """Stateless PRNG by case index; replay does not depend on execution order."""
-    if type(index) is not int or index < 0:
-        raise ValueError("case index must be nonnegative")
+    if type(index) is not int or not 0 <= index < 2**64:
+        raise ValueError("case index must be uint64")
     validate_parameters(seed, 1)
     payload = seed.to_bytes(8, "big") + index.to_bytes(8, "big")
     rng = random.Random(int.from_bytes(hashlib.sha256(b"SH-FUZZ-1" + payload).digest(), "big"))
@@ -164,7 +165,8 @@ def verify_fuzz(root: Path) -> dict:
     checks exact seeded inputs, recorded results and DIABLO's entire hash chain.
     """
     completion = strict_json(read_artifact(root, "COMPLETE.json"))
-    if completion.get("schema_version") != 1 or set(completion.get("sha256", {})) != ARTIFACT_FILES:
+    if (type(completion.get("schema_version")) is not int or completion["schema_version"] != 1 or
+        type(completion.get("sha256")) is not dict or set(completion["sha256"]) != ARTIFACT_FILES):
         raise ValueError("incomplete fuzz bundle")
     parsed = {}
     for name, digest in completion["sha256"].items():
@@ -191,11 +193,13 @@ def verify_fuzz(root: Path) -> dict:
         raise ValueError("fuzz case count mismatch")
     for index, item in enumerate(records):
         rows = make_case(seed, index)
-        if item.get("index") != index or item.get("input") != rows:
+        if (type(item) is not dict or set(item) != {"index", "input", "nqc", "reference"} or
+            type(item["index"]) is not int or item["index"] != index or
+            canonical(item["input"]) != canonical(rows)):
             raise ValueError("fuzz seeded input mismatch")
         current = native.capacity.solve(rows)
         reference = _invariants(native.capacity.solve, rows, current)
-        if item.get("nqc") != current or item.get("reference") != reference:
+        if canonical(item["nqc"]) != canonical(current) or canonical(item["reference"]) != canonical(reference):
             raise ValueError("fuzz computed result mismatch")
     negative = _negative_controls(native.capacity.solve)
     if (meta.get("negative_controls") != negative or meta.get("scope_negative_passed") is not True):
@@ -227,6 +231,7 @@ def verify_fuzz(root: Path) -> dict:
         raise ValueError("fuzz scope negative evidence mismatch")
     if entries[-1]["data"].get("negative_controls") != negative:
         raise ValueError("fuzz negative audit mismatch")
+    verify_fuzz_audit_links(entries, meta, records, negative)
     return {"status": "LOCAL_FUZZ_PASS", "seed": seed, "cases_verified": cases,
             "oracle_checks": cases, "vulnerability_confirmed": False,
             "verification_level": "recomputed-native-and-independent-reference"}

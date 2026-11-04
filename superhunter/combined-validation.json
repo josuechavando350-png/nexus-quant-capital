@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "completed_at_utc": "2026-11-04T06:30:09.581414+00:00",
+  "baseline_commit": "0a6b912caaf67db9ecaf2b8ac226f02b5279cae2",
+  "publication_parent": "d3fcd6ca16774efc921c964975c8f3cc5946ac1b",
+  "python": "3.13.5",
+  "pyyaml": "6.0.3",
+  "baseline_tests": 199,
+  "baseline_executable_test_policy_files": 29,
+  "updated_executable_test_policy_files": 30,
+  "tests_run": 224,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "expected_failures": 0,
+  "unexpected_successes": 0,
+  "qa_status": "LOCAL_QA_PASS",
+  "source_digest": "22b0e2b791a70f53984a70beabd775508f3291c71674a71046002643eb379201",
+  "native_cases": 5,
+  "fuzz_cases": 256,
+  "fuzz_seed": 20261104,
+  "forge_executed": false,
+  "historical_nqc_suite_run": false,
+  "full_isolation_verifier_run": false,
+  "github_actions_run": false,
+  "vulnerability_confirmed": false,
+  "checks": [
+    {
+      "command": "combined-check",
+      "returncode": 0,
+      "seconds": 23.514
+    },
+    {
+      "command": "verify-check",
+      "returncode": 0,
+      "seconds": 0.66
+    },
+    {
+      "command": "native-lab",
+      "returncode": 0,
+      "seconds": 1.602
+    },
+    {
+      "command": "verify-native",
+      "returncode": 0,
+      "seconds": 1.505
+    },
+    {
+      "command": "fuzz-256",
+      "returncode": 0,
+      "seconds": 1.939
+    },
+    {
+      "command": "verify-fuzz",
+      "returncode": 0,
+      "seconds": 1.603
+    }
+  ],
+  "log_sha256": "645fa5cdacd899d66e0221fab696f0311e9055188d1f25f5ce080733ac7f7f59",
+  "changed_files": {
+    "audit_links.py": {
+      "git_blob": "8e6b127f766df66e075a240d7d7dc92fc7b16cdc",
+      "sha256": "5fa7b64e1d3243656e10b3374ad715ccaae332f117eda37ecb6dee7ad3811bca",
+      "bytes": 8259
+    },
+    "fuzz_lab.py": {
+      "git_blob": "d201b7a1144b3979fbf24d87c0aeb100440ecaef",
+      "sha256": "9362df382474ca2b4cc28595039db922b5682b9c99072fb9355da5d441202921",
+      "bytes": 12788
+    },
+    "quality.py": {
+      "git_blob": "e91d4213355b68cc7dc0595b035ce0dbcc999462",
+      "sha256": "b98ff4f4511907c1376d99b8bdd0c6e40daa134a88f4b3f45893def7daa0c44b",
+      "bytes": 14534
+    },
+    "tests/test_fuzz_evidence.py": {
+      "git_blob": "ff659017b7e2be1512266b4a539fb321d26fdc70",
+      "sha256": "5f471b6f51c180ffb38fdccea495547e47f4591504cec155abe0bf5b886c7dc5",
+      "bytes": 6828
+    },
+    "COMBINED_VALIDATION.md": {
+      "git_blob": "5f4dfd6f8650c43a9c17a04bfb72b60514cee987",
+      "sha256": "c80456980ab386da9edc065945c9e60ab388600ca2733b23bd3de9452c0b2ea2",
+      "bytes": 4402
+    }
+  }
+}
