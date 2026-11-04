@@ -16,6 +16,9 @@ def main() -> int:
     if argv and argv[0] in ("check", "verify-check", "capabilities"):
         from .quality import main as quality_main
         return quality_main(argv)
+    if argv and argv[0] in ("fuzz-lab", "verify-fuzz"):
+        from .fuzz_cli import main as fuzz_main
+        return fuzz_main(argv[1:], verify=argv[0] == "verify-fuzz")
     if argv and argv[0] in ("local-lab", "verify-lab"):
         from .lab_cli import main as lab_main
         return lab_main(argv[1:], verify=argv[0] == "verify-lab")
