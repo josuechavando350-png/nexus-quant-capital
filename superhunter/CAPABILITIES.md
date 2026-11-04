@@ -7,7 +7,7 @@ Las pruebas del paquete no demuestran detección de vulnerabilidades ni completa
 
 ○ **2. Análisis de contaminación de entradas (taint analysis)** — Pendiente: análisis estático de datos en código propio; las reglas de scope no son taint analysis.
 
-○ **3. Fuzzing dinámico guiado por invariantes** — Pendiente: no se ha conectado un fuzzer; las pruebas unitarias existentes no son millones de transacciones.
+◐ **3. Fuzzing dinámico guiado por invariantes** — Parcial y solo numérico: el laboratorio ejecuta el solucionador NQC con casos generados, oráculo independiente e invariantes metamórficas bajo ScopeGuard/AuditLog de DIABLO; NO fuzzing de transacciones EVM ni contratos reales.
 
 ○ **4. Fuzzing con bifurcación de red** — Pendiente: estados locales autorizados; no hay motor de forks integrado ni RPC activado.
 
