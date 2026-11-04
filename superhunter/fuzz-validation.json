@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "component": "bounded-numerical-property-fuzzing",
+  "scope": "synthetic local capacity models only; not smart-contract or exploit fuzzing",
+  "source_commit_baseline": "665728368468988204d43cbfb7c06f2c8502059f",
+  "repository_branch": "feat/superhunter-contract-bridge-20261103",
+  "local_python": "3.13",
+  "local_tests": {
+    "run": 132,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "important_limit": "132 tests include 102 tests from an earlier local snapshot and 26 new fuzz tests plus 4 local catalog tests; does not certify all concurrently added QA/proof modules in remote branch."
+  },
+  "fuzz": {
+    "seeds": [
+      20261103,
+      20261104,
+      42,
+      0
+    ],
+    "per_seed_cases": 256,
+    "total_cases": 1024,
+    "solver": "NQC RMC016.solve, pinned native source",
+    "scope_and_audit": "DIABLO ScopeGuard, AuditLog, pinned native source",
+    "reference": "Independent exhaustive subset enumeration, plus permutation/value-scaling metamorphic checks",
+    "result": "LOCAL_FUZZ_PASS",
+    "failed_cases": 0,
+    "verified_in_fresh_function_calls": true,
+    "separate_process_verification_of_seed_20261103": true,
+    "manifest_sha256": {
+      "0": "53393628865f2a23b51120a621f798feaa9753be36f6be11da60735b29bbc3b1",
+      "42": "4f86c705e3decace6d675c3baad491830fb8e4071857dd9277c9926a79257ad2",
+      "20261103": "d613e948c71de9f9f9cdd5325c2a1a90b1b9ec38354d5ccf91dac4bf9abdf2da",
+      "20261104": "8ee108334c386ebf9f4bcf2f51654908a4a03dfd15ac91147c2f0c1a40b9da54"
+    }
+  },
+  "validation_limits": {
+    "forge_executed": false,
+    "ethereum_rpc_used": false,
+    "smart_contract_vulnerabilities_found": 0,
+    "production_certified": false,
+    "complete_hunter": false,
+    "full_remote_git_tree_quality_run": false
+  }
+}
