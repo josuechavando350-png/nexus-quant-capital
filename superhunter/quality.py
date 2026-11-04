@@ -18,7 +18,8 @@ import tempfile
 from .safe_io import canonical, read_artifact, strict_json, write_new_bundle
 
 ROOT = Path(__file__).resolve().parent
-COMPONENTS = {
+COMPONENTS = {'program_registry': {'files': ['program_registry.py'], 'tests': ['test_program_registry.'], 'depends': ['io','native','transport','static-intake']},
+
     'source_graph': {'files': ['source_graph.py'], 'tests': ['test_source_graph.'], 'depends': ['io']},
     'static-intake': {'files': ['static_intake.py'], 'tests': ['test_static_intake.'], 'depends': ['io']},
     'io': {'files': ['safe_io.py'], 'tests': ['test_integration.'], 'depends': []},
@@ -67,6 +68,14 @@ REQUIRED_TESTS += (
     'test_source_graph.SourceGraphTests.test_no_analyzed_code_is_executed',
     'test_source_graph.SourceGraphTests.test_resealed_runtime_claim_rejected',
 )
+REQUIRED_TESTS += (
+    'test_program_registry.ProgramRegistryTests.test_eight_platforms_are_independent_namespaces',
+    'test_program_registry.ProgramRegistryTests.test_explicit_exclusion_overrides_inclusion',
+    'test_program_registry.ProgramRegistryTests.test_verification_rechecks_expiry_now',
+    'test_program_registry.ProgramRegistryTests.test_candidate_requires_repo_and_all_contracts_in_scope',
+)
+COMPONENTS['quality']['depends'].append('program_registry')
+COMPONENTS['entrypoints']['depends'].append('program_registry')
 FILES = {'receipt.json', 'quality.json', 'source-snapshot.json', 'CHECKLIST.md', 'tests.log'}
 
 
