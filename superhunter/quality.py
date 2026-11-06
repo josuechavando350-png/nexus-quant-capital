@@ -919,3 +919,17 @@ REQUIRED_TESTS += (
     'test_evm_forensic_binding.EVMForensicBindingTests.test_resealed_false_result_rejected',
     'test_evm_forensic_binding.EVMForensicBindingTests.test_invalid_trace_terminal_rejected',
 )
+
+
+# Second, independently implemented EVM stack/PC interpreter for owned traces.
+# Only a closed, stateless opcode subset is admitted: no native Geth execution.
+COMPONENTS['evm_bounded_replay'] = {
+    'files': ['evm_bounded_replay.py'], 'tests': ['test_evm_bounded_replay.'],
+    'depends': ['evm_forensic_binding', 'evm_opcode_trace', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('evm_bounded_replay')
+REQUIRED_TESTS += (
+    'test_evm_bounded_replay.BoundedReplayTests.test_cli_separate_processes',
+    'test_evm_bounded_replay.BoundedReplayTests.test_fake_taken_branch_rejected',
+    'test_evm_bounded_replay.BoundedReplayTests.test_resealed_false_semantic_verdict_rejected',
+    'test_evm_bounded_replay.BoundedReplayTests.test_unsupported_opcode_refused',
+)
