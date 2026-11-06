@@ -1,5 +1,13 @@
 # SUPERHUNTER — estado oficial verificable y continuidad
 
+## Actualización en curso — PR #50 (2026-11-06)
+- **Último código publicado:** [PR #50](https://github.com/josuechavando350-png/nexus-quant-capital/pull/50), commit `ac1952603db0c46ea7b490cfd945ddeebb221653`, rama `feat/superhunter-critical-chain-triage-20261106`, base **PR #49**. PR abierto en borrador, **NO fusionado**.
+- Implementa `critical_chain.py`: triaje offline de hipótesis potencialmente críticas y cadenas bajo/medio; valida DAG, identidades, referencias exactas a fuentes forenses, correlación y replay EVM; siempre `critical_impact_confirmed=false`, `vulnerability_confirmed=false`, `active_testing_permitted=false`.
+- **27/27 pruebas nuevas específicas PASS.** **QA integral 2,113 anteriores + 27 nuevas: en ejecución, NO aprobar anticipadamente.** Fuente Git: seis archivos bajo `superhunter/`, seis Git blob SHA verificados; ningún otro directorio modificado.
+- `audit-wiring`/ `verify-wiring`: 78 módulos, 0 imports locales sin resolver; `SOURCE_GRAPH_REVIEW_REQUIRED` por carga dinámica heredada, salida 1 deliberada, no conectividad runtime certificada.
+- Estrategia mundial con prioridad crítica publicada en [SUPERHUNTER_CRITICAL_RESEARCH.md](SUPERHUNTER_CRITICAL_RESEARCH.md). El próximo agente DEBE revisar PR #50 y su validación antes de reanudar. Mantener las dependencias #45–#49 y el aislamiento NQC intactos.
+
+
 **Corte:** 2026-11-06. **Plan completo:** [SUPERHUNTER_MASTER_PLAN.md](SUPERHUNTER_MASTER_PLAN.md). **Principio:** no inventar pruebas, hallazgos, porcentajes ni capacidades completas. Esta página se actualizó después de ejecutar la regresión del PR #49.
 
 ## Cómo retomar en otra conversación
