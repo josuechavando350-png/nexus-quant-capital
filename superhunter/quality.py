@@ -933,3 +933,20 @@ REQUIRED_TESTS += (
     'test_evm_bounded_replay.BoundedReplayTests.test_resealed_false_semantic_verdict_rejected',
     'test_evm_bounded_replay.BoundedReplayTests.test_unsupported_opcode_refused',
 )
+
+
+# Evidence-bound offline chain research triage; source bundles are independently
+# replay-verified and impact remains entirely HYPOTHETICAL.
+COMPONENTS['critical_chain'] = {
+    'files': ['critical_chain.py'], 'tests': ['test_critical_chain.'],
+    'depends': ['forensic_timeline', 'journal_correlation', 'evm_bounded_replay',
+                'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('critical_chain')
+REQUIRED_TESTS += (
+    'test_critical_chain.CriticalChainTests.test_cli_review_and_verify_separate_processes',
+    'test_critical_chain.CriticalChainTests.test_low_medium_chain_can_be_critical_research_without_critical_verdict',
+    'test_critical_chain.CriticalChainTests.test_cycle_rejected_not_scored',
+    'test_critical_chain.CriticalChainTests.test_resealed_false_critical_verdict_rejected',
+    'test_critical_chain.CriticalChainTests.test_external_source_changed_rejected',
+    'test_critical_chain.CriticalChainTests.test_evm_replay_object_sha_binding_to_real_replay',
+)
