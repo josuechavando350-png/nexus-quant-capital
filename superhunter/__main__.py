@@ -14,6 +14,12 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ("ingest-journal", "verify-journal"):
+        from .journal_ingest import main as journal_main
+        return journal_main(argv)
+    if argv and argv[0] in ("review-forensic-timeline", "verify-forensic-timeline"):
+        from .forensic_timeline import main as forensic_main
+        return forensic_main(argv)
     if argv and argv[0] in ("prepare-holdout", "freeze-holdout", "score-holdout", "verify-holdout"):
         from .holdout_protocol import main as holdout_main
         return holdout_main(argv)
