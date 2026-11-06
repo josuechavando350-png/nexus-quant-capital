@@ -1,14 +1,14 @@
 {
-  "status": "LOCAL_NQC_CONSUMER_ARCHIVE_AND_WITNESS_TESTED_PRODUCTION_NOT_ACTIVATED",
-  "version": "0.6.0",
+  "status": "LOCAL_NQC_CONSUMER_ARCHIVE_COVERAGE_AND_WITNESS_TESTED_PRODUCTION_NOT_ACTIVATED",
+  "version": "0.7.0",
   "date": "2026-11-06",
   "nqc_base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
   "python_version": "3.12.14",
-  "python_source_files_parsed": 44,
+  "python_source_files_parsed": 47,
   "tests": {
-    "engine_passed": 203,
+    "engine_passed": 227,
     "nqc_isolation_passed": 9,
-    "total_passed": 212,
+    "total_passed": 236,
     "failed": 0,
     "skipped": 0,
     "engine_log": "docs/PRUEBAS.txt",
@@ -61,16 +61,16 @@
     "Mandatory admission hook in production NQC consumer",
     "Independent remote audit anchoring and separate key custody",
     "Independent archive replica and ongoing availability monitoring",
-    "Cross-manifest coverage inventory",
     "Global disk quota and orphan collection",
     "State retention and compaction",
     "Incremental ledger verification",
-    "Continuous kernel sensors"
+    "Continuous kernel sensors",
+    "Automatic archive object discovery and cross-catalog orphan inventory"
   ],
   "publication": {
     "branch": "NQC-defensive",
     "user_authorized": true,
-    "validated_parent_commit": "cb1aac470e75c436dd4fd00e842437409898635b",
+    "validated_parent_commit": "74f0f9a21e66d96d167e88b1c677786257f47f6d",
     "status": "authorized_branch_update_validated_before_commit",
     "pull_request": false,
     "release": false,
@@ -78,7 +78,7 @@
     "email": false,
     "workflow_enabled": false
   },
-  "scope": "Local NQC JSON consumer, persisted audit pages and recoverable separate witness confirmation; production Census loop unchanged",
+  "scope": "Local NQC JSON consumer, persisted audit pages, pinned cross-manifest coverage and recoverable separate witness confirmation; production Census loop unchanged",
   "nqc_consumer_check": "docs/NQC_CONSUMER_CHECK.json",
   "consumer": {
     "local_reader_enforces_admission": true,
@@ -128,5 +128,24 @@
     "automatic_deletion": false,
     "independent_replica": false,
     "physical_power_loss_tested": false
+  },
+  "validation_setup_note": "An initial run from the repository root without PYTHONPATH failed test imports; the documented command from migration/defense completed all 227 tests.",
+  "archive_coverage_check": "docs/ARCHIVE_COVERAGE_CHECK.json",
+  "archive_coverage": {
+    "ordered_manifests_bound_to_exact_witness_revisions": true,
+    "externally_pinned_start_and_target_receipts": true,
+    "canonical_content_addressed_catalog": true,
+    "stored_pages_reread_and_replayed": true,
+    "target_rechecked_after_archive_io": true,
+    "witness_read_transaction_released_before_archive_io": true,
+    "historical_catalog_cannot_satisfy_new_target": true,
+    "max_manifests_per_catalog": 1024,
+    "max_catalog_bytes": 262144,
+    "max_pages_per_verification": 16384,
+    "max_page_bytes_per_verification": 1073741824,
+    "atomic_filesystem_snapshot": false,
+    "automatic_object_discovery": false,
+    "future_availability_guaranteed": false,
+    "retention_authorized": false
   }
 }

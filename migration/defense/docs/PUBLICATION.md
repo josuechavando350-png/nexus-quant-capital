@@ -10,6 +10,8 @@ La versión 0.4.0 se publicó en `8b83b57b3117c9efff67129c67da593c46cde5de`. Añ
 
 La versión 0.5.0 se publicó en `cb1aac470e75c436dd4fd00e842437409898635b`. Añade el testigo local de checkpoints, su CLI y comprobación opcional dentro de las transacciones del motor, con 25 pruebas nuevas. Total: 173 pruebas del paquete y 9 de aislamiento.
 
-La versión 0.6.0 agrega archivo local por hash, escrituras sincronizadas sin reemplazo, manifiestos canónicos, relectura antes de avanzar el testigo y recuperación de confirmaciones perdidas. Añade 30 pruebas: total 203 del paquete y 9 de aislamiento. Su padre es la publicación 0.5.0. No activa servicios ni elimina historial.
+La versión 0.6.0 se publicó en `74f0f9a21e66d96d167e88b1c677786257f47f6d`. Agrega archivo local por hash, escrituras sincronizadas sin reemplazo, manifiestos canónicos, relectura antes de avanzar el testigo y recuperación de confirmaciones perdidas. Añade 30 pruebas: total 203 del paquete y 9 de aislamiento. Su padre es la publicación 0.5.0. No activa servicios ni elimina historial.
+
+La versión 0.7.0 agrega cobertura continua entre manifiestos, recibos inicial/final fijados fuera del catálogo, correspondencia exacta con revisiones del testigo y relectura de todas las páginas. Añade 24 pruebas: total 227 del paquete y 9 de aislamiento. Su padre es la publicación 0.6.0. La cobertura local no habilita borrado, retención ni activación productiva.
 
 Se conservan `main`, las demás ramas, los bytes originales de Census y los workflows deshabilitados. Publicar esta rama no activa un servicio, trading ni despliegue. Los informes de 0.2.0 corresponden a la entrega local anterior.

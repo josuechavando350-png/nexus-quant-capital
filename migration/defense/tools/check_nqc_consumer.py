@@ -18,6 +18,7 @@ from nqc_defense.verify_export import verify as verify_export
 from nqc_defense.audit_pages import AuditPageVerifier
 from nqc_defense.witness import Witness
 from nqc_defense.archive_store import ArchiveStore
+from nqc_defense.archive_coverage import ArchiveCoverage
 
 
 def run(root):
@@ -35,6 +36,7 @@ def run(root):
             key = read_local(control, "ledger.key", 32)
             witness = Witness.create(Path(directory) / "witness", secrets.token_bytes(32), key, enrollment["policy_digest"])
             archive = ArchiveStore.create(Path(directory) / "archive")
+            origin_receipt = witness.head()
             engine = Engine(root, control / "configs", control / "state", enrollment["policy_digest"], key, witness=witness)
             token = engine.issue("local-consumer-check", "nqc-source-manifest")
             result = ArtifactReader(engine).read_json(canonical({
@@ -64,6 +66,8 @@ def run(root):
             witnessed = second_archive["witness_receipt"]
             archived_pages = sum(archive.verify(item["manifest_sha256"], key, enrollment["policy_digest"])["pages"]
                                  for item in (first_archive, second_archive))
+            coverage = ArchiveCoverage(archive, witness).seal(
+                [first_archive["manifest_sha256"], second_archive["manifest_sha256"]], origin_receipt, witnessed)
             evidence = {"status": "NQC_LOCAL_CONSUMER_CHECK_PASS",
                         "base_commit": baseline["base_commit"], "tested_parent_commit": baseline["head_commit"],
                         "artifact": artifact, "content_sha256": result["content_sha256"],
@@ -79,6 +83,9 @@ def run(root):
                         "local_archive_manifests": 2,
                         "stored_audit_pages_reread": archived_pages,
                         "archive_linked_to_witness": True,
+                        "coverage_catalog_verified": coverage["verified"],
+                        "coverage_intervals": coverage["interval_count"],
+                        "coverage_records": coverage["record_count"],
                         "scope": "actual local manifest consumed; production Census loop unchanged"}
     finally:
         if marker is not None:

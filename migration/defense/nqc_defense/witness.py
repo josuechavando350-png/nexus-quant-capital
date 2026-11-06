@@ -17,6 +17,7 @@ from .receipts import hex_digest
 
 SCHEMA = "nqc-local-witness-v1"
 ORIGIN = {"sequence": 0, "head": GENESIS}
+MAX_WITNESS_INTERVAL = 1024
 
 
 def page_chain_start(policy_digest, audit_key_id, start, target):
@@ -189,12 +190,29 @@ class Witness:
         integer(revision, 1, 2**63 - 1)
         with self.connection() as db:
             self._verify(db)
-            row = db.execute("SELECT payload,previous,mac FROM anchors WHERE revision=?", (revision,)).fetchone()
-            if row is None:
-                raise Rejected("witness_record_missing")
-            event = decode(row[0].encode(), max_bytes=4096)
-            return {"receipt": {"revision": revision, "head": row[2], "checkpoint": event["checkpoint"]},
-                    "previous": row[1], "event": event}
+            return self._record(db, revision)
+
+    def _record(self, db, revision):
+        row = db.execute("SELECT payload,previous,mac FROM anchors WHERE revision=?", (revision,)).fetchone()
+        if row is None:
+            raise Rejected("witness_record_missing")
+        event = decode(row[0].encode(), max_bytes=4096)
+        return {"receipt": {"revision": revision, "head": row[2], "checkpoint": event["checkpoint"]},
+                "previous": row[1], "event": event}
+
+    def interval(self, start, target):
+        """Copy a bounded authenticated interval from one read transaction, then release it."""
+        start, target = receipt(start), receipt(target)
+        count = target["revision"] - start["revision"]
+        integer(count, 0, MAX_WITNESS_INTERVAL)
+        if target["checkpoint"]["sequence"] < start["checkpoint"]["sequence"]:
+            raise Rejected("witness_interval")
+        with self.connection() as db:
+            self._verify(db)
+            if (self._record(db, start["revision"])["receipt"] != start
+                    or self._record(db, target["revision"])["receipt"] != target):
+                raise Rejected("witness_receipt_mismatch")
+            return [self._record(db, revision) for revision in range(start["revision"] + 1, target["revision"] + 1)]
 
     def bind_engine(self, state_root, policy_digest, audit_key):
         state, witness = Path(state_root).resolve(), self.root.resolve()

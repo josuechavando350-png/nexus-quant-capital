@@ -1,4 +1,4 @@
-# NQC Defense 0.6.0 — desarrollo en la rama NQC-defensive
+# NQC Defense 0.7.0 — desarrollo en la rama NQC-defensive
 
 El usuario autorizó publicar este código en `NQC-defensive` el 6 de noviembre de 2026. La rama conserva la base de NQC y no activa despliegues ni operación productiva. Los informes de 0.2.0 describen la validación previa a esa autorización.
 
@@ -6,7 +6,7 @@ Implementación funcional de una capa de admisión de artefactos locales. Lee by
 
 **No son 100 programas terminados.** Hay 8 implementaciones de alcance parcial vinculadas al catálogo original y 5 componentes adicionales ejecutables. Los otros programas solo están documentados en el catálogo; no hay clases vacías para representarlos. No se han implementado seL4, CHERI, enclaves, FHE ni sensores eBPF. Tampoco hay bloqueos de firewall, aislamiento de hosts, firma de operaciones financieras o despliegue.
 
-La versión 0.6.0 conecta el archivo local de páginas con el testigo de checkpoints. Guarda las páginas por SHA-256, sincroniza archivos y directorios, publica un manifiesto canónico únicamente al completar el intervalo y relee los bytes guardados antes de confirmar el avance. Un reintento reconoce el mismo avance ya confirmado sin duplicarlo. Conserva el testigo de 0.5.0, las páginas de 0.4.0, el consumidor de 0.3.0 y los controles previos. Amplía la auditoría existente; no aumenta el número de programas del catálogo implementados.
+La versión 0.7.0 comprueba cobertura continua entre intervalos archivados. Exige recibos inicial y final aportados por separado, relaciona cada manifiesto con un avance exacto del testigo y vuelve a verificar las páginas guardadas. Rechaza huecos, solapamientos, cambios de paginación y catálogos antiguos presentados para un destino posterior. Conserva el archivo de 0.6.0, el testigo de 0.5.0, las páginas de 0.4.0 y el consumidor de 0.3.0. Amplía la auditoría existente; no aumenta el número de programas del catálogo implementados.
 
 ## Ejecutar y comprobar
 
@@ -37,11 +37,15 @@ Para historiales mayores, `Engine.export_page(start, target, limit=256, max_byte
 
 Para exigir el testigo, construir `Engine(..., witness=...)` o proporcionar juntos `--witness-root` y `--witness-key-file` a la CLI del motor. Debe vivir fuera del directorio de estado del motor y de sus padres. Se comprueba en emisión, admisión, lectura, liberación, consulta y exportación. Un testigo ausente o alterado produce rechazo; no se reconstruye ni se desactiva automáticamente. Los clientes existentes que no suministren testigo conservan el comportamiento anterior. `status --expected` compara contra un recibo que el operador haya retenido fuera del testigo.
 
-`tools/archive_audit.py --help` ofrece `init`, `prepare`, `verify` y `finalize`. La API `ArchiveStore.capture(engine, witness, target, expected)` y el comando del motor `archive-audit` conectan exportación, archivo y testigo. Requieren un directorio de archivo inicializado, separado de los directorios de estado y testigo, además del checkpoint final y el recibo esperado. Las páginas se guardan en `pages/<sha256>.zip`; el manifiesto en `manifests/<sha256>.json`. Las rutas se derivan exclusivamente de hashes validados.
+`tools/archive_audit.py --help` ofrece `init`, `prepare`, `verify`, `finalize`, `coverage` y `verify-coverage`. La API `ArchiveStore.capture(engine, witness, target, expected)` y el comando del motor `archive-audit` conectan exportación, archivo y testigo. Requieren un directorio de archivo inicializado, separado de los directorios de estado y testigo, además del checkpoint final y el recibo esperado. Las páginas se guardan en `pages/<sha256>.zip`; el manifiesto en `manifests/<sha256>.json`. Las rutas se derivan exclusivamente de hashes validados.
 
 Cada archivo se escribe primero en un nombre temporal propio, se sincroniza con `fsync` y se publica mediante creación atómica sin reemplazo. Los objetos existentes solo se reutilizan si sus bytes coinciden. Si falla una escritura o una página no verifica, no se confirma el avance; pueden quedar páginas sin manifiesto o temporales de una interrupción para revisión posterior. La API no borra estos archivos ni historial. Por intervalo se aceptan hasta 4.096 páginas, 256 MiB de páginas y 1 MiB de manifiesto.
 
 `finalize` relee las páginas del archivo y exige que formen el mismo intervalo y hash encadenado que registra el testigo. Puede recuperar una confirmación perdida, incluso después de otros avances, comprobando el registro histórico exacto y volviendo a leer los archivos. No modifica ni retrocede el checkpoint actual al recuperar una confirmación anterior. `--receipt-output` conserva el hash del manifiesto y el recibo mediante creación sin sobrescritura; un reintento idéntico reutiliza ese archivo.
+
+`ArchiveCoverage.verify(manifests, start, target)` recorre los hashes de manifiestos en orden y exige correspondencia uno a uno con las revisiones autenticadas del testigo entre ambos recibos. `seal` publica un catálogo canónico `coverage-<sha256>.json` y lo relee; `verify_catalog` comprueba de nuevo el catálogo y todas sus páginas. La CLI `coverage --seal` y `verify-coverage` requieren `--start-receipt` y `--target-receipt`, además del almacén, política y claves. Estos dos archivos contienen recibos del testigo, no solamente checkpoints del motor, y deben conservarse por separado. Un catálogo no puede escoger por sí mismo qué intervalo se acredita.
+
+La cobertura admite hasta 1.024 manifiestos, 16.384 páginas y 1 GiB de páginas por recorrido; el catálogo admite 256 KiB. Un sufijo declara `from_genesis: false`; un intervalo vacío solo verifica dos recibos iguales. La consulta copia el intervalo autenticado del testigo en una transacción y la libera antes de leer archivos, permitiendo avances posteriores. Al terminar vuelve a comprobar el recibo objetivo. El inventario es la lista explícita suministrada, no un descubrimiento automático de objetos del directorio ni autorización para borrarlos.
 
 ## Qué está conectado y ejecutado
 
@@ -55,7 +59,7 @@ Cada archivo se escribe primero en un nombre temporal propio, se sincroniza con 
 | M67 Config | Almacén por SHA3-256 y digest fijado externamente | El operador debe proteger el anclaje y el almacenamiento |
 | M75 Schema | Rechazo de campos extra de entrada/salida | Validación runtime; no macros ni prueba de compilación |
 | M76 Build | ZIP determinista con hashes y verificador | Exportaciones de datos; no compilador de binarios reproducibles |
-| X101 Evidence ledger | Cadena HMAC-SHA256, archivo local verificable de páginas y testigo separado con avances atómicos | Sin réplica independiente, anclaje remoto, ZK, consenso, firma pública ni resistencia a root |
+| X101 Evidence ledger | Cadena HMAC-SHA256, archivo local, cobertura continua entre manifiestos y testigo separado con avances atómicos | Sin réplica independiente, anclaje remoto, ZK, consenso, firma pública ni resistencia a root |
 | X102 Input guard | JSON limitado por bytes, profundidad y nodos; claves repetidas rechazadas | No rkyv ni parser universal |
 | X103 Decision receipts | Hash de recibo, política, observaciones y comprobaciones ordenadas; reproducción independiente | Reproduce hechos registrados, no atestación de hardware |
 | X105 Containment budget | Tope atómico de cuarentenas persistentes, también entre procesos | No limita tráfico ni garantiza disponibilidad; la solicitud sospechosa sigue rechazada |
@@ -72,6 +76,7 @@ La ruta compartida es: entrada acotada → esquema → configuración anclada �
 - La separación de directorios y claves no crea una frontera frente al mismo usuario o un administrador comprometido. Los directorios padre, el proceso y las claves son de confianza. El testigo solo cubre hasta su último checkpoint confirmado, y se avanza mediante una operación explícita. Los eventos posteriores necesitan un nuevo avance.
 - El testigo de forma aislada acredita verificación de páginas, no su almacenamiento. La nueva ruta `ArchiveStore.capture/finalize` agrega escritura, sincronización y relectura local; el contenido del manifiesto queda ligado al intervalo y al hash encadenado de las páginas del testigo. El recibo no prueba disponibilidad futura, réplica independiente ni resistencia a pérdida del disco. No autoriza borrar historial; la retención sigue pendiente.
 - El archivo es de creación exclusiva desde esta API, no un dispositivo WORM. Un usuario con control del directorio puede borrar o alterar archivos; `verify` y los reintentos lo comprueban cuando se ejecutan. No hay monitor continuo. Se han probado fallos de `fsync` mediante inyección explícita, no cortes eléctricos físicos ni controladoras que incumplan sincronización. El límite de 256 MiB es por intervalo, no una cuota global del directorio.
+- La cobertura comprueba cada archivo durante el recorrido; no toma un snapshot atómico del sistema de archivos. No impide que un actor con escritura altere una página ya leída. Su resultado cubre únicamente los recibos externos fijados, no eventos posteriores ni disponibilidad futura. Los límites del recorrido no constituyen cuotas globales de disco. La verificación del testigo sigue siendo lineal con su historial.
 - La clave HMAC autentica para quienes comparten esa clave. No es una firma verificable públicamente. No se inventaron primitivas criptográficas.
 - No hay sensor continuo: cada solicitud inspecciona el activo solicitado. No hay daemon 24/7, integración SIEM, alerta externa ni escalamiento automático.
 - Las verificaciones de auditoría son lineales con el historial y SQLite serializa decisiones. Cada exportación paginada vuelve a verificar el ledger completo dentro de una transacción; acota el tamaño de los bloques y la memoria del recorrido, no elimina ese coste de CPU ni la espera de escritores. Retención, rotación de claves, cuotas de disco y optimización incremental quedan pendientes.
@@ -89,13 +94,15 @@ La base consultada fue `josuechavando350-png/nexus-quant-capital`, commit `16e35
 
 Se resolvió la descarga incompleta recuperando los 645 archivos de la revisión y verificando tamaño y hash de cada blob Git. El checkout base quedó limpio. Se añadieron únicamente `migration/defense/` y `migration/DEFENSE-INTEGRATION.md` a la copia local.
 
-Pasaron el verificador de aislamiento original sobre la copia combinada, sus 9 pruebas y las 203 pruebas del paquete. `tools/check_nqc_artifact.py` inspeccionó los bytes reales de `nqc-census/Cargo.toml`. `tools/check_nqc_consumer.py .`, ejecutado desde la raíz NQC, consumió los 337.100 bytes reales de `migration/source-manifest.json`, archivó y releyó tres páginas antes del primer avance, realizó una segunda lectura exigiendo ese prefijo y archivó otras tres páginas hasta el registro 6. Los dos manifiestos de archivo se verificaron nuevamente. El manifiesto de NQC contiene 637 entradas históricas, no 637 módulos de defensa. Los controles crean y retiran un señuelo nuevo propio sin modificar los artefactos originales.
+Pasaron el verificador de aislamiento original sobre la copia combinada, sus 9 pruebas y las 227 pruebas del paquete. `tools/check_nqc_artifact.py` inspeccionó los bytes reales de `nqc-census/Cargo.toml`. `tools/check_nqc_consumer.py .`, ejecutado desde la raíz NQC, consumió los 337.100 bytes reales de `migration/source-manifest.json`, archivó y releyó tres páginas antes del primer avance, realizó una segunda lectura exigiendo ese prefijo y archivó otras tres páginas hasta el registro 6. Los dos manifiestos se verificaron nuevamente y quedaron enlazados por un catálogo de cobertura desde el recibo inicial al final. El manifiesto de NQC contiene 637 entradas históricas, no 637 módulos de defensa. Los controles crean y retiran un señuelo nuevo propio sin modificar los artefactos originales.
 
 `tools/check_audit_pagination.py` verificó 10.003 registros en 20 páginas, superando el límite del formato de exportación completa. Son tres registros de admisión de una copia real de `engine.py` y 10.000 marcadores sintéticos explícitos para probar volumen con SQLite y HMAC reales. El control también añade un evento posterior al checkpoint y comprueba que no cambia el destino del recorrido. No representa tráfico productivo ni una medición de rendimiento.
 
 `tools/check_witness.py` conserva un checkpoint de cuatro registros y elimina la cola solo de una base temporal de prueba. El prefijo restante de dos registros sigue teniendo HMAC válido; el motor con testigo lo rechaza sin consumir el token pendiente. También comprueba que un recibo retenido detecta la eliminación de la cola del propio testigo. Las pruebas de concurrencia y fallos de inserción/commit utilizan SQLite real.
 
 `tools/check_archive.py` archiva una admisión de una copia real de `engine.py`, reabre y verifica el archivo, recupera la confirmación sin duplicar el avance y comprueba que una página alterada impide confirmar de nuevo su disponibilidad. El historial del motor permanece completo.
+
+`tools/check_archive_coverage.py` sella tres intervalos reales con nueve registros/páginas; rechaza omitir el intervalo intermedio o final. Añade un cuarto intervalo y demuestra que el catálogo previo sigue válido para el objetivo original, pero no acredita el nuevo. Después altera una página temporal y comprueba que la verificación del catálogo detecta la corrupción.
 
 **La incorporación al código y la comprobación local no equivalen a activar un consumidor productivo obligatorio.** No existe todavía ese enlace con la operación de Census. La certificación canónica sigue siendo falsa; no se verificó la historia Git del repositorio productor original. No se ejecutaron pruebas Rust de Census porque no se modificó su código. Tampoco se validó hardware externo.
 
@@ -109,7 +116,8 @@ Pasaron el verificador de aislamiento original sobre la copia combinada, sus 9 p
 - `docs/AUDIT_PAGINATION_CHECK.json`: prueba de volumen paginado con marcadores sintéticos identificados.
 - `docs/WITNESS_CHECK.json`: prueba local de retroceso del motor y comparación del recibo del testigo.
 - `docs/ARCHIVE_CHECK.json`: archivo, relectura, recuperación de confirmación y detección de corrupción local.
-- `docs/V0_2.md`, `docs/V0_3.md`, `docs/V0_4.md`, `docs/V0_5.md`, `docs/V0_6.md` y `docs/CONTINUIDAD.md`: cambios, compatibilidad y siguiente trabajo concreto.
+- `docs/ARCHIVE_COVERAGE_CHECK.json`: continuidad entre intervalos, destino externo fijado y detección de archivos alterados.
+- `docs/V0_2.md`, `docs/V0_3.md`, `docs/V0_4.md`, `docs/V0_5.md`, `docs/V0_6.md`, `docs/V0_7.md` y `docs/CONTINUIDAD.md`: cambios, compatibilidad y siguiente trabajo concreto.
 - `docs/FUENTES.md`: fuentes primarias y distinciones respecto a las afirmaciones del PDF.
 
 La publicación autorizada es únicamente de código en `NQC-defensive`. No se habilitan workflows, despliegues, envíos de correo ni ejecución productiva.

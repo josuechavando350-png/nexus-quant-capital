@@ -8,6 +8,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from nqc_defense.archive_store import ArchiveStore
+from nqc_defense.archive_coverage import ArchiveCoverage
 from nqc_defense.audit_pages import MAX_ARCHIVE_BYTES
 from nqc_defense.codec import Rejected, canonical, decode
 from nqc_defense.files import publish_local, read_local
@@ -38,13 +39,22 @@ def main():
     prepare.add_argument("--target", type=Path, required=True)
     verify = commands.add_parser("verify")
     finalize = commands.add_parser("finalize")
-    for command in (prepare, verify, finalize):
+    coverage = commands.add_parser("coverage", help="Verify ordered archived intervals against pinned witness receipts")
+    coverage.add_argument("manifests", nargs="*")
+    coverage.add_argument("--seal", action="store_true", help="Persist a canonical coverage catalog after verification")
+    verify_coverage = commands.add_parser("verify-coverage")
+    verify_coverage.add_argument("catalog_sha256")
+    for command in (prepare, verify, finalize, coverage, verify_coverage):
         command.add_argument("--audit-key-file", type=Path, required=True)
         command.add_argument("--policy-digest", required=True)
     for command in (verify, finalize):
         command.add_argument("manifest_sha256")
-    finalize.add_argument("--witness-root", type=Path, required=True)
-    finalize.add_argument("--witness-key-file", type=Path, required=True)
+    for command in (finalize, coverage, verify_coverage):
+        command.add_argument("--witness-root", type=Path, required=True)
+        command.add_argument("--witness-key-file", type=Path, required=True)
+    for command in (coverage, verify_coverage):
+        command.add_argument("--start-receipt", type=Path, required=True)
+        command.add_argument("--target-receipt", type=Path, required=True)
     finalize.add_argument("--expected", type=Path, required=True)
     finalize.add_argument("--receipt-output", type=Path)
     args = parser.parse_args()
@@ -61,12 +71,22 @@ def main():
                                        document(args.start) if args.start else ORIGIN, document(args.target))
             elif args.command == "verify":
                 result = store.verify(args.manifest_sha256, audit_key, args.policy_digest)
-            else:
+            elif args.command == "finalize":
                 witness = Witness(args.witness_root, key_file(args.witness_key_file), audit_key, args.policy_digest)
                 result = store.finalize(witness, args.manifest_sha256, document(args.expected))
                 if args.receipt_output:
                     retained = {name: result[name] for name in ("manifest_sha256", "witness_receipt")}
                     publish_local(args.receipt_output.parent, args.receipt_output.name, canonical(retained))
+            else:
+                witness = Witness(args.witness_root, key_file(args.witness_key_file), audit_key, args.policy_digest)
+                checker = ArchiveCoverage(store, witness)
+                start, target = document(args.start_receipt), document(args.target_receipt)
+                if args.command == "verify-coverage":
+                    result = checker.verify_catalog(args.catalog_sha256, start, target)
+                elif args.seal:
+                    result = checker.seal(args.manifests, start, target)
+                else:
+                    result = checker.verify(args.manifests, start, target)
         print(json.dumps(result, sort_keys=True))
         return 0
     except (Rejected, OSError, sqlite3.Error) as exc:

@@ -18,6 +18,17 @@ MAX_TOTAL_BYTES = 256 * 1024 * 1024
 MAX_MANIFEST_BYTES = 1024 * 1024
 
 
+def match_witness_record(record, manifest, expected):
+    event = {"schema": WITNESS_SCHEMA, "policy_digest": manifest["policy_digest"],
+             "audit_key_id": manifest["audit_key_id"], "start": manifest["start"],
+             "checkpoint": manifest["target"], "pages": len(manifest["pages"]),
+             "records": manifest["records"], "page_chain_sha256": manifest["page_chain_sha256"]}
+    if (record["receipt"]["revision"] != expected["revision"] + 1
+            or record["previous"] != expected["head"] or record["event"] != event):
+        raise Rejected("archive_witness_binding")
+    return record["receipt"]
+
+
 class ArchiveStore:
     def __init__(self, root):
         self.root = Path(root).absolute()
@@ -146,13 +157,7 @@ class ArchiveStore:
 
     def _match_witness(self, witness, manifest, expected):
         record = witness.record(expected["revision"] + 1)
-        event = {"schema": WITNESS_SCHEMA, "policy_digest": manifest["policy_digest"],
-                 "audit_key_id": manifest["audit_key_id"], "start": manifest["start"],
-                 "checkpoint": manifest["target"], "pages": len(manifest["pages"]),
-                 "records": manifest["records"], "page_chain_sha256": manifest["page_chain_sha256"]}
-        if record["previous"] != expected["head"] or record["event"] != event:
-            raise Rejected("archive_witness_binding")
-        return record["receipt"]
+        return match_witness_record(record, manifest, expected)
 
     def finalize(self, witness, manifest_digest, expected):
         """Reread stored pages before advancing; recover an identical committed attempt."""
