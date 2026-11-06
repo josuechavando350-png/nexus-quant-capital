@@ -2,6 +2,8 @@
 
 **Fecha de decisión:** 2026-11-06. **Estado:** plan oficial de producto/ingeniería; NO es certificación ni declaración de implementación terminada. **Repositorio público:** `josuechavando350-png/nexus-quant-capital`. **Rama de referencia:** `main`. **Ámbito de código:** `superhunter/` sin modificar árboles históricos NQC.
 
+**Estado más reciente y commit de continuidad:** [SUPERHUNTER_STATUS.md](SUPERHUNTER_STATUS.md). Leerlo antes de asumir que `main` contiene todo el código.
+
 ## 0. Instrucción para cualquier nueva conversación o agente
 Leer ESTE archivo antes de hacer cambios; leer además `AGENTS.md`, `README.md`, `migration/IMPORT-PLAN.md`, los tres inventarios originales de SuperHunter (cuando se publiquen en `superhunter/`) y los manifiestos de verificación. Consultar HEAD/PRs actuales, recuperar la última fuente íntegra y reejecutar pruebas **antes de programar**. No inferir un porcentaje a partir de la cantidad de tests; no sustituir una versión local acumulada por una rama remota parcial. Comparar diffs, preservar los 27+50+25 ítems originales y registrar avances como código, tests y verificadores reproducibles.
 
