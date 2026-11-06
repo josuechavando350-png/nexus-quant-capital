@@ -37,6 +37,8 @@ def run(root):
             key = read_local(control, "ledger.key", 32)
             witness = Witness.create(Path(directory) / "witness", secrets.token_bytes(32), key, enrollment["policy_digest"])
             archive = ArchiveStore.create(Path(directory) / "archive")
+            configured = archive.configure_budget(1024 * 1024, 64)
+            archive = ArchiveStore(archive.root, configured["budget_digest"])
             origin_receipt = witness.head()
             engine = Engine(root, control / "configs", control / "state", enrollment["policy_digest"], key, witness=witness)
             token = engine.issue("local-consumer-check", "nqc-source-manifest")
@@ -72,7 +74,10 @@ def run(root):
             inventory = ArchiveInventory(archive, witness).inspect([{
                 "catalog_sha256": coverage["catalog_sha256"], "start_receipt": origin_receipt,
                 "target_receipt": witnessed}])
-            if not inventory["verified"] or inventory["observed_objects"] != 9:
+            budget = archive.budget_status()
+            if (not inventory["verified"] or inventory["observed_objects"] != 10
+                    or not budget["within_budget"] or budget["used_objects"] != 10
+                    or budget["used_logical_bytes"] != inventory["observed_logical_bytes"]):
                 raise Rejected("nqc_inventory_check_failed")
             evidence = {"status": "NQC_LOCAL_CONSUMER_CHECK_PASS",
                         "base_commit": baseline["base_commit"], "tested_parent_commit": baseline["head_commit"],
@@ -95,6 +100,9 @@ def run(root):
                         "archive_inventory_verified": inventory["verified"],
                         "archive_inventory_objects": inventory["observed_objects"],
                         "archive_inventory_logical_bytes": inventory["observed_logical_bytes"],
+                        "archive_budget_enforced_after_reopen": True,
+                        "archive_budget_used_objects": budget["used_objects"],
+                        "archive_budget_within_limits": budget["within_budget"],
                         "scope": "actual local manifest consumed; production Census loop unchanged"}
     finally:
         if marker is not None:

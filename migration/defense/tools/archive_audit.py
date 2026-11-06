@@ -10,6 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from nqc_defense.archive_store import ArchiveStore
 from nqc_defense.archive_coverage import ArchiveCoverage
 from nqc_defense.archive_inventory import ArchiveInventory, MAX_SELECTION_BYTES
+from nqc_defense.archive_budget import limits as budget_limits
 from nqc_defense.audit_pages import MAX_ARCHIVE_BYTES
 from nqc_defense.codec import Rejected, canonical, decode
 from nqc_defense.files import publish_local, read_local
@@ -32,8 +33,15 @@ def document(path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, required=True)
+    parser.add_argument("--budget-digest", help="Externally retained SHA-256 of the archive budget policy")
     commands = parser.add_subparsers(dest="command", required=True)
-    commands.add_parser("init")
+    initialize = commands.add_parser("init")
+    initialize.add_argument("--max-bytes", type=int)
+    initialize.add_argument("--max-objects", type=int)
+    configure = commands.add_parser("configure-budget", help="Install a create-only budget policy or recover an identical attempt")
+    configure.add_argument("--max-bytes", type=int, required=True)
+    configure.add_argument("--max-objects", type=int, required=True)
+    commands.add_parser("budget-status")
     prepare = commands.add_parser("prepare")
     prepare.add_argument("pages", type=Path, nargs="+")
     prepare.add_argument("--start", type=Path)
@@ -63,10 +71,20 @@ def main():
     args = parser.parse_args()
     try:
         if args.command == "init":
-            ArchiveStore.create(args.root)
+            if args.budget_digest is not None or (args.max_bytes is None) != (args.max_objects is None):
+                raise Rejected("archive_budget_arguments")
+            if args.max_bytes is not None:
+                budget_limits(args.max_bytes, args.max_objects)
+            store = ArchiveStore.create(args.root)
             result = {"created": True}
+            if args.max_bytes is not None:
+                result.update(store.configure_budget(args.max_bytes, args.max_objects))
+        elif args.command == "configure-budget":
+            result = ArchiveStore(args.root, args.budget_digest).configure_budget(args.max_bytes, args.max_objects)
+        elif args.command == "budget-status":
+            result = ArchiveStore(args.root, args.budget_digest).budget_status()
         else:
-            store = ArchiveStore(args.root)
+            store = ArchiveStore(args.root, args.budget_digest)
             audit_key = key_file(args.audit_key_file)
             if args.command == "prepare":
                 pages = (read_local(path.parent, path.name, MAX_ARCHIVE_BYTES) for path in args.pages)
@@ -96,7 +114,7 @@ def main():
                 else:
                     result = checker.verify(args.manifests, start, target)
         print(json.dumps(result, sort_keys=True))
-        return 0 if result.get("verified", True) else 2
+        return 0 if result.get("verified", True) and result.get("within_budget", True) else 2
     except (Rejected, OSError, sqlite3.Error) as exc:
         print(json.dumps({"verified": False, "reason": str(exc) if isinstance(exc, Rejected) else "local_storage_error"}))
         return 2

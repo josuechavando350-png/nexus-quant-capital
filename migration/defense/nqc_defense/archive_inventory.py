@@ -45,6 +45,8 @@ def stamp(value):
 
 
 def object_kind(directory, name):
+    if directory == "" and name == "archive-budget.json":
+        return "control"
     if directory == "" and re.fullmatch(r"coverage-[0-9a-f]{64}\.json", name):
         return "catalog"
     if directory == "manifests" and re.fullmatch(r"[0-9a-f]{64}\.json", name):
@@ -190,7 +192,7 @@ class ArchiveInventory:
                     "content_verification": "selected_coverage_verified" if complete and path in referenced else "not_verified"}
                    for path, item in sorted(objects.items())]
         summary = {}
-        for kind in ("catalog", "manifest", "page", "temporary", "unknown"):
+        for kind in ("catalog", "manifest", "page", "temporary", "unknown", "control"):
             group = [entry for entry in entries if entry["kind"] == kind]
             summary[kind] = {"objects": len(group), "logical_bytes": sum(entry["size_bytes"] for entry in group),
                              "outside_selected_objects": sum(not entry["referenced_by_selected"] for entry in group) if complete else None,

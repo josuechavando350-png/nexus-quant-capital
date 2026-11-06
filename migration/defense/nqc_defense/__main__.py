@@ -43,6 +43,7 @@ def main(argv=None):
     page.add_argument("--max-bytes", type=int, default=1024 * 1024)
     capture = commands.add_parser("archive-audit", help="Store and reread audit pages before advancing the configured witness")
     capture.add_argument("--archive-root", type=Path, required=True)
+    capture.add_argument("--archive-budget-digest", help="Pinned archive budget policy digest when configured")
     capture.add_argument("--target", type=Path, required=True)
     capture.add_argument("--expected", type=Path, required=True)
     capture.add_argument("--limit", type=int, default=256)
@@ -91,7 +92,7 @@ def main(argv=None):
                 raise Rejected("witness_required")
             target = decode(read_local(args.target.parent, args.target.name, 4096))
             expected = decode(read_local(args.expected.parent, args.expected.name, 4096))
-            result = ArchiveStore(args.archive_root).capture(engine, witness, target, expected, args.limit)
+            result = ArchiveStore(args.archive_root, args.archive_budget_digest).capture(engine, witness, target, expected, args.limit)
         elif args.command == "receipt":
             result = engine.receipt(args.digest)
         else:

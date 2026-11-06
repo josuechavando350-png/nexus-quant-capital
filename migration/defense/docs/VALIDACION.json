@@ -1,14 +1,14 @@
 {
-  "status": "LOCAL_NQC_CONSUMER_ARCHIVE_INVENTORY_COVERAGE_AND_WITNESS_TESTED_PRODUCTION_NOT_ACTIVATED",
-  "version": "0.8.0",
+  "status": "LOCAL_NQC_CONSUMER_BUDGETED_ARCHIVE_INVENTORY_COVERAGE_AND_WITNESS_TESTED_PRODUCTION_NOT_ACTIVATED",
+  "version": "0.9.0",
   "date": "2026-11-06",
   "nqc_base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
   "python_version": "3.12.14",
-  "python_source_files_parsed": 50,
+  "python_source_files_parsed": 53,
   "tests": {
-    "engine_passed": 255,
+    "engine_passed": 285,
     "nqc_isolation_passed": 9,
-    "total_passed": 264,
+    "total_passed": 294,
     "failed": 0,
     "skipped": 0,
     "engine_log": "docs/PRUEBAS.txt",
@@ -55,22 +55,25 @@
     "seL4/CHERI/enclave/eBPF hardware validation",
     "Browser CSP enforcement",
     "Production workload performance",
-    "Physical power-loss validation"
+    "Physical power-loss validation",
+    "Network filesystem and distributed lock validation"
   ],
   "not_implemented": [
     "Mandatory admission hook in production NQC consumer",
     "Independent remote audit anchoring and separate key custody",
     "Independent archive replica and ongoing availability monitoring",
-    "Global disk quota and orphan collection",
     "State retention and compaction",
     "Incremental ledger verification",
     "Continuous kernel sensors",
-    "Global orphan proof and retention eligibility across all archive consumers"
+    "Global orphan proof and retention eligibility across all archive consumers",
+    "OS-enforced physical disk quotas",
+    "Automatic orphan collection",
+    "Cross-store archive rotation and continuity"
   ],
   "publication": {
     "branch": "NQC-defensive",
     "user_authorized": true,
-    "validated_parent_commit": "662d8497fa9696514b4f19362193a1e521800f10",
+    "validated_parent_commit": "d154aeed5b92cbdefe55f680be580c1742abccba",
     "status": "authorized_branch_update_validated_before_commit",
     "pull_request": false,
     "release": false,
@@ -78,7 +81,7 @@
     "email": false,
     "workflow_enabled": false
   },
-  "scope": "Local NQC JSON consumer, persisted audit pages, bounded object/reference inventory, pinned coverage and recoverable separate witness confirmation; production Census loop unchanged",
+  "scope": "Local NQC JSON consumer, pinned budgets for cooperating archive writers, bounded inventory, coverage and recoverable witness confirmation; production Census loop unchanged",
   "nqc_consumer_check": "docs/NQC_CONSUMER_CHECK.json",
   "consumer": {
     "local_reader_enforces_admission": true,
@@ -172,5 +175,30 @@
     "disk_quota_enforced": false,
     "global_orphan_proof": false,
     "deletion_authorized": false
+  },
+  "archive_budget_check": "docs/ARCHIVE_BUDGET_CHECK.json",
+  "archive_budget": {
+    "create_only_canonical_policy": true,
+    "external_digest_required_for_configured_writes": true,
+    "configuration_retries_require_identical_bytes": true,
+    "real_file_usage_recounted_per_publication": true,
+    "directory_flock_serializes_cooperating_writers": true,
+    "lock_wait_seconds": 5,
+    "policy_unknown_and_pending_files_counted": true,
+    "pages_manifests_catalogs_share_budget": true,
+    "identical_retry_has_no_temporary_copy": true,
+    "max_configurable_logical_bytes": 4294967296,
+    "max_configurable_objects": 20000,
+    "partial_interval_preserved_without_witness_advancement": true,
+    "process_exit_before_and_after_link_tested": true,
+    "interrupted_hardlink_aliases_require_review": true,
+    "automatic_deletion": false,
+    "os_disk_quota": false,
+    "strict_transient_directory_entry_limit": false,
+    "physical_disk_reservation": false,
+    "noncooperating_writers_constrained": false,
+    "engine_and_witness_sqlite_in_budget": false,
+    "network_filesystems_tested": false,
+    "physical_power_loss_tested": false
   }
 }

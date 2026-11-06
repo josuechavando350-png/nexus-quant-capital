@@ -2,7 +2,7 @@
 
 from .archive_store import match_witness_record
 from .codec import Rejected, canonical, decode, fields
-from .files import publish_local, read_local, sha256
+from .files import read_local, sha256
 from .receipts import hex_digest
 from .witness import MAX_WITNESS_INTERVAL, receipt
 
@@ -82,7 +82,7 @@ class ArchiveCoverage:
             raise Rejected("coverage_catalog_size")
         digest = sha256(data)
         # The root already exists in 0.6.0; no directory or database migration is needed.
-        publish_local(self.store.root, "coverage-" + digest + ".json", data)
+        self.store._publish("coverage-" + digest + ".json", data)
         return self.verify_catalog(digest, start, target)
 
     def _catalog(self, digest, start, target):

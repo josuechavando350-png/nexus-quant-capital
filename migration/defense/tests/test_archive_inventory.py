@@ -55,7 +55,7 @@ class ArchiveInventoryTests(Fixture):
         self.assertEqual(result["observed_objects"], 9)
         self.assertEqual(len(result["references"]), 8)
         self.assertEqual({key: value["objects"] for key, value in result["summary"].items()},
-                         {"catalog": 1, "manifest": 2, "page": 6, "temporary": 0, "unknown": 0})
+                         {"catalog": 1, "manifest": 2, "page": 6, "temporary": 0, "unknown": 0, "control": 0})
         actual = sum(path.stat().st_size for path in self.archive.root.rglob("*") if path.is_file())
         self.assertEqual(result["observed_logical_bytes"], actual)
         self.assertTrue(all(item["referenced_by_selected"] for item in result["entries"]))

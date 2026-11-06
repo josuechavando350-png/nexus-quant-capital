@@ -30,8 +30,11 @@ def match_witness_record(record, manifest, expected):
 
 
 class ArchiveStore:
-    def __init__(self, root):
+    def __init__(self, root, budget_digest=None):
         self.root = Path(root).absolute()
+        if budget_digest is not None:
+            hex_digest(budget_digest)
+        self.budget_digest = budget_digest
         self._check_directories()
 
     @classmethod
@@ -62,6 +65,18 @@ class ArchiveStore:
         if left == right or left in right.parents or right in left.parents:
             raise Rejected("archive_store_overlap")
 
+    def configure_budget(self, max_logical_bytes, max_objects):
+        from .archive_budget import configure
+        return configure(self, max_logical_bytes, max_objects)
+
+    def budget_status(self):
+        from .archive_budget import status
+        return status(self)
+
+    def _publish(self, name, data):
+        from .archive_budget import publish
+        publish(self, name, data, publisher=publish_local)
+
     def prepare(self, pages, audit_key, policy_digest, start, target):
         """Seal only a complete interval. Failures may leave unreferenced immutable pages."""
         self._check_directories()
@@ -81,7 +96,7 @@ class ArchiveStore:
                 raise Rejected("archive_total_size")
             digest = sha256(data)
             name = "pages/" + digest + ".zip"
-            publish_local(self.root, name, data)
+            self._publish(name, data)
             stored = read_local(self.root, name, MAX_ARCHIVE_BYTES)
             if sha256(stored) != digest or len(stored) != len(data):
                 raise Rejected("archive_page_integrity")
@@ -95,7 +110,7 @@ class ArchiveStore:
         if len(data) > MAX_MANIFEST_BYTES:
             raise Rejected("archive_manifest_size")
         digest = sha256(data)
-        publish_local(self.root, "manifests/" + digest + ".json", data)
+        self._publish("manifests/" + digest + ".json", data)
         # Reopen the manifest and every stored page before reporting the prepared archive.
         return self.verify(digest, audit_key, policy_digest)
 
