@@ -1,3 +1,28 @@
+test_all_page_sizes_preserve_counts_and_final_checkpoint (test_audit_pages.AuditPageTests.test_all_page_sizes_preserve_counts_and_final_checkpoint) ... ok
+test_appending_after_completion_rejected (test_audit_pages.AuditPageTests.test_appending_after_completion_rejected) ... ok
+test_byte_budget_bounds_every_exported_page (test_audit_pages.AuditPageTests.test_byte_budget_bounds_every_exported_page) ... ok
+test_cli_exports_and_offline_cli_requires_every_page (test_audit_pages.AuditPageTests.test_cli_exports_and_offline_cli_requires_every_page) ... ok
+test_context_cannot_be_omitted_or_substituted (test_audit_pages.AuditPageTests.test_context_cannot_be_omitted_or_substituted) ... ok
+test_context_receipt_semantics_checked_even_with_valid_hmac (test_audit_pages.AuditPageTests.test_context_receipt_semantics_checked_even_with_valid_hmac) ... ok
+test_corruption_outside_requested_page_refuses_export (test_audit_pages.AuditPageTests.test_corruption_outside_requested_page_refuses_export) ... ok
+test_deleted_target_refuses_export (test_audit_pages.AuditPageTests.test_deleted_target_refuses_export) ... ok
+test_empty_ledger_requires_verified_genesis_page (test_audit_pages.AuditPageTests.test_empty_ledger_requires_verified_genesis_page) ... ok
+test_end_and_target_are_pinned (test_audit_pages.AuditPageTests.test_end_and_target_are_pinned) ... ok
+test_invalid_limits_and_anchors_rejected (test_audit_pages.AuditPageTests.test_invalid_limits_and_anchors_rejected) ... ok
+test_invalid_unicode_payload_is_rejected_not_an_uncaught_encoding_error (test_audit_pages.AuditPageTests.test_invalid_unicode_payload_is_rejected_not_an_uncaught_encoding_error) ... ok
+test_missing_final_page_cannot_finish (test_audit_pages.AuditPageTests.test_missing_final_page_cannot_finish) ... ok
+test_missing_middle_page_rejected_without_advancing_verifier (test_audit_pages.AuditPageTests.test_missing_middle_page_rejected_without_advancing_verifier) ... ok
+test_new_events_do_not_move_pinned_target_or_change_page_bytes (test_audit_pages.AuditPageTests.test_new_events_do_not_move_pinned_target_or_change_page_bytes) ... ok
+test_no_empty_page_can_claim_progress (test_audit_pages.AuditPageTests.test_no_empty_page_can_claim_progress) ... ok
+test_rebuilt_archive_manifest_does_not_authenticate_changed_payload (test_audit_pages.AuditPageTests.test_rebuilt_archive_manifest_does_not_authenticate_changed_payload) ... ok
+test_record_gap_and_reordering_rejected (test_audit_pages.AuditPageTests.test_record_gap_and_reordering_rejected) ... ok
+test_repeated_page_rejected (test_audit_pages.AuditPageTests.test_repeated_page_rejected) ... ok
+test_restart_resumes_from_verified_checkpoint (test_audit_pages.AuditPageTests.test_restart_resumes_from_verified_checkpoint) ... ok
+test_snapshot_boundary_replays_preceding_decision_without_counting_it_twice (test_audit_pages.AuditPageTests.test_snapshot_boundary_replays_preceding_decision_without_counting_it_twice) ... ok
+test_too_small_budget_fails_explicitly_instead_of_looping (test_audit_pages.AuditPageTests.test_too_small_budget_fails_explicitly_instead_of_looping) ... ok
+test_truncated_prefix_is_incomplete_even_with_rebuilt_end (test_audit_pages.AuditPageTests.test_truncated_prefix_is_incomplete_even_with_rebuilt_end) ... ok
+test_wire_size_and_count_limits_reject_excess (test_audit_pages.AuditPageTests.test_wire_size_and_count_limits_reject_excess) ... ok
+test_wrong_key_or_policy_rejected (test_audit_pages.AuditPageTests.test_wrong_key_or_policy_rejected) ... ok
 test_defense_only_descendant_passes (test_branch_boundary.BranchBoundaryTests.test_defense_only_descendant_passes) ... ok
 test_original_base_still_passes (test_branch_boundary.BranchBoundaryTests.test_original_base_still_passes) ... ok
 test_other_committed_change_fails (test_branch_boundary.BranchBoundaryTests.test_other_committed_change_fails) ... ok
@@ -123,6 +148,6 @@ test_routes_and_limits (test_defense.WebTests.test_routes_and_limits) ... ok
 test_unknown_fields_rejected (test_defense.WebTests.test_unknown_fields_rejected) ... ok
 
 ----------------------------------------------------------------------
-Ran 123 tests in 9.076s
+Ran 148 tests in 7.376s
 
 OK

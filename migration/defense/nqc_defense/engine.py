@@ -11,6 +11,7 @@ from .codec import Rejected, canonical, decode, identifier, integer, request, re
 from .config import ConfigStore, controls
 from .state import State
 from .files import sha256
+from .audit_pages import export_page
 
 
 class Engine:
@@ -168,3 +169,10 @@ class Engine:
                        for n, p, prev, mac in db.execute("SELECT seq,payload,previous,mac FROM audit ORDER BY seq")]
             return archive({"audit.json": canonical({"checkpoint": checkpoint, "records": records}),
                             "policy.sha3": self.digest.encode("ascii"), "policy.json": canonical(self.policy)})
+
+    def export_page(self, start, target, limit=256, max_bytes=1024 * 1024):
+        """Export a bounded interval toward a fixed operator-supplied checkpoint."""
+        self._check_policy()
+        with self.state.transaction() as db:
+            self.ledger.verify(db)
+            return export_page(db, self.policy, self.digest, start, target, limit, max_bytes)

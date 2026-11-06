@@ -1,14 +1,14 @@
 {
-  "status": "LOCAL_NQC_BYTE_CONSUMER_TESTED_PRODUCTION_NOT_ACTIVATED",
-  "version": "0.3.0",
+  "status": "LOCAL_NQC_CONSUMER_AND_PAGINATED_AUDIT_TESTED_PRODUCTION_NOT_ACTIVATED",
+  "version": "0.4.0",
   "date": "2026-11-06",
   "nqc_base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
   "python_version": "3.12.14",
-  "python_source_files_parsed": 31,
+  "python_source_files_parsed": 36,
   "tests": {
-    "engine_passed": 123,
+    "engine_passed": 148,
     "nqc_isolation_passed": 9,
-    "total_passed": 132,
+    "total_passed": 157,
     "failed": 0,
     "skipped": 0,
     "engine_log": "docs/PRUEBAS.txt",
@@ -49,7 +49,6 @@
     "source_files": 531,
     "status": "ISOLATED_SOURCE_IDENTITY_PASS"
   },
-  "existing_tracked_files_modified": 0,
   "not_run": [
     "Census Rust tests (no Rust changes)",
     "Original producer Git ancestry checks",
@@ -60,23 +59,22 @@
   "not_implemented": [
     "Mandatory admission hook in production NQC consumer",
     "Independent external audit anchoring",
-    "State retention and paginated exports",
+    "State retention and compaction",
+    "Incremental ledger verification",
     "Continuous kernel sensors"
   ],
   "publication": {
-    "push": true,
+    "branch": "NQC-defensive",
+    "user_authorized": true,
+    "validated_parent_commit": "ac5c79c5ac099954c4815586400cd7f2a7bf83c5",
+    "status": "authorized_branch_update_validated_before_commit",
     "pull_request": false,
     "release": false,
     "deploy": false,
     "email": false,
-    "workflow_enabled": false,
-    "branch": "NQC-defensive",
-    "user_authorized": true,
-    "status": "branch_published_current_update_prepared",
-    "published_parent_commit": "7faa815497b5c0e9cc81c7626ffe713b12dfacc1",
-    "current_update_committed": false
+    "workflow_enabled": false
   },
-  "scope": "Local NQC addition and byte-bound JSON reader; production Census loop unchanged",
+  "scope": "Local NQC JSON consumer with full and paginated authenticated audit verification; production Census loop unchanged",
   "nqc_consumer_check": "docs/NQC_CONSUMER_CHECK.json",
   "consumer": {
     "local_reader_enforces_admission": true,
@@ -84,5 +82,18 @@
     "production_census_connected": false,
     "remote_content_endpoint": false,
     "exactly_once_delivery_claimed": false
-  }
+  },
+  "audit_pagination_check": "docs/AUDIT_PAGINATION_CHECK.json",
+  "pagination": {
+    "page_max_records": 512,
+    "page_max_json_bytes": 1048576,
+    "verifier_max_archive_bytes": 2097152,
+    "requires_fixed_target": true,
+    "authenticated_boundary_context": true,
+    "full_history_requires_genesis_start": true,
+    "sqlite_retention_implemented": false,
+    "independent_anchor_implemented": false,
+    "exporter_verifies_entire_ledger_per_page": true
+  },
+  "original_base_files_modified": 0
 }

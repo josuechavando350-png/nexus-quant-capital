@@ -15,6 +15,7 @@ from nqc_defense.enroll import enroll
 from nqc_defense.files import read_local, sha256
 from nqc_defense.integration import verify_nqc
 from nqc_defense.verify_export import verify as verify_export
+from nqc_defense.audit_pages import AuditPageVerifier
 
 
 def run(root):
@@ -37,10 +38,16 @@ def run(root):
             receipt = engine.receipt(result["admission"]["receipt_sha256"])
             checkpoint = engine.checkpoint()
             verified = verify_export(engine.export(), key, enrollment["policy_digest"], checkpoint)
+            paged = AuditPageVerifier(key, enrollment["policy_digest"], checkpoint)
+            while not paged.complete:
+                paged.accept(engine.export_page(paged.current, checkpoint, limit=1))
+            page_result = paged.finish()
             if (result["data"].get("schema") != "nqc-isolated-import-v1"
                     or result["content_sha256"] != sha256(original)
                     or result["size_bytes"] != len(original)
                     or verified["authorized_snapshots"] != 1
+                    or page_result["authorized_snapshots"] != 1
+                    or page_result["record_count"] != checkpoint["sequence"]
                     or checkpoint["head"] != result["admission"]["audit_head"]
                     or receipt["outcome"]["decision"] != "admit"):
                 raise Rejected("nqc_consumer_check_failed")
@@ -51,6 +58,8 @@ def run(root):
                         "decision": result["admission"]["decision"], "receipt_replayed": True,
                         "audit_export_verified": verified["verified"],
                         "authorized_snapshots": verified["authorized_snapshots"],
+                        "paginated_audit_verified": page_result["verified"],
+                        "audit_pages": page_result["pages"],
                         "scope": "actual local manifest consumed; production Census loop unchanged"}
     finally:
         if marker is not None:

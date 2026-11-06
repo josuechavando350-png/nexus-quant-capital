@@ -10,6 +10,8 @@ from .config import ConfigStore
 from .engine import Engine
 from .files import create_local, read_local
 from .consumer import ArtifactReader
+from .audit import GENESIS
+from .audit_pages import verify_page
 
 
 def main(argv=None):
@@ -28,6 +30,12 @@ def main(argv=None):
     commands.add_parser("checkpoint")
     export = commands.add_parser("export")
     export.add_argument("output", type=Path)
+    page = commands.add_parser("export-page", help="Export toward a fixed trusted checkpoint")
+    page.add_argument("output", type=Path)
+    page.add_argument("--target", type=Path, required=True)
+    page.add_argument("--start", type=Path, help="Prior verified page checkpoint; omit for genesis")
+    page.add_argument("--limit", type=int, default=256)
+    page.add_argument("--max-bytes", type=int, default=1024 * 1024)
     release = commands.add_parser("release")
     release.add_argument("asset")
     receipt = commands.add_parser("receipt", help="Retrieve and replay a recorded decision locally")
@@ -53,6 +61,13 @@ def main(argv=None):
         elif args.command == "export":
             create_local(args.output.parent, args.output.name, engine.export())
             result = {"exported": True}
+        elif args.command == "export-page":
+            start = (decode(read_local(args.start.parent, args.start.name, 4096)) if args.start
+                     else {"sequence": 0, "head": GENESIS})
+            target = decode(read_local(args.target.parent, args.target.name, 4096))
+            data = engine.export_page(start, target, args.limit, args.max_bytes)
+            result = verify_page(data, key, args.policy, start, target)
+            create_local(args.output.parent, args.output.name, data)
         elif args.command == "receipt":
             result = engine.receipt(args.digest)
         else:

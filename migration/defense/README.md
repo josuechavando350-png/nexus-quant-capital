@@ -1,4 +1,4 @@
-# NQC Defense 0.3.0 — desarrollo en la rama NQC-defensive
+# NQC Defense 0.4.0 — desarrollo en la rama NQC-defensive
 
 El usuario autorizó publicar este código en `NQC-defensive` el 6 de noviembre de 2026. La rama conserva la base de NQC y no activa despliegues ni operación productiva. Los informes de 0.2.0 describen la validación previa a esa autorización.
 
@@ -6,7 +6,7 @@ Implementación funcional de una capa de admisión de artefactos locales. Lee by
 
 **No son 100 programas terminados.** Hay 8 implementaciones de alcance parcial vinculadas al catálogo original y 5 componentes adicionales ejecutables. Los otros programas solo están documentados en el catálogo; no hay clases vacías para representarlos. No se han implementado seL4, CHERI, enclaves, FHE ni sensores eBPF. Tampoco hay bloqueos de firewall, aislamiento de hosts, firma de operaciones financieras o despliegue.
 
-La versión 0.3.0 conecta un consumidor JSON local con la admisión: recibe exactamente los bytes inspeccionados, después de confirmar la transacción SQLite. Conserva los recibos reproducibles de decisión (X103), presupuesto de cuarentenas (subconjunto de X105), vigencia local (subconjunto de X106) y verificador independiente de exportaciones añadidos en 0.2.0.
+La versión 0.4.0 añade auditoría por páginas acotadas y un verificador secuencial que exige alcanzar un checkpoint final fijado por el operador. Conserva el consumidor JSON conectado a la admisión de 0.3.0 y los recibos, presupuesto de cuarentenas, vigencia local y verificación de 0.2.0. Las páginas amplían la auditoría existente; no se cuentan como nuevos programas del catálogo.
 
 ## Ejecutar y comprobar
 
@@ -29,6 +29,10 @@ Para incorporar un archivo propio, `tools/init_local.py --help` explica las ruta
 
 `tools/verify_export.py --help` permite comprobar una exportación contra una clave, un digest de política y un checkpoint aportados por el operador. No extrae el ZIP ni ejecuta su contenido. La comprobación autentica registros y reproduce decisiones; no demuestra que un sensor externo diga la verdad.
 
+Para historiales mayores, `Engine.export_page(start, target, limit=256, max_bytes=1048576)` produce un ZIP de una página. `start` es el checkpoint de la página anterior o el origen `{sequence: 0, head: 64 ceros}`; `target` es un checkpoint final fijado antes de recorrer. Cada página contiene hasta 512 registros nuevos; el límite de 1 MiB de JSON incluye también el registro anterior de contexto cuando corresponde. La CLI local `export-page` exige `--target` y acepta `--start`, `--limit` y `--max-bytes`. Crea el archivo exclusivamente; no sobrescribe una exportación existente.
+
+`AuditPageVerifier.accept` comprueba cada página y avanza solo al pasar todas las verificaciones; `finish` exige llegar al checkpoint final. `tools/verify_audit_pages.py` aplica ese mismo recorrido a archivos ordenados, uno por vez, con clave y política suministradas por el operador. Las páginas faltantes, duplicadas, reordenadas o adulteradas impiden certificar el recorrido completo. Al reanudar desde un checkpoint distinto del origen, el informe declara `from_genesis: false`: verifica únicamente el intervalo solicitado.
+
 ## Qué está conectado y ejecutado
 
 | Componente | Implementación real | Límite explícito |
@@ -41,7 +45,7 @@ Para incorporar un archivo propio, `tools/init_local.py --help` explica las ruta
 | M67 Config | Almacén por SHA3-256 y digest fijado externamente | El operador debe proteger el anclaje y el almacenamiento |
 | M75 Schema | Rechazo de campos extra de entrada/salida | Validación runtime; no macros ni prueba de compilación |
 | M76 Build | ZIP determinista con hashes y verificador | Exportaciones de datos; no compilador de binarios reproducibles |
-| X101 Evidence ledger | Cadena HMAC-SHA256 y checkpoint externo | No ledger ZK, consenso, firma pública ni resistencia a root |
+| X101 Evidence ledger | Cadena HMAC-SHA256, checkpoint aportado y exportaciones completas o paginadas | Sin servicio de anclaje externo, ZK, consenso, firma pública ni resistencia a root |
 | X102 Input guard | JSON limitado por bytes, profundidad y nodos; claves repetidas rechazadas | No rkyv ni parser universal |
 | X103 Decision receipts | Hash de recibo, política, observaciones y comprobaciones ordenadas; reproducción independiente | Reproduce hechos registrados, no atestación de hardware |
 | X105 Containment budget | Tope atómico de cuarentenas persistentes, también entre procesos | No limita tráfico ni garantiza disponibilidad; la solicitud sospechosa sigue rechazada |
@@ -57,10 +61,11 @@ La ruta compartida es: entrada acotada → esquema → configuración anclada �
 - Una cadena HMAC válida no detecta por sí sola el borrado de su cola. Hay que guardar un checkpoint fuera del estado local. La API permite comprobar un checkpoint exacto al reabrir; no existe todavía un servicio externo de anclaje.
 - La clave HMAC autentica para quienes comparten esa clave. No es una firma verificable públicamente. No se inventaron primitivas criptográficas.
 - No hay sensor continuo: cada solicitud inspecciona el activo solicitado. No hay daemon 24/7, integración SIEM, alerta externa ni escalamiento automático.
-- Las verificaciones de auditoría son lineales con el historial y SQLite serializa decisiones. Esta entrega no afirma rendimiento de nanosegundos ni escala de producción. Retención, rotación de claves, cuotas de disco y exportaciones paginadas quedan pendientes.
+- Las verificaciones de auditoría son lineales con el historial y SQLite serializa decisiones. Cada exportación paginada vuelve a verificar el ledger completo dentro de una transacción; acota el tamaño de los bloques y la memoria del recorrido, no elimina ese coste de CPU ni la espera de escritores. Retención, rotación de claves, cuotas de disco y optimización incremental quedan pendientes.
 - La vigencia usa reloj local con resolución de segundos. Detecta retrocesos observados y rechaza inspecciones cuya duración excede la política. No constituye sincronización de tiempo confiable frente a un administrador comprometido.
 - El límite de cuarentenas solo acota transiciones persistentes en esta capa. Al agotarse, una petición con integridad alterada se rechaza sin crear otra cuarentena. No se admite el archivo para preservar el límite.
-- El verificador de exportaciones admite hasta 8 MiB de auditoría, 10.000 registros y 100.000 nodos JSON. Superar un límite se rechaza explícitamente; no se omiten registros para producir un resultado válido.
+- El verificador de exportación completa admite hasta 8 MiB de auditoría, 10.000 registros y 100.000 nodos JSON. La alternativa paginada admite hasta 1 MiB de JSON y 512 registros nuevos por página; su verificador rechaza ZIPs mayores de 2 MiB. Un presupuesto que no alcanza para el contexto y el siguiente registro se rechaza explícitamente. Los registros históricos permanecen en SQLite; esta versión no borra ni compacta datos.
+- El checkpoint final debe provenir del operador o de un anclaje confiable; copiarlo de una exportación no prueba completitud independiente. Un prefijo auténtico puede ser válido como página parcial, pero `finish` no lo acepta como recorrido completo. Los eventos posteriores al checkpoint fijado requieren otro recorrido.
 - El hosting WSGI futuro deberá imponer TLS, límite de conexiones, lectura con timeout y framing HTTP correcto. Este paquete no abre puertos por sí mismo. La única escucha utilizada durante pruebas es loopback temporal.
 
 ## NQC y trabajo simultáneo
@@ -71,7 +76,9 @@ La base consultada fue `josuechavando350-png/nexus-quant-capital`, commit `16e35
 
 Se resolvió la descarga incompleta recuperando los 645 archivos de la revisión y verificando tamaño y hash de cada blob Git. El checkout base quedó limpio. Se añadieron únicamente `migration/defense/` y `migration/DEFENSE-INTEGRATION.md` a la copia local.
 
-Pasaron el verificador de aislamiento original sobre la copia combinada, sus 9 pruebas y las 123 pruebas del paquete. `tools/check_nqc_artifact.py` inspeccionó los bytes reales de `nqc-census/Cargo.toml`. `tools/check_nqc_consumer.py .`, ejecutado desde la raíz NQC, consumió los 337.100 bytes reales de `migration/source-manifest.json` a través del lector, reprodujo el recibo y verificó la exportación. El manifiesto contiene 637 entradas históricas, no 637 módulos de defensa. Ambos controles crean y retiran un señuelo nuevo propio sin modificar los artefactos originales.
+Pasaron el verificador de aislamiento original sobre la copia combinada, sus 9 pruebas y las 148 pruebas del paquete. `tools/check_nqc_artifact.py` inspeccionó los bytes reales de `nqc-census/Cargo.toml`. `tools/check_nqc_consumer.py .`, ejecutado desde la raíz NQC, consumió los 337.100 bytes reales de `migration/source-manifest.json` a través del lector, reprodujo el recibo y verificó tanto la exportación completa como tres páginas de auditoría. El manifiesto contiene 637 entradas históricas, no 637 módulos de defensa. Ambos controles crean y retiran un señuelo nuevo propio sin modificar los artefactos originales.
+
+`tools/check_audit_pagination.py` verificó 10.003 registros en 20 páginas, superando el límite del formato de exportación completa. Son tres registros de admisión de una copia real de `engine.py` y 10.000 marcadores sintéticos explícitos para probar volumen con SQLite y HMAC reales. El control también añade un evento posterior al checkpoint y comprueba que no cambia el destino del recorrido. No representa tráfico productivo ni una medición de rendimiento.
 
 **La incorporación al código y la comprobación local no equivalen a activar un consumidor productivo obligatorio.** No existe todavía ese enlace con la operación de Census. La certificación canónica sigue siendo falsa; no se verificó la historia Git del repositorio productor original. No se ejecutaron pruebas Rust de Census porque no se modificó su código. Tampoco se validó hardware externo.
 
@@ -82,7 +89,8 @@ Pasaron el verificador de aislamiento original sobre la copia combinada, sus 9 p
 - `docs/PRUEBAS.txt`, `docs/ACEPTACION.json` y `docs/VALIDACION.json`: resultados efectivamente obtenidos.
 - `docs/CLOCK_LOCK_REGRESSION.json`: comparación ejecutada entre 0.1.0 y 0.2.0 con un bloqueo real de SQLite y reloj controlado.
 - `docs/NQC_ARTIFACT_CHECK.json`, `docs/NQC_CONSUMER_CHECK.json`, `docs/NQC_ISOLATION.json` y `docs/NQC_ISOLATION_TESTS.txt`: validación de la incorporación local.
-- `docs/V0_2.md`, `docs/V0_3.md` y `docs/CONTINUIDAD.md`: cambios, compatibilidad y siguiente trabajo concreto.
+- `docs/AUDIT_PAGINATION_CHECK.json`: prueba de volumen paginado con marcadores sintéticos identificados.
+- `docs/V0_2.md`, `docs/V0_3.md`, `docs/V0_4.md` y `docs/CONTINUIDAD.md`: cambios, compatibilidad y siguiente trabajo concreto.
 - `docs/FUENTES.md`: fuentes primarias y distinciones respecto a las afirmaciones del PDF.
 
 La publicación autorizada es únicamente de código en `NQC-defensive`. No se habilitan workflows, despliegues, envíos de correo ni ejecución productiva.
