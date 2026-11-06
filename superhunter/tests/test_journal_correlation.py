@@ -259,6 +259,24 @@ class CorrelationTests(unittest.TestCase):
         self.assertEqual(cli.returncode, 2)
         self.assertNotIn('PRIVATE-MISSING-JOURNAL', cli.stderr + cli.stdout)
 
+    def test_historical_worker_partition_ids_remain_stable(self):
+        from superhunter.quality_worker import partition_ids, test_ids
+        from superhunter.quality import PARTITION_COUNT
+        test_root = Path(__file__).resolve().parent
+        suite = unittest.TestLoader().discover(str(test_root), pattern='test*.py')
+        full = sorted(test_ids(suite))
+        previous = [item for item in full if not item.startswith('test_journal_correlation.')]
+        full_groups = partition_ids(full, PARTITION_COUNT)
+        former = partition_ids(previous, PARTITION_COUNT)
+        for index in range(PARTITION_COUNT):
+            keep = sorted(item for item in full_groups[index]
+                          if not item.startswith('test_journal_correlation.'))
+            self.assertEqual(keep, former[index], f'partition {index} moved earlier tests')
+        new = [item for item in full if item.startswith('test_journal_correlation.')]
+        self.assertEqual(len(new), 21)
+        self.assertEqual(sorted(item for item in full_groups[0]
+                                if item.startswith('test_journal_correlation.')), new)
+
     def test_unsupported_fake_severity_is_never_reported(self):
         c.correlate(self.bundles, self.hyp, self.out)
         report = self._result()

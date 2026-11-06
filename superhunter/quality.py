@@ -903,4 +903,5 @@ REQUIRED_TESTS += (
     'test_journal_correlation.CorrelationTests.test_temporal_contradiction_and_cycle',
     'test_journal_correlation.CorrelationTests.test_resealed_false_result_rejected',
     'test_journal_correlation.CorrelationTests.test_source_tamper_rejected_before_ingestion',
+    'test_journal_correlation.CorrelationTests.test_historical_worker_partition_ids_remain_stable',
 )
