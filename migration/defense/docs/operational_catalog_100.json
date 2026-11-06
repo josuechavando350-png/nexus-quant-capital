@@ -947,7 +947,7 @@
       ],
       "status": "bounded_partial",
       "implementation": "nqc_defense/case_review.py",
-      "implementation_scope": "Historial HMAC ligado a evidencia y declaración Ed25519 del expediente; sin todo acceso ni custodia independiente"
+      "implementation_scope": "Historial de revisiones y registro firmado de declaraciones por clave; sin todo acceso ni custodia independiente"
     },
     {
       "id": "C049",
@@ -1867,9 +1867,9 @@
       "disciplines": [
         "D093"
       ],
-      "status": "planned",
-      "implementation": null,
-      "implementation_scope": "Sin implementación acreditada en esta entrega"
+      "status": "bounded_partial",
+      "implementation": "nqc_defense/signer_registry.py",
+      "implementation_scope": "Registro firmado local de claves emisoras, rotación/revocación y verificación histórica mediante receptor; sin KMS/HSM ni rotación de autoridad/auditoría"
     },
     {
       "id": "C094",
@@ -1911,7 +1911,7 @@
       ],
       "status": "bounded_partial",
       "implementation": "nqc_defense/archive_store.py",
-      "implementation_scope": "archivo y testigo locales; no réplica independiente"
+      "implementation_scope": "Archivo y testigo locales; receptor de registro firmado con avance de prefijo y recibos externos; sin réplica independiente"
     },
     {
       "id": "C096",

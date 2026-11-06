@@ -47,3 +47,5 @@ La versión 0.16 incorpora caducidad configurable y observación autenticada del
 La versión 0.17 exporta expedientes privados de autenticación con evidencia e historiales enlazados y un verificador sin acceso a la base original. El alcance sigue siendo local y sin custodia independiente. Registra además las métricas de cierre y cobertura parcial solicitadas por el usuario.
 
 0.18 añade declaraciones firmadas de expedientes y verificación por clave pública fijada externamente. La emisión conserva el replay completo de 0.17; el receptor no necesita la clave administrativa. Extra opcional signing, sin custodia independiente ni cambios a fuentes originales/SuperHunter.
+
+0.19 conecta registro firmado de claves de expedientes, rotación/revocación y receptor local de versiones. C093 inicia alcance parcial. Sin transporte de red, activación productiva, cambios a Census/SuperHunter o rotación de autoridad raíz.

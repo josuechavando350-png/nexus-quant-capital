@@ -9,19 +9,19 @@ El estado actual es:
 | Medida | Conteo | Porcentaje |
 |---|---:|---:|
 | Componentes completamente aceptados | 0/100 | 0% |
-| Componentes con implementación parcial | 21/100 | 21% |
+| Componentes con implementación parcial | 22/100 | 22% |
 | Disciplinas completamente aceptadas | 0/100 | 0% |
 | Disciplinas especificadas | 100/100 | 100% |
 | Total de entregables cerrados | 0/200 | 0% |
 | Entregables todavía no cerrados | 200/200 | 100% |
 
-Los 21 componentes parciales contienen código real probado dentro de un alcance acotado. Todavía no satisfacen todo el alcance y dependencias de sus filas; sus mejoras sucesivas no los convierten automáticamente en completos.
+Los 22 componentes parciales contienen código real probado dentro de un alcance acotado. Todavía no satisfacen todo el alcance y dependencias de sus filas; sus mejoras sucesivas no los convierten automáticamente en completos.
 
 `tools/check_operational_catalog.py` calcula estos valores a partir del catálogo y `docs/completion_register.json`. Para registrar un cierre, se exige una aceptación de alcance completo que corresponda al requisito del catálogo, un informe fijado por hash y referencias a comprobaciones también fijadas por hash. En componentes, su estado debe concordar con el registro y el contador total. Los registros son decisiones de aceptación documentadas, no una certificación independiente emitida por este script.
 
 El registro de cierres actual está vacío. Los datos de aceptación sintéticos usados por las pruebas del contador permanecen únicamente en directorios temporales y no entran en este registro.
 
-El bloque v0.18 tiene cinco criterios locales en `DOSSIER_ATTESTATION_CHECK.json`: cadena enlazada, firma y bytes verificados, rechazo de alteraciones/ámbitos/claves, CLI pública después de retirar secretos, y reintento sin modificar los bytes. Esos cinco pasaron: **100% del bloque acotado**, sin cambiar el 0% de entregables completos del catálogo global.
+El bloque v0.19 reúne diez criterios locales: cinco del registro de claves (`SIGNER_REGISTRY_CHECK.json`) y cinco del receptor (`REGISTRY_MIRROR_CHECK.json`). Los diez pasaron: **100% del bloque acotado**. La prueba prolongada se registra por separado; no cierra objetivos globales.
 
 Consultar el resultado reproducible con:
 

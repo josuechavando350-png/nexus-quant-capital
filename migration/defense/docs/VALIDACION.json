@@ -1,14 +1,14 @@
 {
-  "status": "PUBLIC_KEY_DOSSIER_ATTESTATION_LOCAL_ISSUER_TRUST_AND_PACKAGE_INSTALL_TESTED_PRODUCTION_NOT_ACTIVATED",
-  "version": "0.18.0",
+  "status": "SIGNED_KEY_REGISTRY_AND_PUBLIC_RECEIVER_TESTED_ENDURANCE_PENDING_PRODUCTION_NOT_ACTIVATED",
+  "version": "0.19.0",
   "date": "2026-11-06",
   "nqc_base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
   "python_version": "3.12.14",
-  "python_source_files_parsed": 91,
+  "python_source_files_parsed": 102,
   "tests": {
-    "engine_passed": 620,
+    "engine_passed": 683,
     "nqc_isolation_passed": 9,
-    "total_passed": 629,
+    "total_passed": 692,
     "failed": 0,
     "skipped": 0,
     "engine_log": "docs/PRUEBAS.txt",
@@ -82,7 +82,7 @@
   "publication": {
     "branch": "NQC-defensive",
     "user_authorized": true,
-    "validated_parent_commit": "4ad9d858d1277fbd2686968856fa73ab39250433",
+    "validated_parent_commit": "2ed8de3125843c5932d05e850bb62a51b21b3d7d",
     "status": "authorized_branch_update_validated_before_commit",
     "pull_request": false,
     "release": false,
@@ -90,7 +90,7 @@
     "email": false,
     "workflow_enabled": false
   },
-  "scope": "Ed25519 issuer attestations over fully replayed private dossiers, externally pinned public verification without private keys, deterministic publication and optional dependency packaging; no SuperHunter changes or production activation",
+  "scope": "Scoped signed issuer-key lifecycle, registered historical dossier acceptance and monotonic public-data receiver; full replay, crash recovery and actual row ceiling; endurance still running; no production activation",
   "nqc_consumer_check": "docs/NQC_CONSUMER_CHECK.json",
   "consumer": {
     "local_reader_enforces_admission": true,
@@ -214,8 +214,8 @@
   "operational_catalog": {
     "components": 100,
     "disciplines_and_specialties": 100,
-    "bounded_partial": 21,
-    "planned": 79,
+    "bounded_partial": 22,
+    "planned": 78,
     "fully_complete": 0,
     "planned_runtime_connections_implemented": false,
     "fully_completed_disciplines": 0
@@ -423,7 +423,7 @@
     "not_closed_items": 200,
     "not_closed_percent": 100.0,
     "component_completion_percent": 0.0,
-    "components_with_implementation_percent": 21.0,
+    "components_with_implementation_percent": 22.0,
     "discipline_completion_percent": 0.0,
     "disciplines_specified_percent": 100.0,
     "acceptance_records_are_not_independent_certification": true
@@ -437,9 +437,9 @@
     "independent_certification": false
   },
   "current_bounded_block": {
-    "version": "0.18.0",
-    "criteria_passed": 5,
-    "criteria_total": 5,
+    "version": "0.19.0",
+    "criteria_passed": 10,
+    "criteria_total": 10,
     "completion_percent": 100.0,
     "counts_as_full_catalog_completion": false
   },
@@ -476,5 +476,48 @@
     "independent_time": false,
     "current_state_attested": false,
     "production_activated": false
+  },
+  "signer_registry_check": "docs/SIGNER_REGISTRY_CHECK.json",
+  "registry_mirror_check": "docs/REGISTRY_MIRROR_CHECK.json",
+  "registry_capacity_check": "docs/REGISTRY_CAPACITY_CHECK.json",
+  "registry_input_validation_check": "docs/REGISTRY_INPUT_VALIDATION_CHECK.json",
+  "signer_registry": {
+    "new_tests": 38,
+    "scoped_to_pinned_policy_tenant_asset": true,
+    "authority_signed_lifecycle_and_registration": true,
+    "rotation_preserves_registered_history": true,
+    "retired_key_new_registration_rejected": true,
+    "revocation_rejects_historical_acceptance": true,
+    "exact_request_retry_recovers_receipt": true,
+    "external_checkpoint_required_for_mutation_and_export": true,
+    "actual_process_termination_before_and_after_commit_tested": true,
+    "max_rows": 4096,
+    "max_keys": 64,
+    "max_event_bytes": 8192,
+    "max_bundle_bytes": 33554432,
+    "actual_row_ceiling_tested": true,
+    "authority_key_rotation": false,
+    "audit_key_rotation": false,
+    "kms_hsm": false,
+    "independent_custody": false
+  },
+  "registry_mirror": {
+    "new_tests": 25,
+    "public_data_only": true,
+    "signed_prefix_extension_required": true,
+    "rollback_and_signed_fork_rejected": true,
+    "revocation_applied_after_receipt": true,
+    "verification_serialized_with_adoption": true,
+    "last_update_retry_idempotent": true,
+    "actual_process_termination_before_and_after_commit_tested": true,
+    "whole_database_rollback_requires_external_receipt": true,
+    "network_delivery": false,
+    "independent_freshness": false,
+    "physical_power_loss_tested": false
+  },
+  "endurance": {
+    "status": "running_not_yet_accepted",
+    "result_in_this_commit": false,
+    "production_performance_claimed": false
   }
 }

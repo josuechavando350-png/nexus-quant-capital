@@ -1,0 +1,26 @@
+{
+  "block_completion_percent": 100.0,
+  "block_criteria_completed": 5,
+  "block_criteria_total": 5,
+  "checks": {
+    "idempotent_receipt_recovery_after_revocation": true,
+    "new_retired_key_registration_rejected": true,
+    "public_cli_without_private_material": true,
+    "registered_history_survives_rotation": true,
+    "revocation_and_stale_bundle_rejected": true
+  },
+  "fixture_origin": "authored OpenSSH-format logs; real files, SQLite, signatures and subprocess; no live sshd",
+  "independent_custody": false,
+  "independent_freshness": false,
+  "production_activated": false,
+  "public_bundle_bytes": 5229,
+  "registered_attestations": 2,
+  "registry_rows": 5,
+  "rejections": {
+    "new_record_from_retired_key": "registry_signer_not_active",
+    "revoked_historical_signer": "registry_signer_revoked",
+    "stale_bundle": "registry_checkpoint_mismatch"
+  },
+  "root_authority_rotation": false,
+  "verified": true
+}
