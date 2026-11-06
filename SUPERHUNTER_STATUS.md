@@ -1,5 +1,18 @@
 # SUPERHUNTER — estado oficial verificable y continuidad
 
+## Último estado — PR #55 (2026-11-06; prevalece sobre instantáneas inferiores)
+
+- **Último PR de código:** [#55](https://github.com/josuechavando350-png/nexus-quant-capital/pull/55), borrador; rama `feat/superhunter-exact-evidence-cut-sets-20261106`; SHA `bf82b9aa92bba77e3255c1d309ec1392bc5cf7d1`. Depende de **#54 → #53 → #52 → #51 → #50 → #49 → #48 → #47 → #46 → #45 → main**. No fusionar a ciegas; todos los expedientes y originales privados quedan fuera de GitHub.
+- **PR #54 corrigió referencia a módulo aún no publicado** en la CLI/quality/worker; commit de reparación `63978b85be00c20c74ba837f10d0decee14e9ac7`. Las 14 pruebas específicas del PR #54 pasan, pero **su ejecución integral de 2,207 pruebas permanece pendiente** a este corte; no afirmarla aprobada por el mero éxito del PR #55.
+- **PR #55 añade motor real `evidence_cut_sets.py`**, pruebas y documentación: seis Git blobs equivalentes exactamente a los bytes probados; 14/14 pruebas específicas, comparación 600/600 casos con un oráculo independiente y **2,221/2,221 `LOCAL_QA_PASS`** en el árbol acumulativo. `verify-check` independiente confirmó 2,221 y `source_digest=e335c9ea0dab9b6466f33dd246bd11edfc873fad784d036f9eb35368a9d1f51d`.
+- **Qué aporta:** cortes mínimos por inclusión de pérdida simultánea de respaldos de evidencia ya verificados; aliases de idénticos bytes cuentan como una misma fuente de disponibilidad; recalcula triaje y registra obligaciones de evidencia que quedarían sin apoyo. **No** acredita causalidad, identidad de productor, vulnerabilidad real, impacto crítico ni autorización para acciones externas.
+- **Próximos gates:** completar QA/verificación separada de PR #54, revisar aislamiento histórico NQC y ramas paralelas, validación EVM nativa independiente y evidencia de mundo real **en laboratorios propios/autorizados**. Ninguna operación sobre objetivos externos sin autorización verificable.
+- **Meta de producto vigente:** investigación multidominio especializada en fallos críticos y cadenas potencialmente críticas, con forense digital y evaluación científica; ver [SUPERHUNTER_CRITICAL_RESEARCH.md](SUPERHUNTER_CRITICAL_RESEARCH.md).
+- Los 40–42% históricos **no son un avance auditado** y las 2,221 pruebas no equivalen a un porcentaje ni demuestran liderazgo comercial.
+
+---
+
+
 ## Trabajo posterior en verificación — PR #54 y respaldo local M9 (2026-11-06)
 - **PR #54 publicado, en borrador:** [Bounded higher-order evidence dependency](https://github.com/josuechavando350-png/nexus-quant-capital/pull/54), HEAD inicial `4a51ecbbcad73368f3f18c503af96501d2e005cf`, dependiente de PR #53; solo seis archivos `superhunter/` y **14 pruebas específicas** documentadas. Su **QA completa por HEAD de GitHub no queda certificada** por la prueba de un árbol local más amplio.
 - **Árbol local combinado M9, distinto de PR #54:** añade también un motor exacto de cortes mínimos de evidencia `evidence_cut_sets.py`, con 14 pruebas propias (600 casos contra oráculo exhaustivo). La versión combinada documentada en los artefactos de conversación `SUPERHUNTER_M9_COMPLETE_20261106.zip` (SHA-256 `73bec007b5c261315321868030446ff3303534bc80b5050432f8637be7f90883`) y `SUPERHUNTER_M9_COMPLETE_TRANSFER_20261106.json` (9 archivos fuente y hashes) fue **reejecutada localmente 2,221/2,221 `LOCAL_QA_PASS`**, con `verify-check` independiente PASS y `source_digest=e335c9ea0dab9b6466f33dd246bd11edfc873fad784d036f9eb35368a9d1f51d`. **Esta versión combinada no está publicada íntegramente en GitHub.**
