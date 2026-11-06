@@ -997,6 +997,22 @@ REQUIRED_TESTS += (
 )
 
 
+# Exact minimal offline loss sets of already-verified evidence bundles.
+COMPONENTS['evidence_cut_sets'] = {
+    'files': ['evidence_cut_sets.py'], 'tests': ['test_evidence_cut_sets.'],
+    'depends': ['evidence_common_mode', 'evidence_ablation', 'chain_path_audit',
+                'critical_chain', 'forensic_timeline', 'journal_correlation',
+                'evm_bounded_replay', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('evidence_cut_sets')
+REQUIRED_TESTS += (
+    'test_evidence_cut_sets.EvidenceCutSetTests.test_real_verified_bundle_replay',
+    'test_evidence_cut_sets.EvidenceCutSetTests.test_exact_cut_oracle_600',
+    'test_evidence_cut_sets.EvidenceCutSetTests.test_cli_processes_and_privacy',
+    'test_evidence_cut_sets.EvidenceCutSetTests.test_resealed_false_cut_rejected',
+    'test_evidence_cut_sets.EvidenceCutSetTests.test_changed_original_invalidates_review',
+)
+
+
 # Bounded higher-order common-bundle source-failure research, offline only.
 COMPONENTS['evidence_joint_failure'] = {
     'files': ['evidence_joint_failure.py'], 'tests': ['test_evidence_joint_failure.'],
