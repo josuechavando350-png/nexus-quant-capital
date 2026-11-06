@@ -87,6 +87,7 @@ def partition_ids(identities: list[str], count: int) -> list[list[str]]:
     evidence_ablation = modules.pop('test_evidence_ablation', []) if count == 8 else []
     common_evidence = modules.pop('test_evidence_common_mode', []) if count == 8 else []
     joint_evidence = modules.pop('test_evidence_joint_failure', []) if count == 8 else []
+    evidence_cuts = modules.pop('test_evidence_cut_sets', []) if count == 8 else []
     groups = [[] for _ in range(count)]
     for name in sorted(modules, key=lambda n: (-len(modules[n]), n)):
         index = min(range(count), key=lambda i: (len(groups[i]), i))
@@ -115,6 +116,8 @@ def partition_ids(identities: list[str], count: int) -> list[list[str]]:
         groups[0].extend(common_evidence)
     if joint_evidence:
         groups[0].extend(joint_evidence)
+    if evidence_cuts:
+        groups[0].extend(evidence_cuts)
     return [sorted(group) for group in groups]
 
 
