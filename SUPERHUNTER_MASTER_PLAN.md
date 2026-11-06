@@ -2,6 +2,8 @@
 
 **Fecha de decisión:** 2026-11-06. **Estado:** plan oficial de producto/ingeniería; NO es certificación ni declaración de implementación terminada. **Repositorio público:** `josuechavando350-png/nexus-quant-capital`. **Rama de referencia:** `main`. **Ámbito de código:** `superhunter/` sin modificar árboles históricos NQC.
 
+**Estrategia de especialización crítica, múltiples dominios y cadenas:** [SUPERHUNTER_CRITICAL_RESEARCH.md](SUPERHUNTER_CRITICAL_RESEARCH.md). Las 100 capacidades nuevas permanecen propuestas hasta verificación real.
+
 **Estado más reciente y commit de continuidad:** [SUPERHUNTER_STATUS.md](SUPERHUNTER_STATUS.md). Leerlo antes de asumir que `main` contiene todo el código.
 
 ## 0. Instrucción para cualquier nueva conversación o agente
