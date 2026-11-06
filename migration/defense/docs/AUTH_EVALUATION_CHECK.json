@@ -1,0 +1,619 @@
+{
+  "cli_recomputed": true,
+  "corpus_labels_changed_by_evaluator": false,
+  "criteria": [
+    "pinned_corpus_and_policy_feed_real_ingestion",
+    "unknown_labels_and_excluded_records_remain_visible",
+    "all_created_cases_have_reverified_preserved_evidence",
+    "batch_sizes_reopens_and_temporary_paths_preserve_report",
+    "private_publication_and_cli_recomputation",
+    "offline_installed_package_without_site_packages_matches"
+  ],
+  "criteria_passed": 6,
+  "criteria_total": 6,
+  "detector_rule_changed": false,
+  "independent_evaluation": false,
+  "installed_stdlib_only": true,
+  "installed_version": "0.23.0",
+  "production_accuracy_claimed": false,
+  "report": {
+    "automatic_response": false,
+    "confusion_matrix": {
+      "false_negative": 2,
+      "false_positive": 2,
+      "true_negative": 4,
+      "true_positive": 7
+    },
+    "corpus_digest": "229201feb2f34ebef5f19d223d3de55029d75688c4b1fd233daf2ac92fd434d0",
+    "corpus_id": "auth-evaluation-20261106-a",
+    "corpus_revision": 1,
+    "declared_origin": "authored",
+    "evidence_bundles_verified_after_cleanup": 11,
+    "implementation_sources": {
+      "auth_evaluation.py": "f2c664c9e82eada8fe56250e037b2269e1e94251c33c8496324f6ee2a618f650",
+      "auth_log.py": "ba50247eb7fae8354da86230245409d72d1016415d1cb0d19fa0b6ac821294bf",
+      "case_evidence.py": "165044cfecb2e8affb26f7d9fd45a2e37aca385741ae7994bcba7b548ae5cbb9",
+      "codec.py": "8fada17192f0d55aceb29103e3b7172831a95437a8e9114706c390a40db022a9",
+      "files.py": "30f59876ca0db060b0aff5fd260f1de5c781218de2a04384d9fab27a46aa1335",
+      "openssh_log.py": "68236985b51e2dcec09926afa043cf3a567d3c60327f490d09c402d82be8b2a4",
+      "operations.py": "01595482a251ce265dcb6089adb16bfc9703418de6dd053b98795c1d5b1ddde9",
+      "receipts.py": "b47b2e98d81dee596634c7f8028e30b5467c7d9c1fbe89fb6ff03fbe6f9ab110"
+    },
+    "independent_evaluation": false,
+    "labeled_scenarios": 15,
+    "labels_are_operator_assertions": true,
+    "metrics": {
+      "accuracy": {
+        "denominator": 15,
+        "numerator": 11,
+        "parts_per_million": 733333
+      },
+      "false_positive_rate": {
+        "denominator": 6,
+        "numerator": 2,
+        "parts_per_million": 333333
+      },
+      "precision": {
+        "denominator": 9,
+        "numerator": 7,
+        "parts_per_million": 777777
+      },
+      "recall": {
+        "denominator": 9,
+        "numerator": 7,
+        "parts_per_million": 777777
+      }
+    },
+    "origin_authenticated": false,
+    "policy": {
+      "schema": "nqc-auth-evaluation-policy-v1",
+      "threshold": 3,
+      "window_seconds": 60
+    },
+    "policy_digest": "d258ade92e32c60c1c2a702e6cf07336d1bfbba966ba6f2c79050d6092b3c18b",
+    "production_accuracy_claimed": false,
+    "reopened_without_duplicate_records": true,
+    "rule": "auth_failure_burst_v1",
+    "scenarios": [
+      {
+        "case_opened": false,
+        "cases": [],
+        "classification": "true_negative",
+        "excluded_by_kind": {},
+        "exclusion_reasons": {},
+        "format": "nqc-jsonl",
+        "id": "routine_mixed",
+        "input_digest": "c04eef2e7aa72f7c9fd7b4c63612bfd456564c89c97ce5c14377a3a83c99cd1d",
+        "label": "routine",
+        "observations": 3,
+        "records": 3,
+        "rule_evaluated_records": 3
+      },
+      {
+        "case_opened": true,
+        "cases": [
+          {
+            "trigger_conditions_verified": true,
+            "trigger_records": [
+              {
+                "end": 124,
+                "raw_sha256": "125235f3ec5b0fed9fbaf60e9198d1af735ec54e6ee1e077c8ca283a6c03d832",
+                "record_index": 0,
+                "start": 0
+              },
+              {
+                "end": 248,
+                "raw_sha256": "992527137d7c8e2a056e11702809567de4095ecc2b5d35e27471993e1ceffd58",
+                "record_index": 1,
+                "start": 124
+              },
+              {
+                "end": 372,
+                "raw_sha256": "efba176065022a3e2d55447f6e663497fd3f057eeec416d7ecc6b546176a92bc",
+                "record_index": 2,
+                "start": 248
+              }
+            ]
+          }
+        ],
+        "classification": "false_positive",
+        "excluded_by_kind": {},
+        "exclusion_reasons": {},
+        "format": "nqc-jsonl",
+        "id": "routine_three_typoes",
+        "input_digest": "b4a45355359294264669ddffdc40313d8d3294cd206a3375440496f2d5c0f578",
+        "label": "routine",
+        "observations": 3,
+        "records": 3,
+        "rule_evaluated_records": 3
+      },
+      {
+        "case_opened": true,
+        "cases": [
+          {
+            "trigger_conditions_verified": true,
+            "trigger_records": [
+              {
+                "end": 124,
+                "raw_sha256": "9e1ec66b9a2703e601d1dab9be2346b9f4c493752fd9ee66999b77443f518588",
+                "record_index": 0,
+                "start": 0
+              },
+              {
+                "end": 248,
+                "raw_sha256": "00574372c12eaccb61c05d3152384c30c2d3cf7eee9598c8b732376c7ada2afd",
+                "record_index": 1,
+                "start": 124
+              },
+              {
+                "end": 372,
+                "raw_sha256": "0dec47f0a86d9f7e1d757453fd81d531e6dc05f547f2468cb05330e22298b1c3",
+                "record_index": 2,
+                "start": 248
+              }
+            ]
+          }
+        ],
+        "classification": "true_positive",
+        "excluded_by_kind": {},
+        "exclusion_reasons": {},
+        "format": "nqc-jsonl",
+        "id": "review_compact_episode",
+        "input_digest": "111bb7adcfcb607257bda7b1a91619b77be2ae2eb3a1b880099c02f41cabd2f7",
+        "label": "review",
+        "observations": 3,
+        "records": 3,
+        "rule_evaluated_records": 3
+      },
+      {
+        "case_opened": false,
+        "cases": [],
+        "classification": "false_negative",
+        "excluded_by_kind": {},
+        "exclusion_reasons": {},
+        "format": "nqc-jsonl",
+        "id": "review_success_interruption",
+        "input_digest": "f2a754c0491c4df82b9adc28e7430f64872ff03738c24e906eaefa24ae8d160a",
+        "label": "review",
+        "observations": 4,
+        "records": 4,
+        "rule_evaluated_records": 4
+      },
+      {
+        "case_opened": false,
+        "cases": [],
+        "classification": "true_negative",
+        "excluded_by_kind": {},
+        "exclusion_reasons": {},
+        "format": "nqc-jsonl",
+        "id": "routine_separated_sessions",
+        "input_digest": "ce9cbc5559911fb78259fcd3ae498a885ad6dd58bcc159182762396d37ea9108",
+        "label": "routine",
+        "observations": 3,
+        "records": 3,
+        "rule_evaluated_records": 3
+      },
+      {
+        "case_opened": true,
+        "cases": [
+          {
+            "trigger_conditions_verified": true,
+            "trigger_records": [
+              {
+                "end": 114,
+                "raw_sha256": "41e890bf6a1cd8afc8bddcbe325d87a187554cc5392c5b0aa3f94b01583bcac7",
+                "record_index": 0,
+                "start": 0
+              },
+              {
+                "end": 238,
+                "raw_sha256": "efba176065022a3e2d55447f6e663497fd3f057eeec416d7ecc6b546176a92bc",
+                "record_index": 1,
+                "start": 114
+              },
+              {
+                "end": 362,
+                "raw_sha256": "165d478bd3891cc9c246725016028ce068db494dd9b125ff5a4acefe18c3f94c",
+                "record_index": 2,
+                "start": 238
+              }
+            ]
+          }
+        ],
+        "classification": "true_positive",
+        "excluded_by_kind": {},
+        "exclusion_reasons": {},
+        "format": "nqc-jsonl",
+        "id": "review_window_boundary",
+        "input_digest": "307b508eeb1896bca6923cae30016d4da14603ea9e967f5f0eb971b004e4821d",
+        "label": "review",
+        "observations": 3,
+        "records": 3,
+        "rule_evaluated_records": 3
+      },
+      {
+        "case_opened": false,
+        "cases": [],
+        "classification": "true_negative",
+        "excluded_by_kind": {},
+        "exclusion_reasons": {},
+        "format": "nqc-jsonl",
+        "id": "routine_outside_boundary",
+        "input_digest": "b5ddad7ae2a8384338e52ff9adb211b007dabaaca1ed010b9ffad9af9394409e",
+        "label": "routine",
+        "observations": 3,
+        "records": 3,
+        "rule_evaluated_records": 3
+      },
+      {
+        "case_opened": false,
+        "cases": [],
+        "classification": "false_negative",
+        "excluded_by_kind": {
+          "auth.observation": 2
+        },
+        "exclusion_reasons": {
+          "out_of_order": 2
+        },
+        "format": "nqc-jsonl",
+        "id": "review_out_of_order",
+        "input_digest": "acb6be03188773df45d93bc0d8ab379b323d7abb9ae7f9c719359bc2a02f10f5",
+        "label": "review",
+        "observations": 3,
+        "records": 3,
+        "rule_evaluated_records": 1
+      },
+      {
+        "case_opened": false,
+        "cases": [],
+        "classification": null,
+        "excluded_by_kind": {
+          "sensor.input_rejected": 2
+        },
+        "exclusion_reasons": {
+          "invalid_json": 1,
+          "schema_fields": 1
+        },
+        "format": "nqc-jsonl",
+        "id": "unlabeled_invalid_bytes",
+        "input_digest": "b61be193d52d62de707376a86a9e36d3baaca82a6b1559c56334c50cf406357f",
+        "label": "unlabeled",
+        "observations": 0,
+        "records": 2,
+        "rule_evaluated_records": 0
+      },
+      {
+        "case_opened": true,
+        "cases": [
+          {
+            "trigger_conditions_verified": true,
+            "trigger_records": [
+              {
+                "end": 103,
+                "raw_sha256": "c71fd3a38bfdcb74314c34a844baa186d024664a194e7c6e6d78394b6f9d531d",
+                "record_index": 0,
+                "start": 0
+              },
+              {
+                "end": 206,
+                "raw_sha256": "49948867ef8c67d0e17d9e3643c4f7764147ec898878efe4f9bb947f0e329a55",
+                "record_index": 1,
+                "start": 103
+              },
+              {
+                "end": 309,
+                "raw_sha256": "a04b241b3dbdab322ab94d1de4e0ecff809d52fd2e849cf259308a3c495dca12",
+                "record_index": 2,
+                "start": 206
+              }
+            ]
+          }
+        ],
+        "classification": "true_positive",
+        "excluded_by_kind": {},
+        "exclusion_reasons": {},
+        "format": "openssh-syslog-rfc3339",
+        "id": "native_review",
+        "input_digest": "cc26796d944ed54100fad5417fc8be71721d3b94c82d717329ebb8b456b39cb1",
+        "label": "review",
+        "observations": 3,
+        "records": 3,
+        "rule_evaluated_records": 3
+      },
+      {
+        "case_opened": true,
+        "cases": [
+          {
+            "trigger_conditions_verified": true,
+            "trigger_records": [
+              {
+                "end": 103,
+                "raw_sha256": "e14ae16b310481c144c6125f4a50bf08c2f7592c39b693d4946a3dda25e4abce",
+                "record_index": 0,
+                "start": 0
+              },
+              {
+                "end": 206,
+                "raw_sha256": "435da16284bf23e23dc2e2e0edea030832059be28a64388dd8023d6584497b9c",
+                "record_index": 1,
+                "start": 103
+              },
+              {
+                "end": 309,
+                "raw_sha256": "624f12054ac2ee5e1b6ab4b9fabe2572727b7f68546d76b4f32be00a5ccbda72",
+                "record_index": 2,
+                "start": 206
+              }
+            ]
+          }
+        ],
+        "classification": "false_positive",
+        "excluded_by_kind": {},
+        "exclusion_reasons": {},
+        "format": "openssh-syslog-rfc3339",
+        "id": "native_routine_errors",
+        "input_digest": "1bce3f74057fa6d4f9d777c88b034992dce681ac8f86fcf8975f46b4dd0c9c07",
+        "label": "routine",
+        "observations": 3,
+        "records": 3,
+        "rule_evaluated_records": 3
+      },
+      {
+        "case_opened": false,
+        "cases": [],
+        "classification": null,
+        "excluded_by_kind": {
+          "sensor.unclassified": 3
+        },
+        "exclusion_reasons": {
+          "ssh_nonfinal_authentication": 3
+        },
+        "format": "openssh-syslog-rfc3339",
+        "id": "native_nonfinal_unlabeled",
+        "input_digest": "e3118a043167001a28150802f06c5e38d5c360cb99ee52af5b8ecd1aaead47c3",
+        "label": "unlabeled",
+        "observations": 0,
+        "records": 3,
+        "rule_evaluated_records": 0
+      },
+      {
+        "case_opened": true,
+        "cases": [
+          {
+            "trigger_conditions_verified": true,
+            "trigger_records": [
+              {
+                "end": 245,
+                "raw_sha256": "8a349a23f1c5ecd9460c52ed8a2750337dca18dd993ef09bf96d24292d738f25",
+                "record_index": 0,
+                "start": 0
+              },
+              {
+                "end": 490,
+                "raw_sha256": "bb86371248030e63a9932183ab04b4124de4d9673d68debaeeb607406602d98c",
+                "record_index": 1,
+                "start": 245
+              },
+              {
+                "end": 735,
+                "raw_sha256": "2392b0a0574da802c585065eec767bc38d4fa788276f39ec4086266db51ea071",
+                "record_index": 2,
+                "start": 490
+              }
+            ]
+          }
+        ],
+        "classification": "true_positive",
+        "excluded_by_kind": {},
+        "exclusion_reasons": {},
+        "format": "openssh-journal-json",
+        "id": "journal_review",
+        "input_digest": "c6a2cd5f29f24eff5a1ad684c82736121bd55b3181c972ecf5102dde1abb633c",
+        "label": "review",
+        "observations": 3,
+        "records": 3,
+        "rule_evaluated_records": 3
+      },
+      {
+        "case_opened": false,
+        "cases": [],
+        "classification": "true_negative",
+        "excluded_by_kind": {
+          "sensor.duplicate": 3
+        },
+        "exclusion_reasons": {
+          "native_duplicate": 3
+        },
+        "format": "openssh-journal-json",
+        "id": "journal_reexport_routine",
+        "input_digest": "e653d29b3a14a95563571bee33f444da970a78be467b0f426beb8be92b60e70d",
+        "label": "routine",
+        "observations": 1,
+        "records": 4,
+        "rule_evaluated_records": 1
+      },
+      {
+        "case_opened": false,
+        "cases": [],
+        "classification": null,
+        "excluded_by_kind": {
+          "sensor.input_rejected": 3
+        },
+        "exclusion_reasons": {
+          "ssh_host_mismatch": 3
+        },
+        "format": "openssh-journal-json",
+        "id": "journal_wrong_host_unlabeled",
+        "input_digest": "c8afd325c4c855467fb8eaa0aff047496fd041a408a71b14af5398c36af5c67d",
+        "label": "unlabeled",
+        "observations": 0,
+        "records": 3,
+        "rule_evaluated_records": 0
+      },
+      {
+        "case_opened": true,
+        "cases": [
+          {
+            "trigger_conditions_verified": true,
+            "trigger_records": [
+              {
+                "end": 114,
+                "raw_sha256": "41e890bf6a1cd8afc8bddcbe325d87a187554cc5392c5b0aa3f94b01583bcac7",
+                "record_index": 0,
+                "start": 0
+              },
+              {
+                "end": 359,
+                "raw_sha256": "9ecf9804392d3e79abe34fc7f36927088b349fd8ce42f6b5352fd5c0c948f406",
+                "record_index": 2,
+                "start": 236
+              },
+              {
+                "end": 604,
+                "raw_sha256": "213b713bf5bdcde9993c348da267899ed5827ff2305e5e83fa0751b381e02fad",
+                "record_index": 4,
+                "start": 481
+              }
+            ]
+          },
+          {
+            "trigger_conditions_verified": true,
+            "trigger_records": [
+              {
+                "end": 236,
+                "raw_sha256": "0e0ee2784b5add338a70e74c218d0e9ed7210d6f913fa310db14f0e818dcef55",
+                "record_index": 1,
+                "start": 114
+              },
+              {
+                "end": 481,
+                "raw_sha256": "426c7bb42176464c22e75431675525e70f92a8534098bfa17f0e79a643beb958",
+                "record_index": 3,
+                "start": 359
+              },
+              {
+                "end": 726,
+                "raw_sha256": "3232c0ccef8de34b23a814661628fa627dcdfa6a5a7af4fef3c6cc5253954cd4",
+                "record_index": 5,
+                "start": 604
+              }
+            ]
+          }
+        ],
+        "classification": "true_positive",
+        "excluded_by_kind": {},
+        "exclusion_reasons": {},
+        "format": "nqc-jsonl",
+        "id": "review_interleaved_subjects",
+        "input_digest": "d46915e6e5e80b0d66849f5a1d6a56a4dd8427037ce888b53b915e99dc7337cc",
+        "label": "review",
+        "observations": 6,
+        "records": 6,
+        "rule_evaluated_records": 6
+      },
+      {
+        "case_opened": true,
+        "cases": [
+          {
+            "trigger_conditions_verified": true,
+            "trigger_records": [
+              {
+                "end": 105,
+                "raw_sha256": "0754e6dcbbc8a29dbfe62f9d72f8a73490a0cc88ca3e03c3012f9cde49095d7d",
+                "record_index": 0,
+                "start": 0
+              },
+              {
+                "end": 220,
+                "raw_sha256": "f9ef2301c0cde4bf9de165cfcbdfabc2c795d3b04b59dd49d06a93c520743183",
+                "record_index": 1,
+                "start": 105
+              },
+              {
+                "end": 325,
+                "raw_sha256": "29dc0453f9ffb0674ec81d262162aeff6bb105711ebf1fae8cb25898fc4acba8",
+                "record_index": 2,
+                "start": 220
+              }
+            ]
+          }
+        ],
+        "classification": "true_positive",
+        "excluded_by_kind": {},
+        "exclusion_reasons": {},
+        "format": "openssh-syslog-rfc3339",
+        "id": "native_equivalent_ipv6",
+        "input_digest": "ae5d229ef546d517098f77cd0216bd7bf02ae890d7ee799d63f4a19fdce9fb4e",
+        "label": "review",
+        "observations": 3,
+        "records": 3,
+        "rule_evaluated_records": 3
+      },
+      {
+        "case_opened": true,
+        "cases": [
+          {
+            "trigger_conditions_verified": true,
+            "trigger_records": [
+              {
+                "end": 114,
+                "raw_sha256": "41e890bf6a1cd8afc8bddcbe325d87a187554cc5392c5b0aa3f94b01583bcac7",
+                "record_index": 0,
+                "start": 0
+              },
+              {
+                "end": 237,
+                "raw_sha256": "a7fe2ed4bd99660faf8e6f3bbaffb3c9c61cb75f66463747788be521b5379dac",
+                "record_index": 1,
+                "start": 114
+              },
+              {
+                "end": 360,
+                "raw_sha256": "9ecf9804392d3e79abe34fc7f36927088b349fd8ce42f6b5352fd5c0c948f406",
+                "record_index": 2,
+                "start": 237
+              }
+            ]
+          },
+          {
+            "trigger_conditions_verified": true,
+            "trigger_records": [
+              {
+                "end": 606,
+                "raw_sha256": "213b713bf5bdcde9993c348da267899ed5827ff2305e5e83fa0751b381e02fad",
+                "record_index": 4,
+                "start": 483
+              },
+              {
+                "end": 729,
+                "raw_sha256": "2c2b6faf0108f18a625abfc37785133da90b89bd4bbe2e06ddbc1b84fc22fb5a",
+                "record_index": 5,
+                "start": 606
+              },
+              {
+                "end": 852,
+                "raw_sha256": "d76b34139d4a11c3f8497b95fa1163d3642a1fa0bad1924dee0a04a60fcc7a28",
+                "record_index": 6,
+                "start": 729
+              }
+            ]
+          }
+        ],
+        "classification": "true_positive",
+        "excluded_by_kind": {},
+        "exclusion_reasons": {},
+        "format": "nqc-jsonl",
+        "id": "review_two_episodes",
+        "input_digest": "12932da3c92ec8e62eaf0a54e79a518aa46b545c2d044205b70b704a3621b89e",
+        "label": "review",
+        "observations": 7,
+        "records": 7,
+        "rule_evaluated_records": 7
+      }
+    ],
+    "schema": "nqc-auth-evaluation-report-v1",
+    "unlabeled_scenarios": 3
+  },
+  "report_digest": "d9221537b1160cad728db86038284f117794a2de3ae3d5a7be9ab1301e372249",
+  "verified": true
+}

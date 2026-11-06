@@ -68,7 +68,7 @@ Primer circuito implementado: C014 → C032 → C041 → C052 → C064 → C067,
 | C037 · Detector de cambios masivos de archivos | Eventos de archivos propios → Alertas de actividad destructiva probable | Eventos de sistema y correlación | C011, C014, C021 | Distinguir una tarea de respaldo autorizada de cambios inesperados | Pendiente |
 | C038 · Detector de cambios de arranque y servicios | Configuración y eventos de sistema → Cambios persistentes fuera de línea base | Reglas sobre estado autorizado | C004, C011, C012, C021 | Una instalación aprobada no se clasifica como incidente | Pendiente |
 | C039 · Detector de consumo fuera de presupuesto | Métricas de CPU, memoria y colas → Desviaciones y acciones propuestas | OpenTelemetry y límites explícitos | C002, C026, C029 | Distinguir saturación operativa de evidencia de intrusión | Pendiente |
-| C040 · Calibrador de alertas y confianza | Resultados etiquetados y detecciones → Umbrales con errores medidos | Estadística reproducible | C031, C032, C033, C034, C035, C036, C037, C038, C039 | Reportar precisión y omisiones por escenario y versión | Parcial: Evaluación en nueve escenarios sintéticos con errores explícitos; sin calibración productiva |
+| C040 · Calibrador de alertas y confianza | Resultados etiquetados y detecciones → Umbrales con errores medidos | Estadística reproducible | C031, C032, C033, C034, C035, C036, C037, C038, C039 | Reportar precisión y omisiones por escenario y versión | Parcial: Evaluación por corpus/política fijados, matriz con exclusiones y evidencia por caso reverificada offline; sin etiquetas independientes ni calibración productiva |
 
 ## Incidentes y forense
 

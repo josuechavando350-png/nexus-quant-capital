@@ -1,7 +1,6 @@
 {
   "other_runs_in_progress": [
-    "0.19 signer registry 6320 seconds",
-    "0.22 bounded receiver 1200 seconds"
+    "0.19 signer registry 6320 seconds"
   ],
   "reports": [
     {
@@ -14,6 +13,18 @@
       "sha256": "c474a5999fb075b77ccea925139c2f5cba9c69bd9c81ba042edda56eee53598c",
       "tested_runtime_commit": "ad94c2bb4ba903e76cb69f7e07f407df0ce6dc37",
       "tested_runtime_version": "0.20.0",
+      "verified": true
+    },
+    {
+      "path": "docs/REGISTRY_MIRROR_BOUNDED_ENDURANCE.json",
+      "sha256": "9c530b49898fe01f645217ad7026dde8211abc26ce910668f8c10b6bfb90cb1d",
+      "tested_runtime_commit": "12e6e15e409570de531c641f8be67e61b7a21984",
+      "tested_runtime_version": "0.22.0",
+      "requested_seconds": 1200,
+      "completed_seconds": 1200.0005951429994,
+      "all_reported_runtime_sources_match_commit": true,
+      "harness_preserved_in_commit": "12e6e15e409570de531c641f8be67e61b7a21984",
+      "harness_sha256": "856f7f17372873069c1a8ec0601722a3502464f821bf21d061730832a9d29564",
       "verified": true
     }
   ],
