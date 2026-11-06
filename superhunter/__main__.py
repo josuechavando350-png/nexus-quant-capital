@@ -14,9 +14,6 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
-    if argv and argv[0] in ("audit-evidence-cuts", "verify-evidence-cuts"):
-        from .evidence_cut_sets import main as cut_main
-        return cut_main(argv)
     if argv and argv[0] in ("audit-joint-evidence", "verify-joint-evidence"):
         from .evidence_joint_failure import main as joint_main
         return joint_main(argv)
