@@ -995,3 +995,35 @@ REQUIRED_TESTS += (
     'test_evidence_common_mode.CommonEvidenceTests.test_resealed_false_diversity_rejected',
     'test_evidence_common_mode.CommonEvidenceTests.test_upstream_original_change_rejected',
 )
+
+
+# Exact minimal offline loss sets of already-verified evidence bundles.
+COMPONENTS['evidence_cut_sets'] = {
+    'files': ['evidence_cut_sets.py'], 'tests': ['test_evidence_cut_sets.'],
+    'depends': ['evidence_common_mode', 'evidence_ablation', 'chain_path_audit',
+                'critical_chain', 'forensic_timeline', 'journal_correlation',
+                'evm_bounded_replay', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('evidence_cut_sets')
+REQUIRED_TESTS += (
+    'test_evidence_cut_sets.EvidenceCutSetTests.test_real_verified_bundle_replay',
+    'test_evidence_cut_sets.EvidenceCutSetTests.test_exact_cut_oracle_600',
+    'test_evidence_cut_sets.EvidenceCutSetTests.test_cli_processes_and_privacy',
+    'test_evidence_cut_sets.EvidenceCutSetTests.test_resealed_false_cut_rejected',
+    'test_evidence_cut_sets.EvidenceCutSetTests.test_changed_original_invalidates_review',
+)
+
+
+# Bounded higher-order common-bundle source-failure research, offline only.
+COMPONENTS['evidence_joint_failure'] = {
+    'files': ['evidence_joint_failure.py'], 'tests': ['test_evidence_joint_failure.'],
+    'depends': ['evidence_common_mode', 'evidence_ablation',
+                'chain_path_audit', 'critical_chain', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('evidence_joint_failure')
+REQUIRED_TESTS += (
+    'test_evidence_joint_failure.JointEvidenceTests.test_alias_group_is_one_failure_unit',
+    'test_evidence_joint_failure.JointEvidenceTests.test_joint_minimal_cut_requires_two_distinct_bundle_hashes',
+    'test_evidence_joint_failure.JointEvidenceTests.test_order_one_explicitly_not_exhaustive',
+    'test_evidence_joint_failure.JointEvidenceTests.test_cli_review_and_verify_in_separate_processes',
+    'test_evidence_joint_failure.JointEvidenceTests.test_forged_critical_impact_rejected_even_when_resealed',
+    'test_evidence_joint_failure.JointEvidenceTests.test_edited_original_source_rejected',
+)
