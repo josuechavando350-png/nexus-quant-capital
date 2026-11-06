@@ -1,0 +1,413 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "filename": "SUPERHUNTER_01_Investigacion.pdf",
+      "sha256": "779aded689712abdb7c6fe35b472ab8ae0be8171fdf12cc2c5d9365163f3170b",
+      "pages": 3
+    },
+    {
+      "filename": "SUPERHUNTER_02_Verificacion.pdf",
+      "sha256": "9faa2ca861e839e83504a425122cf5f5e8978c1ea4f3f9bc7d99253255c22d50",
+      "pages": 3
+    }
+  ],
+  "decision": "LOCAL_MODULAR_DEVELOPMENT_ONLY",
+  "items": [
+    {
+      "id": "OCTANE.R1",
+      "reference": "OCTANE",
+      "code": "R1",
+      "title": "Análisis continuo de repositorios",
+      "source_page": 1,
+      "status": "PLANNED",
+      "scope": "Pendiente: la arquitectura propuesta no acredita una implementación de esta iniciativa.",
+      "related_capabilities": [
+        33,
+        48
+      ],
+      "components": [],
+      "required_tests": []
+    },
+    {
+      "id": "OCTANE.R2",
+      "reference": "OCTANE",
+      "code": "R2",
+      "title": "Correcciones asistidas con revisión",
+      "source_page": 1,
+      "status": "PARTIAL",
+      "scope": "Comparación local de regresiones y revisión humana; sin generación de parches ni fusión automática.",
+      "related_capabilities": [
+        48
+      ],
+      "components": [
+        "regression"
+      ],
+      "required_tests": [
+        "test_regression.RegressionTests.test_removed_test_never_counts_as_fix"
+      ]
+    },
+    {
+      "id": "OCTANE.R3",
+      "reference": "OCTANE",
+      "code": "R3",
+      "title": "Análisis integrado de superficies",
+      "source_page": 1,
+      "status": "PLANNED",
+      "scope": "Pendiente: la arquitectura propuesta no acredita una implementación de esta iniciativa.",
+      "related_capabilities": [
+        36
+      ],
+      "components": [],
+      "required_tests": []
+    },
+    {
+      "id": "OCTANE.D1",
+      "reference": "OCTANE",
+      "code": "D1",
+      "title": "Reproducción económica verificable",
+      "source_page": 1,
+      "status": "PLANNED",
+      "scope": "Pendiente: la arquitectura propuesta no acredita una implementación de esta iniciativa.",
+      "related_capabilities": [
+        37
+      ],
+      "components": [],
+      "required_tests": []
+    },
+    {
+      "id": "OCTANE.D2",
+      "reference": "OCTANE",
+      "code": "D2",
+      "title": "Grafo de dependencias entre protocolos",
+      "source_page": 1,
+      "status": "PLANNED",
+      "scope": "Pendiente: la arquitectura propuesta no acredita una implementación de esta iniciativa.",
+      "related_capabilities": [
+        1,
+        14,
+        36
+      ],
+      "components": [],
+      "required_tests": []
+    },
+    {
+      "id": "OLYMPIX.R1",
+      "reference": "OLYMPIX",
+      "code": "R1",
+      "title": "Detectores especializados de Solidity",
+      "source_page": 1,
+      "status": "PLANNED",
+      "scope": "Pendiente: la arquitectura propuesta no acredita una implementación de esta iniciativa.",
+      "related_capabilities": [
+        1,
+        2,
+        6
+      ],
+      "components": [],
+      "required_tests": []
+    },
+    {
+      "id": "OLYMPIX.R2",
+      "reference": "OLYMPIX",
+      "code": "R2",
+      "title": "Generación automática de pruebas",
+      "source_page": 1,
+      "status": "PLANNED",
+      "scope": "Pendiente: la arquitectura propuesta no acredita una implementación de esta iniciativa.",
+      "related_capabilities": [
+        3
+      ],
+      "components": [],
+      "required_tests": []
+    },
+    {
+      "id": "OLYMPIX.R3",
+      "reference": "OLYMPIX",
+      "code": "R3",
+      "title": "PoC reproducible con fuzzing y análisis simbólico",
+      "source_page": 1,
+      "status": "PLANNED",
+      "scope": "Pendiente: la arquitectura propuesta no acredita una implementación de esta iniciativa.",
+      "related_capabilities": [
+        3,
+        15,
+        34
+      ],
+      "components": [],
+      "required_tests": []
+    },
+    {
+      "id": "OLYMPIX.D1",
+      "reference": "OLYMPIX",
+      "code": "D1",
+      "title": "Fuzzing guiado por estados económicos",
+      "source_page": 1,
+      "status": "PLANNED",
+      "scope": "Pendiente: la arquitectura propuesta no acredita una implementación de esta iniciativa.",
+      "related_capabilities": [
+        3,
+        4
+      ],
+      "components": [],
+      "required_tests": []
+    },
+    {
+      "id": "OLYMPIX.D2",
+      "reference": "OLYMPIX",
+      "code": "D2",
+      "title": "Triangulación de impacto económico",
+      "source_page": 1,
+      "status": "PLANNED",
+      "scope": "Pendiente: la arquitectura propuesta no acredita una implementación de esta iniciativa.",
+      "related_capabilities": [
+        37
+      ],
+      "components": [],
+      "required_tests": []
+    },
+    {
+      "id": "CERTORA.R1",
+      "reference": "CERTORA",
+      "code": "R1",
+      "title": "Verificador de invariantes",
+      "source_page": 2,
+      "status": "PARTIAL",
+      "scope": "Verificación de propiedades de políticas RBAC declaradas mediante Z3 nativo, testigos comprobados y enumeración independiente. No Certora Prover, traducción de contratos ni invariantes DeFi.",
+      "related_capabilities": [
+        3,
+        34
+      ],
+      "components": [
+        "permissions",
+        "permission_domain",
+        "permission_smt"
+      ],
+      "required_tests": [
+        "test_permission_domain.DomainTests.test_enumerates_entire_four_configuration_domain",
+        "test_permission_domain.DomainTests.test_corrected_policy_verified_only_in_declared_domain",
+        "test_permission_domain.DomainTests.test_budget_never_counts_as_verified",
+        "test_permission_smt.PermissionSMTTests.test_corrected_model_proved_with_full_enumeration"
+      ]
+    },
+    {
+      "id": "CERTORA.R2",
+      "reference": "CERTORA",
+      "code": "R2",
+      "title": "Asistencia IA para especificaciones",
+      "source_page": 2,
+      "status": "PLANNED",
+      "scope": "Pendiente: la arquitectura propuesta no acredita una implementación de esta iniciativa.",
+      "related_capabilities": [
+        10,
+        33
+      ],
+      "components": [],
+      "required_tests": []
+    },
+    {
+      "id": "CERTORA.R3",
+      "reference": "CERTORA",
+      "code": "R3",
+      "title": "Validación formal en CI/CD",
+      "source_page": 2,
+      "status": "PLANNED",
+      "scope": "Pendiente: la arquitectura propuesta no acredita una implementación de esta iniciativa.",
+      "related_capabilities": [
+        34,
+        48
+      ],
+      "components": [],
+      "required_tests": []
+    },
+    {
+      "id": "CERTORA.D1",
+      "reference": "CERTORA",
+      "code": "D1",
+      "title": "Especificaciones sensibles a régimen económico",
+      "source_page": 2,
+      "status": "PLANNED",
+      "scope": "Pendiente: la arquitectura propuesta no acredita una implementación de esta iniciativa.",
+      "related_capabilities": [
+        12,
+        34
+      ],
+      "components": [],
+      "required_tests": []
+    },
+    {
+      "id": "CERTORA.D2",
+      "reference": "CERTORA",
+      "code": "D2",
+      "title": "Prueba formal + replay diferencial",
+      "source_page": 2,
+      "status": "PLANNED",
+      "scope": "Pendiente: la arquitectura propuesta no acredita una implementación de esta iniciativa.",
+      "related_capabilities": [
+        34,
+        48
+      ],
+      "components": [],
+      "required_tests": []
+    },
+    {
+      "id": "IMMUNEFI.R1",
+      "reference": "IMMUNEFI",
+      "code": "R1",
+      "title": "Gestión del ciclo de hallazgos",
+      "source_page": 2,
+      "status": "PLANNED",
+      "scope": "Pendiente: la arquitectura propuesta no acredita una implementación de esta iniciativa.",
+      "related_capabilities": [
+        37,
+        47
+      ],
+      "components": [],
+      "required_tests": []
+    },
+    {
+      "id": "IMMUNEFI.R2",
+      "reference": "IMMUNEFI",
+      "code": "R2",
+      "title": "Panel de herramientas y evidencia",
+      "source_page": 2,
+      "status": "PARTIAL",
+      "scope": "Reportes de evidencia local y normalización de alertas importadas; no detección autónoma ni panel de protocolos activos.",
+      "related_capabilities": [
+        47
+      ],
+      "components": [
+        "review",
+        "static_review"
+      ],
+      "required_tests": [
+        "test_static_review.StaticReviewTests.test_bundle_roundtrip"
+      ]
+    },
+    {
+      "id": "IMMUNEFI.R3",
+      "reference": "IMMUNEFI",
+      "code": "R3",
+      "title": "Monitoreo y correlación de alertas",
+      "source_page": 2,
+      "status": "PLANNED",
+      "scope": "Pendiente: la arquitectura propuesta no acredita una implementación de esta iniciativa.",
+      "related_capabilities": [
+        49
+      ],
+      "components": [],
+      "required_tests": []
+    },
+    {
+      "id": "IMMUNEFI.D1",
+      "reference": "IMMUNEFI",
+      "code": "D1",
+      "title": "Cadena de custodia técnica",
+      "source_page": 2,
+      "status": "PARTIAL",
+      "scope": "Firmas Ed25519 de custodia de paquetes locales, claves de confianza externas por expediente/productor y controles de revocación/caducidad. No atestación de ejecución, autorización, verdad de datos ni tiempo confiable.",
+      "related_capabilities": [
+        47
+      ],
+      "components": [
+        "custody"
+      ],
+      "required_tests": [
+        "test_custody.CustodyTests.test_untrusted_valid_signer_rejected",
+        "test_custody.CustodyTests.test_rehashed_modified_evidence_still_fails_signature_binding"
+      ]
+    },
+    {
+      "id": "IMMUNEFI.D2",
+      "reference": "IMMUNEFI",
+      "code": "D2",
+      "title": "Priorización por exposición demostrada",
+      "source_page": 2,
+      "status": "PLANNED",
+      "scope": "Pendiente: la arquitectura propuesta no acredita una implementación de esta iniciativa.",
+      "related_capabilities": [
+        37
+      ],
+      "components": [],
+      "required_tests": []
+    },
+    {
+      "id": "TRAIL_OF_BITS.R1",
+      "reference": "TRAIL_OF_BITS",
+      "code": "R1",
+      "title": "Slither como capa de análisis estático",
+      "source_page": 2,
+      "status": "PARTIAL",
+      "scope": "Importación offline de JSON de detectores con fuentes, localizaciones y deduplicación; Slither/solc no ejecutados ni reglas nuevas.",
+      "related_capabilities": [
+        1,
+        2
+      ],
+      "components": [
+        "static_review"
+      ],
+      "required_tests": [
+        "test_static_review.StaticReviewTests.test_byte_range_mismatch_rejected"
+      ]
+    },
+    {
+      "id": "TRAIL_OF_BITS.R2",
+      "reference": "TRAIL_OF_BITS",
+      "code": "R2",
+      "title": "Echidna y Medusa como fuzzers",
+      "source_page": 2,
+      "status": "PLANNED",
+      "scope": "Pendiente: la arquitectura propuesta no acredita una implementación de esta iniciativa.",
+      "related_capabilities": [
+        3
+      ],
+      "components": [],
+      "required_tests": []
+    },
+    {
+      "id": "TRAIL_OF_BITS.R3",
+      "reference": "TRAIL_OF_BITS",
+      "code": "R3",
+      "title": "Pruebas de propiedades e invariantes",
+      "source_page": 2,
+      "status": "PLANNED",
+      "scope": "Pendiente: la arquitectura propuesta no acredita una implementación de esta iniciativa.",
+      "related_capabilities": [
+        3,
+        48
+      ],
+      "components": [],
+      "required_tests": []
+    },
+    {
+      "id": "TRAIL_OF_BITS.D1",
+      "reference": "TRAIL_OF_BITS",
+      "code": "D1",
+      "title": "Corpus distribuido orientado a economía",
+      "source_page": 2,
+      "status": "PLANNED",
+      "scope": "Pendiente: la arquitectura propuesta no acredita una implementación de esta iniciativa.",
+      "related_capabilities": [
+        3,
+        4
+      ],
+      "components": [],
+      "required_tests": []
+    },
+    {
+      "id": "TRAIL_OF_BITS.D2",
+      "reference": "TRAIL_OF_BITS",
+      "code": "D2",
+      "title": "Verificación diferencial entre motores",
+      "source_page": 2,
+      "status": "PLANNED",
+      "scope": "Pendiente: la arquitectura propuesta no acredita una implementación de esta iniciativa.",
+      "related_capabilities": [
+        34,
+        48
+      ],
+      "components": [],
+      "required_tests": []
+    }
+  ]
+}

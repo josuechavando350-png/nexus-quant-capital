@@ -1,0 +1,868 @@
+"""Executable QA gate for this package, not an autonomous security scanner.
+
+Runs only the repository's own unit/regression suites through a fixed worker.
+Module mappings are declared architecture, NOT inferred call graphs or coverage.
+Receipts establish local consistency, not remote producer authentication.
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
+
+from .safe_io import canonical, read_artifact, strict_json, write_new_bundle
+from .privacy import PrivateArgumentParser
+
+ROOT = Path(__file__).resolve().parent
+COMPONENTS = {'accounting': {'files': ['balance_reconciliation.py'],
+                'tests': ['test_balance_reconciliation.'],
+                'depends': ['native', 'io', 'privacy']},
+ 'io': {'files': ['safe_io.py'], 'tests': ['test_integration.'], 'depends': []},
+ 'privacy': {'files': ['privacy.py', 'privacy_cli.py'], 'tests': ['test_privacy.'], 'depends': ['io']},
+ 'transport': {'files': ['bridge.py', 'integration.py'],
+               'tests': ['test_bridge.', 'test_integration.'],
+               'depends': ['io', 'privacy']},
+ 'native': {'files': ['native_runtime.py',
+                      'native_sources/diablo/models.py',
+                      'native_sources/diablo/audit.py',
+                      'native_sources/diablo/scope.py', 'native_sources/diablo/ratelimit.py',
+                      'native_sources/nqc/capacity.py'],
+            'tests': ['test_local_lab.'],
+            'depends': ['io']},
+ 'audit': {'files': ['audit_links.py', 'proof_graph.py'],
+           'tests': ['test_audit_links.', 'test_proof_graph.'],
+           'depends': ['io']},
+ 'lab': {'files': ['local_lab.py', 'lab_worker.py', 'lab_cli.py'],
+         'tests': ['test_local_lab.', 'test_audit_links.'],
+         'depends': ['native', 'audit', 'privacy']},
+ 'fuzz': {'files': ['fuzz_lab.py', 'fuzz_worker.py', 'fuzz_cli.py'],
+          'tests': ['test_fuzz_lab.', 'test_fuzz_evidence.'],
+          'depends': ['native', 'lab', 'audit', 'privacy']},
+ 'quality': {'files': ['quality.py', 'quality_worker.py'],
+             'tests': ['test_quality.'],
+             'depends': ['transport',
+                         'lab',
+                         'fuzz',
+                         'privacy',
+                         'permissions',
+                         'static_review',
+                         'research',
+                         'permission_domain',
+                         'accounting',
+                         'source_graph',
+                         'permission_smt']},
+ 'regression': {'files': ['regression.py'], 'tests': ['test_regression.'], 'depends': ['quality', 'privacy']},
+ 'context': {'files': ['project_context.py'], 'tests': ['test_reconciliation.'], 'depends': ['io']},
+ 'review': {'files': ['review.py'],
+            'tests': ['test_review.'],
+            'depends': ['quality', 'lab', 'fuzz', 'privacy', 'context']},
+ 'platform': {'files': ['platform.py'],
+              'tests': ['test_platform.'],
+              'depends': ['quality',
+                          'lab',
+                          'fuzz',
+                          'privacy',
+                          'review',
+                          'regression',
+                          'context',
+                          'accounting',
+                          'source_graph']},
+ 'sharing': {'files': ['sharing.py'], 'tests': ['test_sharing.'], 'depends': ['review', 'privacy']},
+ 'permission_domain': {'files': ['permission_domain.py'],
+                       'tests': ['test_permission_domain.'],
+                       'depends': ['permissions', 'native', 'io', 'privacy']},
+ 'permissions': {'files': ['permissions.py'],
+                 'tests': ['test_permissions.'],
+                 'depends': ['io', 'privacy', 'native']},
+ 'static_review': {'files': ['static_review.py'],
+                   'tests': ['test_static_review.'],
+                   'depends': ['io', 'privacy', 'native']},
+ 'research': {'files': ['research_plan.py'], 'tests': ['test_research_plan.'], 'depends': ['io']},
+ 'entrypoints': {'files': ['__init__.py', '__main__.py'],
+                 'tests': ['test_integration.', 'test_local_lab.', 'test_fuzz_lab.'],
+                 'depends': ['transport',
+                             'lab',
+                             'fuzz',
+                             'quality',
+                             'privacy',
+                             'regression',
+                             'review',
+                             'platform',
+                             'sharing',
+                             'permissions',
+                             'static_review',
+                             'research',
+                             'permission_domain',
+                             'accounting',
+                             'source_graph',
+                             'permission_smt']},
+ 'source_graph': {'files': ['source_graph.py'], 'tests': ['test_source_graph.'], 'depends': ['io']},
+ 'permission_smt': {'files': ['permission_smt.py', 'smt_backend.py'],
+                    'tests': ['test_permission_smt.', 'test_smt_backend.'],
+                    'depends': ['permission_domain', 'permissions', 'native', 'io', 'privacy']}}
+COMPONENTS['programs'] = {'files': ['program_registry.py'], 'tests': ['test_program_registry.'],
+                          'depends': ['io', 'native', 'source_graph', 'transport']}
+COMPONENTS['quality']['depends'].append('programs')
+COMPONENTS['entrypoints']['depends'].append('programs')
+COMPONENTS['rate_control'] = {'files': ['rate_control.py'], 'tests': ['test_rate_control.'],
+                              'depends': ['native']}
+COMPONENTS['lab']['depends'].append('rate_control')
+COMPONENTS['native']['tests'].append('test_rate_control.')
+
+REQUIRED_TESTS = ('test_bridge.BridgeTests.test_forge_wrong_target',
+ 'test_bridge.BridgeTests.test_nqc_unbound_economics',
+ 'test_integration.IntegrationTests.test_native_roundtrip_always_requires_review',
+ 'test_integration.IntegrationTests.test_cli_export_then_import',
+ 'test_integration.IntegrationTests.test_symlink_leaf_rejected',
+ 'test_local_lab.LocalLabTests.test_real_nqc_and_diablo_functions_are_called',
+ 'test_local_lab.LocalLabTests.test_cli_complete_run_and_verification',
+ 'test_audit_links.AuditLinkTests.test_input_hash_substitution_rejected_even_after_rehash',
+ 'test_proof_graph.CausalGraphTests.test_stored_bundle_receipt_catches_graph_reseal',
+ 'test_quality.QualityTests.test_skip_never_counts_as_pass',
+ 'test_quality.QualityTests.test_source_change_blocks_success',
+ 'test_fuzz_lab.FuzzLabTests.test_differential_64_cases',
+ 'test_fuzz_lab.FuzzLabTests.test_resealed_scope_decision_mismatch',
+ 'test_fuzz_lab.FuzzLabTests.test_cli_runs_bounded_fuzz_and_reverification',
+ 'test_fuzz_evidence.FuzzEvidenceTests.test_contradictory_completion_rejected_after_rehash',
+ 'test_fuzz_evidence.FuzzEvidenceTests.test_counts_require_integers',
+ 'test_privacy.PrivacyTests.test_cli_error_does_not_echo_unknown_fields',
+ 'test_privacy.PrivacyTests.test_cli_review_redacts_notes_without_changing_evidence',
+ 'test_privacy.PrivacyTests.test_fuzz_invalid_seed_is_not_echoed',
+ 'test_regression.RegressionTests.test_removed_test_never_counts_as_fix',
+ 'test_regression.RegressionTests.test_resealed_comparison_must_recompute',
+ 'test_review.ReviewTests.test_resealed_report_cannot_claim_production',
+ 'test_review.ReviewTests.test_missing_milestone_test_blocks_review',
+ 'test_platform.PlatformTests.test_all_original_ids_retained',
+ 'test_platform.PlatformTests.test_resealed_complete_claim_rejected',
+ 'test_platform.PlatformTests.test_input_change_after_review_rejected',
+ 'test_reconciliation.ReconciliationTests.test_checklists_share_status_and_evidence',
+ 'test_reconciliation.ReconciliationTests.test_public_diagnostics_hide_arguments',
+ 'test_sharing.SharingTests.test_private_artifacts_never_exported',
+ 'test_permissions.PermissionTests.test_known_bad_policy_fails',
+ 'test_permissions.PermissionTests.test_reference_disagreement_blocks_result',
+ 'test_static_review.StaticReviewTests.test_bundle_roundtrip',
+ 'test_static_review.StaticReviewTests.test_byte_range_mismatch_rejected',
+ 'test_research_plan.ResearchPlanTests.test_all_25_preserved',
+ 'test_permission_domain.DomainTests.test_budget_never_counts_as_verified',
+ 'test_permission_domain.DomainTests.test_enumerates_entire_four_configuration_domain',
+ 'test_permission_domain.DomainTests.test_resealed_false_approval_rejected',
+ 'test_balance_reconciliation.AccountingTests.test_one_atomic_unit_is_not_rounded_away',
+ 'test_balance_reconciliation.AccountingTests.test_incomplete_even_when_all_residuals_zero',
+ 'test_balance_reconciliation.AccountingTests.test_disagreement_blocks_evidence',
+ 'test_source_graph.SourceGraphTests.test_removed_module_detected',
+ 'test_source_graph.SourceGraphTests.test_no_analyzed_code_is_executed',
+ 'test_source_graph.SourceGraphTests.test_resealed_runtime_claim_rejected',
+ 'test_permission_smt.PermissionSMTTests.test_corrected_model_proved_with_full_enumeration',
+ 'test_permission_smt.PermissionSMTTests.test_real_resource_exhaustion_never_proves',
+ 'test_permission_smt.PermissionSMTTests.test_resealed_false_approval_rejected',
+ 'test_smt_backend.NativeSMTTests.test_native_sat_unsat_and_model')
+REQUIRED_TESTS += (
+    'test_program_registry.ProgramRegistryTests.test_twenty_programs_eight_platforms_without_cross_authorization',
+    'test_program_registry.ProgramRegistryTests.test_changed_rules_invalidate_previous_approval',
+    'test_program_registry.ProgramRegistryTests.test_verifier_rechecks_expiry_at_current_time',
+    'test_program_registry.ProgramRegistryTests.test_candidate_adapter_checks_repo_and_all_contracts',
+)
+COMPONENTS['custody'] = {'files': ['custody.py'], 'tests': ['test_custody.'],
+                         'depends': ['io', 'native', 'privacy']}
+COMPONENTS['quality']['depends'].append('custody')
+COMPONENTS['entrypoints']['depends'].append('custody')
+REQUIRED_TESTS += (
+    'test_custody.CustodyTests.test_rfc8032_known_vector_matches_real_crypto',
+    'test_custody.CustodyTests.test_untrusted_valid_signer_rejected',
+    'test_custody.CustodyTests.test_rehashed_modified_evidence_still_fails_signature_binding',
+    'test_custody.CustodyTests.test_real_native_lab_bundle_can_be_sealed',
+)
+COMPONENTS['benchmark'] = {'files': ['benchmark.py', 'benchmark_controls.py'], 'tests': ['test_benchmark.'],
+                           'depends': ['io', 'native', 'privacy', 'permissions']}
+COMPONENTS['quality']['depends'].append('benchmark')
+COMPONENTS['platform']['depends'].append('benchmark')
+COMPONENTS['entrypoints']['depends'].append('benchmark')
+REQUIRED_TESTS += (
+    'test_benchmark.BenchmarkTests.test_missing_result_never_improves_recall',
+    'test_benchmark.BenchmarkTests.test_abstention_remains_in_operational_recall',
+    'test_benchmark.BenchmarkTests.test_resealed_metrics_rejected',
+)
+REQUIRED_TESTS += (
+    'test_rate_control.RateControlTests.test_native_factory_resolves_original_dependency',
+    'test_rate_control.RateControlTests.test_invalid_tokens_cannot_increase_available_credit',
+    'test_rate_control.RateControlTests.test_solver_not_called_when_gate_defers',
+)
+COMPONENTS['case_review'] = {'files': ['case_review.py'], 'tests': ['test_case_review.'],
+                            'depends': ['transport', 'programs', 'static_review', 'accounting', 'custody', 'privacy']}
+COMPONENTS['quality']['depends'].append('case_review')
+COMPONENTS['entrypoints']['depends'].append('case_review')
+REQUIRED_TESTS += (
+    'test_case_review.CaseReviewTests.test_individually_valid_foreign_static_commit_cannot_join',
+    'test_case_review.CaseReviewTests.test_missing_contract_from_request_set_rejected',
+    'test_case_review.CaseReviewTests.test_expired_scope_does_not_survive_bundle_verification',
+    'test_case_review.CaseReviewTests.test_cli_two_real_processes',
+)
+
+COMPONENTS['ledger_sequence'] = {'files': ['ledger_sequence.py'], 'tests': ['test_ledger_sequence.'],
+                                  'depends': ['accounting', 'native', 'io', 'privacy']}
+for _component in ('quality', 'platform', 'entrypoints'):
+    COMPONENTS[_component]['depends'].append('ledger_sequence')
+REQUIRED_TESTS += (
+    'test_ledger_sequence.LedgerSequenceTests.test_equal_totals_do_not_prove_possible_prefix',
+    'test_ledger_sequence.LedgerSequenceTests.test_budget_does_not_certify_unseen_suffix',
+    'test_ledger_sequence.LedgerSequenceTests.test_resealed_result_cannot_claim_success',
+)
+COMPONENTS['case_review']['tests'].append('test_ordered_case.')
+COMPONENTS['case_review']['depends'].append('ledger_sequence')
+REQUIRED_TESTS += (
+    'test_ordered_case.OrderedCaseTests.test_equal_totals_wrong_order_blocks_v2_not_v1',
+    'test_ordered_case.OrderedCaseTests.test_all_four_verifiers_really_called',
+    'test_ordered_case.OrderedCaseTests.test_external_context_prevents_profile_downgrade',
+    'test_ordered_case.OrderedCaseTests.test_foreign_valid_ledger_is_rejected',
+)
+COMPONENTS['storage_layout'] = {'files': ['storage_layout.py'], 'tests': ['test_storage_layout.'],
+                                 'depends': ['native', 'io', 'privacy']}
+COMPONENTS['quality']['depends'].append('storage_layout')
+COMPONENTS['entrypoints']['depends'].append('storage_layout')
+REQUIRED_TESTS += (
+    'test_storage_layout.StorageLayoutTests.test_reordered_variables_not_hidden_by_same_total_size',
+    'test_storage_layout.StorageLayoutTests.test_gap_consumption_not_automatically_approved',
+    'test_storage_layout.StorageLayoutTests.test_resealed_approval_cannot_replace_result',
+    'test_storage_layout.StorageLayoutTests.test_cli_roundtrip_separate_processes',
+)
+
+COMPONENTS['compiler_layout'] = {'files': ['compiler_layout.py', 'source_types.py'], 'tests': ['test_compiler_layout.', 'test_source_types.'],
+                                    'depends': ['storage_layout', 'native', 'io', 'privacy']}
+COMPONENTS['quality']['depends'].append('compiler_layout')
+COMPONENTS['entrypoints']['depends'].append('compiler_layout')
+REQUIRED_TESTS += (
+    'test_compiler_layout.CompilerLayoutTests.test_actual_layout_analyzer_is_called',
+    'test_compiler_layout.CompilerLayoutTests.test_omitted_state_variable_rejected',
+    'test_compiler_layout.CompilerLayoutTests.test_error_json_cannot_be_used_as_success',
+    'test_compiler_layout.CompilerLayoutTests.test_foreign_row_contract_rejected_even_if_wrapper_matches',
+    'test_compiler_layout.CompilerLayoutTests.test_cli_create_verify_in_separate_processes',
+    'test_source_types.TypedBindingTests.test_v1_missing_type_check_reproduced_and_v2_rejects',
+    'test_source_types.TypedBindingTests.test_partial_type_span_cannot_hide_real_width',
+    'test_source_types.TypedBindingTests.test_unsupported_shape_cannot_be_marked_preserved',
+    'test_source_types.TypedBindingTests.test_external_reference_prevents_profile_downgrade',
+)
+
+COMPONENTS['solidity_stateful'] = {'files': ['solidity_stateful.py'],
+    'tests': ['test_solidity_stateful.'], 'depends': ['native_compile', 'permission_smt', 'native', 'io', 'privacy']}
+COMPONENTS['quality']['depends'].append('solidity_stateful')
+COMPONENTS['entrypoints']['depends'].append('solidity_stateful')
+REQUIRED_TESTS += (
+    'test_solidity_stateful.StatefulTests.test_delayed_error_requires_third_step',
+    'test_solidity_stateful.StatefulTests.test_unknown_cannot_become_safe',
+    'test_solidity_stateful.StatefulTests.test_resealed_result_rejected',
+)
+
+COMPONENTS['bytecode_controls'] = {'files': ['bytecode_controls.py'],
+    'tests': ['test_bytecode_controls.'], 'depends': ['solidity_stateful', 'native_compile', 'native', 'io', 'privacy']}
+COMPONENTS['quality']['depends'].append('bytecode_controls')
+COMPONENTS['entrypoints']['depends'].append('bytecode_controls')
+REQUIRED_TESTS += (
+    'test_bytecode_controls.BytecodeTests.test_formal_source_substitution_rejected',
+    'test_bytecode_controls.BytecodeTests.test_source_property_not_promoted_to_bytecode_proof',
+    'test_bytecode_controls.BytecodeTests.test_resealed_evm_claim_rejected',
+)
+FILES = {'receipt.json', 'quality.json', 'source-snapshot.json', 'CHECKLIST.md', 'tests.log'}
+
+
+def sha(value: bytes) -> str:
+    return hashlib.sha256(value).hexdigest()
+
+
+def source_snapshot(root: Path = ROOT) -> dict[str, str]:
+    """Capture executable package/test bytes and policy inputs; reject symlinks."""
+    result = {}
+    for base, dirs, files in os.walk(root, followlinks=False):
+        dirs[:] = sorted(d for d in dirs if d != '__pycache__')
+        for name in dirs:
+            if (Path(base)/name).is_symlink():
+                raise ValueError('source directory symlink rejected')
+        for name in sorted(files):
+            rel = (Path(base)/name).relative_to(root).as_posix()
+            if name.endswith('.py') or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'research_initiatives.json'):
+                result[rel] = sha(read_artifact(root, rel))
+                if len(result) > 500:
+                    raise ValueError('source inventory limit exceeded')
+    if not result:
+        raise ValueError('empty source inventory')
+    return dict(sorted(result.items()))
+
+
+def validate_components(snapshot: dict, components: dict = COMPONENTS) -> list[str]:
+    errors, owners = [], {}
+    for name, item in components.items():
+        if not item['files'] or not item['tests']:
+            errors.append(f'{name}: empty component definition')
+        for path in item['files']:
+            if path not in snapshot:
+                errors.append(f'{name}: missing source {path}')
+            if path in owners:
+                errors.append(f'{name}: source assigned twice {path}')
+            owners[path] = name
+        if any(dep not in components for dep in item['depends']):
+            errors.append(f'{name}: unknown dependency')
+    for path in snapshot:
+        if path.endswith('.py') and not path.startswith('tests/') and path not in owners:
+            errors.append(f'unmapped runtime source: {path}')
+    visiting, done = set(), set()
+
+    def walk(name):
+        if name in visiting:
+            raise ValueError('component dependency cycle')
+        if name in done:
+            return
+        visiting.add(name)
+        for dep in components[name]['depends']:
+            if dep in components:
+                walk(dep)
+        visiting.remove(name); done.add(name)
+    try:
+        for name in components:
+            walk(name)
+    except ValueError as exc:
+        errors.append(str(exc))
+    return errors
+
+
+def catalog(root: Path = ROOT) -> dict:
+    data = strict_json(read_artifact(root, 'capabilities.json'))
+    if type(data.get('schema_version')) is not int or data['schema_version'] != 1:
+        raise ValueError('unsupported capability catalog')
+    items = data.get('items')
+    if (type(items) is not list or len(items) != 50 or
+            any(type(x) is not dict or type(x.get('id')) is not int for x in items) or
+            [x['id'] for x in items] != list(range(1,51))):
+        raise ValueError('catalog must preserve all 50 ordered unique IDs')
+    for item in items:
+        if set(item) != {'id', 'title', 'status', 'scope', 'components'}:
+            raise ValueError('capability fields mismatch')
+        if item['status'] not in ('PLANNED', 'PARTIAL', 'REDESIGN_REQUIRED'):
+            raise ValueError('no capability may be certified complete by this catalog')
+        if any(type(item[k]) is not str or not item[k].strip() for k in ('title', 'scope')):
+            raise ValueError('capability title/scope missing')
+        refs = item['components']
+        if (type(refs) is not list or any(type(ref) is not str or ref not in COMPONENTS for ref in refs) or
+                len(set(refs)) != len(refs)):
+            raise ValueError('unknown or duplicate capability component')
+        if (item['status'] == 'PARTIAL') != bool(refs):
+            raise ValueError('partial capability requires actual components; planned capabilities cannot borrow proof')
+    return data
+
+
+def assess(receipt: dict, snapshot: dict) -> dict:
+    """Recompute the gate; a claimed PASS in the receipt is never trusted."""
+    receipt = expand_partition_receipt(receipt, snapshot)
+    errors = validate_components(snapshot)
+    if 'partition_receipts' in receipt or 'execution_mode' in receipt:
+        try:
+            rebuilt = aggregate_receipts(receipt.get('partition_receipts'), snapshot)
+            if canonical(rebuilt) != canonical(receipt):
+                errors.append('aggregate differs from worker receipts')
+        except (ValueError, KeyError, TypeError):
+            errors.append('invalid worker partition evidence')
+    if receipt.get('schema_version') != 1 or type(receipt.get('schema_version')) is not int:
+        errors.append('invalid receipt schema')
+    if receipt.get('sources_before') != snapshot or receipt.get('sources_after') != snapshot:
+        errors.append('source changed, missing or stale')
+    rows, expected = receipt.get('tests'), receipt.get('discovered')
+    if type(rows) is not list or not rows or type(expected) is not list or not expected:
+        raise ValueError('nonempty discovered tests and results required')
+    if any(type(row) is not dict or set(row) != {'id', 'outcome'} or
+           type(row['id']) is not str or type(row['outcome']) is not str for row in rows):
+        raise ValueError('malformed per-test record')
+    ids = [row['id'] for row in rows]
+    if (any(type(x) is not str for x in expected) or len(ids) != len(set(ids)) or
+            len(expected) != len(set(expected)) or sorted(ids) != sorted(expected)):
+        errors.append('test identities are duplicate, missing or unexpected')
+    if type(receipt.get('tests_run')) is not int or receipt['tests_run'] != len(rows):
+        errors.append('test count mismatch')
+    if any(row['outcome'] != 'PASS' for row in rows):
+        errors.append('at least one test failed, errored, skipped or was incomplete')
+    for key in ('failures', 'errors', 'skipped', 'expected_failures', 'unexpected_successes'):
+        if type(receipt.get(key)) is not int or receipt[key] != 0:
+            errors.append(f'{key} not zero')
+    for required in REQUIRED_TESTS:
+        if required not in ids:
+            errors.append('missing mandatory test: ' + required)
+    checks = {}
+    for name, component in COMPONENTS.items():
+        assigned = [row for row in rows if any(row['id'].startswith(p) for p in component['tests'])]
+        checks[name] = {'status': 'TESTS_PASSED_LOCAL' if assigned and all(r['outcome']=='PASS' for r in assigned) else 'BLOCKED',
+                        'test_count': len(assigned), 'depends_on': component['depends'], 'files': component['files']}
+        if not assigned:
+            errors.append(name + ': no execution evidence')
+    prefixes = {p for c in COMPONENTS.values() for p in c['tests']}
+    if any(not any(i.startswith(p) for p in prefixes) for i in ids):
+        errors.append('unmapped test suite')
+    if errors:
+        for check in checks.values():
+            check['status'] = 'BLOCKED'
+    return {'schema_version': 1, 'status': 'LOCAL_QA_PASS' if not errors else 'LOCAL_QA_BLOCKED',
+            'source_digest': sha(canonical(snapshot)), 'tests_run': len(rows), 'components': checks,
+            'reasons': errors, 'vulnerability_confirmed': False, 'production_certified': False}
+
+
+def checklist(data: dict, result: dict | None = None) -> str:
+    lines = ['# SUPERHUNTER — estado de las 50 capacidades', '',
+             'Las pruebas del paquete no demuestran detección de vulnerabilidades ni completan estas capacidades.',
+             '○ Pendiente · ◐ Parcial · ↻ Requiere reformulación defensiva. Ninguna está certificada completa.', '']
+    if result:
+        lines += [f"Comprobación local: {result['status']}; pruebas: {result['tests_run']}; código: `{result['source_digest']}`.", '']
+    for item in data['items']:
+        mark = {'PLANNED': '○', 'PARTIAL': '◐', 'REDESIGN_REQUIRED': '↻'}[item['status']]
+        lines += [f"{mark} **{item['id']}. {item['title']}** — {item['scope']}", '']
+    return '\n'.join(lines)
+
+
+def verify_bundle(root: Path) -> dict:
+    marker = strict_json(read_artifact(root, 'COMPLETE.json'))
+    if (type(marker.get('schema_version')) is not int or marker['schema_version'] != 1 or
+            type(marker.get('sha256')) is not dict or set(marker['sha256']) != FILES):
+        raise ValueError('QA bundle manifest mismatch')
+    values = {}
+    for name, expected in marker['sha256'].items():
+        raw = read_artifact(root, name)
+        if sha(raw) != expected:
+            raise ValueError('QA artifact digest mismatch')
+        values[name] = raw
+    snapshot = source_snapshot()
+    if strict_json(values['source-snapshot.json']) != snapshot:
+        raise ValueError('QA source snapshot is not the current package')
+    result = assess(strict_json(values['receipt.json']), snapshot)
+    if canonical(result) != values['quality.json']:
+        raise ValueError('QA claimed verdict differs from recomputed verdict')
+    if checklist(catalog(), result).encode() != values['CHECKLIST.md']:
+        raise ValueError('capability checklist not bound to current catalog/verdict')
+    return result
+
+
+
+PARTITION_COUNT = 8
+
+# When the suite passed 1,800 tests, the old QA receipt hit the fixed 2MB
+# artifact ceiling. Do not increase global IO limits or omit test evidence.
+# Store one hash for each original worker receipt, keeping common immutable
+# source/global-inventory fields only once in the outer receipt. Verification
+# expands and checks every original worker commitment before re-assessment.
+PARTITION_COMMON = frozenset({'sources_before', 'sources_after', 'global_discovered'})
+PARTITION_FORMAT = 'common-fields-with-worker-hashes-v1'
+
+
+def compact_partition_receipt(receipt: dict) -> dict:
+    if type(receipt) is not dict or type(receipt.get('partition_receipts')) is not list:
+        raise ValueError('full worker receipt required for compact encoding')
+    import copy
+    result = copy.deepcopy(receipt)
+    reduced = []
+    for worker in result['partition_receipts']:
+        if type(worker) is not dict or not PARTITION_COMMON <= set(worker):
+            raise ValueError('worker missing required common fields')
+        common = {k:worker[k] for k in PARTITION_COMMON}
+        if (common['sources_before'] != receipt['sources_before'] or
+                common['sources_after'] != receipt['sources_after'] or
+                common['global_discovered'] != receipt['discovered']):
+            raise ValueError('worker common fields disagree with aggregate')
+        reduced.append({k:v for k,v in worker.items() if k not in PARTITION_COMMON} |
+                       {'worker_sha256':sha(canonical(worker))})
+    result['partition_receipts'] = reduced
+    result['partition_receipts_format'] = PARTITION_FORMAT
+    return result
+
+
+def expand_partition_receipt(receipt: dict, snapshot: dict) -> dict:
+    """Restore all original worker receipts and validate SHA of each full form.
+
+    Old uncompressed receipts are still accepted for existing evidence bundles.
+    Compact form is never trusted without reconstruction and exact comparison.
+    """
+    if type(receipt) is not dict or 'partition_receipts_format' not in receipt:
+        return receipt
+    if (receipt['partition_receipts_format'] != PARTITION_FORMAT or
+            type(receipt.get('partition_receipts')) is not list or
+            len(receipt['partition_receipts']) != PARTITION_COUNT or
+            type(receipt.get('discovered')) is not list):
+        raise ValueError('invalid compact QA receipt')
+    import copy
+    full = copy.deepcopy(receipt)
+    restored = []
+    for row in full['partition_receipts']:
+        if (type(row) is not dict or 'worker_sha256' not in row or
+                any(k in row for k in PARTITION_COMMON)):
+            raise ValueError('invalid compact worker fields')
+        expected = row.pop('worker_sha256')
+        if type(expected) is not str or len(expected) != 64:
+            raise ValueError('invalid worker receipt commitment')
+        rebuilt = row | {'sources_before':snapshot, 'sources_after':snapshot,
+                         'global_discovered':receipt['discovered']}
+        if sha(canonical(rebuilt)) != expected:
+            raise ValueError('worker receipt commitment mismatch')
+        restored.append(rebuilt)
+    full['partition_receipts'] = restored
+    del full['partition_receipts_format']
+    return full
+
+
+def aggregate_receipts(receipts: list[dict], snapshot: dict) -> dict:
+    """Require every exact partition against one shared source/test inventory."""
+    from .quality_worker import partition_ids
+    if type(receipts) is not list or len(receipts) != PARTITION_COUNT:
+        raise ValueError('missing worker partition')
+    ordered = {}
+    counters = ('failures', 'errors', 'skipped', 'expected_failures', 'unexpected_successes')
+    expected_fields = {'schema_version','sources_before','sources_after','discovered','tests',
+                       'tests_run','python','log_privacy','global_discovered',
+                       'partition_count','partition_index'} | set(counters)
+    for receipt in receipts:
+        if type(receipt) is not dict or set(receipt) != expected_fields:
+            raise ValueError('worker receipt fields mismatch')
+        index = receipt['partition_index']
+        if (type(index) is not int or not 0 <= index < PARTITION_COUNT or index in ordered or
+                type(receipt['partition_count']) is not int or receipt['partition_count'] != PARTITION_COUNT or
+                type(receipt['schema_version']) is not int or receipt['schema_version'] != 1):
+            raise ValueError('duplicate or invalid worker partition')
+        if receipt['sources_before'] != snapshot or receipt['sources_after'] != snapshot:
+            raise ValueError('worker source identity mismatch')
+        ordered[index] = receipt
+    all_ids = ordered[0]['global_discovered']
+    groups = partition_ids(all_ids, PARTITION_COUNT)
+    rows = []
+    for index, receipt in sorted(ordered.items()):
+        if receipt['global_discovered'] != all_ids or receipt['python'] != ordered[0]['python']:
+            raise ValueError('worker inventory/runtime mismatch')
+        if receipt['discovered'] != groups[index]:
+            raise ValueError('worker partition inventory mismatch')
+        tests = receipt['tests']
+        if (type(tests) is not list or any(type(r) is not dict or set(r) != {'id','outcome'} or
+                type(r['id']) is not str or r['outcome'] not in
+                ('PASS','FAIL','ERROR','SKIP','INCOMPLETE','EXPECTED_FAILURE','UNEXPECTED_SUCCESS')
+                for r in tests)):
+            raise ValueError('worker test result schema mismatch')
+        if sorted(r['id'] for r in tests) != groups[index]:
+            raise ValueError('worker omitted or duplicated test')
+        if type(receipt['tests_run']) is not int or receipt['tests_run'] != len(tests):
+            raise ValueError('worker count mismatch')
+        if any(type(receipt[k]) is not int or receipt[k] < 0 for k in counters):
+            raise ValueError('worker counter must be a nonnegative integer')
+        rows.extend(tests)
+    return {
+        'schema_version':1, 'execution_mode':f'{PARTITION_COUNT}-exact-worker-partitions',
+        'sources_before':snapshot, 'sources_after':snapshot,
+        'discovered':sorted(all_ids), 'tests':sorted(rows, key=lambda r:r['id']),
+        'tests_run':len(rows), 'python':ordered[0]['python'],
+        **{k:sum(r[k] for r in ordered.values()) for k in counters},
+        'partition_receipts':[ordered[i] for i in range(PARTITION_COUNT)],
+    }
+
+
+def run_check(out: Path) -> dict:
+    if out.exists() or out.is_symlink():
+        raise FileExistsError('QA requires a new private output directory')
+    snapshot = source_snapshot()
+    data = catalog()
+    if validate_components(snapshot):
+        raise ValueError('; '.join(validate_components(snapshot)))
+    from .quality_worker import batch_succeeded
+    with tempfile.TemporaryDirectory(prefix='superhunter-qa-') as temp:
+        receipts, logs, exits = [], [], []
+        for index in range(PARTITION_COUNT):
+            work = Path(temp)/f'worker-{index}'
+            proc = subprocess.run([sys.executable, '-I', '-B', str(ROOT/'quality_worker.py'), str(work),
+                                   '--partition-count',str(PARTITION_COUNT),'--partition-index',str(index)],
+                                  cwd=ROOT.parent, env={'LANG':'C.UTF-8','LC_ALL':'C.UTF-8'},
+                                  capture_output=True, timeout=180, check=False)
+            if proc.returncode not in (0,1):
+                raise RuntimeError(f'QA worker infrastructure failure ({proc.returncode})')
+            raw_receipt, raw_log = read_artifact(work,'receipt.json'), read_artifact(work,'tests.log')
+            marker = strict_json(read_artifact(work,'COMPLETE.json'))
+            if (type(marker.get('schema_version')) is not int or marker['schema_version'] != 1 or
+                    marker.get('sha256') != {'receipt.json':sha(raw_receipt),'tests.log':sha(raw_log)}):
+                raise ValueError('worker artifact manifest mismatch')
+            receipt = strict_json(raw_receipt)
+            if receipt.get('partition_index') != index or source_snapshot() != snapshot:
+                raise ValueError('source or worker partition changed during QA')
+            if (proc.returncode == 0) != batch_succeeded(receipt):
+                raise ValueError('worker exit/verdict mismatch')
+            receipts.append(receipt); exits.append(proc.returncode)
+            logs.append(f'=== FIXED QA PARTITION {index+1}/{PARTITION_COUNT} ===\n'.encode()+raw_log)
+        receipt = aggregate_receipts(receipts, snapshot)
+        result = assess(receipt, snapshot)
+        if (all(code == 0 for code in exits)) != (result['status']=='LOCAL_QA_PASS'):
+            raise ValueError('aggregate exit/verdict mismatch')
+        if source_snapshot() != snapshot:
+            raise ValueError('source changed during QA run')
+        compact = compact_partition_receipt(receipt)
+        if len(canonical(compact)) > 2_000_000:
+            raise ValueError('compact QA receipt still exceeds artifact budget')
+        write_new_bundle(out, {'receipt.json':canonical(compact), 'quality.json':canonical(result),
+                              'source-snapshot.json':canonical(snapshot), 'CHECKLIST.md':checklist(data,result).encode(),
+                              'tests.log':b'\n'.join(logs)})
+    return verify_bundle(out)
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = PrivateArgumentParser(description='Verify this package, never scan external targets')
+    sub = parser.add_subparsers(dest='command', required=True)
+    sub.add_parser('check').add_argument('--out', type=Path, required=True)
+    sub.add_parser('verify-check').add_argument('--bundle', type=Path, required=True)
+    sub.add_parser('capabilities')
+    args = parser.parse_args(argv)
+    try:
+        if args.command == 'capabilities':
+            print(checklist(catalog()))
+            return 0
+        result = run_check(args.out) if args.command=='check' else verify_bundle(args.bundle)
+        print(json.dumps({k: result[k] for k in ('status','source_digest','tests_run','vulnerability_confirmed')}))
+        return 0 if result['status']=='LOCAL_QA_PASS' else 1
+    except (ValueError,OSError,RuntimeError,subprocess.TimeoutExpired,KeyError,TypeError) as exc:
+        print(json.dumps({'status':'LOCAL_QA_ERROR','error_type':type(exc).__name__}))
+        return 2
+
+
+
+# Storage placement adds an independent local constraint, not compiler execution.
+COMPONENTS['source_types'] = {'files': ['source_types.py'], 'tests': ['test_source_types.'], 'depends': ['io']}
+COMPONENTS['compiler_layout']['files'] = ['compiler_layout.py']
+COMPONENTS['compiler_layout']['depends'].append('source_types')
+COMPONENTS['storage_placement'] = {
+    'files': ['storage_placement.py'], 'tests': ['test_storage_placement.'],
+    'depends': ['source_types', 'io']}
+COMPONENTS['compiler_layout']['depends'].append('storage_placement')
+REQUIRED_TESTS += (
+    'test_storage_placement.PlacementBindingTests.test_coherent_wrong_origin_passes_v2_but_v3_rejects',
+    'test_storage_placement.PlacementBindingTests.test_custom_base_requires_review',
+    'test_storage_placement.PlacementMathTests.test_reference_does_not_call_primary',
+)
+
+
+# Source-level inventory is a separate bounded check, not compiler execution.
+COMPONENTS['solidity_inventory'] = {'files':['solidity_inventory.py'], 'tests':['test_solidity_inventory.'],
+                                    'depends':['source_types','io']}
+COMPONENTS['compiler_layout']['depends'].append('solidity_inventory')
+COMPONENTS['quality']['depends'].append('solidity_inventory')
+REQUIRED_TESTS += (
+    'test_solidity_inventory.InventoryBindingTests.test_shared_omission_passes_v3_but_is_rejected_v4',
+    'test_solidity_inventory.InventoryBindingTests.test_mutable_cannot_masquerade_as_constant',
+    'test_solidity_inventory.InventoryBindingTests.test_manifest_downgrade_rejected',
+)
+
+# Executable driver is registered; passing its tests does not mean solc is installed.
+COMPONENTS['native_compile'] = {
+    'files':['native_compile.py','solc_worker.py'], 'tests':['test_native_compile.'],
+    'depends':['compiler_layout','native','io','privacy']}
+COMPONENTS['quality']['depends'].append('native_compile')
+COMPONENTS['entrypoints']['depends'].append('native_compile')
+REQUIRED_TESTS += (
+    'test_native_compile.NativeCompileTests.test_missing_binary_blocks_without_output',
+    'test_native_compile.NativeCompileTests.test_wrong_binary_never_executed',
+    'test_native_compile.NativeCompileTests.test_exit_zero_with_errors_not_compilation_success',
+)
+
+COMPONENTS['native_layout'] = {
+    'files':['native_layout.py'], 'tests':['test_native_layout.'],
+    'depends':['native_compile','compiler_layout','native','io','privacy']}
+COMPONENTS['quality']['depends'].append('native_layout')
+COMPONENTS['entrypoints']['depends'].append('native_layout')
+REQUIRED_TESTS += (
+    'test_native_layout.NativeLayoutTests.test_missing_binary_blocks_without_output',
+    'test_native_layout.NativeLayoutTests.test_both_native_replays_are_required',
+    'test_native_layout.NativeLayoutTests.test_replay_disagreement_prevents_review',
+)
+
+# Multi-seed study using fixed owned-control EVM traces, not a live target scanner.
+COMPONENTS['evm_seed_study'] = {
+    'files': ['evm_seed_study.py'], 'tests': ['test_evm_seed_study.'],
+    'depends': ['evm_guidance_benchmark','evm_coverage_guidance','evm_opcode_trace',
+                'evm_sequence_fuzz','evm_execution','native_compile','accounting','native','io','privacy']}
+COMPONENTS['entrypoints']['depends'].append('evm_seed_study')
+REQUIRED_TESTS += (
+    'test_evm_seed_study.SeedStudyTests.test_seed_changes_full_recipe_not_parity_only',
+    'test_evm_seed_study.SeedStudyTests.test_both_arms_use_exact_recipe_and_budget',
+    'test_evm_seed_study.SeedStudyTests.test_resealed_superiority_claim_rejected',
+)
+
+if __name__ == '__main__':
+    raise SystemExit(main())
+
+
+COMPONENTS['solidity_formal'] = {
+    'files': ['solidity_formal.py'], 'tests': ['test_solidity_formal.'],
+    'depends': ['native_compile', 'permission_smt', 'native', 'io', 'privacy']}
+COMPONENTS['quality']['depends'].append('solidity_formal')
+COMPONENTS['entrypoints']['depends'].append('solidity_formal')
+REQUIRED_TESTS += (
+    'test_solidity_formal.SolidityFormalTests.test_unsat_without_feasible_inputs_is_not_certification',
+    'test_solidity_formal.SolidityFormalTests.test_real_z3_resource_exhaustion_is_unknown',
+    'test_solidity_formal.SolidityFormalTests.test_resealed_favorable_result_rejected',
+)
+
+# Actual EVM runtime evidence is obtained with the native command, not unit mocks.
+COMPONENTS['evm_execution'] = {'files': ['evm_execution.py', 'evm_worker.py'],
+    'tests': ['test_evm_execution.'], 'depends': ['bytecode_controls', 'native_compile', 'native', 'io', 'privacy']}
+COMPONENTS['quality']['depends'].append('evm_execution')
+COMPONENTS['entrypoints']['depends'].append('evm_execution')
+REQUIRED_TESTS += (
+    'test_evm_execution.EVMTests.test_assertion_revert_does_not_commit_tentative_credit',
+    'test_evm_execution.EVMTests.test_gas_budget_bound_in_genesis_not_only_cli',
+    'test_evm_execution.EVMTests.test_resealed_favorable_result_rejected',
+    'test_evm_execution.EVMTests.test_replay_never_executes_bundle_inputs',
+)
+
+COMPONENTS['evm_accounting'] = {'files': ['evm_accounting.py'], 'tests': ['test_evm_accounting.'],
+    'depends': ['evm_execution', 'accounting', 'native', 'io', 'privacy']}
+COMPONENTS['accounting']['tests'].append('test_internal_units.')
+COMPONENTS['quality']['depends'].append('evm_accounting')
+COMPONENTS['entrypoints']['depends'].append('evm_accounting')
+REQUIRED_TESTS += (
+    'test_evm_accounting.CommittedEffectsTests.test_reverts_contribute_no_transfers',
+    'test_evm_accounting.CommittedEffectsTests.test_replay_regenerates_instead_of_executing_bundle',
+    'test_internal_units.InternalUnitTests.test_offsetting_residuals_do_not_hide_mismatch',
+)
+
+
+# The joint native profile consumes QA; quality must not depend back on it.
+COMPONENTS['native_platform'] = {
+    'files': ['native_platform.py'], 'tests': ['test_native_platform.'],
+    'depends': ['platform', 'evm_accounting', 'quality', 'native', 'io', 'privacy', 'review']}
+COMPONENTS['entrypoints']['depends'].append('native_platform')
+REQUIRED_TESTS += (
+    'test_native_platform.NativePlatformTests.test_native_failure_cannot_emit_success',
+    'test_native_platform.NativePlatformTests.test_replay_is_mandatory_even_after_creation',
+    'test_native_platform.NativePlatformTests.test_wrong_qa_source_rejected_before_native_replay',
+)
+
+# This module consumes native QA; do not add a dependency cycle back from quality.
+COMPONENTS['compiler_variants'] = {
+    'files': ['compiler_variants.py'], 'tests': ['test_compiler_variants.'],
+    'depends': ['native_platform', 'evm_execution', 'bytecode_controls', 'native_compile',
+                'evm_accounting', 'accounting', 'quality', 'native', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('compiler_variants')
+REQUIRED_TESTS += (
+    'test_compiler_variants.CompilerVariantTests.test_committed_states_and_reverts_agree',
+    'test_compiler_variants.CompilerVariantTests.test_changed_source_cannot_pose_as_another_optimization',
+    'test_compiler_variants.CompilerVariantTests.test_replay_never_executes_supplied_variant_input',
+)
+
+# Bounded EVM mutation experiment over owned arithmetic controls. It calls the
+# real pinned compiler/EVM at CLI acceptance, never external program targets.
+COMPONENTS['evm_sequence_fuzz'] = {
+    'files': ['evm_sequence_fuzz.py'], 'tests': ['test_evm_sequence_fuzz.'],
+    'depends': ['compiler_variants', 'evm_execution', 'accounting', 'native', 'io', 'privacy', 'quality']}
+COMPONENTS['entrypoints']['depends'].append('evm_sequence_fuzz')
+REQUIRED_TESTS += (
+    'test_evm_sequence_fuzz.EVMSequenceFuzzTests.test_first_corpus_reaches_third_step',
+    'test_evm_sequence_fuzz.EVMSequenceFuzzTests.test_oracle_crosschecks_existing_reference',
+    'test_evm_sequence_fuzz.EVMSequenceFuzzTests.test_compiler_and_native_disagreement_rejected',
+    'test_evm_sequence_fuzz.EVMSequenceFuzzTests.test_resealed_favorable_bundle_rejected',
+)
+
+# EVM-observable feedback is derived only after a complete native replay.
+# Not EVM instruction/branch coverage or an exploit-finding certificate.
+COMPONENTS['evm_feedback'] = {
+    'files': ['evm_feedback.py'], 'tests': ['test_evm_feedback.'],
+    'depends': ['evm_sequence_fuzz', 'evm_execution', 'native', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('evm_feedback')
+REQUIRED_TESTS += (
+    'test_evm_feedback.EVMFeedbackTests.test_greedy_selection_retains_every_observed_feature',
+    'test_evm_feedback.EVMFeedbackTests.test_assertion_prefix_is_observed_and_reverted',
+    'test_evm_feedback.EVMFeedbackTests.test_resealed_false_coverage_claim_rejected',
+)
+
+# This is an observational Geth tracer; it does not assert full path coverage.
+COMPONENTS['evm_opcode_trace'] = {
+    'files': ['evm_opcode_trace.py', 'evm_trace_worker.py'],
+    'tests': ['test_evm_opcode_trace.'],
+    'depends': ['evm_feedback', 'evm_sequence_fuzz', 'evm_execution', 'io', 'native', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('evm_opcode_trace')
+REQUIRED_TESTS += (
+    'test_evm_opcode_trace.OpcodeTraceTests.test_push_immediate_cannot_count_as_instruction',
+    'test_evm_opcode_trace.OpcodeTraceTests.test_branch_outcomes_distinguished',
+    'test_evm_opcode_trace.OpcodeTraceTests.test_resealed_false_coverage_rejected',
+)
+
+# Closed-loop mutation on fixed own-contract EVM, using PC/JUMPI novelty.
+# No scan of external programs, no claim of coverage completeness.
+COMPONENTS['evm_coverage_guidance'] = {
+    'files': ['evm_coverage_guidance.py'], 'tests': ['test_evm_coverage_guidance.'],
+    'depends': ['evm_opcode_trace', 'evm_sequence_fuzz', 'evm_execution',
+                'accounting', 'native', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('evm_coverage_guidance')
+REQUIRED_TESTS += (
+    'test_evm_coverage_guidance.GuidanceTests.test_bounded_mutations',
+    'test_evm_coverage_guidance.GuidanceTests.test_parent_selection_uses_trace_novelty',
+    'test_evm_coverage_guidance.GuidanceTests.test_resealed_result_cannot_pass_replay',
+)
+
+# Matched-budget, fixed-owned-code EVM comparison. Nothing uses external targets.
+COMPONENTS['evm_guidance_benchmark'] = {
+    'files': ['evm_guidance_benchmark.py'], 'tests': ['test_evm_guidance_benchmark.'],
+    'depends': ['evm_coverage_guidance', 'evm_opcode_trace', 'evm_sequence_fuzz',
+                'evm_execution', 'native_compile', 'accounting', 'native', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('evm_guidance_benchmark')
+REQUIRED_TESTS += (
+    'test_evm_guidance_benchmark.GuidanceBenchmarkTests.test_shared_baseline_and_budget',
+    'test_evm_guidance_benchmark.GuidanceBenchmarkTests.test_fixed_parent_ignores_feedback',
+    'test_evm_guidance_benchmark.GuidanceBenchmarkTests.test_resealed_favorable_claim_rejected',
+)
+
+# Mandatory QA evidence-packing controls; never drop a test to fit artifact limits.
+REQUIRED_TESTS += (
+    'test_quality.CompactReceiptTests.test_roundtrip_preserves_full_worker_evidence',
+    'test_quality.CompactReceiptTests.test_worker_outcome_tamper_is_rejected_even_when_outer_report_rehashed',
+    'test_quality.CompactReceiptTests.test_source_change_invalidates_every_worker_commitment',
+)
+
+
+# New fixed, owned EVM regression family: actual pause semantics vs a known mutant.
+# A matched fixture is not a new vulnerability or a blind benchmark.
+COMPONENTS['evm_pause_family'] = {
+    'files':['evm_pause_family.py'], 'tests':['test_evm_pause_family.'],
+    'depends':['evm_execution','native_compile','native','io','privacy']}
+COMPONENTS['entrypoints']['depends'].append('evm_pause_family')
+REQUIRED_TESTS += (
+    'test_evm_pause_family.PauseFamilyTests.test_guard_rejects_paused_release',
+    'test_evm_pause_family.PauseFamilyTests.test_mutant_commits_forbidden_release_in_reference',
+    'test_evm_pause_family.PauseFamilyTests.test_native_replay_rejects_resealed_false_verdict',
+)
+
+
+# Closed two-caller authorization regression: admin and guest are synthetic fixed identities.
+COMPONENTS['evm_access_family'] = {
+    'files':['evm_access_family.py','evm_access_runner.py','evm_access_worker.py'], 'tests':['test_evm_access_family.'],
+    'depends':['evm_execution','native_compile','native','io','privacy']}
+COMPONENTS['entrypoints']['depends'].append('evm_access_family')
+REQUIRED_TESTS += (
+    'test_evm_access_family.AccessFamilyTests.test_guest_blocked_with_guard',
+    'test_evm_access_family.AccessFamilyTests.test_mutant_guest_commits_known_effect',
+    'test_evm_access_family.AccessFamilyTests.test_forged_report_rejected_with_replay',
+)
+
+
+# Replay-scored known owned EVM mutation controls, not a blind benchmark.
+# The same case is compiled twice but contributes ONE labelled observation.
+COMPONENTS['owned_mutation_evaluation'] = {
+    'files': ['owned_mutation_evaluation.py'],
+    'tests': ['test_owned_mutation_evaluation.'],
+    'depends': ['evm_pause_family', 'evm_access_family', 'benchmark', 'quality',
+                'native', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('owned_mutation_evaluation')
+REQUIRED_TESTS += (
+    'test_owned_mutation_evaluation.KnownMutationScoreTests.test_four_cases_not_eight',
+    'test_owned_mutation_evaluation.KnownMutationScoreTests.test_observed_effect_independent_from_truth_labels',
+    'test_owned_mutation_evaluation.KnownMutationScoreTests.test_resealed_favorable_report_rejected',
+)
+
+# Separated label commitment/freeze/reveal, offline only. Benchmarks are not
+# blinded unless an external custodian independently enforces secrecy/order.
+COMPONENTS['holdout_protocol'] = {
+    'files': ['holdout_protocol.py'], 'tests': ['test_holdout_protocol.'],
+    'depends': ['benchmark', 'io', 'native', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('holdout_protocol')
+REQUIRED_TESTS += (
+    'test_holdout_protocol.HoldoutTests.test_public_and_submission_contain_no_truth_labels',
+    'test_holdout_protocol.HoldoutTests.test_external_frozen_pin_blocks_resealed_falsification',
+    'test_holdout_protocol.HoldoutTests.test_withheld_labels_change_requires_new_commitment',
+)
