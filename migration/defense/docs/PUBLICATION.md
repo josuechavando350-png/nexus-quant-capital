@@ -21,3 +21,5 @@ La versión 0.9.0 agrega presupuesto persistente con hash externo, coordinación
 Se conservan `main`, las demás ramas, los bytes originales de Census y los workflows deshabilitados. Publicar esta rama no activa un servicio, trading ni despliegue. Los informes de 0.2.0 corresponden a la entrega local anterior.
 
 La entrega 0.10.0 se valida sobre el padre `c8724ba6d9a3ebeed98ddc399ca525dcb3b7c3fd` para publicar únicamente en la misma rama. Agrega los dos catálogos nuevos y la cadena local ManagedIntegrity, sin activar servicios ni cambiar fuentes originales. El commit final se comprueba mediante el ref remoto y la igualdad del árbol publicado con el árbol probado.
+
+La entrega 0.11.0 se valida sobre `6c64cbd6c0da84411e6b90a8ae1631239847e5af` para publicar solo en `NQC-defensive`. Agrega autenticación JSONL, casos compartidos y evaluación explícita. SuperHunter permanece separado.

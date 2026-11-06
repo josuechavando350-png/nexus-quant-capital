@@ -240,9 +240,9 @@
       "disciplines": [
         "D013"
       ],
-      "status": "planned",
-      "implementation": null,
-      "implementation_scope": "Sin implementación acreditada en esta entrega"
+      "status": "bounded_partial",
+      "implementation": "nqc_defense/auth_log.py",
+      "implementation_scope": "Lector JSONL propio, cursor transaccional y rotación explícita; sin adaptadores nativos"
     },
     {
       "id": "C014",
@@ -404,9 +404,9 @@
       "disciplines": [
         "D021"
       ],
-      "status": "planned",
-      "implementation": null,
-      "implementation_scope": "Sin implementación acreditada en esta entrega"
+      "status": "bounded_partial",
+      "implementation": "nqc_defense/operations.py",
+      "implementation_scope": "Contrato local compartido de autenticación e integridad; sin conformidad OCSF"
     },
     {
       "id": "C022",
@@ -441,9 +441,9 @@
       "disciplines": [
         "D023"
       ],
-      "status": "planned",
-      "implementation": null,
-      "implementation_scope": "Sin implementación acreditada en esta entrega"
+      "status": "bounded_partial",
+      "implementation": "nqc_defense/auth_log.py",
+      "implementation_scope": "Cursor y eventos atómicos; importación de integridad idempotente; sin deduplicación distribuida"
     },
     {
       "id": "C024",
@@ -498,9 +498,9 @@
       "disciplines": [
         "D026"
       ],
-      "status": "planned",
-      "implementation": null,
-      "implementation_scope": "Sin implementación acreditada en esta entrega"
+      "status": "bounded_partial",
+      "implementation": "nqc_defense/auth_log.py",
+      "implementation_scope": "Errores de esquema y eventos atrasados visibles; sin evaluación de autenticidad del productor"
     },
     {
       "id": "C027",
@@ -518,9 +518,9 @@
       "disciplines": [
         "D027"
       ],
-      "status": "planned",
-      "implementation": null,
-      "implementation_scope": "Sin implementación acreditada en esta entrega"
+      "status": "bounded_partial",
+      "implementation": "nqc_defense/operations.py",
+      "implementation_scope": "Consulta SQLite paginada por cliente y activo; sin autenticación multiusuario"
     },
     {
       "id": "C028",
@@ -637,9 +637,9 @@
       "disciplines": [
         "D033"
       ],
-      "status": "planned",
-      "implementation": null,
-      "implementation_scope": "Sin implementación acreditada en esta entrega"
+      "status": "bounded_partial",
+      "implementation": "nqc_defense/auth_log.py",
+      "implementation_scope": "Regla de fallos repetidos por principal/IP; sin respuesta automática"
     },
     {
       "id": "C034",
@@ -787,9 +787,9 @@
       "disciplines": [
         "D040"
       ],
-      "status": "planned",
-      "implementation": null,
-      "implementation_scope": "Sin implementación acreditada en esta entrega"
+      "status": "bounded_partial",
+      "implementation": "tools/check_auth_pipeline.py",
+      "implementation_scope": "Evaluación en nueve escenarios sintéticos con errores explícitos; sin calibración productiva"
     },
     {
       "id": "C041",
@@ -808,8 +808,8 @@
         "D041"
       ],
       "status": "bounded_partial",
-      "implementation": "nqc_defense/managed_integrity.py",
-      "implementation_scope": "último caso local derivado del ledger; sin gestión multiequipo"
+      "implementation": "nqc_defense/operations.py",
+      "implementation_scope": "Vista común de casos de autenticación e integridad; sin causalidad inferida ni flujo SOC completo"
     },
     {
       "id": "C042",
@@ -1888,9 +1888,9 @@
       "disciplines": [
         "D094"
       ],
-      "status": "planned",
-      "implementation": null,
-      "implementation_scope": "Sin implementación acreditada en esta entrega"
+      "status": "bounded_partial",
+      "implementation": "nqc_defense/operations.py",
+      "implementation_scope": "Cuotas locales rechazan el lote sin adelantar el cursor; sin presión distribuida ni cuota física"
     },
     {
       "id": "C095",

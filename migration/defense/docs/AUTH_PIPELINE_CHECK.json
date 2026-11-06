@@ -1,0 +1,84 @@
+{
+  "confusion_matrix": {
+    "false_negative": 1,
+    "false_positive": 1,
+    "true_negative": 4,
+    "true_positive": 3
+  },
+  "evaluation_kind": "nine synthetic scenarios with declared review labels; not independent or production validation",
+  "integration": {
+    "auth_and_integrity_cases_in_shared_view": true,
+    "automatic_auth_response": false,
+    "cross_source_causality_claimed": false,
+    "recovered_source_status_imported": true,
+    "restart_without_duplicate": true,
+    "rotation_drained": true
+  },
+  "known_false_negative": "failures spread across addresses do not meet the same-address rule",
+  "known_false_positive": "benign repeated errors can open a case",
+  "local_measurement": {
+    "cpu_ns": 92973895,
+    "database_bytes_after_commit": 520192,
+    "input_bytes": 60381,
+    "production_slo_or_competitor_comparison": false,
+    "python": "3.12.14",
+    "python_traced_peak_bytes": 130534,
+    "records": 500,
+    "runs": 1,
+    "tracing_enabled": true,
+    "wall_ns": 95325797
+  },
+  "precision_on_synthetic_scenarios": 0.75,
+  "recall_on_synthetic_scenarios": 0.75,
+  "rule": "auth_failure_burst_v1",
+  "scenarios": [
+    {
+      "case_opened": false,
+      "scenario": "routine_success",
+      "synthetic_review_label": false
+    },
+    {
+      "case_opened": false,
+      "scenario": "single_typo_then_success",
+      "synthetic_review_label": false
+    },
+    {
+      "case_opened": false,
+      "scenario": "two_failures",
+      "synthetic_review_label": false
+    },
+    {
+      "case_opened": true,
+      "scenario": "burst_requiring_review",
+      "synthetic_review_label": true
+    },
+    {
+      "case_opened": true,
+      "scenario": "burst_then_success_requiring_review",
+      "synthetic_review_label": true
+    },
+    {
+      "case_opened": true,
+      "scenario": "sustained_burst_requiring_review",
+      "synthetic_review_label": true
+    },
+    {
+      "case_opened": true,
+      "scenario": "benign_repeated_password_typo",
+      "synthetic_review_label": false
+    },
+    {
+      "case_opened": false,
+      "scenario": "distributed_failures_requiring_review",
+      "synthetic_review_label": true
+    },
+    {
+      "case_opened": false,
+      "scenario": "spaced_benign_failures",
+      "synthetic_review_label": false
+    }
+  ],
+  "threshold": 3,
+  "verified": true,
+  "window_seconds": 60
+}

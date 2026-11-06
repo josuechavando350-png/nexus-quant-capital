@@ -1,14 +1,14 @@
 {
-  "status": "LOCAL_MANAGED_JSON_END_TO_END_TESTED_PRODUCTION_NOT_ACTIVATED",
-  "version": "0.10.0",
+  "status": "LOCAL_AUTH_INGESTION_AND_SHARED_CASE_VIEW_TESTED_PRODUCTION_NOT_ACTIVATED",
+  "version": "0.11.0",
   "date": "2026-11-06",
   "nqc_base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
   "python_version": "3.12.14",
-  "python_source_files_parsed": 58,
+  "python_source_files_parsed": 63,
   "tests": {
-    "engine_passed": 307,
+    "engine_passed": 345,
     "nqc_isolation_passed": 9,
-    "total_passed": 316,
+    "total_passed": 354,
     "failed": 0,
     "skipped": 0,
     "engine_log": "docs/PRUEBAS.txt",
@@ -68,12 +68,15 @@
     "Global orphan proof and retention eligibility across all archive consumers",
     "OS-enforced physical disk quotas",
     "Automatic orphan collection",
-    "Cross-store archive rotation and continuity"
+    "Cross-store archive rotation and continuity",
+    "Native authentication log adapters",
+    "Independent authentication event provenance and anchored operational store",
+    "Authentication response connectors and multiuser case workflow"
   ],
   "publication": {
     "branch": "NQC-defensive",
     "user_authorized": true,
-    "validated_parent_commit": "c8724ba6d9a3ebeed98ddc399ca525dcb3b7c3fd",
+    "validated_parent_commit": "6c64cbd6c0da84411e6b90a8ae1631239847e5af",
     "status": "authorized_branch_update_validated_before_commit",
     "pull_request": false,
     "release": false,
@@ -81,7 +84,7 @@
     "email": false,
     "workflow_enabled": false
   },
-  "scope": "Local managed JSON observation, detection, ledger-derived incident, admission containment, explicit restoration and verified read; production Census unchanged",
+  "scope": "Local JSONL authentication ingestion and cases, shared view with managed integrity; no SuperHunter changes or production activation",
   "nqc_consumer_check": "docs/NQC_CONSUMER_CHECK.json",
   "consumer": {
     "local_reader_enforces_admission": true,
@@ -205,8 +208,8 @@
   "operational_catalog": {
     "components": 100,
     "disciplines_and_specialties": 100,
-    "bounded_partial": 9,
-    "planned": 91,
+    "bounded_partial": 17,
+    "planned": 83,
     "fully_complete": 0,
     "planned_runtime_connections_implemented": false
   },
@@ -223,5 +226,24 @@
     "host_isolation": false,
     "continuous_service_deployed": false,
     "production_connected": false
+  },
+  "auth_pipeline_check": "docs/AUTH_PIPELINE_CHECK.json",
+  "auth_pipeline": {
+    "new_tests": 38,
+    "format": "nqc-auth-log-v1 JSONL only",
+    "cursor_events_cases_atomic": true,
+    "explicit_rotation_after_drain": true,
+    "shared_integrity_case_projection": true,
+    "out_of_order_records_stored_but_not_evaluated": true,
+    "native_ssh_or_windows_adapter": false,
+    "automatic_auth_response": false,
+    "independent_anchor": false,
+    "multiuser_authentication": false,
+    "production_validation": false,
+    "synthetic_evaluation_scenarios": 9,
+    "synthetic_true_positive": 3,
+    "synthetic_true_negative": 4,
+    "synthetic_false_positive": 1,
+    "synthetic_false_negative": 1
   }
 }

@@ -135,6 +135,44 @@ test_too_small_budget_fails_explicitly_instead_of_looping (test_audit_pages.Audi
 test_truncated_prefix_is_incomplete_even_with_rebuilt_end (test_audit_pages.AuditPageTests.test_truncated_prefix_is_incomplete_even_with_rebuilt_end) ... ok
 test_wire_size_and_count_limits_reject_excess (test_audit_pages.AuditPageTests.test_wire_size_and_count_limits_reject_excess) ... ok
 test_wrong_key_or_policy_rejected (test_audit_pages.AuditPageTests.test_wrong_key_or_policy_rejected) ... ok
+test_batch_limit_resumes_without_skipping (test_auth_log.AuthLogTests.test_batch_limit_resumes_without_skipping) ... ok
+test_case_capacity_rolls_back_batch (test_auth_log.AuthLogTests.test_case_capacity_rolls_back_batch) ... ok
+test_case_failure_rolls_back_cursor_events_and_episode (test_auth_log.AuthLogTests.test_case_failure_rolls_back_cursor_events_and_episode) ... ok
+test_cli_reads_real_log_and_returns_case (test_auth_log.AuthLogTests.test_cli_reads_real_log_and_returns_case) ... ok
+test_competing_pollers_commit_each_line_once (test_auth_log.AuthLogTests.test_competing_pollers_commit_each_line_once) ... ok
+test_consumed_prefix_edit_fails_without_advancing (test_auth_log.AuthLogTests.test_consumed_prefix_edit_fails_without_advancing) ... ok
+test_delayed_managed_snapshot_cannot_reopen_newer_case (test_auth_log.AuthLogTests.test_delayed_managed_snapshot_cannot_reopen_newer_case) ... ok
+test_distinct_addresses_do_not_join_failures (test_auth_log.AuthLogTests.test_distinct_addresses_do_not_join_failures) ... ok
+test_distinct_principals_do_not_join_failures (test_auth_log.AuthLogTests.test_distinct_principals_do_not_join_failures) ... ok
+test_event_capacity_rolls_back_cursor_and_events (test_auth_log.AuthLogTests.test_event_capacity_rolls_back_cursor_and_events) ... ok
+test_event_digest_detects_payload_change (test_auth_log.AuthLogTests.test_event_digest_detects_payload_change) ... ok
+test_exact_window_boundary_included (test_auth_log.AuthLogTests.test_exact_window_boundary_included) ... ok
+test_failures_open_one_case_with_actual_event_references (test_auth_log.AuthLogTests.test_failures_open_one_case_with_actual_event_references) ... ok
+test_fifo_log_rejected_without_blocking (test_auth_log.AuthLogTests.test_fifo_log_rejected_without_blocking) ... ok
+test_hardlink_log_rejected (test_auth_log.AuthLogTests.test_hardlink_log_rejected) ... ok
+test_invalid_line_is_quality_event_without_secret_content (test_auth_log.AuthLogTests.test_invalid_line_is_quality_event_without_secret_content) ... ok
+test_ipv6_normalization (test_auth_log.AuthLogTests.test_ipv6_normalization) ... ok
+test_late_records_are_stored_and_excluded_explicitly (test_auth_log.AuthLogTests.test_late_records_are_stored_and_excluded_explicitly) ... ok
+test_long_line_rolls_back_entire_batch (test_auth_log.AuthLogTests.test_long_line_rolls_back_entire_batch) ... ok
+test_missing_database_never_recreated (test_auth_log.AuthLogTests.test_missing_database_never_recreated) ... ok
+test_partial_line_only_commits_after_newline (test_auth_log.AuthLogTests.test_partial_line_only_commits_after_newline) ... ok
+test_partial_old_tail_blocks_rotation (test_auth_log.AuthLogTests.test_partial_old_tail_blocks_rotation) ... ok
+test_process_exit_before_commit_rolls_back_events_and_cursor (test_auth_log.AuthLogTests.test_process_exit_before_commit_rolls_back_events_and_cursor) ... ok
+test_published_config_pin_detects_config_edit (test_auth_log.AuthLogTests.test_published_config_pin_detects_config_edit) ... ok
+test_raw_byte_reference_is_exact (test_auth_log.AuthLogTests.test_raw_byte_reference_is_exact) ... ok
+test_record_parser_rejects_bool_time_and_extra_fields (test_auth_log.AuthLogTests.test_record_parser_rejects_bool_time_and_extra_fields) ... ok
+test_reopen_does_not_duplicate_committed_events (test_auth_log.AuthLogTests.test_reopen_does_not_duplicate_committed_events) ... ok
+test_rotation_requires_drain_and_explicit_handoff (test_auth_log.AuthLogTests.test_rotation_requires_drain_and_explicit_handoff) ... ok
+test_rotation_to_same_inode_rejected (test_auth_log.AuthLogTests.test_rotation_to_same_inode_rejected) ... ok
+test_scope_filters_and_pagination (test_auth_log.AuthLogTests.test_scope_filters_and_pagination) ... ok
+test_shared_view_imports_existing_managed_incident_idempotently (test_auth_log.AuthLogTests.test_shared_view_imports_existing_managed_incident_idempotently) ... ok
+test_source_re_registration_rejected (test_auth_log.AuthLogTests.test_source_re_registration_rejected) ... ok
+test_success_resets_episode_but_does_not_resolve_existing_case (test_auth_log.AuthLogTests.test_success_resets_episode_but_does_not_resolve_existing_case) ... ok
+test_symlink_log_rejected (test_auth_log.AuthLogTests.test_symlink_log_rejected) ... ok
+test_truncation_fails_explicitly (test_auth_log.AuthLogTests.test_truncation_fails_explicitly) ... ok
+test_window_expiry_does_not_combine_old_failures (test_auth_log.AuthLogTests.test_window_expiry_does_not_combine_old_failures) ... ok
+test_wrong_configuration_pin_rejected (test_auth_log.AuthLogTests.test_wrong_configuration_pin_rejected) ... ok
+test_wrong_previous_file_rejected (test_auth_log.AuthLogTests.test_wrong_previous_file_rejected) ... ok
 test_defense_only_descendant_passes (test_branch_boundary.BranchBoundaryTests.test_defense_only_descendant_passes) ... ok
 test_original_base_still_passes (test_branch_boundary.BranchBoundaryTests.test_original_base_still_passes) ... ok
 test_other_committed_change_fails (test_branch_boundary.BranchBoundaryTests.test_other_committed_change_fails) ... ok
@@ -307,6 +345,6 @@ test_witness_requires_separate_key_and_pinned_bindings (test_witness.WitnessTest
 test_witness_tail_rollback_requires_separately_retained_receipt (test_witness.WitnessTests.test_witness_tail_rollback_requires_separately_retained_receipt) ... ok
 
 ----------------------------------------------------------------------
-Ran 307 tests in 17.596s
+Ran 345 tests in 15.457s
 
 OK
