@@ -905,3 +905,17 @@ REQUIRED_TESTS += (
     'test_journal_correlation.CorrelationTests.test_source_tamper_rejected_before_ingestion',
     'test_journal_correlation.CorrelationTests.test_historical_worker_partition_ids_remain_stable',
 )
+
+
+# Offline Geth trace and replay-verified journal event, byte-bound only.
+COMPONENTS['evm_forensic_binding'] = {
+    'files': ['evm_forensic_binding.py'], 'tests': ['test_evm_forensic_binding.'],
+    'depends': ['evm_opcode_trace', 'journal_ingest', 'forensic_timeline',
+                'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('evm_forensic_binding')
+REQUIRED_TESTS += (
+    'test_evm_forensic_binding.EVMForensicBindingTests.test_cli_separate_processes',
+    'test_evm_forensic_binding.EVMForensicBindingTests.test_anchor_mismatch_rejected',
+    'test_evm_forensic_binding.EVMForensicBindingTests.test_resealed_false_result_rejected',
+    'test_evm_forensic_binding.EVMForensicBindingTests.test_invalid_trace_terminal_rejected',
+)
