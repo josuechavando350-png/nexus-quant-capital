@@ -1,0 +1,78 @@
+{
+  "status": "LOCAL_NQC_SOURCE_INTEGRATION_TESTED_NOT_ACTIVATED",
+  "version": "0.2.1",
+  "date": "2026-11-06",
+  "nqc_base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
+  "python_version": "3.12.14",
+  "python_source_files_parsed": 28,
+  "tests": {
+    "engine_passed": 104,
+    "nqc_isolation_passed": 9,
+    "total_passed": 113,
+    "failed": 0,
+    "skipped": 0,
+    "engine_log": "docs/PRUEBAS.txt",
+    "isolation_log": "docs/NQC_ISOLATION_TESTS.txt"
+  },
+  "acceptance": "docs/ACEPTACION.json",
+  "clock_regression": "docs/CLOCK_LOCK_REGRESSION.json",
+  "nqc_artifact_check": "docs/NQC_ARTIFACT_CHECK.json",
+  "source_recovery": {
+    "verified_git_blobs": 645,
+    "total_bytes": 6813361,
+    "previous_download_block_resolved": true
+  },
+  "catalog_entries": 100,
+  "fully_completed_original_modules": 0,
+  "original_modules_with_bounded_implementation": 8,
+  "additional_executable_components": [
+    "X101",
+    "X102",
+    "X103",
+    "X105",
+    "X106"
+  ],
+  "additional_design_only_components": [
+    "X104",
+    "X107",
+    "X108",
+    "X109",
+    "X110"
+  ],
+  "nqc_isolation": {
+    "active_workflows": 0,
+    "canonical_recertification": false,
+    "destination_repository_id": 1411047452,
+    "disabled_workflows": 106,
+    "original_objects_checked": false,
+    "source_commit": "e259739c9f75fedcd1061d2f78d6b8852e7a3060",
+    "source_files": 531,
+    "status": "ISOLATED_SOURCE_IDENTITY_PASS"
+  },
+  "existing_tracked_files_modified": 0,
+  "not_run": [
+    "Census Rust tests (no Rust changes)",
+    "Original producer Git ancestry checks",
+    "seL4/CHERI/enclave/eBPF hardware validation",
+    "Browser CSP enforcement",
+    "Production workload performance"
+  ],
+  "not_implemented": [
+    "Mandatory admission hook in production NQC consumer",
+    "Independent external audit anchoring",
+    "State retention and paginated exports",
+    "Continuous kernel sensors"
+  ],
+  "publication": {
+    "push": false,
+    "pull_request": false,
+    "release": false,
+    "deploy": false,
+    "email": false,
+    "workflow_enabled": false,
+    "branch": "NQC-defensive",
+    "user_authorized": true,
+    "status": "prepared_for_publication"
+  },
+  "scope": "Local NQC source addition and real artifact inspection; no production enforcement, live host isolation, scanning, exploitation, trading or transaction signing"
+}

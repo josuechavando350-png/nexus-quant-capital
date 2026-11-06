@@ -1,0 +1,959 @@
+{
+  "source_pdf_sha256": "de920f0412ca6130319982c72cf81fe5f7b7d8438b5873752609f0744e867e33",
+  "fully_completed_original_modules": 0,
+  "original_modules_with_bounded_implementation": 8,
+  "modules": [
+    {
+      "id": 1,
+      "original_name": "seL4 Core",
+      "category": "hardware",
+      "status": "not_implemented",
+      "defensive_scope": "Aislamiento por capacidades sobre una plataforma seL4 concreta; delimitar TCB y supuestos de prueba.",
+      "remaining_work": "Placa o VM compatible, imagen arrancable, prueba de separación de dominios.",
+      "implementation": null
+    },
+    {
+      "id": 2,
+      "original_name": "eBPF Sentinel",
+      "category": "linux",
+      "status": "not_implemented",
+      "defensive_scope": "Sensor Linux de eventos y políticas eBPF/LSM preaprobadas; medir pérdidas y latencia.",
+      "remaining_work": "Kernel compatible, privilegios acotados, carga/verificador eBPF y pruebas de regresión.",
+      "implementation": null
+    },
+    {
+      "id": 3,
+      "original_name": "CHERI Guardian",
+      "category": "hardware",
+      "status": "not_implemented",
+      "defensive_scope": "Memoria con capacidades CHERI; separar protección espacial, temporal y compartimentos.",
+      "remaining_work": "Compilador, ISA y hardware/emulación CHERI; pruebas de límites y revocación.",
+      "implementation": null
+    },
+    {
+      "id": 4,
+      "original_name": "Secure Enclave Manager",
+      "category": "hardware",
+      "status": "not_implemented",
+      "defensive_scope": "Admisión de enclaves/VMs a partir de atestación verificada y mediciones permitidas.",
+      "remaining_work": "Proveedor SGX o SEV-SNP, cadena de certificados, frescura y política de mediciones.",
+      "implementation": null
+    },
+    {
+      "id": 5,
+      "original_name": "Quantum-Resistant Lattice",
+      "category": "crypto",
+      "status": "not_implemented",
+      "defensive_scope": "Agilidad criptográfica usando implementaciones revisadas de ML-KEM y ML-DSA; evitar primitivas caseras.",
+      "remaining_work": "Biblioteca, vectores NIST, interoperabilidad, protección de claves y manejo de errores.",
+      "implementation": null
+    },
+    {
+      "id": 6,
+      "original_name": "WASM Sandbox Engine",
+      "category": "runtime",
+      "status": "not_implemented",
+      "defensive_scope": "Ejecución WebAssembly con imports permitidos, memoria, combustible y tiempo acotados.",
+      "remaining_work": "Runtime real, pruebas de escape de permisos, agotamiento y cancelación.",
+      "implementation": null
+    },
+    {
+      "id": 7,
+      "original_name": "Nix Inmutable Base",
+      "category": "build",
+      "status": "not_implemented",
+      "defensive_scope": "Sistema declarativo con generación inmutable y reversión; separar datos persistentes.",
+      "remaining_work": "Nix/NixOS, cierre de dependencias fijado, imagen arrancable y prueba de rollback.",
+      "implementation": null
+    },
+    {
+      "id": 8,
+      "original_name": "Formal Logic Verifier",
+      "category": "research",
+      "status": "not_implemented",
+      "defensive_scope": "Demostrar propiedades explícitas de un modelo; registrar supuestos y contraejemplos.",
+      "remaining_work": "Especificación, herramienta de prueba, vínculo con código y revisión independiente.",
+      "implementation": null
+    },
+    {
+      "id": 9,
+      "original_name": "Anycast Decoy Network",
+      "category": "network",
+      "status": "not_implemented",
+      "defensive_scope": "Señuelos en infraestructura propia con límites de carga y correlación local.",
+      "remaining_work": "Entorno autorizado, despliegue privado y validación de falsos positivos.",
+      "implementation": null
+    },
+    {
+      "id": 10,
+      "original_name": "Deterministic SOAR Orchestrator",
+      "category": "local",
+      "status": "implemented_bounded_subset",
+      "defensive_scope": "Orquestación transaccional de admisión, cuarentena local, revocación de tokens y liberación por operador.",
+      "remaining_work": "Integrar acciones reales de host después de medir impacto y rollback.",
+      "implementation": "nqc_defense/engine.py"
+    },
+    {
+      "id": 11,
+      "original_name": "Polymorphic Memory Morpher",
+      "category": "research",
+      "status": "not_implemented",
+      "defensive_scope": "Diversificación compatible con ABI y unwind; evaluar impacto antes de usar en ejecución.",
+      "remaining_work": "Prototipo de compilador/runtime y pruebas de consistencia de punteros.",
+      "implementation": null
+    },
+    {
+      "id": 12,
+      "original_name": "Honey-Data Poisoner",
+      "category": "reformulated",
+      "status": "reformulated_pending",
+      "defensive_scope": "Datos señuelo inertes identificables; nunca contenido que ataque herramientas ajenas.",
+      "remaining_work": "Generación acotada, segregación de datos reales y señales de uso propias.",
+      "implementation": null
+    },
+    {
+      "id": 13,
+      "original_name": "TCP Window Tarpit",
+      "category": "reformulated",
+      "status": "reformulated_pending",
+      "defensive_scope": "Límites locales de conexiones y tiempos de espera sin intentar agotar equipos ajenos.",
+      "remaining_work": "Servidor propio con cuotas, expiración y medición de consumo.",
+      "implementation": null
+    },
+    {
+      "id": 14,
+      "original_name": "CI/CD Invariant Mutator",
+      "category": "build",
+      "status": "not_implemented",
+      "defensive_scope": "Variantes reproducibles por compilación, con pruebas de equivalencia y rollback.",
+      "remaining_work": "Pipeline aislado y presupuesto de costo; no mutación horaria automática.",
+      "implementation": null
+    },
+    {
+      "id": 15,
+      "original_name": "eBPF Hot Grafting",
+      "category": "linux",
+      "status": "not_implemented",
+      "defensive_scope": "Filtros eBPF preaprobados versionados; cambios revisados y reversibles.",
+      "remaining_work": "Verifier del kernel, pruebas de carga y mecanismo de desactivación.",
+      "implementation": null
+    },
+    {
+      "id": 16,
+      "original_name": "ZK Multi-Party Ledger",
+      "category": "crypto",
+      "status": "not_implemented",
+      "defensive_scope": "Auditoría con compromisos y, si aporta valor medible, pruebas ZK específicas.",
+      "remaining_work": "Modelo de amenaza, circuito, revisión criptográfica y anclajes externos.",
+      "implementation": null
+    },
+    {
+      "id": 17,
+      "original_name": "Circuit-Breaker Hardware Link",
+      "category": "network",
+      "status": "not_implemented",
+      "defensive_scope": "Corte lógico de salida en infraestructura propia, con límites e impacto acotado.",
+      "remaining_work": "Adaptador de firewall propio; distinguir corte lógico de hardware físico.",
+      "implementation": null
+    },
+    {
+      "id": 18,
+      "original_name": "Semantic Keystroke Profiler",
+      "category": "privacy",
+      "status": "not_implemented",
+      "defensive_scope": "Señales de sesión optativas y minimizadas; ninguna identidad concluyente por ritmo.",
+      "remaining_work": "Consentimiento, retención mínima y evaluación de sesgos/falsos positivos.",
+      "implementation": null
+    },
+    {
+      "id": 19,
+      "original_name": "Steganographic Watermarker",
+      "category": "data",
+      "status": "not_implemented",
+      "defensive_scope": "Marcas por documento o distribución; atribución probabilística y evidencia corroborada.",
+      "remaining_work": "Formato compatible, claves protegidas y ensayo frente a transformaciones.",
+      "implementation": null
+    },
+    {
+      "id": 20,
+      "original_name": "Decentralized Enajambre Check",
+      "category": "distributed",
+      "status": "not_implemented",
+      "defensive_scope": "Atestación de nodos con retos frescos y mediciones definidas.",
+      "remaining_work": "Raíz de confianza y modelo que no equipare hashes RAM con autenticidad física.",
+      "implementation": null
+    },
+    {
+      "id": 21,
+      "original_name": "Syscall Shuffler",
+      "category": "research",
+      "status": "not_implemented",
+      "defensive_scope": "Evaluar diversificación de ABI en laboratorio, preservando compatibilidad y depuración.",
+      "remaining_work": "Kernel propio, toolchain y pruebas exhaustivas de compatibilidad.",
+      "implementation": null
+    },
+    {
+      "id": 22,
+      "original_name": "Anti-Debugging Nanoloop",
+      "category": "reformulated",
+      "status": "reformulated_pending",
+      "defensive_scope": "Detección de cambios de integridad y cierre controlado; evitar autodestrucción por temporización.",
+      "remaining_work": "Política explícita de claves y pruebas ante suspensión legítima.",
+      "implementation": null
+    },
+    {
+      "id": 23,
+      "original_name": "BGP Blackhole Trigger",
+      "category": "network",
+      "status": "not_implemented",
+      "defensive_scope": "Solicitudes revisadas de mitigación a proveedor/router propio.",
+      "remaining_work": "Acuerdo con proveedor, prefijos autorizados y recuperación probada.",
+      "implementation": null
+    },
+    {
+      "id": 24,
+      "original_name": "Chaffing & Winnowing Mixer",
+      "category": "research",
+      "status": "not_implemented",
+      "defensive_scope": "Evaluar privacidad de metadatos con tráfico de cobertura estrictamente presupuestado.",
+      "remaining_work": "Modelo de filtraciones, controles de volumen y pruebas de rendimiento.",
+      "implementation": null
+    },
+    {
+      "id": 25,
+      "original_name": "Firecracker Micro-VM Spawner",
+      "category": "runtime",
+      "status": "not_implemented",
+      "defensive_scope": "Pool de microVMs para trabajos acotados, con aislamiento y limpieza comprobados.",
+      "remaining_work": "KVM, Firecracker, imágenes mínimas y cuotas; medir latencia por trabajo.",
+      "implementation": null
+    },
+    {
+      "id": 26,
+      "original_name": "Canary File Seeder",
+      "category": "local",
+      "status": "implemented_bounded_subset",
+      "defensive_scope": "Crear señuelos locales sin sobrescribir y detectar cambio o desaparición por inspección.",
+      "remaining_work": "Detección de lecturas requiere sensor adicional; no bloquear discos completos.",
+      "implementation": "nqc_defense/canary.py"
+    },
+    {
+      "id": 27,
+      "original_name": "TOTP API Obfuscator",
+      "category": "identity",
+      "status": "not_implemented",
+      "defensive_scope": "Autenticación y permisos de API; rotación de rutas solo como experimento secundario.",
+      "remaining_work": "Clientes compatibles y observabilidad; no tratar ocultación como autorización.",
+      "implementation": null
+    },
+    {
+      "id": 28,
+      "original_name": "Instruction Set Emulation",
+      "category": "research",
+      "status": "not_implemented",
+      "defensive_scope": "Runtime de instrucciones restringidas sobre código propio con límites claros.",
+      "remaining_work": "Implementación auditada y pruebas de equivalencia/aislamiento.",
+      "implementation": null
+    },
+    {
+      "id": 29,
+      "original_name": "Control Flow Rigor",
+      "category": "build",
+      "status": "not_implemented",
+      "defensive_scope": "Control de flujo y mitigaciones del compilador sobre binarios propios.",
+      "remaining_work": "Toolchain compatible, cobertura de llamadas indirectas y medición de sobrecosto.",
+      "implementation": null
+    },
+    {
+      "id": 30,
+      "original_name": "Semantic Dead-Code Injector",
+      "category": "reformulated",
+      "status": "reformulated_pending",
+      "defensive_scope": "Diversificación de binarios verificable sin inflar código con relleno.",
+      "remaining_work": "Equivalencia, trazabilidad y beneficio medido; no millones de líneas inútiles.",
+      "implementation": null
+    },
+    {
+      "id": 31,
+      "original_name": "Zero-Knowledge Auth Proofs",
+      "category": "identity",
+      "status": "not_implemented",
+      "defensive_scope": "Autenticación criptográfica con protocolos revisados y sin contraseñas reutilizables.",
+      "remaining_work": "Integración SSH real y prueba contra replay; ZK solo con caso de uso explícito.",
+      "implementation": null
+    },
+    {
+      "id": 32,
+      "original_name": "Homomorphic Masking Engine",
+      "category": "crypto",
+      "status": "not_implemented",
+      "defensive_scope": "Operaciones acotadas sobre datos cifrados; documentar filtraciones del esquema.",
+      "remaining_work": "Biblioteca FHE revisada, parámetros, vectores y comparación de resultados.",
+      "implementation": null
+    },
+    {
+      "id": 33,
+      "original_name": "Dynamic Nonce CSP",
+      "category": "local",
+      "status": "implemented_bounded_subset",
+      "defensive_scope": "Nonce aleatorio por respuesta y política CSP restrictiva en la interfaz WSGI.",
+      "remaining_work": "Integración con plantillas y pruebas de navegador pendientes; no elimina todo XSS.",
+      "implementation": "nqc_defense/web.py"
+    },
+    {
+      "id": 34,
+      "original_name": "Autonomous TLS Shuffler",
+      "category": "identity",
+      "status": "not_implemented",
+      "defensive_scope": "Rotación controlada de certificados internos y validación de identidad del par.",
+      "remaining_work": "CA, almacén de claves, renovación y pruebas de revocación/interoperabilidad.",
+      "implementation": null
+    },
+    {
+      "id": 35,
+      "original_name": "Cache Page Coloring",
+      "category": "hardware",
+      "status": "not_implemented",
+      "defensive_scope": "Evaluar partición de caché y separación de páginas con garantías específicas.",
+      "remaining_work": "Hardware/OS compatibles; no confundir colores lógicos con aislamiento eléctrico.",
+      "implementation": null
+    },
+    {
+      "id": 36,
+      "original_name": "RAM Disk Self-Destruct",
+      "category": "crypto",
+      "status": "not_implemented",
+      "defensive_scope": "Volúmenes temporales y ciclo de vida de claves con borrado de mejor esfuerzo.",
+      "remaining_work": "Implementación de almacenamiento, swap/dumps y recuperación; sin promesa nanosegundo.",
+      "implementation": null
+    },
+    {
+      "id": 37,
+      "original_name": "Process Signature Firewall",
+      "category": "linux",
+      "status": "not_implemented",
+      "defensive_scope": "Política de salida por identidad de proceso corroborada por sensor de kernel.",
+      "remaining_work": "eBPF/LSM, vinculación fiable proceso-socket y actualización de firmas.",
+      "implementation": null
+    },
+    {
+      "id": 38,
+      "original_name": "Dual-Stack Stack Protector",
+      "category": "build",
+      "status": "not_implemented",
+      "defensive_scope": "Protección de retorno y separación de pilas donde toolchain/hardware lo soporten.",
+      "remaining_work": "Instrumentación, ABI y pruebas; no cubre toda corrupción de memoria.",
+      "implementation": null
+    },
+    {
+      "id": 39,
+      "original_name": "Behavioral Rate-Limiter",
+      "category": "local",
+      "status": "implemented_bounded_subset",
+      "defensive_scope": "Límite transaccional por sujeto, persistente entre reinicios y con ventana acotada.",
+      "remaining_work": "Se implementa admisión por cuota; modelo conductual y ralentización pendientes.",
+      "implementation": "nqc_defense/rate.py"
+    },
+    {
+      "id": 40,
+      "original_name": "Unidirectional Data Diode",
+      "category": "hardware",
+      "status": "not_implemented",
+      "defensive_scope": "Canal de auditoría unidireccional físicamente verificable.",
+      "remaining_work": "Diodo de datos real y pruebas; una configuración de software no equivale a hardware.",
+      "implementation": null
+    },
+    {
+      "id": 41,
+      "original_name": "Environment Leak Injector",
+      "category": "reformulated",
+      "status": "reformulated_pending",
+      "defensive_scope": "Sanitizar respuestas y detectar indicios del lado servidor sin atacar clientes.",
+      "remaining_work": "Pruebas de respuestas inertes y minimización de metadatos.",
+      "implementation": null
+    },
+    {
+      "id": 42,
+      "original_name": "Reverse C2 Takeover",
+      "category": "reformulated",
+      "status": "reformulated_pending",
+      "defensive_scope": "Clasificación pasiva de tráfico C2 en registros propios; aislamiento local.",
+      "remaining_work": "Capturas autorizadas y validación; ninguna toma de control de infraestructura ajena.",
+      "implementation": null
+    },
+    {
+      "id": 43,
+      "original_name": "Mirror Payload Analyzer",
+      "category": "runtime",
+      "status": "not_implemented",
+      "defensive_scope": "Cuarentena y análisis estático de muestras en laboratorio aislado.",
+      "remaining_work": "Contenedores/VMs sin salida, límites y herramientas revisadas; no reproducir exploits.",
+      "implementation": null
+    },
+    {
+      "id": 44,
+      "original_name": "Dark Web Token Bait",
+      "category": "reformulated",
+      "status": "reformulated_pending",
+      "defensive_scope": "Honeytokens limitados a sistemas propios y canales autorizados.",
+      "remaining_work": "Emisión, revocación y telemetría propia; no siembra en foros criminales.",
+      "implementation": null
+    },
+    {
+      "id": 45,
+      "original_name": "Crowdsourced Verification Interface",
+      "category": "governance",
+      "status": "not_implemented",
+      "defensive_scope": "Entorno privado de evaluación y recepción de reportes autorizados.",
+      "remaining_work": "Alcance, aislamiento, borrado y revisión humana de evidencias.",
+      "implementation": null
+    },
+    {
+      "id": 46,
+      "original_name": "Keystroke Dynamics Profiler",
+      "category": "privacy",
+      "status": "not_implemented",
+      "defensive_scope": "Señales optativas de continuidad de sesión, complementarias a autenticación.",
+      "remaining_work": "Consentimiento y validación; relacionado con M18, sin duplicar capacidades ficticias.",
+      "implementation": null
+    },
+    {
+      "id": 47,
+      "original_name": "Active Directory Decoy Objects",
+      "category": "identity",
+      "status": "not_implemented",
+      "defensive_scope": "Objetos señuelo limitados a laboratorio/directorio propio sin permisos efectivos.",
+      "remaining_work": "Plan de limpieza, métricas y compatibilidad con operaciones legítimas.",
+      "implementation": null
+    },
+    {
+      "id": 48,
+      "original_name": "Anti-Nmap TCP Shuffler",
+      "category": "reformulated",
+      "status": "reformulated_pending",
+      "defensive_scope": "Reducir información innecesaria de servicios propios y detectar sondeos en logs.",
+      "remaining_work": "Pila TCP compatible; no respuestas malformadas contra clientes.",
+      "implementation": null
+    },
+    {
+      "id": 49,
+      "original_name": "Binary Watermarking Engine",
+      "category": "data",
+      "status": "not_implemented",
+      "defensive_scope": "Marcas por compilación/descarga y registro de procedencia verificable.",
+      "remaining_work": "Transformación reversible o tolerable y límites explícitos de atribución.",
+      "implementation": null
+    },
+    {
+      "id": 50,
+      "original_name": "Abuse Reporting Automator",
+      "category": "governance",
+      "status": "not_implemented",
+      "defensive_scope": "Preparar expediente forense local para revisión antes de cualquier envío.",
+      "remaining_work": "No enviar reportes ni solicitar bajas sin orden expresa.",
+      "implementation": null
+    },
+    {
+      "id": 51,
+      "original_name": "Synthetic Immune System",
+      "category": "research",
+      "status": "not_implemented",
+      "defensive_scope": "Detección de anomalías con evaluación sobre conjuntos separados.",
+      "remaining_work": "Baselines versionados, deriva, precisión/recobrado y controles de falsos positivos.",
+      "implementation": null
+    },
+    {
+      "id": 52,
+      "original_name": "Evolutionary Code Regenerator",
+      "category": "build",
+      "status": "not_implemented",
+      "defensive_scope": "Propuestas de corrección con pruebas, revisión y rollback.",
+      "remaining_work": "Sin despliegue autónomo en producción; medir mejora antes de activar.",
+      "implementation": null
+    },
+    {
+      "id": 53,
+      "original_name": "Consensus Memory Validator",
+      "category": "distributed",
+      "status": "not_implemented",
+      "defensive_scope": "Comparar mediciones reproducibles de componentes, no RAM arbitraria dinámica.",
+      "remaining_work": "Modelo de estado replicado, raíces de confianza y tratamiento de discrepancias.",
+      "implementation": null
+    },
+    {
+      "id": 54,
+      "original_name": "Topological Reconfigurator",
+      "category": "network",
+      "status": "not_implemented",
+      "defensive_scope": "Segmentación versionada y cambios limitados con pruebas de conectividad.",
+      "remaining_work": "Controlador propio, reversión y presupuesto de interrupción.",
+      "implementation": null
+    },
+    {
+      "id": 55,
+      "original_name": "Supply-Chain Zero-Trust Mesh",
+      "category": "supply-chain",
+      "status": "not_implemented",
+      "defensive_scope": "Aislar dominios de confianza y verificar procedencia de dependencias.",
+      "remaining_work": "Claves por cliente, firmas, revocación y pruebas de compromiso parcial.",
+      "implementation": null
+    },
+    {
+      "id": 56,
+      "original_name": "Asfixia de Rendimiento Controlada",
+      "category": "linux",
+      "status": "not_implemented",
+      "defensive_scope": "Cuotas cgroup para procesos propios identificados, con mínimos operativos.",
+      "remaining_work": "Privilegios acotados, límites verificables y recuperación; no un ciclo/segundo ficticio.",
+      "implementation": null
+    },
+    {
+      "id": 57,
+      "original_name": "Ephemeral Identity Tokens",
+      "category": "local",
+      "status": "implemented_bounded_subset",
+      "defensive_scope": "Tokens aleatorios ligados a activo, de un uso y vencimiento, almacenados por hash.",
+      "remaining_work": "Ya hay consumo atómico y revocación; falta integración de identidad de operadores.",
+      "implementation": "nqc_defense/identity.py"
+    },
+    {
+      "id": 58,
+      "original_name": "Chaos Engineering Drills",
+      "category": "testing",
+      "status": "not_implemented",
+      "defensive_scope": "Fallos benignos controlados en laboratorio para medir continuidad defensiva.",
+      "remaining_work": "Escenario, presupuesto de impacto y recuperación; sin exploits en producción.",
+      "implementation": null
+    },
+    {
+      "id": 59,
+      "original_name": "Predictive Scaling Signaler",
+      "category": "research",
+      "status": "not_implemented",
+      "defensive_scope": "Pronóstico basado en telemetría propia y fuentes legítimas, expresando incertidumbre.",
+      "remaining_work": "Evaluación retrospectiva y costos; sin promesas de predecir ataques.",
+      "implementation": null
+    },
+    {
+      "id": 60,
+      "original_name": "Decoy Data Synthesizer",
+      "category": "data",
+      "status": "not_implemented",
+      "defensive_scope": "Datos sintéticos inertes en cuotas finitas y separados de datos productivos.",
+      "remaining_work": "Presupuesto de disco/CPU y prueba de no contaminación de decisiones.",
+      "implementation": null
+    },
+    {
+      "id": 61,
+      "original_name": "Compiler Structure Shuffler",
+      "category": "build",
+      "status": "not_implemented",
+      "defensive_scope": "Variación de disposición de estructuras en compilaciones compatibles.",
+      "remaining_work": "Backend LLVM, ABI y pruebas de equivalencia.",
+      "implementation": null
+    },
+    {
+      "id": 62,
+      "original_name": "Typestate Pattern Enforcer",
+      "category": "language",
+      "status": "not_implemented",
+      "defensive_scope": "Máquinas de estado Rust con transiciones tipadas y sincronización revisada.",
+      "remaining_work": "Crate real y pruebas de concurrencia; tipado no elimina toda carrera lógica.",
+      "implementation": null
+    },
+    {
+      "id": 63,
+      "original_name": "DPDK Kernel Bypass",
+      "category": "network",
+      "status": "not_implemented",
+      "defensive_scope": "Procesamiento de red en espacio de usuario con aislamiento y cuotas.",
+      "remaining_work": "NIC/DPDK, drivers y pruebas; bypass del kernel no implica inmunidad.",
+      "implementation": null
+    },
+    {
+      "id": 64,
+      "original_name": "Intel CET Shadow Stack",
+      "category": "hardware",
+      "status": "not_implemented",
+      "defensive_scope": "Activar y verificar shadow stack/CET cuando estén disponibles.",
+      "remaining_work": "CPU, kernel, loader y binarios compatibles.",
+      "implementation": null
+    },
+    {
+      "id": 65,
+      "original_name": "Functional TFHE-rs Runtime",
+      "category": "crypto",
+      "status": "not_implemented",
+      "defensive_scope": "Operaciones FHE específicas con TFHE-rs y parámetros revisados.",
+      "remaining_work": "Runtime real, vectores y medidas de latencia/memoria.",
+      "implementation": null
+    },
+    {
+      "id": 66,
+      "original_name": "Hardware PAC Authenticator",
+      "category": "hardware",
+      "status": "not_implemented",
+      "defensive_scope": "Autenticación de punteros ARM donde compilador y hardware lo soporten.",
+      "remaining_work": "CPU/ABI, firmas y validación; no cubre toda inyección.",
+      "implementation": null
+    },
+    {
+      "id": 67,
+      "original_name": "Content-Addressable Config",
+      "category": "local",
+      "status": "implemented_bounded_subset",
+      "defensive_scope": "Configuraciones canónicas por SHA3-256 verificadas contra un digest fijado fuera de la solicitud.",
+      "remaining_work": "Ya implementado; gestión distribuida de anclajes y rotación pendiente.",
+      "implementation": "nqc_defense/config.py"
+    },
+    {
+      "id": 68,
+      "original_name": "Speculative Barrier Injector",
+      "category": "hardware",
+      "status": "not_implemented",
+      "defensive_scope": "Barreras de especulación basadas en análisis de código y arquitectura.",
+      "remaining_work": "Toolchain y microarquitectura concretos; no garantía universal contra Spectre.",
+      "implementation": null
+    },
+    {
+      "id": 69,
+      "original_name": "WASI-NN Driver Isolator",
+      "category": "research",
+      "status": "not_implemented",
+      "defensive_scope": "Aislar plugins WASM con imports explícitos; WASI-NN no es interfaz universal de drivers.",
+      "remaining_work": "Runtime y adaptadores apropiados para dispositivos concretos.",
+      "implementation": null
+    },
+    {
+      "id": 70,
+      "original_name": "GlobalAllocator Cleaner",
+      "category": "language",
+      "status": "not_implemented",
+      "defensive_scope": "Borrado de buffers secretos mediante bibliotecas apropiadas y límites documentados.",
+      "remaining_work": "Copias, optimizaciones, swap y runtime deben evaluarse; no garantía RAM universal.",
+      "implementation": null
+    },
+    {
+      "id": 71,
+      "original_name": "LSM eBPF Redirector",
+      "category": "linux",
+      "status": "not_implemented",
+      "defensive_scope": "Políticas LSM revisadas de acceso local; sin desviar silenciosamente toda syscall.",
+      "remaining_work": "Hooks compatibles, errores explícitos y rollback probado.",
+      "implementation": null
+    },
+    {
+      "id": 72,
+      "original_name": "Noise Protocol Framework",
+      "category": "crypto",
+      "status": "not_implemented",
+      "defensive_scope": "Canales mediante patrones Noise revisados y bibliotecas existentes.",
+      "remaining_work": "Handshake, identidad, rekey y vectores; no inventar destrucción por paquete.",
+      "implementation": null
+    },
+    {
+      "id": 73,
+      "original_name": "Zero-Copy rkyv Serializer",
+      "category": "serialization",
+      "status": "not_implemented",
+      "defensive_scope": "Deserialización rkyv validada y acotada, con versión de esquema.",
+      "remaining_work": "Crate Rust, validación de archivos y fuzzing local; no confiar en bytes recibidos.",
+      "implementation": null
+    },
+    {
+      "id": 74,
+      "original_name": "CPU Registers Key Crypt",
+      "category": "research",
+      "status": "not_implemented",
+      "defensive_scope": "Evaluar gestión de claves asistida por hardware para un modelo concreto.",
+      "remaining_work": "Interrupciones, cambios de contexto, volcados y raíz de confianza.",
+      "implementation": null
+    },
+    {
+      "id": 75,
+      "original_name": "Compile-Time Graph Validator",
+      "category": "local",
+      "status": "implemented_bounded_subset",
+      "defensive_scope": "Contrato estricto de solicitud/respuesta y rechazo de campos adicionales en ejecución.",
+      "remaining_work": "Subconjunto runtime implementado; macros, grafo y demostración de compilación pendientes.",
+      "implementation": "nqc_defense/codec.py"
+    },
+    {
+      "id": 76,
+      "original_name": "Deterministic Build Pipeline",
+      "category": "local",
+      "status": "implemented_bounded_subset",
+      "defensive_scope": "Exportación ZIP determinista con manifiesto de hashes y verificador.",
+      "remaining_work": "Subconjunto de artefactos implementado; reproducibilidad binaria completa pendiente.",
+      "implementation": "nqc_defense/build.py"
+    },
+    {
+      "id": 77,
+      "original_name": "Cache Partitioning Manager",
+      "category": "hardware",
+      "status": "not_implemented",
+      "defensive_scope": "Partición de recursos de CPU/caché para cargas sensibles.",
+      "remaining_work": "Soporte resctrl/CAT u otro mecanismo real y ensayos de canales laterales.",
+      "implementation": null
+    },
+    {
+      "id": 78,
+      "original_name": "Static Stack Sizer",
+      "category": "build",
+      "status": "not_implemented",
+      "defensive_scope": "Análisis estático de cotas de pila en lenguajes/toolchains concretos.",
+      "remaining_work": "Recursión, FFI e interrupciones explícitos; no garantía genérica.",
+      "implementation": null
+    },
+    {
+      "id": 79,
+      "original_name": "zk-SNARKs Permission Circuit",
+      "category": "crypto",
+      "status": "not_implemented",
+      "defensive_scope": "Pruebas de autorización ZK para una relación y privacidad definidas.",
+      "remaining_work": "Circuito, setup cuando aplique, revisión y benchmarks.",
+      "implementation": null
+    },
+    {
+      "id": 80,
+      "original_name": "Scatter-Gather I/O Diver",
+      "category": "network",
+      "status": "not_implemented",
+      "defensive_scope": "I/O disperso con comprobación estricta de longitudes y propiedad de buffers.",
+      "remaining_work": "Runtime real; dispersión de memoria no elimina por sí misma desbordamientos.",
+      "implementation": null
+    },
+    {
+      "id": 81,
+      "original_name": "TTY Session Hijacker",
+      "category": "reformulated",
+      "status": "reformulated_pending",
+      "defensive_scope": "Sanitización de secuencias de control en logs/terminales propias.",
+      "remaining_work": "Pruebas de neutralización; no inyección en terminales ajenas.",
+      "implementation": null
+    },
+    {
+      "id": 82,
+      "original_name": "Reverse Memory Dumper",
+      "category": "reformulated",
+      "status": "reformulated_pending",
+      "defensive_scope": "Rechazar paquetes inválidos y recoger diagnósticos locales.",
+      "remaining_work": "Parser acotado y telemetría; no inducir fallos en máquinas ajenas.",
+      "implementation": null
+    },
+    {
+      "id": 83,
+      "original_name": "RAM Honey-Token Injector",
+      "category": "research",
+      "status": "not_implemented",
+      "defensive_scope": "Honeytokens inertes en memoria propia con señales de uso autorizadas.",
+      "remaining_work": "Instrumentación real; leer RAM no produce una alerta sin sensor específico.",
+      "implementation": null
+    },
+    {
+      "id": 84,
+      "original_name": "Git Hook Honeypot",
+      "category": "reformulated",
+      "status": "reformulated_pending",
+      "defensive_scope": "Repositorios señuelo sin hooks ejecutables, con registros del servidor propio.",
+      "remaining_work": "Ningún código oculto que ejecute en equipos visitantes.",
+      "implementation": null
+    },
+    {
+      "id": 85,
+      "original_name": "Semantic Error Watermarker",
+      "category": "privacy",
+      "status": "not_implemented",
+      "defensive_scope": "Identificadores opacos de correlación de errores con retención acotada.",
+      "remaining_work": "No atribución personal concluyente; limitar seguimiento entre sesiones.",
+      "implementation": null
+    },
+    {
+      "id": 86,
+      "original_name": "DNS Rebinding Reverser",
+      "category": "reformulated",
+      "status": "reformulated_pending",
+      "defensive_scope": "Validación de origen/Host y destino para impedir rebinding hacia recursos propios.",
+      "remaining_work": "DNS y política de red correctos; no rebinding inverso contra terceros.",
+      "implementation": null
+    },
+    {
+      "id": 87,
+      "original_name": "Framework Fuzzer Counter",
+      "category": "reformulated",
+      "status": "reformulated_pending",
+      "defensive_scope": "Fuzzing local de parsers propios y rechazo de entradas malformadas.",
+      "remaining_work": "Pruebas aisladas; ninguna respuesta que explote herramientas ajenas.",
+      "implementation": null
+    },
+    {
+      "id": 88,
+      "original_name": "Exponential Latency API",
+      "category": "reformulated",
+      "status": "reformulated_pending",
+      "defensive_scope": "Cuotas y desafíos opcionales de costo acotado en servicios propios.",
+      "remaining_work": "Accesibilidad y límites de recursos; no agotar CPU de visitantes.",
+      "implementation": null
+    },
+    {
+      "id": 89,
+      "original_name": "Terraform Cloud Deception",
+      "category": "network",
+      "status": "not_implemented",
+      "defensive_scope": "Infraestructura señuelo privada con presupuesto y destrucción revisados.",
+      "remaining_work": "Cuenta propia, sin acceso a producción y sin credenciales útiles.",
+      "implementation": null
+    },
+    {
+      "id": 90,
+      "original_name": "TCP Micro-Signature Profiler",
+      "category": "privacy",
+      "status": "not_implemented",
+      "defensive_scope": "Caracterización pasiva de tráfico observado en infraestructura propia.",
+      "remaining_work": "Incertidumbre por proxies/NAT; no prometer IP/OS reales inequívocos.",
+      "implementation": null
+    },
+    {
+      "id": 91,
+      "original_name": "Continuous Symbolic Execution",
+      "category": "research",
+      "status": "not_implemented",
+      "defensive_scope": "Ejecución simbólica de componentes acotados y registro de rutas no exploradas.",
+      "remaining_work": "Solver, cotas y vínculo con código; explosión de estados explícita.",
+      "implementation": null
+    },
+    {
+      "id": 92,
+      "original_name": "Raft Memory Consensus",
+      "category": "distributed",
+      "status": "not_implemented",
+      "defensive_scope": "Consenso sobre estado de aplicación definido, separado de atestación.",
+      "remaining_work": "Raft no demuestra ausencia de rootkit ni justifica apagar hardware automáticamente.",
+      "implementation": null
+    },
+    {
+      "id": 93,
+      "original_name": "eBPF Source Compiler Engine",
+      "category": "linux",
+      "status": "not_implemented",
+      "defensive_scope": "Compilación y carga de políticas eBPF preaprobadas y versionadas.",
+      "remaining_work": "Toolchain, verifier, pruebas negativas y rollback.",
+      "implementation": null
+    },
+    {
+      "id": 94,
+      "original_name": "Cellular Network Isolator",
+      "category": "network",
+      "status": "not_implemented",
+      "defensive_scope": "Segmentación y cuarentena de cargas propias con conectividad mínima.",
+      "remaining_work": "Orquestador real y pruebas de recuperación; no cuarentenas perfectas.",
+      "implementation": null
+    },
+    {
+      "id": 95,
+      "original_name": "Chaff Storage Generator",
+      "category": "data",
+      "status": "not_implemented",
+      "defensive_scope": "Archivos señuelo de tamaño finito y segregados de datos reales.",
+      "remaining_work": "Cuotas y limpieza; evitar esconder datos legítimos bajo basura masiva.",
+      "implementation": null
+    },
+    {
+      "id": 96,
+      "original_name": "P2P Decentralized Identity Mesh",
+      "category": "identity",
+      "status": "not_implemented",
+      "defensive_scope": "Identidades federadas/peer-to-peer con revocación y recuperación definidas.",
+      "remaining_work": "Modelo de confianza y pruebas ante partición/compromiso.",
+      "implementation": null
+    },
+    {
+      "id": 97,
+      "original_name": "Application Flavouring Engine",
+      "category": "build",
+      "status": "not_implemented",
+      "defensive_scope": "Diversidad de compilaciones con procedencia y pruebas de equivalencia.",
+      "remaining_work": "Comparación de rendimiento y corrección; no impredecibilidad absoluta.",
+      "implementation": null
+    },
+    {
+      "id": 98,
+      "original_name": "Watchdog Hardware Breaker",
+      "category": "hardware",
+      "status": "not_implemented",
+      "defensive_scope": "Watchdog de hardware con recuperación segura y retención de evidencia.",
+      "remaining_work": "Placa real, driver, pruebas de reinicio y prevención de bucles.",
+      "implementation": null
+    },
+    {
+      "id": 99,
+      "original_name": "Deep Graph Predictive Deception",
+      "category": "research",
+      "status": "not_implemented",
+      "defensive_scope": "Señuelos propios seleccionados por señales y reglas evaluadas.",
+      "remaining_work": "Experimento con controles y falsos positivos; no predicción infalible.",
+      "implementation": null
+    },
+    {
+      "id": 100,
+      "original_name": "Shamir Key Shuffler",
+      "category": "crypto",
+      "status": "not_implemented",
+      "defensive_scope": "Gestión de claves umbral con biblioteca revisada, recuperación y refresco de participaciones.",
+      "remaining_work": "Protocolo, autenticación de participantes y pruebas; Shamir solo no impide reconstrucción autorizada.",
+      "implementation": null
+    }
+  ],
+  "additional_components": [
+    {
+      "id": "X101",
+      "status": "implemented_local",
+      "implementation": "nqc_defense/audit.py"
+    },
+    {
+      "id": "X102",
+      "status": "implemented_local",
+      "implementation": "nqc_defense/codec.py"
+    },
+    {
+      "id": "X103",
+      "status": "implemented_local",
+      "implementation": "nqc_defense/receipts.py"
+    },
+    {
+      "id": "X104",
+      "status": "design_only",
+      "implementation": null
+    },
+    {
+      "id": "X105",
+      "status": "implemented_bounded_subset",
+      "implementation": "nqc_defense/budget.py"
+    },
+    {
+      "id": "X106",
+      "status": "implemented_bounded_subset",
+      "implementation": "nqc_defense/freshness.py"
+    },
+    {
+      "id": "X107",
+      "status": "design_only",
+      "implementation": null
+    },
+    {
+      "id": "X108",
+      "status": "design_only",
+      "implementation": null
+    },
+    {
+      "id": "X109",
+      "status": "design_only",
+      "implementation": null
+    },
+    {
+      "id": "X110",
+      "status": "design_only",
+      "implementation": null
+    }
+  ]
+}

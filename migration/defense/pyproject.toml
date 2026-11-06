@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nqc-defense-local"
+version = "0.2.1"
+description = "Unpublished local artifact admission controls for NQC"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+nqc-defense = "nqc_defense.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["nqc_defense*"]

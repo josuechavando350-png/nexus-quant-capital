@@ -1,0 +1,21 @@
+{
+  "before": {
+    "clock_at_issuance": 1000,
+    "clock_at_lock_release": 1120,
+    "clock_sampled_while_write_lock_held": true,
+    "measurement": "actual SQLite lock and file reads; controlled clock for expiry boundary",
+    "result": "admit",
+    "ttl_seconds": 120,
+    "version": "0.1.0"
+  },
+  "after": {
+    "clock_at_issuance": 1000,
+    "clock_at_lock_release": 1120,
+    "clock_sampled_while_write_lock_held": false,
+    "measurement": "actual SQLite lock and file reads; controlled clock for expiry boundary",
+    "result": "invalid_token",
+    "ttl_seconds": 120,
+    "version": "0.2.0"
+  },
+  "regression_fixed": true
+}
