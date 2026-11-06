@@ -1,0 +1,263 @@
+{
+  "schema_version": 1,
+  "items": [
+    {
+      "id": "B01",
+      "group": 1,
+      "title": "Código de integración ubicado en el repositorio de NQC",
+      "status": "BOUNDED_IMPLEMENTED",
+      "boundary": "Código del paquete superhunter; la procedencia del checkout se comprueba aparte con Git.",
+      "tests": [
+        "test_integration.IntegrationTests.test_cli_export_then_import",
+        "test_quality.QualityTests.test_missing_runtime_file_detected"
+      ]
+    },
+    {
+      "id": "B02",
+      "group": 1,
+      "title": "Repositorios originales de NQC y DIABLO preservados",
+      "status": "BOUNDED_IMPLEMENTED",
+      "boundary": "Las cuatro copias nativas se verifican byte a byte. La ausencia de otros cambios se revisa en el diff Git de cada publicación, no la certifica este test.",
+      "tests": [
+        "test_local_lab.LocalLabTests.test_source_pins_are_exact"
+      ]
+    },
+    {
+      "id": "B03",
+      "group": 1,
+      "title": "Componentes originales seleccionados de ambos ejecutándose juntos",
+      "status": "BOUNDED_IMPLEMENTED",
+      "boundary": "ScopeGuard y AuditLog de DIABLO con el solucionador numérico RMC-016 de NQC; no los motores completos.",
+      "tests": [
+        "test_local_lab.LocalLabTests.test_real_nqc_and_diablo_functions_are_called"
+      ]
+    },
+    {
+      "id": "B04",
+      "group": 1,
+      "title": "Integrar el motor completo de descubrimiento de DIABLO",
+      "status": "PENDING",
+      "boundary": "No implementado; se limita el desarrollo a evaluación defensiva, sin explotación autónoma de terceros.",
+      "tests": []
+    },
+    {
+      "id": "B05",
+      "group": 2,
+      "title": "Contrato de datos Candidate implementado",
+      "status": "BOUNDED_IMPLEMENTED",
+      "boundary": "Validación de estructura de un candidato; no confirma una vulnerabilidad.",
+      "tests": [
+        "test_bridge.BridgeTests.test_reject_extraneous_candidate_field"
+      ]
+    },
+    {
+      "id": "B06",
+      "group": 2,
+      "title": "Conversión de un Finding nativo de DIABLO a Candidate",
+      "status": "BOUNDED_IMPLEMENTED",
+      "boundary": "Adaptador de datos; la severidad del Finding original no se acepta como prueba.",
+      "tests": [
+        "test_integration.IntegrationTests.test_diablo_claimed_severity_not_trusted",
+        "test_integration.IntegrationTests.test_native_roundtrip_always_requires_review"
+      ]
+    },
+    {
+      "id": "B07",
+      "group": 2,
+      "title": "Identificadores, hashes, repo, commit y bloque vinculados",
+      "status": "BOUNDED_IMPLEMENTED",
+      "boundary": "Asociación de solicitud, cadena y estado; los hashes no autentican al productor.",
+      "tests": [
+        "test_integration.IntegrationTests.test_block_hash_mismatch",
+        "test_integration.IntegrationTests.test_request_tamper",
+        "test_integration.IntegrationTests.test_response_chain_mismatch",
+        "test_integration.IntegrationTests.test_response_must_match_request"
+      ]
+    },
+    {
+      "id": "B08",
+      "group": 2,
+      "title": "Generación automática de candidatos a partir de nuevos descubrimientos",
+      "status": "PENDING",
+      "boundary": "No hay motor de nuevos descubrimientos conectado.",
+      "tests": []
+    },
+    {
+      "id": "B09",
+      "group": 2,
+      "title": "Verificación real de la PoC contra el contrato exacto",
+      "status": "PENDING",
+      "boundary": "No se ejecutó Forge ni se implementó un verificador genérico de PoCs.",
+      "tests": []
+    },
+    {
+      "id": "B10",
+      "group": 3,
+      "title": "Contrato de datos Reconstruction y adaptador de recepción implementados",
+      "status": "BOUNDED_IMPLEMENTED",
+      "boundary": "Recibe evidencia existente; no reconstruye por sí mismo un contrato.",
+      "tests": [
+        "test_integration.IntegrationTests.test_cli_export_then_import",
+        "test_integration.IntegrationTests.test_native_roundtrip_always_requires_review"
+      ]
+    },
+    {
+      "id": "B11",
+      "group": 3,
+      "title": "Comprobaciones de identidad, solicitud, cadena y estado",
+      "status": "BOUNDED_IMPLEMENTED",
+      "boundary": "Rechazo de respuestas incompatibles con la solicitud; no validación independiente de la cadena real.",
+      "tests": [
+        "test_integration.IntegrationTests.test_block_hash_mismatch",
+        "test_integration.IntegrationTests.test_request_tamper",
+        "test_integration.IntegrationTests.test_response_chain_mismatch",
+        "test_integration.IntegrationTests.test_response_must_match_request"
+      ]
+    },
+    {
+      "id": "B12",
+      "group": 3,
+      "title": "Solucionador numérico RMC-016 ejecutado en cinco casos sintéticos",
+      "status": "BOUNDED_IMPLEMENTED",
+      "boundary": "Los cinco casos nativos se verifican con referencia numérica independiente.",
+      "tests": [
+        "test_local_lab.LocalLabTests.test_expected_values_not_just_engine_agreement"
+      ]
+    },
+    {
+      "id": "B13",
+      "group": 3,
+      "title": "Reconstrucción automática del estado de un contrato investigado",
+      "status": "PENDING",
+      "boundary": "El solucionador RMC-016 no es un reconstructor de contratos.",
+      "tests": []
+    },
+    {
+      "id": "B14",
+      "group": 3,
+      "title": "Cálculo verificado de fondos en riesgo, costos y beneficio potencial",
+      "status": "PENDING",
+      "boundary": "Los importes externos son declaraciones; no hay impacto de vulnerabilidades calculado.",
+      "tests": []
+    },
+    {
+      "id": "B15",
+      "group": 3,
+      "title": "Segunda ejecución independiente de una vulnerabilidad",
+      "status": "PENDING",
+      "boundary": "Comparar números sintéticos no equivale a reproducir una vulnerabilidad.",
+      "tests": []
+    },
+    {
+      "id": "B16",
+      "group": 4,
+      "title": "Puertas de consistencia, integridad y revisión implementadas",
+      "status": "BOUNDED_IMPLEMENTED",
+      "boundary": "Puertas de consistencia de artefactos; el resultado sigue siendo REVIEW_REQUIRED.",
+      "tests": [
+        "test_bridge.BridgeTests.test_valid_bridge_and_calibration"
+      ]
+    },
+    {
+      "id": "B17",
+      "group": 4,
+      "title": "Detección de varias condiciones de rechazo y evidencia alterada",
+      "status": "BOUNDED_IMPLEMENTED",
+      "boundary": "Rechazo de cambios de bytes y relaciones contradictorias entre evidencia, casos y bitácoras.",
+      "tests": [
+        "test_audit_links.AuditLinkTests.test_input_hash_substitution_rejected_even_after_rehash",
+        "test_bridge.BridgeTests.test_forge_tampered_log",
+        "test_proof_graph.CausalGraphTests.test_stored_bundle_receipt_catches_graph_reseal"
+      ]
+    },
+    {
+      "id": "B18",
+      "group": 4,
+      "title": "Borradores REVIEW_REQUIRED y retorno de feedback a DIABLO",
+      "status": "BOUNDED_IMPLEMENTED",
+      "boundary": "Borrador de revisión sin confirmación de ejecución, severidad final ni recompensa.",
+      "tests": [
+        "test_integration.IntegrationTests.test_cli_export_then_import",
+        "test_integration.IntegrationTests.test_native_roundtrip_always_requires_review"
+      ]
+    },
+    {
+      "id": "B19",
+      "group": 4,
+      "title": "Verificación autónoma del alcance vigente y duplicados",
+      "status": "PENDING",
+      "boundary": "La revisión del programa y duplicados requiere fuentes y revisión humana vigentes.",
+      "tests": []
+    },
+    {
+      "id": "B20",
+      "group": 4,
+      "title": "Clasificación final de severidad con impacto demostrado",
+      "status": "PENDING",
+      "boundary": "La severidad propuesta no se promueve a severidad oficial o final.",
+      "tests": []
+    },
+    {
+      "id": "B21",
+      "group": 4,
+      "title": "Emisión de Finding confirmado por evidencia independiente",
+      "status": "PENDING",
+      "boundary": "No se emiten hallazgos confirmados.",
+      "tests": []
+    },
+    {
+      "id": "B22",
+      "group": 5,
+      "title": "Fuzzing combinado y ejecución simbólica",
+      "status": "PARTIAL",
+      "boundary": "Existe fuzzing numérico local; faltan EVM y ejecución simbólica.",
+      "tests": [
+        "test_fuzz_lab.FuzzLabTests.test_differential_64_cases"
+      ]
+    },
+    {
+      "id": "B23",
+      "group": 5,
+      "title": "Exploración de vulnerabilidades entre múltiples contratos",
+      "status": "PENDING",
+      "boundary": "No implementada; no se añade planificación autónoma de explotación.",
+      "tests": []
+    },
+    {
+      "id": "B24",
+      "group": 5,
+      "title": "Pruebas de invariantes económicas sobre contratos reales autorizados",
+      "status": "PENDING",
+      "boundary": "Solo modelos numéricos sintéticos, no contratos reales.",
+      "tests": []
+    },
+    {
+      "id": "B25",
+      "group": 5,
+      "title": "Monitoreo de upgrades y regresiones",
+      "status": "PARTIAL",
+      "boundary": "Regresiones del propio paquete; no monitorización de contratos o parches externos.",
+      "tests": [
+        "test_quality.QualityTests.test_source_change_blocks_success"
+      ]
+    },
+    {
+      "id": "B26",
+      "group": 5,
+      "title": "Operación continua y supervisión de 20 programas",
+      "status": "PENDING",
+      "boundary": "No hay servicio 24/7 ni 20 programas conectados.",
+      "tests": []
+    },
+    {
+      "id": "B27",
+      "group": 5,
+      "title": "Preparación de reportes completos para revisión en Immunefi",
+      "status": "PARTIAL",
+      "boundary": "Hay borradores Markdown y reportes locales, no un reporte completo de un hallazgo real.",
+      "tests": [
+        "test_integration.IntegrationTests.test_native_roundtrip_always_requires_review"
+      ]
+    }
+  ]
+}

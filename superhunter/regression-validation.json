@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-11-04T07:06:15.728129+00:00",
+  "base_commit": "d3ab1a06b330e2d056114da91ff5f7b53d1304a7",
+  "base_source_digest": "22b0e2b791a70f53984a70beabd775508f3291c71674a71046002643eb379201",
+  "publication_status": "LOCAL_PATCH_NOT_PUBLISHED",
+  "python": "3.13.5",
+  "baseline_tests": 224,
+  "privacy_merge_tests": 260,
+  "new_regression_tests": 38,
+  "new_fuzz_privacy_tests": 2,
+  "before_patch": {
+    "tests_run": 300,
+    "failures": 2,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0
+  },
+  "after_patch": {
+    "tests_run": 300,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0
+  },
+  "final_source_digest": "2c4d26e7e95a7a1f34d9984023aad3946f3bd5191e6ed2e2d85ae99945894b1d",
+  "final_source_file_count": 35,
+  "actual_comparison": {
+    "after": {
+      "manifest_sha256": "363be571a48432327ef86c125a7536ee3694bbe5d141a37566656887b97481a5",
+      "qa_passed": true,
+      "receipt_sha256": "8e3531d352fa71b83a7c5c6af8178c1a8e89feed2fa568e28108d52b6f7034f3",
+      "source_digest": "2c4d26e7e95a7a1f34d9984023aad3946f3bd5191e6ed2e2d85ae99945894b1d"
+    },
+    "before": {
+      "manifest_sha256": "c813b3b72a987b954fee094e185a9663a1ffacb34bb2da19849bbc67e5de86c1",
+      "qa_passed": false,
+      "receipt_sha256": "b6d0d275eaac0688083e51063f4a04890084fc2d77fd21a69d6c345f8f2123de",
+      "source_digest": "706554277cc7e148b2dfc84094d80478307d536f34999033109ac87471c5a50f"
+    },
+    "blockers": [],
+    "comparison_engine_sha256": "5a48cc14d51e6f64f8a15379143c42164dc7d7afa98299ab1c1fb766e493e823",
+    "fix_observed": true,
+    "limits": [
+      "Only recorded tests and pinned source identities are compared.",
+      "Unmodeled behavior, external services and production safety are not certified.",
+      "Equality of test files does not prove all transitive reference behavior unchanged.",
+      "Hashes do not authenticate a producer controlling both code and artifacts."
+    ],
+    "producer_authenticated": false,
+    "production_certified": false,
+    "schema_version": 1,
+    "scope": "local-package-tests-only",
+    "source_changes": [
+      {
+        "after": "01b16c88aff01751e5868517b08a6fbe821678c85ae99e66f887c14b35489669",
+        "before": "35f8dab31335633e581a1cd2272e92de5f8768964200228a9867eb35b5f73ff2",
+        "kind": "modified",
+        "path": "fuzz_cli.py"
+      }
+    ],
+    "status": "LOCAL_FIX_OBSERVED",
+    "tests": {
+      "added": [],
+      "after_count": 300,
+      "before_count": 300,
+      "changed_oracle_files": [],
+      "common_count": 300,
+      "error_to_pass": [],
+      "fail_to_pass": [
+        "test_privacy.PrivacyTests.test_fuzz_invalid_seed_is_not_echoed",
+        "test_privacy.PrivacyTests.test_fuzz_unknown_arguments_are_not_echoed"
+      ],
+      "not_passed_after": [],
+      "regressions": [],
+      "removed": []
+    },
+    "unchanged_test_definitions": true,
+    "vulnerability_confirmed": false
+  },
+  "full_nqc_suite_run": false,
+  "full_isolation_verifier_run": false,
+  "github_actions_run": false,
+  "forge_run": false,
+  "third_party_target_execution": false,
+  "vulnerability_confirmed": false,
+  "logs": {
+    "before_patch/tests.log": "8d33c0fdaea0b9d9e1ffb4c427a9de7cbb5b97f0b065a655a238341ecebce02e",
+    "after_patch/tests.log": "9f64579c0bb6f3d9a6adbea66fe1aa514bbf3c11d7b2f1a36addfe129feda97f",
+    "comparison/comparison.json": "c7d19ea9ead8b2efaed1b01d2674ef221a35dbb5af6f8871f00fbeaf817a963b",
+    "after_verify.stdout": "5a68c225c15ba9adcef8e0197d584c9a1bcdf2b612ab2af02879c15c59da26d2",
+    "compare_verify.stdout": "c80a812bce047e3bb6d7870f0f4107cad02b1e2d385f2dabd3a1e26353c9a95d"
+  },
+  "remote_head_at_closure": "adc28a062668de996848ace5d233d2fa055fbd4c",
+  "remote_head_reconciled": false,
+  "patch_retest": {
+    "tests": 300,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "log_sha256": "6e1e06430e56f8d50f7ec9d53f1f81d248fedbecc71ef0079801874d3f55303b"
+  },
+  "validation_tool_timeout_note": "One repeat in a clean patched directory was interrupted by the tool wait limit. It was rerun from scratch: all 300 tests passed in 33.835 seconds. This did not require changing or skipping tests."
+}
