@@ -965,3 +965,18 @@ REQUIRED_TESTS += (
     'test_chain_path_audit.ChainPathAuditTests.test_external_source_change_invalidates_replay',
     'test_chain_path_audit.ChainPathAuditTests.test_current_source_identity_prevents_false_replay',
 )
+
+
+# Counterfactual loss-of-source experiments on existing private chain evidence.
+COMPONENTS['evidence_ablation'] = {
+    'files': ['evidence_ablation.py'], 'tests': ['test_evidence_ablation.'],
+    'depends': ['chain_path_audit', 'critical_chain', 'forensic_timeline',
+                'journal_correlation', 'evm_bounded_replay', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('evidence_ablation')
+REQUIRED_TESTS += (
+    'test_evidence_ablation.EvidenceAblationTests.test_cli_replay_independent_process',
+    'test_evidence_ablation.EvidenceAblationTests.test_shared_source_failure_and_cover',
+    'test_evidence_ablation.EvidenceAblationTests.test_resealed_fake_critical_claim_rejected',
+    'test_evidence_ablation.EvidenceAblationTests.test_changed_original_source_rejected',
+    'test_evidence_ablation.EvidenceAblationTests.test_exact_cover_oracle_500',
+)
