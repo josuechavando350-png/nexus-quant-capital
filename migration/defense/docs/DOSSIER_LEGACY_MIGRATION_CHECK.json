@@ -1,0 +1,33 @@
+{
+  "block_completion_percent": 100.0,
+  "block_criteria_completed": 5,
+  "block_criteria_total": 5,
+  "checks": {
+    "cli_reproduces_offline_report": true,
+    "coherent_snapshot_and_evidence": true,
+    "corruption_and_stale_pins_rejected": true,
+    "historical_payloads_preserved": true,
+    "offline_replay_after_sources_removed": true
+  },
+  "dossier_bytes": 10204,
+  "dossier_digest": "630a1029f351f9670451fdd86043eb6c8c0204eaccc43203e770558f43d38649",
+  "fixture_origin": "authored OpenSSH-format records; real files, SQLite, keys and CLI; no live sshd",
+  "independent_anchor": false,
+  "initial_credential_schema": "nqc-review-credential-event-v2",
+  "initial_review_schema": "nqc-case-review-v2",
+  "legacy_source_commit": "5187d0ab57a26ce228d24cf2f3582fd696d92a64",
+  "legacy_source_git_blobs": {
+    "migration/defense/nqc_defense/case_review.py": "02104f578713063c8fad6bc50a82db8b09b7d890",
+    "migration/defense/nqc_defense/review_credentials.py": "65dca8680342b8e5379c35da5e4dadde16d3aa18"
+  },
+  "production_activated": false,
+  "rejections": {
+    "altered_bytes": "dossier_digest",
+    "stale_credential_pin": "dossier_credential_checkpoint",
+    "truncated_review": "dossier_case_checkpoint"
+  },
+  "review_stage": "closed",
+  "source_generations": 2,
+  "trigger_records": 3,
+  "verified": true
+}

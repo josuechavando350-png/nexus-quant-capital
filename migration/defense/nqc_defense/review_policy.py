@@ -51,7 +51,31 @@ def validate_grants(grants, credentials=False):
         raise Rejected("review_policy_size")
 
 
-class ReviewPolicy:
+class ReviewPolicyData:
+    """Validate policy bytes and an externally supplied key without opening any paths."""
+    def __init__(self, data, digest, key):
+        hex_digest(digest)
+        if not isinstance(data, bytes) or len(data) > 65536:
+            raise Rejected("review_policy_size")
+        if sha256(data) != digest:
+            raise Rejected("review_policy_digest")
+        value = decode(data)
+        fields(value, ("schema", "audit_key_sha256", "grants"))
+        if value["schema"] != "nqc-local-review-policy-v1" or canonical(value) != data:
+            raise Rejected("review_policy_schema")
+        validate_grants(value["grants"], credentials=True)
+        if not isinstance(key, bytes) or len(key) != 32:
+            raise Rejected("review_credential_size")
+        if sha256(key) != value["audit_key_sha256"]:
+            raise Rejected("review_audit_key_digest")
+        self.digest, self.value, self.key = digest, value, key
+
+    def permits(self, actor, tenant, asset, action):
+        return any(g["actor"] == actor and g["tenant"] == tenant and asset in g["assets"] and action in g["permissions"]
+                   for g in self.value["grants"])
+
+
+class ReviewPolicy(ReviewPolicyData):
     def __init__(self, root, digest):
         self.root = Path(root).absolute()
         hex_digest(digest)
@@ -84,19 +108,9 @@ class ReviewPolicy:
         data = read_local(self.root, "policy.json", 65536)
         if sha256(data) != self.digest:
             raise Rejected("review_policy_digest")
-        value = decode(data)
-        fields(value, ("schema", "audit_key_sha256", "grants"))
-        if value["schema"] != "nqc-local-review-policy-v1" or canonical(value) != data:
-            raise Rejected("review_policy_schema")
-        validate_grants(value["grants"], credentials=True)
         key = read_credential(self.root / "audit.key")
-        if sha256(key) != value["audit_key_sha256"]:
-            raise Rejected("review_audit_key_digest")
-        return value, key
-
-    def permits(self, actor, tenant, asset, action):
-        return any(g["actor"] == actor and g["tenant"] == tenant and asset in g["assets"] and action in g["permissions"]
-                   for g in self.value["grants"])
+        validated = ReviewPolicyData(data, self.digest, key)
+        return validated.value, validated.key
 
     def authorize(self, actor, credential, tenant, asset, action):
         """Bootstrap-only check; CaseReview uses the transactional ReviewCredentials registry."""

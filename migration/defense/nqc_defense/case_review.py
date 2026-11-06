@@ -79,70 +79,9 @@ class CaseReview:
 
     def _load(self, db, tenant, asset, case_id, credentials):
         row = db.execute("SELECT body,category,status FROM cases WHERE tenant=? AND asset=? AND id=?", (tenant, asset, case_id)).fetchone()
-        if row is None:
-            raise Rejected("review_case_not_found")
-        case = decode(row[0])
-        if type(case) is not dict or (case.get("case_id"), case.get("tenant"), case.get("asset")) != (case_id, tenant, asset):
-            raise Rejected("review_case_scope")
-        if case.get("category") != "authentication":
-            raise Rejected("review_case_unsupported")
-        if (case.get("category"), case.get("status")) != row[1:]:
-            raise Rejected("review_case_columns")
-        case_digest = sha256(canonical(case))
-        hex_digest(case.get("config_digest"))
-        _case(case, tenant, asset, case_id, case_digest, case["config_digest"])
         rows = db.execute("SELECT revision,payload,previous,mac FROM case_reviews WHERE tenant=? AND asset=? AND case_id=? ORDER BY revision LIMIT ?",
                           (tenant, asset, case_id, MAX_CASE_REVISIONS + 1)).fetchall()
-        if len(rows) > MAX_CASE_REVISIONS:
-            raise Rejected("review_case_capacity")
-        state, previous, last_time, binding, seen, history = initial_state(), GENESIS, -1, None, set(), []
-        credential_revision, versioned = 0, False
-        for number, (revision, payload, parent, digest) in enumerate(rows, 1):
-            if revision != number or parent != previous:
-                raise Rejected("review_history_sequence")
-            if not isinstance(payload, str) or len(payload.encode()) > 16384:
-                raise Rejected("review_history_size")
-            try:
-                hex_digest(digest)
-            except Rejected as exc:
-                raise Rejected("review_history_integrity") from exc
-            if not hmac.compare_digest(digest, mac(self.policy.key, revision, parent, payload)):
-                raise Rejected("review_history_integrity")
-            event = decode(payload.encode())
-            names = ("schema", "policy_digest", "tenant", "asset", "case_id", "case_digest", "config_digest", "bundle_digest",
-                     "actor", "request_id", "action", "reason", "verdict", "recorded_ns")
-            current_schema = type(event) is dict and event.get("schema") == CURRENT_SCHEMA
-            fields(event, names + (("credential_checkpoint",) if current_schema else ()))
-            if canonical(event).decode() != payload or event["schema"] not in (SCHEMA, CURRENT_SCHEMA) or (event["policy_digest"], event["tenant"], event["asset"], event["case_id"]) != (self.policy.digest, tenant, asset, case_id):
-                raise Rejected("review_history_binding")
-            now = integer(event["recorded_ns"], 0, 2**63 - 1)
-            if current_schema:
-                credentials.historical(event["credential_checkpoint"], event["actor"], now)
-                if event["credential_checkpoint"]["revision"] < credential_revision:
-                    raise Rejected("review_credential_regression")
-                credential_revision, versioned = event["credential_checkpoint"]["revision"], True
-            elif versioned:
-                raise Rejected("review_schema_regression")
-            for key in ("case_digest", "config_digest", "bundle_digest"):
-                hex_digest(event[key])
-            if event["case_digest"] != case_digest:
-                raise Rejected("review_case_snapshot_changed")
-            current = (event["case_digest"], event["config_digest"], event["bundle_digest"])
-            if binding is not None and current != binding:
-                raise Rejected("review_evidence_binding")
-            binding = current
-            identifier(event["actor"]); identifier(event["request_id"])
-            if event["request_id"] in seen:
-                raise Rejected("review_request_duplicate")
-            seen.add(event["request_id"])
-            if not self.policy.permits(event["actor"], tenant, asset, event["action"]):
-                raise Rejected("review_history_permission")
-            if now < last_time:
-                raise Rejected("review_clock_regressed")
-            state = transition(state, event, revision)
-            history.append({"revision": revision, "event": event, "previous": parent, "head": digest})
-            previous, last_time = digest, now
-        return case, state, {"revision": len(rows), "head": previous}, history
+        return verify_case_rows(self.policy, tenant, asset, case_id, row, rows, credentials)
 
     def view(self, actor, credential, tenant, asset, case_id, *, expected=None, after=0, limit=100, expected_credentials=None):
         hex_digest(case_id)
@@ -208,3 +147,77 @@ class CaseReview:
             self.credentials.check_time(db, credentials, actor)
         return {"applied": True, "idempotent_retry": False, "checkpoint": {"revision": revision, "head": digest},
                 "review": state, "evidence_rechecked": True, "automatic_response": False, "credential_checkpoint": credentials.current}
+
+
+def verify_case_rows(policy, tenant, asset, case_id, row, rows, credentials):
+    """Replay the exact same case rules for database reads and offline verification."""
+    if row is None:
+        raise Rejected("review_case_not_found")
+    if type(row) not in (list, tuple) or len(row) != 3:
+        raise Rejected("review_case_row")
+    case = decode(row[0])
+    if type(case) is not dict or (case.get("case_id"), case.get("tenant"), case.get("asset")) != (case_id, tenant, asset):
+        raise Rejected("review_case_scope")
+    if case.get("category") != "authentication":
+        raise Rejected("review_case_unsupported")
+    if (case.get("category"), case.get("status")) != tuple(row[1:]):
+        raise Rejected("review_case_columns")
+    case_digest = sha256(canonical(case))
+    hex_digest(case.get("config_digest"))
+    _case(case, tenant, asset, case_id, case_digest, case["config_digest"])
+    if type(rows) not in (list, tuple):
+        raise Rejected("review_history_rows")
+    if len(rows) > MAX_CASE_REVISIONS:
+        raise Rejected("review_case_capacity")
+    state, previous, last_time, binding, seen, history = initial_state(), GENESIS, -1, None, set(), []
+    credential_revision, versioned = 0, False
+    for number, entry in enumerate(rows, 1):
+        if type(entry) not in (list, tuple) or len(entry) != 4:
+            raise Rejected("review_history_row")
+        revision, payload, parent, digest = entry
+        integer(revision, 1, MAX_CASE_REVISIONS)
+        if revision != number or parent != previous:
+            raise Rejected("review_history_sequence")
+        if not isinstance(payload, str) or len(payload.encode()) > 16384:
+            raise Rejected("review_history_size")
+        try:
+            hex_digest(digest)
+        except Rejected as exc:
+            raise Rejected("review_history_integrity") from exc
+        if not hmac.compare_digest(digest, mac(policy.key, revision, parent, payload)):
+            raise Rejected("review_history_integrity")
+        event = decode(payload.encode())
+        names = ("schema", "policy_digest", "tenant", "asset", "case_id", "case_digest", "config_digest", "bundle_digest",
+                 "actor", "request_id", "action", "reason", "verdict", "recorded_ns")
+        current_schema = type(event) is dict and event.get("schema") == CURRENT_SCHEMA
+        fields(event, names + (("credential_checkpoint",) if current_schema else ()))
+        if canonical(event).decode() != payload or event["schema"] not in (SCHEMA, CURRENT_SCHEMA) or (event["policy_digest"], event["tenant"], event["asset"], event["case_id"]) != (policy.digest, tenant, asset, case_id):
+            raise Rejected("review_history_binding")
+        now = integer(event["recorded_ns"], 0, 2**63 - 1)
+        if current_schema:
+            credentials.historical(event["credential_checkpoint"], event["actor"], now)
+            if event["credential_checkpoint"]["revision"] < credential_revision:
+                raise Rejected("review_credential_regression")
+            credential_revision, versioned = event["credential_checkpoint"]["revision"], True
+        elif versioned:
+            raise Rejected("review_schema_regression")
+        for key in ("case_digest", "config_digest", "bundle_digest"):
+            hex_digest(event[key])
+        if event["case_digest"] != case_digest:
+            raise Rejected("review_case_snapshot_changed")
+        current = (event["case_digest"], event["config_digest"], event["bundle_digest"])
+        if binding is not None and current != binding:
+            raise Rejected("review_evidence_binding")
+        binding = current
+        identifier(event["actor"]); identifier(event["request_id"])
+        if event["request_id"] in seen:
+            raise Rejected("review_request_duplicate")
+        seen.add(event["request_id"])
+        if not policy.permits(event["actor"], tenant, asset, event["action"]):
+            raise Rejected("review_history_permission")
+        if now < last_time:
+            raise Rejected("review_clock_regressed")
+        state = transition(state, event, revision)
+        history.append({"revision": revision, "event": event, "previous": parent, "head": digest})
+        previous, last_time = digest, now
+    return case, state, {"revision": len(rows), "head": previous}, history

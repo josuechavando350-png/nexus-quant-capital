@@ -43,3 +43,5 @@ La versión 0.14.0 conecta la evidencia preservada con revisión local por permi
 La versión 0.15 incorpora revocación, rotación y renovación de credenciales de revisión en el mismo almacén operativo. Conserva registros anteriores y requiere checkpoints después de cambios. Alcance local a la base/política y actualización de todos sus procesos; sin despliegue ni cambios a SuperHunter.
 
 La versión 0.16 incorpora caducidad configurable y observación autenticada del reloj en la base de revisión. Verifica vencimientos y conserva observaciones de rechazo tras revertir acciones; no es una autoridad temporal independiente. Mantiene separación de SuperHunter y producción desactivada.
+
+La versión 0.17 exporta expedientes privados de autenticación con evidencia e historiales enlazados y un verificador sin acceso a la base original. El alcance sigue siendo local y sin custodia independiente. Registra además las métricas de cierre y cobertura parcial solicitadas por el usuario.

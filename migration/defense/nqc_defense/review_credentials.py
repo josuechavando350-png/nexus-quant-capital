@@ -152,42 +152,9 @@ class ReviewCredentials:
 
     def load(self, db):
         self.check_policy()
-        states = [{g["actor"]: g["token_sha256"] for g in self.policy.value["grants"]}]
-        expiries = [{actor: None for actor in states[0]}]
-        used = {*states[0].values(), sha256(self.policy.key)}
         rows = db.execute("SELECT revision,payload,previous,mac FROM review_credentials WHERE policy=? ORDER BY revision LIMIT ?",
                           (self.policy.digest, MAX_REVISIONS + 1)).fetchall()
-        if len(rows) > MAX_REVISIONS:
-            raise Rejected("credential_capacity")
-        history, seen, previous, last_time, versioned = [], set(), GENESIS, -1, False
-        for number, (revision, payload, parent, digest) in enumerate(rows, 1):
-            if revision != number or parent != previous:
-                raise Rejected("credential_history_sequence")
-            if not isinstance(payload, str) or len(payload.encode()) > 16384:
-                raise Rejected("credential_history_size")
-            hex_digest(digest)
-            if not hmac.compare_digest(digest, mac(self.policy.key, revision, parent, payload)):
-                raise Rejected("credential_history_integrity")
-            event = decode(payload.encode())
-            current_schema = type(event) is dict and event.get("schema") == CURRENT_SCHEMA
-            fields(event, ("schema", "policy_digest", "actor", "action", "token_sha256", "request_id", "reason", "recorded_ns") + (("expires_at_ns",) if current_schema else ()))
-            if canonical(event).decode() != payload or event["schema"] not in (SCHEMA, CURRENT_SCHEMA) or event["policy_digest"] != self.policy.digest:
-                raise Rejected("credential_history_binding")
-            if not current_schema and versioned:
-                raise Rejected("credential_schema_regression")
-            versioned = versioned or current_schema
-            identifier(event["request_id"])
-            if event["request_id"] in seen:
-                raise Rejected("credential_request_duplicate")
-            seen.add(event["request_id"])
-            now = integer(event["recorded_ns"], 0, 2**63 - 1)
-            if now < last_time:
-                raise Rejected("credential_clock_regressed")
-            state, deadlines = self.transition(states[-1], expiries[-1], used, event)
-            states.append(state); expiries.append(deadlines)
-            history.append({"revision": revision, "event": event, "previous": parent, "head": digest})
-            previous, last_time = digest, now
-        return CredentialSnapshot(states, expiries, history)
+        return verify_credential_rows(self.policy, rows)
 
     def check_time(self, db, snapshot, actor, now=None):
         if now is None:
@@ -281,3 +248,47 @@ class ReviewCredentials:
             self.clock.remember(db, updated, now, initialize=not any(v is not None for v in snapshot.expiries[-1].values()))
         return {"applied": True, "idempotent_retry": False, "checkpoint": {"revision": revision, "head": head},
                 "scope": "this_operations_store"}
+
+
+def verify_credential_rows(policy, rows):
+    """Replay supplied rows; shared by live storage and the offline dossier verifier."""
+    states = [{g["actor"]: g["token_sha256"] for g in policy.value["grants"]}]
+    expiries = [{actor: None for actor in states[0]}]
+    used = {*states[0].values(), sha256(policy.key)}
+    if type(rows) not in (list, tuple):
+        raise Rejected("credential_history_rows")
+    if len(rows) > MAX_REVISIONS:
+        raise Rejected("credential_capacity")
+    history, seen, previous, last_time, versioned = [], set(), GENESIS, -1, False
+    for number, row in enumerate(rows, 1):
+        if type(row) not in (list, tuple) or len(row) != 4:
+            raise Rejected("credential_history_row")
+        revision, payload, parent, digest = row
+        integer(revision, 1, MAX_REVISIONS)
+        if revision != number or parent != previous:
+            raise Rejected("credential_history_sequence")
+        if not isinstance(payload, str) or len(payload.encode()) > 16384:
+            raise Rejected("credential_history_size")
+        hex_digest(digest)
+        if not hmac.compare_digest(digest, mac(policy.key, revision, parent, payload)):
+            raise Rejected("credential_history_integrity")
+        event = decode(payload.encode())
+        current_schema = type(event) is dict and event.get("schema") == CURRENT_SCHEMA
+        fields(event, ("schema", "policy_digest", "actor", "action", "token_sha256", "request_id", "reason", "recorded_ns") + (("expires_at_ns",) if current_schema else ()))
+        if canonical(event).decode() != payload or event["schema"] not in (SCHEMA, CURRENT_SCHEMA) or event["policy_digest"] != policy.digest:
+            raise Rejected("credential_history_binding")
+        if not current_schema and versioned:
+            raise Rejected("credential_schema_regression")
+        versioned = versioned or current_schema
+        identifier(event["request_id"])
+        if event["request_id"] in seen:
+            raise Rejected("credential_request_duplicate")
+        seen.add(event["request_id"])
+        now = integer(event["recorded_ns"], 0, 2**63 - 1)
+        if now < last_time:
+            raise Rejected("credential_clock_regressed")
+        state, deadlines = ReviewCredentials.transition(states[-1], expiries[-1], used, event)
+        states.append(state); expiries.append(deadlines)
+        history.append({"revision": revision, "event": event, "previous": parent, "head": digest})
+        previous, last_time = digest, now
+    return CredentialSnapshot(states, expiries, history)

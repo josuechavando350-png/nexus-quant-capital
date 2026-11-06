@@ -21,18 +21,29 @@ class ReviewClock:
 
     def read(self, db, snapshot, *, initialize=False):
         row = db.execute("SELECT payload,mac FROM review_clock WHERE policy=?", (self.policy.digest,)).fetchone()
+        return self.verify_row(snapshot, row, initialize=initialize)
+
+    def verify_row(self, snapshot, row, *, initialize=False):
         enabled = any(v is not None for v in snapshot.expiries[-1].values())
         if row is None:
             if enabled and not initialize:
                 raise Rejected("credential_clock_missing")
             return None
+        if type(row) not in (list, tuple) or len(row) != 2:
+            raise Rejected("credential_clock_row")
         payload, digest = row
-        if not isinstance(payload, str) or len(payload.encode()) > 1024:
+        if not isinstance(payload, str):
+            raise Rejected("credential_clock_size")
+        try:
+            encoded = payload.encode("utf-8")
+        except UnicodeError as exc:
+            raise Rejected("credential_clock_size") from exc
+        if len(encoded) > 1024:
             raise Rejected("credential_clock_size")
         hex_digest(digest)
         if not hmac.compare_digest(digest, mac(self.policy.key, 1, GENESIS, payload)):
             raise Rejected("credential_clock_integrity")
-        value = decode(payload.encode(), max_bytes=1024)
+        value = decode(encoded, max_bytes=1024)
         fields(value, ("schema", "policy_digest", "credential_checkpoint", "observed_ns"))
         if canonical(value).decode() != payload or (value["schema"], value["policy_digest"]) != ("nqc-review-clock-v1", self.policy.digest):
             raise Rejected("credential_clock_binding")

@@ -83,7 +83,7 @@ Primer circuito implementado: C014 → C032 → C041 → C052 → C064 → C067,
 | C047 · Reconstrucción de acciones de nube | Auditoría y snapshots autorizados → Cronología de cambios y acceso | APIs oficiales y normalizador | C019, C024, C041 | Detectar huecos de auditoría y reportarlos | Pendiente |
 | C048 · Registro de custodia y acceso a evidencia | Adquisiciones y operaciones autorizadas → Historial verificable de manejo | Ledger, firmas y anclajes separados | C043, C044, C045, C046, C047 | Una alteración o acceso no autorizado se detecta o rechaza | Parcial: Historial HMAC de revisiones asociado a evidencia; sin registro de todo acceso ni custodia independiente |
 | C049 · Analizador aislado de muestras | Muestras autorizadas y caso → Indicadores y comportamiento observado | Análisis estático y sandbox dedicado | C010, C041, C043 | Sin acceso a producción; salida y recursos restringidos | Pendiente |
-| C050 · Generador de informe de incidente | Caso y evidencias verificadas → Informe con hechos, hipótesis y límites | Plantillas y validación de referencias | C041, C042, C048, C049 | Cada afirmación factual enlaza a evidencia disponible | Pendiente |
+| C050 · Generador de informe de incidente | Caso y evidencias verificadas → Informe con hechos, hipótesis y límites | Plantillas y validación de referencias | C041, C042, C048, C049 | Cada afirmación factual enlaza a evidencia disponible | Parcial: Informe JSON verificable de casos de autenticación con evidencia, historial y referencias; sin otros tipos de caso ni custodia independiente |
 
 ## Respuesta acotada
 
@@ -188,3 +188,5 @@ La entrega 0.14 conecta revisión por credenciales e historial HMAC a evidencia 
 La entrega 0.15 amplía C092 con revocación, rotación y renovación conectadas al historial de revisión. Conserva 20 componentes parciales, 80 pendientes y 0 completos; no se contabiliza una mejora parcial como un componente adicional.
 
 La entrega 0.16 amplía C092 con caducidad configurada y control persistente del reloj local. El catálogo permanece en 20 parciales, 80 pendientes y 0 completos; el tiempo no tiene anclaje independiente.
+
+La entrega 0.17 incorpora C050 con expedientes de autenticación y verificación offline. Estado actual: 21 parciales, 79 pendientes y 0 completos. El porcentaje de cierres de los 200 entregables se calcula mediante el registro de aceptación; consultar PROGRESO.md.

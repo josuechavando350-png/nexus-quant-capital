@@ -1,4 +1,4 @@
-# NQC Defense 0.16.0 — desarrollo en la rama NQC-defensive
+# NQC Defense 0.17.0 — desarrollo en la rama NQC-defensive
 
 El usuario autorizó publicar este código en `NQC-defensive` el 6 de noviembre de 2026. La rama conserva la base de NQC y no activa despliegues ni operación productiva. Los informes de 0.2.0 describen la validación previa a esa autorización.
 
@@ -16,7 +16,7 @@ La versión 0.10.0 añade `ManagedIntegrity`: inicializa una copia JSON administ
 - [100 disciplinas y especialidades](docs/DISCIPLINAS_100.md): responsables, entregables y comprobaciones.
 - [Código y uso de la cadena local](docs/V0_10.md).
 
-Este catálogo nuevo C001–C100 tiene 20 implementaciones parciales y 80 pendientes; ninguno alcanza todavía todo el alcance de su fila. No sustituye retrospectivamente las métricas del catálogo original M. Las conexiones de los componentes pendientes son requisitos, no integraciones ejecutables acreditadas.
+Este catálogo nuevo C001–C100 tiene 21 implementaciones parciales y 79 pendientes; ninguno alcanza todavía todo el alcance de su fila. No sustituye retrospectivamente las métricas del catálogo original M. Las conexiones de los componentes pendientes son requisitos, no integraciones ejecutables acreditadas.
 
 ## Autenticación y operación compartida
 
@@ -39,6 +39,8 @@ La versión 0.14.0 añade credenciales locales por actor/alcance/acción, notas,
 La versión 0.15.0 conecta revocación, rotación y renovación al mismo almacén y transacción de revisión. Conserva los bytes del historial anterior y exige un checkpoint de credenciales después del primer cambio. [Uso, migración y límites](docs/V0_15.md). El alcance es local a una base/política; todos los procesos deben usar la versión actualizada.
 
 La versión 0.16.0 añade vencimientos configurables y un registro persistente del reloj. Conserva el límite al rotar, rechaza operaciones vencidas y comprueba nuevamente antes de confirmar/devolver una revisión. [Uso, compatibilidad y límites temporales](docs/V0_16.md). Los tokens sin fecha siguen sin fecha hasta configurarlos; el reloj local no es una autoridad temporal independiente.
+
+La versión 0.17.0 enlaza evidencia, revisión, credenciales y reloj en un expediente privado verificable sin la base original. El informe distingue hechos registrados de valoraciones del analista. [Uso y límites](docs/V0_17.md); [avance con denominadores explícitos](docs/PROGRESO.md). No hay anclaje independiente ni firma pública del expediente.
 
 ## Ejecutar y comprobar
 
@@ -141,7 +143,7 @@ La base consultada fue `josuechavando350-png/nexus-quant-capital`, commit `16e35
 
 Se resolvió la descarga incompleta recuperando los 645 archivos de la revisión y verificando tamaño y hash de cada blob Git. El checkout base quedó limpio. Se añadieron únicamente `migration/defense/` y `migration/DEFENSE-INTEGRATION.md` a la copia local.
 
-Pasaron el verificador de aislamiento original sobre la copia combinada, sus 9 pruebas y las 539 pruebas del paquete. `tools/check_nqc_artifact.py` inspeccionó los bytes reales de `nqc-census/Cargo.toml`. `tools/check_nqc_consumer.py .`, ejecutado desde la raíz NQC, consumió los 337.100 bytes reales de `migration/source-manifest.json`, archivó y releyó tres páginas antes del primer avance, realizó una segunda lectura exigiendo ese prefijo y archivó otras tres páginas hasta el registro 6. Los dos manifiestos se verificaron nuevamente y quedaron enlazados por un catálogo de cobertura desde el recibo inicial al final. El almacén se reabrió con presupuesto fijado de 1 MiB/64 objetos; el inventario y el estado del presupuesto coincidieron en diez objetos: política, catálogo, dos manifiestos y seis páginas. El manifiesto de NQC contiene 637 entradas históricas, no 637 módulos de defensa. Los controles crean y retiran un señuelo nuevo propio sin modificar los artefactos originales.
+Pasaron el verificador de aislamiento original sobre la copia combinada, sus 9 pruebas y las 586 pruebas del paquete. `tools/check_nqc_artifact.py` inspeccionó los bytes reales de `nqc-census/Cargo.toml`. `tools/check_nqc_consumer.py .`, ejecutado desde la raíz NQC, consumió los 337.100 bytes reales de `migration/source-manifest.json`, archivó y releyó tres páginas antes del primer avance, realizó una segunda lectura exigiendo ese prefijo y archivó otras tres páginas hasta el registro 6. Los dos manifiestos se verificaron nuevamente y quedaron enlazados por un catálogo de cobertura desde el recibo inicial al final. El almacén se reabrió con presupuesto fijado de 1 MiB/64 objetos; el inventario y el estado del presupuesto coincidieron en diez objetos: política, catálogo, dos manifiestos y seis páginas. El manifiesto de NQC contiene 637 entradas históricas, no 637 módulos de defensa. Los controles crean y retiran un señuelo nuevo propio sin modificar los artefactos originales.
 
 `tools/check_audit_pagination.py` verificó 10.003 registros en 20 páginas, superando el límite del formato de exportación completa. Son tres registros de admisión de una copia real de `engine.py` y 10.000 marcadores sintéticos explícitos para probar volumen con SQLite y HMAC reales. El control también añade un evento posterior al checkpoint y comprueba que no cambia el destino del recorrido. No representa tráfico productivo ni una medición de rendimiento.
 
