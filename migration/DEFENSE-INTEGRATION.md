@@ -37,3 +37,5 @@ La versión 0.11.0 añade ingesta JSONL de autenticación en un almacén operati
 La versión 0.12.0 añade formatos OpenSSH/journald sobre la misma ingesta transaccional y casos. Los cursores nativos se deduplican dentro de cada fuente. Se prueba con fixtures explícitos, sin cambiar servicios ni fuentes originales; SuperHunter permanece separado.
 
 La versión 0.13.0 conecta los casos de autenticación con adquisición acotada de sus registros y paquetes verificables offline mediante pins externos. Las pruebas usan archivos temporales propios; no cambian fuentes originales, servicios ni SuperHunter.
+
+La versión 0.14.0 conecta la evidencia preservada con revisión local por permisos, historial HMAC, notas, valoraciones y cierre benigno confirmado por otra credencial. Conserva el registro original para no invalidar sus pins. No modifica producción ni SuperHunter.

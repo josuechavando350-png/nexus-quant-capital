@@ -217,6 +217,49 @@ test_symlink_source_rejected (test_case_evidence.CaseEvidenceTests.test_symlink_
 test_verifier_does_not_follow_paths_from_bundle (test_case_evidence.CaseEvidenceTests.test_verifier_does_not_follow_paths_from_bundle) ... ok
 test_wrong_external_bundle_pin_rejected (test_case_evidence.CaseEvidenceTests.test_wrong_external_bundle_pin_rejected) ... ok
 test_wrong_inode_with_identical_bytes_rejected (test_case_evidence.CaseEvidenceTests.test_wrong_inode_with_identical_bytes_rejected) ... ok
+test_assessor_cannot_confirm_own_benign_assessment (test_case_review.CaseReviewTests.test_assessor_cannot_confirm_own_benign_assessment) ... ok
+test_cannot_note_or_reopen_unstarted_case (test_case_review.CaseReviewTests.test_cannot_note_or_reopen_unstarted_case) ... ok
+test_cannot_start_twice (test_case_review.CaseReviewTests.test_cannot_start_twice) ... ok
+test_case_change_in_store_rejected (test_case_review.CaseReviewTests.test_case_change_in_store_rejected) ... ok
+test_cli_real_start_and_view (test_case_review.CaseReviewTests.test_cli_real_start_and_view) ... ok
+test_clock_regression_rejects_write (test_case_review.CaseReviewTests.test_clock_regression_rejects_write) ... ok
+test_closed_case_requires_reopen_before_notes (test_case_review.CaseReviewTests.test_closed_case_requires_reopen_before_notes) ... ok
+test_closure_requires_assessment (test_case_review.CaseReviewTests.test_closure_requires_assessment) ... ok
+test_competing_reviews_cannot_overwrite_each_other (test_case_review.CaseReviewTests.test_competing_reviews_cannot_overwrite_each_other) ... ok
+test_corrupt_bundle_rejected_even_after_start (test_case_review.CaseReviewTests.test_corrupt_bundle_rejected_even_after_start) ... ok
+test_credential_file_symlink_and_public_mode_rejected (test_case_review.CaseReviewTests.test_credential_file_symlink_and_public_mode_rejected) ... ok
+test_cross_tenant_and_asset_permissions_rejected (test_case_review.CaseReviewTests.test_cross_tenant_and_asset_permissions_rejected) ... ok
+test_database_failure_does_not_change_state (test_case_review.CaseReviewTests.test_database_failure_does_not_change_state) ... ok
+test_different_valid_bundle_cannot_replace_review_basis (test_case_review.CaseReviewTests.test_different_valid_bundle_cannot_replace_review_basis) ... ok
+test_exact_retry_does_not_duplicate_note (test_case_review.CaseReviewTests.test_exact_retry_does_not_duplicate_note) ... ok
+test_existing_policy_directory_never_overwritten (test_case_review.CaseReviewTests.test_existing_policy_directory_never_overwritten) ... ok
+test_full_review_benign_confirmation_and_reopen_preserve_history (test_case_review.CaseReviewTests.test_full_review_benign_confirmation_and_reopen_preserve_history) ... ok
+test_history_gap_detected (test_case_review.CaseReviewTests.test_history_gap_detected) ... ok
+test_history_pagination_and_credentials_not_logged (test_case_review.CaseReviewTests.test_history_pagination_and_credentials_not_logged) ... ok
+test_history_payload_change_detected (test_case_review.CaseReviewTests.test_history_payload_change_detected) ... ok
+test_invalid_grant_never_initializes_policy (test_case_review.CaseReviewTests.test_invalid_grant_never_initializes_policy) ... ok
+test_invalid_unicode_note_is_rejected_without_traceback (test_case_review.CaseReviewTests.test_invalid_unicode_note_is_rejected_without_traceback) ... ok
+test_malformed_case_has_controlled_rejection (test_case_review.CaseReviewTests.test_malformed_case_has_controlled_rejection) ... ok
+test_malformed_history_mac_is_controlled_rejection (test_case_review.CaseReviewTests.test_malformed_history_mac_is_controlled_rejection) ... ok
+test_missing_operations_database_not_recreated (test_case_review.CaseReviewTests.test_missing_operations_database_not_recreated) ... ok
+test_missing_reason_and_unknown_verdict_rejected (test_case_review.CaseReviewTests.test_missing_reason_and_unknown_verdict_rejected) ... ok
+test_new_note_invalidates_previous_assessment (test_case_review.CaseReviewTests.test_new_note_invalidates_previous_assessment) ... ok
+test_nonassessment_cannot_smuggle_verdict (test_case_review.CaseReviewTests.test_nonassessment_cannot_smuggle_verdict) ... ok
+test_oversized_valid_grants_rejected_before_creation (test_case_review.CaseReviewTests.test_oversized_valid_grants_rejected_before_creation) ... ok
+test_policy_digest_and_key_changes_fail_closed (test_case_review.CaseReviewTests.test_policy_digest_and_key_changes_fail_closed) ... ok
+test_policy_edit_invalidates_authorization (test_case_review.CaseReviewTests.test_policy_edit_invalidates_authorization) ... ok
+test_process_death_before_commit_preserves_prior_review (test_case_review.CaseReviewTests.test_process_death_before_commit_preserves_prior_review) ... ok
+test_reader_cannot_start_review (test_case_review.CaseReviewTests.test_reader_cannot_start_review) ... ok
+test_reopen_process_retains_authenticated_state (test_case_review.CaseReviewTests.test_reopen_process_retains_authenticated_state) ... ok
+test_response_needed_and_inconclusive_cannot_be_closed (test_case_review.CaseReviewTests.test_response_needed_and_inconclusive_cannot_be_closed) ... ok
+test_retry_after_newer_action_reports_current_state (test_case_review.CaseReviewTests.test_retry_after_newer_action_reports_current_state) ... ok
+test_reused_request_id_with_changed_reason_rejected (test_case_review.CaseReviewTests.test_reused_request_id_with_changed_reason_rejected) ... ok
+test_review_capacity_rejects_write (test_case_review.CaseReviewTests.test_review_capacity_rejects_write) ... ok
+test_stale_checkpoint_rejects_lost_update (test_case_review.CaseReviewTests.test_stale_checkpoint_rejects_lost_update) ... ok
+test_tail_deletion_detected_against_external_checkpoint (test_case_review.CaseReviewTests.test_tail_deletion_detected_against_external_checkpoint) ... ok
+test_unknown_actor_cannot_read (test_case_review.CaseReviewTests.test_unknown_actor_cannot_read) ... ok
+test_valid_mac_cannot_be_grafted_onto_another_case (test_case_review.CaseReviewTests.test_valid_mac_cannot_be_grafted_onto_another_case) ... ok
+test_wrong_credential_rejected_before_bundle_processing (test_case_review.CaseReviewTests.test_wrong_credential_rejected_before_bundle_processing) ... ok
 test_actual_nqc_manifest_can_be_consumed (test_consumer.ConsumerTests.test_actual_nqc_manifest_can_be_consumed) ... ok
 test_changed_asset_returns_no_snapshot (test_consumer.ConsumerTests.test_changed_asset_returns_no_snapshot) ... ok
 test_changed_canary_returns_no_snapshot (test_consumer.ConsumerTests.test_changed_canary_returns_no_snapshot) ... ok
@@ -416,6 +459,6 @@ test_witness_requires_separate_key_and_pinned_bindings (test_witness.WitnessTest
 test_witness_tail_rollback_requires_separately_retained_receipt (test_witness.WitnessTests.test_witness_tail_rollback_requires_separately_retained_receipt) ... ok
 
 ----------------------------------------------------------------------
-Ran 416 tests in 17.673s
+Ran 459 tests in 24.817s
 
 OK

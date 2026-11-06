@@ -1,0 +1,56 @@
+{
+  "credentials_or_keys_in_report": false,
+  "detection_status_unchanged": true,
+  "evidence_bundle_digest": "09ff779d2b0a76f8873b0bd0784f9d180ff4ed9ead5f9bcde6c96803d5a04658",
+  "fixture_origin": "authored authentication records and local review credentials in temporary files",
+  "history_truncation_rejected": "review_checkpoint_mismatch",
+  "human_identity_verified": false,
+  "idempotent_retry_verified": true,
+  "independent_anchor": false,
+  "policy_digest": "ac6d515af1b18371cc43467ee218658542216a2bbe7a12f358e794ac821a4573",
+  "production_activated": false,
+  "response_required_closure_rejected": "review_closure_requires_benign_assessment",
+  "retained_checkpoint": {
+    "head": "388b02f93b5c580f34f30e8c57a94bdef05634976c7ce4b20f6a8330c6a3a61d",
+    "revision": 6
+  },
+  "timeline": [
+    {
+      "action": "start",
+      "actor": "analyst",
+      "revision": 1,
+      "stage": "investigating"
+    },
+    {
+      "action": "note",
+      "actor": "analyst",
+      "revision": 2,
+      "stage": "investigating"
+    },
+    {
+      "action": "assess",
+      "actor": "analyst",
+      "revision": 3,
+      "stage": "investigating"
+    },
+    {
+      "action": "assess",
+      "actor": "analyst",
+      "revision": 4,
+      "stage": "investigating"
+    },
+    {
+      "action": "close",
+      "actor": "confirmer",
+      "revision": 5,
+      "stage": "closed"
+    },
+    {
+      "action": "reopen",
+      "actor": "confirmer",
+      "revision": 6,
+      "stage": "investigating"
+    }
+  ],
+  "verified": true
+}

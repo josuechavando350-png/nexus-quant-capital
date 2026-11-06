@@ -808,8 +808,8 @@
         "D041"
       ],
       "status": "bounded_partial",
-      "implementation": "nqc_defense/operations.py",
-      "implementation_scope": "Vista común de casos de autenticación e integridad; sin causalidad inferida ni flujo SOC completo"
+      "implementation": "nqc_defense/case_review.py",
+      "implementation_scope": "Vista común y revisión local ligada a evidencia, con estados e historial; sin flujo SOC completo"
     },
     {
       "id": "C042",
@@ -945,9 +945,9 @@
       "disciplines": [
         "D048"
       ],
-      "status": "planned",
-      "implementation": null,
-      "implementation_scope": "Sin implementación acreditada en esta entrega"
+      "status": "bounded_partial",
+      "implementation": "nqc_defense/case_review.py",
+      "implementation_scope": "Historial HMAC de revisiones asociado a evidencia; sin registro de todo acceso ni custodia independiente"
     },
     {
       "id": "C049",
@@ -1847,9 +1847,9 @@
       "disciplines": [
         "D092"
       ],
-      "status": "planned",
-      "implementation": null,
-      "implementation_scope": "Sin implementación acreditada en esta entrega"
+      "status": "bounded_partial",
+      "implementation": "nqc_defense/review_policy.py",
+      "implementation_scope": "Credenciales locales por actor/acción/ámbito; sin IAM, expiración, rotación o aislamiento del administrador"
     },
     {
       "id": "C093",

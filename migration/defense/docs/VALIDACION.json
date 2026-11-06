@@ -1,14 +1,14 @@
 {
-  "status": "LOCAL_AUTH_CASE_EVIDENCE_CAPTURE_AND_OFFLINE_VERIFICATION_TESTED_PRODUCTION_NOT_ACTIVATED",
-  "version": "0.13.0",
+  "status": "LOCAL_EVIDENCE_BOUND_CASE_REVIEW_TESTED_PRODUCTION_NOT_ACTIVATED",
+  "version": "0.14.0",
   "date": "2026-11-06",
   "nqc_base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
   "python_version": "3.12.14",
-  "python_source_files_parsed": 70,
+  "python_source_files_parsed": 75,
   "tests": {
-    "engine_passed": 416,
+    "engine_passed": 459,
     "nqc_isolation_passed": 9,
-    "total_passed": 425,
+    "total_passed": 468,
     "failed": 0,
     "skipped": 0,
     "engine_log": "docs/PRUEBAS.txt",
@@ -71,14 +71,16 @@
     "Automatic orphan collection",
     "Cross-store archive rotation and continuity",
     "Independent authentication event provenance and anchored operational store",
-    "Authentication response connectors and multiuser case workflow",
     "Live native log collection and authenticated origin/transport",
-    "Evidence-linked analyst workflow, authenticated acquisition authorship and independent custody"
+    "Authentication response connectors and OS-enforced multiuser separation",
+    "Authenticated acquisition authorship and independent custody",
+    "Case review credential expiry, individual revocation and key rotation",
+    "Independently anchored case review history and closure after verified response/recovery"
   ],
   "publication": {
     "branch": "NQC-defensive",
     "user_authorized": true,
-    "validated_parent_commit": "ed8bbb6ec3b5b17706fda41f1e277acdd0e3ac4e",
+    "validated_parent_commit": "ea3018a7464414ab9a10197674d5f4a07a4bad1a",
     "status": "authorized_branch_update_validated_before_commit",
     "pull_request": false,
     "release": false,
@@ -86,7 +88,7 @@
     "email": false,
     "workflow_enabled": false
   },
-  "scope": "Scoped preservation of authentication case trigger records, externally pinned offline verification; no SuperHunter changes or production activation",
+  "scope": "Local credential-scoped case review bound to preserved authentication evidence; no SuperHunter changes or production activation",
   "nqc_consumer_check": "docs/NQC_CONSUMER_CHECK.json",
   "consumer": {
     "local_reader_enforces_admission": true,
@@ -210,8 +212,8 @@
   "operational_catalog": {
     "components": 100,
     "disciplines_and_specialties": 100,
-    "bounded_partial": 18,
-    "planned": 82,
+    "bounded_partial": 20,
+    "planned": 80,
     "fully_complete": 0,
     "planned_runtime_connections_implemented": false
   },
@@ -290,5 +292,34 @@
     "origin_authenticated": false,
     "independent_anchor": false,
     "legal_chain_of_custody_claimed": false
+  },
+  "case_review_check": "docs/CASE_REVIEW_CHECK.json",
+  "case_review": {
+    "new_tests": 43,
+    "shared_operational_case_store": true,
+    "original_detection_snapshot_preserved": true,
+    "credentials_scoped_to_actor_tenant_asset_action": true,
+    "credentials_in_reports": false,
+    "evidence_bundle_reverified_on_every_action": true,
+    "fixed_case_config_and_bundle_digests": true,
+    "hmac_history_and_state_replay": true,
+    "optimistic_checkpoint_required_for_writes": true,
+    "exact_retries_idempotent": true,
+    "note_invalidates_prior_assessment": true,
+    "benign_closure_requires_different_actor": true,
+    "abrupt_process_exit_before_commit_tested": true,
+    "max_actors": 32,
+    "max_assets_per_actor": 64,
+    "max_case_revisions": 1000,
+    "max_total_revisions": 100000,
+    "max_reason_utf8_bytes": 4096,
+    "max_page_entries": 200,
+    "human_identity_verified": false,
+    "token_expiry": false,
+    "individual_revocation": false,
+    "key_rotation": false,
+    "independent_anchor": false,
+    "automatic_response": false,
+    "production_activated": false
   }
 }
