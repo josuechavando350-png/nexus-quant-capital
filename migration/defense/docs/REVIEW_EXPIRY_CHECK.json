@@ -1,0 +1,29 @@
+{
+  "actual_wall_clock_checked_ns": 1793997290036656784,
+  "all_legacy_credentials_automatically_expire": false,
+  "boundary_clock": "injected times 100, 199, 200 and 201 nanoseconds for deterministic boundary tests",
+  "case_checkpoint": {
+    "head": "4879e81310302d8c029eb9ed84d3c8630f8b37597157aa192d66db05be73dc20",
+    "revision": 3
+  },
+  "clock_floor_before_real_clock_check": 201,
+  "clock_is_independently_trusted": false,
+  "credential_checkpoint": {
+    "head": "bf725c5b635ddaa096ba95112c1e4334ac0b211b088fad782dde4151936383e1",
+    "revision": 3
+  },
+  "fixture_origin": "authored logs, real files/SQLite and temporary credentials",
+  "initial_credential_schema": "nqc-review-credential-event-v2",
+  "initial_review_schema": "nqc-case-review-v2",
+  "previous_credential_and_case_bytes_unchanged": true,
+  "production_activated": false,
+  "rejections": {
+    "actual_wall_clock": "review_credential_expired",
+    "at_deadline": "review_credential_expired",
+    "implicit_expiry_removal": "credential_expiry_not_future",
+    "restart_clock_rollback": "credential_clock_regressed"
+  },
+  "replacement_expires_at_ns": 300,
+  "verified": true,
+  "whole_database_rollback_protected": false
+}

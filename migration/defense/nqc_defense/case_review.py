@@ -115,8 +115,9 @@ class CaseReview:
             fields(event, names + (("credential_checkpoint",) if current_schema else ()))
             if canonical(event).decode() != payload or event["schema"] not in (SCHEMA, CURRENT_SCHEMA) or (event["policy_digest"], event["tenant"], event["asset"], event["case_id"]) != (self.policy.digest, tenant, asset, case_id):
                 raise Rejected("review_history_binding")
+            now = integer(event["recorded_ns"], 0, 2**63 - 1)
             if current_schema:
-                credentials.historical(event["credential_checkpoint"], event["actor"])
+                credentials.historical(event["credential_checkpoint"], event["actor"], now)
                 if event["credential_checkpoint"]["revision"] < credential_revision:
                     raise Rejected("review_credential_regression")
                 credential_revision, versioned = event["credential_checkpoint"]["revision"], True
@@ -136,7 +137,6 @@ class CaseReview:
             seen.add(event["request_id"])
             if not self.policy.permits(event["actor"], tenant, asset, event["action"]):
                 raise Rejected("review_history_permission")
-            now = integer(event["recorded_ns"], 0, 2**63 - 1)
             if now < last_time:
                 raise Rejected("review_clock_regressed")
             state = transition(state, event, revision)
@@ -149,18 +149,19 @@ class CaseReview:
         integer(after, 0, MAX_CASE_REVISIONS); integer(limit, 1, 200)
         if expected is not None:
             checkpoint(expected)
-        with self.store.transaction() as db:
+        with self.credentials.transaction() as db:
             credentials = self.credentials.authorize(db, actor, credential, tenant, asset, "read", expected_credentials)
             case, state, current, history = self._load(db, tenant, asset, case_id, credentials)
             if expected is not None and current != expected:
                 raise Rejected("review_checkpoint_mismatch")
+            self.credentials.check_time(db, credentials, actor)
         return {"case_id": case_id, "detection_status": case["status"], "review": state, "checkpoint": current,
                 "history": history[after:after + limit], "evidence_availability_rechecked": False,
                 "human_identity_verified": False, "independent_anchor": False, "credential_checkpoint": credentials.current}
 
     def apply(self, actor, credential, tenant, asset, case_id, action, reason, request_id, expected,
               bundle, bundle_digest, case_digest, config_digest, *, verdict=None, expected_credentials=None):
-        with self.store.transaction() as db:
+        with self.credentials.transaction() as db:
             self.credentials.authorize(db, actor, credential, tenant, asset, action, expected_credentials)
         if action == "read":
             raise Rejected("review_action")
@@ -170,7 +171,7 @@ class CaseReview:
                    "case_id": case_id, "case_digest": case_digest, "config_digest": config_digest,
                    "bundle_digest": bundle_digest, "actor": actor, "request_id": request_id,
                    "action": action, "reason": reason, "verdict": verdict}
-        with self.store.transaction() as db:
+        with self.credentials.transaction() as db:
             credentials = self.credentials.authorize(db, actor, credential, tenant, asset, action, expected_credentials)
             case, state, current, history = self._load(db, tenant, asset, case_id, credentials)
             if sha256(canonical(case)) != case_digest:
@@ -184,6 +185,7 @@ class CaseReview:
                     before = {"revision": entry["revision"] - 1, "head": entry["previous"]}
                     if old != requested or expected != before:
                         raise Rejected("review_request_conflict")
+                    self.credentials.check_time(db, credentials, actor)
                     return {"applied": False, "idempotent_retry": True, "checkpoint": current, "review": state,
                             "operation_checkpoint": {"revision": entry["revision"], "head": entry["head"]},
                             "credential_checkpoint": credentials.current}
@@ -194,6 +196,7 @@ class CaseReview:
             if current["revision"] >= MAX_CASE_REVISIONS or db.execute("SELECT count(*) FROM case_reviews").fetchone()[0] >= MAX_TOTAL_REVISIONS:
                 raise Rejected("review_capacity")
             now = time.time_ns()
+            self.credentials.check_time(db, credentials, actor, now=now)
             if history and now < history[-1]["event"]["recorded_ns"]:
                 raise Rejected("review_clock_regressed")
             event = {**command, "recorded_ns": integer(now, 0, 2**63 - 1), "credential_checkpoint": credentials.current}
@@ -202,5 +205,6 @@ class CaseReview:
             payload = canonical(event).decode()
             digest = mac(self.policy.key, revision, current["head"], payload)
             db.execute("INSERT INTO case_reviews VALUES(?,?,?,?,?,?,?)", (tenant, asset, case_id, revision, payload, current["head"], digest))
+            self.credentials.check_time(db, credentials, actor)
         return {"applied": True, "idempotent_retry": False, "checkpoint": {"revision": revision, "head": digest},
                 "review": state, "evidence_rechecked": True, "automatic_response": False, "credential_checkpoint": credentials.current}

@@ -42,7 +42,8 @@ def main():
                 result = lifecycle.status(admin, expected=expected, after=args.after, limit=args.limit)
             else:
                 request = decode(read(args.request_file, 16384), max_bytes=16384)
-                fields(request, ("actor", "action", "reason", "request_id", "expected"))
+                fields(request, ("actor", "action", "reason", "request_id", "expected") +
+                       (("expires_at_ns",) if type(request) is dict and "expires_at_ns" in request else ()))
                 token = read_credential(args.credential_file) if args.credential_file else None
                 result = lifecycle.change(admin, **request, credential=token)
         print(json.dumps(result, sort_keys=True))

@@ -150,7 +150,7 @@ Primer circuito implementado: C014 → C032 → C041 → C052 → C064 → C067,
 | ID / componente | Entrada → salida | Tecnología candidata | Dependencias | Prueba de aceptación | Estado actual |
 |---|---|---|---|---|---|
 | C091 · Aislamiento de clientes | Identidades, datos y solicitudes → Separación comprobada de datos y recursos | Autorización y partición por cliente | C003, C007, C010, C027 | Consulta y acción de cliente A no afectan al B | Pendiente |
-| C092 · Control de acceso administrativo | Operadores y políticas → Operaciones mínimas con autorización trazable | RBAC y permisos de corta duración | C003, C007, C051, C091 | Una cuenta de lectura no ejecuta respuesta | Parcial: Credenciales locales con revocación/rotación/renovación transaccionales por base/política; sin IAM, expiración ni aislamiento del administrador |
+| C092 · Control de acceso administrativo | Operadores y políticas → Operaciones mínimas con autorización trazable | RBAC y permisos de corta duración | C003, C007, C051, C091 | Una cuenta de lectura no ejecuta respuesta | Parcial: Credenciales locales con revocación/rotación/renovación y caducidad configurable; sin IAM, tiempo independiente ni aislamiento del administrador |
 | C093 · Custodio de claves y rotación | Claves y políticas de uso → Operaciones criptográficas auditadas | KMS/HSM según entorno; sin criptografía casera | C003, C048, C092 | Rotar claves sin perder verificabilidad histórica | Pendiente |
 | C094 · Controlador de presión y cuotas de ingestión | Tasas, colas y prioridades → Carga aceptada y rechazos explícitos | Colas acotadas y backpressure | C022, C026, C029, C091 | Saturación no provoca pérdida silenciosa de eventos confirmados | Parcial: Cuotas locales rechazan el lote sin adelantar el cursor; sin presión distribuida ni cuota física |
 | C095 · Ledger y archivo autenticados | Decisiones y eventos del sistema → Historial, checkpoints y exportaciones verificables | Ledger, Witness, ArchiveStore existentes | C041, C048, C082, C093 | Alteración o prefijo incompleto frente a anclaje se rechaza | Parcial: archivo y testigo locales; no réplica independiente |
@@ -186,3 +186,5 @@ La entrega 0.13 incorpora C043 con adquisición acotada de registros por caso y 
 La entrega 0.14 conecta revisión por credenciales e historial HMAC a evidencia preservada. Estado actual: 20 componentes parciales, 80 pendientes y 0 completos. La revisión local no equivale a identidad humana, respuesta ejecutada o recuperación comprobada.
 
 La entrega 0.15 amplía C092 con revocación, rotación y renovación conectadas al historial de revisión. Conserva 20 componentes parciales, 80 pendientes y 0 completos; no se contabiliza una mejora parcial como un componente adicional.
+
+La entrega 0.16 amplía C092 con caducidad configurada y control persistente del reloj local. El catálogo permanece en 20 parciales, 80 pendientes y 0 completos; el tiempo no tiene anclaje independiente.

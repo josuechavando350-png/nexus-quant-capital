@@ -41,3 +41,5 @@ La versión 0.13.0 conecta los casos de autenticación con adquisición acotada 
 La versión 0.14.0 conecta la evidencia preservada con revisión local por permisos, historial HMAC, notas, valoraciones y cierre benigno confirmado por otra credencial. Conserva el registro original para no invalidar sus pins. No modifica producción ni SuperHunter.
 
 La versión 0.15 incorpora revocación, rotación y renovación de credenciales de revisión en el mismo almacén operativo. Conserva registros anteriores y requiere checkpoints después de cambios. Alcance local a la base/política y actualización de todos sus procesos; sin despliegue ni cambios a SuperHunter.
+
+La versión 0.16 incorpora caducidad configurable y observación autenticada del reloj en la base de revisión. Verifica vencimientos y conserva observaciones de rechazo tras revertir acciones; no es una autoridad temporal independiente. Mantiene separación de SuperHunter y producción desactivada.
