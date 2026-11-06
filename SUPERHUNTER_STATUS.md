@@ -1,5 +1,14 @@
 # SUPERHUNTER — estado oficial verificable y continuidad
 
+## Estado más reciente — PR #53: 2,193 pruebas verificadas (2026-11-06)
+- **Último código publicado y probado:** [PR #53](https://github.com/josuechavando350-png/nexus-quant-capital/pull/53), commit `9a432391858498f297f7dc3d84a9e54695b60df7`, rama `feat/superhunter-common-bundle-evidence-20261106`, basada en PR #52 → #51 → #50 → #49 → #45. **Borradores abiertos, NO fusionados con main.**
+- **2,193/2,193 `LOCAL_QA_PASS`** (2,180 anteriores + 13 tests de alias de evidencia), 0 fallos/errores/omisiones. **`verify-check` separado confirmó 2,193/2,193 `LOCAL_QA_PASS`**, source digest `47f1cd3ccd104c39a3fb8013850eb0b13c00ff5fe0240e6e815147759ea6c8e1`. El check actual corre en el paquete publicado sin activar ninguna actividad externa.
+- PR #52: [análisis contrafactual de pérdida de fuentes](https://github.com/josuechavando350-png/nexus-quant-capital/pull/52), commit `f227b00f83fbff90db15c3de83a09c617d0a220a`, 2,180/2,180 `LOCAL_QA_PASS`, oráculo enumerativo 500/500. PR #53: grupos de alias por bytes idénticos de `COMPLETE.json`, ablación conjunta y revisión independiente de la prioridad.
+- El nuevo código NO demuestra independencia de productores cuando los hashes difieren; tampoco autentica productores, confirma vulnerabilidades o da permiso para escanear objetivos. Solo evidencia offline privada de laboratorio.
+- Diff de PR #53: **6 archivos `superhunter/`**; 6 Git blobs comparados con el manifiesto antes del commit; **NQC histórico, workflows, `ci/`, `migration/` y `nqc-census/` no modificados**.
+- El control estático reporta **81 módulos, 0 imports locales sin resolver**, pero `SOURCE_GRAPH_REVIEW_REQUIRED` por carga dinámica heredada, no certificación total del wiring. Suite NQC/Rust histórica, aislamiento global y benchmarks ciegos **pendientes**.
+- **Siguiente hito:** evaluar cortes mínimos de pérdida combinada de respaldos (`minimum evidence cut sets`) y comparar el algoritmo con un oráculo exhaustivo; ejecutar QA integral antes de incorporarlo como prueba oficial. No deducir porcentajes nuevos del conteo de tests.
+
 ## Estado más reciente — PR #51 con 2,164 pruebas verificadas (2026-11-06)
 - **Último código público:** [PR #51](https://github.com/josuechavando350-png/nexus-quant-capital/pull/51), commit `539365f47bf46d86c623952f2d1de0682aa5bf33`, rama `feat/superhunter-directed-chain-audit-20261106`, base **PR #50** y cadena #49→#45. Todos siguen en **borrador sin fusionar a main**.
 - **QA integral de PR #51: 2,164/2,164 `LOCAL_QA_PASS`**, 0 fallos, errores u omisiones; `verify-check` independiente **2,164/2,164 `LOCAL_QA_PASS`**. Source digest `d41f0597f53149100cffc310bae4f88985b74b2bf969c779d3aaa972f215cc4e`.
