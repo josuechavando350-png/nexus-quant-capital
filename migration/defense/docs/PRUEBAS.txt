@@ -2,6 +2,25 @@ test_defense_only_descendant_passes (test_branch_boundary.BranchBoundaryTests.te
 test_original_base_still_passes (test_branch_boundary.BranchBoundaryTests.test_original_base_still_passes) ... ok
 test_other_committed_change_fails (test_branch_boundary.BranchBoundaryTests.test_other_committed_change_fails) ... ok
 test_other_working_tree_change_fails (test_branch_boundary.BranchBoundaryTests.test_other_working_tree_change_fails) ... ok
+test_actual_nqc_manifest_can_be_consumed (test_consumer.ConsumerTests.test_actual_nqc_manifest_can_be_consumed) ... ok
+test_changed_asset_returns_no_snapshot (test_consumer.ConsumerTests.test_changed_asset_returns_no_snapshot) ... ok
+test_changed_canary_returns_no_snapshot (test_consumer.ConsumerTests.test_changed_canary_returns_no_snapshot) ... ok
+test_cli_consumes_through_admission (test_consumer.ConsumerTests.test_cli_consumes_through_admission) ... ok
+test_commit_failure_cannot_release_payload (test_consumer.ConsumerTests.test_commit_failure_cannot_release_payload) ... ok
+test_concurrent_token_has_one_payload_recipient (test_consumer.ConsumerTests.test_concurrent_token_has_one_payload_recipient) ... ok
+test_consumer_reads_admitted_bytes_and_receipt (test_consumer.ConsumerTests.test_consumer_reads_admitted_bytes_and_receipt) ... ok
+test_consumption_is_still_single_use (test_consumer.ConsumerTests.test_consumption_is_still_single_use) ... ok
+test_json_consumer_has_its_own_size_bound (test_consumer.ConsumerTests.test_json_consumer_has_its_own_size_bound) ... ok
+test_json_parse_failure_does_not_claim_delivery (test_consumer.ConsumerTests.test_json_parse_failure_does_not_claim_delivery) ... ok
+test_path_changed_after_capture_cannot_change_consumed_bytes (test_consumer.ConsumerTests.test_path_changed_after_capture_cannot_change_consumed_bytes) ... ok
+test_quota_denies_without_an_extra_snapshot (test_consumer.ConsumerTests.test_quota_denies_without_an_extra_snapshot) ... ok
+test_raw_content_is_not_copied_to_audit (test_consumer.ConsumerTests.test_raw_content_is_not_copied_to_audit) ... ok
+test_snapshot_audit_failure_rolls_back_token_and_decision (test_consumer.ConsumerTests.test_snapshot_audit_failure_rolls_back_token_and_decision) ... ok
+test_stale_snapshot_returns_no_payload (test_consumer.ConsumerTests.test_stale_snapshot_returns_no_payload) ... ok
+test_symlink_target_never_reaches_consumer (test_consumer.ConsumerTests.test_symlink_target_never_reaches_consumer) ... ok
+test_verifier_rejects_snapshot_bound_to_another_receipt (test_consumer.ConsumerTests.test_verifier_rejects_snapshot_bound_to_another_receipt) ... ok
+test_verifier_rejects_snapshot_hash_not_in_evidence (test_consumer.ConsumerTests.test_verifier_rejects_snapshot_hash_not_in_evidence) ... ok
+test_web_inspection_does_not_deliver_content (test_consumer.ConsumerTests.test_web_inspection_does_not_deliver_content) ... ok
 test_audit_failure_rolls_back_quarantine_and_revocation (test_decision_controls.BudgetTests.test_audit_failure_rolls_back_quarantine_and_revocation) ... ok
 test_budget_does_not_admit_suspect_or_block_healthy_asset (test_decision_controls.BudgetTests.test_budget_does_not_admit_suspect_or_block_healthy_asset) ... ok
 test_release_frees_one_budget_slot (test_decision_controls.BudgetTests.test_release_frees_one_budget_slot) ... ok
@@ -104,6 +123,6 @@ test_routes_and_limits (test_defense.WebTests.test_routes_and_limits) ... ok
 test_unknown_fields_rejected (test_defense.WebTests.test_unknown_fields_rejected) ... ok
 
 ----------------------------------------------------------------------
-Ran 104 tests in 5.602s
+Ran 123 tests in 9.076s
 
 OK

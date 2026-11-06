@@ -1,14 +1,14 @@
 {
-  "status": "LOCAL_NQC_SOURCE_INTEGRATION_TESTED_NOT_ACTIVATED",
-  "version": "0.2.1",
+  "status": "LOCAL_NQC_BYTE_CONSUMER_TESTED_PRODUCTION_NOT_ACTIVATED",
+  "version": "0.3.0",
   "date": "2026-11-06",
   "nqc_base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
   "python_version": "3.12.14",
-  "python_source_files_parsed": 28,
+  "python_source_files_parsed": 31,
   "tests": {
-    "engine_passed": 104,
+    "engine_passed": 123,
     "nqc_isolation_passed": 9,
-    "total_passed": 113,
+    "total_passed": 132,
     "failed": 0,
     "skipped": 0,
     "engine_log": "docs/PRUEBAS.txt",
@@ -64,7 +64,7 @@
     "Continuous kernel sensors"
   ],
   "publication": {
-    "push": false,
+    "push": true,
     "pull_request": false,
     "release": false,
     "deploy": false,
@@ -72,7 +72,17 @@
     "workflow_enabled": false,
     "branch": "NQC-defensive",
     "user_authorized": true,
-    "status": "prepared_for_publication"
+    "status": "branch_published_current_update_prepared",
+    "published_parent_commit": "7faa815497b5c0e9cc81c7626ffe713b12dfacc1",
+    "current_update_committed": false
   },
-  "scope": "Local NQC source addition and real artifact inspection; no production enforcement, live host isolation, scanning, exploitation, trading or transaction signing"
+  "scope": "Local NQC addition and byte-bound JSON reader; production Census loop unchanged",
+  "nqc_consumer_check": "docs/NQC_CONSUMER_CHECK.json",
+  "consumer": {
+    "local_reader_enforces_admission": true,
+    "returns_inspected_bytes_after_sqlite_commit": true,
+    "production_census_connected": false,
+    "remote_content_endpoint": false,
+    "exactly_once_delivery_claimed": false
+  }
 }

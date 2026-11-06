@@ -14,14 +14,24 @@ def seed(root, relative_path):
 
 def observe(root, asset, clock):
     """Capture hashes and errors from actual local reads, never from request fields."""
+    observations, _ = observe_snapshot(root, asset, clock)
+    return observations
+
+
+def observe_snapshot(root, asset, clock):
+    """Retain the exact immutable artifact bytes used to compute the observation hash."""
     observations = []
+    artifact_bytes = None
     for kind, item, maximum in [("artifact", asset, 16 * 1024 * 1024),
                                  *(("canary", entry, 4096) for entry in asset["canaries"])]:
         digest, error = None, None
         try:
-            digest = sha256(read_local(root, item["path"], maximum))
+            data = read_local(root, item["path"], maximum)
+            digest = sha256(data)
+            if kind == "artifact":
+                artifact_bytes = data
         except Rejected as exc:
             error = str(exc)
         observations.append({"kind": kind, "path": item["path"], "sha256": digest,
                              "error": error, "observed_at": clock()})
-    return observations
+    return observations, artifact_bytes

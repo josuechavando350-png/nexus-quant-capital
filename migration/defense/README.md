@@ -1,4 +1,4 @@
-# NQC Defense 0.2.1 — desarrollo en la rama NQC-defensive
+# NQC Defense 0.3.0 — desarrollo en la rama NQC-defensive
 
 El usuario autorizó publicar este código en `NQC-defensive` el 6 de noviembre de 2026. La rama conserva la base de NQC y no activa despliegues ni operación productiva. Los informes de 0.2.0 describen la validación previa a esa autorización.
 
@@ -6,7 +6,7 @@ Implementación funcional de una capa de admisión de artefactos locales. Lee by
 
 **No son 100 programas terminados.** Hay 8 implementaciones de alcance parcial vinculadas al catálogo original y 5 componentes adicionales ejecutables. Los otros programas solo están documentados en el catálogo; no hay clases vacías para representarlos. No se han implementado seL4, CHERI, enclaves, FHE ni sensores eBPF. Tampoco hay bloqueos de firewall, aislamiento de hosts, firma de operaciones financieras o despliegue.
 
-Esta versión añade recibos reproducibles de decisión (X103), un presupuesto de cuarentenas persistentes (subconjunto de X105), vigencia de evidencia local (subconjunto de X106) y un verificador independiente de exportaciones. Corrige además la lectura prematura del reloj antes de adquirir el bloqueo de SQLite.
+La versión 0.3.0 conecta un consumidor JSON local con la admisión: recibe exactamente los bytes inspeccionados, después de confirmar la transacción SQLite. Conserva los recibos reproducibles de decisión (X103), presupuesto de cuarentenas (subconjunto de X105), vigencia local (subconjunto de X106) y verificador independiente de exportaciones añadidos en 0.2.0.
 
 ## Ejecutar y comprobar
 
@@ -23,7 +23,9 @@ La aceptación trabaja sobre una copia temporal del código real de `engine.py`:
 
 Para incorporar un archivo propio, `tools/init_local.py --help` explica las rutas requeridas. El inicializador calcula el hash de los bytes existentes, crea un señuelo nuevo y un directorio de control nuevo con configuración, clave de auditoría y SQLite. Nunca sobrescribe el artefacto. Si falla a mitad de creación, informa del fallo y deja los archivos nuevos para inspección; no borra directorios de forma automática.
 
-`python3 -m nqc_defense --help` ofrece emisión local de tokens, inspección por entrada estándar, checkpoint, exportación, recuperación/reproducción de recibos y liberación local. El token no se pasa como argumento de línea de comandos. La emisión devuelve una credencial secreta: el operador debe conservarla en un canal privado. Ninguna ruta HTTP permite emitir credenciales o liberar cuarentenas.
+`python3 -m nqc_defense --help` ofrece emisión local de tokens, inspección por entrada estándar, lectura JSON admitida (`read-json`), checkpoint, exportación, recuperación/reproducción de recibos y liberación local. El token no se pasa como argumento de línea de comandos. La emisión devuelve una credencial secreta: el operador debe conservarla en un canal privado. Ninguna ruta HTTP permite emitir credenciales, entregar contenido o liberar cuarentenas.
+
+`ArtifactReader.read_json(request_bytes, token)` y el comando local `read-json` usan `Engine.admit_bytes`. El motor captura los bytes, comprueba el hash y registra `snapshot_authorized` ligado al recibo. Solo los devuelve cuando SQLite confirma la decisión y ese registro. El consumidor analiza ese mismo objeto de bytes con un límite de 1 MiB y 65.536 nodos; nunca reabre el nombre de archivo. Una denegación o fallo al confirmar no entrega contenido. Un fallo posterior del parser conserva el registro de autorización y consume el token: no afirma entrega ni ejecución del consumidor exactamente una vez. La salida local contiene el JSON admitido; debe manejarse según la sensibilidad del archivo.
 
 `tools/verify_export.py --help` permite comprobar una exportación contra una clave, un digest de política y un checkpoint aportados por el operador. No extrae el ZIP ni ejecuta su contenido. La comprobación autentica registros y reproduce decisiones; no demuestra que un sensor externo diga la verdad.
 
@@ -45,16 +47,16 @@ Para incorporar un archivo propio, `tools/init_local.py --help` explica las ruta
 | X105 Containment budget | Tope atómico de cuarentenas persistentes, también entre procesos | No limita tráfico ni garantiza disponibilidad; la solicitud sospechosa sigue rechazada |
 | X106 Evidence expiry | Orden temporal, edad máxima de observación y piso de reloj persistido | Reloj local en segundos; sin fuente de tiempo independiente |
 
-La ruta es: entrada acotada → esquema → configuración anclada → transacción → reloj actual → token → cuota → repetición → observaciones reales → vigencia e integridad → presupuesto de cuarentena → recibo reproducible → decisión/cuarentena → auditoría → contrato de salida → cabeceras CSP. La exportación sale de esa auditoría y el verificador independiente comprueba HMAC, continuidad, checkpoint y reproducción de cada decisión nueva.
+La ruta compartida es: entrada acotada → esquema → configuración anclada → transacción → reloj actual → token → cuota → repetición → observaciones reales → vigencia e integridad → presupuesto de cuarentena → recibo reproducible → decisión/cuarentena → auditoría → contrato de salida → confirmación SQLite. La inspección HTTP agrega cabeceras CSP. El consumidor local agrega la autorización del snapshot a la misma transacción y analiza sus bytes después de confirmar. La exportación comprueba HMAC, continuidad, checkpoint, reproducción de decisiones y vínculo de cada snapshot con su admisión inmediatamente anterior.
 
 ## Límites de confianza
 
 - Los directorios de control, la clave HMAC, la configuración anclada y el proceso del operador son de confianza. Un administrador o proceso con el mismo usuario y acceso de escritura puede alterar estado o claves. Esta entrega no promete resistir ese compromiso.
-- La cuarentena es una prohibición de admisión en este motor. Un proceso que ignore el motor puede seguir usando el archivo. La conexión obligatoria con consumidores de NQC está pendiente de integración y revisión.
-- Una inspección es una observación puntual. Los descriptores rechazan enlaces simbólicos y archivos especiales, y comparan metadatos antes/después de leer. No garantizan que nadie cambie el archivo después de la decisión.
+- La cuarentena es una prohibición de admisión en este motor. Un proceso que ignore el motor puede seguir usando el archivo. El lector local nuevo exige admisión; el circuito productivo de Census todavía no lo usa.
+- Una inspección es una observación puntual. Los descriptores rechazan enlaces simbólicos y archivos especiales, y comparan metadatos antes/después de leer. El lector local conserva los bytes inspeccionados aunque el archivo cambie después; no impide cambios posteriores en el disco ni protege consumidores que reabran la ruta por su cuenta.
 - Una cadena HMAC válida no detecta por sí sola el borrado de su cola. Hay que guardar un checkpoint fuera del estado local. La API permite comprobar un checkpoint exacto al reabrir; no existe todavía un servicio externo de anclaje.
 - La clave HMAC autentica para quienes comparten esa clave. No es una firma verificable públicamente. No se inventaron primitivas criptográficas.
-- No hay sensor continuo: cada solicitud inspecciona el activo solicitado. No hay daemon 24/7, integración SIEM, alerta externa, escalamiento automático ni publicación.
+- No hay sensor continuo: cada solicitud inspecciona el activo solicitado. No hay daemon 24/7, integración SIEM, alerta externa ni escalamiento automático.
 - Las verificaciones de auditoría son lineales con el historial y SQLite serializa decisiones. Esta entrega no afirma rendimiento de nanosegundos ni escala de producción. Retención, rotación de claves, cuotas de disco y exportaciones paginadas quedan pendientes.
 - La vigencia usa reloj local con resolución de segundos. Detecta retrocesos observados y rechaza inspecciones cuya duración excede la política. No constituye sincronización de tiempo confiable frente a un administrador comprometido.
 - El límite de cuarentenas solo acota transiciones persistentes en esta capa. Al agotarse, una petición con integridad alterada se rechaza sin crear otra cuarentena. No se admite el archivo para preservar el límite.
@@ -69,7 +71,7 @@ La base consultada fue `josuechavando350-png/nexus-quant-capital`, commit `16e35
 
 Se resolvió la descarga incompleta recuperando los 645 archivos de la revisión y verificando tamaño y hash de cada blob Git. El checkout base quedó limpio. Se añadieron únicamente `migration/defense/` y `migration/DEFENSE-INTEGRATION.md` a la copia local.
 
-Pasaron el verificador de aislamiento original sobre la copia combinada, sus 9 pruebas y las 100 pruebas del paquete. `tools/check_nqc_artifact.py` inspeccionó los bytes reales de `nqc-census/Cargo.toml`, reprodujo su recibo y verificó su exportación sin modificar ese archivo. La prueba crea y retira un señuelo nuevo propio bajo `migration/`.
+Pasaron el verificador de aislamiento original sobre la copia combinada, sus 9 pruebas y las 123 pruebas del paquete. `tools/check_nqc_artifact.py` inspeccionó los bytes reales de `nqc-census/Cargo.toml`. `tools/check_nqc_consumer.py .`, ejecutado desde la raíz NQC, consumió los 337.100 bytes reales de `migration/source-manifest.json` a través del lector, reprodujo el recibo y verificó la exportación. El manifiesto contiene 637 entradas históricas, no 637 módulos de defensa. Ambos controles crean y retiran un señuelo nuevo propio sin modificar los artefactos originales.
 
 **La incorporación al código y la comprobación local no equivalen a activar un consumidor productivo obligatorio.** No existe todavía ese enlace con la operación de Census. La certificación canónica sigue siendo falsa; no se verificó la historia Git del repositorio productor original. No se ejecutaron pruebas Rust de Census porque no se modificó su código. Tampoco se validó hardware externo.
 
@@ -79,8 +81,8 @@ Pasaron el verificador de aislamiento original sobre la copia combinada, sus 9 p
 - `docs/PRIMEROS_10_Y_PROPUESTAS.md`: explicación de los primeros 10 y 10 propuestas de diseño.
 - `docs/PRUEBAS.txt`, `docs/ACEPTACION.json` y `docs/VALIDACION.json`: resultados efectivamente obtenidos.
 - `docs/CLOCK_LOCK_REGRESSION.json`: comparación ejecutada entre 0.1.0 y 0.2.0 con un bloqueo real de SQLite y reloj controlado.
-- `docs/NQC_ARTIFACT_CHECK.json`, `docs/NQC_ISOLATION.json` y `docs/NQC_ISOLATION_TESTS.txt`: validación de la incorporación local.
-- `docs/V0_2.md` y `docs/CONTINUIDAD.md`: cambios, compatibilidad y siguiente trabajo concreto.
+- `docs/NQC_ARTIFACT_CHECK.json`, `docs/NQC_CONSUMER_CHECK.json`, `docs/NQC_ISOLATION.json` y `docs/NQC_ISOLATION_TESTS.txt`: validación de la incorporación local.
+- `docs/V0_2.md`, `docs/V0_3.md` y `docs/CONTINUIDAD.md`: cambios, compatibilidad y siguiente trabajo concreto.
 - `docs/FUENTES.md`: fuentes primarias y distinciones respecto a las afirmaciones del PDF.
 
 La publicación autorizada es únicamente de código en `NQC-defensive`. No se habilitan workflows, despliegues, envíos de correo ni ejecución productiva.

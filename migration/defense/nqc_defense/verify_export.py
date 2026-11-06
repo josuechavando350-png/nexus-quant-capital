@@ -34,7 +34,8 @@ def verify(data, key, policy_digest, checkpoint):
     fields(audit, ("checkpoint", "records"))
     if type(audit["records"]) is not list or len(audit["records"]) > 10000:
         raise Rejected("audit_export_count")
-    previous, sequence, replayed, legacy = GENESIS, 0, 0, 0
+    previous, sequence, replayed, legacy, snapshots = GENESIS, 0, 0, 0, 0
+    previous_event = None
     for record in audit["records"]:
         fields(record, ("sequence", "payload", "previous", "mac"))
         integer(record["sequence"], 1, 2**63 - 1)
@@ -63,10 +64,29 @@ def verify(data, key, policy_digest, checkpoint):
                 replayed += 1
             else:
                 legacy += 1
+        elif event.get("kind") == "snapshot_authorized":
+            fields(event, ("kind", "time", "subject", "request_id", "asset", "receipt_sha256",
+                           "policy_digest", "sha256", "size_bytes"))
+            integer(event["size_bytes"], 0, 16 * 1024 * 1024)
+            hex_digest(event["sha256"])
+            if (previous_event is None or previous_event.get("kind") != "decision"
+                    or previous_event.get("decision") != "admit" or "receipt" not in previous_event):
+                raise Rejected("snapshot_without_admission")
+            for field in ("time", "subject", "request_id", "asset", "receipt_sha256"):
+                if event[field] != previous_event.get(field):
+                    raise Rejected("snapshot_receipt_binding")
+            receipt = previous_event["receipt"]
+            observations = receipt["facts"]["observations"]
+            if (event["policy_digest"] != policy_digest or not observations
+                    or observations[0]["error"] is not None or event["sha256"] != observations[0]["sha256"]):
+                raise Rejected("snapshot_content_binding")
+            snapshots += 1
         sequence, previous = record["sequence"], record["mac"]
+        previous_event = event
     actual = {"sequence": sequence, "head": previous}
     if actual != audit["checkpoint"] or actual != checkpoint:
         raise Rejected("audit_checkpoint_mismatch")
     return {"verified": True, "checkpoint": actual, "replayed_decisions": replayed,
+            "authorized_snapshots": snapshots,
             "legacy_unreplayed_decisions": legacy, "policy_digest": policy_digest,
             "scope": "authenticated_records_and_replay_not_external_sensor_attestation"}

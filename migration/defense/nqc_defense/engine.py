@@ -10,6 +10,7 @@ from .build import archive
 from .codec import Rejected, canonical, decode, identifier, integer, request, response
 from .config import ConfigStore, controls
 from .state import State
+from .files import sha256
 
 
 class Engine:
@@ -56,6 +57,19 @@ class Engine:
             return token
 
     def process(self, raw, token):
+        result, _ = self._process(raw, token, retain_bytes=False)
+        return result
+
+    def admit_bytes(self, raw, token):
+        """Authorize and return the inspected bytes after the complete transaction commits."""
+        result, payload = self._process(raw, token, retain_bytes=True)
+        if result["decision"] != "admit":
+            raise Rejected("artifact_not_admitted")
+        if not isinstance(payload, bytes):
+            raise Rejected("artifact_snapshot_missing")
+        return result, payload
+
+    def _process(self, raw, token, retain_bytes):
         message = request(raw)
         self._check_policy()
         asset_id = message["asset"]
@@ -72,10 +86,11 @@ class Engine:
             quarantined = bool(db.execute("SELECT 1 FROM quarantine WHERE asset=?", (asset_id,)).fetchone())
             quarantine_count = db.execute("SELECT count(*) FROM quarantine").fetchone()[0]
             observations = []
+            artifact_bytes = None
             if allowed and not duplicate:
                 db.execute("INSERT INTO requests VALUES(?,?,?)", (subject, message["request_id"], asset_id))
                 if not quarantined:
-                    observations = canary.observe(self.root, self.assets[asset_id], self.now)
+                    observations, artifact_bytes = canary.observe_snapshot(self.root, self.assets[asset_id], self.now)
             decided = self.now()
             facts = {"started_at": started, "decided_at": decided, "rate_allowed": allowed,
                      "duplicate_request": duplicate, "was_quarantined": quarantined,
@@ -89,11 +104,19 @@ class Engine:
             head = self.ledger.append(db, {"kind": "decision", "time": decided, "subject": subject,
                                           **message, "decision": outcome["decision"], "reasons": outcome["reasons"],
                                           "receipt_sha256": receipt_hash, "receipt": receipt})
+            if retain_bytes and outcome["decision"] == "admit":
+                if not isinstance(artifact_bytes, bytes) or sha256(artifact_bytes) != observations[0]["sha256"]:
+                    raise Rejected("artifact_snapshot_mismatch")
+                head = self.ledger.append(db, {"kind": "snapshot_authorized", "time": decided,
+                                              "subject": subject, **message,
+                                              "receipt_sha256": receipt_hash, "policy_digest": self.digest,
+                                              "sha256": sha256(artifact_bytes), "size_bytes": len(artifact_bytes)})
             freshness.advance(db, [started, decided, *[x["observed_at"] for x in observations]])
             result = {**message, "decision": outcome["decision"], "reasons": outcome["reasons"],
                       "audit_head": head, "receipt_sha256": receipt_hash}
             response(result)  # Contract violations roll back the whole transaction.
-            return result
+        # Reaching this point proves SQLite commit succeeded. No bytes leave on rollback.
+        return result, artifact_bytes if retain_bytes and result["decision"] == "admit" else None
 
     def release(self, asset):
         """Local operator release only after actual artifact and canary restoration."""

@@ -1,3 +1,3 @@
 """Local defensive admission controls for NQC; no network or trading effects."""
 
-__version__ = "0.2.1"
+__version__ = "0.3.0"

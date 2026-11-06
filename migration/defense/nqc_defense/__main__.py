@@ -9,6 +9,7 @@ from .codec import Rejected, canonical, decode
 from .config import ConfigStore
 from .engine import Engine
 from .files import create_local, read_local
+from .consumer import ArtifactReader
 
 
 def main(argv=None):
@@ -23,6 +24,7 @@ def main(argv=None):
     issue.add_argument("subject")
     issue.add_argument("asset")
     commands.add_parser("inspect", help="Read a token and request envelope from stdin")
+    commands.add_parser("read-json", help="Admit an artifact and parse the exact inspected bytes locally")
     commands.add_parser("checkpoint")
     export = commands.add_parser("export")
     export.add_argument("output", type=Path)
@@ -38,11 +40,14 @@ def main(argv=None):
         engine = Engine(args.assets, args.configs, args.state, args.policy, key)
         if args.command == "issue":
             result = {"token": engine.issue(args.subject, args.asset)}
-        elif args.command == "inspect":
+        elif args.command in {"inspect", "read-json"}:
             envelope = decode(sys.stdin.buffer.read(65537))
             if type(envelope) is not dict or set(envelope) != {"token", "request"}:
                 raise Rejected("envelope")
-            result = engine.process(canonical(envelope["request"]), envelope["token"])
+            if args.command == "inspect":
+                result = engine.process(canonical(envelope["request"]), envelope["token"])
+            else:
+                result = ArtifactReader(engine).read_json(canonical(envelope["request"]), envelope["token"])
         elif args.command == "checkpoint":
             result = engine.checkpoint()
         elif args.command == "export":
