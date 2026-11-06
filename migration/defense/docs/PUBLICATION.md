@@ -12,6 +12,8 @@ La versión 0.5.0 se publicó en `cb1aac470e75c436dd4fd00e842437409898635b`. Añ
 
 La versión 0.6.0 se publicó en `74f0f9a21e66d96d167e88b1c677786257f47f6d`. Agrega archivo local por hash, escrituras sincronizadas sin reemplazo, manifiestos canónicos, relectura antes de avanzar el testigo y recuperación de confirmaciones perdidas. Añade 30 pruebas: total 203 del paquete y 9 de aislamiento. Su padre es la publicación 0.5.0. No activa servicios ni elimina historial.
 
-La versión 0.7.0 agrega cobertura continua entre manifiestos, recibos inicial/final fijados fuera del catálogo, correspondencia exacta con revisiones del testigo y relectura de todas las páginas. Añade 24 pruebas: total 227 del paquete y 9 de aislamiento. Su padre es la publicación 0.6.0. La cobertura local no habilita borrado, retención ni activación productiva.
+La versión 0.7.0 se publicó en `662d8497fa9696514b4f19362193a1e521800f10`. Agrega cobertura continua entre manifiestos, recibos inicial/final fijados fuera del catálogo, correspondencia exacta con revisiones del testigo y relectura de todas las páginas. Añade 24 pruebas: total 227 del paquete y 9 de aislamiento. Su padre es la publicación 0.6.0. La cobertura local no habilita borrado, retención ni activación productiva.
+
+La versión 0.8.0 agrega inventario acotado de objetos y referencias, verificación de catálogos seleccionados contra recibos externos, tamaños lógicos sin duplicar archivos compartidos e incidencias para referencias faltantes. Añade 28 pruebas: total 255 del paquete y 9 de aislamiento. Su padre es la publicación 0.7.0. Las consultas conservan archivos y checkpoints; un objeto fuera de la selección no se considera automáticamente un huérfano ni se elimina.
 
 Se conservan `main`, las demás ramas, los bytes originales de Census y los workflows deshabilitados. Publicar esta rama no activa un servicio, trading ni despliegue. Los informes de 0.2.0 corresponden a la entrega local anterior.

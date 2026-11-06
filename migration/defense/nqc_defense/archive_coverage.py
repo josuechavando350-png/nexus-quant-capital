@@ -85,7 +85,8 @@ class ArchiveCoverage:
         publish_local(self.store.root, "coverage-" + digest + ".json", data)
         return self.verify_catalog(digest, start, target)
 
-    def verify_catalog(self, digest, start, target):
+    def _catalog(self, digest, start, target):
+        """Read canonical metadata and external pins; callers must still verify coverage."""
         hex_digest(digest)
         start, target = receipt(start), receipt(target)
         self.store._check_directories()
@@ -101,4 +102,9 @@ class ArchiveCoverage:
             raise Rejected("coverage_catalog_binding")
         if receipt(value["start_receipt"]) != start or receipt(value["target_receipt"]) != target:
             raise Rejected("coverage_catalog_anchor_mismatch")
+        value["manifests"] = manifest_list(value["manifests"])
+        return value
+
+    def verify_catalog(self, digest, start, target):
+        value = self._catalog(digest, start, target)
         return {**self.verify(value["manifests"], start, target), "catalog_sha256": digest}

@@ -19,6 +19,7 @@ from nqc_defense.audit_pages import AuditPageVerifier
 from nqc_defense.witness import Witness
 from nqc_defense.archive_store import ArchiveStore
 from nqc_defense.archive_coverage import ArchiveCoverage
+from nqc_defense.archive_inventory import ArchiveInventory
 
 
 def run(root):
@@ -68,6 +69,11 @@ def run(root):
                                  for item in (first_archive, second_archive))
             coverage = ArchiveCoverage(archive, witness).seal(
                 [first_archive["manifest_sha256"], second_archive["manifest_sha256"]], origin_receipt, witnessed)
+            inventory = ArchiveInventory(archive, witness).inspect([{
+                "catalog_sha256": coverage["catalog_sha256"], "start_receipt": origin_receipt,
+                "target_receipt": witnessed}])
+            if not inventory["verified"] or inventory["observed_objects"] != 9:
+                raise Rejected("nqc_inventory_check_failed")
             evidence = {"status": "NQC_LOCAL_CONSUMER_CHECK_PASS",
                         "base_commit": baseline["base_commit"], "tested_parent_commit": baseline["head_commit"],
                         "artifact": artifact, "content_sha256": result["content_sha256"],
@@ -86,6 +92,9 @@ def run(root):
                         "coverage_catalog_verified": coverage["verified"],
                         "coverage_intervals": coverage["interval_count"],
                         "coverage_records": coverage["record_count"],
+                        "archive_inventory_verified": inventory["verified"],
+                        "archive_inventory_objects": inventory["observed_objects"],
+                        "archive_inventory_logical_bytes": inventory["observed_logical_bytes"],
                         "scope": "actual local manifest consumed; production Census loop unchanged"}
     finally:
         if marker is not None:

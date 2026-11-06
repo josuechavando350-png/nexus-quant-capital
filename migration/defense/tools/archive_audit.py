@@ -9,6 +9,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from nqc_defense.archive_store import ArchiveStore
 from nqc_defense.archive_coverage import ArchiveCoverage
+from nqc_defense.archive_inventory import ArchiveInventory, MAX_SELECTION_BYTES
 from nqc_defense.audit_pages import MAX_ARCHIVE_BYTES
 from nqc_defense.codec import Rejected, canonical, decode
 from nqc_defense.files import publish_local, read_local
@@ -44,12 +45,14 @@ def main():
     coverage.add_argument("--seal", action="store_true", help="Persist a canonical coverage catalog after verification")
     verify_coverage = commands.add_parser("verify-coverage")
     verify_coverage.add_argument("catalog_sha256")
-    for command in (prepare, verify, finalize, coverage, verify_coverage):
+    inventory = commands.add_parser("inventory", help="Read-only inventory against externally pinned catalog selections")
+    inventory.add_argument("--selections", type=Path, required=True)
+    for command in (prepare, verify, finalize, coverage, verify_coverage, inventory):
         command.add_argument("--audit-key-file", type=Path, required=True)
         command.add_argument("--policy-digest", required=True)
     for command in (verify, finalize):
         command.add_argument("manifest_sha256")
-    for command in (finalize, coverage, verify_coverage):
+    for command in (finalize, coverage, verify_coverage, inventory):
         command.add_argument("--witness-root", type=Path, required=True)
         command.add_argument("--witness-key-file", type=Path, required=True)
     for command in (coverage, verify_coverage):
@@ -77,6 +80,11 @@ def main():
                 if args.receipt_output:
                     retained = {name: result[name] for name in ("manifest_sha256", "witness_receipt")}
                     publish_local(args.receipt_output.parent, args.receipt_output.name, canonical(retained))
+            elif args.command == "inventory":
+                witness = Witness(args.witness_root, key_file(args.witness_key_file), audit_key, args.policy_digest)
+                selected = decode(read_local(args.selections.parent, args.selections.name, MAX_SELECTION_BYTES),
+                                  max_bytes=MAX_SELECTION_BYTES)
+                result = ArchiveInventory(store, witness).inspect(selected)
             else:
                 witness = Witness(args.witness_root, key_file(args.witness_key_file), audit_key, args.policy_digest)
                 checker = ArchiveCoverage(store, witness)
@@ -88,7 +96,7 @@ def main():
                 else:
                     result = checker.verify(args.manifests, start, target)
         print(json.dumps(result, sort_keys=True))
-        return 0
+        return 0 if result.get("verified", True) else 2
     except (Rejected, OSError, sqlite3.Error) as exc:
         print(json.dumps({"verified": False, "reason": str(exc) if isinstance(exc, Rejected) else "local_storage_error"}))
         return 2
