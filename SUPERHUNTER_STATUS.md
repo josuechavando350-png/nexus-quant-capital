@@ -1,56 +1,55 @@
-# SUPERHUNTER — Estado verificable y punto exacto de reanudación
-**Corte:** 2026-11-06. **Leer primero:** [SUPERHUNTER_MASTER_PLAN.md](SUPERHUNTER_MASTER_PLAN.md).
+# SUPERHUNTER — estado oficial verificable y continuidad
 
-## Versión pública actual
-- Plan maestro publicado en `main`: commit `c19e7f368e4ffd8535f4a6892e4156ed895321d4`.
-- Fuente consolidada pública en **PR #45**: https://github.com/josuechavando350-png/nexus-quant-capital/pull/45
-- Rama: `feat/superhunter-full-consolidation-20261106`.
-- SHA de commit recuperado: `738511fa90cb7fd2bae5e6f9aec6cc64529bc2b8`, cabeza de PR #45 al crear este documento.
-- **214** archivos nuevos bajo `superhunter/` verificados contra manifiesto de 214 Git blob SHA-1; **0** modificaciones a `ci/`, `migration/`, `nqc-census/`.
-- `main` aún NO incluye el código de PR #45. El PR sigue en **borrador**, sin fusionar.
+**Corte:** 2026-11-06. **Plan completo:** [SUPERHUNTER_MASTER_PLAN.md](SUPERHUNTER_MASTER_PLAN.md). **Principio:** no inventar pruebas, hallazgos, porcentajes ni capacidades completas. Esta página se actualizó después de ejecutar la regresión del PR #49.
 
-## Verificación reproducida del paquete
-- ZIP original de Biblioteca: `SUPERHUNTER_holdout_etiquetas_2005.zip`; SHA-256 `c5a3ce77720213a3fa4e19da8faac84a41594b7823e90d2ac246d5119e57267f`.
-- Reejecutado `python3 -m superhunter check --out RUTA_PRIVADA_NUEVA`: `LOCAL_QA_PASS`, **2005 tests**.
-- `python3 -m superhunter verify-check --bundle RUTA_PRIVADA`: `LOCAL_QA_PASS`, **2005 tests**.
-- Identidad de fuente actual comprobada: `205b61fee612c263510c581216010c527d84e51f934d2c1ca9451fbd87ed6ed4`.
-- No presupone descubrimiento autónomo, hallazgos originales, 20 programas concurrentes reales ni benchmark ciego.
-- Quedan sin certificar la suite histórica completa NQC, Rust Census, el verificador integral de aislamiento y GitHub Actions.
+## Cómo retomar en otra conversación
+1. Leer este documento y el [plan maestro](SUPERHUNTER_MASTER_PLAN.md), luego `AGENTS.md` y la configuración de aislamiento NQC. Comprobar cabezas Git actuales, no confiar ciegamente en las SHA escritas aquí si el repositorio avanzó.
+2. **Fuente más avanzada publicada:** [PR #49](https://github.com/josuechavando350-png/nexus-quant-capital/pull/49) (borrador; rama `feat/superhunter-evm-semantic-replay-20261106`, SHA `81f8d04637e15aa44d3b90a8b226e5a37311850f`). Depende estrictamente de PR #48 -> #47 -> #46 -> #45 -> `main`. No sacar código de una rama anterior y reemplazar el acumulado.
+3. La rama `main` contiene la documentación de continuidad, **no** el paquete `superhunter/` consolidado. No fusionar sin reconciliar dependencias, revisar aislamiento histórico y comprobar resultados.
+4. Recuperar rama/PR y reejecutar todas las pruebas con sus límites, verificadores y evidencias. Los expedientes de casos privados NO están en GitHub ni deben publicarse.
 
-## Catálogos y dirección vigente
-- `superhunter/integration-checklist.json`: 27 requisitos originales.
-- `superhunter/capabilities.json`: 50 capacidades originales.
-- `superhunter/research_initiatives.json`: 25 iniciativas originales.
-- Plan maestro agrega 100 propuestas identificadas `SH-01-01` ... `SH-10-10`, más cinco líneas de R&D; ninguna nueva se considera terminada por su nombre.
-- Estado informal histórico 40–42% NO revalidado; usar hitos y pruebas, no porcentajes.
+## Cadena de código, commits y evidencia
 
-## Primer incremento de M1 — Forense offline (PR #46)
-- PR dependiente: https://github.com/josuechavando350-png/nexus-quant-capital/pull/46 (borrador, base `feat/superhunter-full-consolidation-20261106`).
-- Rama `feat/superhunter-forensic-timeline-20261106`; commit implementado `97240f29cab405ed2524f6e0a1c70a2041e5f25e`.
-- Archivos cambiados contra la base consolidada: exactamente **8 archivos bajo `superhunter/`**; ninguna modificación a NQC histórico.
-- Dos módulos nuevos: `forensic_timeline.py` (cronología de eventos declarados, incertidumbre y control de contradicciones) y `journal_ingest.py` (parser offline de exportaciones `journalctl -o json`, preservación de bytes, offsets SHA-256 por línea, replay verificable).
-- Pruebas nuevas verificadas **por separado**: 17/17 cronología + 19/19 journal. Inventario de fuentes/componentes: 143 archivos, 53 componentes, 0 errores de dependencias/mapas.
-- **Pendiente de verificar**: suite completa reejecutada sobre 2,005 anteriores + 36 nuevas; `verify-check`, `review-platform` y `verify-platform`. Un PASS parcial NO autoriza declarar la integración terminada.
-- Esta fase NO autentica productores, no prueba causalidad/incidente, no implementa sensores remotos, no analizó RAM/disco/PCAP y no descubre vulnerabilidades. NO completar SH-01 ni M1 por este incremento.
-- Siguiente paso: completar QA y verificación; luego integrar dos fuentes independientes verificadas y construir primer experimento causal en entorno propio.
+| PR | Commit HEAD verificado | Trabajo implementado | Pruebas del paquete en la rama (localmente) |
+|---|---|---|---|
+| [#45](https://github.com/josuechavando350-png/nexus-quant-capital/pull/45) | `738511fa90cb7fd2bae5e6f9aec6cc64529bc2b8` | Recuperación de 214 archivos públicos con hashes Git comprobados | 2,005/2,005, `LOCAL_QA_PASS` |
+| [#46](https://github.com/josuechavando350-png/nexus-quant-capital/pull/46) | `97240f29cab405ed2524f6e0a1c70a2041e5f25e` | Cronología forense, parser de exportaciones `journalctl -o json` y verificación de bytes | 2,041/2,041 |
+| [#47](https://github.com/josuechavando350-png/nexus-quant-capital/pull/47) | `08f91972845876f807e64a246a0944b0bb5871c9` | Correlación declarativa entre fuentes forenses, incertidumbre y ciclos | 2,062/2,062 |
+| [#48](https://github.com/josuechavando350-png/nexus-quant-capital/pull/48) | `4e66ae5c71dd7ec77b95a15f3a55473539715664` | Enlace SHA-256 exacto de journal con traza EVM, decodificación de PCs y replay del expediente | 2,084/2,084 |
+| [#49](https://github.com/josuechavando350-png/nexus-quant-capital/pull/49) | `81f8d04637e15aa44d3b90a8b226e5a37311850f` | Intérprete EVM propio **acotado**; replay independiente de stack, saltos y secuencia PC; trazas falsas semánticamente imposibles rechazadas | **2,113/2,113** |
 
-## Próxima acción obligatoria
-1. Comprobar HEAD real de `main` y PR #45, inspeccionar diff y preservar sus hashes; no hacer force-push ni fusionar a ciegas.
-2. Cerrar M0: revisión de aislamiento y NQC histórico antes de propuesta de merge; verificar códigos y límites.
-3. Desarrollar M1 en rama dependiente: **primer flujo forense real con evidencia preservada, cronología, inferencia causal acotada, reproducción en sandbox y verificación independiente**. Los submódulos parciales no completan M1.
-4. Registrar resultados exactos, controles negativos, versiones y limitaciones en PR. Si el chat termina, reanudar desde este estado y del plan maestro; no pedir reconstruir conversaciones pasadas.
+Todos los PR listados están **abiertos en borrador y no fusionados** al corte. El incremento #49 cambió exactamente **6 archivos bajo `superhunter/`**: 3 añadidos y 3 editados; **219** archivos anteriores locales no cambiaron, 0 eliminados. Los 6 Git blob SHA-1 se verificaron contra la fuente de prueba antes del commit.
 
-## Límites invariables
-Investigación white/grey hat solo en entornos propios, autorizados o reproducciones offline; sin escaneo/explotación de terceros sin permiso, sin divulgar etiquetas privadas, credenciales, fondos, firmas ni datos personales. No tocar `nexus-engine`, Cano/Vercel, workflows heredados ni NQC histórico.
+## Validación efectiva más reciente (PR #49)
+- Ejecutados los 8 grupos de control de calidad, sin retirar test IDs ni aumentar los límites de los workers. Resultado: **`LOCAL_QA_PASS`, 2,113 pruebas, 0 fallos, 0 errores, 0 omisiones, 0 expected failures y 0 unexpected successes**.
+- Ejecutado en proceso separado `verify-check` sobre el paquete completo: **`LOCAL_QA_PASS`, 2,113 pruebas**.
+- Identidad de fuentes: `d1cdf6e398c123481f9f6974b9075b682e15fdcf10eecaaed2a9593065159cf9`.
+- `audit-wiring` + `verify-wiring`: **77 módulos, 0 imports locales sin resolver**; estado `SOURCE_GRAPH_REVIEW_REQUIRED` por carga dinámica heredada en `native_runtime.py`. El código de salida 1 es deliberado; NO certificar todas las conexiones runtime.
+- 29 pruebas nuevas enfocadas pasan sobre el intérprete; se incluyen escenarios con `JUMPI` declarado incorrectamente, errores de pila, opcodes no soportados, alteración de evidencia aun con hash re-sellado, verificador en proceso separado y preservación de privacidad.
 
+**Comandos (usar desde raíz del repositorio en el HEAD del PR #49):**
+```bash
+PYTHONDONTWRITEBYTECODE=1 python3 -m superhunter check --out /ruta/privada/qa-nueva
+PYTHONDONTWRITEBYTECODE=1 python3 -m superhunter verify-check --bundle /ruta/privada/qa-nueva
+PYTHONDONTWRITEBYTECODE=1 python3 -m superhunter audit-wiring --out /ruta/privada/wiring-nuevo
+PYTHONDONTWRITEBYTECODE=1 python3 -m superhunter verify-wiring --bundle /ruta/privada/wiring-nuevo
+```
 
-## Actualización incremental 2026-11-06 — cadena forense M1
-- **PR #46:** https://github.com/josuechavando350-png/nexus-quant-capital/pull/46 — normalización temporal + parser real de exports journalctl JSONL. Validación local reejecutada: **2041/2041** + `verify-check` independiente, digest `927733768bcd394622336cd827fe2e4fc3b4e069da167fc2a3182c14e8a28e5b`. **No fusionado**.
-- **PR #47:** https://github.com/josuechavando350-png/nexus-quant-capital/pull/47 — correlación entre fuentes forenses: conserva bytes de journals, offsets/SHA-256, detecta contradicciones, ciclos e incertidumbre y verifica el expediente offline. Commit `08f91972845876f807e64a246a0944b0bb5871c9`. 21 pruebas nuevas específicas PASS. **QA global 2062/2062 LOCAL_QA_PASS** tras corregir el reparto; `verify-check` independiente también PASS; 0 fallos/errores/skips, `source_digest=7357340745388a2a63bc7027e0396d9b277919aa0e119641bcc3021b5fe01cf8`. Un primer reparto agotó 180 s (`TimeoutExpired`) y se registró como NO aprobado; la corrección conserva las particiones anteriores sin excluir tests ni subir límites. **PR en borrador, no fusionado**.
-- Orden de dependencia: `main` -> PR #45 -> PR #46 -> PR #47. La comparación Git de `main` con PR #47 muestra únicamente archivos `superhunter/` añadidos (223 rutas) y ningún cambio en los árboles NQC históricos.
-- Para continuar: verificar el último HEAD real del PR #47, reejecutar y registrar `check`/`verify-check` y, después, proseguir M1 con una segunda modalidad de evidencia independiente. No afirmar todavía causalidad, DFIR completo ni nuevas vulnerabilidades.
+### Qué demuestra y qué NO demuestra
+- El módulo #49 **sí calcula** por un intérprete separado una semántica acotada de stack y flujo PC para trazas de laboratorio. No es otro validador de nombres: rechaza saltos imposibles dados los operandos reales, y conserva evidencia privada verificable.
+- **NO** ejecuta Geth nativo, RPC, cadena real, storage, gas exacto, llamadas externas, contratos arbitrarios ni sensores remotos. Los datos pueden ser fabricados por el productor, de modo que el resultado `BOUNDED_STACK_PC_REPLAY_MATCH` **no** prueba autenticidad, incidente o vulnerabilidad real.
+- No se ejecutaron en esta entrega el verificador completo de aislamiento histórico, toda la suite NQC/Rust ni GitHub Actions; no hay certificación nueva de PFT/Census ni hallazgos originales confirmados. No hay benchmark ciego externo, resultados económicos ni operación 24/7/20 programas validada.
 
-### Auditoría M1 adicional (resultado acotado, 2026-11-06)
-- Ensayo offline de **512 eventos** (dos exports de journal sintéticos) reconstruido correctamente y **300/300** contrastes temporales concordantes con oráculo independiente; no son incidentes reales ni benchmarks externos.
-- Inspección sintáctica de 75 módulos: 0 referencias locales sin resolver; **SOURCE_GRAPH_REVIEW_REQUIRED** debido a carga dinámica histórica en `native_runtime.py`. No se alega prueba de conectividad de runtime completa.
-- PR #47 continúa en **borrador** dependiente de PR #46 y #45; no fusionar hasta revisión y gates históricos. La rama `main` publica continuidad y plan, no este código.
+## Inventario y metas sin inventar porcentajes
+- Baseline de Biblioteca: `SUPERHUNTER_holdout_etiquetas_2005.zip`, SHA-256 `c5a3ce77720213a3fa4e19da8faac84a41594b7823e90d2ac246d5119e57267f`; solo el código/manifest público se recuperó al PR #45.
+- Catálogos originales en `superhunter/`: `integration-checklist.json` **27**, `capabilities.json` **50**, `research_initiatives.json` **25**; el plan agrega 100 capacidades propuestas en 10 disciplinas y cinco líneas originales de investigación. No declararlas implementadas por figurar en listas.
+- La referencia conversacional **40–42% no es un porcentaje técnico auditado**. El progreso técnico actual consta por los hitos y tests arriba; el porcentaje total sigue **sin determinar**.
+
+## Próximas acciones técnicas priorizadas
+1. Revisar y cerrar aislamiento y conflictos de las ramas encadenadas #45–#49 sin afectar `ci/`, `migration/`, `nqc-census/`, sus artefactos originales ni `nexus-engine`.
+2. Reproducir la nueva vinculación contra una **ejecución EVM nativa e independiente** con binario autenticado y propiedad de prueba delimitada; fallar si falta herramienta, sin fabricarla.
+3. Extender M1 con una segunda fuente de evidencia autentificada, grafo de hipótesis y estudio causal reproducible, separado estrictamente de hechos demostrados.
+4. Ampliar formalización, DFIR y sensores propios según el plan maestro, con pruebas negativas, integraciones end-to-end y benchmark ciego externo antes de alegar superioridad.
+5. Mantener PRs en borrador sin fusionar hasta cumplir gates históricos; registrar hashes, pruebas y límites en cada entrega.
+
+**Límites permanentes:** investigación white/grey hat únicamente autorizada u offline; nada de exploración intrusiva de terceros, firma, fondos, despliegues, cuentas externas o reportes automáticos fuera de reglas. No mezclar con la plataforma defensiva independiente. Nunca tocar Cano, Vercel o repositorios clientes.
