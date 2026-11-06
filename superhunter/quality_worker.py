@@ -76,6 +76,11 @@ def partition_ids(identities: list[str], count: int) -> list[list[str]]:
     # non-EVM holdout suite with the previously lightest partition instead.
     # Every test still runs, with the SAME limits and complete inventories.
     holdout = modules.pop('test_holdout_protocol', []) if count == 8 else []
+    # Protect the previously verified 2041-test partition layout. Adding a
+    # module before greedy balancing reassigns expensive EVM suites and can
+    # exhaust unchanged worker time budgets. Keep the new module whole in the
+    # measured ~36s partition instead; no tests or limits are suppressed.
+    cross_journal = modules.pop('test_journal_correlation', []) if count == 8 else []
     groups = [[] for _ in range(count)]
     for name in sorted(modules, key=lambda n: (-len(modules[n]), n)):
         index = min(range(count), key=lambda i: (len(groups[i]), i))
@@ -90,6 +95,8 @@ def partition_ids(identities: list[str], count: int) -> list[list[str]]:
         groups[6].extend(platform)
     if holdout:
         groups[0].extend(holdout)
+    if cross_journal:
+        groups[0].extend(cross_journal)
     return [sorted(group) for group in groups]
 
 
