@@ -24,6 +24,16 @@
 - Plan maestro agrega 100 propuestas identificadas `SH-01-01` ... `SH-10-10`, más cinco líneas de R&D; ninguna nueva se considera terminada por su nombre.
 - Estado informal histórico 40–42% NO revalidado; usar hitos y pruebas, no porcentajes.
 
+## Primer incremento de M1 — Forense offline (PR #46)
+- PR dependiente: https://github.com/josuechavando350-png/nexus-quant-capital/pull/46 (borrador, base `feat/superhunter-full-consolidation-20261106`).
+- Rama `feat/superhunter-forensic-timeline-20261106`; commit implementado `97240f29cab405ed2524f6e0a1c70a2041e5f25e`.
+- Archivos cambiados contra la base consolidada: exactamente **8 archivos bajo `superhunter/`**; ninguna modificación a NQC histórico.
+- Dos módulos nuevos: `forensic_timeline.py` (cronología de eventos declarados, incertidumbre y control de contradicciones) y `journal_ingest.py` (parser offline de exportaciones `journalctl -o json`, preservación de bytes, offsets SHA-256 por línea, replay verificable).
+- Pruebas nuevas verificadas **por separado**: 17/17 cronología + 19/19 journal. Inventario de fuentes/componentes: 143 archivos, 53 componentes, 0 errores de dependencias/mapas.
+- **Pendiente de verificar**: suite completa reejecutada sobre 2,005 anteriores + 36 nuevas; `verify-check`, `review-platform` y `verify-platform`. Un PASS parcial NO autoriza declarar la integración terminada.
+- Esta fase NO autentica productores, no prueba causalidad/incidente, no implementa sensores remotos, no analizó RAM/disco/PCAP y no descubre vulnerabilidades. NO completar SH-01 ni M1 por este incremento.
+- Siguiente paso: completar QA y verificación; luego integrar dos fuentes independientes verificadas y construir primer experimento causal en entorno propio.
+
 ## Próxima acción obligatoria
 1. Comprobar HEAD real de `main` y PR #45, inspeccionar diff y preservar sus hashes; no hacer force-push ni fusionar a ciegas.
 2. Cerrar M0: revisión de aislamiento y NQC histórico antes de propuesta de merge; verificar códigos y límites.
