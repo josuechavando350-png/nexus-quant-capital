@@ -1,14 +1,14 @@
 {
-  "status": "PRIVATE_CASE_DOSSIER_OFFLINE_REPLAY_LEGACY_MIGRATION_AND_PROGRESS_ACCOUNTING_TESTED_PRODUCTION_NOT_ACTIVATED",
-  "version": "0.17.0",
+  "status": "PUBLIC_KEY_DOSSIER_ATTESTATION_LOCAL_ISSUER_TRUST_AND_PACKAGE_INSTALL_TESTED_PRODUCTION_NOT_ACTIVATED",
+  "version": "0.18.0",
   "date": "2026-11-06",
   "nqc_base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
   "python_version": "3.12.14",
-  "python_source_files_parsed": 87,
+  "python_source_files_parsed": 91,
   "tests": {
-    "engine_passed": 586,
+    "engine_passed": 620,
     "nqc_isolation_passed": 9,
-    "total_passed": 595,
+    "total_passed": 629,
     "failed": 0,
     "skipped": 0,
     "engine_log": "docs/PRUEBAS.txt",
@@ -82,7 +82,7 @@
   "publication": {
     "branch": "NQC-defensive",
     "user_authorized": true,
-    "validated_parent_commit": "5187d0ab57a26ce228d24cf2f3582fd696d92a64",
+    "validated_parent_commit": "4ad9d858d1277fbd2686968856fa73ab39250433",
     "status": "authorized_branch_update_validated_before_commit",
     "pull_request": false,
     "release": false,
@@ -90,7 +90,7 @@
     "email": false,
     "workflow_enabled": false
   },
-  "scope": "Private authentication-case dossier linking preserved evidence, original review/credential histories and local clock; offline replay and reproducible full-scope progress accounting; no SuperHunter changes or production activation",
+  "scope": "Ed25519 issuer attestations over fully replayed private dossiers, externally pinned public verification without private keys, deterministic publication and optional dependency packaging; no SuperHunter changes or production activation",
   "nqc_consumer_check": "docs/NQC_CONSUMER_CHECK.json",
   "consumer": {
     "local_reader_enforces_admission": true,
@@ -412,7 +412,8 @@
     "independent_anchor": false,
     "public_signature": false,
     "independent_key_custody": false,
-    "production_activated": false
+    "production_activated": false,
+    "separate_public_attestation_available": true
   },
   "progress": {
     "metric": "recorded_full_scope_acceptances; not effort or time estimate",
@@ -436,10 +437,44 @@
     "independent_certification": false
   },
   "current_bounded_block": {
-    "version": "0.17.0",
+    "version": "0.18.0",
     "criteria_passed": 5,
     "criteria_total": 5,
     "completion_percent": 100.0,
     "counts_as_full_catalog_completion": false
+  },
+  "dossier_attestation_check": "docs/DOSSIER_ATTESTATION_CHECK.json",
+  "signing_package_check": "docs/SIGNING_PACKAGE_CHECK.json",
+  "dossier_attestation": {
+    "new_tests": 34,
+    "algorithm": "Ed25519",
+    "implementation": "cryptography==50.0.2",
+    "optional_dependency_extra": "signing",
+    "issuer_fully_replays_dossier_before_signing": true,
+    "signature_domain_prefix": true,
+    "externally_pinned_public_key_required": true,
+    "dossier_digest_pins_and_report_signed": true,
+    "exact_dossier_bytes_required_for_verification": true,
+    "administrative_and_signing_keys_must_differ": true,
+    "local_key_pair_and_permissions_checked": true,
+    "public_verifier_requires_no_private_key": true,
+    "public_verifier_performs_no_file_database_clock_or_network_io": true,
+    "cli_after_private_files_and_original_sources_removed": true,
+    "public_report_labels_issuer_assertion": true,
+    "public_verifier_replays_hmac_history": false,
+    "trusted_signer_false_claim_boundary_tested": true,
+    "private_publication_readback_and_deterministic_retry": true,
+    "concurrent_identical_publications_tested": true,
+    "rfc8032_test_vector_one_verified": true,
+    "max_attestation_bytes": 16777216,
+    "max_dossier_bytes": 33554432,
+    "independent_key_custody": false,
+    "kms_or_hsm": false,
+    "signing_key_encrypted_at_rest": false,
+    "signing_key_rotation": false,
+    "key_revocation_checked": false,
+    "independent_time": false,
+    "current_state_attested": false,
+    "production_activated": false
   }
 }

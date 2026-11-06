@@ -17,7 +17,7 @@ Orden siguiente:
 
 1. Revisar falsos positivos y puntos ciegos de la regla de autenticación con un conjunto separado de evaluación. No optimizar una cifra sobre los mismos nueve ejemplos.
 2. Adaptadores de formato OpenSSH/journald incorporados en 0.12; falta captura autorizada en un entorno real y autenticidad de origen. Mantener separación entre observar un registro y demostrar su autenticidad.
-3. Evidencia preservada (0.13) y revisión con credenciales locales (0.14) incorporadas. Renovación/revocación locales incorporadas en 0.15; caducidad optativa y control del reloj incorporados en 0.16; continuar con anclaje independiente, recuperación temporal y rotación de la clave de auditoría; la posesión de credenciales no equivale a identidad humana ni custodia externa.
+3. Evidencia preservada (0.13) y revisión con credenciales locales (0.14) incorporadas. Renovación/revocación locales incorporadas en 0.15; caducidad optativa y control del reloj incorporados en 0.16; expedientes en 0.17 y declaraciones de emisor verificables con clave pública en 0.18; continuar con anclaje independiente, recuperación temporal y rotación de la clave de auditoría; la posesión de credenciales no equivale a identidad humana ni custodia externa.
 4. Preparar una respuesta específica reversible en laboratorio, con permiso explícito, límites y prueba del servicio después de actuar.
 5. Ampliar mediciones e integración por plataforma. La activación productiva tendrá alcance propio y no se presume por publicar código.
 

@@ -947,7 +947,7 @@
       ],
       "status": "bounded_partial",
       "implementation": "nqc_defense/case_review.py",
-      "implementation_scope": "Historial HMAC de revisiones asociado a evidencia; sin registro de todo acceso ni custodia independiente"
+      "implementation_scope": "Historial HMAC ligado a evidencia y declaración Ed25519 del expediente; sin todo acceso ni custodia independiente"
     },
     {
       "id": "C049",
@@ -988,7 +988,7 @@
       ],
       "status": "bounded_partial",
       "implementation": "nqc_defense/review_dossier.py",
-      "implementation_scope": "Informe JSON verificable de casos de autenticación con evidencia, historial y referencias; sin otros tipos de caso ni custodia independiente"
+      "implementation_scope": "Informe de autenticación con evidencia e historial, más declaración verificable con clave pública; sin otros tipos de caso ni custodia independiente"
     },
     {
       "id": "C051",

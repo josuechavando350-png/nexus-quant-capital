@@ -21,7 +21,7 @@ Los 21 componentes parciales contienen código real probado dentro de un alcance
 
 El registro de cierres actual está vacío. Los datos de aceptación sintéticos usados por las pruebas del contador permanecen únicamente en directorios temporales y no entran en este registro.
 
-El bloque v0.17 tiene cinco criterios locales definidos en `REVIEW_DOSSIER_CHECK.json`: snapshot coherente, verificación sin fuentes, rechazo de corrupción/pins desactualizados, conservación de payloads y CLI reproducible. Esos cinco pasaron: **100% del bloque acotado**, sin cambiar el 0% de entregables completos del catálogo global.
+El bloque v0.18 tiene cinco criterios locales en `DOSSIER_ATTESTATION_CHECK.json`: cadena enlazada, firma y bytes verificados, rechazo de alteraciones/ámbitos/claves, CLI pública después de retirar secretos, y reintento sin modificar los bytes. Esos cinco pasaron: **100% del bloque acotado**, sin cambiar el 0% de entregables completos del catálogo global.
 
 Consultar el resultado reproducible con:
 

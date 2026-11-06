@@ -11,3 +11,5 @@ Consulta: 6 de noviembre de 2026. El catálogo original es el PDF adjunto; su SH
 - Python sqlite3: https://docs.python.org/3/library/sqlite3.html . El paquete usa transacciones explícitas con `isolation_level=None` y `BEGIN IMMEDIATE`; las pruebas verifican consumo único y rollback con fallos reales de SQLite.
 
 No se aceptan como requisitos verificables frases del documento como «ausencia absoluta de bugs», «inmunidad», «cuarentena perfecta», «atribución matemática exacta» o latencias sin medición. Las funciones dirigidas contra equipos ajenos se reformulan como análisis, validación o contención en infraestructura propia. No se implementan contraataques, reproducción de exploits ni flujos ofensivos autónomos.
+
+Firma de expedientes 0.18: API Ed25519 de cryptography 50.0.2, https://cryptography.io/en/50.0.2/hazmat/primitives/asymmetric/ed25519/ ; vector público TEST 1 de RFC 8032 §7.1, https://www.rfc-editor.org/rfc/rfc8032#section-7.1 . Consultados el 6 de noviembre de 2026. Primitiva de biblioteca, sin implementación criptográfica propia; una firma del emisor no acredita custodia independiente ni verdad de sus afirmaciones.

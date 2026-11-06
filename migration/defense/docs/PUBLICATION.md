@@ -35,3 +35,5 @@ La entrega 0.15.0 se valida sobre `b3b837316eb245fd6a2991a9a40aa08cc4675ba3` par
 La entrega 0.16.0 se valida sobre `58f49915374a504a6f20340576767542a4a4c508` para publicar únicamente en `NQC-defensive`. Añade caducidad configurada y control persistente del reloj; conserva el historial 0.15 y no activa servicios.
 
 La entrega 0.17.0 se valida sobre `5187d0ab57a26ce228d24cf2f3582fd696d92a64` y se publica solo en `NQC-defensive`. Añade expedientes e informes offline y cálculo verificable de avance, conservando los registros anteriores. No activa servicios.
+
+La entrega 0.18.0 se valida sobre `4ad9d858d1277fbd2686968856fa73ab39250433` y se publica únicamente en `NQC-defensive`. Añade declaraciones Ed25519 del expediente con verificación pública, sin alterar los historiales ni activar producción.

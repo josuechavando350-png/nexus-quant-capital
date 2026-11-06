@@ -1,4 +1,4 @@
-# NQC Defense 0.17.0 — desarrollo en la rama NQC-defensive
+# NQC Defense 0.18.0 — desarrollo en la rama NQC-defensive
 
 El usuario autorizó publicar este código en `NQC-defensive` el 6 de noviembre de 2026. La rama conserva la base de NQC y no activa despliegues ni operación productiva. Los informes de 0.2.0 describen la validación previa a esa autorización.
 
@@ -40,11 +40,13 @@ La versión 0.15.0 conecta revocación, rotación y renovación al mismo almacé
 
 La versión 0.16.0 añade vencimientos configurables y un registro persistente del reloj. Conserva el límite al rotar, rechaza operaciones vencidas y comprueba nuevamente antes de confirmar/devolver una revisión. [Uso, compatibilidad y límites temporales](docs/V0_16.md). Los tokens sin fecha siguen sin fecha hasta configurarlos; el reloj local no es una autoridad temporal independiente.
 
-La versión 0.17.0 enlaza evidencia, revisión, credenciales y reloj en un expediente privado verificable sin la base original. El informe distingue hechos registrados de valoraciones del analista. [Uso y límites](docs/V0_17.md); [avance con denominadores explícitos](docs/PROGRESO.md). No hay anclaje independiente ni firma pública del expediente.
+La versión 0.17.0 enlaza evidencia, revisión, credenciales y reloj en un expediente privado verificable sin la base original. El informe distingue hechos registrados de valoraciones del analista. [Uso y límites](docs/V0_17.md); [avance con denominadores explícitos](docs/PROGRESO.md). En 0.17 la verificación exigía la clave de auditoría; la declaración de 0.18 permite verificar la firma del emisor con clave pública. El anclaje independiente sigue pendiente.
+
+La versión 0.18.0 permite verificar una declaración firmada del expediente con una clave pública fijada externamente. El emisor ejecuta primero el replay completo; el receptor no necesita claves privadas. [Uso y límites de confianza](docs/V0_18.md). Este bloque requiere el extra opcional `signing`; la custodia independiente y la rotación de claves siguen pendientes.
 
 ## Ejecutar y comprobar
 
-Requisitos: Linux, Python 3.11 o posterior y biblioteca estándar. Git solo para comprobar la integración con NQC. No se requiere cuenta, suscripción, credencial de nube ni instalación de dependencias para estas instrucciones.
+Requisitos del motor base: Linux, Python 3.11 o posterior y biblioteca estándar. La firma pública y su suite requieren `cryptography==50.0.2`, disponible mediante `python3 -m pip install '.[signing]'`. Git solo para comprobar la integración con NQC. No se requiere cuenta, suscripción ni credencial de nube.
 
 Desde esta carpeta:
 
@@ -143,7 +145,7 @@ La base consultada fue `josuechavando350-png/nexus-quant-capital`, commit `16e35
 
 Se resolvió la descarga incompleta recuperando los 645 archivos de la revisión y verificando tamaño y hash de cada blob Git. El checkout base quedó limpio. Se añadieron únicamente `migration/defense/` y `migration/DEFENSE-INTEGRATION.md` a la copia local.
 
-Pasaron el verificador de aislamiento original sobre la copia combinada, sus 9 pruebas y las 586 pruebas del paquete. `tools/check_nqc_artifact.py` inspeccionó los bytes reales de `nqc-census/Cargo.toml`. `tools/check_nqc_consumer.py .`, ejecutado desde la raíz NQC, consumió los 337.100 bytes reales de `migration/source-manifest.json`, archivó y releyó tres páginas antes del primer avance, realizó una segunda lectura exigiendo ese prefijo y archivó otras tres páginas hasta el registro 6. Los dos manifiestos se verificaron nuevamente y quedaron enlazados por un catálogo de cobertura desde el recibo inicial al final. El almacén se reabrió con presupuesto fijado de 1 MiB/64 objetos; el inventario y el estado del presupuesto coincidieron en diez objetos: política, catálogo, dos manifiestos y seis páginas. El manifiesto de NQC contiene 637 entradas históricas, no 637 módulos de defensa. Los controles crean y retiran un señuelo nuevo propio sin modificar los artefactos originales.
+Pasaron el verificador de aislamiento original sobre la copia combinada, sus 9 pruebas y las 620 pruebas del paquete. `tools/check_nqc_artifact.py` inspeccionó los bytes reales de `nqc-census/Cargo.toml`. `tools/check_nqc_consumer.py .`, ejecutado desde la raíz NQC, consumió los 337.100 bytes reales de `migration/source-manifest.json`, archivó y releyó tres páginas antes del primer avance, realizó una segunda lectura exigiendo ese prefijo y archivó otras tres páginas hasta el registro 6. Los dos manifiestos se verificaron nuevamente y quedaron enlazados por un catálogo de cobertura desde el recibo inicial al final. El almacén se reabrió con presupuesto fijado de 1 MiB/64 objetos; el inventario y el estado del presupuesto coincidieron en diez objetos: política, catálogo, dos manifiestos y seis páginas. El manifiesto de NQC contiene 637 entradas históricas, no 637 módulos de defensa. Los controles crean y retiran un señuelo nuevo propio sin modificar los artefactos originales.
 
 `tools/check_audit_pagination.py` verificó 10.003 registros en 20 páginas, superando el límite del formato de exportación completa. Son tres registros de admisión de una copia real de `engine.py` y 10.000 marcadores sintéticos explícitos para probar volumen con SQLite y HMAC reales. El control también añade un evento posterior al checkpoint y comprueba que no cambia el destino del recorrido. No representa tráfico productivo ni una medición de rendimiento.
 

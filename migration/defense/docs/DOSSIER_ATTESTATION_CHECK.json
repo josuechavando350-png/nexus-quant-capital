@@ -1,0 +1,31 @@
+{
+  "algorithm": "Ed25519",
+  "attestation_bytes": 4141,
+  "attestation_digest": "c97dbcafa64470f323e888a623753d2b264ce45a59b080615f5442c6b958d68e",
+  "block_completion_percent": 100.0,
+  "block_criteria_completed": 5,
+  "block_criteria_total": 5,
+  "checks": {
+    "full_case_evidence_review_dossier_chain": true,
+    "identical_retry_and_source_bytes_preserved": true,
+    "public_cli_after_private_files_removed": true,
+    "signature_and_exact_dossier_verified": true,
+    "tampering_scope_and_key_substitution_rejected": true
+  },
+  "dossier_bytes": 8250,
+  "dossier_digest": "a0344187b727d0ee378cad34166df78f382a7177d971a9b1a041b65c108429ce",
+  "fixture_origin": "authored OpenSSH RFC3339 records; real files, SQLite, generated keys and CLI; no live sshd",
+  "hmac_replay_by_public_verifier": false,
+  "independent_custody": false,
+  "private_key_required_for_verification": false,
+  "production_activated": false,
+  "public_key_sha256": "2181ac9a3aaec7c3853aaaa23a5d25102230e95f444c333dd93264d2da67a762",
+  "rejections": {
+    "changed_dossier": "dossier_digest",
+    "changed_report": "attestation_signature_invalid",
+    "different_public_key": "attestation_public_key_pin",
+    "different_scope": "attestation_statement_binding"
+  },
+  "trigger_records": 3,
+  "verified": true
+}
