@@ -81,6 +81,7 @@ def partition_ids(identities: list[str], count: int) -> list[list[str]]:
     # exhaust unchanged worker time budgets. Keep the new module whole in the
     # measured ~36s partition instead; no tests or limits are suppressed.
     cross_journal = modules.pop('test_journal_correlation', []) if count == 8 else []
+    bounded_replay = modules.pop('test_evm_bounded_replay', []) if count == 8 else []
     groups = [[] for _ in range(count)]
     for name in sorted(modules, key=lambda n: (-len(modules[n]), n)):
         index = min(range(count), key=lambda i: (len(groups[i]), i))
@@ -97,6 +98,8 @@ def partition_ids(identities: list[str], count: int) -> list[list[str]]:
         groups[0].extend(holdout)
     if cross_journal:
         groups[0].extend(cross_journal)
+    if bounded_replay:
+        groups[0].extend(bounded_replay)
     return [sorted(group) for group in groups]
 
 
