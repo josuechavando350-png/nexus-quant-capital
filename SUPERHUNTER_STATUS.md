@@ -1,5 +1,26 @@
 # SUPERHUNTER — estado oficial verificable y continuidad
 
+## Estado vigente — QA reparada y benchmark nativo repetido (2026-11-06 23:50 UTC)
+
+Este bloque prevalece sobre las instantáneas históricas inferiores.
+
+| Rama | HEAD verificado | QA completa | Digest fuente |
+| --- | --- | --- | --- |
+| PR #54 | `9a13a11016ffadac127bdfcce1fec2ef1aa9cd1e` | 2,211/2,211 PASS | `a90f784943cd6a7cbdd5d6e3cc7a890a522699d5ff00c5ad8a12aecda9b38be7` |
+| PR #55 | `63699780ae8755358c46dd0960138bca41ab321c` | 2,225/2,225 PASS | `5305d0cb78e5131ec8d3ca0b1d7f758520cad57097bc4e2e748cb4962eee7f50` |
+
+- Se corrigió la asignación inestable de módulos entre ocho procesos. Cuatro regresiones nuevas; ninguna prueba anterior eliminada. Dos regresiones fallaban con el reparto anterior. Se separó `test_platform` de los estudios EVM, sin ampliar 180 s de pared, 90 s de CPU ni 2 GiB por proceso.
+- Ambos recibos fueron verificados en procesos separados: cero fallos/errores/omisiones. Esa verificación comprueba los recibos y no equivale a repetir toda la suite. Máximos medidos por partición: 58.10 s (#54) y 60.02 s (#55). El timeout histórico no se reprodujo en este host; no se garantiza el mismo rendimiento en otros equipos.
+- Árboles Git publicados y cotejados con los bytes locales: #54 `76df85b4aa236bd851cad13498ba468eb8087920`, #55 `872344f62cc708b6089bc323b59de306f5a6ee45`. Actualizaciones fast-forward con comprobación del HEAD esperado; ambos PR siguen en borrador y no se fusionó código con main.
+- Entorno reproducido: Python Linux 3.12.3; Z3 4.13.3.0 con SHA-256 `7accc397d4ac387468b09489bdaff9d82bfac4ca6a7e339b8fbb2167edf9c1c0`. No se cambiaron los pins para acomodar otra biblioteca.
+- **Benchmark real sobre los cuatro contratos propios conocidos del digest #55:** solc 0.8.30 y Geth 1.17.10, bytes fijados; 2 TP, 2 TN, 0 FP, 0 FN, sin abstenciones/errores. `verify-owned-evm-score` recompiló y reejecutó los mismos controles en un segundo proceso y pasó. Dos configuraciones de compilación por caso son corroboración, no ocho muestras independientes.
+- Sigue siendo una evaluación conocida, pequeña y no ciega. No acredita un segundo motor EVM, generalización, impacto económico ni vulnerabilidad original.
+- Aislamiento: 642 archivos originales en `ci/`, `migration/`, `nqc-census/` conservan sus bytes. La copia exclusivamente histórica pasó su verificador (637 correspondencias) y nueve pruebas. El verificador global rechaza raíces nuevas fuera de su lista: revisión global todavía pendiente. Rust histórico no ejecutado.
+
+**Siguiente trabajo:** comparación de ejecución sobre los mismos contratos propios con una implementación EVM diferente; mantener el límite de laboratorio y comprobar los errores, reversiones y persistencia de estado. Después, resolver la revisión global de aislamiento sin modificar los árboles históricos.
+
+**Avance:** no se inventa un nuevo porcentaje global; 40–42% sigue siendo referencia histórica no certificada. Hallazgos originales confirmados: 0.
+
 ## Último estado — PR #55 (2026-11-06; prevalece sobre instantáneas inferiores)
 
 - **Último PR de código:** [#55](https://github.com/josuechavando350-png/nexus-quant-capital/pull/55), borrador; rama `feat/superhunter-exact-evidence-cut-sets-20261106`; SHA `bf82b9aa92bba77e3255c1d309ec1392bc5cf7d1`. Depende de **#54 → #53 → #52 → #51 → #50 → #49 → #48 → #47 → #46 → #45 → main**. No fusionar a ciegas; todos los expedientes y originales privados quedan fuera de GitHub.
