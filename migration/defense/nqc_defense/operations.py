@@ -22,6 +22,9 @@ class OperationsStore:
         with self.transaction() as db:
             if db.execute("SELECT value FROM meta WHERE key='schema'").fetchone() != ("nqc-operations-v1",):
                 raise Rejected("operations_schema")
+            # Additive migration for stable source-native identities; old events/cursors remain unchanged.
+            db.execute("CREATE TABLE IF NOT EXISTS native_records (source TEXT NOT NULL, id TEXT NOT NULL, "
+                       "digest TEXT NOT NULL, event_id TEXT NOT NULL, PRIMARY KEY(source,id))")
 
     @classmethod
     def create(cls, root):

@@ -8,6 +8,7 @@ import time
 from .codec import Rejected, canonical, decode, fields, identifier, integer
 from .files import open_parent, relative_parts, sha256
 from .operations import SCHEMA
+from .openssh_log import Unclassified, parse_openssh, source_options
 
 MAX_FILE = 16 * 1024 * 1024
 MAX_BATCH = 1024 * 1024
@@ -39,7 +40,8 @@ class AuthLogMonitor:
             self._load(db)
 
     @classmethod
-    def register(cls, store, source_id, tenant, asset, log_root, name, threshold=5, window_seconds=300):
+    def register(cls, store, source_id, tenant, asset, log_root, name, threshold=5, window_seconds=300,
+                 *, format_name="nqc-jsonl", expected_host=None):
         for value in (source_id, tenant, asset):
             identifier(value)
         relative_parts(name)
@@ -47,6 +49,7 @@ class AuthLogMonitor:
         config = {"schema": "nqc-auth-source-v1", "source_id": source_id, "tenant": tenant, "asset": asset,
                   "root": str(Path(log_root).absolute()), "name": name,
                   "threshold": threshold, "window_ns": window_seconds * 1000000000}
+        config.update(source_options(format_name, expected_host))
         _, info = cls._snapshot(config, name)
         cursor = {"device": info.st_dev, "inode": info.st_ino, "generation": 0,
                   "offset": 0, "prefix_sha256": sha256(b""), "last_event_ns": -1}
@@ -112,7 +115,7 @@ class AuthLogMonitor:
             data, info = self._snapshot(config, name)
             self._prefix(data, info, cursor)
             offset, observed = cursor["offset"], time.time_ns()
-            consumed = invalid = late = detections = 0
+            consumed = invalid = late = detections = unclassified = duplicates = 0
             first = offset
             while consumed < max_records and offset < len(data):
                 end = data.find(b"\n", offset, min(len(data), offset + MAX_LINE + 1))
@@ -130,14 +133,37 @@ class AuthLogMonitor:
                             "device": cursor["device"], "inode": cursor["inode"], "start": offset,
                             "end": end, "raw_sha256": sha256(raw)}
                 event_id = sha256(canonical([config["tenant"], config["asset"], self.source_id, evidence]))
+                native = None
                 try:
-                    auth = parse_auth(raw)
+                    auth = (parse_auth(raw) if config.get("format", "nqc-jsonl") == "nqc-jsonl"
+                            else parse_openssh(raw, config))
                     is_late = auth["time_ns"] < cursor["last_event_ns"]
                     attributes = {"outcome": auth["outcome"], "principal": auth["principal"],
                                   "remote_address": auth["remote_address"], "rule_evaluated": not is_late,
                                   "rule_exclusion": "out_of_order" if is_late else None}
                     kind, occurred = "auth.observation", auth["time_ns"]
-                    late += int(is_late)
+                    if "origin" in auth:
+                        attributes.update(origin=auth["origin"], method=auth["method"],
+                                          invalid_user=auth["invalid_user"], remote_port=auth["remote_port"])
+                    native_id = auth.get("native_record_id")
+                    if native_id:
+                        digest = sha256(canonical(auth))
+                        old = db.execute("SELECT digest,event_id FROM native_records WHERE source=? AND id=?",
+                                         (self.digest, native_id)).fetchone()
+                        if old and old[0] != digest:
+                            raise Rejected("ssh_native_identity_conflict")
+                        if old:
+                            kind = "sensor.duplicate"
+                            attributes.update(rule_evaluated=False, rule_exclusion="native_duplicate", duplicate_of=old[1])
+                            duplicates += 1
+                        else:
+                            native = (self.digest, native_id, digest, event_id)
+                    if kind == "auth.observation":
+                        late += int(is_late)
+                except Unclassified as exc:
+                    attributes = {"reason": str(exc), "rule_evaluated": False}
+                    kind, occurred, auth = "sensor.unclassified", None, None
+                    unclassified += 1
                 except Rejected as exc:
                     attributes = {"reason": str(exc), "rule_evaluated": False}
                     kind, occurred, auth = "sensor.input_rejected", None, None
@@ -148,6 +174,8 @@ class AuthLogMonitor:
                          "attributes": attributes}
                 if not self.store.append(db, event):
                     raise Rejected("auth_cursor_event_conflict")
+                if native:
+                    db.execute("INSERT INTO native_records VALUES(?,?,?,?)", native)
                 if auth is not None and attributes["rule_evaluated"]:
                     detections += self._detect(db, config, event)
                     cursor["last_event_ns"] = occurred
@@ -155,6 +183,7 @@ class AuthLogMonitor:
             cursor.update(offset=offset, prefix_sha256=sha256(data[:offset]))
             db.execute("UPDATE streams SET cursor=? WHERE id=?", (canonical(cursor), self.source_id))
             return {"records_committed": consumed, "invalid_records": invalid, "late_records": late,
+                    "unclassified_records": unclassified, "duplicate_records": duplicates,
                     "cases_opened": detections, "cursor": cursor,
                     "unconsumed_bytes": len(data) - offset, "at_observed_eof": len(data) == offset,
                     "automatic_response": False}

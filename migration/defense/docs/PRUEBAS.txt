@@ -318,6 +318,37 @@ test_reopen_preserves_open_and_resolved_incident (test_managed_integrity.Managed
 test_restore_never_follows_symlink_to_original_source (test_managed_integrity.ManagedIntegrityTests.test_restore_never_follows_symlink_to_original_source) ... ok
 test_unverified_baseline_never_replaces_managed_file (test_managed_integrity.ManagedIntegrityTests.test_unverified_baseline_never_replaces_managed_file) ... ok
 test_witness_removed_after_open_is_not_recreated (test_managed_integrity.ManagedIntegrityTests.test_witness_removed_after_open_is_not_recreated) ... ok
+test_accepted_public_key_with_detail_preserves_only_message_digest (test_openssh_log.OpenSSHParserTests.test_accepted_public_key_with_detail_preserves_only_message_digest) ... ok
+test_control_characters_and_multiple_lines_rejected (test_openssh_log.OpenSSHParserTests.test_control_characters_and_multiple_lines_rejected) ... ok
+test_duplicate_json_keys_rejected (test_openssh_log.OpenSSHParserTests.test_duplicate_json_keys_rejected) ... ok
+test_failure_and_invalid_user (test_openssh_log.OpenSSHParserTests.test_failure_and_invalid_user) ... ok
+test_host_mismatch_rejected (test_openssh_log.OpenSSHParserTests.test_host_mismatch_rejected) ... ok
+test_impossible_timestamp_leap_second_and_range_rejected (test_openssh_log.OpenSSHParserTests.test_impossible_timestamp_leap_second_and_range_rejected) ... ok
+test_inconsistent_accepted_invalid_user_rejected (test_openssh_log.OpenSSHParserTests.test_inconsistent_accepted_invalid_user_rejected) ... ok
+test_invalid_ip_port_and_pid (test_openssh_log.OpenSSHParserTests.test_invalid_ip_port_and_pid) ... ok
+test_invalid_user_pam_and_disconnect_messages_are_unclassified (test_openssh_log.OpenSSHParserTests.test_invalid_user_pam_and_disconnect_messages_are_unclassified) ... ok
+test_ipv6_and_new_session_process (test_openssh_log.OpenSSHParserTests.test_ipv6_and_new_session_process) ... ok
+test_journal_fields_microseconds_and_opaque_identity (test_openssh_log.OpenSSHParserTests.test_journal_fields_microseconds_and_opaque_identity) ... ok
+test_journal_required_scalar_fields (test_openssh_log.OpenSSHParserTests.test_journal_required_scalar_fields) ... ok
+test_journal_wrong_host_process_and_boot_identity (test_openssh_log.OpenSSHParserTests.test_journal_wrong_host_process_and_boot_identity) ... ok
+test_keyboard_interactive_pam_and_preauth (test_openssh_log.OpenSSHParserTests.test_keyboard_interactive_pam_and_preauth) ... ok
+test_missing_year_timezone_and_unknown_offset_rejected (test_openssh_log.OpenSSHParserTests.test_missing_year_timezone_and_unknown_offset_rejected) ... ok
+test_partial_and_postponed_are_not_final_success_or_failure (test_openssh_log.OpenSSHParserTests.test_partial_and_postponed_are_not_final_success_or_failure) ... ok
+test_principal_with_dot_at_and_machine_suffix (test_openssh_log.OpenSSHParserTests.test_principal_with_dot_at_and_machine_suffix) ... ok
+test_source_options_require_host_and_preserve_legacy (test_openssh_log.OpenSSHParserTests.test_source_options_require_host_and_preserve_legacy) ... ok
+test_spoofed_process_name_rejected (test_openssh_log.OpenSSHParserTests.test_spoofed_process_name_rejected) ... ok
+test_timestamp_nanoseconds_and_offset_are_exact (test_openssh_log.OpenSSHParserTests.test_timestamp_nanoseconds_and_offset_are_exact) ... ok
+test_unknown_method_does_not_become_success (test_openssh_log.OpenSSHParserTests.test_unknown_method_does_not_become_success) ... ok
+test_additive_migration_preserves_legacy_config_and_cursor (test_openssh_log.OpenSSHPipelineTests.test_additive_migration_preserves_legacy_config_and_cursor) ... ok
+test_case_failure_rolls_back_native_deduplication_rows (test_openssh_log.OpenSSHPipelineTests.test_case_failure_rolls_back_native_deduplication_rows) ... ok
+test_cli_registers_native_format_and_polls_it (test_openssh_log.OpenSSHPipelineTests.test_cli_registers_native_format_and_polls_it) ... ok
+test_deduplication_survives_rotation_and_restart (test_openssh_log.OpenSSHPipelineTests.test_deduplication_survives_rotation_and_restart) ... ok
+test_duplicate_identity_with_changed_message_is_quality_error (test_openssh_log.OpenSSHPipelineTests.test_duplicate_identity_with_changed_message_is_quality_error) ... ok
+test_native_id_insert_failure_rolls_back_cursor_and_event (test_openssh_log.OpenSSHPipelineTests.test_native_id_insert_failure_rolls_back_cursor_and_event) ... ok
+test_native_syslog_opens_existing_rule_case (test_openssh_log.OpenSSHPipelineTests.test_native_syslog_opens_existing_rule_case) ... ok
+test_partial_messages_do_not_reset_failure_episode (test_openssh_log.OpenSSHPipelineTests.test_partial_messages_do_not_reset_failure_episode) ... ok
+test_reexported_journal_record_is_not_another_failure (test_openssh_log.OpenSSHPipelineTests.test_reexported_journal_record_is_not_another_failure) ... ok
+test_wrong_host_cannot_contribute_to_case (test_openssh_log.OpenSSHPipelineTests.test_wrong_host_cannot_contribute_to_case) ... ok
 test_altered_page_cannot_advance_witness (test_witness.WitnessTests.test_altered_page_cannot_advance_witness) ... ok
 test_cli_initializes_advances_and_guards_engine (test_witness.WitnessTests.test_cli_initializes_advances_and_guards_engine) ... ok
 test_commit_failure_cannot_acknowledge_advancement (test_witness.WitnessTests.test_commit_failure_cannot_acknowledge_advancement) ... ok
@@ -345,6 +376,6 @@ test_witness_requires_separate_key_and_pinned_bindings (test_witness.WitnessTest
 test_witness_tail_rollback_requires_separately_retained_receipt (test_witness.WitnessTests.test_witness_tail_rollback_requires_separately_retained_receipt) ... ok
 
 ----------------------------------------------------------------------
-Ran 345 tests in 15.457s
+Ran 376 tests in 18.481s
 
 OK

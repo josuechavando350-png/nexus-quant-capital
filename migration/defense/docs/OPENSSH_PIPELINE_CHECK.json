@@ -1,0 +1,153 @@
+{
+  "case_evidence_references_checked": true,
+  "corpus": "12 authored native-format fixtures distinct from v0.11 synthetic scenarios",
+  "independent_evaluation": false,
+  "known_detection_limits_unchanged": [
+    "benign repeated errors can alert",
+    "distributed addresses remain outside this rule"
+  ],
+  "live_sshd_capture": false,
+  "production_validation": false,
+  "reopen_without_duplicates_checked": true,
+  "scenarios": [
+    {
+      "cases": 1,
+      "duplicates": 0,
+      "expected_result_matched": true,
+      "format": "openssh-syslog-rfc3339",
+      "invalid": 0,
+      "observations": 3,
+      "records": 3,
+      "scenario": "syslog_failure_burst",
+      "unclassified": 0
+    },
+    {
+      "cases": 1,
+      "duplicates": 0,
+      "expected_result_matched": true,
+      "format": "openssh-journal-json",
+      "invalid": 0,
+      "observations": 3,
+      "records": 3,
+      "scenario": "journal_failure_burst",
+      "unclassified": 0
+    },
+    {
+      "cases": 0,
+      "duplicates": 0,
+      "expected_result_matched": true,
+      "format": "openssh-syslog-rfc3339",
+      "invalid": 0,
+      "observations": 3,
+      "records": 3,
+      "scenario": "syslog_successes",
+      "unclassified": 0
+    },
+    {
+      "cases": 0,
+      "duplicates": 0,
+      "expected_result_matched": true,
+      "format": "openssh-syslog-rfc3339",
+      "invalid": 0,
+      "observations": 0,
+      "records": 3,
+      "scenario": "nonfinal_results",
+      "unclassified": 3
+    },
+    {
+      "cases": 0,
+      "duplicates": 0,
+      "expected_result_matched": true,
+      "format": "openssh-syslog-rfc3339",
+      "invalid": 3,
+      "observations": 0,
+      "records": 3,
+      "scenario": "outside_host_scope",
+      "unclassified": 0
+    },
+    {
+      "cases": 0,
+      "duplicates": 2,
+      "expected_result_matched": true,
+      "format": "openssh-journal-json",
+      "invalid": 0,
+      "observations": 1,
+      "records": 3,
+      "scenario": "reexported_journal",
+      "unclassified": 0
+    },
+    {
+      "cases": 0,
+      "duplicates": 0,
+      "expected_result_matched": true,
+      "format": "openssh-journal-json",
+      "invalid": 1,
+      "observations": 1,
+      "records": 2,
+      "scenario": "conflicting_journal_identity",
+      "unclassified": 0
+    },
+    {
+      "cases": 0,
+      "duplicates": 0,
+      "expected_result_matched": true,
+      "format": "openssh-syslog-rfc3339",
+      "invalid": 0,
+      "observations": 1,
+      "records": 2,
+      "scenario": "invalid_user_double_message",
+      "unclassified": 1
+    },
+    {
+      "cases": 0,
+      "duplicates": 0,
+      "expected_result_matched": true,
+      "format": "openssh-syslog-rfc3339",
+      "invalid": 1,
+      "observations": 0,
+      "records": 1,
+      "scenario": "ambiguous_yearless_time",
+      "unclassified": 0
+    },
+    {
+      "cases": 1,
+      "duplicates": 0,
+      "expected_result_matched": true,
+      "format": "openssh-syslog-rfc3339",
+      "invalid": 0,
+      "observations": 5,
+      "records": 5,
+      "scenario": "repeated_benign_errors_still_alert",
+      "unclassified": 0
+    },
+    {
+      "cases": 0,
+      "duplicates": 0,
+      "expected_result_matched": true,
+      "format": "openssh-syslog-rfc3339",
+      "invalid": 0,
+      "observations": 4,
+      "records": 4,
+      "scenario": "distributed_failures_still_missed",
+      "unclassified": 0
+    },
+    {
+      "cases": 1,
+      "duplicates": 0,
+      "expected_result_matched": true,
+      "format": "openssh-syslog-rfc3339",
+      "invalid": 0,
+      "observations": 3,
+      "records": 3,
+      "scenario": "valid_ipv6",
+      "unclassified": 0
+    }
+  ],
+  "source_claims_authenticated": false,
+  "sources": [
+    "https://github.com/openssh/openssh-portable/blob/master/auth.c",
+    "https://www.freedesktop.org/software/systemd/man/latest/systemd.journal-fields.html",
+    "https://www.rfc-editor.org/rfc/rfc3339"
+  ],
+  "verified": true
+}

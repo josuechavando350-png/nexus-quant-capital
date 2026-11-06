@@ -1,4 +1,4 @@
-# NQC Defense 0.11.0 — desarrollo en la rama NQC-defensive
+# NQC Defense 0.12.0 — desarrollo en la rama NQC-defensive
 
 El usuario autorizó publicar este código en `NQC-defensive` el 6 de noviembre de 2026. La rama conserva la base de NQC y no activa despliegues ni operación productiva. Los informes de 0.2.0 describen la validación previa a esa autorización.
 
@@ -23,6 +23,10 @@ Este catálogo nuevo C001–C100 tiene 17 implementaciones parciales y 83 pendie
 La versión 0.11.0 agrega un lector JSONL de autenticación con cursor transaccional, rotación explícita, regla de fallos repetidos y consulta común de eventos/casos. Importa el estado verificado de la cadena de integridad. No requiere ni modifica SuperHunter. [Uso, evaluación y límites](docs/V0_11.md); [plan de ejecución](docs/PLAN_EJECUCION.md).
 
 La evaluación de nueve escenarios sintéticos expone un falso positivo y un falso negativo; sus métricas no se presentan como precisión productiva. Los registros inválidos y atrasados quedan visibles. La ingesta no ejecuta bloqueos de cuentas o red.
+
+## Formatos de OpenSSH
+
+La versión 0.12.0 conecta resultados de OpenSSH en texto con fecha RFC3339 y exportaciones JSON de journald a la misma cadena de eventos y casos. Exige host esperado, separa mensajes parciales y detecta repetición/conflicto de identidades del journal. [Uso, formatos y límites](docs/V0_12.md). La aceptación utiliza 12 escenarios de formato declarados como fixtures; no afirma captura productiva ni autenticidad del origen.
 
 ## Ejecutar y comprobar
 
@@ -125,7 +129,7 @@ La base consultada fue `josuechavando350-png/nexus-quant-capital`, commit `16e35
 
 Se resolvió la descarga incompleta recuperando los 645 archivos de la revisión y verificando tamaño y hash de cada blob Git. El checkout base quedó limpio. Se añadieron únicamente `migration/defense/` y `migration/DEFENSE-INTEGRATION.md` a la copia local.
 
-Pasaron el verificador de aislamiento original sobre la copia combinada, sus 9 pruebas y las 345 pruebas del paquete. `tools/check_nqc_artifact.py` inspeccionó los bytes reales de `nqc-census/Cargo.toml`. `tools/check_nqc_consumer.py .`, ejecutado desde la raíz NQC, consumió los 337.100 bytes reales de `migration/source-manifest.json`, archivó y releyó tres páginas antes del primer avance, realizó una segunda lectura exigiendo ese prefijo y archivó otras tres páginas hasta el registro 6. Los dos manifiestos se verificaron nuevamente y quedaron enlazados por un catálogo de cobertura desde el recibo inicial al final. El almacén se reabrió con presupuesto fijado de 1 MiB/64 objetos; el inventario y el estado del presupuesto coincidieron en diez objetos: política, catálogo, dos manifiestos y seis páginas. El manifiesto de NQC contiene 637 entradas históricas, no 637 módulos de defensa. Los controles crean y retiran un señuelo nuevo propio sin modificar los artefactos originales.
+Pasaron el verificador de aislamiento original sobre la copia combinada, sus 9 pruebas y las 376 pruebas del paquete. `tools/check_nqc_artifact.py` inspeccionó los bytes reales de `nqc-census/Cargo.toml`. `tools/check_nqc_consumer.py .`, ejecutado desde la raíz NQC, consumió los 337.100 bytes reales de `migration/source-manifest.json`, archivó y releyó tres páginas antes del primer avance, realizó una segunda lectura exigiendo ese prefijo y archivó otras tres páginas hasta el registro 6. Los dos manifiestos se verificaron nuevamente y quedaron enlazados por un catálogo de cobertura desde el recibo inicial al final. El almacén se reabrió con presupuesto fijado de 1 MiB/64 objetos; el inventario y el estado del presupuesto coincidieron en diez objetos: política, catálogo, dos manifiestos y seis páginas. El manifiesto de NQC contiene 637 entradas históricas, no 637 módulos de defensa. Los controles crean y retiran un señuelo nuevo propio sin modificar los artefactos originales.
 
 `tools/check_audit_pagination.py` verificó 10.003 registros en 20 páginas, superando el límite del formato de exportación completa. Son tres registros de admisión de una copia real de `engine.py` y 10.000 marcadores sintéticos explícitos para probar volumen con SQLite y HMAC reales. El control también añade un evento posterior al checkpoint y comprueba que no cambia el destino del recorrido. No representa tráfico productivo ni una medición de rendimiento.
 

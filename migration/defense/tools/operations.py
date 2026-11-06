@@ -9,6 +9,7 @@ from nqc_defense.auth_log import AuthLogMonitor
 from nqc_defense.codec import Rejected
 from nqc_defense.managed_integrity import ManagedIntegrity
 from nqc_defense.operations import OperationsStore
+from nqc_defense.openssh_log import FORMATS
 
 
 def main():
@@ -22,6 +23,8 @@ def main():
     register.add_argument("--name", required=True)
     register.add_argument("--threshold", type=int, default=5)
     register.add_argument("--window-seconds", type=int, default=300)
+    register.add_argument("--format", choices=FORMATS, default="nqc-jsonl")
+    register.add_argument("--expected-host")
     events = commands.add_parser("events")
     events.add_argument("--after", type=int, default=0)
     events.add_argument("--limit", type=int, default=100)
@@ -47,7 +50,9 @@ def main():
         if args.command == "init":
             result = {"created": True}
         elif args.command == "register-auth":
-            monitor = AuthLogMonitor.register(store, args.source, args.tenant, args.asset, args.log_root, args.name, args.threshold, args.window_seconds)
+            monitor = AuthLogMonitor.register(store, args.source, args.tenant, args.asset, args.log_root, args.name,
+                                              args.threshold, args.window_seconds, format_name=args.format,
+                                              expected_host=args.expected_host)
             result = {"registered": True, "config_digest": monitor.digest}
         elif args.command in ("poll-auth", "rotate-auth"):
             monitor = AuthLogMonitor(store, args.source, args.config_digest)

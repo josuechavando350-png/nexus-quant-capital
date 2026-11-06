@@ -1,14 +1,14 @@
 {
-  "status": "LOCAL_AUTH_INGESTION_AND_SHARED_CASE_VIEW_TESTED_PRODUCTION_NOT_ACTIVATED",
-  "version": "0.11.0",
+  "status": "LOCAL_OPENSSH_FORMAT_ADAPTERS_AND_NATIVE_DEDUP_TESTED_PRODUCTION_NOT_ACTIVATED",
+  "version": "0.12.0",
   "date": "2026-11-06",
   "nqc_base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
   "python_version": "3.12.14",
-  "python_source_files_parsed": 63,
+  "python_source_files_parsed": 66,
   "tests": {
-    "engine_passed": 345,
+    "engine_passed": 376,
     "nqc_isolation_passed": 9,
-    "total_passed": 354,
+    "total_passed": 385,
     "failed": 0,
     "skipped": 0,
     "engine_log": "docs/PRUEBAS.txt",
@@ -56,7 +56,8 @@
     "Browser CSP enforcement",
     "Production workload performance",
     "Physical power-loss validation",
-    "Network filesystem and distributed lock validation"
+    "Network filesystem and distributed lock validation",
+    "Live OpenSSH authentication/session tests (no services started)"
   ],
   "not_implemented": [
     "Mandatory admission hook in production NQC consumer",
@@ -69,14 +70,14 @@
     "OS-enforced physical disk quotas",
     "Automatic orphan collection",
     "Cross-store archive rotation and continuity",
-    "Native authentication log adapters",
     "Independent authentication event provenance and anchored operational store",
-    "Authentication response connectors and multiuser case workflow"
+    "Authentication response connectors and multiuser case workflow",
+    "Live native log collection and authenticated origin/transport"
   ],
   "publication": {
     "branch": "NQC-defensive",
     "user_authorized": true,
-    "validated_parent_commit": "6c64cbd6c0da84411e6b90a8ae1631239847e5af",
+    "validated_parent_commit": "02d480705e632768f5b670f508dc13bf830a19d5",
     "status": "authorized_branch_update_validated_before_commit",
     "pull_request": false,
     "release": false,
@@ -84,7 +85,7 @@
     "email": false,
     "workflow_enabled": false
   },
-  "scope": "Local JSONL authentication ingestion and cases, shared view with managed integrity; no SuperHunter changes or production activation",
+  "scope": "OpenSSH RFC3339 text and journald JSON export adapters feed the shared local auth pipeline; no SuperHunter changes or production activation",
   "nqc_consumer_check": "docs/NQC_CONSUMER_CHECK.json",
   "consumer": {
     "local_reader_enforces_admission": true,
@@ -235,7 +236,6 @@
     "explicit_rotation_after_drain": true,
     "shared_integrity_case_projection": true,
     "out_of_order_records_stored_but_not_evaluated": true,
-    "native_ssh_or_windows_adapter": false,
     "automatic_auth_response": false,
     "independent_anchor": false,
     "multiuser_authentication": false,
@@ -244,6 +244,27 @@
     "synthetic_true_positive": 3,
     "synthetic_true_negative": 4,
     "synthetic_false_positive": 1,
-    "synthetic_false_negative": 1
+    "synthetic_false_negative": 1,
+    "native_openssh_format_adapter": true,
+    "native_windows_adapter": false,
+    "live_native_collection": false
+  },
+  "openssh_pipeline_check": "docs/OPENSSH_PIPELINE_CHECK.json",
+  "openssh_pipeline": {
+    "new_tests": 31,
+    "formats": [
+      "openssh-syslog-rfc3339",
+      "openssh-journal-json"
+    ],
+    "configured_host_required": true,
+    "legacy_jsonl_pins_preserved": true,
+    "final_results_only": true,
+    "journal_native_identity_deduplication": true,
+    "conflicting_native_identity_recorded": true,
+    "additive_native_identity_table": true,
+    "synthetic_conformance_scenarios": 12,
+    "live_sshd_capture_tested": false,
+    "origin_authenticated": false,
+    "independent_evaluation": false
   }
 }

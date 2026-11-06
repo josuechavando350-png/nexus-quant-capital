@@ -242,7 +242,7 @@
       ],
       "status": "bounded_partial",
       "implementation": "nqc_defense/auth_log.py",
-      "implementation_scope": "Lector JSONL propio, cursor transaccional y rotación explícita; sin adaptadores nativos"
+      "implementation_scope": "Lector JSONL y adaptadores de formato OpenSSH/journald, cursor y rotación explícita; sin captura productiva"
     },
     {
       "id": "C014",
@@ -443,7 +443,7 @@
       ],
       "status": "bounded_partial",
       "implementation": "nqc_defense/auth_log.py",
-      "implementation_scope": "Cursor y eventos atómicos; importación de integridad idempotente; sin deduplicación distribuida"
+      "implementation_scope": "Cursor atómico e identidad journald deduplicada por fuente; sin deduplicación distribuida"
     },
     {
       "id": "C024",
@@ -500,7 +500,7 @@
       ],
       "status": "bounded_partial",
       "implementation": "nqc_defense/auth_log.py",
-      "implementation_scope": "Errores de esquema y eventos atrasados visibles; sin evaluación de autenticidad del productor"
+      "implementation_scope": "Errores de esquema/host, mensajes parciales, conflictos y eventos atrasados visibles; origen no autenticado"
     },
     {
       "id": "C027",
