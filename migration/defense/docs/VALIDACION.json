@@ -1,14 +1,14 @@
 {
-  "status": "PUBLIC_REGISTRY_REUSE_TESTED_BASELINE_ENDURANCE_PENDING_PRODUCTION_NOT_ACTIVATED",
-  "version": "0.20.0",
+  "status": "REGISTERED_AUTH_DOSSIER_TRIAGE_TESTED_ENDURANCE_PENDING_PRODUCTION_NOT_ACTIVATED",
+  "version": "0.21.0",
   "date": "2026-11-06",
   "nqc_base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
   "python_version": "3.12.14",
-  "python_source_files_parsed": 104,
+  "python_source_files_parsed": 111,
   "tests": {
-    "engine_passed": 698,
+    "engine_passed": 743,
     "nqc_isolation_passed": 9,
-    "total_passed": 707,
+    "total_passed": 752,
     "failed": 0,
     "skipped": 0,
     "engine_log": "docs/PRUEBAS.txt",
@@ -82,7 +82,7 @@
   "publication": {
     "branch": "NQC-defensive",
     "user_authorized": true,
-    "validated_parent_commit": "b28c356de54c6fbffacb199c7ddc1bd7b30e0948",
+    "validated_parent_commit": "ad94c2bb4ba903e76cb69f7e07f407df0ce6dc37",
     "status": "authorized_branch_update_validated_before_commit",
     "pull_request": false,
     "release": false,
@@ -90,7 +90,7 @@
     "email": false,
     "workflow_enabled": false
   },
-  "scope": "Immutable verified registry reuse, exact stored-row comparison, per-dossier revalidation and baseline comparison; no production activation",
+  "scope": "Explained priority of a bounded selection of registered authentication dossiers under a pinned policy and receiver snapshot; no production activation",
   "nqc_consumer_check": "docs/NQC_CONSUMER_CHECK.json",
   "consumer": {
     "local_reader_enforces_admission": true,
@@ -214,8 +214,8 @@
   "operational_catalog": {
     "components": 100,
     "disciplines_and_specialties": 100,
-    "bounded_partial": 22,
-    "planned": 78,
+    "bounded_partial": 23,
+    "planned": 77,
     "fully_complete": 0,
     "planned_runtime_connections_implemented": false,
     "fully_completed_disciplines": 0
@@ -423,7 +423,7 @@
     "not_closed_items": 200,
     "not_closed_percent": 100.0,
     "component_completion_percent": 0.0,
-    "components_with_implementation_percent": 22.0,
+    "components_with_implementation_percent": 23.0,
     "discipline_completion_percent": 0.0,
     "disciplines_specified_percent": 100.0,
     "acceptance_records_are_not_independent_certification": true
@@ -437,9 +437,9 @@
     "independent_certification": false
   },
   "current_bounded_block": {
-    "version": "0.20.0",
-    "criteria_passed": 5,
-    "criteria_total": 5,
+    "version": "0.21.0",
+    "criteria_passed": 6,
+    "criteria_total": 6,
     "completion_percent": 100.0,
     "counts_as_full_catalog_completion": false
   },
@@ -516,9 +516,13 @@
     "physical_power_loss_tested": false
   },
   "endurance": {
-    "status": "running_not_yet_accepted",
+    "status": "two_frozen_baseline_runs_in_progress_not_yet_accepted",
     "result_in_this_commit": false,
-    "production_performance_claimed": false
+    "production_performance_claimed": false,
+    "baseline_versions": [
+      "0.19.0",
+      "0.20.0"
+    ]
   },
   "registry_cache_check": "docs/REGISTRY_CACHE_CHECK.json",
   "registry_cache_acceptance": "docs/REGISTRY_CACHE_ACCEPTANCE.json",
@@ -536,5 +540,31 @@
     "baseline_version": "0.19.0",
     "benchmark_is_production_slo": false
   },
-  "test_fixture_correction": "Initial linked-worktree run failed two ancestry fixture checks; cloning common Git directory preserves shallow boundaries. Production isolation checks unchanged. Full rerun: 698 passed."
+  "test_fixture_correction": "Initial linked-worktree run failed two ancestry fixture checks; cloning common Git directory preserves shallow boundaries. Production isolation checks unchanged. Full rerun: 698 passed.",
+  "case_triage_check": "docs/CASE_TRIAGE_CHECK.json",
+  "triage_input_validation_check": "docs/TRIAGE_INPUT_VALIDATION_CHECK.json",
+  "case_triage": {
+    "new_tests": 45,
+    "max_selected_cases": 64,
+    "actual_maximum_distinct_cases_tested": 64,
+    "max_input_bytes": 67108864,
+    "max_policy_bytes": 16384,
+    "max_selection_bytes": 262144,
+    "max_report_bytes": 2097152,
+    "all_or_nothing_selection": true,
+    "same_receiver_transaction_for_whole_batch": true,
+    "per_dossier_signature_and_evidence_rechecked": true,
+    "signed_report_consistency_crosschecked": true,
+    "hmac_review_authorization_is_issuer_assertion": true,
+    "score_components_reference_evidence": true,
+    "criticality_change_preserves_evidence_references": true,
+    "closed_cases_retained": true,
+    "public_cli_without_original_sources_or_private_keys": true,
+    "installed_package_reproduces_source_report": true,
+    "independent_freshness": false,
+    "empirically_calibrated_weights": false,
+    "score_is_probability": false,
+    "cross_asset_queue": false,
+    "automatic_response": false
+  }
 }

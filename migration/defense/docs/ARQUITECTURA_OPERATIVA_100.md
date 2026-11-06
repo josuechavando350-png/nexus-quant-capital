@@ -75,7 +75,7 @@ Primer circuito implementado: C014 → C032 → C041 → C052 → C064 → C067,
 | ID / componente | Entrada → salida | Tecnología candidata | Dependencias | Prueba de aceptación | Estado actual |
 |---|---|---|---|---|---|
 | C041 · Gestor de casos con evidencia | Detecciones y decisiones autenticadas → Casos abiertos, estados y cierre trazable | ManagedIntegrity: caso local derivado del ledger | C031, C032, C040 | Reabrir proceso conserva un incidente y su identidad | Parcial: Vista común y revisión local ligada a evidencia, con estados e historial; sin flujo SOC completo |
-| C042 · Clasificador de urgencia y alcance | Casos, activos y criticidad → Cola priorizada con explicación | Políticas y puntuación explícita | C002, C008, C041 | Cambiar criticidad altera prioridad sin ocultar evidencia | Pendiente |
+| C042 · Clasificador de urgencia y alcance | Casos, activos y criticidad → Cola priorizada con explicación | Políticas y puntuación explícita | C002, C008, C041 | Cambiar criticidad altera prioridad sin ocultar evidencia | Parcial: Cola de expedientes de autenticación registrados por activo, criticidad fijada y explicación reproducible; sin calibración empírica |
 | C043 · Recolector forense de archivos | Rutas autorizadas y caso → Copias verificadas con metadatos | Lectura por descriptor y hashes | C010, C041 | Cambio durante lectura invalida adquisición completa | Parcial: Captura de líneas que activaron casos de autenticación y paquete verificado offline; sin imagen completa ni origen autenticado |
 | C044 · Recolector y analizador de memoria | Adquisiciones autorizadas de laboratorio → Hallazgos enlazados a offsets y herramienta | Herramientas forenses especializadas; selección pendiente | C010, C041 | Analizar una captura conocida y registrar limitaciones | Pendiente |
 | C045 · Analizador de artefactos del sistema | Artefactos adquiridos → Eventos de sistema con procedencia | Parsers aislados y corpus conocidos | C043, C044 | No confundir ausencia de artefacto con ausencia de actividad | Pendiente |
@@ -194,3 +194,5 @@ La entrega 0.17 incorpora C050 con expedientes de autenticación y verificación
 La entrega 0.18 amplía C048/C050 con declaraciones verificables mediante clave pública, tras replay completo del emisor. Se conserva el conteo de 21 parciales; custodia independiente y rotación siguen pendientes.
 
 La entrega 0.19 añade el alcance local de C093: rotación, revocación y receptor de registros de firma. Estado actual: 22 parciales, 78 pendientes y 0 completos.
+
+La entrega 0.21 añade C042 parcial: priorización enlazada a expedientes registrados, preservación de casos cerrados y recálculo por política. Estado actual: 23 parciales, 77 pendientes y 0 completos.

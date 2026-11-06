@@ -41,3 +41,5 @@ La entrega 0.18.0 se valida sobre `4ad9d858d1277fbd2686968856fa73ab39250433` y s
 La entrega 0.19.0 se valida sobre `2ed8de3125843c5932d05e850bb62a51b21b3d7d`. Publica registro de claves y receptor local con 683 pruebas del paquete y 9 de aislamiento; diez criterios de aceptación aprobados. La prueba prolongada sigue en curso y no se cuenta aquí como aprobada.
 
 La entrega 0.20.0 se valida sobre `b28c356de54c6fbffacb199c7ddc1bd7b30e0948`. Reutiliza reconstrucciones inmutables del registro con relectura por llamada y conserva informes idénticos a 0.19. Pasan 698 pruebas del paquete y 9 de aislamiento; cinco criterios del bloque. La prueba prolongada del baseline sigue pendiente y no se cuenta como aprobada.
+
+La entrega 0.21.0 se valida sobre `ad94c2bb4ba903e76cb69f7e07f407df0ce6dc37`. Añade cola explicable de expedientes registrados, política fijada y recomputación. Pasan 743 pruebas del paquete y 9 de aislamiento; seis criterios y 684 variantes de entrada. El paquete instalado reproduce el resultado público. Las dos pruebas prolongadas siguen pendientes al preparar este commit.

@@ -827,9 +827,9 @@
       "disciplines": [
         "D042"
       ],
-      "status": "planned",
-      "implementation": null,
-      "implementation_scope": "Sin implementación acreditada en esta entrega"
+      "status": "bounded_partial",
+      "implementation": "nqc_defense/case_triage.py",
+      "implementation_scope": "Cola explicable de expedientes de autenticación registrados para un activo y política fijada; sin criticidad descubierta, calibración empírica ni cola multi-activo"
     },
     {
       "id": "C043",
@@ -1637,7 +1637,7 @@
       ],
       "status": "bounded_partial",
       "implementation": "nqc_defense/receipts.py",
-      "implementation_scope": "replay de decisiones locales registradas"
+      "implementation_scope": "Replay de decisiones locales registradas y recálculo de prioridad con referencias a evidencia/política"
     },
     {
       "id": "C083",

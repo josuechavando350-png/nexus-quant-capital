@@ -183,3 +183,14 @@ class RegistryMirror:
         return {'mirror_receipt': current, 'registry_report': report,
                 'limits': {'uses_locally_accepted_registry_snapshot': True, 'network_sync_implemented': False,
                            'independent_freshness': False, 'whole_database_rollback_requires_external_receipt': True}}
+
+    def triage(self, expected, policy, items):
+        """Rank a bounded selection against one accepted view, serializing with updates."""
+        from .case_triage import prepare_items, rank_dossiers
+        receipt(expected); selected = prepare_items(items)
+        with self.connection(write=True) as db:
+            snapshot = self._load(db, expected)
+            if snapshot['state'] is None:
+                raise Rejected('mirror_not_initialized')
+            report = rank_dossiers(snapshot['state'], policy, selected)
+        return {'schema': 'nqc-mirror-triage-report-v1', 'mirror_receipt': snapshot['receipt'], 'queue_report': report}

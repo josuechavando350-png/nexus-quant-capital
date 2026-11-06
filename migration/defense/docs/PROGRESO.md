@@ -9,19 +9,19 @@ El estado actual es:
 | Medida | Conteo | Porcentaje |
 |---|---:|---:|
 | Componentes completamente aceptados | 0/100 | 0% |
-| Componentes con implementación parcial | 22/100 | 22% |
+| Componentes con implementación parcial | 23/100 | 23% |
 | Disciplinas completamente aceptadas | 0/100 | 0% |
 | Disciplinas especificadas | 100/100 | 100% |
 | Total de entregables cerrados | 0/200 | 0% |
 | Entregables todavía no cerrados | 200/200 | 100% |
 
-Los 22 componentes parciales contienen código real probado dentro de un alcance acotado. Todavía no satisfacen todo el alcance y dependencias de sus filas; sus mejoras sucesivas no los convierten automáticamente en completos.
+Los 23 componentes parciales contienen código real probado dentro de un alcance acotado. Todavía no satisfacen todo el alcance y dependencias de sus filas; sus mejoras sucesivas no los convierten automáticamente en completos.
 
 `tools/check_operational_catalog.py` calcula estos valores a partir del catálogo y `docs/completion_register.json`. Para registrar un cierre, se exige una aceptación de alcance completo que corresponda al requisito del catálogo, un informe fijado por hash y referencias a comprobaciones también fijadas por hash. En componentes, su estado debe concordar con el registro y el contador total. Los registros son decisiones de aceptación documentadas, no una certificación independiente emitida por este script.
 
 El registro de cierres actual está vacío. Los datos de aceptación sintéticos usados por las pruebas del contador permanecen únicamente en directorios temporales y no entran en este registro.
 
-El bloque v0.20 reúne cinco criterios de reutilización segura del registro, contraste con 0.19 y conservación de verificación por expediente (`REGISTRY_CACHE_ACCEPTANCE.json`). Los cinco pasaron: **100% del bloque acotado**. La prueba prolongada se registra por separado; no cierra objetivos globales.
+El bloque v0.21 reúne seis criterios de priorización enlazada a expedientes registrados, criticidad, explicación, conservación de casos cerrados, publicación/recomputación, CLI pública y aplicación de revocación (`CASE_TRIAGE_CHECK.json`). Los seis pasaron: **100% del bloque acotado**. Las pruebas prolongadas y ejecuciones programadas se registran por separado; no cierran objetivos globales.
 
 Consultar el resultado reproducible con:
 

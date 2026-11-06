@@ -9,8 +9,8 @@
 | Respuesta controlada | Bloqueo/restauración del lector local; autenticación solo informa | Conectores autorizados, límites de impacto y verificación de reversión |
 | Resistencia a fallos | Transacciones, reinicio, concurrencia, rotación y terminación antes del commit | Cortes eléctricos, fallos distribuidos y capacidad sostenida |
 | Protección de la plataforma | Rutas acotadas, permisos locales, configuración fijada | Identidad administrativa, separación del SO, rotación de claves de auditoría y anclaje externo |
-| Operación utilizable | CLI, revisión local e informes verificables offline con referencias | Resolución tras respuesta/recuperación y consola |
-| Eficiencia medida | Medición local de CPU/tiempo/memoria/tamaño | Matriz de cargas, latencias de cola, degradación y costos reales |
+| Operación utilizable | CLI, revisión local, informes verificables y cola de prioridad explicada | Resolución tras respuesta/recuperación y consola |
+| Eficiencia medida | Medición local de CPU/tiempo/memoria/tamaño; comparación 0.19/0.20 sobre los mismos expedientes | Matriz de cargas, latencias de cola, degradación y costos reales |
 | Validación independiente | Código, pruebas y límites reproducibles en Git | Revisión por terceros y reproducción fuera de este entorno |
 
 Orden siguiente:
@@ -24,3 +24,5 @@ Orden siguiente:
 No contar documentos o pruebas como componentes completos. No calcular avance global dividiendo filas parciales entre 100. Registrar por componente alcance implementado, aceptación ejecutada y límites pendientes.
 
 Cada cierre debe incluir las métricas de PROGRESO.md: cierres/200 y porcentaje no cerrado, más cobertura parcial de componentes y criterios del bloque trabajado. El validador exige aceptación documentada y hashes de evidencia para contar cierres.
+
+0.21 incorpora priorización por política fijada para una selección de expedientes de autenticación. La criticidad sigue aportada por el operador; no se ha calibrado el puntaje como detector ni probabilidad. Siguiente comprobación concreta: límites de lectura de SQLite antes de cargar valores corruptos excesivos, sin debilitar verificación histórica. Ventana temporal autorizada: TURNO_8H_20261106.md.
