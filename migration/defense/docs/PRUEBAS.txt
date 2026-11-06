@@ -177,6 +177,46 @@ test_defense_only_descendant_passes (test_branch_boundary.BranchBoundaryTests.te
 test_original_base_still_passes (test_branch_boundary.BranchBoundaryTests.test_original_base_still_passes) ... ok
 test_other_committed_change_fails (test_branch_boundary.BranchBoundaryTests.test_other_committed_change_fails) ... ok
 test_other_working_tree_change_fails (test_branch_boundary.BranchBoundaryTests.test_other_working_tree_change_fails) ... ok
+test_bundle_size_exhaustion_prevents_publication (test_case_evidence.CaseEvidenceTests.test_bundle_size_exhaustion_prevents_publication) ... ok
+test_capture_case_across_explicit_rotation (test_case_evidence.CaseEvidenceTests.test_capture_case_across_explicit_rotation) ... ok
+test_capture_preserves_exact_trigger_bytes_and_can_verify_without_source (test_case_evidence.CaseEvidenceTests.test_capture_preserves_exact_trigger_bytes_and_can_verify_without_source) ... ok
+test_case_snapshot_change_fails_against_external_pin (test_case_evidence.CaseEvidenceTests.test_case_snapshot_change_fails_against_external_pin) ... ok
+test_changed_case_pin_rejected_before_source_read (test_case_evidence.CaseEvidenceTests.test_changed_case_pin_rejected_before_source_read) ... ok
+test_changed_registration_pin_rejected_before_source_read (test_case_evidence.CaseEvidenceTests.test_changed_registration_pin_rejected_before_source_read) ... ok
+test_changed_stored_event_body_rejected (test_case_evidence.CaseEvidenceTests.test_changed_stored_event_body_rejected) ... ok
+test_cli_capture_and_offline_verify (test_case_evidence.CaseEvidenceTests.test_cli_capture_and_offline_verify) ... ok
+test_cross_asset_case_lookup_rejected (test_case_evidence.CaseEvidenceTests.test_cross_asset_case_lookup_rejected) ... ok
+test_cross_tenant_case_lookup_rejected (test_case_evidence.CaseEvidenceTests.test_cross_tenant_case_lookup_rejected) ... ok
+test_description_exposes_pins_and_required_generations (test_case_evidence.CaseEvidenceTests.test_description_exposes_pins_and_required_generations) ... ok
+test_existing_destination_not_overwritten (test_case_evidence.CaseEvidenceTests.test_existing_destination_not_overwritten) ... ok
+test_extra_generation_rejected_before_file_access (test_case_evidence.CaseEvidenceTests.test_extra_generation_rejected_before_file_access) ... ok
+test_hardlinked_source_rejected (test_case_evidence.CaseEvidenceTests.test_hardlinked_source_rejected) ... ok
+test_integrity_case_cannot_be_exported_as_empty_auth_evidence (test_case_evidence.CaseEvidenceTests.test_integrity_case_cannot_be_exported_as_empty_auth_evidence) ... ok
+test_invalid_base64_rejected (test_case_evidence.CaseEvidenceTests.test_invalid_base64_rejected) ... ok
+test_invalid_sqlite_payload_type_has_controlled_rejection (test_case_evidence.CaseEvidenceTests.test_invalid_sqlite_payload_type_has_controlled_rejection) ... ok
+test_missing_case_event_rejected (test_case_evidence.CaseEvidenceTests.test_missing_case_event_rejected) ... ok
+test_missing_record_rejected (test_case_evidence.CaseEvidenceTests.test_missing_record_rejected) ... ok
+test_missing_source_fails_without_output (test_case_evidence.CaseEvidenceTests.test_missing_source_fails_without_output) ... ok
+test_native_journal_record_normalization_is_rechecked (test_case_evidence.CaseEvidenceTests.test_native_journal_record_normalization_is_rechecked) ... ok
+test_noncanonical_bundle_rejected_even_with_matching_digest (test_case_evidence.CaseEvidenceTests.test_noncanonical_bundle_rejected_even_with_matching_digest) ... ok
+test_normalized_attribute_change_fails_even_with_recomputed_event_hash (test_case_evidence.CaseEvidenceTests.test_normalized_attribute_change_fails_even_with_recomputed_event_hash) ... ok
+test_public_output_directory_rejected (test_case_evidence.CaseEvidenceTests.test_public_output_directory_rejected) ... ok
+test_readback_corruption_detected (test_case_evidence.CaseEvidenceTests.test_readback_corruption_detected) ... ok
+test_rehashed_event_change_rejected (test_case_evidence.CaseEvidenceTests.test_rehashed_event_change_rejected) ... ok
+test_rehashed_raw_corruption_rejected (test_case_evidence.CaseEvidenceTests.test_rehashed_raw_corruption_rejected) ... ok
+test_reordered_records_rejected (test_case_evidence.CaseEvidenceTests.test_reordered_records_rejected) ... ok
+test_repeated_evidence_reference_in_case_rejected (test_case_evidence.CaseEvidenceTests.test_repeated_evidence_reference_in_case_rejected) ... ok
+test_repeated_generation_rejected (test_case_evidence.CaseEvidenceTests.test_repeated_generation_rejected) ... ok
+test_source_budget_exhaustion_prevents_publication (test_case_evidence.CaseEvidenceTests.test_source_budget_exhaustion_prevents_publication) ... ok
+test_source_changed_during_read_rejects_complete_acquisition (test_case_evidence.CaseEvidenceTests.test_source_changed_during_read_rejects_complete_acquisition) ... ok
+test_source_mutation_rejected_before_output (test_case_evidence.CaseEvidenceTests.test_source_mutation_rejected_before_output) ... ok
+test_source_selection_cannot_escape_registered_root (test_case_evidence.CaseEvidenceTests.test_source_selection_cannot_escape_registered_root) ... ok
+test_storage_error_does_not_return_success (test_case_evidence.CaseEvidenceTests.test_storage_error_does_not_return_success) ... ok
+test_stored_configuration_change_fails_against_registration (test_case_evidence.CaseEvidenceTests.test_stored_configuration_change_fails_against_registration) ... ok
+test_symlink_source_rejected (test_case_evidence.CaseEvidenceTests.test_symlink_source_rejected) ... ok
+test_verifier_does_not_follow_paths_from_bundle (test_case_evidence.CaseEvidenceTests.test_verifier_does_not_follow_paths_from_bundle) ... ok
+test_wrong_external_bundle_pin_rejected (test_case_evidence.CaseEvidenceTests.test_wrong_external_bundle_pin_rejected) ... ok
+test_wrong_inode_with_identical_bytes_rejected (test_case_evidence.CaseEvidenceTests.test_wrong_inode_with_identical_bytes_rejected) ... ok
 test_actual_nqc_manifest_can_be_consumed (test_consumer.ConsumerTests.test_actual_nqc_manifest_can_be_consumed) ... ok
 test_changed_asset_returns_no_snapshot (test_consumer.ConsumerTests.test_changed_asset_returns_no_snapshot) ... ok
 test_changed_canary_returns_no_snapshot (test_consumer.ConsumerTests.test_changed_canary_returns_no_snapshot) ... ok
@@ -376,6 +416,6 @@ test_witness_requires_separate_key_and_pinned_bindings (test_witness.WitnessTest
 test_witness_tail_rollback_requires_separately_retained_receipt (test_witness.WitnessTests.test_witness_tail_rollback_requires_separately_retained_receipt) ... ok
 
 ----------------------------------------------------------------------
-Ran 376 tests in 18.481s
+Ran 416 tests in 17.673s
 
 OK

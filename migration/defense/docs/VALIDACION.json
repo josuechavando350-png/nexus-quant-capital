@@ -1,14 +1,14 @@
 {
-  "status": "LOCAL_OPENSSH_FORMAT_ADAPTERS_AND_NATIVE_DEDUP_TESTED_PRODUCTION_NOT_ACTIVATED",
-  "version": "0.12.0",
+  "status": "LOCAL_AUTH_CASE_EVIDENCE_CAPTURE_AND_OFFLINE_VERIFICATION_TESTED_PRODUCTION_NOT_ACTIVATED",
+  "version": "0.13.0",
   "date": "2026-11-06",
   "nqc_base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
   "python_version": "3.12.14",
-  "python_source_files_parsed": 66,
+  "python_source_files_parsed": 70,
   "tests": {
-    "engine_passed": 376,
+    "engine_passed": 416,
     "nqc_isolation_passed": 9,
-    "total_passed": 385,
+    "total_passed": 425,
     "failed": 0,
     "skipped": 0,
     "engine_log": "docs/PRUEBAS.txt",
@@ -72,12 +72,13 @@
     "Cross-store archive rotation and continuity",
     "Independent authentication event provenance and anchored operational store",
     "Authentication response connectors and multiuser case workflow",
-    "Live native log collection and authenticated origin/transport"
+    "Live native log collection and authenticated origin/transport",
+    "Evidence-linked analyst workflow, authenticated acquisition authorship and independent custody"
   ],
   "publication": {
     "branch": "NQC-defensive",
     "user_authorized": true,
-    "validated_parent_commit": "02d480705e632768f5b670f508dc13bf830a19d5",
+    "validated_parent_commit": "ed8bbb6ec3b5b17706fda41f1e277acdd0e3ac4e",
     "status": "authorized_branch_update_validated_before_commit",
     "pull_request": false,
     "release": false,
@@ -85,7 +86,7 @@
     "email": false,
     "workflow_enabled": false
   },
-  "scope": "OpenSSH RFC3339 text and journald JSON export adapters feed the shared local auth pipeline; no SuperHunter changes or production activation",
+  "scope": "Scoped preservation of authentication case trigger records, externally pinned offline verification; no SuperHunter changes or production activation",
   "nqc_consumer_check": "docs/NQC_CONSUMER_CHECK.json",
   "consumer": {
     "local_reader_enforces_admission": true,
@@ -209,8 +210,8 @@
   "operational_catalog": {
     "components": 100,
     "disciplines_and_specialties": 100,
-    "bounded_partial": 17,
-    "planned": 83,
+    "bounded_partial": 18,
+    "planned": 82,
     "fully_complete": 0,
     "planned_runtime_connections_implemented": false
   },
@@ -266,5 +267,28 @@
     "live_sshd_capture_tested": false,
     "origin_authenticated": false,
     "independent_evaluation": false
+  },
+  "case_evidence_check": "docs/CASE_EVIDENCE_CHECK.json",
+  "case_evidence": {
+    "new_tests": 40,
+    "case_config_and_bundle_external_pins_required": true,
+    "source_map_explicit": true,
+    "raw_trigger_records_preserved": true,
+    "file_identity_range_and_hash_checked": true,
+    "parsing_and_trigger_conditions_rechecked": true,
+    "offline_verifier_opens_no_embedded_paths": true,
+    "private_output_directory_required": true,
+    "publication_without_replacement_and_readback": true,
+    "max_records": 100,
+    "max_source_generations": 8,
+    "max_source_file_bytes": 16777216,
+    "max_accepted_source_bytes": 67108864,
+    "max_preserved_raw_bytes": 2097152,
+    "max_bundle_bytes": 8388608,
+    "complete_episode_history": false,
+    "atomic_multifile_snapshot": false,
+    "origin_authenticated": false,
+    "independent_anchor": false,
+    "legal_chain_of_custody_claimed": false
   }
 }

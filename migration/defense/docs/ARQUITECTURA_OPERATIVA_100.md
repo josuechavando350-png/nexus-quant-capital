@@ -76,7 +76,7 @@ Primer circuito implementado: C014 → C032 → C041 → C052 → C064 → C067,
 |---|---|---|---|---|---|
 | C041 · Gestor de casos con evidencia | Detecciones y decisiones autenticadas → Casos abiertos, estados y cierre trazable | ManagedIntegrity: caso local derivado del ledger | C031, C032, C040 | Reabrir proceso conserva un incidente y su identidad | Parcial: Vista común de casos de autenticación e integridad; sin causalidad inferida ni flujo SOC completo |
 | C042 · Clasificador de urgencia y alcance | Casos, activos y criticidad → Cola priorizada con explicación | Políticas y puntuación explícita | C002, C008, C041 | Cambiar criticidad altera prioridad sin ocultar evidencia | Pendiente |
-| C043 · Recolector forense de archivos | Rutas autorizadas y caso → Copias verificadas con metadatos | Lectura por descriptor y hashes | C010, C041 | Cambio durante lectura invalida adquisición completa | Pendiente |
+| C043 · Recolector forense de archivos | Rutas autorizadas y caso → Copias verificadas con metadatos | Lectura por descriptor y hashes | C010, C041 | Cambio durante lectura invalida adquisición completa | Parcial: Captura de líneas que activaron casos de autenticación y paquete verificado offline; sin imagen completa ni origen autenticado |
 | C044 · Recolector y analizador de memoria | Adquisiciones autorizadas de laboratorio → Hallazgos enlazados a offsets y herramienta | Herramientas forenses especializadas; selección pendiente | C010, C041 | Analizar una captura conocida y registrar limitaciones | Pendiente |
 | C045 · Analizador de artefactos del sistema | Artefactos adquiridos → Eventos de sistema con procedencia | Parsers aislados y corpus conocidos | C043, C044 | No confundir ausencia de artefacto con ausencia de actividad | Pendiente |
 | C046 · Reconstrucción forense de comunicaciones | Capturas y metadatos autorizados → Cronología de comunicaciones | Zeek y parsers de captura | C017, C043 | Reproducir una sesión de laboratorio con evidencias referenciadas | Pendiente |
@@ -180,3 +180,5 @@ Primero: cerrar el circuito local y sus fallos. Después: un sensor de autentica
 La entrega 0.11 añade una ruta JSONL de autenticación con cursor, regla evaluada, casos y vista compartida con integridad. Ahora hay 17 componentes con alcance parcial y 83 pendientes; 0 completos. Ver V0_11.md y AUTH_PIPELINE_CHECK.json para límites y errores medidos.
 
 La entrega 0.12 amplía C013/C023/C026 con formatos OpenSSH/journald y evaluación explícita. Se mantienen 17 componentes parciales, 83 pendientes y 0 completos; no se cuentan adaptadores como componentes completos nuevos.
+
+La entrega 0.13 incorpora C043 con adquisición acotada de registros por caso y verificación offline. Estado actual: 18 componentes parciales, 82 pendientes y 0 completos. La preservación local no se cuenta como custodia independiente.

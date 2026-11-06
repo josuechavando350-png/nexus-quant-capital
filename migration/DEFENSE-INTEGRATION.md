@@ -35,3 +35,5 @@ La versión 0.10.0 añade una cadena local de protección de una copia administr
 La versión 0.11.0 añade ingesta JSONL de autenticación en un almacén operativo local, con cursor/detección/caso confirmados juntos y rotación explícita. Importa el estado verificado de ManagedIntegrity a la misma vista de casos. No modifica SuperHunter, las fuentes originales ni la operación de Census.
 
 La versión 0.12.0 añade formatos OpenSSH/journald sobre la misma ingesta transaccional y casos. Los cursores nativos se deduplican dentro de cada fuente. Se prueba con fixtures explícitos, sin cambiar servicios ni fuentes originales; SuperHunter permanece separado.
+
+La versión 0.13.0 conecta los casos de autenticación con adquisición acotada de sus registros y paquetes verificables offline mediante pins externos. Las pruebas usan archivos temporales propios; no cambian fuentes originales, servicios ni SuperHunter.

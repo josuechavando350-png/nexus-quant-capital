@@ -25,3 +25,5 @@ La entrega 0.10.0 se valida sobre el padre `c8724ba6d9a3ebeed98ddc399ca525dcb3b7
 La entrega 0.11.0 se valida sobre `6c64cbd6c0da84411e6b90a8ae1631239847e5af` para publicar solo en `NQC-defensive`. Agrega autenticación JSONL, casos compartidos y evaluación explícita. SuperHunter permanece separado.
 
 La entrega 0.12.0 se valida sobre `02d480705e632768f5b670f508dc13bf830a19d5` y se publica solo en `NQC-defensive`. Añade adaptadores OpenSSH/journald y deduplicación nativa con evaluación de formatos; sin fusionar otras ramas ni activar servicios.
+
+La entrega 0.13.0 se valida sobre `ed8bbb6ec3b5b17706fda41f1e277acdd0e3ac4e` para publicar exclusivamente en `NQC-defensive`. Agrega evidencia preservada de casos de autenticación y verificación offline, sin fusionar otras ramas ni activar producción.
