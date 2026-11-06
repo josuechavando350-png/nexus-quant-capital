@@ -891,3 +891,16 @@ REQUIRED_TESTS += (
     'test_journal_ingest.JournalTests.test_line_offsets_and_original_bytes',
     'test_journal_ingest.JournalTests.test_duplicates_and_invalid_timestamps_rejected',
 )
+
+
+# Replay-verified multi-source journal correlation, hypotheses still UNPROVEN.
+COMPONENTS['journal_correlation'] = {
+    'files': ['journal_correlation.py'], 'tests': ['test_journal_correlation.'],
+    'depends': ['journal_ingest', 'forensic_timeline', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('journal_correlation')
+REQUIRED_TESTS += (
+    'test_journal_correlation.CorrelationTests.test_cli_two_source_replay',
+    'test_journal_correlation.CorrelationTests.test_temporal_contradiction_and_cycle',
+    'test_journal_correlation.CorrelationTests.test_resealed_false_result_rejected',
+    'test_journal_correlation.CorrelationTests.test_source_tamper_rejected_before_ingestion',
+)
