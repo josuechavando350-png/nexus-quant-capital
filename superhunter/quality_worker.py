@@ -58,8 +58,103 @@ def test_ids(suite):
 
 
 
+# Reviewed eight-worker schedule. Preserve historical module ownership as the
+# inventory grows. Platform replay moves from the busy EVM-study worker (6)
+# into worker 5, previously measured at ~2 seconds on this host. The M10 module
+# is named here so the same schedule can be reconciled into the successor PR.
+QA_MODULE_GROUPS = (
+    (
+        'test_audit_links',
+        'test_chain_path_audit',
+        'test_compiler_layout',
+        'test_critical_chain',
+        'test_evidence_ablation',
+        'test_evidence_common_mode',
+        'test_evidence_cut_sets',
+        'test_evidence_joint_failure',
+        'test_evm_accounting',
+        'test_evm_bounded_replay',
+        'test_evm_guidance_benchmark',
+        'test_holdout_protocol',
+        'test_journal_correlation',
+        'test_native_compile',
+        'test_permission_domain',
+        'test_solidity_stateful',
+    ),
+    (
+        'test_benchmark',
+        'test_evm_coverage_guidance',
+        'test_evm_forensic_binding',
+        'test_ledger_sequence',
+        'test_local_lab',
+        'test_ordered_case',
+        'test_reconciliation',
+    ),
+    (
+        'test_case_review',
+        'test_forensic_timeline',
+        'test_native_platform',
+        'test_owned_mutation_evaluation',
+        'test_rate_control',
+        'test_regression',
+        'test_storage_layout',
+    ),
+    (
+        'test_evm_access_family',
+        'test_evm_execution',
+        'test_permission_smt',
+        'test_quality',
+        'test_research_plan',
+        'test_review',
+        'test_storage_placement',
+    ),
+    (
+        'test_bytecode_controls',
+        'test_compiler_variants',
+        'test_evm_feedback',
+        'test_fuzz_lab',
+        'test_proof_graph',
+        'test_source_types',
+        'test_static_review',
+    ),
+    (
+        'test_balance_reconciliation',
+        'test_custody',
+        'test_evm_opcode_trace',
+        'test_fuzz_evidence',
+        'test_integration',
+        'test_internal_units',
+        'test_platform',
+        'test_program_registry',
+    ),
+    (
+        'test_evm_seed_study',
+        'test_evm_sequence_fuzz',
+        'test_journal_ingest',
+        'test_native_layout',
+        'test_permissions',
+        'test_solidity_formal',
+        'test_source_graph',
+    ),
+    (
+        'test_bridge',
+        'test_evm_pause_family',
+        'test_privacy',
+        'test_sharing',
+        'test_smt_backend',
+        'test_solidity_inventory',
+    ),
+)
+
+
 def partition_ids(identities: list[str], count: int) -> list[list[str]]:
-    """Deterministic, disjoint groups, keeping each test module together."""
+    """Stable known-module placement; complete deterministic fallback for new ones.
+
+    Eight-worker QA uses a reviewed layout so adding tests to a module cannot
+    silently move expensive historical suites. New modules stay whole and use
+    the least populated group. Counts are only a fallback, not a runtime claim;
+    the existing wall, CPU, memory and output limits remain authoritative.
+    """
     if type(count) is not int or not 1 <= count <= 8:
         raise ValueError('invalid partition count')
     if (type(identities) is not list or not identities or
@@ -69,55 +164,14 @@ def partition_ids(identities: list[str], count: int) -> list[list[str]]:
     modules = {}
     for identity in sorted(identities):
         modules.setdefault(identity.split('.')[0], []).append(identity)
-    # Keep the previously measured 1,969-test partitions stable when adding
-    # the offline holdout suite. The former slowest partition used 167.5 s of
-    # its 180-s wall budget; rebalancing solely by test COUNT placed another
-    # 33-test EVM suite there and caused a real timeout. Schedule the new
-    # non-EVM holdout suite with the previously lightest partition instead.
-    # Every test still runs, with the SAME limits and complete inventories.
-    holdout = modules.pop('test_holdout_protocol', []) if count == 8 else []
-    # Protect the previously verified 2041-test partition layout. Adding a
-    # module before greedy balancing reassigns expensive EVM suites and can
-    # exhaust unchanged worker time budgets. Keep the new module whole in the
-    # measured ~36s partition instead; no tests or limits are suppressed.
-    cross_journal = modules.pop('test_journal_correlation', []) if count == 8 else []
-    bounded_replay = modules.pop('test_evm_bounded_replay', []) if count == 8 else []
-    critical_chain = modules.pop('test_critical_chain', []) if count == 8 else []
-    path_audit = modules.pop('test_chain_path_audit', []) if count == 8 else []
-    evidence_ablation = modules.pop('test_evidence_ablation', []) if count == 8 else []
-    common_evidence = modules.pop('test_evidence_common_mode', []) if count == 8 else []
-    joint_evidence = modules.pop('test_evidence_joint_failure', []) if count == 8 else []
-    evidence_cuts = modules.pop('test_evidence_cut_sets', []) if count == 8 else []
     groups = [[] for _ in range(count)]
+    if count == 8:
+        for index, names in enumerate(QA_MODULE_GROUPS):
+            for name in names:
+                groups[index].extend(modules.pop(name, ()))
     for name in sorted(modules, key=lambda n: (-len(modules[n]), n)):
         index = min(range(count), key=lambda i: (len(groups[i]), i))
         groups[index].extend(modules[name])
-    if count == 8:
-        # The historical platform suite was the slowest worker (167.5 s wall).
-        # A retry on this host exhausted the worker CPU limit; move the entire
-        # module to the previously ~5-s partition, preserving every test and
-        # leaving per-process CPU, memory and wall budgets unchanged.
-        platform = [x for g in groups for x in g if x.split('.')[0] == 'test_platform']
-        groups = [[x for x in g if x.split('.')[0] != 'test_platform'] for g in groups]
-        groups[6].extend(platform)
-    if holdout:
-        groups[0].extend(holdout)
-    if cross_journal:
-        groups[0].extend(cross_journal)
-    if bounded_replay:
-        groups[0].extend(bounded_replay)
-    if critical_chain:
-        groups[0].extend(critical_chain)
-    if path_audit:
-        groups[0].extend(path_audit)
-    if evidence_ablation:
-        groups[0].extend(evidence_ablation)
-    if common_evidence:
-        groups[0].extend(common_evidence)
-    if joint_evidence:
-        groups[0].extend(joint_evidence)
-    if evidence_cuts:
-        groups[0].extend(evidence_cuts)
     return [sorted(group) for group in groups]
 
 

@@ -1027,3 +1027,11 @@ REQUIRED_TESTS += (
     'test_evidence_joint_failure.JointEvidenceTests.test_forged_critical_impact_rejected_even_when_resealed',
     'test_evidence_joint_failure.JointEvidenceTests.test_edited_original_source_rejected',
 )
+
+# Partition stability is part of the mandatory QA contract.
+REQUIRED_TESTS += (
+    'test_quality.StableWorkerLayoutTests.test_existing_assignments_survive_module_growth',
+    'test_quality.StableWorkerLayoutTests.test_new_module_does_not_relocate_existing_tests',
+    'test_quality.StableWorkerLayoutTests.test_platform_has_separate_budget_from_evm_studies',
+    'test_quality.StableWorkerLayoutTests.test_full_inventory_retained_once_with_eight_workers',
+)
