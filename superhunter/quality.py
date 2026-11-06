@@ -866,3 +866,28 @@ REQUIRED_TESTS += (
     'test_holdout_protocol.HoldoutTests.test_external_frozen_pin_blocks_resealed_falsification',
     'test_holdout_protocol.HoldoutTests.test_withheld_labels_change_requires_new_commitment',
 )
+
+# Normalized DFIR evidence/order gate, standalone and non-intrusive.
+COMPONENTS['forensic_timeline'] = {
+    'files': ['forensic_timeline.py'], 'tests': ['test_forensic_timeline.'],
+    'depends': ['io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('forensic_timeline')
+REQUIRED_TESTS += (
+    'test_forensic_timeline.TimelineTests.test_cli_end_to_end_and_replay',
+    'test_forensic_timeline.TimelineTests.test_resealed_false_result_rejected',
+    'test_forensic_timeline.TimelineTests.test_cycle_and_temporal_inversion_not_pass',
+    'test_forensic_timeline.TimelineTests.test_symlink_input_rejected',
+)
+
+# Bounded real parser for pre-existing journalctl JSONL exports. Raw source is
+# preserved privately; reconstructed evidence is cross-checked on replay.
+COMPONENTS['journal_ingest'] = {
+    'files': ['journal_ingest.py'], 'tests': ['test_journal_ingest.'],
+    'depends': ['forensic_timeline', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('journal_ingest')
+REQUIRED_TESTS += (
+    'test_journal_ingest.JournalTests.test_cli_roundtrip_separate_processes',
+    'test_journal_ingest.JournalTests.test_resealed_false_timeline_rejected',
+    'test_journal_ingest.JournalTests.test_line_offsets_and_original_bytes',
+    'test_journal_ingest.JournalTests.test_duplicates_and_invalid_timestamps_rejected',
+)
