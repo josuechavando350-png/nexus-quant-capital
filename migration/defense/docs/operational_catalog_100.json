@@ -1848,8 +1848,8 @@
         "D092"
       ],
       "status": "bounded_partial",
-      "implementation": "nqc_defense/review_policy.py",
-      "implementation_scope": "Credenciales locales por actor/acción/ámbito; sin IAM, expiración, rotación o aislamiento del administrador"
+      "implementation": "nqc_defense/review_credentials.py",
+      "implementation_scope": "Credenciales locales con revocación/rotación/renovación transaccionales por base/política; sin IAM, expiración ni aislamiento del administrador"
     },
     {
       "id": "C093",

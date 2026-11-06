@@ -7,11 +7,14 @@ from .case_evidence import _case, verify_bundle
 from .codec import Rejected, canonical, decode, fields, identifier, integer
 from .files import sha256
 from .receipts import hex_digest
+from .review_credentials import ReviewCredentials
+from .review_policy import reason_text
 
 MAX_CASE_REVISIONS = 1000
 MAX_TOTAL_REVISIONS = 100000
 ORIGIN = {"revision": 0, "head": GENESIS}
 SCHEMA = "nqc-case-review-v1"
+CURRENT_SCHEMA = "nqc-case-review-v2"
 
 
 def checkpoint(value):
@@ -21,19 +24,6 @@ def checkpoint(value):
     if value["revision"] == 0 and value["head"] != GENESIS:
         raise Rejected("review_checkpoint")
     return dict(value)
-
-
-def reason_text(value):
-    if not isinstance(value, str) or not value.strip():
-        raise Rejected("review_reason")
-    try:
-        size = len(value.encode("utf-8"))
-    except UnicodeError as exc:
-        raise Rejected("review_reason") from exc
-    if size > 4096:
-        raise Rejected("review_reason")
-    if any(ord(c) < 32 and c != "\n" for c in value) or "\x7f" in value:
-        raise Rejected("review_reason")
 
 
 def initial_state():
@@ -81,12 +71,13 @@ def transition(state, event, revision):
 class CaseReview:
     def __init__(self, store, policy):
         self.store, self.policy = store, policy
+        self.credentials = ReviewCredentials(store, policy)
         with store.transaction() as db:
             db.execute("CREATE TABLE IF NOT EXISTS case_reviews (tenant TEXT NOT NULL, asset TEXT NOT NULL, "
                        "case_id TEXT NOT NULL, revision INTEGER NOT NULL, payload TEXT NOT NULL, "
                        "previous TEXT NOT NULL, mac TEXT NOT NULL, PRIMARY KEY(tenant,asset,case_id,revision))")
 
-    def _load(self, db, tenant, asset, case_id):
+    def _load(self, db, tenant, asset, case_id, credentials):
         row = db.execute("SELECT body,category,status FROM cases WHERE tenant=? AND asset=? AND id=?", (tenant, asset, case_id)).fetchone()
         if row is None:
             raise Rejected("review_case_not_found")
@@ -105,6 +96,7 @@ class CaseReview:
         if len(rows) > MAX_CASE_REVISIONS:
             raise Rejected("review_case_capacity")
         state, previous, last_time, binding, seen, history = initial_state(), GENESIS, -1, None, set(), []
+        credential_revision, versioned = 0, False
         for number, (revision, payload, parent, digest) in enumerate(rows, 1):
             if revision != number or parent != previous:
                 raise Rejected("review_history_sequence")
@@ -117,10 +109,19 @@ class CaseReview:
             if not hmac.compare_digest(digest, mac(self.policy.key, revision, parent, payload)):
                 raise Rejected("review_history_integrity")
             event = decode(payload.encode())
-            fields(event, ("schema", "policy_digest", "tenant", "asset", "case_id", "case_digest", "config_digest", "bundle_digest",
-                           "actor", "request_id", "action", "reason", "verdict", "recorded_ns"))
-            if canonical(event).decode() != payload or (event["schema"], event["policy_digest"], event["tenant"], event["asset"], event["case_id"]) != (SCHEMA, self.policy.digest, tenant, asset, case_id):
+            names = ("schema", "policy_digest", "tenant", "asset", "case_id", "case_digest", "config_digest", "bundle_digest",
+                     "actor", "request_id", "action", "reason", "verdict", "recorded_ns")
+            current_schema = type(event) is dict and event.get("schema") == CURRENT_SCHEMA
+            fields(event, names + (("credential_checkpoint",) if current_schema else ()))
+            if canonical(event).decode() != payload or event["schema"] not in (SCHEMA, CURRENT_SCHEMA) or (event["policy_digest"], event["tenant"], event["asset"], event["case_id"]) != (self.policy.digest, tenant, asset, case_id):
                 raise Rejected("review_history_binding")
+            if current_schema:
+                credentials.historical(event["credential_checkpoint"], event["actor"])
+                if event["credential_checkpoint"]["revision"] < credential_revision:
+                    raise Rejected("review_credential_regression")
+                credential_revision, versioned = event["credential_checkpoint"]["revision"], True
+            elif versioned:
+                raise Rejected("review_schema_regression")
             for key in ("case_digest", "config_digest", "bundle_digest"):
                 hex_digest(event[key])
             if event["case_digest"] != case_digest:
@@ -143,45 +144,49 @@ class CaseReview:
             previous, last_time = digest, now
         return case, state, {"revision": len(rows), "head": previous}, history
 
-    def view(self, actor, credential, tenant, asset, case_id, *, expected=None, after=0, limit=100):
-        self.policy.authorize(actor, credential, tenant, asset, "read")
+    def view(self, actor, credential, tenant, asset, case_id, *, expected=None, after=0, limit=100, expected_credentials=None):
         hex_digest(case_id)
         integer(after, 0, MAX_CASE_REVISIONS); integer(limit, 1, 200)
         if expected is not None:
             checkpoint(expected)
         with self.store.transaction() as db:
-            self.policy.authorize(actor, credential, tenant, asset, "read")
-            case, state, current, history = self._load(db, tenant, asset, case_id)
+            credentials = self.credentials.authorize(db, actor, credential, tenant, asset, "read", expected_credentials)
+            case, state, current, history = self._load(db, tenant, asset, case_id, credentials)
             if expected is not None and current != expected:
                 raise Rejected("review_checkpoint_mismatch")
         return {"case_id": case_id, "detection_status": case["status"], "review": state, "checkpoint": current,
                 "history": history[after:after + limit], "evidence_availability_rechecked": False,
-                "human_identity_verified": False, "independent_anchor": False}
+                "human_identity_verified": False, "independent_anchor": False, "credential_checkpoint": credentials.current}
 
     def apply(self, actor, credential, tenant, asset, case_id, action, reason, request_id, expected,
-              bundle, bundle_digest, case_digest, config_digest, *, verdict=None):
-        self.policy.authorize(actor, credential, tenant, asset, action)
+              bundle, bundle_digest, case_digest, config_digest, *, verdict=None, expected_credentials=None):
+        with self.store.transaction() as db:
+            self.credentials.authorize(db, actor, credential, tenant, asset, action, expected_credentials)
         if action == "read":
             raise Rejected("review_action")
         identifier(request_id); reason_text(reason); checkpoint(expected)
         verify_bundle(bundle, bundle_digest, tenant, asset, case_id, case_digest, config_digest)
-        command = {"schema": SCHEMA, "policy_digest": self.policy.digest, "tenant": tenant, "asset": asset,
+        command = {"schema": CURRENT_SCHEMA, "policy_digest": self.policy.digest, "tenant": tenant, "asset": asset,
                    "case_id": case_id, "case_digest": case_digest, "config_digest": config_digest,
                    "bundle_digest": bundle_digest, "actor": actor, "request_id": request_id,
                    "action": action, "reason": reason, "verdict": verdict}
         with self.store.transaction() as db:
-            self.policy.authorize(actor, credential, tenant, asset, action)
-            case, state, current, history = self._load(db, tenant, asset, case_id)
+            credentials = self.credentials.authorize(db, actor, credential, tenant, asset, action, expected_credentials)
+            case, state, current, history = self._load(db, tenant, asset, case_id, credentials)
             if sha256(canonical(case)) != case_digest:
                 raise Rejected("review_case_snapshot_changed")
             for entry in history:
                 if entry["event"]["request_id"] == request_id:
-                    old = dict(entry["event"]); old.pop("recorded_ns")
+                    old = dict(entry["event"])
+                    for key in ("recorded_ns", "schema", "credential_checkpoint"):
+                        old.pop(key, None)
+                    requested = dict(command); requested.pop("schema")
                     before = {"revision": entry["revision"] - 1, "head": entry["previous"]}
-                    if old != command or expected != before:
+                    if old != requested or expected != before:
                         raise Rejected("review_request_conflict")
                     return {"applied": False, "idempotent_retry": True, "checkpoint": current, "review": state,
-                            "operation_checkpoint": {"revision": entry["revision"], "head": entry["head"]}}
+                            "operation_checkpoint": {"revision": entry["revision"], "head": entry["head"]},
+                            "credential_checkpoint": credentials.current}
             if expected != current:
                 raise Rejected("review_checkpoint_mismatch")
             if history and any(command[key] != history[0]["event"][key] for key in ("case_digest", "config_digest", "bundle_digest")):
@@ -191,11 +196,11 @@ class CaseReview:
             now = time.time_ns()
             if history and now < history[-1]["event"]["recorded_ns"]:
                 raise Rejected("review_clock_regressed")
-            event = {**command, "recorded_ns": integer(now, 0, 2**63 - 1)}
+            event = {**command, "recorded_ns": integer(now, 0, 2**63 - 1), "credential_checkpoint": credentials.current}
             revision = current["revision"] + 1
             state = transition(state, event, revision)
             payload = canonical(event).decode()
             digest = mac(self.policy.key, revision, current["head"], payload)
             db.execute("INSERT INTO case_reviews VALUES(?,?,?,?,?,?,?)", (tenant, asset, case_id, revision, payload, current["head"], digest))
         return {"applied": True, "idempotent_retry": False, "checkpoint": {"revision": revision, "head": digest},
-                "review": state, "evidence_rechecked": True, "automatic_response": False}
+                "review": state, "evidence_rechecked": True, "automatic_response": False, "credential_checkpoint": credentials.current}

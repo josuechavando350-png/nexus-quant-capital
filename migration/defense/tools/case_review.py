@@ -35,6 +35,7 @@ def main():
         command.add_argument("--tenant", required=True)
         command.add_argument("--asset", required=True)
         command.add_argument("--case-id", required=True)
+        command.add_argument("--credential-checkpoint", type=Path)
     view.add_argument("--expected", type=Path)
     view.add_argument("--after", type=int, default=0)
     view.add_argument("--limit", type=int, default=100)
@@ -52,17 +53,18 @@ def main():
             policy = ReviewPolicy(args.policy_root, args.policy_digest)
             credential = read_credential(args.credential_file)
             review = CaseReview(OperationsStore(args.operations_root), policy)
+            credentials = decode(read(args.credential_checkpoint, 4096), max_bytes=4096) if args.credential_checkpoint else None
             if args.command == "view":
                 expected = decode(read(args.expected, 4096), max_bytes=4096) if args.expected else None
                 result = review.view(args.actor, credential, args.tenant, args.asset, args.case_id,
-                                     expected=expected, after=args.after, limit=args.limit)
+                                     expected=expected, after=args.after, limit=args.limit, expected_credentials=credentials)
             else:
                 request = decode(read(args.request_file, 16384), max_bytes=16384)
                 fields(request, ("action", "reason", "request_id", "expected", "verdict"))
                 result = review.apply(args.actor, credential, args.tenant, args.asset, args.case_id,
                                       request["action"], request["reason"], request["request_id"], request["expected"],
                                       read(args.bundle_file, MAX_BUNDLE), args.bundle_digest, args.case_digest,
-                                      args.config_digest, verdict=request["verdict"])
+                                      args.config_digest, verdict=request["verdict"], expected_credentials=credentials)
         print(json.dumps(result, sort_keys=True))
         return 0
     except (Rejected, OSError, sqlite3.Error) as exc:

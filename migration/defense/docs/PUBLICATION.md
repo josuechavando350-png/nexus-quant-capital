@@ -29,3 +29,5 @@ La entrega 0.12.0 se valida sobre `02d480705e632768f5b670f508dc13bf830a19d5` y s
 La entrega 0.13.0 se valida sobre `ed8bbb6ec3b5b17706fda41f1e277acdd0e3ac4e` para publicar exclusivamente en `NQC-defensive`. Agrega evidencia preservada de casos de autenticación y verificación offline, sin fusionar otras ramas ni activar producción.
 
 La entrega 0.14.0 se valida sobre `ea3018a7464414ab9a10197674d5f4a07a4bad1a` para publicar solo en `NQC-defensive`. Agrega revisión local autenticada por credenciales y ligada a evidencia, sin mezclar SuperHunter ni activar servicios.
+
+La entrega 0.15.0 se valida sobre `b3b837316eb245fd6a2991a9a40aa08cc4675ba3` para publicar solo en `NQC-defensive`. Conecta gestión transaccional de credenciales a revisión de casos, preserva historia 0.14 y no activa servicios.

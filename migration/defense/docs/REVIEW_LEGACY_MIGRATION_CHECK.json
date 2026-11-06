@@ -1,0 +1,54 @@
+{
+  "case_checkpoint": {
+    "head": "c6fbff45e0d9f23535c07a3b1a02ac9a4b7221c790e636383585fba3cc1ee57c",
+    "revision": 4
+  },
+  "credential_changes": [
+    {
+      "action": "rotate",
+      "checkpoint": {
+        "head": "2d6e6c0c59b533d6b9bc0fd8c0bb239ff36fb909eeca2b88812feb37aca79aa5",
+        "revision": 1
+      }
+    },
+    {
+      "action": "revoke",
+      "checkpoint": {
+        "head": "c99feb0921f092aa87a508d8a0b9f3f3da629a59155d48a007b991cdedc3334f",
+        "revision": 2
+      }
+    },
+    {
+      "action": "renew",
+      "checkpoint": {
+        "head": "65ce777f387caad14b2ee29313768735c725df64e17e0083474cc4049dedec2a",
+        "revision": 3
+      }
+    }
+  ],
+  "credential_checkpoint": {
+    "head": "65ce777f387caad14b2ee29313768735c725df64e17e0083474cc4049dedec2a",
+    "revision": 3
+  },
+  "detection_status": "open",
+  "fixture_origin": "authored authentication records, real files and SQLite, temporary keys",
+  "idempotent_revocation_retry": true,
+  "independent_anchor": false,
+  "initial_review_bytes_unchanged": true,
+  "initial_review_schema": "nqc-case-review-v1",
+  "legacy_source_commit": "b3b837316eb245fd6a2991a9a40aa08cc4675ba3",
+  "legacy_source_git_blob": "2e66d27f9e75dc6ef7aff83fb21cf3b9de2e3bc5",
+  "legacy_source_path": "migration/defense/nqc_defense/case_review.py",
+  "production_activated": false,
+  "raw_credentials_in_report": false,
+  "rejections": {
+    "retired_token": "review_unauthorized",
+    "reuse_retired_token": "credential_reuse",
+    "revoked_copy": "review_unauthorized",
+    "stale_credential_checkpoint": "credential_checkpoint_mismatch"
+  },
+  "restart_verified": true,
+  "review_stage": "closed",
+  "revocation_scope": "one operations store and pinned policy",
+  "verified": true
+}

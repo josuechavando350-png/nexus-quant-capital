@@ -11,6 +11,17 @@ from .receipts import hex_digest
 PERMISSIONS = {"read", "start", "note", "assess", "close", "reopen"}
 
 
+def reason_text(value):
+    if not isinstance(value, str) or not value.strip():
+        raise Rejected("review_reason")
+    try:
+        size = len(value.encode("utf-8"))
+    except UnicodeError as exc:
+        raise Rejected("review_reason") from exc
+    if size > 4096 or any(ord(c) < 32 and c != "\n" for c in value) or "\x7f" in value:
+        raise Rejected("review_reason")
+
+
 def validate_grants(grants, credentials=False):
     if type(grants) is not list or not 1 <= len(grants) <= 32:
         raise Rejected("review_grants_count")
@@ -88,6 +99,7 @@ class ReviewPolicy:
                    for g in self.value["grants"])
 
     def authorize(self, actor, credential, tenant, asset, action):
+        """Bootstrap-only check; CaseReview uses the transactional ReviewCredentials registry."""
         identifier(actor); identifier(tenant); identifier(asset)
         value, key = self.check()
         if value != self.value or not hmac.compare_digest(key, self.key):
