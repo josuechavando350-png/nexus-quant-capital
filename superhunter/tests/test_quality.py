@@ -278,6 +278,56 @@ class QualityTests(unittest.TestCase):
 
 
 
+class StableWorkerLayoutTests(unittest.TestCase):
+    """Adding tests must not silently relocate existing expensive modules."""
+
+    def inventory(self):
+        from superhunter.quality_worker import test_ids
+        return sorted(test_ids(unittest.TestLoader().discover(str(quality.ROOT / 'tests'))))
+
+    def owners(self, identities):
+        from superhunter.quality_worker import partition_ids
+        return {name: index for index, group in enumerate(partition_ids(identities, 8))
+                for name in group}
+
+    def test_existing_assignments_survive_module_growth(self):
+        original = self.inventory()
+        before = self.owners(original)
+        grown = original + [f'test_quality.Future.test_added_{i}' for i in range(80)]
+        after = self.owners(grown)
+        self.assertEqual(before, {name: after[name] for name in original})
+
+    def test_new_module_does_not_relocate_existing_tests(self):
+        original = self.inventory()
+        before = self.owners(original)
+        extra = [f'test_future_quality.Future.test_added_{i}' for i in range(80)]
+        after = self.owners(original + extra)
+        self.assertEqual(before, {name: after[name] for name in original})
+        self.assertEqual(len({after[name] for name in extra}), 1)
+
+    def test_platform_has_separate_budget_from_evm_studies(self):
+        owners = self.owners(self.inventory())
+        by_module = {}
+        for name, index in owners.items():
+            by_module.setdefault(name.split('.')[0], set()).add(index)
+        self.assertEqual(len(by_module['test_platform']), 1)
+        for module in ('test_evm_seed_study', 'test_evm_sequence_fuzz'):
+            self.assertTrue(by_module['test_platform'].isdisjoint(by_module[module]))
+
+    def test_full_inventory_retained_once_with_eight_workers(self):
+        from superhunter.quality_worker import partition_ids
+        original = self.inventory()
+        groups = partition_ids(original, 8)
+        self.assertEqual(len(groups), 8)
+        self.assertTrue(all(groups))
+        self.assertEqual(sorted(name for group in groups for name in group), original)
+        owners = {}
+        for index, group in enumerate(groups):
+            for name in group:
+                self.assertEqual(owners.setdefault(name.split('.')[0], index), index)
+        self.assertEqual(groups, partition_ids(list(reversed(original)), 8))
+
+
 # Compact QA receipts keep every worker outcome and their source commitments.
 # Existing unit fake receipts above remain unchanged and test old compatibility.
 class CompactReceiptTests(unittest.TestCase):
