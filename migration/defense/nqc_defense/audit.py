@@ -8,6 +8,10 @@ from .codec import Rejected, canonical, decode
 GENESIS = "0" * 64
 
 
+def key_id(key):
+    return hmac.new(key, b"nqc-defense-ledger-key-v1", hashlib.sha256).hexdigest()
+
+
 def mac(key, sequence, previous, payload):
     return hmac.new(key, canonical([sequence, previous, payload]), hashlib.sha256).hexdigest()
 

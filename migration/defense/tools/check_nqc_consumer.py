@@ -16,6 +16,7 @@ from nqc_defense.files import read_local, sha256
 from nqc_defense.integration import verify_nqc
 from nqc_defense.verify_export import verify as verify_export
 from nqc_defense.audit_pages import AuditPageVerifier
+from nqc_defense.witness import Witness
 
 
 def run(root):
@@ -31,7 +32,8 @@ def run(root):
             enrollment = enroll(root, artifact, "nqc-source-manifest", marker_path, control)
             marker = read_local(root, marker_path)
             key = read_local(control, "ledger.key", 32)
-            engine = Engine(root, control / "configs", control / "state", enrollment["policy_digest"], key)
+            witness = Witness.create(Path(directory) / "witness", secrets.token_bytes(32), key, enrollment["policy_digest"])
+            engine = Engine(root, control / "configs", control / "state", enrollment["policy_digest"], key, witness=witness)
             token = engine.issue("local-consumer-check", "nqc-source-manifest")
             result = ArtifactReader(engine).read_json(canonical({
                 "request_id": "consume-nqc-source-manifest", "asset": "nqc-source-manifest"}), token)
@@ -51,6 +53,21 @@ def run(root):
                     or checkpoint["head"] != result["admission"]["audit_head"]
                     or receipt["outcome"]["decision"] != "admit"):
                 raise Rejected("nqc_consumer_check_failed")
+            def advance_witness(target):
+                expected = witness.head()
+                def pages():
+                    cursor = AuditPageVerifier(key, enrollment["policy_digest"], target, expected["checkpoint"])
+                    while not cursor.complete:
+                        data = engine.export_page(cursor.current, target, limit=1)
+                        cursor.accept(data)
+                        yield data
+                return witness.advance(pages(), target, expected)
+            advance_witness(checkpoint)
+            guarded = ArtifactReader(engine).read_json(canonical({"request_id": "consume-after-anchor",
+                "asset": "nqc-source-manifest"}), engine.issue("local-consumer-check", "nqc-source-manifest"))
+            if guarded["content_sha256"] != sha256(original):
+                raise Rejected("nqc_guarded_consumer_check_failed")
+            witnessed = advance_witness(engine.checkpoint())
             evidence = {"status": "NQC_LOCAL_CONSUMER_CHECK_PASS",
                         "base_commit": baseline["base_commit"], "tested_parent_commit": baseline["head_commit"],
                         "artifact": artifact, "content_sha256": result["content_sha256"],
@@ -60,6 +77,9 @@ def run(root):
                         "authorized_snapshots": verified["authorized_snapshots"],
                         "paginated_audit_verified": page_result["verified"],
                         "audit_pages": page_result["pages"],
+                        "witness_revision": witnessed["revision"],
+                        "witness_checkpoint_sequence": witnessed["checkpoint"]["sequence"],
+                        "second_read_enforced_anchored_prefix": True,
                         "scope": "actual local manifest consumed; production Census loop unchanged"}
     finally:
         if marker is not None:

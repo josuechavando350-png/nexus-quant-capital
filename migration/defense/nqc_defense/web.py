@@ -54,8 +54,9 @@ class Application:
         except Rejected as exc:
             if str(exc) == "invalid_token":
                 status = "401 Unauthorized"
-            elif str(exc) in {"clock_regressed", "clock_state_invalid", "config_integrity", "config_store_corruption",
-                              "policy_changed", "audit_integrity", "audit_sequence", "file_unavailable"}:
+            elif str(exc).startswith("witness_") or str(exc) in {
+                    "clock_regressed", "clock_state_invalid", "config_integrity", "config_store_corruption",
+                    "policy_changed", "audit_integrity", "audit_sequence", "file_unavailable", "audit_anchor_unavailable"}:
                 status = "503 Service Unavailable"
             else:
                 status = "400 Bad Request"

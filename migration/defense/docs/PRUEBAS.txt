@@ -146,8 +146,33 @@ test_invalid_token_401_without_echo (test_defense.WebTests.test_invalid_token_40
 test_real_loopback_http_lifecycle (test_defense.WebTests.test_real_loopback_http_lifecycle) ... ok
 test_routes_and_limits (test_defense.WebTests.test_routes_and_limits) ... ok
 test_unknown_fields_rejected (test_defense.WebTests.test_unknown_fields_rejected) ... ok
+test_altered_page_cannot_advance_witness (test_witness.WitnessTests.test_altered_page_cannot_advance_witness) ... ok
+test_cli_initializes_advances_and_guards_engine (test_witness.WitnessTests.test_cli_initializes_advances_and_guards_engine) ... ok
+test_commit_failure_cannot_acknowledge_advancement (test_witness.WitnessTests.test_commit_failure_cannot_acknowledge_advancement) ... ok
+test_concurrent_verified_updates_have_one_winner (test_witness.WitnessTests.test_concurrent_verified_updates_have_one_winner) ... ok
+test_empty_witness_is_not_silently_reset (test_witness.WitnessTests.test_empty_witness_is_not_silently_reset) ... ok
+test_existing_engine_rechecks_witness_before_each_operation (test_witness.WitnessTests.test_existing_engine_rechecks_witness_before_each_operation) ... ok
+test_guarded_engine_refuses_truncated_history_on_reopen (test_witness.WitnessTests.test_guarded_engine_refuses_truncated_history_on_reopen) ... ok
+test_incomplete_pages_leave_witness_unchanged (test_witness.WitnessTests.test_incomplete_pages_leave_witness_unchanged) ... ok
+test_incremental_advance_reuses_verified_previous_checkpoint (test_witness.WitnessTests.test_incremental_advance_reuses_verified_previous_checkpoint) ... ok
+test_initialization_never_overwrites_existing_store (test_witness.WitnessTests.test_initialization_never_overwrites_existing_store) ... ok
+test_insert_failure_rolls_back_witness (test_witness.WitnessTests.test_insert_failure_rolls_back_witness) ... ok
+test_missing_witness_fails_closed_without_recreating_database (test_witness.WitnessTests.test_missing_witness_fails_closed_without_recreating_database) ... ok
+test_new_witness_is_private_pinned_genesis_and_reopens (test_witness.WitnessTests.test_new_witness_is_private_pinned_genesis_and_reopens) ... ok
+test_page_input_failure_never_advances (test_witness.WitnessTests.test_page_input_failure_never_advances) ... ok
+test_same_height_rewritten_chain_fails_anchored_hash (test_witness.WitnessTests.test_same_height_rewritten_chain_fails_anchored_hash) ... ok
+test_same_or_older_checkpoint_cannot_replace_latest (test_witness.WitnessTests.test_same_or_older_checkpoint_cannot_replace_latest) ... ok
+test_separate_processes_cannot_overwrite_an_advanced_witness (test_witness.WitnessTests.test_separate_processes_cannot_overwrite_an_advanced_witness) ... ok
+test_stale_compare_and_swap_receipt_rejected (test_witness.WitnessTests.test_stale_compare_and_swap_receipt_rejected) ... ok
+test_verified_pages_advance_once_and_bind_page_transcript (test_witness.WitnessTests.test_verified_pages_advance_once_and_bind_page_transcript) ... ok
+test_web_reports_witness_failure_as_unavailable_without_details (test_witness.WitnessTests.test_web_reports_witness_failure_as_unavailable_without_details) ... ok
+test_witness_cannot_live_inside_engine_state_or_use_other_engine_key (test_witness.WitnessTests.test_witness_cannot_live_inside_engine_state_or_use_other_engine_key) ... ok
+test_witness_content_corruption_rejected (test_witness.WitnessTests.test_witness_content_corruption_rejected) ... ok
+test_witness_permissions_symlink_and_hardlink_rejected (test_witness.WitnessTests.test_witness_permissions_symlink_and_hardlink_rejected) ... ok
+test_witness_requires_separate_key_and_pinned_bindings (test_witness.WitnessTests.test_witness_requires_separate_key_and_pinned_bindings) ... ok
+test_witness_tail_rollback_requires_separately_retained_receipt (test_witness.WitnessTests.test_witness_tail_rollback_requires_separately_retained_receipt) ... ok
 
 ----------------------------------------------------------------------
-Ran 148 tests in 7.376s
+Ran 173 tests in 8.241s
 
 OK
