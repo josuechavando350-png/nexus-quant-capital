@@ -1,0 +1,1281 @@
+{
+  "comparison_digest": "f06707a679387099ee488d0db47307e8df664642fe61e6d633aa138a24b736ff",
+  "criteria": [
+    "both_policies_pinned_before_execution",
+    "same_observations_and_evaluator_sources",
+    "exact_metric_changes_with_undefined_ratios_preserved",
+    "trigger_sets_link_to_embedded_evidence",
+    "private_publication_and_full_recomputation",
+    "installed_stdlib_only_execution_matches"
+  ],
+  "criteria_passed": 6,
+  "criteria_total": 6,
+  "independent_evaluation": false,
+  "installed_report_identical": true,
+  "installed_stdlib_only": true,
+  "installed_version": "0.24.0",
+  "production_policy_changed": false,
+  "reference_corpus_preserved": true,
+  "reference_labels_preserved": true,
+  "report": {
+    "automatic_response": false,
+    "baseline_policy_digest": "d258ade92e32c60c1c2a702e6cf07336d1bfbba966ba6f2c79050d6092b3c18b",
+    "baseline_report": {
+      "automatic_response": false,
+      "confusion_matrix": {
+        "false_negative": 2,
+        "false_positive": 2,
+        "true_negative": 4,
+        "true_positive": 7
+      },
+      "corpus_digest": "229201feb2f34ebef5f19d223d3de55029d75688c4b1fd233daf2ac92fd434d0",
+      "corpus_id": "auth-evaluation-20261106-a",
+      "corpus_revision": 1,
+      "declared_origin": "authored",
+      "evidence_bundles_verified_after_cleanup": 11,
+      "implementation_sources": {
+        "auth_evaluation.py": "f2c664c9e82eada8fe56250e037b2269e1e94251c33c8496324f6ee2a618f650",
+        "auth_log.py": "ba50247eb7fae8354da86230245409d72d1016415d1cb0d19fa0b6ac821294bf",
+        "case_evidence.py": "165044cfecb2e8affb26f7d9fd45a2e37aca385741ae7994bcba7b548ae5cbb9",
+        "codec.py": "8fada17192f0d55aceb29103e3b7172831a95437a8e9114706c390a40db022a9",
+        "files.py": "30f59876ca0db060b0aff5fd260f1de5c781218de2a04384d9fab27a46aa1335",
+        "openssh_log.py": "68236985b51e2dcec09926afa043cf3a567d3c60327f490d09c402d82be8b2a4",
+        "operations.py": "01595482a251ce265dcb6089adb16bfc9703418de6dd053b98795c1d5b1ddde9",
+        "receipts.py": "b47b2e98d81dee596634c7f8028e30b5467c7d9c1fbe89fb6ff03fbe6f9ab110"
+      },
+      "independent_evaluation": false,
+      "labeled_scenarios": 15,
+      "labels_are_operator_assertions": true,
+      "metrics": {
+        "accuracy": {
+          "denominator": 15,
+          "numerator": 11,
+          "parts_per_million": 733333
+        },
+        "false_positive_rate": {
+          "denominator": 6,
+          "numerator": 2,
+          "parts_per_million": 333333
+        },
+        "precision": {
+          "denominator": 9,
+          "numerator": 7,
+          "parts_per_million": 777777
+        },
+        "recall": {
+          "denominator": 9,
+          "numerator": 7,
+          "parts_per_million": 777777
+        }
+      },
+      "origin_authenticated": false,
+      "policy": {
+        "schema": "nqc-auth-evaluation-policy-v1",
+        "threshold": 3,
+        "window_seconds": 60
+      },
+      "policy_digest": "d258ade92e32c60c1c2a702e6cf07336d1bfbba966ba6f2c79050d6092b3c18b",
+      "production_accuracy_claimed": false,
+      "reopened_without_duplicate_records": true,
+      "rule": "auth_failure_burst_v1",
+      "scenarios": [
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": "true_negative",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "nqc-jsonl",
+          "id": "routine_mixed",
+          "input_digest": "c04eef2e7aa72f7c9fd7b4c63612bfd456564c89c97ce5c14377a3a83c99cd1d",
+          "label": "routine",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 3
+        },
+        {
+          "case_opened": true,
+          "cases": [
+            {
+              "trigger_conditions_verified": true,
+              "trigger_records": [
+                {
+                  "end": 124,
+                  "raw_sha256": "125235f3ec5b0fed9fbaf60e9198d1af735ec54e6ee1e077c8ca283a6c03d832",
+                  "record_index": 0,
+                  "start": 0
+                },
+                {
+                  "end": 248,
+                  "raw_sha256": "992527137d7c8e2a056e11702809567de4095ecc2b5d35e27471993e1ceffd58",
+                  "record_index": 1,
+                  "start": 124
+                },
+                {
+                  "end": 372,
+                  "raw_sha256": "efba176065022a3e2d55447f6e663497fd3f057eeec416d7ecc6b546176a92bc",
+                  "record_index": 2,
+                  "start": 248
+                }
+              ]
+            }
+          ],
+          "classification": "false_positive",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "nqc-jsonl",
+          "id": "routine_three_typoes",
+          "input_digest": "b4a45355359294264669ddffdc40313d8d3294cd206a3375440496f2d5c0f578",
+          "label": "routine",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 3
+        },
+        {
+          "case_opened": true,
+          "cases": [
+            {
+              "trigger_conditions_verified": true,
+              "trigger_records": [
+                {
+                  "end": 124,
+                  "raw_sha256": "9e1ec66b9a2703e601d1dab9be2346b9f4c493752fd9ee66999b77443f518588",
+                  "record_index": 0,
+                  "start": 0
+                },
+                {
+                  "end": 248,
+                  "raw_sha256": "00574372c12eaccb61c05d3152384c30c2d3cf7eee9598c8b732376c7ada2afd",
+                  "record_index": 1,
+                  "start": 124
+                },
+                {
+                  "end": 372,
+                  "raw_sha256": "0dec47f0a86d9f7e1d757453fd81d531e6dc05f547f2468cb05330e22298b1c3",
+                  "record_index": 2,
+                  "start": 248
+                }
+              ]
+            }
+          ],
+          "classification": "true_positive",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "nqc-jsonl",
+          "id": "review_compact_episode",
+          "input_digest": "111bb7adcfcb607257bda7b1a91619b77be2ae2eb3a1b880099c02f41cabd2f7",
+          "label": "review",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 3
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": "false_negative",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "nqc-jsonl",
+          "id": "review_success_interruption",
+          "input_digest": "f2a754c0491c4df82b9adc28e7430f64872ff03738c24e906eaefa24ae8d160a",
+          "label": "review",
+          "observations": 4,
+          "records": 4,
+          "rule_evaluated_records": 4
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": "true_negative",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "nqc-jsonl",
+          "id": "routine_separated_sessions",
+          "input_digest": "ce9cbc5559911fb78259fcd3ae498a885ad6dd58bcc159182762396d37ea9108",
+          "label": "routine",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 3
+        },
+        {
+          "case_opened": true,
+          "cases": [
+            {
+              "trigger_conditions_verified": true,
+              "trigger_records": [
+                {
+                  "end": 114,
+                  "raw_sha256": "41e890bf6a1cd8afc8bddcbe325d87a187554cc5392c5b0aa3f94b01583bcac7",
+                  "record_index": 0,
+                  "start": 0
+                },
+                {
+                  "end": 238,
+                  "raw_sha256": "efba176065022a3e2d55447f6e663497fd3f057eeec416d7ecc6b546176a92bc",
+                  "record_index": 1,
+                  "start": 114
+                },
+                {
+                  "end": 362,
+                  "raw_sha256": "165d478bd3891cc9c246725016028ce068db494dd9b125ff5a4acefe18c3f94c",
+                  "record_index": 2,
+                  "start": 238
+                }
+              ]
+            }
+          ],
+          "classification": "true_positive",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "nqc-jsonl",
+          "id": "review_window_boundary",
+          "input_digest": "307b508eeb1896bca6923cae30016d4da14603ea9e967f5f0eb971b004e4821d",
+          "label": "review",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 3
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": "true_negative",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "nqc-jsonl",
+          "id": "routine_outside_boundary",
+          "input_digest": "b5ddad7ae2a8384338e52ff9adb211b007dabaaca1ed010b9ffad9af9394409e",
+          "label": "routine",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 3
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": "false_negative",
+          "excluded_by_kind": {
+            "auth.observation": 2
+          },
+          "exclusion_reasons": {
+            "out_of_order": 2
+          },
+          "format": "nqc-jsonl",
+          "id": "review_out_of_order",
+          "input_digest": "acb6be03188773df45d93bc0d8ab379b323d7abb9ae7f9c719359bc2a02f10f5",
+          "label": "review",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 1
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": null,
+          "excluded_by_kind": {
+            "sensor.input_rejected": 2
+          },
+          "exclusion_reasons": {
+            "invalid_json": 1,
+            "schema_fields": 1
+          },
+          "format": "nqc-jsonl",
+          "id": "unlabeled_invalid_bytes",
+          "input_digest": "b61be193d52d62de707376a86a9e36d3baaca82a6b1559c56334c50cf406357f",
+          "label": "unlabeled",
+          "observations": 0,
+          "records": 2,
+          "rule_evaluated_records": 0
+        },
+        {
+          "case_opened": true,
+          "cases": [
+            {
+              "trigger_conditions_verified": true,
+              "trigger_records": [
+                {
+                  "end": 103,
+                  "raw_sha256": "c71fd3a38bfdcb74314c34a844baa186d024664a194e7c6e6d78394b6f9d531d",
+                  "record_index": 0,
+                  "start": 0
+                },
+                {
+                  "end": 206,
+                  "raw_sha256": "49948867ef8c67d0e17d9e3643c4f7764147ec898878efe4f9bb947f0e329a55",
+                  "record_index": 1,
+                  "start": 103
+                },
+                {
+                  "end": 309,
+                  "raw_sha256": "a04b241b3dbdab322ab94d1de4e0ecff809d52fd2e849cf259308a3c495dca12",
+                  "record_index": 2,
+                  "start": 206
+                }
+              ]
+            }
+          ],
+          "classification": "true_positive",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "openssh-syslog-rfc3339",
+          "id": "native_review",
+          "input_digest": "cc26796d944ed54100fad5417fc8be71721d3b94c82d717329ebb8b456b39cb1",
+          "label": "review",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 3
+        },
+        {
+          "case_opened": true,
+          "cases": [
+            {
+              "trigger_conditions_verified": true,
+              "trigger_records": [
+                {
+                  "end": 103,
+                  "raw_sha256": "e14ae16b310481c144c6125f4a50bf08c2f7592c39b693d4946a3dda25e4abce",
+                  "record_index": 0,
+                  "start": 0
+                },
+                {
+                  "end": 206,
+                  "raw_sha256": "435da16284bf23e23dc2e2e0edea030832059be28a64388dd8023d6584497b9c",
+                  "record_index": 1,
+                  "start": 103
+                },
+                {
+                  "end": 309,
+                  "raw_sha256": "624f12054ac2ee5e1b6ab4b9fabe2572727b7f68546d76b4f32be00a5ccbda72",
+                  "record_index": 2,
+                  "start": 206
+                }
+              ]
+            }
+          ],
+          "classification": "false_positive",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "openssh-syslog-rfc3339",
+          "id": "native_routine_errors",
+          "input_digest": "1bce3f74057fa6d4f9d777c88b034992dce681ac8f86fcf8975f46b4dd0c9c07",
+          "label": "routine",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 3
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": null,
+          "excluded_by_kind": {
+            "sensor.unclassified": 3
+          },
+          "exclusion_reasons": {
+            "ssh_nonfinal_authentication": 3
+          },
+          "format": "openssh-syslog-rfc3339",
+          "id": "native_nonfinal_unlabeled",
+          "input_digest": "e3118a043167001a28150802f06c5e38d5c360cb99ee52af5b8ecd1aaead47c3",
+          "label": "unlabeled",
+          "observations": 0,
+          "records": 3,
+          "rule_evaluated_records": 0
+        },
+        {
+          "case_opened": true,
+          "cases": [
+            {
+              "trigger_conditions_verified": true,
+              "trigger_records": [
+                {
+                  "end": 245,
+                  "raw_sha256": "8a349a23f1c5ecd9460c52ed8a2750337dca18dd993ef09bf96d24292d738f25",
+                  "record_index": 0,
+                  "start": 0
+                },
+                {
+                  "end": 490,
+                  "raw_sha256": "bb86371248030e63a9932183ab04b4124de4d9673d68debaeeb607406602d98c",
+                  "record_index": 1,
+                  "start": 245
+                },
+                {
+                  "end": 735,
+                  "raw_sha256": "2392b0a0574da802c585065eec767bc38d4fa788276f39ec4086266db51ea071",
+                  "record_index": 2,
+                  "start": 490
+                }
+              ]
+            }
+          ],
+          "classification": "true_positive",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "openssh-journal-json",
+          "id": "journal_review",
+          "input_digest": "c6a2cd5f29f24eff5a1ad684c82736121bd55b3181c972ecf5102dde1abb633c",
+          "label": "review",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 3
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": "true_negative",
+          "excluded_by_kind": {
+            "sensor.duplicate": 3
+          },
+          "exclusion_reasons": {
+            "native_duplicate": 3
+          },
+          "format": "openssh-journal-json",
+          "id": "journal_reexport_routine",
+          "input_digest": "e653d29b3a14a95563571bee33f444da970a78be467b0f426beb8be92b60e70d",
+          "label": "routine",
+          "observations": 1,
+          "records": 4,
+          "rule_evaluated_records": 1
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": null,
+          "excluded_by_kind": {
+            "sensor.input_rejected": 3
+          },
+          "exclusion_reasons": {
+            "ssh_host_mismatch": 3
+          },
+          "format": "openssh-journal-json",
+          "id": "journal_wrong_host_unlabeled",
+          "input_digest": "c8afd325c4c855467fb8eaa0aff047496fd041a408a71b14af5398c36af5c67d",
+          "label": "unlabeled",
+          "observations": 0,
+          "records": 3,
+          "rule_evaluated_records": 0
+        },
+        {
+          "case_opened": true,
+          "cases": [
+            {
+              "trigger_conditions_verified": true,
+              "trigger_records": [
+                {
+                  "end": 114,
+                  "raw_sha256": "41e890bf6a1cd8afc8bddcbe325d87a187554cc5392c5b0aa3f94b01583bcac7",
+                  "record_index": 0,
+                  "start": 0
+                },
+                {
+                  "end": 359,
+                  "raw_sha256": "9ecf9804392d3e79abe34fc7f36927088b349fd8ce42f6b5352fd5c0c948f406",
+                  "record_index": 2,
+                  "start": 236
+                },
+                {
+                  "end": 604,
+                  "raw_sha256": "213b713bf5bdcde9993c348da267899ed5827ff2305e5e83fa0751b381e02fad",
+                  "record_index": 4,
+                  "start": 481
+                }
+              ]
+            },
+            {
+              "trigger_conditions_verified": true,
+              "trigger_records": [
+                {
+                  "end": 236,
+                  "raw_sha256": "0e0ee2784b5add338a70e74c218d0e9ed7210d6f913fa310db14f0e818dcef55",
+                  "record_index": 1,
+                  "start": 114
+                },
+                {
+                  "end": 481,
+                  "raw_sha256": "426c7bb42176464c22e75431675525e70f92a8534098bfa17f0e79a643beb958",
+                  "record_index": 3,
+                  "start": 359
+                },
+                {
+                  "end": 726,
+                  "raw_sha256": "3232c0ccef8de34b23a814661628fa627dcdfa6a5a7af4fef3c6cc5253954cd4",
+                  "record_index": 5,
+                  "start": 604
+                }
+              ]
+            }
+          ],
+          "classification": "true_positive",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "nqc-jsonl",
+          "id": "review_interleaved_subjects",
+          "input_digest": "d46915e6e5e80b0d66849f5a1d6a56a4dd8427037ce888b53b915e99dc7337cc",
+          "label": "review",
+          "observations": 6,
+          "records": 6,
+          "rule_evaluated_records": 6
+        },
+        {
+          "case_opened": true,
+          "cases": [
+            {
+              "trigger_conditions_verified": true,
+              "trigger_records": [
+                {
+                  "end": 105,
+                  "raw_sha256": "0754e6dcbbc8a29dbfe62f9d72f8a73490a0cc88ca3e03c3012f9cde49095d7d",
+                  "record_index": 0,
+                  "start": 0
+                },
+                {
+                  "end": 220,
+                  "raw_sha256": "f9ef2301c0cde4bf9de165cfcbdfabc2c795d3b04b59dd49d06a93c520743183",
+                  "record_index": 1,
+                  "start": 105
+                },
+                {
+                  "end": 325,
+                  "raw_sha256": "29dc0453f9ffb0674ec81d262162aeff6bb105711ebf1fae8cb25898fc4acba8",
+                  "record_index": 2,
+                  "start": 220
+                }
+              ]
+            }
+          ],
+          "classification": "true_positive",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "openssh-syslog-rfc3339",
+          "id": "native_equivalent_ipv6",
+          "input_digest": "ae5d229ef546d517098f77cd0216bd7bf02ae890d7ee799d63f4a19fdce9fb4e",
+          "label": "review",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 3
+        },
+        {
+          "case_opened": true,
+          "cases": [
+            {
+              "trigger_conditions_verified": true,
+              "trigger_records": [
+                {
+                  "end": 114,
+                  "raw_sha256": "41e890bf6a1cd8afc8bddcbe325d87a187554cc5392c5b0aa3f94b01583bcac7",
+                  "record_index": 0,
+                  "start": 0
+                },
+                {
+                  "end": 237,
+                  "raw_sha256": "a7fe2ed4bd99660faf8e6f3bbaffb3c9c61cb75f66463747788be521b5379dac",
+                  "record_index": 1,
+                  "start": 114
+                },
+                {
+                  "end": 360,
+                  "raw_sha256": "9ecf9804392d3e79abe34fc7f36927088b349fd8ce42f6b5352fd5c0c948f406",
+                  "record_index": 2,
+                  "start": 237
+                }
+              ]
+            },
+            {
+              "trigger_conditions_verified": true,
+              "trigger_records": [
+                {
+                  "end": 606,
+                  "raw_sha256": "213b713bf5bdcde9993c348da267899ed5827ff2305e5e83fa0751b381e02fad",
+                  "record_index": 4,
+                  "start": 483
+                },
+                {
+                  "end": 729,
+                  "raw_sha256": "2c2b6faf0108f18a625abfc37785133da90b89bd4bbe2e06ddbc1b84fc22fb5a",
+                  "record_index": 5,
+                  "start": 606
+                },
+                {
+                  "end": 852,
+                  "raw_sha256": "d76b34139d4a11c3f8497b95fa1163d3642a1fa0bad1924dee0a04a60fcc7a28",
+                  "record_index": 6,
+                  "start": 729
+                }
+              ]
+            }
+          ],
+          "classification": "true_positive",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "nqc-jsonl",
+          "id": "review_two_episodes",
+          "input_digest": "12932da3c92ec8e62eaf0a54e79a518aa46b545c2d044205b70b704a3621b89e",
+          "label": "review",
+          "observations": 7,
+          "records": 7,
+          "rule_evaluated_records": 7
+        }
+      ],
+      "schema": "nqc-auth-evaluation-report-v1",
+      "unlabeled_scenarios": 3
+    },
+    "baseline_report_digest": "d9221537b1160cad728db86038284f117794a2de3ae3d5a7be9ab1301e372249",
+    "candidate_policy_digest": "cb525eb5bce81bf951561dd8792961e8fdd62955e96a5b2a9399a6c6b25dc98c",
+    "candidate_report": {
+      "automatic_response": false,
+      "confusion_matrix": {
+        "false_negative": 9,
+        "false_positive": 0,
+        "true_negative": 6,
+        "true_positive": 0
+      },
+      "corpus_digest": "229201feb2f34ebef5f19d223d3de55029d75688c4b1fd233daf2ac92fd434d0",
+      "corpus_id": "auth-evaluation-20261106-a",
+      "corpus_revision": 1,
+      "declared_origin": "authored",
+      "evidence_bundles_verified_after_cleanup": 0,
+      "implementation_sources": {
+        "auth_evaluation.py": "f2c664c9e82eada8fe56250e037b2269e1e94251c33c8496324f6ee2a618f650",
+        "auth_log.py": "ba50247eb7fae8354da86230245409d72d1016415d1cb0d19fa0b6ac821294bf",
+        "case_evidence.py": "165044cfecb2e8affb26f7d9fd45a2e37aca385741ae7994bcba7b548ae5cbb9",
+        "codec.py": "8fada17192f0d55aceb29103e3b7172831a95437a8e9114706c390a40db022a9",
+        "files.py": "30f59876ca0db060b0aff5fd260f1de5c781218de2a04384d9fab27a46aa1335",
+        "openssh_log.py": "68236985b51e2dcec09926afa043cf3a567d3c60327f490d09c402d82be8b2a4",
+        "operations.py": "01595482a251ce265dcb6089adb16bfc9703418de6dd053b98795c1d5b1ddde9",
+        "receipts.py": "b47b2e98d81dee596634c7f8028e30b5467c7d9c1fbe89fb6ff03fbe6f9ab110"
+      },
+      "independent_evaluation": false,
+      "labeled_scenarios": 15,
+      "labels_are_operator_assertions": true,
+      "metrics": {
+        "accuracy": {
+          "denominator": 15,
+          "numerator": 6,
+          "parts_per_million": 400000
+        },
+        "false_positive_rate": {
+          "denominator": 6,
+          "numerator": 0,
+          "parts_per_million": 0
+        },
+        "precision": {
+          "denominator": 0,
+          "numerator": 0,
+          "parts_per_million": null
+        },
+        "recall": {
+          "denominator": 9,
+          "numerator": 0,
+          "parts_per_million": 0
+        }
+      },
+      "origin_authenticated": false,
+      "policy": {
+        "schema": "nqc-auth-evaluation-policy-v1",
+        "threshold": 4,
+        "window_seconds": 60
+      },
+      "policy_digest": "cb525eb5bce81bf951561dd8792961e8fdd62955e96a5b2a9399a6c6b25dc98c",
+      "production_accuracy_claimed": false,
+      "reopened_without_duplicate_records": true,
+      "rule": "auth_failure_burst_v1",
+      "scenarios": [
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": "true_negative",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "nqc-jsonl",
+          "id": "routine_mixed",
+          "input_digest": "c04eef2e7aa72f7c9fd7b4c63612bfd456564c89c97ce5c14377a3a83c99cd1d",
+          "label": "routine",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 3
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": "true_negative",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "nqc-jsonl",
+          "id": "routine_three_typoes",
+          "input_digest": "b4a45355359294264669ddffdc40313d8d3294cd206a3375440496f2d5c0f578",
+          "label": "routine",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 3
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": "false_negative",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "nqc-jsonl",
+          "id": "review_compact_episode",
+          "input_digest": "111bb7adcfcb607257bda7b1a91619b77be2ae2eb3a1b880099c02f41cabd2f7",
+          "label": "review",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 3
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": "false_negative",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "nqc-jsonl",
+          "id": "review_success_interruption",
+          "input_digest": "f2a754c0491c4df82b9adc28e7430f64872ff03738c24e906eaefa24ae8d160a",
+          "label": "review",
+          "observations": 4,
+          "records": 4,
+          "rule_evaluated_records": 4
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": "true_negative",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "nqc-jsonl",
+          "id": "routine_separated_sessions",
+          "input_digest": "ce9cbc5559911fb78259fcd3ae498a885ad6dd58bcc159182762396d37ea9108",
+          "label": "routine",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 3
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": "false_negative",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "nqc-jsonl",
+          "id": "review_window_boundary",
+          "input_digest": "307b508eeb1896bca6923cae30016d4da14603ea9e967f5f0eb971b004e4821d",
+          "label": "review",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 3
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": "true_negative",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "nqc-jsonl",
+          "id": "routine_outside_boundary",
+          "input_digest": "b5ddad7ae2a8384338e52ff9adb211b007dabaaca1ed010b9ffad9af9394409e",
+          "label": "routine",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 3
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": "false_negative",
+          "excluded_by_kind": {
+            "auth.observation": 2
+          },
+          "exclusion_reasons": {
+            "out_of_order": 2
+          },
+          "format": "nqc-jsonl",
+          "id": "review_out_of_order",
+          "input_digest": "acb6be03188773df45d93bc0d8ab379b323d7abb9ae7f9c719359bc2a02f10f5",
+          "label": "review",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 1
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": null,
+          "excluded_by_kind": {
+            "sensor.input_rejected": 2
+          },
+          "exclusion_reasons": {
+            "invalid_json": 1,
+            "schema_fields": 1
+          },
+          "format": "nqc-jsonl",
+          "id": "unlabeled_invalid_bytes",
+          "input_digest": "b61be193d52d62de707376a86a9e36d3baaca82a6b1559c56334c50cf406357f",
+          "label": "unlabeled",
+          "observations": 0,
+          "records": 2,
+          "rule_evaluated_records": 0
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": "false_negative",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "openssh-syslog-rfc3339",
+          "id": "native_review",
+          "input_digest": "cc26796d944ed54100fad5417fc8be71721d3b94c82d717329ebb8b456b39cb1",
+          "label": "review",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 3
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": "true_negative",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "openssh-syslog-rfc3339",
+          "id": "native_routine_errors",
+          "input_digest": "1bce3f74057fa6d4f9d777c88b034992dce681ac8f86fcf8975f46b4dd0c9c07",
+          "label": "routine",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 3
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": null,
+          "excluded_by_kind": {
+            "sensor.unclassified": 3
+          },
+          "exclusion_reasons": {
+            "ssh_nonfinal_authentication": 3
+          },
+          "format": "openssh-syslog-rfc3339",
+          "id": "native_nonfinal_unlabeled",
+          "input_digest": "e3118a043167001a28150802f06c5e38d5c360cb99ee52af5b8ecd1aaead47c3",
+          "label": "unlabeled",
+          "observations": 0,
+          "records": 3,
+          "rule_evaluated_records": 0
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": "false_negative",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "openssh-journal-json",
+          "id": "journal_review",
+          "input_digest": "c6a2cd5f29f24eff5a1ad684c82736121bd55b3181c972ecf5102dde1abb633c",
+          "label": "review",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 3
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": "true_negative",
+          "excluded_by_kind": {
+            "sensor.duplicate": 3
+          },
+          "exclusion_reasons": {
+            "native_duplicate": 3
+          },
+          "format": "openssh-journal-json",
+          "id": "journal_reexport_routine",
+          "input_digest": "e653d29b3a14a95563571bee33f444da970a78be467b0f426beb8be92b60e70d",
+          "label": "routine",
+          "observations": 1,
+          "records": 4,
+          "rule_evaluated_records": 1
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": null,
+          "excluded_by_kind": {
+            "sensor.input_rejected": 3
+          },
+          "exclusion_reasons": {
+            "ssh_host_mismatch": 3
+          },
+          "format": "openssh-journal-json",
+          "id": "journal_wrong_host_unlabeled",
+          "input_digest": "c8afd325c4c855467fb8eaa0aff047496fd041a408a71b14af5398c36af5c67d",
+          "label": "unlabeled",
+          "observations": 0,
+          "records": 3,
+          "rule_evaluated_records": 0
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": "false_negative",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "nqc-jsonl",
+          "id": "review_interleaved_subjects",
+          "input_digest": "d46915e6e5e80b0d66849f5a1d6a56a4dd8427037ce888b53b915e99dc7337cc",
+          "label": "review",
+          "observations": 6,
+          "records": 6,
+          "rule_evaluated_records": 6
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": "false_negative",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "openssh-syslog-rfc3339",
+          "id": "native_equivalent_ipv6",
+          "input_digest": "ae5d229ef546d517098f77cd0216bd7bf02ae890d7ee799d63f4a19fdce9fb4e",
+          "label": "review",
+          "observations": 3,
+          "records": 3,
+          "rule_evaluated_records": 3
+        },
+        {
+          "case_opened": false,
+          "cases": [],
+          "classification": "false_negative",
+          "excluded_by_kind": {},
+          "exclusion_reasons": {},
+          "format": "nqc-jsonl",
+          "id": "review_two_episodes",
+          "input_digest": "12932da3c92ec8e62eaf0a54e79a518aa46b545c2d044205b70b704a3621b89e",
+          "label": "review",
+          "observations": 7,
+          "records": 7,
+          "rule_evaluated_records": 7
+        }
+      ],
+      "schema": "nqc-auth-evaluation-report-v1",
+      "unlabeled_scenarios": 3
+    },
+    "candidate_report_digest": "9c205036f3108e7c6ce7c7544e3fdc4bd09c92ac0d3893ea3b5a5e667e3e6f22",
+    "classification_transitions": {
+      "false_negative->false_negative": 2,
+      "false_positive->true_negative": 2,
+      "true_negative->true_negative": 4,
+      "true_positive->false_negative": 7,
+      "unlabeled->unlabeled": 3
+    },
+    "comparison_source_digest": "c5acfb9a91b3d78f1a9a941e3d5ccb5ac2e942dea864ce49b7ae5004adf9aeb5",
+    "confusion_delta": {
+      "false_negative": 7,
+      "false_positive": -2,
+      "true_negative": 2,
+      "true_positive": -7
+    },
+    "corpus_digest": "229201feb2f34ebef5f19d223d3de55029d75688c4b1fd233daf2ac92fd434d0",
+    "delta_direction": "candidate_minus_baseline",
+    "independent_evaluation": false,
+    "labels_are_operator_assertions": true,
+    "metric_delta": {
+      "accuracy": {
+        "denominator": 3,
+        "numerator": -1
+      },
+      "false_positive_rate": {
+        "denominator": 3,
+        "numerator": -1
+      },
+      "precision": null,
+      "recall": {
+        "denominator": 9,
+        "numerator": -7
+      }
+    },
+    "policy_recommendation": null,
+    "prediction_changes": {
+      "alerts_introduced": 0,
+      "alerts_removed": 9,
+      "alerts_retained": 0,
+      "labeled_prediction_changes": 9,
+      "neither_alerted": 9,
+      "unlabeled_prediction_changes": 0
+    },
+    "production_policy_changed": false,
+    "same_episode_matching_claimed": false,
+    "scenarios": [
+      {
+        "baseline_case_count": 0,
+        "baseline_classification": "true_negative",
+        "candidate_case_count": 0,
+        "candidate_classification": "true_negative",
+        "case_count_delta": 0,
+        "id": "routine_mixed",
+        "input_digest": "c04eef2e7aa72f7c9fd7b4c63612bfd456564c89c97ce5c14377a3a83c99cd1d",
+        "introduced_trigger_sets": [],
+        "label": "routine",
+        "prediction_change": "neither_alerted",
+        "removed_trigger_sets": [],
+        "retained_trigger_sets": []
+      },
+      {
+        "baseline_case_count": 1,
+        "baseline_classification": "false_positive",
+        "candidate_case_count": 0,
+        "candidate_classification": "true_negative",
+        "case_count_delta": -1,
+        "id": "routine_three_typoes",
+        "input_digest": "b4a45355359294264669ddffdc40313d8d3294cd206a3375440496f2d5c0f578",
+        "introduced_trigger_sets": [],
+        "label": "routine",
+        "prediction_change": "alerts_removed",
+        "removed_trigger_sets": [
+          "7fe3d4da89ed0b1a155063058461689126b7a26e4686b8e2fd978a1bbbcc8bb7"
+        ],
+        "retained_trigger_sets": []
+      },
+      {
+        "baseline_case_count": 1,
+        "baseline_classification": "true_positive",
+        "candidate_case_count": 0,
+        "candidate_classification": "false_negative",
+        "case_count_delta": -1,
+        "id": "review_compact_episode",
+        "input_digest": "111bb7adcfcb607257bda7b1a91619b77be2ae2eb3a1b880099c02f41cabd2f7",
+        "introduced_trigger_sets": [],
+        "label": "review",
+        "prediction_change": "alerts_removed",
+        "removed_trigger_sets": [
+          "ad5ec219970d88b12170ef3c86be9fec846e5327965592881cdf04d7435dc0a9"
+        ],
+        "retained_trigger_sets": []
+      },
+      {
+        "baseline_case_count": 0,
+        "baseline_classification": "false_negative",
+        "candidate_case_count": 0,
+        "candidate_classification": "false_negative",
+        "case_count_delta": 0,
+        "id": "review_success_interruption",
+        "input_digest": "f2a754c0491c4df82b9adc28e7430f64872ff03738c24e906eaefa24ae8d160a",
+        "introduced_trigger_sets": [],
+        "label": "review",
+        "prediction_change": "neither_alerted",
+        "removed_trigger_sets": [],
+        "retained_trigger_sets": []
+      },
+      {
+        "baseline_case_count": 0,
+        "baseline_classification": "true_negative",
+        "candidate_case_count": 0,
+        "candidate_classification": "true_negative",
+        "case_count_delta": 0,
+        "id": "routine_separated_sessions",
+        "input_digest": "ce9cbc5559911fb78259fcd3ae498a885ad6dd58bcc159182762396d37ea9108",
+        "introduced_trigger_sets": [],
+        "label": "routine",
+        "prediction_change": "neither_alerted",
+        "removed_trigger_sets": [],
+        "retained_trigger_sets": []
+      },
+      {
+        "baseline_case_count": 1,
+        "baseline_classification": "true_positive",
+        "candidate_case_count": 0,
+        "candidate_classification": "false_negative",
+        "case_count_delta": -1,
+        "id": "review_window_boundary",
+        "input_digest": "307b508eeb1896bca6923cae30016d4da14603ea9e967f5f0eb971b004e4821d",
+        "introduced_trigger_sets": [],
+        "label": "review",
+        "prediction_change": "alerts_removed",
+        "removed_trigger_sets": [
+          "7ed275b602b58eb976eea6e1577561eb6e5e9730d4a5bdbde192193f244560d7"
+        ],
+        "retained_trigger_sets": []
+      },
+      {
+        "baseline_case_count": 0,
+        "baseline_classification": "true_negative",
+        "candidate_case_count": 0,
+        "candidate_classification": "true_negative",
+        "case_count_delta": 0,
+        "id": "routine_outside_boundary",
+        "input_digest": "b5ddad7ae2a8384338e52ff9adb211b007dabaaca1ed010b9ffad9af9394409e",
+        "introduced_trigger_sets": [],
+        "label": "routine",
+        "prediction_change": "neither_alerted",
+        "removed_trigger_sets": [],
+        "retained_trigger_sets": []
+      },
+      {
+        "baseline_case_count": 0,
+        "baseline_classification": "false_negative",
+        "candidate_case_count": 0,
+        "candidate_classification": "false_negative",
+        "case_count_delta": 0,
+        "id": "review_out_of_order",
+        "input_digest": "acb6be03188773df45d93bc0d8ab379b323d7abb9ae7f9c719359bc2a02f10f5",
+        "introduced_trigger_sets": [],
+        "label": "review",
+        "prediction_change": "neither_alerted",
+        "removed_trigger_sets": [],
+        "retained_trigger_sets": []
+      },
+      {
+        "baseline_case_count": 0,
+        "baseline_classification": null,
+        "candidate_case_count": 0,
+        "candidate_classification": null,
+        "case_count_delta": 0,
+        "id": "unlabeled_invalid_bytes",
+        "input_digest": "b61be193d52d62de707376a86a9e36d3baaca82a6b1559c56334c50cf406357f",
+        "introduced_trigger_sets": [],
+        "label": "unlabeled",
+        "prediction_change": "neither_alerted",
+        "removed_trigger_sets": [],
+        "retained_trigger_sets": []
+      },
+      {
+        "baseline_case_count": 1,
+        "baseline_classification": "true_positive",
+        "candidate_case_count": 0,
+        "candidate_classification": "false_negative",
+        "case_count_delta": -1,
+        "id": "native_review",
+        "input_digest": "cc26796d944ed54100fad5417fc8be71721d3b94c82d717329ebb8b456b39cb1",
+        "introduced_trigger_sets": [],
+        "label": "review",
+        "prediction_change": "alerts_removed",
+        "removed_trigger_sets": [
+          "9127a701277f5554ad658002bdce051cb78728192f0dba4ecdc2610b00ac85c4"
+        ],
+        "retained_trigger_sets": []
+      },
+      {
+        "baseline_case_count": 1,
+        "baseline_classification": "false_positive",
+        "candidate_case_count": 0,
+        "candidate_classification": "true_negative",
+        "case_count_delta": -1,
+        "id": "native_routine_errors",
+        "input_digest": "1bce3f74057fa6d4f9d777c88b034992dce681ac8f86fcf8975f46b4dd0c9c07",
+        "introduced_trigger_sets": [],
+        "label": "routine",
+        "prediction_change": "alerts_removed",
+        "removed_trigger_sets": [
+          "a0d30afbc5d3f70b39010e7fe168f2d413eca29cfbaeb1d69faea9dc7ffeca4b"
+        ],
+        "retained_trigger_sets": []
+      },
+      {
+        "baseline_case_count": 0,
+        "baseline_classification": null,
+        "candidate_case_count": 0,
+        "candidate_classification": null,
+        "case_count_delta": 0,
+        "id": "native_nonfinal_unlabeled",
+        "input_digest": "e3118a043167001a28150802f06c5e38d5c360cb99ee52af5b8ecd1aaead47c3",
+        "introduced_trigger_sets": [],
+        "label": "unlabeled",
+        "prediction_change": "neither_alerted",
+        "removed_trigger_sets": [],
+        "retained_trigger_sets": []
+      },
+      {
+        "baseline_case_count": 1,
+        "baseline_classification": "true_positive",
+        "candidate_case_count": 0,
+        "candidate_classification": "false_negative",
+        "case_count_delta": -1,
+        "id": "journal_review",
+        "input_digest": "c6a2cd5f29f24eff5a1ad684c82736121bd55b3181c972ecf5102dde1abb633c",
+        "introduced_trigger_sets": [],
+        "label": "review",
+        "prediction_change": "alerts_removed",
+        "removed_trigger_sets": [
+          "e3e4a1b534952515b3930d197059a66f3b2f011773317d327c35d4c2636b1d88"
+        ],
+        "retained_trigger_sets": []
+      },
+      {
+        "baseline_case_count": 0,
+        "baseline_classification": "true_negative",
+        "candidate_case_count": 0,
+        "candidate_classification": "true_negative",
+        "case_count_delta": 0,
+        "id": "journal_reexport_routine",
+        "input_digest": "e653d29b3a14a95563571bee33f444da970a78be467b0f426beb8be92b60e70d",
+        "introduced_trigger_sets": [],
+        "label": "routine",
+        "prediction_change": "neither_alerted",
+        "removed_trigger_sets": [],
+        "retained_trigger_sets": []
+      },
+      {
+        "baseline_case_count": 0,
+        "baseline_classification": null,
+        "candidate_case_count": 0,
+        "candidate_classification": null,
+        "case_count_delta": 0,
+        "id": "journal_wrong_host_unlabeled",
+        "input_digest": "c8afd325c4c855467fb8eaa0aff047496fd041a408a71b14af5398c36af5c67d",
+        "introduced_trigger_sets": [],
+        "label": "unlabeled",
+        "prediction_change": "neither_alerted",
+        "removed_trigger_sets": [],
+        "retained_trigger_sets": []
+      },
+      {
+        "baseline_case_count": 2,
+        "baseline_classification": "true_positive",
+        "candidate_case_count": 0,
+        "candidate_classification": "false_negative",
+        "case_count_delta": -2,
+        "id": "review_interleaved_subjects",
+        "input_digest": "d46915e6e5e80b0d66849f5a1d6a56a4dd8427037ce888b53b915e99dc7337cc",
+        "introduced_trigger_sets": [],
+        "label": "review",
+        "prediction_change": "alerts_removed",
+        "removed_trigger_sets": [
+          "0bae362c38cfa2708f1fc084284537e49b68d13f5f4a910d30a3e24e3b347ba3",
+          "e23c8e8405cd6f8ba6867acf0ec61066c2b747f3d50d2bdb4ed88c3eb66dd0f0"
+        ],
+        "retained_trigger_sets": []
+      },
+      {
+        "baseline_case_count": 1,
+        "baseline_classification": "true_positive",
+        "candidate_case_count": 0,
+        "candidate_classification": "false_negative",
+        "case_count_delta": -1,
+        "id": "native_equivalent_ipv6",
+        "input_digest": "ae5d229ef546d517098f77cd0216bd7bf02ae890d7ee799d63f4a19fdce9fb4e",
+        "introduced_trigger_sets": [],
+        "label": "review",
+        "prediction_change": "alerts_removed",
+        "removed_trigger_sets": [
+          "dcaa24734714ae61c8241edf7ac75fb3123898e95ce90c395102c0ea5fda7e6f"
+        ],
+        "retained_trigger_sets": []
+      },
+      {
+        "baseline_case_count": 2,
+        "baseline_classification": "true_positive",
+        "candidate_case_count": 0,
+        "candidate_classification": "false_negative",
+        "case_count_delta": -2,
+        "id": "review_two_episodes",
+        "input_digest": "12932da3c92ec8e62eaf0a54e79a518aa46b545c2d044205b70b704a3621b89e",
+        "introduced_trigger_sets": [],
+        "label": "review",
+        "prediction_change": "alerts_removed",
+        "removed_trigger_sets": [
+          "1f533ce3e9062066c7ee71af587638d688322cbcee62596d399cfe90d271af6c",
+          "f0cb33a654739b048954776d17310f681aa7486235877847c09c48db3ef813f2"
+        ],
+        "retained_trigger_sets": []
+      }
+    ],
+    "schema": "nqc-auth-policy-comparison-v1"
+  },
+  "verified": true
+}

@@ -1,4 +1,4 @@
-# NQC Defense 0.23.0 — desarrollo en la rama NQC-defensive
+# NQC Defense 0.24.0 — desarrollo en la rama NQC-defensive
 
 El usuario autorizó publicar este código en `NQC-defensive` el 6 de noviembre de 2026. La rama conserva la base de NQC y no activa despliegues ni operación productiva. Los informes de 0.2.0 describen la validación previa a esa autorización.
 
@@ -16,7 +16,7 @@ La versión 0.10.0 añade `ManagedIntegrity`: inicializa una copia JSON administ
 - [100 disciplinas y especialidades](docs/DISCIPLINAS_100.md): responsables, entregables y comprobaciones.
 - [Código y uso de la cadena local](docs/V0_10.md).
 
-Este catálogo nuevo C001–C100 tiene 23 implementaciones parciales y 77 pendientes; ninguno alcanza todavía todo el alcance de su fila. No sustituye retrospectivamente las métricas del catálogo original M. Las conexiones de los componentes pendientes son requisitos, no integraciones ejecutables acreditadas.
+Este catálogo nuevo C001–C100 tiene 24 implementaciones parciales y 76 pendientes; ninguno alcanza todavía todo el alcance de su fila. No sustituye retrospectivamente las métricas del catálogo original M. Las conexiones de los componentes pendientes son requisitos, no integraciones ejecutables acreditadas.
 
 ## Autenticación y operación compartida
 
@@ -188,3 +188,5 @@ La publicación autorizada es únicamente de código en `NQC-defensive`. No se h
 La versión 0.22.0 limita las filas codificadas de SQLite y comprueba tipos/tamaños antes de cargar contenido del registro y receptor. Conserva el formato y las firmas; prueba eventos de 8 KiB y paquetes de exactamente 32 MiB. Pasaron 760+9 pruebas. [Mediciones, costo y límites](docs/V0_22.md).
 
 La versión 0.23.0 incorpora un evaluador de corpus de autenticación fijados por hash: ingesta, casos, evidencia offline y matriz con exclusiones visibles. Dieciocho escenarios redactados producen 7 TP, 4 TN, 2 FP y 2 FN; tres no etiquetados quedan fuera de la matriz. No cambia la regla ni afirma precisión productiva. [Uso, reproducibilidad y límites](docs/V0_23.md).
+
+La versión 0.24.0 compara dos políticas de autenticación sobre el mismo corpus, muestra diferencias exactas y enlaza los conjuntos de registros que cambian. Conserva las pérdidas de detección al reducir alertas; no aplica ni recomienda configuraciones. [Uso y límites](docs/V0_24.md).

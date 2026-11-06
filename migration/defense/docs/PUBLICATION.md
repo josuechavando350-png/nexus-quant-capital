@@ -47,3 +47,5 @@ La entrega 0.21.0 se valida sobre `ad94c2bb4ba903e76cb69f7e07f407df0ce6dc37`. A�
 La entrega 0.22.0 se valida sobre `d7875badfa2fc4f12b97ff1e1ccb090a7ad342c4`. Incorpora lectura SQLite acotada, cinco criterios aprobados, 760 pruebas del paquete y 9 de aislamiento. Incluye un ensayo concluido de 30 minutos del receptor 0.20, claramente separado del código nuevo. Los otros dos ensayos siguen pendientes al preparar el commit.
 
 La entrega 0.23.0 se valida sobre `12e6e15e409570de531c641f8be67e61b7a21984`. Incorpora evaluación por corpus/política fijados y evidencia real, 787 pruebas del paquete más 9 de aislamiento, seis criterios y 240 variantes de entrada. Incluye el ensayo concluido de 20 minutos del receptor 0.22 con procedencia comprobada. El ensayo de registro 0.19 continúa pendiente.
+
+La entrega 0.24.0 se valida sobre `c11b81cb82b537115a0472a286c61f79388e3d0d`. Incorpora comparación de políticas con evidencia, seis criterios, 803 pruebas del paquete y 9 de aislamiento. La instalación sin dependencias opcionales reproduce el informe. La prueba prolongada del registro 0.19 sigue pendiente al preparar el commit.

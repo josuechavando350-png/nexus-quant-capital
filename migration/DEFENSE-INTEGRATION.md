@@ -57,3 +57,5 @@ La versión 0.17 exporta expedientes privados de autenticación con evidencia e 
 0.22 incorpora límites de filas SQLite y lectura previa de tipos/tamaños en el registro de emisores y su receptor. Conserva esquemas, firmas, expedientes y cola enlazada. Pasan 760+9 pruebas y las capacidades exactas de 8 KiB/evento y 32 MiB/paquete. Sin cambios al consumidor productivo, fuentes originales o SuperHunter.
 
 0.23 integra un evaluador reutilizable con AuthLogMonitor, OperationsStore y evidencia offline. Ejecuta únicamente logs temporales derivados de corpus explícitos, conserva errores/exclusiones y permite recomputar los informes. Pasan 787+9 pruebas. No modifica el detector, servicios, consumidores productivos ni SuperHunter.
+
+0.24 enlaza comparación de dos políticas con el evaluador de autenticación y sus casos/evidencias. Solo ejecuta corpus explícitos en almacenes temporales, conserva efectos positivos y negativos y no aplica la candidata. Pasan 803+9 pruebas. C084 parcial; no modifica otras ramas ni la operación productiva.
