@@ -1,13 +1,14 @@
 # SUPERHUNTER — estado oficial verificable y continuidad
 
-## Corte de continuidad — PR #50 QA cerrada y auditoría M6 local (2026-11-06)
-- **Último código totalmente publicado en rama:** [PR #50](https://github.com/josuechavando350-png/nexus-quant-capital/pull/50), head `ac1952603db0c46ea7b490cfd945ddeebb221653`, dependiente de #49–#45. Sigue en borrador, sin fusionar a `main`.
-- **QA integral del PR #50 cerrada y re-verificada:** `LOCAL_QA_PASS` **2140/2140**, 0 fallos/errores/skips; `verify-check` independiente aprobado; digest `9fa0f1e8e2f1dda64c5e216d7ac142588b0e1a378f47f8c2c9e3220176c2299b`. Reemplaza el registro anterior de «QA en ejecución».
-- **M6 en trabajo local, NO publicado como código en GitHub en este corte:** auditoría de caminos dirigidos y brechas de evidencia `chain_path_audit.py`; 24/24 tests específicos aprobados; oráculo independiente en 1600 grafos DAG sintéticos, sin divergencias. Regresión completa M6 **pendiente de resultado**, no contada. Rama reservada `feat/superhunter-directed-chain-audit-20261106`; no afirmar que contiene código sin verificar.
-- El motor M6 enumera observaciones/aristas sin soporte, ramas fuera del recorrido dirigido y obligaciones de prueba. **No confirma causalidad, autorización, incidentes, severidad ni vulnerabilidades originales.**
-- Próximo gate: terminar QA M6 y `verify-check`; publicar todos los archivos exactos y comprobar Git blob SHA; abrir PR borrador dependiente de #50. Antes de fusionar revisar aislamiento NQC y suites históricas.
-- Plan crítico: [SUPERHUNTER_CRITICAL_RESEARCH.md](SUPERHUNTER_CRITICAL_RESEARCH.md). No mezclar con el proyecto defensivo separado.
-
+## Estado más reciente — PR #51 con 2,164 pruebas verificadas (2026-11-06)
+- **Último código público:** [PR #51](https://github.com/josuechavando350-png/nexus-quant-capital/pull/51), commit `539365f47bf46d86c623952f2d1de0682aa5bf33`, rama `feat/superhunter-directed-chain-audit-20261106`, base **PR #50** y cadena #49→#45. Todos siguen en **borrador sin fusionar a main**.
+- **QA integral de PR #51: 2,164/2,164 `LOCAL_QA_PASS`**, 0 fallos, errores u omisiones; `verify-check` independiente **2,164/2,164 `LOCAL_QA_PASS`**. Source digest `d41f0597f53149100cffc310bae4f88985b74b2bf969c779d3aaa972f215cc4e`.
+- PR #50 regresión histórica **2,140/2,140** confirmada; PR #51 preserva esas pruebas y añade **24/24 específicas**. Oráculo enumerativo independiente: **1,600/1,600 DAG sintéticos** coinciden con auditoría de recorridos.
+- `chain_path_audit.py`: reabre triaje y originales privados, detecta aristas/observaciones sin soporte, secuencias dirigidas, ramas sin cobertura completa y obligaciones de prueba. Nunca eleva severidad potencial a vulnerabilidad confirmada; no ejecuta objetivos externos.
+- **Seis Git blob SHA** del incremento comprobados contra código probado; diff exactamente seis archivos `superhunter/`, **cero** modificaciones históricas NQC ni workflows. `audit-wiring`: 79 módulos, 0 imports locales sin resolver; `SOURCE_GRAPH_REVIEW_REQUIRED` por carga dinámica heredada, no certificación runtime completa.
+- **No se ejecutaron** la suite histórica completa NQC/Rust ni el verificador global de aislamiento; sin benchmark ciego externo, escaneos, hallazgos de terceros, vulnerabilidades confirmadas, programas 24/7 ni pagos. No fusionar PRs hasta revisión.
+- **Próximo gate:** validación de reproducción independiente de impacto en laboratorio, autenticación de reglas/participación y aislamiento histórico. No asignar porcentaje global a partir del conteo de tests. El 40–42% es referencia informal no auditada.
+- Estrategia crítica/multidominio: [SUPERHUNTER_CRITICAL_RESEARCH.md](SUPERHUNTER_CRITICAL_RESEARCH.md). No mezclar con la plataforma defensiva independiente.
 
 ## Actualización en curso — PR #50 (2026-11-06)
 - **Último código publicado:** [PR #50](https://github.com/josuechavando350-png/nexus-quant-capital/pull/50), commit `ac1952603db0c46ea7b490cfd945ddeebb221653`, rama `feat/superhunter-critical-chain-triage-20261106`, base **PR #49**. PR abierto en borrador, **NO fusionado**.
