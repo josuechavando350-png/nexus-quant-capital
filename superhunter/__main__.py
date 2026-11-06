@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ("triage-critical-chains", "verify-critical-triage"):
+        from .critical_chain import main as triage_main
+        return triage_main(argv)
     if argv and argv[0] in ("replay-evm-forensic", "verify-evm-replay"):
         from .evm_bounded_replay import main as replay_main
         return replay_main(argv)
