@@ -980,3 +980,18 @@ REQUIRED_TESTS += (
     'test_evidence_ablation.EvidenceAblationTests.test_changed_original_source_rejected',
     'test_evidence_ablation.EvidenceAblationTests.test_exact_cover_oracle_500',
 )
+
+
+# Alias-aware common-bundle evidence failure analysis (no producer attestation).
+COMPONENTS['evidence_common_mode'] = {
+    'files': ['evidence_common_mode.py'], 'tests': ['test_evidence_common_mode.'],
+    'depends': ['evidence_ablation', 'chain_path_audit', 'critical_chain',
+                'forensic_timeline', 'journal_correlation', 'evm_bounded_replay',
+                'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('evidence_common_mode')
+REQUIRED_TESTS += (
+    'test_evidence_common_mode.CommonEvidenceTests.test_identical_bundle_aliases_not_fake_independence',
+    'test_evidence_common_mode.CommonEvidenceTests.test_cli_independent_replay',
+    'test_evidence_common_mode.CommonEvidenceTests.test_resealed_false_diversity_rejected',
+    'test_evidence_common_mode.CommonEvidenceTests.test_upstream_original_change_rejected',
+)
