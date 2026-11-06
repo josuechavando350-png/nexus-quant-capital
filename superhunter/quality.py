@@ -995,3 +995,27 @@ REQUIRED_TESTS += (
     'test_evidence_common_mode.CommonEvidenceTests.test_resealed_false_diversity_rejected',
     'test_evidence_common_mode.CommonEvidenceTests.test_upstream_original_change_rejected',
 )
+
+
+# Bounded higher-order common-bundle source-failure research, offline only.
+COMPONENTS['evidence_joint_failure'] = {
+    'files': ['evidence_joint_failure.py'], 'tests': ['test_evidence_joint_failure.'],
+    'depends': ['evidence_common_mode', 'evidence_ablation',
+                'chain_path_audit', 'critical_chain', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('evidence_joint_failure')
+REQUIRED_TESTS += (
+    'test_evidence_joint_failure.JointEvidenceTests.test_alias_group_is_one_failure_unit',
+    'test_evidence_joint_failure.JointEvidenceTests.test_joint_minimal_cut_requires_two_distinct_bundle_hashes',
+    'test_evidence_joint_failure.JointEvidenceTests.test_order_one_explicitly_not_exhaustive',
+    'test_evidence_joint_failure.JointEvidenceTests.test_cli_review_and_verify_in_separate_processes',
+    'test_evidence_joint_failure.JointEvidenceTests.test_forged_critical_impact_rejected_even_when_resealed',
+    'test_evidence_joint_failure.JointEvidenceTests.test_edited_original_source_rejected',
+)
+
+# Partition stability is part of the mandatory QA contract.
+REQUIRED_TESTS += (
+    'test_quality.StableWorkerLayoutTests.test_existing_assignments_survive_module_growth',
+    'test_quality.StableWorkerLayoutTests.test_new_module_does_not_relocate_existing_tests',
+    'test_quality.StableWorkerLayoutTests.test_platform_has_separate_budget_from_evm_studies',
+    'test_quality.StableWorkerLayoutTests.test_full_inventory_retained_once_with_eight_workers',
+)
