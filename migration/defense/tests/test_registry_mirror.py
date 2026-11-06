@@ -179,16 +179,17 @@ class MirrorTests(unittest.TestCase):
     def test_verification_serializes_against_receiving_revocation(self):
         self.sync(); expected = self.mirror_receipt; self.revoke()
         bundle = self.registry.export(self.registry_head); started = threading.Event(); release = threading.Event()
-        from nqc_defense.registry_mirror import verify_registered
-        def paused(*args,**kwargs):
+        from nqc_defense.signer_registry import VerifiedRegistry
+        original_verify = VerifiedRegistry.verify
+        def paused(instance,*args,**kwargs):
             started.set()
             if not release.wait(3): raise AssertionError('coordination timeout')
-            return verify_registered(*args,**kwargs)
+            return original_verify(instance,*args,**kwargs)
         attempting = threading.Event()
         def receive():
             attempting.set()
             return self.mirror.accept(bundle,sha256(bundle),self.registry_head,expected)
-        with ThreadPoolExecutor(max_workers=2) as pool, patch('nqc_defense.registry_mirror.verify_registered',side_effect=paused):
+        with ThreadPoolExecutor(max_workers=2) as pool, patch.object(VerifiedRegistry,'verify',new=paused):
             verification = pool.submit(self.verify)
             self.assertTrue(started.wait(3))
             incoming = pool.submit(receive)

@@ -1,0 +1,305 @@
+{
+  "baseline_checkout": "/workspace/scratch/2e86b3bf9a38/nqc-review/migration/defense",
+  "candidate_checkout": "/workspace/scratch/2e86b3bf9a38/nqc-defense-next/migration/defense",
+  "cases": [
+    {
+      "all_rows_added_via_record_api": false,
+      "baseline_warm_median_seconds": 0.31434584750059,
+      "bulk_prepared_records": 511,
+      "bundle_bytes": 753031,
+      "candidate_warm_median_seconds": 0.001343163999990793,
+      "observed_median_ratio": 234.0338540213591,
+      "private_issuer_stores_removed": true,
+      "reports_identical": true,
+      "rounds": [
+        {
+          "baseline": {
+            "cold_seconds": 0.32373098799871514,
+            "cpu_seconds": 4.042308970000001,
+            "peak_rss_kib": 30724,
+            "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+            "private_issuer_stores_present": false,
+            "python": "3.12.14",
+            "repetitions": 12,
+            "report_digest": "e811828dc6589d5bfddff0cd6ef227ecb635f68377036928851c4ada97291d3e",
+            "source_sha256": {
+              "dossier_attestation.py": "ecfadd4114c57a98042aac3562a5f05ba168c776963c11f56e2cdb6caf7f44a0",
+              "registry_mirror.py": "0c4fe3c17b68aa360bd5ed4219408a0e1a107c8002148c0f39d777e5127f7d6d",
+              "signer_registry.py": "fb9665fc020d3feddb05a6add164f2b2db2aaccfdf1c5e8ebc3576243651b68d"
+            },
+            "warm_median_seconds": 0.3114199545016163,
+            "warm_seconds": [
+              0.30181677300060983,
+              0.3138211270015745,
+              0.29537895200337516,
+              0.30786089400135097,
+              0.3115787269998691,
+              0.31487056799960556,
+              0.3156211429995892,
+              0.31155186900286935,
+              0.3057255530002294,
+              0.3100737409986323,
+              0.31765014399934444,
+              0.31128804000036325
+            ]
+          },
+          "candidate": {
+            "cold_seconds": 0.18597414899704745,
+            "cpu_seconds": 0.203548349,
+            "peak_rss_kib": 30724,
+            "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+            "private_issuer_stores_present": false,
+            "python": "3.12.14",
+            "repetitions": 12,
+            "report_digest": "e811828dc6589d5bfddff0cd6ef227ecb635f68377036928851c4ada97291d3e",
+            "source_sha256": {
+              "dossier_attestation.py": "ecfadd4114c57a98042aac3562a5f05ba168c776963c11f56e2cdb6caf7f44a0",
+              "registry_mirror.py": "035c8b48115dbfd6df51a4aa59352945a76f67748e893acaceddedf870e8c522",
+              "signer_registry.py": "934864dfdeaa84747956c063ceabe26e2ff650fd504612e789a2fbc590d1f439"
+            },
+            "warm_median_seconds": 0.0013596485023299465,
+            "warm_seconds": [
+              0.0017073359995265491,
+              0.0014977369974076282,
+              0.0014002029965922702,
+              0.0013640300021506846,
+              0.0014078749991313089,
+              0.0013552670025092084,
+              0.0013131339983374346,
+              0.0014165879983920604,
+              0.0012916230007249396,
+              0.001332793999608839,
+              0.0013043710023339372,
+              0.0012678380007855594
+            ]
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ]
+        },
+        {
+          "baseline": {
+            "cold_seconds": 0.3341020930020022,
+            "cpu_seconds": 4.088953173,
+            "peak_rss_kib": 30724,
+            "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+            "private_issuer_stores_present": false,
+            "python": "3.12.14",
+            "repetitions": 12,
+            "report_digest": "e811828dc6589d5bfddff0cd6ef227ecb635f68377036928851c4ada97291d3e",
+            "source_sha256": {
+              "dossier_attestation.py": "ecfadd4114c57a98042aac3562a5f05ba168c776963c11f56e2cdb6caf7f44a0",
+              "registry_mirror.py": "0c4fe3c17b68aa360bd5ed4219408a0e1a107c8002148c0f39d777e5127f7d6d",
+              "signer_registry.py": "fb9665fc020d3feddb05a6add164f2b2db2aaccfdf1c5e8ebc3576243651b68d"
+            },
+            "warm_median_seconds": 0.3199301740005467,
+            "warm_seconds": [
+              0.32553877600003034,
+              0.31899184999929275,
+              0.31855772100243485,
+              0.32553828500022064,
+              0.318680932999996,
+              0.3273693520022789,
+              0.2504394190000312,
+              0.2873410550018889,
+              0.30472098600148456,
+              0.33709611300218967,
+              0.3208684980018006,
+              0.32167968200155883
+            ]
+          },
+          "candidate": {
+            "cold_seconds": 0.17578931599928183,
+            "cpu_seconds": 0.193425169,
+            "peak_rss_kib": 30724,
+            "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+            "private_issuer_stores_present": false,
+            "python": "3.12.14",
+            "repetitions": 12,
+            "report_digest": "e811828dc6589d5bfddff0cd6ef227ecb635f68377036928851c4ada97291d3e",
+            "source_sha256": {
+              "dossier_attestation.py": "ecfadd4114c57a98042aac3562a5f05ba168c776963c11f56e2cdb6caf7f44a0",
+              "registry_mirror.py": "035c8b48115dbfd6df51a4aa59352945a76f67748e893acaceddedf870e8c522",
+              "signer_registry.py": "934864dfdeaa84747956c063ceabe26e2ff650fd504612e789a2fbc590d1f439"
+            },
+            "warm_median_seconds": 0.0013224479989730753,
+            "warm_seconds": [
+              0.0018333710031583905,
+              0.0015058480021252763,
+              0.0013280359999043867,
+              0.0014793390000704676,
+              0.0013789810000162106,
+              0.001353534000372747,
+              0.0013151579987606965,
+              0.00126400199951604,
+              0.0012901010013592895,
+              0.0012839209994126577,
+              0.0012607379976543598,
+              0.001316859998041764
+            ]
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ]
+        }
+      ],
+      "rows": 512
+    },
+    {
+      "all_rows_added_via_record_api": false,
+      "baseline_warm_median_seconds": 2.478341421498044,
+      "bulk_prepared_records": 4095,
+      "bundle_bytes": 6034872,
+      "candidate_warm_median_seconds": 0.006303113501417101,
+      "observed_median_ratio": 393.19320855333626,
+      "private_issuer_stores_removed": true,
+      "reports_identical": true,
+      "rounds": [
+        {
+          "baseline": {
+            "cold_seconds": 2.4983656300028088,
+            "cpu_seconds": 31.942545798999998,
+            "peak_rss_kib": 90192,
+            "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+            "private_issuer_stores_present": false,
+            "python": "3.12.14",
+            "repetitions": 12,
+            "report_digest": "27e86ad95d57cbaa66b69a1206ef49384874b392c215d04cbb5840bf9a47552b",
+            "source_sha256": {
+              "dossier_attestation.py": "ecfadd4114c57a98042aac3562a5f05ba168c776963c11f56e2cdb6caf7f44a0",
+              "registry_mirror.py": "0c4fe3c17b68aa360bd5ed4219408a0e1a107c8002148c0f39d777e5127f7d6d",
+              "signer_registry.py": "fb9665fc020d3feddb05a6add164f2b2db2aaccfdf1c5e8ebc3576243651b68d"
+            },
+            "warm_median_seconds": 2.452110658001402,
+            "warm_seconds": [
+              2.4993125740002142,
+              2.5494399560011516,
+              2.5816405129990017,
+              2.5961678969979403,
+              2.5421029749995796,
+              2.4314133890002267,
+              2.4302101760004007,
+              2.3334876299995813,
+              2.328306364001037,
+              2.4728079270025773,
+              2.367281810998975,
+              2.3102382959987153
+            ]
+          },
+          "candidate": {
+            "cold_seconds": 1.3307662789993628,
+            "cpu_seconds": 1.4087688170000001,
+            "peak_rss_kib": 88288,
+            "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+            "private_issuer_stores_present": false,
+            "python": "3.12.14",
+            "repetitions": 12,
+            "report_digest": "27e86ad95d57cbaa66b69a1206ef49384874b392c215d04cbb5840bf9a47552b",
+            "source_sha256": {
+              "dossier_attestation.py": "ecfadd4114c57a98042aac3562a5f05ba168c776963c11f56e2cdb6caf7f44a0",
+              "registry_mirror.py": "035c8b48115dbfd6df51a4aa59352945a76f67748e893acaceddedf870e8c522",
+              "signer_registry.py": "934864dfdeaa84747956c063ceabe26e2ff650fd504612e789a2fbc590d1f439"
+            },
+            "warm_median_seconds": 0.0064825129993550945,
+            "warm_seconds": [
+              0.005109729998366674,
+              0.006410997997591039,
+              0.006281767000473337,
+              0.00655402800111915,
+              0.006059840998204891,
+              0.0062500300009560306,
+              0.0070347869987017475,
+              0.006843045001005521,
+              0.0065647639967210125,
+              0.006871236000733916,
+              0.006336778998957016,
+              0.006647045000136131
+            ]
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ]
+        },
+        {
+          "baseline": {
+            "cold_seconds": 2.36187262599924,
+            "cpu_seconds": 32.086615353,
+            "peak_rss_kib": 91488,
+            "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+            "private_issuer_stores_present": false,
+            "python": "3.12.14",
+            "repetitions": 12,
+            "report_digest": "27e86ad95d57cbaa66b69a1206ef49384874b392c215d04cbb5840bf9a47552b",
+            "source_sha256": {
+              "dossier_attestation.py": "ecfadd4114c57a98042aac3562a5f05ba168c776963c11f56e2cdb6caf7f44a0",
+              "registry_mirror.py": "0c4fe3c17b68aa360bd5ed4219408a0e1a107c8002148c0f39d777e5127f7d6d",
+              "signer_registry.py": "fb9665fc020d3feddb05a6add164f2b2db2aaccfdf1c5e8ebc3576243651b68d"
+            },
+            "warm_median_seconds": 2.498493946999588,
+            "warm_seconds": [
+              2.3224581380018208,
+              2.5328506660007406,
+              2.5273899140011054,
+              2.5281823510013055,
+              2.5184803160009324,
+              2.4781752649978444,
+              2.6065884529998584,
+              2.4785075779982435,
+              2.433026955997775,
+              2.4123218989989255,
+              2.5193143370015605,
+              2.365113111998653
+            ]
+          },
+          "candidate": {
+            "cold_seconds": 1.2400716749980347,
+            "cpu_seconds": 1.3128435619999999,
+            "peak_rss_kib": 88288,
+            "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+            "private_issuer_stores_present": false,
+            "python": "3.12.14",
+            "repetitions": 12,
+            "report_digest": "27e86ad95d57cbaa66b69a1206ef49384874b392c215d04cbb5840bf9a47552b",
+            "source_sha256": {
+              "dossier_attestation.py": "ecfadd4114c57a98042aac3562a5f05ba168c776963c11f56e2cdb6caf7f44a0",
+              "registry_mirror.py": "035c8b48115dbfd6df51a4aa59352945a76f67748e893acaceddedf870e8c522",
+              "signer_registry.py": "934864dfdeaa84747956c063ceabe26e2ff650fd504612e789a2fbc590d1f439"
+            },
+            "warm_median_seconds": 0.006083700500312261,
+            "warm_seconds": [
+              0.0047984709999582265,
+              0.006492518001323333,
+              0.006102122999436688,
+              0.006065278001187835,
+              0.005835009000293212,
+              0.00618038800166687,
+              0.006042023000190966,
+              0.0063244600023608655,
+              0.00603870900158654,
+              0.006328306000796147,
+              0.005994103998091305,
+              0.0064158249988395255
+            ]
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ]
+        }
+      ],
+      "rows": 4096
+    }
+  ],
+  "cold_full_replay_required": true,
+  "concurrent_workload": "registry endurance and other development work on the same host",
+  "each_warm_call_reads_sqlite_and_rechecks_dossier_signature": true,
+  "elapsed_seconds": 89.87694167999871,
+  "fixture_origin": "authored case; distinct synthetic capture snapshots",
+  "independent_load_generator": false,
+  "measurement": "single interpreter per run; cold first call followed by repeated same-snapshot verification",
+  "production_throughput_claimed": false,
+  "verified": true
+}

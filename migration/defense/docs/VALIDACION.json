@@ -1,14 +1,14 @@
 {
-  "status": "SIGNED_KEY_REGISTRY_AND_PUBLIC_RECEIVER_TESTED_ENDURANCE_PENDING_PRODUCTION_NOT_ACTIVATED",
-  "version": "0.19.0",
+  "status": "PUBLIC_REGISTRY_REUSE_TESTED_BASELINE_ENDURANCE_PENDING_PRODUCTION_NOT_ACTIVATED",
+  "version": "0.20.0",
   "date": "2026-11-06",
   "nqc_base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
   "python_version": "3.12.14",
-  "python_source_files_parsed": 102,
+  "python_source_files_parsed": 104,
   "tests": {
-    "engine_passed": 683,
+    "engine_passed": 698,
     "nqc_isolation_passed": 9,
-    "total_passed": 692,
+    "total_passed": 707,
     "failed": 0,
     "skipped": 0,
     "engine_log": "docs/PRUEBAS.txt",
@@ -82,7 +82,7 @@
   "publication": {
     "branch": "NQC-defensive",
     "user_authorized": true,
-    "validated_parent_commit": "2ed8de3125843c5932d05e850bb62a51b21b3d7d",
+    "validated_parent_commit": "b28c356de54c6fbffacb199c7ddc1bd7b30e0948",
     "status": "authorized_branch_update_validated_before_commit",
     "pull_request": false,
     "release": false,
@@ -90,7 +90,7 @@
     "email": false,
     "workflow_enabled": false
   },
-  "scope": "Scoped signed issuer-key lifecycle, registered historical dossier acceptance and monotonic public-data receiver; full replay, crash recovery and actual row ceiling; endurance still running; no production activation",
+  "scope": "Immutable verified registry reuse, exact stored-row comparison, per-dossier revalidation and baseline comparison; no production activation",
   "nqc_consumer_check": "docs/NQC_CONSUMER_CHECK.json",
   "consumer": {
     "local_reader_enforces_admission": true,
@@ -437,9 +437,9 @@
     "independent_certification": false
   },
   "current_bounded_block": {
-    "version": "0.19.0",
-    "criteria_passed": 10,
-    "criteria_total": 10,
+    "version": "0.20.0",
+    "criteria_passed": 5,
+    "criteria_total": 5,
     "completion_percent": 100.0,
     "counts_as_full_catalog_completion": false
   },
@@ -519,5 +519,22 @@
     "status": "running_not_yet_accepted",
     "result_in_this_commit": false,
     "production_performance_claimed": false
-  }
+  },
+  "registry_cache_check": "docs/REGISTRY_CACHE_CHECK.json",
+  "registry_cache_acceptance": "docs/REGISTRY_CACHE_ACCEPTANCE.json",
+  "registry_cache": {
+    "new_tests": 15,
+    "retained_snapshots_per_instance": 1,
+    "full_replay_on_cold_load": true,
+    "full_sqlite_row_reread_each_call": true,
+    "per_dossier_signature_rechecked": true,
+    "changed_storage_requires_replay": true,
+    "external_receipt_still_required": true,
+    "pure_verified_object_is_historical": true,
+    "independent_freshness": false,
+    "comparable_verifications": 104,
+    "baseline_version": "0.19.0",
+    "benchmark_is_production_slo": false
+  },
+  "test_fixture_correction": "Initial linked-worktree run failed two ancestry fixture checks; cloning common Git directory preserves shallow boundaries. Production isolation checks unchanged. Full rerun: 698 passed."
 }

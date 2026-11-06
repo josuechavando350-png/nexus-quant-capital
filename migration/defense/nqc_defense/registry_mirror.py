@@ -9,7 +9,7 @@ from .dossier_attestation import private_parent
 from .files import create_local, publish_local, read_local, sha256
 from .receipts import hex_digest
 from .signer_registry import (MAX_BUNDLE, ORIGIN, bundle_bytes, checkpoint, row_head,
-                              verify_bundle, verify_registered)
+                              VerifiedRegistry)
 
 EMPTY = {'generation': 0, 'registry_checkpoint': dict(ORIGIN), 'bundle_digest': ORIGIN['head']}
 
@@ -33,6 +33,7 @@ class RegistryMirror:
         self.registry_digest, self.authority_digest = registry_digest, authority_digest
         self.identity = canonical({'schema': 'nqc-registry-mirror-identity-v1',
                                    'registry_digest': registry_digest, 'authority_digest': authority_digest})
+        self._cache = None
         self._check_files()
 
     @classmethod
@@ -75,6 +76,9 @@ class RegistryMirror:
         rows = db.execute('SELECT id,generation,bundle,bundle_digest,previous FROM snapshot LIMIT 2').fetchall()
         if len(rows) != 1 or rows[0][0] != 1:
             raise Rejected('mirror_snapshot_missing')
+        cached = self._cache
+        if cached is not None and rows[0] == cached[0]:
+            return self._loaded(cached, expected)
         _, generation, data, digest, previous = rows[0]
         integer(generation, 0, 2**63-1); hex_digest(digest)
         if generation == 0:
@@ -91,7 +95,7 @@ class RegistryMirror:
             if type(final_row) is not list or len(final_row) != 4:
                 raise Rejected('registry_row_shape')
             target = {'revision': final_row[0], 'head': row_head(final_row)}
-            state = verify_bundle(data, digest, self.registry_digest, self.authority_digest, target)
+            state = VerifiedRegistry.from_bundle(data, digest, self.registry_digest, self.authority_digest, target)
             current = {'generation': generation, 'registry_checkpoint': target, 'bundle_digest': digest}
             prior = receipt(decode(previous, max_bytes=4096))
             if prior['generation'] != generation-1 or prior['registry_checkpoint']['revision'] >= target['revision']:
@@ -103,11 +107,23 @@ class RegistryMirror:
                 prefix = bundle_bytes(value['config'], value['rows'][:number])
                 if sha256(prefix) != prior['bundle_digest']:
                     raise Rejected('mirror_previous_digest')
+        cached = (rows[0], canonical(current), data, state, canonical(prior) if prior is not None else None)
+        self._cache = cached
+        return self._loaded(cached, expected)
+
+    @staticmethod
+    def _loaded(cached, expected):
+        current = decode(cached[1], max_bytes=4096)
         if expected is not None:
             receipt(expected)
             if canonical(current) != canonical(expected):
                 raise Rejected('mirror_receipt_mismatch')
-        return {'receipt': current, 'data': data, 'value': value, 'state': state, 'previous': prior}
+        return {'receipt': current, 'data': cached[2], 'state': cached[3],
+                'previous': decode(cached[4], max_bytes=4096) if cached[4] is not None else None}
+
+    def clear_cache(self):
+        """Drop the one retained public snapshot; the next read performs full replay again."""
+        self._cache = None
 
     def status(self, expected=None):
         with self.connection() as db:
@@ -117,7 +133,7 @@ class RegistryMirror:
 
     def accept(self, data, digest, target, expected):
         receipt(expected); checkpoint(target)
-        verify_bundle(data, digest, self.registry_digest, self.authority_digest, target)
+        incoming = VerifiedRegistry.from_bundle(data, digest, self.registry_digest, self.authority_digest, target)
         value = decode(data, max_bytes=MAX_BUNDLE, max_nodes=32768)
         with self.connection(write=True) as db:
             stored = self._load(db); current = stored['receipt']
@@ -135,6 +151,9 @@ class RegistryMirror:
             new_receipt = {'generation': generation, 'registry_checkpoint': target, 'bundle_digest': digest}
             db.execute('UPDATE snapshot SET generation=?,bundle=?,bundle_digest=?,previous=? WHERE id=1',
                        (generation, data, digest, canonical(current)))
+        # Every future use still rereads SQLite and requires exact equality of all row fields.
+        self._cache = ((1, generation, data, digest, canonical(current)), canonical(new_receipt),
+                       data, incoming, canonical(current))
         return {'accepted': True, 'advanced': True, 'idempotent_retry': False, 'receipt': new_receipt}
 
     def export(self, expected):
@@ -160,8 +179,7 @@ class RegistryMirror:
             if snapshot['data'] is None:
                 raise Rejected('mirror_not_initialized')
             current = snapshot['receipt']
-            report = verify_registered(snapshot['data'], current['bundle_digest'], self.registry_digest,
-                self.authority_digest, current['registry_checkpoint'], registration_receipt, data, digest, dossier, dossier_digest, pins)
+            report = snapshot['state'].verify(registration_receipt, data, digest, dossier, dossier_digest, pins)
         return {'mirror_receipt': current, 'registry_report': report,
                 'limits': {'uses_locally_accepted_registry_snapshot': True, 'network_sync_implemented': False,
                            'independent_freshness': False, 'whole_database_rollback_requires_external_receipt': True}}

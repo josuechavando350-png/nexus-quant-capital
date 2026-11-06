@@ -15,7 +15,10 @@ class BranchBoundaryTests(unittest.TestCase):
         self.root = Path(self.temp.name) / "repo"
         source = Path(__file__).resolve().parents[3]
         self.env = {**os.environ, "GIT_NO_LAZY_FETCH": "1", "PYTHONDONTWRITEBYTECODE": "1"}
-        subprocess.run(["git", "clone", "--shared", "--no-checkout", str(source), str(self.root)],
+        # Clone the common object store so linked worktrees preserve shallow boundaries too.
+        common = subprocess.run(["git", "-C", str(source), "rev-parse", "--path-format=absolute", "--git-common-dir"],
+                                capture_output=True, text=True, check=True, env=self.env).stdout.strip()
+        subprocess.run(["git", "clone", "--shared", "--no-checkout", common, str(self.root)],
                        capture_output=True, check=True, env=self.env)
         self.git("checkout", "--detach", BASE_COMMIT)
 

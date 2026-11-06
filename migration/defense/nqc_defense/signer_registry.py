@@ -1,10 +1,12 @@
 """Scoped, signed key lifecycle and attestation registration with externally pinned heads."""
 from contextlib import contextmanager
+from dataclasses import dataclass, field
 from pathlib import Path
 import re
 import secrets
 import sqlite3
 import stat
+from types import MappingProxyType
 
 from .audit import GENESIS
 from .codec import Rejected, canonical, decode, fields, identifier, integer
@@ -323,24 +325,61 @@ class SignerRegistry:
         return {'published': True, 'bundle_digest': sha256(data), 'checkpoint': expected, 'registry_digest': self.digest}
 
 
+@dataclass(frozen=True, init=False, slots=True, weakref_slot=True)
+class VerifiedRegistry:
+    """Immutable result of full replay. Reuse only for this exact, externally pinned snapshot."""
+    registry_digest: str
+    authority_digest: str
+    bundle_digest: str
+    _checkpoint: tuple = field(repr=False)
+    _keys: object = field(repr=False)
+    _records: object = field(repr=False)
+
+    def __init__(self):
+        raise TypeError('VerifiedRegistry.from_bundle is required')
+
+    @classmethod
+    def from_bundle(cls, data, digest, registry_digest, authority_digest, expected):
+        state = verify_bundle(data, digest, registry_digest, authority_digest, expected)
+        result = object.__new__(cls)
+        values = {'registry_digest': registry_digest, 'authority_digest': authority_digest, 'bundle_digest': digest,
+                  '_checkpoint': (state['checkpoint']['revision'], state['checkpoint']['head']),
+                  '_keys': MappingProxyType({identifier: (key['public_key_hex'], key['status'])
+                                            for identifier, key in state['keys'].items()}),
+                  '_records': MappingProxyType({digest: (entry['revision'], entry['head'], entry['event']['key_id'],
+                        entry['event']['dossier_digest'], canonical(entry['event']['pins']))
+                        for digest, entry in state['records'].items()})}
+        for name, value in values.items():
+            object.__setattr__(result, name, value)
+        return result
+
+    @property
+    def checkpoint(self):
+        return {'revision': self._checkpoint[0], 'head': self._checkpoint[1]}
+
+    def verify(self, receipt, data, digest, dossier, dossier_digest, pins):
+        receipt = checkpoint(receipt); hex_digest(digest)
+        entry = self._records.get(digest)
+        if entry is None or {'revision': entry[0], 'head': entry[1]} != receipt:
+            raise Rejected('registry_attestation_not_recorded')
+        _, _, key_id, expected_dossier, expected_pins = entry
+        public_key_hex, status = self._keys[key_id]
+        if status == 'revoked':
+            raise Rejected('registry_signer_revoked')
+        if expected_dossier != dossier_digest or expected_pins != canonical(pins):
+            raise Rejected('registry_record_binding')
+        report = verify_attestation(data, digest, dossier, dossier_digest, pins, public_hex(public_key_hex), key_id)
+        return {'schema': 'nqc-registered-dossier-report-v1', 'registry_accepted': True,
+                'registry_digest': self.registry_digest, 'registry_checkpoint': self.checkpoint, 'registration_receipt': receipt,
+                'signer_status_at_checkpoint': status, 'signature_report': report,
+                'limits': {'revocation_checked_at_supplied_checkpoint': True, 'independent_freshness': False,
+                           'historical_issuance_time_attested': False, 'report_is_issuer_assertion': True,
+                           'independent_custody': False, 'authority_key_rotation': False}}
+
+
 def verify_registered(bundle, bundle_digest, registry_digest, authority_digest, current_checkpoint, receipt,
                       data, digest, dossier, dossier_digest, pins):
-    """Accept only a registered digest whose signer is active or retired at the pinned head."""
-    receipt = checkpoint(receipt)
-    hex_digest(digest)
-    state = verify_bundle(bundle, bundle_digest, registry_digest, authority_digest, current_checkpoint)
-    entry = state['records'].get(digest)
-    if entry is None or {'revision': entry['revision'], 'head': entry['head']} != receipt:
-        raise Rejected('registry_attestation_not_recorded')
-    event = entry['event']; key = state['keys'][event['key_id']]
-    if key['status'] == 'revoked':
-        raise Rejected('registry_signer_revoked')
-    if event['dossier_digest'] != dossier_digest or canonical(event['pins']) != canonical(pins):
-        raise Rejected('registry_record_binding')
-    report = verify_attestation(data, digest, dossier, dossier_digest, pins, public_hex(key['public_key_hex']), event['key_id'])
-    return {'schema': 'nqc-registered-dossier-report-v1', 'registry_accepted': True,
-            'registry_digest': registry_digest, 'registry_checkpoint': state['checkpoint'], 'registration_receipt': receipt,
-            'signer_status_at_checkpoint': key['status'], 'signature_report': report,
-            'limits': {'revocation_checked_at_supplied_checkpoint': True, 'independent_freshness': False,
-                       'historical_issuance_time_attested': False, 'report_is_issuer_assertion': True,
-                       'independent_custody': False, 'authority_key_rotation': False}}
+    """Fully replay a supplied snapshot, then verify the registered dossier against it."""
+    checkpoint(receipt); hex_digest(digest)
+    verified = VerifiedRegistry.from_bundle(bundle, bundle_digest, registry_digest, authority_digest, current_checkpoint)
+    return verified.verify(receipt, data, digest, dossier, dossier_digest, pins)

@@ -21,7 +21,7 @@ Los 22 componentes parciales contienen código real probado dentro de un alcance
 
 El registro de cierres actual está vacío. Los datos de aceptación sintéticos usados por las pruebas del contador permanecen únicamente en directorios temporales y no entran en este registro.
 
-El bloque v0.19 reúne diez criterios locales: cinco del registro de claves (`SIGNER_REGISTRY_CHECK.json`) y cinco del receptor (`REGISTRY_MIRROR_CHECK.json`). Los diez pasaron: **100% del bloque acotado**. La prueba prolongada se registra por separado; no cierra objetivos globales.
+El bloque v0.20 reúne cinco criterios de reutilización segura del registro, contraste con 0.19 y conservación de verificación por expediente (`REGISTRY_CACHE_ACCEPTANCE.json`). Los cinco pasaron: **100% del bloque acotado**. La prueba prolongada se registra por separado; no cierra objetivos globales.
 
 Consultar el resultado reproducible con:
 

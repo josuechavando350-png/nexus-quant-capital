@@ -49,3 +49,5 @@ La versión 0.17 exporta expedientes privados de autenticación con evidencia e 
 0.18 añade declaraciones firmadas de expedientes y verificación por clave pública fijada externamente. La emisión conserva el replay completo de 0.17; el receptor no necesita la clave administrativa. Extra opcional signing, sin custodia independiente ni cambios a fuentes originales/SuperHunter.
 
 0.19 conecta registro firmado de claves de expedientes, rotación/revocación y receptor local de versiones. C093 inicia alcance parcial. Sin transporte de red, activación productiva, cambios a Census/SuperHunter o rotación de autoridad raíz.
+
+0.20 reutiliza registros públicos verificados sin omitir relectura del almacenamiento ni firma del expediente. Comparación ejecutada con 0.19 e informes idénticos; 698+9 pruebas aprobadas. Aislamiento y fuentes originales permanecen sin cambios.

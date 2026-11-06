@@ -1,0 +1,37 @@
+{
+  "baseline_commit": "b28c356de54c6fbffacb199c7ddc1bd7b30e0948",
+  "benchmark_report": "docs/REGISTRY_CACHE_CHECK.json",
+  "block_completion_percent": 100.0,
+  "checks": {
+    "each_dossier_reverified_and_report_mutation_isolated": true,
+    "fully_validated_immutable_snapshot": true,
+    "published_baseline_and_candidate_reports_identical": true,
+    "received_revocation_applied_and_old_snapshot_explicit": true,
+    "warm_storage_identity_permissions_and_receipts_rechecked": true
+  },
+  "counts_as_full_catalog_completion": false,
+  "criteria_passed": 5,
+  "criteria_total": 5,
+  "isolated_tests": 9,
+  "package_tests": 698,
+  "test_names": {
+    "each_dossier_reverified_and_report_mutation_isolated": [
+      "test_every_warm_call_rechecks_attestation_and_dossier_bytes",
+      "test_returned_reports_and_receipts_cannot_mutate_cached_snapshot"
+    ],
+    "fully_validated_immutable_snapshot": [
+      "test_prepared_registry_requires_validated_factory_and_immutable_data",
+      "test_prepared_factory_rejects_untrusted_data_and_wrong_target"
+    ],
+    "received_revocation_applied_and_old_snapshot_explicit": [
+      "test_retained_prepared_object_is_explicitly_historical_after_revocation",
+      "test_verification_serializes_against_receiving_revocation"
+    ],
+    "warm_storage_identity_permissions_and_receipts_rechecked": [
+      "test_warm_receiver_rereads_storage_without_replaying_unchanged_registry",
+      "test_warm_cache_does_not_skip_external_receipt_or_identity",
+      "test_changed_database_permissions_are_checked_on_every_warm_read"
+    ]
+  },
+  "verified": true
+}

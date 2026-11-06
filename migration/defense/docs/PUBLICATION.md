@@ -39,3 +39,5 @@ La entrega 0.17.0 se valida sobre `5187d0ab57a26ce228d24cf2f3582fd696d92a64` y s
 La entrega 0.18.0 se valida sobre `4ad9d858d1277fbd2686968856fa73ab39250433` y se publica únicamente en `NQC-defensive`. Añade declaraciones Ed25519 del expediente con verificación pública, sin alterar los historiales ni activar producción.
 
 La entrega 0.19.0 se valida sobre `2ed8de3125843c5932d05e850bb62a51b21b3d7d`. Publica registro de claves y receptor local con 683 pruebas del paquete y 9 de aislamiento; diez criterios de aceptación aprobados. La prueba prolongada sigue en curso y no se cuenta aquí como aprobada.
+
+La entrega 0.20.0 se valida sobre `b28c356de54c6fbffacb199c7ddc1bd7b30e0948`. Reutiliza reconstrucciones inmutables del registro con relectura por llamada y conserva informes idénticos a 0.19. Pasan 698 pruebas del paquete y 9 de aislamiento; cinco criterios del bloque. La prueba prolongada del baseline sigue pendiente y no se cuenta como aprobada.
