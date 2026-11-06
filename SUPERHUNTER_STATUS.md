@@ -1,5 +1,14 @@
 # SUPERHUNTER — estado oficial verificable y continuidad
 
+## Corte de continuidad — PR #50 QA cerrada y auditoría M6 local (2026-11-06)
+- **Último código totalmente publicado en rama:** [PR #50](https://github.com/josuechavando350-png/nexus-quant-capital/pull/50), head `ac1952603db0c46ea7b490cfd945ddeebb221653`, dependiente de #49–#45. Sigue en borrador, sin fusionar a `main`.
+- **QA integral del PR #50 cerrada y re-verificada:** `LOCAL_QA_PASS` **2140/2140**, 0 fallos/errores/skips; `verify-check` independiente aprobado; digest `9fa0f1e8e2f1dda64c5e216d7ac142588b0e1a378f47f8c2c9e3220176c2299b`. Reemplaza el registro anterior de «QA en ejecución».
+- **M6 en trabajo local, NO publicado como código en GitHub en este corte:** auditoría de caminos dirigidos y brechas de evidencia `chain_path_audit.py`; 24/24 tests específicos aprobados; oráculo independiente en 1600 grafos DAG sintéticos, sin divergencias. Regresión completa M6 **pendiente de resultado**, no contada. Rama reservada `feat/superhunter-directed-chain-audit-20261106`; no afirmar que contiene código sin verificar.
+- El motor M6 enumera observaciones/aristas sin soporte, ramas fuera del recorrido dirigido y obligaciones de prueba. **No confirma causalidad, autorización, incidentes, severidad ni vulnerabilidades originales.**
+- Próximo gate: terminar QA M6 y `verify-check`; publicar todos los archivos exactos y comprobar Git blob SHA; abrir PR borrador dependiente de #50. Antes de fusionar revisar aislamiento NQC y suites históricas.
+- Plan crítico: [SUPERHUNTER_CRITICAL_RESEARCH.md](SUPERHUNTER_CRITICAL_RESEARCH.md). No mezclar con el proyecto defensivo separado.
+
+
 ## Actualización en curso — PR #50 (2026-11-06)
 - **Último código publicado:** [PR #50](https://github.com/josuechavando350-png/nexus-quant-capital/pull/50), commit `ac1952603db0c46ea7b490cfd945ddeebb221653`, rama `feat/superhunter-critical-chain-triage-20261106`, base **PR #49**. PR abierto en borrador, **NO fusionado**.
 - Implementa `critical_chain.py`: triaje offline de hipótesis potencialmente críticas y cadenas bajo/medio; valida DAG, identidades, referencias exactas a fuentes forenses, correlación y replay EVM; siempre `critical_impact_confirmed=false`, `vulnerability_confirmed=false`, `active_testing_permitted=false`.
