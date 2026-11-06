@@ -21,7 +21,7 @@ Los 24 componentes parciales contienen código real probado dentro de un alcance
 
 El registro de cierres actual está vacío. Los datos de aceptación sintéticos usados por las pruebas del contador permanecen únicamente en directorios temporales y no entran en este registro.
 
-El bloque v0.24 reúne seis criterios de políticas fijadas, observaciones/código comparables, diferencias exactas, referencias de evidencia, publicación/recomputación y ejecución instalada sin dependencias externas (`AUTH_POLICY_COMPARISON_CHECK.json`). Los seis pasaron: **100% del bloque acotado**. C084 inicia alcance parcial: 24 componentes parciales y 0/200 cierres completos. Las pruebas prolongadas se atribuyen a su código exacto mediante `ENDURANCE_PROVENANCE.json`; no cierran objetivos globales.
+El bloque de consolidación verifica cuatro criterios: integridad de informes; pertenencia exacta de fuentes y versión Git; duración y operaciones declaradas completas; rechazo de alteraciones. **4/4 (100% del bloque acotado)**, con 24 componentes parciales y 0/200 cierres globales. La procedencia verificada no constituye atestación independiente de ejecución.
 
 Consultar el resultado reproducible con:
 

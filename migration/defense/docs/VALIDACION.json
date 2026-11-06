@@ -1,14 +1,14 @@
 {
-  "status": "PINNED_AUTH_POLICY_COMPARISON_TESTED_REGISTRY_ENDURANCE_PENDING",
+  "status": "ENDURANCE_PROVENANCE_CHECKED_THREE_RECORDED_RUNS_COMPLETE",
   "version": "0.24.0",
   "date": "2026-11-06",
   "nqc_base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
   "python_version": "3.12.14",
-  "python_source_files_parsed": 124,
+  "python_source_files_parsed": 126,
   "tests": {
-    "engine_passed": 803,
+    "engine_passed": 817,
     "nqc_isolation_passed": 9,
-    "total_passed": 812,
+    "total_passed": 826,
     "failed": 0,
     "skipped": 0,
     "engine_log": "docs/PRUEBAS.txt",
@@ -82,7 +82,7 @@
   "publication": {
     "branch": "NQC-defensive",
     "user_authorized": true,
-    "validated_parent_commit": "c11b81cb82b537115a0472a286c61f79388e3d0d",
+    "validated_parent_commit": "a2bb4df0ef229f177289538da874981d493a7357",
     "status": "authorized_branch_update_validated_before_commit",
     "pull_request": false,
     "release": false,
@@ -438,10 +438,11 @@
   },
   "current_bounded_block": {
     "version": "0.24.0",
-    "criteria_passed": 6,
-    "criteria_total": 6,
+    "criteria_passed": 4,
+    "criteria_total": 4,
     "completion_percent": 100.0,
-    "counts_as_full_catalog_completion": false
+    "counts_as_full_catalog_completion": false,
+    "name": "endurance_provenance"
   },
   "dossier_attestation_check": "docs/DOSSIER_ATTESTATION_CHECK.json",
   "signing_package_check": "docs/SIGNING_PACKAGE_CHECK.json",
@@ -516,7 +517,7 @@
     "physical_power_loss_tested": false
   },
   "endurance": {
-    "status": "v020_and_v022_receiver_passed_v019_registry_in_progress",
+    "status": "three_recorded_runs_complete",
     "result_in_this_commit": true,
     "production_performance_claimed": false,
     "provenance": "docs/ENDURANCE_PROVENANCE.json",
@@ -536,11 +537,17 @@
         "verified_calls": 144686,
         "corruption_checks": 289,
         "reopens": 28
+      },
+      {
+        "version": "0.19.0",
+        "report": "docs/SIGNER_REGISTRY_ENDURANCE.json",
+        "seconds": 6320.964,
+        "registered_and_verified": 3361,
+        "rotations": 26,
+        "reopens": 52
       }
     ],
-    "in_progress": [
-      "0.19.0 signer registry 6320 seconds"
-    ]
+    "in_progress": []
   },
   "registry_cache_check": "docs/REGISTRY_CACHE_CHECK.json",
   "registry_cache_acceptance": "docs/REGISTRY_CACHE_ACCEPTANCE.json",
@@ -655,5 +662,19 @@
     "same_episode_matching": false,
     "production_policy_changed": false,
     "independent_evaluation": false
+  },
+  "endurance_provenance_check": "docs/ENDURANCE_VERIFICATION_CHECK.json",
+  "endurance_provenance": {
+    "new_tests": 14,
+    "local_git_sources_checked": true,
+    "git_replacement_objects_disabled": true,
+    "report_hashes_checked": true,
+    "runtime_version_checked_against_commit": true,
+    "incomplete_duration_rejected": true,
+    "harness_provenance_distinguished": true,
+    "independent_execution_attestation": false,
+    "wall_clock_independently_certified": false,
+    "exact_source_membership_required": true,
+    "unknown_run_schemas_rejected": true
   }
 }

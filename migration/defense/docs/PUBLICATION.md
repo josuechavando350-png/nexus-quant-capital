@@ -49,3 +49,9 @@ La entrega 0.22.0 se valida sobre `d7875badfa2fc4f12b97ff1e1ccb090a7ad342c4`. In
 La entrega 0.23.0 se valida sobre `12e6e15e409570de531c641f8be67e61b7a21984`. Incorpora evaluación por corpus/política fijados y evidencia real, 787 pruebas del paquete más 9 de aislamiento, seis criterios y 240 variantes de entrada. Incluye el ensayo concluido de 20 minutos del receptor 0.22 con procedencia comprobada. El ensayo de registro 0.19 continúa pendiente.
 
 La entrega 0.24.0 se valida sobre `c11b81cb82b537115a0472a286c61f79388e3d0d`. Incorpora comparación de políticas con evidencia, seis criterios, 803 pruebas del paquete y 9 de aislamiento. La instalación sin dependencias opcionales reproduce el informe. La prueba prolongada del registro 0.19 sigue pendiente al preparar el commit.
+
+La consolidación de 0.24 se valida sobre `a2bb4df0ef229f177289538da874981d493a7357`. Añade comprobación reproducible de procedencia de ensayos y nueve pruebas, con total actual de 812 del paquete y 9 de aislamiento. No modifica el código de los ensayos congelados.
+
+Consolidación verificada: los tres ensayos finalizaron. El registro 0.19 completó 6.320,964 segundos, 3.361 registros, 26 rotaciones y 52 reaperturas, sin fallos. No completó un ciclo de capacidad de 4.096 filas; ese límite tiene un ensayo separado. Los receptores 0.20 y 0.22 conservan sus resultados y commits exactos. `tools/check_endurance_provenance.py --require-complete` comprueba los tres informes. No equivale a certificación independiente del tiempo o ejecución.
+
+Cierre de consolidación: 817+9 pruebas aprobadas; tres ensayos completos con fuente/versiones comprobadas. Se rechazaron listas de fuentes incompletas y esquemas desconocidos; 14 pruebas específicas del verificador.

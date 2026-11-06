@@ -510,6 +510,20 @@ test_trusted_signer_can_assert_report_but_public_verifier_does_not_claim_hmac_re
 test_valid_signature_with_mismatched_report_scope_is_rejected (test_dossier_attestation.AttestationTests.test_valid_signature_with_mismatched_report_scope_is_rejected) ... ok
 test_verifies_after_original_store_logs_policy_and_signing_key_removed (test_dossier_attestation.AttestationTests.test_verifies_after_original_store_logs_policy_and_signing_key_removed) ... ok
 test_wrong_audit_key_or_ordinary_reviewer_cannot_issue (test_dossier_attestation.AttestationTests.test_wrong_audit_key_or_ordinary_reviewer_cannot_issue) ... ok
+test_alias_cannot_replace_the_recorded_source_name (test_endurance_provenance.EnduranceProvenanceTests.test_alias_cannot_replace_the_recorded_source_name) ... ok
+test_empty_work_count_is_not_a_pass (test_endurance_provenance.EnduranceProvenanceTests.test_empty_work_count_is_not_a_pass) ... ok
+test_harness_hash_must_match_its_preserved_commit (test_endurance_provenance.EnduranceProvenanceTests.test_harness_hash_must_match_its_preserved_commit) ... ok
+test_incomplete_duration_rejected_even_if_verified_flag_is_true (test_endurance_provenance.EnduranceProvenanceTests.test_incomplete_duration_rejected_even_if_verified_flag_is_true) ... ok
+test_omitted_source_cannot_pass_after_rehashing_report (test_endurance_provenance.EnduranceProvenanceTests.test_omitted_source_cannot_pass_after_rehashing_report) ... ok
+test_pending_runs_block_complete_mode (test_endurance_provenance.EnduranceProvenanceTests.test_pending_runs_block_complete_mode) ... ok
+test_recorded_sources_match_actual_immutable_git_objects (test_endurance_provenance.EnduranceProvenanceTests.test_recorded_sources_match_actual_immutable_git_objects) ... ok
+test_rehashed_source_claim_still_must_match_git (test_endurance_provenance.EnduranceProvenanceTests.test_rehashed_source_claim_still_must_match_git) ... ok
+test_report_byte_change_is_rejected (test_endurance_provenance.EnduranceProvenanceTests.test_report_byte_change_is_rejected) ... ok
+test_report_cannot_be_assigned_to_a_different_version_label (test_endurance_provenance.EnduranceProvenanceTests.test_report_cannot_be_assigned_to_a_different_version_label) ... ok
+test_report_path_cannot_escape_docs (test_endurance_provenance.EnduranceProvenanceTests.test_report_path_cannot_escape_docs) ... ok
+test_unknown_run_schema_rejected (test_endurance_provenance.EnduranceProvenanceTests.test_unknown_run_schema_rejected) ... ok
+test_v2_requires_its_recorded_package_version (test_endurance_provenance.EnduranceProvenanceTests.test_v2_requires_its_recorded_package_version) ... ok
+test_valid_complete_index_checks_all_three_real_reports (test_endurance_provenance.EnduranceProvenanceTests.test_valid_complete_index_checks_all_three_real_reports) ... ok
 test_canary_baseline_checked_before_any_replacement (test_managed_integrity.ManagedIntegrityTests.test_canary_baseline_checked_before_any_replacement) ... ok
 test_changed_canary_is_restored_and_verified (test_managed_integrity.ManagedIntegrityTests.test_changed_canary_is_restored_and_verified) ... ok
 test_cli_sample_inspect_recover_and_archive (test_managed_integrity.ManagedIntegrityTests.test_cli_sample_inspect_recover_and_archive) ... ok
@@ -803,6 +817,6 @@ test_witness_requires_separate_key_and_pinned_bindings (test_witness.WitnessTest
 test_witness_tail_rollback_requires_separately_retained_receipt (test_witness.WitnessTests.test_witness_tail_rollback_requires_separately_retained_receipt) ... ok
 
 ----------------------------------------------------------------------
-Ran 803 tests in 59.141s
+Ran 817 tests in 60.202s
 
 OK
