@@ -950,3 +950,18 @@ REQUIRED_TESTS += (
     'test_critical_chain.CriticalChainTests.test_external_source_changed_rejected',
     'test_critical_chain.CriticalChainTests.test_evm_replay_object_sha_binding_to_real_replay',
 )
+
+# Independent offline proof-obligation audit for directed critical-chain hypotheses.
+COMPONENTS['chain_path_audit'] = {
+    'files': ['chain_path_audit.py'], 'tests': ['test_chain_path_audit.'],
+    'depends': ['critical_chain', 'forensic_timeline', 'journal_correlation',
+                'evm_bounded_replay', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('chain_path_audit')
+REQUIRED_TESTS += (
+    'test_chain_path_audit.ChainPathAuditTests.test_cli_two_independent_processes_private_stdout',
+    'test_chain_path_audit.ChainPathAuditTests.test_longest_path_reports_unverified_link_without_false_critical',
+    'test_chain_path_audit.ChainPathAuditTests.test_branch_not_misrepresented_as_one_end_to_end_chain',
+    'test_chain_path_audit.ChainPathAuditTests.test_false_severity_claim_rejected_even_when_rehashed',
+    'test_chain_path_audit.ChainPathAuditTests.test_external_source_change_invalidates_replay',
+    'test_chain_path_audit.ChainPathAuditTests.test_current_source_identity_prevents_false_replay',
+)

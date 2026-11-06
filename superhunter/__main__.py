@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ("audit-chain-paths", "verify-chain-paths"):
+        from .chain_path_audit import main as path_audit_main
+        return path_audit_main(argv)
     if argv and argv[0] in ("triage-critical-chains", "verify-critical-triage"):
         from .critical_chain import main as triage_main
         return triage_main(argv)

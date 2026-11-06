@@ -83,6 +83,7 @@ def partition_ids(identities: list[str], count: int) -> list[list[str]]:
     cross_journal = modules.pop('test_journal_correlation', []) if count == 8 else []
     bounded_replay = modules.pop('test_evm_bounded_replay', []) if count == 8 else []
     critical_chain = modules.pop('test_critical_chain', []) if count == 8 else []
+    path_audit = modules.pop('test_chain_path_audit', []) if count == 8 else []
     groups = [[] for _ in range(count)]
     for name in sorted(modules, key=lambda n: (-len(modules[n]), n)):
         index = min(range(count), key=lambda i: (len(groups[i]), i))
@@ -103,6 +104,8 @@ def partition_ids(identities: list[str], count: int) -> list[list[str]]:
         groups[0].extend(bounded_replay)
     if critical_chain:
         groups[0].extend(critical_chain)
+    if path_audit:
+        groups[0].extend(path_audit)
     return [sorted(group) for group in groups]
 
 
