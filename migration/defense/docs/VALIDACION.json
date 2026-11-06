@@ -1,14 +1,14 @@
 {
-  "status": "LOCAL_NQC_CONSUMER_BUDGETED_ARCHIVE_INVENTORY_COVERAGE_AND_WITNESS_TESTED_PRODUCTION_NOT_ACTIVATED",
-  "version": "0.9.0",
+  "status": "LOCAL_MANAGED_JSON_END_TO_END_TESTED_PRODUCTION_NOT_ACTIVATED",
+  "version": "0.10.0",
   "date": "2026-11-06",
   "nqc_base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
   "python_version": "3.12.14",
-  "python_source_files_parsed": 53,
+  "python_source_files_parsed": 58,
   "tests": {
-    "engine_passed": 285,
+    "engine_passed": 307,
     "nqc_isolation_passed": 9,
-    "total_passed": 294,
+    "total_passed": 316,
     "failed": 0,
     "skipped": 0,
     "engine_log": "docs/PRUEBAS.txt",
@@ -73,7 +73,7 @@
   "publication": {
     "branch": "NQC-defensive",
     "user_authorized": true,
-    "validated_parent_commit": "d154aeed5b92cbdefe55f680be580c1742abccba",
+    "validated_parent_commit": "c8724ba6d9a3ebeed98ddc399ca525dcb3b7c3fd",
     "status": "authorized_branch_update_validated_before_commit",
     "pull_request": false,
     "release": false,
@@ -81,7 +81,7 @@
     "email": false,
     "workflow_enabled": false
   },
-  "scope": "Local NQC JSON consumer, pinned budgets for cooperating archive writers, bounded inventory, coverage and recoverable witness confirmation; production Census loop unchanged",
+  "scope": "Local managed JSON observation, detection, ledger-derived incident, admission containment, explicit restoration and verified read; production Census unchanged",
   "nqc_consumer_check": "docs/NQC_CONSUMER_CHECK.json",
   "consumer": {
     "local_reader_enforces_admission": true,
@@ -200,5 +200,28 @@
     "engine_and_witness_sqlite_in_budget": false,
     "network_filesystems_tested": false,
     "physical_power_loss_tested": false
+  },
+  "operational_catalog_check": "docs/OPERATIONAL_CATALOG_CHECK.json",
+  "operational_catalog": {
+    "components": 100,
+    "disciplines_and_specialties": 100,
+    "bounded_partial": 9,
+    "planned": 91,
+    "fully_complete": 0,
+    "planned_runtime_connections_implemented": false
+  },
+  "managed_integrity_check": "docs/MANAGED_INTEGRITY_CHECK.json",
+  "managed_integrity": {
+    "real_file_observation": true,
+    "latest_incident_derived_from_authenticated_ledger": true,
+    "consumer_gate": true,
+    "explicit_restore_of_two_owned_files": true,
+    "read_after_recovery": true,
+    "explicit_evidence_archive": true,
+    "original_source_preserved": true,
+    "kernel_sensor": false,
+    "host_isolation": false,
+    "continuous_service_deployed": false,
+    "production_connected": false
   }
 }

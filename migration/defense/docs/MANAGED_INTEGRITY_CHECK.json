@@ -1,0 +1,58 @@
+{
+  "incident": {
+    "asset": "managed-json",
+    "case_id": "be0f342b7f2f07f5d786627506df0426107414ce69266ff254e1a11fc6700fe6",
+    "closed_sequence": null,
+    "opened_sequence": 7,
+    "reasons": [
+      "asset_integrity_changed"
+    ],
+    "receipt_sha256": "be0f342b7f2f07f5d786627506df0426107414ce69266ff254e1a11fc6700fe6",
+    "status": "open"
+  },
+  "incident_and_recovery_archives_verified": true,
+  "mutation": "controlled change to temporary managed copy only",
+  "nqc_isolation": {
+    "base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
+    "head_commit": "c8724ba6d9a3ebeed98ddc399ca525dcb3b7c3fd",
+    "isolation": {
+      "active_workflows": 0,
+      "canonical_recertification": false,
+      "destination_repository_id": 1411047452,
+      "disabled_workflows": 106,
+      "original_objects_checked": false,
+      "source_commit": "e259739c9f75fedcd1061d2f78d6b8852e7a3060",
+      "source_files": 531,
+      "status": "ISOLATED_SOURCE_IDENTITY_PASS"
+    }
+  },
+  "production_activated": false,
+  "recovery": {
+    "checkpoint": {
+      "head": "425fe53dc0d10351fb6f3d8a4e5f2f3c777e125ef4d6e6ff4d2d363c3a2751af",
+      "sequence": 11
+    },
+    "contained": false,
+    "incident": {
+      "asset": "managed-json",
+      "case_id": "be0f342b7f2f07f5d786627506df0426107414ce69266ff254e1a11fc6700fe6",
+      "closed_sequence": 8,
+      "opened_sequence": 7,
+      "reasons": [
+        "asset_integrity_changed"
+      ],
+      "receipt_sha256": "be0f342b7f2f07f5d786627506df0426107414ce69266ff254e1a11fc6700fe6",
+      "status": "resolved"
+    },
+    "read_after_recovery_verified": true,
+    "recovered_case_id": "be0f342b7f2f07f5d786627506df0426107414ce69266ff254e1a11fc6700fe6",
+    "restored_sha256": "07c126f5ccaba1d05d22e4adf964d57f59707d158ce76856ed92badec83a9b67",
+    "scope": "managed_json_admission_only_not_host_or_process_isolation"
+  },
+  "scope": "local managed JSON admission",
+  "source_bytes": 337100,
+  "source_sha256": "07c126f5ccaba1d05d22e4adf964d57f59707d158ce76856ed92badec83a9b67",
+  "source_unchanged": true,
+  "verified": true,
+  "witness_matches_engine": true
+}

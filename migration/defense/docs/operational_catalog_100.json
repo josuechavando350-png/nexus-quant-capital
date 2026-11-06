@@ -1,0 +1,2969 @@
+{
+  "schema": "nqc-operational-catalog-v1",
+  "date": "2026-11-06",
+  "components": [
+    {
+      "id": "C001",
+      "group": "Activos y alcance",
+      "name": "Registro de activos autorizados",
+      "inputs": "Inventarios del operador",
+      "outputs": "Activos con propietario y alcance",
+      "acceptance": "Rechazar activos sin autorización o propietario",
+      "technology_candidate": "API propia y SQL",
+      "depends_on": [],
+      "disciplines": [
+        "D001"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C002",
+      "group": "Activos y alcance",
+      "name": "Mapa de criticidad de servicios",
+      "inputs": "Activos y dependencias",
+      "outputs": "Prioridad de protección por servicio",
+      "acceptance": "Un cambio de dependencia recalcula criticidad con explicación",
+      "technology_candidate": "Grafo propio",
+      "depends_on": [
+        "C001"
+      ],
+      "disciplines": [
+        "D002"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C003",
+      "group": "Activos y alcance",
+      "name": "Registro de identidades de cargas",
+      "inputs": "Identidades y activos",
+      "outputs": "Vínculos verificables entre carga e identidad",
+      "acceptance": "Rechazar una identidad asignada a otro activo",
+      "technology_candidate": "Certificados y registro propio",
+      "depends_on": [
+        "C001"
+      ],
+      "disciplines": [
+        "D003"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C004",
+      "group": "Activos y alcance",
+      "name": "Registro de configuraciones aprobadas",
+      "inputs": "Configuraciones revisadas",
+      "outputs": "Versiones con hashes y aprobación",
+      "acceptance": "Detectar cambios respecto a la versión fijada",
+      "technology_candidate": "ConfigStore existente; adaptadores pendientes",
+      "depends_on": [
+        "C001"
+      ],
+      "disciplines": [
+        "D004"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C005",
+      "group": "Activos y alcance",
+      "name": "Inventario de exposición autorizada",
+      "inputs": "Configuración de servicios propios",
+      "outputs": "Servicios expuestos y responsables",
+      "acceptance": "Detectar una exposición nueva en una exportación real",
+      "technology_candidate": "Adaptadores de configuración",
+      "depends_on": [
+        "C001",
+        "C004"
+      ],
+      "disciplines": [
+        "D005"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C006",
+      "group": "Activos y alcance",
+      "name": "Inventario de certificados y vencimientos",
+      "inputs": "Certificados de servicios propios",
+      "outputs": "Alertas de vigencia y asociación",
+      "acceptance": "Detectar vencimiento y certificado de otro servicio",
+      "technology_candidate": "Bibliotecas TLS y X.509",
+      "depends_on": [
+        "C001",
+        "C005"
+      ],
+      "disciplines": [
+        "D006"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C007",
+      "group": "Activos y alcance",
+      "name": "Mapa de permisos efectivos",
+      "inputs": "Roles y asignaciones",
+      "outputs": "Permisos efectivos con procedencia",
+      "acceptance": "Distinguir permiso directo de permiso heredado",
+      "technology_candidate": "Analizador de políticas propio",
+      "depends_on": [
+        "C001",
+        "C003"
+      ],
+      "disciplines": [
+        "D007"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C008",
+      "group": "Activos y alcance",
+      "name": "Grafo de dependencias operativas",
+      "inputs": "Relaciones entre servicios",
+      "outputs": "Impacto potencial de una contención",
+      "acceptance": "Una dependencia crítica impide una acción amplia sin revisión",
+      "technology_candidate": "Grafo propio",
+      "depends_on": [
+        "C001",
+        "C002"
+      ],
+      "disciplines": [
+        "D008"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C009",
+      "group": "Activos y alcance",
+      "name": "Administrador de líneas base firmadas",
+      "inputs": "Estado revisado de activos",
+      "outputs": "Referencias verificables de integridad",
+      "acceptance": "Una línea base alterada no puede aprobar un archivo",
+      "technology_candidate": "Hashes fijados y firmas estándar",
+      "depends_on": [
+        "C001",
+        "C004"
+      ],
+      "disciplines": [
+        "D009"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C010",
+      "group": "Activos y alcance",
+      "name": "Autorizador de alcance de sensores",
+      "inputs": "Activos y permisos del operador",
+      "outputs": "Alcance permitido por sensor",
+      "acceptance": "Un sensor no obtiene acceso a activos fuera de alcance",
+      "technology_candidate": "Motor de políticas",
+      "depends_on": [
+        "C001",
+        "C003",
+        "C007"
+      ],
+      "disciplines": [
+        "D010"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C011",
+      "group": "Sensores reales",
+      "name": "Sensor de procesos Linux",
+      "inputs": "Eventos del kernel autorizado",
+      "outputs": "Eventos de procesos con identidad de origen",
+      "acceptance": "Ver creación real de un proceso y reportar pérdida de eventos",
+      "technology_candidate": "Falco modern eBPF; adaptador pendiente",
+      "depends_on": [
+        "C001",
+        "C010"
+      ],
+      "disciplines": [
+        "D011"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C012",
+      "group": "Sensores reales",
+      "name": "Sensor de eventos Windows",
+      "inputs": "Eventos de sistema autorizados",
+      "outputs": "Eventos de procesos y sesiones normalizables",
+      "acceptance": "Conservar identificadores al reabrir una fuente real",
+      "technology_candidate": "ETW y eventos de Windows",
+      "depends_on": [
+        "C001",
+        "C010"
+      ],
+      "disciplines": [
+        "D012"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C013",
+      "group": "Sensores reales",
+      "name": "Lector de registros de autenticación",
+      "inputs": "Logs propios de acceso",
+      "outputs": "Eventos de acceso con cursor persistente",
+      "acceptance": "Rotar un log sin duplicar ni omitir entradas confirmadas",
+      "technology_candidate": "Lector acotado propio",
+      "depends_on": [
+        "C001",
+        "C010"
+      ],
+      "disciplines": [
+        "D013"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C014",
+      "group": "Sensores reales",
+      "name": "Sensor de integridad de archivos administrados",
+      "inputs": "Bytes actuales y línea base",
+      "outputs": "Observaciones de hashes y errores de lectura",
+      "acceptance": "Detectar cambio o desaparición de una copia administrada",
+      "technology_candidate": "ManagedIntegrity y canary.observe_snapshot",
+      "depends_on": [
+        "C004",
+        "C009",
+        "C010"
+      ],
+      "disciplines": [
+        "D014"
+      ],
+      "status": "bounded_partial",
+      "implementation": "nqc_defense/managed_integrity.py",
+      "implementation_scope": "lectura local periódica; sin sensor de kernel"
+    },
+    {
+      "id": "C015",
+      "group": "Sensores reales",
+      "name": "Sensor de consultas DNS",
+      "inputs": "Telemetría DNS autorizada",
+      "outputs": "Consultas y respuestas con contexto",
+      "acceptance": "Asociar respuesta real con consulta sin inventar identidad",
+      "technology_candidate": "Zeek y adaptador DNS",
+      "depends_on": [
+        "C001",
+        "C010"
+      ],
+      "disciplines": [
+        "D015"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C016",
+      "group": "Sensores reales",
+      "name": "Sensor de metadatos TLS",
+      "inputs": "Telemetría de conexiones propias",
+      "outputs": "Metadatos TLS sin prometer descifrado",
+      "acceptance": "Reportar explícitamente campos no observables",
+      "technology_candidate": "Zeek y metadatos TLS",
+      "depends_on": [
+        "C001",
+        "C006",
+        "C010"
+      ],
+      "disciplines": [
+        "D016"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C017",
+      "group": "Sensores reales",
+      "name": "Sensor de metadatos de red",
+      "inputs": "Captura autorizada de comunicaciones",
+      "outputs": "Flujos y eventos de protocolos",
+      "acceptance": "Reproducir una captura de laboratorio y cuantificar pérdidas",
+      "technology_candidate": "Zeek",
+      "depends_on": [
+        "C001",
+        "C010"
+      ],
+      "disciplines": [
+        "D017"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C018",
+      "group": "Sensores reales",
+      "name": "Adaptador de alertas de red",
+      "inputs": "Alertas del sensor de red",
+      "outputs": "Alertas con regla y evidencia de origen",
+      "acceptance": "Conservar regla y referencia a tráfico al normalizar",
+      "technology_candidate": "Suricata",
+      "depends_on": [
+        "C001",
+        "C010"
+      ],
+      "disciplines": [
+        "D018"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C019",
+      "group": "Sensores reales",
+      "name": "Conector de auditoría de nube",
+      "inputs": "Logs de cuentas propias",
+      "outputs": "Eventos de administración y acceso",
+      "acceptance": "Reanudar desde cursor sin duplicar eventos",
+      "technology_candidate": "APIs oficiales de lectura",
+      "depends_on": [
+        "C001",
+        "C003",
+        "C010"
+      ],
+      "disciplines": [
+        "D019"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C020",
+      "group": "Sensores reales",
+      "name": "Conector de auditoría Kubernetes",
+      "inputs": "Registros del clúster autorizado",
+      "outputs": "Eventos de API y cambios de cargas",
+      "acceptance": "Distinguir identidad solicitante y recurso afectado",
+      "technology_candidate": "API de auditoría Kubernetes",
+      "depends_on": [
+        "C001",
+        "C003",
+        "C010"
+      ],
+      "disciplines": [
+        "D020"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C021",
+      "group": "Ingestión y calidad",
+      "name": "Normalizador de eventos",
+      "inputs": "Eventos de sensores 11–20",
+      "outputs": "Eventos versionados con procedencia",
+      "acceptance": "Rechazar campos incompatibles y conservar el original referenciado",
+      "technology_candidate": "OCSF como esquema candidato",
+      "depends_on": [
+        "C011",
+        "C012",
+        "C013",
+        "C014",
+        "C015",
+        "C016",
+        "C017",
+        "C018",
+        "C019",
+        "C020"
+      ],
+      "disciplines": [
+        "D021"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C022",
+      "group": "Ingestión y calidad",
+      "name": "Bus duradero de eventos",
+      "inputs": "Eventos normalizados",
+      "outputs": "Entregas confirmadas y reanudables",
+      "acceptance": "Reiniciar consumidor sin perder eventos confirmados",
+      "technology_candidate": "Cola duradera; elección mediante benchmark",
+      "depends_on": [
+        "C021"
+      ],
+      "disciplines": [
+        "D022"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C023",
+      "group": "Ingestión y calidad",
+      "name": "Deduplicador de eventos",
+      "inputs": "Eventos y claves de origen",
+      "outputs": "Eventos únicos y recuento de duplicados",
+      "acceptance": "Repetir el mismo lote sin duplicar incidentes",
+      "technology_candidate": "Índices únicos y claves estables",
+      "depends_on": [
+        "C021",
+        "C022"
+      ],
+      "disciplines": [
+        "D023"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C024",
+      "group": "Ingestión y calidad",
+      "name": "Normalizador de tiempo e incertidumbre",
+      "inputs": "Tiempos de origen y recepción",
+      "outputs": "Intervalos temporales con incertidumbre",
+      "acceptance": "Un reloj atrasado no produce falsa causalidad",
+      "technology_candidate": "Timestamps y estimación explícita",
+      "depends_on": [
+        "C021"
+      ],
+      "disciplines": [
+        "D024"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C025",
+      "group": "Ingestión y calidad",
+      "name": "Redactor de datos sensibles",
+      "inputs": "Eventos y política de privacidad",
+      "outputs": "Eventos minimizados y referencia protegida",
+      "acceptance": "Una credencial sembrada para prueba no sale en el evento",
+      "technology_candidate": "Reglas de redacción y parser estricto",
+      "depends_on": [
+        "C021",
+        "C010"
+      ],
+      "disciplines": [
+        "D025"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C026",
+      "group": "Ingestión y calidad",
+      "name": "Validador de calidad de señales",
+      "inputs": "Eventos y salud de fuentes",
+      "outputs": "Indicadores de campos ausentes y calidad",
+      "acceptance": "Una fuente vacía reduce cobertura declarada",
+      "technology_candidate": "Contratos de datos propios",
+      "depends_on": [
+        "C021",
+        "C023",
+        "C024"
+      ],
+      "disciplines": [
+        "D026"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C027",
+      "group": "Ingestión y calidad",
+      "name": "Almacén consultable de eventos",
+      "inputs": "Eventos normalizados",
+      "outputs": "Consultas acotadas por cliente y tiempo",
+      "acceptance": "Limitar consulta extensa sin devolver resultados de otro cliente",
+      "technology_candidate": "SQL o almacenamiento columnar tras pruebas",
+      "depends_on": [
+        "C021",
+        "C022",
+        "C025"
+      ],
+      "disciplines": [
+        "D027"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C028",
+      "group": "Ingestión y calidad",
+      "name": "Gestor de retención y conservación",
+      "inputs": "Políticas y referencias de casos",
+      "outputs": "Plan revisable de retención",
+      "acceptance": "Una evidencia bajo conservación no entra en plan de eliminación",
+      "technology_candidate": "Motor de retención; borrado pendiente",
+      "depends_on": [
+        "C027",
+        "C025"
+      ],
+      "disciplines": [
+        "D028"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C029",
+      "group": "Ingestión y calidad",
+      "name": "Monitor de salud de colectores",
+      "inputs": "Latidos y contadores reales",
+      "outputs": "Alertas de fuentes silenciosas o pérdidas",
+      "acceptance": "Detener un sensor de laboratorio y detectar su ausencia",
+      "technology_candidate": "OpenTelemetry y métricas propias",
+      "depends_on": [
+        "C011",
+        "C021",
+        "C026"
+      ],
+      "disciplines": [
+        "D029"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C030",
+      "group": "Ingestión y calidad",
+      "name": "Registro de versiones de contratos",
+      "inputs": "Esquemas y adaptadores",
+      "outputs": "Matriz de compatibilidad",
+      "acceptance": "Un productor incompatible queda rechazado con causa precisa",
+      "technology_candidate": "Esquemas versionados y pruebas de contrato",
+      "depends_on": [
+        "C021",
+        "C026"
+      ],
+      "disciplines": [
+        "D030"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C031",
+      "group": "Detección evaluable",
+      "name": "Evaluador de reglas de eventos",
+      "inputs": "Eventos normalizados y reglas revisadas",
+      "outputs": "Detecciones con versión de regla",
+      "acceptance": "Corpus etiquetado produce resultados reproducibles",
+      "technology_candidate": "Sigma como formato candidato",
+      "depends_on": [
+        "C021",
+        "C023",
+        "C024",
+        "C030"
+      ],
+      "disciplines": [
+        "D031"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C032",
+      "group": "Detección evaluable",
+      "name": "Detector de integridad respecto a línea base",
+      "inputs": "Observaciones del sensor de archivos",
+      "outputs": "Decisión y evidencia de discrepancia",
+      "acceptance": "Cambiar bytes reales abre una detección; bytes intactos no",
+      "technology_candidate": "Engine y receipts existentes",
+      "depends_on": [
+        "C014",
+        "C009"
+      ],
+      "disciplines": [
+        "D032"
+      ],
+      "status": "bounded_partial",
+      "implementation": "nqc_defense/engine.py",
+      "implementation_scope": "comparación de archivo y canario con hashes fijados"
+    },
+    {
+      "id": "C033",
+      "group": "Detección evaluable",
+      "name": "Detector de uso anómalo de identidades",
+      "inputs": "Accesos y permisos efectivos",
+      "outputs": "Detecciones contextualizadas por cuenta",
+      "acceptance": "Separar cambios aprobados de uso fuera de política",
+      "technology_candidate": "Reglas y modelos calibrados",
+      "depends_on": [
+        "C003",
+        "C007",
+        "C013",
+        "C021"
+      ],
+      "disciplines": [
+        "D033"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C034",
+      "group": "Detección evaluable",
+      "name": "Detector de escalamiento de permisos",
+      "inputs": "Cambios de roles y auditoría",
+      "outputs": "Cambios riesgosos con diferencias de permisos",
+      "acceptance": "Detectar ampliación real de permisos en datos autorizados",
+      "technology_candidate": "Diferencias de políticas",
+      "depends_on": [
+        "C007",
+        "C019",
+        "C020",
+        "C021"
+      ],
+      "disciplines": [
+        "D034"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C035",
+      "group": "Detección evaluable",
+      "name": "Detector de conexiones fuera de política",
+      "inputs": "Flujos y mapa de servicios",
+      "outputs": "Conexiones inesperadas por activo",
+      "acceptance": "Un flujo permitido no dispara la regla de aislamiento",
+      "technology_candidate": "Reglas de conectividad",
+      "depends_on": [
+        "C005",
+        "C008",
+        "C017",
+        "C021"
+      ],
+      "disciplines": [
+        "D035"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C036",
+      "group": "Detección evaluable",
+      "name": "Detector de transferencias fuera de política",
+      "inputs": "Flujos y clasificación de datos",
+      "outputs": "Señales de salida con alcance y confianza",
+      "acceptance": "Reconocer límites de visibilidad con tráfico cifrado",
+      "technology_candidate": "Reglas y estadísticas calibradas",
+      "depends_on": [
+        "C016",
+        "C017",
+        "C025",
+        "C021"
+      ],
+      "disciplines": [
+        "D036"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C037",
+      "group": "Detección evaluable",
+      "name": "Detector de cambios masivos de archivos",
+      "inputs": "Eventos de archivos propios",
+      "outputs": "Alertas de actividad destructiva probable",
+      "acceptance": "Distinguir una tarea de respaldo autorizada de cambios inesperados",
+      "technology_candidate": "Eventos de sistema y correlación",
+      "depends_on": [
+        "C011",
+        "C014",
+        "C021"
+      ],
+      "disciplines": [
+        "D037"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C038",
+      "group": "Detección evaluable",
+      "name": "Detector de cambios de arranque y servicios",
+      "inputs": "Configuración y eventos de sistema",
+      "outputs": "Cambios persistentes fuera de línea base",
+      "acceptance": "Una instalación aprobada no se clasifica como incidente",
+      "technology_candidate": "Reglas sobre estado autorizado",
+      "depends_on": [
+        "C004",
+        "C011",
+        "C012",
+        "C021"
+      ],
+      "disciplines": [
+        "D038"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C039",
+      "group": "Detección evaluable",
+      "name": "Detector de consumo fuera de presupuesto",
+      "inputs": "Métricas de CPU, memoria y colas",
+      "outputs": "Desviaciones y acciones propuestas",
+      "acceptance": "Distinguir saturación operativa de evidencia de intrusión",
+      "technology_candidate": "OpenTelemetry y límites explícitos",
+      "depends_on": [
+        "C002",
+        "C026",
+        "C029"
+      ],
+      "disciplines": [
+        "D039"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C040",
+      "group": "Detección evaluable",
+      "name": "Calibrador de alertas y confianza",
+      "inputs": "Resultados etiquetados y detecciones",
+      "outputs": "Umbrales con errores medidos",
+      "acceptance": "Reportar precisión y omisiones por escenario y versión",
+      "technology_candidate": "Estadística reproducible",
+      "depends_on": [
+        "C031",
+        "C032",
+        "C033",
+        "C034",
+        "C035",
+        "C036",
+        "C037",
+        "C038",
+        "C039"
+      ],
+      "disciplines": [
+        "D040"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C041",
+      "group": "Incidentes y forense",
+      "name": "Gestor de casos con evidencia",
+      "inputs": "Detecciones y decisiones autenticadas",
+      "outputs": "Casos abiertos, estados y cierre trazable",
+      "acceptance": "Reabrir proceso conserva un incidente y su identidad",
+      "technology_candidate": "ManagedIntegrity: caso local derivado del ledger",
+      "depends_on": [
+        "C031",
+        "C032",
+        "C040"
+      ],
+      "disciplines": [
+        "D041"
+      ],
+      "status": "bounded_partial",
+      "implementation": "nqc_defense/managed_integrity.py",
+      "implementation_scope": "último caso local derivado del ledger; sin gestión multiequipo"
+    },
+    {
+      "id": "C042",
+      "group": "Incidentes y forense",
+      "name": "Clasificador de urgencia y alcance",
+      "inputs": "Casos, activos y criticidad",
+      "outputs": "Cola priorizada con explicación",
+      "acceptance": "Cambiar criticidad altera prioridad sin ocultar evidencia",
+      "technology_candidate": "Políticas y puntuación explícita",
+      "depends_on": [
+        "C002",
+        "C008",
+        "C041"
+      ],
+      "disciplines": [
+        "D042"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C043",
+      "group": "Incidentes y forense",
+      "name": "Recolector forense de archivos",
+      "inputs": "Rutas autorizadas y caso",
+      "outputs": "Copias verificadas con metadatos",
+      "acceptance": "Cambio durante lectura invalida adquisición completa",
+      "technology_candidate": "Lectura por descriptor y hashes",
+      "depends_on": [
+        "C010",
+        "C041"
+      ],
+      "disciplines": [
+        "D043"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C044",
+      "group": "Incidentes y forense",
+      "name": "Recolector y analizador de memoria",
+      "inputs": "Adquisiciones autorizadas de laboratorio",
+      "outputs": "Hallazgos enlazados a offsets y herramienta",
+      "acceptance": "Analizar una captura conocida y registrar limitaciones",
+      "technology_candidate": "Herramientas forenses especializadas; selección pendiente",
+      "depends_on": [
+        "C010",
+        "C041"
+      ],
+      "disciplines": [
+        "D044"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C045",
+      "group": "Incidentes y forense",
+      "name": "Analizador de artefactos del sistema",
+      "inputs": "Artefactos adquiridos",
+      "outputs": "Eventos de sistema con procedencia",
+      "acceptance": "No confundir ausencia de artefacto con ausencia de actividad",
+      "technology_candidate": "Parsers aislados y corpus conocidos",
+      "depends_on": [
+        "C043",
+        "C044"
+      ],
+      "disciplines": [
+        "D045"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C046",
+      "group": "Incidentes y forense",
+      "name": "Reconstrucción forense de comunicaciones",
+      "inputs": "Capturas y metadatos autorizados",
+      "outputs": "Cronología de comunicaciones",
+      "acceptance": "Reproducir una sesión de laboratorio con evidencias referenciadas",
+      "technology_candidate": "Zeek y parsers de captura",
+      "depends_on": [
+        "C017",
+        "C043"
+      ],
+      "disciplines": [
+        "D046"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C047",
+      "group": "Incidentes y forense",
+      "name": "Reconstrucción de acciones de nube",
+      "inputs": "Auditoría y snapshots autorizados",
+      "outputs": "Cronología de cambios y acceso",
+      "acceptance": "Detectar huecos de auditoría y reportarlos",
+      "technology_candidate": "APIs oficiales y normalizador",
+      "depends_on": [
+        "C019",
+        "C024",
+        "C041"
+      ],
+      "disciplines": [
+        "D047"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C048",
+      "group": "Incidentes y forense",
+      "name": "Registro de custodia y acceso a evidencia",
+      "inputs": "Adquisiciones y operaciones autorizadas",
+      "outputs": "Historial verificable de manejo",
+      "acceptance": "Una alteración o acceso no autorizado se detecta o rechaza",
+      "technology_candidate": "Ledger, firmas y anclajes separados",
+      "depends_on": [
+        "C043",
+        "C044",
+        "C045",
+        "C046",
+        "C047"
+      ],
+      "disciplines": [
+        "D048"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C049",
+      "group": "Incidentes y forense",
+      "name": "Analizador aislado de muestras",
+      "inputs": "Muestras autorizadas y caso",
+      "outputs": "Indicadores y comportamiento observado",
+      "acceptance": "Sin acceso a producción; salida y recursos restringidos",
+      "technology_candidate": "Análisis estático y sandbox dedicado",
+      "depends_on": [
+        "C010",
+        "C041",
+        "C043"
+      ],
+      "disciplines": [
+        "D049"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C050",
+      "group": "Incidentes y forense",
+      "name": "Generador de informe de incidente",
+      "inputs": "Caso y evidencias verificadas",
+      "outputs": "Informe con hechos, hipótesis y límites",
+      "acceptance": "Cada afirmación factual enlaza a evidencia disponible",
+      "technology_candidate": "Plantillas y validación de referencias",
+      "depends_on": [
+        "C041",
+        "C042",
+        "C048",
+        "C049"
+      ],
+      "disciplines": [
+        "D050"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C051",
+      "group": "Respuesta acotada",
+      "name": "Autorizador de acciones defensivas",
+      "inputs": "Caso, alcance y política",
+      "outputs": "Permiso limitado y explicable",
+      "acceptance": "Rechazar acción que exceda activos o duración permitidos",
+      "technology_candidate": "OPA como candidato y controles propios",
+      "depends_on": [
+        "C007",
+        "C010",
+        "C041",
+        "C042"
+      ],
+      "disciplines": [
+        "D051"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C052",
+      "group": "Respuesta acotada",
+      "name": "Puerta de consumo de artefactos",
+      "inputs": "Archivo y decisión de admisión",
+      "outputs": "Bytes aprobados o rechazo persistente",
+      "acceptance": "Archivo alterado no llega al consumidor administrado",
+      "technology_candidate": "ArtifactReader y Engine",
+      "depends_on": [
+        "C032",
+        "C041",
+        "C051"
+      ],
+      "disciplines": [
+        "D052"
+      ],
+      "status": "bounded_partial",
+      "implementation": "nqc_defense/consumer.py",
+      "implementation_scope": "solo consumidor de JSON administrado; no aislamiento de host"
+    },
+    {
+      "id": "C053",
+      "group": "Respuesta acotada",
+      "name": "Revocador de sesiones autorizadas",
+      "inputs": "Caso y sesiones propias",
+      "outputs": "Revocación comprobada por proveedor",
+      "acceptance": "Revocar solo sesiones del alcance aprobado",
+      "technology_candidate": "APIs de identidad; adaptadores pendientes",
+      "depends_on": [
+        "C003",
+        "C033",
+        "C051"
+      ],
+      "disciplines": [
+        "D053"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C054",
+      "group": "Respuesta acotada",
+      "name": "Aplicador de aislamiento de red",
+      "inputs": "Permiso de respuesta y política de red",
+      "outputs": "Regla acotada con comprobación posterior",
+      "acceptance": "Conservar acceso de recuperación y expirar excepción",
+      "technology_candidate": "Firewall del entorno; conector pendiente",
+      "depends_on": [
+        "C035",
+        "C051",
+        "C008"
+      ],
+      "disciplines": [
+        "D054"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C055",
+      "group": "Respuesta acotada",
+      "name": "Aislador de cargas administradas",
+      "inputs": "Caso y cargas autorizadas",
+      "outputs": "Cambio acotado de acceso de la carga",
+      "acceptance": "Una carga ajena al caso permanece intacta",
+      "technology_candidate": "API de orquestador",
+      "depends_on": [
+        "C020",
+        "C051"
+      ],
+      "disciplines": [
+        "D055"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C056",
+      "group": "Respuesta acotada",
+      "name": "Rotador de secretos autorizados",
+      "inputs": "Caso y referencias a secretos",
+      "outputs": "Rotación y prueba de uso de nueva versión",
+      "acceptance": "Revocar versión anterior solo tras verificar transición",
+      "technology_candidate": "Gestor de secretos estándar",
+      "depends_on": [
+        "C003",
+        "C007",
+        "C051"
+      ],
+      "disciplines": [
+        "D056"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C057",
+      "group": "Respuesta acotada",
+      "name": "Aplicador de corrección controlada",
+      "inputs": "Cambio revisado y permiso",
+      "outputs": "Resultado y plan de reversión",
+      "acceptance": "Un fallo de validación detiene el despliegue",
+      "technology_candidate": "Orquestación con etapas y comprobaciones",
+      "depends_on": [
+        "C004",
+        "C051"
+      ],
+      "disciplines": [
+        "D057"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C058",
+      "group": "Respuesta acotada",
+      "name": "Limitador de radio de contención",
+      "inputs": "Acciones propuestas y dependencias",
+      "outputs": "Acciones dentro de presupuesto de impacto",
+      "acceptance": "Una cascada excedida se detiene antes de afectar otro servicio",
+      "technology_candidate": "Motor propio de presupuestos",
+      "depends_on": [
+        "C008",
+        "C042",
+        "C051"
+      ],
+      "disciplines": [
+        "D058"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C059",
+      "group": "Respuesta acotada",
+      "name": "Ejecutor de reversión acotada",
+      "inputs": "Estado anterior y acción registrada",
+      "outputs": "Restauración del cambio específico",
+      "acceptance": "No revertir cambios posteriores ajenos al incidente",
+      "technology_candidate": "Comparación de versiones y estados",
+      "depends_on": [
+        "C057",
+        "C058"
+      ],
+      "disciplines": [
+        "D059"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C060",
+      "group": "Respuesta acotada",
+      "name": "Orquestador de procedimientos defensivos",
+      "inputs": "Caso y acciones permitidas",
+      "outputs": "Ejecución por etapas con estados persistentes",
+      "acceptance": "Reanudar tras fallo sin repetir acciones no idempotentes",
+      "technology_candidate": "Máquina de estados propia",
+      "depends_on": [
+        "C051",
+        "C052",
+        "C053",
+        "C054",
+        "C055",
+        "C056",
+        "C057",
+        "C058",
+        "C059"
+      ],
+      "disciplines": [
+        "D060"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C061",
+      "group": "Recuperación comprobada",
+      "name": "Inventario de respaldos recuperables",
+      "inputs": "Respaldos y servicios",
+      "outputs": "Cobertura de recuperación por servicio",
+      "acceptance": "Distinguir respaldo existente de respaldo probado",
+      "technology_candidate": "Catálogo de respaldos",
+      "depends_on": [
+        "C001",
+        "C002",
+        "C008"
+      ],
+      "disciplines": [
+        "D061"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C062",
+      "group": "Recuperación comprobada",
+      "name": "Verificador de copias de recuperación",
+      "inputs": "Copias y hashes externos",
+      "outputs": "Copias aceptadas o rechazadas",
+      "acceptance": "Una copia alterada jamás se utiliza para recuperar",
+      "technology_candidate": "Hashes y firmas estándar",
+      "depends_on": [
+        "C009",
+        "C061"
+      ],
+      "disciplines": [
+        "D062"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C063",
+      "group": "Recuperación comprobada",
+      "name": "Restaurador de ensayo aislado",
+      "inputs": "Copia verificada y entorno vacío",
+      "outputs": "Instancia restaurada de ensayo",
+      "acceptance": "No escribir en producción durante ensayo",
+      "technology_candidate": "Infraestructura de prueba aislada",
+      "depends_on": [
+        "C010",
+        "C062"
+      ],
+      "disciplines": [
+        "D063"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C064",
+      "group": "Recuperación comprobada",
+      "name": "Restaurador de archivos administrados",
+      "inputs": "Caso abierto y copias fijadas",
+      "outputs": "Archivos propios restaurados y verificados",
+      "acceptance": "Fallo parcial mantiene cerrada la admisión",
+      "technology_candidate": "ManagedIntegrity.recover",
+      "depends_on": [
+        "C041",
+        "C052",
+        "C062"
+      ],
+      "disciplines": [
+        "D064"
+      ],
+      "status": "bounded_partial",
+      "implementation": "nqc_defense/managed_integrity.py",
+      "implementation_scope": "restaura dos archivos propios desde copias fijadas"
+    },
+    {
+      "id": "C065",
+      "group": "Recuperación comprobada",
+      "name": "Reactivador de servicios controlados",
+      "inputs": "Configuración validada y permiso",
+      "outputs": "Servicio recuperado con comprobación de salud",
+      "acceptance": "No declarar recuperación solo por iniciar un proceso",
+      "technology_candidate": "Conectores específicos de servicio",
+      "depends_on": [
+        "C057",
+        "C063",
+        "C064"
+      ],
+      "disciplines": [
+        "D065"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C066",
+      "group": "Recuperación comprobada",
+      "name": "Reconciliador de datos restaurados",
+      "inputs": "Datos restaurados y referencias",
+      "outputs": "Diferencias verificadas y pendientes",
+      "acceptance": "Reportar registros faltantes sin inventar datos",
+      "technology_candidate": "Consultas y reconciliación propia",
+      "depends_on": [
+        "C061",
+        "C062",
+        "C063"
+      ],
+      "disciplines": [
+        "D066"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C067",
+      "group": "Recuperación comprobada",
+      "name": "Comprobador del consumidor recuperado",
+      "inputs": "Servicio o artefacto restaurado",
+      "outputs": "Resultado de una operación real de lectura",
+      "acceptance": "Consumir exactamente los bytes inspeccionados tras restaurar",
+      "technology_candidate": "ArtifactReader y pruebas funcionales",
+      "depends_on": [
+        "C052",
+        "C064",
+        "C065",
+        "C066"
+      ],
+      "disciplines": [
+        "D067"
+      ],
+      "status": "bounded_partial",
+      "implementation": "nqc_defense/managed_integrity.py",
+      "implementation_scope": "lectura JSON real posterior a restauración"
+    },
+    {
+      "id": "C068",
+      "group": "Recuperación comprobada",
+      "name": "Ejecutor de ejercicios de continuidad",
+      "inputs": "Escenario y servicios autorizados",
+      "outputs": "Tiempos y fallos reales de restauración",
+      "acceptance": "Medir recuperación efectiva en un ensayo completo",
+      "technology_candidate": "Orquestación de laboratorio",
+      "depends_on": [
+        "C008",
+        "C063",
+        "C065",
+        "C066",
+        "C067"
+      ],
+      "disciplines": [
+        "D068"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C069",
+      "group": "Recuperación comprobada",
+      "name": "Rotador de segmentos de archivo",
+      "inputs": "Archivo lleno y checkpoint fijado",
+      "outputs": "Nuevo segmento enlazado al anterior",
+      "acceptance": "Verificar continuidad sin borrar evidencia previa",
+      "technology_candidate": "Desarrollo propio; pendiente",
+      "depends_on": [
+        "C048",
+        "C061"
+      ],
+      "disciplines": [
+        "D069"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C070",
+      "group": "Recuperación comprobada",
+      "name": "Cerrador de incidentes con lecciones verificadas",
+      "inputs": "Caso y comprobaciones de recuperación",
+      "outputs": "Cierre motivado y acciones pendientes",
+      "acceptance": "Impedir cierre definitivo con pruebas obligatorias ausentes",
+      "technology_candidate": "Máquina de estados y validadores",
+      "depends_on": [
+        "C041",
+        "C050",
+        "C060",
+        "C067",
+        "C068"
+      ],
+      "disciplines": [
+        "D070"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C071",
+      "group": "Prevención y desarrollo seguro",
+      "name": "Analizador estático de código propio",
+      "inputs": "Código autorizado y reglas",
+      "outputs": "Hallazgos con ubicación y evidencia",
+      "acceptance": "Reproducir hallazgos en corpus de evaluación propio",
+      "technology_candidate": "Analizadores estáticos existentes",
+      "depends_on": [
+        "C001",
+        "C010"
+      ],
+      "disciplines": [
+        "D071"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C072",
+      "group": "Prevención y desarrollo seguro",
+      "name": "Inventario y evaluador de componentes",
+      "inputs": "SBOM y avisos de vulnerabilidad",
+      "outputs": "Dependencias afectadas y prioridad contextual",
+      "acceptance": "Distinguir coincidencia de versión de impacto demostrado",
+      "technology_candidate": "SBOM y avisos oficiales",
+      "depends_on": [
+        "C001",
+        "C002",
+        "C071"
+      ],
+      "disciplines": [
+        "D072"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C073",
+      "group": "Prevención y desarrollo seguro",
+      "name": "Verificador de procedencia de builds",
+      "inputs": "Artefactos y atestaciones",
+      "outputs": "Procedencia validada",
+      "acceptance": "Rechazar una atestación de otro artefacto",
+      "technology_candidate": "Firmas y formatos de atestación",
+      "depends_on": [
+        "C009",
+        "C071",
+        "C072"
+      ],
+      "disciplines": [
+        "D073"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C074",
+      "group": "Prevención y desarrollo seguro",
+      "name": "Verificador de actualizaciones",
+      "inputs": "Paquetes y políticas de firma",
+      "outputs": "Actualizaciones aceptadas con versión fijada",
+      "acceptance": "Rechazar downgrade no autorizado y paquete alterado",
+      "technology_candidate": "Firmas estándar y metadatos versionados",
+      "depends_on": [
+        "C073"
+      ],
+      "disciplines": [
+        "D074"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C075",
+      "group": "Prevención y desarrollo seguro",
+      "name": "Evaluador de permisos de APIs propias",
+      "inputs": "Contratos y pruebas autorizadas",
+      "outputs": "Diferencias entre acceso esperado y observado",
+      "acceptance": "Un usuario de prueba no accede a datos de otro ámbito",
+      "technology_candidate": "Pruebas de contrato y autorización",
+      "depends_on": [
+        "C007",
+        "C010",
+        "C071"
+      ],
+      "disciplines": [
+        "D075"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C076",
+      "group": "Prevención y desarrollo seguro",
+      "name": "Evaluador de infraestructura declarativa",
+      "inputs": "Configuración de despliegue",
+      "outputs": "Desviaciones de política antes de aplicar",
+      "acceptance": "Detectar exposición introducida en un cambio de laboratorio",
+      "technology_candidate": "OPA y analizadores de configuración",
+      "depends_on": [
+        "C004",
+        "C005",
+        "C007",
+        "C071"
+      ],
+      "disciplines": [
+        "D076"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C077",
+      "group": "Prevención y desarrollo seguro",
+      "name": "Verificador de imágenes de cargas",
+      "inputs": "Imágenes y procedencia",
+      "outputs": "Política de admisión de imágenes",
+      "acceptance": "Rechazar imagen fuera de procedencia permitida",
+      "technology_candidate": "SBOM, firmas y análisis de imagen",
+      "depends_on": [
+        "C072",
+        "C073",
+        "C076"
+      ],
+      "disciplines": [
+        "D077"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C078",
+      "group": "Prevención y desarrollo seguro",
+      "name": "Controlador de herramientas de agentes",
+      "inputs": "Solicitud de herramienta y contexto",
+      "outputs": "Permiso acotado o rechazo",
+      "acceptance": "Texto no confiable no amplía permisos del agente",
+      "technology_candidate": "Políticas, aislamiento y validadores",
+      "depends_on": [
+        "C010",
+        "C025",
+        "C051"
+      ],
+      "disciplines": [
+        "D078"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C079",
+      "group": "Prevención y desarrollo seguro",
+      "name": "Evaluador de minimización de datos",
+      "inputs": "Flujos y clasificación",
+      "outputs": "Reglas de acceso y conservación mínimas",
+      "acceptance": "Evitar datos personales innecesarios en una exportación",
+      "technology_candidate": "Clasificación y políticas",
+      "depends_on": [
+        "C025",
+        "C027",
+        "C028"
+      ],
+      "disciplines": [
+        "D079"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C080",
+      "group": "Prevención y desarrollo seguro",
+      "name": "Registro de amenazas y supuestos",
+      "inputs": "Diseño y límites de confianza",
+      "outputs": "Amenazas, controles y supuestos trazables",
+      "acceptance": "Todo riesgo prioritario tiene control probado o deuda explícita",
+      "technology_candidate": "Modelo estructurado propio",
+      "depends_on": [
+        "C001",
+        "C008",
+        "C010",
+        "C071",
+        "C075",
+        "C078"
+      ],
+      "disciplines": [
+        "D080"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C081",
+      "group": "Desarrollo propio por validar",
+      "name": "Grafo de evidencias con confianza",
+      "inputs": "Eventos, casos y referencias",
+      "outputs": "Relaciones con procedencia y confianza",
+      "acceptance": "Una coincidencia temporal no se afirma causal automáticamente",
+      "technology_candidate": "Desarrollo propio sobre grafo",
+      "depends_on": [
+        "C024",
+        "C027",
+        "C041",
+        "C048"
+      ],
+      "disciplines": [
+        "D081"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C082",
+      "group": "Desarrollo propio por validar",
+      "name": "Explicador reproducible de decisiones",
+      "inputs": "Política, observaciones y resultado",
+      "outputs": "Explicación reproducible y discrepancias",
+      "acceptance": "Recalcular una decisión y detectar hechos cambiados",
+      "technology_candidate": "Receipts existentes; ampliación pendiente",
+      "depends_on": [
+        "C031",
+        "C032",
+        "C051",
+        "C081"
+      ],
+      "disciplines": [
+        "D082"
+      ],
+      "status": "bounded_partial",
+      "implementation": "nqc_defense/receipts.py",
+      "implementation_scope": "replay de decisiones locales registradas"
+    },
+    {
+      "id": "C083",
+      "group": "Desarrollo propio por validar",
+      "name": "Priorizador de exposición e impacto",
+      "inputs": "Activos, permisos y detecciones",
+      "outputs": "Prioridad con factores visibles",
+      "acceptance": "Mostrar incertidumbre cuando falta telemetría",
+      "technology_candidate": "Desarrollo propio con calibración",
+      "depends_on": [
+        "C002",
+        "C007",
+        "C026",
+        "C040",
+        "C081"
+      ],
+      "disciplines": [
+        "D083"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C084",
+      "group": "Desarrollo propio por validar",
+      "name": "Evaluador de políticas candidatas",
+      "inputs": "Eventos históricos y política candidata",
+      "outputs": "Diferencia medida frente a política vigente",
+      "acceptance": "No ejecutar respuestas mientras compara políticas",
+      "technology_candidate": "Replay defensivo propio",
+      "depends_on": [
+        "C027",
+        "C031",
+        "C040",
+        "C051",
+        "C082"
+      ],
+      "disciplines": [
+        "D084"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C085",
+      "group": "Desarrollo propio por validar",
+      "name": "Asignador de presupuesto de sensores",
+      "inputs": "Salud, riesgo y presupuesto",
+      "outputs": "Asignación y pérdida de cobertura declarada",
+      "acceptance": "Reducir costo sin ocultar las señales descartadas",
+      "technology_candidate": "Desarrollo propio sobre telemetría",
+      "depends_on": [
+        "C026",
+        "C029",
+        "C039",
+        "C083"
+      ],
+      "disciplines": [
+        "D085"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C086",
+      "group": "Desarrollo propio por validar",
+      "name": "Comparador de respuestas alternativas",
+      "inputs": "Caso, dependencias y acciones",
+      "outputs": "Opciones con impacto esperado y evidencia",
+      "acceptance": "Marcar estimación como tal y comprobarla en ensayo",
+      "technology_candidate": "Desarrollo propio; modelo por validar",
+      "depends_on": [
+        "C008",
+        "C051",
+        "C058",
+        "C083"
+      ],
+      "disciplines": [
+        "D086"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C087",
+      "group": "Desarrollo propio por validar",
+      "name": "Gestor de señuelos aislados",
+      "inputs": "Activos señuelo propios y eventos",
+      "outputs": "Alertas por interacción con señuelos",
+      "acceptance": "Sin credenciales reales ni conexión necesaria a producción",
+      "technology_candidate": "Honeynet aislada y canarios",
+      "depends_on": [
+        "C010",
+        "C021",
+        "C041"
+      ],
+      "disciplines": [
+        "D087"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C088",
+      "group": "Desarrollo propio por validar",
+      "name": "Curador de inteligencia defensiva",
+      "inputs": "Indicadores y fuentes autorizadas",
+      "outputs": "Indicadores con vigencia y procedencia",
+      "acceptance": "Una fuente vencida no genera bloqueo automático",
+      "technology_candidate": "Modelo de confianza propio",
+      "depends_on": [
+        "C024",
+        "C025",
+        "C031"
+      ],
+      "disciplines": [
+        "D088"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C089",
+      "group": "Desarrollo propio por validar",
+      "name": "Planificador de captura por incidente",
+      "inputs": "Caso, alcance y presupuesto",
+      "outputs": "Plan de adquisición mínimo suficiente",
+      "acceptance": "No capturar fuera de alcance ni exceder presupuesto",
+      "technology_candidate": "Desarrollo propio",
+      "depends_on": [
+        "C010",
+        "C025",
+        "C042",
+        "C043",
+        "C048"
+      ],
+      "disciplines": [
+        "D089"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C090",
+      "group": "Desarrollo propio por validar",
+      "name": "Registro de incertidumbre y puntos ciegos",
+      "inputs": "Calidad, pérdidas y cobertura",
+      "outputs": "Limitaciones visibles en alertas e informes",
+      "acceptance": "Un sensor caído impide declarar cobertura completa",
+      "technology_candidate": "Desarrollo propio",
+      "depends_on": [
+        "C026",
+        "C029",
+        "C040",
+        "C050",
+        "C080"
+      ],
+      "disciplines": [
+        "D090"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C091",
+      "group": "Plataforma y evaluación",
+      "name": "Aislamiento de clientes",
+      "inputs": "Identidades, datos y solicitudes",
+      "outputs": "Separación comprobada de datos y recursos",
+      "acceptance": "Consulta y acción de cliente A no afectan al B",
+      "technology_candidate": "Autorización y partición por cliente",
+      "depends_on": [
+        "C003",
+        "C007",
+        "C010",
+        "C027"
+      ],
+      "disciplines": [
+        "D091"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C092",
+      "group": "Plataforma y evaluación",
+      "name": "Control de acceso administrativo",
+      "inputs": "Operadores y políticas",
+      "outputs": "Operaciones mínimas con autorización trazable",
+      "acceptance": "Una cuenta de lectura no ejecuta respuesta",
+      "technology_candidate": "RBAC y permisos de corta duración",
+      "depends_on": [
+        "C003",
+        "C007",
+        "C051",
+        "C091"
+      ],
+      "disciplines": [
+        "D092"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C093",
+      "group": "Plataforma y evaluación",
+      "name": "Custodio de claves y rotación",
+      "inputs": "Claves y políticas de uso",
+      "outputs": "Operaciones criptográficas auditadas",
+      "acceptance": "Rotar claves sin perder verificabilidad histórica",
+      "technology_candidate": "KMS/HSM según entorno; sin criptografía casera",
+      "depends_on": [
+        "C003",
+        "C048",
+        "C092"
+      ],
+      "disciplines": [
+        "D093"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C094",
+      "group": "Plataforma y evaluación",
+      "name": "Controlador de presión y cuotas de ingestión",
+      "inputs": "Tasas, colas y prioridades",
+      "outputs": "Carga aceptada y rechazos explícitos",
+      "acceptance": "Saturación no provoca pérdida silenciosa de eventos confirmados",
+      "technology_candidate": "Colas acotadas y backpressure",
+      "depends_on": [
+        "C022",
+        "C026",
+        "C029",
+        "C091"
+      ],
+      "disciplines": [
+        "D094"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C095",
+      "group": "Plataforma y evaluación",
+      "name": "Ledger y archivo autenticados",
+      "inputs": "Decisiones y eventos del sistema",
+      "outputs": "Historial, checkpoints y exportaciones verificables",
+      "acceptance": "Alteración o prefijo incompleto frente a anclaje se rechaza",
+      "technology_candidate": "Ledger, Witness, ArchiveStore existentes",
+      "depends_on": [
+        "C041",
+        "C048",
+        "C082",
+        "C093"
+      ],
+      "disciplines": [
+        "D095"
+      ],
+      "status": "bounded_partial",
+      "implementation": "nqc_defense/archive_store.py",
+      "implementation_scope": "archivo y testigo locales; no réplica independiente"
+    },
+    {
+      "id": "C096",
+      "group": "Plataforma y evaluación",
+      "name": "Presupuesto persistente del archivo",
+      "inputs": "Archivos y política fijada",
+      "outputs": "Escrituras dentro de presupuesto",
+      "acceptance": "Procesos competidores no exceden último espacio disponible",
+      "technology_candidate": "archive_budget existente",
+      "depends_on": [
+        "C027",
+        "C095"
+      ],
+      "disciplines": [
+        "D096"
+      ],
+      "status": "bounded_partial",
+      "implementation": "nqc_defense/archive_budget.py",
+      "implementation_scope": "presupuesto para escritores cooperantes locales"
+    },
+    {
+      "id": "C097",
+      "group": "Plataforma y evaluación",
+      "name": "Monitor de objetivos operativos",
+      "inputs": "Métricas y objetivos por servicio",
+      "outputs": "Incumplimientos y presupuestos de error",
+      "acceptance": "Medir colas, pérdidas y latencias de casos lentos",
+      "technology_candidate": "OpenTelemetry y métricas propias",
+      "depends_on": [
+        "C029",
+        "C039",
+        "C094",
+        "C096"
+      ],
+      "disciplines": [
+        "D097"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C098",
+      "group": "Plataforma y evaluación",
+      "name": "Desplegador progresivo de la plataforma",
+      "inputs": "Versiones verificadas y métricas",
+      "outputs": "Despliegue acotado o reversión",
+      "acceptance": "Una regresión detiene el avance al siguiente grupo",
+      "technology_candidate": "Etapas canary y control de versiones",
+      "depends_on": [
+        "C074",
+        "C091",
+        "C092",
+        "C097"
+      ],
+      "disciplines": [
+        "D098"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C099",
+      "group": "Plataforma y evaluación",
+      "name": "Laboratorio de pruebas defensivas",
+      "inputs": "Escenarios autorizados y versiones",
+      "outputs": "Resultados repetibles con costos y errores",
+      "acceptance": "Mismo corpus permite comparar versiones sin alterar producción",
+      "technology_candidate": "Laboratorio aislado y harness propio",
+      "depends_on": [
+        "C040",
+        "C063",
+        "C068",
+        "C084",
+        "C086",
+        "C098"
+      ],
+      "disciplines": [
+        "D099"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    },
+    {
+      "id": "C100",
+      "group": "Plataforma y evaluación",
+      "name": "Matriz de capacidades demostradas",
+      "inputs": "Requisitos, integraciones y pruebas",
+      "outputs": "Cobertura medida y pendientes visibles",
+      "acceptance": "Una capacidad sin sensor o prueba no aparece como completada",
+      "technology_candidate": "Catálogo verificable y evidencia de ejecución",
+      "depends_on": [
+        "C080",
+        "C090",
+        "C095",
+        "C097",
+        "C099"
+      ],
+      "disciplines": [
+        "D100"
+      ],
+      "status": "planned",
+      "implementation": null,
+      "implementation_scope": "Sin implementación acreditada en esta entrega"
+    }
+  ],
+  "disciplines": [
+    {
+      "id": "D001",
+      "name": "Gestión de superficie de ataque",
+      "applied_to": [
+        "C001"
+      ],
+      "deliverable": "Activos con propietario y alcance",
+      "competency_check": "Rechazar activos sin autorización o propietario"
+    },
+    {
+      "id": "D002",
+      "name": "Clasificación de activos críticos",
+      "applied_to": [
+        "C002"
+      ],
+      "deliverable": "Prioridad de protección por servicio",
+      "competency_check": "Un cambio de dependencia recalcula criticidad con explicación"
+    },
+    {
+      "id": "D003",
+      "name": "Gestión de identidades de máquinas",
+      "applied_to": [
+        "C003"
+      ],
+      "deliverable": "Vínculos verificables entre carga e identidad",
+      "competency_check": "Rechazar una identidad asignada a otro activo"
+    },
+    {
+      "id": "D004",
+      "name": "Gestión de configuración segura",
+      "applied_to": [
+        "C004"
+      ],
+      "deliverable": "Versiones con hashes y aprobación",
+      "competency_check": "Detectar cambios respecto a la versión fijada"
+    },
+    {
+      "id": "D005",
+      "name": "Gestión de exposición de servicios",
+      "applied_to": [
+        "C005"
+      ],
+      "deliverable": "Servicios expuestos y responsables",
+      "competency_check": "Detectar una exposición nueva en una exportación real"
+    },
+    {
+      "id": "D006",
+      "name": "Gestión de certificados",
+      "applied_to": [
+        "C006"
+      ],
+      "deliverable": "Alertas de vigencia y asociación",
+      "competency_check": "Detectar vencimiento y certificado de otro servicio"
+    },
+    {
+      "id": "D007",
+      "name": "Gobierno de privilegios",
+      "applied_to": [
+        "C007"
+      ],
+      "deliverable": "Permisos efectivos con procedencia",
+      "competency_check": "Distinguir permiso directo de permiso heredado"
+    },
+    {
+      "id": "D008",
+      "name": "Gestión de dependencias de negocio",
+      "applied_to": [
+        "C008"
+      ],
+      "deliverable": "Impacto potencial de una contención",
+      "competency_check": "Una dependencia crítica impide una acción amplia sin revisión"
+    },
+    {
+      "id": "D009",
+      "name": "Gestión de líneas base",
+      "applied_to": [
+        "C009"
+      ],
+      "deliverable": "Referencias verificables de integridad",
+      "competency_check": "Una línea base alterada no puede aprobar un archivo"
+    },
+    {
+      "id": "D010",
+      "name": "Gobierno de alcance defensivo",
+      "applied_to": [
+        "C010"
+      ],
+      "deliverable": "Alcance permitido por sensor",
+      "competency_check": "Un sensor no obtiene acceso a activos fuera de alcance"
+    },
+    {
+      "id": "D011",
+      "name": "Telemetría de procesos Linux",
+      "applied_to": [
+        "C011"
+      ],
+      "deliverable": "Eventos de procesos con identidad de origen",
+      "competency_check": "Ver creación real de un proceso y reportar pérdida de eventos"
+    },
+    {
+      "id": "D012",
+      "name": "Telemetría de Windows",
+      "applied_to": [
+        "C012"
+      ],
+      "deliverable": "Eventos de procesos y sesiones normalizables",
+      "competency_check": "Conservar identificadores al reabrir una fuente real"
+    },
+    {
+      "id": "D013",
+      "name": "Monitorización de autenticación",
+      "applied_to": [
+        "C013"
+      ],
+      "deliverable": "Eventos de acceso con cursor persistente",
+      "competency_check": "Rotar un log sin duplicar ni omitir entradas confirmadas"
+    },
+    {
+      "id": "D014",
+      "name": "Monitorización de integridad de archivos",
+      "applied_to": [
+        "C014"
+      ],
+      "deliverable": "Observaciones de hashes y errores de lectura",
+      "competency_check": "Detectar cambio o desaparición de una copia administrada"
+    },
+    {
+      "id": "D015",
+      "name": "Seguridad de DNS",
+      "applied_to": [
+        "C015"
+      ],
+      "deliverable": "Consultas y respuestas con contexto",
+      "competency_check": "Asociar respuesta real con consulta sin inventar identidad"
+    },
+    {
+      "id": "D016",
+      "name": "Seguridad de transportes cifrados",
+      "applied_to": [
+        "C016"
+      ],
+      "deliverable": "Metadatos TLS sin prometer descifrado",
+      "competency_check": "Reportar explícitamente campos no observables"
+    },
+    {
+      "id": "D017",
+      "name": "Análisis defensivo de tráfico",
+      "applied_to": [
+        "C017"
+      ],
+      "deliverable": "Flujos y eventos de protocolos",
+      "competency_check": "Reproducir una captura de laboratorio y cuantificar pérdidas"
+    },
+    {
+      "id": "D018",
+      "name": "Detección de intrusiones en red",
+      "applied_to": [
+        "C018"
+      ],
+      "deliverable": "Alertas con regla y evidencia de origen",
+      "competency_check": "Conservar regla y referencia a tráfico al normalizar"
+    },
+    {
+      "id": "D019",
+      "name": "Auditoría de nube",
+      "applied_to": [
+        "C019"
+      ],
+      "deliverable": "Eventos de administración y acceso",
+      "competency_check": "Reanudar desde cursor sin duplicar eventos"
+    },
+    {
+      "id": "D020",
+      "name": "Auditoría de Kubernetes",
+      "applied_to": [
+        "C020"
+      ],
+      "deliverable": "Eventos de API y cambios de cargas",
+      "competency_check": "Distinguir identidad solicitante y recurso afectado"
+    },
+    {
+      "id": "D021",
+      "name": "Ingeniería de esquemas de seguridad",
+      "applied_to": [
+        "C021"
+      ],
+      "deliverable": "Eventos versionados con procedencia",
+      "competency_check": "Rechazar campos incompatibles y conservar el original referenciado"
+    },
+    {
+      "id": "D022",
+      "name": "Ingeniería de transporte de telemetría",
+      "applied_to": [
+        "C022"
+      ],
+      "deliverable": "Entregas confirmadas y reanudables",
+      "competency_check": "Reiniciar consumidor sin perder eventos confirmados"
+    },
+    {
+      "id": "D023",
+      "name": "Ingeniería de identidad de eventos",
+      "applied_to": [
+        "C023"
+      ],
+      "deliverable": "Eventos únicos y recuento de duplicados",
+      "competency_check": "Repetir el mismo lote sin duplicar incidentes"
+    },
+    {
+      "id": "D024",
+      "name": "Sincronización temporal forense",
+      "applied_to": [
+        "C024"
+      ],
+      "deliverable": "Intervalos temporales con incertidumbre",
+      "competency_check": "Un reloj atrasado no produce falsa causalidad"
+    },
+    {
+      "id": "D025",
+      "name": "Protección de datos en telemetría",
+      "applied_to": [
+        "C025"
+      ],
+      "deliverable": "Eventos minimizados y referencia protegida",
+      "competency_check": "Una credencial sembrada para prueba no sale en el evento"
+    },
+    {
+      "id": "D026",
+      "name": "Ingeniería de calidad de datos",
+      "applied_to": [
+        "C026"
+      ],
+      "deliverable": "Indicadores de campos ausentes y calidad",
+      "competency_check": "Una fuente vacía reduce cobertura declarada"
+    },
+    {
+      "id": "D027",
+      "name": "Ingeniería de almacenamiento de eventos",
+      "applied_to": [
+        "C027"
+      ],
+      "deliverable": "Consultas acotadas por cliente y tiempo",
+      "competency_check": "Limitar consulta extensa sin devolver resultados de otro cliente"
+    },
+    {
+      "id": "D028",
+      "name": "Gestión de retención de evidencias",
+      "applied_to": [
+        "C028"
+      ],
+      "deliverable": "Plan revisable de retención",
+      "competency_check": "Una evidencia bajo conservación no entra en plan de eliminación"
+    },
+    {
+      "id": "D029",
+      "name": "Observabilidad de sensores",
+      "applied_to": [
+        "C029"
+      ],
+      "deliverable": "Alertas de fuentes silenciosas o pérdidas",
+      "competency_check": "Detener un sensor de laboratorio y detectar su ausencia"
+    },
+    {
+      "id": "D030",
+      "name": "Ingeniería de compatibilidad de eventos",
+      "applied_to": [
+        "C030"
+      ],
+      "deliverable": "Matriz de compatibilidad",
+      "competency_check": "Un productor incompatible queda rechazado con causa precisa"
+    },
+    {
+      "id": "D031",
+      "name": "Ingeniería de detecciones basadas en reglas",
+      "applied_to": [
+        "C031"
+      ],
+      "deliverable": "Detecciones con versión de regla",
+      "competency_check": "Corpus etiquetado produce resultados reproducibles"
+    },
+    {
+      "id": "D032",
+      "name": "Detección de alteraciones de configuración",
+      "applied_to": [
+        "C032"
+      ],
+      "deliverable": "Decisión y evidencia de discrepancia",
+      "competency_check": "Cambiar bytes reales abre una detección; bytes intactos no"
+    },
+    {
+      "id": "D033",
+      "name": "Detección de abuso de identidades",
+      "applied_to": [
+        "C033"
+      ],
+      "deliverable": "Detecciones contextualizadas por cuenta",
+      "competency_check": "Separar cambios aprobados de uso fuera de política"
+    },
+    {
+      "id": "D034",
+      "name": "Detección de cambios de privilegios",
+      "applied_to": [
+        "C034"
+      ],
+      "deliverable": "Cambios riesgosos con diferencias de permisos",
+      "competency_check": "Detectar ampliación real de permisos en datos autorizados"
+    },
+    {
+      "id": "D035",
+      "name": "Detección de comunicaciones anómalas",
+      "applied_to": [
+        "C035"
+      ],
+      "deliverable": "Conexiones inesperadas por activo",
+      "competency_check": "Un flujo permitido no dispara la regla de aislamiento"
+    },
+    {
+      "id": "D036",
+      "name": "Detección de salida indebida de datos",
+      "applied_to": [
+        "C036"
+      ],
+      "deliverable": "Señales de salida con alcance y confianza",
+      "competency_check": "Reconocer límites de visibilidad con tráfico cifrado"
+    },
+    {
+      "id": "D037",
+      "name": "Detección de comportamiento destructivo",
+      "applied_to": [
+        "C037"
+      ],
+      "deliverable": "Alertas de actividad destructiva probable",
+      "competency_check": "Distinguir una tarea de respaldo autorizada de cambios inesperados"
+    },
+    {
+      "id": "D038",
+      "name": "Análisis de persistencia no autorizada",
+      "applied_to": [
+        "C038"
+      ],
+      "deliverable": "Cambios persistentes fuera de línea base",
+      "competency_check": "Una instalación aprobada no se clasifica como incidente"
+    },
+    {
+      "id": "D039",
+      "name": "Detección de abuso de recursos",
+      "applied_to": [
+        "C039"
+      ],
+      "deliverable": "Desviaciones y acciones propuestas",
+      "competency_check": "Distinguir saturación operativa de evidencia de intrusión"
+    },
+    {
+      "id": "D040",
+      "name": "Calibración de detecciones",
+      "applied_to": [
+        "C040"
+      ],
+      "deliverable": "Umbrales con errores medidos",
+      "competency_check": "Reportar precisión y omisiones por escenario y versión"
+    },
+    {
+      "id": "D041",
+      "name": "Gestión de incidentes",
+      "applied_to": [
+        "C041"
+      ],
+      "deliverable": "Casos abiertos, estados y cierre trazable",
+      "competency_check": "Reabrir proceso conserva un incidente y su identidad"
+    },
+    {
+      "id": "D042",
+      "name": "Triage de incidentes",
+      "applied_to": [
+        "C042"
+      ],
+      "deliverable": "Cola priorizada con explicación",
+      "competency_check": "Cambiar criticidad altera prioridad sin ocultar evidencia"
+    },
+    {
+      "id": "D043",
+      "name": "Adquisición forense de archivos",
+      "applied_to": [
+        "C043"
+      ],
+      "deliverable": "Copias verificadas con metadatos",
+      "competency_check": "Cambio durante lectura invalida adquisición completa"
+    },
+    {
+      "id": "D044",
+      "name": "Forense de memoria",
+      "applied_to": [
+        "C044"
+      ],
+      "deliverable": "Hallazgos enlazados a offsets y herramienta",
+      "competency_check": "Analizar una captura conocida y registrar limitaciones"
+    },
+    {
+      "id": "D045",
+      "name": "Forense de sistemas operativos",
+      "applied_to": [
+        "C045"
+      ],
+      "deliverable": "Eventos de sistema con procedencia",
+      "competency_check": "No confundir ausencia de artefacto con ausencia de actividad"
+    },
+    {
+      "id": "D046",
+      "name": "Forense de red",
+      "applied_to": [
+        "C046"
+      ],
+      "deliverable": "Cronología de comunicaciones",
+      "competency_check": "Reproducir una sesión de laboratorio con evidencias referenciadas"
+    },
+    {
+      "id": "D047",
+      "name": "Forense de nube",
+      "applied_to": [
+        "C047"
+      ],
+      "deliverable": "Cronología de cambios y acceso",
+      "competency_check": "Detectar huecos de auditoría y reportarlos"
+    },
+    {
+      "id": "D048",
+      "name": "Cadena de custodia digital",
+      "applied_to": [
+        "C048"
+      ],
+      "deliverable": "Historial verificable de manejo",
+      "competency_check": "Una alteración o acceso no autorizado se detecta o rechaza"
+    },
+    {
+      "id": "D049",
+      "name": "Análisis de malware",
+      "applied_to": [
+        "C049"
+      ],
+      "deliverable": "Indicadores y comportamiento observado",
+      "competency_check": "Sin acceso a producción; salida y recursos restringidos"
+    },
+    {
+      "id": "D050",
+      "name": "Elaboración de informes forenses",
+      "applied_to": [
+        "C050"
+      ],
+      "deliverable": "Informe con hechos, hipótesis y límites",
+      "competency_check": "Cada afirmación factual enlaza a evidencia disponible"
+    },
+    {
+      "id": "D051",
+      "name": "Ingeniería de políticas de respuesta",
+      "applied_to": [
+        "C051"
+      ],
+      "deliverable": "Permiso limitado y explicable",
+      "competency_check": "Rechazar acción que exceda activos o duración permitidos"
+    },
+    {
+      "id": "D052",
+      "name": "Contención de consumo de datos",
+      "applied_to": [
+        "C052"
+      ],
+      "deliverable": "Bytes aprobados o rechazo persistente",
+      "competency_check": "Archivo alterado no llega al consumidor administrado"
+    },
+    {
+      "id": "D053",
+      "name": "Contención de sesiones",
+      "applied_to": [
+        "C053"
+      ],
+      "deliverable": "Revocación comprobada por proveedor",
+      "competency_check": "Revocar solo sesiones del alcance aprobado"
+    },
+    {
+      "id": "D054",
+      "name": "Contención de conectividad",
+      "applied_to": [
+        "C054"
+      ],
+      "deliverable": "Regla acotada con comprobación posterior",
+      "competency_check": "Conservar acceso de recuperación y expirar excepción"
+    },
+    {
+      "id": "D055",
+      "name": "Contención de cargas de trabajo",
+      "applied_to": [
+        "C055"
+      ],
+      "deliverable": "Cambio acotado de acceso de la carga",
+      "competency_check": "Una carga ajena al caso permanece intacta"
+    },
+    {
+      "id": "D056",
+      "name": "Gestión de credenciales comprometidas",
+      "applied_to": [
+        "C056"
+      ],
+      "deliverable": "Rotación y prueba de uso de nueva versión",
+      "competency_check": "Revocar versión anterior solo tras verificar transición"
+    },
+    {
+      "id": "D057",
+      "name": "Gestión de cambios de emergencia",
+      "applied_to": [
+        "C057"
+      ],
+      "deliverable": "Resultado y plan de reversión",
+      "competency_check": "Un fallo de validación detiene el despliegue"
+    },
+    {
+      "id": "D058",
+      "name": "Control de impacto de respuesta",
+      "applied_to": [
+        "C058"
+      ],
+      "deliverable": "Acciones dentro de presupuesto de impacto",
+      "competency_check": "Una cascada excedida se detiene antes de afectar otro servicio"
+    },
+    {
+      "id": "D059",
+      "name": "Reversión de cambios defensivos",
+      "applied_to": [
+        "C059"
+      ],
+      "deliverable": "Restauración del cambio específico",
+      "competency_check": "No revertir cambios posteriores ajenos al incidente"
+    },
+    {
+      "id": "D060",
+      "name": "Coordinación de respuesta operativa",
+      "applied_to": [
+        "C060"
+      ],
+      "deliverable": "Ejecución por etapas con estados persistentes",
+      "competency_check": "Reanudar tras fallo sin repetir acciones no idempotentes"
+    },
+    {
+      "id": "D061",
+      "name": "Gobierno de respaldos",
+      "applied_to": [
+        "C061"
+      ],
+      "deliverable": "Cobertura de recuperación por servicio",
+      "competency_check": "Distinguir respaldo existente de respaldo probado"
+    },
+    {
+      "id": "D062",
+      "name": "Verificación de integridad de respaldos",
+      "applied_to": [
+        "C062"
+      ],
+      "deliverable": "Copias aceptadas o rechazadas",
+      "competency_check": "Una copia alterada jamás se utiliza para recuperar"
+    },
+    {
+      "id": "D063",
+      "name": "Recuperación en entorno aislado",
+      "applied_to": [
+        "C063"
+      ],
+      "deliverable": "Instancia restaurada de ensayo",
+      "competency_check": "No escribir en producción durante ensayo"
+    },
+    {
+      "id": "D064",
+      "name": "Recuperación de configuración administrada",
+      "applied_to": [
+        "C064"
+      ],
+      "deliverable": "Archivos propios restaurados y verificados",
+      "competency_check": "Fallo parcial mantiene cerrada la admisión"
+    },
+    {
+      "id": "D065",
+      "name": "Recuperación de servicios",
+      "applied_to": [
+        "C065"
+      ],
+      "deliverable": "Servicio recuperado con comprobación de salud",
+      "competency_check": "No declarar recuperación solo por iniciar un proceso"
+    },
+    {
+      "id": "D066",
+      "name": "Reconciliación de datos tras incidente",
+      "applied_to": [
+        "C066"
+      ],
+      "deliverable": "Diferencias verificadas y pendientes",
+      "competency_check": "Reportar registros faltantes sin inventar datos"
+    },
+    {
+      "id": "D067",
+      "name": "Validación funcional de recuperación",
+      "applied_to": [
+        "C067"
+      ],
+      "deliverable": "Resultado de una operación real de lectura",
+      "competency_check": "Consumir exactamente los bytes inspeccionados tras restaurar"
+    },
+    {
+      "id": "D068",
+      "name": "Continuidad de negocio",
+      "applied_to": [
+        "C068"
+      ],
+      "deliverable": "Tiempos y fallos reales de restauración",
+      "competency_check": "Medir recuperación efectiva en un ensayo completo"
+    },
+    {
+      "id": "D069",
+      "name": "Capacidad y continuidad de evidencias",
+      "applied_to": [
+        "C069"
+      ],
+      "deliverable": "Nuevo segmento enlazado al anterior",
+      "competency_check": "Verificar continuidad sin borrar evidencia previa"
+    },
+    {
+      "id": "D070",
+      "name": "Evaluación posterior a incidentes",
+      "applied_to": [
+        "C070"
+      ],
+      "deliverable": "Cierre motivado y acciones pendientes",
+      "competency_check": "Impedir cierre definitivo con pruebas obligatorias ausentes"
+    },
+    {
+      "id": "D071",
+      "name": "Seguridad estática de aplicaciones",
+      "applied_to": [
+        "C071"
+      ],
+      "deliverable": "Hallazgos con ubicación y evidencia",
+      "competency_check": "Reproducir hallazgos en corpus de evaluación propio"
+    },
+    {
+      "id": "D072",
+      "name": "Seguridad de dependencias",
+      "applied_to": [
+        "C072"
+      ],
+      "deliverable": "Dependencias afectadas y prioridad contextual",
+      "competency_check": "Distinguir coincidencia de versión de impacto demostrado"
+    },
+    {
+      "id": "D073",
+      "name": "Seguridad de compilaciones",
+      "applied_to": [
+        "C073"
+      ],
+      "deliverable": "Procedencia validada",
+      "competency_check": "Rechazar una atestación de otro artefacto"
+    },
+    {
+      "id": "D074",
+      "name": "Seguridad de distribución de software",
+      "applied_to": [
+        "C074"
+      ],
+      "deliverable": "Actualizaciones aceptadas con versión fijada",
+      "competency_check": "Rechazar downgrade no autorizado y paquete alterado"
+    },
+    {
+      "id": "D075",
+      "name": "Seguridad de autorización de APIs",
+      "applied_to": [
+        "C075"
+      ],
+      "deliverable": "Diferencias entre acceso esperado y observado",
+      "competency_check": "Un usuario de prueba no accede a datos de otro ámbito"
+    },
+    {
+      "id": "D076",
+      "name": "Seguridad de infraestructura como código",
+      "applied_to": [
+        "C076"
+      ],
+      "deliverable": "Desviaciones de política antes de aplicar",
+      "competency_check": "Detectar exposición introducida en un cambio de laboratorio"
+    },
+    {
+      "id": "D077",
+      "name": "Seguridad de imágenes de contenedor",
+      "applied_to": [
+        "C077"
+      ],
+      "deliverable": "Política de admisión de imágenes",
+      "competency_check": "Rechazar imagen fuera de procedencia permitida"
+    },
+    {
+      "id": "D078",
+      "name": "Seguridad de agentes de IA",
+      "applied_to": [
+        "C078"
+      ],
+      "deliverable": "Permiso acotado o rechazo",
+      "competency_check": "Texto no confiable no amplía permisos del agente"
+    },
+    {
+      "id": "D079",
+      "name": "Privacidad técnica",
+      "applied_to": [
+        "C079"
+      ],
+      "deliverable": "Reglas de acceso y conservación mínimas",
+      "competency_check": "Evitar datos personales innecesarios en una exportación"
+    },
+    {
+      "id": "D080",
+      "name": "Modelado de amenazas",
+      "applied_to": [
+        "C080"
+      ],
+      "deliverable": "Amenazas, controles y supuestos trazables",
+      "competency_check": "Todo riesgo prioritario tiene control probado o deuda explícita"
+    },
+    {
+      "id": "D081",
+      "name": "Correlación de evidencias",
+      "applied_to": [
+        "C081"
+      ],
+      "deliverable": "Relaciones con procedencia y confianza",
+      "competency_check": "Una coincidencia temporal no se afirma causal automáticamente"
+    },
+    {
+      "id": "D082",
+      "name": "Trazabilidad de decisiones",
+      "applied_to": [
+        "C082"
+      ],
+      "deliverable": "Explicación reproducible y discrepancias",
+      "competency_check": "Recalcular una decisión y detectar hechos cambiados"
+    },
+    {
+      "id": "D083",
+      "name": "Priorización de riesgo contextual",
+      "applied_to": [
+        "C083"
+      ],
+      "deliverable": "Prioridad con factores visibles",
+      "competency_check": "Mostrar incertidumbre cuando falta telemetría"
+    },
+    {
+      "id": "D084",
+      "name": "Evaluación contrafactual defensiva",
+      "applied_to": [
+        "C084"
+      ],
+      "deliverable": "Diferencia medida frente a política vigente",
+      "competency_check": "No ejecutar respuestas mientras compara políticas"
+    },
+    {
+      "id": "D085",
+      "name": "Muestreo adaptativo de seguridad",
+      "applied_to": [
+        "C085"
+      ],
+      "deliverable": "Asignación y pérdida de cobertura declarada",
+      "competency_check": "Reducir costo sin ocultar las señales descartadas"
+    },
+    {
+      "id": "D086",
+      "name": "Evaluación de impacto de contención",
+      "applied_to": [
+        "C086"
+      ],
+      "deliverable": "Opciones con impacto esperado y evidencia",
+      "competency_check": "Marcar estimación como tal y comprobarla en ensayo"
+    },
+    {
+      "id": "D087",
+      "name": "Detección por engaño defensivo",
+      "applied_to": [
+        "C087"
+      ],
+      "deliverable": "Alertas por interacción con señuelos",
+      "competency_check": "Sin credenciales reales ni conexión necesaria a producción"
+    },
+    {
+      "id": "D088",
+      "name": "Evaluación de confianza de inteligencia",
+      "applied_to": [
+        "C088"
+      ],
+      "deliverable": "Indicadores con vigencia y procedencia",
+      "competency_check": "Una fuente vencida no genera bloqueo automático"
+    },
+    {
+      "id": "D089",
+      "name": "Preservación selectiva de evidencia",
+      "applied_to": [
+        "C089"
+      ],
+      "deliverable": "Plan de adquisición mínimo suficiente",
+      "competency_check": "No capturar fuera de alcance ni exceder presupuesto"
+    },
+    {
+      "id": "D090",
+      "name": "Evaluación de incertidumbre operativa",
+      "applied_to": [
+        "C090"
+      ],
+      "deliverable": "Limitaciones visibles en alertas e informes",
+      "competency_check": "Un sensor caído impide declarar cobertura completa"
+    },
+    {
+      "id": "D091",
+      "name": "Seguridad de plataformas multicliente",
+      "applied_to": [
+        "C091"
+      ],
+      "deliverable": "Separación comprobada de datos y recursos",
+      "competency_check": "Consulta y acción de cliente A no afectan al B"
+    },
+    {
+      "id": "D092",
+      "name": "Administración de acceso privilegiado",
+      "applied_to": [
+        "C092"
+      ],
+      "deliverable": "Operaciones mínimas con autorización trazable",
+      "competency_check": "Una cuenta de lectura no ejecuta respuesta"
+    },
+    {
+      "id": "D093",
+      "name": "Gestión criptográfica de claves",
+      "applied_to": [
+        "C093"
+      ],
+      "deliverable": "Operaciones criptográficas auditadas",
+      "competency_check": "Rotar claves sin perder verificabilidad histórica"
+    },
+    {
+      "id": "D094",
+      "name": "Ingeniería de disponibilidad",
+      "applied_to": [
+        "C094"
+      ],
+      "deliverable": "Carga aceptada y rechazos explícitos",
+      "competency_check": "Saturación no provoca pérdida silenciosa de eventos confirmados"
+    },
+    {
+      "id": "D095",
+      "name": "Ingeniería de evidencia verificable",
+      "applied_to": [
+        "C095"
+      ],
+      "deliverable": "Historial, checkpoints y exportaciones verificables",
+      "competency_check": "Alteración o prefijo incompleto frente a anclaje se rechaza"
+    },
+    {
+      "id": "D096",
+      "name": "Ingeniería de capacidad de almacenamiento",
+      "applied_to": [
+        "C096"
+      ],
+      "deliverable": "Escrituras dentro de presupuesto",
+      "competency_check": "Procesos competidores no exceden último espacio disponible"
+    },
+    {
+      "id": "D097",
+      "name": "Ingeniería de fiabilidad del servicio",
+      "applied_to": [
+        "C097"
+      ],
+      "deliverable": "Incumplimientos y presupuestos de error",
+      "competency_check": "Medir colas, pérdidas y latencias de casos lentos"
+    },
+    {
+      "id": "D098",
+      "name": "Ingeniería de actualizaciones seguras",
+      "applied_to": [
+        "C098"
+      ],
+      "deliverable": "Despliegue acotado o reversión",
+      "competency_check": "Una regresión detiene el avance al siguiente grupo"
+    },
+    {
+      "id": "D099",
+      "name": "Evaluación reproducible de seguridad",
+      "applied_to": [
+        "C099"
+      ],
+      "deliverable": "Resultados repetibles con costos y errores",
+      "competency_check": "Mismo corpus permite comparar versiones sin alterar producción"
+    },
+    {
+      "id": "D100",
+      "name": "Medición de cobertura defensiva",
+      "applied_to": [
+        "C100"
+      ],
+      "deliverable": "Cobertura medida y pendientes visibles",
+      "competency_check": "Una capacidad sin sensor o prueba no aparece como completada"
+    }
+  ],
+  "sources": [
+    {
+      "name": "Falco: eventos de kernel",
+      "url": "https://falco.org/docs/concepts/event-sources/kernel/"
+    },
+    {
+      "name": "OCSF: esquemas de eventos",
+      "url": "https://github.com/ocsf/ocsf-schema"
+    },
+    {
+      "name": "Zeek: monitor de red",
+      "url": "https://zeek.org/"
+    },
+    {
+      "name": "Suricata: análisis y detección de red",
+      "url": "https://suricata.io/"
+    },
+    {
+      "name": "Sigma: formato de detección",
+      "url": "https://sigmahq.io/"
+    },
+    {
+      "name": "OpenTelemetry Collector",
+      "url": "https://opentelemetry.io/docs/collector/"
+    },
+    {
+      "name": "Open Policy Agent",
+      "url": "https://www.openpolicyagent.org/docs"
+    },
+    {
+      "name": "NIST CSF",
+      "url": "https://www.nist.gov/cyberframework/faqs"
+    },
+    {
+      "name": "NIST forense e incidentes",
+      "url": "https://csrc.nist.gov/pubs/sp/800/86/final"
+    },
+    {
+      "name": "MITRE D3FEND",
+      "url": "https://d3fend.mitre.org/"
+    }
+  ],
+  "fully_completed_components": 0,
+  "scope": "Architecture requirements plus explicitly bounded implemented slices; not 100 finished programs, and not an assertion of runtime integration for planned components."
+}

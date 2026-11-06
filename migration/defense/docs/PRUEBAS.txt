@@ -258,6 +258,28 @@ test_invalid_token_401_without_echo (test_defense.WebTests.test_invalid_token_40
 test_real_loopback_http_lifecycle (test_defense.WebTests.test_real_loopback_http_lifecycle) ... ok
 test_routes_and_limits (test_defense.WebTests.test_routes_and_limits) ... ok
 test_unknown_fields_rejected (test_defense.WebTests.test_unknown_fields_rejected) ... ok
+test_canary_baseline_checked_before_any_replacement (test_managed_integrity.ManagedIntegrityTests.test_canary_baseline_checked_before_any_replacement) ... ok
+test_changed_canary_is_restored_and_verified (test_managed_integrity.ManagedIntegrityTests.test_changed_canary_is_restored_and_verified) ... ok
+test_cli_sample_inspect_recover_and_archive (test_managed_integrity.ManagedIntegrityTests.test_cli_sample_inspect_recover_and_archive) ... ok
+test_contained_poll_is_not_claimed_as_a_new_observation (test_managed_integrity.ManagedIntegrityTests.test_contained_poll_is_not_claimed_as_a_new_observation) ... ok
+test_cooperating_operation_lock_rejects_overlap (test_managed_integrity.ManagedIntegrityTests.test_cooperating_operation_lock_rejects_overlap) ... ok
+test_database_removed_after_open_is_not_recreated (test_managed_integrity.ManagedIntegrityTests.test_database_removed_after_open_is_not_recreated) ... ok
+test_direct_consumer_detection_also_opens_incident (test_managed_integrity.ManagedIntegrityTests.test_direct_consumer_detection_also_opens_incident) ... ok
+test_failed_restore_write_keeps_incident_open (test_managed_integrity.ManagedIntegrityTests.test_failed_restore_write_keeps_incident_open) ... ok
+test_hardlinked_target_is_not_replaced (test_managed_integrity.ManagedIntegrityTests.test_hardlinked_target_is_not_replaced) ... ok
+test_init_never_overwrites_existing_root_or_accepts_invalid_json (test_managed_integrity.ManagedIntegrityTests.test_init_never_overwrites_existing_root_or_accepts_invalid_json) ... ok
+test_manifest_tampering_and_wrong_pin_rejected (test_managed_integrity.ManagedIntegrityTests.test_manifest_tampering_and_wrong_pin_rejected) ... ok
+test_missing_database_is_not_silently_recreated (test_managed_integrity.ManagedIntegrityTests.test_missing_database_is_not_silently_recreated) ... ok
+test_missing_managed_artifact_can_be_restored (test_managed_integrity.ManagedIntegrityTests.test_missing_managed_artifact_can_be_restored) ... ok
+test_new_incident_after_recovery_has_different_evidence_identity (test_managed_integrity.ManagedIntegrityTests.test_new_incident_after_recovery_has_different_evidence_identity) ... ok
+test_rate_rejection_is_not_fabricated_as_security_incident (test_managed_integrity.ManagedIntegrityTests.test_rate_rejection_is_not_fabricated_as_security_incident) ... ok
+test_real_observation_incident_containment_restore_and_verified_read (test_managed_integrity.ManagedIntegrityTests.test_real_observation_incident_containment_restore_and_verified_read) ... ok
+test_recovery_requires_an_open_incident (test_managed_integrity.ManagedIntegrityTests.test_recovery_requires_an_open_incident) ... ok
+test_release_audit_failure_keeps_gate_closed_after_restoration (test_managed_integrity.ManagedIntegrityTests.test_release_audit_failure_keeps_gate_closed_after_restoration) ... ok
+test_reopen_preserves_open_and_resolved_incident (test_managed_integrity.ManagedIntegrityTests.test_reopen_preserves_open_and_resolved_incident) ... ok
+test_restore_never_follows_symlink_to_original_source (test_managed_integrity.ManagedIntegrityTests.test_restore_never_follows_symlink_to_original_source) ... ok
+test_unverified_baseline_never_replaces_managed_file (test_managed_integrity.ManagedIntegrityTests.test_unverified_baseline_never_replaces_managed_file) ... ok
+test_witness_removed_after_open_is_not_recreated (test_managed_integrity.ManagedIntegrityTests.test_witness_removed_after_open_is_not_recreated) ... ok
 test_altered_page_cannot_advance_witness (test_witness.WitnessTests.test_altered_page_cannot_advance_witness) ... ok
 test_cli_initializes_advances_and_guards_engine (test_witness.WitnessTests.test_cli_initializes_advances_and_guards_engine) ... ok
 test_commit_failure_cannot_acknowledge_advancement (test_witness.WitnessTests.test_commit_failure_cannot_acknowledge_advancement) ... ok
@@ -285,6 +307,6 @@ test_witness_requires_separate_key_and_pinned_bindings (test_witness.WitnessTest
 test_witness_tail_rollback_requires_separately_retained_receipt (test_witness.WitnessTests.test_witness_tail_rollback_requires_separately_retained_receipt) ... ok
 
 ----------------------------------------------------------------------
-Ran 285 tests in 15.657s
+Ran 307 tests in 17.596s
 
 OK

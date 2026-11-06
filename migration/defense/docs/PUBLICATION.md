@@ -19,3 +19,5 @@ La versión 0.8.0 se publicó en `d154aeed5b92cbdefe55f680be580c1742abccba`. Agr
 La versión 0.9.0 agrega presupuesto persistente con hash externo, coordinación de escritores con bloqueo del directorio, conteo de archivos reales y reintento idéntico sin copia temporal adicional. Páginas, manifiestos y catálogos comparten el control. Añade 30 pruebas: total 285 del paquete y 9 de aislamiento. Su padre es la publicación 0.8.0. Se prueban procesos concurrentes y salidas abruptas; no se borran evidencias ni se activa producción.
 
 Se conservan `main`, las demás ramas, los bytes originales de Census y los workflows deshabilitados. Publicar esta rama no activa un servicio, trading ni despliegue. Los informes de 0.2.0 corresponden a la entrega local anterior.
+
+La entrega 0.10.0 se valida sobre el padre `c8724ba6d9a3ebeed98ddc399ca525dcb3b7c3fd` para publicar únicamente en la misma rama. Agrega los dos catálogos nuevos y la cadena local ManagedIntegrity, sin activar servicios ni cambiar fuentes originales. El commit final se comprueba mediante el ref remoto y la igualdad del árbol publicado con el árbol probado.
