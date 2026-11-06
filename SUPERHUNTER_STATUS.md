@@ -42,3 +42,10 @@
 
 ## Límites invariables
 Investigación white/grey hat solo en entornos propios, autorizados o reproducciones offline; sin escaneo/explotación de terceros sin permiso, sin divulgar etiquetas privadas, credenciales, fondos, firmas ni datos personales. No tocar `nexus-engine`, Cano/Vercel, workflows heredados ni NQC histórico.
+
+
+## Actualización incremental 2026-11-06 — cadena forense M1
+- **PR #46:** https://github.com/josuechavando350-png/nexus-quant-capital/pull/46 — normalización temporal + parser real de exports journalctl JSONL. Validación local reejecutada: **2041/2041** + `verify-check` independiente, digest `927733768bcd394622336cd827fe2e4fc3b4e069da167fc2a3182c14e8a28e5b`. **No fusionado**.
+- **PR #47:** https://github.com/josuechavando350-png/nexus-quant-capital/pull/47 — correlación entre fuentes forenses: conserva bytes de journals, offsets/SHA-256, detecta contradicciones, ciclos e incertidumbre y verifica el expediente offline. Commit `08f91972845876f807e64a246a0944b0bb5871c9`. 21 pruebas nuevas específicas PASS. **QA global de 2062 casos EN EJECUCIÓN/PENDIENTE**, no afirmar aprobación antes de verificación; un primer reparto de trabajadores agotó 180 s (TimeoutExpired) y quedó registrado sin contarlo como PASS. La corrección conserva las particiones anteriores sin excluir tests ni subir límites. **PR en borrador, no fusionado**.
+- Orden de dependencia: `main` -> PR #45 -> PR #46 -> PR #47. La comparación Git de `main` con PR #47 muestra únicamente archivos `superhunter/` añadidos (223 rutas) y ningún cambio en los árboles NQC históricos.
+- Para continuar: verificar el último HEAD real del PR #47, reejecutar y registrar `check`/`verify-check` y, después, proseguir M1 con una segunda modalidad de evidencia independiente. No afirmar todavía causalidad, DFIR completo ni nuevas vulnerabilidades.
