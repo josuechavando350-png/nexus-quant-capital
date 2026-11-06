@@ -43,3 +43,5 @@ La entrega 0.19.0 se valida sobre `2ed8de3125843c5932d05e850bb62a51b21b3d7d`. Pu
 La entrega 0.20.0 se valida sobre `b28c356de54c6fbffacb199c7ddc1bd7b30e0948`. Reutiliza reconstrucciones inmutables del registro con relectura por llamada y conserva informes idénticos a 0.19. Pasan 698 pruebas del paquete y 9 de aislamiento; cinco criterios del bloque. La prueba prolongada del baseline sigue pendiente y no se cuenta como aprobada.
 
 La entrega 0.21.0 se valida sobre `ad94c2bb4ba903e76cb69f7e07f407df0ce6dc37`. Añade cola explicable de expedientes registrados, política fijada y recomputación. Pasan 743 pruebas del paquete y 9 de aislamiento; seis criterios y 684 variantes de entrada. El paquete instalado reproduce el resultado público. Las dos pruebas prolongadas siguen pendientes al preparar este commit.
+
+La entrega 0.22.0 se valida sobre `d7875badfa2fc4f12b97ff1e1ccb090a7ad342c4`. Incorpora lectura SQLite acotada, cinco criterios aprobados, 760 pruebas del paquete y 9 de aislamiento. Incluye un ensayo concluido de 30 minutos del receptor 0.20, claramente separado del código nuevo. Los otros dos ensayos siguen pendientes al preparar el commit.

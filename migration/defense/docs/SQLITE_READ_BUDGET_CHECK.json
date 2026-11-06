@@ -1,0 +1,166 @@
+{
+  "baseline_checkout": "/workspace/scratch/2e86b3bf9a38/nqc-triage-baseline/migration/defense",
+  "candidate_checkout": "/workspace/scratch/2e86b3bf9a38/nqc-defense-next/migration/defense",
+  "concurrent_workload": "other endurance tests on the same host",
+  "fixture_origin": "owned temporary stores; explicit 64 MiB zero-filled corruption fixtures",
+  "measurement": "separate interpreter per run; alternating order; Linux /proc/self/status VmHWM and VmRSS",
+  "os_memory_quota_claimed": false,
+  "production_performance_claimed": false,
+  "results": [
+    {
+      "database_bytes": 67182592,
+      "database_unchanged": true,
+      "kind": "registry",
+      "oversized_value_bytes": 67108864,
+      "runs": [
+        {
+          "baseline": {
+            "elapsed_seconds": 0.09876334300133749,
+            "process_vm_hwm_kib": 146544,
+            "reason": "registry_payload",
+            "rejected": true,
+            "rss_after_kib": 15528,
+            "rss_before_kib": 15104,
+            "rusage_peak_rss_kib_may_include_pre_exec_peak": 155640,
+            "source_sha256": {
+              "registry_mirror.py": "71995cd51e9aba7ffe69e72ce8ad1ae7ae0ab8a3c0aba724d60419a5c8c711e5",
+              "signer_registry.py": "934864dfdeaa84747956c063ceabe26e2ff650fd504612e789a2fbc590d1f439",
+              "sqlite_limits.py": null
+            }
+          },
+          "candidate": {
+            "elapsed_seconds": 0.0008541090028302278,
+            "process_vm_hwm_kib": 15508,
+            "reason": "registry_storage_value_limit",
+            "rejected": true,
+            "rss_after_kib": 15508,
+            "rss_before_kib": 15088,
+            "rusage_peak_rss_kib_may_include_pre_exec_peak": 155640,
+            "source_sha256": {
+              "registry_mirror.py": "0629f0afaf3adb2e9571e43b824af3fe0acc2cc5c37e8dbd21646bbe4420a268",
+              "signer_registry.py": "5d2f00b845e5906c6267ce7d7e6eaa7fb535418979eaba833cde346435f9b7d5",
+              "sqlite_limits.py": "fe100b882a3037d2562a277ec07e161595d2f2cb1d012ecc0d4e1fdbe0dd2634"
+            }
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ]
+        },
+        {
+          "baseline": {
+            "elapsed_seconds": 0.09580424299929291,
+            "process_vm_hwm_kib": 146540,
+            "reason": "registry_payload",
+            "rejected": true,
+            "rss_after_kib": 15524,
+            "rss_before_kib": 15100,
+            "rusage_peak_rss_kib_may_include_pre_exec_peak": 155640,
+            "source_sha256": {
+              "registry_mirror.py": "71995cd51e9aba7ffe69e72ce8ad1ae7ae0ab8a3c0aba724d60419a5c8c711e5",
+              "signer_registry.py": "934864dfdeaa84747956c063ceabe26e2ff650fd504612e789a2fbc590d1f439",
+              "sqlite_limits.py": null
+            }
+          },
+          "candidate": {
+            "elapsed_seconds": 0.0010444699983054306,
+            "process_vm_hwm_kib": 15508,
+            "reason": "registry_storage_value_limit",
+            "rejected": true,
+            "rss_after_kib": 15508,
+            "rss_before_kib": 15088,
+            "rusage_peak_rss_kib_may_include_pre_exec_peak": 155640,
+            "source_sha256": {
+              "registry_mirror.py": "0629f0afaf3adb2e9571e43b824af3fe0acc2cc5c37e8dbd21646bbe4420a268",
+              "signer_registry.py": "5d2f00b845e5906c6267ce7d7e6eaa7fb535418979eaba833cde346435f9b7d5",
+              "sqlite_limits.py": "fe100b882a3037d2562a277ec07e161595d2f2cb1d012ecc0d4e1fdbe0dd2634"
+            }
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ]
+        }
+      ]
+    },
+    {
+      "database_bytes": 67182592,
+      "database_unchanged": true,
+      "kind": "mirror",
+      "oversized_value_bytes": 67108864,
+      "runs": [
+        {
+          "baseline": {
+            "elapsed_seconds": 0.07349284199881367,
+            "process_vm_hwm_kib": 146496,
+            "reason": "input_size",
+            "rejected": true,
+            "rss_after_kib": 15516,
+            "rss_before_kib": 15100,
+            "rusage_peak_rss_kib_may_include_pre_exec_peak": 155640,
+            "source_sha256": {
+              "registry_mirror.py": "71995cd51e9aba7ffe69e72ce8ad1ae7ae0ab8a3c0aba724d60419a5c8c711e5",
+              "signer_registry.py": "934864dfdeaa84747956c063ceabe26e2ff650fd504612e789a2fbc590d1f439",
+              "sqlite_limits.py": null
+            }
+          },
+          "candidate": {
+            "elapsed_seconds": 0.009247829002561048,
+            "process_vm_hwm_kib": 16640,
+            "reason": "mirror_storage_shape",
+            "rejected": true,
+            "rss_after_kib": 15552,
+            "rss_before_kib": 15084,
+            "rusage_peak_rss_kib_may_include_pre_exec_peak": 155640,
+            "source_sha256": {
+              "registry_mirror.py": "0629f0afaf3adb2e9571e43b824af3fe0acc2cc5c37e8dbd21646bbe4420a268",
+              "signer_registry.py": "5d2f00b845e5906c6267ce7d7e6eaa7fb535418979eaba833cde346435f9b7d5",
+              "sqlite_limits.py": "fe100b882a3037d2562a277ec07e161595d2f2cb1d012ecc0d4e1fdbe0dd2634"
+            }
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ]
+        },
+        {
+          "baseline": {
+            "elapsed_seconds": 0.07970337100050529,
+            "process_vm_hwm_kib": 146496,
+            "reason": "input_size",
+            "rejected": true,
+            "rss_after_kib": 15516,
+            "rss_before_kib": 15100,
+            "rusage_peak_rss_kib_may_include_pre_exec_peak": 155640,
+            "source_sha256": {
+              "registry_mirror.py": "71995cd51e9aba7ffe69e72ce8ad1ae7ae0ab8a3c0aba724d60419a5c8c711e5",
+              "signer_registry.py": "934864dfdeaa84747956c063ceabe26e2ff650fd504612e789a2fbc590d1f439",
+              "sqlite_limits.py": null
+            }
+          },
+          "candidate": {
+            "elapsed_seconds": 0.013102864999382291,
+            "process_vm_hwm_kib": 16640,
+            "reason": "mirror_storage_shape",
+            "rejected": true,
+            "rss_after_kib": 15560,
+            "rss_before_kib": 15092,
+            "rusage_peak_rss_kib_may_include_pre_exec_peak": 155640,
+            "source_sha256": {
+              "registry_mirror.py": "0629f0afaf3adb2e9571e43b824af3fe0acc2cc5c37e8dbd21646bbe4420a268",
+              "signer_registry.py": "5d2f00b845e5906c6267ce7d7e6eaa7fb535418979eaba833cde346435f9b7d5",
+              "sqlite_limits.py": "fe100b882a3037d2562a277ec07e161595d2f2cb1d012ecc0d4e1fdbe0dd2634"
+            }
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ]
+        }
+      ]
+    }
+  ],
+  "rusage_peak_not_used_for_comparison": "observed identical inherited pre-exec high-water mark; retained only for transparency",
+  "verified": true,
+  "whole_database_integrity_claimed": false
+}

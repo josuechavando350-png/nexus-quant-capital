@@ -53,3 +53,5 @@ La versión 0.17 exporta expedientes privados de autenticación con evidencia e 
 0.20 reutiliza registros públicos verificados sin omitir relectura del almacenamiento ni firma del expediente. Comparación ejecutada con 0.19 e informes idénticos; 698+9 pruebas aprobadas. Aislamiento y fuentes originales permanecen sin cambios.
 
 0.21 enlaza los expedientes registrados con una cola de prioridad para un activo, bajo política fijada y una misma versión del receptor. Conserva evidencia y casos cerrados, rechaza selecciones inválidas y permite recomputar el informe. C042 parcial, 743+9 pruebas; sin respuesta automática ni cambios a otros proyectos.
+
+0.22 incorpora límites de filas SQLite y lectura previa de tipos/tamaños en el registro de emisores y su receptor. Conserva esquemas, firmas, expedientes y cola enlazada. Pasan 760+9 pruebas y las capacidades exactas de 8 KiB/evento y 32 MiB/paquete. Sin cambios al consumidor productivo, fuentes originales o SuperHunter.

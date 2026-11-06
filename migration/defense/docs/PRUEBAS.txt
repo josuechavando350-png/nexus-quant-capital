@@ -716,6 +716,23 @@ test_signature_without_prior_registration_is_not_historical_acceptance (test_sig
 test_unhashable_digest_and_malformed_receipt_are_controlled (test_signer_registry.RegistryTests.test_unhashable_digest_and_malformed_receipt_are_controlled) ... ok
 test_verification_after_registry_and_all_secrets_removed (test_signer_registry.RegistryTests.test_verification_after_registry_and_all_secrets_removed) ... ok
 test_wrong_authority_rejected_before_untrusted_payload_processing (test_signer_registry.RegistryTests.test_wrong_authority_rejected_before_untrusted_payload_processing) ... ok
+test_exact_maximum_event_still_writes_and_replays (test_sqlite_limits.StorageLimitTests.test_exact_maximum_event_still_writes_and_replays) ... ok
+test_huge_mirror_blob_is_bounded_even_with_a_warm_cache (test_sqlite_limits.StorageLimitTests.test_huge_mirror_blob_is_bounded_even_with_a_warm_cache) ... ok
+test_huge_registry_value_is_stopped_by_sqlite (test_sqlite_limits.StorageLimitTests.test_huge_registry_value_is_stopped_by_sqlite) ... ok
+test_invalid_configured_limit_is_rejected (test_sqlite_limits.StorageLimitTests.test_invalid_configured_limit_is_rejected) ... ok
+test_invalid_utf8_digest_is_a_controlled_rejection (test_sqlite_limits.StorageLimitTests.test_invalid_utf8_digest_is_a_controlled_rejection) ... ok
+test_invalid_utf8_registry_text_is_a_controlled_rejection (test_sqlite_limits.StorageLimitTests.test_invalid_utf8_registry_text_is_a_controlled_rejection) ... ok
+test_limited_write_failure_rolls_back_and_preserves_mirror (test_sqlite_limits.StorageLimitTests.test_limited_write_failure_rolls_back_and_preserves_mirror) ... ok
+test_limited_write_failure_rolls_back_and_preserves_registry (test_sqlite_limits.StorageLimitTests.test_limited_write_failure_rolls_back_and_preserves_registry) ... ok
+test_limits_are_applied_to_every_store_connection (test_sqlite_limits.StorageLimitTests.test_limits_are_applied_to_every_store_connection) ... ok
+test_mirror_dynamic_types_cannot_bypass_bounds (test_sqlite_limits.StorageLimitTests.test_mirror_dynamic_types_cannot_bypass_bounds) ... ok
+test_new_limits_preserve_rotation_revocation_and_reopened_cache (test_sqlite_limits.StorageLimitTests.test_new_limits_preserve_rotation_revocation_and_reopened_cache) ... ok
+test_oversized_mirror_blob_is_not_returned_to_python (test_sqlite_limits.StorageLimitTests.test_oversized_mirror_blob_is_not_returned_to_python) ... ok
+test_oversized_previous_receipt_is_not_loaded (test_sqlite_limits.StorageLimitTests.test_oversized_previous_receipt_is_not_loaded) ... ok
+test_registry_field_types_and_sizes_are_checked (test_sqlite_limits.StorageLimitTests.test_registry_field_types_and_sizes_are_checked) ... ok
+test_registry_oversized_payload_is_rejected_before_full_materialization (test_sqlite_limits.StorageLimitTests.test_registry_oversized_payload_is_rejected_before_full_materialization) ... ok
+test_size_checks_do_not_replace_signatures (test_sqlite_limits.StorageLimitTests.test_size_checks_do_not_replace_signatures) ... ok
+test_tighter_existing_runtime_limit_is_never_expanded (test_sqlite_limits.StorageLimitTests.test_tighter_existing_runtime_limit_is_never_expanded) ... ok
 test_altered_page_cannot_advance_witness (test_witness.WitnessTests.test_altered_page_cannot_advance_witness) ... ok
 test_cli_initializes_advances_and_guards_engine (test_witness.WitnessTests.test_cli_initializes_advances_and_guards_engine) ... ok
 test_commit_failure_cannot_acknowledge_advancement (test_witness.WitnessTests.test_commit_failure_cannot_acknowledge_advancement) ... ok
@@ -743,6 +760,6 @@ test_witness_requires_separate_key_and_pinned_bindings (test_witness.WitnessTest
 test_witness_tail_rollback_requires_separately_retained_receipt (test_witness.WitnessTests.test_witness_tail_rollback_requires_separately_retained_receipt) ... ok
 
 ----------------------------------------------------------------------
-Ran 743 tests in 51.461s
+Ran 760 tests in 43.409s
 
 OK

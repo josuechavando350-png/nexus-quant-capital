@@ -10,8 +10,10 @@ from .files import create_local, publish_local, read_local, sha256
 from .receipts import hex_digest
 from .signer_registry import (MAX_BUNDLE, ORIGIN, bundle_bytes, checkpoint, row_head,
                               VerifiedRegistry)
+from .sqlite_limits import set_row_limit
 
 EMPTY = {'generation': 0, 'registry_checkpoint': dict(ORIGIN), 'bundle_digest': ORIGIN['head']}
+MAX_SQLITE_ROW = MAX_BUNDLE + 8192
 
 
 def receipt(value):
@@ -63,9 +65,15 @@ class RegistryMirror:
         self._check_files()
         db = sqlite3.connect(self.path.as_uri()+'?mode=rw', uri=True, timeout=5, isolation_level=None)
         try:
+            set_row_limit(db, MAX_SQLITE_ROW)
             db.execute('PRAGMA synchronous=FULL'); db.execute('BEGIN IMMEDIATE' if write else 'BEGIN')
             yield db
             db.commit()
+        except sqlite3.DataError as exc:
+            db.rollback()
+            if getattr(exc, 'sqlite_errorcode', None) == sqlite3.SQLITE_TOOBIG:
+                raise Rejected('mirror_storage_value_limit') from exc
+            raise
         except BaseException:
             db.rollback()
             raise
@@ -73,7 +81,26 @@ class RegistryMirror:
             db.close()
 
     def _load(self, db, expected=None):
-        rows = db.execute('SELECT id,generation,bundle,bundle_digest,previous FROM snapshot LIMIT 2').fetchall()
+        metadata = db.execute("SELECT id,typeof(generation),CASE WHEN typeof(generation)='integer' THEN generation ELSE NULL END,"
+            'typeof(bundle),length(bundle),typeof(bundle_digest),length(CAST(bundle_digest AS BLOB)),'
+            'typeof(previous),length(previous) FROM snapshot LIMIT 2').fetchall()
+        if len(metadata) != 1 or metadata[0][0] != 1:
+            raise Rejected('mirror_snapshot_missing')
+        _, generation_type, generation, bundle_type, bundle_size, digest_type, digest_size, prior_type, prior_size = metadata[0]
+        if generation_type != 'integer' or digest_type != 'text' or digest_size != 64:
+            raise Rejected('mirror_storage_shape')
+        integer(generation, 0, 2**63-1)
+        if generation == 0:
+            if bundle_type != 'null' or prior_type != 'null':
+                raise Rejected('mirror_initial_state')
+        elif (bundle_type != 'blob' or not 0 < bundle_size <= MAX_BUNDLE or
+              prior_type != 'blob' or not 0 < prior_size <= 4096):
+            raise Rejected('mirror_storage_shape')
+        raw_rows = db.execute('SELECT id,generation,bundle,CAST(bundle_digest AS BLOB),previous FROM snapshot LIMIT 2').fetchall()
+        try:
+            rows = [(row[0],row[1],row[2],row[3].decode('ascii'),row[4]) for row in raw_rows]
+        except UnicodeError as exc:
+            raise Rejected('mirror_storage_encoding') from exc
         if len(rows) != 1 or rows[0][0] != 1:
             raise Rejected('mirror_snapshot_missing')
         cached = self._cache

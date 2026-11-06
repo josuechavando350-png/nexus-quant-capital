@@ -26,3 +26,5 @@ No contar documentos o pruebas como componentes completos. No calcular avance gl
 Cada cierre debe incluir las métricas de PROGRESO.md: cierres/200 y porcentaje no cerrado, más cobertura parcial de componentes y criterios del bloque trabajado. El validador exige aceptación documentada y hashes de evidencia para contar cierres.
 
 0.21 incorpora priorización por política fijada para una selección de expedientes de autenticación. La criticidad sigue aportada por el operador; no se ha calibrado el puntaje como detector ni probabilidad. Siguiente comprobación concreta: límites de lectura de SQLite antes de cargar valores corruptos excesivos, sin debilitar verificación histórica. Ventana temporal autorizada: TURNO_8H_20261106.md.
+
+0.22 completa el bloque de lectura acotada del registro/receptor con capacidad exacta y comparación ejecutada contra 0.21. Consolidar los ensayos pendientes sin atribuirlos a otra versión. Después, ampliar evaluación de autenticación con corpus separado y resultados explícitos de falsos positivos/negativos; mantener pesos de priorización como política, sin presentar probabilidades no calibradas.

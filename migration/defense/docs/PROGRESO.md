@@ -21,7 +21,7 @@ Los 23 componentes parciales contienen código real probado dentro de un alcance
 
 El registro de cierres actual está vacío. Los datos de aceptación sintéticos usados por las pruebas del contador permanecen únicamente en directorios temporales y no entran en este registro.
 
-El bloque v0.21 reúne seis criterios de priorización enlazada a expedientes registrados, criticidad, explicación, conservación de casos cerrados, publicación/recomputación, CLI pública y aplicación de revocación (`CASE_TRIAGE_CHECK.json`). Los seis pasaron: **100% del bloque acotado**. Las pruebas prolongadas y ejecuciones programadas se registran por separado; no cierran objetivos globales.
+El bloque v0.22 reúne cinco criterios de límites SQLite por conexión, metadatos/codificación previos, capacidad exacta, conservación de firmas/transacciones y medición con integración instalada (`SQLITE_LIMITS_ACCEPTANCE.json`). Los cinco pasaron: **100% del bloque acotado**. Se mantienen 23 componentes parciales y 0/200 cierres completos. Las pruebas prolongadas se atribuyen a su código exacto mediante `ENDURANCE_PROVENANCE.json`; no cierran objetivos globales.
 
 Consultar el resultado reproducible con:
 

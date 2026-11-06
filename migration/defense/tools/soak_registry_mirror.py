@@ -12,6 +12,7 @@ import time
 
 def worker(package, root, seconds, progress):
     sys.path.insert(0,str(package))
+    import nqc_defense
     from nqc_defense.codec import Rejected, canonical
     from nqc_defense.registry_mirror import RegistryMirror
     request = json.loads((root/'request.json').read_bytes())
@@ -20,8 +21,12 @@ def worker(package, root, seconds, progress):
             dossier,request['dossier_digest'],request['pins'])
     def reopen(): return RegistryMirror(root/'mirror',request['registry_digest'],request['authority_digest'])
     def digest(body): return hashlib.sha256(body).hexdigest()
-    def sources(): return {name:digest((package/'nqc_defense'/name).read_bytes()) for name in
-                          ('registry_mirror.py','signer_registry.py','dossier_attestation.py')}
+    def sources():
+        values = {name:digest((package/'nqc_defense'/name).read_bytes()) for name in
+                  ('__init__.py','registry_mirror.py','signer_registry.py','dossier_attestation.py','sqlite_limits.py')
+                  if (package/'nqc_defense'/name).exists()}
+        values['harness:soak_registry_mirror.py'] = digest(Path(__file__).read_bytes())
+        return values
     fingerprints = sources(); mirror = reopen(); bundle = mirror.export(request['mirror_receipt'])
     baseline = digest(canonical(mirror.verify(*args))); fd_start = len(list(Path('/proc/self/fd').iterdir()))
     started = time.monotonic(); count = corruption = reopened = 0; samples = []; failures = []; last_sample = -30
@@ -53,7 +58,8 @@ def worker(package, root, seconds, progress):
     elapsed = time.monotonic()-started; unchanged = fingerprints == sources()
     restored = mirror.export(request['mirror_receipt']) == bundle
     final_fd = len(list(Path('/proc/self/fd').iterdir()))
-    return {'verified':not failures and elapsed >= seconds and count > 0 and corruption > 0 and unchanged and restored,
+    return {'schema':'nqc-mirror-endurance-v2','tested_package_version':nqc_defense.__version__,
+            'verified':not failures and elapsed >= seconds and count > 0 and corruption > 0 and unchanged and restored,
             'requested_seconds':seconds,'elapsed_seconds':elapsed,'verified_calls':count,'corruption_checks':corruption,
             'reopens':reopened,'failures':failures,'source_sha256':fingerprints,'source_unchanged_at_finish':unchanged,
             'public_bundle_preserved':restored,'open_fds_initial':fd_start,'open_fds_final':final_fd,'samples':samples,

@@ -1,0 +1,56 @@
+{
+  "schema": "nqc-bounded-block-acceptance-v1",
+  "version": "0.22.0",
+  "criteria": [
+    {
+      "id": "per_connection_limits",
+      "evidence": [
+        "tests/test_sqlite_limits.py::test_limits_are_applied_to_every_store_connection",
+        "tests/test_sqlite_limits.py::test_tighter_existing_runtime_limit_is_never_expanded"
+      ],
+      "passed": true
+    },
+    {
+      "id": "metadata_and_encoding_before_payload",
+      "evidence": [
+        "tests/test_sqlite_limits.py::test_registry_oversized_payload_is_rejected_before_full_materialization",
+        "tests/test_sqlite_limits.py::test_oversized_mirror_blob_is_not_returned_to_python",
+        "tests/test_sqlite_limits.py::test_invalid_utf8_registry_text_is_a_controlled_rejection",
+        "tests/test_sqlite_limits.py::test_invalid_utf8_digest_is_a_controlled_rejection"
+      ],
+      "passed": true
+    },
+    {
+      "id": "valid_exact_limits_preserved",
+      "evidence": [
+        "tests/test_sqlite_limits.py::test_exact_maximum_event_still_writes_and_replays",
+        "docs/REGISTRY_CAPACITY_CHECK.json",
+        "docs/REGISTRY_BYTE_CAPACITY_CHECK.json"
+      ],
+      "passed": true
+    },
+    {
+      "id": "cryptography_and_atomicity_preserved",
+      "evidence": [
+        "tests/test_sqlite_limits.py::test_size_checks_do_not_replace_signatures",
+        "tests/test_sqlite_limits.py::test_limited_write_failure_rolls_back_and_preserves_registry",
+        "tests/test_sqlite_limits.py::test_limited_write_failure_rolls_back_and_preserves_mirror",
+        "tests/test_sqlite_limits.py::test_new_limits_preserve_rotation_revocation_and_reopened_cache",
+        "docs/REGISTRY_BOUNDED_CACHE_CHECK.json"
+      ],
+      "passed": true
+    },
+    {
+      "id": "measured_read_budget_and_installed_integration",
+      "evidence": [
+        "docs/SQLITE_READ_BUDGET_CHECK.json",
+        "docs/SIGNING_PACKAGE_CHECK.json"
+      ],
+      "passed": true
+    }
+  ],
+  "criteria_passed": 5,
+  "criteria_total": 5,
+  "complete_catalog_acceptance": false,
+  "verified": true
+}

@@ -1,4 +1,4 @@
-# NQC Defense 0.21.0 — desarrollo en la rama NQC-defensive
+# NQC Defense 0.22.0 — desarrollo en la rama NQC-defensive
 
 El usuario autorizó publicar este código en `NQC-defensive` el 6 de noviembre de 2026. La rama conserva la base de NQC y no activa despliegues ni operación productiva. Los informes de 0.2.0 describen la validación previa a esa autorización.
 
@@ -184,3 +184,5 @@ Pasaron el verificador de aislamiento original sobre la copia combinada, sus 9 p
 - `docs/FUENTES.md`: fuentes primarias y distinciones respecto a las afirmaciones del PDF.
 
 La publicación autorizada es únicamente de código en `NQC-defensive`. No se habilitan workflows, despliegues, envíos de correo ni ejecución productiva.
+
+La versión 0.22.0 limita las filas codificadas de SQLite y comprueba tipos/tamaños antes de cargar contenido del registro y receptor. Conserva el formato y las firmas; prueba eventos de 8 KiB y paquetes de exactamente 32 MiB. Pasaron 760+9 pruebas. [Mediciones, costo y límites](docs/V0_22.md).

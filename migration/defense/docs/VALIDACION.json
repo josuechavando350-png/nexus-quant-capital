@@ -1,14 +1,14 @@
 {
-  "status": "REGISTERED_AUTH_DOSSIER_TRIAGE_TESTED_ENDURANCE_PENDING_PRODUCTION_NOT_ACTIVATED",
-  "version": "0.21.0",
+  "status": "BOUNDED_SQLITE_READS_TESTED_BASELINE_RECEIVER_ENDURANCE_PASSED_OTHER_RUNS_PENDING",
+  "version": "0.22.0",
   "date": "2026-11-06",
   "nqc_base_commit": "16e352225ba8a6a931834c4edf3d86d9a2924b7d",
   "python_version": "3.12.14",
-  "python_source_files_parsed": 111,
+  "python_source_files_parsed": 115,
   "tests": {
-    "engine_passed": 743,
+    "engine_passed": 760,
     "nqc_isolation_passed": 9,
-    "total_passed": 752,
+    "total_passed": 769,
     "failed": 0,
     "skipped": 0,
     "engine_log": "docs/PRUEBAS.txt",
@@ -82,7 +82,7 @@
   "publication": {
     "branch": "NQC-defensive",
     "user_authorized": true,
-    "validated_parent_commit": "ad94c2bb4ba903e76cb69f7e07f407df0ce6dc37",
+    "validated_parent_commit": "d7875badfa2fc4f12b97ff1e1ccb090a7ad342c4",
     "status": "authorized_branch_update_validated_before_commit",
     "pull_request": false,
     "release": false,
@@ -90,7 +90,7 @@
     "email": false,
     "workflow_enabled": false
   },
-  "scope": "Explained priority of a bounded selection of registered authentication dossiers under a pinned policy and receiver snapshot; no production activation",
+  "scope": "Bound encoded SQLite rows and inspect field types/lengths before materializing registry content; retain existing registered-dossier verification and triage",
   "nqc_consumer_check": "docs/NQC_CONSUMER_CHECK.json",
   "consumer": {
     "local_reader_enforces_admission": true,
@@ -437,9 +437,9 @@
     "independent_certification": false
   },
   "current_bounded_block": {
-    "version": "0.21.0",
-    "criteria_passed": 6,
-    "criteria_total": 6,
+    "version": "0.22.0",
+    "criteria_passed": 5,
+    "criteria_total": 5,
     "completion_percent": 100.0,
     "counts_as_full_catalog_completion": false
   },
@@ -516,12 +516,23 @@
     "physical_power_loss_tested": false
   },
   "endurance": {
-    "status": "two_frozen_baseline_runs_in_progress_not_yet_accepted",
-    "result_in_this_commit": false,
+    "status": "v020_receiver_passed_v019_registry_and_v022_receiver_in_progress",
+    "result_in_this_commit": true,
     "production_performance_claimed": false,
-    "baseline_versions": [
-      "0.19.0",
-      "0.20.0"
+    "provenance": "docs/ENDURANCE_PROVENANCE.json",
+    "passed": [
+      {
+        "version": "0.20.0",
+        "report": "docs/REGISTRY_MIRROR_ENDURANCE.json",
+        "seconds": 1800.0025595600018,
+        "verified_calls": 270345,
+        "corruption_checks": 540,
+        "reopens": 54
+      }
+    ],
+    "in_progress": [
+      "0.19.0 signer registry 6320 seconds",
+      "0.22.0 bounded receiver 1200 seconds"
     ]
   },
   "registry_cache_check": "docs/REGISTRY_CACHE_CHECK.json",
@@ -566,5 +577,25 @@
     "score_is_probability": false,
     "cross_asset_queue": false,
     "automatic_response": false
-  }
+  },
+  "sqlite_limits": {
+    "new_tests": 17,
+    "registry_encoded_row_bytes": 8704,
+    "mirror_encoded_row_bytes": 33562624,
+    "metadata_before_payload": true,
+    "tighter_runtime_limit_never_expanded": true,
+    "invalid_ascii_controlled_rejection": true,
+    "exact_event_bytes_tested": 8192,
+    "exact_bundle_bytes_tested": 33554432,
+    "all_maximum_bundle_records_written_via_api": false,
+    "measured_corrupt_value_bytes": 67108864,
+    "os_memory_quota": false,
+    "physical_disk_quota": false,
+    "whole_database_integrity": false,
+    "changes_schema": false
+  },
+  "sqlite_limits_acceptance": "docs/SQLITE_LIMITS_ACCEPTANCE.json",
+  "sqlite_read_budget_check": "docs/SQLITE_READ_BUDGET_CHECK.json",
+  "registry_byte_capacity_check": "docs/REGISTRY_BYTE_CAPACITY_CHECK.json",
+  "registry_bounded_cache_check": "docs/REGISTRY_BOUNDED_CACHE_CHECK.json"
 }

@@ -16,6 +16,7 @@ from .files import create_local, publish_local, read_local, sha256
 from .receipts import hex_digest
 from .review_dossier import validate_pins
 from .review_policy import reason_text
+from .sqlite_limits import set_row_limit
 
 ORIGIN = {'revision': 0, 'head': GENESIS}
 DOMAIN = b'NQC-SIGNER-REGISTRY-v1\x00'
@@ -23,6 +24,7 @@ MAX_ROWS = 4096
 MAX_KEYS = 64
 MAX_EVENT_BYTES = 8192
 MAX_BUNDLE = 32 * 1024 * 1024
+MAX_SQLITE_ROW = MAX_EVENT_BYTES + 512
 EVENT_FIELDS = ('schema', 'registry_digest', 'request_id', 'reason', 'action', 'key_id',
                 'new_public_key_hex', 'attestation_digest', 'dossier_digest', 'pins')
 
@@ -229,9 +231,15 @@ class SignerRegistry:
             raise Rejected('registry_configuration_changed')
         db = sqlite3.connect(self.path.as_uri()+'?mode=rw', uri=True, timeout=5, isolation_level=None)
         try:
+            set_row_limit(db, MAX_SQLITE_ROW)
             db.execute('PRAGMA synchronous=FULL'); db.execute('BEGIN IMMEDIATE' if write else 'BEGIN')
             yield db
             db.commit()
+        except sqlite3.DataError as exc:
+            db.rollback()
+            if getattr(exc, 'sqlite_errorcode', None) == sqlite3.SQLITE_TOOBIG:
+                raise Rejected('registry_storage_value_limit') from exc
+            raise
         except BaseException:
             db.rollback()
             raise
@@ -239,7 +247,23 @@ class SignerRegistry:
             db.close()
 
     def _load(self, db, expected=None):
-        rows = db.execute('SELECT revision,payload,previous,signature FROM entries ORDER BY revision LIMIT ?', (MAX_ROWS+1,)).fetchall()
+        metadata = db.execute('SELECT revision,typeof(payload),length(CAST(payload AS BLOB)), '
+            'typeof(previous),length(CAST(previous AS BLOB)),typeof(signature),length(CAST(signature AS BLOB)) '
+            'FROM entries ORDER BY revision LIMIT ?', (MAX_ROWS+1,)).fetchall()
+        if len(metadata) > MAX_ROWS:
+            raise Rejected('registry_row_count')
+        for revision, payload_type, payload_size, parent_type, parent_size, signature_type, signature_size in metadata:
+            integer(revision, 1, MAX_ROWS)
+            if payload_type != 'text' or not 0 <= payload_size <= MAX_EVENT_BYTES:
+                raise Rejected('registry_payload')
+            if parent_type != 'text' or parent_size != 64 or signature_type != 'text' or signature_size != 128:
+                raise Rejected('registry_storage_shape')
+        raw_rows = db.execute('SELECT revision,CAST(payload AS BLOB),CAST(previous AS BLOB),CAST(signature AS BLOB) '
+                              'FROM entries ORDER BY revision LIMIT ?', (MAX_ROWS+1,)).fetchall()
+        try:
+            rows = [(row[0], *(field.decode('ascii') for field in row[1:])) for row in raw_rows]
+        except UnicodeError as exc:
+            raise Rejected('registry_storage_encoding') from exc
         head = {'revision': rows[-1][0], 'head': row_head(list(rows[-1]))} if rows else dict(ORIGIN)
         state = verify_rows(self.config_data, self.digest, self.authority_digest, rows, expected if expected is not None else head)
         return state, rows
