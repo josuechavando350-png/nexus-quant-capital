@@ -19,6 +19,14 @@ SCHEMA = "nqc-local-witness-v1"
 ORIGIN = {"sequence": 0, "head": GENESIS}
 
 
+def page_chain_start(policy_digest, audit_key_id, start, target):
+    return hashlib.sha256(b"nqc-witness-pages-v1\x00" + canonical([policy_digest, audit_key_id, start, target])).digest()
+
+
+def page_chain_step(chain, data):
+    return hashlib.sha256(chain + hashlib.sha256(data).digest()).digest()
+
+
 def receipt(value):
     fields(value, ("revision", "head", "checkpoint"))
     integer(value["revision"], 1, 2**63 - 1)
@@ -160,10 +168,10 @@ class Witness:
         if target["sequence"] <= start["sequence"]:
             raise Rejected("witness_not_forward")
         verifier = AuditPageVerifier(self.audit_key, self.policy_digest, target, start)
-        chain = hashlib.sha256(b"nqc-witness-pages-v1\x00" + canonical([self.policy_digest, self.audit_key_id, start, target])).digest()
+        chain = page_chain_start(self.policy_digest, self.audit_key_id, start, target)
         for data in pages:
             verifier.accept(data)
-            chain = hashlib.sha256(chain + hashlib.sha256(data).digest()).digest()
+            chain = page_chain_step(chain, data)
         summary = verifier.finish()
         event = self._event(start, target, summary["pages"], summary["record_count"], chain.hex())
         with self.connection(write=True) as db:
@@ -175,6 +183,18 @@ class Witness:
             digest = self._mac(number, expected["head"], payload)
             db.execute("INSERT INTO anchors VALUES(?,?,?,?)", (number, payload, expected["head"], digest))
         return {"revision": number, "head": digest, "checkpoint": target}
+
+    def record(self, revision):
+        """Retrieve an authenticated historical witness record without changing its head."""
+        integer(revision, 1, 2**63 - 1)
+        with self.connection() as db:
+            self._verify(db)
+            row = db.execute("SELECT payload,previous,mac FROM anchors WHERE revision=?", (revision,)).fetchone()
+            if row is None:
+                raise Rejected("witness_record_missing")
+            event = decode(row[0].encode(), max_bytes=4096)
+            return {"receipt": {"revision": revision, "head": row[2], "checkpoint": event["checkpoint"]},
+                    "previous": row[1], "event": event}
 
     def bind_engine(self, state_root, policy_digest, audit_key):
         state, witness = Path(state_root).resolve(), self.root.resolve()

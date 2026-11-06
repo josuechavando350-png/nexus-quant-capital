@@ -4,6 +4,7 @@ import hashlib
 import os
 from pathlib import Path, PurePosixPath
 import stat
+import secrets
 
 from .codec import Rejected
 
@@ -90,3 +91,46 @@ def private_directory(path):
     if not stat.S_ISDIR(mode) or mode & 0o077:
         raise Rejected("state_directory_permissions")
     return path
+
+
+def publish_local(root, name, data):
+    """Fsync bytes, atomically create the final name, and never replace existing content."""
+    if not isinstance(data, bytes):
+        raise Rejected("file_bytes")
+    parent = temporary_fd = existing_fd = None
+    temporary = None
+    try:
+        parent, leaf = open_parent(root, name)
+        candidate = "pending-" + secrets.token_hex(24)
+        if candidate == leaf:
+            raise Rejected("temporary_name_conflict")
+        temporary_fd = os.open(candidate, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+                               0o600, dir_fd=parent)
+        temporary = candidate
+        with os.fdopen(temporary_fd, "wb", closefd=False) as stream:
+            stream.write(data)
+            stream.flush()
+            os.fsync(temporary_fd)
+        try:
+            os.link(temporary, leaf, src_dir_fd=parent, dst_dir_fd=parent, follow_symlinks=False)
+        except FileExistsError:
+            if read_local(root, name, len(data)) != data:
+                raise Rejected("existing_file_differs")
+            existing_fd = os.open(leaf, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=parent)
+            if not stat.S_ISREG(os.fstat(existing_fd).st_mode):
+                raise Rejected("file_type_or_size")
+            os.fsync(existing_fd)
+        os.unlink(temporary, dir_fd=parent)
+        temporary = None
+        os.fsync(parent)
+    finally:
+        try:
+            if temporary is not None and parent is not None:
+                try:
+                    os.unlink(temporary, dir_fd=parent)
+                except FileNotFoundError:
+                    pass
+        finally:
+            for handle in (temporary_fd, existing_fd, parent):
+                if handle is not None:
+                    os.close(handle)

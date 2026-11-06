@@ -14,6 +14,7 @@ from .consumer import ArtifactReader
 from .audit import GENESIS
 from .audit_pages import verify_page
 from .witness import Witness
+from .archive_store import ArchiveStore
 
 
 def main(argv=None):
@@ -40,6 +41,11 @@ def main(argv=None):
     page.add_argument("--start", type=Path, help="Prior verified page checkpoint; omit for genesis")
     page.add_argument("--limit", type=int, default=256)
     page.add_argument("--max-bytes", type=int, default=1024 * 1024)
+    capture = commands.add_parser("archive-audit", help="Store and reread audit pages before advancing the configured witness")
+    capture.add_argument("--archive-root", type=Path, required=True)
+    capture.add_argument("--target", type=Path, required=True)
+    capture.add_argument("--expected", type=Path, required=True)
+    capture.add_argument("--limit", type=int, default=256)
     release = commands.add_parser("release")
     release.add_argument("asset")
     receipt = commands.add_parser("receipt", help="Retrieve and replay a recorded decision locally")
@@ -80,6 +86,12 @@ def main(argv=None):
             data = engine.export_page(start, target, args.limit, args.max_bytes)
             result = verify_page(data, key, args.policy, start, target)
             create_local(args.output.parent, args.output.name, data)
+        elif args.command == "archive-audit":
+            if witness is None:
+                raise Rejected("witness_required")
+            target = decode(read_local(args.target.parent, args.target.name, 4096))
+            expected = decode(read_local(args.expected.parent, args.expected.name, 4096))
+            result = ArchiveStore(args.archive_root).capture(engine, witness, target, expected, args.limit)
         elif args.command == "receipt":
             result = engine.receipt(args.digest)
         else:
