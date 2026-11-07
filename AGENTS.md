@@ -20,3 +20,5 @@
 - Integración experimental iniciada para el candidato #26: leer `superhunter/OTEL_QA_LAB.md` antes de retomar OpenTelemetry. Instrumenta QA local in-memory; Collector no está instalado y la suite completa de la rama nueva no está certificada. No marcar 1/50 como integración verificada por pasar 8 pruebas focalizadas en un harness sintético.
 
 - Segundo adaptador externo iniciado en rama sucesora del PR #70: \`superhunter/SLITHER_OWNED_LAB.md\`, \`slither_owned_runner.py\`, \`slither_owned_worker.py\`. Solo contiene una ruta fija a un contrato de laboratorio; nunca habilitar objetivos arbitrarios o escaneos de terceros al continuar. La CLI ejecutable aún no cuenta con prueba nativa de Slither ni QA completo en esta rama. No confundir pruebas con subprocess simulado con integración certificada.
+
+- Nuevo control diferencial de Slither (#6): leer `superhunter/SLITHER_PAIR_GATE.md`. Exige detector positivo sobre OWNED con tx.origin y **cero alertas** en versión msg.sender. El par queda INCONCLUSO sin Slither/solc auténticos, sandbox sin red, QA íntegra y replay independientes. No marcarlo integrado en producción por el gate sintético.
