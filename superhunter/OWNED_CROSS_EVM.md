@@ -71,3 +71,43 @@ cadenas actuales. Véase el [anuncio de sus mantenedores](https://snakecharmers.
 Las pruebas unitarias del adaptador usan registros sintéticos identificados como
 tales. Deben acompañarse de una ejecución nativa y su repetición para afirmar
 que los dos motores se ejecutaron realmente.
+
+## Alternativa de especificaciones ejecutables: EELS 2.20.0
+
+`--second-engine execution-specs` selecciona el intérprete Cancun de Ethereum
+Execution Specs en lugar de py-evm. La selección acepta solamente esos dos
+adaptadores fijos y queda ligada al informe; la verificación exige volver a
+seleccionar el motor correcto antes de ejecutar herramientas. No acepta rutas
+de plugins ni bytecode externo.
+
+Usar **otro entorno virtual** con CPython 3.12: la versión publicada de EELS
+depende de cryptography 45.0.7, distinta de la 46.0.4 fijada para QA histórico.
+No actualizar el entorno QA para acomodarla.
+
+```sh
+python -m pip install --require-hashes -r superhunter/requirements-owned-spec-evm.txt
+python -m superhunter doctor-owned-lab --profile owned_cross_evm \
+  --second-engine execution-specs --solc /herramientas/solc --evm /herramientas/evm
+python -m superhunter compare-owned-evm-engines --second-engine execution-specs \
+  --solc /herramientas/solc --evm /herramientas/evm \
+  --source-digest DIGEST_VERIFICADO --out /privado/comparacion-eels-nueva
+python -m superhunter verify-owned-evm-engines --second-engine execution-specs \
+  --solc /herramientas/solc --evm /herramientas/evm \
+  --source-digest DIGEST_VERIFICADO --bundle /privado/comparacion-eels-nueva
+```
+
+El adaptador verifica 23 distribuciones y 2,050 archivos antes de importar EELS;
+usa su ejecución de creación/mensajes y sus primitivas de copia de trie, con
+estado inicial restaurado por escenario y contexto transitorio nuevo por llamada.
+La decodificación de almacenamiento usa cortes de bytes y se contrasta con la
+decodificación por máscaras del otro adaptador. Conserva los límites de recursos,
+la caché privada y las 144 llamadas del mismo corpus propio.
+
+Son comparaciones **por pares contra Geth**. Ejecutar ambos adaptadores añade
+una tercera implementación comprobada, no más casos independientes ni productores
+autenticados. No certifica reglas actuales de red, consenso, tarifas, todas las
+variables de bloque ni todos los opcodes. El alcance sigue fijado a estas
+observaciones del perfil Cancun.
+
+Referencias: [distribución 2.20.0](https://pypi.org/project/ethereum-execution/2.20.0/)
+y [documentación del proyecto](https://steel.ethereum.foundation/docs/execution-specs/getting_started/installation/).

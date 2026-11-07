@@ -17,6 +17,7 @@ import tempfile
 from . import owned_mutation_evaluation as score, quality
 from . import evm_pause_family as pause, evm_access_family as access
 from .owned_cross_evm_pins import PINS
+from .owned_spec_evm_pins import PINS as SPEC_PINS
 from .owned_cross_evm_worker import PROFILE
 from .privacy import PrivateArgumentParser
 from .safe_io import canonical, read_artifact, strict_json, write_new_bundle
@@ -25,6 +26,8 @@ ROOT = Path(__file__).resolve().parent
 FILES = {'geth-pause.json', 'geth-access.json', 'python.json', 'comparison.json', 'REVIEW.md'}
 WALL_SECONDS = 180
 OUTPUT_LIMIT = 4*1024**2
+BACKENDS = {'py-evm':('owned_cross_evm_worker.py',PINS),
+            'execution-specs':('owned_spec_evm_worker.py',SPEC_PINS)}
 
 
 def need(ok: bool, code: str) -> None:
@@ -42,11 +45,12 @@ def _python_command(fresh_cache: Path) -> list[str]:
     return [sys.executable, '-I', '-B', '-X', 'pycache_prefix=' + str(fresh_cache)]
 
 
-def _run_python(solc: Path, digest: str) -> dict:
+def _run_python(solc: Path, digest: str, backend: str = 'py-evm') -> dict:
+    need(backend in BACKENDS,'UNKNOWN_SECOND_EVM')
     with tempfile.TemporaryDirectory(prefix='owned-second-evm-') as directory:
         with tempfile.TemporaryFile() as output, tempfile.TemporaryFile() as errors:
             proc = subprocess.Popen(_python_command(Path(directory)/'bytecode') + [
-                str(ROOT/'owned_cross_evm_worker.py'), '--solc', str(solc.resolve()),
+                str(ROOT/BACKENDS[backend][0]), '--solc', str(solc.resolve()),
                 '--source-digest', digest], stdin=subprocess.DEVNULL, stdout=output,
                 stderr=errors, cwd=directory, start_new_session=True,
                 env={'PATH':'/usr/bin:/bin', 'LANG':'C.UTF-8', 'HOME':directory})
@@ -91,16 +95,18 @@ def _geth_rows(pause_result: dict, access_result: dict) -> tuple[list, list]:
     return rows, builds
 
 
-def compare(pause_result: dict, access_result: dict, python_result: dict, digest: str) -> dict:
+def compare(pause_result: dict, access_result: dict, python_result: dict, digest: str,
+            backend: str = 'py-evm') -> dict:
+    need(backend in BACKENDS,'UNKNOWN_SECOND_EVM')
     scored = score.analyze(pause_result, access_result, digest)
     rows, builds = _geth_rows(pause_result, access_result)
     expected_dependencies = {k:{f:v[f] for f in ('version','runtime_sha256','files')}
-                             for k,v in PINS.items()}
+                             for k,v in BACKENDS[backend][1].items()}
     need(set(python_result) == {'profile','source_digest','engine','fork','dependencies',
                                 'builds','rows','constructor_executions','runtime_calls'},
          'SECOND_EVM_SCHEMA')
     need(python_result['profile'] == PROFILE and python_result['source_digest'] == digest and
-         python_result['engine'] == 'py-evm' and python_result['fork'] == 'Cancun' and
+         python_result['engine'] == backend and python_result['fork'] == 'Cancun' and
          canonical(python_result['dependencies']) == canonical(expected_dependencies),
          'SECOND_EVM_IDENTITY')
     need(type(python_result['constructor_executions']) is int and
@@ -114,7 +120,7 @@ def compare(pause_result: dict, access_result: dict, python_result: dict, digest
     return {'schema_version':1,'profile':PROFILE,'status':'OWNED_CROSS_EVM_MATCH',
         'source_digest':digest,'solc_sha256':scored['solc_sha256'],
         'geth_sha256':scored['evm_sha256'],'python_dependencies':expected_dependencies,
-        'fork':'Cancun','implementation_count':2,'constructor_builds_per_engine':8,
+        'fork':'Cancun','second_evm':backend,'implementation_count':2,'constructor_builds_per_engine':8,
         'runtime_calls_per_engine':144,'known_cases':4,'compiler_runs_per_case':2,
         'semantic_rows_sha256':sha(canonical(rows)), 'builds_sha256':sha(canonical(builds)),
         'counts':scored['metrics']['overall']['counts'],
@@ -128,36 +134,37 @@ def compare(pause_result: dict, access_result: dict, python_result: dict, digest
         'vulnerability_confirmed':False}
 
 
-def _execute(solc: Path, evm: Path, digest: str) -> dict[str, bytes]:
+def _execute(solc: Path, evm: Path, digest: str, backend: str = 'py-evm') -> dict[str, bytes]:
+    need(backend in BACKENDS,'UNKNOWN_SECOND_EVM')
     before = quality.source_snapshot()
     need(sha(canonical(before)) == digest, 'SOURCE_CHANGED')
     p, a = score._run_native(solc, evm, digest)
-    second = _run_python(solc, digest)
-    report = compare(p, a, second, digest)
+    second = _run_python(solc, digest, backend)
+    report = compare(p, a, second, digest, backend)
     need(quality.source_snapshot() == before, 'SOURCE_CHANGED_DURING_COMPARISON')
     review = ('# Comparación de dos implementaciones EVM\n\n'
-        'Geth y py-evm ejecutaron los mismos cuatro controles propios conocidos.\n'
+        f'Geth y {backend} ejecutaron los mismos cuatro controles propios conocidos.\n'
         'Ocho constructores y 144 llamadas por motor; dos compilaciones por caso.\n'
         'Coinciden estado persistente, éxito/reversión/gas agotado y retorno.\n'
         'Los dos motores comparten solc, entradas y host. No se comparan costes\n'
         'de gas ni raíces de cuentas. No es certificación general del protocolo.\n'
-        'py-evm 0.12.1b1 está archivado: este perfil queda fijado a Cancun.\n'
+        'Cada comparación queda fijada a Cancun y a sus dependencias declaradas.\n'
         'No es benchmark ciego, hallazgo nuevo ni validación de objetivos externos.\n').encode()
     return {'geth-pause.json':canonical(p), 'geth-access.json':canonical(a),
             'python.json':canonical(second), 'comparison.json':canonical(report),
             'REVIEW.md':review}
 
 
-def create(out: Path, solc: Path, evm: Path, digest: str) -> dict:
+def create(out: Path, solc: Path, evm: Path, digest: str, backend: str = 'py-evm') -> dict:
     need(not out.exists() and not out.is_symlink() and
          not out.resolve().is_relative_to(ROOT.parent), 'NEW_PRIVATE_OUTPUT_REQUIRED')
-    files = _execute(solc, evm, digest)
+    files = _execute(solc, evm, digest, backend)
     write_new_bundle(out, files)
     return {'status':'OWNED_CROSS_EVM_CREATED','known_cases':4,
-            'runtime_calls_per_engine':144,'vulnerability_confirmed':False}
+            'second_evm':backend,'runtime_calls_per_engine':144,'vulnerability_confirmed':False}
 
 
-def verify(root: Path, solc: Path, evm: Path, digest: str) -> dict:
+def verify(root: Path, solc: Path, evm: Path, digest: str, backend: str = 'py-evm') -> dict:
     need(root.is_dir() and not root.is_symlink(), 'BUNDLE_DIRECTORY')
     marker = strict_json(read_artifact(root, 'COMPLETE.json'))
     need(type(marker) is dict and set(marker) == {'schema_version','sha256'} and
@@ -168,10 +175,11 @@ def verify(root: Path, solc: Path, evm: Path, digest: str) -> dict:
     need(all(sha(raw) == marker['sha256'][n] for n,raw in files.items()), 'BUNDLE_HASH')
     original = strict_json(files['comparison.json'])
     need(original.get('source_digest') == digest, 'WRONG_EXTERNAL_CODE_REFERENCE')
-    regenerated = _execute(solc, evm, digest)
+    need(original.get('second_evm') == backend,'WRONG_SECOND_EVM_REFERENCE')
+    regenerated = _execute(solc, evm, digest, backend)
     need(files == regenerated, 'CROSS_EVM_REPLAY_MISMATCH')
     return {'status':'OWNED_CROSS_EVM_REPLAY_VERIFIED','known_cases':4,
-            'runtime_calls_per_engine':144,'vulnerability_confirmed':False}
+            'second_evm':backend,'runtime_calls_per_engine':144,'vulnerability_confirmed':False}
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -183,13 +191,14 @@ def main(argv: list[str] | None = None) -> int:
         p.add_argument('--solc', type=Path, required=True)
         p.add_argument('--evm', type=Path, required=True)
         p.add_argument('--source-digest', required=True)
+        p.add_argument('--second-engine', choices=tuple(BACKENDS), default='py-evm')
     make.add_argument('--out', type=Path, required=True)
     check.add_argument('--bundle', type=Path, required=True)
     args = parser.parse_args(argv)
     try:
-        result = (create(args.out, args.solc, args.evm, args.source_digest)
+        result = (create(args.out, args.solc, args.evm, args.source_digest,args.second_engine)
                   if args.command == 'compare-owned-evm-engines' else
-                  verify(args.bundle, args.solc, args.evm, args.source_digest))
+                  verify(args.bundle, args.solc, args.evm, args.source_digest,args.second_engine))
         print(json.dumps(result, sort_keys=True))
         return 0
     except (ValueError, OSError, TypeError, KeyError, RecursionError, OverflowError):

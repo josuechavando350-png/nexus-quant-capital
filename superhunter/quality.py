@@ -283,7 +283,7 @@ def source_snapshot(root: Path = ROOT) -> dict[str, str]:
                 raise ValueError('source directory symlink rejected')
         for name in sorted(files):
             rel = (Path(base)/name).relative_to(root).as_posix()
-            if name.endswith('.py') or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'research_initiatives.json'):
+            if name.endswith('.py') or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'research_initiatives.json'):
                 result[rel] = sha(read_artifact(root, rel))
                 if len(result) > 500:
                     raise ValueError('source inventory limit exceeded')
@@ -1072,4 +1072,16 @@ REQUIRED_TESTS += (
     'test_native_doctor.NativeDoctorTests.test_missing_optional_engine_preserves_other_profiles',
     'test_native_doctor.NativeDoctorTests.test_z3_bytes_checked_without_loading_library',
     'test_native_doctor.NativeDoctorTests.test_wrong_native_tools_do_not_execute',
+)
+
+COMPONENTS['owned_spec_evm'] = {
+    'files': ['owned_spec_evm_worker.py','owned_spec_evm_pins.py','requirements-owned-spec-evm.txt'],
+    'tests': ['test_owned_spec_evm.'],
+    'depends': ['evm_pause_family','evm_access_family','native_compile','io','privacy']}
+COMPONENTS['owned_cross_evm']['depends'].append('owned_spec_evm')
+REQUIRED_TESTS += (
+    'test_owned_spec_evm.SpecEVMTests.test_fixed_eels_cases_are_not_extra_samples',
+    'test_owned_spec_evm.SpecEVMTests.test_wrong_selected_engine_rejected_before_execution',
+    'test_owned_spec_evm.SpecEVMTests.test_installed_dependency_bytes_are_checked',
+    'test_owned_spec_evm.SpecEVMTests.test_selected_profile_does_not_require_other_environment',
 )

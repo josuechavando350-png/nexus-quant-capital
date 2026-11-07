@@ -21,6 +21,8 @@ from . import quality
 Z3_SHA256 = '7accc397d4ac387468b09489bdaff9d82bfac4ca6a7e339b8fbb2167edf9c1c0'
 PACKAGES = {'PyYAML':'6.0.3','cryptography':'46.0.4'}
 CHECKS = ('host','sealed_memory','qa_packages','z3_fixture_library','solc','geth','second_evm_packages')
+SECOND_ENGINES = ('py-evm','execution-specs')
+PROFILES = ('all','qa','owned_geth','owned_cross_evm')
 
 
 def result(ok: bool, code: str, **public) -> dict:
@@ -103,27 +105,37 @@ def _tool(kind: str, path: Path) -> dict:
         return result(False,'PINNED_TOOL_MISSING_OR_DIFFERENT')
 
 
-def _second_evm_packages() -> dict:
+def _second_evm_packages(backend: str = 'py-evm') -> dict:
     try:
-        from .owned_cross_evm_worker import dependency_identity
+        if backend == 'py-evm':
+            from .owned_cross_evm_worker import dependency_identity
+        elif backend == 'execution-specs':
+            from .owned_spec_evm_worker import dependency_identity
+        else:
+            raise ValueError('UNKNOWN_SECOND_EVM')
         identity = dependency_identity()
         return result(True,'SECOND_EVM_PACKAGE_BYTES_MATCH',distributions=len(identity))
     except (OSError,ValueError,ImportError,AttributeError,PackageNotFoundError):
         return result(False,'SECOND_EVM_PACKAGES_MISSING_OR_DIFFERENT')
 
 
-def diagnose(solc: Path, evm: Path) -> dict:
+def diagnose(solc: Path, evm: Path, *, profile: str = 'all',
+             second_engine: str = 'py-evm') -> dict:
+    if profile not in PROFILES or second_engine not in SECOND_ENGINES:
+        raise ValueError('UNKNOWN_LAB_PROFILE')
     rows = {'host':_host(),'sealed_memory':_sealed_memory(),'qa_packages':_qa_packages(),
             'z3_fixture_library':_z3_fixture_library(),'solc':_tool('solc',solc),
-            'geth':_tool('geth',evm),'second_evm_packages':_second_evm_packages()}
+            'geth':_tool('geth',evm),'second_evm_packages':_second_evm_packages(second_engine)}
     passed = {name:row['status'] == 'PASS' for name,row in rows.items()}
     prerequisites = {
         'qa':all(passed[n] for n in ('host','sealed_memory','qa_packages','z3_fixture_library')),
         'owned_geth':all(passed[n] for n in ('host','sealed_memory','solc','geth')),
         'owned_cross_evm':all(passed[n] for n in ('host','sealed_memory','solc','geth','second_evm_packages')),
     }
-    return {'schema_version':1,'status':'LAB_PREREQUISITES_READY' if all(prerequisites.values())
+    ready = all(prerequisites.values()) if profile == 'all' else prerequisites[profile]
+    return {'schema_version':1,'status':'LAB_PREREQUISITES_READY' if ready
             else 'LAB_PREREQUISITES_BLOCKED','checks':rows,'prerequisites':prerequisites,
+            'requested_profile':profile,'second_evm':second_engine,
             'source_digest':quality.sha(canonical(quality.source_snapshot())),
             'qa_executed':False,'native_contracts_executed':False,'solver_query_executed':False,
             'dependencies_installed':False,'network_used':False,'vulnerability_confirmed':False}
@@ -133,9 +145,11 @@ def main(argv: list[str] | None = None) -> int:
     parser = PrivateArgumentParser(description='Check fixed owned lab prerequisites without contract execution')
     parser.add_argument('--solc',type=Path,required=True)
     parser.add_argument('--evm',type=Path,required=True)
+    parser.add_argument('--profile',choices=PROFILES,default='all')
+    parser.add_argument('--second-engine',choices=SECOND_ENGINES,default='py-evm')
     args = parser.parse_args(argv)
     try:
-        report = diagnose(args.solc,args.evm)
+        report = diagnose(args.solc,args.evm,profile=args.profile,second_engine=args.second_engine)
         print(json.dumps(report,sort_keys=True))
         return 0 if report['status'] == 'LAB_PREREQUISITES_READY' else 2
     except (OSError,ValueError,TypeError,KeyError,AttributeError):
