@@ -1,5 +1,37 @@
 # SUPERHUNTER — estado oficial verificable y continuidad
 
+## Cierre verificable de la iteración — 2026-11-07 UTC
+
+Este bloque prevalece. **Último código publicado:** [PR #64](https://github.com/josuechavando350-png/nexus-quant-capital/pull/64), [commit `27184e26547c987514f2f5a83dad602a267808e9`](https://github.com/josuechavando350-png/nexus-quant-capital/commit/27184e26547c987514f2f5a83dad602a267808e9), árbol `2305e2cb793a0b6dbd1b9c2936816de247101c01`. Digest de fuentes `5f0d6ddfd28f450a74d0e94cea92433fd1fd1affb0089a36df5c14f125514b85`. PR #54–#64 consultados de nuevo: todos en borrador, sin fusionar. La continuidad de código es esta cadena, no las copias parciales antiguas ni los checkouts de controles.
+
+### Resultados finales
+
+- **QA de producción: 2,364/2,364 PASS**, cero fallos, errores u omitidas; verificación separada PASS. Esta iteración añadió 75 regresiones entre #60–#64, sin retirar pruebas.
+- **Revisión local-numérica completa y verificador separado PASS** sobre el mismo digest: QA completo, 5 casos de laboratorio, 256 de fuzzing numérico (semilla 20261104), 3 controles contables, 8 de permisos y 4 de secuencias. Las repeticiones no aumentan el número de pruebas únicas. No se declara plataforma completa.
+- **Cuotas OWNED Geth 1.17.10 / EELS 2.20.0, Cancun: creación y replay con recompilación separado PASS sobre #64.** Doce constructores y 228 llamadas por motor. Seis casos conocidos, 4 TP / 2 TN / 0 FP / 0 FN; ablaciones solo resultado: 3 FN, solo estado: 1 FN. Comparten compilador, fuentes, entradas, host y detector; no es evaluación ciega ni certificación general EVM.
+- **Fallo de clase sembrado, checkout separado:** 2,366 declaradas, 2,364 registradas, un error deliberado de preparación y dos métodos no ejecutados. Ocho recibos originales conservados; verificador separado confirmó evidencia coherente de fallo, salida 1 y `qa_passed: false`. Digest del control `7d130ce10a4369379f6248ea78367b1699d6e53cc13a4edc540a524bd721160a`.
+- **Control de caché registrado en montaje aislado:** 203 pruebas de una partición, inventario declarado de 2,365. Caché estándar: 1 fallo esperado, 0 errores; prefijo nuevo: 203 PASS. Verificación independiente de fuentes/recibos PASS. No fue un QA completo adicional; código de producción y fixtures existentes intactos. Digest del montaje `640fda6e13315287ac89ee83ad87785e01f9f225b830ba5d3bc3f77a0266ad90`.
+- Se conservaron los intentos rechazados: primer staging de caché con hash discrepante antes de ejecutarse; módulo adicional aún sin registro, con 41 errores de preparación en cada partición por `unmapped test suite`. Se añadió el registro explícito únicamente al montaje del control; esos resultados anteriores no se presentan como PASS.
+- **Paquete de cuotas alterado y con hashes recalculados: rechazado** tras nueva ejecución nativa, `QUOTA_CROSS_REPLAY_MISMATCH`. El paquete original sigue intacto.
+- Workers QA con caché privada, preservación de fallos y limpieza del mismo grupo tras éxito/error/timeout/interrupción. Los descendientes que crean otra sesión/grupo quedan fuera; no se certifica aislamiento completo.
+- Ocho workers; 180 s pared, 90 s CPU, 2 GiB y 20 MiB por archivo sin ampliar. QA y EELS mantienen entornos separados y pins exactos; PyYAML 6.0.3, cryptography 46.0.4 y Z3 4.13.3.0 con SHA256 `7accc397d4ac387468b09489bdaff9d82bfac4ca6a7e339b8fbb2167edf9c1c0` en QA.
+
+### Bloqueos y no ejecutado
+
+- 642 archivos históricos preservados. El verificador original sigue rechazando el checkout ampliado por archivo raíz no revisado y pasa en copia histórica; no se modificó. Esto no equivale a certificación de aislamiento de ejecución ni recertificación de NQC.
+- **Native-platform histórico integral no reejecutado sobre #64:** su worker preservado pide 4 GiB y no puede elevar un límite heredado de 2 GiB. Su sellado de Geth de 42,001,080 bytes falla bajo un límite heredado de archivo de 20 MiB (errno 27). No se aumentaron límites ni se alteraron capturas. La ruta de cuotas utiliza su worker propio de 2 GiB y una imagen previamente sellada.
+- Rust histórico no reejecutado; sus árboles no cambiaron. NQC Defense, `NQC-defensive`, `migration/defense`, árboles históricos, nexus-engine, Cano, Vercel, workflows, permisos y notificaciones no se editaron. Sin despliegues, fondos, transacciones, firmas operativas ni reportes a terceros.
+
+### Evidencia y continuidad
+
+`SUPERHUNTER_CIERRE_DEFENSIVO_20261107.zip`: **250 entradas**, **2,602,997 bytes**, SHA256 **`dd141a164a6b766be09b3c0fd509ff48c61ecb6497ade2dae468f619fc417433`**. Incluye manifiesto de todos los archivos, recibos originales, verificaciones separadas, controles negativos e intentos rechazados. El ZIP fue comprobado desde otro proceso. Los paquetes anteriores de #60–#63 conservan sus hashes documentados abajo.
+
+**Siguiente pendiente:** un perfil integral nativo que respete 2 GiB y conserve las capturas originales con identidades distintas; después, ampliar evaluación defensiva con casos propios y criterios de aceptación explícitos. No avanzar explotación o reproducción de terceros.
+
+**Avance global no determinado. Cero vulnerabilidades originales confirmadas.** El 40–42% histórico no es porcentaje auditado. No se estima recompensa.
+
+**Ejecuciones de esta iteración terminadas; solo consolidación y comprobación de publicación.** Los checkouts con fallos o caché sembrados son controles y no deben usarse como base de programación. El código limpio es #64. Se conserva el corte de la ventana 2026-11-07T02:36:30Z; no se extendió ni se creó otra automatización.
+
 ## Estado vigente — limpieza de procesos QA verificada (2026-11-07 UTC)
 
 Último código: [PR #64](https://github.com/josuechavando350-png/nexus-quant-capital/pull/64), HEAD `27184e26547c987514f2f5a83dad602a267808e9`, árbol `2305e2cb793a0b6dbd1b9c2936816de247101c01`. Borrador sobre #63 y su cadena; sin fusión a main. Este bloque prevalece.
