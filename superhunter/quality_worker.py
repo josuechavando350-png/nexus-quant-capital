@@ -96,6 +96,7 @@ QA_MODULE_GROUPS = (
         'test_forensic_timeline',
         'test_native_platform',
         'test_otel_qa',
+        'test_otel_dependency_integrity',
         'test_owned_mutation_evaluation',
         'test_rate_control',
         'test_regression',

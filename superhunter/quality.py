@@ -1237,8 +1237,8 @@ REQUIRED_TESTS += (
 # Optional OpenTelemetry profiling is instrumented ONLY for local owned QA.
 # No OTLP exporter, collector endpoint, network permission or scanning is added.
 COMPONENTS['otel_qa'] = {
-    'files': ['otel_qa.py'],
-    'tests': ['test_otel_qa.'],
+    'files': ['otel_qa.py', 'otel_dependency_integrity.py', 'otel_dependency_pins.py'],
+    'tests': ['test_otel_qa.', 'test_otel_dependency_integrity.'],
     'depends': ['quality', 'io', 'privacy']}
 COMPONENTS['entrypoints']['depends'].append('otel_qa')
 REQUIRED_TESTS += (
@@ -1246,6 +1246,12 @@ REQUIRED_TESTS += (
     'test_otel_qa.OfflineOpenTelemetryTests.test_real_sdk_captures_qa_and_verifier_in_memory',
     'test_otel_qa.OfflineOpenTelemetryTests.test_verifier_exception_is_failure_not_pass',
     'test_otel_qa.OfflineOpenTelemetryTests.test_fail_open_resealed_failure_cannot_claim_pass',
+    'test_otel_qa.OfflineOpenTelemetryTests.test_resealed_dependency_identity_change_is_rejected',
+    'test_otel_qa.OfflineOpenTelemetryTests.test_legacy_v1_remains_unpinned_without_silent_promotion',
+    'test_otel_qa.OfflineOpenTelemetryTests.test_dependency_change_after_qa_prevents_completion_marker',
+    'test_otel_dependency_integrity.DependencyIntegrityTests.test_modified_runtime_bytes_rejected_with_unchanged_metadata',
+    'test_otel_dependency_integrity.DependencyIntegrityTests.test_unrecorded_native_shadow_rejected',
+    'test_otel_dependency_integrity.DependencyIntegrityTests.test_changed_files_during_review_rejected',
 )
 
 
