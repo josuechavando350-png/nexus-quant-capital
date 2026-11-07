@@ -13,6 +13,7 @@ import hashlib
 from importlib.metadata import PackageNotFoundError, version
 import json
 import os
+import subprocess
 from pathlib import Path
 import platform
 import re
@@ -128,7 +129,7 @@ def run_owned(solc: Path, out: Path, *, repo_commit: str) -> dict:
                     stderr.seek(0, os.SEEK_END) > 2_000_000):
                 raise OwnedSlitherError("SLITHER_OUTPUT_TOO_LARGE")
         if (read_artifact(work, SOURCE_NAME) != OWNED_SOURCE or
-                read_artifact(work, "solc") != solc_bytes):
+                native_compile.read_pinned_binary(compiler) != solc_bytes):
             raise OwnedSlitherError("FIXTURE_OR_COMPILER_CHANGED")
         report = read_artifact(work, REPORT_NAME)
         parsed = strict_json(report)
@@ -187,7 +188,8 @@ def main(argv: list[str]) -> int:
             run_owned(args.solc, args.out, repo_commit=args.repo_commit))
         print(json.dumps(result, sort_keys=True))
         return 0 if result["status"] != "OWNED_SLITHER_BLOCKED" else 3
-    except (ValueError, OSError, KeyError, TypeError, RuntimeError, TimeoutError) as exc:
+    except (ValueError, OSError, KeyError, TypeError, RuntimeError, TimeoutError,
+            subprocess.TimeoutExpired) as exc:
         print(json.dumps({"status": "OWNED_SLITHER_REJECTED",
                           "error_type": type(exc).__name__,
                           "vulnerability_confirmed": False}))
