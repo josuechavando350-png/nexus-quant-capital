@@ -191,7 +191,10 @@ class CrossEVMTests(unittest.TestCase):
         module = self.root/'owned_cache_fixture.py'
         module.write_text('VALUE = 2\n')
         os.utime(module,(1700000000,1700000000))
-        py_compile.compile(str(module),doraise=True,
+        # The fixture deliberately lives in the standard cache even when the
+        # surrounding QA process itself uses a fresh pycache_prefix.
+        cached = self.root/'__pycache__'/f'owned_cache_fixture.{cross.sys.implementation.cache_tag}.pyc'
+        py_compile.compile(str(module),cfile=str(cached),doraise=True,
                            invalidation_mode=py_compile.PycInvalidationMode.TIMESTAMP)
         module.write_text('VALUE = 1\n')
         os.utime(module,(1700000000,1700000000))

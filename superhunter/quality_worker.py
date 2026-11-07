@@ -136,6 +136,7 @@ QA_MODULE_GROUPS = (
         'test_owned_spec_evm',
         'test_owned_quota_review',
         'test_qa_failure',
+        'test_quality_cache',
         'test_native_doctor',
         'test_repository_boundary',
         'test_permissions',
