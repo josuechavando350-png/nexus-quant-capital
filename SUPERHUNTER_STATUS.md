@@ -1,3 +1,13 @@
+## Sesión solicitada de nuevo — 2026-11-07 02:36 UTC
+
+El usuario pidió continuar después del cierre anterior. Trabajo activo desde el árbol publicado del PR #64, commit `27184e26547c987514f2f5a83dad602a267808e9`, en checkout aislado y rama nueva `feat/superhunter-bounded-owned-platform`. No reutilizar copias de controles negativos ni editar el árbol activo de otra ejecución.
+
+Objetivo de esta iteración: un perfil integral nuevo que enlace QA y controles locales con seis casos OWNED de cuotas en Geth/EELS, conservando trabajadores de 2 GiB y entornos fijados por separado. El perfil nativo histórico y sus capturas permanecen intactos. La línea base se volvió a ejecutar: 2364/2364 pruebas aprobadas; la evidencia local también fue verificada desde el entorno EELS. Esto todavía no aprueba el perfil nuevo, que está en desarrollo.
+
+Se mantienen todas las restricciones: solo este repositorio, sin tocar NQC Defense ni árboles históricos, sin despliegues, fondos, transacciones, mensajes a terceros, nuevas automatizaciones ni fusión de código a main. La ventana anterior quedó cerrada; esta petición posterior se atiende como una sesión nueva, con límite operativo 04:36:05 UTC y consolidación desde 04:35 UTC. Los intervalos de espera no se presentan como trabajo continuo.
+
+Avance global no determinado; vulnerabilidades originales confirmadas: 0.
+
 # SUPERHUNTER — estado oficial verificable y continuidad
 
 ## Cierre verificable de la iteración — 2026-11-07 UTC
