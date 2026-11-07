@@ -1,3 +1,17 @@
+## Slither nativo de tres controles propios — 2026-11-07 22:31Z
+
+Último código: **PR #81**, rama `feat/superhunter-owned-slither-native-evidence-20261107`, commit `4ddd1b146fee28a170b2ccf3575341fd16933609`, árbol `5acb37a0bf97094f6ed7a2fb86c190f3f50963b3`, padre #80. Digest ejecutable `9ceab53076a3437996abe869928cf19bdbf8fea852158cf6b126f9c30c8f5851`.
+
+**2,608/2,608 QA PASS**, cero fallos/errores/skips, SDK real de OpenTelemetry y verificador separado sin SDK. Conserva 2,574 identidades previas en sus workers y añade 34 regresiones. Ocho workers y límites originales intactos; máximo 71.971036 s.
+
+Slither 0.11.6/solc exactos ejecutaron tres fuentes propias: TP 1/TN 2/FP 0/FN 0. Un proceso separado recompiló y repitió los tres con coincidencia. Se conserva el JSON original y una conversión explícita de results={} exitoso, sin debilitar el importador genérico. Dos intentos previos del adaptador antiguo quedaron bloqueados en el control limpio; el primer pase focal nuevo tuvo un error en un doble de informe incompleto (29 PASS/1 ERROR), corregido sin alterar fuentes. Tres mutaciones de copias del expediente real, vueltos a sellar, se rechazaron.
+
+Entorno separado: 51 wheels/2,313 archivos fijados, incluidos metadatos y licencias. La instalación convencional sobrescribía cinco archivos documentales y fue rechazada; la separación conserva los bytes. Filtro de sockets heredado al hijo con libseccomp exacto desde memfd sellado; no demuestra aislamiento completo del host, autenticidad de productor o integridad de memoria. Tres casos conocidos no son benchmark ciego ni precisión general. Ver `superhunter/SLITHER_NATIVE_EVIDENCE.md`.
+
+Límite de repositorio PASS; 642 archivos históricos intactos. Geth/EELS y Rust no reejecutados para este digest. Siguiente: aceptación conjunta QA/cuotas/autoridad temporal desde #81, conservando la omisión conocida. También se reprodujo un fallo anterior de la CLI directa `python -m superhunter.quality verify-check`: ejecuta main antes de terminar el registro de componentes; el verificador importado y la CLI del paquete sí usan el registro completo. Corrección pendiente en sucesor.
+
+Fin de ventana **2026-11-08 00:14:04Z**, consolidación desde 00:13Z, sin extensión ni automatizaciones. Borradores sin fusión; NQC Defense separado; sin objetivos externos, despliegues, gastos o transacciones. Avance global no determinado; ninguna vulnerabilidad original confirmada.
+
 ## Perfil QA real con dependencias fijadas — 2026-11-07 21:59Z
 
 Último código publicado: **PR #80**, rama `feat/superhunter-otel-dependency-integrity-20261107`, commit `3546c91b013b0ce7f75507edef56f3c577e8cdfe`, árbol `118c9ba6a5dd97e090744b34b402473c1bdf430b`, digest `bd4d458a46875ba777b074ca648df6a4dbeca7721a0178855f68877ba039169d`. Su padre es #79.
