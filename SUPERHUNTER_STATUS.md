@@ -1,5 +1,21 @@
 # SUPERHUNTER — estado oficial verificable y continuidad
 
+## Estado vigente — evidencia de QA fallido preservada (2026-11-07 UTC)
+
+Este bloque prevalece sobre los anteriores. Último código: [PR #61](https://github.com/josuechavando350-png/nexus-quant-capital/pull/61), HEAD `1a7996f85a69ce72d47db304e5a83f1801509a1f`, árbol `77d80c0761b72f40e7bc08267965339306b56d3a`. Borrador sobre #60 y su cadena; sin fusión a main.
+
+- **2,336/2,336 QA PASS**, cero fallos, errores u omitidas; verificación en otro proceso PASS. Diecinueve pruebas nuevas, ninguna eliminada. Digest `4f14baff0bb468ca91fe2354ddf4af2bd6ccd56a7f2da72e04431d9842ee2844`.
+- El QA conserva los recibos originales antes de limpiar temporales si falla un worker, su validación o el agregado. El verificador de fallos mantiene `qa_passed: false` y salida 1; nunca transforma evidencia de fallo en PASS.
+- Control negativo real separado: 2,338 pruebas declaradas, 2,336 registros, un error de preparación de clase sembrado y dos métodos que no llegaron a ejecutarse. El agregado rechazó el resultado. Se conservaron exactamente los ocho recibos, logs redactados y marcadores; verificación separada coherente, salida 1. No se modificaron fixtures de producción.
+- Ocho workers y límites sin ampliar: 180 s pared, 90 s CPU, 2 GiB y 20 MiB por archivo. Máximo de QA final 62.073 s.
+- Seis archivos del incremento, todos en `superhunter/`. Revisión estructural PASS: 642 archivos históricos preservados. Verificador original sin cambios; sigue rechazando el checkout ampliado y pasa en copia histórica. Rust histórico y aceptación native-platform completa no se repitieron. No se certifica aislamiento de ejecución.
+- Evidencia: `SUPERHUNTER_QA_EVIDENCIA_FALLOS_20261107.zip`, 66 entradas, 1,100,081 bytes; SHA256 `36ddc9cb6b55aab24483619c18d82758c3408bbff9f2d1fddf3e57e4dd641298`.
+- Precisión de continuidad sobre #60: el agregado del candidato rechazado detectó pruebas ausentes después del error de preparación de clase; no se fabricó una fila de prueba para ese error. El candidato corregido sí pasó sus 2,317 pruebas.
+- Detección de cuotas propias de #60: seis casos conocidos, 4 TP / 2 TN / 0 FP / 0 FN; 12 constructores y 228 llamadas Geth, replay separado PASS. No equivale a casos ciegos ni hallazgos externos.
+- **Avance global no determinado; cero vulnerabilidades originales confirmadas.**
+
+**Trabajo activo en esta conversación:** revisar caché Python de los workers QA y demostrar con un control propio que leen las fuentes verificadas. La reparación de preservación de fallos anterior ya está publicada. No duplicar procesos ni editar el checkout activo. La ventana sigue terminando el 2026-11-07T02:36:30Z; desde 02:35 UTC, solo consolidación.
+
 ## Estado vigente — detección de cuotas propias (2026-11-07 UTC)
 
 Este bloque prevalece sobre los anteriores. Último código publicado: [PR #60](https://github.com/josuechavando350-png/nexus-quant-capital/pull/60), HEAD `9224f073cf9ef3747cccdd9d3aa137e3c6a19621`, árbol `c82ee9fd64d1d4749ab651210ce3e87047a0675e`. Borrador sobre #59 y su cadena; sin fusionar a main.
