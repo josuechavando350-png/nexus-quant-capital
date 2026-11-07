@@ -1,5 +1,25 @@
 # SUPERHUNTER — estado oficial verificable y continuidad
 
+## Estado vigente — EELS y regresión completa (2026-11-07)
+
+Este bloque sustituye el estado anterior. **La implementación EELS anunciada como trabajo activo más abajo ya está cerrada, publicada y verificada en #59**; esos párrafos anteriores son historial, no una ejecución activa.
+
+- Último código publicado: [PR #59](https://github.com/josuechavando350-png/nexus-quant-capital/pull/59), HEAD `504c795978a08afa161e3c78ab5da6ad6c00a8af`, árbol `5aabbf9163a341818f92665ddd1f26c40b6aab15`. Borrador sobre #58 → #57 → #56 → #55 → #54; ninguna fusión a main.
+- **2,289/2,289 QA PASS**, cero fallos, errores u omisiones; recibo verificado en otro proceso. Catorce pruebas nuevas, ningún identificador previo eliminado. Digest `4d207f34bead97ce37c0624512c632ca9cf07a46daabf9461fdcf2c5e89e8732`.
+- Ocho workers conservados, pared 180 s, CPU 90 s, memoria 2 GiB; máximo observado 63.660 s. PyYAML 6.0.3, cryptography 46.0.4 y biblioteca Z3 exacta de las capturas, sin cambiar fixtures.
+- Nuevo segundo motor opcional cerrado: EELS `ethereum-execution==2.20.0`, perfil Cancun, 23 distribuciones y 2,050 archivos de ejecución fijados con hashes. Entorno separado de QA; no sustituye cryptography 46.0.4 por 45.0.7 en QA. El diagnóstico permite seleccionar el perfil y conserva visibles los requisitos que no coinciden.
+- **Geth/EELS y Geth/py-evm: creación y replay en procesos separados PASS**, con ocho constructores y 144 llamadas por motor en cada comparación. Replay EELS adicional desde una instalación limpia offline de wheels verificados por hash.
+- Ambos pares coinciden en bytes compilados y observaciones: `builds_sha256=d40d09181b961bd8f3b4ea491295df06e35b5a1cb8ecafcabbe563829f6f2831`; `semantic_rows_sha256=a9a72052b8bf935eb25d92a8b7af513cde8e33c58527e56eceae07331ab72e20`.
+- Evaluación: **cuatro casos sintéticos propios conocidos**, 2 verdaderos positivos, 2 verdaderos negativos, 0 falsos positivos, 0 omisiones, 0 abstenciones, 0 errores. Los motores, configuraciones de compilación y replays no multiplican las muestras.
+- Revisión estructural PASS: 642 archivos históricos exactos. Diez archivos del incremento, todos bajo `superhunter/`. Árboles `ci/`, `migration/`, `nqc-census/` y NQC Defense intactos; sin workflows, despliegues, fondos ni transacciones externas.
+- Respaldo de evidencia: `SUPERHUNTER_EELS_VERIFICADO_20261107.zip`, 223,217 bytes, 29 entradas, SHA256 `666d0bdfdb4dfa248bd55ca74996c9e824e34309af31c4829ae2ecf67e34b704`; incluye recibos, inventario, salidas nativas, verificaciones y manifiesto de hashes exactos, sin dependencias binarias ni copia del repositorio.
+
+**Límites y resultados no ejecutados:** casos conocidos, no evaluación ciega ni evidencia de generalización. Se comparten fuentes, compilador y host; no se prueban productores independientes, costes de gas ni raíces de estado. El verificador histórico original permanece intacto y sigue rechazando el checkout ampliado; el PASS estructural nuevo no lo sustituye ni demuestra aislamiento durante ejecución. Rust histórico y aceptación integral `native-platform` no se volvieron a ejecutar sobre #59; la última aceptación integral real documentada es la de #58.
+
+**Siguiente pendiente:** ampliar la diversidad del corpus sintético OWNED con criterios de aceptación definidos, defectos sembrados y controles corregidos; medir falsos positivos, omisiones, errores y abstenciones por familia sin inflar muestras ni afirmar ceguera sin custodia independiente. Mantener verificadores separados y límites actuales.
+
+**Avance global: no determinado**, porque no existe un denominador de aceptación validado. El 40–42% es una referencia histórica no auditada. Vulnerabilidades originales confirmadas: **0**.
+
 ## Estado vigente — diagnóstico y aceptación integral (2026-11-07 00:30 UTC)
 
 - Último código publicado: [PR #58](https://github.com/josuechavando350-png/nexus-quant-capital/pull/58), HEAD `3f55674cfe7e6f3d07e25337a2e92508b60316b8`, árbol `5e4d8cfae6a1a1cfd3baf59204f85329e219a260`. Borrador sobre #57 → #56 → #55 → #54; no se fusionó con main.
