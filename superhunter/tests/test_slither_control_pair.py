@@ -23,7 +23,14 @@ def synthetic_result(clean: bool) -> dict:
             "raw_alert_count": 0 if clean else 1, "unique_alert_count": len(alerts),
             "source_bound_alerts": len(alerts),
             "source_sha256": {"Owned.sol": pair.sha(source)},
-            "alerts": alerts, "input_kind": "external-report"}
+            "alerts": alerts, "input_kind": "external-report",
+            "repository_declared": {"repo": "superhunter-owned/fixture", "commit": "a" * 40},
+            "scope_id_declared": ("owned-fixed-local-fixture-clean" if clean
+                                  else "owned-fixed-local-fixture"),
+            "tool_declared": {"name": "slither", "version": scanner.SCANNER_VERSION},
+            "detectors_declared": [scanner.DETECTOR],
+            "scanner_execution_verified": False,
+            "repository_commit_verified": False}
 
 
 class SlitherPairTests(unittest.TestCase):
@@ -86,7 +93,8 @@ class SlitherPairTests(unittest.TestCase):
                    "clean_sha256": pair.sha(pair.CLEAN_SOURCE),
                    "scanner": "slither", "scanner_version": scanner.SCANNER_VERSION,
                    "detector": scanner.DETECTOR, "positive_count": 1,
-                   "clean_count": 0, "scanner_executed_in_local_worker": True,
+                   "clean_count": 0, "declared_commit": "a" * 40,
+                   "scanner_executed_in_local_worker": True,
                    "network_isolation_proven": False,
                    "independent_execution_replay": False,
                    "vulnerability_confirmed": False}
@@ -106,6 +114,19 @@ class SlitherPairTests(unittest.TestCase):
             with patch.object(pair.static_review, "verify_report", side_effect=fake_verify) as verify:
                 self.assertEqual(pair.verify_pair(root), summary)
                 self.assertEqual(verify.call_count, 2)
+
+    def test_pair_rejects_reports_with_different_declared_commits(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp) / "pair"
+            self._bundle(root)
+            def mismatched(path):
+                result = synthetic_result(path.name == "clean")
+                if path.name == "clean":
+                    result["repository_declared"]["commit"] = "b" * 40
+                return result
+            with patch.object(pair.static_review, "verify_report", side_effect=mismatched):
+                with self.assertRaisesRegex(ValueError, "PAIR_SOURCE_CONTEXT_MISMATCH"):
+                    pair.verify_pair(root)
 
     def test_pair_verification_rejects_resealed_false_summary(self):
         with tempfile.TemporaryDirectory() as temp:
