@@ -1,3 +1,7 @@
+> **Nuevo control de Slither (laboratorio):** [SLITHER_PAIR_GATE.md](SLITHER_PAIR_GATE.md) exige reporte positivo y control limpio sin alertas, coherencia de fuente/commit y dos expedientes privados. No se ha ejecutado Slither real ni QA completo en esta rama; no equivale a integración certificada.
+
+---
+
 > **Segundo adaptador (Slither #6, no certificado):** [SLITHER_OWNED_LAB.md](SLITHER_OWNED_LAB.md) describe el runner local sobre Solidity propio y fijo, con compilador y fuente comprobados por hash, supervisión del proceso y reutilización de import-slither. Slither no está instalado en GitHub/usuario y no se ha ejecutado la suite completa en esta rama. No habilitar targets externos.
 
 ---
