@@ -1,3 +1,7 @@
+> **Comparación de dos ejecuciones Slither (offline):** [SLITHER_PAIR_REPLAY.md](SLITHER_PAIR_REPLAY.md) documenta el nuevo verificador de resultados entre dos pares OWNED, con hashes proporcionados externamente. Sin autenticación de productores, sin escaneos nuevos y sin QA completo de este commit.
+
+---
+
 > **Nuevo control de Slither (laboratorio):** [SLITHER_PAIR_GATE.md](SLITHER_PAIR_GATE.md) exige reporte positivo y control limpio sin alertas, coherencia de fuente/commit y dos expedientes privados. No se ha ejecutado Slither real ni QA completo en esta rama; no equivale a integración certificada.
 
 ---
