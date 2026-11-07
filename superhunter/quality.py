@@ -1210,3 +1210,18 @@ REQUIRED_TESTS += (
     'test_owned_authority.AuthorityReviewTests.test_reference_disagreement_blocks_instead_of_inventing_a_verdict',
     'test_owned_authority.AuthorityReviewTests.test_rehashed_omission_removal_is_rejected_after_reexecution',
 )
+
+COMPONENTS['owned_authority_evm'] = {
+    'files': ['owned_authority_evm_cases.py', 'owned_authority_geth.py',
+              'owned_authority_evm_worker.py', 'owned_authority_spec_worker.py',
+              'owned_authority_cross_evm.py'],
+    'tests': ['test_owned_authority_evm.'],
+    'depends': ['owned_authority', 'owned_quota_review', 'owned_quota_cross_evm', 'owned_process']}
+COMPONENTS['entrypoints']['depends'].append('owned_authority_evm')
+REQUIRED_TESTS += (
+    'test_owned_authority_evm.AuthorityEVMTests.test_known_cases_keep_the_latent_omission',
+    'test_owned_authority_evm.AuthorityEVMTests.test_vm_success_is_not_application_authorization',
+    'test_owned_authority_evm.AuthorityEVMTests.test_engine_agreement_does_not_replace_python_model_comparison',
+    'test_owned_authority_evm.AuthorityEVMTests.test_probe_that_changes_any_state_field_is_rejected',
+    'test_owned_authority_evm.AuthorityEVMTests.test_marker_byte_change_during_replay_is_rejected',
+)

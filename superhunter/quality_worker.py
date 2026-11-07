@@ -116,6 +116,7 @@ QA_MODULE_GROUPS = (
         'test_owned_platform',
         'test_owned_process',
         'test_owned_authority',
+        'test_owned_authority_evm',
         'test_proof_graph',
         'test_source_types',
         'test_static_review',

@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ('compare-owned-authority-engines', 'verify-owned-authority-engines'):
+        from .owned_authority_cross_evm import main as authority_cross_main
+        return authority_cross_main(argv)
     if argv and argv[0] in ('evaluate-owned-authority', 'verify-owned-authority'):
         from .owned_authority_review import main as authority_main
         return authority_main(argv)
