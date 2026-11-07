@@ -1256,3 +1256,18 @@ REQUIRED_TESTS += (
     'test_slither_owned_runner.SlitherOwnedTests.test_direct_worker_rejects_non_fixture',
     'test_slither_owned_runner.SlitherOwnedTests.test_worker_rejects_oversized_source_and_compiler_before_exec',
 )
+
+# Differential Slither gate: controlled positive AND clean fixture are both
+# mandatory before an OWNED experiment can be recorded as accepted.
+COMPONENTS['slither_control_pair'] = {
+    'files': ['slither_control_pair.py'],
+    'tests': ['test_slither_control_pair.'],
+    'depends': ['slither_owned_runner', 'static_review', 'native_compile', 'owned_process', 'io']}
+COMPONENTS['entrypoints']['depends'].append('slither_control_pair')
+REQUIRED_TESTS += (
+    'test_slither_control_pair.SlitherPairTests.test_fixed_clean_source_differs_only_in_authorization',
+    'test_slither_control_pair.SlitherPairTests.test_clean_control_must_have_no_false_positive',
+    'test_slither_control_pair.SlitherPairTests.test_cross_source_and_boolean_counts_fail_closed',
+    'test_slither_control_pair.SlitherPairTests.test_pair_verification_rejects_resealed_false_summary',
+    'test_slither_control_pair.SlitherPairTests.test_missing_tool_blocks_before_creating_output',
+)
