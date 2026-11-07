@@ -174,6 +174,30 @@ class SlitherOwnedTests(unittest.TestCase):
         with patch.object(worker.os, "execv", side_effect=AssertionError("executed")):
             self.assertEqual(worker.main([str(self.root)]), 2)
 
+    def test_silent_scanner_does_not_pass_known_positive(self):
+        self.mocks(normalized={"normalization_complete": True,
+                               "source_bound_alerts": 0, "unique_alert_count": 0,
+                               "alerts": []})
+        with self.assertRaisesRegex(ValueError, "POSITIVE_CONTROL_NOT_DETECTED"):
+            scan.run_owned(self.solc, self.out, repo_commit="a" * 40)
+        self.assertEqual(self.imported, [])
+
+    def test_malformed_alert_does_not_satisfy_positive_control(self):
+        self.mocks(normalized={"normalization_complete": True,
+                               "source_bound_alerts": 1, "unique_alert_count": 1,
+                               "alerts": [{"check": "unrelated-check"}]})
+        with self.assertRaisesRegex(ValueError, "POSITIVE_CONTROL_NOT_DETECTED"):
+            scan.run_owned(self.solc, self.out, repo_commit="a" * 40)
+        self.assertEqual(self.imported, [])
+
+    def test_worker_rejects_symlinked_source(self):
+        other = self.root / "other.sol"
+        other.write_bytes(scan.OWNED_SOURCE)
+        (self.root / "Owned.sol").symlink_to(other)
+        (self.root / "solc").write_bytes(b"invalid")
+        with patch.object(worker.os, "execv", side_effect=AssertionError("executed")):
+            self.assertEqual(worker.main([str(self.root)]), 2)
+
     def test_cli_failure_redacts_paths(self):
         with redirect_stdout(io.StringIO()) as stream:
             code = scan.main(["run-owned-slither", "--solc", str(self.root / "SECRET_PATH"),
