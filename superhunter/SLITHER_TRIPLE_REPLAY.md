@@ -50,6 +50,14 @@ Un segundo directorio con la misma huella SHA-256 externa del primero **no const
 
 Esto es una defensa **necesaria pero no suficiente**: dos hashes diferentes tampoco prueban ejecución real de Slither, procedencia autenticada ni independencia de hosts. Un operador puede alterar un dato accesorio y conseguir otro hash. La evidencia firme sigue exigiendo bitácoras y firmas de productor confiable más ejecución independiente. Se agregaron dos pruebas a `test_slither_pair_replay.py` y ambas figuran en la lista obligatoria del QA; no se reclaman como PASS sin ejecución.
 
+## Invariancia de anclas durante las lecturas
+
+La revisión posterior al PR #76 agrega una comprobación **al terminar** de leer y validar los seis reportes: se vuelven a obtener y calcular los SHA-256 de `first/COMPLETE.json` y `second/COMPLETE.json`, y ambos deben coincidir con los valores externos ya comprobados al inicio. Cambios de cualquiera de los dos marcadores durante la lectura fallan con `EXTERNAL_ANCHOR_CHANGED_DURING_VERIFICATION`. No se crea un expediente de comparación exitoso si el cambio ocurre antes de su escritura.
+
+Se agregaron tres pruebas de mutación intermedia, una por cada ancla y otra para asegurar ausencia de un nuevo paquete de éxito cuando falla `create`. También se registraron como `REQUIRED_TESTS` en el QA. Son **tests definidos, no PASS ejecutados**; esta revisión no ejecutó Slither/solc ni revalidó QA completo.
+
+**Alcance y límite:** repetir el hash del manifiesto no congela su contenido ni impide que un actor con acceso de escritura cambie archivos entre lecturas. No autentica a los productores y no sustituye un snapshot inmutable con firma. El resultado sigue `TWO_SLITHER_THREE_CONTROL_RUNS_AGREE_UNAUTHENTICATED`.
+
 ## Qué falta para certificarlo
 
 **Implementado en el código:** integración de las dos ramas, seis controles cotejados, fingerprints y adaptador en comparación, errores y faltantes como rechazo, nuevo registro de QA y comandos conectados.
