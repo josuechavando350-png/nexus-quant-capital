@@ -1143,3 +1143,14 @@ REQUIRED_TESTS += (
     'test_quality_cache.QualityCacheTests.test_unchecked_hash_cache_cannot_replace_verified_source',
     'test_quality_cache.QualityCacheTests.test_real_orchestrator_selects_private_cache_and_cleans_on_timeout',
 )
+
+COMPONENTS['owned_quota_cross_evm'] = {
+    'files':['owned_quota_cross_evm.py','owned_quota_spec_worker.py'],
+    'tests':['test_owned_quota_cross_evm.'],
+    'depends':['owned_quota_review','owned_cross_evm','owned_spec_evm']}
+COMPONENTS['entrypoints']['depends'].append('owned_quota_cross_evm')
+REQUIRED_TESTS += (
+    'test_owned_quota_cross_evm.QuotaCrossEVMTests.test_each_changed_call_rejected',
+    'test_owned_quota_cross_evm.QuotaCrossEVMTests.test_resealed_false_report_fails_regeneration',
+    'test_owned_quota_cross_evm.QuotaCrossEVMTests.test_six_cases_not_twelve_or_456_independent_samples',
+)
