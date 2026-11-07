@@ -1,5 +1,18 @@
 # SUPERHUNTER — estado oficial verificable y continuidad
 
+## Estado vigente — workers QA con caché nueva (2026-11-07 UTC)
+
+Último código: [PR #62](https://github.com/josuechavando350-png/nexus-quant-capital/pull/62), HEAD `f2220ce397f938078b36e22e65e9f7864763c9f7`, árbol `8b4640c154bfc3fee02d27c94a8e82b4b35cccf9`. Borrador sobre #61 y su cadena; sin fusionar a main. Este bloque prevalece.
+
+- **2,341/2,341 QA PASS**, cero fallos, errores u omitidas, verificador separado PASS. Cinco pruebas nuevas; ninguna retirada. Digest `dac884e5080b82a57218681f03bf84cdf4c34993cdbdc06094fc30fb083e3600`.
+- Cada worker usa un prefijo de caché Python nuevo y privado. Dos controles propios con caché antigua por fecha y por hash confirman que el nuevo lanzador lee el fuente actual. La prueba EVM anterior conserva sus expectativas y crea explícitamente su caché de control.
+- Ocho workers, 180 s pared, 90 s CPU, 2 GiB y 20 MiB sin cambios. Máximo observado 65.451 s.
+- Cinco archivos en `superhunter/`; preservación de 642 archivos históricos PASS. Verificador original: checkout ampliado FAIL por archivo raíz no revisado, copia histórica PASS. No se modificó. Rust histórico y native-platform integral no reejecutados en #62; no se certifica sandbox ni autenticidad del productor.
+- Evidencia: `SUPERHUNTER_QA_CACHE_VERIFICADA_20261107.zip`, 39 entradas, 640,372 bytes, SHA256 `f2aa3be6e079eced1ee5c075c0b3379ec39b27a4b0f1ebde6e41bc93f0384528`. Incluye el intento prematuro de verificación (FileNotFoundError, sin PASS) y la verificación final válida.
+- **Avance global no determinado; cero vulnerabilidades originales confirmadas.**
+
+**Trabajo activo:** comparación de los seis casos OWNED de cuotas entre Geth y EELS en checkout aislado sucesor de #62. La corrección de caché anterior ya está publicada. No duplicar procesos ni editar este árbol activo. Corte 2026-11-07T02:36:30Z; desde 02:35 UTC solo consolidación.
+
 ## Estado vigente — evidencia de QA fallido preservada (2026-11-07 UTC)
 
 Este bloque prevalece sobre los anteriores. Último código: [PR #61](https://github.com/josuechavando350-png/nexus-quant-capital/pull/61), HEAD `1a7996f85a69ce72d47db304e5a83f1801509a1f`, árbol `77d80c0761b72f40e7bc08267965339306b56d3a`. Borrador sobre #60 y su cadena; sin fusión a main.
