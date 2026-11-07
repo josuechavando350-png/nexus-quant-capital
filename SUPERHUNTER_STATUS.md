@@ -1,3 +1,9 @@
+## Nueva duración solicitada por el usuario — 2026-11-07 03:40:11 UTC
+
+El usuario pidió explícitamente continuar durante tres horas desde ahora. Esta petición posterior sustituye el límite operativo de la sesión previa: consolidación desde 06:39 UTC y fin 06:40:11 UTC. No se crean automatizaciones y no se presentan intervalos de espera como trabajo continuo.
+
+Continúa el mismo trabajo defensivo, desde el código publicado del PR #66 (`8a5f1511468f191717df93c257ecd073dff5ff40`), en checkout aislado y rama `feat/superhunter-owned-temporal-authority`. Se está implementando el detector temporal sobre once casos sintéticos propios; sus resultados de prototipo todavía no son aceptación del incremento. Se mantienen íntegramente las restricciones de repositorio, preservación histórica, límites de QA, separación de NQC Defense y prohibiciones de objetivos externos, despliegues, fondos, firmas, transacciones, mensajes a terceros y fusiones a main. No duplicar procesos ni editar el árbol activo de otra ejecución.
+
 ## PR #66 — supervisión y límite de pared verificados, 2026-11-07 03:34 UTC
 
 Último código publicado: [PR #66](https://github.com/josuechavando350-png/nexus-quant-capital/pull/66), commit `8a5f1511468f191717df93c257ecd073dff5ff40`, árbol `a3133aac4df78ff995c34f937751da6fd559a428`, digest `b9b065d7ed4f746e212e87d0086c2338d3cfea6e78a9a2bf17a7921111ef0e0c`. Borrador encadenado a #65, sin fusión.
