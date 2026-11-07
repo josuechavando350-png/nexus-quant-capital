@@ -113,6 +113,7 @@ QA_MODULE_GROUPS = (
         'test_compiler_variants',
         'test_evm_feedback',
         'test_fuzz_lab',
+        'test_owned_platform',
         'test_proof_graph',
         'test_source_types',
         'test_static_review',

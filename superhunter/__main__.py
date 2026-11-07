@@ -14,6 +14,10 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ('prepare-owned-platform', 'verify-owned-preparation',
+                           'finish-owned-platform', 'verify-owned-platform'):
+        from .owned_platform import main as owned_platform_main
+        return owned_platform_main(argv)
     if argv and argv[0] == "verify-failed-check":
         from .qa_failure import main as failure_main
         return failure_main(argv[1:])
