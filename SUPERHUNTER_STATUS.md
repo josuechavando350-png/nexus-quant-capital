@@ -1,3 +1,15 @@
+## Perfil QA real con dependencias fijadas — 2026-11-07 21:59Z
+
+Último código publicado: **PR #80**, rama `feat/superhunter-otel-dependency-integrity-20261107`, commit `3546c91b013b0ce7f75507edef56f3c577e8cdfe`, árbol `118c9ba6a5dd97e090744b34b402473c1bdf430b`, digest `bd4d458a46875ba777b074ca648df6a4dbeca7721a0178855f68877ba039169d`. Su padre es #79.
+
+OpenTelemetry SDK real: **2,574/2,574 QA PASS**, cero fallos/errores/skips, 17 regresiones nuevas y todas las 2,557 identidades anteriores conservadas en sus workers. Ocho particiones y límites sin cambios; máximo 72.876555 s. Se comprobaron 403 archivos y ocho METADATA de ocho distribuciones antes/después; hashes de wheels y transitivas fijados. El perfil y QA pasaron un verificador separado sin SDK instalado. Recibos históricos v1 legibles sin atribuirles pins v2. No demuestra integridad de memoria o autenticidad del productor; sin Collector ni exportación. Ver `superhunter/OTEL_DEPENDENCY_INTEGRITY.md`.
+
+Límite del repositorio PASS, 642 archivos históricos intactos. Geth/EELS no cambian; sus replays reales de #79 pertenecen al digest anterior, no se atribuyen a #80. Avance global no determinado.
+
+Trabajo Slither en curso, aún bloqueado: se verificaron 51 paquetes/2,105 archivos en un entorno separado. La instalación convencional sobrescribía cinco archivos de documentación compartidos; una instalación por distribución conserva todos los bytes. Una ejecución nativa del control limpio, con filtro de sockets heredado y solc exacto, terminó con código 0 y JSON `success=true,error=null,results={}`; el adaptador existente lo rechazó como `SLITHER_CLEAN_BAD_REPORT`. Se repitió y conservó el JSON bruto y los logs. **Los otros dos controles no se ejecutaron**; no hay gate nativo Slither aprobado. La fuente instalada de Slither confirma que omite la clave detectors cuando no hay detecciones. Próximo: aceptar esa forma nativa mediante una normalización explícita que conserve el original, sin debilitar la importación genérica ni alterar fixtures.
+
+Ventana activa sin extensión: fin **2026-11-08 00:14:04Z**, consolidación desde 00:13Z. Sin automatizaciones adicionales, fusiones, objetivos externos, gastos o cambios a NQC Defense. Ninguna vulnerabilidad original confirmada.
+
 ## Cierre de QA sobre el último código publicado — 2026-11-07 21:42Z
 
 Continuar desde **PR #79**, rama `fix/superhunter-latest-qa-reconciliation-20261107`, commit `b10c417375de41f4c025c35d4c4364e6873f19b8`, árbol `9637f7c1db7c780fe06c4691f6bb79aa8a99da76`. Su padre es #78 `b18b23128a601498a3dba8fc0bfcbbd2eb726934`; conserva todos los sucesores #69–#78 y el trabajo anterior. No retomar la copia parcial previa a esos sucesores.
