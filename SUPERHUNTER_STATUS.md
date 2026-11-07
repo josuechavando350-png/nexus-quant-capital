@@ -1,3 +1,19 @@
+## PR #66 — supervisión y límite de pared verificados, 2026-11-07 03:34 UTC
+
+Último código publicado: [PR #66](https://github.com/josuechavando350-png/nexus-quant-capital/pull/66), commit `8a5f1511468f191717df93c257ecd073dff5ff40`, árbol `a3133aac4df78ff995c34f937751da6fd559a428`, digest `b9b065d7ed4f746e212e87d0086c2338d3cfea6e78a9a2bf17a7921111ef0e0c`. Borrador encadenado a #65, sin fusión.
+
+Corregidos: hijo nativo propio que sobrevivía a salida normal; NameError en timeout de cuotas; consulta de salida terminada que podía omitir la comprobación del plazo. El supervisor Linux conserva al líder con WNOWAIT, limpia su grupo propio y después lo recolecta. No garantiza sesiones separadas, cgroups, presupuesto agregado ni aislamiento de código hostil. Los motores históricos permanecen intactos.
+
+2415/2415 pruebas finales PASS, 17 nuevas; 92 enfocadas PASS. Ocho trabajadores y límites originales conservados; máximo QA 67.723 s. Perfil integral y repetición Geth/EELS en proceso separado PASS. Los seis casos nativos mantienen 4 TP, 2 TN, 0 FP y 0 FN.
+
+Control real del plazo: timeout observado en 180.001209 s, líder e hijo propio detenidos, sin paquete positivo. Evidencia de fallo verificada por otro proceso, exit 1 y qa_passed=false; sin recibo completo, el inventario de ejecución se deja desconocido y no se afirma que corrieran los trabajadores posteriores. El control previo de fallo setUpClass conserva ocho recibos y dos métodos no observados. Sus hashes y revisión intermedia se distinguen de la versión final.
+
+Preservación histórica de 642 archivos y revisión estructural PASS. Verificador histórico bloqueado en árbol completo por alcance; PASS en histórico aislado. Rust no reejecutado. Respaldo: 586 entradas, 4981442 bytes, SHA256 `a8f304e87505e0f8029b1cd3b665106887ebf497382aa3320d0de1d243de9d08`.
+
+Trabajo siguiente activo en checkout aislado desde #66, rama `feat/superhunter-owned-temporal-authority`: detección defensiva de permisos/revocaciones en secuencias sintéticas propias, con métricas de falsos positivos y omisiones, incluida una mutación no activada por la traza. No duplicar ni editar el árbol activo de esa ejecución. Ventana vigente de esta nueva sesión: consolidación desde 04:35 UTC, fin 04:36:05 UTC, sin automatizaciones nuevas.
+
+Avance global no determinado; vulnerabilidades originales confirmadas: 0. NQC Defense y sus árboles siguen separados. Sin objetivos externos, despliegues, fondos, firmas, transacciones o mensajes a terceros.
+
 ## PR #65 — aceptación integral propia verificada, 2026-11-07 03:01 UTC
 
 Código más reciente: PR [#65](https://github.com/josuechavando350-png/nexus-quant-capital/pull/65), commit `56fae2c2e5d69816883d564c0c12231e1abd4fc7`, árbol `6afee2e0f8aad2b4df56dd799808e9a8b64c9131`, digest de fuentes `36ec806c08518a3e446f1f96b573f7de9bdcba8ad33261628b6e214763c68a14`. Borrador sobre #64, sin fusionar.
