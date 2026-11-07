@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] == "verify-failed-check":
+        from .qa_failure import main as failure_main
+        return failure_main(argv[1:])
     if argv and argv[0] in ("evaluate-owned-quota", "verify-owned-quota"):
         from .owned_quota_review import main as quota_main
         return quota_main(argv)
