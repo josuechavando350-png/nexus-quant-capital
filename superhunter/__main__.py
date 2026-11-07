@@ -180,6 +180,9 @@ def main() -> int:
     if argv and argv[0] == "redact-log":
         from .privacy_cli import main as privacy_main
         return privacy_main(argv[1:])
+    if argv and argv[0] in ("compare-owned-quota-engines", "verify-owned-quota-engines"):
+        from .owned_quota_cross_evm import main as quota_cross_main
+        return quota_cross_main(argv)
     if argv and argv[0] in ("check", "verify-check", "capabilities"):
         from .quality import main as quality_main
         return quality_main(argv)
