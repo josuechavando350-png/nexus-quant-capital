@@ -32,7 +32,14 @@ contratos, ni realiza consultas SMT. Z3 se comprueba por bytes sin cargar su
 biblioteca nativa. Tampoco imprime rutas proporcionadas, variables del entorno o
 mensajes internos de dependencias. La salida conserva el digest del código revisado.
 
-Código de salida 0: todos los prerrequisitos revisados están presentes. Código 2:
+Por defecto, `--profile all` exige todos los perfiles del motor seleccionado.
+También se puede elegir `--profile qa`, `owned_geth` u `owned_cross_evm`; las otras
+comprobaciones siguen visibles, pero no bloquean el perfil pedido.
+`--second-engine execution-specs` comprueba los pins EELS en su entorno separado;
+`py-evm` sigue siendo el valor predeterminado. Una instalación EELS puede estar
+preparada para la comparación aunque sus paquetes no satisfagan el QA histórico.
+
+Código de salida 0: los prerrequisitos del perfil solicitado están presentes. Código 2:
 alguno está bloqueado o el diagnóstico no pudo completarse. Este resultado no
 prueba que QA pase ni que el benchmark se haya ejecutado; los comandos de ejecución
 y verificación siguen siendo obligatorios para esas afirmaciones.
