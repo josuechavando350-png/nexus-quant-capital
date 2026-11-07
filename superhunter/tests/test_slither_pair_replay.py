@@ -215,6 +215,43 @@ class SlitherReplayTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "ANCHOR_MISMATCH"):
             replay.compare(self.first, self.second, self.a, self.b)
 
+    def test_first_external_anchor_mutated_during_read_is_rejected(self):
+        self.mocks()
+        original = replay._profile
+        def mutate_between_reports(bundle, commit):
+            result = original(bundle, commit)
+            if bundle == self.second:
+                (self.first / "COMPLETE.json").write_bytes(b"changed during verification")
+            return result
+        with patch.object(replay, "_profile", side_effect=mutate_between_reports):
+            with self.assertRaisesRegex(ValueError, "EXTERNAL_ANCHOR_CHANGED_DURING_VERIFICATION"):
+                replay.compare(self.first, self.second, self.a, self.b)
+
+    def test_second_external_anchor_mutated_during_read_is_rejected(self):
+        self.mocks()
+        original = replay._profile
+        def mutate_between_reports(bundle, commit):
+            result = original(bundle, commit)
+            if bundle == self.second:
+                (self.second / "COMPLETE.json").write_bytes(b"changed during verification")
+            return result
+        with patch.object(replay, "_profile", side_effect=mutate_between_reports):
+            with self.assertRaisesRegex(ValueError, "EXTERNAL_ANCHOR_CHANGED_DURING_VERIFICATION"):
+                replay.compare(self.first, self.second, self.a, self.b)
+
+    def test_mutation_during_create_produces_no_successful_comparison_bundle(self):
+        self.mocks()
+        original = replay._profile
+        def mutate_between_reports(bundle, commit):
+            result = original(bundle, commit)
+            if bundle == self.second:
+                (self.first / "COMPLETE.json").write_bytes(b"changed during comparison")
+            return result
+        with patch.object(replay, "_profile", side_effect=mutate_between_reports):
+            with self.assertRaisesRegex(ValueError, "EXTERNAL_ANCHOR_CHANGED_DURING_VERIFICATION"):
+                replay.create(self.first, self.second, self.a, self.b, self.out)
+        self.assertFalse(self.out.exists())
+
     def test_report_tampering_rejected_after_manifest_reseal(self):
         self.mocks()
         replay.create(self.first, self.second, self.a, self.b, self.out)

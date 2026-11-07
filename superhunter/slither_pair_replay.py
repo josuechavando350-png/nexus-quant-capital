@@ -96,6 +96,12 @@ def compare(first: Path, second: Path, expected_first: str, expected_second: str
     repeated = _profile(second, second_summary["declared_commit"])
     if canonical(original) != canonical(repeated):
         raise ReplayComparisonError("SLITHER_OBSERVATION_DIVERGENCE")
+    # An external SHA checked only before parsing is insufficient: the source
+    # bundle may change while six reports are being re-read. Require the same
+    # anchored root receipts to remain present after verification too.
+    if (digest(read_artifact(first, "COMPLETE.json")) != sha1 or
+            digest(read_artifact(second, "COMPLETE.json")) != sha2):
+        raise ReplayComparisonError("EXTERNAL_ANCHOR_CHANGED_DURING_VERIFICATION")
     return {
         "schema_version": 1,
         "profile": PROFILE,

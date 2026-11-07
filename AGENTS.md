@@ -28,3 +28,5 @@
 - Conciliación de #73 (tres controles Slither) y #74 (comparación de dos ejecuciones): leer `superhunter/SLITHER_TRIPLE_REPLAY.md`. Los seis reportes se contrastan con `pair.accept` y `check_context` reales; no declarar autenticidad de productores ni independencia de host. Requiere QA y ejecuciones nativas en laboratorio antes de promoción.
 
 - Verificación adicional del comparador Slither: dos expedientes de directorios distintos con **anclas SHA-256 idénticas** deben rechazarse como evidencia duplicada (`DISTINCT_EXTERNAL_ANCHORS_REQUIRED`); revisar `superhunter/SLITHER_TRIPLE_REPLAY.md`. Anclas diferentes no autentican ejecuciones independientes.
+
+- El comparador Slither revalida los hashes **también después** de cotejar los seis reportes. Ver `superhunter/SLITHER_TRIPLE_REPLAY.md`. Una mutación concurrente del manifiesto se rechaza; la consistencia SHA no autentica al productor ni sustituye pruebas con Slither/solc real.
