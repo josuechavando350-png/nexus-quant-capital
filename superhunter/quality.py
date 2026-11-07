@@ -11,6 +11,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import signal
 import subprocess
 import sys
 import tempfile
@@ -558,6 +559,30 @@ def aggregate_receipts(receipts: list[dict], snapshot: dict) -> dict:
     }
 
 
+def _run_qa_process(command: list[str], *, cwd: Path, env: dict, timeout: int):
+    """Reap the fixed worker and kill remaining members of its own session group.
+
+    This does not contain descendants that detach into another process group.
+    Worker receipts/logs are explicit files; arbitrary console output is discarded.
+    """
+    with subprocess.Popen(command,cwd=cwd,env=env,stdin=subprocess.DEVNULL,
+                          stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,
+                          start_new_session=True) as process:
+        try:
+            code = process.wait(timeout=timeout)
+            return subprocess.CompletedProcess(command,code)
+        finally:
+            try:
+                os.killpg(process.pid,signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            except OSError:
+                process.kill()
+                raise
+            finally:
+                process.wait()
+
+
 def _worker_command(work: Path, index: int, cache: Path) -> list[str]:
     """Start the fixed QA worker with a new cache namespace, never an old pyc."""
     if type(index) is not int or not 0 <= index < PARTITION_COUNT:
@@ -588,9 +613,9 @@ def run_check(out: Path) -> dict:
                 active_work = work
                 stage = 'worker_execution'
                 command = _worker_command(work,index,Path(temp)/f'cache-{index}')
-                proc = subprocess.run(command,
+                proc = _run_qa_process(command,
                                       cwd=ROOT.parent, env={'LANG':'C.UTF-8','LC_ALL':'C.UTF-8'},
-                                      capture_output=True, timeout=180, check=False)
+                                      timeout=180)
                 capture.record(index,proc.returncode,work)
                 stage = 'worker_validation'
                 if proc.returncode not in (0,1):
@@ -1153,4 +1178,11 @@ REQUIRED_TESTS += (
     'test_owned_quota_cross_evm.QuotaCrossEVMTests.test_each_changed_call_rejected',
     'test_owned_quota_cross_evm.QuotaCrossEVMTests.test_resealed_false_report_fails_regeneration',
     'test_owned_quota_cross_evm.QuotaCrossEVMTests.test_six_cases_not_twelve_or_456_independent_samples',
+)
+
+COMPONENTS['quality']['tests'].append('test_quality_process.')
+REQUIRED_TESTS += (
+    'test_quality_process.QualityProcessTests.test_timeout_stops_own_same_group_child',
+    'test_quality_process.QualityProcessTests.test_success_also_stops_own_remaining_child',
+    'test_quality_process.QualityProcessTests.test_failed_group_cleanup_cannot_report_success',
 )
