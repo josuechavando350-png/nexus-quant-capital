@@ -78,8 +78,10 @@ QA_MODULE_GROUPS = (
         'test_holdout_protocol',
         'test_journal_correlation',
         'test_native_compile',
+        'test_owned_defensive_acceptance',
         'test_owned_slither_native',
         'test_permission_domain',
+        'test_quality_entrypoint',
         'test_solidity_stateful',
     ),
     (

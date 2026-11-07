@@ -1,5 +1,7 @@
 # Aceptación integral con entornos separados
 
+**Consumidor posterior:** [OWNED_DEFENSIVE_ACCEPTANCE.md](OWNED_DEFENSIVE_ACCEPTANCE.md) exige este perfil de cuotas junto con autoridad temporal nativa y el mismo digest de QA. Sus denominadores se mantienen separados y la omisión conocida no se elimina.
+
 Perfil: `whole-qa-and-owned-quota-two-environments-v1`.
 
 El entorno QA exige Linux x86_64, Python 3.12 con memfd y F_ADD_SEALS,

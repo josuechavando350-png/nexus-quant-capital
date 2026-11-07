@@ -727,8 +727,6 @@ REQUIRED_TESTS += (
     'test_evm_seed_study.SeedStudyTests.test_resealed_superiority_claim_rejected',
 )
 
-if __name__ == '__main__':
-    raise SystemExit(main())
 
 
 COMPONENTS['solidity_formal'] = {
@@ -1343,3 +1341,25 @@ REQUIRED_TESTS += (
     'test_owned_slither_native.NetworkFilterTests.test_sealed_filter_is_inherited_by_exec_child',
     'test_owned_slither_native.DependencyTests.test_entrypoint_metadata_change_is_rejected',
 )
+
+COMPONENTS['owned_defensive_acceptance'] = {
+    'files':['owned_defensive_acceptance.py'],'tests':['test_owned_defensive_acceptance.'],
+    'depends':['owned_platform','owned_authority_evm','quality','io','privacy']}
+COMPONENTS['entrypoints']['depends'].append('owned_defensive_acceptance')
+COMPONENTS['quality']['tests'].append('test_quality_entrypoint.')
+REQUIRED_TESTS += (
+    'test_owned_defensive_acceptance.DefensiveAcceptanceTests.test_both_native_cohorts_must_be_reexecuted',
+    'test_owned_defensive_acceptance.DefensiveAcceptanceTests.test_complete_acceptance_retains_the_known_omission',
+    'test_owned_defensive_acceptance.DefensiveAcceptanceTests.test_incompatible_case_units_are_not_pooled',
+    'test_owned_defensive_acceptance.DefensiveAcceptanceTests.test_rehashed_omission_removal_is_rejected',
+    'test_owned_defensive_acceptance.DefensiveAcceptanceTests.test_native_evidence_changed_after_replay_is_rejected',
+    'test_quality_entrypoint.QualityEntrypointTests.test_direct_and_package_entrypoints_accept_the_same_unit_receipt',
+    'test_quality_entrypoint.QualityEntrypointTests.test_missing_late_required_test_is_blocked_by_both_entrypoints',
+    'test_owned_slither_native.ConversionTests.test_changed_literal_cannot_keep_historical_source_identity',
+    'test_owned_slither_native.ConversionTests.test_changed_container_cannot_keep_historical_commit_claim',
+)
+
+
+# Register the complete package before either CLI entry point runs.
+if __name__ == '__main__':
+    raise SystemExit(main())

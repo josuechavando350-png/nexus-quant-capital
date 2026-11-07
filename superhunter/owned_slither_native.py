@@ -13,12 +13,13 @@ import tempfile
 from . import quality, native_platform, native_compile, owned_process, static_review
 from . import slither_owned_runner as prior, slither_control_pair as pair
 from . import owned_slither_dependencies as dependencies, owned_slither_network as network
+from . import owned_slither_cases as fixture_cases
 from .owned_slither_cases import SOURCES, WORKER_POLICY, FIXTURE_COMMIT, context
 from .privacy import PrivateArgumentParser
 from .safe_io import canonical, read_artifact, strict_json, write_new_bundle
 
 ROOT = Path(__file__).resolve().parent
-PROFILE = 'owned-slither-three-control-native-v1'
+PROFILE = 'owned-slither-three-control-native-v2'
 CAPTURE_FILES = {'slither-original.json','source.sol','admission.json','execution.json','stdout.log','stderr.log'}
 CONVERSION_FILES = {'slither-normalized.json','conversion.json','context.json'}
 REVIEW_FILES = {'evaluation.json','REVIEW.md'}
@@ -26,6 +27,7 @@ need,sha = dependencies.need,dependencies.sha
 
 
 def source_identity(expected: str) -> dict:
+    fixture_cases.fixture_provenance()
     snapshot = quality.source_snapshot()
     need(type(expected) is str and sha(canonical(snapshot))==expected,'OWNED_SLITHER_SOURCE_IDENTITY')
     return snapshot
@@ -61,6 +63,7 @@ def _manifest(root: Path, files: set[str]) -> dict:
 
 def _admission(mode: str, expected: str) -> dict:
     return {'schema_version':1,'mode':mode,'source_digest':expected,'source_sha256':sha(SOURCES[mode]),
+            'fixture_provenance':fixture_cases.fixture_provenance(),
             'dependencies':dependencies.expected_identity(),'network':network.expected_proof(),
             'worker_policy':WORKER_POLICY}
 
@@ -162,6 +165,7 @@ def _collect(root: Path, expected: str, complete: bool) -> dict:
         counts[key] += 1
     return {'schema_version':1,'profile':PROFILE,'status':'OWNED_SLITHER_NATIVE_EVALUATED',
         'source_digest':expected,'fixture_source_commit':FIXTURE_COMMIT,'observations':observations,
+        'fixture_provenance':fixture_cases.fixture_provenance(),
         'evidence_sha256':evidence,'counts':counts,'case_unit':'one-fixed-owned-detector-control',
         'positive_denominator':1,'negative_denominator':2,
         'false_positive_rate':counts['fp']/2,'omission_rate':counts['fn']/1,
