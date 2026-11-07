@@ -42,7 +42,7 @@ class SlitherOwnedTests(unittest.TestCase):
         raw = report.read_bytes()
         return {"normalization_complete": True, "report_sha256": scan.sha(raw),
                 "source_sha256": {scan.SOURCE_NAME: scan.sha(scan.OWNED_SOURCE)},
-                "unique_alert_count": 0, "source_bound_alerts": 0}
+                "unique_alert_count": 1, "source_bound_alerts": 1}
 
     def mocks(self, process=None, normalized=None, imported=None):
         self.enterContext(patch.object(
@@ -54,7 +54,9 @@ class SlitherOwnedTests(unittest.TestCase):
         self.enterContext(patch.object(scan.owned_process, "run",
                                        side_effect=process or self.fake_run))
         self.enterContext(patch.object(scan.static_review, "normalize",
-                                       return_value=normalized or {"normalization_complete": True}))
+                                       return_value=normalized or {"normalization_complete": True,
+                            "source_bound_alerts": 1, "unique_alert_count": 1,
+                            "alerts": [{"check": "tx-origin"}]}))
         self.enterContext(patch.object(scan.static_review, "import_report",
                                        side_effect=imported or self.imported_report))
 
