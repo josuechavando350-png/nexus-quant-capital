@@ -1,4 +1,11 @@
-# Optional owned-QA OpenTelemetry SDK instrumentation. Install in a DEDICATED venv.
-# NOT required by historical QA and not an OpenTelemetry Collector deployment.
-opentelemetry-api==1.42.1
-opentelemetry-sdk==1.42.1
+# Optional OWNED QA SDK; dedicated Linux CPython 3.12 x86_64 environment.
+# Exact reviewed wheels including all runtime dependencies; no Collector/OTLP.
+# Install with --require-hashes; no optional extras.
+cryptography==46.0.4 --hash=sha256:3d425eacbc9aceafd2cb429e42f4e5d5633c6f873f5e567077043ef1b9bbf616
+PyYAML==6.0.3 --hash=sha256:ba1cc08a7ccde2d2ec775841541641e4548226580ab850948cbfda66a1befcdc
+cffi==2.1.1 --hash=sha256:c1453022f490d2459a11819d83ad1d586e9ff65a12ac3e705ffebd46d3685dcf
+pycparser==3.12 --hash=sha256:a076f3f489b39b43ed13563a1dafe42447445bec2e294154ec5c57fcdda4c85e
+opentelemetry-sdk==1.42.1 --hash=sha256:083cd4bbfaa5aa7b5a9e552430d9951219967cfb27aa61feb13a77aba1fc839d
+opentelemetry-api==1.42.1 --hash=sha256:51a69edacadbc03a8950ace1c4c21099cacc538820ac2c9e36277e78cebba714
+opentelemetry-semantic-conventions==0.63b1 --hash=sha256:dfe5ef4dee82586b746f522b818ceb298d00b3d59f660042bd79404bff8d0682
+typing-extensions==4.16.0 --hash=sha256:481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8

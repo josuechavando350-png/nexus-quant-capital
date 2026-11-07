@@ -12,12 +12,13 @@ import json
 from pathlib import Path
 import time
 
-from . import quality
+from . import quality, otel_dependency_integrity as dependencies
 from .privacy import PrivateArgumentParser
 from .safe_io import canonical, read_artifact, strict_json, write_new_bundle
 
 SDK_VERSION = "1.42.1"
-PROFILE = "owned-local-qa-opentelemetry-sdk-v1"
+LEGACY_PROFILE = "owned-local-qa-opentelemetry-sdk-v1"
+PROFILE = "owned-local-qa-opentelemetry-sdk-pinned-v2"
 FILES = {"telemetry.json", "PROFILE.md"}
 CHECKOUT = Path(__file__).resolve().parent.parent
 
@@ -27,7 +28,7 @@ def _sha(data: bytes) -> str:
 
 
 def readiness() -> dict:
-    """No subprocess, remote collector or socket; only local distribution metadata."""
+    """Read local version metadata and exact files; never import the SDK here."""
     versions = {}
     for name in ("opentelemetry-api", "opentelemetry-sdk"):
         try:
@@ -35,8 +36,16 @@ def readiness() -> dict:
         except PackageNotFoundError:
             versions[name] = None
     ready = all(x == SDK_VERSION for x in versions.values())
+    identity, reason = None, None
+    if ready:
+        try:
+            identity = dependencies.verify_dependencies()
+        except (PackageNotFoundError, OSError, ValueError, KeyError, TypeError):
+            ready, reason = False, 'PINNED_DEPENDENCY_INTEGRITY_FAILED'
     return {"status": "READY" if ready else "BLOCKED_DEPENDENCY",
-            "packages": versions, "offline_only": True}
+            "packages": versions, "offline_only": True,
+            "dependency_identity": identity, "reason": reason,
+            "process_memory_integrity_proved": False}
 
 
 def _outside_checkout(path: Path) -> bool:
@@ -68,9 +77,10 @@ def profile_owned_qa(qa_out: Path, telemetry_out: Path) -> dict:
             not _outside_checkout(qa_out) or not _outside_checkout(telemetry_out) or
             not _outside_checkout(qa_out.parent) or not _outside_checkout(telemetry_out.parent)):
         raise ValueError("OUTPUT_UNSAFE_OR_EXISTS")
-    if readiness()["status"] != "READY":
+    admitted = readiness()
+    if admitted["status"] != "READY":
         raise ValueError("OPENTELEMETRY_DEPENDENCY_MISSING_OR_DIFFERENT")
-    # Import SDK only AFTER version check. No provider is set globally.
+    # Import SDK only AFTER the installed-byte check. No global provider.
     from opentelemetry.sdk.trace import TracerProvider
     from opentelemetry.sdk.trace.export import SimpleSpanProcessor
     from opentelemetry.sdk.trace.sampling import ALWAYS_ON
@@ -110,23 +120,39 @@ def profile_owned_qa(qa_out: Path, telemetry_out: Path) -> dict:
                 error_type, status = type(exc).__name__, "QA_FAILED"
     finally:
         elapsed = time.monotonic_ns() - began
-        spans = _spans_snapshot(exporter, tuple(expected))
-        provider.shutdown()
+        try:
+            spans = _spans_snapshot(exporter, tuple(expected))
+        finally:
+            provider.shutdown()
     outcome = {"schema_version": 1, "profile": PROFILE, "status": status,
                "qa_passed": qa_verified, "qa_reverified_here": qa_verified,
                "tests_run": tests_run, "source_digest": source_digest,
                "elapsed_ns": elapsed, "spans": spans,
                "sdk_version": SDK_VERSION, "exporter": "in-memory-only",
                "network_export": False, "target_scanned": False,
-               "vulnerability_confirmed": False, "error_type": error_type}
-    review = ("# SuperHunter owned QA — telemetry offline\n\n"
-              f"QA verdict: {status}; reverified: {qa_verified}.\n"
-              f"Tests: {tests_run}; elapsed_ns: {elapsed}.\n"
-              "OpenTelemetry SDK in-memory exporter; no network export. "
-              "Telemetry is NOT independent authentication or an incident finding.\n")
+               "vulnerability_confirmed": False, "error_type": error_type,
+               "dependency_identity": admitted['dependency_identity'],
+               "dependency_files_checked": True, "process_memory_integrity_proved": False}
+    # Detect ordinary file changes across the run; an unchanged version string
+    # alone cannot retain the byte-integrity claim.
+    if dependencies.verify_dependencies() != admitted['dependency_identity']:
+        raise ValueError('OPENTELEMETRY_DEPENDENCIES_CHANGED')
+    review = _review(outcome)
     write_new_bundle(telemetry_out, {"telemetry.json": canonical(outcome),
                                      "PROFILE.md": review.encode("utf-8")})
     return verify_profile(telemetry_out, qa_out if qa_verified else None)
+
+
+def _review(payload: dict) -> str:
+    text = ("# SuperHunter owned QA — telemetry offline\n\n"
+            f"QA verdict: {payload['status']}; reverified: {payload['qa_passed']}.\n"
+            f"Tests: {payload['tests_run']}; elapsed_ns: {payload['elapsed_ns']}.\n"
+            "OpenTelemetry SDK in-memory exporter; no network export. "
+            "Telemetry is NOT independent authentication or an incident finding.\n")
+    if payload['profile'] == PROFILE:
+        text += ("Eight fixed wheel-derived dependencies checked before SDK import and after QA. "
+                 "File integrity does not prove process-memory integrity or producer authenticity.\n")
+    return text
 
 
 def verify_profile(bundle: Path, qa_bundle: Path | None = None) -> dict:
@@ -142,8 +168,14 @@ def verify_profile(bundle: Path, qa_bundle: Path | None = None) -> dict:
     keys = {"schema_version", "profile", "status", "qa_passed", "qa_reverified_here",
             "tests_run", "source_digest", "elapsed_ns", "spans", "sdk_version",
             "exporter", "network_export", "target_scanned", "vulnerability_confirmed", "error_type"}
+    if type(payload) is dict and payload.get('profile') == PROFILE:
+        keys |= {'dependency_identity', 'dependency_files_checked', 'process_memory_integrity_proved'}
+        if (payload.get('dependency_identity') != dependencies.expected_identity() or
+                payload.get('dependency_files_checked') is not True or
+                payload.get('process_memory_integrity_proved') is not False):
+            raise ValueError('TELEMETRY_DEPENDENCY_IDENTITY')
     if (type(payload) is not dict or set(payload) != keys or type(payload["schema_version"]) is not int or payload["schema_version"] != 1 or
-            payload["profile"] != PROFILE or payload["sdk_version"] != SDK_VERSION or
+            payload["profile"] not in (PROFILE, LEGACY_PROFILE) or payload["sdk_version"] != SDK_VERSION or
             payload["exporter"] != "in-memory-only" or payload["network_export"] is not False or
             payload["target_scanned"] is not False or payload["vulnerability_confirmed"] is not False or
             type(payload["elapsed_ns"]) is not int or payload["elapsed_ns"] < 0 or
@@ -174,11 +206,7 @@ def verify_profile(bundle: Path, qa_bundle: Path | None = None) -> dict:
     elif (payload["status"] not in ("QA_FAILED", "QA_VERIFICATION_FAILED") or
           payload["tests_run"] != 0 or payload["source_digest"] is not None):
         raise ValueError("INVALID_FAILURE_STATUS")
-    expected_review = ("# SuperHunter owned QA — telemetry offline\n\n"
-              f"QA verdict: {payload['status']}; reverified: {payload['qa_passed']}.\n"
-              f"Tests: {payload['tests_run']}; elapsed_ns: {payload['elapsed_ns']}.\n"
-              "OpenTelemetry SDK in-memory exporter; no network export. "
-              "Telemetry is NOT independent authentication or an incident finding.\n")
+    expected_review = _review(payload)
     if files["PROFILE.md"] != expected_review.encode("utf-8"):
         raise ValueError("TELEMETRY_REVIEW_MISMATCH")
     return payload
@@ -204,6 +232,8 @@ def main(argv: list[str]) -> int:
                    if args.operation == "profile-owned-qa" else
                    verify_profile(args.bundle, args.qa_bundle))
         print(json.dumps({"status": outcome["status"], "qa_passed": outcome["qa_passed"],
+                          "profile": outcome['profile'],
+                          "dependency_files_checked": outcome.get('dependency_files_checked', False),
                           "tests_run": outcome["tests_run"], "network_export": False,
                           "vulnerability_confirmed": False}, sort_keys=True))
         return 0 if outcome["qa_passed"] else 1

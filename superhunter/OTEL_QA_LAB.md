@@ -26,7 +26,7 @@ Elegir rutas privadas nuevas fuera del checkout, y no reutilizar paquetes de otr
 
 El comando de perfil llama al QA REAL y a su verificador; el verificador separado requiere el recibo QA correspondiente para aprobar una telemetría exitosa. El paquete de telemetría contiene telemetry.json, PROFILE.md y COMPLETE.json con hashes SHA-256, sin incluir secretos o mensajes privados de excepción.
 
-## Validación realizada y pendiente
+## Validación inicial de #70 y pendientes históricos
 
 **Realizada:** 8/8 pruebas focalizadas locales PASS en Python 3.13 con OpenTelemetry SDK 1.42.1, utilizando un QA stub que simula quality.run_check y quality.verify_bundle. Los spans, el exportador solo en memoria y la comprobación de dependencias OpenTelemetry sí se ejecutaron. Se cubrieron fallo de QA, fallo de su verificador, adulteración del manifiesto, rutas de salida y red bloqueada durante los casos de laboratorio.
 
@@ -35,3 +35,7 @@ El comando de perfil llama al QA REAL y a su verificador; el verificador separad
 **Criterios para promover:** (1) QA completo sobre el commit nuevo con cero skips y verificador independiente PASS; (2) entorno Python 3.12 y dependencias fijadas por hashes; (3) mediciones repetibles con p50/p95 y overhead de instrumentación; (4) sólo después, diseño de exportación a Collector con control estricto de datos y permisos.
 
 Para futuras IAs: NO declarar SuperHunter 10/10 o que el proyecto #26 está integrado a producción; registrar este cambio como prototipo de instrumentación real en laboratorio. Los 50 repos externos no sustituyen las 50 capacidades internas históricas.
+
+## Iteración de integridad y QA real
+
+La versión posterior a #79 incorpora pins de ocho dependencias, conserva lectura v1 y ejecuta el perfil v2 con 2,574 tests reales y verificador separado. Consultar [OTEL_DEPENDENCY_INTEGRITY.md](OTEL_DEPENDENCY_INTEGRITY.md) para los hashes, resultados actuales y límites. La medición única no cierra p50/p95, overhead ni integración de Collector.

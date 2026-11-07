@@ -50,6 +50,9 @@ class OfflineOpenTelemetryTests(unittest.TestCase):
         self.assertTrue(all(s["duration_ns"] >= 0 for s in out["spans"]))
         self.assertFalse(out["network_export"])
         self.assertFalse(out["vulnerability_confirmed"])
+        self.assertTrue(out['dependency_files_checked'])
+        self.assertFalse(out['process_memory_integrity_proved'])
+        self.assertEqual(len(out['dependency_identity']),8)
         self.assertEqual(run.call_count, 1)
         self.assertEqual(verify.call_count, 2)
 
@@ -136,6 +139,46 @@ class OfflineOpenTelemetryTests(unittest.TestCase):
         marker.write_bytes(canonical(seal))
         with self.assertRaisesRegex(ValueError, "TELEMETRY_SPANS"):
             ot.verify_profile(self.metrics)
+
+    def rewrite_payload(self, payload):
+        from superhunter.safe_io import write_new_bundle
+        rebuilt = self.root/'rebuilt'
+        write_new_bundle(rebuilt, {'telemetry.json':canonical(payload),
+                                  'PROFILE.md':ot._review(payload).encode()})
+        return rebuilt
+
+    def test_resealed_dependency_identity_change_is_rejected(self):
+        if ot.readiness()['status'] != 'READY':
+            self.assertEqual(ot.readiness()['status'],'BLOCKED_DEPENDENCY'); return
+        with patch.object(quality,'run_check',side_effect=ValueError('OWNED FAILURE')):
+            payload = ot.profile_owned_qa(self.qa,self.metrics)
+        payload['dependency_identity']['opentelemetry-sdk']['runtime_sha256'] = '0'*64
+        with self.assertRaisesRegex(ValueError,'TELEMETRY_DEPENDENCY_IDENTITY'):
+            ot.verify_profile(self.rewrite_payload(payload))
+
+    def test_legacy_v1_remains_unpinned_without_silent_promotion(self):
+        # A genuine old-format failure report requires no SDK installation.
+        payload = {'schema_version':1,'profile':ot.LEGACY_PROFILE,'status':'QA_FAILED',
+                   'qa_passed':False,'qa_reverified_here':False,'tests_run':0,
+                   'source_digest':None,'elapsed_ns':1,
+                   'spans':[{'name':'superhunter.qa.run','duration_ns':1}],
+                   'sdk_version':ot.SDK_VERSION,'exporter':'in-memory-only',
+                   'network_export':False,'target_scanned':False,
+                   'vulnerability_confirmed':False,'error_type':'ValueError'}
+        result = ot.verify_profile(self.rewrite_payload(payload))
+        self.assertEqual(result,payload)
+        self.assertNotIn('dependency_files_checked',result)
+        self.assertNotIn('dependency_identity',result)
+
+    def test_dependency_change_after_qa_prevents_completion_marker(self):
+        if ot.readiness()['status'] != 'READY':
+            self.assertEqual(ot.readiness()['status'],'BLOCKED_DEPENDENCY'); return
+        identity = ot.dependencies.expected_identity()
+        with (patch.object(quality,'run_check',side_effect=ValueError('OWNED FAILURE')),
+              patch.object(ot.dependencies,'verify_dependencies',side_effect=[identity,{}])):
+            with self.assertRaisesRegex(ValueError,'DEPENDENCIES_CHANGED'):
+                ot.profile_owned_qa(self.qa,self.metrics)
+        self.assertFalse((self.metrics/'COMPLETE.json').exists())
 
 
 if __name__ == "__main__":
