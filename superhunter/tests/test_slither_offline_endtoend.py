@@ -169,7 +169,13 @@ class SlitherOfflineEndToEndTests(unittest.TestCase):
         manifest = strict_json(manifest_path.read_bytes())
         manifest["sha256"][original_filename] = sha(source.read_bytes())
         manifest_path.write_bytes(canonical(manifest))
-        with self.assertRaisesRegex(ValueError, "SOURCE_CONTENT_MISMATCH|PAIR_HASHES"):
+        # Re-seal the OUTER pair receipt as well. A completely self-consistent
+        # SHA envelope still must not override the source hash in context.json.
+        pair_manifest_path = original / "COMPLETE.json"
+        pair_manifest = strict_json(pair_manifest_path.read_bytes())
+        pair_manifest["sha256"]["positive/COMPLETE.json"] = sha(manifest_path.read_bytes())
+        pair_manifest_path.write_bytes(canonical(pair_manifest))
+        with self.assertRaisesRegex(ValueError, "SOURCE_CONTENT_MISMATCH"):
             pair.verify_pair(original)
 
     def test_synthetic_report_is_never_claimed_as_native_scanner_proof(self):
