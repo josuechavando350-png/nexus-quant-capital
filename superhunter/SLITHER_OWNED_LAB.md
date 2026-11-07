@@ -40,6 +40,13 @@ Las versiones directas se fijan (`slither-analyzer==0.11.6`, `crytic-compile==0.
 
 `repo-commit` es una declaración suministrada por el operador; el importador mantiene `repository_commit_verified=false`. La salida de ejecución indica `OWNED_SLITHER_IMPORTED_UNVERIFIED` y contiene contador de alertas ligadas a fuente, sin atribuir severidad final ni impacto. La segunda orden verifica **el paquete importado** sin reejecutar el scanner. Para obtener reproducción independiente del escaneo hará falta una segunda ejecución en entorno distinto.
 
+## Validación focalizada efectivamente ejecutada (2026-11-07)
+
+- **17/17 pruebas unitarias focalizadas PASS** con Python 3.13 y los tres archivos EXACTOS de esta rama, comparados con sus identificadores Git blob: runner `0a37fb11dd1bf43ff56dcbe84ceb0b1eb6da3051`, worker `2a0dce79d7c50b6a272e36a0f5271f74aa37a589`, tests `8b0c0ea3c5aaf35e20178a451b3432c2e6ba7ff5`. El harness local empleó **stubs mínimos** de `native_compile`, `static_review`, `owned_process`, `safe_io` y `privacy` porque no estaba disponible el checkout completo; las pruebas originales usan mocks para el scanner y el importador. Esto **NO** valida los módulos originales ni el QA completo.
+- **4/4 controles de rechazo del worker ejecutados realmente** con entradas inválidas (contrato alterado, fuente enlazada simbólicamente, ruta relativa y argumentos ausentes); no se lanzó Slither ni otro ejecutable.
+- **Doctor real del adaptador** en este ambiente: `OWNED_SLITHER_BLOCKED`, código de salida `3`, `slither-analyzer` y `crytic-compile` ausentes, `solc` no disponible. **No** debe reportarse como scanner READY.
+- El fixture fijo tiene **288 bytes**, SHA-256 `ef5475a13e367bef34010e339c082c85383ab85e4f229cd607899f5f52ce0c64`; se comprobó localmente y corresponde a `require(tx.origin == owner, "owner")`. La implementación upstream del detector 0.11.6 busca este uso en un nodo condicional, pero la **detección real por Slither aún no se ha ejecutado**.
+
 ## Pruebas y criterio de promoción
 
 - Se agregaron pruebas `test_slither_owned_runner.py` para entrada fija, versión, output seguro, timeout, error de proceso, fuente sustituida, reporte incompleto, ausencia de source binding y resultado del importador contradictorio. Son pruebas de contratos con proceso **simulado**, no prueba real de Slither.
