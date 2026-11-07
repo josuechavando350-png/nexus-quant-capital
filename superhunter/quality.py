@@ -566,42 +566,57 @@ def run_check(out: Path) -> dict:
     if validate_components(snapshot):
         raise ValueError('; '.join(validate_components(snapshot)))
     from .quality_worker import batch_succeeded
+    from .qa_failure import FailureCapture
+    capture = FailureCapture(out,snapshot)
     with tempfile.TemporaryDirectory(prefix='superhunter-qa-') as temp:
-        receipts, logs, exits = [], [], []
-        for index in range(PARTITION_COUNT):
-            work = Path(temp)/f'worker-{index}'
-            proc = subprocess.run([sys.executable, '-I', '-B', str(ROOT/'quality_worker.py'), str(work),
-                                   '--partition-count',str(PARTITION_COUNT),'--partition-index',str(index)],
-                                  cwd=ROOT.parent, env={'LANG':'C.UTF-8','LC_ALL':'C.UTF-8'},
-                                  capture_output=True, timeout=180, check=False)
-            if proc.returncode not in (0,1):
-                raise RuntimeError(f'QA worker infrastructure failure ({proc.returncode})')
-            raw_receipt, raw_log = read_artifact(work,'receipt.json'), read_artifact(work,'tests.log')
-            marker = strict_json(read_artifact(work,'COMPLETE.json'))
-            if (type(marker.get('schema_version')) is not int or marker['schema_version'] != 1 or
-                    marker.get('sha256') != {'receipt.json':sha(raw_receipt),'tests.log':sha(raw_log)}):
-                raise ValueError('worker artifact manifest mismatch')
-            receipt = strict_json(raw_receipt)
-            if receipt.get('partition_index') != index or source_snapshot() != snapshot:
-                raise ValueError('source or worker partition changed during QA')
-            if (proc.returncode == 0) != batch_succeeded(receipt):
-                raise ValueError('worker exit/verdict mismatch')
-            receipts.append(receipt); exits.append(proc.returncode)
-            logs.append(f'=== FIXED QA PARTITION {index+1}/{PARTITION_COUNT} ===\n'.encode()+raw_log)
-        receipt = aggregate_receipts(receipts, snapshot)
-        result = assess(receipt, snapshot)
-        if (all(code == 0 for code in exits)) != (result['status']=='LOCAL_QA_PASS'):
-            raise ValueError('aggregate exit/verdict mismatch')
-        if source_snapshot() != snapshot:
-            raise ValueError('source changed during QA run')
-        compact = compact_partition_receipt(receipt)
-        if len(canonical(compact)) > 2_000_000:
-            raise ValueError('compact QA receipt still exceeds artifact budget')
-        write_new_bundle(out, {'receipt.json':canonical(compact), 'quality.json':canonical(result),
-                              'source-snapshot.json':canonical(snapshot), 'CHECKLIST.md':checklist(data,result).encode(),
-                              'tests.log':b'\n'.join(logs)})
-    return verify_bundle(out)
-
+        active_work = None
+        stage = 'worker_execution'
+        try:
+            receipts, logs, exits = [], [], []
+            for index in range(PARTITION_COUNT):
+                work = Path(temp)/f'worker-{index}'
+                active_work = work
+                stage = 'worker_execution'
+                proc = subprocess.run([sys.executable, '-I', '-B', str(ROOT/'quality_worker.py'), str(work),
+                                       '--partition-count',str(PARTITION_COUNT),'--partition-index',str(index)],
+                                      cwd=ROOT.parent, env={'LANG':'C.UTF-8','LC_ALL':'C.UTF-8'},
+                                      capture_output=True, timeout=180, check=False)
+                capture.record(index,proc.returncode,work)
+                stage = 'worker_validation'
+                if proc.returncode not in (0,1):
+                    raise RuntimeError(f'QA worker infrastructure failure ({proc.returncode})')
+                raw_receipt, raw_log = read_artifact(work,'receipt.json'), read_artifact(work,'tests.log')
+                marker = strict_json(read_artifact(work,'COMPLETE.json'))
+                if (type(marker.get('schema_version')) is not int or marker['schema_version'] != 1 or
+                        marker.get('sha256') != {'receipt.json':sha(raw_receipt),'tests.log':sha(raw_log)}):
+                    raise ValueError('worker artifact manifest mismatch')
+                receipt = strict_json(raw_receipt)
+                if receipt.get('partition_index') != index or source_snapshot() != snapshot:
+                    raise ValueError('source or worker partition changed during QA')
+                if (proc.returncode == 0) != batch_succeeded(receipt):
+                    raise ValueError('worker exit/verdict mismatch')
+                receipts.append(receipt); exits.append(proc.returncode)
+                logs.append(f'=== FIXED QA PARTITION {index+1}/{PARTITION_COUNT} ===\n'.encode()+raw_log)
+            stage = 'aggregate'
+            receipt = aggregate_receipts(receipts, snapshot)
+            result = assess(receipt, snapshot)
+            if (all(code == 0 for code in exits)) != (result['status']=='LOCAL_QA_PASS'):
+                raise ValueError('aggregate exit/verdict mismatch')
+            if source_snapshot() != snapshot:
+                raise ValueError('source changed during QA run')
+            compact = compact_partition_receipt(receipt)
+            if len(canonical(compact)) > 2_000_000:
+                raise ValueError('compact QA receipt still exceeds artifact budget')
+            write_new_bundle(out, {'receipt.json':canonical(compact), 'quality.json':canonical(result),
+                                  'source-snapshot.json':canonical(snapshot), 'CHECKLIST.md':checklist(data,result).encode(),
+                                  'tests.log':b'\n'.join(logs)})
+            stage = 'bundle_validation'
+            return verify_bundle(out)
+        except (ValueError,OSError,RuntimeError,subprocess.TimeoutExpired,KeyError,TypeError) as error:
+            if active_work is not None:
+                capture.record(index,None,active_work)
+            capture.save(stage,error)
+            raise
 
 def main(argv: list[str] | None = None) -> int:
     parser = PrivateArgumentParser(description='Verify this package, never scan external targets')
@@ -1100,4 +1115,14 @@ REQUIRED_TESTS += (
     'test_owned_quota_review.QuotaReviewTests.test_wrong_source_blocks_before_tools',
     'test_owned_quota_review.QuotaReviewTests.test_geth_worker_does_not_raise_inherited_two_gib_limit',
     'test_owned_quota_review.QuotaReviewTests.test_sealed_image_reuse_checks_bytes_and_does_not_close_caller_fd',
+)
+
+COMPONENTS['qa_failure'] = {'files':['qa_failure.py'],'tests':['test_qa_failure.'],
+                            'depends':['io','privacy']}
+COMPONENTS['quality']['depends'].append('qa_failure')
+COMPONENTS['entrypoints']['depends'].append('qa_failure')
+REQUIRED_TESTS += (
+    'test_qa_failure.FailureEvidenceTests.test_setup_class_failure_keeps_unobserved_test_ids',
+    'test_qa_failure.FailureEvidenceTests.test_real_orchestrator_preserves_timeout_without_success',
+    'test_qa_failure.FailureEvidenceTests.test_resealed_pass_or_fewer_missing_tests_rejected',
 )
