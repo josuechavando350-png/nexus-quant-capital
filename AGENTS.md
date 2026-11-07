@@ -16,3 +16,5 @@
 - La presencia en el catálogo **NO** autoriza clonar, instalar, ejecutar, desplegar, escanear objetivos externos, utilizar credenciales, generar gastos, enviar transacciones ni fusionar código. El estado es `CATALOGUED_NOT_INTEGRATED` para los 50, hasta PR y pruebas separadas.
 - No confundir los 50 terceros con `superhunter/capabilities.json` (50 capacidades internas), `integration-checklist.json` (27) ni `research_initiatives.json` (25). Preservar las identidades y la evidencia histórica.
 - Consultar `SUPERHUNTER_STATUS.md` y las PRs vigentes, partir de una cabeza verificada en rama aislada y respetar los límites originales de este archivo. Nunca presentar registro documental como implementación o benchmark aprobado.
+
+- Integración experimental iniciada para el candidato #26: leer `superhunter/OTEL_QA_LAB.md` antes de retomar OpenTelemetry. Instrumenta QA local in-memory; Collector no está instalado y la suite completa de la rama nueva no está certificada. No marcar 1/50 como integración verificada por pasar 8 pruebas focalizadas en un harness sintético.
