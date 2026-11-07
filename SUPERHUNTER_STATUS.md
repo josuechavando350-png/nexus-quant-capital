@@ -1,3 +1,17 @@
+## Aceptación conjunta verificada — 2026-11-07 22:56Z
+
+Continuar desde **PR #82**, rama `feat/superhunter-owned-defensive-acceptance-20261107`, commit `15027922fe1b350cd3b5c4a5acdfcff123950ea8`, árbol `947d1aec6d5e607a3fcf13a299715de8d10297d4`, padre #81. Digest `d7694017e1cc912935db4e46f7f9247ebefccf473cc4f07e314dc5a7895144a9`.
+
+**2,646/2,646 QA PASS**, cero fallos/errores/skips, 38 regresiones nuevas y 2,608 identidades previas conservadas en sus workers. SDK real y verificador separado sin SDK. Ocho workers y límites intactos; máximo 74.484587 s. La CLI directa, corregida para registrar todos los componentes antes de main, repitió la suite completa en 342.247 s y sus dos verificadores coinciden. No son casos adicionales.
+
+Mismo digest, ejecuciones reales y verificadores separados: cuotas TP4/TN2/FP0/FN0; autoridad temporal TP6/TN4/FP0/FN1; Slither v2 TP1/TN2/FP0/FN0. El nuevo consumidor exige QA/cuotas/autoridad con evidencias separadas; el éxito conjunto no elimina latent_revocation ni suma denominadores. Aceptación 118.966 s, verificador 58.040 s. Una copia que ocultaba la omisión y recalculaba hashes se rechazó tras repetir ambos grupos (57.950 s). Ver `superhunter/OWNED_DEFENSIVE_ACCEPTANCE.md`.
+
+Slither v2 corrige el nombre virtual heredado por repositorio y commit reales; fija los hashes de los contenedores originales y tres literales, cotejados con GitHub. Owned.sol es generado, no se declara archivo versionado. Contenedores y fixtures intactos. Las pruebas conservaron dos fallos previos de CLI y diez errores de un primer pase por una colisión de nombre al añadir procedencia; todos corregidos. El pase intermedio 2,643 PASS tiene otro digest y no se atribuye al final.
+
+Límite de repositorio PASS, 642 archivos históricos intactos; Rust no reejecutado. Siguiente: cerrar el índice de distribuciones Slither visibles fuera del directorio del entorno. El entorno real tiene 51 exactas; un control con solo metadatos propios añadió una visible y el checker anterior no la rechazó. No se ejecutó payload ni scanner en ese control. Endurecimiento pendiente, sin afirmar aislamiento completo o autenticidad.
+
+Ventana activa termina **2026-11-08 00:14:04Z**, consolidación desde 00:13Z. Sin extensión ni automatizaciones. Borradores sin fusión; NQC Defense separado, sin terceros, despliegues, gastos o transacciones. Avance global no determinado; ninguna vulnerabilidad original confirmada.
+
 ## Slither nativo de tres controles propios — 2026-11-07 22:31Z
 
 Último código: **PR #81**, rama `feat/superhunter-owned-slither-native-evidence-20261107`, commit `4ddd1b146fee28a170b2ccf3575341fd16933609`, árbol `5acb37a0bf97094f6ed7a2fb86c190f3f50963b3`, padre #80. Digest ejecutable `9ceab53076a3437996abe869928cf19bdbf8fea852158cf6b126f9c30c8f5851`.
