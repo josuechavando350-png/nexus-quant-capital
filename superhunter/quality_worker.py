@@ -132,6 +132,7 @@ QA_MODULE_GROUPS = (
         'test_evm_sequence_fuzz',
         'test_journal_ingest',
         'test_native_layout',
+        'test_owned_cross_evm',
         'test_permissions',
         'test_solidity_formal',
         'test_source_graph',

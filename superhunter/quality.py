@@ -283,7 +283,7 @@ def source_snapshot(root: Path = ROOT) -> dict[str, str]:
                 raise ValueError('source directory symlink rejected')
         for name in sorted(files):
             rel = (Path(base)/name).relative_to(root).as_posix()
-            if name.endswith('.py') or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'research_initiatives.json'):
+            if name.endswith('.py') or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'research_initiatives.json'):
                 result[rel] = sha(read_artifact(root, rel))
                 if len(result) > 500:
                     raise ValueError('source inventory limit exceeded')
@@ -1034,4 +1034,19 @@ REQUIRED_TESTS += (
     'test_quality.StableWorkerLayoutTests.test_new_module_does_not_relocate_existing_tests',
     'test_quality.StableWorkerLayoutTests.test_platform_has_separate_budget_from_evm_studies',
     'test_quality.StableWorkerLayoutTests.test_full_inventory_retained_once_with_eight_workers',
+)
+
+# Optional second EVM: unit checks are separate from native acceptance runs.
+COMPONENTS['owned_cross_evm'] = {
+    'files': ['owned_cross_evm.py', 'owned_cross_evm_worker.py',
+              'owned_cross_evm_pins.py', 'requirements-owned-cross-evm.txt'],
+    'tests': ['test_owned_cross_evm.'],
+    'depends': ['owned_mutation_evaluation', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('owned_cross_evm')
+REQUIRED_TESTS += (
+    'test_owned_cross_evm.CrossEVMTests.test_matching_known_cases_not_extra_samples',
+    'test_owned_cross_evm.CrossEVMTests.test_any_single_call_change_rejected',
+    'test_owned_cross_evm.CrossEVMTests.test_resealed_result_cannot_claim_success',
+    'test_owned_cross_evm.CrossEVMTests.test_modified_dependency_same_version_rejected',
+    'test_owned_cross_evm.CrossEVMTests.test_fresh_cache_uses_verified_source_not_stale_bytecode',
 )
