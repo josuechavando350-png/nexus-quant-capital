@@ -50,6 +50,9 @@ def main() -> int:
     if argv and argv[0] in ("prepare-holdout", "freeze-holdout", "score-holdout", "verify-holdout"):
         from .holdout_protocol import main as holdout_main
         return holdout_main(argv)
+    if argv and argv[0] in ("compare-owned-evm-engines", "verify-owned-evm-engines"):
+        from .owned_cross_evm import main as cross_evm_main
+        return cross_evm_main(argv)
     if argv and argv[0] in ("score-owned-evm", "verify-owned-evm-score"):
         from .owned_mutation_evaluation import main as mutation_score_main
         return mutation_score_main(argv)
