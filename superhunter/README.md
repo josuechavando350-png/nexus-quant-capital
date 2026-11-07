@@ -1,3 +1,7 @@
+> **Endurecimiento posterior de Slither:** el comparador de dos expedientes no solo comprueba los SHA externos al inicio; exige que se conserven al terminar la verificación. Consultar [SLITHER_TRIPLE_REPLAY.md](SLITHER_TRIPLE_REPLAY.md). La autenticidad y la ejecución nativa permanecen sin certificar.
+
+---
+
 > **Salvaguarda de repetición Slither:** el comparador offline ya no acepta dos anclas SHA-256 iguales, aunque los bundles estén en rutas diferentes. Ver [SLITHER_TRIPLE_REPLAY.md](SLITHER_TRIPLE_REPLAY.md); esto no demuestra independencia de hosts ni ejecución del analizador.
 
 ---
