@@ -1,3 +1,7 @@
+> **Salvaguarda de repetición Slither:** el comparador offline ya no acepta dos anclas SHA-256 iguales, aunque los bundles estén en rutas diferentes. Ver [SLITHER_TRIPLE_REPLAY.md](SLITHER_TRIPLE_REPLAY.md); esto no demuestra independencia de hosts ni ejecución del analizador.
+
+---
+
 > **Conciliación más reciente de Slither:** [SLITHER_TRIPLE_REPLAY.md](SLITHER_TRIPLE_REPLAY.md) unifica el gate de tres controles y la comparación de dos expedientes completos con hashes externos. Todavía no hay scanner real ejecutado ni QA global certificado en esta rama.
 
 ---
