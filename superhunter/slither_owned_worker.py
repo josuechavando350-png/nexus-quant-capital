@@ -26,7 +26,7 @@ def main(argv: list[str]) -> int:
         return 2
     # Even direct invocation cannot substitute arbitrary Solidity or solc bytes.
     if (hashlib.sha256((root / "Owned.sol").read_bytes()).hexdigest() !=
-            "503d6352258192b198566402d24368d6dbd35fefc5ff76cf85ee941346e9d0a9" or
+            "ef5475a13e367bef34010e339c082c85383ab85e4f229cd607899f5f52ce0c64" or
             hashlib.sha256((root / "solc").read_bytes()).hexdigest() !=
             "f3e987dc6ecebd4bd350c48edcbc320b46cf9e3109bd3fc3d88f1acaf4c428f7"):
         return 2
