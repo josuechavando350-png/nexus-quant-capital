@@ -26,3 +26,5 @@
 - El gate más reciente de Slither #6 ahora exige **tres** fuentes OWNED (positivo, limpio y comparación `tx.origin == msg.sender`); leer `superhunter/SLITHER_THREE_CONTROL_GATE.md`. El PR de este gate es sucesor de #72. Sus resultados reales siguen pendientes: no confundir el modelo del detector con una corrida Slither/solc, ni dos controles negativos con precisión general.
 
 - Conciliación de #73 (tres controles Slither) y #74 (comparación de dos ejecuciones): leer `superhunter/SLITHER_TRIPLE_REPLAY.md`. Los seis reportes se contrastan con `pair.accept` y `check_context` reales; no declarar autenticidad de productores ni independencia de host. Requiere QA y ejecuciones nativas en laboratorio antes de promoción.
+
+- Verificación adicional del comparador Slither: dos expedientes de directorios distintos con **anclas SHA-256 idénticas** deben rechazarse como evidencia duplicada (`DISTINCT_EXTERNAL_ANCHORS_REQUIRED`); revisar `superhunter/SLITHER_TRIPLE_REPLAY.md`. Anclas diferentes no autentican ejecuciones independientes.
