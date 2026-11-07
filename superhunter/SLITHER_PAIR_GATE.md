@@ -1,3 +1,7 @@
+> **Actualización posterior:** el contrato de dos controles de este documento se amplió a **tres controles obligatorios**; ver [SLITHER_THREE_CONTROL_GATE.md](SLITHER_THREE_CONTROL_GATE.md). Esta sección conserva el historial de #72 y no representa la aceptación vigente.
+
+---
+
 # SUPERHUNTER — Slither: control positivo + control limpio, ambos OWNED
 
 **Sucesor del PR #71.** Adaptador #6 del portafolio. Estado: **ADAPTER_IN_LAB** (comparación programada, ejecución real no certificada). **No** se ha instalado Slither ni solc en un host del usuario, ni se han ejecutado escaneos externos, ni se ha desplegado un sandbox sin red.
