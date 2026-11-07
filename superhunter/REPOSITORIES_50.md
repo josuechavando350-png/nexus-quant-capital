@@ -734,3 +734,5 @@
 En un contrato propio, usar Slither y Gambit para hipótesis y mutantes, Echidna/ItyFuzz para secuencias, Z3/Kontrol para propiedades y Foundry/Geth/EELS para confirmar o refutar, con evidencias verificadas. En forense, Plaso/Zeek sobre logs y PCAP propios, sin inferir causalidad por coincidencia temporal. Medir rendimiento con OpenTelemetry/Parca antes de incorporar Ray/K3s. La aprobación de cada integración requiere pruebas de beneficio real y compatibilidad/licencia, sin tocar árboles históricos NQC, nexus-engine, Cano o Vercel.
 
 **Estado real:** consultar [SUPERHUNTER_STATUS.md](../SUPERHUNTER_STATUS.md), no atribuir un porcentaje por esta lista. Desglose y campos estructurados en [repo_portfolio/](repo_portfolio/).
+
+**Nuevo avance del adaptador #6, posterior al catálogo:** [SLITHER_PAIR_REPLAY.md](SLITHER_PAIR_REPLAY.md) incorpora código para contrastar dos pares de reportes Slither con hashes externos y resultado semántico. Es verificación offline sin escaneo ni autenticación de los productores; la integración real sigue pendiente de ejecución nativa y QA completa.
