@@ -1,6 +1,14 @@
 # Tres controles propios con Slither real y originales conservados
 
-El perfil `owned-slither-three-control-native-v1` ejecuta únicamente las tres fuentes propias ya publicadas en #78. Usa Slither 0.11.6, crytic-compile 0.4.2, solc 0.8.30 exacto y el detector fijo `tx-origin`. No admite fuentes, repositorios, URLs, RPC o flags suministrados por el operador.
+El perfil actual `owned-slither-three-control-native-v2` ejecuta únicamente las tres fuentes propias ya publicadas en #78. Usa Slither 0.11.6, crytic-compile 0.4.2, solc 0.8.30 exacto y el detector fijo `tx-origin`. No admite fuentes, repositorios, URLs, RPC o flags suministrados por el operador.
+
+## Procedencia explícita de v2
+
+La primera aceptación v1 heredaba el nombre virtual `superhunter-owned/fixture` en el contexto del importador, que mantenía `repository_commit_verified=false`. v2 lo corrige al repositorio real `josuechavando350-png/nexus-quant-capital` y al commit `b18b23128a601498a3dba8fc0bfcbbd2eb726934`. `Owned.sol` es un archivo generado a partir de literales incrustados; no se afirma que ese nombre exista como archivo versionado en el commit.
+
+Se verificaron por GitHub los dos contenedores originales: `slither_owned_runner.py`, blob `0a37fb11dd1bf43ff56dcbe84ceb0b1eb6da3051`, y `slither_control_pair.py`, blob `cb085a3958185194948df64e401bf47c3b287034`. Sus bytes locales coinciden. El perfil fija y revisa los hashes SHA-256/Git blob de ambos contenedores y los SHA-256 de los tres literales; cambiar cualquiera bloquea la procedencia histórica. La admisión y evaluación conservan ese inventario. No se alteran los contenedores ni las fuentes para dar PASS. La comprobación offline de bytes no autentica por sí sola pertenencia a un commit remoto ni al productor.
+
+Los expedientes v1 conservados pertenecen a su revisión y no se reetiquetan como v2. Tres regresiones adicionales verifican identidad real, cambio de literal y cambio del contenedor. Su primer pase descubrió una colisión de nombre local al ensamblar el informe (10 errores); se corrigió el alias del módulo y las 37 pruebas Slither focalizadas pasaron. La validación v2 final se registra en [OWNED_DEFENSIVE_ACCEPTANCE.md](OWNED_DEFENSIVE_ACCEPTANCE.md).
 
 ## Problema corregido y cadena de evidencia
 
@@ -24,11 +32,15 @@ El control de comparación `tx.origin == msg.sender` ejercita una exclusión del
 
 El checker recorre dos veces ese inventario cerrado antes de ejecutar el scanner y vuelve a comprobarlo después. Rechaza archivos añadidos, symlinks, ubicaciones mezcladas, cambios de metadatos y exceso de tamaño. RECORD/INSTALLER/REQUESTED generados por pip, launchers no utilizados y cachés pyc están fuera de esa identidad. Los procesos de aceptación usan `-I -B -X pycache_prefix=<directorio_privado_nuevo>`. Los pins verifican bytes instalados, no autenticidad del productor, integridad de memoria, confianza del intérprete/stdlib o la ejecución previa de archivos de inicio Python. No usar la API embebida para certificar un proceso anfitrión ya cargado.
 
+**Límite adicional identificado:** el inventario anterior cierra los directorios del entorno, pero aún no rechaza metadatos de otra distribución visible por una ruta Python externa. Una prueba con solo METADATA propio temporal elevó el índice visible de 51 a 52 y el checker anterior siguió admitiendo sus 51 pins; no se creó ni ejecutó código de ese control. El entorno real de esta aceptación tiene exactamente 51 distribuciones visibles, comprobadas por separado. Cerrar también ese índice es el siguiente endurecimiento; esta aceptación no certifica entornos alterados.
+
 Para reconstrucción manual se deben recuperar únicamente los wheels cuyos hashes constan en PINS, comprobar sus licencias y contenido y usar `--no-index --no-deps --no-compile --require-hashes --target` para cada distribución en un entorno vacío CPython 3.12 Linux amd64. No utilizar la lista histórica de dos dependencias directas como lock del perfil nuevo. `dependencies.bootstrap_bytes()` define exactamente el `.pth`; `verify_dependencies()` exige el inventario completo. Los helpers y manifiestos de la aceptación conservada documentan los comandos efectivos y los hashes revisados. No se instala ni descarga nada al invocar el evaluador.
 
 El worker verifica fuente y compilador antes de lanzar Slither. Fija 90 s de pared, 35 s CPU, 2 GiB de espacio virtual, 2 MB por archivo y 96 descriptores. Crea un filtro de sockets Linux x86_64 antes de importar Slither; rechaza sockets heredados y comprueba denegación AF_INET, AF_INET6 y AF_UNIX. El filtro se hereda al compilador. La biblioteca libseccomp exacta (`b4d9140a7797ccf3ac14f5d9d579b64f157111662940cb8330c632b11a8cea8e`) se carga desde bytes memfd sellados después de verificar su hash. Esto no es aislamiento completo del sistema de archivos o del host, ni prueba de independencia entre productores.
 
 ## Comandos y límites de aceptación
+
+El párrafo de resultados v1 al final de esta sección es histórico de #81; no se atribuye su digest a v2.
 
 Desde el checkout exacto, con el entorno cerrado anterior y un prefijo de caché nuevo:
 

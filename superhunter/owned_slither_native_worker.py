@@ -10,7 +10,7 @@ if __package__ in (None,''):
 
 from superhunter import quality, native_compile, slither_owned_worker as previous
 from superhunter import owned_slither_dependencies as dependencies, owned_slither_network as network
-from superhunter.owned_slither_cases import SOURCES, WORKER_POLICY
+from superhunter.owned_slither_cases import SOURCES, WORKER_POLICY, fixture_provenance
 from superhunter.safe_io import canonical
 
 
@@ -24,6 +24,7 @@ def main(argv: list[str]) -> int:
         if (previous._file_sha256(root/'Owned.sol',4096)!=dependencies.sha(SOURCES[mode]) or
                 previous._file_sha256(root/'solc',64_000_000)!=native_compile.PIN['sha256']):
             return 2
+        provenance = fixture_provenance()
         identity = dependencies.verify_dependencies()
         # No scanner import precedes this filter.
         proof = network.install()
@@ -34,6 +35,7 @@ def main(argv: list[str]) -> int:
         resource.setrlimit(resource.RLIMIT_NOFILE,(WORKER_POLICY['open_files'],)*2)
         admission = {'schema_version':1,'mode':mode,'source_digest':digest,
                      'source_sha256':dependencies.sha(SOURCES[mode]),
+                     'fixture_provenance':provenance,
                      'dependencies':identity,'network':proof,'worker_policy':WORKER_POLICY}
         fd = os.open(root/'admission.json',os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600)
         with os.fdopen(fd,'wb') as stream:

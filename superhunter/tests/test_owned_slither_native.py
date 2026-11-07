@@ -29,6 +29,22 @@ EMPTY_NATIVE = b'{\n  "success": true,\n  "error": null,\n  "results": {}\n}'
 
 
 class ConversionTests(unittest.TestCase):
+    def test_actual_repository_and_generated_source_provenance_are_distinct(self):
+        proof=native.fixture_cases.fixture_provenance()
+        self.assertEqual(proof['repository'],'josuechavando350-png/nexus-quant-capital')
+        self.assertFalse(proof['generated_source_is_tracked_repository_file'])
+        self.assertFalse(proof['repository_commit_membership_authenticated_at_runtime'])
+        self.assertEqual(context('clean',native.sha(EMPTY_NATIVE))['repository']['repo'],proof['repository'])
+
+    def test_changed_literal_cannot_keep_historical_source_identity(self):
+        changed={**SOURCES,'clean':SOURCES['clean']+b'\n'}
+        with patch.object(native.fixture_cases,'SOURCES',changed),self.assertRaisesRegex(ValueError,'ORIGINAL_LITERAL_CHANGED'):
+            native.fixture_cases.fixture_provenance()
+
+    def test_changed_container_cannot_keep_historical_commit_claim(self):
+        with patch.object(native.fixture_cases,'read_artifact',return_value=b'OWNED CHANGED CONTAINER'),self.assertRaisesRegex(ValueError,'ORIGINAL_CONTAINER_CHANGED'):
+            native.fixture_cases.fixture_provenance()
+
     def test_successful_empty_original_is_preserved_and_conversion_explicit(self):
         normalized,record = native.convert_original(EMPTY_NATIVE,'clean')
         self.assertEqual(strict_json(normalized)['results'],{'detectors':[]})
