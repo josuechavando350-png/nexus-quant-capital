@@ -51,6 +51,24 @@ def accept(result: dict, positive_case: bool) -> None:
         raise ValueError('SLITHER_CLEAN_FALSE_POSITIVE')
 
 
+def check_context(pos: dict, neg: dict, commit: str) -> None:
+    """A paired verdict cannot splice reports from different versions/scopes."""
+    if type(commit) is not str or re.fullmatch('[0-9a-f]{40}', commit) is None:
+        raise ValueError('PAIR_COMMIT_FORMAT')
+    identity = {'repo': 'superhunter-owned/fixture', 'commit': commit}
+    tool = {'name': 'slither', 'version': positive.SCANNER_VERSION}
+    for record, scope in ((pos, 'owned-fixed-local-fixture'),
+                          (neg, 'owned-fixed-local-fixture-clean')):
+        if (record.get('repository_declared') != identity or
+                record.get('scope_id_declared') != scope or
+                record.get('tool_declared') != tool or
+                record.get('detectors_declared') != [positive.DETECTOR] or
+                record.get('scanner_execution_verified') is not False or
+                record.get('repository_commit_verified') is not False or
+                record.get('vulnerability_confirmed') is not False):
+            raise ValueError('PAIR_SOURCE_CONTEXT_MISMATCH')
+
+
 def _run_clean(solc_bytes: bytes, commit: str, out: Path) -> None:
     """Run clean control only; no tool execution when the fixed sources drift."""
     with tempfile.TemporaryDirectory(prefix='superhunter-slither-clean-') as temp:
@@ -113,14 +131,17 @@ def run_pair(solc: Path, out: Path, commit: str) -> dict:
             pos.get('source_bound_alerts') != 1 or pos.get('unique_alert_count') != 1 or
             pos.get('vulnerability_confirmed') is not False):
         raise ValueError('SLITHER_POSITIVE_DIVERGED')
-    accept(static_review.verify_report(out / 'positive'), True)
-    accept(static_review.verify_report(out / 'clean'), False)
+    pos_record = static_review.verify_report(out / 'positive')
+    neg_record = static_review.verify_report(out / 'clean')
+    accept(pos_record, True)
+    accept(neg_record, False)
+    check_context(pos_record, neg_record, commit)
     summary = {'schema_version': 1, 'status': 'OWNED_SLITHER_PAIR_UNVERIFIED',
                'positive_sha256': sha(positive.OWNED_SOURCE),
                'clean_sha256': sha(CLEAN_SOURCE), 'scanner': 'slither',
                'scanner_version': positive.SCANNER_VERSION, 'detector': positive.DETECTOR,
                'positive_count': 1, 'clean_count': 0,
-               'scanner_executed_in_local_worker': True,
+               'declared_commit': commit, 'scanner_executed_in_local_worker': True,
                'network_isolation_proven': False,
                'independent_execution_replay': False, 'vulnerability_confirmed': False}
     positive._write_local(out / 'summary.json', canonical(summary), 0o600)
@@ -145,7 +166,7 @@ def verify_pair(out: Path) -> dict:
     summary = strict_json(read_artifact(out, 'summary.json'))
     required = {'schema_version', 'status', 'positive_sha256', 'clean_sha256',
                 'scanner', 'scanner_version', 'detector', 'positive_count',
-                'clean_count', 'scanner_executed_in_local_worker', 'network_isolation_proven',
+                'clean_count', 'declared_commit', 'scanner_executed_in_local_worker', 'network_isolation_proven',
                 'independent_execution_replay', 'vulnerability_confirmed'}
     if (set(summary) != required or type(summary['schema_version']) is not int or
             summary['schema_version'] != 1 or summary['status'] != 'OWNED_SLITHER_PAIR_UNVERIFIED' or
@@ -153,6 +174,8 @@ def verify_pair(out: Path) -> dict:
             summary['clean_sha256'] != sha(CLEAN_SOURCE) or summary['scanner'] != 'slither' or
             summary['scanner_version'] != positive.SCANNER_VERSION or
             summary['detector'] != positive.DETECTOR or
+            type(summary['declared_commit']) is not str or
+            re.fullmatch('[0-9a-f]{40}', summary['declared_commit']) is None or
             type(summary['positive_count']) is not int or summary['positive_count'] != 1 or
             type(summary['clean_count']) is not int or summary['clean_count'] != 0 or
             summary['scanner_executed_in_local_worker'] is not True or
@@ -160,8 +183,11 @@ def verify_pair(out: Path) -> dict:
             summary['independent_execution_replay'] is not False or
             summary['vulnerability_confirmed'] is not False):
         raise ValueError('PAIR_SUMMARY')
-    accept(static_review.verify_report(out / 'positive'), True)
-    accept(static_review.verify_report(out / 'clean'), False)
+    pos_record = static_review.verify_report(out / 'positive')
+    neg_record = static_review.verify_report(out / 'clean')
+    accept(pos_record, True)
+    accept(neg_record, False)
+    check_context(pos_record, neg_record, summary['declared_commit'])
     return summary
 
 
