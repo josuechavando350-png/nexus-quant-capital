@@ -1,3 +1,7 @@
+> **Primera integración en laboratorio (sin Collector):** [OTEL_QA_LAB.md](OTEL_QA_LAB.md) describe la instrumentación local de QA con OpenTelemetry SDK, su instalación opcional, resultados de pruebas y criterios aún pendientes. No hay exportación OTLP ni hallazgos externos; no se considera una integración verificada de producción.
+
+---
+
 > **Nuevo punto de entrada para otras IAs — 50 repositorios externos (2026-11-07):** consultar [REPOSITORIES_50.md](REPOSITORIES_50.md) y [repo_portfolio_50.json](repo_portfolio_50.json) antes de planear dependencias, junto con [plan maestro](../SUPERHUNTER_MASTER_PLAN.md) y [estado](../SUPERHUNTER_STATUS.md). Catálogo documental, no ejecución o integración de terceros. Los apartados históricos siguientes conservan su alcance.
 
 ---
