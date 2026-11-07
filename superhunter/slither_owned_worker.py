@@ -48,7 +48,7 @@ def main(argv: list[str]) -> int:
             platform.machine() not in ("x86_64", "amd64")):
         return 2
     mode = "positive" if len(argv) == 1 else argv[1]
-    if mode not in ("positive", "clean"):
+    if mode not in ("positive", "clean", "comparison"):
         return 2
     root = Path(argv[0])
     if (not root.is_absolute() or root.is_symlink() or
@@ -60,6 +60,7 @@ def main(argv: list[str]) -> int:
     source_sha256 = {
         "positive": "ef5475a13e367bef34010e339c082c85383ab85e4f229cd607899f5f52ce0c64",
         "clean": "f4435d614ec0d890f56f06c6250bba4a60152255fa3f8d5ceec13952f9aba0f1",
+        "comparison": "45e77d6d43ee7a13720323e48ed103e64447013c705af58f53e824ae3807df92",
     }[mode]
     if (_file_sha256(root / "Owned.sol", 4096) != source_sha256 or
             _file_sha256(root / "solc", 64_000_000) !=

@@ -20,16 +20,30 @@ from .safe_io import canonical, read_artifact, strict_json
 
 CLEAN_SOURCE = positive.OWNED_SOURCE.replace(b'tx.origin', b'msg.sender')
 CLEAN_SHA256 = 'f4435d614ec0d890f56f06c6250bba4a60152255fa3f8d5ceec13952f9aba0f1'
-assert hashlib.sha256(CLEAN_SOURCE).hexdigest() == CLEAN_SHA256
-FILES = {'summary.json', 'COMPLETE.json', 'positive', 'clean'}
+# Slither upstream excludes a conditional that reads both tx.origin and msg.sender.
+# This is a detector-specific negative, NOT an assertion that this contract is secure.
+COMPARISON_SOURCE = positive.OWNED_SOURCE.replace(
+    b'tx.origin == owner, "owner"', b'tx.origin == msg.sender, "direct caller"')
+COMPARISON_SHA256 = '45e77d6d43ee7a13720323e48ed103e64447013c705af58f53e824ae3807df92'
+if (hashlib.sha256(CLEAN_SOURCE).hexdigest() != CLEAN_SHA256 or
+        hashlib.sha256(COMPARISON_SOURCE).hexdigest() != COMPARISON_SHA256):
+    raise ValueError('FIXED_NEGATIVE_SOURCE_DIGEST')
+FILES = {'summary.json', 'COMPLETE.json', 'positive', 'clean', 'comparison'}
 
 
 def sha(raw: bytes) -> str:
     return hashlib.sha256(raw).hexdigest()
 
 
-def accept(result: dict, positive_case: bool) -> None:
-    """Never treat bool counts, missing source binding or a tool error as evidence."""
+def accept(result: dict, positive_case: bool, *, expected_source: bytes | None = None) -> None:
+    """Reject false evidence and bind an observation to one allowlisted fixture."""
+    if type(positive_case) is not bool:
+        raise ValueError('INVALID_CONTROL_KIND')
+    if expected_source is None:
+        expected_source = positive.OWNED_SOURCE if positive_case else CLEAN_SOURCE
+    if (expected_source not in (positive.OWNED_SOURCE, CLEAN_SOURCE, COMPARISON_SOURCE) or
+            positive_case != (expected_source == positive.OWNED_SOURCE)):
+        raise ValueError('UNKNOWN_CONTROL_SOURCE')
     if (type(result) is not dict or any(type(result.get(key)) is not int
                 for key in ('source_bound_alerts', 'unique_alert_count', 'raw_alert_count')) or
             result.get('normalization_complete') is not True or
@@ -38,7 +52,7 @@ def accept(result: dict, positive_case: bool) -> None:
             result.get('unique_alert_count') != (1 if positive_case else 0) or
             result.get('raw_alert_count') != (1 if positive_case else 0) or
             result.get('source_sha256') != {positive.SOURCE_NAME:
-                sha(positive.OWNED_SOURCE if positive_case else CLEAN_SOURCE)} or
+                sha(expected_source)} or
             result.get('input_kind') != 'external-report'):
         raise ValueError('SLITHER_CONTROL_MISMATCH')
     if positive_case:
@@ -51,14 +65,15 @@ def accept(result: dict, positive_case: bool) -> None:
         raise ValueError('SLITHER_CLEAN_FALSE_POSITIVE')
 
 
-def check_context(pos: dict, neg: dict, commit: str) -> None:
+def check_context(pos: dict, neg: dict, comparison: dict, commit: str) -> None:
     """A paired verdict cannot splice reports from different versions/scopes."""
     if type(commit) is not str or re.fullmatch('[0-9a-f]{40}', commit) is None:
         raise ValueError('PAIR_COMMIT_FORMAT')
     identity = {'repo': 'superhunter-owned/fixture', 'commit': commit}
     tool = {'name': 'slither', 'version': positive.SCANNER_VERSION}
     for record, scope in ((pos, 'owned-fixed-local-fixture'),
-                          (neg, 'owned-fixed-local-fixture-clean')):
+                          (neg, 'owned-fixed-local-fixture-clean'),
+                          (comparison, 'owned-fixed-local-fixture-comparison')):
         if (record.get('repository_declared') != identity or
                 record.get('scope_id_declared') != scope or
                 record.get('tool_declared') != tool or
@@ -69,14 +84,17 @@ def check_context(pos: dict, neg: dict, commit: str) -> None:
             raise ValueError('PAIR_SOURCE_CONTEXT_MISMATCH')
 
 
-def _run_clean(solc_bytes: bytes, commit: str, out: Path) -> None:
-    """Run clean control only; no tool execution when the fixed sources drift."""
-    with tempfile.TemporaryDirectory(prefix='superhunter-slither-clean-') as temp:
+def _run_negative(solc_bytes: bytes, commit: str, out: Path, mode: str) -> None:
+    """Run only the two allowlisted negatives under the same tool version."""
+    if mode not in ('clean', 'comparison'):
+        raise ValueError('UNKNOWN_NEGATIVE_CONTROL')
+    source_bytes = CLEAN_SOURCE if mode == 'clean' else COMPARISON_SOURCE
+    with tempfile.TemporaryDirectory(prefix='superhunter-slither-negative-') as temp:
         work = Path(temp)
-        positive._write_local(work / 'Owned.sol', CLEAN_SOURCE, 0o400)
+        positive._write_local(work / 'Owned.sol', source_bytes, 0o400)
         positive._write_local(work / 'solc', solc_bytes, 0o500)
         command = [sys.executable, '-I', '-B', str(positive.ROOT / 'slither_owned_worker.py'),
-                   str(work), 'clean']
+                   str(work), mode]
         with tempfile.TemporaryFile() as stdout, tempfile.TemporaryFile() as stderr:
             completed = owned_process.run(command, cwd=work,
                                           env={'LANG': 'C.UTF-8', 'LC_ALL': 'C.UTF-8',
@@ -87,7 +105,7 @@ def _run_clean(solc_bytes: bytes, commit: str, out: Path) -> None:
                 raise ValueError('SLITHER_CLEAN_PROCESS_FAILURE')
             if stdout.seek(0, os.SEEK_END) > 2_000_000 or stderr.seek(0, os.SEEK_END) > 2_000_000:
                 raise ValueError('SLITHER_CLEAN_OUTPUT_OVERFLOW')
-        if (read_artifact(work, 'Owned.sol') != CLEAN_SOURCE or
+        if (read_artifact(work, 'Owned.sol') != source_bytes or
                 native_compile.read_pinned_binary(work / 'solc') != solc_bytes):
             raise ValueError('CLEAN_FIXTURE_CHANGED')
         report = read_artifact(work, positive.REPORT_NAME)
@@ -98,21 +116,21 @@ def _run_clean(solc_bytes: bytes, commit: str, out: Path) -> None:
                 type(parsed['results'].get('detectors')) is not list):
             raise ValueError('SLITHER_CLEAN_BAD_REPORT')
         context = {
-            'schema_version': 1, 'scope_id': 'owned-fixed-local-fixture-clean',
+            'schema_version': 1, 'scope_id': 'owned-fixed-local-fixture-' + mode,
             'repository': {'repo': 'superhunter-owned/fixture', 'commit': commit},
             'tool': {'name': 'slither', 'version': positive.SCANNER_VERSION},
             'detectors': [positive.DETECTOR], 'report_sha256': sha(report),
-            'sources': {positive.SOURCE_NAME: sha(CLEAN_SOURCE)},
+            'sources': {positive.SOURCE_NAME: sha(source_bytes)},
             'input_kind': 'external-report',
         }
-        observed = static_review.normalize(report, context, {positive.SOURCE_NAME: CLEAN_SOURCE})
-        accept(observed, False)
+        observed = static_review.normalize(report, context, {positive.SOURCE_NAME: source_bytes})
+        accept(observed, False, expected_source=source_bytes)
         positive._write_local(work / 'context.json', canonical(context), 0o400)
         imported = static_review.import_report(work / positive.REPORT_NAME,
                                                work / 'context.json', work, out)
-        accept(imported, False)
+        accept(imported, False, expected_source=source_bytes)
         if imported != observed:
-            raise ValueError('CLEAN_IMPORT_MISMATCH')
+            raise ValueError('NEGATIVE_IMPORT_MISMATCH')
 
 
 def run_pair(solc: Path, out: Path, commit: str) -> dict:
@@ -125,7 +143,8 @@ def run_pair(solc: Path, out: Path, commit: str) -> dict:
     # No root success marker exists until both controls have passed.
     out.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     out.mkdir(mode=0o700, exist_ok=False)
-    _run_clean(compiler, commit, out / 'clean')
+    _run_negative(compiler, commit, out / 'clean', 'clean')
+    _run_negative(compiler, commit, out / 'comparison', 'comparison')
     pos = positive.run_owned(solc, out / 'positive', repo_commit=commit)
     if (pos.get('status') != 'OWNED_SLITHER_IMPORTED_UNVERIFIED' or
             pos.get('source_bound_alerts') != 1 or pos.get('unique_alert_count') != 1 or
@@ -133,14 +152,17 @@ def run_pair(solc: Path, out: Path, commit: str) -> dict:
         raise ValueError('SLITHER_POSITIVE_DIVERGED')
     pos_record = static_review.verify_report(out / 'positive')
     neg_record = static_review.verify_report(out / 'clean')
+    cmp_record = static_review.verify_report(out / 'comparison')
     accept(pos_record, True)
     accept(neg_record, False)
-    check_context(pos_record, neg_record, commit)
+    accept(cmp_record, False, expected_source=COMPARISON_SOURCE)
+    check_context(pos_record, neg_record, cmp_record, commit)
     summary = {'schema_version': 1, 'status': 'OWNED_SLITHER_PAIR_UNVERIFIED',
                'positive_sha256': sha(positive.OWNED_SOURCE),
-               'clean_sha256': sha(CLEAN_SOURCE), 'scanner': 'slither',
+               'clean_sha256': sha(CLEAN_SOURCE),
+               'comparison_sha256': sha(COMPARISON_SOURCE), 'scanner': 'slither',
                'scanner_version': positive.SCANNER_VERSION, 'detector': positive.DETECTOR,
-               'positive_count': 1, 'clean_count': 0,
+               'positive_count': 1, 'clean_count': 0, 'comparison_count': 0,
                'declared_commit': commit, 'scanner_executed_in_local_worker': True,
                'network_isolation_proven': False,
                'independent_execution_replay': False, 'vulnerability_confirmed': False}
@@ -148,7 +170,8 @@ def run_pair(solc: Path, out: Path, commit: str) -> dict:
     marker = {'schema_version': 1, 'sha256': {
         'summary.json': sha(read_artifact(out, 'summary.json')),
         'positive/COMPLETE.json': sha(read_artifact(out, 'positive/COMPLETE.json')),
-        'clean/COMPLETE.json': sha(read_artifact(out, 'clean/COMPLETE.json'))}}
+        'clean/COMPLETE.json': sha(read_artifact(out, 'clean/COMPLETE.json')),
+        'comparison/COMPLETE.json': sha(read_artifact(out, 'comparison/COMPLETE.json'))}}
     positive._write_local(out / 'COMPLETE.json', canonical(marker), 0o600)
     return verify_pair(out)
 
@@ -157,7 +180,8 @@ def verify_pair(out: Path) -> dict:
     if {p.name for p in out.iterdir()} != FILES or any((out / n).is_symlink() for n in FILES):
         raise ValueError('PAIR_FILE_SET')
     marker = strict_json(read_artifact(out, 'COMPLETE.json'))
-    expected = {'summary.json', 'positive/COMPLETE.json', 'clean/COMPLETE.json'}
+    expected = {'summary.json', 'positive/COMPLETE.json', 'clean/COMPLETE.json',
+                'comparison/COMPLETE.json'}
     if (type(marker) is not dict or set(marker) != {'schema_version', 'sha256'} or
             type(marker['schema_version']) is not int or marker['schema_version'] != 1 or
             type(marker['sha256']) is not dict or set(marker['sha256']) != expected or
@@ -165,19 +189,22 @@ def verify_pair(out: Path) -> dict:
         raise ValueError('PAIR_HASHES')
     summary = strict_json(read_artifact(out, 'summary.json'))
     required = {'schema_version', 'status', 'positive_sha256', 'clean_sha256',
-                'scanner', 'scanner_version', 'detector', 'positive_count',
-                'clean_count', 'declared_commit', 'scanner_executed_in_local_worker', 'network_isolation_proven',
+                'comparison_sha256', 'scanner', 'scanner_version', 'detector',
+                'positive_count', 'clean_count', 'comparison_count', 'declared_commit', 'scanner_executed_in_local_worker', 'network_isolation_proven',
                 'independent_execution_replay', 'vulnerability_confirmed'}
     if (set(summary) != required or type(summary['schema_version']) is not int or
             summary['schema_version'] != 1 or summary['status'] != 'OWNED_SLITHER_PAIR_UNVERIFIED' or
             summary['positive_sha256'] != sha(positive.OWNED_SOURCE) or
-            summary['clean_sha256'] != sha(CLEAN_SOURCE) or summary['scanner'] != 'slither' or
+            summary['clean_sha256'] != sha(CLEAN_SOURCE) or
+            summary['comparison_sha256'] != sha(COMPARISON_SOURCE) or
+            summary['scanner'] != 'slither' or
             summary['scanner_version'] != positive.SCANNER_VERSION or
             summary['detector'] != positive.DETECTOR or
             type(summary['declared_commit']) is not str or
             re.fullmatch('[0-9a-f]{40}', summary['declared_commit']) is None or
             type(summary['positive_count']) is not int or summary['positive_count'] != 1 or
             type(summary['clean_count']) is not int or summary['clean_count'] != 0 or
+            type(summary['comparison_count']) is not int or summary['comparison_count'] != 0 or
             summary['scanner_executed_in_local_worker'] is not True or
             summary['network_isolation_proven'] is not False or
             summary['independent_execution_replay'] is not False or
@@ -185,9 +212,11 @@ def verify_pair(out: Path) -> dict:
         raise ValueError('PAIR_SUMMARY')
     pos_record = static_review.verify_report(out / 'positive')
     neg_record = static_review.verify_report(out / 'clean')
+    cmp_record = static_review.verify_report(out / 'comparison')
     accept(pos_record, True)
     accept(neg_record, False)
-    check_context(pos_record, neg_record, summary['declared_commit'])
+    accept(cmp_record, False, expected_source=COMPARISON_SOURCE)
+    check_context(pos_record, neg_record, cmp_record, summary['declared_commit'])
     return summary
 
 
@@ -204,7 +233,8 @@ def main(argv: list[str]) -> int:
     try:
         summary = (run_pair(args.solc, args.out, args.repo_commit) if
                    args.command == 'run-owned-slither-pair' else verify_pair(args.bundle))
-        print(json.dumps({'status': summary['status'], 'positive_count': 1, 'clean_count': 0,
+        print(json.dumps({'status': summary['status'], 'positive_count': 1,
+                          'clean_count': 0, 'comparison_count': 0,
                           'vulnerability_confirmed': False}))
         return 0
     except (OSError, ValueError, RuntimeError, TypeError, KeyError, subprocess.TimeoutExpired) as exc:

@@ -13,6 +13,8 @@
 5. Nunca activar escaneos de terceros, RPC, despliegues, firmas, envíos, capital, sensores ni workflows por añadir un candidato. Evidencia privada nunca se sube al GitHub público.
 6. El estado solo avanza de `CATALOGUED_NOT_INTEGRATED` mediante PR posterior con licencia revisada, prototipo, QA, consumidor real y verificadores. Agregar un enlace no cuenta como implementación.
 
+**Actualización posterior de Slither:** la referencia #6 ya tiene [gate de tres controles OWNED](SLITHER_THREE_CONTROL_GATE.md); su tercera condición reproduce una exclusión específica del detector. **No hay scanner real ejecutado ni certificación de integración**. La selección estructurada permanece candidata hasta cubrir sus criterios de aceptación.
+
 **Actualización de implementación posterior al registro:** el candidato **#26** tiene un [adaptador de QA OpenTelemetry en laboratorio](OTEL_QA_LAB.md). Su código ejecutable está en otel_qa.py y sus pruebas en tests/test_otel_qa.py; solo se comprobó localmente con QA simulado y SDK real. **Collector no instalado; ningún nuevo motor externo certificado ni 10/10**. El estado del catálogo estructurado sigue `CATALOGUED_NOT_INTEGRATED` hasta la aceptación integral conforme a las reglas de promoción.
 
 **Implementación posterior adicional:** el proyecto **#6 Slither** tiene un [runner en laboratorio](SLITHER_OWNED_LAB.md) y pruebas de contrato: solo fuente OWNED fija, sin ejecutable Slither instalado ni QA integral aún. Mantenerlo como candidato NO certificado; no confundir código del adaptador con hallazgo verificado.
