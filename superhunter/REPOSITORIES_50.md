@@ -13,6 +13,8 @@
 5. Nunca activar escaneos de terceros, RPC, despliegues, firmas, envíos, capital, sensores ni workflows por añadir un candidato. Evidencia privada nunca se sube al GitHub público.
 6. El estado solo avanza de `CATALOGUED_NOT_INTEGRATED` mediante PR posterior con licencia revisada, prototipo, QA, consumidor real y verificadores. Agregar un enlace no cuenta como implementación.
 
+**Actualización de implementación posterior al registro:** el candidato **#26** tiene un [adaptador de QA OpenTelemetry en laboratorio](OTEL_QA_LAB.md). Su código ejecutable está en otel_qa.py y sus pruebas en tests/test_otel_qa.py; solo se comprobó localmente con QA simulado y SDK real. **Collector no instalado; ningún nuevo motor externo certificado ni 10/10**. El estado del catálogo estructurado sigue `CATALOGUED_NOT_INTEGRATED` hasta la aceptación integral conforme a las reglas de promoción.
+
 **Prioridades:** P0 laboratorio inicial; P1 evaluación siguiente; P2 solo ante beneficio medido; P3 al justificar clusters. **Solapamientos:** ItyFuzz/LibAFL, Echidna/Medusa/ItyFuzz, Slither/Opengrep/Joern, Plaso/Timesketch, Arkime/Zeek. Z3 ya existe y Foundry se usa parcialmente en nuestros trabajos; no duplicar.
 
 ## Vulnerabilidades y contratos (01-10)

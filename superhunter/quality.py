@@ -284,7 +284,7 @@ def source_snapshot(root: Path = ROOT) -> dict[str, str]:
                 raise ValueError('source directory symlink rejected')
         for name in sorted(files):
             rel = (Path(base)/name).relative_to(root).as_posix()
-            if name.endswith('.py') or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'research_initiatives.json'):
+            if name.endswith('.py') or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'requirements-otel-qa.txt', 'research_initiatives.json'):
                 result[rel] = sha(read_artifact(root, rel))
                 if len(result) > 500:
                     raise ValueError('source inventory limit exceeded')
@@ -1224,4 +1224,19 @@ REQUIRED_TESTS += (
     'test_owned_authority_evm.AuthorityEVMTests.test_engine_agreement_does_not_replace_python_model_comparison',
     'test_owned_authority_evm.AuthorityEVMTests.test_probe_that_changes_any_state_field_is_rejected',
     'test_owned_authority_evm.AuthorityEVMTests.test_marker_byte_change_during_replay_is_rejected',
+)
+
+
+# Optional OpenTelemetry profiling is instrumented ONLY for local owned QA.
+# No OTLP exporter, collector endpoint, network permission or scanning is added.
+COMPONENTS['otel_qa'] = {
+    'files': ['otel_qa.py'],
+    'tests': ['test_otel_qa.'],
+    'depends': ['quality', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('otel_qa')
+REQUIRED_TESTS += (
+    'test_otel_qa.OfflineOpenTelemetryTests.test_metadata_check_and_no_remote_operation',
+    'test_otel_qa.OfflineOpenTelemetryTests.test_real_sdk_captures_qa_and_verifier_in_memory',
+    'test_otel_qa.OfflineOpenTelemetryTests.test_verifier_exception_is_failure_not_pass',
+    'test_otel_qa.OfflineOpenTelemetryTests.test_fail_open_resealed_failure_cannot_claim_pass',
 )
