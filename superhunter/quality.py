@@ -11,13 +11,13 @@ import hashlib
 import json
 import os
 from pathlib import Path
-import signal
 import subprocess
 import sys
 import tempfile
 
 from .safe_io import canonical, read_artifact, strict_json, write_new_bundle
 from .privacy import PrivateArgumentParser
+from . import owned_process
 
 ROOT = Path(__file__).resolve().parent
 COMPONENTS = {'accounting': {'files': ['balance_reconciliation.py'],
@@ -560,27 +560,13 @@ def aggregate_receipts(receipts: list[dict], snapshot: dict) -> dict:
 
 
 def _run_qa_process(command: list[str], *, cwd: Path, env: dict, timeout: int):
-    """Reap the fixed worker and kill remaining members of its own session group.
+    """Stop the fixed worker's session group before reaping its leader.
 
     This does not contain descendants that detach into another process group.
     Worker receipts/logs are explicit files; arbitrary console output is discarded.
     """
-    with subprocess.Popen(command,cwd=cwd,env=env,stdin=subprocess.DEVNULL,
-                          stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,
-                          start_new_session=True) as process:
-        try:
-            code = process.wait(timeout=timeout)
-            return subprocess.CompletedProcess(command,code)
-        finally:
-            try:
-                os.killpg(process.pid,signal.SIGKILL)
-            except ProcessLookupError:
-                pass
-            except OSError:
-                process.kill()
-                raise
-            finally:
-                process.wait()
+    return owned_process.run(command, cwd=cwd, env=env, timeout=timeout,
+                             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
 def _worker_command(work: Path, index: int, cache: Path) -> list[str]:
@@ -1197,4 +1183,17 @@ REQUIRED_TESTS += (
     'test_owned_platform.OwnedPlatformTests.test_resealed_false_final_claim_rejected',
     'test_owned_platform.OwnedPlatformTests.test_changed_preparation_during_copy_rejected',
     'test_owned_platform.OwnedPlatformTests.test_failed_native_replay_leaves_no_final_marker',
+)
+
+COMPONENTS['owned_process'] = {
+    'files': ['owned_process.py'], 'tests': ['test_owned_process.'], 'depends': []}
+for _component in ('quality', 'owned_quota_review', 'owned_quota_cross_evm'):
+    COMPONENTS[_component]['depends'].append('owned_process')
+REQUIRED_TESTS += (
+    'test_owned_process.OwnedProcessTests.test_leader_is_waitable_during_group_cleanup_then_reaped',
+    'test_owned_process.OwnedProcessTests.test_timeout_stops_owned_group_before_reaping',
+    'test_owned_process.OwnedProcessTests.test_lost_child_ownership_never_signals_numeric_group',
+    'test_owned_process.OwnedProcessTests.test_native_timeout_preserves_typed_diagnostic',
+    'test_owned_process.OwnedProcessTests.test_eels_normal_exit_cleans_own_child',
+    'test_owned_process.OwnedProcessTests.test_late_observed_exit_does_not_bypass_deadline',
 )

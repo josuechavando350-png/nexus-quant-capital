@@ -2,13 +2,11 @@
 from __future__ import annotations
 
 import json
-import os
 from pathlib import Path
-import signal
 import subprocess
 import tempfile
 
-from . import owned_quota_review as quota, owned_cross_evm as previous, quality
+from . import owned_quota_review as quota, owned_cross_evm as previous, quality, owned_process
 from .owned_quota_cases import need,sha
 from .owned_quota_spec_worker import PROFILE
 from .owned_spec_evm_pins import PINS
@@ -23,14 +21,13 @@ WALL_SECONDS,OUTPUT_LIMIT = 180,4*1024**2
 def _run_eels(solc: Path, digest: str) -> dict:
     with tempfile.TemporaryDirectory(prefix='owned-quota-eels-') as directory:
         with tempfile.TemporaryFile() as output,tempfile.TemporaryFile() as errors:
-            proc = subprocess.Popen(previous._python_command(Path(directory)/'cache')+[
-                str(ROOT/'owned_quota_spec_worker.py'),'--solc',str(solc.resolve()),
-                '--source-digest',digest],stdin=subprocess.DEVNULL,stdout=output,stderr=errors,
-                cwd=directory,start_new_session=True,
-                env={'PATH':'/usr/bin:/bin','LANG':'C.UTF-8','HOME':directory})
-            try: proc.wait(timeout=WALL_SECONDS)
+            try:
+                proc = owned_process.run(previous._python_command(Path(directory)/'cache')+[
+                    str(ROOT/'owned_quota_spec_worker.py'),'--solc',str(solc.resolve()),
+                    '--source-digest',digest],stdout=output,stderr=errors,
+                    cwd=directory,timeout=WALL_SECONDS,
+                    env={'PATH':'/usr/bin:/bin','LANG':'C.UTF-8','HOME':directory})
             except subprocess.TimeoutExpired:
-                os.killpg(proc.pid,signal.SIGKILL);proc.wait()
                 raise ValueError('QUOTA_EELS_TIMEOUT') from None
             output.seek(0);errors.seek(0)
             raw,err = output.read(OUTPUT_LIMIT+1),errors.read(OUTPUT_LIMIT+1)

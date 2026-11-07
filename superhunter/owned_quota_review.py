@@ -11,13 +11,12 @@ import json
 import os
 from pathlib import Path
 import re
-import signal
 import subprocess
 import sys
 import tempfile
 
 from . import benchmark, evm_execution as evm, native_compile as compiler, quality
-from . import owned_quota_cases as cases
+from . import owned_quota_cases as cases, owned_process
 from . import owned_quota_execution as quota_execution
 from .owned_quota_cases import need, sha
 from .privacy import PrivateArgumentParser
@@ -191,17 +190,14 @@ def _run_worker(solc: Path, geth: Path, digest: str) -> dict:
     with compiler._sealed_executable(evm.read_evm(geth)) as geth_fd, \
          tempfile.TemporaryDirectory(prefix='owned-quota-') as directory:
         with tempfile.TemporaryFile() as output,tempfile.TemporaryFile() as errors:
-            proc = subprocess.Popen([sys.executable,'-I','-B','-X',
-                'pycache_prefix='+str(Path(directory)/'cache'),str(ROOT/'owned_quota_worker.py'),
-                '--solc',str(solc.resolve()),'--evm',str(geth.resolve()),'--source-digest',digest,
-                '--geth-fd',str(geth_fd)],
-                stdin=subprocess.DEVNULL,stdout=output,stderr=errors,cwd=directory,
-                pass_fds=(geth_fd,),start_new_session=True,
-                env={'PATH':'/usr/bin:/bin','LANG':'C.UTF-8','HOME':directory})
             try:
-                proc.wait(timeout=WALL_SECONDS)
+                proc = owned_process.run([sys.executable,'-I','-B','-X',
+                    'pycache_prefix='+str(Path(directory)/'cache'),str(ROOT/'owned_quota_worker.py'),
+                    '--solc',str(solc.resolve()),'--evm',str(geth.resolve()),'--source-digest',digest,
+                    '--geth-fd',str(geth_fd)],stdout=output,stderr=errors,cwd=directory,
+                    pass_fds=(geth_fd,),timeout=WALL_SECONDS,
+                    env={'PATH':'/usr/bin:/bin','LANG':'C.UTF-8','HOME':directory})
             except subprocess.TimeoutExpired:
-                os.killpg(proc.pid,signal.SIGKILL); proc.wait()
                 raise ValueError('QUOTA_WORKER_TIMEOUT') from None
             output.seek(0); errors.seek(0)
             raw,err = output.read(OUTPUT_LIMIT+1),errors.read(OUTPUT_LIMIT+1)
