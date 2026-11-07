@@ -1,3 +1,7 @@
+> **Segundo adaptador (Slither #6, no certificado):** [SLITHER_OWNED_LAB.md](SLITHER_OWNED_LAB.md) describe el runner local sobre Solidity propio y fijo, con compilador y fuente comprobados por hash, supervisión del proceso y reutilización de import-slither. Slither no está instalado en GitHub/usuario y no se ha ejecutado la suite completa en esta rama. No habilitar targets externos.
+
+---
+
 > **Primera integración en laboratorio (sin Collector):** [OTEL_QA_LAB.md](OTEL_QA_LAB.md) describe la instrumentación local de QA con OpenTelemetry SDK, su instalación opcional, resultados de pruebas y criterios aún pendientes. No hay exportación OTLP ni hallazgos externos; no se considera una integración verificada de producción.
 
 ---
