@@ -1197,3 +1197,16 @@ REQUIRED_TESTS += (
     'test_owned_process.OwnedProcessTests.test_eels_normal_exit_cleans_own_child',
     'test_owned_process.OwnedProcessTests.test_late_observed_exit_does_not_bypass_deadline',
 )
+
+COMPONENTS['owned_authority'] = {
+    'files': ['owned_authority_model.py', 'owned_authority_cases.py',
+              'owned_authority_reference.py', 'owned_authority_review.py'],
+    'tests': ['test_owned_authority.'], 'depends': ['benchmark', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('owned_authority')
+REQUIRED_TESTS += (
+    'test_owned_authority.AuthorityReviewTests.test_latent_defect_remains_an_explicit_omission',
+    'test_owned_authority.AuthorityReviewTests.test_clean_and_latent_cases_are_observationally_identical',
+    'test_owned_authority.AuthorityReviewTests.test_issued_snapshot_ablation_creates_false_positives',
+    'test_owned_authority.AuthorityReviewTests.test_reference_disagreement_blocks_instead_of_inventing_a_verdict',
+    'test_owned_authority.AuthorityReviewTests.test_rehashed_omission_removal_is_rejected_after_reexecution',
+)
