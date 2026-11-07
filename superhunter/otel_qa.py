@@ -64,7 +64,7 @@ def profile_owned_qa(qa_out: Path, telemetry_out: Path) -> dict:
     The reported timing is observational, not proof that QA's producer is
     genuine. An in-memory exporter cannot leak traces to an OTLP endpoint.
     """
-    if (qa_out == telemetry_out or qa_out.exists() or telemetry_out.exists() or
+    if (qa_out.resolve() == telemetry_out.resolve() or qa_out.exists() or telemetry_out.exists() or
             not _outside_checkout(qa_out) or not _outside_checkout(telemetry_out) or
             not _outside_checkout(qa_out.parent) or not _outside_checkout(telemetry_out.parent)):
         raise ValueError("OUTPUT_UNSAFE_OR_EXISTS")
@@ -142,7 +142,7 @@ def verify_profile(bundle: Path, qa_bundle: Path | None = None) -> dict:
     keys = {"schema_version", "profile", "status", "qa_passed", "qa_reverified_here",
             "tests_run", "source_digest", "elapsed_ns", "spans", "sdk_version",
             "exporter", "network_export", "target_scanned", "vulnerability_confirmed", "error_type"}
-    if (type(payload) is not dict or set(payload) != keys or payload["schema_version"] != 1 or
+    if (type(payload) is not dict or set(payload) != keys or type(payload["schema_version"]) is not int or payload["schema_version"] != 1 or
             payload["profile"] != PROFILE or payload["sdk_version"] != SDK_VERSION or
             payload["exporter"] != "in-memory-only" or payload["network_export"] is not False or
             payload["target_scanned"] is not False or payload["vulnerability_confirmed"] is not False or
@@ -207,7 +207,7 @@ def main(argv: list[str]) -> int:
                           "tests_run": outcome["tests_run"], "network_export": False,
                           "vulnerability_confirmed": False}, sort_keys=True))
         return 0 if outcome["qa_passed"] else 1
-    except (ValueError, OSError, TypeError, KeyError, RuntimeError) as exc:
+    except (ValueError, OSError, TypeError, KeyError, RuntimeError, ImportError) as exc:
         print(json.dumps({"status": "OTEL_PROFILE_ERROR", "error_type": type(exc).__name__,
                           "qa_passed": False, "vulnerability_confirmed": False}))
         return 2
