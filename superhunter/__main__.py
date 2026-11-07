@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ('doctor-otel-qa', 'profile-owned-qa', 'verify-owned-qa-profile'):
+        from .otel_qa import main as otel_main
+        return otel_main(argv)
     if argv and argv[0] in ('compare-owned-authority-engines', 'verify-owned-authority-engines'):
         from .owned_authority_cross_evm import main as authority_cross_main
         return authority_cross_main(argv)
