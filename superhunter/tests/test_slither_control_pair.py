@@ -23,7 +23,7 @@ def synthetic_result(mode: str) -> dict:
               "comparison": pair.COMPARISON_SOURCE}[mode]
     alerts = [{"check": scanner.DETECTOR, "source_bound": True}] if mode == "positive" else []
     return {"normalization_complete": True, "vulnerability_confirmed": False,
-            "raw_alert_count": 0 if clean else 1, "unique_alert_count": len(alerts),
+            "raw_alert_count": 1 if mode == "positive" else 0, "unique_alert_count": len(alerts),
             "source_bound_alerts": len(alerts),
             "source_sha256": {"Owned.sol": pair.sha(source)},
             "alerts": alerts, "input_kind": "external-report",
