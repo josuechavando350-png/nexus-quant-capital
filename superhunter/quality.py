@@ -1050,3 +1050,15 @@ REQUIRED_TESTS += (
     'test_owned_cross_evm.CrossEVMTests.test_modified_dependency_same_version_rejected',
     'test_owned_cross_evm.CrossEVMTests.test_fresh_cache_uses_verified_source_not_stale_bytecode',
 )
+
+# Structural source boundary review; does not recertify historical NQC.
+COMPONENTS['repository_boundary'] = {
+    'files': ['repository_boundary.py'], 'tests': ['test_repository_boundary.'],
+    'depends': ['io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('repository_boundary')
+REQUIRED_TESTS += (
+    'test_repository_boundary.RepositoryBoundaryTests.test_extended_repository_preserves_legacy_without_recertifying',
+    'test_repository_boundary.RepositoryBoundaryTests.test_original_verifier_cannot_be_silently_replaced',
+    'test_repository_boundary.RepositoryBoundaryTests.test_active_workflow_rejected_at_root_and_nested',
+    'test_repository_boundary.RepositoryBoundaryTests.test_concurrent_source_change_rejected',
+)
