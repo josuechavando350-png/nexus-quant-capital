@@ -1301,3 +1301,14 @@ REQUIRED_TESTS += (
     'test_slither_pair_replay.SlitherReplayTests.test_report_tampering_rejected_after_manifest_reseal',
     'test_slither_pair_replay.SlitherReplayTests.test_symlink_pair_rejected',
 )
+
+# Real offline integration test of the original source-bound Slither importer,
+# native audit chain, 3-case verifier, and 6-report replay. Its scanner JSON
+# is SYNTHETIC and never constitutes proof of actual Slither execution.
+COMPONENTS['slither_pair_replay']['tests'].append('test_slither_offline_endtoend.')
+REQUIRED_TESTS += (
+    'test_slither_offline_endtoend.SlitherOfflineEndToEndTests.test_real_offline_import_verification_and_six_report_comparison',
+    'test_slither_offline_endtoend.SlitherOfflineEndToEndTests.test_real_importer_rejects_wrong_source_offsets_before_bundle',
+    'test_slither_offline_endtoend.SlitherOfflineEndToEndTests.test_real_verifier_rejects_altered_original_source_even_if_content_resealed',
+    'test_slither_offline_endtoend.SlitherOfflineEndToEndTests.test_synthetic_report_is_never_claimed_as_native_scanner_proof',
+)
