@@ -4,18 +4,19 @@ The isolated layout preserves conflicting documentation shipped by different
 distributions. No package code is imported during this byte check.
 """
 import hashlib
-from importlib.metadata import distribution
+from importlib.metadata import distribution, distributions
 import json
 import os
 from pathlib import Path
 import platform
+import re
 import stat
 import sys
 
 from .owned_slither_pins import PINS
 from .safe_io import canonical
 
-PROFILE = 'owned-slither-separated-wheels-v1'
+PROFILE = 'owned-slither-separated-wheels-visible-index-v2'
 MAX_ENTRIES, MAX_FILE, MAX_BYTES = 8192, 32_000_000, 128_000_000
 
 
@@ -35,6 +36,7 @@ def bootstrap_bytes() -> bytes:
 
 def expected_identity() -> dict:
     return {'profile':PROFILE, 'distribution_count':len(PINS),
+            'visible_distribution_count':len(PINS),'visible_index_checked_before_and_after_files':True,
             'wheel_derived_files':sum(pin['files'] for pin in PINS.values()),
             'pins_sha256':sha(canonical(PINS)), 'bootstrap_sha256':sha(bootstrap_bytes()),
             'producer_authenticated':False, 'process_memory_integrity_proved':False}
@@ -87,6 +89,28 @@ def _distribution_inventory(root: Path, pin: dict, budget: list[int], seen: list
     return hashes
 
 
+def _visible_index(separated: Path) -> dict:
+    """Reject unknown locations before reading their untrusted metadata."""
+    expected={separated/pin['directory']:(name,pin) for name,pin in PINS.items()}
+    found={}
+    for index,dist in enumerate(distributions()):
+        need(index<len(PINS),'SLITHER_DEPENDENCY_INDEX_EXCESS')
+        location=Path(dist.locate_file(''))
+        need(location in expected,'SLITHER_DEPENDENCY_IDENTITY_INDEX_LOCATION')
+        need(location not in found,'SLITHER_DEPENDENCY_INDEX_DUPLICATE')
+        name,pin=expected[location]
+        visible_name=dist.metadata.get('Name')
+        need(type(visible_name) is str and 0<len(visible_name)<=200 and
+             re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?',visible_name) is not None,
+             'SLITHER_DEPENDENCY_INDEX_NAME')
+        normalize=lambda value:re.sub(r'[-_.]+','-',value).lower()
+        need(normalize(visible_name)==normalize(name),'SLITHER_DEPENDENCY_INDEX_NAME')
+        need(dist.version==pin['version'],'SLITHER_DEPENDENCY_INDEX_VERSION')
+        found[location]={'name':normalize(name),'version':pin['version']}
+    need(set(found)==set(expected),'SLITHER_DEPENDENCY_INDEX_MISSING')
+    return found
+
+
 def verify_dependencies() -> dict:
     need(platform.system()=='Linux' and platform.machine()=='x86_64' and
          sys.version_info[:2]==(3,12),'SLITHER_DEPENDENCY_PLATFORM')
@@ -100,6 +124,7 @@ def verify_dependencies() -> dict:
          'SLITHER_DEPENDENCY_DISTRIBUTION_INVENTORY')
     bootstrap = site/'superhunter_owned_distributions.pth'
     need(_read(bootstrap,[0])==bootstrap_bytes(),'SLITHER_DEPENDENCY_BOOTSTRAP')
+    visible_before = _visible_index(separated)
     snapshots = {}
     for pass_index in range(2):
         budget,seen = [0],[0]
@@ -111,4 +136,5 @@ def verify_dependencies() -> dict:
             if pass_index==0: snapshots[name]=found
             else: need(found==snapshots[name],'SLITHER_DEPENDENCY_CHANGED')
     need(_read(bootstrap,[0])==bootstrap_bytes(),'SLITHER_DEPENDENCY_BOOTSTRAP_CHANGED')
+    need(_visible_index(separated)==visible_before,'SLITHER_DEPENDENCY_INDEX_CHANGED')
     return expected_identity()

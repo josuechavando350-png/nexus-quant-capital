@@ -1357,6 +1357,9 @@ REQUIRED_TESTS += (
     'test_quality_entrypoint.QualityEntrypointTests.test_missing_late_required_test_is_blocked_by_both_entrypoints',
     'test_owned_slither_native.ConversionTests.test_changed_literal_cannot_keep_historical_source_identity',
     'test_owned_slither_native.ConversionTests.test_changed_container_cannot_keep_historical_commit_claim',
+    'test_owned_slither_native.DependencyTests.test_extra_visible_location_is_rejected_before_reading_its_metadata',
+    'test_owned_slither_native.DependencyTests.test_duplicate_visible_distribution_is_rejected',
+    'test_owned_slither_native.DependencyTests.test_visible_index_is_rechecked_after_file_inventory',
 )
 
 
