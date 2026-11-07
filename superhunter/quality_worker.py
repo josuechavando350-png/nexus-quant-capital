@@ -133,6 +133,7 @@ QA_MODULE_GROUPS = (
         'test_journal_ingest',
         'test_native_layout',
         'test_owned_cross_evm',
+        'test_native_doctor',
         'test_repository_boundary',
         'test_permissions',
         'test_solidity_formal',

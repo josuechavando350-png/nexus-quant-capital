@@ -1062,3 +1062,14 @@ REQUIRED_TESTS += (
     'test_repository_boundary.RepositoryBoundaryTests.test_active_workflow_rejected_at_root_and_nested',
     'test_repository_boundary.RepositoryBoundaryTests.test_concurrent_source_change_rejected',
 )
+
+COMPONENTS['native_doctor'] = {
+    'files': ['native_doctor.py'], 'tests': ['test_native_doctor.'],
+    'depends': ['owned_cross_evm', 'native_compile', 'evm_execution', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('native_doctor')
+REQUIRED_TESTS += (
+    'test_native_doctor.NativeDoctorTests.test_ready_is_not_execution_or_certification',
+    'test_native_doctor.NativeDoctorTests.test_missing_optional_engine_preserves_other_profiles',
+    'test_native_doctor.NativeDoctorTests.test_z3_bytes_checked_without_loading_library',
+    'test_native_doctor.NativeDoctorTests.test_wrong_native_tools_do_not_execute',
+)
