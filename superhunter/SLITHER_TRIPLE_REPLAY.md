@@ -69,3 +69,7 @@ Se agregaron tres pruebas de mutación intermedia, una por cada ancla y otra par
 ## Instrucción para otros agentes
 
 No fusionar dos ramas independientes del PR #72 por separado sin resolver el conflicto en `quality.py` y `__main__.py`. Esta rama actúa como **propuesta reconciliada** de #73 y #74. Verificar SHA/HEAD de ambas antes de cualquier merge. El marcador de un paquete y las huellas declaradas no autentican el origen de las observaciones.
+
+## Validación integrada posterior, sin scanner
+
+El test [SLITHER_OFFLINE_IMPORT_E2E.md](SLITHER_OFFLINE_IMPORT_E2E.md) ahora conecta sin mocks el importador de resultados Slither, auditoría del paquete, verificación de tres controles y comparación offline de dos paquetes. Las entradas son *sintéticas* y las declaraciones de ejecución no autenticadas; mantener la distinción entre consistencia y veracidad del productor.
