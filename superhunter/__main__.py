@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ("doctor-owned-slither", "run-owned-slither"):
+        from .slither_owned_runner import main as owned_slither_main
+        return owned_slither_main(argv)
     if argv and argv[0] in ('doctor-otel-qa', 'profile-owned-qa', 'verify-owned-qa-profile'):
         from .otel_qa import main as otel_main
         return otel_main(argv)

@@ -284,7 +284,7 @@ def source_snapshot(root: Path = ROOT) -> dict[str, str]:
                 raise ValueError('source directory symlink rejected')
         for name in sorted(files):
             rel = (Path(base)/name).relative_to(root).as_posix()
-            if name.endswith('.py') or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'requirements-otel-qa.txt', 'research_initiatives.json'):
+            if name.endswith('.py') or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'requirements-otel-qa.txt', 'requirements-owned-slither.txt', 'research_initiatives.json'):
                 result[rel] = sha(read_artifact(root, rel))
                 if len(result) > 500:
                     raise ValueError('source inventory limit exceeded')
@@ -1239,4 +1239,20 @@ REQUIRED_TESTS += (
     'test_otel_qa.OfflineOpenTelemetryTests.test_real_sdk_captures_qa_and_verifier_in_memory',
     'test_otel_qa.OfflineOpenTelemetryTests.test_verifier_exception_is_failure_not_pass',
     'test_otel_qa.OfflineOpenTelemetryTests.test_fail_open_resealed_failure_cannot_claim_pass',
+)
+
+
+# Fixed OWNED Slither integration is executable only after local scanner/tool
+# admission succeeds. It never accepts arbitrary targets or runs scans by QA.
+COMPONENTS['slither_owned_runner'] = {
+    'files': ['slither_owned_runner.py', 'slither_owned_worker.py'],
+    'tests': ['test_slither_owned_runner.'],
+    'depends': ['static_review', 'native_compile', 'owned_process', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('slither_owned_runner')
+REQUIRED_TESTS += (
+    'test_slither_owned_runner.SlitherOwnedTests.test_tool_launch_has_only_fixed_source_and_flags',
+    'test_slither_owned_runner.SlitherOwnedTests.test_changed_owned_source_rejected',
+    'test_slither_owned_runner.SlitherOwnedTests.test_process_failure_does_not_import',
+    'test_slither_owned_runner.SlitherOwnedTests.test_direct_worker_rejects_non_fixture',
+    'test_slither_owned_runner.SlitherOwnedTests.test_worker_rejects_oversized_source_and_compiler_before_exec',
 )

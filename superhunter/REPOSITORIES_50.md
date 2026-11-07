@@ -15,6 +15,8 @@
 
 **Actualización de implementación posterior al registro:** el candidato **#26** tiene un [adaptador de QA OpenTelemetry en laboratorio](OTEL_QA_LAB.md). Su código ejecutable está en otel_qa.py y sus pruebas en tests/test_otel_qa.py; solo se comprobó localmente con QA simulado y SDK real. **Collector no instalado; ningún nuevo motor externo certificado ni 10/10**. El estado del catálogo estructurado sigue `CATALOGUED_NOT_INTEGRATED` hasta la aceptación integral conforme a las reglas de promoción.
 
+**Implementación posterior adicional:** el proyecto **#6 Slither** tiene un [runner en laboratorio](SLITHER_OWNED_LAB.md) y pruebas de contrato: solo fuente OWNED fija, sin ejecutable Slither instalado ni QA integral aún. Mantenerlo como candidato NO certificado; no confundir código del adaptador con hallazgo verificado.
+
 **Prioridades:** P0 laboratorio inicial; P1 evaluación siguiente; P2 solo ante beneficio medido; P3 al justificar clusters. **Solapamientos:** ItyFuzz/LibAFL, Echidna/Medusa/ItyFuzz, Slither/Opengrep/Joern, Plaso/Timesketch, Arkime/Zeek. Z3 ya existe y Foundry se usa parcialmente en nuestros trabajos; no duplicar.
 
 ## Vulnerabilidades y contratos (01-10)
