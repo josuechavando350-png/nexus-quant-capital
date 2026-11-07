@@ -1085,3 +1085,19 @@ REQUIRED_TESTS += (
     'test_owned_spec_evm.SpecEVMTests.test_installed_dependency_bytes_are_checked',
     'test_owned_spec_evm.SpecEVMTests.test_selected_profile_does_not_require_other_environment',
 )
+
+COMPONENTS['owned_quota_review'] = {
+    'files': ['owned_quota_cases.py','owned_quota_review.py','owned_quota_worker.py',
+              'owned_quota_execution.py','owned_quota_evm_worker.py'],
+    'tests': ['test_owned_quota_review.'],
+    'depends': ['benchmark','evm_execution','native_compile','io','privacy']}
+COMPONENTS['entrypoints']['depends'].append('owned_quota_review')
+REQUIRED_TESTS += (
+    'test_owned_quota_review.QuotaReviewTests.test_six_known_cases_are_not_228_samples',
+    'test_owned_quota_review.QuotaReviewTests.test_ablations_measure_real_omissions',
+    'test_owned_quota_review.QuotaReviewTests.test_failing_detector_is_scored_not_promoted_to_pass',
+    'test_owned_quota_review.QuotaReviewTests.test_verifier_reexecutes_and_rejects_resealed_false_score',
+    'test_owned_quota_review.QuotaReviewTests.test_wrong_source_blocks_before_tools',
+    'test_owned_quota_review.QuotaReviewTests.test_geth_worker_does_not_raise_inherited_two_gib_limit',
+    'test_owned_quota_review.QuotaReviewTests.test_sealed_image_reuse_checks_bytes_and_does_not_close_caller_fd',
+)

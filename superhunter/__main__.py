@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ("evaluate-owned-quota", "verify-owned-quota"):
+        from .owned_quota_review import main as quota_main
+        return quota_main(argv)
     if argv and argv[0] in ("audit-evidence-cuts", "verify-evidence-cuts"):
         from .evidence_cut_sets import main as cut_main
         return cut_main(argv)
