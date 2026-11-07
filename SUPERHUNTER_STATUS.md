@@ -1,5 +1,19 @@
 # SUPERHUNTER — estado oficial verificable y continuidad
 
+## Estado vigente — cuotas propias corroboradas en Geth y EELS (2026-11-07 UTC)
+
+Último código: [PR #63](https://github.com/josuechavando350-png/nexus-quant-capital/pull/63), HEAD `5302009169cca6213eddf9b80a48e8ab17fc9a80`, árbol `80f57294150ad6184d7e8b5e463ceae50ea783f8`. Borrador sobre #62 y su cadena; sin fusión a main. Este bloque prevalece.
+
+- **2,358/2,358 QA PASS**, cero errores, fallos u omitidas; verificador separado PASS. Diecisiete regresiones nuevas; ninguna retirada. Digest `d1772a5d13b216632eda341600b2f37a00f7e701eaa5c41e946466ef927e9733`.
+- Aceptación real Geth 1.17.10 / EELS 2.20.0, Cancun: **12 constructores y 228 llamadas por motor**, creación y recompilación/replay en proceso separado PASS con artefactos exactos. Coinciden 158 commits, 58 reversiones y 12 agotamientos de gas por motor.
+- Seis casos OWNED conocidos, no doce: **4 TP / 2 TN / 0 FP / 0 FN**. Ablación solo resultado: 3 FN; solo estado: 1 FN. Comparan estado, resultado, retorno y bytecode; comparten compilador, entradas, host y detector. No se certifica toda la EVM ni productores independientes.
+- Las 23 dependencias EELS conservan hashes/versiones de #59 en entorno separado. QA conserva PyYAML 6.0.3, cryptography 46.0.4 y Z3 exacto. Ocho workers; límites sin ampliar: 180 s pared, 90 s CPU, 2 GiB, 20 MiB por archivo. Máximo QA 64.943 s.
+- Siete archivos en `superhunter/`; 642 archivos históricos preservados. Verificador original sin cambios: checkout ampliado rechazado. Rust histórico y native-platform integral todavía no reejecutados sobre este código.
+- Evidencia: `SUPERHUNTER_CUOTAS_DOS_EVM_20261107.zip`, 45 entradas, 670,496 bytes, SHA256 `4c59e2744570a48231c15b432859a07a54ffc89628b8c406bc3824ad934d5fbf`.
+- **Avance global no determinado; cero vulnerabilidades originales confirmadas.**
+
+**Trabajo activo:** limpieza del grupo de procesos QA en checkout aislado sucesor de #63. Un control propio confirmó un hijo vivo tras timeout con el lanzador anterior; se valida limpieza tras éxito/error/timeout, sin afirmar contención de sesiones separadas. Después se ejecutará aceptación native-platform integral. No duplicar procesos ni editar el checkout activo. Corte 2026-11-07T02:36:30Z; desde 02:35 UTC solo consolidación.
+
 ## Estado vigente — workers QA con caché nueva (2026-11-07 UTC)
 
 Último código: [PR #62](https://github.com/josuechavando350-png/nexus-quant-capital/pull/62), HEAD `f2220ce397f938078b36e22e65e9f7864763c9f7`, árbol `8b4640c154bfc3fee02d27c94a8e82b4b35cccf9`. Borrador sobre #61 y su cadena; sin fusionar a main. Este bloque prevalece.
