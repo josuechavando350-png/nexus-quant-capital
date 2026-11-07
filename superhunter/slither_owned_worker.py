@@ -20,6 +20,7 @@ def main(argv: list[str]) -> int:
         return 2
     root = Path(argv[0])
     if (not root.is_absolute() or root.is_symlink() or
+            (root / "Owned.sol").is_symlink() or (root / "solc").is_symlink() or
             not (root / "Owned.sol").is_file() or
             not (root / "solc").is_file()):
         return 2
