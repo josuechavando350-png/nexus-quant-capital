@@ -1270,4 +1270,5 @@ REQUIRED_TESTS += (
     'test_slither_control_pair.SlitherPairTests.test_cross_source_and_boolean_counts_fail_closed',
     'test_slither_control_pair.SlitherPairTests.test_pair_verification_rejects_resealed_false_summary',
     'test_slither_control_pair.SlitherPairTests.test_missing_tool_blocks_before_creating_output',
+    'test_slither_control_pair.SlitherPairTests.test_pair_rejects_reports_with_different_declared_commits',
 )
