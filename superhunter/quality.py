@@ -558,6 +558,16 @@ def aggregate_receipts(receipts: list[dict], snapshot: dict) -> dict:
     }
 
 
+def _worker_command(work: Path, index: int, cache: Path) -> list[str]:
+    """Start the fixed QA worker with a new cache namespace, never an old pyc."""
+    if type(index) is not int or not 0 <= index < PARTITION_COUNT:
+        raise ValueError('invalid QA worker partition')
+    cache.mkdir(mode=0o700, exist_ok=False)
+    return [sys.executable, '-I', '-B', '-X', f'pycache_prefix={cache}',
+            str(ROOT/'quality_worker.py'), str(work),
+            '--partition-count',str(PARTITION_COUNT),'--partition-index',str(index)]
+
+
 def run_check(out: Path) -> dict:
     if out.exists() or out.is_symlink():
         raise FileExistsError('QA requires a new private output directory')
@@ -577,8 +587,8 @@ def run_check(out: Path) -> dict:
                 work = Path(temp)/f'worker-{index}'
                 active_work = work
                 stage = 'worker_execution'
-                proc = subprocess.run([sys.executable, '-I', '-B', str(ROOT/'quality_worker.py'), str(work),
-                                       '--partition-count',str(PARTITION_COUNT),'--partition-index',str(index)],
+                command = _worker_command(work,index,Path(temp)/f'cache-{index}')
+                proc = subprocess.run(command,
                                       cwd=ROOT.parent, env={'LANG':'C.UTF-8','LC_ALL':'C.UTF-8'},
                                       capture_output=True, timeout=180, check=False)
                 capture.record(index,proc.returncode,work)
@@ -1125,4 +1135,11 @@ REQUIRED_TESTS += (
     'test_qa_failure.FailureEvidenceTests.test_setup_class_failure_keeps_unobserved_test_ids',
     'test_qa_failure.FailureEvidenceTests.test_real_orchestrator_preserves_timeout_without_success',
     'test_qa_failure.FailureEvidenceTests.test_resealed_pass_or_fewer_missing_tests_rejected',
+)
+
+COMPONENTS['quality']['tests'].append('test_quality_cache.')
+REQUIRED_TESTS += (
+    'test_quality_cache.QualityCacheTests.test_timestamp_cache_cannot_replace_verified_source',
+    'test_quality_cache.QualityCacheTests.test_unchecked_hash_cache_cannot_replace_verified_source',
+    'test_quality_cache.QualityCacheTests.test_real_orchestrator_selects_private_cache_and_cleans_on_timeout',
 )
