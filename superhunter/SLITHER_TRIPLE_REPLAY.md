@@ -44,6 +44,12 @@ python3 -m superhunter verify-owned-slither-comparison \
 
 Este comparador no necesita Slither para verificar evidencia offline. El generador de los dos paquetes sí requiere, en una fase separada, Slither/solc auditados, sandbox sin egress y sus 3 experimentos OWNED reales.
 
+## Salvaguarda adicional: duplicación literal de evidencia
+
+Un segundo directorio con la misma huella SHA-256 externa del primero **no constituye una repetición**: podría ser solo una copia del paquete. El comparador exige ahora que los dos valores `--expected-...-sha256` sean distintos. Si son idénticos, rechaza con `DISTINCT_EXTERNAL_ANCHORS_REQUIRED` **antes de leer reportes**.
+
+Esto es una defensa **necesaria pero no suficiente**: dos hashes diferentes tampoco prueban ejecución real de Slither, procedencia autenticada ni independencia de hosts. Un operador puede alterar un dato accesorio y conseguir otro hash. La evidencia firme sigue exigiendo bitácoras y firmas de productor confiable más ejecución independiente. Se agregaron dos pruebas a `test_slither_pair_replay.py` y ambas figuran en la lista obligatoria del QA; no se reclaman como PASS sin ejecución.
+
 ## Qué falta para certificarlo
 
 **Implementado en el código:** integración de las dos ramas, seis controles cotejados, fingerprints y adaptador en comparación, errores y faltantes como rechazo, nuevo registro de QA y comandos conectados.

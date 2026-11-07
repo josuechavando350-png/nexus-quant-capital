@@ -47,6 +47,11 @@ def _anchors(first: str, second: str) -> None:
     if (type(first) is not str or SHA256.fullmatch(first) is None or
             type(second) is not str or SHA256.fullmatch(second) is None):
         raise ReplayComparisonError("EXTERNAL_SHA256_ANCHORS_REQUIRED")
+    # Two copied bundles may live in distinct directories but are still one
+    # byte-identical piece of evidence. Reject this trivial false repeat.
+    # Different digests still do NOT prove independent scanner executions.
+    if first == second:
+        raise ReplayComparisonError("DISTINCT_EXTERNAL_ANCHORS_REQUIRED")
 
 
 def _distinct(first: Path, second: Path) -> None:
