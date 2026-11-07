@@ -198,6 +198,20 @@ class SlitherOwnedTests(unittest.TestCase):
         with patch.object(worker.os, "execv", side_effect=AssertionError("executed")):
             self.assertEqual(worker.main([str(self.root)]), 2)
 
+    def test_worker_rejects_oversized_source_and_compiler_before_exec(self):
+        source = self.root / "Owned.sol"
+        compiler = self.root / "solc"
+        source.write_bytes(scan.OWNED_SOURCE)
+        compiler.write_bytes(b"x")
+        with patch.object(worker.os, "execv", side_effect=AssertionError("executed")):
+            source.write_bytes(b"x" * 4097)
+            self.assertEqual(worker.main([str(self.root)]), 2)
+            source.write_bytes(scan.OWNED_SOURCE)
+            with compiler.open("wb") as stream:
+                stream.truncate(64_000_001)
+            self.assertEqual(worker.main([str(self.root)]), 2)
+        self.assertIsNone(worker._file_sha256(compiler, 64_000_000))
+
     def test_cli_failure_redacts_paths(self):
         with redirect_stdout(io.StringIO()) as stream:
             code = scan.main(["run-owned-slither", "--solc", str(self.root / "SECRET_PATH"),
