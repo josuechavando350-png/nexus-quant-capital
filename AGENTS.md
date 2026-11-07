@@ -30,3 +30,5 @@
 - Verificación adicional del comparador Slither: dos expedientes de directorios distintos con **anclas SHA-256 idénticas** deben rechazarse como evidencia duplicada (`DISTINCT_EXTERNAL_ANCHORS_REQUIRED`); revisar `superhunter/SLITHER_TRIPLE_REPLAY.md`. Anclas diferentes no autentican ejecuciones independientes.
 
 - El comparador Slither revalida los hashes **también después** de cotejar los seis reportes. Ver `superhunter/SLITHER_TRIPLE_REPLAY.md`. Una mutación concurrente del manifiesto se rechaza; la consistencia SHA no autentica al productor ni sustituye pruebas con Slither/solc real.
+
+- Pruebas E2E offline de Slither sin mocks del importador/bitácora/verificadores: leer `superhunter/SLITHER_OFFLINE_IMPORT_E2E.md`. Sus JSON iniciales son sintéticos y pueden mentir sobre la clase de productor; jamás presentar sus PASS (cuando se ejecuten) como ejecución real de Slither, autenticación, exploit o bounty.
