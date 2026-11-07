@@ -8,7 +8,7 @@ El módulo histórico `static_review.py` ya admite reportes Slither JSON y valid
 
 ## Contrato de seguridad y límites
 
-- La única fuente que puede analizarse es `Owned.sol` de 256 bytes, incrustada en `slither_owned_runner.py`. Contiene un uso deliberado de `tx.origin` como control negativo; no se despliega. Se fija el detector `tx-origin` y el número de versión del analizador a `0.11.6`.
+- La única fuente que puede analizarse es `Owned.sol` de 288 bytes, incrustada en `slither_owned_runner.py`. Contiene un uso deliberado de `tx.origin` como control negativo; no se despliega. Se fija el detector `tx-origin` y el número de versión del analizador a `0.11.6`.
 - `native_compile.read_pinned_binary` exige el `solc 0.8.30` oficial para Linux amd64, con SHA-256 `f3e987dc6ecebd4bd350c48edcbc320b46cf9e3109bd3fc3d88f1acaf4c428f7`. El adaptador copia esos bytes previamente comprobados a un directorio privado; no ejecuta directamente un archivo externo mutable.
 - `slither_owned_worker.py` comprueba por segunda vez los hashes de la fuente y de solc; no admite URL/RPC, token, contrato externo, flags de búsqueda, shell ni entrada variable. El supervisor `owned_process.run` controla el proceso de grupo y limita a 90 segundos de pared. El worker fija CPU 35s, espacio virtual 2 GiB, archivo 2MB y 96 descriptores.
 - **Esto no es un sandbox de red ni del host.** Un paquete Python comprometido podría realizar E/S ajena; por eso no está autorizado para procesar código de terceros y requiere sandbox/egress denegado antes de producción.
