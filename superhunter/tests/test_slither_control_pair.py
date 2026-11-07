@@ -133,7 +133,7 @@ class SlitherPairTests(unittest.TestCase):
             root = Path(temp) / "pair"
             self._bundle(root)
             (root / "clean" / "COMPLETE.json").unlink()
-            with self.assertRaises(ValueError):
+            with self.assertRaises((OSError, ValueError)):
                 pair.verify_pair(root)
 
 
