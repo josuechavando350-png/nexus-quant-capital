@@ -1,5 +1,18 @@
 # SUPERHUNTER — estado oficial verificable y continuidad
 
+## Estado vigente — diagnóstico y aceptación integral (2026-11-07 00:30 UTC)
+
+- Último código publicado: [PR #58](https://github.com/josuechavando350-png/nexus-quant-capital/pull/58), HEAD `3f55674cfe7e6f3d07e25337a2e92508b60316b8`, árbol `5e4d8cfae6a1a1cfd3baf59204f85329e219a260`. Borrador sobre #57 → #56 → #55 → #54; no se fusionó con main.
+- **2,275/2,275 QA y verificación del recibo PASS**. Digest `26e72d12ca70bc43350f18c66aeebe22a7409f961e9c55ea414ab4ad2af1afc0`. Catorce pruebas nuevas del diagnóstico.
+- `doctor-owned-lab` separa requisitos de QA, Geth y segundo motor. Comprobados cuatro entornos/casos reales: completo, sin paquetes QA, Python sin sellado y Geth ausente. No ejecuta contratos ni consultas SMT.
+- **Aceptación integral real y verificación en proceso separado:** `FIXED_NATIVE_PLATFORM_REVIEW_PASS`, 2,275 tests, tres constructores y 18 llamadas EVM; cinco transferencias de unidades aplicadas y 13 llamadas fallidas sin transferencia. También 5 controles numéricos, 256 casos numéricos generados, 3 controles contables, 8 de permisos y 4 de secuencias. Unidades de laboratorio, sin fondos ni objetivos externos.
+- En este digest también se ejecutó y repitió la comparación Geth/py-evm de cuatro casos propios conocidos: ocho constructores y 144 llamadas por motor coincidentes. No implica hallazgos nuevos, precisión generalizada ni operación continua.
+- Evidencia de #56/#57/#58 y de aceptación integral conservada en `SUPERHUNTER_AVANCE_VERIFICADO_20261107.zip`; SHA-256 `4044f578763f632d0c4b5686c02e811ea2447c6733f2137c7712dd337d52efa0`. No se publicaron los paquetes de evidencia en GitHub.
+
+**Trabajo activo en la conversación principal:** incorporación de Ethereum Execution Specs 2.20.0 como comparador opcional sobre los mismos cuatro controles Cancun. El prototipo local coincidió en 144 llamadas, pero el adaptador integrado aún no está publicado ni aprobado. Evitar duplicar esa implementación mientras este bloque figure activo; la continuidad programada puede revisar lo publicado y señalar problemas sin sobrescribir el trabajo en curso.
+
+Se mantienen los límites y pendientes del bloque anterior: preservación histórica verificada, sin recertificar NQC/Rust o certificar aislamiento de procesos. Avance global no determinado; 40–42% solo referencia histórica. Hallazgos originales confirmados: 0.
+
 ## Estado vigente — dos motores EVM y revisión de límites (2026-11-07 00:16 UTC)
 
 Este bloque prevalece sobre las instantáneas inferiores.
