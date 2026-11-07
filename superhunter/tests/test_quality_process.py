@@ -10,6 +10,7 @@ import unittest
 from unittest.mock import MagicMock,patch
 
 from superhunter import quality
+from superhunter import owned_process
 
 
 class QualityProcessTests(unittest.TestCase):
@@ -65,23 +66,30 @@ class QualityProcessTests(unittest.TestCase):
         self.assertEqual(result.returncode,0);self.assertIsNone(result.stdout);self.assertIsNone(result.stderr)
 
     def test_interrupt_cleans_group_and_reaps_before_propagating(self):
-        process=MagicMock();process.pid=12345;process.wait.side_effect=[KeyboardInterrupt(),0]
-        with patch.object(quality.subprocess,'Popen') as launch,patch.object(quality.os,'killpg') as kill:
-            launch.return_value.__enter__.return_value=process
+        process=MagicMock();process.pid=12345;process.wait.return_value=-9
+        with patch.object(owned_process.subprocess,'Popen',return_value=process), \
+             patch.object(owned_process.os,'waitid',return_value=None), \
+             patch.object(owned_process.os,'getpgid',return_value=12345), \
+             patch.object(owned_process.os,'getsid',return_value=12345), \
+             patch.object(owned_process.time,'sleep',side_effect=KeyboardInterrupt()), \
+             patch.object(owned_process.os,'killpg') as kill:
             with self.assertRaises(KeyboardInterrupt):
                 quality._run_qa_process(['fixed'],cwd=self.root,env={},timeout=180)
             kill.assert_called_once_with(12345,signal.SIGKILL)
-            self.assertEqual(process.wait.call_count,2)
+            self.assertEqual(process.wait.call_count,1)
 
     def test_failed_group_cleanup_cannot_report_success(self):
         process=MagicMock();process.pid=12345;process.wait.return_value=0
-        with patch.object(quality.subprocess,'Popen') as launch, \
-             patch.object(quality.os,'killpg',side_effect=PermissionError()):
-            launch.return_value.__enter__.return_value=process
+        with patch.object(owned_process.subprocess,'Popen',return_value=process), \
+             patch.object(owned_process.os,'waitid',return_value=None), \
+             patch.object(owned_process.os,'getpgid',return_value=12345), \
+             patch.object(owned_process.os,'getsid',return_value=12345), \
+             patch.object(owned_process.time,'sleep',side_effect=KeyboardInterrupt()), \
+             patch.object(owned_process.os,'killpg',side_effect=PermissionError()):
             with self.assertRaises(PermissionError):
                 quality._run_qa_process(['fixed'],cwd=self.root,env={},timeout=180)
             process.kill.assert_called_once_with()
-            self.assertEqual(process.wait.call_count,2)
+            self.assertEqual(process.wait.call_count,1)
 
 
 if __name__ == '__main__':unittest.main()

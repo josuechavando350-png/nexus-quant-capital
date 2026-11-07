@@ -152,15 +152,19 @@ class QuotaCrossEVMTests(unittest.TestCase):
             with self.assertRaises(ValueError):worker.decode_word(word)
 
     def test_timeout_kills_process_group(self):
-        calls=[];proc=SimpleNamespace(pid=12345,returncode=-9)
-        def wait(timeout=None):
-            calls.append(timeout)
-            if timeout:raise subprocess.TimeoutExpired('fixed-worker',timeout)
-        proc.wait=wait
-        with patch.object(cross.subprocess,'Popen',return_value=proc),patch.object(cross.os,'killpg') as kill:
+        from unittest.mock import MagicMock
+        import signal
+        from superhunter import owned_process
+        proc=MagicMock();proc.pid=12345;proc.returncode=-9
+        with patch.object(owned_process.subprocess,'Popen',return_value=proc), \
+             patch.object(owned_process.os,'waitid',return_value=None), \
+             patch.object(owned_process.os,'getpgid',return_value=12345), \
+             patch.object(owned_process.os,'getsid',return_value=12345), \
+             patch.object(owned_process.time,'monotonic',side_effect=[0,181]), \
+             patch.object(owned_process.os,'killpg') as kill:
             with self.assertRaisesRegex(ValueError,'TIMEOUT'):cross._run_eels(self.root/'solc',self.digest)
-            kill.assert_called_once_with(proc.pid,cross.signal.SIGKILL)
-        self.assertEqual(calls,[180,None])
+            kill.assert_called_once_with(proc.pid,signal.SIGKILL)
+        proc.wait.assert_called_once_with()
 
     def test_cli_cannot_accept_a_target_or_disclose_private_path(self):
         output=io.StringIO()

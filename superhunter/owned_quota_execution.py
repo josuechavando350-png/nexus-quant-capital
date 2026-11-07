@@ -8,16 +8,25 @@ import fcntl
 import os
 from pathlib import Path
 import re
-import signal
 import stat
 import subprocess
 import sys
 import tempfile
 
-from .evm_execution import PIN, GAS, need, sha, parse_run
+from .evm_execution import PIN, GAS, EVMError, need, sha, parse_run
+from . import owned_process
 from .safe_io import canonical
 
 ROOT = Path(__file__).resolve().parent
+
+
+def _run_bounded(command, root, out, err, fd) -> int:
+    """Keep the typed timeout contract of this fixed internal transport."""
+    try:
+        return owned_process.run(command, stdout=out, stderr=err,
+            cwd=root, env={'LANG': 'C', 'LC_ALL': 'C'}, pass_fds=(fd,), timeout=15).returncode
+    except subprocess.TimeoutExpired:
+        raise EVMError('EVM_PROCESS_TIMEOUT') from None
 
 
 @contextmanager
@@ -55,17 +64,7 @@ def run(image: bytes, *, prestate: dict, creation: str | None = None,
         with tempfile.TemporaryFile() as out, tempfile.TemporaryFile() as err:
             command = [sys.executable, '-I', '-B', str(ROOT/'owned_quota_evm_worker.py'), mode, str(fd),
                        '-' if mode == 'create' else calldata, str(gas)]
-            process = subprocess.Popen(command, stdin=subprocess.DEVNULL, stdout=out, stderr=err,
-                cwd=root, env={'LANG': 'C', 'LC_ALL': 'C'}, pass_fds=(fd,), start_new_session=True)
-            try:
-                rc = process.wait(timeout=15)
-            except subprocess.TimeoutExpired:
-                try:
-                    os.killpg(process.pid, signal.SIGKILL)
-                except ProcessLookupError:
-                    pass
-                process.wait()
-                raise EVMError('EVM_PROCESS_TIMEOUT') from None
+            rc = _run_bounded(command, root, out, err, fd)
             need(out.seek(0, os.SEEK_END) < 2_000_000 and err.seek(0, os.SEEK_END) < 2_000_000, 'EVM_OUTPUT_LIMIT')
             out.seek(0); err.seek(0)
             stdout, stderr = out.read(), err.read()
