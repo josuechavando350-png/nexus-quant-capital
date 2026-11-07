@@ -1325,3 +1325,21 @@ REQUIRED_TESTS += (
     'test_slither_offline_endtoend.SlitherOfflineEndToEndTests.test_real_verifier_rejects_altered_original_source_even_if_content_resealed',
     'test_slither_offline_endtoend.SlitherOfflineEndToEndTests.test_synthetic_report_is_never_claimed_as_native_scanner_proof',
 )
+
+# Native evaluation is restricted to the same three immutable owned sources.
+# Original scanner bytes and explicit empty-report conversion remain separate.
+COMPONENTS['owned_slither_native'] = {
+    'files':['owned_slither_native.py','owned_slither_native_worker.py','owned_slither_cases.py',
+             'owned_slither_network.py','owned_slither_dependencies.py','owned_slither_pins.py'],
+    'tests':['test_owned_slither_native.'],
+    'depends':['quality','static_review','native_compile','owned_process','io','privacy']}
+COMPONENTS['entrypoints']['depends'].append('owned_slither_native')
+REQUIRED_TESTS += (
+    'test_owned_slither_native.ConversionTests.test_generic_importer_still_rejects_missing_detector_field',
+    'test_owned_slither_native.NativeEvidenceTests.test_original_bytes_and_real_importer_chain_are_retained',
+    'test_owned_slither_native.NativeEvidenceTests.test_false_positive_and_omission_are_measured_not_hidden',
+    'test_owned_slither_native.NativeEvidenceTests.test_replay_must_execute_three_new_cases',
+    'test_owned_slither_native.NativeEvidenceTests.test_native_replay_difference_is_rejected',
+    'test_owned_slither_native.NetworkFilterTests.test_sealed_filter_is_inherited_by_exec_child',
+    'test_owned_slither_native.DependencyTests.test_entrypoint_metadata_change_is_rejected',
+)

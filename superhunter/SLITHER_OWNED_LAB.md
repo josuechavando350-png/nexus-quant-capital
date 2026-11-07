@@ -1,5 +1,7 @@
 # SUPERHUNTER — segundo adaptador: ejecución fija de Slither (OWNED)
 
+**Continuidad posterior:** [SLITHER_NATIVE_EVIDENCE.md](SLITHER_NATIVE_EVIDENCE.md) documenta la ruta nueva de tres controles con dependencias cerradas, JSON original conservado, conversión explícita y replay nativo. Los resultados y límites de este documento se conservan como historia del adaptador anterior.
+
 **Tecnología #6** del portafolio: https://github.com/crytic/slither. **Estado:** implementación de adaptador en rama aislada, PENDIENTE de ejecución nativa del analizador y QA completo sobre esta rama. No hay instalación de Slither en la infraestructura del usuario ni en GitHub, y ningún objetivo ajeno fue escaneado.
 
 ## Motivo y función
