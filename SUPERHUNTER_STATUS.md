@@ -1,5 +1,22 @@
 # SUPERHUNTER — estado oficial verificable y continuidad
 
+## Estado vigente — dos motores EVM y revisión de límites (2026-11-07 00:16 UTC)
+
+Este bloque prevalece sobre las instantáneas inferiores.
+
+- **Último código publicado:** [PR #57](https://github.com/josuechavando350-png/nexus-quant-capital/pull/57), `110a533958baa6387bac7dfe039b05fcc1609541`, árbol `7376d2b08227d047926678824e59b40d0060c5b1`. Depende de #56 → #55 → #54 y la cadena anterior. Todos siguen en borrador; no se fusionó código con main.
+- **PR #56:** `a9b4b68dd6e5f022acaadb43a4bed4ff3dd738b7`, árbol `f6fa627a041c514ae7a35bead04bb978283d787d`; 2,245/2,245 QA y verificación del recibo PASS. Digest `4a4430d3cf7658910726c2b5b75eeedfef483a04f98b24d913507656ab3367af`.
+- **PR #57:** 2,261/2,261 QA y verificación del recibo PASS, sin fallos/errores/omisiones. Digest `81ba5efbfdc3380aa6d9399336dc72a18ba876cb903d0c6025d679286d021254`. Árboles remotos reconstruidos idénticos a los bytes locales probados.
+- **Comparación ejecutada en ambos digests:** Geth y py-evm ejecutaron ocho constructores y 144 llamadas por motor; se repitió la comparación con recompilación y ejecución real. Coincidieron estados, reversiones, gas agotado y retornos. Cuatro controles propios conocidos: 2 TP, 2 TN, 0 FP, 0 FN. Dos compilaciones no duplican el número de casos.
+- Dependencias opcionales del segundo motor: 22 distribuciones y 1,021 archivos fijados. Instalación limpia con hashes comprobada. Se corrigió la lectura de cachés Python anteriores usando un prefijo nuevo por ejecución; una regresión reproduce el defecto con un módulo propio.
+- py-evm 0.12.1b1 está archivado: el perfil es histórico y fijo, Cancun. Dos implementaciones comparten fuente/compilador/host; no demuestran productores independientes, generalización, costes de gas ni validez para reglas actuales.
+- **Revisión estructural del repositorio:** `REPOSITORY_BOUNDARY_PASS`; 642 archivos históricos y sus árboles exactos preservados, cero workflows activos. 16 controles nuevos rechazan cambios históricos, raíces no revisadas, clientes, binarios, enlaces y cambios durante la lectura.
+- El verificador histórico **permanece intacto y sigue rechazando el checkout ampliado**; pasa en la copia exclusivamente histórica. La nueva revisión no convierte ese resultado en PASS. No se certificaron aislamiento durante ejecución, ausencia de secretos, objetos originales ni Rust/NQC completo.
+
+**Siguiente trabajo activo:** diagnóstico de requisitos locales para que una biblioteca, Python o binario incompatible produzca una causa concreta antes de ejecutar QA largo. Después, consolidar evidencia y continuar evaluación defensiva acotada.
+
+**Avance global:** 40–42% sigue siendo referencia histórica no certificada. Vulnerabilidades originales confirmadas: 0.
+
 ## Estado vigente — QA reparada y benchmark nativo repetido (2026-11-06 23:50 UTC)
 
 Este bloque prevalece sobre las instantáneas históricas inferiores.
