@@ -1,3 +1,17 @@
+## Índice de dependencias cerrado — 2026-11-07
+
+Último código: **PR #83**, rama `fix/superhunter-visible-dependency-index-20261107`, commit `93b5a34fca1159dcfb6b3e41631003612c0604f9`, árbol `25e09d7fb6b8f1476b28fefb220f1c31bf7d3f2e`, padre #82. Digest `5807558e4e8866ebefa5606e3560aabe2530c367fdf1549de5473e95233dc41a`.
+
+Se cierra el pendiente de distribuciones visibles: el checker exige las 51 exactas, rechaza ubicaciones ajenas antes de leer sus metadatos, detecta faltantes/duplicados/nombres/versiones contradictorios y repite el índice después de los archivos. Mismos wheels y 2,313 archivos, sin cambiar paquetes o fixtures. Control real con solo METADATA propio: 51 admitidas, 52 rechazadas, 51 admitidas al retirar la ruta temporal; no se ejecutó código del control. No demuestra integridad de memoria, intérprete, arranque o aislamiento completo.
+
+**2,654/2,654 QA PASS**, cero fallos/errores/skips. Ocho regresiones nuevas, 2,646 identidades previas conservadas en sus workers. SDK real, verificador separado sin SDK, ocho workers y límites intactos; máximo 73.418816 s. Focal: 45 PASS; antes del fix se conservaron diez fallos incluidos subtests entre 14 pruebas de dependencias.
+
+Mismo digest y verificadores separados: Slither TP1/TN2/FP0/FN0; cuotas Geth/EELS TP4/TN2/FP0/FN0; autoridad TP6/TN4/FP0/FN1. Omisión latent_revocation y denominadores separados. Límite del repositorio PASS, 642 archivos históricos intactos; Rust no reejecutado. Ver `superhunter/SLITHER_DEPENDENCY_INDEX.md`.
+
+Siguiente: informe de cobertura de condiciones temporales sobre eventos propios, con controles sintéticos y contraste de un algoritmo incremental con una referencia de historial. No cambiar las secuencias históricas ni borrar su omisión; los huecos de cobertura no son vulnerabilidades demostradas.
+
+Ventana termina **2026-11-08 00:14:04Z**, consolidación desde 00:13Z; sin extensión ni automatizaciones. PRs en borrador, sin fusiones, terceros, despliegues, fondos o cambios a NQC Defense. Avance global no determinado; ninguna vulnerabilidad original confirmada.
+
 ## Aceptación conjunta verificada — 2026-11-07 22:56Z
 
 Continuar desde **PR #82**, rama `feat/superhunter-owned-defensive-acceptance-20261107`, commit `15027922fe1b350cd3b5c4a5acdfcff123950ea8`, árbol `947d1aec6d5e607a3fcf13a299715de8d10297d4`, padre #81. Digest `d7694017e1cc912935db4e46f7f9247ebefccf473cc4f07e314dc5a7895144a9`.
