@@ -1272,3 +1272,20 @@ REQUIRED_TESTS += (
     'test_slither_control_pair.SlitherPairTests.test_missing_tool_blocks_before_creating_output',
     'test_slither_control_pair.SlitherPairTests.test_pair_rejects_reports_with_different_declared_commits',
 )
+
+# Compare two externally anchored Slither OWNED pair bundles without scanning.
+# This adds verification of replay consistency, never producer authentication.
+COMPONENTS['slither_pair_replay'] = {
+    'files': ['slither_pair_replay.py'],
+    'tests': ['test_slither_pair_replay.'],
+    'depends': ['slither_control_pair', 'static_review', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('slither_pair_replay')
+REQUIRED_TESTS += (
+    'test_slither_pair_replay.SlitherReplayTests.test_two_distinct_anchored_pairs_agree_offline',
+    'test_slither_pair_replay.SlitherReplayTests.test_missing_or_forged_external_anchor_rejected',
+    'test_slither_pair_replay.SlitherReplayTests.test_difference_in_alert_fingerprint_rejected',
+    'test_slither_pair_replay.SlitherReplayTests.test_difference_in_severity_rejected',
+    'test_slither_pair_replay.SlitherReplayTests.test_difference_in_declared_commit_rejected',
+    'test_slither_pair_replay.SlitherReplayTests.test_report_tampering_rejected_after_manifest_reseal',
+    'test_slither_pair_replay.SlitherReplayTests.test_symlink_pair_rejected',
+)

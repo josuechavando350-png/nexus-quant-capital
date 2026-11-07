@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ("compare-owned-slither-pairs", "verify-owned-slither-comparison"):
+        from .slither_pair_replay import main as slither_compare_main
+        return slither_compare_main(argv)
     if argv and argv[0] in ("run-owned-slither-pair", "verify-owned-slither-pair"):
         from .slither_control_pair import main as slither_pair_main
         return slither_pair_main(argv)
