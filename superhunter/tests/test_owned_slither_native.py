@@ -276,12 +276,57 @@ class DependencyTests(unittest.TestCase):
         stack=ExitStack();self.addCleanup(stack.close)
         stack.enter_context(patch.object(deps,'PINS',{'owned-unit':pin}))
         stack.enter_context(patch.object(deps.sys,'prefix',str(self.root)))
-        self.dist=SimpleNamespace(version='1.0',locate_file=lambda name:self.package/name)
+        self.dist=SimpleNamespace(version='1.0',locate_file=lambda name:self.package/name,
+                                  metadata={'Name':'owned-unit'})
         stack.enter_context(patch.object(deps,'distribution',return_value=self.dist))
+        self.visible=stack.enter_context(patch.object(deps,'distributions',return_value=[self.dist]))
         self.bootstrap=self.site/'superhunter_owned_distributions.pth';self.bootstrap.write_bytes(deps.bootstrap_bytes())
         self.metadata=metadata
 
     def test_exact_code_and_metadata_pass(self):
+        self.assertEqual(deps.verify_dependencies(),deps.expected_identity())
+
+    def test_extra_visible_location_is_rejected_before_reading_its_metadata(self):
+        location=self.root/'outside'
+        class OwnMetadataOnly:
+            def locate_file(self,name):return location/name
+            @property
+            def metadata(self):raise AssertionError('foreign metadata must not be read')
+        self.visible.return_value=[OwnMetadataOnly(),self.dist]
+        with self.assertRaisesRegex(ValueError,'DEPENDENCY'):deps.verify_dependencies()
+
+    def test_missing_visible_distribution_is_rejected(self):
+        self.visible.return_value=[]
+        with self.assertRaisesRegex(ValueError,'DEPENDENCY'):deps.verify_dependencies()
+
+    def test_duplicate_visible_distribution_is_rejected(self):
+        self.visible.return_value=[self.dist,self.dist]
+        with self.assertRaisesRegex(ValueError,'DEPENDENCY'):deps.verify_dependencies()
+
+    def test_visible_name_cannot_disagree_with_pinned_location(self):
+        self.visible.return_value=[SimpleNamespace(version='1.0',metadata={'Name':'owned-other'},
+                                                   locate_file=lambda name:self.package/name)]
+        with self.assertRaisesRegex(ValueError,'DEPENDENCY'):deps.verify_dependencies()
+
+    def test_visible_version_cannot_disagree_with_selected_distribution(self):
+        self.visible.return_value=[SimpleNamespace(version='2.0',metadata={'Name':'owned-unit'},
+                                                   locate_file=lambda name:self.package/name)]
+        with self.assertRaisesRegex(ValueError,'DEPENDENCY'):deps.verify_dependencies()
+
+    def test_malformed_visible_names_are_rejected(self):
+        for name in (None,True,'x'*201,'owned unit'):
+            self.visible.return_value=[SimpleNamespace(version='1.0',metadata={'Name':name},
+                                                       locate_file=lambda item:self.package/item)]
+            with self.subTest(name=name),self.assertRaisesRegex(ValueError,'DEPENDENCY'):
+                deps.verify_dependencies()
+
+    def test_visible_index_is_rechecked_after_file_inventory(self):
+        foreign=SimpleNamespace(locate_file=lambda name:self.root/'outside'/name)
+        self.visible.side_effect=[[self.dist],[foreign]]
+        with self.assertRaisesRegex(ValueError,'DEPENDENCY'):deps.verify_dependencies()
+
+    def test_distribution_name_normalization_preserves_valid_aliases(self):
+        self.dist.metadata={'Name':'OWNED_unit'}
         self.assertEqual(deps.verify_dependencies(),deps.expected_identity())
 
     def test_entrypoint_metadata_change_is_rejected(self):

@@ -1,5 +1,7 @@
 # Tres controles propios con Slither real y originales conservados
 
+**Continuidad del checker:** [SLITHER_DEPENDENCY_INDEX.md](SLITHER_DEPENDENCY_INDEX.md) cierra el índice completo de distribuciones visibles y documenta el control negativo real. El límite de metadatos externos descrito más abajo corresponde al checker anterior y se conserva como antecedente.
+
 El perfil actual `owned-slither-three-control-native-v2` ejecuta únicamente las tres fuentes propias ya publicadas en #78. Usa Slither 0.11.6, crytic-compile 0.4.2, solc 0.8.30 exacto y el detector fijo `tx-origin`. No admite fuentes, repositorios, URLs, RPC o flags suministrados por el operador.
 
 ## Procedencia explícita de v2
