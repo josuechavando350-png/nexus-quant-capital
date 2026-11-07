@@ -207,10 +207,35 @@ class SlitherOwnedTests(unittest.TestCase):
             source.write_bytes(b"x" * 4097)
             self.assertEqual(worker.main([str(self.root)]), 2)
             source.write_bytes(scan.OWNED_SOURCE)
-            with compiler.open("wb") as stream:
-                stream.truncate(64_000_001)
-            self.assertEqual(worker.main([str(self.root)]), 2)
-        self.assertIsNone(worker._file_sha256(compiler, 64_000_000))
+            # Preserve the exact original 64,000,001 zero bytes. Prepare them
+            # outside the worker, which retains its 20 MiB file-write cap.
+            import os
+            from superhunter import qa_inputs
+            with qa_inputs.oversized_zero_input() as prepared:
+                compiler.unlink()
+                os.link(prepared, compiler, follow_symlinks=False)
+                self.assertEqual(compiler.stat().st_size, 64_000_001)
+                self.assertEqual(worker.main([str(self.root)]), 2)
+                self.assertIsNone(worker._file_sha256(compiler, 64_000_000))
+
+    def test_prepared_large_input_rejects_symlink_and_wrong_size(self):
+        from superhunter import qa_inputs
+        small = self.root/'small'; small.write_bytes(b'\0'); small.chmod(0o400)
+        with self.assertRaisesRegex(ValueError, 'QA_INPUT_METADATA_MISMATCH'):
+            qa_inputs.validate(small)
+        link = self.root/'link'; link.symlink_to(small)
+        with self.assertRaises(OSError):
+            qa_inputs.validate(link)
+
+    def test_prepared_large_input_rejects_relative_path_and_wrong_digest(self):
+        from superhunter import qa_inputs
+        with self.assertRaisesRegex(ValueError, 'QA_INPUT_NOT_ABSOLUTE'):
+            qa_inputs.validate(Path('relative-input'))
+        # Hash rejection uses the fixed real input, without changing its bytes.
+        with qa_inputs.oversized_zero_input() as prepared:
+            with patch.object(qa_inputs, 'SHA256', '0'*64):
+                with self.assertRaisesRegex(ValueError, 'QA_INPUT_CONTENT_MISMATCH'):
+                    qa_inputs.validate(prepared)
 
     def test_cli_failure_redacts_paths(self):
         with redirect_stdout(io.StringIO()) as stream:

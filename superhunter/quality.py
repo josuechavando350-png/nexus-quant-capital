@@ -17,7 +17,7 @@ import tempfile
 
 from .safe_io import canonical, read_artifact, strict_json, write_new_bundle
 from .privacy import PrivateArgumentParser
-from . import owned_process
+from . import owned_process, qa_inputs
 
 ROOT = Path(__file__).resolve().parent
 COMPONENTS = {'accounting': {'files': ['balance_reconciliation.py'],
@@ -582,6 +582,11 @@ def _worker_command(work: Path, index: int, cache: Path) -> list[str]:
 def run_check(out: Path) -> dict:
     if out.exists() or out.is_symlink():
         raise FileExistsError('QA requires a new private output directory')
+    with qa_inputs.oversized_zero_input() as large_input:
+        return _run_check(out, large_input)
+
+
+def _run_check(out: Path, large_input: Path) -> dict:
     snapshot = source_snapshot()
     data = catalog()
     if validate_components(snapshot):
@@ -600,7 +605,8 @@ def run_check(out: Path) -> dict:
                 stage = 'worker_execution'
                 command = _worker_command(work,index,Path(temp)/f'cache-{index}')
                 proc = _run_qa_process(command,
-                                      cwd=ROOT.parent, env={'LANG':'C.UTF-8','LC_ALL':'C.UTF-8'},
+                                      cwd=ROOT.parent, env={'LANG':'C.UTF-8','LC_ALL':'C.UTF-8',
+                                                           qa_inputs.ENV:str(large_input)},
                                       timeout=180)
                 capture.record(index,proc.returncode,work)
                 stage = 'worker_validation'
@@ -660,6 +666,7 @@ def main(argv: list[str] | None = None) -> int:
 
 
 # Storage placement adds an independent local constraint, not compiler execution.
+COMPONENTS['quality']['files'].append('qa_inputs.py')
 COMPONENTS['source_types'] = {'files': ['source_types.py'], 'tests': ['test_source_types.'], 'depends': ['io']}
 COMPONENTS['compiler_layout']['files'] = ['compiler_layout.py']
 COMPONENTS['compiler_layout']['depends'].append('source_types')

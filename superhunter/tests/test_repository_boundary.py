@@ -64,6 +64,31 @@ class RepositoryBoundaryTests(unittest.TestCase):
         with self.assertRaisesRegex(boundary.BoundaryError,'ROOT_POLICY_CHANGED'):
             self.review()
 
+    def test_reviewed_appendix_preserves_original_policy_pin(self):
+        result = self.review()
+        self.assertTrue(result['original_root_policy_preserved'])
+        self.assertEqual(result['reviewed_agents_appendix_sha256'], boundary.AGENTS_APPENDIX_SHA256)
+        path = self.root/'AGENTS.md'
+        original = path.read_bytes()[:boundary.AGENTS_ORIGINAL_BYTES]
+        self.assertEqual(boundary.git_object('blob', original), boundary.ROOT_FILES['AGENTS.md'])
+        path.write_bytes(original)
+        self.assertIsNone(self.review()['reviewed_agents_appendix_sha256'])
+
+    def test_original_policy_edit_rejected_even_with_reviewed_appendix(self):
+        path = self.root/'AGENTS.md'; raw = path.read_bytes()
+        path.write_bytes(bytes([raw[0] ^ 1]) + raw[1:])
+        with self.assertRaisesRegex(boundary.BoundaryError, 'ROOT_POLICY_CHANGED'):
+            self.review()
+
+    def test_changed_truncated_or_extra_appendix_rejected(self):
+        path = self.root/'AGENTS.md'; raw = path.read_bytes()
+        n = boundary.AGENTS_ORIGINAL_BYTES
+        for changed in (raw[:n] + bytes([raw[n] ^ 1]) + raw[n+1:], raw[:-1], raw+b'\n'):
+            with self.subTest(size=len(changed)):
+                path.write_bytes(changed)
+                with self.assertRaisesRegex(boundary.BoundaryError, 'ROOT_POLICY_CHANGED'):
+                    self.review()
+
     def test_active_workflow_rejected_at_root_and_nested(self):
         for prefix in ('','superhunter/'):
             path = self.root/(prefix+'.github/workflows/new.yml')
