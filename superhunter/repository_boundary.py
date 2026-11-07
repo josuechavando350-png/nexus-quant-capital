@@ -25,6 +25,12 @@ ROOT_FILES = {
     'AGENTS.md':'6c2fe3771bad272bb1839aabc2b45ef636a16531',
     'README.md':'2d620f813efdfa3c146fc7e17dd39f5ca11132c5',
 }
+# PRs 69--78 appended this reviewed guidance without changing one byte of the
+# original isolation policy. Neither arbitrary appendices nor prefix edits are
+# admitted. Keep the original Git blob pin above as a separately checked root.
+AGENTS_ORIGINAL_BYTES = 1107
+AGENTS_APPENDIX_BYTES = 3903
+AGENTS_APPENDIX_SHA256 = '74d63e642a1b6eecdb5cefbbd3fe6640cd8ba30d05cc620283b66a459dbd59cf'
 DOCUMENTS = {'SUPERHUNTER_MASTER_PLAN.md','SUPERHUNTER_STATUS.md',
              'SUPERHUNTER_CRITICAL_RESEARCH.md'}
 FORBIDDEN_PARTS = {'.github','.vercel','apps','packages','node_modules','.venv','venv'}
@@ -43,6 +49,15 @@ def need(ok: bool, code: str) -> None:
 
 def git_object(kind: str, payload: bytes) -> str:
     return hashlib.sha1(kind.encode()+b' '+str(len(payload)).encode()+b'\0'+payload).hexdigest()
+
+
+def _root_policy_matches(name: str, raw: bytes, wanted: str) -> bool:
+    if git_object('blob', raw) == wanted:
+        return True
+    return (name == 'AGENTS.md' and
+            len(raw) == AGENTS_ORIGINAL_BYTES + AGENTS_APPENDIX_BYTES and
+            git_object('blob', raw[:AGENTS_ORIGINAL_BYTES]) == wanted and
+            hashlib.sha256(raw[AGENTS_ORIGINAL_BYTES:]).hexdigest() == AGENTS_APPENDIX_SHA256)
 
 
 def _capture(root: Path) -> tuple[dict, int]:
@@ -122,7 +137,7 @@ def review(root: Path) -> dict:
     files, ignored = _capture(root)
     for name, wanted in ROOT_FILES.items():
         need(name in files and files[name]['mode'] == '100644' and
-             git_object('blob',files[name]['bytes']) == wanted, 'ROOT_POLICY_CHANGED')
+             _root_policy_matches(name,files[name]['bytes'],wanted), 'ROOT_POLICY_CHANGED')
     historical = {name:_tree(files,name) for name in HISTORICAL_TREES}
     need(historical == HISTORICAL_TREES, 'HISTORICAL_TREE_CHANGED')
     historical_count = superhunter_count = 0
@@ -153,6 +168,9 @@ def review(root: Path) -> dict:
         'root_documents':sorted(documents),'ignored_python_cache_files':ignored,
         'source_inventory_sha256':hashlib.sha256(canonical(snapshot)).hexdigest(),
         'active_workflows':0,'legacy_verifier_unchanged':True,
+        'original_root_policy_preserved':True,
+        'reviewed_agents_appendix_sha256':(AGENTS_APPENDIX_SHA256
+            if len(files['AGENTS.md']['bytes']) > AGENTS_ORIGINAL_BYTES else None),
         'original_source_objects_checked':False,'canonical_recertification':False,
         'runtime_isolation_proved':False,'full_security_review':False}
 

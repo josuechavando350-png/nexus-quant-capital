@@ -327,6 +327,26 @@ class StableWorkerLayoutTests(unittest.TestCase):
                 self.assertEqual(owners.setdefault(name.split('.')[0], index), index)
         self.assertEqual(groups, partition_ids(list(reversed(original)), 8))
 
+    def test_every_current_module_has_one_explicit_reviewed_owner(self):
+        from superhunter.quality_worker import QA_MODULE_GROUPS
+        registered = [name for group in QA_MODULE_GROUPS for name in group]
+        self.assertEqual(len(registered), len(set(registered)))
+        discovered = {name.split('.')[0] for name in self.inventory()}
+        self.assertEqual(discovered, set(registered))
+
+    def test_successor_modules_preserve_baseline_owners_during_growth(self):
+        expected = {'test_otel_qa':2, 'test_slither_offline_endtoend':1,
+                    'test_slither_owned_runner':7, 'test_slither_control_pair':7,
+                    'test_slither_pair_replay':7}
+        original = self.inventory()
+        before = self.owners(original)
+        for module, owner in expected.items():
+            with self.subTest(module=module):
+                self.assertEqual({before[name] for name in original
+                                  if name.startswith(module+'.')}, {owner})
+                after = self.owners(original + [f'{module}.Future.test_added_{i}' for i in range(80)])
+                self.assertEqual(before, {name:after[name] for name in original})
+
 
 # Compact QA receipts keep every worker outcome and their source commitments.
 # Existing unit fake receipts above remain unchanged and test old compatibility.
