@@ -68,7 +68,10 @@ def synthetic_context(mode: str, report: bytes) -> dict:
         "tool": {"name": "slither", "version": owned.SCANNER_VERSION},
         "detectors": [owned.DETECTOR], "report_sha256": sha(report),
         "sources": {"Owned.sol": sha(SOURCES[mode])},
-        "input_kind": "synthetic-format-fixture",
+        # Intentionally model a forged 'external-report' declaration. This
+        # controlled test demonstrates that hash-consistent scanner metadata
+        # is NOT authenticated proof that an external scanner ran.
+        "input_kind": "external-report",
     }
 
 
@@ -172,7 +175,9 @@ class SlitherOfflineEndToEndTests(unittest.TestCase):
     def test_synthetic_report_is_never_claimed_as_native_scanner_proof(self):
         original = self._bundle("original")
         evidence = static_review.verify_report(original / "positive")
-        self.assertEqual(evidence["input_kind"], "synthetic-format-fixture")
+        self.assertEqual(evidence["input_kind"], "external-report")
+        # A synthetically forged declaration must never promote either flag.
+        self.assertFalse(evidence["repository_commit_verified"])
         self.assertFalse(evidence["scanner_execution_verified"])
         self.assertFalse(evidence["producer_authenticated"])
         self.assertFalse(evidence["vulnerability_confirmed"])
