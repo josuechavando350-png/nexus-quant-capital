@@ -24,3 +24,5 @@
 - Nuevo control diferencial de Slither (#6): leer `superhunter/SLITHER_PAIR_GATE.md`. Exige detector positivo sobre OWNED con tx.origin y **cero alertas** en versión msg.sender. El par queda INCONCLUSO sin Slither/solc auténticos, sandbox sin red, QA íntegra y replay independientes. No marcarlo integrado en producción por el gate sintético.
 
 - El gate más reciente de Slither #6 ahora exige **tres** fuentes OWNED (positivo, limpio y comparación `tx.origin == msg.sender`); leer `superhunter/SLITHER_THREE_CONTROL_GATE.md`. El PR de este gate es sucesor de #72. Sus resultados reales siguen pendientes: no confundir el modelo del detector con una corrida Slither/solc, ni dos controles negativos con precisión general.
+
+- Conciliación de #73 (tres controles Slither) y #74 (comparación de dos ejecuciones): leer `superhunter/SLITHER_TRIPLE_REPLAY.md`. Los seis reportes se contrastan con `pair.accept` y `check_context` reales; no declarar autenticidad de productores ni independencia de host. Requiere QA y ejecuciones nativas en laboratorio antes de promoción.
