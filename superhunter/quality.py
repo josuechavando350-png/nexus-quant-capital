@@ -1288,6 +1288,8 @@ COMPONENTS['entrypoints']['depends'].append('slither_pair_replay')
 REQUIRED_TESTS += (
     'test_slither_pair_replay.SlitherReplayTests.test_two_distinct_anchored_pairs_agree_offline',
     'test_slither_pair_replay.SlitherReplayTests.test_missing_or_forged_external_anchor_rejected',
+    'test_slither_pair_replay.SlitherReplayTests.test_copied_bundle_with_equal_external_hash_cannot_masquerade_as_replay',
+    'test_slither_pair_replay.SlitherReplayTests.test_same_anchor_is_rejected_before_reading_any_report',
     'test_slither_pair_replay.SlitherReplayTests.test_difference_in_alert_fingerprint_rejected',
     'test_slither_pair_replay.SlitherReplayTests.test_difference_in_severity_rejected',
     'test_slither_pair_replay.SlitherReplayTests.test_difference_in_declared_commit_rejected',
