@@ -55,3 +55,7 @@ Las versiones directas se fijan (`slither-analyzer==0.11.6`, `crytic-compile==0.
 - Promocionar únicamente cuando: (1) ejecutar Slither real sobre OWNED fijo con salida comprobada y contra-controles; (2) repetirla en sandbox con egress denegado y versiones/hashes fijados; (3) ejecutar QA completo y verificador en el nuevo commit; (4) demostrar que la importación conserva los bytes y que los reportes alterados o erróneos son rechazados.
 
 **Para futuras IAs:** el catálogo de 50 permanece separado de las 50 capacidades internas históricas, y el estado de #6 es **adaptador escrito; integración nativa NO certificada**. No ampliar el comando a otros repositorios o destinos sin una política de autorización real por programa y pruebas defensivas adicionales.
+
+## Sucesor: comprobación diferencial de dos casos
+
+El PR sucesor incorpora [SLITHER_PAIR_GATE.md](SLITHER_PAIR_GATE.md): además del caso `tx.origin` obliga a probar un control `msg.sender` sin alertas, en el mismo commit declarado. Se conservan ambos expedientes y un manifiesto final. **No** se considera prueba real hasta ejecutar Slither auténtico y QA completo en un sandbox sin red.
