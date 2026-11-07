@@ -162,14 +162,18 @@ def run_owned(solc: Path, out: Path, *, repo_commit: str) -> dict:
         # cannot pass the owned positive control merely by exiting successfully.
         if (normalized.get("source_bound_alerts") != 1 or
                 normalized.get("unique_alert_count") != 1 or
-                any(alert.get("check") != DETECTOR for alert in normalized.get("alerts", []))):
+                type(normalized.get("alerts")) is not list or
+                len(normalized["alerts"]) != 1 or
+                normalized["alerts"][0].get("check") != DETECTOR):
             raise OwnedSlitherError("OWNED_POSITIVE_CONTROL_NOT_DETECTED")
         if out.exists() or out.is_symlink():
             raise OwnedSlitherError("OUTPUT_CHANGED_DURING_SCAN")
         imported = static_review.import_report(work / REPORT_NAME, context_path, work, out)
         if (imported["normalization_complete"] is not True or
                 imported["report_sha256"] != sha(report) or
-                imported["source_sha256"] != {SOURCE_NAME: sha(OWNED_SOURCE)}):
+                imported["source_sha256"] != {SOURCE_NAME: sha(OWNED_SOURCE)} or
+                imported["source_bound_alerts"] != normalized["source_bound_alerts"] or
+                imported["unique_alert_count"] != normalized["unique_alert_count"]):
             raise OwnedSlitherError("SLITHER_IMPORT_DIVERGED")
         return {
             "status": "OWNED_SLITHER_IMPORTED_UNVERIFIED",
