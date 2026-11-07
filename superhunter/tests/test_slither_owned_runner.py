@@ -38,7 +38,7 @@ class SlitherOwnedTests(unittest.TestCase):
         return SimpleNamespace(returncode=0)
 
     def imported_report(self, report, context, sources, out):
-        self.imported.append((report, context, sources, out))
+        self.imported.append((report, json.loads(context.read_text()), sources, out))
         raw = report.read_bytes()
         return {"normalization_complete": True, "report_sha256": scan.sha(raw),
                 "source_sha256": {scan.SOURCE_NAME: scan.sha(scan.OWNED_SOURCE)},
@@ -90,7 +90,7 @@ class SlitherOwnedTests(unittest.TestCase):
         self.assertEqual(limit, 90)
         self.assertEqual(set(env), {"LANG", "LC_ALL", "HOME", "PATH", "PYTHONDONTWRITEBYTECODE"})
         self.assertEqual(self.imported[0][3], self.out)
-        context = json.loads(self.imported[0][1].read_text())
+        context = self.imported[0][1]
         self.assertEqual(context["scope_id"], "owned-fixed-local-fixture")
         self.assertEqual(context["tool"]["version"], "0.11.6")
         self.assertEqual(context["sources"], {"Owned.sol": scan.sha(scan.OWNED_SOURCE)})
