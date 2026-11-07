@@ -43,3 +43,7 @@ Las órdenes de escaneo requieren un entorno con dependencias revisadas y las re
 5. No inferir generalización, precisión global, bounty, ni avance global de los 50 proyectos a partir de dos fixtures conocidos.
 
 **En resumen:** el cambio añade una prueba diferencial más rigurosa y dos expedientes reproducibles; **sigue sin constituir una integración externa certificada**.
+
+## Sucesor: comparación offline de dos pares
+
+[SLITHER_PAIR_REPLAY.md](SLITHER_PAIR_REPLAY.md) documenta la comprobación de dos pares completos con dos hashes SHA-256 que deben haberse guardado fuera de los paquetes antes de verificar. Exige coincidencia de los resultados normalizados y bloquea alteraciones/resellados; no ejecuta Slither ni certifica que los productores sean independientes.
