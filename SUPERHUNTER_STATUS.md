@@ -1,3 +1,17 @@
+## PR #65 — aceptación integral propia verificada, 2026-11-07 03:01 UTC
+
+Código más reciente: PR [#65](https://github.com/josuechavando350-png/nexus-quant-capital/pull/65), commit `56fae2c2e5d69816883d564c0c12231e1abd4fc7`, árbol `6afee2e0f8aad2b4df56dd799808e9a8b64c9131`, digest de fuentes `36ec806c08518a3e446f1f96b573f7de9bdcba8ad33261628b6e214763c68a14`. Borrador sobre #64, sin fusionar.
+
+Perfil nuevo: QA completa y controles locales en el entorno exigido; cuotas propias en Geth/EELS con las dependencias de EELS separadas. 2398/2398 pruebas PASS, 34 nuevas, sin fallos/errores/omisiones. Se conservan 8 trabajadores secuenciales y límites 180 s pared / 90 s CPU / 2 GiB por trabajador. Finalización nativa real y verificador en otro proceso PASS; este último recompila y repite ambos motores. Seis casos conocidos: 4 TP, 2 TN, 0 FP, 0 FN; 12 constructores y 228 llamadas por motor y recorrido no son muestras independientes. Ablaciones: solo resultado omite 3 defectos, solo estado omite 1.
+
+Rechazos reales comprobados: entornos intercambiados; afirmación falsa de vulnerabilidad y versión cryptography sustituida, ambas con manifiestos recalculados. Inventarios, código y evidencia se comprueban antes y después. El registro QA no autentica a un productor remoto, y el verificador no vuelve a ejecutar QA. Perfil histórico nativo y capturas intactos; no recertificados. Límites por trabajador, no agregados; imagen Geth sellada antes del límite de archivos del trabajador.
+
+Preservados 642 archivos históricos. Revisión estructural PASS; verificador histórico sigue rechazando el árbol completo por archivos SuperHunter fuera de su alcance y pasa en el árbol exclusivamente histórico. Rust no reejecutado. Respaldo exacto privado: 529 entradas, 4175139 bytes, SHA256 `d1d7b44462d277304f85419ad1ba39430fe2c377a1ef23e875c72e6614b43ba8`.
+
+La sesión continúa en checkout aislado sobre #65, rama `feat/superhunter-owned-worker-lifecycle`. Siguiente corrección: excepción EVMError ausente en la ruta de timeout y limpieza de hijos nativos del mismo grupo tras salida normal. Ambos defectos del laboratorio se reprodujeron con controles propios. No duplicar esa ejecución ni editar su árbol activo.
+
+Avance global no determinado. Plataforma completa: no. Vulnerabilidades originales confirmadas: 0. Sin objetivos externos ni cambios en NQC Defense, despliegues, gastos, transacciones o automatizaciones.
+
 ## Sesión solicitada de nuevo — 2026-11-07 02:36 UTC
 
 El usuario pidió continuar después del cierre anterior. Trabajo activo desde el árbol publicado del PR #64, commit `27184e26547c987514f2f5a83dad602a267808e9`, en checkout aislado y rama nueva `feat/superhunter-bounded-owned-platform`. No reutilizar copias de controles negativos ni editar el árbol activo de otra ejecución.
