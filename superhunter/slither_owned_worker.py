@@ -44,8 +44,11 @@ def _file_sha256(path: Path, maximum: int) -> str | None:
 
 
 def main(argv: list[str]) -> int:
-    if (len(argv) != 1 or platform.system() != "Linux" or
+    if (len(argv) not in (1, 2) or platform.system() != "Linux" or
             platform.machine() not in ("x86_64", "amd64")):
+        return 2
+    mode = "positive" if len(argv) == 1 else argv[1]
+    if mode not in ("positive", "clean"):
         return 2
     root = Path(argv[0])
     if (not root.is_absolute() or root.is_symlink() or
@@ -54,8 +57,11 @@ def main(argv: list[str]) -> int:
             not (root / "solc").is_file()):
         return 2
     # Even direct invocation cannot substitute arbitrary Solidity or solc bytes.
-    if (_file_sha256(root / "Owned.sol", 4096) !=
-            "ef5475a13e367bef34010e339c082c85383ab85e4f229cd607899f5f52ce0c64" or
+    source_sha256 = {
+        "positive": "ef5475a13e367bef34010e339c082c85383ab85e4f229cd607899f5f52ce0c64",
+        "clean": "f4435d614ec0d890f56f06c6250bba4a60152255fa3f8d5ceec13952f9aba0f1",
+    }[mode]
+    if (_file_sha256(root / "Owned.sol", 4096) != source_sha256 or
             _file_sha256(root / "solc", 64_000_000) !=
             "f3e987dc6ecebd4bd350c48edcbc320b46cf9e3109bd3fc3d88f1acaf4c428f7"):
         return 2
