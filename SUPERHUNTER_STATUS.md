@@ -1,3 +1,17 @@
+## Cierre de QA sobre el último código publicado — 2026-11-07 21:42Z
+
+Continuar desde **PR #79**, rama `fix/superhunter-latest-qa-reconciliation-20261107`, commit `b10c417375de41f4c025c35d4c4364e6873f19b8`, árbol `9637f7c1db7c780fe06c4691f6bb79aa8a99da76`. Su padre es #78 `b18b23128a601498a3dba8fc0bfcbbd2eb726934`; conserva todos los sucesores #69–#78 y el trabajo anterior. No retomar la copia parcial previa a esos sucesores.
+
+La base #78 reprodujo 2,550 tests con 8 fallos y 4 errores. La corrección mantiene todas sus identidades y deja **2,557/2,557 PASS**, cero skips, con verificador separado. Siete regresiones nuevas; ningún test antiguo cambia de worker. Ocho workers y límites originales intactos; máximo 71.762948 s. Digest `2087b61fb85a8ef65f21959a4e66a1f21ed33c2089b1610ddfb29c4e2cdaed7e`.
+
+Se fijó la propiedad de cinco módulos nuevos, se reconoció únicamente el anexo exacto de AGENTS conservando su pin original y se preparó fuera del worker el mismo input de 64,000,001 bytes, sin reducirlo ni ampliar el límite de escritura. Ver `superhunter/QA_SUCCESSOR_RECONCILIATION.md` en #79.
+
+Sobre el mismo código, Geth/EELS ejecutados y verificados en procesos separados: cuotas, 6 casos (TP 4/TN 2/FP 0/FN 0); autoridad temporal, 11 casos (TP 6/TN 4/FP 0/FN 1). La omisión sigue visible. No sumar denominadores ni repeticiones. Límite del repositorio PASS y 642 archivos históricos preservados; verificador original PASS solo en su copia histórica, nueve tests PASS; Rust histórico no reejecutado.
+
+Se prepararon entornos separados con hashes para OpenTelemetry y Slither. OpenTelemetry: ocho pruebas focalizadas PASS con SDK real, aún usando dobles de QA; perfil integral instrumentado pendiente. Slither: dependencias instaladas, todavía sin scanner nativo ejecutado; solo se permite el laboratorio de tres fuentes propias. Una prueba separada bloqueó sockets y verificó herencia del filtro al hijo, sin demostrar aislamiento completo del host.
+
+La ventana activa sigue terminando en **2026-11-08 00:14:04Z**, consolidación desde 00:13Z. Sin automatizaciones adicionales. PRs en borrador, sin fusiones, objetivos externos ni cambios a NQC Defense. Siguiente: integridad de dependencias y perfil QA con SDK real; después aceptación conjunta de casos propios y Slither acotado. Avance global no determinado; cero vulnerabilidades originales confirmadas.
+
 ## Reanudación solicitada — 2026-11-07 21:14:04Z (15:14:04 Ciudad de México)
 
 El usuario pidió una nueva ventana de tres horas. Fin: 2026-11-08 00:14:04Z (18:14:04 Ciudad de México); consolidación desde 00:13Z. La ventana anterior venció durante un intervalo sin ejecución: ese intervalo no se presenta como trabajo continuo. No se crean automatizaciones.
