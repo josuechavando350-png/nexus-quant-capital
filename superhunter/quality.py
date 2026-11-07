@@ -1186,3 +1186,15 @@ REQUIRED_TESTS += (
     'test_quality_process.QualityProcessTests.test_success_also_stops_own_remaining_child',
     'test_quality_process.QualityProcessTests.test_failed_group_cleanup_cannot_report_success',
 )
+
+COMPONENTS['owned_platform'] = {
+    'files': ['owned_platform.py'], 'tests': ['test_owned_platform.'],
+    'depends': ['native_platform', 'native_doctor', 'owned_quota_cross_evm', 'platform', 'io']}
+COMPONENTS['entrypoints']['depends'].append('owned_platform')
+REQUIRED_TESTS += (
+    'test_owned_platform.OwnedPlatformTests.test_completion_and_verification_require_native_replay',
+    'test_owned_platform.OwnedPlatformTests.test_wrong_qa_packages_block_before_output',
+    'test_owned_platform.OwnedPlatformTests.test_resealed_false_final_claim_rejected',
+    'test_owned_platform.OwnedPlatformTests.test_changed_preparation_during_copy_rejected',
+    'test_owned_platform.OwnedPlatformTests.test_failed_native_replay_leaves_no_final_marker',
+)
