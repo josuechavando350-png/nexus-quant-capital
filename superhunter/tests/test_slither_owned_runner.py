@@ -63,7 +63,7 @@ class SlitherOwnedTests(unittest.TestCase):
     def test_fixture_content_identity_and_detector_are_fixed(self):
         self.assertEqual(scan.DETECTOR, "tx-origin")
         self.assertEqual(scan.sha(scan.OWNED_SOURCE),
-                         "503d6352258192b198566402d24368d6dbd35fefc5ff76cf85ee941346e9d0a9")
+                         "ef5475a13e367bef34010e339c082c85383ab85e4f229cd607899f5f52ce0c64")
         self.assertIn(b"tx.origin", scan.OWNED_SOURCE)
         self.assertLess(len(scan.OWNED_SOURCE), scan.MAX_SOLIDITY_BYTES)
 
