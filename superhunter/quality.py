@@ -1254,4 +1254,5 @@ REQUIRED_TESTS += (
     'test_slither_owned_runner.SlitherOwnedTests.test_changed_owned_source_rejected',
     'test_slither_owned_runner.SlitherOwnedTests.test_process_failure_does_not_import',
     'test_slither_owned_runner.SlitherOwnedTests.test_direct_worker_rejects_non_fixture',
+    'test_slither_owned_runner.SlitherOwnedTests.test_worker_rejects_oversized_source_and_compiler_before_exec',
 )
