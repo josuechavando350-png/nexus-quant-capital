@@ -1,3 +1,7 @@
+> **Último incremento de Slither:** [SLITHER_THREE_CONTROL_GATE.md](SLITHER_THREE_CONTROL_GATE.md) añade un segundo negativo adversarial basado en la regla upstream: `tx.origin == msg.sender`. El QA debe contrastar tres reportes privados y rechazar todos los fallos. Slither y solc reales todavía no se ejecutaron en este entorno.
+
+---
+
 > **Nuevo control de Slither (laboratorio):** [SLITHER_PAIR_GATE.md](SLITHER_PAIR_GATE.md) exige reporte positivo y control limpio sin alertas, coherencia de fuente/commit y dos expedientes privados. No se ha ejecutado Slither real ni QA completo en esta rama; no equivale a integración certificada.
 
 ---
