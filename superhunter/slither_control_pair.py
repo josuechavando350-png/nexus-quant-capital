@@ -36,11 +36,14 @@ def sha(raw: bytes) -> str:
 
 
 def accept(result: dict, positive_case: bool, *, expected_source: bytes | None = None) -> None:
+    """Reject false evidence and bind an observation to one allowlisted fixture."""
+    if type(positive_case) is not bool:
+        raise ValueError('INVALID_CONTROL_KIND')
     if expected_source is None:
         expected_source = positive.OWNED_SOURCE if positive_case else CLEAN_SOURCE
-    if expected_source not in (positive.OWNED_SOURCE, CLEAN_SOURCE, COMPARISON_SOURCE):
+    if (expected_source not in (positive.OWNED_SOURCE, CLEAN_SOURCE, COMPARISON_SOURCE) or
+            positive_case != (expected_source == positive.OWNED_SOURCE)):
         raise ValueError('UNKNOWN_CONTROL_SOURCE')
-    """Never treat bool counts, missing source binding or a tool error as evidence."""
     if (type(result) is not dict or any(type(result.get(key)) is not int
                 for key in ('source_bound_alerts', 'unique_alert_count', 'raw_alert_count')) or
             result.get('normalization_complete') is not True or
