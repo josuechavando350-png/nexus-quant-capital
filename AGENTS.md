@@ -22,3 +22,5 @@
 - Segundo adaptador externo iniciado en rama sucesora del PR #70: \`superhunter/SLITHER_OWNED_LAB.md\`, \`slither_owned_runner.py\`, \`slither_owned_worker.py\`. Solo contiene una ruta fija a un contrato de laboratorio; nunca habilitar objetivos arbitrarios o escaneos de terceros al continuar. La CLI ejecutable aún no cuenta con prueba nativa de Slither ni QA completo en esta rama. No confundir pruebas con subprocess simulado con integración certificada.
 
 - Nuevo control diferencial de Slither (#6): leer `superhunter/SLITHER_PAIR_GATE.md`. Exige detector positivo sobre OWNED con tx.origin y **cero alertas** en versión msg.sender. El par queda INCONCLUSO sin Slither/solc auténticos, sandbox sin red, QA íntegra y replay independientes. No marcarlo integrado en producción por el gate sintético.
+
+- Slither #6: además del par positivo/limpio, consultar `superhunter/SLITHER_PAIR_REPLAY.md`. La comparación offline de dos pares exige hashes SHA-256 externos, coherencia semántica y rechazo de resellados. NO acredita identidad de productores ni ejecución nativa; no marcar integración como certificada hasta QA y Slither reales.
