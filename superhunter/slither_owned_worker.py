@@ -6,6 +6,7 @@ This bounds CPU/address-space/output, NOT egress or host sandbox isolation.
 """
 from __future__ import annotations
 
+import hashlib
 import os
 from pathlib import Path
 import platform
@@ -21,6 +22,12 @@ def main(argv: list[str]) -> int:
     if (not root.is_absolute() or root.is_symlink() or
             not (root / "Owned.sol").is_file() or
             not (root / "solc").is_file()):
+        return 2
+    # Even direct invocation cannot substitute arbitrary Solidity or solc bytes.
+    if (hashlib.sha256((root / "Owned.sol").read_bytes()).hexdigest() !=
+            "503d6352258192b198566402d24368d6dbd35fefc5ff76cf85ee941346e9d0a9" or
+            hashlib.sha256((root / "solc").read_bytes()).hexdigest() !=
+            "f3e987dc6ecebd4bd350c48edcbc320b46cf9e3109bd3fc3d88f1acaf4c428f7"):
         return 2
     os.umask(0o077)
     resource.setrlimit(resource.RLIMIT_CPU, (35, 35))
