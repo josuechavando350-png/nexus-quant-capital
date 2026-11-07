@@ -39,7 +39,8 @@ OWNED_SOURCE = (
     "    address private immutable owner;\n"
     "    constructor() { owner = msg.sender; }\n"
     "    function inspect() external view returns (bool) {\n"
-    "        return tx.origin == owner;\n"
+    "        require(tx.origin == owner, \"owner\");\n"
+    "        return true;\n"
     "    }\n"
     "}\n"
 ).encode("ascii")
