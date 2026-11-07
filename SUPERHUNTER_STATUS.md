@@ -1,5 +1,19 @@
 # SUPERHUNTER — estado oficial verificable y continuidad
 
+## Estado vigente — limpieza de procesos QA verificada (2026-11-07 UTC)
+
+Último código: [PR #64](https://github.com/josuechavando350-png/nexus-quant-capital/pull/64), HEAD `27184e26547c987514f2f5a83dad602a267808e9`, árbol `2305e2cb793a0b6dbd1b9c2936816de247101c01`. Borrador sobre #63 y su cadena; sin fusión a main. Este bloque prevalece.
+
+- **2,364/2,364 QA PASS**, cero errores, fallos u omitidas; verificador separado PASS. Seis regresiones nuevas y ninguna retirada; 86 pruebas focalizadas PASS. Digest `5f0d6ddfd28f450a74d0e94cea92433fd1fd1affb0089a36df5c14f125514b85`.
+- Un control propio confirmó un hijo vivo tras timeout con el lanzador anterior. El QA nuevo limpia miembros restantes de su grupo tras éxito, error, timeout o interrupción y recoge el proceso directo. Descendientes que crean otra sesión/grupo quedan fuera; no se afirma aislamiento completo ni presupuesto agregado.
+- Conserva caché privada y evidencia de QA fallido. Ocho workers; 180 s pared, 90 s CPU, 2 GiB, 20 MiB por archivo sin ampliar. Máximo QA 64.898 s.
+- **Geth/EELS repetidos sobre este digest: creación y replay separado PASS.** Doce constructores y 228 llamadas por motor; mismos seis casos OWNED, 4 TP / 2 TN / 0 FP / 0 FN. No son muestras nuevas ni hallazgos externos.
+- Seis archivos en `superhunter/`; 642 archivos históricos preservados. Verificador original sin cambios, checkout ampliado rechazado. Rust histórico no repetido.
+- **Prerrequisito nativo histórico bloqueado:** el worker preservado solicita 4 GiB y no puede elevar un límite heredado de 2 GiB. Bajo un límite heredado de archivo de 20 MiB, sellar Geth de 42,001,080 bytes falla con errno 27. No se ejecutó la aceptación native-platform integral sobre #64 ni se alteraron fixtures para aprobar. Los resultados históricos permanecen con su alcance original. La ruta de cuotas tiene worker de 2 GiB y descriptor previamente sellado.
+- **Avance global no determinado; cero vulnerabilidades originales confirmadas.**
+
+**Trabajo activo:** revisión local-numérica completa bajo límites fijados y controles reales separados de fallo de clase/caché antigua; el checkout de producción permanece intacto. Se consolidarán recibos y hashes al terminar. No duplicar procesos ni editar árboles activos. Corte 2026-11-07T02:36:30Z; desde 02:35 UTC solo consolidación.
+
 ## Estado vigente — cuotas propias corroboradas en Geth y EELS (2026-11-07 UTC)
 
 Último código: [PR #63](https://github.com/josuechavando350-png/nexus-quant-capital/pull/63), HEAD `5302009169cca6213eddf9b80a48e8ab17fc9a80`, árbol `80f57294150ad6184d7e8b5e463ceae50ea783f8`. Borrador sobre #62 y su cadena; sin fusión a main. Este bloque prevalece.
