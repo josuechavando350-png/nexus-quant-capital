@@ -111,6 +111,24 @@ class SlitherReplayTests(unittest.TestCase):
                     replay.compare(self.first, self.second, a, b)
         self.assertFalse(self.out.exists())
 
+    def test_copied_bundle_with_equal_external_hash_cannot_masquerade_as_replay(self):
+        # Distinct directory paths do not mean distinct evidence: an exact copy
+        # of the first marker must not be accepted as a second observation.
+        self.mocks()
+        duplicated_marker = (self.first / "COMPLETE.json").read_bytes()
+        (self.second / "COMPLETE.json").write_bytes(duplicated_marker)
+        duplicate_sha = replay.digest(duplicated_marker)
+        self.assertEqual(self.a, duplicate_sha)
+        with self.assertRaisesRegex(ValueError, "DISTINCT_EXTERNAL_ANCHORS_REQUIRED"):
+            replay.compare(self.first, self.second, self.a, duplicate_sha)
+        self.assertFalse(self.out.exists())
+
+    def test_same_anchor_is_rejected_before_reading_any_report(self):
+        self.mocks()
+        with patch.object(replay.pair, "verify_pair", side_effect=AssertionError("REPLAY_CALLED")):
+            with self.assertRaisesRegex(ValueError, "DISTINCT_EXTERNAL_ANCHORS_REQUIRED"):
+                replay.compare(self.first, self.second, self.a, self.a)
+
     def test_duplicate_and_nested_pair_rejected(self):
         self.mocks()
         with self.assertRaisesRegex(ValueError, "DISTINCT"):
