@@ -1277,3 +1277,22 @@ REQUIRED_TESTS += (
     'test_slither_control_pair.SlitherPairTests.test_comparison_false_positive_rejected_even_if_resealed',
     'test_slither_control_pair.SlitherPairTests.test_missing_third_control_rejected',
 )
+
+# Offline comparison of TWO source-bound Slither runs of THREE fixed controls.
+# Real accept/check_context are called; evidence never authenticates producers.
+COMPONENTS['slither_pair_replay'] = {
+    'files': ['slither_pair_replay.py'],
+    'tests': ['test_slither_pair_replay.'],
+    'depends': ['slither_control_pair', 'static_review', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('slither_pair_replay')
+REQUIRED_TESTS += (
+    'test_slither_pair_replay.SlitherReplayTests.test_two_distinct_anchored_pairs_agree_offline',
+    'test_slither_pair_replay.SlitherReplayTests.test_missing_or_forged_external_anchor_rejected',
+    'test_slither_pair_replay.SlitherReplayTests.test_difference_in_alert_fingerprint_rejected',
+    'test_slither_pair_replay.SlitherReplayTests.test_difference_in_severity_rejected',
+    'test_slither_pair_replay.SlitherReplayTests.test_difference_in_declared_commit_rejected',
+    'test_slither_pair_replay.SlitherReplayTests.test_third_control_semantic_divergence_is_detected',
+    'test_slither_pair_replay.SlitherReplayTests.test_third_control_false_positive_blocks_before_comparison',
+    'test_slither_pair_replay.SlitherReplayTests.test_report_tampering_rejected_after_manifest_reseal',
+    'test_slither_pair_replay.SlitherReplayTests.test_symlink_pair_rejected',
+)

@@ -48,3 +48,7 @@ No copiar los ejemplos literalmente sin disponer del binario fijado, del sandbox
 4. **Pendiente:** medir latencia, tasa de falsos positivos en un corpus más amplio y costo. Tres casos conocidos **no** miden generalización, tasa de descubrimientos originales ni competencia mundial.
 
 **Para futuras IAs:** no fusionar automáticamente la cadena de PRs; leer `AGENTS.md`, `SUPERHUNTER_STATUS.md`, `REPOSITORIES_50.md`, `SLITHER_OWNED_LAB.md`, `SLITHER_PAIR_GATE.md` y esta guía. No asignar un progreso de 1/50 certificado por una prueba sintética o un gate documental.
+
+## Sucesor: comprobación de reproducibilidad offline
+
+El comparador de dos ejecuciones diseñado en otro PR se adaptó a **tres controles por ejecución**, conservando anclas SHA-256 externas y verificaciones de polaridad/fuente/commit; consultar [SLITHER_TRIPLE_REPLAY.md](SLITHER_TRIPLE_REPLAY.md). Este documento continúa siendo el contrato de los controles individuales. No afirmar ejecución real ni verificación de independencia por la mera igualdad de reportes.

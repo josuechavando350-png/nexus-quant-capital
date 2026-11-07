@@ -1,3 +1,7 @@
+> **Conciliación más reciente de Slither:** [SLITHER_TRIPLE_REPLAY.md](SLITHER_TRIPLE_REPLAY.md) unifica el gate de tres controles y la comparación de dos expedientes completos con hashes externos. Todavía no hay scanner real ejecutado ni QA global certificado en esta rama.
+
+---
+
 > **Último incremento de Slither:** [SLITHER_THREE_CONTROL_GATE.md](SLITHER_THREE_CONTROL_GATE.md) añade un segundo negativo adversarial basado en la regla upstream: `tx.origin == msg.sender`. El QA debe contrastar tres reportes privados y rechazar todos los fallos. Slither y solc reales todavía no se ejecutaron en este entorno.
 
 ---
