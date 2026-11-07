@@ -158,6 +158,12 @@ def run_owned(solc: Path, out: Path, *, repo_commit: str) -> dict:
         normalized = static_review.normalize(report, context, {SOURCE_NAME: OWNED_SOURCE})
         if normalized["normalization_complete"] is not True:
             raise OwnedSlitherError("SLITHER_SOURCE_BINDING_INCOMPLETE")
+        # The fixed fixture intentionally contains tx.origin. A silent detector
+        # cannot pass the owned positive control merely by exiting successfully.
+        if (normalized.get("source_bound_alerts") != 1 or
+                normalized.get("unique_alert_count") != 1 or
+                any(alert.get("check") != DETECTOR for alert in normalized.get("alerts", []))):
+            raise OwnedSlitherError("OWNED_POSITIVE_CONTROL_NOT_DETECTED")
         if out.exists() or out.is_symlink():
             raise OwnedSlitherError("OUTPUT_CHANGED_DURING_SCAN")
         imported = static_review.import_report(work / REPORT_NAME, context_path, work, out)
