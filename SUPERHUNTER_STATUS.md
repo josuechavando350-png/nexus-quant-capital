@@ -1,5 +1,23 @@
 # SUPERHUNTER — estado oficial verificable y continuidad
 
+## Estado vigente — detección de cuotas propias (2026-11-07 UTC)
+
+Este bloque prevalece sobre los anteriores. Último código publicado: [PR #60](https://github.com/josuechavando350-png/nexus-quant-capital/pull/60), HEAD `9224f073cf9ef3747cccdd9d3aa137e3c6a19621`, árbol `c82ee9fd64d1d4749ab651210ce3e87047a0675e`. Borrador sobre #59 y su cadena; sin fusionar a main.
+
+- **2,317/2,317 QA PASS**, cero fallos, errores u omisiones; recibo verificado en otro proceso. Veintiocho pruebas nuevas; ninguna anterior eliminada. Digest `ab34ba735a1eb52f5ce917d968f11953c78abc25b936214ec23de13b7e7df9d3`.
+- Ocho workers; límites intactos: 180 s pared, 90 s CPU, 2 GiB. Máximo observado 60.515 s. Paquetes QA y Z3 exactos de las capturas.
+- Nuevo corpus cerrado OWNED: seis variantes de un libro de cuotas, dos correctas y cuatro defectos sembrados. Doce constructores y 228 llamadas Geth/Cancun, con dos compilaciones por variante. **Creación y replay con recompilación en proceso separado PASS**.
+- Detector completo: **4 TP, 2 TN, 0 FP, 0 FN**. Ablación solo resultado: 1 TP/3 FN; solo estado: 3 TP/1 FN. Los controles correctos siguen negativos en ambas. Las llamadas y compilaciones no multiplican el número de casos; no se suman con los cuatro casos de pausa/acceso para afirmar precisión global.
+- El detector decide a partir del estado, cantidad y resultado, sin etiquetas o nombres de variantes. Identifica cuota sin descontar, doble descuento, crédito de más y rechazo indebido del límite exacto.
+- Transporte y worker propios de cuotas: imagen Geth fijada y sellada antes del worker; cada uso comprueba sellos, tamaño y bytes. Se conservan 2 GiB y el límite de escritura de 20 MiB heredando la imagen inmutable de 42 MB, sin reescribirla. Motor histórico y fixtures intactos.
+- Primer candidato rechazado: modificar el worker histórico invalidó sus capturas, con 1 fallo y 22 errores; el agregado rechazó un identificador de error de preparación de clase. La solución fue separar el adaptador, sin cambiar identidades o fixtures. No se produjo un recibo agregado válido en ese intento.
+- Revisión estructural PASS: 642 archivos históricos preservados. Diez archivos del incremento, todos en `superhunter/`. El verificador original sigue rechazando el checkout ampliado y pasa en la copia histórica; no se modificó. Rust y aceptación integral native-platform no se reejecutaron sobre #60.
+- Evidencia: `SUPERHUNTER_CUOTAS_VERIFICADAS_20261107.zip`, 654,910 bytes, 45 entradas; SHA256 `c9fe14e663823df034e26e7d0c8fad9cf98520409a8e1851b3034e581360a796`. Incluye los ocho recibos crudos del QA final, agregado, hashes, ejecución/replay nativos y registro honesto del intento rechazado.
+
+**Trabajo activo en la conversación principal:** corregir la pérdida de evidencias de QA cuando falla la preparación de una clase o el agregado rechaza un recibo. Se desarrollará en un checkout sucesor aislado, conservando todos los criterios de PASS. Evitar duplicar esa implementación mientras este bloque siga activo; las ejecuciones concurrentes pueden revisar lo publicado sin editar el árbol activo.
+
+**Límites:** seis variantes conocidas de una familia; no evaluación ciega, generalización ni descubrimiento original. Replay con el mismo Geth/solc, sin prueba de productores independientes o aislamiento del host. Avance global **no determinado**; no existe denominador de aceptación validado. El 40–42% permanece referencia histórica no auditada. Vulnerabilidades originales confirmadas: **0**.
+
 ## Estado vigente — EELS y regresión completa (2026-11-07)
 
 Este bloque sustituye el estado anterior. **La implementación EELS anunciada como trabajo activo más abajo ya está cerrada, publicada y verificada en #59**; esos párrafos anteriores son historial, no una ejecución activa.
