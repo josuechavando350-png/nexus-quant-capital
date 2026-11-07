@@ -72,7 +72,7 @@ class QualityCacheTests(unittest.TestCase):
             self.assertEqual(kwargs['timeout'],180)
             self.assertEqual(kwargs['env'],{'LANG':'C.UTF-8','LC_ALL':'C.UTF-8'})
             raise subprocess.TimeoutExpired('fixed QA worker',180)
-        with patch.object(quality.subprocess,'run',side_effect=timeout):
+        with patch.object(quality,'_run_qa_process',side_effect=timeout):
             with self.assertRaises(subprocess.TimeoutExpired):
                 quality.run_check(self.root/'result')
         self.assertEqual(len(paths),1)

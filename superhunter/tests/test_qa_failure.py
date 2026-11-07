@@ -99,14 +99,14 @@ class FailureEvidenceTests(unittest.TestCase):
 
     def test_real_orchestrator_preserves_timeout_without_success(self):
         out=self.root/'qa'
-        with patch.object(quality.subprocess,'run',side_effect=subprocess.TimeoutExpired('private',180)):
+        with patch.object(quality,'_run_qa_process',side_effect=subprocess.TimeoutExpired('private',180)):
             with self.assertRaises(subprocess.TimeoutExpired):quality.run_check(out)
         self.assertFalse(out.exists())
         result=failure.verify(self.root/'qa.failure',quality.sha(canonical(quality.source_snapshot())))
         self.assertFalse(result['qa_passed']);self.assertEqual(result['workers_captured'],1)
 
     def test_real_orchestrator_preserves_bad_exit_without_success(self):
-        with patch.object(quality.subprocess,'run',return_value=subprocess.CompletedProcess(['fixed'],7)):
+        with patch.object(quality,'_run_qa_process',return_value=subprocess.CompletedProcess(['fixed'],7)):
             with self.assertRaises(RuntimeError):quality.run_check(self.root/'qa')
         report=json.loads((self.root/'qa.failure/failure.json').read_text())
         self.assertEqual(report['workers'][0]['returncode'],7)
