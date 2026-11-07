@@ -65,8 +65,13 @@ def _package_state() -> dict:
         installed = version("slither-analyzer")
     except PackageNotFoundError:
         installed = None
+    try:
+        crytic = version("crytic-compile")
+    except PackageNotFoundError:
+        crytic = None
     return {"package": "slither-analyzer", "required_version": SCANNER_VERSION,
-            "installed_version": installed, "matches": installed == SCANNER_VERSION}
+            "installed_version": installed, "crytic_compile_version": crytic,
+            "matches": installed == SCANNER_VERSION and crytic == "0.4.2"}
 
 
 def doctor(solc: Path) -> dict:
