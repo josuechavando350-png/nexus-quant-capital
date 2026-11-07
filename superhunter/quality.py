@@ -1272,6 +1272,7 @@ REQUIRED_TESTS += (
     'test_slither_control_pair.SlitherPairTests.test_missing_tool_blocks_before_creating_output',
     'test_slither_control_pair.SlitherPairTests.test_pair_rejects_reports_with_different_declared_commits',
     'test_slither_control_pair.SlitherPairTests.test_detector_specific_comparison_is_fixed_and_keeps_tx_origin',
+    'test_slither_control_pair.SlitherPairTests.test_control_source_cannot_be_relabelled_to_opposite_polarity',
     'test_slither_control_pair.SlitherPairTests.test_comparison_wrong_declared_scope_rejected',
     'test_slither_control_pair.SlitherPairTests.test_comparison_false_positive_rejected_even_if_resealed',
     'test_slither_control_pair.SlitherPairTests.test_missing_third_control_rejected',
