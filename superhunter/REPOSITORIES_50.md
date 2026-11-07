@@ -1,5 +1,7 @@
 # SUPERHUNTER — 50 repositorios candidatos y sus funciones
 
+**Evidencia posterior al catálogo:** [OTEL_DEPENDENCY_INTEGRITY.md](OTEL_DEPENDENCY_INTEGRITY.md) registra QA completo con SDK real y pins; [SLITHER_NATIVE_EVIDENCE.md](SLITHER_NATIVE_EVIDENCE.md) registra el nuevo laboratorio nativo de tres controles propios. Los estados y denominadores del catálogo original no se promueven automáticamente por esas aceptaciones acotadas.
+
 **Fecha:** 2026-11-07. **Resultado:** portafolio documentado, **50/50 referencias**. **Integraciones nuevas: 0/50**; no se clonó, instaló, ejecutó ni desplegó ningún proyecto externo. Este documento NO acredita un cazador 10/10, hallazgos originales o rentabilidad.
 
 **Instrucción para otras IAs:** leer el [plan maestro](../SUPERHUNTER_MASTER_PLAN.md), [estado actual](../SUPERHUNTER_STATUS.md), [AGENTS](../AGENTS.md), este documento y el [JSON canónico](repo_portfolio_50.json). Los 50 repositorios externos **no son** las 50 capacidades de `superhunter/capabilities.json`, ni sustituyen los 27 requisitos o 25 iniciativas internas. Antes de operar, inspeccionar las PRs y su cadena actual.
