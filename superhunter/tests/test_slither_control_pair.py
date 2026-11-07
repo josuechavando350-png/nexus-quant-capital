@@ -57,6 +57,16 @@ class SlitherPairTests(unittest.TestCase):
             pair.accept(wrong, False, expected_source=pair.COMPARISON_SOURCE)
 
 
+    def test_control_source_cannot_be_relabelled_to_opposite_polarity(self):
+        with self.assertRaisesRegex(ValueError, "UNKNOWN_CONTROL_SOURCE"):
+            pair.accept(synthetic_result("comparison"), True,
+                        expected_source=pair.COMPARISON_SOURCE)
+        with self.assertRaisesRegex(ValueError, "UNKNOWN_CONTROL_SOURCE"):
+            pair.accept(synthetic_result("positive"), False,
+                        expected_source=scanner.OWNED_SOURCE)
+        with self.assertRaisesRegex(ValueError, "INVALID_CONTROL_KIND"):
+            pair.accept(synthetic_result("clean"), 0)
+
     def test_positive_detector_must_report_source_bound_finding(self):
         pair.accept(synthetic_result("positive"), True)
         wrong = synthetic_result("positive")
