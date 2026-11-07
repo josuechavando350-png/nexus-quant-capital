@@ -1,3 +1,7 @@
+> **E2E offline real de evidencias Slither:** [SLITHER_OFFLINE_IMPORT_E2E.md](SLITHER_OFFLINE_IMPORT_E2E.md) presenta tests que utilizan importador, cadena de auditoría y verificadores reales sobre reportes sintéticos. El QA completo aún debe ejecutarse; no se ejecutó Slither real.
+
+---
+
 > **Endurecimiento posterior de Slither:** el comparador de dos expedientes no solo comprueba los SHA externos al inicio; exige que se conserven al terminar la verificación. Consultar [SLITHER_TRIPLE_REPLAY.md](SLITHER_TRIPLE_REPLAY.md). La autenticidad y la ejecución nativa permanecen sin certificar.
 
 ---

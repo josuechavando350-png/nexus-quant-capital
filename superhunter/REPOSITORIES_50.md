@@ -13,6 +13,8 @@
 5. Nunca activar escaneos de terceros, RPC, despliegues, firmas, envíos, capital, sensores ni workflows por añadir un candidato. Evidencia privada nunca se sube al GitHub público.
 6. El estado solo avanza de `CATALOGUED_NOT_INTEGRATED` mediante PR posterior con licencia revisada, prototipo, QA, consumidor real y verificadores. Agregar un enlace no cuenta como implementación.
 
+**Ensayo integrado offline posterior:** [SLITHER_OFFLINE_IMPORT_E2E.md](SLITHER_OFFLINE_IMPORT_E2E.md) define cuatro pruebas sobre el importador/bitácora/verificador reales, pero con reportes Slither sintéticos y sin ejecución nativa comprobada. El candidato #6 sigue sin certificación.
+
 **Comparación reconciliada posterior a los PR #73/#74:** [SLITHER_TRIPLE_REPLAY.md](SLITHER_TRIPLE_REPLAY.md) compara seis reportes de dos ejecuciones de tres controles, sin importar código remoto ni afirmar independencia de host. El estado externo permanece en evaluación, sin QA integral ni ejecución Slither.
 
 **Actualización posterior de Slither:** la referencia #6 ya tiene [gate de tres controles OWNED](SLITHER_THREE_CONTROL_GATE.md); su tercera condición reproduce una exclusión específica del detector. **No hay scanner real ejecutado ni certificación de integración**. La selección estructurada permanece candidata hasta cubrir sus criterios de aceptación.
