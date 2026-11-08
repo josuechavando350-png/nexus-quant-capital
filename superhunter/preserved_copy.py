@@ -38,12 +38,9 @@ def _original_bytes(saved: dict[str, bytes]) -> dict[str, bytes]:
     return original
 
 
-def verify(bundle: Path, *, source_digest: str, input_anchor: str, recovery_anchor: str) -> dict:
-    """Reconstruct the observed inventory in memory; never access original paths."""
-    for digest in (source_digest, input_anchor, recovery_anchor): owned_capture._digest(digest)
-    snapshot = quality.source_snapshot()
-    need(quality.sha(canonical(snapshot)) == source_digest, 'COPY_SOURCE')
-    saved = recovery._read_recovery(bundle)
+def _verify_saved(saved: dict[str, bytes], *, source_digest: str, input_anchor: str,
+                  recovery_anchor: str) -> dict:
+    """Pure content check; callers validate container, anchors and source stability."""
     need(quality.sha(saved['COMPLETE.json']) == recovery_anchor, 'COPY_RECOVERY_ANCHOR')
     original = _original_bytes(saved)
     need(recovery.anchor(original) == input_anchor, 'COPY_INPUT_ANCHOR')
@@ -52,14 +49,25 @@ def verify(bundle: Path, *, source_digest: str, input_anchor: str, recovery_anch
     expected.update({'recovery.json': canonical(report), 'REVIEW.md': recovery.render(report)})
     need({name: value for name, value in saved.items() if name != 'COMPLETE.json'} == expected,
          'COPY_PACKAGE_CONTENT')
-    need(recovery._read_recovery(bundle) == saved and quality.source_snapshot() == snapshot,
-         'COPY_EVIDENCE_CHANGED')
     return {'state': 'PRESERVED_COPY_VERIFIED', 'captured_input_state': report['assessment']['state'],
             'source_digest': source_digest, 'input_anchor': input_anchor, 'recovery_anchor': recovery_anchor,
             'observed_files': len(original), 'observed_bytes': sum(map(len, original.values())),
             'original_current_state_checked': False, 'original_restored': False,
             'producer_authenticated': False, 'execution_authenticated': False,
             'semantic_validation_performed': False}
+
+
+def verify(bundle: Path, *, source_digest: str, input_anchor: str, recovery_anchor: str) -> dict:
+    """Reconstruct the observed inventory in memory; never access original paths."""
+    for digest in (source_digest, input_anchor, recovery_anchor): owned_capture._digest(digest)
+    snapshot = quality.source_snapshot()
+    need(quality.sha(canonical(snapshot)) == source_digest, 'COPY_SOURCE')
+    saved = recovery._read_recovery(bundle)
+    result = _verify_saved(saved, source_digest=source_digest, input_anchor=input_anchor,
+                           recovery_anchor=recovery_anchor)
+    need(recovery._read_recovery(bundle) == saved and quality.source_snapshot() == snapshot,
+         'COPY_EVIDENCE_CHANGED')
+    return result
 
 
 def main(argv: list[str]) -> int:

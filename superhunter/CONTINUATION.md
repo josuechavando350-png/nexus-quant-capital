@@ -1,5 +1,53 @@
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
+## Estado vigente: exportación privada con identidades preservadas
+
+Sucesor de PR #98, commit `55358b980eb75fa30d6692c42f7056b57879af6a`.
+[PORTABLE_COPY.md](PORTABLE_COPY.md) documenta export-preserved-copy y
+verify-preserved-archive: salida nueva 0600, bytes privados sin cifrar/filtrar,
+con elección explícita. Se verifica sin extraer ni ejecutar contenido.
+
+`--source-digest` fija el lector actual y `--preserved-source-digest` fija, cuando
+se indica, la identidad guardada en el expediente anterior. Reporte, anclas y
+bytes históricos no se reescriben. El código antiguo no se ejecuta ni autentica;
+se rederiva bajo el único perfil conocido. Sin segundo digest, ambos deben coincidir.
+También se permite una salida hermana del checkout protegiendo la ruta del archivo;
+se siguen rechazando rutas dentro del repositorio y symlinks.
+
+- **3,057 QA PASS**, cero fallos/errores/skips. Las 3,017 anteriores siguen
+  en sus ocho grupos; 40 nuevas. 101 focales finales PASS.
+- SDK real y revisión separada sin SDK de QA/telemetría/preparación PASS.
+  Máximo worker 91.753291 s; grupo nuevo 58.518759 s. Presupuestos intactos.
+- Digest `b1a08d189ce9879214f39e5c8b18f5c4bc157842279cb85c40b759f9e4bdf2fb`.
+- 48 controles CLI con cinco workers propios (cuatro SIGKILL instrumentados y
+  control limpio). Tras preservar/exportar se eliminan deliberadamente cinco
+  carpetas originales y cinco de salvamento del helper. Veredicto idéntico.
+- Otros 31 controles CLI cotejan cinco copias reales de PR98 con su respaldo
+  previo fijado por SHA256 y conservan sus identidades/bytes. Se retiran solo
+  clones temporales. Total final: 79 checks CLI. No es pérdida natural ni apagón.
+- Se conservan la primera QA de 3,050 tests y los rechazos que reprodujeron el
+  problema de identidad y de ruta de salida. La aceptación final usa los bytes nuevos.
+- ZIP_STORED canónico, directorio acotado antes de asignación, anclas externas,
+  inventario cerrado y contenido rederivado. Rechaza alteraciones/promociones,
+  compresión, duplicados, rutas extra y truncado. Fechas ZIP fijas en 1980:
+  no son evidencia temporal ni autorizan retención por antigüedad.
+- 245 Python anteriores idénticos; tres registros y núcleo puro factorizado.
+  Ningún test anterior reescrito. Escritor, motor y fixtures nativos intactos;
+  no nuevas corridas nativas. Sin publicación de datos, purga o restauración.
+- 642 históricos intactos. El aislamiento legado conserva unreviewed root file
+  en PR98 y aquí. No se marca aprobado ni recertifica NQC.
+
+Evidencia: `SUPERHUNTER_EXPORTACION_PRIVADA_VERIFICABLE_20261108.zip`.
+Incluye expedientes actuales, controles alterados, prueba sobre los datos anteriores,
+recibos, streams, comparación de IDs y helpers reproducibles.
+
+M1 sigue parcial, 1/6 hitos globales cerrados. No acredita nuevos hallazgos,
+autenticación independiente ni tres horas continuas. Siguiente: índice privado
+con anclas externas y política explícita de retención; no usar fechas fijas del ZIP
+para inferir antigüedad o borrar evidencia.
+
+Los apartados siguientes conservan sus estados y digests históricos.
+
 ## Estado vigente: copia verificable sin acceso al original
 
 Sucesor de PR #97, commit `c654c53825c172028ad506b1ead92f5088c32e0c`.
