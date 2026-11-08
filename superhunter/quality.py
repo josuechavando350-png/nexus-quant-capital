@@ -1552,6 +1552,20 @@ REQUIRED_TESTS += (
 )
 
 
+COMPONENTS['portable_copy'] = {
+    'files': ['portable_copy.py'], 'tests': ['test_portable_copy.'],
+    'depends': ['preserved_copy', 'bundle_recovery', 'owned_capture', 'quality', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('portable_copy')
+REQUIRED_TESTS += (
+    'test_portable_copy.PortableCopyTests.test_archive_verifies_after_source_and_copy_are_removed',
+    'test_portable_copy.PortableCopyTests.test_private_bytes_need_explicit_acknowledgment',
+    'test_portable_copy.PortableCopyTests.test_resealed_changed_content_cannot_replace_input_anchor',
+    'test_portable_copy.PortableCopyTests.test_cli_preserves_incomplete_state_and_private_output',
+    'test_portable_copy.PortableCopyTests.test_explicit_earlier_identity_keeps_history_and_current_reader_separate',
+    'test_portable_copy.PortableCopyTests.test_earlier_identity_cannot_replace_current_reader_pin',
+)
+
+
 # Register the complete package before either CLI entry point runs.
 if __name__ == '__main__':
     raise SystemExit(main())
