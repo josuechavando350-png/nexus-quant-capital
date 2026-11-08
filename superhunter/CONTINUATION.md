@@ -1,5 +1,42 @@
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
+## Estado vigente: detener capturas incompletas de la fuente propia
+
+Sucesor de PR #107, commit `88cee0e9abe8827c9a9530a9af89282a7d28852c`.
+[REPOSITORY_CAPTURE.md](REPOSITORY_CAPTURE.md) documenta el rechazo explícito
+de errores de enumeración en el límite de repositorio, el inventario de QA y
+la captura de dependencias. La lectura del límite comprueba además identidad,
+modo, tamaño y tiempos del archivo antes y después; lee el tamaño admitido
+más un byte. No cambia los presupuestos ni los formatos de inventario.
+
+- **3,261 QA PASS**, cero fallos/errores/skips; las 3,242 identidades anteriores
+  mantienen sus grupos. Diecinueve nuevas, todas en el grupo 0.
+- Digest `582cf99b3a1424298d9e1e442976adff6318ac092488a2b333b247d5cfc6fc03`.
+  Perfil con SDK OpenTelemetry real y verificador separado sin SDK: PASS.
+  Duración observada del perfil final: 551.726 s; no es un benchmark general.
+- Trece regresiones de lectura: once fallos antes de corregir; trece PASS después.
+  Seis de enumeración compartida: siete fallos incluyendo subtests antes;
+  seis PASS después. Se conservan sus logs y los controles declarados.
+- Focales existentes y nuevas: 32 del límite/lectura, seis de enumeración y
+  37 del análisis de dependencias, todas PASS. CLI de grafo y verificador
+  separados: 155 módulos, cero referencias locales sin resolver; conserva
+  SOURCE_GRAPH_REVIEW_REQUIRED y no acredita conexiones en ejecución.
+- El pase intermedio de 3,255 pruebas pertenece al digest
+  `35cd8602eb58be68ef49ace92b30f7f892866e02dfebafa71c781ad54c531ac5`;
+  no se presenta como aceptación de la versión final.
+- Los 642 archivos históricos permanecen intactos. El verificador legado
+  mantiene `unreviewed root file`; su suite sobre el checkout ampliado da
+  ocho PASS/un error. La copia exclusivamente histórica pasa el verificador
+  y sus nueve pruebas. No se reejecutó Rust ni se recertificó NQC.
+
+La adquisición continúa antes del filtro del worker restringido. Estas
+observaciones no son una instantánea atómica, autenticación de host ni sandbox
+de código hostil. M1 sigue parcial; ninguna vulnerabilidad externa confirmada.
+Una prueba sostenida se prepara por separado sobre fuente congelada; este
+registro no anticipa su duración, resultado ni operación 24/7.
+
+Los apartados siguientes conservan sus resultados históricos.
+
 ## Estado vigente: contraste del diagnóstico con el cómputo restringido
 
 Sucesor de PR #106, commit `cf7784d48cae79982fa177357bca51af24b7da19`.

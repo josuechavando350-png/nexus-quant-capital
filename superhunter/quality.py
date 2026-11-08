@@ -282,8 +282,11 @@ PORTFOLIO_DATA_FILES = (
 
 def source_snapshot(root: Path = ROOT) -> dict[str, str]:
     """Capture executable package/test bytes and policy inputs; reject symlinks."""
+    def scan_failed(error: OSError) -> None:
+        raise ValueError('source directory enumeration failed') from None
+
     result = {}
-    for base, dirs, files in os.walk(root, followlinks=False):
+    for base, dirs, files in os.walk(root, followlinks=False, onerror=scan_failed):
         dirs[:] = sorted(d for d in dirs if d != '__pycache__')
         for name in dirs:
             if (Path(base)/name).is_symlink():
@@ -1128,14 +1131,23 @@ REQUIRED_TESTS += (
 
 # Structural source boundary review; does not recertify historical NQC.
 COMPONENTS['repository_boundary'] = {
-    'files': ['repository_boundary.py'], 'tests': ['test_repository_boundary.'],
+    'files': ['repository_boundary.py'],
+    'tests': ['test_repository_boundary.', 'test_repository_capture.'],
     'depends': ['io', 'privacy']}
 COMPONENTS['entrypoints']['depends'].append('repository_boundary')
+COMPONENTS['quality']['tests'].append('test_source_enumeration.')
+COMPONENTS['source_graph']['tests'].append('test_source_enumeration.')
 REQUIRED_TESTS += (
     'test_repository_boundary.RepositoryBoundaryTests.test_extended_repository_preserves_legacy_without_recertifying',
     'test_repository_boundary.RepositoryBoundaryTests.test_original_verifier_cannot_be_silently_replaced',
     'test_repository_boundary.RepositoryBoundaryTests.test_active_workflow_rejected_at_root_and_nested',
     'test_repository_boundary.RepositoryBoundaryTests.test_concurrent_source_change_rejected',
+    'test_repository_capture.RepositoryCaptureTests.test_child_scan_error_cannot_omit_source_subtree',
+    'test_repository_capture.RepositoryCaptureTests.test_same_bytes_new_inode_before_open_is_rejected',
+    'test_repository_capture.RepositoryCaptureTests.test_path_replacement_after_read_is_rejected',
+    'test_repository_capture.RepositoryCaptureTests.test_read_budget_uses_admitted_size_plus_one',
+    'test_source_enumeration.SourceEnumerationTests.test_included_subtree_scan_error_blocks_both_inventories',
+    'test_source_enumeration.SourceEnumerationTests.test_qa_requires_tests_while_source_graph_preserves_its_exclusion',
 )
 
 COMPONENTS['native_doctor'] = {
