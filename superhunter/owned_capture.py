@@ -13,11 +13,10 @@ import re
 import stat
 import subprocess
 import sys
-import tempfile
 import time
 import uuid
 
-from . import owned_process, quality, repository_boundary
+from . import owned_process, owned_workspace, quality, repository_boundary
 from .privacy import PrivateArgumentParser
 from .safe_io import canonical, read_artifact, strict_json, write_new_bundle
 
@@ -149,8 +148,8 @@ def create(out: Path, *, source_digest: str) -> dict:
     need(quality.sha(canonical(snapshot)) == source_digest, 'CAPTURE_SOURCE')
     before = repository_boundary.review(ROOT)
     runtime = _runtime()
-    with tempfile.TemporaryDirectory(prefix='superhunter-owned-capture-') as name:
-        work = Path(name)
+    with owned_workspace.Workspace('capture', excluded=(ROOT, out)) as workspace:
+        work = workspace.path
         with (work / 'stdout').open('w+b') as stdout, (work / 'stderr').open('w+b') as stderr:
             mono_start = time.monotonic_ns(); real_start = time.time_ns()
             result = owned_process.run(
@@ -175,6 +174,7 @@ def create(out: Path, *, source_digest: str) -> dict:
                              'elapsed_ns': mono_end - mono_start, 'realtime_delta_ns': real_end - real_start,
                              'realtime_moved_backwards': real_end < real_start}, 'limitations': dict(LIMITS)}
     _check(observation, raw, source_digest=source_digest, boundary=after)
+    workspace.confirm_removed()
     write_new_bundle(out, {'observation.json': canonical(observation), 'boundary.stdout': raw,
                            'REVIEW.md': render(observation)})
     return {'status': 'OWNED_CAPTURE_CREATED', 'capture_id': observation['capture_id'],

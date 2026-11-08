@@ -1,5 +1,32 @@
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
+## Estado vigente: limpieza comprobada de temporales propios
+
+Sucesor de PR #104, commit `4af508c34caf78dd8fd6ee718b95e1c9e3a1a6c1`.
+[OWNED_WORKSPACE.md](OWNED_WORKSPACE.md) documenta el ciclo de vida integrado
+en captura y diagnóstico. Ambos comprueban identidad, limpieza y ausencia
+antes de publicar el expediente. No se barren residuos históricos.
+
+- **3,192 QA PASS**, cero fallos/errores/skips. Las 3,166 identidades anteriores
+  conservan sus grupos; se añaden 26 regresiones al grupo 0. Focales: 26 PASS.
+- SDK real y verificador separado sin SDK PASS. Máximo worker 98.671674 s;
+  grupo 0: 70.750861 s. Presupuestos históricos sin cambios.
+- Digest `70a4bdee043fab12d4c800acf8812b38d909f94ab4840d4e59c3718d718a017b`.
+- 255 de 259 Python anteriores idénticos. Cambian captura, diagnóstico y dos
+  registros; ningún test previo reescrito. 642 históricos intactos y mismo
+  rechazo legado `unreviewed root file`; no hay recertificación de NQC.
+- El candidato inicial de 3,190 PASS tuvo después un control real que expuso
+  una fuga de descriptor al perder el FD raíz. Se conserva ese fallo. El cierre
+  corregido intenta liberar todos los FD todavía propios y rechaza pérdida de
+  identidad; no cierra un descriptor observado reasignado a otro objeto.
+- La ausencia observada no garantiza ausencia futura ni aislamiento del host.
+  El ensayo sostenido nuevo mantiene fuente congelada, recibos y tiempos propios;
+  no convierte la corrida histórica con residuos en una limpieza correcta.
+
+M1 sigue parcial. No hay nuevo hallazgo externo, operación 24/7 acreditada,
+ejecuciones nativas EVM/Slither nuevas ni cambios en los estados de catálogo.
+Los siguientes apartados conservan resultados y digests históricos.
+
 ## Estado vigente: findings operativos y plan de corrección
 
 Sucesor de PR #103, commit `bee9a64668bf3cc8561893c62e8967c74effd7e3`.
