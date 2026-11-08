@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ('review-owned-authority-coverage', 'verify-owned-authority-coverage'):
+        from .owned_authority_coverage import main as coverage_main
+        return coverage_main(argv)
     if argv and argv[0] in ('finish-owned-defensive','verify-owned-defensive'):
         from .owned_defensive_acceptance import main as defensive_acceptance_main
         return defensive_acceptance_main(argv)

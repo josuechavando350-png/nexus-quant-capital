@@ -1363,6 +1363,22 @@ REQUIRED_TESTS += (
 )
 
 
+# Descriptive coverage of the unchanged OWNED event corpus; no new detector.
+COMPONENTS['owned_authority_coverage'] = {
+    'files': ['owned_authority_coverage.py', 'owned_authority_coverage_reference.py'],
+    'tests': ['test_owned_authority_coverage.'],
+    'depends': ['quality', 'owned_authority', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('owned_authority_coverage')
+REQUIRED_TESTS += (
+    'test_owned_authority_coverage.CoverageTests.test_latent_case_stays_identical_to_clean_repeat',
+    'test_owned_authority_coverage.CoverageTests.test_history_reference_agrees_on_small_exhaustive_corpus',
+    'test_owned_authority_coverage.CoverageTests.test_history_reference_agrees_on_seeded_multiscope_corpus',
+    'test_owned_authority_coverage.CoverageBundleTests.test_resealed_false_coverage_is_rejected',
+    'test_owned_authority_coverage.CoverageBundleTests.test_resealed_changed_input_cannot_replace_fixed_sequence',
+    'test_owned_authority_coverage.CoverageBundleTests.test_cli_creates_and_verifies_in_separate_processes',
+)
+
+
 # Register the complete package before either CLI entry point runs.
 if __name__ == '__main__':
     raise SystemExit(main())
