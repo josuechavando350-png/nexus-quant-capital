@@ -1393,6 +1393,21 @@ REQUIRED_TESTS += (
 )
 
 
+COMPONENTS['owned_coverage_link'] = {
+    'files': ['owned_coverage_link.py'], 'tests': ['test_owned_coverage_link.'],
+    'depends': ['owned_authority_coverage', 'owned_authority_coverage_suite',
+                'owned_authority', 'quality', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('owned_coverage_link')
+REQUIRED_TESTS += (
+    'test_owned_coverage_link.CoverageLinkTests.test_both_reports_are_regenerated_with_external_anchors',
+    'test_owned_coverage_link.CoverageLinkTests.test_gaps_and_denominators_remain_separate',
+    'test_owned_coverage_link.CoverageLinkTests.test_historical_marker_changed_after_replay_is_rejected',
+    'test_owned_coverage_link.CoverageLinkTests.test_input_from_another_source_cannot_be_resealed_into_this_version',
+    'test_owned_coverage_link.CoverageLinkTests.test_resealed_gap_erasure_is_rejected',
+    'test_owned_coverage_link.CoverageLinkTests.test_cli_creates_and_verifies_in_separate_processes',
+)
+
+
 # Register the complete package before either CLI entry point runs.
 if __name__ == '__main__':
     raise SystemExit(main())

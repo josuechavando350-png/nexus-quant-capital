@@ -1,4 +1,4 @@
-**Continuidad actual:** [punto de reanudación](CONTINUATION.md), [contra-controles de cobertura](OWNED_COVERAGE_COUNTER_CONTROLS.md), [aceptación nativa de PR #84](NATIVE_REACCEPTANCE_PR84.md) y [cobertura temporal histórica](OWNED_AUTHORITY_COVERAGE.md).
+**Continuidad actual:** [punto de reanudación](CONTINUATION.md), [vínculo de expedientes](OWNED_COVERAGE_LINK.md), [contra-controles de cobertura](OWNED_COVERAGE_COUNTER_CONTROLS.md), [aceptación nativa de PR #84](NATIVE_REACCEPTANCE_PR84.md) y [cobertura temporal histórica](OWNED_AUTHORITY_COVERAGE.md).
 
 El corpus adicional contiene ocho pares de condiciones de entrada y
 contra-controles. Los resultados vigentes de QA y aceptación nativa están en
