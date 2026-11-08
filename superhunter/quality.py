@@ -1723,5 +1723,33 @@ REQUIRED_TESTS += (
 )
 
 
+COMPONENTS['owned_sealed_input'] = {
+    'files': ['owned_sealed_input.py'], 'tests': ['test_owned_sealed_input.'],
+    'depends': ['repository_boundary']}
+COMPONENTS['owned_compute_guard']['depends'].append('owned_sealed_input')
+COMPONENTS['owned_process']['depends'].append('owned_sealed_input')
+COMPONENTS['owned_sealed_review'] = {
+    'files': ['owned_sealed_review.py', 'owned_sealed_worker.py'],
+    'tests': ['test_owned_sealed_review.', 'test_owned_sealed_worker.'],
+    'depends': ['owned_sealed_input', 'owned_compute_guard', 'owned_capture', 'owned_process',
+                'owned_workspace', 'repository_boundary', 'quality', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('owned_sealed_review')
+REQUIRED_TESTS += (
+    'test_owned_sealed_input.SealedInputTests.test_every_truncated_prefix_and_appended_suffix_rejected',
+    'test_owned_sealed_input.SealedInputTests.test_claimed_count_and_lengths_rejected_before_allocation',
+    'test_owned_sealed_input.SealedInputTests.test_actual_seals_block_parent_write_grow_and_shrink',
+    'test_owned_sealed_input.SealedInputTests.test_each_missing_seal_rejected',
+    'test_owned_sealed_input.SealedInputTests.test_failed_seal_closes_new_descriptor',
+    'test_owned_sealed_worker.SealedWorkerTests.test_actual_own_source_is_read_and_reviewed_without_checkout',
+    'test_owned_sealed_worker.SealedWorkerTests.test_malformed_sealed_data_fails_in_post_filter_read_phase',
+    'test_owned_sealed_worker.SealedWorkerTests.test_old_guard_still_rejects_sealed_stdin',
+    'test_owned_sealed_review.SealedReviewTests.test_native_parent_worker_and_verifier_agree',
+    'test_owned_sealed_review.SealedReviewTests.test_actual_extra_descriptor_retains_failure_bundle',
+    'test_owned_sealed_review.SealedReviewTests.test_input_phase_before_filter_is_inconclusive',
+    'test_owned_sealed_review.SealedReviewTests.test_resealed_report_cannot_promote_guarantees',
+    'test_owned_sealed_review.SealedReviewTests.test_input_change_before_publication_is_rejected',
+)
+
+
 if __name__ == '__main__':
     raise SystemExit(main())

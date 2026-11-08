@@ -57,7 +57,7 @@ def _stop_and_reap(process) -> None:
         process.wait()
 
 
-def run(command, *, cwd, env, timeout, stdout, stderr, pass_fds=()):
+def run(command, *, cwd, env, timeout, stdout, stderr, pass_fds=(), sealed_stdin=None):
     """Launch a new session and clean its group on every exit before reaping.
 
     The worker sets its existing CPU/address-space/file limits. Output streams
@@ -68,8 +68,14 @@ def run(command, *, cwd, env, timeout, stdout, stderr, pass_fds=()):
         raise OwnedProcessError('LINUX_WAITID_REQUIRED')
     if type(timeout) not in (int, float) or not math.isfinite(timeout) or not 0 < timeout <= 180:
         raise OwnedProcessError('OWNED_WALL_BUDGET')
+    if sealed_stdin is not None:
+        from . import owned_sealed_input as sealed
+        if type(sealed_stdin) is not int or sealed_stdin < 3:
+            raise OwnedProcessError('OWNED_SEALED_STDIN')
+        sealed.inspect(sealed_stdin)
     deadline = time.monotonic() + timeout
-    process = subprocess.Popen(command, cwd=cwd, env=env, stdin=subprocess.DEVNULL,
+    process = subprocess.Popen(command, cwd=cwd, env=env,
+                               stdin=subprocess.DEVNULL if sealed_stdin is None else sealed_stdin,
                                stdout=stdout, stderr=stderr, pass_fds=pass_fds,
                                start_new_session=True)
     try:

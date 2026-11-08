@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ('check-owned-sealed-boundary', 'verify-owned-sealed-boundary'):
+        from .owned_sealed_review import main as sealed_main
+        return sealed_main(argv)
     if argv and argv[0] in ('corroborate-owned-restricted-diagnosis', 'verify-owned-restricted-corroboration'):
         from .owned_restricted_corroboration import main as corroboration_main
         return corroboration_main(argv)

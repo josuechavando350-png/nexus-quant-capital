@@ -1,5 +1,41 @@
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
+## Estado vigente: entrada propia sellada leída después del filtro
+
+Sucesor de PR #108, commit `679881f023d0a3c4c3c015e322bbd66d1341af7d`.
+[OWNED_SEALED_REVIEW.md](OWNED_SEALED_REVIEW.md) describe un worker, productor,
+CLI y verificador separados de los perfiles anteriores. El padre captura la
+fuente propia y sella un marco binario; el hijo comprueba metadatos, activa el
+mismo filtro de llamadas y después lee FD 0 y revisa los bytes en memoria.
+
+- **3,295 QA PASS**, cero fallos/errores/skips. Las 3,261 identidades anteriores
+  conservan sus grupos; 34 nuevas en el grupo 0. Ningún test previo reescrito.
+- Digest `232ae75bd1b937c1cead0f94daad89e9574bbd853751ab6fdf4cbe6796bd94ae`.
+  SDK OpenTelemetry real y verificador separado sin SDK: PASS. Duración de
+  QA observada: 589.524 s, con los ocho grupos y presupuestos anteriores.
+- Focales: 47 del parser, worker, filtro y supervisor; 14 del consumidor,
+  todas PASS. Se rechazan prefijos truncados, bytes finales, sellos faltantes,
+  tamaños excedidos, perfiles antiguos y promociones de reportes resellados.
+- Un descriptor extra real produce un expediente INCONCLUSIVE verificable.
+  La lectura registrada antes del filtro no puede aceptarse. Los controles de
+  escritura, crecimiento y truncado del memfd sellado reciben EPERM.
+- Un control separado consumió 64 MiB de datos propios y cuatro claves de
+  1,024 bytes dentro de los límites; terminó con el rechazo esperado de un
+  árbol deliberadamente incompleto. No es un benchmark de toda la plataforma.
+- Grafo de fuente y verificador separados: 158 módulos, cero referencias
+  locales sin resolver; conserva SOURCE_GRAPH_REVIEW_REQUIRED.
+- Los 642 archivos históricos mantienen sus bytes. El verificador legado
+  conserva `unreviewed root file`; su suite ampliada da ocho PASS/un error.
+  El pase previo de la copia exclusivamente histórica pertenece a esos mismos
+  bytes. Rust, EVM y Slither no se reejecutaron para este incremento.
+
+La adquisición del padre y la carga de módulos siguen fuera del filtro. No
+hay autenticación de host, protección de memoria ni sandbox general acreditado.
+M1 sigue parcial. La observación de seis horas permanece sobre PR #108 congelado;
+su resultado y duración no se transfieren a este digest ni se anticipan aquí.
+
+Los apartados siguientes conservan las fuentes y aceptaciones anteriores.
+
 ## Estado vigente: detener capturas incompletas de la fuente propia
 
 Sucesor de PR #107, commit `88cee0e9abe8827c9a9530a9af89282a7d28852c`.
