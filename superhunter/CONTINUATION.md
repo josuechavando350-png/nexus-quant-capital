@@ -1,5 +1,37 @@
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
+## Estado vigente: índice privado de archivos y duplicados
+
+Sucesor de PR #99, commit `f03f9afa9f7150cd873b1b1453e17970ad6a48ea`.
+[PRESERVED_INDEX.md](PRESERVED_INDEX.md) documenta dos CLI reales para construir
+y verificar colecciones explícitas, acotadas y privadas. No descubre archivos
+ni ejecuta su contenido. Revalida cada ZIP y conserva anclas de productores anteriores.
+
+- **3,091 QA PASS**, cero fallos/errores/skips; 3,057 anteriores conservadas
+  en los mismos ocho grupos, 34 nuevas. Las 34 focales también pasaron.
+- SDK real y revisión separada sin SDK de QA/telemetría/preparación PASS.
+  Máximo worker 92.585940 s; grupo nuevo 74.154944 s; presupuestos intactos.
+- Digest `797724371c067b3688dad7357fdb4a0320ac9ec8d00fc37cc79c15c6a35a958a`.
+- 17 controles CLI reales sobre datos de PR99: 11 entradas, 10 ZIP distintos,
+  5 inventarios originales, 2 archivos con captura completa y 8 incompleta.
+  Un alias no se cuenta como experimento independiente. Fuentes exactas conservadas.
+- Control máximo de 64 aliases: un archivo/inventario único; 65 registros rechazados.
+  Construcción 4.941977 s y verificación 5.133647 s en este host/corpus,
+  no benchmark de archivos máximos ni garantía de rendimiento general.
+- Manifiesto externo SHA256, esquema cerrado, salida privada nueva y dos pasadas
+  de integridad/identidad. Índices previos requieren index_source_digest externo,
+  separado del lector actual. Anclas de archivo y de inventario no prueban
+  independencia, autenticidad, ejecución ni hallazgos.
+- 248 de 251 Python anteriores idénticos; solo cambian tres registros.
+  Ningún test anterior reescrito; ninguna nueva ejecución nativa Geth/Slither/EELS.
+- 642 históricos intactos; el aislamiento legado conserva el mismo rechazo
+  unreviewed root file en PR99 y aquí. No se recertifica NQC.
+
+Evidencia: `SUPERHUNTER_INDICE_ARCHIVOS_VERIFICADOS_20261108.zip`.
+M1 sigue parcial y 1/6 hitos globales cerrados. Siguiente: política explícita
+de conservación de copias; no inferir antigüedad ni autorizar purgas por los ZIP.
+Los apartados siguientes conservan sus estados y digests históricos.
+
 ## Estado vigente: exportación privada con identidades preservadas
 
 Sucesor de PR #98, commit `55358b980eb75fa30d6692c42f7056b57879af6a`.
