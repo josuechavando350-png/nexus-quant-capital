@@ -52,7 +52,7 @@ class Workspace:
 
     def _close_fds(self) -> None:
         lost = False
-        for field, expected_field in (('_root_fd', '_root_identity'),
+        for field, expected_field in (('_root_fd', '_root_fd_identity'),
                                       ('_parent_fd', '_parent_identity')):
             descriptor = getattr(self, field)
             if descriptor is None:
@@ -104,6 +104,7 @@ class Workspace:
             self._root_identity = identity(os.stat(self.path.name, dir_fd=self._parent_fd,
                                                    follow_symlinks=False))
             self._root_fd = os.open(self.path.name, flags, dir_fd=self._parent_fd)
+            self._root_fd_identity = identity(os.fstat(self._root_fd))
             self._check_identity()
             self._created_ns = time.monotonic_ns()
             self.state = 'ACTIVE'

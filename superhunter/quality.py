@@ -360,6 +360,33 @@ def catalog(root: Path = ROOT) -> dict:
     return data
 
 
+def _assign_component_rows(rows: list[dict], components: dict) -> tuple[dict, bool]:
+    """Route rows once; preserve startswith semantics, order and shared owners.
+
+    Prefixes containing a dot can only match that same first identifier part.
+    Broad prefixes (including an empty one) stay in a fallback list. This index
+    exists only for this call and never caches evidence, source bytes or a PASS.
+    """
+    assigned = {name: [] for name in components}
+    by_module, broad = {}, []
+    for name, component in components.items():
+        for prefix in component['tests']:
+            module, separator, _ = prefix.partition('.')
+            bucket = by_module.setdefault(module, []) if separator else broad
+            bucket.append((name, prefix))
+    unmapped = False
+    for row in rows:
+        identifier = row['id']
+        candidates = by_module.get(identifier.partition('.')[0], ())
+        matched = set()
+        for owner, prefix in (*candidates, *broad):
+            if owner not in matched and identifier.startswith(prefix):
+                assigned[owner].append(row)
+                matched.add(owner)
+        unmapped |= not matched
+    return assigned, unmapped
+
+
 def assess(receipt: dict, snapshot: dict) -> dict:
     """Recompute the gate; a claimed PASS in the receipt is never trusted."""
     receipt = expand_partition_receipt(receipt, snapshot)
@@ -382,7 +409,8 @@ def assess(receipt: dict, snapshot: dict) -> dict:
            type(row['id']) is not str or type(row['outcome']) is not str for row in rows):
         raise ValueError('malformed per-test record')
     ids = [row['id'] for row in rows]
-    if (any(type(x) is not str for x in expected) or len(ids) != len(set(ids)) or
+    id_set = set(ids)
+    if (any(type(x) is not str for x in expected) or len(ids) != len(id_set) or
             len(expected) != len(set(expected)) or sorted(ids) != sorted(expected)):
         errors.append('test identities are duplicate, missing or unexpected')
     if type(receipt.get('tests_run')) is not int or receipt['tests_run'] != len(rows):
@@ -393,17 +421,17 @@ def assess(receipt: dict, snapshot: dict) -> dict:
         if type(receipt.get(key)) is not int or receipt[key] != 0:
             errors.append(f'{key} not zero')
     for required in REQUIRED_TESTS:
-        if required not in ids:
+        if required not in id_set:
             errors.append('missing mandatory test: ' + required)
     checks = {}
+    assignments, unmapped = _assign_component_rows(rows, COMPONENTS)
     for name, component in COMPONENTS.items():
-        assigned = [row for row in rows if any(row['id'].startswith(p) for p in component['tests'])]
+        assigned = assignments[name]
         checks[name] = {'status': 'TESTS_PASSED_LOCAL' if assigned and all(r['outcome']=='PASS' for r in assigned) else 'BLOCKED',
                         'test_count': len(assigned), 'depends_on': component['depends'], 'files': component['files']}
         if not assigned:
             errors.append(name + ': no execution evidence')
-    prefixes = {p for c in COMPONENTS.values() for p in c['tests']}
-    if any(not any(i.startswith(p) for p in prefixes) for i in ids):
+    if unmapped:
         errors.append('unmapped test suite')
     if errors:
         for check in checks.values():
@@ -1620,7 +1648,8 @@ REQUIRED_TESTS += (
 
 
 COMPONENTS['owned_workspace'] = {
-    'files': ['owned_workspace.py'], 'tests': ['test_owned_workspace.'], 'depends': []}
+    'files': ['owned_workspace.py'],
+    'tests': ['test_owned_workspace.', 'test_owned_workspace_admission.'], 'depends': []}
 for _component in ('owned_capture', 'owned_boundary_diagnosis'):
     COMPONENTS[_component]['depends'].append('owned_workspace')
 REQUIRED_TESTS += (
@@ -1631,6 +1660,38 @@ REQUIRED_TESTS += (
     'test_owned_workspace.WorkspaceTests.test_reassigned_descriptor_is_not_closed_as_the_original',
     'test_owned_workspace.WorkspaceTests.test_capture_blocks_publication_after_actual_root_replacement',
     'test_owned_workspace.WorkspaceTests.test_diagnosis_blocks_publication_after_actual_root_replacement',
+)
+
+
+COMPONENTS['owned_compute_guard'] = {
+    'files': ['owned_compute_guard.py'], 'tests': ['test_owned_compute_guard.'],
+    'depends': ['owned_slither_native', 'io']}
+COMPONENTS['owned_restricted_review'] = {
+    'files': ['owned_restricted_review.py', 'owned_restricted_worker.py'],
+    'tests': ['test_owned_restricted_review.'],
+    'depends': ['owned_compute_guard', 'owned_boundary_diagnosis', 'owned_capture',
+                'owned_process', 'owned_workspace', 'repository_boundary', 'quality', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('owned_restricted_review')
+REQUIRED_TESTS += (
+    'test_owned_compute_guard.ComputeGuardTests.test_actual_filter_controls_and_preloaded_computation',
+    'test_owned_compute_guard.ComputeGuardTests.test_extra_inherited_descriptor_is_rejected',
+    'test_owned_compute_guard.ComputeGuardTests.test_real_anonymous_mapping_and_denied_mapping_variants',
+    'test_owned_compute_guard.ComputeGuardTests.test_low_library_loading_limit_does_not_silently_fallback',
+    'test_owned_restricted_review.RestrictedReviewTests.test_actual_five_restricted_trials_and_distinct_worker_identity',
+    'test_owned_restricted_review.RestrictedReviewTests.test_verifier_never_reexecutes_filter_or_repairs_source',
+    'test_owned_restricted_review.RestrictedReviewTests.test_actual_extra_descriptor_stops_producer_and_preserves_failed_trial',
+    'test_owned_restricted_review.RestrictedReviewTests.test_legacy_unrestricted_stdout_cannot_pass_as_restricted',
+    'test_owned_restricted_review.RestrictedReviewTests.test_filter_phase_must_be_inside_parent_observation',
+    'test_owned_restricted_review.RestrictedReviewTests.test_resealed_report_promotion_is_rejected',
+)
+
+
+COMPONENTS['quality']['tests'].append('test_quality_row_index.')
+REQUIRED_TESTS += (
+    'test_owned_workspace_admission.WorkspaceAdmissionTests.test_replaced_directory_open_is_closed_without_deleting_replacement',
+    'test_owned_workspace_admission.WorkspaceAdmissionTests.test_symlink_between_stat_and_open_preserves_target_and_closes_parent',
+    'test_quality_row_index.QualityRowIndexTests.test_overlapping_prefixes_do_not_duplicate_shared_rows',
+    'test_quality_row_index.QualityRowIndexTests.test_seeded_mixed_prefixes_match_direct_reference',
 )
 
 

@@ -1,5 +1,42 @@
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
+## Estado vigente: cálculo propio restringido y evaluación de QA indexada
+
+Sucesor de PR #105, commit `f3c244097a8883398b7ebe5899b77687e4031f56`.
+[OWNED_RESTRICTED_REVIEW.md](OWNED_RESTRICTED_REVIEW.md) describe el nuevo
+perfil de cinco ensayos sobre una copia propia. La adquisición doble ocurre
+antes del filtro; la política de integridad se calcula después, sobre bytes
+en memoria. No admite comandos ni objetivos arbitrarios.
+
+- **3,227 QA PASS**, cero fallos/errores/skips. Se conservan las 3,192 pruebas
+  anteriores y sus grupos; 35 nuevas al grupo 0. Focales: 86 PASS.
+- Digest `f2cf2c7f681d4c75b881701d9f92a2686fa11fe0aca084d968bfba24003daa2f`.
+  SDK real y verificador separado sin SDK PASS; límites históricos intactos. Máximo worker
+  93.293218 s; grupos 5 y 7: 87.360798 s y 78.945046 s.
+- Controles nativos de apertura, directorio, sockets, memoria y descriptores;
+  disponibilidad previa de sockets explícita. Una instalación fallida o salida
+  inesperada conserva INCONCLUSIVE y detiene los ensayos sin cálculo alternativo.
+- Corrección de admisión: registrar la identidad del descriptor efectivamente
+  abierto evita la fuga cuando la ruta cambia entre stat y open. Cuatro
+  regresiones nuevas de IO real; no se borra la ruta reemplazada.
+- QA asigna filas por un índice local a cada llamada. Mantiene coincidencias de
+  prefijos, orden, duplicados, propietarios compartidos y todos los gates. Cinco
+  regresiones comparan la referencia directa. La comparación sintética de 12
+  pares caracteriza esa función; no representa ejecución real de los tests del
+  fixture ni rendimiento general de la plataforma.
+- Se conservan dos corridas integrales bloqueadas por CPU y una redistribución
+  experimental no publicada. La versión final conserva los grupos originales;
+  ningún límite se aumentó y ningún test anterior fue reescrito.
+- 256 de 261 Python anteriores idénticos; cambian entrada, boundary, workspace
+  y dos registros de QA. 642 archivos históricos intactos; mismo rechazo legado
+  `unreviewed root file`, sin recertificación de NQC.
+
+El filtrado delimita el cómputo propio, no el acceso previo a archivos, la
+integridad de memoria, otro proceso del mismo UID ni un sandbox general.
+M1 sigue parcial. No se crean findings de seguridad, no se ejecutan reparaciones
+externas y no hay nuevas corridas nativas EVM/Slither. Los expedientes de captura
+y diagnóstico anteriores conservan sus perfiles e identidades originales.
+
 ## Estado vigente: limpieza comprobada de temporales propios
 
 Sucesor de PR #104, commit `4af508c34caf78dd8fd6ee718b95e1c9e3a1a6c1`.
