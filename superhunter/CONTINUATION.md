@@ -2,6 +2,41 @@
 
 ## Estado vigente
 
+Esta continuación parte de PR #88, commit
+`050595cdd130d8e574a56f2a6531dac30eecc2a8`, y añade el
+[comportamiento del modelo correcto](OWNED_CORRECT_BEHAVIOR.md) sobre los
+16 contra-controles fijos. Una tabla explícita y una referencia de historial
+comprueban decisiones y efectos del modelo. Son 42 eventos: 11 usos aceptados
+y siete rechazados; los otros 24 eventos son comandos de control.
+
+Digest: `9a6f4216ccfe81baf689882da09c1a5f32cf2353bc605b79bd56074fb6a5e604`.
+Evidencia: `SUPERHUNTER_COMPORTAMIENTO_CORRECTO_20261107.zip`.
+
+- 31 pruebas focalizadas PASS (29 nuevas más dos regresiones existentes de
+  entradas CLI). El primer pase completo falló esas dos regresiones: el registro
+  se había añadido después del arranque de la CLI directa. Se corrigió su orden;
+  el intento rechazado y sus recibos se conservan. No se eliminaron pruebas.
+- QA corregido con SDK real: **2,799 PASS**, cero fallos, errores o skips;
+  las 2,770 anteriores permanecen en sus mismos grupos. Verificación de QA,
+  telemetría y preparación desde otro proceso sin SDK PASS.
+- CLI de creación y verificación del comportamiento en procesos separados PASS.
+  Ocho workers y límites intactos; máximo 78.921 s. Se preservan 219 archivos
+  Python anteriores; solo cambian los tres registros de entrada/QA.
+- Slither nativo y replay para este digest: TP1/TN2/FP0/FN0. Geth/EELS histórico
+  y verificación independiente PASS: cuotas TP4/TN2/FP0/FN0; autoridad temporal
+  TP6/TN4/FP0/FN1, conservando `latent_revocation` y sus denominadores.
+- Límite de repositorio PASS y 642 archivos históricos intactos. Rust/PFT/Census
+  no reejecutados ni recertificados.
+
+El perfil nuevo ejecuta únicamente el modelo correcto; no ejecuta contratos,
+variantes defectuosas o detectores ni recalcula métricas históricas. El éxito
+nativo anterior de este digest pertenece a sus perfiles históricos separados.
+Avance global no determinado; plataforma incompleta.
+Siguiente: comprobar el mismo contrato correcto y los contra-controles fijos
+en dos motores EVM, con decisiones, efectos y estado de permisos por evento.
+
+## Inventario de registros aceptado en #88
+
 Esta continuación parte de PR #87, commit
 `7a57b3538218a4f981ef5001f35f764be0b467b2`, y añade el
 [inventario verificable de registros](PORTFOLIO_INVENTORY.md). Valida las 50

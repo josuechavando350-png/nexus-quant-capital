@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ('review-owned-correct-behavior', 'verify-owned-correct-behavior'):
+        from .owned_authority_behavior import main as behavior_main
+        return behavior_main(argv)
     if argv and argv[0] in ('review-registry-inventory', 'verify-registry-inventory'):
         from .portfolio_inventory import main as inventory_main
         return inventory_main(argv)
