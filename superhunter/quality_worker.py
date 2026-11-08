@@ -134,6 +134,7 @@ QA_MODULE_GROUPS = (
         'test_owned_coverage_link',
         'test_portfolio_inventory',
         'test_owned_authority_behavior',
+        'test_owned_correct_cross_evm',
         'test_custody',
         'test_evm_opcode_trace',
         'test_fuzz_evidence',

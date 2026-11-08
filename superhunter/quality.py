@@ -1447,6 +1447,24 @@ REQUIRED_TESTS += (
 )
 
 
+COMPONENTS['owned_correct_cross_evm'] = {
+    'files': ['owned_correct_evm_cases.py', 'owned_correct_geth.py', 'owned_correct_evm_worker.py',
+              'owned_correct_spec_worker.py', 'owned_correct_cross_evm.py'],
+    'tests': ['test_owned_correct_cross_evm.'],
+    'depends': ['owned_authority_behavior', 'owned_authority_evm', 'owned_cross_evm',
+                'owned_process', 'quality', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('owned_correct_cross_evm')
+REQUIRED_TESTS += (
+    'test_owned_correct_cross_evm.CorrectNativeTests.test_only_correct_source_and_fixed_codegen_are_accepted',
+    'test_owned_correct_cross_evm.CorrectNativeTests.test_committed_denied_use_remains_false_in_projection',
+    'test_owned_correct_cross_evm.CorrectNativeTests.test_one_gas_probe_cannot_persist_any_state',
+    'test_owned_correct_cross_evm.CorrectNativeTests.test_agreeing_engines_with_wrong_permission_storage_are_rejected',
+    'test_owned_correct_cross_evm.CorrectNativeTests.test_agreeing_engines_with_wrong_generation_are_rejected',
+    'test_owned_correct_cross_evm.CorrectNativeBundleTests.test_verifier_requests_two_fresh_native_worker_runs',
+    'test_owned_correct_cross_evm.CorrectNativeBundleTests.test_reexecution_failure_cannot_be_replaced_by_saved_receipt',
+)
+
+
 # Register the complete package before either CLI entry point runs.
 if __name__ == '__main__':
     raise SystemExit(main())
