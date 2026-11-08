@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ('review-qa-custody', 'verify-qa-custody'):
+        from .qa_custody import main as qa_custody_main
+        return qa_custody_main(argv)
     if argv and argv[0] in ('compare-owned-correct-engines', 'verify-owned-correct-engines'):
         from .owned_correct_cross_evm import main as correct_native_main
         return correct_native_main(argv)

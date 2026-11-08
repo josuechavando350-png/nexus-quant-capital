@@ -1,5 +1,41 @@
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
+## Estado vigente: QA, recibos originales y custodia integrados
+
+Sucesor de PR #92, commit `e4380bdd9a38f53296aa70175d3b775ec4e7eaa9`.
+[QA_CUSTODY_REPORT.md](QA_CUSTODY_REPORT.md) documenta el consumidor real
+que revalida QA, firma de custodia con confianza externa al expediente,
+ocho recibos originales y reconstrucción exacta del log. El verificador
+regenera el reporte y comprueba nuevamente revocación y caducidad.
+
+- **2,874 QA PASS**, 2,850 anteriores conservadas en sus grupos y 24 nuevas;
+  cero fallos, errores o skips. 72 focales PASS. SDK real en productor;
+  verificador separado de QA/telemetría/preparación sin SDK PASS.
+- Aceptación con QA real y clave efímera de laboratorio: creación, verificación
+  separada y revalidación del original PASS; cuatro controles alterados
+  rechazados. No se guardó la clave privada. La política pública pertenece
+  al laboratorio; no acredita productor independiente ni ejecución autenticada.
+- Digest `23497a237e0b3a7be678baef6301196032823049c8560f56576d081e2402b58c`.
+  Ocho workers y límites intactos; máximo 84.553009 s.
+- 229 archivos Python anteriores intactos; solo cambian los registros de QA
+  y la entrada CLI, además de añadir módulo/pruebas. Ninguna prueba anterior
+  se reescribió. 642 archivos históricos protegidos intactos.
+
+Evidencia: `SUPERHUNTER_QA_CUSTODIA_INTEGRADA_20261108.zip`. El sello de
+laboratorio vence 24 horas tras emitirse; los controles de vigencia permanecen
+activos. Tras vencer no atribuir una aceptación actual al reporte archivado.
+
+No se reejecutaron perfiles nativos Slither/Geth/EELS; sus evidencias conservan
+sus digests originales. Rust/PFT/Census no recertificados. No cierra M1 ni
+ningún nuevo hito global; permanece 1/6 hitos cerrados.
+
+Siguiente: recepción de journal propio con custodia y contexto temporal
+explícito, conservando incertidumbre del reloj y separando vínculo por bytes
+de autenticación de ejecución. No habilitar fuentes remotas ni escaneo.
+
+Los apartados siguientes conservan historia y sus identidades originales.
+
+
 ## Estado vigente: contrato cerrado de telemetría QA
 
 Continuación de PR #91, commit `c2ab7c9ee0b4cbf0266ecf03defc1489521cc072`.

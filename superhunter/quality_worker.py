@@ -96,6 +96,7 @@ QA_MODULE_GROUPS = (
     ),
     (
         'test_case_review',
+        'test_qa_custody',
         'test_forensic_timeline',
         'test_native_platform',
         'test_otel_qa',
