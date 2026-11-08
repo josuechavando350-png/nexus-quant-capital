@@ -1,3 +1,5 @@
+[Findings operativos y plan de corrección](OWNED_REMEDIATION.md): el diagnóstico deriva evidencia y condiciones de restauración, sin ejecutar reparaciones.
+
 [Archivos y custodia verificados conjuntamente](PRESERVED_CUSTODY.md): la firma y la integridad del índice se comprueban por separado y se exigen ambas.
 
 [Verificación eficiente de aliases](INDEX_CACHE.md): reutilización acotada al mismo contenido y contexto, conservando comprobaciones por archivo.
