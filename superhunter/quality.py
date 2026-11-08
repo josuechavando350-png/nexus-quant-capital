@@ -1430,6 +1430,23 @@ REQUIRED_TESTS += (
 )
 
 
+
+
+COMPONENTS['owned_authority_behavior'] = {
+    'files': ['owned_authority_behavior.py'], 'tests': ['test_owned_authority_behavior.'],
+    'depends': ['owned_authority_coverage_suite', 'owned_authority', 'quality', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('owned_authority_behavior')
+REQUIRED_TESTS += (
+    'test_owned_authority_behavior.BehaviorTests.test_all_authored_decisions_and_effects_match_correct_model_and_reference',
+    'test_owned_authority_behavior.BehaviorTests.test_control_commands_and_denied_uses_do_not_produce_effects',
+    'test_owned_authority_behavior.BehaviorTests.test_each_accepted_use_changes_exactly_one_counter_by_one',
+    'test_owned_authority_behavior.BehaviorTests.test_model_receives_only_event_records_and_only_correct_variant',
+    'test_owned_authority_behavior.BehaviorTests.test_agreeing_wrong_model_and_reference_cannot_override_authored_expectation',
+    'test_owned_authority_behavior.BehaviorBundleTests.test_resealed_altered_trace_is_rejected',
+    'test_owned_authority_behavior.BehaviorBundleTests.test_cli_creation_and_verification_in_separate_processes',
+)
+
+
 # Register the complete package before either CLI entry point runs.
 if __name__ == '__main__':
     raise SystemExit(main())
