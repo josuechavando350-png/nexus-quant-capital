@@ -1241,11 +1241,14 @@ REQUIRED_TESTS += (
 # Optional OpenTelemetry profiling is instrumented ONLY for local owned QA.
 # No OTLP exporter, collector endpoint, network permission or scanning is added.
 COMPONENTS['otel_qa'] = {
-    'files': ['otel_qa.py', 'otel_dependency_integrity.py', 'otel_dependency_pins.py'],
-    'tests': ['test_otel_qa.', 'test_otel_dependency_integrity.'],
+    'files': ['otel_qa.py', 'otel_qa_schema.py', 'otel_dependency_integrity.py', 'otel_dependency_pins.py'],
+    'tests': ['test_otel_qa.', 'test_otel_dependency_integrity.', 'test_otel_qa_schema.'],
     'depends': ['quality', 'io', 'privacy']}
 COMPONENTS['entrypoints']['depends'].append('otel_qa')
 REQUIRED_TESTS += (
+    'test_otel_qa_schema.TelemetrySchemaTests.test_resealed_private_error_rejected',
+    'test_otel_qa_schema.TelemetrySDKPrivacyTests.test_private_exception_name_and_message_not_serialized',
+    'test_otel_qa_schema.TelemetrySDKPrivacyTests.test_resource_environment_not_recorded',
     'test_otel_qa.OfflineOpenTelemetryTests.test_metadata_check_and_no_remote_operation',
     'test_otel_qa.OfflineOpenTelemetryTests.test_real_sdk_captures_qa_and_verifier_in_memory',
     'test_otel_qa.OfflineOpenTelemetryTests.test_verifier_exception_is_failure_not_pass',
