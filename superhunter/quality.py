@@ -1468,6 +1468,19 @@ REQUIRED_TESTS += (
 )
 
 
+COMPONENTS['qa_custody'] = {
+    'files': ['qa_custody.py'], 'tests': ['test_qa_custody.'],
+    'depends': ['quality', 'custody', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('qa_custody')
+REQUIRED_TESTS += (
+    'test_qa_custody.QACustodyTests.test_real_signature_and_all_receipts_verified',
+    'test_qa_custody.QACustodyTests.test_revoked_key_rejected',
+    'test_qa_custody.QACustodyTests.test_resealed_worker_log_rejected',
+    'test_qa_custody.QACustodyTests.test_report_cannot_promote_execution_authentication',
+    'test_qa_custody.QACustodyTests.test_cli_creation_and_verification_in_separate_processes',
+)
+
+
 # Register the complete package before either CLI entry point runs.
 if __name__ == '__main__':
     raise SystemExit(main())

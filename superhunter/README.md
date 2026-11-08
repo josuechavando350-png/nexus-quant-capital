@@ -363,3 +363,10 @@ La ruta adicional `review-compiler-variants` consume la aceptación nativa de la
 misma versión y contrasta dos perfiles optimizados con el perfil original.
 El replay vuelve a ejecutar las herramientas. Ver [COMPILER_VARIANTS.md](COMPILER_VARIANTS.md).
 No equivale a usar otro compilador/EVM ni completa las capacidades amplias.
+
+
+### QA con custodia y recibos originales
+
+[QA_CUSTODY_REPORT.md](QA_CUSTODY_REPORT.md) documenta el consumidor local que
+revalida QA, firma externa de custodia y ocho recibos originales, reconstruye
+el log y rechaza cambios o revocaciones. No autentica la ejecución del productor.
