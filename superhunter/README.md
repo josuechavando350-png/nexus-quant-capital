@@ -1,3 +1,5 @@
+[Verificación eficiente de aliases](INDEX_CACHE.md): reutilización acotada al mismo contenido y contexto, conservando comprobaciones por archivo.
+
 [Conservación explícita de copias](PRESERVED_RETENTION.md): retenciones, mínimos y presupuestos verificables.
 
 [Índice privado de archivos preservados](PRESERVED_INDEX.md): verificación explícita, duplicados e inventarios originales separados.
