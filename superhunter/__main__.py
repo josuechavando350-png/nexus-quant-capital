@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ('capture-owned-boundary', 'verify-owned-boundary-capture'):
+        from .owned_capture import main as owned_capture_main
+        return owned_capture_main(argv)
     if argv and argv[0] in ('review-journal-custody', 'verify-journal-custody'):
         from .journal_custody import main as journal_custody_main
         return journal_custody_main(argv)

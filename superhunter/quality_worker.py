@@ -86,6 +86,7 @@ QA_MODULE_GROUPS = (
     ),
     (
         'test_benchmark',
+        'test_owned_capture',
         'test_evm_coverage_guidance',
         'test_evm_forensic_binding',
         'test_ledger_sequence',

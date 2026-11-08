@@ -1,3 +1,5 @@
+**Captura observable de proceso propio:** [implementación y uso](OWNED_PROCESS_CAPTURE.md). Un worker fijo revisa el repositorio; el expediente conserva salida real, terminación y tiempos, con verificación sin reejecución. Estado vigente y límites en [CONTINUATION.md](CONTINUATION.md).
+
 **Nuevo cierre de tiempos de QA:** [24 corridas y doce parejas sobre PR #90](OWNED_QA_TIMING_STUDY.md), con 2,833 pruebas por corrida y revisión de evidencia sin SDK. Resultados observacionales; Collector y el avance global conservan sus límites.
 
 **Continuidad actual:** [punto de reanudación](CONTINUATION.md), [inventario de registros](PORTFOLIO_INVENTORY.md), [vínculo de expedientes](OWNED_COVERAGE_LINK.md), [contra-controles de cobertura](OWNED_COVERAGE_COUNTER_CONTROLS.md), [aceptación nativa de PR #84](NATIVE_REACCEPTANCE_PR84.md) y [cobertura temporal histórica](OWNED_AUTHORITY_COVERAGE.md).

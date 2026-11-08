@@ -1,5 +1,45 @@
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
+## Estado vigente: captura observable de una revisión propia
+
+Sucesor de PR #94, commit `8e39da34033065a203207b1df962a4762de4180e`.
+[OWNED_PROCESS_CAPTURE.md](OWNED_PROCESS_CAPTURE.md) documenta el productor
+real y el verificador sin ejecución. Un worker fijo, supervisado y de lectura,
+revisa este checkout; se recogen salida y terminación reales, dos relojes e
+identidad por bytes del intérprete. El origen es observación del propio padre,
+no exportación de journald ni autenticación independiente de ejecución.
+
+- **2,932 QA PASS**, cero fallos/errores/skips. 2,906 anteriores conservadas
+  en sus mismos ocho grupos, 26 nuevas; 62 focales PASS.
+- SDK real en productor; verificación de QA, telemetría y preparación en un
+  proceso separado sin SDK PASS. Máximo worker 87.932712 s, límites intactos.
+- Digest `fb9ddcc0a9d18c6027a4c19a15598eb74d7b7630dd698a5a23a76b2e28eedc88`.
+- 234 archivos Python anteriores idénticos; solo cambian los tres registros
+  de entrada/QA, además de añadir módulo, worker y tests. Ninguna prueba previa
+  se cambia. La revisión conserva 642 archivos históricos protegidos.
+
+El verificador requiere ancla externa y recomputa el resultado frente al
+checkout actual. Las pruebas distinguen captura real y controles alterados:
+un reloj editado coherentemente con nueva ancla NO acredita exactitud UTC ni
+la ejecución histórica. No se solicita un comando, intérprete o target remoto.
+
+Evidencia y aceptación CLI final:
+`SUPERHUNTER_CAPTURA_PROCESO_PROPIO_20261108.zip`; consultar
+`actual-capture-and-altered-controls/acceptance.json` para ancla, captura,
+comandos, resultados y vencimiento de custodia. Firmar el expediente con una
+clave de laboratorio no acredita productor independiente; la clave privada
+no se conserva. Los archivos del expediente final fijan también documentos,
+por lo que editar el checkout puede invalidar su comparación.
+
+M1 sigue parcial; indicador global sin cambio: 1/6 hitos cerrados. No hay
+operación continua, nuevo hallazgo ni cierre de 20 programas. No se repiten
+perfiles Slither/Geth/EELS ni se recertifica Rust/PFT/Census en este digest.
+
+Siguiente: captura de un fallo operativo propio y diagnóstico contrastado,
+conservando la evidencia de incertidumbre y los límites del proceso fijo.
+
+Los apartados siguientes preservan sus estados y digests históricos.
+
 ## Estado vigente: custodia journal y aritmética temporal corregida
 
 Sucesor de PR #93, commit `3e4c36e3bb8de7fc7a66a9f3a17421dc407cec59`.
