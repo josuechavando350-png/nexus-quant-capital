@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ('review-preserved-custody', 'verify-preserved-custody'):
+        from .preserved_custody import main as preserved_custody_main
+        return preserved_custody_main(argv)
     if argv and argv[0] in ('review-preserved-retention', 'verify-preserved-retention'):
         from .preserved_retention import main as retention_main
         return retention_main(argv)

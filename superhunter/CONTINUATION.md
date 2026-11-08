@@ -1,5 +1,38 @@
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
+## Estado vigente: verificación conjunta de archivos y custodia
+
+Sucesor de PR #102, commit `1291a4fa165b68e25d4a615264b2a135bed6d604`.
+[PRESERVED_CUSTODY.md](PRESERVED_CUSTODY.md) documenta la comprobación conjunta
+del índice, todos sus ZIP y una firma Ed25519 con política externa fijada.
+Un índice con conteos falsos se rechaza aunque su firma sea válida.
+
+- **3,148 QA PASS**, cero fallos/errores/skips; las 3,129 anteriores conservan
+  sus ocho grupos y se añaden 19 al grupo 0. Las 19 focales también pasaron.
+- SDK real y verificación separada sin SDK de QA/telemetría/preparación PASS.
+  Máximo worker 97.574358 s; grupo nuevo 48.252565 s; límites intactos.
+- Digest `4ee28c1cb2173b096b1b42e5e53896273d68560fe44b8cd711dcbea4fd052644`.
+- 21 controles CLI sobre bytes conservados en PR101. Colección mixta:
+  11 entradas, 10 ZIP, 5 inventarios y 8 capturas incompletas; retorno 1.
+  Colección completa: 3 entradas, 2 ZIP, 1 inventario; retorno 0.
+- Ocho anclas/identidades incorrectas, caso/productor equivocados, revocación,
+  expiración, firma corrupta, archivos ausentes/alterados y promociones de
+  garantías se rechazan. Firma válida sobre índice falso también se rechaza.
+- Clave de laboratorio efímera en memoria; ninguna privada persistida.
+  Misma máquina: no custodia independiente, identidad humana, ejecución
+  autenticada ni reloj confiable. Sellar capturas incompletas no las completa.
+- 253 de 256 Python anteriores idénticos; solo cambian tres registros.
+  Ningún test anterior reescrito ni nuevas ejecuciones nativas.
+- 642 históricos intactos; mismo rechazo legado por unreviewed root file
+  en PR102 y aquí. No se recertifica NQC.
+
+Evidencia: `SUPERHUNTER_CUSTODIA_INDICE_VERIFICABLE_20261108.zip`.
+M1 parcial y 1/6 hitos cerrados. La prueba sostenida mantiene la versión
+congelada de PR100; sus resultados se documentan por separado al terminar.
+Siguiente: verificar íntegramente sus recibos y contrastar los pendientes
+de M1 con los criterios del plan, sin convertir conservación en cierre del hito.
+Los apartados siguientes conservan sus estados y digests históricos.
+
 ## Estado vigente: verificación eficiente de aliases
 
 Sucesor de PR #101, commit `28e0d3145e769fcfe7ccae88c263082a1aab0422`.

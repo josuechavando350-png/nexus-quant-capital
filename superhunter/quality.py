@@ -1601,6 +1601,19 @@ REQUIRED_TESTS += (
 )
 
 
+COMPONENTS['preserved_custody'] = {
+    'files': ['preserved_custody.py'], 'tests': ['test_preserved_custody.'],
+    'depends': ['preserved_index', 'custody', 'bundle_recovery', 'owned_capture', 'quality', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('preserved_custody')
+REQUIRED_TESTS += (
+    'test_preserved_custody.PreservedCustodyTests.test_real_signature_and_archive_check_preserve_incomplete_state',
+    'test_preserved_custody.PreservedCustodyTests.test_valid_signature_cannot_approve_false_index_counts',
+    'test_preserved_custody.PreservedCustodyTests.test_revoked_key_with_updated_policy_anchor_is_rejected',
+    'test_preserved_custody.PreservedCustodyTests.test_archive_change_during_final_signature_check_is_rejected',
+    'test_preserved_custody.PreservedCustodyTests.test_cli_preserves_incomplete_state_and_private_identity',
+)
+
+
 # Register the complete package before either CLI entry point runs.
 if __name__ == '__main__':
     raise SystemExit(main())
