@@ -21,6 +21,7 @@ from . import owned_slither_network as pinned
 from .safe_io import canonical
 
 PROFILE = 'owned-linux-x86_64-preloaded-compute-v1'
+SEALED_PROFILE = 'owned-linux-x86_64-sealed-input-compute-v1'
 MARKER_BYTES = b'SuperHunter own preloaded compute control\n'
 ALLOW, DENY = 0x7fff0000, 0x00050000 | errno.EPERM
 EQ, MASKED_EQ = 4, 7
@@ -88,7 +89,18 @@ def expected_proof(socket_baseline: dict) -> dict:
             'host_authenticated': False, 'independent_execution_authenticated': False}
 
 
-def _descriptors() -> None:
+def sealed_expected_proof(socket_baseline: dict, size: int) -> dict:
+    from . import owned_sealed_input as sealed
+    need(type(size) is int and sealed.HEADER.size <= size <= sealed.MAX_FRAME_BYTES, 'COMPUTE_STDIN_SIZE')
+    return {**expected_proof(socket_baseline), 'profile': SEALED_PROFILE,
+            'stdin_checked_as_devnull': False, 'stdin_checked_as_sealed_readonly': True,
+            'stdin_bytes': size, 'stdin_seals': list(sealed.SEAL_NAMES),
+            'stdin_offset_checked_zero_before_filter': True,
+            'worker_payload_read_inside_filter': True,
+            'parent_filesystem_acquisition_inside_filter': False}
+
+
+def _descriptors(sealed_size: int | None = None) -> None:
     observed = set()
     for name in os.listdir('/proc/self/fd'):
         descriptor = int(name)
@@ -100,10 +112,14 @@ def _descriptors() -> None:
         need(descriptor in (0, 1, 2), 'COMPUTE_EXTRA_DESCRIPTOR')
         observed.add(descriptor)
         if descriptor == 0:
-            expected = os.stat('/dev/null')
-            need(stat.S_ISCHR(info.st_mode) and info.st_rdev == expected.st_rdev and
-                 fcntl.fcntl(descriptor, fcntl.F_GETFL) & os.O_ACCMODE in (os.O_RDONLY, os.O_RDWR),
-                 'COMPUTE_STDIN')
+            if sealed_size is None:
+                expected = os.stat('/dev/null')
+                need(stat.S_ISCHR(info.st_mode) and info.st_rdev == expected.st_rdev and
+                     fcntl.fcntl(descriptor, fcntl.F_GETFL) & os.O_ACCMODE in (os.O_RDONLY, os.O_RDWR),
+                     'COMPUTE_STDIN')
+            else:
+                from . import owned_sealed_input as sealed
+                need(sealed.inspect(descriptor) == sealed_size, 'COMPUTE_STDIN_SIZE')
         else:
             need(stat.S_ISREG(info.st_mode) or stat.S_ISFIFO(info.st_mode), 'COMPUTE_OUTPUT_DESCRIPTOR')
     need(observed == {0, 1, 2}, 'COMPUTE_MISSING_DESCRIPTOR')
@@ -132,6 +148,16 @@ def _before(marker: Path) -> tuple[bytes, dict]:
 
 def install(marker: Path) -> dict:
     """Install only in the fixed dedicated child, after its inputs are loaded."""
+    return _install(marker, None)
+
+
+def install_sealed(marker: Path) -> dict:
+    """Install before the fixed worker reads its sealed FD 0 data payload."""
+    from . import owned_sealed_input as sealed
+    return _install(marker, sealed.inspect(0))
+
+
+def _install(marker: Path, sealed_size: int | None) -> dict:
     need(len(list(Path('/proc/self/task').iterdir())) == 1, 'COMPUTE_SINGLE_THREAD_REQUIRED')
     loaded, socket_baseline = _before(marker)
     raw = pinned.library_bytes()
@@ -154,10 +180,11 @@ def install(marker: Path) -> dict:
     libc.prctl.argtypes = [ctypes.c_int, ctypes.c_ulong, ctypes.c_ulong, ctypes.c_ulong, ctypes.c_ulong]
     libc.prctl.restype = ctypes.c_int
     # Prime output/hash encodings before the no-new-files boundary.
-    proof = expected_proof(socket_baseline)
+    proof = (expected_proof(socket_baseline) if sealed_size is None
+             else sealed_expected_proof(socket_baseline, sealed_size))
     json.dumps(proof)
     hashlib.sha256(loaded).hexdigest()
-    _descriptors()
+    _descriptors(sealed_size)
     context = lib.seccomp_init(DENY)
     need(bool(context), 'COMPUTE_FILTER_INIT')
     try:
