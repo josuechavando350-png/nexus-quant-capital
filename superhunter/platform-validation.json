@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-11-04T06:53:55.119456+00:00",
+  "base_commit": "d3fcd6ca16774efc921c964975c8f3cc5946ac1b",
+  "python": "3.13.5",
+  "pyyaml": "6.0.3",
+  "baseline": {
+    "tests": 199,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "source_digest": "a9013ea8994291c2c8050acaa933af1c6da4902bb0e6f003270fee013810181c"
+  },
+  "updated": {
+    "tests_run": 261,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0
+  },
+  "combined_cli_executed": true,
+  "separate_verifier_executed": true,
+  "source_digest": "4d652371be407b8fc89fe4ba94fafd4c236340e6e81060c2febf677f17199c6b",
+  "fixed_cases": 5,
+  "fuzz_cases": 256,
+  "fuzz_seed": 20261104,
+  "platform_complete": false,
+  "vulnerability_confirmed": false,
+  "forge_executed": false,
+  "full_historical_nqc_suite_run": false,
+  "full_isolation_verifier_run": false,
+  "github_actions_run": false,
+  "preservation_check": "Remote Git diff and untouched tree hashes; not a full local repository checkout",
+  "test_log_sha256": "8f87cbed55f189aaa3649f35cf27bd69ae90dee940e6284f282f34b862b7e538",
+  "files": {
+    "superhunter/platform.py": {
+      "git_blob": "762675ba960b54ba364392ce2eff094e183b0822",
+      "sha256": "48f4dca3f24814363af846207b8c3f4f36b4a92b6fdf52103457e5b303db10fc",
+      "bytes": 13804
+    },
+    "superhunter/integration-checklist.json": {
+      "git_blob": "ac3147b01bd6f566df217fe09b49b5e5d00c7cb4",
+      "sha256": "d07623933bc2cc8c2e914c9457054167580538102e5aa28789ae283c42cf9027",
+      "bytes": 10512
+    },
+    "superhunter/tests/test_platform.py": {
+      "git_blob": "583e7597af527de51151e1c209cd2f77f72eac28",
+      "sha256": "009435f9e079c349cb73716471eb5a634be197c433f6f727a807a3f46f937b32",
+      "bytes": 14880
+    },
+    "superhunter/quality.py": {
+      "git_blob": "518678891ffe6339592ee8599dcb4651eddec688",
+      "sha256": "76b6a8decbc4895ca720eca8a89369266abf41dcf77fc360f55fef0e822a24d1",
+      "bytes": 14924
+    },
+    "superhunter/__main__.py": {
+      "git_blob": "730a76650413119842b93f2da0bc14d5692d42fe",
+      "sha256": "010dcc33d05366860d88f679df4c5525e69559fab13c6ab3f3f4218ffa6d9c88",
+      "bytes": 3940
+    },
+    "superhunter/proof_graph.py": {
+      "git_blob": "f360c8f2e4000ffddb63ef49fcf7f68facadd69d",
+      "sha256": "b940d366683dbe56104bcd1ff882c2cf3913bfa365c3bf6682e49598ffe9d13c",
+      "bytes": 5622
+    },
+    "superhunter/tests/test_proof_graph.py": {
+      "git_blob": "27369a67bfeccc9741d5a94f237a6c872e45d0eb",
+      "sha256": "70eff2a27a22d4cad3fa3acaa661ee01fdec94291e0ed8e59cdb7bc5c83ebe5e",
+      "bytes": 6509
+    },
+    "superhunter/README.md": {
+      "git_blob": "020f0bf79a875a9e4f4a15d3aa10c949fc4d0782",
+      "sha256": "e5085a8f2fa6a62d9aa08906fcf7b1c0e6e2a8c0f1bd8a9de5f348a6e66210e4",
+      "bytes": 5497
+    },
+    "superhunter/PLATFORM_REVIEW.md": {
+      "git_blob": "96d41c1b2e2e288c53e4e31ce16661ac6cd5daee",
+      "sha256": "dc2cfd8488bada8f2c14077ba118ac6c15aaffa319ed877ada0f5f2e227fc1c0",
+      "bytes": 5086
+    }
+  },
+  "publication_parent": "d3ab1a06b330e2d056114da91ff5f7b53d1304a7",
+  "pre_reconciliation_tests": 236,
+  "preserved_concurrent_tests": 25
+}

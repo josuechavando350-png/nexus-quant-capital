@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-11-04T15:21:09.781026+00:00",
+  "base_commit": "adc28a062668de996848ace5d233d2fa055fbd4c",
+  "publication": "NOT_PUBLISHED",
+  "python": "3.13.5",
+  "pyyaml": "6.0.3",
+  "source_digest": "33b23d569ca292e60f05c9afade8bf88acee0e9ab41fcad3f9c83ea51d0025df",
+  "tests": 487,
+  "previous_unique_test_ids_preserved": 439,
+  "new_permission_tests": 48,
+  "generated_policy_models_in_one_test": 128,
+  "final_failures": 0,
+  "final_errors": 0,
+  "final_skips": 0,
+  "clean_copy_tests": 487,
+  "clean_source_identity_matches": true,
+  "fixed_numerical_cases": 5,
+  "fuzz_numerical_cases": 256,
+  "permission_examples": {
+    "conflicting_policy": {
+      "declared_checks": 5,
+      "failed_checks": 2,
+      "cli_exit": 1
+    },
+    "corrected_policy": {
+      "declared_checks": 5,
+      "failed_checks": 0,
+      "cli_exit": 0
+    },
+    "separate_verifiers_agreed": true
+  },
+  "earlier_attempts": [
+    {
+      "operation": "baseline380 first run",
+      "outcome": "TOOL_TIMEOUT_NO_SUCCESS_CLAIM"
+    },
+    {
+      "operation": "baseline380 retry",
+      "tests": 380,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "operation": "first merged 487 suite",
+      "failures": 1,
+      "reason": "Old catalog assertion expected five partial capabilities; changed assertion to exact seven IDs after adding permissions. No test removed."
+    }
+  ],
+  "platform_complete": false,
+  "live_enforcement_verified": false,
+  "vulnerability_confirmed": false,
+  "full_historical_nqc_suite_run": false,
+  "full_isolation_verifier_run": false,
+  "github_actions_run": false,
+  "notes": "Local JSON policy analysis and defensive QA. Algorithms agree within a custom model, not a proof that a deployed application enforces the supplied policy. All example inputs are synthetic.",
+  "primary_test_log_sha256": "1d57fb3ca19546ce381754a9b8a73e4b8f4f2ae7ae9968d1f225336d6e0f5ebe",
+  "clean_test_log_sha256": "4b67238c50aa313c2cf70bd28ef1e41eaf70a0bdfd124eed8724eddf15550c5f"
+}

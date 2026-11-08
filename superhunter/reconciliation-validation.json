@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-11-04T07:48:27.981094+00:00",
+  "publication": "LOCAL_ONLY_NOT_PUSHED",
+  "base_commit": "adc28a062668de996848ace5d233d2fa055fbd4c",
+  "integrated_pr37": "42dc168efd63e7ac3a8919635773ed66ddb2758c",
+  "baseline35": {
+    "tests": 251,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "baseline37": {
+    "tests": 261,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "retained_prior_test_ids": 364,
+  "new_reconciliation_tests": 16,
+  "results": {
+    "tests_run": 380,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0
+  },
+  "source_digest": "4ca2f2e106b9e289d603933fc81654db826518f3b126bdbe1e9b2c5f43f8d1c6",
+  "actual_cli_runs": [
+    {
+      "name": "combined-review",
+      "returncode": 0,
+      "elapsed_seconds": 53.692
+    },
+    {
+      "name": "verify-platform",
+      "returncode": 0,
+      "elapsed_seconds": 1.069
+    },
+    {
+      "name": "portable-review",
+      "returncode": 0,
+      "elapsed_seconds": 1.271
+    },
+    {
+      "name": "verify-portable",
+      "returncode": 0,
+      "elapsed_seconds": 1.017
+    }
+  ],
+  "fixed_numeric_cases": 5,
+  "generated_numeric_cases": 256,
+  "fuzz_seed": 20261104,
+  "forge_executed": false,
+  "vulnerability_confirmed": false,
+  "platform_complete": false,
+  "full_repository_checkout": false,
+  "full_nqc_isolation_verifier": false,
+  "ci_run": false,
+  "source_snapshot": {
+    "__init__.py": "7b4d01574a66cd101b40acd0285c2360619524f8f84fbb6288fe5b323f832ac7",
+    "__main__.py": "d5056b7adca92b9097a145ace1bccb163798ea13eb1551d91335c87087a5b4a6",
+    "audit_links.py": "5fa7b64e1d3243656e10b3374ad715ccaae332f117eda37ecb6dee7ad3811bca",
+    "bridge.py": "bfa5fbd11f94f3be32e4acbabdd584fa89b744248133f40ba66c567f40c53ee8",
+    "capabilities.json": "67aa4b9f65977ab1ee79f62b3876a76e4e8a7c1fa9a2ae6d2b41a6ed0ab4e722",
+    "fuzz_cli.py": "01b16c88aff01751e5868517b08a6fbe821678c85ae99e66f887c14b35489669",
+    "fuzz_lab.py": "9362df382474ca2b4cc28595039db922b5682b9c99072fb9355da5d441202921",
+    "fuzz_worker.py": "b8f39ac0b3bb0aeae689d2a62398e7b0181712b3a6865285eb82db3d22e72772",
+    "integration-checklist.json": "4ab2116802c9b6578d3ccbd3a6753655dc9469cd15b517d859b997241c464552",
+    "integration.py": "e17dd41d05b9c1dcc9259297be7620d4d7d59a4d55c4466245ee42cfd93f8dd7",
+    "integration_milestones.json": "d0a2671822ed3fd9df235303669c6150789ee9fb8b7fd282f0a692584512e34f",
+    "lab_cli.py": "a801af3571b8e6117cb0858b57b8fd55bb83adfd72fdd1542f385c429fdf8a4f",
+    "lab_worker.py": "eef521a007081b59b2789cd34475b0e02a03270f0551a1ae2f4136e0ef4f3899",
+    "local_lab.py": "bc7cdcfd996ce74dca2678c8d92484ea3373c61cb4973499c8fdf244c6308136",
+    "native_runtime.py": "442f0376b73fe3aff24fa1e817bec59ce38f5642186096fd85771e913dae5ab2",
+    "native_sources/diablo/audit.py": "aa06e536081e8e72ab21b0f84be36f911ae51f89514770cda9fea2fd6aee0f07",
+    "native_sources/diablo/models.py": "4dd917bd6b92e696a19c4d6d65d886a096a419150bc560e4f6e017e6873928e0",
+    "native_sources/diablo/scope.py": "c54fae956f8868dc551a59e0927a96e4a4caa65ba8d51488ec539cbb9755e37c",
+    "native_sources/nqc/capacity.py": "b5276c705aa2f9f9d281a2ee43dd165e4de05fd342c2b09ae31b3e6468ed1bd2",
+    "platform.py": "e4db7d5d478cc528c566061d530aed3af7cf7adc0f72db410ba64d2f17cbc239",
+    "privacy.py": "1f506b2a30ab516a33c445f2083d32b5f6d76a781abefd364280ff1ad4b46e87",
+    "privacy_cli.py": "271e2fb70a3f6387e4551bcf1992c34e00bfced8784debbac2ef1321eaf9e681",
+    "project_context.py": "ca8c38ff54ed9c1ac92eac4fb434c3804dcb1a880eccd14a4df5ee40fd1253c7",
+    "proof_graph.py": "b940d366683dbe56104bcd1ff882c2cf3913bfa365c3bf6682e49598ffe9d13c",
+    "quality.py": "feeff5671abbb6df0252e09204e5028d9cd440514f1644381669bc5c8b957336",
+    "quality_worker.py": "e0ba3ccb6f7760c81bcb729873d33058d34a6e0ffbe0921b72e7fae1b93656ab",
+    "reconciliation-origins.json": "a8011ccf83f0107595109729d78e9a5a143d95ce9de46c596c903ce10582051b",
+    "regression.py": "5a48cc14d51e6f64f8a15379143c42164dc7d7afa98299ab1c1fb766e493e823",
+    "requirements-local-lab.txt": "0969da99a0bc2a1b71ed50584560f4588a37567ac63af3ddbaf3c4617ca5621a",
+    "review.py": "ea27c8b9390fd921f13fc4b420d10631e24d7d95417324e8fb3f3dd1878b95aa",
+    "safe_io.py": "09039332a2c85632f115f057aa0219fba7e8ced8f78812a16c335eccbbd58c52",
+    "tests/test_audit_links.py": "655a32f4713c2c60dfb57de128765c112e343d27ea1ffffc5fccfbe67380e77e",
+    "tests/test_bridge.py": "7ac609f5bdac74cb8364ee4a418e6bde2b0071655ad59249cc642722a2582af7",
+    "tests/test_fuzz_evidence.py": "5f471b6f51c180ffb38fdccea495547e47f4591504cec155abe0bf5b886c7dc5",
+    "tests/test_fuzz_lab.py": "3b9c45b65858806ef4dd51751fe849c75d7673c93e6281c15ae4342b59d84ec1",
+    "tests/test_integration.py": "9c00022e649efd09629e9a88fc3e994ed7533a57b16c8dd2628a43a09a3bb634",
+    "tests/test_local_lab.py": "9edf6c9652d27963b15cf85a5f31743f709e7f0b40150e646a0c5b61c740d89f",
+    "tests/test_platform.py": "355a069808cd54c1cfa485670faa50f5f1a8c50d80c6a3caf80d5c898e2d823c",
+    "tests/test_privacy.py": "450f10ae027344713a244721e4083883a4bd058170d2cbe9ea1c5658d97a39cb",
+    "tests/test_proof_graph.py": "70eff2a27a22d4cad3fa3acaa661ee01fdec94291e0ed8e59cdb7bc5c83ebe5e",
+    "tests/test_quality.py": "024db82ad749263fe1eda9676b7792dfcf735ace9a8c36fb7fa7295ca4e25580",
+    "tests/test_reconciliation.py": "c0250fac7f213f2c7227c6a40256d28c9bf7eb8177d3f9601479839b3e956b31",
+    "tests/test_regression.py": "32f5c4a76bc210c6ba7f5be2b44eea5fa004b3feed8c0b78fe704b7b53c467b1",
+    "tests/test_review.py": "6055b273bc48064adfc5d33cd259e8c324fc1420975093e6e26d12feb9eaaa0b"
+  },
+  "test_log": {
+    "git_blob": "4b82f7cdba06e3c7aaec216fb84a47b999e59da8",
+    "sha256": "2a5229550769ff9bd6f7b306d6bc5fc7cdbed0e30b33dd26a09dbfdde4731973",
+    "bytes": 42609
+  }
+}
