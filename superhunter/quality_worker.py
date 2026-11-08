@@ -66,6 +66,7 @@ QA_MODULE_GROUPS = (
     (
         'test_audit_links',
         'test_preserved_custody',
+        'test_owned_remediation',
         'test_chain_path_audit',
         'test_compiler_layout',
         'test_critical_chain',

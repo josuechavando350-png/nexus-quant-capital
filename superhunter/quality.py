@@ -1511,7 +1511,7 @@ REQUIRED_TESTS += (
 
 COMPONENTS['owned_boundary_diagnosis'] = {
     'files': ['owned_boundary_diagnosis.py', 'owned_boundary_trial_worker.py'],
-    'tests': ['test_owned_boundary_diagnosis.'],
+    'tests': ['test_owned_boundary_diagnosis.', 'test_owned_remediation.'],
     'depends': ['owned_capture', 'owned_process', 'repository_boundary', 'quality', 'io', 'privacy']}
 COMPONENTS['entrypoints']['depends'].append('owned_boundary_diagnosis')
 REQUIRED_TESTS += (
@@ -1521,6 +1521,11 @@ REQUIRED_TESTS += (
     'test_owned_boundary_diagnosis.DiagnosisTests.test_cannot_hide_an_unexpected_result_with_later_repairs',
     'test_owned_boundary_diagnosis.DiagnosisTests.test_resealed_report_cannot_invent_hypotheses',
     'test_owned_boundary_diagnosis.DiagnosisTests.test_cli_real_experiment_and_separate_verifier',
+    'test_owned_remediation.OwnedRemediationTests.test_findings_are_derived_from_actual_fault_and_restoration',
+    'test_owned_remediation.OwnedRemediationTests.test_incomplete_verified_diagnosis_has_no_findings_or_actions',
+    'test_owned_remediation.OwnedRemediationTests.test_resealed_action_cannot_enable_execution',
+    'test_owned_remediation.OwnedRemediationTests.test_mode_only_plan_preserves_original_content_reference',
+    'test_owned_remediation.OwnedRemediationTests.test_cli_reports_counts_without_private_paths_or_identity',
 )
 
 

@@ -1,5 +1,44 @@
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
+## Estado vigente: findings operativos y plan de corrección
+
+Sucesor de PR #103, commit `bee9a64668bf3cc8561893c62e8967c74effd7e3`.
+[OWNED_REMEDIATION.md](OWNED_REMEDIATION.md) describe la integración directa
+en el diagnóstico existente: perfil/schema v2, dos findings operativos y sus
+planes derivados solo de los cinco ensayos completos. Un inconcluso conserva
+cero findings y cero acciones. No se ejecutan reparaciones propuestas.
+
+- **3,166 QA PASS**, cero fallos/errores/skips; 3,148 IDs anteriores conservan
+  sus grupos y se añaden 18 al grupo 0. 42 focales PASS (24 previas +18 nuevas).
+- SDK real y verificación separada sin SDK de QA/telemetría/preparación PASS.
+  Máximo worker 96.911316 s; grupo nuevo 63.572750 s; límites intactos.
+- Digest `d81e15e6a520f3804836683181ea88fccf94cbaba8180bf6730644f0d5855896`.
+- Cada finding enlaza baseline, fallo y restauración con hashes, deltas,
+  modo, retorno y tiempos. El plan exige revisión de una copia propia nueva,
+  referencia verificable, delta vigente e inventario completo restaurado.
+- No se infiere aprobación humana, estado actual, severidad de seguridad,
+  incidente ni vulnerabilidad. El fallo de modo conserva la referencia de
+  contenido; el código de error compartido no identifica por sí solo la causa.
+- La aceptación adicional conserva cinco ensayos reales, verificación CLI,
+  controles de manipulación y timeouts por SIGSTOP explícito en workers propios.
+  Los detalles, cantidades y recibos quedan en el expediente de aceptación;
+  un timeout no se convierte en éxito ni se presenta como caída natural.
+- 255 de 258 Python anteriores idénticos. Cambian el diagnóstico y dos
+  registros; ningún test previo se reescribe. No hay nuevas corridas EVM/Slither.
+- Los expedientes v1 no se migran en silencio: requieren su código y checkout
+  originales para revisión semántica; su conservación de bytes sigue disponible.
+- 642 históricos intactos; mismo rechazo legado unreviewed root file en
+  PR103 y aquí. No se recertifica NQC.
+
+Evidencia: `SUPERHUNTER_DIAGNOSTICO_Y_PLAN_CORRECCION_20261108.zip`.
+M1 sigue parcial y 1/6 hitos cerrados. La prueba mínima de Bubblewrap falló
+en este entorno antes del payload; no se acredita aislamiento del SO.
+La prueba sostenida conserva PR100 congelado y tiene su expediente separado.
+El siguiente cierre requiere aceptación integral de M1 con aislamiento
+efectivo y su evidencia delimitada, sin confundir estos dos controles propios
+con investigación general o hallazgos de terceros.
+Los apartados siguientes conservan sus estados y digests históricos.
+
 ## Estado vigente: verificación conjunta de archivos y custodia
 
 Sucesor de PR #102, commit `1291a4fa165b68e25d4a615264b2a135bed6d604`.

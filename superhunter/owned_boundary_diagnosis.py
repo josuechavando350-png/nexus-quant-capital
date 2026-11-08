@@ -20,7 +20,7 @@ from .privacy import PrivateArgumentParser
 from .safe_io import canonical, read_artifact, strict_json, write_new_bundle
 
 ROOT = Path(__file__).resolve().parent.parent
-PROFILE = 'owned-boundary-fault-repair-experiment-v1'
+PROFILE = 'owned-boundary-fault-repair-experiment-v2'
 FIXED_FILE = 'migration/source-manifest.json'
 PLAN = (('baseline', 'original'), ('missing-file', 'missing'), ('restored-file', 'original'),
         ('changed-mode', 'executable'), ('restored-mode', 'original'))
@@ -108,7 +108,7 @@ def analyze(observation: dict, raw: dict[str, bytes], original: dict, baseline: 
     fields = {'schema_version', 'profile', 'experiment_id', 'origin', 'source_digest',
               'source_inventory_sha256', 'worker_sha256', 'runtime', 'trials', 'limitations'}
     need(type(observation) is dict and set(observation) == fields, 'DIAGNOSIS_SCHEMA')
-    need(type(observation['schema_version']) is int and observation['schema_version'] == 1 and
+    need(type(observation['schema_version']) is int and observation['schema_version'] == 2 and
          observation['profile'] == PROFILE and observation['origin'] == 'own_parent_process_observation', 'DIAGNOSIS_ORIGIN')
     identity = observation['experiment_id']
     need(type(identity) is str and str(uuid.UUID(identity)) == identity and uuid.UUID(identity).version == 4,
@@ -159,7 +159,8 @@ def analyze(observation: dict, raw: dict[str, bytes], original: dict, baseline: 
         # Acquisition stops at the first unexpected result. No later repair can hide it.
         need(match or index == len(trials) - 1, 'DIAGNOSIS_CONTINUED_AFTER_FAILURE')
     complete = len(trials) == len(PLAN) and all(row['expected_observation_matched'] for row in checks)
-    return {'schema_version': 1, 'profile': PROFILE, 'experiment_id': identity,
+    findings, remediation = _remediation(trials, original) if complete else ([], [])
+    return {'schema_version': 2, 'profile': PROFILE, 'experiment_id': identity,
             'status': 'OWNED_FAULT_DIAGNOSIS_CONFIRMED_IN_LAB' if complete else 'OWNED_FAULT_DIAGNOSIS_INCONCLUSIVE',
             'source_digest': source_digest, 'trials_observed': len(trials), 'trials_required': len(PLAN),
             'checks': checks, 'hypotheses': {
@@ -167,18 +168,78 @@ def analyze(observation: dict, raw: dict[str, bytes], original: dict, baseline: 
                 'mode_rejection_reversed_by_restoration': 'SUPPORTED_IN_FIXED_LAB' if complete else 'INCONCLUSIVE',
                 'error_code_alone_identifies_missing_file': 'REFUTED_IN_FIXED_LAB' if complete else 'INCONCLUSIVE',
                 'content_change_required_for_rejection': 'REFUTED_IN_FIXED_LAB' if complete else 'INCONCLUSIVE'},
-            'limitations': dict(LIMITS)}
+            'operational_findings': findings, 'remediation_plan': remediation,
+            'remediation_execution_enabled': False, 'current_target_state_checked': False,
+            'human_approval_recorded': False, 'limitations': dict(LIMITS)}
+
+
+def _remediation(trials: list[dict], original: dict) -> tuple[list[dict], list[dict]]:
+    """Derive two bounded operational findings only after all five checks pass.
+
+    This is a plan for a fresh own lab copy. It contains no runnable commands,
+    target path argument, repair executor or assertion about a live filesystem.
+    """
+    expected = dict(original[FIXED_FILE])
+    findings = []; actions = []
+    for number, identity, cause, operation in (
+        (1, 'missing-fixed-manifest', 'EXPECTED_FILE_ABSENT', 'RESTORE_REVIEWED_FILE_BYTES_AND_MODE'),
+        (3, 'changed-fixed-mode', 'EXPECTED_GIT_MODE_CHANGED', 'RESTORE_REVIEWED_GIT_MODE'),
+    ):
+        fault, restored = trials[number], trials[number + 1]
+        evidence = []
+        for row in (trials[0], fault, restored):
+            evidence.append({key: row[key] for key in (
+                'index', 'label', 'returncode', 'stdout_sha256', 'stderr_sha256',
+                'inventory_before_sha256', 'inventory_after_sha256', 'clock')})
+        findings.append({'id': identity, 'kind': 'OWNED_OPERATIONAL_INTEGRITY_FAILURE',
+                         'subject': {'relative_path': FIXED_FILE, 'expected': dict(expected)},
+                         'cause_supported_in_fixed_lab': cause, 'observed_delta': fault['delta'],
+                         'effect': 'HISTORICAL_BOUNDARY_REVIEW_REJECTED', 'evidence': evidence,
+                         'restoration_observed_in_same_lab': True, 'security_severity': None,
+                         'incident_confirmed': False, 'vulnerability_confirmed': False})
+        actions.append({'finding_id': identity, 'scope': 'FRESH_OWNED_LAB_COPY_ONLY',
+                        'operation': operation, 'relative_path': FIXED_FILE,
+                        'expected_after': dict(expected), 'execution_enabled': False,
+                        'human_review_required': True, 'live_preconditions_checked': False,
+                        'preconditions': ['RECHECK_CURRENT_COPY_IDENTITY', 'PRESERVE_CURRENT_COPY_BEFORE_CHANGE',
+                                          'VERIFY_REVIEWED_BASELINE_BYTES_AND_MODE', 'RECONFIRM_SPECIFIC_DELTA'],
+                        'postconditions': {'full_inventory_sha256': restored['inventory_after_sha256'],
+                                           'boundary_stdout_sha256': restored['stdout_sha256'],
+                                           'returncode': 0, 'no_unrelated_inventory_delta': True},
+                        'stop_if': ['CURRENT_STATE_DIFFERS_FROM_REVIEWED_DELTA', 'BASELINE_NOT_VERIFIABLE',
+                                    'UNRELATED_FILE_OR_MODE_CHANGES', 'BOUNDARY_REVIEW_DOES_NOT_MATCH_BASELINE'],
+                        'on_failure': 'STOP_AND_RETAIN_NEW_EVIDENCE_WITHOUT_PROMOTING_SUCCESS'})
+    return findings, actions
 
 
 def render(result: dict) -> bytes:
-    return (f"# Diagnóstico operativo propio\n\nEstado: {result['status']}.\n"
+    text = (f"# Diagnóstico operativo propio\n\nEstado: {result['status']}.\n"
             f"Ensayos observados: {result['trials_observed']}/{result['trials_required']}.\n\n"
             'Se interviene solo una copia temporal propia; nunca se ejecuta código copiado.\n'
             'Se conserva stdout, stderr privado, terminación y reloj de cada proceso.\n'
             'Un resultado inesperado o timeout detiene el experimento y conserva INCONCLUSIVE.\n'
             'Los dos fallos esperados comparten código de error: el código solo no identifica la causa.\n'
             'Las conclusiones dependen de intervenciones y controles de restauración de este laboratorio.\n'
-            'Verificar bytes no autentica productor, ejecución, host, UTC ni causalidad general.\n').encode()
+            'Verificar bytes no autentica productor, ejecución, host, UTC ni causalidad general.\n')
+    if not result['operational_findings']:
+        text += '\nEl diagnóstico está inconcluso: no se emiten findings operativos ni planes de corrección.\n'
+    else:
+        text += '\n## Findings operativos y corrección propuesta\n\n'
+        for finding, action in zip(result['operational_findings'], result['remediation_plan']):
+            expected = finding['subject']['expected']
+            trial_ids = ', '.join(str(row['index']) for row in finding['evidence'])
+            text += (f"- {finding['id']}: {finding['cause_supported_in_fixed_lab']}. "
+                     f"Evidencia en ensayos {trial_ids}. Archivo relativo: {FIXED_FILE}. "
+                     f"Referencia SHA256 {expected['sha256']}, modo Git {expected['mode']}. "
+                     f"Operación propuesta: {action['operation']}.\n")
+        text += ('\nAntes de actuar: revisar una copia propia nueva, preservar su estado y verificar la referencia. '
+                 'Una diferencia distinta de la observada exige detenerse y adquirir evidencia nueva. '
+                 'Después: inventario completo y salida del revisor deben coincidir con el baseline, '
+                 'sin cambios ajenos. La restauración observada pertenece solo al experimento temporal.\n'
+                 'El plan requiere revisión humana y no ejecuta correcciones. No comprueba el estado actual '
+                 'de ningún destino ni autoriza cambios en el checkout original. '
+                 'Estos findings son fallos operativos de laboratorio, sin severidad de seguridad ni incidente confirmado.\n')
+    return text.encode()
 
 
 def create(out: Path, *, source_digest: str) -> dict:
@@ -191,7 +252,7 @@ def create(out: Path, *, source_digest: str) -> dict:
          original[FIXED_FILE]['mode'] == '100644', 'DIAGNOSIS_ORIGINAL_INVENTORY')
     baseline = {**before, 'ignored_python_cache_files': 0}
     runtime = capture._runtime()
-    observation = {'schema_version': 1, 'profile': PROFILE, 'experiment_id': str(uuid.uuid4()),
+    observation = {'schema_version': 2, 'profile': PROFILE, 'experiment_id': str(uuid.uuid4()),
                    'origin': 'own_parent_process_observation', 'source_digest': source_digest,
                    'source_inventory_sha256': before['source_inventory_sha256'],
                    'worker_sha256': snapshot['owned_boundary_trial_worker.py'], 'runtime': runtime,
@@ -271,7 +332,10 @@ def main(argv: list[str]) -> int:
     args = vars(parser.parse_args(argv)); command = args.pop('command')
     try:
         result = create(**args) if command == 'diagnose-owned-boundary' else verify(**args)
-        print(json.dumps({key: result[key] for key in ('status', 'trials_observed', 'experiment_anchor')}, sort_keys=True))
+        summary = {key: result[key] for key in ('status', 'trials_observed', 'experiment_anchor')}
+        summary.update(operational_findings=len(result['operational_findings']),
+                       remediation_actions=len(result['remediation_plan']), remediation_execution_enabled=False)
+        print(json.dumps(summary, sort_keys=True))
         return 0 if result['status'] == 'OWNED_FAULT_DIAGNOSIS_CONFIRMED_IN_LAB' else 1
     except (OSError, ValueError, TypeError, KeyError, RecursionError, OverflowError, subprocess.SubprocessError):
         print(json.dumps({'status': 'OWNED_FAULT_DIAGNOSIS_REJECTED'}))
