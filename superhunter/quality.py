@@ -1579,6 +1579,19 @@ REQUIRED_TESTS += (
 )
 
 
+COMPONENTS['preserved_retention'] = {
+    'files': ['preserved_retention.py'], 'tests': ['test_preserved_retention.'],
+    'depends': ['preserved_index', 'bundle_recovery', 'owned_capture', 'quality', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('preserved_retention')
+REQUIRED_TESTS += (
+    'test_preserved_retention.PreservedRetentionTests.test_exact_duplicates_reviewed_incomplete_copies_kept',
+    'test_preserved_retention.PreservedRetentionTests.test_missing_copies_are_unmet_never_fabricated',
+    'test_preserved_retention.PreservedRetentionTests.test_budget_shortfall_preserves_required_copies',
+    'test_preserved_retention.PreservedRetentionTests.test_resealed_decision_changes_are_rejected',
+    'test_preserved_retention.PreservedRetentionTests.test_cli_incomplete_and_unmet_are_nonzero_and_private',
+)
+
+
 # Register the complete package before either CLI entry point runs.
 if __name__ == '__main__':
     raise SystemExit(main())

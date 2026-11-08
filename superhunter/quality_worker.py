@@ -121,6 +121,7 @@ QA_MODULE_GROUPS = (
     ),
     (
         'test_bytecode_controls',
+        'test_preserved_retention',
         'test_compiler_variants',
         'test_evm_feedback',
         'test_fuzz_lab',
