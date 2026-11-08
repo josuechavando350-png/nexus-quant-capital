@@ -1592,6 +1592,15 @@ REQUIRED_TESTS += (
 )
 
 
+COMPONENTS['preserved_index']['tests'].append('test_preserved_index_cache.')
+REQUIRED_TESTS += (
+    'test_preserved_index_cache.PreservedIndexCacheTests.test_64_aliases_reuse_one_content_check_but_keep_64_entries',
+    'test_preserved_index_cache.PreservedIndexCacheTests.test_same_archive_with_conflicting_any_producer_or_content_pin_rejects',
+    'test_preserved_index_cache.PreservedIndexCacheTests.test_earlier_file_changed_during_cached_alias_is_rejected',
+    'test_preserved_index_cache.PreservedIndexCacheTests.test_reuse_never_persists_across_calls',
+)
+
+
 # Register the complete package before either CLI entry point runs.
 if __name__ == '__main__':
     raise SystemExit(main())

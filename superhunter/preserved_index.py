@@ -97,14 +97,19 @@ def _stable(root: Path, stamps: dict[str, tuple], snapshot: dict) -> None:
 
 
 def _collect(manifest: dict, root: Path, source_digest: str) -> tuple[list[dict], dict]:
-    rows = []; stamps = {}; total = 0
+    rows = []; stamps = {}; total = 0; verified = {}
     for entry in manifest['archives']:
         path = root / entry['file']
         stamp = _stamp(path)
         total += stamp[1][3]
         need(total <= MAX_TOTAL_BYTES, 'INDEX_TOTAL_BYTES')
         need(stamp[0] == entry['archive_anchor'], 'INDEX_ARCHIVE_ANCHOR')
-        result = portable.verify(path, source_digest=source_digest, **{key: entry[key] for key in PINS})
+        # Reuse only within this call and for the entire pinned context. Every
+        # alias still gets its own byte hash, identity, budget and final recheck.
+        key = (source_digest, *(entry[name] for name in sorted(PINS)))
+        if key not in verified:
+            verified[key] = portable.verify(path, source_digest=source_digest, **{name: entry[name] for name in PINS})
+        result = verified[key]
         need(_stamp(path) == stamp, 'INDEX_ARCHIVES_CHANGED')
         stamps[entry['file']] = stamp
         rows.append({**entry, 'archive_bytes': stamp[1][3],

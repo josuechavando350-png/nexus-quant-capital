@@ -1,5 +1,40 @@
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
+## Estado vigente: verificación eficiente de aliases
+
+Sucesor de PR #101, commit `28e0d3145e769fcfe7ccae88c263082a1aab0422`.
+[INDEX_CACHE.md](INDEX_CACHE.md) documenta la reutilización de validaciones
+del mismo ZIP y contexto dentro de una llamada. Cada alias conserva su lectura,
+hash, identidad, presupuesto y comprobación final. No hay caché persistente.
+
+- **3,129 QA PASS**, cero fallos/errores/skips; 3,121 anteriores conservadas
+  en sus ocho grupos, ocho nuevas. 72 focales PASS (8 nuevas +34 índice +30 conservación).
+- SDK real y revisión separada sin SDK de QA/telemetría/preparación PASS.
+  Máximo worker 98.907586 s; grupo nuevo 45.258801 s; límites intactos.
+- Digest `547353d03eaae284d66215e48f6df020bff468de5ec448266aaa95409011b8f8`.
+- Tres pares alternados por corpus, 12 procesos de medición reales. Medianas:
+  64 aliases: construcción 4.981023→0.267334 s, verificación 5.078716→0.194029 s
+  (18.63 y26.18 veces en esta muestra). 64 ZIP distintos: construcción
+  5.087222→5.058754 s, verificación 5.201839→5.103855 s, tiempos similares.
+- Los 64 ZIP distintos contienen variantes explícitamente sintéticas de
+  identidad sobre un inventario propio; no representan 64 productores reales.
+  Mismo Python3.12.3, host compartido con validación sostenida, tres pares:
+  no garantía de rendimiento general ni afirmación de significancia estadística.
+- Conteos idénticos, fixtures intactos; recibos y medianas recalculados en otro
+  verificador. Seis controles CLI confirman lectura de índice PR100 y reporte
+  de conservación PR101 con sus identidades históricas y rechazos correctos.
+- 252 de 255 Python anteriores idénticos; cambian preserved_index.py y dos
+  registros. Ningún test anterior reescrito, sin nuevas ejecuciones nativas.
+- 642 históricos intactos y mismo rechazo legado unreviewed root file
+  en PR101 y aquí. No se recertifica NQC.
+
+Evidencia: `SUPERHUNTER_INDICE_DUPLICADOS_RENDIMIENTO_20261108.zip`.
+M1 parcial, 1/6 hitos cerrados. La medición sostenida de PR100 continúa
+y no se cuenta como resultado terminado de este incremento.
+Siguiente: unir la custodia firmada del índice con la verificación de los
+archivos para que una firma válida no apruebe un índice semánticamente incorrecto.
+Los apartados siguientes conservan sus estados y digests históricos.
+
 ## Estado vigente: política verificable de conservación
 
 Sucesor de PR #100, commit `39f88c3f72319c265d405656a777738ad39ef73e`.
