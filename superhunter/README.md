@@ -1,7 +1,9 @@
-**Continuidad actual:** [punto de reanudación](CONTINUATION.md), [aceptación nativa de PR #84](NATIVE_REACCEPTANCE_PR84.md) y [cobertura temporal de entradas propias](OWNED_AUTHORITY_COVERAGE.md).
+**Continuidad actual:** [punto de reanudación](CONTINUATION.md), [contra-controles de cobertura](OWNED_COVERAGE_COUNTER_CONTROLS.md), [aceptación nativa de PR #84](NATIVE_REACCEPTANCE_PR84.md) y [cobertura temporal histórica](OWNED_AUTHORITY_COVERAGE.md).
 
-La aceptación identificada arriba incluye 2,676 pruebas con SDK OpenTelemetry
-real, Slither nativo y Geth/EELS sobre controles propios. Las notas siguientes
+El corpus adicional contiene ocho pares de condiciones de entrada y
+contra-controles. Los resultados vigentes de QA y aceptación nativa están en
+el punto de reanudación. El cierre anterior de #84 tiene su propio digest y
+2,676 pruebas con SDK OpenTelemetry real. Las notas siguientes
 son registros históricos de sus respectivas entregas; sus pendientes no
 sustituyen el estado vigente. Se conserva una omisión temporal conocida y no
 hay un porcentaje global de completitud validado.
