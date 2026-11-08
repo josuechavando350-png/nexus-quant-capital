@@ -2,6 +2,34 @@
 
 ## Estado vigente
 
+Esta continuación parte de PR #86, commit
+`2ce05781977ad0036c19e78b9b17bee2c04a0bf2`, y añade el
+[vínculo verificable de cobertura](OWNED_COVERAGE_LINK.md). Regenera los dos
+expedientes mediante sus verificadores reales, exige el mismo código y dos
+anclas externas, y vuelve a comprobar inventarios y bytes al terminar.
+
+Digest: `bd55723e437f960ece6eb033f2c5ca8fe826c013b23257e2c9a90470fd75ac88`.
+Evidencia: `SUPERHUNTER_VINCULO_COBERTURA_20261107.zip`.
+
+- 32 regresiones focalizadas PASS; CLI de creación y verificación en procesos
+  separados PASS sobre los expedientes generados para este digest.
+- QA completo con SDK real: **2,738 PASS**, cero fallos, errores o skips;
+  32 nuevas y las 2,706 anteriores conservadas en sus grupos. QA/telemetría y
+  preparación verificadas en un proceso sin SDK. Ocho workers y presupuestos
+  intactos; máximo 77.449 s. El vínculo mantiene separados los once casos
+  históricos y los 16 contra-controles; no ejecuta un detector.
+- Slither nativo y replay: TP1/TN2/FP0/FN0 sobre sus tres controles fijos.
+- Geth/EELS y verificación independiente PASS para este digest: cuotas
+  TP4/TN2/FP0/FN0; autoridad temporal TP6/TN4/FP0/FN1, con `latent_revocation`
+  conservado. Límite de repositorio PASS y 642 archivos históricos intactos.
+  Rust/PFT/Census no reejecutados ni recertificados.
+
+La cobertura adicional conserva el hueco del histórico y su omisión conocida.
+Los hashes identifican bytes; no autentican productores ni acreditan que se
+detectaron vulnerabilidades nuevas.
+
+## Corpus de contra-controles aceptado en #86
+
 Esta continuación parte de PR #85, commit
 `a296e91a3cd33581ef1fbccb10dca037ce28ea20`, y añade el
 [corpus v1 de contra-controles de cobertura](OWNED_COVERAGE_COUNTER_CONTROLS.md):
@@ -119,12 +147,14 @@ histórica; la repetición posterior de #84 tiene expedientes separados.
 
 ## Próximo trabajo verificable
 
-Vincular los expedientes de cobertura histórica y adicional mediante sus
-verificadores reales, el mismo digest de código y anclas externas de sus
-marcadores. Mostrar condiciones y secuencias compartidas con denominadores
-separados; rechazar versiones mezcladas, sustituciones y cambios durante la
-verificación. El vínculo debe conservar el hueco histórico y la omisión
-`latent_revocation`, sin presentar cobertura adicional como nueva detección.
+Verificar la consistencia del catálogo documental externo de 50 repositorios
+con sus cinco desgloses. Incorporar sus fuentes de datos al inventario fijado
+de QA y mostrar los conteos de los cuatro registros estructurados por separado:
+27 requisitos, 50 capacidades internas, 25 iniciativas y 50 candidatos externos.
+Usar los validadores internos existentes, sin inferir que una entrada de
+catálogo es una integración, que un SDK es un Collector o que el número de
+tests equivale al porcentaje global de capacidad. No cambiar estados por
+presencia de herramientas o aceptaciones de laboratorio acotadas.
 
 La plataforma sigue incompleta; avance global no determinado, ninguna
 vulnerabilidad original confirmada ni operación 24/7 en 20 programas acreditada.
