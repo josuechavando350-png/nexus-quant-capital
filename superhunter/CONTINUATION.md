@@ -1,5 +1,40 @@
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
+## Estado vigente: política verificable de conservación
+
+Sucesor de PR #100, commit `39f88c3f72319c265d405656a777738ad39ef73e`.
+[PRESERVED_RETENTION.md](PRESERVED_RETENTION.md) documenta review-preserved-retention
+y verify-preserved-retention: política externa exacta, índice y ZIP revalidados,
+retenciones explícitas, mínimo de copias y presupuesto. Solo aliases exactos
+son revisables; ningún resultado autoriza borrar o presume respaldos independientes.
+
+- **3,121 QA PASS**, cero fallos/errores/skips; 3,091 anteriores en sus mismos
+  ocho grupos, 30 nuevas asignadas al grupo 4. 30 focales finales PASS.
+- SDK real y revisión separada sin SDK de QA/telemetría/preparación PASS.
+  Máximo worker 95.634890 s; grupo nuevo 47.737974 s. Presupuestos intactos.
+- Digest `e7a91e7a14498996f814e7fa6af2aec53f5a712a4c6903dcdc94cf816b3ab60a`.
+- 20 controles CLI sobre índice/archivos exactos de PR100: conservar 10 ZIP
+  distintos y revisar un alias; exigir ambos aliases conserva 11 entradas.
+  Mínimo dos copias informa 9 faltantes. Presupuesto de un byte incumple
+  sin sacrificar las 10 entradas requeridas. Conteos/promociones recalculados
+  y siete anclas/identidades incorrectas se rechazan.
+- Ningún archivo histórico de evidencia se alteró o eliminó. El helper retira
+  deliberadamente solo su nuevo archivo de política para probar su copia guardada.
+  No se usan fechas ZIP ni se infiere ahorro físico, independencia o autenticidad.
+- Lector actual, productor del índice y productor del reporte se fijan
+  separadamente mediante digests externos. No se ejecutan productores antiguos.
+- 250 de 253 Python anteriores idénticos; solo cambian tres registros.
+  Ningún test anterior reescrito ni nueva ejecución nativa Geth/Slither/EELS.
+- 642 históricos intactos; el aislamiento legado mantiene unreviewed root file
+  tanto en PR100 como aquí. No se recertifica NQC.
+
+Evidencia: `SUPERHUNTER_POLITICA_CONSERVACION_VERIFICABLE_20261108.zip`.
+M1 parcial, 1/6 hitos cerrados. La medición sostenida de PR100 sigue en curso
+y tendrá resultados propios; no se acredita aquí operación continua.
+Siguiente: reducir verificaciones redundantes de aliases sin omitir hashes,
+identidades ni anclas de cada entrada, con comparación de rendimiento acotada.
+Los apartados siguientes conservan sus estados y digests históricos.
+
 ## Estado vigente: índice privado de archivos y duplicados
 
 Sucesor de PR #99, commit `f03f9afa9f7150cd873b1b1453e17970ad6a48ea`.

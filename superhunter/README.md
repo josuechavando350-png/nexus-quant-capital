@@ -1,3 +1,5 @@
+[Conservación explícita de copias](PRESERVED_RETENTION.md): retenciones, mínimos y presupuestos verificables.
+
 [Índice privado de archivos preservados](PRESERVED_INDEX.md): verificación explícita, duplicados e inventarios originales separados.
 
 **Exportación privada verificable:** [uso y límites](PORTABLE_COPY.md). Verifica archivos sin extraerlos y permite conservar explícitamente la identidad de copias anteriores. Incluye bytes privados sin cifrar; requiere elección explícita. Estado vigente en [CONTINUATION.md](CONTINUATION.md).
