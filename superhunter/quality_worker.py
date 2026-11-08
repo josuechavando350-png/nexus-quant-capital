@@ -158,6 +158,7 @@ QA_MODULE_GROUPS = (
         'test_owned_quota_review',
         'test_owned_quota_cross_evm',
         'test_qa_failure',
+        'test_owned_boundary_diagnosis',
         'test_quality_cache',
         'test_quality_process',
         'test_native_doctor',

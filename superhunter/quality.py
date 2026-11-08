@@ -1509,6 +1509,21 @@ REQUIRED_TESTS += (
 )
 
 
+COMPONENTS['owned_boundary_diagnosis'] = {
+    'files': ['owned_boundary_diagnosis.py', 'owned_boundary_trial_worker.py'],
+    'tests': ['test_owned_boundary_diagnosis.'],
+    'depends': ['owned_capture', 'owned_process', 'repository_boundary', 'quality', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('owned_boundary_diagnosis')
+REQUIRED_TESTS += (
+    'test_owned_boundary_diagnosis.DiagnosisTests.test_real_faults_repairs_and_same_error_different_causes',
+    'test_owned_boundary_diagnosis.DiagnosisTests.test_verifier_does_not_execute_or_modify_checkout',
+    'test_owned_boundary_diagnosis.DiagnosisTests.test_timeout_preserves_partial_evidence_without_promotion',
+    'test_owned_boundary_diagnosis.DiagnosisTests.test_cannot_hide_an_unexpected_result_with_later_repairs',
+    'test_owned_boundary_diagnosis.DiagnosisTests.test_resealed_report_cannot_invent_hypotheses',
+    'test_owned_boundary_diagnosis.DiagnosisTests.test_cli_real_experiment_and_separate_verifier',
+)
+
+
 # Register the complete package before either CLI entry point runs.
 if __name__ == '__main__':
     raise SystemExit(main())

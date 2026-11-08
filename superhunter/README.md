@@ -1,3 +1,5 @@
+**Diagnóstico operativo contrastado:** [dos fallos y sus restauraciones](OWNED_BOUNDARY_DIAGNOSIS.md), en una copia temporal propia. Conserva intentos inconclusos y evita atribuir una causa usando solo el código de error. Estado vigente en [CONTINUATION.md](CONTINUATION.md).
+
 **Captura observable de proceso propio:** [implementación y uso](OWNED_PROCESS_CAPTURE.md). Un worker fijo revisa el repositorio; el expediente conserva salida real, terminación y tiempos, con verificación sin reejecución. Estado vigente y límites en [CONTINUATION.md](CONTINUATION.md).
 
 **Nuevo cierre de tiempos de QA:** [24 corridas y doce parejas sobre PR #90](OWNED_QA_TIMING_STUDY.md), con 2,833 pruebas por corrida y revisión de evidencia sin SDK. Resultados observacionales; Collector y el avance global conservan sus límites.
