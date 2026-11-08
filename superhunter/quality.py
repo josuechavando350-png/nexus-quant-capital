@@ -1696,5 +1696,20 @@ REQUIRED_TESTS += (
 
 
 # Register the complete package before either CLI entry point runs.
+COMPONENTS['owned_restricted_corroboration'] = {
+    'files': ['owned_restricted_corroboration.py'],
+    'tests': ['test_owned_restricted_corroboration.'],
+    'depends': ['owned_boundary_diagnosis', 'owned_restricted_review', 'owned_capture',
+                'quality', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('owned_restricted_corroboration')
+REQUIRED_TESTS += (
+    'test_owned_restricted_corroboration.RestrictedCorroborationTests.test_actual_ten_trials_bind_two_existing_findings_and_plans',
+    'test_owned_restricted_corroboration.RestrictedCorroborationTests.test_create_and_verify_never_launch_a_process',
+    'test_owned_restricted_corroboration.RestrictedCorroborationTests.test_real_extra_descriptor_failure_cannot_corroborate_existing_findings',
+    'test_owned_restricted_corroboration.RestrictedCorroborationTests.test_input_mutation_after_its_verification_prevents_publication',
+    'test_owned_restricted_corroboration.RestrictedCorroborationTests.test_resealed_report_cannot_promote_guarantees_or_finding_count',
+)
+
+
 if __name__ == '__main__':
     raise SystemExit(main())

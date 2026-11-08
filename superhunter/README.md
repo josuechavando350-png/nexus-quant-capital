@@ -409,3 +409,10 @@ que bloquea la publicación si falla la limpieza o reaparece su carpeta temporal
 de integridad con un worker que calcula sobre bytes precargados bajo un filtro
 de syscalls. La adquisición ocurre antes del filtro y no se acredita sandbox
 general. Conserva salidas inesperadas como inconclusas, sin alternativa sin filtro.
+
+### Contraste de diagnóstico y cómputo restringido
+
+[OWNED_RESTRICTED_CORROBORATION.md](OWNED_RESTRICTED_CORROBORATION.md) enlaza los
+cinco ensayos de ambos perfiles y los dos findings operativos ya existentes.
+Revalida sus bytes, inventarios y resultados; conserva las diferencias de
+etiqueta de cada productor. Un resultado incompleto sigue inconcluso.

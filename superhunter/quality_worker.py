@@ -104,6 +104,7 @@ QA_MODULE_GROUPS = (
     ),
     (
         'test_case_review',
+        'test_owned_restricted_corroboration',
         'test_journal_custody',
         'test_timeline_boundaries',
         'test_qa_custody',
