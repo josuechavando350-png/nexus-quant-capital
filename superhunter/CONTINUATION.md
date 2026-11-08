@@ -2,6 +2,36 @@
 
 ## Estado vigente
 
+Esta continuación parte de PR #87, commit
+`7a57b3538218a4f981ef5001f35f764be0b467b2`, y añade el
+[inventario verificable de registros](PORTFOLIO_INVENTORY.md). Valida las 50
+identidades del catálogo externo y sus cinco desgloses, vincula esos seis JSON
+al digest de QA y conserva separados los cuatro registros documentales.
+
+Digest: `1603e987090e96dddcd265f5586b63fe85d7742331534da77fb966c32fc4170a`.
+Evidencia: `SUPERHUNTER_INVENTARIO_REGISTROS_20261107.zip`.
+
+- 32 regresiones focalizadas PASS; CLI de creación y verificación en procesos
+  separados PASS. Los nueve archivos de catálogo mantienen exactamente sus
+  bytes de #87; no se promueven sus estados ni se infieren instalaciones.
+- QA completo con SDK real: **2,770 PASS**, cero fallos, errores o skips;
+  32 nuevas y las 2,738 anteriores conservadas en sus mismos grupos. QA,
+  telemetría y preparación verificadas desde otro proceso sin SDK.
+- Ocho workers y límites intactos; máximo observado 77.482 s. Slither nativo y
+  replay PASS sobre este digest: TP1/TN2/FP0/FN0 en sus tres controles fijos.
+- Geth/EELS y verificación independiente PASS para este digest: cuotas
+  TP4/TN2/FP0/FN0; autoridad temporal TP6/TN4/FP0/FN1. `latent_revocation`
+  permanece. Límite de repositorio PASS y 642 archivos históricos intactos.
+  Rust/PFT/Census no reejecutados ni recertificados.
+
+Los conteos 27/50/25/50 son unidades distintas. La estructura de un registro
+no prueba la implementación declarada. El SDK OpenTelemetry usado en QA no
+acredita el Collector #26. Avance global no determinado; plataforma incompleta.
+Siguiente: comprobar decisiones y efectos del modelo correcto sobre el corpus
+adicional fijo, sin reescribir los casos o métricas históricas.
+
+## Vínculo de cobertura aceptado en #87
+
 Esta continuación parte de PR #86, commit
 `2ce05781977ad0036c19e78b9b17bee2c04a0bf2`, y añade el
 [vínculo verificable de cobertura](OWNED_COVERAGE_LINK.md). Regenera los dos

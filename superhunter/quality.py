@@ -274,6 +274,12 @@ def sha(value: bytes) -> str:
     return hashlib.sha256(value).hexdigest()
 
 
+PORTFOLIO_DATA_FILES = (
+    'repo_portfolio_50.json', 'repo_portfolio/01-vulnerabilities.json',
+    'repo_portfolio/02-dfir.json', 'repo_portfolio/03-performance.json',
+    'repo_portfolio/04-algorithms.json', 'repo_portfolio/05-operations.json')
+
+
 def source_snapshot(root: Path = ROOT) -> dict[str, str]:
     """Capture executable package/test bytes and policy inputs; reject symlinks."""
     result = {}
@@ -284,7 +290,7 @@ def source_snapshot(root: Path = ROOT) -> dict[str, str]:
                 raise ValueError('source directory symlink rejected')
         for name in sorted(files):
             rel = (Path(base)/name).relative_to(root).as_posix()
-            if name.endswith('.py') or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'requirements-otel-qa.txt', 'requirements-owned-slither.txt', 'research_initiatives.json'):
+            if name.endswith('.py') or rel in PORTFOLIO_DATA_FILES or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'requirements-otel-qa.txt', 'requirements-owned-slither.txt', 'research_initiatives.json'):
                 result[rel] = sha(read_artifact(root, rel))
                 if len(result) > 500:
                     raise ValueError('source inventory limit exceeded')
@@ -1405,6 +1411,22 @@ REQUIRED_TESTS += (
     'test_owned_coverage_link.CoverageLinkTests.test_input_from_another_source_cannot_be_resealed_into_this_version',
     'test_owned_coverage_link.CoverageLinkTests.test_resealed_gap_erasure_is_rejected',
     'test_owned_coverage_link.CoverageLinkTests.test_cli_creates_and_verifies_in_separate_processes',
+)
+
+
+COMPONENTS['portfolio_inventory'] = {
+    'files': ['portfolio_inventory.py', *PORTFOLIO_DATA_FILES],
+    'tests': ['test_portfolio_inventory.'],
+    'depends': ['platform', 'research', 'quality', 'owned_authority', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('portfolio_inventory')
+REQUIRED_TESTS += (
+    'test_portfolio_inventory.PortfolioTests.test_all_fifty_candidates_and_five_mirrors_agree',
+    'test_portfolio_inventory.PortfolioTests.test_policy_changes_are_not_accepted_as_permissions',
+    'test_portfolio_inventory.PortfolioTests.test_mirror_must_preserve_all_fields_not_only_ids',
+    'test_portfolio_inventory.RegistryBundleTests.test_four_registries_keep_ids_counts_and_statuses_separate',
+    'test_portfolio_inventory.RegistryBundleTests.test_all_nine_data_sources_are_bound_to_executable_snapshot',
+    'test_portfolio_inventory.RegistryBundleTests.test_resealed_global_percentage_is_rejected',
+    'test_portfolio_inventory.RegistryBundleTests.test_cli_creates_and_verifies_in_separate_processes',
 )
 
 
