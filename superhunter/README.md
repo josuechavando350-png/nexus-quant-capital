@@ -1,3 +1,5 @@
+[Archivos y custodia verificados conjuntamente](PRESERVED_CUSTODY.md): la firma y la integridad del índice se comprueban por separado y se exigen ambas.
+
 [Verificación eficiente de aliases](INDEX_CACHE.md): reutilización acotada al mismo contenido y contexto, conservando comprobaciones por archivo.
 
 [Conservación explícita de copias](PRESERVED_RETENTION.md): retenciones, mínimos y presupuestos verificables.
