@@ -1481,6 +1481,21 @@ REQUIRED_TESTS += (
 )
 
 
+COMPONENTS['journal_custody'] = {
+    'files': ['journal_custody.py'], 'tests': ['test_journal_custody.'],
+    'depends': ['journal_ingest', 'custody', 'quality', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('journal_custody')
+COMPONENTS['forensic_timeline']['tests'].append('test_timeline_boundaries.')
+REQUIRED_TESTS += (
+    'test_timeline_boundaries.TimelineBoundaryTests.test_maximum_time_with_uncertainty_is_inconclusive',
+    'test_timeline_boundaries.TimelineBoundaryTests.test_minimum_time_with_uncertainty_is_inconclusive',
+    'test_journal_custody.JournalCustodyTests.test_signed_overlap_stays_inconclusive',
+    'test_journal_custody.JournalCustodyTests.test_signed_contradiction_stays_contradictory',
+    'test_journal_custody.JournalCustodyTests.test_signature_does_not_replace_semantic_replay',
+    'test_journal_custody.JournalCustodyTests.test_cli_separate_processes_preserve_nonzero_for_uncertainty',
+)
+
+
 # Register the complete package before either CLI entry point runs.
 if __name__ == '__main__':
     raise SystemExit(main())

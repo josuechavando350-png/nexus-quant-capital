@@ -370,3 +370,10 @@ No equivale a usar otro compilador/EVM ni completa las capacidades amplias.
 [QA_CUSTODY_REPORT.md](QA_CUSTODY_REPORT.md) documenta el consumidor local que
 revalida QA, firma externa de custodia y ocho recibos originales, reconstruye
 el log y rechaza cambios o revocaciones. No autentica la ejecución del productor.
+
+
+### Journal con custodia y contexto temporal
+
+[JOURNAL_CUSTODY_TIME.md](JOURNAL_CUSTODY_TIME.md) describe la corrección de
+desbordamiento de fechas y el consumidor que conserva incertidumbre y
+contradicciones aunque la custodia sea válida. Lectura local, sin adquirir logs.
