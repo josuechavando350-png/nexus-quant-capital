@@ -1,4 +1,10 @@
-**Continuidad actual:** [punto de reanudación](CONTINUATION.md) y [cobertura temporal de entradas propias](OWNED_AUTHORITY_COVERAGE.md).
+**Continuidad actual:** [punto de reanudación](CONTINUATION.md), [aceptación nativa de PR #84](NATIVE_REACCEPTANCE_PR84.md) y [cobertura temporal de entradas propias](OWNED_AUTHORITY_COVERAGE.md).
+
+La aceptación identificada arriba incluye 2,676 pruebas con SDK OpenTelemetry
+real, Slither nativo y Geth/EELS sobre controles propios. Las notas siguientes
+son registros históricos de sus respectivas entregas; sus pendientes no
+sustituyen el estado vigente. Se conserva una omisión temporal conocida y no
+hay un porcentaje global de completitud validado.
 
 > **E2E offline real de evidencias Slither:** [SLITHER_OFFLINE_IMPORT_E2E.md](SLITHER_OFFLINE_IMPORT_E2E.md) presenta tests que utilizan importador, cadena de auditoría y verificadores reales sobre reportes sintéticos. El QA completo aún debe ejecutarse; no se ejecutó Slither real.
 
