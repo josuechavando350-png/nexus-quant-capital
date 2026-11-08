@@ -2,6 +2,49 @@
 
 ## Estado vigente
 
+Esta continuación parte de PR #89, commit
+`cb83d677f9a45a57c386e821c9604498c4fd5208`, y añade el perfil separado de
+[contrato correcto y contra-controles en dos EVM](OWNED_CORRECT_TWO_EVM.md).
+Geth y EELS ejecutan exclusivamente la fuente correcta sobre los 16 casos
+fijos (13 secuencias distintas). Se comprueban decisiones, efectos, permisos,
+generaciones y estado de cada evento, con expectativas explícitas e historial.
+
+Digest: `7b8e6779373bb4cc21f81015865feb5de82a9acc268f4163a1475e99f29b0980`.
+Evidencia: `SUPERHUNTER_CONTRATO_CORRECTO_DOS_EVM_20261107.zip`.
+
+- 36 pruebas focalizadas PASS (34 nuevas y dos regresiones existentes de CLI).
+  Un primer pase focal tuvo dos fallos por una referencia al nombre de
+  componente incorrecto; se corrigió la referencia, conservando las pruebas.
+- Perfil nuevo con Geth/EELS real y repetición en otro proceso PASS. Por motor:
+  dos compilaciones, 32 constructores y 116 llamadas, incluidas 32 sondas de un
+  gas que no cambian estado. Las 42 observaciones del modelo conservan once
+  usos aceptados y siete rechazados. Motores y repeticiones no amplían muestras.
+- QA con SDK real: **2,833 PASS**, cero fallos, errores o skips; las 2,799
+  anteriores permanecen en sus mismos grupos. QA, telemetría y preparación
+  verificadas por otro proceso sin SDK. Ocho workers y límites intactos;
+  máximo 81.162 s. Permanecen sin cambios 221 archivos Python anteriores;
+  se modifican expresamente tres archivos de registro de entrada/QA.
+- Slither nativo y replay para este digest: TP1/TN2/FP0/FN0. Geth/EELS histórico
+  y verificación independiente PASS: cuotas TP4/TN2/FP0/FN0; autoridad temporal
+  TP6/TN4/FP0/FN1. `latent_revocation` sigue presente en ese perfil histórico.
+- Se regeneraron y verificaron mediante CLI los informes actuales de cobertura
+  histórica/adicional, su vínculo, el inventario y el modelo correcto. Las trazas
+  del modelo coinciden con las del perfil nativo adicional para este digest.
+- Límite de repositorio PASS y 642 archivos históricos intactos. Rust/PFT/Census
+  no reejecutados ni recertificados.
+
+El perfil nuevo no ejecuta variantes defectuosas ni detectores; no se calculan
+TP/TN/FP/FN para él. No prueba autenticación real de principales o credenciales,
+independencia de host o la semántica completa de EVM. No se mezclan sus casos
+con los históricos. Avance global no determinado; plataforma incompleta.
+
+Siguiente trabajo: medir el tiempo del adaptador OpenTelemetry sobre este
+código congelado frente al mismo QA con igual número de verificaciones,
+mediante doce pares de corridas de orden alternado. Aún no hay resultados de
+ese estudio en esta entrega; sus datos y límites se documentarán por separado.
+
+## Comportamiento correcto aceptado en #89
+
 Esta continuación parte de PR #88, commit
 `050595cdd130d8e574a56f2a6531dac30eecc2a8`, y añade el
 [comportamiento del modelo correcto](OWNED_CORRECT_BEHAVIOR.md) sobre los

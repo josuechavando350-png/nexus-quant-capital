@@ -1,5 +1,6 @@
 **Continuidad actual:** [punto de reanudación](CONTINUATION.md), [inventario de registros](PORTFOLIO_INVENTORY.md), [vínculo de expedientes](OWNED_COVERAGE_LINK.md), [contra-controles de cobertura](OWNED_COVERAGE_COUNTER_CONTROLS.md), [aceptación nativa de PR #84](NATIVE_REACCEPTANCE_PR84.md) y [cobertura temporal histórica](OWNED_AUTHORITY_COVERAGE.md).
 
+[Contra-controles del contrato correcto en dos EVM](OWNED_CORRECT_TWO_EVM.md): decisiones, efectos, generaciones y permisos por evento en un perfil nativo separado.
 [Comportamiento correcto de los contra-controles](OWNED_CORRECT_BEHAVIOR.md): decisiones y efectos del modelo fijo, con expectativas explícitas y referencia de historial.
 El corpus adicional contiene ocho pares de condiciones de entrada y
 contra-controles. Los resultados vigentes de QA y aceptación nativa están en
