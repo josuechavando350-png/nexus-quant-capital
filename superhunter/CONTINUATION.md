@@ -1,5 +1,40 @@
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
+## Estado vigente: custodia journal y aritmética temporal corregida
+
+Sucesor de PR #93, commit `3e4c36e3bb8de7fc7a66a9f3a17421dc407cec59`.
+[JOURNAL_CUSTODY_TIME.md](JOURNAL_CUSTODY_TIME.md) contiene código, controles
+y aceptación. Se reprodujeron tres OverflowError con fechas válidas al aplicar
+incertidumbre. La comparación exacta con microsegundos enteros conserva
+INCONCLUSIVE_ORDER sin recortar intervalos; UTC fuera de rango se rechaza.
+
+El nuevo consumidor revalida firma, journal y contexto temporal declarado.
+La custodia válida no promueve orden incierto o contradictorio: CLI devuelve
+1 en ambos casos, 0 solo para coherencia declarada y 2 para evidencia inválida.
+
+- **2,906 QA PASS**, 2,874 anteriores en sus mismos grupos y 32 nuevas; cero
+  fallos, errores o skips. 70 focales PASS. SDK real y verificación separada
+  de QA/telemetría/preparación sin SDK PASS.
+- Cuatro registros sintéticos, parsers y firmas reales, 16 comandos por CLI
+  con resultados esperados. No se adquirieron logs del host ni se autenticó
+  ejecución real. Clave efímera nunca escrita; confianza del propio laboratorio.
+- Digest `4656f2218dcc1ad7144686c201c4feffc34dab0d90f90e60788a3185de951f12`.
+  Máximo worker 86.534811 s, límites intactos. 230 archivos
+  Python anteriores y todas las pruebas previas conservados. 642 históricos intactos.
+
+Evidencia: `SUPERHUNTER_JOURNAL_CUSTODIA_TIEMPOS_20261108.zip`. Los sellos
+vencen 24 horas tras emitirse; no atribuir aceptación actual tras caducar.
+No se repiten perfiles nativos ni Rust/PFT/Census. M1 sigue sin cierre y
+el indicador global permanece en 1/6 hitos cerrados.
+
+Siguiente: captura observable de un proceso fijo de laboratorio con formato
+de origen explícito, diferenciando observación propia de exportación journald.
+No usar JSON sintético como prueba de adquisición real ni afirmar independencia
+del host. Mantener fuera los objetivos remotos y las órdenes arbitrarias.
+
+Los apartados siguientes conservan historia y sus identidades originales.
+
+
 ## Estado vigente: QA, recibos originales y custodia integrados
 
 Sucesor de PR #92, commit `e4380bdd9a38f53296aa70175d3b775ec4e7eaa9`.

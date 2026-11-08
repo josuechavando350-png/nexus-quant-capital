@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import argparse
 from collections import defaultdict
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 import hashlib
 from pathlib import Path
 import re
@@ -58,7 +58,10 @@ def when(value: Any) -> datetime:
     except ValueError as exc:
         raise TimelineError('TIMESTAMP_FORMAT') from exc
     need(parsed.tzinfo is not None and parsed.utcoffset() is not None, 'TIMEZONE_REQUIRED')
-    return parsed.astimezone(timezone.utc)
+    try:
+        return parsed.astimezone(timezone.utc)
+    except OverflowError as exc:
+        raise TimelineError('TIMESTAMP_UTC_RANGE') from exc
 
 
 def source_snapshot() -> dict[str, str]:
@@ -111,6 +114,12 @@ def analyze(value: dict) -> dict:
     _, events, clock = validate(value)
     index = {e['event_id']: e for e in events}
     times = {eid: when(row['timestamp']) for eid, row in index.items()}
+    # Exact integer microseconds allow uncertainty intervals to extend beyond
+    # datetime bounds without overflowing or silently clipping their width.
+    origin = datetime(1970, 1, 1, tzinfo=timezone.utc)
+    deltas = {eid: value - origin for eid, value in times.items()}
+    ticks = {eid: (d.days * 86400 + d.seconds) * 1_000_000 + d.microseconds
+             for eid, d in deltas.items()}
     contradictions: list[dict] = []
     uncertain: list[dict] = []
     edges: list[tuple[str, str, str]] = []
@@ -132,11 +141,11 @@ def analyze(value: dict) -> dict:
     # explain reversed time. Overlap is INCONCLUSIVE, never an accepted proof.
     for a, b, relation in sorted(edges):
         left, right = index[a], index[b]
-        d1, d2 = timedelta(milliseconds=clock[left['source_id']]), timedelta(milliseconds=clock[right['source_id']])
-        if times[a] - d1 > times[b] + d2:
+        d1, d2 = clock[left['source_id']] * 1000, clock[right['source_id']] * 1000
+        if ticks[a] - d1 > ticks[b] + d2:
             contradictions.append({'from': a, 'to': b, 'relation': relation,
                                    'reason': 'TEMPORAL_INVERSION'})
-        elif times[a] + d1 >= times[b] - d2:
+        elif ticks[a] + d1 >= ticks[b] - d2:
             uncertain.append({'from': a, 'to': b, 'relation': relation,
                               'reason': 'OVERLAPPING_CLOCK_INTERVALS'})
     # Kahn's algorithm detects cycles across parent and sequence constraints.
