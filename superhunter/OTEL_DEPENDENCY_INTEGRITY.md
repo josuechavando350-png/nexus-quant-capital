@@ -24,3 +24,8 @@ La comprobación se limita a archivos instalados: **no** autentica productores n
 - Límite de repositorio PASS y 642 archivos históricos preservados. Motores Geth/EELS y capturas sin cambios; su aceptación nativa anterior corresponde al digest de #79 y no se atribuye al nuevo digest sin repetirla.
 
 Una sola medición no permite estimar p50/p95 ni atribuir diferencias de tiempo al SDK: también cambió el inventario de tests. Collector, OTLP, exportación de red y despliegues no están habilitados. No se promueve el candidato externo #26 a integración completa ni se altera el denominador de ningún catálogo. Avance global no determinado; ninguna vulnerabilidad original confirmada.
+
+
+## Estudio posterior sobre código congelado — 8 de noviembre de 2026
+
+El [estudio pareado de tiempos](OWNED_QA_TIMING_STUDY.md) completa 24 corridas reales sobre PR #90: doce por modalidad, mismas 2,833 pruebas y límites. Se verificaron los 24 expedientes QA y doce de telemetría sin SDK. Aporta medianas y p95 empíricos de esta muestra, con diferencias de ambos signos; no identifica costo causal ni un p95 poblacional fiable. Collector permanece sin integración acreditada. Los resultados históricos anteriores conservan sus propios digests y alcance.

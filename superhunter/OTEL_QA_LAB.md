@@ -39,3 +39,8 @@ Para futuras IAs: NO declarar SuperHunter 10/10 o que el proyecto #26 está inte
 ## Iteración de integridad y QA real
 
 La versión posterior a #79 incorpora pins de ocho dependencias, conserva lectura v1 y ejecuta el perfil v2 con 2,574 tests reales y verificador separado. Consultar [OTEL_DEPENDENCY_INTEGRITY.md](OTEL_DEPENDENCY_INTEGRITY.md) para los hashes, resultados actuales y límites. La medición única no cierra p50/p95, overhead ni integración de Collector.
+
+
+## Estudio posterior sobre código congelado — 8 de noviembre de 2026
+
+El [estudio pareado de tiempos](OWNED_QA_TIMING_STUDY.md) completa 24 corridas reales sobre PR #90: doce por modalidad, mismas 2,833 pruebas y límites. Se verificaron los 24 expedientes QA y doce de telemetría sin SDK. Aporta medianas y p95 empíricos de esta muestra, con diferencias de ambos signos; no identifica costo causal ni un p95 poblacional fiable. Collector permanece sin integración acreditada. Los resultados históricos anteriores conservan sus propios digests y alcance.
