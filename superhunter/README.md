@@ -1,3 +1,5 @@
+**Copia verificable sin original:** [uso y límites](PRESERVED_COPY.md). Revalida bytes y anclas sin buscar ni restaurar la carpeta original; conserva el estado incompleto y distingue el estado capturado del actual. Estado vigente en [CONTINUATION.md](CONTINUATION.md).
+
 **Escritura interrumpida y salvamento:** [implementación y límites](BUNDLE_RECOVERY.md). El escritor valida antes de crear directorios y conserva marcadores incompletos; la CLI salva bytes sin reparar el original. Estado vigente en [CONTINUATION.md](CONTINUATION.md).
 
 **Diagnóstico operativo contrastado:** [dos fallos y sus restauraciones](OWNED_BOUNDARY_DIAGNOSIS.md), en una copia temporal propia. Conserva intentos inconclusos y evita atribuir una causa usando solo el código de error. Estado vigente en [CONTINUATION.md](CONTINUATION.md).

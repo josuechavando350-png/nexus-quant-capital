@@ -1,5 +1,43 @@
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
+## Estado vigente: copia verificable sin acceso al original
+
+Sucesor de PR #97, commit `c654c53825c172028ad506b1ead92f5088c32e0c`.
+[PRESERVED_COPY.md](PRESERVED_COPY.md) documenta la nueva ruta
+`verify-preserved-copy`. Comprueba los bytes guardados y las anclas externas
+sin abrir, buscar ni restaurar la carpeta original. No afirma su estado actual.
+El verificador anterior que requiere el original conserva su comportamiento.
+
+- **3,017 QA PASS**, cero fallos/errores/skips; 2,992 anteriores retenidas en
+  sus mismos ocho grupos y 25 nuevas. 61 focales PASS.
+- SDK real, revisión separada sin SDK de QA/telemetría/preparación PASS.
+  Máximo worker 90.909938 s; grupo nuevo 47.321798 s. Límites intactos.
+- Digest `324a5e56ef87d801455b64aa3de8ab11ef2e41e0c6f5118bb09932758ebe40a4`.
+- 36 checks CLI con cinco workers reales: cuatro cortes SIGKILL propios y
+  un control limpio. Tras salvar los bytes, se retiran deliberadamente las
+  cinco carpetas originales. Copia antes/después produce el mismo resultado;
+  revisión con original rechaza su ausencia. No son pérdidas naturales de datos.
+- El CLI conserva 1 para copias de originales incompletos y 2 para rechazo.
+  Ni manifiesto recalculado ni reporte promovido evitan el cotejo con anclas.
+  Integridad de bytes no equivale a autenticidad, semántica o ejecución probada.
+- 244 Python anteriores idénticos; cambian los tres registros y se añaden
+  módulo/tests. No se reescribe ningún test anterior. Escritor, motor y fixtures
+  de PR97 permanecen intactos; no hay otra corrida nativa en este incremento.
+- 642 históricos intactos. El aislamiento legado sigue rechazando la raíz
+  ampliada tanto en PR97 como aquí; no se presenta como aprobado ni recertifica NQC.
+
+Evidencia: `SUPERHUNTER_COPIA_VERIFICABLE_SIN_ORIGINAL_20261108.zip`.
+Incluye cinco capturas reales, inventarios anteriores a la eliminación controlada,
+paquetes conservados, controles alterados, comandos/recibos y helpers.
+El ZIP PR97 conserva el bloque previo de escritura y su ejecución/replay Geth.
+
+M1 sigue parcial y 1/6 hitos globales cerrados. No se acredita operación continua
+de tres horas, autenticación independiente, restauración automática ni hallazgos.
+Siguiente trabajo pendiente: política explícita de retención y exportación de
+estos expedientes, manteniendo las anclas separadas y estados incompletos visibles.
+
+Los apartados siguientes conservan sus estados y digests históricos.
+
 ## Estado vigente: escritura interrumpida y salvamento verificable
 
 Sucesor de PR #96, commit `db1bdf457690cb21f8ce107bcc466b2d7c64eabe`.
