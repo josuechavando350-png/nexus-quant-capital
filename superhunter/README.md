@@ -1,3 +1,5 @@
+**Nuevo cierre de tiempos de QA:** [24 corridas y doce parejas sobre PR #90](OWNED_QA_TIMING_STUDY.md), con 2,833 pruebas por corrida y revisión de evidencia sin SDK. Resultados observacionales; Collector y el avance global conservan sus límites.
+
 **Continuidad actual:** [punto de reanudación](CONTINUATION.md), [inventario de registros](PORTFOLIO_INVENTORY.md), [vínculo de expedientes](OWNED_COVERAGE_LINK.md), [contra-controles de cobertura](OWNED_COVERAGE_COUNTER_CONTROLS.md), [aceptación nativa de PR #84](NATIVE_REACCEPTANCE_PR84.md) y [cobertura temporal histórica](OWNED_AUTHORITY_COVERAGE.md).
 
 [Contra-controles del contrato correcto en dos EVM](OWNED_CORRECT_TWO_EVM.md): decisiones, efectos, generaciones y permisos por evento en un perfil nativo separado.

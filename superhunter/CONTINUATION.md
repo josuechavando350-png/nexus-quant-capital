@@ -1,6 +1,18 @@
-# SuperHunter — punto de reanudación del 7 de noviembre de 2026
+# SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
-## Estado vigente
+## Estado vigente: estudio pareado de tiempos cerrado
+
+Se completaron las 24 corridas previstas sobre PR #90, commit `b35feb7b87f3833c99806f38a945666e278659dc`, sin cambiar código, dependencias, pruebas ni límites. El [estudio de tiempos de QA](OWNED_QA_TIMING_STUDY.md) contiene los resultados, las anclas y la revisión reproducible. Esta entrega es documental; su digest ejecutable sigue siendo `7b8e6779373bb4cc21f81015865feb5de82a9acc268f4163a1475e99f29b0980`.
+
+- **24/24 corridas PASS**, 2,833 pruebas por corrida: 67,992 ejecuciones repetidas de 2,833 identidades distintas, con los mismos ocho grupos.
+- Revisión independiente sin SDK PASS: 24 expedientes QA, doce de telemetría, 192 recibos originales y 24 logs reconstruidos. La revisión lee y recalcula evidencia, sin reejecutar QA.
+- Mediana base: 380.502 s; adaptador: 379.348 s. Mediana de diferencias pareadas: -1.614 s y -0.424%. Las diferencias tienen ambos signos y no identifican un costo causal del SDK.
+- El p95 empírico, con doce muestras por modo, es el máximo observado; no acredita una cola poblacional o un SLO. Se documentan la pausa intermedia y el ruido del host no controlado.
+- Evidencia: `SUPERHUNTER_MEDICION_QA_24_CORRIDAS_20261108.zip`. La omisión histórica, los catálogos y sus denominadores permanecen. Collector sigue pendiente; avance global no determinado.
+
+Siguiente: esquema cerrado de telemetría de QA y pruebas locales de redacción con datos sintéticos antes de diseñar exportación. Los apartados siguientes conservan las entregas anteriores y sus resultados propios.
+
+## Contrato correcto y aceptación nativa de PR #90
 
 Esta continuación parte de PR #89, commit
 `cb83d677f9a45a57c386e821c9604498c4fd5208`, y añade el perfil separado de
