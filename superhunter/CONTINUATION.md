@@ -1,5 +1,46 @@
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
+## Estado vigente: diagnóstico de fallos y restauraciones propias
+
+Sucesor de PR #95, commit `b2933041fdc7ad7c0c67254c475a82c59bad78a8`.
+[OWNED_BOUNDARY_DIAGNOSIS.md](OWNED_BOUNDARY_DIAGNOSIS.md) documenta cinco
+ensayos sobre una copia temporal: estado original, archivo retirado,
+restauración, modo ejecutable alterado y restauración. Se usa el revisor real;
+no se ejecuta código copiado ni se modifica el checkout original.
+
+El productor conserva streams, código de salida, tiempos e inventarios.
+Resultado inesperado o timeout detiene la secuencia y conserva INCONCLUSIVE;
+CLI 1 también al verificarlo. Una reparación posterior no puede esconderlo.
+Los dos fallos esperados comparten error; solo contrastes completos permiten
+las conclusiones limitadas al laboratorio. No se autentica ejecución ni host.
+
+- **2,956 QA PASS**, cero fallos/errores/skips; 2,932 anteriores retenidas en
+  los mismos ocho grupos, 24 nuevas. 86 focales PASS.
+- SDK real; verificación separada sin SDK de QA/telemetría/preparación PASS.
+  Máximo worker 87.837250 s; grupo con las nuevas pruebas 43.022999 s.
+- Digest `01e8ff8fe944e7fac50bc049ecaa0a923e668bbf2f816579e4cc4d2487fe3079`.
+- 237 archivos Python anteriores idénticos; tres registros modificados y
+  tres archivos Python añadidos. Ninguna prueba anterior reescrita.
+- Frontera complementaria: 642 históricos intactos. El verificador legado
+  devuelve 1, `unreviewed root file`, tanto en #95 como en esta versión.
+  Es un bloqueo preexistente de su contrato de raíz; no se presenta como PASS.
+
+Evidencia y aceptación CLI final:
+`SUPERHUNTER_DIAGNOSTICO_FALLOS_PROPIOS_20261108.zip`; consultar
+`actual-experiment-and-altered-controls/acceptance.json`. Incluye procesos
+reales y copias declaradamente alteradas. El control incompleto es un subconjunto
+de la captura real, no un timeout ocurrido. Los tests de errores de infraestructura
+usan inyecciones identificadas. Ninguna firma o autenticación independiente nueva.
+
+M1 sigue parcial; 1/6 hitos globales cerrados. No reejecuta Slither/Geth/EELS
+ni recertifica Rust/PFT/Census. No habilita targets remotos, operación continua,
+reparación autónoma del checkout o cambios de permisos fuera de la copia propia.
+
+Siguiente: recuperación de expedientes propios ante interrupción de escritura,
+con conservación explícita de estados incompletos y sin promociones a éxito.
+
+Los apartados siguientes conservan sus digests y límites históricos.
+
 ## Estado vigente: captura observable de una revisión propia
 
 Sucesor de PR #94, commit `8e39da34033065a203207b1df962a4762de4180e`.
