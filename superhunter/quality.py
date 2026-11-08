@@ -1379,6 +1379,20 @@ REQUIRED_TESTS += (
 )
 
 
+COMPONENTS['owned_authority_coverage_suite'] = {
+    'files': ['owned_authority_coverage_cases.py', 'owned_authority_coverage_suite.py'],
+    'tests': ['test_owned_authority_coverage_suite.'],
+    'depends': ['owned_authority_coverage', 'owned_authority', 'quality', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('owned_authority_coverage_suite')
+REQUIRED_TESTS += (
+    'test_owned_authority_coverage_suite.CorpusTests.test_exact_expectations_match_both_algorithms',
+    'test_owned_authority_coverage_suite.CorpusTests.test_missing_and_duplicate_pair_rejected',
+    'test_owned_authority_coverage_suite.SuiteBundleTests.test_historical_identity_change_blocks_creation',
+    'test_owned_authority_coverage_suite.SuiteBundleTests.test_resealed_false_report_rejected',
+    'test_owned_authority_coverage_suite.SuiteBundleTests.test_cli_separate_processes',
+)
+
+
 # Register the complete package before either CLI entry point runs.
 if __name__ == '__main__':
     raise SystemExit(main())

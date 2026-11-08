@@ -2,7 +2,40 @@
 
 ## Estado vigente
 
-La cabeza ejecutable aceptada es PR #84, commit
+Esta continuación parte de PR #85, commit
+`a296e91a3cd33581ef1fbccb10dca037ce28ea20`, y añade el
+[corpus v1 de contra-controles de cobertura](OWNED_COVERAGE_COUNTER_CONTROLS.md):
+16 casos declarados, 13 secuencias distintas y ocho pares presencia/ausencia.
+Los índices esperados se contrastan con los dos algoritmos de cobertura.
+Los once casos históricos y sus etiquetas conservan su hash fijado.
+
+Digest ejecutable de esta continuación:
+`5bdc53488ded562178e7e7bc3799bf771fa48b05e922c9eaefc0b13b0ff4e6f7`.
+La evidencia se entrega en `SUPERHUNTER_CORPUS_COBERTURA_V1_20261107.zip`.
+
+- 52 pruebas focalizadas PASS, incluidas las 22 previas. El primer pase encontró
+  un fallo por referencias compartidas entre eventos; se corrigió la copia por
+  ocurrencia sin cambiar los valores ni hashes del corpus.
+- QA con SDK OpenTelemetry real: **2,706 PASS**, cero fallos, errores o skips;
+  30 regresiones nuevas y 2,676 identidades previas conservadas en sus mismos
+  grupos. Expedientes y preparación verificados en un proceso sin SDK.
+- Creación y verificación de los dos perfiles de cobertura en procesos separados.
+- Slither nativo y replay sobre el nuevo digest: TP1/TN2/FP0/FN0, tres controles
+  propios fijos, sin atribuirles precisión general.
+- Geth/EELS y verificación nativa en proceso separado PASS sobre el nuevo
+  digest: cuotas TP4/TN2/FP0/FN0; autoridad temporal TP6/TN4/FP0/FN1.
+  La omisión `latent_revocation` y los denominadores permanecen separados.
+- Límite de repositorio PASS, 642 archivos históricos intactos; 212 archivos
+  Python previos sin cambios. Ocho workers y presupuestos conservados;
+  máximo observado 75.687 s. Rust y PFT/Census no reejecutados ni recertificados.
+
+El nuevo informe describe entradas. No ejecuta los casos adicionales como
+modelos o contratos ni calcula métricas de detección para ellos. Expone las
+secuencias duplicadas y compartidas; no suma denominadores con el histórico.
+
+## Aceptación anterior de #84
+
+La cabeza ejecutable aceptada por el cierre de #85 fue PR #84, commit
 `09d8826643cee9c1c9cea06c125303625523540c`, rama
 `feat/superhunter-owned-temporal-coverage-20261107`. Se completó la repetición
 nativa pendiente sobre su digest, sin cambiar código, fixtures ni dependencias
@@ -86,13 +119,12 @@ histórica; la repetición posterior de #84 tiene expedientes separados.
 
 ## Próximo trabajo verificable
 
-Revisar las condiciones ausentes del informe de cobertura temporal y definir
-un corpus adicional de laboratorio propio, con versión y denominadores
-separados. Debe conservar los once casos históricos, sus entradas y etiquetas,
-la omisión `latent_revocation` y los resultados anteriores. Cada condición nueva
-necesita definición, contra-controles y contraste con la referencia. Antes de
-implementar una ampliación, distinguir cobertura de entradas de detección de
-defectos: observar más entradas no demuestra por sí mismo una detección mejor.
+Vincular los expedientes de cobertura histórica y adicional mediante sus
+verificadores reales, el mismo digest de código y anclas externas de sus
+marcadores. Mostrar condiciones y secuencias compartidas con denominadores
+separados; rechazar versiones mezcladas, sustituciones y cambios durante la
+verificación. El vínculo debe conservar el hueco histórico y la omisión
+`latent_revocation`, sin presentar cobertura adicional como nueva detección.
 
 La plataforma sigue incompleta; avance global no determinado, ninguna
 vulnerabilidad original confirmada ni operación 24/7 en 20 programas acreditada.
