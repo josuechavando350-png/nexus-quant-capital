@@ -397,3 +397,8 @@ el log y rechaza cambios o revocaciones. No autentica la ejecución del producto
 [JOURNAL_CUSTODY_TIME.md](JOURNAL_CUSTODY_TIME.md) describe la corrección de
 desbordamiento de fechas y el consumidor que conserva incertidumbre y
 contradicciones aunque la custodia sea válida. Lectura local, sin adquirir logs.
+
+### Limpieza de temporales propios
+
+Captura y diagnóstico usan un [ciclo de vida comprobado](OWNED_WORKSPACE.md)
+que bloquea la publicación si falla la limpieza o reaparece su carpeta temporal.

@@ -11,11 +11,10 @@ from pathlib import Path
 import stat
 import subprocess
 import sys
-import tempfile
 import time
 import uuid
 
-from . import owned_capture as capture, owned_process, quality, repository_boundary as boundary
+from . import owned_capture as capture, owned_process, owned_workspace, quality, repository_boundary as boundary
 from .privacy import PrivateArgumentParser
 from .safe_io import canonical, read_artifact, strict_json, write_new_bundle
 
@@ -258,8 +257,8 @@ def create(out: Path, *, source_digest: str) -> dict:
                    'worker_sha256': snapshot['owned_boundary_trial_worker.py'], 'runtime': runtime,
                    'trials': [], 'limitations': dict(LIMITS)}
     streams = {}
-    with tempfile.TemporaryDirectory(prefix='superhunter-owned-fault-') as name:
-        work = Path(name); copied = work / 'owned-checkout'; _copy(files, copied)
+    with owned_workspace.Workspace('diagnosis', excluded=(ROOT, out)) as workspace:
+        work = workspace.path; copied = work / 'owned-checkout'; _copy(files, copied)
         for index, (label, kind) in enumerate(PLAN):
             _intervene(copied, files[FIXED_FILE]['bytes'], kind)
             actual, _ = boundary._capture(copied); seen = inventory(actual)
@@ -299,6 +298,7 @@ def create(out: Path, *, source_digest: str) -> dict:
                 break
     need(boundary.review(ROOT) == before and quality.source_snapshot() == snapshot and capture._runtime() == runtime,
          'DIAGNOSIS_ORIGINAL_CHANGED')
+    workspace.confirm_removed()
     write_new_bundle(out, {**streams, 'observation.json': canonical(observation),
                            'diagnosis.json': canonical(result), 'REVIEW.md': render(result)})
     return {**result, 'experiment_anchor': quality.sha(read_artifact(out, 'COMPLETE.json'))}

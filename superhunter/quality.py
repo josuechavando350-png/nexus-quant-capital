@@ -1619,6 +1619,21 @@ REQUIRED_TESTS += (
 )
 
 
+COMPONENTS['owned_workspace'] = {
+    'files': ['owned_workspace.py'], 'tests': ['test_owned_workspace.'], 'depends': []}
+for _component in ('owned_capture', 'owned_boundary_diagnosis'):
+    COMPONENTS[_component]['depends'].append('owned_workspace')
+REQUIRED_TESTS += (
+    'test_owned_workspace.WorkspaceTests.test_real_nested_cleanup_and_later_absence',
+    'test_owned_workspace.WorkspaceTests.test_replaced_root_is_retained_without_deleting_replacement',
+    'test_owned_workspace.WorkspaceTests.test_reappearance_is_rejected_without_deletion',
+    'test_owned_workspace.WorkspaceTests.test_lost_descriptor_does_not_leak_other_owned_handle',
+    'test_owned_workspace.WorkspaceTests.test_reassigned_descriptor_is_not_closed_as_the_original',
+    'test_owned_workspace.WorkspaceTests.test_capture_blocks_publication_after_actual_root_replacement',
+    'test_owned_workspace.WorkspaceTests.test_diagnosis_blocks_publication_after_actual_root_replacement',
+)
+
+
 # Register the complete package before either CLI entry point runs.
 if __name__ == '__main__':
     raise SystemExit(main())
