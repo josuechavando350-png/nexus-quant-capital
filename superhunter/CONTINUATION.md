@@ -1,5 +1,53 @@
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
+## Estado vigente: escritura interrumpida y salvamento verificable
+
+Sucesor de PR #96, commit `db1bdf457690cb21f8ce107bcc466b2d7c64eabe`.
+[BUNDLE_RECOVERY.md](BUNDLE_RECOVERY.md) explica el defecto reproducido, el
+escritor corregido, la CLI de inspección/salvamento/verificación y sus límites.
+Una entrada inválida deja de crear la carpeta y bloquear un reintento válido.
+El marcador se publica desde un pendiente sincronizado, sin sobrescribir.
+
+Cuatro cortes SIGKILL del propio proceso y un control normal ejecutan el escritor
+real. El mismo corte sobre el escritor PR96 deja COMPLETE truncado; el nuevo
+conserva esos bytes bajo el nombre pendiente. Un corte después del enlace se
+clasifica como limpieza pendiente. No se simula apagón ni se certifica durabilidad.
+
+El salvamento conserva cada byte en un expediente nuevo sin cambiar el original;
+verifica anclas, inventarios, contenido y fuentes. Los originales incompletos
+siguen con CLI 1 incluso después de salvarlos. El verificador actual requiere
+que la carpeta original siga disponible; no reconstruye archivos nunca escritos.
+
+- **2,992 QA PASS**, cero fallos/errores/skips; 2,956 anteriores retenidas en
+  los mismos ocho grupos y 36 nuevas. 119 focales iniciales y ampliación de 195
+  pruebas focales con salida 0. SDK productor real y verificación separada sin SDK.
+- Máximo worker 89.427131 s; grupo nuevo 44.141788 s. Presupuestos anteriores intactos.
+- Digest `0bc31fea59e9b1c26448b5c369c3df8b02df919a6ee20214c5b08e3775ee30e9`.
+- 22 checks CLI con seis procesos de escritura reales: cuatro interrupciones
+  nuevas, una del escritor antiguo y un control limpio. También hay controles
+  de evidencia alterada, identificados como tales, sin promoción a éxito.
+- 237 archivos Python anteriores idénticos; cambian escritor, tres registros
+  y dos rutas de fixture en tests. Se conserva íntegra la captura antigua.
+- La primera QA falló por ese fixture desactualizado: 1 fallo, 22 errores y
+  40 tests no ejecutados. Los recibos fallidos se conservan, sin presentarlos como PASS.
+- Se reejecutaron compilador/Geth fijados: tres controles enteros propios,
+  3 constructores y 18 llamadas; replay real en otro proceso coincidió.
+  La nueva captura es byte a byte la de esa ejecución. No es un hallazgo.
+- El primer wrapper nativo impuso por error 2 GiB y bloqueó el límite original
+  de 4 GiB del worker. Se corrigió el wrapper, sin modificar ese worker.
+- Frontera complementaria: 642 históricos intactos. El verificador legado
+  conserva `unreviewed root file` tanto en PR96 como ahora; no se recertifica NQC.
+
+Evidencia: `SUPERHUNTER_RECUPERACION_ESCRITURA_20261108.zip`, con resultados
+finales, aceptación real, errores iniciales, captura nativa y helpers reproducibles.
+No se revalidan otros perfiles Geth, Slither o EELS. M1 continúa parcial: 1/6
+hitos cerrados, sin operación continua acreditada ni explotación de terceros.
+
+Siguiente: verificar el salvamento con sus anclas externas aunque ya no esté
+disponible la carpeta original, sin convertir integridad de bytes en autenticidad.
+
+Los apartados siguientes conservan sus estados y digests históricos.
+
 ## Estado vigente: diagnóstico de fallos y restauraciones propias
 
 Sucesor de PR #95, commit `b2933041fdc7ad7c0c67254c475a82c59bad78a8`.

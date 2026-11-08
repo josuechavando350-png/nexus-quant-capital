@@ -1,3 +1,5 @@
+**Escritura interrumpida y salvamento:** [implementación y límites](BUNDLE_RECOVERY.md). El escritor valida antes de crear directorios y conserva marcadores incompletos; la CLI salva bytes sin reparar el original. Estado vigente en [CONTINUATION.md](CONTINUATION.md).
+
 **Diagnóstico operativo contrastado:** [dos fallos y sus restauraciones](OWNED_BOUNDARY_DIAGNOSIS.md), en una copia temporal propia. Conserva intentos inconclusos y evita atribuir una causa usando solo el código de error. Estado vigente en [CONTINUATION.md](CONTINUATION.md).
 
 **Captura observable de proceso propio:** [implementación y uso](OWNED_PROCESS_CAPTURE.md). Un worker fijo revisa el repositorio; el expediente conserva salida real, terminación y tiempos, con verificación sin reejecución. Estado vigente y límites en [CONTINUATION.md](CONTINUATION.md).
