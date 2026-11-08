@@ -1540,6 +1540,18 @@ REQUIRED_TESTS += (
 )
 
 
+COMPONENTS['preserved_copy'] = {
+    'files': ['preserved_copy.py'], 'tests': ['test_preserved_copy.'],
+    'depends': ['bundle_recovery', 'owned_capture', 'quality', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('preserved_copy')
+REQUIRED_TESTS += (
+    'test_preserved_copy.PreservedCopyTests.test_original_removed_copy_still_verifies_as_incomplete',
+    'test_preserved_copy.PreservedCopyTests.test_changed_bytes_resealed_still_rejected_by_input_anchor',
+    'test_preserved_copy.PreservedCopyTests.test_report_cannot_promote_original_completion',
+    'test_preserved_copy.PreservedCopyTests.test_cli_after_original_removed_preserves_incomplete_status',
+)
+
+
 # Register the complete package before either CLI entry point runs.
 if __name__ == '__main__':
     raise SystemExit(main())

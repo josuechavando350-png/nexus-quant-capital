@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] == 'verify-preserved-copy':
+        from .preserved_copy import main as preserved_main
+        return preserved_main(argv[1:])
     if argv and argv[0] in ('inspect-local-bundle', 'preserve-local-bundle', 'verify-preserved-bundle'):
         from .bundle_recovery import main as recovery_main
         return recovery_main(argv)
