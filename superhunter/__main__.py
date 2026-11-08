@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ('index-preserved-archives', 'verify-preserved-index'):
+        from .preserved_index import main as index_main
+        return index_main(argv)
     if argv and argv[0] in ('export-preserved-copy', 'verify-preserved-archive'):
         from .portable_copy import main as portable_main
         return portable_main(argv)

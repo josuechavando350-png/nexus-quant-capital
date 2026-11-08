@@ -163,6 +163,7 @@ QA_MODULE_GROUPS = (
         'test_bundle_writer',
         'test_preserved_copy',
         'test_portable_copy',
+        'test_preserved_index',
         'test_quality_cache',
         'test_quality_process',
         'test_native_doctor',

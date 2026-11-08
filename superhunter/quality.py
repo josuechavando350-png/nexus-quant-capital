@@ -1566,6 +1566,19 @@ REQUIRED_TESTS += (
 )
 
 
+COMPONENTS['preserved_index'] = {
+    'files': ['preserved_index.py'], 'tests': ['test_preserved_index.'],
+    'depends': ['portable_copy', 'bundle_recovery', 'owned_capture', 'quality', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('preserved_index')
+REQUIRED_TESTS += (
+    'test_preserved_index.PreservedIndexTests.test_aliases_do_not_count_as_independent_evidence',
+    'test_preserved_index.PreservedIndexTests.test_resealed_count_inflation_is_rejected',
+    'test_preserved_index.PreservedIndexTests.test_earlier_archive_changed_during_later_verification_rejected',
+    'test_preserved_index.PreservedIndexTests.test_cli_mixed_collection_stays_incomplete_and_private',
+    'test_preserved_index.PreservedIndexTests.test_historical_index_identity_is_explicit_and_separate',
+)
+
+
 # Register the complete package before either CLI entry point runs.
 if __name__ == '__main__':
     raise SystemExit(main())
