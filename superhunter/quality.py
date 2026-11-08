@@ -1496,6 +1496,19 @@ REQUIRED_TESTS += (
 )
 
 
+COMPONENTS['owned_capture'] = {
+    'files': ['owned_capture.py', 'owned_boundary_worker.py'], 'tests': ['test_owned_capture.'],
+    'depends': ['owned_process', 'repository_boundary', 'quality', 'io', 'privacy']}
+COMPONENTS['entrypoints']['depends'].append('owned_capture')
+REQUIRED_TESTS += (
+    'test_owned_capture.OwnedCaptureTests.test_real_capture_and_read_only_verifier',
+    'test_owned_capture.OwnedCaptureTests.test_original_anchor_rejects_rewritten_observation',
+    'test_owned_capture.OwnedCaptureTests.test_rehashed_boundary_change_rejected',
+    'test_owned_capture.OwnedCaptureTests.test_independent_authentication_cannot_be_promoted',
+    'test_owned_capture.OwnedCaptureTests.test_cli_capture_and_verify_in_separate_processes',
+)
+
+
 # Register the complete package before either CLI entry point runs.
 if __name__ == '__main__':
     raise SystemExit(main())
