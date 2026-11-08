@@ -44,10 +44,13 @@ def _module(path: str, package: str) -> str:
 
 def capture(root: Path = ROOT) -> dict[str, bytes]:
     """Capture regular .py files; omit tests/caches; no symlink traversal."""
+    def scan_failed(error: OSError) -> None:
+        raise ValueError('source directory enumeration failed') from None
+
     if root.is_symlink():
         raise ValueError('source root symlink rejected')
     result, total = {}, 0
-    for base, dirs, names in os.walk(root, followlinks=False):
+    for base, dirs, names in os.walk(root, followlinks=False, onerror=scan_failed):
         dirs[:] = sorted(d for d in dirs if d not in ('tests', '__pycache__'))
         if any((Path(base)/d).is_symlink() for d in dirs):
             raise ValueError('source directory symlink rejected')

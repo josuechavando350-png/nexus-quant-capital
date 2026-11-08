@@ -60,10 +60,22 @@ def _root_policy_matches(name: str, raw: bytes, wanted: str) -> bool:
             hashlib.sha256(raw[AGENTS_ORIGINAL_BYTES:]).hexdigest() == AGENTS_APPENDIX_SHA256)
 
 
+def _file_stamp(info) -> tuple:
+    # Reading may change atime. Compare object identity and mutation metadata,
+    # not access time; these observations do not authenticate a hostile host.
+    return (info.st_dev, info.st_ino, info.st_mode, info.st_size,
+            info.st_mtime_ns, info.st_ctime_ns)
+
+
+def _directory_read_failed(error: OSError) -> None:
+    # os.walk otherwise ignores scandir errors and can return a partial tree.
+    raise BoundaryError('DIRECTORY_READ_FAILED') from None
+
+
 def _capture(root: Path) -> tuple[dict, int]:
     need(root.is_dir() and not root.is_symlink(), 'ROOT_NOT_REGULAR_DIRECTORY')
     files, ignored, total, directory_count = {}, 0, 0, 0
-    for base, dirs, names in os.walk(root, followlinks=False):
+    for base, dirs, names in os.walk(root, followlinks=False, onerror=_directory_read_failed):
         relbase = Path(base).relative_to(root)
         for name in list(dirs):
             path = Path(base)/name
@@ -95,16 +107,19 @@ def _capture(root: Path) -> tuple[dict, int]:
             need(info.st_size <= MAX_FILE_BYTES, 'FILE_SIZE_BUDGET')
             total += info.st_size
             need(total <= MAX_TOTAL_BYTES and len(files) < MAX_FILES, 'INVENTORY_BUDGET')
-            # O_NOFOLLOW makes a file replaced by a symlink fail closed. The
-            # second full capture detects ordinary concurrent source changes.
+            # Observe the same regular object before opening, on the acquired
+            # descriptor, after reading, and at its path. The second complete
+            # capture remains required; this is not an atomic tree snapshot.
             fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
             try:
                 current = os.fstat(fd)
-                need(stat.S_ISREG(current.st_mode) and current.st_size == info.st_size,
+                need(stat.S_ISREG(current.st_mode) and _file_stamp(current) == _file_stamp(info),
                      'FILE_CHANGED_DURING_READ')
                 with os.fdopen(fd, 'rb', closefd=False) as stream:
-                    raw = stream.read(MAX_FILE_BYTES+1)
-                need(len(raw) == info.st_size, 'FILE_CHANGED_DURING_READ')
+                    raw = stream.read(info.st_size+1)
+                need(len(raw) == info.st_size and
+                     _file_stamp(os.fstat(fd)) == _file_stamp(info) == _file_stamp(path.lstat()),
+                     'FILE_CHANGED_DURING_READ')
             finally:
                 os.close(fd)
             mode = '100755' if info.st_mode & stat.S_IXUSR else '100644'

@@ -72,6 +72,8 @@ QA_MODULE_GROUPS = (
         'test_quality_row_index',
         'test_owned_compute_guard',
         'test_owned_restricted_review',
+        'test_repository_capture',
+        'test_source_enumeration',
         'test_chain_path_audit',
         'test_compiler_layout',
         'test_critical_chain',
