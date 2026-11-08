@@ -1,5 +1,43 @@
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
+## Estado vigente: contraste del diagnóstico con el cómputo restringido
+
+Sucesor de PR #106, commit `cf7784d48cae79982fa177357bca51af24b7da19`.
+[OWNED_RESTRICTED_CORROBORATION.md](OWNED_RESTRICTED_CORROBORATION.md) describe
+el consumidor que revalida ambos expedientes y enlaza los cinco pares de
+ensayos con los dos findings y planes ya existentes. No inicia procesos,
+no ejecuta planes y no crea findings adicionales.
+
+- **3,242 QA PASS**, cero fallos/errores/skips. Se conservan las 3,227 pruebas
+  anteriores en sus grupos; 15 nuevas al grupo 2. Focales: 15 PASS.
+- Digest `2f7a662741657c214c9152214dd03d4ec8416dfc2d7225c77106de7d9799bf53`.
+  SDK real y verificador separado sin SDK PASS. Máximo worker 91.687612 s;
+  grupo 2: 76.394039 s. Presupuestos históricos intactos.
+- Los diez ensayos reales de los tests enlazan inventario, delta, retorno,
+  evidencia del filtro y hashes de los findings y planes. Los baselines exigen
+  igualdad de bytes; los fallos conservan las etiquetas distintas de cada perfil
+  y admiten solo el motivo y estados cerrados esperados.
+- Una primera versión asumió etiquetas iguales y falló en dos tests con un error
+  adicional. El intento está conservado. La corrección mantiene las identidades
+  originales y añade rechazo de una etiqueta arbitraria con el mismo motivo.
+- Descriptor adicional real, diagnóstico truncado declarado, evidencia alterada
+  y resellada, IDs repetidos y mutación durante lectura no producen corroboración
+  completa. El consumidor no convierte un inconcluso en hallazgo confirmado.
+- 265 de 268 Python anteriores idénticos; solo cambian entrada y dos registros
+  de QA. Ningún test previo reescrito; 642 históricos intactos y mismo rechazo
+  legado `unreviewed root file`, sin recertificación de NQC.
+
+Los intervalos son observaciones declaradas, sin autenticación del reloj ni
+independencia causal. El filtro sigue limitado al cálculo de datos ya cargados.
+M1 permanece parcial. No hay nuevas corridas nativas EVM/Slither ni hallazgos
+externos confirmados. Los ensayos sostenidos de esta sesión mantienen fuentes
+congeladas PR105 y PR106: su resultado no se transfiere a este digest. La corrida
+inicial interrumpida conserva su estado incompleto, sin resultado final y con
+sus residuos documentados. Las aceptaciones posteriores sobre la fuente
+publicada se guardan con su propio expediente; no se anticipa su resultado aquí.
+
+Los siguientes apartados conservan los resultados y fuentes anteriores.
+
 ## Estado vigente: cálculo propio restringido y evaluación de QA indexada
 
 Sucesor de PR #105, commit `f3c244097a8883398b7ebe5899b77687e4031f56`.
