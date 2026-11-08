@@ -1,5 +1,38 @@
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
+## Estado vigente: contrato cerrado de telemetría QA
+
+Continuación de PR #91, commit `c2ab7c9ee0b4cbf0266ecf03defc1489521cc072`.
+[QA_TELEMETRY_SCHEMA.md](QA_TELEMETRY_SCHEMA.md) contiene implementación,
+reproducción, resultados y límites. El adaptador comparte validación entre
+producción y lectura, normaliza tipos de error y crea spans sin recursos del
+entorno ni captura automática de excepciones. Control antes/después con SDK
+real y datos sintéticos confirma la corrección, conservando QA_FAILED.
+
+- **2,850 QA PASS** con SDK real; 2,833 previas en sus mismos grupos y 17 nuevas.
+  Verificación separada sin SDK PASS; ocho recibos originales cotejados y log
+  agregado reconstruido. Cero fallos, errores o skips.
+- 44 pruebas focales PASS con SDK; 17 nuevas en entorno sin SDK comprueban
+  también el bloqueo de dependencia. Doce payloads antiguos aceptados por
+  esquema; esto no recertifica sus ejecuciones.
+- Digest: `4be4033a4757c919cc88fef6273bbf482ab2dd4c6cfa4909efdb7a87ccc18b25`.
+  Ocho workers y presupuestos intactos; máximo 84.197994 s.
+- 227 archivos Python anteriores intactos; cambian el adaptador y dos registros
+  QA, se añaden esquema y pruebas. Ninguna prueba previa fue reescrita.
+- Límite de repositorio PASS, 642 archivos históricos preservados. No se
+  reejecutaron perfiles nativos ni Rust/PFT/Census para este digest.
+
+Respaldo: `SUPERHUNTER_TELEMETRIA_ESQUEMA_CERRADO_20261108.zip`. Collector
+continúa pendiente. Este cierre acotado no completa otro hito M0–M5 ni prueba
+operación 24/7. La medición global previa de 1/6 hitos cerrados no cambia.
+
+Siguiente trabajo: revisar el flujo integrado de M1 para evidencia de procesos
+propios, custodia y reporte local; fijar una aceptación con rechazo de capturas
+incompletas o alteradas. No habilitar objetivos arbitrarios ni exportación de red.
+
+Los apartados siguientes conservan historia y sus identidades originales.
+
+
 ## Estado vigente: estudio pareado de tiempos cerrado
 
 Se completaron las 24 corridas previstas sobre PR #90, commit `b35feb7b87f3833c99806f38a945666e278659dc`, sin cambiar código, dependencias, pruebas ni límites. El [estudio de tiempos de QA](OWNED_QA_TIMING_STUDY.md) contiene los resultados, las anclas y la revisión reproducible. Esta entrega es documental; su digest ejecutable sigue siendo `7b8e6779373bb4cc21f81015865feb5de82a9acc268f4163a1475e99f29b0980`.

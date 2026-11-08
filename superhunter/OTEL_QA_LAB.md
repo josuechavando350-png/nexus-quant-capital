@@ -44,3 +44,10 @@ La versión posterior a #79 incorpora pins de ocho dependencias, conserva lectur
 ## Estudio posterior sobre código congelado — 8 de noviembre de 2026
 
 El [estudio pareado de tiempos](OWNED_QA_TIMING_STUDY.md) completa 24 corridas reales sobre PR #90: doce por modalidad, mismas 2,833 pruebas y límites. Se verificaron los 24 expedientes QA y doce de telemetría sin SDK. Aporta medianas y p95 empíricos de esta muestra, con diferencias de ambos signos; no identifica costo causal ni un p95 poblacional fiable. Collector permanece sin integración acreditada. Los resultados históricos anteriores conservan sus propios digests y alcance.
+
+
+## Contrato de datos posterior
+
+[QA_TELEMETRY_SCHEMA.md](QA_TELEMETRY_SCHEMA.md) documenta el validador compartido,
+las etiquetas de error cerradas y los spans sin atributos del entorno ni captura
+automática de excepciones. El Collector continúa pendiente.
