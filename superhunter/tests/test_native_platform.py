@@ -18,7 +18,7 @@ from superhunter import native_platform as joint, evm_accounting, evm_execution,
 from superhunter.safe_io import canonical, strict_json, write_new_bundle
 
 AT = '2026-11-05T23:00:00+00:00'
-FIXTURE = Path(__file__).parent / 'fixtures/evm_accounting_capture.json'
+FIXTURE = Path(__file__).parent / 'fixtures/evm_accounting_capture_io_v2.json'
 
 
 class NativePlatformTests(unittest.TestCase):

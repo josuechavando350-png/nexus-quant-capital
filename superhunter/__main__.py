@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ('inspect-local-bundle', 'preserve-local-bundle', 'verify-preserved-bundle'):
+        from .bundle_recovery import main as recovery_main
+        return recovery_main(argv)
     if argv and argv[0] in ('diagnose-owned-boundary', 'verify-owned-boundary-diagnosis'):
         from .owned_boundary_diagnosis import main as diagnosis_main
         return diagnosis_main(argv)

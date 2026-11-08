@@ -290,7 +290,7 @@ def source_snapshot(root: Path = ROOT) -> dict[str, str]:
                 raise ValueError('source directory symlink rejected')
         for name in sorted(files):
             rel = (Path(base)/name).relative_to(root).as_posix()
-            if name.endswith('.py') or rel in PORTFOLIO_DATA_FILES or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'requirements-otel-qa.txt', 'requirements-owned-slither.txt', 'research_initiatives.json'):
+            if name.endswith('.py') or rel in PORTFOLIO_DATA_FILES or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_accounting_capture_io_v2.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'requirements-otel-qa.txt', 'requirements-owned-slither.txt', 'research_initiatives.json'):
                 result[rel] = sha(read_artifact(root, rel))
                 if len(result) > 500:
                     raise ValueError('source inventory limit exceeded')
@@ -1521,6 +1521,22 @@ REQUIRED_TESTS += (
     'test_owned_boundary_diagnosis.DiagnosisTests.test_cannot_hide_an_unexpected_result_with_later_repairs',
     'test_owned_boundary_diagnosis.DiagnosisTests.test_resealed_report_cannot_invent_hypotheses',
     'test_owned_boundary_diagnosis.DiagnosisTests.test_cli_real_experiment_and_separate_verifier',
+)
+
+
+COMPONENTS['bundle_recovery'] = {
+    'files': ['bundle_recovery.py', 'owned_bundle_interrupt_worker.py'],
+    'tests': ['test_bundle_recovery.', 'test_bundle_writer.'],
+    'depends': ['owned_capture', 'owned_process', 'quality', 'io', 'privacy']}
+COMPONENTS['io']['tests'].append('test_bundle_writer.')
+COMPONENTS['entrypoints']['depends'].append('bundle_recovery')
+REQUIRED_TESTS += (
+    'test_bundle_writer.BundleWriterTests.test_invalid_bytes_leave_no_directory_and_valid_retry_succeeds',
+    'test_bundle_writer.InterruptedWriterTests.test_real_sigkill_during_marker_never_publishes_partial_complete',
+    'test_bundle_writer.InterruptedWriterTests.test_real_sigkill_after_link_remains_cleanup_pending',
+    'test_bundle_recovery.RecoveryTests.test_preservation_does_not_complete_or_change_input',
+    'test_bundle_recovery.RecoveryTests.test_promoted_recovery_report_rejected_even_with_new_manifest',
+    'test_bundle_recovery.RecoveryTests.test_cli_preserves_nonzero_for_incomplete_source',
 )
 
 

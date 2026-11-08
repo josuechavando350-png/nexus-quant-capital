@@ -9,6 +9,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any
 
 MAX_BYTES = 2_000_000
+PENDING_MARKER = '.COMPLETE.pending'
 
 
 def strict_json(raw: bytes | str) -> dict:
@@ -85,28 +86,47 @@ def read_json(path: Path) -> dict:
 
 
 def write_new_bundle(directory: Path, files: dict[str, bytes]) -> None:
-    """Exclusive private directory; no overwrite. Commit marker is written last.
+    """Prevalidate, then write a private bundle and publish its completed marker.
 
-    Readers must require COMPLETE.json and compare its digests. A crash before
-    the marker leaves an incomplete directory, never a successful case.
+    A prepared marker is linked without overwrite only after its file fsync.
+    Interrupted cleanup may leave both names; strict readers must reject the
+    extra pending file. This does not prove power-loss durability or semantic
+    success. Readers still need their own manifest, inventory and content checks.
     """
     import hashlib
-    if not files or any(Path(name).name != name or name in ("", ".", "..", "COMPLETE.json")
-                        for name in files):
+    if not isinstance(files, dict) or not files:
         raise ValueError("invalid output filenames")
-    directory.parent.mkdir(parents=True, exist_ok=True)
-    directory.mkdir(mode=0o700, exist_ok=False)
-    for name, raw in files.items():
+    payload = dict(files)
+    for name, raw in payload.items():
+        if (type(name) is not str or Path(name).name != name or '\\' in name or ':' in name or '\0' in name or
+                name in ('', '.', '..', 'COMPLETE.json', PENDING_MARKER)):
+            raise ValueError('invalid output filenames')
         if type(raw) is not bytes or len(raw) > MAX_BYTES:
             raise ValueError("invalid output bytes")
-    payload = dict(files)
-    payload["COMPLETE.json"] = canonical({
+    marker = canonical({
         "schema_version": 1,
-        "sha256": {name: hashlib.sha256(raw).hexdigest() for name, raw in files.items()},
+        "sha256": {name: hashlib.sha256(raw).hexdigest() for name, raw in payload.items()},
     })
-    for name, raw in payload.items():
-        fd = os.open(directory / name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
-        with os.fdopen(fd, "wb") as stream:
-            stream.write(raw)
-            stream.flush()
-            os.fsync(stream.fileno())
+    if len(marker) > MAX_BYTES:
+        raise ValueError('invalid output manifest bytes')
+    directory.parent.mkdir(parents=True, exist_ok=True)
+    directory.mkdir(mode=0o700, exist_ok=False)
+    parent_fd = os.open(directory, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+    try:
+        def write(name: str, raw: bytes) -> None:
+            fd = os.open(name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+                         0o600, dir_fd=parent_fd)
+            with os.fdopen(fd, 'wb') as stream:
+                stream.write(raw)
+                stream.flush()
+                os.fsync(stream.fileno())
+        for name, raw in payload.items():
+            write(name, raw)
+        os.fsync(parent_fd)
+        write(PENDING_MARKER, marker)
+        os.link(PENDING_MARKER, 'COMPLETE.json', src_dir_fd=parent_fd,
+                dst_dir_fd=parent_fd, follow_symlinks=False)
+        os.unlink(PENDING_MARKER, dir_fd=parent_fd)
+        os.fsync(parent_fd)
+    finally:
+        os.close(parent_fd)
