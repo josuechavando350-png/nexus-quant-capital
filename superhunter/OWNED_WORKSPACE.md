@@ -63,3 +63,17 @@ Las corridas del candidato inicial no validan automáticamente la corrección.
 Las sondas locales de Landlock y chroot no permitieron aplicar aislamiento
 de filesystem en este entorno. No se ampliaron permisos ni se acredita
 aislamiento del SO. M1 continúa parcial; no hay hallazgos externos nuevos.
+
+## Corrección posterior durante la admisión
+
+Un control adicional reemplazó la carpeta entre stat y open. La versión de
+PR105 rechazó correctamente la identidad, pero dejó abierto el descriptor que
+acababa de abrir sobre el reemplazo. El recibo conserva el cambio de cuatro a
+cinco FD. La corrección registra por separado la identidad del FD adquirido;
+lo cierra aunque no corresponda a la identidad esperada de la ruta. No elimina
+el reemplazo. La comparación con la versión anterior conserva una regresión
+fallida y cuatro aprobadas con la corrección, usando operaciones reales de IO
+y una interposición declarada para programar el instante de sustitución.
+
+Las 26 pruebas anteriores se preservan y se añaden cuatro para admisión.
+Los resultados de la suite completa pertenecen al digest de CONTINUATION.

@@ -133,8 +133,12 @@ def _tree(files: dict, prefix: str) -> str:
     return git_object('tree',bytes(payload))
 
 
-def review(root: Path) -> dict:
-    files, ignored = _capture(root)
+def _review_captured(files: dict, ignored: int) -> dict:
+    """Pure policy review of bytes already obtained by the bounded capturer.
+
+    Internal entry point: filesystem acquisition and concurrent-change checks
+    belong to the caller. This function performs no filesystem IO.
+    """
     for name, wanted in ROOT_FILES.items():
         need(name in files and files[name]['mode'] == '100644' and
              _root_policy_matches(name,files[name]['bytes'],wanted), 'ROOT_POLICY_CHANGED')
@@ -158,8 +162,6 @@ def review(root: Path) -> dict:
             need(item['mode'] == '100644', 'EXECUTABLE_SOURCE_MODE')
             superhunter_count += 1
     need(historical_count == 642 and superhunter_count > 0, 'BOUNDARY_SCOPE')
-    after, ignored_after = _capture(root)
-    need(after == files and ignored_after == ignored, 'REPOSITORY_CHANGED_DURING_REVIEW')
     snapshot = {p:{'mode':v['mode'],'sha256':hashlib.sha256(v['bytes']).hexdigest()}
                 for p,v in files.items()}
     return {'schema_version':1,'status':'REPOSITORY_BOUNDARY_PASS',
@@ -173,6 +175,14 @@ def review(root: Path) -> dict:
             if len(files['AGENTS.md']['bytes']) > AGENTS_ORIGINAL_BYTES else None),
         'original_source_objects_checked':False,'canonical_recertification':False,
         'runtime_isolation_proved':False,'full_security_review':False}
+
+
+def review(root: Path) -> dict:
+    files, ignored = _capture(root)
+    result = _review_captured(files, ignored)
+    after, ignored_after = _capture(root)
+    need(after == files and ignored_after == ignored, 'REPOSITORY_CHANGED_DURING_REVIEW')
+    return result
 
 
 def main(argv: list[str] | None = None) -> int:

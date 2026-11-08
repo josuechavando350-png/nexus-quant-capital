@@ -402,3 +402,10 @@ contradicciones aunque la custodia sea válida. Lectura local, sin adquirir logs
 
 Captura y diagnóstico usan un [ciclo de vida comprobado](OWNED_WORKSPACE.md)
 que bloquea la publicación si falla la limpieza o reaparece su carpeta temporal.
+
+### Revisión propia con cómputo restringido
+
+[OWNED_RESTRICTED_REVIEW.md](OWNED_RESTRICTED_REVIEW.md) describe cinco ensayos
+de integridad con un worker que calcula sobre bytes precargados bajo un filtro
+de syscalls. La adquisición ocurre antes del filtro y no se acredita sandbox
+general. Conserva salidas inesperadas como inconclusas, sin alternativa sin filtro.
