@@ -1,7 +1,6 @@
 """Prepare or open the fixed catalog, license and Census evidence session."""
 import argparse
 from concurrent.futures import ThreadPoolExecutor
-import hashlib
 from pathlib import Path
 import shutil
 import subprocess
@@ -20,6 +19,7 @@ from superhunter.product_supply_review import ASVS_COMMIT, GUIDES_COMMIT, UPSTRE
 from superhunter.product_upstream_notices import sources
 from superhunter.safe_io import canonical, strict_json, write_new_bundle
 from superhunter.tools.fetch_upstream_notices import fetch
+from superhunter.tools.verified_downloads import acquire
 
 GH = 'https://github.com/'
 RAW = 'https://raw.githubusercontent.com/'
@@ -45,19 +45,17 @@ def run(args, cwd=ROOT):
     subprocess.run(args, check=True, cwd=cwd, stdout=sys.stderr)
 
 
-def fetch_asset(work, item):
+def fetch_asset(work, item, cache=None):
     name, (url, digest) = item
-    target = work/name
-    run(['curl', '--fail', '--location', '--silent', '--show-error', '--retry', '2', '--max-time', '300',
-         '--output', target, url])
-    with target.open('rb') as f:
-        if hashlib.file_digest(f, 'sha256').hexdigest() != digest:
-            raise ValueError(f'Unexpected digest for {name}')
+    def download(target):
+        run(['curl', '--fail', '--location', '--silent', '--show-error', '--retry', '2', '--max-time', '300',
+             '--output', target, url])
+    acquire(work/name, digest, download, cache)
 
 
-def prepare(work):
+def prepare(work, cache=None):
     with ThreadPoolExecutor(max_workers=4) as pool:
-        list(pool.map(lambda x: fetch_asset(work, x), ASSETS.items()))
+        list(pool.map(lambda x: fetch_asset(work, x, cache), ASSETS.items()))
     for archive, member in [('syft.tgz', 'syft'), ('foundry.tgz', 'forge'), ('qdrant.tgz', 'qdrant')]:
         with tarfile.open(work/archive) as tar, (work/member).open('xb') as dest:
             with tar.extractfile(member) as src:
@@ -92,6 +90,7 @@ def prepare(work):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--prepare', action='store_true', help='download fixed public inputs into a new external directory')
+    parser.add_argument('--download-cache', type=Path, help='reuse hash-verified assets outside the checkout (preparation only)')
     parser.add_argument('--source-inventory', action='store_true', help='join the reviewed source audit')
     parser.add_argument('--source-references', type=Path, help='checkout containing pinned source type definitions')
     parser.add_argument('--geth-header', type=Path, help='pinned optional native Geth comparator')
@@ -99,6 +98,15 @@ def main():
     parser.add_argument('queries', nargs='*', help='query-product keys; default: lines from stdin')
     args = parser.parse_args()
     work = args.workspace.resolve()
+    cache = args.download_cache
+    if cache is not None:
+        if not args.prepare:
+            parser.error('--download-cache requires --prepare')
+        if cache.is_symlink():
+            parser.error('download cache cannot be a symlink')
+        cache = cache.resolve()
+        if cache.is_relative_to(ROOT) or cache.is_relative_to(work) or work.is_relative_to(cache):
+            parser.error('download cache and workspace must be separate directories outside the checkout')
     if args.prepare:
         if work.is_relative_to(ROOT) or work.exists():
             parser.error('preparation requires a new directory outside the checkout')
@@ -106,7 +114,7 @@ def main():
         # Reserve the destination; readers only open a completely prepared session.
         work.mkdir(mode=0o700)
         try:
-            prepare(work)
+            prepare(work, cache)
             (work/'READY').write_text('catalog-session-v1\n')
         except BaseException:
             shutil.rmtree(work)
