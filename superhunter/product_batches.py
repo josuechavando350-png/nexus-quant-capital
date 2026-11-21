@@ -8,6 +8,7 @@ BASELINE_IDS = frozenset((24, 30, 41, 45, 111, 131, 136, 140, 142, 143, 147, 150
 # Preserve the 15 baseline identities and prioritize inventory, code parsing and review work.
 CATEGORIES = ('SUPPLY', 'CODIGO', 'FORMAL', 'OBSERVACION', 'METODO', 'BINARIOS', 'AGENTES')
 RECEIPTS = {
+    'google/osv-scanner': 'spdx_identifier_evidence',
     'anchore/syft': 'evidence', 'cvc5/cvc5': 'evidence',
     'tree-sitter/tree-sitter': 'sbom_location_evidence', 'ast-grep/ast-grep': 'registry_checksum_evidence',
     'tlaplus/tlaplus': 'profile_grouping_evidence', 'microsoft/sarif-sdk': 'sarif_evidence',

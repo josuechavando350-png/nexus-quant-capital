@@ -389,3 +389,21 @@ class LicenseChoiceTests(unittest.TestCase):
         self.assertTrue(invariant(rows, list(reversed(rows)), 67, 18))
         changed = {**rows, 25: dict(rows[25], repository='unknown/example')}
         self.assertFalse(invariant(changed, list(changed), 67, 18))
+
+    def test_osv_registry_preserves_local_identifiers_and_their_sources(self):
+        from superhunter.product_spdx_ids import classify, source_index
+        ev = {'sources': {'notice': 'MIT OR LicenseRef-example', 'also': 'MIT', 'empty': None},
+              'expressions': {'MIT OR LicenseRef-example': {'identifiers': ['LicenseRef-example', 'MIT']},
+                              'MIT': {'identifiers': ['MIT']}},
+              'groups_by_id': {'MIT': [], 'LicenseRef-example': []}}
+        by_id = source_index(ev)
+        self.assertEqual(by_id['MIT'], ['also', 'notice'])
+        output = classify(by_id, {'mit'}, ['LicenseRef-example'])
+        self.assertEqual(output['LicenseRef-example'], {'sources': ['notice'], 'status': 'unlisted'})
+        self.assertEqual(output['MIT']['status'], 'recognized')
+        self.assertEqual(classify({'Unknown': []}, {'mit'}, [])['Unknown']['status'], 'unknown_marker')
+        with self.assertRaises(ValueError):
+            classify(by_id, {'mit'}, [])
+        ev['groups_by_id'].clear()
+        with self.assertRaises(ValueError):
+            source_index(ev)

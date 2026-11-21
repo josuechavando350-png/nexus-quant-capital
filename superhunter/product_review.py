@@ -297,6 +297,7 @@ def main(argv):
             parser.add_argument('--proptest-crates', type=Path, help='check batch ordering and duplicate rejection on the actual catalog')
             parser.add_argument('--pmd-release', type=Path, help='locate copied passages in verified public notices')
             parser.add_argument('--notice-review-wheels', type=Path, help='index notice contexts and reconcile wheel declarations')
+            parser.add_argument('--osv-license-cache', type=Path, help='check observed identifiers against the offline OSV-Scanner SPDX registry')
             parser.add_argument('--license-proof-kits', type=Path, help='prove minimal SPDX identifier choices with local pinned distributions')
             parser.add_argument('--dependency-track', type=Path, help='parse and group verified SPDX license observations')
             parser.add_argument('--rustsec-crates', type=Path, help='verify RustSec cargo-lock and compare the local package graph')
@@ -395,6 +396,12 @@ def main(argv):
                 cargo = index.repos['embarkstudios/cargo-deny']['license_evidence']
                 index.repos['dependencytrack/dependency-track']['spdx_group_evidence'] = group_licenses(
                     opts.dependency_track, observations, cargo)
+            if opts.osv_license_cache:
+                from .product_spdx_ids import build as check_spdx_ids
+                if not opts.dependency_track:
+                    raise EvidenceError('OSV license identifier check requires --dependency-track')
+                evidence = index.repos['dependencytrack/dependency-track']['spdx_group_evidence']
+                index.repos['google/osv-scanner']['spdx_identifier_evidence'] = check_spdx_ids(opts.osv_license_cache, evidence)
             if opts.proptest_crates:
                 from .product_batch_properties import build as check_batches
                 if not opts.rust_bin:

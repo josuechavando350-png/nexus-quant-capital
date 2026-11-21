@@ -301,3 +301,9 @@ PY
 ```
 
 [Revisión del primer lote, identidad por identidad](FIRST_BATCH_REVIEW.md). [Distribución de PMD](https://github.com/pmd/pmd/releases/tag/pmd_releases%2F7.29.0). [Distribución de proptest](https://static.crates.io/crates/proptest/proptest-1.12.0.crate).
+
+### Identificadores de licencia con OSV-Scanner
+
+La consulta `google/osv-scanner` indica qué identificadores observados por NQC reconoce el registro distribuido con OSV-Scanner 2.7.1. Conserva las fuentes de cada término y distingue un identificador local `LicenseRef` del marcador literal `unknown`. En esta instantánea, tres avisos contienen alguno de los dos identificadores locales que faltan en el registro.
+
+Agregar `--osv-license-cache /ruta/distribuciones` al comando anterior que abre el inventario de Dependency-Track. Colocar en esa carpeta el archivo oficial de fuentes de la etiqueta v2.7.1 como `osv-scanner-2.7.1.tar.gz` y el compilador oficial `go1.27.3.linux-amd64.tar.gz`. Los SHA-256 están en [product_spdx_ids.py](product_spdx_ids.py). La prueba compila los archivos originales de OSV-Scanner que implementan `spdx.Unrecognized` y su lista de identificadores. Ejecuta el test del proveedor y coteja la salida nativa con la lista publicada y con las fuentes del expediente. Puede reproducirse con la red deshabilitada. [Fuentes de OSV-Scanner](https://codeload.github.com/google/osv-scanner/tar.gz/refs/tags/v2.7.1) · [Distribución de Go](https://go.dev/dl/go1.27.3.linux-amd64.tar.gz).

@@ -4,10 +4,9 @@ El primer lote conserva la pertenencia publicada en `a55602cf6bbba4d79bdb20d5678
 
 | Estado | Identidades |
 |---|---:|
-| Ejecutables con evidencia del producto | 35 |
+| Ejecutables con evidencia del producto | 36 |
 | Referencias públicas con correspondencias probadas | 2 |
 | Bloqueo observado | 2 |
-| Dependencia de red | 1 |
 | Fuera del alcance | 27 |
 | Pendiente | 33 |
 
@@ -32,7 +31,7 @@ Los doce verificadores de `license_choice_evidence` comprueban la misma propieda
 | 131 | lief-project/LIEF | Ejecutable | Inventario ELF de los ejecutables de los productores. Recibo `runtime_inventory_evidence`. |
 | 157 | deepset-ai/haystack | Ejecutable | Ordenación de avisos de licencias por coincidencia de términos. Recibo `notice_ranking_evidence`. |
 | 159 | qdrant/qdrant | Ejecutable | Búsqueda local en los avisos con ubicaciones verificables. Recibo `notice_search_evidence`. |
-| 135 | google/osv-scanner | Dependencia de red | La ruta documentada de licencias consulta deps.dev. El modo offline documentado cubre avisos de vulnerabilidades. |
+| 135 | google/osv-scanner | Ejecutable | Registro de identificadores SPDX del proveedor comprobado sobre las expresiones locales y sus avisos de origen. Recibo `spdx_identifier_evidence`. |
 | 137 | anchore/grype | Fuera del alcance | La función propuesta usa avisos de vulnerabilidad o paquetes maliciosos. |
 | 138 | dependency-check/DependencyCheck | Fuera del alcance | La función propuesta usa avisos de vulnerabilidad o paquetes maliciosos. |
 | 139 | DependencyTrack/dependency-track | Ejecutable | Interpretación de expresiones SPDX y grupos de licencias. Recibo `spdx_group_evidence`. |
