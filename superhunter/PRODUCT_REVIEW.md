@@ -152,3 +152,16 @@ python3.12 -m superhunter query-product --bundle "$evidence_dir" --cdxgen-bundle
 ```
 
 En los siete SBOM propios se localizaron 75 componentes, sus siete raíces y 43 relaciones explícitas. La misma versión de un paquete puede aparecer en varios perfiles. Cada ubicación conserva la identidad del archivo en el que se observó.
+
+## Enumerar las agrupaciones posibles de los seis perfiles
+
+El verificador TLC de TLA+ construye todas las formas de repartir los seis perfiles Python en entornos compatibles con las versiones que declaran. El modelo se genera a partir de los pines de los seis manifiestos del checkout. Una segunda enumeración usa los conflictos que NQC ya verificó y contrasta todos los estados intermedios y finales. También coteja el mínimo demostrado con cvc5 y la agrupación testigo del informe de producto.
+
+Se necesita Java en `/usr/bin/java` y el archivo oficial [tla2tools.jar, versión 1.7.4](https://github.com/tlaplus/tlaplus/releases/tag/v1.7.4), SHA-256 `936a262061c914694dfd669a543be24573c45d5aa0ff20a8b96b23d01e050e88`. El proceso Java opera sin red. Se conserva un hash del conjunto ordenado de estados, independiente del orden de exploración.
+
+```bash
+python3.12 -m superhunter query-product --bundle "$evidence_dir" \
+  --tlc-jar /ruta/tla2tools.jar tlaplus/tlaplus cvc5/cvc5
+```
+
+En los manifiestos revisados se alcanzaron 190 estados, incluidas las asignaciones parciales. De las 114 particiones completas compatibles, ocho usan dos entornos, 46 usan tres, 46 usan cuatro, 13 usan cinco y una usa seis. La salida devuelve los ocho repartos mínimos. El modelo cubre las versiones declaradas directamente en esos archivos.

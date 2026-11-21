@@ -209,3 +209,19 @@ class SbomLocationTests(unittest.TestCase):
                       xml.replace(b'name="input.json"', b'name="other.json"')):
             with self.assertRaises(ValueError):
                 string_locations(raw, wrong, 'input.json')
+
+
+class ProfileStateTests(unittest.TestCase):
+    def test_tlc_dump_and_full_prefix_set_are_required(self):
+        from superhunter.product_profile_states import PROFILES, assess, parse_states
+        states = {tuple(range(1, i + 1)) for i in range(len(PROFILES) + 1)}
+        report = {'conflicting_python_pins': {'example': {p: str(i) for i, p in enumerate(PROFILES)}},
+                  'one_valid_grouping': [[p] for p in PROFILES], 'minimum_python_pin_groups': len(PROFILES)}
+        self.assertEqual(assess(states, report)['compatible_partitions'], 1)
+        self.assertEqual(parse_states(b'State 1:\ngroups = <<>>\n\nState 2:\ngroups = <<1>>\n'), {(), (1,)})
+        with self.assertRaises(ValueError):
+            parse_states(b'State 1:\ngroups = <<>>\n\nState 2:\ngroups = <<>>\n')
+        with self.assertRaises(ValueError):
+            assess(states - {(1, 2)}, report)
+        with self.assertRaises(ValueError):
+            assess(states, {**report, 'minimum_python_pin_groups': 1})

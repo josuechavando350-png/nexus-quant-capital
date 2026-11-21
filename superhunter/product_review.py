@@ -263,6 +263,7 @@ def main(argv):
     else:
         parser.add_argument('--bundle', type=Path, required=True)
         if command == 'query-product':
+            parser.add_argument('--tlc-jar', type=Path, help='enumerate compatible Python profiles using TLC')
             parser.add_argument('--tree-sitter', type=Path, help='locate components and relations in verified SBOM bytes')
             parser.add_argument('--json-grammar', type=Path, help='directory of pinned Tree-sitter JSON parser sources')
             parser.add_argument('--qdrant', type=Path, help='search verified notices with a private Qdrant index')
@@ -323,6 +324,9 @@ def main(argv):
                 if not all(cargo_args):
                     raise EvidenceError('cargo-deny requires --cargo-deny, --rust-bin and --cargo-home together')
                 index.repos['embarkstudios/cargo-deny']['license_evidence'] = check_cargo(*cargo_args, result)
+            if opts.tlc_jar:
+                from . import product_profile_states
+                index.repos['tlaplus/tlaplus']['profile_grouping_evidence'] = product_profile_states.build(opts.tlc_jar, result)
             if opts.cdxgen_bundle:
                 from .product_cdxgen import verify_with_files as verify_cdxgen
                 evidence, cdx_files = verify_cdxgen(opts.cdxgen_bundle, result)
