@@ -1,0 +1,63 @@
+{
+  "catalog": [
+    {
+      "artifact": "phpstan.phar",
+      "bytes": 31112589,
+      "git_blob": "234ef56e3ad570221ded01ed427ed14f375600c8",
+      "id": 106,
+      "php_constraint": "^7.4|^8.0",
+      "repository": "phpstan/phpstan",
+      "revision": "043348b55e6c54effbdc0cd2f86173bc00ddd0c2",
+      "sha256": "01012df0c6ce84e8379698e95012c53a7ba76e6dcc35138c418e55ceb90f3468",
+      "status": "blocked_missing_reviewed_php_runtime",
+      "tree": "2c3d09226334faa3e9321b9a7c972052eed19876"
+    },
+    {
+      "id": 107,
+      "repository": "vimeo/psalm",
+      "required_extensions": [
+        "ext-SimpleXML",
+        "ext-ctype",
+        "ext-dom",
+        "ext-json",
+        "ext-libxml",
+        "ext-mbstring",
+        "ext-tokenizer"
+      ],
+      "revision": "2da2040e23d8b54e61be22618bd53517b6bd43df",
+      "root_composer_lock_present": false,
+      "root_phar_present": false,
+      "status": "blocked_missing_reviewed_php_runtime_and_dependency_closure",
+      "tree": "7a996e70c517e7e6ec526f1ff0d24c8acbf6e3f3",
+      "vendor_autoload_present": false
+    }
+  ],
+  "interpretation": "The two source checkouts remain verifiable. No existing reviewed local PHP runtime, NQC-owned PHP accounting transformation, or complete Psalm execution kit was located in the inspected scope.",
+  "new_functional_credits": 0,
+  "product_commit": "78e2fac1b4f0bc1188da83acbf826aff7b03e8a9",
+  "runtime_probe": {
+    "other_roots_checked": [
+      "/usr/bin",
+      "/usr/lib",
+      "/usr/local",
+      "/opt",
+      "/tmp"
+    ],
+    "path_commands_checked": [
+      "php",
+      "php8.2",
+      "php8.3",
+      "php8.4",
+      "php8.5",
+      "php-cgi",
+      "composer",
+      "hhvm"
+    ],
+    "path_commands_present": [],
+    "php_cli_files_found_in_those_roots": 0,
+    "product_tracked_php_sources": 0,
+    "reviewed_product_php_runtime_pin_found": false
+  },
+  "schema_version": 1,
+  "scope": "Read-only offline availability inventory. No runtime or dependency was downloaded; neither analyzer was executed."
+}

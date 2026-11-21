@@ -69,3 +69,9 @@ Los artefactos emitidos por un productor bloqueado carecen de crédito. La repro
 | `SOURCE_ASSURANCE.md`, `SOURCE_CHECKOUT.md` | Quedaron versionados el expediente de 153 y el de los 200. Las optimizaciones ya portadas del PR 116 se conservan una sola vez. |
 
 Los [200 checkouts directos](SOURCE_CHECKOUT.md) coinciden con sus revisiones de catálogo. La revisión de avisos alcanza los 200 proyectos. Quedan pendientes la materialización de 141 gitlinks anidados y un objeto Git LFS, y la revisión de obligaciones de distribución del producto y sus dependencias.
+
+## Seguimiento de componentes pendientes
+
+El [PR 119, commit 37a0d52](https://github.com/josuechavando350-png/nexus-quant-capital/commit/37a0d5261ae52ece080d18b294042931112f2861) reúne 15 grupos nativos y 17 dominios en su registro. Su aceptación de los 15 grupos en una misma sesión sigue pendiente en ese commit. El historial del PR conserva las operaciones y recibos de esa rama para su revisión independiente.
+
+Las filas 106 y 107 corresponden a PHPStan y Psalm. La fuente fijada de PHPStan incluye su PHAR de 31.112.589 bytes. En el entorno revisado falta un intérprete PHP acreditado. Psalm también necesita extensiones y dependencias. Ambas filas siguen pendientes. [Inventario de disponibilidad local](product_supply/acceptance-120/typecheck-availability.json)
