@@ -7,6 +7,7 @@ import re
 import subprocess
 import sys
 
+from superhunter.acceptance_paths import PROFILE_DIRECTORIES
 from superhunter.product_matrix import markdown
 from superhunter.product_native_capabilities import CORE_EIGHT
 
@@ -16,10 +17,10 @@ from superhunter.safe_io import canonical, read_artifact, strict_json
 from superhunter.tools import verify_native_session, verify_review_115
 
 MATRIX = ROOT / 'superhunter/INTEGRATION_STATUS_200.md'
-DOSSIER = 'superhunter/product_supply/consolidated-acceptance'
-ACCOUNTING_DOSSIER = DOSSIER + '-accounting'
-HEADER_DOSSIER = DOSSIER + '-header'
-GRPC_SCHEMA_DOSSIER = DOSSIER + '-grpc-schema'
+DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['core-eight']
+ACCOUNTING_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['accounting']
+HEADER_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['canonical-header']
+GRPC_SCHEMA_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['grpc-schema']
 # A later default native registry must never redefine an archived nine-group acceptance.
 ACCOUNTING_SHA = '4dfec613c3f4ad64084a7487d4f4d5ecadea8f177f1bcc7283637c4a8adcdefa'
 HEADER_SHA = 'c3b7c10d1c72aacae73e09c5b96b521baeb9a8e6f4b15b03886ddcb8a16395c3'

@@ -17,7 +17,7 @@ import tempfile
 
 from .safe_io import canonical, read_artifact, strict_json, write_new_bundle
 from .privacy import PrivateArgumentParser
-from . import owned_process, qa_inputs
+from . import acceptance_paths, owned_process, qa_inputs
 
 ROOT = Path(__file__).resolve().parent
 COMPONENTS = {'accounting': {'files': ['balance_reconciliation.py'],
@@ -410,6 +410,16 @@ PRODUCT_DATA_FILES += (
 )
 
 
+# Inputs read by the source/receipt verifiers and their matrix and supply regressions.
+PRODUCT_DATA_FILES += (
+    'INTEGRATION_STATUS_200.md', 'product_supply/acceptance-120/staged-source-acquisition.json',
+    'product_supply/catalog-commit-trees.json', 'product_supply/component-session-99.json',
+    'product_supply/fixed-cdxgen-guac-inputs.json', 'product_supply/geth-header-main.txt',
+    'product_supply/native-session-70.json', 'product_supply/review-117-session.json',
+    'product_supply/review-117.json', 'product_supply/source-natures.json',
+)
+
+
 def source_snapshot(root: Path = ROOT) -> dict[str, str]:
     """Capture executable package/test bytes and policy inputs; reject symlinks."""
     def scan_failed(error: OSError) -> None:
@@ -417,13 +427,14 @@ def source_snapshot(root: Path = ROOT) -> dict[str, str]:
 
     result = {}
     for base, dirs, files in os.walk(root, followlinks=False, onerror=scan_failed):
+        acceptance_paths.check_directory(Path(base).relative_to(root).as_posix(), dirs, files)
         dirs[:] = sorted(d for d in dirs if d != '__pycache__')
         for name in dirs:
             if (Path(base)/name).is_symlink():
                 raise ValueError('source directory symlink rejected')
         for name in sorted(files):
             rel = (Path(base)/name).relative_to(root).as_posix()
-            if name.endswith('.py') or rel in PRODUCT_DATA_FILES or rel in PORTFOLIO_DATA_FILES or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_accounting_capture_io_v2.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'requirements-otel-qa.txt', 'requirements-owned-slither.txt', 'research_initiatives.json'):
+            if name.endswith('.py') or rel in acceptance_paths.ALL_FILES or rel in PRODUCT_DATA_FILES or rel in PORTFOLIO_DATA_FILES or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_accounting_capture_io_v2.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'requirements-otel-qa.txt', 'requirements-owned-slither.txt', 'research_initiatives.json'):
                 result[rel] = sha(read_artifact(root, rel))
                 if len(result) > 500:
                     raise ValueError('source inventory limit exceeded')
@@ -432,12 +443,20 @@ def source_snapshot(root: Path = ROOT) -> dict[str, str]:
     return dict(sorted(result.items()))
 
 
+def component_files(component, snapshot):
+    files = list(component['files'])
+    for group in component.get('optional_file_groups', ()):
+        if any(path in snapshot for path in group):
+            files.extend(group)
+    return files
+
+
 def validate_components(snapshot: dict, components: dict = COMPONENTS) -> list[str]:
     errors, owners = [], {}
     for name, item in components.items():
         if not item['files'] or not item['tests']:
             errors.append(f'{name}: empty component definition')
-        for path in item['files']:
+        for path in component_files(item, snapshot):
             if path not in snapshot:
                 errors.append(f'{name}: missing source {path}')
             if path in owners:
@@ -561,7 +580,7 @@ def assess(receipt: dict, snapshot: dict) -> dict:
     for name, component in COMPONENTS.items():
         assigned = assignments[name]
         checks[name] = {'status': 'TESTS_PASSED_LOCAL' if assigned and all(r['outcome']=='PASS' for r in assigned) else 'BLOCKED',
-                        'test_count': len(assigned), 'depends_on': component['depends'], 'files': component['files']}
+                        'test_count': len(assigned), 'depends_on': component['depends'], 'files': component_files(component, snapshot)}
         if not assigned:
             errors.append(name + ': no execution evidence')
     if unmapped:
@@ -1882,7 +1901,8 @@ REQUIRED_TESTS += (
 
 
 COMPONENTS['product_review'] = {
-    'files': [*PRODUCT_DATA_FILES,
+    'optional_file_groups': acceptance_paths.PATH_GROUPS,
+    'files': ['acceptance_paths.py', *PRODUCT_DATA_FILES,
               'product_native_capabilities.py',
               'product_evm_native.py',
               'product_evm_native_worker.py',
