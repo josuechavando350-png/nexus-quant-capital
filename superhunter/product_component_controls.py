@@ -92,6 +92,7 @@ def attach(index, checkout, domain, kit):
 
     results = {}
     errors = {}
+    accepted = {}
     with ThreadPoolExecutor(max_workers=min(3, len(wanted))) as pool:
         futures = {group: pool.submit(run, group) for group in wanted}
         for group, future in futures.items():
@@ -103,8 +104,14 @@ def attach(index, checkout, domain, kit):
             except (ValueError, KeyError, OSError, ImportError, subprocess.SubprocessError) as error:
                 errors[group] = type(error).__name__ + ': ' + str(error)[:500]
                 continue
-            for name, value in receipts.items():
-                index.repos[name.casefold()][FIELD] = value
+            accepted.update(receipts)
             results.update(rows)
-    index.component_controls = {'requested': list(wanted), 'blocked': errors, 'observations': results,
-                                'digest_corroboration': reconcile_digest(results, getattr(index, 'header_digest', None))}
+    report = {'requested': list(wanted), 'blocked': errors, 'observations': results,
+              'digest_corroboration': reconcile_digest(results, getattr(index, 'header_digest', None))}
+    # Publish the validated selection together. A failed or deselected component
+    # must lose its old credit; unrelated legacy and native evidence is retained.
+    for row in index.repos.values():
+        row.pop(FIELD, None)
+    for name, value in accepted.items():
+        index.repos[name.casefold()][FIELD] = value
+    index.component_controls = report
