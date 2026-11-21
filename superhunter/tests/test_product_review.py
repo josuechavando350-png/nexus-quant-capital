@@ -112,3 +112,23 @@ class ProductTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'release digest mismatch'):
                 product.copy_tool('cvc5', wrong, root/'copy')
             self.assertFalse((root/'copy').stat().st_mode & 0o111)
+
+
+class CdxgenTests(unittest.TestCase):
+    def test_cargo_projection_requires_exact_edges_and_checksums(self):
+        from superhunter.product_cdxgen import validate_cargo
+        checksum = 'a' * 64
+        lock = ('[[package]]\nname="dep"\nversion="1"\nchecksum="'+checksum+'"').encode()
+        ref = 'pkg:cargo/dep@1'
+        doc = {'metadata': {'component': {'bom-ref': 'workspace'}},
+               'components': [{'name': 'dep', 'version': '1', 'hashes': [{'alg': 'SHA-256', 'content': checksum}]}],
+               'dependencies': [{'ref': ref, 'dependsOn': []}, {'ref': 'workspace', 'dependsOn': [ref]}]}
+        graph = {'nodes': [{'name': 'dep', 'version': '1', 'requires': [], 'workspace_member': True}]}
+        validate_cargo(doc, graph, lock)
+        doc['dependencies'][1]['dependsOn'] = []
+        with self.assertRaisesRegex(ValueError, 'relationships'):
+            validate_cargo(doc, graph, lock)
+        doc['dependencies'][1]['dependsOn'] = [ref]
+        doc['components'][0]['hashes'] = []
+        with self.assertRaisesRegex(ValueError, 'checksum'):
+            validate_cargo(doc, graph, lock)

@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ('review-product-cdxgen', 'verify-product-cdxgen'):
+        from .product_cdxgen import main as cdxgen_main
+        return cdxgen_main(argv)
     if argv and argv[0] in ('review-product-supply', 'verify-product-supply'):
         from .product_supply_review import main as supply_main
         return supply_main(argv)

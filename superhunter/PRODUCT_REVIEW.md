@@ -57,3 +57,18 @@ python3 -m superhunter query-product --bundle "$evidence_dir" --supply "$supply_
 ```
 
 La consulta añade la identidad y la comparación de licencia de cada proyecto. El campo `supply_role` distingue los tres ejecutables, las dos fuentes de datos y los proyectos sin participación probada en este flujo. El expediente se liga al conjunto exacto de bytes de su ejecución de origen. Se puede consultar un expediente anterior sin aportar un expediente de proveedores.
+
+## Inventarios CycloneDX con cdxgen
+
+El adaptador de cdxgen 13.8.0 genera siete archivos CycloneDX 1.6 a partir del workspace Rust de Census y de los seis perfiles Python. Ejecuta el binario Linux x86-64 en un espacio de nombres de red vacío, sobre copias privadas de los manifiestos y con la instalación de dependencias desactivada. Requiere util-linux con `unshare --map-current-user --net` habilitado y el binario publicado. El adaptador verifica el SHA-256 de la copia que ejecuta. [Distribución v13.8.0](https://github.com/cdxgen/cdxgen/releases/tag/v13.8.0)
+
+```bash
+cdx_out="$(mktemp -d)/cyclonedx"
+python3 -m superhunter review-product-cdxgen --product "$evidence_dir" --cdxgen /ruta/cdxgen-linux-amd64 --out "$cdx_out"
+python3 -m superhunter verify-product-cdxgen --product "$evidence_dir" --bundle "$cdx_out"
+python3 -m superhunter query-product --bundle "$evidence_dir" --cdxgen-bundle "$cdx_out" cdxgen/cdxgen
+```
+
+El expediente contiene `census.cdx.json`, un archivo `<perfil>.cdx.json` por perfil Python y un resumen ligado al informe de producto. La verificación coteja nombres y versiones por perfil, las relaciones Rust, la pertenencia al workspace y las sumas SHA-256 registradas en Cargo.lock. En Python, el alcance son las versiones declaradas por perfil. Los archivos originales pueden contener rutas temporales, UUID y marcas de tiempo. El resumen recoge los hechos reproducibles.
+
+En el checkout derivado de `fc92ea6c`, dos ejecuciones locales produjeron el mismo resumen SHA-256 `4ec4567787f8609f707d07aef56de422f98babc14dc4c08692c7cfbd03c05e75`. Se cotejaron 18 paquetes Rust, 57 observaciones Python, 35 relaciones Rust y ocho miembros del workspace. El verificador rechazó tres copias con un paquete, una relación o un checksum omitidos, incluso tras recalcular el marcador de integridad.

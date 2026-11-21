@@ -53,7 +53,7 @@ def capture_inputs():
     return {dest: read_artifact(ROOT, src) for dest, src in INPUTS.items()}
 
 
-def copy_tool(name, source, dest):
+def copy_release(name, source, dest, expected_digest):
     """Only the private copy with the reviewed upstream digest is executable."""
     digest = hashlib.sha256()
     fd = os.open(source, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
@@ -67,9 +67,13 @@ def copy_tool(name, source, dest):
                 raise EvidenceError(f'{name} exceeds release size limit')
             output.write(block)
             digest.update(block)
-    if digest.hexdigest() != TOOLS[name][2]:
+    if digest.hexdigest() != expected_digest:
         raise EvidenceError(f'{name} release digest mismatch')
     dest.chmod(0o500)
+
+
+def copy_tool(name, source, dest):
+    copy_release(name, source, dest, TOOLS[name][2])
 
 
 def run_native(inputs, syft, cvc5):
@@ -245,6 +249,7 @@ def main(argv):
     else:
         parser.add_argument('--bundle', type=Path, required=True)
         if command == 'query-product':
+            parser.add_argument('--cdxgen-bundle', type=Path, help='verify CycloneDX evidence for cdxgen')
             parser.add_argument('--supply', type=Path, help='add verified identities and supply evidence')
             parser.add_argument('keys', nargs='*', help='repository or package names; default: lines from stdin')
     opts = parser.parse_args(args)
@@ -259,6 +264,10 @@ def main(argv):
                 from . import product_supply_review
                 supply = product_supply_review.verify(opts.supply, result, files)
             index = ProductIndex(result, supply=supply)
+            if opts.cdxgen_bundle:
+                from .product_cdxgen import verify as verify_cdxgen
+                evidence = verify_cdxgen(opts.cdxgen_bundle, result)
+                index.repos['cdxgen/cdxgen']['cyclonedx_evidence'] = evidence
             for key in opts.keys or sys.stdin:
                 print(json.dumps(index.lookup(key), sort_keys=True), flush=True)
         else:
