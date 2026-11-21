@@ -1,0 +1,926 @@
+{
+  "CosmWasm/cosmwasm": {
+    "controls": {
+      "exponent": {
+        "representable": false
+      },
+      "leading_zero": {
+        "representable": false
+      },
+      "negative": {
+        "representable": false
+      },
+      "not_binary64_exact": {
+        "bits": 54,
+        "cairo_low_high": [
+          "9007199254740993",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "9007199254740993",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "over_u128": {
+        "bits": 129,
+        "cairo_low_high": [
+          "0",
+          "1"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "340282366920938463463374607431768211456",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": false
+      },
+      "over_u256": {
+        "representable": false
+      },
+      "over_u64": {
+        "bits": 65,
+        "cairo_low_high": [
+          "18446744073709551616",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "18446744073709551616",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      },
+      "u128_max": {
+        "bits": 128,
+        "cairo_low_high": [
+          "340282366920938463463374607431768211455",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "340282366920938463463374607431768211455",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      },
+      "u256_max": {
+        "bits": 256,
+        "cairo_low_high": [
+          "340282366920938463463374607431768211455",
+          "340282366920938463463374607431768211455"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "115792089237316195423570985008687907853269984665640564039457584007913129639935",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": false
+      },
+      "u64_max": {
+        "bits": 64,
+        "cairo_low_high": [
+          "18446744073709551615",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "18446744073709551615",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      }
+    },
+    "go_binary_sha256": "de0ae3e082ce7599eae4fb69fa2ef1e43b8f31ffd3fce62cdf81930aa9005050",
+    "input_sha256": "6f128949f4062068898b81130b01fb7f8dfc0068e82ee8d6a9d5b166050e0cfc",
+    "operation": "staking response shape and unsigned precision from both Wasm schemas",
+    "results": {
+      "nqc_capture_probability_lower_bound_wad": {
+        "bits": 0,
+        "cairo_low_high": [
+          "0",
+          "0"
+        ],
+        "ibc_positive_amount": false,
+        "normalized_decimal": "0",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "nqc_conservative_realizable_capacity_usd_wad": {
+        "bits": 0,
+        "cairo_low_high": [
+          "0",
+          "0"
+        ],
+        "ibc_positive_amount": false,
+        "normalized_decimal": "0",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "nqc_conservative_realizable_daily_capacity_usd_wad": {
+        "bits": 0,
+        "cairo_low_high": [
+          "0",
+          "0"
+        ],
+        "ibc_positive_amount": false,
+        "normalized_decimal": "0",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "nqc_conservative_realizable_monthly_capacity_usd_wad": {
+        "bits": 0,
+        "cairo_low_high": [
+          "0",
+          "0"
+        ],
+        "ibc_positive_amount": false,
+        "normalized_decimal": "0",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "observed_market_debt_principal_usd_wad": {
+        "bits": 82,
+        "cairo_low_high": [
+          "2929719106126210000000000",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "2929719106126210000000000",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      },
+      "observed_market_gross_oracle_edge_usd_wad": {
+        "bits": 77,
+        "cairo_low_high": [
+          "138045174690310000000000",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "138045174690310000000000",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      },
+      "observed_winner_gas_cost_usd_wad": {
+        "bits": 70,
+        "cairo_low_high": [
+          "1144134260592713842029",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "1144134260592713842029",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      }
+    },
+    "revision": "b7da6a4d373f5fdb7cd752f855271ed9909ec1ce",
+    "role": "reference",
+    "sdk_runner_sha256": "606b9b741a14f37ae2164782f5cf5525d08d1e57efdf555f846123a104c92ede",
+    "source_files": {
+      "contracts/staking/schema/cw_schema/raw/response_to_balance.json": "fd6be0e2b08a3b7d4ad73f6c5911ae32a2c5ef63bb029943ca2f5cb5fab6fc72",
+      "contracts/staking/schema/raw/response_to_balance.json": "3cd4800828d1f0a92ddaf2257924fd153029da547db094dd063120d1f52612f3"
+    }
+  },
+  "MystenLabs/sui": {
+    "controls": {
+      "exponent": {
+        "representable": false
+      },
+      "leading_zero": {
+        "representable": false
+      },
+      "negative": {
+        "representable": false
+      },
+      "not_binary64_exact": {
+        "bits": 54,
+        "cairo_low_high": [
+          "9007199254740993",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "9007199254740993",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "over_u128": {
+        "bits": 129,
+        "cairo_low_high": [
+          "0",
+          "1"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "340282366920938463463374607431768211456",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": false
+      },
+      "over_u256": {
+        "representable": false
+      },
+      "over_u64": {
+        "bits": 65,
+        "cairo_low_high": [
+          "18446744073709551616",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "18446744073709551616",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      },
+      "u128_max": {
+        "bits": 128,
+        "cairo_low_high": [
+          "340282366920938463463374607431768211455",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "340282366920938463463374607431768211455",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      },
+      "u256_max": {
+        "bits": 256,
+        "cairo_low_high": [
+          "340282366920938463463374607431768211455",
+          "340282366920938463463374607431768211455"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "115792089237316195423570985008687907853269984665640564039457584007913129639935",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": false
+      },
+      "u64_max": {
+        "bits": 64,
+        "cairo_low_high": [
+          "18446744073709551615",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "18446744073709551615",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      }
+    },
+    "go_binary_sha256": "de0ae3e082ce7599eae4fb69fa2ef1e43b8f31ffd3fce62cdf81930aa9005050",
+    "input_sha256": "6f128949f4062068898b81130b01fb7f8dfc0068e82ee8d6a9d5b166050e0cfc",
+    "operation": "Sui Balance storage and Move value layout",
+    "results": {
+      "nqc_capture_probability_lower_bound_wad": {
+        "bits": 0,
+        "cairo_low_high": [
+          "0",
+          "0"
+        ],
+        "ibc_positive_amount": false,
+        "normalized_decimal": "0",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "nqc_conservative_realizable_capacity_usd_wad": {
+        "bits": 0,
+        "cairo_low_high": [
+          "0",
+          "0"
+        ],
+        "ibc_positive_amount": false,
+        "normalized_decimal": "0",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "nqc_conservative_realizable_daily_capacity_usd_wad": {
+        "bits": 0,
+        "cairo_low_high": [
+          "0",
+          "0"
+        ],
+        "ibc_positive_amount": false,
+        "normalized_decimal": "0",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "nqc_conservative_realizable_monthly_capacity_usd_wad": {
+        "bits": 0,
+        "cairo_low_high": [
+          "0",
+          "0"
+        ],
+        "ibc_positive_amount": false,
+        "normalized_decimal": "0",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "observed_market_debt_principal_usd_wad": {
+        "bits": 82,
+        "cairo_low_high": [
+          "2929719106126210000000000",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "2929719106126210000000000",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      },
+      "observed_market_gross_oracle_edge_usd_wad": {
+        "bits": 77,
+        "cairo_low_high": [
+          "138045174690310000000000",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "138045174690310000000000",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      },
+      "observed_winner_gas_cost_usd_wad": {
+        "bits": 70,
+        "cairo_low_high": [
+          "1144134260592713842029",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "1144134260592713842029",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      }
+    },
+    "revision": "f0f5a5f03da8ae1a90c3858dafcfa460f851fcf4",
+    "role": "reference",
+    "sdk_runner_sha256": "606b9b741a14f37ae2164782f5cf5525d08d1e57efdf555f846123a104c92ede",
+    "source_files": {
+      "crates/sui-types/src/balance.rs": "d51a3f7310b5d7801163a99ce567b1876094a812b186de20da1d1054cdff6b07"
+    }
+  },
+  "cosmos/cosmos-sdk": {
+    "controls": {
+      "exponent": {
+        "representable": false
+      },
+      "leading_zero": {
+        "representable": false
+      },
+      "negative": {
+        "representable": false
+      },
+      "not_binary64_exact": {
+        "bits": 54,
+        "cairo_low_high": [
+          "9007199254740993",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "9007199254740993",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "over_u128": {
+        "bits": 129,
+        "cairo_low_high": [
+          "0",
+          "1"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "340282366920938463463374607431768211456",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": false
+      },
+      "over_u256": {
+        "representable": false
+      },
+      "over_u64": {
+        "bits": 65,
+        "cairo_low_high": [
+          "18446744073709551616",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "18446744073709551616",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      },
+      "u128_max": {
+        "bits": 128,
+        "cairo_low_high": [
+          "340282366920938463463374607431768211455",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "340282366920938463463374607431768211455",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      },
+      "u256_max": {
+        "bits": 256,
+        "cairo_low_high": [
+          "340282366920938463463374607431768211455",
+          "340282366920938463463374607431768211455"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "115792089237316195423570985008687907853269984665640564039457584007913129639935",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": false
+      },
+      "u64_max": {
+        "bits": 64,
+        "cairo_low_high": [
+          "18446744073709551615",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "18446744073709551615",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      }
+    },
+    "go_binary_sha256": "de0ae3e082ce7599eae4fb69fa2ef1e43b8f31ffd3fce62cdf81930aa9005050",
+    "input_sha256": "6f128949f4062068898b81130b01fb7f8dfc0068e82ee8d6a9d5b166050e0cfc",
+    "operation": "Cosmos SDK integer parsing and JSON round trips",
+    "results": {
+      "nqc_capture_probability_lower_bound_wad": {
+        "bits": 0,
+        "cairo_low_high": [
+          "0",
+          "0"
+        ],
+        "ibc_positive_amount": false,
+        "normalized_decimal": "0",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "nqc_conservative_realizable_capacity_usd_wad": {
+        "bits": 0,
+        "cairo_low_high": [
+          "0",
+          "0"
+        ],
+        "ibc_positive_amount": false,
+        "normalized_decimal": "0",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "nqc_conservative_realizable_daily_capacity_usd_wad": {
+        "bits": 0,
+        "cairo_low_high": [
+          "0",
+          "0"
+        ],
+        "ibc_positive_amount": false,
+        "normalized_decimal": "0",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "nqc_conservative_realizable_monthly_capacity_usd_wad": {
+        "bits": 0,
+        "cairo_low_high": [
+          "0",
+          "0"
+        ],
+        "ibc_positive_amount": false,
+        "normalized_decimal": "0",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "observed_market_debt_principal_usd_wad": {
+        "bits": 82,
+        "cairo_low_high": [
+          "2929719106126210000000000",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "2929719106126210000000000",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      },
+      "observed_market_gross_oracle_edge_usd_wad": {
+        "bits": 77,
+        "cairo_low_high": [
+          "138045174690310000000000",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "138045174690310000000000",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      },
+      "observed_winner_gas_cost_usd_wad": {
+        "bits": 70,
+        "cairo_low_high": [
+          "1144134260592713842029",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "1144134260592713842029",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      }
+    },
+    "revision": "0c3dd0e3eb5413ea86fddaa9e8fbe8c16fda815b",
+    "role": "executable",
+    "sdk_runner_sha256": "606b9b741a14f37ae2164782f5cf5525d08d1e57efdf555f846123a104c92ede",
+    "source_files": {
+      "math/doc.go": "cee16dd9f2e0481576d8c4f18656f56c688aec7c0aa4fe981ab8505c07a919bf",
+      "math/go.mod": "4ab0b987ac4a4456550bcb4d9c50f33945fe320c14170583ed497570d6a5817c",
+      "math/go.sum": "5f9ce25e29e7ae8a14bb6fa1e46d979852816ab24a2b22aae041c97d4a5280bd",
+      "math/int.go": "27b2907f922f6f0634e7110e2d18fdb2d75926e723fd8c7f79c7c8d27e128f45",
+      "math/legacy_dec.go": "a8b380791b7628bd285e1e96afc613ce9b43f841939042c7eb5ee566fe502daf",
+      "math/max_min.go": "69a2fa3a22e8a2e9ba0ba3a98f69434c3afc7df3c3146d19c48caf81a707de90",
+      "math/proto.go": "4dc8b807453b5a0b40313015f6c19403878fb4aa0dab1bc102edfc952c29672b",
+      "math/uint.go": "b418c399db90084dc780e2a7816de26ac501ecbc89eecc8ab66de57254f51bc7"
+    }
+  },
+  "lfdt-ibc/ibc-go": {
+    "controls": {
+      "exponent": {
+        "representable": false
+      },
+      "leading_zero": {
+        "representable": false
+      },
+      "negative": {
+        "representable": false
+      },
+      "not_binary64_exact": {
+        "bits": 54,
+        "cairo_low_high": [
+          "9007199254740993",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "9007199254740993",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "over_u128": {
+        "bits": 129,
+        "cairo_low_high": [
+          "0",
+          "1"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "340282366920938463463374607431768211456",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": false
+      },
+      "over_u256": {
+        "representable": false
+      },
+      "over_u64": {
+        "bits": 65,
+        "cairo_low_high": [
+          "18446744073709551616",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "18446744073709551616",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      },
+      "u128_max": {
+        "bits": 128,
+        "cairo_low_high": [
+          "340282366920938463463374607431768211455",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "340282366920938463463374607431768211455",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      },
+      "u256_max": {
+        "bits": 256,
+        "cairo_low_high": [
+          "340282366920938463463374607431768211455",
+          "340282366920938463463374607431768211455"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "115792089237316195423570985008687907853269984665640564039457584007913129639935",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": false
+      },
+      "u64_max": {
+        "bits": 64,
+        "cairo_low_high": [
+          "18446744073709551615",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "18446744073709551615",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      }
+    },
+    "go_binary_sha256": "de0ae3e082ce7599eae4fb69fa2ef1e43b8f31ffd3fce62cdf81930aa9005050",
+    "input_sha256": "6f128949f4062068898b81130b01fb7f8dfc0068e82ee8d6a9d5b166050e0cfc",
+    "operation": "positive-amount constraint from the IBC token schema and validator",
+    "results": {
+      "nqc_capture_probability_lower_bound_wad": {
+        "bits": 0,
+        "cairo_low_high": [
+          "0",
+          "0"
+        ],
+        "ibc_positive_amount": false,
+        "normalized_decimal": "0",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "nqc_conservative_realizable_capacity_usd_wad": {
+        "bits": 0,
+        "cairo_low_high": [
+          "0",
+          "0"
+        ],
+        "ibc_positive_amount": false,
+        "normalized_decimal": "0",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "nqc_conservative_realizable_daily_capacity_usd_wad": {
+        "bits": 0,
+        "cairo_low_high": [
+          "0",
+          "0"
+        ],
+        "ibc_positive_amount": false,
+        "normalized_decimal": "0",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "nqc_conservative_realizable_monthly_capacity_usd_wad": {
+        "bits": 0,
+        "cairo_low_high": [
+          "0",
+          "0"
+        ],
+        "ibc_positive_amount": false,
+        "normalized_decimal": "0",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "observed_market_debt_principal_usd_wad": {
+        "bits": 82,
+        "cairo_low_high": [
+          "2929719106126210000000000",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "2929719106126210000000000",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      },
+      "observed_market_gross_oracle_edge_usd_wad": {
+        "bits": 77,
+        "cairo_low_high": [
+          "138045174690310000000000",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "138045174690310000000000",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      },
+      "observed_winner_gas_cost_usd_wad": {
+        "bits": 70,
+        "cairo_low_high": [
+          "1144134260592713842029",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "1144134260592713842029",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      }
+    },
+    "revision": "873b622380fbbce76ac407c6e0299fcbec557045",
+    "role": "reference",
+    "sdk_runner_sha256": "606b9b741a14f37ae2164782f5cf5525d08d1e57efdf555f846123a104c92ede",
+    "source_files": {
+      "modules/apps/transfer/types/token.go": "8e52dadbe0b352845e3d2489488d740b82984332d898c6757cd9d1a99de2cf1f",
+      "proto/ibc/applications/transfer/v1/token.proto": "ce9e7f1d2cc20f3c15608bacee7b8f4f512009a706bed19f986c5cc331791cd3"
+    }
+  },
+  "starkware-libs/cairo": {
+    "controls": {
+      "exponent": {
+        "representable": false
+      },
+      "leading_zero": {
+        "representable": false
+      },
+      "negative": {
+        "representable": false
+      },
+      "not_binary64_exact": {
+        "bits": 54,
+        "cairo_low_high": [
+          "9007199254740993",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "9007199254740993",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "over_u128": {
+        "bits": 129,
+        "cairo_low_high": [
+          "0",
+          "1"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "340282366920938463463374607431768211456",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": false
+      },
+      "over_u256": {
+        "representable": false
+      },
+      "over_u64": {
+        "bits": 65,
+        "cairo_low_high": [
+          "18446744073709551616",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "18446744073709551616",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      },
+      "u128_max": {
+        "bits": 128,
+        "cairo_low_high": [
+          "340282366920938463463374607431768211455",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "340282366920938463463374607431768211455",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      },
+      "u256_max": {
+        "bits": 256,
+        "cairo_low_high": [
+          "340282366920938463463374607431768211455",
+          "340282366920938463463374607431768211455"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "115792089237316195423570985008687907853269984665640564039457584007913129639935",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": false
+      },
+      "u64_max": {
+        "bits": 64,
+        "cairo_low_high": [
+          "18446744073709551615",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "18446744073709551615",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      }
+    },
+    "go_binary_sha256": "de0ae3e082ce7599eae4fb69fa2ef1e43b8f31ffd3fce62cdf81930aa9005050",
+    "input_sha256": "6f128949f4062068898b81130b01fb7f8dfc0068e82ee8d6a9d5b166050e0cfc",
+    "operation": "Serde u256 field order and limb widths",
+    "results": {
+      "nqc_capture_probability_lower_bound_wad": {
+        "bits": 0,
+        "cairo_low_high": [
+          "0",
+          "0"
+        ],
+        "ibc_positive_amount": false,
+        "normalized_decimal": "0",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "nqc_conservative_realizable_capacity_usd_wad": {
+        "bits": 0,
+        "cairo_low_high": [
+          "0",
+          "0"
+        ],
+        "ibc_positive_amount": false,
+        "normalized_decimal": "0",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "nqc_conservative_realizable_daily_capacity_usd_wad": {
+        "bits": 0,
+        "cairo_low_high": [
+          "0",
+          "0"
+        ],
+        "ibc_positive_amount": false,
+        "normalized_decimal": "0",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "nqc_conservative_realizable_monthly_capacity_usd_wad": {
+        "bits": 0,
+        "cairo_low_high": [
+          "0",
+          "0"
+        ],
+        "ibc_positive_amount": false,
+        "normalized_decimal": "0",
+        "representable": true,
+        "sui_balance_fits": true,
+        "wasm_response_uint_fits": true
+      },
+      "observed_market_debt_principal_usd_wad": {
+        "bits": 82,
+        "cairo_low_high": [
+          "2929719106126210000000000",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "2929719106126210000000000",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      },
+      "observed_market_gross_oracle_edge_usd_wad": {
+        "bits": 77,
+        "cairo_low_high": [
+          "138045174690310000000000",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "138045174690310000000000",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      },
+      "observed_winner_gas_cost_usd_wad": {
+        "bits": 70,
+        "cairo_low_high": [
+          "1144134260592713842029",
+          "0"
+        ],
+        "ibc_positive_amount": true,
+        "normalized_decimal": "1144134260592713842029",
+        "representable": true,
+        "sui_balance_fits": false,
+        "wasm_response_uint_fits": true
+      }
+    },
+    "revision": "4a078b123ce242b2a04c0eaae790a976a8da469a",
+    "role": "reference",
+    "sdk_runner_sha256": "606b9b741a14f37ae2164782f5cf5525d08d1e57efdf555f846123a104c92ede",
+    "source_files": {
+      "corelib/src/integer.cairo": "322f20c008159217226b7a5963e94e8a2d4d4acfe8055408ac1b386cf50bc852"
+    }
+  }
+}

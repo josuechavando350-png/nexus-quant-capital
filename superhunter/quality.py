@@ -293,6 +293,43 @@ PRODUCT_DATA_FILES = ('repositories_200.json', 'product_repository_identities.js
                       'product_supply/source-excerpts/token-types.txt')
 
 
+# Data consumed by the verified offline component checks and their evidence readers.
+PRODUCT_DATA_FILES += (
+    'product_supply/acceleration-product-replay.json', 'product_supply/attestations-batch-receipt.json',
+    'product_supply/census-state-amounts-acceptance.json', 'product_supply/census-state-amounts.go.txt',
+    'product_supply/change-review-linux-py312.txt', 'product_supply/clock-format-assets.json',
+    'product_supply/clock-format-provenance.json', 'product_supply/compile-abi-acceptance.json',
+    'product_supply/compile-abi-linux-py312.txt', 'product_supply/compile-abi-wheel-notices.json',
+    'product_supply/compile-layout-worker.mjs.txt', 'product_supply/component-control-contracts.json',
+    'product_supply/evaluation-batch-receipt.json', 'product_supply/evaluation-worker-node.txt',
+    'product_supply/fixed-clock-acceptance.json', 'product_supply/fixed-clock.mjs.txt',
+    'product_supply/fixed-opcodes-acceptance.json', 'product_supply/fixed-opcodes-node.mjs.txt',
+    'product_supply/fixed-opcodes-rust.rs.txt', 'product_supply/fixed-opcodes-solc.json',
+    'product_supply/formats-batch.json', 'product_supply/infra_batch_abi.json',
+    'product_supply/infra_batch_captures.json', 'product_supply/infra_batch_clock_driver.txt',
+    'product_supply/infra_batch_config.json', 'product_supply/infra_batch_journal_fixture.json',
+    'product_supply/infra_batch_journal_observed.json', 'product_supply/languages-batch.json',
+    'product_supply/owned-change-control.json', 'product_supply/passive-source-batch-receipt.json',
+    'product_supply/passive-source-excerpts/LICENSE-001.txt',
+    'product_supply/passive-source-excerpts/LICENSE-010.txt',
+    'product_supply/passive-source-excerpts/LICENSE-169.txt',
+    'product_supply/passive-source-excerpts/dalfox-severity.txt',
+    'product_supply/passive-source-excerpts/origins.json',
+    'product_supply/remediation-batch-receipt.json', 'product_supply/remediation-excerpts/GPL-2.txt',
+    'product_supply/remediation-excerpts/approved-files.txt',
+    'product_supply/remediation-excerpts/containment.txt',
+    'product_supply/remediation-excerpts/exact-redirect.txt',
+    'product_supply/remediation-excerpts/notice-194-license.txt',
+    'product_supply/remediation-excerpts/notice-195-copyright.txt',
+    'product_supply/remediation-excerpts/notice-195-license.txt',
+    'product_supply/remediation-excerpts/notice-197-copying.txt',
+    'product_supply/remediation-excerpts/origins.json',
+    'product_supply/source-materialization-observations.json',
+    'product_supply/source-materialization-review.json', 'product_supply/static-contracts.json',
+    'product_supply/trust-batch-receipt.json',
+)
+
+
 def source_snapshot(root: Path = ROOT) -> dict[str, str]:
     """Capture executable package/test bytes and policy inputs; reject symlinks."""
     def scan_failed(error: OSError) -> None:
@@ -1766,6 +1803,20 @@ REQUIRED_TESTS += (
 
 COMPONENTS['product_review'] = {
     'files': [*PRODUCT_DATA_FILES,
+              'infra_batch_config_worker.py', 'infra_batch_pcap_worker.py', 'passive_garak_sampling.py',
+              'passive_strix_locations.py', 'product_attestations_batch.py',
+              'product_build_compatibility.py', 'product_change_batch.py', 'product_change_worker.py',
+              'product_component_controls.py', 'product_config_batch.py', 'product_evaluation_batch.py',
+              'product_evaluation_worker.py', 'product_evm_standards_batch.py',
+              'product_formats_batch.py', 'product_infra_batch.py', 'product_infra_batch_pcap.py',
+              'product_languages_batch.py', 'product_passive_source_batch.py',
+              'product_remediation_batch.py', 'product_slot_formats_batch.py',
+              'product_state_formats_batch.py', 'product_static_contracts.py',
+              'product_supply/compile-abi-worker.py', 'product_timeline_formats.py',
+              'product_trust_batch.py', 'tools/prepare_build_compatibility_cache.py',
+              'tools/prepare_state_amount_reader.py', 'tools/rebuild_fixed_opcode_oracle.py',
+              'tools/verified_downloads.py', 'tools/verify_source_materialization.py',
+
               'product_source_references.py', 'product_source_audit.py', 'product_remote_roots.py',
               'product_portable_roots.py', 'tools/pack_remote_inputs.py', 'product_header_digest.py',
               'product_fork_headers.py', 'tools/audit_tree_metadata.py', 'product_assurance_notices.py',
@@ -1786,7 +1837,19 @@ COMPONENTS['product_review'] = {
               'product_notice_search.py', 'product_notice_worker.py', 'product_licenses.py',
               'product_notices.py', 'product_guac.py', 'product_guac_worker.py', 'product_cdxgen.py',
               'product_census_graph.py', 'product_reasoning.py', 'product_review.py', 'product_supply_review.py'],
-    'tests': ['test_product_review.', 'test_product_supply.', 'test_product_catalog_session.', 'test_product_source_audit.'],
+    'tests': [
+              'test_infra_batch_config.', 'test_infra_batch_journal.', 'test_infra_batch_pcap.',
+              'test_product_attestations_batch.', 'test_product_build_compatibility.',
+              'test_product_component_controls.', 'test_product_download_cache.',
+              'test_product_evaluation_batch.', 'test_product_evm_standards_batch.',
+              'test_product_formats_batch.', 'test_product_infra_batch.',
+              'test_product_inventory_parallel.', 'test_product_languages_batch.',
+              'test_product_license_session.', 'test_product_matrix_accounting.',
+              'test_product_passive_source_batch.', 'test_product_remediation_batch.',
+              'test_product_slot_formats_batch.', 'test_product_source_parallel.',
+              'test_product_state_formats_batch.', 'test_product_static_contracts.',
+              'test_product_trust_batch.', 'test_source_materialization.',
+              'test_product_review.', 'test_product_supply.', 'test_product_catalog_session.', 'test_product_source_audit.'],
     'depends': ['portfolio_inventory', 'bundle_recovery', 'owned_capture', 'privacy', 'io']}
 COMPONENTS['entrypoints']['depends'].append('product_review')
 REQUIRED_TESTS += (

@@ -1,0 +1,97 @@
+{
+  "capstone-engine/capstone": {
+    "operation": "check_proof_obligation_calls",
+    "result": {
+      "cases": {
+        "duplicate_label": {
+          "assertion_calls": 3,
+          "bound_labels": [
+            "nqc_0",
+            "nqc_1",
+            "nqc_1"
+          ],
+          "boundaries_sha256": "99ef78d43cd1fa2e62e8f1e0188edc035308e2edb36cac2a8cd79a1fca91ad7a",
+          "covers_reviewed_obligations": false,
+          "expected_assertions": 3,
+          "external_calls": 5,
+          "instructions": 77
+        },
+        "missing_obligation": {
+          "assertion_calls": 2,
+          "bound_labels": [
+            "nqc_0",
+            "nqc_1"
+          ],
+          "boundaries_sha256": "53fc5b12c3cc9ab2b160b0e4af94cafbe42570548ac23059020bbe1f4c82c191",
+          "covers_reviewed_obligations": false,
+          "expected_assertions": 3,
+          "external_calls": 4,
+          "instructions": 74
+        },
+        "original": {
+          "assertion_calls": 3,
+          "bound_labels": [
+            "nqc_0",
+            "nqc_1",
+            "nqc_2"
+          ],
+          "boundaries_sha256": "99ef78d43cd1fa2e62e8f1e0188edc035308e2edb36cac2a8cd79a1fca91ad7a",
+          "covers_reviewed_obligations": true,
+          "expected_assertions": 3,
+          "external_calls": 5,
+          "instructions": 77
+        }
+      },
+      "radare2_sha256": "ba212d279dad6ddf81ab5d7ea17b0a61fe5878bb689bd60a3fe5258195e39910"
+    },
+    "revision": "ccd25ab39eea534afbb70cfb047310c5a9962553",
+    "role": "execution",
+    "source_blobs": 114,
+    "source_manifest_sha256": "400f1dd120a6122dd035b4ff629aa5ae0a21857ae04b33817fda3b3b6e84de4b"
+  },
+  "radareorg/radare2": {
+    "operation": "read_proof_object_sections",
+    "result": {
+      "cases": {
+        "duplicate_label": {
+          "labels_sha256": "034a962cab0dad382261c258528519845fb0cf5da5c0e03e15896f7fa5247c37",
+          "machine": "EM_X86_64",
+          "object_sha256": "0be33fc2d7d7707b92c8ce5d7c07d255e27744d272cf7d8b367c64be4b37749f",
+          "sections": 11,
+          "source_sha256": "3517122e2db9f9a263024c3b73ae483fa21a4c48f93a14708cbf0043d1ba3cf2",
+          "text_sha256": "f02c839b3c8a646cb363ac475df863fb9ba2536bf9aa6f58646bab5e621b180a",
+          "text_size": 248,
+          "type": "ET_REL"
+        },
+        "missing_obligation": {
+          "labels_sha256": "034a962cab0dad382261c258528519845fb0cf5da5c0e03e15896f7fa5247c37",
+          "machine": "EM_X86_64",
+          "object_sha256": "d1f9ac09eafd00b16dda2979217f9096fa5ef8fcf697e5382cfb21d24b1c0bf1",
+          "sections": 11,
+          "source_sha256": "4c683d934e2beeedb9e1a3ef39fde7c4dc00a06a498230b7fec500ba509a7f88",
+          "text_sha256": "474cdb118210b9ef8d82cac56de85b4bfecdf21a3746ed8a4628ff54ea66933e",
+          "text_size": 233,
+          "type": "ET_REL"
+        },
+        "original": {
+          "labels_sha256": "a4d7300440214c94c9100b2b5e2c281e977623bf15009b92a4fee6553bce8781",
+          "machine": "EM_X86_64",
+          "object_sha256": "61ac48b390415058ecc5b685041088eb315d8ab87b8550849ced6959e0fbb3bc",
+          "sections": 11,
+          "source_sha256": "62f391bde44f45e4cf180886153c6ac1c0915a6d9d9a9947afdd746d26d8f9c7",
+          "text_sha256": "f02c839b3c8a646cb363ac475df863fb9ba2536bf9aa6f58646bab5e621b180a",
+          "text_size": 248,
+          "type": "ET_REL"
+        }
+      },
+      "reviewed_catalog_ids": [
+        108,
+        129,
+        199
+      ]
+    },
+    "revision": "3f321aa3aeda3a69fa12b1df9840648c31b4df14",
+    "role": "reference",
+    "source_manifest_sha256": "d2370fee8240bddd1f09d6774ed9cbc2a1a9a8861671ead660602fd8abca329a"
+  }
+}

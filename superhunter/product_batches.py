@@ -141,6 +141,9 @@ def check_reference(name, payload):
 
 
 def receipt(row):
+    if 'component_control_receipt' in row:
+        from .product_component_controls import role_for
+        return role_for(row)
     name = row['repository'].casefold()
     if name in FIXED_SOURCE_RECEIPTS:
         role, key, expected = FIXED_SOURCE_RECEIPTS[name]

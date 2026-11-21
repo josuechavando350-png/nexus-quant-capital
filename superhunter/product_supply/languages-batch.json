@@ -1,0 +1,160 @@
+{
+  "Ericsson/codechecker": {
+    "operation": "reconcile_source_anchored_diagnostics",
+    "result": {
+      "cppcheck_sha256": "29ab00ab9574eed66021f493ba47874ad25e2715d97ed042c7e8b4d981c41fd8",
+      "distinct_reports": 3,
+      "input_reports": 6,
+      "scope": "nqc-census/crates/nqc-census-chain/tests/fixtures/mainnet-block-25437474.json",
+      "source_anchored_keys": {
+        "base_fee_for_gas_limit": "24ec3f2e6dc6ea4f6dc09e9e3e3bcc5d",
+        "base_fee_for_gas_used": "e1708ebd6cd8390e1e18faa67513dee2",
+        "timestamp_milliseconds": "abbd62ddeb6c099f5147077a2612ec34"
+      },
+      "source_sha256": "7fdfd8e9d583c854001e5a74b80bdc9b359f551496bfa1a6d6912c1de75d5501"
+    },
+    "revision": "53222cd5d7566c553d8d7edbb5134a35a56ef15e",
+    "role": "execution",
+    "upstream_sha256": {
+      "tools/report-converter/codechecker_report_converter/__init__.py": "1020b64e7118db8450c2293c52285d8742bc1b7e935aa4eec2a7ad9465db3a50",
+      "tools/report-converter/codechecker_report_converter/report/__init__.py": "b5bcd303f1eeb3399707ba78455531b070231c3c098108a99847e89265f78889",
+      "tools/report-converter/codechecker_report_converter/report/hash.py": "6d333b8d41b47e555588f1537a4256bd75510ebc4be0e1548c9b81dd852db049",
+      "tools/report-converter/codechecker_report_converter/util.py": "e46fad65da6ff814530668217bc5d673cfb15c8ecdaa09e3bb9e4a3108e69140"
+    }
+  },
+  "cppcheck-opensource/cppcheck": {
+    "operation": "census_integer_ranges",
+    "result": {
+      "boundary_values": [
+        0,
+        2147483647,
+        2147483648,
+        9223372036854775807,
+        9223372036854775808,
+        18446744073709551615
+      ],
+      "checked_abis": [
+        "unix32",
+        "unix64",
+        "win64"
+      ],
+      "comparisons": 144,
+      "incompatible_signed_encodings": {
+        "baseFeePerGas": [],
+        "base_fee_for_gas_limit": [
+          "unix32/int",
+          "unix32/long",
+          "unix64/int",
+          "win64/int",
+          "win64/long"
+        ],
+        "base_fee_for_gas_used": [
+          "unix32/int",
+          "unix32/long",
+          "unix64/int",
+          "win64/int",
+          "win64/long"
+        ],
+        "blobGasUsed": [],
+        "excessBlobGas": [],
+        "gasLimit": [],
+        "gasUsed": [],
+        "number": [],
+        "timestamp": [],
+        "timestamp_milliseconds": [
+          "unix32/int",
+          "unix32/long",
+          "unix64/int",
+          "win64/int",
+          "win64/long"
+        ]
+      },
+      "input_sha256": "7fdfd8e9d583c854001e5a74b80bdc9b359f551496bfa1a6d6912c1de75d5501",
+      "stdout_sha256": "63c28db78e9fa62f9c3e43e864be51504abc6d6380a3975e3881581ca9d036d2",
+      "values": {
+        "baseFeePerGas": 246694677,
+        "base_fee_for_gas_limit": 14801680620000000,
+        "base_fee_for_gas_used": 7970807145466278,
+        "blobGasUsed": 1572864,
+        "excessBlobGas": 191207437,
+        "gasLimit": 60000000,
+        "gasUsed": 32310414,
+        "number": 25437474,
+        "timestamp": 1782906587,
+        "timestamp_milliseconds": 1782906587000
+      }
+    },
+    "revision": "e1b5791564c662c7dacbc62835f6abe5431aa00b",
+    "role": "execution",
+    "upstream_sha256": {
+      "externals/tinyxml2/tinyxml2.h": "79923d1f8e56cc454c4edda228943d682c1581d2532219687c459ca2c8463070",
+      "lib/config.h": "15a10a3944e50a2eaca8b8c0b39319b9f3d5d006ba0a42ce7f10842afab1d225",
+      "lib/mathlib.h": "390823930caeeaeed66bc1fee079b9a92c0ad01eb9d273b1a37245e2a15b87dc",
+      "lib/path.h": "31137ae42be84abb51117297c02060bafdcd81853b0a08c9a4800846cec32637",
+      "lib/platform.cpp": "73dabcbc46909a24c5a5479e9dc2618d1fada0d414df3fa70e12422160b7200d",
+      "lib/platform.h": "6d4e25545599623108ec4971cbedafb1fd62f4b83ce6edbdee5b24ae8af4bb41",
+      "lib/standards.h": "d70a2ddfe531930f145a10b44bd74c4a5db609d7658588c1a93c74742ab936d5",
+      "lib/utils.h": "9ca4ebe2d54f3788c9568195b881f568db7908463e9d62b0dc56d9a2a194420c",
+      "lib/xml.h": "42a0014171bbff66a133e35936ff132800c301a4e740326588adf50440bcc4ff"
+    }
+  },
+  "find-sec-bugs/find-sec-bugs": {
+    "operation": "classify_digest_evidence",
+    "result": {
+      "classification": {
+        "alternate": {
+          "algorithm": "SHA-512/256",
+          "line": 25,
+          "pattern": null,
+          "source_sha256": "c09aa39d350bd2af6cb6945232dc514ec959fb16920c94a6721db526f6bf86ec",
+          "taxonomy": null
+        },
+        "changed": {
+          "algorithm": "MD5",
+          "line": 25,
+          "pattern": "WEAK_MESSAGE_DIGEST_MD5",
+          "source_sha256": "5edd451147e457e06de8df020d2e1df53ad93b40152df0fbd00a8465db7142ca",
+          "taxonomy": {
+            "cwe": 328,
+            "explanation": "MD2, MD4 and MD5 are weak hash functions"
+          }
+        },
+        "original": {
+          "algorithm": "SHA-256",
+          "line": 25,
+          "pattern": null,
+          "source_sha256": "9ce7504add1fd9baf6500f92a84a45f4423bd14df95c323ad3d761179e2fdb66",
+          "taxonomy": null
+        }
+      },
+      "descriptor_detector": "com.h3xstream.findsecbugs.crypto.WeakMessageDigestDetector",
+      "schema_result_sha256": "7240ec589d813cb0c436a8018b28760d83fc2fd7cae3636184ef76dee46a0b4b",
+      "usage": "rule taxonomy for fixed Go digest observations"
+    },
+    "revision": "aa1293a6339a04ddf954670fc550847d1bcd83be",
+    "role": "reference",
+    "upstream_sha256": {
+      "findsecbugs-plugin/src/main/resources/metadata/findbugs.xml": "1db5a074dd7ded8a59c31d92bb84cea8af5747210e75bd593c794eeab5e0429d",
+      "findsecbugs-plugin/src/main/resources/metadata/messages.xml": "8d8af43361a285fc97d1e761a8616a55da37249f1029db48ce0b5ab82ee0b223"
+    }
+  },
+  "spotbugs/spotbugs": {
+    "operation": "validate_plugin_interchange",
+    "result": {
+      "descriptor_sha256": "1db5a074dd7ded8a59c31d92bb84cea8af5747210e75bd593c794eeab5e0429d",
+      "preserved_elements": 266,
+      "schema_results": {
+        "duplicate-id.xml": "REJECT",
+        "invalid-cwe.xml": "REJECT",
+        "normalized.xml": "PASS",
+        "original.xml": "REJECT"
+      },
+      "validated_projection_sha256": "b4490c466289187eb9c8bc0f9197aa0cde5dcdfeb30ffaa597b54574f04d9099"
+    },
+    "revision": "f4544188eb473d60221572fc0d5645325c8b18eb",
+    "role": "reference",
+    "upstream_sha256": {
+      "spotbugs/etc/findbugsplugin.xsd": "d6104eedef42442e4c4ff52e6fd6f4209938866bb75467cf49742ebf652b82d6"
+    }
+  }
+}

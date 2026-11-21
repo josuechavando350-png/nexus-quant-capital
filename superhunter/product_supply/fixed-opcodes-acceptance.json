@@ -1,0 +1,355 @@
+{
+  "argotorg/hevm": {
+    "checks": [
+      "independent solc opcode/operand map",
+      "truncated immediate rejected",
+      "PUSH data boundary preserved",
+      "Berlin PUSH0 gate closed"
+    ],
+    "input_sha256": "430e4399086eac62e3e1e51f14aaa052d70d69f65a81955111fc8d6493db7d88",
+    "operation": "independent mnemonic-by-offset verification",
+    "results": {
+      "conservation": {
+        "blocks": 58,
+        "blocks_at_maximum": [
+          {
+            "end_pc_exclusive": 518,
+            "net_delta": -5,
+            "start_pc": 509
+          }
+        ],
+        "code_bytes": 768,
+        "fork_gated_instructions": {
+          "Ghaspushzero": 36,
+          "Ghasrevert": 7,
+          "Ghasshift": 1
+        },
+        "instruction_map_sha256": "81e0236094ff22105ba2ee22c45c3d58daeb8aeb23239f8233915e58618cfd8c",
+        "instructions": 510,
+        "maximum_block_entry_requirement": 6,
+        "mnemonics": 41,
+        "runtime_code_sha256": "923ff29910decdebaa66ccb13c9603b77acca5a05da0e417d59e1d37fd68c8b2",
+        "stack_layout_sha256": "ca1f39463e1232d0da25268fd0f6c2e04fc17a06a53c74d560c27e9603c0912d"
+      },
+      "delayed_credit": {
+        "blocks": 58,
+        "blocks_at_maximum": [
+          {
+            "end_pc_exclusive": 519,
+            "net_delta": -5,
+            "start_pc": 510
+          }
+        ],
+        "code_bytes": 769,
+        "fork_gated_instructions": {
+          "Ghaspushzero": 35,
+          "Ghasrevert": 7,
+          "Ghasshift": 1
+        },
+        "instruction_map_sha256": "fbe6f857055e8a34db52f10f5647b65defd53e449a0d6e2ff105dd5b65080692",
+        "instructions": 510,
+        "maximum_block_entry_requirement": 6,
+        "mnemonics": 41,
+        "runtime_code_sha256": "3b29dff9785f80443a1bb5230abcd0a92bda75ba066966542cf0b9eed1e404f5",
+        "stack_layout_sha256": "ebf4bc9d7b84d5965fd6f2b6cb138713fe3f5564a223d6c410f3f03bea257a1f"
+      },
+      "unreachable": {
+        "blocks": 56,
+        "blocks_at_maximum": [
+          {
+            "end_pc_exclusive": 465,
+            "net_delta": -5,
+            "start_pc": 456
+          }
+        ],
+        "code_bytes": 715,
+        "fork_gated_instructions": {
+          "Ghaspushzero": 34,
+          "Ghasrevert": 7,
+          "Ghasshift": 1
+        },
+        "instruction_map_sha256": "2f7fbdd189e5a8557e1f04fb9c87355af3e6fb6ead0a25b7ed6b19bf4edcc34a",
+        "instructions": 472,
+        "maximum_block_entry_requirement": 6,
+        "mnemonics": 41,
+        "runtime_code_sha256": "41fef193fe8187eadda2fee3363fd233a41f36f13d2038f621e4384df73d0afe",
+        "stack_layout_sha256": "3b303b8b3da65556b3dd49fc71cc7c728630e3a2abb2eafd6488a2a878dba988"
+      }
+    },
+    "revision": "87598e81c044e2889e4a42e9fd706bd5396448f2",
+    "role": "reference",
+    "runtime_binaries_sha256": {
+      "node": "acbe4b8d9153b841ed0697cbfc4f93e767386620edb745ab9358306c0a6f31aa",
+      "rustc": "859254978c0a0402c32f949f6de0d99aee73be8d15f45aac00ae1448aac51e74"
+    },
+    "solc_oracle_sha256": "41f58cee10a4678dcf71b0ba8dd6389d2124541a4cc16d7aed678114387500b9",
+    "source_files": {
+      "src/EVM/Op.hs": "402c99650410a124822e92fbcdc341f1a15dce8c0aa9a7b9f8a828a2f4da53dd"
+    }
+  },
+  "bluealloy/revm": {
+    "checks": [
+      "independent solc opcode/operand map",
+      "truncated immediate rejected",
+      "PUSH data boundary preserved",
+      "Berlin PUSH0 gate closed"
+    ],
+    "input_sha256": "430e4399086eac62e3e1e51f14aaa052d70d69f65a81955111fc8d6493db7d88",
+    "operation": "instruction immediates, stack requirements and basic-block transfer",
+    "results": {
+      "conservation": {
+        "blocks": 58,
+        "blocks_at_maximum": [
+          {
+            "end_pc_exclusive": 518,
+            "net_delta": -5,
+            "start_pc": 509
+          }
+        ],
+        "code_bytes": 768,
+        "fork_gated_instructions": {
+          "Ghaspushzero": 36,
+          "Ghasrevert": 7,
+          "Ghasshift": 1
+        },
+        "instruction_map_sha256": "81e0236094ff22105ba2ee22c45c3d58daeb8aeb23239f8233915e58618cfd8c",
+        "instructions": 510,
+        "maximum_block_entry_requirement": 6,
+        "mnemonics": 41,
+        "runtime_code_sha256": "923ff29910decdebaa66ccb13c9603b77acca5a05da0e417d59e1d37fd68c8b2",
+        "stack_layout_sha256": "ca1f39463e1232d0da25268fd0f6c2e04fc17a06a53c74d560c27e9603c0912d"
+      },
+      "delayed_credit": {
+        "blocks": 58,
+        "blocks_at_maximum": [
+          {
+            "end_pc_exclusive": 519,
+            "net_delta": -5,
+            "start_pc": 510
+          }
+        ],
+        "code_bytes": 769,
+        "fork_gated_instructions": {
+          "Ghaspushzero": 35,
+          "Ghasrevert": 7,
+          "Ghasshift": 1
+        },
+        "instruction_map_sha256": "fbe6f857055e8a34db52f10f5647b65defd53e449a0d6e2ff105dd5b65080692",
+        "instructions": 510,
+        "maximum_block_entry_requirement": 6,
+        "mnemonics": 41,
+        "runtime_code_sha256": "3b29dff9785f80443a1bb5230abcd0a92bda75ba066966542cf0b9eed1e404f5",
+        "stack_layout_sha256": "ebf4bc9d7b84d5965fd6f2b6cb138713fe3f5564a223d6c410f3f03bea257a1f"
+      },
+      "unreachable": {
+        "blocks": 56,
+        "blocks_at_maximum": [
+          {
+            "end_pc_exclusive": 465,
+            "net_delta": -5,
+            "start_pc": 456
+          }
+        ],
+        "code_bytes": 715,
+        "fork_gated_instructions": {
+          "Ghaspushzero": 34,
+          "Ghasrevert": 7,
+          "Ghasshift": 1
+        },
+        "instruction_map_sha256": "2f7fbdd189e5a8557e1f04fb9c87355af3e6fb6ead0a25b7ed6b19bf4edcc34a",
+        "instructions": 472,
+        "maximum_block_entry_requirement": 6,
+        "mnemonics": 41,
+        "runtime_code_sha256": "41fef193fe8187eadda2fee3363fd233a41f36f13d2038f621e4384df73d0afe",
+        "stack_layout_sha256": "3b303b8b3da65556b3dd49fc71cc7c728630e3a2abb2eafd6488a2a878dba988"
+      }
+    },
+    "revision": "61eb0f231227db0a89f9cd2cd976cc372b6e94d1",
+    "role": "executable",
+    "runtime_binaries_sha256": {
+      "node": "acbe4b8d9153b841ed0697cbfc4f93e767386620edb745ab9358306c0a6f31aa",
+      "rustc": "859254978c0a0402c32f949f6de0d99aee73be8d15f45aac00ae1448aac51e74"
+    },
+    "solc_oracle_sha256": "41f58cee10a4678dcf71b0ba8dd6389d2124541a4cc16d7aed678114387500b9",
+    "source_files": {
+      "crates/bytecode/src/opcode.rs": "275d2d7f6de0d6d7d96f18a64631cae008ea5cd0d235a1613e8854df79fe4937"
+    }
+  },
+  "runtimeverification/evm-semantics": {
+    "checks": [
+      "independent solc opcode/operand map",
+      "truncated immediate rejected",
+      "PUSH data boundary preserved",
+      "Berlin PUSH0 gate closed"
+    ],
+    "input_sha256": "430e4399086eac62e3e1e51f14aaa052d70d69f65a81955111fc8d6493db7d88",
+    "operation": "fork activation and formal instruction encoding",
+    "results": {
+      "conservation": {
+        "blocks": 58,
+        "blocks_at_maximum": [
+          {
+            "end_pc_exclusive": 518,
+            "net_delta": -5,
+            "start_pc": 509
+          }
+        ],
+        "code_bytes": 768,
+        "fork_gated_instructions": {
+          "Ghaspushzero": 36,
+          "Ghasrevert": 7,
+          "Ghasshift": 1
+        },
+        "instruction_map_sha256": "81e0236094ff22105ba2ee22c45c3d58daeb8aeb23239f8233915e58618cfd8c",
+        "instructions": 510,
+        "maximum_block_entry_requirement": 6,
+        "mnemonics": 41,
+        "runtime_code_sha256": "923ff29910decdebaa66ccb13c9603b77acca5a05da0e417d59e1d37fd68c8b2",
+        "stack_layout_sha256": "ca1f39463e1232d0da25268fd0f6c2e04fc17a06a53c74d560c27e9603c0912d"
+      },
+      "delayed_credit": {
+        "blocks": 58,
+        "blocks_at_maximum": [
+          {
+            "end_pc_exclusive": 519,
+            "net_delta": -5,
+            "start_pc": 510
+          }
+        ],
+        "code_bytes": 769,
+        "fork_gated_instructions": {
+          "Ghaspushzero": 35,
+          "Ghasrevert": 7,
+          "Ghasshift": 1
+        },
+        "instruction_map_sha256": "fbe6f857055e8a34db52f10f5647b65defd53e449a0d6e2ff105dd5b65080692",
+        "instructions": 510,
+        "maximum_block_entry_requirement": 6,
+        "mnemonics": 41,
+        "runtime_code_sha256": "3b29dff9785f80443a1bb5230abcd0a92bda75ba066966542cf0b9eed1e404f5",
+        "stack_layout_sha256": "ebf4bc9d7b84d5965fd6f2b6cb138713fe3f5564a223d6c410f3f03bea257a1f"
+      },
+      "unreachable": {
+        "blocks": 56,
+        "blocks_at_maximum": [
+          {
+            "end_pc_exclusive": 465,
+            "net_delta": -5,
+            "start_pc": 456
+          }
+        ],
+        "code_bytes": 715,
+        "fork_gated_instructions": {
+          "Ghaspushzero": 34,
+          "Ghasrevert": 7,
+          "Ghasshift": 1
+        },
+        "instruction_map_sha256": "2f7fbdd189e5a8557e1f04fb9c87355af3e6fb6ead0a25b7ed6b19bf4edcc34a",
+        "instructions": 472,
+        "maximum_block_entry_requirement": 6,
+        "mnemonics": 41,
+        "runtime_code_sha256": "41fef193fe8187eadda2fee3363fd233a41f36f13d2038f621e4384df73d0afe",
+        "stack_layout_sha256": "3b303b8b3da65556b3dd49fc71cc7c728630e3a2abb2eafd6488a2a878dba988"
+      }
+    },
+    "revision": "fbb2edbb8e84bb05b6ba7a255ce1f44f76051ad1",
+    "role": "reference",
+    "runtime_binaries_sha256": {
+      "node": "acbe4b8d9153b841ed0697cbfc4f93e767386620edb745ab9358306c0a6f31aa",
+      "rustc": "859254978c0a0402c32f949f6de0d99aee73be8d15f45aac00ae1448aac51e74"
+    },
+    "solc_oracle_sha256": "41f58cee10a4678dcf71b0ba8dd6389d2124541a4cc16d7aed678114387500b9",
+    "source_files": {
+      "kevm-pyk/src/kevm_pyk/kproj/evm-semantics/evm.md": "c2144e0754959b0f4bf8bb235b04da8b0d15eeb3004a1735ef17c73108304c96",
+      "kevm-pyk/src/kevm_pyk/kproj/evm-semantics/schedule.md": "4ffbba243e553b88c69a17ab1c6f5b99273669e18fca10deb6b3204ca9f66638"
+    }
+  },
+  "shazow/whatsabi": {
+    "checks": [
+      "independent solc opcode/operand map",
+      "truncated immediate rejected",
+      "PUSH data boundary preserved",
+      "Berlin PUSH0 gate closed"
+    ],
+    "input_sha256": "430e4399086eac62e3e1e51f14aaa052d70d69f65a81955111fc8d6493db7d88",
+    "operation": "instruction boundaries, mnemonics and stack delta",
+    "results": {
+      "conservation": {
+        "blocks": 58,
+        "blocks_at_maximum": [
+          {
+            "end_pc_exclusive": 518,
+            "net_delta": -5,
+            "start_pc": 509
+          }
+        ],
+        "code_bytes": 768,
+        "fork_gated_instructions": {
+          "Ghaspushzero": 36,
+          "Ghasrevert": 7,
+          "Ghasshift": 1
+        },
+        "instruction_map_sha256": "81e0236094ff22105ba2ee22c45c3d58daeb8aeb23239f8233915e58618cfd8c",
+        "instructions": 510,
+        "maximum_block_entry_requirement": 6,
+        "mnemonics": 41,
+        "runtime_code_sha256": "923ff29910decdebaa66ccb13c9603b77acca5a05da0e417d59e1d37fd68c8b2",
+        "stack_layout_sha256": "ca1f39463e1232d0da25268fd0f6c2e04fc17a06a53c74d560c27e9603c0912d"
+      },
+      "delayed_credit": {
+        "blocks": 58,
+        "blocks_at_maximum": [
+          {
+            "end_pc_exclusive": 519,
+            "net_delta": -5,
+            "start_pc": 510
+          }
+        ],
+        "code_bytes": 769,
+        "fork_gated_instructions": {
+          "Ghaspushzero": 35,
+          "Ghasrevert": 7,
+          "Ghasshift": 1
+        },
+        "instruction_map_sha256": "fbe6f857055e8a34db52f10f5647b65defd53e449a0d6e2ff105dd5b65080692",
+        "instructions": 510,
+        "maximum_block_entry_requirement": 6,
+        "mnemonics": 41,
+        "runtime_code_sha256": "3b29dff9785f80443a1bb5230abcd0a92bda75ba066966542cf0b9eed1e404f5",
+        "stack_layout_sha256": "ebf4bc9d7b84d5965fd6f2b6cb138713fe3f5564a223d6c410f3f03bea257a1f"
+      },
+      "unreachable": {
+        "blocks": 56,
+        "blocks_at_maximum": [
+          {
+            "end_pc_exclusive": 465,
+            "net_delta": -5,
+            "start_pc": 456
+          }
+        ],
+        "code_bytes": 715,
+        "fork_gated_instructions": {
+          "Ghaspushzero": 34,
+          "Ghasrevert": 7,
+          "Ghasshift": 1
+        },
+        "instruction_map_sha256": "2f7fbdd189e5a8557e1f04fb9c87355af3e6fb6ead0a25b7ed6b19bf4edcc34a",
+        "instructions": 472,
+        "maximum_block_entry_requirement": 6,
+        "mnemonics": 41,
+        "runtime_code_sha256": "41fef193fe8187eadda2fee3363fd233a41f36f13d2038f621e4384df73d0afe",
+        "stack_layout_sha256": "3b303b8b3da65556b3dd49fc71cc7c728630e3a2abb2eafd6488a2a878dba988"
+      }
+    },
+    "revision": "eefa62383640b9056aade49d1d5ed2206ffcdb3b",
+    "role": "executable",
+    "runtime_binaries_sha256": {
+      "node": "acbe4b8d9153b841ed0697cbfc4f93e767386620edb745ab9358306c0a6f31aa",
+      "rustc": "859254978c0a0402c32f949f6de0d99aee73be8d15f45aac00ae1448aac51e74"
+    },
+    "solc_oracle_sha256": "41f58cee10a4678dcf71b0ba8dd6389d2124541a4cc16d7aed678114387500b9",
+    "source_files": {
+      "src/opcodes.ts": "b697e1edfaa58d0a16709bf4b38d3e0579a23b49e845045bda36be0182500148"
+    }
+  }
+}
