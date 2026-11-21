@@ -117,7 +117,8 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
 
     def test_historical_matrix_keeps_all_identities_and_both_receipts(self):
         text = renderer.historical_markdown()
-        published = renderer.accepted_markdown() if (ROOT / renderer.DOSSIER / 'acceptance.json').is_file() else text
+        has_dossier = any((ROOT / path).exists() for path, _ in renderer.PROFILES.values())
+        published = renderer.accepted_markdown() if has_dossier else text
         self.assertEqual(published.encode(), renderer.MATRIX.read_bytes())
         rows = [line.split(' | ') for line in text.splitlines() if line.startswith('| ') and line[2:3].isdigit()]
         self.assertEqual([int(row[0][2:]) for row in rows], list(range(1, 201)))
@@ -249,11 +250,13 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
         tree = git('rev-parse', 'HEAD^{tree}').decode().strip()
         inputs = {'git_source_tree': git('rev-parse', 'HEAD:upstream').decode().strip(),
                   'native_contract_sha256': verifier.sha(git('show', 'HEAD:superhunter/product_supply/native-capability-contracts.json'))}
-        renderer.require_producer(commit, tree, inputs)
+        renderer.require_producer(commit, tree, inputs, 'accounting')
+        with self.assertRaisesRegex(EvidenceError, 'selected acceptance profile'):
+            renderer.require_producer(commit, tree, inputs, 'core-eight')
         with self.assertRaisesRegex(EvidenceError, 'tree differs'):
-            renderer.require_producer(commit, '0' * 40, inputs)
+            renderer.require_producer(commit, '0' * 40, inputs, 'accounting')
         with self.assertRaisesRegex(EvidenceError, 'producer Git objects unavailable'):
-            renderer.require_producer('0' * 40, tree, inputs)
+            renderer.require_producer('0' * 40, tree, inputs, 'accounting')
 
     def test_two_identical_historical_transcripts_cannot_be_promoted_by_the_renderer(self):
         # Even if a launcher reported two successful jobs, the strict session verifier
@@ -266,3 +269,34 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
                 patch.object(renderer, 'run_evidence', side_effect=recorded), \
                 self.assertRaisesRegex(EvidenceError, 'incomplete consolidated session'):
             renderer.accepted_markdown()
+
+    def test_latest_dossier_does_not_fall_back_if_accounting_is_incomplete(self):
+        with TemporaryDirectory() as tmp, patch.object(renderer, 'ROOT', Path(tmp)):
+            self.assertEqual(renderer.selected_profile('latest'), 'core-eight')
+            core = Path(tmp) / renderer.DOSSIER
+            core.mkdir(parents=True)
+            (core / 'acceptance.json').write_bytes(canonical({'schema_version': 0}))
+            expanded = Path(tmp) / renderer.ACCOUNTING_DOSSIER
+            expanded.mkdir()
+            self.assertEqual(renderer.selected_profile('latest'), 'accounting')
+            with self.assertRaises(FileNotFoundError):
+                renderer.accepted_markdown()
+            with self.assertRaisesRegex(EvidenceError, 'two same-host'):
+                renderer.accepted_markdown('core-eight')
+            expanded.rmdir()
+            expanded.symlink_to('missing-dossier')
+            self.assertEqual(renderer.selected_profile('latest'), 'accounting')
+            with self.assertRaises(OSError):
+                renderer.accepted_markdown()
+
+    def test_renaming_a_historical_dossier_does_not_promote_its_transcript_to_accounting(self):
+        act = {'schema_version': 1, 'same_host': True, 'runs': [
+            {'id': n, 'checkout': n + '/checkout', 'result_sha256': n} for n in ('first', 'second')]}
+        result = {'commit': '1' * 40, 'tree': '2' * 40, 'sha256': verifier.sha(self.archive)}
+        recorded = [({'raw_run_inputs_sha256': n}, result, self.archive) for n in ('first', 'second')]
+        with patch.object(renderer, 'read_artifact', return_value=canonical(act)), \
+                patch.object(renderer, 'run_evidence', side_effect=recorded), \
+                patch.object(verifier, 'verify', wraps=verifier.verify) as check, \
+                self.assertRaises(EvidenceError):
+            renderer.accepted_markdown('accounting')
+        check.assert_called_once_with(self.archive, result['sha256'], require_accounting=True)

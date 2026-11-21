@@ -8,6 +8,7 @@ import subprocess
 import sys
 
 from superhunter.product_matrix import markdown
+from superhunter.product_native_capabilities import CORE_EIGHT
 
 from superhunter.product_reasoning import EvidenceError
 from superhunter.product_review import ROOT, sha
@@ -16,6 +17,10 @@ from superhunter.tools import verify_native_session, verify_review_115
 
 MATRIX = ROOT / 'superhunter/INTEGRATION_STATUS_200.md'
 DOSSIER = 'superhunter/product_supply/consolidated-acceptance'
+ACCOUNTING_DOSSIER = DOSSIER + '-accounting'
+# A later default native registry must never redefine an archived nine-group acceptance.
+ACCOUNTING_SHA = '4dfec613c3f4ad64084a7487d4f4d5ecadea8f177f1bcc7283637c4a8adcdefa'
+PROFILES = {'core-eight': (DOSSIER, CORE_EIGHT[1]), 'accounting': (ACCOUNTING_DOSSIER, ACCOUNTING_SHA)}
 ROLE = {'executable': 'Ejecución', 'reference_data': 'Referencia', 'pending': '—'}
 
 
@@ -96,11 +101,15 @@ def render(components, native, *, current=None, producer=None):
                       f"y {result['responses']} respuestas iguales por ejecución. El productor fue el "
                       f"[commit {producer['commit']}]({repo}/commit/{producer['commit']}) con árbol "
                       f"`{producer['tree']}` y la transcripción tiene SHA-256 `{result['transcript_sha256']}`. "
-                      "[Acta y huellas de los dos expedientes](product_supply/consolidated-acceptance/acceptance.json)",
+                      f"[Acta y huellas de los dos expedientes]({producer['dossier'].removeprefix('superhunter/')}/acceptance.json)",
                       '', "Archivos preparados con huellas distintas entre los expedientes: "
                       + (', '.join(f'`{path}`' for path in producer['different_inputs']) or 'ninguno') + '. '
                       + ('Los manifiestos nativos tienen huellas distintas.' if producer['different_native_manifest']
                          else 'Coincide la huella de los manifiestos nativos.')])
+        if producer['profile'] == 'accounting':
+            lines.extend(['', 'Esta aceptación incluye el noveno grupo de controles contables. '
+                          'El [expediente de ocho grupos](product_supply/consolidated-acceptance/acceptance.json) '
+                          'se comprueba con `--verify-dossier --profile core-eight`.'])
     pending = '' if current else (' El conteo actual de integraciones conjuntas, ejecuciones, referencias y '
                                   'pendientes requiere una sesión completa del commit publicado y su reproducción.')
     lines.extend([
@@ -137,7 +146,7 @@ def digest(value, width=64):
     return isinstance(value, str) and re.fullmatch(f'[0-9a-f]{{{width}}}', value) is not None
 
 
-def require_producer(commit, tree, inputs):
+def require_producer(commit, tree, inputs, profile):
     if not digest(commit, 40) or not digest(tree, 40):
         raise EvidenceError('expected full Git commit and tree IDs')
     def git(*args):
@@ -151,11 +160,13 @@ def require_producer(commit, tree, inputs):
         contract_sha = sha(git('show', commit + ':superhunter/product_supply/native-capability-contracts.json'))
     except subprocess.CalledProcessError as exc:
         raise EvidenceError('producer Git objects unavailable; fetch the published producer commit into this checkout') from exc
+    if contract_sha != PROFILES[profile][1]:
+        raise EvidenceError('producer contract does not match selected acceptance profile')
     if inputs['git_source_tree'] != source_tree or inputs['native_contract_sha256'] != contract_sha:
         raise EvidenceError('run source tree or native contract disagrees with the producer commit')
 
 
-def run_evidence(record, run_id):
+def run_evidence(record, run_id, profile='core-eight'):
     if record.get('id') != run_id:
         raise EvidenceError('two distinct ordered execution dossiers are required')
     checkout = record.get('checkout')
@@ -163,7 +174,7 @@ def run_evidence(record, run_id):
             part in ('', '.', '..') for part in checkout.split('/')):
         raise EvidenceError('expected a relative checkout identifier')
     def artifact(filename, key):
-        data = read_artifact(ROOT, f'{DOSSIER}/{run_id}/{filename}')
+        data = read_artifact(ROOT, f'{PROFILES[profile][0]}/{run_id}/{filename}')
         if sha(data) != record.get(key):
             raise EvidenceError(f'{run_id} dossier digest differs for {filename}')
         return data
@@ -188,12 +199,23 @@ def run_evidence(record, run_id):
             or 'superhunter.tools.catalog_session' not in argv or '--component-controls' not in argv
             or argv[argv.index('--component-controls') + 1:][:1] != ['all']):
         raise EvidenceError('execution dossier lacks the reviewed offline query profile')
-    require_producer(result['commit'], result['tree'], inputs)
+    require_producer(result['commit'], result['tree'], inputs, profile)
     return inputs, result, raw
 
 
-def accepted_markdown():
-    act = strict_json(read_artifact(ROOT, DOSSIER + '/acceptance.json'))
+def selected_profile(profile):
+    if profile == 'latest':
+        # A partial directory or a dangling symlink must fail its evidence checks.
+        return 'accounting' if os.path.lexists(ROOT / ACCOUNTING_DOSSIER) else 'core-eight'
+    if profile not in PROFILES:
+        raise EvidenceError('unknown acceptance profile')
+    return profile
+
+
+def accepted_markdown(profile='latest'):
+    profile = selected_profile(profile)
+    dossier = PROFILES[profile][0]
+    act = strict_json(read_artifact(ROOT, dossier + '/acceptance.json'))
     if (type(act.get('schema_version')) is not int or act['schema_version'] != 1 or act.get('same_host') is not True
             or not isinstance(act.get('runs'), list) or len(act['runs']) != 2
             or not all(isinstance(record, dict) for record in act['runs'])):
@@ -201,41 +223,49 @@ def accepted_markdown():
     first, second = act['runs']
     if first.get('checkout') == second.get('checkout'):
         raise EvidenceError('two distinct checkouts are required')
-    left, result, raw = run_evidence(first, 'first')
-    right, replay, other = run_evidence(second, 'second')
+    left, result, raw = run_evidence(first, 'first', profile)
+    right, replay, other = run_evidence(second, 'second', profile)
     if left['raw_run_inputs_sha256'] == right['raw_run_inputs_sha256'] and first['result_sha256'] == second['result_sha256']:
         raise EvidenceError('the same input and result record was used for both runs')
     if (result['commit'], result['tree']) != (replay['commit'], replay['tree']):
         raise EvidenceError('execution records identify different producer commits or trees')
-    verified = verify_review_115.verify(raw, result['sha256'], require_consolidated=True)
-    verify_review_115.verify(other, replay['sha256'], require_consolidated=True)
+    strict_profile = {'require_accounting': True} if profile == 'accounting' else {'require_consolidated': True}
+    verified = verify_review_115.verify(raw, result['sha256'], **strict_profile)
+    verify_review_115.verify(other, replay['sha256'], **strict_profile)
     if raw != other:
         raise EvidenceError('the full transcripts differ between the two checkout runs')
     keys = verify_review_115.response_keys(raw)
     rows = strict_json(raw.splitlines()[keys.index('integration-matrix')])['rows']
-    producer = {**result, 'different_inputs': sorted(key for key, value in left['prepared_files'].items()
+    producer = {**result, 'profile': profile, 'dossier': dossier,
+                'different_inputs': sorted(key for key, value in left['prepared_files'].items()
                                                     if right['prepared_files'][key] != value),
                 'different_native_manifest': left['native_manifest_sha256'] != right['native_manifest_sha256']}
     return historical_markdown(current=(verified, rows), producer=producer)
 
 
 def main():
-    if {'--historical', '--check-historical', '--acceptance', '--check-acceptance'} & set(sys.argv[1:]):
+    if {'--historical', '--check-historical', '--acceptance', '--check-acceptance', '--verify-dossier', '--profile'} & set(sys.argv[1:]):
         parser = argparse.ArgumentParser(description=__doc__)
         mode = parser.add_mutually_exclusive_group(required=True)
         mode.add_argument('--historical', action='store_true', help='render the two frozen sessions')
         mode.add_argument('--check-historical', action='store_true', help='verify the tracked historical matrix')
         mode.add_argument('--acceptance', action='store_true', help='render the two verified checkout runs')
         mode.add_argument('--check-acceptance', action='store_true', help='check the matrix against both runs')
+        mode.add_argument('--verify-dossier', action='store_true', help='verify both runs independently of the current matrix')
+        parser.add_argument('--profile', choices=('latest', *PROFILES), help='dossier to verify (default: latest)')
         args = parser.parse_args()
-        if args.acceptance or args.check_acceptance:
+        if args.profile and (args.historical or args.check_historical):
+            parser.error('--profile selects a two-checkout acceptance dossier')
+        if args.acceptance or args.check_acceptance or args.verify_dossier:
             try:
-                rendered = accepted_markdown()
+                rendered = accepted_markdown(args.profile or 'latest')
             except (EvidenceError, ValueError, OSError, KeyError, TypeError) as error:
                 print(f'acceptance unavailable: {error}', file=sys.stderr)
                 return 2
         else:
             rendered = historical_markdown()
+        if args.verify_dossier:
+            return 0
         if args.check_historical or args.check_acceptance:
             if MATRIX.read_bytes() != rendered.encode('utf-8'):
                 raise SystemExit('tracked matrix differs from verified evidence')
