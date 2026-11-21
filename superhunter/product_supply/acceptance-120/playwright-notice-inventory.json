@@ -1,0 +1,211 @@
+{
+  "schema_version": 1,
+  "scope": "Read-only review of notice files in two exact archives and the pinned Git tree. No application, browser or upstream code was started. The inventory enumerates named notices, not every embedded copyright or host dependency.",
+  "catalog": {
+    "id": 27,
+    "repository": "microsoft/playwright",
+    "commit": "049226728d2da8054db18b04782a9848b755855e",
+    "tree": "cd17e9e712a6c0638c79b708bdcf8cfe23cf8f68",
+    "selection": "Tracked basenames matching LICENSE, NOTICE or ThirdPartyNotices with optional file extension, case-insensitively. Source notes for examples and test fixtures retain their path-specific scope.",
+    "notice_files": [
+      {
+        "path": "LICENSE",
+        "bytes": 11601,
+        "sha256": "45873d00a0dd243596deb4aa23b2493b3d1f0671921bf2538ea431d7380220eb",
+        "git_blob": "df112373eb2e23e459bf93ec412be1764dc5a38b"
+      },
+      {
+        "path": "NOTICE",
+        "bytes": 254,
+        "sha256": "6d602191187b35b9b01d2cffa01c8469c2c8d9de8a96f1bf868e0f264f51c81d",
+        "git_blob": "814ec1696f7ad36c1b524fb6adeef14b4b367fec"
+      },
+      {
+        "path": "examples/mock-battery/demo-battery-api/LICENSE",
+        "bytes": 1078,
+        "sha256": "f52b575c4ae56a68eead5c52d766f5bc7d64ea068db1a209f39e7e1c60bcaec1",
+        "git_blob": "585630c32dc424b89140fa8f9bd053eca3ea287e"
+      },
+      {
+        "path": "packages/playwright-core/ThirdPartyNotices.txt",
+        "bytes": 676,
+        "sha256": "a549d329bad8806fe279f0ecae0fc0270dec7e7c2dc8ec10f90e394f7c32b144",
+        "git_blob": "369e2025a75bcae36383b4705efe0c70d35b5e74"
+      },
+      {
+        "path": "packages/playwright-core/src/server/bidi/third_party/LICENSE",
+        "bytes": 11344,
+        "sha256": "a27ca07269b3518550b2e83aed13eadd7d14d924b5864e14889b40cf227530ca",
+        "git_blob": "d2c171df74e931892e20f9395041bf8529e45330"
+      },
+      {
+        "path": "packages/playwright/ThirdPartyNotices.txt",
+        "bytes": 705,
+        "sha256": "b17ac0bd6f4b8207e440639cc8e0ba1bf1d9eaf9b12236764ab93b346c7abd8e",
+        "git_blob": "f9ee0a552ec4258fe553c1a7f8083b62fa954b6c"
+      },
+      {
+        "path": "packages/web/src/third_party/vscode/LICENSE.txt",
+        "bytes": 1087,
+        "sha256": "20535828272932407c2f5172aeb714ac7b374a34e5ecb1825af509f2902cde54",
+        "git_blob": "293c59e320ae6eae78049d80b8c9b77155df7bb7"
+      },
+      {
+        "path": "tests/assets/axe-core/LICENSE",
+        "bytes": 15921,
+        "sha256": "af175b9d96ee93c21a036152e1b905b0b95304d4ae8c2c921c7609100ba8df7e",
+        "git_blob": "be2cc4dfb609fb6c38f6365ec345bded3350dd63"
+      },
+      {
+        "path": "tests/assets/to-do-notifications/LICENSE",
+        "bytes": 6554,
+        "sha256": "5537d4d10b76b81b6e8dfd8b644480a4b1efa332fbb0cdb61126c5be781ef7b4",
+        "git_blob": "3bbbc1ee92562e6a2eebfc6a366f4309d06c7d54"
+      },
+      {
+        "path": "tests/assets/wpt/LICENSE.md",
+        "bytes": 1500,
+        "sha256": "5fac07febb0e2a97fb0d7b0def149ec08b642e1ba4b9c345283ab1cbd2af6570",
+        "git_blob": "39c46d03ac2988226f949ee7ab3c7347d5481bd8"
+      },
+      {
+        "path": "tests/third_party/proxy/LICENSE",
+        "bytes": 1101,
+        "sha256": "8d8c55319c7729d57be811c747452636688d54f19701ee0752b6b15ad3771d9a",
+        "git_blob": "008728cb51847dcff9c68cf1d9c30d76b9323457"
+      }
+    ]
+  },
+  "archives": {
+    "chrome.zip": {
+      "bytes": 132059818,
+      "sha256": "e25d50f1ec1e50d9d9e189c4574c7e32c2035ae22396a57b7f38fa8d0167a133",
+      "notices": [
+        {
+          "path": "chrome-headless-shell-linux64/ABOUT",
+          "bytes": 248,
+          "sha256": "34d078ce3003087a8374e7c6156fda374769b8047d6ddaf419d66414aa48edfb",
+          "identified_publisher": "Google LLC",
+          "internal_references": [
+            "chrome://credits",
+            "chrome://terms"
+          ]
+        },
+        {
+          "path": "chrome-headless-shell-linux64/LICENSE.headless_shell",
+          "bytes": 2293456,
+          "sha256": "fe9fd59e07a27efa69c816d4726b68564df93cd4b666eb81ac75df9dd61e2f92",
+          "delimited_credit_headings": 309,
+          "distinct_heading_texts": 299,
+          "example_heading_texts": [
+            "The Chromium Project",
+            "Abseil",
+            "ANGLE",
+            "BoringSSL",
+            "Brotli"
+          ]
+        }
+      ],
+      "member_count": 287,
+      "distribution": "Chrome for Testing / Chrome Headless Shell, Linux x86-64",
+      "version": "159.0.8154.13",
+      "contents_categories": [
+        "headless shell executable",
+        "shared libraries for graphics and Vulkan",
+        "ICU data, locale and hyphenation files",
+        "resource packs and V8 snapshot",
+        "system package dependency lists",
+        "ABOUT and compiled license/credit collection"
+      ]
+    },
+    "playwright-core.tgz": {
+      "bytes": 3255565,
+      "sha256": "8374484fff50ac3fd5f084d86d3e2e7a28462beb545210cc08ca11e3b7ff4a61",
+      "notices": [
+        {
+          "path": "package/LICENSE",
+          "bytes": 11601,
+          "sha256": "45873d00a0dd243596deb4aa23b2493b3d1f0671921bf2538ea431d7380220eb",
+          "byte_identical_catalog_path": "LICENSE"
+        },
+        {
+          "path": "package/NOTICE",
+          "bytes": 254,
+          "sha256": "6d602191187b35b9b01d2cffa01c8469c2c8d9de8a96f1bf868e0f264f51c81d",
+          "byte_identical_catalog_path": "NOTICE",
+          "attributions_identified": [
+            "Microsoft Corporation",
+            "Puppeteer project (derivative code)"
+          ]
+        },
+        {
+          "path": "package/lib/serverRegistry.js.LICENSE",
+          "bytes": 2982,
+          "sha256": "3098a6efcbc11752cbdf6075fa65480f5470f78c8d981fab9c0796dc9a41cefe",
+          "named_package_sections": 2,
+          "named_packages": [
+            "chokidar@4.0.3",
+            "readdirp@4.1.2"
+          ]
+        },
+        {
+          "path": "package/lib/utilsBundle.js.LICENSE",
+          "bytes": 107917,
+          "sha256": "b36458fcd03a7ec3610c9a7ec4aec54bed921346a29c74c2257cebeeb7881356",
+          "named_package_sections": 80
+        },
+        {
+          "path": "package/lib/webp_codec.LICENSE",
+          "bytes": 8841,
+          "sha256": "995c7ee35aceb7666829b7a501ca89c0864e12b493c1174b155774ab1e03d831",
+          "identified_components": [
+            "libwebp",
+            "Emscripten"
+          ]
+        },
+        {
+          "path": "package/ThirdPartyNotices.txt",
+          "bytes": 676,
+          "sha256": "a549d329bad8806fe279f0ecae0fc0270dec7e7c2dc8ec10f90e394f7c32b144",
+          "byte_identical_catalog_path": "packages/playwright-core/ThirdPartyNotices.txt"
+        }
+      ],
+      "member_count": 121,
+      "name": "playwright-core",
+      "version": "1.66.0-alpha-2026-11-21",
+      "package_json_license_declaration": "Apache-2.0",
+      "archive_scope": "Node driver package with JavaScript bundles, WebP codec and metadata. The shell executable is supplied in a separate ZIP.",
+      "browsers_json_shell_entry": {
+        "name": "chromium-headless-shell",
+        "revision": "1256",
+        "browserVersion": "159.0.8154.13"
+      }
+    }
+  },
+  "product_boundary": {
+    "observed_nqc_snapshot": "f8b621058865770cbce73b128c44a3892baadd3a",
+    "catalog_source_entry": "upstream/027-playwright",
+    "catalog_source_git_mode": "160000",
+    "control_material": "NQC worker, hashes and provenance records, NQC-owned Markdown fixture and control result. The external local runtime is selected from a separate kit.",
+    "fixture": {
+      "nqc_source_commit": "2d9d6c797eb9f6e445d2179ec535effe3ca9ac96",
+      "nqc_source_path": "superhunter/INTEGRATION_STATUS_200.md",
+      "sha256": "24afe5803f9721125427fa80404561c9b06600202b435ff2854675cfdea156f1"
+    },
+    "external_kit_only": [
+      "playwright-core.tgz and its extracted driver package",
+      "chrome.zip and its extracted shell, libraries, resources and third-party notices"
+    ],
+    "control_archive_pins_match_local_bytes": true
+  },
+  "redistribution_review": {
+    "commercial_redistribution_approved": false,
+    "open_items": [
+      "Identify which artifacts and optional components actually ship or are modified for each release and platform.",
+      "Review the Apache-2.0 license, Microsoft/Puppeteer attribution, component sidecars and applicable change notices for the npm package.",
+      "Review the exact shell credits, copyright notices, component-specific licensing and any applicable source or distribution conditions.",
+      "Resolve Google product terms referenced by ABOUT and any trademark or branding conditions for the intended channel. The embedded chrome://terms page was not opened.",
+      "Inventory separately delivered host libraries and Node runtime if those are packaged. Record and ship the applicable notices only after reviewing the actual release."
+    ]
+  }
+}
