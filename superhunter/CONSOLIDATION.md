@@ -77,6 +77,8 @@ El perfil de diez grupos incluye una operación adicional de Ethernaut. Comprueb
 
 El undécimo grupo comprueba descriptores gRPC fijos de dos esquemas contables propios. `grpcurl` lee los archivos en disco y sólo usa `list` y `describe`, con reflexión deshabilitada y sin servidor. El verificador de descriptores comprueba el resultado de forma independiente. Los dos ensayos del grupo aislado produjeron las mismas veinte vistas y cuatro rechazos previstos. [Acta de interfaz](product_supply/acceptance-120/grpc-schema-replay.json) · [Transcripción](product_supply/acceptance-120/grpc-schema-transcript.json)
 
+El duodécimo grupo, Playwright, lee tres documentos estáticos creados por el generador de informes de NQC. Compara el documento canónico con una copia que pierde una fila de evidencia y otra que pierde la semántica accesible de su encabezado. Usó un perfil temporal no privilegiado, el sandbox de Chromium y un espacio de red aislado. Las dos pruebas del grupo produjeron 2.261 bytes idénticos. La declaración SLSA de npm vincula el paquete del driver al commit de catálogo. Para el navegador se cotejaron versión, generación, tamaño, MD5 y CRC32C de la distribución oficial y se midió localmente su SHA-256. Ambos contenedores se conservan fuera del repositorio. [Acta de interfaz](product_supply/acceptance-120/html-review-replay.json) · [Transcripción](product_supply/acceptance-120/html-review-transcript.json) · [Inventario de avisos](product_supply/acceptance-120/playwright-notice-inventory.json)
+
 Las 222 respuestas incluyen `component-controls` y `native-capabilities`. Para evaluar la transcripción JSONL completa en un proceso separado:
 
 ```sh

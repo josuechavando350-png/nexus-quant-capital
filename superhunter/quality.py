@@ -1929,7 +1929,7 @@ COMPONENTS['product_review'] = {
               'product_contract_properties_native.py',
               'product_canonical_header.py',
               'product_grpc_schema_native.py',
-              'product_html_review.py', 'product_html_review_worker.cjs',
+              'product_html_review.py',
               'product_upgrade_layout_native.py',
               'product_upgrade_layout_native_worker.py',
               'infra_batch_config_worker.py', 'infra_batch_pcap_worker.py', 'passive_garak_sampling.py',

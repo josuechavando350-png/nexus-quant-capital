@@ -51,6 +51,21 @@ class HtmlReviewTests(unittest.TestCase):
         self.assertEqual(results['missing_row']['changed_dom_fields'], ['text'])
         self.assertEqual(results['missing_heading']['changed_dom_fields'], ['bodyChildren', 'heading', 'headingVisible'])
 
+    def test_quality_inventory_selects_the_pinned_driver_and_assigns_one_component(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+        from superhunter import quality
+
+        driver = 'product_html_review_worker.cjs'
+        with TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / driver).write_bytes(read_artifact(html.ROOT, 'superhunter/' + driver))
+            snapshot = quality.source_snapshot(root)
+        self.assertEqual(snapshot, {driver: html.WORKER_SHA})
+        owners = [name for name, component in quality.COMPONENTS.items()
+                  for path in quality.component_files(component, snapshot) if path == driver]
+        self.assertEqual(owners, ['product_review'])
+
     def test_each_complete_dom_control_is_required(self):
         for case in self.observed:
             changed = deepcopy(self.observed)
