@@ -176,7 +176,7 @@ class RepositoryBoundaryTests(unittest.TestCase):
 
 class ExternalSourceTests(unittest.TestCase):
     def test_full_manifest_matches_all_reviewed_paths(self):
-        self.assertEqual(len(boundary._upstream_leaves(SOURCE)), 100)
+        self.assertEqual(len(boundary._upstream_leaves(SOURCE)), 153)
 
     def test_only_declared_directories_are_external(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -212,7 +212,11 @@ class ExternalSourceTests(unittest.TestCase):
         from superhunter.product_sources import verify
         if not (SOURCE/'.git').exists():
             self.skipTest('the source-pin verifier requires a Git checkout')
-        self.assertEqual(verify(SOURCE)['status_counts'], {'pinned': 100})
+        result = verify(SOURCE)
+        self.assertEqual(result['status_counts'], {'pinned': 153})
+        self.assertEqual((result['catalog_count'], result['catalog_only_count']), (200, 47))
+        self.assertEqual({r['catalog_id'] for r in result['sources']} |
+                         {r['catalog_id'] for r in result['catalog_only']}, set(range(1, 201)))
         with tempfile.TemporaryDirectory() as temp:
             clone = Path(temp)/'test'
             subprocess.run(['git', 'clone', '-q', '--shared', '--no-recurse-submodules', SOURCE, clone],

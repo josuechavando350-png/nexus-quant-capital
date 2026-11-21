@@ -1,10 +1,42 @@
+[submodule "upstream/004-schemathesis"]
+	path = upstream/004-schemathesis
+	url = https://github.com/schemathesis/schemathesis.git
+	shallow = true
 [submodule "upstream/012-foundry"]
 	path = upstream/012-foundry
 	url = https://github.com/foundry-rs/foundry.git
 	shallow = true
+[submodule "upstream/013-slither"]
+	path = upstream/013-slither
+	url = https://github.com/crytic/slither.git
+	shallow = true
+[submodule "upstream/014-echidna"]
+	path = upstream/014-echidna
+	url = https://github.com/crytic/echidna.git
+	shallow = true
 [submodule "upstream/015-wake"]
 	path = upstream/015-wake
 	url = https://github.com/ack3-ai/wake.git
+	shallow = true
+[submodule "upstream/016-medusa"]
+	path = upstream/016-medusa
+	url = https://github.com/crytic/medusa.git
+	shallow = true
+[submodule "upstream/017-hevm"]
+	path = upstream/017-hevm
+	url = https://github.com/argotorg/hevm.git
+	shallow = true
+[submodule "upstream/018-properties"]
+	path = upstream/018-properties
+	url = https://github.com/crytic/properties.git
+	shallow = true
+[submodule "upstream/020-whatsabi"]
+	path = upstream/020-whatsabi
+	url = https://github.com/shazow/whatsabi.git
+	shallow = true
+[submodule "upstream/022-cpg"]
+	path = upstream/022-cpg
+	url = https://github.com/Fraunhofer-AISEC/cpg.git
 	shallow = true
 [submodule "upstream/023-pysa"]
 	path = upstream/023-pysa
@@ -18,6 +50,10 @@
 	path = upstream/025-ast-grep
 	url = https://github.com/ast-grep/ast-grep.git
 	shallow = true
+[submodule "upstream/026-mitmproxy"]
+	path = upstream/026-mitmproxy
+	url = https://github.com/mitmproxy/mitmproxy.git
+	shallow = true
 [submodule "upstream/027-playwright"]
 	path = upstream/027-playwright
 	url = https://github.com/microsoft/playwright.git
@@ -29,6 +65,22 @@
 [submodule "upstream/030-asvs"]
 	path = upstream/030-asvs
 	url = https://github.com/OWASP/ASVS.git
+	shallow = true
+[submodule "upstream/031-evm-semantics"]
+	path = upstream/031-evm-semantics
+	url = https://github.com/runtimeverification/evm-semantics.git
+	shallow = true
+[submodule "upstream/032-mewt"]
+	path = upstream/032-mewt
+	url = https://github.com/trailofbits/mewt.git
+	shallow = true
+[submodule "upstream/033-heimdall-rs"]
+	path = upstream/033-heimdall-rs
+	url = https://github.com/Jon-Becker/heimdall-rs.git
+	shallow = true
+[submodule "upstream/034-evmole"]
+	path = upstream/034-evmole
+	url = https://github.com/cdump/evmole.git
 	shallow = true
 [submodule "upstream/035-solidity"]
 	path = upstream/035-solidity
@@ -58,6 +110,10 @@
 	path = upstream/041-cvc5
 	url = https://github.com/cvc5/cvc5.git
 	shallow = true
+[submodule "upstream/042-aflplusplus"]
+	path = upstream/042-aflplusplus
+	url = https://github.com/AFLplusplus/AFLplusplus.git
+	shallow = true
 [submodule "upstream/043-cbmc"]
 	path = upstream/043-cbmc
 	url = https://github.com/diffblue/cbmc.git
@@ -74,9 +130,49 @@
 	path = upstream/046-klee
 	url = https://github.com/klee/klee.git
 	shallow = true
+[submodule "upstream/047-rr"]
+	path = upstream/047-rr
+	url = https://github.com/rr-debugger/rr.git
+	shallow = true
 [submodule "upstream/048-jaeger"]
 	path = upstream/048-jaeger
 	url = https://github.com/jaegertracing/jaeger.git
+	shallow = true
+[submodule "upstream/049-wstg"]
+	path = upstream/049-wstg
+	url = https://github.com/OWASP/wstg.git
+	shallow = true
+[submodule "upstream/050-strace"]
+	path = upstream/050-strace
+	url = https://github.com/strace/strace.git
+	shallow = true
+[submodule "upstream/057-dnsx"]
+	path = upstream/057-dnsx
+	url = https://github.com/projectdiscovery/dnsx.git
+	shallow = true
+[submodule "upstream/059-tlsx"]
+	path = upstream/059-tlsx
+	url = https://github.com/projectdiscovery/tlsx.git
+	shallow = true
+[submodule "upstream/061-massdns"]
+	path = upstream/061-massdns
+	url = https://github.com/blechschmidt/massdns.git
+	shallow = true
+[submodule "upstream/065-recog"]
+	path = upstream/065-recog
+	url = https://github.com/rapid7/recog.git
+	shallow = true
+[submodule "upstream/066-sslyze"]
+	path = upstream/066-sslyze
+	url = https://github.com/nabla-c0d3/sslyze.git
+	shallow = true
+[submodule "upstream/069-grpcurl"]
+	path = upstream/069-grpcurl
+	url = https://github.com/fullstorydev/grpcurl.git
+	shallow = true
+[submodule "upstream/072-testssl.sh"]
+	path = upstream/072-testssl.sh
+	url = https://github.com/testssl/testssl.sh.git
 	shallow = true
 [submodule "upstream/075-prowler"]
 	path = upstream/075-prowler
@@ -102,6 +198,10 @@
 	path = upstream/083-cilium
 	url = https://github.com/cilium/cilium.git
 	shallow = true
+[submodule "upstream/084-iamlive"]
+	path = upstream/084-iamlive
+	url = https://github.com/iann0036/iamlive.git
+	shallow = true
 [submodule "upstream/085-policy_sentry"]
 	path = upstream/085-policy_sentry
 	url = https://github.com/salesforce/policy_sentry.git
@@ -109,6 +209,10 @@
 [submodule "upstream/086-falco"]
 	path = upstream/086-falco
 	url = https://github.com/falcosecurity/falco.git
+	shallow = true
+[submodule "upstream/087-tracee"]
+	path = upstream/087-tracee
+	url = https://github.com/aquasecurity/tracee.git
 	shallow = true
 [submodule "upstream/088-tetragon"]
 	path = upstream/088-tetragon
@@ -118,9 +222,37 @@
 	path = upstream/089-hubble
 	url = https://github.com/cilium/hubble.git
 	shallow = true
+[submodule "upstream/090-inspektor-gadget"]
+	path = upstream/090-inspektor-gadget
+	url = https://github.com/inspektor-gadget/inspektor-gadget.git
+	shallow = true
+[submodule "upstream/091-wireshark"]
+	path = upstream/091-wireshark
+	url = https://github.com/wireshark/wireshark.git
+	shallow = true
+[submodule "upstream/092-scapy"]
+	path = upstream/092-scapy
+	url = https://github.com/secdev/scapy.git
+	shallow = true
 [submodule "upstream/093-suricata"]
 	path = upstream/093-suricata
 	url = https://github.com/OISF/suricata.git
+	shallow = true
+[submodule "upstream/095-tcpdump"]
+	path = upstream/095-tcpdump
+	url = https://github.com/the-tcpdump-group/tcpdump.git
+	shallow = true
+[submodule "upstream/097-frida"]
+	path = upstream/097-frida
+	url = https://github.com/frida/frida.git
+	shallow = true
+[submodule "upstream/098-jadx"]
+	path = upstream/098-jadx
+	url = https://github.com/skylot/jadx.git
+	shallow = true
+[submodule "upstream/099-apktool"]
+	path = upstream/099-apktool
+	url = https://github.com/iBotPeaches/Apktool.git
 	shallow = true
 [submodule "upstream/101-infer"]
 	path = upstream/101-infer
@@ -166,6 +298,38 @@
 	path = upstream/111-sarif-sdk
 	url = https://github.com/microsoft/sarif-sdk.git
 	shallow = true
+[submodule "upstream/112-honggfuzz"]
+	path = upstream/112-honggfuzz
+	url = https://github.com/google/honggfuzz.git
+	shallow = true
+[submodule "upstream/113-jazzer"]
+	path = upstream/113-jazzer
+	url = https://github.com/CodeIntelligenceTesting/jazzer.git
+	shallow = true
+[submodule "upstream/114-atheris"]
+	path = upstream/114-atheris
+	url = https://github.com/google/atheris.git
+	shallow = true
+[submodule "upstream/115-cargo-fuzz"]
+	path = upstream/115-cargo-fuzz
+	url = https://github.com/rust-fuzz/cargo-fuzz.git
+	shallow = true
+[submodule "upstream/116-fuzztest"]
+	path = upstream/116-fuzztest
+	url = https://github.com/google/fuzztest.git
+	shallow = true
+[submodule "upstream/117-oss-fuzz"]
+	path = upstream/117-oss-fuzz
+	url = https://github.com/google/oss-fuzz.git
+	shallow = true
+[submodule "upstream/118-polytracker"]
+	path = upstream/118-polytracker
+	url = https://github.com/trailofbits/polytracker.git
+	shallow = true
+[submodule "upstream/119-clusterfuzzlite"]
+	path = upstream/119-clusterfuzzlite
+	url = https://github.com/google/clusterfuzzlite.git
+	shallow = true
 [submodule "upstream/120-esbmc"]
 	path = upstream/120-esbmc
 	url = https://github.com/esbmc/esbmc.git
@@ -202,9 +366,25 @@
 	path = upstream/128-alive2
 	url = https://github.com/AliveToolkit/alive2.git
 	shallow = true
+[submodule "upstream/129-radare2"]
+	path = upstream/129-radare2
+	url = https://github.com/radareorg/radare2.git
+	shallow = true
+[submodule "upstream/130-cutter"]
+	path = upstream/130-cutter
+	url = https://github.com/rizinorg/cutter.git
+	shallow = true
 [submodule "upstream/131-lief"]
 	path = upstream/131-lief
 	url = https://github.com/lief-project/LIEF.git
+	shallow = true
+[submodule "upstream/132-capstone"]
+	path = upstream/132-capstone
+	url = https://github.com/capstone-engine/capstone.git
+	shallow = true
+[submodule "upstream/133-dynamorio"]
+	path = upstream/133-dynamorio
+	url = https://github.com/DynamoRIO/dynamorio.git
 	shallow = true
 [submodule "upstream/134-qemu"]
 	path = upstream/134-qemu
@@ -250,6 +430,10 @@
 	path = upstream/144-package-analysis
 	url = https://github.com/ossf/package-analysis.git
 	shallow = true
+[submodule "upstream/145-malicious-packages"]
+	path = upstream/145-malicious-packages
+	url = https://github.com/ossf/malicious-packages.git
+	shallow = true
 [submodule "upstream/146-rustsec"]
 	path = upstream/146-rustsec
 	url = https://github.com/rustsec/rustsec.git
@@ -258,9 +442,29 @@
 	path = upstream/147-cargo-deny
 	url = https://github.com/EmbarkStudios/cargo-deny.git
 	shallow = true
+[submodule "upstream/148-trufflehog"]
+	path = upstream/148-trufflehog
+	url = https://github.com/trufflesecurity/trufflehog.git
+	shallow = true
+[submodule "upstream/149-betterleaks"]
+	path = upstream/149-betterleaks
+	url = https://github.com/betterleaks/betterleaks.git
+	shallow = true
 [submodule "upstream/150-scancode-toolkit"]
 	path = upstream/150-scancode-toolkit
 	url = https://github.com/aboutcode-org/scancode-toolkit.git
+	shallow = true
+[submodule "upstream/151-software-agent-sdk"]
+	path = upstream/151-software-agent-sdk
+	url = https://github.com/OpenHands/software-agent-sdk.git
+	shallow = true
+[submodule "upstream/152-mini-swe-agent"]
+	path = upstream/152-mini-swe-agent
+	url = https://github.com/SWE-agent/mini-swe-agent.git
+	shallow = true
+[submodule "upstream/153-aider"]
+	path = upstream/153-aider
+	url = https://github.com/Aider-AI/aider.git
 	shallow = true
 [submodule "upstream/154-langgraph"]
 	path = upstream/154-langgraph
@@ -269,6 +473,10 @@
 [submodule "upstream/155-dspy"]
 	path = upstream/155-dspy
 	url = https://github.com/stanfordnlp/dspy.git
+	shallow = true
+[submodule "upstream/156-smolagents"]
+	path = upstream/156-smolagents
+	url = https://github.com/huggingface/smolagents.git
 	shallow = true
 [submodule "upstream/157-haystack"]
 	path = upstream/157-haystack
@@ -345,6 +553,10 @@
 [submodule "upstream/177-hive"]
 	path = upstream/177-hive
 	url = https://github.com/ethereum/hive.git
+	shallow = true
+[submodule "upstream/178-crytic-compile"]
+	path = upstream/178-crytic-compile
+	url = https://github.com/crytic/crytic-compile.git
 	shallow = true
 [submodule "upstream/180-litesvm"]
 	path = upstream/180-litesvm
