@@ -229,6 +229,7 @@ QA_MODULE_GROUPS = (
         'test_product_consolidated_operations',
         'test_product_contract_properties_native',
         'test_product_canonical_header',
+        'test_product_grpc_schema_native',
         'test_product_evm_native',
         'test_product_native_capabilities',
         'test_product_secrets_native',

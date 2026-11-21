@@ -158,10 +158,10 @@ def row_operations(row, native, *, profile='current'):
 
 
 def verify(raw, expected_hash=None, *, require_consolidated=False, require_accounting=False,
-           require_canonical_header=False):
+           require_canonical_header=False, require_grpc_schema=False):
     profiles = [name for selected, name in (
         (require_consolidated, 'core-eight'), (require_accounting, 'accounting-nine'),
-        (require_canonical_header, None)) if selected]
+        (require_canonical_header, 'canonical-ten'), (require_grpc_schema, None)) if selected]
     if len(profiles) > 1:
         raise EvidenceError('select one exact consolidated acceptance profile')
     full_profile = bool(profiles)
@@ -538,6 +538,8 @@ def main():
     profiles.add_argument('--require-consolidated-accounting', action='store_true', help='require the complete nine-group acceptance profile including the ten fixed accounting checks')
     profiles.add_argument('--require-consolidated-canonical-header', action='store_true',
                           help='require all ten groups including canonical header interoperability')
+    profiles.add_argument('--require-consolidated-grpc-schema', action='store_true',
+                          help='require all eleven groups including static gRPC schema interoperability')
     parser.add_argument('--expect-sha256', help='trusted digest for a specific, published run')
     args = parser.parse_args()
     raw = read_artifact(args.transcript.parent, args.transcript.name)
@@ -545,7 +547,8 @@ def main():
         raw = unpack(raw)
     profile_options = {'require_consolidated': args.require_consolidated,
                        'require_accounting': args.require_consolidated_accounting,
-                       'require_canonical_header': args.require_consolidated_canonical_header}
+                       'require_canonical_header': args.require_consolidated_canonical_header,
+                       'require_grpc_schema': args.require_consolidated_grpc_schema}
     result = verify(raw, args.expect_sha256, **profile_options)
     if args.require_complete_controls:
         profile = result.get('component_contract_profile', 'current')

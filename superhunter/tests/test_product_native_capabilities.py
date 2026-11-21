@@ -146,3 +146,26 @@ class NativeKitManifestTests(unittest.TestCase):
         self.path.write_bytes(canonical({'evm': 'kits.json'}))
         with self.assertRaisesRegex(EvidenceError, 'local directory'):
             self.select()
+
+
+class GrpcSchemaContractTests(unittest.TestCase):
+    def test_only_static_schema_receipt_extends_the_ten_group_profile(self):
+        from superhunter.product_grpc_schema_native import REPOSITORIES
+        from superhunter.safe_io import read_artifact, strict_json
+        from superhunter.tools.verify_review_115 import native_bindings, verify
+
+        groups = native.contracts()
+        ten = native.contracts('canonical-ten')
+        self.assertEqual(len(ten), 10)
+        self.assertEqual({name: group for name, group in groups.items() if name != 'grpc'}, ten)
+        self.assertEqual(groups['grpc']['repositories'], REPOSITORIES)
+        report = strict_json(read_artifact(native.ROOT, 'superhunter/product_supply/grpc-schema-native-result.json'))
+        session = {'native-capabilities': {'groups': {'grpc': report}, 'repositories': list(REPOSITORIES),
+                   'functional_participations': 1, 'original_vulnerabilities_confirmed': 0,
+                   'scope': 'fixed_owned_controls_and_pinned_local_inputs'}}
+        self.assertEqual(native_bindings(session), {name: native.expected_receipt('grpc', name, groups['grpc'])
+                                                   for name in REPOSITORIES})
+        with self.assertRaisesRegex(EvidenceError, 'group membership'):
+            native_bindings(session, version='canonical-ten')
+        with self.assertRaisesRegex(EvidenceError, 'one exact'):
+            verify(b'', require_canonical_header=True, require_grpc_schema=True)

@@ -88,3 +88,25 @@ python3.12 -B -m superhunter query-product --bundle "$BUNDLE" --native-kits "$KI
 Los perfiles de ocho y nueve grupos conservan sus contratos históricos. La
 aceptación conjunta del perfil de diez requiere una sesión y una réplica nueva
 mediante `verify_review_115 --require-consolidated-canonical-header`.
+
+## Descriptores gRPC de contabilidad
+
+El grupo opcional `grpc` lee dos versiones fijas de un esquema proto3 de NQC.
+El binario `fullstorydev/grpcurl` se construyó desde la revisión del catálogo
+`f5c25e012bd451b55444679d5457ed3dfbae53de`. Cada proceso ejecuta `list` o
+`describe` sobre un archivo local dentro de un espacio de red aislado y con la
+reflexión desactivada. Ambos modos de lectura, `.proto` y `.pb`, deben coincidir
+con un decodificador independiente al describir métodos, mensajes y tipos. Los
+controles comprueban también el diagnóstico de dos esquemas inválidos y de un
+símbolo ausente en cada versión.
+
+La consulta `query-product --bundle BUNDLE --grpc-native-kit KIT native-capabilities
+fullstorydev/grpcurl` emite el informe y el recibo del repositorio. El perfil
+estricto de once grupos se valida con `verify_review_115 --require-consolidated-grpc-schema`.
+Los perfiles estrictos de ocho, nueve y diez grupos conservan sus registros por separado.
+La revisión de redistribución de dependencias transitivas sigue pendiente.
+
+[Fuentes y dependencias](product_supply/grpc-schema-native-sources.json) ·
+[Compilación](product_supply/grpc-schema-native-build.json) ·
+[Entradas y testigos](product_supply/grpc-schema-native-owned.json) ·
+[Resultado esperado](product_supply/grpc-schema-native-result.json).

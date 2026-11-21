@@ -64,7 +64,7 @@ class CanonicalCensusHeaderTests(unittest.TestCase):
         self.assertEqual(header.sha(canonical(pinned)), contracts()['canonical_header']['report_sha256'])
         nine = contracts('accounting-nine')
         self.assertEqual(len(nine), 9)
-        self.assertEqual({k: v for k, v in contracts().items() if k != 'canonical_header'}, nine)
+        self.assertEqual({k: v for k, v in contracts('canonical-ten').items() if k != 'canonical_header'}, nine)
         with self.assertRaisesRegex(EvidenceError, 'one exact'):
             verify(b'', require_accounting=True, require_canonical_header=True)
 

@@ -247,18 +247,34 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
 
         def git(*args):
             return subprocess.check_output(['git', '-C', str(ROOT), *args])
-        commit = git('rev-parse', 'HEAD').decode().strip()
-        tree = git('rev-parse', 'HEAD^{tree}').decode().strip()
-        inputs = {'git_source_tree': git('rev-parse', 'HEAD:upstream').decode().strip(),
-                  'native_contract_sha256': verifier.sha(git('show', 'HEAD:superhunter/product_supply/native-capability-contracts.json'))}
-        renderer.require_producer(commit, tree, inputs, 'canonical-header')
-        for old in ('accounting', 'core-eight'):
-            with self.subTest(profile=old), self.assertRaisesRegex(EvidenceError, 'selected acceptance profile'):
-                renderer.require_producer(commit, tree, inputs, old)
-        with self.assertRaisesRegex(EvidenceError, 'tree differs'):
-            renderer.require_producer(commit, '0' * 40, inputs, 'accounting')
+        commits = {git('rev-parse', 'HEAD').decode().strip(): None}
+        # Full clones also exercise the producer Git objects named by the published
+        # profiles. Shallow clones still check the current producer and missing-object path.
+        for profile, (dossier, _, _) in renderer.PROFILES.items():
+            result_path = ROOT / dossier / 'first/result.json'
+            if result_path.exists():
+                producer = strict_json(result_path.read_bytes())['commit']
+                if subprocess.run(['git', '--no-lazy-fetch', '-C', str(ROOT), 'cat-file', '-e', producer + '^{commit}'],
+                                  capture_output=True).returncode == 0:
+                    commits[producer] = profile
+        for commit, recorded_profile in commits.items():
+            tree = git('rev-parse', commit + '^{tree}').decode().strip()
+            contract = verifier.sha(git('show', commit + ':superhunter/product_supply/native-capability-contracts.json'))
+            inputs = {'git_source_tree': git('rev-parse', commit + ':upstream').decode().strip(),
+                      'native_contract_sha256': contract}
+            matches = [name for name, (_, digest, _) in renderer.PROFILES.items() if digest == contract]
+            self.assertEqual(len(matches), 1)
+            selected = matches[0]
+            if recorded_profile:
+                self.assertEqual(selected, recorded_profile)
+            renderer.require_producer(commit, tree, inputs, selected)
+            for other in renderer.PROFILES.keys() - {selected}:
+                with self.subTest(profile=other, commit=commit), self.assertRaisesRegex(EvidenceError, 'selected acceptance profile'):
+                    renderer.require_producer(commit, tree, inputs, other)
+            with self.assertRaisesRegex(EvidenceError, 'tree differs'):
+                renderer.require_producer(commit, '0' * 40, inputs, selected)
         with self.assertRaisesRegex(EvidenceError, 'producer Git objects unavailable'):
-            renderer.require_producer('0' * 40, tree, inputs, 'accounting')
+            renderer.require_producer('0' * 40, tree, inputs, selected)
 
     def test_two_identical_historical_transcripts_cannot_be_promoted_by_the_renderer(self):
         # Even if a launcher reported two successful jobs, the strict session verifier
@@ -340,9 +356,9 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
                 with self.subTest(claims=claims), self.assertRaisesRegex(EvidenceError, 'recomputed controls'):
                     renderer.check_act_verdict({**complete, 'refuted_mutations': claims}, verified, self.archive)
 
-    def test_header_is_selected_before_accounting_and_cannot_hide_an_incomplete_dossier(self):
+    def test_latest_is_ordered_by_profile_and_cannot_hide_an_incomplete_dossier(self):
         with TemporaryDirectory() as tmp, patch.object(renderer, 'ROOT', Path(tmp)):
-            for name in ('core-eight', 'accounting', 'canonical-header'):
+            for name in ('core-eight', 'accounting', 'canonical-header', 'grpc-schema'):
                 (Path(tmp) / renderer.PROFILES[name][0]).mkdir(parents=True)
                 self.assertEqual(renderer.selected_profile('latest'), name)
             for name in renderer.PROFILES:
@@ -350,17 +366,20 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
             with self.assertRaises(FileNotFoundError):
                 renderer.accepted_markdown()
 
-    def test_header_profile_never_accepts_a_renamed_older_session(self):
+    def test_extended_profiles_never_accept_a_renamed_older_session(self):
         act = {'schema_version': 1, 'same_host': True, 'runs': [
             {'id': n, 'checkout': n + '/checkout', 'result_sha256': n} for n in ('first', 'second')]}
-        result = {'commit': '1' * 40, 'tree': '2' * 40, 'sha256': verifier.sha(self.archive)}
-        recorded = [({'raw_run_inputs_sha256': n}, result, self.archive) for n in ('first', 'second')]
-        with patch.object(renderer, 'read_artifact', return_value=canonical(act)), \
-                patch.object(renderer, 'run_evidence', side_effect=recorded), \
-                patch.object(verifier, 'verify', wraps=verifier.verify) as check, \
-                self.assertRaises(EvidenceError):
-            renderer.accepted_markdown('canonical-header')
-        check.assert_called_once_with(self.archive, result['sha256'], require_canonical_header=True)
+        nine = verifier.unpack((ROOT / renderer.ACCOUNTING_DOSSIER / 'first/session.json').read_bytes())
+        for profile, gate, older in [('canonical-header', 'require_canonical_header', self.archive),
+                                     ('grpc-schema', 'require_grpc_schema', nine)]:
+            result = {'commit': '1' * 40, 'tree': '2' * 40, 'sha256': verifier.sha(older)}
+            records = [({'raw_run_inputs_sha256': n}, result, older) for n in ('first', 'second')]
+            with self.subTest(profile=profile), patch.object(renderer, 'read_artifact', return_value=canonical(act)), \
+                    patch.object(renderer, 'run_evidence', side_effect=records), \
+                    patch.object(verifier, 'verify', wraps=verifier.verify) as check, \
+                    self.assertRaises(EvidenceError):
+                renderer.accepted_markdown(profile)
+            check.assert_called_once_with(older, result['sha256'], **{gate: True})
 
     def test_replacing_one_of_twenty_control_names_cannot_qualify_a_dossier(self):
         controls = dict.fromkeys(renderer.REQUIRED_MUTATIONS, 'recorded rejection')
