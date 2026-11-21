@@ -358,7 +358,10 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
 
     def test_latest_is_ordered_by_profile_and_cannot_hide_an_incomplete_dossier(self):
         with TemporaryDirectory() as tmp, patch.object(renderer, 'ROOT', Path(tmp)):
-            for name in ('core-eight', 'accounting', 'canonical-header', 'grpc-schema'):
+            expected = ('core-eight', 'accounting', 'canonical-header', 'grpc-schema', 'html-review')
+            self.assertEqual(tuple(renderer.PROFILES), expected)
+            self.assertEqual(tuple(renderer.PROFILE_DIRECTORIES), expected)
+            for name in expected:
                 (Path(tmp) / renderer.PROFILES[name][0]).mkdir(parents=True)
                 self.assertEqual(renderer.selected_profile('latest'), name)
             for name in renderer.PROFILES:
@@ -370,8 +373,10 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
         act = {'schema_version': 1, 'same_host': True, 'runs': [
             {'id': n, 'checkout': n + '/checkout', 'result_sha256': n} for n in ('first', 'second')]}
         nine = verifier.unpack((ROOT / renderer.ACCOUNTING_DOSSIER / 'first/session.json').read_bytes())
+        eleven = verifier.unpack((ROOT / renderer.GRPC_SCHEMA_DOSSIER / 'first/session.json').read_bytes())
         for profile, gate, older in [('canonical-header', 'require_canonical_header', self.archive),
-                                     ('grpc-schema', 'require_grpc_schema', nine)]:
+                                     ('grpc-schema', 'require_grpc_schema', nine),
+                                     ('html-review', 'require_html_review', eleven)]:
             result = {'commit': '1' * 40, 'tree': '2' * 40, 'sha256': verifier.sha(older)}
             records = [({'raw_run_inputs_sha256': n}, result, older) for n in ('first', 'second')]
             with self.subTest(profile=profile), patch.object(renderer, 'read_artifact', return_value=canonical(act)), \

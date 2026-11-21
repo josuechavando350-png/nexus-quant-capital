@@ -21,14 +21,17 @@ DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['core-eight']
 ACCOUNTING_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['accounting']
 HEADER_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['canonical-header']
 GRPC_SCHEMA_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['grpc-schema']
+HTML_REVIEW_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['html-review']
 # A later default native registry must never redefine an archived nine-group acceptance.
 ACCOUNTING_SHA = '4dfec613c3f4ad64084a7487d4f4d5ecadea8f177f1bcc7283637c4a8adcdefa'
 HEADER_SHA = 'c3b7c10d1c72aacae73e09c5b96b521baeb9a8e6f4b15b03886ddcb8a16395c3'
 GRPC_SCHEMA_SHA = 'ae4a0e3a7026cd08083e144e92abb19f334ef816bfefeb4f4d79a48abf4dc003'
+HTML_REVIEW_SHA = '1b0c5ecf4ec91e9f0a0ec45a0984c60ad615e37f9d0512474ed30dd2e3e19add'
 PROFILES = {'core-eight': (DOSSIER, CORE_EIGHT[1], 'require_consolidated'),
             'accounting': (ACCOUNTING_DOSSIER, ACCOUNTING_SHA, 'require_accounting'),
             'canonical-header': (HEADER_DOSSIER, HEADER_SHA, 'require_canonical_header'),
-            'grpc-schema': (GRPC_SCHEMA_DOSSIER, GRPC_SCHEMA_SHA, 'require_grpc_schema')}
+            'grpc-schema': (GRPC_SCHEMA_DOSSIER, GRPC_SCHEMA_SHA, 'require_grpc_schema'),
+            'html-review': (HTML_REVIEW_DOSSIER, HTML_REVIEW_SHA, 'require_html_review')}
 REQUIRED_MUTATIONS = frozenset({
     'inflated_count', 'unsupported_credit', 'replaced_historical_digest', 'changed_native_result',
     'changed_license', 'changed_git_tree', 'erased_domain_selection', 'erased_shared_results',
@@ -134,18 +137,22 @@ def render(components, native, *, current=None, producer=None):
                       + (', '.join(f'`{path}`' for path in producer['different_inputs']) or 'ninguno') + '. '
                       + ('Los manifiestos nativos tienen huellas distintas.' if producer['different_native_manifest']
                          else 'Coincide la huella de los manifiestos nativos.')])
-        if producer['profile'] in ('accounting', 'canonical-header', 'grpc-schema'):
+        if producer['profile'] in ('accounting', 'canonical-header', 'grpc-schema', 'html-review'):
             lines.extend(['', 'Esta aceptación incluye el noveno grupo de controles contables. '
                           'El [expediente de ocho grupos](product_supply/consolidated-acceptance/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile core-eight`.'])
-        if producer['profile'] in ('canonical-header', 'grpc-schema'):
+        if producer['profile'] in ('canonical-header', 'grpc-schema', 'html-review'):
             lines.extend(['', 'El décimo grupo comprueba la interoperabilidad de encabezados RLP. '
                           'El [expediente de nueve grupos](product_supply/consolidated-acceptance-accounting/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile accounting`.'])
-        if producer['profile'] == 'grpc-schema':
+        if producer['profile'] in ('grpc-schema', 'html-review'):
             lines.extend(['', 'El undécimo grupo comprueba esquemas gRPC. '
                           'El [expediente de diez grupos](product_supply/consolidated-acceptance-header/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile canonical-header`.'])
+        if producer['profile'] == 'html-review':
+            lines.extend(['', 'El duodécimo grupo comprueba el informe HTML en el navegador. '
+                          'El [expediente de once grupos](product_supply/consolidated-acceptance-grpc-schema/acceptance.json) '
+                          'se comprueba con `--verify-dossier --profile grpc-schema`.'])
     if current:
         lines.extend(['', 'Una revisión posterior del PR 119 archivó 139 identidades en un perfil distinto. '
                       'Su transcripción, los dos registros de ejecución declarados y el cruce con el perfil contable '
