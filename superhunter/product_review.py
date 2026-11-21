@@ -1,7 +1,6 @@
 """Offline evidence for a single NQC product with potentially distinct Python environments."""
 from __future__ import annotations
 
-from contextlib import nullcontext
 import hashlib
 import json
 import os
@@ -271,6 +270,7 @@ def main(argv):
             parser.add_argument('--tlc-jar', type=Path, help='enumerate compatible Python profiles using TLC')
             parser.add_argument('--tree-sitter', type=Path, help='locate components and relations in verified SBOM bytes')
             parser.add_argument('--json-grammar', type=Path, help='directory of pinned Tree-sitter JSON parser sources')
+            parser.add_argument('--haystack-wheels', type=Path, help='rank matches in verified notices using local BM25+')
             parser.add_argument('--qdrant', type=Path, help='search verified notices with a private Qdrant index')
             parser.add_argument('--guac-bundle', type=Path, help='verify GUAC evidence against CycloneDX')
             parser.add_argument('--cdxgen-bundle', type=Path, help='verify CycloneDX evidence for cdxgen')
@@ -387,22 +387,8 @@ def main(argv):
                     manifest['profile_input_sha256'] = {scope: result['input_sha256'][INPUTS[scope + '/requirements.txt']]
                                                         for scope in PROFILES}
                 write_new_bundle(opts.export_notices, {**scan_files, 'notices.json': canonical(manifest)})
-            search_context = nullcontext((None, None))
-            if opts.qdrant:
-                from .product_notice_search import open_index
-                search_context = open_index(opts.qdrant, scan_files)
-            with search_context as (search, search_evidence):
-                if search_evidence:
-                    index.repos['qdrant/qdrant']['notice_search_evidence'] = search_evidence
-                for key in opts.keys or sys.stdin:
-                    prefix, sep, terms = key.strip().partition(':')
-                    if sep and prefix.casefold() == 'notice':
-                        if search is None:
-                            raise EvidenceError('notice text search requires --qdrant and verified wheel notices')
-                        answer = search(terms)
-                    else:
-                        answer = index.lookup(key)
-                    print(json.dumps(answer, sort_keys=True), flush=True)
+            from .product_notice_search import serve_queries
+            serve_queries(index, opts.keys or sys.stdin, opts.qdrant, opts.haystack_wheels, scan_files)
         else:
             print(json.dumps({'status': result['status'], 'catalog_count': len(result['repositories']),
                               'native_tools': list(result['tools']), 'observations': len(result['packages']),

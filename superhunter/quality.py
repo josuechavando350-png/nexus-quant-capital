@@ -293,7 +293,7 @@ def source_snapshot(root: Path = ROOT) -> dict[str, str]:
                 raise ValueError('source directory symlink rejected')
         for name in sorted(files):
             rel = (Path(base)/name).relative_to(root).as_posix()
-            if name.endswith('.py') or rel in ('repositories_200.json', 'product_repository_identities.json', 'product_supply/wheels.txt') or rel in PORTFOLIO_DATA_FILES or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_accounting_capture_io_v2.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'requirements-otel-qa.txt', 'requirements-owned-slither.txt', 'research_initiatives.json'):
+            if name.endswith('.py') or rel in ('repositories_200.json', 'product_repository_identities.json', 'product_supply/wheels.txt', 'product_supply/haystack-linux-py312.txt') or rel in PORTFOLIO_DATA_FILES or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_accounting_capture_io_v2.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'requirements-otel-qa.txt', 'requirements-owned-slither.txt', 'research_initiatives.json'):
                 result[rel] = sha(read_artifact(root, rel))
                 if len(result) > 500:
                     raise ValueError('source inventory limit exceeded')
@@ -1752,8 +1752,8 @@ REQUIRED_TESTS += (
 
 
 COMPONENTS['product_review'] = {
-    'files': ['product_elf_worker.py', 'product_producer_elf.py', 'product_license_sarif.py', 'product_profile_states.py', 'product_sbom_locations.py', 'product_notice_search.py', 'product_notice_worker.py', 'product_licenses.py', 'product_notices.py', 'product_guac.py', 'product_guac_worker.py', 'product_cdxgen.py', 'product_census_graph.py', 'product_reasoning.py', 'product_review.py', 'product_supply_review.py',
-              'repositories_200.json', 'product_repository_identities.json', 'product_supply/wheels.txt'],
+    'files': ['product_notice_ranking.py', 'product_ranking_worker.py', 'product_elf_worker.py', 'product_producer_elf.py', 'product_license_sarif.py', 'product_profile_states.py', 'product_sbom_locations.py', 'product_notice_search.py', 'product_notice_worker.py', 'product_licenses.py', 'product_notices.py', 'product_guac.py', 'product_guac_worker.py', 'product_cdxgen.py', 'product_census_graph.py', 'product_reasoning.py', 'product_review.py', 'product_supply_review.py',
+              'repositories_200.json', 'product_repository_identities.json', 'product_supply/wheels.txt', 'product_supply/haystack-linux-py312.txt'],
     'tests': ['test_product_review.', 'test_product_supply.'],
     'depends': ['portfolio_inventory', 'bundle_recovery', 'owned_capture', 'privacy', 'io']}
 COMPONENTS['entrypoints']['depends'].append('product_review')

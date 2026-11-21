@@ -192,3 +192,20 @@ python3.12 -m superhunter query-product --bundle "$evidence_dir" \
 ```
 
 En los ocho binarios verificados el encabezado indicó Linux x86-64 compatible con ELF64 little-endian. Tree-sitter declaró un intérprete y cuatro bibliotecas dinámicas. Los otros siete carecían de intérprete y de entradas `DT_NEEDED`. El inventario describe las dependencias de carga declaradas en esos archivos. Cada identidad conserva sus propias observaciones de ejecución en la consulta conjunta.
+
+## Ordenar los avisos por relevancia con Haystack
+
+Haystack 3.5.0 clasifica las coincidencias por BM25+. La frecuencia de los términos, su frecuencia en la colección y la longitud del aviso influyen en la puntuación. NQC recalcula cada puntuación desde los textos verificados y comprueba la cobertura. Al usar también Qdrant se cotejan archivo, hash y términos encontrados por los dos índices. La búsqueda sigue limitada a los avisos de la sesión.
+
+Descargar los wheels de la distribución pública en Linux x86-64 con CPython 3.12. La preparación y la consulta son operaciones separadas. La búsqueda verifica los 41 hashes, instala las dependencias en un directorio temporal y mantiene el índice en memoria durante la sesión.
+
+```bash
+python3.12 -m pip download --only-binary=:all: --no-deps --require-hashes \
+  -r superhunter/product_supply/haystack-linux-py312.txt -d /ruta/wheels-haystack
+python3.12 -m superhunter query-product --bundle "$evidence_dir" --supply "$supply_work/supply" \
+  --notice-wheels /ruta/wheels --profile-wheels /ruta/wheels-perfiles \
+  --haystack-wheels /ruta/wheels-haystack --qdrant /ruta/qdrant \
+  deepset-ai/haystack 'notice:redistribution patent'
+```
+
+Sobre los 56 avisos, ambos índices recuperaron 22 coincidencias para la consulta del ejemplo. Haystack situó primero `coincurve-20.0.0-1.txt`, con una puntuación BM25+ de 5.6626298988. Las palabras desconocidas devuelven una lista vacía. [Documentación de Haystack](https://docs.haystack.deepset.ai/docs/inmemorybm25retriever).

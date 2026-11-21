@@ -250,3 +250,19 @@ class ProducerElfTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 assess(h, record, output)
         self.assertIsNone(assess(header, dict(lief, interpreter='', needed=[]), '')['interpreter'])
+
+
+class NoticeRankingTests(unittest.TestCase):
+    def test_real_term_counts_reject_missing_documents_wrong_weights_and_wrong_order(self):
+        import math
+        from superhunter.product_notice_ranking import RankingCorpus
+        corpus = RankingCorpus({'a.txt': b'patent patent', 'b.txt': b'patent other'})
+        idf = math.log1p(.5 / 2.5)
+        rows = [{'file': 'a.txt', 'sha256': corpus.docs['a.txt']['sha256'], 'score': idf * (1 + 5 / 3.5)},
+                {'file': 'b.txt', 'sha256': corpus.docs['b.txt']['sha256'], 'score': idf * 2}]
+        self.assertEqual([r['file'] for r in corpus.validate({'patent'}, rows)], ['a.txt', 'b.txt'])
+        self.assertEqual(corpus.validate({'unseen'}, []), [])
+        for wrong in (rows[:1], list(reversed(rows)), [dict(rows[0], score=0), rows[1]],
+                      [dict(rows[0], sha256='0' * 64), rows[1]]):
+            with self.assertRaises(ValueError):
+                corpus.validate({'patent'}, wrong)

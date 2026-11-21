@@ -1,7 +1,8 @@
 """Use a private Qdrant sparse index to find exact terms in verified wheel notices."""
 from __future__ import annotations
 
-from contextlib import contextmanager
+from contextlib import ExitStack, contextmanager
+import json
 import os
 from pathlib import Path
 import re
@@ -117,3 +118,29 @@ def open_index(binary, notices):
                 if worker.poll() is None:
                     worker.kill()
                     worker.wait()
+
+
+def serve_queries(index, keys, qdrant, haystack, notices):
+    with ExitStack() as stack:
+        exact = rank = None
+        if qdrant:
+            exact, evidence = stack.enter_context(open_index(qdrant, notices))
+            index.repos['qdrant/qdrant']['notice_search_evidence'] = evidence
+        if haystack:
+            from .product_notice_ranking import open_ranker
+            rank, evidence = stack.enter_context(open_ranker(haystack, notices))
+            index.repos['deepset-ai/haystack']['notice_ranking_evidence'] = evidence
+        for key in keys:
+            prefix, sep, terms = key.strip().partition(':')
+            if not sep or prefix.casefold() != 'notice':
+                answer = index.lookup(key)
+            elif not (rank or exact):
+                raise EvidenceError('notice search requires a verified notice index')
+            else:
+                answer = rank(terms) if rank else exact(terms)
+                if rank and exact:
+                    comparison = exact(terms)
+                    base = [{k: v for k, v in row.items() if k != 'bm25_score'} for row in answer['matches']]
+                    if sorted(base, key=lambda r: r['file']) != sorted(comparison['matches'], key=lambda r: r['file']):
+                        raise EvidenceError('Haystack and Qdrant disagree on matching notice identities or terms')
+            print(json.dumps(answer, sort_keys=True), flush=True)
