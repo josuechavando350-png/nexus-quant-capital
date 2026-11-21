@@ -19,6 +19,8 @@ Esta aceptación incluye el noveno grupo de controles contables. El [expediente 
 
 El décimo grupo comprueba la interoperabilidad de encabezados RLP. El [expediente de nueve grupos](product_supply/consolidated-acceptance-accounting/acceptance.json) se comprueba con `--verify-dossier --profile accounting`.
 
+Una revisión posterior del PR 119 archivó 139 identidades en un perfil distinto. Su transcripción, los dos registros de ejecución declarados y el cruce con el perfil contable se documentan en el [contraste de evidencias](product_supply/acceptance-120/pr119-139-comparison.json).
+
 Ambos archivos comparten 63 identidades. Hay 36 exclusivas del primero y 7 del segundo.
 
 El inventario del PR 119 verificó 200 fuentes directas. Las dos transcripciones identifican 200 revisiones. Se conservaron los 153 pines previos. Ese inventario inicial dejó fuera 141 gitlinks y un payload LFS. Adquisiciones y estado posterior en [SOURCE_MATERIALIZATION.md](SOURCE_MATERIALIZATION.md). Las licencias transitivas y la compatibilidad comercial siguen pendientes. Hallazgos originales confirmados en estos expedientes, cero. [Alcance de fuentes](SOURCE_CHECKOUT.md) · [Acta de adquisición](product_supply/source-completion-200.json)

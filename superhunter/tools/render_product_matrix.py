@@ -145,6 +145,10 @@ def render(components, native, *, current=None, producer=None):
             lines.extend(['', 'El undécimo grupo comprueba esquemas gRPC. '
                           'El [expediente de diez grupos](product_supply/consolidated-acceptance-header/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile canonical-header`.'])
+    if current:
+        lines.extend(['', 'Una revisión posterior del PR 119 archivó 139 identidades en un perfil distinto. '
+                      'Su transcripción, los dos registros de ejecución declarados y el cruce con el perfil contable '
+                      'se documentan en el [contraste de evidencias](product_supply/acceptance-120/pr119-139-comparison.json).'])
     pending = '' if current else (' El conteo actual de integraciones conjuntas, ejecuciones, referencias y '
                                   'pendientes requiere una sesión completa del commit publicado y su reproducción.')
     lines.extend([
