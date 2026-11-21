@@ -1,6 +1,9 @@
 """Controls for native Java report attribution, completeness and concrete witnesses."""
 from copy import deepcopy
+import io
 from pathlib import Path
+import runpy
+import tarfile
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -131,3 +134,36 @@ class JavaNativeTests(unittest.TestCase):
                 with self.assertRaisesRegex(EvidenceError, 'release digest mismatch'):
                     native.run(kit)
             execute.assert_not_called()
+
+    def test_modified_reconstruction_recipe_is_rejected_before_execution(self):
+        original = native.read_artifact
+        def changed(root, name):
+            return b'changed reconstruction recipe' if name.endswith('rebuild.txt') else original(root, name)
+        with patch.object(native, 'read_artifact', side_effect=changed), \
+                patch.object(native.subprocess, 'run') as execute:
+            with self.assertRaisesRegex(EvidenceError, 'reconstruction recipe'):
+                native.run(Path('/unused'))
+        execute.assert_not_called()
+
+    def test_reconstruction_rejects_nonregular_and_duplicate_archive_members(self):
+        recipe = runpy.run_path(str(native.ROOT / (native.PREFIX + 'rebuild.txt')))
+        files = {'runtime/bin/java': {'archive_member': 'runtime/java', 'bytes': 3,
+                                      'sha256': native.sha(b'jdk')}}
+        def archive(kind):
+            output = io.BytesIO()
+            with tarfile.open(fileobj=output, mode='w:xz') as stream:
+                for _ in range(2 if kind == 'duplicate' else 1):
+                    member = tarfile.TarInfo('./runtime/java')
+                    if kind == 'symlink':
+                        member.type, member.linkname = tarfile.SYMTYPE, '/outside-runtime'
+                        stream.addfile(member)
+                    else:
+                        member.size = 3
+                        stream.addfile(member, io.BytesIO(b'jdk'))
+            data = output.getvalue()
+            header = f'{"data.tar.xz/":<16}{0:<12}{0:<6}{0:<6}{0:<8}{len(data):<10}`\n'.encode()
+            return b'!<arch>\n' + header + data + (b'\n' if len(data) % 2 else b'')
+        self.assertEqual(recipe['runtime_bytes'](archive('regular'), files), {'runtime/bin/java': b'jdk'})
+        for kind in ('symlink', 'duplicate'):
+            with self.subTest(kind=kind), self.assertRaisesRegex(ValueError, 'duplicated or not a regular'):
+                recipe['runtime_bytes'](archive(kind), files)

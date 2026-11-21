@@ -25,6 +25,22 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
         with self.assertRaisesRegex(EvidenceError, 'incomplete consolidated session'):
             verifier.verify(self.archive, require_consolidated=True)
 
+    def test_old_runtime_is_accepted_only_in_the_exact_archived_session(self):
+        lines = self.archive.splitlines()
+        report = strict_json(lines[self.keys.index('native-capabilities')])
+        with self.assertRaisesRegex(EvidenceError, 'native producer bytes'):
+            verifier.native_bindings({'native-capabilities': report})
+        self.assertTrue(verifier.native_bindings({'native-capabilities': report}, version=70))
+        lines[0] += b' '
+        with self.assertRaisesRegex(EvidenceError, 'published 70-identity session'):
+            native_verifier.verify(b'\n'.join(lines) + b'\n')
+
+    def test_interim_component_session_verifies_individual_negative_controls(self):
+        raw = verifier.unpack((ROOT/'superhunter/product_supply/component-session-99.json').read_bytes())
+        self.assertEqual(len(verifier.negative_controls(raw)), 14)
+        with self.assertRaisesRegex(EvidenceError, 'published 99-identity session'):
+            verifier.verify(raw.rstrip(b'\n') + b' \n')
+
     def test_native_receipt_without_the_group_report_is_rejected(self):
         raw = b'\n'.join(self.archive.splitlines()[:-1]) + b'\n'
         with self.assertRaisesRegex(EvidenceError, 'no matching producer receipt'):
@@ -58,6 +74,14 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
         docs = {k: strict_json(b'{"r":' + line + b'}')['r']
                 for k, line in zip(self.keys, self.archive.splitlines(), strict=True)}
         repos = {r['repository'].casefold(): r for r in docs.values() if isinstance(r, dict) and 'catalog_id' in r}
+        # The modern consumer needs the official Node report. Retain the real archive
+        # unchanged and update only this reconstructed test input and its receipts.
+        from superhunter.product_native_capabilities import contracts, expected_receipt
+        evm = contracts()['evm']
+        docs['native-capabilities']['groups']['evm'] = strict_json(
+            (ROOT/'superhunter/product_supply/evm-native-result.json').read_bytes())
+        for name in evm['repositories']:
+            repos[name.casefold()]['native_capability_receipt'] = expected_receipt('evm', name, evm)
         index = SimpleNamespace(repos=repos, lookup=lambda name: repos[name.casefold()],
                                 source_inventory=docs['source-inventory'], root_declarations=docs['root-declarations'],
                                 owned_source_checks=docs['owned-source-checks'], census_header=docs['census-header'],

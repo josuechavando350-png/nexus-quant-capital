@@ -75,13 +75,13 @@ def source_snapshot(digest):
     return strict_json(raw)
 
 
-def native_bindings(report):
+def native_bindings(report, *, version=None):
     """Compare each selected native group with its pinned, independently reviewed output."""
     native = report.get('native-capabilities')
     if native is None:
         return {}
     from superhunter.product_native_capabilities import contracts
-    registry = contracts()
+    registry = contracts(version=version)
     groups = native.get('groups')
     failed = native.get('blocked_groups', {})
     if (not isinstance(groups, dict) or not isinstance(failed, dict) or not (groups or failed)
@@ -110,6 +110,7 @@ def native_bindings(report):
 
 
 INTERIM_99 = '81ab0b56f1970caeecc58ffc2fbf09197f340ede1b193b5d984c3db00593c9f5'
+NATIVE_SESSION_70 = '2a6fd0bb2ceddb08d0a1f461e71da538fcd7bb7ccb486d537e6a244b403e973e'
 SNAPSHOT_153 = '9fe08694ea198e7872cc954a122fc4bdc4675996a5403cb7344822a89a3bfe3f'
 HISTORICAL_COMPONENTS = {
     '99': 'adbd7b433b1d3cad6ee0a64fa71e5187f422dafc9050353c07c66d20187abfea',
@@ -174,13 +175,18 @@ def verify(raw, expected_hash=None, *, require_consolidated=False):
     history = {doc['catalog_id']: doc for doc in strict_json(archive)['receipts']}
     matrix = report['integration-matrix']
     rows = matrix['rows']
-    native = native_bindings(report)
     combined = 'component-controls' in report and 'native-capabilities' in report
     coverage = report['integration-coverage']
     operations_format = 'session_operation_count' in matrix
     if combined and not operations_format:
         raise EvidenceError('combined session lacks its per-operation matrix')
-    interim_118 = digest == INTERIM_99
+    # The first native session predates the operation ledger. Check its historical
+    # producers independently, then require the exact published bytes before acceptance.
+    historical_native = 'native-capabilities' in report and not operations_format
+    native = native_bindings(report, version=70 if historical_native else None)
+    interim_118 = ('component-controls' in report and not operations_format and
+                   'published_excerpts' not in matrix and
+                   report['source-inventory'].get('snapshot_sha256') == SNAPSHOT_153)
     component_profile = 'current'
     if interim_118:
         component_profile = '99'
@@ -360,11 +366,15 @@ def verify(raw, expected_hash=None, *, require_consolidated=False):
             report['root-declarations']['remote_roots_verified'] != expected['remote_roots']):
         raise EvidenceError('claimed totals differ from independently counted rows')
     if 'native-capabilities' in report:
+        if historical_native and digest != NATIVE_SESSION_70:
+            raise EvidenceError('historical native transcript differs from the published 70-identity session')
         native_result = report['native-capabilities']
         counts.update(native_groups=sorted(native_result['groups']), native_credits=len(native),
                       blocked_native_groups=sorted(native_result.get('blocked_groups', {})),
                       original_vulnerabilities_confirmed=native_result['original_vulnerabilities_confirmed'])
     if 'component-controls' in report:
+        if interim_118 and digest != INTERIM_99:
+            raise EvidenceError('historical component transcript differs from the published 99-identity session')
         controls = report['component-controls']
         counts.update(component_contract_profile=component_profile, component_domains=sorted(set(controls['requested']) - set(controls['blocked'])),
                       blocked_component_domains=sorted(controls['blocked']))

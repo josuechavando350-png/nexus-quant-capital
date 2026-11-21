@@ -295,6 +295,7 @@ PRODUCT_DATA_FILES = ('repositories_200.json', 'product_repository_identities.js
 
 # Data consumed by the verified offline component checks and their evidence readers.
 PRODUCT_DATA_FILES += (
+    'product_supply/evm-native-build.json',
     'product_supply/evm-native-npm-pins.json',
     'product_supply/evm-native-result.json',
     'product_supply/evm-native-whatsabi.txt',
@@ -331,10 +332,12 @@ PRODUCT_DATA_FILES += (
     'product_supply/iam-native-result.json',
     'product_supply/iam-native-sample.json',
     'product_supply/iam-native-sources.json',
+    'product_supply/java-native-build.json',
     'product_supply/java-native-cases.json',
     'product_supply/java-native-maven.json',
     'product_supply/java-native-pins.json',
     'product_supply/java-native-provenance.json',
+    'product_supply/java-native-rebuild.txt',
     'product_supply/java-native-receipt.json',
     'product_supply/java-native-result.json',
     'product_supply/java-native-samples.json',

@@ -109,7 +109,8 @@ class NativeContractHistoryTests(unittest.TestCase):
         old = native.contracts(version=70)
         live = native.contracts()
         self.assertEqual(set(old), {'evm', 'web', 'static', 'slither', 'secrets'})
-        self.assertEqual({key: live[key] for key in old}, old)
+        self.assertEqual({key for key in old if live[key] != old[key]}, {'evm'})
+        self.assertEqual(live['evm']['repositories'], old['evm']['repositories'])
         self.assertIn('salesforce/policy_sentry', live['iam']['repositories'])
         with self.assertRaisesRegex(EvidenceError, 'unknown historical'):
             native.contracts(version=999)

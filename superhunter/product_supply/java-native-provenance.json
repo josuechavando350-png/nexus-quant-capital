@@ -19,5 +19,26 @@
       "tag_api": "https://api.github.com/repos/find-sec-bugs/find-sec-bugs/git/refs/tags/version-1.14.0"
     }
   },
-  "acquisition_note": "GitHub release asset domain was blocked by environment policy. Official Maven Central publications were accessible through ordinary requests and checked against their published checksums. No privilege or network escalation was used."
+  "acquisition_note": "GitHub release asset domain was blocked by environment policy. Official Maven Central publications were accessible through ordinary requests and checked against their published checksums. No privilege or network escalation was used.",
+  "runtime": {
+    "distribution": "Debian security archive",
+    "package": {
+      "name": "openjdk-21-jre-headless",
+      "version": "21.0.13+9-1~deb13u2",
+      "architecture": "amd64",
+      "url": "https://security.debian.org/debian-security/pool/updates/main/o/openjdk-21/openjdk-21-jre-headless_21.0.13+9-1~deb13u2_amd64.deb",
+      "bytes": 41993808,
+      "sha256": "7334a11777942862fa97f8d16f23a391f85e6c3a3fc8ea73e0cc30adc52c8299",
+      "published_checksum_url": "https://packages.debian.org/trixie/amd64/openjdk-21-jre-headless/download",
+      "checksum_listing_note": "The package listing tracks the latest version. The version-specific archive URL and SHA256 above identify the reviewed publication."
+    },
+    "same_runtime_bytes_confirmed": 176,
+    "host_only_cacerts_removed": true,
+    "copyright_file_preserved": "runtime/debian-copyright",
+    "archive_sha256_verified_before_member_parsing": true,
+    "selected_members_preserved_unchanged": true,
+    "package_installation_performed": false,
+    "debian_signature_verification_claimed": false,
+    "host_shared_library_closure_verified": false
+  }
 }

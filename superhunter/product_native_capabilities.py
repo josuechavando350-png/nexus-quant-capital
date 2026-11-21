@@ -9,7 +9,7 @@ from .product_review import ROOT, sha
 from .safe_io import canonical, read_artifact, strict_json
 
 CONTRACT = 'superhunter/product_supply/native-capability-contracts.json'
-CONTRACT_SHA = '50715da8bd003b64af5cd03273739f7c8f4069cc2888f5a286b74fdecbbfdb07'
+CONTRACT_SHA = '51e2d24afa9f7bc98152c4dd8337560e41efe9b50657c4a222ceedfc28b1355a'
 ARCHIVE_70 = ('superhunter/product_supply/native-capability-contracts-70.json',
               '1289b2523dca27657dcde15cb81c7a862e50c7f523c92d0e145238fee268d237')
 MODULES = {'evm': 'product_evm_native', 'web': 'product_web_native', 'static': 'product_static_native',

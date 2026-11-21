@@ -22,7 +22,8 @@ def verify(raw, expected_hash=None):
     lines = raw.splitlines()
     report = strict_json(lines[keys.index('native-capabilities')])
     # This command preserves the historical PR 119 acceptance scope.
-    if (set(report['groups']) != set(contracts(version=70)) or report.get('blocked_groups')
+    if (result['transcript_sha256'] != prior.NATIVE_SESSION_70
+            or set(report['groups']) != set(contracts(version=70)) or report.get('blocked_groups')
             or result['sources'] != {'complete': 200}):
         raise EvidenceError('native session requires all reviewed groups and direct source records')
     inventory = strict_json(lines[keys.index('source-inventory')])

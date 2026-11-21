@@ -10,7 +10,7 @@ from .safe_io import MAX_BYTES, canonical, read_artifact, strict_json
 
 REPOSITORIES = {'spotbugs/spotbugs': 'executable', 'find-sec-bugs/find-sec-bugs': 'executable'}
 PINS = 'superhunter/product_supply/java-native-pins.json'
-PINS_SHA = 'f1fa01b2aae455094fd06f7cf7c8730b206691ab151a9d31b2fd8c3787a4f493'
+PINS_SHA = 'b4c4a0e65e9722f44aedc308b4a1d42f9bfae01c3188bb37b2eebff738128bce'
 PREFIX = 'superhunter/product_supply/java-native-'
 ISOLATE = ['/usr/bin/unshare', '--user', '--map-current-user', '--net']
 PLUGIN = 'com.h3xstream.findsecbugs'
@@ -27,6 +27,9 @@ def inputs():
         if sha(raw) != pins[name + '_sha256']:
             raise EvidenceError('Java native owned inputs or provenance differ')
         artifacts[name] = raw
+    recipe = read_artifact(ROOT, PREFIX + 'rebuild.txt')
+    if sha(recipe) != pins['rebuild_sha256']:
+        raise EvidenceError('Java native reconstruction recipe differs')
     return pins, strict_json(artifacts['cases'])
 
 

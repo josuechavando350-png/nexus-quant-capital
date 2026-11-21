@@ -9,6 +9,13 @@ from superhunter.safe_io import canonical
 
 
 class EvmSurfaceTests(unittest.TestCase):
+    def test_modified_node_release_recipe_fails_before_using_any_kit(self):
+        with patch('superhunter.product_census_header.read_artifact', return_value=b'{}'), \
+                patch.object(native, 'source_inputs') as load_sources:
+            with self.assertRaisesRegex(EvidenceError, 'evm-native-build.json'):
+                native.run('/unused')
+        load_sources.assert_not_called()
+
     def setUp(self):
         self.cases, self.evmole, self.whatsabi = {}, {}, {}
         selectors = {'aave': ['16f0115b', '1b11d0ff', '570ca735', 'df4b5c58'],
