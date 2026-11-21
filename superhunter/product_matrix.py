@@ -7,7 +7,7 @@ from .product_reasoning import EvidenceError
 
 def build(index):
     if any(x is None for x in (index.source_inventory, index.root_declarations, index.owned_source_checks,
-                               index.census_header, index.geth_header, index.source_references)):
+                               index.census_header, index.geth_header, index.source_references, index.score_comparison)):
         raise EvidenceError('matrix requires the complete source audit and owned product session')
     result = coverage(index)
     rows = []

@@ -55,6 +55,14 @@ def cohorts(repositories):
 # Reviewed outputs for the fixed NQC fixtures. Each producer still has to rerun before
 # a receipt is attached. A name, an arbitrary nonempty adapter or a copied source row is insufficient.
 FIXED_SOURCE_RECEIPTS = {
+    'stanfordnlp/dspy': ('executable', 'score_comparison_receipt', {
+        'query': 'score-comparison', 'engine': 'dspy', 'revision': '226d534da38ab8a39e4d6383e01e121dab50da51',
+        'case_sha256': 'b3212debe6576bb0e5f3d9b011aab1339f05448f8dd9e33e1b572e10900d0038',
+        'result_sha256': '7a1d2fff22878043d4b2cdc4e00f2b62475a9a3f19682daba327ee0901b73841'}),
+    'ukgovernmentbeis/inspect_ai': ('executable', 'score_comparison_receipt', {
+        'query': 'score-comparison', 'engine': 'inspect', 'revision': '82925564c9330e5440d490a7d97d037e11e66c9a',
+        'case_sha256': 'b3212debe6576bb0e5f3d9b011aab1339f05448f8dd9e33e1b572e10900d0038',
+        'result_sha256': '950182072b97dc7256838c5c06ce82ad22b1c82ec4f185c4632c497d81de1843'}),
     'pycqa/bandit': ('executable', 'owned_source_receipt', {
         'query': 'owned-source-checks', 'section': 'yaml', 'revision': '2d5467c45c3189f4d7d07e8022276bc73a478abd',
         'sha256': '1e7c745055c409f85a1824324cbcfca57318edd1f5583add46c89685ace670b6'}),

@@ -2,7 +2,7 @@
 
 El producto conserva 200 identidades. Hay 153 checkouts completos, 2 extractos verificados y 45 proyectos con alcance documental y de metadatos.
 
-Participación acreditada de 53 proyectos, con 45 de ejecución y 8 referencias. En la sesión completa participaron 23. Quedan 147 sin recibo funcional.
+Participación acreditada de 55 proyectos, con 47 de ejecución y 8 referencias. En la sesión completa participaron 25. Quedan 145 sin recibo funcional.
 
 [Reproducción de la sesión](SOURCE_ASSURANCE.md) · [Estado histórico del PR 114](https://github.com/josuechavando350-png/nexus-quant-capital/blob/ae02690627443df08b8eedb9d63a7a30cbda6c0e/superhunter/INTEGRATION_STATUS_200.md)
 
@@ -162,7 +162,7 @@ Participación acreditada de 53 proyectos, con 45 de ejecución y 8 referencias.
 | 152 | SWE-agent/mini-swe-agent | Framework de agentes | Completa | Pendiente | — |
 | 153 | Aider-AI/aider | Framework de agentes | Completa | Pendiente | — |
 | 154 | langchain-ai/langgraph | Framework de agentes | Completa | Ejecución | — |
-| 155 | stanfordnlp/dspy | Framework de agentes | Completa | Pendiente | — |
+| 155 | stanfordnlp/dspy | Framework de agentes | Completa | Ejecución | Sí |
 | 156 | huggingface/smolagents | Framework de agentes | Completa | Pendiente | — |
 | 157 | deepset-ai/haystack | Framework de agentes | Completa | Ejecución | Sí |
 | 158 | run-llama/llama_index | Framework de agentes | Completa | Ejecución | — |
@@ -175,7 +175,7 @@ Participación acreditada de 53 proyectos, con 45 de ejecución y 8 referencias.
 | 165 | langfuse/langfuse | Herramienta auxiliar | Completa | Pendiente | — |
 | 166 | vibrantlabsai/ragas | Analizador o verificador | Completa | Pendiente | — |
 | 167 | promptfoo/promptfoo | Analizador o verificador | Completa | Pendiente | — |
-| 168 | UKGovernmentBEIS/inspect_ai | Analizador o verificador | Completa | Pendiente | — |
+| 168 | UKGovernmentBEIS/inspect_ai | Analizador o verificador | Completa | Ejecución | Sí |
 | 169 | NVIDIA/garak | Analizador o verificador | Metadatos | Pendiente | — |
 | 170 | bountybench/bountybench | Corpus o laboratorio | Metadatos | Pendiente | — |
 | 171 | NomicFoundation/hardhat | Herramienta auxiliar | Completa | Pendiente | — |

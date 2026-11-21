@@ -93,6 +93,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--prepare', action='store_true', help='download fixed public inputs into a new external directory')
     parser.add_argument('--owned-source-kit', type=Path, help='fixed offline code and package reference comparisons')
+    parser.add_argument('--score-kit', type=Path, help='offline wheel sets for the two fixed evaluation engines')
     parser.add_argument('--root-manifests', type=Path, help='verified dependency files from remote root trees')
     parser.add_argument('--source-inventory', action='store_true', help='join the reviewed source audit')
     parser.add_argument('--source-references', type=Path, help='checkout containing pinned source type definitions')
@@ -120,6 +121,7 @@ def main():
            '--upstream-notices', work/'upstream', '--census-header-kit', work, '--solidity-metadata-kit', work,
            '--qdrant', work/'qdrant', '--haystack-wheels', work/'haystack', '--pmd-release', work/'pmd.zip',
            *(['--owned-source-kit', args.owned_source_kit.resolve()] if args.owned_source_kit else []),
+           *(['--score-kit', args.score_kit.resolve()] if args.score_kit else []),
            *(['--root-manifests', args.root_manifests.resolve()] if args.root_manifests else []),
            *(['--source-inventory'] if args.source_inventory else []),
            *(['--source-references', args.source_references.resolve()] if args.source_references else []),

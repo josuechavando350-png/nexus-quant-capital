@@ -172,3 +172,36 @@ class OwnedSourceChecksTests(unittest.TestCase):
         self.assertIsNone(result_region({}))
         self.assertEqual(result_region({'line': 44, 'line_end': 45, 'column': 7}),
                          {'startLine': 44, 'startColumn': 7, 'endLine': 45})
+
+
+class IndependentScoringTests(unittest.TestCase):
+    def setUp(self):
+        self.rows = {'all_fields': {'a': {'expected': 'valid', 'observed': 'valid'},
+                                    'b': {'expected': 'bad', 'observed': 'bad'}},
+                     'without_extra_data': {'a': {'expected': 'valid', 'observed': 'valid'},
+                                            'b': {'expected': 'bad', 'observed': 'valid'}}}
+        self.native = {'all_fields': {'by_id': {'a': True, 'b': True}, 'percentage': 100},
+                       'without_extra_data': {'by_id': {'a': True, 'b': False}, 'percentage': 50}}
+
+    def test_compares_individual_labels_and_detects_removed_check(self):
+        from superhunter.product_score_comparison import assess
+        self.assertEqual(assess(self.rows, self.native)['without_extra_data']['errors'], ['b'])
+        self.native['without_extra_data']['by_id'] = {'a': False, 'b': True}
+        with self.assertRaisesRegex(ValueError, 'case-level'):
+            assess(self.rows, self.native)
+
+    def test_missing_trials_and_invalid_score_are_rejected(self):
+        from superhunter.product_score_comparison import assess
+        for invalid in (float('nan'), '100', True):
+            self.native['all_fields']['percentage'] = invalid
+            with self.assertRaisesRegex(ValueError, 'case-level'):
+                assess(self.rows, self.native)
+        del self.native['all_fields']
+        with self.assertRaisesRegex(ValueError, 'omitted'):
+            assess(self.rows, self.native)
+
+    def test_framework_presence_does_not_accredit_scoring(self):
+        for repo in ('stanfordnlp/dspy', 'UKGovernmentBEIS/inspect_ai'):
+            self.assertEqual(receipt({'repository': repo}), ('pending', None))
+            with self.assertRaisesRegex(ValueError, 'accepted product result'):
+                receipt({'repository': repo, 'score_comparison_receipt': {'score': 100}})

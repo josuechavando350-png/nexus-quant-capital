@@ -6,6 +6,7 @@ import sys
 import tempfile
 from urllib.request import urlopen
 
+from superhunter.product_score_comparison import ENGINES, lockfile
 from superhunter.product_census_header import pinned
 from superhunter.product_owned_source_checks import LOCK, LOCK_SHA, excerpt_files
 from superhunter.product_review import ROOT
@@ -15,6 +16,7 @@ from superhunter.safe_io import MAX_BYTES
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--scorers', action='store_true', help='also download the fixed DSPy and Inspect AI wheels')
     parser.add_argument('destination', type=Path)
     args = parser.parse_args()
     dest = args.destination.resolve()
@@ -28,6 +30,13 @@ def main():
         lock.write_bytes(pinned(ROOT, LOCK, LOCK_SHA))
         subprocess.run([sys.executable, '-m', 'pip', '--isolated', 'download', '--only-binary=:all:',
                         '--no-deps', '--require-hashes', '--dest', work, '-r', lock], check=True)
+        if args.scorers:
+            for name, engine in ENGINES.items():
+                wheels = work/(name + '-wheels')
+                wheels.mkdir()
+                lock.write_bytes(pinned(ROOT, lockfile(name), engine['lock']))
+                subprocess.run([sys.executable, '-m', 'pip', '--isolated', 'download', '--only-binary=:all:',
+                                '--no-deps', '--require-hashes', '--dest', wheels, '-r', lock], check=True)
         for _, row, path, name, oid in excerpt_files():
             url = f"https://raw.githubusercontent.com/{row['repository']}/{row['commit']}/{path}"
             with urlopen(url, timeout=30) as response:
