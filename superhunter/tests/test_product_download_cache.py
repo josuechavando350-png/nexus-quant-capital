@@ -95,6 +95,19 @@ class VerifiedDownloadTests(unittest.TestCase):
         with ThreadPoolExecutor(max_workers=2) as pool:
             self.assertEqual(list(pool.map(worker, [b'one', b'two'])), [b'one', b'two'])
 
+    def test_uncoordinated_writer_must_publish_the_expected_bytes(self):
+        def race_with(data):
+            def write(path):
+                path.write_bytes(self.raw)
+                (self.cache/self.digest).write_bytes(data)
+            return write
+        acquire(self.root/'first', self.digest, race_with(self.raw), self.cache)
+        self.assertEqual((self.root/'first').read_bytes(), self.raw)
+        (self.cache/self.digest).unlink()
+        with self.assertRaisesRegex(ValueError, 'digest mismatch'):
+            acquire(self.root/'second', self.digest, race_with(b'wrong'), self.cache)
+        self.assertFalse((self.root/'second').exists())
+
     def test_failed_writer_releases_digest_for_retry(self):
         with self.assertRaisesRegex(ValueError, 'digest mismatch'):
             acquire(self.root/'first', self.digest, lambda p: p.write_bytes(b'corrupt'), self.cache)

@@ -89,7 +89,12 @@ def acquire(target, digest, download, cache=None):
             with tempfile.TemporaryDirectory(prefix='.download-', dir=cache) as tmp:
                 staging = Path(tmp)/'asset'
                 download(staging)
-                copy_verified(staging, entry, digest)
+                try:
+                    copy_verified(staging, entry, digest)
+                except FileExistsError:
+                    # A compatible older writer can publish without taking our
+                    # lock. Verify the winning object's bytes before using it.
+                    pass
             copy_verified(entry, target, digest)
     finally:
         os.close(lock_fd)

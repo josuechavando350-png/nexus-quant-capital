@@ -29,7 +29,34 @@ El [recibo de producto](product_supply/acceleration-product-replay.json) registr
 
 Al restaurar el almacenamiento o verificarlo desde otro espacio de usuarios, Git puede observar diferencias de metadatos del sistema de archivos para un archivo que conserva su contenido. Para esas rutas el verificador calcula el identificador del blob desde los bytes reales, comprueba el modo Git y trata los enlaces por su texto. Un repositorio Git temporal reconstruye las representaciones `eol=crlf` e `ident` a partir de los atributos del commit, incluido el identificador de blob expandido en el archivo. El repositorio temporal solo comparte objetos y emplea configuración vacía. El cálculo trabaja por bloques y conserva el índice compartido. Las pruebas introducen cambios de contenido del mismo tamaño, alteraciones de permisos, eliminación, sustitución de un enlace y una expansión parcial de finales de línea.
 
-El escáner procesó los textos únicos con una sola preparación de ScanCode. La comprobación de caché materializó los diez archivos del catálogo en un espacio sin red y cotejó sus SHA-256 en copias independientes.
+| Comprobación en la rama actual | Resultado de esta ejecución |
+|---|---|
+| 153 checkouts sobre almacenamiento restaurado | 288,41 s con un trabajador y 187,50 s con cuatro. Ambos emitieron los mismos bytes que la revisión original del PR 116. |
+| 200 avisos | Una preparación de ScanCode procesó los 144 textos únicos en cinco lotes durante 110,61 s. Coincidieron todas las observaciones por aviso. |
+| Diez archivos fijados en caché | Se verificaron 380.666.338 bytes y cada copia de sesión tuvo su propio inodo. |
+| Cuatro procesos solicitaron el mismo archivo a una caché vacía | Una lectura del insumo local fijado produjo cuatro copias con el SHA-256 esperado. |
+
+Las mediciones se tomaron en un único equipo con otros trabajos activos. Las dos pruebas de caché se realizaron sin red. El ensayo de checkouts incluyó la relectura de candidatos con metadatos restaurados, entre ellos un corpus con 242.054 archivos rastreados.
+
+Para repetir la comprobación de las 200 filas sobre los datos preparados, este comando compara el resultado individual de cada aviso con el inventario de la rama. El productor vuelve a procesar las 144 secuencias de bytes distintas.
+
+```sh
+python3.12 -B - "$NOTICE_BUNDLE" "$SCANCODE_RELEASE" <<'PYTHON'
+import json
+from pathlib import Path
+import sys
+from superhunter.product_source_audit import license_inventory
+from superhunter.product_review import ROOT
+
+expected = json.loads((ROOT/'superhunter/product_supply/source-inventory.json').read_bytes())
+notices = license_inventory(Path(sys.argv[1]), Path(sys.argv[2]))
+assert len(notices) == 200
+assert all(notices[row['id']] == row['notice_scan'] for row in expected['entries'])
+print('200 avisos cotejados')
+PYTHON
+```
+
+Los modos Git se reproducen con el ejemplo de checkouts de esta página. Para verificar el control de concurrencia se puede ejecutar `python3.12 -B -m unittest superhunter.tests.test_product_download_cache`. El módulo cubre dos preparaciones del mismo digest, descargas simultáneas de digests distintos, recuperación tras interrupciones y rechazos de datos truncados.
 
 ## Mediciones originales del PR 116
 

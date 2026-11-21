@@ -14,9 +14,10 @@ DOMAINS = {'changes': 'product_change_batch', 'evm': 'product_evm_standards_batc
            'supply': 'product_trust_batch', 'source-extracts': 'product_passive_source_batch',
            'android-policy': 'product_attestations_batch', 'state-amounts': 'product_state_formats_batch',
            'remediation': 'product_remediation_batch', 'configuration': 'product_config_batch',
-           'object-format': 'product_formats_batch'}
+           'object-format': 'product_formats_batch', 'slot-format': 'product_slot_formats_batch',
+           'scoring': 'product_evaluation_batch', 'timeline': 'product_timeline_formats'}
 CONTRACT_PATH = 'superhunter/product_supply/component-control-contracts.json'
-CONTRACT_SHA = 'adbd7b433b1d3cad6ee0a64fa71e5187f422dafc9050353c07c66d20187abfea'
+CONTRACT_SHA = '9fe3b7d7b933818078f7956e4e5578c2685167b06655e40cf049b882bac6af1c'
 FIELD = 'component_control_receipt'
 
 
@@ -78,9 +79,9 @@ def reconcile_digest(results, go_report):
 
 def attach(index, checkout, domain, kit):
     if checkout is None:
-        raise EvidenceError('component controls require --source-references with a verified checkout')
+        raise EvidenceError('component controls require --control-source-root or --source-references with a verified checkout')
     wanted = tuple(sorted(DOMAINS)) if domain == 'all' else (domain,)
-    root = checkout/'upstream'
+    root = checkout.resolve(strict=True)/'upstream'
 
     def run(group):
         engine = import_module('.' + DOMAINS[group], __package__)

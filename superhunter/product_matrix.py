@@ -4,7 +4,32 @@ from collections import Counter
 from .product_batches import coverage
 from .product_reasoning import EvidenceError
 from .product_review import sha
-from .safe_io import canonical
+from .safe_io import canonical, read_artifact
+
+
+def published_excerpts():
+    from .product_owned_source_checks import excerpt_files
+    from .product_passive_source_batch import checked_origins
+    from .product_remediation_batch import origins
+    from .product_review import ROOT
+
+    records = [dict((k, row[k]) for k in ('id', 'repository', 'revision', 'tree', 'path', 'blob', 'sha256'))
+               for row in [*checked_origins(), *origins()]]
+    previous = {
+        179: ('superhunter/smartbugs_region.py', '0aae0bcb0d699c0cb65c63c1e436c163b7196f8aec9387a8cc2d136b1daa3684'),
+        191: ('superhunter/product_supply/source-excerpts/token-types.txt',
+              'ab5a4f99a70b5cadb4c139876522567b130320be3843edaaaaa151653eb34826'),
+    }
+    for number, origin, path, _, blob in excerpt_files():
+        local, digest = previous[number]
+        if sha(read_artifact(ROOT, local)) != digest:
+            raise EvidenceError('historical published excerpt differs from its verified bytes')
+        records.append({'id': number, 'repository': origin['repository'], 'revision': origin['commit'],
+                        'tree': origin['tree'], 'path': path, 'blob': blob, 'sha256': digest})
+    records = sorted(records, key=lambda r: r['id'])
+    if len({r['id'] for r in records}) != len(records):
+        raise EvidenceError('duplicate published excerpt')
+    return records
 
 
 def build(index):
@@ -12,6 +37,7 @@ def build(index):
                                index.census_header, index.geth_header, index.source_references, index.score_comparison, index.fork_headers)):
         raise EvidenceError('matrix requires the complete source audit and owned product session')
     result = coverage(index)
+    excerpts = {r['id']: r for r in published_excerpts()}
     rows = []
     notices = 0
     tree_count = 0
@@ -21,9 +47,9 @@ def build(index):
         source = repo['source_inventory']
         if source['evidence'] == 'local_git_tree':
             code = 'complete'
-        elif number in (179, 191) and repo.get('owned_source_receipt'):
-            code = 'excerpt'
-        elif repo.get('component_control_receipt', {}).get('domain') in ('source-extracts','remediation'):
+        elif number in excerpts:
+            if any(source[k] != excerpts[number][k] for k in ('repository', 'revision', 'tree')):
+                raise EvidenceError('published excerpt has a different catalog identity or revision')
             code = 'excerpt'
         else:
             code = 'metadata'
@@ -65,7 +91,7 @@ def build(index):
                      'commercial_review': 'pending'})
     sources = Counter(r['source'] for r in rows)
     pending = Counter(r['source'] for r in rows if r['role'] == 'pending')
-    return {'rows': rows, 'catalog': len(rows), 'sources': dict(sources), 'pending_by_source': dict(pending),
+    return {'rows': rows, 'published_excerpts': list(excerpts.values()), 'catalog': len(rows), 'sources': dict(sources), 'pending_by_source': dict(pending),
             'executable': result['executable_in_either'], 'references': result['reference_data_in_either'],
             'functional': result['with_receipts_in_either'], 'end_to_end': result['session_with_receipts'],
             'pending': result['pending'], 'verified_trees': tree_count, 'notices_reviewed': notices,

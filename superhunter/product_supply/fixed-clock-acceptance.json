@@ -1,0 +1,453 @@
+{
+  "LiteSVM/litesvm": {
+    "input_sha256": "7fdfd8e9d583c854001e5a74b80bdc9b359f551496bfa1a6d6912c1de75d5501",
+    "native_addon_sha256": "99c77610d47b0b04a3c63a8a5760edf04ec6c4e4edb2e87db39a329d204583c5",
+    "operation": "native clock BigInt field conversion and overflow rejection",
+    "protoc_sha256": "9a757b79f98195a1798e6e5e698360b621121de79a87aac0f7cf4a8a3bd5dfa2",
+    "rejected_range_controls": [
+      "negativeSlot",
+      "oversizedSlot",
+      "oversizedTime"
+    ],
+    "results": {
+      "census_header": {
+        "agave_fields_decimal_text": {
+          "unixTimestamp": "1782906587"
+        },
+        "borsh_integer_hex": {
+          "unix_timestamp": "dbfe446a00000000"
+        },
+        "known_fields": [
+          "unix_timestamp"
+        ],
+        "protobuf_hex": "28dbfd93d206",
+        "unknown_fields": [
+          "epoch",
+          "epoch_start_timestamp",
+          "leader_schedule_epoch",
+          "slot"
+        ]
+      },
+      "known_zero": {
+        "agave_fields_decimal_text": {
+          "unixTimestamp": "0"
+        },
+        "borsh_integer_hex": {
+          "unix_timestamp": "0000000000000000"
+        },
+        "known_fields": [
+          "unix_timestamp"
+        ],
+        "protobuf_hex": "",
+        "unknown_fields": [
+          "epoch",
+          "epoch_start_timestamp",
+          "leader_schedule_epoch",
+          "slot"
+        ]
+      },
+      "signed_and_unsafe_js_integer": {
+        "agave_fields_decimal_text": {
+          "slot": "9007199254740993",
+          "unixTimestamp": "-1"
+        },
+        "borsh_integer_hex": {
+          "slot": "0100000000002000",
+          "unix_timestamp": "ffffffffffffffff"
+        },
+        "known_fields": [
+          "slot",
+          "unix_timestamp"
+        ],
+        "protobuf_hex": "08818080808080801028ffffffffffffffffff01",
+        "unknown_fields": [
+          "epoch",
+          "epoch_start_timestamp",
+          "leader_schedule_epoch"
+        ]
+      },
+      "unknown": {
+        "agave_fields_decimal_text": {},
+        "borsh_integer_hex": {},
+        "known_fields": [],
+        "protobuf_hex": "",
+        "unknown_fields": [
+          "epoch",
+          "epoch_start_timestamp",
+          "leader_schedule_epoch",
+          "slot",
+          "unix_timestamp"
+        ]
+      },
+      "upstream_clock_control": {
+        "agave_fields_decimal_text": {
+          "epoch": "100",
+          "epochStartTimestamp": "1",
+          "leaderScheduleEpoch": "3",
+          "slot": "1000",
+          "unixTimestamp": "4"
+        },
+        "borsh_integer_hex": {
+          "epoch": "6400000000000000",
+          "epoch_start_timestamp": "0100000000000000",
+          "leader_schedule_epoch": "0300000000000000",
+          "slot": "e803000000000000",
+          "unix_timestamp": "0400000000000000"
+        },
+        "known_fields": [
+          "epoch",
+          "epoch_start_timestamp",
+          "leader_schedule_epoch",
+          "slot",
+          "unix_timestamp"
+        ],
+        "protobuf_hex": "08e8071001186420032804",
+        "unknown_fields": []
+      }
+    },
+    "revision": "c848c5617d1ae4d3f832fb0ca03e30c611a7ba52",
+    "role": "executable",
+    "source_files": {
+      "crates/node-litesvm/package.json": "fe993118582946edbd2234caa1283dbea0f0435c322030d8ed37e5dd915aab0a",
+      "crates/node-litesvm/src/sysvar/clock.rs": "5c98647e899a17f0b34b30887f5c03a473638a14dae38a97d0051fea2dd380d2",
+      "crates/node-litesvm/tests/sysvar.test.ts": "2f0841b58f2aca1abfeefa50354462b6cf2f78f92fcf562296a7b6230a930d48"
+    }
+  },
+  "anza-xyz/agave": {
+    "input_sha256": "7fdfd8e9d583c854001e5a74b80bdc9b359f551496bfa1a6d6912c1de75d5501",
+    "native_addon_sha256": "99c77610d47b0b04a3c63a8a5760edf04ec6c4e4edb2e87db39a329d204583c5",
+    "operation": "UI clock field names and type mapping with explicit missing-field coverage",
+    "protoc_sha256": "9a757b79f98195a1798e6e5e698360b621121de79a87aac0f7cf4a8a3bd5dfa2",
+    "rejected_range_controls": [
+      "negativeSlot",
+      "oversizedSlot",
+      "oversizedTime"
+    ],
+    "results": {
+      "census_header": {
+        "agave_fields_decimal_text": {
+          "unixTimestamp": "1782906587"
+        },
+        "borsh_integer_hex": {
+          "unix_timestamp": "dbfe446a00000000"
+        },
+        "known_fields": [
+          "unix_timestamp"
+        ],
+        "protobuf_hex": "28dbfd93d206",
+        "unknown_fields": [
+          "epoch",
+          "epoch_start_timestamp",
+          "leader_schedule_epoch",
+          "slot"
+        ]
+      },
+      "known_zero": {
+        "agave_fields_decimal_text": {
+          "unixTimestamp": "0"
+        },
+        "borsh_integer_hex": {
+          "unix_timestamp": "0000000000000000"
+        },
+        "known_fields": [
+          "unix_timestamp"
+        ],
+        "protobuf_hex": "",
+        "unknown_fields": [
+          "epoch",
+          "epoch_start_timestamp",
+          "leader_schedule_epoch",
+          "slot"
+        ]
+      },
+      "signed_and_unsafe_js_integer": {
+        "agave_fields_decimal_text": {
+          "slot": "9007199254740993",
+          "unixTimestamp": "-1"
+        },
+        "borsh_integer_hex": {
+          "slot": "0100000000002000",
+          "unix_timestamp": "ffffffffffffffff"
+        },
+        "known_fields": [
+          "slot",
+          "unix_timestamp"
+        ],
+        "protobuf_hex": "08818080808080801028ffffffffffffffffff01",
+        "unknown_fields": [
+          "epoch",
+          "epoch_start_timestamp",
+          "leader_schedule_epoch"
+        ]
+      },
+      "unknown": {
+        "agave_fields_decimal_text": {},
+        "borsh_integer_hex": {},
+        "known_fields": [],
+        "protobuf_hex": "",
+        "unknown_fields": [
+          "epoch",
+          "epoch_start_timestamp",
+          "leader_schedule_epoch",
+          "slot",
+          "unix_timestamp"
+        ]
+      },
+      "upstream_clock_control": {
+        "agave_fields_decimal_text": {
+          "epoch": "100",
+          "epochStartTimestamp": "1",
+          "leaderScheduleEpoch": "3",
+          "slot": "1000",
+          "unixTimestamp": "4"
+        },
+        "borsh_integer_hex": {
+          "epoch": "6400000000000000",
+          "epoch_start_timestamp": "0100000000000000",
+          "leader_schedule_epoch": "0300000000000000",
+          "slot": "e803000000000000",
+          "unix_timestamp": "0400000000000000"
+        },
+        "known_fields": [
+          "epoch",
+          "epoch_start_timestamp",
+          "leader_schedule_epoch",
+          "slot",
+          "unix_timestamp"
+        ],
+        "protobuf_hex": "08e8071001186420032804",
+        "unknown_fields": []
+      }
+    },
+    "revision": "07289a6692285a1f3bdb4a1121b24f0c5a589298",
+    "role": "reference",
+    "source_files": {
+      "account-decoder/src/parse_sysvar.rs": "fb8ea18cf991f9f0f509a55d432b929b805ab7485ce7422a658893237cdd9c43"
+    }
+  },
+  "anza-xyz/mollusk": {
+    "input_sha256": "7fdfd8e9d583c854001e5a74b80bdc9b359f551496bfa1a6d6912c1de75d5501",
+    "native_addon_sha256": "99c77610d47b0b04a3c63a8a5760edf04ec6c4e4edb2e87db39a329d204583c5",
+    "operation": "proto3 field types and tags consumed by the official protobuf compiler",
+    "protoc_sha256": "9a757b79f98195a1798e6e5e698360b621121de79a87aac0f7cf4a8a3bd5dfa2",
+    "rejected_range_controls": [
+      "negativeSlot",
+      "oversizedSlot",
+      "oversizedTime"
+    ],
+    "results": {
+      "census_header": {
+        "agave_fields_decimal_text": {
+          "unixTimestamp": "1782906587"
+        },
+        "borsh_integer_hex": {
+          "unix_timestamp": "dbfe446a00000000"
+        },
+        "known_fields": [
+          "unix_timestamp"
+        ],
+        "protobuf_hex": "28dbfd93d206",
+        "unknown_fields": [
+          "epoch",
+          "epoch_start_timestamp",
+          "leader_schedule_epoch",
+          "slot"
+        ]
+      },
+      "known_zero": {
+        "agave_fields_decimal_text": {
+          "unixTimestamp": "0"
+        },
+        "borsh_integer_hex": {
+          "unix_timestamp": "0000000000000000"
+        },
+        "known_fields": [
+          "unix_timestamp"
+        ],
+        "protobuf_hex": "",
+        "unknown_fields": [
+          "epoch",
+          "epoch_start_timestamp",
+          "leader_schedule_epoch",
+          "slot"
+        ]
+      },
+      "signed_and_unsafe_js_integer": {
+        "agave_fields_decimal_text": {
+          "slot": "9007199254740993",
+          "unixTimestamp": "-1"
+        },
+        "borsh_integer_hex": {
+          "slot": "0100000000002000",
+          "unix_timestamp": "ffffffffffffffff"
+        },
+        "known_fields": [
+          "slot",
+          "unix_timestamp"
+        ],
+        "protobuf_hex": "08818080808080801028ffffffffffffffffff01",
+        "unknown_fields": [
+          "epoch",
+          "epoch_start_timestamp",
+          "leader_schedule_epoch"
+        ]
+      },
+      "unknown": {
+        "agave_fields_decimal_text": {},
+        "borsh_integer_hex": {},
+        "known_fields": [],
+        "protobuf_hex": "",
+        "unknown_fields": [
+          "epoch",
+          "epoch_start_timestamp",
+          "leader_schedule_epoch",
+          "slot",
+          "unix_timestamp"
+        ]
+      },
+      "upstream_clock_control": {
+        "agave_fields_decimal_text": {
+          "epoch": "100",
+          "epochStartTimestamp": "1",
+          "leaderScheduleEpoch": "3",
+          "slot": "1000",
+          "unixTimestamp": "4"
+        },
+        "borsh_integer_hex": {
+          "epoch": "6400000000000000",
+          "epoch_start_timestamp": "0100000000000000",
+          "leader_schedule_epoch": "0300000000000000",
+          "slot": "e803000000000000",
+          "unix_timestamp": "0400000000000000"
+        },
+        "known_fields": [
+          "epoch",
+          "epoch_start_timestamp",
+          "leader_schedule_epoch",
+          "slot",
+          "unix_timestamp"
+        ],
+        "protobuf_hex": "08e8071001186420032804",
+        "unknown_fields": []
+      }
+    },
+    "revision": "81d1463aabad700c3bb953827215c5dfc81ca61a",
+    "role": "reference",
+    "source_files": {
+      "fuzz/fixture/proto/sysvars.proto": "5729b42c217f356d3051ca3cd7d909d20f8ea8ad215cb189fdb77a07f32947e9"
+    }
+  },
+  "otter-sec/anchor": {
+    "input_sha256": "7fdfd8e9d583c854001e5a74b80bdc9b359f551496bfa1a6d6912c1de75d5501",
+    "native_addon_sha256": "99c77610d47b0b04a3c63a8a5760edf04ec6c4e4edb2e87db39a329d204583c5",
+    "operation": "signed and unsigned 64-bit Borsh numeric encode/decode",
+    "protoc_sha256": "9a757b79f98195a1798e6e5e698360b621121de79a87aac0f7cf4a8a3bd5dfa2",
+    "rejected_range_controls": [
+      "negativeSlot",
+      "oversizedSlot",
+      "oversizedTime"
+    ],
+    "results": {
+      "census_header": {
+        "agave_fields_decimal_text": {
+          "unixTimestamp": "1782906587"
+        },
+        "borsh_integer_hex": {
+          "unix_timestamp": "dbfe446a00000000"
+        },
+        "known_fields": [
+          "unix_timestamp"
+        ],
+        "protobuf_hex": "28dbfd93d206",
+        "unknown_fields": [
+          "epoch",
+          "epoch_start_timestamp",
+          "leader_schedule_epoch",
+          "slot"
+        ]
+      },
+      "known_zero": {
+        "agave_fields_decimal_text": {
+          "unixTimestamp": "0"
+        },
+        "borsh_integer_hex": {
+          "unix_timestamp": "0000000000000000"
+        },
+        "known_fields": [
+          "unix_timestamp"
+        ],
+        "protobuf_hex": "",
+        "unknown_fields": [
+          "epoch",
+          "epoch_start_timestamp",
+          "leader_schedule_epoch",
+          "slot"
+        ]
+      },
+      "signed_and_unsafe_js_integer": {
+        "agave_fields_decimal_text": {
+          "slot": "9007199254740993",
+          "unixTimestamp": "-1"
+        },
+        "borsh_integer_hex": {
+          "slot": "0100000000002000",
+          "unix_timestamp": "ffffffffffffffff"
+        },
+        "known_fields": [
+          "slot",
+          "unix_timestamp"
+        ],
+        "protobuf_hex": "08818080808080801028ffffffffffffffffff01",
+        "unknown_fields": [
+          "epoch",
+          "epoch_start_timestamp",
+          "leader_schedule_epoch"
+        ]
+      },
+      "unknown": {
+        "agave_fields_decimal_text": {},
+        "borsh_integer_hex": {},
+        "known_fields": [],
+        "protobuf_hex": "",
+        "unknown_fields": [
+          "epoch",
+          "epoch_start_timestamp",
+          "leader_schedule_epoch",
+          "slot",
+          "unix_timestamp"
+        ]
+      },
+      "upstream_clock_control": {
+        "agave_fields_decimal_text": {
+          "epoch": "100",
+          "epochStartTimestamp": "1",
+          "leaderScheduleEpoch": "3",
+          "slot": "1000",
+          "unixTimestamp": "4"
+        },
+        "borsh_integer_hex": {
+          "epoch": "6400000000000000",
+          "epoch_start_timestamp": "0100000000000000",
+          "leader_schedule_epoch": "0300000000000000",
+          "slot": "e803000000000000",
+          "unix_timestamp": "0400000000000000"
+        },
+        "known_fields": [
+          "epoch",
+          "epoch_start_timestamp",
+          "leader_schedule_epoch",
+          "slot",
+          "unix_timestamp"
+        ],
+        "protobuf_hex": "08e8071001186420032804",
+        "unknown_fields": []
+      }
+    },
+    "revision": "98846e3bb753a2e5b701d58d2655f76c8f41a01e",
+    "role": "executable",
+    "source_files": {
+      "ts/packages/borsh/src/index.ts": "668715f26167a5dc69dcc20479815ed90aaa768a5c5c56f47b53d6a5574af985",
+      "ts/yarn.lock": "567f7da500bd4db351ccdc2a038439f290ef363c1f0696bfa96ebf22e72ba00d"
+    }
+  }
+}

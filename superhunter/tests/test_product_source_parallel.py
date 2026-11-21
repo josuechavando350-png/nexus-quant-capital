@@ -4,6 +4,7 @@ from io import StringIO
 import json
 import os
 from pathlib import Path
+import shlex
 import subprocess
 import tempfile
 import unittest
@@ -118,9 +119,10 @@ class ParallelSourceTests(unittest.TestCase):
             fixture_git(repo, 'commit', '-qm', 'declare an identity substitution')
             oid = fixture_git(repo, 'rev-parse', 'HEAD:sample').strip()
             path.write_bytes(b'$Id: ' + oid + b' $\n')
-            fixture_git(repo, 'config', 'filter.local-driver.smudge', 'touch executed; cat')
+            marker = repo/'executed'
+            fixture_git(repo, 'config', 'filter.local-driver.smudge', 'touch ' + shlex.quote(str(marker)) + '; cat')
             self.assertTrue(sources.tracked_files_match(repo))
-            self.assertFalse((repo/'executed').exists())
+            self.assertFalse(marker.exists())
             path.write_bytes(b'$Id: ' + b'0' * 40 + b' $\n')
             self.assertFalse(sources.tracked_files_match(repo))
 

@@ -374,6 +374,7 @@ def main(argv):
         parser.add_argument('--bundle', type=Path, required=True)
         if command == 'query-product':
             from .product_component_controls import DOMAINS
+            parser.add_argument('--control-source-root', type=Path, help='checkout root for the selected domain without preparing the extended profile')
             parser.add_argument('--component-controls', choices=['all', *DOMAINS], help='run fixed local checks for the selected domain')
             parser.add_argument('--owned-source-kit', type=Path, help='evaluate fixed owned code and supply declarations')
             parser.add_argument('--fork-headers', action='store_true', help='validate two fixed headers using client schedules and the Hive corpus')
@@ -474,9 +475,12 @@ def main(argv):
             if opts.gosec_kit:
                 from . import product_header_digest
                 product_header_digest.attach(index, opts.source_references, opts.gosec_kit)
+            if opts.control_source_root and not opts.component_controls:
+                raise EvidenceError('--control-source-root requires --component-controls')
             if opts.component_controls:
                 from . import product_component_controls
-                product_component_controls.attach(index, opts.source_references, opts.component_controls, opts.score_kit)
+                product_component_controls.attach(index, opts.control_source_root or opts.source_references,
+                                                  opts.component_controls, opts.score_kit)
             if opts.solidity_metadata_kit:
                 from . import product_solidity_headers
                 product_solidity_headers.attach(index, opts.solidity_metadata_kit)
