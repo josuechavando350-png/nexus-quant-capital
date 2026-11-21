@@ -233,3 +233,20 @@ class LicenseSarifTests(unittest.TestCase):
         run = render(findings({}, [], {}, scan, {'notice.txt': raw}))['runs'][0]
         self.assertEqual(run['artifacts'][0]['contents'], {'binary': '/w=='})
         self.assertEqual(run['results'][0]['ruleId'], 'NQC1003')
+
+
+class ProducerElfTests(unittest.TestCase):
+    def test_independent_header_loader_and_needed_libraries_must_agree(self):
+        from superhunter.product_producer_elf import assess
+        header = b'\x7fELF\x02\x01' + bytes(12) + b'\x3e\x00'
+        lief = {'class': 'ELF64', 'byte_order': 'LSB', 'machine': 'X86_64',
+                'interpreter': '/lib/loader', 'needed': ['liba.so', 'libb.so']}
+        text = ('[Requesting program interpreter: /lib/loader]\n'
+                '(NEEDED) Shared library: [libb.so]\n(NEEDED) Shared library: [liba.so]\n')
+        self.assertEqual(assess(header, lief, text)['needed_shared_libraries'], ['liba.so', 'libb.so'])
+        for h, record, output in [(header[:19], lief, text), (header, dict(lief, machine='ARM'), text),
+                                  (header, lief, text.replace('libb.so', 'liba.so')),
+                                  (header, lief, text.replace('/lib/loader', '/other'))]:
+            with self.assertRaises(ValueError):
+                assess(h, record, output)
+        self.assertIsNone(assess(header, dict(lief, interpreter='', needed=[]), '')['interpreter'])

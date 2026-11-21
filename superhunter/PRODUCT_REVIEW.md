@@ -178,3 +178,17 @@ Añadir las siguientes opciones a la consulta conjunta de ScanCode y cargo-deny,
 ```
 
 La exportación opcional escribe `license-review.sarif`, el informe original de la validación y un resumen reproducible. Consultar `microsoft/sarif-sdk` devuelve los hashes del validador, del esquema y del informe, junto con los recuentos por regla. La ejecución conjunta en los seis perfiles produjo ocho observaciones de Cargo, dos pines sin digest y dos avisos sin coincidencia. El validador no emitió diagnósticos sobre el formato. El SHA-256 de `license-review.sarif` fue `29251a9ca219ef50647eb973f5d985bc26015aa07a38e0349002564b76cf2056`.
+
+## Comprobar los requisitos de ejecución de los productores Linux
+
+La opción `--lief-wheel` lee los encabezados ELF del conjunto de productores nativos de inventario y licencias. Sólo acepta binarios cuyo SHA-256 ya está fijado por NQC. LIEF obtiene la arquitectura, el intérprete y las bibliotecas de `DT_NEEDED`. La CLI coteja esos datos con el encabezado original y con la salida de GNU readelf. La inspección opera sin ejecutar los productores examinados.
+
+Usar CPython 3.12 en Linux x86-64 y la distribución [LIEF 1.0.0](https://pypi.org/project/lief/1.0.0/) para ese sistema, SHA-256 `41ff868f5328fc8e5237a9e1f4718590e0ee9180c1422b3e4948b7116ba4517c`. En `--producer-bin-dir` colocar los ejecutables con los nombres `syft`, `cvc5`, `cdxgen`, `guacone`, `guacgql`, `cargo-deny`, `qdrant` y `tree-sitter`. Se informan por separado los nombres ausentes. También se aprovechan las rutas de cargo-deny, Qdrant y Tree-sitter que ya reciba la misma consulta.
+
+```bash
+python3.12 -m superhunter query-product --bundle "$evidence_dir" \
+  --lief-wheel /ruta/lief-1.0.0-cp312-abi3-manylinux_2_28_x86_64.whl \
+  --producer-bin-dir /ruta/productores lief-project/LIEF tree-sitter/tree-sitter
+```
+
+En los ocho binarios verificados el encabezado indicó Linux x86-64 compatible con ELF64 little-endian. Tree-sitter declaró un intérprete y cuatro bibliotecas dinámicas. Los otros siete carecían de intérprete y de entradas `DT_NEEDED`. El inventario describe las dependencias de carga declaradas en esos archivos. Cada identidad conserva sus propias observaciones de ejecución en la consulta conjunta.

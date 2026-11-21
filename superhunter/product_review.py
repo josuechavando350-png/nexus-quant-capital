@@ -263,6 +263,8 @@ def main(argv):
     else:
         parser.add_argument('--bundle', type=Path, required=True)
         if command == 'query-product':
+            parser.add_argument('--lief-wheel', type=Path, help='inventory loaders and libraries of pinned producers')
+            parser.add_argument('--producer-bin-dir', type=Path, help='directory with registered NQC inventory binaries')
             parser.add_argument('--sarif-sdk', type=Path, help='validate license observations with SARIF Multitool 5.8.0')
             parser.add_argument('--dotnet-runtime', type=Path, help='pinned Linux x64 .NET runtime archive for the validator')
             parser.add_argument('--export-license-sarif', type=Path, help='write the validated SARIF report into a new directory')
@@ -327,6 +329,16 @@ def main(argv):
                 if not all(cargo_args):
                     raise EvidenceError('cargo-deny requires --cargo-deny, --rust-bin and --cargo-home together')
                 index.repos['embarkstudios/cargo-deny']['license_evidence'] = check_cargo(*cargo_args, result)
+            if opts.lief_wheel or opts.producer_bin_dir:
+                from . import product_producer_elf
+                if not opts.lief_wheel:
+                    raise EvidenceError('producer runtime inventory requires --lief-wheel')
+                supplied = {'qdrant': opts.qdrant, 'tree-sitter': opts.tree_sitter, 'cargo-deny': opts.cargo_deny}
+                info = product_producer_elf.build(opts.lief_wheel, opts.producer_bin_dir, supplied)
+                index.repos['lief-project/lief']['runtime_inventory_evidence'] = info
+                for name, binary in info['executables'].items():
+                    repo = index.repos[binary['repository'].casefold()]
+                    repo.setdefault('inspected_producer_binaries', {})[name] = binary
             if opts.sarif_sdk or opts.dotnet_runtime or opts.export_license_sarif:
                 from . import product_license_sarif
                 if not (opts.sarif_sdk and opts.dotnet_runtime and opts.profile_wheels and opts.scancode_release
