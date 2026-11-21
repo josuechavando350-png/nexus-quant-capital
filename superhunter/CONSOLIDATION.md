@@ -10,6 +10,10 @@ El [acta de las dos ejecuciones](product_supply/consolidated-acceptance/acceptan
 
 El [acta de las dos ejecuciones](product_supply/consolidated-acceptance-accounting/acceptance.json) vincula el [productor 27fdac61](https://github.com/josuechavando350-png/nexus-quant-capital/commit/27fdac61b21f607325053fc3681e6e079328e9f1) con los árboles Git, las entradas y las transcripciones. Cada checkout emitió 222 respuestas con la misma huella `ea091d5b93821de6557f4c84a5f7d8c8846245e0d5586f8059d0b60fc8261400`. La comprobación estricta acreditó 129 identidades distintas, 91 con ejecución, 38 con referencias consumidas y 139 operaciones en total. Se conservaron las 106 identidades y 110 operaciones históricas.
 
+## Resultado publicado de 10 grupos
+
+El [acta de las dos ejecuciones](product_supply/consolidated-acceptance-header/acceptance.json) vincula el [productor 325288f3](https://github.com/josuechavando350-png/nexus-quant-capital/commit/325288f32155ff8f7eaead0a493e5fbffe5bebc2) con los árboles Git, las entradas y las transcripciones. Cada checkout emitió 222 respuestas con la misma huella `fcb225051aa101d1c0dea2e6d13c6faf8ded452e3feb5daca1fc2d2c324b8dbb`. La comprobación estricta acreditó 130 identidades distintas, 92 con ejecución, 38 con referencias consumidas y 140 operaciones en total. Se conservaron las 106 identidades y 110 operaciones históricas.
+
 ## Evidencia recuperada en el PR 120
 
 La rama de desarrollo `feat/superhunter-consolidated-product` recuperó el árbol `58e2535c45c195bbf8980c5af01ad0f3fc6de66e` del checkout `1edb169`. Los dos expedientes históricos se pueden recontar sin instalar herramientas externas. [PR 120](https://github.com/josuechavando350-png/nexus-quant-capital/pull/120) · [Matriz de los 200](INTEGRATION_STATUS_200.md)
@@ -66,6 +70,8 @@ python3.12 -B -m superhunter.tools.verify_review_115 --require-consolidated-acco
 ```
 
 El perfil de diez grupos incluye una operación adicional de Ethernaut. Comprueba que el lector y el escritor RLP reproducen los 21 campos y los 649 bytes de un encabezado público archivado y de un segundo vector válido. En el segundo cambia una unidad de `gasUsed`. La interfaz reprodujo los dos recibos en checkouts separados. [Expediente del grupo](product_supply/acceptance-120/canonical-header-replay.json) · [Transcripción](product_supply/acceptance-120/canonical-header-transcript.json)
+
+El undécimo grupo comprueba descriptores gRPC fijos de dos esquemas contables propios. `grpcurl` lee los archivos en disco y sólo usa `list` y `describe`, con reflexión deshabilitada y sin servidor. El verificador de descriptores comprueba el resultado de forma independiente. Los dos ensayos del grupo aislado produjeron las mismas veinte vistas y cuatro rechazos previstos. [Acta de interfaz](product_supply/acceptance-120/grpc-schema-replay.json) · [Transcripción](product_supply/acceptance-120/grpc-schema-transcript.json)
 
 Las 222 respuestas incluyen `component-controls` y `native-capabilities`. Para evaluar la transcripción JSONL completa en un proceso separado:
 
