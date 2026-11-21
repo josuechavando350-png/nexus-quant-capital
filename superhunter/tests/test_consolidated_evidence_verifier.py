@@ -225,7 +225,8 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
         raw = verifier.unpack(archived)
         result = {'commit': 'f' * 40, 'tree': 'a' * 40, 'returncode': 0, 'responses': len(raw.splitlines()),
                   'bytes': len(raw), 'sha256': verifier.sha(raw), 'clean_after': True}
-        inputs = {'checkout_clean_before': True, 'commit': result['commit'], 'tree': result['tree']}
+        inputs = {'checkout_clean_before': True, 'commit': result['commit'], 'tree': result['tree'],
+                  'argv': list(renderer.PORTABLE_ARGV)}
         record = {'id': 'first', 'checkout': 'first/checkout'}
         with TemporaryDirectory() as tmp, patch.object(renderer, 'ROOT', Path(tmp)):
             folder = Path(tmp) / renderer.DOSSIER / 'first'
@@ -300,3 +301,39 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
                 self.assertRaises(EvidenceError):
             renderer.accepted_markdown('accounting')
         check.assert_called_once_with(self.archive, result['sha256'], require_accounting=True)
+
+    def test_resealed_command_with_extra_flag_missing_input_or_alternate_entry_is_rejected(self):
+        argv = list(renderer.PORTABLE_ARGV)
+        module = argv.index('superhunter.tools.catalog_session')
+        options = argv.index('--source-references')
+        candidates = [
+            [*argv, '--net'], argv[:options] + argv[options + 2:],
+            argv[:module] + ['unreviewed.entry'] + argv[module + 1:],
+            argv[:-1] + ['/different/bundle'], [argv[1], argv[0], *argv[2:]],
+        ]
+        with TemporaryDirectory() as tmp, patch.object(renderer, 'ROOT', Path(tmp)):
+            folder = Path(tmp) / renderer.DOSSIER / 'first'
+            folder.mkdir(parents=True)
+            for modified in candidates:
+                data = canonical({'argv': modified})
+                (folder / 'run-inputs.json').write_bytes(data)
+                record = {'id': 'first', 'checkout': 'first/checkout', 'inputs_sha256': verifier.sha(data)}
+                with self.subTest(argv=modified), self.assertRaisesRegex(EvidenceError, 'reviewed portable argv'):
+                    renderer.run_evidence(record, 'first')
+
+    def test_act_requires_exact_recomputed_verdict_and_each_mutation_explanation(self):
+        # This control checks only the act comparator. Native acceptance is verified separately.
+        verified = native_verifier.verify(self.archive)
+        controls = {'changed_receipt': 'receipt differs', 'removed_operation': 'missing operation'}
+        complete = {'independent_verification': verified, 'refuted_mutations': controls}
+        with patch.object(verifier, 'negative_controls', return_value=controls) as recompute:
+            renderer.check_act_verdict(complete, verified, self.archive)
+            recompute.assert_called_once_with(self.archive)
+            for forged_verdict in (None, {**verified, 'session': 200}, {**verified, 'original_vulnerabilities_confirmed': False}):
+                with self.subTest(verdict=forged_verdict), self.assertRaisesRegex(EvidenceError, 'recomputed verdict'):
+                    renderer.check_act_verdict({**complete, 'independent_verification': forged_verdict},
+                                               verified, self.archive)
+            for claims in (None, {'changed_receipt': 'receipt differs'}, {**controls, 'changed_receipt': 'different'},
+                           {**controls, 'invented': 'passed'}):
+                with self.subTest(claims=claims), self.assertRaisesRegex(EvidenceError, 'recomputed controls'):
+                    renderer.check_act_verdict({**complete, 'refuted_mutations': claims}, verified, self.archive)

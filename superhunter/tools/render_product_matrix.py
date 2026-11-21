@@ -12,7 +12,7 @@ from superhunter.product_native_capabilities import CORE_EIGHT
 
 from superhunter.product_reasoning import EvidenceError
 from superhunter.product_review import ROOT, sha
-from superhunter.safe_io import read_artifact, strict_json
+from superhunter.safe_io import canonical, read_artifact, strict_json
 from superhunter.tools import verify_native_session, verify_review_115
 
 MATRIX = ROOT / 'superhunter/INTEGRATION_STATUS_200.md'
@@ -21,6 +21,14 @@ ACCOUNTING_DOSSIER = DOSSIER + '-accounting'
 # A later default native registry must never redefine an archived nine-group acceptance.
 ACCOUNTING_SHA = '4dfec613c3f4ad64084a7487d4f4d5ecadea8f177f1bcc7283637c4a8adcdefa'
 PROFILES = {'core-eight': (DOSSIER, CORE_EIGHT[1]), 'accounting': (ACCOUNTING_DOSSIER, ACCOUNTING_SHA)}
+PORTABLE_ARGV = (
+    'unshare', '--user', '--map-current-user', '--net', 'python3.12', '-B', '-m',
+    'superhunter.tools.catalog_session', '--review-queries', '--native-inputs', '<native-inputs>',
+    '--native-kits', '<native-kits>', '--source-inventory', '--source-references', '<source-references>',
+    '--embedded-root-manifests', '--owned-source-kit', '<owned-source-kit>', '--score-kit', '<score-kit>',
+    '--fork-headers', '--geth-header', '<geth-header>', '--gosec-kit', '<gosec-kit>',
+    '--component-controls', 'all', '<prepared-bundles>',
+)
 ROLE = {'executable': 'Ejecución', 'reference_data': 'Referencia', 'pending': '—'}
 
 
@@ -179,6 +187,8 @@ def run_evidence(record, run_id, profile='core-eight'):
             raise EvidenceError(f'{run_id} dossier digest differs for {filename}')
         return data
     inputs = strict_json(artifact('run-inputs.json', 'inputs_sha256'))
+    if inputs.get('argv') != list(PORTABLE_ARGV):
+        raise EvidenceError('execution dossier differs from the reviewed portable argv')
     result = strict_json(artifact('result.json', 'result_sha256'))
     raw = verify_review_115.unpack(artifact('session.json', 'archive_sha256'))
     if (inputs.get('checkout_clean_before') is not True or result.get('clean_after') is not True
@@ -193,12 +203,6 @@ def run_evidence(record, run_id, profile='core-eight'):
                 'supply/COMPLETE.json', 'supply/asvs-guides.md', 'supply/asvs.csv', 'supply/supply.json', 'supply/supply.link'}
             or not all(digest(d) for d in inputs['prepared_files'].values())):
         raise EvidenceError('missing or invalid original input receipts')
-    argv = inputs.get('argv')
-    if (not isinstance(argv, list) or not all(isinstance(arg, str) for arg in argv)
-            or not {'--net', '--review-queries', '--native-kits', '--native-inputs'}.issubset(argv)
-            or 'superhunter.tools.catalog_session' not in argv or '--component-controls' not in argv
-            or argv[argv.index('--component-controls') + 1:][:1] != ['all']):
-        raise EvidenceError('execution dossier lacks the reviewed offline query profile')
     require_producer(result['commit'], result['tree'], inputs, profile)
     return inputs, result, raw
 
@@ -210,6 +214,14 @@ def selected_profile(profile):
     if profile not in PROFILES:
         raise EvidenceError('unknown acceptance profile')
     return profile
+
+
+def check_act_verdict(act, verified, raw):
+    if canonical(act.get('independent_verification')) != canonical(verified):
+        raise EvidenceError('independent verification in the acceptance act differs from the recomputed verdict')
+    controls = verify_review_115.negative_controls(raw)
+    if canonical(act.get('refuted_mutations')) != canonical(controls):
+        raise EvidenceError('refuted mutations in the acceptance act differ from the recomputed controls')
 
 
 def accepted_markdown(profile='latest'):
@@ -234,6 +246,7 @@ def accepted_markdown(profile='latest'):
     verify_review_115.verify(other, replay['sha256'], **strict_profile)
     if raw != other:
         raise EvidenceError('the full transcripts differ between the two checkout runs')
+    check_act_verdict(act, verified, raw)
     keys = verify_review_115.response_keys(raw)
     rows = strict_json(raw.splitlines()[keys.index('integration-matrix')])['rows']
     producer = {**result, 'profile': profile, 'dossier': dossier,
