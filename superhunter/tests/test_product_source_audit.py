@@ -314,3 +314,10 @@ class ProductCreditTests(unittest.TestCase):
             path.write_text('{"exec":"not-a-path"}')
             with self.assertRaisesRegex(ValueError, 'reviewed input slots'):
                 native_inputs(path)
+
+    def test_review_query_manifest_contains_every_id_once_and_explicit_audits(self):
+        from superhunter.tools.catalog_session import review_queries
+        queries = review_queries()
+        self.assertEqual(len(queries), 218)
+        self.assertEqual(len(set(q.casefold() for q in queries)), 218)
+        self.assertTrue({'integration-matrix', 'recursive-source-trees', 'fork-headers'} <= set(queries[200:]))

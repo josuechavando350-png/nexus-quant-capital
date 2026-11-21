@@ -1,0 +1,173 @@
+{
+  "schema": 1,
+  "product_base": "ae02690627443df08b8eedb9d63a7a30cbda6c0e",
+  "product_pr": 111,
+  "review_pr": 115,
+  "catalog_pr": 110,
+  "counts": {
+    "catalog": 200,
+    "commercial_reviews_completed": 0,
+    "end_to_end": 58,
+    "executable": 47,
+    "functional": 58,
+    "notices_reviewed": 200,
+    "pending": 142,
+    "pending_by_source": {
+      "complete": 97,
+      "metadata": 45
+    },
+    "references": 11,
+    "remote_roots": 47,
+    "sources": {
+      "complete": 153,
+      "excerpt": 2,
+      "metadata": 45
+    },
+    "verified_trees": 200
+  },
+  "normalized_identity_receipt": {
+    "identities": 200,
+    "identity_rows_sha256": "566b40f5f1e94b3ac8d9919ecb07d0bc8bb9dd096b77dd64ff1e2f89ce0aea7e"
+  },
+  "full_checkouts": {
+    "sha256": "6b61e2f4e4b370983a0ef6bee2edeeb84966956384d76d29fd9705bb1c035252",
+    "fsck_passed": 153,
+    "unchanged_vs_pr114": 153
+  },
+  "notice_replay_sha256": "9fe08694ea198e7872cc954a122fc4bdc4675996a5403cb7344822a89a3bfe3f",
+  "recursive_tree_receipt": {
+    "attributes_files": 13,
+    "literal_filter_lfs_lines": 0,
+    "manifest_paths": 211,
+    "nested_gitlinks": 26,
+    "repositories": 47,
+    "rows_sha256": "17ec660ef982f0942aa9cf45cd9057e95757b34b73b261bfef48d1ab722e52cd",
+    "source_blobs_in_metadata_databases": 0,
+    "tracked_blob_paths": 29043,
+    "unique_trees_summed_per_repository": 5534
+  },
+  "root_declarations": {
+    "declarations_by_file": 1311,
+    "projects_with_root_manifest": 29,
+    "proofs_sha256": "a00144788cb867c288e927e95213a99084d1b3f25bdc7604739f515264df6e2a",
+    "remote_roots_verified": 47,
+    "results_sha256": "57bb32779f611d4187d3a2a2e6ac373ec02c7a6e0c385d5c520eaf48ec8fee94",
+    "root_manifest_files": 34,
+    "unparsed_lines": 0
+  },
+  "wheel_dependencies": {
+    "profiles": {
+      "bandit": {
+        "selected": 7,
+        "closure_sha256": "41e45fbfa1125cc4f37c52b3aa5e327f3311ffdc17abc2c3c640857a0f371f29",
+        "locked_outside_default_closure": []
+      },
+      "dspy": {
+        "selected": 26,
+        "closure_sha256": "ff470f2ee237acff852428e5186ac1f6938aa922ed22d87c3c69aa7b5a84ecd0",
+        "locked_outside_default_closure": []
+      },
+      "inspect": {
+        "selected": 80,
+        "closure_sha256": "7e93030a52bd1fb0da84328d5346f5a55b33b8b4cb9906ca537ac3933a3158b9",
+        "locked_outside_default_closure": []
+      }
+    },
+    "negative_control": {
+      "absent_required_distribution": "stevedore",
+      "result": "REJECTED"
+    },
+    "distributions": 90,
+    "notice_files": 122,
+    "explicit_spdx": 45
+  },
+  "case_level_scoring": {
+    "cases": 96,
+    "correct_full": 96,
+    "correct_without_extra_data": 86
+  },
+  "holdout": {
+    "counts": {
+      "cases": 768,
+      "exact_field_matches": 768,
+      "fn": 0,
+      "fp": 0,
+      "tn": 384,
+      "tp": 384
+    },
+    "receipt_sha256": "cda3f55c1e72c527d5dcd2f84c4e3ce2252a3225d45243dfc47a2cc7d93df007",
+    "prediction_wall_seconds": [
+      1.214308,
+      1.349741
+    ],
+    "external_model_calls": 0,
+    "cost_measured": null
+  },
+  "notice_overlap": {
+    "documents": 256,
+    "passages": 817,
+    "locations": 4043,
+    "refutations": [
+      {
+        "locations": [
+          {
+            "end": [
+              14,
+              27
+            ],
+            "file": "cryptography-45.0.7-3.txt",
+            "start": [
+              2,
+              20
+            ],
+            "tokens_sha256": "0afdbf530fbb3bd54154a5e83930e8f025951a2541606fbe096d5f24d14f3947"
+          },
+          {
+            "end": [
+              7,
+              23
+            ],
+            "file": "upstream-078-license.txt",
+            "start": [
+              1,
+              44
+            ],
+            "tokens_sha256": "0afdbf530fbb3bd54154a5e83930e8f025951a2541606fbe096d5f24d14f3947"
+          },
+          {
+            "end": [
+              58,
+              33
+            ],
+            "file": "upstream-133-license.txt",
+            "start": [
+              47,
+              20
+            ],
+            "tokens_sha256": "b9921b29fd5c4250b452de6aaddbd26f3632dfbd345d8d5ed95b0cb84004bc69"
+          }
+        ],
+        "reason": "token_sequence_mismatch",
+        "reported_tokens": 87,
+        "state": "REFUTED"
+      }
+    ]
+  },
+  "historical_baseline_queries": 211,
+  "baseline_transcript_sha256": "729e2e74299c098cef60be43c8342504c4440e6c98fee172b336f6a6af0027c6",
+  "protected_files": 642,
+  "enabled_workflows": 0,
+  "rust_tests_passed": 528,
+  "migration_tests_passed": 9,
+  "source_checkout_pending": 47,
+  "pending_commercial_distribution_reviews": 200,
+  "external_blind_vulnerability_benchmark": null,
+  "confirmed_original_vulnerabilities": 0,
+  "intermediate_failures": [
+    "The negative test for a replaced excerpt initially expected different diagnostic wording.",
+    "A stale Git stat cache triggered a checkout warning. Refreshing the index and rechecking gave the same 153 checkout receipts.",
+    "A combined PMD result was inconsistent across its three token regions and now remains explicitly REFUTED.",
+    "A fixture initially treated a map of valid SHA-256 values as a scalar. The contract now verifies each member.",
+    "A replay with symlinked input files failed the input boundary. The complete replay uses regular files."
+  ]
+}

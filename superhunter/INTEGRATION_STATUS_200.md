@@ -2,7 +2,7 @@
 
 El producto conserva 200 identidades. Hay 153 checkouts completos, 2 extractos verificados y 45 proyectos con alcance documental y de metadatos.
 
-Participación acreditada de 58 proyectos, con 47 de ejecución y 11 referencias. En la sesión completa participaron 28. Quedan 142 sin recibo funcional.
+Participación acreditada de 58 proyectos, con 47 de ejecución y 11 referencias. En la sesión completa participaron 58. Quedan 142 sin recibo funcional.
 
 Se verificaron el commit y el árbol de 200 identidades y se cotejó un aviso por proyecto. Las obligaciones de distribución del producto completo siguen pendientes. La consulta `integration-matrix` conserva la ruta y el hash del aviso, el árbol, los manifiestos y el recibo por fila.
 
@@ -33,11 +33,11 @@ Se verificaron el commit y el árbol de 200 identidades y se cotejó un aviso po
 | 21 | [immunefi-team/forge-poc-templates](https://github.com/immunefi-team/forge-poc-templates/tree/32f4ccd9049e641cc3723b1e091d33b6b0e8ff34) | Corpus o laboratorio | Metadatos | Pendiente | — |
 | 22 | [Fraunhofer-AISEC/cpg](https://github.com/Fraunhofer-AISEC/cpg/tree/8a4bd21ec8591b1bc92ca6174a01ab5159514e09) | Biblioteca o motor | Completa | Pendiente | — |
 | 23 | [meta/Pysa](https://github.com/meta/Pysa/tree/50ba6ccf2612131033662e0a6bc5e8acffc6ff36) | Analizador o verificador | Completa | Pendiente | — |
-| 24 | [tree-sitter/tree-sitter](https://github.com/tree-sitter/tree-sitter/tree/32594ac6e0532a31bcca7fcd043c34ff5e5e007a) | Biblioteca o motor | Completa | Ejecución | — |
-| 25 | [ast-grep/ast-grep](https://github.com/ast-grep/ast-grep/tree/8a92260ad4b65cf4b716518a76b919e6f0d051b8) | Analizador o verificador | Completa | Ejecución | — |
+| 24 | [tree-sitter/tree-sitter](https://github.com/tree-sitter/tree-sitter/tree/32594ac6e0532a31bcca7fcd043c34ff5e5e007a) | Biblioteca o motor | Completa | Ejecución | Sí |
+| 25 | [ast-grep/ast-grep](https://github.com/ast-grep/ast-grep/tree/8a92260ad4b65cf4b716518a76b919e6f0d051b8) | Analizador o verificador | Completa | Ejecución | Sí |
 | 26 | [mitmproxy/mitmproxy](https://github.com/mitmproxy/mitmproxy/tree/c491986978a6280c29977482cb18698d6523a662) | Herramienta ejecutable | Completa | Pendiente | — |
 | 27 | [microsoft/playwright](https://github.com/microsoft/playwright/tree/049226728d2da8054db18b04782a9848b755855e) | Biblioteca o motor | Completa | Pendiente | — |
-| 28 | [proptest-rs/proptest](https://github.com/proptest-rs/proptest/tree/70cf37d46b7d83393b6ed94c611f8c52209f585d) | Biblioteca o motor | Completa | Ejecución | — |
+| 28 | [proptest-rs/proptest](https://github.com/proptest-rs/proptest/tree/70cf37d46b7d83393b6ed94c611f8c52209f585d) | Biblioteca o motor | Completa | Ejecución | Sí |
 | 29 | [microsoft/restler-fuzzer](https://github.com/microsoft/restler-fuzzer/tree/6d984deedbc54aad957fa3da0c7e9e5df23a2aee) | Analizador o verificador | Metadatos | Pendiente | — |
 | 30 | [OWASP/ASVS](https://github.com/OWASP/ASVS/tree/82fb2f41cdb623e0b11e4d9a6b97c4306c1d119c) | Referencia | Completa | Referencia | Sí |
 | 31 | [runtimeverification/evm-semantics](https://github.com/runtimeverification/evm-semantics/tree/fbb2edbb8e84bb05b6ba7a255ce1f44f76051ad1) | Referencia | Completa | Pendiente | — |
@@ -52,10 +52,10 @@ Se verificaron el commit y el árbol de 200 identidades y se cotejó un aviso po
 | 40 | [OpenZeppelin/openzeppelin-upgrades](https://github.com/OpenZeppelin/openzeppelin-upgrades/tree/54bb8bb913c2d52f417d3bcf1ef94e9061b89da8) | Biblioteca o motor | Completa | Pendiente | — |
 | 41 | [cvc5/cvc5](https://github.com/cvc5/cvc5/tree/0782632364f3748b0ccafe2ff3fedcc62917a92c) | Analizador o verificador | Completa | Ejecución | Sí |
 | 42 | [AFLplusplus/AFLplusplus](https://github.com/AFLplusplus/AFLplusplus/tree/d798677805de81b50aa8f45beb0342ae1617b9d8) | Analizador o verificador | Completa | Pendiente | — |
-| 43 | [diffblue/cbmc](https://github.com/diffblue/cbmc/tree/d29720523b363987a3c5ccf6d4255a813fb8fe47) | Analizador o verificador | Completa | Ejecución | — |
-| 44 | [model-checking/kani](https://github.com/model-checking/kani/tree/b62331c9d7c2acc78559f2d2fbfa11b95e4a0fcc) | Analizador o verificador | Completa | Ejecución | — |
-| 45 | [tlaplus/tlaplus](https://github.com/tlaplus/tlaplus/tree/bc1b506bdcad80bb518bf3776a9161c34ff0fc4c) | Analizador o verificador | Completa | Ejecución | — |
-| 46 | [klee/klee](https://github.com/klee/klee/tree/a01dff0132caf705de7678c97af2721a734efdc1) | Analizador o verificador | Completa | Ejecución | — |
+| 43 | [diffblue/cbmc](https://github.com/diffblue/cbmc/tree/d29720523b363987a3c5ccf6d4255a813fb8fe47) | Analizador o verificador | Completa | Ejecución | Sí |
+| 44 | [model-checking/kani](https://github.com/model-checking/kani/tree/b62331c9d7c2acc78559f2d2fbfa11b95e4a0fcc) | Analizador o verificador | Completa | Ejecución | Sí |
+| 45 | [tlaplus/tlaplus](https://github.com/tlaplus/tlaplus/tree/bc1b506bdcad80bb518bf3776a9161c34ff0fc4c) | Analizador o verificador | Completa | Ejecución | Sí |
+| 46 | [klee/klee](https://github.com/klee/klee/tree/a01dff0132caf705de7678c97af2721a734efdc1) | Analizador o verificador | Completa | Ejecución | Sí |
 | 47 | [rr-debugger/rr](https://github.com/rr-debugger/rr/tree/f5017a5cea712d4958ca72edefd92a0401649bee) | Herramienta auxiliar | Completa | Pendiente | — |
 | 48 | [jaegertracing/jaeger](https://github.com/jaegertracing/jaeger/tree/f9046f3dadd6778e0b2995bc6b41fdf35f9381b1) | Herramienta auxiliar | Completa | Pendiente | — |
 | 49 | [OWASP/wstg](https://github.com/OWASP/wstg/tree/97d915fa54f0c21b99094acdc5af677be3dc780f) | Referencia | Completa | Pendiente | — |
@@ -120,7 +120,7 @@ Se verificaron el commit y el árbol de 200 identidades y se cotejó un aviso po
 | 108 | [pmd/pmd](https://github.com/pmd/pmd/tree/d37763dbd32bc1db21bc849037594631089743f3) | Analizador o verificador | Completa | Ejecución | Sí |
 | 109 | [spotbugs/spotbugs](https://github.com/spotbugs/spotbugs/tree/f4544188eb473d60221572fc0d5645325c8b18eb) | Analizador o verificador | Completa | Pendiente | — |
 | 110 | [find-sec-bugs/find-sec-bugs](https://github.com/find-sec-bugs/find-sec-bugs/tree/aa1293a6339a04ddf954670fc550847d1bcd83be) | Analizador o verificador | Completa | Pendiente | — |
-| 111 | [microsoft/sarif-sdk](https://github.com/microsoft/sarif-sdk/tree/724b6a8869142628e2f060115e506f9609a98f73) | Biblioteca o motor | Completa | Ejecución | — |
+| 111 | [microsoft/sarif-sdk](https://github.com/microsoft/sarif-sdk/tree/724b6a8869142628e2f060115e506f9609a98f73) | Biblioteca o motor | Completa | Ejecución | Sí |
 | 112 | [google/honggfuzz](https://github.com/google/honggfuzz/tree/940b958dfeb6f9131fd846cae31fcc0fe996ae98) | Analizador o verificador | Completa | Pendiente | — |
 | 113 | [CodeIntelligenceTesting/jazzer](https://github.com/CodeIntelligenceTesting/jazzer/tree/bdebf95c4de0154f7e6f1666a64d2b951b4a6861) | Analizador o verificador | Completa | Pendiente | — |
 | 114 | [google/atheris](https://github.com/google/atheris/tree/e36da74cf42b5834c4e31d7cabb58d796695d29f) | Biblioteca o motor | Completa | Pendiente | — |
@@ -129,47 +129,47 @@ Se verificaron el commit y el árbol de 200 identidades y se cotejó un aviso po
 | 117 | [google/oss-fuzz](https://github.com/google/oss-fuzz/tree/48099ac8ad840c31d745f6e2a7627195481cb1df) | Herramienta auxiliar | Completa | Pendiente | — |
 | 118 | [trailofbits/polytracker](https://github.com/trailofbits/polytracker/tree/ae7b5f12e608f0c9a896cf1af797e4588c7624f9) | Analizador o verificador | Completa | Pendiente | — |
 | 119 | [google/clusterfuzzlite](https://github.com/google/clusterfuzzlite/tree/52ecc61cb587ee99c26825a112a21abf19c7448c) | Herramienta auxiliar | Completa | Pendiente | — |
-| 120 | [esbmc/esbmc](https://github.com/esbmc/esbmc/tree/3194304fbf4e75b203e0fc422be31059eb096097) | Analizador o verificador | Completa | Ejecución | — |
-| 121 | [seahorn/seahorn](https://github.com/seahorn/seahorn/tree/892780176731ec8e97bbb9f6b172fcacd77a8ff4) | Analizador o verificador | Completa | Ejecución | — |
-| 122 | [dafny-lang/dafny](https://github.com/dafny-lang/dafny/tree/8e67e29912aa81b06a8b8e288c7e3046072ea482) | Analizador o verificador | Completa | Ejecución | — |
-| 123 | [verus-lang/verus](https://github.com/verus-lang/verus/tree/cc615f27c3d3dec80a83324ed333e48f32d8686c) | Analizador o verificador | Completa | Ejecución | — |
-| 124 | [GaloisInc/saw-script](https://github.com/GaloisInc/saw-script/tree/00e03b6050a9c7f3867bdf27ddc60c81c298fe96) | Analizador o verificador | Completa | Ejecución | — |
-| 125 | [rocq-prover/rocq](https://github.com/rocq-prover/rocq/tree/21891774bf0131945f6cf454e56121d6a4fda02e) | Analizador o verificador | Completa | Ejecución | — |
-| 126 | [FStarLang/FStar](https://github.com/FStarLang/FStar/tree/fc1776afe592ed8eef352c6610614a70d77b3b66) | Analizador o verificador | Completa | Ejecución | — |
-| 127 | [verifast/verifast](https://github.com/verifast/verifast/tree/0a83dba42db7ce0b445034ece5298afe980e57dc) | Analizador o verificador | Completa | Ejecución | — |
-| 128 | [AliveToolkit/alive2](https://github.com/AliveToolkit/alive2/tree/3bdd4f5e1cefa47057e93110e707acd11cfe08e4) | Analizador o verificador | Completa | Ejecución | — |
+| 120 | [esbmc/esbmc](https://github.com/esbmc/esbmc/tree/3194304fbf4e75b203e0fc422be31059eb096097) | Analizador o verificador | Completa | Ejecución | Sí |
+| 121 | [seahorn/seahorn](https://github.com/seahorn/seahorn/tree/892780176731ec8e97bbb9f6b172fcacd77a8ff4) | Analizador o verificador | Completa | Ejecución | Sí |
+| 122 | [dafny-lang/dafny](https://github.com/dafny-lang/dafny/tree/8e67e29912aa81b06a8b8e288c7e3046072ea482) | Analizador o verificador | Completa | Ejecución | Sí |
+| 123 | [verus-lang/verus](https://github.com/verus-lang/verus/tree/cc615f27c3d3dec80a83324ed333e48f32d8686c) | Analizador o verificador | Completa | Ejecución | Sí |
+| 124 | [GaloisInc/saw-script](https://github.com/GaloisInc/saw-script/tree/00e03b6050a9c7f3867bdf27ddc60c81c298fe96) | Analizador o verificador | Completa | Ejecución | Sí |
+| 125 | [rocq-prover/rocq](https://github.com/rocq-prover/rocq/tree/21891774bf0131945f6cf454e56121d6a4fda02e) | Analizador o verificador | Completa | Ejecución | Sí |
+| 126 | [FStarLang/FStar](https://github.com/FStarLang/FStar/tree/fc1776afe592ed8eef352c6610614a70d77b3b66) | Analizador o verificador | Completa | Ejecución | Sí |
+| 127 | [verifast/verifast](https://github.com/verifast/verifast/tree/0a83dba42db7ce0b445034ece5298afe980e57dc) | Analizador o verificador | Completa | Ejecución | Sí |
+| 128 | [AliveToolkit/alive2](https://github.com/AliveToolkit/alive2/tree/3bdd4f5e1cefa47057e93110e707acd11cfe08e4) | Analizador o verificador | Completa | Ejecución | Sí |
 | 129 | [radareorg/radare2](https://github.com/radareorg/radare2/tree/3f321aa3aeda3a69fa12b1df9840648c31b4df14) | Analizador o verificador | Completa | Pendiente | — |
 | 130 | [rizinorg/cutter](https://github.com/rizinorg/cutter/tree/d885514bd8092776429a6ed5213b125c17092c77) | Herramienta auxiliar | Completa | Pendiente | — |
-| 131 | [lief-project/LIEF](https://github.com/lief-project/LIEF/tree/2a6fdbc5a3af9b7ac797514ca38b1175c78f3fcf) | Biblioteca o motor | Completa | Ejecución | — |
+| 131 | [lief-project/LIEF](https://github.com/lief-project/LIEF/tree/2a6fdbc5a3af9b7ac797514ca38b1175c78f3fcf) | Biblioteca o motor | Completa | Ejecución | Sí |
 | 132 | [capstone-engine/capstone](https://github.com/capstone-engine/capstone/tree/ccd25ab39eea534afbb70cfb047310c5a9962553) | Biblioteca o motor | Completa | Pendiente | — |
 | 133 | [DynamoRIO/dynamorio](https://github.com/DynamoRIO/dynamorio/tree/0fd459d944cb13056c7f29eba1d593a637bf3b68) | Biblioteca o motor | Completa | Pendiente | — |
-| 134 | [qemu/qemu](https://github.com/qemu/qemu/tree/8f66cb79044c370e3813c56ceb7a75a5ca2d0a0e) | Biblioteca o motor | Completa | Ejecución | — |
-| 135 | [google/osv-scanner](https://github.com/google/osv-scanner/tree/84976ca9f19810864f7de74cefb153919f4e663c) | Analizador o verificador | Completa | Ejecución | — |
+| 134 | [qemu/qemu](https://github.com/qemu/qemu/tree/8f66cb79044c370e3813c56ceb7a75a5ca2d0a0e) | Biblioteca o motor | Completa | Ejecución | Sí |
+| 135 | [google/osv-scanner](https://github.com/google/osv-scanner/tree/84976ca9f19810864f7de74cefb153919f4e663c) | Analizador o verificador | Completa | Ejecución | Sí |
 | 136 | [anchore/syft](https://github.com/anchore/syft/tree/139612f0cc25952bad472ab8ce6a86e4b442da95) | Herramienta auxiliar | Completa | Ejecución | Sí |
 | 137 | [anchore/grype](https://github.com/anchore/grype/tree/8b2987cf575c69fb715ae4d3b15bb470e3e8f83b) | Analizador o verificador | Completa | Pendiente | — |
 | 138 | [dependency-check/DependencyCheck](https://github.com/dependency-check/DependencyCheck/tree/ae861fc07f84e3d0be75c2ed2e46b498bc03bcc1) | Analizador o verificador | Completa | Pendiente | — |
-| 139 | [DependencyTrack/dependency-track](https://github.com/DependencyTrack/dependency-track/tree/f63e6bb18a4e1b6e8cca8539b5caf92ff3d93f5d) | Herramienta auxiliar | Completa | Ejecución | — |
-| 140 | [cdxgen/cdxgen](https://github.com/cdxgen/cdxgen/tree/af131a308eef3cfba3cbdee84127a61d1ff6a1a9) | Herramienta auxiliar | Completa | Ejecución | — |
-| 141 | [ossf/scorecard](https://github.com/ossf/scorecard/tree/b62c617675f5dd81ba2bf89a065040559f92f8d7) | Analizador o verificador | Completa | Ejecución | — |
-| 142 | [guacsec/guac](https://github.com/guacsec/guac/tree/af8abdb5e1a4823f7c2afa1b5fddcbba7fc2e98f) | Herramienta auxiliar | Completa | Ejecución | — |
+| 139 | [DependencyTrack/dependency-track](https://github.com/DependencyTrack/dependency-track/tree/f63e6bb18a4e1b6e8cca8539b5caf92ff3d93f5d) | Herramienta auxiliar | Completa | Ejecución | Sí |
+| 140 | [cdxgen/cdxgen](https://github.com/cdxgen/cdxgen/tree/af131a308eef3cfba3cbdee84127a61d1ff6a1a9) | Herramienta auxiliar | Completa | Ejecución | Sí |
+| 141 | [ossf/scorecard](https://github.com/ossf/scorecard/tree/b62c617675f5dd81ba2bf89a065040559f92f8d7) | Analizador o verificador | Completa | Ejecución | Sí |
+| 142 | [guacsec/guac](https://github.com/guacsec/guac/tree/af8abdb5e1a4823f7c2afa1b5fddcbba7fc2e98f) | Herramienta auxiliar | Completa | Ejecución | Sí |
 | 143 | [in-toto/in-toto](https://github.com/in-toto/in-toto/tree/e352b43ad7cb8915d84c36d791aa61346152a0a3) | Herramienta auxiliar | Completa | Ejecución | Sí |
 | 144 | [ossf/package-analysis](https://github.com/ossf/package-analysis/tree/a149a6f2e1179b8f0c05da6845d8513d360e3b1a) | Analizador o verificador | Completa | Pendiente | — |
 | 145 | [ossf/malicious-packages](https://github.com/ossf/malicious-packages/tree/aaefca1f03b51a4e26db1fad48b172279a2e41a9) | Corpus o laboratorio | Completa | Referencia | Sí |
-| 146 | [rustsec/rustsec](https://github.com/rustsec/rustsec/tree/a57d1d8c7ad3d314a1b6d17243fe3b5c74697739) | Herramienta auxiliar | Completa | Ejecución | — |
-| 147 | [EmbarkStudios/cargo-deny](https://github.com/EmbarkStudios/cargo-deny/tree/6d512893fcfea934e8e69c5df44132a4970c42d0) | Analizador o verificador | Completa | Ejecución | — |
+| 146 | [rustsec/rustsec](https://github.com/rustsec/rustsec/tree/a57d1d8c7ad3d314a1b6d17243fe3b5c74697739) | Herramienta auxiliar | Completa | Ejecución | Sí |
+| 147 | [EmbarkStudios/cargo-deny](https://github.com/EmbarkStudios/cargo-deny/tree/6d512893fcfea934e8e69c5df44132a4970c42d0) | Analizador o verificador | Completa | Ejecución | Sí |
 | 148 | [trufflesecurity/trufflehog](https://github.com/trufflesecurity/trufflehog/tree/4ef51f69ca6347aaa76a5e64a87eac9c0c909f71) | Analizador o verificador | Completa | Pendiente | — |
 | 149 | [betterleaks/betterleaks](https://github.com/betterleaks/betterleaks/tree/4cd7080160031ba1c91fd3a58609f4a63af23de1) | Analizador o verificador | Completa | Pendiente | — |
-| 150 | [aboutcode-org/scancode-toolkit](https://github.com/aboutcode-org/scancode-toolkit/tree/e423b48a1fdbff26219fbeafe7e9bdef293b91fc) | Analizador o verificador | Completa | Ejecución | — |
+| 150 | [aboutcode-org/scancode-toolkit](https://github.com/aboutcode-org/scancode-toolkit/tree/e423b48a1fdbff26219fbeafe7e9bdef293b91fc) | Analizador o verificador | Completa | Ejecución | Sí |
 | 151 | [OpenHands/software-agent-sdk](https://github.com/OpenHands/software-agent-sdk/tree/3a893a1b26de7ec02cc0dd2427906eea6aea3fc7) | Framework de agentes | Completa | Pendiente | — |
 | 152 | [SWE-agent/mini-swe-agent](https://github.com/SWE-agent/mini-swe-agent/tree/04d809ceab9df28f9adaed044884180159172930) | Framework de agentes | Completa | Pendiente | — |
 | 153 | [Aider-AI/aider](https://github.com/Aider-AI/aider/tree/5dc9490bb35f9729ef2c95d00a19ccd30c26339c) | Framework de agentes | Completa | Pendiente | — |
-| 154 | [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph/tree/c6335a4255dc1d8abc25a7677f9c072c7ab27b9c) | Framework de agentes | Completa | Ejecución | — |
+| 154 | [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph/tree/c6335a4255dc1d8abc25a7677f9c072c7ab27b9c) | Framework de agentes | Completa | Ejecución | Sí |
 | 155 | [stanfordnlp/dspy](https://github.com/stanfordnlp/dspy/tree/226d534da38ab8a39e4d6383e01e121dab50da51) | Framework de agentes | Completa | Ejecución | Sí |
 | 156 | [huggingface/smolagents](https://github.com/huggingface/smolagents/tree/99721bdc3b6f502108751a93c5d7f08b1a04ce76) | Framework de agentes | Completa | Pendiente | — |
 | 157 | [deepset-ai/haystack](https://github.com/deepset-ai/haystack/tree/85b8d4e0b8332a60002c3e06972386476fba6b7a) | Framework de agentes | Completa | Ejecución | Sí |
-| 158 | [run-llama/llama_index](https://github.com/run-llama/llama_index/tree/99d7433f6f71888951379ccca9294e272442c832) | Framework de agentes | Completa | Ejecución | — |
+| 158 | [run-llama/llama_index](https://github.com/run-llama/llama_index/tree/99d7433f6f71888951379ccca9294e272442c832) | Framework de agentes | Completa | Ejecución | Sí |
 | 159 | [qdrant/qdrant](https://github.com/qdrant/qdrant/tree/23065a0bf6857c3e5da45f6c8939cc746cc0580e) | Biblioteca o motor | Completa | Ejecución | Sí |
-| 160 | [pgvector/pgvector](https://github.com/pgvector/pgvector/tree/1d56580cda45d20b6b197fbe325fb0f6301e33cd) | Biblioteca o motor | Completa | Ejecución | — |
+| 160 | [pgvector/pgvector](https://github.com/pgvector/pgvector/tree/1d56580cda45d20b6b197fbe325fb0f6301e33cd) | Biblioteca o motor | Completa | Ejecución | Sí |
 | 161 | [vllm-project/vllm](https://github.com/vllm-project/vllm/tree/1bdc437402d6eee29d3ca543c91574f8acc72c8d) | Biblioteca o motor | Completa | Pendiente | — |
 | 162 | [ggml-org/llama.cpp](https://github.com/ggml-org/llama.cpp/tree/e6d624b9a4b95c6b52f5ca384d70b75581f9821a) | Biblioteca o motor | Completa | Pendiente | — |
 | 163 | [sgl-project/sglang](https://github.com/sgl-project/sglang/tree/4ce41378f96da24f12e76eae35dfea5bbf35844a) | Biblioteca o motor | Completa | Pendiente | — |

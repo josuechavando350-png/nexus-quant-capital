@@ -3,6 +3,8 @@ from collections import Counter
 
 from .product_batches import coverage
 from .product_reasoning import EvidenceError
+from .product_review import sha
+from .safe_io import canonical
 
 
 def build(index):
@@ -43,9 +45,17 @@ def build(index):
             nested = recursive['nested_gitlinks']
             manifests = sum(recursive['manifest_counts'].values())
         tree_count += 1
+        key = item['session_receipt']
+        if key in ('supply.link', 'asvs.csv', 'asvs-guides.md'):
+            payload = {k: repo[k] for k in ('supply_role', 'controls') if k in repo}
+        else:
+            payload = repo[key] if key is not None else None
+        previous = item['prior_receipt']
         rows.append({'id': number, 'repository': repo['repository'], 'nature': source['nature'],
                      'commit': source['revision'], 'source': code, 'role': item['observed_role'],
                      'session': item['session_role'], 'receipt': item['session_receipt'] or item['prior_receipt'],
+                     'session_evidence_sha256': sha(canonical(payload)) if payload is not None else None,
+                     'historical_line_sha256': previous['line_sha256'] if previous else None,
                      'tree': source['tree'], 'verification_scope': scope, 'nested_gitlinks': nested,
                      'recognized_manifest_paths': manifests,
                      'license': {'document': source['notice_path'], 'detected_expression': review['detected_expression'],

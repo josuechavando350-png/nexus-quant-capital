@@ -24,10 +24,10 @@ python3.12 -B -m superhunter.tools.catalog_session --source-inventory --source-r
   --geth-header "$work/geth-header" "$work/product" fork-headers root-declarations owned-source-checks score-comparison integration-matrix
 ```
 
-La matriz Markdown se puede regenerar con los mismos argumentos de la sesión. El renderizador abre la sesión, exige los recibos y devuelve un error si un productor falla. La salida de la ejecución se puede cotejar antes de reemplazar la matriz publicada.
+La matriz Markdown publicada corresponde al perfil ampliado de 58 participaciones. El perfil estándar reproduce 28. Para regenerar la versión publicada, preparar también los insumos nativos descritos más abajo. El renderizador abre la sesión, exige los recibos y devuelve un error si un productor falla. La salida de la ejecución se puede cotejar antes de reemplazar la matriz publicada.
 
 ```sh
-python3.12 -B -m superhunter.tools.render_product_matrix --source-inventory --source-references "$root" \
+python3.12 -B -m superhunter.tools.render_product_matrix --native-inputs "$work/native-inputs.json" --source-inventory --source-references "$root" \
   --root-manifests "$work/manifests" --owned-source-kit "$work/owned" --score-kit "$work/owned" --fork-headers \
   --geth-header "$work/geth-header" "$work/product" > "$work/matrix.md"
 cmp "$work/matrix.md" superhunter/INTEGRATION_STATUS_200.md
@@ -66,4 +66,27 @@ En los procesos de DSPy e Inspect AI se aplican límites de CPU, espacio de dire
 ```sh
 unshare --user --map-current-user --net python3.12 -B -m superhunter.tools.replay_review_115 "$root" > "$work/holdout.json"
 cmp "$work/holdout.json" superhunter/product_supply/review-115-holdout.json
+```
+
+## Reproducir la aceptación del PR 115
+
+Con todos los insumos preparados, esta invocación abre un solo índice y entrega primero las 200 identidades y después las 18 consultas transversales, en orden estable.
+
+```sh
+mkdir -p "$work/tmp"
+TMPDIR="$work/tmp" python3.12 -B -m superhunter.tools.catalog_session \
+  --review-queries --native-inputs "$work/native-inputs.json" \
+  --source-inventory --source-references "$root" --root-manifests "$work/manifests" \
+  --owned-source-kit "$work/owned" --score-kit "$work/owned" --fork-headers \
+  --geth-header "$work/geth-header" "$work/product" > "$work/session.jsonl"
+```
+
+En el corpus combinado de 256 avisos, la verificación de PMD aceptó 817 grupos con 4,043 ubicaciones. Refutó un grupo adicional de 87 tokens. Los primeros 81 tokens coincidían y los siguientes divergían. El informe conserva el expediente del grupo rechazado. La clasificación de 768 encabezados generados dio 384 verdaderos positivos, 384 verdaderos negativos y cero errores en esta tarea. Se repitió sin acceso a red y conservó las mismas predicciones. [Datos completos de cada cohorte](product_supply/review-115-holdout.json)
+
+El resolver de pip recibe un directorio temporal con los wheels autorizados y solicita únicamente la distribución raíz de cada entorno. Sin red, el conjunto transitivo predeterminado en CPython 3.12/Linux x86-64 coincide con los 7, 26 y 80 wheels fijados. Cada versión y hash se verifican contra la salida del resolver. Retirar `stevedore` del entorno de prueba hace que Bandit falle por esa dependencia. `assurance-wheel-notices` publica los campos `Requires-Dist` y el cierre observado para cada raíz. Las opciones adicionales de instalación quedan pendientes de evaluación.
+
+El verificador independiente puede cotejar las 218 respuestas, incluidas las identidades, avisos, funciones, totales y hashes de los recibos individuales. Si se dispone del digest publicado de esa ejecución concreta, usar `--expect-sha256 DIGEST` para comprobar también todos sus bytes.
+
+```sh
+python3.12 -B -m superhunter.tools.verify_review_115 "$work/session.jsonl"
 ```

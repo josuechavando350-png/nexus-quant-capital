@@ -14,7 +14,7 @@ from superhunter.product_census_header import EIP_COMMIT, EIP_SHA, LOCK as HEADE
 from superhunter.product_census_header import SPEC_COMMIT, SPEC_SHA, pinned
 from superhunter.product_notice_overlap import DIGEST as PMD_SHA
 from superhunter.product_notice_ranking import ISOLATE, LOCK as HAYSTACK_LOCK, LOCK_SHA as HAYSTACK_SHA
-from superhunter.product_review import ROOT
+from superhunter.product_review import ROOT, repositories
 from superhunter.product_solidity_headers import LOCK as WAKE_LOCK, LOCK_SHA as WAKE_LOCK_SHA, SOLC_SHA, WAKE_SHA
 from superhunter.product_supply_review import ASVS_COMMIT, GUIDES_COMMIT, UPSTREAM, WHEELS
 from superhunter.product_upstream_notices import sources
@@ -110,8 +110,17 @@ def native_inputs(manifest):
     return options
 
 
+def review_queries():
+    return [r['repository'] for r in repositories()] + [
+        'batch:1', 'batch:2', 'upstream-notices', 'solidity-headers', 'notice:redistribution',
+        'notice-overlaps:upstream-002-license.txt', 'census-header', 'integration-coverage', 'geth-census',
+        'source-references', 'source-inventory', 'root-declarations', 'owned-source-checks', 'integration-matrix',
+        'score-comparison', 'assurance-wheel-notices', 'recursive-source-trees', 'fork-headers']
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--review-queries', action='store_true', help='run the 218 published PR 115 queries in order')
     parser.add_argument('--native-inputs', type=Path, help='use the complete reviewed native profile with local paths')
     parser.add_argument('--prepare', action='store_true', help='download fixed public inputs into a new external directory')
     parser.add_argument('--owned-source-kit', type=Path, help='fixed offline code and package reference comparisons')
@@ -124,6 +133,9 @@ def main():
     parser.add_argument('workspace', type=Path)
     parser.add_argument('queries', nargs='*', help='query-product keys; default: lines from stdin')
     args = parser.parse_args()
+    if args.review_queries and args.queries:
+        parser.error('choose the published queries or individual keys')
+    queries = review_queries() if args.review_queries else args.queries
     work = args.workspace.resolve()
     if args.prepare:
         if work.is_relative_to(ROOT) or work.exists():
@@ -150,7 +162,7 @@ def main():
            *(['--root-manifests', args.root_manifests.resolve()] if args.root_manifests else []),
            *(['--source-inventory'] if args.source_inventory else []),
            *(['--source-references', args.source_references.resolve()] if args.source_references else []),
-           *(['--geth-header', args.geth_header.resolve()] if args.geth_header else []), *args.queries]
+           *(['--geth-header', args.geth_header.resolve()] if args.geth_header else []), *queries]
     return subprocess.run(cmd, cwd=ROOT).returncode
 
 

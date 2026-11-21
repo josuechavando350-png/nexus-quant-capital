@@ -1,0 +1,116 @@
+"""Cross-check the 218-response acceptance transcript without executing the product or native producers."""
+import argparse
+from collections import Counter
+from pathlib import Path
+import sys
+
+from superhunter.product_batches import FIXED_SOURCE_RECEIPTS, RECEIPTS
+from superhunter.product_reasoning import EvidenceError
+from superhunter.product_review import ROOT, sha
+from superhunter.product_upstream_notices import sources
+from superhunter.safe_io import canonical, read_artifact, strict_json
+from superhunter.tools.catalog_session import review_queries
+
+
+def observed(row):
+    name = row['repository'].casefold()
+    if name in FIXED_SOURCE_RECEIPTS:
+        role, key, expected = FIXED_SOURCE_RECEIPTS[name]
+        if key in row and row[key] != expected:
+            raise EvidenceError('fixed product result changed')
+    elif name in RECEIPTS:
+        role, key = 'executable', RECEIPTS[name]
+    elif name in ('ethereum/eips', 'ethereum/execution-specs'):
+        role, key = 'reference_data', 'census_header_reference'
+    elif name in ('owasp/asvs', 'owasp/cheatsheetseries', 'in-toto/in-toto'):
+        supply = row.get('supply_role') or {}
+        if supply and (supply.get('role') == 'executable' or row.get('controls')):
+            return supply['role'], supply['artifact']
+        return 'pending', None
+    else:
+        return 'pending', None
+    return (role, key) if row.get(key) else ('pending', None)
+
+
+def verify(raw, expected_hash=None):
+    digest = sha(raw)
+    if expected_hash is not None and digest != expected_hash:
+        raise EvidenceError('transcript digest differs from the acceptance record')
+    keys = review_queries()
+    lines = raw.splitlines()
+    if len(lines) != len(keys):
+        raise EvidenceError('acceptance transcript has missing or extra responses')
+    report = dict(zip(keys, map(strict_json, lines), strict=True))
+    archive = read_artifact(ROOT, 'superhunter/product_supply/coverage-d94b58f.json')
+    if sha(archive) != 'b47f69c24ee583c5e8ef61954439b56818bccf6e3fa35a60bf099381d10bc1bd':
+        raise EvidenceError('historical index changed')
+    history = {doc['catalog_id']: doc for doc in strict_json(archive)['receipts']}
+    matrix = report['integration-matrix']
+    rows = matrix['rows']
+    if len(rows) != 200 or any(row['id'] != n for n, row in enumerate(rows, 1)):
+        raise EvidenceError('incomplete or disordered acceptance matrix')
+    actual_roles, actual_sources, cumulative_roles = Counter(), Counter(), Counter()
+    credits = []
+    for official, summary in zip(sources(), rows, strict=True):
+        name, number = official['repository'], official['id']
+        row = report[name]
+        audited = row['source_inventory']
+        if ((row['repository'], row['catalog_id'], audited['revision'], audited['tree']) !=
+                (name, number, official['revision'], summary['tree']) or
+                (summary['repository'], summary['id'], summary['commit']) != (name, number, official['revision'])):
+            raise EvidenceError('matrix and source revisions disagree')
+        role, receipt = observed(row)
+        previous = history.get(number)
+        cumulative = previous['role'] if previous else role
+        source = ('complete' if audited['contents'] is not None else
+                  'excerpt' if number in (179, 191) and row.get('owned_source_receipt') else 'metadata')
+        if ((source, role, cumulative) != (summary['source'], summary['session'], summary['role']) or
+                summary['historical_line_sha256'] != (previous['line_sha256'] if previous else None)):
+            raise EvidenceError('matrix status differs from the original evidence')
+        actual_sources[source] += 1
+        actual_roles[role] += 1
+        cumulative_roles[cumulative] += 1
+        if summary['source'] == 'complete':
+            if audited['contents'] is None:
+                raise EvidenceError('missing checkout evidence')
+        else:
+            if row['recursive_tree_inventory']['root'] != summary['tree'] or audited['contents'] is not None:
+                raise EvidenceError('missing or inconsistent remote tree evidence')
+        notice = audited.get('resolved_notice_scan') or audited['notice_scan']
+        if summary['license']['effective_text_sha256'] != notice['sha256']:
+            raise EvidenceError('license evidence digest differs')
+        if summary['session'] == 'pending':
+            if summary['session_evidence_sha256'] is not None:
+                raise EvidenceError('pending identity attributed a session result')
+            continue
+        if receipt != summary['receipt']:
+            raise EvidenceError('live receipt points to the wrong producer field')
+        if receipt in ('supply.link', 'asvs.csv', 'asvs-guides.md'):
+            evidence = {k: row[k] for k in ('supply_role', 'controls') if k in row}
+        else:
+            evidence = row[receipt]
+        if sha(canonical(evidence)) != summary['session_evidence_sha256']:
+            raise EvidenceError('session credit differs from its producer bytes')
+        credits.append([number, name, summary['session'], receipt])
+    counts = {'catalog': len(rows), 'sources': dict(actual_sources), 'verified_notices': len(rows),
+              'session': len(credits), 'functional': 200 - cumulative_roles['pending'],
+              'pending': cumulative_roles['pending'], 'executables': actual_roles['executable'],
+              'reference_data': actual_roles['reference_data']}
+    if ((counts['session'], counts['functional'], counts['sources'], counts['pending']) !=
+            (matrix['end_to_end'], matrix['functional'], matrix['sources'], matrix['pending'])):
+        raise EvidenceError('claimed totals differ from independently counted rows')
+    return {'transcript_sha256': digest, 'credits_sha256': sha(canonical(credits)),
+            'responses': len(keys), **counts}
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('transcript', type=Path)
+    parser.add_argument('--expect-sha256', help='trusted digest for a specific, published run')
+    args = parser.parse_args()
+    raw = read_artifact(args.transcript.parent, args.transcript.name)
+    sys.stdout.buffer.write(canonical(verify(raw, args.expect_sha256)))
+
+
+if __name__ == '__main__':
+    main()
