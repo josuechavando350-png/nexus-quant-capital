@@ -46,20 +46,20 @@ EXPECTED = {
 }
 
 
-def capture(source_root, repo):
-    directory, revision, paths = SOURCES[repo]
+def capture(source_root, repo, sources=None, *, binary=False):
+    directory, revision, paths = (SOURCES if sources is None else sources)[repo]
     root = source_root / directory
     entries = git(root, 'ls-tree', '-z', revision, '--', *paths).decode().split('\0')
     result, evidence = {}, {}
     for record in filter(None, entries):
         attrs, name = record.split('\t')
         mode, kind, oid = attrs.split()
-        if (mode, kind) != ('100644', 'blob') or name not in paths:
+        if mode not in ('100644', '100755') or kind != 'blob' or name not in paths:
             raise EvidenceError('unexpected infrastructure source entry')
         raw = read_artifact(source_root, directory + '/' + name)
         if git_object('blob', raw) != oid:
             raise EvidenceError('infrastructure source bytes differ from pinned Git tree')
-        result[name] = raw.decode('utf-8')
+        result[name] = raw if binary else raw.decode('utf-8')
         evidence[name] = {'git_blob': oid, 'sha256': sha(raw)}
     if set(result) != set(paths):
         raise EvidenceError('missing infrastructure source in pinned Git tree')
@@ -132,7 +132,7 @@ def verify(policy, tracer, tracee, signatures, forward, reverse):
         raise EvidenceError('computed argument restrictions differ from declared intent')
 
 
-def review(source_root: Path) -> dict:
+def review_abi(source_root: Path) -> dict:
     policy = rules()
     names = {line['syscall'] for line in policy}
     tracer, tracee, signatures, forward, reverse, receipts = _tables(source_root, names)
@@ -174,3 +174,8 @@ def review(source_root: Path) -> dict:
                                'distinct_syscalls': len(names), 'checked_comparisons': sum(len(row['comparisons']) for row in policy),
                                'negative_controls': controls})
     return receipts
+
+
+def review(source_root: Path) -> dict:
+    from .product_infra_batch_pcap import review_captures
+    return {**review_abi(source_root), **review_captures(source_root)}

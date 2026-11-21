@@ -217,6 +217,7 @@ class ProductIndex:
         self.root_declarations = None
         self.source_inventory = None
         self.source_references = None
+        self.component_controls = None
         self.header_digest = None
         self.geth_header = None
         self.census_header = None
@@ -256,6 +257,10 @@ class ProductIndex:
             if self.citations is None:
                 raise EvidenceError('notice contexts require --notice-review-wheels')
             return self.citations.lookup(key.removeprefix('notice-context:'))
+        if key == 'component-controls':
+            if self.component_controls is None:
+                raise EvidenceError('this query requires --component-controls')
+            return self.component_controls
         if key == 'integration-matrix':
             from .product_matrix import build
             return build(self)
@@ -368,6 +373,8 @@ def main(argv):
     else:
         parser.add_argument('--bundle', type=Path, required=True)
         if command == 'query-product':
+            from .product_component_controls import DOMAINS
+            parser.add_argument('--component-controls', choices=['all', *DOMAINS], help='run fixed local checks for the selected domain')
             parser.add_argument('--owned-source-kit', type=Path, help='evaluate fixed owned code and supply declarations')
             parser.add_argument('--fork-headers', action='store_true', help='validate two fixed headers using client schedules and the Hive corpus')
             parser.add_argument('--gosec-kit', type=Path, help='review the fixed NQC header digest with the verified Go toolchain')
@@ -467,6 +474,9 @@ def main(argv):
             if opts.gosec_kit:
                 from . import product_header_digest
                 product_header_digest.attach(index, opts.source_references, opts.gosec_kit)
+            if opts.component_controls:
+                from . import product_component_controls
+                product_component_controls.attach(index, opts.source_references, opts.component_controls, opts.score_kit)
             if opts.solidity_metadata_kit:
                 from . import product_solidity_headers
                 product_solidity_headers.attach(index, opts.solidity_metadata_kit)

@@ -23,6 +23,8 @@ def build(index):
             code = 'complete'
         elif number in (179, 191) and repo.get('owned_source_receipt'):
             code = 'excerpt'
+        elif repo.get('component_control_receipt', {}).get('domain') in ('source-extracts','remediation'):
+            code = 'excerpt'
         else:
             code = 'metadata'
         if code != 'complete' and repo['root_declarations']['tree'] != source['tree']:

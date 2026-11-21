@@ -16,6 +16,9 @@ from superhunter.tools.catalog_session import review_queries
 
 def observed(row):
     name = row['repository'].casefold()
+    if 'component_control_receipt' in row:
+        from superhunter.product_component_controls import role_for
+        return role_for(row)
     if name in FIXED_SOURCE_RECEIPTS:
         role, key, expected = FIXED_SOURCE_RECEIPTS[name]
         if key in row and row[key] != expected:
@@ -40,8 +43,11 @@ def verify(raw, expected_hash=None):
         raise EvidenceError('transcript digest differs from the acceptance record')
     keys = review_queries()
     lines = raw.splitlines()
-    if len(lines) == len(keys) + 2:
+    extension = len(lines) - len(keys)
+    if extension in (2, 3):
         keys.extend(['portable-source-proof', 'go-header-digest'])
+    if extension in (1, 3):
+        keys.append('component-controls')
     if len(lines) != len(keys):
         raise EvidenceError('acceptance transcript has missing or extra responses')
     report = {}
@@ -73,7 +79,8 @@ def verify(raw, expected_hash=None):
         previous = history.get(number)
         cumulative = previous['role'] if previous else role
         source = ('complete' if audited['contents'] is not None else
-                  'excerpt' if number in (179, 191) and row.get('owned_source_receipt') else 'metadata')
+                  'excerpt' if ((number in (179, 191) and row.get('owned_source_receipt')) or
+                                row.get('component_control_receipt', {}).get('domain') in ('source-extracts','remediation')) else 'metadata')
         if ((source, role, cumulative) != (summary['source'], summary['session'], summary['role']) or
                 summary['historical_line_sha256'] != (previous['line_sha256'] if previous else None)):
             raise EvidenceError('matrix status differs from the original evidence')
@@ -102,6 +109,26 @@ def verify(raw, expected_hash=None):
         if sha(canonical(evidence)) != summary['session_evidence_sha256']:
             raise EvidenceError('session credit differs from its producer bytes')
         credits.append([number, name, summary['session'], receipt])
+    live = {name for name in (r['repository'] for r in rows) if 'component_control_receipt' in report[name]}
+    if 'component-controls' in report:
+        from superhunter.product_component_controls import DOMAINS, contracts, reconcile_digest
+        controls = report['component-controls']
+        names = controls['requested']
+        blocked = set(controls['blocked'])
+        if not names or len(names) != len(set(names)) or set(names) - DOMAINS.keys() or blocked - set(names):
+            raise EvidenceError('component selection or blocked domains differ')
+        expected = {name for name, rule in contracts().items() if rule['domain'] in set(names) - blocked}
+        if set(controls['observations']) != expected or live != expected:
+            raise EvidenceError('component evidence does not cover the selected producers')
+        if controls['digest_corroboration'] != reconcile_digest(controls['observations'], report.get('go-header-digest')):
+            raise EvidenceError('cross-domain source corroboration differs from original observations')
+        for name, observation in controls['observations'].items():
+            claim = report[name]['component_control_receipt']
+            if (observation.get('revision') != claim['revision'] or
+                    sha(canonical(observation)) != claim['result_sha256']):
+                raise EvidenceError('individual component result differs from the shared evidence')
+    elif live:
+        raise EvidenceError('component receipts have no shared evidence')
     if 'portable-source-proof' in report:
         source_report = report['portable-source-proof']
         records = [report[r['repository']]['offline_source_proof'] for r in rows if r['source'] != 'complete']
@@ -148,6 +175,14 @@ def negative_controls(raw):
         ('changed_license', 'integration-matrix', ('rows', 0, 'license', 'effective_text_sha256'), '0'*64,
          'license evidence'),
         ('changed_git_tree', 'integration-matrix', ('rows', 3, 'tree'), '0'*40, 'source revisions')]
+    if len(raw.splitlines()) == len(keys) + 3:
+        keys.extend(['portable-source-proof', 'go-header-digest', 'component-controls'])
+        cases.extend([
+            ('erased_domain_selection', 'component-controls', ('requested',), [], 'component selection'),
+            ('erased_shared_results', 'component-controls', ('observations',), {}, 'component evidence'),
+            ('erased_corroboration', 'component-controls', ('digest_corroboration',), {}, 'cross-domain'),
+            ('changed_group_result', 'component-controls', ('observations','Aider-AI/aider','operation'),
+             'unchecked', 'individual component result')])
     rejected = {}
     for name, key, path, replacement, reason in cases:
         lines = raw.splitlines()
@@ -174,12 +209,19 @@ def main():
     parser.add_argument('transcript', type=Path)
     parser.add_argument('--check-controls', action='store_true', help='run six independent corruptions in memory')
     parser.add_argument('--archive', action='store_true', help='read a published gzip/base64 evidence envelope')
+    parser.add_argument('--require-complete-controls', action='store_true', help='require all defensive domains and zero blocked producers')
     parser.add_argument('--expect-sha256', help='trusted digest for a specific, published run')
     args = parser.parse_args()
     raw = read_artifact(args.transcript.parent, args.transcript.name)
     if args.archive:
         raw = unpack(raw)
     result = verify(raw, args.expect_sha256)
+    if args.require_complete_controls:
+        from superhunter.product_component_controls import DOMAINS
+        session = strict_json(raw.splitlines()[-1])
+        if (set(session.get('requested', [])) != DOMAINS.keys() or session.get('blocked') != {}
+                or not session.get('digest_corroboration')):
+            raise EvidenceError('incomplete defensive control session')
     if args.check_controls:
         result['rejected_controls'] = negative_controls(raw)
     sys.stdout.buffer.write(canonical(result))
