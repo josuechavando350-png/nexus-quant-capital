@@ -2,6 +2,7 @@
 import argparse
 from pathlib import Path
 import random
+import re
 import subprocess
 import sys
 import time
@@ -41,10 +42,12 @@ def cases(seed, base):
     return ({k: block for k, block, _ in values}, {k: label for k, _, label in values})
 
 
-def evaluate(checkout):
+def evaluate(checkout, seed=SEED):
+    if not re.fullmatch(r"[0-9a-f]{64}", seed):
+        raise ValueError("expected a lowercase 256-bit hexadecimal seed")
     pinned(ROOT, 'superhunter/product_source_references.py', CLASSIFIER)
     base = strict_json(pinned(ROOT, FIXTURE, FIXTURE_SHA))['block']
-    inputs, labels = cases(SEED, base)
+    inputs, labels = cases(seed, base)
     start = time.monotonic()
     process = subprocess.run([sys.executable, '-B', '-m', 'superhunter.tools.evaluate_payload_types',
                               '--predict', str(checkout)], input=canonical(inputs), cwd=ROOT,
@@ -61,12 +64,13 @@ def evaluate(checkout):
     return {**counts, 'cases': len(labels), 'exact_field_matches': sum(output[k] == v for k, v in labels.items()),
             'inputs_sha256': sha(canonical(inputs)), 'labels_sha256': sha(canonical(labels)),
             'predictions_sha256': sha(canonical(output)), 'prediction_wall_seconds': round(elapsed, 6),
-            'classifier_sha256': CLASSIFIER, 'seed': SEED}
+            'classifier_sha256': CLASSIFIER, 'seed': seed}
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('checkout', type=Path)
+    parser.add_argument('--seed', default=SEED, help='256-bit seed for the label-withheld evaluation')
     parser.add_argument('--predict', action='store_true')
     args = parser.parse_args()
     if args.predict:
@@ -75,7 +79,7 @@ def main():
         inputs = strict_json(sys.stdin.buffer.read(2_000_001))
         result = {key: invalid_fields(block, fields, 256, 32) for key, block in inputs.items()}
     else:
-        result = evaluate(args.checkout.resolve())
+        result = evaluate(args.checkout.resolve(), args.seed)
     sys.stdout.buffer.write(canonical(result))
 
 

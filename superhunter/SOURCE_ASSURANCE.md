@@ -20,15 +20,15 @@ Usar Linux x86-64 y CPython 3.12. Partir de un checkout con los 153 submódulos,
 python3.12 -B -m superhunter.tools.fetch_root_manifests "$work/manifests"
 python3.12 -B -m superhunter.tools.prepare_owned_source_checks --scorers "$work/owned"
 python3.12 -B -m superhunter.tools.catalog_session --source-inventory --source-references "$root" \
-  --root-manifests "$work/manifests" --owned-source-kit "$work/owned" --score-kit "$work/owned" \
-  --geth-header "$work/geth-header" "$work/product" root-declarations owned-source-checks score-comparison integration-matrix
+  --root-manifests "$work/manifests" --owned-source-kit "$work/owned" --score-kit "$work/owned" --fork-headers \
+  --geth-header "$work/geth-header" "$work/product" fork-headers root-declarations owned-source-checks score-comparison integration-matrix
 ```
 
 La matriz Markdown se puede regenerar con los mismos argumentos de la sesión. El renderizador abre la sesión, exige los recibos y devuelve un error si un productor falla. La salida de la ejecución se puede cotejar antes de reemplazar la matriz publicada.
 
 ```sh
 python3.12 -B -m superhunter.tools.render_product_matrix --source-inventory --source-references "$root" \
-  --root-manifests "$work/manifests" --owned-source-kit "$work/owned" --score-kit "$work/owned" \
+  --root-manifests "$work/manifests" --owned-source-kit "$work/owned" --score-kit "$work/owned" --fork-headers \
   --geth-header "$work/geth-header" "$work/product" > "$work/matrix.md"
 cmp "$work/matrix.md" superhunter/INTEGRATION_STATUS_200.md
 ```
@@ -46,3 +46,9 @@ cmp "$work/replay.json" superhunter/product_supply/remote-tree-inventory.json
 ```
 
 Tras una interrupción, `--resume` conserva las filas adquiridas y reintenta las pendientes. La consulta `recursive-source-trees` devuelve el resumen y cada repositorio conserva su recibo individual. La consulta `assurance-wheel-notices` reconstruye 122 avisos de 90 distribuciones fijadas con SHA-256. Hay 7 wheels de Bandit, 26 de DSPy y 80 de Inspect AI, con dependencias compartidas. De las 90 distribuciones, 45 declaran una expresión SPDX en sus metadatos. La consulta conserva por separado los clasificadores, declaraciones y hashes del texto de cada aviso. El permiso de redistribución para el producto comercial continúa pendiente de revisión.
+
+## Interpretación de encabezados según la red
+
+La consulta `fork-headers` conecta el calendario de Besu para Ethereum mainnet con el encabezado histórico 25,437,474 de NQC. Reth y Besu aportan sus calendarios de Hoodi y el producto contrasta el último segundo anterior a la activación de Prague con el primero en que está vigente. El alcance compara los campos incorporados desde Shanghai hasta Prague.
+
+El caso externo es un bloque fijo del corpus de ethereum/hive para la era Cancun. El lector coteja el encabezado, el payload y el registro de selección de cabeza. Con la forma de encabezado seleccionada, EthereumJS, ethers y viem reproducen el hash de Hive y los 573 bytes de RLP. Se detectan la retirada de `requestsHash` de la muestra Prague, su adición prematura en Cancun y un cambio de `gasUsed`. Estas tres participaciones se acreditan como uso de referencias y datos. La validación usa archivos fijados y funciona sin nodos ni conexiones RPC.

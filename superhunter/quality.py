@@ -1765,7 +1765,8 @@ REQUIRED_TESTS += (
 COMPONENTS['product_review'] = {
     'files': [*PRODUCT_DATA_FILES,
               'product_source_references.py', 'product_source_audit.py', 'product_remote_roots.py',
-              'tools/audit_tree_metadata.py', 'product_assurance_notices.py',
+              'product_fork_headers.py', 'tools/audit_tree_metadata.py', 'product_assurance_notices.py',
+              'tools/replay_review_115.py',
               'product_score_comparison.py', 'product_scores_worker.py',
               'tools/fetch_root_manifests.py', 'tools/prepare_owned_source_checks.py',
               'smartbugs_region.py', 'product_owned_source_checks.py', 'product_matrix.py',

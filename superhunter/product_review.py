@@ -209,6 +209,8 @@ class ProductIndex:
         self.similar_notices = None
         self.license_choices = None
         self.assurance_wheel_notices = None
+        self.fork_headers = None
+        self.recursive_source_trees = None
         self.score_comparison = None
         self.owned_source_checks = None
         self.root_declarations = None
@@ -255,6 +257,10 @@ class ProductIndex:
         if key == 'integration-matrix':
             from .product_matrix import build
             return build(self)
+        if key == 'fork-headers':
+            if self.fork_headers is None:
+                raise EvidenceError('fork header corroboration requires --fork-headers')
+            return self.fork_headers
         if key == 'assurance-wheel-notices':
             if self.assurance_wheel_notices is None:
                 raise EvidenceError('wheel notice inventory requires --score-kit and --owned-source-kit')
@@ -353,6 +359,7 @@ def main(argv):
         parser.add_argument('--bundle', type=Path, required=True)
         if command == 'query-product':
             parser.add_argument('--owned-source-kit', type=Path, help='evaluate fixed owned code and supply declarations')
+            parser.add_argument('--fork-headers', action='store_true', help='validate two fixed headers using client schedules and the Hive corpus')
             parser.add_argument('--score-kit', type=Path, help='offline wheel sets for the two fixed evaluation engines')
             parser.add_argument('--root-manifests', type=Path, help='verify external root trees and declarative package inputs')
             parser.add_argument('--source-inventory', action='store_true', help='join the reviewed 200-row source audit')
@@ -426,6 +433,9 @@ def main(argv):
             if opts.source_references:
                 from . import product_source_references
                 product_source_references.attach(index, opts.source_references, opts.solidity_metadata_kit)
+            if opts.fork_headers:
+                from . import product_fork_headers
+                product_fork_headers.attach(index, opts.source_references, opts.census_header_kit)
             if opts.score_kit:
                 from . import product_score_comparison
                 product_score_comparison.attach(index, opts.source_references, opts.score_kit)

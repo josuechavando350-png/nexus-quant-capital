@@ -55,6 +55,22 @@ def cohorts(repositories):
 # Reviewed outputs for the fixed NQC fixtures. Each producer still has to rerun before
 # a receipt is attached. A name, an arbitrary nonempty adapter or a copied source row is insufficient.
 FIXED_SOURCE_RECEIPTS = {
+    'paradigmxyz/reth': ('reference_data', 'fork_header_reference', {
+        'query': 'fork-headers', 'revision': '53b5db1c3bc841bae679e58a625485d3d44d5b74',
+        'files': {'hoodi': '4b6b5713490ff9adabca742b7864f866dd124203'},
+        'result_sha256': '6ba1e02e5ac1d70ed5a0ae4ee675d5108b4f0650fe9fb673d8fc0cdbc269cbfb'}),
+    'besu-eth/besu': ('reference_data', 'fork_header_reference', {
+        'query': 'fork-headers', 'revision': '10dc5130f7424488cc5730fca1e98565a313714b',
+        'files': {'mainnet': '48278986a699799d6aeca615a4170df6fd991843',
+                  'hoodi': '1433e48c970339ef6011ab33ab822e4ef33efbd5'},
+        'result_sha256': '6ba1e02e5ac1d70ed5a0ae4ee675d5108b4f0650fe9fb673d8fc0cdbc269cbfb'}),
+    'ethereum/hive': ('reference_data', 'fork_header_reference', {
+        'query': 'fork-headers', 'revision': 'befb5c9edf4e1df25351e2a4ebdaca15e3d5d01b',
+        'files': {'genesis': 'd28bb525d1b5cc92e4c65fdbb15ddf371f65c75b',
+                  'headblock': '445cad762489de4a3c99d77e9ffcd70d0c496fa8',
+                  'headnewpayload': '39fce1189642cb3554899f3475283bd89ca01062',
+                  'headfcu': 'f84d9e5a625f30fdbbc2ba430d071a5f1354cc2c'},
+        'result_sha256': '6ba1e02e5ac1d70ed5a0ae4ee675d5108b4f0650fe9fb673d8fc0cdbc269cbfb'}),
     'stanfordnlp/dspy': ('executable', 'score_comparison_receipt', {
         'query': 'score-comparison', 'engine': 'dspy', 'revision': '226d534da38ab8a39e4d6383e01e121dab50da51',
         'case_sha256': 'b3212debe6576bb0e5f3d9b011aab1339f05448f8dd9e33e1b572e10900d0038',

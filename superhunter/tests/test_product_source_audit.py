@@ -246,3 +246,28 @@ class MetadataBoundaryTests(unittest.TestCase):
             z.writestr('sample-1.dist-info/licenses/LICENSE.md', 'Own license example')
         self.assertEqual(wheel_notices(data.getvalue(), 'sample', '1'),
                          (None, {'sample-1.dist-info/licenses/LICENSE.md': b'Own license example'}))
+
+
+class HeaderForkTests(unittest.TestCase):
+    def test_chain_and_monotonic_schedule_must_match(self):
+        from superhunter.product_fork_headers import schedule
+        for config in ({'chainId': 2}, {'chainId': True}, {'chainId': 1, 'cancunTime': 0},
+                       {'chainId': 1, 'shanghaiTime': 10, 'cancunTime': 9}):
+            with self.assertRaises(ValueError):
+                schedule({'config': config}, 1)
+
+    def test_boundary_compares_active_fields_and_refuses_configuration_disagreement(self):
+        from superhunter.product_fork_headers import boundary_agreement, discrepancies
+        times = {'shanghai': 1, 'cancun': 5}
+        self.assertEqual(boundary_agreement(times, times)[-2:],
+                         [{'timestamp': 4, 'active': ['shanghai']}, {'timestamp': 5, 'active': ['shanghai', 'cancun']}])
+        with self.assertRaisesRegex(ValueError, 'disagree'):
+            boundary_agreement(times, {'shanghai': 1, 'cancun': 6})
+        header = {'timestamp': '0x4', 'withdrawalsRoot': 'present', 'blobGasUsed': '0x0'}
+        self.assertEqual(discrepancies(header, times), ['blobGasUsed'])
+
+    def test_fork_receipts_cannot_be_replaced_by_a_git_revision(self):
+        for name in ('paradigmxyz/reth', 'besu-eth/besu', 'ethereum/hive'):
+            self.assertEqual(receipt({'repository': name}), ('pending', None))
+            with self.assertRaisesRegex(ValueError, 'accepted product result'):
+                receipt({'repository': name, 'fork_header_reference': {'revision': 'claimed'}})

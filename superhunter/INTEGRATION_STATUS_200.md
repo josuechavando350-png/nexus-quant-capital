@@ -2,7 +2,7 @@
 
 El producto conserva 200 identidades. Hay 153 checkouts completos, 2 extractos verificados y 45 proyectos con alcance documental y de metadatos.
 
-Participación acreditada de 55 proyectos, con 47 de ejecución y 8 referencias. En la sesión completa participaron 25. Quedan 145 sin recibo funcional.
+Participación acreditada de 58 proyectos, con 47 de ejecución y 11 referencias. En la sesión completa participaron 28. Quedan 142 sin recibo funcional.
 
 [Reproducción de la sesión](SOURCE_ASSURANCE.md) · [Estado histórico del PR 114](https://github.com/josuechavando350-png/nexus-quant-capital/blob/ae02690627443df08b8eedb9d63a7a30cbda6c0e/superhunter/INTEGRATION_STATUS_200.md)
 
@@ -182,9 +182,9 @@ Participación acreditada de 55 proyectos, con 47 de ejecución y 8 referencias.
 | 172 | ethers-io/ethers.js | Biblioteca o motor | Completa | Ejecución | Sí |
 | 173 | wevm/viem | Biblioteca o motor | Completa | Ejecución | Sí |
 | 174 | ethereumjs/ethereumjs-monorepo | Biblioteca o motor | Completa | Ejecución | Sí |
-| 175 | paradigmxyz/reth | Biblioteca o motor | Completa | Pendiente | — |
-| 176 | besu-eth/besu | Biblioteca o motor | Completa | Pendiente | — |
-| 177 | ethereum/hive | Herramienta auxiliar | Completa | Pendiente | — |
+| 175 | paradigmxyz/reth | Biblioteca o motor | Completa | Referencia | Sí |
+| 176 | besu-eth/besu | Biblioteca o motor | Completa | Referencia | Sí |
+| 177 | ethereum/hive | Herramienta auxiliar | Completa | Referencia | Sí |
 | 178 | crytic/crytic-compile | Herramienta auxiliar | Completa | Pendiente | — |
 | 179 | smartbugs/smartbugs | Analizador o verificador | Extracto verificado | Ejecución | Sí |
 | 180 | LiteSVM/litesvm | Biblioteca o motor | Completa | Pendiente | — |

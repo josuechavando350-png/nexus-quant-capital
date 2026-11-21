@@ -4,8 +4,10 @@ import { createBlockHeaderFromRPC } from '@ethereumjs/block';
 import { encodeRlp, keccak256 as ethersHash } from 'ethers';
 import { bytesToHex, keccak256 as viemHash, toRlp } from 'viem';
 
-const { block, fields } = JSON.parse(readFileSync(0, 'utf8'));
-const common = new Common({ chain: Mainnet, hardfork: Hardfork.Prague });
+const { block, fields, fork } = JSON.parse(readFileSync(0, 'utf8'));
+const hardfork = ({ prague: Hardfork.Prague, cancun: Hardfork.Cancun })[fork];
+if (!hardfork) throw new Error('unsupported fixed header fork');
+const common = new Common({ chain: Mainnet, hardfork });
 
 function observe(header) {
   const values = fields.map(([name, kind]) => {
