@@ -1,5 +1,7 @@
 # Capacidades nativas de SUPERHUNTER
 
+La [matriz de los 200](INTEGRATION_STATUS_200.md) identifica la participación de cada proyecto en el producto consolidado. El [registro de consolidación](CONSOLIDATION.md) describe sus perfiles de ejecución y comprobación.
+
 Este documento conserva la evidencia histórica del [PR #119](https://github.com/josuechavando350-png/nexus-quant-capital/pull/119). Los totales de aquella sesión solo corresponden a su transcripción archivada.
 
 El checkpoint reúne las 59 participaciones de los PR 115/117 y once incorporaciones nuevas. Una ejecución sin red produjo 221 respuestas: **70 participaciones, 58 de ejecución y 12 de referencias consumidas**. Hay 200 checkouts directos verificados y 130 identidades pendientes de participación. El verificador independiente rechazó ocho alteraciones del expediente. Los controles no acreditan descubrimiento de vulnerabilidades originales.
