@@ -1752,7 +1752,7 @@ REQUIRED_TESTS += (
 
 
 COMPONENTS['product_review'] = {
-    'files': ['product_notice_ranking.py', 'product_ranking_worker.py', 'product_elf_worker.py', 'product_producer_elf.py', 'product_license_sarif.py', 'product_profile_states.py', 'product_sbom_locations.py', 'product_notice_search.py', 'product_notice_worker.py', 'product_licenses.py', 'product_notices.py', 'product_guac.py', 'product_guac_worker.py', 'product_cdxgen.py', 'product_census_graph.py', 'product_reasoning.py', 'product_review.py', 'product_supply_review.py',
+    'files': ['product_arm_inventory.py', 'product_spdx_groups.py', 'product_rustsec.py', 'product_batches.py', 'product_cargo_hashes.py', 'product_scorecard.py', 'product_notice_similarity.py', 'product_notice_ranking.py', 'product_ranking_worker.py', 'product_elf_worker.py', 'product_producer_elf.py', 'product_license_sarif.py', 'product_profile_states.py', 'product_sbom_locations.py', 'product_notice_search.py', 'product_notice_worker.py', 'product_licenses.py', 'product_notices.py', 'product_guac.py', 'product_guac_worker.py', 'product_cdxgen.py', 'product_census_graph.py', 'product_reasoning.py', 'product_review.py', 'product_supply_review.py',
               'repositories_200.json', 'product_repository_identities.json', 'product_supply/wheels.txt', 'product_supply/haystack-linux-py312.txt'],
     'tests': ['test_product_review.', 'test_product_supply.'],
     'depends': ['portfolio_inventory', 'bundle_recovery', 'owned_capture', 'privacy', 'io']}

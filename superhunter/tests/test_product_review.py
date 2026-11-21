@@ -225,3 +225,79 @@ class ProfileStateTests(unittest.TestCase):
             assess(states - {(1, 2)}, report)
         with self.assertRaises(ValueError):
             assess(states, {**report, 'minimum_python_pin_groups': 1})
+
+
+class BatchInventoryTests(unittest.TestCase):
+    def test_batches_cover_exact_catalog_once_and_preserve_baseline(self):
+        from superhunter.product_batches import BASELINE_IDS, cohorts
+        rows = product.repositories()
+        first, second = cohorts(reversed(rows))
+        self.assertEqual((len(first), len(second)), (100, 100))
+        self.assertEqual(cohorts(rows), (first, second))
+        self.assertEqual({r['catalog_id'] for r in first[:15]}, BASELINE_IDS)
+        self.assertEqual({r['catalog_id'] for r in first + second}, set(range(1, 201)))
+        self.assertTrue({25, 141, 160} <= {r['catalog_id'] for r in first})
+        with self.assertRaises(ValueError):
+            cohorts(rows[:-1] + [rows[0]])
+
+    def test_identity_metadata_cannot_promote_a_repository(self):
+        from superhunter.product_batches import receipt
+        row = {'repository': 'ast-grep/ast-grep', 'github_identity': {'id': 25},
+               'inspected_producer_binaries': {'ast-grep': 'digest'}, 'other_evidence': {'ok': True},
+               'supply_role': {'role': 'executable', 'artifact': 'supply.link'}}
+        self.assertEqual(receipt(row), ('pending', None))
+        self.assertEqual(receipt({'repository': 'OWASP/ASVS', 'supply_role': {'role': 'reference_data'}}),
+                         ('pending', None))
+        self.assertEqual(receipt(dict(row, repository='unlisted/example', registry_checksum_evidence={'ok': True})),
+                         ('pending', None))
+
+    def test_ast_grep_binds_each_checksum_to_its_component_and_byte_range(self):
+        import json
+        from superhunter.product_cargo_hashes import assess
+        h = '1' * 64
+        purl = 'pkg:cargo/example@1'
+        body = json.dumps({'purl': purl, 'bom-ref': purl, 'hashes': [{'alg': 'SHA-256', 'content': h}]})
+        prefix = '{"components":['
+        doc = (prefix + body + ']}').encode()
+        lock = ('[[package]]\nname="example"\nversion="1"\nsource="registry+here"\nchecksum="' + h + '"').encode()
+        match = {'ruleId': 'cargo-checksums', 'file': 'census.cdx.json', 'text': body,
+                 'range': {'byteOffset': {'start': len(prefix), 'end': len(prefix) + len(body)}}}
+        self.assertEqual(assess(doc, lock, [match])[purl]['checksum'], h)
+        for matches in ([], [match, match], [dict(match, file='other.json')], [dict(match, text='{}')]):
+            with self.assertRaises(ValueError):
+                assess(doc, lock, matches)
+        with self.assertRaises(ValueError):
+            assess(doc, lock.replace(h.encode(), b'2' * 64), [match])
+
+    def test_rustsec_requires_all_packages_and_each_parent_to_match(self):
+        from superhunter.product_rustsec import assess
+        graph = {'nodes': [{'name': 'root', 'version': '0.1', 'requires': ['leaf@2']},
+                           {'name': 'leaf', 'version': '2', 'requires': []}]}
+        text = '- root 0.1\n  - leaf 2\n- leaf 2\n'
+        self.assertEqual(assess(text, graph)['terminal_packages'], ['leaf@2'])
+        for bad in (text.replace('  - leaf 2\n', ''), text.replace('- root', '- fork'),
+                    text + '- leaf 2\n', text + '  - root 0.1\n'):
+            with self.assertRaises(ValueError):
+                assess(bad, graph)
+
+    def test_dependency_track_expression_preserves_and_or_and_every_identifier(self):
+        from superhunter.product_spdx_groups import semantics
+        result = semantics('MIT OR (Apache-2.0 AND BSD-3-Clause)', 'MIT Apache-2.0 BSD-3-Clause AND OR')
+        self.assertEqual(result['assignments_checked'], 8)
+        self.assertEqual(result['identifiers'], ['Apache-2.0', 'BSD-3-Clause', 'MIT'])
+        for postfix in ('MIT Apache-2.0 OR BSD-3-Clause AND', 'MIT OR', 'MIT MIT OR'):
+            with self.assertRaises(ValueError):
+                semantics('MIT OR (Apache-2.0 AND BSD-3-Clause)', postfix)
+
+    def test_arm_inventory_checks_package_identity_version_and_source(self):
+        from superhunter.product_arm_inventory import assess
+        from superhunter.product_reasoning import INPUTS
+        location = 'custody/requirements.txt'
+        sbom = canonical({'descriptor': {'name': 'syft', 'version': '1.38.2'}, 'schema': {'version': '16.1.0'},
+                          'artifacts': [{'name': 'attrs', 'version': '26.1.0', 'type': 'python',
+                                         'foundBy': 'python-package-cataloger', 'locations': [{'path': '/' + location}]}]})
+        row = {'name': 'attrs', 'version': '26.1.0', 'source': INPUTS[location]}
+        self.assertEqual(assess(sbom, {'packages': [row]})['observations'], 1)
+        for invalid in (dict(row, source='wrong.txt'), dict(row, version='26.2.0')):
+            with self.assertRaises(ValueError):
+                assess(sbom, {'packages': [invalid]})

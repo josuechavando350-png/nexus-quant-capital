@@ -266,3 +266,20 @@ class NoticeRankingTests(unittest.TestCase):
                       [dict(rows[0], sha256='0' * 64), rows[1]]):
             with self.assertRaises(ValueError):
                 corpus.validate({'patent'}, wrong)
+
+
+class NoticeSimilarityTests(unittest.TestCase):
+    def test_all_unordered_pairs_and_independent_cosines_are_required(self):
+        from superhunter.product_notice_ranking import RankingCorpus
+        from superhunter.product_notice_similarity import compare, weights
+        corpus = RankingCorpus({'a.txt': b'patent', 'b.txt': b'patent', 'c.txt': b'source', 'd.txt': b'!? '})
+        vectors = weights(corpus)
+        pairs = [(0, 1, 1.0), (0, 2, 0.0), (1, 2, 0.0)]
+        result, identical = compare(corpus, vectors, pairs)
+        self.assertEqual(identical, 1)
+        self.assertEqual(result['a.txt']['nearest'][0]['file'], 'b.txt')
+        self.assertTrue(result['a.txt']['nearest'][0]['same_bytes'])
+        self.assertFalse(result['d.txt']['has_terms'])
+        for bad in (pairs[:-1], pairs + [pairs[0]], [(0, 1, .5), *pairs[1:]], [(1, 0, 1), *pairs[1:]]):
+            with self.assertRaises(ValueError):
+                compare(corpus, vectors, bad)

@@ -76,20 +76,27 @@ def copy_tool(name, source, dest):
     copy_release(name, source, dest, TOOLS[name][2])
 
 
+SYFT_SCAN = ('scan', 'dir:inputs', '--override-default-catalogers',
+             'rust-cargo-lock-cataloger,python-package-cataloger', '-q', '-o', 'syft-json')
+
+
+def stage_inputs(work, inputs):
+    for location, raw in inputs.items():
+        dest = work/'inputs'/location
+        dest.parent.mkdir(parents=True)
+        dest.write_bytes(raw)
+
+
 def run_native(inputs, syft, cvc5):
     with tempfile.TemporaryDirectory(prefix='nqc-product-') as temp:
         work = Path(temp)
         for name, source in [('syft', syft), ('cvc5', cvc5)]:
             copy_tool(name, source, work/name)
-        for location, raw in inputs.items():
-            dest = work/'inputs'/location
-            dest.parent.mkdir(parents=True)
-            dest.write_bytes(raw)
+        stage_inputs(work, inputs)
         options = dict(cwd=work, env={'HOME': temp, 'XDG_CONFIG_HOME': temp, 'LC_ALL': 'C',
                                        'SYFT_CHECK_FOR_APP_UPDATE': 'false'},
                        stderr=subprocess.PIPE, stdout=subprocess.PIPE, timeout=30, check=True)
-        args = [work/'syft', 'scan', 'dir:inputs', '--override-default-catalogers',
-                'rust-cargo-lock-cataloger,python-package-cataloger', '-q', '-o', 'syft-json']
+        args = [work/'syft', *SYFT_SCAN]
         sbom = subprocess.run(args, stdin=subprocess.DEVNULL, **options).stdout
         facts = observed_facts(sbom)
         if facts != declared_facts(inputs):
@@ -199,6 +206,7 @@ class ProductIndex:
         self.notices = notices or {}
         self.profile_notices = {}
         self.sbom_locations = {}
+        self.similar_notices = None
         self.repos = {r['repository'].casefold(): r.copy() for r in report['repositories']}
         if supply:
             summary, identities = supply
@@ -223,6 +231,13 @@ class ProductIndex:
 
     def lookup(self, query):
         key = query.strip().casefold()
+        if key in ('batch:1', 'batch:2'):
+            from .product_batches import summary
+            return summary(self, int(key[-1]))
+        if key.startswith('similar:'):
+            if self.similar_notices is None:
+                raise EvidenceError('notice similarity requires --pgvector-packages and verified wheel notices')
+            return self.similar_notices.get(key.removeprefix('similar:').strip())
         if '/' in key:
             row = self.repos.get(key)
             if not row or not row['review_tool']:
@@ -262,6 +277,13 @@ def main(argv):
     else:
         parser.add_argument('--bundle', type=Path, required=True)
         if command == 'query-product':
+            parser.add_argument('--qemu-aarch64', type=Path, help='replay the inventory on ARM64 with QEMU user mode')
+            parser.add_argument('--syft-arm64', type=Path, help='pinned ARM64 Syft inventory executable for QEMU')
+            parser.add_argument('--dependency-track', type=Path, help='parse and group verified SPDX license observations')
+            parser.add_argument('--rustsec-crates', type=Path, help='verify RustSec cargo-lock and compare the local package graph')
+            parser.add_argument('--scorecard', type=Path, help='check the committed NQC license-file inventory')
+            parser.add_argument('--ast-grep', type=Path, help='locate Cargo.lock registry checksums in the Census SBOM')
+            parser.add_argument('--pgvector-packages', type=Path, help='compare verified notices in single-user PostgreSQL')
             parser.add_argument('--lief-wheel', type=Path, help='inventory loaders and libraries of pinned producers')
             parser.add_argument('--producer-bin-dir', type=Path, help='directory with registered NQC inventory binaries')
             parser.add_argument('--sarif-sdk', type=Path, help='validate license observations with SARIF Multitool 5.8.0')
@@ -324,11 +346,40 @@ def main(argv):
                     for notice in package['notices']:
                         notice['detected_expression'] = observations['notices'][notice['file']]['detected_expression']
             cargo_args = (opts.cargo_deny, opts.rust_bin, opts.cargo_home)
-            if any(cargo_args):
+            if opts.cargo_deny or opts.cargo_home or (opts.rust_bin and not opts.rustsec_crates):
                 from .product_licenses import check_cargo
                 if not all(cargo_args):
                     raise EvidenceError('cargo-deny requires --cargo-deny, --rust-bin and --cargo-home together')
                 index.repos['embarkstudios/cargo-deny']['license_evidence'] = check_cargo(*cargo_args, result)
+            if opts.qemu_aarch64 or opts.syft_arm64:
+                from .product_arm_inventory import build as replay_arm
+                if not (opts.qemu_aarch64 and opts.syft_arm64):
+                    raise EvidenceError('ARM inventory requires --qemu-aarch64 and --syft-arm64')
+                index.repos['qemu/qemu']['arm_inventory_evidence'] = replay_arm(opts.qemu_aarch64, opts.syft_arm64, result)
+            if opts.rustsec_crates or opts.ast_grep:
+                lock = read_artifact(ROOT, INPUTS['census/Cargo.lock'])
+                if sha(lock) != result['input_sha256'][INPUTS['census/Cargo.lock']]:
+                    raise EvidenceError('Cargo.lock differs from verified product snapshot')
+            if opts.rustsec_crates:
+                from .product_rustsec import build as verify_rustsec_graph
+                if not opts.rust_bin:
+                    raise EvidenceError('RustSec cargo-lock requires --rust-bin')
+                index.repos['rustsec/rustsec']['lock_graph_evidence'] = verify_rustsec_graph(
+                    opts.rustsec_crates, opts.rust_bin, lock, result['census_graph'])
+            if opts.scorecard:
+                from .product_scorecard import build as score_license
+                index.repos['ossf/scorecard']['license_file_evidence'] = score_license(opts.scorecard, scan_files)
+            if opts.dependency_track:
+                from .product_spdx_groups import build as group_licenses
+                if not (opts.scancode_release and opts.cargo_deny):
+                    raise EvidenceError('Dependency-Track requires ScanCode and cargo-deny observations')
+                cargo = index.repos['embarkstudios/cargo-deny']['license_evidence']
+                index.repos['dependencytrack/dependency-track']['spdx_group_evidence'] = group_licenses(
+                    opts.dependency_track, observations, cargo)
+            if opts.pgvector_packages:
+                from . import product_notice_similarity
+                evidence, index.similar_notices = product_notice_similarity.build(opts.pgvector_packages, scan_files)
+                index.repos['pgvector/pgvector']['notice_similarity_evidence'] = evidence
             if opts.lief_wheel or opts.producer_bin_dir:
                 from . import product_producer_elf
                 if not opts.lief_wheel:
@@ -363,6 +414,12 @@ def main(argv):
                 from .product_cdxgen import verify_with_files as verify_cdxgen
                 evidence, cdx_files = verify_cdxgen(opts.cdxgen_bundle, result)
                 index.repos['cdxgen/cdxgen']['cyclonedx_evidence'] = evidence
+            if opts.ast_grep:
+                from .product_cargo_hashes import build as verify_hashes
+                if not opts.cdxgen_bundle:
+                    raise EvidenceError('ast-grep requires the verified Census CycloneDX bundle')
+                index.repos['ast-grep/ast-grep']['registry_checksum_evidence'] = verify_hashes(
+                    opts.ast_grep, cdx_files['census.cdx.json'], lock)
             if opts.tree_sitter or opts.json_grammar:
                 from . import product_sbom_locations
                 if not (opts.tree_sitter and opts.json_grammar and opts.cdxgen_bundle):

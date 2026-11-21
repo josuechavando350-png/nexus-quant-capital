@@ -209,3 +209,60 @@ python3.12 -m superhunter query-product --bundle "$evidence_dir" --supply "$supp
 ```
 
 Sobre los 56 avisos, ambos índices recuperaron 22 coincidencias para la consulta del ejemplo. Haystack situó primero `coincurve-20.0.0-1.txt`, con una puntuación BM25+ de 5.6626298988. Las palabras desconocidas devuelven una lista vacía. [Documentación de Haystack](https://docs.haystack.deepset.ai/docs/inmemorybm25retriever).
+
+## Encontrar avisos con texto parecido con pgvector
+
+`similar:<archivo>` devuelve los cinco vecinos más próximos de un aviso verificado, con su similitud coseno y una indicación separada de igualdad exacta de SHA-256. pgvector compara vectores de frecuencias de términos ponderadas por TF-IDF. NQC comprueba cada par contra el producto escalar de los vectores calculados desde los avisos originales. La semejanza del texto sirve para localizar documentos que merece la pena comparar.
+
+Preparar los dos paquetes binarios Debian 13 para x86-64 con sus nombres originales en una carpeta. [PostgreSQL 17.12](https://deb.debian.org/debian/pool/main/p/postgresql-17/postgresql-17_17.12-0+deb13u1_amd64.deb) y [pgvector 0.8.0](https://deb.debian.org/debian/pool/main/p/pgvector/postgresql-17-pgvector_0.8.0-1_amd64.deb). Se verificaron contra el índice firmado de Debian. La CLI comprueba sus SHA-256 y extrae los archivos sin instalarlos en el sistema. `initdb` y PostgreSQL funcionan con el usuario local sin privilegios, dentro de una red privada. El modo monousuario recibe el SQL por la entrada estándar y termina al completar el cálculo.
+
+```bash
+python3.12 -m superhunter query-product --bundle "$evidence_dir" --supply "$supply_work/supply" \
+  --notice-wheels /ruta/wheels --profile-wheels /ruta/wheels-perfiles \
+  --pgvector-packages /ruta/deb pgvector/pgvector similar:coincurve-20.0.0-1.txt
+```
+
+La revisión de 56 avisos comparó los 1,540 pares posibles. En 31 pares coincidían todos los bytes. El vecino más próximo de `coincurve-20.0.0-1.txt` fue `ckzg-2.1.8-1.txt`, con similitud 0.96771840 y hashes distintos.
+
+## Consultar el avance por lotes
+
+Las claves `batch:1` y `batch:2` dividen el catálogo fijado del PR 110 en dos grupos disjuntos de 100. El primer grupo conserva las 15 identidades acreditadas en `fa5e498d9c7d7ad3d8b685c6c2f127247899ac3c`. Las 185 restantes se ordenan por categoría (SUPPLY, CODIGO, FORMAL, OBSERVACION, METODO, BINARIOS, AGENTES, resto) y después por ID original. Las primeras 85 completan el primer grupo. La pertenencia a un grupo se mantiene aunque cambien sus resultados.
+
+Cada fila indica el repositorio, su ID original, su función y la evidencia que se cargó en esa sesión. `with_evidence` incluye `executable` y `reference_data`. `pending` cuenta las identidades que carecen de evidencia funcional en esa ejecución. Al omitir un productor opcional, su resultado queda pendiente en esa consulta.
+
+### Checksums Rust con ast-grep
+
+Extraer `ast-grep` de la distribución oficial Linux x86-64 GNU 0.51.3. El SHA-256 del ZIP es `22803eb0c5bf83164fb7fd76d4721d355ecf0c8466ef47342c1ec7d80897ca47`. La CLI valida el binario y ejecuta una regla JSON fija sobre el CycloneDX de Census. Contrasta la identidad, el checksum y el intervalo de bytes de cada componente del registro con el SBOM y el Cargo.lock de NQC. [Distribución de ast-grep](https://github.com/ast-grep/ast-grep/releases/tag/0.51.3)
+
+### Archivo de licencia del repositorio con Scorecard
+
+Extraer `scorecard` del archivo oficial Linux amd64 de OpenSSF Scorecard v5.7.0 (SHA-256 del archivo comprimido `3b08ec0a8681806c3e744ec9210742a502c7d66f06f25523b70f7128738235d3`). NQC reconstruye los archivos del commit local en una carpeta privada, comprueba sus blobs y ejecuta exclusivamente el control `License`. Evalúa también un directorio de control con un aviso público real bajo el nombre `LICENSE`. La salida identifica por separado el commit, el resultado del repositorio y el control positivo. La puntuación expresa si Scorecard detectó el archivo y reconoció su licencia. [Distribución de Scorecard](https://github.com/ossf/scorecard/releases/tag/v5.7.0)
+
+```sh
+python3 -B -m superhunter query-product --bundle /ruta/product --supply /ruta/supply \
+  --notice-wheels /ruta/wheels --cdxgen-bundle /ruta/cdx \
+  --ast-grep /ruta/ast-grep --scorecard /ruta/scorecard \
+  ast-grep/ast-grep ossf/scorecard batch:1 batch:2
+```
+
+### Grafo de Cargo con RustSec
+
+`--rustsec-crates /ruta/crates --rust-bin /ruta/rust/bin` agrega el grafo que obtiene el ejecutable oficial `cargo-lock` del proyecto RustSec. Preparar en la primera carpeta `cargo-lock-11.1.0.crate` y los 66 archivos `<nombre>-<versión>.crate` del registro fijados por el Cargo.lock que trae ese paquete. Su SHA-256 es `50524592e6bfbb1bf6f94e8184a786f637faeaf1cf37bbe65502b9a2c5c48939`. El directorio de herramientas corresponde a Rust 1.98.1 para Linux x86-64. [Paquete publicado](https://static.crates.io/crates/cargo-lock/cargo-lock-11.1.0.crate) · [Fuente en RustSec](https://github.com/RustSec/rustsec/tree/86193f5e6d7f98a9f3d30b2c99390d9ba7c88589/cargo-lock)
+
+NQC verifica el SHA-256 de cada archivo y compila la CLI con `cargo build --frozen` en una carpeta temporal sin red. Ejecuta `cargo-lock list --dependencies` sobre el lockfile verificado de Census y contrasta los paquetes y las aristas dirigidas con el grafo de producto. La fila `rustsec/rustsec` identifica el grafo, sus paquetes terminales, la versión del compilador y las entradas verificadas.
+
+### Límite observado para strace
+
+En la ejecución sin red del 21 de noviembre, el binario de Debian 13 `strace` 6.13 (SHA-256 `69f88291a4e47f258b8e32b089c919a247509f063ef3d6afe5389939051102b3`) recibió `PTRACE_TRACEME: Operation not permitted` al intentar observar un proceso hijo que leía el Cargo.lock de NQC. Su fila queda pendiente en el recuento.
+
+### Expresiones SPDX con Dependency-Track
+
+`--dependency-track /ruta/dependency-track-apiserver.jar` usa las clases del analizador SPDX y los grupos de licencias distribuidos en Dependency-Track 4.14.7. Requiere Java 21, ScanCode sobre los avisos verificados y cargo-deny sobre el workspace. NQC comprueba el SHA-256 del archivo y ejecuta exclusivamente el analizador en un proceso local sin red. Conserva la procedencia de cada expresión, incluidas las ausencias. Para los operadores AND y OR contrasta todas las combinaciones de valores de sus identificadores con un segundo evaluador. Los grupos provienen de la configuración del proveedor. [Distribución de Dependency-Track](https://github.com/DependencyTrack/dependency-track/releases/tag/4.14.7)
+
+La verificación del navegador Chromium con Playwright 1.62.0 también quedó pendiente en este entorno. El navegador finalizó durante el arranque al recibir `socket() failed: Operation not permitted`. No produjo una comprobación funcional del inventario.
+
+### Paridad de inventario entre x86-64 y ARM64
+
+`--qemu-aarch64 /ruta/qemu-aarch64 --syft-arm64 /ruta/syft` repite en QEMU el inventario de los siete manifiestos de NQC usando el ejecutable oficial de Syft 1.38.2 para ARM64. NQC valida los dos binarios y coteja cada nombre, versión y archivo de origen con el expediente nativo x86-64. Los argumentos del catálogo son los mismos para ambas arquitecturas. La fila `qemu/qemu` contiene el SHA-256 de las observaciones normalizadas y los recuentos por archivo.
+
+Extraer `usr/bin/qemu-aarch64` del paquete Debian 13 `qemu-user_10.0.13+ds-0+deb13u1_amd64.deb` (SHA-256 `ca6ede739327a20ae5a3498230c8a3a9a072c586e131bc6bcc1201eb1725e336`) y `syft` de `syft_1.38.2_linux_arm64.tar.gz` (SHA-256 `ccd95833d4124f0e30925033908934978086727af69585f015f28a4f355fda1b`). [Paquete QEMU](https://deb.debian.org/debian/pool/main/q/qemu/qemu-user_10.0.13+ds-0+deb13u1_amd64.deb) · [Distribución ARM64 de Syft](https://github.com/anchore/syft/releases/tag/v1.38.2)
