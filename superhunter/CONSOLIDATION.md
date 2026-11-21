@@ -40,11 +40,19 @@ Se utiliza la misma entrada de producto y un solo índice de 200 identidades. Un
 
 Para preparar entradas temporales del inventario ARM64, escoger un directorio de trabajo fuera de los montajes que la versión fijada de Syft omite. En este host, el directorio de datos del workspace y un directorio ordinario de tmpfs produjeron las 75 observaciones de siete archivos; bajo `/dev/shm` el mismo binario informó cero. El producto rechazó ese resultado. [Control sobre los dos sistemas de archivos](product_supply/acceptance-120/arm-inventory-storage.json) · [Selección de rutas de Syft](https://github.com/anchore/syft/blob/139612f0cc25952bad472ab8ce6a86e4b442da95/syft/internal/fileresolver/path_skipper.go)
 
-Preparar los [insumos históricos](OFFLINE_SOURCE_AND_GO.md), los [dominios de controles](DEFENSIVE_COMPONENTS.md), el [perfil de ocho grupos nativos](product_supply/native-kits-example.json) y el [códec de expedientes](EVIDENCE_CODEC.md). Los grupos java y upgrades requieren los kits descritos en sus [recibos Java](product_supply/java-native-receipt.json) y [de contratos](product_supply/upgrades-native-receipt.json). A la invocación de aceptación de 220 respuestas del PR 117, agregar estas opciones, antes del directorio preparado:
+Preparar los [insumos históricos](OFFLINE_SOURCE_AND_GO.md), los [dominios de controles](DEFENSIVE_COMPONENTS.md), el [perfil de ocho grupos nativos](product_supply/native-kits-example.json) y el [códec de expedientes](EVIDENCE_CODEC.md). Los grupos java y upgrades requieren los kits descritos en sus [recibos Java](product_supply/java-native-receipt.json) y [de contratos](product_supply/upgrades-native-receipt.json). La entrada de producto para los tres perfiles es la misma. Antes de ejecutarla hay que preparar los kits enlazados y asignar las rutas absolutas a las variables. `NATIVE_INPUTS` es el manifiesto de los 25 insumos del runtime. `NATIVE_KITS` es el manifiesto de directorios de los grupos seleccionados. `SOURCE_CHECKOUTS` contiene los checkouts directos, `OWNED_SOURCE_KIT` y `SCORE_KIT` los artefactos revisados, `GETH_HEADER` y `GOSEC_KIT` los controles históricos, y `PREPARED` los directorios `product/` y `supply/`. El [acta de las rutas y huellas del perfil contable](product_supply/consolidated-acceptance-accounting/first/run-inputs.json) registra los argumentos en su orden real.
 
 ```sh
---component-controls all --native-kits "$NATIVE_KITS"
+unshare --user --map-current-user --net python3.12 -B -m superhunter.tools.catalog_session \
+    --review-queries --native-inputs "$NATIVE_INPUTS" --native-kits "$NATIVE_KITS" \
+    --source-inventory --source-references "$SOURCE_CHECKOUTS" --embedded-root-manifests \
+    --owned-source-kit "$OWNED_SOURCE_KIT" --score-kit "$SCORE_KIT" --fork-headers \
+    --geth-header "$GETH_HEADER" --gosec-kit "$GOSEC_KIT" \
+    --component-controls all "$PREPARED" > session.jsonl
 ```
+
+Para el perfil de diez, el manifiesto incluye los ocho directorios del ejemplo más las claves `properties` y `canonical_header`. Las recetas están en [los controles contables](product_supply/contract-properties-native-build.json) y [el lector de encabezados](NATIVE_CAPABILITIES.md).
+
 
 El perfil opcional de nueve grupos añade diez comprobaciones contables sobre tokens de prueba fijos. Seis comprueban saldo y oferta con reglas de Crytic y cuatro comprueban comisiones y transferencias con las simulaciones de Immunefi. En la misma invocación, añadir `--properties-native-kit "$NATIVE_KIT_ROOT/properties"`, o añadir `"properties": "../native-kits/properties"` al manifiesto de los ocho kits. Las rutas del manifiesto se resuelven desde su propio directorio. La [receta del kit contable](product_supply/contract-properties-native-build.json) enumera compiladores, fuentes, revisiones, hashes y rutas.
 
