@@ -321,3 +321,24 @@ class ProductCreditTests(unittest.TestCase):
         self.assertEqual(len(queries), 218)
         self.assertEqual(len(set(q.casefold() for q in queries)), 218)
         self.assertTrue({'integration-matrix', 'recursive-source-trees', 'fork-headers'} <= set(queries[200:]))
+
+    def test_transcript_archive_rejects_another_hash_size_or_trailing_stream(self):
+        import base64
+        import gzip
+        from superhunter.tools.verify_review_115 import unpack
+        original = b'own short offline test\n'
+        zipped = gzip.compress(original, mtime=0)
+        record = {'format': 'gzip-base64-jsonl-v1', 'raw_size': len(original),
+                  'raw_sha256': hashlib.sha256(original).hexdigest(), 'gzip_base64': base64.b64encode(zipped).decode()}
+        self.assertEqual(unpack(canonical(record)), original)
+        for altered in ({'raw_size': 1}, {'raw_sha256': '1'*64},
+                        {'gzip_base64': base64.b64encode(zipped + zipped).decode()}):
+            with self.assertRaisesRegex(ValueError, 'archive content'):
+                unpack(canonical({**record, **altered}))
+
+    def test_truncated_and_untrusted_transcript_fail_before_receiving_credit(self):
+        from superhunter.tools.verify_review_115 import verify
+        with self.assertRaisesRegex(ValueError, 'missing or extra'):
+            verify(b'{}\n')
+        with self.assertRaisesRegex(ValueError, 'digest differs'):
+            verify(b'{}\n', '0'*64)

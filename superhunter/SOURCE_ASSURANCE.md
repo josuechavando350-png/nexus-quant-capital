@@ -90,3 +90,17 @@ El verificador independiente puede cotejar las 218 respuestas, incluidas las ide
 ```sh
 python3.12 -B -m superhunter.tools.verify_review_115 "$work/session.jsonl"
 ```
+
+## Expediente publicado
+
+La [sesión completa archivada](product_supply/review-115-session.json) conserva las 218 respuestas originales comprimidas. El [registro de aceptación](product_supply/review-115.json) enlaza sus hashes con el commit exacto, los conteos y la segunda ejecución con expedientes reconstruidos. Se puede verificar el archivo sin descargar las herramientas nativas. El siguiente comando comprueba ambas capas de integridad y ejecuta seis controles de alteración, sin escribir sobre los datos.
+
+```sh
+digest=$(python3.12 -c 'import json; print(json.load(open("superhunter/product_supply/review-115.json"))["release_acceptance"]["sessions"]["accepted-native"]["transcript_sha256"])')
+python3.12 -B -m superhunter.tools.verify_review_115 --archive --check-controls --expect-sha256 "$digest" \
+  superhunter/product_supply/review-115-session.json
+```
+
+Al comparar las expresiones que ScanCode detectó en los avisos seleccionados aparecen identificadores de la familia AGPL en 14 proyectos, GPL en 25 y LGPL en 10. Nueve incluyen identificadores locales o términos desconocidos. Los grupos pueden solaparse. El registro permite localizar los IDs para revisar el texto, dependencias, modificaciones y modalidad de distribución.
+
+La regresión de Python del PR 115 comprende los doce módulos enumerados en [las instrucciones de las suites](SOURCE_AUDIT.md#suites-ejecutadas) más `superhunter.tests.test_owned_sealed_review`, con el mismo entorno de aislamiento y la biblioteca seccomp fijada. Se ejecutaron también la suite Rust del workspace Census sin red y los nueve casos de `migration/test_isolation.py` sobre la revisión histórica. La comprobación del perímetro se reproduce con `python3.12 -B -m superhunter review-repository-boundary`. Los datos de procedencia y de QA tienen alcances distintos de una validación de descubrimiento de vulnerabilidades.
