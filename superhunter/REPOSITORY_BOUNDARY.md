@@ -5,13 +5,15 @@ sin ejecutar su código ni modificar el material histórico. También acepta `--
 para una copia local. Devuelve `REPOSITORY_BOUNDARY_PASS` o un bloqueo con código
 fijo, sin imprimir rutas privadas o contenido de archivos.
 
+El manifiesto raíz `.gitmodules` tiene un hash fijado. La revisión de NQC admite exclusivamente las 153 rutas externas declaradas en `upstream/` y comprueba el árbol de fuentes propias por separado. La verificación del contenido rastreado de cada submódulo se realiza con `product-sources --require-checkout`. [Alcance y comandos](SOURCE_CHECKOUT.md).
+
 ## Qué se comprueba
 
 - Árboles Git exactos de `ci/`, `migration/` y `nqc-census/`: 642 archivos, incluidos
   el manifiesto y el verificador de migración. Se conservan bytes, pertenencia y
   modos Git; el hash se reconstruye localmente sin ejecutar comandos del checkout.
 - Identidades originales de `README.md`, `AGENTS.md` y `.gitignore`.
-- Solo se admiten la raíz `superhunter/` y los tres documentos de continuidad
+- Además de los submódulos declarados, se admiten la raíz `superhunter/` y los tres documentos de continuidad
   nombrados explícitamente, además de los árboles históricos. En SuperHunter se
   admiten fuentes Python, Markdown, JSON, texto y su `.gitignore`, sin modo ejecutable.
 - Se rechazan árboles de clientes, workflows activos, dependencias nativas

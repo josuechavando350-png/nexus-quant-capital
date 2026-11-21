@@ -14,6 +14,21 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] == 'product-sources':
+        from .product_sources import main as sources_main
+        return sources_main(argv[1:])
+    if argv and argv[0] in ('review-product-guac', 'verify-product-guac'):
+        from .product_guac import main as guac_main
+        return guac_main(argv)
+    if argv and argv[0] in ('review-product-cdxgen', 'verify-product-cdxgen'):
+        from .product_cdxgen import main as cdxgen_main
+        return cdxgen_main(argv)
+    if argv and argv[0] in ('review-product-supply', 'verify-product-supply'):
+        from .product_supply_review import main as supply_main
+        return supply_main(argv)
+    if argv and argv[0] in ('review-product', 'verify-product', 'query-product'):
+        from .product_review import main as product_main
+        return product_main(argv)
     if argv and argv[0] in ('check-owned-sealed-boundary', 'verify-owned-sealed-boundary'):
         from .owned_sealed_review import main as sealed_main
         return sealed_main(argv)
@@ -278,7 +293,8 @@ def main() -> int:
         from .lab_cli import main as lab_main
         return lab_main(argv[1:], verify=argv[0] == "verify-lab")
     mode = argv.pop(0) if argv and argv[0] in ("export-diablo", "import-nqc") else "legacy"
-    parser = PrivateArgumentParser(description="Offline SUPERHUNTER evidence adapters")
+    parser = PrivateArgumentParser(description="Offline SUPERHUNTER evidence adapters",
+                                   epilog="Product commands: review-product, verify-product, query-product, review-product-supply, verify-product-supply (each accepts --help)")
     if mode == "export-diablo":
         parser.add_argument("finding", type=Path)
         parser.add_argument("context", type=Path)

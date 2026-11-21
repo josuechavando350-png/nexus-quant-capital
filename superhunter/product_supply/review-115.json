@@ -1,0 +1,404 @@
+{
+  "schema": 1,
+  "product_base": "ae02690627443df08b8eedb9d63a7a30cbda6c0e",
+  "product_pr": 111,
+  "review_pr": 115,
+  "catalog_pr": 110,
+  "counts": {
+    "catalog": 200,
+    "commercial_reviews_completed": 0,
+    "end_to_end": 58,
+    "executable": 47,
+    "functional": 58,
+    "notices_reviewed": 200,
+    "pending": 142,
+    "pending_by_source": {
+      "complete": 97,
+      "metadata": 45
+    },
+    "references": 11,
+    "remote_roots": 47,
+    "sources": {
+      "complete": 153,
+      "excerpt": 2,
+      "metadata": 45
+    },
+    "verified_trees": 200
+  },
+  "normalized_identity_receipt": {
+    "identities": 200,
+    "identity_rows_sha256": "566b40f5f1e94b3ac8d9919ecb07d0bc8bb9dd096b77dd64ff1e2f89ce0aea7e"
+  },
+  "full_checkouts": {
+    "sha256": "6b61e2f4e4b370983a0ef6bee2edeeb84966956384d76d29fd9705bb1c035252",
+    "fsck_passed": 153,
+    "unchanged_vs_pr114": 153
+  },
+  "notice_replay_sha256": "9fe08694ea198e7872cc954a122fc4bdc4675996a5403cb7344822a89a3bfe3f",
+  "recursive_tree_receipt": {
+    "attributes_files": 13,
+    "literal_filter_lfs_lines": 0,
+    "manifest_paths": 211,
+    "nested_gitlinks": 26,
+    "repositories": 47,
+    "rows_sha256": "17ec660ef982f0942aa9cf45cd9057e95757b34b73b261bfef48d1ab722e52cd",
+    "source_blobs_in_metadata_databases": 0,
+    "tracked_blob_paths": 29043,
+    "unique_trees_summed_per_repository": 5534
+  },
+  "root_declarations": {
+    "declarations_by_file": 1311,
+    "projects_with_root_manifest": 29,
+    "proofs_sha256": "a00144788cb867c288e927e95213a99084d1b3f25bdc7604739f515264df6e2a",
+    "remote_roots_verified": 47,
+    "results_sha256": "57bb32779f611d4187d3a2a2e6ac373ec02c7a6e0c385d5c520eaf48ec8fee94",
+    "root_manifest_files": 34,
+    "unparsed_lines": 0
+  },
+  "wheel_dependencies": {
+    "profiles": {
+      "bandit": {
+        "selected": 7,
+        "closure_sha256": "41e45fbfa1125cc4f37c52b3aa5e327f3311ffdc17abc2c3c640857a0f371f29",
+        "locked_outside_default_closure": []
+      },
+      "dspy": {
+        "selected": 26,
+        "closure_sha256": "ff470f2ee237acff852428e5186ac1f6938aa922ed22d87c3c69aa7b5a84ecd0",
+        "locked_outside_default_closure": []
+      },
+      "inspect": {
+        "selected": 80,
+        "closure_sha256": "7e93030a52bd1fb0da84328d5346f5a55b33b8b4cb9906ca537ac3933a3158b9",
+        "locked_outside_default_closure": []
+      }
+    },
+    "negative_control": {
+      "absent_required_distribution": "stevedore",
+      "result": "REJECTED"
+    },
+    "distributions": 90,
+    "notice_files": 122,
+    "explicit_spdx": 45
+  },
+  "case_level_scoring": {
+    "cases": 96,
+    "correct_full": 96,
+    "correct_without_extra_data": 86
+  },
+  "holdout": {
+    "counts": {
+      "cases": 768,
+      "exact_field_matches": 768,
+      "fn": 0,
+      "fp": 0,
+      "tn": 384,
+      "tp": 384
+    },
+    "receipt_sha256": "cda3f55c1e72c527d5dcd2f84c4e3ce2252a3225d45243dfc47a2cc7d93df007",
+    "prediction_wall_seconds": [
+      1.214308,
+      1.349741
+    ],
+    "external_model_calls": 0,
+    "cost_measured": null
+  },
+  "notice_overlap": {
+    "documents": 256,
+    "passages": 817,
+    "locations": 4043,
+    "refutations": [
+      {
+        "locations": [
+          {
+            "end": [
+              14,
+              27
+            ],
+            "file": "cryptography-45.0.7-3.txt",
+            "start": [
+              2,
+              20
+            ],
+            "tokens_sha256": "0afdbf530fbb3bd54154a5e83930e8f025951a2541606fbe096d5f24d14f3947"
+          },
+          {
+            "end": [
+              7,
+              23
+            ],
+            "file": "upstream-078-license.txt",
+            "start": [
+              1,
+              44
+            ],
+            "tokens_sha256": "0afdbf530fbb3bd54154a5e83930e8f025951a2541606fbe096d5f24d14f3947"
+          },
+          {
+            "end": [
+              58,
+              33
+            ],
+            "file": "upstream-133-license.txt",
+            "start": [
+              47,
+              20
+            ],
+            "tokens_sha256": "b9921b29fd5c4250b452de6aaddbd26f3632dfbd345d8d5ed95b0cb84004bc69"
+          }
+        ],
+        "reason": "token_sequence_mismatch",
+        "reported_tokens": 87,
+        "state": "REFUTED"
+      }
+    ]
+  },
+  "historical_baseline_queries": 211,
+  "baseline_transcript_sha256": "729e2e74299c098cef60be43c8342504c4440e6c98fee172b336f6a6af0027c6",
+  "protected_files": 642,
+  "enabled_workflows": 0,
+  "rust_tests_passed": 528,
+  "migration_tests_passed": 9,
+  "source_checkout_pending": 47,
+  "pending_commercial_distribution_reviews": 200,
+  "external_blind_vulnerability_benchmark": null,
+  "confirmed_original_vulnerabilities": 0,
+  "intermediate_failures": [
+    "The negative test for a replaced excerpt initially expected different diagnostic wording.",
+    "A stale Git stat cache triggered a checkout warning. Refreshing the index and rechecking gave the same 153 checkout receipts.",
+    "A combined PMD result was inconsistent across its three token regions and now remains explicitly REFUTED.",
+    "A fixture initially treated a map of valid SHA-256 values as a scalar. The contract now verifies each member.",
+    "A replay with symlinked input files failed the input boundary. The complete replay uses regular files.",
+    "The first transcript verifier assumed each response was a JSON object. The notice-overlaps result is an array. The verifier now requires the correct root type per query."
+  ],
+  "release_acceptance": {
+    "producer_commit": "8a4000d16c7dc723d29b0391f74212d23974cf66",
+    "sessions": {
+      "accepted-native": {
+        "transcript_sha256": "c6c7049c3a35b3abb38d7e4a4d38c09ebc58b9ca6239babe4033a755b9a0f067",
+        "credits_sha256": "e5eb0b40a360bddb47baefb7f079c8ffac4914e0f54717ecf87a5f791c125746",
+        "responses": 218,
+        "catalog": 200,
+        "sources": {
+          "metadata": 45,
+          "complete": 153,
+          "excerpt": 2
+        },
+        "verified_notices": 200,
+        "session": 58,
+        "functional": 58,
+        "pending": 142,
+        "executables": 47,
+        "reference_data": 11,
+        "controls": {
+          "inflated_count": "claimed totals differ from independently counted rows",
+          "unsupported_credit": "matrix status differs from the original evidence",
+          "replaced_historical_digest": "matrix status differs from the original evidence",
+          "changed_native_result": "fixed product result changed",
+          "changed_license": "license evidence digest differs",
+          "changed_git_tree": "matrix and source revisions disagree"
+        },
+        "wall_seconds": 346.13
+      },
+      "accepted-fresh": {
+        "transcript_sha256": "eb77fd2c1a6555d7386856bcf11957b01363121b23dc47fde72f0f7d459c49cd",
+        "credits_sha256": "e5eb0b40a360bddb47baefb7f079c8ffac4914e0f54717ecf87a5f791c125746",
+        "responses": 218,
+        "catalog": 200,
+        "sources": {
+          "metadata": 45,
+          "complete": 153,
+          "excerpt": 2
+        },
+        "verified_notices": 200,
+        "session": 58,
+        "functional": 58,
+        "pending": 142,
+        "executables": 47,
+        "reference_data": 11,
+        "controls": {
+          "inflated_count": "claimed totals differ from independently counted rows",
+          "unsupported_credit": "matrix status differs from the original evidence",
+          "replaced_historical_digest": "matrix status differs from the original evidence",
+          "changed_native_result": "fixed product result changed",
+          "changed_license": "license evidence digest differs",
+          "changed_git_tree": "matrix and source revisions disagree"
+        },
+        "wall_seconds": 339.0
+      }
+    },
+    "separately_regenerated_bundles": [
+      "Syft and cvc5 product",
+      "in-toto supply",
+      "CycloneDX",
+      "GUAC"
+    ],
+    "differing_query_results": [
+      "tree-sitter/tree-sitter",
+      "ast-grep/ast-grep",
+      "guacsec/guac",
+      "integration-matrix"
+    ],
+    "byte_identical_query_results": 214,
+    "archive_sha256": "43d44ecb4abd47d7dd33950d6b890fc5263617cca58d4cf5d6ce521982eabc90",
+    "notes": "Fresh SBOM serial numbers, timestamps and their hashes can alter exact evidence or source positions. The release compares producer bytes within each run and identities, roles and research controls across runs."
+  },
+  "new_contributions": [
+    {
+      "id": 104,
+      "repository": "PyCQA/bandit",
+      "commit": "2d5467c45c3189f4d7d07e8022276bc73a478abd",
+      "source": "complete",
+      "session": "executable",
+      "receipt": "owned_source_receipt",
+      "session_evidence_sha256": "d5a24556173a01fa4fc8d90975df811973e43782a158145f4545efd83b929a39"
+    },
+    {
+      "id": 145,
+      "repository": "ossf/malicious-packages",
+      "commit": "aaefca1f03b51a4e26db1fad48b172279a2e41a9",
+      "source": "complete",
+      "session": "reference_data",
+      "receipt": "owned_source_receipt",
+      "session_evidence_sha256": "2417f4fe2a3253dd25ac4bd9b729ddbb131ea54de29828185779f3c2774bf8b2"
+    },
+    {
+      "id": 155,
+      "repository": "stanfordnlp/dspy",
+      "commit": "226d534da38ab8a39e4d6383e01e121dab50da51",
+      "source": "complete",
+      "session": "executable",
+      "receipt": "score_comparison_receipt",
+      "session_evidence_sha256": "22e0063c9d1037c8d29223f8e4b712829d033e9320ea795b01a4ffbb300cbdff"
+    },
+    {
+      "id": 168,
+      "repository": "UKGovernmentBEIS/inspect_ai",
+      "commit": "82925564c9330e5440d490a7d97d037e11e66c9a",
+      "source": "complete",
+      "session": "executable",
+      "receipt": "score_comparison_receipt",
+      "session_evidence_sha256": "744adfe62e521def7863b655aabf7cbd472515d38ea4cdebffc42fb9ec0d1a35"
+    },
+    {
+      "id": 175,
+      "repository": "paradigmxyz/reth",
+      "commit": "53b5db1c3bc841bae679e58a625485d3d44d5b74",
+      "source": "complete",
+      "session": "reference_data",
+      "receipt": "fork_header_reference",
+      "session_evidence_sha256": "68610312dc997c0444be19a2442e658b971ff6707a9a630cac1b03deb3f3cd59"
+    },
+    {
+      "id": 176,
+      "repository": "besu-eth/besu",
+      "commit": "10dc5130f7424488cc5730fca1e98565a313714b",
+      "source": "complete",
+      "session": "reference_data",
+      "receipt": "fork_header_reference",
+      "session_evidence_sha256": "f001b39df146d5040d982a6cdf74df16bcd933b8a76e7cdf24ca8d15283bdb7c"
+    },
+    {
+      "id": 177,
+      "repository": "ethereum/hive",
+      "commit": "befb5c9edf4e1df25351e2a4ebdaca15e3d5d01b",
+      "source": "complete",
+      "session": "reference_data",
+      "receipt": "fork_header_reference",
+      "session_evidence_sha256": "456f0fc3317ae2eb0bc741de852dad3a7fdd2685c4f5a695c1bd023d0c8a2f4e"
+    },
+    {
+      "id": 179,
+      "repository": "smartbugs/smartbugs",
+      "commit": "a246003622775c730d5522429d8fed8846406e17",
+      "source": "excerpt",
+      "session": "executable",
+      "receipt": "owned_source_receipt",
+      "session_evidence_sha256": "035bb0bff40def66febaa3ef39f7303bad2ad23c211ae88552a8a54e8a426f7e"
+    },
+    {
+      "id": 191,
+      "repository": "crytic/building-secure-contracts",
+      "commit": "0e679905ce336d81b1eade9cfe924011e9073339",
+      "source": "excerpt",
+      "session": "reference_data",
+      "receipt": "owned_source_receipt",
+      "session_evidence_sha256": "51ec54db8d4d5f4d199b2bcfbb501a89d6fd8a2e2af30ea7eeb2397f957c64f9"
+    }
+  ],
+  "license_terms_in_selected_notice_expressions": {
+    "AGPL": [
+      8,
+      13,
+      14,
+      16,
+      17,
+      18,
+      32,
+      42,
+      51,
+      66,
+      148,
+      178,
+      191,
+      193
+    ],
+    "GPL": [
+      3,
+      35,
+      37,
+      41,
+      47,
+      50,
+      52,
+      60,
+      61,
+      67,
+      71,
+      72,
+      91,
+      92,
+      93,
+      96,
+      100,
+      103,
+      120,
+      129,
+      130,
+      134,
+      177,
+      195,
+      197
+    ],
+    "LGPL": [
+      21,
+      41,
+      50,
+      97,
+      109,
+      110,
+      120,
+      125,
+      129,
+      133
+    ],
+    "LicenseRef_or_unknown": [
+      3,
+      41,
+      97,
+      116,
+      120,
+      121,
+      133,
+      165,
+      171
+    ]
+  },
+  "python_focused": {
+    "modules": 13,
+    "passed": 222,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}

@@ -1,0 +1,4 @@
+# Origen de los dos extractos
+
+- SmartBugs. `smartbugs_region.py` contiene la función `result_region` de `sb/sarif.py` sin cambios y un encabezado de NQC que sustituye los imports del módulo original. El adaptador sólo convierte coordenadas de evidencia. La licencia Apache 2.0 se conserva en [LICENSE-179.txt](LICENSE-179.txt). [Fuente original](https://github.com/smartbugs/smartbugs/blob/a246003622775c730d5522429d8fed8846406e17/sb/sarif.py).
+- Trail of Bits / Crytic. `token-types.txt` conserva dos cláusulas breves del checklist de integración de tokens. La selección y la presentación en dos líneas son de NQC. Se conserva la licencia AGPLv3 del proyecto en [LICENSE-191.txt](LICENSE-191.txt). El texto completo y los avisos del proveedor se encuentran en [el documento original](https://github.com/crytic/building-secure-contracts/blob/0e679905ce336d81b1eade9cfe924011e9073339/development-guidelines/token_integration.md).

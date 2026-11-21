@@ -280,6 +280,19 @@ PORTFOLIO_DATA_FILES = (
     'repo_portfolio/04-algorithms.json', 'repo_portfolio/05-operations.json')
 
 
+PRODUCT_DATA_FILES = ('repositories_200.json', 'product_repository_identities.json', 'product_proof_releases.json',
+                      'product_supply/wheels.txt', 'product_supply/haystack-linux-py312.txt',
+                      'product_supply/license-review-linux-py312.txt', 'product_supply/batch-property-driver.txt',
+                      'product_supply/coverage-d94b58f.json', 'product_supply/header-check.txt',
+                      'product_supply/header-npm-lock.json', 'product_supply/upstream-notices.json',
+                      'product_supply/wake-metadata-linux-py312.txt', 'product_supply/bandit-linux-py312.txt',
+                      'product_supply/dspy-scores-linux-py312.txt', 'product_supply/inspect-scores-linux-py312.txt',
+                      'product_supply/offline-remote-inputs.json', 'product_supply/header-digest/go-mod.txt',
+                      'product_supply/header-digest/go-sum.txt', 'product_supply/review-115-holdout.json', 'product_supply/native-inputs-example.json', 'product_supply/receipt-contracts.json', 'product_supply/session-d94b58f.txt',
+                      'product_supply/remote-tree-inventory.json', 'product_supply/remote-root-proofs.json', 'product_supply/source-excerpts/trees.json',
+                      'product_supply/source-excerpts/token-types.txt')
+
+
 def source_snapshot(root: Path = ROOT) -> dict[str, str]:
     """Capture executable package/test bytes and policy inputs; reject symlinks."""
     def scan_failed(error: OSError) -> None:
@@ -293,7 +306,7 @@ def source_snapshot(root: Path = ROOT) -> dict[str, str]:
                 raise ValueError('source directory symlink rejected')
         for name in sorted(files):
             rel = (Path(base)/name).relative_to(root).as_posix()
-            if name.endswith('.py') or rel in PORTFOLIO_DATA_FILES or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_accounting_capture_io_v2.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'requirements-otel-qa.txt', 'requirements-owned-slither.txt', 'research_initiatives.json'):
+            if name.endswith('.py') or rel in PRODUCT_DATA_FILES or rel in PORTFOLIO_DATA_FILES or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_accounting_capture_io_v2.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'requirements-otel-qa.txt', 'requirements-owned-slither.txt', 'research_initiatives.json'):
                 result[rel] = sha(read_artifact(root, rel))
                 if len(result) > 500:
                     raise ValueError('source inventory limit exceeded')
@@ -1748,6 +1761,44 @@ REQUIRED_TESTS += (
     'test_owned_sealed_review.SealedReviewTests.test_input_phase_before_filter_is_inconclusive',
     'test_owned_sealed_review.SealedReviewTests.test_resealed_report_cannot_promote_guarantees',
     'test_owned_sealed_review.SealedReviewTests.test_input_change_before_publication_is_rejected',
+)
+
+
+COMPONENTS['product_review'] = {
+    'files': [*PRODUCT_DATA_FILES,
+              'product_source_references.py', 'product_source_audit.py', 'product_remote_roots.py',
+              'product_portable_roots.py', 'tools/pack_remote_inputs.py', 'product_header_digest.py',
+              'product_fork_headers.py', 'tools/audit_tree_metadata.py', 'product_assurance_notices.py',
+              'tools/replay_review_115.py', 'tools/verify_review_115.py',
+              'product_score_comparison.py', 'product_scores_worker.py',
+              'tools/fetch_root_manifests.py', 'tools/prepare_owned_source_checks.py',
+              'smartbugs_region.py', 'product_owned_source_checks.py', 'product_matrix.py',
+              'tools/render_product_matrix.py', 'tools/evaluate_payload_types.py', 'tools/check_catalog_origins.py',
+              'product_census_header.py', 'product_solidity_headers.py', 'product_solidity_headers_worker.py',
+              'product_upstream_notices.py', 'product_sources.py', 'tools/fetch_upstream_notices.py', 'tools/catalog_session.py',
+              'product_batch_properties.py', 'product_notice_overlap.py', 'product_notice_decisions.py',
+              'product_notice_review_worker.py', 'product_spdx_ids.py', 'product_license_choices.py',
+              'product_native_proofs.py', 'product_proof_languages.py', 'product_arm_inventory.py',
+              'product_spdx_groups.py', 'product_rustsec.py', 'product_batches.py', 'product_cargo_hashes.py',
+              'product_scorecard.py', 'product_notice_similarity.py', 'product_notice_ranking.py',
+              'product_ranking_worker.py', 'product_elf_worker.py', 'product_producer_elf.py',
+              'product_license_sarif.py', 'product_profile_states.py', 'product_sbom_locations.py',
+              'product_notice_search.py', 'product_notice_worker.py', 'product_licenses.py',
+              'product_notices.py', 'product_guac.py', 'product_guac_worker.py', 'product_cdxgen.py',
+              'product_census_graph.py', 'product_reasoning.py', 'product_review.py', 'product_supply_review.py'],
+    'tests': ['test_product_review.', 'test_product_supply.', 'test_product_catalog_session.', 'test_product_source_audit.'],
+    'depends': ['portfolio_inventory', 'bundle_recovery', 'owned_capture', 'privacy', 'io']}
+COMPONENTS['entrypoints']['depends'].append('product_review')
+REQUIRED_TESTS += (
+    'test_product_source_audit.ProductComparisonTests.test_audit_rows_cannot_promote_project_to_runtime',
+    'test_product_source_audit.GitTreeAuditTests.test_notice_cannot_be_reassigned_to_another_blob',
+    'test_product_catalog_session.CatalogSessionTests.test_resealed_notice_cannot_replace_committed_document',
+    'test_product_catalog_session.CatalogSessionTests.test_historical_receipts_and_new_receipts_remain_distinguishable',
+    'test_product_supply.SupplyTests.test_200_ids_and_distinct_license_outcomes',
+    'test_product_supply.SupplyTests.test_metadata_alone_cannot_promote_a_candidate_to_an_integration',
+    'test_product_review.ProductTests.test_triangle_requires_three_groups',
+    'test_product_review.ProductTests.test_false_solver_verdict_is_rejected',
+    'test_product_review.ProductTests.test_scoped_catalog_join_and_search',
 )
 
 

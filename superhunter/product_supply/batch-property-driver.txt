@@ -1,0 +1,34 @@
+use std::env;
+use std::io::{BufRead, BufReader, Write};
+use std::process::{Command, Stdio};
+use std::cell::RefCell;
+use proptest::prelude::*;
+use proptest::test_runner::{Config, RngAlgorithm, TestRng, TestRunner};
+
+fn main() {
+    let args: Vec<_> = env::args_os().collect();
+    let mut worker = Command::new(&args[1]).args(["-I", "-B"]).arg(&args[2]).arg(&args[3])
+        .stdin(Stdio::piped()).stdout(Stdio::piped()).spawn().expect("batch worker");
+    let mut input = worker.stdin.take().unwrap();
+    let output = BufReader::new(worker.stdout.take().unwrap());
+    let stream = RefCell::new((output, &mut input));
+    let mut runner = TestRunner::new_with_rng(
+        Config { cases: 128, failure_persistence: None, ..Config::default() },
+        TestRng::from_seed(RngAlgorithm::ChaCha, &[37u8; 32]));
+    let trials = (Just((1..=200).collect::<Vec<u16>>()).prop_shuffle(), 1usize..200, 0usize..199);
+    let result = runner.run(&trials, |(order, split, change)| {
+        let mut io = stream.borrow_mut();
+        write!(io.1, "{} {}", split, change).unwrap();
+        for id in order { write!(io.1, " {}", id).unwrap(); }
+        writeln!(io.1).unwrap();
+        io.1.flush().unwrap();
+        let mut answer = String::new();
+        io.0.read_line(&mut answer).unwrap();
+        prop_assert_eq!(answer.trim(), "pass");
+        Ok(())
+    });
+    drop(stream);
+    drop(input);
+    assert!(worker.wait().unwrap().success());
+    result.expect("batch property violation");
+}

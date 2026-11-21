@@ -173,5 +173,60 @@ class RepositoryBoundaryTests(unittest.TestCase):
         self.assertEqual(json.loads(output.getvalue())['status'],'REPOSITORY_BOUNDARY_BLOCKED')
 
 
+
+class ExternalSourceTests(unittest.TestCase):
+    def test_full_manifest_matches_all_reviewed_paths(self):
+        self.assertEqual(len(boundary._upstream_leaves(SOURCE)), 153)
+
+    def test_only_declared_directories_are_external(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            shutil.copy(SOURCE/'.gitmodules', root/'.gitmodules')
+            leaf = root/'upstream/012-foundry'
+            leaf.mkdir(parents=True)
+            (leaf/'placeholder').write_text('external fixture')
+            files, _ = boundary._capture(root)
+            self.assertEqual(set(files), {'.gitmodules'})
+            (root/'upstream/999-extra').mkdir()
+            with self.assertRaisesRegex(boundary.BoundaryError, 'UNREVIEWED_UPSTREAM_PATH'):
+                boundary._capture(root)
+
+    def test_changed_manifest_does_not_exempt_a_directory(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root/'.gitmodules').write_bytes((SOURCE/'.gitmodules').read_bytes().replace(b'github.com', b'example.com', 1))
+            with self.assertRaisesRegex(boundary.BoundaryError, 'ROOT_POLICY_CHANGED'):
+                boundary._capture(root)
+
+    def test_symlink_cannot_stand_in_for_a_registered_checkout(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            shutil.copy(SOURCE/'.gitmodules', root/'.gitmodules')
+            (root/'upstream').mkdir()
+            (root/'upstream/012-foundry').symlink_to(root, target_is_directory=True)
+            with self.assertRaisesRegex(boundary.BoundaryError, 'SYMLINK_REJECTED'):
+                boundary._capture(root)
+
+    def test_product_inventory_requires_committed_index_and_all_checkouts(self):
+        import subprocess
+        from superhunter.product_sources import verify
+        if not (SOURCE/'.git').exists():
+            self.skipTest('the source-pin verifier requires a Git checkout')
+        result = verify(SOURCE)
+        self.assertEqual(result['status_counts'], {'pinned': 153})
+        self.assertEqual((result['catalog_count'], result['catalog_only_count']), (200, 47))
+        self.assertEqual({r['catalog_id'] for r in result['sources']} |
+                         {r['catalog_id'] for r in result['catalog_only']}, set(range(1, 201)))
+        with tempfile.TemporaryDirectory() as temp:
+            clone = Path(temp)/'test'
+            subprocess.run(['git', 'clone', '-q', '--shared', '--no-recurse-submodules', SOURCE, clone],
+                           check=True, capture_output=True)
+            with self.assertRaisesRegex(ValueError, 'not initialized'):
+                verify(clone, True)
+            subprocess.run(['git', '-C', clone, 'update-index', '--force-remove', 'upstream/012-foundry'], check=True)
+            with self.assertRaisesRegex(ValueError, 'staged upstream'):
+                verify(clone)
+
+
 if __name__ == '__main__':
     unittest.main()

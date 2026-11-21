@@ -1,3 +1,5 @@
+La CLI permite consultar las 200 referencias, las dependencias de Census y los conflictos de versiones entre perfiles de SuperHunter. [Uso y verificación](PRODUCT_REVIEW.md)
+
 [Findings operativos y plan de corrección](OWNED_REMEDIATION.md): el diagnóstico deriva evidencia y condiciones de restauración, sin ejecutar reparaciones.
 
 [Archivos y custodia verificados conjuntamente](PRESERVED_CUSTODY.md): la firma y la integridad del índice se comprueban por separado y se exigen ambas.
