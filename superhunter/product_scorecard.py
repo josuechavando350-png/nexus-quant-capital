@@ -10,10 +10,30 @@ import tempfile
 from .product_reasoning import EvidenceError
 from .product_review import ROOT, copy_release, sha
 from .safe_io import strict_json
+from .product_sources import gitlinks, verify
 
 DIGEST = '9b2868dec1ca9f9c32fda97caeb7f3aba28bc74c1f982bd222f16749fe4b9211'
 RELEASE = {'version': 'v5.7.0', 'commit': 'd7552fb3cdc05e9f6426177d3328887304fce554'}
 ISOLATE = ['/usr/bin/unshare', '--user', '--map-current-user', '--net']
+
+
+def reviewable_entries(raw, approved_links):
+    entries, links = {}, {}
+    for item in raw.split(b'\0'):
+        if not item:
+            continue
+        meta, raw_name = item.split(b'\t', 1)
+        name = raw_name.decode()
+        mode, kind, digest = meta.decode().split()
+        if mode == '160000' and kind == 'commit':
+            links[name] = digest
+        elif mode in ('100644', '100755') and kind == 'blob':
+            entries[name] = digest
+        else:
+            raise EvidenceError('unsupported Git tree entry in license snapshot')
+    if links != approved_links:
+        raise EvidenceError('unreviewed submodule identity in license snapshot')
+    return entries
 
 
 def snapshot(work, env):
@@ -21,14 +41,9 @@ def snapshot(work, env):
         return subprocess.check_output(['/usr/bin/git', '--no-replace-objects', '-C', str(ROOT), *args],
                                        env=env, timeout=60)
     commit = git('rev-parse', '--verify', 'HEAD^{commit}').decode().strip()
-    entries = {}
-    for item in git('ls-tree', '-rz', commit).split(b'\0'):
-        if item:
-            meta, raw_name = item.split(b'\t', 1)
-            mode, kind, digest = meta.decode().split()
-            if mode not in ('100644', '100755') or kind != 'blob':
-                raise EvidenceError('unsupported Git tree entry in license snapshot')
-            entries[raw_name.decode()] = digest
+    links = gitlinks(ROOT, commit)
+    allowed = {r['path']: r['commit'] for r in verify(ROOT, False)['sources']} if links else {}
+    entries = reviewable_entries(git('ls-tree', '-rz', commit), allowed)
     source = work/'source'
     source.mkdir()
     archive_path = work/'source.tar'

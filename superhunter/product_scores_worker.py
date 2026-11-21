@@ -2,6 +2,7 @@
 import asyncio
 import json
 from pathlib import Path
+import resource
 import sys
 
 
@@ -39,6 +40,10 @@ async def inspect_score(rows):
 
 
 if __name__ == '__main__':
+    resource.setrlimit(resource.RLIMIT_CPU, (45, 48))
+    resource.setrlimit(resource.RLIMIT_AS, (2 * 1024**3, 2 * 1024**3))
+    resource.setrlimit(resource.RLIMIT_FSIZE, (16 * 1024**2, 16 * 1024**2))
+    resource.setrlimit(resource.RLIMIT_NOFILE, (128, 128))
     sys.path.insert(0, str(Path('lib').resolve()))
     cases = json.loads(sys.stdin.buffer.read(100_001))
     if sys.argv[1] == 'dspy':

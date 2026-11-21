@@ -287,6 +287,7 @@ PRODUCT_DATA_FILES = ('repositories_200.json', 'product_repository_identities.js
                       'product_supply/header-npm-lock.json', 'product_supply/upstream-notices.json',
                       'product_supply/wake-metadata-linux-py312.txt', 'product_supply/bandit-linux-py312.txt',
                       'product_supply/dspy-scores-linux-py312.txt', 'product_supply/inspect-scores-linux-py312.txt',
+                      'product_supply/review-115-holdout.json', 'product_supply/native-inputs-example.json', 'product_supply/receipt-contracts.json', 'product_supply/session-d94b58f.txt',
                       'product_supply/remote-tree-inventory.json', 'product_supply/remote-root-proofs.json', 'product_supply/source-excerpts/trees.json',
                       'product_supply/source-excerpts/token-types.txt')
 

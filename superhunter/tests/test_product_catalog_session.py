@@ -60,14 +60,22 @@ class CatalogSessionTests(unittest.TestCase):
                               'conflicting_python_pins': {}, 'minimum_python_pin_groups': 2, 'tools': {
                                   'anchore/syft': {}, 'cvc5/cvc5': {}},
                               'profile_whose_isolation_resolves_all_observed_pin_conflicts': 'owned-spec-evm'})
+        # These two rows are proven in the live suite; a fabricated marker must fail this gate.
+        index.observations = 75
         index.repos['ack3-ai/wake']['solidity_metadata_evidence'] = {'report': 'test'}
-        index.repos['ethereum/eips']['census_header_reference'] = {'report': 'test'}
+        with self.assertRaisesRegex(EvidenceError, 'reviewed producer contract'):
+            coverage(index)
+        del index.repos['ack3-ai/wake']['solidity_metadata_evidence']
+        from superhunter.product_census_header import EIP_COMMIT, EIP_SHA
+        index.repos['ethereum/eips']['census_header_reference'] = {
+            'path': 'EIPS/eip-7685.md', 'revision': EIP_COMMIT, 'sha256': EIP_SHA, 'report': 'census-header',
+            'report_sha256': '418e27c864e3176b9a027295fd5acb766280246028032f6d6ae013b2b74abafa'}
         index.repos['usestrix/strix']['upstream_notice'] = {'document': 'upstream-001-license.txt'}
         result = coverage(index)
         self.assertEqual(result['verified_upstream_notices'], 1)
         self.assertEqual(result['prior_with_receipts'], 38)
-        self.assertEqual(result['with_receipts_in_either'], 40)
-        self.assertEqual(result['session_with_receipts'], 4)
+        self.assertEqual(result['with_receipts_in_either'], 39)
+        self.assertEqual(result['session_with_receipts'], 3)
         self.assertEqual(result['identities'][0]['observed_role'], 'pending')
         self.assertEqual(result['identities'][189]['session_role'], 'reference_data')
 

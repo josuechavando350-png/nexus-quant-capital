@@ -52,7 +52,7 @@ def column(text, number):
     return len(raw[:2*(number - 1)].decode('utf-16-le'))
 
 
-def assess(output, notices):
+def assess(output, notices, *, record_refutations=False):
     lines = {n: raw.decode('utf-8', errors='replace').replace('\r\n', '\n').replace('\r', '\n').split('\n')
              for n, raw in notices.items()}
     counts = {}
@@ -84,10 +84,17 @@ def assess(output, notices):
     if counts.keys() != lines.keys():
         raise EvidenceError('incomplete PMD notice corpus')
     by_file = defaultdict(list)
-    passages = []
+    passages, refuted = [], []
     for count, locations in groups:
-        if len(set(locations)) != len(locations) or len(locations) < 2 or len({r[0] for r in locations}) != 1:
-            raise EvidenceError('PMD passage locations do not identify identical token sequences')
+        if len(set(locations)) != len(locations) or len(locations) < 2:
+            raise EvidenceError('PMD passage needs distinct source locations')
+        if len({r[0] for r in locations}) != 1:
+            if not record_refutations:
+                raise EvidenceError('PMD passage locations do not identify identical token sequences')
+            refuted.append({'state': 'REFUTED', 'reported_tokens': count, 'reason': 'token_sequence_mismatch',
+                            'locations': [{'file': n, 'tokens_sha256': digest, 'start': [a, b], 'end': [c, d]}
+                                          for digest, n, a, b, c, d in sorted(locations)]})
+            continue
         locs = [{'file': name, 'start_line': a, 'start_column': b, 'end_line': c, 'end_column': d}
                 for _, name, a, b, c, d in sorted(locations)]
         group = {'tokens': count, 'tokens_sha256': locations[0][0], 'locations': locs}
@@ -96,9 +103,11 @@ def assess(output, notices):
             by_file[name].append(group)
     for rows in [passages, *by_file.values()]:
         rows.sort(key=lambda r: (-r['tokens'], r['tokens_sha256'], canonical(r['locations'])))
-    return {'documents': len(counts), 'passages': len(groups), 'locations': sum(len(s) for _, s in groups),
-            'passages_sha256': sha(canonical(passages)), 'version': '7.29.0', 'distribution_sha256': DIGEST}, {
-                n: by_file[n] for n in sorted(counts)}
+    summary = {'documents': len(counts), 'passages': len(passages), 'locations': sum(len(p['locations']) for p in passages),
+               'passages_sha256': sha(canonical(passages)), 'version': '7.29.0', 'distribution_sha256': DIGEST}
+    if refuted:
+        summary['refuted_candidates'] = sorted(refuted, key=canonical)
+    return summary, {n: by_file[n] for n in sorted(counts)}
 
 
 def build(release, notices):
@@ -123,4 +132,4 @@ def build(release, notices):
                                          '-cp', str(root/'pmd-bin-7.29.0/lib/*'),
                                          'NoticeBlocks.java', str(docs)], cwd=root, env=env, text=True,
                                         stdin=subprocess.DEVNULL, stderr=subprocess.PIPE, timeout=90)
-    return assess(output, notices)
+    return assess(output, notices, record_refutations=True)

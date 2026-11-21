@@ -271,3 +271,46 @@ class HeaderForkTests(unittest.TestCase):
             self.assertEqual(receipt({'repository': name}), ('pending', None))
             with self.assertRaisesRegex(ValueError, 'accepted product result'):
                 receipt({'repository': name, 'fork_header_reference': {'revision': 'claimed'}})
+
+
+class ProductCreditTests(unittest.TestCase):
+    def test_reviewed_schema_rejects_an_unbound_producer_for_every_older_native_integration(self):
+        from superhunter.product_batches import RECEIPTS
+        for name, key in RECEIPTS.items():
+            with self.subTest(name=name), self.assertRaisesRegex(ValueError, 'reviewed producer contract'):
+                receipt({'repository': name, key: {'ok': True}})
+
+    def test_evidence_archive_identifies_the_historical_source_rows(self):
+        from superhunter.product_batches import verified_history
+        self.assertEqual(len(verified_history()['receipts']), 38)
+
+    def test_scorecard_preserves_links_as_boundaries_and_rejects_foreign_ones(self):
+        from superhunter.product_scorecard import reviewable_entries
+        rev = '1'*40
+        raw = f'100644 blob {rev}\tLICENSE\x00160000 commit {rev}\tupstream/example\x00'.encode()
+        self.assertEqual(reviewable_entries(raw, {'upstream/example': rev}), {'LICENSE': rev})
+        with self.assertRaisesRegex(ValueError, 'unreviewed submodule'):
+            reviewable_entries(raw, {'upstream/example': '2'*40})
+
+    def test_refuted_match_retains_its_evidence_and_cannot_enter_search_results(self):
+        from superhunter.product_notice_overlap import assess
+        a = ' '.join(['one'] * 45)
+        b = ' '.join(['two'] * 45)
+        docs = {'a.txt': a.encode(), 'b.txt': b.encode(), 'c.txt': a.encode()}
+        records = ('F\ta.txt\t45\nF\tb.txt\t45\nF\tc.txt\t45\nB\t45\n'
+                   'R\ta.txt\t1\t1\t1\t180\nR\tb.txt\t1\t1\t1\t180\nB\t45\n'
+                   'R\ta.txt\t1\t1\t1\t180\nR\tc.txt\t1\t1\t1\t180')
+        summary, matches = assess(records, docs, record_refutations=True)
+        self.assertEqual((summary['passages'], summary['locations']), (1, 2))
+        self.assertEqual(len(summary['refuted_candidates']), 1)
+        self.assertEqual(matches['b.txt'], [])
+        with self.assertRaisesRegex(ValueError, 'identical token'):
+            assess(records, docs)
+
+    def test_extended_profile_rejects_an_unknown_option_and_missing_slots(self):
+        from superhunter.tools.catalog_session import native_inputs
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp)/'inputs.json'
+            path.write_text('{"exec":"not-a-path"}')
+            with self.assertRaisesRegex(ValueError, 'reviewed input slots'):
+                native_inputs(path)

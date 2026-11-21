@@ -52,3 +52,18 @@ Tras una interrupción, `--resume` conserva las filas adquiridas y reintenta las
 La consulta `fork-headers` conecta el calendario de Besu para Ethereum mainnet con el encabezado histórico 25,437,474 de NQC. Reth y Besu aportan sus calendarios de Hoodi y el producto contrasta el último segundo anterior a la activación de Prague con el primero en que está vigente. El alcance compara los campos incorporados desde Shanghai hasta Prague.
 
 El caso externo es un bloque fijo del corpus de ethereum/hive para la era Cancun. El lector coteja el encabezado, el payload y el registro de selección de cabeza. Con la forma de encabezado seleccionada, EthereumJS, ethers y viem reproducen el hash de Hive y los 573 bytes de RLP. Se detectan la retirada de `requestsHash` de la muestra Prague, su adición prematura en Cancun y un cambio de `gasUsed`. Estas tres participaciones se acreditan como uso de referencias y datos. La validación usa archivos fijados y funciona sin nodos ni conexiones RPC.
+
+## Recibos, controles y perfiles de ejecución
+
+El perfil estándar usa las opciones de los ejemplos anteriores. El perfil ampliado añade `--native-inputs "$work/native-inputs.json"` a la misma invocación. Preparar las 25 entradas de [la plantilla](product_supply/native-inputs-example.json) siguiendo las versiones y los hashes de [las herramientas nativas](PRODUCT_REVIEW.md). El valor de cada entrada es una ruta local, absoluta o relativa al JSON. Los expedientes de CycloneDX y GUAC se pueden regenerar mediante `review-product-cdxgen` y `review-product-guac`. Cada productor valida su propia entrada antes de usarla. La plantilla sólo admite las 25 entradas especificadas.
+
+Se recuperaron los bytes de la [sesión histórica de 205 respuestas](product_supply/session-d94b58f.txt). El producto coteja los 38 recibos contra la línea original, identidad, campo de salida, función y SHA-256. La cobertura nativa también comprueba el contrato y los identificadores del productor. Los recibos nuevos de este PR requieren salidas específicas verificadas sobre entradas fijas. La sesión estándar puede conservar crédito histórico aunque el productor no haya participado en esa ejecución.
+
+La consulta de PMD valida los tokens extraídos de cada posición contra los avisos de origen. Si una coincidencia candidata agrupa secuencias distintas, devuelve las ubicaciones y sus huellas con estado `REFUTED`. Esas ubicaciones quedan excluidas de las coincidencias aceptadas. Un resultado sintácticamente inválido, un conteo incorrecto o una ubicación fuera de rango siguen bloqueando la operación. Scorecard coteja los gitlinks con las revisiones autorizadas antes de examinar los archivos propios de NQC.
+
+En los procesos de DSPy e Inspect AI se aplican límites de CPU, espacio de direcciones, tamaño de archivo y descriptores. El clasificador recibe sólo casos; el evaluador conserva las etiquetas hasta comparar las predicciones. El siguiente comando reproduce ocho cohortes de 96 casos con semillas derivadas del commit de la cuarta entrega. Opcionalmente, `--timing ARCHIVO_NUEVO` guarda el tiempo observado. La exactitud en esta tarea mide el reconocimiento de valores representables por tipo de campo. No se ha ejecutado una evaluación externa de descubrimiento original.
+
+```sh
+unshare --user --map-current-user --net python3.12 -B -m superhunter.tools.replay_review_115 "$root" > "$work/holdout.json"
+cmp "$work/holdout.json" superhunter/product_supply/review-115-holdout.json
+```

@@ -89,8 +89,30 @@ def prepare(work):
              '--out', work/'supply', '--asvs-csv', work/'asvs.csv', '--guide-index', work/'asvs-guides.md'])
 
 
+NATIVE_INPUTS = frozenset((
+    'ast-grep', 'cargo-deny', 'cargo-home', 'cdxgen-bundle', 'dependency-track', 'dotnet-runtime', 'guac-bundle',
+    'json-grammar', 'license-proof-kits', 'lief-wheel', 'notice-review-wheels', 'osv-license-cache',
+    'pgvector-packages', 'producer-bin-dir', 'profile-wheels', 'proptest-crates', 'qemu-aarch64',
+    'rust-bin', 'rustsec-crates', 'sarif-sdk', 'scancode-release', 'scorecard', 'syft-arm64', 'tlc-jar', 'tree-sitter'))
+
+
+def native_inputs(manifest):
+    from superhunter.safe_io import read_artifact
+    data = strict_json(read_artifact(manifest.parent, manifest.name))
+    if not isinstance(data, dict) or set(data) != NATIVE_INPUTS:
+        raise ValueError('native profile must name all and only the reviewed input slots')
+    options = []
+    for key, name in sorted(data.items()):
+        if not isinstance(name, str) or not name or '\x00' in name:
+            raise ValueError('invalid native input path')
+        path = (manifest.parent/name).resolve(strict=True)
+        options.extend(['--' + key, str(path)])
+    return options
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--native-inputs', type=Path, help='use the complete reviewed native profile with local paths')
     parser.add_argument('--prepare', action='store_true', help='download fixed public inputs into a new external directory')
     parser.add_argument('--owned-source-kit', type=Path, help='fixed offline code and package reference comparisons')
     parser.add_argument('--fork-headers', action='store_true', help='validate two fixed headers using client schedules and the Hive corpus')
@@ -121,6 +143,7 @@ def main():
            '--bundle', work/'product', '--supply', work/'supply', '--notice-wheels', work/'supply-wheels',
            '--upstream-notices', work/'upstream', '--census-header-kit', work, '--solidity-metadata-kit', work,
            '--qdrant', work/'qdrant', '--haystack-wheels', work/'haystack', '--pmd-release', work/'pmd.zip',
+           *(native_inputs(args.native_inputs.resolve()) if args.native_inputs else []),
            *(['--owned-source-kit', args.owned_source_kit.resolve()] if args.owned_source_kit else []),
            *(['--fork-headers'] if args.fork_headers else []),
            *(['--score-kit', args.score_kit.resolve()] if args.score_kit else []),

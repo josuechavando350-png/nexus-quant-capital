@@ -1,7 +1,11 @@
 """Summarize verified product evidence from one query session in two stable cohorts."""
 from collections import Counter
+from functools import cache
+import re
 
 from .product_reasoning import EvidenceError
+from .product_review import ROOT, sha
+from .safe_io import canonical, read_artifact, strict_json
 
 # Integration receipts published before the first split, at fa5e498d9c7d7ad3d8b685c6c2f127247899ac3c.
 BASELINE_IDS = frozenset((24, 30, 41, 45, 111, 131, 136, 140, 142, 143, 147, 150, 157, 159, 199))
@@ -103,6 +107,36 @@ FIXED_SOURCE_RECEIPTS = {
         'report_sha256': '77046aa1df356c21d1b9578f54f5ea0c0a9d10bff291eed82344cf7821a42490'})}
 
 
+@cache
+def contracts():
+    payload = read_artifact(ROOT, 'superhunter/product_supply/receipt-contracts.json')
+    if sha(payload) != '4ff933ff8a15ce46424208347320ecc3b51eb27ab58edfaaaaa6a91d14c0af03':
+        raise EvidenceError('reviewed receipt contracts changed')
+    return strict_json(payload)
+
+
+def check_native(name, payload):
+    contract = contracts()['native'][name]
+    if (not isinstance(payload, dict) or
+            any(k not in payload or type(payload[k]).__name__ != t for k, t in contract['types'].items()) or
+            any(payload[k] != v for k, v in contract['fixed'].items())):
+        raise EvidenceError('native receipt differs from reviewed producer contract')
+    for k, value in payload.items():
+        if k.endswith('_sha256'):
+            digests = value.values() if isinstance(value, dict) else value if isinstance(value, list) else [value]
+            if not digests or any(not isinstance(v, str) or not re.fullmatch('[0-9a-f]{64}', v) for v in digests):
+                raise EvidenceError('malformed native receipt digest')
+    if name == 'anchore/syft' and payload['package_observations'] <= 0:
+        raise EvidenceError('empty native package inventory')
+    if name == 'cvc5/cvc5' and (payload['minimum_python_pin_groups'] < 1 or not payload['isolate_profile']):
+        raise EvidenceError('missing native solver result')
+
+
+def check_reference(name, payload):
+    if sha(canonical(payload)) != contracts()['references'][name]:
+        raise EvidenceError('reference receipt differs from reviewed fixed inputs')
+
+
 def receipt(row):
     name = row['repository'].casefold()
     if name in FIXED_SOURCE_RECEIPTS:
@@ -113,13 +147,17 @@ def receipt(row):
             raise EvidenceError('source receipt differs from the accepted product result')
         return role, key
     if name in RECEIPTS and row.get(RECEIPTS[name]):
+        check_native(name, row[RECEIPTS[name]])
         return 'executable', RECEIPTS[name]
     if name in ('ethereum/eips', 'ethereum/execution-specs') and row.get('census_header_reference'):
+        check_reference(name, row['census_header_reference'])
         return 'reference_data', 'census_header_reference'
     role = row.get('supply_role') or {}
     if name == 'in-toto/in-toto' and role.get('role') == 'executable' and role.get('artifact') == 'supply.link':
+        check_reference(name, {'supply_role': role})
         return 'executable', 'supply.link'
     if name in ('owasp/asvs', 'owasp/cheatsheetseries') and role.get('role') == 'reference_data' and row.get('controls'):
+        check_reference(name, {'supply_role': role, 'controls': row['controls']})
         return 'reference_data', role['artifact']
     return 'pending', None
 
@@ -138,15 +176,29 @@ def summary(index, number):
             'with_evidence': len(identities) - counts['pending']}
 
 
-def coverage(index):
-    """Join the pinned PR 111 evidence and this session by catalog ID, retaining both origins."""
-    from .product_review import ROOT, sha
-    from .safe_io import read_artifact, strict_json
-
+@cache
+def verified_history():
     raw = read_artifact(ROOT, 'superhunter/product_supply/coverage-d94b58f.json')
     if sha(raw) != 'b47f69c24ee583c5e8ef61954439b56818bccf6e3fa35a60bf099381d10bc1bd':
         raise EvidenceError('unexpected historical coverage snapshot')
     history = strict_json(raw)
+    transcript = read_artifact(ROOT, 'superhunter/product_supply/session-d94b58f.txt')
+    if sha(transcript) != history['transcript_sha256']:
+        raise EvidenceError('unverified historical transcript')
+    lines = transcript.splitlines(keepends=True)
+    for binding in history['receipts']:
+        line = lines[binding['catalog_id'] - 1]
+        row = strict_json(line)
+        if (sha(line) != binding['line_sha256'] or
+                (row['catalog_id'], row['repository']) != (binding['catalog_id'], binding['repository']) or
+                receipt(row) != (binding['role'], binding['receipt'])):
+            raise EvidenceError('historical evidence is detached from its producer')
+    return history
+
+
+def coverage(index):
+    """Join the pinned PR 111 evidence and this session by catalog ID, retaining both origins."""
+    history = verified_history()
     prior = {row['catalog_id']: row for row in history['receipts']}
     entries = []
     cohort_ids = {r['catalog_id']: number for number, rows in enumerate(cohorts(index.repos.values()), start=1)
