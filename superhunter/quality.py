@@ -293,7 +293,7 @@ def source_snapshot(root: Path = ROOT) -> dict[str, str]:
                 raise ValueError('source directory symlink rejected')
         for name in sorted(files):
             rel = (Path(base)/name).relative_to(root).as_posix()
-            if name.endswith('.py') or rel in PORTFOLIO_DATA_FILES or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_accounting_capture_io_v2.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'requirements-otel-qa.txt', 'requirements-owned-slither.txt', 'research_initiatives.json'):
+            if name.endswith('.py') or rel == 'repositories_200.json' or rel in PORTFOLIO_DATA_FILES or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_accounting_capture_io_v2.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'requirements-otel-qa.txt', 'requirements-owned-slither.txt', 'research_initiatives.json'):
                 result[rel] = sha(read_artifact(root, rel))
                 if len(result) > 500:
                     raise ValueError('source inventory limit exceeded')
@@ -1748,6 +1748,18 @@ REQUIRED_TESTS += (
     'test_owned_sealed_review.SealedReviewTests.test_input_phase_before_filter_is_inconclusive',
     'test_owned_sealed_review.SealedReviewTests.test_resealed_report_cannot_promote_guarantees',
     'test_owned_sealed_review.SealedReviewTests.test_input_change_before_publication_is_rejected',
+)
+
+
+COMPONENTS['product_review'] = {
+    'files': ['product_census_graph.py', 'product_reasoning.py', 'product_review.py', 'repositories_200.json'],
+    'tests': ['test_product_review.'],
+    'depends': ['portfolio_inventory', 'bundle_recovery', 'owned_capture', 'privacy', 'io']}
+COMPONENTS['entrypoints']['depends'].append('product_review')
+REQUIRED_TESTS += (
+    'test_product_review.ProductTests.test_triangle_requires_three_groups',
+    'test_product_review.ProductTests.test_false_solver_verdict_is_rejected',
+    'test_product_review.ProductTests.test_scoped_catalog_join_and_search',
 )
 
 
