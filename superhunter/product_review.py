@@ -197,6 +197,7 @@ class ProductIndex:
     """Exact-name lookups over one independently verified, immutable-in-time snapshot."""
     def __init__(self, report, *, supply=None, notices=None):
         self.notices = notices or {}
+        self.profile_notices = {}
         self.repos = {r['repository'].casefold(): r.copy() for r in report['repositories']}
         if supply:
             summary, identities = supply
@@ -236,11 +237,14 @@ class ProductIndex:
         if normalized != key:
             facts = [*facts, *(f for f in self.packages.get(normalized, []) if f['source'].endswith('.txt'))]
         notice = self.notices.get(normalized)
-        if facts or notice:
+        profile_notices = self.profile_notices.get(normalized)
+        if facts or notice or profile_notices:
             result = {'pins': facts, 'python_profile_conflict': self.conflicts.get(normalized),
                       'census_dependencies': self.graph.get(key, [])}
             if notice:
                 result['supply_wheel_notices'] = notice
+            if profile_notices:
+                result['profile_wheel_notices'] = profile_notices
             return result
         return None
 
@@ -260,6 +264,7 @@ def main(argv):
             parser.add_argument('--cargo-deny', type=Path, help='compare licenses with cargo-deny 0.22.0')
             parser.add_argument('--rust-bin', type=Path, help='directory of the pinned Cargo and rustc binaries')
             parser.add_argument('--cargo-home', type=Path, help='prepopulated offline Cargo home')
+            parser.add_argument('--profile-wheels', type=Path, help='inspect digest-pinned wheels across product profiles')
             parser.add_argument('--notice-wheels', type=Path, help='inspect public notices in local supply wheels')
             parser.add_argument('--export-notices', type=Path, help='write verified notices into a new directory')
             parser.add_argument('--supply', type=Path, help='add verified identities and supply evidence')
@@ -275,8 +280,8 @@ def main(argv):
             notices = None
             if opts.notice_wheels and not opts.supply:
                 raise EvidenceError('notice inventory requires --supply')
-            if opts.export_notices and not opts.notice_wheels:
-                raise EvidenceError('notice export requires --notice-wheels')
+            if opts.export_notices and not (opts.notice_wheels or opts.profile_wheels):
+                raise EvidenceError('notice export requires a local wheel inventory')
             if opts.supply:
                 from . import product_supply_review
                 supply, wheel_lock = product_supply_review.verify_with_lock(opts.supply, result, files)
@@ -284,13 +289,24 @@ def main(argv):
                     from .product_notices import collect
                     notices, public_files = collect(opts.notice_wheels, wheel_lock)
             index = ProductIndex(result, supply=supply, notices=notices)
+            scan_files = dict(public_files) if opts.notice_wheels else {}
+            if opts.profile_wheels:
+                from .product_cdxgen import capture
+                from .product_notices import collect_profiles
+                index.profile_notices, profile_files = collect_profiles(opts.profile_wheels, capture(result))
+                for name, content in profile_files.items():
+                    if name in scan_files and scan_files[name] != content:
+                        raise EvidenceError('notice filename collision across inventories')
+                    scan_files[name] = content
             if opts.scancode_release:
                 from .product_licenses import scan
-                if not opts.notice_wheels:
-                    raise EvidenceError('ScanCode requires --notice-wheels and --supply')
-                observations = scan(opts.scancode_release, public_files)
+                if not scan_files:
+                    raise EvidenceError('ScanCode requires verified wheel notices')
+                observations = scan(opts.scancode_release, scan_files)
                 index.repos['aboutcode-org/scancode-toolkit']['license_evidence'] = observations
-                for package in notices.values():
+                packages = list((notices or {}).values())
+                packages.extend(record for group in index.profile_notices.values() for record in group)
+                for package in packages:
                     for notice in package['notices']:
                         notice['detected_expression'] = observations['notices'][notice['file']]['detected_expression']
             cargo_args = (opts.cargo_deny, opts.rust_bin, opts.cargo_home)
@@ -311,11 +327,15 @@ def main(argv):
                 index.repos['guacsec/guac']['guac_evidence'] = product_guac.verify(opts.guac_bundle, docs)
             if opts.export_notices:
                 owned_capture._path(opts.export_notices, new=True)
-                inputs = (opts.bundle, opts.supply, opts.notice_wheels, opts.cdxgen_bundle, opts.guac_bundle)
+                inputs = (opts.bundle, opts.supply, opts.notice_wheels, opts.profile_wheels, opts.cdxgen_bundle, opts.guac_bundle)
                 if any(opts.export_notices.resolve().is_relative_to(p.resolve()) for p in inputs if p):
                     raise EvidenceError('notice export overlaps an input directory')
-                manifest = {'supply_lock_sha256': sha(wheel_lock), 'packages': notices}
-                write_new_bundle(opts.export_notices, {**public_files, 'notices.json': canonical(manifest)})
+                manifest = {'supply_lock_sha256': sha(wheel_lock), 'packages': notices} if opts.notice_wheels else {}
+                if opts.profile_wheels:
+                    manifest['profile_packages'] = index.profile_notices
+                    manifest['profile_input_sha256'] = {scope: result['input_sha256'][INPUTS[scope + '/requirements.txt']]
+                                                        for scope in PROFILES}
+                write_new_bundle(opts.export_notices, {**scan_files, 'notices.json': canonical(manifest)})
             for key in opts.keys or sys.stdin:
                 print(json.dumps(index.lookup(key), sort_keys=True), flush=True)
         else:

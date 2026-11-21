@@ -8,7 +8,7 @@ import re
 import stat
 from zipfile import BadZipFile, ZipFile
 
-from .product_reasoning import EvidenceError, python_name
+from .product_reasoning import EvidenceError, INPUTS, PIN, PROFILES, python_name
 from .product_review import sha
 from .safe_io import MAX_BYTES
 
@@ -58,6 +58,29 @@ def read_wheel(path):
         return raw
 
 
+def inspect_wheel(wheels, name, version, digest):
+    prefix = name.replace('-', '_') + '-' + version + '-'
+    for path in wheels:
+        if path.name.startswith(prefix):
+            raw = read_wheel(path)
+            if sha(raw) == digest:
+                break
+    else:
+        raise EvidenceError('missing digest-matched wheel for ' + name)
+    try:
+        expression, members = wheel_notices(raw, name, version)
+    except BadZipFile as error:
+        raise EvidenceError('invalid supply wheel archive') from error
+    notices = {}
+    records = []
+    for index, (member, content) in enumerate(members.items(), start=1):
+        filename = f'{name}-{version}-{index}.txt'
+        notices[filename] = content
+        records.append({'wheel_member': member, 'file': filename, 'sha256': sha(content)})
+    return {'version': version, 'wheel_sha256': digest,
+            'declared_license_expression': expression, 'notices': records}, notices
+
+
 def collect(wheelhouse, lock):
     packages = {}
     notices = {}
@@ -72,25 +95,47 @@ def collect(wheelhouse, lock):
         name = python_name(name)
         if name in packages:
             raise EvidenceError('duplicate supply wheel pin')
-        prefix = name.replace('-', '_') + '-' + version + '-'
-        for path in wheels:
-            if path.name.startswith(prefix):
-                raw = read_wheel(path)
-                if sha(raw) == digest:
-                    break
-        else:
-            raise EvidenceError('missing digest-matched wheel for ' + name)
-        try:
-            expression, members = wheel_notices(raw, name, version)
-        except BadZipFile as error:
-            raise EvidenceError('invalid supply wheel archive') from error
-        records = []
-        for index, (member, content) in enumerate(members.items(), start=1):
-            filename = f'{name}-{version}-{index}.txt'
-            notices[filename] = content
-            records.append({'wheel_member': member, 'file': filename, 'sha256': sha(content)})
-        packages[name] = {'version': version, 'wheel_sha256': digest,
-                          'declared_license_expression': expression, 'notices': records}
+        record, files = inspect_wheel(wheels, name, version, digest)
+        packages[name] = record
+        notices.update(files)
     if not packages:
         raise EvidenceError('empty supply wheel lock')
+    return packages, notices
+
+
+def collect_profiles(wheelhouse, inputs):
+    """Keep every name/version/profile even when none of its pins specify a wheel digest."""
+    distributions = {}
+    for scope in PROFILES:
+        for line in inputs[INPUTS[scope + '/requirements.txt']].decode().splitlines():
+            line = line.strip()
+            if not line or line.startswith('#'):
+                continue
+            match = PIN.fullmatch(line)
+            if not match:
+                raise EvidenceError('unsupported profile requirement')
+            key = (python_name(match[1]), match[2])
+            record = distributions.setdefault(key, {'profiles': [], 'digest_sources': {}, 'notices': []})
+            record['profiles'].append(scope)
+            if '--hash=' in line:
+                digest = LOCK_ROW.fullmatch(line)
+                if not digest:
+                    raise EvidenceError('unsupported profile digest')
+                record['digest_sources'][scope] = digest[3]
+
+    wheels = sorted(wheelhouse.glob('*.whl'))
+    packages = {}
+    notices = {}
+    for (name, version), record in sorted(distributions.items()):
+        digests = set(record['digest_sources'].values())
+        if len(digests) > 1:
+            raise EvidenceError('ambiguous wheel digest across profiles')
+        record['version'] = version
+        if digests:
+            result, files = inspect_wheel(wheels, name, version, digests.pop())
+            record.update(result, status='WHEEL_VERIFIED')
+            notices.update(files)
+        else:
+            record['status'] = 'NO_DIGEST_IN_PRODUCT_PROFILES'
+        packages.setdefault(name, []).append(record)
     return packages, notices

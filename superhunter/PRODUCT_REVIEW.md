@@ -2,7 +2,7 @@
 
 Desde la CLI de SuperHunter se puede consultar el catálogo de 200 proyectos, el grafo de dependencias de Census y los conflictos entre los seis perfiles Python de SuperHunter. El catálogo procede del [PR 110](https://github.com/josuechavando350-png/nexus-quant-capital/pull/110), commit `474846b11ea41f9d9f41c4aa6d7eda0cbf18d2f6`. La copia conserva exactamente los bytes públicos de ese JSON. La consulta conserva los identificadores históricos de los siete proyectos que aparecen también en el portafolio de 50.
 
-Dos proyectos producen evidencia en esta revisión. Syft extrae paquetes y relaciones de los manifiestos copiados a un directorio temporal. cvc5 comprueba si los perfiles con versiones incompatibles pueden compartir un número dado de entornos. Las demás entradas siguen siendo consultables por su nombre en GitHub. Pertenecer al catálogo no acredita una ejecución.
+La revisión básica utiliza dos productores. Syft extrae paquetes y relaciones de los manifiestos copiados a un directorio temporal. cvc5 comprueba si los perfiles con versiones incompatibles pueden compartir un número dado de entornos. Las opciones descritas más abajo añaden las observaciones de proveedores, SBOM, relaciones y licencias a la misma consulta. Pertenecer al catálogo no acredita una ejecución.
 
 ## Reproducir
 
@@ -97,7 +97,7 @@ notice_dir="$(mktemp -d)/avisos"
 python3 -m superhunter query-product --bundle "$evidence_dir" --supply "$supply_work/supply" --notice-wheels /ruta/wheels --export-notices "$notice_dir" cffi pycparser
 ```
 
-La exportación escribe los textos originales y un índice que vincula cada texto con su ruta dentro del wheel, la versión y los hashes de ambos. Omitir `--export-notices` permite consultar sin escribir archivos. El campo `declared_license_expression` reproduce la declaración del proveedor cuando existe. Las versiones de los diez wheels corresponden al entorno de revisión de proveedores de NQC; cada perfil de la aplicación conserva sus propios pines. El reconocimiento independiente con ScanCode sigue pendiente.
+La exportación escribe los textos originales y un índice que vincula cada texto con su ruta dentro del wheel, la versión y los hashes de ambos. Omitir `--export-notices` permite consultar sin escribir archivos. El campo `declared_license_expression` reproduce la declaración del proveedor cuando existe. Las versiones de los diez wheels corresponden al entorno de revisión de proveedores de NQC; cada perfil de la aplicación conserva sus propios pines. La opción `--scancode-release` añade las detecciones de ScanCode para esos mismos bytes.
 
 ## Reproducir el reconocimiento de licencias
 
@@ -113,3 +113,16 @@ python3.12 -m superhunter query-product --bundle "$evidence_dir" --supply "$supp
 La CLI verifica el archivo de distribución de ScanCode antes de extraerlo y configurar su entorno privado. Sólo presenta al escáner los bytes públicos seleccionados de los wheels verificados. Coteja la cobertura, el hash por archivo, la ruta y las líneas de cada coincidencia. La respuesta conserva las referencias desconocidas que emite ScanCode. Un aviso de autoría puede mencionar licencias de otros componentes; las coincidencias describen ese texto.
 
 Para Rust se ejecuta `cargo-deny --frozen list --layout crate --format json` y se comprueba cada identidad, versión y lista de licencias contra el manifiesto propio o el Cargo.toml de la distribución cuyo SHA-256 figura en Cargo.lock. El campo `declared_expression` conserva las alternativas originales y vale `null` cuando falta la declaración. La consulta de cada herramienta admite ejecución independiente. En una sesión con varias claves, cada productor se ejecuta una vez.
+
+Para ampliar la revisión a los seis perfiles propios de NQC, descargar sus wheels en un directorio separado. En los tres archivos de bloqueo siguientes cada wheel tiene versión y SHA-256. La descarga prepara archivos; el análisis sólo lee metadatos y avisos públicos.
+
+```bash
+for profile in otel-qa owned-cross-evm owned-spec-evm; do
+  python3.12 -m pip download --no-deps --only-binary=:all: --require-hashes \
+    -r "superhunter/requirements-${profile}.txt" -d /ruta/wheels-perfiles
+done
+```
+
+Añadir `--profile-wheels /ruta/wheels-perfiles` al comando de consulta. `profile_wheel_notices` conserva por separado cada versión, los perfiles que la declaran y los que aportan un digest. Dos perfiles pueden usar la misma versión aunque sólo uno fije el hash. La consulta indica `NO_DIGEST_IN_PRODUCT_PROFILES` cuando ninguno lo aporta. Un texto sin coincidencia de ScanCode conserva su hash y su resultado vacío. Los expedientes de proveedores y perfiles pueden revisarse juntos o por separado.
+
+En la ejecución conjunta sobre estos manifiestos, 37 de las 39 combinaciones de paquete y versión tenían un wheel con digest verificable, lo que cubrió 55 de las 57 declaraciones por perfil. Las dos restantes fueron `crytic-compile` y `slither-analyzer`. ScanCode procesó 56 archivos distintos entre proveedores y perfiles, con coincidencias en 54. El índice exportado `notices.json` tuvo SHA-256 `ed06a5c822737c4b3e4d727f04ec70f6c3eed16bf2bffeb734052efacd4ef05d`. Para comprobarlo, añadir `--export-notices /ruta/nueva/avisos` a la consulta conjunta y ejecutar `sha256sum /ruta/nueva/avisos/notices.json`.

@@ -149,3 +149,27 @@ class NativeLicenseTests(unittest.TestCase):
         self.assertEqual(alternatives('MIT/Apache-2.0'), alternatives('Apache-2.0 OR MIT'))
         with self.assertRaisesRegex(ValueError, 'unsupported'):
             alternatives('MIT AND Apache-2.0')
+
+
+class ProfileNoticeTests(unittest.TestCase):
+    def test_preserves_distinct_versions_and_cross_profile_digest_provenance(self):
+        from superhunter.product_notices import collect_profiles
+        from superhunter.product_reasoning import INPUTS, PROFILES
+        wheel = NoticeTests.wheel({'example-1.dist-info/METADATA': b'Name: example\nVersion: 1\n',
+                                   'example-1.dist-info/LICENSE': b'original public notice'})
+        digest = product.sha(wheel)
+        inputs = {INPUTS[scope + '/requirements.txt']: b'example==1\n' for scope in PROFILES}
+        inputs[INPUTS['otel-qa/requirements.txt']] = f'example==1 --hash=sha256:{digest}\n'.encode()
+        inputs[INPUTS['custody/requirements.txt']] = b'example==2\n'
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root/'example-1-py3-none-any.whl').write_bytes(wheel)
+            records, notices = collect_profiles(root, inputs)
+            first, second = records['example']
+            self.assertEqual(first['digest_sources'], {'otel-qa': digest})
+            self.assertEqual(len(first['profiles']), 5)
+            self.assertEqual(second['status'], 'NO_DIGEST_IN_PRODUCT_PROFILES')
+            self.assertEqual(notices, {'example-1-1.txt': b'original public notice'})
+            inputs[INPUTS['local-lab/requirements.txt']] = ('example==1 --hash=sha256:' + 'a'*64).encode()
+            with self.assertRaisesRegex(ValueError, 'ambiguous wheel digest'):
+                collect_profiles(root, inputs)
