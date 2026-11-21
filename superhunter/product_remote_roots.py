@@ -9,6 +9,8 @@ from .product_source_audit import REMOTE, REMOTE_SHA
 from .repository_boundary import git_object
 from .safe_io import canonical, read_artifact, strict_json
 
+TREES = 'superhunter/product_supply/remote-tree-inventory.json'
+TREES_SHA = '76dae6544fcd75ef89908c925817e85d2d9ada18adfe826e10263acfe55a7beb'
 PROOFS = 'superhunter/product_supply/remote-root-proofs.json'
 PROOFS_SHA = 'a00144788cb867c288e927e95213a99084d1b3f25bdc7604739f515264df6e2a'
 FORMATS = ('Cargo.toml', 'go.mod', 'package.json', 'pyproject.toml', 'requirements.txt')
@@ -131,11 +133,31 @@ def root_results(folder):
 
 def attach(index, folder):
     results = root_results(folder)
-    for row in results:
+    data = read_artifact(ROOT, TREES)
+    if sha(data) != TREES_SHA:
+        raise EvidenceError('recursive tree inventory does not match the reviewed evidence')
+    inventory = strict_json(data)
+    remote = inventory['repositories']
+    if sha(canonical(remote)) != inventory['rows_sha256']:
+        raise EvidenceError('recursive tree rows differ from the verified corpus')
+    for row, entry in zip(results, remote, strict=True):
+        if ((entry['id'], entry['commit'], entry['root'], entry['repository']) !=
+                (row['id'], row['commit'], row['tree'], row['repository'])):
+            raise EvidenceError('recursive tree inventory joined to wrong catalog entry')
         product = index.repos[row['repository'].casefold()]
         if row['id'] != product['catalog_id']:
             raise EvidenceError('dependency evidence attached to a different product identity')
         product['root_declarations'] = row
+        product['recursive_tree_inventory'] = entry
+    attrs = [attr for row in remote for attr in row['attributes']]
+    index.recursive_source_trees = {
+        'repositories': len(remote), 'rows_sha256': inventory['rows_sha256'],
+        'unique_trees_summed_per_repository': sum(r['reachable_unique_trees'] for r in remote),
+        'tracked_blob_paths': sum(r['tracked_blob_paths'] for r in remote),
+        'nested_gitlinks': sum(r['nested_gitlinks'] for r in remote),
+        'manifest_paths': sum(sum(r['manifest_counts'].values()) for r in remote),
+        'attributes_files': len(attrs), 'literal_filter_lfs_lines': sum(a['literal_filter_lfs_lines'] for a in attrs),
+        'source_blobs_in_metadata_databases': sum(r['blobs_in_git_object_db'] for r in remote)}
     files = [f for row in results for f in row['manifests'].values()]
     index.root_declarations = {
         'remote_roots_verified': len(results), 'root_manifest_files': len(files),

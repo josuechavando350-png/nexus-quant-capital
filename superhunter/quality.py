@@ -287,7 +287,7 @@ PRODUCT_DATA_FILES = ('repositories_200.json', 'product_repository_identities.js
                       'product_supply/header-npm-lock.json', 'product_supply/upstream-notices.json',
                       'product_supply/wake-metadata-linux-py312.txt', 'product_supply/bandit-linux-py312.txt',
                       'product_supply/dspy-scores-linux-py312.txt', 'product_supply/inspect-scores-linux-py312.txt',
-                      'product_supply/remote-root-proofs.json', 'product_supply/source-excerpts/trees.json',
+                      'product_supply/remote-tree-inventory.json', 'product_supply/remote-root-proofs.json', 'product_supply/source-excerpts/trees.json',
                       'product_supply/source-excerpts/token-types.txt')
 
 
@@ -1765,6 +1765,7 @@ REQUIRED_TESTS += (
 COMPONENTS['product_review'] = {
     'files': [*PRODUCT_DATA_FILES,
               'product_source_references.py', 'product_source_audit.py', 'product_remote_roots.py',
+              'tools/audit_tree_metadata.py', 'product_assurance_notices.py',
               'product_score_comparison.py', 'product_scores_worker.py',
               'tools/fetch_root_manifests.py', 'tools/prepare_owned_source_checks.py',
               'smartbugs_region.py', 'product_owned_source_checks.py', 'product_matrix.py',

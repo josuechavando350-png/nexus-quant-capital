@@ -32,3 +32,17 @@ python3.12 -B -m superhunter.tools.render_product_matrix --source-inventory --so
   --geth-header "$work/geth-header" "$work/product" > "$work/matrix.md"
 cmp "$work/matrix.md" superhunter/INTEGRATION_STATUS_200.md
 ```
+
+## Árboles completos y avisos de los entornos
+
+Para los 47 proyectos con checkout completo pendiente, el recorrido de todos los árboles cuenta 5,534 árboles distintos sumados por repositorio, 29,043 rutas de blobs, 26 gitlinks anidados y 211 rutas con nombres de manifiestos o archivos de fijación reconocidos. Los 13 archivos `.gitattributes` examinados contienen cero reglas literales `filter=lfs`. Los gitlinks anidados quedan identificados por el árbol del padre. El inventario no materializa su contenido ni certifica que todo blob sea ajeno a LFS. [Detalle por identidad](product_supply/remote-tree-inventory.json)
+
+```sh
+python3.12 -B -m superhunter.tools.audit_tree_metadata --fetch "$work/git-metadata" "$work/attrs" > "$work/trees.json"
+unshare --user --map-current-user --net python3.12 -B -m superhunter.tools.audit_tree_metadata \
+  "$work/git-metadata" "$work/attrs" > "$work/replay.json"
+cmp "$work/trees.json" "$work/replay.json"
+cmp "$work/replay.json" superhunter/product_supply/remote-tree-inventory.json
+```
+
+Tras una interrupción, `--resume` conserva las filas adquiridas y reintenta las pendientes. La consulta `recursive-source-trees` devuelve el resumen y cada repositorio conserva su recibo individual. La consulta `assurance-wheel-notices` reconstruye 122 avisos de 90 distribuciones fijadas con SHA-256. Hay 7 wheels de Bandit, 26 de DSPy y 80 de Inspect AI, con dependencias compartidas. De las 90 distribuciones, 45 declaran una expresión SPDX en sus metadatos. La consulta conserva por separado los clasificadores, declaraciones y hashes del texto de cada aviso. El permiso de redistribución para el producto comercial continúa pendiente de revisión.

@@ -208,6 +208,7 @@ class ProductIndex:
         self.sbom_locations = {}
         self.similar_notices = None
         self.license_choices = None
+        self.assurance_wheel_notices = None
         self.score_comparison = None
         self.owned_source_checks = None
         self.root_declarations = None
@@ -254,6 +255,14 @@ class ProductIndex:
         if key == 'integration-matrix':
             from .product_matrix import build
             return build(self)
+        if key == 'assurance-wheel-notices':
+            if self.assurance_wheel_notices is None:
+                raise EvidenceError('wheel notice inventory requires --score-kit and --owned-source-kit')
+            return self.assurance_wheel_notices
+        if key == 'recursive-source-trees':
+            if self.root_declarations is None:
+                raise EvidenceError('recursive source trees require --root-manifests')
+            return self.recursive_source_trees
         if key == 'score-comparison':
             if self.score_comparison is None:
                 raise EvidenceError('scorer comparison requires --score-kit')
@@ -420,6 +429,9 @@ def main(argv):
             if opts.score_kit:
                 from . import product_score_comparison
                 product_score_comparison.attach(index, opts.source_references, opts.score_kit)
+            if opts.score_kit and opts.owned_source_kit:
+                from .product_assurance_notices import audit
+                index.assurance_wheel_notices = audit(opts.owned_source_kit, opts.score_kit)
             if opts.owned_source_kit:
                 from . import product_owned_source_checks
                 product_owned_source_checks.attach(index, opts.source_references, opts.owned_source_kit, opts.solidity_metadata_kit)

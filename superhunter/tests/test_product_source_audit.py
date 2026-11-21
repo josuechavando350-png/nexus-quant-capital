@@ -205,3 +205,44 @@ class IndependentScoringTests(unittest.TestCase):
             self.assertEqual(receipt({'repository': repo}), ('pending', None))
             with self.assertRaisesRegex(ValueError, 'accepted product result'):
                 receipt({'repository': repo, 'score_comparison_receipt': {'score': 100}})
+
+
+class MetadataBoundaryTests(unittest.TestCase):
+    def test_attributes_verify_the_blob_before_interpreting_attributes(self):
+        from superhunter.tools.audit_tree_metadata import attributes
+        raw = b'# ignore filter=lfs\n*.bin filter=lfs\n*.txt text\n'
+        oid = git_object('blob', raw)
+        with tempfile.TemporaryDirectory() as temp:
+            cache = Path(temp)
+            source = cache/(oid + '.txt')
+            source.write_bytes(raw)
+            self.assertEqual(attributes({}, '.gitattributes', oid, cache, False)['literal_filter_lfs_lines'], 1)
+            source.write_bytes(raw + b'\n')
+            with self.assertRaisesRegex(ValueError, 'attributes differ'):
+                attributes({}, '.gitattributes', oid, cache, False)
+
+    def test_blob_containing_checkout_cannot_pass_as_metadata_only(self):
+        from superhunter.tools.audit_tree_metadata import verify_repository
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            subprocess.run(['git', 'init', '-q', root], check=True)
+            (root/'readme').write_text('own fixture')
+            subprocess.run(['git', '-C', root, 'add', 'readme'], check=True)
+            subprocess.run(['git', '-C', root, '-c', 'user.name=User', '-c', 'user.email=test@invalid',
+                            'commit', '-qm', 'fixture'], check=True)
+            trees = subprocess.check_output(['git', '-C', root, 'rev-parse', 'HEAD', 'HEAD^{tree}']).decode().split()
+            with self.assertRaisesRegex(ValueError, 'unexpected object types'):
+                verify_repository({'commit': trees[0], 'tree': trees[1]}, root)
+            with self.assertRaisesRegex(ValueError, 'binding failed'):
+                verify_repository({'commit': trees[0], 'tree': '0'*40}, root)
+
+    def test_legacy_wheel_with_pep639_license_directory(self):
+        from io import BytesIO
+        from zipfile import ZipFile
+        from superhunter.product_notices import wheel_notices
+        data = BytesIO()
+        with ZipFile(data, 'w') as z:
+            z.writestr('sample-1.dist-info/METADATA', 'Name: sample\nVersion: 1\n')
+            z.writestr('sample-1.dist-info/licenses/LICENSE.md', 'Own license example')
+        self.assertEqual(wheel_notices(data.getvalue(), 'sample', '1'),
+                         (None, {'sample-1.dist-info/licenses/LICENSE.md': b'Own license example'}))
