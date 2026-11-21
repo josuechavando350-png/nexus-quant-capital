@@ -1,6 +1,7 @@
 """Join immutable source-tree observations and document-level license evidence by catalog ID."""
 from collections import Counter, defaultdict
 import os
+import posixpath
 from pathlib import Path
 import re
 import subprocess
@@ -64,10 +65,40 @@ def read_blobs(folder, sizes):
             raise ValueError('unexpected bytes after Git blobs')
 
 
+def resolve_notice_link(folder, revision, path):
+    """Follow regular Git tree paths only. Never dereference a filesystem link."""
+    visited = set()
+    for _ in range(8):
+        if path in visited:
+            return {'status': 'cyclic_link'}
+        visited.add(path)
+        record = git(folder, '--literal-pathspecs', 'ls-tree', '-z', revision, '--', path)
+        if not record:
+            return {'status': 'missing_target'}
+        (meta, actual), = [item.split(b'\t', 1) for item in record.split(b'\0') if item]
+        mode, kind, oid = meta.decode('ascii').split()
+        if actual != os.fsencode(path) or kind != 'blob':
+            return {'status': 'unsupported_target'}
+        size = int(git(folder, 'cat-file', '-s', oid))
+        if size > 2_000_000:
+            return {'status': 'oversized_target'}
+        raw = git(folder, 'cat-file', 'blob', oid)
+        if mode in ('100644', '100755'):
+            return {'status': 'resolved', 'path': path, 'git_blob': oid, 'sha256': sha(raw)}
+        if mode != '120000' or size > 4096:
+            return {'status': 'unsupported_target'}
+        target = os.fsdecode(raw)
+        path = posixpath.normpath(posixpath.join(posixpath.dirname(path), target))
+        if path in ('.', '..') or path.startswith(('/', '../')) or '\x00' in path:
+            return {'status': 'external_target'}
+    return {'status': 'link_depth_limit'}
+
+
 def tree_inventory(folder, source):
     rev = source['revision']
     nested, manifests, root_notices, oversized_attributes = {}, Counter(), {}, []
     candidates, sizes = defaultdict(list), {}
+    notice_mode = None
     for record in git(folder, 'ls-tree', '-rlz', rev).split(b'\0'):
         if not record:
             continue
@@ -75,6 +106,8 @@ def tree_inventory(folder, source):
         mode, kind, oid, size = meta.decode('ascii').split()
         path = os.fsdecode(raw_path)
         name = path.rsplit('/', 1)[-1]
+        if path == source['notice']['path']:
+            notice_mode = mode
         if kind == 'commit' and mode == '160000':
             nested[path] = oid
             continue
@@ -107,10 +140,13 @@ def tree_inventory(folder, source):
     if oid != notice['git_blob']:
         raise ValueError('notice path differs from the catalog Git object')
     select_document(source, git(folder, 'cat-file', 'blob', oid))
-    return {'nested_gitlinks': nested, 'manifest_counts_by_filename': dict(manifests),
+    result = {'nested_gitlinks': nested, 'manifest_counts_by_filename': dict(manifests),
             'root_notice_files': root_notices, 'lfs_pointers': pointers,
             'lfs_attribute_files': sorted(attributes), 'unrecognized_lfs_headers': sorted(unusual),
             'oversized_attributes_not_inspected': sorted(oversized_attributes)}
+    if notice_mode == '120000':
+        result['notice_link'] = resolve_notice_link(folder, rev, notice['path'])
+    return result
 
 
 def license_inventory(folder, release):
@@ -148,6 +184,14 @@ def inventory(root, notices=None, release=None):
             entry.update(evidence='github_commit_metadata', tree=remote[number]['tree'], contents=None)
         if licenses:
             entry['notice_scan'] = licenses[number]
+            link = (entry['contents'] or {}).get('notice_link', {})
+            if link.get('status') == 'resolved':
+                from .product_licenses import scan
+                name = f'resolved-{number:03}.txt'
+                raw = git(root/checked[number]['path'], 'cat-file', 'blob', link['git_blob'])
+                if sha(raw) != link['sha256']:
+                    raise ValueError('resolved license bytes differ')
+                entry['resolved_notice_scan'] = scan(release, {name: raw})['notices'][name]
         entries.append(entry)
     result = {'schema_version': 1, 'checkouts': len(checked), 'remote_commit_records': len(remote),
               'entries': entries, 'entries_sha256': sha(canonical(entries))}
@@ -158,7 +202,7 @@ def inventory(root, notices=None, release=None):
 
 
 SNAPSHOT = 'superhunter/product_supply/source-inventory.json'
-SNAPSHOT_SHA = 'bef1aec717fb4a7800283a1dceff3102a749b04b2a46c1fe02fd22b4ad259b14'
+SNAPSHOT_SHA = '9fe08694ea198e7872cc954a122fc4bdc4675996a5403cb7344822a89a3bfe3f'
 NATURE = 'superhunter/product_supply/source-natures.json'
 NATURE_SHA = '5a6fb83a6f6df74992a6423da69db61d712d6fb480a86238775eede20a909212'
 
@@ -197,6 +241,7 @@ def attach(index):
     index.source_inventory = {
         'catalog_count': len(rows), 'checkouts': len(checkouts), 'metadata_only': len(rows) - len(checkouts),
         'notice_matches': sum(bool(r['notice_scan']['detected_expression']) for r in rows),
+        'resolved_notice_matches': sum(bool(r.get('resolved_notice_scan', {}).get('detected_expression')) for r in rows),
         'source_natures': {k: len(v) for k, v in natures.items()},
         'nested_gitlinks': sum(len(r['contents']['nested_gitlinks']) for r in rows if r['contents']),
         'lfs_pointers': sum(len(r['contents']['lfs_pointers']) for r in rows if r['contents']),
