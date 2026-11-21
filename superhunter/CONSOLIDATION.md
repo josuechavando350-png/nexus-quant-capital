@@ -10,6 +10,15 @@ Una ejecución con los kits oficiales sobre ese árbol produjo 222 respuestas y 
 
 En el PR 119 se reprodujeron los dos grupos afectados en dos checkouts limpios del mismo commit en un host. Las cuatro identidades produjeron los mismos 13.025 bytes. El commit `fae4157` incorporó al perfil unificado el Node de la distribución oficial y la receta del JRE reconstruido desde Debian. [Acta EVM y Java](product_supply/acceptance-120/evm-java-replay.json) · [Transcripción](product_supply/acceptance-120/evm-java-transcript.json)
 
+## Pruebas del producto y de los árboles protegidos
+
+| Alcance | Resultado | Evidencia |
+|---|---|---|
+| 37 módulos de producto, inventario y recibos, árbol `614361e3` | 398 aprobadas, cero fallidas u omitidas. El oráculo independiente utilizó la distribución local de npm para resolver semver. | [Casos de prueba y huella del registro](product_supply/acceptance-120/qa-results.json) |
+| Rust histórico de Census, Cargo y rustc 1.98.1 | 528 aprobadas sin red. Los binarios compilados correspondían al árbol preservado y se reutilizaron con Cargo.lock fijado. | [Casos por ejecutable de prueba](product_supply/acceptance-120/qa-results.json) |
+| Aislamiento de NQC y migración | 642 archivos protegidos verificados. En el árbol histórico pasaron las nueve pruebas de migración. Sobre el producto ampliado pasaron ocho y una dio `unreviewed root file`. | [Resultado por alcance](product_supply/acceptance-120/qa-results.json) |
+| QA global del producto, árbol `614361e3` | Bloqueada antes de emitir el certificado. El inventario exige 426 archivos Python y 152 archivos de datos, frente al límite total de 500. | [Inventario de QA](product_supply/acceptance-120/qa-results.json) |
+
 ## Ejecutar el perfil conjunto
 
 Se utiliza la misma entrada de producto y un solo índice de 200 identidades. Una fila puede tener varias operaciones. `integration-matrix` y `integration-coverage` exponen cada operación mediante `session_operations`, con su rol, el campo que contiene el recibo y su SHA-256. El resultado original se obtiene consultando la identidad en la misma sesión. El selector acepta controles fijos locales. La única cuenta por identidad prioriza la ejecución cuando también hay un uso documental.

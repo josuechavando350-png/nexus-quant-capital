@@ -117,7 +117,8 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
 
     def test_historical_matrix_keeps_all_identities_and_both_receipts(self):
         text = renderer.historical_markdown()
-        self.assertEqual(text.encode(), renderer.MATRIX.read_bytes())
+        published = renderer.accepted_markdown() if (ROOT / renderer.DOSSIER / 'acceptance.json').is_file() else text
+        self.assertEqual(published.encode(), renderer.MATRIX.read_bytes())
         rows = [line.split(' | ') for line in text.splitlines() if line.startswith('| ') and line[2:3].isdigit()]
         self.assertEqual([int(row[0][2:]) for row in rows], list(range(1, 201)))
         self.assertIn('Aceptación conjunta pendiente', text)
@@ -198,3 +199,70 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
         rows[1]['session_operations'][0]['role'] = 'reference_data'
         with self.assertRaisesRegex(EvidenceError, 'usestrix/strix'):
             verifier.check_historical_coverage(rows.values())
+
+    def test_current_receipt_column_preserves_each_role_field_and_digest(self):
+        self.assertEqual(renderer.current_receipts([]), '—')
+        operations = [{'role': 'reference_data', 'receipt': 'source', 'evidence_sha256': '1' * 64},
+                      {'role': 'executable', 'receipt': 'code', 'evidence_sha256': '2' * 64}]
+        self.assertEqual(renderer.current_receipts(operations),
+                         f"Referencia · `source` · `{'1' * 64}` / Ejecución · `code` · `{'2' * 64}`")
+
+    def test_acceptance_rejects_repeat_checkout_before_reading_its_data(self):
+        act = {'schema_version': 1, 'same_host': True, 'runs': [
+            {'id': name, 'checkout': 'single/checkout'} for name in ('first', 'second')]}
+        with TemporaryDirectory() as tmp, patch.object(renderer, 'ROOT', Path(tmp)):
+            folder = Path(tmp) / renderer.DOSSIER
+            folder.mkdir(parents=True)
+            (folder / 'acceptance.json').write_bytes(canonical(act))
+            with self.assertRaisesRegex(EvidenceError, 'distinct checkouts'):
+                renderer.accepted_markdown()
+
+    def test_unverified_publication_or_truncated_output_cannot_render_acceptance(self):
+        # Deliberately incomplete native run. The compressed bytes, result metadata and
+        # manifest agree, so an implementation that compared only hashes would admit it.
+        archived = (ROOT / 'superhunter/product_supply/native-session-70.json').read_bytes()
+        raw = verifier.unpack(archived)
+        result = {'commit': 'f' * 40, 'tree': 'a' * 40, 'returncode': 0, 'responses': len(raw.splitlines()),
+                  'bytes': len(raw), 'sha256': verifier.sha(raw), 'clean_after': True}
+        inputs = {'checkout_clean_before': True, 'commit': result['commit'], 'tree': result['tree']}
+        record = {'id': 'first', 'checkout': 'first/checkout'}
+        with TemporaryDirectory() as tmp, patch.object(renderer, 'ROOT', Path(tmp)):
+            folder = Path(tmp) / renderer.DOSSIER / 'first'
+            folder.mkdir(parents=True)
+            for filename, data, field in [('run-inputs.json', canonical(inputs), 'inputs_sha256'),
+                                          ('result.json', canonical(result), 'result_sha256'),
+                                          ('session.json', archived, 'archive_sha256')]:
+                (folder / filename).write_bytes(data)
+                record[field] = verifier.sha(data)
+            with self.assertRaisesRegex(EvidenceError, 'run result'):
+                renderer.run_evidence(record, 'first')
+            record['archive_sha256'] = '0' * 64
+            with self.assertRaisesRegex(EvidenceError, 'dossier digest'):
+                renderer.run_evidence(record, 'first')
+
+    def test_producer_is_checked_in_git_and_missing_shallow_objects_have_a_diagnosis(self):
+        import subprocess
+
+        def git(*args):
+            return subprocess.check_output(['git', '-C', str(ROOT), *args])
+        commit = git('rev-parse', 'HEAD').decode().strip()
+        tree = git('rev-parse', 'HEAD^{tree}').decode().strip()
+        inputs = {'git_source_tree': git('rev-parse', 'HEAD:upstream').decode().strip(),
+                  'native_contract_sha256': verifier.sha(git('show', 'HEAD:superhunter/product_supply/native-capability-contracts.json'))}
+        renderer.require_producer(commit, tree, inputs)
+        with self.assertRaisesRegex(EvidenceError, 'tree differs'):
+            renderer.require_producer(commit, '0' * 40, inputs)
+        with self.assertRaisesRegex(EvidenceError, 'producer Git objects unavailable'):
+            renderer.require_producer('0' * 40, tree, inputs)
+
+    def test_two_identical_historical_transcripts_cannot_be_promoted_by_the_renderer(self):
+        # Even if a launcher reported two successful jobs, the strict session verifier
+        # must independently enforce the current producer/operation requirements.
+        act = {'schema_version': 1, 'same_host': True, 'runs': [
+            {'id': n, 'checkout': n + '/checkout', 'result_sha256': n} for n in ('first', 'second')]}
+        result = {'commit': '1' * 40, 'tree': '2' * 40, 'sha256': verifier.sha(self.archive)}
+        recorded = [({'raw_run_inputs_sha256': n}, result, self.archive) for n in ('first', 'second')]
+        with patch.object(renderer, 'read_artifact', return_value=canonical(act)), \
+                patch.object(renderer, 'run_evidence', side_effect=recorded), \
+                self.assertRaisesRegex(EvidenceError, 'incomplete consolidated session'):
+            renderer.accepted_markdown()
