@@ -153,6 +153,7 @@ QA_MODULE_GROUPS = (
         'test_owned_authority_coverage_suite',
         'test_owned_coverage_link',
         'test_portfolio_inventory',
+        'test_product_review',
         'test_owned_authority_behavior',
         'test_owned_correct_cross_evm',
         'test_custody',
