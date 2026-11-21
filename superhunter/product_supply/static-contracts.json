@@ -1,0 +1,273 @@
+{
+  "Fraunhofer-AISEC/cpg": {
+    "operation": "bind_owned_call_to_parameter_modes",
+    "result": {
+      "fields": [
+        [
+          "posonlyargs",
+          "positional-only"
+        ],
+        [
+          "args",
+          "positional-or-keyword"
+        ],
+        [
+          "kwonlyargs",
+          "keyword-only"
+        ]
+      ],
+      "interfaces_sha256": "2ba0a4a16deb29d8e45f56f8ef4de7d0a07a9f4cd49675996d73294b897ada87",
+      "positional_binding": {
+        "broken_stub": false,
+        "keyword_only": false,
+        "missing_parameter": false,
+        "narrowed_input": true,
+        "nullable_result": true,
+        "positional_only": true,
+        "renamed_parameter": true,
+        "same_interface": true,
+        "source": true,
+        "untyped_parameter": true
+      }
+    },
+    "revision": "8a4bd21ec8591b1bc92ca6174a01ab5159514e09",
+    "role": "reference",
+    "source_manifest_sha256": "1df1b803e86d319ebf9c39536bf6087918647f96cbc00b7777b2f9ccf44efb21"
+  },
+  "meta/Pysa": {
+    "operation": "resolve_and_parse_evidence_reader_interfaces",
+    "result": {
+      "interfaces": {
+        "broken_stub": {
+          "parsed": false,
+          "selected": "safe_io.pyi"
+        },
+        "keyword_only": {
+          "parameters": [
+            [
+              "root",
+              "positional-or-keyword",
+              "Path"
+            ],
+            [
+              "relative",
+              "keyword-only",
+              "str"
+            ]
+          ],
+          "parsed": true,
+          "returns": "bytes",
+          "selected": "safe_io.pyi"
+        },
+        "missing_parameter": {
+          "parameters": [
+            [
+              "root",
+              "positional-or-keyword",
+              "Path"
+            ]
+          ],
+          "parsed": true,
+          "returns": "bytes",
+          "selected": "safe_io.pyi"
+        },
+        "narrowed_input": {
+          "parameters": [
+            [
+              "root",
+              "positional-or-keyword",
+              "Path"
+            ],
+            [
+              "relative",
+              "positional-or-keyword",
+              "bytes"
+            ]
+          ],
+          "parsed": true,
+          "returns": "bytes",
+          "selected": "safe_io.pyi"
+        },
+        "nullable_result": {
+          "parameters": [
+            [
+              "root",
+              "positional-or-keyword",
+              "Path"
+            ],
+            [
+              "relative",
+              "positional-or-keyword",
+              "str"
+            ]
+          ],
+          "parsed": true,
+          "returns": "bytes | None",
+          "selected": "safe_io.pyi"
+        },
+        "positional_only": {
+          "parameters": [
+            [
+              "root",
+              "positional-only",
+              "Path"
+            ],
+            [
+              "relative",
+              "positional-only",
+              "str"
+            ]
+          ],
+          "parsed": true,
+          "returns": "bytes",
+          "selected": "safe_io.pyi"
+        },
+        "renamed_parameter": {
+          "parameters": [
+            [
+              "root",
+              "positional-or-keyword",
+              "Path"
+            ],
+            [
+              "other",
+              "positional-or-keyword",
+              "str"
+            ]
+          ],
+          "parsed": true,
+          "returns": "bytes",
+          "selected": "safe_io.pyi"
+        },
+        "same_interface": {
+          "parameters": [
+            [
+              "root",
+              "positional-or-keyword",
+              "Path"
+            ],
+            [
+              "relative",
+              "positional-or-keyword",
+              "str"
+            ]
+          ],
+          "parsed": true,
+          "returns": "bytes",
+          "selected": "safe_io.pyi"
+        },
+        "source": {
+          "parameters": [
+            [
+              "root",
+              "positional-or-keyword",
+              "Path"
+            ],
+            [
+              "relative",
+              "positional-or-keyword",
+              "str"
+            ]
+          ],
+          "parsed": true,
+          "returns": "bytes",
+          "selected": "safe_io.py"
+        },
+        "untyped_parameter": {
+          "parameters": [
+            [
+              "root",
+              "positional-or-keyword",
+              "Path"
+            ],
+            [
+              "relative",
+              "positional-or-keyword",
+              null
+            ]
+          ],
+          "parsed": true,
+          "returns": "bytes",
+          "selected": "safe_io.pyi"
+        }
+      }
+    },
+    "revision": "50ba6ccf2612131033662e0a6bc5e8acffc6ff36",
+    "role": "execution",
+    "source_manifest_sha256": "0013381d18d960cf06775c184fd2b5872245686564c7b44109203c1989e32e0b"
+  },
+  "meta/infer": {
+    "operation": "enforce_required_typed_evidence_arguments",
+    "result": {
+      "decisions": {
+        "broken_stub": {
+          "accepted": false,
+          "positional_call_binds": false,
+          "selected": "safe_io.pyi",
+          "type_diagnostic": null
+        },
+        "keyword_only": {
+          "accepted": false,
+          "positional_call_binds": false,
+          "selected": "safe_io.pyi",
+          "type_diagnostic": "typed witness admitted"
+        },
+        "missing_parameter": {
+          "accepted": false,
+          "positional_call_binds": false,
+          "selected": "safe_io.pyi",
+          "type_diagnostic": "Key not found"
+        },
+        "narrowed_input": {
+          "accepted": false,
+          "positional_call_binds": true,
+          "selected": "safe_io.pyi",
+          "type_diagnostic": "incompatible argument type"
+        },
+        "nullable_result": {
+          "accepted": false,
+          "positional_call_binds": true,
+          "selected": "safe_io.pyi",
+          "type_diagnostic": "nullable output"
+        },
+        "positional_only": {
+          "accepted": true,
+          "positional_call_binds": true,
+          "selected": "safe_io.pyi",
+          "type_diagnostic": "typed witness admitted"
+        },
+        "renamed_parameter": {
+          "accepted": true,
+          "positional_call_binds": true,
+          "selected": "safe_io.pyi",
+          "type_diagnostic": "typed witness admitted"
+        },
+        "same_interface": {
+          "accepted": true,
+          "positional_call_binds": true,
+          "selected": "safe_io.pyi",
+          "type_diagnostic": "typed witness admitted"
+        },
+        "source": {
+          "accepted": true,
+          "positional_call_binds": true,
+          "selected": "safe_io.py",
+          "type_diagnostic": "typed witness admitted"
+        },
+        "untyped_parameter": {
+          "accepted": false,
+          "positional_call_binds": true,
+          "selected": "safe_io.pyi",
+          "type_diagnostic": "Null value"
+        }
+      },
+      "null_rejected_by_consumer": true,
+      "source_sha256": "742bb873c69e2793fa62afa34983efd2ef10066ae525b7a70542407db61c509a",
+      "stimulus_sha256": "7fdfd8e9d583c854001e5a74b80bdc9b359f551496bfa1a6d6912c1de75d5501",
+      "upstream_scope": "nullability assertion library and model binding"
+    },
+    "revision": "2ebceff7ce3c93480bbc0e8d09d11aeec53595d8",
+    "role": "execution",
+    "source_manifest_sha256": "48070b6f9fa63390139a04d70ec4ef359c555bb4e95ae4d07407cdb90ff14a58"
+  }
+}

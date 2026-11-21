@@ -1,12 +1,14 @@
 # Capacidades nativas de SUPERHUNTER
 
-La rama contiene **12 grupos nativos que cubren 25 identidades**: 24 ejecutan código y una aporta reglas consumidas. Son 14 identidades adicionales respecto al bloque nativo del checkpoint de 70. Cada grupo tiene controles propios ejecutados y reproducidos; la aceptación conjunta de esta ampliación se registra por separado y no se obtiene sumando los contadores de otros PR.
+El registro actual contiene **15 grupos y 28 identidades**: 27 ejecutan código y una aporta reglas consumidas. Cada productor nuevo tiene controles propios reproducidos. El total conjunto con los dominios de Astra se acredita mediante una sola sesión y una matriz que conserva todas las operaciones sin duplicar identidades.
 
-El último checkpoint archivado reúne las 59 participaciones de los PR 115/117 y once incorporaciones nativas. Una ejecución sin red produjo 221 respuestas: **70 participaciones, 58 de ejecución y 12 de referencias consumidas**. Hay 200 checkouts directos verificados. Ese expediente conserva 130 identidades pendientes y sus ocho alteraciones rechazadas; permanece inmutable como evidencia histórica. Los controles no acreditan descubrimiento de vulnerabilidades originales.
+El checkpoint publicado `b87788962072578f9fb7ec5b584a06868639d89a` tiene una ejecución completa aceptada: **84/200 participaciones**, 72 de ejecución y 12 de referencia, con 221 respuestas, 200 fuentes directas y ocho alteraciones rechazadas. Usó los 12 grupos y 25 identidades del contrato histórico 84. La segunda ejecución desde otro checkout del mismo commit terminó con `OSError` antes de emitir el expediente completo; no se acredita reproducción byte por byte y la causa concreta permanece sin determinar. [Aceptación y fallo conservados](product_supply/native-acceptance-84.json) · [Transcripción de 84](product_supply/native-session-84.json).
+
+Los tres grupos añadidos después de ese checkpoint —RLP, mutación y fuzzing Python— no se atribuyen a aquella ejecución. El [checkpoint anterior de 70](product_supply/native-acceptance-70.json) también permanece inmutable. Ninguno de estos controles acredita vulnerabilidades originales.
 
 ## Un solo producto
 
-Los motores participan en `query-product`, usan las identidades originales del catálogo y publican recibos en el mismo `ProductIndex`. `native-capabilities` devuelve sus resultados; `integration-coverage` y `integration-matrix` calculan el estado a partir de esos recibos. Las fuentes, versiones, hashes, controles negativos y límites se conservan junto a cada resultado. Un productor que falla no publica acreditaciones parciales del grupo.
+Los motores participan en `query-product`, usan las identidades originales del catálogo y publican recibos en el mismo `ProductIndex`. `native-capabilities` devuelve sus resultados; `integration-coverage` y `integration-matrix` calculan el estado a partir de esos recibos. Las fuentes, versiones, hashes, controles negativos y límites se conservan junto a cada resultado. Un productor que falla no publica acreditaciones parciales del grupo. Los grupos independientes pueden terminar; la CLI devuelve salida 2 si hay grupos bloqueados. Al repetir la selección se retiran sus recibos anteriores. El verificador completo exige cero bloqueos.
 
 La selección de los grupos se configura en un único archivo JSON mediante `--native-kits`. Las claves admitidas están fijadas en código; el archivo sólo proporciona directorios locales, sin módulos ni comandos arbitrarios. Las rutas relativas se resuelven respecto al propio manifiesto. Una selección duplicada entre archivo y CLI se rechaza.
 
@@ -41,10 +43,13 @@ La selección de los grupos se configura en un único archivo JSON mediante `--n
 | Policy Sentry | Clasifica cinco políticas IAM propias; conserva acciones desconocidas como inconclusas y no evalúa permisos efectivos de una cuenta. |
 | Hardhat | Compila seis contratos propios y contrasta ABI, AST, bytecode y almacenamiento con solc directo. |
 | OpenZeppelin Upgrades | Acepta una ampliación compatible del almacenamiento y rechaza reducción de tipo, reordenamiento, eliminación y renombramiento no autorizado. |
+| OpenZeppelin Ethernaut | Ejecuta sus bibliotecas RLP sin cambios para leer el encabezado histórico de Census y controles de longitud, listas y truncación; una comprobación separada rechaza las codificaciones no canónicas que el lector admite. |
+| Mewt | Produce cuatro mutaciones aritméticas propias; las pruebas fuertes matan cuatro y una prueba débil deja sobrevivir la multiplicación. Ocho repeticiones por compilación directa corroboran el resultado. |
+| Atheris | El fuzzer nativo encuentra un desbordamiento contable introducido en un parser propio, guarda el corpus, reproduce el fallo y comprueba la reparación durante 512 callbacks. |
 
 Las inferencias de argumentos/mutabilidad que EVMole no resuelve se conservan como incertidumbre. Los releases binarios y las revisiones del catálogo se distinguen; no se afirma que todo binario haya sido reconstruido desde el commit del catálogo. En Hardhat, 299 de 300 fuentes TypeScript comparadas coinciden con el catálogo; la diferencia del campo `test` frente a `tests` queda registrada. Las 132 fuentes comparadas de OpenZeppelin coinciden. La repetición en un mismo host demuestra reproducibilidad de estos controles, sin autenticar al productor ni establecer precisión general.
 
-Las 25 identidades conservan sus ámbitos específicos. Una prueba de formato HTTP no acredita toda la capacidad de proxy, un control de almacenamiento no certifica la seguridad completa de una actualización y una clasificación IAM no sustituye la evaluación de autorización efectiva. Si otro grupo ya usa el mismo repositorio, sus operaciones se conservan pero la identidad se cuenta una sola vez en la consolidación.
+Las 28 identidades conservan sus ámbitos específicos. Una prueba de formato HTTP no acredita toda la capacidad de proxy, un control de almacenamiento no certifica la seguridad completa de una actualización y una clasificación IAM no sustituye la evaluación de autorización efectiva. Si otro grupo ya usa el mismo repositorio, sus operaciones se conservan pero la identidad se cuenta una sola vez en la consolidación.
 
 ## Reproducir
 
@@ -60,12 +65,15 @@ Al comando de la sesión completa añadir:
 
 Con `--gosec-kit` y `--embedded-root-manifests`, el ejecutor incluye las dos consultas del PR 117 y la consulta de capacidades nativas. Cada invocación consume los kits comprobados, vuelve a ejecutar los controles seleccionados y coteja sus bytes normalizados antes de acreditar una identidad.
 
-Para comprobar el expediente archivado, sin afirmar una nueva ejecución de motores:
+Para comprobar los expedientes archivados, sin afirmar nuevas ejecuciones de motores:
 
 ```sh
-python3.12 -B -m superhunter.tools.verify_native_session   --archive --contract-version 70 --check-controls superhunter/product_supply/native-session-70.json
+python3.12 -B -m superhunter.tools.verify_native_session --archive --contract-version 70 --check-controls superhunter/product_supply/native-session-70.json
+python3.12 -B -m superhunter.tools.verify_native_session --archive --contract-version 84 --check-controls superhunter/product_supply/native-session-84.json
 ```
 
 [Registro de la ejecución](product_supply/native-acceptance-70.json) · [Transcripción completa comprimida](product_supply/native-session-70.json) · [Matriz de las 200 identidades](INTEGRATION_STATUS_200.md) · [Fuentes y alcance de Git](SOURCE_CHECKOUT.md).
 
-La sesión de este checkpoint se ejecutó sobre una rama de trabajo con cambios locales. El recibo lo declara y deja pendiente la reproducción desde el commit publicado. Las fuentes históricas de NQC se preservaron: 642 archivos comprobados, cero workflows activados.
+La sesión de 70 se ejecutó con cambios locales y conserva esa limitación. La sesión de 84 procede de un checkout limpio del commit publicado b877889. Los kits y el host de las repeticiones son compartidos; no se afirma independencia de hardware. Las fuentes históricas de NQC se preservaron: 642 archivos comprobados, cero workflows activados.
+
+RLP conserva los archivos Git y avisos originales; el control no ejecuta el juego completo de Ethernaut. Mewt está reconstruido desde el commit catalogado, con sus 288 archivos de dependencias cotejados y aviso AGPL conservado. Atheris utiliza el wheel oficial 3.1.0; no se presenta como un binario reconstruido desde el commit catalogado. El corpus real descubierto se conserva también como bytes hexadecimales y SHA-256 en los JSON publicados. Los errores son deliberados y locales; no se cuentan como hallazgos de terceros.

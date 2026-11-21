@@ -1,4 +1,5 @@
-> Avance de integración: [checkpoint nativo, 70 participaciones y 200 fuentes](NATIVE_CAPABILITIES.md). Las cifras siguientes conservan el alcance de sus entregas históricas.
+> Integración vigente: [consolidación de ambas ramas](CONSOLIDATION.md) y [15 grupos nativos/28 identidades](NATIVE_CAPABILITIES.md). El checkpoint publicado b877889 acredita 84/200 en una sola sesión; la aceptación de la unión completa se publica por separado. Los apartados siguientes conservan sus cifras históricas.
+
 
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 

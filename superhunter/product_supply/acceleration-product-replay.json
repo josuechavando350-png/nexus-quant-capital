@@ -1,0 +1,125 @@
+{
+  "concurrent_cold_cache": {
+    "asset": "solc",
+    "asset_bytes": 15020760,
+    "distinct_session_inodes": true,
+    "input": "pinned_local_asset",
+    "input_reads": 1,
+    "network": "unshared",
+    "seconds": 0.198,
+    "sha256": "fb03a29a517452b9f12bcf459ef37d0a543765bb3bbc911e70a87d6a37c30d5f",
+    "workers": 4
+  },
+  "focused_python": {
+    "errors": 0,
+    "failed": 0,
+    "modules": [
+      "test_product_download_cache",
+      "test_product_inventory_parallel",
+      "test_product_license_session",
+      "test_product_source_parallel",
+      "test_product_supply",
+      "test_product_source_audit",
+      "test_product_catalog_session",
+      "test_repository_boundary"
+    ],
+    "passed": 123,
+    "skipped": 0
+  },
+  "focused_tests_sha256": {
+    "superhunter/tests/test_product_catalog_session.py": "56cb14d9b4536adbdba3adf6b18794671b14042f6816fa35273a0f4d0964e266",
+    "superhunter/tests/test_product_download_cache.py": "12ff89fd8ef62bbf42e9f556e84aae642c552cba577ddabc9a56e46afdaacf25",
+    "superhunter/tests/test_product_inventory_parallel.py": "8b8172052147f866b9d0b295aec7a61f0e07375568a4d06bbe0172941f281736",
+    "superhunter/tests/test_product_license_session.py": "b50855589a9af834e64e492e948c9df39e644104c2dfbf87daa26e72df418f0f",
+    "superhunter/tests/test_product_source_audit.py": "6714d0319432f07b41b3442f0e4fa283d23df6128702cdceb91d36d8c4abe874",
+    "superhunter/tests/test_product_source_parallel.py": "ca09bb5641e34a0cd0d02dee6f977ed9abbb459f83db6b2b08807e9b06567d85",
+    "superhunter/tests/test_product_supply.py": "658a1cf4ca46c81ebffd723bc716db300d9d0d5a397adfc4befeb586b0ab1028",
+    "superhunter/tests/test_repository_boundary.py": "ec252a5e414512fe077b71683e64b93bc43ddf8f7e1fc6889b76eca84073b0b6"
+  },
+  "functional_integrations_added_by_this_port": 0,
+  "git": "git version 2.56.1",
+  "historical_boundary": {
+    "active_workflows": 0,
+    "files": 642
+  },
+  "intermediate_diagnostics": [
+    "A restored Git stat cache initially indicated changes in an unchanged file in schemathesis. Candidate blobs and modes are now checked directly without updating the index.",
+    "Byte-only comparison then rejected two valid built-in Git representations: a CRLF file in Kubescape and an ident expansion in honggfuzz. The reader now reconstructs the pinned checkout encoding in a temporary Git repository with inherited filters and configuration excluded."
+  ],
+  "native_checkout_comparison": [
+    {
+      "count": 153,
+      "jobs": 1,
+      "seconds": 288.4086,
+      "sha256": "d822e374752a12e8bf01aac491fd7d56226dd66e9c4d866f9fecdb8502dd1e8d"
+    },
+    {
+      "count": 153,
+      "jobs": 4,
+      "seconds": 187.5037,
+      "sha256": "d822e374752a12e8bf01aac491fd7d56226dd66e9c4d866f9fecdb8502dd1e8d"
+    }
+  ],
+  "native_scancode": {
+    "batches": [
+      30,
+      30,
+      30,
+      30,
+      24
+    ],
+    "catalog_notices": 200,
+    "matches_reviewed_notices": true,
+    "release_sha256": "638adcd0af576d1f4d5b64dde228724b3ca4fdee2c4de20d88e4356be353f027",
+    "seconds": 110.6083,
+    "sha256": "448ba1ab15da888be992ad266dc9fabd4afbc00ee68bd4c41f238a1c7b19db6a",
+    "unique_notices": 144
+  },
+  "native_tree_inventory": {
+    "jobs": 4,
+    "local": 153,
+    "remote": 47,
+    "seconds": 198.2881,
+    "sha256": "18e1d8e311f3d4382c2d4ae7d46d15e732268995ccdd79d26edb44695ac709ef"
+  },
+  "not_assessed": [
+    "Commercial redistribution rights",
+    "Original vulnerability discovery",
+    "Independent-host benchmarking",
+    "Global product end-to-end execution by the acceleration worker"
+  ],
+  "pinned_download_cache": {
+    "assets": 10,
+    "bytes": 380666338,
+    "download_network": "unshared",
+    "entries_sha256": "3d10852594cda23f1da33fd51c24f7195e8280e6145a3bca00c0a07d8c8b56cb",
+    "seconds": 2.1141,
+    "session_copies_have_distinct_inodes": true
+  },
+  "previous_session_archive_reverification": {
+    "credited": 59,
+    "negative_controls_rejected": [
+      "changed_git_tree",
+      "changed_license",
+      "changed_native_result",
+      "inflated_count",
+      "replaced_historical_digest",
+      "unsupported_credit"
+    ],
+    "prior_pr": 117,
+    "rows": 220,
+    "transcript_sha256": "7549154796e0b77a907d780abfdcd89d75f4d8dc04540d3794217b2aa3cc963c"
+  },
+  "product_base": "672c31392929b8efbd6b3d5983c44e8560232add",
+  "schema_version": 1,
+  "scope": "Source integrity and preparation on the 153-checkout product base. Measured on one host with other work in progress. Elapsed times are observations for this checkout and filesystem.",
+  "tested_port_sha256": {
+    "superhunter/product_licenses.py": "4637877762445dd160774b1f5a48b39c329b7164656ce7f6bf99701b27895e8d",
+    "superhunter/product_source_audit.py": "02b318cd946abc65d8265944f2c55a058d8adb8ccbd724226a13d9f276a8de18",
+    "superhunter/product_sources.py": "47a19a0738142cff97115bbb2fca70c739d483f78af1bab2202005f152b3f60a",
+    "superhunter/tools/catalog_session.py": "65f2f81e56c9131cfe7fd5f65116fd39e026cb2bd3b680b1536ce0c8f38748bd",
+    "superhunter/tools/verified_downloads.py": "d75d31a81faf1df7be0b5619f6863d2737ff9705d6fc50b6ec343382ce223933"
+  },
+  "upstream_optimization_commit": "14b0f25b5da00e998ae903743b3d707b8ed28972",
+  "upstream_optimization_pr": 116
+}

@@ -1,60 +1,37 @@
-# Conciliación de entregas — 4 de noviembre de 2026
+# SUPERHUNTER · Consolidación de las ramas de producto
 
-## Procedencia
+Los PR [118](https://github.com/josuechavando350-png/nexus-quant-capital/pull/118) y [119](https://github.com/josuechavando350-png/nexus-quant-capital/pull/119) partieron de `672c31392929b8efbd6b3d5983c44e8560232add`. Las dos transcripciones históricas de 99 y 70 participantes compartían 63 identidades. Había 36 exclusivas de la primera y siete exclusivas de la segunda. El total histórico de esas dos ejecuciones era 106. [Archivo de 99](product_supply/component-session-99.json) · [Archivo de 70](product_supply/native-session-70.json)
 
-Base de aplicación: PR 35 en `adc28a062668de996848ace5d233d2fa055fbd4c`.
-Su identidad ejecutable/políticas fue reconstruida desde los archivos
-recuperados y coincidió exactamente con
-`c292801202c0548b7ba4f364fe80848e427e14ae4bd8fd786d015f851ea7ed7d`.
-La suite base de 251 pruebas se volvió a ejecutar, sin fallos ni omisiones.
+La consolidación incorpora el estado local inmutable de Astra `1edb1699e6f6af382d7d65fdfd536c61989d0beb` y el checkpoint publicado `b87788962072578f9fb7ec5b584a06868639d89a`. Este último ya acredita 84 participaciones en una sesión; esa cifra no se suma a las 99 históricas. El registro conjunto tiene 17 dominios de componentes y 15 grupos nativos. Su aceptación conjunta permanece pendiente hasta publicar la transcripción de 222 respuestas.
 
-Se incorporó PR 37, commit `42dc168efd63e7ac3a8919635773ed66ddb2758c`,
-cuya suite archivada de 261 pruebas también se volvió a ejecutar. Además se
-integró el paquete local de privacidad/regresiones entregado anteriormente;
-su SHA-256 y la unión de 364 IDs previos están en `reconciliation-origins.json`.
-No se declara que esos cambios ya hayan sido publicados en GitHub.
+## Ejecutar el perfil conjunto
 
-## Resolución de conflictos
+Se utiliza la misma entrada de producto y un solo índice de 200 identidades. Una fila puede tener varias operaciones. `integration-matrix` y `integration-coverage` exponen cada operación mediante `session_operations`, con su rol, el campo que contiene el recibo y su SHA-256. El resultado original se obtiene consultando la identidad en la misma sesión. El selector acepta controles fijos locales. La única cuenta por identidad prioriza la ejecución cuando también hay un uso documental.
 
-Se unieron las entradas de CLI y las asignaciones de módulos, dependencias y
-tests obligatorios en QA. Se mantuvieron los verificadores de grafos y campañas
-numéricas, incluida la comparación canónica que distingue booleanos de números.
-Se conservaron los reportes portátiles, las funciones de privacidad y el
-comparador de regresiones. Ningún test previo fue eliminado.
+Preparar los [insumos históricos](OFFLINE_SOURCE_AND_GO.md), los [dominios de controles](DEFENSIVE_COMPONENTS.md), el [perfil de quince grupos nativos](product_supply/native-kits-example.json) y el [códec de expedientes](EVIDENCE_CODEC.md). Los grupos java y upgrades requieren los kits descritos en sus [recibos Java](product_supply/java-native-receipt.json) y [de contratos](product_supply/upgrades-native-receipt.json). A la invocación de aceptación de 220 respuestas del PR 117, agregar estas opciones, antes del directorio preparado:
 
-Los dos catálogos de 27 puntos ya no se editan independientemente. La vista
-legacy es una proyección comprobada del registro rector y admite PARTIAL.
-Se conservaron unidas las referencias de pruebas de ambas ramas. Las 50
-capacidades continúan separadas, sin subir artificialmente su estado.
+```sh
+--component-controls all --native-kits "$NATIVE_KITS"
+```
 
-Los ajustes de tests existentes son explícitos: el conteo del catálogo pasa
-al estado real de cinco parciales; el reporte distingue tres hitos parciales;
-los recibos sintéticos de los tests de revisión incluyen las nuevas suites;
-y una prueba de falta de test aísla ese gate de la nueva comprobación de
-proyección. No se quitaron aserciones para presentar un hallazgo como confirmado.
+Las 222 respuestas incluyen `component-controls` y `native-capabilities`. Para evaluar la transcripción JSONL completa en un proceso separado:
 
-## Pruebas nuevas
+```sh
+python3.12 -B -m superhunter.tools.verify_review_115 --require-consolidated --check-controls session.jsonl
+```
 
-16 tests cubren continuidad de IDs, registro completo de módulos, proyección
-de checklists, rechazo de estados divergentes, conservación de referencias,
-reportes HTML ligados a evidencia, privacidad de textos sin modificar el
-original y diagnóstico sin eco de argumentos en las rutas reunidas.
+Los artefactos emitidos por un productor bloqueado carecen de crédito. Un reintento fallido o el cambio de selección retiran los recibos de componentes anteriores, conservando los productores independientes. La reproducción requiere los compiladores, binarios y conjuntos de dependencias fijados en cada manifiesto. Dos checkouts en una máquina permiten reproducir el resultado en ese host. La evaluación ciega y el rendimiento de descubrimiento en otros entornos siguen pendientes.
 
-En la primera prueba conjunta se observó un conteo viejo (4 parciales en vez
-de 5); se corrigió usando la aserción ya existente en el parche de privacidad.
-El primer arranque aislado de los nuevos fixtures carecía de inicialización
-de clase; se corrigió. Dos invocaciones directas largas fueron interrumpidas
-por el límite del entorno; la ejecución completa mediante el worker concluyó
-y su recibo registra todos los resultados. No se omitió ningún test.
+## Resolución de los cambios compartidos
 
-## Límites
+| Rutas del comentario de coordinación | Comportamiento conservado |
+|---|---|
+| `product_batches.py`, `product_review.py`, `tools/catalog_session.py` | Un índice y un punto de entrada. Se pueden seleccionar dominios defensivos y grupos nativos, y se conserva cada operación en la fila de su identidad. |
+| `product_sources.py`, `product_source_audit.py` | El manifiesto incluye 200 gitlinks. Se conservan la comprobación de bytes del directorio de trabajo, el orden de resultados, el inventario anterior y su huella. |
+| `product_licenses.py`, `tests/test_product_license_session.py`, `tests/test_product_inventory_parallel.py` | El contenido de estas tres rutas ya coincidía entre las ramas. |
+| `tests/test_product_source_parallel.py` | Se amplió el fixture de 153 a 200 y se conservaron los controles de índices, modos de archivo, enlaces y normalización de Git. |
+| `quality.py`, `quality_worker.py` | Se registraron productores, datos y pruebas de ambas ramas. El límite explícito del inventario pasa de 500 a 768 archivos para cubrir los más de 640 de la consolidación. Los 19 módulos nuevos conservan las asignaciones anteriores de pruebas. |
+| `tools/verify_review_115.py` | Verificación desde las fuentes fijadas, los resultados individuales y el índice completo. Los perfiles históricos conservan sus contratos originales. |
+| `SOURCE_ASSURANCE.md`, `SOURCE_CHECKOUT.md` | Quedaron versionados el expediente de 153 y el de los 200. Las optimizaciones ya portadas del PR 116 se conservan una sola vez. |
 
-La revisión conjunta ejecuta código propio y datos numéricos sintéticos. No
-conecta un flujo de explotación autónoma ni demuestra nuevos bugs. No se
-promueve un hash a autenticación de productor ni una suite finita a ausencia
-de falsos negativos. El punto 29 y el 48 siguen parciales.
-
-No se descargó el repositorio histórico entero; el alcance de materialización
-fue el paquete SUPERHUNTER. No se ejecutó su verificador histórico completo de
-importación ni todas las suites Rust/Python de Census. El parche solo modifica
-`superhunter/`; los módulos nativos importados permanecen byte a byte.
+Los [200 checkouts directos](SOURCE_CHECKOUT.md) coinciden con sus revisiones de catálogo. La revisión de avisos alcanza los 200 proyectos. Quedan pendientes la materialización de 141 gitlinks anidados y un objeto Git LFS, y la revisión de obligaciones de distribución del producto y sus dependencias.

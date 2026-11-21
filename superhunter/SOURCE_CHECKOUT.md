@@ -1,6 +1,6 @@
 # Código fuente directo en NQC · 200 de 200
 
-Las 200 identidades tienen un submódulo directo registrado en `.gitmodules` y en el árbol Git de NQC. Se materializaron y verificaron sus revisiones, índices y archivos rastreados. Los 153 commits anteriores permanecen iguales; se incorporaron las 47 fuentes que faltaban.
+Las 200 identidades tienen un submódulo directo registrado en `.gitmodules` y en el árbol Git de NQC. El [expediente de los checkouts](product_supply/source-checkouts-200.json) identifica los directorios materializados, sus revisiones y árboles verificados. Los 153 commits anteriores permanecen iguales; se incorporaron las 47 fuentes que faltaban.
 
 | Comprobación | Resultado |
 |---|---:|
@@ -15,12 +15,13 @@ El alcance es el contenido rastreado por cada Git directo. Los 141 gitlinks anid
 
 Los avisos de las 200 identidades se volvieron a procesar con ScanCode 32.5.0. Las observaciones coinciden con la revisión anterior, incluida la resolución del enlace del aviso de viem. Esto no constituye un dictamen completo sobre las obligaciones de redistribución del conjunto ni sobre todas las dependencias transitivas.
 
+Los ocho extractos de la rama de controles siguen disponibles con sus avisos y delimitaciones, incluso cuando la revisión completa del mismo repositorio dispone de gitlink. El [acta de materialización y atribución](SOURCE_MATERIALIZATION.md) relaciona los dos árboles históricos con el árbol canónico. El índice de procedencia registra fuentes pasivas. Cada operación de producto se acredita por separado en la matriz de integración.
+
 ## Reproducir el inventario
 
-Desde un checkout de esta rama, descargar los submódulos directos y comprobarlos:
+Para comprobar los checkouts locales ya preparados desde la raíz del producto, ejecutar:
 
 ```sh
-git submodule update --init --depth 1 --jobs 8
 python3.12 -B -m superhunter product-sources --require-checkout --jobs 4
 ```
 

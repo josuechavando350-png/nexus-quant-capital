@@ -1,103 +1,40 @@
-"""Independently count a complete native session and bind each credit to reviewed producer bytes.
+"""Independently verify current native controls or an explicit immutable checkpoint.
 
-This verifier reads evidence only. It does not rerun producers or imply a new
-native execution when reviewing an archived transcript.
+This reads evidence only; reviewing an archive does not rerun its producers.
 """
 import argparse
 import copy
 from pathlib import Path
 import sys
 
-from superhunter.product_native_capabilities import contracts
+from superhunter.product_native_capabilities import HISTORICAL_CONTRACTS, contracts
 from superhunter.product_reasoning import EvidenceError
-from superhunter.product_review import ROOT, sha
-from superhunter.product_source_audit import SNAPSHOT, SNAPSHOT_SHA
 from superhunter.safe_io import canonical, read_artifact, strict_json
-from superhunter.tools.catalog_session import review_queries
 from superhunter.tools import verify_review_115 as prior
 
 
-def queries():
-    return review_queries() + ['portable-source-proof', 'go-header-digest', 'native-capabilities']
-
-
 def verify(raw, expected_hash=None, *, contract_version=None):
-    keys = queries()
-    lines = raw.splitlines()
-    if len(lines) != len(keys):
+    result = prior.verify(raw, expected_hash, native_contract_version=contract_version)
+    keys = prior.response_keys(raw)
+    if 'native-capabilities' not in keys:
         raise EvidenceError('native session has missing or extra responses')
-    report = {key: strict_json(b'{"response":' + line + b'}')['response']
-              for key, line in zip(keys, lines, strict=True)}
+    lines = raw.splitlines()
+    report = strict_json(lines[keys.index('native-capabilities')])
     expected = contracts(contract_version)
-    native = report['native-capabilities']
-    if (set(native.get('groups', {})) != set(expected) or
-            native.get('original_vulnerabilities_confirmed') != 0 or
-            native.get('scope') != 'fixed_owned_controls_and_pinned_local_inputs'):
-        raise EvidenceError('native session group membership or scope differs')
-    bindings = {}
-    for group, contract in expected.items():
-        if sha(canonical(native['groups'][group])) != contract['report_sha256']:
-            raise EvidenceError('native session producer bytes differ from reviewed controls')
-        for repository, role in contract['repositories'].items():
-            wanted = {'query': 'native-capabilities', 'group': group, 'repository': repository,
-                      'role': role, 'report_sha256': contract['report_sha256']}
-            if report[repository].get('native_capability_receipt') != wanted:
-                raise EvidenceError('native session repository has no matching producer receipt')
-            bindings[repository.casefold()] = (role, wanted)
-    if (native.get('repositories') != sorted(bindings) or
-            native.get('functional_participations') != len(bindings)):
-        raise EvidenceError('native session totals differ from producer identities')
-    source = read_artifact(ROOT, SNAPSHOT)
-    if sha(source) != SNAPSHOT_SHA:
-        raise EvidenceError('native session source inventory pin changed')
-    inventory = strict_json(source)
-    if inventory['checkouts'] != 200 or inventory['remote_commit_records'] != 0:
-        raise EvidenceError('native session requires all 200 direct source checkouts')
-    for entry in inventory['entries']:
-        row = report[entry['repository']]['source_inventory']
-        if any(row.get(key) != value for key, value in entry.items()):
-            raise EvidenceError('native session source record differs from the reviewed tree inventory')
-
-    def observed(row):
-        name = row['repository'].casefold()
-        if name in bindings:
-            role, wanted = bindings[name]
-            if row.get('native_capability_receipt') != wanted:
-                raise EvidenceError('native session receipt differs')
-            return role, 'native_capability_receipt'
-        if 'native_capability_receipt' in row:
-            raise EvidenceError('unregistered native session receipt')
-        return prior.observed(row)
-
-    result = prior.verify(raw, expected_hash, queries=keys, observe=observed)
-    if result['sources'] != {'complete': 200}:
-        raise EvidenceError('native session source totals differ')
-    return {**result, 'native_groups': sorted(expected), 'new_native_participations': len(bindings),
+    if (set(report['groups']) != set(expected) or report.get('blocked_groups')
+            or result['sources'] != {'complete': 200}):
+        raise EvidenceError('native session requires all reviewed groups and direct source records')
+    inventory = strict_json(lines[keys.index('source-inventory')])
+    return {**result, 'native_groups': sorted(report['groups']),
+            'new_native_participations': report['functional_participations'],
             'original_vulnerabilities_confirmed': 0,
-            'source_inventory_sha256': SNAPSHOT_SHA}
-
-
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('transcript', type=Path)
-    parser.add_argument('--expect-sha256')
-    parser.add_argument('--contract-version', type=int, choices=[70],
-                        help='verify an archived checkpoint against its immutable contracts')
-    parser.add_argument('--archive', action='store_true', help='read the bounded acceptance archive')
-    parser.add_argument('--check-controls', action='store_true', help='reject eight altered copies of the supplied evidence')
-    args = parser.parse_args()
-    raw = read_artifact(args.transcript.parent, args.transcript.name)
-    if args.archive:
-        raw = prior.unpack(raw)
-    result = verify(raw, args.expect_sha256, contract_version=args.contract_version)
-    if args.check_controls:
-        result['altered_evidence_rejected'] = controls(raw, contract_version=args.contract_version)
-    sys.stdout.buffer.write(canonical(result))
+            'source_inventory_sha256': inventory['snapshot_sha256']}
 
 
 def controls(raw, *, contract_version=None):
-    """Refute internally resealed claims without relying on a transcript digest alone."""
-    keys = queries()
+    """Refute altered evidence only after the original passes the selected policy."""
+    verify(raw, contract_version=contract_version)
+    keys = prior.response_keys(raw)
     values = [strict_json(b'{"response":' + line + b'}')['response'] for line in raw.splitlines()]
     expected = contracts(contract_version)
     group = sorted(expected)[0]
@@ -107,7 +44,7 @@ def controls(raw, *, contract_version=None):
         rows = copy.deepcopy(values)
         update(rows[keys.index(query)])
         bad.append(b''.join(canonical(row) for row in rows))
-    changed('integration-matrix', lambda row: row.update(functional=200))
+    changed('integration-matrix', lambda row: row.update(functional=201))
     changed('native-capabilities', lambda row: row['groups'][group].update(invented_success=True))
     changed(repository, lambda row: row['native_capability_receipt'].update(report_sha256='0'*64))
     changed(repository, lambda row: row['source_inventory'].update(tree='0'*40))
@@ -124,6 +61,24 @@ def controls(raw, *, contract_version=None):
         else:
             raise EvidenceError('altered native acceptance evidence was admitted')
     return rejected
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('transcript', type=Path)
+    parser.add_argument('--expect-sha256')
+    parser.add_argument('--contract-version', type=int, choices=sorted(HISTORICAL_CONTRACTS),
+                        help='verify an immutable historical policy instead of the current registry')
+    parser.add_argument('--archive', action='store_true', help='read the bounded acceptance archive')
+    parser.add_argument('--check-controls', action='store_true', help='reject eight altered evidence copies')
+    args = parser.parse_args()
+    raw = read_artifact(args.transcript.parent, args.transcript.name)
+    if args.archive:
+        raw = prior.unpack(raw)
+    result = verify(raw, args.expect_sha256, contract_version=args.contract_version)
+    if args.check_controls:
+        result['altered_evidence_rejected'] = controls(raw, contract_version=args.contract_version)
+    sys.stdout.buffer.write(canonical(result))
 
 
 if __name__ == '__main__':

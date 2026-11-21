@@ -1,0 +1,65 @@
+{
+  "canonical_reports_byte_identical": true,
+  "canonical_result_omits_campaign_randomness": true,
+  "original_vulnerabilities_confirmed": 0,
+  "raw_campaign_outputs_claimed_identical": false,
+  "repository": "google/atheris",
+  "runs": [
+    {
+      "callbacks": {
+        "clean": 7,
+        "discovered_buggy": 1,
+        "discovered_repaired": 1,
+        "discovery": 7,
+        "pinned_buggy": 1,
+        "pinned_repaired": 1,
+        "repaired_campaign": 512
+      },
+      "canonical_report_sha256": "50f7cdcb8c76d5b5c02382b0d74594f8ce5e27cfdf66726862993f530b6d7426",
+      "discovered_corpus_sha256": "aa5751c50bf076fe0c95757e2cc9237e0d395b7f6ede1fe6fa3cab63db93761d",
+      "discovered_input_hex": "a8ac",
+      "fresh_temporary_installation": true,
+      "raw_evidence_sha256": "514245cf808174fb9fd6e40eace4fe00c61c20be8e8a9053f82bf76789d62296",
+      "returncodes": {
+        "clean": 0,
+        "discovered_buggy": 77,
+        "discovered_repaired": 0,
+        "discovery": 77,
+        "pinned_buggy": 77,
+        "pinned_repaired": 0,
+        "repaired_campaign": 0
+      },
+      "run": 1
+    },
+    {
+      "callbacks": {
+        "clean": 7,
+        "discovered_buggy": 1,
+        "discovered_repaired": 1,
+        "discovery": 7,
+        "pinned_buggy": 1,
+        "pinned_repaired": 1,
+        "repaired_campaign": 512
+      },
+      "canonical_report_sha256": "50f7cdcb8c76d5b5c02382b0d74594f8ce5e27cfdf66726862993f530b6d7426",
+      "discovered_corpus_sha256": "aa5751c50bf076fe0c95757e2cc9237e0d395b7f6ede1fe6fa3cab63db93761d",
+      "discovered_input_hex": "a8ac",
+      "fresh_temporary_installation": true,
+      "raw_evidence_sha256": "9fae88e5db92b1bfe57a4a8b0f0bd72d92520bba36a4a1f0d648df6b8af79cba",
+      "returncodes": {
+        "clean": 0,
+        "discovered_buggy": 77,
+        "discovered_repaired": 0,
+        "discovery": 77,
+        "pinned_buggy": 77,
+        "pinned_repaired": 0,
+        "repaired_campaign": 0
+      },
+      "run": 2
+    }
+  ],
+  "schema_version": 1,
+  "source_build_claimed": false,
+  "unit_test_command": "python -m unittest superhunter.tests.test_product_python_fuzz_native -v",
+  "unit_tests_passed": 14
+}

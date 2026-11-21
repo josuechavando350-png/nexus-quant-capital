@@ -1,0 +1,63 @@
+"""Stage fixed local compiler artifacts and the built Mewt producer with a hash inventory."""
+from pathlib import Path
+import hashlib
+import json
+import re
+import shutil
+import subprocess
+
+ROOT=Path(__file__).resolve().parent
+PRODUCT=Path('/workspace/scratch/ecd59ba3c132/nqc-native')
+KIT=ROOT/'kit'
+SOURCE=b'int credited(int balance, int deposit) {\n    return balance + deposit;\n}\n'
+ASSERTIONS='''int credited(int balance, int deposit);
+void _start(void) {
+    long failed = (%s);
+    __asm__ volatile("mov %%0, %%%%rdi; mov $60, %%%%rax; syscall"
+                     : : "r"(failed) : "rax", "rdi", "rcx", "r11", "memory");
+    __builtin_unreachable();
+}
+'''
+
+def sha(raw):return hashlib.sha256(raw).hexdigest()
+def canonical(value):return (json.dumps(value,sort_keys=True,separators=(',',':'))+'\n').encode()
+
+def main():
+    KIT.mkdir(exist_ok=True)
+    files={}
+    paths={
+        'mewt':ROOT/'target/release/mewt',
+        'bin/gcc':Path('/usr/bin/x86_64-linux-gnu-gcc-14'),
+        'bin/cc1':Path('/usr/libexec/gcc/x86_64-linux-gnu/14/cc1'),
+        'bin/as':Path('/usr/bin/x86_64-linux-gnu-as'),
+        'bin/ld':Path('/usr/bin/x86_64-linux-gnu-ld.bfd'),
+        'bin/sh':Path('/usr/bin/dash'),
+    }
+    libs={}
+    for name,source in paths.items():
+        for line in subprocess.check_output(['ldd',str(source)]).decode().splitlines():
+            match=re.search(r'=> (/\S+) \(',line)
+            if match:
+                lib=Path(match[1]);libs['lib/'+lib.name]=lib
+    paths.update(libs)
+    for name,source in paths.items():
+        dest=KIT/name;dest.parent.mkdir(exist_ok=True);shutil.copyfile(source,dest);dest.chmod(0o755 if name in ('mewt',) or name.startswith('bin/') else 0o644)
+        raw=dest.read_bytes();files[name]={'sha256':sha(raw),'bytes':len(raw),'origin':str(source.resolve()),'executable':name=='mewt' or name.startswith('bin/')}
+    loader=Path('/lib64/ld-linux-x86-64.so.2').resolve()
+    cases={'source':SOURCE.decode(),'assertions':{
+        'strong':ASSERTIONS % 'credited(10, 3) != 13 || credited(1, 2) != 3 || credited(7, 7) != 14',
+        'weak':ASSERTIONS % 'credited(2, 2) != 4'},
+        'expected_operators':['%','*','-','/'], 'mutation_slug':'AOS'}
+    cases_raw=canonical(cases)
+    supply=PRODUCT/'superhunter/product_supply'
+    (supply/'mutation-native-owned.json').write_bytes(cases_raw)
+    pins={'schema_version':1,'repository':'trailofbits/mewt','revision':'e96e71969ae9b9d3ef7562ae5a3a60de6050c0d0',
+          'tree':'9dc473b109e8a46cf39f2cade1b64086883e6c84','version':'4.0.0','producer_kind':'built_from_exact_catalog_source',
+          'files':files,'cases_sha256':sha(cases_raw),
+          'worker_sha256':sha((PRODUCT/'superhunter/product_mutation_native_worker.py').read_bytes()),
+          'host_loader':{'path':'/lib64/ld-linux-x86-64.so.2','sha256':sha(loader.read_bytes())},
+          'compiler':'GCC 14.2.0 Debian 14.2.0-19; freestanding C11; no runtime C library in the tested fixture'}
+    (supply/'mutation-native-pins.json').write_bytes(canonical(pins))
+    print(json.dumps({'kit_files':len(files),'kit_bytes':sum(v['bytes'] for v in files.values()),'pins_sha256':sha(canonical(pins))}))
+
+if __name__=='__main__':main()

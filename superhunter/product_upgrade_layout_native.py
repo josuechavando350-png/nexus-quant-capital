@@ -7,12 +7,13 @@ import tempfile
 
 from .native_compile import PIN as SOLC
 from .product_census_header import pinned
-from .product_evm_native import NODE_SHA
 from .product_notice_ranking import ISOLATE
 from .product_reasoning import EvidenceError
 from .product_review import ROOT, copy_release, sha
 from .safe_io import MAX_BYTES, canonical, strict_json
 
+# Node 24.22.3 from this kit's pinned official distribution.
+NODE_SHA = 'a7ec1b37e6ff9d187e4198c5b6df9a4eb1c74dd31804fb3bac55cc4ceca1ac01'
 REPOSITORIES = {'NomicFoundation/hardhat': 'executable',
                 'OpenZeppelin/openzeppelin-upgrades': 'executable'}
 SCOPES = {

@@ -1,0 +1,84 @@
+{
+  "OpenHands/software-agent-sdk": {
+    "revision": "3a893a1b26de7ec02cc0dd2427906eea6aea3fc7",
+    "source_blobs": {
+      "openhands-tools/openhands/tools/apply_patch/core.py": "d6cbe551594b6f50c507338e9d4ea396188f0590"
+    },
+    "result": {
+      "lines": [
+        4,
+        25
+      ],
+      "diff_sha256": "ad28397e98191b1f2999ef3b35f3a748708b74535ad3a53b73feebded8124b5b",
+      "before_sha256": "5edd451147e457e06de8df020d2e1df53ad93b40152df0fbd00a8465db7142ca",
+      "after_sha256": "9ce7504add1fd9baf6500f92a84a45f4423bd14df95c323ad3d761179e2fdb66",
+      "evidence_record_sha256": "92b1cbefd089e6a5dc5a8b51eabec0f2b7d48cc9f4b2e24d0123ca60098b3e69",
+      "diagnostic": {
+        "case": "changed",
+        "column": 12,
+        "confidence": "HIGH",
+        "cwe": "328",
+        "line": 25,
+        "rule": "G401",
+        "severity": "MEDIUM"
+      },
+      "stale_patch_rejected": true
+    },
+    "operation": "reconstruct_repair_and_reject_stale_context"
+  },
+  "SWE-agent/mini-swe-agent": {
+    "revision": "04d809ceab9df28f9adaed044884180159172930",
+    "source_blobs": {
+      "src/minisweagent/utils/serialize.py": "ccd5947bc9dbea7795555ca72670ccf6860d219f"
+    },
+    "result": {
+      "lines": [
+        4,
+        25
+      ],
+      "diff_sha256": "ad28397e98191b1f2999ef3b35f3a748708b74535ad3a53b73feebded8124b5b",
+      "before_sha256": "5edd451147e457e06de8df020d2e1df53ad93b40152df0fbd00a8465db7142ca",
+      "after_sha256": "9ce7504add1fd9baf6500f92a84a45f4423bd14df95c323ad3d761179e2fdb66",
+      "evidence_record_sha256": "92b1cbefd089e6a5dc5a8b51eabec0f2b7d48cc9f4b2e24d0123ca60098b3e69",
+      "diagnostic": {
+        "case": "changed",
+        "column": 12,
+        "confidence": "HIGH",
+        "cwe": "328",
+        "line": 25,
+        "rule": "G401",
+        "severity": "MEDIUM"
+      },
+      "stale_patch_rejected": true
+    },
+    "operation": "merge_source_diagnostic_and_change_history"
+  },
+  "Aider-AI/aider": {
+    "revision": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+    "source_blobs": {
+      "aider/diffs.py": "46266ac67802f960dfef1a1896dd1a7fdb65b532",
+      "aider/dump.py": "2c8bf31c2d80eafc6de73910cbf4e16e362dafd3"
+    },
+    "result": {
+      "lines": [
+        4,
+        25
+      ],
+      "diff_sha256": "ad28397e98191b1f2999ef3b35f3a748708b74535ad3a53b73feebded8124b5b",
+      "before_sha256": "5edd451147e457e06de8df020d2e1df53ad93b40152df0fbd00a8465db7142ca",
+      "after_sha256": "9ce7504add1fd9baf6500f92a84a45f4423bd14df95c323ad3d761179e2fdb66",
+      "evidence_record_sha256": "92b1cbefd089e6a5dc5a8b51eabec0f2b7d48cc9f4b2e24d0123ca60098b3e69",
+      "diagnostic": {
+        "case": "changed",
+        "column": 12,
+        "confidence": "HIGH",
+        "cwe": "328",
+        "line": 25,
+        "rule": "G401",
+        "severity": "MEDIUM"
+      },
+      "stale_patch_rejected": true
+    },
+    "operation": "localize_source_edits_and_validate_clean_comparison"
+  }
+}

@@ -1,6 +1,6 @@
 # Cobertura de los 200 repositorios
 
-Para las participaciones actuales ver [la matriz de las 200 identidades](INTEGRATION_STATUS_200.md) y [la reproducción del perfil ampliado](OFFLINE_SOURCE_AND_GO.md).
+Para las participaciones actuales ver [la matriz de las 200 identidades](INTEGRATION_STATUS_200.md) y [la reproducción de la aceptación integrada](DEFENSIVE_COMPONENTS.md).
 
 Esta tabla conserva la sesión del PR 112. El PR 114 incorpora tres recibos adicionales. [Matriz actual y procedencia por ID](INTEGRATION_STATUS_200.md).
 

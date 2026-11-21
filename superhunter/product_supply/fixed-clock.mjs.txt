@@ -1,0 +1,33 @@
+import fs from 'node:fs';
+import { createRequire } from 'node:module';
+import { i64, u64 } from './anchor.mts';
+import BN from './bn.cjs';
+
+const require = createRequire(import.meta.url);
+const { Clock } = require('./litesvm.node');
+const { keys, signed, cases } = JSON.parse(fs.readFileSync(0, 'utf8'));
+const results = {};
+for (const [name, data] of Object.entries(cases)) {
+  const values = keys.map(key => BigInt(data[key] ?? 0));
+  const clock = new Clock(...values);
+  const fields = {};
+  for (const [i, key] of keys.entries()) {
+    if (!Object.hasOwn(data, key)) continue;
+    const jsKey = key.replace(/_(.)/g, (_, c) => c.toUpperCase());
+    const observed = clock[jsKey].toString();
+    const coder = signed[i] ? i64() : u64();
+    const bytes = Buffer.alloc(coder.span);
+    coder.encode(new BN(observed, 10), bytes);
+    fields[key] = { lite: observed, borsh: bytes.toString('hex'), decoded: coder.decode(bytes).toString(10) };
+  }
+  results[name] = fields;
+}
+const rejected = [];
+for (const [name, args] of [
+  ['negativeSlot', [-1n, 0n, 0n, 0n, 0n]],
+  ['oversizedSlot', [1n << 64n, 0n, 0n, 0n, 0n]],
+  ['oversizedTime', [0n, 0n, 0n, 0n, 1n << 63n]]
+]) {
+  try { new Clock(...args); } catch (e) { rejected.push(name); }
+}
+console.log(JSON.stringify({ results, rejected }));

@@ -1,0 +1,88 @@
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.30;
+import {Lib_RLPReader as Reader} from "../src/Lib_RLPReader.sol";
+import {Lib_RLPWriter as Writer} from "../src/Lib_RLPWriter.sol";
+
+// Fixed local codec controls. No RPC, game level, deployment script or FFI.
+contract OwnedRlpLibraryTest {
+    event log_named_bytes(string key, bytes value);
+
+    function same(bytes memory a, bytes memory b) private pure returns (bool) {
+        return keccak256(a) == keccak256(b);
+    }
+
+    function encodeList(bytes[] memory values) private pure returns (bytes memory) {
+        bytes[] memory encoded = new bytes[](values.length);
+        for (uint256 i; i < values.length; ++i) encoded[i] = Writer.writeBytes(values[i]);
+        return Writer.writeList(encoded);
+    }
+
+    function readList(bytes memory input) public pure returns (bytes[] memory values) {
+        Reader.RLPItem[] memory items = Reader.readList(input);
+        values = new bytes[](items.length);
+        for (uint256 i; i < items.length; ++i) values[i] = Reader.readBytes(items[i]);
+    }
+
+    function readBytes(bytes memory input) public pure returns (bytes memory) {
+        return Reader.readBytes(input);
+    }
+
+    function normalized(bytes memory input, bool list) public pure returns (bytes memory) {
+        return list ? encodeList(readList(input)) : Writer.writeBytes(Reader.readBytes(input));
+    }
+
+    function guarded(bytes memory input, bool list) external pure returns (bytes memory output) {
+        output = normalized(input, list);
+        require(same(input, output), "OWNED_NONCANONICAL");
+    }
+
+    function rejectInput(string memory name, bytes memory input, bool list) private {
+        (bool success, bytes memory reason) = address(this).staticcall(
+            list ? abi.encodeCall(this.readList, (input)) : abi.encodeCall(this.readBytes, (input))
+        );
+        require(!success, "malformed control unexpectedly accepted");
+        emit log_named_bytes(name, reason);
+    }
+
+    function needsGuard(string memory name, bytes memory input, bool list) private {
+        bytes memory output = normalized(input, list);
+        require(!same(input, output), "noncanonical control did not change");
+        emit log_named_bytes(string.concat(name, "/input"), input);
+        emit log_named_bytes(string.concat(name, "/normalized"), output);
+        (bool success, bytes memory reason) = address(this).staticcall(abi.encodeCall(this.guarded, (input, list)));
+        require(!success, "own canonical guard failed");
+        emit log_named_bytes(string.concat(name, "/guard"), reason);
+    }
+
+    function bytesControl(string memory name, bytes memory input, bytes memory expected) private {
+        bytes memory encoded = Writer.writeBytes(input);
+        bytes memory decoded = Reader.readBytes(expected);
+        require(same(encoded, expected) && same(decoded, input), "codec disagrees with independent bytes");
+        emit log_named_bytes(string.concat(name, "/encoded"), encoded);
+        emit log_named_bytes(string.concat(name, "/decoded"), decoded);
+    }
+
+    %%HEADER_METHODS%%
+
+    function testByteBoundaries() public {
+        %%BYTE_CONTROLS%%
+    }
+
+    function testThirtyTwoItems() public {
+        bytes[] memory values = new bytes[](32);
+        for (uint256 i; i < 32; ++i) values[i] = hex"01";
+        bytes memory output = encodeList(values);
+        bytes[] memory decoded = readList(output);
+        require(decoded.length == 32, "list boundary differs");
+        for (uint256 i; i < 32; ++i) require(same(decoded[i], hex"01"), "list boundary item differs");
+        emit log_named_bytes("encoded", output);
+    }
+
+    function testMalformedInputsRejected() public {
+        %%NEGATIVE_CONTROLS%%
+    }
+
+    function testNoncanonicalInputsNeedOwnGuard() public {
+        %%NONCANONICAL_CONTROLS%%
+    }
+}

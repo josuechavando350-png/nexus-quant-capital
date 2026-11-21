@@ -4,6 +4,7 @@ from io import StringIO
 import json
 import os
 from pathlib import Path
+import shlex
 import subprocess
 import tempfile
 import unittest
@@ -80,6 +81,84 @@ class ParallelSourceTests(unittest.TestCase):
         self.assertEqual(parallel['catalog_only_count'], 0)
         self.assertEqual([row['catalog_id'] for row in parallel['sources']], list(range(1, 201)))
         self.assertFalse(parallel['upstream_code_executed_by_verifier'])
+
+    def test_index_flags_cannot_hide_modified_source(self):
+        path = self.first/'owned.txt'
+        for flag in ('assume-unchanged', 'skip-worktree'):
+            with self.subTest(flag=flag):
+                fixture_git(self.first, 'update-index', '--' + flag, '--', path.name)
+                try:
+                    path.write_bytes(b'unreviewed replacement')
+                    self.assertFalse(sources.tracked_files_match(self.first))
+                finally:
+                    fixture_git(self.first, 'update-index', '--no-' + flag, '--', path.name)
+                    fixture_git(self.first, 'restore', '--', path.name)
+
+    def test_restored_files_with_stale_stat_cache_match_the_original_blob(self):
+        path = self.first/'owned.txt'
+        os.utime(path, (1, 1))
+        index = self.first/'.git/index'
+        before = index.read_bytes()
+        self.assertIn(b'owned.txt', fixture_git(self.first, 'diff-files', '--name-only'))
+        self.assertTrue(sources.tracked_files_match(self.first))
+        self.assertEqual(index.read_bytes(), before)
+        path.write_bytes(b'x' * path.stat().st_size)
+        os.utime(path, (1, 1))
+        self.assertFalse(sources.tracked_files_match(self.first))
+
+    def test_committed_eol_rule_allows_exact_crlf_expansion_only(self):
+        with tempfile.TemporaryDirectory() as folder:
+            repo = Path(folder)
+            fixture_git(repo, 'init', '-q')
+            (repo/'.gitattributes').write_bytes(b'file text eol=crlf\n')
+            path = repo/'file'
+            path.write_bytes(b'x' * (1024 * 1024 - 1) + b'\r\ny\r\n')
+            fixture_git(repo, 'add', '.')
+            fixture_git(repo, 'commit', '-qm', 'declare CRLF working representation')
+            os.utime(path, (1, 1))
+            self.assertTrue(sources.tracked_files_match(repo))
+            path.write_bytes(path.read_bytes().replace(b'y\r\n', b'y\n'))
+            self.assertFalse(sources.tracked_files_match(repo))
+
+    def test_ident_expansion_uses_pinned_attributes_without_local_filter_commands(self):
+        with tempfile.TemporaryDirectory() as folder:
+            repo = Path(folder)
+            fixture_git(repo, 'init', '-q')
+            (repo/'.gitattributes').write_bytes(b'sample ident filter=local-driver\n')
+            path = repo/'sample'
+            path.write_bytes(b'$Id$\n')
+            fixture_git(repo, 'add', '.')
+            fixture_git(repo, 'commit', '-qm', 'declare an identity substitution')
+            oid = fixture_git(repo, 'rev-parse', 'HEAD:sample').strip()
+            path.write_bytes(b'$Id: ' + oid + b' $\n')
+            marker = repo/'executed'
+            fixture_git(repo, 'config', 'filter.local-driver.smudge', 'touch ' + shlex.quote(str(marker)) + '; cat')
+            self.assertTrue(sources.tracked_files_match(repo))
+            self.assertFalse(marker.exists())
+            path.write_bytes(b'$Id: ' + b'0' * 40 + b' $\n')
+            self.assertFalse(sources.tracked_files_match(repo))
+
+    def test_mode_and_removal_are_rejected(self):
+        path = self.first/'owned.txt'
+        path.chmod(0o755)
+        self.assertFalse(sources.tracked_files_match(self.first))
+        path.unlink()
+        self.assertFalse(sources.tracked_files_match(self.first))
+
+    def test_symlink_commits_compare_the_link_text(self):
+        with tempfile.TemporaryDirectory() as folder:
+            repo = Path(folder)
+            fixture_git(repo, 'init', '-q')
+            path = repo/'link'
+            path.symlink_to('original-missing-target')
+            fixture_git(repo, 'add', 'link')
+            fixture_git(repo, 'commit', '-qm', 'track link text')
+            path.unlink()
+            path.symlink_to('original-missing-target')
+            self.assertTrue(sources.tracked_files_match(repo))
+            path.unlink()
+            path.symlink_to('replacement-missing-target')
+            self.assertFalse(sources.tracked_files_match(repo))
 
     def test_changed_tracked_bytes_are_rejected_without_cached_success(self):
         sources.verify(self.root, require_checkout=True, jobs=4)

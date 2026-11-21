@@ -1,5 +1,37 @@
 {
   "catalog_type_script_blobs_verified": 432,
+  "consolidation_replay": {
+    "expected_report_sha256": "92098f3568db8832609df9db1552c72974d60f79aeb90701544ce0a5c495e2b7",
+    "independent_solc_parity": true,
+    "initial_failure": "The earlier EVM control used a different Node executable. Its digest check rejected that mismatch before execution. The storage layout control now binds its own official Node executable.",
+    "network": "isolated Linux network namespace",
+    "node_release": "24.22.3",
+    "npm_source_differences": {
+      "NomicFoundation/hardhat": 1,
+      "OpenZeppelin/openzeppelin-upgrades": 0
+    },
+    "runs": [
+      {
+        "bytes": 5073,
+        "sha256": "92098f3568db8832609df9db1552c72974d60f79aeb90701544ce0a5c495e2b7",
+        "wall_seconds": 5.282
+      },
+      {
+        "bytes": 5073,
+        "sha256": "92098f3568db8832609df9db1552c72974d60f79aeb90701544ce0a5c495e2b7",
+        "wall_seconds": 6.496
+      }
+    ],
+    "same_host": true,
+    "unit_tests": {
+      "failed": 0,
+      "passed": 8
+    },
+    "verified_git_blobs": {
+      "NomicFoundation/hardhat": 300,
+      "OpenZeppelin/openzeppelin-upgrades": 132
+    }
+  },
   "identical": true,
   "native_runs_use_new_temporary_directories": true,
   "original_vulnerabilities_confirmed": 0,

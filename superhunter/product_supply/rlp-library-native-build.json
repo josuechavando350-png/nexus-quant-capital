@@ -1,0 +1,113 @@
+{
+  "archives": [
+    {
+      "archive_sha256": "90729233bd9a683b872783ae2e3217fb56876fa2a3c37185f13e39dca8525041",
+      "archive_url": "https://github.com/foundry-rs/foundry/releases/download/v1.10.0/foundry_v1.10.0_linux_amd64.tar.gz",
+      "executable": true,
+      "kit_file": "forge",
+      "member": "forge",
+      "sha256": "bf2f6a6f290389f9db6c850c82789472710394128250a99988e63f642c19a8b1",
+      "version": "1.10.0"
+    }
+  ],
+  "artifact_kind": "unchanged_upstream_solidity_libraries_compiled_and_executed_locally",
+  "catalog_revision": "d05643a40aa98c45d66247c69ffceab8f44dd8cb",
+  "direct_downloads": [
+    {
+      "executable": true,
+      "kit_file": "solc",
+      "sha256": "f3e987dc6ecebd4bd350c48edcbc320b46cf9e3109bd3fc3d88f1acaf4c428f7",
+      "url": "https://raw.githubusercontent.com/ethereum/solc-bin/gh-pages/linux-amd64/solc-linux-amd64-v0.8.30+commit.73712a01"
+    }
+  ],
+  "historical_header_witness": "rlp-library-native-header-witness.json",
+  "historical_header_witness_sha256": "89df1c5192d562237be6a66b3b504fb9af2dcc8fb3f4e0a60bcbca53e99ba132",
+  "isolation_prefix": [
+    "/usr/bin/unshare",
+    "--user",
+    "--map-current-user",
+    "--net"
+  ],
+  "limits": [
+    "This is the historical public mainnet test vector shipped with NQC, not independent Census production evidence, a live-chain attestation or a new vulnerability.",
+    "The unmodified reader accepts four recorded noncanonical encodings. An own re-encode equality guard rejects these specific cases; general canonical or recursive RLP validation is not certified.",
+    "Only the two imported helper libraries execute. The Ethernaut game, levels, external contracts and deployment flows are not executed.",
+    "The earlier ethers, viem, EthereumJS and Geth comparison is read from its preserved archive, whose producer had uncommitted changes. These four producers are not rerun by this adapter.",
+    "The two new Solidity replays share one host and verified kit; independence means fresh build directories and an independent byte/field witness, not independently authenticated hosts."
+  ],
+  "network_at_native_execution": false,
+  "owned_template": "rlp-library-native-owned.txt",
+  "owned_template_sha256": "3f115bbf770cf8df99ec5a45a2bcede4fe636496a99b1035428447dad2234871",
+  "platform": "Linux x86-64",
+  "python": "CPython 3.12",
+  "repository": "OpenZeppelin/ethernaut",
+  "reproduction": {
+    "acceptance_report_bytes": 7435,
+    "acceptance_report_sha256": "dd1ef25d6acdebe55c012e5f18a7ef158e185ee45a5e84738fe98acb6dfd742a",
+    "python_api": "superhunter.product_rlp_library_native.run(pathlib.Path(KIT))",
+    "two_fresh_runtime_directories_identical": true,
+    "unit_tests": "python -B -m unittest superhunter.tests.test_product_rlp_library_native -v"
+  },
+  "schema_version": 1,
+  "scope": {
+    "accepted_flat_list_items": 32,
+    "header_cases": [
+      "original",
+      "changed_gas_used"
+    ],
+    "header_fields_per_case": 21,
+    "header_rlp_bytes_per_case": 649,
+    "malformed_inputs_rejected": 7,
+    "native_raw_observations": 78,
+    "native_test_methods": 6,
+    "noncanonical_library_acceptances_exposed": 4,
+    "original_vulnerabilities_confirmed": 0,
+    "own_guard_rejects_those_noncanonical_inputs": true,
+    "owned_byte_lengths": [
+      0,
+      1,
+      1,
+      55,
+      56,
+      256
+    ],
+    "rejected_flat_list_items": 33
+  },
+  "source_manifest": "rlp-library-native-pins.json",
+  "source_manifest_sha256": "13488ec8269670a8c90d5119809612cc4e179dddeb5ed8763c23f264e27bd15e",
+  "sources": [
+    {
+      "bytes": 11195,
+      "git_blob": "17d3bf7bd5a8bfb6c48a2b8c45c5b62568a8aabd",
+      "kit_path": "src/Lib_RLPReader.sol",
+      "sha256": "d09a3502209f402ca6c5b38ce99abda2ee3b06ca6d8d116139b0e60037dfbfaa",
+      "source_path": "contracts/src/helpers/lib/rlp/Lib_RLPReader.sol",
+      "url": "https://raw.githubusercontent.com/OpenZeppelin/ethernaut/d05643a40aa98c45d66247c69ffceab8f44dd8cb/contracts/src/helpers/lib/rlp/Lib_RLPReader.sol"
+    },
+    {
+      "bytes": 5958,
+      "git_blob": "88ac71390c9e876a41e3749527697c3995bce2c9",
+      "kit_path": "src/Lib_RLPWriter.sol",
+      "sha256": "77d213ecf87ebac8e3a1b9710f022851c8d26e271be36b536088e8f5bf72a08f",
+      "source_path": "contracts/src/helpers/lib/rlp/Lib_RLPWriter.sol",
+      "url": "https://raw.githubusercontent.com/OpenZeppelin/ethernaut/d05643a40aa98c45d66247c69ffceab8f44dd8cb/contracts/src/helpers/lib/rlp/Lib_RLPWriter.sol"
+    },
+    {
+      "bytes": 34523,
+      "git_blob": "0ad25db4bd1d86c452db3f9602ccdbe172438f52",
+      "kit_path": "LICENSE-ethernaut",
+      "sha256": "8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef",
+      "source_path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/OpenZeppelin/ethernaut/d05643a40aa98c45d66247c69ffceab8f44dd8cb/LICENSE"
+    }
+  ],
+  "steps": [
+    "Create a private empty kit directory at a caller-chosen path.",
+    "Acquire the pinned solc and Forge release artifacts, verify each archive and executable digest, and retain their notices. No installer script is required.",
+    "Fetch each immutable source URL in sources (or git show catalog_revision:source_path from the verified source checkout), verify byte count/SHA256 and its recorded Git blob, and write the exact bytes at kit_path. The repository LICENSE is retained separately from the MIT file-level library headers.",
+    "The kit contains solc, forge, the two original Solidity libraries and the original repository notice. No npm package, forge-std, nested Git submodule, RPC endpoint or game installation is required.",
+    "Run superhunter.product_rlp_library_native.run(pathlib.Path(KIT)). Each invocation creates a fresh temporary build directory, derives its fixed harness from the immutable Census fixture, and runs six local Forge test methods offline.",
+    "The reconciler checks 78 raw ABI event payloads against independently encoded bytes, all header fields and the recorded four-producer historical comparison; it also checks the human-decoded event text against the same raw values."
+  ],
+  "upstream_sources_modified": false
+}

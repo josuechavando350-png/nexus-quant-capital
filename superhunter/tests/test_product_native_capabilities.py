@@ -60,6 +60,27 @@ class NativeCapabilityJoinTests(unittest.TestCase):
             native.attach(self.index, {'evm': 'kit-a', 'web': 'kit-b'})
         self.assertTrue(all('native_capability_receipt' not in row for row in self.index.repos.values()))
 
+    def test_independent_groups_survive_and_failed_replay_removes_stale_credit(self):
+        with patch.object(native, 'import_module', side_effect=self.producer):
+            first = native.attach(self.index, {'evm': 'kit-a', 'web': 'kit-b'})
+            self.assertEqual(first['functional_participations'], 2)
+            self.assertNotIn('blocked_groups', first)
+            self.reports['evm']['negative'] = ['unexpected_diagnostic']
+            result = native.attach(self.index, {'evm': 'kit-a', 'web': 'kit-b'}, allow_partial=True)
+        self.assertEqual(result['repositories'], ['owned/web'])
+        self.assertEqual(result['functional_participations'], 1)
+        self.assertEqual(set(result['blocked_groups']), {'evm'})
+        self.assertNotIn('native_capability_receipt', self.index.repos['owned/evm'])
+        self.assertIn('native_capability_receipt', self.index.repos['owned/web'])
+
+    def test_partial_selection_rejects_an_entire_group_if_an_identity_is_missing(self):
+        self.index.repos.pop('owned/web')
+        with patch.object(native, 'import_module', side_effect=self.producer):
+            result = native.attach(self.index, {'evm': 'kit-a', 'web': 'kit-b'}, allow_partial=True)
+        self.assertEqual(set(result['groups']), {'evm'})
+        self.assertEqual(result['blocked_groups']['web']['error_type'], 'EvidenceError')
+        self.assertEqual(result['repositories'], ['owned/evm'])
+
     def test_arbitrary_report_hash_cannot_be_counted_as_native_execution(self):
         row = self.index.repos['owned/evm']
         row['native_capability_receipt'] = native.expected_receipt('evm', 'owned/evm', self.groups['evm'])
@@ -81,6 +102,19 @@ class NativeCapabilityJoinTests(unittest.TestCase):
             native.attach(self.index, {'unregistered': 'kit'})
         with self.assertRaisesRegex(EvidenceError, 'unregistered native'):
             receipt({'repository': 'other/tool', 'native_capability_receipt': {}})
+
+
+class NativeContractHistoryTests(unittest.TestCase):
+    def test_historical_domains_and_result_bindings_stay_verifiable(self):
+        old = native.contracts(version=70)
+        live = native.contracts()
+        self.assertEqual(set(old), {'evm', 'web', 'static', 'slither', 'secrets'})
+        self.assertEqual({key: live[key] for key in old if key != 'evm'},
+                         {key: value for key, value in old.items() if key != 'evm'})
+        self.assertNotEqual(live['evm']['report_sha256'], old['evm']['report_sha256'])
+        self.assertIn('salesforce/policy_sentry', live['iam']['repositories'])
+        with self.assertRaisesRegex(EvidenceError, 'unknown historical'):
+            native.contracts(version=999)
 
 
 class NativeKitManifestTests(unittest.TestCase):

@@ -2,12 +2,15 @@
 import argparse
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import ExitStack
 import hashlib
 import json
 import os
 from pathlib import Path
+import stat
 import subprocess
 import sys
+import tempfile
 
 from .product_review import ROOT
 from .product_upstream_notices import sources
@@ -49,6 +52,102 @@ def indexed_links(root):
     return entries
 
 
+def matches_blob(root_fd, path, mode, expected):
+    """Hash the bytes Git tracks, without invoking filters or following symlinks."""
+    parts = path.split(b'/')
+    if any(part in (b'', b'.', b'..') for part in parts):
+        return False
+    with ExitStack() as handles:
+        parent = root_fd
+        for part in parts[:-1]:
+            parent = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=parent)
+            handles.callback(os.close, parent)
+        if mode == b'120000':
+            target = os.readlink(parts[-1], dir_fd=parent)
+            digest = hashlib.sha1(b'blob %d\0' % len(target) + target, usedforsecurity=False)
+        else:
+            if mode not in (b'100644', b'100755'):
+                return False
+            fd = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=parent)
+            handles.callback(os.close, fd)
+            info = os.fstat(fd)
+            if not stat.S_ISREG(info.st_mode) or bool(info.st_mode & stat.S_IXUSR) != (mode == b'100755'):
+                return False
+            stream = handles.enter_context(os.fdopen(fd, 'rb', closefd=False))
+            digest = hashlib.sha1(b'blob %d\0' % info.st_size, usedforsecurity=False)
+            remaining = info.st_size
+            while remaining:
+                block = stream.read(min(remaining, 1024 * 1024))
+                if not block:
+                    return False
+                remaining -= len(block)
+                digest.update(block)
+            if stream.read(1):
+                return False
+        return digest.hexdigest().encode('ascii') == expected
+
+
+def checkout_blob(folder, path, oid):
+    """Compute Git's built-in checkout encoding using only committed attributes.
+
+    The temporary repository shares the immutable objects, not the checkout's
+    configuration, filters, hooks, info/attributes or index.
+    """
+    revision = git(folder, 'rev-parse', 'HEAD').strip()
+    objects = git(folder, 'rev-parse', '--path-format=absolute', '--git-path', 'objects').strip()
+    with tempfile.TemporaryDirectory(prefix='nqc-attributes-') as empty:
+        env = {'PATH': os.defpath, 'HOME': empty, 'GIT_CONFIG_NOSYSTEM': '1',
+               'GIT_CONFIG_GLOBAL': os.devnull, 'GIT_ATTR_NOSYSTEM': '1', 'GIT_NO_LAZY_FETCH': '1',
+               'GIT_ALTERNATE_OBJECT_DIRECTORIES': os.fsdecode(objects)}
+        options = {'cwd': empty, 'env': env, 'stderr': subprocess.PIPE}
+        subprocess.run(['git', 'init', '--quiet', '--bare', '--template='], check=True, timeout=90, **options)
+        command = ['git', b'--attr-source=' + revision, 'cat-file', '--filters', b'--path=' + path, oid]
+        with subprocess.Popen(command, cwd=empty, env=env, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL) as producer:
+            try:
+                with producer.stdout as contents:
+                    encoded = subprocess.check_output(['git', 'hash-object', '--stdin'], stdin=contents,
+                                                      timeout=90, **options)
+                if producer.wait(timeout=90) != 0:
+                    raise ValueError('could not reconstruct committed checkout representation')
+                return encoded.strip()
+            finally:
+                if producer.poll() is None:
+                    producer.kill()
+
+
+def tracked_files_match(folder):
+    # Git may omit even modified paths marked skip-worktree or assume-unchanged.
+    # All tracked entries in a complete, unmasked checkout have the H status tag.
+    entries = git(folder, 'ls-files', '-v', '-z', '--').split(b'\0')
+    if any(entry and not entry.startswith(b'H ') for entry in entries):
+        return False
+    # Raw diff-files can report a stat-cache miss for unchanged checkout bytes
+    # after a filesystem restore or a user namespace change.
+    changes = git(folder, 'diff-files', '--raw', '--no-abbrev', '--no-renames', '--no-ext-diff',
+                  '--ignore-submodules=all', '-z', '--')
+    if not changes:
+        return True
+    records = iter(changes.removesuffix(b'\0').split(b'\0'))
+    root_fd = os.open(folder, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+    try:
+        for meta, path in zip(records, records, strict=True):
+            old_mode, new_mode, expected, _, status = meta.removeprefix(b':').split()
+            if status != b'M' or old_mode != new_mode:
+                return False
+            if matches_blob(root_fd, path, old_mode, expected):
+                continue
+            if old_mode not in (b'100644', b'100755'):
+                return False
+            encoded = checkout_blob(folder, path, expected)
+            if encoded == expected or not matches_blob(root_fd, path, old_mode, encoded):
+                return False
+    except OSError:
+        return False
+    finally:
+        os.close(root_fd)
+    return True
+
+
 def checked_out(root, row):
     """Check one direct checkout without sharing or changing its Git index."""
     path, revision = row['path'], row['commit']
@@ -63,7 +162,7 @@ def checked_out(root, row):
     if git(folder, 'diff-index', '--cached', '--no-ext-diff', '--ignore-submodules=all', '--name-only', '-z', 'HEAD', '--'):
         raise ValueError('submodule index differs from committed source: ' + path)
     # Ignore only nested Git links. This inventory covers direct upstream repositories.
-    if git(folder, 'diff-files', '--no-ext-diff', '--ignore-submodules=all', '--name-only', '-z', '--'):
+    if not tracked_files_match(folder):
         raise ValueError('tracked submodule files differ: ' + path)
     return {**row, 'status': 'checked_out', 'tree': tree}
 
