@@ -169,7 +169,7 @@ def build(out, syft, cvc5):
     return result
 
 
-def verify(bundle):
+def verify_with_files(bundle):
     raw, identities = bundle_recovery._capture(bundle)
     if raw.keys() != FILES | {'COMPLETE.json'}:
         raise EvidenceError('incomplete or unexpected evidence files')
@@ -182,13 +182,25 @@ def verify(bundle):
         raise EvidenceError('evidence disagrees with checked out source')
     if bundle_recovery._capture(bundle) != (raw, identities):
         raise EvidenceError('evidence changed during verification')
-    return result
+    return result, raw
+
+
+def verify(bundle):
+    return verify_with_files(bundle)[0]
 
 
 class ProductIndex:
     """Exact-name lookups over one independently verified, immutable-in-time snapshot."""
-    def __init__(self, report):
-        self.repos = {r['repository'].casefold(): r for r in report['repositories']}
+    def __init__(self, report, *, supply=None):
+        self.repos = {r['repository'].casefold(): r.copy() for r in report['repositories']}
+        if supply:
+            summary, identities = supply
+            for identity in identities:
+                row = self.repos[identity['full_name'].casefold()]
+                row['github_identity'] = identity
+                row['supply_role'] = summary['source_roles'].get(row['repository'])
+                if row['repository'] in ('OWASP/ASVS', 'OWASP/CheatSheetSeries'):
+                    row['controls'] = summary['controls']
         self.packages = {}
         for fact in report['packages']:
             key = fact['name'].casefold()
@@ -233,12 +245,20 @@ def main(argv):
     else:
         parser.add_argument('--bundle', type=Path, required=True)
         if command == 'query-product':
+            parser.add_argument('--supply', type=Path, help='add verified identities and supply evidence')
             parser.add_argument('keys', nargs='*', help='repository or package names; default: lines from stdin')
     opts = parser.parse_args(args)
     try:
-        result = build(opts.out, opts.syft, opts.cvc5) if command == 'review-product' else verify(opts.bundle)
+        if command == 'review-product':
+            result = build(opts.out, opts.syft, opts.cvc5)
+        else:
+            result, files = verify_with_files(opts.bundle)
         if command == 'query-product':
-            index = ProductIndex(result)
+            supply = None
+            if opts.supply:
+                from . import product_supply_review
+                supply = product_supply_review.verify(opts.supply, result, files)
+            index = ProductIndex(result, supply=supply)
             for key in opts.keys or sys.stdin:
                 print(json.dumps(index.lookup(key), sort_keys=True), flush=True)
         else:

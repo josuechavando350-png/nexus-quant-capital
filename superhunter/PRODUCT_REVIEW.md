@@ -32,3 +32,28 @@ El inventario vincula cada observación con el archivo que fija su versión. El 
 En Python se comprueban cotas crecientes de entornos hasta encontrar una solución. Si hay un conflicto, el motor elige primero el perfil cuya separación elimina más pares incompatibles y prueba si el resto admite un único entorno. Un segundo algoritmo construye particiones directamente a partir de las versiones declaradas, sin usar el grafo del solver. Devuelve un agrupamiento testigo y verifica tanto el mínimo como el resultado de la separación propuesta. Los dos métodos comparten las declaraciones originales. La verificación establece consistencia bajo el modelo de versiones declaradas. La compatibilidad binaria, la instalación conjunta y el comportamiento en ejecución requieren evidencia adicional.
 
 Los expedientes locales incluyen los bytes originales de Syft, el resultado por consulta formal, los hashes de las consultas y entradas, y el informe reproducible. La verificación coteja el expediente con el checkout vigente. La autenticidad del host y la identidad del productor quedan fuera de esta comprobación.
+
+## Evidencia de proveedores y referencias OWASP
+
+La revisión de proveedores consume el expediente de producto ya verificado. Vincula sus bytes con el catálogo, los datos públicos de identidad y dos fuentes de OWASP. La instantánea del 21 de noviembre de 2026 incluye los 200 ID numéricos de GitHub, comprobados por nombre y con una segunda consulta por ID. Permite comparar el texto de licencia declarado en el catálogo con el identificador que devuelve GitHub. La igualdad de las etiquetas sólo expresa coincidencia textual. Las expresiones compuestas, la vigencia de las licencias y los derechos sobre cada componente requieren revisión de las fuentes.
+
+| Fuente | Función en el resultado |
+|---|---|
+| in-toto 3.0.0 | Calcula los hashes de materiales y producto y genera metadatos Link sin firma. El verificador estándar de NQC reconstruye el enlace y comprueba sus bytes. |
+| OWASP ASVS 5.0.0 | Extrae tres requisitos sobre inventario y plazos de actualización. Vincula V15.1.2 a la evidencia parcial del inventario. Los requisitos sobre plazos quedan sin evaluar. |
+| OWASP Cheat Sheet Series | Consulta el índice por sección ASVS e incorpora las guías de inventario, cadena de suministro y gestión de dependencias. La asociación original tiene alcance de sección. |
+
+Los documentos de OWASP y sus condiciones de atribución se conservan en sus fuentes. Descargar los dos archivos de la revisión fija antes de la ejecución local. [CSV de ASVS](https://raw.githubusercontent.com/OWASP/ASVS/5cf9b032440be53ce345ab3c130fda46ba1ce7a2/5.0/docs_en/OWASP_Application_Security_Verification_Standard_5.0.0_en.csv) · [Índice de guías](https://raw.githubusercontent.com/OWASP/CheatSheetSeries/c2a1e3e32cec12f27be0a3b1e771ce51288a363e/IndexASVS.md) · [in-toto v3.0.0](https://github.com/in-toto/in-toto/tree/659942bde1cd732b0b9449445f9769b2def6aeb1).
+
+Desde el checkout y con el directorio de evidencia anterior en `$evidence_dir`, usar un entorno CPython 3.12 separado en Linux x86-64. El comando de creación valida la identidad de los dos documentos.
+
+```bash
+supply_work="$(mktemp -d)"
+python3.12 -m venv "$supply_work/venv"
+"$supply_work/venv/bin/python" -m pip install --only-binary=:all: --require-hashes -r superhunter/product_supply/wheels.txt
+"$supply_work/venv/bin/python" -m superhunter review-product-supply --product "$evidence_dir" --out "$supply_work/supply" --asvs-csv /ruta/ASVS.csv --guide-index /ruta/IndexASVS.md
+python3 -m superhunter verify-product-supply --product "$evidence_dir" --bundle "$supply_work/supply"
+python3 -m superhunter query-product --bundle "$evidence_dir" --supply "$supply_work/supply" in-toto/in-toto OWASP/ASVS anchore/syft
+```
+
+La consulta añade la identidad y la comparación de licencia de cada proyecto. El campo `supply_role` distingue los tres ejecutables, las dos fuentes de datos y los proyectos sin participación probada en este flujo. El expediente se liga al conjunto exacto de bytes de su ejecución de origen. Se puede consultar un expediente anterior sin aportar un expediente de proveedores.

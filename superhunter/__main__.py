@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] in ('review-product-supply', 'verify-product-supply'):
+        from .product_supply_review import main as supply_main
+        return supply_main(argv)
     if argv and argv[0] in ('review-product', 'verify-product', 'query-product'):
         from .product_review import main as product_main
         return product_main(argv)
@@ -282,7 +285,7 @@ def main() -> int:
         return lab_main(argv[1:], verify=argv[0] == "verify-lab")
     mode = argv.pop(0) if argv and argv[0] in ("export-diablo", "import-nqc") else "legacy"
     parser = PrivateArgumentParser(description="Offline SUPERHUNTER evidence adapters",
-                                   epilog="Product commands: review-product, verify-product, query-product (each accepts --help)")
+                                   epilog="Product commands: review-product, verify-product, query-product, review-product-supply, verify-product-supply (each accepts --help)")
     if mode == "export-diablo":
         parser.add_argument("finding", type=Path)
         parser.add_argument("context", type=Path)
