@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "base_commit": "ae02690627443df08b8eedb9d63a7a30cbda6c0e",
+  "purpose": "Accelerate preparation and source verification; preserve acceptance criteria and functional coverage.",
+  "measurements": {
+    "checkouts": {
+      "count": 153,
+      "jobs1_seconds": 16.56421785099883,
+      "jobs4_seconds": 3.9044364229994244,
+      "reduction_percent": 76.42848905924052,
+      "speedup_ratio": 4.2424094175092355,
+      "output_sha256": "d822e374752a12e8bf01aac491fd7d56226dd66e9c4d866f9fecdb8502dd1e8d",
+      "byte_identical": true
+    },
+    "scancode": {
+      "notices": 60,
+      "batches": 2,
+      "batch_size": 30,
+      "baseline_seconds": 59.51771258000008,
+      "session_seconds": 38.7993289019978,
+      "reduction_percent": 34.81045016666911,
+      "speedup_ratio": 1.5339881968148033,
+      "output_sha256": "3170873c7fd37d0cbb6309238764f3fa4f8f70c80e9d50a242eba666aa4f8510",
+      "byte_identical": true
+    },
+    "inventory": {
+      "checkouts": 153,
+      "catalog_only_metadata": 47,
+      "jobs": 4,
+      "seconds": 16.44000620099905,
+      "snapshot_match": true,
+      "output_sha256": "18e1d8e311f3d4382c2d4ae7d46d15e732268995ccdd79d26edb44695ac709ef"
+    },
+    "limits": [
+      "One serial and one parallel measurement on the same host; not a statistical benchmark.",
+      "System caches and other workspace activity were not controlled.",
+      "ScanCode measured the first 60 of 144 unique pinned notice texts; not the entire 200-repository audit.",
+      "No additional functional repository integrations or vulnerabilities are established by these measurements."
+    ]
+  },
+  "implementation_sha256": {
+    "superhunter/product_licenses.py": "4637877762445dd160774b1f5a48b39c329b7164656ce7f6bf99701b27895e8d",
+    "superhunter/product_source_audit.py": "02b318cd946abc65d8265944f2c55a058d8adb8ccbd724226a13d9f276a8de18",
+    "superhunter/product_sources.py": "1eec4447a7d35051e0beb32e0dea3f3f63511b8c51c4fcdc0393d7c050c1ade8",
+    "superhunter/tools/catalog_session.py": "55266e98e3f9c6ee3f7c023406d0eddeb073959ada2e8e473ff978733d93a0fd",
+    "superhunter/tools/verified_downloads.py": "fabbfc13a197e7cdedd8bd4a4b441d37e2a32f8ea2d2d265d65e9e420908024b",
+    "superhunter/tests/test_product_download_cache.py": "55863ae92375f6179a7d2e453bfcc449b6dac1aaca11d3309b40f604a7024185",
+    "superhunter/tests/test_product_inventory_parallel.py": "8b8172052147f866b9d0b295aec7a61f0e07375568a4d06bbe0172941f281736",
+    "superhunter/tests/test_product_license_session.py": "b50855589a9af834e64e492e948c9df39e644104c2dfbf87daa26e72df418f0f",
+    "superhunter/tests/test_product_source_parallel.py": "d112dbef1f337c0dcb90220e2d4a1aaa71fa4c066d19b38d0cf2da2f3fede938"
+  },
+  "validation": {
+    "focused_tests_passed": 85,
+    "focused_tests_failed": 0,
+    "focused_tests_skipped": 0,
+    "historical_files_boundary_verified": 642,
+    "historical_scope_migration_tests_passed": 9,
+    "migration_test_on_full_product": "8 passed, 1 error: unreviewed root file; the failing case was reproduced on unchanged base ae02690. The historical verifier does not accept the expanded product tree.",
+    "git_diff_check": "pass"
+  },
+  "test_scope": {
+    "git_checkout_controls": "Real local Git repositories; dirty tracked bytes, dirty index, wrong HEAD, missing checkout, deterministic output and argument limits.",
+    "tree_inventory_controls": "Real Git trees; catalog/setup metadata fixtures. Native comparison separately covered all 153 trees.",
+    "scancode_contract_controls": "Simulated producer for failure/lifecycle checks; separate native benchmark used the official pinned ScanCode release.",
+    "download_cache": "Local controlled byte producers; cache hit, corruption, truncation, symlinks, interruption and concurrent publication. No remote-download latency claimed."
+  },
+  "native_scancode_release_sha256": "638adcd0af576d1f4d5b64dde228724b3ca4fdee2c4de20d88e4356be353f027",
+  "native_scancode_provenance": "The original checkout advanced from ae02690 to 710a330 during the baseline. Imported scan code, notice code, corpus, safe_io and the used sha/copy_release functions were rechecked byte-identical to ae02690. Changes in product_review were in unused ProductIndex/CLI paths. During the optimized ScanCode run only an unused product_sources.py changed. Checkout and tree benchmarks had stable code hashes.",
+  "not_run": [
+    "Full global SuperHunter QA",
+    "Rust workspace tests; no Rust source changed",
+    "Full 200-identity native license audit on this patch",
+    "Full catalog-session preparation with network downloads",
+    "Independent-host performance benchmark"
+  ],
+  "new_functional_repository_integrations": 0,
+  "new_original_vulnerabilities_confirmed": 0
+}
