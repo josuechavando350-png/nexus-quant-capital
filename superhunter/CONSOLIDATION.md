@@ -51,6 +51,8 @@ Cada perfil exige exactamente sus grupos y contrasta los recibos de cada identid
 python3.12 -B -m superhunter.tools.verify_review_115 --require-consolidated-accounting --check-controls --replay segunda.jsonl primera.jsonl
 ```
 
+El perfil de diez grupos incluye una operación adicional de Ethernaut. Comprueba que el lector y el escritor RLP reproducen los 21 campos y los 649 bytes de un encabezado público archivado y de un segundo vector válido. En el segundo cambia una unidad de `gasUsed`. La interfaz reprodujo los dos recibos en checkouts separados. [Expediente del grupo](product_supply/acceptance-120/canonical-header-replay.json) · [Transcripción](product_supply/acceptance-120/canonical-header-transcript.json)
+
 Las 222 respuestas incluyen `component-controls` y `native-capabilities`. Para evaluar la transcripción JSONL completa en un proceso separado:
 
 ```sh
