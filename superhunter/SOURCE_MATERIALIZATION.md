@@ -4,7 +4,7 @@
 
 El [recibo de almacenamiento](product_supply/acceptance-120/nested-source-storage.json) registra la inspección de los 200 repositorios directos. Los árboles fijan 141 rutas de submódulo en 40 proyectos y apuntan a 140 commits distintos. Los 141 directorios estaban vacíos. Ninguno de los 140 commits apareció en las 200 bases de objetos directas consultadas.
 
-El [índice por padre y ruta](product_supply/acceptance-120/nested-reference-index.json) identifica 123 proyectos de origen en esas 141 referencias. Cada entrada vincula su commit anidado con el gitlink del padre y con la ruta y el proyecto declarados en su blob `.gitmodules`. Hay 125 referencias a GitHub y 16 a GitLab. Las dos entradas con `separate_checkout_verified` corresponden a un único checkout auxiliar de forge-std.
+El [índice por padre y ruta](product_supply/acceptance-120/nested-reference-index.json) conserva 123 grafías de origen en esas 141 referencias. Al agrupar los identificadores de GitHub sin distinguir mayúsculas quedan 120 proyectos. Tres pares corresponden a OpenZeppelin Contracts, OpenZeppelin Contracts Upgradeable y Solady. Cada entrada vincula su commit anidado con el gitlink del padre y con la ruta y el proyecto declarados en su blob `.gitmodules`. Hay 125 referencias a GitHub y 16 a GitLab. Las dos entradas con `separate_checkout_verified` corresponden a un único checkout auxiliar de forge-std.
 
 En el perfil de ocho grupos publicado en `2379ef9`, 64 rutas pertenecen a 15 padres con ejecución, 20 a diez padres con referencia consumida y 57 a 15 padres pendientes. Estas cifras permiten identificar al responsable de cada ruta durante la revisión de dependencias. El expediente acredita el rol funcional del repositorio padre. Determinar si una operación utilizó el submódulo requiere evidencia adicional.
 
@@ -27,6 +27,8 @@ cmp "$TMPDIR/dependencias-anidadas.json" superhunter/product_supply/acceptance-1
 ## Adquisición posterior en un directorio separado
 
 El servicio de contenidos de GitHub entregó el objeto LFS de Qdrant para el commit `23065a0bf6857c3e5da45f6c8939cc746cc0580e` mediante una petición pública que devolvió HTTP 200. Sus 1.752.948 bytes producen el SHA-256 especificado en el puntero Git. En ese mismo directorio de adquisición se materializó desde una copia Git local la revisión `3b20d60d14b343ee4f908cb8079495c07f5e8981` de forge-std. Coinciden el índice, los modos y los bytes de sus 53 archivos rastreados. A esa revisión apuntan dos entradas de `lib/forge-std`, en los proyectos 21 y 192. [Recibo de adquisición](product_supply/acceptance-120/staged-source-acquisition.json)
+
+Una inspección sin red de los 11 kits y sus directorios de preparación localizó cuatro almacenes Git legibles. Al consultar los 140 commits en cada uno, la única coincidencia fue la revisión de forge-std ya verificada. El export de Capstone usado en la compilación fija otra revisión. La distribución de F* contiene 447 archivos de mimalloc, pero su puntero Git remite a un directorio ausente. Se calculó el árbol de esos archivos y queda pendiente el vínculo con el commit solicitado. [Orígenes y resultados por candidato](product_supply/acceptance-120/kit-nested-source-observations.json)
 
 El verificador lee `qdrant-lfs-object`, la observación de descarga `qdrant-response.json` y el checkout `forge-std/` del directorio de adquisición. También coteja el puntero, los gitlinks y los blobs `.gitmodules` de los proyectos de origen. El recibo conserva la observación de la petición HTTP. La reproducción offline verifica el contenido y las referencias Git.
 

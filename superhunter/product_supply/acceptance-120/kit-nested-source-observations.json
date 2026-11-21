@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "scope": "Read-only observations in the existing eleven native kit directories and their selected preparation and supporting directories. Materialization requires a full checkout independently matched to its pinned Git commit and tracked bytes.",
+  "native_group_count": 11,
+  "first_and_second_kit_manifest_sha256": "7e491fb4bf752cc32f8a88876d6033b99ca38c127a3c6a8b5401f28c9159487e",
+  "first_invocation_sha256": "32ad44f5ce5ff0f9a096bd6234dacf3dcb73716fc04a2d744baf2304274e9e60",
+  "second_invocation_sha256": "a9c922f9e5f331afb522075a4043fa22388df73884c7117f8b0e836e560f2a92",
+  "profile_producer": "2d9d6c797eb9f6e445d2179ec535effe3ca9ac96",
+  "examined_location_labels": [
+    "evm",
+    "web",
+    "static",
+    "slither",
+    "secrets",
+    "iam",
+    "java",
+    "upgrades",
+    "properties",
+    "canonical_header",
+    "grpc",
+    "web-source-scapy",
+    "web-source-schemathesis",
+    "web-source-wheels",
+    "static-build-cppcheck",
+    "static-build-capstone",
+    "iam-build",
+    "properties-source-kit",
+    "properties-interface",
+    "grpc-build-source",
+    "grpc-go-cache",
+    "staged-forge-std",
+    "auxiliary-forge-std-object-store",
+    "first-prepared",
+    "second-prepared",
+    "playback-assets",
+    "gosec-kit",
+    "prepared-input-1-cargo-home",
+    "prepared-input-1-cdxgen-bundle",
+    "prepared-input-1-guac-bundle",
+    "prepared-input-1-json-grammar",
+    "prepared-input-1-license-proof-kits",
+    "prepared-input-1-notice-review-wheels",
+    "prepared-input-1-pgvector-packages",
+    "prepared-input-1-producer-bin-dir",
+    "prepared-input-1-profile-wheels",
+    "prepared-input-1-proptest-crates",
+    "prepared-input-1-rust-bin",
+    "prepared-input-1-rustsec-crates",
+    "prepared-input-2-cdxgen-bundle",
+    "prepared-input-2-guac-bundle"
+  ],
+  "source_index_sha256": "a640fb18a8935d34e0ec0babca6234f22dec3ba1df6face0be20aedd6ad241c0",
+  "path_count": 141,
+  "distinct_nested_commits_queried_in_each_readable_store": 140,
+  "declared_upstream_spellings": 123,
+  "unique_upstream_project_keys": 120,
+  "project_key_rule": "Case-fold GitHub owner/project names; preserve the recorded case of GitLab project paths.",
+  "equivalent_github_spellings": [
+    [
+      "github.com/OpenZeppelin/openzeppelin-contracts",
+      "github.com/openzeppelin/openzeppelin-contracts"
+    ],
+    [
+      "github.com/OpenZeppelin/openzeppelin-contracts-upgradeable",
+      "github.com/openzeppelin/openzeppelin-contracts-upgradeable"
+    ],
+    [
+      "github.com/Vectorized/solady",
+      "github.com/vectorized/solady"
+    ]
+  ],
+  "git_storage_observations": [
+    {
+      "origin": "staged-forge-std",
+      "path": ".",
+      "present_commits": [
+        "3b20d60d14b343ee4f908cb8079495c07f5e8981"
+      ]
+    },
+    {
+      "origin": "auxiliary-forge-std-object-store",
+      "path": ".",
+      "present_commits": [
+        "3b20d60d14b343ee4f908cb8079495c07f5e8981"
+      ]
+    },
+    {
+      "origin": "prepared-input-1-license-proof-kits",
+      "path": "alive-git",
+      "present_commits": []
+    },
+    {
+      "origin": "prepared-input-1-license-proof-kits",
+      "path": "alive2-19.0",
+      "present_commits": []
+    },
+    {
+      "origin": "prepared-input-1-license-proof-kits",
+      "path": "prepared/FStar/fstar/lib/fstar/ulib/c/mimalloc",
+      "present_commits": [],
+      "status": "gitdir_pointer_unresolved"
+    }
+  ],
+  "additional_metadata_examined": {
+    "go_module_records_with_origin_commit": 22,
+    "go_origin_matches": 0,
+    "npm_package_manifests": 176,
+    "npm_package_manifests_with_gitHead": 0,
+    "top_level_npm_archives_examined": 180,
+    "archives_without_standard_package_manifest": 4
+  },
+  "candidates": {
+    "capstone": {
+      "source_form": "Direct project build export recorded in static-native-build.json",
+      "exported_revision": "ccd25ab39eea534afbb70cfb047310c5a9962553",
+      "catalog_gitlink": "f9c6a90489be7b3637ff1c7298e45efafe7cf1b9",
+      "result": "different_revision"
+    },
+    "mimalloc": {
+      "parent_catalog_id": 126,
+      "catalog_gitlink": "56dc5eb80145f9a3ba7ca23d47c6a248b9d8586c",
+      "acquisition": "FStar v2026.11.15 packaged source directory",
+      "working_copy_regular_files_excluding_git_marker": 447,
+      "working_copy_symlinks": 0,
+      "projected_worktree_sha1": "1f4027c6b561940fa5748ba9315935ded1d8fb48",
+      "result": "Unresolved .git pointer. The projected tree of present files is not bound to the requested commit.",
+      "release_archive_regular_files_excluding_git_marker": 447,
+      "release_archive_git_object_storage_entries": 0
+    },
+    "forge_std": {
+      "separate_acquisition_receipt_sha256": "2fcdcc58e2d92874fa472eefa8baf357d1e88aede83d2ec840e9da112228777a",
+      "matched_commit": "3b20d60d14b343ee4f908cb8079495c07f5e8981",
+      "matched_parent_reference_count": 2,
+      "verified_working_files": 53,
+      "kit_source_subsets": "The accounting kit retains the pinned IERC20 interface separately."
+    }
+  },
+  "additional_fully_verified_nested_revisions": 0,
+  "total_fully_verified_nested_revisions_in_separate_checkouts": 1,
+  "functional_credits_added": 0
+}
