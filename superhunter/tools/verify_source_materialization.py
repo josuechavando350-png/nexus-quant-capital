@@ -4,6 +4,7 @@ import base64
 from concurrent.futures import ThreadPoolExecutor
 import json
 from pathlib import Path
+import re
 import subprocess
 import sys
 import zlib
@@ -360,6 +361,98 @@ def staged_assets(workspace, staging):
             'scope': 'Separate acquisition staging. Historical direct worktree and cache observations remain in nested-source-storage.json.'}
 
 
+def upstream_name(url):
+    """Retain the project identity from public GitHub/GitLab HTTPS or Git SSH URLs."""
+    match = re.fullmatch(r'(?:https://(github\.com|gitlab\.com)/|git@(github\.com|gitlab\.com):)([A-Za-z0-9_./-]+)', url)
+    if not match:
+        raise ValueError('unrecognized upstream address in pinned .gitmodules')
+    parts = match[3].removesuffix('/').removesuffix('.git').split('/')
+    if len(parts) < 2 or any(not part or part in ('.', '..') for part in parts):
+        raise ValueError('invalid upstream project path')
+    return '/'.join([match[1] or match[2], *parts])
+
+
+def nested_reference_index(workspace):
+    """Reconstruct path ownership from pinned objects; profile roles belong to the parents."""
+    from . import verify_review_115 as sessions
+    dossier = 'superhunter/product_supply/consolidated-acceptance'
+    transcript_sha = '2c7e58d369f36c9461497824eb81b0043fd4324dba6927bc7670706ee09cb63b'
+    first, second = [sessions.unpack(read_artifact(ROOT, f'{dossier}/{run}/session.json'))
+                     for run in ('first', 'second')]
+    if first != second:
+        raise ValueError('eight-group published sessions differ')
+    result = sessions.verify(first, transcript_sha, require_consolidated=True)
+    matrix = strict_json(first.splitlines()[sessions.response_keys(first).index('integration-matrix')])['rows']
+    inventory = read_artifact(ROOT, SNAPSHOT)
+    acquired = read_artifact(ROOT, 'superhunter/product_supply/acceptance-120/staged-source-acquisition.json')
+    if sha(inventory) != SNAPSHOT_SHA or sha(acquired) != '2fcdcc58e2d92874fa472eefa8baf357d1e88aede83d2ec840e9da112228777a':
+        raise ValueError('nested dependency source observations differ from their pinned files')
+    aux = strict_json(acquired)['dependency']
+    expected_staged = {(r['id'], r['path'], r['commit']) for r in aux['parent_refs']}
+    seen_staged, parents = set(), []
+    for source, identity, current in zip(strict_json(inventory)['entries'], expected_rows(), matrix, strict=True):
+        links = source['contents']['nested_gitlinks']
+        if not links:
+            continue
+        idx, revision = source['id'], source['revision']
+        if (idx, revision, source['tree'], source['repository']) != (
+                current['id'], current['commit'], current['tree'], current['repository']) or idx != identity['catalog_id']:
+            raise ValueError('parent differs between accepted matrix and source inventory')
+        directory = git_directory(workspace, local_path(workspace, workspace/identity['path']))
+        if local_git(directory, 'rev-parse', revision + '^{tree}').decode().strip() != source['tree']:
+            raise ValueError('parent Git tree differs')
+        records = local_git(directory, 'ls-tree', '-z', revision, '--', '.gitmodules', *sorted(links))
+        tree = {p: meta.split() for meta, p in (v.decode().split('\t', 1) for v in records.split(b'\0') if v)}
+        mode, kind, blob = tree['.gitmodules']
+        if (mode != '100644' or kind != 'blob'
+                or git_object('blob', local_git(directory, 'cat-file', 'blob', blob)) != blob):
+            raise ValueError('unexpected parent .gitmodules blob')
+        # --no-includes keeps all assignments inside this exact tracked blob.
+        fields = local_git(directory, 'config', '-z', '--no-includes', '--blob', blob,
+                           '--get-regexp', r'^submodule\..*\.(path|url)$')
+        sections = {}
+        for item in fields.split(b'\0'):
+            if item:
+                key, value = item.decode().split('\n', 1)
+                section, field = key.rsplit('.', 1)
+                config = sections.setdefault(section, {})
+                if field in config:
+                    raise ValueError('duplicate field in pinned submodule section')
+                config[field] = value
+        by_path = {}
+        for config in sections.values():
+            path = config.get('path')
+            if path in links:
+                if path in by_path:
+                    raise ValueError('multiple submodule sections claim a tracked path')
+                by_path[path] = upstream_name(config['url'])
+        if by_path.keys() != links.keys():
+            raise ValueError('pinned parent declarations do not cover the recorded gitlinks')
+        children = []
+        for path, commit in sorted(links.items()):
+            if tree.get(path) != ['160000', 'commit', commit]:
+                raise ValueError('nested commit differs from parent Git tree')
+            child = {'path': path, 'commit': commit, 'upstream': by_path[path]}
+            key = (idx, path, revision)
+            if key in expected_staged:
+                if commit != aux['commit'] or child['upstream'] != 'github.com/' + aux['repository']:
+                    raise ValueError('auxiliary checkout evidence identifies a different dependency')
+                child['separate_checkout_verified'] = True
+                seen_staged.add(key)
+            children.append(child)
+        parents.append({'id': idx, 'repository': source['repository'], 'commit': revision,
+                        'gitmodules_blob': blob, 'core_eight_parent_role': current['session'], 'links': children})
+    if expected_staged != seen_staged:
+        raise ValueError('unmatched auxiliary checkout evidence')
+    return {'schema_version': 1, 'source_inventory_sha256': SNAPSHOT_SHA,
+            'separate_acquisition_receipt_sha256': sha(acquired),
+            'parent_session': {'profile': 'core-eight', 'participants': result['session'],
+                               'transcript_sha256': transcript_sha,
+                               'matrix_publication': '2379ef99c1b3a534897cbf63469e676c7190c045'},
+            'scope': 'Tracked paths and sanitized project identities. The session role describes the parent repository. Dependency consumption per operation was not measured.',
+            'parents': parents}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     modes = parser.add_mutually_exclusive_group()
@@ -367,8 +460,12 @@ def main():
     modes.add_argument('--nested-workspace', type=Path, help='observe nested gitlinks and pinned LFS bytes in local direct checkouts')
     modes.add_argument('--staged-assets', type=Path, nargs=2, metavar=('DIRECT_SOURCES', 'STAGING'),
                        help='verify the separately acquired Qdrant object and local forge-std checkout offline')
+    modes.add_argument('--nested-index', type=Path, help='map pinned gitlinks to upstream identities, parent roles and independent checkout evidence')
     args = parser.parse_args()
     try:
+        if args.nested_index:
+            sys.stdout.buffer.write(canonical(nested_reference_index(args.nested_index.resolve(strict=True))))
+            return 0
         if args.staged_assets:
             directories = [path.resolve(strict=True) for path in args.staged_assets]
             sys.stdout.buffer.write(canonical(staged_assets(*directories)))

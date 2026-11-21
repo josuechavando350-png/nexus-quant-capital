@@ -4,6 +4,16 @@
 
 El [recibo de almacenamiento](product_supply/acceptance-120/nested-source-storage.json) registra la inspección de los 200 repositorios directos. Los árboles fijan 141 rutas de submódulo en 40 proyectos y apuntan a 140 commits distintos. Los 141 directorios estaban vacíos. Ninguno de los 140 commits apareció en las 200 bases de objetos directas consultadas.
 
+El [índice por padre y ruta](product_supply/acceptance-120/nested-reference-index.json) identifica 123 proyectos de origen en esas 141 referencias. Cada entrada vincula su commit anidado con el gitlink del padre y con la ruta y el proyecto declarados en su blob `.gitmodules`. Hay 125 referencias a GitHub y 16 a GitLab. Las dos entradas con `separate_checkout_verified` corresponden a un único checkout auxiliar de forge-std.
+
+En el perfil de ocho grupos publicado en `2379ef9`, 64 rutas pertenecen a 15 padres con ejecución, 20 a diez padres con referencia consumida y 57 a 15 padres pendientes. Estas cifras permiten identificar al responsable de cada ruta durante la revisión de dependencias. El expediente acredita el rol funcional del repositorio padre. Determinar si una operación utilizó el submódulo requiere evidencia adicional.
+
+```sh
+unshare --user --map-current-user --net python3.12 -B -m superhunter.tools.verify_source_materialization \
+  --nested-index "$FUENTES_DIRECTAS" > "$TMPDIR/indice-anidado.json"
+cmp "$TMPDIR/indice-anidado.json" superhunter/product_supply/acceptance-120/nested-reference-index.json
+```
+
 El archivo de prueba de Qdrant contenía los 132 bytes del puntero LFS. Se contrastó su blob Git y se buscaron los 1.752.948 bytes identificados por SHA-256 en el archivo de trabajo y en las 200 cachés LFS canónicas. Esos directorios contenían únicamente el puntero. El conteo funcional se calcula en las sesiones del producto.
 
 Para cotejar el recibo desde el directorio que contiene los 200 checkouts en `upstream/`, ejecutar los siguientes comandos.

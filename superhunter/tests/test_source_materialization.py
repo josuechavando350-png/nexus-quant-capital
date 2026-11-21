@@ -11,6 +11,15 @@ from superhunter.tools import verify_source_materialization as audit
 
 
 class NestedArtifactTests(TestCase):
+    def test_upstream_identity_normalizes_ssh_and_https_without_retaining_credentials(self):
+        for url in ('git@github.com:foundry-rs/forge-std.git', 'https://github.com/foundry-rs/forge-std/'):
+            self.assertEqual(audit.upstream_name(url), 'github.com/foundry-rs/forge-std')
+        self.assertEqual(audit.upstream_name('https://gitlab.com/a/b/c.git'), 'gitlab.com/a/b/c')
+        for bad in ('https://token@github.com/a/b', 'https://github.com/a/b?auth=a',
+                    'file:///tmp/repo', 'git@github.com:a/../b', 'https://github.com/a//b'):
+            with self.subTest(url=bad), self.assertRaisesRegex(ValueError, 'upstream'):
+                audit.upstream_name(bad)
+
     def test_acquired_bytes_cannot_overwrite_or_alias_the_direct_sources(self):
         with TemporaryDirectory() as directory:
             base = Path(directory).resolve()
