@@ -162,7 +162,7 @@ def build(product_dir, out, asvs_path, guides_path):
     return summary
 
 
-def verify(bundle, product, original):
+def verify_with_lock(bundle, product, original):
     raw, identities = bundle_recovery._capture(bundle)
     if raw.keys() != ARTIFACTS or bundle_recovery.classify(raw)['state'] != 'BUNDLE_BYTES_COMPLETE':
         raise EvidenceError('incomplete or altered supply evidence')
@@ -172,7 +172,11 @@ def verify(bundle, product, original):
         raise EvidenceError('supply evidence disagrees with source data or product bytes')
     if bundle_recovery._capture(bundle) != (raw, identities):
         raise EvidenceError('supply evidence changed during verification')
-    return summary, rows
+    return (summary, rows), materials['wheels.txt']
+
+
+def verify(bundle, product, original):
+    return verify_with_lock(bundle, product, original)[0]
 
 
 def main(argv):

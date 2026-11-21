@@ -36,27 +36,40 @@ def assess(product, inputs, docs):
                 not any((p['name'], p['version']) == ('cdxgen', RELEASE) for p in producers)):
             raise EvidenceError('unexpected CycloneDX format or producer')
         source = 'nqc-census/Cargo.lock' if rust else INPUTS[f'{scope}/requirements.txt']
-        observed = set()
-        for component in doc['components']:
-            name, version = component['name'], component['version']
-            name = name if rust else python_name(name)
-            prefix = 'pkg:cargo/' if rust else 'pkg:pypi/'
-            ref = f'{prefix}{name}@{version}'
-            if component['purl'] != ref or (name, version) in observed:
-                raise EvidenceError('invalid or duplicate CycloneDX package identity')
-            if rust and component['bom-ref'] != ref:
-                raise EvidenceError('Cargo component ref disagrees with package')
-            observed.add((name, version))
         required = {(p['name'], p['version']) for p in product['packages'] if p['source'] == source}
-        if observed != required:
-            raise EvidenceError('CycloneDX packages disagree with product for ' + scope)
-        counts[scope] = len(observed)
+        validate_components(doc, scope, required)
+        counts[scope] = len(required)
         if rust:
             validate_cargo(doc, product['census_graph'], inputs[source])
     return {'producer': 'cdxgen/cdxgen', 'version': RELEASE, 'release_sha256': DIGEST,
             'product_review_sha256': product_review.sha(canonical(product)), 'package_counts': counts,
             'cargo_edges': product['census_graph']['dependency_edges'],
             'workspace_members': product['census_graph']['workspace_members']}
+
+
+def validate_components(doc, scope, required):
+    rust = scope == 'census'
+    ecosystem = 'cargo' if rust else 'pypi'
+    root = doc['metadata']['component']
+    name, version = ('census', 'workspace') if rust else ('nqc-' + scope, 'latest')
+    root_ref = f'pkg:{ecosystem}/{name}@{version}'
+    if (root['type'], root['name'], root['version'], root['purl'], root['bom-ref']) != (
+            'application', name, version, root_ref, root_ref):
+        raise EvidenceError('CycloneDX root disagrees with product scope')
+    if not rust and doc['dependencies'] != []:
+        raise EvidenceError('Python pin files do not establish dependency edges')
+
+    observed = set()
+    for component in doc['components']:
+        name = component['name'] if rust else python_name(component['name'])
+        version = component['version']
+        ref = f'pkg:{ecosystem}/{name}@{version}'
+        if (component['purl'] != ref or component['bom-ref'] != ref or ref == root_ref
+                or (name, version) in observed):
+            raise EvidenceError('invalid or duplicate CycloneDX package identity')
+        observed.add((name, version))
+    if observed != required:
+        raise EvidenceError('CycloneDX packages disagree with product for ' + scope)
 
 
 def validate_cargo(doc, graph, lock):

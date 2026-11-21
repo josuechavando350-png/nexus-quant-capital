@@ -27,7 +27,10 @@ def package_ref(node):
     name = namespaces[0]['names'][0]
     if len(name['versions']) != 1 or node['type'] not in ('pypi', 'cargo'):
         raise EvidenceError('unexpected GUAC package version')
-    return name['versions'][0]['purl']
+    purl = name['versions'][0]['purl']
+    if not isinstance(purl, str) or not purl.startswith(f"pkg:{node['type']}/"):
+        raise EvidenceError('GUAC package type disagrees with PURL')
+    return purl
 
 
 def compare(docs, response):

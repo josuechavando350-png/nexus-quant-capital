@@ -195,7 +195,8 @@ def verify(bundle):
 
 class ProductIndex:
     """Exact-name lookups over one independently verified, immutable-in-time snapshot."""
-    def __init__(self, report, *, supply=None):
+    def __init__(self, report, *, supply=None, notices=None):
+        self.notices = notices or {}
         self.repos = {r['repository'].casefold(): r.copy() for r in report['repositories']}
         if supply:
             summary, identities = supply
@@ -234,9 +235,13 @@ class ProductIndex:
         facts = self.packages.get(key, [])
         if normalized != key:
             facts = [*facts, *(f for f in self.packages.get(normalized, []) if f['source'].endswith('.txt'))]
-        if facts:
-            return {'pins': facts, 'python_profile_conflict': self.conflicts.get(normalized),
-                    'census_dependencies': self.graph.get(key, [])}
+        notice = self.notices.get(normalized)
+        if facts or notice:
+            result = {'pins': facts, 'python_profile_conflict': self.conflicts.get(normalized),
+                      'census_dependencies': self.graph.get(key, [])}
+            if notice:
+                result['supply_wheel_notices'] = notice
+            return result
         return None
 
 
@@ -251,6 +256,8 @@ def main(argv):
         if command == 'query-product':
             parser.add_argument('--guac-bundle', type=Path, help='verify GUAC evidence against CycloneDX')
             parser.add_argument('--cdxgen-bundle', type=Path, help='verify CycloneDX evidence for cdxgen')
+            parser.add_argument('--notice-wheels', type=Path, help='inspect public notices in local supply wheels')
+            parser.add_argument('--export-notices', type=Path, help='write verified notices into a new directory')
             parser.add_argument('--supply', type=Path, help='add verified identities and supply evidence')
             parser.add_argument('keys', nargs='*', help='repository or package names; default: lines from stdin')
     opts = parser.parse_args(args)
@@ -261,10 +268,18 @@ def main(argv):
             result, files = verify_with_files(opts.bundle)
         if command == 'query-product':
             supply = None
+            notices = None
+            if opts.notice_wheels and not opts.supply:
+                raise EvidenceError('notice inventory requires --supply')
+            if opts.export_notices and not opts.notice_wheels:
+                raise EvidenceError('notice export requires --notice-wheels')
             if opts.supply:
                 from . import product_supply_review
-                supply = product_supply_review.verify(opts.supply, result, files)
-            index = ProductIndex(result, supply=supply)
+                supply, wheel_lock = product_supply_review.verify_with_lock(opts.supply, result, files)
+                if opts.notice_wheels:
+                    from .product_notices import collect
+                    notices, public_files = collect(opts.notice_wheels, wheel_lock)
+            index = ProductIndex(result, supply=supply, notices=notices)
             if opts.cdxgen_bundle:
                 from .product_cdxgen import verify_with_files as verify_cdxgen
                 evidence, cdx_files = verify_cdxgen(opts.cdxgen_bundle, result)
@@ -275,6 +290,13 @@ def main(argv):
                     raise EvidenceError('GUAC verification requires --cdxgen-bundle')
                 docs = {name: raw for name, raw in cdx_files.items() if name.endswith('.cdx.json')}
                 index.repos['guacsec/guac']['guac_evidence'] = product_guac.verify(opts.guac_bundle, docs)
+            if opts.export_notices:
+                owned_capture._path(opts.export_notices, new=True)
+                inputs = (opts.bundle, opts.supply, opts.notice_wheels, opts.cdxgen_bundle, opts.guac_bundle)
+                if any(opts.export_notices.resolve().is_relative_to(p.resolve()) for p in inputs if p):
+                    raise EvidenceError('notice export overlaps an input directory')
+                manifest = {'supply_lock_sha256': sha(wheel_lock), 'packages': notices}
+                write_new_bundle(opts.export_notices, {**public_files, 'notices.json': canonical(manifest)})
             for key in opts.keys or sys.stdin:
                 print(json.dumps(index.lookup(key), sort_keys=True), flush=True)
         else:

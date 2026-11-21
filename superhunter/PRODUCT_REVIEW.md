@@ -85,3 +85,16 @@ python3 -m superhunter query-product --bundle "$evidence_dir" --cdxgen-bundle "$
 ```
 
 El verificador reconstruye las relaciones esperadas desde los SBOM y coteja el documento de origen, los dos PURL en orden, el tipo de dependencia, su justificación y el número de apariciones. En la entrada comprobada encontró 43 relaciones explícitas (35 de Cargo y ocho de pertenencia al workspace). GUAC añadió 75 asociaciones heurísticas de raíz a componente, que se contabilizan por separado. El expediente conserva la respuesta GraphQL y un resumen ligado por SHA-256 a cada SBOM. La verificación posterior usa la biblioteca estándar de Python.
+
+Los seis perfiles Python enumeran versiones. En estos SBOM del productor fijado, la verificación exige la raíz de aplicación propia del perfil, coteja cada referencia con su PURL y rechaza relaciones de dependencia explícitas que el manifiesto no acredita. Para Census se conserva el contraste del grafo con Cargo.lock y los manifiestos de los miembros.
+
+## Avisos públicos de las distribuciones Python
+
+Con las distribuciones de `superhunter/product_supply/wheels.txt` en un directorio local, se pueden consultar o exportar sus avisos desde la CLI. NQC comprueba el SHA-256 del wheel conforme al archivo de bloqueo vinculado al expediente de in-toto y comprueba nombre y versión en METADATA. Lee los archivos que nombra cada cabecera License-File. En los wheels antiguos sin esa cabecera busca los avisos LICENSE, COPYING y NOTICE del directorio dist-info.
+
+```bash
+notice_dir="$(mktemp -d)/avisos"
+python3 -m superhunter query-product --bundle "$evidence_dir" --supply "$supply_work/supply" --notice-wheels /ruta/wheels --export-notices "$notice_dir" cffi pycparser
+```
+
+La exportación escribe los textos originales y un índice que vincula cada texto con su ruta dentro del wheel, la versión y los hashes de ambos. Omitir `--export-notices` permite consultar sin escribir archivos. El campo `declared_license_expression` reproduce la declaración del proveedor cuando existe. Las versiones de los diez wheels corresponden al entorno de revisión de proveedores de NQC; cada perfil de la aplicación conserva sus propios pines. El reconocimiento independiente con ScanCode sigue pendiente.

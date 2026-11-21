@@ -115,6 +115,30 @@ class ProductTests(unittest.TestCase):
 
 
 class CdxgenTests(unittest.TestCase):
+    def test_python_pin_document_binds_root_component_refs_and_graph(self):
+        from copy import deepcopy
+        from superhunter.product_cdxgen import validate_components
+        root_ref = 'pkg:pypi/nqc-custody@latest'
+        ref = 'pkg:pypi/cryptography@46.0.4'
+        root = {'type': 'application', 'name': 'nqc-custody', 'version': 'latest',
+                'purl': root_ref, 'bom-ref': root_ref}
+        doc = {'metadata': {'component': root}, 'dependencies': [], 'components': [
+            {'name': 'cryptography', 'version': '46.0.4', 'purl': ref, 'bom-ref': ref}]}
+        pins = {('cryptography', '46.0.4')}
+        validate_components(doc, 'custody', pins)
+        for mutation in ('scope', 'purl', 'alias', 'edge'):
+            altered = deepcopy(doc)
+            if mutation == 'scope':
+                altered['metadata']['component']['name'] = 'nqc-otel-qa'
+            elif mutation == 'purl':
+                altered['metadata']['component']['purl'] = ref
+            elif mutation == 'alias':
+                altered['components'][0]['bom-ref'] = root_ref
+            else:
+                altered['dependencies'] = [{'ref': root_ref, 'dependsOn': [ref]}]
+            with self.subTest(mutation=mutation), self.assertRaises(reasoning.EvidenceError):
+                validate_components(altered, 'custody', pins)
+
     def test_cargo_projection_requires_exact_edges_and_checksums(self):
         from superhunter.product_cdxgen import validate_cargo
         checksum = 'a' * 64
@@ -156,6 +180,9 @@ class GuacTests(unittest.TestCase):
 
         result = compare([inferred, direct])
         self.assertEqual((result['direct_relations'], result['heuristic_relations']), (1, 1))
+        inconsistent = dict(direct, package=dict(node(root), type='pypi'))
+        with self.assertRaisesRegex(ValueError, 'type disagrees'):
+            compare([inferred, inconsistent])
         for change in ([], [direct, direct], [dict(direct, origin='other')],
                        [dict(direct, package=node(dep), dependencyPackage=node(root))],
                        [dict(direct, dependencyType='UNKNOWN')],

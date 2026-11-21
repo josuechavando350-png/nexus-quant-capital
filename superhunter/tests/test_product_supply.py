@@ -60,3 +60,49 @@ class SupplyTests(unittest.TestCase):
         self.assertIsNone(index.lookup('crytic/slither')['supply_role'])
         self.assertNotIn('evidence', index.lookup('crytic/slither'))
         self.assertNotIn('github_identity', report['repositories'][0])
+
+
+class NoticeTests(unittest.TestCase):
+    @staticmethod
+    def wheel(entries):
+        from io import BytesIO
+        from zipfile import ZipFile
+        buffer = BytesIO()
+        with ZipFile(buffer, 'w') as archive:
+            for path, content in entries.items():
+                archive.writestr(path, content)
+        return buffer.getvalue()
+
+    def test_only_digest_matched_declared_documentation_is_returned(self):
+        from superhunter.product_notices import collect
+        prefix = 'example-1.dist-info/'
+        raw = self.wheel({prefix + 'METADATA': b'Name: Example\nVersion: 1\nLicense-File: LICENSE\n',
+                          prefix + 'licenses/LICENSE': b'notice bytes', 'example/module.py': b'unrelated'})
+        lock = f'example==1 --hash=sha256:{product.sha(raw)}\n'.encode()
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            path = root/'example-1-py3-none-any.whl'
+            path.write_bytes(raw)
+            packages, files = collect(root, lock)
+            self.assertEqual(files, {'example-1-1.txt': b'notice bytes'})
+            self.assertEqual(packages['example']['notices'][0]['sha256'], product.sha(b'notice bytes'))
+            self.assertIsNone(packages['example']['declared_license_expression'])
+            path.write_bytes(raw + b'changed')
+            with self.assertRaisesRegex(ValueError, 'digest-matched'):
+                collect(root, lock)
+
+    def test_legacy_license_and_missing_or_ambiguous_declarations(self):
+        from superhunter.product_notices import wheel_notices
+        prefix = 'example-1.dist-info/'
+        meta = prefix + 'METADATA'
+        headers = b'Name: example\nVersion: 1\n'
+        entries = {meta: headers, prefix + 'LICENSE': b'legacy'}
+        self.assertEqual(wheel_notices(self.wheel(entries), 'example', '1')[1],
+                         {prefix + 'LICENSE': b'legacy'})
+        for wrong in ('MISSING', '../LICENSE', '/LICENSE'):
+            with self.subTest(wrong=wrong), self.assertRaises(ValueError):
+                wheel_notices(self.wheel({**entries, meta: headers + f'License-File: {wrong}\n'.encode()}),
+                              'example', '1')
+        with self.assertRaisesRegex(ValueError, 'ambiguous'):
+            wheel_notices(self.wheel({**entries, meta: headers + b'License-File: LICENSE\n',
+                                      prefix + 'licenses/LICENSE': b'other'}), 'example', '1')
