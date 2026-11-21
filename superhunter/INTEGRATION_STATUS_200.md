@@ -9,6 +9,8 @@
 
 **128/200 identidades** participaron en ambas ejecuciones del producto. Hubo 89 de ejecución, 39 de referencia, 137 operaciones y 72 identidades pendientes.
 
+Al contar todos los recibos, hubo 96 operaciones de ejecución y 41 de referencia. Las 2 identidades con ambos roles figuran una sola vez en el total de ejecución.
+
 Los expedientes registran dos checkouts limpios en el mismo host, código de salida cero y 222 respuestas iguales por ejecución. El productor fue el [commit fae415708eccc117dd809036fcd4df09056777c5](https://github.com/josuechavando350-png/nexus-quant-capital/commit/fae415708eccc117dd809036fcd4df09056777c5) con árbol `04f39290587b131d0f365ed667c5be7803f936eb` y la transcripción tiene SHA-256 `2c7e58d369f36c9461497824eb81b0043fd4324dba6927bc7670706ee09cb63b`. [Acta y huellas de los dos expedientes](product_supply/consolidated-acceptance/acceptance.json)
 
 Archivos preparados con huellas distintas entre los expedientes: ninguno. Coincide la huella de los manifiestos nativos.

@@ -113,9 +113,14 @@ def render(components, native, *, current=None, producer=None):
                      f"{result['reference_data']} |")
     if current:
         result = current[0]
+        op_roles = Counter(op['role'] for row in current_rows for op in row['session_operations'])
+        mixed = sum(len({op['role'] for op in row['session_operations']}) == 2 for row in current_rows)
         lines.extend(['', f"**{result['session']}/{result['catalog']} identidades** participaron en ambas ejecuciones "
                       f"del producto. Hubo {result['executables']} de ejecución, {result['reference_data']} de referencia, "
                       f"{result['operations']} operaciones y {result['catalog'] - result['session']} identidades pendientes.",
+                      '', f"Al contar todos los recibos, hubo {op_roles['executable']} operaciones de ejecución "
+                      f"y {op_roles['reference_data']} de referencia. Las {mixed} identidades con ambos roles "
+                      "figuran una sola vez en el total de ejecución.",
                       '', f"Los expedientes registran dos checkouts limpios en el mismo host, código de salida cero "
                       f"y {result['responses']} respuestas iguales por ejecución. El productor fue el "
                       f"[commit {producer['commit']}]({repo}/commit/{producer['commit']}) con árbol "
