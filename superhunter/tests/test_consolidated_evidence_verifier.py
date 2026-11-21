@@ -1,10 +1,14 @@
 """Refute false credits using archived inputs; replaying a receipt never counts as a new execution."""
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from types import SimpleNamespace
 import unittest
+from unittest.mock import patch
 
 from superhunter.product_reasoning import EvidenceError
 from superhunter.product_review import ROOT
 from superhunter.safe_io import canonical, strict_json
+from superhunter.tools import render_product_matrix as renderer
 from superhunter.tools import verify_native_session as native_verifier
 from superhunter.tools import verify_review_115 as verifier
 
@@ -86,3 +90,39 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
                 raw = b'\n'.join(lines[:-3] + tail) + b'\n'
                 with self.assertRaisesRegex(EvidenceError, 'missing or extra responses'):
                     verifier.verify(raw)
+
+    def test_historical_matrix_keeps_all_identities_and_both_receipts(self):
+        text = renderer.historical_markdown()
+        self.assertEqual(text.encode(), renderer.MATRIX.read_bytes())
+        rows = [line.split(' | ') for line in text.splitlines() if line.startswith('| ') and line[2:3].isdigit()]
+        self.assertEqual([int(row[0][2:]) for row in rows], list(range(1, 201)))
+        self.assertIn('Aceptación conjunta pendiente', text)
+        with_both = [row for row in rows if row[3] != '—' and row[4] != '— |']
+        self.assertEqual(len(with_both), 63)
+        self.assertEqual(sum('Ejecución' in ' '.join(row[3:]) for row in rows), 71)
+        self.assertEqual(sum('Referencia' in ' '.join(row[3:]) for row in rows), 35)
+        different_producers = [int(row[0][2:]) for row in with_both
+                               if 'component_control_receipt' in row[3] and 'native_capability_receipt' in row[4]]
+        self.assertEqual(different_producers, [20, 92, 103, 132])
+        left, right = rows[140][3:]
+        self.assertIn('license_file_evidence', left)
+        self.assertIn('license_file_evidence', right)
+        self.assertIn('75dc6e9563c60a8e6f31792e7ce309b7f87abad6325c8a8849ed38f612b0e3d5', left)
+        self.assertIn('f99668677b36becf646fbfe9b99658ec29b2a8186f0e7dc50005a95ef8ce4f4a', right)
+
+    def test_historical_matrix_rejects_changed_producer_with_intact_transcript(self):
+        name = 'component-session-99.json'
+        archive = strict_json((renderer.SUPPLY / name).read_bytes())
+        archive['producer_commit'] = '0' * 40
+        forged = canonical(archive)
+        self.assertEqual(verifier.sha(verifier.unpack(forged)), verifier.INTERIM_99)
+        with TemporaryDirectory() as tmp, patch.object(renderer, 'SUPPLY', Path(tmp)):
+            (Path(tmp) / name).write_bytes(forged)
+            with self.assertRaisesRegex(EvidenceError, 'differs from reviewed bytes'):
+                renderer.pinned_file(name, renderer.ARCHIVE_99_SHA)
+
+    def test_historical_matrix_rejects_identity_change_between_sessions(self):
+        row = {'id': 1, 'repository': 'local/example', 'commit': 'a' * 40, 'tree': 'b' * 40}
+        for key in row:
+            with self.subTest(key=key), self.assertRaisesRegex(EvidenceError, 'identity, revision or tree'):
+                renderer.render(({}, [row], {}), ({}, [{**row, key: 'changed'}], {}))
