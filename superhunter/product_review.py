@@ -644,6 +644,8 @@ def main(argv):
                 write_new_bundle(opts.export_notices, {**scan_files, 'notices.json': canonical(manifest)})
             from .product_notice_search import serve_queries
             serve_queries(index, opts.keys or sys.stdin, opts.qdrant, opts.haystack_wheels, search_files)
+            if index.component_controls and index.component_controls['blocked']:
+                return 2
         else:
             print(json.dumps({'status': result['status'], 'catalog_count': len(result['repositories']),
                               'native_tools': list(result['tools']), 'observations': len(result['packages']),

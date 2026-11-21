@@ -12,7 +12,7 @@ unshare --user --map-current-user --net python3.12 -B -m superhunter query-produ
   --component-controls android-policy component-controls
 ```
 
-La respuesta identifica los dominios solicitados, los fallos y las observaciones nuevas. Una herramienta ausente o un resultado distinto del contrato deja su dominio bloqueado y permite terminar los dominios independientes. Para acreditar la ejecución completa, el verificador exige que todos terminen y que coincidan la evidencia individual, la consulta compartida y la matriz.
+La respuesta identifica los dominios solicitados, los fallos y las observaciones nuevas. Una herramienta ausente o un resultado distinto del contrato deja su dominio bloqueado y permite terminar los dominios independientes. El programa emite las observaciones disponibles y devuelve código de salida 2 si algún dominio quedó bloqueado. Para acreditar la ejecución completa, el verificador exige que todos terminen y que coincidan la evidencia individual, la consulta compartida y la matriz.
 
 ## Reproducir la sesión de aceptación
 
@@ -26,6 +26,8 @@ Partir del [perfil completo del PR 117](OFFLINE_SOURCE_AND_GO.md) y de su [prepa
 | `state-amounts` | [Detectar pérdida de precisión al representar cantidades históricas](CENSUS_AMOUNT_FORMATS.md) |
 | `slot-format` | [Conservar las marcas de tiempo y los campos desconocidos al cambiar de representación](SLOT_TIME_FORMATS.md) |
 | `diagnostics` | [Comprobar rangos de enteros, diagnósticos duplicados y definiciones de reglas](LANGUAGES_BATCH.md) |
+| `static-contracts` | [Comprobar tipos, nulabilidad y orden de argumentos en la lectura de evidencia](STATIC_CONTRACTS.md) |
+| `build-compatibility` | [Detectar cambios incompatibles de almacenamiento y de la interfaz de artefactos compilados](BUILD_COMPATIBILITY.md) |
 | `object-format` | [Verificar las etiquetas que sobreviven en objetos compilados de NQC](FORMATS_BATCH.md) |
 | `timeline` | [Conservar la identidad de la fuente, el orden y la precisión temporal de los eventos](infra_batch_journal.md) |
 | `infrastructure` | [Contrastar reglas de aislamiento y decodificar capturas registradas](infra_batch.md) |
@@ -40,3 +42,14 @@ En la consulta compartida, `digest_corroboration` vincula el diagnóstico real d
 ## Procedencia y licencias
 
 La [verificación de materialización](SOURCE_MATERIALIZATION.md) conserva el estado de los 200 checkouts observados en un espacio de fuentes separado. La [matriz de producto](INTEGRATION_STATUS_200.md) usa las fuentes incorporadas a esta rama y las participaciones demostradas en la ejecución. En las fichas de extractos se encuentran los avisos, las atribuciones, los fragmentos consumidos y las revisiones. La autorización de una distribución comercial completa sigue pendiente.
+
+## Verificación de la entrega publicada
+
+El [expediente de aceptación](product_supply/review-118.json) contiene las dos ejecuciones, sus huellas y la lista de proyectos nuevos. La [tabla individual](COMPONENT_RESULTS_118.md) enlaza cada operación con su documentación. Para comprobar las 221 respuestas publicadas existe una ruta corta que lee los datos archivados, contrasta sus totales con las filas y ensaya las alteraciones sin instalar los binarios de los proveedores.
+
+```sh
+digest=$(python3.12 -c 'import json; print(json.load(open("superhunter/product_supply/review-118.json"))["canonical"]["transcript_sha256"])')
+python3.12 -B -m superhunter.tools.verify_review_115 \
+    --archive --check-controls --require-complete-controls --expect-sha256 "$digest" \
+    superhunter/product_supply/review-118-session.json
+```

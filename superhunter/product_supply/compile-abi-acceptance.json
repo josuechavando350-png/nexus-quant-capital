@@ -1,0 +1,905 @@
+{
+  "NomicFoundation/hardhat": {
+    "input_sha256": "430e4399086eac62e3e1e51f14aaa052d70d69f65a81955111fc8d6493db7d88",
+    "interface_comparison": {
+      "mutability_differences": {
+        "decimals()": {
+          "owned": "view",
+          "reference": "nonpayable"
+        }
+      },
+      "owned_only": [
+        "deposit()",
+        "name()",
+        "symbol()",
+        "withdraw(uint256)"
+      ],
+      "shared_signatures": [
+        "allowance(address,address)",
+        "approve(address,uint256)",
+        "balanceOf(address)",
+        "decimals()",
+        "totalSupply()",
+        "transfer(address,uint256)",
+        "transferFrom(address,address,uint256)"
+      ]
+    },
+    "operation": "native Hardhat artifact assembly for six real compiler outputs",
+    "owned_interface_sha256": "3feb5782549ea38ed705cc48531c0c5be5e3abc52dcd942658f7eb538a67d276",
+    "reference_selectors": {
+      "allowance(address,address)": "dd62ed3e",
+      "approve(address,uint256)": "095ea7b3",
+      "balanceOf(address)": "70a08231",
+      "decimals()": "313ce567",
+      "totalSupply()": "18160ddd",
+      "transfer(address,uint256)": "a9059cbb",
+      "transferFrom(address,address,uint256)": "23b872dd"
+    },
+    "results": {
+      "append": {
+        "artifact_sha256": "84708f6a95119df8193581106316cdaeb9af5fbf1a22e9457eacb695dd4b7f16",
+        "changed_existing_fields": [],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 5,
+            "label": "steps",
+            "type": "uint8"
+          },
+          {
+            "begin": 5,
+            "end": 9,
+            "label": "note",
+            "type": "uint32"
+          }
+        ],
+        "preserves_existing_fields": true
+      },
+      "conservation": {
+        "artifact_sha256": "d02d404037cdd00c74c6594adb7c6f03f49932bc8334d824c4bb15b780f6b755",
+        "changed_existing_fields": [],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 5,
+            "label": "steps",
+            "type": "uint8"
+          }
+        ],
+        "preserves_existing_fields": true
+      },
+      "delayed_credit": {
+        "artifact_sha256": "3a4b187387c278862b96b06aaf74130453b73f73743fb23ffedef6ce33ab10fc",
+        "changed_existing_fields": [],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 5,
+            "label": "steps",
+            "type": "uint8"
+          }
+        ],
+        "preserves_existing_fields": true
+      },
+      "reorder": {
+        "artifact_sha256": "fe221975e73a5ffc196c43753387aa23b98f6f3233cd18121e9715b9f6a301af",
+        "changed_existing_fields": [
+          "credit",
+          "debit"
+        ],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 5,
+            "label": "steps",
+            "type": "uint8"
+          }
+        ],
+        "preserves_existing_fields": false
+      },
+      "retype": {
+        "artifact_sha256": "a7458ef2387faa5baeecd2f7bb5e405675e273bbc63d5bed570ad396032c2e46",
+        "changed_existing_fields": [
+          "steps"
+        ],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 6,
+            "label": "steps",
+            "type": "uint16"
+          }
+        ],
+        "preserves_existing_fields": false
+      },
+      "unreachable": {
+        "artifact_sha256": "1856e960eee99dc194280c94e86e4a1c3b205ac4a2ebd7878dcccebeae9c013b",
+        "changed_existing_fields": [],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 5,
+            "label": "steps",
+            "type": "uint8"
+          }
+        ],
+        "preserves_existing_fields": true
+      }
+    },
+    "revision": "c6a0b31a8bcbb839aa2051f700476e2019e5529d",
+    "role": "executable",
+    "source_files": {
+      "packages/hardhat-utils/src/hex.ts": "55b8c9a4084c1117ca10aa7fb7792fc4befe8042b045944031081994ce13a249",
+      "packages/hardhat/src/internal/builtin-plugins/solidity/build-system/artifacts.ts": "476e4b4d7adae5da639753e493b2f98c4bc392fb32f12039790ae87cf712d74f"
+    },
+    "source_matched_python_modules": 41,
+    "wheel_lock_sha256": "e3a96133c021014f5d62797e223d908b2b8210c4f6858d9a76eee81c5758f1e0"
+  },
+  "OpenZeppelin/openzeppelin-upgrades": {
+    "input_sha256": "430e4399086eac62e3e1e51f14aaa052d70d69f65a81955111fc8d6493db7d88",
+    "interface_comparison": {
+      "mutability_differences": {
+        "decimals()": {
+          "owned": "view",
+          "reference": "nonpayable"
+        }
+      },
+      "owned_only": [
+        "deposit()",
+        "name()",
+        "symbol()",
+        "withdraw(uint256)"
+      ],
+      "shared_signatures": [
+        "allowance(address,address)",
+        "approve(address,uint256)",
+        "balanceOf(address)",
+        "decimals()",
+        "totalSupply()",
+        "transfer(address,uint256)",
+        "transferFrom(address,address,uint256)"
+      ]
+    },
+    "operation": "native storage position and width comparator for packed fields",
+    "owned_interface_sha256": "3feb5782549ea38ed705cc48531c0c5be5e3abc52dcd942658f7eb538a67d276",
+    "reference_selectors": {
+      "allowance(address,address)": "dd62ed3e",
+      "approve(address,uint256)": "095ea7b3",
+      "balanceOf(address)": "70a08231",
+      "decimals()": "313ce567",
+      "totalSupply()": "18160ddd",
+      "transfer(address,uint256)": "a9059cbb",
+      "transferFrom(address,address,uint256)": "23b872dd"
+    },
+    "results": {
+      "append": {
+        "artifact_sha256": "84708f6a95119df8193581106316cdaeb9af5fbf1a22e9457eacb695dd4b7f16",
+        "changed_existing_fields": [],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 5,
+            "label": "steps",
+            "type": "uint8"
+          },
+          {
+            "begin": 5,
+            "end": 9,
+            "label": "note",
+            "type": "uint32"
+          }
+        ],
+        "preserves_existing_fields": true
+      },
+      "conservation": {
+        "artifact_sha256": "d02d404037cdd00c74c6594adb7c6f03f49932bc8334d824c4bb15b780f6b755",
+        "changed_existing_fields": [],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 5,
+            "label": "steps",
+            "type": "uint8"
+          }
+        ],
+        "preserves_existing_fields": true
+      },
+      "delayed_credit": {
+        "artifact_sha256": "3a4b187387c278862b96b06aaf74130453b73f73743fb23ffedef6ce33ab10fc",
+        "changed_existing_fields": [],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 5,
+            "label": "steps",
+            "type": "uint8"
+          }
+        ],
+        "preserves_existing_fields": true
+      },
+      "reorder": {
+        "artifact_sha256": "fe221975e73a5ffc196c43753387aa23b98f6f3233cd18121e9715b9f6a301af",
+        "changed_existing_fields": [
+          "credit",
+          "debit"
+        ],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 5,
+            "label": "steps",
+            "type": "uint8"
+          }
+        ],
+        "preserves_existing_fields": false
+      },
+      "retype": {
+        "artifact_sha256": "a7458ef2387faa5baeecd2f7bb5e405675e273bbc63d5bed570ad396032c2e46",
+        "changed_existing_fields": [
+          "steps"
+        ],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 6,
+            "label": "steps",
+            "type": "uint16"
+          }
+        ],
+        "preserves_existing_fields": false
+      },
+      "unreachable": {
+        "artifact_sha256": "1856e960eee99dc194280c94e86e4a1c3b205ac4a2ebd7878dcccebeae9c013b",
+        "changed_existing_fields": [],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 5,
+            "label": "steps",
+            "type": "uint8"
+          }
+        ],
+        "preserves_existing_fields": true
+      }
+    },
+    "revision": "54bb8bb913c2d52f417d3bcf1ef94e9061b89da8",
+    "role": "executable",
+    "source_files": {
+      "packages/core/src/storage/compare.ts": "6f35c74957f6c022fdecbd4e44db9a6521930645aec125b20c5941f1af9c0e91",
+      "packages/core/src/storage/layout.ts": "8c2c8ad2805e5a0a859da1ee3f7013bf1928284ea1ec565d4532c5ade77de851"
+    },
+    "source_matched_python_modules": 41,
+    "wheel_lock_sha256": "e3a96133c021014f5d62797e223d908b2b8210c4f6858d9a76eee81c5758f1e0"
+  },
+  "crytic/crytic-compile": {
+    "input_sha256": "430e4399086eac62e3e1e51f14aaa052d70d69f65a81955111fc8d6493db7d88",
+    "interface_comparison": {
+      "mutability_differences": {
+        "decimals()": {
+          "owned": "view",
+          "reference": "nonpayable"
+        }
+      },
+      "owned_only": [
+        "deposit()",
+        "name()",
+        "symbol()",
+        "withdraw(uint256)"
+      ],
+      "shared_signatures": [
+        "allowance(address,address)",
+        "approve(address,uint256)",
+        "balanceOf(address)",
+        "decimals()",
+        "totalSupply()",
+        "transfer(address,uint256)",
+        "transferFrom(address,address,uint256)"
+      ]
+    },
+    "operation": "standard-json recompile and native ABI selector extraction",
+    "owned_interface_sha256": "3feb5782549ea38ed705cc48531c0c5be5e3abc52dcd942658f7eb538a67d276",
+    "reference_selectors": {
+      "allowance(address,address)": "dd62ed3e",
+      "approve(address,uint256)": "095ea7b3",
+      "balanceOf(address)": "70a08231",
+      "decimals()": "313ce567",
+      "totalSupply()": "18160ddd",
+      "transfer(address,uint256)": "a9059cbb",
+      "transferFrom(address,address,uint256)": "23b872dd"
+    },
+    "results": {
+      "append": {
+        "artifact_sha256": "84708f6a95119df8193581106316cdaeb9af5fbf1a22e9457eacb695dd4b7f16",
+        "changed_existing_fields": [],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 5,
+            "label": "steps",
+            "type": "uint8"
+          },
+          {
+            "begin": 5,
+            "end": 9,
+            "label": "note",
+            "type": "uint32"
+          }
+        ],
+        "preserves_existing_fields": true
+      },
+      "conservation": {
+        "artifact_sha256": "d02d404037cdd00c74c6594adb7c6f03f49932bc8334d824c4bb15b780f6b755",
+        "changed_existing_fields": [],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 5,
+            "label": "steps",
+            "type": "uint8"
+          }
+        ],
+        "preserves_existing_fields": true
+      },
+      "delayed_credit": {
+        "artifact_sha256": "3a4b187387c278862b96b06aaf74130453b73f73743fb23ffedef6ce33ab10fc",
+        "changed_existing_fields": [],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 5,
+            "label": "steps",
+            "type": "uint8"
+          }
+        ],
+        "preserves_existing_fields": true
+      },
+      "reorder": {
+        "artifact_sha256": "fe221975e73a5ffc196c43753387aa23b98f6f3233cd18121e9715b9f6a301af",
+        "changed_existing_fields": [
+          "credit",
+          "debit"
+        ],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 5,
+            "label": "steps",
+            "type": "uint8"
+          }
+        ],
+        "preserves_existing_fields": false
+      },
+      "retype": {
+        "artifact_sha256": "a7458ef2387faa5baeecd2f7bb5e405675e273bbc63d5bed570ad396032c2e46",
+        "changed_existing_fields": [
+          "steps"
+        ],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 6,
+            "label": "steps",
+            "type": "uint16"
+          }
+        ],
+        "preserves_existing_fields": false
+      },
+      "unreachable": {
+        "artifact_sha256": "1856e960eee99dc194280c94e86e4a1c3b205ac4a2ebd7878dcccebeae9c013b",
+        "changed_existing_fields": [],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 5,
+            "label": "steps",
+            "type": "uint8"
+          }
+        ],
+        "preserves_existing_fields": true
+      }
+    },
+    "revision": "7e8a89ddd7718d387b0c7b4e43a7391e1a6d79f3",
+    "role": "executable",
+    "source_files": {
+      "crytic_compile/source_unit.py": "0a683c6c3e3f1ae279bb7a0469b803fe74bc9904b5a34ec5b7df1bdfced4dc9f",
+      "pyproject.toml": "9ec841f278e7c264191bf1be301807c51aec3964f53c3472eb9269dd25e62964"
+    },
+    "source_matched_python_modules": 41,
+    "wheel_lock_sha256": "e3a96133c021014f5d62797e223d908b2b8210c4f6858d9a76eee81c5758f1e0"
+  },
+  "crytic/properties": {
+    "input_sha256": "430e4399086eac62e3e1e51f14aaa052d70d69f65a81955111fc8d6493db7d88",
+    "interface_comparison": {
+      "mutability_differences": {
+        "decimals()": {
+          "owned": "view",
+          "reference": "nonpayable"
+        }
+      },
+      "owned_only": [
+        "deposit()",
+        "name()",
+        "symbol()",
+        "withdraw(uint256)"
+      ],
+      "shared_signatures": [
+        "allowance(address,address)",
+        "approve(address,uint256)",
+        "balanceOf(address)",
+        "decimals()",
+        "totalSupply()",
+        "transfer(address,uint256)",
+        "transferFrom(address,address,uint256)"
+      ]
+    },
+    "operation": "compile and compare IERC20 reference to the historical NQC WETH interface",
+    "owned_interface_sha256": "3feb5782549ea38ed705cc48531c0c5be5e3abc52dcd942658f7eb538a67d276",
+    "reference_selectors": {
+      "allowance(address,address)": "dd62ed3e",
+      "approve(address,uint256)": "095ea7b3",
+      "balanceOf(address)": "70a08231",
+      "decimals()": "313ce567",
+      "totalSupply()": "18160ddd",
+      "transfer(address,uint256)": "a9059cbb",
+      "transferFrom(address,address,uint256)": "23b872dd"
+    },
+    "results": {
+      "append": {
+        "artifact_sha256": "84708f6a95119df8193581106316cdaeb9af5fbf1a22e9457eacb695dd4b7f16",
+        "changed_existing_fields": [],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 5,
+            "label": "steps",
+            "type": "uint8"
+          },
+          {
+            "begin": 5,
+            "end": 9,
+            "label": "note",
+            "type": "uint32"
+          }
+        ],
+        "preserves_existing_fields": true
+      },
+      "conservation": {
+        "artifact_sha256": "d02d404037cdd00c74c6594adb7c6f03f49932bc8334d824c4bb15b780f6b755",
+        "changed_existing_fields": [],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 5,
+            "label": "steps",
+            "type": "uint8"
+          }
+        ],
+        "preserves_existing_fields": true
+      },
+      "delayed_credit": {
+        "artifact_sha256": "3a4b187387c278862b96b06aaf74130453b73f73743fb23ffedef6ce33ab10fc",
+        "changed_existing_fields": [],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 5,
+            "label": "steps",
+            "type": "uint8"
+          }
+        ],
+        "preserves_existing_fields": true
+      },
+      "reorder": {
+        "artifact_sha256": "fe221975e73a5ffc196c43753387aa23b98f6f3233cd18121e9715b9f6a301af",
+        "changed_existing_fields": [
+          "credit",
+          "debit"
+        ],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 5,
+            "label": "steps",
+            "type": "uint8"
+          }
+        ],
+        "preserves_existing_fields": false
+      },
+      "retype": {
+        "artifact_sha256": "a7458ef2387faa5baeecd2f7bb5e405675e273bbc63d5bed570ad396032c2e46",
+        "changed_existing_fields": [
+          "steps"
+        ],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 6,
+            "label": "steps",
+            "type": "uint16"
+          }
+        ],
+        "preserves_existing_fields": false
+      },
+      "unreachable": {
+        "artifact_sha256": "1856e960eee99dc194280c94e86e4a1c3b205ac4a2ebd7878dcccebeae9c013b",
+        "changed_existing_fields": [],
+        "compiler_selectors": {
+          "move(uint8)": "70e87aaf"
+        },
+        "layout": [
+          {
+            "begin": 0,
+            "end": 2,
+            "label": "debit",
+            "type": "uint16"
+          },
+          {
+            "begin": 2,
+            "end": 4,
+            "label": "credit",
+            "type": "uint16"
+          },
+          {
+            "begin": 4,
+            "end": 5,
+            "label": "steps",
+            "type": "uint8"
+          }
+        ],
+        "preserves_existing_fields": true
+      }
+    },
+    "revision": "5ea14b813ff296e24b4257ab52a0402360f916f6",
+    "role": "reference",
+    "source_files": {
+      "contracts/util/IERC20.sol": "eecb1f4284f5e51c09fcf9e35d3fc03d853bcdd7cdd30bcc599ae121460a43a2"
+    },
+    "source_matched_python_modules": 41,
+    "wheel_lock_sha256": "e3a96133c021014f5d62797e223d908b2b8210c4f6858d9a76eee81c5758f1e0"
+  }
+}

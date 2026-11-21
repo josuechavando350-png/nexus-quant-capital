@@ -15,9 +15,10 @@ DOMAINS = {'changes': 'product_change_batch', 'evm': 'product_evm_standards_batc
            'android-policy': 'product_attestations_batch', 'state-amounts': 'product_state_formats_batch',
            'remediation': 'product_remediation_batch', 'configuration': 'product_config_batch',
            'object-format': 'product_formats_batch', 'slot-format': 'product_slot_formats_batch',
-           'scoring': 'product_evaluation_batch', 'timeline': 'product_timeline_formats'}
+           'scoring': 'product_evaluation_batch', 'timeline': 'product_timeline_formats',
+           'static-contracts': 'product_static_contracts', 'build-compatibility': 'product_build_compatibility'}
 CONTRACT_PATH = 'superhunter/product_supply/component-control-contracts.json'
-CONTRACT_SHA = '9fe3b7d7b933818078f7956e4e5578c2685167b06655e40cf049b882bac6af1c'
+CONTRACT_SHA = '06a61867ec8d0612d7e4a934f723a8c4a8ab42dbb9a1ab3e3a2321c5521d2bf2'
 FIELD = 'component_control_receipt'
 
 

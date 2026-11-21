@@ -1,4 +1,7 @@
 import json
+import os
+import subprocess
+import sys
 import unittest
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -60,6 +63,24 @@ class ComponentControlTests(unittest.TestCase):
         combined['find-sec-bugs/find-sec-bugs']['result']['classification']['changed']['line'] += 1
         with self.assertRaisesRegex(EvidenceError, 'disagree'):
             controls.reconcile_digest(combined, go)
+
+    @unittest.skipUnless(os.environ.get('NQC_TEST_PRODUCT_BUNDLE') and os.environ.get('NQC_TRUST_TEST_SOURCES'),
+                         'requires the authenticated product bundle and source checkouts')
+    def test_real_selective_entry_reports_blocked_and_complete(self):
+        from pathlib import Path
+        root = Path(os.environ['NQC_TRUST_TEST_SOURCES']).resolve().parent
+        command = [sys.executable, '-B', '-m', 'superhunter', 'query-product', '--bundle',
+                   os.environ['NQC_TEST_PRODUCT_BUNDLE'], '--control-source-root', str(root), '--component-controls']
+        for domain, expected in [('changes', 2), ('android-policy', 0)]:
+            with self.subTest(domain=domain):
+                proc = subprocess.run([*command, domain, 'component-controls'], cwd=ROOT,
+                                      capture_output=True, timeout=30)
+                self.assertEqual(proc.returncode, expected, proc.stdout)
+                observed = json.loads(proc.stdout)
+                self.assertEqual(observed['requested'], [domain])
+                self.assertEqual(set(observed['blocked']), {domain} if expected else set())
+                self.assertEqual(set(observed['observations']), set() if expected else
+                                 {'OWASP/mastg', 'skylot/jadx', 'iBotPeaches/Apktool'})
 
     def test_diagnostic_must_touch_the_changed_expression(self):
         raw = pinned(ROOT,SOURCE,SOURCE_SHA)

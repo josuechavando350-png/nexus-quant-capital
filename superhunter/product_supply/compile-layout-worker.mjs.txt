@@ -1,0 +1,22 @@
+import fs from 'node:fs';
+import { getContractArtifact } from './hardhat.mts';
+import { storageFieldBegin, storageFieldEnd, WidthComparison } from './ranges.mts';
+const cases = JSON.parse(fs.readFileSync(0, 'utf8'));
+let original;
+const results = {};
+for (const [id, entry] of Object.entries(cases)) {
+  const { inputHash, contract } = entry;
+  const a = getContractArtifact(inputHash, 'State.sol', 'State.sol', 'StatefulConservation', contract);
+  const layout = contract.storageLayout;
+  const detailed = layout.storage.map(f => ({ ...f, type: { item: layout.types[f.type] } }));
+  if (id === 'conservation') original = detailed;
+  const comparer = new WidthComparison();
+  const fields = detailed.map(f => ({ label: f.label, type: f.type.item.label,
+    begin: Number(storageFieldBegin(f)), end: Number(storageFieldEnd(f)) }));
+  const changed = original.filter(f => {
+    const now = detailed.find(v => v.label === f.label);
+    return !now || comparer.getLayoutChange(f, now) || now.type.item.label !== f.type.item.label;
+  }).map(f => f.label);
+  results[id] = { fields, changed, artifact: a };
+}
+console.log(JSON.stringify(results));

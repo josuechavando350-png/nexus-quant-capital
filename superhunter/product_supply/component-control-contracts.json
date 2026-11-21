@@ -17,6 +17,12 @@
     "revision": "53222cd5d7566c553d8d7edbb5134a35a56ef15e",
     "role": "executable"
   },
+  "Fraunhofer-AISEC/cpg": {
+    "domain": "static-contracts",
+    "result_sha256": "68378e5b3fa1369f987af27f14cd5ca3e06311c4152dd3e91c73a37a5ac8b4c0",
+    "revision": "8a4bd21ec8591b1bc92ca6174a01ab5159514e09",
+    "role": "reference_data"
+  },
   "LiteSVM/litesvm": {
     "domain": "slot-format",
     "result_sha256": "75f85c4f47f96d4cd5d77284d17e6dde3655360a2fefe4108011ee620352bf61",
@@ -31,8 +37,14 @@
   },
   "NVIDIA/garak": {
     "domain": "source-extracts",
-    "result_sha256": "035972545ecd97c7f2e2eecb2726c21aa3e6691186695422b003eddd1e1c764a",
+    "result_sha256": "460cc79579f150eacf8b6afc622d5d02807f25e5f904a0ea520395041d0e4a46",
     "revision": "725160beb8137a8294c79b1f78c68a756367f861",
+    "role": "executable"
+  },
+  "NomicFoundation/hardhat": {
+    "domain": "build-compatibility",
+    "result_sha256": "d19ccac9d553e531cb1ae59e414b08eb51cb74118eadfebadda48238461537f7",
+    "revision": "c6a0b31a8bcbb839aa2051f700476e2019e5529d",
     "role": "executable"
   },
   "OWASP/mastg": {
@@ -45,6 +57,12 @@
     "domain": "changes",
     "result_sha256": "7790127e8d9417c3ebedf2ec673064f78dd993bb4e4aea8748368045b933e0a1",
     "revision": "3a893a1b26de7ec02cc0dd2427906eea6aea3fc7",
+    "role": "executable"
+  },
+  "OpenZeppelin/openzeppelin-upgrades": {
+    "domain": "build-compatibility",
+    "result_sha256": "25c6ac71bef59c6d0cfa64e884e80abd7fecdddd65d650e3bb4c54469de99c32",
+    "revision": "54bb8bb913c2d52f417d3bcf1ef94e9061b89da8",
     "role": "executable"
   },
   "SWE-agent/mini-swe-agent": {
@@ -131,6 +149,18 @@
     "revision": "e1b5791564c662c7dacbc62835f6abe5431aa00b",
     "role": "executable"
   },
+  "crytic/crytic-compile": {
+    "domain": "build-compatibility",
+    "result_sha256": "f24bab396a4507e9216d1f5a462be5e922c0c9bf77acadc2818a76d3bf8126bd",
+    "revision": "7e8a89ddd7718d387b0c7b4e43a7391e1a6d79f3",
+    "role": "executable"
+  },
+  "crytic/properties": {
+    "domain": "build-compatibility",
+    "result_sha256": "0b8b7b0c16752308ea8e286f91fe16e2f60d5b07d107c9aa235fd3d6293da44e",
+    "revision": "5ea14b813ff296e24b4257ab52a0402360f916f6",
+    "role": "reference_data"
+  },
   "dependency-check/DependencyCheck": {
     "domain": "supply",
     "result_sha256": "47018282f7dc8960270d31f8531e22aaddf15657bc2700c7b1703c48d3287200",
@@ -157,7 +187,7 @@
   },
   "hahwul/dalfox": {
     "domain": "source-extracts",
-    "result_sha256": "c57d04d88c73288259e88fa77f738eb1343876f4e12777e7e2cd2a6dd065d459",
+    "result_sha256": "e0070ba9f202fc492871aff3fe2a8b6ac5f441f49b05fbd93e1e05ee54921c91",
     "revision": "5b523bcd89f5a6f0f6e115f0005b9842438a5de6",
     "role": "reference_data"
   },
@@ -208,6 +238,18 @@
     "result_sha256": "c9835fea0078fd3203e35c23c2235afd543a363264df17a9510a80dfb5f8b690",
     "revision": "873b622380fbbce76ac407c6e0299fcbec557045",
     "role": "reference_data"
+  },
+  "meta/Pysa": {
+    "domain": "static-contracts",
+    "result_sha256": "22a67397e000fdae79cd951a396ebb760f06dd9e17b81856faf80dd529c8232b",
+    "revision": "50ba6ccf2612131033662e0a6bc5e8acffc6ff36",
+    "role": "executable"
+  },
+  "meta/infer": {
+    "domain": "static-contracts",
+    "result_sha256": "1103207069d42c3bc7515a6855af9d33c423a6eed131b710d1bb8a69726ea6f8",
+    "revision": "2ebceff7ce3c93480bbc0e8d09d11aeec53595d8",
+    "role": "executable"
   },
   "nabla-c0d3/sslyze": {
     "domain": "configuration",
@@ -295,7 +337,7 @@
   },
   "usestrix/strix": {
     "domain": "source-extracts",
-    "result_sha256": "10ab41938bc07643c2e82f05367e6f4114e746de0421fc22c7f419646312afc9",
+    "result_sha256": "7e693a4823fdb6c050e587e2202c67879117062b43403db360289a0ee8dc69da",
     "revision": "a1ccf777d80e812edf23fc8b82bdc17def6143ac",
     "role": "executable"
   },
