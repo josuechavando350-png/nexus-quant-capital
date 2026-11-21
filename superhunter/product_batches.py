@@ -8,6 +8,7 @@ BASELINE_IDS = frozenset((24, 30, 41, 45, 111, 131, 136, 140, 142, 143, 147, 150
 # Preserve the 15 baseline identities and prioritize inventory, code parsing and review work.
 CATEGORIES = ('SUPPLY', 'CODIGO', 'FORMAL', 'OBSERVACION', 'METODO', 'BINARIOS', 'AGENTES')
 RECEIPTS = {
+    'ethereum/go-ethereum': 'geth_header_evidence',
     'ethers-io/ethers.js': 'census_header_evidence', 'wevm/viem': 'census_header_evidence',
     'ethereumjs/ethereumjs-monorepo': 'census_header_evidence',
     'foundry-rs/foundry': 'solidity_metadata_evidence',
@@ -56,6 +57,8 @@ def receipt(row):
     name = row['repository'].casefold()
     if name in RECEIPTS and row.get(RECEIPTS[name]):
         return 'executable', RECEIPTS[name]
+    if name in ('ethereum/consensus-specs', 'openzeppelin/openzeppelin-contracts') and row.get('source_reference'):
+        return 'reference_data', 'source_reference'
     if name in ('ethereum/eips', 'ethereum/execution-specs') and row.get('census_header_reference'):
         return 'reference_data', 'census_header_reference'
     role = row.get('supply_role') or {}

@@ -50,8 +50,7 @@ def select_document(row, raw):
     return raw
 
 
-def attach(index, folder):
-    rows = sources()
+def verified_corpus(folder, rows):
     expected = {filename(r): document_hash(r) for r in rows}
     marker = canonical({'schema_version': 1, 'sha256': expected})
     if {p.name for p in folder.iterdir()} != set(expected) | {'COMPLETE.json'}:
@@ -59,14 +58,22 @@ def attach(index, folder):
     if read_artifact(folder, 'COMPLETE.json') != marker:
         raise EvidenceError('upstream notice bundle differs from product lock')
     corpus = {}
-    groups = defaultdict(list)
     for row in rows:
         name = filename(row)
         raw = read_artifact(folder, name)
         if sha(raw) != expected[name]:
             raise EvidenceError('upstream notice content mismatch')
         corpus[name] = raw
-        groups[expected[name]].append(row['id'])
+    return corpus
+
+
+def attach(index, folder):
+    rows = sources()
+    corpus = verified_corpus(folder, rows)
+    expected = {filename(r): document_hash(r) for r in rows}
+    groups = defaultdict(list)
+    for r in rows:
+        groups[document_hash(r)].append(r['id'])
     for row in rows:
         name = filename(row)
         notice = row['notice']

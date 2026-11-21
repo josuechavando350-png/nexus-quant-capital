@@ -108,9 +108,19 @@ def verify(root, require_checkout=False):
 def main(argv):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--require-checkout', action='store_true', help='also verify each local submodule working tree')
+    parser.add_argument('--inventory', action='store_true', help='audit committed manifests, LFS pointers and nested gitlinks')
+    parser.add_argument('--notice-bundle', type=Path, help='verified upstream notice bundle for native license review')
+    parser.add_argument('--scancode-release', type=Path, help='pinned ScanCode distribution for notice review')
     args = parser.parse_args(argv)
+    if bool(args.notice_bundle) != bool(args.scancode_release) or (args.notice_bundle and not args.inventory):
+        parser.error('notice review requires --inventory, --notice-bundle and --scancode-release together')
     try:
-        print(json.dumps(verify(ROOT, args.require_checkout), sort_keys=True))
+        if args.inventory:
+            from .product_source_audit import inventory
+            result = inventory(ROOT, args.notice_bundle, args.scancode_release)
+        else:
+            result = verify(ROOT, args.require_checkout)
+        print(json.dumps(result, sort_keys=True))
     except (OSError, ValueError, subprocess.SubprocessError) as exc:
         print(str(exc), file=sys.stderr)
         return 2
