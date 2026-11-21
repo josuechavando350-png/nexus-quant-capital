@@ -208,6 +208,7 @@ class ProductIndex:
         self.sbom_locations = {}
         self.similar_notices = None
         self.license_choices = None
+        self.owned_source_checks = None
         self.root_declarations = None
         self.source_inventory = None
         self.source_references = None
@@ -249,6 +250,13 @@ class ProductIndex:
             if self.citations is None:
                 raise EvidenceError('notice contexts require --notice-review-wheels')
             return self.citations.lookup(key.removeprefix('notice-context:'))
+        if key == 'integration-matrix':
+            from .product_matrix import build
+            return build(self)
+        if key == 'owned-source-checks':
+            if self.owned_source_checks is None:
+                raise EvidenceError('owned source checks require --owned-source-kit')
+            return self.owned_source_checks
         if key == 'root-declarations':
             if self.root_declarations is None:
                 raise EvidenceError('root declarations require --root-manifests')
@@ -330,6 +338,7 @@ def main(argv):
     else:
         parser.add_argument('--bundle', type=Path, required=True)
         if command == 'query-product':
+            parser.add_argument('--owned-source-kit', type=Path, help='evaluate fixed owned code and supply declarations')
             parser.add_argument('--root-manifests', type=Path, help='verify external root trees and declarative package inputs')
             parser.add_argument('--source-inventory', action='store_true', help='join the reviewed 200-row source audit')
             parser.add_argument('--source-references', type=Path, help='read two pinned type definitions from a source checkout')
@@ -402,6 +411,9 @@ def main(argv):
             if opts.source_references:
                 from . import product_source_references
                 product_source_references.attach(index, opts.source_references, opts.solidity_metadata_kit)
+            if opts.owned_source_kit:
+                from . import product_owned_source_checks
+                product_owned_source_checks.attach(index, opts.source_references, opts.owned_source_kit, opts.solidity_metadata_kit)
             if opts.geth_header:
                 from . import product_census_header
                 product_census_header.attach_geth(index, opts.geth_header)

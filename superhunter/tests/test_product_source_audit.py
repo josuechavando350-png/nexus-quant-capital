@@ -144,3 +144,31 @@ class RemoteRootTests(unittest.TestCase):
                          ['other'])
         result = declared_names('requirements.txt', b'-r extra.txt\nMy_Pkg==2.0\n')
         self.assertEqual(result, {'names': ['my-pkg'], 'unparsed_lines': 1})
+
+
+class OwnedSourceChecksTests(unittest.TestCase):
+    def test_two_source_file_pins_are_derived_from_upstream_subtrees(self):
+        from superhunter.product_owned_source_checks import excerpt_files
+        rows = list(excerpt_files())
+        self.assertEqual([(n, path, blob) for n, _, path, _, blob in rows], [
+            (179, 'sb/sarif.py', 'f8b79acd9bc0d0dae11bae079c22465e5130fe0e'),
+            (191, 'development-guidelines/token_integration.md', '04c5b7e00aab99ea103e15642120905d2644b363')])
+
+    def test_replaced_publisher_source_is_rejected_before_execution(self):
+        from superhunter.product_owned_source_checks import checked_excerpts
+        with tempfile.TemporaryDirectory() as tmp:
+            (Path(tmp)/'sarif-source.txt').write_text('def result_region(): pass\n')
+            with self.assertRaisesRegex(ValueError, 'bounded source bytes differ from Git'):
+                checked_excerpts(Path(tmp))
+
+    def test_partial_source_or_invented_receipt_cannot_accredit_a_project(self):
+        for name in ('smartbugs/smartbugs', 'crytic/building-secure-contracts', 'pycqa/bandit', 'ossf/malicious-packages'):
+            self.assertEqual(receipt({'repository': name, 'root_declarations': {'id': 1}}), ('pending', None))
+            with self.assertRaisesRegex(ValueError, 'accepted product result'):
+                receipt({'repository': name, 'owned_source_receipt': {'query': 'owned-source-checks'}})
+
+    def test_upstream_region_converts_only_supplied_coordinates(self):
+        from superhunter.smartbugs_region import result_region
+        self.assertIsNone(result_region({}))
+        self.assertEqual(result_region({'line': 44, 'line_end': 45, 'column': 7}),
+                         {'startLine': 44, 'startColumn': 7, 'endLine': 45})

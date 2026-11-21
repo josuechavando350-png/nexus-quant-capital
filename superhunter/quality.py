@@ -285,7 +285,9 @@ PRODUCT_DATA_FILES = ('repositories_200.json', 'product_repository_identities.js
                       'product_supply/license-review-linux-py312.txt', 'product_supply/batch-property-driver.txt',
                       'product_supply/coverage-d94b58f.json', 'product_supply/header-check.txt',
                       'product_supply/header-npm-lock.json', 'product_supply/upstream-notices.json',
-                      'product_supply/wake-metadata-linux-py312.txt')
+                      'product_supply/wake-metadata-linux-py312.txt', 'product_supply/bandit-linux-py312.txt',
+                      'product_supply/remote-root-proofs.json', 'product_supply/source-excerpts/trees.json',
+                      'product_supply/source-excerpts/token-types.txt')
 
 
 def source_snapshot(root: Path = ROOT) -> dict[str, str]:
@@ -1762,7 +1764,9 @@ REQUIRED_TESTS += (
 COMPONENTS['product_review'] = {
     'files': [*PRODUCT_DATA_FILES,
               'product_source_references.py', 'product_source_audit.py', 'product_remote_roots.py',
-              'tools/fetch_root_manifests.py', 'tools/evaluate_payload_types.py', 'tools/check_catalog_origins.py',
+              'tools/fetch_root_manifests.py', 'tools/prepare_owned_source_checks.py',
+              'smartbugs_region.py', 'product_owned_source_checks.py', 'product_matrix.py',
+              'tools/render_product_matrix.py', 'tools/evaluate_payload_types.py', 'tools/check_catalog_origins.py',
               'product_census_header.py', 'product_solidity_headers.py', 'product_solidity_headers_worker.py',
               'product_upstream_notices.py', 'product_sources.py', 'tools/fetch_upstream_notices.py', 'tools/catalog_session.py',
               'product_batch_properties.py', 'product_notice_overlap.py', 'product_notice_decisions.py',

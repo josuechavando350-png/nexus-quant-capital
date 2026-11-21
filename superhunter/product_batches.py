@@ -55,6 +55,18 @@ def cohorts(repositories):
 # Reviewed outputs for the fixed NQC fixtures. Each producer still has to rerun before
 # a receipt is attached. A name, an arbitrary nonempty adapter or a copied source row is insufficient.
 FIXED_SOURCE_RECEIPTS = {
+    'pycqa/bandit': ('executable', 'owned_source_receipt', {
+        'query': 'owned-source-checks', 'section': 'yaml', 'revision': '2d5467c45c3189f4d7d07e8022276bc73a478abd',
+        'sha256': '1e7c745055c409f85a1824324cbcfca57318edd1f5583add46c89685ace670b6'}),
+    'smartbugs/smartbugs': ('executable', 'owned_source_receipt', {
+        'query': 'owned-source-checks', 'section': 'yaml', 'revision': 'a246003622775c730d5522429d8fed8846406e17',
+        'sha256': '1e7c745055c409f85a1824324cbcfca57318edd1f5583add46c89685ace670b6'}),
+    'ossf/malicious-packages': ('reference_data', 'owned_source_receipt', {
+        'query': 'owned-source-checks', 'section': 'packages', 'revision': 'aaefca1f03b51a4e26db1fad48b172279a2e41a9',
+        'sha256': '1e38dce3684e4366b3166687b475d3807646858419e7df2139f3410405de410b'}),
+    'crytic/building-secure-contracts': ('reference_data', 'owned_source_receipt', {
+        'query': 'owned-source-checks', 'section': 'token_types', 'revision': '0e679905ce336d81b1eade9cfe924011e9073339',
+        'sha256': '75c548dd47fb7bdfba7c177a20e61a4a8a3b0b9aedaf2a9bf763ad99117749b6'}),
     'ethereum/go-ethereum': ('executable', 'geth_header_evidence', {
         'report': 'geth-census', 'revision': '2b7829ea6aed9a95a3fd793cca46731202c6c310',
         'binary_sha256': '11ad28b59b30c1fabb60c68616bc1b8ff676e484ce15dfcecec57fa2ef7f100d',
