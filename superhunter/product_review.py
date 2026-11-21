@@ -208,6 +208,7 @@ class ProductIndex:
         self.sbom_locations = {}
         self.similar_notices = None
         self.license_choices = None
+        self.root_declarations = None
         self.source_inventory = None
         self.source_references = None
         self.geth_header = None
@@ -248,6 +249,10 @@ class ProductIndex:
             if self.citations is None:
                 raise EvidenceError('notice contexts require --notice-review-wheels')
             return self.citations.lookup(key.removeprefix('notice-context:'))
+        if key == 'root-declarations':
+            if self.root_declarations is None:
+                raise EvidenceError('root declarations require --root-manifests')
+            return self.root_declarations
         if key == 'source-inventory':
             if self.source_inventory is None:
                 raise EvidenceError('source inventory requires --source-inventory')
@@ -325,6 +330,7 @@ def main(argv):
     else:
         parser.add_argument('--bundle', type=Path, required=True)
         if command == 'query-product':
+            parser.add_argument('--root-manifests', type=Path, help='verify external root trees and declarative package inputs')
             parser.add_argument('--source-inventory', action='store_true', help='join the reviewed 200-row source audit')
             parser.add_argument('--source-references', type=Path, help='read two pinned type definitions from a source checkout')
             parser.add_argument('--geth-header', type=Path, help='pinned Geth helper to cross-check the Census header')
@@ -387,6 +393,9 @@ def main(argv):
             if opts.census_header_kit:
                 from . import product_census_header
                 product_census_header.attach(index, opts.census_header_kit)
+            if opts.root_manifests:
+                from . import product_remote_roots
+                product_remote_roots.attach(index, opts.root_manifests)
             if opts.source_inventory:
                 from . import product_source_audit
                 product_source_audit.attach(index)

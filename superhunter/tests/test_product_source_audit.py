@@ -112,3 +112,35 @@ class ProductComparisonTests(unittest.TestCase):
                              ('pending', None))
         self.assertEqual(receipt({'repository': 'some/project', 'source_reference': {'report': 'test'}}),
                          ('pending', None))
+
+
+class RemoteRootTests(unittest.TestCase):
+    def test_all_root_objects_reconstruct_and_bind_to_different_catalog_ids(self):
+        from superhunter.product_remote_roots import roots
+        rows = list(roots())
+        self.assertEqual(len({r['id'] for r, _ in rows}), 47)
+        self.assertEqual(len({r['tree'] for r, _ in rows}), 47)
+
+    def test_hash_mismatch_bad_order_and_ambiguous_entries_fail(self):
+        from superhunter.product_remote_roots import parse_tree
+        a = b'100644 a\0' + b'0'*20
+        b = b'100644 b\0' + b'1'*20
+        for obj, expected in ((a, git_object('tree', b)), (b+a, git_object('tree', b+a)),
+                              (a+a, git_object('tree', a+a))):
+            with self.assertRaises(ValueError):
+                parse_tree(obj, expected)
+
+    def test_source_scripts_and_links_are_never_manifest_inputs(self):
+        from superhunter.product_remote_roots import manifests
+        entries = {b'setup.py': (b'100644','0'*40), b'Cargo.toml': (b'120000','1'*40),
+                   b'go.mod': (b'100644','2'*40)}
+        self.assertEqual(manifests(entries), {'go.mod': '2'*40})
+
+    def test_go_blocks_and_cargo_renames(self):
+        from superhunter.product_remote_roots import declared_names
+        self.assertEqual(declared_names('go.mod', b'require (\n ex.org/test v1.0.0 // indirect\n)\n')['names'],
+                         ['ex.org/test'])
+        self.assertEqual(declared_names('Cargo.toml', b'[dependencies]\na={package="other",version="2"}')['names'],
+                         ['other'])
+        result = declared_names('requirements.txt', b'-r extra.txt\nMy_Pkg==2.0\n')
+        self.assertEqual(result, {'names': ['my-pkg'], 'unparsed_lines': 1})

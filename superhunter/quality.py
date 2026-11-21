@@ -1761,7 +1761,8 @@ REQUIRED_TESTS += (
 
 COMPONENTS['product_review'] = {
     'files': [*PRODUCT_DATA_FILES,
-              'product_source_references.py', 'product_source_audit.py', 'tools/evaluate_payload_types.py', 'tools/check_catalog_origins.py',
+              'product_source_references.py', 'product_source_audit.py', 'product_remote_roots.py',
+              'tools/fetch_root_manifests.py', 'tools/evaluate_payload_types.py', 'tools/check_catalog_origins.py',
               'product_census_header.py', 'product_solidity_headers.py', 'product_solidity_headers_worker.py',
               'product_upstream_notices.py', 'product_sources.py', 'tools/fetch_upstream_notices.py', 'tools/catalog_session.py',
               'product_batch_properties.py', 'product_notice_overlap.py', 'product_notice_decisions.py',
