@@ -12,6 +12,8 @@ En el PR 119 se reprodujeron los dos grupos afectados en dos checkouts limpios d
 
 En una ejecución aislada del commit `fae4157` con observación de excepciones, el verificador acreditó las 106 identidades históricas y sus 110 combinaciones de recibos. La sesión emitió 222 respuestas, con 128 identidades, 89 de ejecución, 39 de referencia y 137 operaciones. Se rechazaron 20 alteraciones. Esta acta corresponde a esa ejecución individual. [Acta y verificador](product_supply/acceptance-120/observed-session-verification.json) · [Transcripción](product_supply/acceptance-120/observed-session.json)
 
+Con dos conjuntos de insumos preparados por separado, dos checkouts del productor de ocho grupos acreditaron exactamente las mismas 128 identidades, roles y 137 operaciones. Coincidieron 217 de 222 respuestas. Siete inventarios CycloneDX regeneraron identificadores y fechas; uno también registró una ruta temporal diferente en nueve propiedades. Esto cambió los recibos de Tree-sitter, ast-grep y GUAC y las dos tablas que los resumen. Cada transcripción superó 20 controles negativos. Los dos hashes íntegros se conservan como control de variación de las entradas. [Desglose por archivo y por fila](product_supply/acceptance-120/regenerated-inputs.json)
+
 ## Pruebas del producto y de los árboles protegidos
 
 | Alcance | Resultado | Evidencia |
