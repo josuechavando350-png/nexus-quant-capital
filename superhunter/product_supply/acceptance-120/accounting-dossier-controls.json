@@ -1,0 +1,40 @@
+{
+  "cases": {
+    "deleted_negative_outcome": {
+      "act_sha256": "3737921fccf86930c100993698a10ec8a63faf277ef4f2d2b30f682c85730deb",
+      "exit": 2,
+      "run_inputs_sha256": "23c9de4bc9100738399229ff033ac0e82c679165b64215084b23a0b3adab26ab",
+      "stderr": "acceptance unavailable: refuted mutations in the acceptance act differ from the recomputed controls"
+    },
+    "duplicate_checkout_identifier": {
+      "act_sha256": "904805e26c5449aaefc9bfa422ff6ae63b67b4e8b44f7357dd09eeb9a23f9226",
+      "exit": 2,
+      "run_inputs_sha256": "23c9de4bc9100738399229ff033ac0e82c679165b64215084b23a0b3adab26ab",
+      "stderr": "acceptance unavailable: two distinct checkouts are required"
+    },
+    "inflated_published_identity_count": {
+      "act_sha256": "1b5aa6288084e97470bb2fa99a704a28eb3c7be319d4165f21d5c76f9aed4522",
+      "exit": 2,
+      "run_inputs_sha256": "23c9de4bc9100738399229ff033ac0e82c679165b64215084b23a0b3adab26ab",
+      "stderr": "acceptance unavailable: independent verification in the acceptance act differs from the recomputed verdict"
+    },
+    "original": {
+      "act_sha256": "27fde17d5f7e3a97bfd0d5137a92ef480f2db74eaf708516da8589a81a8000c2",
+      "exit": 0,
+      "run_inputs_sha256": "23c9de4bc9100738399229ff033ac0e82c679165b64215084b23a0b3adab26ab",
+      "stderr": ""
+    },
+    "resealed_modified_command": {
+      "act_sha256": "dcb5a620ac3a1b67978ff938515133d0f283ba691154169f3326089f77875b26",
+      "exit": 2,
+      "run_inputs_sha256": "b6e66622e8e8d06a1ae087c0a6bbba393b074898667a204e10cd602b4b2eece7",
+      "stderr": "acceptance unavailable: execution dossier differs from the reviewed portable argv"
+    }
+  },
+  "original_act_sha256": "27fde17d5f7e3a97bfd0d5137a92ef480f2db74eaf708516da8589a81a8000c2",
+  "profile": "accounting",
+  "schema_version": 1,
+  "scope": "Direct offline CLI acceptance checks in a disposable clean checkout. Each altered original was restored between trials.",
+  "verifier_commit": "9db67f43af5de260d6134cc8ae0faffa1ee77864",
+  "verifier_tree": "d604a635c3e0523b731d2b0f7283c65b23e39e18"
+}
