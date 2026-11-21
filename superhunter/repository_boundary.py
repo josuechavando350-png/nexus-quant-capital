@@ -9,6 +9,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import stat
 
@@ -21,6 +22,7 @@ HISTORICAL_TREES = {
     'nqc-census':'68dbd045014a49bd53b79440d9878f3e8035c739',
 }
 ROOT_FILES = {
+    '.gitmodules':'6808273acbf205d3cc088616e38cb83509fc93f2',
     '.gitignore':'7518f5529fe0b23ea9195c5e3c4a1099a9e05d08',
     'AGENTS.md':'6c2fe3771bad272bb1839aabc2b45ef636a16531',
     'README.md':'2d620f813efdfa3c146fc7e17dd39f5ca11132c5',
@@ -72,16 +74,35 @@ def _directory_read_failed(error: OSError) -> None:
     raise BoundaryError('DIRECTORY_READ_FAILED') from None
 
 
+def _upstream_leaves(root: Path) -> set[str]:
+    # The root policy pins the complete manifest, including its literal paths and URLs.
+    from .safe_io import read_artifact
+
+    try:
+        raw = read_artifact(root, '.gitmodules')
+    except (OSError, ValueError) as exc:
+        raise BoundaryError('ROOT_POLICY_CHANGED') from exc
+    need(git_object('blob', raw) == ROOT_FILES['.gitmodules'], 'ROOT_POLICY_CHANGED')
+    return set(re.findall(r'^\tpath = upstream/([0-9]{3}-[a-z0-9_.-]+)$', raw.decode(), re.M))
+
+
 def _capture(root: Path) -> tuple[dict, int]:
     need(root.is_dir() and not root.is_symlink(), 'ROOT_NOT_REGULAR_DIRECTORY')
+    upstream_leaves = _upstream_leaves(root)
     files, ignored, total, directory_count = {}, 0, 0, 0
     for base, dirs, names in os.walk(root, followlinks=False, onerror=_directory_read_failed):
         relbase = Path(base).relative_to(root)
         for name in list(dirs):
             path = Path(base)/name
             need(not path.is_symlink(), 'SYMLINK_REJECTED')
+            if relbase == Path('upstream'):
+                need(name in upstream_leaves, 'UNREVIEWED_UPSTREAM_PATH')
+                dirs.remove(name)  # External source has its own Git inventory.
+                continue
             if relbase == Path('.') and name == '.git':
                 dirs.remove(name)
+                continue
+            if relbase == Path('.') and name == 'upstream':
                 continue
             directory_count += 1
             need(directory_count <= MAX_FILES, 'DIRECTORY_COUNT_BUDGET')
@@ -89,12 +110,19 @@ def _capture(root: Path) -> tuple[dict, int]:
             need(len(rel.parts) <= 20, 'PATH_DEPTH_BUDGET')
             need(rel.parts[0] in {*HISTORICAL_TREES,'superhunter'}, 'UNREVIEWED_ROOT_TREE')
             need(not any(p in FORBIDDEN_PARTS for p in rel.parts), 'CLIENT_OR_ACTIVE_TREE')
+        need(relbase != Path('upstream') or not names, 'UNREVIEWED_UPSTREAM_PATH')
         for name in sorted(names):
             path = Path(base)/name
             rel = path.relative_to(root)
             info = path.lstat()
             need(stat.S_ISREG(info.st_mode), 'NONREGULAR_FILE')
-            if relbase == Path('.') and name == '.git':
+            if relbase == Path('upstream'):
+                need(name in upstream_leaves, 'UNREVIEWED_UPSTREAM_PATH')
+                dirs.remove(name)  # External source has its own Git inventory.
+                continue
+            if relbase == Path('.') and name in ('.git', 'upstream'):
+                if name == 'upstream':
+                    continue
                 continue  # Git worktree metadata is not source or an authority pin.
             key = rel.as_posix()
             need(not any(p in FORBIDDEN_PARTS for p in rel.parts), 'CLIENT_OR_ACTIVE_TREE')
@@ -181,6 +209,7 @@ def _review_captured(files: dict, ignored: int) -> dict:
                 for p,v in files.items()}
     return {'schema_version':1,'status':'REPOSITORY_BOUNDARY_PASS',
         'historical_tree_pins':historical,'historical_files_checked':historical_count,
+        'external_source_contents_reviewed':False,
         'superhunter_files_reviewed_for_boundary':superhunter_count,
         'root_documents':sorted(documents),'ignored_python_cache_files':ignored,
         'source_inventory_sha256':hashlib.sha256(canonical(snapshot)).hexdigest(),

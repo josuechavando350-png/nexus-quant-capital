@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] == 'product-sources':
+        from .product_sources import main as sources_main
+        return sources_main(argv[1:])
     if argv and argv[0] in ('review-product-guac', 'verify-product-guac'):
         from .product_guac import main as guac_main
         return guac_main(argv)

@@ -1762,7 +1762,7 @@ REQUIRED_TESTS += (
 COMPONENTS['product_review'] = {
     'files': [*PRODUCT_DATA_FILES,
               'product_census_header.py', 'product_solidity_headers.py', 'product_solidity_headers_worker.py',
-              'product_upstream_notices.py', 'tools/fetch_upstream_notices.py', 'tools/catalog_session.py',
+              'product_upstream_notices.py', 'product_sources.py', 'tools/fetch_upstream_notices.py', 'tools/catalog_session.py',
               'product_batch_properties.py', 'product_notice_overlap.py', 'product_notice_decisions.py',
               'product_notice_review_worker.py', 'product_spdx_ids.py', 'product_license_choices.py',
               'product_native_proofs.py', 'product_proof_languages.py', 'product_arm_inventory.py',
