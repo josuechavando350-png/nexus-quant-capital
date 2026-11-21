@@ -7,26 +7,15 @@ import sys
 from superhunter.product_matrix import markdown
 
 from superhunter.product_reasoning import EvidenceError
-from superhunter.product_review import ROOT, sha
-from superhunter.safe_io import read_artifact, strict_json
+from superhunter.product_review import ROOT
+from superhunter.safe_io import strict_json
 from superhunter.tools import verify_native_session, verify_review_115
 
-SUPPLY = ROOT / 'superhunter/product_supply'
 MATRIX = ROOT / 'superhunter/INTEGRATION_STATUS_200.md'
-ARCHIVE_99_SHA = 'c4d9f671093a88aa25be658c583361da7c7abadee5ac582de4e5f723a8375c1b'
-ACCEPTANCE_70_SHA = 'd826d1ead698a870ac978d732b943d7aed1d49a14adffaad30295867356ee6ae'
 ROLE = {'executable': 'Ejecución', 'reference_data': 'Referencia', 'pending': '—'}
 
 
-def pinned_file(name, expected_sha):
-    raw = read_artifact(SUPPLY, name)
-    if sha(raw) != expected_sha:
-        raise EvidenceError('historical file differs from reviewed bytes: ' + name)
-    return raw
-
-
-def read_session(archive, verify, expected_sha):
-    raw = verify_review_115.unpack(archive)
+def read_session(raw, expected_sha, verify):
     result = verify(raw, expected_sha)
     keys = verify_review_115.response_keys(raw)
     lines = raw.splitlines()
@@ -107,11 +96,9 @@ def render(components, native):
 
 
 def historical_markdown():
-    record = strict_json(pinned_file('native-acceptance-70.json', ACCEPTANCE_70_SHA))
-    components = read_session(pinned_file('component-session-99.json', ARCHIVE_99_SHA),
-                              verify_review_115.verify, verify_review_115.INTERIM_99)
-    native = read_session(pinned_file('native-session-70.json', record['archive_sha256']),
-                          verify_native_session.verify, record['independent_verification']['transcript_sha256'])
+    components, native = verify_review_115.historical_archives()
+    components = read_session(*components, verify_review_115.verify)
+    native = read_session(*native, verify_native_session.verify)
     return render(components, native)
 
 

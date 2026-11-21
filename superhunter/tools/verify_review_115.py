@@ -111,6 +111,9 @@ def native_bindings(report, *, version=None):
 
 INTERIM_99 = '81ab0b56f1970caeecc58ffc2fbf09197f340ede1b193b5d984c3db00593c9f5'
 NATIVE_SESSION_70 = '2a6fd0bb2ceddb08d0a1f461e71da538fcd7bb7ccb486d537e6a244b403e973e'
+SUPPLY = ROOT / 'superhunter/product_supply'
+ARCHIVE_99_SHA = 'c4d9f671093a88aa25be658c583361da7c7abadee5ac582de4e5f723a8375c1b'
+ACCEPTANCE_70_SHA = 'd826d1ead698a870ac978d732b943d7aed1d49a14adffaad30295867356ee6ae'
 SNAPSHOT_153 = '9fe08694ea198e7872cc954a122fc4bdc4675996a5403cb7344822a89a3bfe3f'
 HISTORICAL_COMPONENTS = {
     '99': 'adbd7b433b1d3cad6ee0a64fa71e5187f422dafc9050353c07c66d20187abfea',
@@ -365,6 +368,8 @@ def verify(raw, expected_hash=None, *, require_consolidated=False):
     if (any(canonical(matrix.get(k)) != canonical(v) for k, v in expected.items()) or
             report['root-declarations']['remote_roots_verified'] != expected['remote_roots']):
         raise EvidenceError('claimed totals differ from independently counted rows')
+    if require_consolidated:
+        counts.update(check_historical_coverage(rows))
     if 'native-capabilities' in report:
         if historical_native and digest != NATIVE_SESSION_70:
             raise EvidenceError('historical native transcript differs from the published 70-identity session')
@@ -395,6 +400,49 @@ def unpack(raw):
             sha(decoded) != archive['raw_sha256']):
         raise EvidenceError('acceptance archive content differs')
     return decoded
+
+
+def pinned_file(name, expected_sha):
+    raw = read_artifact(SUPPLY, name)
+    if sha(raw) != expected_sha:
+        raise EvidenceError('historical file differs from reviewed bytes: ' + name)
+    return raw
+
+
+def historical_archives():
+    """Pin the wrappers as well as the separate historical transcript hashes."""
+    record = strict_json(pinned_file('native-acceptance-70.json', ACCEPTANCE_70_SHA))
+    component = unpack(pinned_file('component-session-99.json', ARCHIVE_99_SHA))
+    native = unpack(pinned_file('native-session-70.json', record['archive_sha256']))
+    return ((component, INTERIM_99), (native, record['independent_verification']['transcript_sha256']))
+
+
+@cache
+def historical_operations():
+    """Recover the minimum operations from the verified, immutable individual sessions."""
+    required = set()
+    for raw, expected_hash in historical_archives():
+        verify(raw, expected_hash)
+        keys = response_keys(raw)
+        rows = strict_json(raw.splitlines()[keys.index('integration-matrix')])['rows']
+        required.update((row['id'], row['repository'], row['session'], row['receipt'])
+                        for row in rows if row['session'] != 'pending')
+    return frozenset(required)
+
+
+def check_historical_coverage(rows):
+    """Compare validated producer operations. A promotion must preserve the same receipt field."""
+    required = historical_operations()
+    present = {(row['id'], row['repository'], op['role'], op['receipt'])
+               for row in rows for op in row['session_operations']}
+    preserved = present | {(number, name, 'reference_data', field)
+                           for number, name, role, field in present if role == 'executable'}
+    missing = sorted(required - preserved)
+    if missing:
+        number, name, role, field = missing[0]
+        raise EvidenceError(f'historical operations missing ({len(missing)}), first: {number} {name} {role} {field}')
+    return {'historical_identities_preserved': len({number for number, _, _, _ in required}),
+            'historical_operations_preserved': len(required)}
 
 
 def negative_controls(raw):

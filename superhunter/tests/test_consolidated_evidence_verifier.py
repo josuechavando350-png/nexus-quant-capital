@@ -136,17 +136,65 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
 
     def test_historical_matrix_rejects_changed_producer_with_intact_transcript(self):
         name = 'component-session-99.json'
-        archive = strict_json((renderer.SUPPLY / name).read_bytes())
+        archive = strict_json((verifier.SUPPLY / name).read_bytes())
         archive['producer_commit'] = '0' * 40
         forged = canonical(archive)
         self.assertEqual(verifier.sha(verifier.unpack(forged)), verifier.INTERIM_99)
-        with TemporaryDirectory() as tmp, patch.object(renderer, 'SUPPLY', Path(tmp)):
+        with TemporaryDirectory() as tmp, patch.object(verifier, 'SUPPLY', Path(tmp)):
             (Path(tmp) / name).write_bytes(forged)
             with self.assertRaisesRegex(EvidenceError, 'differs from reviewed bytes'):
-                renderer.pinned_file(name, renderer.ARCHIVE_99_SHA)
+                verifier.pinned_file(name, verifier.ARCHIVE_99_SHA)
 
     def test_historical_matrix_rejects_identity_change_between_sessions(self):
         row = {'id': 1, 'repository': 'local/example', 'commit': 'a' * 40, 'tree': 'b' * 40}
         for key in row:
             with self.subTest(key=key), self.assertRaisesRegex(EvidenceError, 'identity, revision or tree'):
                 renderer.render(({}, [row], {}), ({}, [{**row, key: 'changed'}], {}))
+
+    def historical_rows_for_accounting(self):
+        # Build independent ledger inputs from the two actual frozen matrices.
+        # No producer runs in these tests of the final cross-session comparison.
+        rows = {}
+        for raw, _ in verifier.historical_archives():
+            matrix = strict_json(raw.splitlines()[verifier.response_keys(raw).index('integration-matrix')])
+            for old in matrix['rows']:
+                row = rows.setdefault(old['id'], {'id': old['id'], 'repository': old['repository'],
+                                                  'session_operations': []})
+                if old['receipt']:
+                    op = {'role': old['session'], 'receipt': old['receipt'],
+                          'evidence_sha256': old['session_evidence_sha256']}
+                    if op not in row['session_operations']:
+                        row['session_operations'].append(op)
+        return rows
+
+    def test_covered_history_requires_the_same_identity_even_at_identical_totals(self):
+        rows = self.historical_rows_for_accounting()
+        self.assertFalse(rows[2]['session_operations'])
+        rows[2]['session_operations'] = rows[1]['session_operations']
+        rows[1]['session_operations'] = []
+        with self.assertRaisesRegex(EvidenceError, 'usestrix/strix'):
+            verifier.check_historical_coverage(rows.values())
+
+    def test_covered_history_requires_both_operations_of_all_four_shared_producers(self):
+        rows = self.historical_rows_for_accounting()
+        for number in (20, 92, 103, 132):
+            operations = rows[number]['session_operations']
+            self.assertEqual(len(operations), 2)
+            for kept in operations:
+                rows[number]['session_operations'] = [kept]
+                with self.subTest(number=number, kept=kept['receipt']), self.assertRaisesRegex(
+                        EvidenceError, r'historical operations missing \(1\)'):
+                    verifier.check_historical_coverage(rows.values())
+                rows[number]['session_operations'] = operations
+
+    def test_covered_history_accepts_the_union_and_proven_role_promotion(self):
+        rows = self.historical_rows_for_accounting()
+        result = verifier.check_historical_coverage(rows.values())
+        self.assertEqual(result, {'historical_identities_preserved': 106, 'historical_operations_preserved': 110})
+        reference = next(op for row in rows.values() for op in row['session_operations']
+                         if op['role'] == 'reference_data')
+        reference.update(role='executable', evidence_sha256='1' * 64)
+        self.assertEqual(verifier.check_historical_coverage(rows.values()), result)
+        rows[1]['session_operations'][0]['role'] = 'reference_data'
+        with self.assertRaisesRegex(EvidenceError, 'usestrix/strix'):
+            verifier.check_historical_coverage(rows.values())

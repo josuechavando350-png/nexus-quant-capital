@@ -18,6 +18,8 @@ Las 222 respuestas incluyen `component-controls` y `native-capabilities`. Para e
 python3.12 -B -m superhunter.tools.verify_review_115 --require-consolidated --check-controls session.jsonl
 ```
 
+El verificador contrasta cada fila de la sesión con las dos transcripciones históricas. Exige las 106 identidades y las 110 combinaciones distintas de identidad, rol y campo de recibo. WhatsABI, Scapy, Cppcheck y Capstone conservan dos campos cada uno. Una referencia puede ascender a ejecución cuando el productor validado conserva el campo y prueba ese rol. Las huellas de los nuevos resultados se contrastan con sus productores antes de realizar el cotejo histórico.
+
 Los artefactos emitidos por un productor bloqueado carecen de crédito. La reproducción requiere los compiladores, binarios y conjuntos de dependencias fijados en cada manifiesto. Dos checkouts en una máquina permiten reproducir el resultado en ese host. La evaluación ciega y el rendimiento de descubrimiento en otros entornos siguen pendientes.
 
 ## Resolución de los cambios compartidos
