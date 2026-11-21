@@ -33,6 +33,16 @@ Preparar los [insumos históricos](OFFLINE_SOURCE_AND_GO.md), los [dominios de c
 --component-controls all --native-kits "$NATIVE_KITS"
 ```
 
+El perfil opcional de nueve grupos añade diez comprobaciones contables sobre tokens de prueba fijos. Seis comprueban saldo y oferta con reglas de Crytic y cuatro comprueban comisiones y transferencias con las simulaciones de Immunefi. En la misma invocación, añadir `--properties-native-kit "$NATIVE_KIT_ROOT/properties"`, o añadir `"properties": "../native-kits/properties"` al manifiesto de los ocho kits. Las rutas del manifiesto se resuelven desde su propio directorio. La [receta del kit contable](product_supply/contract-properties-native-build.json) enumera compiladores, fuentes, revisiones, hashes y rutas.
+
+Dos ejecuciones aisladas del grupo contable produjeron los mismos resultados para sus diez pruebas y el mismo [registro de dos operaciones](product_supply/contract-properties-native-acceptance.json). El conteo conjunto de la versión de nueve grupos requiere dos sesiones completas del producto.
+
+Cada perfil exige exactamente sus grupos y contrasta los recibos de cada identidad. Las dos transcripciones del perfil de nueve grupos se comprueban con este comando.
+
+```sh
+python3.12 -B -m superhunter.tools.verify_review_115 --require-consolidated-accounting --check-controls --replay segunda.jsonl primera.jsonl
+```
+
 Las 222 respuestas incluyen `component-controls` y `native-capabilities`. Para evaluar la transcripción JSONL completa en un proceso separado:
 
 ```sh

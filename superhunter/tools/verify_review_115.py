@@ -157,7 +157,11 @@ def row_operations(row, native, *, profile='current'):
     return sorted(operations, key=lambda op: (op['role'] != 'executable', op['receipt']))
 
 
-def verify(raw, expected_hash=None, *, require_consolidated=False):
+def verify(raw, expected_hash=None, *, require_consolidated=False, require_accounting=False):
+    if require_consolidated and require_accounting:
+        raise EvidenceError('select one exact consolidated acceptance profile')
+    full_profile = require_consolidated or require_accounting
+    native_version = 'core-eight' if require_consolidated else None
     digest = sha(raw)
     if expected_hash is not None and digest != expected_hash:
         raise EvidenceError('transcript digest differs from the acceptance record')
@@ -186,7 +190,7 @@ def verify(raw, expected_hash=None, *, require_consolidated=False):
     # The first native session predates the operation ledger. Check its historical
     # producers independently, then require the exact published bytes before acceptance.
     historical_native = 'native-capabilities' in report and not operations_format
-    native = native_bindings(report, version=70 if historical_native else None)
+    native = native_bindings(report, version=70 if historical_native else native_version)
     interim_118 = ('component-controls' in report and not operations_format and
                    'published_excerpts' not in matrix and
                    report['source-inventory'].get('snapshot_sha256') == SNAPSHOT_153)
@@ -355,20 +359,20 @@ def verify(raw, expected_hash=None, *, require_consolidated=False):
             raise EvidenceError('coverage totals differ from independently counted rows')
         expected.update(session_operation_count=operation_count, session_multi_operation_repositories=multi_operation)
         counts.update(operations=operation_count, multiple_operations=multi_operation)
-    if require_consolidated:
+    if full_profile:
         from superhunter.product_component_controls import DOMAINS
-        from superhunter.product_native_capabilities import MODULES
+        from superhunter.product_native_capabilities import contracts as native_contracts
         controls = report.get('component-controls') or {}
         if (not combined or not operations_format or set(controls.get('requested', [])) != DOMAINS.keys()
                 or controls.get('blocked') != {} or not controls.get('digest_corroboration')
-                or set(report['native-capabilities']['groups']) != MODULES.keys()
+                or set(report['native-capabilities']['groups']) != native_contracts(native_version).keys()
                 or report['native-capabilities'].get('blocked_groups')
                 or actual_sources != {'complete': 200}):
             raise EvidenceError('incomplete consolidated session')
     if (any(canonical(matrix.get(k)) != canonical(v) for k, v in expected.items()) or
             report['root-declarations']['remote_roots_verified'] != expected['remote_roots']):
         raise EvidenceError('claimed totals differ from independently counted rows')
-    if require_consolidated:
+    if full_profile:
         counts.update(check_historical_coverage(rows))
     if 'native-capabilities' in report:
         if historical_native and digest != NATIVE_SESSION_70:
@@ -525,13 +529,17 @@ def main():
     parser.add_argument('--replay', type=Path, help='independently verify and compare the full second transcript in the same format')
     parser.add_argument('--archive', action='store_true', help='read a published gzip/base64 evidence envelope')
     parser.add_argument('--require-complete-controls', action='store_true', help='require all defensive domains and zero blocked producers')
-    parser.add_argument('--require-consolidated', action='store_true', help='require every defensive and native group, direct source and operation ledger')
+    profiles = parser.add_mutually_exclusive_group()
+    profiles.add_argument('--require-consolidated', action='store_true', help='require the complete eight-group consolidated acceptance profile')
+    profiles.add_argument('--require-consolidated-accounting', action='store_true', help='require the complete nine-group acceptance profile including the ten fixed accounting checks')
     parser.add_argument('--expect-sha256', help='trusted digest for a specific, published run')
     args = parser.parse_args()
     raw = read_artifact(args.transcript.parent, args.transcript.name)
     if args.archive:
         raw = unpack(raw)
-    result = verify(raw, args.expect_sha256, require_consolidated=args.require_consolidated)
+    profile_options = {'require_consolidated': args.require_consolidated,
+                       'require_accounting': args.require_consolidated_accounting}
+    result = verify(raw, args.expect_sha256, **profile_options)
     if args.require_complete_controls:
         profile = result.get('component_contract_profile', 'current')
         expected_domains = {rule['domain'] for rule in component_rules(profile).values()}
@@ -546,7 +554,7 @@ def main():
         other = read_artifact(args.replay.parent, args.replay.name)
         if args.archive:
             other = unpack(other)
-        replay = verify(other, require_consolidated=args.require_consolidated)
+        replay = verify(other, **profile_options)
         if other != raw:
             raise EvidenceError('the verified transcript bytes differ between runs')
         result['replay_sha256'] = replay['transcript_sha256']
