@@ -6,6 +6,8 @@ La revisión básica utiliza dos productores. Syft extrae paquetes y relaciones 
 
 La [sesión conjunta de los 200 repositorios](CATALOG_SESSION.md) reúne los avisos de origen, los metadatos de Solidity y el archivo de prueba del encabezado de Census. La clave `integration-coverage` muestra el avance con su procedencia para cada ID.
 
+Los primeros 100 repositorios tienen código fuente fijado en el árbol Git de NQC. [Lista de los 46 anteriores, las 54 incorporaciones y la comprobación del checkout](SOURCE_CHECKOUT.md).
+
 ## Reproducir
 
 Usar Python 3.11 o posterior. Para producir evidencia se requieren Linux x86-64 y los dos ejecutables de las distribuciones indicadas. La CLI comprueba el SHA-256 de la copia privada que ejecuta. El verificador y el lector funcionan con la biblioteca estándar de Python. Los datos de entrada son los archivos del checkout local.

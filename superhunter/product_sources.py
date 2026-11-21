@@ -1,0 +1,113 @@
+"""Verify the product's direct Git source pins without running third-party code."""
+import argparse
+from collections import Counter
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+
+from .product_review import ROOT
+from .product_upstream_notices import sources
+from .repository_boundary import ROOT_FILES, git_object
+from .safe_io import read_artifact
+
+
+def git(root, *args):
+    env = {**os.environ, 'GIT_NO_LAZY_FETCH': '1', 'GIT_TERMINAL_PROMPT': '0',
+           'GIT_OPTIONAL_LOCKS': '0', 'GIT_NO_REPLACE_OBJECTS': '1'}
+    return subprocess.check_output(['git', '--no-optional-locks', '-c', 'core.fsmonitor=false',
+                                   '-c', 'core.hooksPath=/dev/null', '-C', root, *args],
+                                  env=env, stderr=subprocess.PIPE, timeout=90)
+
+
+def gitlinks(root, ref='HEAD'):
+    # Only the superproject's committed Git tree decides which repositories are present.
+    entries = {}
+    for record in git(root, 'ls-tree', '-rz', ref, '--', 'upstream').split(b'\0'):
+        if not record:
+            continue
+        meta, path = record.decode('utf-8').split('\t', 1)
+        mode, kind, oid = meta.split()
+        if (mode, kind) != ('160000', 'commit'):
+            raise ValueError('unexpected regular file in the upstream Git tree')
+        entries[path] = oid
+    return entries
+
+
+def indexed_links(root):
+    entries = {}
+    for record in git(root, 'ls-files', '--stage', '-z', '--', 'upstream').split(b'\0'):
+        if record:
+            fields, path = record.decode('utf-8').split('\t', 1)
+            mode, oid, stage = fields.split()
+            if mode != '160000' or stage != '0':
+                raise ValueError('unexpected file or conflict in the upstream index')
+            entries[path] = oid
+    return entries
+
+
+def verify(root, require_checkout=False):
+    manifest = read_artifact(root, '.gitmodules')
+    if (git_object('blob', manifest) != ROOT_FILES['.gitmodules']
+            or git(root, 'show', 'HEAD:.gitmodules') != manifest):
+        raise ValueError('submodule manifest differs from the reviewed product')
+    targets = gitlinks(root)
+    if indexed_links(root) != targets:
+        raise ValueError('staged upstream sources differ from HEAD')
+    declarations = []
+    rows = []
+    upstream = root/'upstream'
+    if upstream.is_symlink():
+        raise ValueError('unexpected symlink at upstream')
+    if upstream.exists():
+        for child in upstream.iterdir():
+            if child.is_symlink() or not child.is_dir() or 'upstream/' + child.name not in targets:
+                raise ValueError('unexpected upstream path: ' + child.name)
+    for source in sources():
+        number, name, revision = source['id'], source['repository'], source['revision']
+        path = f"upstream/{number:03}-{name.split('/')[1].lower()}"
+        if path not in targets:
+            continue
+        if targets.pop(path) != revision:
+            raise ValueError('Git tree and catalog revision differ: ' + path)
+        declarations.append(f'[submodule "{path}"]\n\tpath = {path}\n\turl = https://github.com/{name}.git\n\tshallow = true\n')
+        folder = root/path
+        if folder.is_symlink():
+            raise ValueError('unexpected submodule symlink: ' + path)
+        row = {'catalog_id': number, 'repository': name, 'path': path, 'commit': revision}
+        if not require_checkout:
+            row['status'] = 'pinned'
+        else:
+            if not (folder/'.git').is_file() and not (folder/'.git').is_dir():
+                raise ValueError('submodule not initialized: ' + path)
+            if git(folder, 'rev-parse', '--show-toplevel').decode().strip() != str(folder.resolve()):
+                raise ValueError('submodule has the wrong working directory: ' + path)
+            if git(folder, 'rev-parse', 'HEAD').decode().strip() != revision:
+                raise ValueError('submodule checked out at a different revision: ' + path)
+            tree = git(folder, 'rev-parse', 'HEAD^{tree}').decode().strip()
+            if git(folder, 'diff-index', '--cached', '--no-ext-diff', '--ignore-submodules=all', '--name-only', '-z', 'HEAD', '--'):
+                raise ValueError('submodule index differs from committed source: ' + path)
+            # Ignore only nested Git links. This inventory covers direct upstream repositories.
+            if git(folder, 'diff-files', '--no-ext-diff', '--ignore-submodules=all', '--name-only', '-z', '--'):
+                raise ValueError('tracked submodule files differ: ' + path)
+            row.update(status='checked_out', tree=tree)
+        rows.append(row)
+    if targets or ''.join(declarations).encode() != manifest or len(rows) != 100:
+        raise ValueError('catalog, committed gitlinks and manifest must describe the same 100 repositories')
+    return {'count': len(rows), 'status_counts': dict(Counter(row['status'] for row in rows)),
+            'upstream_code_executed_by_verifier': False, 'manifest_sha256': hashlib.sha256(manifest).hexdigest(),
+            'sources': rows}
+
+
+def main(argv):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--require-checkout', action='store_true', help='also verify the 100 local working trees')
+    args = parser.parse_args(argv)
+    try:
+        print(json.dumps(verify(ROOT, args.require_checkout), sort_keys=True))
+    except (OSError, ValueError, subprocess.SubprocessError) as exc:
+        print(str(exc), file=sys.stderr)
+        return 2
+    return 0
