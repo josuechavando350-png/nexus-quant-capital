@@ -11,7 +11,7 @@ import time
 from urllib.request import Request, urlopen
 
 
-def collect(parent_net):
+def enable_private_loopback(parent_net):
     if os.stat('/proc/self/ns/net').st_ino == parent_net:
         raise RuntimeError('missing private network')
     # /sys may reflect the mounting namespace; /proc/net/dev describes this network.
@@ -23,6 +23,10 @@ def collect(parent_net):
         flags = struct.unpack_from('H', current, 16)[0]
         fcntl.ioctl(control, 0x8914, struct.pack('16sH22x', b'lo', flags | 1))
 
+
+
+def collect(parent_net):
+    enable_private_loopback(parent_net)
     endpoint = 'http://127.0.0.1:8080/query'
     server = subprocess.Popen(['./guacgql', '--gql-backend', 'keyvalue', '--kv-store', 'memmap'],
                               stdout=subprocess.DEVNULL)

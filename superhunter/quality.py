@@ -1752,7 +1752,7 @@ REQUIRED_TESTS += (
 
 
 COMPONENTS['product_review'] = {
-    'files': ['product_licenses.py', 'product_notices.py', 'product_guac.py', 'product_guac_worker.py', 'product_cdxgen.py', 'product_census_graph.py', 'product_reasoning.py', 'product_review.py', 'product_supply_review.py',
+    'files': ['product_notice_search.py', 'product_notice_worker.py', 'product_licenses.py', 'product_notices.py', 'product_guac.py', 'product_guac_worker.py', 'product_cdxgen.py', 'product_census_graph.py', 'product_reasoning.py', 'product_review.py', 'product_supply_review.py',
               'repositories_200.json', 'product_repository_identities.json', 'product_supply/wheels.txt'],
     'tests': ['test_product_review.', 'test_product_supply.'],
     'depends': ['portfolio_inventory', 'bundle_recovery', 'owned_capture', 'privacy', 'io']}

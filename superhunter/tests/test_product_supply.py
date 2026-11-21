@@ -173,3 +173,32 @@ class ProfileNoticeTests(unittest.TestCase):
             inputs[INPUTS['local-lab/requirements.txt']] = ('example==1 --hash=sha256:' + 'a'*64).encode()
             with self.assertRaisesRegex(ValueError, 'ambiguous wheel digest'):
                 collect_profiles(root, inputs)
+
+
+class NoticeSearchTests(unittest.TestCase):
+    def test_sparse_results_must_match_independent_source_terms_and_bytes(self):
+        from copy import deepcopy
+        from superhunter.product_notice_search import NoticeCorpus, tokens
+        corpus = NoticeCorpus({'a.txt': b'Patent patent, redistribution!', 'b.txt': b'Patent'})
+        terms = tokens('PATENT; redistribution')
+        points = corpus.points()
+        self.assertEqual(len(corpus.sparse(terms)['indices']), 2)
+        rows = [{'id': i, 'payload': p['payload'], 'score': s} for i, (p, s) in enumerate(zip(points, [2, 1]))]
+        result = corpus.validate_matches(terms, list(reversed(rows)))
+        self.assertEqual([r['file'] for r in result], ['a.txt', 'b.txt'])
+        self.assertEqual(result[0]['matched_terms'], ['patent', 'redistribution'])
+        self.assertEqual(corpus.validate_matches(tokens('absent'), []), [])
+        for wrong in (rows[:1], rows * 2, [dict(rows[0], score=True), rows[1]],
+                      [dict(rows[0], score=1), rows[1]], [dict(rows[0], id=-1), rows[1]]):
+            with self.assertRaises(ValueError):
+                corpus.validate_matches(terms, wrong)
+        tampered = deepcopy(rows)
+        tampered[0]['payload']['sha256'] = '0' * 64
+        with self.assertRaises(ValueError):
+            corpus.validate_matches(terms, tampered)
+
+    def test_notice_queries_require_a_nonempty_verified_corpus(self):
+        from superhunter.product_notice_search import NoticeCorpus
+        for data in ({}, {'no-terms.txt': b'   '}):
+            with self.assertRaises(ValueError):
+                NoticeCorpus(data)

@@ -126,3 +126,15 @@ done
 Añadir `--profile-wheels /ruta/wheels-perfiles` al comando de consulta. `profile_wheel_notices` conserva por separado cada versión, los perfiles que la declaran y los que aportan un digest. Dos perfiles pueden usar la misma versión aunque sólo uno fije el hash. La consulta indica `NO_DIGEST_IN_PRODUCT_PROFILES` cuando ninguno lo aporta. Un texto sin coincidencia de ScanCode conserva su hash y su resultado vacío. Los expedientes de proveedores y perfiles pueden revisarse juntos o por separado.
 
 En la ejecución conjunta sobre estos manifiestos, 37 de las 39 combinaciones de paquete y versión tenían un wheel con digest verificable, lo que cubrió 55 de las 57 declaraciones por perfil. Las dos restantes fueron `crytic-compile` y `slither-analyzer`. ScanCode procesó 56 archivos distintos entre proveedores y perfiles, con coincidencias en 54. El índice exportado `notices.json` tuvo SHA-256 `ed06a5c822737c4b3e4d727f04ec70f6c3eed16bf2bffeb734052efacd4ef05d`. Para comprobarlo, añadir `--export-notices /ruta/nueva/avisos` a la consulta conjunta y ejecutar `sha256sum /ruta/nueva/avisos/notices.json`.
+
+## Buscar términos en los avisos verificados con Qdrant
+
+La opción `--qdrant` construye un índice local de los avisos cuya procedencia y SHA-256 se comprobaron en los wheels. Un proceso de Qdrant 1.20.2 sirve únicamente al proceso de consulta por loopback en un espacio de red y PID privado. El índice temporal termina al cerrar la sesión. El binario se extrae de [la distribución oficial x86-64 Linux musl](https://github.com/qdrant/qdrant/releases/tag/v1.20.2). SHA-256 del archivo comprimido `7c3e956b97830a9faa6391540330380c2fa4aa2f92df99bd8d1880a703b922af`, y del ejecutable `315342e8f783935932e8672c06fcc1a13903c819a82f1263765c3f00a831d893`.
+
+```bash
+python3.12 -m superhunter query-product --bundle "$evidence_dir" --supply "$supply_work/supply" \
+  --notice-wheels /ruta/wheels --profile-wheels /ruta/wheels-perfiles --qdrant /ruta/qdrant \
+  qdrant/qdrant 'notice:redistribution patent'
+```
+
+La búsqueda usa palabras y números ASCII sin distinguir mayúsculas. Cada resultado incluye el archivo, el SHA-256, los términos encontrados y cuántos términos distintos coincidieron. La CLI relee del índice los vectores y hashes de cada aviso. En cada consulta también coteja los resultados y puntuaciones con los términos de los textos originales. Los empates se ordenan por nombre de archivo. Las consultas de esta sesión comparten el índice en memoria. En la entrada conjunta de proveedores y perfiles se indexaron 56 avisos y 1,755 términos. La consulta del ejemplo obtuvo 22 avisos con al menos uno de sus dos términos.
