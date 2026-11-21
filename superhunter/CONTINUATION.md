@@ -1,5 +1,11 @@
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
+## 21 de noviembre · PR 117
+
+La rama de producto incorpora la procedencia documental de los 200 proyectos. Los últimos 47 commits y 34 declaraciones de dependencias se pueden verificar a partir de los bytes publicados en NQC. Permanecen 153 checkouts completos y dos extractos con un consumidor funcional. Gosec incorpora la revisión estática del código de NQC que calcula el digest de los encabezados de Census.
+
+El perfil ampliado acredita 59 proyectos, con 48 ejecuciones y 11 referencias o corpus. Quedan 141 filas sin recibo funcional, incluidas 96 con checkout completo y 45 con metadatos. El perfil estándar con la comprobación de Go acredita 29 en esa sesión. El punto de reanudación está en [el PR 117](https://github.com/josuechavando350-png/nexus-quant-capital/pull/117), [la matriz](INTEGRATION_STATUS_200.md) y [el expediente del perfil de 220 respuestas](product_supply/review-117.json). El historial previo se conserva en los apartados siguientes.
+
 ## 21 de noviembre · PR 115
 
 Las [200 identidades](INTEGRATION_STATUS_200.md) tienen sus commits y árboles contrastados. Los 153 checkouts completos conservan sus revisiones; dos proyectos aportan extractos verificados y 45 quedan con metadatos. Hay 58 funciones demostradas, de las cuales 47 son de ejecución y 11 corresponden a referencias o datos. Las 58 aportaron un recibo en una sola sesión del perfil ampliado, con 218 consultas. Quedan 97 checkouts completos y 45 proyectos con metadatos sin participación funcional acreditada. La ejecución ofensiva autónoma queda fuera de este perfil.

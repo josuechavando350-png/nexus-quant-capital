@@ -20,6 +20,24 @@ def inflate(text):
     return raw
 
 
+def verify_row(identity, tree, obj):
+    contents = {}
+    commit = inflate(obj['commit_object'])
+    files = remote.manifests(tree)
+    if (obj['id'] != identity['id'] or git_object('commit', commit) != identity['commit']
+            or commit.split(b'\n', 1)[0] != b'tree ' + identity['tree'].encode()
+            or set(files) != set(obj['declarations'])):
+        raise EvidenceError('offline commit, tree or declaration set differs')
+    for name, oid in files.items():
+        raw = inflate(obj['declarations'][name])
+        if git_object('blob', raw) != oid:
+            raise EvidenceError('offline manifest differs from its root tree')
+        contents[remote.member_name(obj['id'], name)] = raw
+    receipt = {'id': identity['id'], 'repository': identity['repository'], 'commit': identity['commit'],
+               'root': identity['tree'], 'commit_bytes_sha256': sha(commit), 'manifest_blobs': files}
+    return receipt, contents
+
+
 def inputs():
     data = read_artifact(ROOT, ARCHIVE)
     if sha(data) != ARCHIVE_SHA:
@@ -29,19 +47,9 @@ def inputs():
         raise EvidenceError('unrecognized source evidence archive')
     receipts, contents = [], {}
     for (identity, tree), obj in zip(remote.roots(), packed['rows'], strict=True):
-        commit = inflate(obj['commit_object'])
-        files = remote.manifests(tree)
-        if (obj['id'] != identity['id'] or git_object('commit', commit) != identity['commit']
-                or commit.splitlines()[0] != b'tree ' + identity['tree'].encode()
-                or set(files) != set(obj['declarations'])):
-            raise EvidenceError('offline commit, tree or declaration set differs')
-        for name, oid in files.items():
-            raw = inflate(obj['declarations'][name])
-            if git_object('blob', raw) != oid:
-                raise EvidenceError('offline manifest differs from its root tree')
-            contents[remote.member_name(obj['id'], name)] = raw
-        receipts.append({'id': obj['id'], 'repository': identity['repository'], 'commit': identity['commit'], 'root': identity['tree'],
-                         'commit_bytes_sha256': sha(commit), 'manifest_blobs': files})
+        receipt, declared = verify_row(identity, tree, obj)
+        receipts.append(receipt)
+        contents.update(declared)
     return receipts, contents
 
 

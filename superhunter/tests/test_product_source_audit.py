@@ -373,3 +373,19 @@ class PortableSourceReviewTests(unittest.TestCase):
     def test_go_revision_on_its_own_cannot_receive_credit(self):
         with self.assertRaisesRegex(ValueError, 'accepted product result'):
             receipt({'repository': 'securego/gosec', 'go_source_receipt': {'revision': 'empty'}})
+
+    def test_swapped_commit_and_substituted_declaration_are_each_rejected(self):
+        import json
+        from superhunter.product_portable_roots import ARCHIVE, verify_row
+        from superhunter.product_remote_roots import roots
+        from superhunter.product_review import ROOT
+        packed = json.loads((ROOT/ARCHIVE).read_bytes())['rows']
+        inputs = list(roots())
+        with self.assertRaisesRegex(ValueError, 'offline commit'):
+            verify_row(*inputs[0], packed[1])
+        index = next(i for i, r in enumerate(packed) if r['declarations'])
+        row = packed[index]
+        changed = dict(row['declarations'])
+        changed[next(iter(changed))] = row['commit_object']
+        with self.assertRaisesRegex(ValueError, 'offline manifest'):
+            verify_row(*inputs[index], {**row, 'declarations': changed})

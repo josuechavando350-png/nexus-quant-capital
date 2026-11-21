@@ -1,5 +1,7 @@
 # Verificación defensiva de fuentes en NQC
 
+Para la versión posterior al PR 115, consultar [el perfil offline de procedencia y análisis Go del PR 117](OFFLINE_SOURCE_AND_GO.md). Las cifras y el comando de 218 respuestas de este documento se conservan para reproducir el PR 115.
+
 El punto de partida es el commit de producto `ae02690627443df08b8eedb9d63a7a30cbda6c0e`. Los primeros 153 submódulos y sus revisiones se conservan. En el lote de los 47 restantes se verificaron todos los objetos de árbol raíz y se consumieron 34 manifiestos desde sus blobs. Dos proyectos aportan además extractos de fuente con licencia y un consumidor ejecutado. Las consultas `root-declarations` y `owned-source-checks` comparten las identidades del producto. [Árboles y declaraciones](REMOTE_ROOTS.md) · [Origen de los extractos](product_supply/source-excerpts/ORIGINS.md)
 
 | Proyecto | Entrada y consumidor | Control comprobado |

@@ -42,3 +42,13 @@ En la [invocación de aceptación](SOURCE_ASSURANCE.md#reproducir-la-aceptación
 python3.12 -B -m superhunter.tools.pack_remote_inputs "$work/git-metadata" "$work/manifests" > "$work/offline.json"
 cmp "$work/offline.json" superhunter/product_supply/offline-remote-inputs.json
 ```
+
+## Verificación del expediente
+
+El [registro de aceptación](product_supply/review-117.json) conserva los hashes de la ejecución en el commit publicado y de la ejecución con los cuatro expedientes reconstruidos, así como los controles y los resultados que dependen de la procedencia de esos expedientes. El [archivo de las 220 respuestas](product_supply/review-117-session.json) se comprueba sin instalar gosec, los módulos Go ni el resto del entorno nativo.
+
+```sh
+digest=$(python3.12 -c 'import json; print(json.load(open("superhunter/product_supply/review-117.json"))["canonical_session"]["transcript_sha256"])')
+python3.12 -B -m superhunter.tools.verify_review_115 --archive --check-controls --expect-sha256 "$digest" \
+  superhunter/product_supply/review-117-session.json
+```
