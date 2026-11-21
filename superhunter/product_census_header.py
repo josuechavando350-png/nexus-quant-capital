@@ -69,12 +69,7 @@ def reconcile(output, expected_hash):
     return results
 
 
-def build(kit):
-    block = strict_json(pinned(ROOT, FIXTURE, FIXTURE_SHA))['block']
-    fields = field_order(pinned(ROOT, CENSUS, CENSUS_SHA).decode(), pinned(kit, 'blocks.py', SPEC_SHA))
-    eip = pinned(kit, 'eip-7685.md', EIP_SHA)
-    if b'the `requests_hash` is simply `sha256("")`' not in eip or block['requestsHash'] != '0x' + sha(b''):
-        raise EvidenceError('fixture differs from the EIP-7685 empty-request commitment')
+def native_comparison(kit, block, fields, fork):
     lock = pinned(ROOT, LOCK, LOCK_SHA)
     package = strict_json(lock)['packages']['']
     node, npm = shutil.which('node'), shutil.which('npm')
@@ -91,9 +86,18 @@ def build(kit):
         options = dict(cwd=work, env=env, capture_output=True, check=True, timeout=150)
         subprocess.run([*ISOLATE, npm, 'ci', '--offline', '--no-audit', '--no-fund', '--ignore-scripts',
                         '--cache', cache, '--logs-dir', work/'logs'], stdin=subprocess.DEVNULL, **options)
-        proc = subprocess.run([*ISOLATE, node, 'check.mjs'], input=canonical({'block': block, 'fields': fields}),
+        proc = subprocess.run([*ISOLATE, node, 'check.mjs'], input=canonical({'block': block, 'fields': fields, 'fork': fork}),
                               **options)
-    comparisons = reconcile(strict_json(proc.stdout), block['hash'])
+    return reconcile(strict_json(proc.stdout), block['hash']), package
+
+
+def build(kit):
+    block = strict_json(pinned(ROOT, FIXTURE, FIXTURE_SHA))['block']
+    fields = field_order(pinned(ROOT, CENSUS, CENSUS_SHA).decode(), pinned(kit, 'blocks.py', SPEC_SHA))
+    eip = pinned(kit, 'eip-7685.md', EIP_SHA)
+    if b'the `requests_hash` is simply `sha256("")`' not in eip or block['requestsHash'] != '0x' + sha(b''):
+        raise EvidenceError('fixture differs from the EIP-7685 empty-request commitment')
+    comparisons, package = native_comparison(kit, block, fields, 'prague')
     return {'fixture': FIXTURE, 'fixture_sha256': FIXTURE_SHA, 'block_number': int(block['number'], 16),
             'fixture_scope': 'historical test vector', 'npm_lock_sha256': LOCK_SHA, 'npm_packages': package['dependencies'],
             'field_order': [name for name, _ in fields], 'requests_hash_matches_empty_commitment': True,

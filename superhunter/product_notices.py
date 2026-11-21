@@ -41,6 +41,10 @@ def wheel_notices(raw, name, version):
         if not paths:
             paths = [dist + n for n in ('LICENSE', 'COPYING', 'NOTICE') if dist + n in members]
         if not paths:
+            # PEP 639 layout can also occur in older wheels without a License-File header.
+            paths = [p for p in members if p.startswith(dist + 'licenses/') and
+                     p.rsplit('/', 1)[-1].split('.')[0].upper() in ('LICENSE', 'LICENCE', 'COPYING', 'NOTICE')]
+        if not paths:
             raise EvidenceError('no public notice in wheel metadata')
         return meta.get('License-Expression'), {p: read_member(p) for p in sorted(paths)}
 
