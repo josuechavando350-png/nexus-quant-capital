@@ -207,6 +207,9 @@ class ProductIndex:
         self.profile_notices = {}
         self.sbom_locations = {}
         self.similar_notices = None
+        self.license_choices = None
+        self.citations = None
+        self.notice_overlaps = None
         self.repos = {r['repository'].casefold(): r.copy() for r in report['repositories']}
         if supply:
             summary, identities = supply
@@ -231,6 +234,18 @@ class ProductIndex:
 
     def lookup(self, query):
         key = query.strip().casefold()
+        if key.startswith('notice-overlaps:'):
+            if self.notice_overlaps is None:
+                raise EvidenceError('notice overlaps require --pmd-release')
+            return self.notice_overlaps.get(key.removeprefix('notice-overlaps:'))
+        if key.startswith('notice-context:'):
+            if self.citations is None:
+                raise EvidenceError('notice contexts require --notice-review-wheels')
+            return self.citations.lookup(key.removeprefix('notice-context:'))
+        if key == 'license-choices':
+            if self.license_choices is None:
+                raise EvidenceError('license choices require --license-proof-kits')
+            return self.license_choices
         if key in ('batch:1', 'batch:2'):
             from .product_batches import summary
             return summary(self, int(key[-1]))
@@ -279,6 +294,10 @@ def main(argv):
         if command == 'query-product':
             parser.add_argument('--qemu-aarch64', type=Path, help='replay the inventory on ARM64 with QEMU user mode')
             parser.add_argument('--syft-arm64', type=Path, help='pinned ARM64 Syft inventory executable for QEMU')
+            parser.add_argument('--proptest-crates', type=Path, help='check batch ordering and duplicate rejection on the actual catalog')
+            parser.add_argument('--pmd-release', type=Path, help='locate copied passages in verified public notices')
+            parser.add_argument('--notice-review-wheels', type=Path, help='index notice contexts and reconcile wheel declarations')
+            parser.add_argument('--license-proof-kits', type=Path, help='prove minimal SPDX identifier choices with local pinned distributions')
             parser.add_argument('--dependency-track', type=Path, help='parse and group verified SPDX license observations')
             parser.add_argument('--rustsec-crates', type=Path, help='verify RustSec cargo-lock and compare the local package graph')
             parser.add_argument('--scorecard', type=Path, help='check the committed NQC license-file inventory')
@@ -346,7 +365,7 @@ def main(argv):
                     for notice in package['notices']:
                         notice['detected_expression'] = observations['notices'][notice['file']]['detected_expression']
             cargo_args = (opts.cargo_deny, opts.rust_bin, opts.cargo_home)
-            if opts.cargo_deny or opts.cargo_home or (opts.rust_bin and not opts.rustsec_crates):
+            if opts.cargo_deny or opts.cargo_home or (opts.rust_bin and not (opts.rustsec_crates or opts.proptest_crates)):
                 from .product_licenses import check_cargo
                 if not all(cargo_args):
                     raise EvidenceError('cargo-deny requires --cargo-deny, --rust-bin and --cargo-home together')
@@ -376,6 +395,32 @@ def main(argv):
                 cargo = index.repos['embarkstudios/cargo-deny']['license_evidence']
                 index.repos['dependencytrack/dependency-track']['spdx_group_evidence'] = group_licenses(
                     opts.dependency_track, observations, cargo)
+            if opts.proptest_crates:
+                from .product_batch_properties import build as check_batches
+                if not opts.rust_bin:
+                    raise EvidenceError('batch property checks require --rust-bin')
+                index.repos['proptest-rs/proptest']['batch_property_evidence'] = check_batches(
+                    opts.proptest_crates, opts.rust_bin, result['repositories'])
+            if opts.pmd_release:
+                from .product_notice_overlap import build as compare_passages
+                summary, index.notice_overlaps = compare_passages(opts.pmd_release, scan_files)
+                index.repos['pmd/pmd']['notice_passage_evidence'] = summary
+            if opts.notice_review_wheels:
+                from . import product_notice_decisions
+                if not opts.scancode_release:
+                    raise EvidenceError('notice context and wheel decisions require --scancode-release')
+                wheels = product_notice_decisions.collect_records(notices, index.profile_notices, observations)
+                index.citations, contexts, decisions = product_notice_decisions.build(opts.notice_review_wheels, scan_files, wheels)
+                index.repos['run-llama/llama_index']['citation_evidence'] = contexts
+                index.repos['langchain-ai/langgraph']['wheel_decision_evidence'] = decisions
+            if opts.license_proof_kits:
+                from .product_native_proofs import build as prove_licenses
+                if not opts.dependency_track:
+                    raise EvidenceError('license choice proofs require --dependency-track')
+                evidence = index.repos['dependencytrack/dependency-track']['spdx_group_evidence']
+                index.license_choices, receipts = prove_licenses(opts.license_proof_kits, evidence)
+                for name, receipt in receipts.items():
+                    index.repos[name.casefold()]['license_choice_evidence'] = receipt
             if opts.pgvector_packages:
                 from . import product_notice_similarity
                 evidence, index.similar_notices = product_notice_similarity.build(opts.pgvector_packages, scan_files)

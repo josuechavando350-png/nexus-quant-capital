@@ -66,32 +66,40 @@ def assess(text, graph):
             'graph_sha256': sha(canonical(nodes)), 'terminal_packages': sorted(k for k, v in nodes.items() if not v)}
 
 
+def prepare_build(cache, rust_bin, work, name, version, digest):
+    release = name + '-' + version
+    temp = str(work)
+    unpack(cache, work, release, digest, work)
+    src = work/release
+    deps_lock = (src/'Cargo.lock').read_bytes()
+    dependencies = tomllib.loads(deps_lock.decode())['package']
+    for dep in dependencies:
+        if dep.get('source') == REGISTRY:
+            unpack(cache, work, f"{dep['name']}-{dep['version']}", dep['checksum'], work/'vendor')
+        elif (dep['name'], dep['version'], dep.get('source')) != (name, version, None):
+            raise EvidenceError('unexpected source in Cargo build lock')
+    config = work/'config.toml'
+    config.write_text('[source.crates-io]\nreplace-with="local"\n[source.local]\ndirectory=' +
+                      json.dumps(str(work/'vendor')) + '\n')
+    env = {'HOME': temp, 'CARGO_HOME': str(work/'home'), 'PATH': str(rust_bin) + ':/usr/bin:/bin',
+           'CARGO_NET_OFFLINE': 'true', 'CARGO_PROFILE_DEV_DEBUG': '0', 'CARGO_INCREMENTAL': '0',
+           'LC_ALL': 'C', 'RUSTFLAGS': '--remap-path-prefix=' + temp + '=/nqc/rustsec'}
+    def run(command):
+        return subprocess.check_output([*ISOLATE, *command], cwd=src, env=env, stdin=subprocess.DEVNULL,
+                                       stderr=subprocess.PIPE, text=True, timeout=300)
+    rust = run([str(rust_bin/'rustc'), '--version']).strip()
+    cargo = run([str(rust_bin/'cargo'), '--version']).strip()
+    if not rust.startswith('rustc 1.98.1 (') or not cargo.startswith('cargo 1.98.1 ('):
+        raise EvidenceError('offline build requires the reviewed Rust 1.98.1 toolchain')
+    return src, deps_lock, dependencies, config, run, rust, cargo
+
+
 def build(cache, rust_bin, lock, graph):
     rust_bin = rust_bin.resolve(strict=True)
     with tempfile.TemporaryDirectory(prefix='nqc-rustsec-') as temp:
         work = Path(temp)
-        unpack(cache, work, RELEASE, DIGEST, work)
-        src = work/RELEASE
-        deps_lock = (src/'Cargo.lock').read_bytes()
-        dependencies = tomllib.loads(deps_lock.decode())['package']
-        for dep in dependencies:
-            if dep.get('source') == REGISTRY:
-                unpack(cache, work, f"{dep['name']}-{dep['version']}", dep['checksum'], work/'vendor')
-            elif (dep['name'], dep['version'], dep.get('source')) != ('cargo-lock', '11.1.0', None):
-                raise EvidenceError('unexpected source in RustSec build lock')
-        config = work/'config.toml'
-        config.write_text('[source.crates-io]\nreplace-with="local"\n[source.local]\ndirectory=' +
-                          json.dumps(str(work/'vendor')) + '\n')
-        env = {'HOME': temp, 'CARGO_HOME': str(work/'home'), 'PATH': str(rust_bin) + ':/usr/bin:/bin',
-               'CARGO_NET_OFFLINE': 'true', 'CARGO_PROFILE_DEV_DEBUG': '0', 'CARGO_INCREMENTAL': '0',
-               'LC_ALL': 'C', 'RUSTFLAGS': '--remap-path-prefix=' + temp + '=/nqc/rustsec'}
-        def run(command):
-            return subprocess.check_output([*ISOLATE, *command], cwd=src, env=env, stdin=subprocess.DEVNULL,
-                                           stderr=subprocess.PIPE, text=True, timeout=300)
-        rust = run([str(rust_bin/'rustc'), '--version']).strip()
-        cargo = run([str(rust_bin/'cargo'), '--version']).strip()
-        if not rust.startswith('rustc 1.98.1 (') or not cargo.startswith('cargo 1.98.1 ('):
-            raise EvidenceError('RustSec build requires the reviewed Rust 1.98.1 toolchain')
+        src, deps_lock, dependencies, config, run, rust, cargo = prepare_build(
+            cache, rust_bin, work, 'cargo-lock', '11.1.0', DIGEST)
         run([str(rust_bin/'cargo'), '--config', str(config), 'build', '--frozen', '--features', 'cli',
              '--bin', 'cargo-lock', '--jobs', '4'])
         source = work/'nqc.Cargo.lock'

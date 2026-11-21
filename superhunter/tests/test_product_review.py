@@ -301,3 +301,91 @@ class BatchInventoryTests(unittest.TestCase):
         for invalid in (dict(row, source='wrong.txt'), dict(row, version='26.2.0')):
             with self.assertRaises(ValueError):
                 assess(sbom, {'packages': [invalid]})
+
+
+class LicenseChoiceTests(unittest.TestCase):
+    def test_absorption_alternatives_and_removed_choice(self):
+        from superhunter.product_license_choices import prepare, report, evaluate
+        from superhunter.product_spdx_groups import semantics
+        e = 'MIT OR (MIT AND Apache-2.0)'
+        f = 'Apache-2.0 OR MIT'
+        data = {'sources': {'a': e, 'b': f, 'c': None}, 'expressions': {
+            e: semantics(e, 'MIT MIT Apache-2.0 AND OR'), f: semantics(f, 'Apache-2.0 MIT OR')}}
+        claims, control = prepare(data)
+        result = report(data, claims, control)
+        self.assertEqual(result['choices_by_expression'][e], [['MIT']])
+        self.assertEqual(result['choices_by_expression'][f], [['Apache-2.0'], ['MIT']])
+        removed = control['minima'][0]
+        self.assertTrue(evaluate(control['original'], removed))
+        self.assertFalse(evaluate(control['candidate'], removed))
+        data['expressions'][f]['truth_table_sha256'] = '0' * 64
+        with self.assertRaises(ValueError):
+            prepare(data)
+
+    def test_proof_process_error_is_not_a_negative_control(self):
+        from superhunter.product_native_proofs import verdict, EXECUTABLES
+        for tool in EXECUTABLES:
+            with self.subTest(tool=tool):
+                self.assertFalse(verdict(tool, 1, 'No such file or directory', 1, False))
+                self.assertFalse(verdict(tool, 0, '', 1, False))
+        self.assertFalse(verdict('cbmc', 0, '[{"result":[]}]', 1, True))
+        self.assertFalse(verdict('saw', 0, 'nqc_0_proved', 2, True))
+        self.assertTrue(verdict('seahorn', 0, 'sat\n', 1, False))
+
+    def test_native_ir_obligations_and_counterexample_markers(self):
+        from superhunter.product_native_proofs import verdict
+        from superhunter.product_proof_languages import program
+        claims = [{'names': ['A', 'B'], 'original': ('or', 0, 1), 'candidate': 1}]
+        _, alive = program('alive2', claims)
+        _, klee = program('klee', claims)
+        self.assertIn('Name: nqc_0_reverse', alive)
+        self.assertEqual(klee.count('call void @klee_make_symbolic'), 2)
+        names = 'Name: nqc_0_forward\nName: nqc_0_reverse\n'
+        self.assertFalse(verdict('alive2', 0, names + 'ERROR: Value mismatch\nExample:\n', 1, False))
+        self.assertTrue(verdict('alive2', 0, names + 'ERROR: Value mismatch\nExample:\n' * 2, 1, False))
+        klee_output = ('KLEE: Using Z3 solver backend\nKLEE: done: completed paths = 1\n'
+                       'KLEE: done: partially completed paths = 1\n')
+        self.assertFalse(verdict('klee', 0, klee_output, 1, False))
+        self.assertTrue(verdict('klee', 0, klee_output + 'KLEE: ERROR: NQC license choice', 1, False))
+
+    def test_citation_windows_preserve_line_numbers_and_verified_neighbors(self):
+        from superhunter.product_notice_decisions import CitationIndex
+        sha = product.sha
+        texts = {'a.txt': 'same\n\nnext line\nagain\n\nsame\n'}
+        parts = ['same', 'next line\nagain', 'same']
+        rows = [['a.txt', sha(p.encode()), sha(' '.join(parts[max(0, i-1):i+2]).encode())]
+                for i, p in enumerate(parts)]
+        idx = CitationIndex(texts, {'a.txt': rows})
+        self.assertEqual(idx.lookup('a.txt@6')['start_line'], 6)
+        self.assertEqual(len(idx.lookup('a.txt@4')['context']), 3)
+        self.assertIsNone(idx.lookup('a.txt@2'))
+        with self.assertRaises(ValueError):
+            CitationIndex(texts, {'a.txt': rows[:-1]})
+
+    def test_wheel_text_decisions_keep_missing_and_different_distinct(self):
+        from superhunter.product_notice_decisions import expected
+        base = {'digest': 'abc', 'declaration': 'MIT', 'observed': ['MIT', None]}
+        self.assertEqual(expected(base), 'partial_text_match')
+        for patch, want in (({'observed': []}, 'notice_expression_absent'), ({'digest': None}, 'wheel_unverified'),
+                            ({'declaration': None}, 'declaration_absent'), ({'observed': [' MIT ']}, 'same_text'),
+                            ({'observed': ['MIT', 'MIT OR Apache-2.0']}, 'different_text_review')):
+            self.assertEqual(expected({**base, **patch}), want)
+
+    def test_pmd_passage_is_bound_to_both_texts(self):
+        from superhunter.product_notice_overlap import assess
+        source = ('hello ' * 45).rstrip()
+        size = len(source) + 1
+        report = f'F\ta.txt\t45\nF\tb.txt\t45\nB\t45\nR\ta.txt\t1\t1\t1\t{size}\nR\tb.txt\t1\t1\t1\t{size}'
+        docs = {'a.txt': source.encode(), 'b.txt': source.encode()}
+        self.assertEqual(assess(report, docs)[0]['locations'], 2)
+        with self.assertRaises(ValueError):
+            assess(report, {**docs, 'b.txt': source.replace('hello', 'world', 1).encode()})
+        with self.assertRaises(ValueError):
+            assess(report.rsplit('\n', 1)[0], docs)
+
+    def test_proptest_contract_uses_published_cohort_identity(self):
+        from superhunter.product_batch_properties import invariant
+        rows = {r['catalog_id']: r for r in product.repositories()}
+        self.assertTrue(invariant(rows, list(reversed(rows)), 67, 18))
+        changed = {**rows, 25: dict(rows[25], repository='unknown/example')}
+        self.assertFalse(invariant(changed, list(changed), 67, 18))

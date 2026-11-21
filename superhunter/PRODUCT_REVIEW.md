@@ -266,3 +266,38 @@ La verificación del navegador Chromium con Playwright 1.62.0 también quedó pe
 `--qemu-aarch64 /ruta/qemu-aarch64 --syft-arm64 /ruta/syft` repite en QEMU el inventario de los siete manifiestos de NQC usando el ejecutable oficial de Syft 1.38.2 para ARM64. NQC valida los dos binarios y coteja cada nombre, versión y archivo de origen con el expediente nativo x86-64. Los argumentos del catálogo son los mismos para ambas arquitecturas. La fila `qemu/qemu` contiene el SHA-256 de las observaciones normalizadas y los recuentos por archivo.
 
 Extraer `usr/bin/qemu-aarch64` del paquete Debian 13 `qemu-user_10.0.13+ds-0+deb13u1_amd64.deb` (SHA-256 `ca6ede739327a20ae5a3498230c8a3a9a072c586e131bc6bcc1201eb1725e336`) y `syft` de `syft_1.38.2_linux_arm64.tar.gz` (SHA-256 `ccd95833d4124f0e30925033908934978086727af69585f015f28a4f355fda1b`). [Paquete QEMU](https://deb.debian.org/debian/pool/main/q/qemu/qemu-user_10.0.13+ds-0+deb13u1_amd64.deb) · [Distribución ARM64 de Syft](https://github.com/anchore/syft/releases/tag/v1.38.2)
+
+## Decisiones sobre las licencias observadas
+
+La consulta `license-choices` enlaza los avisos de las ruedas y las declaraciones de Cargo con sus expresiones SPDX. Para cada expresión AND/OR calcula las combinaciones mínimas de identificadores que la satisfacen. Compara la tabla de verdad completa con el resultado del analizador de Dependency-Track. El resultado conserva las fuentes sin expresión y los identificadores desconocidos. La equivalencia se limita a estos valores booleanos y operadores. Una clasificación jurídica de la obligación requiere evaluar el texto aplicable.
+
+Con `--license-proof-kits /ruta/distribuciones`, NQC comprueba esa equivalencia con cada productor presente. La prueba de control elimina una opción válida observada y exige que cada productor detecte la diferencia. `verified_by` identifica los productores ejecutados. En esta revisión los doce comprobaron las mismas trece expresiones. Algunos comparten solvers.
+
+El archivo [product_proof_releases.json](product_proof_releases.json) fija las versiones, las URL del proveedor y el SHA-256 de cada entrada. Preparar las distribuciones fuera del checkout. Usar el último segmento de la URL como nombre local salvo que haya un campo `file`. Para las entradas con `member`, verificar primero el SHA-256 del archivo del proveedor (`archive_sha256`), extraer solo ese miembro y guardarlo con el nombre `file`. NQC comprueba otra vez sus bytes antes de usarlos. KLEE usa los miembros de la imagen de Linux x86-64 indicados en el registro y la biblioteca SQLite indicada allí. Su biblioteca LLVM ocupa 1,98 GB. Alive2 se compila a partir del archivo de fuentes que coincide con el árbol Git fijado. Requiere GCC con soporte C++20. El directorio de temporales debe tener espacio para descomprimir las distribuciones. El replay completo se comprobó en Debian 13 x86-64 con Python 3.12, Java 21 y Rust 1.98.1.
+
+## Consultas sobre los avisos
+
+- `--pmd-release /ruta/pmd-dist-7.29.0-bin.zip` compara secuencias de al menos 45 tokens con el detector CPD de PMD. NQC coteja los tokens y las coordenadas con los bytes de cada aviso. `notice-overlaps:<archivo>` devuelve las coincidencias y sus ubicaciones.
+- `--notice-review-wheels /ruta/ruedas` instala sin red las distribuciones verificadas por [license-review-linux-py312.txt](product_supply/license-review-linux-py312.txt). LlamaIndex construye una ventana de contexto por párrafo. `notice-context:<archivo>@<línea>` devuelve el párrafo que contiene esa línea y sus vecinos, con rangos que se pueden comprobar en el aviso.
+- La misma opción compara mediante LangGraph la declaración de cada rueda con las expresiones que encontró ScanCode. Distingue discrepancias de texto, declaraciones ausentes y ruedas sin un hash verificable. La fila de LangGraph expone la decisión por paquete y sus totales. El grafo tiene transiciones fijas y se ejecuta localmente.
+- `--proptest-crates /ruta/crates --rust-bin /ruta/rust/bin` verifica la partición de las 200 identidades con proptest 1.12.0. Preparar `proptest-1.12.0.crate` y los archivos de registro de su Cargo.lock, con el mismo formato de caché que para RustSec. Se compila el controlador con Cargo sin red. Sus 128 ensayos de semilla fija ejercitan el código de partición de NQC y comprueban el rechazo de faltantes, excedentes, IDs duplicados y nombres duplicados con mayúsculas distintas.
+
+Al comando `query-product` que abre los expedientes y las demás distribuciones de esta guía, agregar las cuatro opciones anteriores. Las opciones de ScanCode, cargo-deny y Dependency-Track proporcionan las observaciones para `license-choices`. Enviar por entrada estándar una clave por línea permite reutilizar la preparación inicial. Por ejemplo, para consultar las 200 identidades y los dos lotes, generar la entrada en el propio checkout y pasarla mediante redirección a la misma sesión.
+
+```sh
+python3 - <<'PY' > consultas.txt
+import json
+from pathlib import Path
+
+catalogo = json.loads(Path('superhunter/repositories_200.json').read_bytes())
+for fila in sorted(catalogo['entries'], key=lambda x: x['id']):
+    print(fila['repository'])
+print('batch:1')
+print('batch:2')
+print('license-choices')
+print('notice-context:annotated-types-0.8.0-1.txt@1')
+print('notice-overlaps:annotated-types-0.8.0-1.txt')
+PY
+```
+
+[Revisión del primer lote, identidad por identidad](FIRST_BATCH_REVIEW.md). [Distribución de PMD](https://github.com/pmd/pmd/releases/tag/pmd_releases%2F7.29.0). [Distribución de proptest](https://static.crates.io/crates/proptest/proptest-1.12.0.crate).

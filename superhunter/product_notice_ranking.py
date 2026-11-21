@@ -67,16 +67,16 @@ class RankingCorpus:
         return sorted(matches, key=lambda row: (-row['bm25_score'], row['file']))
 
 
-def install_wheels(wheelhouse, work, env):
-    lock = read_artifact(ROOT, LOCK)
-    if sha(lock) != LOCK_SHA:
-        raise EvidenceError('Haystack dependency lock digest mismatch')
+def install_wheels(wheelhouse, work, env, *, lock_path=LOCK, lock_digest=LOCK_SHA, producer='Haystack'):
+    lock = read_artifact(ROOT, lock_path)
+    if sha(lock) != lock_digest:
+        raise EvidenceError(producer + ' dependency lock digest mismatch')
     dest = work/'wheels'
     dest.mkdir()
     for line in lock.decode('ascii').splitlines():
         match = LOCK_ROW.fullmatch(line)
         if not match:
-            raise EvidenceError('invalid Haystack dependency pin')
+            raise EvidenceError('invalid ' + producer + ' dependency pin')
         name, version, digest = match.groups()
         for candidate in sorted(wheelhouse.glob(name.replace('-', '_') + '-' + version + '-*.whl')):
             raw = read_wheel(candidate)
@@ -84,7 +84,7 @@ def install_wheels(wheelhouse, work, env):
                 (dest/candidate.name).write_bytes(raw)
                 break
         else:
-            raise EvidenceError('missing digest-matched Haystack wheel: ' + name)
+            raise EvidenceError('missing digest-matched ' + producer + ' wheel: ' + name)
     (work/'requirements.txt').write_bytes(lock)
     subprocess.run([*ISOLATE, sys.executable, '-I', '-m', 'pip', '--isolated', '--disable-pip-version-check',
                     'install', '--no-index', '--no-deps', '--no-compile', '--no-cache-dir', '--require-hashes',
