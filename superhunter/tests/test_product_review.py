@@ -132,3 +132,33 @@ class CdxgenTests(unittest.TestCase):
         doc['components'][0]['hashes'] = []
         with self.assertRaisesRegex(ValueError, 'checksum'):
             validate_cargo(doc, graph, lock)
+
+
+class GuacTests(unittest.TestCase):
+    def test_graph_must_preserve_each_directed_attributed_relation(self):
+        from superhunter import product_guac as guac
+        root, dep = 'pkg:cargo/workspace@1', 'pkg:cargo/lib@2'
+        docs = {'census.cdx.json': canonical({
+            'metadata': {'component': {'bom-ref': 'root', 'purl': root}},
+            'components': [{'bom-ref': 'child', 'purl': dep}],
+            'dependencies': [{'ref': 'root', 'dependsOn': ['child']}]})}
+
+        def node(purl):
+            return {'type': 'cargo', 'namespaces': [{'namespace': '', 'names': [
+                {'versions': [{'purl': purl}]}]}]}
+
+        direct = {'origin': 'file:///docs/census.cdx.json', 'justification': guac.DIRECT,
+                  'dependencyType': 'DIRECT', 'package': node(root), 'dependencyPackage': node(dep)}
+        inferred = dict(direct, justification=guac.HEURISTIC, dependencyType='UNKNOWN')
+
+        def compare(edges):
+            return guac.compare(docs, canonical({'data': {'IsDependency': edges}}))
+
+        result = compare([inferred, direct])
+        self.assertEqual((result['direct_relations'], result['heuristic_relations']), (1, 1))
+        for change in ([], [direct, direct], [dict(direct, origin='other')],
+                       [dict(direct, package=node(dep), dependencyPackage=node(root))],
+                       [dict(direct, dependencyType='UNKNOWN')],
+                       [dict(direct, dependencyPackage=node(dep + '?source=different'))]):
+            with self.subTest(change=change), self.assertRaisesRegex(ValueError, 'dependencies disagree'):
+                compare([inferred, *change])

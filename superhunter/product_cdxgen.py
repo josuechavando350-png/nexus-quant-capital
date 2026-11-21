@@ -116,7 +116,7 @@ def generate(product_dir, executable, out):
     return result
 
 
-def verify(bundle, product):
+def verify_with_files(bundle, product):
     raw, ids = bundle_recovery._capture(bundle)
     if set(raw) != {s+'.cdx.json' for s in SCOPES} | {'inventory.json','COMPLETE.json'}:
         raise EvidenceError('unexpected CycloneDX bundle contents')
@@ -125,7 +125,11 @@ def verify(bundle, product):
     result = assess(product, capture(product), raw)
     if canonical(result) != raw['inventory.json'] or bundle_recovery._capture(bundle) != (raw, ids):
         raise EvidenceError('CycloneDX bundle inconsistent')
-    return result
+    return result, raw
+
+
+def verify(bundle, product):
+    return verify_with_files(bundle, product)[0]
 
 
 def main(argv):

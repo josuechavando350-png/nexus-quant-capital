@@ -249,6 +249,7 @@ def main(argv):
     else:
         parser.add_argument('--bundle', type=Path, required=True)
         if command == 'query-product':
+            parser.add_argument('--guac-bundle', type=Path, help='verify GUAC evidence against CycloneDX')
             parser.add_argument('--cdxgen-bundle', type=Path, help='verify CycloneDX evidence for cdxgen')
             parser.add_argument('--supply', type=Path, help='add verified identities and supply evidence')
             parser.add_argument('keys', nargs='*', help='repository or package names; default: lines from stdin')
@@ -265,9 +266,15 @@ def main(argv):
                 supply = product_supply_review.verify(opts.supply, result, files)
             index = ProductIndex(result, supply=supply)
             if opts.cdxgen_bundle:
-                from .product_cdxgen import verify as verify_cdxgen
-                evidence = verify_cdxgen(opts.cdxgen_bundle, result)
+                from .product_cdxgen import verify_with_files as verify_cdxgen
+                evidence, cdx_files = verify_cdxgen(opts.cdxgen_bundle, result)
                 index.repos['cdxgen/cdxgen']['cyclonedx_evidence'] = evidence
+            if opts.guac_bundle:
+                from . import product_guac
+                if not opts.cdxgen_bundle:
+                    raise EvidenceError('GUAC verification requires --cdxgen-bundle')
+                docs = {name: raw for name, raw in cdx_files.items() if name.endswith('.cdx.json')}
+                index.repos['guacsec/guac']['guac_evidence'] = product_guac.verify(opts.guac_bundle, docs)
             for key in opts.keys or sys.stdin:
                 print(json.dumps(index.lookup(key), sort_keys=True), flush=True)
         else:

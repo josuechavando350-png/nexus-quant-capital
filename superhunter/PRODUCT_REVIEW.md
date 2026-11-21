@@ -72,3 +72,16 @@ python3 -m superhunter query-product --bundle "$evidence_dir" --cdxgen-bundle "$
 El expediente contiene `census.cdx.json`, un archivo `<perfil>.cdx.json` por perfil Python y un resumen ligado al informe de producto. La verificación coteja nombres y versiones por perfil, las relaciones Rust, la pertenencia al workspace y las sumas SHA-256 registradas en Cargo.lock. En Python, el alcance son las versiones declaradas por perfil. Los archivos originales pueden contener rutas temporales, UUID y marcas de tiempo. El resumen recoge los hechos reproducibles.
 
 En el checkout derivado de `fc92ea6c`, dos ejecuciones locales produjeron el mismo resumen SHA-256 `4ec4567787f8609f707d07aef56de422f98babc14dc4c08692c7cfbd03c05e75`. Se cotejaron 18 paquetes Rust, 57 observaciones Python, 35 relaciones Rust y ocho miembros del workspace. El verificador rechazó tres copias con un paquete, una relación o un checksum omitidos, incluso tras recalcular el marcador de integridad.
+
+## Contrastar las relaciones de CycloneDX con GUAC
+
+GUAC 1.1.0 lee los siete SBOM verificados. En Linux x86-64, extraer `guacone` y `guacgql` de la [distribución oficial](https://github.com/guacsec/guac/releases/tag/v1.1.0). NQC comprueba los hashes de ambos binarios antes de ejecutarlos. El productor necesita espacios de nombres de usuario, red y PID habilitados. El servidor GraphQL y el colector se comunican por loopback dentro de esa red privada y usan un grafo en memoria que termina con la recopilación.
+
+```bash
+guac_out="$(mktemp -d)/guac"
+python3 -m superhunter review-product-guac --product "$evidence_dir" --cdxgen-bundle "$cdx_out" --guacone /ruta/guacone --guacgql /ruta/guacgql --out "$guac_out"
+python3 -m superhunter verify-product-guac --product "$evidence_dir" --cdxgen-bundle "$cdx_out" --bundle "$guac_out"
+python3 -m superhunter query-product --bundle "$evidence_dir" --cdxgen-bundle "$cdx_out" --guac-bundle "$guac_out" guacsec/guac
+```
+
+El verificador reconstruye las relaciones esperadas desde los SBOM y coteja el documento de origen, los dos PURL en orden, el tipo de dependencia, su justificación y el número de apariciones. En la entrada comprobada encontró 43 relaciones explícitas (35 de Cargo y ocho de pertenencia al workspace). GUAC añadió 75 asociaciones heurísticas de raíz a componente, que se contabilizan por separado. El expediente conserva la respuesta GraphQL y un resumen ligado por SHA-256 a cada SBOM. La verificación posterior usa la biblioteca estándar de Python.
