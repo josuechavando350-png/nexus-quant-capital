@@ -208,6 +208,9 @@ class ProductIndex:
         self.sbom_locations = {}
         self.similar_notices = None
         self.license_choices = None
+        self.census_header = None
+        self.upstream_notices = None
+        self.solidity_headers = None
         self.citations = None
         self.notice_overlaps = None
         self.repos = {r['repository'].casefold(): r.copy() for r in report['repositories']}
@@ -242,10 +245,25 @@ class ProductIndex:
             if self.citations is None:
                 raise EvidenceError('notice contexts require --notice-review-wheels')
             return self.citations.lookup(key.removeprefix('notice-context:'))
+        if key == 'census-header':
+            if self.census_header is None:
+                raise EvidenceError('Census header replay requires --census-header-kit')
+            return self.census_header
+        if key == 'upstream-notices':
+            if self.upstream_notices is None:
+                raise EvidenceError('upstream notices require --upstream-notices')
+            return self.upstream_notices
+        if key == 'solidity-headers':
+            if self.solidity_headers is None:
+                raise EvidenceError('Solidity headers require --solidity-metadata-kit')
+            return self.solidity_headers
         if key == 'license-choices':
             if self.license_choices is None:
                 raise EvidenceError('license choices require --license-proof-kits')
             return self.license_choices
+        if key == 'integration-coverage':
+            from .product_batches import coverage
+            return coverage(self)
         if key in ('batch:1', 'batch:2'):
             from .product_batches import summary
             return summary(self, int(key[-1]))
@@ -292,6 +310,9 @@ def main(argv):
     else:
         parser.add_argument('--bundle', type=Path, required=True)
         if command == 'query-product':
+            parser.add_argument('--census-header-kit', type=Path, help='replay the fixed Census header with three EVM libraries and two specifications')
+            parser.add_argument('--upstream-notices', type=Path, help='add 200 verified upstream license documents to the product notice index')
+            parser.add_argument('--solidity-metadata-kit', type=Path, help='compare Foundry, Wake and solc metadata on the fixed NQC migration')
             parser.add_argument('--qemu-aarch64', type=Path, help='replay the inventory on ARM64 with QEMU user mode')
             parser.add_argument('--syft-arm64', type=Path, help='pinned ARM64 Syft inventory executable for QEMU')
             parser.add_argument('--proptest-crates', type=Path, help='check batch ordering and duplicate rejection on the actual catalog')
@@ -345,6 +366,12 @@ def main(argv):
                     from .product_notices import collect
                     notices, public_files = collect(opts.notice_wheels, wheel_lock)
             index = ProductIndex(result, supply=supply, notices=notices)
+            if opts.census_header_kit:
+                from . import product_census_header
+                product_census_header.attach(index, opts.census_header_kit)
+            if opts.solidity_metadata_kit:
+                from . import product_solidity_headers
+                product_solidity_headers.attach(index, opts.solidity_metadata_kit)
             scan_files = dict(public_files) if opts.notice_wheels else {}
             if opts.profile_wheels:
                 from .product_cdxgen import capture
@@ -408,9 +435,16 @@ def main(argv):
                     raise EvidenceError('batch property checks require --rust-bin')
                 index.repos['proptest-rs/proptest']['batch_property_evidence'] = check_batches(
                     opts.proptest_crates, opts.rust_bin, result['repositories'])
+            search_files = scan_files
+            if opts.upstream_notices:
+                from .product_upstream_notices import attach
+                upstream = attach(index, opts.upstream_notices)
+                if scan_files.keys() & upstream.keys():
+                    raise EvidenceError('notice filename collision across product and upstream sources')
+                search_files = {**scan_files, **upstream}
             if opts.pmd_release:
                 from .product_notice_overlap import build as compare_passages
-                summary, index.notice_overlaps = compare_passages(opts.pmd_release, scan_files)
+                summary, index.notice_overlaps = compare_passages(opts.pmd_release, search_files)
                 index.repos['pmd/pmd']['notice_passage_evidence'] = summary
             if opts.notice_review_wheels:
                 from . import product_notice_decisions
@@ -497,7 +531,7 @@ def main(argv):
                                                         for scope in PROFILES}
                 write_new_bundle(opts.export_notices, {**scan_files, 'notices.json': canonical(manifest)})
             from .product_notice_search import serve_queries
-            serve_queries(index, opts.keys or sys.stdin, opts.qdrant, opts.haystack_wheels, scan_files)
+            serve_queries(index, opts.keys or sys.stdin, opts.qdrant, opts.haystack_wheels, search_files)
         else:
             print(json.dumps({'status': result['status'], 'catalog_count': len(result['repositories']),
                               'native_tools': list(result['tools']), 'observations': len(result['packages']),

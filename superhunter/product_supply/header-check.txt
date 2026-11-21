@@ -1,0 +1,30 @@
+import { readFileSync } from 'node:fs';
+import { Common, Hardfork, Mainnet } from '@ethereumjs/common';
+import { createBlockHeaderFromRPC } from '@ethereumjs/block';
+import { encodeRlp, keccak256 as ethersHash } from 'ethers';
+import { bytesToHex, keccak256 as viemHash, toRlp } from 'viem';
+
+const { block, fields } = JSON.parse(readFileSync(0, 'utf8'));
+const common = new Common({ chain: Mainnet, hardfork: Hardfork.Prague });
+
+function observe(header) {
+  const values = fields.map(([name, kind]) => {
+    const value = header[name];
+    if (kind !== 'Quantity') return value;
+    const n = BigInt(value);
+    if (n === 0n) return '0x';
+    const hex = n.toString(16);
+    return '0x' + (hex.length % 2 ? '0' + hex : hex);
+  });
+  const parsed = createBlockHeaderFromRPC(header, { common });
+  const ethersRlp = encodeRlp(values);
+  const viemRlp = toRlp(values);
+  return {
+    ethereumjs: { rlp: bytesToHex(parsed.serialize()), hash: bytesToHex(parsed.hash()) },
+    ethers: { rlp: ethersRlp, hash: ethersHash(ethersRlp) },
+    viem: { rlp: viemRlp, hash: viemHash(viemRlp) },
+  };
+}
+
+const changed = { ...block, gasUsed: '0x' + (BigInt(block.gasUsed) + 1n).toString(16) };
+console.log(JSON.stringify({ original: observe(block), changed_gas_used: observe(changed) }));

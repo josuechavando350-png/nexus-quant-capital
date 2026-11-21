@@ -1,5 +1,7 @@
 # Revisión de las 100 identidades del primer lote
 
+La tabla conserva el estado histórico del PR 111. Los recibos posteriores de ambos lotes pueden consultarse en la [sesión conjunta del catálogo](CATALOG_SESSION.md).
+
 El primer lote conserva la pertenencia publicada en `a55602cf6bbba4d79bdb20d5678b4f7ed135b6e6`. La consulta `batch:1` devuelve las filas con sus recibos para la sesión abierta. La tabla documenta el replay de las distribuciones fijadas el 21 de noviembre de 2026. El segundo lote se consulta con `batch:2`.
 
 | Estado | Identidades |

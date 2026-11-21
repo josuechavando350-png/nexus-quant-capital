@@ -155,6 +155,7 @@ QA_MODULE_GROUPS = (
         'test_portfolio_inventory',
         'test_product_review',
         'test_product_supply',
+        'test_product_catalog_session',
         'test_owned_authority_behavior',
         'test_owned_correct_cross_evm',
         'test_custody',

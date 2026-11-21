@@ -282,7 +282,10 @@ PORTFOLIO_DATA_FILES = (
 
 PRODUCT_DATA_FILES = ('repositories_200.json', 'product_repository_identities.json', 'product_proof_releases.json',
                       'product_supply/wheels.txt', 'product_supply/haystack-linux-py312.txt',
-                      'product_supply/license-review-linux-py312.txt', 'product_supply/batch-property-driver.txt')
+                      'product_supply/license-review-linux-py312.txt', 'product_supply/batch-property-driver.txt',
+                      'product_supply/coverage-d94b58f.json', 'product_supply/header-check.txt',
+                      'product_supply/header-npm-lock.json', 'product_supply/upstream-notices.json',
+                      'product_supply/wake-metadata-linux-py312.txt')
 
 
 def source_snapshot(root: Path = ROOT) -> dict[str, str]:
@@ -1757,14 +1760,25 @@ REQUIRED_TESTS += (
 
 
 COMPONENTS['product_review'] = {
-    'files': ['product_batch_properties.py', 'product_supply/batch-property-driver.txt', 'product_notice_overlap.py', 'product_notice_decisions.py', 'product_notice_review_worker.py', 'product_supply/license-review-linux-py312.txt',
-              'product_spdx_ids.py', 'product_license_choices.py', 'product_native_proofs.py', 'product_proof_languages.py', 'product_proof_releases.json',
-              'product_arm_inventory.py', 'product_spdx_groups.py', 'product_rustsec.py', 'product_batches.py', 'product_cargo_hashes.py', 'product_scorecard.py', 'product_notice_similarity.py', 'product_notice_ranking.py', 'product_ranking_worker.py', 'product_elf_worker.py', 'product_producer_elf.py', 'product_license_sarif.py', 'product_profile_states.py', 'product_sbom_locations.py', 'product_notice_search.py', 'product_notice_worker.py', 'product_licenses.py', 'product_notices.py', 'product_guac.py', 'product_guac_worker.py', 'product_cdxgen.py', 'product_census_graph.py', 'product_reasoning.py', 'product_review.py', 'product_supply_review.py',
-              'repositories_200.json', 'product_repository_identities.json', 'product_supply/wheels.txt', 'product_supply/haystack-linux-py312.txt'],
-    'tests': ['test_product_review.', 'test_product_supply.'],
+    'files': [*PRODUCT_DATA_FILES,
+              'product_census_header.py', 'product_solidity_headers.py', 'product_solidity_headers_worker.py',
+              'product_upstream_notices.py', 'tools/fetch_upstream_notices.py', 'tools/catalog_session.py',
+              'product_batch_properties.py', 'product_notice_overlap.py', 'product_notice_decisions.py',
+              'product_notice_review_worker.py', 'product_spdx_ids.py', 'product_license_choices.py',
+              'product_native_proofs.py', 'product_proof_languages.py', 'product_arm_inventory.py',
+              'product_spdx_groups.py', 'product_rustsec.py', 'product_batches.py', 'product_cargo_hashes.py',
+              'product_scorecard.py', 'product_notice_similarity.py', 'product_notice_ranking.py',
+              'product_ranking_worker.py', 'product_elf_worker.py', 'product_producer_elf.py',
+              'product_license_sarif.py', 'product_profile_states.py', 'product_sbom_locations.py',
+              'product_notice_search.py', 'product_notice_worker.py', 'product_licenses.py',
+              'product_notices.py', 'product_guac.py', 'product_guac_worker.py', 'product_cdxgen.py',
+              'product_census_graph.py', 'product_reasoning.py', 'product_review.py', 'product_supply_review.py'],
+    'tests': ['test_product_review.', 'test_product_supply.', 'test_product_catalog_session.'],
     'depends': ['portfolio_inventory', 'bundle_recovery', 'owned_capture', 'privacy', 'io']}
 COMPONENTS['entrypoints']['depends'].append('product_review')
 REQUIRED_TESTS += (
+    'test_product_catalog_session.CatalogSessionTests.test_resealed_notice_cannot_replace_committed_document',
+    'test_product_catalog_session.CatalogSessionTests.test_historical_receipts_and_new_receipts_remain_distinguishable',
     'test_product_supply.SupplyTests.test_200_ids_and_distinct_license_outcomes',
     'test_product_supply.SupplyTests.test_metadata_alone_cannot_promote_a_candidate_to_an_integration',
     'test_product_review.ProductTests.test_triangle_requires_three_groups',
