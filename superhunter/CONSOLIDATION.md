@@ -2,17 +2,18 @@
 
 Los PR [118](https://github.com/josuechavando350-png/nexus-quant-capital/pull/118) y [119](https://github.com/josuechavando350-png/nexus-quant-capital/pull/119) partieron de `672c31392929b8efbd6b3d5983c44e8560232add`. Las dos transcripciones históricas de 99 y 70 participantes compartían 63 identidades. Había 36 exclusivas de la primera y siete exclusivas de la segunda. El total histórico de esas dos ejecuciones era 106. [Archivo de 99](product_supply/component-session-99.json) · [Archivo de 70](product_supply/native-session-70.json)
 
-## Resultado publicado de 8 grupos
+## Perfiles reproducidos desde los commits publicados
 
-El [acta de las dos ejecuciones](product_supply/consolidated-acceptance/acceptance.json) vincula el [productor fae41570](https://github.com/josuechavando350-png/nexus-quant-capital/commit/fae415708eccc117dd809036fcd4df09056777c5) con los árboles Git, las entradas y las transcripciones. Cada checkout emitió 222 respuestas con la misma huella `2c7e58d369f36c9461497824eb81b0043fd4324dba6927bc7670706ee09cb63b`. La comprobación estricta acreditó 128 identidades distintas, 89 con ejecución, 39 con referencias consumidas y 137 operaciones en total. Se conservaron las 106 identidades y 110 operaciones históricas.
+En cada fila, dos checkouts limpios del mismo productor emitieron 222 respuestas idénticas byte por byte. Las ejecuciones se hicieron sin red en el mismo host. Cada perfil conservó las 106 identidades y las 110 operaciones históricas. El acta enlaza las entradas, las salidas y su SHA-256.
 
-## Resultado publicado de 9 grupos
+| Grupos | Productor | Identidades | Ejecución | Sólo referencia | Operaciones | Expediente |
+|---:|---|---:|---:|---:|---:|---|
+| 11 | [`2d9d6c79`](https://github.com/josuechavando350-png/nexus-quant-capital/commit/2d9d6c797eb9f6e445d2179ec535effe3ca9ac96) | 131/200 | 93 | 38 | 141 | [grpc-schema](product_supply/consolidated-acceptance-grpc-schema/acceptance.json) |
+| 10 | [`325288f3`](https://github.com/josuechavando350-png/nexus-quant-capital/commit/325288f32155ff8f7eaead0a493e5fbffe5bebc2) | 130/200 | 92 | 38 | 140 | [canonical-header](product_supply/consolidated-acceptance-header/acceptance.json) |
+| 9 | [`27fdac61`](https://github.com/josuechavando350-png/nexus-quant-capital/commit/27fdac61b21f607325053fc3681e6e079328e9f1) | 129/200 | 91 | 38 | 139 | [accounting](product_supply/consolidated-acceptance-accounting/acceptance.json) |
+| 8 | [`fae41570`](https://github.com/josuechavando350-png/nexus-quant-capital/commit/fae415708eccc117dd809036fcd4df09056777c5) | 128/200 | 89 | 39 | 137 | [core-eight](product_supply/consolidated-acceptance/acceptance.json) |
 
-El [acta de las dos ejecuciones](product_supply/consolidated-acceptance-accounting/acceptance.json) vincula el [productor 27fdac61](https://github.com/josuechavando350-png/nexus-quant-capital/commit/27fdac61b21f607325053fc3681e6e079328e9f1) con los árboles Git, las entradas y las transcripciones. Cada checkout emitió 222 respuestas con la misma huella `ea091d5b93821de6557f4c84a5f7d8c8846245e0d5586f8059d0b60fc8261400`. La comprobación estricta acreditó 129 identidades distintas, 91 con ejecución, 38 con referencias consumidas y 139 operaciones en total. Se conservaron las 106 identidades y 110 operaciones históricas.
-
-## Resultado publicado de 10 grupos
-
-El [acta de las dos ejecuciones](product_supply/consolidated-acceptance-header/acceptance.json) vincula el [productor 325288f3](https://github.com/josuechavando350-png/nexus-quant-capital/commit/325288f32155ff8f7eaead0a493e5fbffe5bebc2) con los árboles Git, las entradas y las transcripciones. Cada checkout emitió 222 respuestas con la misma huella `fcb225051aa101d1c0dea2e6d13c6faf8ded452e3feb5daca1fc2d2c324b8dbb`. La comprobación estricta acreditó 130 identidades distintas, 92 con ejecución, 38 con referencias consumidas y 140 operaciones en total. Se conservaron las 106 identidades y 110 operaciones históricas.
+Para comprobar por separado un expediente, ejecutar `python3.12 -B -m superhunter.tools.render_product_matrix --verify-dossier --profile PERFIL` y sustituir `PERFIL` por el nombre de la última columna. La [matriz vigente](INTEGRATION_STATUS_200.md) conserva todos los recibos por identidad.
 
 ## Evidencia recuperada en el PR 120
 

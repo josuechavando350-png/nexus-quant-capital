@@ -2,7 +2,7 @@
 
 ## Aceptación vigente · 21 de noviembre de 2026
 
-En dos checkouts independientes del [commit público `325288f3`](https://github.com/josuechavando350-png/nexus-quant-capital/commit/325288f32155ff8f7eaead0a493e5fbffe5bebc2), el perfil de 10 grupos y 17 dominios produjo las mismas 222 respuestas byte por byte. Pasaron 130 de 200 identidades únicas. De ellas, 92 ejecutaron código y 38 aportaron referencias consumidas. La matriz conserva las 140 operaciones y las 110 obligaciones de las 106 identidades históricas. Quedan 70 identidades pendientes. El verificador rechazó las 20 alteraciones de control. Las corridas se hicieron sin red, en una sola máquina. [Matriz de los 200](INTEGRATION_STATUS_200.md) · [Acta, huellas y dos transcripciones](product_supply/consolidated-acceptance-header/acceptance.json)
+En dos checkouts independientes del [commit público `2d9d6c79`](https://github.com/josuechavando350-png/nexus-quant-capital/commit/2d9d6c797eb9f6e445d2179ec535effe3ca9ac96), el perfil de 11 grupos y 17 dominios produjo las mismas 222 respuestas byte por byte. Pasaron 131 de 200 identidades únicas. De ellas, 93 ejecutaron código y 38 aportaron referencias consumidas. La matriz conserva las 141 operaciones y las 110 obligaciones de las 106 identidades históricas. Quedan 69 identidades pendientes. El verificador rechazó las 20 alteraciones de control. Las corridas se hicieron sin red, en una sola máquina. [Matriz de los 200](INTEGRATION_STATUS_200.md) · [Acta, huellas y dos transcripciones](product_supply/consolidated-acceptance-grpc-schema/acceptance.json)
 
 Para comprobar el resultado desde un clon con el historial de la rama, ejecutar `python3.12 -B -m superhunter.tools.render_product_matrix --check-acceptance`. La tabla enumera por identidad las operaciones atribuidas a cada productor. El estado de las pruebas globales, las dependencias transitivas y los derechos de redistribución se detalla en [el registro de consolidación](CONSOLIDATION.md).
 
@@ -14,7 +14,7 @@ import json
 from pathlib import Path
 from superhunter.tools.verify_review_115 import response_keys, unpack
 
-archive = Path("superhunter/product_supply/consolidated-acceptance-header/first/session.json")
+archive = Path("superhunter/product_supply/consolidated-acceptance-grpc-schema/first/session.json")
 raw = unpack(archive.read_bytes())
 matrix = json.loads(raw.splitlines()[response_keys(raw).index("integration-matrix")])
 for row in matrix["rows"]:
@@ -22,6 +22,8 @@ for row in matrix["rows"]:
         print(row["id"], row["repository"])
 PYTHON
 ```
+
+El producto cubre comprobaciones defensivas locales sobre entradas fijadas. La [QA de los 40 módulos](product_supply/acceptance-120/qa-443.json) y el [registro de consolidación](CONSOLIDATION.md) fijan los bloqueos de QA global y migración. Las 139 revisiones transitivas pendientes y el estado de las dos referencias compartidas se pueden localizar en el [índice de dependencias](product_supply/acceptance-120/nested-reference-index.json). Las pruebas archivadas conservan cero vulnerabilidades originales confirmadas.
 
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
