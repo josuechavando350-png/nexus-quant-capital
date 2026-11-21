@@ -142,6 +142,9 @@ def check_reference(name, payload):
 
 def receipt(row):
     name = row['repository'].casefold()
+    if 'native_capability_receipt' in row:
+        from .product_native_capabilities import validate_receipt
+        return validate_receipt(row)
     if name in FIXED_SOURCE_RECEIPTS:
         role, key, expected = FIXED_SOURCE_RECEIPTS[name]
         if key not in row:

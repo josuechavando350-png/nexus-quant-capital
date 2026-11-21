@@ -1,3 +1,5 @@
+> Avance de integración: [checkpoint nativo, 70 participaciones y 200 fuentes](NATIVE_CAPABILITIES.md). Las cifras siguientes conservan el alcance de sus entregas históricas.
+
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
 ## 21 de noviembre · PR 117

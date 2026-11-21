@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "source_revisions": {
+    "103": {
+      "repository": "cppcheck-opensource/cppcheck",
+      "revision": "e1b5791564c662c7dacbc62835f6abe5431aa00b",
+      "version": "2.23 dev",
+      "tree": "e8ef75c2516c6418f57dd8e12360bf9ddf713372"
+    },
+    "132": {
+      "repository": "capstone-engine/capstone",
+      "revision": "ccd25ab39eea534afbb70cfb047310c5a9962553",
+      "version": "6.0.0-alpha12",
+      "tree": "632a17fd85db3d5b8985040bd809620953859193"
+    }
+  },
+  "compiler": "gcc/g++ (Debian 14.2.0-19) 14.2.0",
+  "platform": "Linux x86-64",
+  "steps": [
+    "Export cppcheck-opensource/cppcheck at e1b5791564c662c7dacbc62835f6abe5431aa00b with git archive into a fresh external build directory.",
+    "Build offline: unshare --user --map-current-user --net make -j3 CXXFLAGS=\"-O1 -DNDEBUG -ffile-prefix-map=$CPPCHECK_SOURCE=.\" CPPCHK_GLIBCXX_DEBUG= cppcheck",
+    "Export capstone-engine/capstone at ccd25ab39eea534afbb70cfb047310c5a9962553 into a fresh external build directory.",
+    "Build offline: CFLAGS=\"-O1 -ffile-prefix-map=$CAPSTONE_SOURCE=.\" unshare --user --map-current-user --net make -j2 CAPSTONE_ARCHS=x86 CAPSTONE_STATIC=yes CAPSTONE_SHARED=no CAPSTONE_BUILD_CORE_ONLY=yes",
+    "Build owned decoder from static-native-capstone-helper.txt: gcc -O2 -std=c11 -Werror -Wall -Wextra -I \"$CAPSTONE_SOURCE/include\" -x c \"$HELPER\" -x none \"$CAPSTONE_SOURCE/libcapstone.a\" -Wl,--build-id=none -o \"$KIT/capstone-decoder\"",
+    "Copy cppcheck and cfg/std.cfg into the kit, preserving the cfg subdirectory.",
+    "Copy the previously pinned Census Geth helper (SOURCE_AUDIT.md, purego build, SHA11ad...) and this host's pinned GNU objdump into kit/geth-header and kit/objdump.",
+    "Validate every kit file against static-native-pins.json before execution; a different build digest requires separately reviewed pins, not overriding the verifier.",
+    "From the NQC checkout: python -B -c \"from pathlib import Path; from superhunter.product_static_native import run; from superhunter.safe_io import canonical; import sys; sys.stdout.buffer.write(canonical(run(Path(sys.argv[1]))))\" \"$KIT\""
+  ],
+  "source_modified": false,
+  "archives_exported_from_reviewed_Git_commits": true,
+  "network_during_build_and_native_tests": false,
+  "failed_preliminary_attempts": [
+    "Capstone command-line CFLAGS override omitted include and default allocator defines; the final build used environment CFLAGS so upstream flags were retained."
+  ],
+  "upstream_complete_test_suites_run": false,
+  "artifact_pins": "static-native-pins.json"
+}

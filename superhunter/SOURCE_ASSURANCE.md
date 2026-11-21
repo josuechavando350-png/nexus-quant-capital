@@ -1,3 +1,5 @@
+> Avance de integración: [checkpoint nativo, 70 participaciones y 200 fuentes](NATIVE_CAPABILITIES.md). Las cifras siguientes conservan el alcance de sus entregas históricas.
+
 # Verificación defensiva de fuentes en NQC
 
 Para la versión posterior al PR 115, consultar [el perfil offline de procedencia y análisis Go del PR 117](OFFLINE_SOURCE_AND_GO.md). Las cifras y el comando de 218 respuestas de este documento se conservan para reproducir el PR 115.

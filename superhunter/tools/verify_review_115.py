@@ -34,13 +34,13 @@ def observed(row):
     return (role, key) if row.get(key) else ('pending', None)
 
 
-def verify(raw, expected_hash=None):
+def verify(raw, expected_hash=None, *, queries=None, observe=observed):
     digest = sha(raw)
     if expected_hash is not None and digest != expected_hash:
         raise EvidenceError('transcript digest differs from the acceptance record')
-    keys = review_queries()
+    keys = review_queries() if queries is None else queries
     lines = raw.splitlines()
-    if len(lines) == len(keys) + 2:
+    if queries is None and len(lines) == len(keys) + 2:
         keys.extend(['portable-source-proof', 'go-header-digest'])
     if len(lines) != len(keys):
         raise EvidenceError('acceptance transcript has missing or extra responses')
@@ -69,7 +69,7 @@ def verify(raw, expected_hash=None):
                 (name, number, official['revision'], summary['tree']) or
                 (summary['repository'], summary['id'], summary['commit']) != (name, number, official['revision'])):
             raise EvidenceError('matrix and source revisions disagree')
-        role, receipt = observed(row)
+        role, receipt = observe(row)
         previous = history.get(number)
         cumulative = previous['role'] if previous else role
         source = ('complete' if audited['contents'] is not None else
@@ -104,7 +104,8 @@ def verify(raw, expected_hash=None):
         credits.append([number, name, summary['session'], receipt])
     if 'portable-source-proof' in report:
         source_report = report['portable-source-proof']
-        records = [report[r['repository']]['offline_source_proof'] for r in rows if r['source'] != 'complete']
+        records = [report[r['repository']]['offline_source_proof'] for r in rows
+                   if 'offline_source_proof' in report[r['repository']]]
         if (source_report['commits'] != len(records) or source_report['receipt_sha256'] != sha(canonical(records)) or
                 source_report['root_declarations'] != sum(len(r['manifest_blobs']) for r in records)):
             raise EvidenceError('portable Git evidence differs from product rows')

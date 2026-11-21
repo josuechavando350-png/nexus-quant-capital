@@ -1,0 +1,22 @@
+{
+  "c": {
+    "bounds.c": "int read_array(void) {\n    int values[2] = {1, 2};\n    return values[2];\n}\n",
+    "clean.c": "int read_value(void) {\n    int value = 7;\n    int *pointer = &value;\n    return *pointer;\n}\nint read_array(void) {\n    int values[2] = {1, 2};\n    return values[1];\n}\n",
+    "null.c": "int read_value(void) {\n    int *pointer = 0;\n    return *pointer;\n}\n"
+  },
+  "x86": {
+    "aligned": {
+      "hex": "4831c04883f8007402ffc0c3",
+      "address": 4096
+    },
+    "misaligned": {
+      "hex": "4831c04883f8007401ffc0c3",
+      "address": 4096
+    },
+    "truncated": {
+      "hex": "4831c0e90100",
+      "address": 4096
+    }
+  },
+  "purpose": "OWNED positive and negative controls; not original vulnerability findings"
+}

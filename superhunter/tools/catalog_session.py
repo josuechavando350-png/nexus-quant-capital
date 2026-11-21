@@ -124,6 +124,8 @@ def main():
     parser.add_argument('--native-inputs', type=Path, help='use the complete reviewed native profile with local paths')
     parser.add_argument('--prepare', action='store_true', help='download fixed public inputs into a new external directory')
     parser.add_argument('--owned-source-kit', type=Path, help='fixed offline code and package reference comparisons')
+    from superhunter.product_native_capabilities import add_arguments, selected_kits
+    add_arguments(parser)
     parser.add_argument('--fork-headers', action='store_true', help='validate two fixed headers using client schedules and the Hive corpus')
     parser.add_argument('--gosec-kit', type=Path, help='review the fixed NQC header digest with the verified Go toolchain')
     parser.add_argument('--score-kit', type=Path, help='offline wheel sets for the two fixed evaluation engines')
@@ -139,8 +141,11 @@ def main():
     if args.review_queries and args.queries:
         parser.error('choose the published queries or individual keys')
     queries = review_queries() if args.review_queries else args.queries
+    kits = selected_kits(args)
     if args.review_queries and args.gosec_kit and args.embedded_root_manifests:
         queries.extend(['portable-source-proof', 'go-header-digest'])
+    if args.review_queries and kits:
+        queries.append('native-capabilities')
     work = args.workspace.resolve()
     if args.prepare:
         if work.is_relative_to(ROOT) or work.exists():
@@ -162,6 +167,7 @@ def main():
            '--qdrant', work/'qdrant', '--haystack-wheels', work/'haystack', '--pmd-release', work/'pmd.zip',
            *(native_inputs(args.native_inputs.resolve()) if args.native_inputs else []),
            *(['--owned-source-kit', args.owned_source_kit.resolve()] if args.owned_source_kit else []),
+           *[value for group, path in sorted(kits.items()) for value in ('--' + group + '-native-kit', path)],
            *(['--fork-headers'] if args.fork_headers else []),
            *(['--gosec-kit', args.gosec_kit.resolve()] if args.gosec_kit else []),
            *(['--score-kit', args.score_kit.resolve()] if args.score_kit else []),

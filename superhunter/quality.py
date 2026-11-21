@@ -1766,10 +1766,14 @@ REQUIRED_TESTS += (
 
 COMPONENTS['product_review'] = {
     'files': [*PRODUCT_DATA_FILES,
+              'product_native_capabilities.py', 'product_evm_native.py', 'product_evm_native_worker.py',
+              'product_web_native.py', 'product_web_native_worker.py', 'product_static_native.py',
+              'product_slither_native.py', 'product_slither_native_worker.py', 'product_slither_native_network.py',
+              'product_secrets_native.py',
               'product_source_references.py', 'product_source_audit.py', 'product_remote_roots.py',
               'product_portable_roots.py', 'tools/pack_remote_inputs.py', 'product_header_digest.py',
               'product_fork_headers.py', 'tools/audit_tree_metadata.py', 'product_assurance_notices.py',
-              'tools/replay_review_115.py', 'tools/verify_review_115.py',
+              'tools/replay_review_115.py', 'tools/verify_review_115.py', 'tools/verify_native_session.py',
               'product_score_comparison.py', 'product_scores_worker.py',
               'tools/fetch_root_manifests.py', 'tools/prepare_owned_source_checks.py',
               'smartbugs_region.py', 'product_owned_source_checks.py', 'product_matrix.py',
@@ -1786,7 +1790,10 @@ COMPONENTS['product_review'] = {
               'product_notice_search.py', 'product_notice_worker.py', 'product_licenses.py',
               'product_notices.py', 'product_guac.py', 'product_guac_worker.py', 'product_cdxgen.py',
               'product_census_graph.py', 'product_reasoning.py', 'product_review.py', 'product_supply_review.py'],
-    'tests': ['test_product_review.', 'test_product_supply.', 'test_product_catalog_session.', 'test_product_source_audit.'],
+    'tests': ['test_product_review.', 'test_product_supply.', 'test_product_catalog_session.', 'test_product_source_audit.',
+              'test_product_native_capabilities.', 'test_product_evm_native.', 'test_product_web_native.',
+              'test_product_static_native.', 'test_product_slither_native.', 'test_product_secrets_native.',
+              'test_product_source_parallel.', 'test_product_inventory_parallel.', 'test_product_license_session.'],
     'depends': ['portfolio_inventory', 'bundle_recovery', 'owned_capture', 'privacy', 'io']}
 COMPONENTS['entrypoints']['depends'].append('product_review')
 REQUIRED_TESTS += (
