@@ -4,6 +4,8 @@ Desde la CLI de SuperHunter se puede consultar el catálogo de 200 proyectos, el
 
 La revisión básica utiliza dos productores. Syft extrae paquetes y relaciones de los manifiestos copiados a un directorio temporal. cvc5 comprueba si los perfiles con versiones incompatibles pueden compartir un número dado de entornos. Las opciones descritas más abajo añaden las observaciones de proveedores, SBOM, relaciones y licencias a la misma consulta. Pertenecer al catálogo no acredita una ejecución.
 
+La [sesión conjunta de los 200 repositorios](CATALOG_SESSION.md) reúne los avisos de origen, los metadatos de Solidity y el archivo de prueba del encabezado de Census. La clave `integration-coverage` muestra el avance con su procedencia para cada ID.
+
 ## Reproducir
 
 Usar Python 3.11 o posterior. Para producir evidencia se requieren Linux x86-64 y los dos ejecutables de las distribuciones indicadas. La CLI comprueba el SHA-256 de la copia privada que ejecuta. El verificador y el lector funcionan con la biblioteca estándar de Python. Los datos de entrada son los archivos del checkout local.

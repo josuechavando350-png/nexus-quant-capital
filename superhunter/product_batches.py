@@ -8,6 +8,11 @@ BASELINE_IDS = frozenset((24, 30, 41, 45, 111, 131, 136, 140, 142, 143, 147, 150
 # Preserve the 15 baseline identities and prioritize inventory, code parsing and review work.
 CATEGORIES = ('SUPPLY', 'CODIGO', 'FORMAL', 'OBSERVACION', 'METODO', 'BINARIOS', 'AGENTES')
 RECEIPTS = {
+    'ethers-io/ethers.js': 'census_header_evidence', 'wevm/viem': 'census_header_evidence',
+    'ethereumjs/ethereumjs-monorepo': 'census_header_evidence',
+    'foundry-rs/foundry': 'solidity_metadata_evidence',
+    'ack3-ai/wake': 'solidity_metadata_evidence',
+    'argotorg/solidity': 'solidity_metadata_evidence',
     'google/osv-scanner': 'spdx_identifier_evidence',
     'anchore/syft': 'evidence', 'cvc5/cvc5': 'evidence',
     'tree-sitter/tree-sitter': 'sbom_location_evidence', 'ast-grep/ast-grep': 'registry_checksum_evidence',
@@ -51,6 +56,8 @@ def receipt(row):
     name = row['repository'].casefold()
     if name in RECEIPTS and row.get(RECEIPTS[name]):
         return 'executable', RECEIPTS[name]
+    if name in ('ethereum/eips', 'ethereum/execution-specs') and row.get('census_header_reference'):
+        return 'reference_data', 'census_header_reference'
     role = row.get('supply_role') or {}
     if name == 'in-toto/in-toto' and role.get('role') == 'executable' and role.get('artifact') == 'supply.link':
         return 'executable', 'supply.link'
@@ -71,3 +78,38 @@ def summary(index, number):
     return {'batch': number, 'identities': identities, 'executable': counts['executable'],
             'reference_data': counts['reference_data'], 'pending': counts['pending'],
             'with_evidence': len(identities) - counts['pending']}
+
+
+def coverage(index):
+    """Join the pinned PR 111 evidence and this session by catalog ID, retaining both origins."""
+    from .product_review import ROOT, sha
+    from .safe_io import read_artifact, strict_json
+
+    raw = read_artifact(ROOT, 'superhunter/product_supply/coverage-d94b58f.json')
+    if sha(raw) != 'b47f69c24ee583c5e8ef61954439b56818bccf6e3fa35a60bf099381d10bc1bd':
+        raise EvidenceError('unexpected historical coverage snapshot')
+    history = strict_json(raw)
+    prior = {row['catalog_id']: row for row in history['receipts']}
+    entries = []
+    cohort_ids = {r['catalog_id']: number for number, rows in enumerate(cohorts(index.repos.values()), start=1)
+                  for r in rows}
+    for item in sorted(index.repos.values(), key=lambda r: r['catalog_id']):
+        row = index.lookup(item['repository'])
+        ident = row['catalog_id']
+        previous = prior.get(ident)
+        role, proof = receipt(row)
+        if previous and (previous['repository'] != row['repository'] or
+                         (role != 'pending' and previous['role'] != role)):
+            raise EvidenceError('inconsistent historical and session coverage')
+        entries.append({'catalog_id': ident, 'repository': row['repository'], 'batch': cohort_ids[ident],
+                        'prior_receipt': previous, 'session_role': role, 'session_receipt': proof,
+                        'observed_role': previous['role'] if previous else role,
+                        'upstream_notice_verified': 'upstream_notice' in row})
+    counts = Counter(r['observed_role'] for r in entries)
+    return {'catalog_count': len(entries), 'prior_commit': history['commit'],
+            'prior_transcript_sha256': history['transcript_sha256'], 'prior_with_receipts': len(prior),
+            'session_with_receipts': sum(r['session_role'] != 'pending' for r in entries),
+            'with_receipts_in_either': len(entries) - counts['pending'],
+            'executable_in_either': counts['executable'], 'reference_data_in_either': counts['reference_data'],
+            'pending': counts['pending'], 'verified_upstream_notices': sum(r['upstream_notice_verified'] for r in entries),
+            'identities': entries}
