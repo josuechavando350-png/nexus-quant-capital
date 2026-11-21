@@ -53,7 +53,7 @@ def capture_inputs():
     return {dest: read_artifact(ROOT, src) for dest, src in INPUTS.items()}
 
 
-def copy_release(name, source, dest, expected_digest):
+def copy_release(name, source, dest, expected_digest, *, limit=192 * 1024**2, executable=True):
     """Only the private copy with the reviewed upstream digest is executable."""
     digest = hashlib.sha256()
     fd = os.open(source, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
@@ -63,13 +63,13 @@ def copy_release(name, source, dest, expected_digest):
         total = 0
         while block := original.read(1024 * 1024):
             total += len(block)
-            if total > 192 * 1024 * 1024:
+            if total > limit:
                 raise EvidenceError(f'{name} exceeds release size limit')
             output.write(block)
             digest.update(block)
     if digest.hexdigest() != expected_digest:
         raise EvidenceError(f'{name} release digest mismatch')
-    dest.chmod(0o500)
+    dest.chmod(0o500 if executable else 0o400)
 
 
 def copy_tool(name, source, dest):
@@ -256,6 +256,10 @@ def main(argv):
         if command == 'query-product':
             parser.add_argument('--guac-bundle', type=Path, help='verify GUAC evidence against CycloneDX')
             parser.add_argument('--cdxgen-bundle', type=Path, help='verify CycloneDX evidence for cdxgen')
+            parser.add_argument('--scancode-release', type=Path, help='official ScanCode 32.5.0 Linux Python 3.12 archive')
+            parser.add_argument('--cargo-deny', type=Path, help='compare licenses with cargo-deny 0.22.0')
+            parser.add_argument('--rust-bin', type=Path, help='directory of the pinned Cargo and rustc binaries')
+            parser.add_argument('--cargo-home', type=Path, help='prepopulated offline Cargo home')
             parser.add_argument('--notice-wheels', type=Path, help='inspect public notices in local supply wheels')
             parser.add_argument('--export-notices', type=Path, help='write verified notices into a new directory')
             parser.add_argument('--supply', type=Path, help='add verified identities and supply evidence')
@@ -280,6 +284,21 @@ def main(argv):
                     from .product_notices import collect
                     notices, public_files = collect(opts.notice_wheels, wheel_lock)
             index = ProductIndex(result, supply=supply, notices=notices)
+            if opts.scancode_release:
+                from .product_licenses import scan
+                if not opts.notice_wheels:
+                    raise EvidenceError('ScanCode requires --notice-wheels and --supply')
+                observations = scan(opts.scancode_release, public_files)
+                index.repos['aboutcode-org/scancode-toolkit']['license_evidence'] = observations
+                for package in notices.values():
+                    for notice in package['notices']:
+                        notice['detected_expression'] = observations['notices'][notice['file']]['detected_expression']
+            cargo_args = (opts.cargo_deny, opts.rust_bin, opts.cargo_home)
+            if any(cargo_args):
+                from .product_licenses import check_cargo
+                if not all(cargo_args):
+                    raise EvidenceError('cargo-deny requires --cargo-deny, --rust-bin and --cargo-home together')
+                index.repos['embarkstudios/cargo-deny']['license_evidence'] = check_cargo(*cargo_args, result)
             if opts.cdxgen_bundle:
                 from .product_cdxgen import verify_with_files as verify_cdxgen
                 evidence, cdx_files = verify_cdxgen(opts.cdxgen_bundle, result)

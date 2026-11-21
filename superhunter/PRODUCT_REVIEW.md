@@ -98,3 +98,18 @@ python3 -m superhunter query-product --bundle "$evidence_dir" --supply "$supply_
 ```
 
 La exportación escribe los textos originales y un índice que vincula cada texto con su ruta dentro del wheel, la versión y los hashes de ambos. Omitir `--export-notices` permite consultar sin escribir archivos. El campo `declared_license_expression` reproduce la declaración del proveedor cuando existe. Las versiones de los diez wheels corresponden al entorno de revisión de proveedores de NQC; cada perfil de la aplicación conserva sus propios pines. El reconocimiento independiente con ScanCode sigue pendiente.
+
+## Reproducir el reconocimiento de licencias
+
+Preparar fuera del checkout la distribución oficial de ScanCode Toolkit 32.5.0 para Linux/Python 3.12 (`scancode-toolkit-v32.5.0_py3.12-linux.tar.gz`), el binario cargo-deny 0.22.0 para x86_64 Linux musl y el toolchain Rust 1.98.1 de Census. Descargar a un CARGO_HOME dedicado las dependencias fijadas con `cargo fetch --manifest-path nqc-census/Cargo.toml --locked`. La revisión posterior funciona con la red deshabilitada. [ScanCode 32.5.0](https://github.com/aboutcode-org/scancode-toolkit/releases/tag/v32.5.0) · [cargo-deny 0.22.0](https://github.com/EmbarkStudios/cargo-deny/releases/tag/0.22.0)
+
+```bash
+python3.12 -m superhunter query-product --bundle "$evidence_dir" --supply "$supply_work/supply" \
+  --notice-wheels /ruta/wheels --scancode-release /ruta/scancode-toolkit-v32.5.0_py3.12-linux.tar.gz \
+  --cargo-deny /ruta/cargo-deny --rust-bin /ruta/toolchain/bin --cargo-home /ruta/cargo-home \
+  aboutcode-org/scancode-toolkit EmbarkStudios/cargo-deny cffi
+```
+
+La CLI verifica el archivo de distribución de ScanCode antes de extraerlo y configurar su entorno privado. Sólo presenta al escáner los bytes públicos seleccionados de los wheels verificados. Coteja la cobertura, el hash por archivo, la ruta y las líneas de cada coincidencia. La respuesta conserva las referencias desconocidas que emite ScanCode. Un aviso de autoría puede mencionar licencias de otros componentes; las coincidencias describen ese texto.
+
+Para Rust se ejecuta `cargo-deny --frozen list --layout crate --format json` y se comprueba cada identidad, versión y lista de licencias contra el manifiesto propio o el Cargo.toml de la distribución cuyo SHA-256 figura en Cargo.lock. El campo `declared_expression` conserva las alternativas originales y vale `null` cuando falta la declaración. La consulta de cada herramienta admite ejecución independiente. En una sesión con varias claves, cada productor se ejecuta una vez.

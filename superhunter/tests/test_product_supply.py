@@ -106,3 +106,46 @@ class NoticeTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'ambiguous'):
             wheel_notices(self.wheel({**entries, meta: headers + b'License-File: LICENSE\n',
                                       prefix + 'licenses/LICENSE': b'other'}), 'example', '1')
+
+
+class NativeLicenseTests(unittest.TestCase):
+    def test_scancode_matches_bind_paths_digests_and_line_numbers(self):
+        from copy import deepcopy
+        from superhunter.product_licenses import scan_result
+        data = b'first\nsecond\n'
+        match = {'license_expression_spdx': 'MIT', 'from_file': 'notices/license.txt',
+                 'start_line': 1, 'end_line': 2, 'rule_identifier': 'sample'}
+        file = {'type': 'file', 'path': 'notices/license.txt', 'name': 'license.txt',
+                'sha256': product.sha(data), 'scan_errors': [], 'detected_license_expression_spdx': 'MIT',
+                'license_detections': [{'matches': [match]}]}
+        report = {'headers': [{'tool_name': 'scancode-toolkit', 'tool_version': '32.5.0', 'errors': []}],
+                  'files': [file]}
+        notices = {'license.txt': data}
+        self.assertEqual(scan_result(report, notices)['notices']['license.txt']['detected_expression'], 'MIT')
+        for field, value in [('path', 'elsewhere/license.txt'), ('sha256', '0'*64), ('scan_errors', ['error'])]:
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                scan_result({**report, 'files': [{**file, field: value}]}, notices)
+        for files in ([], [file, file]):
+            with self.assertRaises(ValueError):
+                scan_result({**report, 'files': files}, notices)
+        bad = deepcopy(report)
+        bad['files'][0]['license_detections'][0]['matches'][0]['end_line'] = 3
+        with self.assertRaisesRegex(ValueError, 'outside'):
+            scan_result(bad, notices)
+
+    def test_cargo_comparison_retains_missing_license_and_checks_every_crate(self):
+        from superhunter.product_licenses import alternatives, cargo_result
+        workspace = Path('/example/nqc-census')
+        inputs = {'nqc-census/Cargo.lock': b'[[package]]\nname="one"\nversion="1"',
+                  'nqc-census/Cargo.toml': b'[workspace]\nmembers=["crates/one"]\n[workspace.package]\nversion="1"',
+                  'nqc-census/crates/one/Cargo.toml': b'[package]\nname="one"\nversion.workspace=true'}
+        key = 'one 1 path+file:///example/nqc-census/crates/one'
+        row, = cargo_result({key: {'licenses': []}}, inputs, workspace, Path('/unused'))['packages']
+        self.assertIsNone(row['declared_expression'])
+        self.assertTrue(row['workspace_member'])
+        for invalid in ({}, {key: {'licenses': ['MIT']}}, {key + '-other': {'licenses': []}}):
+            with self.assertRaisesRegex(ValueError, 'disagrees'):
+                cargo_result(invalid, inputs, workspace, Path('/unused'))
+        self.assertEqual(alternatives('MIT/Apache-2.0'), alternatives('Apache-2.0 OR MIT'))
+        with self.assertRaisesRegex(ValueError, 'unsupported'):
+            alternatives('MIT AND Apache-2.0')
