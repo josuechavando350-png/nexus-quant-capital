@@ -154,6 +154,7 @@ QA_MODULE_GROUPS = (
         'test_owned_coverage_link',
         'test_portfolio_inventory',
         'test_product_review',
+        'test_product_grpc_schema_native',
         'test_consolidated_evidence_verifier',
         'test_product_consolidated_operations',
         'test_product_contract_properties_native',

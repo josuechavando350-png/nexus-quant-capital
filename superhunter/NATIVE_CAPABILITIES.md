@@ -1,6 +1,10 @@
 # Capacidades nativas de SUPERHUNTER
 
-El registro actual contiene **15 grupos y 28 identidades**: 27 ejecutan código y una aporta reglas consumidas. Cada productor nuevo tiene controles propios reproducidos. El total conjunto con los dominios de Astra se acredita mediante una sola sesión y una matriz que conserva todas las operaciones sin duplicar identidades.
+El registro actual contiene **16 grupos y 29 identidades**: 28 ejecutan código y una aporta reglas consumidas. Cada productor nuevo tiene controles propios reproducidos. El total conjunto con los dominios de Astra se acredita mediante una sola sesión y una matriz que conserva todas las operaciones sin duplicar identidades.
+
+El checkpoint conjunto `37a0d5261ae52ece080d18b294042931112f2861` acredita **139/200 identidades** en 222 respuestas: 101 ejecutables, 38 referencias, 149 operaciones y diez identidades con operaciones múltiples. Los 17 dominios y 15 grupos nativos seleccionados terminaron sin bloqueos; el verificador rechazó 20 alteraciones. [Aceptación conjunta](product_supply/consolidated-acceptance-139.json) · [Matriz de 200](INTEGRATION_STATUS_200.md). La segunda ejecución del mismo commit fue aceptada y sus 222 respuestas coinciden byte por byte.
+
+grpcurl se añade después de ese checkpoint. Tiene dos replays nativos y una sesión real de dos consultas mediante `query-product`, que acredita su operación y su identidad 69. Esto no se presenta como una ejecución conjunta de 140 identidades. [Recibo por el producto](product_supply/grpc-schema-native-product-session.json).
 
 El checkpoint publicado `b87788962072578f9fb7ec5b584a06868639d89a` tiene una ejecución completa aceptada: **84/200 participaciones**, 72 de ejecución y 12 de referencia, con 221 respuestas, 200 fuentes directas y ocho alteraciones rechazadas. Usó los 12 grupos y 25 identidades del contrato histórico 84. La segunda ejecución desde otro checkout del mismo commit terminó con `OSError` antes de emitir el expediente completo; no se acredita reproducción byte por byte y la causa concreta permanece sin determinar. [Aceptación y fallo conservados](product_supply/native-acceptance-84.json) · [Transcripción de 84](product_supply/native-session-84.json).
 
@@ -46,10 +50,11 @@ La selección de los grupos se configura en un único archivo JSON mediante `--n
 | OpenZeppelin Ethernaut | Ejecuta sus bibliotecas RLP sin cambios para leer el encabezado histórico de Census y controles de longitud, listas y truncación; una comprobación separada rechaza las codificaciones no canónicas que el lector admite. |
 | Mewt | Produce cuatro mutaciones aritméticas propias; las pruebas fuertes matan cuatro y una prueba débil deja sobrevivir la multiplicación. Ocho repeticiones por compilación directa corroboran el resultado. |
 | Atheris | El fuzzer nativo encuentra un desbordamiento contable introducido en un parser propio, guarda el corpus, reproduce el fallo y comprueba la reparación durante 512 callbacks. |
+| grpcurl | Lee servicios, métodos y tipos de dos esquemas propios, detecta cambios de streaming y de codificación, y contrasta sus descriptores con un decodificador independiente; no abre un servidor ni invoca RPC. |
 
 Las inferencias de argumentos/mutabilidad que EVMole no resuelve se conservan como incertidumbre. Los releases binarios y las revisiones del catálogo se distinguen; no se afirma que todo binario haya sido reconstruido desde el commit del catálogo. En Hardhat, 299 de 300 fuentes TypeScript comparadas coinciden con el catálogo; la diferencia del campo `test` frente a `tests` queda registrada. Las 132 fuentes comparadas de OpenZeppelin coinciden. La repetición en un mismo host demuestra reproducibilidad de estos controles, sin autenticar al productor ni establecer precisión general.
 
-Las 28 identidades conservan sus ámbitos específicos. Una prueba de formato HTTP no acredita toda la capacidad de proxy, un control de almacenamiento no certifica la seguridad completa de una actualización y una clasificación IAM no sustituye la evaluación de autorización efectiva. Si otro grupo ya usa el mismo repositorio, sus operaciones se conservan pero la identidad se cuenta una sola vez en la consolidación.
+Las 29 identidades conservan sus ámbitos específicos. Una prueba de formato HTTP no acredita toda la capacidad de proxy, un control de almacenamiento no certifica la seguridad completa de una actualización y una clasificación IAM no sustituye la evaluación de autorización efectiva. Si otro grupo ya usa el mismo repositorio, sus operaciones se conservan pero la identidad se cuenta una sola vez en la consolidación.
 
 ## Reproducir
 
@@ -70,6 +75,7 @@ Para comprobar los expedientes archivados, sin afirmar nuevas ejecuciones de mot
 ```sh
 python3.12 -B -m superhunter.tools.verify_native_session --archive --contract-version 70 --check-controls superhunter/product_supply/native-session-70.json
 python3.12 -B -m superhunter.tools.verify_native_session --archive --contract-version 84 --check-controls superhunter/product_supply/native-session-84.json
+python3.12 -B -m superhunter.tools.verify_native_session --archive --contract-version 139 --check-controls superhunter/product_supply/native-session-139.json
 ```
 
 [Registro de la ejecución](product_supply/native-acceptance-70.json) · [Transcripción completa comprimida](product_supply/native-session-70.json) · [Matriz de las 200 identidades](INTEGRATION_STATUS_200.md) · [Fuentes y alcance de Git](SOURCE_CHECKOUT.md).

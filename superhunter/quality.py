@@ -445,6 +445,28 @@ PRODUCT_DATA_FILES += (
 )
 
 
+PRODUCT_DATA_FILES += (
+    'product_supply/native-capability-contracts-139.json',
+    'product_supply/grpc-schema-native-binary-build.json',
+    'product_supply/grpc-schema-native-build-log.txt',
+    'product_supply/grpc-schema-native-build-script.txt',
+    'product_supply/grpc-schema-native-build.json',
+    'product_supply/grpc-schema-native-license.txt',
+    'product_supply/grpc-schema-native-owned.json',
+    'product_supply/grpc-schema-native-pins.json',
+    'product_supply/grpc-schema-native-provenance.json',
+    'product_supply/grpc-schema-native-rebuild.txt',
+    'product_supply/grpc-schema-native-receipt.json',
+    'product_supply/grpc-schema-native-result.json',
+    'product_supply/grpc-schema-native-sample.json',
+    'product_supply/grpc-schema-native-sources.json',
+)
+
+PRODUCT_DATA_FILES += ('product_supply/native-session-139.json',
+                       'product_supply/component-control-contracts-139.json',
+                       'product_supply/consolidated-acceptance-139.json',
+                       'product_supply/grpc-schema-native-product-session.json')
+
 def source_snapshot(root: Path = ROOT) -> dict[str, str]:
     """Capture executable package/test bytes and policy inputs; reject symlinks."""
     def scan_failed(error: OSError) -> None:
@@ -1934,7 +1956,7 @@ COMPONENTS['product_review'] = {
               'product_java_native.py',
               'product_upgrade_layout_native.py',
               'product_upgrade_layout_native_worker.py',
-              'product_rlp_library_native.py', 'product_mutation_native.py',
+              'product_rlp_library_native.py', 'product_mutation_native.py', 'product_grpc_schema_native.py',
               'product_mutation_native_worker.py', 'product_python_fuzz_native.py',
               'product_python_fuzz_native_worker.py',
               'infra_batch_config_worker.py', 'infra_batch_pcap_worker.py', 'passive_garak_sampling.py',
@@ -1990,7 +2012,7 @@ COMPONENTS['product_review'] = {
               'test_product_iam_native.',
               'test_product_java_native.',
               'test_product_upgrade_layout_native.',
-              'test_product_rlp_library_native.', 'test_product_mutation_native.',
+              'test_product_rlp_library_native.', 'test_product_mutation_native.', 'test_product_grpc_schema_native.',
               'test_product_python_fuzz_native.',
               'test_infra_batch_config.', 'test_infra_batch_journal.', 'test_infra_batch_pcap.',
               'test_product_attestations_batch.', 'test_product_build_compatibility.',

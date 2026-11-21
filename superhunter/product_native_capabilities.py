@@ -9,8 +9,10 @@ from .product_review import ROOT, sha
 from .safe_io import canonical, read_artifact, strict_json
 
 CONTRACT = 'superhunter/product_supply/native-capability-contracts.json'
-CONTRACT_SHA = 'e624bd12b6df9181e1a8db4520700267c57e9e566fd53d9f2d4aee28f10af3a4'
+CONTRACT_SHA = '7a1a414d48b995ac310b17f1e15d722001a3c0a510f3dcf5f43dedb6ae90e6ac'
 HISTORICAL_CONTRACTS = {
+    139: ('superhunter/product_supply/native-capability-contracts-139.json',
+          'e624bd12b6df9181e1a8db4520700267c57e9e566fd53d9f2d4aee28f10af3a4'),
     84: ('superhunter/product_supply/native-capability-contracts-84.json',
          '664d10946c40e197b443d0d9f745c72e5f6425e74662a403e84419fa1e9f6a8f'),
     70: ('superhunter/product_supply/native-capability-contracts-70.json',
@@ -23,7 +25,7 @@ MODULES = {'evm': 'product_evm_native', 'web': 'product_web_native', 'static': '
            'properties': 'product_contract_properties_native', 'iam': 'product_iam_native',
            'upgrades': 'product_upgrade_layout_native',
            'rlp': 'product_rlp_library_native', 'mutation': 'product_mutation_native',
-           'python_fuzz': 'product_python_fuzz_native'}
+           'python_fuzz': 'product_python_fuzz_native', 'grpc': 'product_grpc_schema_native'}
 
 
 def add_arguments(parser):
