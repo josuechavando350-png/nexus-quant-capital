@@ -6,6 +6,10 @@ Los PR [118](https://github.com/josuechavando350-png/nexus-quant-capital/pull/11
 
 El [acta de las dos ejecuciones](product_supply/consolidated-acceptance/acceptance.json) vincula el [productor fae41570](https://github.com/josuechavando350-png/nexus-quant-capital/commit/fae415708eccc117dd809036fcd4df09056777c5) con los árboles Git, las entradas y las transcripciones. Cada checkout emitió 222 respuestas con la misma huella `2c7e58d369f36c9461497824eb81b0043fd4324dba6927bc7670706ee09cb63b`. La comprobación estricta acreditó 128 identidades distintas, 89 con ejecución, 39 con referencias consumidas y 137 operaciones en total. Se conservaron las 106 identidades y 110 operaciones históricas.
 
+## Resultado publicado de 9 grupos
+
+El [acta de las dos ejecuciones](product_supply/consolidated-acceptance-accounting/acceptance.json) vincula el [productor 27fdac61](https://github.com/josuechavando350-png/nexus-quant-capital/commit/27fdac61b21f607325053fc3681e6e079328e9f1) con los árboles Git, las entradas y las transcripciones. Cada checkout emitió 222 respuestas con la misma huella `ea091d5b93821de6557f4c84a5f7d8c8846245e0d5586f8059d0b60fc8261400`. La comprobación estricta acreditó 129 identidades distintas, 91 con ejecución, 38 con referencias consumidas y 139 operaciones en total. Se conservaron las 106 identidades y 110 operaciones históricas.
+
 ## Evidencia recuperada en el PR 120
 
 La rama de desarrollo `feat/superhunter-consolidated-product` recuperó el árbol `58e2535c45c195bbf8980c5af01ad0f3fc6de66e` del checkout `1edb169`. Los dos expedientes históricos se pueden recontar sin instalar herramientas externas. [PR 120](https://github.com/josuechavando350-png/nexus-quant-capital/pull/120) · [Matriz de los 200](INTEGRATION_STATUS_200.md)
@@ -44,7 +48,7 @@ Preparar los [insumos históricos](OFFLINE_SOURCE_AND_GO.md), los [dominios de c
 
 El perfil opcional de nueve grupos añade diez comprobaciones contables sobre tokens de prueba fijos. Seis comprueban saldo y oferta con reglas de Crytic y cuatro comprueban comisiones y transferencias con las simulaciones de Immunefi. En la misma invocación, añadir `--properties-native-kit "$NATIVE_KIT_ROOT/properties"`, o añadir `"properties": "../native-kits/properties"` al manifiesto de los ocho kits. Las rutas del manifiesto se resuelven desde su propio directorio. La [receta del kit contable](product_supply/contract-properties-native-build.json) enumera compiladores, fuentes, revisiones, hashes y rutas.
 
-Dos ejecuciones aisladas del grupo contable produjeron los mismos resultados para sus diez pruebas y el mismo [registro de dos operaciones](product_supply/contract-properties-native-acceptance.json). El conteo conjunto de la versión de nueve grupos requiere dos sesiones completas del producto.
+Dos ejecuciones aisladas del grupo contable produjeron los mismos resultados para sus diez pruebas y el mismo [registro de dos operaciones](product_supply/contract-properties-native-acceptance.json). La [aceptación conjunta de los nueve grupos](product_supply/consolidated-acceptance-accounting/acceptance.json) contiene las dos sesiones completas del producto.
 
 Cada perfil exige exactamente sus grupos y contrasta los recibos de cada identidad. Las dos transcripciones del perfil de nueve grupos se comprueban con este comando.
 
