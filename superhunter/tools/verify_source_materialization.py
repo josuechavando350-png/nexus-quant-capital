@@ -10,6 +10,7 @@ import zlib
 
 from ..product_review import ROOT, sha
 from ..product_sources import git, gitlinks
+from ..product_source_audit import SNAPSHOT, SNAPSHOT_SHA
 from ..product_upstream_notices import sources
 from ..repository_boundary import git_object
 from ..safe_io import canonical, read_artifact, strict_json
@@ -136,11 +137,153 @@ def compare_local(workspace):
             'local_check_scope': 'historical superproject, directory identity, checked-out HEAD and root tree'}
 
 
+def local_path(workspace, path):
+    """Reject traversal and symlinks in any component of an observed local path."""
+    if not path.is_relative_to(workspace) or path.resolve() != path:
+        raise ValueError('dependency observation leaves its physical workspace')
+    return path
+
+
+def git_directory(workspace, checkout):
+    marker = local_path(workspace, checkout/'.git')
+    if marker.is_file():
+        record = read_artifact(workspace, str(marker.relative_to(workspace))).decode().splitlines()
+        if len(record) != 1 or not record[0].startswith('gitdir: '):
+            raise ValueError('invalid Git directory marker')
+        marker = local_path(workspace, (checkout/record[0][8:]).resolve(strict=True))
+    if not marker.is_dir():
+        raise ValueError('direct checkout has no Git directory')
+    return marker
+
+
+def common_storage(workspace, gitdir):
+    shared = local_git(gitdir, 'rev-parse', '--path-format=absolute', '--git-common-dir').decode().strip()
+    store = local_path(workspace, Path(shared))
+    # An alternate object database can lie outside the supplied checkout collection.
+    # It needs a separate inventory before its objects can be attributed to these stores.
+    for name in ('alternates', 'http-alternates'):
+        alternate = local_path(workspace, store/'objects/info'/name)
+        if alternate.exists():
+            raise ValueError('Git alternate storage requires a separate scope')
+    return store
+
+
+def local_git(gitdir, *args, query=None):
+    env = {'PATH': '/usr/bin:/bin', 'HOME': '/dev/null', 'LC_ALL': 'C',
+           'GIT_CONFIG_NOSYSTEM': '1', 'GIT_CONFIG_GLOBAL': '/dev/null',
+           'GIT_ALLOW_PROTOCOL': '', 'GIT_NO_LAZY_FETCH': '1', 'GIT_TERMINAL_PROMPT': '0'}
+    return subprocess.check_output(['/usr/bin/git', '--no-optional-locks', '--no-replace-objects',
+                                   '--literal-pathspecs', '--git-dir', str(gitdir), *args],
+                                   env=env, input=query, stderr=subprocess.PIPE, timeout=60)
+
+
+def local_payload(workspace, path, pointer):
+    try:
+        data = read_artifact(workspace, str(local_path(workspace, path).relative_to(workspace)))
+    except FileNotFoundError:
+        return 'absent'
+    if len(data) == pointer['bytes'] and sha(data) == pointer['oid']:
+        return 'verified_payload'
+    if data == pointer_bytes(pointer):
+        return 'pointer_only'
+    raise ValueError('local LFS candidate differs from the pinned pointer and payload')
+
+
+def pointer_bytes(pointer):
+    return (f'version https://git-lfs.github.com/spec/v1\noid sha256:{pointer["oid"]}\n'
+            f'size {pointer["bytes"]}\n').encode()
+
+
+def nested_artifacts(workspace):
+    """Observe pinned trees, worktree entries and object visibility without filling a cache."""
+    raw = read_artifact(ROOT, SNAPSHOT)
+    if sha(raw) != SNAPSHOT_SHA:
+        raise ValueError('direct source inventory differs from its reviewed bytes')
+    rows = strict_json(raw)['entries']
+    oids = sorted({oid for row in rows for oid in row['contents']['nested_gitlinks'].values()})
+    query = b''.join((oid + '\n').encode() for oid in oids)
+    hits, links, payloads, stores, nested_stores = {}, [], [], [], []
+    for authority, row in zip(expected_rows(), rows, strict=True):
+        if (row['id'], row['repository'], row['revision'], row['tree']) != (
+                authority['catalog_id'], authority['repository'], authority['commit'], authority['tree']):
+            raise ValueError('direct catalog identity or tree differs')
+        checkout = local_path(workspace, workspace/authority['path'])
+        gitdir = git_directory(workspace, checkout)
+        if local_git(gitdir, 'rev-parse', 'HEAD', 'HEAD^{tree}').decode().splitlines() != [row['revision'], row['tree']]:
+            raise ValueError('direct checkout differs from its catalog revision')
+        store = common_storage(workspace, gitdir)
+        stores.append((row['id'], store))
+        modules = local_path(workspace, store/'modules')
+        if modules.is_dir() and any(modules.iterdir()):
+            nested_stores.append(row['id'])
+        objects = local_git(gitdir, 'cat-file', '--batch-check', query=query).decode().splitlines()
+        for oid, line in zip(oids, objects, strict=True):
+            values = line.split()
+            if values == [oid, 'missing']:
+                continue
+            if len(values) != 3 or values[:2] != [oid, 'commit']:
+                raise ValueError('unexpected Git object type')
+            hits.setdefault(oid, []).append(row['id'])
+        nested = row['contents']['nested_gitlinks']
+        pointers = row['contents']['lfs_pointers']
+        paths = [*nested, *pointers]
+        if not paths:
+            continue
+        entries = local_git(gitdir, 'ls-tree', '-z', row['tree'], '--', *paths).split(b'\0')
+        tree = {path: meta.split() for meta, path in (item.decode().split('\t', 1) for item in entries if item)}
+        if tree.keys() != set(paths):
+            raise ValueError('pinned tree lacks a recorded dependency path')
+        for name, oid in sorted(nested.items()):
+            if tree[name] != ['160000', 'commit', oid]:
+                raise ValueError('gitlink differs from pinned direct tree')
+            folder = local_path(workspace, checkout/name)
+            state = 'missing'
+            if folder.is_dir():
+                state = 'nonempty_unverified' if any(folder.iterdir()) else 'empty'
+                if local_path(workspace, folder/'.git').exists():
+                    head = local_git(git_directory(workspace, folder), 'rev-parse', 'HEAD').decode().strip()
+                    state = 'pinned_head' if head == oid else 'different_head'
+            elif folder.exists():
+                raise ValueError('nested checkout path is not a directory')
+            links.append([row['id'], name, oid, state])
+        for name, pointer in sorted(pointers.items()):
+            meta = tree[name]
+            expected_pointer = pointer_bytes(pointer)
+            if (meta[:2] != ['100644', 'blob'] or meta[2] != git_object('blob', expected_pointer)
+                    or local_git(gitdir, 'cat-file', 'blob', meta[2]) != expected_pointer):
+                raise ValueError('tracked LFS blob differs from its recorded pointer')
+            payloads.append({'id': row['id'], 'path': name, **pointer, 'pointer_blob': meta[2],
+                             'worktree_state': local_payload(workspace, checkout/name, pointer)})
+    if len({store for _, store in stores}) != len(stores):
+        raise ValueError('multiple catalog checkouts share an object database')
+    for pointer in payloads:
+        oid = pointer['oid']
+        cached = {}
+        for number, directory in stores:
+            state = local_payload(workspace, directory/'lfs/objects'/oid[:2]/oid[2:4]/oid, pointer)
+            if state != 'absent':
+                cached[str(number)] = state
+        pointer['canonical_cache_hits_by_catalog_id'] = cached
+    states = sorted({row[3] for row in links})
+    return {'schema_version': 1, 'source_inventory_sha256': SNAPSHOT_SHA, 'direct_object_databases': len(stores),
+            'gitlink_paths': len(links), 'unique_gitlink_commits': len(oids),
+            'gitlink_parent_count': len({row[0] for row in links}),
+            'checkout_states': {state: sum(row[3] == state for row in links) for state in states},
+            'gitlink_path_states_sha256': sha(canonical(links)),
+            'commit_hits_in_direct_object_databases': hits, 'parents_with_separate_module_storage': nested_stores,
+            'lfs': payloads, 'scope': 'Direct catalog object databases, nested working paths and canonical direct LFS caches. Nested HEAD observations identify commits; tracked-file completeness requires a separate comparison.'}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--existing-workspace', type=Path, help='also compare the existing 200-checkout observation workspace')
+    modes = parser.add_mutually_exclusive_group()
+    modes.add_argument('--existing-workspace', type=Path, help='also compare the existing 200-checkout observation workspace')
+    modes.add_argument('--nested-workspace', type=Path, help='observe nested gitlinks and pinned LFS bytes in local direct checkouts')
     args = parser.parse_args()
     try:
+        if args.nested_workspace:
+            sys.stdout.buffer.write(canonical(nested_artifacts(args.nested_workspace.resolve(strict=True))))
+            return 0
         result = verify(unpack_records(), gitlinks(ROOT))
         if args.existing_workspace:
             result.update(compare_local(args.existing_workspace.resolve()))
