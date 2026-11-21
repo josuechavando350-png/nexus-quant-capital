@@ -1,0 +1,24 @@
+import fs from "node:fs";
+import { opcodes, mnemonics, isDup, isSwap, pushWidth, stackPush, stackPop } from "./opcodes.mts";
+
+const inputs = JSON.parse(fs.readFileSync(0, "utf8"));
+const result = [];
+for (const hex of inputs) {
+  const code = Buffer.from(hex, "hex");
+  const instructions = [];
+  for (let pc = 0; pc < code.length;) {
+    const opcode = code[pc];
+    const width = pushWidth(opcode);
+    if (!mnemonics[opcode] || pc + 1 + width > code.length) {
+      instructions.length = 0;
+      break;
+    }
+    let required = stackPop(opcode);
+    if (isDup(opcode)) required = opcode - opcodes.DUP1 + 1;
+    if (isSwap(opcode)) required = opcode - opcodes.SWAP1 + 2;
+    instructions.push([pc, mnemonics[opcode], width, required, stackPush(opcode) - stackPop(opcode)]);
+    pc += width + 1;
+  }
+  result.push(instructions);
+}
+process.stdout.write(JSON.stringify({ instructions: result }));

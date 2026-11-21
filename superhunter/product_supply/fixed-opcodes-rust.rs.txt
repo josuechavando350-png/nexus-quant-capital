@@ -1,0 +1,26 @@
+#[allow(dead_code)]
+mod opcode;
+use std::io::{self, BufRead};
+
+fn decode(hex: &str) -> Option<String> {
+    let code: Vec<u8> = hex.as_bytes().chunks_exact(2).map(|pair| {
+        u8::from_str_radix(std::str::from_utf8(pair).ok()?, 16).ok()
+    }).collect::<Option<_>>()?;
+    let mut pc = 0;
+    let mut lines = Vec::new();
+    while pc < code.len() {
+        let op = opcode::OpCode::new(code[pc])?;
+        let info = op.info();
+        let width = usize::from(info.immediate_size());
+        if pc + 1 + width > code.len() { return None; }
+        lines.push(format!("{pc},{},{width},{},{}", op.as_str(), info.inputs(), info.outputs()));
+        pc += 1 + width;
+    }
+    Some(lines.join(";"))
+}
+
+fn main() {
+    for line in io::stdin().lock().lines() {
+        println!("{}", decode(&line.expect("input")).unwrap_or_default());
+    }
+}
