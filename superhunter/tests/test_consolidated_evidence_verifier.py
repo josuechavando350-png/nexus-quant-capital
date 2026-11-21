@@ -117,7 +117,7 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
 
     def test_historical_matrix_keeps_all_identities_and_both_receipts(self):
         text = renderer.historical_markdown()
-        has_dossier = any((ROOT / path).exists() for path, _ in renderer.PROFILES.values())
+        has_dossier = any((ROOT / path).exists() for path, _, _ in renderer.PROFILES.values())
         published = renderer.accepted_markdown() if has_dossier else text
         self.assertEqual(published.encode(), renderer.MATRIX.read_bytes())
         rows = [line.split(' | ') for line in text.splitlines() if line.startswith('| ') and line[2:3].isdigit()]
@@ -251,9 +251,10 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
         tree = git('rev-parse', 'HEAD^{tree}').decode().strip()
         inputs = {'git_source_tree': git('rev-parse', 'HEAD:upstream').decode().strip(),
                   'native_contract_sha256': verifier.sha(git('show', 'HEAD:superhunter/product_supply/native-capability-contracts.json'))}
-        renderer.require_producer(commit, tree, inputs, 'accounting')
-        with self.assertRaisesRegex(EvidenceError, 'selected acceptance profile'):
-            renderer.require_producer(commit, tree, inputs, 'core-eight')
+        renderer.require_producer(commit, tree, inputs, 'canonical-header')
+        for old in ('accounting', 'core-eight'):
+            with self.subTest(profile=old), self.assertRaisesRegex(EvidenceError, 'selected acceptance profile'):
+                renderer.require_producer(commit, tree, inputs, old)
         with self.assertRaisesRegex(EvidenceError, 'tree differs'):
             renderer.require_producer(commit, '0' * 40, inputs, 'accounting')
         with self.assertRaisesRegex(EvidenceError, 'producer Git objects unavailable'):
@@ -324,8 +325,9 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
     def test_act_requires_exact_recomputed_verdict_and_each_mutation_explanation(self):
         # This control checks only the act comparator. Native acceptance is verified separately.
         verified = native_verifier.verify(self.archive)
-        controls = {'changed_receipt': 'receipt differs', 'removed_operation': 'missing operation'}
+        controls = {name: 'observed rejection' for name in renderer.REQUIRED_MUTATIONS}
         complete = {'independent_verification': verified, 'refuted_mutations': controls}
+        self.assertEqual(len(controls), 20)
         with patch.object(verifier, 'negative_controls', return_value=controls) as recompute:
             renderer.check_act_verdict(complete, verified, self.archive)
             recompute.assert_called_once_with(self.archive)
@@ -337,3 +339,34 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
                            {**controls, 'invented': 'passed'}):
                 with self.subTest(claims=claims), self.assertRaisesRegex(EvidenceError, 'recomputed controls'):
                     renderer.check_act_verdict({**complete, 'refuted_mutations': claims}, verified, self.archive)
+
+    def test_header_is_selected_before_accounting_and_cannot_hide_an_incomplete_dossier(self):
+        with TemporaryDirectory() as tmp, patch.object(renderer, 'ROOT', Path(tmp)):
+            for name in ('core-eight', 'accounting', 'canonical-header'):
+                (Path(tmp) / renderer.PROFILES[name][0]).mkdir(parents=True)
+                self.assertEqual(renderer.selected_profile('latest'), name)
+            for name in renderer.PROFILES:
+                self.assertEqual(renderer.selected_profile(name), name)
+            with self.assertRaises(FileNotFoundError):
+                renderer.accepted_markdown()
+
+    def test_header_profile_never_accepts_a_renamed_older_session(self):
+        act = {'schema_version': 1, 'same_host': True, 'runs': [
+            {'id': n, 'checkout': n + '/checkout', 'result_sha256': n} for n in ('first', 'second')]}
+        result = {'commit': '1' * 40, 'tree': '2' * 40, 'sha256': verifier.sha(self.archive)}
+        recorded = [({'raw_run_inputs_sha256': n}, result, self.archive) for n in ('first', 'second')]
+        with patch.object(renderer, 'read_artifact', return_value=canonical(act)), \
+                patch.object(renderer, 'run_evidence', side_effect=recorded), \
+                patch.object(verifier, 'verify', wraps=verifier.verify) as check, \
+                self.assertRaises(EvidenceError):
+            renderer.accepted_markdown('canonical-header')
+        check.assert_called_once_with(self.archive, result['sha256'], require_canonical_header=True)
+
+    def test_replacing_one_of_twenty_control_names_cannot_qualify_a_dossier(self):
+        controls = dict.fromkeys(renderer.REQUIRED_MUTATIONS, 'recorded rejection')
+        controls['unqualified'] = controls.pop('changed_native_report')
+        self.assertEqual(len(controls), 20)
+        act = {'independent_verification': {}, 'refuted_mutations': controls}
+        with patch.object(verifier, 'negative_controls', return_value=controls), \
+                self.assertRaisesRegex(EvidenceError, 'recomputed controls'):
+            renderer.check_act_verdict(act, {}, self.archive)

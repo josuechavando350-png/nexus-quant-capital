@@ -1,4 +1,10 @@
-Consulte la [consolidación de los PR 118 y 119](CONSOLIDATION.md) para el perfil vigente de fuentes y operaciones. Las entradas siguientes describen sus revisiones históricas.
+# SUPERHUNTER · Punto de reanudación
+
+## Aceptación vigente · 21 de noviembre de 2026
+
+En dos checkouts independientes del [commit público `fae41570`](https://github.com/josuechavando350-png/nexus-quant-capital/commit/fae415708eccc117dd809036fcd4df09056777c5), el perfil de 8 grupos y 17 dominios produjo las mismas 222 respuestas byte por byte. Pasaron 128 de 200 identidades únicas. De ellas, 89 ejecutaron código y 39 aportaron referencias consumidas. La matriz conserva las 137 operaciones y las 110 obligaciones de las 106 identidades históricas. Quedan 72 identidades pendientes. El verificador rechazó las 20 alteraciones de control. Las corridas se hicieron sin red, en una sola máquina. [Matriz de los 200](INTEGRATION_STATUS_200.md) · [Acta, huellas y dos transcripciones](product_supply/consolidated-acceptance/acceptance.json)
+
+Para comprobar el resultado desde un clon con el historial de la rama, ejecutar `python3.12 -B -m superhunter.tools.render_product_matrix --check-acceptance`. La tabla enumera por identidad las operaciones atribuidas a cada productor. El estado de las pruebas globales, las dependencias transitivas y los derechos de redistribución se detalla en [el registro de consolidación](CONSOLIDATION.md).
 
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 

@@ -2,6 +2,10 @@
 
 Los PR [118](https://github.com/josuechavando350-png/nexus-quant-capital/pull/118) y [119](https://github.com/josuechavando350-png/nexus-quant-capital/pull/119) partieron de `672c31392929b8efbd6b3d5983c44e8560232add`. Las dos transcripciones históricas de 99 y 70 participantes compartían 63 identidades. Había 36 exclusivas de la primera y siete exclusivas de la segunda. El total histórico de esas dos ejecuciones era 106. [Archivo de 99](product_supply/component-session-99.json) · [Archivo de 70](product_supply/native-session-70.json)
 
+## Resultado publicado de 8 grupos
+
+El [acta de las dos ejecuciones](product_supply/consolidated-acceptance/acceptance.json) vincula el [productor fae41570](https://github.com/josuechavando350-png/nexus-quant-capital/commit/fae415708eccc117dd809036fcd4df09056777c5) con los árboles Git, las entradas y las transcripciones. Cada checkout emitió 222 respuestas con la misma huella `2c7e58d369f36c9461497824eb81b0043fd4324dba6927bc7670706ee09cb63b`. La comprobación estricta acreditó 128 identidades distintas, 89 con ejecución, 39 con referencias consumidas y 137 operaciones en total. Se conservaron las 106 identidades y 110 operaciones históricas.
+
 ## Evidencia recuperada en el PR 120
 
 La rama de desarrollo `feat/superhunter-consolidated-product` recuperó el árbol `58e2535c45c195bbf8980c5af01ad0f3fc6de66e` del checkout `1edb169`. Los dos expedientes históricos se pueden recontar sin instalar herramientas externas. [PR 120](https://github.com/josuechavando350-png/nexus-quant-capital/pull/120) · [Matriz de los 200](INTEGRATION_STATUS_200.md)
@@ -69,7 +73,7 @@ Los artefactos emitidos por un productor bloqueado carecen de crédito. La repro
 | `tools/verify_review_115.py` | Verificación desde las fuentes fijadas, los resultados individuales y el índice completo. Los perfiles históricos conservan sus contratos originales. |
 | `SOURCE_ASSURANCE.md`, `SOURCE_CHECKOUT.md` | Quedaron versionados el expediente de 153 y el de los 200. Las optimizaciones ya portadas del PR 116 se conservan una sola vez. |
 
-Los [200 checkouts directos](SOURCE_CHECKOUT.md) coinciden con sus revisiones de catálogo. La revisión de avisos alcanza los 200 proyectos. Quedan pendientes la materialización de 141 gitlinks anidados y un objeto Git LFS, y la revisión de obligaciones de distribución del producto y sus dependencias.
+Los [200 checkouts directos](SOURCE_CHECKOUT.md) coinciden con sus revisiones de catálogo. La revisión de avisos alcanza los 200 proyectos. Los 200 almacenes directos conservan sus 141 rutas anidadas sin inicializar. En un espacio separado se verificó el contenido completo del único objeto LFS de Qdrant y una revisión de forge-std compartida por dos rutas. Quedan 139 de las 140 revisiones anidadas distintas por materializar en ese espacio. La revisión de redistribución y dependencias sigue abierta. [Acta de adquisición separada](product_supply/acceptance-120/staged-source-acquisition.json)
 
 ## Restaurar los insumos de inventario
 

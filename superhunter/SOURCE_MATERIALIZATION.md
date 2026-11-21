@@ -4,7 +4,7 @@
 
 El [recibo de almacenamiento](product_supply/acceptance-120/nested-source-storage.json) registra la inspección de los 200 repositorios directos. Los árboles fijan 141 rutas de submódulo en 40 proyectos y apuntan a 140 commits distintos. Los 141 directorios estaban vacíos. Ninguno de los 140 commits apareció en las 200 bases de objetos directas consultadas.
 
-El archivo de prueba de Qdrant contenía los 132 bytes del puntero LFS. Se contrastó su blob Git y se buscaron los 1.752.948 bytes identificados por SHA-256 en el archivo de trabajo y en las 200 cachés LFS canónicas. Su materialización sigue pendiente. Cada resultado describe el almacenamiento local examinado. El conteo funcional se calcula en las sesiones del producto.
+El archivo de prueba de Qdrant contenía los 132 bytes del puntero LFS. Se contrastó su blob Git y se buscaron los 1.752.948 bytes identificados por SHA-256 en el archivo de trabajo y en las 200 cachés LFS canónicas. Esos directorios contenían únicamente el puntero. El conteo funcional se calcula en las sesiones del producto.
 
 Para cotejar el recibo desde el directorio que contiene los 200 checkouts en `upstream/`, ejecutar los siguientes comandos.
 
@@ -12,6 +12,18 @@ Para cotejar el recibo desde el directorio que contiene los 200 checkouts en `up
 unshare --user --map-current-user --net python3.12 -B -m superhunter.tools.verify_source_materialization \
   --nested-workspace "$FUENTES_DIRECTAS" > "$TMPDIR/dependencias-anidadas.json"
 cmp "$TMPDIR/dependencias-anidadas.json" superhunter/product_supply/acceptance-120/nested-source-storage.json
+```
+
+## Adquisición posterior en un directorio separado
+
+El servicio de contenidos de GitHub entregó el objeto LFS de Qdrant para el commit `23065a0bf6857c3e5da45f6c8939cc746cc0580e` mediante una petición pública que devolvió HTTP 200. Sus 1.752.948 bytes producen el SHA-256 especificado en el puntero Git. En ese mismo directorio de adquisición se materializó desde una copia Git local la revisión `3b20d60d14b343ee4f908cb8079495c07f5e8981` de forge-std. Coinciden el índice, los modos y los bytes de sus 53 archivos rastreados. A esa revisión apuntan dos entradas de `lib/forge-std`, en los proyectos 21 y 192. [Recibo de adquisición](product_supply/acceptance-120/staged-source-acquisition.json)
+
+El verificador lee `qdrant-lfs-object`, la observación de descarga `qdrant-response.json` y el checkout `forge-std/` del directorio de adquisición. También coteja el puntero, los gitlinks y los blobs `.gitmodules` de los proyectos de origen. El recibo conserva la observación de la petición HTTP. La reproducción offline verifica el contenido y las referencias Git.
+
+```sh
+unshare --user --map-current-user --net python3.12 -B -m superhunter.tools.verify_source_materialization \
+  --staged-assets "$FUENTES_DIRECTAS" "$ADQUISICION" > "$TMPDIR/adquisicion.json"
+cmp "$TMPDIR/adquisicion.json" superhunter/product_supply/acceptance-120/staged-source-acquisition.json
 ```
 
 **La rama consolidada registra 200 gitlinks.** Su árbol `upstream` es `d8b5a3d79e81e686d4299e40bea64d37824d29fe`. La comprobación contrasta todas sus rutas y revisiones con el catálogo y reconstruye el árbol de las 153 revisiones originales. El [inventario directo vigente](SOURCE_CHECKOUT.md) cubre los 200 repositorios. Las pruebas de procedencia otorgan cero participaciones funcionales.

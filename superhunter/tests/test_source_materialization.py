@@ -11,6 +11,47 @@ from superhunter.tools import verify_source_materialization as audit
 
 
 class NestedArtifactTests(TestCase):
+    def test_acquired_bytes_cannot_overwrite_or_alias_the_direct_sources(self):
+        with TemporaryDirectory() as directory:
+            base = Path(directory).resolve()
+            for workspace, staged in ((base, base), (base, base/'stage'), (base/'direct', base)):
+                with self.subTest(workspace=workspace, staged=staged), \
+                        self.assertRaisesRegex(ValueError, 'separate from the direct checkouts'):
+                    audit.staged_assets(workspace, staged)
+
+    def test_staged_payload_and_observation_are_both_bound_to_the_pinned_pointer(self):
+        payload = b'owned LFS bytes'
+        pointer = {'bytes': len(payload), 'oid': audit.sha(payload)}
+        path = 'tests/e2e_tests/test_data/storage.tar.xz'
+        row = {'repository': 'qdrant/qdrant', 'id': 159, 'tree': '1'*40, 'revision': '2'*40,
+               'contents': {'lfs_pointers': {path: pointer}}}
+        raw = audit.canonical({'entries': [row]})
+        authority = {'catalog_id': 159, 'repository': row['repository'], 'tree': row['tree'],
+                     'commit': row['revision'], 'path': 'qdrant'}
+        def git(directory, command, *args):
+            if command == 'cat-file':
+                return audit.pointer_bytes(pointer)
+            if len(args) == 2:
+                return (row['revision'] + '\n' + row['tree'] + '\n').encode()
+            return audit.git_object('blob', audit.pointer_bytes(pointer)).encode()
+        with TemporaryDirectory() as directory:
+            base = Path(directory).resolve()
+            direct, stage = base/'direct', base/'staged'
+            (direct/'qdrant/.git').mkdir(parents=True)
+            stage.mkdir()
+            (base/'fixture.json').write_bytes(raw)
+            with patch.object(audit, 'ROOT', base), patch.object(audit, 'SNAPSHOT', 'fixture.json'), \
+                    patch.object(audit, 'SNAPSHOT_SHA', audit.sha(raw)), \
+                    patch.object(audit, 'expected_rows', return_value=[authority]), \
+                    patch.object(audit, 'local_git', side_effect=git):
+                (stage/'qdrant-lfs-object').write_bytes(payload[::-1])
+                with self.assertRaisesRegex(ValueError, 'LFS candidate differs'):
+                    audit.staged_assets(direct, stage)
+                (stage/'qdrant-lfs-object').write_bytes(payload)
+                (stage/'qdrant-response.json').write_bytes(audit.canonical({'http_status': 200, 'url': 'untrusted'}))
+                with self.assertRaisesRegex(ValueError, 'observation differs'):
+                    audit.staged_assets(direct, stage)
+
     def test_distinguishes_a_commit_in_another_store_from_a_checkout_and_payload(self):
         with TemporaryDirectory() as directory:
             root = Path(directory).resolve()

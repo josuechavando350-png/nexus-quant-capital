@@ -18,9 +18,20 @@ from superhunter.tools import verify_native_session, verify_review_115
 MATRIX = ROOT / 'superhunter/INTEGRATION_STATUS_200.md'
 DOSSIER = 'superhunter/product_supply/consolidated-acceptance'
 ACCOUNTING_DOSSIER = DOSSIER + '-accounting'
+HEADER_DOSSIER = DOSSIER + '-header'
 # A later default native registry must never redefine an archived nine-group acceptance.
 ACCOUNTING_SHA = '4dfec613c3f4ad64084a7487d4f4d5ecadea8f177f1bcc7283637c4a8adcdefa'
-PROFILES = {'core-eight': (DOSSIER, CORE_EIGHT[1]), 'accounting': (ACCOUNTING_DOSSIER, ACCOUNTING_SHA)}
+HEADER_SHA = 'c3b7c10d1c72aacae73e09c5b96b521baeb9a8e6f4b15b03886ddcb8a16395c3'
+PROFILES = {'core-eight': (DOSSIER, CORE_EIGHT[1], 'require_consolidated'),
+            'accounting': (ACCOUNTING_DOSSIER, ACCOUNTING_SHA, 'require_accounting'),
+            'canonical-header': (HEADER_DOSSIER, HEADER_SHA, 'require_canonical_header')}
+REQUIRED_MUTATIONS = frozenset({
+    'inflated_count', 'unsupported_credit', 'replaced_historical_digest', 'changed_native_result',
+    'changed_license', 'changed_git_tree', 'erased_domain_selection', 'erased_shared_results',
+    'erased_corroboration', 'changed_role_totals', 'changed_source_distribution', 'changed_commercial_total',
+    'erased_excerpt_inventory', 'changed_group_result', 'changed_operation_total', 'changed_coverage_total',
+    'discarded_secondary_operation', 'forged_secondary_digest', 'invented_discovery', 'changed_native_report',
+})
 PORTABLE_ARGV = (
     'unshare', '--user', '--map-current-user', '--net', 'python3.12', '-B', '-m',
     'superhunter.tools.catalog_session', '--review-queries', '--native-inputs', '<native-inputs>',
@@ -114,10 +125,14 @@ def render(components, native, *, current=None, producer=None):
                       + (', '.join(f'`{path}`' for path in producer['different_inputs']) or 'ninguno') + '. '
                       + ('Los manifiestos nativos tienen huellas distintas.' if producer['different_native_manifest']
                          else 'Coincide la huella de los manifiestos nativos.')])
-        if producer['profile'] == 'accounting':
+        if producer['profile'] in ('accounting', 'canonical-header'):
             lines.extend(['', 'Esta aceptación incluye el noveno grupo de controles contables. '
                           'El [expediente de ocho grupos](product_supply/consolidated-acceptance/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile core-eight`.'])
+        if producer['profile'] == 'canonical-header':
+            lines.extend(['', 'El décimo grupo comprueba la interoperabilidad de encabezados RLP. '
+                          'El [expediente de nueve grupos](product_supply/consolidated-acceptance-accounting/acceptance.json) '
+                          'se comprueba con `--verify-dossier --profile accounting`.'])
     pending = '' if current else (' El conteo actual de integraciones conjuntas, ejecuciones, referencias y '
                                   'pendientes requiere una sesión completa del commit publicado y su reproducción.')
     lines.extend([
@@ -125,7 +140,9 @@ def render(components, native, *, current=None, producer=None):
         f"del primero y {right['session'] - overlap} del segundo.{pending}",
         '', f"El inventario del PR 119 verificó {right['sources']['complete']} fuentes directas. Las dos "
         f"transcripciones identifican {len(details)} revisiones. Se conservaron los 153 pines previos. "
-        "La materialización de 141 gitlinks anidados y un objeto LFS, las licencias transitivas y la "
+        "Ese inventario inicial dejó fuera 141 gitlinks y un payload LFS. "
+        "Adquisiciones y estado posterior en [SOURCE_MATERIALIZATION.md](SOURCE_MATERIALIZATION.md). "
+        "Las licencias transitivas y la "
         "compatibilidad comercial siguen pendientes. Hallazgos originales confirmados en estos expedientes, cero. "
         "[Alcance de fuentes](SOURCE_CHECKOUT.md) · [Acta de adquisición](product_supply/source-completion-200.json)",
         '', 'El archivo de 99 identifica el árbol productor `efe9581f1647c0bb3f2aaad0f0a166b0f8768722`, '
@@ -210,7 +227,10 @@ def run_evidence(record, run_id, profile='core-eight'):
 def selected_profile(profile):
     if profile == 'latest':
         # A partial directory or a dangling symlink must fail its evidence checks.
-        return 'accounting' if os.path.lexists(ROOT / ACCOUNTING_DOSSIER) else 'core-eight'
+        for name in reversed(PROFILES):
+            if os.path.lexists(ROOT / PROFILES[name][0]):
+                return name
+        return 'core-eight'
     if profile not in PROFILES:
         raise EvidenceError('unknown acceptance profile')
     return profile
@@ -220,7 +240,7 @@ def check_act_verdict(act, verified, raw):
     if canonical(act.get('independent_verification')) != canonical(verified):
         raise EvidenceError('independent verification in the acceptance act differs from the recomputed verdict')
     controls = verify_review_115.negative_controls(raw)
-    if canonical(act.get('refuted_mutations')) != canonical(controls):
+    if set(controls) != REQUIRED_MUTATIONS or canonical(act.get('refuted_mutations')) != canonical(controls):
         raise EvidenceError('refuted mutations in the acceptance act differ from the recomputed controls')
 
 
@@ -241,7 +261,7 @@ def accepted_markdown(profile='latest'):
         raise EvidenceError('the same input and result record was used for both runs')
     if (result['commit'], result['tree']) != (replay['commit'], replay['tree']):
         raise EvidenceError('execution records identify different producer commits or trees')
-    strict_profile = {'require_accounting': True} if profile == 'accounting' else {'require_consolidated': True}
+    strict_profile = {PROFILES[profile][2]: True}
     verified = verify_review_115.verify(raw, result['sha256'], **strict_profile)
     verify_review_115.verify(other, replay['sha256'], **strict_profile)
     if raw != other:

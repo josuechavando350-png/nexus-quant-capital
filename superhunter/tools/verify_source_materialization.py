@@ -274,13 +274,105 @@ def nested_artifacts(workspace):
             'lfs': payloads, 'scope': 'Direct catalog object databases, nested working paths and canonical direct LFS caches. Nested HEAD observations identify commits; tracked-file completeness requires a separate comparison.'}
 
 
+def staged_assets(workspace, staging):
+    """Bind the separately obtained bytes to their direct parents' pinned Git trees."""
+    if staging.is_relative_to(workspace) or workspace.is_relative_to(staging):
+        raise ValueError('acquisition staging must be separate from the direct checkouts')
+    inventory = read_artifact(ROOT, SNAPSHOT)
+    if sha(inventory) != SNAPSHOT_SHA:
+        raise ValueError('direct source inventory differs from its reviewed bytes')
+    rows = strict_json(inventory)['entries']
+    direct = {row['catalog_id']: row for row in expected_rows()}
+
+    def parent_gitdir(row):
+        record = direct[row['id']]
+        directory = git_directory(workspace, local_path(workspace, workspace/record['path']))
+        if (record['repository'], record['commit'], record['tree']) != (
+                row['repository'], row['revision'], row['tree']):
+            raise ValueError('parent catalog binding differs')
+        if local_git(directory, 'rev-parse', 'HEAD', 'HEAD^{tree}').decode().splitlines() != [row['revision'], row['tree']]:
+            raise ValueError('source checkout is at another revision')
+        return directory
+
+    qdrant = next(row for row in rows if row['repository'] == 'qdrant/qdrant')
+    name = 'tests/e2e_tests/test_data/storage.tar.xz'
+    pointer = qdrant['contents']['lfs_pointers'][name]
+    parent = parent_gitdir(qdrant)
+    oid = local_git(parent, 'rev-parse', qdrant['revision'] + ':' + name).decode().strip()
+    if local_git(parent, 'cat-file', 'blob', oid) != pointer_bytes(pointer):
+        raise ValueError('parent Git blob differs from its LFS pointer')
+    if local_payload(staging, staging/'qdrant-lfs-object', pointer) != 'verified_payload':
+        raise ValueError('staged LFS payload is missing')
+    source_url = 'https://media.githubusercontent.com/media/qdrant/qdrant/' + qdrant['revision'] + '/' + name
+    observation = {'method': 'GET', 'http_status': 200, 'final_host': 'media.githubusercontent.com',
+                   'url': source_url, 'bytes': pointer['bytes'], 'sha256': pointer['oid']}
+    if strict_json(read_artifact(staging, 'qdrant-response.json')) != observation:
+        raise ValueError('acquisition observation differs from the scoped provider and payload')
+
+    checkout = local_path(staging, staging/'forge-std')
+    gitdir = git_directory(staging, checkout)
+    common_storage(staging, gitdir)
+    commit, tree = local_git(gitdir, 'rev-parse', 'HEAD', 'HEAD^{tree}').decode().splitlines()
+    if commit != '3b20d60d14b343ee4f908cb8079495c07f5e8981':
+        raise ValueError('auxiliary checkout differs from the reviewed forge-std revision')
+    origins = []
+    for row in rows:
+        for path, target in row['contents']['nested_gitlinks'].items():
+            if target != commit:
+                continue
+            directory = parent_gitdir(row)
+            link = local_git(directory, 'ls-tree', row['tree'], '--', path).decode().rstrip('\n')
+            if link != f'160000 commit {commit}\t{path}':
+                raise ValueError('parent gitlink does not identify this dependency')
+            manifest = row['revision'] + ':.gitmodules'
+            config = local_git(directory, 'config', '--blob', manifest, '--get', f'submodule.{path}.url')
+            location = local_git(directory, 'config', '--blob', manifest, '--get', f'submodule.{path}.path')
+            if config.strip() != b'https://github.com/foundry-rs/forge-std' or location.decode().strip() != path:
+                raise ValueError('pinned parent dependency identity differs')
+            origins.append({'id': row['id'], 'repository': row['repository'], 'commit': row['revision'],
+                            'gitmodules_blob': local_git(directory, 'rev-parse', manifest).decode().strip(), 'path': path})
+    if [origin['id'] for origin in origins] != [21, 192]:
+        raise ValueError('forge-std parent references differ from the reviewed inventory')
+    files = []
+    index_rows = []
+    for item in local_git(gitdir, 'ls-tree', '-rz', tree).split(b'\0'):
+        if not item:
+            continue
+        meta, path = item.decode().split('\t', 1)
+        mode, kind, blob = meta.split()
+        if kind != 'blob' or mode not in ('100644', '100755'):
+            raise ValueError('unexpected tracked file type in the fixed dependency')
+        raw = read_artifact(checkout, path)
+        executable = bool(local_path(checkout, checkout/path).stat().st_mode & 0o100)
+        if git_object('blob', raw) != blob or executable != (mode == '100755'):
+            raise ValueError('staged dependency working bytes or executable mode differ')
+        files.append([path, mode, blob, sha(raw)])
+        index_rows.append(f'{mode} {blob} 0\t{path}\0'.encode())
+    if not files or local_git(gitdir, 'ls-files', '--stage', '-z') != b''.join(index_rows):
+        raise ValueError('staged dependency index differs from its committed tree')
+    return {'schema_version': 1, 'source_inventory_sha256': SNAPSHOT_SHA,
+            'lfs': {'acquisition_observation': observation, 'repository': qdrant['repository'],
+                    'revision': qdrant['revision'], 'tree': qdrant['tree'], 'path': name, 'pointer_blob': oid,
+                    'staged_path': 'qdrant-lfs-object', 'payload_sha256_verified': True},
+            'dependency': {'repository': 'foundry-rs/forge-std', 'commit': commit, 'tree': tree,
+                           'staged_path': 'forge-std', 'parent_refs': origins, 'tracked_files': len(files),
+                           'tracked_paths_modes_and_bytes_sha256': sha(canonical(files))},
+            'scope': 'Separate acquisition staging. Historical direct worktree and cache observations remain in nested-source-storage.json.'}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     modes = parser.add_mutually_exclusive_group()
     modes.add_argument('--existing-workspace', type=Path, help='also compare the existing 200-checkout observation workspace')
     modes.add_argument('--nested-workspace', type=Path, help='observe nested gitlinks and pinned LFS bytes in local direct checkouts')
+    modes.add_argument('--staged-assets', type=Path, nargs=2, metavar=('DIRECT_SOURCES', 'STAGING'),
+                       help='verify the separately acquired Qdrant object and local forge-std checkout offline')
     args = parser.parse_args()
     try:
+        if args.staged_assets:
+            directories = [path.resolve(strict=True) for path in args.staged_assets]
+            sys.stdout.buffer.write(canonical(staged_assets(*directories)))
+            return 0
         if args.nested_workspace:
             sys.stdout.buffer.write(canonical(nested_artifacts(args.nested_workspace.resolve(strict=True))))
             return 0
