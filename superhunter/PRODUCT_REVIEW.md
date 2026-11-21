@@ -138,3 +138,17 @@ python3.12 -m superhunter query-product --bundle "$evidence_dir" --supply "$supp
 ```
 
 La búsqueda usa palabras y números ASCII sin distinguir mayúsculas. Cada resultado incluye el archivo, el SHA-256, los términos encontrados y cuántos términos distintos coincidieron. La CLI relee del índice los vectores y hashes de cada aviso. En cada consulta también coteja los resultados y puntuaciones con los términos de los textos originales. Los empates se ordenan por nombre de archivo. Las consultas de esta sesión comparten el índice en memoria. En la entrada conjunta de proveedores y perfiles se indexaron 56 avisos y 1,755 términos. La consulta del ejemplo obtuvo 22 avisos con al menos uno de sus dos términos.
+
+## Localizar un componente o una relación en los bytes del SBOM
+
+La opción `--tree-sitter` conecta Tree-sitter con los documentos CycloneDX verificados de cdxgen. Para cada paquete devuelve un puntero JSON, el SHA-256 del SBOM y el intervalo de bytes `[start_byte, end_byte)` que contiene el literal JSON del PURL o de la referencia de destino de una relación. Cada relación incluye los PURL de origen y destino. La CLI coteja el árbol nativo con un segundo lector JSON y vuelve a leer los valores en sus posiciones originales.
+
+Se requiere la [CLI 0.27.2 de Tree-sitter](https://github.com/tree-sitter/tree-sitter/releases/tag/v0.27.2) para Linux x86-64 y la [gramática JSON](https://github.com/tree-sitter/tree-sitter-json/tree/ee35a6ebefcef0c5c416c0d1ccec7370cfca5a24/src) fijada en `ee35a6ebefcef0c5c416c0d1ccec7370cfca5a24`. Guardar `src/parser.c` y `src/tree_sitter/parser.h` bajo el mismo directorio conservando la subruta `tree_sitter/`. NQC verifica los hashes de las dos fuentes y el ejecutable. Compila la gramática con `/usr/bin/cc` en un directorio temporal y analiza los SBOM localmente sin red.
+
+```bash
+python3.12 -m superhunter query-product --bundle "$evidence_dir" --cdxgen-bundle "$cdx_out" \
+  --tree-sitter /ruta/tree-sitter --json-grammar /ruta/gramatica-json \
+  tree-sitter/tree-sitter sha2 cryptography
+```
+
+En los siete SBOM propios se localizaron 75 componentes, sus siete raíces y 43 relaciones explícitas. La misma versión de un paquete puede aparecer en varios perfiles. Cada ubicación conserva la identidad del archivo en el que se observó.

@@ -189,3 +189,23 @@ class GuacTests(unittest.TestCase):
                        [dict(direct, dependencyPackage=node(dep + '?source=different'))]):
             with self.subTest(change=change), self.assertRaisesRegex(ValueError, 'dependencies disagree'):
                 compare([inferred, *change])
+
+
+class SbomLocationTests(unittest.TestCase):
+    def test_native_columns_are_utf8_bytes_and_ranges_cannot_cross_lines(self):
+        from superhunter.product_sbom_locations import string_locations
+        raw = '{\n"ñ":"é"\n}'.encode()
+        xml = b'''<sources><source name="input.json"><document><object srow="0" scol="0" erow="2" ecol="1">
+        <pair srow="1" scol="0" erow="1" ecol="9">
+        <string field="key" srow="1" scol="0" erow="1" ecol="4"/>
+        <string field="value" srow="1" scol="5" erow="1" ecol="9"/>
+        </pair></object></document></source></sources>'''
+        obj, spans = string_locations(raw, xml, 'input.json')
+        self.assertEqual(obj, {'ñ': 'é'})
+        start, end = spans[('ñ',)]
+        self.assertEqual(raw[start:end], '"é"'.encode())
+        for wrong in (xml.replace(b'ecol="9"', b'ecol="15"'),
+                      xml.replace(b'scol="5"', b'scol="0"'),
+                      xml.replace(b'name="input.json"', b'name="other.json"')):
+            with self.assertRaises(ValueError):
+                string_locations(raw, wrong, 'input.json')

@@ -199,6 +199,7 @@ class ProductIndex:
     def __init__(self, report, *, supply=None, notices=None):
         self.notices = notices or {}
         self.profile_notices = {}
+        self.sbom_locations = {}
         self.repos = {r['repository'].casefold(): r.copy() for r in report['repositories']}
         if supply:
             summary, identities = supply
@@ -239,13 +240,16 @@ class ProductIndex:
             facts = [*facts, *(f for f in self.packages.get(normalized, []) if f['source'].endswith('.txt'))]
         notice = self.notices.get(normalized)
         profile_notices = self.profile_notices.get(normalized)
-        if facts or notice or profile_notices:
+        locations = self.sbom_locations.get(normalized)
+        if facts or notice or profile_notices or locations:
             result = {'pins': facts, 'python_profile_conflict': self.conflicts.get(normalized),
                       'census_dependencies': self.graph.get(key, [])}
             if notice:
                 result['supply_wheel_notices'] = notice
             if profile_notices:
                 result['profile_wheel_notices'] = profile_notices
+            if locations:
+                result['sbom_locations'] = locations
             return result
         return None
 
@@ -259,6 +263,8 @@ def main(argv):
     else:
         parser.add_argument('--bundle', type=Path, required=True)
         if command == 'query-product':
+            parser.add_argument('--tree-sitter', type=Path, help='locate components and relations in verified SBOM bytes')
+            parser.add_argument('--json-grammar', type=Path, help='directory of pinned Tree-sitter JSON parser sources')
             parser.add_argument('--qdrant', type=Path, help='search verified notices with a private Qdrant index')
             parser.add_argument('--guac-bundle', type=Path, help='verify GUAC evidence against CycloneDX')
             parser.add_argument('--cdxgen-bundle', type=Path, help='verify CycloneDX evidence for cdxgen')
@@ -321,6 +327,13 @@ def main(argv):
                 from .product_cdxgen import verify_with_files as verify_cdxgen
                 evidence, cdx_files = verify_cdxgen(opts.cdxgen_bundle, result)
                 index.repos['cdxgen/cdxgen']['cyclonedx_evidence'] = evidence
+            if opts.tree_sitter or opts.json_grammar:
+                from . import product_sbom_locations
+                if not (opts.tree_sitter and opts.json_grammar and opts.cdxgen_bundle):
+                    raise EvidenceError('SBOM source locations require --tree-sitter, --json-grammar and --cdxgen-bundle')
+                docs = {name: raw for name, raw in cdx_files.items() if name.endswith('.cdx.json')}
+                evidence, index.sbom_locations = product_sbom_locations.build(opts.tree_sitter, opts.json_grammar, docs)
+                index.repos['tree-sitter/tree-sitter']['sbom_location_evidence'] = evidence
             if opts.guac_bundle:
                 from . import product_guac
                 if not opts.cdxgen_bundle:
