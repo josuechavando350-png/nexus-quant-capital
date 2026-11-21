@@ -342,3 +342,34 @@ class ProductCreditTests(unittest.TestCase):
             verify(b'{}\n')
         with self.assertRaisesRegex(ValueError, 'digest differs'):
             verify(b'{}\n', '0'*64)
+
+
+class PortableSourceReviewTests(unittest.TestCase):
+    def test_portable_inputs_reconstruct_all_47_commits_and_34_root_declarations(self):
+        from superhunter.product_portable_roots import inputs
+        rows, files = inputs()
+        self.assertEqual(len({r['commit'] for r in rows}), 47)
+        self.assertEqual(len(files), 34)
+
+    def test_dangling_compressed_data_is_rejected(self):
+        import base64
+        import zlib
+        from superhunter.product_portable_roots import inflate
+        blob = zlib.compress(b'data')
+        for invalid in (blob[:-2], blob + blob, zlib.compress(b'x' * 256_001)):
+            with self.assertRaisesRegex(ValueError, 'compressed Git object'):
+                inflate(base64.b64encode(invalid))
+
+    def test_empty_go_report_or_wrong_diagnostic_location_cannot_pass(self):
+        from superhunter.product_header_digest import assess
+        report = {'Golang errors': {}, 'Stats': {'files': 0, 'nosec': 0, 'found': 0}, 'Issues': []}
+        with self.assertRaisesRegex(ValueError, 'incomplete Go'):
+            assess(report, {}, Path('/nqc'))
+        report['Stats'].update(files=3, found=1)
+        report['Issues'] = [{'file': '/nqc/changed/main.go', 'line': '54', 'column': '12'}]
+        with self.assertRaisesRegex(ValueError, 'outside source'):
+            assess(report, {'changed': b'own source'}, Path('/nqc'))
+
+    def test_go_revision_on_its_own_cannot_receive_credit(self):
+        with self.assertRaisesRegex(ValueError, 'accepted product result'):
+            receipt({'repository': 'securego/gosec', 'go_source_receipt': {'revision': 'empty'}})

@@ -117,12 +117,15 @@ def member_name(number, name):
     return f'{number:03}-{name}'
 
 
-def root_results(folder):
+def root_results(folder=None, *, read_file=None):
+    if read_file is None:
+        def read_file(name):
+            return read_artifact(folder, name)
     results = []
     for item, entries in roots():
         files = {}
         for name, digest in manifests(entries).items():
-            raw = read_artifact(folder, member_name(item['id'], name))
+            raw = read_file(member_name(item['id'], name))
             if git_object('blob', raw) != digest:
                 raise EvidenceError('dependency file differs from its Git tree')
             files[name] = {'git_blob': digest, 'sha256': sha(raw), **declared_names(name, raw)}
@@ -131,8 +134,8 @@ def root_results(folder):
     return results
 
 
-def attach(index, folder):
-    results = root_results(folder)
+def attach(index, folder=None, *, read_file=None):
+    results = root_results(folder, read_file=read_file)
     data = read_artifact(ROOT, TREES)
     if sha(data) != TREES_SHA:
         raise EvidenceError('recursive tree inventory does not match the reviewed evidence')

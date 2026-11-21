@@ -59,6 +59,9 @@ def cohorts(repositories):
 # Reviewed outputs for the fixed NQC fixtures. Each producer still has to rerun before
 # a receipt is attached. A name, an arbitrary nonempty adapter or a copied source row is insufficient.
 FIXED_SOURCE_RECEIPTS = {
+    'securego/gosec': ('executable', 'go_source_receipt', {
+        'query': 'go-header-digest', 'revision': '244f1f6f4d1d0d14f89e79a73dab1219eabb5228',
+        'report_sha256': 'eb0004a88829551a8ac553286ec1ac8160048178df27dc071fca147b3cc2a95c'}),
     'paradigmxyz/reth': ('reference_data', 'fork_header_reference', {
         'query': 'fork-headers', 'revision': '53b5db1c3bc841bae679e58a625485d3d44d5b74',
         'files': {'hoodi': '4b6b5713490ff9adabca742b7864f866dd124203'},
