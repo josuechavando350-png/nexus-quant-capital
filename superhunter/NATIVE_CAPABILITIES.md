@@ -110,3 +110,30 @@ La revisión de redistribución de dependencias transitivas sigue pendiente.
 [Compilación](product_supply/grpc-schema-native-build.json) ·
 [Entradas y testigos](product_supply/grpc-schema-native-owned.json) ·
 [Resultado esperado](product_supply/grpc-schema-native-result.json).
+
+## Lectura local del informe HTML
+
+El grupo `html_review` comprueba cómo se presenta en el navegador un extracto
+histórico de la matriz de NQC. `review.render_html` produce las tres vistas a partir
+del texto conservado del commit `2d9d6c79`. Playwright lee el título, el idioma, el
+encabezado accesible y la tabla de evidencia visible. Una copia omite la fila del
+PR 119. Otra conserva las palabras del encabezado y cambia su semántica a párrafo.
+El verificador compara cada observación con el texto y la estructura esperados.
+
+El kit local contiene `playwright-core.tgz`, `chrome.zip` y `node`. Linux x86-64,
+`unshare` y una cuenta sin privilegios permiten usar un perfil temporal con el
+sandbox de Chromium activo. El navegador lee documentos en memoria, tiene la red
+aislada y el JavaScript de página desactivado. La consulta de producto
+`query-product --bundle BUNDLE --html_review-native-kit KIT native-capabilities microsoft/playwright`
+produce el informe y el recibo. `verify_review_115 --require-consolidated-html-review`
+exige los doce grupos. La revisión comercial transitiva continúa pendiente.
+
+[Procedencia](product_supply/html-review-provenance.json) ·
+[Markdown histórico](product_supply/html-review-markdown.md) ·
+[Observaciones del navegador](product_supply/html-review-dom.json).
+
+El registro npm y la declaración SLSA identifican el mismo commit y SHA-512 del
+tarball. El verificador Sigstore de npm comprobó emisor, identidad del workflow
+y transparencia. Google publica generación, MD5 y CRC32C del ZIP. La medición
+SHA-256 del ZIP se hizo después de recibirlo.
+[Declaración firmada del driver](product_supply/html-review-driver-attestation.json).

@@ -158,10 +158,11 @@ def row_operations(row, native, *, profile='current'):
 
 
 def verify(raw, expected_hash=None, *, require_consolidated=False, require_accounting=False,
-           require_canonical_header=False, require_grpc_schema=False):
+           require_canonical_header=False, require_grpc_schema=False, require_html_review=False):
     profiles = [name for selected, name in (
         (require_consolidated, 'core-eight'), (require_accounting, 'accounting-nine'),
-        (require_canonical_header, 'canonical-ten'), (require_grpc_schema, None)) if selected]
+        (require_canonical_header, 'canonical-ten'), (require_grpc_schema, 'grpc-eleven'),
+        (require_html_review, None)) if selected]
     if len(profiles) > 1:
         raise EvidenceError('select one exact consolidated acceptance profile')
     full_profile = bool(profiles)
@@ -540,6 +541,8 @@ def main():
                           help='require all ten groups including canonical header interoperability')
     profiles.add_argument('--require-consolidated-grpc-schema', action='store_true',
                           help='require all eleven groups including static gRPC schema interoperability')
+    profiles.add_argument('--require-consolidated-html-review', action='store_true',
+                          help='require all twelve groups including the fixed NQC HTML report')
     parser.add_argument('--expect-sha256', help='trusted digest for a specific, published run')
     args = parser.parse_args()
     raw = read_artifact(args.transcript.parent, args.transcript.name)
@@ -548,7 +551,8 @@ def main():
     profile_options = {'require_consolidated': args.require_consolidated,
                        'require_accounting': args.require_consolidated_accounting,
                        'require_canonical_header': args.require_consolidated_canonical_header,
-                       'require_grpc_schema': args.require_consolidated_grpc_schema}
+                       'require_grpc_schema': args.require_consolidated_grpc_schema,
+                       'require_html_review': args.require_consolidated_html_review}
     result = verify(raw, args.expect_sha256, **profile_options)
     if args.require_complete_controls:
         profile = result.get('component_contract_profile', 'current')

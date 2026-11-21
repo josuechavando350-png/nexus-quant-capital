@@ -154,7 +154,7 @@ class GrpcSchemaContractTests(unittest.TestCase):
         from superhunter.safe_io import read_artifact, strict_json
         from superhunter.tools.verify_review_115 import native_bindings, verify
 
-        groups = native.contracts()
+        groups = native.contracts('grpc-eleven')
         ten = native.contracts('canonical-ten')
         self.assertEqual(len(ten), 10)
         self.assertEqual({name: group for name, group in groups.items() if name != 'grpc'}, ten)
