@@ -52,8 +52,30 @@ def cohorts(repositories):
     return rows[:100], rows[100:]
 
 
+# Reviewed outputs for the fixed NQC fixtures. Each producer still has to rerun before
+# a receipt is attached. A name, an arbitrary nonempty adapter or a copied source row is insufficient.
+FIXED_SOURCE_RECEIPTS = {
+    'ethereum/go-ethereum': ('executable', 'geth_header_evidence', {
+        'report': 'geth-census', 'revision': '2b7829ea6aed9a95a3fd793cca46731202c6c310',
+        'binary_sha256': '11ad28b59b30c1fabb60c68616bc1b8ff676e484ce15dfcecec57fa2ef7f100d',
+        'report_sha256': 'ca134db9b8984ea0d776c4236ac8c6ecb98f905fd2b1882bc36d81dfb71286f0'}),
+    'openzeppelin/openzeppelin-contracts': ('reference_data', 'source_reference', {
+        'report': 'source-references', 'revision': '5172e1681f05f4aa189b7740bf2c0316af67c3b3',
+        'report_sha256': 'e41dd7e73dbd9d22b178736dabdf05460851f15201b633a9739184b432d85a22'}),
+    'ethereum/consensus-specs': ('reference_data', 'source_reference', {
+        'report': 'source-references', 'revision': '2d519bc04f0f9c52f0e0876f69b238a9523f1ef8',
+        'report_sha256': '77046aa1df356c21d1b9578f54f5ea0c0a9d10bff291eed82344cf7821a42490'})}
+
+
 def receipt(row):
     name = row['repository'].casefold()
+    if name in FIXED_SOURCE_RECEIPTS:
+        role, key, expected = FIXED_SOURCE_RECEIPTS[name]
+        if key not in row:
+            return 'pending', None
+        if row[key] != expected:
+            raise EvidenceError('source receipt differs from the accepted product result')
+        return role, key
     if name in RECEIPTS and row.get(RECEIPTS[name]):
         return 'executable', RECEIPTS[name]
     if name in ('ethereum/eips', 'ethereum/execution-specs') and row.get('census_header_reference'):

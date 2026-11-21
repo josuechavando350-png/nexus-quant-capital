@@ -115,3 +115,32 @@ def attach(index, kit):
         index.repos[name]['census_header_reference'] = {
             'report': 'census-header', 'report_sha256': report_hash,
             'revision': commit, 'path': path, 'sha256': digest}
+
+
+GETH_REVISION = '2b7829ea6aed9a95a3fd793cca46731202c6c310'
+GETH_BINARY = '11ad28b59b30c1fabb60c68616bc1b8ff676e484ce15dfcecec57fa2ef7f100d'
+
+
+def check_geth(output, comparison):
+    if canonical(output) != canonical(comparison['cases']):
+        raise EvidenceError('Geth disagrees with the three product header implementations')
+    return {'git_revision': GETH_REVISION, 'binary_sha256': GETH_BINARY,
+            'fixture_sha256': FIXTURE_SHA, 'comparison_sha256': sha(canonical(comparison)),
+            'cases': output}
+
+
+def attach_geth(index, executable):
+    from .product_review import copy_release
+
+    if index.census_header is None:
+        raise EvidenceError('Geth comparison requires --census-header-kit')
+    block = strict_json(pinned(ROOT, FIXTURE, FIXTURE_SHA))['block']
+    with tempfile.TemporaryDirectory(prefix='nqc-census-geth-') as temp:
+        binary = Path(temp)/'geth-header'
+        copy_release('Census Geth helper', executable, binary, GETH_BINARY, limit=10*1024**2)
+        result = subprocess.run([*ISOLATE, str(binary)], input=canonical(block), cwd=temp,
+                                env={'HOME': temp}, capture_output=True, timeout=15, check=True)
+    index.geth_header = check_geth(strict_json(result.stdout), index.census_header)
+    index.repos['ethereum/go-ethereum']['geth_header_evidence'] = {
+        'report': 'geth-census', 'report_sha256': sha(canonical(index.geth_header)),
+        'revision': GETH_REVISION, 'binary_sha256': GETH_BINARY}

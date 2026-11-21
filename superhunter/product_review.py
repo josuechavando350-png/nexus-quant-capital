@@ -208,6 +208,9 @@ class ProductIndex:
         self.sbom_locations = {}
         self.similar_notices = None
         self.license_choices = None
+        self.source_inventory = None
+        self.source_references = None
+        self.geth_header = None
         self.census_header = None
         self.upstream_notices = None
         self.solidity_headers = None
@@ -245,6 +248,18 @@ class ProductIndex:
             if self.citations is None:
                 raise EvidenceError('notice contexts require --notice-review-wheels')
             return self.citations.lookup(key.removeprefix('notice-context:'))
+        if key == 'source-inventory':
+            if self.source_inventory is None:
+                raise EvidenceError('source inventory requires --source-inventory')
+            return self.source_inventory
+        if key == 'source-references':
+            if self.source_references is None:
+                raise EvidenceError('source reference comparison requires --source-references')
+            return self.source_references
+        if key == 'geth-census':
+            if self.geth_header is None:
+                raise EvidenceError('Geth receipt requires --geth-header')
+            return self.geth_header
         if key == 'census-header':
             if self.census_header is None:
                 raise EvidenceError('Census header replay requires --census-header-kit')
@@ -310,6 +325,9 @@ def main(argv):
     else:
         parser.add_argument('--bundle', type=Path, required=True)
         if command == 'query-product':
+            parser.add_argument('--source-inventory', action='store_true', help='join the reviewed 200-row source audit')
+            parser.add_argument('--source-references', type=Path, help='read two pinned type definitions from a source checkout')
+            parser.add_argument('--geth-header', type=Path, help='pinned Geth helper to cross-check the Census header')
             parser.add_argument('--census-header-kit', type=Path, help='replay the fixed Census header with three EVM libraries and two specifications')
             parser.add_argument('--upstream-notices', type=Path, help='add 200 verified upstream license documents to the product notice index')
             parser.add_argument('--solidity-metadata-kit', type=Path, help='compare Foundry, Wake and solc metadata on the fixed NQC migration')
@@ -369,6 +387,15 @@ def main(argv):
             if opts.census_header_kit:
                 from . import product_census_header
                 product_census_header.attach(index, opts.census_header_kit)
+            if opts.source_inventory:
+                from . import product_source_audit
+                product_source_audit.attach(index)
+            if opts.source_references:
+                from . import product_source_references
+                product_source_references.attach(index, opts.source_references, opts.solidity_metadata_kit)
+            if opts.geth_header:
+                from . import product_census_header
+                product_census_header.attach_geth(index, opts.geth_header)
             if opts.solidity_metadata_kit:
                 from . import product_solidity_headers
                 product_solidity_headers.attach(index, opts.solidity_metadata_kit)

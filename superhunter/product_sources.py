@@ -65,10 +65,13 @@ def verify(root, require_checkout=False):
         for child in upstream.iterdir():
             if child.is_symlink() or not child.is_dir() or 'upstream/' + child.name not in targets:
                 raise ValueError('unexpected upstream path: ' + child.name)
-    for source in sources():
+    catalog = sources()
+    catalog_only = []
+    for source in catalog:
         number, name, revision = source['id'], source['repository'], source['revision']
         path = f"upstream/{number:03}-{name.split('/')[1].lower()}"
         if path not in targets:
+            catalog_only.append({'catalog_id': number, 'repository': name})
             continue
         if targets.pop(path) != revision:
             raise ValueError('Git tree and catalog revision differ: ' + path)
@@ -94,19 +97,30 @@ def verify(root, require_checkout=False):
                 raise ValueError('tracked submodule files differ: ' + path)
             row.update(status='checked_out', tree=tree)
         rows.append(row)
-    if targets or ''.join(declarations).encode() != manifest or len(rows) != 100:
-        raise ValueError('catalog, committed gitlinks and manifest must describe the same 100 repositories')
-    return {'count': len(rows), 'status_counts': dict(Counter(row['status'] for row in rows)),
+    if targets or ''.join(declarations).encode() != manifest or len(rows) != 153:
+        raise ValueError('catalog, committed gitlinks and manifest must describe the same 153 repositories')
+    return {'count': len(rows), 'catalog_count': len(catalog), 'catalog_only_count': len(catalog_only),
+            'catalog_only': catalog_only, 'status_counts': dict(Counter(row['status'] for row in rows)),
             'upstream_code_executed_by_verifier': False, 'manifest_sha256': hashlib.sha256(manifest).hexdigest(),
             'sources': rows}
 
 
 def main(argv):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--require-checkout', action='store_true', help='also verify the 100 local working trees')
+    parser.add_argument('--require-checkout', action='store_true', help='also verify each local submodule working tree')
+    parser.add_argument('--inventory', action='store_true', help='audit committed manifests, LFS pointers and nested gitlinks')
+    parser.add_argument('--notice-bundle', type=Path, help='verified upstream notice bundle for native license review')
+    parser.add_argument('--scancode-release', type=Path, help='pinned ScanCode distribution for notice review')
     args = parser.parse_args(argv)
+    if bool(args.notice_bundle) != bool(args.scancode_release) or (args.notice_bundle and not args.inventory):
+        parser.error('notice review requires --inventory, --notice-bundle and --scancode-release together')
     try:
-        print(json.dumps(verify(ROOT, args.require_checkout), sort_keys=True))
+        if args.inventory:
+            from .product_source_audit import inventory
+            result = inventory(ROOT, args.notice_bundle, args.scancode_release)
+        else:
+            result = verify(ROOT, args.require_checkout)
+        print(json.dumps(result, sort_keys=True))
     except (OSError, ValueError, subprocess.SubprocessError) as exc:
         print(str(exc), file=sys.stderr)
         return 2

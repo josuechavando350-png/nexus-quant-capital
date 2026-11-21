@@ -1,0 +1,56 @@
+package main
+
+import (
+	"crypto/sha256"
+	"encoding/hex"
+	"encoding/json"
+	"fmt"
+	"os"
+
+	"github.com/ethereum/go-ethereum/core/types"
+	"github.com/ethereum/go-ethereum/rlp"
+)
+
+type observation struct {
+	Hash   string `json:"keccak256"`
+	Bytes  int    `json:"rlp_bytes"`
+	Digest string `json:"rlp_sha256"`
+}
+
+func observe(h *types.Header) (observation, error) {
+	encoded, err := rlp.EncodeToBytes(h)
+	if err != nil {
+		return observation{}, err
+	}
+	digest := sha256.Sum256(encoded)
+	return observation{h.Hash().Hex(), len(encoded), hex.EncodeToString(digest[:])}, nil
+}
+
+func run() error {
+	var block types.Header
+	if err := json.NewDecoder(os.Stdin).Decode(&block); err != nil {
+		return err
+	}
+	if block.Number == nil || !block.Number.IsUint64() || block.Number.Uint64() != 25437474 {
+		return fmt.Errorf("unexpected Census block number")
+	}
+	original, err := observe(&block)
+	if err != nil {
+		return err
+	}
+	block.GasUsed++
+	changed, err := observe(&block)
+	if err != nil {
+		return err
+	}
+	return json.NewEncoder(os.Stdout).Encode(map[string]observation{
+		"original": original, "changed_gas_used": changed,
+	})
+}
+
+func main() {
+	if err := run(); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+}

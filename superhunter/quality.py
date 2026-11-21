@@ -1761,6 +1761,7 @@ REQUIRED_TESTS += (
 
 COMPONENTS['product_review'] = {
     'files': [*PRODUCT_DATA_FILES,
+              'product_source_references.py', 'product_source_audit.py', 'tools/evaluate_payload_types.py', 'tools/check_catalog_origins.py',
               'product_census_header.py', 'product_solidity_headers.py', 'product_solidity_headers_worker.py',
               'product_upstream_notices.py', 'product_sources.py', 'tools/fetch_upstream_notices.py', 'tools/catalog_session.py',
               'product_batch_properties.py', 'product_notice_overlap.py', 'product_notice_decisions.py',
@@ -1773,10 +1774,12 @@ COMPONENTS['product_review'] = {
               'product_notice_search.py', 'product_notice_worker.py', 'product_licenses.py',
               'product_notices.py', 'product_guac.py', 'product_guac_worker.py', 'product_cdxgen.py',
               'product_census_graph.py', 'product_reasoning.py', 'product_review.py', 'product_supply_review.py'],
-    'tests': ['test_product_review.', 'test_product_supply.', 'test_product_catalog_session.'],
+    'tests': ['test_product_review.', 'test_product_supply.', 'test_product_catalog_session.', 'test_product_source_audit.'],
     'depends': ['portfolio_inventory', 'bundle_recovery', 'owned_capture', 'privacy', 'io']}
 COMPONENTS['entrypoints']['depends'].append('product_review')
 REQUIRED_TESTS += (
+    'test_product_source_audit.ProductComparisonTests.test_audit_rows_cannot_promote_project_to_runtime',
+    'test_product_source_audit.GitTreeAuditTests.test_notice_cannot_be_reassigned_to_another_blob',
     'test_product_catalog_session.CatalogSessionTests.test_resealed_notice_cannot_replace_committed_document',
     'test_product_catalog_session.CatalogSessionTests.test_historical_receipts_and_new_receipts_remain_distinguishable',
     'test_product_supply.SupplyTests.test_200_ids_and_distinct_license_outcomes',

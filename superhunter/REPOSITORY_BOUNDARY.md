@@ -5,7 +5,7 @@ sin ejecutar su código ni modificar el material histórico. También acepta `--
 para una copia local. Devuelve `REPOSITORY_BOUNDARY_PASS` o un bloqueo con código
 fijo, sin imprimir rutas privadas o contenido de archivos.
 
-El manifiesto raíz `.gitmodules` tiene un hash fijado. La revisión de NQC admite exclusivamente las 100 rutas externas declaradas en `upstream/` y comprueba el árbol de fuentes propias por separado. La verificación del contenido rastreado de cada submódulo se realiza con `product-sources --require-checkout`. [Alcance y comandos](SOURCE_CHECKOUT.md).
+El manifiesto raíz `.gitmodules` tiene un hash fijado. La revisión de NQC admite exclusivamente las 153 rutas externas declaradas en `upstream/` y comprueba el árbol de fuentes propias por separado. La verificación del contenido rastreado de cada submódulo se realiza con `product-sources --require-checkout`. [Alcance y comandos](SOURCE_CHECKOUT.md).
 
 ## Qué se comprueba
 

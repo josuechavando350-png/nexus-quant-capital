@@ -1,5 +1,7 @@
 # Cobertura de los 200 repositorios
 
+Esta tabla conserva la sesión del PR 112. El PR 114 incorpora tres recibos adicionales. [Matriz actual y procedencia por ID](INTEGRATION_STATUS_200.md).
+
 La tabla procede de las 200 respuestas de identidad y de la consulta `integration-coverage`. Cada enlace abre el documento de origen en la revisión comprobada. La columna de ejecución muestra qué identidad aportó evidencia en esta sesión. La columna histórica conserva la función observada en el commit `d94b58f`.
 
 | ID | Lote | Repositorio y documento de origen | Función en esta sesión | Función histórica |

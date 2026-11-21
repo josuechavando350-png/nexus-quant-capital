@@ -117,7 +117,10 @@ def build(release, notices):
         docs.mkdir()
         for name, raw in notices.items():
             (docs/name).write_bytes(raw)
-        output = subprocess.check_output([*isolate, '/usr/bin/java', '-cp', str(root/'pmd-bin-7.29.0/lib/*'),
+        # Keep VM diagnostics out of the CPD record stream, including during concurrent replays.
+        output = subprocess.check_output([*isolate, '/usr/bin/java', '-XX:ActiveProcessorCount=2', '-Xmx512m',
+                                         '-XX:-UsePerfData', '-Xlog:all=warning:stderr',
+                                         '-cp', str(root/'pmd-bin-7.29.0/lib/*'),
                                          'NoticeBlocks.java', str(docs)], cwd=root, env=env, text=True,
                                         stdin=subprocess.DEVNULL, stderr=subprocess.PIPE, timeout=90)
     return assess(output, notices)

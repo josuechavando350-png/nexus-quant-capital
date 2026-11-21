@@ -1,12 +1,14 @@
 # Revisión de dependencias de NQC y SuperHunter
 
+La auditoría de los 200 IDs y tres participaciones funcionales adicionales se detallan en [la matriz verificable](INTEGRATION_STATUS_200.md) y [la receta de reproducción](SOURCE_AUDIT.md).
+
 Desde la CLI de SuperHunter se puede consultar el catálogo de 200 proyectos, el grafo de dependencias de Census y los conflictos entre los seis perfiles Python de SuperHunter. El catálogo procede del [PR 110](https://github.com/josuechavando350-png/nexus-quant-capital/pull/110), commit `474846b11ea41f9d9f41c4aa6d7eda0cbf18d2f6`. La copia conserva exactamente los bytes públicos de ese JSON. La consulta conserva los identificadores históricos de los siete proyectos que aparecen también en el portafolio de 50.
 
 La revisión básica utiliza dos productores. Syft extrae paquetes y relaciones de los manifiestos copiados a un directorio temporal. cvc5 comprueba si los perfiles con versiones incompatibles pueden compartir un número dado de entornos. Las opciones descritas más abajo añaden las observaciones de proveedores, SBOM, relaciones y licencias a la misma consulta. Pertenecer al catálogo no acredita una ejecución.
 
 La [sesión conjunta de los 200 repositorios](CATALOG_SESSION.md) reúne los avisos de origen, los metadatos de Solidity y el archivo de prueba del encabezado de Census. La clave `integration-coverage` muestra el avance con su procedencia para cada ID.
 
-Los primeros 100 repositorios tienen código fuente fijado en el árbol Git de NQC. [Lista de los 46 anteriores, las 54 incorporaciones y la comprobación del checkout](SOURCE_CHECKOUT.md).
+NQC fija el código fuente de 153 de los 200 repositorios mediante submódulos Git. [Inventario de los 153, las 47 referencias de catálogo y comprobación del checkout](SOURCE_CHECKOUT.md).
 
 ## Reproducir
 
