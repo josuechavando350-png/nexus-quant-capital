@@ -202,3 +202,34 @@ class NoticeSearchTests(unittest.TestCase):
         for data in ({}, {'no-terms.txt': b'   '}):
             with self.assertRaises(ValueError):
                 NoticeCorpus(data)
+
+
+class LicenseSarifTests(unittest.TestCase):
+    def test_report_keeps_utf8_bytes_and_locates_the_actual_pin(self):
+        from superhunter.product_license_sarif import findings, render
+        from superhunter.product_reasoning import INPUTS
+        path = INPUTS['owned-slither/requirements.txt']
+        raw = '# Préparation\r\nexample==1\r\n'.encode()
+        sources = {path: raw}
+        profiles = {'example': [{'version': '1', 'status': 'NO_DIGEST_IN_PRODUCT_PROFILES',
+                                 'profiles': ['owned-slither']}]}
+        rows = findings(sources, [], profiles, {}, {})
+        run = render(rows)['runs'][0]
+        self.assertEqual(run['artifacts'][0]['contents']['text'].encode(), raw)
+        loc = run['results'][0]['locations'][0]['physicalLocation']
+        self.assertEqual(loc['artifactLocation']['uri'], path)
+        reg = loc['region']
+        self.assertEqual(raw[reg['byteOffset']:reg['byteOffset'] + reg['byteLength']], b'example==1\r\n')
+        self.assertEqual((reg['startLine'], reg['endLine']), (2, 2))
+        with self.assertRaises(ValueError):
+            findings({path: raw + b'example==1\n'}, [], profiles, {}, {})
+
+    def test_report_rejects_an_unbound_notice_and_preserves_non_utf8_artifacts(self):
+        from superhunter.product_license_sarif import findings, render
+        with self.assertRaises(ValueError):
+            findings({}, [], {}, {'notice.txt': {'sha256': '0' * 64}}, {'notice.txt': b'different'})
+        raw = bytes([255])
+        scan = {'notice.txt': {'sha256': product.sha(raw), 'detected_expression': None}}
+        run = render(findings({}, [], {}, scan, {'notice.txt': raw}))['runs'][0]
+        self.assertEqual(run['artifacts'][0]['contents'], {'binary': '/w=='})
+        self.assertEqual(run['results'][0]['ruleId'], 'NQC1003')

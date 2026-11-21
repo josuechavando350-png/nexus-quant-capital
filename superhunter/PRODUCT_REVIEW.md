@@ -165,3 +165,16 @@ python3.12 -m superhunter query-product --bundle "$evidence_dir" \
 ```
 
 En los manifiestos revisados se alcanzaron 190 estados, incluidas las asignaciones parciales. De las 114 particiones completas compatibles, ocho usan dos entornos, 46 usan tres, 46 usan cuatro, 13 usan cinco y una usa seis. La salida devuelve los ocho repartos mínimos. El modelo cubre las versiones declaradas directamente en esos archivos.
+
+## Exportar observaciones de licencias en SARIF 2.1.0
+
+El exportador identifica tres situaciones que requieren revisión. `NQC1001` localiza un miembro del workspace sin declaración de licencia. `NQC1002` apunta a la línea de un perfil cuyo paquete y versión carecen de digest en todos los perfiles. `NQC1003` señala un aviso verificado para el que ScanCode devolvió cero coincidencias. Cada observación incluye el archivo, sus bytes, SHA-256 y la región correspondiente. Las reglas describen la evidencia disponible.
+
+Añadir las siguientes opciones a la consulta conjunta de ScanCode y cargo-deny, incluyendo `--profile-wheels`. Se necesita el paquete oficial [Sarif.Multitool 5.8.0](https://www.nuget.org/packages/Sarif.Multitool/5.8.0) y el archivo [dotnet-runtime-8.0.34-linux-x64.tar.gz](https://builds.dotnet.microsoft.com/dotnet/Runtime/8.0.34/dotnet-runtime-8.0.34-linux-x64.tar.gz). NQC verifica los hashes, ejecuta el validador oficial con el esquema incluido en ese paquete y comprueba el resultado sin red.
+
+```text
+--sarif-sdk /ruta/sarif.multitool.5.8.0.nupkg --dotnet-runtime /ruta/dotnet-runtime-8.0.34-linux-x64.tar.gz
+--export-license-sarif /ruta/nueva/revision-sarif
+```
+
+La exportación opcional escribe `license-review.sarif`, el informe original de la validación y un resumen reproducible. Consultar `microsoft/sarif-sdk` devuelve los hashes del validador, del esquema y del informe, junto con los recuentos por regla. La ejecución conjunta en los seis perfiles produjo ocho observaciones de Cargo, dos pines sin digest y dos avisos sin coincidencia. El validador no emitió diagnósticos sobre el formato. El SHA-256 de `license-review.sarif` fue `29251a9ca219ef50647eb973f5d985bc26015aa07a38e0349002564b76cf2056`.

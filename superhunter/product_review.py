@@ -263,6 +263,9 @@ def main(argv):
     else:
         parser.add_argument('--bundle', type=Path, required=True)
         if command == 'query-product':
+            parser.add_argument('--sarif-sdk', type=Path, help='validate license observations with SARIF Multitool 5.8.0')
+            parser.add_argument('--dotnet-runtime', type=Path, help='pinned Linux x64 .NET runtime archive for the validator')
+            parser.add_argument('--export-license-sarif', type=Path, help='write the validated SARIF report into a new directory')
             parser.add_argument('--tlc-jar', type=Path, help='enumerate compatible Python profiles using TLC')
             parser.add_argument('--tree-sitter', type=Path, help='locate components and relations in verified SBOM bytes')
             parser.add_argument('--json-grammar', type=Path, help='directory of pinned Tree-sitter JSON parser sources')
@@ -324,6 +327,23 @@ def main(argv):
                 if not all(cargo_args):
                     raise EvidenceError('cargo-deny requires --cargo-deny, --rust-bin and --cargo-home together')
                 index.repos['embarkstudios/cargo-deny']['license_evidence'] = check_cargo(*cargo_args, result)
+            if opts.sarif_sdk or opts.dotnet_runtime or opts.export_license_sarif:
+                from . import product_license_sarif
+                if not (opts.sarif_sdk and opts.dotnet_runtime and opts.profile_wheels and opts.scancode_release
+                        and opts.cargo_deny):
+                    raise EvidenceError('license SARIF requires SDK, runtime, profile wheels, ScanCode and cargo-deny')
+                cargo = index.repos['embarkstudios/cargo-deny']['license_evidence']
+                evidence, sarif_files = product_license_sarif.build(opts.sarif_sdk, opts.dotnet_runtime, result,
+                                                                   cargo, index.profile_notices, observations, scan_files)
+                index.repos['microsoft/sarif-sdk']['sarif_evidence'] = evidence
+                if opts.export_license_sarif:
+                    owned_capture._path(opts.export_license_sarif, new=True)
+                    sources = (opts.bundle, opts.supply, opts.notice_wheels, opts.profile_wheels, opts.cdxgen_bundle,
+                               opts.guac_bundle, opts.export_notices)
+                    out = opts.export_license_sarif.resolve()
+                    if any(out.is_relative_to(p.resolve()) or p.resolve().is_relative_to(out) for p in sources if p):
+                        raise EvidenceError('SARIF export overlaps another input or output')
+                    write_new_bundle(opts.export_license_sarif, sarif_files)
             if opts.tlc_jar:
                 from . import product_profile_states
                 index.repos['tlaplus/tlaplus']['profile_grouping_evidence'] = product_profile_states.build(opts.tlc_jar, result)
