@@ -22,7 +22,7 @@ HISTORICAL_TREES = {
     'nqc-census':'68dbd045014a49bd53b79440d9878f3e8035c739',
 }
 ROOT_FILES = {
-    '.gitmodules':'e7dd7f71d3a8f077dd5623d0d1fcefc62d4aa48e',
+    '.gitmodules':'d2d602ef33c5c2c77b7fb5a1a240ae9061f3f5b5',
     '.gitignore':'7518f5529fe0b23ea9195c5e3c4a1099a9e05d08',
     'AGENTS.md':'6c2fe3771bad272bb1839aabc2b45ef636a16531',
     'README.md':'2d620f813efdfa3c146fc7e17dd39f5ca11132c5',

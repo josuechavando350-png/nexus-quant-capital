@@ -175,7 +175,8 @@ def inventory(root, notices=None, release=None, jobs=4):
     verified = verify(root, require_checkout=True, jobs=jobs)
     checked = {s['catalog_id']: s for s in verified['sources']}
     catalog = sources()
-    remote = remote_trees(root, {r['id']: r for r in catalog if r['id'] not in checked})
+    pending = {r['id']: r for r in catalog if r['id'] not in checked}
+    remote = remote_trees(root, pending) if pending else {}
     local_rows = [row for row in catalog if row['id'] in checked]
 
     def observe(row):
@@ -220,7 +221,7 @@ def inventory(root, notices=None, release=None, jobs=4):
 
 
 SNAPSHOT = 'superhunter/product_supply/source-inventory.json'
-SNAPSHOT_SHA = '9fe08694ea198e7872cc954a122fc4bdc4675996a5403cb7344822a89a3bfe3f'
+SNAPSHOT_SHA = '317543bf982e34f2674f616d2e46d37d87a3419bcf93a30d495e5def6503799c'
 NATURE = 'superhunter/product_supply/source-natures.json'
 NATURE_SHA = '5a6fb83a6f6df74992a6423da69db61d712d6fb480a86238775eede20a909212'
 

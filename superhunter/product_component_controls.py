@@ -9,7 +9,7 @@ from .product_review import ROOT, sha
 from .safe_io import canonical, read_artifact, strict_json
 
 
-DOMAINS = {'changes': 'product_change_batch', 'evm': 'product_evm_standards_batch',
+DOMAINS = {'evidence-codec': 'product_evidence_codec', 'changes': 'product_change_batch', 'evm': 'product_evm_standards_batch',
            'infrastructure': 'product_infra_batch', 'diagnostics': 'product_languages_batch',
            'supply': 'product_trust_batch', 'source-extracts': 'product_passive_source_batch',
            'android-policy': 'product_attestations_batch', 'state-amounts': 'product_state_formats_batch',
@@ -18,7 +18,7 @@ DOMAINS = {'changes': 'product_change_batch', 'evm': 'product_evm_standards_batc
            'scoring': 'product_evaluation_batch', 'timeline': 'product_timeline_formats',
            'static-contracts': 'product_static_contracts', 'build-compatibility': 'product_build_compatibility'}
 CONTRACT_PATH = 'superhunter/product_supply/component-control-contracts.json'
-CONTRACT_SHA = '06a61867ec8d0612d7e4a934f723a8c4a8ab42dbb9a1ab3e3a2321c5521d2bf2'
+CONTRACT_SHA = '7ad5ed1a7c4a344bb1b8d1467a3ad109b618fa1a82f67c6486cbcafa2b39105a'
 FIELD = 'component_control_receipt'
 
 

@@ -116,6 +116,11 @@ def checkout_blob(folder, path, oid):
 
 
 def tracked_files_match(folder):
+    # Git may omit even modified paths marked skip-worktree or assume-unchanged.
+    # All tracked entries in a complete, unmasked checkout have the H status tag.
+    entries = git(folder, 'ls-files', '-v', '-z', '--').split(b'\0')
+    if any(entry and not entry.startswith(b'H ') for entry in entries):
+        return False
     # Raw diff-files can report a stat-cache miss for unchanged checkout bytes
     # after a filesystem restore or a user namespace change.
     changes = git(folder, 'diff-files', '--raw', '--no-abbrev', '--no-renames', '--no-ext-diff',
@@ -197,8 +202,8 @@ def verify(root, require_checkout=False, jobs=4):
             raise ValueError('unexpected submodule symlink: ' + path)
         row = {'catalog_id': number, 'repository': name, 'path': path, 'commit': revision, 'status': 'pinned'}
         rows.append(row)
-    if targets or ''.join(declarations).encode() != manifest or len(rows) != 153:
-        raise ValueError('catalog, committed gitlinks and manifest must describe the same 153 repositories')
+    if targets or ''.join(declarations).encode() != manifest or len(rows) != 200:
+        raise ValueError('catalog, committed gitlinks and manifest must describe the same 200 repositories')
     # Structural checks above finish before any checkout worker starts. map retains
     # catalog order, and no partial inventory escapes if any worker fails.
     if require_checkout:

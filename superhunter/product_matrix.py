@@ -4,7 +4,7 @@ from collections import Counter
 from .product_batches import coverage
 from .product_reasoning import EvidenceError
 from .product_review import sha
-from .safe_io import canonical, read_artifact
+from .safe_io import read_artifact
 
 
 def published_excerpts():
@@ -45,11 +45,11 @@ def build(index):
         number = item['catalog_id']
         repo = index.lookup(item['repository'])
         source = repo['source_inventory']
+        if number in excerpts and any(source[k] != excerpts[number][k] for k in ('repository', 'revision', 'tree')):
+            raise EvidenceError('published excerpt has a different catalog identity or revision')
         if source['evidence'] == 'local_git_tree':
             code = 'complete'
         elif number in excerpts:
-            if any(source[k] != excerpts[number][k] for k in ('repository', 'revision', 'tree')):
-                raise EvidenceError('published excerpt has a different catalog identity or revision')
             code = 'excerpt'
         else:
             code = 'metadata'
@@ -73,16 +73,13 @@ def build(index):
             nested = recursive['nested_gitlinks']
             manifests = sum(recursive['manifest_counts'].values())
         tree_count += 1
-        key = item['session_receipt']
-        if key in ('supply.link', 'asvs.csv', 'asvs-guides.md'):
-            payload = {k: repo[k] for k in ('supply_role', 'controls') if k in repo}
-        else:
-            payload = repo[key] if key is not None else None
+        operations = item['session_operations']
         previous = item['prior_receipt']
         rows.append({'id': number, 'repository': repo['repository'], 'nature': source['nature'],
                      'commit': source['revision'], 'source': code, 'role': item['observed_role'],
                      'session': item['session_role'], 'receipt': item['session_receipt'] or item['prior_receipt'],
-                     'session_evidence_sha256': sha(canonical(payload)) if payload is not None else None,
+                     'session_operations': operations,
+                     'session_evidence_sha256': operations[0]['evidence_sha256'] if operations else None,
                      'historical_line_sha256': previous['line_sha256'] if previous else None,
                      'tree': source['tree'], 'verification_scope': scope, 'nested_gitlinks': nested,
                      'recognized_manifest_paths': manifests,
@@ -94,6 +91,8 @@ def build(index):
     return {'rows': rows, 'published_excerpts': list(excerpts.values()), 'catalog': len(rows), 'sources': dict(sources), 'pending_by_source': dict(pending),
             'executable': result['executable_in_either'], 'references': result['reference_data_in_either'],
             'functional': result['with_receipts_in_either'], 'end_to_end': result['session_with_receipts'],
+            'session_operation_count': sum(len(r['session_operations']) for r in rows),
+            'session_multi_operation_repositories': sum(len(r['session_operations']) > 1 for r in rows),
             'pending': result['pending'], 'verified_trees': tree_count, 'notices_reviewed': notices,
             'commercial_reviews_completed': 0, 'remote_roots': index.root_declarations['remote_roots_verified']}
 

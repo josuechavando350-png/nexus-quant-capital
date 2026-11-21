@@ -16,7 +16,12 @@ class SourceMaterializationTests(TestCase):
     def test_published_receipt_reproduces_offline(self):
         observed = audit.verify(self.records, self.product)
         receipt = strict_json(read_artifact(audit.ROOT, 'superhunter/product_supply/source-materialization-review.json'))
-        self.assertEqual(observed, {k: receipt[k] for k in observed})
+        historical = observed['historical_record']
+        self.assertEqual(historical, {k: receipt[k] for k in historical})
+        self.assertEqual((observed['current_product_gitlinks'], observed['preserved_gitlinks'],
+                          observed['added_gitlinks'], observed['new_functional_credits']), (200, 153, 47, 0))
+        self.assertEqual(historical['product_gitlinks'], 153)
+        self.assertEqual(observed['current_product_upstream_tree'], historical['separate_upstream_tree'])
         self.assertEqual(receipt['local_checkouts_observed'], 200)
         rows = [[x['catalog_id'], x['commit'], x['tree']] for x in audit.expected_rows()]
         self.assertEqual(audit.sha(audit.canonical(rows)), receipt['commit_tree_pairs_sha256'])
@@ -27,11 +32,16 @@ class SourceMaterializationTests(TestCase):
         with self.assertRaisesRegex(ValueError, 'catalog rows'):
             audit.verify(self.records, self.product)
 
-    def test_second_workspace_source_cannot_be_counted_in_product(self):
-        new = self.records['summary.json'][0]
-        self.product[new['path']] = new['commit']
-        with self.assertRaisesRegex(ValueError, '153'):
-            audit.verify(self.records, self.product)
+    def test_missing_or_changed_current_product_gitlink_is_rejected(self):
+        path = self.records['summary.json'][0]['path']
+        for value in (None, '7' * 40):
+            links = self.product.copy()
+            if value is None:
+                del links[path]
+            else:
+                links[path] = value
+            with self.subTest(value=value), self.assertRaisesRegex(ValueError, 'current product gitlinks'):
+                audit.verify(self.records, links)
 
     def test_second_workspace_tree_substitution_is_rejected(self):
         row = self.records['summary.json'][0]

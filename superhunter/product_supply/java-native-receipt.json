@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "native_runs": 2,
+  "distinct_temporary_working_directories": true,
+  "same_host": true,
+  "report_sha256": "bb554aa25ce48cb0751c69b0f56df5bc0f227b494ced81049cb937b1bd4fa7a7",
+  "sections_sha256": "f8d54138f0c71bc052a78c67c7f5b618d28fb2f33206c506f993995f8e339820",
+  "owned_case_sha256": "b65c4e5f56c289a2ab545e85ad785a8b18ccf59769f3114a28c058face1510e6",
+  "unit_tests_passed": 11,
+  "unit_tests_failed": 0,
+  "engines_executed": [
+    "spotbugs/spotbugs",
+    "find-sec-bugs/find-sec-bugs"
+  ],
+  "control_scope": "Two independent analyzer configurations on the same two owned Java classes. An ordinary sample name is compared in memory with a parameterized JDBC call. No external database or network. Report hashes cover both configurations and their distinct contributions.",
+  "original_vulnerabilities_confirmed": 0
+}

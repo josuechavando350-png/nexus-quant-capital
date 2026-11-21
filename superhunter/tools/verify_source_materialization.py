@@ -51,7 +51,7 @@ def unpack_records():
 
 
 def expected_rows():
-    raw = read_artifact(ROOT, 'superhunter/product_supply/source-inventory.json')
+    raw = read_artifact(ROOT, 'superhunter/product_supply/source-inventory-153.json')
     if sha(raw) != SOURCE_INVENTORY_SHA:
         raise ValueError('audited source inventory changed')
     inventory = strict_json(raw)['entries']
@@ -84,30 +84,35 @@ def verify(records, product):
         raise ValueError('historical observations differ from the 200 pinned catalog rows')
     links = {r['path']: r['commit'] for r in rows}
     local = {r['path']: r for r in rows}
-    if not (len(product) == 153 and product.items() <= links.items() and tree_oid(product) == PRODUCT_UPSTREAM_TREE):
-        raise ValueError('product source set differs from the 153 reviewed rows')
+    if product != links or tree_oid(product) != OBSERVED_UPSTREAM_TREE:
+        raise ValueError('current product gitlinks differ from the 200 observed catalog revisions')
     manifest = ''.join(f'[submodule "{r["path"]}"]\n\tpath = {r["path"]}\n'
                        f'\turl = https://github.com/{r["repository"]}.git\n\tshallow = true\n' for r in rows)
     if tree_oid(links) != OBSERVED_UPSTREAM_TREE or sha(manifest.encode()) != prior['manifest_sha256']:
         raise ValueError('historical upstream tree or manifest differs')
     preserved = records['preserved153.json']
-    if (len(preserved) != 153 or any(r.get('status') != 'materialized_local_shared_objects' for r in preserved)
-            or {r['path']: r['commit'] for r in preserved} != product):
-        raise ValueError('preserved source cohort differs from the product gitlinks')
+    historical_links = {r['path']: r['commit'] for r in preserved}
+    if (len(preserved) != 153 or len(historical_links) != 153
+            or any(r.get('status') != 'materialized_local_shared_objects' for r in preserved)
+            or not historical_links.items() <= product.items() or tree_oid(historical_links) != PRODUCT_UPSTREAM_TREE):
+        raise ValueError('preserved source cohort differs from the historical 153 gitlinks')
     acquired = records['summary.json']
-    if len(acquired) != 47 or {r['path'] for r in acquired} != links.keys()-product.keys():
+    if len(acquired) != 47 or {r['path'] for r in acquired} != links.keys()-historical_links.keys():
         raise ValueError('new historical observations must cover exactly the other 47 projects')
     for r in acquired:
         if r['seconds'] < 0 or {**{k: r[k] for k in ('commit', 'path', 'repository', 'status', 'tree')},
                                 'catalog_id': r['id']} != local[r['path']]:
             raise ValueError('checkout batch row conflicts with the catalog')
-    return {'schema': 1, 'product_gitlinks': len(product), 'separate_checkout_observations': len(links),
+    historical = {'schema': 1, 'product_gitlinks': len(historical_links), 'separate_checkout_observations': len(links),
             'prior_153_matched': len(preserved), 'additional_checkouts_in_separate_workspace': len(acquired),
             'catalog_revisions_and_trees_matched': len(rows), 'historical_fsck_success_rows': len(acquired),
             'new_fsck_runs': 0, 'new_functional_credits': 0, 'historical_runner_sha256': PRIOR_SCRIPT_SHA,
             'historical_record_sha256': {n: v[1] for n, v in RECORDS.items()},
             'product_upstream_tree': PRODUCT_UPSTREAM_TREE, 'separate_upstream_tree': OBSERVED_UPSTREAM_TREE,
             'separate_workspace_commit': SOURCE_COMMIT, 'separate_workspace_root_tree': SOURCE_TREE}
+    return {'schema': 2, 'current_product_gitlinks': len(product), 'current_product_upstream_tree': tree_oid(product),
+            'preserved_gitlinks': len(historical_links), 'added_gitlinks': len(product) - len(historical_links),
+            'new_functional_credits': 0, 'historical_record': historical}
 
 
 def compare_local(workspace):

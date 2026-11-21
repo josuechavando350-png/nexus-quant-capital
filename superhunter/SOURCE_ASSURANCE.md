@@ -1,5 +1,7 @@
 # Verificación defensiva de fuentes en NQC
 
+La [rama consolidada](CONSOLIDATION.md) conserva las 200 fuentes directas y reúne los controles de los PR [118](DEFENSIVE_COMPONENTS.md) y [119](NATIVE_CAPABILITIES.md). Los recibos de los perfiles anteriores se reproducen con sus respectivas revisiones.
+
 La aceptación del [PR 118](DEFENSIVE_COMPONENTS.md) añade dominios defensivos seleccionables y comprueba los resultados individuales, la matriz y la corroboración entre productores. El [acta de fuentes](SOURCE_MATERIALIZATION.md) permite reproducir sin red la conciliación de los 200 registros de checkout.
 
 Para la versión posterior al PR 115, consultar [el perfil offline de procedencia y análisis Go del PR 117](OFFLINE_SOURCE_AND_GO.md). Las cifras y el comando de 218 respuestas de este documento se conservan para reproducir el PR 115.

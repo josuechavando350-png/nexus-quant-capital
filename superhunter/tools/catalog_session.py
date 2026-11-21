@@ -121,6 +121,8 @@ def main():
     parser.add_argument('--review-queries', action='store_true', help='run the 218 published PR 115 queries in order')
     parser.add_argument('--native-inputs', type=Path, help='use the complete reviewed native profile with local paths')
     parser.add_argument('--prepare', action='store_true', help='download fixed public inputs into a new external directory')
+    from superhunter.product_native_capabilities import add_arguments, selected_kits
+    add_arguments(parser)
     from superhunter.product_component_controls import DOMAINS
     parser.add_argument('--component-controls', choices=['all', *DOMAINS], help='consume fixed offline controls for the selected domain')
     parser.add_argument('--owned-source-kit', type=Path, help='fixed offline code and package reference comparisons')
@@ -144,6 +146,9 @@ def main():
         queries.extend(['portable-source-proof', 'go-header-digest'])
     if args.review_queries and args.component_controls:
         queries.append('component-controls')
+    kits = selected_kits(args)
+    if args.review_queries and kits:
+        queries.append('native-capabilities')
     work = args.workspace.resolve()
     cache = args.download_cache
     if cache is not None:
@@ -174,6 +179,7 @@ def main():
            '--qdrant', work/'qdrant', '--haystack-wheels', work/'haystack', '--pmd-release', work/'pmd.zip',
            *(native_inputs(args.native_inputs.resolve()) if args.native_inputs else []),
            *(['--owned-source-kit', args.owned_source_kit.resolve()] if args.owned_source_kit else []),
+           *[value for group, path in sorted(kits.items()) for value in ('--' + group + '-native-kit', path)],
            *(['--component-controls', args.component_controls] if args.component_controls else []),
            *(['--fork-headers'] if args.fork_headers else []),
            *(['--gosec-kit', args.gosec_kit.resolve()] if args.gosec_kit else []),

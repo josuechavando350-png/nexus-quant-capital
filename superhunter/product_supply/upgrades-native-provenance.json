@@ -1,0 +1,27 @@
+{
+  "distribution_rebuilt_from_catalog_revision": false,
+  "notes": [
+    "All 432 catalog TypeScript Git blob digests were independently re-read and compared with the source manifest.",
+    "The npm Hardhat package differs from the catalog in one config field name: test versus tests. The fixed owned compile uses neither optional path override; no identical-source build is claimed.",
+    "OpenZeppelin upgrades-core contains 132 matching TypeScript sources. Executed JavaScript is from the pinned official npm distributions, not a locally rebuilt catalog revision."
+  ],
+  "source_comparisons": [
+    {
+      "all_catalog_git_blobs_verified": 300,
+      "catalog_commit": "c6a0b31a8bcbb839aa2051f700476e2019e5529d",
+      "differences": [
+        {
+          "diff": "--- catalog\n+++ npm-release\n@@ -178,7 +178,7 @@\n const userConfigType = z.object({\n   paths: z\n     .object({\n-      tests: conditionalUnionType(\n+      test: conditionalUnionType(\n         [\n           [isObject, z.object({ solidity: z.string().optional() })],\n           [(data) => typeof data === \"string\", z.string()],\n",
+          "path": "src/internal/builtin-plugins/solidity-test/config.ts"
+        }
+      ],
+      "repository": "NomicFoundation/hardhat"
+    },
+    {
+      "all_catalog_git_blobs_verified": 132,
+      "catalog_commit": "54bb8bb913c2d52f417d3bcf1ef94e9061b89da8",
+      "differences": [],
+      "repository": "OpenZeppelin/openzeppelin-upgrades"
+    }
+  ]
+}

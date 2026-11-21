@@ -1,11 +1,15 @@
 # Acta de materialización de fuentes
 
-**En el espacio de verificación separado se observaron 200 checkouts directos. El árbol de producto conserva 153 gitlinks directos.** Se cotejaron otra vez los 200 directorios, su HEAD y el árbol raíz con el catálogo, desde un espacio de red aislado. Los 47 adicionales permanecen fuera del árbol de producto. El acta otorga cero participaciones funcionales.
+**La rama consolidada registra 200 gitlinks.** Su árbol `upstream` es `d8b5a3d79e81e686d4299e40bea64d37824d29fe`. La comprobación contrasta todas sus rutas y revisiones con el catálogo y reconstruye el árbol de las 153 revisiones originales. El [inventario directo vigente](SOURCE_CHECKOUT.md) cubre los 200 repositorios. Las pruebas de procedencia otorgan cero participaciones funcionales.
+
+## Acta histórica del PR 118
+
+Cuando se produjo el acta, la rama de producto contenía 153 gitlinks y un espacio de fuentes separado contenía los 200 checkouts. El [inventario de aquel corte](product_supply/source-inventory-153.json) y los tres recibos se conservan con sus bytes originales. El campo `historical_record` del verificador reconstruye las cifras de entonces.
 
 | Evidencia | Alcance |
 |---|---|
 | `all200-checkouts.json` | Observación histórica de los 200 estados `checked_out`, con identidad, revisión, árbol y ruta de cada directorio. Se reconstruye la huella del manifiesto a partir de la lista revisada. |
-| `preserved153.json` | Las 153 revisiones compartidas del punto de partida coinciden exactamente con los gitlinks de producto. Su árbol es `20df6bd14174b62825d33de0d48f9af4598079cd`. |
+| `preserved153.json` | Las 153 revisiones compartidas del punto de partida coinciden exactamente con sus gitlinks en el producto consolidado. Su árbol es `20df6bd14174b62825d33de0d48f9af4598079cd`. |
 | `summary.json` | Los 47 registros adicionales identifican el resultado, commit y árbol de cada checkout. El programa histórico escribía `checked_out` después de obtener código de salida cero de `git fsck --full --no-dangling --no-reflogs --no-progress`. El acta conserva el hash del programa examinado. Los registros originales carecen de una transcripción independiente de stdout y stderr de cada llamada. |
 | Cotejo actual | Con los tres recibos originales se reconstruyó la huella del árbol de los 200 y se contrastó con el superproyecto local `785860fc85166597d40ba08503a3d89a6be8e5be`. Los 200 pares revisión/árbol observados en sus checkouts dieron SHA-256 `0b763d22f728b559e18075bfe5b3db916f0968cbb745556cd20ffe22bab91b4b`. |
 
@@ -16,7 +20,7 @@ unshare --user --map-current-user --net python3.12 -B -m superhunter.tools.verif
 python3.12 -B -m unittest -v superhunter.tests.test_source_materialization
 ```
 
-Quien ya disponga del espacio de observación original puede añadir `--existing-workspace RUTA` para repetir el contraste de directorios, HEAD y árboles. Esta opción es de sólo lectura. Los bytes completos de cada proveedor, los objetos de submódulos anidados y los contenidos externos de Git LFS quedan fuera de este nuevo cotejo. Se reutilizó la evidencia de fsck ya registrada, con cero fsck o compilaciones adicionales durante esta comprobación. El superproyecto de 200 referencias se identifica como procedencia local. Su commit y sus gitlinks no se incorporan mediante el acta. Las huellas y la concordancia de datos no autentican la firma de un operador histórico.
+Quien ya disponga del espacio de observación original puede añadir `--existing-workspace RUTA` para repetir el contraste de directorios, HEAD y árboles. Esta opción es de sólo lectura. Los bytes completos de cada proveedor, los objetos de submódulos anidados y los contenidos externos de Git LFS quedan fuera de este nuevo cotejo. Se reutilizó la evidencia de fsck ya registrada, con cero fsck o compilaciones adicionales durante esta comprobación. El superproyecto histórico se identifica como procedencia local. Las mismas 200 revisiones se publicaron como gitlinks en el PR 119. Las huellas y la concordancia de datos no autentican la firma de un operador histórico.
 
 ## Atribución y selección de los seis extractos nuevos
 

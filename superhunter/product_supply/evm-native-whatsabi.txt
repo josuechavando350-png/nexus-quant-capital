@@ -1,0 +1,13 @@
+// Offline bytecode-only API. No provider, loader, RPC, or signature database.
+const fs = require('node:fs');
+const {whatsabi} = require('@shazow/whatsabi');
+const cases = JSON.parse(fs.readFileSync(0, 'utf8'));
+const result = {};
+for (const [name, code] of Object.entries(cases)) {
+    result[name] = {
+        selectors: whatsabi.selectorsFromBytecode('0x' + code),
+        abi_selectors: whatsabi.abiFromBytecode('0x' + code)
+            .filter(row => row.type === 'function').map(row => row.selector),
+    };
+}
+process.stdout.write(JSON.stringify(result));

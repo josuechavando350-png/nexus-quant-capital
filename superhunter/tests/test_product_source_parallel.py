@@ -48,7 +48,7 @@ class ParallelSourceTests(unittest.TestCase):
         cls.catalog = [{'id': number, 'repository': f'owned/tool{number:03}', 'revision': cls.revision}
                        for number in range(1, 201)]
         manifest, index = [], []
-        for row in cls.catalog[:153]:
+        for row in cls.catalog:
             path = f"upstream/{row['id']:03}-{row['repository'].split('/')[1]}"
             fixture_git(cls.root, 'clone', '-q', '--shared', str(seed), path)
             manifest.append(f'[submodule "{path}"]\n\tpath = {path}\n'
@@ -77,10 +77,22 @@ class ParallelSourceTests(unittest.TestCase):
         serial = sources.verify(self.root, require_checkout=True, jobs=1)
         parallel = sources.verify(self.root, require_checkout=True, jobs=4)
         self.assertEqual(canonical(serial), canonical(parallel))
-        self.assertEqual(parallel['status_counts'], {'checked_out': 153})
-        self.assertEqual(parallel['catalog_only_count'], 47)
-        self.assertEqual([row['catalog_id'] for row in parallel['sources']], list(range(1, 154)))
+        self.assertEqual(parallel['status_counts'], {'checked_out': 200})
+        self.assertEqual(parallel['catalog_only_count'], 0)
+        self.assertEqual([row['catalog_id'] for row in parallel['sources']], list(range(1, 201)))
         self.assertFalse(parallel['upstream_code_executed_by_verifier'])
+
+    def test_index_flags_cannot_hide_modified_source(self):
+        path = self.first/'owned.txt'
+        for flag in ('assume-unchanged', 'skip-worktree'):
+            with self.subTest(flag=flag):
+                fixture_git(self.first, 'update-index', '--' + flag, '--', path.name)
+                try:
+                    path.write_bytes(b'unreviewed replacement')
+                    self.assertFalse(sources.tracked_files_match(self.first))
+                finally:
+                    fixture_git(self.first, 'update-index', '--no-' + flag, '--', path.name)
+                    fixture_git(self.first, 'restore', '--', path.name)
 
     def test_restored_files_with_stale_stat_cache_match_the_original_blob(self):
         path = self.first/'owned.txt'

@@ -4,6 +4,7 @@ from pathlib import Path
 from types import SimpleNamespace
 import unittest
 
+from superhunter.product_batches import coverage
 from superhunter.product_component_controls import validate_group
 from superhunter.product_matrix import build
 from superhunter.product_reasoning import EvidenceError
@@ -35,6 +36,7 @@ def indexed_report(active):
     if active:
         for name, receipt in validate_group('supply', observations).items():
             index.lookup(name)['component_control_receipt'] = receipt
+    docs['integration-coverage'] = coverage(index)
     docs['integration-matrix'] = build(index)
     docs['component-controls'] = {'requested': ['supply'], 'blocked': {} if active else {'supply': 'test absence'},
                                  'observations': observations, 'digest_corroboration': {}}

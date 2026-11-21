@@ -1,12 +1,13 @@
-"""Cross-check the 218-response acceptance transcript without executing the product or native producers."""
+"""Verify catalog, source and live operations from a bounded transcript without executing producers."""
 import argparse
 import base64
 from collections import Counter
+from functools import cache
 from pathlib import Path
 import sys
 import zlib
 
-from superhunter.product_batches import FIXED_SOURCE_RECEIPTS, RECEIPTS
+from superhunter.product_batches import FIXED_SOURCE_RECEIPTS, RECEIPTS, check_native, check_reference
 from superhunter.product_matrix import published_excerpts
 from superhunter.product_reasoning import EvidenceError
 from superhunter.product_source_audit import SNAPSHOT, SNAPSHOT_SHA
@@ -18,20 +19,22 @@ from superhunter.tools.catalog_session import review_queries
 
 def observed(row):
     name = row['repository'].casefold()
-    if 'component_control_receipt' in row:
-        from superhunter.product_component_controls import role_for
-        return role_for(row)
     if name in FIXED_SOURCE_RECEIPTS:
         role, key, expected = FIXED_SOURCE_RECEIPTS[name]
         if key in row and row[key] != expected:
             raise EvidenceError('fixed product result changed')
     elif name in RECEIPTS:
         role, key = 'executable', RECEIPTS[name]
+        if row.get(key):
+            check_native(name, row[key])
     elif name in ('ethereum/eips', 'ethereum/execution-specs'):
         role, key = 'reference_data', 'census_header_reference'
+        if row.get(key):
+            check_reference(name, row[key])
     elif name in ('owasp/asvs', 'owasp/cheatsheetseries', 'in-toto/in-toto'):
         supply = row.get('supply_role') or {}
         if supply and (supply.get('role') == 'executable' or row.get('controls')):
+            check_reference(name, {k: row[k] for k in ('supply_role', 'controls') if k in row})
             return supply['role'], supply['artifact']
         return 'pending', None
     else:
@@ -41,15 +44,116 @@ def observed(row):
 
 def response_keys(raw):
     keys = review_queries()
-    extra = len(raw.splitlines()) - len(keys)
-    if extra in (2, 3):
-        keys.extend(['portable-source-proof', 'go-header-digest'])
-    if extra in (1, 3):
-        keys.append('component-controls')
-    return keys
+    tail = raw.splitlines()[len(keys):]
+    if len(tail) > 4:
+        raise EvidenceError('acceptance transcript has missing or extra responses')
+    markers = {'archive_sha256': 'portable-source-proof', 'go_archive_sha256': 'go-header-digest',
+               'observations': 'component-controls', 'groups': 'native-capabilities'}
+    extras = []
+    for line in tail:
+        groups = [name for field, name in markers.items() if field in strict_json(line)]
+        if len(groups) != 1 or groups[0] in extras:
+            raise EvidenceError('acceptance transcript has missing or extra responses')
+        extras.append(groups[0])
+    optional = [name for name in extras if name in ('component-controls', 'native-capabilities')]
+    if extras != optional and extras != ['portable-source-proof', 'go-header-digest', *optional]:
+        raise EvidenceError('acceptance transcript has missing or extra responses')
+    return keys + extras
 
 
-def verify(raw, expected_hash=None):
+@cache
+def source_snapshot(digest):
+    if digest == SNAPSHOT_SHA:
+        path = SNAPSHOT
+    elif digest == SNAPSHOT_153:
+        path = 'superhunter/product_supply/source-inventory-153.json'
+    else:
+        raise EvidenceError('unknown source inventory snapshot')
+    raw = read_artifact(ROOT, path)
+    if sha(raw) != digest:
+        raise EvidenceError('source audit differs from the reviewed snapshot')
+    return strict_json(raw)
+
+
+def native_bindings(report):
+    """Compare each selected native group with its pinned, independently reviewed output."""
+    native = report.get('native-capabilities')
+    if native is None:
+        return {}
+    from superhunter.product_native_capabilities import contracts
+    registry = contracts()
+    groups = native.get('groups')
+    failed = native.get('blocked_groups', {})
+    if (not isinstance(groups, dict) or not isinstance(failed, dict) or not (groups or failed)
+            or set(groups) & set(failed) or (set(groups) | set(failed)) - registry.keys()
+            or ('blocked_groups' in native and not failed)
+            or any(not isinstance(error, dict) or set(error) != {'error_type', 'message'}
+                   or not all(isinstance(value, str) for value in error.values()) or not error['error_type']
+                   for error in failed.values())
+            or type(native.get('original_vulnerabilities_confirmed')) is not int
+            or native['original_vulnerabilities_confirmed'] != 0
+            or native.get('scope') != 'fixed_owned_controls_and_pinned_local_inputs'):
+        raise EvidenceError('native group membership or scope differs')
+    bindings = {}
+    for group, result in groups.items():
+        contract = registry[group]
+        if sha(canonical(result)) != contract['report_sha256']:
+            raise EvidenceError('native producer bytes differ from reviewed controls')
+        for name, role in contract['repositories'].items():
+            bindings[name] = {'query': 'native-capabilities', 'group': group, 'repository': name,
+                              'role': role, 'report_sha256': contract['report_sha256']}
+    if (native.get('repositories') != sorted(k.casefold() for k in bindings)
+            or type(native.get('functional_participations')) is not int
+            or native['functional_participations'] != len(bindings)):
+        raise EvidenceError('native totals differ from producer identities')
+    return bindings
+
+
+INTERIM_99 = '81ab0b56f1970caeecc58ffc2fbf09197f340ede1b193b5d984c3db00593c9f5'
+SNAPSHOT_153 = '9fe08694ea198e7872cc954a122fc4bdc4675996a5403cb7344822a89a3bfe3f'
+HISTORICAL_COMPONENTS = {
+    '99': 'adbd7b433b1d3cad6ee0a64fa71e5187f422dafc9050353c07c66d20187abfea',
+    '118': '06a61867ec8d0612d7e4a934f723a8c4a8ab42dbb9a1ab3e3a2321c5521d2bf2',
+}
+
+
+@cache
+def component_rules(profile):
+    if profile == 'current':
+        from superhunter.product_component_controls import contracts
+        return contracts()
+    raw = read_artifact(ROOT, f'superhunter/product_supply/component-control-contracts-{profile}.json')
+    if sha(raw) != HISTORICAL_COMPONENTS[profile]:
+        raise EvidenceError('historical component contracts differ')
+    return strict_json(raw)
+
+
+def row_operations(row, native, *, profile='current'):
+    """Read every independent producer, including an overlapping second operation."""
+    role, key = observed(row)
+    receipts = [(role, key)] if key else []
+    if 'component_control_receipt' in row:
+        rule = component_rules(profile).get(row['repository'])
+        if (not rule or row['component_control_receipt'] != {k: rule[k] for k in ('domain', 'revision', 'result_sha256')}
+                or rule['revision'] != row['source_inventory']['revision']):
+            raise EvidenceError('component control row differs from the accepted result')
+        receipts.append((rule['role'], 'component_control_receipt'))
+    binding = native.get(row['repository'])
+    if 'native_capability_receipt' in row or binding:
+        if not binding or row.get('native_capability_receipt') != binding:
+            raise EvidenceError('native repository has no matching producer receipt')
+        receipts.append((binding['role'], 'native_capability_receipt'))
+    operations = []
+    for role, field in receipts:
+        if field in ('supply.link', 'asvs.csv', 'asvs-guides.md'):
+            value = {k: row[k] for k in ('supply_role', 'controls') if k in row}
+        else:
+            value = row[field]
+        operations.append({'role': role, 'receipt': field, 'evidence_sha256': sha(canonical(value))})
+    return sorted(operations, key=lambda op: (op['role'] != 'executable', op['receipt']))
+
+
+def verify(raw, expected_hash=None, *, require_consolidated=False):
     digest = sha(raw)
     if expected_hash is not None and digest != expected_hash:
         raise EvidenceError('transcript digest differs from the acceptance record')
@@ -70,20 +174,44 @@ def verify(raw, expected_hash=None):
     history = {doc['catalog_id']: doc for doc in strict_json(archive)['receipts']}
     matrix = report['integration-matrix']
     rows = matrix['rows']
-    if 'component-controls' in report and 'published_excerpts' not in matrix:
+    native = native_bindings(report)
+    combined = 'component-controls' in report and 'native-capabilities' in report
+    coverage = report['integration-coverage']
+    operations_format = 'session_operation_count' in matrix
+    if combined and not operations_format:
+        raise EvidenceError('combined session lacks its per-operation matrix')
+    interim_118 = digest == INTERIM_99
+    component_profile = 'current'
+    if interim_118:
+        component_profile = '99'
+    elif not operations_format and report['source-inventory'].get('snapshot_sha256') == SNAPSHOT_153:
+        component_profile = '118'
+    if 'component-controls' in report and 'published_excerpts' not in matrix and not interim_118:
         raise EvidenceError('component profile is missing its published excerpt inventory')
     excerpts = {}
-    if 'published_excerpts' in matrix:
+    if 'published_excerpts' in matrix or interim_118:
         actual = published_excerpts()
-        if matrix['published_excerpts'] != actual:
+        if not interim_118 and matrix['published_excerpts'] != actual:
             raise EvidenceError('published excerpt inventory differs from its source bytes')
         excerpts = {r['id']: r for r in actual}
-    snapshot = read_artifact(ROOT, SNAPSHOT)
-    if sha(snapshot) != SNAPSHOT_SHA:
+    audit = report['source-inventory']
+    snapshot = source_snapshot(audit.get('snapshot_sha256'))
+    acquired = {r['id']: r for r in snapshot['entries']}
+    if (audit.get('entries_sha256') != snapshot['entries_sha256']
+            or audit.get('checkouts') != snapshot['checkouts']
+            or audit.get('metadata_only') != snapshot['remote_commit_records']):
         raise EvidenceError('source audit differs from the reviewed snapshot')
-    acquired = {r['id']: r for r in strict_json(snapshot)['entries']}
     if len(rows) != 200 or any(row['id'] != n for n, row in enumerate(rows, 1)):
         raise EvidenceError('incomplete or disordered acceptance matrix')
+    coverage_rows = coverage['identities']
+    if len(coverage_rows) != len(rows):
+        raise EvidenceError('incomplete catalog coverage')
+    from superhunter.product_remote_roots import roots
+    remote_names = {identity['repository'] for identity, _ in roots()}
+    seen_roots = {r['repository'] for r in rows if 'root_declarations' in report[r['repository']]}
+    if remote_names != seen_roots:
+        raise EvidenceError('portable root declaration scope differs')
+    operation_count = multi_operation = 0
     actual_roles, actual_sources, cumulative_roles, pending_sources = Counter(), Counter(), Counter(), Counter()
     credits = []
     for official, summary in zip(sources(), rows, strict=True):
@@ -95,11 +223,14 @@ def verify(raw, expected_hash=None):
                 (summary['repository'], summary['id'], summary['commit']) != (name, number, official['revision'])):
             raise EvidenceError('matrix and source revisions disagree')
         fixed = acquired[number]
-        if any(audited.get(k) != fixed.get(k) for k in ('id', 'repository', 'revision', 'tree', 'contents', 'evidence')):
+        if any(audited.get(k) != value for k, value in fixed.items()):
             raise EvidenceError('source revisions or checkout inventory differ from the pinned audit')
-        role, receipt = observed(row)
+        operations = row_operations(row, native, profile=component_profile)
+        primary = operations[0] if operations else None
+        role, receipt = (primary['role'], primary['receipt']) if primary else ('pending', None)
         previous = history.get(number)
-        cumulative = previous['role'] if previous else role
+        all_roles = {role, previous['role'] if previous else 'pending'}
+        cumulative = next(kind for kind in ('executable', 'reference_data', 'pending') if kind in all_roles)
         if audited['contents'] is not None:
             source = 'complete'
         elif excerpts:
@@ -141,22 +272,29 @@ def verify(raw, expected_hash=None):
                 'detected_expression': notice['detected_expression'], 'effective_text_sha256': notice['sha256']} or
                 notice != (fixed.get('resolved_notice_scan') or fixed['notice_scan'])):
             raise EvidenceError('license evidence digest or description differs')
+        coverage_row = coverage_rows[number-1]
+        if operations_format and (coverage_row['catalog_id'], coverage_row['repository'], coverage_row['observed_role'],
+                coverage_row['session_role'], coverage_row['session_receipt']) != (
+                number, name, cumulative, role, receipt):
+            raise EvidenceError('coverage disagrees with the independently observed role or producer')
+        if operations_format or 'session_operations' in summary or 'session_operations' in coverage_row:
+            if (not operations_format or summary.get('session_operations') != operations
+                    or coverage_row.get('session_operations') != operations):
+                raise EvidenceError('operation ledger differs from the producer bytes')
+        operation_count += len(operations)
+        multi_operation += len(operations) > 1
         if summary['session'] == 'pending':
             if summary['session_evidence_sha256'] is not None:
                 raise EvidenceError('pending identity attributed a session result')
             continue
         if receipt != summary['receipt']:
             raise EvidenceError('live receipt points to the wrong producer field')
-        if receipt in ('supply.link', 'asvs.csv', 'asvs-guides.md'):
-            evidence = {k: row[k] for k in ('supply_role', 'controls') if k in row}
-        else:
-            evidence = row[receipt]
-        if sha(canonical(evidence)) != summary['session_evidence_sha256']:
+        if primary['evidence_sha256'] != summary['session_evidence_sha256']:
             raise EvidenceError('session credit differs from its producer bytes')
         credits.append([number, name, summary['session'], receipt])
     live = {name for name in (r['repository'] for r in rows) if 'component_control_receipt' in report[name]}
     if 'component-controls' in report:
-        from superhunter.product_component_controls import DOMAINS, contracts, reconcile_digest
+        from superhunter.product_component_controls import DOMAINS, reconcile_digest
         controls = report['component-controls']
         names = controls['requested']
         failures = controls['blocked']
@@ -166,7 +304,7 @@ def verify(raw, expected_hash=None):
                 or set(failures) - set(names)):
             raise EvidenceError('component selection or blocked domains differ')
         blocked = set(failures)
-        expected = {name for name, rule in contracts().items() if rule['domain'] in set(names) - blocked}
+        expected = {name for name, rule in component_rules(component_profile).items() if rule['domain'] in set(names) - blocked}
         if set(controls['observations']) != expected or live != expected:
             raise EvidenceError('component evidence does not cover the selected producers')
         if controls['digest_corroboration'] != reconcile_digest(controls['observations'], report.get('go-header-digest')):
@@ -180,9 +318,12 @@ def verify(raw, expected_hash=None):
         raise EvidenceError('component receipts have no shared evidence')
     if 'portable-source-proof' in report:
         source_report = report['portable-source-proof']
-        records = [report[r['repository']]['offline_source_proof'] for r in rows if r['source'] != 'complete']
-        if (source_report['commits'] != len(records) or source_report['receipt_sha256'] != sha(canonical(records)) or
-                source_report['root_declarations'] != sum(len(r['manifest_blobs']) for r in records)):
+        from superhunter.product_portable_roots import ARCHIVE_SHA, inputs
+        records = [report[r['repository']]['offline_source_proof'] for r in rows
+                   if 'offline_source_proof' in report[r['repository']]]
+        originals, files = inputs()
+        if (records != originals or source_report != {'commits': len(records), 'receipt_sha256': sha(canonical(records)),
+                                                      'root_declarations': len(files), 'archive_sha256': ARCHIVE_SHA}):
             raise EvidenceError('portable Git evidence differs from product rows')
         go = report['securego/gosec']['go_source_receipt']
         if go['report_sha256'] != sha(canonical(report['go-header-digest'])):
@@ -195,10 +336,38 @@ def verify(raw, expected_hash=None):
                 'functional': counts['functional'], 'end_to_end': counts['session'], 'pending': counts['pending'],
                 'executable': cumulative_roles['executable'], 'references': cumulative_roles['reference_data'],
                 'notices_reviewed': len(rows), 'verified_trees': len(acquired), 'commercial_reviews_completed': 0,
-                'remote_roots': len(rows)-actual_sources['complete']}
+                'remote_roots': len(remote_names)}
+    if operations_format:
+        expected_coverage = {'catalog_count': len(rows), 'session_with_receipts': counts['session'],
+                             'with_receipts_in_either': counts['functional'], 'pending': counts['pending'],
+                             'executable_in_either': cumulative_roles['executable'],
+                             'reference_data_in_either': cumulative_roles['reference_data']}
+        if any(canonical(coverage.get(k)) != canonical(v) for k, v in expected_coverage.items()):
+            raise EvidenceError('coverage totals differ from independently counted rows')
+        expected.update(session_operation_count=operation_count, session_multi_operation_repositories=multi_operation)
+        counts.update(operations=operation_count, multiple_operations=multi_operation)
+    if require_consolidated:
+        from superhunter.product_component_controls import DOMAINS
+        from superhunter.product_native_capabilities import MODULES
+        controls = report.get('component-controls') or {}
+        if (not combined or not operations_format or set(controls.get('requested', [])) != DOMAINS.keys()
+                or controls.get('blocked') != {} or not controls.get('digest_corroboration')
+                or set(report['native-capabilities']['groups']) != MODULES.keys()
+                or report['native-capabilities'].get('blocked_groups')
+                or actual_sources != {'complete': 200}):
+            raise EvidenceError('incomplete consolidated session')
     if (any(canonical(matrix.get(k)) != canonical(v) for k, v in expected.items()) or
             report['root-declarations']['remote_roots_verified'] != expected['remote_roots']):
         raise EvidenceError('claimed totals differ from independently counted rows')
+    if 'native-capabilities' in report:
+        native_result = report['native-capabilities']
+        counts.update(native_groups=sorted(native_result['groups']), native_credits=len(native),
+                      blocked_native_groups=sorted(native_result.get('blocked_groups', {})),
+                      original_vulnerabilities_confirmed=native_result['original_vulnerabilities_confirmed'])
+    if 'component-controls' in report:
+        controls = report['component-controls']
+        counts.update(component_contract_profile=component_profile, component_domains=sorted(set(controls['requested']) - set(controls['blocked'])),
+                      blocked_component_domains=sorted(controls['blocked']))
     return {'transcript_sha256': digest, 'credits_sha256': sha(canonical(credits)),
             'responses': len(keys), **counts}
 
@@ -250,6 +419,26 @@ def negative_controls(raw):
             name = sorted(observed)[0]
             cases.append(('changed_group_result', 'component-controls', ('observations', name, 'operation'),
                           'unchecked', 'individual component result'))
+    if 'session_operation_count' in matrix:
+        cases.extend([
+            ('changed_operation_total', 'integration-matrix', ('session_operation_count',), -1, 'claimed totals'),
+            ('changed_coverage_total', 'integration-coverage', ('session_with_receipts',), -1, 'coverage totals')])
+        overlap = next((row for row in matrix['rows'] if len(row['session_operations']) > 1), None)
+        if overlap:
+            number = overlap['id'] - 1
+            cases.extend([
+                ('discarded_secondary_operation', 'integration-matrix', ('rows', number, 'session_operations'),
+                 overlap['session_operations'][:1], 'operation ledger'),
+                ('forged_secondary_digest', 'integration-coverage',
+                 ('identities', number, 'session_operations', 1, 'evidence_sha256'), '0'*64, 'operation ledger')])
+    if 'native-capabilities' in keys:
+        native = strict_json(lines[keys.index('native-capabilities')])
+        cases.append(('invented_discovery', 'native-capabilities', ('original_vulnerabilities_confirmed',), 1,
+                      'native group membership or scope'))
+        if native['groups']:
+            group, result = next(iter(native['groups'].items()))
+            cases.append(('changed_native_report', 'native-capabilities', ('groups', group),
+                          {**result, 'unverified': True}, 'native producer bytes'))
     rejected = {}
     for name, key, path, replacement, reason in cases:
         lines = raw.splitlines()
@@ -274,21 +463,35 @@ def negative_controls(raw):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('transcript', type=Path)
-    parser.add_argument('--check-controls', action='store_true', help='run six independent corruptions in memory')
+    parser.add_argument('--check-controls', action='store_true', help='reject deliberately altered copies of the evidence')
+    parser.add_argument('--replay', type=Path, help='independently verify and compare the full second transcript in the same format')
     parser.add_argument('--archive', action='store_true', help='read a published gzip/base64 evidence envelope')
     parser.add_argument('--require-complete-controls', action='store_true', help='require all defensive domains and zero blocked producers')
+    parser.add_argument('--require-consolidated', action='store_true', help='require every defensive and native group, direct source and operation ledger')
     parser.add_argument('--expect-sha256', help='trusted digest for a specific, published run')
     args = parser.parse_args()
     raw = read_artifact(args.transcript.parent, args.transcript.name)
     if args.archive:
         raw = unpack(raw)
-    result = verify(raw, args.expect_sha256)
+    result = verify(raw, args.expect_sha256, require_consolidated=args.require_consolidated)
     if args.require_complete_controls:
-        from superhunter.product_component_controls import DOMAINS
-        session = strict_json(raw.splitlines()[-1])
-        if (set(session.get('requested', [])) != DOMAINS.keys() or session.get('blocked') != {}
+        profile = result.get('component_contract_profile', 'current')
+        expected_domains = {rule['domain'] for rule in component_rules(profile).values()}
+        keys = response_keys(raw)
+        session = strict_json(raw.splitlines()[keys.index('component-controls')]) if 'component-controls' in keys else {}
+        if (set(session.get('requested', [])) != expected_domains or session.get('blocked') != {}
                 or not session.get('digest_corroboration')):
             raise EvidenceError('incomplete defensive control session')
+    if args.replay:
+        if args.transcript.samefile(args.replay):
+            raise EvidenceError('two distinct transcript files are required')
+        other = read_artifact(args.replay.parent, args.replay.name)
+        if args.archive:
+            other = unpack(other)
+        replay = verify(other, require_consolidated=args.require_consolidated)
+        if other != raw:
+            raise EvidenceError('the verified transcript bytes differ between runs')
+        result['replay_sha256'] = replay['transcript_sha256']
     if args.check_controls:
         result['rejected_controls'] = negative_controls(raw)
     sys.stdout.buffer.write(canonical(result))

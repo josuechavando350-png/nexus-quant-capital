@@ -1,3 +1,5 @@
+Consulte la [consolidación de los PR 118 y 119](CONSOLIDATION.md) para el perfil vigente de fuentes y operaciones. Las entradas siguientes describen sus revisiones históricas.
+
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
 ## 21 de noviembre · PR 117
