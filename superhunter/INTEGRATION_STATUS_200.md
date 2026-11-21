@@ -20,7 +20,7 @@ Los 200 expedientes de inventario contienen una naturaleza asignada, el propósi
 
 ## Evidencia nueva
 
-- **Geth.** La biblioteca de la revisión exacta de go-ethereum reconstruyó el bloque de prueba 25,437,474 de Census. Concordó con EthereumJS, ethers.js y viem en la longitud, el SHA-256 de la codificación RLP y el hash Keccak del encabezado original y del control con gas modificado. El comparador se compiló dos veces con el mismo SHA-256.
+- **Geth.** La biblioteca de la revisión exacta de go-ethereum reconstruyó el bloque de prueba 25,437,474 de Census. Concordó con EthereumJS, ethers.js y viem en la longitud, el SHA-256 de la codificación RLP y el hash Keccak del encabezado original y del control con gas modificado. Tres compilaciones con dos ubicaciones del código fuente y dos cachés de módulos produjeron el mismo SHA-256 en el perfil `purego`.
 - **OpenZeppelin Contracts.** El compilador de Solidity analizó la interfaz IERC20 real y la interfaz histórica IMainnetWeth. Coincidieron los seis métodos de IERC20 en los tipos de entrada y salida, visibilidad y mutabilidad. Un control con retorno alterado discrepó sólo en `balanceOf`.
 - **Ethereum consensus-specs.** El producto leyó los tipos y límites del esquema Deneb y comprobó 15 campos presentes en el archivo de Census. Detectó un `gasUsed` fuera de rango y un `logsBloom` truncado. Los dos campos de listas cuyo contenido falta en el archivo se conservaron fuera de alcance.
 - **Evaluación de representaciones.** 96 casos generados después de fijar el clasificador, con etiquetas retenidas durante la predicción. TP 48, TN 48, FP 0, FN 0. Los 96 nombres de campo coincidieron y la segunda ejecución reprodujo los hashes. Tiempo de predicción en el primer pase 0.184394 s. Sin consumo de API de pago durante la evaluación. El coste del host no se midió. La medición de precisión de descubrimientos en sistemas desconocidos con un evaluador externo sigue pendiente.
@@ -34,7 +34,7 @@ Un primer pase de 180 pruebas registró seis fallos y un error porque el registr
 | Transcripción | SHA-256 |
 |---|---|
 | 208 respuestas históricas reproducidas | `4a4757ec107cd88dc698ae30cc62be7b93d651732279afffe2938d4074219f59` |
-| 211 respuestas con auditoría, Geth y dos referencias | `fb4598f3046d656e136ef0dbac5c21d20db31a5fc72d9e781018bb430bf72c1f` |
+| 211 respuestas con auditoría, Geth y dos referencias | `729e2e74299c098cef60be43c8342504c4440e6c98fee172b336f6a6af0027c6` |
 | Expediente de fuentes y ScanCode | `9fe08694ea198e7872cc954a122fc4bdc4675996a5403cb7344822a89a3bfe3f` |
 
 ## Estado por repositorio

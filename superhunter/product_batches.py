@@ -57,8 +57,8 @@ def cohorts(repositories):
 FIXED_SOURCE_RECEIPTS = {
     'ethereum/go-ethereum': ('executable', 'geth_header_evidence', {
         'report': 'geth-census', 'revision': '2b7829ea6aed9a95a3fd793cca46731202c6c310',
-        'binary_sha256': 'af8353f39c60f5038cfa0c894ebc9566ad8ea958575d83a1108e00b23089bec7',
-        'report_sha256': 'a676b5efada6d578f068eb3a33efa14d899244422761260e9b1a0e6c7ab5af98'}),
+        'binary_sha256': '11ad28b59b30c1fabb60c68616bc1b8ff676e484ce15dfcecec57fa2ef7f100d',
+        'report_sha256': 'ca134db9b8984ea0d776c4236ac8c6ecb98f905fd2b1882bc36d81dfb71286f0'}),
     'openzeppelin/openzeppelin-contracts': ('reference_data', 'source_reference', {
         'report': 'source-references', 'revision': '5172e1681f05f4aa189b7740bf2c0316af67c3b3',
         'report_sha256': 'e41dd7e73dbd9d22b178736dabdf05460851f15201b633a9739184b432d85a22'}),

@@ -38,7 +38,7 @@ En dirsearch el aviso seleccionado es una línea de `pyproject.toml`. En RustSec
 
 ## Compilar el comparador fijo de Geth
 
-Se usó Linux x86-64 y Go 1.27.3. El archivo oficial `go1.27.3.linux-amd64.tar.gz` utilizado tuvo SHA-256 `65efbc80fdc1fa2cd2631cad5b481777a68e8725f34e89f50fc6ac714e379b40`. Dos compilaciones, una desde un archivo Git limpio, produjeron SHA-256 `af8353f39c60f5038cfa0c894ebc9566ad8ea958575d83a1108e00b23089bec7`. El ejecutable se construye localmente y el producto comprueba su digest antes de invocarlo. El ejemplo supone que `go` es el binario de esa distribución. [Código del comparador](product_supply/geth-header-main.txt)
+Se usó Linux x86-64 y Go 1.27.3. El archivo oficial `go1.27.3.linux-amd64.tar.gz` utilizado tuvo SHA-256 `65efbc80fdc1fa2cd2631cad5b481777a68e8725f34e89f50fc6ac714e379b40`. Una compilación anterior incluyó una ruta de caché en el ensamblador de una dependencia. La receta final usa el perfil `purego`. Dos compilaciones de un archivo Git limpio con cachés Go en rutas distintas produjeron SHA-256 `11ad28b59b30c1fabb60c68616bc1b8ff676e484ce15dfcecec57fa2ef7f100d`. El ejecutable se construye localmente y el producto comprueba su digest antes de invocarlo. El ejemplo supone que `go` es el binario de esa distribución. [Código del comparador](product_supply/geth-header-main.txt)
 
 ```sh
 root=$(pwd)
@@ -48,9 +48,9 @@ cp superhunter/product_supply/geth-header-main.txt "$work/helper/main.go"
 export GOENV=off GOWORK=off GOTOOLCHAIN=local CGO_ENABLED=0 GOAMD64=v1
 export GOMODCACHE="$work/go-modcache"
 cd "$work/geth"
-go list -mod=readonly -deps "$work/helper/main.go" > "$work/geth-packages.txt"
+go list -tags=purego -mod=readonly -deps "$work/helper/main.go" > "$work/geth-packages.txt"
 unshare --user --map-current-user --net env GOPROXY=off GOSUMDB=off \
-  go build -mod=readonly -buildvcs=false -trimpath -ldflags=-buildid= -o "$work/geth-header" "$work/helper/main.go"
+  go build -p 3 -tags=purego -mod=readonly -buildvcs=false -trimpath -ldflags=-buildid= -o "$work/geth-header" "$work/helper/main.go"
 cd "$root"
 sha256sum "$work/geth-header"
 ```

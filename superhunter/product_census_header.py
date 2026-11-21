@@ -118,7 +118,7 @@ def attach(index, kit):
 
 
 GETH_REVISION = '2b7829ea6aed9a95a3fd793cca46731202c6c310'
-GETH_BINARY = 'af8353f39c60f5038cfa0c894ebc9566ad8ea958575d83a1108e00b23089bec7'
+GETH_BINARY = '11ad28b59b30c1fabb60c68616bc1b8ff676e484ce15dfcecec57fa2ef7f100d'
 
 
 def check_geth(output, comparison):
