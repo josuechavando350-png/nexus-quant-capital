@@ -1,0 +1,52 @@
+{
+  "commit": "fae415708eccc117dd809036fcd4df09056777c5",
+  "first_public_attempt": {
+    "seconds": 153.51,
+    "error": {
+      "status": "PRODUCT_REVIEW_BLOCKED",
+      "error_type": "CalledProcessError"
+    },
+    "diagnostic_limits": "The initial response suppressed subprocess name, exit status, stdout and stderr."
+  },
+  "second_public_attempt": {
+    "seconds": 202.78,
+    "error": {
+      "status": "PRODUCT_REVIEW_BLOCKED",
+      "reason": "ARM64 inventory differs from the verified native Syft inventory"
+    }
+  },
+  "targeted_reproduction": {
+    "module": "superhunter.product_arm_inventory.build",
+    "observed_inputs": "Same first-run source checkout, input product bundle, QEMU and Syft binaries, unprivileged offline namespace",
+    "shm_temp_directory": {
+      "artifacts": 0,
+      "expected_packages": 75,
+      "facts": 0,
+      "source_type": "directory",
+      "file_count": 0
+    },
+    "workspace_temp_directory": {
+      "observations": 75,
+      "source_count": 7,
+      "result": "matches verified native Syft inventory"
+    },
+    "ordinary_tmpfs_directory": {
+      "artifacts": 75,
+      "expected_packages": 75,
+      "facts": 75,
+      "source_type": "directory",
+      "file_count": 7
+    },
+    "syft_catalog_reference": {
+      "repository": "anchore/syft",
+      "revision": "139612f0cc25952bad472ab8ce6a86e4b442da95",
+      "path": "syft/internal/fileresolver/path_skipper.go",
+      "lines": [
+        67,
+        122
+      ],
+      "behavior": "Skip tmpfs paths beneath /dev, /run, /var/run, /var/lock and /sys."
+    }
+  },
+  "comparison": "The seven fixed input manifests comprise the Census Cargo.lock and six NQC Python requirements profiles."
+}

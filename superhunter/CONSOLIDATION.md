@@ -10,6 +10,8 @@ Una ejecución con los kits oficiales sobre ese árbol produjo 222 respuestas y 
 
 En el PR 119 se reprodujeron los dos grupos afectados en dos checkouts limpios del mismo commit en un host. Las cuatro identidades produjeron los mismos 13.025 bytes. El commit `fae4157` incorporó al perfil unificado el Node de la distribución oficial y la receta del JRE reconstruido desde Debian. [Acta EVM y Java](product_supply/acceptance-120/evm-java-replay.json) · [Transcripción](product_supply/acceptance-120/evm-java-transcript.json)
 
+En una ejecución aislada del commit `fae4157` con observación de excepciones, el verificador acreditó las 106 identidades históricas y sus 110 combinaciones de recibos. La sesión emitió 222 respuestas, con 128 identidades, 89 de ejecución, 39 de referencia y 137 operaciones. Se rechazaron 20 alteraciones. Esta acta corresponde a esa ejecución individual. [Acta y verificador](product_supply/acceptance-120/observed-session-verification.json) · [Transcripción](product_supply/acceptance-120/observed-session.json)
+
 ## Pruebas del producto y de los árboles protegidos
 
 | Alcance | Resultado | Evidencia |
@@ -22,6 +24,8 @@ En el PR 119 se reprodujeron los dos grupos afectados en dos checkouts limpios d
 ## Ejecutar el perfil conjunto
 
 Se utiliza la misma entrada de producto y un solo índice de 200 identidades. Una fila puede tener varias operaciones. `integration-matrix` y `integration-coverage` exponen cada operación mediante `session_operations`, con su rol, el campo que contiene el recibo y su SHA-256. El resultado original se obtiene consultando la identidad en la misma sesión. El selector acepta controles fijos locales. La única cuenta por identidad prioriza la ejecución cuando también hay un uso documental.
+
+Para preparar entradas temporales del inventario ARM64, escoger un directorio de trabajo fuera de los montajes que la versión fijada de Syft omite. En este host, el directorio de datos del workspace y un directorio ordinario de tmpfs produjeron las 75 observaciones de siete archivos; bajo `/dev/shm` el mismo binario informó cero. El producto rechazó ese resultado. [Control sobre los dos sistemas de archivos](product_supply/acceptance-120/arm-inventory-storage.json) · [Selección de rutas de Syft](https://github.com/anchore/syft/blob/139612f0cc25952bad472ab8ce6a86e4b442da95/syft/internal/fileresolver/path_skipper.go)
 
 Preparar los [insumos históricos](OFFLINE_SOURCE_AND_GO.md), los [dominios de controles](DEFENSIVE_COMPONENTS.md), el [perfil de ocho grupos nativos](product_supply/native-kits-example.json) y el [códec de expedientes](EVIDENCE_CODEC.md). Los grupos java y upgrades requieren los kits descritos en sus [recibos Java](product_supply/java-native-receipt.json) y [de contratos](product_supply/upgrades-native-receipt.json). A la invocación de aceptación de 220 respuestas del PR 117, agregar estas opciones, antes del directorio preparado:
 
