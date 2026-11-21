@@ -1,0 +1,88 @@
+{
+  "archive_policy": "Verify whole archive SHA256 before reading any member. Select only the specified regular file; reject links and duplicate members. Keep upstream notices. Downloads occur only during explicit kit preparation.",
+  "archives": [
+    {
+      "archive_sha256": "a77a90501dd6269e12807156e9d409b160ce0c87fbb36fe323a896a4fb7a2d1d",
+      "archive_url": "https://github.com/crytic/echidna/releases/download/v2.4.0/echidna-2.4.0-x86_64-linux.tar.gz",
+      "executable": true,
+      "kit_file": "echidna",
+      "member": "echidna",
+      "release_tag_revision": "8e0f8258a53993a477040a6fa6250d643f863159",
+      "sha256": "a3f1ff5116839965524af797702c1fa4e57793ece8d9cd5365c0381fea1a6da4",
+      "version": "2.4.0"
+    },
+    {
+      "archive_sha256": "ddfe1517ae9028ef9fc331b00f5a6a9d5406f3fcd11a715d60c6b6fb3e4546d3",
+      "archive_url": "https://github.com/crytic/medusa/releases/download/v1.5.1/medusa-linux-x64.tar.gz",
+      "executable": true,
+      "kit_file": "medusa",
+      "member": "medusa",
+      "release_tag_revision": "540a483b7a2a35b0a6d210aeb6ae6015aa7a0f62",
+      "sha256": "86e54c586e49e6bf9676f448218e10475afacb0a8bd5ca1aea234f66db7169d6",
+      "version": "1.5.1"
+    },
+    {
+      "archive_sha256": "90729233bd9a683b872783ae2e3217fb56876fa2a3c37185f13e39dca8525041",
+      "archive_url": "https://github.com/foundry-rs/foundry/releases/download/v1.10.0/foundry_v1.10.0_linux_amd64.tar.gz",
+      "executable": true,
+      "kit_file": "forge",
+      "member": "forge",
+      "sha256": "bf2f6a6f290389f9db6c850c82789472710394128250a99988e63f642c19a8b1",
+      "version": "1.10.0"
+    }
+  ],
+  "artifact_kind": "official_prebuilt_fuzzers_and_independent_replay",
+  "direct_downloads": [
+    {
+      "executable": true,
+      "kit_file": "solc",
+      "sha256": "f3e987dc6ecebd4bd350c48edcbc320b46cf9e3109bd3fc3d88f1acaf4c428f7",
+      "url": "https://raw.githubusercontent.com/ethereum/solc-bin/gh-pages/linux-amd64/solc-linux-amd64-v0.8.30+commit.73712a01"
+    }
+  ],
+  "download_sets": [
+    {
+      "entries_key": "packages",
+      "hash_key": "sha256",
+      "kit_filename_key": "filename",
+      "manifest": "slither-native-pins.json",
+      "sha256": "fb6a9e23a5a66e5a63aa01097e50c0924d6b898a3053d974858651bd70d81087",
+      "url_key": "url"
+    }
+  ],
+  "isolation_prefix": [
+    "/usr/bin/unshare",
+    "--user",
+    "--map-current-user",
+    "--net"
+  ],
+  "native_execution_notes": [
+    "Echidna 2.4.0 exits 1 when the owned invariant is falsified and 0 for the repaired bounded campaign. Its JSON currently reports generic test name name; the fixture has one property and its counterexample is checked separately.",
+    "Medusa 1.5.1 exits 7 on the owned failing property and 0 on the repaired control. Its replay corpus is fixed; its PRNG seed is clock-based and not claimed deterministic.",
+    "Medusa testLimit is polled and may overshoot. Each process has an additional 120-second wall timeout and 35-second CPU limit. Variable timing/call-count logs are not part of the normalized report.",
+    "All four counterexample variants execute independently in Foundry/revm; Foundry is an existing integration and is not counted again."
+  ],
+  "network_at_native_execution": false,
+  "platform": "Linux x86-64",
+  "provenance_limits": [
+    "Release tag revisions are recorded separately from catalog revisions; no source-build identity is claimed.",
+    "No external chain, RPC, signer or transaction broadcast is used.",
+    "No findings in a finite repaired campaign are not a general security certificate."
+  ],
+  "python": "CPython 3.12",
+  "reproduction": {
+    "acceptance_report_sha256": "09acfd1fa963b8469e368d869db749f380767fe923af34b0382527dc96d3dcb8",
+    "owned_controls_manifest": "fuzz-native-controls.json",
+    "owned_controls_sha256": "777b6236a4c8d76f2cc7c64cc145455569e2647e73f6e6bd73b01245b7793e75",
+    "python_api": "superhunter.product_fuzz_native.run(pathlib.Path(KIT))",
+    "unit_tests": "python -B -m unittest superhunter.tests.test_product_fuzz_native -v"
+  },
+  "schema_version": 1,
+  "steps": [
+    "Create an empty private kit directory at a caller-chosen path.",
+    "Download the pinned direct solc image and all 51 unchanged wheels from slither-native-pins.json.",
+    "Verify each fuzzer/Foundry release archive SHA256; select its named regular executable member, verify member SHA256, and write to the named kit_file.",
+    "Mark only echidna, medusa, solc and forge executable. The runner reconstructs a private crytic-compile launcher and Python import closure on each invocation.",
+    "Run superhunter.product_fuzz_native.run(pathlib.Path(KIT)). The only Solidity inputs and Medusa corpus come from fuzz-native-controls.json."
+  ]
+}

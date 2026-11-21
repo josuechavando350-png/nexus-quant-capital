@@ -1769,7 +1769,11 @@ COMPONENTS['product_review'] = {
               'product_native_capabilities.py', 'product_evm_native.py', 'product_evm_native_worker.py',
               'product_web_native.py', 'product_web_native_worker.py', 'product_static_native.py',
               'product_slither_native.py', 'product_slither_native_worker.py', 'product_slither_native_network.py',
-              'product_secrets_native.py',
+              'product_secrets_native.py', 'product_http_native.py', 'product_http_native_worker.py',
+              'product_discovery_native.py', 'product_discovery_native_worker.py',
+              'product_fuzz_native.py', 'product_fuzz_native_worker.py', 'product_java_native.py',
+              'product_contract_properties_native.py', 'product_iam_native.py', 'product_iam_native_worker.py',
+              'product_upgrade_layout_native.py', 'product_upgrade_layout_native_worker.py',
               'product_source_references.py', 'product_source_audit.py', 'product_remote_roots.py',
               'product_portable_roots.py', 'tools/pack_remote_inputs.py', 'product_header_digest.py',
               'product_fork_headers.py', 'tools/audit_tree_metadata.py', 'product_assurance_notices.py',
@@ -1793,7 +1797,10 @@ COMPONENTS['product_review'] = {
     'tests': ['test_product_review.', 'test_product_supply.', 'test_product_catalog_session.', 'test_product_source_audit.',
               'test_product_native_capabilities.', 'test_product_evm_native.', 'test_product_web_native.',
               'test_product_static_native.', 'test_product_slither_native.', 'test_product_secrets_native.',
-              'test_product_source_parallel.', 'test_product_inventory_parallel.', 'test_product_license_session.'],
+              'test_product_source_parallel.', 'test_product_inventory_parallel.', 'test_product_license_session.',
+              'test_product_http_native.', 'test_product_discovery_native.', 'test_product_fuzz_native.',
+              'test_product_java_native.', 'test_product_contract_properties_native.', 'test_product_iam_native.',
+              'test_product_upgrade_layout_native.'],
     'depends': ['portfolio_inventory', 'bundle_recovery', 'owned_capture', 'privacy', 'io']}
 COMPONENTS['entrypoints']['depends'].append('product_review')
 REQUIRED_TESTS += (

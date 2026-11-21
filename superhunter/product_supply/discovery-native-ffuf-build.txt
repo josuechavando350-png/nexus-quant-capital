@@ -1,0 +1,18 @@
+ffuf: go1.27.3
+	path	github.com/ffuf/ffuf/v2
+	mod	github.com/ffuf/ffuf/v2	(devel)	
+	dep	github.com/PuerkitoBio/goquery	v1.13.0	h1:mqHbjD7Jmnul4DTR24LKTjo1uUmHUh072kteGV+xpFM=
+	dep	github.com/adrg/xdg	v0.5.3	h1:xRnxJXne7+oWDatRhR1JLnvuccuIeCoBu2rtuLqQB78=
+	dep	github.com/andybalholm/brotli	v1.2.4	h1:649LN6qF+/7JJYNN3Wdu4Dt5PS6eC/yP/Go3Bb0/AHI=
+	dep	github.com/andybalholm/cascadia	v1.3.5	h1:RLjq12WJy58dN6eCIQrz0bAGZkztHWsEPFxP53Y7Ms8=
+	dep	github.com/ffuf/pencode	v0.0.0-20240120104927-07e33ef17d5a	h1:zVl+8yFzwLRBdGw7N9mgOH+NW1ghVXTtSIlTqzY5ksc=
+	dep	github.com/pelletier/go-toml	v1.9.5	h1:4yBQzkHv+7BHq2PQUZF3Mx0IYxG7LsP222s7Agd3ve8=
+	dep	golang.org/x/net	v0.59.0	h1:5zfYln+w5XCxwrnMMJPufRgNoXEaGxl0wo5GqPXyues=
+	build	-buildmode=exe
+	build	-compiler=gc
+	build	-trimpath=true
+	build	DefaultGODEBUG=tracebacklabels=0,x509sslcertoverrideplatform=0
+	build	CGO_ENABLED=0
+	build	GOARCH=amd64
+	build	GOOS=linux
+	build	GOAMD64=v1

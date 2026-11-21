@@ -1,0 +1,62 @@
+{
+  "archive_policy": "Verify whole archive SHA256 before reading any member. Select only the specified regular file; reject links and duplicate members. Keep upstream notices. Downloads occur only during explicit kit preparation.",
+  "archives": [
+    {
+      "ar_member": "data.tar.xz",
+      "archive_sha256": "89d5138e05fb6a86b9afd8b54dc0fb4b14f4c27c05e6c5f767c2132bdf808531",
+      "archive_url": "https://deb.debian.org/debian/pool/main/libs/libseccomp/libseccomp2_2.6.0-2_amd64.deb",
+      "executable": false,
+      "kit_file": "libseccomp.so.2",
+      "preserve_notices_directory": "./usr/share/doc/libseccomp2/",
+      "sha256": "c851a2378b4ef3a42ada5f8ff1604ad38f6bbcafa2aeea3f6680160d628c2f27",
+      "tar_member": "./usr/lib/x86_64-linux-gnu/libseccomp.so.2.6.0"
+    }
+  ],
+  "artifact_kind": "official_python_wheels_with_pinned_native_runtime",
+  "direct_downloads": [
+    {
+      "executable": true,
+      "kit_file": "solc",
+      "sha256": "f3e987dc6ecebd4bd350c48edcbc320b46cf9e3109bd3fc3d88f1acaf4c428f7",
+      "url": "https://raw.githubusercontent.com/ethereum/solc-bin/gh-pages/linux-amd64/solc-linux-amd64-v0.8.30+commit.73712a01"
+    }
+  ],
+  "download_sets": [
+    {
+      "entries_key": "packages",
+      "hash_key": "sha256",
+      "kit_filename_key": "filename",
+      "manifest": "slither-native-pins.json",
+      "sha256": "fb6a9e23a5a66e5a63aa01097e50c0924d6b898a3053d974858651bd70d81087",
+      "url_key": "url"
+    }
+  ],
+  "isolation_prefix": [
+    "/usr/bin/unshare",
+    "--user",
+    "--map-current-user",
+    "--net"
+  ],
+  "network_at_native_execution": false,
+  "platform": "Linux x86-64",
+  "provenance_limits": [
+    "Slither 538 and crytic-compile 41 Python source files in the wheels matched their catalog revisions.",
+    "The historical OWNED socket-filter profile is not modified or re-certified by this separately pinned profile.",
+    "ABI, AST and bytecode comparison uses the same solc through two separate compiler interfaces."
+  ],
+  "python": "CPython 3.12",
+  "reproduction": {
+    "acceptance_report_sha256": "fd300212030971954a3d6fa8683dc6e9e785d2429344d9c1947e41760ce40d3d",
+    "python_api": "superhunter.product_slither_native.run(pathlib.Path(KIT))",
+    "unit_tests": "python -B -m unittest superhunter.tests.test_product_slither_native -v"
+  },
+  "schema_version": 1,
+  "steps": [
+    "Create an empty private kit directory at a caller-chosen path.",
+    "Download the pinned solc image into kit/solc and verify its hash before marking it executable.",
+    "Download all 51 wheels using slither-native-pins.json URL/filename/SHA256 entries. Keep each wheel unchanged. No pip resolver or installation hooks are needed.",
+    "Verify the Debian package SHA256, read its data.tar.xz ar member, then select the exact regular libseccomp tar member and verify its hash. Copy it to kit/libseccomp.so.2 and retain upstream copyright notices from the package.",
+    "The runner extracts each wheel into a separate distribution directory, verifies the visible metadata index, stages the libseccomp bytes into sealed memfd storage, and tests four denied socket types before importing Slither.",
+    "Run superhunter.product_slither_native.run(pathlib.Path(KIT))."
+  ]
+}

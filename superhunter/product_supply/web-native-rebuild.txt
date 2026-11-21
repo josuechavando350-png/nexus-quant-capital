@@ -1,0 +1,185 @@
+#!/usr/bin/env python3
+"""Portable reconstruction of the web, HTTP and discovery kits.
+
+Run with Linux x86-64 / CPython 3.12 and a checkout containing the pinned
+upstream Git objects. Public package downloads are needed during preparation;
+the product's native replay is offline except for its isolated owned loopback.
+
+python3.12 -B superhunter/product_supply/web-native-rebuild.txt \
+  --source-repo /absolute/nqc-checkout --output /new/absolute/kits \
+  --go /absolute/go1.27.3/bin/go
+
+Use --groups web,http to omit the Go discovery kit. Result directories are
+OUTPUT/web, OUTPUT/http and OUTPUT/discovery. The output directory must be new.
+Every resulting wheel/binary/reference must match the original kit digest.
+
+The wheel recipe restores ZIP packaging metadata only, after checking the
+SHA-256 of every member's uncompressed bytes. It never patches package source,
+metadata, or RECORD content to force a match. Build logs remain in OUTPUT/work.
+"""
+import argparse
+from email.parser import BytesParser
+import hashlib
+import io
+import json
+import os
+from pathlib import Path
+import platform
+import re
+import shutil
+import subprocess
+import sys
+import tarfile
+import urllib.request
+import zipfile
+
+ROOT = Path(__file__).resolve().parents[2]
+CONTRACT = 'superhunter/product_supply/web-native-rebuild-contract.json'
+CONTRACT_SHA = 'cfdb4137db084d87f834aa07f3863ccd51000e5f1dec6fdc64069532f5d4da92'
+
+
+def digest(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def verified(path, expected):
+    raw = Path(path).read_bytes()
+    if digest(raw) != expected:
+        raise ValueError('rebuild input digest differs: ' + Path(path).name)
+    return raw
+
+
+def command(args, *, cwd=None, env=None, log=None):
+    result = subprocess.run([str(x) for x in args], cwd=cwd, env=env,
+                            capture_output=True, timeout=900)
+    if log:
+        Path(log).write_bytes(result.stdout + result.stderr)
+    if result.returncode:
+        raise RuntimeError('rebuild command failed: ' + result.stderr.decode(errors='replace')[-1200:])
+    return result.stdout
+
+
+def repack(source, destination, recipe):
+    attrs = ('compress_type', 'create_system', 'create_version', 'extract_version',
+             'reserved', 'flag_bits', 'volume', 'internal_attr', 'external_attr')
+    with zipfile.ZipFile(source) as src:
+        if set(src.namelist()) != {row['name'] for row in recipe['members']}:
+            raise ValueError('rebuilt wheel membership differs: ' + source.name)
+        output = io.BytesIO()
+        with zipfile.ZipFile(output, 'w', compresslevel=recipe['compression_level']) as dest:
+            dest.comment = bytes.fromhex(recipe['comment'])
+            for row in recipe['members']:
+                raw = src.read(row['name'])
+                if digest(raw) != row['sha256']:
+                    raise ValueError('rebuilt wheel member bytes differ: ' + row['name'])
+                item = zipfile.ZipInfo(row['name'], tuple(row['date_time']))
+                for attr in attrs:
+                    setattr(item, attr, row[attr])
+                item.extra, item.comment = bytes.fromhex(row['extra']), bytes.fromhex(row['comment'])
+                dest.writestr(item, raw, compresslevel=recipe['compression_level'])
+    raw = output.getvalue()
+    if digest(raw) != recipe['sha256']:
+        raise ValueError('ZIP reconstruction differs; check the CPython/zlib build')
+    destination.write_bytes(raw)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--source-repo', type=Path, default=ROOT)
+    parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--go', type=Path)
+    parser.add_argument('--groups', default='web,http,discovery')
+    args = parser.parse_args()
+    if sys.version_info[:2] != (3, 12) or platform.system() != 'Linux' or platform.machine() != 'x86_64':
+        raise ValueError('the accepted kits require Linux x86-64 and CPython 3.12')
+    contract = json.loads(verified(ROOT/CONTRACT, CONTRACT_SHA))
+    groups = args.groups.split(',')
+    if not groups or len(groups) != len(set(groups)) or not set(groups) <= set(contract['groups']):
+        raise ValueError('select unique known kit groups')
+    if 'discovery' in groups:
+        if args.go is None or command([args.go, 'version']).decode().split()[2] != contract['go_version']:
+            raise ValueError('provide the pinned Go 1.27.3 executable')
+    args.output = args.output.resolve()
+    args.output.mkdir(parents=True, exist_ok=False)
+    work = args.output/'work'
+    work.mkdir()
+    build_home = work/'build-home'
+    build_home.mkdir()
+    env = dict(os.environ, HOME=str(build_home), SOURCE_DATE_EPOCH='1795272363', LC_ALL='C.UTF-8',
+               CGO_ENABLED='0', GOOS='linux', GOARCH='amd64', GOAMD64='v1', GOTOOLCHAIN='local',
+               GOPATH=str(work/'go-path'), GOCACHE=str(work/'go-cache'))
+    recipe_info = contract['wheel_recipe']
+    recipes = json.loads(verified(ROOT/recipe_info['path'], recipe_info['sha256']))
+    builder_info = contract['builder_lock']
+    builder_lock = work/'builders.txt'
+    builder_lock.write_bytes(verified(ROOT/builder_info['path'], builder_info['sha256']))
+    builder_wheels = work/'builders'
+    builder_wheels.mkdir()
+    pip = [sys.executable, '-I', '-m', 'pip', '--isolated', '--disable-pip-version-check']
+    command([*pip, 'download', '--no-deps', '--only-binary=:all:', '--require-hashes',
+             '-r', builder_lock, '--dest', builder_wheels], log=work/'builders-download.log')
+    command([sys.executable, '-m', 'venv', work/'build-env'], log=work/'venv.log')
+    build_python = work/'build-env/bin/python'
+    build_pip = [build_python, '-I', '-m', 'pip', '--isolated', '--disable-pip-version-check']
+    command([*build_pip, 'install', '--no-index', '--no-deps', '--require-hashes',
+             '--find-links', builder_wheels, '-r', builder_lock], log=work/'builders-install.log')
+    needed = {name for group in groups for name in contract['groups'][group]['source_wheels']}
+    if 'discovery' in groups:
+        needed |= {'ffuf', 'gobuster'}
+    sources = {}
+    for name in sorted(needed):
+        if name in contract['sources']:
+            row = contract['sources'][name]
+            archive = command(['git', '-C', args.source_repo/row['path'], 'archive', '--format=tar', row['revision']])
+            if digest(archive) != row['git_archive_sha256']:
+                raise ValueError('pinned Git archive differs: ' + name)
+            source = work/name
+            source.mkdir()
+            with tarfile.open(fileobj=io.BytesIO(archive)) as tar:
+                tar.extractall(source, filter='data')
+        else:
+            row = contract['sdists'][name]
+            source = work/row['filename']
+            with urllib.request.urlopen(row['url'], timeout=60) as response:
+                archive = response.read(10_000_001)
+            if len(archive) > 10_000_000 or digest(archive) != row['sha256']:
+                raise ValueError('public source archive differs: ' + name)
+            source.write_bytes(archive)
+        sources[name] = source
+    built = work/'built-wheels'
+    built.mkdir()
+    for name, source in sources.items():
+        if name in ('ffuf', 'gobuster'):
+            continue
+        command([*build_pip, 'wheel', '--no-cache-dir', '--no-build-isolation', '--no-deps',
+                 '--wheel-dir', built, source], env=env, log=work/(name+'-build.log'))
+    for group in groups:
+        out = args.output/group
+        out.mkdir()
+        info = contract['groups'][group]
+        lock = verified(ROOT/info['lock'], info['lock_sha256']).decode()
+        public_lines = [line for line in lock.splitlines()
+                        if line.split('==')[0] not in info['source_wheels']]
+        public_lock = work/(group+'-public.txt')
+        public_lock.write_text('\n'.join(public_lines) + '\n')
+        command([*pip, 'download', '--no-deps', '--only-binary=:all:', '--require-hashes',
+                 '-r', public_lock, '--dest', out], log=work/(group+'-download.log'))
+        for filename, recipe in recipes[group].items():
+            repack(built/filename, out/filename, recipe)
+        if group == 'web':
+            row = contract['recog']
+            raw = command(['git', '-C', args.source_repo/row['path'], 'show', row['revision']+':'+row['file']])
+            if digest(raw) != row['sha256']:
+                raise ValueError('Recog reference differs')
+            (out/'http_servers.xml').write_bytes(raw)
+        elif group == 'discovery':
+            for name in ('ffuf', 'gobuster'):
+                command([args.go, 'build', '-trimpath', '-buildvcs=false', '-o', out/name, '.'],
+                        cwd=sources[name], env=env, log=work/(name+'-build.log'))
+        for artifact in info['artifacts']:
+            verified(out/artifact['name'], artifact['sha256'])
+        print(json.dumps({'group': group, 'artifacts_verified': len(info['artifacts']), 'status': 'EXACT_KIT_REBUILT'}), flush=True)
+
+
+if __name__ == '__main__':
+    main()

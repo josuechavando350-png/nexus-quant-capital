@@ -21,14 +21,14 @@ def queries():
     return review_queries() + ['portable-source-proof', 'go-header-digest', 'native-capabilities']
 
 
-def verify(raw, expected_hash=None):
+def verify(raw, expected_hash=None, *, contract_version=None):
     keys = queries()
     lines = raw.splitlines()
     if len(lines) != len(keys):
         raise EvidenceError('native session has missing or extra responses')
     report = {key: strict_json(b'{"response":' + line + b'}')['response']
               for key, line in zip(keys, lines, strict=True)}
-    expected = contracts()
+    expected = contracts(contract_version)
     native = report['native-capabilities']
     if (set(native.get('groups', {})) != set(expected) or
             native.get('original_vulnerabilities_confirmed') != 0 or
@@ -81,23 +81,25 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('transcript', type=Path)
     parser.add_argument('--expect-sha256')
+    parser.add_argument('--contract-version', type=int, choices=[70],
+                        help='verify an archived checkpoint against its immutable contracts')
     parser.add_argument('--archive', action='store_true', help='read the bounded acceptance archive')
     parser.add_argument('--check-controls', action='store_true', help='reject eight altered copies of the supplied evidence')
     args = parser.parse_args()
     raw = read_artifact(args.transcript.parent, args.transcript.name)
     if args.archive:
         raw = prior.unpack(raw)
-    result = verify(raw, args.expect_sha256)
+    result = verify(raw, args.expect_sha256, contract_version=args.contract_version)
     if args.check_controls:
-        result['altered_evidence_rejected'] = controls(raw)
+        result['altered_evidence_rejected'] = controls(raw, contract_version=args.contract_version)
     sys.stdout.buffer.write(canonical(result))
 
 
-def controls(raw):
+def controls(raw, *, contract_version=None):
     """Refute internally resealed claims without relying on a transcript digest alone."""
     keys = queries()
     values = [strict_json(b'{"response":' + line + b'}')['response'] for line in raw.splitlines()]
-    expected = contracts()
+    expected = contracts(contract_version)
     group = sorted(expected)[0]
     repository = sorted(expected[group]['repositories'])[0]
     bad = []
@@ -116,7 +118,7 @@ def controls(raw):
     rejected = 0
     for candidate in bad:
         try:
-            verify(candidate)
+            verify(candidate, contract_version=contract_version)
         except (EvidenceError, ValueError, KeyError, TypeError):
             rejected += 1
         else:

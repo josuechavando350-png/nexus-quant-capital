@@ -8,9 +8,17 @@ from .product_review import ROOT, sha
 from .safe_io import canonical, read_artifact, strict_json
 
 CONTRACT = 'superhunter/product_supply/native-capability-contracts.json'
-CONTRACT_SHA = '1289b2523dca27657dcde15cb81c7a862e50c7f523c92d0e145238fee268d237'
+CONTRACT_SHA = '664d10946c40e197b443d0d9f745c72e5f6425e74662a403e84419fa1e9f6a8f'
+HISTORICAL_CONTRACTS = {
+    70: ('superhunter/product_supply/native-capability-contracts-70.json',
+         '1289b2523dca27657dcde15cb81c7a862e50c7f523c92d0e145238fee268d237'),
+}
 MODULES = {'evm': 'product_evm_native', 'web': 'product_web_native', 'static': 'product_static_native',
-           'slither': 'product_slither_native', 'secrets': 'product_secrets_native'}
+           'slither': 'product_slither_native', 'secrets': 'product_secrets_native',
+           'http': 'product_http_native', 'discovery': 'product_discovery_native',
+           'fuzz': 'product_fuzz_native', 'java': 'product_java_native',
+           'properties': 'product_contract_properties_native', 'iam': 'product_iam_native',
+           'upgrades': 'product_upgrade_layout_native'}
 
 
 def add_arguments(parser):
@@ -46,12 +54,15 @@ def selected_kits(options):
     return kits
 
 
-def contracts():
-    raw = read_artifact(ROOT, CONTRACT)
-    if sha(raw) != CONTRACT_SHA:
+def contracts(version=None):
+    if version is not None and version not in HISTORICAL_CONTRACTS:
+        raise EvidenceError('unknown historical native contract version')
+    path, digest = (CONTRACT, CONTRACT_SHA) if version is None else HISTORICAL_CONTRACTS[version]
+    raw = read_artifact(ROOT, path)
+    if sha(raw) != digest:
         raise EvidenceError('native capability contracts differ from reviewed controls')
     record = strict_json(raw)
-    if record.get('schema_version') != 1 or set(record['groups']) != set(MODULES):
+    if record.get('schema_version') != 1 or (version is None and set(record['groups']) != set(MODULES)):
         raise EvidenceError('native capability group contract differs')
     for group in record['groups'].values():
         if (not group.get('repositories') or not re.fullmatch('[0-9a-f]{64}', group.get('report_sha256', ''))

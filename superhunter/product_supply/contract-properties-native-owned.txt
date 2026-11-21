@@ -1,0 +1,65 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+import {CryticERC20ExternalBasicProperties} from "../lib/properties/contracts/ERC20/external/properties/ERC20ExternalBasicProperties.sol";
+import {ITokenMock} from "../lib/properties/contracts/ERC20/external/util/ITokenMock.sol";
+import {ERC20FeeTransfer} from "../lib/immunefi/src/mocks/tokens/ERC20-feeTransfer.sol";
+import {ERC20Bool} from "../lib/immunefi/src/mocks/tokens/ERC20-bool.sol";
+contract OwnedLedger {
+    uint256 public totalSupply = 10;
+    mapping(address => uint256) public balanceOf;
+    constructor(bool broken, address owner) {
+        balanceOf[owner] = broken ? 11 : 10;
+        balanceOf[address(0x10000)] = broken ? 11 : 0;
+        balanceOf[address(0)] = broken ? 1 : 0;
+    }
+}
+contract OwnPropertyHarness is CryticERC20ExternalBasicProperties {
+    constructor(bool broken, address owner) { token = ITokenMock(address(new OwnedLedger(broken, owner))); }
+}
+contract OwnedPropertiesReplayTest {
+    function exercise(string memory signature, bool broken) private {
+        OwnPropertyHarness harness = new OwnPropertyHarness(broken, address(this));
+        (bool ok, bytes memory returned) = address(harness).call(abi.encodeWithSignature(signature));
+        if (broken) {
+            assert(!ok);
+            assert(keccak256(returned) == keccak256(abi.encodeWithSignature("Panic(uint256)", 1)));
+        } else { assert(ok); }
+    }
+    function testCryticBalanceViolation() public { exercise("test_ERC20external_userBalanceNotHigherThanSupply()", true); }
+    function testCryticBalanceRepaired() public { exercise("test_ERC20external_userBalanceNotHigherThanSupply()", false); }
+    function testCryticAggregateViolation() public { exercise("test_ERC20external_userBalancesLessThanTotalSupply()", true); }
+    function testCryticAggregateRepaired() public { exercise("test_ERC20external_userBalancesLessThanTotalSupply()", false); }
+    function testCryticZeroBalanceViolation() public { exercise("test_ERC20external_zeroAddressBalance()", true); }
+    function testCryticZeroBalanceRepaired() public { exercise("test_ERC20external_zeroAddressBalance()", false); }
+    function testImmunefiFeeAccounting() public {
+        ERC20FeeTransfer token = new ERC20FeeTransfer("Owned", "OWN", 18, 100, 2);
+        address recipient = address(0xBEEF);
+        assert(token.transfer(recipient, 10));
+        assert(token.balanceOf(recipient) == 8);
+        assert(token.balanceOf(address(this)) == 90);
+        assert(token.balanceOf(address(0)) == 2);
+        assert(token.balanceOf(recipient) != 10);
+    }
+    function testImmunefiZeroFeeControl() public {
+        ERC20FeeTransfer token = new ERC20FeeTransfer("Owned", "OWN", 18, 100, 0);
+        address recipient = address(0xBEEF);
+        assert(token.transfer(recipient, 10));
+        assert(token.balanceOf(recipient) == 10);
+        assert(token.balanceOf(address(this)) == 90);
+        assert(token.balanceOf(address(0)) == 0);
+    }
+    function testImmunefiFalseReturnNoCredit() public {
+        ERC20Bool token = new ERC20Bool("Owned", "OWN", 18, 100);
+        address recipient = address(0xBEEF);
+        assert(!token.transfer(recipient, 101));
+        assert(token.balanceOf(address(this)) == 100);
+        assert(token.balanceOf(recipient) == 0);
+    }
+    function testImmunefiSuccessReturnCredit() public {
+        ERC20Bool token = new ERC20Bool("Owned", "OWN", 18, 100);
+        address recipient = address(0xBEEF);
+        assert(token.transfer(recipient, 10));
+        assert(token.balanceOf(address(this)) == 90);
+        assert(token.balanceOf(recipient) == 10);
+    }
+}

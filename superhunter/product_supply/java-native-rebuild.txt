@@ -1,0 +1,125 @@
+"""Reconstruct the reviewed Java kit from pinned official publications.
+
+Explicit preparation only: python java-native-rebuild.txt --repository REPO --destination NEW_KIT
+The product runtime never downloads dependencies. No package is installed on the host.
+"""
+import argparse
+import hashlib
+import importlib
+import io
+import json
+from pathlib import Path, PurePosixPath
+import sys
+import tarfile
+import urllib.request
+
+
+def download(url, size, digest):
+    if not url.startswith(('https://repo.maven.apache.org/maven2/',
+                           'https://security.debian.org/debian-security/')):
+        raise ValueError('unreviewed Java artifact origin')
+    with urllib.request.urlopen(url, timeout=30) as response:
+        data = response.read(size + 1)
+    if len(data) != size or hashlib.sha256(data).hexdigest() != digest:
+        raise ValueError('Java download size or SHA256 differs')
+    return data
+
+
+def deb_data(package):
+    if package[:8] != b'!<arch>\n':
+        raise ValueError('invalid Debian archive')
+    offset, found, names = 8, None, set()
+    while offset < len(package):
+        header = package[offset:offset + 60]
+        if len(header) != 60 or header[58:60] != b'`\n':
+            raise ValueError('invalid Debian member header')
+        name, size = header[:16].decode('ascii').strip().rstrip('/'), int(header[48:58])
+        if name in names or size < 0 or offset + 60 + size > len(package):
+            raise ValueError('invalid or duplicated Debian member')
+        names.add(name)
+        if name == 'data.tar.xz':
+            found = package[offset + 60:offset + 60 + size]
+        offset += 60 + size + size % 2
+    if offset != len(package) or found is None:
+        raise ValueError('Debian data archive is missing or truncated')
+    return found
+
+
+def relative(name):
+    path = PurePosixPath(name)
+    if path.is_absolute() or not path.parts or '..' in path.parts or str(path) != name:
+        raise ValueError('unsafe kit path')
+    return path
+
+
+def runtime_bytes(package, files):
+    expected = {}
+    for name, pin in files.items():
+        if name.startswith('runtime/'):
+            relative(name)
+            member = str(relative(pin['archive_member']))
+            expected.setdefault(member, []).append(name)
+    result, seen = {}, set()
+    with tarfile.open(fileobj=io.BytesIO(deb_data(package)), mode='r:xz') as archive:
+        for member in archive:
+            name = member.name.removeprefix('./')
+            if name not in expected:
+                continue
+            if name in seen or not member.isfile():
+                raise ValueError('runtime member is duplicated or not a regular file')
+            seen.add(name)
+            for destination in expected[name]:
+                pin = files[destination]
+                if member.size != pin['bytes']:
+                    raise ValueError('runtime member size differs')
+                data = archive.extractfile(member).read(pin['bytes'] + 1)
+                if len(data) != pin['bytes'] or hashlib.sha256(data).hexdigest() != pin['sha256']:
+                    raise ValueError('runtime member SHA256 differs')
+                result[destination] = data
+    if seen != set(expected):
+        raise ValueError('runtime archive lacks a reviewed member')
+    return result
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--repository', type=Path, required=True)
+    parser.add_argument('--destination', type=Path, required=True)
+    options = parser.parse_args()
+    root = options.repository.resolve(strict=True)
+    sys.path.insert(0, str(root))
+    native = importlib.import_module('superhunter.product_java_native')
+    if native.ROOT != root:
+        raise ValueError('Java recipe imported a different checkout')
+    pins, _ = native.inputs()
+    if hashlib.sha256(Path(__file__).read_bytes()).hexdigest() != pins['rebuild_sha256']:
+        raise ValueError('Java recipe is not the reviewed program')
+    destination = options.destination.absolute()
+    if destination.exists() or destination.is_symlink():
+        raise ValueError('Java kit destination must be new')
+    destination.mkdir(parents=True)
+    runtime = pins['runtime']['package']
+    package = download(runtime['url'], runtime['bytes'], runtime['sha256'])
+    artifacts = runtime_bytes(package, pins['files'])
+    maven = json.loads((root / native.PREFIX).with_name('java-native-maven.json').read_text())
+    for artifact in maven:
+        name = artifact['file']
+        relative(name)
+        artifacts[name] = download(artifact['url'], artifact['bytes'], artifact['sha256'])
+    if set(artifacts) != set(pins['files']):
+        raise ValueError('Java kit artifact membership differs')
+    for name, data in artifacts.items():
+        pin = pins['files'][name]
+        if len(data) != pin['bytes'] or hashlib.sha256(data).hexdigest() != pin['sha256']:
+            raise ValueError('Java kit file differs from reviewed bytes')
+        target = destination / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(data)
+        target.chmod(0o700 if pin['executable'] else 0o600)
+    print(json.dumps({'kit_files': len(artifacts), 'runtime_files': len(artifacts) - len(maven),
+                      'runtime_archive_sha256': runtime['sha256'], 'host_runtime_used': False,
+                      'system_packages_installed': 0}, sort_keys=True))
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,26 @@
+gobuster: go1.27.3
+	path	github.com/OJ/gobuster/v3
+	mod	github.com/OJ/gobuster/v3	(devel)	
+	dep	github.com/cpuguy83/go-md2man/v2	v2.0.7	h1:zbFlGlXEAKlwXpmvle3d8Oe3YnkKIK4xSRTd3sHPnBo=
+	dep	github.com/fatih/color	v1.18.0	h1:S8gINlzdQ840/4pfAwic/ZE0djQEH3wM94VfqLTZcOM=
+	dep	github.com/google/uuid	v1.6.0	h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
+	dep	github.com/mattn/go-colorable	v0.1.14	h1:9A9LHSqF/7dyVVX6g0U9cwm9pG3kP9gSzcuIPHPsaIE=
+	dep	github.com/mattn/go-isatty	v0.0.20	h1:xfD0iDuEKnDkl03q4limB+vH+GxLEtL/jb4xVJSWWEY=
+	dep	github.com/pin/tftp/v3	v3.1.0	h1:rQaxd4pGwcAJnpId8zC+O2NX3B2/NscjDZQaqEjuE7c=
+	dep	github.com/russross/blackfriday/v2	v2.1.0	h1:JIOH55/0cWyOuilr9/qlrm0BSXldqnqwMsf35Ld67mk=
+	dep	github.com/urfave/cli/v2	v2.27.7	h1:bH59vdhbjLv3LAvIu6gd0usJHgoTTPhCFib8qqOwXYU=
+	dep	github.com/xrash/smetrics	v0.0.0-20250705151800-55b8f293f342	h1:FnBeRrxr7OU4VvAzt5X7s6266i6cSVkkFPS0TuXWbIg=
+	dep	go.uber.org/automaxprocs	v1.6.0	h1:O3y2/QNTOdbF+e/dpXNNW7Rx2hZ4sTIPyybbxyNqTUs=
+	dep	golang.org/x/crypto	v0.45.0	h1:jMBrvKuj23MTlT0bQEOBcAE0mjg8mK9RXFhRH6nyF3Q=
+	dep	golang.org/x/net	v0.47.0	h1:Mx+4dIFzqraBXUugkia1OOvlD6LemFo1ALMHjrXDOhY=
+	dep	golang.org/x/sys	v0.38.0	h1:3yZWxaJjBmCWXqhN1qh02AkOnCQ1poK6oF+a7xWL6Gc=
+	dep	golang.org/x/term	v0.37.0	h1:8EGAD0qCmHYZg6J17DvsMy9/wJ7/D/4pV/wfnld5lTU=
+	dep	software.sslmate.com/src/go-pkcs12	v0.6.0	h1:f3sQittAeF+pao32Vb+mkli+ZyT+VwKaD014qFGq6oU=
+	build	-buildmode=exe
+	build	-compiler=gc
+	build	-trimpath=true
+	build	DefaultGODEBUG=cryptocustomrand=1,httpservecontentmaxranges=1,tlssecpmlkem=0,tracebacklabels=0,urlstrictcolons=0,x509sslcertoverrideplatform=0
+	build	CGO_ENABLED=0
+	build	GOARCH=amd64
+	build	GOOS=linux
+	build	GOAMD64=v1
