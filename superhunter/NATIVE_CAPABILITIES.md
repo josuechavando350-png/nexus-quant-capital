@@ -61,3 +61,30 @@ El grupo opcional `iam` utiliza Policy Sentry para interpretar cinco políticas 
 La revisión de catálogo es `2575f2b873e1c1f0fb604a448dee392f39ad74ad`. La ejecución verifica 35 archivos Python y el hash del catálogo IAM empaquetado. La base JSON del wheel tiene el mismo contenido estructural que la base del árbol Git aunque difieren en formato. El kit utiliza 13 wheels identificados por SHA-256. En Linux x86-64 con CPython 3.12, el wheelhouse puede prepararse mediante `python3.12 -m pip download --only-binary=:all: --no-deps --require-hashes -r superhunter/product_supply/iam-native-linux-py312.txt -d "$IAM_KIT"`. Para seleccionar las políticas en el producto, la clave `iam` de `--native-kits` identifica ese directorio. La ejecución de los controles utiliza un espacio de red aislado y conserva las acciones desconocidas como tales.
 
 [Fuentes y dependencias](product_supply/iam-native-sources.json) · [Resultados por política](product_supply/iam-native-result.json) · [Pruebas de alteración](tests/test_product_iam_native.py).
+
+### Interoperabilidad RLP del encabezado de Census
+
+El grupo opcional `canonical_header` compara 21 campos del vector público del bloque
+25,437,474. Las bibliotecas RLP de `OpenZeppelin/ethernaut` escriben los campos y
+leen una codificación calculada por separado. Se repite la comparación al aumentar
+`gasUsed` en una unidad. Ambos encabezados canónicos miden 649 bytes. Cada caso
+emite los bytes, su Keccak-256 y los 21 campos decodificados. El consumidor coteja
+los 23 eventos con el vector fijo y con el testigo archivado de EthereumJS, ethers,
+viem y Geth. Ese testigo conserva la procedencia de su ejecución anterior.
+
+Un kit local contiene `solc`, `forge` y las tres rutas de la [lista de fuentes
+fijadas](product_supply/rlp-library-native-pins.json). Los dos ficheros Solidity
+se copian sin modificaciones junto con la licencia. Se usa el compilador 0.8.30 y
+la distribución Foundry 1.10.0 del [kit de contabilidad](product_supply/contract-properties-native-build.json).
+Con el bundle de producto preparado, definir `canonical_header` en el JSON de kits
+y consultar el grupo y su recibo individual en la misma sesión.
+
+```sh
+python3.12 -B -m superhunter query-product --bundle "$BUNDLE" --native-kits "$KITS" native-capabilities OpenZeppelin/ethernaut
+```
+
+[Resultado de referencia](product_supply/canonical-header-result.json) ·
+[Testigo histórico](product_supply/rlp-library-native-header-witness.json).
+Los perfiles de ocho y nueve grupos conservan sus contratos históricos. La
+aceptación conjunta del perfil de diez requiere una sesión y una réplica nueva
+mediante `verify_review_115 --require-consolidated-canonical-header`.

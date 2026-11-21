@@ -19,7 +19,7 @@ def sample():
 class ContractPropertyReceiptTests(unittest.TestCase):
     def test_accounting_profile_retains_eight_contracts_and_requires_two_distinct_receipts(self):
         core = contracts(version='core-eight')
-        extended = contracts()
+        extended = contracts(version='accounting-nine')
         self.assertEqual(len(core), 8)
         self.assertEqual({key: value for key, value in extended.items() if key != 'properties'}, core)
         contract = extended['properties']

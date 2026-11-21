@@ -9,7 +9,9 @@ from .product_review import ROOT, sha
 from .safe_io import canonical, read_artifact, strict_json
 
 CONTRACT = 'superhunter/product_supply/native-capability-contracts.json'
-CONTRACT_SHA = '4dfec613c3f4ad64084a7487d4f4d5ecadea8f177f1bcc7283637c4a8adcdefa'
+CONTRACT_SHA = 'c3b7c10d1c72aacae73e09c5b96b521baeb9a8e6f4b15b03886ddcb8a16395c3'
+ACCOUNTING_NINE = ('superhunter/product_supply/native-capability-contracts-accounting-nine.json',
+                   '4dfec613c3f4ad64084a7487d4f4d5ecadea8f177f1bcc7283637c4a8adcdefa')
 ARCHIVE_70 = ('superhunter/product_supply/native-capability-contracts-70.json',
               '1289b2523dca27657dcde15cb81c7a862e50c7f523c92d0e145238fee268d237')
 CORE_EIGHT = ('superhunter/product_supply/native-capability-contracts-core-eight.json',
@@ -17,7 +19,8 @@ CORE_EIGHT = ('superhunter/product_supply/native-capability-contracts-core-eight
 MODULES = {'evm': 'product_evm_native', 'web': 'product_web_native', 'static': 'product_static_native',
            'slither': 'product_slither_native', 'secrets': 'product_secrets_native',
            'iam': 'product_iam_native', 'java': 'product_java_native',
-           'upgrades': 'product_upgrade_layout_native', 'properties': 'product_contract_properties_native'}
+           'upgrades': 'product_upgrade_layout_native', 'properties': 'product_contract_properties_native',
+           'canonical_header': 'product_canonical_header'}
 
 
 def add_arguments(parser):
@@ -54,7 +57,8 @@ def selected_kits(options):
 
 
 def contracts(version=None):
-    profiles = {None: (CONTRACT, CONTRACT_SHA), 70: ARCHIVE_70, 'core-eight': CORE_EIGHT}
+    profiles = {None: (CONTRACT, CONTRACT_SHA), 70: ARCHIVE_70, 'core-eight': CORE_EIGHT,
+                'accounting-nine': ACCOUNTING_NINE}
     if version not in profiles:
         raise EvidenceError('unknown historical native contract version')
     path, digest = profiles[version]

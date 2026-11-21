@@ -157,11 +157,15 @@ def row_operations(row, native, *, profile='current'):
     return sorted(operations, key=lambda op: (op['role'] != 'executable', op['receipt']))
 
 
-def verify(raw, expected_hash=None, *, require_consolidated=False, require_accounting=False):
-    if require_consolidated and require_accounting:
+def verify(raw, expected_hash=None, *, require_consolidated=False, require_accounting=False,
+           require_canonical_header=False):
+    profiles = [name for selected, name in (
+        (require_consolidated, 'core-eight'), (require_accounting, 'accounting-nine'),
+        (require_canonical_header, None)) if selected]
+    if len(profiles) > 1:
         raise EvidenceError('select one exact consolidated acceptance profile')
-    full_profile = require_consolidated or require_accounting
-    native_version = 'core-eight' if require_consolidated else None
+    full_profile = bool(profiles)
+    native_version = profiles[0] if full_profile else None
     digest = sha(raw)
     if expected_hash is not None and digest != expected_hash:
         raise EvidenceError('transcript digest differs from the acceptance record')
@@ -532,13 +536,16 @@ def main():
     profiles = parser.add_mutually_exclusive_group()
     profiles.add_argument('--require-consolidated', action='store_true', help='require the complete eight-group consolidated acceptance profile')
     profiles.add_argument('--require-consolidated-accounting', action='store_true', help='require the complete nine-group acceptance profile including the ten fixed accounting checks')
+    profiles.add_argument('--require-consolidated-canonical-header', action='store_true',
+                          help='require all ten groups including canonical header interoperability')
     parser.add_argument('--expect-sha256', help='trusted digest for a specific, published run')
     args = parser.parse_args()
     raw = read_artifact(args.transcript.parent, args.transcript.name)
     if args.archive:
         raw = unpack(raw)
     profile_options = {'require_consolidated': args.require_consolidated,
-                       'require_accounting': args.require_consolidated_accounting}
+                       'require_accounting': args.require_consolidated_accounting,
+                       'require_canonical_header': args.require_consolidated_canonical_header}
     result = verify(raw, args.expect_sha256, **profile_options)
     if args.require_complete_controls:
         profile = result.get('component_contract_profile', 'current')
