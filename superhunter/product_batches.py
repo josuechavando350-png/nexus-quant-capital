@@ -8,7 +8,6 @@ BASELINE_IDS = frozenset((24, 30, 41, 45, 111, 131, 136, 140, 142, 143, 147, 150
 # Preserve the 15 baseline identities and prioritize inventory, code parsing and review work.
 CATEGORIES = ('SUPPLY', 'CODIGO', 'FORMAL', 'OBSERVACION', 'METODO', 'BINARIOS', 'AGENTES')
 RECEIPTS = {
-    'ethereum/go-ethereum': 'geth_header_evidence',
     'ethers-io/ethers.js': 'census_header_evidence', 'wevm/viem': 'census_header_evidence',
     'ethereumjs/ethereumjs-monorepo': 'census_header_evidence',
     'foundry-rs/foundry': 'solidity_metadata_evidence',
@@ -53,12 +52,32 @@ def cohorts(repositories):
     return rows[:100], rows[100:]
 
 
+# Reviewed outputs for the fixed NQC fixtures. Each producer still has to rerun before
+# a receipt is attached. A name, an arbitrary nonempty adapter or a copied source row is insufficient.
+FIXED_SOURCE_RECEIPTS = {
+    'ethereum/go-ethereum': ('executable', 'geth_header_evidence', {
+        'report': 'geth-census', 'revision': '2b7829ea6aed9a95a3fd793cca46731202c6c310',
+        'binary_sha256': 'af8353f39c60f5038cfa0c894ebc9566ad8ea958575d83a1108e00b23089bec7',
+        'report_sha256': 'a676b5efada6d578f068eb3a33efa14d899244422761260e9b1a0e6c7ab5af98'}),
+    'openzeppelin/openzeppelin-contracts': ('reference_data', 'source_reference', {
+        'report': 'source-references', 'revision': '5172e1681f05f4aa189b7740bf2c0316af67c3b3',
+        'report_sha256': 'e41dd7e73dbd9d22b178736dabdf05460851f15201b633a9739184b432d85a22'}),
+    'ethereum/consensus-specs': ('reference_data', 'source_reference', {
+        'report': 'source-references', 'revision': '2d519bc04f0f9c52f0e0876f69b238a9523f1ef8',
+        'report_sha256': '77046aa1df356c21d1b9578f54f5ea0c0a9d10bff291eed82344cf7821a42490'})}
+
+
 def receipt(row):
     name = row['repository'].casefold()
+    if name in FIXED_SOURCE_RECEIPTS:
+        role, key, expected = FIXED_SOURCE_RECEIPTS[name]
+        if key not in row:
+            return 'pending', None
+        if row[key] != expected:
+            raise EvidenceError('source receipt differs from the accepted product result')
+        return role, key
     if name in RECEIPTS and row.get(RECEIPTS[name]):
         return 'executable', RECEIPTS[name]
-    if name in ('ethereum/consensus-specs', 'openzeppelin/openzeppelin-contracts') and row.get('source_reference'):
-        return 'reference_data', 'source_reference'
     if name in ('ethereum/eips', 'ethereum/execution-specs') and row.get('census_header_reference'):
         return 'reference_data', 'census_header_reference'
     role = row.get('supply_role') or {}

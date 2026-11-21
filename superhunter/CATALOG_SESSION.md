@@ -1,5 +1,7 @@
 # NQC y SuperHunter · evidencia de los 200 repositorios
 
+El procedimiento de este documento reproduce el PR 112. La sesión ampliada incorpora Geth y dos comparaciones de tipos. [Reproducir las 211 respuestas](SOURCE_AUDIT.md) · [Matriz actual](INTEGRATION_STATUS_200.md).
+
 La CLI de SuperHunter consulta los aportes de los 200 proyectos junto con las dependencias y las fuentes históricas de NQC. En la sesión de inventario, las 200 filas tienen una revisión Git, un documento de licencia verificado y un enlace al archivo exacto de origen. Al reconciliar el expediente del PR 111 con esta ejecución, 46 identidades tienen una función demostrada en el producto. De ellas, 42 aportaron código ejecutado y cuatro aportaron especificaciones o controles de referencia. Las otras 154 tienen procedencia documental verificada y su uso funcional sigue pendiente.
 
 [Ver las 200 identidades, el documento de cada una y la procedencia de sus recibos](CATALOG_COVERAGE.md).

@@ -1,5 +1,9 @@
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
+## 21 de noviembre · PR 114
+
+La rama de producto del PR 111 se amplió desde el commit `929486b`. La matriz actual recoge 153 fuentes, 49 participaciones demostradas y las 151 pendientes, junto con sus recibos. Para reanudar desde el estado publicado, consultar [la matriz de las 200 identidades](INTEGRATION_STATUS_200.md) y [la reproducción exacta](SOURCE_AUDIT.md).
+
 ## Estado vigente: entrada propia sellada leída después del filtro
 
 Sucesor de PR #108, commit `679881f023d0a3c4c3c015e322bbd66d1341af7d`.

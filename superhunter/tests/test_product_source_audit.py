@@ -98,6 +98,14 @@ class ProductComparisonTests(unittest.TestCase):
         self.assertEqual(refs.invalid_fields({'gasUsed': '0x0', 'extraData': '0xf'}, fields, 256, 32),
                          ['extraData', 'hash'])
 
+    def test_a_placeholder_or_mismatched_receipt_cannot_count_as_a_comparison(self):
+        for name, key in [('ethereum/go-ethereum', 'geth_header_evidence'),
+                          ('ethereum/consensus-specs', 'source_reference'),
+                          ('openzeppelin/openzeppelin-contracts', 'source_reference')]:
+            for bad in ({}, {'report': 'test'}, {'report_sha256': '0'*64}):
+                with self.assertRaisesRegex(ValueError, 'accepted product result'):
+                    receipt({'repository': name, key: bad})
+
     def test_audit_rows_cannot_promote_project_to_runtime(self):
         for name in ('ethereum/go-ethereum', 'ethereum/consensus-specs', 'OpenZeppelin/openzeppelin-contracts'):
             self.assertEqual(receipt({'repository': name, 'source_inventory': {'tree': 'reviewed'}}),
