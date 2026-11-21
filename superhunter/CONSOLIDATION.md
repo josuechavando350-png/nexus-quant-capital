@@ -2,6 +2,14 @@
 
 Los PR [118](https://github.com/josuechavando350-png/nexus-quant-capital/pull/118) y [119](https://github.com/josuechavando350-png/nexus-quant-capital/pull/119) partieron de `672c31392929b8efbd6b3d5983c44e8560232add`. Las dos transcripciones históricas de 99 y 70 participantes compartían 63 identidades. Había 36 exclusivas de la primera y siete exclusivas de la segunda. El total histórico de esas dos ejecuciones era 106. [Archivo de 99](product_supply/component-session-99.json) · [Archivo de 70](product_supply/native-session-70.json)
 
+## Evidencia recuperada en el PR 120
+
+La rama de desarrollo `feat/superhunter-consolidated-product` recuperó el árbol `58e2535c45c195bbf8980c5af01ad0f3fc6de66e` del checkout `1edb169`. Los dos expedientes históricos se pueden recontar sin instalar herramientas externas. [PR 120](https://github.com/josuechavando350-png/nexus-quant-capital/pull/120) · [Matriz de los 200](INTEGRATION_STATUS_200.md)
+
+Una ejecución con los kits oficiales sobre ese árbol produjo 222 respuestas y terminó con código 2. Participaron 127 identidades en 133 operaciones. Se conservaron 105 de las 106 identidades históricas. Faltó `cdump/evmole`; los grupos EVM y Java rechazaron sus entradas. El verificador independiente rechazó 20 alteraciones de ese expediente. [Acta parcial](product_supply/acceptance-120/recovered-partial-replay.json) · [Transcripción parcial](product_supply/acceptance-120/recovered-partial-session.json)
+
+En el PR 119 se reprodujeron los dos grupos afectados en dos checkouts limpios del mismo commit en un host. Las cuatro identidades produjeron los mismos 13.025 bytes. El commit `fae4157` incorporó al perfil unificado el Node de la distribución oficial y la receta del JRE reconstruido desde Debian. [Acta EVM y Java](product_supply/acceptance-120/evm-java-replay.json) · [Transcripción](product_supply/acceptance-120/evm-java-transcript.json)
+
 ## Ejecutar el perfil conjunto
 
 Se utiliza la misma entrada de producto y un solo índice de 200 identidades. Una fila puede tener varias operaciones. `integration-matrix` y `integration-coverage` exponen cada operación mediante `session_operations`, con su rol, el campo que contiene el recibo y su SHA-256. El resultado original se obtiene consultando la identidad en la misma sesión. El selector acepta controles fijos locales. La única cuenta por identidad prioriza la ejecución cuando también hay un uso documental.
