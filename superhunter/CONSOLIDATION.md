@@ -20,6 +20,7 @@ Con dos conjuntos de insumos preparados por separado, dos checkouts del producto
 |---|---|---|
 | 37 módulos de producto, inventario y recibos, árbol `614361e3` | 398 aprobadas, cero fallidas u omitidas. El oráculo independiente utilizó la distribución local de npm para resolver semver. | [Casos de prueba y huella del registro](product_supply/acceptance-120/qa-results.json) |
 | 38 módulos de producto y contabilidad, árbol [`549fb799`](https://github.com/josuechavando350-png/nexus-quant-capital/commit/e6272223e31151b9adfe285276ce8c10987ecfed) | 411 aprobadas, cero fallidas u omitidas. Se conservaron los 398 casos anteriores. El inventario global de este árbol contiene 428 archivos Python y 158 datos. Se detuvo en su límite de 500. | [Acta de QA, módulos y casos adicionales](product_supply/acceptance-120/qa-411.json) |
+| 38 módulos tras la corrección de recibos y el lector de inventarios, árbol [`7c2354c9`](https://github.com/josuechavando350-png/nexus-quant-capital/commit/e4248efc14d61e21654ac1494ed03046ee92ecda) | 420 aprobadas, cero fallidas u omitidas. Se conservaron los 411 casos anteriores y se incorporaron nueve controles. QA global conserva el límite de 500 archivos. | [Acta de 420 pruebas](product_supply/acceptance-120/qa-420.json) |
 | Rust histórico de Census, Cargo y rustc 1.98.1 | 528 aprobadas sin red. Los binarios compilados correspondían al árbol preservado y se reutilizaron con Cargo.lock fijado. | [Casos por ejecutable de prueba](product_supply/acceptance-120/qa-results.json) |
 | Aislamiento de NQC y migración | 642 archivos protegidos verificados. En el árbol histórico pasaron las nueve pruebas de migración. Sobre el producto ampliado pasaron ocho y una dio `unreviewed root file`. | [Resultado por alcance](product_supply/acceptance-120/qa-results.json) |
 | QA global del producto, árbol `614361e3` | Bloqueada antes de emitir el certificado. El inventario exige 426 archivos Python y 152 archivos de datos, frente al límite total de 500. | [Inventario de QA](product_supply/acceptance-120/qa-results.json) |
@@ -69,6 +70,10 @@ Los artefactos emitidos por un productor bloqueado carecen de crédito. La repro
 | `SOURCE_ASSURANCE.md`, `SOURCE_CHECKOUT.md` | Quedaron versionados el expediente de 153 y el de los 200. Las optimizaciones ya portadas del PR 116 se conservan una sola vez. |
 
 Los [200 checkouts directos](SOURCE_CHECKOUT.md) coinciden con sus revisiones de catálogo. La revisión de avisos alcanza los 200 proyectos. Quedan pendientes la materialización de 141 gitlinks anidados y un objeto Git LFS, y la revisión de obligaciones de distribución del producto y sus dependencias.
+
+## Restaurar los insumos de inventario
+
+El paquete del [perfil de producto](PRODUCT_REVIEW.md) conserva los doce archivos de CycloneDX y GUAC utilizados para las pruebas con insumos fijos. Se restauraron desde el commit público `e4248efc` en un directorio vacío. Las nueve entradas de CycloneDX y las tres de GUAC coincidieron byte por byte con las del productor. La regeneración independiente con metadatos distintos se conserva en el control de variación descrito arriba.
 
 ## Seguimiento de componentes pendientes
 
