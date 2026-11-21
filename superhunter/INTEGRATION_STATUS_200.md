@@ -2,7 +2,7 @@
 
 El producto conserva 200 identidades. Hay 153 checkouts completos, 2 extractos verificados y 45 proyectos con alcance documental y de metadatos.
 
-Participación acreditada de 58 proyectos, con 47 de ejecución y 11 referencias. En la sesión completa participaron 58. Quedan 142 sin recibo funcional.
+Participación acreditada de 59 proyectos, con 48 de ejecución y 11 referencias. En la sesión completa participaron 59. Quedan 141 sin recibo funcional.
 
 Se verificaron el commit y el árbol de 200 identidades y se cotejó un aviso por proyecto. Las obligaciones de distribución del producto completo siguen pendientes. La consulta `integration-matrix` conserva la ruta y el hash del aviso, el árbol, los manifiestos y el recibo por fila.
 
@@ -114,7 +114,7 @@ Se verificaron el commit y el árbol de 200 identidades y se cotejó un aviso po
 | 102 | [Ericsson/codechecker](https://github.com/Ericsson/codechecker/tree/53222cd5d7566c553d8d7edbb5134a35a56ef15e) | Analizador o verificador | Completa | Pendiente | — |
 | 103 | [cppcheck-opensource/cppcheck](https://github.com/cppcheck-opensource/cppcheck/tree/e1b5791564c662c7dacbc62835f6abe5431aa00b) | Analizador o verificador | Completa | Pendiente | — |
 | 104 | [PyCQA/bandit](https://github.com/PyCQA/bandit/tree/2d5467c45c3189f4d7d07e8022276bc73a478abd) | Analizador o verificador | Completa | Ejecución | Sí |
-| 105 | [securego/gosec](https://github.com/securego/gosec/tree/244f1f6f4d1d0d14f89e79a73dab1219eabb5228) | Analizador o verificador | Completa | Pendiente | — |
+| 105 | [securego/gosec](https://github.com/securego/gosec/tree/244f1f6f4d1d0d14f89e79a73dab1219eabb5228) | Analizador o verificador | Completa | Ejecución | Sí |
 | 106 | [phpstan/phpstan](https://github.com/phpstan/phpstan/tree/043348b55e6c54effbdc0cd2f86173bc00ddd0c2) | Analizador o verificador | Completa | Pendiente | — |
 | 107 | [vimeo/psalm](https://github.com/vimeo/psalm/tree/2da2040e23d8b54e61be22618bd53517b6bd43df) | Analizador o verificador | Completa | Pendiente | — |
 | 108 | [pmd/pmd](https://github.com/pmd/pmd/tree/d37763dbd32bc1db21bc849037594631089743f3) | Analizador o verificador | Completa | Ejecución | Sí |

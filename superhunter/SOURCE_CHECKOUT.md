@@ -1,6 +1,6 @@
 # Código fuente en NQC · 153 de 200
 
-La auditoría posterior verificó 115 gitlinks anidados y un puntero Git LFS. [Inventario por revisión y verificación de las licencias](SOURCE_AUDIT.md) · [Estado funcional de los 200](INTEGRATION_STATUS_200.md).
+En los 153 checkouts completos se observaron 115 gitlinks anidados y un puntero Git LFS. En los 47 proyectos pendientes de checkout, se verificaron por separado los objetos de commit y los árboles recursivos. Allí se identificaron otros 26 gitlinks anidados. Dos proyectos de esos 47 aportan extractos con uso funcional. [Prueba offline de los 47 commits y 34 manifiestos](OFFLINE_SOURCE_AND_GO.md). [Inventario por revisión y verificación de las licencias](SOURCE_AUDIT.md) · [Estado funcional de los 200](INTEGRATION_STATUS_200.md).
 
 La rama de producto contiene 153 repositorios como submódulos Git directos en `upstream/`. Los primeros 100 se incorporaron en el PR 113 y este lote añade 53. Las otras 47 identidades tienen una entrada en el catálogo de procedencia. Cada tabla conserva los ID originales.
 

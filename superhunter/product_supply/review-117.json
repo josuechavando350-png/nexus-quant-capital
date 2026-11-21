@@ -1,0 +1,148 @@
+{
+  "schema": 1,
+  "pr": 117,
+  "product_base": "0cf2dda6edb8da364948be9614386d852a90ee43",
+  "producer_commit": "d0e685664ae2fef29d05a64ef409fbce4b5b5259",
+  "counts": {
+    "catalog": 200,
+    "commercial_reviews_completed": 0,
+    "end_to_end": 59,
+    "executable": 48,
+    "functional": 59,
+    "notices_reviewed": 200,
+    "pending": 141,
+    "pending_by_source": {
+      "complete": 96,
+      "metadata": 45
+    },
+    "references": 11,
+    "remote_roots": 47,
+    "sources": {
+      "complete": 153,
+      "excerpt": 2,
+      "metadata": 45
+    },
+    "verified_trees": 200
+  },
+  "archive_sha256": "f242a9ec30a3b70c4d2079c416b63c9fb96af06d2fc1c809d1dead89be1d7963",
+  "canonical_session": {
+    "transcript_sha256": "7549154796e0b77a907d780abfdcd89d75f4d8dc04540d3794217b2aa3cc963c",
+    "credits_sha256": "5a4491d5b3228d5604e6dfa58f04cc6432011c48534d0ec93144721648525668",
+    "responses": 220,
+    "catalog": 200,
+    "sources": {
+      "metadata": 45,
+      "complete": 153,
+      "excerpt": 2
+    },
+    "verified_notices": 200,
+    "session": 59,
+    "functional": 59,
+    "pending": 141,
+    "executables": 48,
+    "reference_data": 11,
+    "controls": {
+      "inflated_count": "claimed totals differ from independently counted rows",
+      "unsupported_credit": "matrix status differs from the original evidence",
+      "replaced_historical_digest": "matrix status differs from the original evidence",
+      "changed_native_result": "fixed product result changed",
+      "changed_license": "license evidence digest differs",
+      "changed_git_tree": "matrix and source revisions disagree"
+    },
+    "wall_seconds": 381.45
+  },
+  "regenerated_session": {
+    "transcript_sha256": "db3fc6bed6ac9da4a8a38d54e0f9593d3107fdac489199cbc0abfc6da3d15023",
+    "credits_sha256": "5a4491d5b3228d5604e6dfa58f04cc6432011c48534d0ec93144721648525668",
+    "responses": 220,
+    "catalog": 200,
+    "sources": {
+      "metadata": 45,
+      "complete": 153,
+      "excerpt": 2
+    },
+    "verified_notices": 200,
+    "session": 59,
+    "functional": 59,
+    "pending": 141,
+    "executables": 48,
+    "reference_data": 11,
+    "controls": {
+      "inflated_count": "claimed totals differ from independently counted rows",
+      "unsupported_credit": "matrix status differs from the original evidence",
+      "replaced_historical_digest": "matrix status differs from the original evidence",
+      "changed_native_result": "fixed product result changed",
+      "changed_license": "license evidence digest differs",
+      "changed_git_tree": "matrix and source revisions disagree"
+    },
+    "wall_seconds": 402.72
+  },
+  "compared_subjects": {
+    "canonical": "d0e685664ae2fef29d05a64ef409fbce4b5b5259",
+    "regenerated": "494b7d9ecdfefb0915bb4b146563f2f0464b3701"
+  },
+  "different_query_results": [
+    "tree-sitter/tree-sitter",
+    "ast-grep/ast-grep",
+    "ossf/scorecard",
+    "guacsec/guac",
+    "integration-matrix"
+  ],
+  "case_evidence": {
+    "clean_cases": [
+      "alternate",
+      "original"
+    ],
+    "diagnostics": [
+      {
+        "case": "changed",
+        "column": 12,
+        "confidence": "HIGH",
+        "cwe": "328",
+        "line": 25,
+        "rule": "G401",
+        "severity": "MEDIUM"
+      }
+    ],
+    "geth_comparison_sha256": "ca134db9b8984ea0d776c4236ac8c6ecb98f905fd2b1882bc36d81dfb71286f0",
+    "geth_revision": "2b7829ea6aed9a95a3fd793cca46731202c6c310",
+    "go_archive_sha256": "65efbc80fdc1fa2cd2631cad5b481777a68e8725f34e89f50fc6ac714e379b40",
+    "gosec_revision": "244f1f6f4d1d0d14f89e79a73dab1219eabb5228",
+    "gosec_sha256": "c627296e4e69c8dcf57abd44419fb51d9eb0a4fe3d32e3b03c8201e9809fcc47",
+    "inputs_sha256": {
+      "alternate": "c09aa39d350bd2af6cb6945232dc514ec959fb16920c94a6721db526f6bf86ec",
+      "changed": "5edd451147e457e06de8df020d2e1df53ad93b40152df0fbd00a8465db7142ca",
+      "original": "9ce7504add1fd9baf6500f92a84a45f4423bd14df95c323ad3d761179e2fdb66"
+    },
+    "reviewed_files": 3
+  },
+  "embedded_source_evidence": {
+    "archive_sha256": "cd55afcb85905025e2984704b4d51d9015f2f06d8341db40390ac04e315969ab",
+    "commits": 47,
+    "receipt_sha256": "e81d46408aa188e473ab1c68a4a3ec5699eb158047f8cf027b64204c54e3aafc",
+    "root_declarations": 34
+  },
+  "go_analyzer_independent_builds": 2,
+  "standard_profile_digest": "a94e6760f65c317b47b5f5b1bf6cd66d536306424d72b8b821eb5319fdd343f2",
+  "standard_profile_e2e": 29,
+  "python_focused": {
+    "modules": 13,
+    "passed": 227,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "inherited_product_receipt": "review-115.json",
+  "source_checkouts_pending": 47,
+  "original_vulnerabilities_confirmed": 0,
+  "external_blind_discovery_evaluation": null,
+  "intermediate_failures": [
+    "The initial offline Go run processed zero files when its temporary directory equalled the module root. The adapter rejected it before credit. GOROOT, GOPATH and the temporary directory are now distinct."
+  ],
+  "limits": [
+    "Data and source review on fixed NQC inputs",
+    "Commit and tree hashes exclude a claim of GPG signer authentication",
+    "No commercial redistribution clearance",
+    "141 components lack credited product participation"
+  ]
+}

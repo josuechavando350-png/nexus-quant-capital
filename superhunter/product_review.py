@@ -213,9 +213,11 @@ class ProductIndex:
         self.recursive_source_trees = None
         self.score_comparison = None
         self.owned_source_checks = None
+        self.portable_source_proof = None
         self.root_declarations = None
         self.source_inventory = None
         self.source_references = None
+        self.header_digest = None
         self.geth_header = None
         self.census_header = None
         self.upstream_notices = None
@@ -277,6 +279,10 @@ class ProductIndex:
             if self.owned_source_checks is None:
                 raise EvidenceError('owned source checks require --owned-source-kit')
             return self.owned_source_checks
+        if key == 'portable-source-proof':
+            if self.portable_source_proof is None:
+                raise EvidenceError('portable evidence requires --embedded-root-manifests')
+            return self.portable_source_proof
         if key == 'root-declarations':
             if self.root_declarations is None:
                 raise EvidenceError('root declarations require --root-manifests')
@@ -289,6 +295,10 @@ class ProductIndex:
             if self.source_references is None:
                 raise EvidenceError('source reference comparison requires --source-references')
             return self.source_references
+        if key == 'go-header-digest':
+            if self.header_digest is None:
+                raise EvidenceError('Go digest source audit requires --gosec-kit and --geth-header')
+            return self.header_digest
         if key == 'geth-census':
             if self.geth_header is None:
                 raise EvidenceError('Geth receipt requires --geth-header')
@@ -360,8 +370,11 @@ def main(argv):
         if command == 'query-product':
             parser.add_argument('--owned-source-kit', type=Path, help='evaluate fixed owned code and supply declarations')
             parser.add_argument('--fork-headers', action='store_true', help='validate two fixed headers using client schedules and the Hive corpus')
+            parser.add_argument('--gosec-kit', type=Path, help='review the fixed NQC header digest with the verified Go toolchain')
             parser.add_argument('--score-kit', type=Path, help='offline wheel sets for the two fixed evaluation engines')
-            parser.add_argument('--root-manifests', type=Path, help='verify external root trees and declarative package inputs')
+            sources = parser.add_mutually_exclusive_group()
+            sources.add_argument('--embedded-root-manifests', action='store_true', help='use the verified Git records stored in the product')
+            sources.add_argument('--root-manifests', type=Path, help='verify external root trees and declarative package inputs')
             parser.add_argument('--source-inventory', action='store_true', help='join the reviewed 200-row source audit')
             parser.add_argument('--source-references', type=Path, help='read two pinned type definitions from a source checkout')
             parser.add_argument('--geth-header', type=Path, help='pinned Geth helper to cross-check the Census header')
@@ -424,6 +437,9 @@ def main(argv):
             if opts.census_header_kit:
                 from . import product_census_header
                 product_census_header.attach(index, opts.census_header_kit)
+            if opts.embedded_root_manifests:
+                from . import product_portable_roots
+                product_portable_roots.attach(index)
             if opts.root_manifests:
                 from . import product_remote_roots
                 product_remote_roots.attach(index, opts.root_manifests)
@@ -448,6 +464,9 @@ def main(argv):
             if opts.geth_header:
                 from . import product_census_header
                 product_census_header.attach_geth(index, opts.geth_header)
+            if opts.gosec_kit:
+                from . import product_header_digest
+                product_header_digest.attach(index, opts.source_references, opts.gosec_kit)
             if opts.solidity_metadata_kit:
                 from . import product_solidity_headers
                 product_solidity_headers.attach(index, opts.solidity_metadata_kit)

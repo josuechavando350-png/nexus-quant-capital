@@ -125,8 +125,11 @@ def main():
     parser.add_argument('--prepare', action='store_true', help='download fixed public inputs into a new external directory')
     parser.add_argument('--owned-source-kit', type=Path, help='fixed offline code and package reference comparisons')
     parser.add_argument('--fork-headers', action='store_true', help='validate two fixed headers using client schedules and the Hive corpus')
+    parser.add_argument('--gosec-kit', type=Path, help='review the fixed NQC header digest with the verified Go toolchain')
     parser.add_argument('--score-kit', type=Path, help='offline wheel sets for the two fixed evaluation engines')
-    parser.add_argument('--root-manifests', type=Path, help='verified dependency files from remote root trees')
+    sources = parser.add_mutually_exclusive_group()
+    sources.add_argument('--embedded-root-manifests', action='store_true', help='use the verified Git records stored in the product')
+    sources.add_argument('--root-manifests', type=Path, help='verified dependency files from remote root trees')
     parser.add_argument('--source-inventory', action='store_true', help='join the reviewed source audit')
     parser.add_argument('--source-references', type=Path, help='checkout containing pinned source type definitions')
     parser.add_argument('--geth-header', type=Path, help='pinned optional native Geth comparator')
@@ -136,6 +139,8 @@ def main():
     if args.review_queries and args.queries:
         parser.error('choose the published queries or individual keys')
     queries = review_queries() if args.review_queries else args.queries
+    if args.review_queries and args.gosec_kit and args.embedded_root_manifests:
+        queries.extend(['portable-source-proof', 'go-header-digest'])
     work = args.workspace.resolve()
     if args.prepare:
         if work.is_relative_to(ROOT) or work.exists():
@@ -158,7 +163,9 @@ def main():
            *(native_inputs(args.native_inputs.resolve()) if args.native_inputs else []),
            *(['--owned-source-kit', args.owned_source_kit.resolve()] if args.owned_source_kit else []),
            *(['--fork-headers'] if args.fork_headers else []),
+           *(['--gosec-kit', args.gosec_kit.resolve()] if args.gosec_kit else []),
            *(['--score-kit', args.score_kit.resolve()] if args.score_kit else []),
+           *(['--embedded-root-manifests'] if args.embedded_root_manifests else []),
            *(['--root-manifests', args.root_manifests.resolve()] if args.root_manifests else []),
            *(['--source-inventory'] if args.source_inventory else []),
            *(['--source-references', args.source_references.resolve()] if args.source_references else []),

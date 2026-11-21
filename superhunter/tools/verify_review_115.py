@@ -40,6 +40,8 @@ def verify(raw, expected_hash=None):
         raise EvidenceError('transcript digest differs from the acceptance record')
     keys = review_queries()
     lines = raw.splitlines()
+    if len(lines) == len(keys) + 2:
+        keys.extend(['portable-source-proof', 'go-header-digest'])
     if len(lines) != len(keys):
         raise EvidenceError('acceptance transcript has missing or extra responses')
     report = {}
@@ -100,6 +102,15 @@ def verify(raw, expected_hash=None):
         if sha(canonical(evidence)) != summary['session_evidence_sha256']:
             raise EvidenceError('session credit differs from its producer bytes')
         credits.append([number, name, summary['session'], receipt])
+    if 'portable-source-proof' in report:
+        source_report = report['portable-source-proof']
+        records = [report[r['repository']]['offline_source_proof'] for r in rows if r['source'] != 'complete']
+        if (source_report['commits'] != len(records) or source_report['receipt_sha256'] != sha(canonical(records)) or
+                source_report['root_declarations'] != sum(len(r['manifest_blobs']) for r in records)):
+            raise EvidenceError('portable Git evidence differs from product rows')
+        go = report['securego/gosec']['go_source_receipt']
+        if go['report_sha256'] != sha(canonical(report['go-header-digest'])):
+            raise EvidenceError('Go source audit report differs from the producer receipt')
     counts = {'catalog': len(rows), 'sources': dict(actual_sources), 'verified_notices': len(rows),
               'session': len(credits), 'functional': 200 - cumulative_roles['pending'],
               'pending': cumulative_roles['pending'], 'executables': actual_roles['executable'],
