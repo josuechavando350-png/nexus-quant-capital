@@ -1,0 +1,332 @@
+{
+  "base_test_modules": [
+    "test_consolidated_evidence_verifier",
+    "test_product_attestations_batch",
+    "test_product_build_compatibility",
+    "test_product_canonical_header",
+    "test_product_catalog_session",
+    "test_product_component_controls",
+    "test_product_consolidated_operations",
+    "test_product_contract_properties_native",
+    "test_product_download_cache",
+    "test_product_evaluation_batch",
+    "test_product_evidence_codec",
+    "test_product_evm_native",
+    "test_product_evm_standards_batch",
+    "test_product_formats_batch",
+    "test_product_grpc_schema_native",
+    "test_product_html_review",
+    "test_product_iam_native",
+    "test_product_infra_batch",
+    "test_product_inventory_parallel",
+    "test_product_java_native",
+    "test_product_languages_batch",
+    "test_product_license_session",
+    "test_product_matrix_accounting",
+    "test_product_native_capabilities",
+    "test_product_passive_source_batch",
+    "test_product_remediation_batch",
+    "test_product_review",
+    "test_product_secrets_native",
+    "test_product_slither_native",
+    "test_product_slot_formats_batch",
+    "test_product_source_audit",
+    "test_product_source_parallel",
+    "test_product_state_formats_batch",
+    "test_product_static_contracts",
+    "test_product_static_native",
+    "test_product_supply",
+    "test_product_trust_batch",
+    "test_product_upgrade_layout_native",
+    "test_product_web_native",
+    "test_repository_boundary",
+    "test_source_materialization"
+  ],
+  "changed_functional_identity_count": 0,
+  "corrected_negatives": [
+    "superhunter.tests.test_product_html_review.HtmlReviewTests.test_quality_inventory_selects_the_pinned_driver_and_assigns_one_component",
+    "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_reviewed_worker_bytes_are_rejected_at_another_cjs_path",
+    "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_reviewed_worker_rejects_changed_bytes_and_executable_mode"
+  ],
+  "corrected_structural_checks": {
+    "bounded_partitions_preserving_complete_dossiers": [
+      {
+        "bytes": 7244875,
+        "digest": "088bd6691b5c997ae176ecf1dbc50a67cc3855418882eaa27448ec30713c99c5",
+        "files": 330
+      },
+      {
+        "bytes": 7936023,
+        "digest": "4e617ca298d5dd923008b78280911a496d85cfffc011eac14262bc5763f87111",
+        "files": 329
+      }
+    ],
+    "data_files": 224,
+    "declared_graph_errors": [],
+    "dependency_edges": 575,
+    "git_show_map_sha256": "558cf505872464e14b99ca74730df051c95f32dc8a133e1ddcf3ae68fc087e99",
+    "negative_controls": {
+      "dependency_cycle": [
+        "component dependency cycle"
+      ],
+      "double_owner": [
+        "quality: source assigned twice quality.py"
+      ],
+      "missing_runtime": [
+        "quality: missing source quality.py"
+      ],
+      "unknown_dependency": [
+        "io: unknown dependency"
+      ]
+    },
+    "owned_non_python_inputs": 209,
+    "partition_union_sha256": "558cf505872464e14b99ca74730df051c95f32dc8a133e1ddcf3ae68fc087e99",
+    "python_files": 435,
+    "runtime_python_owned": 271,
+    "selected_files": 659,
+    "test_modules_with_worker_and_component": 162
+  },
+  "historical_verification": {
+    "historical_files_checked": 642,
+    "historical_tree_pins": {
+      "ci": "8a8c94551f060b1d6ce3c501c8e9ddd2b26e7e72",
+      "migration": "1c3262dc7ed09b8f3df76914ef45c3dd22ccafee",
+      "nqc-census": "68dbd045014a49bd53b79440d9878f3e8035c739"
+    },
+    "sha256_path_to_mode_and_sha256": "87f502e67c5a8b3750c4857f6a24efcbd400ba203f1ae098848c4624edc0f411",
+    "verified_checkout_content_and_modes": true
+  },
+  "isolated_fix_before_publication": {
+    "errors": 0,
+    "failed": 0,
+    "git_commit": "d3af0f2c6472c62dbec379b150171e366d06d13b",
+    "git_tree": "e3948321b47248f1680918a198b07cf3b4be7e70",
+    "log_sha256": "bd6fe6fd1ccb3c9af9d2cf67929d434a922b86a66536a855f371d009ae6da4d5",
+    "passed": 451,
+    "skipped": 0,
+    "tests": 451
+  },
+  "offline_test_inputs": {
+    "notes": "Hashes identify the six regular files supplied to this QA process. Directory-wide dependency closure was outside these focused tests.",
+    "observed_regular_file_sha256": {
+      "NQC_EVALUATION_WHEEL": "8a966a5afe94ed9fb06deeecd9e3e51c3a5ab7d920e13f8128338e3fcdfed2b0",
+      "NQC_EVM_LAYOUT_SOLC": "f3e987dc6ecebd4bd350c48edcbc320b46cf9e3109bd3fc3d88f1acaf4c428f7",
+      "NQC_STATE_GO": "de0ae3e082ce7599eae4fb69fa2ef1e43b8f31ffd3fce62cdf81930aa9005050",
+      "NQC_STATE_HELPER": "606b9b741a14f37ae2164782f5cf5525d08d1e57efdf555f846123a104c92ede",
+      "NQC_TIMELINE_RUNNER": "673d1d0fea66e0e4be03867810b2c46c699c1df2d099711d29ffe03d3c8a0f39",
+      "NQC_TRUST_BINARY": "bb5e0e05d85e038113c359b4cf9b196e35e52b72aab3e5eaf25e421698843435"
+    },
+    "providing_directories": [
+      "NQC_BUILD_KIT",
+      "NQC_SLOT_KIT",
+      "NQC_TEST_PRODUCT_BUNDLE",
+      "NQC_TRUST_TEST_SOURCES",
+      "NQC_EVM_LAYOUT_SOURCES",
+      "NQC_CODEC_TEST_SOURCES",
+      "NODE_PATH"
+    ]
+  },
+  "process": [
+    "nice",
+    "-n",
+    "8",
+    "unshare",
+    "--user",
+    "--map-current-user",
+    "--net",
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "-B",
+    "-m",
+    "unittest",
+    "-v"
+  ],
+  "publication": {
+    "isolated_repair_to_public_tree_changed_paths": [
+      "superhunter/CONSOLIDATION.md",
+      "superhunter/product_supply/acceptance-120/html-review-replay.json",
+      "superhunter/product_supply/acceptance-120/html-review-transcript.json"
+    ],
+    "ref": "refs/heads/feat/superhunter-consolidated-product",
+    "repository": "https://github.com/josuechavando350-png/nexus-quant-capital.git"
+  },
+  "qa_module_count": 41,
+  "runs": [
+    {
+      "boundary_reason": "UNREVIEWED_SUPERHUNTER_PAYLOAD",
+      "boundary_stdout_sha256": "fd0ca774ef148b9f11803c7671c24419ada64bdde0172a23522e10125fc050c9",
+      "checkout_clean": true,
+      "commit": "7b4235384eba2d282d2c67ded13191f1f939f52f",
+      "complete_evidence_json_sha256": "0603102b78bdb4d7fb5e83029eba3916f7f6eae577fcbf656e3f8e84c4084ad5",
+      "errors": 4,
+      "failed": 2,
+      "first_four_producer_objects_present": true,
+      "global_qa_snapshot": {
+        "bytes": 15177578,
+        "data_files": 224,
+        "full_global_qa_executed": false,
+        "limit": 500,
+        "python_files": 435,
+        "sha256_path_to_content_sha256": "eee8d80a35a7cf52d7cb5a37f969a623d50fb4e3e5a386aa35722a45657018c9",
+        "source_files": 659,
+        "source_snapshot_result": "source inventory limit exceeded",
+        "validate_components_errors": [
+          "product_review: source assigned twice product_html_review_worker.cjs"
+        ]
+      },
+      "nonpassing_ids": {
+        "superhunter.tests.test_consolidated_evidence_verifier.ConsolidatedEvidenceTests.test_producer_is_checked_in_git_and_missing_shallow_objects_have_a_diagnosis": {
+          "diagnostic": "AssertionError: 0 != 1",
+          "status": "FAIL"
+        },
+        "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_cache_is_explicitly_excluded_from_source_claim": {
+          "diagnostic": "superhunter.repository_boundary.BoundaryError: UNREVIEWED_SUPERHUNTER_PAYLOAD",
+          "status": "ERROR"
+        },
+        "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_concurrent_source_change_rejected": {
+          "diagnostic": "AssertionError: \"REPOSITORY_CHANGED_DURING_REVIEW\" does not match \"UNREVIEWED_SUPERHUNTER_PAYLOAD\"",
+          "status": "FAIL"
+        },
+        "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_extended_repository_preserves_legacy_without_recertifying": {
+          "diagnostic": "superhunter.repository_boundary.BoundaryError: UNREVIEWED_SUPERHUNTER_PAYLOAD",
+          "status": "ERROR"
+        },
+        "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_reviewed_appendix_preserves_original_policy_pin": {
+          "diagnostic": "superhunter.repository_boundary.BoundaryError: UNREVIEWED_SUPERHUNTER_PAYLOAD",
+          "status": "ERROR"
+        },
+        "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_reviewed_continuity_document_allowed_but_not_executable": {
+          "diagnostic": "superhunter.repository_boundary.BoundaryError: UNREVIEWED_SUPERHUNTER_PAYLOAD",
+          "status": "ERROR"
+        }
+      },
+      "passed": 442,
+      "protected_files_verified": 642,
+      "repository_boundary": "REPOSITORY_BOUNDARY_BLOCKED",
+      "skipped": 0,
+      "stdout_and_stderr_log_bytes": 89103,
+      "stdout_and_stderr_log_sha256": "d0b6d03ad90a00e06a14b1b6d38f1da547719d4ee1bb2326446fa60abc99f256",
+      "test_ids_sha256": "5843818b9889d2b791209ffac4eaf35ff694d660567b9fa325128806e3be6f20",
+      "test_outcomes_sha256": "621aa853c17de71ecc4af233affbc98669b3390fce72f8cedfe3175201246207",
+      "tests": 448,
+      "tree": "ba4855837a49d1cdc4eea5252bd82cf5afe8c4b2",
+      "unittest_seconds": 32.667
+    },
+    {
+      "boundary_reason": "UNREVIEWED_SUPERHUNTER_PAYLOAD",
+      "boundary_stdout_sha256": "fd0ca774ef148b9f11803c7671c24419ada64bdde0172a23522e10125fc050c9",
+      "checkout_clean": true,
+      "commit": "c9878999eb74cd366e2e56c28a760adb8b139d78",
+      "complete_evidence_json_sha256": "c59aaf90a1442b96d471af2aba8ec3a1c680237f830aad939232b6df05b3fba5",
+      "errors": 4,
+      "failed": 1,
+      "first_four_producer_objects_present": true,
+      "global_qa_snapshot": {
+        "bytes": 15178617,
+        "data_files": 224,
+        "full_global_qa_executed": false,
+        "limit": 500,
+        "python_files": 435,
+        "sha256_path_to_content_sha256": "37b8e9da3e942085e71df8f2d7411877043b5de2eaabad46836a27240498e5b3",
+        "source_files": 659,
+        "source_snapshot_result": "source inventory limit exceeded",
+        "validate_components_errors": [
+          "product_review: source assigned twice product_html_review_worker.cjs"
+        ]
+      },
+      "nonpassing_ids": {
+        "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_cache_is_explicitly_excluded_from_source_claim": {
+          "diagnostic": "superhunter.repository_boundary.BoundaryError: UNREVIEWED_SUPERHUNTER_PAYLOAD",
+          "status": "ERROR"
+        },
+        "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_concurrent_source_change_rejected": {
+          "diagnostic": "AssertionError: \"REPOSITORY_CHANGED_DURING_REVIEW\" does not match \"UNREVIEWED_SUPERHUNTER_PAYLOAD\"",
+          "status": "FAIL"
+        },
+        "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_extended_repository_preserves_legacy_without_recertifying": {
+          "diagnostic": "superhunter.repository_boundary.BoundaryError: UNREVIEWED_SUPERHUNTER_PAYLOAD",
+          "status": "ERROR"
+        },
+        "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_reviewed_appendix_preserves_original_policy_pin": {
+          "diagnostic": "superhunter.repository_boundary.BoundaryError: UNREVIEWED_SUPERHUNTER_PAYLOAD",
+          "status": "ERROR"
+        },
+        "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_reviewed_continuity_document_allowed_but_not_executable": {
+          "diagnostic": "superhunter.repository_boundary.BoundaryError: UNREVIEWED_SUPERHUNTER_PAYLOAD",
+          "status": "ERROR"
+        }
+      },
+      "passed": 443,
+      "protected_files_verified": 642,
+      "repository_boundary": "REPOSITORY_BOUNDARY_BLOCKED",
+      "skipped": 0,
+      "stdout_and_stderr_log_bytes": 88442,
+      "stdout_and_stderr_log_sha256": "17cdccb56389a2251e98f55ae25c27a2d5424bbe6b90ae539c561edca4ad2018",
+      "test_ids_sha256": "5843818b9889d2b791209ffac4eaf35ff694d660567b9fa325128806e3be6f20",
+      "test_outcomes_sha256": "049d22f86a651db75f2f0768be9c80d54361546a622cd7e418a539868506b82e",
+      "tests": 448,
+      "tree": "579e8a15f843360f4f148637d719a7b8b4b4282b",
+      "unittest_seconds": 43.81
+    },
+    {
+      "boundary_reason": null,
+      "boundary_stdout_sha256": "320d8786d2357da529f1b6ec2072986fb0ed6850ef02bff8ae3efdc919353e69",
+      "checkout_clean": true,
+      "commit": "604bd28d528ee809c8e6d38adab86ec6f67b652c",
+      "complete_evidence_json_sha256": "dd07cda70f7ad6268ca0b809f1968b37d66cfdf029fff35545f0447fb87a5d19",
+      "errors": 0,
+      "failed": 0,
+      "first_four_producer_objects_present": true,
+      "global_qa_snapshot": {
+        "bytes": 15180898,
+        "data_files": 224,
+        "full_global_qa_executed": false,
+        "limit": 500,
+        "python_files": 435,
+        "sha256_path_to_content_sha256": "558cf505872464e14b99ca74730df051c95f32dc8a133e1ddcf3ae68fc087e99",
+        "source_files": 659,
+        "source_snapshot_result": "source inventory limit exceeded",
+        "validate_components_errors": []
+      },
+      "nonpassing_ids": {},
+      "passed": 451,
+      "protected_files_verified": 642,
+      "repository_boundary": "REPOSITORY_BOUNDARY_PASS",
+      "skipped": 0,
+      "stdout_and_stderr_log_bytes": 82917,
+      "stdout_and_stderr_log_sha256": "e848cb0d4b3d6893dc3b45d0ec2d1028c8e03b83a3f8f03155124c0641104919",
+      "test_ids_sha256": "31b583c4fd425bbcb2a765e3d234fe1ff43eb8198db92e005fc37ced9eb0cc9a",
+      "test_outcomes_sha256": "557f098a797a7b5323bf47eca9585f923ad1ffd528edf253c01996320bd48ada",
+      "tests": 451,
+      "tree": "dbd74a8b60bf3709bcba859dffade6856b676a96",
+      "unittest_seconds": 37.758
+    }
+  ],
+  "runtime": {
+    "GOMAXPROCS": "2",
+    "network_namespace": "unshare --user --map-current-user --net",
+    "prove_complete_global_suite": false,
+    "python": "3.12.14",
+    "test_home_and_temporary_directory": "fresh directories in /dev/shm"
+  },
+  "schema_version": 1,
+  "scope": "Fixed offline unit and integration tests, historical file review and file-to-component inventory. Same host; the global QA limit remains 500.",
+  "source_tree": "d8b5a3d79e81e686d4299e40bea64d37824d29fe",
+  "verified_producer_objects": {
+    "accounting": {
+      "commit": "27fdac61b21f607325053fc3681e6e079328e9f1",
+      "tree": "5f1bf24f9680b30cc8a5c565405cd54fd90ae58d"
+    },
+    "canonical-header": {
+      "commit": "325288f32155ff8f7eaead0a493e5fbffe5bebc2",
+      "tree": "e252f82079aee44117ff10514c37960d8ca63c67"
+    },
+    "core-eight": {
+      "commit": "fae415708eccc117dd809036fcd4df09056777c5",
+      "tree": "04f39290587b131d0f365ed667c5be7803f936eb"
+    },
+    "grpc-schema": {
+      "commit": "2d9d6c797eb9f6e445d2179ec535effe3ca9ac96",
+      "tree": "46fcfc875ac48e147fca31e92a8eb9988789ced2"
+    }
+  }
+}
