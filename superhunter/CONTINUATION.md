@@ -1,5 +1,13 @@
 # SUPERHUNTER · Punto de reanudación
 
+## Transporte local y migración
+
+El cliente envió una consulta por vez al proceso real de NQC y esperó cada respuesta con la conexión abierta. Se cotejaron ID, repositorio, revisión y árbol de las 200 respuestas. Tras cerrar el proceso y volver a iniciarlo, se repitieron las 200 consultas en orden inverso y se obtuvieron las mismas huellas. Qdrant y Haystack coincidieron en cinco avisos en cada sesión. El control de una identidad desconocida devolvió `null`. [Resultado y huellas](product_supply/acceptance-120/catalog-transport-restart.json)
+
+Para reproducir en Linux con CPython 3.12, ejecutar `python3.12 -B -m superhunter.tools.check_catalog_transport --prepare`. También se puede pasar la ruta del directorio de catálogo preparado. La prueba mide la comunicación del cliente con el producto y del buscador con sus dos índices locales. La comunicación entre cada par de repositorios y la disponibilidad de un servicio externo requieren evidencia independiente.
+
+El comando `python3 -B -m superhunter.repository_boundary --verify-import` comprueba el árbol completo y ejecuta los nueve controles originales sobre los bytes de la importación que acaba de validar. La suite histórica aplicada directamente a toda la estructura ampliada sigue rechazando los archivos añadidos. El nuevo control preserva ese contrato.
+
 ## Aceptación conjunta de los 200 repositorios
 
 Dos checkouts limpios del [productor 3bdc14f](https://github.com/josuechavando350-png/nexus-quant-capital/commit/3bdc14fb3bd990b83289d6be833a620160519763) completaron la sesión sin red en el mismo host. Con la opción `--require-all`, ambas ejecuciones devolvieron código 0 y 225 respuestas idénticas byte por byte. Los 200 proyectos aportaron 210 operaciones. Ejecutaron código 99 proyectos y 101 participaron mediante referencias consumidas. La matriz contiene las revisiones y el rol observado de cada uno. [Matriz de integración](INTEGRATION_STATUS_200.md) · [Acta y transcripciones](product_supply/consolidated-acceptance-publication-policy/acceptance.json)

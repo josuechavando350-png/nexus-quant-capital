@@ -53,28 +53,36 @@ def fetch_asset(work, item, cache=None):
     acquire(work/name, digest, download, cache)
 
 
-def prepare(work, cache=None):
+def prepare(work, cache=None, *, transport_only=False):
+    assets = {name: ASSETS[name] for name in
+              ('syft.tgz', 'qdrant.tgz', 'cvc5.zip', 'asvs.csv', 'asvs-guides.md')} if transport_only else ASSETS
     with ThreadPoolExecutor(max_workers=4) as pool:
-        list(pool.map(lambda x: fetch_asset(work, x, cache), ASSETS.items()))
-    for archive, member in [('syft.tgz', 'syft'), ('foundry.tgz', 'forge'), ('qdrant.tgz', 'qdrant')]:
+        list(pool.map(lambda x: fetch_asset(work, x, cache), assets.items()))
+    archives = [('syft.tgz', 'syft'), ('qdrant.tgz', 'qdrant')]
+    wheels = [(ROOT/WHEELS, 'supply-wheels'), (work/'haystack-wheels.txt', 'haystack')]
+    (work/'haystack-wheels.txt').write_bytes(pinned(ROOT, HAYSTACK_LOCK, HAYSTACK_SHA))
+    if not transport_only:
+        archives.append(('foundry.tgz', 'forge'))
+        wake = pinned(ROOT, WAKE_LOCK, WAKE_LOCK_SHA)
+        (work/'wake-wheels.txt').write_bytes(wake + f'eth-wake==5.0.0 --hash=sha256:{WAKE_SHA}\n'.encode())
+        wheels.append((work/'wake-wheels.txt', '.'))
+    for archive, member in archives:
         with tarfile.open(work/archive) as tar, (work/member).open('xb') as dest:
             with tar.extractfile(member) as src:
                 shutil.copyfileobj(src, dest)
     with ZipFile(work/'cvc5.zip') as z, z.open('cvc5-Linux-x86_64-static/bin/cvc5') as src, (work/'cvc5').open('xb') as dest:
         shutil.copyfileobj(src, dest)
-    wake = pinned(ROOT, WAKE_LOCK, WAKE_LOCK_SHA)
-    (work/'wake-wheels.txt').write_bytes(wake + f'eth-wake==5.0.0 --hash=sha256:{WAKE_SHA}\n'.encode())
-    (work/'haystack-wheels.txt').write_bytes(pinned(ROOT, HAYSTACK_LOCK, HAYSTACK_SHA))
-    for lock, folder in [(ROOT/WHEELS, 'supply-wheels'), (work/'haystack-wheels.txt', 'haystack'), (work/'wake-wheels.txt', '.')]:
+    for lock, folder in wheels:
         run([sys.executable, '-I', '-m', 'pip', '--isolated', '--disable-pip-version-check', 'download',
              '--only-binary=:all:', '--no-deps', '--require-hashes', '-r', lock, '-d', work/folder])
-    lock = pinned(ROOT, HEADER_LOCK, HEADER_LOCK_SHA)
-    (work/'package-lock.json').write_bytes(lock)
-    (work/'package.json').write_bytes(canonical(strict_json(lock)['packages']['']))
-    run(['npm', 'ci', '--ignore-scripts', '--no-audit', '--no-fund', '--cache', work/'npm-cache'], cwd=work)
-    with ThreadPoolExecutor(max_workers=6) as pool:
-        docs = dict(pool.map(fetch, sources()))
-    write_new_bundle(work/'upstream', docs)
+    if not transport_only:
+        lock = pinned(ROOT, HEADER_LOCK, HEADER_LOCK_SHA)
+        (work/'package-lock.json').write_bytes(lock)
+        (work/'package.json').write_bytes(canonical(strict_json(lock)['packages']['']))
+        run(['npm', 'ci', '--ignore-scripts', '--no-audit', '--no-fund', '--cache', work/'npm-cache'], cwd=work)
+        with ThreadPoolExecutor(max_workers=6) as pool:
+            docs = dict(pool.map(fetch, sources()))
+        write_new_bundle(work/'upstream', docs)
     with tempfile.TemporaryDirectory() as tmp:
         venv = Path(tmp)/'supply-venv'
         run([sys.executable, '-m', 'venv', venv])
