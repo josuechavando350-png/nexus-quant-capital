@@ -423,6 +423,8 @@ PRODUCT_DATA_FILES += (
 # Inputs read by the source/receipt verifiers and their matrix and supply regressions.
 PRODUCT_DATA_FILES += (
     'INTEGRATION_STATUS_200.md', 'product_supply/acceptance-120/staged-source-acquisition.json',
+    'product_supply/acceptance-120/report-interop-nested-checkouts.json',
+    'product_supply/acceptance-120/evidence-contracts-nested-checkouts.json',
     'product_supply/catalog-commit-trees.json', 'product_supply/component-session-99.json',
     'product_supply/fixed-cdxgen-guac-inputs.json', 'product_supply/geth-header-main.txt',
     'product_supply/native-session-70.json', 'product_supply/review-117-session.json',

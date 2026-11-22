@@ -176,6 +176,11 @@ def render(components, native, *, current=None, producer=None):
                           f"{result['prior_identities_preserved']} identidades del "
                           '[expediente de interoperabilidad de informes](product_supply/'
                           'consolidated-acceptance-report-interop/acceptance.json), con los dos manifiestos y sus productores.'])
+            lines.extend(['', 'En el productor `2ddbe098` pasaron 534 pruebas en 52 módulos, sin fallos ni '
+                          'omisiones. Se conservaron los 642 archivos históricos. La migración ampliada pasó '
+                          '8/9 y el control global se detuvo ante 698 archivos con un máximo de 500. '
+                          '[Pruebas del productor](product_supply/acceptance-120/qa-evidence-contracts.json) · '
+                          '[Identidades pendientes y procedencia](product_supply/acceptance-120/evidence-contracts-pending-origins.json)'])
     if current:
         lines.extend(['', 'Una revisión posterior del PR 119 archivó 139 identidades en un perfil distinto. '
                       'Su transcripción, los dos registros de ejecución declarados y el cruce con el perfil contable '

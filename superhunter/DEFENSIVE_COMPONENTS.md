@@ -2,6 +2,16 @@
 
 Los controles consumen entradas fijas de NQC o datos públicos fijados por Git. El índice de producto conserva la identidad y la revisión de cada participante, la operación y la huella del resultado que se observó. Una revisión del mismo código puede seleccionar un solo dominio. La sesión ampliada solicita todos los dominios publicados y vuelve a obtener los resultados.
 
+## Tres comprobaciones sobre archivos existentes
+
+| Dominio de `query-product` | Entrada y resultado que puede comprobarse |
+|---|---|
+| `event-format` | Seis registros de Heimdall-rs se contrastan con los eventos declarados en IERC20 e IERC721 de OpenZeppelin. Tres admiten una única distribución de campos indexados y los otros tres admiten tres distribuciones. El recibo conserva esa ambigüedad. |
+| `policy-catalog` | Los catálogos estáticos de iamlive se cruzan con cinco políticas de prueba de CloudFox y sus resultados de Policy Sentry. El consumidor distingue las operaciones del SDK, las acciones IAM reconocidas, los comodines y las denegaciones explícitas. |
+| `development-manifest` | La convención documentada de cargo-fuzz y `cargo metadata` sin red permiten cotejar las dependencias de desarrollo de prettyplease y syn. Un tercer caso, de Suricata, queda sin clasificar porque falta el manifiesto generado del paquete padre. |
+
+Heimdall-rs, iamlive y cargo-fuzz aportan referencias consumidas. Los recibos enlazan sus revisiones concretas con los resultados de cada control. [Implementación de eventos](product_event_format.py) · [Comprobación de políticas](product_policy_catalog.py) · [Comprobación de manifiestos](product_development_manifest.py)
+
 ## Consultar un dominio
 
 Con el bundle de producto y los checkouts ya preparados, este ejemplo devuelve las políticas Android observadas. Lee manifiestos y contrasta sus identificadores y tipos de recurso. Puede ejecutarse sin preparar los analizadores de otros dominios.

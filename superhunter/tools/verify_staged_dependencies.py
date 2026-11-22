@@ -26,7 +26,7 @@ def require(condition, message):
         raise ValueError(message)
 
 
-def working_blob(directory, path, mode):
+def working_blob(directory, path, mode, size):
     """Hash the working file once, treating a symlink as its literal target."""
     parts = path.split(b'/')
     require(all(part not in (b'', b'.', b'..') for part in parts), 'invalid tree path')
@@ -37,6 +37,7 @@ def working_blob(directory, path, mode):
         sha256 = hashlib.sha256()
         if mode == b'120000':
             raw = os.readlink(parts[-1], dir_fd=directory)
+            require(len(raw) == size, 'working symlink length differs')
             sha256.update(raw)
             return git_object('blob', raw), sha256.hexdigest(), False
         require(mode in (b'100644', b'100755'), 'unexpected Git mode')
@@ -45,14 +46,20 @@ def working_blob(directory, path, mode):
         info = os.fstat(fd)
         require(stat.S_ISREG(info.st_mode) and bool(info.st_mode & stat.S_IXUSR) == (mode == b'100755'),
                 'working file type or executable bit differs')
+        require(info.st_size == size, 'working file length differs')
         digest = hashlib.sha1(b'blob %d\0' % info.st_size, usedforsecurity=False)
-        first = stream.read(64)
+        first = stream.read(min(64, size))
         is_pointer = first.startswith(b'version https://git-lfs.github.com/spec/v1')
         digest.update(first)
         sha256.update(first)
-        while data := stream.read(1024 * 1024):
+        remaining = size - len(first)
+        while remaining:
+            data = stream.read(min(1024 * 1024, remaining))
+            require(data, 'working file truncated during verification')
             digest.update(data)
             sha256.update(data)
+            remaining -= len(data)
+        require(not stream.read(1), 'working file grew during verification')
         return digest.hexdigest(), sha256.hexdigest(), is_pointer
 
 
@@ -90,18 +97,18 @@ def check_staging(staging, claim):
     files, children, notices, pointers, index = {}, {}, {}, [], []
     fd = os.open(checkout, os.O_DIRECTORY | os.O_NOFOLLOW | os.O_RDONLY)
     try:
-        for line in local_git(directory, 'ls-tree', '-rz', tree).split(b'\0'):
+        for line in local_git(directory, 'ls-tree', '-rlz', tree).split(b'\0'):
             if not line:
                 continue
             header, path = line.split(b'\t', 1)
-            mode, kind, oid = header.split()
+            mode, kind, oid, size = header.split()
             name = path.decode()
             index.append(mode + b' ' + oid + b' 0\t' + path + b'\0')
             if mode == b'160000' and kind == b'commit':
                 children[name] = oid.decode()
                 continue
             require(kind == b'blob', 'unexpected Git entry')
-            literal, digest, is_pointer = working_blob(fd, path, mode)
+            literal, digest, is_pointer = working_blob(fd, path, mode, int(size))
             require(literal == oid.decode(), 'working file differs: ' + name)
             files[name] = [mode.decode(), literal, digest]
             if re.fullmatch(r'(LICENSE.*|NOTICE.*|COPYING.*|composer\.json)', name, re.IGNORECASE) and '/' not in name:

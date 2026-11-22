@@ -28,10 +28,10 @@ class StagedDependencyTests(TestCase):
             fd = os.open(directory, os.O_RDONLY | os.O_DIRECTORY)
             try:
                 literal = b'absent-file'
-                self.assertEqual(staged.working_blob(fd, b'link', b'120000'),
+                self.assertEqual(staged.working_blob(fd, b'link', b'120000', len(literal)),
                                  (audit.git_object('blob', literal), hashlib.sha256(literal).hexdigest(), False))
                 with self.assertRaises(OSError):
-                    staged.working_blob(fd, b'link/file', b'100644')
+                    staged.working_blob(fd, b'link/file', b'100644', 1)
             finally:
                 os.close(fd)
 

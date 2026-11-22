@@ -1,6 +1,18 @@
 # SUPERHUNTER · Punto de reanudación
 
-## Última aceptación reproducida · report-interop
+## Última aceptación reproducida · evidence-contracts
+
+El commit [2ddbe098](https://github.com/josuechavando350-png/nexus-quant-capital/commit/2ddbe098cc98a667211494a9ff9f21ce014d8c3f) produjo las mismas 222 respuestas en dos checkouts limpios, sin red y en la misma máquina. Cada salida midió 1,272,422 bytes. En una sesión funcionaron 157/200 identidades únicas, con 99 de ejecución y 58 acreditadas sólo por referencias consumidas. Los recibos conservan 167 operaciones. Quedan 43 identidades sin participación conjunta reproducida. Los 12 grupos nativos y los 28 dominios de comprobación completaron la ejecución. [Matriz de los 200](INTEGRATION_STATUS_200.md) · [Acta, entradas y dos transcripciones](product_supply/consolidated-acceptance-evidence-contracts/acceptance.json)
+
+Heimdall-rs permitió contrastar seis eventos con las declaraciones de OpenZeppelin, incluida la ambigüedad de los campos indexados. El catálogo de iamlive distinguió las operaciones del SDK de las acciones IAM en las políticas locales de CloudFox y Policy Sentry. La convención de cargo-fuzz y los metadatos offline de Cargo permitieron distinguir dependencias de desarrollo de las de producción en prettyplease y syn. Suricata quedó sin clasificar por falta de su manifiesto padre generado. Las tres aportaciones fueron referencias consumidas. El expediente conserva cero vulnerabilidades originales confirmadas. [Control de calidad del productor](product_supply/acceptance-120/qa-evidence-contracts.json) · [Recibos y revisiones de las tres incorporaciones](product_supply/acceptance-120/evidence-contracts-new-participants.json) · [Identidades pendientes y procedencia](product_supply/acceptance-120/evidence-contracts-pending-origins.json)
+
+Para contrastar el expediente publicado, ejecutar `python3.12 -B -m superhunter.tools.render_product_matrix --check-acceptance`. Cada fila expone sus recibos de ejecución o referencia.
+
+Dos intentos de repetición terminaron antes de emitir la matriz. El primero devolvió un error de sistema sin causa detallada. En el segundo se eligió una ruta temporal que Syft omite. La corrida aceptada usó un directorio ordinario, donde el control ARM64 volvió a observar 75 registros en siete archivos. [Recibos de los intentos fallidos](product_supply/acceptance-120/evidence-contracts-retry.json)
+
+De las 68 pendientes en la aceptación de 132, las dos nuevas aceptaciones acreditaron 25 identidades, con cinco ejecuciones y veinte referencias consumidas. De las 43 pendientes, ocho aparecen sólo en la corrida de 140 del PR 119 y 35 carecen de recibo en ambos perfiles. El PR 119 publicó una sola corrida para 140. Su aporte adicional frente a 139 es grpcurl, ya acreditado aquí. [Acta del PR 119](https://github.com/josuechavando350-png/nexus-quant-capital/blob/e11993d7d760c7f922c86fc1a349f0e115939c70/superhunter/product_supply/consolidated-acceptance-140.json)
+
+## Aceptación anterior · report-interop
 
 El commit [f1eea76f](https://github.com/josuechavando350-png/nexus-quant-capital/commit/f1eea76f24ff0cf0b5af4a870b5d6e117c46d248) produjo las mismas 222 respuestas en dos checkouts limpios, sin red y en la misma máquina. Cada salida midió 1,264,255 bytes. En una sesión funcionaron 154/200 identidades únicas, con 99 de ejecución y 55 acreditadas sólo por referencias consumidas. Los recibos conservan 164 operaciones. Quedan 46 identidades sin participación conjunta reproducida. Los 12 grupos nativos y los 25 dominios de comprobación completaron la ejecución. [Matriz de los 200](INTEGRATION_STATUS_200.md) · [Acta, entradas y dos transcripciones](product_supply/consolidated-acceptance-report-interop/acceptance.json)
 

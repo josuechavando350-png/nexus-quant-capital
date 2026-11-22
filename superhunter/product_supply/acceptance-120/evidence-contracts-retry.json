@@ -26,10 +26,49 @@
   "kit_manifest_sha256": "2a30111cd4f48d65c2fa6d9c61e1f0991e2f6645cab8581ec3187c9e82261cc3",
   "native_contract_sha256": "1b0c5ecf4ec91e9f0a0ec45a0984c60ad615e37f9d0512474ed30dd2e3e19add",
   "native_manifest_sha256": "ae04d89cc8d4a3adfb0ecdf8656fae881d7e7eac599cf7f005256e7dcaac67b6",
+  "ordinary_tempfs_preflight": {
+    "inputs": "Same fixed second-run QEMU and Syft binaries and verified product bundle.",
+    "isolated": true,
+    "producer": "2ddbe098cc98a667211494a9ff9f21ce014d8c3f",
+    "result": {
+      "architecture": "aarch64",
+      "by_source": {
+        "nqc-census/Cargo.lock": 18,
+        "superhunter/requirements-custody.txt": 1,
+        "superhunter/requirements-local-lab.txt": 1,
+        "superhunter/requirements-otel-qa.txt": 8,
+        "superhunter/requirements-owned-cross-evm.txt": 22,
+        "superhunter/requirements-owned-slither.txt": 2,
+        "superhunter/requirements-owned-spec-evm.txt": 23
+      },
+      "facts_sha256": "8f3480a848a14d8429c5b2481dad60c80cfe3578d4b642ec9626426209c77dbe",
+      "observations": 75,
+      "qemu_sha256": "73cc2584f119f9e74c85c0a8549dbb6fd104ae3897a06a7500797f9e5b4d0943",
+      "qemu_version": "10.0.13",
+      "syft_arm64_sha256": "69d1bb01433f170f360fb208f7320e988182aaa7d2b1928c3ade9802993eebd8",
+      "syft_version": "1.38.2"
+    }
+  },
   "producer": "2ddbe098cc98a667211494a9ff9f21ce014d8c3f",
   "raw_run_inputs_sha256": "b219ded5862f619766fd0d0517d6438c9489a70277239a8b3dd917f35109fdf4",
   "retry_approach": "Repeat from a new Git checkout of the same published producer and the same fixed inputs, using a separate local temporary filesystem.",
   "scope": "Single unsuccessful clean replay. The process emitted only its generic OSError status. The errno and cause were not captured. This attempt confers no functional credit.",
+  "second_unsuccessful_replay": {
+    "operator_choice": "This retry used /dev/shm, a directory excluded by the pinned Syft path filter. The product correctly refused the inventory. The same behavior is archived in arm-inventory-storage.json.",
+    "raw_run_inputs_sha256": "b219ded5862f619766fd0d0517d6438c9489a70277239a8b3dd917f35109fdf4",
+    "result": {
+      "bytes": 114,
+      "clean_after": true,
+      "commit": "2ddbe098cc98a667211494a9ff9f21ce014d8c3f",
+      "elapsed_seconds": 137.74,
+      "responses": 1,
+      "returncode": 2,
+      "sha256": "c8f858c1e353e1dab426d58132f9d5fc0ea8f39f3c0964e100ec3fe9b27be8dd",
+      "tree": "3a4b369bd6d13914bd6e5f7ab3012266cd3cbd42"
+    },
+    "stderr_bytes": 0,
+    "stdout_utf8": "{\"status\": \"PRODUCT_REVIEW_BLOCKED\", \"reason\": \"ARM64 inventory differs from the verified native Syft inventory\"}\n"
+  },
   "source_tree": "d8b5a3d79e81e686d4299e40bea64d37824d29fe",
   "tree": "3a4b369bd6d13914bd6e5f7ab3012266cd3cbd42"
 }
