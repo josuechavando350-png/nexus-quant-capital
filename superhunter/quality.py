@@ -1930,7 +1930,7 @@ COMPONENTS['product_review'] = {
               'product_contract_properties_native.py',
               'product_canonical_header.py',
               'product_grpc_schema_native.py',
-              'product_report_interop.py',
+              'product_report_interop.py', 'product_report_quality_sources.py',
               'product_report_privacy.py',
               'product_report_taxonomy.py',
               'product_coverage_interop.py',
