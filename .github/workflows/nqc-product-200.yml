@@ -42,6 +42,31 @@ jobs:
           set -eu
           python3.12 -B -m superhunter.repository_boundary --verify-import
           python3.12 -B -m unittest -q superhunter.tests.test_repository_boundary
+      - name: Preparar las referencias históricas de permisos
+        shell: bash
+        run: |
+          set -euo pipefail
+          git -C product fetch -q --no-tags --no-recurse-submodules origin "$GITHUB_SHA"
+          git -C product archive "$GITHUB_SHA" qa/rbac-history | tar -x -C "$RUNNER_TEMP"
+          python3.12 -m venv "$RUNNER_TEMP/rbac-python"
+          grep -i '^pyyaml==' product/superhunter/product_supply/haystack-linux-py312.txt > "$RUNNER_TEMP/yaml.lock"
+          "$RUNNER_TEMP/rbac-python/bin/python" -m pip --isolated install --only-binary=:all: --no-deps --require-hashes -r "$RUNNER_TEMP/yaml.lock"
+          "$RUNNER_TEMP/rbac-python/bin/python" -B "$RUNNER_TEMP/qa/rbac-history/benchmark.py" "$RUNNER_TEMP/rbac-data" --fetch-only
+      - name: Medir permisos con el productor fijado y sin red
+        shell: bash
+        run: |
+          set -euo pipefail
+          unshare --user --map-current-user --net "$RUNNER_TEMP/rbac-python/bin/python" -B \
+            "$RUNNER_TEMP/qa/rbac-history/benchmark.py" "$RUNNER_TEMP/rbac-data" \
+            --product "$PWD/product" --evidence-dir "$RUNNER_TEMP/rbac-evidence"
+          diff -u "$RUNNER_TEMP/qa/rbac-history/resultado.json" "$RUNNER_TEMP/rbac-evidence/resultado.json"
+      - name: Conservar predicciones congeladas y puntuación
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: hunter-permisos-historicos
+          path: ${{ runner.temp }}/rbac-evidence/
+          if-no-files-found: error
+          retention-days: 14
       - name: Preparar los insumos y consultar los 200 antes y después del reinicio
         working-directory: product
         shell: bash
