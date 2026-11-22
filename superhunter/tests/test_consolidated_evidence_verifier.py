@@ -396,6 +396,20 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
                 renderer.accepted_markdown(profile)
             check.assert_called_once_with(older, result['sha256'], **{gate: True})
 
+    def test_scorecard_requires_both_producer_commits_and_unchanged_substance(self):
+        field = (141, 'ossf/scorecard', 'executable', 'license_file_evidence')
+        before = {'nqc_commit': 'a' * 40, 'score': 9}
+        after = {**before, 'nqc_commit': 'b' * 40}
+        def key(value):
+            return {(*field, verifier.sha(canonical(value)))}
+        verifier.check_preserved_operations(key(before), key(after), after, before['nqc_commit'], after['nqc_commit'])
+        for changed in (before, {**after, 'score': 10}, {**after, 'extra': 'data'}):
+            with self.subTest(changed=changed), self.assertRaises(EvidenceError):
+                verifier.check_preserved_operations(key(before), key(changed), changed,
+                                                    before['nqc_commit'], after['nqc_commit'])
+        with self.assertRaises(EvidenceError):
+            verifier.check_preserved_operations(key(before), set(), after, before['nqc_commit'], after['nqc_commit'])
+
     def test_report_compatibility_requires_all_previous_operations_and_exact_results(self):
         raw = verifier.unpack((ROOT / renderer.HTML_REVIEW_DOSSIER / 'first/session.json').read_bytes())
         rows = strict_json(raw.splitlines()[verifier.response_keys(raw).index('integration-matrix')])['rows']

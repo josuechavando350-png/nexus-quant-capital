@@ -313,6 +313,8 @@ def accepted_markdown(profile='latest'):
     strict_profile = {PROFILES[profile][2]: True}
     verified = verify_review_115.verify(raw, result['sha256'], **strict_profile)
     verify_review_115.verify(other, replay['sha256'], **strict_profile)
+    if profile == 'report-interop' and result['commit'] != verify_review_115.REPORT_INTEROP_PRODUCER:
+        raise EvidenceError('report interoperability dossier names a different audited producer')
     if raw != other:
         raise EvidenceError('the full transcripts differ between the two checkout runs')
     check_act_verdict(act, verified, raw)

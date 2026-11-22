@@ -116,6 +116,8 @@ ARCHIVE_99_SHA = 'c4d9f671093a88aa25be658c583361da7c7abadee5ac582de4e5f723a8375c
 ACCEPTANCE_70_SHA = 'd826d1ead698a870ac978d732b943d7aed1d49a14adffaad30295867356ee6ae'
 SNAPSHOT_153 = '9fe08694ea198e7872cc954a122fc4bdc4675996a5403cb7344822a89a3bfe3f'
 COMPONENTS_THROUGH_HTML = '7ad5ed1a7c4a344bb1b8d1467a3ad109b618fa1a82f67c6486cbcafa2b39105a'
+REPORT_INTEROP_PRODUCER = 'f1eea76f24ff0cf0b5af4a870b5d6e117c46d248'
+HTML_PRODUCER = '604bd28d528ee809c8e6d38adab86ec6f67b652c'
 HTML_TRANSCRIPT_SHA = 'd07aafc5d1c5ba5dfbe5bdcb59d8fe292ddfb7b8a2fe97e5b944ab27fd5b72ff'
 HISTORICAL_COMPONENTS = {
     'through-html': COMPONENTS_THROUGH_HTML,
@@ -388,7 +390,7 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
     if full_profile:
         counts.update(check_historical_coverage(rows))
     if require_report_interop:
-        counts.update(check_previous_acceptance(rows))
+        counts.update(check_previous_acceptance(rows, report['ossf/scorecard']['license_file_evidence']))
     if 'native-capabilities' in report:
         if historical_native and digest != NATIVE_SESSION_70:
             raise EvidenceError('historical native transcript differs from the published 70-identity session')
@@ -479,10 +481,26 @@ def operation_keys(rows):
                      for row in rows for op in row['session_operations'])
 
 
-def check_previous_acceptance(rows):
-    previous = html_operations()
-    if previous - operation_keys(rows):
+def check_preserved_operations(previous, current, scorecard, previous_commit, current_commit):
+    # Scorecard records the particular NQC commit it audited. Bind both versions
+    # and reconstruct its old digest, retaining every other byte of this receipt.
+    if scorecard.get('nqc_commit') != current_commit:
+        raise EvidenceError('Scorecard identifies a different audited commit')
+    field = (141, 'ossf/scorecard', 'executable', 'license_file_evidence')
+    old = (*field, sha(canonical({**scorecard, 'nqc_commit': previous_commit})))
+    new = (*field, sha(canonical(scorecard)))
+    if old not in previous or new not in current or (previous - {old}) - current:
         raise EvidenceError('previous accepted operations or their evidence changed')
+
+
+def check_previous_acceptance(rows, scorecard=None):
+    previous = html_operations()
+    current = operation_keys(rows)
+    if scorecard is None:
+        if previous - current:
+            raise EvidenceError('previous accepted operations or their evidence changed')
+    else:
+        check_preserved_operations(previous, current, scorecard, HTML_PRODUCER, REPORT_INTEROP_PRODUCER)
     return {'prior_identities_preserved': len({key[0] for key in previous}),
             'prior_operations_preserved': len(previous)}
 
