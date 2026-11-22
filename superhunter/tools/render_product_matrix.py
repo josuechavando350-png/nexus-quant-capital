@@ -165,6 +165,10 @@ def render(components, native, *, current=None, producer=None):
                           f"{result['prior_identities_preserved']} identidades del "
                           '[expediente anterior](product_supply/consolidated-acceptance-html-review/acceptance.json). '
                           'El perfil incluye comprobaciones de interoperabilidad de informes existentes.'])
+            lines.extend(['', 'En el productor `f1eea76f` pasaron las 512 pruebas de los 49 módulos '
+                          'ejecutados, sin omisiones. Se cotejaron contenido y modo de los 642 archivos históricos. '
+                          'La migración ampliada pasó 8/9. El inventario global seleccionó 684 archivos '
+                          'frente al límite de 500. [Resultados y controles de QA](product_supply/acceptance-120/qa-report-interop.json).'])
     if current:
         lines.extend(['', 'Una revisión posterior del PR 119 archivó 139 identidades en un perfil distinto. '
                       'Su transcripción, los dos registros de ejecución declarados y el cruce con el perfil contable '
