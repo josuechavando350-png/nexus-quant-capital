@@ -125,6 +125,35 @@ jobs:
           echo "7226736c2339719cda28fbf3a54d71aa63bcefe376e98cef00034268dab24840  $RUNNER_TEMP/go.tgz" | sha256sum -c
           tar -xzf "$RUNNER_TEMP/go.tgz" -C "$RUNNER_TEMP" go/bin/go
           echo "NQC_STATE_GO=$RUNNER_TEMP/go/bin/go" >> "$GITHUB_ENV"
+      - name: Obtener los seis documentos publicados por Metric
+        shell: bash
+        run: |
+          set -euo pipefail
+          git -C product archive "$GITHUB_SHA" qa/metric-audit-records | tar -x -C "$RUNNER_TEMP"
+          git init -q "$RUNNER_TEMP/metric-docs"
+          git -C "$RUNNER_TEMP/metric-docs" fetch -q --depth 1 --no-tags --no-recurse-submodules \
+            https://github.com/Metricxyz/Known_issues.git 83c65a539c91f38f08126856eac62055220cc196
+          if ! command -v pdftotext || ! command -v pdfinfo; then
+            sudo apt-get update -q
+            sudo apt-get install -qy --no-install-recommends poppler-utils
+          fi
+      - name: Conciliar el índice, las portadas y las tablas de auditoría sin red
+        shell: bash
+        run: |
+          set -euo pipefail
+          export LC_ALL=C.UTF-8 PYTHONPATH="$PWD/product"
+          qa="$RUNNER_TEMP/qa/metric-audit-records"
+          unshare --user --map-current-user --net "$RUNNER_TEMP/qa-python/bin/python" -B "$qa/test_reconcile.py"
+          unshare --user --map-current-user --net "$RUNNER_TEMP/qa-python/bin/python" -B \
+            "$qa/reconcile.py" "$RUNNER_TEMP/metric-docs" > "$RUNNER_TEMP/metric-audit-summary.json"
+          diff -u "$qa/summary.json" "$RUNNER_TEMP/metric-audit-summary.json"
+      - name: Conservar el resultado documental
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: hunter-metric-informes-publicos
+          path: ${{ runner.temp }}/metric-audit-summary.json
+          if-no-files-found: error
+          retention-days: 14
       - name: Reiniciar el inventario, reconciliarlo y verificar tres regresiones
         shell: bash
         run: |
