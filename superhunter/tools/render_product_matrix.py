@@ -443,7 +443,7 @@ def pending_identities(profile):
 
 def main():
     if {'--historical', '--check-historical', '--acceptance', '--check-acceptance', '--verify-dossier',
-        '--pending', '--profile'} & set(sys.argv[1:]):
+        '--pending', '--require-all', '--profile'} & set(sys.argv[1:]):
         parser = argparse.ArgumentParser(description=__doc__)
         mode = parser.add_mutually_exclusive_group(required=True)
         mode.add_argument('--historical', action='store_true', help='render the two frozen sessions')
@@ -452,15 +452,17 @@ def main():
         mode.add_argument('--check-acceptance', action='store_true', help='check the matrix against both runs')
         mode.add_argument('--verify-dossier', action='store_true', help='verify both runs independently of the current matrix')
         mode.add_argument('--pending', action='store_true', help='list the identities without an operation in both verified runs')
+        mode.add_argument('--require-all', action='store_true', help='return 1 if any catalog identity lacks a session operation')
         parser.add_argument('--profile', choices=('latest', *PROFILES), help='dossier to verify (default: latest)')
         args = parser.parse_args()
         if args.profile and (args.historical or args.check_historical):
             parser.error('--profile selects a two-checkout acceptance dossier')
-        if args.acceptance or args.check_acceptance or args.verify_dossier or args.pending:
+        if args.acceptance or args.check_acceptance or args.verify_dossier or args.pending or args.require_all:
             try:
-                if args.pending:
-                    sys.stdout.buffer.write(canonical(pending_identities(args.profile or 'latest')))
-                    return 0
+                if args.pending or args.require_all:
+                    report = pending_identities(args.profile or 'latest')
+                    sys.stdout.buffer.write(canonical(report))
+                    return 1 if args.require_all and report['pending'] else 0
                 rendered = accepted_markdown(args.profile or 'latest')
             except (EvidenceError, ValueError, OSError, KeyError, TypeError) as error:
                 print(f'acceptance unavailable: {error}', file=sys.stderr)

@@ -1,5 +1,8 @@
 """Case-sensitive dependency joins and incomplete or malformed attribution controls."""
+from pathlib import Path
+from types import SimpleNamespace
 import unittest
+from unittest.mock import patch
 
 from superhunter import product_dependency_attributions as d
 
@@ -16,6 +19,18 @@ def requirement(path, *, indirect=False):
 
 
 class AttributionTests(unittest.TestCase):
+    def test_private_go_reader_disables_the_telemetry_child_before_it_starts(self):
+        def run(argv, **options):
+            config = Path(options['env']['XDG_CONFIG_HOME'])
+            self.assertTrue(config.is_relative_to(options['cwd']))
+            self.assertEqual((config/'go/telemetry/mode').read_text(), 'off\n')
+            return SimpleNamespace(returncode=0, stdout=b'{"Module":{"Path":"example.org/main"},"Require":'
+                                   b'[{"Path":"example.org/pkg","Version":"v1.0.0"}]}')
+
+        with patch.object(d, 'copy_release'), patch.object(d.subprocess, 'run', side_effect=run):
+            name, rows = d.parse_mod(b'module example.org/main\n', Path(__file__))
+        self.assertEqual((name, rows), ('example.org/main', {'example.org/pkg': ('direct', 'v1.0.0')}))
+
     def test_csv_keeps_case_and_does_not_promote_children_to_parent(self):
         raw = HEADER + '''example.org/dep,https://example.org/dep,"['Apache-2.0']",[]\r
 example.org/other,https://example.org/other,"['MIT']",[]\r

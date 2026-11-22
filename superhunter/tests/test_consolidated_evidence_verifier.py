@@ -218,6 +218,15 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
         with self.assertRaisesRegex(EvidenceError, 'usestrix/strix'):
             verifier.check_historical_coverage(rows.values())
 
+    def test_require_all_returns_incomplete_even_when_the_dossier_is_valid(self):
+        for missing in (40, 0):
+            output = Mock()
+            record = {'catalog': 200, 'pending': missing}
+            with self.subTest(missing=missing), patch.object(renderer, 'pending_identities', return_value=record), \
+                    patch.object(renderer.sys, 'argv', ['matrix', '--require-all']), patch.object(renderer.sys, 'stdout', output):
+                self.assertEqual(renderer.main(), int(missing > 0))
+                output.buffer.write.assert_called_once_with(canonical(record))
+
     def test_pending_list_uses_current_operations_and_checks_the_verified_count(self):
         pending = {'id': 5, 'repository': 'owner/pending', 'commit': '1' * 40, 'tree': '2' * 40}
         rows = [dict(pending, role='executable', session_operations=[]),

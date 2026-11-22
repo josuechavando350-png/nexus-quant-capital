@@ -133,6 +133,7 @@ def main():
     sources.add_argument('--embedded-root-manifests', action='store_true', help='use the verified Git records stored in the product')
     sources.add_argument('--root-manifests', type=Path, help='verified dependency files from remote root trees')
     parser.add_argument('--download-cache', type=Path, help='reuse hash-verified assets outside the checkout (preparation only)')
+    parser.add_argument('--compare-sources', type=Path, metavar='WORKSPACE', help='compare file IDs among the 200 pinned trees')
     parser.add_argument('--source-inventory', action='store_true', help='join the reviewed source audit')
     parser.add_argument('--source-references', type=Path, help='checkout containing pinned source type definitions')
     parser.add_argument('--geth-header', type=Path, help='pinned optional native Geth comparator')
@@ -149,6 +150,8 @@ def main():
     kits = selected_kits(args)
     if args.review_queries and kits:
         queries.append('native-capabilities')
+    if args.compare_sources and not args.review_queries:
+        parser.error('--compare-sources requires --review-queries to join the live integration matrix')
     work = args.workspace.resolve()
     cache = args.download_cache
     if cache is not None:
@@ -189,6 +192,23 @@ def main():
            *(['--source-inventory'] if args.source_inventory else []),
            *(['--source-references', args.source_references.resolve()] if args.source_references else []),
            *(['--geth-header', args.geth_header.resolve()] if args.geth_header else []), *queries]
+    if args.compare_sources:
+        from superhunter.product_source_overlap import build, coverage
+        run = subprocess.run(cmd, cwd=ROOT, stdout=subprocess.PIPE)
+        if run.returncode:
+            sys.stdout.buffer.write(run.stdout)
+            return run.returncode
+        lines = run.stdout.splitlines()
+        if len(lines) != len(queries):
+            parser.exit(2, 'incomplete product transcript\n')
+        try:
+            matrix = strict_json(lines[queries.index('integration-matrix')])
+            overlap = build(args.compare_sources)
+            participation = coverage(overlap, matrix)
+        except (OSError, ValueError, KeyError, subprocess.SubprocessError) as error:
+            parser.exit(2, f'source comparison incomplete: {error}\n')
+        sys.stdout.buffer.write(run.stdout + canonical(overlap) + canonical(participation))
+        return 0
     return subprocess.run(cmd, cwd=ROOT).returncode
 
 
