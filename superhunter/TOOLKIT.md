@@ -57,6 +57,14 @@ El modo estricto exige Slither, Slitherin, Semgrep y Aderyn. La ausencia de cual
 
 Pasaron las nueve pruebas de Forge y los 18 casos generados por Wake. Seis de las primeras y los 18 casos de Wake detectaron la variante de Gambit. Los componentes coincidieron en seis selectores y 6,517 límites de instrucciones, con 3,551 instrucciones asociadas a la fuente de T36. Una instalación desde cero reprodujo la matriz de los 20 y las 24 respuestas de consulta con la red deshabilitada. Pasaron las 490 pruebas del producto, las 10 de este conjunto de herramientas y las nueve de aislamiento histórico, sin omisiones. [Resultados por proyecto y revisiones](product_supply/toolkit-t36-session.json)
 
+## Comparación con el concurso Canto de Code4rena
+
+`python3 -m superhunter toolkit benchmark-canto` consulta la ejecución histórica sobre `src/LendingLedger.sol`. Comprueba que cada coincidencia técnica esté respaldada por la regla y las líneas registradas. El cálculo usa los cuatro hallazgos altos y medios aceptados por el juez. [Código del concurso](https://github.com/code-423n4/2024-01-canto/blob/5e0d6f1f981993f83d0db862bcf1b2a49bb6ff50/src/LendingLedger.sol) · [Informe final](https://code4rena.com/reports/2024-01-canto)
+
+4naly3er señaló la pérdida de precisión de M-01. Slither señaló las dos operaciones de M-02. H-01 y H-02 quedaron sin identificar. Las herramientas localizaron ambos problemas medios de forma estática. El impacto y la severidad proceden del informe del juez. El expediente registra también un detector fallido de Slitherin, la regla de Semgrep utilizada y las instrucciones enumeradas por ityfuzz. [Resultados por herramienta](product_supply/c4-canto-2024-01.json)
+
+Con `--capture ARCHIVO.zip`, la consulta verifica el código fuente, el bytecode y las seis salidas originales por tamaño y SHA-256. Los nombres y huellas están en `capture_manifest`. La consulta lee el expediente histórico y no inicia una campaña de fuzzing.
+
 ## Consulta e importación
 
 La consulta de referencias busca términos en un documento fijado por repositorio y devuelve enlaces al documento y números de línea de las coincidencias. En Solodit también busca por nombre de informe.

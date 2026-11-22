@@ -1,0 +1,265 @@
+{
+  "contest": "Code4rena Canto Invitational, January 2024",
+  "contract": "LendingLedger",
+  "source": {
+    "path": "src/LendingLedger.sol",
+    "commit": "5e0d6f1f981993f83d0db862bcf1b2a49bb6ff50",
+    "sha256": "0550c44ad94ef9d88975c8a22da7f5ba83f04eabb1799dcbd990494d33d120e1",
+    "url": "https://github.com/code-423n4/2024-01-canto/blob/5e0d6f1f981993f83d0db862bcf1b2a49bb6ff50/src/LendingLedger.sol"
+  },
+  "official_report": "https://code4rena.com/reports/2024-01-canto",
+  "historical_slither": "https://github.com/code-423n4/2024-01-canto/blob/5e0d6f1f981993f83d0db862bcf1b2a49bb6ff50/slither.txt",
+  "product_revision": "e8bc4d1a28f2d763323c6f772e7dbd0adb5a50e5",
+  "compiler": {
+    "version": "0.8.17+commit.8df45f5f",
+    "via_ir": true,
+    "optimizer_runs": 1000,
+    "sha256": "99f2070b776e9714f1f76c43c229cf99b8978a92938ee8d2364c6de11c1a03d4"
+  },
+  "method": "Offline retrospective. The reviewer credited a diagnostic only when its rule described the published mechanism at the relevant operations in the sole in-scope contract. The accepted high and medium findings form the denominator. This is a technical localization score. Severity, impact and exploitability were not validated by the tools. Only locations used in the comparison are retained.",
+  "tools": {
+    "Slither": {
+      "target_diagnostics": 28,
+      "reviewed_locations": [
+        {
+          "rule": "events-access",
+          "lines": [
+            53
+          ]
+        },
+        {
+          "rule": "divide-before-multiply",
+          "lines": [
+            64
+          ]
+        },
+        {
+          "rule": "divide-before-multiply",
+          "lines": [
+            67,
+            68,
+            69,
+            70
+          ]
+        }
+      ],
+      "version": "0.11.6",
+      "completed_detectors": 101
+    },
+    "Slitherin": {
+      "target_diagnostics": 10,
+      "reviewed_locations": [
+        {
+          "rule": "pess-event-setter",
+          "lines": [
+            52
+          ]
+        },
+        {
+          "rule": "pess-event-setter",
+          "lines": [
+            123
+          ]
+        }
+      ],
+      "version": "0.7.2",
+      "registered_detectors": 29,
+      "completed_detectors": 28,
+      "failed_detector": "pess-nft-approve-warning",
+      "error": "TypeError: 'LibraryCall' object is not subscriptable"
+    },
+    "Aderyn": {
+      "version": "0.6.8",
+      "completed_detectors": 88,
+      "issue_instances": {
+        "high": 2,
+        "low": 26
+      },
+      "reviewed_locations": [
+        {
+          "rule": "literal-instead-of-constant",
+          "lines": [
+            69,
+            70,
+            71,
+            90,
+            91,
+            94,
+            95,
+            108
+          ]
+        },
+        {
+          "rule": "state-change-without-event",
+          "lines": [
+            52,
+            56,
+            82,
+            104,
+            123,
+            137
+          ]
+        }
+      ]
+    },
+    "4naly3er": {
+      "commit": "8a9d1ebb7d362bc94f036fa9123d0977c6cb7436",
+      "rule_groups_reported": 33,
+      "reviewed_locations": [
+        {
+          "rule": "NC-6",
+          "label": "Missing Event for critical parameters change",
+          "lines": [
+            52,
+            56,
+            123
+          ]
+        },
+        {
+          "rule": "L-5",
+          "label": "Possible rounding issue",
+          "lines": [
+            70,
+            71
+          ]
+        },
+        {
+          "rule": "L-6",
+          "label": "Loss of precision",
+          "lines": [
+            64,
+            71
+          ]
+        }
+      ]
+    },
+    "Semgrep": {
+      "version": "1.169.0",
+      "rules": [
+        "nqc-token-call-review"
+      ],
+      "target_diagnostics": 0,
+      "errors": 0,
+      "reviewed_locations": []
+    },
+    "ityfuzz": {
+      "commit": "80e3b44170573b592cd53b2c5ee9f36b21032b16",
+      "mode": "static bytecode iterator",
+      "runtime_bytecode_bytes": 3033,
+      "runtime_bytecode_sha256": "bcd8a14aa0470f2fffc00a734209b47ef20d40bc5e2df31e29624892a5661a19",
+      "instructions_enumerated": 1888,
+      "fuzzing_executed": false,
+      "reviewed_locations": []
+    }
+  },
+  "judged_findings": [
+    {
+      "id": "H-01",
+      "cause": "Incorrect market weight for the reward period",
+      "matches": []
+    },
+    {
+      "id": "H-02",
+      "cause": "Incorrect boundary for the next reward epoch",
+      "matches": []
+    },
+    {
+      "id": "M-01",
+      "cause": "Secondary reward per share can round to zero",
+      "matches": [
+        {
+          "tool": "4naly3er",
+          "rule": "L-6",
+          "lines": [
+            71
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M-02",
+      "cause": "Intermediate division discards precision before the accumulated reward is scaled again",
+      "matches": [
+        {
+          "tool": "Slither",
+          "rule": "divide-before-multiply",
+          "lines": [
+            67,
+            68,
+            69,
+            70
+          ]
+        }
+      ]
+    }
+  ],
+  "supplementary": {
+    "id": "R-01",
+    "cause": "Missing events on state changes",
+    "outside_high_medium_score": true,
+    "matches": [
+      {
+        "tool": "Slither",
+        "rule": "events-access",
+        "lines": [
+          53
+        ]
+      },
+      {
+        "tool": "Slitherin",
+        "rule": "pess-event-setter",
+        "lines": [
+          52
+        ]
+      },
+      {
+        "tool": "4naly3er",
+        "rule": "NC-6",
+        "lines": [
+          52
+        ]
+      },
+      {
+        "tool": "Aderyn",
+        "rule": "state-change-without-event",
+        "lines": [
+          52
+        ]
+      }
+    ]
+  },
+  "capture_manifest": {
+    "slither-core.json": {
+      "bytes": 2981303,
+      "sha256": "6208d120589da0510425c44b9e4192653ed37ffc4bd2ce83bce51a1d42079175"
+    },
+    "slitherin28.json": {
+      "bytes": 1385918,
+      "sha256": "f6af252c8e79816f5ee468dd009c2295cf24b0672bb1887b659e1ded82afa3d4"
+    },
+    "aderyn.json": {
+      "bytes": 11578,
+      "sha256": "a527febd51af5fab39bca76f61765f9fe6dbd9affce538b611bd5a238e1e52ee"
+    },
+    "four.md": {
+      "bytes": 27159,
+      "sha256": "c5c18b6fa69c688b4aa08fbc6638211e7495de2f2fa6a943c9f18eb891aa3c5d"
+    },
+    "semgrep.json": {
+      "bytes": 1205,
+      "sha256": "570a4cfa1489a14f2f756b793bb66ee4d62cc26c31303c47d9a79119f5d37da1"
+    },
+    "ityfuzz-offsets.txt": {
+      "bytes": 14961,
+      "sha256": "07ee6857834503ad756d40715a9b32609d037b69cf030dc5ff56e6a54de65070"
+    },
+    "ledger.bin": {
+      "bytes": 3033,
+      "sha256": "bcd8a14aa0470f2fffc00a734209b47ef20d40bc5e2df31e29624892a5661a19"
+    },
+    "LendingLedger.sol": {
+      "bytes": 6743,
+      "sha256": "0550c44ad94ef9d88975c8a22da7f5ba83f04eabb1799dcbd990494d33d120e1"
+    }
+  }
+}

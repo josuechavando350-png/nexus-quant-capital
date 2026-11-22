@@ -2,11 +2,36 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from zipfile import ZipFile
 
-from superhunter.toolkit_reports import FORMATS, read_reports, summarize
+from superhunter.toolkit_reports import FORMATS, canto_comparison, read_reports, summarize
 
 
 class ToolkitReports(unittest.TestCase):
+    def test_incomplete_canto_capture_cannot_be_verified(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            capture = Path(tmp) / 'capture.zip'
+            with ZipFile(capture, 'w') as archive:
+                archive.writestr('semgrep.json', '{}')
+            with self.assertRaisesRegex(ValueError, 'capture files'):
+                canto_comparison(Path(__file__).resolve().parents[2], capture)
+
+    def test_canto_scores_only_published_high_and_medium_findings(self):
+        report = canto_comparison(Path(__file__).resolve().parents[2])
+        self.assertEqual(report['score'], {'high': {'localized': 0, 'judged': 2},
+                                           'medium': {'localized': 2, 'judged': 2}})
+        self.assertEqual(report['tools']['Slitherin']['completed_detectors'], 28)
+        self.assertFalse(report['tools']['ityfuzz']['fuzzing_executed'])
+
+    def test_canto_rejects_replacement_evidence(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            supply = root / 'superhunter/product_supply'
+            supply.mkdir(parents=True)
+            (supply / 'c4-canto-2024-01.json').write_text('{}')
+            with self.assertRaisesRegex(ValueError, 'differs'):
+                canto_comparison(root)
+
     def test_native_result_shapes(self):
         slither = {'success': True, 'results': {'detectors': [{'check': 'pess-x'}, {'check': 'other'}]}}
         examples = {
