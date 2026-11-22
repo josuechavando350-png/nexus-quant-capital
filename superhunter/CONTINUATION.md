@@ -1,6 +1,18 @@
 # SUPERHUNTER · Punto de reanudación
 
-## Última aceptación reproducida · evidence-contracts
+## Última aceptación reproducida · supply-and-reporting
+
+El productor [a05693a9](https://github.com/josuechavando350-png/nexus-quant-capital/commit/a05693a9f2562ac147e4c5ec6c7646e8857dcf64) acreditó **159/200 identidades** en dos checkouts limpios del mismo host. Las dos ejecuciones sin red devolvieron 222 respuestas y 1,284,355 bytes idénticos. Participaron 99 identidades que ejecutaron código y 60 acreditadas sólo por referencias consumidas. Se verificaron 169 operaciones en total. El verificador conservó las 167 operaciones del corte anterior y rechazó 23 alteraciones. [Matriz de los 200](INTEGRATION_STATUS_200.md) · [Acta y recibos de ambas ejecuciones](product_supply/consolidated-acceptance-supply-and-reporting/acceptance.json)
+
+El inventario de atribuciones de Stratus permitió cotejar 183 dependencias de Go con 137 entradas del aviso. Faltaron 63 correspondencias, incluidas 19 dependencias directas. Nettacker aportó los textos del índice multilingüe de un informe publicado. En 13 de los 24 idiomas se conservó la traducción del mensaje y en 11 se usó inglés para mostrar la ruta completa. [Recibos y revisiones de las incorporaciones](product_supply/acceptance-120/supply-reporting-new-participants.json)
+
+Quedan 41 identidades sin recibo en la sesión conjunta. De ellas, 8 figuran en la ejecución archivada de 140 del PR 119 y 33 carecen de recibo en ambos perfiles. Las fuentes directas y sus revisiones se verificaron para las 200 identidades. Se mantienen los 106 participantes y las 110 operaciones de las sesiones históricas de 99 y 70. [Identidades pendientes, procedencia y contraste con el PR 119](product_supply/acceptance-120/supply-reporting-pending.json)
+
+En el productor pasaron 548/548 pruebas focalizadas. El cotejo del contenido y de los modos de Git preservó los 642 archivos históricos. El inventario global del árbol supera su límite de 500 archivos y la migración ampliada pasó 8/9 pruebas. La revisión comercial sigue abierta. La sesión confirmó 0 vulnerabilidades originales. [Pruebas del productor y límites](product_supply/acceptance-120/qa-supply-reporting-producer.json)
+
+En dependencias anidadas se verificaron los 5,289 archivos de diez revisiones adicionales. Hay 32 de 140 revisiones distintas cotejadas a primer nivel. [Integridad de dependencias anidadas](product_supply/acceptance-120/supply-nested-checkouts.json)
+
+## Aceptación anterior · evidence-contracts
 
 El commit [2ddbe098](https://github.com/josuechavando350-png/nexus-quant-capital/commit/2ddbe098cc98a667211494a9ff9f21ce014d8c3f) produjo las mismas 222 respuestas en dos checkouts limpios, sin red y en la misma máquina. Cada salida midió 1,272,422 bytes. En una sesión funcionaron 157/200 identidades únicas, con 99 de ejecución y 58 acreditadas sólo por referencias consumidas. Los recibos conservan 167 operaciones. Quedan 43 identidades sin participación conjunta reproducida. Los 12 grupos nativos y los 28 dominios de comprobación completaron la ejecución. [Matriz de los 200](INTEGRATION_STATUS_200.md) · [Acta, entradas y dos transcripciones](product_supply/consolidated-acceptance-evidence-contracts/acceptance.json)
 
