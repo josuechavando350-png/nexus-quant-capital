@@ -204,6 +204,15 @@ jobs:
           unshare --user --map-current-user --net "$RUNNER_TEMP/qa-python/bin/python" -B \
             "$RUNNER_TEMP/qa/metric-accounting/study.py" "$PWD/product" "$RUNNER_TEMP/metric-tools" "$RUNNER_TEMP/metric-results"
           diff -u "$RUNNER_TEMP/qa/metric-accounting/score.json" "$RUNNER_TEMP/metric-results/score.json"
+      - name: Medir los dos campos impresos en 128 entradas por hoja
+        shell: bash
+        run: |
+          set -euo pipefail
+          qa="$RUNNER_TEMP/qa/metric-accounting"
+          evidence="$RUNNER_TEMP/metric-results/fields"
+          unshare --user --map-current-user --net "$RUNNER_TEMP/qa-python/bin/python" -B \
+            "$qa/report_fields.py" "$PWD/product" "$RUNNER_TEMP/metric-tools" "$evidence"
+          diff -u "$qa/score-fields.json" "$evidence/score-fields.json"
       - name: Conservar las observaciones y predicciones contables
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:

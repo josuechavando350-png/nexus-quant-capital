@@ -95,7 +95,7 @@ def score(directory, vectors):
             "results": results}
 
 
-def run(product, tools, out):
+def checked_reconciler(product, tools):
     commit = subprocess.check_output(["git", "-C", str(product), "rev-parse", "HEAD"]).decode().strip()
     if commit != PRODUCT or subprocess.check_output(["git", "-C", str(product), "status", "--porcelain"]):
         raise ValueError("a clean checkout of the pinned Hunter product is required")
@@ -105,7 +105,11 @@ def run(product, tools, out):
             raise ValueError("native tool differs from the product's pin")
     sys.path.insert(0, str(product))
     from superhunter.balance_reconciliation import reconcile_internal_units
+    return commit, reconcile_internal_units
 
+
+def run(product, tools, out):
+    commit, reconcile_internal_units = checked_reconciler(product, tools)
     vectors = json.loads((HERE / "vectors.json").read_bytes())
     if any(len(v) != 4 or any(type(q) is not int or q < 0 for q in v) or v[2]+v[3]*2 > v[0] for v in vectors):
         raise ValueError("invalid benchmark vector")
