@@ -1,0 +1,383 @@
+{
+  "method": "Technical match requires the same cause and operation as the judge key. Counts for partial profiles refer to the available outputs only. Judge labels are retained in the accompanying report.",
+  "ityfuzz": {
+    "full_campaigns_started": 0,
+    "wall_seconds_fuzzing": 0,
+    "iterations": 0,
+    "availability_probe_exit": 127,
+    "availability_probe_stdout": "",
+    "availability_probe_stderr": "sh: 1: ityfuzz: not found\n"
+  },
+  "canto_dex": {
+    "archive": "SUPERHUNTER_bench_2022-09-canto.zip",
+    "archive_sha256": "4c424b03bea267adb81c92216198a2390fa2626d185ad93b7b7ecc9f19ba9f6c",
+    "key_sha256": "ae6735da1673f90e03c3611c374cb6779d3e6b8d928edd0a473fb8b8a90c14a5",
+    "revision_as_listed_in_key": "65fbb8b9de22cf8f8f3d742b38b4be41ee35c468",
+    "scope_files_sha256": {
+      "src/Swap/BaseV1-core.sol": "684075459902c0c7522435beeeaaf2717e6fdc86668aa1590253dee25fe7a1bb",
+      "src/Swap/BaseV1-periphery.sol": "fab8ddf00e30b63465288e7cd94cbf460bb104ea86c52f77285fbf2a8c0c9e8b"
+    },
+    "compiler": "0.8.11",
+    "compiler_errors": [],
+    "compiled_source_units": 12,
+    "slither": {
+      "version": "0.11.6",
+      "detectors": 101,
+      "observations_in_compilation_graph": 179,
+      "counts_by_check": {
+        "calls-loop": 16,
+        "constable-states": 1,
+        "dead-code": 40,
+        "divide-before-multiply": 8,
+        "erc20-interface": 2,
+        "events-maths": 2,
+        "incorrect-equality": 6,
+        "low-level-calls": 3,
+        "missing-zero-check": 9,
+        "naming-convention": 35,
+        "pragma": 1,
+        "reentrancy-benign": 8,
+        "reentrancy-events": 9,
+        "reentrancy-no-eth": 4,
+        "solc-version": 2,
+        "timestamp": 11,
+        "too-many-digits": 1,
+        "unchecked-transfer": 1,
+        "unimplemented-functions": 1,
+        "unindexed-event-address": 10,
+        "uninitialized-local": 8,
+        "unused-return": 1
+      },
+      "raw_json_sha256": "daf24b9c58fd9fd16ff24afed2ba5527c7a478fb4403622fb305a2984a98426a"
+    },
+    "slitherin": {
+      "detectors_completed_on_retry": 28,
+      "detectors_in_profile": 29,
+      "failed_detector": "pess-nft-approve-warning",
+      "error": "TypeError: 'LibraryCall' object is not subscriptable",
+      "observations_in_compilation_graph": 55,
+      "counts_by_check": {
+        "pess-arbitrary-call-calldata-tainted": 25,
+        "pess-arbitrary-call-destination-tainted": 3,
+        "pess-arbitrary-call-with-stored-erc20-approves": 2,
+        "pess-dubious-typecast": 3,
+        "pess-event-setter": 7,
+        "pess-magic-number": 1,
+        "pess-multiple-storage-read": 12,
+        "pess-public-vs-external": 2
+      },
+      "raw_json_sha256": "62bdf0edd72dbd5de5e66382fe501d83f2c17ca5b808a802274d93c3b8190cff"
+    },
+    "aderyn": {
+      "version": "aderyn 0.6.8",
+      "raw_json_sha256": "1119a01a21cd1845d614f6895698b0b41352f2d029749ed36afc499dc5dcc05b",
+      "detectors": 88,
+      "file_summary": {
+        "total_source_units": 2,
+        "total_sloc": 1001
+      },
+      "groups_observed": [
+        "abi-encode-packed-hash-collision",
+        "reentrancy-state-change",
+        "dead-code",
+        "division-before-multiplication",
+        "ecrecover",
+        "empty-require-revert",
+        "inconsistent-type-names",
+        "internal-function-used-once",
+        "literal-instead-of-constant",
+        "missing-inheritance",
+        "require-revert-in-loop",
+        "state-change-without-event",
+        "state-no-address-check",
+        "state-variable-could-be-constant",
+        "state-variable-could-be-immutable",
+        "storage-array-length-not-cached",
+        "unchecked-return",
+        "uninitialized-local-variable",
+        "unsafe-erc20-operation",
+        "unused-public-function"
+      ]
+    },
+    "four_naly3er": {
+      "rules": 169,
+      "raw_report_sha256": "9feab6407a8e7072819e2e1c450ffcaf5262b5fa4dbdf1a919c2d392198838e3",
+      "groups_observed": [
+        "`a = a + b` is more gas effective than `a += b` for state variables (excluding arrays and mappings)",
+        "Use assembly to check for `address(0)`",
+        "Using bools for storage incurs overhead",
+        "Cache array length outside of loop",
+        "State variables should be cached in stack variables rather than re-reading them from storage",
+        "Use calldata instead of memory for function arguments that do not get mutated",
+        "For Operations that will not overflow, you could use unchecked",
+        "Use Custom Errors instead of Revert Strings to save Gas",
+        "Avoid contract existence checks by using low level calls",
+        "State variables only set in the constructor should be declared `immutable`",
+        "`++i` costs less gas compared to `i++` or `i += 1` (same for `--i` vs `i--` or `i -= 1`)",
+        "Using `private` rather than `public` for constants, saves gas",
+        "Use shift right/left instead of division/multiplication if possible",
+        "Splitting require() statements that use && saves gas",
+        "Increments/decrements can be unchecked in for-loops",
+        "Use != 0 instead of > 0 for unsigned integer comparison",
+        "`internal` functions not called by the contract should be removed",
+        "Replace `abi.encodeWithSignature` and `abi.encodeWithSelector` with `abi.encodeCall` which keeps the code typo/type safe",
+        "Missing checks for `address(0)` when assigning values to address state variables",
+        "Array indices should be referenced via `enum`s rather than via numeric literals",
+        "`require()` should be used instead of `assert()`",
+        "Use `string.concat()` or `bytes.concat()` instead of `abi.encodePacked`",
+        "Constants should be in CONSTANT_CASE",
+        "`constant`s should be defined rather than using magic numbers",
+        "Control structures do not follow the Solidity Style Guide",
+        "Critical Changes Should Use Two-step Procedure",
+        "Duplicated `require()`/`revert()` Checks Should Be Refactored To A Modifier Or Function",
+        "Event is never emitted",
+        "Event missing indexed field",
+        "Function ordering does not follow the Solidity style guide",
+        "Functions should not be longer than 50 lines",
+        "Change int to int256",
+        "Change uint to uint256",
+        "Interfaces should be defined in separate files from their usage",
+        "`mapping` definitions do not follow the Solidity Style Guide",
+        "Missing Event for critical parameters change",
+        "NatSpec is completely non-existent on functions that should have them",
+        "Use a `modifier` instead of a `require/if` statement for a special `msg.sender` actor",
+        "Constant state variables defined more than once",
+        "Consider using named mappings",
+        "Numeric values having to do with time should use time units for readability",
+        "Adding a `return` statement when the function defines a named return variable, is redundant",
+        "`require()` / `revert()` statements should have descriptive reason strings",
+        "Use scientific notation (e.g. `1e18`) rather than exponentiation (e.g. `10**18`)",
+        "Contract does not follow the Solidity style guide's suggested layout ordering",
+        "Some require descriptions are not clear",
+        "Use Underscores for Number Literals (add an underscore every 3 digits)",
+        "Internal and private variables and functions names should begin with an underscore",
+        "Event is missing `indexed` fields",
+        "`public` functions not called by the contract should be declared `external` instead",
+        "Variables need not be initialized to zero",
+        "Precision Loss due to Division before Multiplication",
+        "Missing checks for `address(0)` when assigning values to address state variables",
+        "Use of `ecrecover` is susceptible to signature malleability",
+        "`abi.encodePacked()` should not be used with dynamic types when passing the result to a hash function such as `keccak256()`",
+        "`decimals()` is not a part of the ERC-20 standard",
+        "Division by zero not prevented",
+        "`domainSeparator()` isn't protected against replay attacks in case of a future chain split ",
+        "External call recipient may consume all transaction gas",
+        "Fallback lacking `payable`",
+        "Signature use at deadlines should be allowed",
+        "Prevent accidentally burning tokens",
+        "Possible rounding issue",
+        "Loss of precision",
+        "`symbol()` is not a part of the ERC-20 standard",
+        "Unsafe ERC20 operation(s)",
+        "Use of ecrecover is susceptible to signature malleability"
+      ]
+    },
+    "semgrep": {
+      "version": "1.169.0",
+      "rules": [
+        "nqc-token-call-review"
+      ],
+      "scanned": [
+        "src/Swap/BaseV1-core.sol",
+        "src/Swap/BaseV1-periphery.sol"
+      ],
+      "errors": [],
+      "observations": [
+        {
+          "check": "nqc-token-call-review",
+          "file": "src/Swap/BaseV1-core.sol",
+          "line": 525
+        },
+        {
+          "check": "nqc-token-call-review",
+          "file": "src/Swap/BaseV1-periphery.sol",
+          "line": 467
+        }
+      ],
+      "raw_json_sha256": "6e7fc443128e06123b4a894fc5e9e4e0ca61837cc3ab6fbcb1beef54bcac47a4"
+    },
+    "credited_alerts": {
+      "M-01": {
+        "tool": "Slither",
+        "check": "calls-loop",
+        "native_result_id": "29e3ba39111b47ca09573317faa71cc1ad79a90364300e7129c8f6c1e4e93d7e",
+        "native_description": "BaseV1Factory.setPeriodSize(uint256) (src/Swap/BaseV1-core.sol#560-568) has external calls inside a loop: BaseV1Pair(allPairs[i]).setPeriodSize(newPeriod) (src/Swap/BaseV1-core.sol#565)",
+        "rule_description": "Calls inside a loop might lead to a denial-of-service attack.",
+        "nodes": [
+          {
+            "file": "src/Swap/BaseV1-core.sol",
+            "lines": [
+              565
+            ]
+          }
+        ]
+      },
+      "M-02": {
+        "tool": "Slither",
+        "check": "divide-before-multiply",
+        "native_result_id": "cebb426fd2af1464d6fc7cb2716066d9dc04775645742020be3aa8987c8fd35f",
+        "native_description": "BaseV1Router01.getPriceLP(IBaseV1Pair) (src/Swap/BaseV1-periphery.sol#549-593) performs a multiplication on the result of a division:\n\t- token0TVL = assetReserves[i] * (prices[i] / decimals) (src/Swap/BaseV1-periphery.sol#582)",
+        "rule_description": "Solidity's integer division truncates. Thus, performing division before multiplication can lead to precision loss.",
+        "nodes": [
+          {
+            "file": "src/Swap/BaseV1-periphery.sol",
+            "lines": [
+              582
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "canto_identity": {
+    "archive": "SUPERHUNTER_bench_2023-01-canto-identity.zip",
+    "archive_sha256": "04a1db4f6d7e12306fa9afeedef273024e5e63d90c3a8ca66b28271a33a2ceaf",
+    "key_sha256": "b3280fae59e4e971c5004da5e9e44d1ad16deba1f668a2ffa5cba96b69ac5314",
+    "revision_as_listed_in_key": "22ef48f16c96b11d58471b5271add2c58b8fd21e",
+    "scope_files_sha256": {
+      "src/AddressRegistry.sol": "5687a1dd05692ea20dc65f5acf200786f62e509618aa96be06dfb90656cbe0d6",
+      "src/CidNFT.sol": "567404333b60416d0d1937f51b4927d081dc6c337e652869808b7e17037caca3",
+      "src/SubprotocolRegistry.sol": "17fef5988e6734e65f4f1d91c5b123ca8910fe8f3d4259928586503150187001",
+      "src/CidSubprotocolNFT.sol": "1aad6ee12e892d7ef59a17f6dd3b88e5eb1e4754c28e7ad7bb29ae5282fa9fc5"
+    },
+    "compiler": "0.8.17",
+    "compile_diagnostics": [
+      "ParserError: Source \"solmate/tokens/ERC721.sol\" not found: File import callback not supported\n --> src/AddressRegistry.sol:4:1:\n  |\n4 | import \"solmate/tokens/ERC721.sol\";\n  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n",
+      "ParserError: Source \"solmate/tokens/ERC721.sol\" not found: File import callback not supported\n --> src/CidNFT.sol:4:1:\n  |\n4 | import {ERC721, ERC721TokenReceiver} from \"solmate/tokens/ERC721.sol\";\n  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n",
+      "ParserError: Source \"solmate/tokens/ERC20.sol\" not found: File import callback not supported\n --> src/CidNFT.sol:5:1:\n  |\n5 | import \"solmate/tokens/ERC20.sol\";\n  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n",
+      "ParserError: Source \"solmate/utils/SafeTransferLib.sol\" not found: File import callback not supported\n --> src/CidNFT.sol:6:1:\n  |\n6 | import \"solmate/utils/SafeTransferLib.sol\";\n  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n",
+      "ParserError: Source \"solmate/tokens/ERC721.sol\" not found: File import callback not supported\n --> src/CidSubprotocolNFT.sol:4:1:\n  |\n4 | import \"solmate/tokens/ERC721.sol\";\n  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n",
+      "ParserError: Source \"solmate/tokens/ERC721.sol\" not found: File import callback not supported\n --> src/SubprotocolRegistry.sol:4:1:\n  |\n4 | import \"solmate/tokens/ERC721.sol\";\n  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n",
+      "ParserError: Source \"solmate/tokens/ERC20.sol\" not found: File import callback not supported\n --> src/SubprotocolRegistry.sol:5:1:\n  |\n5 | import \"solmate/tokens/ERC20.sol\";\n  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n",
+      "ParserError: Source \"solmate/utils/SafeTransferLib.sol\" not found: File import callback not supported\n --> src/SubprotocolRegistry.sol:6:1:\n  |\n6 | import \"solmate/utils/SafeTransferLib.sol\";\n  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n"
+    ],
+    "readme_out_of_scope_key_includes": "src/CidSubprotocolNFT.sol",
+    "slither": "blocked_at_compilation",
+    "slitherin": "blocked_at_compilation",
+    "aderyn": "blocked_at_compilation",
+    "semgrep": {
+      "version": "1.169.0",
+      "rules": [
+        "nqc-token-call-review"
+      ],
+      "scanned": [
+        "src/AddressRegistry.sol",
+        "src/CidNFT.sol",
+        "src/CidSubprotocolNFT.sol",
+        "src/SubprotocolRegistry.sol"
+      ],
+      "errors": [],
+      "observations": [],
+      "raw_json_sha256": "2b079f35af4b4637e68b03be90117cec191929cf54f45173a4c07e56830fb2ca"
+    },
+    "four_naly3er": {
+      "lexical": {
+        "rules": 169,
+        "source_rules": 109,
+        "ast_rules": 60,
+        "files": [
+          "src/AddressRegistry.sol",
+          "src/CidNFT.sol",
+          "src/SubprotocolRegistry.sol",
+          "src/CidSubprotocolNFT.sol"
+        ],
+        "raw_report_sha256": "829b6390df31674d23a865f8cfe2bbc8209a18ac42e5da2985cbfd6502797577",
+        "groups_observed": [
+          "Cache array length outside of loop",
+          "For Operations that will not overflow, you could use unchecked",
+          "Avoid contract existence checks by using low level calls",
+          "Using `private` rather than `public` for constants, saves gas",
+          "Increments/decrements can be unchecked in for-loops",
+          "Use != 0 instead of > 0 for unsigned integer comparison",
+          "Use `string.concat()` or `bytes.concat()` instead of `abi.encodePacked`",
+          "`constant`s should be defined rather than using magic numbers",
+          "Control structures do not follow the Solidity Style Guide",
+          "Functions should not be longer than 50 lines",
+          "Change int to int256",
+          "Use a `modifier` instead of a `require/if` statement for a special `msg.sender` actor",
+          "Consider using named mappings",
+          "Take advantage of Custom Error's return value property",
+          "Use scientific notation (e.g. `1e18`) rather than exponentiation (e.g. `10**18`)",
+          "Variables need not be initialized to zero",
+          "Unspecific compiler version pragma",
+          "Solmate's SafeTransferLib does not check for token contract's existence",
+          "Direct `supportsInterface()` calls may cause caller to revert",
+          "Using `delegatecall` inside a loop"
+        ]
+      },
+      "untyped_ast": {
+        "completed": 60,
+        "errors": [],
+        "raw_report_sha256": "15d6a859c3dac3df153abbcb88ecdd34cf811ced8e734ef6bcb61318f3ee54a0",
+        "groups_observed": [
+          "Array indices should be referenced via `enum`s rather than via numeric literals",
+          "Unused `error` definition",
+          "Function ordering does not follow the Solidity style guide",
+          "Incomplete NatSpec: `@param` is missing on actually documented functions",
+          "Contract does not follow the Solidity style guide's suggested layout ordering",
+          "Event is missing `indexed` fields",
+          "Some tokens may revert when zero value transfers are made",
+          "Prevent accidentally burning tokens",
+          "Solidity version 0.8.20+ may not work on other chains due to `PUSH0`",
+          "File allows a version of solidity that is susceptible to an assembly optimizer bug"
+        ]
+      },
+      "typed_ast_available": false
+    },
+    "credited_alerts": {}
+  },
+  "arithmetic": {
+    "tool": [
+      "forge Version: 1.10.0",
+      "Commit SHA: 083e22994195d6a7e3ad3104d0b57f478c9b9062"
+    ],
+    "suite": "isolated pure arithmetic on synthetic reserves",
+    "foundry_config": "[profile.default]\nsrc = \"src\"\ntest = \"test\"\noptimizer = true\noptimizer_runs = 200\n",
+    "test_sources": {
+      "Arithmetic.t.sol": "pragma solidity 0.8.11;\ncontract StableArithmeticTest {\n    bool public stable = true;\n    uint public decimals0 = 1e6;\n    uint public decimals1 = 1e18;\n    function _k(uint x, uint y) public view returns (uint) {\n        if (stable) {\n            uint _x = x * 1e18 / decimals0;\n            uint _y = y * 1e18 / decimals1;\n            uint _a = (_x * _y) / 1e18;\n            uint _b = ((_x * _x) / 1e18 + (_y * _y) / 1e18);\n            return _a * _b / 1e18;  // x3y+y3x >= k\n        } else {\n            return x * y; // xy >= k\n        }\n    }\n    function testFuzz_polynomial(uint32 rawX, uint32 rawY) public view {\n        uint p = uint(rawX) % 1000000 + 1;\n        uint q = uint(rawY) % 1000000 + 1;\n        uint observed = _k(p * 1e3, q * 1e15);\n        uint referenceValue = (p*p*p*q + p*q*q*q) * 1e6;\n        require(referenceValue == observed, \"polynomial disagreement\");\n        require(observed == _k(q * 1e3, p * 1e15), \"reserve symmetry\");\n        require(_k((p+1) * 1e3, q * 1e15) >= observed, \"monotonicity\");\n    }\n}\n",
+      "Rounding.t.sol": "pragma solidity 0.8.11;\ncontract StableRoundingTest {\n    bool public stable = true;\n    uint public decimals0 = 1e6;\n    uint public decimals1 = 1e18;\n    function _k(uint x, uint y) public view returns (uint) {\n        if (stable) {\n            uint _x = x * 1e18 / decimals0;\n            uint _y = y * 1e18 / decimals1;\n            uint _a = (_x * _y) / 1e18;\n            uint _b = ((_x * _x) / 1e18 + (_y * _y) / 1e18);\n            return _a * _b / 1e18;  // x3y+y3x >= k\n        } else {\n            return x * y; // xy >= k\n        }\n    }\n    function testFuzz_rounding(uint64 seedX, uint64 seedY) public view {\n        uint x = uint(seedX) % 1e6 + 1;\n        uint y = uint(seedY) % 1e18 + 1;\n        uint a = x * 1e12;\n        uint exactFloor = a*y*(a*a+y*y)/1e54;\n        uint actual = _k(x,y);\n        require(actual <= exactFloor && exactFloor-actual <= 4, \"rounding bound\");\n        require(_k(x+1,y) >= actual && _k(x,y+1) >= actual, \"monotonicity\");\n    }\n}\n"
+    },
+    "runs": [
+      {
+        "wall_seconds": 2.276,
+        "exit": 0,
+        "budget_cases": 100000,
+        "timeout_seconds": 300,
+        "seed": "0x202209",
+        "stdout": "Compiling 1 files with Solc 0.8.11\nSolc 0.8.11 finished in 578.80ms\nCompiler run successful!\n\nRan 1 test for test/Arithmetic.t.sol:StableArithmeticTest\n[PASS] testFuzz_polynomial(uint32,uint32) (runs: 100000, μ: 12416, ~: 12416)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 251.94ms (250.49ms CPU time)\n\nRan 1 test suite in 252.76ms (251.94ms CPU time): 1 tests passed, 0 failed, 0 skipped (1 total tests)\n",
+        "stderr": "",
+        "reported_runs": 100000
+      },
+      {
+        "exit": 0,
+        "wall_seconds": 2.878,
+        "budget_cases": 333334,
+        "timeout_seconds": 300,
+        "seed": "0x202209",
+        "stdout": "Compiling 1 files with Solc 0.8.11\nSolc 0.8.11 finished in 649.76ms\nCompiler run successful!\n\nRan 1 test for test/Rounding.t.sol:StableRoundingTest\n[PASS] testFuzz_rounding(uint64,uint64) (runs: 333334, μ: 11979, ~: 11979)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 821.52ms (820.76ms CPU time)\n\nRan 1 test suite in 822.64ms (821.52ms CPU time): 1 tests passed, 0 failed, 0 skipped (1 total tests)\n",
+        "stderr": "",
+        "reported_runs": 333334
+      },
+      {
+        "exit": 0,
+        "wall_seconds": 1.072,
+        "budget_cases": 333334,
+        "timeout_seconds": 300,
+        "seed": "0xc40001",
+        "stdout": "No files changed, compilation skipped\n\nRan 1 test for test/Rounding.t.sol:StableRoundingTest\n[PASS] testFuzz_rounding(uint64,uint64) (runs: 333334, μ: 11979, ~: 11979)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 786.10ms (785.99ms CPU time)\n\nRan 1 test suite in 786.70ms (786.10ms CPU time): 1 tests passed, 0 failed, 0 skipped (1 total tests)\n",
+        "stderr": "",
+        "reported_runs": 333334
+      },
+      {
+        "exit": 0,
+        "wall_seconds": 1.187,
+        "budget_cases": 333334,
+        "timeout_seconds": 300,
+        "seed": "0xc40002",
+        "stdout": "No files changed, compilation skipped\n\nRan 1 test for test/Rounding.t.sol:StableRoundingTest\n[PASS] testFuzz_rounding(uint64,uint64) (runs: 333334, μ: 11979, ~: 11979)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 845.19ms (845.05ms CPU time)\n\nRan 1 test suite in 845.70ms (845.19ms CPU time): 1 tests passed, 0 failed, 0 skipped (1 total tests)\n",
+        "stderr": "",
+        "reported_runs": 333334
+      }
+    ]
+  }
+}
