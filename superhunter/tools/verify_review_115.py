@@ -46,6 +46,10 @@ def observed(row):
 def response_keys(raw):
     keys = review_queries()
     tail = raw.splitlines()[len(keys):]
+    extended = []
+    if len(tail) == 7:
+        extended = ['source-overlap', 'source-overlap-coverage', 'live-participation']
+        tail = tail[:-3]
     if len(tail) > 4:
         raise EvidenceError('acceptance transcript has missing or extra responses')
     markers = {'archive_sha256': 'portable-source-proof', 'go_archive_sha256': 'go-header-digest',
@@ -59,7 +63,7 @@ def response_keys(raw):
     optional = [name for name in extras if name in ('component-controls', 'native-capabilities')]
     if extras != optional and extras != ['portable-source-proof', 'go-header-digest', *optional]:
         raise EvidenceError('acceptance transcript has missing or extra responses')
-    return keys + extras
+    return keys + extras + extended
 
 
 @cache
@@ -132,7 +136,10 @@ SUPPLY_AND_REPORTING_TRANSCRIPT_SHA = '972f08f6a715542046ce174863dc385dbfec6851a
 EVIDENCE_CONTRACTS_PRODUCER = '2ddbe098cc98a667211494a9ff9f21ce014d8c3f'
 EVIDENCE_CONTRACTS_ACT = '582cc5c48ee0f92a01d638a55c5d4a2b602d903a'
 EVIDENCE_CONTRACTS_TRANSCRIPT_SHA = 'bdb0e859c9a3affd0f0ca198ed1cdeae75571889f9cab67d28d372058c29722e'
+PUBLICATION_POLICY_CONTRACT = 'cce3b2e6aa5951db85f0379ccbc090023aed0ce9f6dcfb322c85b040b972d7a6'
+VENDORED_EVIDENCE = '83028e378879c0436ef3f5a9c87df5315da72438'
 SUCCESSOR_BASELINES = {
+    'publication-policy': 'vendored-attributions',
     'evidence-contracts': 'report-interop',
     'supply-and-reporting': 'evidence-contracts',
     'vendored-attributions': 'supply-and-reporting',
@@ -149,8 +156,13 @@ HISTORICAL_COMPONENTS = {
 
 @cache
 def component_rules(profile):
-    if profile == 'vendored-attributions':
+    if profile == 'publication-policy':
         raw = read_artifact(ROOT, 'superhunter/product_supply/component-control-contracts.json')
+        if sha(raw) != PUBLICATION_POLICY_CONTRACT:
+            raise EvidenceError('publication policy contract differs from the reviewed registry')
+        return strict_json(raw)
+    if profile == 'vendored-attributions':
+        raw = read_artifact(ROOT, 'superhunter/product_supply/component-control-contracts-vendored-attributions.json')
         if sha(raw) != COMPONENTS_VENDORED_ATTRIBUTIONS:
             raise EvidenceError('vendored attribution contracts differ from the reviewed registry')
         return strict_json(raw)
@@ -202,12 +214,12 @@ def verify_policy_corroboration(controls):
 def verify(raw, expected_hash=None, *, require_consolidated=False, require_accounting=False,
            require_canonical_header=False, require_grpc_schema=False, require_html_review=False,
            require_report_interop=False, require_evidence_contracts=False, require_supply_and_reporting=False,
-           require_vendored_attributions=False, producer_commit=None):
+           require_vendored_attributions=False, require_publication_policy=False, producer_commit=None):
     profiles = [name for selected, name in (
         (require_consolidated, 'core-eight'), (require_accounting, 'accounting-nine'),
         (require_canonical_header, 'canonical-ten'), (require_grpc_schema, 'grpc-eleven'),
         (require_html_review, None), (require_report_interop, None), (require_evidence_contracts, None),
-        (require_supply_and_reporting, None), (require_vendored_attributions, None)) if selected]
+        (require_supply_and_reporting, None), (require_vendored_attributions, None), (require_publication_policy, None)) if selected]
     if len(profiles) > 1:
         raise EvidenceError('select one exact consolidated acceptance profile')
     full_profile = bool(profiles)
@@ -226,6 +238,9 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
         if not isinstance(value, expected):
             raise EvidenceError('unexpected response type at ' + key)
         report[key] = value
+    has_publication = keys[-1] == 'live-participation'
+    if has_publication != require_publication_policy:
+        raise EvidenceError('incomplete consolidated session: publication policy profile requires the live gate and both source reports')
     archive = read_artifact(ROOT, 'superhunter/product_supply/coverage-d94b58f.json')
     if sha(archive) != 'b47f69c24ee583c5e8ef61954439b56818bccf6e3fa35a60bf099381d10bc1bd':
         raise EvidenceError('historical index changed')
@@ -245,7 +260,9 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
                    'published_excerpts' not in matrix and
                    report['source-inventory'].get('snapshot_sha256') == SNAPSHOT_153)
     component_profile = 'through-html' if full_profile else 'current'
-    if require_vendored_attributions:
+    if require_publication_policy:
+        component_profile = 'publication-policy'
+    elif require_vendored_attributions:
         component_profile = 'vendored-attributions'
     elif require_supply_and_reporting:
         component_profile = 'supply-and-reporting'
@@ -445,7 +462,11 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
     if full_profile and component_profile in SUCCESSOR_BASELINES:
         if not isinstance(producer_commit, str) or not re.fullmatch('[0-9a-f]{40}', producer_commit):
             raise EvidenceError('an independently supplied producer commit is required')
-        if require_vendored_attributions:
+        if require_publication_policy:
+            prior, previous_commit = vendored_operations()
+            if len(rows) != 200 or any(not row['session_operations'] for row in rows):
+                raise EvidenceError('all 200 identities require a verified operation')
+        elif require_vendored_attributions:
             prior, previous_commit = supply_and_reporting_operations(), SUPPLY_AND_REPORTING_PRODUCER
         elif require_supply_and_reporting:
             prior, previous_commit = evidence_contracts_operations(), EVIDENCE_CONTRACTS_PRODUCER
@@ -469,6 +490,17 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
         recorded_profile = 'current' if component_profile == 'through-html' else component_profile
         counts.update(component_contract_profile=recorded_profile, component_domains=sorted(set(controls['requested']) - set(controls['blocked'])),
                       blocked_component_domains=sorted(controls['blocked']))
+    if has_publication:
+        from superhunter.product_source_overlap import coverage as connect_sources
+        from superhunter.tools.catalog_session import live_participation
+        overlap = report['source-overlap']
+        if sha(canonical(overlap)) != '79902769085e5da1a4d4dd395776c79770f12fff47da547aa5963347e2c9bf92':
+            raise EvidenceError('source comparison differs from the independently checked 19,900 pairs')
+        matrix = report['integration-matrix']
+        if connect_sources(overlap, matrix) != report['source-overlap-coverage']:
+            raise EvidenceError('shared source results are detached from the live operations')
+        if live_participation(matrix) != report['live-participation']:
+            raise EvidenceError('live participation gate differs from its verified rows')
     return {'transcript_sha256': digest, 'credits_sha256': sha(canonical(credits)),
             'responses': len(keys), **counts}
 
@@ -556,6 +588,15 @@ def check_preserved_operations(previous, current, scorecard, previous_commit, cu
         raise EvidenceError('previous accepted operations or their evidence changed')
 
 
+@cache
+def vendored_operations():
+    from superhunter.tools import render_product_matrix as renderer
+    verified, rows, producer = renderer.verified_pair('vendored-attributions', evidence_commit=VENDORED_EVIDENCE)
+    if verified['session'] != 160 or verified['operations'] != 170:
+        raise EvidenceError('unexpected prior acceptance for the publication policy')
+    return operation_keys(rows), producer['commit']
+
+
 def check_previous_acceptance(rows, scorecard=None):
     previous = html_operations()
     current = operation_keys(rows)
@@ -629,6 +670,10 @@ def negative_controls(raw, **profile_options):
             cases.append(('changed_policy_catalog_joint_digest', 'component-controls',
                           ('policy_catalog_corroboration', 'joint_sha256'), '0' * 64, 'policy catalog corroboration'))
         if observed:
+            if 'ffuf/ffuf' in observed and 'publication-policy' in controls['requested']:
+                cases.append(('changed_publication_decision', 'component-controls',
+                              ('observations', 'ffuf/ffuf', 'result', 'restored_after_removal'), False,
+                              'individual component result'))
             if 'sqlmapproject/sqlmap' in observed:
                 cases.append(('changed_vendored_attribution', 'component-controls',
                               ('observations', 'sqlmapproject/sqlmap', 'result', 'package_evidence',
@@ -665,6 +710,11 @@ def negative_controls(raw, **profile_options):
             group, result = next(iter(native['groups'].items()))
             cases.append(('changed_native_report', 'native-capabilities', ('groups', group),
                           {**result, 'unverified': True}, 'native producer bytes'))
+    if 'live-participation' in keys:
+        cases.extend([
+            ('changed_pair_measurement', 'source-overlap', ('pairs_compared',), 0, 'source comparison differs'),
+            ('removed_peer_rows', 'source-overlap-coverage', ('rows',), [], 'detached from the live operations'),
+            ('false_live_total', 'live-participation', ('participating',), 0, 'live participation gate differs')])
     rejected = {}
     for name, key, path, replacement, reason in cases:
         lines = raw.splitlines()
@@ -710,6 +760,8 @@ def main():
                           help='verify the dependency attribution review and the entire previous evidence-contracts pair')
     profiles.add_argument('--require-consolidated-vendored-attributions', action='store_true',
                           help='verify the vendored notice review and all previous supply and reporting operations')
+    profiles.add_argument('--require-publication-policy', action='store_true',
+                          help='require all 200 session operations and preserve the 160-identity baseline')
     parser.add_argument('--producer-commit', help='independently verified Git identity for the selected producer')
     parser.add_argument('--expect-sha256', help='trusted digest for a specific, published run')
     args = parser.parse_args()
@@ -724,9 +776,10 @@ def main():
                        'require_report_interop': args.require_consolidated_report_interop,
                        'require_evidence_contracts': args.require_consolidated_evidence_contracts,
                        'require_supply_and_reporting': args.require_consolidated_supply_and_reporting,
-                       'require_vendored_attributions': args.require_consolidated_vendored_attributions}
+                       'require_vendored_attributions': args.require_consolidated_vendored_attributions,
+                       'require_publication_policy': args.require_publication_policy}
     if (args.require_consolidated_evidence_contracts or args.require_consolidated_supply_and_reporting
-            or args.require_consolidated_vendored_attributions):
+            or args.require_consolidated_vendored_attributions or args.require_publication_policy):
         profile_options['producer_commit'] = args.producer_commit
     result = verify(raw, args.expect_sha256, **profile_options)
     if args.require_complete_controls:

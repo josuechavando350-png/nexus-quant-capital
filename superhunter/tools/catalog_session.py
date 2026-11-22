@@ -53,28 +53,36 @@ def fetch_asset(work, item, cache=None):
     acquire(work/name, digest, download, cache)
 
 
-def prepare(work, cache=None):
+def prepare(work, cache=None, *, transport_only=False):
+    assets = {name: ASSETS[name] for name in
+              ('syft.tgz', 'qdrant.tgz', 'cvc5.zip', 'asvs.csv', 'asvs-guides.md')} if transport_only else ASSETS
     with ThreadPoolExecutor(max_workers=4) as pool:
-        list(pool.map(lambda x: fetch_asset(work, x, cache), ASSETS.items()))
-    for archive, member in [('syft.tgz', 'syft'), ('foundry.tgz', 'forge'), ('qdrant.tgz', 'qdrant')]:
+        list(pool.map(lambda x: fetch_asset(work, x, cache), assets.items()))
+    archives = [('syft.tgz', 'syft'), ('qdrant.tgz', 'qdrant')]
+    wheels = [(ROOT/WHEELS, 'supply-wheels'), (work/'haystack-wheels.txt', 'haystack')]
+    (work/'haystack-wheels.txt').write_bytes(pinned(ROOT, HAYSTACK_LOCK, HAYSTACK_SHA))
+    if not transport_only:
+        archives.append(('foundry.tgz', 'forge'))
+        wake = pinned(ROOT, WAKE_LOCK, WAKE_LOCK_SHA)
+        (work/'wake-wheels.txt').write_bytes(wake + f'eth-wake==5.0.0 --hash=sha256:{WAKE_SHA}\n'.encode())
+        wheels.append((work/'wake-wheels.txt', '.'))
+    for archive, member in archives:
         with tarfile.open(work/archive) as tar, (work/member).open('xb') as dest:
             with tar.extractfile(member) as src:
                 shutil.copyfileobj(src, dest)
     with ZipFile(work/'cvc5.zip') as z, z.open('cvc5-Linux-x86_64-static/bin/cvc5') as src, (work/'cvc5').open('xb') as dest:
         shutil.copyfileobj(src, dest)
-    wake = pinned(ROOT, WAKE_LOCK, WAKE_LOCK_SHA)
-    (work/'wake-wheels.txt').write_bytes(wake + f'eth-wake==5.0.0 --hash=sha256:{WAKE_SHA}\n'.encode())
-    (work/'haystack-wheels.txt').write_bytes(pinned(ROOT, HAYSTACK_LOCK, HAYSTACK_SHA))
-    for lock, folder in [(ROOT/WHEELS, 'supply-wheels'), (work/'haystack-wheels.txt', 'haystack'), (work/'wake-wheels.txt', '.')]:
+    for lock, folder in wheels:
         run([sys.executable, '-I', '-m', 'pip', '--isolated', '--disable-pip-version-check', 'download',
              '--only-binary=:all:', '--no-deps', '--require-hashes', '-r', lock, '-d', work/folder])
-    lock = pinned(ROOT, HEADER_LOCK, HEADER_LOCK_SHA)
-    (work/'package-lock.json').write_bytes(lock)
-    (work/'package.json').write_bytes(canonical(strict_json(lock)['packages']['']))
-    run(['npm', 'ci', '--ignore-scripts', '--no-audit', '--no-fund', '--cache', work/'npm-cache'], cwd=work)
-    with ThreadPoolExecutor(max_workers=6) as pool:
-        docs = dict(pool.map(fetch, sources()))
-    write_new_bundle(work/'upstream', docs)
+    if not transport_only:
+        lock = pinned(ROOT, HEADER_LOCK, HEADER_LOCK_SHA)
+        (work/'package-lock.json').write_bytes(lock)
+        (work/'package.json').write_bytes(canonical(strict_json(lock)['packages']['']))
+        run(['npm', 'ci', '--ignore-scripts', '--no-audit', '--no-fund', '--cache', work/'npm-cache'], cwd=work)
+        with ThreadPoolExecutor(max_workers=6) as pool:
+            docs = dict(pool.map(fetch, sources()))
+        write_new_bundle(work/'upstream', docs)
     with tempfile.TemporaryDirectory() as tmp:
         venv = Path(tmp)/'supply-venv'
         run([sys.executable, '-m', 'venv', venv])
@@ -116,6 +124,32 @@ def review_queries():
         'score-comparison', 'assurance-wheel-notices', 'recursive-source-trees', 'fork-headers']
 
 
+def live_participation(matrix):
+    from superhunter.tools.verify_source_materialization import expected_rows
+
+    rows = matrix['rows']
+    missing = []
+    for pin, row in zip(expected_rows(), rows, strict=True):
+        if (pin['catalog_id'] != row['id'] or
+                any(pin[k] != row[k] for k in ('repository', 'commit', 'tree'))):
+            raise ValueError('live participation matrix differs from the pinned catalog')
+        operations = row['session_operations']
+        if not isinstance(operations, list) or (row['session'] == 'pending') != (not operations):
+            raise ValueError('live role and operations disagree')
+        roles = {op['role'] for op in operations}
+        if roles - {'executable', 'reference_data'}:
+            raise ValueError('unrecognized operation role')
+        role = next((candidate for candidate in ('executable', 'reference_data') if candidate in roles), 'pending')
+        if row['session'] != role:
+            raise ValueError('live role differs from the received operations')
+        if not operations:
+            missing.append({'id': row['id'], 'repository': row['repository']})
+    participating = len(rows) - len(missing)
+    if matrix['catalog'] != len(rows) or matrix['end_to_end'] != participating:
+        raise ValueError('live participation totals disagree with individual operations')
+    return {'catalog': len(rows), 'participating': participating, 'pending': len(missing), 'repositories': missing}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--review-queries', action='store_true', help='run the 218 published PR 115 queries in order')
@@ -133,6 +167,8 @@ def main():
     sources.add_argument('--embedded-root-manifests', action='store_true', help='use the verified Git records stored in the product')
     sources.add_argument('--root-manifests', type=Path, help='verified dependency files from remote root trees')
     parser.add_argument('--download-cache', type=Path, help='reuse hash-verified assets outside the checkout (preparation only)')
+    parser.add_argument('--require-all', action='store_true', help='exit 1 when any catalog identity lacks a live operation')
+    parser.add_argument('--compare-sources', type=Path, metavar='WORKSPACE', help='compare file IDs among the 200 pinned trees')
     parser.add_argument('--source-inventory', action='store_true', help='join the reviewed source audit')
     parser.add_argument('--source-references', type=Path, help='checkout containing pinned source type definitions')
     parser.add_argument('--geth-header', type=Path, help='pinned optional native Geth comparator')
@@ -149,6 +185,8 @@ def main():
     kits = selected_kits(args)
     if args.review_queries and kits:
         queries.append('native-capabilities')
+    if (args.compare_sources or args.require_all) and not args.review_queries:
+        parser.error('--compare-sources and --require-all need the live matrix from --review-queries')
     work = args.workspace.resolve()
     cache = args.download_cache
     if cache is not None:
@@ -189,6 +227,28 @@ def main():
            *(['--source-inventory'] if args.source_inventory else []),
            *(['--source-references', args.source_references.resolve()] if args.source_references else []),
            *(['--geth-header', args.geth_header.resolve()] if args.geth_header else []), *queries]
+    if args.compare_sources or args.require_all:
+        from superhunter.product_source_overlap import build, coverage
+        run = subprocess.run(cmd, cwd=ROOT, stdout=subprocess.PIPE)
+        if run.returncode:
+            sys.stdout.buffer.write(run.stdout)
+            return run.returncode
+        lines = run.stdout.splitlines()
+        if len(lines) != len(queries):
+            parser.exit(2, 'incomplete product transcript\n')
+        try:
+            matrix = strict_json(lines[queries.index('integration-matrix')])
+            extra = []
+            if args.compare_sources:
+                overlap = build(args.compare_sources)
+                extra.extend((overlap, coverage(overlap, matrix)))
+            if args.require_all:
+                status = live_participation(matrix)
+                extra.append(status)
+        except (OSError, ValueError, KeyError, subprocess.SubprocessError) as error:
+            parser.exit(2, f'product session incomplete: {error}\n')
+        sys.stdout.buffer.write(run.stdout + b''.join(canonical(row) for row in extra))
+        return 1 if args.require_all and status['pending'] else 0
     return subprocess.run(cmd, cwd=ROOT).returncode
 
 

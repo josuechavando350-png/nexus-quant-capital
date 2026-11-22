@@ -202,5 +202,116 @@ class ParallelSourceTests(unittest.TestCase):
         self.assertEqual(json.loads(output.getvalue()), sources.verify(self.root))
 
 
+class CatalogSourceOverlapTests(unittest.TestCase):
+    def test_real_trees_count_unique_nonempty_regular_blobs_and_check_nested_tree(self):
+        from superhunter.product_source_overlap import inventory
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            fixture_git(root, 'init', '-q')
+            (root/'nested').mkdir()
+            (root/'nested'/'first').write_bytes(b'same bytes')
+            (root/'another').write_bytes(b'same bytes')
+            (root/'empty').touch()
+            (root/'shortcut').symlink_to('another')
+            fixture_git(root, 'add', '.')
+            tree = fixture_git(root, 'write-tree').decode().strip()
+            listing = fixture_git(root, 'ls-tree', '-rtz', tree)
+            paths, blobs = inventory(listing, tree)
+            self.assertEqual(paths, 3)
+            self.assertEqual(blobs, {bytes.fromhex(git_object('blob', b'same bytes'))})
+            with self.assertRaisesRegex(ValueError, 'pinned Git tree'):
+                inventory(listing.replace(b'nested/first', b'nested/other'), tree)
+
+    def test_all_pairs_include_empty_intersections_and_are_symmetric(self):
+        from superhunter.product_source_overlap import measure, pair
+        rows = [dict(catalog_id=i, repository=f'example/r{i}', commit='c', tree='t') for i in range(1, 5)]
+        report = measure(rows, [(3, {b'a', b'b'}), (1, {b'a'}), (1, {b'z'}), (0, set())])
+        self.assertEqual(report['pairs_compared'], 6)
+        self.assertEqual(report['pairs_with_shared_blobs'], 1)
+        self.assertEqual(report['pairs_without_shared_blobs'], 5)
+        self.assertEqual(pair(report, 1, 2), pair(report, 2, 1))
+        self.assertEqual(pair(report, 1, 2)['shared_nonempty_blobs'], 1)
+        self.assertEqual(pair(report, 2, 4)['shared_nonempty_blobs'], 0)
+        for ids in [(1, 1), (2, 5), (0, 2)]:
+            with self.assertRaises(ValueError):
+                pair(report, *ids)
+        with self.assertRaises(ValueError):
+            measure(rows, [(0, set())])
+        with self.assertRaises(ValueError):
+            measure(rows[::-1], [(0, set())] * 4)
+
+    def test_join_rejects_wrong_pin_and_tracks_peers_missing_live_receipts(self):
+        from superhunter.product_source_overlap import measure, coverage
+        raw = [dict(catalog_id=i, repository=f'example/r{i}', commit='c', tree='t') for i in range(1, 4)]
+        report = measure(raw, [(2, {b'a', b'b'}), (1, {b'a'}), (1, {b'z'})])
+        rows = [{'id': r['catalog_id'], 'repository': r['repository'], 'tree': 't', 'commit': 'c',
+                 'session': 'pending', 'session_operations': []} for r in raw]
+        rows[0].update(session='executable', session_operations=[{'receipt': 'verified'}])
+        result = coverage(report, {'rows': rows[::-1]})
+        self.assertEqual(result['participating'], 1)
+        self.assertEqual(result['rows'][0]['peers_without_receipts'], [2])
+        self.assertEqual(result['rows'][1]['peers_with_receipts'], [1])
+        self.assertEqual(result['rows'][2]['peers_with_receipts'], [])
+        rows[1]['commit'] = 'different'
+        with self.assertRaisesRegex(ValueError, 'revisions'):
+            coverage(report, {'rows': rows})
+
+    def test_live_gate_uses_current_operations_and_refuses_dropped_or_mislabeled_rows(self):
+        from superhunter.tools.catalog_session import live_participation
+        from superhunter.tools.verify_source_materialization import expected_rows
+        rows = [{'id': pin['catalog_id'], **{k: pin[k] for k in ('repository', 'commit', 'tree')},
+                 'session': 'reference_data', 'session_operations': [{'role': 'reference_data'}]}
+                for pin in expected_rows()]
+        matrix = {'rows': rows, 'catalog': 200, 'end_to_end': 200}
+        self.assertEqual(live_participation(matrix)['pending'], 0)
+        rows[17].update(session='pending', session_operations=[])
+        with self.assertRaisesRegex(ValueError, 'totals'):
+            live_participation(matrix)
+        matrix['end_to_end'] = 199
+        self.assertEqual(live_participation(matrix)['repositories'], [{'id': 18, 'repository': rows[17]['repository']}])
+        rows[1]['session'] = 'executable'
+        with self.assertRaisesRegex(ValueError, 'role'):
+            live_participation(matrix)
+        rows[1]['session'] = 'reference_data'
+        rows.pop()
+        with self.assertRaises(ValueError):
+            live_participation(matrix)
+
+    def test_missing_sources_cannot_return_an_empty_comparison(self):
+        from superhunter.product_source_overlap import build
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root/'upstream').mkdir()
+            with self.assertRaisesRegex(ValueError, 'exactly the catalog'):
+                build(root)
+
+
+class PublicationPolicyTests(unittest.TestCase):
+    def test_scoped_ignore_policy_and_real_git_negation_are_reversible(self):
+        from superhunter.product_publication_policy import ignore_policy
+        result = ignore_policy('docs/.gitignore', b'*.log\n!review.log\n_site/\n')
+        self.assertEqual(result['excluded_from_untracked_files'], ['docs/_site/index.html'])
+        self.assertIn('docs/review.log', result['available_for_staging'])
+        self.assertIn('_site/index.html', result['available_for_staging'])
+        self.assertTrue(result['restored_after_removal'])
+
+    def test_no_match_and_catch_all_cannot_earn_a_receipt(self):
+        from superhunter.product_publication_policy import ignore_policy
+        for rules in (b'unknown-release-file\n', b'*\n'):
+            with self.assertRaisesRegex(ValueError, 'corroborated'):
+                ignore_policy('.gitignore', rules)
+
+    def test_recipe_must_consume_requirements_and_records_unpinned_versions(self):
+        from superhunter.product_publication_policy import dependency_policy
+        raw = b'FROM python:3.8-alpine\nCOPY . /opt/jwt_tool\nRUN python3 -m pip install -r requirements.txt\n'
+        data = dependency_policy(raw, b'one==1.2.3\ntwo\n')
+        self.assertFalse(data['base_digest_pinned'])
+        self.assertEqual(data['unpinned_packages'], ['two'])
+        with self.assertRaises(ValueError):
+            dependency_policy(raw.replace(b'-r requirements.txt', b'-r other.txt'), b'one\n')
+        with self.assertRaises(ValueError):
+            dependency_policy(raw, b'one\nONE\n')
+
+
 if __name__ == '__main__':
     unittest.main()

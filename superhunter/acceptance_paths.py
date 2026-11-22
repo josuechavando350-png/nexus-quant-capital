@@ -12,6 +12,7 @@ PROFILE_DIRECTORIES = {
     'evidence-contracts': BASE + '-evidence-contracts',
     'supply-and-reporting': BASE + '-supply-and-reporting',
     'vendored-attributions': BASE + '-vendored-attributions',
+    'publication-policy': BASE + '-publication-policy',
 }
 RUN_DIRECTORIES = ('first', 'second')
 RUN_FILES = ('result.json', 'run-inputs.json', 'session.json')

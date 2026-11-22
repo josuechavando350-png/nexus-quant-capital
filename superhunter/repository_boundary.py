@@ -12,6 +12,9 @@ import os
 import re
 from pathlib import Path
 import stat
+import subprocess
+import sys
+import tempfile
 
 from .privacy import PrivateArgumentParser
 from .safe_io import canonical
@@ -120,13 +123,8 @@ def _capture(root: Path) -> tuple[dict, int]:
             rel = path.relative_to(root)
             info = path.lstat()
             need(stat.S_ISREG(info.st_mode), 'NONREGULAR_FILE')
-            if relbase == Path('upstream'):
-                need(name in upstream_leaves, 'UNREVIEWED_UPSTREAM_PATH')
-                dirs.remove(name)  # External source has its own Git inventory.
-                continue
-            if relbase == Path('.') and name in ('.git', 'upstream'):
-                if name == 'upstream':
-                    continue
+            need(rel.as_posix() != 'upstream', 'UPSTREAM_NOT_DIRECTORY')
+            if relbase == Path('.') and name == '.git':
                 continue  # Git worktree metadata is not source or an authority pin.
             key = rel.as_posix()
             need(not any(p in FORBIDDEN_PARTS for p in rel.parts), 'CLIENT_OR_ACTIVE_TREE')
@@ -229,9 +227,44 @@ def _review_captured(files: dict, ignored: int) -> dict:
         'runtime_isolation_proved':False,'full_security_review':False}
 
 
-def review(root: Path) -> dict:
+def _verify_import(files: dict) -> dict:
+    """Replay the immutable migration checker and its tests on the admitted import bytes."""
+    with tempfile.TemporaryDirectory(prefix='nqc-import-') as temp:
+        root = Path(temp)
+        for name, item in files.items():
+            if name.split('/', 1)[0] not in HISTORICAL_TREES and name not in {
+                    'README.md', 'AGENTS.md', '.gitignore'}:
+                continue
+            data = item['bytes']
+            if name == 'AGENTS.md':
+                data = data[:AGENTS_ORIGINAL_BYTES]
+            path = root / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(data)
+            path.chmod(int(item['mode'][-3:], 8))
+
+        def run(script):
+            return subprocess.run([sys.executable, '-I', '-B', str(root/'migration'/script)],
+                                  cwd=root, stdin=subprocess.DEVNULL, capture_output=True, timeout=120)
+
+        check = run('verify_isolation.py')
+        need(check.returncode == 0, 'HISTORICAL_IMPORT_REJECTED')
+        result = json.loads(check.stdout)
+        need(result['status'] == 'ISOLATED_SOURCE_IDENTITY_PASS'
+             and result['canonical_recertification'] is False, 'HISTORICAL_IMPORT_REJECTED')
+        tests = run('test_isolation.py')
+        count = re.search(rb'^Ran (\d+) tests in ', tests.stderr, re.MULTILINE)
+        need(tests.returncode == 0 and count is not None and int(count[1]) == 9
+             and tests.stderr.rstrip().endswith(b'\nOK'), 'HISTORICAL_IMPORT_TESTS_FAILED')
+        return {'scope': 'imported source reconstructed from the reviewed product checkout',
+                'checker': result, 'tests_passed': int(count[1])}
+
+
+def review(root: Path, *, verify_import: bool = False) -> dict:
     files, ignored = _capture(root)
     result = _review_captured(files, ignored)
+    if verify_import:
+        result['historical_import'] = _verify_import(files)
     after, ignored_after = _capture(root)
     need(after == files and ignored_after == ignored, 'REPOSITORY_CHANGED_DURING_REVIEW')
     return result
@@ -240,11 +273,13 @@ def review(root: Path) -> dict:
 def main(argv: list[str] | None = None) -> int:
     p = PrivateArgumentParser(description='Review SuperHunter repository source boundaries')
     p.add_argument('--root',type=Path,default=Path(__file__).resolve().parents[1])
+    p.add_argument('--verify-import', action='store_true',
+                   help='also run the original checker and nine tests on the admitted import files')
     args = p.parse_args(argv)
     try:
-        print(json.dumps(review(args.root),sort_keys=True))
+        print(json.dumps(review(args.root, verify_import=args.verify_import),sort_keys=True))
         return 0
-    except (OSError,ValueError,TypeError,KeyError,RecursionError) as error:
+    except (OSError,ValueError,TypeError,KeyError,RecursionError,subprocess.TimeoutExpired) as error:
         reason = str(error) if type(error) is BoundaryError else 'BOUNDARY_INPUT_ERROR'
         print(json.dumps({'status':'REPOSITORY_BOUNDARY_BLOCKED','reason':reason,
                           'canonical_recertification':False}))

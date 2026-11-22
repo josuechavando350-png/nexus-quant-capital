@@ -218,6 +218,15 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
         with self.assertRaisesRegex(EvidenceError, 'usestrix/strix'):
             verifier.check_historical_coverage(rows.values())
 
+    def test_require_all_returns_incomplete_even_when_the_dossier_is_valid(self):
+        for missing in (40, 0):
+            output = Mock()
+            record = {'catalog': 200, 'pending': missing}
+            with self.subTest(missing=missing), patch.object(renderer, 'pending_identities', return_value=record), \
+                    patch.object(renderer.sys, 'argv', ['matrix', '--require-all']), patch.object(renderer.sys, 'stdout', output):
+                self.assertEqual(renderer.main(), int(missing > 0))
+                output.buffer.write.assert_called_once_with(canonical(record))
+
     def test_pending_list_uses_current_operations_and_checks_the_verified_count(self):
         pending = {'id': 5, 'repository': 'owner/pending', 'commit': '1' * 40, 'tree': '2' * 40}
         rows = [dict(pending, role='executable', session_operations=[]),
@@ -297,16 +306,18 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
             registry = {verifier.COMPONENTS_REPORT_INTEROP: 'report-interop',
                         verifier.COMPONENTS_EVIDENCE_CONTRACTS: 'evidence-contracts',
                         verifier.COMPONENTS_SUPPLY_AND_REPORTING: 'supply-and-reporting',
-                        verifier.COMPONENTS_THROUGH_HTML: None}.get(component_sha, 'vendored-attributions')
+                        verifier.COMPONENTS_VENDORED_ATTRIBUTIONS: 'vendored-attributions',
+                        verifier.PUBLICATION_POLICY_CONTRACT: 'publication-policy',
+                        verifier.COMPONENTS_THROUGH_HTML: None}[component_sha]
             matches = [name for name, (_, digest, _) in renderer.PROFILES.items()
                        if digest == contract and (name == registry if registry else
-                                                 name not in ('report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions'))]
+                                                 name not in ('report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions', 'publication-policy'))]
             self.assertEqual(len(matches), 1)
             selected = matches[0]
             if recorded_profile:
                 self.assertEqual(selected, recorded_profile)
             renderer.require_producer(commit, tree, inputs, selected)
-            if selected in ('report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions'):
+            if selected in ('report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions', 'publication-policy'):
                 for replacement in (None, verifier.COMPONENTS_THROUGH_HTML):
                     forged = {**inputs, 'component_contract_sha256': replacement}
                     with self.subTest(replacement=replacement), self.assertRaisesRegex(EvidenceError, 'run component contract'):
@@ -402,7 +413,7 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
 
     def test_latest_is_ordered_by_profile_and_cannot_hide_an_incomplete_dossier(self):
         with TemporaryDirectory() as tmp, patch.object(renderer, 'ROOT', Path(tmp)):
-            expected = ('core-eight', 'accounting', 'canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions')
+            expected = ('core-eight', 'accounting', 'canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions', 'publication-policy')
             self.assertEqual(tuple(renderer.PROFILES), expected)
             self.assertEqual(tuple(renderer.PROFILE_DIRECTORIES), expected)
             for name in expected:

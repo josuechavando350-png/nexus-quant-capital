@@ -226,11 +226,24 @@ def main(argv):
     parser.add_argument('--inventory', action='store_true', help='audit committed manifests, LFS pointers and nested gitlinks')
     parser.add_argument('--notice-bundle', type=Path, help='verified upstream notice bundle for native license review')
     parser.add_argument('--scancode-release', type=Path, help='pinned ScanCode distribution for notice review')
+    parser.add_argument('--compare-sources', type=Path, metavar='WORKSPACE',
+                        help='compare file object IDs across all 200 pinned checkout trees')
+    parser.add_argument('--pair', nargs=2, type=int, metavar=('FIRST', 'SECOND'),
+                        help='return the result for two catalog IDs after comparing all sources')
     args = parser.parse_args(argv)
+    if args.pair and not args.compare_sources:
+        parser.error('--pair requires --compare-sources')
+    if args.compare_sources and (args.inventory or args.require_checkout or args.notice_bundle or args.scancode_release):
+        parser.error('--compare-sources is a separate source operation')
     if bool(args.notice_bundle) != bool(args.scancode_release) or (args.notice_bundle and not args.inventory):
         parser.error('notice review requires --inventory, --notice-bundle and --scancode-release together')
     try:
-        if args.inventory:
+        if args.compare_sources:
+            from . import product_source_overlap
+            result = product_source_overlap.build(args.compare_sources, jobs=args.jobs)
+            if args.pair:
+                result = product_source_overlap.pair(result, *args.pair)
+        elif args.inventory:
             from .product_source_audit import inventory
             result = inventory(ROOT, args.notice_bundle, args.scancode_release, jobs=args.jobs)
         else:

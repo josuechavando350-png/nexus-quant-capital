@@ -44,6 +44,16 @@ class RepositoryBoundaryTests(unittest.TestCase):
                     'runtime_isolation_proved','full_security_review'):
             self.assertIs(result[key],False)
 
+    def test_import_replay_checks_original_bytes_and_enforces_full_product_boundary(self):
+        result = boundary.review(self.root, verify_import=True)
+        self.assertEqual(result['historical_import']['tests_passed'], 9)
+        self.assertFalse(result['historical_import']['checker']['canonical_recertification'])
+        (self.root/'unexpected.txt').write_text('outside the import')
+        with patch.object(boundary, '_verify_import') as replay:
+            with self.assertRaisesRegex(boundary.BoundaryError, 'UNREVIEWED_ROOT_FILE'):
+                boundary.review(self.root, verify_import=True)
+            replay.assert_not_called()
+
     def test_changed_legacy_byte_rejected(self):
         path = self.root/'nqc-census/Cargo.toml'
         path.write_bytes(path.read_bytes()+b'\n')
@@ -219,6 +229,14 @@ class ExternalSourceTests(unittest.TestCase):
             self.assertEqual(set(files), {'.gitmodules'})
             (root/'upstream/999-extra').mkdir()
             with self.assertRaisesRegex(boundary.BoundaryError, 'UNREVIEWED_UPSTREAM_PATH'):
+                boundary._capture(root)
+
+    def test_upstream_root_must_be_a_directory_when_present(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            shutil.copy(SOURCE/'.gitmodules', root/'.gitmodules')
+            (root/'upstream').write_text('unexpected regular file')
+            with self.assertRaisesRegex(boundary.BoundaryError, 'UPSTREAM_NOT_DIRECTORY'):
                 boundary._capture(root)
 
     def test_changed_manifest_does_not_exempt_a_directory(self):

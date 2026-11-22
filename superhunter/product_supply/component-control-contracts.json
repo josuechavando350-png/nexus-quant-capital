@@ -17,6 +17,12 @@
     "revision": "f65be085cde3768281c2dbafc57542a56ee12ebe",
     "role": "executable"
   },
+  "CodeIntelligenceTesting/jazzer": {
+    "domain": "publication-policy",
+    "result_sha256": "326517979f4d50ba83099a1403a87fbeee41ed2db2fc4fdd7977a028ecd02aa5",
+    "revision": "bdebf95c4de0154f7e6f1666a64d2b951b4a6861",
+    "role": "reference_data"
+  },
   "CosmWasm/cosmwasm": {
     "domain": "state-amounts",
     "result_sha256": "ca1da6bce73f03cfa6fe2c55774dee36e9ccefea07c2918b0952450e85b9dec3",
@@ -33,6 +39,12 @@
     "domain": "coverage-interop",
     "result_sha256": "964573e474d4d24ef57bdd2036014e57acdcd849c65b16d964c0771ab173a4de",
     "revision": "0fd459d944cb13056c7f29eba1d593a637bf3b68",
+    "role": "reference_data"
+  },
+  "EnableSecurity/wafw00f": {
+    "domain": "publication-policy",
+    "result_sha256": "a1cf19a32a75a1ab247c3ae55fd59134d1cb4635efc953dbff4a6ad406ab5aa5",
+    "revision": "69fbe3956bba47a172cf87e40e9037535d32a130",
     "role": "reference_data"
   },
   "Ericsson/codechecker": {
@@ -89,6 +101,12 @@
     "revision": "5c7787ed61adb1aa7a26c23e093992350fc97d62",
     "role": "reference_data"
   },
+  "OJ/gobuster": {
+    "domain": "publication-policy",
+    "result_sha256": "544f2690d2f3ed34f6d97fe65737820ed0543942238077a0f78962e279fc2fb9",
+    "revision": "c77583fbb8824058d74d38240896eff610683c8e",
+    "role": "reference_data"
+  },
   "OWASP/Nettacker": {
     "domain": "report-accessibility",
     "result_sha256": "7dc28b2fa2afbc203c6b482d0b691673f9ecea56622d0e27b900a0970aa27670",
@@ -125,11 +143,41 @@
     "revision": "54bb8bb913c2d52f417d3bcf1ef94e9061b89da8",
     "role": "executable"
   },
+  "PortSwigger/http-request-smuggler": {
+    "domain": "publication-policy",
+    "result_sha256": "9614a0b4574a5c2acb10d35ce747766cbdb3cda418ccb1da192a007bafa3bd0f",
+    "revision": "3ecb1afa6a1d21ef1ec4e6eb1337818b53a2b4c0",
+    "role": "reference_data"
+  },
+  "PortSwigger/param-miner": {
+    "domain": "publication-policy",
+    "result_sha256": "7fc5b70f14a973c77c09408fce8119e254dc9207c84226ee011dd29f7bf41e29",
+    "revision": "e43e3b16be11117ed67cfde60e80acf2e95a4adc",
+    "role": "reference_data"
+  },
+  "PortSwigger/turbo-intruder": {
+    "domain": "publication-policy",
+    "result_sha256": "2c55593455f5515b16de2701f1891b10568bb1f3292dd9df0eeb9c08f58d52f3",
+    "revision": "a6c9a4982fb276167edac0797c7ac747ab9a11da",
+    "role": "reference_data"
+  },
+  "RhinoSecurityLabs/pacu": {
+    "domain": "publication-policy",
+    "result_sha256": "4f20092472bcfc5522f758febf104a0bb40bcd42c484e7d78487c0ad7caf9ea0",
+    "revision": "7dd34aa0856b2a964763a70be9dc9d78abc08a81",
+    "role": "reference_data"
+  },
   "SWE-agent/mini-swe-agent": {
     "domain": "changes",
     "result_sha256": "9c976c6051048d9a5d5accb49ea7bbec01d3bb6b16b8ac7b7d82235aeab6c6fc",
     "revision": "04d809ceab9df28f9adaed044884180159172930",
     "role": "executable"
+  },
+  "SunWeb3Sec/DeFiHackLabs": {
+    "domain": "publication-policy",
+    "result_sha256": "ad39bb4e56c2c604fbde4daa4ae6457a62867d9f82bab034d1fa9fe6a4762178",
+    "revision": "18c4aaf3549373b3c0f52dd0ed3e298264dbe1a8",
+    "role": "reference_data"
   },
   "WebGoat/WebGoat": {
     "domain": "remediation",
@@ -173,11 +221,23 @@
     "revision": "87598e81c044e2889e4a42e9fd706bd5396448f2",
     "role": "reference_data"
   },
+  "blechschmidt/massdns": {
+    "domain": "publication-policy",
+    "result_sha256": "76cbc17db4db6adf34d60acdcebc6b77c66bd27a8c04616202d61b2828f04790",
+    "revision": "30c380908b4f9afd0931d3d83f85884844831846",
+    "role": "reference_data"
+  },
   "bluealloy/revm": {
     "domain": "evm",
     "result_sha256": "5a636169802c64eba6fefdc38f3385676b4ec7b5f5642651aba6f256be0b1acf",
     "revision": "61eb0f231227db0a89f9cd2cd976cc372b6e94d1",
     "role": "executable"
+  },
+  "bountybench/bountybench": {
+    "domain": "publication-policy",
+    "result_sha256": "59d1fe4f2b173eb03b5502d06ce4a12c7a8695dcd9210f8b9031bf3b621f1900",
+    "revision": "8ece6aab0b954f7c85b5705e69f0142eeaf2c5d1",
+    "role": "reference_data"
   },
   "capstone-engine/capstone": {
     "domain": "object-format",
@@ -227,10 +287,34 @@
     "revision": "7e8a89ddd7718d387b0c7b4e43a7391e1a6d79f3",
     "role": "executable"
   },
+  "crytic/echidna": {
+    "domain": "publication-policy",
+    "result_sha256": "11d76209ed8f17124b317786c9feb1566ab1ec5a7fd17d9717f67304dfd32450",
+    "revision": "fb0fd78b9c3c46ac4127279da2313e727a66e5ad",
+    "role": "reference_data"
+  },
+  "crytic/medusa": {
+    "domain": "publication-policy",
+    "result_sha256": "856795e4695031b97660b5e9fb09a0658f6cf089f68a3d68db6b24a29db4f0fe",
+    "revision": "b86c3bbafb9e80f7dcb09533006ecb15dbbbdc98",
+    "role": "reference_data"
+  },
   "crytic/properties": {
     "domain": "build-compatibility",
     "result_sha256": "0b8b7b0c16752308ea8e286f91fe16e2f60d5b07d107c9aa235fd3d6293da44e",
     "revision": "5ea14b813ff296e24b4257ab52a0402360f916f6",
+    "role": "reference_data"
+  },
+  "d3mondev/puredns": {
+    "domain": "publication-policy",
+    "result_sha256": "2e2051ebf0e036086f901fad79136a7d0396a3966534c324b7287bd323c42165",
+    "revision": "46bd4c963ec2b28c5241c03c161bdc41bb93fdc0",
+    "role": "reference_data"
+  },
+  "danielmiessler/SecLists": {
+    "domain": "publication-policy",
+    "result_sha256": "6e7dcc67658063f53239b85e191b9dbca89cc1c733a06282ba847c0a4247ca0a",
+    "revision": "64e7d0b910015fa4e8dffa9fed7aba7d73e4673d",
     "role": "reference_data"
   },
   "dependency-check/DependencyCheck": {
@@ -245,10 +329,40 @@
     "revision": "502ac150ce37c20ca6e04cab7c5ca959f315f2d0",
     "role": "reference_data"
   },
+  "dolevf/graphql-cop": {
+    "domain": "publication-policy",
+    "result_sha256": "7cb04ea83315a5640a7eebe653f1501ffb8b88a7a4cd798caeeca36773cec10c",
+    "revision": "2b7e086efae672f28b419c7fcdfe6b48d846c9dc",
+    "role": "reference_data"
+  },
+  "dolevf/graphw00f": {
+    "domain": "publication-policy",
+    "result_sha256": "4fc4653f20a4a2db4410260aa388a8078e2eaddc119f5e7a66598d24633a62df",
+    "revision": "4901f824140a2da168876412593c213afbdd75fb",
+    "role": "reference_data"
+  },
+  "doyensec/inql": {
+    "domain": "publication-policy",
+    "result_sha256": "71b4f93f4f9a09e9356b6652e4a76968b849c370f9f2229a126e3cec6da80fcf",
+    "revision": "b1aae1502a1d2469f8d4160b88238dd450ba5982",
+    "role": "reference_data"
+  },
+  "epi052/feroxbuster": {
+    "domain": "publication-policy",
+    "result_sha256": "3c3b801cad7719537a2ed4fb9dcc819d4dd3d29141970e5fcc6b515a7a6ee314",
+    "revision": "f89b6c6d305421d7b29e26997960317e64c64dae",
+    "role": "reference_data"
+  },
   "falcosecurity/falco": {
     "domain": "timeline",
     "result_sha256": "4b1807085a55be102fe6ebad8696b3f58fd89803075a2d6345b1b1e5a936148a",
     "revision": "74ccf76b7b2d85ff42c97da6bd6a716b0d1d17b9",
+    "role": "reference_data"
+  },
+  "ffuf/ffuf": {
+    "domain": "publication-policy",
+    "result_sha256": "4e7bf1637934fd9f038bca77e8aff1cc156246f45a149620e86552d251b07f11",
+    "revision": "8d65e0373e5f223530174e5694285af849770078",
     "role": "reference_data"
   },
   "find-sec-bugs/find-sec-bugs": {
@@ -257,16 +371,40 @@
     "revision": "aa1293a6339a04ddf954670fc550847d1bcd83be",
     "role": "reference_data"
   },
+  "frida/frida": {
+    "domain": "publication-policy",
+    "result_sha256": "645adfd0b5db663e96e07aec34c9b10bcbdc1a0504f4c5eb6f50c0337ba9fe5c",
+    "revision": "a93582c832d74de1eaa0ec59994365f6981368db",
+    "role": "reference_data"
+  },
   "ggml-org/llama.cpp": {
     "domain": "evidence-codec",
     "result_sha256": "e2c3defb35b84fc6b035e1807e22a941537ffc5140c7f7b40210589db9306e19",
     "revision": "e6d624b9a4b95c6b52f5ca384d70b75581f9821a",
     "role": "executable"
   },
+  "google/atheris": {
+    "domain": "publication-policy",
+    "result_sha256": "1e2db0c33b7159a9760149e8f5d262536ab24a03a746bfeab7aa5af895bb3350",
+    "revision": "e36da74cf42b5834c4e31d7cabb58d796695d29f",
+    "role": "reference_data"
+  },
+  "google/clusterfuzzlite": {
+    "domain": "publication-policy",
+    "result_sha256": "4f29f7417e87cd43369f77dec3a3eb43a247a5620fe0b25e8db63d495d458aa3",
+    "revision": "52ecc61cb587ee99c26825a112a21abf19c7448c",
+    "role": "reference_data"
+  },
   "google/fuzztest": {
     "domain": "coverage-interop",
     "result_sha256": "f31ab988195fed130a18f4ee81d8840478b5cf42612888312fe4bbca8dc0bf1c",
     "revision": "29e1c6a0fc149dc108dfff122bd6aac5efbe85b5",
+    "role": "reference_data"
+  },
+  "google/honggfuzz": {
+    "domain": "publication-policy",
+    "result_sha256": "a87e4eb8e15548ee1b3e43d79cfc1ca3b2a33b8d7d847323a21a8c0f1e8d1d10",
+    "revision": "940b958dfeb6f9131fd846cae31fcc0fe996ae98",
     "role": "reference_data"
   },
   "google/oss-fuzz": {
@@ -335,6 +473,12 @@
     "revision": "306cdfb8b38ac8ca35b9c09cebbf2cd110d06978",
     "role": "executable"
   },
+  "lc/gau": {
+    "domain": "publication-policy",
+    "result_sha256": "10eb11f8c37907fa7b1e798f82e1f2ef0e7e7c4e80b0fb752a8c9c70d544e193",
+    "revision": "4eabace309877abb231def9eeb27b96c07ed3635",
+    "role": "reference_data"
+  },
   "lfdt-ibc/ibc-go": {
     "domain": "state-amounts",
     "result_sha256": "c9835fea0078fd3203e35c23c2235afd543a363264df17a9510a80dfb5f8b690",
@@ -395,6 +539,36 @@
     "revision": "043348b55e6c54effbdc0cd2f86173bc00ddd0c2",
     "role": "reference_data"
   },
+  "projectdiscovery/dnsx": {
+    "domain": "publication-policy",
+    "result_sha256": "75e444784ac8577fbf3b504341531ce272a808e7c666b995a3919854e6de648a",
+    "revision": "f98967b4178790e5a3654c5d9c822dc3544db793",
+    "role": "reference_data"
+  },
+  "projectdiscovery/httpx": {
+    "domain": "publication-policy",
+    "result_sha256": "897440f17ad604dbecd9b4e1e4f5b76731ae276a68ecff51f2d03bc1da613ad9",
+    "revision": "200e6ffaac8f705cb0770beb6f9cbae303565659",
+    "role": "reference_data"
+  },
+  "projectdiscovery/katana": {
+    "domain": "publication-policy",
+    "result_sha256": "6dadf56f94641e9985ab5fd69a0779fbd2af8f8af8f16f39077473e1360c5238",
+    "revision": "732936b3c3048b5010cb3ddbedf7912cda6ec0ed",
+    "role": "reference_data"
+  },
+  "projectdiscovery/naabu": {
+    "domain": "publication-policy",
+    "result_sha256": "b4544af684240a5ebc3f579924d23f45aded261018aeaae0674b613ed9ce2f57",
+    "revision": "d74d055f7e0e508c90670c46bb3e1bb16fd16c26",
+    "role": "reference_data"
+  },
+  "projectdiscovery/subfinder": {
+    "domain": "publication-policy",
+    "result_sha256": "baf672570898324b83df5df5952743f69e02a67d767f4bddce3bc3b9e00c1927",
+    "revision": "e989d248ba903ced697487f8828a161ef7aa64af",
+    "role": "reference_data"
+  },
   "projectdiscovery/tlsx": {
     "domain": "certificate-review",
     "result_sha256": "03ad689ecf674a4d6332cb3735048f109f5c131ada4ca17c09c16dde6f849107",
@@ -419,6 +593,18 @@
     "revision": "3f321aa3aeda3a69fa12b1df9840648c31b4df14",
     "role": "reference_data"
   },
+  "rizinorg/cutter": {
+    "domain": "publication-policy",
+    "result_sha256": "f4183c33f57657fcea60aa9a7242b210f1356ef954fdb6428ac450c611c1c9ef",
+    "revision": "d885514bd8092776429a6ed5213b125c17092c77",
+    "role": "reference_data"
+  },
+  "rr-debugger/rr": {
+    "domain": "publication-policy",
+    "result_sha256": "6ebb81a5e1ffefc5ea5d2b32636e74aea662795057020b5dca277e9dad3e384a",
+    "revision": "f5017a5cea712d4958ca72edefd92a0401649bee",
+    "role": "reference_data"
+  },
   "runtimeverification/evm-semantics": {
     "domain": "evm",
     "result_sha256": "cadfb4128e3b8746f7edf62b5a7c49682a74ea49367aee202d7dfc6ad3c1f4de",
@@ -431,11 +617,23 @@
     "revision": "bf2fc668dafda5295aa6fd01825ee67b885f0f2b",
     "role": "reference_data"
   },
+  "s0md3v/Arjun": {
+    "domain": "publication-policy",
+    "result_sha256": "f07e01e58a50cfe75a21eee258380afab49e006143ae19a5caff77d463d77362",
+    "revision": "d1fb995cb1e064d4e171d83f19f6af79b0a3c5ce",
+    "role": "reference_data"
+  },
   "secdev/scapy": {
     "domain": "infrastructure",
     "result_sha256": "d77cc4b628c2866b3b1d92cbd7ad8f7d94ae06e5bd2c8bff9c0484fb7b461be4",
     "revision": "3813c08c414a30c686136e50c6e80dd9b3b29663",
     "role": "executable"
+  },
+  "sensepost/objection": {
+    "domain": "publication-policy",
+    "result_sha256": "d21244d15c6fe81d3b8242ae3aee742c0fabbbb7b9dd606f388a41c9bd498b30",
+    "revision": "3ef6f9bdcd64c6181a1b01eb11104b7204ec6308",
+    "role": "reference_data"
   },
   "sgl-project/sglang": {
     "domain": "evidence-codec",
@@ -497,6 +695,30 @@
     "revision": "3541bd5d38635e208d7dd47cc6ea2af00dd7ef0c",
     "role": "reference_data"
   },
+  "theredguild/damn-vulnerable-defi": {
+    "domain": "publication-policy",
+    "result_sha256": "0021c56e707b9562343637200a302fcc67f1e465d91e3a64f3ff076b5ed94d33",
+    "revision": "64fddf9f96de2782f8868898d68673acb295119c",
+    "role": "reference_data"
+  },
+  "ticarpi/jwt_tool": {
+    "domain": "publication-policy",
+    "result_sha256": "5c0eabc0add4220de008d4e1f5a666e7224f9517e68cb1ac5f8be17935ff7e8c",
+    "revision": "3bc7407cf2222d6a821dcc19c776e5a1b1cb9a9b",
+    "role": "reference_data"
+  },
+  "trailofbits/mewt": {
+    "domain": "publication-policy",
+    "result_sha256": "704d90a1621c5ab360724b45ed6ed08fe556429908f02bf16f7699deba729b24",
+    "revision": "e96e71969ae9b9d3ef7562ae5a3a60de6050c0d0",
+    "role": "reference_data"
+  },
+  "trailofbits/polytracker": {
+    "domain": "publication-policy",
+    "result_sha256": "08b2e6103f13b30e6c20571bf13697eaee1c0a06eefbd43b4327756f1d8cab50",
+    "revision": "ae7b5f12e608f0c9a896cf1af797e4588c7624f9",
+    "role": "reference_data"
+  },
   "usestrix/strix": {
     "domain": "source-extracts",
     "result_sha256": "1ca654fd1ce8103cd7738e20aefc2412237449243b72ec498209cfbed422d335",
@@ -521,6 +743,12 @@
     "revision": "1bdc437402d6eee29d3ca543c91574f8acc72c8d",
     "role": "executable"
   },
+  "vulhub/vulhub": {
+    "domain": "publication-policy",
+    "result_sha256": "835b3cf66fe88ee466e8dd717bb93775a91e5dd01fa670d31d4467c7126cbbaf",
+    "revision": "9b90d4276f84feed6333286afeb7e1250379a1da",
+    "role": "reference_data"
+  },
   "wapiti-scanner/wapiti": {
     "domain": "report-taxonomy",
     "result_sha256": "8504417d21e34c53f1d1c5e789cd9fce15deeb3a4f038a21acd0c1bc60146fa0",
@@ -531,6 +759,18 @@
     "domain": "infrastructure",
     "result_sha256": "4b23681e87ea66d158233b7493f489b3a015f6f68a2bbce6f43b715bfb45ac4d",
     "revision": "2276442166317e2d80346cf0eb2f2744dd17c6c2",
+    "role": "reference_data"
+  },
+  "xnl-h4ck3r/waymore": {
+    "domain": "publication-policy",
+    "result_sha256": "9333a40f2669f0598f8b12ca4a14e487a7bbe9a086e81c2c087593ef601d85f2",
+    "revision": "4e02de512fd6b110be92dc8bffb3002edfebcb6c",
+    "role": "reference_data"
+  },
+  "xnl-h4ck3r/xnLinkFinder": {
+    "domain": "publication-policy",
+    "result_sha256": "56620ea606b5585cf2e2d63530060213c9292c825496cedacc76ed46fe60fc08",
+    "revision": "841ac8dddbc7edd728939df5db51274a63ab5863",
     "role": "reference_data"
   },
   "zaproxy/zaproxy": {
