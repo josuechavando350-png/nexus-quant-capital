@@ -1,5 +1,18 @@
 # Acta de materialización de fuentes
 
+## Estado de las dependencias de primer nivel
+
+Se han comprobado por separado **22 de 140 revisiones anidadas distintas**. Quedan **118** por materializar. El último lote añadió 17 revisiones y contrastó los bytes y modos de 2.172 archivos rastreados con sus objetos Git. El cotejo independiente verificó los orígenes declarados por los padres, sus gitlinks y los índices de los checkouts. Dentro de estas 17 revisiones aparecieron dos gitlinks de segundo nivel, en Jaeger IDL y range-v3. La contabilización funcional de los 200 se mantiene en la [matriz del producto](INTEGRATION_STATUS_200.md). [Los 17 checkouts y sus avisos](product_supply/acceptance-120/evidence-contracts-nested-checkouts.json)
+
+Doce revisiones contenían un aviso o manifiesto de los tipos buscados en la raíz. En las otras cinco se inspeccionaron declaraciones de paquete, subdirectorios, archivos fuente y documentación. Continúa abierta la licencia aplicable a las traducciones de Cutter y la cobertura completa de java-models-library. El verificador rechazó cinco alteraciones controladas, entre ellas una modificación de contenido, un cambio del bit ejecutable y una sustitución de origen. La compatibilidad de redistribución comercial sigue pendiente. [Archivos, declaraciones y controles](product_supply/acceptance-120/staged-dependency-review.json)
+
+Para repetir el cotejo de los 17 checkouts, `FUENTES_DIRECTAS` debe contener `upstream/` con las fuentes directas y `DEPENDENCIAS` debe contener un checkout por nombre de proyecto en la revisión del acta.
+
+```sh
+unshare --user --map-current-user --net python3.12 -B -m superhunter.tools.verify_staged_dependencies \
+  --batch evidence-contracts --direct-sources "$FUENTES_DIRECTAS" --staging "$DEPENDENCIAS"
+```
+
 ## Adquisición vinculada a las nuevas integraciones
 
 Se materializaron por separado **5 de las 140 revisiones anidadas distintas** de primer nivel. Quedan **135**. A la adquisición previa de forge-std se sumaron psalm-plugin-api, zlib, libipt y elfutils. Para estos cuatro se cotejaron el origen declarado, el gitlink del padre, el commit y el árbol del hijo, y los bytes y modos de sus 2,368 archivos registrados. Sus árboles carecen de submódulos adicionales y punteros LFS. En psalm-plugin-api se conserva la declaración del manifiesto Composer. La revisión de redistribución comercial sigue pendiente. [Cuatro checkouts y sus avisos](product_supply/acceptance-120/report-interop-nested-checkouts.json) · [Adquisición previa](product_supply/acceptance-120/staged-source-acquisition.json)

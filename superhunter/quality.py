@@ -1958,6 +1958,7 @@ COMPONENTS['product_review'] = {
               'product_trust_batch.py', 'tools/prepare_build_compatibility_cache.py',
               'tools/prepare_state_amount_reader.py', 'tools/rebuild_fixed_opcode_oracle.py',
               'tools/verified_downloads.py', 'tools/verify_source_materialization.py',
+              'tools/verify_staged_dependencies.py',
 
               'product_source_references.py', 'product_source_audit.py', 'product_remote_roots.py',
               'product_portable_roots.py', 'tools/pack_remote_inputs.py', 'product_header_digest.py',

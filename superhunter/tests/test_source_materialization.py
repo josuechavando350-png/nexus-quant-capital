@@ -2,12 +2,38 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
 from unittest.mock import patch
+import hashlib
+import os
 import subprocess
 from subprocess import SubprocessError
 
 from superhunter.product_sources import gitlinks
 from superhunter.safe_io import strict_json, read_artifact
 from superhunter.tools import verify_source_materialization as audit
+from superhunter.tools import verify_staged_dependencies as staged
+
+
+class StagedDependencyTests(TestCase):
+    def test_published_batches_and_truncated_register(self):
+        self.assertEqual(len(staged.batch_claims('report-interop')), 4)
+        self.assertEqual(len(staged.batch_claims('evidence-contracts')), 17)
+        with patch.object(staged, 'read_artifact', return_value=b'{"records":[]}'), self.assertRaisesRegex(
+                ValueError, 'published receipt differs'):
+            staged.batch_claims('evidence-contracts')
+
+    def test_symlink_hash_uses_target_text_and_never_follows_parent_links(self):
+        with TemporaryDirectory() as root:
+            directory = Path(root)
+            (directory / 'link').symlink_to('absent-file')
+            fd = os.open(directory, os.O_RDONLY | os.O_DIRECTORY)
+            try:
+                literal = b'absent-file'
+                self.assertEqual(staged.working_blob(fd, b'link', b'120000'),
+                                 (audit.git_object('blob', literal), hashlib.sha256(literal).hexdigest(), False))
+                with self.assertRaises(OSError):
+                    staged.working_blob(fd, b'link/file', b'100644')
+            finally:
+                os.close(fd)
 
 
 class NestedArtifactTests(TestCase):
