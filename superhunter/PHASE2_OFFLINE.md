@@ -1,8 +1,8 @@
 # Fase 2 de SuperHunter · Canto
 
-En el DEX de septiembre de 2022, dos de los siete hallazgos de la clave tienen una alerta de Slither que señala la causa en la operación correcta. En Canto Identity, ninguno de los cinco tiene una coincidencia en las salidas disponibles. El perfil de Identity quedó incompleto y las tres campañas de ityfuzz quedaron sin medir.
+En el DEX de septiembre de 2022, dos de los siete hallazgos de la clave tienen una alerta de Slither que señala la causa en la operación correcta. En Canto Identity, ninguno de los cinco tiene una coincidencia en las salidas disponibles. Con el ZIP corregido, las cinco herramientas estáticas de Identity produjeron salidas. Un detector de Slitherin falló. Las tres campañas de ityfuzz quedaron sin medir.
 
-Los títulos cortos y las severidades de las tablas proceden de las claves adjuntas. El cotejo usa la alerta que produjo cada herramienta. Para dar crédito se exige la misma operación y el mismo mecanismo del juez. Se conservaron las salidas de los análisis antes de cotejar las claves. Al ver que la clave de Identity añadía un cuarto archivo al alcance del README, se repitieron los análisis de fuente sobre los cuatro, con las reglas originales. Todas las compilaciones y pruebas de este estudio se ejecutaron en un espacio de red aislado.
+Los títulos cortos y las severidades de las tablas proceden de las claves adjuntas. El cotejo usa la alerta que produjo cada herramienta. Para dar crédito se exige la misma operación y el mismo mecanismo del juez. En la primera medición se conservaron las salidas de los análisis antes de cotejar las claves. En la repetición con el ZIP corregido ya se conocía la clave y se mantuvieron las reglas originales. Al ver que la clave de Identity añadía un cuarto archivo al alcance del README, se repitieron los análisis de fuente sobre los cuatro, con las reglas originales. Todas las compilaciones y pruebas de este estudio se ejecutaron en un espacio de red aislado.
 
 [Expediente con las huellas de los ZIP y las fuentes, los resultados de las reglas, las alertas acreditadas y las salidas de Foundry](product_supply/c4-phase2-canto-evidence.json)
 
@@ -51,25 +51,28 @@ Extracto literal de Foundry. La salida íntegra de las cuatro invocaciones y las
 [PASS] testFuzz_rounding(uint64,uint64) (runs: 333334, μ: 11979, ~: 11979)
 ```
 
-## Canto Identity · enero de 2023
+## Canto Identity · enero de 2023 · ZIP corregido
 
-| ID del juez | Título corto de la clave | Localización de SuperHunter |
+**Resultado de la repetición: 0 de 1 High y 0 de 4 Medium.** El ZIP corregido aportó las fuentes de Solmate, ds-test y forge-std. Los cuatro contratos de la clave y la propia clave conservan los mismos bytes que en el ZIP anterior. La cuarta fuente, `CidSubprotocolNFT.sol`, figura fuera del alcance en el README y dentro en la clave. El compilador produjo el AST con tipos y el bytecode sin errores. La tabla usa las alertas de esta repetición.
+
+| ID del juez | Título corto de la clave | Salida de las herramientas y decisión |
 |---|---|---|
-| H-01 | Frontrun de mint+add para robar el NFT | Sin coincidencia con el mecanismo en `mint()` / `add()`. |
-| M-01 | AssociationType ORDERED o PRIMARY puede sobrescribir | Sin coincidencia con la sobrescritura en `add()`. |
-| M-02 | Varias cuentas pueden tener la misma identidad | Sin coincidencia con el registro duplicado en `AddressRegistry.register()`. |
-| M-03 | Riesgo de griefing en el mint | Sin coincidencia en `mint()`. |
-| M-04 | tokenURI roto | Sin coincidencia en `tokenURI()`. |
+| H-01 | Frontrun de mint+add para robar el NFT | Slither, Aderyn y 4naly3er señalaron llamadas en el bucle de `mint()`. Las alertas no identifican el adelanto de la operación ni la apropiación del NFT. Sin crédito. |
+| M-01 | AssociationType ORDERED o PRIMARY puede sobrescribir | Slither y Aderyn señalaron riesgo de reentrada en `add()`. Ninguna alerta señaló la sobrescritura de la asociación. Sin crédito. |
+| M-02 | Varias cuentas pueden tener la misma identidad | Aderyn señaló una llamada seguida de un cambio de estado en `register()`. Ninguna alerta identificó la falta de unicidad. Sin crédito. |
+| M-03 | Riesgo de griefing en el mint | Los avisos de bucle, llamada y reversión en `mint()` no describen cómo otra operación puede frustrar la acuñación. Sin crédito. |
+| M-04 | tokenURI roto | Aderyn marcó colisión de hash y 4naly3er sugirió cambiar la concatenación en la línea 140. Ninguno explicó que el ID numérico se incorpora en binario y la URI necesita su representación textual. Sin crédito. |
 
-**Resultado observado en el perfil parcial: 0/1 High y 0/4 Medium.** Las cinco filas corresponden a hallazgos sin alerta acreditada en los análisis disponibles. Se usó el alcance más amplio de la clave: `CidNFT.sol`, `SubprotocolRegistry.sol`, `AddressRegistry.sol` y `CidSubprotocolNFT.sol`. El README lista el último fuera del concurso.
-
-| Herramienta | Ejecución y cobertura |
+| Herramienta | Resultado offline |
 |---|---|
-| Compilador | Solidity 0.8.17 produjo 8 diagnósticos de importación. El ZIP contiene el directorio vacío de Solmate. Faltan `ERC20.sol`, `ERC721.sol` y `SafeTransferLib.sol`. |
-| Slither, Slitherin y Aderyn | Bloqueados en la compilación. Sin resultados puntuables. |
-| 4naly3er | 109 reglas de texto sobre los cuatro archivos, con 20 grupos de avisos. Las 60 reglas de AST también retornaron con un AST de solo sintaxis y emitieron avisos en 10 grupos. Ese AST carece de resolución de tipos y herencia. |
-| Semgrep 1.169.0 | Misma regla de NQC, cuatro archivos leídos, cero avisos y cero errores. |
-| ityfuzz completo | Sin ejecución. 0 iteraciones, 0 segundos. |
+| Solidity 0.8.17 | 7 unidades de fuente, 8 contratos e interfaces, 0 errores. Se usaron los remapeos del archivo adjunto. |
+| Slither 0.11.6 | 101 detectores, 65 avisos en el grafo compilado, incluidas sus dependencias. Se utilizó el build-info del compilador. El adaptador usó las rutas predeterminadas al faltar la CLI de Hardhat. |
+| Slitherin | El intento con 29 detectores falló en `pess-nft-approve-warning`. El reintento con los 28 restantes finalizó con 8 avisos. |
+| Aderyn 0.6.8 | 88 detectores sobre los 4 archivos, 9 grupos de avisos. |
+| 4naly3er | 169 reglas con el AST compilado de los 4 archivos, 37 grupos de avisos. |
+| Semgrep 1.169.0 | Una regla de NQC sobre los 4 archivos, 0 avisos y 0 errores. |
+
+[Huellas del ZIP corregido y de las fuentes, resultados por regla y diagnósticos de ityfuzz](product_supply/c4-identity-fix.json) · [Medición anterior con el ZIP incompleto](product_supply/c4-phase2-canto-evidence.json)
 
 [Informe oficial citado por la clave de Identity](https://code4rena.com/reports/2023-01-canto-identity)
 
@@ -80,6 +83,14 @@ El ejecutable completo de ityfuzz no estaba instalado en el entorno. La comproba
 ```text
 sh: 1: ityfuzz: not found
 ```
+
+Se comprobó la instalación desde las fuentes fijadas por NQC en `80e3b44170573b592cd53b2c5ee9f36b21032b16`. Al resolver el archivo de bloqueo sin red, Cargo terminó con código 101 antes de compilar. La primera dependencia ausente fue `move-binary-format` en la revisión `a88e9595de3c04a540c059d5f4b6d148419c508c` de `ityfuzz-sui-fork`. La resolución se detuvo ahí, por lo que la lista de dependencias faltantes puede ser mayor. Extracto literal de Cargo:
+
+```text
+failed to load source for dependency `move-binary-format`
+```
+
+Para comprobar la instalación sin Internet haría falta una distribución completa de ityfuzz para Linux x86_64 con sus bibliotecas de ejecución y una huella verificable, o la revisión fijada con todas sus dependencias locales de Cargo y el toolchain `nightly-2024-01-01` indicado por el proyecto. Para evaluar estado histórico también hace falta una captura local verificable con el bloque, la raíz, el código y el almacenamiento de los contratos implicados. Un arranque del binario por sí solo acreditaría su disponibilidad.
 
 Los ZIP nuevos no aportaron un snapshot identificado por bloque y raíz de estado. El ensayo de Foundry y la utilidad de inspección de opcodes no se contabilizaron como ejecuciones de ityfuzz. Para los dos concursos nuevos y LendingLedger, el fuzzer completo consumió **0 segundos y 0 iteraciones por concurso**. La capacidad de ityfuzz para alcanzar los hallazgos sigue sin medir.
 
