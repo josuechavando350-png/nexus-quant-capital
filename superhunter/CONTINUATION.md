@@ -25,6 +25,8 @@ PYTHON
 
 El producto cubre comprobaciones defensivas locales sobre entradas fijadas. La [QA de los 41 módulos](product_supply/acceptance-120/qa-451.json) y el [registro de consolidación](CONSOLIDATION.md) fijan los bloqueos de QA global y migración. Las 139 revisiones transitivas pendientes y el estado de las dos referencias compartidas se pueden localizar en el [índice de dependencias](product_supply/acceptance-120/nested-reference-index.json). Las pruebas archivadas conservan cero vulnerabilidades originales confirmadas.
 
+De las 68 pendientes en este perfil, nueve aparecen en la transcripción de 139 del PR 119 y 59 carecen de participación en los dos perfiles comparados. Los dos proyectos exclusivos de este perfil son Playwright y grpcurl. [Cruce auditable de los dos expedientes](product_supply/acceptance-120/pr119-139-vs-132.json)
+
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
 ## 21 de noviembre · PR 117
