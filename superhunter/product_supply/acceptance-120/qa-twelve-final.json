@@ -1,0 +1,365 @@
+{
+  "boundary": {
+    "active_workflows": 0,
+    "canonical_recertification": false,
+    "external_source_contents_reviewed": false,
+    "full_security_review": false,
+    "historical_files_checked": 642,
+    "historical_tree_pins": {
+      "ci": "8a8c94551f060b1d6ce3c501c8e9ddd2b26e7e72",
+      "migration": "1c3262dc7ed09b8f3df76914ef45c3dd22ccafee",
+      "nqc-census": "68dbd045014a49bd53b79440d9878f3e8035c739"
+    },
+    "ignored_python_cache_files": 0,
+    "legacy_verifier_unchanged": true,
+    "original_root_policy_preserved": true,
+    "original_source_objects_checked": false,
+    "reviewed_agents_appendix_sha256": "74d63e642a1b6eecdb5cefbbd3fe6640cd8ba30d05cc620283b66a459dbd59cf",
+    "root_documents": [
+      "SUPERHUNTER_MASTER_PLAN.md"
+    ],
+    "runtime_isolation_proved": false,
+    "schema_version": 1,
+    "source_inventory_sha256": "f9e8ef8d92a20bf3094b8c6d6b53655105fb0763d82ad2c53a5ffe2c003a1453",
+    "status": "REPOSITORY_BOUNDARY_PASS",
+    "superhunter_files_reviewed_for_boundary": 879
+  },
+  "dossier_verification": {
+    "checks": {
+      "accounting": {
+        "acc_sha256": "27fde17d5f7e3a97bfd0d5137a92ef480f2db74eaf708516da8589a81a8000c2",
+        "archived_session_bytes_equal": true,
+        "argv": [
+          "--verify-dossier",
+          "--profile",
+          "accounting"
+        ],
+        "dossier": "superhunter/product_supply/consolidated-acceptance-accounting",
+        "exit_code": 0,
+        "producer": "27fdac61b21f607325053fc3681e6e079328e9f1",
+        "producer_tree": "5f1bf24f9680b30cc8a5c565405cd54fd90ae58d",
+        "raw_transcript_sha256": "ea091d5b93821de6557f4c84a5f7d8c8846245e0d5586f8059d0b60fc8261400",
+        "recorded_distinct_mutations": 20,
+        "session_responses": 222,
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "canonical-header": {
+        "acc_sha256": "d462a07642d3d3269f7037fc312a1fcf57b213ea31fdb7d43aaabb533dd59b45",
+        "archived_session_bytes_equal": true,
+        "argv": [
+          "--verify-dossier",
+          "--profile",
+          "canonical-header"
+        ],
+        "dossier": "superhunter/product_supply/consolidated-acceptance-header",
+        "exit_code": 0,
+        "producer": "325288f32155ff8f7eaead0a493e5fbffe5bebc2",
+        "producer_tree": "e252f82079aee44117ff10514c37960d8ca63c67",
+        "raw_transcript_sha256": "fcb225051aa101d1c0dea2e6d13c6faf8ded452e3feb5daca1fc2d2c324b8dbb",
+        "recorded_distinct_mutations": 20,
+        "session_responses": 222,
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "core-eight": {
+        "acc_sha256": "3d27f1b105b4fcc89d3c683837883cda14442e1b75e24e1259b8bfc876356efc",
+        "archived_session_bytes_equal": true,
+        "argv": [
+          "--verify-dossier",
+          "--profile",
+          "core-eight"
+        ],
+        "dossier": "superhunter/product_supply/consolidated-acceptance",
+        "exit_code": 0,
+        "producer": "fae415708eccc117dd809036fcd4df09056777c5",
+        "producer_tree": "04f39290587b131d0f365ed667c5be7803f936eb",
+        "raw_transcript_sha256": "2c7e58d369f36c9461497824eb81b0043fd4324dba6927bc7670706ee09cb63b",
+        "recorded_distinct_mutations": 20,
+        "session_responses": 222,
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "grpc-schema": {
+        "acc_sha256": "799553e27e7ee40c851802777eb5e2cd63d56f67339dd3a619e8bb5d88b8a15e",
+        "archived_session_bytes_equal": true,
+        "argv": [
+          "--verify-dossier",
+          "--profile",
+          "grpc-schema"
+        ],
+        "dossier": "superhunter/product_supply/consolidated-acceptance-grpc-schema",
+        "exit_code": 0,
+        "producer": "2d9d6c797eb9f6e445d2179ec535effe3ca9ac96",
+        "producer_tree": "46fcfc875ac48e147fca31e92a8eb9988789ced2",
+        "raw_transcript_sha256": "2b97ca34e6694b5309462773da5e761855e885fa9920bff849d0a5c643842823",
+        "recorded_distinct_mutations": 20,
+        "session_responses": 222,
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "html-review": {
+        "acc_sha256": "f589d1f08cd7a2477de68f5bf7d6ecee8c9d671ddfd838cb73eed92f24fc1938",
+        "archived_session_bytes_equal": true,
+        "argv": [
+          "--verify-dossier",
+          "--profile",
+          "html-review"
+        ],
+        "dossier": "superhunter/product_supply/consolidated-acceptance-html-review",
+        "exit_code": 0,
+        "producer": "604bd28d528ee809c8e6d38adab86ec6f67b652c",
+        "producer_tree": "dbd74a8b60bf3709bcba859dffade6856b676a96",
+        "raw_transcript_sha256": "d07aafc5d1c5ba5dfbe5bdcb59d8fe292ddfb7b8a2fe97e5b944ab27fd5b72ff",
+        "recorded_distinct_mutations": 20,
+        "session_responses": 222,
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "matrix": {
+        "argv": [
+          "--check-acceptance"
+        ],
+        "exit_code": 0,
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "clean_before": true,
+    "published_matrix_sha256": "fdffb74ee0722fee19c7b4a08be20120a3e55838d928a829cb4ce7a4c738b0e0",
+    "schema_version": 1,
+    "selected_profile": "html-review"
+  },
+  "evidence_commit": "52ea24ad0ffc4725dca22429ff77fb2dcc040737",
+  "file_sha256": {
+    "boundary.json": "d0ccdf8e195170ac4928d4da3ba10a6a70ad74630daef79c7695dfb0a6173f95",
+    "dossier-checks.json": "a57512412835dae7839788d0947e67b7a8251a777028aed66f19b9e8305adc26",
+    "evidence.json": "8ce390a8b22355d019431a854c128e3f1ec5ec942cdac0e12c503f95f2327ae4",
+    "structure.json": "b06b523d3fa13344a104c922b5776303eb52395d0eda3032351a8434e4676152"
+  },
+  "focused_tests": {
+    "checkout_clean_after": true,
+    "checkout_clean_before": true,
+    "delta_from_443": {
+      "new_passing_ids": [
+        "superhunter.tests.test_product_html_review.HtmlReviewTests.test_browser_reads_the_existing_renderer_and_distinguishes_two_alterations",
+        "superhunter.tests.test_product_html_review.HtmlReviewTests.test_each_complete_dom_control_is_required",
+        "superhunter.tests.test_product_html_review.HtmlReviewTests.test_hidden_content_changed_semantics_or_background_request_is_rejected",
+        "superhunter.tests.test_product_html_review.HtmlReviewTests.test_pins_and_control_anchors_are_required",
+        "superhunter.tests.test_product_html_review.HtmlReviewTests.test_quality_inventory_selects_the_pinned_driver_and_assigns_one_component",
+        "superhunter.tests.test_product_html_review.HtmlReviewTests.test_twelve_group_contract_preserves_eleven_and_credits_one_identity",
+        "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_reviewed_worker_bytes_are_rejected_at_another_cjs_path",
+        "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_reviewed_worker_rejects_changed_bytes_and_executable_mode"
+      ],
+      "previous_ids_missing_or_failed": [],
+      "previous_passed_ids_kept": 443
+    },
+    "elapsed_seconds": 32.093,
+    "errors": 0,
+    "exit_code": 0,
+    "failed": 0,
+    "full_history_clone": true,
+    "git_commit": "52ea24ad0ffc4725dca22429ff77fb2dcc040737",
+    "git_tree": "c88dc5aeeb16301fbf109922a29551ebea29c241",
+    "global_source_inventory": {
+      "data_files": 231,
+      "declared_missing": [],
+      "limit": 500,
+      "python_files": 435,
+      "result": "source inventory limit exceeded",
+      "scope": "quality.source_snapshot selection in the clean tree",
+      "selected_bytes": 15832499,
+      "source_files": 666
+    },
+    "log_sha256": "b0ec84a03949ebb75d14e05c3e2d94ecc85e370ccf1783783da53699b58571fc",
+    "module_count": 41,
+    "modules": [
+      "test_product_attestations_batch",
+      "test_product_build_compatibility",
+      "test_product_canonical_header",
+      "test_product_catalog_session",
+      "test_product_component_controls",
+      "test_product_consolidated_operations",
+      "test_product_contract_properties_native",
+      "test_product_download_cache",
+      "test_product_evaluation_batch",
+      "test_product_evidence_codec",
+      "test_product_evm_native",
+      "test_product_evm_standards_batch",
+      "test_product_formats_batch",
+      "test_product_grpc_schema_native",
+      "test_product_html_review",
+      "test_product_iam_native",
+      "test_product_infra_batch",
+      "test_product_inventory_parallel",
+      "test_product_java_native",
+      "test_product_languages_batch",
+      "test_product_license_session",
+      "test_product_matrix_accounting",
+      "test_product_native_capabilities",
+      "test_product_passive_source_batch",
+      "test_product_remediation_batch",
+      "test_product_review",
+      "test_product_secrets_native",
+      "test_product_slither_native",
+      "test_product_slot_formats_batch",
+      "test_product_source_audit",
+      "test_product_source_parallel",
+      "test_product_state_formats_batch",
+      "test_product_static_contracts",
+      "test_product_static_native",
+      "test_product_supply",
+      "test_product_trust_batch",
+      "test_product_upgrade_layout_native",
+      "test_product_web_native",
+      "test_consolidated_evidence_verifier",
+      "test_repository_boundary",
+      "test_source_materialization"
+    ],
+    "nonpassing_ids": [],
+    "passed": 451,
+    "python": "3.12.14",
+    "repository_boundary": {
+      "active_workflows": 0,
+      "historical_files_checked": 642,
+      "historical_tree_pins": {
+        "ci": "8a8c94551f060b1d6ce3c501c8e9ddd2b26e7e72",
+        "migration": "1c3262dc7ed09b8f3df76914ef45c3dd22ccafee",
+        "nqc-census": "68dbd045014a49bd53b79440d9878f3e8035c739"
+      },
+      "source_inventory_sha256": "f9e8ef8d92a20bf3094b8c6d6b53655105fb0763d82ad2c53a5ffe2c003a1453",
+      "status": "REPOSITORY_BOUNDARY_PASS",
+      "stdout_sha256": "d0ccdf8e195170ac4928d4da3ba10a6a70ad74630daef79c7695dfb0a6173f95"
+    },
+    "schema_version": 1,
+    "scope": "offline local focused unit and integration checks with fixed inputs",
+    "skipped": 0,
+    "source_git_tree": "d8b5a3d79e81e686d4299e40bea64d37824d29fe",
+    "test_ids_sha256": "31b583c4fd425bbcb2a765e3d234fe1ff43eb8198db92e005fc37ced9eb0cc9a",
+    "test_outcomes_sha256": "557f098a797a7b5323bf47eca9585f923ad1ffd528edf253c01996320bd48ada",
+    "test_selection": {
+      "added_module": "test_product_html_review",
+      "baseline_commit": "2d9d6c797eb9f6e445d2179ec535effe3ca9ac96",
+      "full_global_suite_executed": false,
+      "network": "unshare user+network namespace"
+    },
+    "tests": 451
+  },
+  "schema_version": 1,
+  "scope": "Independent clean public checkout of the accepted twelve-group dossier. Structural partitions give a separate consistency result. The integral 500-file QA gate remains blocked.",
+  "structure": {
+    "bounded_partitions_preserving_complete_dossiers": [
+      {
+        "bytes": 8419670,
+        "digest": "9ca7a631d2e55ac6c0dc72fc4272eed97d0883230c827e10bc641922bb54fd20",
+        "files": 333
+      },
+      {
+        "bytes": 7412829,
+        "digest": "e0ef741ebdbc73c7ba588ac166bf52b68755a50907094e01fff0781ed740d3dc",
+        "files": 333
+      }
+    ],
+    "byte_count": 15832499,
+    "commit": "52ea24ad0ffc4725dca22429ff77fb2dcc040737",
+    "components": 102,
+    "data_files": 231,
+    "declared_graph_errors": [],
+    "dependency_edges": 575,
+    "explicit_data_paths_missing": [],
+    "full_snapshot_result": "source inventory limit exceeded",
+    "git_show_map_sha256": "cf7209969b1ef241675053da67b72d3e514240852e65b9cb263924af0aff8046",
+    "negative_controls": {
+      "dependency_cycle": [
+        "component dependency cycle"
+      ],
+      "double_owner": [
+        "quality: source assigned twice quality.py"
+      ],
+      "missing_runtime": [
+        "quality: missing source quality.py"
+      ],
+      "unknown_dependency": [
+        "io: unknown dependency"
+      ]
+    },
+    "owned_non_python_inputs": 216,
+    "partition_union_sha256": "cf7209969b1ef241675053da67b72d3e514240852e65b9cb263924af0aff8046",
+    "present_dossier_files": 35,
+    "present_dossier_profiles": [
+      "core-eight",
+      "accounting",
+      "canonical-header",
+      "grpc-schema",
+      "html-review"
+    ],
+    "python_files": 435,
+    "runtime_python_owned": 271,
+    "schema": 1,
+    "scope": "Independent structural census, not a full QA run or runtime callgraph",
+    "selected_files": 666,
+    "source_limit": 500,
+    "test_modules_with_worker_and_component": 162,
+    "tree": "c88dc5aeeb16301fbf109922a29551ebea29c241",
+    "unselected_product_supply_files": [
+      "product_supply/acceleration-review.json",
+      "product_supply/acceptance-120/accounting-dossier-controls.json",
+      "product_supply/acceptance-120/accounting-first-session.json",
+      "product_supply/acceptance-120/accounting-first-verification.json",
+      "product_supply/acceptance-120/accounting-replay.json",
+      "product_supply/acceptance-120/accounting-transcript.json",
+      "product_supply/acceptance-120/arm-inventory-storage.json",
+      "product_supply/acceptance-120/canonical-header-replay.json",
+      "product_supply/acceptance-120/canonical-header-transcript.json",
+      "product_supply/acceptance-120/evm-java-replay.json",
+      "product_supply/acceptance-120/evm-java-transcript.json",
+      "product_supply/acceptance-120/grpc-dossier-controls.json",
+      "product_supply/acceptance-120/grpc-schema-replay.json",
+      "product_supply/acceptance-120/grpc-schema-transcript.json",
+      "product_supply/acceptance-120/header-dossier-controls.json",
+      "product_supply/acceptance-120/html-initial-qa-hold.json",
+      "product_supply/acceptance-120/html-initial-session.json",
+      "product_supply/acceptance-120/html-review-replay.json",
+      "product_supply/acceptance-120/html-review-transcript.json",
+      "product_supply/acceptance-120/kit-nested-source-observations.json",
+      "product_supply/acceptance-120/nested-reference-index.json",
+      "product_supply/acceptance-120/nested-source-storage.json",
+      "product_supply/acceptance-120/observed-session-verification.json",
+      "product_supply/acceptance-120/observed-session.json",
+      "product_supply/acceptance-120/playwright-notice-inventory.json",
+      "product_supply/acceptance-120/pr119-139-comparison.json",
+      "product_supply/acceptance-120/pr119-139-vs-131.json",
+      "product_supply/acceptance-120/prepared-workspace-control.json",
+      "product_supply/acceptance-120/qa-411.json",
+      "product_supply/acceptance-120/qa-420.json",
+      "product_supply/acceptance-120/qa-431.json",
+      "product_supply/acceptance-120/qa-432.json",
+      "product_supply/acceptance-120/qa-443.json",
+      "product_supply/acceptance-120/qa-451.json",
+      "product_supply/acceptance-120/qa-input-ownership.json",
+      "product_supply/acceptance-120/qa-results.json",
+      "product_supply/acceptance-120/recovered-partial-replay.json",
+      "product_supply/acceptance-120/recovered-partial-session.json",
+      "product_supply/acceptance-120/regenerated-inputs.json",
+      "product_supply/acceptance-120/typecheck-availability.json",
+      "product_supply/review-114.json",
+      "product_supply/review-115-session.json",
+      "product_supply/review-115.json",
+      "product_supply/source-excerpts/LICENSE-179.txt",
+      "product_supply/source-excerpts/LICENSE-191.txt",
+      "product_supply/source-excerpts/ORIGINS.md"
+    ]
+  }
+}

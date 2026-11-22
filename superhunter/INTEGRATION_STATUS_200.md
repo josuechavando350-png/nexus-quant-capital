@@ -23,6 +23,8 @@ El undécimo grupo comprueba esquemas gRPC. El [expediente de diez grupos](produ
 
 El duodécimo grupo comprueba el informe HTML en el navegador. El [expediente de once grupos](product_supply/consolidated-acceptance-grpc-schema/acceptance.json) se comprueba con `--verify-dossier --profile grpc-schema`.
 
+En el corte publicado `52ea24ad`, las 451 pruebas focalizadas pasaron sin fallos ni omisiones. El cotejo independiente confirmó los cinco expedientes y los 642 archivos históricos. El control global encontró 666 archivos y su máximo es 500. [Pruebas y controles por árbol](product_supply/acceptance-120/qa-twelve-final.json) · [Licencias y bloqueos de dependencias](SOURCE_MATERIALIZATION.md)
+
 Una revisión posterior del PR 119 archivó 139 identidades en un perfil distinto. Su transcripción, los dos registros de ejecución declarados y el cruce con el perfil contable se documentan en el [contraste de evidencias](product_supply/acceptance-120/pr119-139-comparison.json).
 
 Ambos archivos comparten 63 identidades. Hay 36 exclusivas del primero y 7 del segundo.

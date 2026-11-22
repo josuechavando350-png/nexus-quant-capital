@@ -153,6 +153,11 @@ def render(components, native, *, current=None, producer=None):
             lines.extend(['', 'El duodécimo grupo comprueba el informe HTML en el navegador. '
                           'El [expediente de once grupos](product_supply/consolidated-acceptance-grpc-schema/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile grpc-schema`.'])
+            lines.extend(['', 'En el corte publicado `52ea24ad`, las 451 pruebas focalizadas pasaron sin '
+                          'fallos ni omisiones. El cotejo independiente confirmó los cinco expedientes y los '
+                          '642 archivos históricos. El control global encontró 666 archivos y su máximo es 500. '
+                          '[Pruebas y controles por árbol](product_supply/acceptance-120/qa-twelve-final.json) · '
+                          '[Licencias y bloqueos de dependencias](SOURCE_MATERIALIZATION.md)'])
     if current:
         lines.extend(['', 'Una revisión posterior del PR 119 archivó 139 identidades en un perfil distinto. '
                       'Su transcripción, los dos registros de ejecución declarados y el cruce con el perfil contable '
