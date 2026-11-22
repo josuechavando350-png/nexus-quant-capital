@@ -115,7 +115,10 @@ SUPPLY = ROOT / 'superhunter/product_supply'
 ARCHIVE_99_SHA = 'c4d9f671093a88aa25be658c583361da7c7abadee5ac582de4e5f723a8375c1b'
 ACCEPTANCE_70_SHA = 'd826d1ead698a870ac978d732b943d7aed1d49a14adffaad30295867356ee6ae'
 SNAPSHOT_153 = '9fe08694ea198e7872cc954a122fc4bdc4675996a5403cb7344822a89a3bfe3f'
+COMPONENTS_THROUGH_HTML = '7ad5ed1a7c4a344bb1b8d1467a3ad109b618fa1a82f67c6486cbcafa2b39105a'
+HTML_TRANSCRIPT_SHA = 'd07aafc5d1c5ba5dfbe5bdcb59d8fe292ddfb7b8a2fe97e5b944ab27fd5b72ff'
 HISTORICAL_COMPONENTS = {
+    'through-html': COMPONENTS_THROUGH_HTML,
     '99': 'adbd7b433b1d3cad6ee0a64fa71e5187f422dafc9050353c07c66d20187abfea',
     '118': '06a61867ec8d0612d7e4a934f723a8c4a8ab42dbb9a1ab3e3a2321c5521d2bf2',
 }
@@ -123,7 +126,7 @@ HISTORICAL_COMPONENTS = {
 
 @cache
 def component_rules(profile):
-    if profile == 'current':
+    if profile in ('current', 'report-interop'):
         from superhunter.product_component_controls import contracts
         return contracts()
     raw = read_artifact(ROOT, f'superhunter/product_supply/component-control-contracts-{profile}.json')
@@ -158,11 +161,12 @@ def row_operations(row, native, *, profile='current'):
 
 
 def verify(raw, expected_hash=None, *, require_consolidated=False, require_accounting=False,
-           require_canonical_header=False, require_grpc_schema=False, require_html_review=False):
+           require_canonical_header=False, require_grpc_schema=False, require_html_review=False,
+           require_report_interop=False):
     profiles = [name for selected, name in (
         (require_consolidated, 'core-eight'), (require_accounting, 'accounting-nine'),
         (require_canonical_header, 'canonical-ten'), (require_grpc_schema, 'grpc-eleven'),
-        (require_html_review, None)) if selected]
+        (require_html_review, None), (require_report_interop, None)) if selected]
     if len(profiles) > 1:
         raise EvidenceError('select one exact consolidated acceptance profile')
     full_profile = bool(profiles)
@@ -199,8 +203,10 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
     interim_118 = ('component-controls' in report and not operations_format and
                    'published_excerpts' not in matrix and
                    report['source-inventory'].get('snapshot_sha256') == SNAPSHOT_153)
-    component_profile = 'current'
-    if interim_118:
+    component_profile = 'through-html' if full_profile else 'current'
+    if require_report_interop:
+        component_profile = 'report-interop'
+    elif interim_118:
         component_profile = '99'
     elif not operations_format and report['source-inventory'].get('snapshot_sha256') == SNAPSHOT_153:
         component_profile = '118'
@@ -312,17 +318,19 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
         credits.append([number, name, summary['session'], receipt])
     live = {name for name in (r['repository'] for r in rows) if 'component_control_receipt' in report[name]}
     if 'component-controls' in report:
-        from superhunter.product_component_controls import DOMAINS, reconcile_digest
+        from superhunter.product_component_controls import reconcile_digest
         controls = report['component-controls']
         names = controls['requested']
+        rules = component_rules(component_profile)
+        allowed_domains = {rule['domain'] for rule in rules.values()}
         failures = controls['blocked']
         if (not isinstance(names, list) or not names or not all(isinstance(n, str) for n in names)
-                or len(names) != len(set(names)) or set(names) - DOMAINS.keys() or not isinstance(failures, dict)
+                or len(names) != len(set(names)) or set(names) - allowed_domains or not isinstance(failures, dict)
                 or not all(isinstance(cause, str) and cause.strip() for cause in failures.values())
                 or set(failures) - set(names)):
             raise EvidenceError('component selection or blocked domains differ')
         blocked = set(failures)
-        expected = {name for name, rule in component_rules(component_profile).items() if rule['domain'] in set(names) - blocked}
+        expected = {name for name, rule in rules.items() if rule['domain'] in set(names) - blocked}
         if set(controls['observations']) != expected or live != expected:
             raise EvidenceError('component evidence does not cover the selected producers')
         if controls['digest_corroboration'] != reconcile_digest(controls['observations'], report.get('go-header-digest')):
@@ -365,10 +373,10 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
         expected.update(session_operation_count=operation_count, session_multi_operation_repositories=multi_operation)
         counts.update(operations=operation_count, multiple_operations=multi_operation)
     if full_profile:
-        from superhunter.product_component_controls import DOMAINS
         from superhunter.product_native_capabilities import contracts as native_contracts
         controls = report.get('component-controls') or {}
-        if (not combined or not operations_format or set(controls.get('requested', [])) != DOMAINS.keys()
+        if (not combined or not operations_format or set(controls.get('requested', [])) != allowed_domains
+                or (require_report_interop and 'report-interop' not in allowed_domains)
                 or controls.get('blocked') != {} or not controls.get('digest_corroboration')
                 or set(report['native-capabilities']['groups']) != native_contracts(native_version).keys()
                 or report['native-capabilities'].get('blocked_groups')
@@ -379,6 +387,8 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
         raise EvidenceError('claimed totals differ from independently counted rows')
     if full_profile:
         counts.update(check_historical_coverage(rows))
+    if require_report_interop:
+        counts.update(check_previous_acceptance(rows))
     if 'native-capabilities' in report:
         if historical_native and digest != NATIVE_SESSION_70:
             raise EvidenceError('historical native transcript differs from the published 70-identity session')
@@ -390,7 +400,9 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
         if interim_118 and digest != INTERIM_99:
             raise EvidenceError('historical component transcript differs from the published 99-identity session')
         controls = report['component-controls']
-        counts.update(component_contract_profile=component_profile, component_domains=sorted(set(controls['requested']) - set(controls['blocked'])),
+        # Older acts recorded their then-current registry under the literal name 'current'.
+        recorded_profile = 'current' if component_profile == 'through-html' else component_profile
+        counts.update(component_contract_profile=recorded_profile, component_domains=sorted(set(controls['requested']) - set(controls['blocked'])),
                       blocked_component_domains=sorted(controls['blocked']))
     return {'transcript_sha256': digest, 'credits_sha256': sha(canonical(credits)),
             'responses': len(keys), **counts}
@@ -452,6 +464,27 @@ def check_historical_coverage(rows):
         raise EvidenceError(f'historical operations missing ({len(missing)}), first: {number} {name} {role} {field}')
     return {'historical_identities_preserved': len({number for number, _, _, _ in required}),
             'historical_operations_preserved': len(required)}
+
+
+@cache
+def html_operations():
+    raw = unpack(read_artifact(ROOT, 'superhunter/product_supply/consolidated-acceptance-html-review/first/session.json'))
+    verify(raw, HTML_TRANSCRIPT_SHA, require_html_review=True)
+    rows = strict_json(raw.splitlines()[response_keys(raw).index('integration-matrix')])['rows']
+    return operation_keys(rows)
+
+
+def operation_keys(rows):
+    return frozenset((row['id'], row['repository'], op['role'], op['receipt'], op['evidence_sha256'])
+                     for row in rows for op in row['session_operations'])
+
+
+def check_previous_acceptance(rows):
+    previous = html_operations()
+    if previous - operation_keys(rows):
+        raise EvidenceError('previous accepted operations or their evidence changed')
+    return {'prior_identities_preserved': len({key[0] for key in previous}),
+            'prior_operations_preserved': len(previous)}
 
 
 def negative_controls(raw):
@@ -543,6 +576,8 @@ def main():
                           help='require all eleven groups including static gRPC schema interoperability')
     profiles.add_argument('--require-consolidated-html-review', action='store_true',
                           help='require all twelve groups including the fixed NQC HTML report')
+    profiles.add_argument('--require-consolidated-report-interop', action='store_true',
+                          help='require the twelve native groups, the previous ledger and every report control domain')
     parser.add_argument('--expect-sha256', help='trusted digest for a specific, published run')
     args = parser.parse_args()
     raw = read_artifact(args.transcript.parent, args.transcript.name)
@@ -552,10 +587,13 @@ def main():
                        'require_accounting': args.require_consolidated_accounting,
                        'require_canonical_header': args.require_consolidated_canonical_header,
                        'require_grpc_schema': args.require_consolidated_grpc_schema,
-                       'require_html_review': args.require_consolidated_html_review}
+                       'require_html_review': args.require_consolidated_html_review,
+                       'require_report_interop': args.require_consolidated_report_interop}
     result = verify(raw, args.expect_sha256, **profile_options)
     if args.require_complete_controls:
         profile = result.get('component_contract_profile', 'current')
+        if profile == 'current' and any(profile_options.values()):
+            profile = 'through-html'
         expected_domains = {rule['domain'] for rule in component_rules(profile).values()}
         keys = response_keys(raw)
         session = strict_json(raw.splitlines()[keys.index('component-controls')]) if 'component-controls' in keys else {}

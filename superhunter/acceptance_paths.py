@@ -8,6 +8,7 @@ PROFILE_DIRECTORIES = {
     'canonical-header': BASE + '-header',
     'grpc-schema': BASE + '-grpc-schema',
     'html-review': BASE + '-html-review',
+    'report-interop': BASE + '-report-interop',
 }
 RUN_DIRECTORIES = ('first', 'second')
 RUN_FILES = ('result.json', 'run-inputs.json', 'session.json')

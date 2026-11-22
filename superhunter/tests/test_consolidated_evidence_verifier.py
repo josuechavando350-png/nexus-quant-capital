@@ -261,13 +261,21 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
             tree = git('rev-parse', commit + '^{tree}').decode().strip()
             contract = verifier.sha(git('show', commit + ':superhunter/product_supply/native-capability-contracts.json'))
             inputs = {'git_source_tree': git('rev-parse', commit + ':upstream').decode().strip(),
-                      'native_contract_sha256': contract}
-            matches = [name for name, (_, digest, _) in renderer.PROFILES.items() if digest == contract]
+                      'native_contract_sha256': contract,
+                      'component_contract_sha256': verifier.sha(git('show', commit + ':superhunter/product_supply/component-control-contracts.json'))}
+            newer_components = inputs['component_contract_sha256'] != verifier.COMPONENTS_THROUGH_HTML
+            matches = [name for name, (_, digest, _) in renderer.PROFILES.items()
+                       if digest == contract and (name == 'report-interop') == newer_components]
             self.assertEqual(len(matches), 1)
             selected = matches[0]
             if recorded_profile:
                 self.assertEqual(selected, recorded_profile)
             renderer.require_producer(commit, tree, inputs, selected)
+            if selected == 'report-interop':
+                for replacement in (None, verifier.COMPONENTS_THROUGH_HTML):
+                    forged = {**inputs, 'component_contract_sha256': replacement}
+                    with self.subTest(replacement=replacement), self.assertRaisesRegex(EvidenceError, 'run component contract'):
+                        renderer.require_producer(commit, tree, forged, selected)
             for other in renderer.PROFILES.keys() - {selected}:
                 with self.subTest(profile=other, commit=commit), self.assertRaisesRegex(EvidenceError, 'selected acceptance profile'):
                     renderer.require_producer(commit, tree, inputs, other)
@@ -358,7 +366,7 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
 
     def test_latest_is_ordered_by_profile_and_cannot_hide_an_incomplete_dossier(self):
         with TemporaryDirectory() as tmp, patch.object(renderer, 'ROOT', Path(tmp)):
-            expected = ('core-eight', 'accounting', 'canonical-header', 'grpc-schema', 'html-review')
+            expected = ('core-eight', 'accounting', 'canonical-header', 'grpc-schema', 'html-review', 'report-interop')
             self.assertEqual(tuple(renderer.PROFILES), expected)
             self.assertEqual(tuple(renderer.PROFILE_DIRECTORIES), expected)
             for name in expected:
@@ -374,9 +382,11 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
             {'id': n, 'checkout': n + '/checkout', 'result_sha256': n} for n in ('first', 'second')]}
         nine = verifier.unpack((ROOT / renderer.ACCOUNTING_DOSSIER / 'first/session.json').read_bytes())
         eleven = verifier.unpack((ROOT / renderer.GRPC_SCHEMA_DOSSIER / 'first/session.json').read_bytes())
+        twelve = verifier.unpack((ROOT / renderer.HTML_REVIEW_DOSSIER / 'first/session.json').read_bytes())
         for profile, gate, older in [('canonical-header', 'require_canonical_header', self.archive),
                                      ('grpc-schema', 'require_grpc_schema', nine),
-                                     ('html-review', 'require_html_review', eleven)]:
+                                     ('html-review', 'require_html_review', eleven),
+                                     ('report-interop', 'require_report_interop', twelve)]:
             result = {'commit': '1' * 40, 'tree': '2' * 40, 'sha256': verifier.sha(older)}
             records = [({'raw_run_inputs_sha256': n}, result, older) for n in ('first', 'second')]
             with self.subTest(profile=profile), patch.object(renderer, 'read_artifact', return_value=canonical(act)), \
@@ -385,6 +395,19 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
                     self.assertRaises(EvidenceError):
                 renderer.accepted_markdown(profile)
             check.assert_called_once_with(older, result['sha256'], **{gate: True})
+
+    def test_report_compatibility_requires_all_previous_operations_and_exact_results(self):
+        raw = verifier.unpack((ROOT / renderer.HTML_REVIEW_DOSSIER / 'first/session.json').read_bytes())
+        rows = strict_json(raw.splitlines()[verifier.response_keys(raw).index('integration-matrix')])['rows']
+        self.assertEqual(verifier.check_previous_acceptance(rows),
+                         {'prior_identities_preserved': 132, 'prior_operations_preserved': 142})
+        row = next(r for r in rows if len(r['session_operations']) > 1)
+        last = row['session_operations'].pop()
+        with self.assertRaisesRegex(EvidenceError, 'previous accepted operations'):
+            verifier.check_previous_acceptance(rows)
+        row['session_operations'].append({**last, 'evidence_sha256': '0' * 64})
+        with self.assertRaisesRegex(EvidenceError, 'previous accepted operations'):
+            verifier.check_previous_acceptance(rows)
 
     def test_replacing_one_of_twenty_control_names_cannot_qualify_a_dossier(self):
         controls = dict.fromkeys(renderer.REQUIRED_MUTATIONS, 'recorded rejection')

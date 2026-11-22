@@ -22,6 +22,7 @@ ACCOUNTING_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['accounting']
 HEADER_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['canonical-header']
 GRPC_SCHEMA_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['grpc-schema']
 HTML_REVIEW_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['html-review']
+REPORT_INTEROP_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['report-interop']
 # A later default native registry must never redefine an archived nine-group acceptance.
 ACCOUNTING_SHA = '4dfec613c3f4ad64084a7487d4f4d5ecadea8f177f1bcc7283637c4a8adcdefa'
 HEADER_SHA = 'c3b7c10d1c72aacae73e09c5b96b521baeb9a8e6f4b15b03886ddcb8a16395c3'
@@ -31,7 +32,8 @@ PROFILES = {'core-eight': (DOSSIER, CORE_EIGHT[1], 'require_consolidated'),
             'accounting': (ACCOUNTING_DOSSIER, ACCOUNTING_SHA, 'require_accounting'),
             'canonical-header': (HEADER_DOSSIER, HEADER_SHA, 'require_canonical_header'),
             'grpc-schema': (GRPC_SCHEMA_DOSSIER, GRPC_SCHEMA_SHA, 'require_grpc_schema'),
-            'html-review': (HTML_REVIEW_DOSSIER, HTML_REVIEW_SHA, 'require_html_review')}
+            'html-review': (HTML_REVIEW_DOSSIER, HTML_REVIEW_SHA, 'require_html_review'),
+            'report-interop': (REPORT_INTEROP_DOSSIER, HTML_REVIEW_SHA, 'require_report_interop')}
 REQUIRED_MUTATIONS = frozenset({
     'inflated_count', 'unsupported_credit', 'replaced_historical_digest', 'changed_native_result',
     'changed_license', 'changed_git_tree', 'erased_domain_selection', 'erased_shared_results',
@@ -137,19 +139,19 @@ def render(components, native, *, current=None, producer=None):
                       + (', '.join(f'`{path}`' for path in producer['different_inputs']) or 'ninguno') + '. '
                       + ('Los manifiestos nativos tienen huellas distintas.' if producer['different_native_manifest']
                          else 'Coincide la huella de los manifiestos nativos.')])
-        if producer['profile'] in ('accounting', 'canonical-header', 'grpc-schema', 'html-review'):
+        if producer['profile'] in ('accounting', 'canonical-header', 'grpc-schema', 'html-review', 'report-interop'):
             lines.extend(['', 'Esta aceptación incluye el noveno grupo de controles contables. '
                           'El [expediente de ocho grupos](product_supply/consolidated-acceptance/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile core-eight`.'])
-        if producer['profile'] in ('canonical-header', 'grpc-schema', 'html-review'):
+        if producer['profile'] in ('canonical-header', 'grpc-schema', 'html-review', 'report-interop'):
             lines.extend(['', 'El décimo grupo comprueba la interoperabilidad de encabezados RLP. '
                           'El [expediente de nueve grupos](product_supply/consolidated-acceptance-accounting/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile accounting`.'])
-        if producer['profile'] in ('grpc-schema', 'html-review'):
+        if producer['profile'] in ('grpc-schema', 'html-review', 'report-interop'):
             lines.extend(['', 'El undécimo grupo comprueba esquemas gRPC. '
                           'El [expediente de diez grupos](product_supply/consolidated-acceptance-header/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile canonical-header`.'])
-        if producer['profile'] == 'html-review':
+        if producer['profile'] in ('html-review', 'report-interop'):
             lines.extend(['', 'El duodécimo grupo comprueba el informe HTML en el navegador. '
                           'El [expediente de once grupos](product_supply/consolidated-acceptance-grpc-schema/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile grpc-schema`.'])
@@ -158,6 +160,11 @@ def render(components, native, *, current=None, producer=None):
                           '642 archivos históricos. El control global encontró 666 archivos y su máximo es 500. '
                           '[Pruebas y controles por árbol](product_supply/acceptance-120/qa-twelve-final.json) · '
                           '[Licencias y bloqueos de dependencias](SOURCE_MATERIALIZATION.md)'])
+        if producer['profile'] == 'report-interop':
+            lines.extend(['', f"Se preservaron las {result['prior_operations_preserved']} operaciones de las "
+                          f"{result['prior_identities_preserved']} identidades del "
+                          '[expediente anterior](product_supply/consolidated-acceptance-html-review/acceptance.json). '
+                          'El perfil incluye comprobaciones de interoperabilidad de informes existentes.'])
     if current:
         lines.extend(['', 'Una revisión posterior del PR 119 archivó 139 identidades en un perfil distinto. '
                       'Su transcripción, los dos registros de ejecución declarados y el cruce con el perfil contable '
@@ -212,10 +219,19 @@ def require_producer(commit, tree, inputs, profile):
             raise EvidenceError('producer Git tree differs from the run record')
         source_tree = git('rev-parse', commit + ':upstream').decode().strip()
         contract_sha = sha(git('show', commit + ':superhunter/product_supply/native-capability-contracts.json'))
+        components_sha = sha(git('show', commit + ':superhunter/product_supply/component-control-contracts.json'))
     except subprocess.CalledProcessError as exc:
         raise EvidenceError('producer Git objects unavailable; fetch the published producer commit into this checkout') from exc
-    if contract_sha != PROFILES[profile][1]:
+    expected_components = verify_review_115.COMPONENTS_THROUGH_HTML
+    if profile == 'report-interop':
+        from superhunter.product_component_controls import CONTRACT_SHA
+        if CONTRACT_SHA == expected_components:
+            raise EvidenceError('producer component contract does not match selected acceptance profile')
+        expected_components = CONTRACT_SHA
+    if contract_sha != PROFILES[profile][1] or components_sha != expected_components:
         raise EvidenceError('producer contract does not match selected acceptance profile')
+    if profile == 'report-interop' and inputs.get('component_contract_sha256') != components_sha:
+        raise EvidenceError('run component contract disagrees with the producer commit')
     if inputs['git_source_tree'] != source_tree or inputs['native_contract_sha256'] != contract_sha:
         raise EvidenceError('run source tree or native contract disagrees with the producer commit')
 
