@@ -41,6 +41,7 @@ Mientras ese número sea 0, no se agregan más herramientas ni se "mejora la int
 - `crytic/echidna` — fuzzer de invariantes.
 - `crytic/medusa` — fuzzer paralelo guiado por cobertura.
 - `crytic/properties` — invariantes ERC20/ERC4626 listas para Echidna/Medusa.
+- `Ackee-Blockchain/wake` — framework de testing en Python con detectores y fuzzing.
 
 **Estado real on-chain (el corazón):**
 - `fuzzland/ityfuzz` — fuzzer con estado vivo de la blockchain; arma el exploit.
@@ -71,7 +72,7 @@ Objetivo (contrato + commit)
       |
   Capa 1  ESTÁTICO      Slither · Slitherin · Aderyn · 4naly3er · Semgrep
       |                 -> lista de sospechas
-  Capa 2  FUZZING       Foundry · Echidna · Medusa · crytic/properties
+  Capa 2  FUZZING       Foundry · Echidna · Medusa · crytic/properties · Wake
       |                 -> intenta romper las invariantes
   Capa 3  ON-CHAIN      ityfuzz
       |                 -> exploit con estado real  (CORAZÓN)
