@@ -1,0 +1,35 @@
+{
+  "checkout_clean_before": true,
+  "component_contract_sha256": "e817543c5ca4887cf618806e3dc6b1981e72239aa679dd78afab68c217d70b6a",
+  "failed_replay": {
+    "bytes": 62,
+    "clean_after": true,
+    "commit": "2ddbe098cc98a667211494a9ff9f21ce014d8c3f",
+    "elapsed_seconds": 310.17,
+    "responses": 1,
+    "returncode": 2,
+    "sha256": "ed7a842d0e0c184604b1d3d766d9a66d5d2e5d893c0001d591f6d0ee44d23eec",
+    "tree": "3a4b369bd6d13914bd6e5f7ab3012266cd3cbd42"
+  },
+  "failed_stderr_bytes": 0,
+  "failed_stdout_utf8": "{\"status\": \"PRODUCT_REVIEW_BLOCKED\", \"error_type\": \"OSError\"}\n",
+  "first_completed_run": {
+    "bytes": 1272422,
+    "clean_after": true,
+    "commit": "2ddbe098cc98a667211494a9ff9f21ce014d8c3f",
+    "elapsed_seconds": 345.5,
+    "responses": 222,
+    "returncode": 0,
+    "sha256": "bdb0e859c9a3affd0f0ca198ed1cdeae75571889f9cab67d28d372058c29722e",
+    "tree": "3a4b369bd6d13914bd6e5f7ab3012266cd3cbd42"
+  },
+  "kit_manifest_sha256": "2a30111cd4f48d65c2fa6d9c61e1f0991e2f6645cab8581ec3187c9e82261cc3",
+  "native_contract_sha256": "1b0c5ecf4ec91e9f0a0ec45a0984c60ad615e37f9d0512474ed30dd2e3e19add",
+  "native_manifest_sha256": "ae04d89cc8d4a3adfb0ecdf8656fae881d7e7eac599cf7f005256e7dcaac67b6",
+  "producer": "2ddbe098cc98a667211494a9ff9f21ce014d8c3f",
+  "raw_run_inputs_sha256": "b219ded5862f619766fd0d0517d6438c9489a70277239a8b3dd917f35109fdf4",
+  "retry_approach": "Repeat from a new Git checkout of the same published producer and the same fixed inputs, using a separate local temporary filesystem.",
+  "scope": "Single unsuccessful clean replay. The process emitted only its generic OSError status. The errno and cause were not captured. This attempt confers no functional credit.",
+  "source_tree": "d8b5a3d79e81e686d4299e40bea64d37824d29fe",
+  "tree": "3a4b369bd6d13914bd6e5f7ab3012266cd3cbd42"
+}
