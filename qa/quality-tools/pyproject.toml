@@ -1,0 +1,4 @@
+[tool.mutmut]
+source_paths = ["mutation_subject.py"]
+also_copy = ["qa_tests", "superhunter"]
+pytest_add_cli_args_test_selection = ["qa_tests/test_properties.py::test_scorecard_changes_only_its_revision"]
