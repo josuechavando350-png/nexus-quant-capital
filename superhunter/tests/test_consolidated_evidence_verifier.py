@@ -291,7 +291,8 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
         # Even if a launcher reported two successful jobs, the strict session verifier
         # must independently enforce the current producer/operation requirements.
         act = {'schema_version': 1, 'same_host': True, 'runs': [
-            {'id': n, 'checkout': n + '/checkout', 'result_sha256': n} for n in ('first', 'second')]}
+            {'id': n, 'checkout': n + '/checkout', 'inputs_sha256': verifier.sha(n.encode()),
+             'result_sha256': verifier.sha((n + '/result').encode())} for n in ('first', 'second')]}
         result = {'commit': '1' * 40, 'tree': '2' * 40, 'sha256': verifier.sha(self.archive)}
         recorded = [({'raw_run_inputs_sha256': n}, result, self.archive) for n in ('first', 'second')]
         with patch.object(renderer, 'read_artifact', return_value=canonical(act)), \
