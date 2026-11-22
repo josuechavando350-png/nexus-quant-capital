@@ -1,0 +1,51 @@
+name: NQC · verificación de los 200
+on:
+  push:
+    branches:
+      - ci/nqc-product-200
+permissions: {}
+jobs:
+  product:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      PRODUCT_REVISION: 05002c36c12a1b572b5d425b7b0714189c448109
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Obtener la revisión pública del producto
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init -q product
+          git -C product remote add origin https://github.com/josuechavando350-png/nexus-quant-capital.git
+          git -C product fetch -q --no-tags --no-recurse-submodules origin "$PRODUCT_REVISION"
+          git -C product checkout -q --detach FETCH_HEAD
+          test "$(git -C product rev-parse HEAD)" = "$PRODUCT_REVISION"
+      - name: Comprobar la matriz y las dos ejecuciones archivadas
+        working-directory: product
+        run: |
+          set -eu
+          python3.12 -B -m superhunter.tools.render_product_matrix --check-acceptance
+          python3.12 -B -m superhunter.tools.render_product_matrix --require-all
+      - name: Verificar el producto completo y reproducir la migración original
+        working-directory: product
+        run: |
+          set -eu
+          python3.12 -B -m superhunter.repository_boundary --verify-import
+          python3.12 -B -m unittest -q superhunter.tests.test_repository_boundary
+      - name: Preparar los insumos y consultar los 200 antes y después del reinicio
+        working-directory: product
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3.12 -B -m superhunter.tools.check_catalog_transport --prepare | tee "$RUNNER_TEMP/transport.json"
+          python3.12 -B - "$RUNNER_TEMP/transport.json" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          reference = json.loads(Path('superhunter/product_supply/acceptance-120/catalog-transport-restart.json').read_bytes())
+          if json.loads(Path(sys.argv[1]).read_bytes()) != reference:
+              raise SystemExit('Las respuestas en el runner difieren de la prueba de integración.')
+          PY
+          test -z "$(git status --porcelain)"
+          echo "200 consultas verificadas antes y después del reinicio, con resultados idénticos a la referencia." >> "$GITHUB_STEP_SUMMARY"
