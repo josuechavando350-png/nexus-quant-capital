@@ -19,6 +19,23 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
         cls.archive = verifier.unpack((ROOT/'superhunter/product_supply/native-session-70.json').read_bytes())
         cls.keys = verifier.response_keys(cls.archive)
 
+    def test_scope_labels_join_the_original_purpose_to_the_verified_operation(self):
+        path = ROOT/'superhunter/product_supply/consolidated-acceptance-supply-and-reporting/first/session.json'
+        raw = verifier.unpack(path.read_bytes())
+        keys = verifier.response_keys(raw)
+        rows = strict_json(raw.splitlines()[keys.index('integration-matrix')])['rows']
+        labels = renderer.scope_labels(raw, keys, rows)
+        self.assertEqual(len(labels), 200)
+        self.assertEqual(labels[3], ('Análisis especializado de inyección SQL', None))
+        self.assertTrue(labels[81][1])
+        self.assertNotEqual(labels[81][0], labels[81][1])
+        changed = [dict(row) for row in rows]
+        changed[0]['repository'] = changed[1]['repository']
+        with self.assertRaisesRegex(EvidenceError, 'identities'):
+            renderer.scope_labels(raw, keys, changed)
+        with self.assertRaisesRegex(EvidenceError, 'identities'):
+            renderer.scope_labels(raw, keys, rows + rows[:1])
+
     def test_historical_archive_preserves_its_own_acceptance_scope(self):
         result = native_verifier.verify(self.archive)
         self.assertEqual((result['session'], result['executables'], result['reference_data']), (70, 58, 12))

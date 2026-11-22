@@ -12,7 +12,7 @@ from superhunter.product_matrix import markdown
 from superhunter.product_native_capabilities import CORE_EIGHT
 
 from superhunter.product_reasoning import EvidenceError
-from superhunter.product_review import ROOT, sha
+from superhunter.product_review import CATALOG, CATALOG_SHA, ROOT, sha
 from superhunter.safe_io import canonical, read_artifact, strict_json
 from superhunter.tools import verify_native_session, verify_review_115
 
@@ -86,6 +86,29 @@ def receipt(row, operations):
     return label + ' · `' + row['session_evidence_sha256'] + '`'
 
 
+def scope_labels(raw, keys, rows):
+    """Join the fixed catalog purpose and observed component operation by exact identity."""
+    catalog = read_artifact(ROOT, CATALOG)
+    if sha(catalog) != CATALOG_SHA:
+        raise EvidenceError('catalog purposes differ from the reviewed catalog')
+    entries = strict_json(catalog)['entries']
+    purposes = {(row['id'], row['repository']): row['purpose'] for row in entries}
+    identities = {(row['id'], row['repository']) for row in rows}
+    if len(identities) != len(rows) or len(purposes) != len(entries) or set(purposes) != identities:
+        raise EvidenceError('catalog purposes differ from the identities in the accepted session')
+    controls = strict_json(raw.splitlines()[keys.index('component-controls')])['observations']
+    labels = {}
+    for row in rows:
+        number, name = row['id'], row['repository']
+        operation = None
+        if any(op['receipt'] == 'component_control_receipt' for op in row['session_operations']):
+            operation = controls.get(name, {}).get('operation')
+            if not isinstance(operation, str) or not operation:
+                raise EvidenceError('component receipt lacks its verified operation label')
+        labels[number] = (purposes[number, name], operation)
+    return labels
+
+
 def current_receipts(operations):
     return ' / '.join(f"{ROLE[op['role']]} · `{op['receipt']}` · `{op['evidence_sha256']}`"
                       for op in operations) or '—'
@@ -98,6 +121,7 @@ def render(components, native, *, current=None, producer=None):
     overlap = 0
     details = []
     current_rows = current[1] if current else [None] * len(component_rows)
+    scope = producer.get('scope_labels') if producer else None
     for a, b, c in zip(component_rows, native_rows, current_rows, strict=True):
         if any(a[key] != b[key] for key in ('id', 'repository', 'commit', 'tree')):
             raise EvidenceError('historical sessions disagree on identity, revision or tree')
@@ -112,6 +136,11 @@ def render(components, native, *, current=None, producer=None):
                        f"{receipt(a, component_ops)} | {receipt(b, native_ops)} |")
         if c is not None:
             details[-1] += f" {current_receipts(c['session_operations'])} |"
+        if scope is not None:
+            purpose, observed = scope[a['id']]
+            details[-1] += ' ' + purpose.replace('|', r'\|') + ' |'
+            details[-1] += ' ' + ('`' + observed.replace('|', r'\|') + '`' if observed else '—') + ' |'
+    scope_heading = ' Finalidad prevista en el catálogo | Operación observada del control de componente |' if scope is not None else ''
     union = counts['executable'] + counts['reference_data']
     repo = 'https://github.com/josuechavando350-png/nexus-quant-capital'
     status = 'Aceptación conjunta verificada' if current else 'Aceptación conjunta pendiente'
@@ -218,10 +247,14 @@ def render(components, native, *, current=None, producer=None):
         "declaró cambios locales sobre su commit base. [Acta de 70](product_supply/native-acceptance-70.json) · "
         f"[Matriz anterior del PR 117]({repo}/blob/672c31392929b8efbd6b3d5983c44e8560232add/"
         'superhunter/INTEGRATION_STATUS_200.md)',
+        *(['', 'La finalidad prevista describe la selección original del catálogo. La sesión acredita las '
+               'operaciones con recibo. La última columna identifica la operación de los controles de componente. '
+               'Los demás tipos de recibo figuran en la columna de la sesión conjunta.'] if scope is not None else []),
         '', 'Cada celda indica el rol, el campo del recibo y su SHA-256 en la sesión indicada. '
         'La raya indica ausencia de participación en ese archivo. Los enlaces a las fuentes apuntan a sus revisiones.',
         '', '| ID | Repositorio | Revisión Git | PR 118 histórico | PR 119 histórico |'
-        + (' Sesión conjunta |' if current else ''), '|---:|---|---|---|---|' + ('---|' if current else ''),
+        + (' Sesión conjunta |' if current else '') + scope_heading,
+        '|---:|---|---|---|---|' + ('---|' if current else '') + ('---|---|' if scope is not None else ''),
         *details, '', 'Comprobación sin red desde la raíz del repositorio mediante '
         f"`python3.12 -B -m superhunter.tools.render_product_matrix --check-{'acceptance' if current else 'historical'}`.", '',
     ])
@@ -387,6 +420,8 @@ def verified_pair(profile, *, evidence_commit=None):
                 'different_inputs': sorted(key for key, value in left['prepared_files'].items()
                                                     if right['prepared_files'][key] != value),
                 'different_native_manifest': left['native_manifest_sha256'] != right['native_manifest_sha256']}
+    if profile == 'vendored-attributions':
+        producer['scope_labels'] = scope_labels(raw, keys, rows)
     return verified, rows, producer
 
 
