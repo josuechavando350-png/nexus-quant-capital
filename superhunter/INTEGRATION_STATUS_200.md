@@ -1,10 +1,10 @@
 # SUPERHUNTER · Matriz de integración
 
-> Sesión conjunta aceptada del commit `37a0d5261ae52ece080d18b294042931112f2861`: 139 identidades y 149 operaciones. La tabla conserva ese checkpoint. La incorporación posterior de grpcurl tiene recibo separado y no altera retrospectivamente estas filas. [Expediente](product_supply/consolidated-acceptance-139.json).
+> Sesión conjunta aceptada del commit `a183f60ed7229441a703a8f6ea9e180ff249abf3`: **140 identidades y 150 operaciones**. Se verificó una ejecución completa de este incremento; la pareja reproducida de 139 conserva su expediente separado. [Aceptación 140](product_supply/consolidated-acceptance-140.json).
 
 El producto conserva 200 identidades. Hay 200 checkouts completos, 0 extractos verificados y 0 proyectos con alcance documental y de metadatos.
 
-Participación acreditada de 139 proyectos, con 101 de ejecución y 38 referencias. En la sesión completa participaron 139. Quedan 61 sin recibo funcional.
+Participación acreditada de 140 proyectos, con 102 de ejecución y 38 referencias. En la sesión completa participaron 140. Quedan 60 sin recibo funcional.
 
 Se verificaron el commit y el árbol de 200 identidades y se cotejó un aviso por proyecto. Las obligaciones de distribución del producto completo siguen pendientes. La consulta `integration-matrix` conserva la ruta y el hash del aviso, el árbol, los manifiestos y el recibo por fila.
 
@@ -80,7 +80,7 @@ Se verificaron el commit y el árbol de 200 identidades y se cotejó un aviso po
 | 66 | [nabla-c0d3/sslyze](https://github.com/nabla-c0d3/sslyze/tree/e064c2c8e7d251e5bc5db1a7beb21add5e12a0bc) | Analizador o verificador | Completa | Referencia | Sí |
 | 67 | [wapiti-scanner/wapiti](https://github.com/wapiti-scanner/wapiti/tree/e786fdb0e4b581e501e1a04c27f2e59eb41bdbbb) | Analizador o verificador | Completa | Pendiente | — |
 | 68 | [PortSwigger/http-request-smuggler](https://github.com/PortSwigger/http-request-smuggler/tree/3ecb1afa6a1d21ef1ec4e6eb1337818b53a2b4c0) | Herramienta ejecutable | Completa | Pendiente | — |
-| 69 | [fullstorydev/grpcurl](https://github.com/fullstorydev/grpcurl/tree/f5c25e012bd451b55444679d5457ed3dfbae53de) | Herramienta auxiliar | Completa | Pendiente | — |
+| 69 | [fullstorydev/grpcurl](https://github.com/fullstorydev/grpcurl/tree/f5c25e012bd451b55444679d5457ed3dfbae53de) | Herramienta auxiliar | Completa | Ejecución | Sí |
 | 70 | [doyensec/inql](https://github.com/doyensec/inql/tree/b1aae1502a1d2469f8d4160b88238dd450ba5982) | Herramienta ejecutable | Completa | Pendiente | — |
 | 71 | [ticarpi/jwt_tool](https://github.com/ticarpi/jwt_tool/tree/3bc7407cf2222d6a821dcc19c776e5a1b1cb9a9b) | Herramienta ejecutable | Completa | Pendiente | — |
 | 72 | [testssl/testssl.sh](https://github.com/testssl/testssl.sh/tree/0f87aca237ae52a35e69a14157c37377a1779908) | Analizador o verificador | Completa | Referencia | Sí |

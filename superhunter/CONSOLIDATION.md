@@ -4,6 +4,10 @@ Los PR [118](https://github.com/josuechavando350-png/nexus-quant-capital/pull/11
 
 La consolidación incorpora el estado local inmutable de Astra `1edb1699e6f6af382d7d65fdfd536c61989d0beb` y el checkpoint publicado `b87788962072578f9fb7ec5b584a06868639d89a`. Este último ya acredita 84 participaciones en una sesión; esa cifra no se suma a las 99 históricas. El checkpoint publicado 37a0d526 tiene 17 dominios de componentes y 15 grupos nativos. Su sesión de 222 respuestas fue aceptada: 139 identidades, 149 operaciones y 20 alteraciones rechazadas. [Expediente y transcripción](product_supply/consolidated-acceptance-139.json). La repetición desde otro checkout del mismo commit fue aceptada: las 222 respuestas son idénticas, byte por byte. El registro posterior incorpora grpcurl como grupo 16 con evidencia propia; su recibo no modifica el checkpoint anterior.
 
+## Checkpoint vigente: 140 identidades
+
+La ejecución desde el commit publicado `a183f60ed7229441a703a8f6ea9e180ff249abf3` añade grpcurl al mismo perfil. El verificador aceptó **140 identidades únicas, 150 operaciones, 222 respuestas y cero bloqueos**; rechazó sus 20 alteraciones de evidencia. Quedan 60 identidades pendientes. El [expediente](product_supply/consolidated-acceptance-140.json) declara una ejecución completa de 140 y conserva la pareja de 139 como evidencia anterior, sin trasladarle una repetición que no realizó.
+
 ## Ejecutar el perfil conjunto
 
 Se utiliza la misma entrada de producto y un solo índice de 200 identidades. Una fila puede tener varias operaciones. `integration-matrix` y `integration-coverage` exponen cada operación mediante `session_operations`, con su rol, el campo que contiene el recibo y su SHA-256. El resultado original se obtiene consultando la identidad en la misma sesión. El selector acepta controles fijos locales. La única cuenta por identidad prioriza la ejecución cuando también hay un uso documental.

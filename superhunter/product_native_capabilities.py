@@ -11,6 +11,8 @@ from .safe_io import canonical, read_artifact, strict_json
 CONTRACT = 'superhunter/product_supply/native-capability-contracts.json'
 CONTRACT_SHA = '7a1a414d48b995ac310b17f1e15d722001a3c0a510f3dcf5f43dedb6ae90e6ac'
 HISTORICAL_CONTRACTS = {
+    140: ('superhunter/product_supply/native-capability-contracts-140.json',
+          '7a1a414d48b995ac310b17f1e15d722001a3c0a510f3dcf5f43dedb6ae90e6ac'),
     139: ('superhunter/product_supply/native-capability-contracts-139.json',
           'e624bd12b6df9181e1a8db4520700267c57e9e566fd53d9f2d4aee28f10af3a4'),
     84: ('superhunter/product_supply/native-capability-contracts-84.json',

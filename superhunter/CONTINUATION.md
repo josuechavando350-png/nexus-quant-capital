@@ -1,4 +1,5 @@
-> Integración vigente: [consolidación de ambas ramas](CONSOLIDATION.md). El checkpoint 37a0d526 acredita 139/200 en una sesión conjunta. El registro siguiente añade grpcurl con recibo separado y contiene 16 grupos/29 identidades nativas. Los apartados siguientes conservan sus cifras históricas.
+> Integración vigente: [consolidación de ambas ramas](CONSOLIDATION.md). El checkpoint a183f60 acredita 140/200 identidades en una ejecución conjunta, con 150 operaciones. El checkpoint 37a0d526 conserva dos ejecuciones idénticas de 139. Quedan 60 pendientes; las cifras de los apartados siguientes son históricas.
+
 
 
 

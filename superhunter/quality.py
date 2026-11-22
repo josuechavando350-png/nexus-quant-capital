@@ -467,6 +467,10 @@ PRODUCT_DATA_FILES += ('product_supply/native-session-139.json',
                        'product_supply/consolidated-acceptance-139.json',
                        'product_supply/grpc-schema-native-product-session.json')
 
+PRODUCT_DATA_FILES += ('product_supply/native-session-140.json',
+                       'product_supply/consolidated-acceptance-140.json',
+                       'product_supply/native-capability-contracts-140.json')
+
 def source_snapshot(root: Path = ROOT) -> dict[str, str]:
     """Capture executable package/test bytes and policy inputs; reject symlinks."""
     def scan_failed(error: OSError) -> None:

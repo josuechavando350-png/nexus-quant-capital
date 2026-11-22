@@ -1,0 +1,153 @@
+{
+  "archive": {
+    "bytes": 331065,
+    "path": "/workspace/scratch/ecd59ba3c132/consolidated-replay-140/native-session-140.json",
+    "sha256": "1ac4895da747b9d2c2dcac92327ce26e5bcaa279fdb4db7d8c3c56496813df9b"
+  },
+  "boundary": {
+    "active_workflows": 0,
+    "canonical_recertification": false,
+    "external_source_contents_reviewed": false,
+    "full_security_review": false,
+    "historical_files_checked": 642,
+    "historical_tree_pins": {
+      "ci": "8a8c94551f060b1d6ce3c501c8e9ddd2b26e7e72",
+      "migration": "1c3262dc7ed09b8f3df76914ef45c3dd22ccafee",
+      "nqc-census": "68dbd045014a49bd53b79440d9878f3e8035c739"
+    },
+    "ignored_python_cache_files": 0,
+    "legacy_verifier_unchanged": true,
+    "original_root_policy_preserved": true,
+    "original_source_objects_checked": false,
+    "reviewed_agents_appendix_sha256": "74d63e642a1b6eecdb5cefbbd3fe6640cd8ba30d05cc620283b66a459dbd59cf",
+    "root_documents": [
+      "SUPERHUNTER_MASTER_PLAN.md"
+    ],
+    "runtime_isolation_proved": false,
+    "schema_version": 1,
+    "source_inventory_sha256": "d73b83fbf78d25743d04576cdc6f48e01d9d0caecc7b61b23904acc1d6798b9f",
+    "status": "REPOSITORY_BOUNDARY_PASS",
+    "superhunter_files_reviewed_for_boundary": 851
+  },
+  "byte_identical_second_run": null,
+  "checkout": {
+    "clean": true,
+    "commit": "a183f60ed7229441a703a8f6ea9e180ff249abf3",
+    "path": "/workspace/scratch/ecd59ba3c132/nqc-consolidated140-a",
+    "tree": "0cba18733458a71ab3e093d9fd5e801492ac318e"
+  },
+  "contracts": {
+    "component-control-contracts-140.json": "7ad5ed1a7c4a344bb1b8d1467a3ad109b618fa1a82f67c6486cbcafa2b39105a",
+    "native-capability-contracts-140.json": "7a1a414d48b995ac310b17f1e15d722001a3c0a510f3dcf5f43dedb6ae90e6ac"
+  },
+  "diagnostic_launcher_sha256": "2b454e7e99ff74ff20a5bee29674023b1b2d3a506516c36a2aa9c5fc7c7579c1",
+  "execution": {
+    "bytes": 1255491,
+    "clean_checkout_after": true,
+    "commit": "a183f60ed7229441a703a8f6ea9e180ff249abf3",
+    "failure": null,
+    "independent_verifier_run": false,
+    "lines": 222,
+    "returncode": 0,
+    "seconds": 412.74,
+    "success_requires_independent_consolidated_verifier": true,
+    "transcript_sha256": "88f7d4a092d9239f1d5e71df3e6132cffeeb95a1d0ab643cd106c5668bf9d2a7"
+  },
+  "full_executions_completed": 1,
+  "instrumentation_file_sha256": "bd05be2fe254babc7f10473fb546aa01ca4305014c1e02df4c61f0a5f6a33ba8",
+  "preparation_delta_sha256": "216404ce9778b30ee6cc418c58c723b84cdb16b9ae813d5cb4b18e0c070649d9",
+  "prior_139_acceptance_preserved": {
+    "archive_sha256": "b4800b1a7ce63e469288e935a9f7cf5e78505c4f1297f8709ea407b546ad4b88",
+    "full_executions": 2,
+    "receipt_sha256": "f56211b2e08d30a4320223f38516bf54d8b7d309a02ac3d699601aa4837a376a",
+    "transcript_sha256": "0e7ceaab460f1b24826f466ad70d93b64201b4a2e7edf5e09b085f675f4cd318"
+  },
+  "schema_version": 1,
+  "scope": "fixed_owned_controls_and_pinned_local_inputs",
+  "second_full_replay_performed": false,
+  "status": "CONSOLIDATED_SESSION_ACCEPTED",
+  "stderr_bytes": 0,
+  "verification": {
+    "blocked_component_domains": [],
+    "blocked_native_groups": [],
+    "catalog": 200,
+    "component_contract_profile": "current",
+    "component_domains": [
+      "android-policy",
+      "build-compatibility",
+      "changes",
+      "configuration",
+      "diagnostics",
+      "evidence-codec",
+      "evm",
+      "infrastructure",
+      "object-format",
+      "remediation",
+      "scoring",
+      "slot-format",
+      "source-extracts",
+      "state-amounts",
+      "static-contracts",
+      "supply",
+      "timeline"
+    ],
+    "credits_sha256": "861abb90a84f282fa874824cf0f754d2b55b946f3749d5c6940f81b328ec2560",
+    "executables": 102,
+    "functional": 140,
+    "multiple_operations": 10,
+    "native_credits": 29,
+    "native_groups": [
+      "discovery",
+      "evm",
+      "fuzz",
+      "grpc",
+      "http",
+      "iam",
+      "java",
+      "mutation",
+      "properties",
+      "python_fuzz",
+      "rlp",
+      "secrets",
+      "slither",
+      "static",
+      "upgrades",
+      "web"
+    ],
+    "operations": 150,
+    "original_vulnerabilities_confirmed": 0,
+    "pending": 60,
+    "reference_data": 38,
+    "rejected_controls": {
+      "changed_commercial_total": "claimed totals differ from independently counted rows",
+      "changed_coverage_total": "coverage totals differ from independently counted rows",
+      "changed_git_tree": "matrix and source revisions disagree",
+      "changed_group_result": "individual component result differs from the shared evidence",
+      "changed_license": "license evidence digest or description differs",
+      "changed_native_report": "native producer bytes differ from reviewed controls",
+      "changed_native_result": "fixed product result changed",
+      "changed_operation_total": "claimed totals differ from independently counted rows",
+      "changed_role_totals": "claimed totals differ from independently counted rows",
+      "changed_source_distribution": "claimed totals differ from independently counted rows",
+      "discarded_secondary_operation": "operation ledger differs from the producer bytes",
+      "erased_corroboration": "cross-domain source corroboration differs from original observations",
+      "erased_domain_selection": "component selection or blocked domains differ",
+      "erased_excerpt_inventory": "published excerpt inventory differs from its source bytes",
+      "erased_shared_results": "component evidence does not cover the selected producers",
+      "forged_secondary_digest": "operation ledger differs from the producer bytes",
+      "inflated_count": "claimed totals differ from independently counted rows",
+      "invented_discovery": "native group membership or scope differs",
+      "replaced_historical_digest": "matrix status differs from the original evidence",
+      "unsupported_credit": "matrix status differs from the original evidence"
+    },
+    "responses": 222,
+    "session": 140,
+    "sources": {
+      "complete": 200
+    },
+    "transcript_sha256": "88f7d4a092d9239f1d5e71df3e6132cffeeb95a1d0ab643cd106c5668bf9d2a7",
+    "verified_notices": 200
+  },
+  "verification_file_sha256": "314b2dfa6dd89e2babc3dd3623b8e78708c34753370be9d0a417d0e380cbeda4",
+  "verify_stderr_bytes": 0
+}
