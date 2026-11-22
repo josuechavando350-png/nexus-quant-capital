@@ -95,7 +95,14 @@ def parse_mod(raw, go):
         copy_release('Go module manifest reader', go, work/'go', GO_SHA)
         manifest = work/'go.mod'
         manifest.write_bytes(raw)
-        env = {'HOME': tmp, 'PATH': '', 'GOENV': 'off', 'GOWORK': 'off', 'GOTOOLCHAIN': 'local',
+        # The pinned Go reader consults this mode file before spawning its telemetry
+        # child. A child can otherwise recreate directories during cleanup.
+        config = work/'config'
+        telemetry = config/'go'/'telemetry'
+        telemetry.mkdir(parents=True)
+        (telemetry/'mode').write_text('off\n', encoding='ascii')
+        env = {'HOME': tmp, 'XDG_CONFIG_HOME': str(config), 'PATH': '', 'GOENV': 'off',
+               'GOWORK': 'off', 'GOTOOLCHAIN': 'local',
                'GOPROXY': 'off', 'GOSUMDB': 'off', 'GOTELEMETRY': 'off', 'GOROOT': str(go.parent.parent),
                'GOMODCACHE': str(work/'module-cache')}
         result = subprocess.run([work/'go', 'mod', 'edit', '-json', manifest], cwd=work, env=env,
