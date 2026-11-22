@@ -6,12 +6,21 @@ on:
 permissions: {}
 jobs:
   product:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
     env:
       PRODUCT_REVISION: 05002c36c12a1b572b5d425b7b0714189c448109
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
+      - name: Seleccionar CPython 3.12 de la imagen estándar
+        shell: bash
+        run: |
+          set -euo pipefail
+          python_bin=$(find "$RUNNER_TOOL_CACHE/Python" -path '*/3.12.*/x64/bin/python3.12' | sort -V | tail -1)
+          test -x "$python_bin"
+          "$python_bin" -V
+          dirname "$python_bin" >> "$GITHUB_PATH"
+          unshare --user --map-current-user --net true
       - name: Obtener la revisión pública del producto
         shell: bash
         run: |
