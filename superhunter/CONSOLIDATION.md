@@ -8,6 +8,7 @@ En cada fila, dos checkouts limpios del mismo productor emitieron 222 respuestas
 
 | Grupos | Productor | Identidades | Ejecución | Sólo referencia | Operaciones | Expediente |
 |---:|---|---:|---:|---:|---:|---|
+| 12 | [`604bd28d`](https://github.com/josuechavando350-png/nexus-quant-capital/commit/604bd28d528ee809c8e6d38adab86ec6f67b652c) | 132/200 | 94 | 38 | 142 | [html-review](product_supply/consolidated-acceptance-html-review/acceptance.json) |
 | 11 | [`2d9d6c79`](https://github.com/josuechavando350-png/nexus-quant-capital/commit/2d9d6c797eb9f6e445d2179ec535effe3ca9ac96) | 131/200 | 93 | 38 | 141 | [grpc-schema](product_supply/consolidated-acceptance-grpc-schema/acceptance.json) |
 | 10 | [`325288f3`](https://github.com/josuechavando350-png/nexus-quant-capital/commit/325288f32155ff8f7eaead0a493e5fbffe5bebc2) | 130/200 | 92 | 38 | 140 | [canonical-header](product_supply/consolidated-acceptance-header/acceptance.json) |
 | 9 | [`27fdac61`](https://github.com/josuechavando350-png/nexus-quant-capital/commit/27fdac61b21f607325053fc3681e6e079328e9f1) | 129/200 | 91 | 38 | 139 | [accounting](product_supply/consolidated-acceptance-accounting/acceptance.json) |
