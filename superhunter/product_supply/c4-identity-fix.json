@@ -1,0 +1,305 @@
+{
+  "contest": "2023-01-canto-identity",
+  "archive": "SUPERHUNTER_bench_2023-01-canto-identity_FIX.zip",
+  "archive_bytes": 8317997,
+  "sha256": "c3f3a7a70125d994ae1a90a15fdb81e27ac4dab62edbf4bd59628f2f9828add5",
+  "previous_archive_sha256": "04a1db4f6d7e12306fa9afeedef273024e5e63d90c3a8ca66b28271a33a2ceaf",
+  "key_sha256": "b3280fae59e4e971c5004da5e9e44d1ad16deba1f668a2ffa5cba96b69ac5314",
+  "same_scope_bytes_and_judge_key_as_prior_archive": true,
+  "scope": {
+    "src/AddressRegistry.sol": "5687a1dd05692ea20dc65f5acf200786f62e509618aa96be06dfb90656cbe0d6",
+    "src/CidNFT.sol": "567404333b60416d0d1937f51b4927d081dc6c337e652869808b7e17037caca3",
+    "src/SubprotocolRegistry.sol": "17fef5988e6734e65f4f1d91c5b123ca8910fe8f3d4259928586503150187001",
+    "src/CidSubprotocolNFT.sol": "1aad6ee12e892d7ef59a17f6dd3b88e5eb1e4754c28e7ad7bb29ae5282fa9fc5"
+  },
+  "solidity_files_in_supplied_libraries": {
+    "solmate": 41,
+    "ds-test": 2,
+    "forge-std": 5
+  },
+  "offline_network_namespace": true,
+  "compiler": {
+    "version": "0.8.17+commit.8df45f5f",
+    "errors": [],
+    "compiled_source_units": {
+      "src/AddressRegistry.sol": "5687a1dd05692ea20dc65f5acf200786f62e509618aa96be06dfb90656cbe0d6",
+      "lib/solmate/src/tokens/ERC721.sol": "46038d4ffbfc4943c36de090a3e2186a7e291631fee52546eafb0c2c85fd1f3f",
+      "src/CidNFT.sol": "567404333b60416d0d1937f51b4927d081dc6c337e652869808b7e17037caca3",
+      "lib/solmate/src/tokens/ERC20.sol": "aa2eaadb38abef5199cf4ae1d43b1de36364082580146d2b9b4e28124b71f23a",
+      "lib/solmate/src/utils/SafeTransferLib.sol": "49bab4b11f2d2fc1a75f53f14b4cf628b5f9bebaea4adb074350a4445e6fdb79",
+      "src/SubprotocolRegistry.sol": "17fef5988e6734e65f4f1d91c5b123ca8910fe8f3d4259928586503150187001",
+      "src/CidSubprotocolNFT.sol": "1aad6ee12e892d7ef59a17f6dd3b88e5eb1e4754c28e7ad7bb29ae5282fa9fc5"
+    },
+    "contracts_and_interfaces": 8,
+    "optimizer_runs": 200,
+    "remappings": [
+      "ds-test/=lib/ds-test/src/",
+      "solmate/=lib/solmate/src/",
+      "forge-std/=lib/forge-std/src/"
+    ]
+  },
+  "static": {
+    "slither": {
+      "completed_detectors": 101,
+      "total_observations_including_imports": 65,
+      "raw_sha256": "01eeab7f77dfce960f66faebd2ff8911545ce16d44216f40a1261487719e7057",
+      "detector_counts": {
+        "assembly": 5,
+        "calls-loop": 1,
+        "cyclomatic-complexity": 1,
+        "dead-code": 5,
+        "low-level-calls": 1,
+        "missing-zero-check": 3,
+        "naming-convention": 34,
+        "reentrancy-benign": 1,
+        "reentrancy-events": 6,
+        "reentrancy-no-eth": 2,
+        "solc-version": 1,
+        "timestamp": 1,
+        "too-many-digits": 3,
+        "unimplemented-functions": 1
+      },
+      "summary_stderr": ". analyzed (8 contracts with 101 detectors), 65 result(s) found",
+      "examples_in_scored_functions": [
+        {
+          "native_result_id": "aa997ca4f9d3e1eb12f4887981ab73a1750c0f425b8ea03c2af5d1fdb9429914",
+          "check": "calls-loop",
+          "first_line": "CidNFT.mint(bytes[]) (src/CidNFT.sol#147-157) has external calls inside a loop: (success,None) = address(this).delegatecall(abi.encodePacked(addSelector,_addList[i])) (src/CidNFT.sol#151-154)"
+        },
+        {
+          "native_result_id": "31b2dfae0c971ceae006a6534e8eca956811f434c80a71025856214fe0c18ace",
+          "check": "reentrancy-no-eth",
+          "first_line": "Reentrancy in CidNFT.add(uint256,string,uint256,uint256,CidNFT.AssociationType) (src/CidNFT.sol#165-229):"
+        },
+        {
+          "native_result_id": "a4a24598380b33a9178f8b0516e4dd474a1c15d84db903f20207b74c3fd1a149",
+          "check": "reentrancy-no-eth",
+          "first_line": "Reentrancy in CidNFT.add(uint256,string,uint256,uint256,CidNFT.AssociationType) (src/CidNFT.sol#165-229):"
+        }
+      ]
+    },
+    "slitherin": {
+      "completed_detectors": 28,
+      "total_observations_including_imports": 8,
+      "raw_sha256": "c272e8b9049d505f318ac1aad155a9009bc8f29d5f58cf5f22e68e456236b8be",
+      "detector_counts": {
+        "pess-magic-number": 2,
+        "pess-multiple-storage-read": 2,
+        "pess-potential-arithmetic-overflow": 1,
+        "pess-public-vs-external": 3
+      },
+      "summary_stderr": ". analyzed (8 contracts with 28 detectors), 8 result(s) found",
+      "attempted_in_initial_batch": 29,
+      "excluded_on_retry": "pess-nft-approve-warning",
+      "stderr_last_line": "TypeError: 'LibraryCall' object is not subscriptable"
+    },
+    "aderyn": {
+      "detectors": 88,
+      "source_units": 4,
+      "groups": {
+        "abi-encode-packed-hash-collision": [
+          {
+            "file": "src/CidNFT.sol",
+            "line": 140
+          }
+        ],
+        "reentrancy-state-change": [
+          {
+            "file": "src/AddressRegistry.sol",
+            "line": 43
+          },
+          {
+            "file": "src/CidNFT.sol",
+            "line": 172
+          },
+          {
+            "file": "src/CidNFT.sol",
+            "line": 187
+          },
+          {
+            "file": "src/CidNFT.sol",
+            "line": 244
+          },
+          {
+            "file": "src/SubprotocolRegistry.sol",
+            "line": 93
+          }
+        ],
+        "delegatecall-in-loop": [
+          {
+            "file": "src/CidNFT.sol",
+            "line": 150
+          }
+        ],
+        "large-numeric-literal": [
+          {
+            "file": "src/CidNFT.sol",
+            "line": 191
+          }
+        ],
+        "require-revert-in-loop": [
+          {
+            "file": "src/CidNFT.sol",
+            "line": 150
+          }
+        ],
+        "solmate-safe-transfer-lib": [
+          {
+            "file": "src/CidNFT.sol",
+            "line": 6
+          },
+          {
+            "file": "src/SubprotocolRegistry.sol",
+            "line": 6
+          }
+        ],
+        "state-variable-could-be-immutable": [
+          {
+            "file": "src/CidNFT.sol",
+            "line": 37
+          }
+        ],
+        "unspecific-solidity-pragma": [
+          {
+            "file": "src/AddressRegistry.sol",
+            "line": 2
+          },
+          {
+            "file": "src/CidNFT.sol",
+            "line": 2
+          },
+          {
+            "file": "src/CidSubprotocolNFT.sol",
+            "line": 2
+          },
+          {
+            "file": "src/SubprotocolRegistry.sol",
+            "line": 2
+          }
+        ],
+        "unused-error": [
+          {
+            "file": "src/CidNFT.sol",
+            "line": 106
+          }
+        ]
+      },
+      "raw_sha256": "dbe03dd01fdf5336561ac9ac10164a97eb91018d79e1e60fb7fa76ffa096c10a"
+    },
+    "4naly3er": {
+      "registered_rules": 169,
+      "input": "full Solidity compiler AST",
+      "raw_sha256": "6ce8f9667d4b8a38c2a753884fb65e22c72ffec333e701b5bd7eb1a1f52b3430",
+      "groups": [
+        "Use assembly to check for `address(0)`",
+        "Cache array length outside of loop",
+        "State variables should be cached in stack variables rather than re-reading them from storage",
+        "For Operations that will not overflow, you could use unchecked",
+        "Avoid contract existence checks by using low level calls",
+        "State variables only set in the constructor should be declared `immutable`",
+        "Using `private` rather than `public` for constants, saves gas",
+        "Increments/decrements can be unchecked in for-loops",
+        "Use != 0 instead of > 0 for unsigned integer comparison",
+        "Missing checks for `address(0)` when assigning values to address state variables",
+        "Array indices should be referenced via `enum`s rather than via numeric literals",
+        "Use `string.concat()` or `bytes.concat()` instead of `abi.encodePacked`",
+        "`constant`s should be defined rather than using magic numbers",
+        "Control structures do not follow the Solidity Style Guide",
+        "Unused `error` definition",
+        "Function ordering does not follow the Solidity style guide",
+        "Functions should not be longer than 50 lines",
+        "Change int to int256",
+        "Incomplete NatSpec: `@param` is missing on actually documented functions",
+        "Use a `modifier` instead of a `require/if` statement for a special `msg.sender` actor",
+        "Consider using named mappings",
+        "Take advantage of Custom Error's return value property",
+        "Use scientific notation (e.g. `1e18`) rather than exponentiation (e.g. `10**18`)",
+        "Contract does not follow the Solidity style guide's suggested layout ordering",
+        "Internal and private variables and functions names should begin with an underscore",
+        "Event is missing `indexed` fields",
+        "Variables need not be initialized to zero",
+        "Some tokens may revert when zero value transfers are made",
+        "Missing checks for `address(0)` when assigning values to address state variables",
+        "`abi.encodePacked()` should not be used with dynamic types when passing the result to a hash function such as `keccak256()`",
+        "Prevent accidentally burning tokens",
+        "Solidity version 0.8.20+ may not work on other chains due to `PUSH0`",
+        "File allows a version of solidity that is susceptible to an assembly optimizer bug",
+        "Unspecific compiler version pragma",
+        "Solmate's SafeTransferLib does not check for token contract's existence",
+        "Direct `supportsInterface()` calls may cause caller to revert",
+        "Using `delegatecall` inside a loop"
+      ]
+    },
+    "semgrep": {
+      "version": "1.169.0",
+      "rules": [
+        "nqc-token-call-review"
+      ],
+      "files": [
+        "src/AddressRegistry.sol",
+        "src/CidNFT.sol",
+        "src/CidSubprotocolNFT.sol",
+        "src/SubprotocolRegistry.sol"
+      ],
+      "observations": [],
+      "errors": [],
+      "raw_sha256": "6955bae2021ffc7f80fce7ff0d94235cc2b9cfa7eabdb9b65e081c68a9edb6bb"
+    }
+  },
+  "findings": [
+    {
+      "id": "H-01",
+      "severity_from_key": "High",
+      "title_from_key": "Frontrun de mint+add para robar el NFT",
+      "tools_localizing_judged_cause": []
+    },
+    {
+      "id": "M-01",
+      "severity_from_key": "Medium",
+      "title_from_key": "AssociationType ORDERED o PRIMARY puede sobrescribir",
+      "tools_localizing_judged_cause": []
+    },
+    {
+      "id": "M-02",
+      "severity_from_key": "Medium",
+      "title_from_key": "Varias cuentas pueden tener la misma identidad",
+      "tools_localizing_judged_cause": []
+    },
+    {
+      "id": "M-03",
+      "severity_from_key": "Medium",
+      "title_from_key": "Riesgo de griefing en el mint",
+      "tools_localizing_judged_cause": []
+    },
+    {
+      "id": "M-04",
+      "severity_from_key": "Medium",
+      "title_from_key": "tokenURI roto",
+      "tools_localizing_judged_cause": []
+    }
+  ],
+  "lending_ledger_ityfuzz": {
+    "source_pin": "80e3b44170573b592cd53b2c5ee9f36b21032b16",
+    "host": "Linux x86_64",
+    "toolchain_requested_by_source": "nightly-2024-01-01",
+    "local_compilers_checked": [
+      "1.88.0",
+      "1.98.1"
+    ],
+    "version_probe_exit": 127,
+    "version_probe_stderr": "sh: 1: ityfuzz: not found\n",
+    "dependency_resolution": "cargo metadata --locked --offline --format-version 1",
+    "dependency_resolution_exit": 101,
+    "dependency_resolution_stderr_excerpt": "Caused by:\n  failed to load source for dependency `move-binary-format`\n\nCaused by:\n  Unable to update https://github.com/fuzzland/ityfuzz-sui-fork.git#a88e9595\n\nCaused by:\n  can't checkout from 'https://github.com/fuzzland/ityfuzz-sui-fork.git': you are in the offline mode (--offline)",
+    "first_missing_crate": "move-binary-format",
+    "first_missing_git_revision": "a88e9595de3c04a540c059d5f4b6d148419c508c",
+    "compilation_started": false,
+    "binary_installed": false,
+    "campaign_started": false,
+    "fuzz_seconds": 0,
+    "iterations": 0,
+    "campaign_stdout": null
+  },
+  "scope_note": "README lists three contracts. The supplied judge key includes a fourth, CidSubprotocolNFT.sol. All four were scanned.",
+  "evidence_boundary": "Detector counts from Slither and Slitherin cover all compiled units. Credit is restricted to scoped code and requires the mechanism described by the supplied key."
+}
