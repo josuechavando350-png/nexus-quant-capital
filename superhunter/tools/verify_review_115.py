@@ -123,7 +123,13 @@ REPORT_INTEROP_PRODUCER = 'f1eea76f24ff0cf0b5af4a870b5d6e117c46d248'
 HTML_PRODUCER = '604bd28d528ee809c8e6d38adab86ec6f67b652c'
 HTML_TRANSCRIPT_SHA = 'd07aafc5d1c5ba5dfbe5bdcb59d8fe292ddfb7b8a2fe97e5b944ab27fd5b72ff'
 COMPONENTS_REPORT_INTEROP = 'f05874680d267a179c47e04b0fd032bbf1695896225293189cec93856b4e4b82'
+COMPONENTS_EVIDENCE_CONTRACTS = 'e817543c5ca4887cf618806e3dc6b1981e72239aa679dd78afab68c217d70b6a'
+COMPONENTS_SUPPLY_AND_REPORTING = '7442de259902d227b3ba6c05f56597f814abaeca8cc531d0b3a2c6fe28f1ad0e'
+EVIDENCE_CONTRACTS_PRODUCER = '2ddbe098cc98a667211494a9ff9f21ce014d8c3f'
+EVIDENCE_CONTRACTS_ACT = '582cc5c48ee0f92a01d638a55c5d4a2b602d903a'
+EVIDENCE_CONTRACTS_TRANSCRIPT_SHA = 'bdb0e859c9a3affd0f0ca198ed1cdeae75571889f9cab67d28d372058c29722e'
 HISTORICAL_COMPONENTS = {
+    'evidence-contracts': COMPONENTS_EVIDENCE_CONTRACTS,
     'report-interop': COMPONENTS_REPORT_INTEROP,
     'through-html': COMPONENTS_THROUGH_HTML,
     '99': 'adbd7b433b1d3cad6ee0a64fa71e5187f422dafc9050353c07c66d20187abfea',
@@ -133,7 +139,12 @@ HISTORICAL_COMPONENTS = {
 
 @cache
 def component_rules(profile):
-    if profile in ('current', 'evidence-contracts'):
+    if profile == 'supply-and-reporting':
+        raw = read_artifact(ROOT, 'superhunter/product_supply/component-control-contracts.json')
+        if sha(raw) != COMPONENTS_SUPPLY_AND_REPORTING:
+            raise EvidenceError('dependency and reporting contracts differ from the reviewed registry')
+        return strict_json(raw)
+    if profile == 'current':
         from superhunter.product_component_controls import contracts
         return contracts()
     raw = read_artifact(ROOT, f'superhunter/product_supply/component-control-contracts-{profile}.json')
@@ -180,11 +191,13 @@ def verify_policy_corroboration(controls):
 
 def verify(raw, expected_hash=None, *, require_consolidated=False, require_accounting=False,
            require_canonical_header=False, require_grpc_schema=False, require_html_review=False,
-           require_report_interop=False, require_evidence_contracts=False, producer_commit=None):
+           require_report_interop=False, require_evidence_contracts=False, require_supply_and_reporting=False,
+           producer_commit=None):
     profiles = [name for selected, name in (
         (require_consolidated, 'core-eight'), (require_accounting, 'accounting-nine'),
         (require_canonical_header, 'canonical-ten'), (require_grpc_schema, 'grpc-eleven'),
-        (require_html_review, None), (require_report_interop, None), (require_evidence_contracts, None)) if selected]
+        (require_html_review, None), (require_report_interop, None), (require_evidence_contracts, None),
+        (require_supply_and_reporting, None)) if selected]
     if len(profiles) > 1:
         raise EvidenceError('select one exact consolidated acceptance profile')
     full_profile = bool(profiles)
@@ -222,7 +235,9 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
                    'published_excerpts' not in matrix and
                    report['source-inventory'].get('snapshot_sha256') == SNAPSHOT_153)
     component_profile = 'through-html' if full_profile else 'current'
-    if require_evidence_contracts:
+    if require_supply_and_reporting:
+        component_profile = 'supply-and-reporting'
+    elif require_evidence_contracts:
         component_profile = 'evidence-contracts'
     elif require_report_interop:
         component_profile = 'report-interop'
@@ -396,9 +411,9 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
     if full_profile:
         from superhunter.product_native_capabilities import contracts as native_contracts
         controls = report.get('component-controls') or {}
-        if require_evidence_contracts:
-            archived = component_rules('report-interop')
-            current = component_rules('evidence-contracts')
+        if require_evidence_contracts or require_supply_and_reporting:
+            archived = component_rules('evidence-contracts' if require_supply_and_reporting else 'report-interop')
+            current = component_rules(component_profile)
             if not set(archived) < set(current) or any(current[name] != row for name, row in archived.items()):
                 raise EvidenceError('successor component contracts lost a previous binding or have no additional identity')
         if (not combined or not operations_format or set(controls.get('requested', [])) != allowed_domains
@@ -415,12 +430,15 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
         counts.update(check_historical_coverage(rows))
     if require_report_interop:
         counts.update(check_previous_acceptance(rows, report['ossf/scorecard']['license_file_evidence']))
-    if require_evidence_contracts:
+    if require_evidence_contracts or require_supply_and_reporting:
         if not isinstance(producer_commit, str) or not re.fullmatch('[0-9a-f]{40}', producer_commit):
             raise EvidenceError('an independently supplied producer commit is required')
-        prior = report_interop_operations()
+        if require_supply_and_reporting:
+            prior, previous_commit = evidence_contracts_operations(), EVIDENCE_CONTRACTS_PRODUCER
+        else:
+            prior, previous_commit = report_interop_operations(), REPORT_INTEROP_PRODUCER
         check_preserved_operations(prior, operation_keys(rows), report['ossf/scorecard']['license_file_evidence'],
-                                   REPORT_INTEROP_PRODUCER, producer_commit)
+                                   previous_commit, producer_commit)
         counts.update(prior_identities_preserved=len({k[0] for k in prior}), prior_operations_preserved=len(prior))
     if 'native-capabilities' in report:
         if historical_native and digest != NATIVE_SESSION_70:
@@ -545,6 +563,16 @@ def report_interop_operations():
     return operation_keys(rows)
 
 
+@cache
+def evidence_contracts_operations():
+    from superhunter.tools import render_product_matrix as renderer
+    verified, rows, producer = renderer.verified_pair('evidence-contracts', evidence_commit=EVIDENCE_CONTRACTS_ACT)
+    if (producer['commit'] != EVIDENCE_CONTRACTS_PRODUCER
+            or verified['transcript_sha256'] != EVIDENCE_CONTRACTS_TRANSCRIPT_SHA):
+        raise EvidenceError('previous dependency-review baseline differs from its published pair')
+    return operation_keys(rows)
+
+
 def negative_controls(raw, **profile_options):
     keys = response_keys(raw)
     lines = raw.splitlines()
@@ -577,6 +605,14 @@ def negative_controls(raw, **profile_options):
             cases.append(('changed_policy_catalog_joint_digest', 'component-controls',
                           ('policy_catalog_corroboration', 'joint_sha256'), '0' * 64, 'policy catalog corroboration'))
         if observed:
+            if 'DataDog/stratus-red-team' in observed:
+                cases.append(('changed_attribution_review', 'component-controls',
+                              ('observations', 'DataDog/stratus-red-team', 'operation'),
+                              'unverified', 'individual component result'))
+            if 'OWASP/Nettacker' in observed:
+                cases.append(('changed_localized_report', 'component-controls',
+                              ('observations', 'OWASP/Nettacker', 'result', 'index_sha256'),
+                              '0' * 64, 'individual component result'))
             name = sorted(observed)[0]
             cases.append(('changed_group_result', 'component-controls', ('observations', name, 'operation'),
                           'unchecked', 'individual component result'))
@@ -641,7 +677,9 @@ def main():
                           help='require the twelve native groups, the previous ledger and every report control domain')
     profiles.add_argument('--require-consolidated-evidence-contracts', action='store_true',
                           help='require all current domains and every receipt in the accepted report interoperability pair')
-    parser.add_argument('--producer-commit', help='independently verified Git identity for the evidence-contracts profile')
+    profiles.add_argument('--require-consolidated-supply-and-reporting', action='store_true',
+                          help='verify the dependency attribution review and the entire previous evidence-contracts pair')
+    parser.add_argument('--producer-commit', help='independently verified Git identity for the selected producer')
     parser.add_argument('--expect-sha256', help='trusted digest for a specific, published run')
     args = parser.parse_args()
     raw = read_artifact(args.transcript.parent, args.transcript.name)
@@ -653,8 +691,9 @@ def main():
                        'require_grpc_schema': args.require_consolidated_grpc_schema,
                        'require_html_review': args.require_consolidated_html_review,
                        'require_report_interop': args.require_consolidated_report_interop,
-                       'require_evidence_contracts': args.require_consolidated_evidence_contracts}
-    if args.require_consolidated_evidence_contracts:
+                       'require_evidence_contracts': args.require_consolidated_evidence_contracts,
+                       'require_supply_and_reporting': args.require_consolidated_supply_and_reporting}
+    if args.require_consolidated_evidence_contracts or args.require_consolidated_supply_and_reporting:
         profile_options['producer_commit'] = args.producer_commit
     result = verify(raw, args.expect_sha256, **profile_options)
     if args.require_complete_controls:

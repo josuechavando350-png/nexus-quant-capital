@@ -241,6 +241,7 @@ QA_MODULE_GROUPS = (
         'test_product_event_format',
         'test_product_policy_catalog',
         'test_product_development_manifest',
+        'test_product_dependency_attributions', 'test_product_report_accessibility',
         'test_product_html_review',
         'test_product_evm_native',
         'test_product_native_capabilities',

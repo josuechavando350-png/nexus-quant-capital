@@ -24,6 +24,7 @@ GRPC_SCHEMA_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['grpc-schema']
 HTML_REVIEW_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['html-review']
 REPORT_INTEROP_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['report-interop']
 EVIDENCE_CONTRACTS_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['evidence-contracts']
+ATTRIBUTIONS_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['supply-and-reporting']
 # A later default native registry must never redefine an archived nine-group acceptance.
 ACCOUNTING_SHA = '4dfec613c3f4ad64084a7487d4f4d5ecadea8f177f1bcc7283637c4a8adcdefa'
 HEADER_SHA = 'c3b7c10d1c72aacae73e09c5b96b521baeb9a8e6f4b15b03886ddcb8a16395c3'
@@ -35,7 +36,9 @@ PROFILES = {'core-eight': (DOSSIER, CORE_EIGHT[1], 'require_consolidated'),
             'grpc-schema': (GRPC_SCHEMA_DOSSIER, GRPC_SCHEMA_SHA, 'require_grpc_schema'),
             'html-review': (HTML_REVIEW_DOSSIER, HTML_REVIEW_SHA, 'require_html_review'),
             'report-interop': (REPORT_INTEROP_DOSSIER, HTML_REVIEW_SHA, 'require_report_interop'),
-            'evidence-contracts': (EVIDENCE_CONTRACTS_DOSSIER, HTML_REVIEW_SHA, 'require_evidence_contracts')}
+            'evidence-contracts': (EVIDENCE_CONTRACTS_DOSSIER, HTML_REVIEW_SHA, 'require_evidence_contracts'),
+            'supply-and-reporting': (ATTRIBUTIONS_DOSSIER, HTML_REVIEW_SHA, 'require_supply_and_reporting')}
+PRODUCER_BOUND_PROFILES = ('evidence-contracts', 'supply-and-reporting')
 REQUIRED_MUTATIONS = frozenset({
     'inflated_count', 'unsupported_credit', 'replaced_historical_digest', 'changed_native_result',
     'changed_license', 'changed_git_tree', 'erased_domain_selection', 'erased_shared_results',
@@ -141,19 +144,19 @@ def render(components, native, *, current=None, producer=None):
                       + (', '.join(f'`{path}`' for path in producer['different_inputs']) or 'ninguno') + '. '
                       + ('Los manifiestos nativos tienen huellas distintas.' if producer['different_native_manifest']
                          else 'Coincide la huella de los manifiestos nativos.')])
-        if producer['profile'] in ('accounting', 'canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts'):
+        if producer['profile'] in ('accounting', 'canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting'):
             lines.extend(['', 'Esta aceptación incluye el noveno grupo de controles contables. '
                           'El [expediente de ocho grupos](product_supply/consolidated-acceptance/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile core-eight`.'])
-        if producer['profile'] in ('canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts'):
+        if producer['profile'] in ('canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting'):
             lines.extend(['', 'El décimo grupo comprueba la interoperabilidad de encabezados RLP. '
                           'El [expediente de nueve grupos](product_supply/consolidated-acceptance-accounting/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile accounting`.'])
-        if producer['profile'] in ('grpc-schema', 'html-review', 'report-interop', 'evidence-contracts'):
+        if producer['profile'] in ('grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting'):
             lines.extend(['', 'El undécimo grupo comprueba esquemas gRPC. '
                           'El [expediente de diez grupos](product_supply/consolidated-acceptance-header/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile canonical-header`.'])
-        if producer['profile'] in ('html-review', 'report-interop', 'evidence-contracts'):
+        if producer['profile'] in ('html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting'):
             lines.extend(['', 'El duodécimo grupo comprueba el informe HTML en el navegador. '
                           'El [expediente de once grupos](product_supply/consolidated-acceptance-grpc-schema/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile grpc-schema`.'])
@@ -181,6 +184,12 @@ def render(components, native, *, current=None, producer=None):
                           '8/9 y el control global se detuvo ante 698 archivos con un máximo de 500. '
                           '[Pruebas del productor](product_supply/acceptance-120/qa-evidence-contracts.json) · '
                           '[Identidades pendientes y procedencia](product_supply/acceptance-120/evidence-contracts-pending-origins.json)'])
+        if producer['profile'] == 'supply-and-reporting':
+            lines.extend(['', f"Se conservaron las {result['prior_operations_preserved']} operaciones del "
+                          '[expediente de 157 identidades](product_supply/consolidated-acceptance-evidence-contracts/acceptance.json). '
+                          'La revisión de dependencias compara el inventario de atribuciones de Stratus con '
+                          'las declaraciones del módulo Go. Nettacker aporta mensajes de sus catálogos de idiomas para '
+                          '[abrir el informe de comparación](product_supply/acceptance-120/pr119-140-vs-157-localized.md).'])
     if current:
         lines.extend(['', 'Una revisión posterior del PR 119 archivó 139 identidades en un perfil distinto. '
                       'Su transcripción, los dos registros de ejecución declarados y el cruce con el perfil contable '
@@ -225,10 +234,9 @@ def digest(value, width=64):
 
 def component_contract_digest(profile):
     if profile == 'evidence-contracts':
-        from superhunter.product_component_controls import CONTRACT_SHA
-        if CONTRACT_SHA in (verify_review_115.COMPONENTS_THROUGH_HTML, verify_review_115.COMPONENTS_REPORT_INTEROP):
-            raise EvidenceError('producer component contract does not match selected acceptance profile')
-        return CONTRACT_SHA
+        return verify_review_115.COMPONENTS_EVIDENCE_CONTRACTS
+    if profile == 'supply-and-reporting':
+        return verify_review_115.COMPONENTS_SUPPLY_AND_REPORTING
     if profile == 'report-interop':
         return verify_review_115.COMPONENTS_REPORT_INTEROP
     return verify_review_115.COMPONENTS_THROUGH_HTML
@@ -252,7 +260,7 @@ def require_producer(commit, tree, inputs, profile):
     expected_components = component_contract_digest(profile)
     if contract_sha != PROFILES[profile][1] or components_sha != expected_components:
         raise EvidenceError('producer contract does not match selected acceptance profile')
-    if profile in ('report-interop', 'evidence-contracts') and inputs.get('component_contract_sha256') != components_sha:
+    if profile in ('report-interop', *PRODUCER_BOUND_PROFILES) and inputs.get('component_contract_sha256') != components_sha:
         raise EvidenceError('run component contract disagrees with the producer commit')
     if inputs['git_source_tree'] != source_tree or inputs['native_contract_sha256'] != contract_sha:
         raise EvidenceError('run source tree or native contract disagrees with the producer commit')
@@ -306,9 +314,11 @@ def selected_profile(profile):
 def check_act_verdict(act, verified, raw, *, profile=None, producer_commit=None):
     if canonical(act.get('independent_verification')) != canonical(verified):
         raise EvidenceError('independent verification in the acceptance act differs from the recomputed verdict')
-    options = {'require_evidence_contracts': True, 'producer_commit': producer_commit} if profile == 'evidence-contracts' else {}
+    options = {PROFILES[profile][2]: True, 'producer_commit': producer_commit} if profile in PRODUCER_BOUND_PROFILES else {}
     controls = verify_review_115.negative_controls(raw, **options)
-    required = REQUIRED_MUTATIONS | ({'changed_policy_catalog_joint_digest'} if profile == 'evidence-contracts' else set())
+    required = REQUIRED_MUTATIONS | ({'changed_policy_catalog_joint_digest'} if profile in PRODUCER_BOUND_PROFILES else set())
+    if profile == 'supply-and-reporting':
+        required = required | {'changed_attribution_review', 'changed_localized_report'}
     if set(controls) != required or canonical(act.get('refuted_mutations')) != canonical(controls):
         raise EvidenceError('refuted mutations in the acceptance act differ from the recomputed controls')
 
@@ -338,7 +348,7 @@ def verified_pair(profile, *, evidence_commit=None):
         raise EvidenceError('two distinct checkouts are required')
     left, result, raw = run_evidence(first, 'first', profile)
     right, replay, other = run_evidence(second, 'second', profile)
-    if (profile == 'evidence-contracts' or evidence_commit is not None) and (
+    if (profile in PRODUCER_BOUND_PROFILES or evidence_commit is not None) and (
             first['inputs_sha256'] == second['inputs_sha256']
             or left['raw_run_inputs_sha256'] == right['raw_run_inputs_sha256']):
         raise EvidenceError('previous or successor acceptance requires two distinct input manifests')
@@ -347,7 +357,7 @@ def verified_pair(profile, *, evidence_commit=None):
     if (result['commit'], result['tree']) != (replay['commit'], replay['tree']):
         raise EvidenceError('execution records identify different producer commits or trees')
     strict_profile = {PROFILES[profile][2]: True}
-    if profile == 'evidence-contracts':
+    if profile in PRODUCER_BOUND_PROFILES:
         strict_profile['producer_commit'] = result['commit']
     verified = verify_review_115.verify(raw, result['sha256'], **strict_profile)
     verify_review_115.verify(other, replay['sha256'], **strict_profile)
@@ -370,8 +380,20 @@ def accepted_markdown(profile='latest'):
     return historical_markdown(current=(verified, rows), producer=producer)
 
 
+def pending_identities(profile):
+    verified, rows, producer = verified_pair(profile)
+    pending = [{key: row[key] for key in ('id', 'repository', 'commit', 'tree')}
+               for row in rows if not row['session_operations']]
+    if len(pending) != verified['pending'] or len(pending) + verified['session'] != len(rows):
+        raise EvidenceError('pending list differs from the checked session')
+    return {'catalog': len(rows), 'participating': verified['session'], 'pending': len(pending),
+            'producer_commit': producer['commit'], 'transcript_sha256': verified['transcript_sha256'],
+            'repositories': pending}
+
+
 def main():
-    if {'--historical', '--check-historical', '--acceptance', '--check-acceptance', '--verify-dossier', '--profile'} & set(sys.argv[1:]):
+    if {'--historical', '--check-historical', '--acceptance', '--check-acceptance', '--verify-dossier',
+        '--pending', '--profile'} & set(sys.argv[1:]):
         parser = argparse.ArgumentParser(description=__doc__)
         mode = parser.add_mutually_exclusive_group(required=True)
         mode.add_argument('--historical', action='store_true', help='render the two frozen sessions')
@@ -379,12 +401,16 @@ def main():
         mode.add_argument('--acceptance', action='store_true', help='render the two verified checkout runs')
         mode.add_argument('--check-acceptance', action='store_true', help='check the matrix against both runs')
         mode.add_argument('--verify-dossier', action='store_true', help='verify both runs independently of the current matrix')
+        mode.add_argument('--pending', action='store_true', help='list the identities without an operation in both verified runs')
         parser.add_argument('--profile', choices=('latest', *PROFILES), help='dossier to verify (default: latest)')
         args = parser.parse_args()
         if args.profile and (args.historical or args.check_historical):
             parser.error('--profile selects a two-checkout acceptance dossier')
-        if args.acceptance or args.check_acceptance or args.verify_dossier:
+        if args.acceptance or args.check_acceptance or args.verify_dossier or args.pending:
             try:
+                if args.pending:
+                    sys.stdout.buffer.write(canonical(pending_identities(args.profile or 'latest')))
+                    return 0
                 rendered = accepted_markdown(args.profile or 'latest')
             except (EvidenceError, ValueError, OSError, KeyError, TypeError) as error:
                 print(f'acceptance unavailable: {error}', file=sys.stderr)

@@ -201,6 +201,19 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
         with self.assertRaisesRegex(EvidenceError, 'usestrix/strix'):
             verifier.check_historical_coverage(rows.values())
 
+    def test_pending_list_uses_current_operations_and_checks_the_verified_count(self):
+        pending = {'id': 5, 'repository': 'owner/pending', 'commit': '1' * 40, 'tree': '2' * 40}
+        rows = [dict(pending, role='executable', session_operations=[]),
+                dict(pending, id=9, repository='owner/accepted', session_operations=[{'role': 'reference_data'}])]
+        verdict = {'pending': 1, 'session': 1, 'transcript_sha256': '3' * 64}
+        with patch.object(renderer, 'verified_pair', return_value=(verdict, rows, {'commit': '4' * 40})):
+            listing = renderer.pending_identities('latest')
+            self.assertEqual(listing['repositories'], [pending])
+            self.assertEqual(listing['producer_commit'], '4' * 40)
+            verdict['pending'] = 0
+            with self.assertRaisesRegex(EvidenceError, 'pending list differs'):
+                renderer.pending_identities('latest')
+
     def test_current_receipt_column_preserves_each_role_field_and_digest(self):
         self.assertEqual(renderer.current_receipts([]), '—')
         operations = [{'role': 'reference_data', 'receipt': 'source', 'evidence_sha256': '1' * 64},
@@ -265,16 +278,17 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
                       'component_contract_sha256': verifier.sha(git('show', commit + ':superhunter/product_supply/component-control-contracts.json'))}
             component_sha = inputs['component_contract_sha256']
             registry = {verifier.COMPONENTS_REPORT_INTEROP: 'report-interop',
-                        verifier.COMPONENTS_THROUGH_HTML: None}.get(component_sha, 'evidence-contracts')
+                        verifier.COMPONENTS_EVIDENCE_CONTRACTS: 'evidence-contracts',
+                        verifier.COMPONENTS_THROUGH_HTML: None}.get(component_sha, 'supply-and-reporting')
             matches = [name for name, (_, digest, _) in renderer.PROFILES.items()
                        if digest == contract and (name == registry if registry else
-                                                 name not in ('report-interop', 'evidence-contracts'))]
+                                                 name not in ('report-interop', 'evidence-contracts', 'supply-and-reporting'))]
             self.assertEqual(len(matches), 1)
             selected = matches[0]
             if recorded_profile:
                 self.assertEqual(selected, recorded_profile)
             renderer.require_producer(commit, tree, inputs, selected)
-            if selected in ('report-interop', 'evidence-contracts'):
+            if selected in ('report-interop', 'evidence-contracts', 'supply-and-reporting'):
                 for replacement in (None, verifier.COMPONENTS_THROUGH_HTML):
                     forged = {**inputs, 'component_contract_sha256': replacement}
                     with self.subTest(replacement=replacement), self.assertRaisesRegex(EvidenceError, 'run component contract'):
@@ -370,7 +384,7 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
 
     def test_latest_is_ordered_by_profile_and_cannot_hide_an_incomplete_dossier(self):
         with TemporaryDirectory() as tmp, patch.object(renderer, 'ROOT', Path(tmp)):
-            expected = ('core-eight', 'accounting', 'canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts')
+            expected = ('core-eight', 'accounting', 'canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting')
             self.assertEqual(tuple(renderer.PROFILES), expected)
             self.assertEqual(tuple(renderer.PROFILE_DIRECTORIES), expected)
             for name in expected:
@@ -432,7 +446,9 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
         self.assertEqual(renderer.component_contract_digest('report-interop'), verifier.COMPONENTS_REPORT_INTEROP)
         with patch('superhunter.product_component_controls.CONTRACT_SHA', '0' * 64):
             self.assertEqual(renderer.component_contract_digest('report-interop'), verifier.COMPONENTS_REPORT_INTEROP)
-            self.assertEqual(renderer.component_contract_digest('evidence-contracts'), '0' * 64)
+            self.assertEqual(renderer.component_contract_digest('evidence-contracts'), verifier.COMPONENTS_EVIDENCE_CONTRACTS)
+            self.assertEqual(renderer.component_contract_digest('supply-and-reporting'),
+                             verifier.COMPONENTS_SUPPLY_AND_REPORTING)
         self.assertIn('cilium/cilium', report_rules)
 
     def test_unearned_policy_corroboration_is_rejected_even_if_the_field_is_empty(self):

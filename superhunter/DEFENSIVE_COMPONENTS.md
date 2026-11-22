@@ -2,6 +2,12 @@
 
 Los controles consumen entradas fijas de NQC o datos públicos fijados por Git. El índice de producto conserva la identidad y la revisión de cada participante, la operación y la huella del resultado que se observó. Una revisión del mismo código puede seleccionar un solo dominio. La sesión ampliada solicita todos los dominios publicados y vuelve a obtener los resultados.
 
+## Atribuciones de dependencias y lectura de informes
+
+El dominio `dependency-attributions` usa el inventario de terceros de Stratus y el manifiesto Go de su módulo v2. Cruza las rutas de módulo distinguiendo mayúsculas, conserva la versión declarada de cada dependencia ausente y señala las etiquetas de licencia vacías o mal formadas. El identificador de una fila por sí solo no demuestra los derechos sobre el paquete. [Comprobación independiente](product_supply/acceptance-120/supply-attributions-crosscheck.json)
+
+El dominio `report-accessibility` consume las traducciones de Nettacker para abrir el informe histórico que compara los PR 119 y 120. Conserva el nombre del archivo y la dirección de lectura. Cuando falta el mensaje o su marcador de ruta, indica que el texto presentado está en inglés. La CLI `python3.12 -B -m superhunter.product_report_accessibility --source-root RUTA` genera el HTML local. La opción `--format markdown` reproduce el índice publicado. [Índice en 24 idiomas](product_supply/acceptance-120/pr119-140-vs-157-localized.md)
+
 ## Tres comprobaciones sobre archivos existentes
 
 | Dominio de `query-product` | Entrada y resultado que puede comprobarse |

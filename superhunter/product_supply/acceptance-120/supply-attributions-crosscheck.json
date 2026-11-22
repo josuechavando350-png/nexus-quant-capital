@@ -1,0 +1,41 @@
+{
+  "csv_only_rows": 17,
+  "csv_rows": 137,
+  "direct": {
+    "absent_from_csv": 19,
+    "declared": 63,
+    "exact_csv_row": 44,
+    "has_labels": 43,
+    "malformed_license": 1,
+    "missing_license": 0
+  },
+  "exact_missing_module_version_lists_agree": true,
+  "fixture_blobs": {
+    "LICENSE-3rdparty.csv": "82608defafea154da3a7264736bc81bb7e8e7b55",
+    "v2/go.mod": "32dba0e79dce3924cb2e50598b48d2aa6b5e332d"
+  },
+  "indirect": {
+    "absent_from_csv": 44,
+    "declared": 120,
+    "exact_csv_row": 76,
+    "has_labels": 76,
+    "malformed_license": 0,
+    "missing_license": 0
+  },
+  "licence_field_issues": {
+    "github.com/datadog/stratus-red-team/v2": {
+      "issue": "missing_license",
+      "membership": "main_module"
+    },
+    "google.golang.org/appengine": {
+      "issue": "missing_license",
+      "membership": "outside_requirements"
+    },
+    "gopkg.in/yaml.v3": {
+      "issue": "malformed_license",
+      "membership": "direct"
+    }
+  },
+  "product_observation_sha256": "e3cada510a24147d9e193c8a6610eef84fea9f83f1cd7a2208e1250b86c5a6e5",
+  "scope": "Independent restricted parser over the two pinned working-tree files, compared with authenticated Go mod edit output. No package graph resolution, compilation of upstream code or license approval."
+}

@@ -10,6 +10,7 @@ PROFILE_DIRECTORIES = {
     'html-review': BASE + '-html-review',
     'report-interop': BASE + '-report-interop',
     'evidence-contracts': BASE + '-evidence-contracts',
+    'supply-and-reporting': BASE + '-supply-and-reporting',
 }
 RUN_DIRECTORIES = ('first', 'second')
 RUN_FILES = ('result.json', 'run-inputs.json', 'session.json')
