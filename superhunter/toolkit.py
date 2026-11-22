@@ -9,7 +9,7 @@ import subprocess
 import sys
 import tempfile
 
-from .product_sources import git, gitlinks, toolkit_sources
+from .product_sources import checked_out, git, gitlinks, toolkit_sources
 from .toolkit_reports import FORMATS, read_reports, summarize
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,12 +23,9 @@ def source_index(root):
     links = gitlinks(root)
     result = []
     for tool in toolkit_sources():
-        directory = root / tool['path']
         if links.get(tool['path']) != tool['commit']:
             raise ValueError('unexpected product pin: ' + tool['repository'])
-        if not (directory / '.git').exists() or git(directory, 'rev-parse', 'HEAD').decode().strip() != tool['commit']:
-            raise ValueError('initialize pinned submodule: ' + tool['path'])
-        result.append(tool)
+        result.append(checked_out(root, tool))
     return result
 
 
@@ -131,12 +128,17 @@ def native_review(work, tools):
         raise ValueError('the T36 suite requires solc 0.8.24')
     source = (work / TARGET).read_text()
     standard = {'language': 'Solidity', 'sources': {TARGET: {'content': source}},
-                'settings': {'outputSelection': {'*': {'': ['ast']}}}}
+                'settings': {'optimizer': {'enabled': True, 'runs': 1000000}, 'evmVersion': 'cancun',
+                             'metadata': {'appendCBOR': False, 'bytecodeHash': 'none'},
+                             'outputSelection': {'*': {'': ['ast'], '*': ['abi', 'evm.methodIdentifiers',
+                              'evm.deployedBytecode.object', 'evm.deployedBytecode.sourceMap']}}}}
     compiled = json.loads(checked([solc, '--standard-json'], work, input=json.dumps(standard)))
     if any(row['severity'] == 'error' for row in compiled.get('errors', [])):
         raise ValueError('solc rejected T36')
     ast = compiled['sources'][TARGET]['ast']
     (work / 'input.json').write_text(json.dumps([{'name': TARGET, 'content': source, 'ast': ast}]))
+    contract = compiled['contracts'][TARGET]['NqcFlashFundingExecutor']
+    (work / 'joined-input.json').write_text(json.dumps({'contract': contract, 'ast': ast}))
     four = ROOT / tools['Picodes/4naly3er']['path']
     deps = Path(os.environ.get('SUPERHUNTER_4NALY3ER_MODULES', four / 'node_modules')).resolve()
     if not (deps / 'ts-node/register/transpile-only.js').is_file():
@@ -233,6 +235,58 @@ def installed_static_checks(work):
     return results
 
 
+def collect_session(folder):
+    from .toolkit_product import product_session
+    tools = {row['repository']: row for row in source_index(ROOT)}
+    with tempfile.TemporaryDirectory(prefix='nqc-toolkit-') as tmp:
+        work = Path(tmp)
+        prepare(work, tools)
+        result = native_review(work, tools)
+        result['medusa_property'] = property_test(work)
+        result['echidna'] = echidna_test(work)
+        result['installed_static_checks'] = installed_static_checks(work)
+        result['mutation'] = mutation_test(work, result['forge'])
+        # The mutation belongs only to the regression check.
+        (work / TARGET).write_bytes(git(ROOT, 'show', f'HEAD:{CONTRACTS}/{TARGET}'))
+        if folder:
+            result['product_session'] = product_session(ROOT, tools, result, work, folder, checked)
+    result['static_tools_unavailable'] = sorted({'slither', 'slitherin', 'semgrep', 'aderyn'}
+                                                - result['installed_static_checks'].keys())
+    result.update(target=CONTRACTS + '/' + TARGET, references=reference(ROOT, tools.values(), []),
+                  executable_tools=['solc', '4naly3er', 'forge', 'medusa', 'echidna', 'gambit',
+                                    *(['nuclei'] if folder else []),
+                                    *result['installed_static_checks']],
+                  solidity_test_library='crytic/properties')
+    return result
+
+
+def run_session(runtime, reports):
+    imported = read_reports(reports)
+    if runtime is None:
+        installed = shutil.which('aderyn-lines')
+        runtime = Path(installed).parent if installed else None
+    if runtime is None:
+        result = collect_session(None)
+    else:
+        folder = runtime.resolve(strict=True)
+        for name in ('forge', 'solc', 'medusa', 'echidna', 'gambit', 'nuclei',
+                     'ityfuzz-opcodes', 'aderyn-lines', 'semgrep-solidity.so', 'venv/bin/python'):
+            if not (folder / name).is_file():
+                raise ValueError('missing toolkit component: ' + name + '. Run toolkit setup in a new directory.')
+        env = {**os.environ,
+               'PATH': os.pathsep.join([str(folder / 'venv/bin'), str(folder), os.environ['PATH']]),
+               'LD_LIBRARY_PATH': os.pathsep.join(filter(None, [str(folder), os.environ.get('LD_LIBRARY_PATH')])),
+               'PYTHONPATH': os.pathsep.join([str(folder / 'cbor2'), str(folder / 'select')]),
+               'SUPERHUNTER_4NALY3ER_MODULES': str(folder / 'js/node_modules')}
+        job = subprocess.run([sys.executable, '-B', '-m', 'superhunter.toolkit', str(folder)], cwd=ROOT,
+                             env=env, text=True, capture_output=True, timeout=900)
+        if job.returncode:
+            raise ValueError('T36 session failed: ' + job.stderr.strip()[-900:])
+        result = json.loads(job.stdout)
+    result['imported_reports'] = imported
+    return result
+
+
 def main(argv):
     parser = argparse.ArgumentParser(description=__doc__)
     if argv and argv[0] == 'setup':
@@ -252,34 +306,21 @@ def main(argv):
         if args.action == 'reports':
             print(json.dumps({'imported_reports': read_reports(args.report)}, ensure_ascii=False))
             return 0
-        if args.action == 'check' and args.runtime:
-            folder = args.runtime.resolve(strict=True)
-            os.environ.update(PATH=os.pathsep.join([str(folder / 'venv/bin'), str(folder), os.environ['PATH']]),
-                              LD_LIBRARY_PATH=os.pathsep.join(filter(None, [str(folder), os.environ.get('LD_LIBRARY_PATH')])),
-                              PYTHONPATH=os.pathsep.join([str(folder / 'cbor2'), str(folder / 'select')]),
-                              SUPERHUNTER_4NALY3ER_MODULES=str(folder / 'js/node_modules'))
-        rows = source_index(ROOT)
-        references = reference(ROOT, rows, getattr(args, 'terms', []))
         if args.action == 'references':
-            result = {'references': references}
+            result = {'references': reference(ROOT, source_index(ROOT), args.terms)}
         else:
-            imported = read_reports(args.report)
-            tools = {row['repository']: row for row in rows}
-            with tempfile.TemporaryDirectory(prefix='nqc-toolkit-') as tmp:
-                work = Path(tmp)
-                prepare(work, tools)
-                result = native_review(work, tools)
-                result['medusa_property'] = property_test(work)
-                result['echidna'] = echidna_test(work)
-                result['installed_static_checks'] = installed_static_checks(work)
-                result['mutation'] = mutation_test(work, result['forge'])
-            result['static_tools_unavailable'] = sorted({'slither', 'slitherin', 'semgrep', 'aderyn'}
-                                                        - result['installed_static_checks'].keys())
-            result.update(target=CONTRACTS + '/' + TARGET, references=references,
-                          executable_tools=['solc', '4naly3er', 'forge', 'medusa', 'echidna', 'gambit', *result['installed_static_checks']],
-                          solidity_test_library='crytic/properties', imported_reports=imported)
+            result = run_session(args.runtime, args.report)
         print(json.dumps(result, ensure_ascii=False))
         return 0
     except (OSError, KeyError, ValueError, subprocess.SubprocessError, StopIteration) as exc:
         print(str(exc), file=sys.stderr)
         return 2
+
+
+if __name__ == '__main__':
+    # The parent supplies a private environment to the fixed-subject worker.
+    folder, = sys.argv[1:]
+    try:
+        print(json.dumps(collect_session(Path(folder).resolve(strict=True))))
+    except (OSError, KeyError, ValueError, subprocess.SubprocessError, StopIteration) as exc:
+        sys.exit(str(exc))

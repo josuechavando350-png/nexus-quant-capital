@@ -13,6 +13,7 @@ import tempfile
 import zipfile
 
 from .product_sources import toolkit_sources
+from .toolkit_build import DEPS, build_components
 
 ROOT = Path(__file__).resolve().parents[1]
 RELEASES = (
@@ -24,6 +25,8 @@ RELEASES = (
      'ddfe1517ae9028ef9fc331b00f5a6a9d5406f3fcd11a715d60c6b6fb3e4546d3'),
     ('echidna', 'crytic/echidna', 'v2.4.0', 'echidna-2.4.0-x86_64-linux.tar.gz', 'echidna',
      'a77a90501dd6269e12807156e9d409b160ce0c87fbb36fe323a896a4fb7a2d1d'),
+    ('nuclei', 'projectdiscovery/nuclei', 'v3.11.1', 'nuclei_3.11.1_linux_amd64.zip', 'nuclei',
+     'ea63d4ae232808cd7c6bc00d0142428e231fab59dae01042246097d195835ab6'),
     ('gambit', 'Certora/gambit', 'v1.0.6', 'gambit-linux-v1.0.6', None,
      '76321d84564ff4d8222bfb359f1fe67eae69f21e689dbc9c23760257a94864fa'),
     ('libz3.so.4.12', 'Z3Prover/z3', 'z3-4.12.2', 'z3-4.12.2-x64-glibc-2.35.zip',
@@ -79,11 +82,12 @@ def main(argv):
             *(row['path'] for row in toolkit_sources()), cwd=ROOT)
         for release in RELEASES:
             install_release(folder, release)
-        for name, repo, commit in PYTHON_SOURCES:
+        for name, repo, commit in (*PYTHON_SOURCES, *DEPS):
             dest = folder / name
             run('git', 'init', '-q', dest)
             run('git', 'fetch', '-q', '--depth=1', f'https://github.com/{repo}.git', commit, cwd=dest)
             run('git', 'checkout', '-q', '--detach', commit, cwd=dest)
+        build_components(ROOT, folder)
         wheels = folder / 'wheels'
         run('uv', 'build', '--offline', '--wheel', '--out-dir', wheels, folder / 'crytic-compile')
         run(sys.executable, '-m', 'venv', '--system-site-packages', folder / 'venv')

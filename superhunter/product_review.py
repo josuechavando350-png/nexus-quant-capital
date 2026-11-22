@@ -204,6 +204,8 @@ class ProductIndex:
     """Exact-name lookups over one independently verified, immutable-in-time snapshot."""
     def __init__(self, report, *, supply=None, notices=None):
         self.notices = notices or {}
+        self.toolkit_session = None
+        self.toolkit_rows = {}
         self.profile_notices = {}
         self.sbom_locations = {}
         self.similar_notices = None
@@ -251,8 +253,28 @@ class ProductIndex:
         self.isolate = report['profile_whose_isolation_resolves_all_observed_pin_conflicts']
         self.observations = len(report['packages'])
 
+    def attach_toolkit(self, session):
+        rows = {row['repository'].casefold(): row for row in session['repositories']}
+        if len(rows) != len(session['repositories']):
+            raise EvidenceError('duplicate toolkit identity')
+        historical = {key: row['catalog_id'] for key, row in rows.items() if 'catalog_id' in row}
+        if historical != {key: row['catalog_id'] for key, row in self.repos.items()}:
+            raise EvidenceError('toolkit historical identities differ from this product bundle')
+        lookups = rows.copy()
+        for row in rows.values():
+            for alias in row.get('aliases', []):
+                if alias.casefold() in lookups:
+                    raise EvidenceError('duplicate toolkit alias')
+                lookups[alias.casefold()] = row
+        self.toolkit_rows = lookups
+        self.toolkit_session = session
+
     def lookup(self, query):
         key = query.strip().casefold()
+        if key == 'toolkit-matrix':
+            if self.toolkit_session is None:
+                raise EvidenceError('toolkit-matrix requires --toolkit-runtime')
+            return self.toolkit_session
         if key == 'native-capabilities':
             if self.native_capabilities is None:
                 raise EvidenceError('native capabilities require at least one native kit')
@@ -271,7 +293,10 @@ class ProductIndex:
             return self.component_controls
         if key == 'integration-matrix':
             from .product_matrix import build
-            return build(self)
+            matrix = build(self)
+            if self.toolkit_session is not None:
+                matrix['toolkit_session'] = self.toolkit_session
+            return matrix
         if key == 'fork-headers':
             if self.fork_headers is None:
                 raise EvidenceError('fork header corroboration requires --fork-headers')
@@ -344,6 +369,12 @@ class ProductIndex:
             return self.similar_notices.get(key.removeprefix('similar:').strip())
         if '/' in key:
             row = self.repos.get(key)
+            if key in self.toolkit_rows:
+                joined = self.toolkit_rows[key]
+                row = self.repos.get(joined['repository'].casefold())
+                if row is None:
+                    return joined
+                row = {**row, **joined}
             if not row or not row['review_tool']:
                 return row
             if row['review_tool'] == 'syft':
@@ -382,6 +413,7 @@ def main(argv):
         parser.add_argument('--bundle', type=Path, required=True)
         if command == 'query-product':
             from .product_component_controls import DOMAINS
+            parser.add_argument('--toolkit-runtime', type=Path, help='run the fixed T36 session and join its repositories to this product')
             parser.add_argument('--control-source-root', type=Path, help='checkout root for the selected domain without preparing the extended profile')
             parser.add_argument('--component-controls', choices=['all', *DOMAINS], help='run fixed local checks for the selected domain')
             parser.add_argument('--owned-source-kit', type=Path, help='evaluate fixed owned code and supply declarations')
@@ -452,6 +484,9 @@ def main(argv):
                     from .product_notices import collect
                     notices, public_files = collect(opts.notice_wheels, wheel_lock)
             index = ProductIndex(result, supply=supply, notices=notices)
+            if opts.toolkit_runtime:
+                from .toolkit import run_session
+                index.attach_toolkit(run_session(opts.toolkit_runtime, [])['product_session'])
             from .product_native_capabilities import selected_kits
             native_kits = selected_kits(opts)
             if native_kits:
