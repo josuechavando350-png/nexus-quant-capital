@@ -256,6 +256,27 @@ class CatalogSourceOverlapTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'revisions'):
             coverage(report, {'rows': rows})
 
+    def test_live_gate_uses_current_operations_and_refuses_dropped_or_mislabeled_rows(self):
+        from superhunter.tools.catalog_session import live_participation
+        from superhunter.tools.verify_source_materialization import expected_rows
+        rows = [{'id': pin['catalog_id'], **{k: pin[k] for k in ('repository', 'commit', 'tree')},
+                 'session': 'reference_data', 'session_operations': [{'role': 'reference_data'}]}
+                for pin in expected_rows()]
+        matrix = {'rows': rows, 'catalog': 200, 'end_to_end': 200}
+        self.assertEqual(live_participation(matrix)['pending'], 0)
+        rows[17].update(session='pending', session_operations=[])
+        with self.assertRaisesRegex(ValueError, 'totals'):
+            live_participation(matrix)
+        matrix['end_to_end'] = 199
+        self.assertEqual(live_participation(matrix)['repositories'], [{'id': 18, 'repository': rows[17]['repository']}])
+        rows[1]['session'] = 'executable'
+        with self.assertRaisesRegex(ValueError, 'role'):
+            live_participation(matrix)
+        rows[1]['session'] = 'reference_data'
+        rows.pop()
+        with self.assertRaises(ValueError):
+            live_participation(matrix)
+
     def test_missing_sources_cannot_return_an_empty_comparison(self):
         from superhunter.product_source_overlap import build
         with tempfile.TemporaryDirectory() as temp:

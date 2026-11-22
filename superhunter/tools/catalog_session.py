@@ -116,6 +116,32 @@ def review_queries():
         'score-comparison', 'assurance-wheel-notices', 'recursive-source-trees', 'fork-headers']
 
 
+def live_participation(matrix):
+    from superhunter.tools.verify_source_materialization import expected_rows
+
+    rows = matrix['rows']
+    missing = []
+    for pin, row in zip(expected_rows(), rows, strict=True):
+        if (pin['catalog_id'] != row['id'] or
+                any(pin[k] != row[k] for k in ('repository', 'commit', 'tree'))):
+            raise ValueError('live participation matrix differs from the pinned catalog')
+        operations = row['session_operations']
+        if not isinstance(operations, list) or (row['session'] == 'pending') != (not operations):
+            raise ValueError('live role and operations disagree')
+        roles = {op['role'] for op in operations}
+        if roles - {'executable', 'reference_data'}:
+            raise ValueError('unrecognized operation role')
+        role = next((candidate for candidate in ('executable', 'reference_data') if candidate in roles), 'pending')
+        if row['session'] != role:
+            raise ValueError('live role differs from the received operations')
+        if not operations:
+            missing.append({'id': row['id'], 'repository': row['repository']})
+    participating = len(rows) - len(missing)
+    if matrix['catalog'] != len(rows) or matrix['end_to_end'] != participating:
+        raise ValueError('live participation totals disagree with individual operations')
+    return {'catalog': len(rows), 'participating': participating, 'pending': len(missing), 'repositories': missing}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--review-queries', action='store_true', help='run the 218 published PR 115 queries in order')
@@ -133,6 +159,7 @@ def main():
     sources.add_argument('--embedded-root-manifests', action='store_true', help='use the verified Git records stored in the product')
     sources.add_argument('--root-manifests', type=Path, help='verified dependency files from remote root trees')
     parser.add_argument('--download-cache', type=Path, help='reuse hash-verified assets outside the checkout (preparation only)')
+    parser.add_argument('--require-all', action='store_true', help='exit 1 when any catalog identity lacks a live operation')
     parser.add_argument('--compare-sources', type=Path, metavar='WORKSPACE', help='compare file IDs among the 200 pinned trees')
     parser.add_argument('--source-inventory', action='store_true', help='join the reviewed source audit')
     parser.add_argument('--source-references', type=Path, help='checkout containing pinned source type definitions')
@@ -150,8 +177,8 @@ def main():
     kits = selected_kits(args)
     if args.review_queries and kits:
         queries.append('native-capabilities')
-    if args.compare_sources and not args.review_queries:
-        parser.error('--compare-sources requires --review-queries to join the live integration matrix')
+    if (args.compare_sources or args.require_all) and not args.review_queries:
+        parser.error('--compare-sources and --require-all need the live matrix from --review-queries')
     work = args.workspace.resolve()
     cache = args.download_cache
     if cache is not None:
@@ -192,7 +219,7 @@ def main():
            *(['--source-inventory'] if args.source_inventory else []),
            *(['--source-references', args.source_references.resolve()] if args.source_references else []),
            *(['--geth-header', args.geth_header.resolve()] if args.geth_header else []), *queries]
-    if args.compare_sources:
+    if args.compare_sources or args.require_all:
         from superhunter.product_source_overlap import build, coverage
         run = subprocess.run(cmd, cwd=ROOT, stdout=subprocess.PIPE)
         if run.returncode:
@@ -203,12 +230,17 @@ def main():
             parser.exit(2, 'incomplete product transcript\n')
         try:
             matrix = strict_json(lines[queries.index('integration-matrix')])
-            overlap = build(args.compare_sources)
-            participation = coverage(overlap, matrix)
+            extra = []
+            if args.compare_sources:
+                overlap = build(args.compare_sources)
+                extra.extend((overlap, coverage(overlap, matrix)))
+            if args.require_all:
+                status = live_participation(matrix)
+                extra.append(status)
         except (OSError, ValueError, KeyError, subprocess.SubprocessError) as error:
-            parser.exit(2, f'source comparison incomplete: {error}\n')
-        sys.stdout.buffer.write(run.stdout + canonical(overlap) + canonical(participation))
-        return 0
+            parser.exit(2, f'product session incomplete: {error}\n')
+        sys.stdout.buffer.write(run.stdout + b''.join(canonical(row) for row in extra))
+        return 1 if args.require_all and status['pending'] else 0
     return subprocess.run(cmd, cwd=ROOT).returncode
 
 

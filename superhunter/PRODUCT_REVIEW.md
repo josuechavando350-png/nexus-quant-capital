@@ -328,3 +328,28 @@ PY
 La consulta `google/osv-scanner` indica qué identificadores observados por NQC reconoce el registro distribuido con OSV-Scanner 2.7.1. Conserva las fuentes de cada término y distingue un identificador local `LicenseRef` del marcador literal `unknown`. En esta instantánea, tres avisos contienen alguno de los dos identificadores locales que faltan en el registro.
 
 Agregar `--osv-license-cache /ruta/distribuciones` al comando anterior que abre el inventario de Dependency-Track. Colocar en esa carpeta el archivo oficial de fuentes de la etiqueta v2.7.1 como `osv-scanner-2.7.1.tar.gz` y el compilador oficial `go1.27.3.linux-amd64.tar.gz`. Los SHA-256 están en [product_spdx_ids.py](product_spdx_ids.py). La prueba compila los archivos originales de OSV-Scanner que implementan `spdx.Unrecognized` y su lista de identificadores. Ejecuta el test del proveedor y coteja la salida nativa con la lista publicada y con las fuentes del expediente. Puede reproducirse con la red deshabilitada. [Fuentes de OSV-Scanner](https://codeload.github.com/google/osv-scanner/tar.gz/refs/tags/v2.7.1) · [Distribución de Go](https://go.dev/dl/go1.27.3.linux-amd64.tar.gz).
+
+## Comparación de los 200 árboles de código fuente
+
+El producto compara cada repositorio con los otros 199. Con las fuentes inicializadas en el directorio `upstream/` de un checkout de NQC, el primer comando publica el recuento de las 19,900 parejas en JSON. El segundo consulta Cilium y Tetragon por sus ID del catálogo.
+
+```sh
+python3.12 -B -m superhunter product-sources --compare-sources .
+python3.12 -B -m superhunter product-sources --compare-sources . --pair 83 88
+```
+
+También se puede pasar la ruta de otro checkout que contenga los 200 proyectos. Una fuente ausente o una revisión distinta interrumpe el cálculo. La comparación comprueba el commit de cada proyecto y reconstruye sus objetos de árbol. Cuenta una sola vez por pareja cada identificador Git de archivo regular con contenido, aunque aparezca en varias rutas. Incluye archivos de código, documentación, licencias y dependencias distribuidas dentro del árbol. Omite archivos vacíos, enlaces simbólicos y el contenido de submódulos anidados. La coincidencia acredita contenido compartido en Git. La comunicación entre dos procesos requiere una prueba de ejecución propia.
+
+En las revisiones medidas, los árboles contienen 889,372 rutas de archivo regular. Hay coincidencias en 1,334 parejas y cero coincidencias en 18,566. Cilium y Tetragon comparten 6,972 identificadores distintos. La fila de cada proyecto conserva su commit, árbol y una lista ordenada de los recuentos con los ID posteriores. Un segundo cálculo, que agrupó cada identificador por los proyectos que lo contienen, reprodujo los 19,900 valores. [Resultados por pareja](product_supply/source-overlap-200.json)
+
+Al añadir `--compare-sources RUTA_DEL_CHECKOUT` a la sesión completa de `catalog_session --review-queries`, la salida incorpora dos respuestas al final. La primera contiene las comparaciones. La segunda identifica, para cada proyecto, qué vecinos comparten archivos y cuáles obtuvieron recibos en esa misma corrida. Las dos respuestas se unen por ID, nombre, commit y árbol.
+
+Para exigir los 200 recibos en una ejecución nueva, añadir `--require-all` a `catalog_session --review-queries`. La última respuesta enumera los participantes ausentes con sus ID y nombres. El proceso devuelve 1 si falta al menos uno, incluso si la comparación de los 200 árboles se completó.
+
+Este comando comprueba si los 200 proyectos tienen un recibo en el último expediente reproducido. Se ejecuta desde un clon con el historial del productor.
+
+```sh
+python3.12 -B -m superhunter.tools.render_product_matrix --require-all
+```
+
+El código de salida 0 indica participación completa, el 1 identifica un expediente válido con participantes pendientes y el 2 indica que la comprobación falló. La salida enumera cada proyecto pendiente. La participación admite tanto ejecución como consumo de una referencia.
