@@ -15,6 +15,9 @@ SETUPTOOLS = '9aa3771f57f070bd13b9a3e83bd469413afc98c7'
 SEMGREP_URL = 'https://registry.npmjs.org/@zibby/bin-semgrep-linux-x64/-/bin-semgrep-linux-x64-1.169.0.tgz'
 SEMGREP_SHA = '11511eaa267d4edd235ea266a3a19158ba3ec077776fa1cd2f66c7dd769f5ffc'
 ADERYN_SHA = 'ffd6ca658962e211a3ac821c646f69c8e14bf1b1001cbfe091bcd4535a691e46'
+ADERYN_ARCHIVE_URL = ('https://raw.githubusercontent.com/pospos191-alt/zetaphy-chain/'
+                      'd82391cf20a09728b8a49352987c49a1feb72d0e/tools/'
+                      'aderyn-0.6.8-x86_64-unknown-linux-gnu.tar.xz')
 
 
 def run(*args):
@@ -28,14 +31,18 @@ def checked_file(path, expected):
 
 
 def install_aderyn(archive, runtime):
-    checked_file(archive, ADERYN_SHA)
-    with tempfile.TemporaryDirectory(dir=runtime) as stage, tarfile.open(archive) as package:
-        members = [m for m in package if m.isfile() and Path(m.name).name == 'aderyn']
-        if len(members) != 1:
-            raise ValueError('expected one Aderyn executable in the verified archive')
+    with tempfile.TemporaryDirectory(dir=runtime) as stage:
+        if archive is None:
+            archive = Path(stage) / 'aderyn.tar.xz'
+            run('curl', '-fsSL', '--retry', '2', '--max-time', '180', '-o', archive, ADERYN_ARCHIVE_URL)
+        checked_file(archive, ADERYN_SHA)
         tmp = Path(stage) / 'aderyn'
-        with tmp.open('wb') as out, package.extractfile(members[0]) as source:
-            shutil.copyfileobj(source, out)
+        with tarfile.open(archive) as package:
+            members = [m for m in package if m.isfile() and Path(m.name).name == 'aderyn']
+            if len(members) != 1:
+                raise ValueError('expected one Aderyn executable in the verified archive')
+            with tmp.open('wb') as out, package.extractfile(members[0]) as source:
+                shutil.copyfileobj(source, out)
         tmp.chmod(0o755)
         tmp.replace(runtime / 'aderyn')
 
@@ -64,7 +71,7 @@ def build_aderyn(root, runtime):
         binary.replace(runtime / 'aderyn')
 
 
-def install(root, runtime, wheelhouses, aderyn=None):
+def install(root, runtime, wheelhouses):
     destination = runtime / 'static'
     if destination.exists():
         raise ValueError('native analyzers are already installed in this runtime')
@@ -115,8 +122,6 @@ def install(root, runtime, wheelhouses, aderyn=None):
                 package.extractall(destination, filter='data')
             (destination / 'package').rename(destination / 'semgrep')
             (destination / 'semgrep/osemgrep').symlink_to('semgrep-core')
-            if aderyn:
-                install_aderyn(aderyn, runtime)
     except BaseException:
         shutil.rmtree(destination)
         raise

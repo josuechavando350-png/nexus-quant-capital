@@ -117,6 +117,7 @@
   },
   "current_repositories": 20,
   "execution": {
+    "aderyn_archive_sha256": "ffd6ca658962e211a3ac821c646f69c8e14bf1b1001cbfe091bcd4535a691e46",
     "baseline_exit_code": 0,
     "forge_baseline": {
       "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testDuplicateLenderRejected()": "Success",
@@ -141,8 +142,17 @@
       ],
       "generated": 1
     },
-    "native_analyzer_strict_exit_code": 2,
+    "native_analyzer_strict_exit_code": 0,
     "network": "disabled",
+    "offline_checks": {
+      "fresh_setup_strict_exit_code": 0,
+      "historical_isolation_tests_passed": 9,
+      "product_tests_passed": 490,
+      "query_responses": 24,
+      "session_sha256_canonical_json": "b959774d2e7f50a9f3d1059b9a704ad3fecf5ee0b69330182e8de4d8a945c740",
+      "tests_skipped": 0,
+      "toolkit_tests_passed": 10
+    },
     "query_product_exit_code": 0
   },
   "historical_operation_count": 210,
@@ -150,13 +160,12 @@
   "historical_transcript_sha256": "6b557f83f23bf8c419bbb32c4965e48e3da1178a6cb64fc0c8515e2359f8d962",
   "native_analyzers": {
     "completed": [
+      "aderyn",
       "semgrep",
       "slither",
       "slitherin"
     ],
-    "unavailable": [
-      "aderyn"
-    ]
+    "unavailable": []
   },
   "overlapping_repositories": 8,
   "participants": [
@@ -419,13 +428,26 @@
       "repository": "Cyfrin/aderyn",
       "toolkit": {
         "commit": "a902831fcb31a83e97c62e0b7c3a2794f2f2f9a2",
-        "operation": "tokenize source and count code lines",
+        "operation": "tokenize source and count code lines; execute native checks on T36",
         "repository": "Cyfrin/aderyn",
         "result": {
           "code_lines": 385,
+          "native": {
+            "detectors_run": 88,
+            "high": {},
+            "low": {
+              "push-zero-opcode": 1,
+              "require-revert-in-loop": 1,
+              "uninitialized-local-variable": 1,
+              "unsafe-erc20-operation": 1,
+              "unspecific-solidity-pragma": 1
+            },
+            "scanned": "NqcFlashFundingExecutor.sol",
+            "version": "aderyn 0.6.8"
+          },
           "upstream_stats_tests_passed": 2
         },
-        "role": "library",
+        "role": "engine",
         "source_path": "upstream/aderyn",
         "tree": "e0bae4d918f15ad5e4c6b5f5d5ef43f6a84a7eea"
       }
@@ -632,7 +654,7 @@
         "operation": "match the assembled JSON export on disk",
         "repository": "projectdiscovery/nuclei",
         "result": {
-          "export_sha256": "c0d445fe406b4acb6f84f71b9c01372b2103007f837b638289a1fb5d44a5eb2c",
+          "export_sha256": "4e03722281e97bc13de152dc89f95d69db3896dbfbd34b1f96e057cf01f9de3d",
           "matched": true
         },
         "role": "engine",
@@ -642,8 +664,8 @@
     }
   ],
   "role_counts": {
-    "engine": 8,
-    "library": 9,
+    "engine": 9,
+    "library": 8,
     "plugin": 1,
     "reference_data": 2
   },

@@ -4,11 +4,24 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 
-from superhunter.toolkit_static_setup import install_aderyn
+from superhunter.toolkit_static_setup import ADERYN_ARCHIVE_URL, install_aderyn
 
 
 class NativeToolkitTests(unittest.TestCase):
+    def test_default_install_rejects_altered_download(self):
+        def altered_download(*args):
+            self.assertEqual(args[-1], ADERYN_ARCHIVE_URL)
+            args[-2].write_bytes(b'altered archive')
+
+        with tempfile.TemporaryDirectory() as directory:
+            runtime = Path(directory)
+            with patch('superhunter.toolkit_static_setup.run', side_effect=altered_download):
+                with self.assertRaisesRegex(ValueError, 'SHA-256'):
+                    install_aderyn(None, runtime)
+            self.assertEqual(list(runtime.iterdir()), [])
+
     def test_bad_aderyn_archive_cannot_replace_runtime_binary(self):
         with tempfile.TemporaryDirectory() as directory:
             base = Path(directory)
