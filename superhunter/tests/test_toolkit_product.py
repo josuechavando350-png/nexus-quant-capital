@@ -2,6 +2,7 @@ import unittest
 
 from superhunter.product_reasoning import EvidenceError
 from superhunter.product_review import ProductIndex, repositories
+from superhunter.toolkit_index import ToolkitIndex
 from superhunter.toolkit_product import join_results, prior_session
 from superhunter.product_sources import toolkit_sources
 
@@ -13,10 +14,10 @@ class ToolkitProductTests(unittest.TestCase):
         self.tools = {'ethereum/solidity': {'path': 'upstream/solidity', 'commit': self.solidity['commit'],
                                             'tree': self.solidity['tree']}}
         self.ops = {'ethereum/solidity': ('engine', 'local test operation', {'tests': 1})}
-        self.index = ProductIndex({'repositories': repositories(), 'packages': [],
+        self.index = ToolkitIndex(ProductIndex({'repositories': repositories(), 'packages': [],
                                    'census_graph': {'nodes': []}, 'conflicting_python_pins': {}, 'tools': {},
                                    'minimum_python_pin_groups': 2,
-                                   'profile_whose_isolation_resolves_all_observed_pin_conflicts': 'owned-spec-evm'})
+                                   'profile_whose_isolation_resolves_all_observed_pin_conflicts': 'owned-spec-evm'}))
 
     def join(self):
         return join_results(self.rows, 'historical', self.tools, self.ops, 'subject', {})
@@ -48,7 +49,7 @@ class ToolkitProductTests(unittest.TestCase):
         with self.assertRaisesRegex(EvidenceError, 'requires'):
             self.index.lookup('toolkit-matrix')
 
-    def test_full_profile_has_nineteen_distinct_repositories_and_seven_shared(self):
+    def test_full_profile_has_twenty_distinct_repositories_and_eight_shared(self):
         sources = toolkit_sources()
         self.tools = {r['repository']: {**r, 'tree': 'new'} for r in sources}
         for repo, tool in self.tools.items():
@@ -58,7 +59,7 @@ class ToolkitProductTests(unittest.TestCase):
         self.ops = {name: ('library', 'test operation', {}) for name in self.tools}
         session = self.join()
         self.assertEqual((session['current_repositories'], session['overlapping_repositories'],
-                          session['unique_repositories']), (19, 7, 212))
+                          session['unique_repositories']), (20, 8, 212))
         self.index.attach_toolkit(session)
         for repo in self.tools:
             self.assertEqual(self.index.lookup(repo)['toolkit']['commit'], self.tools[repo]['commit'])

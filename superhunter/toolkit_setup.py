@@ -69,15 +69,29 @@ def install_release(folder, row):
 def main(argv):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('runtime', type=Path)
-    folder = parser.parse_args(argv).runtime.resolve()
+    parser.add_argument('--wheelhouse', type=Path, action='append', default=[],
+                        help='local directories of locked native Slither wheels (repeatable)')
+    aderyn = parser.add_mutually_exclusive_group()
+    aderyn.add_argument('--build-aderyn', action='store_true', help='build the CLI from its pinned source with Cargo')
+    aderyn.add_argument('--aderyn-archive', type=Path, help='original Linux x86-64 Aderyn 0.6.8 release archive')
+    args = parser.parse_args(argv)
+    folder = args.runtime.resolve()
     if platform.system() != 'Linux' or platform.machine() != 'x86_64' or sys.version_info[:2] != (3, 12):
         parser.error('requires Linux x86-64 and Python 3.12')
     if folder.is_relative_to(ROOT):
         parser.error('put the runtime outside the source checkout')
     folder.mkdir(parents=True, exist_ok=True)
-    if any(folder.iterdir()):
-        parser.error('choose a new or empty runtime directory')
     try:
+        from .toolkit_static_setup import build_aderyn, install_aderyn
+        if any(folder.iterdir()):
+            if not ((folder / 'static/venv/bin/slither').is_file() and (folder / 'forge').is_file()
+                    and (args.aderyn_archive or args.build_aderyn)):
+                parser.error('choose a new runtime, or supply Aderyn to a prepared native toolkit')
+            if args.aderyn_archive:
+                install_aderyn(args.aderyn_archive, folder)
+            else:
+                build_aderyn(ROOT, folder)
+            return 0
         run('git', 'submodule', 'update', '--init', '--jobs', '6', '--',
             *(row['path'] for row in toolkit_sources()), cwd=ROOT)
         for release in RELEASES:
@@ -97,6 +111,10 @@ def main(argv):
             env={**os.environ, 'CC': 'gcc', 'LDSHARED': 'gcc -shared'})
         run('npm', 'install', '--prefix', folder / 'js', '--ignore-scripts', '--no-audit', '--no-fund',
             '--no-save', 'ts-node@10.9.1', 'typescript@4.8.4', 'solidity-ast@0.4.62', 'semver@7.3.8')
+        from .toolkit_static_setup import install
+        install(ROOT, folder, args.wheelhouse, args.aderyn_archive)
+        if args.build_aderyn:
+            build_aderyn(ROOT, folder)
         print(json.dumps({'runtime': str(folder), 'next': 'python3 -m superhunter toolkit check --runtime DIR'}))
     except (OSError, ValueError, subprocess.SubprocessError) as exc:
         print(str(exc), file=sys.stderr)

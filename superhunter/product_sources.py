@@ -181,7 +181,7 @@ def checked_out(root, row):
 
 def toolkit_sources():
     raw = read_artifact(ROOT, 'superhunter/toolkit_sources.json')
-    if hashlib.sha256(raw).hexdigest() != '85566cf7f0a1fbaf2a05a515a586e1660f22b163cf5db4617e24f40f8dc9f59c':
+    if hashlib.sha256(raw).hexdigest() != '6b6b6ff02b3663ddf458208a87594920d2233dab88c80e03df41e54526c44e64':
         raise ValueError('toolkit source list changed')
     return json.loads(raw)
 
@@ -222,7 +222,7 @@ def verify(root, require_checkout=False, jobs=4):
         row = {'catalog_id': number, 'repository': name, 'path': path, 'commit': revision, 'status': 'pinned'}
         rows.append(row)
     # The original 200-row inventory keeps its published IDs and return shape.
-    # A separate command consumes the 19-tool profile, which overlaps it in six places.
+    # A separate command consumes the toolkit profile, which shares direct Git links with the catalog.
     declared_catalog = ''.join(declarations).encode()
     if manifest != declared_catalog:
         for tool in toolkit_sources():

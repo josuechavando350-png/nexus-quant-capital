@@ -8,7 +8,7 @@ from .toolkit_setup import RELEASES
 from .tools import verify_review_115 as archive
 
 # GitHub repository 40892817 moved from ethereum to argotorg. Both pins must still match.
-CATALOG_ALIASES = {'ethereum/solidity': 'argotorg/solidity'}
+CATALOG_ALIASES = {'ethereum/solidity': 'argotorg/solidity', 'ackee-blockchain/wake': 'ack3-ai/wake'}
 
 BASE_SESSION = 'consolidated-acceptance-publication-policy/first/session.json'
 BASE_DIGEST = 'e931d8c1a0fd942758ff4e428589069e4ea8ff8da376b1c49820e4617fead9ad'
@@ -72,11 +72,15 @@ def product_session(root, tools, result, work, runtime, run):
               and any(term in line.casefold() for term in control_terms)]
     if not checks:
         raise ValueError('no matching token integration controls')
+    from .toolkit_wake import review as wake_review
+    from .toolkit import TARGET, forge_tests
+    wake = wake_review(work, tools['Ackee-Blockchain/wake'], root, forge_tests, TARGET)
     raw, previous = prior_session()
     history_digest = hashlib.sha256(raw).hexdigest()
     # Validate the product's actual JSON export with the local file protocol.
     payload = {'subject_sha256': subject, 'source_metrics': compiler, 'token_profile': token_profile,
-               'solodit_tags': tags, 'review_checklist': checks,
+               'solodit_tags': tags, 'review_checklist': checks, 'wake_accounting': wake,
+               'native_static_checks': result['installed_static_checks'],
                'catalog': {'transcript_sha256': history_digest, 'repositories': len(previous),
                            'operations': sum(len(row['session_operations']) for row in previous)},
                'regression': {key: result[key] for key in ('forge', 'smtchecker', 'mutation',
@@ -96,6 +100,7 @@ def product_session(root, tools, result, work, runtime, run):
         raise ValueError('Nuclei did not confirm the generated local export')
 
     operations = {
+        'Ackee-Blockchain/wake': ('library', 'generate bounded T36 balance-conservation cases for Forge', wake),
         'ethereum/solidity': ('engine', 'compile T36 and prove its plan length bound', result['smtchecker']),
         'foundry-rs/foundry': ('engine', 'run T36 regression suite', {'tests_passed': len(result['forge'])}),
         'crytic/properties': ('library', 'assert constructor roles in Forge', {'property': result['medusa_property']}),
@@ -116,7 +121,24 @@ def product_session(root, tools, result, work, runtime, run):
         'crytic/building-secure-contracts': ('reference_data', 'select controls for token integration review', checks),
         'projectdiscovery/nuclei': ('engine', 'match the assembled JSON export on disk', {'matched': True, 'export_sha256': hashlib.sha256(export.read_bytes()).hexdigest()})
     }
-    return join_results(previous, history_digest, tools, operations, subject, compiler)
+    stats_tests = runtime / 'aderyn-stats-tests'
+    if stats_tests.is_file():
+        output = run([stats_tests], work)
+        match = re.search(r'test result: ok\. (\d+) passed; 0 failed; 0 ignored', output)
+        if not match or int(match.group(1)) < 1:
+            raise ValueError('Aderyn upstream source-metric tests did not pass')
+        operations['Cyfrin/aderyn'][2]['upstream_stats_tests_passed'] = int(match.group(1))
+    scanner_repositories = {'slither': 'crytic/slither', 'slitherin': 'pessimistic-io/slitherin',
+                            'semgrep': 'semgrep/semgrep', 'aderyn': 'Cyfrin/aderyn'}
+    for engine, receipt in result['installed_static_checks'].items():
+        repo = scanner_repositories[engine]
+        role, action, observation = operations[repo]
+        operations[repo] = ('engine' if engine != 'slitherin' else 'plugin',
+                            action + '; execute native checks on T36', {**observation, 'native': receipt})
+    joined = join_results(previous, history_digest, tools, operations, subject, compiler)
+    joined['native_analyzers'] = {'completed': sorted(result['installed_static_checks']),
+                                  'unavailable': sorted(scanner_repositories.keys() - result['installed_static_checks'].keys())}
+    return joined
 
 
 def join_results(previous, history_digest, tools, operations, subject, compiler):

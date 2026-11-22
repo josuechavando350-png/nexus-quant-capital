@@ -121,6 +121,8 @@ def open_index(binary, notices):
 
 
 def serve_queries(index, keys, qdrant, haystack, notices):
+    from .toolkit_index import for_queries
+    index = for_queries(index)
     with ExitStack() as stack:
         exact = rank = None
         if qdrant:

@@ -115,11 +115,50 @@
       "SWAP9": 4
     }
   },
-  "current_repositories": 19,
+  "current_repositories": 20,
+  "execution": {
+    "baseline_exit_code": 0,
+    "forge_baseline": {
+      "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testDuplicateLenderRejected()": "Success",
+      "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testExecutionIdentityCannotReplay()": "Success",
+      "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testNestedAaveBalancerFundingRepaysInReverseAndPreservesBaseline()": "Success",
+      "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testObservedAaveFeeMustEqualPlanFee()": "Success",
+      "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testObservedBalancerFeeMustEqualPlanFee()": "Success",
+      "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testPayloadMutationIsRejectedBeforeBorrowing()": "Success",
+      "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testPreexistingExecutorBalanceCannotSubsidizeMissingFeeOrProfit()": "Success",
+      "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testStrategyReturnDeclarationMustMatchObservedBalance()": "Success",
+      "test/OperatorProperty.sol:OperatorProperty/testConfiguredOperator()": "Success"
+    },
+    "gambit": {
+      "detected": true,
+      "failing_tests": [
+        "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testExecutionIdentityCannotReplay()",
+        "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testNestedAaveBalancerFundingRepaysInReverseAndPreservesBaseline()",
+        "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testObservedAaveFeeMustEqualPlanFee()",
+        "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testObservedBalancerFeeMustEqualPlanFee()",
+        "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testPreexistingExecutorBalanceCannotSubsidizeMissingFeeOrProfit()",
+        "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testStrategyReturnDeclarationMustMatchObservedBalance()"
+      ],
+      "generated": 1
+    },
+    "native_analyzer_strict_exit_code": 2,
+    "network": "disabled",
+    "query_product_exit_code": 0
+  },
   "historical_operation_count": 210,
   "historical_repositories": 200,
   "historical_transcript_sha256": "6b557f83f23bf8c419bbb32c4965e48e3da1178a6cb64fc0c8515e2359f8d962",
-  "overlapping_repositories": 7,
+  "native_analyzers": {
+    "completed": [
+      "semgrep",
+      "slither",
+      "slitherin"
+    ],
+    "unavailable": [
+      "aderyn"
+    ]
+  },
+  "overlapping_repositories": 8,
   "participants": [
     {
       "catalog_id": 12,
@@ -146,12 +185,23 @@
       "repository": "crytic/slither",
       "toolkit": {
         "commit": "97c1d10d8107e76a9426dd484c03c1afd846c186",
-        "operation": "calculate ABI selectors and compare against solc",
+        "operation": "calculate ABI selectors and compare against solc; execute native checks on T36",
         "repository": "crytic/slither",
         "result": {
+          "native": {
+            "detectors": {
+              "cyclomatic-complexity": 1,
+              "low-level-calls": 2,
+              "reentrancy-benign": 3,
+              "reentrancy-events": 3,
+              "reentrancy-no-eth": 2,
+              "uninitialized-local": 1
+            },
+            "detectors_run": 101
+          },
           "selectors": 6
         },
-        "role": "library",
+        "role": "engine",
         "source_path": "upstream/013-slither",
         "tree": "5843660435f2500877eebddb778858c635b286b3"
       }
@@ -176,6 +226,28 @@
         "role": "engine",
         "source_path": "upstream/014-echidna",
         "tree": "ca9bb0ad3ec757234434d5bdba96465c85f64cc0"
+      }
+    },
+    {
+      "aliases": [
+        "Ackee-Blockchain/wake"
+      ],
+      "catalog_id": 15,
+      "repository": "ack3-ai/wake",
+      "toolkit": {
+        "commit": "237d0b02e09e0d6bfc5a6ce06cf5e52db04c643b",
+        "operation": "generate bounded T36 balance-conservation cases for Forge",
+        "repository": "Ackee-Blockchain/wake",
+        "result": {
+          "assertions_per_case": 5,
+          "cases_sha256": "ca45a25ff709497145db898bc830b04d240cbe2e6790405edc3631119a9b3346",
+          "failed_on_gambit_variant": 18,
+          "passed": 18,
+          "seed": 36020
+        },
+        "role": "library",
+        "source_path": "upstream/015-wake",
+        "tree": "d19210d6a01de3e8d81aab38bf34350bc45da33f"
       }
     },
     {
@@ -350,7 +422,8 @@
         "operation": "tokenize source and count code lines",
         "repository": "Cyfrin/aderyn",
         "result": {
-          "code_lines": 385
+          "code_lines": 385,
+          "upstream_stats_tests_passed": 2
         },
         "role": "library",
         "source_path": "upstream/aderyn",
@@ -361,12 +434,25 @@
       "repository": "semgrep/semgrep",
       "toolkit": {
         "commit": "c4dbe9ee2fc6d0022ba02ef6b97c5954ed9549e3",
-        "operation": "parse Solidity and compare function declarations to solc",
+        "operation": "parse Solidity and compare function declarations to solc; execute native checks on T36",
         "repository": "semgrep/semgrep",
         "result": {
-          "functions": 18
+          "functions": 18,
+          "native": {
+            "checks": {
+              "nqc-token-call-review": 3
+            },
+            "errors": 0,
+            "scanned": "NqcFlashFundingExecutor.sol",
+            "verified_lines": [
+              415,
+              424,
+              431
+            ],
+            "version": "1.169.0"
+          }
         },
-        "role": "library",
+        "role": "engine",
         "source_path": "upstream/semgrep",
         "tree": "84fe9a137b5bda99e7e95ecd4a8f8e6cdcdcb461"
       }
@@ -498,14 +584,21 @@
       "repository": "pessimistic-io/slitherin",
       "toolkit": {
         "commit": "c32440e1fa42da9a074a8e1e6ac285b22c9a1dbe",
-        "operation": "apply pinned token lists to T36 address literals",
+        "operation": "apply pinned token lists to T36 address literals; execute native checks on T36",
         "repository": "pessimistic-io/slitherin",
         "result": {
           "deflationary_entries": 21,
           "matched_literal_addresses": [],
+          "native": {
+            "detectors": {
+              "pess-arbitrary-call": 6,
+              "pess-multiple-storage-read": 2
+            },
+            "detectors_run": 29
+          },
           "rebasing_entries": 8
         },
-        "role": "reference_data",
+        "role": "plugin",
         "source_path": "upstream/slitherin",
         "tree": "a8d717b7ba824beadcda7e9223bafe142821cb4a"
       }
@@ -539,7 +632,7 @@
         "operation": "match the assembled JSON export on disk",
         "repository": "projectdiscovery/nuclei",
         "result": {
-          "export_sha256": "4283e8b86ccec294b89d89fcfdd88dd8a0ba56261b78cb41c7505c7cfc0478ae",
+          "export_sha256": "c0d445fe406b4acb6f84f71b9c01372b2103007f837b638289a1fb5d44a5eb2c",
           "matched": true
         },
         "role": "engine",
@@ -549,9 +642,10 @@
     }
   ],
   "role_counts": {
-    "engine": 6,
-    "library": 10,
-    "reference_data": 3
+    "engine": 8,
+    "library": 9,
+    "plugin": 1,
+    "reference_data": 2
   },
   "scope": "Recorded local T36 session. Historical catalog operations are identified by the prior transcript digest.",
   "subject_sha256": "1eb01ef850e8de52c89ef0825207f0a3086251f713313300a73aede1e450875e",

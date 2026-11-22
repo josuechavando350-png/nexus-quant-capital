@@ -62,16 +62,24 @@ def build_components(root, folder):
     with tempfile.TemporaryDirectory(dir=folder) as tmp:
         stage = Path(tmp)
         rustc = rust_compiler(stage)
-        stats = stage / 'stats'
-        stats.mkdir()
+        crate = stage / 'aderyn_core/src'
+        stats = crate / 'stats'
+        stats.mkdir(parents=True)
         for name in ('token', 'util', 'cloc'):
             (stats / (name + '.rs')).write_bytes(data('Cyfrin/aderyn', f'aderyn_core/src/stats/{name}.rs'))
-        (stage / 'stats.rs').write_text('pub mod util; pub mod token; pub mod cloc;')
-        (stage / 'metrics.rs').write_text(
+        (crate / 'stats.rs').write_text('pub mod util; pub mod token; pub mod cloc;')
+        (crate / 'metrics.rs').write_text(
             'mod stats; use std::io::Read; fn main() { let mut source = String::new();'
             'std::io::stdin().read_to_string(&mut source).unwrap();'
             'println!("{}", stats::cloc::count_code_lines(&stats::token::tokenize(&source))); }')
-        run(rustc, '--edition=2024', '-Awarnings', stage / 'metrics.rs', '-o', folder / 'aderyn-lines')
+        run(rustc, '--edition=2024', '-Awarnings', crate / 'metrics.rs', '-o', folder / 'aderyn-lines')
+        fixture_dir = 'tests/contract-playground/src/cloc'
+        (stage / fixture_dir).mkdir(parents=True)
+        for name in ('HeavilyCommentedContract.sol', 'AnotherHeavilyCommentedContract.sol'):
+            relative = f'{fixture_dir}/{name}'
+            (stage / relative).write_bytes(data('Cyfrin/aderyn', relative))
+        run(rustc, '--edition=2024', '-Awarnings', '--test', crate / 'metrics.rs', '-o', folder / 'aderyn-stats-tests')
+        run(folder / 'aderyn-stats-tests')
         (stage / 'walk.rs').write_bytes(data('fuzzland/ityfuzz', 'src/evm/bytecode_iterator.rs'))
         opcodes = (folder / 'revm/crates/interpreter/src/instructions/opcode.rs').read_text()
         values = re.findall(r'^pub const (?:JUMP|JUMPI|STOP|RETURN|REVERT|INVALID): u8 = 0x[\da-f]+;', opcodes, re.M)

@@ -10,7 +10,7 @@ import sys
 import tempfile
 
 from .product_sources import checked_out, git, gitlinks, toolkit_sources
-from .toolkit_reports import FORMATS, read_reports, summarize
+from .toolkit_reports import FORMATS, count_labels, read_reports, summarize
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACTS = 'ci/nqc-t36/contracts'
@@ -74,8 +74,8 @@ def prepare(work, tools):
                                                                'contracts/util/PropertiesAsserts.sol'))
 
 
-def forge_tests(work, solc):
-    output = command(['forge', 'test', '--root', '.', '--offline', '--use', solc, '--json'], work)
+def forge_tests(work, solc, *filters):
+    output = command(['forge', 'test', '--root', '.', '--offline', '--use', solc, *filters, '--json'], work)
     if not output.stdout.strip():
         raise ValueError('Forge produced no test results: ' + output.stderr[-500:])
     suites = json.loads(output.stdout)
@@ -207,31 +207,92 @@ def mutation_test(work, baseline):
     return {'generated': 1, 'detected': bool(failures), 'failing_tests': failures}
 
 
-def installed_static_checks(work):
+def installed_static_checks(work, runtime):
     results = {}
     with tempfile.TemporaryDirectory(prefix='nqc-static-') as temp:
         project = Path(temp)
         name = Path(TARGET).name
         shutil.copyfile(work / TARGET, project / name)
-        solc = shutil.which('solc')
-        if shutil.which('slither'):
-            checked(['slither', name, '--solc', solc, '--fail-none', '--json', 'slither.json'], project)
-            raw = (project / 'slither.json').read_bytes()
-            results['slither'] = summarize('slither', raw)
-            detectors = json.loads(checked(['slither', '--list-detectors-json'], project))
-            if any(row['check'] == 'pess-token-fallback' for row in detectors):
-                results['slitherin'] = summarize('slitherin', raw)
-        if shutil.which('semgrep'):
-            config = {'rules': [{'id': 'nqc-token-call-review', 'languages': ['generic'],
-                                 'message': 'Review return handling at this low-level token call', 'severity': 'INFO',
-                                 'pattern-regex': r'\btoken\s*\.\s*call\s*\('}]}
+        native = runtime / 'static' if runtime else None
+        slither = native / 'venv/bin/slither' if native and native.is_dir() else shutil.which('slither')
+        semgrep = native / 'semgrep/osemgrep' if native and native.is_dir() else shutil.which('semgrep')
+        env = os.environ.copy()
+        env.pop('PYTHONPATH', None)
+        if slither:
+            detectors = json.loads(checked([slither, '--list-detectors-json'], project, env=env))
+            names = sorted(row['check'] for row in detectors)
+            if not names or len(names) != len(set(names)):
+                raise ValueError('Slither did not return a distinct detector registry')
+            completed = command([slither, name, '--solc', shutil.which('solc'), '--detect', ','.join(names),
+                                 '--fail-none', '--json', 'slither.json'], project, env=env)
+            report = project / 'slither.json'
+            if (completed.returncode or not report.is_file() or 'Traceback' in completed.stderr
+                    or f'with {len(names)} detectors)' not in completed.stderr):
+                raise ValueError('Slither failed to complete its detector registry: ' + completed.stderr[-600:])
+            if report.stat().st_size > 16 * 1024 * 1024:
+                raise ValueError('T36 native Slither report exceeds 16 MiB')
+            data = json.loads(report.read_bytes())
+            if data.get('success') is not True:
+                raise ValueError('Slither reported an unsuccessful execution')
+            findings = count_labels(data['results'].get('detectors', []), 'check')
+            for scanner, plugin in [('slither', False), ('slitherin', True)]:
+                selected = [n for n in names if n.startswith('pess-') == plugin]
+                if selected:
+                    results[scanner] = {'detectors_run': len(selected),
+                                        'detectors': {k: v for k, v in findings.items() if k in selected}}
+        if semgrep:
+            config = {'rules': [{'id': 'nqc-token-call-review', 'languages': ['solidity'],
+                                 'message': 'Review return handling at this low-level token call',
+                                 'severity': 'INFO', 'pattern': '$TOKEN.call(...)'}]}
             (project / 'semgrep.json').write_text(json.dumps(config))
-            raw = checked(['semgrep', 'scan', '--config', 'semgrep.json', '--metrics=off',
-                           '--disable-version-check', '--no-git-ignore', '--json', name], project)
-            results['semgrep'] = summarize('semgrep', raw.encode())
-        if shutil.which('aderyn'):
-            checked(['aderyn', '.', '--skip-update-check', '--skip-cloc', '--output', 'aderyn.json'], project)
-            results['aderyn'] = summarize('aderyn', (project / 'aderyn.json').read_bytes())
+            flags = ['--experimental'] if Path(semgrep).name == 'osemgrep' else []
+            raw = checked([semgrep, 'scan', *flags, '--config', 'semgrep.json', '--metrics=off',
+                           '--no-git-ignore', '--json', name], project, env=env)
+            data = json.loads(raw)
+            if data['paths']['scanned'] != [name] or data['errors']:
+                raise ValueError('Semgrep did not complete the T36 source')
+            source = (work / TARGET).read_bytes()
+            compiled = json.loads((work / 'joined-input.json').read_bytes())['ast']
+            pending = [compiled]
+            lines = []
+            while pending:
+                item = pending.pop()
+                if isinstance(item, dict):
+                    pending.extend(item.values())
+                    if (item.get('nodeType') == 'MemberAccess' and item.get('memberName') == 'call'
+                            and item['expression'].get('name') == 'token'):
+                        offset = int(item['src'].split(':', 1)[0])
+                        lines.append(source.count(b'\n', 0, offset) + 1)
+                elif isinstance(item, list):
+                    pending.extend(item)
+            matched = sorted(row['start']['line'] for row in data['results'])
+            if not lines or sorted(lines) != matched:
+                raise ValueError('Semgrep locations differ from token.call locations in the solc AST')
+            results['semgrep'] = {**summarize('semgrep', raw.encode()), 'scanned': name,
+                                  'verified_lines': matched, 'version': data['version']}
+        aderyn = shutil.which('aderyn')
+        if aderyn:
+            version = checked([aderyn, '--version'], project).strip()
+            if version.lower() != 'aderyn 0.6.8':
+                raise ValueError('T36 requires the reviewed Aderyn 0.6.8 CLI')
+            owned = project / 'aderyn-project'
+            (owned / 'src').mkdir(parents=True)
+            shutil.copyfile(work / TARGET, owned / 'src' / name)
+            (owned / 'foundry.toml').write_text('[profile.default]\nsrc = "src"\nsolc_version = "0.8.24"\noffline = true\n')
+            home = project / 'home'
+            svm = home / '.svm/0.8.24'
+            svm.mkdir(parents=True)
+            (svm / 'solc-0.8.24').symlink_to(shutil.which('solc'))
+            checked([aderyn, '.', '--skip-update-check', '--output', 'aderyn.json'], owned,
+                    env={**env, 'HOME': str(home), 'XDG_DATA_HOME': str(home / '.local/share')})
+            raw = (owned / 'aderyn.json').read_bytes()
+            report = json.loads(raw)
+            files = report['files_details']['files_details']
+            if (report['files_summary']['total_source_units'] != 1 or len(files) != 1
+                    or Path(files[0]['file_path']).name != name or not report['detectors_used']):
+                raise ValueError('Aderyn did not report its detector run on T36')
+            results['aderyn'] = {**summarize('aderyn', raw), 'scanned': name, 'version': version,
+                                 'detectors_run': len(report['detectors_used'])}
     return results
 
 
@@ -244,7 +305,7 @@ def collect_session(folder):
         result = native_review(work, tools)
         result['medusa_property'] = property_test(work)
         result['echidna'] = echidna_test(work)
-        result['installed_static_checks'] = installed_static_checks(work)
+        result['installed_static_checks'] = installed_static_checks(work, folder)
         result['mutation'] = mutation_test(work, result['forge'])
         # The mutation belongs only to the regression check.
         (work / TARGET).write_bytes(git(ROOT, 'show', f'HEAD:{CONTRACTS}/{TARGET}'))
@@ -296,6 +357,8 @@ def main(argv):
     commands.add_parser('setup', help='prepare the Linux runtime')
     commands.add_parser('references').add_argument('terms', nargs='*')
     check = commands.add_parser('check', help='run the local T36 regression suite')
+    check.add_argument('--require-all-analyzers', action='store_true',
+                       help='return a failure status when a native T36 analyzer is unavailable')
     check.add_argument('--runtime', type=Path, help='directory created by toolkit setup')
     reports = commands.add_parser('reports', help='summarize existing native reports offline')
     for subcommand in (check, reports):
@@ -311,6 +374,8 @@ def main(argv):
         else:
             result = run_session(args.runtime, args.report)
         print(json.dumps(result, ensure_ascii=False))
+        if args.action == 'check' and args.require_all_analyzers and result['static_tools_unavailable']:
+            return 2
         return 0
     except (OSError, KeyError, ValueError, subprocess.SubprocessError, StopIteration) as exc:
         print(str(exc), file=sys.stderr)
