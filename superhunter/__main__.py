@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] == 'inventory':
+        from .inventory_checkpoint import main as inventory_main
+        return inventory_main(argv[1:])
     if argv and argv[0] == 'product-sources':
         from .product_sources import main as sources_main
         return sources_main(argv[1:])

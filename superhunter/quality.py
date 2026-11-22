@@ -44,7 +44,7 @@ COMPONENTS = {'accounting': {'files': ['balance_reconciliation.py'],
  'fuzz': {'files': ['fuzz_lab.py', 'fuzz_worker.py', 'fuzz_cli.py'],
           'tests': ['test_fuzz_lab.', 'test_fuzz_evidence.'],
           'depends': ['native', 'lab', 'audit', 'privacy']},
- 'quality': {'files': ['quality.py', 'quality_worker.py'],
+ 'quality': {'files': ['quality.py', 'quality_worker.py', 'inventory_checkpoint.py'],
              'tests': ['test_quality.'],
              'depends': ['transport',
                          'lab',
@@ -435,24 +435,47 @@ PRODUCT_DATA_FILES += (
 )
 
 
-def source_snapshot(root: Path = ROOT) -> dict[str, str]:
-    """Capture executable package/test bytes and policy inputs; reject symlinks."""
-    def scan_failed(error: OSError) -> None:
-        raise ValueError('source directory enumeration failed') from None
+LEGACY_QA_INPUTS = frozenset(('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_accounting_capture_io_v2.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'requirements-otel-qa.txt', 'requirements-owned-slither.txt', 'research_initiatives.json'))
 
-    result = {}
+
+def is_qa_source(rel: str) -> bool:
+    return (rel.endswith('.py')
+            or rel in acceptance_paths.ALL_FILES
+            or rel in PRODUCT_DATA_FILES
+            or rel in PORTFOLIO_DATA_FILES
+            or rel in LEGACY_QA_INPUTS)
+
+
+def source_paths(root: Path):
+    def scan_failed(error: OSError) -> None:
+        raise ValueError('source directory enumeration failed') from error
+
+    if root.is_symlink():
+        raise ValueError('source root symlink rejected')
     for base, dirs, files in os.walk(root, followlinks=False, onerror=scan_failed):
         acceptance_paths.check_directory(Path(base).relative_to(root).as_posix(), dirs, files)
         dirs[:] = sorted(d for d in dirs if d != '__pycache__')
         for name in dirs:
-            if (Path(base)/name).is_symlink():
+            if (Path(base) / name).is_symlink():
                 raise ValueError('source directory symlink rejected')
         for name in sorted(files):
-            rel = (Path(base)/name).relative_to(root).as_posix()
-            if name.endswith('.py') or rel in acceptance_paths.ALL_FILES or rel in PRODUCT_DATA_FILES or rel in PORTFOLIO_DATA_FILES or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_accounting_capture_io_v2.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'requirements-otel-qa.txt', 'requirements-owned-slither.txt', 'research_initiatives.json'):
-                result[rel] = sha(read_artifact(root, rel))
-                if len(result) > 500:
-                    raise ValueError('source inventory limit exceeded')
+            rel = (Path(base) / name).relative_to(root).as_posix()
+            if is_qa_source(rel):
+                yield rel
+
+
+def source_snapshot(root: Path = ROOT) -> dict[str, str]:
+    """Capture eligible package, test and policy files within the receipt byte budget."""
+    from .safe_io import MAX_BYTES
+
+    result = {}
+    encoded_size = 3
+    for rel in source_paths(root):
+        # JSON key, colon, quoted SHA-256 value and optional comma.
+        encoded_size += len(canonical(rel)) - 1 + 67 + bool(result)
+        if encoded_size > MAX_BYTES:
+            raise ValueError('source snapshot exceeds receipt byte budget')
+        result[rel] = sha(read_artifact(root, rel))
     if not result:
         raise ValueError('empty source inventory')
     return dict(sorted(result.items()))
@@ -1946,6 +1969,7 @@ COMPONENTS['product_review'] = {
               'product_manifest_resources.py',
               'product_event_format.py',
               'product_policy_catalog.py',
+              'product_source_overlap.py', 'product_publication_policy.py', 'tools/check_catalog_transport.py',
               'product_development_manifest.py', 'product_dependency_attributions.py', 'product_report_accessibility.py',
               'product_vendored_attributions.py',
               'product_html_review.py',
