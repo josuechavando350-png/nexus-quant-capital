@@ -1,0 +1,20 @@
+[
+  {
+    "case": "inventario",
+    "before": "21a48f13b7a54b3fc4f1e8e54c86ad787db6f5a1",
+    "after": "6bd4228213ed144dd5bb1623e84e7a4cf1979f77",
+    "diagnosis": "Falta asignar el módulo product_report_quality_sources.py en el inventario de componentes."
+  },
+  {
+    "case": "informes",
+    "before": "ee6a3d956558379dd7505d7751e75796a3351220",
+    "after": "4fe452a49d07f0737d63c37458e8781c0c9b3edc",
+    "diagnosis": "La comparación de informes de Scorecard rechaza el cambio legítimo de la revisión auditada."
+  },
+  {
+    "case": "limpieza",
+    "before": "9bcc05ec8b31110a6e61232360896e051c869559",
+    "after": "a4d12b7a479db8d76e78b7568059c535b0774b94",
+    "diagnosis": "La telemetría de Go puede recrear directorios temporales mientras NQC los elimina."
+  }
+]

@@ -47,7 +47,7 @@ jobs:
         run: |
           set -euo pipefail
           git -C product fetch -q --no-tags --no-recurse-submodules origin "$GITHUB_SHA"
-          git -C product archive "$GITHUB_SHA" qa/rbac-history | tar -x -C "$RUNNER_TEMP"
+          git -C product archive "$GITHUB_SHA" qa/rbac-history qa/nqc-history | tar -x -C "$RUNNER_TEMP"
           python3.12 -m venv "$RUNNER_TEMP/rbac-python"
           grep -i '^pyyaml==' product/superhunter/product_supply/haystack-linux-py312.txt > "$RUNNER_TEMP/yaml.lock"
           "$RUNNER_TEMP/rbac-python/bin/python" -m pip --isolated install --only-binary=:all: --no-deps --require-hashes -r "$RUNNER_TEMP/yaml.lock"
@@ -65,6 +65,21 @@ jobs:
         with:
           name: hunter-permisos-historicos
           path: ${{ runner.temp }}/rbac-evidence/
+          if-no-files-found: error
+          retention-days: 14
+      - name: Medir tres fallos históricos propios sin red
+        shell: bash
+        run: |
+          set -euo pipefail
+          unshare --user --map-current-user --net python3.12 -B \
+            "$RUNNER_TEMP/qa/nqc-history/benchmark.py" "$PWD/product" "$RUNNER_TEMP/nqc-history-evidence"
+          diff -u "$RUNNER_TEMP/qa/nqc-history/predictions.json" "$RUNNER_TEMP/nqc-history-evidence/predictions-1.json"
+          echo "Tres fallos históricos: uno señalado con inventario completo, dos omitidos y cero alertas en las tres correcciones." >> "$GITHUB_STEP_SUMMARY"
+      - name: Conservar los diagnósticos de las seis revisiones
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: hunter-fallos-propios-historicos
+          path: ${{ runner.temp }}/nqc-history-evidence/
           if-no-files-found: error
           retention-days: 14
       - name: Preparar los insumos y consultar los 200 antes y después del reinicio
