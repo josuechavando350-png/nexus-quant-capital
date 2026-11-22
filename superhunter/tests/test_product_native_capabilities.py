@@ -33,6 +33,17 @@ class NativeCapabilityJoinTests(unittest.TestCase):
         return SimpleNamespace(REPOSITORIES=self.groups[group]['repositories'],
                                run=lambda kit: copy.deepcopy(self.reports[group]))
 
+    def test_report_consumer_reuses_only_a_passing_current_web_kit(self):
+        with patch.object(native, 'import_module', side_effect=self.producer):
+            native.attach(self.index, {'web': 'accepted'})
+            self.assertEqual(self.index.verified_web_kit, 'accepted')
+            native.attach(self.index, {'evm': 'other'})
+            self.assertIsNone(self.index.verified_web_kit)
+            native.attach(self.index, {'web': 'accepted'})
+            self.reports['web']['negative'] = ['unexpected']
+            native.attach(self.index, {'web': 'rejected'}, allow_partial=True)
+            self.assertIsNone(self.index.verified_web_kit)
+
     def test_real_consumer_receipt_is_bound_to_registered_group_result(self):
         with patch.object(native, 'import_module', side_effect=self.producer):
             result = native.attach(self.index, {'evm': 'controlled-kit'})

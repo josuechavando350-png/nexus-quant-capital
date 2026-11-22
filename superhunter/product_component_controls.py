@@ -86,7 +86,7 @@ def reconcile_digest(results, go_report):
             'subjects': ['securego/gosec', 'find-sec-bugs/find-sec-bugs', 'OpenHands/software-agent-sdk']}
 
 
-def attach(index, checkout, domain, kit, *, web_kit=None):
+def attach(index, checkout, domain, kit):
     if checkout is None:
         raise EvidenceError('component controls require --control-source-root or --source-references with a verified checkout')
     wanted = tuple(sorted(DOMAINS)) if domain == 'all' else (domain,)
@@ -95,7 +95,7 @@ def attach(index, checkout, domain, kit, *, web_kit=None):
     def run(group):
         engine = import_module('.' + DOMAINS[group], __package__)
         if group == 'report-http-privacy':
-            return engine.review(root, web_kit)
+            return engine.review(root, getattr(index, 'verified_web_kit', None))
         if group == 'changes':
             return engine.review(root, kit, index.header_digest)
         return engine.review(root)

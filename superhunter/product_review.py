@@ -495,7 +495,7 @@ def main(argv):
             if opts.component_controls:
                 from . import product_component_controls
                 product_component_controls.attach(index, opts.control_source_root or opts.source_references,
-                                                  opts.component_controls, opts.score_kit, web_kit=native_kits.get('web'))
+                                                  opts.component_controls, opts.score_kit)
             if opts.solidity_metadata_kit:
                 from . import product_solidity_headers
                 product_solidity_headers.attach(index, opts.solidity_metadata_kit)

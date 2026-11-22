@@ -137,6 +137,8 @@ def attach(index, kits, *, allow_partial=False):
         row.pop('native_capability_receipt', None)
     for key, receipt in receipts.items():
         index.repos[key]['native_capability_receipt'] = receipt
+    # The report consumer can reuse this kit only after its native producer passed.
+    index.verified_web_kit = kits['web'] if 'web' in reports else None
     index.native_capabilities = {'groups': reports, 'repositories': sorted(receipts),
                                  'functional_participations': len(receipts),
                                  'scope': 'fixed_owned_controls_and_pinned_local_inputs',
