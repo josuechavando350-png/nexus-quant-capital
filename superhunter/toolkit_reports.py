@@ -1,13 +1,53 @@
 """Summarize existing tool output. Keep imported evidence separate from local runs."""
 from collections import Counter
+from hashlib import sha256
+from io import BytesIO
 from pathlib import Path
 import re
 from xml.etree import ElementTree
+from zipfile import BadZipFile, ZipFile
+import zlib
 
 from .safe_io import read_artifact, strict_json
 
 FORMATS = ('slither', 'slitherin', 'aderyn', 'semgrep', 'echidna', 'ityfuzz',
            'halmos', 'kontrol', 'manticore', 'mythril', 'nuclei')
+
+
+def canto_comparison(root, capture=None):
+    raw = read_artifact(root, 'superhunter/product_supply/c4-canto-2024-01.json')
+    if sha256(raw).hexdigest() != 'e27cf2d1097788d42e102ca44fc89caea3634b96409bb0b5c37ee35e52bb6232':
+        raise ValueError('Canto benchmark record differs from the reviewed run')
+    record = strict_json(raw)
+    if capture is not None:
+        manifest = record['capture_manifest']
+        try:
+            with ZipFile(BytesIO(read_artifact(capture.parent, capture.name))) as archive:
+                if sorted(archive.namelist()) != sorted(manifest):
+                    raise ValueError('unexpected Canto capture files')
+                for name, expected in manifest.items():
+                    if archive.getinfo(name).file_size != expected['bytes']:
+                        raise ValueError('Canto capture size differs for ' + name)
+                    with archive.open(name) as stream:
+                        digest = sha256(stream.read(expected['bytes'] + 1)).hexdigest()
+                    if digest != expected['sha256']:
+                        raise ValueError('Canto capture SHA-256 differs for ' + name)
+        except (BadZipFile, RuntimeError, EOFError, zlib.error) as exc:
+            raise ValueError('invalid Canto capture ZIP') from exc
+        record['verified_capture_files'] = len(manifest)
+    findings = record['judged_findings']
+    for finding in [*findings, record['supplementary']]:
+        for match in finding['matches']:
+            observations = record['tools'][match['tool']]['reviewed_locations']
+            lines = set(match['lines'])
+            if not lines or not any(row['rule'] == match['rule'] and lines.issubset(row['lines'])
+                                    for row in observations):
+                raise ValueError('unsubstantiated Canto match for ' + finding['id'])
+    score = {}
+    for prefix, label in [('H-', 'high'), ('M-', 'medium')]:
+        group = [f for f in findings if f['id'].startswith(prefix)]
+        score[label] = {'localized': sum(bool(f['matches']) for f in group), 'judged': len(group)}
+    return {**record, 'score': score}
 
 
 def count_labels(items, field):

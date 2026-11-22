@@ -355,6 +355,8 @@ def main(argv):
         return setup(argv[1:])
     commands = parser.add_subparsers(dest='action', required=True)
     commands.add_parser('setup', help='prepare the Linux runtime')
+    benchmark = commands.add_parser('benchmark-canto', help='read the measured offline LendingLedger comparison')
+    benchmark.add_argument('--capture', type=Path, help='verify the original report ZIP against the recorded hashes')
     commands.add_parser('references').add_argument('terms', nargs='*')
     check = commands.add_parser('check', help='run the local T36 regression suite')
     check.add_argument('--require-all-analyzers', action='store_true',
@@ -366,6 +368,10 @@ def main(argv):
                                 required=subcommand is reports, default=[], help=', '.join(FORMATS))
     args = parser.parse_args(argv)
     try:
+        if args.action == 'benchmark-canto':
+            from .toolkit_reports import canto_comparison
+            print(json.dumps(canto_comparison(ROOT, args.capture), ensure_ascii=False))
+            return 0
         if args.action == 'reports':
             print(json.dumps({'imported_reports': read_reports(args.report)}, ensure_ascii=False))
             return 0
