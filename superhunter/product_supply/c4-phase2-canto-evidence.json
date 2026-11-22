@@ -379,5 +379,172 @@
         "reported_runs": 333334
       }
     ]
+  },
+  "nqc_qa": {
+    "product_prepared": {
+      "tests": 490,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "toolkit": {
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "repository_boundary": {
+      "status": "REPOSITORY_BOUNDARY_PASS",
+      "historical_files_checked": 642,
+      "historical_tests_passed": 9
+    },
+    "general_discovery": {
+      "result": "FAILED",
+      "unittest_summary": "Ran 3814 tests in 526.299s\n\nFAILED (failures=82, errors=204, skipped=27)",
+      "elapsed_seconds": 526.299,
+      "reported_tests_run": 3814,
+      "failures": 82,
+      "errors": 204,
+      "skipped": 27,
+      "raw_log_sha256": "36fb3608fdbb7c1bf5fd7d758da0b07ac7c2489a9b2166b0ac5973942437b86b",
+      "records_by_module": {
+        "test_benchmark": {
+          "FAIL": 1
+        },
+        "test_case_review": {
+          "FAIL": 1
+        },
+        "test_compiler_variants": {
+          "FAIL": 1
+        },
+        "test_consolidated_evidence_verifier": {
+          "ERROR": 1
+        },
+        "test_evm_execution": {
+          "FAIL": 1
+        },
+        "test_evm_seed_study": {
+          "FAIL": 1
+        },
+        "test_holdout_protocol": {
+          "FAIL": 1
+        },
+        "test_native_compile": {
+          "ERROR": 2
+        },
+        "test_native_platform": {
+          "FAIL": 1
+        },
+        "test_owned_authority_behavior": {
+          "FAIL": 1
+        },
+        "test_owned_authority_coverage": {
+          "FAIL": 1
+        },
+        "test_owned_authority_coverage_suite": {
+          "FAIL": 1
+        },
+        "test_owned_boundary_diagnosis": {
+          "ERROR": 1
+        },
+        "test_owned_compute_guard": {
+          "FAIL": 5
+        },
+        "test_owned_correct_cross_evm": {
+          "FAIL": 1
+        },
+        "test_owned_coverage_link": {
+          "FAIL": 1
+        },
+        "test_owned_quota_review": {
+          "ERROR": 2
+        },
+        "test_owned_restricted_corroboration": {
+          "ERROR": 1
+        },
+        "test_owned_restricted_review": {
+          "ERROR": 1
+        },
+        "test_owned_sealed_input": {
+          "ERROR": 4,
+          "FAIL": 1
+        },
+        "test_owned_sealed_review": {
+          "ERROR": 1
+        },
+        "test_owned_sealed_worker": {
+          "ERROR": 7
+        },
+        "test_owned_slither_native": {
+          "FAIL": 2
+        },
+        "test_permission_domain": {
+          "FAIL": 1
+        },
+        "test_permissions": {
+          "FAIL": 1
+        },
+        "test_platform": {
+          "ERROR": 49
+        },
+        "test_portfolio_inventory": {
+          "FAIL": 1
+        },
+        "test_privacy": {
+          "FAIL": 1
+        },
+        "test_qa_custody": {
+          "FAIL": 24
+        },
+        "test_qa_failure": {
+          "ERROR": 2
+        },
+        "test_quality": {
+          "FAIL": 5
+        },
+        "test_quality_cache": {
+          "ERROR": 1
+        },
+        "test_quality_entrypoint": {
+          "FAIL": 1
+        },
+        "test_rate_control": {
+          "ERROR": 1
+        },
+        "test_reconciliation": {
+          "ERROR": 34
+        },
+        "test_regression": {
+          "ERROR": 20,
+          "FAIL": 14
+        },
+        "test_repository_capture": {
+          "ERROR": 3,
+          "FAIL": 10
+        },
+        "test_research_plan": {
+          "ERROR": 1
+        },
+        "test_review": {
+          "ERROR": 27
+        },
+        "test_sharing": {
+          "ERROR": 41
+        },
+        "test_solidity_stateful": {
+          "ERROR": 1
+        },
+        "test_source_enumeration": {
+          "FAIL": 1
+        },
+        "test_source_graph": {
+          "ERROR": 4,
+          "FAIL": 2
+        },
+        "test_storage_layout": {
+          "FAIL": 1
+        }
+      }
+    }
   }
 }

@@ -91,3 +91,17 @@ Los ZIP nuevos no aportaron un snapshot identificado por bloque y raíz de estad
 Se verificaron los ocho archivos de la captura previa de LendingLedger. El campo histórico `tools.ityfuzz.fuzzing_executed` vale `false`. SHA-256 del ZIP previo: `209663693febe6624148a0f57ad0d89d0addadc27293bc0189820d52195e0c5a`.
 
 [Expediente histórico de LendingLedger](product_supply/c4-canto-2024-01.json) · [Informe oficial](https://code4rena.com/reports/2024-01-canto)
+
+## Verificación de NQC
+
+El perfil preparado pasó las 490 pruebas del producto y las 13 del toolkit, sin omisiones. El verificador de aislamiento comprobó 642 archivos históricos y pasó sus nueve pruebas. Antes de cargar todos los componentes locales, el perfil de producto omitió 27 pruebas. Una repetición intermedia dio dos errores por faltar `rustc` en el PATH. La repetición completa utilizó el compilador local fijado por el repositorio.
+
+El barrido general independiente de `superhunter/tests`, ejecutado con el runtime del toolkit, **falló**. La salida final de unittest fue:
+
+```text
+Ran 3814 tests in 526.299s
+
+FAILED (failures=82, errors=204, skipped=27)
+```
+
+En 153 trazas aparece `unsupported inherited unittest inventory`. También hay fallos de inventario de fuentes, de validación de snapshots y de disponibilidad de la plataforma sellada. El PR documenta la medición de los concursos. La suite general queda en rojo. Las cuentas por módulo y la huella de la bitácora figuran en el expediente.
