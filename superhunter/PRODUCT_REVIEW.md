@@ -353,3 +353,16 @@ python3.12 -B -m superhunter.tools.render_product_matrix --require-all
 ```
 
 El código de salida 0 indica participación completa, el 1 identifica un expediente válido con participantes pendientes y el 2 indica que la comprobación falló. La salida enumera cada proyecto pendiente. La participación admite tanto ejecución como consumo de una referencia.
+
+## Participación en la revisión de empaquetado
+
+La sesión completa ejecuta `--component-controls all` sobre los checkouts fijados y cruza las observaciones con el ID y la revisión de cada proyecto. El grupo `publication-policy` incorpora 40 referencias. Para 39 de ellas reproduce las reglas de Git en un directorio temporal con archivos ficticios. Compara la selección con y sin las reglas y comprueba tanto los archivos excluidos como los que pueden agregarse. En el proyecto restante comprueba cómo la receta de contenedor consume las dependencias declaradas. Una versión ausente queda identificada como tal. [Archivos fuente por proyecto y revisión](product_supply/publication-policy-inputs.json)
+
+Se puede ejecutar sólo este grupo desde un producto preparado. `NQC_BUNDLE` identifica su directorio de evidencia de producto y `NQC_CHECKOUT` el checkout con los 200 proyectos en `upstream/`.
+
+```sh
+python3.12 -B -m superhunter query-product --bundle "$NQC_BUNDLE" \
+  --control-source-root "$NQC_CHECKOUT" --component-controls publication-policy component-controls
+```
+
+En el perfil completo, `--require-all` comprueba los recibos de la misma corrida. Cada recibo indica el trabajo observado y si se ejecutó código del proyecto o se consumió una referencia. El resultado de empaquetado se limita a los ejemplos medidos. Un segundo control usó `git add --all` en índices nuevos y comprobó individualmente las 859 decisiones de las 39 políticas.

@@ -306,16 +306,18 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
             registry = {verifier.COMPONENTS_REPORT_INTEROP: 'report-interop',
                         verifier.COMPONENTS_EVIDENCE_CONTRACTS: 'evidence-contracts',
                         verifier.COMPONENTS_SUPPLY_AND_REPORTING: 'supply-and-reporting',
-                        verifier.COMPONENTS_THROUGH_HTML: None}.get(component_sha, 'vendored-attributions')
+                        verifier.COMPONENTS_VENDORED_ATTRIBUTIONS: 'vendored-attributions',
+                        verifier.PUBLICATION_POLICY_CONTRACT: 'publication-policy',
+                        verifier.COMPONENTS_THROUGH_HTML: None}[component_sha]
             matches = [name for name, (_, digest, _) in renderer.PROFILES.items()
                        if digest == contract and (name == registry if registry else
-                                                 name not in ('report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions'))]
+                                                 name not in ('report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions', 'publication-policy'))]
             self.assertEqual(len(matches), 1)
             selected = matches[0]
             if recorded_profile:
                 self.assertEqual(selected, recorded_profile)
             renderer.require_producer(commit, tree, inputs, selected)
-            if selected in ('report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions'):
+            if selected in ('report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions', 'publication-policy'):
                 for replacement in (None, verifier.COMPONENTS_THROUGH_HTML):
                     forged = {**inputs, 'component_contract_sha256': replacement}
                     with self.subTest(replacement=replacement), self.assertRaisesRegex(EvidenceError, 'run component contract'):
@@ -411,7 +413,7 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
 
     def test_latest_is_ordered_by_profile_and_cannot_hide_an_incomplete_dossier(self):
         with TemporaryDirectory() as tmp, patch.object(renderer, 'ROOT', Path(tmp)):
-            expected = ('core-eight', 'accounting', 'canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions')
+            expected = ('core-eight', 'accounting', 'canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions', 'publication-policy')
             self.assertEqual(tuple(renderer.PROFILES), expected)
             self.assertEqual(tuple(renderer.PROFILE_DIRECTORIES), expected)
             for name in expected:

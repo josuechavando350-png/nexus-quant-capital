@@ -39,8 +39,9 @@ PROFILES = {'core-eight': (DOSSIER, CORE_EIGHT[1], 'require_consolidated'),
             'report-interop': (REPORT_INTEROP_DOSSIER, HTML_REVIEW_SHA, 'require_report_interop'),
             'evidence-contracts': (EVIDENCE_CONTRACTS_DOSSIER, HTML_REVIEW_SHA, 'require_evidence_contracts'),
             'supply-and-reporting': (ATTRIBUTIONS_DOSSIER, HTML_REVIEW_SHA, 'require_supply_and_reporting'),
-            'vendored-attributions': (VENDORED_DOSSIER, HTML_REVIEW_SHA, 'require_vendored_attributions')}
-PRODUCER_BOUND_PROFILES = ('evidence-contracts', 'supply-and-reporting', 'vendored-attributions')
+            'vendored-attributions': (VENDORED_DOSSIER, HTML_REVIEW_SHA, 'require_vendored_attributions'),
+            'publication-policy': ('superhunter/' + PROFILE_DIRECTORIES['publication-policy'], HTML_REVIEW_SHA, 'require_publication_policy')}
+PRODUCER_BOUND_PROFILES = ('evidence-contracts', 'supply-and-reporting', 'vendored-attributions', 'publication-policy')
 REQUIRED_MUTATIONS = frozenset({
     'inflated_count', 'unsupported_credit', 'replaced_historical_digest', 'changed_native_result',
     'changed_license', 'changed_git_tree', 'erased_domain_selection', 'erased_shared_results',
@@ -175,19 +176,19 @@ def render(components, native, *, current=None, producer=None):
                       + (', '.join(f'`{path}`' for path in producer['different_inputs']) or 'ninguno') + '. '
                       + ('Los manifiestos nativos tienen huellas distintas.' if producer['different_native_manifest']
                          else 'Coincide la huella de los manifiestos nativos.')])
-        if producer['profile'] in ('accounting', 'canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions'):
+        if producer['profile'] in ('accounting', 'canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions', 'publication-policy'):
             lines.extend(['', 'Esta aceptación incluye el noveno grupo de controles contables. '
                           'El [expediente de ocho grupos](product_supply/consolidated-acceptance/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile core-eight`.'])
-        if producer['profile'] in ('canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions'):
+        if producer['profile'] in ('canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions', 'publication-policy'):
             lines.extend(['', 'El décimo grupo comprueba la interoperabilidad de encabezados RLP. '
                           'El [expediente de nueve grupos](product_supply/consolidated-acceptance-accounting/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile accounting`.'])
-        if producer['profile'] in ('grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions'):
+        if producer['profile'] in ('grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions', 'publication-policy'):
             lines.extend(['', 'El undécimo grupo comprueba esquemas gRPC. '
                           'El [expediente de diez grupos](product_supply/consolidated-acceptance-header/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile canonical-header`.'])
-        if producer['profile'] in ('html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions'):
+        if producer['profile'] in ('html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions', 'publication-policy'):
             lines.extend(['', 'El duodécimo grupo comprueba el informe HTML en el navegador. '
                           'El [expediente de once grupos](product_supply/consolidated-acceptance-grpc-schema/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile grpc-schema`.'])
@@ -221,6 +222,11 @@ def render(components, native, *, current=None, producer=None):
                           'La revisión de dependencias compara el inventario de atribuciones de Stratus con '
                           'las declaraciones del módulo Go. Nettacker aporta mensajes de sus catálogos de idiomas para '
                           '[abrir el informe de comparación](product_supply/acceptance-120/pr119-140-vs-157-localized.md).'])
+        if producer['profile'] == 'publication-policy':
+            lines.extend(['', 'El producto consumió 39 políticas Git en árboles temporales de publicación y contrastó '
+                          'una receta de contenedor con sus requisitos Python. Estas 40 participaciones son referencias. '
+                          'La misma sesión comparó los 19,900 pares de árboles y verificó el recibo de cada proyecto. '
+                          '[Participación y reproducción](PRODUCT_REVIEW.md#comparación-de-los-200-árboles-de-código-fuente).'])
         if producer['profile'] == 'vendored-attributions':
             lines.extend(['', f"Se acreditaron de nuevo las {result['prior_operations_preserved']} operaciones "
                           f"de {result['prior_identities_preserved']} identidades del "
@@ -273,6 +279,8 @@ def digest(value, width=64):
 
 
 def component_contract_digest(profile):
+    if profile == 'publication-policy':
+        return verify_review_115.PUBLICATION_POLICY_CONTRACT
     if profile == 'vendored-attributions':
         return verify_review_115.COMPONENTS_VENDORED_ATTRIBUTIONS
     if profile == 'evidence-contracts':
@@ -321,14 +329,18 @@ def run_evidence(record, run_id, profile='core-eight'):
             raise EvidenceError(f'{run_id} dossier digest differs for {filename}')
         return data
     inputs = strict_json(artifact('run-inputs.json', 'inputs_sha256'))
-    if inputs.get('argv') != list(PORTABLE_ARGV):
+    expected_argv = list(PORTABLE_ARGV)
+    if profile == 'publication-policy':
+        position = expected_argv.index('--review-queries') + 1
+        expected_argv[position:position] = ['--compare-sources', '<source-references>', '--require-all']
+    if inputs.get('argv') != expected_argv:
         raise EvidenceError('execution dossier differs from the reviewed portable argv')
     result = strict_json(artifact('result.json', 'result_sha256'))
     raw = verify_review_115.unpack(artifact('session.json', 'archive_sha256'))
     if (inputs.get('checkout_clean_before') is not True or result.get('clean_after') is not True
             or type(result.get('returncode')) is not int or result['returncode'] != 0
             or type(result.get('responses')) is not int or result['responses'] != len(raw.splitlines())
-            or result['responses'] != 222 or type(result.get('bytes')) is not int or result['bytes'] != len(raw) or result.get('sha256') != sha(raw)
+            or result['responses'] != (225 if profile == 'publication-policy' else 222) or type(result.get('bytes')) is not int or result['bytes'] != len(raw) or result.get('sha256') != sha(raw)
             or (inputs.get('commit'), inputs.get('tree')) != (result.get('commit'), result.get('tree'))):
         raise EvidenceError('run result disagrees with the transcript, clean checkout or producer')
     if (not all(digest(inputs.get(k)) for k in ('raw_run_inputs_sha256', 'native_manifest_sha256', 'kit_manifest_sha256'))
@@ -361,9 +373,11 @@ def check_act_verdict(act, verified, raw, *, profile=None, producer_commit=None)
         options['producer_commit'] = producer_commit
     controls = verify_review_115.negative_controls(raw, **options)
     required = REQUIRED_MUTATIONS | ({'changed_policy_catalog_joint_digest'} if profile in PRODUCER_BOUND_PROFILES else set())
-    if profile in ('supply-and-reporting', 'vendored-attributions'):
+    if profile in ('supply-and-reporting', 'vendored-attributions', 'publication-policy'):
         required = required | {'changed_attribution_review', 'changed_localized_report'}
-    if profile == 'vendored-attributions':
+    if profile == 'publication-policy':
+        required = required | {'changed_publication_decision', 'changed_pair_measurement', 'removed_peer_rows', 'false_live_total'}
+    if profile in ('vendored-attributions', 'publication-policy'):
         required = required | {'changed_vendored_attribution'}
     if set(controls) != required or canonical(act.get('refuted_mutations')) != canonical(controls):
         raise EvidenceError('refuted mutations in the acceptance act differ from the recomputed controls')
@@ -420,7 +434,7 @@ def verified_pair(profile, *, evidence_commit=None):
                 'different_inputs': sorted(key for key, value in left['prepared_files'].items()
                                                     if right['prepared_files'][key] != value),
                 'different_native_manifest': left['native_manifest_sha256'] != right['native_manifest_sha256']}
-    if profile == 'vendored-attributions':
+    if profile in ('vendored-attributions', 'publication-policy'):
         producer['scope_labels'] = scope_labels(raw, keys, rows)
     return verified, rows, producer
 

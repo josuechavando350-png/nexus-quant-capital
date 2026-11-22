@@ -46,6 +46,10 @@ def observed(row):
 def response_keys(raw):
     keys = review_queries()
     tail = raw.splitlines()[len(keys):]
+    extended = []
+    if len(tail) == 7:
+        extended = ['source-overlap', 'source-overlap-coverage', 'live-participation']
+        tail = tail[:-3]
     if len(tail) > 4:
         raise EvidenceError('acceptance transcript has missing or extra responses')
     markers = {'archive_sha256': 'portable-source-proof', 'go_archive_sha256': 'go-header-digest',
@@ -59,7 +63,7 @@ def response_keys(raw):
     optional = [name for name in extras if name in ('component-controls', 'native-capabilities')]
     if extras != optional and extras != ['portable-source-proof', 'go-header-digest', *optional]:
         raise EvidenceError('acceptance transcript has missing or extra responses')
-    return keys + extras
+    return keys + extras + extended
 
 
 @cache
@@ -234,6 +238,9 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
         if not isinstance(value, expected):
             raise EvidenceError('unexpected response type at ' + key)
         report[key] = value
+    has_publication = keys[-1] == 'live-participation'
+    if has_publication != require_publication_policy:
+        raise EvidenceError('publication policy profile requires the live gate and both source reports')
     archive = read_artifact(ROOT, 'superhunter/product_supply/coverage-d94b58f.json')
     if sha(archive) != 'b47f69c24ee583c5e8ef61954439b56818bccf6e3fa35a60bf099381d10bc1bd':
         raise EvidenceError('historical index changed')
@@ -483,6 +490,17 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
         recorded_profile = 'current' if component_profile == 'through-html' else component_profile
         counts.update(component_contract_profile=recorded_profile, component_domains=sorted(set(controls['requested']) - set(controls['blocked'])),
                       blocked_component_domains=sorted(controls['blocked']))
+    if has_publication:
+        from superhunter.product_source_overlap import coverage as connect_sources
+        from superhunter.tools.catalog_session import live_participation
+        overlap = report['source-overlap']
+        if sha(canonical(overlap)) != '79902769085e5da1a4d4dd395776c79770f12fff47da547aa5963347e2c9bf92':
+            raise EvidenceError('source comparison differs from the independently checked 19,900 pairs')
+        matrix = report['integration-matrix']
+        if connect_sources(overlap, matrix) != report['source-overlap-coverage']:
+            raise EvidenceError('shared source results are detached from the live operations')
+        if live_participation(matrix) != report['live-participation']:
+            raise EvidenceError('live participation gate differs from its verified rows')
     return {'transcript_sha256': digest, 'credits_sha256': sha(canonical(credits)),
             'responses': len(keys), **counts}
 
@@ -692,6 +710,11 @@ def negative_controls(raw, **profile_options):
             group, result = next(iter(native['groups'].items()))
             cases.append(('changed_native_report', 'native-capabilities', ('groups', group),
                           {**result, 'unverified': True}, 'native producer bytes'))
+    if 'live-participation' in keys:
+        cases.extend([
+            ('changed_pair_measurement', 'source-overlap', ('pairs_compared',), 0, 'source comparison differs'),
+            ('removed_peer_rows', 'source-overlap-coverage', ('rows',), [], 'detached from the live operations'),
+            ('false_live_total', 'live-participation', ('participating',), 0, 'live participation gate differs')])
     rejected = {}
     for name, key, path, replacement, reason in cases:
         lines = raw.splitlines()
