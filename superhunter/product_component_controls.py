@@ -24,9 +24,12 @@ DOMAINS = {'evidence-codec': 'product_evidence_codec', 'changes': 'product_chang
            'manifest-resources': 'product_manifest_resources',
            'report-taxonomy': 'product_report_taxonomy',
            'coverage-interop': 'product_coverage_interop',
-           'certificate-review': 'product_certificate_review'}
+           'certificate-review': 'product_certificate_review',
+           'event-format': 'product_event_format',
+           'policy-catalog': 'product_policy_catalog',
+           'development-manifest': 'product_development_manifest'}
 CONTRACT_PATH = 'superhunter/product_supply/component-control-contracts.json'
-CONTRACT_SHA = 'f05874680d267a179c47e04b0fd032bbf1695896225293189cec93856b4e4b82'
+CONTRACT_SHA = 'e817543c5ca4887cf618806e3dc6b1981e72239aa679dd78afab68c217d70b6a'
 FIELD = 'component_control_receipt'
 
 
@@ -118,6 +121,9 @@ def attach(index, checkout, domain, kit):
             results.update(rows)
     report = {'requested': list(wanted), 'blocked': errors, 'observations': results,
               'digest_corroboration': reconcile_digest(results, getattr(index, 'header_digest', None))}
+    if 'iann0036/iamlive' in results and 'BishopFox/cloudfox' in results:
+        from .product_policy_catalog import corroborate
+        report['policy_catalog_corroboration'] = corroborate(results['iann0036/iamlive'], results['BishopFox/cloudfox'])
     # Publish the validated selection together. A failed or deselected component
     # must lose its old credit; unrelated legacy and native evidence is retained.
     for row in index.repos.values():

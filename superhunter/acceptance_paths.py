@@ -9,6 +9,7 @@ PROFILE_DIRECTORIES = {
     'grpc-schema': BASE + '-grpc-schema',
     'html-review': BASE + '-html-review',
     'report-interop': BASE + '-report-interop',
+    'evidence-contracts': BASE + '-evidence-contracts',
 }
 RUN_DIRECTORIES = ('first', 'second')
 RUN_FILES = ('result.json', 'run-inputs.json', 'session.json')

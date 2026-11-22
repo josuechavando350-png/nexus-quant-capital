@@ -3,7 +3,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from types import SimpleNamespace
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from superhunter.product_reasoning import EvidenceError
 from superhunter.product_review import ROOT
@@ -263,15 +263,18 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
             inputs = {'git_source_tree': git('rev-parse', commit + ':upstream').decode().strip(),
                       'native_contract_sha256': contract,
                       'component_contract_sha256': verifier.sha(git('show', commit + ':superhunter/product_supply/component-control-contracts.json'))}
-            newer_components = inputs['component_contract_sha256'] != verifier.COMPONENTS_THROUGH_HTML
+            component_sha = inputs['component_contract_sha256']
+            registry = {verifier.COMPONENTS_REPORT_INTEROP: 'report-interop',
+                        verifier.COMPONENTS_THROUGH_HTML: None}.get(component_sha, 'evidence-contracts')
             matches = [name for name, (_, digest, _) in renderer.PROFILES.items()
-                       if digest == contract and (name == 'report-interop') == newer_components]
+                       if digest == contract and (name == registry if registry else
+                                                 name not in ('report-interop', 'evidence-contracts'))]
             self.assertEqual(len(matches), 1)
             selected = matches[0]
             if recorded_profile:
                 self.assertEqual(selected, recorded_profile)
             renderer.require_producer(commit, tree, inputs, selected)
-            if selected == 'report-interop':
+            if selected in ('report-interop', 'evidence-contracts'):
                 for replacement in (None, verifier.COMPONENTS_THROUGH_HTML):
                     forged = {**inputs, 'component_contract_sha256': replacement}
                     with self.subTest(replacement=replacement), self.assertRaisesRegex(EvidenceError, 'run component contract'):
@@ -366,7 +369,7 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
 
     def test_latest_is_ordered_by_profile_and_cannot_hide_an_incomplete_dossier(self):
         with TemporaryDirectory() as tmp, patch.object(renderer, 'ROOT', Path(tmp)):
-            expected = ('core-eight', 'accounting', 'canonical-header', 'grpc-schema', 'html-review', 'report-interop')
+            expected = ('core-eight', 'accounting', 'canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts')
             self.assertEqual(tuple(renderer.PROFILES), expected)
             self.assertEqual(tuple(renderer.PROFILE_DIRECTORIES), expected)
             for name in expected:
@@ -422,6 +425,36 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
         row['session_operations'].append({**last, 'evidence_sha256': '0' * 64})
         with self.assertRaisesRegex(EvidenceError, 'previous accepted operations'):
             verifier.check_previous_acceptance(rows)
+
+    def test_report_profile_is_immutable_when_the_active_component_contract_changes(self):
+        report_rules = verifier.component_rules('report-interop')
+        self.assertEqual(renderer.component_contract_digest('report-interop'), verifier.COMPONENTS_REPORT_INTEROP)
+        with patch('superhunter.product_component_controls.CONTRACT_SHA', '0' * 64):
+            self.assertEqual(renderer.component_contract_digest('report-interop'), verifier.COMPONENTS_REPORT_INTEROP)
+            self.assertEqual(renderer.component_contract_digest('evidence-contracts'), '0' * 64)
+        self.assertIn('cilium/cilium', report_rules)
+
+    def test_unearned_policy_corroboration_is_rejected_even_if_the_field_is_empty(self):
+        for observations in ({}, {'BishopFox/cloudfox': {}}, {'iann0036/iamlive': {}}):
+            verifier.verify_policy_corroboration({'observations': observations})
+            with self.assertRaisesRegex(EvidenceError, 'no joint producer'):
+                verifier.verify_policy_corroboration({'observations': observations, 'policy_catalog_corroboration': None})
+
+    def test_policy_corroboration_cannot_be_deleted_or_replaced_by_resealed_numbers(self):
+        expected = {'cases_compared': 5, 'joint_sha256': 'a' * 64}
+        producers = {'iann0036/iamlive': {'catalog': 1}, 'BishopFox/cloudfox': {'report': 2}}
+        worker = SimpleNamespace(corroborate=Mock(return_value=expected))
+        with patch.dict('sys.modules', {'superhunter.product_policy_catalog': worker}):
+            verifier.verify_policy_corroboration({'observations': producers, 'policy_catalog_corroboration': expected})
+            worker.corroborate.assert_called_once_with(producers['iann0036/iamlive'], producers['BishopFox/cloudfox'])
+            for value in (None, {**expected, 'cases_compared': True}, {**expected, 'joint_sha256': 'b' * 64}):
+                with self.assertRaisesRegex(EvidenceError, 'differs from the two producer observations'):
+                    verifier.verify_policy_corroboration({'observations': producers, 'policy_catalog_corroboration': value})
+
+    def test_missing_evidence_commit_is_not_a_successful_previous_acceptance(self):
+        with patch.object(renderer, 'read_artifact', return_value=b'{}'), self.assertRaisesRegex(
+                EvidenceError, 'published prior evidence commit'):
+            renderer.verified_pair('report-interop', evidence_commit='0' * 40)
 
     def test_replacing_one_of_twenty_control_names_cannot_qualify_a_dossier(self):
         controls = dict.fromkeys(renderer.REQUIRED_MUTATIONS, 'recorded rejection')

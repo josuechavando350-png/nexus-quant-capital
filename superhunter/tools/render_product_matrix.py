@@ -23,6 +23,7 @@ HEADER_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['canonical-header']
 GRPC_SCHEMA_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['grpc-schema']
 HTML_REVIEW_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['html-review']
 REPORT_INTEROP_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['report-interop']
+EVIDENCE_CONTRACTS_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['evidence-contracts']
 # A later default native registry must never redefine an archived nine-group acceptance.
 ACCOUNTING_SHA = '4dfec613c3f4ad64084a7487d4f4d5ecadea8f177f1bcc7283637c4a8adcdefa'
 HEADER_SHA = 'c3b7c10d1c72aacae73e09c5b96b521baeb9a8e6f4b15b03886ddcb8a16395c3'
@@ -33,7 +34,8 @@ PROFILES = {'core-eight': (DOSSIER, CORE_EIGHT[1], 'require_consolidated'),
             'canonical-header': (HEADER_DOSSIER, HEADER_SHA, 'require_canonical_header'),
             'grpc-schema': (GRPC_SCHEMA_DOSSIER, GRPC_SCHEMA_SHA, 'require_grpc_schema'),
             'html-review': (HTML_REVIEW_DOSSIER, HTML_REVIEW_SHA, 'require_html_review'),
-            'report-interop': (REPORT_INTEROP_DOSSIER, HTML_REVIEW_SHA, 'require_report_interop')}
+            'report-interop': (REPORT_INTEROP_DOSSIER, HTML_REVIEW_SHA, 'require_report_interop'),
+            'evidence-contracts': (EVIDENCE_CONTRACTS_DOSSIER, HTML_REVIEW_SHA, 'require_evidence_contracts')}
 REQUIRED_MUTATIONS = frozenset({
     'inflated_count', 'unsupported_credit', 'replaced_historical_digest', 'changed_native_result',
     'changed_license', 'changed_git_tree', 'erased_domain_selection', 'erased_shared_results',
@@ -139,19 +141,19 @@ def render(components, native, *, current=None, producer=None):
                       + (', '.join(f'`{path}`' for path in producer['different_inputs']) or 'ninguno') + '. '
                       + ('Los manifiestos nativos tienen huellas distintas.' if producer['different_native_manifest']
                          else 'Coincide la huella de los manifiestos nativos.')])
-        if producer['profile'] in ('accounting', 'canonical-header', 'grpc-schema', 'html-review', 'report-interop'):
+        if producer['profile'] in ('accounting', 'canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts'):
             lines.extend(['', 'Esta aceptación incluye el noveno grupo de controles contables. '
                           'El [expediente de ocho grupos](product_supply/consolidated-acceptance/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile core-eight`.'])
-        if producer['profile'] in ('canonical-header', 'grpc-schema', 'html-review', 'report-interop'):
+        if producer['profile'] in ('canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts'):
             lines.extend(['', 'El décimo grupo comprueba la interoperabilidad de encabezados RLP. '
                           'El [expediente de nueve grupos](product_supply/consolidated-acceptance-accounting/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile accounting`.'])
-        if producer['profile'] in ('grpc-schema', 'html-review', 'report-interop'):
+        if producer['profile'] in ('grpc-schema', 'html-review', 'report-interop', 'evidence-contracts'):
             lines.extend(['', 'El undécimo grupo comprueba esquemas gRPC. '
                           'El [expediente de diez grupos](product_supply/consolidated-acceptance-header/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile canonical-header`.'])
-        if producer['profile'] in ('html-review', 'report-interop'):
+        if producer['profile'] in ('html-review', 'report-interop', 'evidence-contracts'):
             lines.extend(['', 'El duodécimo grupo comprueba el informe HTML en el navegador. '
                           'El [expediente de once grupos](product_supply/consolidated-acceptance-grpc-schema/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile grpc-schema`.'])
@@ -169,6 +171,11 @@ def render(components, native, *, current=None, producer=None):
                           'ejecutados, sin omisiones. Se cotejaron contenido y modo de los 642 archivos históricos. '
                           'La migración ampliada pasó 8/9. El inventario global seleccionó 684 archivos '
                           'frente al límite de 500. [Resultados y controles de QA](product_supply/acceptance-120/qa-report-interop.json).'])
+        if producer['profile'] == 'evidence-contracts':
+            lines.extend(['', f"Se volvieron a comprobar las {result['prior_operations_preserved']} operaciones de "
+                          f"{result['prior_identities_preserved']} identidades del "
+                          '[expediente de interoperabilidad de informes](product_supply/'
+                          'consolidated-acceptance-report-interop/acceptance.json), con los dos manifiestos y sus productores.'])
     if current:
         lines.extend(['', 'Una revisión posterior del PR 119 archivó 139 identidades en un perfil distinto. '
                       'Su transcripción, los dos registros de ejecución declarados y el cruce con el perfil contable '
@@ -211,6 +218,17 @@ def digest(value, width=64):
     return isinstance(value, str) and re.fullmatch(f'[0-9a-f]{{{width}}}', value) is not None
 
 
+def component_contract_digest(profile):
+    if profile == 'evidence-contracts':
+        from superhunter.product_component_controls import CONTRACT_SHA
+        if CONTRACT_SHA in (verify_review_115.COMPONENTS_THROUGH_HTML, verify_review_115.COMPONENTS_REPORT_INTEROP):
+            raise EvidenceError('producer component contract does not match selected acceptance profile')
+        return CONTRACT_SHA
+    if profile == 'report-interop':
+        return verify_review_115.COMPONENTS_REPORT_INTEROP
+    return verify_review_115.COMPONENTS_THROUGH_HTML
+
+
 def require_producer(commit, tree, inputs, profile):
     if not digest(commit, 40) or not digest(tree, 40):
         raise EvidenceError('expected full Git commit and tree IDs')
@@ -226,15 +244,10 @@ def require_producer(commit, tree, inputs, profile):
         components_sha = sha(git('show', commit + ':superhunter/product_supply/component-control-contracts.json'))
     except subprocess.CalledProcessError as exc:
         raise EvidenceError('producer Git objects unavailable; fetch the published producer commit into this checkout') from exc
-    expected_components = verify_review_115.COMPONENTS_THROUGH_HTML
-    if profile == 'report-interop':
-        from superhunter.product_component_controls import CONTRACT_SHA
-        if CONTRACT_SHA == expected_components:
-            raise EvidenceError('producer component contract does not match selected acceptance profile')
-        expected_components = CONTRACT_SHA
+    expected_components = component_contract_digest(profile)
     if contract_sha != PROFILES[profile][1] or components_sha != expected_components:
         raise EvidenceError('producer contract does not match selected acceptance profile')
-    if profile == 'report-interop' and inputs.get('component_contract_sha256') != components_sha:
+    if profile in ('report-interop', 'evidence-contracts') and inputs.get('component_contract_sha256') != components_sha:
         raise EvidenceError('run component contract disagrees with the producer commit')
     if inputs['git_source_tree'] != source_tree or inputs['native_contract_sha256'] != contract_sha:
         raise EvidenceError('run source tree or native contract disagrees with the producer commit')
@@ -285,18 +298,32 @@ def selected_profile(profile):
     return profile
 
 
-def check_act_verdict(act, verified, raw):
+def check_act_verdict(act, verified, raw, *, profile=None, producer_commit=None):
     if canonical(act.get('independent_verification')) != canonical(verified):
         raise EvidenceError('independent verification in the acceptance act differs from the recomputed verdict')
-    controls = verify_review_115.negative_controls(raw)
-    if set(controls) != REQUIRED_MUTATIONS or canonical(act.get('refuted_mutations')) != canonical(controls):
+    options = {'require_evidence_contracts': True, 'producer_commit': producer_commit} if profile == 'evidence-contracts' else {}
+    controls = verify_review_115.negative_controls(raw, **options)
+    required = REQUIRED_MUTATIONS | ({'changed_policy_catalog_joint_digest'} if profile == 'evidence-contracts' else set())
+    if set(controls) != required or canonical(act.get('refuted_mutations')) != canonical(controls):
         raise EvidenceError('refuted mutations in the acceptance act differ from the recomputed controls')
 
 
-def accepted_markdown(profile='latest'):
+def verified_pair(profile, *, evidence_commit=None):
     profile = selected_profile(profile)
     dossier = PROFILES[profile][0]
-    act = strict_json(read_artifact(ROOT, dossier + '/acceptance.json'))
+    act_path = dossier + '/acceptance.json'
+    act_raw = read_artifact(ROOT, act_path)
+    if evidence_commit is not None:
+        try:
+            committed = subprocess.check_output(['git', '--no-replace-objects', '-C', str(ROOT), 'show',
+                                                 evidence_commit + ':' + act_path],
+                                                stderr=subprocess.DEVNULL, timeout=30,
+                                                env={**os.environ, 'GIT_NO_LAZY_FETCH': '1', 'GIT_ALLOW_PROTOCOL': ''})
+        except subprocess.CalledProcessError as exc:
+            raise EvidenceError('published prior evidence commit is unavailable') from exc
+        if committed != act_raw:
+            raise EvidenceError('previous acceptance act differs from its published Git object')
+    act = strict_json(act_raw)
     if (type(act.get('schema_version')) is not int or act['schema_version'] != 1 or act.get('same_host') is not True
             or not isinstance(act.get('runs'), list) or len(act['runs']) != 2
             or not all(isinstance(record, dict) for record in act['runs'])):
@@ -306,24 +333,35 @@ def accepted_markdown(profile='latest'):
         raise EvidenceError('two distinct checkouts are required')
     left, result, raw = run_evidence(first, 'first', profile)
     right, replay, other = run_evidence(second, 'second', profile)
+    if (profile == 'evidence-contracts' or evidence_commit is not None) and (
+            first['inputs_sha256'] == second['inputs_sha256']
+            or left['raw_run_inputs_sha256'] == right['raw_run_inputs_sha256']):
+        raise EvidenceError('previous or successor acceptance requires two distinct input manifests')
     if left['raw_run_inputs_sha256'] == right['raw_run_inputs_sha256'] and first['result_sha256'] == second['result_sha256']:
         raise EvidenceError('the same input and result record was used for both runs')
     if (result['commit'], result['tree']) != (replay['commit'], replay['tree']):
         raise EvidenceError('execution records identify different producer commits or trees')
     strict_profile = {PROFILES[profile][2]: True}
+    if profile == 'evidence-contracts':
+        strict_profile['producer_commit'] = result['commit']
     verified = verify_review_115.verify(raw, result['sha256'], **strict_profile)
     verify_review_115.verify(other, replay['sha256'], **strict_profile)
     if profile == 'report-interop' and result['commit'] != verify_review_115.REPORT_INTEROP_PRODUCER:
         raise EvidenceError('report interoperability dossier names a different audited producer')
     if raw != other:
         raise EvidenceError('the full transcripts differ between the two checkout runs')
-    check_act_verdict(act, verified, raw)
+    check_act_verdict(act, verified, raw, profile=profile, producer_commit=result['commit'])
     keys = verify_review_115.response_keys(raw)
     rows = strict_json(raw.splitlines()[keys.index('integration-matrix')])['rows']
     producer = {**result, 'profile': profile, 'dossier': dossier,
                 'different_inputs': sorted(key for key, value in left['prepared_files'].items()
                                                     if right['prepared_files'][key] != value),
                 'different_native_manifest': left['native_manifest_sha256'] != right['native_manifest_sha256']}
+    return verified, rows, producer
+
+
+def accepted_markdown(profile='latest'):
+    verified, rows, producer = verified_pair(profile)
     return historical_markdown(current=(verified, rows), producer=producer)
 
 

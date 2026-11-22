@@ -1,5 +1,6 @@
 """Verify catalog, source and live operations from a bounded transcript without executing producers."""
 import argparse
+import re
 import base64
 from collections import Counter
 from functools import cache
@@ -116,10 +117,14 @@ ARCHIVE_99_SHA = 'c4d9f671093a88aa25be658c583361da7c7abadee5ac582de4e5f723a8375c
 ACCEPTANCE_70_SHA = 'd826d1ead698a870ac978d732b943d7aed1d49a14adffaad30295867356ee6ae'
 SNAPSHOT_153 = '9fe08694ea198e7872cc954a122fc4bdc4675996a5403cb7344822a89a3bfe3f'
 COMPONENTS_THROUGH_HTML = '7ad5ed1a7c4a344bb1b8d1467a3ad109b618fa1a82f67c6486cbcafa2b39105a'
+REPORT_INTEROP_TRANSCRIPT_SHA = 'd0cea728fa6a8d58120227a2e803da1afb93313913c7b2268454fc7299cb1b78'
+REPORT_INTEROP_EVIDENCE = '4dabd753f601a6f2938b425ba9bf7ed8ddfa245e'
 REPORT_INTEROP_PRODUCER = 'f1eea76f24ff0cf0b5af4a870b5d6e117c46d248'
 HTML_PRODUCER = '604bd28d528ee809c8e6d38adab86ec6f67b652c'
 HTML_TRANSCRIPT_SHA = 'd07aafc5d1c5ba5dfbe5bdcb59d8fe292ddfb7b8a2fe97e5b944ab27fd5b72ff'
+COMPONENTS_REPORT_INTEROP = 'f05874680d267a179c47e04b0fd032bbf1695896225293189cec93856b4e4b82'
 HISTORICAL_COMPONENTS = {
+    'report-interop': COMPONENTS_REPORT_INTEROP,
     'through-html': COMPONENTS_THROUGH_HTML,
     '99': 'adbd7b433b1d3cad6ee0a64fa71e5187f422dafc9050353c07c66d20187abfea',
     '118': '06a61867ec8d0612d7e4a934f723a8c4a8ab42dbb9a1ab3e3a2321c5521d2bf2',
@@ -128,7 +133,7 @@ HISTORICAL_COMPONENTS = {
 
 @cache
 def component_rules(profile):
-    if profile in ('current', 'report-interop'):
+    if profile in ('current', 'evidence-contracts'):
         from superhunter.product_component_controls import contracts
         return contracts()
     raw = read_artifact(ROOT, f'superhunter/product_supply/component-control-contracts-{profile}.json')
@@ -162,13 +167,24 @@ def row_operations(row, native, *, profile='current'):
     return sorted(operations, key=lambda op: (op['role'] != 'executable', op['receipt']))
 
 
+def verify_policy_corroboration(controls):
+    observations = controls['observations']
+    if {'iann0036/iamlive', 'BishopFox/cloudfox'} <= observations.keys():
+        from superhunter.product_policy_catalog import corroborate
+        expected = corroborate(observations['iann0036/iamlive'], observations['BishopFox/cloudfox'])
+        if canonical(controls.get('policy_catalog_corroboration')) != canonical(expected):
+            raise EvidenceError('policy catalog corroboration differs from the two producer observations')
+    elif 'policy_catalog_corroboration' in controls:
+        raise EvidenceError('policy catalog corroboration has no joint producer observations')
+
+
 def verify(raw, expected_hash=None, *, require_consolidated=False, require_accounting=False,
            require_canonical_header=False, require_grpc_schema=False, require_html_review=False,
-           require_report_interop=False):
+           require_report_interop=False, require_evidence_contracts=False, producer_commit=None):
     profiles = [name for selected, name in (
         (require_consolidated, 'core-eight'), (require_accounting, 'accounting-nine'),
         (require_canonical_header, 'canonical-ten'), (require_grpc_schema, 'grpc-eleven'),
-        (require_html_review, None), (require_report_interop, None)) if selected]
+        (require_html_review, None), (require_report_interop, None), (require_evidence_contracts, None)) if selected]
     if len(profiles) > 1:
         raise EvidenceError('select one exact consolidated acceptance profile')
     full_profile = bool(profiles)
@@ -206,7 +222,9 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
                    'published_excerpts' not in matrix and
                    report['source-inventory'].get('snapshot_sha256') == SNAPSHOT_153)
     component_profile = 'through-html' if full_profile else 'current'
-    if require_report_interop:
+    if require_evidence_contracts:
+        component_profile = 'evidence-contracts'
+    elif require_report_interop:
         component_profile = 'report-interop'
     elif interim_118:
         component_profile = '99'
@@ -342,6 +360,7 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
             if (observation.get('revision') != claim['revision'] or
                     sha(canonical(observation)) != claim['result_sha256']):
                 raise EvidenceError('individual component result differs from the shared evidence')
+        verify_policy_corroboration(controls)
     elif live:
         raise EvidenceError('component receipts have no shared evidence')
     if 'portable-source-proof' in report:
@@ -377,6 +396,11 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
     if full_profile:
         from superhunter.product_native_capabilities import contracts as native_contracts
         controls = report.get('component-controls') or {}
+        if require_evidence_contracts:
+            archived = component_rules('report-interop')
+            current = component_rules('evidence-contracts')
+            if not set(archived) < set(current) or any(current[name] != row for name, row in archived.items()):
+                raise EvidenceError('successor component contracts lost a previous binding or have no additional identity')
         if (not combined or not operations_format or set(controls.get('requested', [])) != allowed_domains
                 or (require_report_interop and 'report-interop' not in allowed_domains)
                 or controls.get('blocked') != {} or not controls.get('digest_corroboration')
@@ -391,6 +415,13 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
         counts.update(check_historical_coverage(rows))
     if require_report_interop:
         counts.update(check_previous_acceptance(rows, report['ossf/scorecard']['license_file_evidence']))
+    if require_evidence_contracts:
+        if not isinstance(producer_commit, str) or not re.fullmatch('[0-9a-f]{40}', producer_commit):
+            raise EvidenceError('an independently supplied producer commit is required')
+        prior = report_interop_operations()
+        check_preserved_operations(prior, operation_keys(rows), report['ossf/scorecard']['license_file_evidence'],
+                                   REPORT_INTEROP_PRODUCER, producer_commit)
+        counts.update(prior_identities_preserved=len({k[0] for k in prior}), prior_operations_preserved=len(prior))
     if 'native-capabilities' in report:
         if historical_native and digest != NATIVE_SESSION_70:
             raise EvidenceError('historical native transcript differs from the published 70-identity session')
@@ -505,7 +536,16 @@ def check_previous_acceptance(rows, scorecard=None):
             'prior_operations_preserved': len(previous)}
 
 
-def negative_controls(raw):
+@cache
+def report_interop_operations():
+    from superhunter.tools import render_product_matrix as renderer
+    verified, rows, _ = renderer.verified_pair('report-interop', evidence_commit=REPORT_INTEROP_EVIDENCE)
+    if verified['transcript_sha256'] != REPORT_INTEROP_TRANSCRIPT_SHA:
+        raise EvidenceError('previous report interoperability transcript differs from the reviewed evidence')
+    return operation_keys(rows)
+
+
+def negative_controls(raw, **profile_options):
     keys = response_keys(raw)
     lines = raw.splitlines()
     matrix = strict_json(lines[keys.index('integration-matrix')])
@@ -533,6 +573,9 @@ def negative_controls(raw):
             ('changed_source_distribution', 'integration-matrix', ('pending_by_source',), {'metadata': -1}, 'claimed totals'),
             ('changed_commercial_total', 'integration-matrix', ('commercial_reviews_completed',), 1, 'claimed totals'),
             ('erased_excerpt_inventory', 'integration-matrix', ('published_excerpts',), [], 'excerpt inventory')])
+        if 'policy_catalog_corroboration' in controls:
+            cases.append(('changed_policy_catalog_joint_digest', 'component-controls',
+                          ('policy_catalog_corroboration', 'joint_sha256'), '0' * 64, 'policy catalog corroboration'))
         if observed:
             name = sorted(observed)[0]
             cases.append(('changed_group_result', 'component-controls', ('observations', name, 'operation'),
@@ -568,7 +611,7 @@ def negative_controls(raw):
         node[path[-1]] = replacement
         lines[position] = canonical(record).rstrip(b'\n')
         try:
-            verify(b'\n'.join(lines) + b'\n')
+            verify(b'\n'.join(lines) + b'\n', **profile_options)
         except EvidenceError as exc:
             if reason not in str(exc):
                 raise
@@ -596,6 +639,9 @@ def main():
                           help='require all twelve groups including the fixed NQC HTML report')
     profiles.add_argument('--require-consolidated-report-interop', action='store_true',
                           help='require the twelve native groups, the previous ledger and every report control domain')
+    profiles.add_argument('--require-consolidated-evidence-contracts', action='store_true',
+                          help='require all current domains and every receipt in the accepted report interoperability pair')
+    parser.add_argument('--producer-commit', help='independently verified Git identity for the evidence-contracts profile')
     parser.add_argument('--expect-sha256', help='trusted digest for a specific, published run')
     args = parser.parse_args()
     raw = read_artifact(args.transcript.parent, args.transcript.name)
@@ -606,7 +652,10 @@ def main():
                        'require_canonical_header': args.require_consolidated_canonical_header,
                        'require_grpc_schema': args.require_consolidated_grpc_schema,
                        'require_html_review': args.require_consolidated_html_review,
-                       'require_report_interop': args.require_consolidated_report_interop}
+                       'require_report_interop': args.require_consolidated_report_interop,
+                       'require_evidence_contracts': args.require_consolidated_evidence_contracts}
+    if args.require_consolidated_evidence_contracts:
+        profile_options['producer_commit'] = args.producer_commit
     result = verify(raw, args.expect_sha256, **profile_options)
     if args.require_complete_controls:
         profile = result.get('component_contract_profile', 'current')
@@ -629,7 +678,7 @@ def main():
             raise EvidenceError('the verified transcript bytes differ between runs')
         result['replay_sha256'] = replay['transcript_sha256']
     if args.check_controls:
-        result['rejected_controls'] = negative_controls(raw)
+        result['rejected_controls'] = negative_controls(raw, **profile_options)
     sys.stdout.buffer.write(canonical(result))
 
 
