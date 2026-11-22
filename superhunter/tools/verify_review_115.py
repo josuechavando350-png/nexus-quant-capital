@@ -240,7 +240,7 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
         report[key] = value
     has_publication = keys[-1] == 'live-participation'
     if has_publication != require_publication_policy:
-        raise EvidenceError('publication policy profile requires the live gate and both source reports')
+        raise EvidenceError('incomplete consolidated session: publication policy profile requires the live gate and both source reports')
     archive = read_artifact(ROOT, 'superhunter/product_supply/coverage-d94b58f.json')
     if sha(archive) != 'b47f69c24ee583c5e8ef61954439b56818bccf6e3fa35a60bf099381d10bc1bd':
         raise EvidenceError('historical index changed')
