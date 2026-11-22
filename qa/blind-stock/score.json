@@ -1,0 +1,69 @@
+{
+  "batches_per_case": 16,
+  "defective": 8,
+  "healthy": 4,
+  "implementations": 12,
+  "modes": {
+    "book": {
+      "balance": {
+        "alerts_on_correct_outputs": 0,
+        "alerts_on_wrong_outputs": 25,
+        "false_negative_cases": 5,
+        "false_positive_cases": 0,
+        "missed": [
+          "cartons_as_units",
+          "count_distinct_sizes",
+          "reversed_line_order",
+          "three_digit_subtotal",
+          "void_slip_posted"
+        ],
+        "true_negative_cases": 4,
+        "true_positive_cases": 3
+      },
+      "with_fields": {
+        "alerts_on_correct_outputs": 0,
+        "alerts_on_wrong_outputs": 34,
+        "false_negative_cases": 3,
+        "false_positive_cases": 0,
+        "missed": [
+          "cartons_as_units",
+          "reversed_line_order",
+          "void_slip_posted"
+        ],
+        "true_negative_cases": 4,
+        "true_positive_cases": 5
+      }
+    },
+    "receipt": {
+      "balance": {
+        "alerts_on_correct_outputs": 0,
+        "alerts_on_wrong_outputs": 30,
+        "false_negative_cases": 4,
+        "false_positive_cases": 0,
+        "missed": [
+          "count_distinct_sizes",
+          "reversed_line_order",
+          "short_second_book_entry",
+          "three_digit_subtotal"
+        ],
+        "true_negative_cases": 4,
+        "true_positive_cases": 4
+      },
+      "with_fields": {
+        "alerts_on_correct_outputs": 0,
+        "alerts_on_wrong_outputs": 39,
+        "false_negative_cases": 2,
+        "false_positive_cases": 0,
+        "missed": [
+          "reversed_line_order",
+          "short_second_book_entry"
+        ],
+        "true_negative_cases": 4,
+        "true_positive_cases": 6
+      }
+    }
+  },
+  "outputs": 192,
+  "primary": "receipt.with_fields",
+  "wrong_outputs": 59
+}
