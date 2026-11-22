@@ -10,7 +10,7 @@ import tempfile
 from .product_reasoning import EvidenceError
 from .product_review import ROOT, copy_release, sha
 from .safe_io import strict_json
-from .product_sources import gitlinks, verify
+from .product_sources import gitlinks, toolkit_sources, verify
 
 DIGEST = '9b2868dec1ca9f9c32fda97caeb7f3aba28bc74c1f982bd222f16749fe4b9211'
 RELEASE = {'version': 'v5.7.0', 'commit': 'd7552fb3cdc05e9f6426177d3328887304fce554'}
@@ -43,6 +43,8 @@ def snapshot(work, env):
     commit = git('rev-parse', '--verify', 'HEAD^{commit}').decode().strip()
     links = gitlinks(ROOT, commit)
     allowed = {r['path']: r['commit'] for r in verify(ROOT, False)['sources']} if links else {}
+    if links:
+        allowed.update({row['path']: row['commit'] for row in toolkit_sources()})
     entries = reviewable_entries(git('ls-tree', '-rz', commit), allowed)
     source = work/'source'
     source.mkdir()

@@ -14,6 +14,9 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] == 'toolkit':
+        from .toolkit import main as toolkit_main
+        return toolkit_main(argv[1:])
     if argv and argv[0] == 'inventory':
         from .inventory_checkpoint import main as inventory_main
         return inventory_main(argv[1:])

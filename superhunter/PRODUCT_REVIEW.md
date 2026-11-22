@@ -1,5 +1,7 @@
 # Revisión de dependencias de NQC y SuperHunter
 
+La CLI incluye la [revisión local de contratos con las herramientas del PR #133](TOOLKIT.md).
+
 La auditoría de los 200 IDs y tres participaciones funcionales adicionales se detallan en [la matriz verificable](INTEGRATION_STATUS_200.md) y [la receta de reproducción](SOURCE_AUDIT.md).
 
 Desde la CLI de SuperHunter se puede consultar el catálogo de 200 proyectos, el grafo de dependencias de Census y los conflictos entre los seis perfiles Python de SuperHunter. El catálogo procede del [PR 110](https://github.com/josuechavando350-png/nexus-quant-capital/pull/110), commit `474846b11ea41f9d9f41c4aa6d7eda0cbf18d2f6`. La copia conserva exactamente los bytes públicos de ese JSON. La consulta conserva los identificadores históricos de los siete proyectos que aparecen también en el portafolio de 50.

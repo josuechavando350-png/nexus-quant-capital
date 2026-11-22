@@ -10,7 +10,7 @@ import sys
 import zlib
 
 from ..product_review import ROOT, sha
-from ..product_sources import git, gitlinks
+from ..product_sources import catalog_links, git, gitlinks
 from ..product_source_audit import SNAPSHOT, SNAPSHOT_SHA
 from ..product_upstream_notices import sources
 from ..repository_boundary import git_object
@@ -86,6 +86,7 @@ def verify(records, product):
         raise ValueError('historical observations differ from the 200 pinned catalog rows')
     links = {r['path']: r['commit'] for r in rows}
     local = {r['path']: r for r in rows}
+    product = catalog_links(product)
     if product != links or tree_oid(product) != OBSERVED_UPSTREAM_TREE:
         raise ValueError('current product gitlinks differ from the 200 observed catalog revisions')
     manifest = ''.join(f'[submodule "{r["path"]}"]\n\tpath = {r["path"]}\n'
