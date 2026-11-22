@@ -67,7 +67,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('transcript', type=Path)
     parser.add_argument('--expect-sha256')
-    parser.add_argument('--contract-version', type=int, choices=sorted(HISTORICAL_CONTRACTS),
+    parser.add_argument('--contract-version', type=int, choices=sorted(k for k in HISTORICAL_CONTRACTS if type(k) is int),
                         help='verify an immutable historical policy instead of the current registry')
     parser.add_argument('--archive', action='store_true', help='read the bounded acceptance archive')
     parser.add_argument('--check-controls', action='store_true', help='reject eight altered evidence copies')

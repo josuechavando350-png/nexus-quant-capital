@@ -1,0 +1,6 @@
+Start time:'2026-11-21.23.17.27' bin:'/workspace/scratch/ecd59ba3c132/honggfuzz-native-work/kit/owned-buggy', input:'corpus', output:'output', persistent:false, stdin:false, mutation_rate:1, timeout:1, max_runs:128, threads:1, minimize:false, git_commit:01713bdad7307acea887517f2468b4a9961f9806
+Entering phase: Static
+Launched new fuzzing thread, no. #0
+[2026-11-21T23:17:27+0000][W][7] arch_traceAttach():1097 Couldn't ptrace(PTRACE_SEIZE) to pid: 9: Operation not permitted
+[2026-11-21T23:17:27+0000][W][7] arch_attachToNewPid():177 arch_traceAttach(pid=9) failed
+[2026-11-21T23:17:27+0000][F][7] arch_prepareParentAfterFork():204 Couldn't attach to pid=9

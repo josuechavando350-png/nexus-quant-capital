@@ -1,14 +1,32 @@
 {
+  "AFLplusplus/AFLplusplus": {
+    "domain": "report-interop",
+    "result_sha256": "81ac412e81b56426154d4ab1e344d50be93cf4433b320f77e08ef8f7bdadfbdf",
+    "revision": "d798677805de81b50aa8f45beb0342ae1617b9d8",
+    "role": "reference_data"
+  },
   "Aider-AI/aider": {
     "domain": "changes",
     "result_sha256": "3686777d37fc2c3b258db1c8aee71958586be4487b008a735aa078d3237a8753",
     "revision": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
     "role": "executable"
   },
+  "BishopFox/cloudfox": {
+    "domain": "policy-report",
+    "result_sha256": "7d8d63049ac04c50578f5427ec3d4fbbcbc2c36e0122d4cdc2fe218cc302885e",
+    "revision": "f65be085cde3768281c2dbafc57542a56ee12ebe",
+    "role": "executable"
+  },
   "CosmWasm/cosmwasm": {
     "domain": "state-amounts",
     "result_sha256": "ca1da6bce73f03cfa6fe2c55774dee36e9ccefea07c2918b0952450e85b9dec3",
     "revision": "b7da6a4d373f5fdb7cd752f855271ed9909ec1ce",
+    "role": "reference_data"
+  },
+  "DynamoRIO/dynamorio": {
+    "domain": "coverage-interop",
+    "result_sha256": "964573e474d4d24ef57bdd2036014e57acdcd849c65b16d964c0771ab173a4de",
+    "revision": "0fd459d944cb13056c7f29eba1d593a637bf3b68",
     "role": "reference_data"
   },
   "Ericsson/codechecker": {
@@ -29,6 +47,12 @@
     "revision": "c848c5617d1ae4d3f832fb0ca03e30c611a7ba52",
     "role": "executable"
   },
+  "MobSF/Mobile-Security-Framework-MobSF": {
+    "domain": "report-interop",
+    "result_sha256": "c04d8ab4698c6972aa5e7d552c3309b73e9c397fedf8180735adb3c818812737",
+    "revision": "fa87c37892b264cf76bed8c358cc2d5d5323c8c2",
+    "role": "executable"
+  },
   "MystenLabs/sui": {
     "domain": "state-amounts",
     "result_sha256": "76aeb9fac1fbe39db2e1f5f457ec6a423eb305d727bea556df736afee3491950",
@@ -46,6 +70,12 @@
     "result_sha256": "d19ccac9d553e531cb1ae59e414b08eb51cb74118eadfebadda48238461537f7",
     "revision": "c6a0b31a8bcbb839aa2051f700476e2019e5529d",
     "role": "executable"
+  },
+  "OISF/suricata": {
+    "domain": "report-http-privacy",
+    "result_sha256": "d2960a3289de03fa1c2b08d131bd628a7c9abb1ee943a4637bd3ed5ab4283fb4",
+    "revision": "5c7787ed61adb1aa7a26c23e093992350fc97d62",
+    "role": "reference_data"
   },
   "OWASP/mastg": {
     "domain": "android-policy",
@@ -95,6 +125,12 @@
     "revision": "81d1463aabad700c3bb953827215c5dfc81ca61a",
     "role": "reference_data"
   },
+  "aquasecurity/kube-bench": {
+    "domain": "report-interop",
+    "result_sha256": "31bea1ee888a3867bee855ddb5d69ef65004dc56f65070a0d800088499040d3e",
+    "revision": "e278a5915a982f2756026de6e2f9ca77077ef9f9",
+    "role": "reference_data"
+  },
   "aquasecurity/tracee": {
     "domain": "infrastructure",
     "result_sha256": "837fa885c952cce38cbcce6cd036236ad8a3e861a62a9ffdbc216a9a6351b891",
@@ -123,6 +159,12 @@
     "domain": "configuration",
     "result_sha256": "141dc55470bee46159ae8cc831b9c97e2fad70743368290b62dc50167ca7d3e0",
     "revision": "ce236e196bbec30c99502e6ff5ac809a23b2ec42",
+    "role": "executable"
+  },
+  "cilium/cilium": {
+    "domain": "report-http-privacy",
+    "result_sha256": "0c6da5f5fe3b8969ef53daf0022ce3633c8d3adcb7bdd0f04aa6d79b11e8db9b",
+    "revision": "fb070362cec985b65e10d733365b1f34839dbf5b",
     "role": "executable"
   },
   "cilium/hubble": {
@@ -191,6 +233,18 @@
     "revision": "e6d624b9a4b95c6b52f5ca384d70b75581f9821a",
     "role": "executable"
   },
+  "google/fuzztest": {
+    "domain": "coverage-interop",
+    "result_sha256": "f31ab988195fed130a18f4ee81d8840478b5cf42612888312fe4bbca8dc0bf1c",
+    "revision": "29e1c6a0fc149dc108dfff122bd6aac5efbe85b5",
+    "role": "reference_data"
+  },
+  "google/oss-fuzz": {
+    "domain": "coverage-interop",
+    "result_sha256": "9ff2027aa424d9f17a93dc05b18f7254ef867f9cdd6fbab6f3f1698c8935f250",
+    "revision": "48099ac8ad840c31d745f6e2a7627195481cb1df",
+    "role": "reference_data"
+  },
   "hahwul/dalfox": {
     "domain": "source-extracts",
     "result_sha256": "bcc1fc317964a46e30aac6a64db56407523e2f580f5dc9490fbb8bd67f5ddf9b",
@@ -233,6 +287,12 @@
     "revision": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
     "role": "executable"
   },
+  "kubescape/kubescape": {
+    "domain": "report-interop",
+    "result_sha256": "715fc856d23218303a1b04aa68c5fe49f043d605fd523fcc28ac717ffeb6aede",
+    "revision": "ef4faa945647cdd735f6aa3346567092f51c3a6a",
+    "role": "reference_data"
+  },
   "langfuse/langfuse": {
     "domain": "scoring",
     "result_sha256": "49c75842908c67b135632bb7d1f1ab6f7e833fe9cc3e2e40d8d423b3a4e674c5",
@@ -245,6 +305,12 @@
     "revision": "873b622380fbbce76ac407c6e0299fcbec557045",
     "role": "reference_data"
   },
+  "maurosoria/dirsearch": {
+    "domain": "report-privacy",
+    "result_sha256": "b1928e47c68a8abddaa7afd6400b8d7c69da631785ca7dda530976e736ef579f",
+    "revision": "461705af2688ab6644b1f2bf738c46c55ee4d3da",
+    "role": "executable"
+  },
   "meta/Pysa": {
     "domain": "static-contracts",
     "result_sha256": "22a67397e000fdae79cd951a396ebb760f06dd9e17b81856faf80dd529c8232b",
@@ -256,6 +322,18 @@
     "result_sha256": "1103207069d42c3bc7515a6855af9d33c423a6eed131b710d1bb8a69726ea6f8",
     "revision": "2ebceff7ce3c93480bbc0e8d09d11aeec53595d8",
     "role": "executable"
+  },
+  "microsoft/restler-fuzzer": {
+    "domain": "coverage-interop",
+    "result_sha256": "d810522ca1aae7224340d653cb49cc0506fb24bdd7490a8e5b1168ce8993eb9d",
+    "revision": "6d984deedbc54aad957fa3da0c7e9e5df23a2aee",
+    "role": "reference_data"
+  },
+  "mitmproxy/mitmproxy": {
+    "domain": "certificate-review",
+    "result_sha256": "195d41621f2ecd06f57bc60319b2816029e7e480b1a916613b16de24e0596e4d",
+    "revision": "c491986978a6280c29977482cb18698d6523a662",
+    "role": "reference_data"
   },
   "nabla-c0d3/sslyze": {
     "domain": "configuration",
@@ -275,10 +353,28 @@
     "revision": "98846e3bb753a2e5b701d58d2655f76c8f41a01e",
     "role": "executable"
   },
+  "phpstan/phpstan": {
+    "domain": "report-interop",
+    "result_sha256": "3a8a7f3e367d41968b06d63b0ac29c86b499c624e9d03b17eadde77d36ece74f",
+    "revision": "043348b55e6c54effbdc0cd2f86173bc00ddd0c2",
+    "role": "reference_data"
+  },
+  "projectdiscovery/tlsx": {
+    "domain": "certificate-review",
+    "result_sha256": "03ad689ecf674a4d6332cb3735048f109f5c131ada4ca17c09c16dde6f849107",
+    "revision": "53e3d20a14f917e423c970b4db2944a202e6549a",
+    "role": "reference_data"
+  },
   "promptfoo/promptfoo": {
     "domain": "scoring",
     "result_sha256": "e22e8f05b27b84e42eebbe8d3890066d80267cecc7dee1b52685d66a835a9f0e",
     "revision": "b1aca6657b8d7353815e78a9bd35273ddcd3fccc",
+    "role": "executable"
+  },
+  "prowler-cloud/prowler": {
+    "domain": "report-privacy",
+    "result_sha256": "3e11664973932de12db1fef80ac79ba3cbd88ca86df1cd990db5fd0ff699ccc7",
+    "revision": "02d631d3a5db2c8676e9703aec286c7723a32e6f",
     "role": "executable"
   },
   "radareorg/radare2": {
@@ -359,6 +455,12 @@
     "revision": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
     "role": "executable"
   },
+  "vimeo/psalm": {
+    "domain": "report-interop",
+    "result_sha256": "bd6bcf31eb938682d0ee612c4798debc55c6843afee22aefec8759724f487d15",
+    "revision": "2da2040e23d8b54e61be22618bd53517b6bd43df",
+    "role": "reference_data"
+  },
   "vllm-project/vllm": {
     "domain": "evidence-codec",
     "result_sha256": "23458b35a7b59dcb16e3561a193dd622bda1aa4c0812485d26fef494aba3c321",
@@ -369,6 +471,12 @@
     "domain": "infrastructure",
     "result_sha256": "4b23681e87ea66d158233b7493f489b3a015f6f68a2bbce6f43b715bfb45ac4d",
     "revision": "2276442166317e2d80346cf0eb2f2744dd17c6c2",
+    "role": "reference_data"
+  },
+  "zaproxy/zaproxy": {
+    "domain": "coverage-interop",
+    "result_sha256": "61e53ef5c69d6d046a9472bd434142e54771cc33b14aea0926cb8e23da55ec9e",
+    "revision": "42d1450e6cedc921dae6b4b7103cbe40f8cd98df",
     "role": "reference_data"
   }
 }

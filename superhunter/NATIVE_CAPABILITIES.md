@@ -1,6 +1,6 @@
 # Capacidades nativas de SUPERHUNTER
 
-El registro actual contiene **16 grupos y 29 identidades**: 28 ejecutan código y una aporta reglas consumidas. Cada productor nuevo tiene controles propios reproducidos. El total conjunto con los dominios de Astra se acredita mediante una sola sesión y una matriz que conserva todas las operaciones sin duplicar identidades.
+El registro conciliado contiene **17 grupos y 30 identidades**: 29 ejecutan código y una aporta reglas consumidas. Añade el control HTML de Playwright al perfil de 140. El total conjunto se acredita mediante una sola sesión y una matriz que conserva todas las operaciones sin duplicar identidades; la ejecución completa del nuevo registro sigue pendiente.
 
 El checkpoint actual `a183f60ed7229441a703a8f6ea9e180ff249abf3` acredita **140/200 identidades** en una ejecución completa de 222 respuestas: **102 ejecutables, 38 referencias, 150 operaciones y diez identidades con operaciones múltiples**. Los 17 dominios y 16 grupos nativos terminaron sin bloqueos; el verificador rechazó 20 alteraciones. La duración fue 412,74 segundos. [Aceptación 140](product_supply/consolidated-acceptance-140.json) · [Matriz de las 200 identidades](INTEGRATION_STATUS_200.md).
 

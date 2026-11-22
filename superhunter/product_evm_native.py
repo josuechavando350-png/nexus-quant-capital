@@ -12,7 +12,7 @@ from .product_notice_ranking import ISOLATE
 from .product_reasoning import EvidenceError
 from .product_review import ROOT, copy_release, sha
 from .product_solidity_headers import inputs, SOLC_SHA
-from .safe_io import canonical, read_artifact, strict_json
+from .safe_io import canonical, strict_json
 
 REPOSITORIES = {'cdump/evmole': 'executable', 'shazow/whatsabi': 'executable'}
 SCOPES = {
@@ -23,7 +23,10 @@ EVMOLE_REVISION = '763f2984f6be5ea33636336e804022c75318a260'
 WHATSABI_REVISION = 'eefa62383640b9056aade49d1d5ed2206ffcdb3b'
 WHEEL = 'evmole-0.10.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl'
 WHEEL_SHA = '6624a8eb39010ea3cffeb34d1a02452bf019bc2932ce158b23a3e267704e5ea6'
-NODE_SHA = 'a7ec1b37e6ff9d187e4198c5b6df9a4eb1c74dd31804fb3bac55cc4ceca1ac01'
+BUILD = 'superhunter/product_supply/evm-native-build.json'
+BUILD_SHA = '770319fec81d721ec7fd3624c60c3016ec4ecc7aaaa960ace27d24a70e15498d'
+RUNNER = 'superhunter/product_supply/evm-native-whatsabi.txt'
+RUNNER_SHA = '4944dd25da2fef3d1a4a5454265acde1b9e4565fdc5d999faf9fb3208808a363'
 PINS = 'superhunter/product_supply/evm-native-npm-pins.json'
 PINS_SHA = '2a4a395aed7b810b4e058cac30dbce7e20bb62979d7ad90b23199403ca9d68e5'
 SOURCES = {
@@ -123,9 +126,9 @@ def compare(cases, evmole, whatsabi):
              'unchanged': sorted(old & new)}, 'interpretation': 'Selector recovery is checked against compiled owned ABI. Inferred argument and mutability differences remain uncertainty, not confirmed vulnerabilities.'}
 
 
-def stage(kit, work):
+def stage(kit, work, node_sha):
     copy_release('solc', kit/'solc', work/'solc', SOLC_SHA)
-    copy_release('Node', kit/'node', work/'node', NODE_SHA)
+    copy_release('Node', kit/'node', work/'node', node_sha)
     copy_release('EVMole', kit/WHEEL, work/WHEEL, WHEEL_SHA, executable=False)
     with ZipFile(work/WHEEL) as wheel:
         wheel.extractall(work/'evmole')
@@ -140,7 +143,7 @@ def stage(kit, work):
         dest = work/row['path']
         dest.parent.mkdir(parents=True, exist_ok=True)
         (folder/'package').rename(dest)
-    runner = read_artifact(ROOT, 'superhunter/product_supply/evm-native-whatsabi.txt')
+    runner = pinned(ROOT, RUNNER, RUNNER_SHA)
     (work/'whatsabi.cjs').write_bytes(runner)
     return pins
 
@@ -148,10 +151,12 @@ def stage(kit, work):
 def run(kit):
     if sys.version_info[:2] != (3, 12):
         raise EvidenceError('EVM native kit requires CPython 3.12')
+    build = strict_json(pinned(ROOT, BUILD, BUILD_SHA))
+    node_sha = build['archives'][0]['sha256']
     sources = source_inputs()
     with tempfile.TemporaryDirectory(prefix='nqc-evm-native-') as tmp:
         work = Path(tmp)
-        pins = stage(Path(kit), work)
+        pins = stage(Path(kit), work, node_sha)
         env = {'HOME': tmp, 'TMPDIR': tmp, 'PATH': '/usr/bin:/bin', 'LC_ALL': 'C'}
         def execute(command, payload):
             proc = subprocess.run([*ISOLATE, *command], input=canonical(payload), cwd=work,
@@ -177,6 +182,6 @@ def run(kit):
                             'scope': SCOPES['shazow/whatsabi'], 'executed_form': 'official npm JavaScript package',
                             'typescript_source_files_matching_catalog': 34},
         'solc': {'version': '0.8.24', 'binary_sha256': SOLC_SHA},
-        'node': {'version': '24.22.3', 'binary_sha256': NODE_SHA},
+        'node': {'version': '24.22.3', 'binary_sha256': node_sha},
     }
     return report

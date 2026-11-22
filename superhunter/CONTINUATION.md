@@ -1,5 +1,7 @@
 > Integración vigente: [consolidación de ambas ramas](CONSOLIDATION.md). El checkpoint a183f60 acredita 140/200 identidades en una ejecución conjunta, con 150 operaciones. El checkpoint 37a0d526 conserva dos ejecuciones idénticas de 139. Quedan 60 pendientes; las cifras de los apartados siguientes son históricas.
 
+La conciliación posterior con el snapshot `4fe452a` del PR 120 está implementada con 17 grupos nativos y 23 dominios de componentes. Su aceptación conjunta está pendiente. La entrada de producto es única y conserva los recibos de los perfiles anteriores; el contador de 140 no cambia por incorporar código o referencias sin ejecutarlas en el perfil nuevo. Consultar [el alcance y las exclusiones](CONSOLIDATION.md) antes de reproducirlo.
+
 
 
 

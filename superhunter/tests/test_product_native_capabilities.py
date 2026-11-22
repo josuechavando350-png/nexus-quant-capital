@@ -92,6 +92,21 @@ class NativeCapabilityJoinTests(unittest.TestCase):
         row = {'repository': 'owned/evm', 'source_inventory': {'evidence': 'local_git_tree'}}
         self.assertEqual(receipt(row), ('pending', None))
 
+    def test_failed_web_replay_cannot_lend_a_previous_kit_to_report_consumers(self):
+        with patch.object(native, 'import_module', side_effect=self.producer):
+            native.attach(self.index, {'web': 'verified-kit'})
+            self.assertEqual(self.index.verified_web_kit, 'verified-kit')
+            self.reports['web']['negative'] = ['unexpected_diagnostic']
+            native.attach(self.index, {'web': 'changed-kit'}, allow_partial=True)
+        self.assertIsNone(self.index.verified_web_kit)
+        self.assertNotIn('native_capability_receipt', self.index.repos['owned/web'])
+
+    def test_deselected_web_kit_is_not_reused_by_report_consumers(self):
+        with patch.object(native, 'import_module', side_effect=self.producer):
+            native.attach(self.index, {'web': 'verified-kit'})
+            native.attach(self.index, {'evm': 'other-kit'})
+        self.assertIsNone(self.index.verified_web_kit)
+
     def test_changed_contract_is_rejected(self):
         with patch.object(native, 'read_artifact', return_value=self.raw + b' '):
             with self.assertRaisesRegex(EvidenceError, 'reviewed controls'):
@@ -105,6 +120,12 @@ class NativeCapabilityJoinTests(unittest.TestCase):
 
 
 class NativeContractHistoryTests(unittest.TestCase):
+    def test_reconciliation_keeps_all_140_native_operations_and_the_html_receipt(self):
+        previous = native.contracts(version=140)
+        current = native.contracts()
+        self.assertEqual({key: value for key, value in current.items() if key != 'html_review'}, previous)
+        self.assertEqual(current['html_review'], native.contracts(version='html-twelve')['html_review'])
+
     def test_historical_domains_and_result_bindings_stay_verifiable(self):
         old = native.contracts(version=70)
         live = native.contracts()

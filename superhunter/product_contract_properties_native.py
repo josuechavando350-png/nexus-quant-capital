@@ -41,7 +41,7 @@ def reconcile(raw):
     for name, row in tests.items():
         try:
             gas = row['kind']['Unit']['gas']
-            if (row['status'] != 'Success' or row['reason'] is not None or
+            if (set(row['kind']) != {'Unit'} or row['status'] != 'Success' or row['reason'] is not None or
                     row['counterexample'] is not None or type(gas) is not int or gas <= 0):
                 raise EvidenceError('own native property control did not pass')
         except (KeyError, TypeError) as exc:

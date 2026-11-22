@@ -2,6 +2,8 @@
 
 Los controles consumen entradas fijas de NQC o datos públicos fijados por Git. El índice de producto conserva la identidad y la revisión de cada participante, la operación y la huella del resultado que se observó. Una revisión del mismo código puede seleccionar un solo dominio. La sesión ampliada solicita todos los dominios publicados y vuelve a obtener los resultados.
 
+El registro conciliado incluye 23 dominios y 80 contratos de componentes. A los 17 dominios históricos se añaden seis: interoperabilidad de reportes, privacidad de reportes, privacidad de HTTP registrado, políticas de reportes, cobertura de formatos y revisión de certificados. Los roles distinguen ejecución de funciones concretas y consumo de datos; consumir un reporte de PHPStan, por ejemplo, no significa haber ejecutado PHPStan. Su aceptación conjunta se publica únicamente después de la ejecución del perfil completo.
+
 ## Consultar un dominio
 
 Con el bundle de producto y los checkouts ya preparados, este ejemplo devuelve las políticas Android observadas. Lee manifiestos y contrasta sus identificadores y tipos de recurso. Puede ejecutarse sin preparar los analizadores de otros dominios.
@@ -44,13 +46,13 @@ En la consulta compartida, `digest_corroboration` vincula el diagnóstico real d
 
 La [verificación de materialización](SOURCE_MATERIALIZATION.md) conserva el estado de los 200 checkouts observados en un espacio de fuentes separado. La [matriz de producto](INTEGRATION_STATUS_200.md) usa las fuentes incorporadas a esta rama y las participaciones demostradas en la ejecución. En las fichas de extractos se encuentran los avisos, las atribuciones, los fragmentos consumidos y las revisiones. La autorización de una distribución comercial completa sigue pendiente.
 
-## Verificación de la entrega publicada
+## Verificación de los recibos
 
-El [expediente de aceptación](product_supply/review-118.json) contiene las dos ejecuciones, sus huellas y la lista de proyectos nuevos. La [tabla individual](COMPONENT_RESULTS_118.md) enlaza cada operación con su documentación. Para comprobar las 221 respuestas publicadas existe una ruta corta que lee los datos archivados, contrasta sus totales con las filas y ensaya las alteraciones sin instalar los binarios de los proveedores.
+La [transcripción histórica de 99 identidades](product_supply/component-session-99.json) contiene 221 respuestas. Este comando comprueba las filas y ejecuta los controles de alteración sobre los bytes archivados. La [matriz única](INTEGRATION_STATUS_200.md) y el [expediente de consolidación](CONSOLIDATION.md) recogen los resultados posteriores.
 
 ```sh
-digest=$(python3.12 -c 'import json; print(json.load(open("superhunter/product_supply/review-118.json"))["canonical"]["transcript_sha256"])')
 python3.12 -B -m superhunter.tools.verify_review_115 \
-    --archive --check-controls --require-complete-controls --expect-sha256 "$digest" \
-    superhunter/product_supply/review-118-session.json
+    --archive --check-controls --require-complete-controls \
+    --expect-sha256 81ab0b56f1970caeecc58ffc2fbf09197f340ede1b193b5d984c3db00593c9f5 \
+    superhunter/product_supply/component-session-99.json
 ```

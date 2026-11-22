@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+import {Lib_RLPReader as Reader} from "../src/Lib_RLPReader.sol";
+import {Lib_RLPWriter as Writer} from "../src/Lib_RLPWriter.sol";
+
+contract CanonicalCensusHeaderTest {
+    event log_named_bytes(string key, bytes value);
+
+    function encodeList(bytes[] memory values) private pure returns (bytes memory) {
+        bytes[] memory items = new bytes[](values.length);
+        for (uint256 i; i < values.length; ++i) items[i] = Writer.writeBytes(values[i]);
+        return Writer.writeList(items);
+    }
+
+    function readList(bytes memory encoded) private pure returns (bytes[] memory values) {
+        Reader.RLPItem[] memory items = Reader.readList(encoded);
+        values = new bytes[](items.length);
+        for (uint256 i; i < items.length; ++i) values[i] = Reader.readBytes(items[i]);
+    }
+
+    function same(bytes memory left, bytes memory right) private pure returns (bool) {
+        return keccak256(left) == keccak256(right);
+    }
+
+    %%HEADER_METHODS%%
+}

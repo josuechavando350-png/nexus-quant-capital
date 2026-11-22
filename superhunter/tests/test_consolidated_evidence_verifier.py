@@ -1,4 +1,6 @@
 """Refute false credits using archived inputs; replaying a receipt never counts as a new execution."""
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from types import SimpleNamespace
 from unittest.mock import patch
 import unittest
@@ -6,6 +8,7 @@ import unittest
 from superhunter.product_reasoning import EvidenceError
 from superhunter.product_review import ROOT
 from superhunter.safe_io import canonical, strict_json
+from superhunter.tools import render_product_matrix as renderer
 from superhunter.tools import verify_native_session as native_verifier
 from superhunter.tools import verify_review_115 as verifier
 
@@ -98,3 +101,380 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
                 raw = b'\n'.join(lines[:-3] + tail) + b'\n'
                 with self.assertRaisesRegex(EvidenceError, 'missing or extra responses'):
                     verifier.verify(raw)
+
+
+    def test_old_runtime_is_accepted_only_in_the_exact_archived_session(self):
+        lines = self.archive.splitlines()
+        report = strict_json(lines[self.keys.index('native-capabilities')])
+        with self.assertRaisesRegex(EvidenceError, 'native producer bytes'):
+            verifier.native_bindings({'native-capabilities': report})
+        self.assertTrue(verifier.native_bindings({'native-capabilities': report}, version=70))
+        lines[0] += b' '
+        with self.assertRaisesRegex(EvidenceError, 'published 70-identity session'):
+            verifier.verify(b'\n'.join(lines) + b'\n', native_contract_version=70)
+
+
+    def test_interim_component_session_verifies_individual_negative_controls(self):
+        raw = verifier.unpack((ROOT/'superhunter/product_supply/component-session-99.json').read_bytes())
+        self.assertEqual(len(verifier.negative_controls(raw)), 14)
+        with self.assertRaisesRegex(EvidenceError, 'published 99-identity session'):
+            verifier.verify(raw.rstrip(b'\n') + b' \n')
+
+
+    def test_historical_matrix_keeps_all_identities_and_both_receipts(self):
+        text = renderer.historical_markdown()
+        # This is the frozen 99/70 union. The live matrix may be a newer accepted
+        # profile, so do not equate these different, independently verified views.
+        rows = [line.split(' | ') for line in text.splitlines() if line.startswith('| ') and line[2:3].isdigit()]
+        self.assertEqual([int(row[0][2:]) for row in rows], list(range(1, 201)))
+        self.assertIn('Aceptación conjunta pendiente', text)
+        with_both = [row for row in rows if row[3] != '—' and row[4] != '— |']
+        self.assertEqual(len(with_both), 63)
+        self.assertEqual(sum('Ejecución' in ' '.join(row[3:]) for row in rows), 71)
+        self.assertEqual(sum('Referencia' in ' '.join(row[3:]) for row in rows), 35)
+        different_producers = [int(row[0][2:]) for row in with_both
+                               if 'component_control_receipt' in row[3] and 'native_capability_receipt' in row[4]]
+        self.assertEqual(different_producers, [20, 92, 103, 132])
+        left, right = rows[140][3:]
+        self.assertIn('license_file_evidence', left)
+        self.assertIn('license_file_evidence', right)
+        self.assertIn('75dc6e9563c60a8e6f31792e7ce309b7f87abad6325c8a8849ed38f612b0e3d5', left)
+        self.assertIn('f99668677b36becf646fbfe9b99658ec29b2a8186f0e7dc50005a95ef8ce4f4a', right)
+
+
+    def test_historical_matrix_rejects_changed_producer_with_intact_transcript(self):
+        name = 'component-session-99.json'
+        archive = strict_json((verifier.SUPPLY / name).read_bytes())
+        archive['producer_commit'] = '0' * 40
+        forged = canonical(archive)
+        self.assertEqual(verifier.sha(verifier.unpack(forged)), verifier.INTERIM_99)
+        with TemporaryDirectory() as tmp, patch.object(verifier, 'SUPPLY', Path(tmp)):
+            (Path(tmp) / name).write_bytes(forged)
+            with self.assertRaisesRegex(EvidenceError, 'differs from reviewed bytes'):
+                verifier.pinned_file(name, verifier.ARCHIVE_99_SHA)
+
+
+    def test_historical_matrix_rejects_identity_change_between_sessions(self):
+        row = {'id': 1, 'repository': 'local/example', 'commit': 'a' * 40, 'tree': 'b' * 40}
+        for key in row:
+            with self.subTest(key=key), self.assertRaisesRegex(EvidenceError, 'identity, revision or tree'):
+                renderer.render(({}, [row], {}), ({}, [{**row, key: 'changed'}], {}))
+
+
+    def historical_rows_for_accounting(self):
+        # Build independent ledger inputs from the two actual frozen matrices.
+        # No producer runs in these tests of the final cross-session comparison.
+        rows = {}
+        for raw, _ in verifier.historical_archives():
+            matrix = strict_json(raw.splitlines()[verifier.response_keys(raw).index('integration-matrix')])
+            for old in matrix['rows']:
+                row = rows.setdefault(old['id'], {'id': old['id'], 'repository': old['repository'],
+                                                  'session_operations': []})
+                if old['receipt']:
+                    op = {'role': old['session'], 'receipt': old['receipt'],
+                          'evidence_sha256': old['session_evidence_sha256']}
+                    if op not in row['session_operations']:
+                        row['session_operations'].append(op)
+        return rows
+
+
+    def test_covered_history_requires_the_same_identity_even_at_identical_totals(self):
+        rows = self.historical_rows_for_accounting()
+        self.assertFalse(rows[2]['session_operations'])
+        rows[2]['session_operations'] = rows[1]['session_operations']
+        rows[1]['session_operations'] = []
+        with self.assertRaisesRegex(EvidenceError, 'usestrix/strix'):
+            verifier.check_historical_coverage(rows.values())
+
+
+    def test_covered_history_requires_both_operations_of_all_four_shared_producers(self):
+        rows = self.historical_rows_for_accounting()
+        for number in (20, 92, 103, 132):
+            operations = rows[number]['session_operations']
+            self.assertEqual(len(operations), 2)
+            for kept in operations:
+                rows[number]['session_operations'] = [kept]
+                with self.subTest(number=number, kept=kept['receipt']), self.assertRaisesRegex(
+                        EvidenceError, r'historical operations missing \(1\)'):
+                    verifier.check_historical_coverage(rows.values())
+                rows[number]['session_operations'] = operations
+
+
+    def test_covered_history_accepts_the_union_and_proven_role_promotion(self):
+        rows = self.historical_rows_for_accounting()
+        result = verifier.check_historical_coverage(rows.values())
+        self.assertEqual(result, {'historical_identities_preserved': 106, 'historical_operations_preserved': 110})
+        reference = next(op for row in rows.values() for op in row['session_operations']
+                         if op['role'] == 'reference_data')
+        reference.update(role='executable', evidence_sha256='1' * 64)
+        self.assertEqual(verifier.check_historical_coverage(rows.values()), result)
+        rows[1]['session_operations'][0]['role'] = 'reference_data'
+        with self.assertRaisesRegex(EvidenceError, 'usestrix/strix'):
+            verifier.check_historical_coverage(rows.values())
+
+
+    def test_current_receipt_column_preserves_each_role_field_and_digest(self):
+        self.assertEqual(renderer.current_receipts([]), '—')
+        operations = [{'role': 'reference_data', 'receipt': 'source', 'evidence_sha256': '1' * 64},
+                      {'role': 'executable', 'receipt': 'code', 'evidence_sha256': '2' * 64}]
+        self.assertEqual(renderer.current_receipts(operations),
+                         f"Referencia · `source` · `{'1' * 64}` / Ejecución · `code` · `{'2' * 64}`")
+
+
+    def test_acceptance_rejects_repeat_checkout_before_reading_its_data(self):
+        act = {'schema_version': 1, 'same_host': True, 'runs': [
+            {'id': name, 'checkout': 'single/checkout'} for name in ('first', 'second')]}
+        with TemporaryDirectory() as tmp, patch.object(renderer, 'ROOT', Path(tmp)):
+            folder = Path(tmp) / renderer.DOSSIER
+            folder.mkdir(parents=True)
+            (folder / 'acceptance.json').write_bytes(canonical(act))
+            with self.assertRaisesRegex(EvidenceError, 'distinct checkouts'):
+                renderer.accepted_markdown()
+
+
+    def test_unverified_publication_or_truncated_output_cannot_render_acceptance(self):
+        # Deliberately incomplete native run. The compressed bytes, result metadata and
+        # manifest agree, so an implementation that compared only hashes would admit it.
+        archived = (ROOT / 'superhunter/product_supply/native-session-70.json').read_bytes()
+        raw = verifier.unpack(archived)
+        result = {'commit': 'f' * 40, 'tree': 'a' * 40, 'returncode': 0, 'responses': len(raw.splitlines()),
+                  'bytes': len(raw), 'sha256': verifier.sha(raw), 'clean_after': True}
+        inputs = {'checkout_clean_before': True, 'commit': result['commit'], 'tree': result['tree'],
+                  'argv': list(renderer.PORTABLE_ARGV)}
+        record = {'id': 'first', 'checkout': 'first/checkout'}
+        with TemporaryDirectory() as tmp, patch.object(renderer, 'ROOT', Path(tmp)):
+            folder = Path(tmp) / renderer.DOSSIER / 'first'
+            folder.mkdir(parents=True)
+            for filename, data, field in [('run-inputs.json', canonical(inputs), 'inputs_sha256'),
+                                          ('result.json', canonical(result), 'result_sha256'),
+                                          ('session.json', archived, 'archive_sha256')]:
+                (folder / filename).write_bytes(data)
+                record[field] = verifier.sha(data)
+            with self.assertRaisesRegex(EvidenceError, 'run result'):
+                renderer.run_evidence(record, 'first')
+            record['archive_sha256'] = '0' * 64
+            with self.assertRaisesRegex(EvidenceError, 'dossier digest'):
+                renderer.run_evidence(record, 'first')
+
+
+    def test_producer_is_checked_in_git_and_missing_shallow_objects_have_a_diagnosis(self):
+        import subprocess
+
+        def git(*args):
+            return subprocess.check_output(['git', '-C', str(ROOT), *args])
+        commits = {}
+        # Full clones also exercise the producer Git objects named by the published
+        # profiles. Shallow clones still check the current producer and missing-object path.
+        for profile, (dossier, _, _) in renderer.PROFILES.items():
+            result_path = ROOT / dossier / 'first/result.json'
+            if result_path.exists():
+                producer = strict_json(result_path.read_bytes())['commit']
+                if subprocess.run(['git', '--no-lazy-fetch', '-C', str(ROOT), 'cat-file', '-e', producer + '^{commit}'],
+                                  capture_output=True).returncode == 0:
+                    commits[producer] = profile
+        for commit, recorded_profile in commits.items():
+            tree = git('rev-parse', commit + '^{tree}').decode().strip()
+            contract = verifier.sha(git('show', commit + ':superhunter/product_supply/native-capability-contracts.json'))
+            inputs = {'git_source_tree': git('rev-parse', commit + ':upstream').decode().strip(),
+                      'native_contract_sha256': contract,
+                      'component_contract_sha256': verifier.sha(git('show', commit + ':superhunter/product_supply/component-control-contracts.json'))}
+            newer_components = inputs['component_contract_sha256'] != verifier.COMPONENTS_THROUGH_HTML
+            matches = [name for name, (_, digest, _) in renderer.PROFILES.items()
+                       if digest == contract and (name == 'report-interop') == newer_components]
+            self.assertEqual(len(matches), 1)
+            selected = matches[0]
+            if recorded_profile:
+                self.assertEqual(selected, recorded_profile)
+            renderer.require_producer(commit, tree, inputs, selected)
+            if selected == 'report-interop':
+                for replacement in (None, verifier.COMPONENTS_THROUGH_HTML):
+                    forged = {**inputs, 'component_contract_sha256': replacement}
+                    with self.subTest(replacement=replacement), self.assertRaisesRegex(EvidenceError, 'run component contract'):
+                        renderer.require_producer(commit, tree, forged, selected)
+            for other in renderer.PROFILES.keys() - {selected}:
+                with self.subTest(profile=other, commit=commit), self.assertRaisesRegex(EvidenceError, 'selected acceptance profile'):
+                    renderer.require_producer(commit, tree, inputs, other)
+            with self.assertRaisesRegex(EvidenceError, 'tree differs'):
+                renderer.require_producer(commit, '0' * 40, inputs, selected)
+        with self.assertRaisesRegex(EvidenceError, 'producer Git objects unavailable'):
+            renderer.require_producer('0' * 40, tree, inputs, selected)
+
+
+    def test_two_identical_historical_transcripts_cannot_be_promoted_by_the_renderer(self):
+        # Even if a launcher reported two successful jobs, the strict session verifier
+        # must independently enforce the current producer/operation requirements.
+        act = {'schema_version': 1, 'same_host': True, 'runs': [
+            {'id': n, 'checkout': n + '/checkout', 'result_sha256': n} for n in ('first', 'second')]}
+        result = {'commit': '1' * 40, 'tree': '2' * 40, 'sha256': verifier.sha(self.archive)}
+        recorded = [({'raw_run_inputs_sha256': n}, result, self.archive) for n in ('first', 'second')]
+        with patch.object(renderer, 'read_artifact', return_value=canonical(act)), \
+                patch.object(renderer, 'run_evidence', side_effect=recorded), \
+                self.assertRaisesRegex(EvidenceError, 'incomplete consolidated session'):
+            renderer.accepted_markdown()
+
+
+    def test_latest_dossier_does_not_fall_back_if_accounting_is_incomplete(self):
+        with TemporaryDirectory() as tmp, patch.object(renderer, 'ROOT', Path(tmp)):
+            self.assertEqual(renderer.selected_profile('latest'), 'core-eight')
+            core = Path(tmp) / renderer.DOSSIER
+            core.mkdir(parents=True)
+            (core / 'acceptance.json').write_bytes(canonical({'schema_version': 0}))
+            expanded = Path(tmp) / renderer.ACCOUNTING_DOSSIER
+            expanded.mkdir()
+            self.assertEqual(renderer.selected_profile('latest'), 'accounting')
+            with self.assertRaises(FileNotFoundError):
+                renderer.accepted_markdown()
+            with self.assertRaisesRegex(EvidenceError, 'two same-host'):
+                renderer.accepted_markdown('core-eight')
+            expanded.rmdir()
+            expanded.symlink_to('missing-dossier')
+            self.assertEqual(renderer.selected_profile('latest'), 'accounting')
+            with self.assertRaises(OSError):
+                renderer.accepted_markdown()
+
+
+    def test_renaming_a_historical_dossier_does_not_promote_its_transcript_to_accounting(self):
+        act = {'schema_version': 1, 'same_host': True, 'runs': [
+            {'id': n, 'checkout': n + '/checkout', 'result_sha256': n} for n in ('first', 'second')]}
+        result = {'commit': '1' * 40, 'tree': '2' * 40, 'sha256': verifier.sha(self.archive)}
+        recorded = [({'raw_run_inputs_sha256': n}, result, self.archive) for n in ('first', 'second')]
+        with patch.object(renderer, 'read_artifact', return_value=canonical(act)), \
+                patch.object(renderer, 'run_evidence', side_effect=recorded), \
+                patch.object(verifier, 'verify', wraps=verifier.verify) as check, \
+                self.assertRaises(EvidenceError):
+            renderer.accepted_markdown('accounting')
+        check.assert_called_once_with(self.archive, result['sha256'], require_accounting=True)
+
+
+    def test_resealed_command_with_extra_flag_missing_input_or_alternate_entry_is_rejected(self):
+        argv = list(renderer.PORTABLE_ARGV)
+        module = argv.index('superhunter.tools.catalog_session')
+        options = argv.index('--source-references')
+        candidates = [
+            [*argv, '--net'], argv[:options] + argv[options + 2:],
+            argv[:module] + ['unreviewed.entry'] + argv[module + 1:],
+            argv[:-1] + ['/different/bundle'], [argv[1], argv[0], *argv[2:]],
+        ]
+        with TemporaryDirectory() as tmp, patch.object(renderer, 'ROOT', Path(tmp)):
+            folder = Path(tmp) / renderer.DOSSIER / 'first'
+            folder.mkdir(parents=True)
+            for modified in candidates:
+                data = canonical({'argv': modified})
+                (folder / 'run-inputs.json').write_bytes(data)
+                record = {'id': 'first', 'checkout': 'first/checkout', 'inputs_sha256': verifier.sha(data)}
+                with self.subTest(argv=modified), self.assertRaisesRegex(EvidenceError, 'reviewed portable argv'):
+                    renderer.run_evidence(record, 'first')
+
+
+    def test_act_requires_exact_recomputed_verdict_and_each_mutation_explanation(self):
+        # This control checks only the act comparator. Native acceptance is verified separately.
+        verified = native_verifier.verify(self.archive, contract_version=70)
+        controls = {name: 'observed rejection' for name in renderer.REQUIRED_MUTATIONS}
+        complete = {'independent_verification': verified, 'refuted_mutations': controls}
+        self.assertEqual(len(controls), 20)
+        with patch.object(verifier, 'negative_controls', return_value=controls) as recompute:
+            renderer.check_act_verdict(complete, verified, self.archive)
+            recompute.assert_called_once_with(self.archive)
+            for forged_verdict in (None, {**verified, 'session': 200}, {**verified, 'original_vulnerabilities_confirmed': False}):
+                with self.subTest(verdict=forged_verdict), self.assertRaisesRegex(EvidenceError, 'recomputed verdict'):
+                    renderer.check_act_verdict({**complete, 'independent_verification': forged_verdict},
+                                               verified, self.archive)
+            for claims in (None, {'changed_receipt': 'receipt differs'}, {**controls, 'changed_receipt': 'different'},
+                           {**controls, 'invented': 'passed'}):
+                with self.subTest(claims=claims), self.assertRaisesRegex(EvidenceError, 'recomputed controls'):
+                    renderer.check_act_verdict({**complete, 'refuted_mutations': claims}, verified, self.archive)
+
+
+    def test_latest_is_ordered_by_profile_and_cannot_hide_an_incomplete_dossier(self):
+        with TemporaryDirectory() as tmp, patch.object(renderer, 'ROOT', Path(tmp)):
+            expected = ('core-eight', 'accounting', 'canonical-header', 'grpc-schema', 'html-review', 'report-interop')
+            self.assertEqual(tuple(renderer.PROFILES), expected)
+            self.assertEqual(tuple(renderer.PROFILE_DIRECTORIES), expected)
+            for name in expected:
+                (Path(tmp) / renderer.PROFILES[name][0]).mkdir(parents=True)
+                self.assertEqual(renderer.selected_profile('latest'), name)
+            for name in renderer.PROFILES:
+                self.assertEqual(renderer.selected_profile(name), name)
+            with self.assertRaises(FileNotFoundError):
+                renderer.accepted_markdown()
+
+
+    def test_extended_profiles_never_accept_a_renamed_older_session(self):
+        act = {'schema_version': 1, 'same_host': True, 'runs': [
+            {'id': n, 'checkout': n + '/checkout', 'result_sha256': n} for n in ('first', 'second')]}
+        nine = verifier.unpack((ROOT / renderer.ACCOUNTING_DOSSIER / 'first/session.json').read_bytes())
+        eleven = verifier.unpack((ROOT / renderer.GRPC_SCHEMA_DOSSIER / 'first/session.json').read_bytes())
+        twelve = verifier.unpack((ROOT / renderer.HTML_REVIEW_DOSSIER / 'first/session.json').read_bytes())
+        for profile, gate, older in [('canonical-header', 'require_canonical_header', self.archive),
+                                     ('grpc-schema', 'require_grpc_schema', nine),
+                                     ('html-review', 'require_html_review', eleven),
+                                     ('report-interop', 'require_report_interop', twelve)]:
+            result = {'commit': '1' * 40, 'tree': '2' * 40, 'sha256': verifier.sha(older)}
+            records = [({'raw_run_inputs_sha256': n}, result, older) for n in ('first', 'second')]
+            with self.subTest(profile=profile), patch.object(renderer, 'read_artifact', return_value=canonical(act)), \
+                    patch.object(renderer, 'run_evidence', side_effect=records), \
+                    patch.object(verifier, 'verify', wraps=verifier.verify) as check, \
+                    self.assertRaises(EvidenceError):
+                renderer.accepted_markdown(profile)
+            check.assert_called_once_with(older, result['sha256'], **{gate: True})
+
+
+    def test_scorecard_requires_both_producer_commits_and_unchanged_substance(self):
+        field = (141, 'ossf/scorecard', 'executable', 'license_file_evidence')
+        before = {'nqc_commit': 'a' * 40, 'score': 9}
+        after = {**before, 'nqc_commit': 'b' * 40}
+        def key(value):
+            return {(*field, verifier.sha(canonical(value)))}
+        verifier.check_preserved_operations(key(before), key(after), after, before['nqc_commit'], after['nqc_commit'])
+        for changed in (before, {**after, 'score': 10}, {**after, 'extra': 'data'}):
+            with self.subTest(changed=changed), self.assertRaises(EvidenceError):
+                verifier.check_preserved_operations(key(before), key(changed), changed,
+                                                    before['nqc_commit'], after['nqc_commit'])
+        with self.assertRaises(EvidenceError):
+            verifier.check_preserved_operations(key(before), set(), after, before['nqc_commit'], after['nqc_commit'])
+
+
+    def test_report_compatibility_requires_all_previous_operations_and_exact_results(self):
+        raw = verifier.unpack((ROOT / renderer.HTML_REVIEW_DOSSIER / 'first/session.json').read_bytes())
+        rows = strict_json(raw.splitlines()[verifier.response_keys(raw).index('integration-matrix')])['rows']
+        self.assertEqual(verifier.check_previous_acceptance(rows),
+                         {'prior_identities_preserved': 132, 'prior_operations_preserved': 142})
+        row = next(r for r in rows if len(r['session_operations']) > 1)
+        last = row['session_operations'].pop()
+        with self.assertRaisesRegex(EvidenceError, 'previous accepted operations'):
+            verifier.check_previous_acceptance(rows)
+        row['session_operations'].append({**last, 'evidence_sha256': '0' * 64})
+        with self.assertRaisesRegex(EvidenceError, 'previous accepted operations'):
+            verifier.check_previous_acceptance(rows)
+
+
+    def test_replacing_one_of_twenty_control_names_cannot_qualify_a_dossier(self):
+        controls = dict.fromkeys(renderer.REQUIRED_MUTATIONS, 'recorded rejection')
+        controls['unqualified'] = controls.pop('changed_native_report')
+        self.assertEqual(len(controls), 20)
+        act = {'independent_verification': {}, 'refuted_mutations': controls}
+        with patch.object(verifier, 'negative_controls', return_value=controls), \
+                self.assertRaisesRegex(EvidenceError, 'recomputed controls'):
+            renderer.check_act_verdict(act, {}, self.archive)
+
+
+    def test_archived_139_and_140_keep_explicit_policy_and_cannot_certify_current_registry(self):
+        for version, expected in ((139, (139, 101, 38)), (140, (140, 102, 38))):
+            raw = verifier.unpack((ROOT / f'superhunter/product_supply/native-session-{version}.json').read_bytes())
+            with self.subTest(version=version):
+                result = native_verifier.verify(raw, contract_version=version)
+                self.assertEqual((result['session'], result['executables'], result['reference_data']), expected)
+                with self.assertRaisesRegex(EvidenceError, 'incomplete consolidated session'):
+                    verifier.verify(raw, require_consolidated=True, native_contract_version=version)
+
+    def test_current_consolidation_and_historical_profiles_are_mutually_exclusive(self):
+        with self.assertRaisesRegex(EvidenceError, 'one exact consolidated acceptance profile'):
+            verifier.verify(self.archive, require_consolidated=True, require_core_eight=True)
+
+    def test_act_mutation_verification_receives_the_same_historical_policy(self):
+        controls = dict.fromkeys(renderer.REQUIRED_MUTATIONS, 'historical rejection')
+        act = {'independent_verification': {}, 'refuted_mutations': controls}
+        options = {'require_html_review': True}
+        with patch.object(verifier, 'negative_controls', return_value=controls) as recompute:
+            renderer.check_act_verdict(act, {}, self.archive, verification_options=options)
+            recompute.assert_called_once_with(self.archive, require_html_review=True)

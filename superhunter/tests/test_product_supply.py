@@ -283,3 +283,47 @@ class NoticeSimilarityTests(unittest.TestCase):
         for bad in (pairs[:-1], pairs + [pairs[0]], [(0, 1, .5), *pairs[1:]], [(1, 0, 1), *pairs[1:]]):
             with self.assertRaises(ValueError):
                 compare(corpus, vectors, bad)
+
+
+class FixedInventoryBundleTests(unittest.TestCase):
+    def test_restore_preserves_complete_markers_and_rejects_modified_member(self):
+        from hashlib import sha256
+        from superhunter.tools.pack_remote_inputs import restore_inventory
+
+        with tempfile.TemporaryDirectory() as tmp:
+            dest = Path(tmp) / 'inventories'
+            restore_inventory(dest)
+            restore_inventory(dest, check=True)
+            files = [file for file in dest.rglob('*') if file.is_file()]
+            self.assertEqual((12, 106246), (len(files), sum(f.stat().st_size for f in files)))
+            for group in ('cdx', 'guac'):
+                marker = json.loads((dest / group / 'COMPLETE.json').read_bytes())
+                self.assertEqual(marker['sha256'], {f.name: sha256(f.read_bytes()).hexdigest()
+                                 for f in (dest / group).iterdir() if f.name != 'COMPLETE.json'})
+            report = dest / 'guac' / 'guac.json'
+            data = report.read_bytes()
+            report.write_bytes(b'!' + data[1:])
+            with self.assertRaisesRegex(ValueError, 'inventory content differs'):
+                restore_inventory(dest, check=True)
+
+    def test_preexisting_directory_and_symlinks_are_refused(self):
+        from superhunter.tools.pack_remote_inputs import restore_inventory
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            occupied = root / 'existing'
+            occupied.mkdir()
+            with self.assertRaises(FileExistsError):
+                restore_inventory(occupied)
+            self.assertEqual(list(occupied.iterdir()), [])
+            alias = root / 'alias'
+            alias.symlink_to(occupied, target_is_directory=True)
+            with self.assertRaises(OSError):
+                restore_inventory(alias / 'new')
+            dest = root / 'inventories'
+            restore_inventory(dest)
+            item = dest / 'cdx' / 'COMPLETE.json'
+            item.rename(occupied / 'marker')
+            item.symlink_to(occupied / 'marker')
+            with self.assertRaises(OSError):
+                restore_inventory(dest, check=True)

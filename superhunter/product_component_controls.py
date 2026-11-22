@@ -16,9 +16,15 @@ DOMAINS = {'evidence-codec': 'product_evidence_codec', 'changes': 'product_chang
            'remediation': 'product_remediation_batch', 'configuration': 'product_config_batch',
            'object-format': 'product_formats_batch', 'slot-format': 'product_slot_formats_batch',
            'scoring': 'product_evaluation_batch', 'timeline': 'product_timeline_formats',
-           'static-contracts': 'product_static_contracts', 'build-compatibility': 'product_build_compatibility'}
+           'static-contracts': 'product_static_contracts', 'build-compatibility': 'product_build_compatibility',
+           'report-interop': 'product_report_interop',
+           'report-privacy': 'product_report_privacy',
+           'report-http-privacy': 'product_http_report_privacy',
+           'policy-report': 'product_policy_report',
+           'coverage-interop': 'product_coverage_interop',
+           'certificate-review': 'product_certificate_review'}
 CONTRACT_PATH = 'superhunter/product_supply/component-control-contracts.json'
-CONTRACT_SHA = '7ad5ed1a7c4a344bb1b8d1467a3ad109b618fa1a82f67c6486cbcafa2b39105a'
+CONTRACT_SHA = '79d2f515d73ac623b5fe6397760470747285574b1a2af9ee257a88b87f6d6db5'
 FIELD = 'component_control_receipt'
 
 
@@ -86,6 +92,8 @@ def attach(index, checkout, domain, kit):
 
     def run(group):
         engine = import_module('.' + DOMAINS[group], __package__)
+        if group == 'report-http-privacy':
+            return engine.review(root, getattr(index, 'verified_web_kit', None))
         if group == 'changes':
             return engine.review(root, kit, index.header_digest)
         return engine.review(root)

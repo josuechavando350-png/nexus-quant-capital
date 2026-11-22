@@ -1,0 +1,11 @@
+/usr/bin/gcc -c -O2 -g -fno-omit-frame-pointer -ffile-prefix-map=/workspace/scratch/ecd59ba3c132/honggfuzz-native-work/source=. -I/workspace/scratch/ecd59ba3c132/honggfuzz-native-work/dependencies/usr/include/x86_64-linux-gnu  -o /workspace/scratch/ecd59ba3c132/honggfuzz-native-work/build/cmdline.o cmdline.c
+/usr/bin/gcc -c -O2 -g -fno-omit-frame-pointer -ffile-prefix-map=/workspace/scratch/ecd59ba3c132/honggfuzz-native-work/source=. -I/workspace/scratch/ecd59ba3c132/honggfuzz-native-work/dependencies/usr/include/x86_64-linux-gnu  -o /workspace/scratch/ecd59ba3c132/honggfuzz-native-work/build/dict.o dict.c
+/usr/bin/gcc -c -O2 -g -fno-omit-frame-pointer -ffile-prefix-map=/workspace/scratch/ecd59ba3c132/honggfuzz-native-work/source=. -I/workspace/scratch/ecd59ba3c132/honggfuzz-native-work/dependencies/usr/include/x86_64-linux-gnu  -o /workspace/scratch/ecd59ba3c132/honggfuzz-native-work/build/display.o display.c
+/usr/bin/gcc -c -O2 -g -fno-omit-frame-pointer -ffile-prefix-map=/workspace/scratch/ecd59ba3c132/honggfuzz-native-work/source=. -I/workspace/scratch/ecd59ba3c132/honggfuzz-native-work/dependencies/usr/include/x86_64-linux-gnu  -o /workspace/scratch/ecd59ba3c132/honggfuzz-native-work/build/fuzz.o fuzz.c
+In file included from fuzz.c:25:
+fuzz.h:26:10: fatal error: honggfuzz.h: No such file or directory
+   26 | #include <honggfuzz.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make: *** [/workspace/scratch/ecd59ba3c132/honggfuzz-native-work/source/Makefile:317: /workspace/scratch/ecd59ba3c132/honggfuzz-native-work/build/fuzz.o] Error 1
+make: *** Waiting for unfinished jobs....

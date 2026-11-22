@@ -1,0 +1,98 @@
+{
+  "checkout_acquisition": "Two separate git init, fetch of the same public commit, and detached checkout; independent local Git object stores.",
+  "independent_verification": {
+    "blocked_component_domains": [],
+    "blocked_native_groups": [],
+    "catalog": 200,
+    "component_contract_profile": "current",
+    "component_domains": [
+      "android-policy",
+      "build-compatibility",
+      "changes",
+      "configuration",
+      "diagnostics",
+      "evidence-codec",
+      "evm",
+      "infrastructure",
+      "object-format",
+      "remediation",
+      "scoring",
+      "slot-format",
+      "source-extracts",
+      "state-amounts",
+      "static-contracts",
+      "supply",
+      "timeline"
+    ],
+    "credits_sha256": "e513a49d5fda2e10a5d6199a0a20326ffd9c7e2b1a2b8ce75f83ca8cafbcbd2d",
+    "executables": 91,
+    "functional": 129,
+    "historical_identities_preserved": 106,
+    "historical_operations_preserved": 110,
+    "multiple_operations": 10,
+    "native_credits": 18,
+    "native_groups": [
+      "evm",
+      "iam",
+      "java",
+      "properties",
+      "secrets",
+      "slither",
+      "static",
+      "upgrades",
+      "web"
+    ],
+    "operations": 139,
+    "original_vulnerabilities_confirmed": 0,
+    "pending": 71,
+    "reference_data": 38,
+    "responses": 222,
+    "session": 129,
+    "sources": {
+      "complete": 200
+    },
+    "transcript_sha256": "ea091d5b93821de6557f4c84a5f7d8c8846245e0d5586f8059d0b60fc8261400",
+    "verified_notices": 200
+  },
+  "refuted_mutations": {
+    "changed_commercial_total": "claimed totals differ from independently counted rows",
+    "changed_coverage_total": "coverage totals differ from independently counted rows",
+    "changed_git_tree": "matrix and source revisions disagree",
+    "changed_group_result": "individual component result differs from the shared evidence",
+    "changed_license": "license evidence digest or description differs",
+    "changed_native_report": "native producer bytes differ from reviewed controls",
+    "changed_native_result": "fixed product result changed",
+    "changed_operation_total": "claimed totals differ from independently counted rows",
+    "changed_role_totals": "claimed totals differ from independently counted rows",
+    "changed_source_distribution": "claimed totals differ from independently counted rows",
+    "discarded_secondary_operation": "operation ledger differs from the producer bytes",
+    "erased_corroboration": "cross-domain source corroboration differs from original observations",
+    "erased_domain_selection": "component selection or blocked domains differ",
+    "erased_excerpt_inventory": "published excerpt inventory differs from its source bytes",
+    "erased_shared_results": "component evidence does not cover the selected producers",
+    "forged_secondary_digest": "operation ledger differs from the producer bytes",
+    "inflated_count": "claimed totals differ from independently counted rows",
+    "invented_discovery": "native group membership or scope differs",
+    "replaced_historical_digest": "matrix status differs from the original evidence",
+    "unsupported_credit": "matrix status differs from the original evidence"
+  },
+  "runs": [
+    {
+      "archive_sha256": "34d964821e8895aca1ead437e5b150c5a89a4e778d31118e1e2701d7e833e338",
+      "checkout": "published-qa-first-27fdac61-accounting/checkout",
+      "id": "first",
+      "inputs_sha256": "9421a211613f172823fde9d2cfb07a476f9def71c9c9a484b26c41ee8610b06c",
+      "result_sha256": "a60806d2ba219e8682f1d7110f6861a2e3ff4fcec3b67c3dff7e7b8d929e4df6"
+    },
+    {
+      "archive_sha256": "34d964821e8895aca1ead437e5b150c5a89a4e778d31118e1e2701d7e833e338",
+      "checkout": "published-qa-second-27fdac61-accounting/checkout",
+      "id": "second",
+      "inputs_sha256": "23c9de4bc9100738399229ff033ac0e82c679165b64215084b23a0b3adab26ab",
+      "result_sha256": "27a028373b915a2c8875f5356604e7b3d8597fe80b02a79a1609b5230c570652"
+    }
+  ],
+  "same_host": true,
+  "schema_version": 1,
+  "scope": "Fixed offline product queries on one host. The test operator records provenance of these runs. No external host attestation."
+}

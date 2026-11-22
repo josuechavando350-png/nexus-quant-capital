@@ -1,0 +1,113 @@
+{
+  "scope": "Two canonical RLP representations of one archived public Ethereum block fixture. Product queries: native-capabilities and OpenZeppelin/ethernaut.",
+  "base_commit": "27fdac61b21f607325053fc3681e6e079328e9f1",
+  "tested_commit": "f1c7010dedc205bd3853db844a80a24b6d483d58",
+  "tested_tree": "43d138e689cc574963e594c249d28b1d96e329f4",
+  "source_import_commit": "37a0d5261ae52ece080d18b294042931112f2861",
+  "archive_sha256": "78b0f86b75cc758198721ff44314b76a4fa031a09e76283a2d2d3f8d95fd9803",
+  "runs": [
+    {
+      "checkout": "first-local",
+      "bundle": "prepared",
+      "exit_code": 0,
+      "clean_before": true,
+      "clean_after": true,
+      "transcript_sha256": "9df3cf41c9bb347929ae7706060d946fbe0d86c1a324913c79c87df479e1fede",
+      "responses": 2,
+      "native_controls": 2
+    },
+    {
+      "checkout": "second-local",
+      "bundle": "fresh-prepared",
+      "exit_code": 0,
+      "clean_before": true,
+      "clean_after": true,
+      "transcript_sha256": "9df3cf41c9bb347929ae7706060d946fbe0d86c1a324913c79c87df479e1fede",
+      "responses": 2,
+      "native_controls": 2
+    }
+  ],
+  "receipt": {
+    "group": "canonical_header",
+    "query": "native-capabilities",
+    "report_sha256": "0527afd3912b08b0a76923d69b1933b51fc9d2ddd825492a8678ffdffda7faaf",
+    "repository": "OpenZeppelin/ethernaut",
+    "role": "executable"
+  },
+  "git_checked_sources": {
+    "revision": "d05643a40aa98c45d66247c69ffceab8f44dd8cb",
+    "entries": [
+      {
+        "source_path": "contracts/src/helpers/lib/rlp/Lib_RLPReader.sol",
+        "sha256": "d09a3502209f402ca6c5b38ce99abda2ee3b06ca6d8d116139b0e60037dfbfaa",
+        "git_blob": "17d3bf7bd5a8bfb6c48a2b8c45c5b62568a8aabd",
+        "bytes": 11195
+      },
+      {
+        "source_path": "contracts/src/helpers/lib/rlp/Lib_RLPWriter.sol",
+        "sha256": "77d213ecf87ebac8e3a1b9710f022851c8d26e271be36b536088e8f5bf72a08f",
+        "git_blob": "88ac71390c9e876a41e3749527697c3995bce2c9",
+        "bytes": 5958
+      },
+      {
+        "source_path": "LICENSE",
+        "sha256": "8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef",
+        "git_blob": "0ad25db4bd1d86c452db3f9602ccdbe172438f52",
+        "bytes": 34523
+      }
+    ],
+    "compiler_binary_sha256": "f3e987dc6ecebd4bd350c48edcbc320b46cf9e3109bd3fc3d88f1acaf4c428f7",
+    "forge_binary_sha256": "bf2f6a6f290389f9db6c850c82789472710394128250a99988e63f642c19a8b1",
+    "license_evidence": "Repository notice is AGPL-3.0 text. The two selected .sol files carry MIT SPDX headers. The review records the bytes without a commercial distribution determination."
+  },
+  "focused_tests": {
+    "passed": 77,
+    "failed": 0,
+    "skipped": 0
+  },
+  "fixed_archive_verifiers": {
+    "eight": {
+      "functional": 128,
+      "negative_controls": 20
+    },
+    "nine": {
+      "functional": 129,
+      "negative_controls": 20
+    }
+  },
+  "strict_ten_rejects_nine_response_archive": true,
+  "worker_assignments": {
+    "1edb1699e6f6af382d7d65fdfd536c61989d0beb": {
+      "previous_identities": 3682,
+      "changed_assignments": 0,
+      "previous_map_sha256": "d66b4f630a051a3ff6786e3889fd4d40f1871d668463285592a018daf0c2bb76"
+    },
+    "fae415708eccc117dd809036fcd4df09056777c5": {
+      "previous_identities": 3690,
+      "changed_assignments": 0,
+      "previous_map_sha256": "232e8ab22d103548d053959fa99246d1f74aee29d03110d0dd6d98653f86aae9"
+    },
+    "27fdac61b21f607325053fc3681e6e079328e9f1": {
+      "previous_identities": 3704,
+      "changed_assignments": 0,
+      "previous_map_sha256": "9dfa72948386c037883b847f357120332856202a7075afb54a067a0bbc97d9bc"
+    }
+  },
+  "six_new_worker_indices": [
+    7,
+    7,
+    7,
+    7,
+    7,
+    7
+  ],
+  "source_snapshot_cap": 500,
+  "historic_boundary_files_checked": 642,
+  "limitations": [
+    "Both product runs used fresh local execution directories on the same host with separately prepared product bundles, sharing the reviewed tool kit.",
+    "The historical cross-client witness was revalidated against the archived transcript. The other clients were not rerun by this producer.",
+    "The strict ten-group E2E remains unmeasured. This targeted run cannot promote a joint matrix.",
+    "Global QA exceeds the existing 500-entry source snapshot cap on both base and this commit; the cap was unchanged."
+  ],
+  "new_original_findings": 0
+}

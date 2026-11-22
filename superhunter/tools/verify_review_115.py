@@ -75,13 +75,16 @@ def source_snapshot(digest):
     return strict_json(raw)
 
 
-def native_bindings(report, *, contract_version=None):
+def native_bindings(report, *, contract_version=None, version=None):
     """Compare each selected native group with its pinned, independently reviewed output."""
     native = report.get('native-capabilities')
     if native is None:
         return {}
     from superhunter.product_native_capabilities import contracts
-    registry = contracts(contract_version)
+    if contract_version is not None and version is not None:
+        raise EvidenceError('select one native contract version')
+    selected = contract_version if contract_version is not None else version
+    registry = contracts(selected)
     groups = native.get('groups')
     failed = native.get('blocked_groups', {})
     if (not isinstance(groups, dict) or not isinstance(failed, dict) or not (groups or failed)
@@ -110,8 +113,18 @@ def native_bindings(report, *, contract_version=None):
 
 
 INTERIM_99 = '81ab0b56f1970caeecc58ffc2fbf09197f340ede1b193b5d984c3db00593c9f5'
+NATIVE_SESSION_70 = '2a6fd0bb2ceddb08d0a1f461e71da538fcd7bb7ccb486d537e6a244b403e973e'
+SUPPLY = ROOT / 'superhunter/product_supply'
+ARCHIVE_99_SHA = 'c4d9f671093a88aa25be658c583361da7c7abadee5ac582de4e5f723a8375c1b'
+ACCEPTANCE_70_SHA = 'd826d1ead698a870ac978d732b943d7aed1d49a14adffaad30295867356ee6ae'
 SNAPSHOT_153 = '9fe08694ea198e7872cc954a122fc4bdc4675996a5403cb7344822a89a3bfe3f'
+COMPONENTS_THROUGH_HTML = '7ad5ed1a7c4a344bb1b8d1467a3ad109b618fa1a82f67c6486cbcafa2b39105a'
+REPORT_INTEROP_PRODUCER = 'f1eea76f24ff0cf0b5af4a870b5d6e117c46d248'
+HTML_PRODUCER = '604bd28d528ee809c8e6d38adab86ec6f67b652c'
+HTML_TRANSCRIPT_SHA = 'd07aafc5d1c5ba5dfbe5bdcb59d8fe292ddfb7b8a2fe97e5b944ab27fd5b72ff'
 HISTORICAL_COMPONENTS = {
+    'through-html': COMPONENTS_THROUGH_HTML,
+    'report-interop': 'f05874680d267a179c47e04b0fd032bbf1695896225293189cec93856b4e4b82',
     '99': 'adbd7b433b1d3cad6ee0a64fa71e5187f422dafc9050353c07c66d20187abfea',
     '118': '06a61867ec8d0612d7e4a934f723a8c4a8ab42dbb9a1ab3e3a2321c5521d2bf2',
 }
@@ -122,6 +135,8 @@ def component_rules(profile):
     if profile == 'current':
         from superhunter.product_component_controls import contracts
         return contracts()
+    if profile not in HISTORICAL_COMPONENTS:
+        raise EvidenceError('unknown historical component contract profile')
     raw = read_artifact(ROOT, f'superhunter/product_supply/component-control-contracts-{profile}.json')
     if sha(raw) != HISTORICAL_COMPONENTS[profile]:
         raise EvidenceError('historical component contracts differ')
@@ -153,7 +168,28 @@ def row_operations(row, native, *, profile='current'):
     return sorted(operations, key=lambda op: (op['role'] != 'executable', op['receipt']))
 
 
-def verify(raw, expected_hash=None, *, require_consolidated=False, native_contract_version=None):
+def verify(raw, expected_hash=None, *, require_consolidated=False, native_contract_version=None,
+           component_contract_profile=None, require_core_eight=False, require_accounting=False,
+           require_canonical_header=False, require_grpc_schema=False, require_html_review=False,
+           require_report_interop=False):
+    # Current consolidation always requires the entire current registry. Historical
+    # profiles are explicit; selecting a smaller archive never satisfies that gate.
+    profiles = [(native, component) for selected, native, component in (
+        (require_consolidated, None, 'current'),
+        (require_core_eight, 'core-eight', 'through-html'),
+        (require_accounting, 'accounting-nine', 'through-html'),
+        (require_canonical_header, 'canonical-ten', 'through-html'),
+        (require_grpc_schema, 'grpc-eleven', 'through-html'),
+        (require_html_review, 'html-twelve', 'through-html'),
+        (require_report_interop, 'html-twelve', 'report-interop')) if selected]
+    if len(profiles) > 1:
+        raise EvidenceError('select one exact consolidated acceptance profile')
+    full_profile = bool(profiles)
+    native_version = profiles[0][0] if full_profile else native_contract_version
+    if full_profile and not require_consolidated and native_contract_version is not None:
+        raise EvidenceError('historical profile already selects its native contract')
+    if full_profile and component_contract_profile is not None:
+        raise EvidenceError('consolidated profile already selects its component contract')
     digest = sha(raw)
     if expected_hash is not None and digest != expected_hash:
         raise EvidenceError('transcript digest differs from the acceptance record')
@@ -174,14 +210,28 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, native_contra
     history = {doc['catalog_id']: doc for doc in strict_json(archive)['receipts']}
     matrix = report['integration-matrix']
     rows = matrix['rows']
-    native = native_bindings(report, contract_version=native_contract_version)
     combined = 'component-controls' in report and 'native-capabilities' in report
     coverage = report['integration-coverage']
     operations_format = 'session_operation_count' in matrix
     if combined and not operations_format:
         raise EvidenceError('combined session lacks its per-operation matrix')
-    interim_118 = digest == INTERIM_99
-    component_profile = 'current'
+    # The first native session predates the operation ledger. Check its historical
+    # producers independently, then require the exact published bytes before acceptance.
+    from superhunter.product_native_capabilities import contracts as native_contracts
+    selected_groups = (report.get('native-capabilities') or {}).get('groups')
+    historical_native = ('native-capabilities' in report and not operations_format
+                         and (native_contract_version == 70 or
+                              (native_contract_version is None and isinstance(selected_groups, dict)
+                               and set(selected_groups) == native_contracts(70).keys())))
+    binding_version = 70 if historical_native else native_version
+    if native_contract_version is not None and require_consolidated:
+        binding_version = native_contract_version
+    native = native_bindings(report, contract_version=binding_version)
+    interim_118 = ('component-controls' in report and not operations_format and
+                   'published_excerpts' not in matrix and
+                   report['source-inventory'].get('snapshot_sha256') == SNAPSHOT_153)
+    component_profile = (profiles[0][1] if full_profile else component_contract_profile or
+                         ('through-html' if native_contract_version in (139, 140) else 'current'))
     if interim_118:
         component_profile = '99'
     elif not operations_format and report['source-inventory'].get('snapshot_sha256') == SNAPSHOT_153:
@@ -294,17 +344,19 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, native_contra
         credits.append([number, name, summary['session'], receipt])
     live = {name for name in (r['repository'] for r in rows) if 'component_control_receipt' in report[name]}
     if 'component-controls' in report:
-        from superhunter.product_component_controls import DOMAINS, reconcile_digest
+        from superhunter.product_component_controls import reconcile_digest
         controls = report['component-controls']
         names = controls['requested']
+        rules = component_rules(component_profile)
+        allowed_domains = {rule['domain'] for rule in rules.values()}
         failures = controls['blocked']
         if (not isinstance(names, list) or not names or not all(isinstance(n, str) for n in names)
-                or len(names) != len(set(names)) or set(names) - DOMAINS.keys() or not isinstance(failures, dict)
+                or len(names) != len(set(names)) or set(names) - allowed_domains or not isinstance(failures, dict)
                 or not all(isinstance(cause, str) and cause.strip() for cause in failures.values())
                 or set(failures) - set(names)):
             raise EvidenceError('component selection or blocked domains differ')
         blocked = set(failures)
-        expected = {name for name, rule in component_rules(component_profile).items() if rule['domain'] in set(names) - blocked}
+        expected = {name for name, rule in rules.items() if rule['domain'] in set(names) - blocked}
         if set(controls['observations']) != expected or live != expected:
             raise EvidenceError('component evidence does not cover the selected producers')
         if controls['digest_corroboration'] != reconcile_digest(controls['observations'], report.get('go-header-digest')):
@@ -346,27 +398,37 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, native_contra
             raise EvidenceError('coverage totals differ from independently counted rows')
         expected.update(session_operation_count=operation_count, session_multi_operation_repositories=multi_operation)
         counts.update(operations=operation_count, multiple_operations=multi_operation)
-    if require_consolidated:
-        from superhunter.product_component_controls import DOMAINS
-        from superhunter.product_native_capabilities import MODULES
+    if full_profile:
+        from superhunter.product_native_capabilities import contracts as native_contracts
         controls = report.get('component-controls') or {}
-        if (not combined or not operations_format or set(controls.get('requested', [])) != DOMAINS.keys()
+        if (not combined or not operations_format or set(controls.get('requested', [])) != allowed_domains
+                or (require_report_interop and 'report-interop' not in allowed_domains)
                 or controls.get('blocked') != {} or not controls.get('digest_corroboration')
-                or set(report['native-capabilities']['groups']) != MODULES.keys()
+                or set(report['native-capabilities']['groups']) != native_contracts(native_version).keys()
                 or report['native-capabilities'].get('blocked_groups')
                 or actual_sources != {'complete': 200}):
             raise EvidenceError('incomplete consolidated session')
     if (any(canonical(matrix.get(k)) != canonical(v) for k, v in expected.items()) or
             report['root-declarations']['remote_roots_verified'] != expected['remote_roots']):
         raise EvidenceError('claimed totals differ from independently counted rows')
+    if full_profile:
+        counts.update(check_historical_coverage(rows))
+    if require_report_interop:
+        counts.update(check_previous_acceptance(rows, report['ossf/scorecard']['license_file_evidence']))
     if 'native-capabilities' in report:
+        if historical_native and digest != NATIVE_SESSION_70:
+            raise EvidenceError('historical native transcript differs from the published 70-identity session')
         native_result = report['native-capabilities']
         counts.update(native_groups=sorted(native_result['groups']), native_credits=len(native),
                       blocked_native_groups=sorted(native_result.get('blocked_groups', {})),
                       original_vulnerabilities_confirmed=native_result['original_vulnerabilities_confirmed'])
     if 'component-controls' in report:
+        if interim_118 and digest != INTERIM_99:
+            raise EvidenceError('historical component transcript differs from the published 99-identity session')
         controls = report['component-controls']
-        counts.update(component_contract_profile=component_profile, component_domains=sorted(set(controls['requested']) - set(controls['blocked'])),
+        # Older acts recorded their then-current registry under the literal name 'current'.
+        recorded_profile = 'current' if component_profile == 'through-html' else component_profile
+        counts.update(component_contract_profile=recorded_profile, component_domains=sorted(set(controls['requested']) - set(controls['blocked'])),
                       blocked_component_domains=sorted(controls['blocked']))
     return {'transcript_sha256': digest, 'credits_sha256': sha(canonical(credits)),
             'responses': len(keys), **counts}
@@ -387,7 +449,88 @@ def unpack(raw):
     return decoded
 
 
-def negative_controls(raw):
+def pinned_file(name, expected_sha):
+    raw = read_artifact(SUPPLY, name)
+    if sha(raw) != expected_sha:
+        raise EvidenceError('historical file differs from reviewed bytes: ' + name)
+    return raw
+
+
+def historical_archives():
+    """Pin the wrappers as well as the separate historical transcript hashes."""
+    record = strict_json(pinned_file('native-acceptance-70.json', ACCEPTANCE_70_SHA))
+    component = unpack(pinned_file('component-session-99.json', ARCHIVE_99_SHA))
+    native = unpack(pinned_file('native-session-70.json', record['archive_sha256']))
+    return ((component, INTERIM_99), (native, record['independent_verification']['transcript_sha256']))
+
+
+@cache
+def historical_operations():
+    """Recover the minimum operations from the verified, immutable individual sessions."""
+    required = set()
+    for raw, expected_hash in historical_archives():
+        verify(raw, expected_hash)
+        keys = response_keys(raw)
+        rows = strict_json(raw.splitlines()[keys.index('integration-matrix')])['rows']
+        required.update((row['id'], row['repository'], row['session'], row['receipt'])
+                        for row in rows if row['session'] != 'pending')
+    return frozenset(required)
+
+
+def check_historical_coverage(rows):
+    """Compare validated producer operations. A promotion must preserve the same receipt field."""
+    required = historical_operations()
+    present = {(row['id'], row['repository'], op['role'], op['receipt'])
+               for row in rows for op in row['session_operations']}
+    preserved = present | {(number, name, 'reference_data', field)
+                           for number, name, role, field in present if role == 'executable'}
+    missing = sorted(required - preserved)
+    if missing:
+        number, name, role, field = missing[0]
+        raise EvidenceError(f'historical operations missing ({len(missing)}), first: {number} {name} {role} {field}')
+    return {'historical_identities_preserved': len({number for number, _, _, _ in required}),
+            'historical_operations_preserved': len(required)}
+
+
+@cache
+def html_operations():
+    raw = unpack(read_artifact(ROOT, 'superhunter/product_supply/consolidated-acceptance-html-review/first/session.json'))
+    verify(raw, HTML_TRANSCRIPT_SHA, require_html_review=True)
+    rows = strict_json(raw.splitlines()[response_keys(raw).index('integration-matrix')])['rows']
+    return operation_keys(rows)
+
+
+def operation_keys(rows):
+    return frozenset((row['id'], row['repository'], op['role'], op['receipt'], op['evidence_sha256'])
+                     for row in rows for op in row['session_operations'])
+
+
+def check_preserved_operations(previous, current, scorecard, previous_commit, current_commit):
+    # Scorecard records the particular NQC commit it audited. Bind both versions
+    # and reconstruct its old digest, retaining every other byte of this receipt.
+    if scorecard.get('nqc_commit') != current_commit:
+        raise EvidenceError('Scorecard identifies a different audited commit')
+    field = (141, 'ossf/scorecard', 'executable', 'license_file_evidence')
+    old = (*field, sha(canonical({**scorecard, 'nqc_commit': previous_commit})))
+    new = (*field, sha(canonical(scorecard)))
+    if old not in previous or new not in current or (previous - {old}) - current:
+        raise EvidenceError('previous accepted operations or their evidence changed')
+
+
+def check_previous_acceptance(rows, scorecard=None):
+    previous = html_operations()
+    current = operation_keys(rows)
+    if scorecard is None:
+        if previous - current:
+            raise EvidenceError('previous accepted operations or their evidence changed')
+    else:
+        check_preserved_operations(previous, current, scorecard, HTML_PRODUCER, REPORT_INTEROP_PRODUCER)
+    return {'prior_identities_preserved': len({key[0] for key in previous}),
+            'prior_operations_preserved': len(previous)}
+
+
+def negative_controls(raw, **verification_options):
+    verify(raw, **verification_options)
     keys = response_keys(raw)
     lines = raw.splitlines()
     matrix = strict_json(lines[keys.index('integration-matrix')])
@@ -450,7 +593,7 @@ def negative_controls(raw):
         node[path[-1]] = replacement
         lines[position] = canonical(record).rstrip(b'\n')
         try:
-            verify(b'\n'.join(lines) + b'\n')
+            verify(b'\n'.join(lines) + b'\n', **verification_options)
         except EvidenceError as exc:
             if reason not in str(exc):
                 raise
@@ -467,15 +610,37 @@ def main():
     parser.add_argument('--replay', type=Path, help='independently verify and compare the full second transcript in the same format')
     parser.add_argument('--archive', action='store_true', help='read a published gzip/base64 evidence envelope')
     parser.add_argument('--require-complete-controls', action='store_true', help='require all defensive domains and zero blocked producers')
-    parser.add_argument('--require-consolidated', action='store_true', help='require every defensive and native group, direct source and operation ledger')
+    profiles = parser.add_mutually_exclusive_group()
+    profiles.add_argument('--require-consolidated', action='store_true',
+                          help='require every current defensive and native group, source and operation ledger')
+    profiles.add_argument('--require-consolidated-core-eight', action='store_true',
+                          help='verify the historical eight-group acceptance profile')
+    profiles.add_argument('--require-consolidated-accounting', action='store_true', help='require the complete nine-group acceptance profile including the ten fixed accounting checks')
+    profiles.add_argument('--require-consolidated-canonical-header', action='store_true',
+                          help='require all ten groups including canonical header interoperability')
+    profiles.add_argument('--require-consolidated-grpc-schema', action='store_true',
+                          help='require all eleven groups including static gRPC schema interoperability')
+    profiles.add_argument('--require-consolidated-html-review', action='store_true',
+                          help='require all twelve groups including the fixed NQC HTML report')
+    profiles.add_argument('--require-consolidated-report-interop', action='store_true',
+                          help='require the twelve native groups, the previous ledger and every report control domain')
     parser.add_argument('--expect-sha256', help='trusted digest for a specific, published run')
     args = parser.parse_args()
     raw = read_artifact(args.transcript.parent, args.transcript.name)
     if args.archive:
         raw = unpack(raw)
-    result = verify(raw, args.expect_sha256, require_consolidated=args.require_consolidated)
+    profile_options = {'require_consolidated': args.require_consolidated,
+                       'require_core_eight': args.require_consolidated_core_eight,
+                       'require_accounting': args.require_consolidated_accounting,
+                       'require_canonical_header': args.require_consolidated_canonical_header,
+                       'require_grpc_schema': args.require_consolidated_grpc_schema,
+                       'require_html_review': args.require_consolidated_html_review,
+                       'require_report_interop': args.require_consolidated_report_interop}
+    result = verify(raw, args.expect_sha256, **profile_options)
     if args.require_complete_controls:
         profile = result.get('component_contract_profile', 'current')
+        if profile == 'current' and any(v for k, v in profile_options.items() if k != 'require_consolidated'):
+            profile = 'through-html'
         expected_domains = {rule['domain'] for rule in component_rules(profile).values()}
         keys = response_keys(raw)
         session = strict_json(raw.splitlines()[keys.index('component-controls')]) if 'component-controls' in keys else {}
@@ -488,12 +653,12 @@ def main():
         other = read_artifact(args.replay.parent, args.replay.name)
         if args.archive:
             other = unpack(other)
-        replay = verify(other, require_consolidated=args.require_consolidated)
+        replay = verify(other, **profile_options)
         if other != raw:
             raise EvidenceError('the verified transcript bytes differ between runs')
         result['replay_sha256'] = replay['transcript_sha256']
     if args.check_controls:
-        result['rejected_controls'] = negative_controls(raw)
+        result['rejected_controls'] = negative_controls(raw, **profile_options)
     sys.stdout.buffer.write(canonical(result))
 
 

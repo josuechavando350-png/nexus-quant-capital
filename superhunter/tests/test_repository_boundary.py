@@ -120,6 +120,26 @@ class RepositoryBoundaryTests(unittest.TestCase):
         with self.assertRaisesRegex(boundary.BoundaryError,'UNREVIEWED_ROOT_FILE'):
             self.review()
 
+    def test_reviewed_worker_rejects_changed_bytes_and_executable_mode(self):
+        driver = self.root / boundary.HTML_REVIEW_WORKER
+        reviewed = driver.read_bytes()
+        driver.write_bytes(reviewed[:-1] + bytes([reviewed[-1] ^ 1]))
+        with self.assertRaisesRegex(boundary.BoundaryError, 'REVIEWED_WORKER_CHANGED'):
+            self.review()
+        driver.write_bytes(reviewed)
+        driver.chmod(0o755)
+        with self.assertRaisesRegex(boundary.BoundaryError, 'EXECUTABLE_SOURCE_MODE'):
+            self.review()
+
+    def test_reviewed_worker_bytes_are_rejected_at_another_cjs_path(self):
+        driver = self.root / boundary.HTML_REVIEW_WORKER
+        for other in (driver.with_name('unreviewed.cjs'), driver.parent/'tools'/driver.name):
+            with self.subTest(path=other):
+                other.write_bytes(driver.read_bytes())
+                with self.assertRaisesRegex(boundary.BoundaryError, 'UNREVIEWED_SUPERHUNTER_PAYLOAD'):
+                    self.review()
+                other.unlink()
+
     def test_symlink_file_directory_and_cache_rejected(self):
         for relative,target in (('superhunter/link.py',self.root/'README.md'),
                                 ('superhunter/link',self.root/'migration'),

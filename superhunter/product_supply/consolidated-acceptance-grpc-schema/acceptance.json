@@ -1,0 +1,100 @@
+{
+  "checkout_acquisition": "Two separate git init, fetch of the same public commit, and detached checkout; independent local Git object stores.",
+  "independent_verification": {
+    "blocked_component_domains": [],
+    "blocked_native_groups": [],
+    "catalog": 200,
+    "component_contract_profile": "current",
+    "component_domains": [
+      "android-policy",
+      "build-compatibility",
+      "changes",
+      "configuration",
+      "diagnostics",
+      "evidence-codec",
+      "evm",
+      "infrastructure",
+      "object-format",
+      "remediation",
+      "scoring",
+      "slot-format",
+      "source-extracts",
+      "state-amounts",
+      "static-contracts",
+      "supply",
+      "timeline"
+    ],
+    "credits_sha256": "f032278bafa6461bc30f6a6cb3c1f56f6de7bd461f062d97a0b87ceab396be23",
+    "executables": 93,
+    "functional": 131,
+    "historical_identities_preserved": 106,
+    "historical_operations_preserved": 110,
+    "multiple_operations": 10,
+    "native_credits": 20,
+    "native_groups": [
+      "canonical_header",
+      "evm",
+      "grpc",
+      "iam",
+      "java",
+      "properties",
+      "secrets",
+      "slither",
+      "static",
+      "upgrades",
+      "web"
+    ],
+    "operations": 141,
+    "original_vulnerabilities_confirmed": 0,
+    "pending": 69,
+    "reference_data": 38,
+    "responses": 222,
+    "session": 131,
+    "sources": {
+      "complete": 200
+    },
+    "transcript_sha256": "2b97ca34e6694b5309462773da5e761855e885fa9920bff849d0a5c643842823",
+    "verified_notices": 200
+  },
+  "refuted_mutations": {
+    "changed_commercial_total": "claimed totals differ from independently counted rows",
+    "changed_coverage_total": "coverage totals differ from independently counted rows",
+    "changed_git_tree": "matrix and source revisions disagree",
+    "changed_group_result": "individual component result differs from the shared evidence",
+    "changed_license": "license evidence digest or description differs",
+    "changed_native_report": "native producer bytes differ from reviewed controls",
+    "changed_native_result": "fixed product result changed",
+    "changed_operation_total": "claimed totals differ from independently counted rows",
+    "changed_role_totals": "claimed totals differ from independently counted rows",
+    "changed_source_distribution": "claimed totals differ from independently counted rows",
+    "discarded_secondary_operation": "operation ledger differs from the producer bytes",
+    "erased_corroboration": "cross-domain source corroboration differs from original observations",
+    "erased_domain_selection": "component selection or blocked domains differ",
+    "erased_excerpt_inventory": "published excerpt inventory differs from its source bytes",
+    "erased_shared_results": "component evidence does not cover the selected producers",
+    "forged_secondary_digest": "operation ledger differs from the producer bytes",
+    "inflated_count": "claimed totals differ from independently counted rows",
+    "invented_discovery": "native group membership or scope differs",
+    "replaced_historical_digest": "matrix status differs from the original evidence",
+    "unsupported_credit": "matrix status differs from the original evidence"
+  },
+  "runs": [
+    {
+      "archive_sha256": "f03eb53ed35712652609b7b0bab27163661ecfa82a47c1f6ea342c654f60be6c",
+      "checkout": "published-qa-first-2d9d6c79-grpc/checkout",
+      "id": "first",
+      "inputs_sha256": "70f68f0f2d3435df63a7cd630746820bfbc3c5aa7b1b6d73bad07b4f9709eaf3",
+      "result_sha256": "d842b236ab1ddf304b5674f3537e6fafe71b66259d8dc064a66dd7d4e1654e16"
+    },
+    {
+      "archive_sha256": "f03eb53ed35712652609b7b0bab27163661ecfa82a47c1f6ea342c654f60be6c",
+      "checkout": "published-qa-second-2d9d6c79-grpc/checkout",
+      "id": "second",
+      "inputs_sha256": "491329d86e5d8449ede609b8fd6c08c1e3e92053be37468f434bb0095e37bf7e",
+      "result_sha256": "d60016f229f413c2d4e036069226383490f6d5fa83fd33f16de0914eaae9440d"
+    }
+  ],
+  "same_host": true,
+  "schema_version": 1,
+  "scope": "Fixed offline product queries on one host. The test operator records provenance of these runs. No external host attestation."
+}

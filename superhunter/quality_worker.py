@@ -244,6 +244,14 @@ QA_MODULE_GROUPS = (
         'test_slither_pair_replay',
         'test_smt_backend',
         'test_solidity_inventory',
+        'test_product_canonical_header',
+        'test_product_report_interop',
+        'test_product_report_privacy',
+        'test_product_coverage_interop',
+        'test_product_certificate_review',
+        'test_product_http_report_privacy',
+        'test_product_policy_report',
+        'test_product_html_review',
     ),
 )
 

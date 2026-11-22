@@ -17,7 +17,7 @@ import tempfile
 
 from .safe_io import canonical, read_artifact, strict_json, write_new_bundle
 from .privacy import PrivateArgumentParser
-from . import owned_process, qa_inputs
+from . import acceptance_paths, owned_process, qa_inputs
 
 ROOT = Path(__file__).resolve().parent
 # The consolidated product includes both reviewed branches and their pinned data.
@@ -471,6 +471,48 @@ PRODUCT_DATA_FILES += ('product_supply/native-session-140.json',
                        'product_supply/consolidated-acceptance-140.json',
                        'product_supply/native-capability-contracts-140.json')
 
+# Preserved Astra dossier and the reconciled native profile are explicit QA inputs.
+PRODUCT_DATA_FILES += (
+    'product_supply/native-capability-contracts-core-eight.json',
+    'product_supply/native-capability-contracts-accounting-nine.json',
+    'product_supply/native-capability-contracts-canonical-ten.json',
+    'product_supply/native-capability-contracts-grpc-eleven.json',
+    'product_html_review_worker.cjs',
+    'product_supply/html-review-dom.json',
+    'product_supply/html-review-driver-attestation.json',
+    'product_supply/html-review-markdown.md',
+    'product_supply/html-review-pins.json',
+    'product_supply/html-review-provenance.json',
+    'product_supply/html-review-result.json',
+    'product_supply/canonical-header-owned.txt',
+    'product_supply/canonical-header-result.json',
+    'product_supply/contract-properties-native-acceptance.json',
+    'product_supply/component-control-contracts-through-html.json',
+    'INTEGRATION_STATUS_200.md',
+    'product_supply/acceptance-120/staged-source-acquisition.json',
+    'product_supply/catalog-commit-trees.json',
+    'product_supply/component-session-99.json',
+    'product_supply/fixed-cdxgen-guac-inputs.json',
+    'product_supply/geth-header-main.txt',
+    'product_supply/review-117-session.json',
+    'product_supply/review-117.json',
+    'product_supply/source-natures.json',
+    'product_supply/native-capability-contracts-html-twelve.json',
+    'product_supply/component-control-contracts-report-interop.json',
+)
+
+# Exact per-run records retain the original execution and later verification bytes.
+PRODUCT_DATA_FILES += (
+    'product_supply/replay-dossier/audit.json',
+    'product_supply/replay-dossier/index.json',
+    'product_supply/replay-dossier/profile-139-preparation.json',
+    'product_supply/replay-dossier/profile-139-run-a.json',
+    'product_supply/replay-dossier/profile-139-run-b.json',
+    'product_supply/replay-dossier/profile-140-preparation.json',
+    'product_supply/replay-dossier/profile-140-run-a.json',
+    'product_supply/replay-dossier/runner-sources.json',
+)
+
 def source_snapshot(root: Path = ROOT) -> dict[str, str]:
     """Capture executable package/test bytes and policy inputs; reject symlinks."""
     def scan_failed(error: OSError) -> None:
@@ -478,13 +520,14 @@ def source_snapshot(root: Path = ROOT) -> dict[str, str]:
 
     result = {}
     for base, dirs, files in os.walk(root, followlinks=False, onerror=scan_failed):
+        acceptance_paths.check_directory(Path(base).relative_to(root).as_posix(), dirs, files)
         dirs[:] = sorted(d for d in dirs if d != '__pycache__')
         for name in dirs:
             if (Path(base)/name).is_symlink():
                 raise ValueError('source directory symlink rejected')
         for name in sorted(files):
             rel = (Path(base)/name).relative_to(root).as_posix()
-            if name.endswith('.py') or rel in PRODUCT_DATA_FILES or rel in PORTFOLIO_DATA_FILES or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_accounting_capture_io_v2.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'requirements-otel-qa.txt', 'requirements-owned-slither.txt', 'research_initiatives.json'):
+            if name.endswith('.py') or rel in acceptance_paths.ALL_FILES or rel in PRODUCT_DATA_FILES or rel in PORTFOLIO_DATA_FILES or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_accounting_capture_io_v2.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'requirements-otel-qa.txt', 'requirements-owned-slither.txt', 'research_initiatives.json'):
                 result[rel] = sha(read_artifact(root, rel))
                 if len(result) > MAX_SOURCE_FILES:
                     raise ValueError('source inventory limit exceeded')
@@ -493,12 +536,20 @@ def source_snapshot(root: Path = ROOT) -> dict[str, str]:
     return dict(sorted(result.items()))
 
 
+def component_files(component, snapshot):
+    files = list(component['files'])
+    for group in component.get('optional_file_groups', ()):
+        if any(path in snapshot for path in group):
+            files.extend(group)
+    return files
+
+
 def validate_components(snapshot: dict, components: dict = COMPONENTS) -> list[str]:
     errors, owners = [], {}
     for name, item in components.items():
         if not item['files'] or not item['tests']:
             errors.append(f'{name}: empty component definition')
-        for path in item['files']:
+        for path in component_files(item, snapshot):
             if path not in snapshot:
                 errors.append(f'{name}: missing source {path}')
             if path in owners:
@@ -2035,6 +2086,9 @@ COMPONENTS['product_review'] = {
               'test_product_fuzz_native.',
               'test_product_contract_properties_native.'],
     'depends': ['portfolio_inventory', 'bundle_recovery', 'owned_capture', 'privacy', 'io']}
+COMPONENTS['product_review']['optional_file_groups'] = acceptance_paths.PATH_GROUPS
+COMPONENTS['product_review']['files'] += ['acceptance_paths.py', 'product_canonical_header.py', 'product_report_interop.py', 'product_report_quality_sources.py', 'product_report_privacy.py', 'product_coverage_interop.py', 'product_certificate_review.py', 'product_http_report_privacy.py', 'product_policy_report.py', 'product_html_review.py']
+COMPONENTS['product_review']['tests'] += ['test_product_canonical_header.', 'test_product_report_interop.', 'test_product_report_privacy.', 'test_product_coverage_interop.', 'test_product_certificate_review.', 'test_product_http_report_privacy.', 'test_product_policy_report.', 'test_product_html_review.']
 COMPONENTS['entrypoints']['depends'].append('product_review')
 REQUIRED_TESTS += (
     'test_product_source_audit.ProductComparisonTests.test_audit_rows_cannot_promote_project_to_runtime',

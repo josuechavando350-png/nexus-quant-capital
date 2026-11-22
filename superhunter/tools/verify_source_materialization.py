@@ -4,12 +4,14 @@ import base64
 from concurrent.futures import ThreadPoolExecutor
 import json
 from pathlib import Path
+import re
 import subprocess
 import sys
 import zlib
 
 from ..product_review import ROOT, sha
 from ..product_sources import git, gitlinks
+from ..product_source_audit import SNAPSHOT, SNAPSHOT_SHA
 from ..product_upstream_notices import sources
 from ..repository_boundary import git_object
 from ..safe_io import canonical, read_artifact, strict_json
@@ -136,11 +138,341 @@ def compare_local(workspace):
             'local_check_scope': 'historical superproject, directory identity, checked-out HEAD and root tree'}
 
 
+def local_path(workspace, path):
+    """Reject traversal and symlinks in any component of an observed local path."""
+    if not path.is_relative_to(workspace) or path.resolve() != path:
+        raise ValueError('dependency observation leaves its physical workspace')
+    return path
+
+
+def git_directory(workspace, checkout):
+    marker = local_path(workspace, checkout/'.git')
+    if marker.is_file():
+        record = read_artifact(workspace, str(marker.relative_to(workspace))).decode().splitlines()
+        if len(record) != 1 or not record[0].startswith('gitdir: '):
+            raise ValueError('invalid Git directory marker')
+        marker = local_path(workspace, (checkout/record[0][8:]).resolve(strict=True))
+    if not marker.is_dir():
+        raise ValueError('direct checkout has no Git directory')
+    return marker
+
+
+def common_storage(workspace, gitdir):
+    shared = local_git(gitdir, 'rev-parse', '--path-format=absolute', '--git-common-dir').decode().strip()
+    store = local_path(workspace, Path(shared))
+    # An alternate object database can lie outside the supplied checkout collection.
+    # It needs a separate inventory before its objects can be attributed to these stores.
+    for name in ('alternates', 'http-alternates'):
+        alternate = local_path(workspace, store/'objects/info'/name)
+        if alternate.exists():
+            raise ValueError('Git alternate storage requires a separate scope')
+    return store
+
+
+def local_git(gitdir, *args, query=None):
+    env = {'PATH': '/usr/bin:/bin', 'HOME': '/dev/null', 'LC_ALL': 'C',
+           'GIT_CONFIG_NOSYSTEM': '1', 'GIT_CONFIG_GLOBAL': '/dev/null',
+           'GIT_ALLOW_PROTOCOL': '', 'GIT_NO_LAZY_FETCH': '1', 'GIT_TERMINAL_PROMPT': '0'}
+    return subprocess.check_output(['/usr/bin/git', '--no-optional-locks', '--no-replace-objects',
+                                   '--literal-pathspecs', '--git-dir', str(gitdir), *args],
+                                   env=env, input=query, stderr=subprocess.PIPE, timeout=60)
+
+
+def local_payload(workspace, path, pointer):
+    try:
+        data = read_artifact(workspace, str(local_path(workspace, path).relative_to(workspace)))
+    except FileNotFoundError:
+        return 'absent'
+    if len(data) == pointer['bytes'] and sha(data) == pointer['oid']:
+        return 'verified_payload'
+    if data == pointer_bytes(pointer):
+        return 'pointer_only'
+    raise ValueError('local LFS candidate differs from the pinned pointer and payload')
+
+
+def pointer_bytes(pointer):
+    return (f'version https://git-lfs.github.com/spec/v1\noid sha256:{pointer["oid"]}\n'
+            f'size {pointer["bytes"]}\n').encode()
+
+
+def nested_artifacts(workspace):
+    """Observe pinned trees, worktree entries and object visibility without filling a cache."""
+    raw = read_artifact(ROOT, SNAPSHOT)
+    if sha(raw) != SNAPSHOT_SHA:
+        raise ValueError('direct source inventory differs from its reviewed bytes')
+    rows = strict_json(raw)['entries']
+    oids = sorted({oid for row in rows for oid in row['contents']['nested_gitlinks'].values()})
+    query = b''.join((oid + '\n').encode() for oid in oids)
+    hits, links, payloads, stores, nested_stores = {}, [], [], [], []
+    for authority, row in zip(expected_rows(), rows, strict=True):
+        if (row['id'], row['repository'], row['revision'], row['tree']) != (
+                authority['catalog_id'], authority['repository'], authority['commit'], authority['tree']):
+            raise ValueError('direct catalog identity or tree differs')
+        checkout = local_path(workspace, workspace/authority['path'])
+        gitdir = git_directory(workspace, checkout)
+        if local_git(gitdir, 'rev-parse', 'HEAD', 'HEAD^{tree}').decode().splitlines() != [row['revision'], row['tree']]:
+            raise ValueError('direct checkout differs from its catalog revision')
+        store = common_storage(workspace, gitdir)
+        stores.append((row['id'], store))
+        modules = local_path(workspace, store/'modules')
+        if modules.is_dir() and any(modules.iterdir()):
+            nested_stores.append(row['id'])
+        objects = local_git(gitdir, 'cat-file', '--batch-check', query=query).decode().splitlines()
+        for oid, line in zip(oids, objects, strict=True):
+            values = line.split()
+            if values == [oid, 'missing']:
+                continue
+            if len(values) != 3 or values[:2] != [oid, 'commit']:
+                raise ValueError('unexpected Git object type')
+            hits.setdefault(oid, []).append(row['id'])
+        nested = row['contents']['nested_gitlinks']
+        pointers = row['contents']['lfs_pointers']
+        paths = [*nested, *pointers]
+        if not paths:
+            continue
+        entries = local_git(gitdir, 'ls-tree', '-z', row['tree'], '--', *paths).split(b'\0')
+        tree = {path: meta.split() for meta, path in (item.decode().split('\t', 1) for item in entries if item)}
+        if tree.keys() != set(paths):
+            raise ValueError('pinned tree lacks a recorded dependency path')
+        for name, oid in sorted(nested.items()):
+            if tree[name] != ['160000', 'commit', oid]:
+                raise ValueError('gitlink differs from pinned direct tree')
+            folder = local_path(workspace, checkout/name)
+            state = 'missing'
+            if folder.is_dir():
+                state = 'nonempty_unverified' if any(folder.iterdir()) else 'empty'
+                if local_path(workspace, folder/'.git').exists():
+                    head = local_git(git_directory(workspace, folder), 'rev-parse', 'HEAD').decode().strip()
+                    state = 'pinned_head' if head == oid else 'different_head'
+            elif folder.exists():
+                raise ValueError('nested checkout path is not a directory')
+            links.append([row['id'], name, oid, state])
+        for name, pointer in sorted(pointers.items()):
+            meta = tree[name]
+            expected_pointer = pointer_bytes(pointer)
+            if (meta[:2] != ['100644', 'blob'] or meta[2] != git_object('blob', expected_pointer)
+                    or local_git(gitdir, 'cat-file', 'blob', meta[2]) != expected_pointer):
+                raise ValueError('tracked LFS blob differs from its recorded pointer')
+            payloads.append({'id': row['id'], 'path': name, **pointer, 'pointer_blob': meta[2],
+                             'worktree_state': local_payload(workspace, checkout/name, pointer)})
+    if len({store for _, store in stores}) != len(stores):
+        raise ValueError('multiple catalog checkouts share an object database')
+    for pointer in payloads:
+        oid = pointer['oid']
+        cached = {}
+        for number, directory in stores:
+            state = local_payload(workspace, directory/'lfs/objects'/oid[:2]/oid[2:4]/oid, pointer)
+            if state != 'absent':
+                cached[str(number)] = state
+        pointer['canonical_cache_hits_by_catalog_id'] = cached
+    states = sorted({row[3] for row in links})
+    return {'schema_version': 1, 'source_inventory_sha256': SNAPSHOT_SHA, 'direct_object_databases': len(stores),
+            'gitlink_paths': len(links), 'unique_gitlink_commits': len(oids),
+            'gitlink_parent_count': len({row[0] for row in links}),
+            'checkout_states': {state: sum(row[3] == state for row in links) for state in states},
+            'gitlink_path_states_sha256': sha(canonical(links)),
+            'commit_hits_in_direct_object_databases': hits, 'parents_with_separate_module_storage': nested_stores,
+            'lfs': payloads, 'scope': 'Direct catalog object databases, nested working paths and canonical direct LFS caches. Nested HEAD observations identify commits; tracked-file completeness requires a separate comparison.'}
+
+
+def staged_assets(workspace, staging):
+    """Bind the separately obtained bytes to their direct parents' pinned Git trees."""
+    if staging.is_relative_to(workspace) or workspace.is_relative_to(staging):
+        raise ValueError('acquisition staging must be separate from the direct checkouts')
+    inventory = read_artifact(ROOT, SNAPSHOT)
+    if sha(inventory) != SNAPSHOT_SHA:
+        raise ValueError('direct source inventory differs from its reviewed bytes')
+    rows = strict_json(inventory)['entries']
+    direct = {row['catalog_id']: row for row in expected_rows()}
+
+    def parent_gitdir(row):
+        record = direct[row['id']]
+        directory = git_directory(workspace, local_path(workspace, workspace/record['path']))
+        if (record['repository'], record['commit'], record['tree']) != (
+                row['repository'], row['revision'], row['tree']):
+            raise ValueError('parent catalog binding differs')
+        if local_git(directory, 'rev-parse', 'HEAD', 'HEAD^{tree}').decode().splitlines() != [row['revision'], row['tree']]:
+            raise ValueError('source checkout is at another revision')
+        return directory
+
+    qdrant = next(row for row in rows if row['repository'] == 'qdrant/qdrant')
+    name = 'tests/e2e_tests/test_data/storage.tar.xz'
+    pointer = qdrant['contents']['lfs_pointers'][name]
+    parent = parent_gitdir(qdrant)
+    oid = local_git(parent, 'rev-parse', qdrant['revision'] + ':' + name).decode().strip()
+    if local_git(parent, 'cat-file', 'blob', oid) != pointer_bytes(pointer):
+        raise ValueError('parent Git blob differs from its LFS pointer')
+    if local_payload(staging, staging/'qdrant-lfs-object', pointer) != 'verified_payload':
+        raise ValueError('staged LFS payload is missing')
+    source_url = 'https://media.githubusercontent.com/media/qdrant/qdrant/' + qdrant['revision'] + '/' + name
+    observation = {'method': 'GET', 'http_status': 200, 'final_host': 'media.githubusercontent.com',
+                   'url': source_url, 'bytes': pointer['bytes'], 'sha256': pointer['oid']}
+    if strict_json(read_artifact(staging, 'qdrant-response.json')) != observation:
+        raise ValueError('acquisition observation differs from the scoped provider and payload')
+
+    checkout = local_path(staging, staging/'forge-std')
+    gitdir = git_directory(staging, checkout)
+    common_storage(staging, gitdir)
+    commit, tree = local_git(gitdir, 'rev-parse', 'HEAD', 'HEAD^{tree}').decode().splitlines()
+    if commit != '3b20d60d14b343ee4f908cb8079495c07f5e8981':
+        raise ValueError('auxiliary checkout differs from the reviewed forge-std revision')
+    origins = []
+    for row in rows:
+        for path, target in row['contents']['nested_gitlinks'].items():
+            if target != commit:
+                continue
+            directory = parent_gitdir(row)
+            link = local_git(directory, 'ls-tree', row['tree'], '--', path).decode().rstrip('\n')
+            if link != f'160000 commit {commit}\t{path}':
+                raise ValueError('parent gitlink does not identify this dependency')
+            manifest = row['revision'] + ':.gitmodules'
+            config = local_git(directory, 'config', '--blob', manifest, '--get', f'submodule.{path}.url')
+            location = local_git(directory, 'config', '--blob', manifest, '--get', f'submodule.{path}.path')
+            if config.strip() != b'https://github.com/foundry-rs/forge-std' or location.decode().strip() != path:
+                raise ValueError('pinned parent dependency identity differs')
+            origins.append({'id': row['id'], 'repository': row['repository'], 'commit': row['revision'],
+                            'gitmodules_blob': local_git(directory, 'rev-parse', manifest).decode().strip(), 'path': path})
+    if [origin['id'] for origin in origins] != [21, 192]:
+        raise ValueError('forge-std parent references differ from the reviewed inventory')
+    files = []
+    index_rows = []
+    for item in local_git(gitdir, 'ls-tree', '-rz', tree).split(b'\0'):
+        if not item:
+            continue
+        meta, path = item.decode().split('\t', 1)
+        mode, kind, blob = meta.split()
+        if kind != 'blob' or mode not in ('100644', '100755'):
+            raise ValueError('unexpected tracked file type in the fixed dependency')
+        raw = read_artifact(checkout, path)
+        executable = bool(local_path(checkout, checkout/path).stat().st_mode & 0o100)
+        if git_object('blob', raw) != blob or executable != (mode == '100755'):
+            raise ValueError('staged dependency working bytes or executable mode differ')
+        files.append([path, mode, blob, sha(raw)])
+        index_rows.append(f'{mode} {blob} 0\t{path}\0'.encode())
+    if not files or local_git(gitdir, 'ls-files', '--stage', '-z') != b''.join(index_rows):
+        raise ValueError('staged dependency index differs from its committed tree')
+    return {'schema_version': 1, 'source_inventory_sha256': SNAPSHOT_SHA,
+            'lfs': {'acquisition_observation': observation, 'repository': qdrant['repository'],
+                    'revision': qdrant['revision'], 'tree': qdrant['tree'], 'path': name, 'pointer_blob': oid,
+                    'staged_path': 'qdrant-lfs-object', 'payload_sha256_verified': True},
+            'dependency': {'repository': 'foundry-rs/forge-std', 'commit': commit, 'tree': tree,
+                           'staged_path': 'forge-std', 'parent_refs': origins, 'tracked_files': len(files),
+                           'tracked_paths_modes_and_bytes_sha256': sha(canonical(files))},
+            'scope': 'Separate acquisition staging. Historical direct worktree and cache observations remain in nested-source-storage.json.'}
+
+
+def upstream_name(url):
+    """Retain the project identity from public GitHub/GitLab HTTPS or Git SSH URLs."""
+    match = re.fullmatch(r'(?:https://(github\.com|gitlab\.com)/|git@(github\.com|gitlab\.com):)([A-Za-z0-9_./-]+)', url)
+    if not match:
+        raise ValueError('unrecognized upstream address in pinned .gitmodules')
+    parts = match[3].removesuffix('/').removesuffix('.git').split('/')
+    if len(parts) < 2 or any(not part or part in ('.', '..') for part in parts):
+        raise ValueError('invalid upstream project path')
+    return '/'.join([match[1] or match[2], *parts])
+
+
+def nested_reference_index(workspace):
+    """Reconstruct path ownership from pinned objects; profile roles belong to the parents."""
+    from . import verify_review_115 as sessions
+    dossier = 'superhunter/product_supply/consolidated-acceptance'
+    transcript_sha = '2c7e58d369f36c9461497824eb81b0043fd4324dba6927bc7670706ee09cb63b'
+    first, second = [sessions.unpack(read_artifact(ROOT, f'{dossier}/{run}/session.json'))
+                     for run in ('first', 'second')]
+    if first != second:
+        raise ValueError('eight-group published sessions differ')
+    result = sessions.verify(first, transcript_sha, require_consolidated=True)
+    matrix = strict_json(first.splitlines()[sessions.response_keys(first).index('integration-matrix')])['rows']
+    inventory = read_artifact(ROOT, SNAPSHOT)
+    acquired = read_artifact(ROOT, 'superhunter/product_supply/acceptance-120/staged-source-acquisition.json')
+    if sha(inventory) != SNAPSHOT_SHA or sha(acquired) != '2fcdcc58e2d92874fa472eefa8baf357d1e88aede83d2ec840e9da112228777a':
+        raise ValueError('nested dependency source observations differ from their pinned files')
+    aux = strict_json(acquired)['dependency']
+    expected_staged = {(r['id'], r['path'], r['commit']) for r in aux['parent_refs']}
+    seen_staged, parents = set(), []
+    for source, identity, current in zip(strict_json(inventory)['entries'], expected_rows(), matrix, strict=True):
+        links = source['contents']['nested_gitlinks']
+        if not links:
+            continue
+        idx, revision = source['id'], source['revision']
+        if (idx, revision, source['tree'], source['repository']) != (
+                current['id'], current['commit'], current['tree'], current['repository']) or idx != identity['catalog_id']:
+            raise ValueError('parent differs between accepted matrix and source inventory')
+        directory = git_directory(workspace, local_path(workspace, workspace/identity['path']))
+        if local_git(directory, 'rev-parse', revision + '^{tree}').decode().strip() != source['tree']:
+            raise ValueError('parent Git tree differs')
+        records = local_git(directory, 'ls-tree', '-z', revision, '--', '.gitmodules', *sorted(links))
+        tree = {p: meta.split() for meta, p in (v.decode().split('\t', 1) for v in records.split(b'\0') if v)}
+        mode, kind, blob = tree['.gitmodules']
+        if (mode != '100644' or kind != 'blob'
+                or git_object('blob', local_git(directory, 'cat-file', 'blob', blob)) != blob):
+            raise ValueError('unexpected parent .gitmodules blob')
+        # --no-includes keeps all assignments inside this exact tracked blob.
+        fields = local_git(directory, 'config', '-z', '--no-includes', '--blob', blob,
+                           '--get-regexp', r'^submodule\..*\.(path|url)$')
+        sections = {}
+        for item in fields.split(b'\0'):
+            if item:
+                key, value = item.decode().split('\n', 1)
+                section, field = key.rsplit('.', 1)
+                config = sections.setdefault(section, {})
+                if field in config:
+                    raise ValueError('duplicate field in pinned submodule section')
+                config[field] = value
+        by_path = {}
+        for config in sections.values():
+            path = config.get('path')
+            if path in links:
+                if path in by_path:
+                    raise ValueError('multiple submodule sections claim a tracked path')
+                by_path[path] = upstream_name(config['url'])
+        if by_path.keys() != links.keys():
+            raise ValueError('pinned parent declarations do not cover the recorded gitlinks')
+        children = []
+        for path, commit in sorted(links.items()):
+            if tree.get(path) != ['160000', 'commit', commit]:
+                raise ValueError('nested commit differs from parent Git tree')
+            child = {'path': path, 'commit': commit, 'upstream': by_path[path]}
+            key = (idx, path, revision)
+            if key in expected_staged:
+                if commit != aux['commit'] or child['upstream'] != 'github.com/' + aux['repository']:
+                    raise ValueError('auxiliary checkout evidence identifies a different dependency')
+                child['separate_checkout_verified'] = True
+                seen_staged.add(key)
+            children.append(child)
+        parents.append({'id': idx, 'repository': source['repository'], 'commit': revision,
+                        'gitmodules_blob': blob, 'core_eight_parent_role': current['session'], 'links': children})
+    if expected_staged != seen_staged:
+        raise ValueError('unmatched auxiliary checkout evidence')
+    return {'schema_version': 1, 'source_inventory_sha256': SNAPSHOT_SHA,
+            'separate_acquisition_receipt_sha256': sha(acquired),
+            'parent_session': {'profile': 'core-eight', 'participants': result['session'],
+                               'transcript_sha256': transcript_sha,
+                               'matrix_publication': '2379ef99c1b3a534897cbf63469e676c7190c045'},
+            'scope': 'Tracked paths and sanitized project identities. The session role describes the parent repository. Dependency consumption per operation was not measured.',
+            'parents': parents}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--existing-workspace', type=Path, help='also compare the existing 200-checkout observation workspace')
+    modes = parser.add_mutually_exclusive_group()
+    modes.add_argument('--existing-workspace', type=Path, help='also compare the existing 200-checkout observation workspace')
+    modes.add_argument('--nested-workspace', type=Path, help='observe nested gitlinks and pinned LFS bytes in local direct checkouts')
+    modes.add_argument('--staged-assets', type=Path, nargs=2, metavar=('DIRECT_SOURCES', 'STAGING'),
+                       help='verify the separately acquired Qdrant object and local forge-std checkout offline')
+    modes.add_argument('--nested-index', type=Path, help='map pinned gitlinks to upstream identities, parent roles and independent checkout evidence')
     args = parser.parse_args()
     try:
+        if args.nested_index:
+            sys.stdout.buffer.write(canonical(nested_reference_index(args.nested_index.resolve(strict=True))))
+            return 0
+        if args.staged_assets:
+            directories = [path.resolve(strict=True) for path in args.staged_assets]
+            sys.stdout.buffer.write(canonical(staged_assets(*directories)))
+            return 0
+        if args.nested_workspace:
+            sys.stdout.buffer.write(canonical(nested_artifacts(args.nested_workspace.resolve(strict=True))))
+            return 0
         result = verify(unpack_records(), gitlinks(ROOT))
         if args.existing_workspace:
             result.update(compare_local(args.existing_workspace.resolve()))

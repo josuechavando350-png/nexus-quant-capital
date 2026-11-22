@@ -9,8 +9,18 @@ from .product_review import ROOT, sha
 from .safe_io import canonical, read_artifact, strict_json
 
 CONTRACT = 'superhunter/product_supply/native-capability-contracts.json'
-CONTRACT_SHA = '7a1a414d48b995ac310b17f1e15d722001a3c0a510f3dcf5f43dedb6ae90e6ac'
+CONTRACT_SHA = '7d140e5ca9e303a6c995d1871f5915821864c4763aefc727a3e71ff49a1fcc38'
 HISTORICAL_CONTRACTS = {
+    'core-eight': ('superhunter/product_supply/native-capability-contracts-core-eight.json',
+          '51e2d24afa9f7bc98152c4dd8337560e41efe9b50657c4a222ceedfc28b1355a'),
+    'accounting-nine': ('superhunter/product_supply/native-capability-contracts-accounting-nine.json',
+          '4dfec613c3f4ad64084a7487d4f4d5ecadea8f177f1bcc7283637c4a8adcdefa'),
+    'canonical-ten': ('superhunter/product_supply/native-capability-contracts-canonical-ten.json',
+          'c3b7c10d1c72aacae73e09c5b96b521baeb9a8e6f4b15b03886ddcb8a16395c3'),
+    'grpc-eleven': ('superhunter/product_supply/native-capability-contracts-grpc-eleven.json',
+          'ae4a0e3a7026cd08083e144e92abb19f334ef816bfefeb4f4d79a48abf4dc003'),
+    'html-twelve': ('superhunter/product_supply/native-capability-contracts-html-twelve.json',
+          '1b0c5ecf4ec91e9f0a0ec45a0984c60ad615e37f9d0512474ed30dd2e3e19add'),
     140: ('superhunter/product_supply/native-capability-contracts-140.json',
           '7a1a414d48b995ac310b17f1e15d722001a3c0a510f3dcf5f43dedb6ae90e6ac'),
     139: ('superhunter/product_supply/native-capability-contracts-139.json',
@@ -20,6 +30,12 @@ HISTORICAL_CONTRACTS = {
     70: ('superhunter/product_supply/native-capability-contracts-70.json',
          '1289b2523dca27657dcde15cb81c7a862e50c7f523c92d0e145238fee268d237'),
 }
+# Stable names retained for archived dossier readers.
+CORE_EIGHT = HISTORICAL_CONTRACTS['core-eight']
+ACCOUNTING_NINE = HISTORICAL_CONTRACTS['accounting-nine']
+CANONICAL_TEN = HISTORICAL_CONTRACTS['canonical-ten']
+GRPC_ELEVEN = HISTORICAL_CONTRACTS['grpc-eleven']
+
 MODULES = {'evm': 'product_evm_native', 'web': 'product_web_native', 'static': 'product_static_native',
            'slither': 'product_slither_native', 'secrets': 'product_secrets_native',
            'http': 'product_http_native', 'discovery': 'product_discovery_native',
@@ -27,7 +43,8 @@ MODULES = {'evm': 'product_evm_native', 'web': 'product_web_native', 'static': '
            'properties': 'product_contract_properties_native', 'iam': 'product_iam_native',
            'upgrades': 'product_upgrade_layout_native',
            'rlp': 'product_rlp_library_native', 'mutation': 'product_mutation_native',
-           'python_fuzz': 'product_python_fuzz_native', 'grpc': 'product_grpc_schema_native'}
+           'python_fuzz': 'product_python_fuzz_native', 'grpc': 'product_grpc_schema_native',
+           'html_review': 'product_html_review'}
 
 
 def add_arguments(parser):
@@ -136,6 +153,8 @@ def attach(index, kits, *, allow_partial=False):
         row.pop('native_capability_receipt', None)
     for key, receipt in receipts.items():
         index.repos[key]['native_capability_receipt'] = receipt
+    # A report consumer may reuse only a kit whose native controls just passed.
+    index.verified_web_kit = kits['web'] if 'web' in reports else None
     index.native_capabilities = {'groups': reports, 'repositories': sorted(receipts),
                                  'functional_participations': len(receipts),
                                  'scope': 'fixed_owned_controls_and_pinned_local_inputs',
