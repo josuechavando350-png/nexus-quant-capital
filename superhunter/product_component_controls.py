@@ -30,9 +30,10 @@ DOMAINS = {'evidence-codec': 'product_evidence_codec', 'changes': 'product_chang
            'development-manifest': 'product_development_manifest',
            'dependency-attributions': 'product_dependency_attributions',
            'report-accessibility': 'product_report_accessibility',
-           'vendored-attributions': 'product_vendored_attributions'}
+           'vendored-attributions': 'product_vendored_attributions',
+           'publication-policy': 'product_publication_policy'}
 CONTRACT_PATH = 'superhunter/product_supply/component-control-contracts.json'
-CONTRACT_SHA = 'e12a865b8cf73bf405dd3b8b10a388e21b8326e8e6d782cc5b1f1833cf376b6f'
+CONTRACT_SHA = 'cce3b2e6aa5951db85f0379ccbc090023aed0ce9f6dcfb322c85b040b972d7a6'
 FIELD = 'component_control_receipt'
 
 

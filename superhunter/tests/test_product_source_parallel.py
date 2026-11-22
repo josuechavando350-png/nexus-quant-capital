@@ -286,5 +286,32 @@ class CatalogSourceOverlapTests(unittest.TestCase):
                 build(root)
 
 
+class PublicationPolicyTests(unittest.TestCase):
+    def test_scoped_ignore_policy_and_real_git_negation_are_reversible(self):
+        from superhunter.product_publication_policy import ignore_policy
+        result = ignore_policy('docs/.gitignore', b'*.log\n!review.log\n_site/\n')
+        self.assertEqual(result['excluded_from_untracked_files'], ['docs/_site/index.html'])
+        self.assertIn('docs/review.log', result['available_for_staging'])
+        self.assertIn('_site/index.html', result['available_for_staging'])
+        self.assertTrue(result['restored_after_removal'])
+
+    def test_no_match_and_catch_all_cannot_earn_a_receipt(self):
+        from superhunter.product_publication_policy import ignore_policy
+        for rules in (b'unknown-release-file\n', b'*\n'):
+            with self.assertRaisesRegex(ValueError, 'corroborated'):
+                ignore_policy('.gitignore', rules)
+
+    def test_recipe_must_consume_requirements_and_records_unpinned_versions(self):
+        from superhunter.product_publication_policy import dependency_policy
+        raw = b'FROM python:3.8-alpine\nCOPY . /opt/jwt_tool\nRUN python3 -m pip install -r requirements.txt\n'
+        data = dependency_policy(raw, b'one==1.2.3\ntwo\n')
+        self.assertFalse(data['base_digest_pinned'])
+        self.assertEqual(data['unpinned_packages'], ['two'])
+        with self.assertRaises(ValueError):
+            dependency_policy(raw.replace(b'-r requirements.txt', b'-r other.txt'), b'one\n')
+        with self.assertRaises(ValueError):
+            dependency_policy(raw, b'one\nONE\n')
+
+
 if __name__ == '__main__':
     unittest.main()
