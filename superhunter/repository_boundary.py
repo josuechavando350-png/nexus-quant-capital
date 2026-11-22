@@ -22,7 +22,7 @@ HISTORICAL_TREES = {
     'nqc-census':'68dbd045014a49bd53b79440d9878f3e8035c739',
 }
 ROOT_FILES = {
-    '.gitmodules':'e7dd7f71d3a8f077dd5623d0d1fcefc62d4aa48e',
+    '.gitmodules':'d2d602ef33c5c2c77b7fb5a1a240ae9061f3f5b5',
     '.gitignore':'7518f5529fe0b23ea9195c5e3c4a1099a9e05d08',
     'AGENTS.md':'6c2fe3771bad272bb1839aabc2b45ef636a16531',
     'README.md':'2d620f813efdfa3c146fc7e17dd39f5ca11132c5',
@@ -37,6 +37,10 @@ DOCUMENTS = {'SUPERHUNTER_MASTER_PLAN.md','SUPERHUNTER_STATUS.md',
              'SUPERHUNTER_CRITICAL_RESEARCH.md'}
 FORBIDDEN_PARTS = {'.github','.vercel','apps','packages','node_modules','.venv','venv'}
 SOURCE_SUFFIXES = {'.py','.md','.json','.txt'}
+# The fixed browser driver reads three local review fixtures. Admit its reviewed
+# bytes at this path only, independently of the product's runtime pin.
+HTML_REVIEW_WORKER = 'superhunter/product_html_review_worker.cjs'
+HTML_REVIEW_WORKER_SHA256 = '9549b514ef35283e67b246df0b3535a15c4b2460881bdbd88de7341ffa4f8ddd'
 MAX_FILES, MAX_TOTAL_BYTES, MAX_FILE_BYTES = 4096, 64*1024**2, 20*1024**2
 
 
@@ -200,8 +204,12 @@ def _review_captured(files: dict, ignored: int) -> dict:
             documents.append(path)
         else:
             need(parts[0] == 'superhunter' and len(parts) > 1, 'UNREVIEWED_ROOT_FILE')
-            need(Path(path).suffix in SOURCE_SUFFIXES or path == 'superhunter/.gitignore',
-                 'UNREVIEWED_SUPERHUNTER_PAYLOAD')
+            if path == HTML_REVIEW_WORKER:
+                need(hashlib.sha256(item['bytes']).hexdigest() == HTML_REVIEW_WORKER_SHA256,
+                     'REVIEWED_WORKER_CHANGED')
+            else:
+                need(Path(path).suffix in SOURCE_SUFFIXES or path == 'superhunter/.gitignore',
+                     'UNREVIEWED_SUPERHUNTER_PAYLOAD')
             need(item['mode'] == '100644', 'EXECUTABLE_SOURCE_MODE')
             superhunter_count += 1
     need(historical_count == 642 and superhunter_count > 0, 'BOUNDARY_SCOPE')

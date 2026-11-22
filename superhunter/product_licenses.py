@@ -1,6 +1,7 @@
 """Native, network-isolated license observations over the verified NQC inventory."""
 from __future__ import annotations
 
+from contextlib import contextmanager
 from io import BytesIO
 from pathlib import Path
 import re
@@ -50,7 +51,9 @@ def scan_result(report, notices):
     return {'version': '32.5.0', 'release_sha256': SCAN_SHA, 'notices': results}
 
 
-def scan(release, notices):
+@contextmanager
+def scan_session(release):
+    """Reuse a verified distribution only for this invocation, never prior scan results."""
     with tempfile.TemporaryDirectory(prefix='nqc-scancode-') as temp:
         work = Path(temp)
         package = work/'release.tar.gz'
@@ -58,17 +61,43 @@ def scan(release, notices):
         with tarfile.open(package, 'r:gz') as archive:
             archive.extractall(work, filter='data')
         executable = work/'scancode-toolkit-v32.5.0/scancode'
-        folder = work/'notices'
-        folder.mkdir()
-        for name, data in notices.items():
-            (folder/name).write_bytes(data)
-        subprocess.run([*ISOLATE, str(executable.resolve(strict=True)), '--license', '--info', '--processes', '1',
-                        '--json', str(work/'scan.json'), str(folder)], cwd=executable.parent,
-                       env={'HOME': temp, 'PATH': str(Path(sys.executable).parent) + ':/usr/bin:/bin',
-                            'PIP_NO_INDEX': '1', 'PYTHONDONTWRITEBYTECODE': '1'},
-                       stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
-                       timeout=300, check=True)
-        return scan_result(strict_json(read_artifact(work, 'scan.json')), notices)
+        executable = executable.resolve(strict=True)
+        active = True
+
+        def scan_batch(notices):
+            if not active:
+                raise EvidenceError('ScanCode session is closed')
+            # Bind the verifier to the same immutable input bytes that were written.
+            payload = dict(notices)
+            for name, data in payload.items():
+                if (type(name) is not str or name in ('', '.', '..') or Path(name).name != name
+                        or any(c in name for c in ('\\', ':', '\0'))
+                        or type(data) is not bytes or len(data) > MAX_BYTES):
+                    raise EvidenceError('invalid ScanCode notice input')
+            # Only the distribution is shared. Inputs, HOME and output are fresh per batch.
+            with tempfile.TemporaryDirectory(prefix='batch-', dir=work) as batch_temp:
+                batch = Path(batch_temp)
+                folder = batch/'notices'
+                folder.mkdir()
+                for name, data in payload.items():
+                    (folder/name).write_bytes(data)
+                subprocess.run([*ISOLATE, str(executable), '--license', '--info', '--processes', '1',
+                                '--json', str(batch/'scan.json'), str(folder)], cwd=executable.parent,
+                               env={'HOME': batch_temp, 'PATH': str(Path(sys.executable).parent) + ':/usr/bin:/bin',
+                                    'PIP_NO_INDEX': '1', 'PYTHONDONTWRITEBYTECODE': '1'},
+                               stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+                               timeout=300, check=True)
+                return scan_result(strict_json(read_artifact(batch, 'scan.json')), payload)
+
+        try:
+            yield scan_batch
+        finally:
+            active = False
+
+
+def scan(release, notices):
+    with scan_session(release) as scan_batch:
+        return scan_batch(notices)
 
 
 def registry_license(pkg, cache):

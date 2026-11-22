@@ -80,5 +80,89 @@ class SourceEnumerationTests(unittest.TestCase):
         self.assertEqual(list(source_graph.capture(self.root)), list(expected))
 
 
+class AcceptanceInventoryTests(unittest.TestCase):
+    def setUp(self):
+        from superhunter import acceptance_paths
+        self.layout = acceptance_paths
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        (self.root / 'quality.py').write_bytes(b'# fixture')
+
+    def publish(self, profile):
+        directory = self.root / self.layout.PROFILE_DIRECTORIES[profile]
+        for name in self.layout.DOSSIER_FILES:
+            path = directory / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(name)
+        return directory
+
+    def test_every_enabled_renderer_directory_uses_the_qa_layout(self):
+        from superhunter.tools.render_product_matrix import PROFILES
+        for name, (path, _, _) in PROFILES.items():
+            self.assertEqual(path, 'superhunter/' + self.layout.PROFILE_DIRECTORIES[name])
+
+    def test_absent_dossiers_are_optional_and_every_present_member_has_one_owner(self):
+        self.assertEqual(set(quality.source_snapshot(self.root)), {'quality.py'})
+        for name in self.layout.PROFILE_DIRECTORIES:
+            self.publish(name)
+        snap = quality.source_snapshot(self.root)
+        self.assertEqual(set(snap) - {'quality.py'}, self.layout.ALL_FILES)
+        for path in self.layout.ALL_FILES:
+            self.assertEqual(snap[path], hashlib.sha256((self.root / path).read_bytes()).hexdigest())
+        owners = [path for component in quality.COMPONENTS.values()
+                  for path in quality.component_files(component, snap) if path in self.layout.ALL_FILES]
+        self.assertCountEqual(owners, self.layout.ALL_FILES)
+        removed = self.layout.PATH_GROUPS[0][0]
+        snap.pop(removed)
+        self.assertIn('product_review: missing source ' + removed, quality.validate_components(snap))
+
+    def test_partial_dossier_and_unexpected_contents_cannot_represent_a_profile(self):
+        directory = self.publish('core-eight')
+        (directory / 'first/session.json').unlink()
+        with self.assertRaisesRegex(ValueError, 'incomplete acceptance replay'):
+            quality.source_snapshot(self.root)
+        (directory / 'first/session.json').write_text('original')
+        (directory / 'extra.txt').touch()
+        with self.assertRaisesRegex(ValueError, 'incomplete acceptance dossier'):
+            quality.source_snapshot(self.root)
+        (directory / 'extra.txt').unlink()
+        (directory / 'second').rename(self.root / 'other')
+        with self.assertRaisesRegex(ValueError, 'incomplete acceptance dossier'):
+            quality.source_snapshot(self.root)
+
+    def test_symlink_leaf_missing_directory_and_dangling_profile_cannot_replace_bytes(self):
+        directory = self.publish('accounting')
+        member = directory / 'first/session.json'
+        member.unlink()
+        member.symlink_to(directory / 'second/session.json')
+        with self.assertRaises((ValueError, OSError)):
+            quality.source_snapshot(self.root)
+        member.unlink()
+        member.touch()
+        future = self.root / self.layout.PROFILE_DIRECTORIES['canonical-header']
+        future.symlink_to(self.root / 'missing')
+        with self.assertRaisesRegex(ValueError, 'not a directory'):
+            quality.source_snapshot(self.root)
+        future.unlink()
+        future.write_text('not a directory')
+        with self.assertRaisesRegex(ValueError, 'not a directory'):
+            quality.source_snapshot(self.root)
+
+    def test_newly_tracked_input_changes_snapshot_and_global_limit_still_applies(self):
+        self.publish('grpc-schema')
+        fixed = self.root / 'product_supply/fixed-cdxgen-guac-inputs.json'
+        fixed.write_text('first'); before = quality.source_snapshot(self.root)
+        fixed.write_text('other'); after = quality.source_snapshot(self.root)
+        self.assertNotEqual(before['product_supply/fixed-cdxgen-guac-inputs.json'],
+                            after['product_supply/fixed-cdxgen-guac-inputs.json'])
+        for i in range(quality.MAX_SOURCE_FILES - len(after)):
+            (self.root / f'case_{i}.py').touch()
+        self.assertEqual(len(quality.source_snapshot(self.root)), quality.MAX_SOURCE_FILES)
+        (self.root / 'one_more.py').touch()
+        with self.assertRaisesRegex(ValueError, 'source inventory limit exceeded'):
+            quality.source_snapshot(self.root)
+
+
 if __name__ == '__main__':
     unittest.main()

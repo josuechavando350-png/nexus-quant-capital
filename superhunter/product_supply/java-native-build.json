@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "platform": "Linux x86-64",
+  "distribution": "Official project publications in Maven Central and official Debian security OpenJDK package",
+  "reproduction_api": "superhunter.product_java_native.run(pathlib.Path(KIT))",
+  "unit_tests": "python -B -m unittest superhunter.tests.test_product_java_native -v",
+  "acquisition": [
+    "Fetch each exact coordinate URL recorded in java-native-maven.json using ordinary HTTPS requests to Maven Central.",
+    "Compare each JAR with the published checksum at the recorded URL. Some publishers supply SHA1 only; every local file additionally has an enforced SHA256 pin.",
+    "Place the SpotBugs runtime JARs under kit/lib and the FindSecBugs plugin under kit/plugin. Keeping the plugin outside the baseline classpath makes producer attribution observable.",
+    "Download the exact Debian package identified below, verify its full byte count and SHA256 before parsing, and select the reviewed regular members listed by archive_member in java-native-pins.json. Materialize symlink target bytes only from explicit regular archive members. Preserve runtime/debian-copyright. Never execute package scripts or install a system package.",
+    "Validate every runtime and JAR byte count and SHA256 against the pinned manifest before execution. No mutable system runtime path is used by the integration.",
+    "Exclude host-generated cacerts: these disconnected owned controls perform no TLS. AppCDS images remain excluded and execution uses -Xshare:off. No runtime bytes come from the host Java installation."
+  ],
+  "owned_program": {
+    "sources": [
+      "OwnedUnsafe.java",
+      "OwnedSafe.java",
+      "OwnedWitness.java"
+    ],
+    "compiler": "runtime/bin/java -Xshare:off -Xmx512m -m jdk.compiler/com.sun.tools.javac.Main -g -d classes src/OwnedSafe.java src/OwnedUnsafe.java src/OwnedWitness.java",
+    "compiled_output": "Four class files, including the witness's nested Capture class; all bytecode hashes are pinned.",
+    "analysis_targets": [
+      "classes/OwnedUnsafe.class",
+      "classes/OwnedSafe.class"
+    ],
+    "witness": "Executes owned null handling and captures JDBC calls through memory-only Java dynamic proxies. It opens no database connection."
+  },
+  "native_analysis": {
+    "entrypoint": "edu.umd.cs.findbugs.LaunchAppropriateUI",
+    "baseline": "SpotBugs 4.10.5, unmodified detectors, -textui -effort:max -low -xml:withMessages",
+    "plugin": "Repeat the same analysis with -pluginList plugin/findsecbugs-plugin-1.14.0.jar.",
+    "attribution": "Require baseline diagnostics to remain identical and require exactly the additional native SQL_INJECTION_JDBC finding from FindSecBugs.",
+    "clean_control": "Require native ClassStats to include OwnedSafe with zero findings in both analyses, and reject missing classes or analysis errors."
+  },
+  "isolation": {
+    "prefix": [
+      "/usr/bin/unshare",
+      "--user",
+      "--map-current-user",
+      "--net"
+    ],
+    "environment": "HOME, TMPDIR, PATH and LC_ALL only; HOME and TMPDIR use the private temporary directory.",
+    "jvm": [
+      "-Xshare:off",
+      "-Xmx512m",
+      "-Duser.language=en",
+      "-Duser.country=US",
+      "-Duser.timezone=UTC"
+    ],
+    "scope": "Only the three pinned owned Java sources are compiled. Only two owned classes are analyzed. Only the owned witness is executed."
+  },
+  "observed_setup_issues": [
+    "GitHub release downloads were blocked specifically at https://release-assets.githubusercontent.com:443. Official Maven Central publications were accessible; no escalation was requested.",
+    "The initial direct dependency set lacked BCEL's commons-io dependency. Reading the published POMs identified the exact transitive coordinates; adding the pinned dependencies resolved native startup.",
+    "The previous host runtime lacked package-manager provenance. Rebuilding from Debian openjdk-21-jre-headless 21.0.13+9-1~deb13u2 reproduced 176 selected runtime files exactly. The host-generated cacerts file was excluded; the original package copyright was added unchanged."
+  ],
+  "not_claimed": [
+    "Independent source-rebuilt analyzer binaries or signed Maven provenance verification.",
+    "A complete dependency license review or a closed inventory of host shared libraries.",
+    "A general precision benchmark, real database vulnerability discovery, or proof that arbitrary Java code is safe."
+  ],
+  "rebuild_program": {
+    "path": "superhunter/product_supply/java-native-rebuild.txt",
+    "sha256": "682a96c7c8c348945a3fd564bfd671910c76910ab81349f93608318a74e0f5af",
+    "command": "python superhunter/product_supply/java-native-rebuild.txt --repository REPO --destination NEW_KIT"
+  },
+  "runtime_package": {
+    "name": "openjdk-21-jre-headless",
+    "version": "21.0.13+9-1~deb13u2",
+    "architecture": "amd64",
+    "url": "https://security.debian.org/debian-security/pool/updates/main/o/openjdk-21/openjdk-21-jre-headless_21.0.13+9-1~deb13u2_amd64.deb",
+    "bytes": 41993808,
+    "sha256": "7334a11777942862fa97f8d16f23a391f85e6c3a3fc8ea73e0cc30adc52c8299",
+    "published_checksum_url": "https://packages.debian.org/trixie/amd64/openjdk-21-jre-headless/download",
+    "checksum_listing_note": "The package listing tracks the latest version. The version-specific archive URL and SHA256 above identify the reviewed publication."
+  },
+  "portability": {
+    "host_runtime_used": false,
+    "host_runtime_files_verified_against_official_package": 176,
+    "system_packages_installed": 0,
+    "requires": "Linux x86-64 with compatible host shared libraries, CPython 3.12 and unprivileged user/network namespaces",
+    "independent_host_verified": false,
+    "shared_library_closure_verified": false,
+    "archive_signature_verification_claimed": false,
+    "fresh_download_reconstruction_verified": true,
+    "official_artifacts_downloaded": 26,
+    "reconstructed_kit_files": 202,
+    "runtime_files": 177,
+    "host_runtime_files_used": 0,
+    "two_native_replays_byte_identical": true,
+    "native_report_sha256": "cec9330397a6545744161b20c1a9ac6c85a5ca91f558b27d4deb9317409188cb"
+  }
+}

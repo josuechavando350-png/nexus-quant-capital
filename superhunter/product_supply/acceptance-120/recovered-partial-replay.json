@@ -1,0 +1,170 @@
+{
+  "blocked_group_explanation": {
+    "evm": "The official Node release member SHA-256 a7ec1b37e6ff9d187e4198c5b6df9a4eb1c74dd31804fb3bac55cc4ceca1ac01 differs from the old runtime digest acbe4b8d9153b841ed0697cbfc4f93e767386620edb745ab9358306c0a6f31aa.",
+    "java": "The reconstructed Debian/Maven kit and this recovered source agree on 201 files, while the old pin list also requires runtime/lib/security/cacerts. The updated #119 kit carries the Debian copyright file in its place."
+  },
+  "component_domains_blocked": {},
+  "component_domains_requested": [
+    "android-policy",
+    "build-compatibility",
+    "changes",
+    "configuration",
+    "diagnostics",
+    "evidence-codec",
+    "evm",
+    "infrastructure",
+    "object-format",
+    "remediation",
+    "scoring",
+    "slot-format",
+    "source-extracts",
+    "state-amounts",
+    "static-contracts",
+    "supply",
+    "timeline"
+  ],
+  "current_only": [
+    "crytic/properties",
+    "Fraunhofer-AISEC/cpg",
+    "meta/Pysa",
+    "OpenZeppelin/openzeppelin-upgrades",
+    "jaegertracing/jaeger",
+    "salesforce/policy_sentry",
+    "falcosecurity/falco",
+    "cilium/hubble",
+    "meta/infer",
+    "huggingface/smolagents",
+    "vllm-project/vllm",
+    "ggml-org/llama.cpp",
+    "sgl-project/sglang",
+    "huggingface/transformers",
+    "langfuse/langfuse",
+    "vibrantlabsai/ragas",
+    "promptfoo/promptfoo",
+    "NomicFoundation/hardhat",
+    "LiteSVM/litesvm",
+    "anza-xyz/mollusk",
+    "otter-sec/anchor",
+    "anza-xyz/agave"
+  ],
+  "current_pending": 73,
+  "current_session_rows": 127,
+  "distinct_operations": 133,
+  "expected_full_profile_outcome": "Rejected by the independent verifier with --require-consolidated: incomplete consolidated session.",
+  "historic_only": [
+    "cdump/evmole"
+  ],
+  "historic_union_note": "Archive of 99 and archive of 70; rows deduplicated by reviewed catalog ID, with the original source revisions.",
+  "in_current_and_past": 105,
+  "local_run_note": "Clean detached checkout of the recovered local commit. The tested procedure launched a new network namespace and a single fixed QA session; prepared historical inputs were shared. A second checkout of this exact producer was not run in this batch.",
+  "multiple_operation_repositories": 6,
+  "native_groups_blocked": {
+    "evm": {
+      "error_type": "EvidenceError",
+      "message": "Node release digest mismatch"
+    },
+    "java": {
+      "error_type": "FileNotFoundError",
+      "message": "native producer failed"
+    }
+  },
+  "native_groups_observed": [
+    "iam",
+    "secrets",
+    "slither",
+    "static",
+    "upgrades",
+    "web"
+  ],
+  "past_session_union": 106,
+  "producer_commit": "1edb1699e6f6af382d7d65fdfd536c61989d0beb",
+  "producer_tree": "58e2535c45c195bbf8980c5af01ad0f3fc6de66e",
+  "profile_accepted": false,
+  "role_counts": {
+    "executable": 86,
+    "reference_data": 41
+  },
+  "run": {
+    "byte_count": 1198296,
+    "clean_after": true,
+    "elapsed_seconds": 398.15,
+    "line_count": 222,
+    "raw_sha256": "c3f1c9d69dccd2760d7ed3b5674cc18257465f6cf66a5617ae01ec364dc22346",
+    "returncode": 2
+  },
+  "transcript_archive_sha256": "ce0e24a06c758081a8dfa1e65c7005dc1b59de06d2d26d20f75fd13fe9d684bb",
+  "verified": {
+    "blocked_component_domains": [],
+    "blocked_native_groups": [
+      "evm",
+      "java"
+    ],
+    "catalog": 200,
+    "component_contract_profile": "current",
+    "component_domains": [
+      "android-policy",
+      "build-compatibility",
+      "changes",
+      "configuration",
+      "diagnostics",
+      "evidence-codec",
+      "evm",
+      "infrastructure",
+      "object-format",
+      "remediation",
+      "scoring",
+      "slot-format",
+      "source-extracts",
+      "state-amounts",
+      "static-contracts",
+      "supply",
+      "timeline"
+    ],
+    "credits_sha256": "4617721e19b63d2cf49cf8ae4a196c1c03751136590743fc5bcb5700b23f9960",
+    "executables": 86,
+    "functional": 127,
+    "multiple_operations": 6,
+    "native_credits": 12,
+    "native_groups": [
+      "iam",
+      "secrets",
+      "slither",
+      "static",
+      "upgrades",
+      "web"
+    ],
+    "operations": 133,
+    "original_vulnerabilities_confirmed": 0,
+    "pending": 73,
+    "reference_data": 41,
+    "rejected_controls": {
+      "changed_commercial_total": "claimed totals differ from independently counted rows",
+      "changed_coverage_total": "coverage totals differ from independently counted rows",
+      "changed_git_tree": "matrix and source revisions disagree",
+      "changed_group_result": "individual component result differs from the shared evidence",
+      "changed_license": "license evidence digest or description differs",
+      "changed_native_report": "native producer bytes differ from reviewed controls",
+      "changed_native_result": "fixed product result changed",
+      "changed_operation_total": "claimed totals differ from independently counted rows",
+      "changed_role_totals": "claimed totals differ from independently counted rows",
+      "changed_source_distribution": "claimed totals differ from independently counted rows",
+      "discarded_secondary_operation": "operation ledger differs from the producer bytes",
+      "erased_corroboration": "cross-domain source corroboration differs from original observations",
+      "erased_domain_selection": "component selection or blocked domains differ",
+      "erased_excerpt_inventory": "published excerpt inventory differs from its source bytes",
+      "erased_shared_results": "component evidence does not cover the selected producers",
+      "forged_secondary_digest": "operation ledger differs from the producer bytes",
+      "inflated_count": "claimed totals differ from independently counted rows",
+      "invented_discovery": "native group membership or scope differs",
+      "replaced_historical_digest": "matrix status differs from the original evidence",
+      "unsupported_credit": "matrix status differs from the original evidence"
+    },
+    "responses": 222,
+    "session": 127,
+    "sources": {
+      "complete": 200
+    },
+    "transcript_sha256": "c3f1c9d69dccd2760d7ed3b5674cc18257465f6cf66a5617ae01ec364dc22346",
+    "verified_notices": 200
+  }
+}

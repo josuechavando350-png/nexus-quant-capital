@@ -1,0 +1,135 @@
+{
+  "archives": [
+    {
+      "archive_sha256": "90729233bd9a683b872783ae2e3217fb56876fa2a3c37185f13e39dca8525041",
+      "archive_url": "https://github.com/foundry-rs/foundry/releases/download/v1.10.0/foundry_v1.10.0_linux_amd64.tar.gz",
+      "executable": true,
+      "kit_file": "forge",
+      "member": "forge",
+      "sha256": "bf2f6a6f290389f9db6c850c82789472710394128250a99988e63f642c19a8b1",
+      "version": "1.10.0"
+    }
+  ],
+  "artifact_kind": "verified_upstream_sources_compiled_and_executed_locally",
+  "direct_downloads": [
+    {
+      "executable": true,
+      "kit_file": "solc",
+      "sha256": "f3e987dc6ecebd4bd350c48edcbc320b46cf9e3109bd3fc3d88f1acaf4c428f7",
+      "url": "https://raw.githubusercontent.com/ethereum/solc-bin/gh-pages/linux-amd64/solc-linux-amd64-v0.8.30+commit.73712a01"
+    }
+  ],
+  "network_at_native_execution": false,
+  "owned_harness": "contract-properties-native-owned.txt",
+  "owned_harness_sha256": "e2fcb6c81ccbc5a457f7c490b0c49177f7832e7dc494058e05112ef75c1c6177",
+  "platform": "Linux x86-64",
+  "reproduction": {
+    "acceptance_report_sha256": "df2e2e239e5513ea5aa36cc9942ce6fa11435e0ab0ad24277f403edc4b840ca5",
+    "python_api": "superhunter.product_contract_properties_native.run(pathlib.Path(KIT))",
+    "unit_tests": "python -B -m unittest superhunter.tests.test_product_contract_properties_native -v"
+  },
+  "schema_version": 1,
+  "scope": "Six native checks for three upstream ERC20 properties and four native Immunefi token accounting controls. All targets are local simulation contracts. Native fixture execution does not certify an external contract or full tool coverage.",
+  "source_manifest": "contract-properties-native-pins.json",
+  "source_manifest_sha256": "f65ee692dc507c7963ae0de30f27cf73144312e8f01258ef100d9f078c022007",
+  "sources": [
+    {
+      "bytes": 11423,
+      "kit_path": "lib/properties/contracts/ERC20/external/properties/ERC20ExternalBasicProperties.sol",
+      "repository": "crytic/properties",
+      "revision": "5ea14b813ff296e24b4257ab52a0402360f916f6",
+      "sha256": "6e1878c5a7681ed6b4c334780c39197eafa3280d50b93ce58472f28373341813",
+      "source_path": "contracts/ERC20/external/properties/ERC20ExternalBasicProperties.sol",
+      "url": "https://raw.githubusercontent.com/crytic/properties/5ea14b813ff296e24b4257ab52a0402360f916f6/contracts/ERC20/external/properties/ERC20ExternalBasicProperties.sol"
+    },
+    {
+      "bytes": 337,
+      "kit_path": "lib/properties/contracts/ERC20/external/util/ERC20ExternalTestBase.sol",
+      "repository": "crytic/properties",
+      "revision": "5ea14b813ff296e24b4257ab52a0402360f916f6",
+      "sha256": "acabfd7e0b12b10f499c93e469b2b9fb26558189ed854eb38788bdac64b49f59",
+      "source_path": "contracts/ERC20/external/util/ERC20ExternalTestBase.sol",
+      "url": "https://raw.githubusercontent.com/crytic/properties/5ea14b813ff296e24b4257ab52a0402360f916f6/contracts/ERC20/external/util/ERC20ExternalTestBase.sol"
+    },
+    {
+      "bytes": 711,
+      "kit_path": "lib/properties/contracts/ERC20/external/util/ITokenMock.sol",
+      "repository": "crytic/properties",
+      "revision": "5ea14b813ff296e24b4257ab52a0402360f916f6",
+      "sha256": "0dde69c6384e801b712259ac4c31acc0a3a588f9e2894592d9ac5fb50089d58d",
+      "source_path": "contracts/ERC20/external/util/ITokenMock.sol",
+      "url": "https://raw.githubusercontent.com/crytic/properties/5ea14b813ff296e24b4257ab52a0402360f916f6/contracts/ERC20/external/util/ITokenMock.sol"
+    },
+    {
+      "bytes": 18137,
+      "kit_path": "lib/properties/contracts/util/PropertiesAsserts.sol",
+      "repository": "crytic/properties",
+      "revision": "5ea14b813ff296e24b4257ab52a0402360f916f6",
+      "sha256": "d42852496925e34de2b1292ed147ea2ad44c4f7fa8c6ad7f76e343fc7d8195c1",
+      "source_path": "contracts/util/PropertiesAsserts.sol",
+      "url": "https://raw.githubusercontent.com/crytic/properties/5ea14b813ff296e24b4257ab52a0402360f916f6/contracts/util/PropertiesAsserts.sol"
+    },
+    {
+      "bytes": 336,
+      "kit_path": "lib/properties/contracts/util/PropertiesConstants.sol",
+      "repository": "crytic/properties",
+      "revision": "5ea14b813ff296e24b4257ab52a0402360f916f6",
+      "sha256": "8a6167cca736d085cd9378ab08251b52376cc8ce2f0af1b709c8c99d3741b49e",
+      "source_path": "contracts/util/PropertiesConstants.sol",
+      "url": "https://raw.githubusercontent.com/crytic/properties/5ea14b813ff296e24b4257ab52a0402360f916f6/contracts/util/PropertiesConstants.sol"
+    },
+    {
+      "bytes": 2725,
+      "kit_path": "lib/properties/contracts/util/IERC20.sol",
+      "repository": "crytic/properties",
+      "revision": "5ea14b813ff296e24b4257ab52a0402360f916f6",
+      "sha256": "eecb1f4284f5e51c09fcf9e35d3fc03d853bcdd7cdd30bcc599ae121460a43a2",
+      "source_path": "contracts/util/IERC20.sol",
+      "url": "https://raw.githubusercontent.com/crytic/properties/5ea14b813ff296e24b4257ab52a0402360f916f6/contracts/util/IERC20.sol"
+    },
+    {
+      "bytes": 1702,
+      "kit_path": "lib/immunefi/src/mocks/tokens/ERC20-feeTransfer.sol",
+      "repository": "immunefi-team/forge-poc-templates",
+      "revision": "32f4ccd9049e641cc3723b1e091d33b6b0e8ff34",
+      "sha256": "b78ac1d4f8ea5125cbd3cd37fed1f1c9fa6852e20aab63b41ad663b0eaa79700",
+      "source_path": "src/mocks/tokens/ERC20-feeTransfer.sol",
+      "url": "https://raw.githubusercontent.com/immunefi-team/forge-poc-templates/32f4ccd9049e641cc3723b1e091d33b6b0e8ff34/src/mocks/tokens/ERC20-feeTransfer.sol"
+    },
+    {
+      "bytes": 1475,
+      "kit_path": "lib/immunefi/src/mocks/tokens/ERC20-bool.sol",
+      "repository": "immunefi-team/forge-poc-templates",
+      "revision": "32f4ccd9049e641cc3723b1e091d33b6b0e8ff34",
+      "sha256": "2b691c08ef9d2b8fcc7c48f7a31b71110aaf0f2a90bef3567fcf62f3b7cc01bd",
+      "source_path": "src/mocks/tokens/ERC20-bool.sol",
+      "url": "https://raw.githubusercontent.com/immunefi-team/forge-poc-templates/32f4ccd9049e641cc3723b1e091d33b6b0e8ff34/src/mocks/tokens/ERC20-bool.sol"
+    },
+    {
+      "bytes": 1707,
+      "kit_path": "lib/immunefi/src/mocks/tokens/base/ERC20Base.sol",
+      "repository": "immunefi-team/forge-poc-templates",
+      "revision": "32f4ccd9049e641cc3723b1e091d33b6b0e8ff34",
+      "sha256": "10e3dbee93b232360b9476647163be4635115cf1ea6933ef9cdfd1a1e6c0a769",
+      "source_path": "src/mocks/tokens/base/ERC20Base.sol",
+      "url": "https://raw.githubusercontent.com/immunefi-team/forge-poc-templates/32f4ccd9049e641cc3723b1e091d33b6b0e8ff34/src/mocks/tokens/base/ERC20Base.sol"
+    },
+    {
+      "bytes": 2067,
+      "kit_path": "lib/forge-std/interfaces/IERC20.sol",
+      "repository": "foundry-rs/forge-std",
+      "revision": "3b20d60d14b343ee4f908cb8079495c07f5e8981",
+      "sha256": "283cedb0cf82640370b77b8a42175bc417c69a02d8989ac6d6a99be2157acd4d",
+      "source_path": "src/interfaces/IERC20.sol",
+      "url": "https://raw.githubusercontent.com/foundry-rs/forge-std/3b20d60d14b343ee4f908cb8079495c07f5e8981/src/interfaces/IERC20.sol"
+    }
+  ],
+  "steps": [
+    "Create an empty private kit directory at a caller-selected path.",
+    "Acquire the pinned solc and Foundry forge images as described by the direct_downloads and archives records; check archive and executable SHA256 independently.",
+    "For each sources row, fetch exactly the immutable source URL (or git show REVISION:source_path from the verified source checkout), verify byte count and SHA256, and write the unchanged bytes at kit_path. Preserve repository LICENSE notices alongside the source kit.",
+    "Do not edit imported Solidity. The owned harness is separately pinned and imports the unchanged upstream properties and token models.",
+    "Run superhunter.product_contract_properties_native.run(pathlib.Path(KIT)). The adapter builds in a fresh directory with offline Foundry, solc and a network namespace, executing only OwnedPropertiesReplayTest."
+  ],
+  "upstream_sources_modified": false
+}

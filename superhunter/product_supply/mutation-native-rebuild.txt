@@ -1,0 +1,165 @@
+Mewt native mutation control: preparation, execution and evidence
+================================================================
+
+This adapter runs trailofbits/mewt 4.0.0 built from catalog commit
+e96e71969ae9b9d3ef7562ae5a3a60de6050c0d0, tree
+9dc473b109e8a46cf39f2cade1b64086883e6c84. It executes one fixed OWNED
+arithmetic function and two fixed assertion sets. There is no arbitrary target,
+source or command parameter. This is a demonstration that native mutation
+generation distinguishes strong assertions from a deliberately weak assertion.
+
+Recorded artifacts
+------------------
+
+* mutation-native-build.json: source/build/runtime description and exact hashes.
+* mutation-native-sources.json: all 451 source-file Git blobs and SHA256 values,
+  including four symbolic-link targets; all 288 Cargo.lock registry archives,
+  their immutable name/version URLs, sizes and SHA256 values.
+* mutation-native-pins.json: the 19 runtime-kit artifacts, fixed fixture and
+  worker hashes, and required host ELF-loader hash.
+* mutation-native-result.json: canonical 2,792-byte product result. Its SHA256 is
+  4af5a00705d2db05bd63c99a16a5e85d0aa03d4ca66aca8a11927f578bd2f993.
+* mutation-native-receipt.json: two actual native executions in separate fresh
+  runtime directories, byte-identical canonical results, and nine verifier tests.
+* mutation-native-build-script.txt, mutation-native-stage-script.txt and
+  mutation-native-build-log.txt: unchanged records of the preparation scripts
+  and the completed offline source build. Their historical absolute paths are
+  inputs for that recorded build, not portable installation paths.
+* mutation-native-license.txt: original Mewt LICENSE, also present in its catalog
+  source. Cargo.toml declares AGPL-3.0. These records do not complete commercial
+  redistribution review of Mewt, its dependencies or the complete product.
+
+Prepare a source build
+----------------------
+
+Use a fresh, private work directory; do not build in or patch the upstream
+checkout. The preparation script's source-ready marker is only a cache marker,
+not a replacement for the recorded source/blob checks. Reuse the already
+verified kit for execution if it is available; a new build is unnecessary.
+
+The recorded build used Linux x86-64, rustc 1.98.1 (48a229cea,
+2026-09-01), cargo 1.98.1 (797e8a9bc, 2026-08-05), LLVM 22.1.8 and the
+local Debian compiler/linker. The product tests compile with the exact GCC
+14.2.0 and linker bytes listed in mutation-native-pins.json. The full host
+compiler environment used to build the Rust/C grammar executable was not
+packaged as an independently reproducible toolchain image.
+
+1. Set MUTATION_PRODUCT to a product checkout, MUTATION_WORK to an empty private
+   work directory, MUTATION_UPSTREAM to its verified Mewt catalog checkout, and
+   MUTATION_RUST_BIN to the recorded Rust toolchain's bin directory.
+
+2. Confirm the commit's tree with:
+
+   git --no-replace-objects -C "$MUTATION_UPSTREAM" rev-parse \
+       e96e71969ae9b9d3ef7562ae5a3a60de6050c0d0^{tree}
+
+   The expected tree is 9dc473b109e8a46cf39f2cade1b64086883e6c84. The
+   Git tar archive recorded here has 110,725,120 bytes and SHA256
+   3215d811ae46d5874516cd3c4dd45111325f4b82e0319328118d8b18bf87e1c2.
+   Its Cargo.lock SHA256 is
+   35d0c0b99a2a4d24ae5fdd852323473a99827f4e96f6ebbdcf71602209044a9c.
+
+3. Copy mutation-native-build-script.txt to "$MUTATION_WORK/build.py". Change
+   only its UPSTREAM and RUST path constants to the chosen local directories;
+   ROOT remains the new script's parent. Keep the fixed REV. Run this preparation
+   script with CPython 3.12. It exports the exact commit into a separate source
+   directory, checks each registry archive against unmodified Cargo.lock,
+   rejects escaping archive members, and prepares Cargo's verified vendor
+   directory. Acquisition may fetch the 288 recorded crates before the offline
+   build; this is distinct from the product's runtime execution.
+
+4. The build command issued by the script is:
+
+   unshare --user --map-current-user --net "$MUTATION_RUST_BIN/cargo" \
+       build --release --frozen --bin mewt
+
+   Its working directory is "$MUTATION_WORK/source". Cargo uses the local
+   verified vendor replacement, three build jobs, SOURCE_DATE_EPOCH=1795219200
+   and RUSTFLAGS="--remap-path-prefix=$MUTATION_WORK=/nqc-owned-mutation-build".
+   The exact remaining build variables are recorded in mutation-native-build.json.
+   The recorded build completed successfully; grammar compiler warnings are
+   retained in the build log, and no upstream fixes were applied.
+
+5. Verify every extracted source path against mutation-native-sources.json.
+   Hash regular-file bytes; for mode 120000 hash the symbolic-link target bytes
+   without following the link. Git blob identity is SHA1 of
+   b"blob " + decimal byte length + b"\0" + those bytes. All 451 recorded paths
+   matched after the actual build. Rehash every acquired .crate against its
+   Cargo.lock checksum. These checks verify recorded bytes, not their safety or
+   legal compatibility.
+
+Prepare a runtime kit without changing accepted pins
+---------------------------------------------------
+
+The archived stage script records how this kit was prepared. Do not run it as
+an installer against a product checkout: it also rewrites the historical pin
+and fixture manifests. Instead, stage into a new, private directory and retain
+the accepted manifests unchanged:
+
+* Copy the built Mewt executable to kit/mewt. The accepted binary has
+  30,687,296 bytes and SHA256
+  f3a21013fe3266bb36ed865190611e036f0a775640b66541de387fabd8b39605.
+* Copy each bin/ and lib/ file from its recorded origin, or from an independently
+  acquired artifact with exactly the same bytes. Verify the recorded size and
+  SHA256 before use. The origin fields document this host; they are not fetch
+  instructions or a promise those paths exist on another machine.
+* Apply executable permissions only where executable is true. Retain upstream
+  and toolchain notices alongside any redistributed kit. This session retains
+  the original Mewt notice in the product supply evidence.
+* Require the loader /lib64/ld-linux-x86-64.so.2 to match its recorded hash.
+  The adapter verifies it before starting a producer. Host CPython, unshare and
+  the Linux kernel are prerequisites outside the pinned artifact closure.
+
+A source rebuild with different tools may produce a different binary digest.
+That is not an accepted reproduction of this pinned kit. Investigate and review
+the new producer before updating pins; do not rewrite pins to make a run pass.
+The two recorded executions demonstrate repeatability with one built kit, not
+two independently reproduced binary builds or independently authenticated hosts.
+
+Run and verify
+--------------
+
+From the product checkout, with MUTATION_KIT pointing to the verified kit:
+
+   python -B - <<'PY'
+   import hashlib
+   import os
+   from pathlib import Path
+   from superhunter.product_mutation_native import run
+   from superhunter.safe_io import canonical
+
+   actual = canonical(run(Path(os.environ['MUTATION_KIT'])))
+   expected = Path('superhunter/product_supply/mutation-native-result.json').read_bytes()
+   assert actual == expected
+   print(hashlib.sha256(actual).hexdigest())
+   PY
+
+The environment variable must be exported before invoking Python. Every run
+copies the pinned kit into a fresh temporary directory and runs all producer,
+compiler and replay commands in a user/network namespace without a network
+interface to external targets. Python uses isolated mode for the fixed worker.
+No input is accepted from stdin. Native commands have bounded time and output.
+
+The worker compiles the C/C++-compatible arithmetic function as freestanding C11
+and links a tiny owned Linux x86-64 entry point. Two baseline executions pass.
+Mewt generates all four arithmetic replacements. The strong assertions kill
+four; the deliberately weak assertion kills three and lets multiplication
+survive. Eight direct compiled replays agree with those outcomes. Compiler
+failure, timeout, skipping, changed source bytes or diagnostics are rejected;
+they are never credited as a killed mutant. The direct replays use the same
+compiler, not a second compiler implementation.
+
+Run the targeted verifier regressions with:
+
+   python -B -m unittest superhunter.tests.test_product_mutation_native -v
+
+Nine tests passed in the recorded session. They cover fabricated success,
+erased survivors, source/location substitution, duplicate or missing mutations,
+incorrect hashes, JSON type confusion and unexpected diagnostics. These tests
+exercise receipt validation; the two separately recorded native executions are
+the evidence that Mewt itself compiled and ran.
+
+Coverage is exactly one fixed function and one mutation family. The result is
+not a general application security score and confirms zero original
+vulnerabilities. It makes no claim about arbitrary repositories, live programs,
+autonomous intrusion or the effectiveness of a 200-repository product.

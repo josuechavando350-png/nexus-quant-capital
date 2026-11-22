@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "files": {
+    "cppcheck": {
+      "sha256": "23c7c842e71ac43f8255c4fc7907f99e510afe8881c217cac37a27ff741e4083",
+      "bytes": 6691296
+    },
+    "cfg/std.cfg": {
+      "sha256": "644396e938f13f7c4151527143cb2e447794b3b859c60ed3179dd3b1fb40db6c",
+      "bytes": 293742
+    },
+    "capstone-decoder": {
+      "sha256": "94ed25d2eb095a5d4f0b4bb9d3adfba184315db91257f10d379cbe6d73410a16",
+      "bytes": 2510704
+    },
+    "objdump": {
+      "sha256": "96afb8521834982d0e711b5d6e9785252bf82129fb0106b93a6bd54d83fae11f",
+      "bytes": 396336
+    },
+    "geth-header": {
+      "sha256": "11ad28b59b30c1fabb60c68616bc1b8ff676e484ce15dfcecec57fa2ef7f100d",
+      "bytes": 6545036
+    }
+  },
+  "sources": {
+    "103": {
+      "repository": "cppcheck-opensource/cppcheck",
+      "revision": "e1b5791564c662c7dacbc62835f6abe5431aa00b",
+      "version": "2.23 dev",
+      "tree": "e8ef75c2516c6418f57dd8e12360bf9ddf713372"
+    },
+    "132": {
+      "repository": "capstone-engine/capstone",
+      "revision": "ccd25ab39eea534afbb70cfb047310c5a9962553",
+      "version": "6.0.0-alpha12",
+      "tree": "632a17fd85db3d5b8985040bd809620953859193"
+    }
+  },
+  "compiler": "gcc/g++ (Debian 14.2.0-19) 14.2.0",
+  "platform": "Linux x86-64",
+  "cases_sha256": "a5873bc8a06eaecd1c895fd86164749e1fcfe5f099e6db16d0788709a3cc7a4f",
+  "helper_source_sha256": "8e39768d5ba607986ab5d0f26a9659960892448b98d2a2ff7f6be4122f05a2b8",
+  "runtime_scope": "Native locally built engines; shared host libraries are not a closed or fully licensed dependency inventory."
+}

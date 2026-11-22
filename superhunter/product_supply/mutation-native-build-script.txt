@@ -1,0 +1,109 @@
+"""Acquire checksummed locked crates, then build the unmodified catalog source offline."""
+from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
+import hashlib
+import io
+import json
+import os
+import shutil
+import subprocess
+import tarfile
+import time
+import tomllib
+import urllib.request
+
+ROOT = Path(__file__).resolve().parent
+UPSTREAM = Path('/workspace/scratch/ecd59ba3c132/nqc-native/upstream/032-mewt')
+RUST = Path('/workspace/scratch/bc28461c6913/licenses-cache/rust/toolchain/bin')
+REV = 'e96e71969ae9b9d3ef7562ae5a3a60de6050c0d0'
+SOURCE = ROOT/'source'
+
+def digest(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+def safe_extract(raw, destination, prefix=None):
+    with tarfile.open(fileobj=io.BytesIO(raw)) as archive:
+        for member in archive:
+            if member.isdir():
+                continue
+            path = Path(member.name)
+            if path.is_absolute() or '..' in path.parts:
+                raise ValueError('unsupported archive member: ' + member.name)
+            if prefix is not None:
+                if path.parts[0] != prefix:
+                    raise ValueError('archive root differs')
+                path = Path(*path.parts[1:])
+            out = destination/path
+            out.parent.mkdir(parents=True, exist_ok=True)
+            if any(p.is_symlink() for p in out.parents if p != destination.parent):
+                raise ValueError('archive path traverses symlink')
+            if member.issym():
+                target=(out.parent/member.linkname).resolve()
+                if not target.is_relative_to(destination.resolve()):
+                    raise ValueError('external archive symlink')
+                out.symlink_to(member.linkname)
+                continue
+            if not member.isfile():
+                raise ValueError('unsupported archive member: ' + member.name)
+            out.write_bytes(archive.extractfile(member).read())
+            out.chmod(member.mode & 0o777)
+
+def acquire(package):
+    name, version, checksum = (package[k] for k in ('name','version','checksum'))
+    archive_name = f'{name}-{version}.crate'
+    archive = ROOT/'crates'/archive_name
+    if not archive.exists():
+        url = f'https://static.crates.io/crates/{name}/{archive_name}'
+        request = urllib.request.Request(url, headers={'User-Agent':'NQC-owned-mutation-build/1'})
+        with urllib.request.urlopen(request, timeout=45) as response:
+            raw = response.read(20_000_001)
+        if len(raw) > 20_000_000 or digest(raw) != checksum:
+            raise ValueError('crate checksum/size differs: ' + archive_name)
+        archive.write_bytes(raw)
+    raw = archive.read_bytes()
+    if digest(raw) != checksum:
+        raise ValueError('cached crate differs: ' + archive_name)
+    destination = ROOT/'vendor'/f'{name}-{version}'
+    destination.mkdir(parents=True, exist_ok=True)
+    safe_extract(raw, destination, f'{name}-{version}')
+    files = {str(p.relative_to(destination)):digest(p.read_bytes())
+             for p in sorted(destination.rglob('*')) if p.is_file() and p.name != '.cargo-checksum.json'}
+    (destination/'.cargo-checksum.json').write_text(json.dumps({'package':checksum,'files':files},sort_keys=True))
+    return {'name':name,'version':version,'sha256':checksum,'bytes':len(raw)}
+
+def main():
+    start=time.monotonic()
+    ROOT.mkdir(exist_ok=True)
+    (ROOT/'crates').mkdir(exist_ok=True)
+    (ROOT/'cargo-home').mkdir(exist_ok=True)
+    if not (ROOT/'source-ready').exists():
+        raw=subprocess.check_output(['git','--no-replace-objects','-C',str(UPSTREAM),'archive',REV])
+        (ROOT/'mewt-catalog-source.tar').write_bytes(raw)
+        if SOURCE.exists():
+            shutil.rmtree(SOURCE)
+        SOURCE.mkdir()
+        safe_extract(raw,SOURCE)
+        (ROOT/'source-ready').write_text(digest(raw)+'\n')
+    packages=tomllib.loads((SOURCE/'Cargo.lock').read_text())['package']
+    registry=[p for p in packages if p.get('source','').startswith('registry+')]
+    if len(registry)!=288 or any(p.get('source','').startswith('git+') for p in packages):
+        raise ValueError('locked dependency count/source changed')
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        rows=list(pool.map(acquire,registry))
+    (ROOT/'crate-provenance.json').write_text(json.dumps(rows,sort_keys=True,separators=(',',':'))+'\n')
+    config='[source.crates-io]\nreplace-with = "verified-vendor"\n[source.verified-vendor]\ndirectory = '+json.dumps(str(ROOT/'vendor'))+'\n'
+    (ROOT/'cargo-home/config.toml').write_text(config)
+    print(json.dumps({'phase':'locked_crates_ready','count':len(rows),'seconds':round(time.monotonic()-start,3)}),flush=True)
+    env={**os.environ,'PATH':str(RUST)+':/usr/bin:/bin','CARGO_HOME':str(ROOT/'cargo-home'),
+         'CARGO_TARGET_DIR':str(ROOT/'target'),'CARGO_BUILD_JOBS':'3','SOURCE_DATE_EPOCH':'1795219200',
+         'RUSTFLAGS':'--remap-path-prefix='+str(ROOT)+'=/nqc-owned-mutation-build'}
+    command=['unshare','--user','--map-current-user','--net',str(RUST/'cargo'),'build','--release','--frozen','--bin','mewt']
+    with (ROOT/'cargo-build.log').open('wb') as log:
+        result=subprocess.run(command,cwd=SOURCE,env=env,stdout=log,stderr=subprocess.STDOUT,timeout=900)
+    if result.returncode:
+        raise RuntimeError('cargo build failed; see cargo-build.log')
+    kit=ROOT/'kit';kit.mkdir(exist_ok=True)
+    shutil.copy2(ROOT/'target/release/mewt',kit/'mewt')
+    print(json.dumps({'phase':'built','binary_sha256':digest((kit/'mewt').read_bytes()),'seconds':round(time.monotonic()-start,3)}),flush=True)
+
+if __name__=='__main__':main()

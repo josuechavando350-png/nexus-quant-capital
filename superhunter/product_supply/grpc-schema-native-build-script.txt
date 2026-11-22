@@ -1,0 +1,95 @@
+"""Prepare exact grpcurl catalog source and build it without network access."""
+from pathlib import Path
+import hashlib, io, json, os, shutil, subprocess, tarfile, time
+
+ROOT = Path(__file__).resolve().parent
+UPSTREAM = Path('/workspace/scratch/ecd59ba3c132/nqc-native/upstream/069-grpcurl')
+REVISION = 'f5c25e012bd451b55444679d5457ed3dfbae53de'
+TREE = 'd646f5976b5480fe25fd9f4515d8fc8e4168a421'
+GO_ARCHIVE = Path('/tmp/nqc-state-cohort/go.tgz')
+GO_ARCHIVE_SHA = '7226736c2339719cda28fbf3a54d71aa63bcefe376e98cef00034268dab24840'
+SOURCE = ROOT/'source'
+VERSION = 'catalog-f5c25e012bd4'
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+def canonical(value):
+    return (json.dumps(value,sort_keys=True,separators=(',',':'))+'\n').encode()
+
+def records(raw):
+    decoder=json.JSONDecoder()
+    text=raw.decode()
+    output=[]
+    while text.strip():
+        value,end=decoder.raw_decode(text.lstrip())
+        output.append(value)
+        text=text.lstrip()[end:]
+    return output
+
+def main():
+    start=time.monotonic()
+    assert subprocess.check_output(['git','--no-replace-objects','-C',str(UPSTREAM),'rev-parse',REVISION+'^{tree}']).decode().strip()==TREE
+    source_tar=subprocess.check_output(['git','--no-replace-objects','-C',str(UPSTREAM),'archive',REVISION])
+    (ROOT/'catalog-source.tar').write_bytes(source_tar)
+    SOURCE.mkdir(exist_ok=False)
+    with tarfile.open(fileobj=io.BytesIO(source_tar)) as archive:
+        archive.extractall(SOURCE,filter='data')
+    go_raw=GO_ARCHIVE.read_bytes()
+    assert sha(go_raw)==GO_ARCHIVE_SHA
+    with tarfile.open(fileobj=io.BytesIO(go_raw)) as archive:
+        archive.extractall(ROOT,filter='data')
+    go=ROOT/'go/bin/go'
+    (ROOT/'home').mkdir(exist_ok=True)
+    env={**os.environ,'HOME':str(ROOT/'home'),'GOROOT':str(ROOT/'go'),
+         'GOTOOLCHAIN':'local','GOENV':'off','GOMODCACHE':str(ROOT/'modcache'),'GOCACHE':str(ROOT/'buildcache'),
+         'CGO_ENABLED':'0','GOOS':'linux','GOARCH':'amd64','GOAMD64':'v1','GOFLAGS':'-mod=readonly',
+         'GOPROXY':'https://proxy.golang.org','GOSUMDB':'off','GOMAXPROCS':'3'}
+    originals={name:(SOURCE/name).read_bytes() for name in ('go.mod','go.sum')}
+    print(json.dumps({'phase':'prepared','toolchain':subprocess.check_output([str(go),'version'],env=env).decode().strip(),'source_archive_sha256':sha(source_tar)}),flush=True)
+    with (ROOT/'download.jsonl').open('wb') as out, (ROOT/'download.stderr').open('wb') as err:
+        result=subprocess.run([str(go),'mod','download','-json'],cwd=SOURCE,env=env,stdout=out,stderr=err,timeout=240)
+    if result.returncode:
+        raise RuntimeError('Go dependency acquisition failed; see download.jsonl and download.stderr')
+    dependencies=records((ROOT/'download.jsonl').read_bytes())
+    expected={tuple(line.split()[:2]):line.split()[2] for line in originals['go.sum'].decode().splitlines()}
+    proof=[]
+    for dependency in dependencies:
+        if 'Error' in dependency:
+            raise RuntimeError('dependency error: '+dependency['Path'])
+        name,version=dependency['Path'],dependency['Version']
+        assert dependency['Sum']==expected[name,version]
+        assert dependency['GoModSum']==expected[name,version+'/go.mod']
+        files={}
+        for field in ('Info','GoMod','Zip'):
+            file=Path(dependency[field]);raw=file.read_bytes()
+            files[field]={'file':file.relative_to(ROOT).as_posix(),'sha256':sha(raw),'bytes':len(raw)}
+        proof.append({'path':name,'version':version,'sum':dependency['Sum'],'go_mod_sum':dependency['GoModSum'],'files':files})
+    (ROOT/'dependency-proof.json').write_bytes(canonical(proof))
+    for name,raw in originals.items():
+        assert (SOURCE/name).read_bytes()==raw,'tracked dependency manifest changed'
+    print(json.dumps({'phase':'dependencies_verified','modules':len(proof),'seconds':round(time.monotonic()-start,3)}),flush=True)
+    kit=ROOT/'kit';kit.mkdir(exist_ok=True)
+    env['GOPROXY']='off'
+    command=['unshare','--user','--map-current-user','--net',str(go),'build','-trimpath','-buildvcs=false',
+             '-ldflags','-s -w -X main.version='+VERSION,'-o',str(kit/'grpcurl'),'./cmd/grpcurl']
+    with (ROOT/'build.log').open('wb') as log:
+        result=subprocess.run(command,cwd=SOURCE,env=env,stdout=log,stderr=subprocess.STDOUT,timeout=360)
+    if result.returncode:
+        raise RuntimeError('offline Go build failed; see build.log')
+    subprocess.run(['unshare','--user','--map-current-user','--net',str(go),'mod','verify'],cwd=SOURCE,env=env,check=True,capture_output=True,timeout=60)
+    for name,raw in originals.items():
+        assert (SOURCE/name).read_bytes()==raw,'tracked dependency manifest changed'
+    (ROOT/'binary-build-info.txt').write_bytes(subprocess.check_output([str(go),'version','-m',str(kit/'grpcurl')],env=env))
+    shutil.copyfile(SOURCE/'LICENSE',kit/'LICENSE-grpcurl')
+    details={'repository':'fullstorydev/grpcurl','revision':REVISION,'tree':TREE,'version':VERSION,
+             'source_archive':{'sha256':sha(source_tar),'bytes':len(source_tar)},
+             'go_archive':{'url':'https://go.dev/dl/go1.27.4.linux-amd64.tar.gz','sha256':GO_ARCHIVE_SHA,'bytes':len(go_raw)},
+             'go_binary_sha256':sha(go.read_bytes()),'modules':len(proof),'binary_sha256':sha((kit/'grpcurl').read_bytes()),
+             'binary_bytes':(kit/'grpcurl').stat().st_size,'seconds':round(time.monotonic()-start,3),
+             'build_command':command,'network_at_build':False}
+    (ROOT/'build-result.json').write_bytes(canonical(details))
+    print(json.dumps({'phase':'built',**details}),flush=True)
+
+if __name__=='__main__':
+    main()

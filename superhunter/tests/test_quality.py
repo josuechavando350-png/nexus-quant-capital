@@ -33,6 +33,15 @@ class QualityTests(unittest.TestCase):
         self.assertEqual(self.assess()['status'],'LOCAL_QA_PASS')
         self.assertFalse(self.assess()['production_certified'])
 
+    def test_source_count_remains_bounded_after_consolidation(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            for name in ('a.py', 'b.py', 'c.py'):
+                (root/name).write_text('# owned count control\n')
+            with patch.object(quality, 'MAX_SOURCE_FILES', 2):
+                with self.assertRaisesRegex(ValueError, 'source inventory limit'):
+                    quality.source_snapshot(root)
+
     def test_skip_never_counts_as_pass(self):
         self.receipt['tests'][0]['outcome']='SKIP'
         self.receipt['skipped']=1

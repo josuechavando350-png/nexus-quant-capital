@@ -1,0 +1,58 @@
+/* NQC-owned bounded decoder driver; machine bytes are decoded, never executed. */
+#include <capstone/capstone.h>
+#include <errno.h>
+#include <inttypes.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+static int digit(char c) {
+    if (c >= '0' && c <= '9') return c - '0';
+    if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+    return -1;
+}
+
+int main(int argc, char **argv) {
+    uint8_t code[4096];
+    size_t length, count, used = 0;
+    char *end;
+    uint64_t address;
+    csh handle;
+    cs_insn *instructions;
+    int major, minor;
+    if (argc != 3 || !(length = strlen(argv[1])) || length % 2 || length > sizeof(code)*2)
+        return 2;
+    length /= 2;
+    for (size_t i = 0; i < length; ++i) {
+        int hi = digit(argv[1][i*2]), lo = digit(argv[1][i*2+1]);
+        if (hi < 0 || lo < 0) return 2;
+        code[i] = (uint8_t)((hi << 4) | lo);
+    }
+    errno = 0;
+    address = strtoull(argv[2], &end, 0);
+    if (errno || *end || address > UINT64_MAX - length) return 2;
+    if (cs_open(CS_ARCH_X86, CS_MODE_64, &handle) != CS_ERR_OK) return 3;
+    if (cs_option(handle, CS_OPT_DETAIL, CS_OPT_ON) != CS_ERR_OK) return 3;
+    cs_version(&major, &minor);
+    count = cs_disasm(handle, code, length, address, 0, &instructions);
+    printf("{\"api_version\":[%d,%d],\"instructions\":[", major, minor);
+    for (size_t i = 0; i < count; ++i) {
+        cs_insn *instruction = &instructions[i];
+        int branch = cs_insn_group(handle, instruction, CS_GRP_JUMP) ||
+                     cs_insn_group(handle, instruction, CS_GRP_CALL);
+        printf("%s{\"address\":%" PRIu64 ",\"size\":%u,\"bytes\":\"",
+               i ? "," : "", instruction->address, instruction->size);
+        for (size_t j = 0; j < instruction->size; ++j) printf("%02x", instruction->bytes[j]);
+        printf("\",\"mnemonic\":\"%s\",\"direct_target\":", instruction->mnemonic);
+        if (branch && instruction->detail->x86.op_count == 1 &&
+                instruction->detail->x86.operands[0].type == X86_OP_IMM)
+            printf("%" PRIu64, (uint64_t)instruction->detail->x86.operands[0].imm);
+        else printf("null");
+        printf("}");
+        used += instruction->size;
+    }
+    printf("],\"decoded_bytes\":%zu,\"input_bytes\":%zu}\n", used, length);
+    if (count) cs_free(instructions, count);
+    cs_close(&handle);
+    return 0;
+}

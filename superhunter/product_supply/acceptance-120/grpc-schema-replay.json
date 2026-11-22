@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "scope": "Two fixed NQC accounting descriptor versions. Offline list and describe from owned source and derived descriptor sets; no RPC requests.",
+  "producer_commit": "61f137b2cb080caaad66035a43c512d06a75b771",
+  "producer_tree": "b1bca183045d43c7cf8d4f4b337b2a3ad88d5572",
+  "base_commit": "325288f32155ff8f7eaead0a493e5fbffe5bebc2",
+  "source_import_commit": "a183f60ed7229441a703a8f6ea9e180ff249abf3",
+  "archive": {
+    "file": "grpc-schema-transcript.json",
+    "sha256": "8d631fc1b344139f11a5e09960cd206ee8426b4c6875a3bec0764c8770bbf6f6"
+  },
+  "runs": [
+    {
+      "checkout": "first-local",
+      "bundle": "clean-catalog/product",
+      "fresh_process": true,
+      "clean_before_and_after": true,
+      "exit_code": 0,
+      "responses": 2,
+      "bytes": 5963,
+      "sha256": "b2eaa3aeb8ec4867e1e5a565ea2ac6cb07772efa9390c0edb7d5cac1654c7b67",
+      "native_subprocesses": 24,
+      "reported_identities": 1
+    },
+    {
+      "checkout": "second-local",
+      "bundle": "verified115/fresh-prepared/product",
+      "fresh_process": true,
+      "clean_before_and_after": true,
+      "exit_code": 0,
+      "responses": 2,
+      "bytes": 5963,
+      "sha256": "b2eaa3aeb8ec4867e1e5a565ea2ac6cb07772efa9390c0edb7d5cac1654c7b67",
+      "native_subprocesses": 24,
+      "reported_identities": 1
+    }
+  ],
+  "receipt": {
+    "group": "grpc",
+    "query": "native-capabilities",
+    "report_sha256": "6d4d608996df72997bfc31554fcf831505a2630e9ffb169e387bf51ea7e27261",
+    "repository": "fullstorydev/grpcurl",
+    "role": "executable"
+  },
+  "one_identity_catalog_id": 69,
+  "per_run": {
+    "added_methods": 1,
+    "changed_field_types": 1,
+    "changed_method_signatures": 1,
+    "invalid_schemas_rejected": 2,
+    "protoset_views_checked": 10,
+    "removed_methods": 1,
+    "source_views_checked": 10,
+    "unknown_symbols_rejected": 2,
+    "valid_schemas": 2
+  },
+  "independent_witness": "Independent bounded implementation decodes the two descriptor sets and checks the owned schema witnesses and all ten textual views.",
+  "checked_provenance": {
+    "repository": "fullstorydev/grpcurl",
+    "revision": "f5c25e012bd451b55444679d5457ed3dfbae53de",
+    "tree": "d646f5976b5480fe25fd9f4515d8fc8e4168a421",
+    "catalog_gitlink_matches": true,
+    "git_source_files_checked": 77,
+    "source_archive_sha256": "45028d617f09b87df42e4af2381e43832e5bbe6005288d93d108ade787895286",
+    "module_download_files_verified": {
+      "GoMod": 22,
+      "Info": 22,
+      "Zip": 22
+    },
+    "go_sum_module_archives_rehashed": 22,
+    "go_sum_go_mod_rehashed": 22,
+    "downloaded_module_count": 22,
+    "linked_dep_metadata_records_verified": 20,
+    "pinned_go_version_in_binary": "go1.27.4",
+    "binary_sha256": "384cb88ccabb2d6efda25012b2b87f7dbba8d6e73b1b4c02ba808bbc278b6b24",
+    "license_sha256": "fbe6800da231ed7f2bbef5979393fec7531e970865548cb6fcaa2ddc1ae973c1",
+    "source_builds_observed_in_upstream_receipt": 1,
+    "source_builds_repeated_for_this_replay": 0,
+    "elf_has_interpreter": false,
+    "independent_sumdb_lookup": false,
+    "transitive_commercial_review_complete": false
+  },
+  "same_host": true,
+  "same_pinned_binary": true,
+  "strict_historical_profiles": {
+    "eight": {
+      "transcript_sha256": "2c7e58d369f36c9461497824eb81b0043fd4324dba6927bc7670706ee09cb63b",
+      "native_groups_verified": 8,
+      "negative_controls_rejected": 20,
+      "historical_identities_preserved": 106
+    },
+    "nine": {
+      "transcript_sha256": "ea091d5b93821de6557f4c84a5f7d8c8846245e0d5586f8059d0b60fc8261400",
+      "native_groups_verified": 9,
+      "negative_controls_rejected": 20,
+      "historical_identities_preserved": 106
+    },
+    "ten": {
+      "transcript_sha256": "fcb225051aa101d1c0dea2e6d13c6faf8ded452e3feb5daca1fc2d2c324b8dbb",
+      "native_groups_verified": 10,
+      "negative_controls_rejected": 20,
+      "historical_identities_preserved": 106
+    }
+  },
+  "strict_eleven_rejects_ten": true,
+  "worker_assignments": {
+    "historical": {
+      "3682-inherited": {
+        "previous": 3682,
+        "changed": 0,
+        "previous_map_sha256": "70b15e8ea554e4d0d1340411c7c25acfbdef57d0436b62ae466c929397faf16f"
+      },
+      "eight": {
+        "previous": 3690,
+        "changed": 0,
+        "previous_map_sha256": "33cc1703bb50ce4d6625c3c0493a3c4450952244f51e83716d13f6f47b919ad7"
+      },
+      "nine": {
+        "previous": 3704,
+        "changed": 0,
+        "previous_map_sha256": "97dfbdc6d34222bfd3c2da81072c50e2732fc4ec80aee3d644d88ab4ff54f366"
+      },
+      "ten-published": {
+        "previous": 3721,
+        "changed": 0,
+        "previous_map_sha256": "5f98e81e8c0cbdc40939252137b622126bc500ec929ca1c4caac410d695e8952"
+      }
+    },
+    "new_ids": 11,
+    "new_worker": 7,
+    "worker_index_origin": 0,
+    "total": 3732
+  },
+  "historical_files_intact": 642,
+  "tests": {
+    "focused_passed": 43,
+    "extended_passed": 65,
+    "extended_error": 1,
+    "extended_failure_test": "test_producer_is_checked_in_git_and_missing_shallow_objects_have_a_diagnosis",
+    "extended_error_preexisting_on_base": true,
+    "extended_error_reason": "The ten-group base test selected the nine-group accounting profile for its HEAD. Dossier renderer profiles are being integrated separately."
+  },
+  "joint_eleven_session_executed": false,
+  "original_vulnerabilities_confirmed": 0,
+  "transitive_commercial_review_complete": false
+}

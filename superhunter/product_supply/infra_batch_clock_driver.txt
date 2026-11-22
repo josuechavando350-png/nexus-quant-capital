@@ -1,0 +1,38 @@
+package main
+
+import (
+    "encoding/json"
+    "os"
+    htime "nqc.local/clocks/hubble"
+    jtime "nqc.local/clocks/jaeger"
+)
+
+type Output struct {
+    Valid bool
+    Nanos uint64
+    RoundTrip string
+    Millis string
+}
+
+func main() {
+    var strings []string
+    if err := json.NewDecoder(os.Stdin).Decode(&strings); err != nil || len(strings) > 32 {
+        os.Exit(2)
+    }
+    results := make([]Output, 0, len(strings))
+    for _, s := range strings {
+        timestamp, err := htime.FromString(s)
+        if err != nil {
+            results = append(results, Output{})
+            continue
+        }
+        ns := jtime.TimeToUnixNano(timestamp)
+        t := jtime.UnixNanoToTime(ns)
+        results = append(results, Output{true, ns,
+            t.UTC().Format(htime.FormatNameToLayout("RFC3339Nano")),
+            t.UTC().Format(htime.FormatNameToLayout("RFC3339Milli"))})
+    }
+    if err := json.NewEncoder(os.Stdout).Encode(results); err != nil {
+        os.Exit(3)
+    }
+}

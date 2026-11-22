@@ -140,7 +140,7 @@ def check_reference(name, payload):
         raise EvidenceError('reference receipt differs from reviewed fixed inputs')
 
 
-def receipt(row):
+def legacy_receipt(row):
     name = row['repository'].casefold()
     if name in FIXED_SOURCE_RECEIPTS:
         role, key, expected = FIXED_SOURCE_RECEIPTS[name]
@@ -149,10 +149,10 @@ def receipt(row):
         if row[key] != expected:
             raise EvidenceError('source receipt differs from the accepted product result')
         return role, key
-    if name in RECEIPTS and row.get(RECEIPTS[name]):
+    if name in RECEIPTS and RECEIPTS[name] in row:
         check_native(name, row[RECEIPTS[name]])
         return 'executable', RECEIPTS[name]
-    if name in ('ethereum/eips', 'ethereum/execution-specs') and row.get('census_header_reference'):
+    if name in ('ethereum/eips', 'ethereum/execution-specs') and 'census_header_reference' in row:
         check_reference(name, row['census_header_reference'])
         return 'reference_data', 'census_header_reference'
     role = row.get('supply_role') or {}
@@ -163,6 +163,38 @@ def receipt(row):
         check_reference(name, {'supply_role': role, 'controls': row['controls']})
         return 'reference_data', role['artifact']
     return 'pending', None
+
+
+def session_operations(row):
+    """Bind every accepted operation before selecting a primary role for this identity."""
+    accepted = []
+    role, key = legacy_receipt(row)
+    if key is not None:
+        accepted.append((role, key))
+    if 'component_control_receipt' in row:
+        from .product_component_controls import role_for
+        accepted.append(role_for(row))
+        if 'source_inventory' in row and row['component_control_receipt']['revision'] != row['source_inventory']['revision']:
+            raise EvidenceError('component control revision differs from the source audit')
+    if 'native_capability_receipt' in row:
+        from .product_native_capabilities import validate_receipt
+        accepted.append(validate_receipt(row))
+
+    operations = []
+    for role, key in sorted(accepted, key=lambda pair: (pair[0] != 'executable', pair[1])):
+        if key in ('supply.link', 'asvs.csv', 'asvs-guides.md'):
+            payload = {k: row[k] for k in ('supply_role', 'controls') if k in row}
+        else:
+            payload = row[key]
+        operations.append({'role': role, 'receipt': key, 'evidence_sha256': sha(canonical(payload))})
+    return operations
+
+
+def receipt(row):
+    operations = session_operations(row)
+    if not operations:
+        return 'pending', None
+    return operations[0]['role'], operations[0]['receipt']
 
 
 def summary(index, number):
@@ -210,13 +242,17 @@ def coverage(index):
         row = index.lookup(item['repository'])
         ident = row['catalog_id']
         previous = prior.get(ident)
-        role, proof = receipt(row)
-        if previous and (previous['repository'] != row['repository'] or
-                         (role != 'pending' and previous['role'] != role)):
-            raise EvidenceError('inconsistent historical and session coverage')
+        operations = session_operations(row)
+        role = operations[0]['role'] if operations else 'pending'
+        proof = operations[0]['receipt'] if operations else None
+        if previous and previous['repository'] != row['repository']:
+            raise EvidenceError('inconsistent historical and session identity')
+        prior_role = previous['role'] if previous else 'pending'
+        roles = (prior_role, role)
+        observed = next((candidate for candidate in ('executable', 'reference_data') if candidate in roles), 'pending')
         entries.append({'catalog_id': ident, 'repository': row['repository'], 'batch': cohort_ids[ident],
                         'prior_receipt': previous, 'session_role': role, 'session_receipt': proof,
-                        'observed_role': previous['role'] if previous else role,
+                        'session_operations': operations, 'observed_role': observed,
                         'upstream_notice_verified': 'upstream_notice' in row})
     counts = Counter(r['observed_role'] for r in entries)
     return {'catalog_count': len(entries), 'prior_commit': history['commit'],

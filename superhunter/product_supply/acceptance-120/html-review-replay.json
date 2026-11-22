@@ -1,0 +1,263 @@
+{
+  "schema_version": 1,
+  "scope": "Two fresh product queries from distinct clean checkouts. Playwright consumes three fixed variants of the owned NQC HTML review. Same host, runtime and archives.",
+  "producer_commit": "404f57bb2b1e5572b304e494586e92a098fdaf44",
+  "producer_tree": "ddb9ccf25f6d00d761c1f208f43bb7e1b74a5d09",
+  "base_commit": "2d9d6c797eb9f6e445d2179ec535effe3ca9ac96",
+  "published_producer": {
+    "commit": "7b4235384eba2d282d2c67ded13191f1f939f52f",
+    "tree": "ba4855837a49d1cdc4eea5252bd82cf5afe8c4b2",
+    "matching_git_blobs": {
+      "superhunter/product_html_review.py": "0892b7d1e153ef0add24682f76ea0bc1489b1d17",
+      "superhunter/product_html_review_worker.cjs": "7e6a22f71f261469d7be11e33a6923a12219f0c1",
+      "superhunter/product_native_capabilities.py": "76b29c7a1968b3e2e13002170799b6d092d7de5f",
+      "superhunter/product_review.py": "025d871082e5c67608c2fa02d5fbc3448dcc7153",
+      "superhunter/review.py": "adca41f1a6f7d01bf1bff98704a877f5b335af97",
+      "superhunter/tools/verify_review_115.py": "7b8f04a3c6c68ee9aeff977ae4936062571ecf65",
+      "superhunter/tests/test_product_html_review.py": "211a797d959bf2c2f05a308d01859945be08941f",
+      "superhunter/product_supply/native-capability-contracts.json": "e1fdecea78b3b21808f06a5c77ae307b11b8c017",
+      "superhunter/product_supply/html-review-dom.json": "099b2f33d5d7088410b432bf21ad3d54baf2c1d4",
+      "superhunter/product_supply/html-review-driver-attestation.json": "b899ce1f36075be962c061cbc73e599da3ce404e",
+      "superhunter/product_supply/html-review-markdown.md": "74bb2aa1f1be405992816c36d1b1e86aec926dbf",
+      "superhunter/product_supply/html-review-pins.json": "3ef47e678db76c3af19fb83549596d9631e9e04c",
+      "superhunter/product_supply/html-review-provenance.json": "4ee6c1b33da0dc3d30d4c4b6e5e47ca43fab3ee3",
+      "superhunter/product_supply/html-review-result.json": "ab151fe107b1684eba805daf3eafc70e39004717"
+    },
+    "exact_public_commit_executed_in_these_two_runs": false
+  },
+  "archive": {
+    "file": "html-review-transcript.json",
+    "sha256": "093dfd0cbbae2d2a9f855df1081fa31299518d81645199cc794a356beb782635"
+  },
+  "runs": [
+    {
+      "checkout": "static-html",
+      "producer_commit": "404f57bb2b1e5572b304e494586e92a098fdaf44",
+      "producer_tree": "ddb9ccf25f6d00d761c1f208f43bb7e1b74a5d09",
+      "bundle": "clean-catalog/product",
+      "fresh_process": true,
+      "clean_before_and_after": true,
+      "exit_code": 0,
+      "stderr_bytes": 0,
+      "responses": 2,
+      "bytes": 2261,
+      "sha256": "fa9d65f1169211fd7451ca7c6964f07022b78576b066f9bac4967cf2c3411d42",
+      "effective_uid": 1000,
+      "prepared_files": {
+        "COMPLETE.json": "522865f3c0deab9570cecc9d8c84e03ad363ebab400bcc6de8c1a764dab112a2",
+        "review.json": "2a183e33fbca1a5b0bdafa3fd387acbd98a077cf289403a3494eb68f1144b4ea",
+        "solver.json": "0d1f2a523cba57a453d0cbe71623736bc73a69446bfdefc972c4df5669d0feba",
+        "syft.json": "57fa6fb5630b9eba9a188cba9f940dc2ab74f709d7c65918facec77f2b3a9cb7"
+      }
+    },
+    {
+      "checkout": "static-html-replay",
+      "producer_commit": "404f57bb2b1e5572b304e494586e92a098fdaf44",
+      "producer_tree": "ddb9ccf25f6d00d761c1f208f43bb7e1b74a5d09",
+      "bundle": "verified115/fresh-prepared/product",
+      "fresh_process": true,
+      "clean_before_and_after": true,
+      "exit_code": 0,
+      "stderr_bytes": 0,
+      "responses": 2,
+      "bytes": 2261,
+      "sha256": "fa9d65f1169211fd7451ca7c6964f07022b78576b066f9bac4967cf2c3411d42",
+      "effective_uid": 1000,
+      "prepared_files": {
+        "COMPLETE.json": "bef5745c9041fa45ce70484e8149e504b466dcb581e07041d10310406cc6eadd",
+        "review.json": "2a183e33fbca1a5b0bdafa3fd387acbd98a077cf289403a3494eb68f1144b4ea",
+        "solver.json": "0d1f2a523cba57a453d0cbe71623736bc73a69446bfdefc972c4df5669d0feba",
+        "syft.json": "f8789a7b874daf5215fdf2be573f2e27e7c5bec27b86a3eef81d2da488d3b164"
+      }
+    }
+  ],
+  "command": {
+    "outer_isolation": [
+      "unshare",
+      "--user",
+      "--map-current-user",
+      "--net"
+    ],
+    "module": "superhunter",
+    "command": "query-product",
+    "kit_option": "--html_review-native-kit",
+    "keys": [
+      "native-capabilities",
+      "microsoft/playwright"
+    ]
+  },
+  "receipt": {
+    "group": "html_review",
+    "query": "native-capabilities",
+    "report_sha256": "7d711bd19de3ebfc62607d2d9ab64028716977898fbd4ec6f9a74b69d53351ff",
+    "repository": "microsoft/playwright",
+    "role": "executable"
+  },
+  "one_identity_catalog_id": 27,
+  "per_run": {
+    "canonical_views": 1,
+    "rejected_altered_views": 2,
+    "document_requests_observed": 0,
+    "document_cases": {
+      "canonical": {
+        "canonical_view": true,
+        "changed_dom_fields": [],
+        "heading_level_one": true,
+        "historical_rows_visible": 2,
+        "html_sha256": "ed2d043c0109e6f3c8013228e340ae2d67e2c9684eddbbedd3800aef8b2e1664",
+        "visible_text_bytes": 516,
+        "visible_text_sha256": "24afe5803f9721125427fa80404561c9b06600202b435ff2854675cfdea156f1"
+      },
+      "missing_heading": {
+        "canonical_view": false,
+        "changed_dom_fields": [
+          "bodyChildren",
+          "heading",
+          "headingVisible"
+        ],
+        "heading_level_one": false,
+        "historical_rows_visible": 2,
+        "html_sha256": "a74cf22c989500d6dd83a0634ee06c0cda6ae142f3b3b33f568633f961a5d2be",
+        "visible_text_bytes": 516,
+        "visible_text_sha256": "24afe5803f9721125427fa80404561c9b06600202b435ff2854675cfdea156f1"
+      },
+      "missing_row": {
+        "canonical_view": false,
+        "changed_dom_fields": [
+          "text"
+        ],
+        "heading_level_one": true,
+        "historical_rows_visible": 1,
+        "html_sha256": "04fda8f3010c41e10d3c6e1398920f0ed302d9d830d8b9b88563978c892f794c",
+        "visible_text_bytes": 443,
+        "visible_text_sha256": "8dccf40015fe72e7b16e5e30f6b3377838fabbf9f4e815d46fb25f738c6046cd"
+      }
+    }
+  },
+  "owned_source": {
+    "commit": "2d9d6c797eb9f6e445d2179ec535effe3ca9ac96",
+    "path": "superhunter/INTEGRATION_STATUS_200.md",
+    "blob": "9015b3353be3af83d3d8ba3caa0248a17038dfac",
+    "lines": [
+      1,
+      8
+    ],
+    "sha256": "24afe5803f9721125427fa80404561c9b06600202b435ff2854675cfdea156f1",
+    "scope": "First eight lines retained byte-for-byte from the historical matrix. The excerpt carries historical totals."
+  },
+  "independent_witness": {
+    "implementation": "Python HTMLParser compared the displayed preformatted block and semantic h1 against the pinned browser DOM witness for each fixed document.",
+    "dom_witness_sha256": "5572844d914a55f6b77904f66ae2c34da03bacd986ac0b2760972a47556d0387",
+    "twelve_group_contract_sha256": "1b0c5ecf4ec91e9f0a0ec45a0984c60ad615e37f9d0512474ed30dd2e3e19add"
+  },
+  "isolation": {
+    "effective_uid": 1000,
+    "browser_network_namespace": true,
+    "chromium_sandbox_enabled": true,
+    "javascript_enabled_for_documents": false,
+    "offline_context": true,
+    "service_workers": "block",
+    "document_url": "about:blank"
+  },
+  "checked_provenance": {
+    "repository": "microsoft/playwright",
+    "revision": "049226728d2da8054db18b04782a9848b755855e",
+    "tree": "cd17e9e712a6c0638c79b708bdcf8cfe23cf8f68",
+    "catalog_gitlink_checked": true,
+    "archive_checks": {
+      "chrome.zip": {
+        "bytes": 132059818,
+        "sha256": "e25d50f1ec1e50d9d9e189c4574c7e32c2035ae22396a57b7f38fa8d0167a133"
+      },
+      "playwright-core.tgz": {
+        "bytes": 3255565,
+        "sha256": "8374484fff50ac3fd5f084d86d3e2e7a28462beb545210cc08ca11e3b7ff4a61"
+      },
+      "node": {
+        "bytes": 126951512,
+        "sha256": "acbe4b8d9153b841ed0697cbfc4f93e767386620edb745ab9358306c0a6f31aa"
+      }
+    },
+    "npm": {
+      "version": "1.66.0-alpha-2026-11-21",
+      "signed_subject": {
+        "name": "pkg:npm/playwright-core@1.66.0-alpha-2026-11-21",
+        "digest": {
+          "sha512": "e989af97901fa113a168116aba3d143dfd8e8706d827e6adfa49d76b55533a04ca9876c1041eb61451e809d2e33bb48262dee89a7c823be488aaf02691db4cb6"
+        }
+      },
+      "registry_integrity": "sha512-6Ymvl5AfoROhaBFquj0UPf2OhwbYJ+at+knXa1VTOgTKmHbBBB62FFHoCdLjO7SCYt7omnyCO+SIqvAmkdtMtg==",
+      "registry_githead": "049226728d2da8054db18b04782a9848b755855e",
+      "signed_workflow_inputs": {
+        "ref": "refs/heads/main",
+        "repository": "https://github.com/microsoft/playwright",
+        "path": ".github/workflows/publish_release.yml"
+      },
+      "signed_resolved_source": {
+        "uri": "git+https://github.com/microsoft/playwright@refs/heads/main",
+        "digest": {
+          "gitCommit": "049226728d2da8054db18b04782a9848b755855e"
+        }
+      },
+      "sigstore_checked_against_cached_tuf_trust_root_without_network": true,
+      "signer_workflow_uri": "https://github.com/microsoft/playwright/.github/workflows/publish_release.yml@refs/heads/main",
+      "oidc_issuer": "https://token.actions.githubusercontent.com",
+      "tlog_entries_in_signed_bundle": 1,
+      "wrong_issuer_rejected": true,
+      "wrong_workflow_uri_rejected": true,
+      "attestation_file_sha256": "78649515298919a21ab064aa3e406c7d153c7b8a787f19240dc2ddd24bd92fd1",
+      "predicate_verified": "https://slsa.dev/provenance/v1"
+    },
+    "chrome_for_testing": {
+      "version": "159.0.8154.13",
+      "chromium_revision": "1739869",
+      "playwright_build": "1256",
+      "object_url": "https://storage.googleapis.com/chrome-for-testing-public/159.0.8154.13/linux64/chrome-headless-shell-linux64.zip?generation=1794961361752495",
+      "generation": "1794961361752495",
+      "size": 132059818,
+      "manifest_matches_runtime": true,
+      "official_storage_object_http_status": 200,
+      "vendor_mirror_head_http_status": 403,
+      "md5_base64_recomputed": "e0h+iNgBfbVfE/6m0l4NzA==",
+      "crc32c_base64_recomputed": "Qyoncg==",
+      "package_sha256_measured_locally": "e25d50f1ec1e50d9d9e189c4574c7e32c2035ae22396a57b7f38fa8d0167a133",
+      "published_signed_sha256_verified": false,
+      "browser_source_rebuilt": false
+    },
+    "node": {
+      "version": "v24.22.3",
+      "host_runtime_digest_pinned": true,
+      "separate_vendor_attestation_verified": false
+    }
+  },
+  "same_host": true,
+  "shared_pinned_kit": true,
+  "strict_historical_profiles": {
+    "eleven": {
+      "transcript_sha256": "2b97ca34e6694b5309462773da5e761855e885fa9920bff849d0a5c643842823",
+      "historical_identities_preserved": 106,
+      "native_groups_verified": 11,
+      "negative_controls_rejected": 20
+    }
+  },
+  "strict_twelve_rejects_eleven": true,
+  "worker_assignments": {
+    "previous": 3738,
+    "changed": 0,
+    "new_ids": 5,
+    "new_worker_zero_based": 7,
+    "total": 3743
+  },
+  "tests": {
+    "focused_passed": 48,
+    "focused_failed": 0
+  },
+  "repository_boundary_before_and_after": {
+    "status": "REPOSITORY_BOUNDARY_BLOCKED",
+    "reason": "UNREVIEWED_SUPERHUNTER_PAYLOAD",
+    "canonical_recertification": false
+  },
+  "joint_twelve_session_executed_in_this_record": false,
+  "original_vulnerabilities_confirmed": 0,
+  "transitive_commercial_review_complete": false
+}

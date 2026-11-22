@@ -1,0 +1,97 @@
+{
+  "checkout_acquisition": "Two separate git init, fetch of the same public commit, and detached checkout; independent local Git object stores.",
+  "independent_verification": {
+    "blocked_component_domains": [],
+    "blocked_native_groups": [],
+    "catalog": 200,
+    "component_contract_profile": "current",
+    "component_domains": [
+      "android-policy",
+      "build-compatibility",
+      "changes",
+      "configuration",
+      "diagnostics",
+      "evidence-codec",
+      "evm",
+      "infrastructure",
+      "object-format",
+      "remediation",
+      "scoring",
+      "slot-format",
+      "source-extracts",
+      "state-amounts",
+      "static-contracts",
+      "supply",
+      "timeline"
+    ],
+    "credits_sha256": "57076c3c062ca5c4fd9eb50f0273249dd0fbcd18791fd0ce0aa55f24b4f87689",
+    "executables": 89,
+    "functional": 128,
+    "historical_identities_preserved": 106,
+    "historical_operations_preserved": 110,
+    "multiple_operations": 9,
+    "native_credits": 16,
+    "native_groups": [
+      "evm",
+      "iam",
+      "java",
+      "secrets",
+      "slither",
+      "static",
+      "upgrades",
+      "web"
+    ],
+    "operations": 137,
+    "original_vulnerabilities_confirmed": 0,
+    "pending": 72,
+    "reference_data": 39,
+    "responses": 222,
+    "session": 128,
+    "sources": {
+      "complete": 200
+    },
+    "transcript_sha256": "2c7e58d369f36c9461497824eb81b0043fd4324dba6927bc7670706ee09cb63b",
+    "verified_notices": 200
+  },
+  "refuted_mutations": {
+    "changed_commercial_total": "claimed totals differ from independently counted rows",
+    "changed_coverage_total": "coverage totals differ from independently counted rows",
+    "changed_git_tree": "matrix and source revisions disagree",
+    "changed_group_result": "individual component result differs from the shared evidence",
+    "changed_license": "license evidence digest or description differs",
+    "changed_native_report": "native producer bytes differ from reviewed controls",
+    "changed_native_result": "fixed product result changed",
+    "changed_operation_total": "claimed totals differ from independently counted rows",
+    "changed_role_totals": "claimed totals differ from independently counted rows",
+    "changed_source_distribution": "claimed totals differ from independently counted rows",
+    "discarded_secondary_operation": "operation ledger differs from the producer bytes",
+    "erased_corroboration": "cross-domain source corroboration differs from original observations",
+    "erased_domain_selection": "component selection or blocked domains differ",
+    "erased_excerpt_inventory": "published excerpt inventory differs from its source bytes",
+    "erased_shared_results": "component evidence does not cover the selected producers",
+    "forged_secondary_digest": "operation ledger differs from the producer bytes",
+    "inflated_count": "claimed totals differ from independently counted rows",
+    "invented_discovery": "native group membership or scope differs",
+    "replaced_historical_digest": "matrix status differs from the original evidence",
+    "unsupported_credit": "matrix status differs from the original evidence"
+  },
+  "runs": [
+    {
+      "archive_sha256": "b2734a55d7ab93c0be66dea81c15263189ece5e3b25fc50d862ab7c1690282dd",
+      "checkout": "published-qa-first-fae41570-serial/checkout",
+      "id": "first",
+      "inputs_sha256": "c4d734769b2846bc4070436660922520b26f397be5982e047c3a3398a5c4c9d4",
+      "result_sha256": "aae494b867516cdad9d182a53a28d8ccb337b01f3b22e15501f72591b988be63"
+    },
+    {
+      "archive_sha256": "b2734a55d7ab93c0be66dea81c15263189ece5e3b25fc50d862ab7c1690282dd",
+      "checkout": "published-qa-second-fae41570-locked/checkout",
+      "id": "second",
+      "inputs_sha256": "e843334074fefba4cf57b1bd9c464144d3268b890322223001b3f20713f2e4c8",
+      "result_sha256": "c385f5dff01a8d113abf8de97ef88e9b0710d637cf81ae8e74a5c6289320822f"
+    }
+  ],
+  "same_host": true,
+  "schema_version": 1,
+  "scope": "Fixed offline product queries on one host. The test operator records provenance of these runs. No external host attestation."
+}

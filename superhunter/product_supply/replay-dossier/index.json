@@ -1,0 +1,107 @@
+{
+  "archived_at_utc": "2026-11-22T00:50:21.050975+00:00",
+  "files": [
+    {
+      "bytes": 11827,
+      "path": "audit.json",
+      "sha256": "8838e90348392a01e3f70f7be92cd9fc0506778a27d8b3cc2df175f348197b34"
+    },
+    {
+      "bytes": 108706,
+      "path": "profile-139-preparation.json",
+      "sha256": "1b19b37153d34f2da9236c8d0e54bd8105198617cc906ac725b9585e556268cf"
+    },
+    {
+      "bytes": 23518,
+      "path": "profile-139-run-a.json",
+      "sha256": "b374e4a78c373b022e3efc8fcc479c4539a17de61139f9466969b8a7f7412bbc"
+    },
+    {
+      "bytes": 22462,
+      "path": "profile-139-run-b.json",
+      "sha256": "16065e53c126631f476c03d2f6ab7cd5fa4c730008f3adb1f852820bb58c780e"
+    },
+    {
+      "bytes": 106039,
+      "path": "profile-140-preparation.json",
+      "sha256": "f1828ef793b50ab7cb2e1e3ac7cb331c7a2ed0225b20c5c6f8a022cecadb82d4"
+    },
+    {
+      "bytes": 22293,
+      "path": "profile-140-run-a.json",
+      "sha256": "5540a2107361e4a0c3cf4837e162222d42442d7e226a409a1a0813b042e2b50c"
+    },
+    {
+      "bytes": 12862,
+      "path": "runner-sources.json",
+      "sha256": "b18ecb9301f7b544bf7e9f4f34c43e05c4fd848c128c3ee65f91a4c8c0585e15"
+    }
+  ],
+  "limitations": [
+    "The two 139 executions used different checkouts on the same host and shared prepared dependencies.",
+    "Artifact integrity and consistent execution records are not independent host attestation or cryptographic producer authentication.",
+    "No second complete 140 execution is claimed.",
+    "This archive does not create new functional participation or original vulnerability discoveries."
+  ],
+  "new_product_executions_performed": 0,
+  "preservation": "content_utf8.encode(utf-8) is the exact original byte sequence; no JSON reserialization of originals",
+  "reconstructed_from_preserved_artifacts": true,
+  "record_type": "replay_dossier_index",
+  "runs": [
+    {
+      "blocked_component_domains": [],
+      "blocked_native_groups": [],
+      "dossier_file": "profile-139-run-a.json",
+      "executables": 101,
+      "functional": 139,
+      "operations": 149,
+      "producer_commit": "37a0d5261ae52ece080d18b294042931112f2861",
+      "producer_tree": "a2d3a67cbf044e93e47b7f0e1ced7d06973c3a07",
+      "profile": 139,
+      "raw_bytes": 1249365,
+      "raw_sha256": "0e7ceaab460f1b24826f466ad70d93b64201b4a2e7edf5e09b085f675f4cd318",
+      "reference_data": 38,
+      "rejected_controls": 20,
+      "responses": 222,
+      "run": "a",
+      "seconds": 426.81
+    },
+    {
+      "blocked_component_domains": [],
+      "blocked_native_groups": [],
+      "dossier_file": "profile-139-run-b.json",
+      "executables": 101,
+      "functional": 139,
+      "operations": 149,
+      "producer_commit": "37a0d5261ae52ece080d18b294042931112f2861",
+      "producer_tree": "a2d3a67cbf044e93e47b7f0e1ced7d06973c3a07",
+      "profile": 139,
+      "raw_bytes": 1249365,
+      "raw_sha256": "0e7ceaab460f1b24826f466ad70d93b64201b4a2e7edf5e09b085f675f4cd318",
+      "reference_data": 38,
+      "rejected_controls": 20,
+      "responses": 222,
+      "run": "b",
+      "seconds": 403.85
+    },
+    {
+      "blocked_component_domains": [],
+      "blocked_native_groups": [],
+      "dossier_file": "profile-140-run-a.json",
+      "executables": 102,
+      "functional": 140,
+      "operations": 150,
+      "producer_commit": "a183f60ed7229441a703a8f6ea9e180ff249abf3",
+      "producer_tree": "0cba18733458a71ab3e093d9fd5e801492ac318e",
+      "profile": 140,
+      "raw_bytes": 1255491,
+      "raw_sha256": "88f7d4a092d9239f1d5e71df3e6132cffeeb95a1d0ab643cd106c5668bf9d2a7",
+      "reference_data": 38,
+      "rejected_controls": 20,
+      "responses": 222,
+      "run": "a",
+      "seconds": 412.74
+    }
+  ],
+  "schema_version": 1
+}

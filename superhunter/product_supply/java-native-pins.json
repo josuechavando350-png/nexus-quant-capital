@@ -1,0 +1,1245 @@
+{
+  "schema_version": 1,
+  "platform": "Linux x86-64",
+  "sources": {
+    "109": {
+      "repository": "spotbugs/spotbugs",
+      "catalog_revision": "f4544188eb473d60221572fc0d5645325c8b18eb",
+      "release_revision": "6816eb256805aa6eed1dced23e6a4aea08cc6660",
+      "version": "4.10.5",
+      "release_url": "https://github.com/spotbugs/spotbugs/releases/tag/4.10.5",
+      "tag_object_api": "https://api.github.com/repos/spotbugs/spotbugs/git/tags/c0214488f0a1bc37562f1e9abc05972f0947617c"
+    },
+    "110": {
+      "repository": "find-sec-bugs/find-sec-bugs",
+      "catalog_revision": "aa1293a6339a04ddf954670fc550847d1bcd83be",
+      "release_revision": "ba1fa607d0640fda8a26e5479c87c1a98394c6d3",
+      "version": "1.14.0",
+      "release_url": "https://github.com/find-sec-bugs/find-sec-bugs/releases/tag/version-1.14.0",
+      "tag_api": "https://api.github.com/repos/find-sec-bugs/find-sec-bugs/git/refs/tags/version-1.14.0"
+    }
+  },
+  "runtime": {
+    "name": "OpenJDK",
+    "version": "21.0.13",
+    "reported_vm_version": "21.0.13+9-1-deb13u2-Debian",
+    "origin": "Official Debian security package; every selected regular archive member is pinned. Package scripts are never executed and no host runtime file is used.",
+    "package": {
+      "name": "openjdk-21-jre-headless",
+      "version": "21.0.13+9-1~deb13u2",
+      "architecture": "amd64",
+      "url": "https://security.debian.org/debian-security/pool/updates/main/o/openjdk-21/openjdk-21-jre-headless_21.0.13+9-1~deb13u2_amd64.deb",
+      "bytes": 41993808,
+      "sha256": "7334a11777942862fa97f8d16f23a391f85e6c3a3fc8ea73e0cc30adc52c8299",
+      "published_checksum_url": "https://packages.debian.org/trixie/amd64/openjdk-21-jre-headless/download",
+      "checksum_listing_note": "The package listing tracks the latest version. The version-specific archive URL and SHA256 above identify the reviewed publication."
+    },
+    "omitted_files": [
+      "AppCDS archives (execution uses -Xshare:off)",
+      "Host-generated cacerts store (the owned controls are disconnected and do not use TLS)"
+    ],
+    "host_runtime_used": false,
+    "system_packages_installed": 0
+  },
+  "files": {
+    "runtime/bin/java": {
+      "sha256": "1a7e0b17c39003c75b457d686775ccb032e56fa9c8afe3c492d8eb3715e8951a",
+      "bytes": 14384,
+      "executable": true,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/bin/java"
+    },
+    "runtime/bin/jpackage": {
+      "sha256": "7500fc78cfe161a6506797a985f34bca01898f1370382810fb10ffe65a6a6833",
+      "bytes": 14408,
+      "executable": true,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/bin/jpackage"
+    },
+    "runtime/bin/keytool": {
+      "sha256": "b72b222f4eabfa41d7aa248e46fba275d91c7540b2f17f4e923b6261edcff418",
+      "bytes": 14408,
+      "executable": true,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/bin/keytool"
+    },
+    "runtime/bin/rmiregistry": {
+      "sha256": "82a75e00ca307412801a30d45dd926108eabc3f6e66ab7ec25163aeddf774b6d",
+      "bytes": 14440,
+      "executable": true,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/bin/rmiregistry"
+    },
+    "runtime/conf/accessibility.properties": {
+      "sha256": "e8a107880e6ec598c99a4865bc2d24678e8370142bfdb5ca27fdbe266b4c6cb7",
+      "bytes": 391,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/accessibility.properties"
+    },
+    "runtime/conf/jaxp.properties": {
+      "sha256": "7d95c49465d0c836d608d02856d3b097934dfb5dc4bd2279affaf337d045b708",
+      "bytes": 7302,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/jaxp.properties"
+    },
+    "runtime/conf/logging.properties": {
+      "sha256": "b62d2733ab99556b108a1951d894c5a8d76b1ac7a00c02c388f9eb9be046c56f",
+      "bytes": 2732,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/logging.properties"
+    },
+    "runtime/conf/management/jmxremote.access": {
+      "sha256": "0c25d26ee212ca1e8c33f67c3c460d43fe849c3a1d23dbe341148517602b280c",
+      "bytes": 3997,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/management/jmxremote.access"
+    },
+    "runtime/conf/management/management.properties": {
+      "sha256": "07dffdd85b01c19bf46ca320a699aba48dd6b01043eb0bd6a9528c7993312bad",
+      "bytes": 14988,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/management/management.properties"
+    },
+    "runtime/conf/net.properties": {
+      "sha256": "2e070ed1d97052f0ce8771ed2ef74a38d7c260a45fde7a3682c8844e5fdf58a4",
+      "bytes": 7441,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/net.properties"
+    },
+    "runtime/conf/security/java.policy": {
+      "sha256": "d51bcab7ed301caeff3779a5e777e6019864cecee5e2abc102ef991b0de77af2",
+      "bytes": 2294,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/security/java.policy"
+    },
+    "runtime/conf/security/java.security": {
+      "sha256": "010eac4e512fb877d3c5cca8e43277ad5b26056466d32675d30c090688b67c07",
+      "bytes": 72065,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/security/java.security"
+    },
+    "runtime/conf/security/nss.cfg": {
+      "sha256": "84b778712c4b3f09798681f9d8ff3a298bcad76bb65ae8925ed8bd80a14621f4",
+      "bytes": 106,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/security/nss.cfg"
+    },
+    "runtime/conf/security/policy/README.txt": {
+      "sha256": "6da0747334b0fea7592fd92614b2bbc8b126535e129b1fee483774d914e98eb5",
+      "bytes": 2390,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/security/policy/README.txt"
+    },
+    "runtime/conf/security/policy/limited/default_US_export.policy": {
+      "sha256": "758b930a526fc670ab7537f8c26321527050a31f5f42149a2dda623c56a0a1a9",
+      "bytes": 146,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/security/policy/limited/default_US_export.policy"
+    },
+    "runtime/conf/security/policy/limited/default_local.policy": {
+      "sha256": "2b2627548e61316150d47ffc3e6cad465ca05b3cccd4785eb7d21aa7baa0f441",
+      "bytes": 647,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/security/policy/limited/default_local.policy"
+    },
+    "runtime/conf/security/policy/limited/exempt_local.policy": {
+      "sha256": "8c3d7648abcd95a272ce12db870082937f4d7f6878d730d83cb7fbb31eb8b2c9",
+      "bytes": 566,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/security/policy/limited/exempt_local.policy"
+    },
+    "runtime/conf/security/policy/unlimited/default_US_export.policy": {
+      "sha256": "758b930a526fc670ab7537f8c26321527050a31f5f42149a2dda623c56a0a1a9",
+      "bytes": 146,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/security/policy/unlimited/default_US_export.policy"
+    },
+    "runtime/conf/security/policy/unlimited/default_local.policy": {
+      "sha256": "8d8a318e6d90dfd7e26612d2b6385aa704f686ca6134c551f8928418d92b851a",
+      "bytes": 193,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/security/policy/unlimited/default_local.policy"
+    },
+    "runtime/conf/sound.properties": {
+      "sha256": "299c2360b6155eb28990ec49cd21753f97e43442fe8fab03e04f3e213df43a66",
+      "bytes": 1210,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/sound.properties"
+    },
+    "runtime/conf/swing.properties": {
+      "sha256": "a5ba486e49d565f1b0eb6a08e7518f2f79d23bed2a1a527f454f81b7eae8fb9d",
+      "bytes": 113,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/swing.properties"
+    },
+    "runtime/legal/java.base/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.base/aes.md": {
+      "sha256": "45c6d4da48325edfbff3dcf71c704e504c057904435ed23c6d57046d551eb69d",
+      "bytes": 1444,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/aes.md"
+    },
+    "runtime/legal/java.base/asm.md": {
+      "sha256": "683be15695bd248272d60f5b7fbe5e126a935ea6bf231a624a9aa164733e1d1d",
+      "bytes": 1582,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/asm.md"
+    },
+    "runtime/legal/java.base/c-libutl.md": {
+      "sha256": "bef40679922d6fdfb7e4ddb223ad6722300f6054ba737bbf6188d60fcec517f9",
+      "bytes": 1556,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/c-libutl.md"
+    },
+    "runtime/legal/java.base/cldr.md": {
+      "sha256": "19515e14a240e022640e95b61b5095127fa9690755950b4a2b0a02e783e08163",
+      "bytes": 9601,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/cldr.md"
+    },
+    "runtime/legal/java.base/gcc.md": {
+      "sha256": "589e34f142cdf7d1430daa573e61c2e3dd0330c9eb5a2c00d4a98b3a4450810b",
+      "bytes": 128099,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/gcc.md"
+    },
+    "runtime/legal/java.base/icu.md": {
+      "sha256": "1bf28459c6e0af9f3429f4f8becd1668d6544055f8df240277456bc4b3d8a752",
+      "bytes": 30197,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/icu.md"
+    },
+    "runtime/legal/java.base/public_suffix.md": {
+      "sha256": "861de1e4992a7d28f1de25c73cd50d26a94779ebd749c0643fecfa56442c3429",
+      "bytes": 17783,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/public_suffix.md"
+    },
+    "runtime/legal/java.base/siphash.md": {
+      "sha256": "5a792b5a74ad2a5f3d6a7ad8b7a841116e58a772c18bc6e392320a365b222c76",
+      "bytes": 8256,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/siphash.md"
+    },
+    "runtime/legal/java.base/unicode.md": {
+      "sha256": "6f72f10d166b2c2e8a395e03e734c5afc852b59aeca73ced124f6b9c96268d53",
+      "bytes": 9078,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/unicode.md"
+    },
+    "runtime/legal/java.compiler/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.datatransfer/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.desktop/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.desktop/colorimaging.md": {
+      "sha256": "04d61e3e8e71dd452ebe52008af5378d9f6640d14578aeb515dc5375973b0189",
+      "bytes": 167,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.desktop/colorimaging.md"
+    },
+    "runtime/legal/java.desktop/mesa3d.md": {
+      "sha256": "63f4e6f75caebbccb95d903fb43e46ac7111b3624d0a34f146b276d7d9e7b152",
+      "bytes": 5732,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.desktop/mesa3d.md"
+    },
+    "runtime/legal/java.desktop/pipewire.md": {
+      "sha256": "56a8fb1652c70ac204d13bb52ca4d678162e7d21a97d10209c2a633de8082de0",
+      "bytes": 1479,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.desktop/pipewire.md"
+    },
+    "runtime/legal/java.desktop/xwd.md": {
+      "sha256": "1d4ffa93c87f35084b02a7aa90a21084b4019db4fe1003c2e5ce775b4a384f59",
+      "bytes": 1348,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.desktop/xwd.md"
+    },
+    "runtime/legal/java.instrument/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.logging/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.management/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.management.rmi/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.naming/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.net.http/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.prefs/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.rmi/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.scripting/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.se/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.security.jgss/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.security.sasl/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.smartcardio/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.smartcardio/pcsclite.md": {
+      "sha256": "b39ce363c281ed36e937f9e6c03311d7dbf0b20d3614dde084130c2a10909692",
+      "bytes": 2155,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.smartcardio/pcsclite.md"
+    },
+    "runtime/legal/java.sql/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.sql.rowset/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.transaction.xa/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.xml/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.xml/bcel.md": {
+      "sha256": "cd578186ad93de46cca29ec8ace2b11f9da751987f3f140e6095c528596cc8c1",
+      "bytes": 11196,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.xml/bcel.md"
+    },
+    "runtime/legal/java.xml/dom.md": {
+      "sha256": "6686e8877667584a3a7c07344baadca1a03e29f677162d87c3c0811e990d1148",
+      "bytes": 3761,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.xml/dom.md"
+    },
+    "runtime/legal/java.xml/jcup.md": {
+      "sha256": "8d5dcfdf50455a3c34c753a98f21e953248af200415a9084e3f102cb6c43b8bf",
+      "bytes": 1448,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.xml/jcup.md"
+    },
+    "runtime/legal/java.xml/xalan.md": {
+      "sha256": "c27eb875da4be683d4d7422be986e5e30f636ede31958ff1d39f9cd6109e7a00",
+      "bytes": 13477,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.xml/xalan.md"
+    },
+    "runtime/legal/java.xml/xerces.md": {
+      "sha256": "4a6bf6b367193ee68681cb2d9fed30ffc5d62dd2d477bd62e0271707d71b3244",
+      "bytes": 11848,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.xml/xerces.md"
+    },
+    "runtime/legal/java.xml.crypto/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/java.xml.crypto/santuario.md": {
+      "sha256": "d08690d25f660f145c73365d260ed522cd0aace8a0e1396706551b7a1ae8c9a3",
+      "bytes": 11505,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.xml.crypto/santuario.md"
+    },
+    "runtime/legal/jdk.accessibility/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.attach/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.charsets/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.compiler/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.crypto.cryptoki/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.crypto.cryptoki/pkcs11cryptotoken.md": {
+      "sha256": "1f36ff1342a581142c858f90064e20633d43529ac82adb85345bd902a14e18b2",
+      "bytes": 4095,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/jdk.crypto.cryptoki/pkcs11cryptotoken.md"
+    },
+    "runtime/legal/jdk.crypto.cryptoki/pkcs11wrapper.md": {
+      "sha256": "371974b1fca3744a3892c7ee1fcc593b8b4281fc218f4cafd2f709e9df5fd81d",
+      "bytes": 2131,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/jdk.crypto.cryptoki/pkcs11wrapper.md"
+    },
+    "runtime/legal/jdk.crypto.ec/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.dynalink/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.dynalink/dynalink.md": {
+      "sha256": "17312591cabee3ef6c34ed8897d92e4e361ba9cea41ec00dcd61a322a8fc2cdb",
+      "bytes": 1502,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/jdk.dynalink/dynalink.md"
+    },
+    "runtime/legal/jdk.editpad/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.hotspot.agent/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.httpserver/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.incubator.vector/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.internal.ed/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.internal.jvmstat/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.internal.le/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.internal.le/jline.md": {
+      "sha256": "a6fb63a226b77b03cbd7559cce6cdc3e1ea8563af960b1dce2330c8e1dce1abf",
+      "bytes": 1579,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/jdk.internal.le/jline.md"
+    },
+    "runtime/legal/jdk.internal.opt/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.internal.opt/jopt-simple.md": {
+      "sha256": "99bc67f93cf57d6d20e6047731c93fbb267d70fbdd4115d119e0f85c6efe5c05",
+      "bytes": 1122,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/jdk.internal.opt/jopt-simple.md"
+    },
+    "runtime/legal/jdk.internal.vm.ci/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.internal.vm.compiler/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.internal.vm.compiler.management/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.jartool/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.javadoc/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.javadoc/jquery.md": {
+      "sha256": "b68f454c2bd58959c862d94bf0f16c3f78a2d537388ca060d354344db80ee695",
+      "bytes": 1157,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/jdk.javadoc/jquery.md"
+    },
+    "runtime/legal/jdk.javadoc/jqueryUI.md": {
+      "sha256": "7854d2d568992ae25ff65867bd9021d655f70670142f0796b29a3b0621f19530",
+      "bytes": 1871,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/jdk.javadoc/jqueryUI.md"
+    },
+    "runtime/legal/jdk.jcmd/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.jconsole/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.jdeps/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.jdi/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.jdwp.agent/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.jfr/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.jlink/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.jpackage/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.jshell/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.jsobject/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.jstatd/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.localedata/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.localedata/cldr.md": {
+      "sha256": "19515e14a240e022640e95b61b5095127fa9690755950b4a2b0a02e783e08163",
+      "bytes": 9601,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/cldr.md"
+    },
+    "runtime/legal/jdk.localedata/thaidict.md": {
+      "sha256": "c326144a2351c9608fa708b5d7d3c5a3da03e82b66479b128e9db4969539824a",
+      "bytes": 1346,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/jdk.localedata/thaidict.md"
+    },
+    "runtime/legal/jdk.management/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.management.agent/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.management.jfr/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.naming.dns/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.naming.rmi/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.net/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.nio.mapmode/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.random/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.sctp/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.security.auth/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.security.jgss/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.unsupported/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.unsupported.desktop/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.xml.dom/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/legal/jdk.zipfs/ASSEMBLY_EXCEPTION": {
+      "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33",
+      "bytes": 1514,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/ASSEMBLY_EXCEPTION"
+    },
+    "runtime/lib/classlist": {
+      "sha256": "e5ef97a1545ec5d99da80d2216620b71e0d43022f2333b36242121d05f61b6b1",
+      "bytes": 77098,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/classlist"
+    },
+    "runtime/lib/jar.binfmt": {
+      "sha256": "5dbb3f5436767190cea7702211201d57d579a89426421ce3c944e2273c05825b",
+      "bytes": 63,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/jar.binfmt"
+    },
+    "runtime/lib/jexec": {
+      "sha256": "ebf61597b92dae3e78892469ce6c5398cbf24ec020fc0bf730ee24c6fcced19f",
+      "bytes": 14384,
+      "executable": true,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/jexec"
+    },
+    "runtime/lib/jfr/default.jfc": {
+      "sha256": "4fed4b508c5f1b69578293df84f94a63752f86b4259d97e12884e3b2ec56ef50",
+      "bytes": 37449,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/jfr/default.jfc"
+    },
+    "runtime/lib/jfr/profile.jfc": {
+      "sha256": "485fb90dbecee9a950c45247464351162b1eb0c35387fbb929f002c600807251",
+      "bytes": 37401,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/jfr/profile.jfc"
+    },
+    "runtime/lib/jrt-fs.jar": {
+      "sha256": "5fea399a122cbb8b89b4af0f3bb212168d78e588f510af4743da1e7ab6b7cebd",
+      "bytes": 110114,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/jrt-fs.jar"
+    },
+    "runtime/lib/jspawnhelper": {
+      "sha256": "669b8273df7c125ca3d4fdb35f2f958db3710212df75211d3920fa390dde20b8",
+      "bytes": 18560,
+      "executable": true,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/jspawnhelper"
+    },
+    "runtime/lib/jvm.cfg": {
+      "sha256": "d5ad5a3e0c1cd2236d5f983f48f9a4b3612662dc7c89a6bb21994ed8327be25e",
+      "bytes": 54,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/jvm-amd64.cfg"
+    },
+    "runtime/lib/jvm.cfg-default": {
+      "sha256": "b996efcbba5e7d7ab453d35c83c97a20b605341e412393b10e160264b766c555",
+      "bytes": 278,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/jvm.cfg-default"
+    },
+    "runtime/lib/libattach.so": {
+      "sha256": "d95f263bf521d6c68f2314107de355ee43b9147208f97d03753f20b5e2093d3a",
+      "bytes": 16568,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libattach.so"
+    },
+    "runtime/lib/libawt.so": {
+      "sha256": "559c8380ea971e67aa4e9561db49bb1b8a779584931ad0a8951892b8f1c4c95e",
+      "bytes": 923984,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libawt.so"
+    },
+    "runtime/lib/libawt_headless.so": {
+      "sha256": "b934d9752e7aa7dbd10168d2d799daad83919d2a70c2334244ef851a2ee2f870",
+      "bytes": 46352,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libawt_headless.so"
+    },
+    "runtime/lib/libdt_socket.so": {
+      "sha256": "0bef4e61602451eb6804d9d5d9d3a20d48f2c06a8abc4c4332d9a0074d5e0630",
+      "bytes": 31800,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libdt_socket.so"
+    },
+    "runtime/lib/libextnet.so": {
+      "sha256": "f994ec136534a32a51de209bfec9c5af083156da5b305260d5aa3f9138dc5119",
+      "bytes": 16616,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libextnet.so"
+    },
+    "runtime/lib/libfontmanager.so": {
+      "sha256": "3e7055cae7e44f2e375fb340407a7e9667ed5691bd415def68046b4a7a5bd45d",
+      "bytes": 71504,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libfontmanager.so"
+    },
+    "runtime/lib/libinstrument.so": {
+      "sha256": "294c7b2ca9e7580706b723b46a95f52a1fcebb5aab6966ce1a134532a0ba7a4a",
+      "bytes": 50184,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libinstrument.so"
+    },
+    "runtime/lib/libj2gss.so": {
+      "sha256": "02c88e65859340b0200996013ee7a84e0b307497e34cc77665972d82a8f00ccd",
+      "bytes": 50768,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libj2gss.so"
+    },
+    "runtime/lib/libj2pcsc.so": {
+      "sha256": "1a5a991f13fff89a9f46b20b32995bfe9ffcb35e50df4af289f4ecb2f22fa6f4",
+      "bytes": 16608,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libj2pcsc.so"
+    },
+    "runtime/lib/libj2pkcs11.so": {
+      "sha256": "aeb4978db2a11e92b7f3bdac70ad452d83f1bc329e889e4a9aa53e68f106a439",
+      "bytes": 97864,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libj2pkcs11.so"
+    },
+    "runtime/lib/libjaas.so": {
+      "sha256": "726ce0532bbb44ea8c7d8009d08ef63d87d96c260701828ceffa1f13bf4ba7a1",
+      "bytes": 15448,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libjaas.so"
+    },
+    "runtime/lib/libjava.so": {
+      "sha256": "aaa19e4ce2f3558f40ca6b01bce1ea62e9531b056dbf880d449ed481f62d5a2a",
+      "bytes": 177376,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libjava.so"
+    },
+    "runtime/lib/libjavajpeg.so": {
+      "sha256": "5f264265b7defcbaad5fdcb706a9f331eb115a21bfcd2bd255195abde7e77426",
+      "bytes": 54296,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libjavajpeg.so"
+    },
+    "runtime/lib/libjdwp.so": {
+      "sha256": "bfa9ce20e1118b8b609c01d3632ceadf5ba912a14b9653325b1619a0c9007610",
+      "bytes": 306512,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libjdwp.so"
+    },
+    "runtime/lib/libjimage.so": {
+      "sha256": "f1bb549552923bd557db4b837049f3fc7bdd73ec30a02f91c99777dc7877135b",
+      "bytes": 39640,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libjimage.so"
+    },
+    "runtime/lib/libjli.so": {
+      "sha256": "dec6c084b719e5cb43b254f3abbb7016f1849d01420e0310298b048cd6c9301c",
+      "bytes": 77856,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libjli.so"
+    },
+    "runtime/lib/libjsig.so": {
+      "sha256": "a3613bbd18f7fcc09642a599f53a957b92ceecea88e96886cb26063c5af464e7",
+      "bytes": 16504,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libjsig.so"
+    },
+    "runtime/lib/libjsound.so": {
+      "sha256": "ea9feeaaf8a9cf638bac16ff52b5b8c7ff3edaac6657c47b1a63c9e29e8c7c6b",
+      "bytes": 81192,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libjsound.so"
+    },
+    "runtime/lib/libjsvml.so": {
+      "sha256": "6bdeb8c9eb93516de4ecd150210cee26317aafbc60cf37b462ac7a4cfe697da4",
+      "bytes": 870880,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libjsvml.so"
+    },
+    "runtime/lib/liblcms.so": {
+      "sha256": "b52bd558d3392795ee1b55aba32b2b743f0c68d0353405da14882bff5841f44f",
+      "bytes": 25888,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/liblcms.so"
+    },
+    "runtime/lib/lible.so": {
+      "sha256": "93d6b3f5a6e520ae1fa496229398d1c187737377b90379e74881117e70710a84",
+      "bytes": 16984,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/lible.so"
+    },
+    "runtime/lib/libmanagement.so": {
+      "sha256": "e5375627d45766768b68cbfcf777546b1ff8664411dd88abb2f4e0d639f3f771",
+      "bytes": 24960,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libmanagement.so"
+    },
+    "runtime/lib/libmanagement_agent.so": {
+      "sha256": "e012db37e94ca24dcbd7e6865c616026a637f052b9c9a2a936f53072d9406547",
+      "bytes": 15440,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libmanagement_agent.so"
+    },
+    "runtime/lib/libmanagement_ext.so": {
+      "sha256": "bd85c52097ec31e863873eb4b1472e637d2e8e8f3eebcbf85c24eeeb58159f93",
+      "bytes": 36832,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libmanagement_ext.so"
+    },
+    "runtime/lib/libmlib_image.so": {
+      "sha256": "95820fd3501cd09594e262cd6b6f3e1ee91d4a6c77d86dfa058170c7607df44a",
+      "bytes": 606640,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libmlib_image.so"
+    },
+    "runtime/lib/libnet.so": {
+      "sha256": "ceb0165a3c1b6e9fb40519afd50faef255fa60a1b0e09209cee4d10f4d94b1bd",
+      "bytes": 57216,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libnet.so"
+    },
+    "runtime/lib/libnio.so": {
+      "sha256": "ebf7cec2a3a486b0ac15ded167257a834b48fb595323daf7025f0bf3706663fe",
+      "bytes": 109568,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libnio.so"
+    },
+    "runtime/lib/libprefs.so": {
+      "sha256": "70e77144a8d067209ead0a99fef8cc23313b1a7f41991780819050b2893bb08c",
+      "bytes": 15616,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libprefs.so"
+    },
+    "runtime/lib/librmi.so": {
+      "sha256": "55e0ec24152ea85b5483b6c0e1382c3845bba3436f6141552c3a90bbc93df340",
+      "bytes": 15176,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/librmi.so"
+    },
+    "runtime/lib/libsaproc.so": {
+      "sha256": "08694ef47147ddda536f77dc1f2b3d9cf29d1fa7f2fb3dd6f0da760662b32de8",
+      "bytes": 74504,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libsaproc.so"
+    },
+    "runtime/lib/libsctp.so": {
+      "sha256": "783322c4ff6152a6bb30f4b49b0fc0bdd6fbe327a50c7651b39592131f1eaf4c",
+      "bytes": 35896,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libsctp.so"
+    },
+    "runtime/lib/libsyslookup.so": {
+      "sha256": "c772770f0662d48a71f5749864628a1c74dc51903c441abae0b53f29a5d60cdc",
+      "bytes": 15080,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libsyslookup.so"
+    },
+    "runtime/lib/libverify.so": {
+      "sha256": "10ed46d8186f41d15828f47a7d68d1c88a8e59aea5d8b0a593529541f3a50675",
+      "bytes": 64104,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libverify.so"
+    },
+    "runtime/lib/libzip.so": {
+      "sha256": "62a9cf9e9da525580cebb6e7fc3a308dd964ab1c21dcd3d0a2285002f9ca9559",
+      "bytes": 40912,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/libzip.so"
+    },
+    "runtime/lib/modules": {
+      "sha256": "ab207cb122922fcb5b7336fa4815ab33c2b6c74f0fa1bb824c7e0531b8f8077b",
+      "bytes": 141116503,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/modules"
+    },
+    "runtime/lib/psfont.properties.ja": {
+      "sha256": "5a4bd51b969bf187ff86d94f4a71fdfbfa602762975fa3c73d264b4575f7c78f",
+      "bytes": 3793,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/psfont.properties.ja"
+    },
+    "runtime/lib/psfontj2d.properties": {
+      "sha256": "780c565d5af3ee6f68b887b75c041cdf46a0592f67012f12eeb691283e92630a",
+      "bytes": 11390,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/psfontj2d.properties"
+    },
+    "runtime/lib/security/blocked.certs": {
+      "sha256": "96572f243f31c2ef81a6e627542e596f6a9295cff3c7ae095c1b595cb1457ded",
+      "bytes": 2488,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/security/blocked.certs"
+    },
+    "runtime/lib/security/default.policy": {
+      "sha256": "9b77a722ab832082b8f9312f72da1528989a3ca1b9fa4f9bf32767dfd5ebe099",
+      "bytes": 10742,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/security/default.policy"
+    },
+    "runtime/lib/security/public_suffix_list.dat": {
+      "sha256": "16b42002aa6f83a7763c4cdbd399ecf738460377d447e362884495545afd60a3",
+      "bytes": 227396,
+      "executable": false,
+      "archive_member": "etc/java-21-openjdk/security/public_suffix_list.dat"
+    },
+    "runtime/lib/server/libjsig.so": {
+      "sha256": "8f27ae1a3c4d1c0313d6ed40ac205ddd43dba6bccdb3193a766e478b244920cb",
+      "bytes": 16608,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/server/libjsig.so"
+    },
+    "runtime/lib/server/libjvm.so": {
+      "sha256": "22c91f26f57d578d80306b7f6825fe684faa932dbb9b050ce79c129143fa0da7",
+      "bytes": 27140808,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/server/libjvm.so"
+    },
+    "runtime/lib/tzdb.dat": {
+      "sha256": "a02e3a23d67255782b11ab81070902235ab564080f0f65ffe2a989cdaa86fe89",
+      "bytes": 103876,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/lib/tzdb.dat"
+    },
+    "runtime/man/man1/java.1.gz": {
+      "sha256": "8f7d1e27b9bfe9b47ab37d89a4249abb147d0b98cc19caacc7925c1196a4105d",
+      "bytes": 48629,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/man/man1/java.1.gz"
+    },
+    "runtime/man/man1/jpackage.1.gz": {
+      "sha256": "3ce2f1c77412ae1013a20de916828e4852d07325261f2d995adc32289b5b6e41",
+      "bytes": 5757,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/man/man1/jpackage.1.gz"
+    },
+    "runtime/man/man1/keytool.1.gz": {
+      "sha256": "5333ac24dc91812c2b0204ed06c557b72011d9c50b99928e617cd8df5ff3ab3b",
+      "bytes": 26192,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/man/man1/keytool.1.gz"
+    },
+    "runtime/man/man1/rmiregistry.1.gz": {
+      "sha256": "bda5cea494f7807d827a2964bd8470a8ca23a8551ebff8a824ee4092ec3d4c34",
+      "bytes": 1582,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/man/man1/rmiregistry.1.gz"
+    },
+    "runtime/release": {
+      "sha256": "9ea31b3dc0252da52ff041118beb6f39aa27a45ed94464abe8589f21817bb3d0",
+      "bytes": 1208,
+      "executable": false,
+      "archive_member": "usr/lib/jvm/java-21-openjdk-amd64/release"
+    },
+    "lib/spotbugs-4.10.5.jar": {
+      "sha256": "8d0af71a88a5324fbe10909cc2ac4145a358c9af52fd6f796bdc0b0e42c7665f",
+      "bytes": 4000319,
+      "executable": false
+    },
+    "plugin/findsecbugs-plugin-1.14.0.jar": {
+      "sha256": "6fa340344fa433ff46c2985dab1010e8bc739f9395c983594a5240095e92abc8",
+      "bytes": 485755,
+      "executable": false
+    },
+    "lib/asm-9.11.jar": {
+      "sha256": "5fe3b469b8646e5bc53a897840952d63b712d4923d2a7a26aebc585f1fec7676",
+      "bytes": 131056,
+      "executable": false
+    },
+    "lib/asm-analysis-9.11.jar": {
+      "sha256": "a1421c20978ca0a330f241b17923a751a23fb1c9423fda1aba7591bb086b01d8",
+      "bytes": 39663,
+      "executable": false
+    },
+    "lib/asm-commons-9.11.jar": {
+      "sha256": "fcff37e6a0227a9f5ee81a7c07f51249307fa15889b56a359ae6f773c164c22b",
+      "bytes": 77917,
+      "executable": false
+    },
+    "lib/asm-tree-9.11.jar": {
+      "sha256": "da8ad24d0bf7efb0674a906f59a7d441692b641718371f3bce6762b191a169fd",
+      "bytes": 51954,
+      "executable": false
+    },
+    "lib/asm-util-9.11.jar": {
+      "sha256": "d5a23a677f31b8a7d2419895906e1fcbd9ac995beffb20944c8610c1bc377609",
+      "bytes": 98078,
+      "executable": false
+    },
+    "lib/bcel-6.13.0.jar": {
+      "sha256": "a37a65752e861c07d313ca47bef0eb75bf7643152c82ca54c4f42d036850b4fb",
+      "bytes": 754682,
+      "executable": false
+    },
+    "lib/jcip-annotations-1.0-1.jar": {
+      "sha256": "4fccff8382aafc589962c4edb262f6aa595e34f1e11e61057d1c6a96e8fc7323",
+      "bytes": 4722,
+      "executable": false
+    },
+    "lib/dom4j-2.2.0.jar": {
+      "sha256": "3fae79e081096e1410645eb3557c63b79ca266d510ab479889511109becd1690",
+      "bytes": 331953,
+      "executable": false
+    },
+    "lib/gson-2.14.0.jar": {
+      "sha256": "2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f",
+      "bytes": 313604,
+      "executable": false
+    },
+    "lib/commons-lang3-3.21.0.jar": {
+      "sha256": "a2af247ec4db6eb8947e18e23e0433e4871a7c5d0a40e1f92e46ede54ae1defe",
+      "bytes": 749083,
+      "executable": false
+    },
+    "lib/commons-text-1.15.0.jar": {
+      "sha256": "58d2da30f058512a1e7f914e39241deca4dff5c27a085b4ed2faa9e7208067f6",
+      "bytes": 264873,
+      "executable": false
+    },
+    "lib/jspecify-1.0.1.jar": {
+      "sha256": "070d75f261fe4c5b8202508366715f7f2d4660f88c8ef7e6d3575e48c9683b66",
+      "bytes": 3064,
+      "executable": false
+    },
+    "lib/slf4j-api-2.0.20.jar": {
+      "sha256": "7e1446499b359675d8aabe6af2de86b85e72ae8a2a932c0b40d0e5ba57097439",
+      "bytes": 70255,
+      "executable": false
+    },
+    "lib/spotbugs-annotations-4.10.5.jar": {
+      "sha256": "2f28af17ad61a7daad0f3df070198c4a5807d3ffd98a5408f670cd19fc2dce84",
+      "bytes": 14854,
+      "executable": false
+    },
+    "lib/jaxen-2.0.6.jar": {
+      "sha256": "3e2a755b283fd492fa4be204294c7abb7cd63ac94fb366baab9c7bb9afb00b6d",
+      "bytes": 225431,
+      "executable": false
+    },
+    "lib/Saxon-HE-12.10.jar": {
+      "sha256": "b571af282f25d7301059f788b9a149aab8b5cdc14ef3d212dc5425d3dcbb9a97",
+      "bytes": 5793277,
+      "executable": false
+    },
+    "lib/log4j-core-2.26.1.jar": {
+      "sha256": "2ec8c3bf5a6d7c89be8620116a2fc973f7dda1ad0261ad393c4d4726edfd3dcb",
+      "bytes": 2015459,
+      "executable": false
+    },
+    "lib/log4j-api-2.26.1.jar": {
+      "sha256": "f1810a4704ccce019d02bba029dc02a4f2ac0c997f647b465e7d409c1927f822",
+      "bytes": 351428,
+      "executable": false
+    },
+    "lib/slf4j-nop-2.0.20.jar": {
+      "sha256": "6522080396fb339e99bae40d329a06d18d3190dc864020ac4ca943519d0fd85b",
+      "bytes": 4966,
+      "executable": false
+    },
+    "lib/commons-io-2.22.0.jar": {
+      "sha256": "2b9a7b1f726fb86216dbd2c8321eabe0221dbd5b1be81c18e1cb53811b104758",
+      "bytes": 609182,
+      "executable": false
+    },
+    "lib/xmlresolver-5.3.3.jar": {
+      "sha256": "1fe4d5b92f708dcdb82dbce12919e0171e6b5ca62c6dca6220483625098feb5f",
+      "bytes": 167889,
+      "executable": false
+    },
+    "lib/xmlresolver-5.3.3-data.jar": {
+      "sha256": "b0c487ad2f3e558be8d829c916d2458d10aca6a5bafa7a4d0524b70845e48a5c",
+      "bytes": 1033122,
+      "executable": false
+    },
+    "lib/jsr305-3.0.2.jar": {
+      "sha256": "766ad2a0783f2687962c8ad74ceecc38a28b9f72a2d085ee438b7813e928d0c7",
+      "bytes": 19936,
+      "executable": false
+    },
+    "runtime/debian-copyright": {
+      "bytes": 245947,
+      "sha256": "7a1aff82dba5eecc7402e247411010d166486ce0950737b8d53ccbe53d655bab",
+      "executable": false,
+      "archive_member": "usr/share/doc/openjdk-21-jre-headless/copyright"
+    }
+  },
+  "owned_classes": {
+    "OwnedSafe.class": "ea42e03db4fd0134ffa1e28f4bf3d47a10fdf9b7ecfcb714522dfc7a0eb04eb4",
+    "OwnedUnsafe.class": "503286698c0f46626e86e7a60d3800bc5188f52b98ba4458daebf1b6342565bd",
+    "OwnedWitness$Capture.class": "04766100b84f9426e0745d10e6b7dcab754fbb71c3d2a352e0142774ba2e753e",
+    "OwnedWitness.class": "5df379e7e0c7bdaab29b68b4ad172525c2b3b242542ca5e7e688312d707f577d"
+  },
+  "cases_sha256": "489f079b833058260217df402b255c28fd2ae255df513e7bad9d9356bb2c7b4f",
+  "maven_sha256": "18fa36df5f0c2e1f44ce41fcec8de83e0330c6e8341987ef066c6b83e1fc765d",
+  "provenance_sha256": "317c07bd11343be80ee6f1921102d60095d5aa546a1f2fb54df67e8563590651",
+  "samples_sha256": "44300ff8ea2b290c9c4801d376d952fa8907ca92819d4abcf08510bd7add94ec",
+  "scope": "Official Maven artifacts and official Debian OpenJDK package with enforced archive/member SHA256 pins. No signed provenance validation, analyzer source rebuild, complete dependency license audit, or host shared-library closure is claimed.",
+  "rebuild_sha256": "682a96c7c8c348945a3fd564bfd671910c76910ab81349f93608318a74e0f5af"
+}

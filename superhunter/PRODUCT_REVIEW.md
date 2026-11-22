@@ -94,6 +94,21 @@ El verificador reconstruye las relaciones esperadas desde los SBOM y coteja el d
 
 Los seis perfiles Python enumeran versiones. En estos SBOM del productor fijado, la verificación exige la raíz de aplicación propia del perfil, coteja cada referencia con su PURL y rechaza relaciones de dependencia explícitas que el manifiesto no acredita. Para Census se conserva el contraste del grafo con Cargo.lock y los manifiestos de los miembros.
 
+### Recuperar los dos inventarios del perfil publicado
+
+El [paquete de inventarios](product_supply/fixed-cdxgen-guac-inputs.json) conserva doce archivos, con sus tamaños y SHA-256. Los nueve de `cdx` contienen siete SBOM CycloneDX, el resumen y su marcador de integridad. Los tres de `guac` contienen la respuesta de dependencias, la comparación con esos siete SBOM y su marcador. En total son 106.246 bytes originales. La huella SHA-256 del paquete es `943ca6c8acc2612bc90951f02a88fc37ee1700c239891720812c401b0cd1fedc`.
+
+La receta de [cdxgen](product_cdxgen.py) usa la distribución 13.8.0 fijada por SHA-256 y los manifiestos NQC cotejados con el expediente de producto. Nueve propiedades del SBOM de Census conservan la misma ruta efímera de su compilación de inventario, generada con `TemporaryDirectory(prefix='nqc-cdxgen-')`. La receta de [GUAC](product_guac.py) identifica las dos distribuciones 1.1.0 por sus hashes, procesa esos siete documentos y conserva por separado las relaciones declaradas y heurísticas. Las versiones y huellas registradas se cotejaron con las fijaciones del código. Los bytes originales se seleccionaron de las dos entradas del perfil `native-inputs.json` que alimentaron al producto.
+
+Desde el repositorio, con Python 3.12 en Linux y un directorio padre ya existente:
+
+```sh
+python -B -m superhunter.tools.pack_remote_inputs --restore-inventory "$PWD/insumos-inventario"
+python -B -m superhunter.tools.pack_remote_inputs --check-inventory "$PWD/insumos-inventario"
+```
+
+En el JSON completo que recibe `catalog_session --native-inputs`, asignar `cdxgen-bundle` a la ruta absoluta de `insumos-inventario/cdx` y `guac-bundle` a la de `insumos-inventario/guac`. El comando `query-product` acepta esas rutas con `--cdxgen-bundle` y `--guac-bundle`. El lector valida el paquete y cada miembro y publica ambos directorios juntos en un destino nuevo. Esta recuperación permite repetir la lectura de los mismos bytes. Una nueva ejecución de los productores se acredita por separado con las recetas anteriores.
+
 ## Avisos públicos de las distribuciones Python
 
 Con las distribuciones de `superhunter/product_supply/wheels.txt` en un directorio local, se pueden consultar o exportar sus avisos desde la CLI. NQC comprueba el SHA-256 del wheel conforme al archivo de bloqueo vinculado al expediente de in-toto y comprueba nombre y versión en METADATA. Lee los archivos que nombra cada cabecera License-File. En los wheels antiguos sin esa cabecera busca los avisos LICENSE, COPYING y NOTICE del directorio dist-info.
