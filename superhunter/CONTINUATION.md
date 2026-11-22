@@ -1,6 +1,14 @@
 # SUPERHUNTER · Punto de reanudación
 
-## Aceptación vigente · 21 de noviembre de 2026
+## Última aceptación reproducida · report-interop
+
+El commit [f1eea76f](https://github.com/josuechavando350-png/nexus-quant-capital/commit/f1eea76f24ff0cf0b5af4a870b5d6e117c46d248) produjo las mismas 222 respuestas en dos checkouts limpios, sin red y en la misma máquina. Cada salida midió 1,264,255 bytes. En una sesión funcionaron 154/200 identidades únicas, con 99 de ejecución y 55 acreditadas sólo por referencias consumidas. Los recibos conservan 164 operaciones. Quedan 46 identidades sin participación conjunta reproducida. Los 12 grupos nativos y los 25 dominios de comprobación completaron la ejecución. [Matriz de los 200](INTEGRATION_STATUS_200.md) · [Acta, entradas y dos transcripciones](product_supply/consolidated-acceptance-report-interop/acceptance.json)
+
+Wapiti y WSTG permiten distinguir las citas que sólo existen en la edición 4.2. La conciliación de las dos exportaciones de ZAP recuperó 295 observaciones pese a que el informe agrupado presenta sólo 125 muestras. Los manifiestos de crAPI y las reglas de KubeLinter permitieron comprobar los recursos de 16 contenedores. Los datos proceden de archivos de prueba ya publicados. El expediente conserva cero vulnerabilidades originales confirmadas. [Control de calidad del productor](product_supply/acceptance-120/qa-report-interop.json) · [Las 22 incorporaciones, con sus revisiones, tipos de uso y avisos](product_supply/acceptance-120/report-interop-new-participants.json)
+
+Para contrastar el expediente publicado, ejecutar `python3.12 -B -m superhunter.tools.render_product_matrix --check-acceptance`. Cada fila expone sus recibos de ejecución o referencia.
+
+## Aceptación anterior · 21 de noviembre de 2026
 
 En dos checkouts independientes del [commit público `604bd28d`](https://github.com/josuechavando350-png/nexus-quant-capital/commit/604bd28d528ee809c8e6d38adab86ec6f67b652c), el perfil de 12 grupos y 17 dominios produjo las mismas 222 respuestas byte por byte. Pasaron 132 de 200 identidades únicas. De ellas, 94 ejecutaron código y 38 aportaron referencias consumidas. La matriz conserva las 142 operaciones y las 110 obligaciones de las 106 identidades históricas. Quedan 68 identidades pendientes. El verificador rechazó las 20 alteraciones de control. Las corridas se hicieron sin red, en una sola máquina. [Matriz de los 200](INTEGRATION_STATUS_200.md) · [Acta, huellas y dos transcripciones](product_supply/consolidated-acceptance-html-review/acceptance.json)
 

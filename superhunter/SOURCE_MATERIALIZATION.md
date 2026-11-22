@@ -1,5 +1,9 @@
 # Acta de materialización de fuentes
 
+## Adquisición vinculada a las nuevas integraciones
+
+Se materializaron por separado **5 de las 140 revisiones anidadas distintas** de primer nivel. Quedan **135**. A la adquisición previa de forge-std se sumaron psalm-plugin-api, zlib, libipt y elfutils. Para estos cuatro se cotejaron el origen declarado, el gitlink del padre, el commit y el árbol del hijo, y los bytes y modos de sus 2,368 archivos registrados. Sus árboles carecen de submódulos adicionales y punteros LFS. En psalm-plugin-api se conserva la declaración del manifiesto Composer. La revisión de redistribución comercial sigue pendiente. [Cuatro checkouts y sus avisos](product_supply/acceptance-120/report-interop-nested-checkouts.json) · [Adquisición previa](product_supply/acceptance-120/staged-source-acquisition.json)
+
 ## Comprobación local de dependencias anidadas
 
 El [recibo de almacenamiento](product_supply/acceptance-120/nested-source-storage.json) registra la inspección de los 200 repositorios directos. Los árboles fijan 141 rutas de submódulo en 40 proyectos y apuntan a 140 commits distintos. Los 141 directorios estaban vacíos. Ninguno de los 140 commits apareció en las 200 bases de objetos directas consultadas.
