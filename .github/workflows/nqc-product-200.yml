@@ -175,7 +175,6 @@ jobs:
           unshare --user --map-current-user --net "$RUNNER_TEMP/qa-python/bin/python" -B \
             "$RUNNER_TEMP/qa/metric-accounting/study.py" "$PWD/product" "$RUNNER_TEMP/metric-tools" "$RUNNER_TEMP/metric-results"
           diff -u "$RUNNER_TEMP/qa/metric-accounting/score.json" "$RUNNER_TEMP/metric-results/score.json"
-          (cd product && unshare --user --map-current-user --net "$RUNNER_TEMP/qa-python/bin/python" -B -m unittest -q superhunter.tests.test_evm_accounting superhunter.tests.test_balance_reconciliation)
       - name: Conservar las observaciones y predicciones contables
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
@@ -183,6 +182,24 @@ jobs:
           path: ${{ runner.temp }}/metric-results/
           if-no-files-found: error
           retention-days: 14
+      - name: Reproducir las 78 pruebas contables con la biblioteca Z3 histórica
+        shell: bash
+        run: |
+          set -euo pipefail
+          image='python@sha256:05a994d2344eb364cc186910f4fc8786a38215f39f00d0acc25bff33a08f4177'
+          docker pull "$image"
+          curl -fsSL --retry 3 https://deb.debian.org/debian/pool/main/z/z3/libz3-4_4.13.3-1_amd64.deb -o "$RUNNER_TEMP/z3.deb"
+          echo "71383373523ef62d47eccf660cf6535c3febcbb3f88e54cb7a43124014b57359  $RUNNER_TEMP/z3.deb" | sha256sum -c
+          dpkg-deb -x "$RUNNER_TEMP/z3.deb" "$RUNNER_TEMP/reference-z3"
+          library="$RUNNER_TEMP/reference-z3/usr/lib/x86_64-linux-gnu/libz3.so.4"
+          echo "7accc397d4ac387468b09489bdaff9d82bfac4ca6a7e339b8fbb2167edf9c1c0  $library" | sha256sum -c
+          yaml_dir=$("$RUNNER_TEMP/qa-python/bin/python" -c 'from pathlib import Path; import yaml; print(Path(yaml.__file__).parent)')
+          docker run --rm --network none --read-only --cap-drop ALL --security-opt no-new-privileges \
+            --tmpfs /tmp:rw,nosuid,nodev --user "$(id -u):$(id -g)" \
+            -e HOME=/tmp -e PYTHONDONTWRITEBYTECODE=1 -e PYTHONPATH=/qa-deps \
+            -v "$PWD/product:/product:ro" -v "$yaml_dir:/qa-deps/yaml:ro" \
+            -v "$library:/usr/lib/x86_64-linux-gnu/libz3.so.4:ro" -w /product "$image" \
+            python -B -m unittest -q superhunter.tests.test_evm_accounting superhunter.tests.test_balance_reconciliation
       - name: Verificar el transporte de los 200 en la revisión nueva
         working-directory: product
         shell: bash
