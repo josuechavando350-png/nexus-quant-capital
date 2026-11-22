@@ -116,7 +116,7 @@ jobs:
           git -C product remote add origin https://github.com/josuechavando350-png/nexus-quant-capital.git
           git -C product fetch -q --no-tags --no-recurse-submodules origin "$QUALITY_PRODUCT" "$GITHUB_SHA"
           git -C product checkout -q --detach "$QUALITY_PRODUCT"
-          git -C product archive "$GITHUB_SHA" qa/quality-tools qa/nqc-history/cases.json | tar -x -C "$RUNNER_TEMP"
+          git -C product archive "$GITHUB_SHA" qa/quality-tools qa/nqc-history/cases.json qa/metric-accounting | tar -x -C "$RUNNER_TEMP"
           "$python_bin" -m venv "$RUNNER_TEMP/qa-python"
           "$RUNNER_TEMP/qa-python/bin/python" -m pip --isolated install --only-binary=:all: --no-deps --require-hashes -r "$RUNNER_TEMP/qa/quality-tools/linux-py312.txt"
           "$RUNNER_TEMP/qa-python/bin/python" -m pip check
@@ -143,6 +143,46 @@ jobs:
           set -eu
           unshare --user --map-current-user --net "$RUNNER_TEMP/qa-python/bin/python" -B "$RUNNER_TEMP/qa/quality-tools/measure_tools.py" "$PWD/product" "$RUNNER_TEMP/quality-evidence/tools"
           diff -u "$RUNNER_TEMP/qa/quality-tools/tool-score.json" "$RUNNER_TEMP/quality-evidence/tools/tool-score.json"
+      - name: Preparar los dos ejecutables fijados para las hojas de contabilidad
+        working-directory: product
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/qa-python/bin/python" -B - "$RUNNER_TEMP/metric-tools" <<'PYTHON'
+          import json, shutil, sys, tarfile
+          from pathlib import Path
+          from superhunter.tools.catalog_session import fetch_asset
+          root = Path(sys.argv[1])
+          root.mkdir()
+          pins = json.loads(Path("superhunter/product_supply/contract-properties-native-build.json").read_bytes())
+          compiler, = pins["direct_downloads"]
+          archive, = pins["archives"]
+          fetch_asset(root, ("solc", (compiler["url"], compiler["sha256"])))
+          fetch_asset(root, ("foundry.tar.gz", (archive["archive_url"], archive["archive_sha256"])))
+          with tarfile.open(root / "foundry.tar.gz", "r:gz") as tar:
+              member = tar.getmember("forge")
+              if not member.isfile():
+                  raise ValueError("unexpected Forge archive member")
+              with tar.extractfile(member) as src, (root / "forge").open("xb") as dst:
+                  shutil.copyfileobj(src, dst)
+          for name in ("forge", "solc"):
+              (root / name).chmod(0o700)
+          PYTHON
+      - name: Medir el conciliador de Hunter con doce hojas propias sin red
+        shell: bash
+        run: |
+          set -euo pipefail
+          unshare --user --map-current-user --net "$RUNNER_TEMP/qa-python/bin/python" -B \
+            "$RUNNER_TEMP/qa/metric-accounting/study.py" "$PWD/product" "$RUNNER_TEMP/metric-tools" "$RUNNER_TEMP/metric-results"
+          diff -u "$RUNNER_TEMP/qa/metric-accounting/score.json" "$RUNNER_TEMP/metric-results/score.json"
+          (cd product && unshare --user --map-current-user --net "$RUNNER_TEMP/qa-python/bin/python" -B -m unittest -q superhunter.tests.test_evm_accounting superhunter.tests.test_balance_reconciliation)
+      - name: Conservar las observaciones y predicciones contables
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: hunter-metric-contabilidad-propia
+          path: ${{ runner.temp }}/metric-results/
+          if-no-files-found: error
+          retention-days: 14
       - name: Verificar el transporte de los 200 en la revisión nueva
         working-directory: product
         shell: bash
