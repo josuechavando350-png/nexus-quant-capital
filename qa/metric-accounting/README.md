@@ -15,3 +15,9 @@ El conciliador de Hunter recibe los dos saldos iniciales y finales y los movimie
 Se cuenta un acierto por par si Hunter alerta en al menos una entrada con salida incorrecta y la hoja corregida no produce alertas. El resultado desglosa también cada entrada. Un control adicional declara incompleta la cobertura de movimientos y comprueba que Hunter se abstenga. La repetición no aumenta el tamaño de la muestra. El resultado mide un conciliador con entradas contables conocidas y no establece detección general por lectura del código fuente.
 
 Las salidas completas de cada ejecución se guardan en el artefacto `hunter-metric-contabilidad-propia`. La rama conserva `score.json` como referencia.
+
+## Prueba ampliada de las hojas de NQC
+
+Se evalúan las mismas doce hojas con 128 entradas distintas por hoja. La matriz cruza cuatro escalas de unidades, las cuatro combinaciones de partidas vacías y ocho variaciones de cada combinación. Se observan los cuatro campos producidos por la implementación nativa. El conciliador original recibe los saldos y los movimientos. Un control adicional de presentación compara el contador con las partidas no vacías y el subtotal impreso con la suma de las dos columnas impresas.
+
+Las observaciones y predicciones se escriben antes de abrir la clave y utilizar el modelo independiente para puntuar. Las 1.536 salidas incluyen 514 con un valor incorrecto. El conciliador original detecta 290 de ellas. Al añadir los dos controles de presentación se detectan las 514. Los dos modos dan cero alertas en las 1.022 salidas correctas. Los dos controles se diseñaron después de conocer las omisiones del ensayo inicial. Es una comprobación de regresión de seis defectos conocidos en hojas propias. El artefacto de GitHub incluye los 128 vectores, las predicciones por hoja y el resultado en la subcarpeta `fields/`.
