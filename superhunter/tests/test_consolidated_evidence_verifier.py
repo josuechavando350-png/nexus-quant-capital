@@ -279,16 +279,17 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
             component_sha = inputs['component_contract_sha256']
             registry = {verifier.COMPONENTS_REPORT_INTEROP: 'report-interop',
                         verifier.COMPONENTS_EVIDENCE_CONTRACTS: 'evidence-contracts',
-                        verifier.COMPONENTS_THROUGH_HTML: None}.get(component_sha, 'supply-and-reporting')
+                        verifier.COMPONENTS_SUPPLY_AND_REPORTING: 'supply-and-reporting',
+                        verifier.COMPONENTS_THROUGH_HTML: None}.get(component_sha, 'vendored-attributions')
             matches = [name for name, (_, digest, _) in renderer.PROFILES.items()
                        if digest == contract and (name == registry if registry else
-                                                 name not in ('report-interop', 'evidence-contracts', 'supply-and-reporting'))]
+                                                 name not in ('report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions'))]
             self.assertEqual(len(matches), 1)
             selected = matches[0]
             if recorded_profile:
                 self.assertEqual(selected, recorded_profile)
             renderer.require_producer(commit, tree, inputs, selected)
-            if selected in ('report-interop', 'evidence-contracts', 'supply-and-reporting'):
+            if selected in ('report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions'):
                 for replacement in (None, verifier.COMPONENTS_THROUGH_HTML):
                     forged = {**inputs, 'component_contract_sha256': replacement}
                     with self.subTest(replacement=replacement), self.assertRaisesRegex(EvidenceError, 'run component contract'):
@@ -384,7 +385,7 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
 
     def test_latest_is_ordered_by_profile_and_cannot_hide_an_incomplete_dossier(self):
         with TemporaryDirectory() as tmp, patch.object(renderer, 'ROOT', Path(tmp)):
-            expected = ('core-eight', 'accounting', 'canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting')
+            expected = ('core-eight', 'accounting', 'canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions')
             self.assertEqual(tuple(renderer.PROFILES), expected)
             self.assertEqual(tuple(renderer.PROFILE_DIRECTORIES), expected)
             for name in expected:
@@ -450,6 +451,48 @@ class ConsolidatedEvidenceTests(unittest.TestCase):
             self.assertEqual(renderer.component_contract_digest('supply-and-reporting'),
                              verifier.COMPONENTS_SUPPLY_AND_REPORTING)
         self.assertIn('cilium/cilium', report_rules)
+
+    def test_frozen_supply_and_reporting_contract_is_independent_of_the_active_registry(self):
+        raw = (ROOT / 'superhunter/product_supply/component-control-contracts-supply-and-reporting.json').read_bytes()
+        self.assertEqual(verifier.sha(raw), verifier.COMPONENTS_SUPPLY_AND_REPORTING)
+        with patch('superhunter.product_component_controls.contracts', side_effect=AssertionError('active registry')):
+            rules = verifier.component_rules.__wrapped__('supply-and-reporting')
+        self.assertEqual(rules, strict_json(raw))
+        self.assertIn('DataDog/stratus-red-team', rules)
+        self.assertIn('OWASP/Nettacker', rules)
+        self.assertNotIn('sqlmapproject/sqlmap', rules)
+
+    def test_supply_and_reporting_baseline_checks_the_published_act_producer_and_transcript(self):
+        verdict = {'transcript_sha256': verifier.SUPPLY_AND_REPORTING_TRANSCRIPT_SHA}
+        producer = {'commit': verifier.SUPPLY_AND_REPORTING_PRODUCER}
+        rows = [{'id': 81, 'repository': 'DataDog/stratus-red-team', 'session_operations': [
+            {'role': 'reference_data', 'receipt': 'component_control_receipt', 'evidence_sha256': '8' * 64}]}]
+        with patch.object(renderer, 'verified_pair', return_value=(verdict, rows, producer)) as checked:
+            self.assertEqual(verifier.supply_and_reporting_operations.__wrapped__(), verifier.operation_keys(rows))
+            checked.assert_called_once_with('supply-and-reporting', evidence_commit=verifier.SUPPLY_AND_REPORTING_ACT)
+        for digest, head in [({'transcript_sha256': '0' * 64}, producer), (verdict, {'commit': '0' * 40})]:
+            with self.subTest(digest=digest, head=head), patch.object(renderer, 'verified_pair', return_value=(
+                    digest, rows, head)), self.assertRaisesRegex(EvidenceError, 'baseline differs'):
+                verifier.supply_and_reporting_operations.__wrapped__()
+
+    def test_new_profile_requires_the_new_mutation_and_all_original_names(self):
+        prior = renderer.REQUIRED_MUTATIONS | {
+            'changed_policy_catalog_joint_digest', 'changed_attribution_review', 'changed_localized_report'}
+        current = prior | {'changed_vendored_attribution'}
+        self.assertEqual((len(prior), len(current)), (23, 24))
+        for names in (current, prior, (current - {'changed_localized_report'}) | {'unverified_alternative'}):
+            controls = dict.fromkeys(names, 'rejected')
+            act = {'independent_verification': {}, 'refuted_mutations': controls}
+            with self.subTest(names=names), patch.object(verifier, 'negative_controls', return_value=controls) as checked:
+                if names == current:
+                    renderer.check_act_verdict(act, {}, self.archive, profile='vendored-attributions',
+                                               producer_commit='f' * 40)
+                else:
+                    with self.assertRaisesRegex(EvidenceError, 'recomputed controls'):
+                        renderer.check_act_verdict(act, {}, self.archive, profile='vendored-attributions',
+                                                   producer_commit='f' * 40)
+                checked.assert_called_once_with(self.archive, require_vendored_attributions=True,
+                                                producer_commit='f' * 40)
 
     def test_unearned_policy_corroboration_is_rejected_even_if_the_field_is_empty(self):
         for observations in ({}, {'BishopFox/cloudfox': {}}, {'iann0036/iamlive': {}}):

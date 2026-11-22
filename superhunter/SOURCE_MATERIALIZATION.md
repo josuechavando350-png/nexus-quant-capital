@@ -2,6 +2,17 @@
 
 ## Estado de las dependencias de primer nivel
 
+De las 140 revisiones anidadas distintas, se han comprobado 32 y quedan 108. El lote más reciente cotejó diez revisiones y los bytes y modos de 5.289 archivos con las declaraciones y los gitlinks de sus respectivos padres. La descarga de cryptol-specs terminó antes de obtener un checkout verificable y queda pendiente. El expediente computa cero identidades funcionales nuevas. [Acta de las diez revisiones](product_supply/acceptance-120/supply-nested-checkouts.json)
+
+Para reproducir el cotejo, ejecutar el verificador con las mismas fuentes directas y diez checkouts separados, uno por dependencia.
+
+```sh
+unshare --user --map-current-user --net python3.12 -B -m superhunter.tools.verify_staged_dependencies \
+  --batch supply --direct-sources "$FUENTES_DIRECTAS" --staging "$DEPENDENCIAS"
+```
+
+## Corte anterior de dependencias de primer nivel
+
 Se han comprobado por separado **22 de 140 revisiones anidadas distintas**. Quedan **118** por materializar. El último lote añadió 17 revisiones y contrastó los bytes y modos de 2.172 archivos rastreados con sus objetos Git. El cotejo independiente verificó los orígenes declarados por los padres, sus gitlinks y los índices de los checkouts. Dentro de estas 17 revisiones aparecieron dos gitlinks de segundo nivel, en Jaeger IDL y range-v3. La contabilización funcional de los 200 se mantiene en la [matriz del producto](INTEGRATION_STATUS_200.md). [Los 17 checkouts y sus avisos](product_supply/acceptance-120/evidence-contracts-nested-checkouts.json)
 
 Doce revisiones contenían un aviso o manifiesto de los tipos buscados en la raíz. En las otras cinco se inspeccionaron declaraciones de paquete, subdirectorios, archivos fuente y documentación. Continúa abierta la licencia aplicable a las traducciones de Cutter y la cobertura completa de java-models-library. El verificador rechazó cinco alteraciones controladas, entre ellas una modificación de contenido, un cambio del bit ejecutable y una sustitución de origen. La compatibilidad de redistribución comercial sigue pendiente. [Archivos, declaraciones y controles](product_supply/acceptance-120/staged-dependency-review.json)

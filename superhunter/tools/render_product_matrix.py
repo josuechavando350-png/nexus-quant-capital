@@ -25,6 +25,7 @@ HTML_REVIEW_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['html-review']
 REPORT_INTEROP_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['report-interop']
 EVIDENCE_CONTRACTS_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['evidence-contracts']
 ATTRIBUTIONS_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['supply-and-reporting']
+VENDORED_DOSSIER = 'superhunter/' + PROFILE_DIRECTORIES['vendored-attributions']
 # A later default native registry must never redefine an archived nine-group acceptance.
 ACCOUNTING_SHA = '4dfec613c3f4ad64084a7487d4f4d5ecadea8f177f1bcc7283637c4a8adcdefa'
 HEADER_SHA = 'c3b7c10d1c72aacae73e09c5b96b521baeb9a8e6f4b15b03886ddcb8a16395c3'
@@ -37,8 +38,9 @@ PROFILES = {'core-eight': (DOSSIER, CORE_EIGHT[1], 'require_consolidated'),
             'html-review': (HTML_REVIEW_DOSSIER, HTML_REVIEW_SHA, 'require_html_review'),
             'report-interop': (REPORT_INTEROP_DOSSIER, HTML_REVIEW_SHA, 'require_report_interop'),
             'evidence-contracts': (EVIDENCE_CONTRACTS_DOSSIER, HTML_REVIEW_SHA, 'require_evidence_contracts'),
-            'supply-and-reporting': (ATTRIBUTIONS_DOSSIER, HTML_REVIEW_SHA, 'require_supply_and_reporting')}
-PRODUCER_BOUND_PROFILES = ('evidence-contracts', 'supply-and-reporting')
+            'supply-and-reporting': (ATTRIBUTIONS_DOSSIER, HTML_REVIEW_SHA, 'require_supply_and_reporting'),
+            'vendored-attributions': (VENDORED_DOSSIER, HTML_REVIEW_SHA, 'require_vendored_attributions')}
+PRODUCER_BOUND_PROFILES = ('evidence-contracts', 'supply-and-reporting', 'vendored-attributions')
 REQUIRED_MUTATIONS = frozenset({
     'inflated_count', 'unsupported_credit', 'replaced_historical_digest', 'changed_native_result',
     'changed_license', 'changed_git_tree', 'erased_domain_selection', 'erased_shared_results',
@@ -144,19 +146,19 @@ def render(components, native, *, current=None, producer=None):
                       + (', '.join(f'`{path}`' for path in producer['different_inputs']) or 'ninguno') + '. '
                       + ('Los manifiestos nativos tienen huellas distintas.' if producer['different_native_manifest']
                          else 'Coincide la huella de los manifiestos nativos.')])
-        if producer['profile'] in ('accounting', 'canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting'):
+        if producer['profile'] in ('accounting', 'canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions'):
             lines.extend(['', 'Esta aceptación incluye el noveno grupo de controles contables. '
                           'El [expediente de ocho grupos](product_supply/consolidated-acceptance/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile core-eight`.'])
-        if producer['profile'] in ('canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting'):
+        if producer['profile'] in ('canonical-header', 'grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions'):
             lines.extend(['', 'El décimo grupo comprueba la interoperabilidad de encabezados RLP. '
                           'El [expediente de nueve grupos](product_supply/consolidated-acceptance-accounting/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile accounting`.'])
-        if producer['profile'] in ('grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting'):
+        if producer['profile'] in ('grpc-schema', 'html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions'):
             lines.extend(['', 'El undécimo grupo comprueba esquemas gRPC. '
                           'El [expediente de diez grupos](product_supply/consolidated-acceptance-header/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile canonical-header`.'])
-        if producer['profile'] in ('html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting'):
+        if producer['profile'] in ('html-review', 'report-interop', 'evidence-contracts', 'supply-and-reporting', 'vendored-attributions'):
             lines.extend(['', 'El duodécimo grupo comprueba el informe HTML en el navegador. '
                           'El [expediente de once grupos](product_supply/consolidated-acceptance-grpc-schema/acceptance.json) '
                           'se comprueba con `--verify-dossier --profile grpc-schema`.'])
@@ -190,6 +192,11 @@ def render(components, native, *, current=None, producer=None):
                           'La revisión de dependencias compara el inventario de atribuciones de Stratus con '
                           'las declaraciones del módulo Go. Nettacker aporta mensajes de sus catálogos de idiomas para '
                           '[abrir el informe de comparación](product_supply/acceptance-120/pr119-140-vs-157-localized.md).'])
+        if producer['profile'] == 'vendored-attributions':
+            lines.extend(['', f"Se acreditaron de nuevo las {result['prior_operations_preserved']} operaciones "
+                          f"de {result['prior_identities_preserved']} identidades del "
+                          '[expediente anterior](product_supply/consolidated-acceptance-supply-and-reporting/acceptance.json). '
+                          'El nuevo control coteja avisos de dependencias incorporadas en los árboles de fuentes.'])
     if current:
         lines.extend(['', 'Una revisión posterior del PR 119 archivó 139 identidades en un perfil distinto. '
                       'Su transcripción, los dos registros de ejecución declarados y el cruce con el perfil contable '
@@ -233,6 +240,8 @@ def digest(value, width=64):
 
 
 def component_contract_digest(profile):
+    if profile == 'vendored-attributions':
+        return verify_review_115.COMPONENTS_VENDORED_ATTRIBUTIONS
     if profile == 'evidence-contracts':
         return verify_review_115.COMPONENTS_EVIDENCE_CONTRACTS
     if profile == 'supply-and-reporting':
@@ -314,11 +323,15 @@ def selected_profile(profile):
 def check_act_verdict(act, verified, raw, *, profile=None, producer_commit=None):
     if canonical(act.get('independent_verification')) != canonical(verified):
         raise EvidenceError('independent verification in the acceptance act differs from the recomputed verdict')
-    options = {PROFILES[profile][2]: True, 'producer_commit': producer_commit} if profile in PRODUCER_BOUND_PROFILES else {}
+    options = {PROFILES[profile][2]: True} if profile else {}
+    if profile in PRODUCER_BOUND_PROFILES:
+        options['producer_commit'] = producer_commit
     controls = verify_review_115.negative_controls(raw, **options)
     required = REQUIRED_MUTATIONS | ({'changed_policy_catalog_joint_digest'} if profile in PRODUCER_BOUND_PROFILES else set())
-    if profile == 'supply-and-reporting':
+    if profile in ('supply-and-reporting', 'vendored-attributions'):
         required = required | {'changed_attribution_review', 'changed_localized_report'}
+    if profile == 'vendored-attributions':
+        required = required | {'changed_vendored_attribution'}
     if set(controls) != required or canonical(act.get('refuted_mutations')) != canonical(controls):
         raise EvidenceError('refuted mutations in the acceptance act differ from the recomputed controls')
 
@@ -361,6 +374,8 @@ def verified_pair(profile, *, evidence_commit=None):
         strict_profile['producer_commit'] = result['commit']
     verified = verify_review_115.verify(raw, result['sha256'], **strict_profile)
     verify_review_115.verify(other, replay['sha256'], **strict_profile)
+    if profile == 'supply-and-reporting' and result['commit'] != verify_review_115.SUPPLY_AND_REPORTING_PRODUCER:
+        raise EvidenceError('supply and reporting dossier names a different audited producer')
     if profile == 'report-interop' and result['commit'] != verify_review_115.REPORT_INTEROP_PRODUCER:
         raise EvidenceError('report interoperability dossier names a different audited producer')
     if raw != other:

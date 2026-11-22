@@ -125,10 +125,20 @@ HTML_TRANSCRIPT_SHA = 'd07aafc5d1c5ba5dfbe5bdcb59d8fe292ddfb7b8a2fe97e5b944ab27f
 COMPONENTS_REPORT_INTEROP = 'f05874680d267a179c47e04b0fd032bbf1695896225293189cec93856b4e4b82'
 COMPONENTS_EVIDENCE_CONTRACTS = 'e817543c5ca4887cf618806e3dc6b1981e72239aa679dd78afab68c217d70b6a'
 COMPONENTS_SUPPLY_AND_REPORTING = '7442de259902d227b3ba6c05f56597f814abaeca8cc531d0b3a2c6fe28f1ad0e'
+COMPONENTS_VENDORED_ATTRIBUTIONS = 'e12a865b8cf73bf405dd3b8b10a388e21b8326e8e6d782cc5b1f1833cf376b6f'
+SUPPLY_AND_REPORTING_PRODUCER = 'a05693a9f2562ac147e4c5ec6c7646e8857dcf64'
+SUPPLY_AND_REPORTING_ACT = '10919f0cf387809cc529ea15ebe08acafc0bf665'
+SUPPLY_AND_REPORTING_TRANSCRIPT_SHA = '972f08f6a715542046ce174863dc385dbfec6851a40d738afec8f22d767782ab'
 EVIDENCE_CONTRACTS_PRODUCER = '2ddbe098cc98a667211494a9ff9f21ce014d8c3f'
 EVIDENCE_CONTRACTS_ACT = '582cc5c48ee0f92a01d638a55c5d4a2b602d903a'
 EVIDENCE_CONTRACTS_TRANSCRIPT_SHA = 'bdb0e859c9a3affd0f0ca198ed1cdeae75571889f9cab67d28d372058c29722e'
+SUCCESSOR_BASELINES = {
+    'evidence-contracts': 'report-interop',
+    'supply-and-reporting': 'evidence-contracts',
+    'vendored-attributions': 'supply-and-reporting',
+}
 HISTORICAL_COMPONENTS = {
+    'supply-and-reporting': COMPONENTS_SUPPLY_AND_REPORTING,
     'evidence-contracts': COMPONENTS_EVIDENCE_CONTRACTS,
     'report-interop': COMPONENTS_REPORT_INTEROP,
     'through-html': COMPONENTS_THROUGH_HTML,
@@ -139,10 +149,10 @@ HISTORICAL_COMPONENTS = {
 
 @cache
 def component_rules(profile):
-    if profile == 'supply-and-reporting':
+    if profile == 'vendored-attributions':
         raw = read_artifact(ROOT, 'superhunter/product_supply/component-control-contracts.json')
-        if sha(raw) != COMPONENTS_SUPPLY_AND_REPORTING:
-            raise EvidenceError('dependency and reporting contracts differ from the reviewed registry')
+        if sha(raw) != COMPONENTS_VENDORED_ATTRIBUTIONS:
+            raise EvidenceError('vendored attribution contracts differ from the reviewed registry')
         return strict_json(raw)
     if profile == 'current':
         from superhunter.product_component_controls import contracts
@@ -192,12 +202,12 @@ def verify_policy_corroboration(controls):
 def verify(raw, expected_hash=None, *, require_consolidated=False, require_accounting=False,
            require_canonical_header=False, require_grpc_schema=False, require_html_review=False,
            require_report_interop=False, require_evidence_contracts=False, require_supply_and_reporting=False,
-           producer_commit=None):
+           require_vendored_attributions=False, producer_commit=None):
     profiles = [name for selected, name in (
         (require_consolidated, 'core-eight'), (require_accounting, 'accounting-nine'),
         (require_canonical_header, 'canonical-ten'), (require_grpc_schema, 'grpc-eleven'),
         (require_html_review, None), (require_report_interop, None), (require_evidence_contracts, None),
-        (require_supply_and_reporting, None)) if selected]
+        (require_supply_and_reporting, None), (require_vendored_attributions, None)) if selected]
     if len(profiles) > 1:
         raise EvidenceError('select one exact consolidated acceptance profile')
     full_profile = bool(profiles)
@@ -235,7 +245,9 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
                    'published_excerpts' not in matrix and
                    report['source-inventory'].get('snapshot_sha256') == SNAPSHOT_153)
     component_profile = 'through-html' if full_profile else 'current'
-    if require_supply_and_reporting:
+    if require_vendored_attributions:
+        component_profile = 'vendored-attributions'
+    elif require_supply_and_reporting:
         component_profile = 'supply-and-reporting'
     elif require_evidence_contracts:
         component_profile = 'evidence-contracts'
@@ -411,8 +423,8 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
     if full_profile:
         from superhunter.product_native_capabilities import contracts as native_contracts
         controls = report.get('component-controls') or {}
-        if require_evidence_contracts or require_supply_and_reporting:
-            archived = component_rules('evidence-contracts' if require_supply_and_reporting else 'report-interop')
+        if component_profile in SUCCESSOR_BASELINES:
+            archived = component_rules(SUCCESSOR_BASELINES[component_profile])
             current = component_rules(component_profile)
             if not set(archived) < set(current) or any(current[name] != row for name, row in archived.items()):
                 raise EvidenceError('successor component contracts lost a previous binding or have no additional identity')
@@ -430,10 +442,12 @@ def verify(raw, expected_hash=None, *, require_consolidated=False, require_accou
         counts.update(check_historical_coverage(rows))
     if require_report_interop:
         counts.update(check_previous_acceptance(rows, report['ossf/scorecard']['license_file_evidence']))
-    if require_evidence_contracts or require_supply_and_reporting:
+    if full_profile and component_profile in SUCCESSOR_BASELINES:
         if not isinstance(producer_commit, str) or not re.fullmatch('[0-9a-f]{40}', producer_commit):
             raise EvidenceError('an independently supplied producer commit is required')
-        if require_supply_and_reporting:
+        if require_vendored_attributions:
+            prior, previous_commit = supply_and_reporting_operations(), SUPPLY_AND_REPORTING_PRODUCER
+        elif require_supply_and_reporting:
             prior, previous_commit = evidence_contracts_operations(), EVIDENCE_CONTRACTS_PRODUCER
         else:
             prior, previous_commit = report_interop_operations(), REPORT_INTEROP_PRODUCER
@@ -573,6 +587,16 @@ def evidence_contracts_operations():
     return operation_keys(rows)
 
 
+@cache
+def supply_and_reporting_operations():
+    from superhunter.tools import render_product_matrix as renderer
+    verified, rows, producer = renderer.verified_pair('supply-and-reporting', evidence_commit=SUPPLY_AND_REPORTING_ACT)
+    if (producer['commit'] != SUPPLY_AND_REPORTING_PRODUCER
+            or verified['transcript_sha256'] != SUPPLY_AND_REPORTING_TRANSCRIPT_SHA):
+        raise EvidenceError('previous supply and reporting baseline differs from its published pair')
+    return operation_keys(rows)
+
+
 def negative_controls(raw, **profile_options):
     keys = response_keys(raw)
     lines = raw.splitlines()
@@ -605,6 +629,11 @@ def negative_controls(raw, **profile_options):
             cases.append(('changed_policy_catalog_joint_digest', 'component-controls',
                           ('policy_catalog_corroboration', 'joint_sha256'), '0' * 64, 'policy catalog corroboration'))
         if observed:
+            if 'sqlmapproject/sqlmap' in observed:
+                cases.append(('changed_vendored_attribution', 'component-controls',
+                              ('observations', 'sqlmapproject/sqlmap', 'result', 'package_evidence',
+                               'thirdparty/beautifulsoup', 'disposition'),
+                              'named_notice_text_consistent_with_group', 'individual component result'))
             if 'DataDog/stratus-red-team' in observed:
                 cases.append(('changed_attribution_review', 'component-controls',
                               ('observations', 'DataDog/stratus-red-team', 'operation'),
@@ -679,6 +708,8 @@ def main():
                           help='require all current domains and every receipt in the accepted report interoperability pair')
     profiles.add_argument('--require-consolidated-supply-and-reporting', action='store_true',
                           help='verify the dependency attribution review and the entire previous evidence-contracts pair')
+    profiles.add_argument('--require-consolidated-vendored-attributions', action='store_true',
+                          help='verify the vendored notice review and all previous supply and reporting operations')
     parser.add_argument('--producer-commit', help='independently verified Git identity for the selected producer')
     parser.add_argument('--expect-sha256', help='trusted digest for a specific, published run')
     args = parser.parse_args()
@@ -692,8 +723,10 @@ def main():
                        'require_html_review': args.require_consolidated_html_review,
                        'require_report_interop': args.require_consolidated_report_interop,
                        'require_evidence_contracts': args.require_consolidated_evidence_contracts,
-                       'require_supply_and_reporting': args.require_consolidated_supply_and_reporting}
-    if args.require_consolidated_evidence_contracts or args.require_consolidated_supply_and_reporting:
+                       'require_supply_and_reporting': args.require_consolidated_supply_and_reporting,
+                       'require_vendored_attributions': args.require_consolidated_vendored_attributions}
+    if (args.require_consolidated_evidence_contracts or args.require_consolidated_supply_and_reporting
+            or args.require_consolidated_vendored_attributions):
         profile_options['producer_commit'] = args.producer_commit
     result = verify(raw, args.expect_sha256, **profile_options)
     if args.require_complete_controls:

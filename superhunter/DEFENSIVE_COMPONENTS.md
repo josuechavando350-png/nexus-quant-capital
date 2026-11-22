@@ -2,6 +2,12 @@
 
 Los controles consumen entradas fijas de NQC o datos públicos fijados por Git. El índice de producto conserva la identidad y la revisión de cada participante, la operación y la huella del resultado que se observó. Una revisión del mismo código puede seleccionar un solo dominio. La sesión ampliada solicita todos los dominios publicados y vuelve a obtener los resultados.
 
+## Avisos de componentes incorporados
+
+El dominio `vendored-attributions` contrasta los paquetes enumerados en el aviso de sqlmap con sus directorios en la revisión fijada. Señala directorios declarados ausentes, raíces de terceros sin declarar y avisos locales que requieren revisión. Los 15 directorios declarados existen. Dos incluyen un aviso local cuyo texto concuerda con la familia indicada. Los otros 13 se apoyan en la declaración general. La compatibilidad para redistribución sigue abierta. [Contraste independiente y seis controles](product_supply/acceptance-120/vendored-notices-crosscheck.json)
+
+El verificador `python3.12 -m superhunter.tools.verify_go_lock_integrity --help` coteja los gitlinks y los archivos Go de la raíz y de `v2` en los 200 checkouts. Usa exclusivamente los archivos disponibles en las cachés locales indicadas. La ejecución publicada comprobó 598 entradas de archivo y 598 de manifiesto en 34 repositorios. Otras 24.996 entradas quedaron sin contenido disponible para el cotejo. [Evidencia por repositorio y versión](product_supply/acceptance-120/go-lock-cache-integrity.json)
+
 ## Atribuciones de dependencias y lectura de informes
 
 El dominio `dependency-attributions` usa el inventario de terceros de Stratus y el manifiesto Go de su módulo v2. Cruza las rutas de módulo distinguiendo mayúsculas, conserva la versión declarada de cada dependencia ausente y señala las etiquetas de licencia vacías o mal formadas. El identificador de una fila por sí solo no demuestra los derechos sobre el paquete. [Comprobación independiente](product_supply/acceptance-120/supply-attributions-crosscheck.json)

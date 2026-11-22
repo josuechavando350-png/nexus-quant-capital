@@ -11,6 +11,7 @@ PROFILE_DIRECTORIES = {
     'report-interop': BASE + '-report-interop',
     'evidence-contracts': BASE + '-evidence-contracts',
     'supply-and-reporting': BASE + '-supply-and-reporting',
+    'vendored-attributions': BASE + '-vendored-attributions',
 }
 RUN_DIRECTORIES = ('first', 'second')
 RUN_FILES = ('result.json', 'run-inputs.json', 'session.json')

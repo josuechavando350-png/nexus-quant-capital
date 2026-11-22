@@ -16,6 +16,7 @@ from .verify_source_materialization import (
 )
 
 RECEIPTS = {
+    'supply': 'b8e4422992c5310db5a3d6a77a502c04ffd89ca5802bb88a407539db87bfe6d8',
     'report-interop': '345ca90e89adcc2a7f8e65cd637cce7d2450956a394ca9c06ca67740b1adc973',
     'evidence-contracts': '290124144e184d11bcf739886912d35be83382c6759f012d972dcd4cea91362e',
 }
