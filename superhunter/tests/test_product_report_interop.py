@@ -74,3 +74,48 @@ class ReportInteropTests(unittest.TestCase):
     def test_json_rejects_duplicate_semantic_fields(self):
         with self.assertRaisesRegex(ValueError, 'duplicate'):
             interop.decode('phpstan-playground', b'{"result":{},"result":{}}')
+
+
+class MeasurementCoverageTests(unittest.TestCase):
+    def setUp(self):
+        from superhunter import product_report_quality_sources as quality
+        self.quality = quality
+        self.model = {'Config': {'comment'}, 'Hardware': {'cpu_threads'}, 'Results': {'config', 'hardware', 'targets'},
+                      'Run': {'execs_per_sec', 'execs_total', 'fuzzers_used'}}
+
+    @staticmethod
+    def archive(targets):
+        return {'config': {'comment': 'private'}, 'hardware': {'cpu_threads': 2}, 'targets': targets}
+
+    @staticmethod
+    def measurement(workers):
+        return {'execs_per_sec': 12.3, 'execs_total': 122, 'fuzzers_used': workers}
+
+    def test_modes_only_match_within_a_single_record_and_target(self):
+        one, many = self.measurement(1), self.measurement(2)
+        rows = [self.archive({'case-a': {'singlecore': one}, 'case-b': {'multicore': many}}),
+                self.archive({'case-a': {'multicore': many}}),
+                self.archive({'case-c': {'singlecore': one, 'multicore': many}}),
+                self.archive({'case-d': {'singlecore': one, 'multicore': one}})]
+        result = self.quality.study_coverage(rows, self.model)
+        self.assertEqual(result['paired_within_one_target_record'], 1)
+        self.assertEqual(result['target_records_without_eligible_pair'], 4)
+        self.assertEqual(result['single_worker_multicore_labels'], 1)
+        self.assertNotIn('case-a', str(result))
+        self.assertNotIn('12.3', str(result))
+        self.assertNotIn('private', str(result))
+
+    def test_rejects_duplicate_historical_input(self):
+        row = self.archive({'case-a': {'singlecore': self.measurement(1)}})
+        with self.assertRaisesRegex(interop.EvidenceError, 'duplicate'):
+            self.quality.study_coverage([row, row], self.model)
+
+    def test_explicit_typed_counts_and_missing_settings(self):
+        for bad in (self.measurement(True), self.measurement(2), dict(self.measurement(1), execs_total=1.5),
+                    dict(self.measurement(1), execs_per_sec=0)):
+            with self.subTest(bad=bad), self.assertRaisesRegex(interop.EvidenceError, 'inconsistent'):
+                self.quality.study_coverage([self.archive({'a': {'singlecore': bad}})], self.model)
+        row = self.archive({'a': {'singlecore': self.measurement(1)}})
+        row['config'] = None
+        with self.assertRaisesRegex(interop.EvidenceError, 'model'):
+            self.quality.study_coverage([row], self.model)

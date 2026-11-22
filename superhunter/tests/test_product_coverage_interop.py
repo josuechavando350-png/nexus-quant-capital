@@ -122,3 +122,34 @@ class CoverageReportTests(unittest.TestCase):
             coverage.reconcile_trace_windows({**files, coverage.WINDOWS[1]: files[coverage.WINDOWS[1]].replace(b'2 B', b'3 B')})
         with self.assertRaisesRegex(ValueError, 'declared input'):
             coverage.reconcile_trace_windows({**files, coverage.WINDOW_SOURCE: src.replace('-skip_instrs;1;', '-skip_instrs;2;').encode()})
+
+    def test_resource_columns_require_maxima_and_unambiguous_names(self):
+        header = ','.join(coverage.RESOURCE_COLUMNS) + ','
+        csv = f'"{header}",\n"1,2,3,4,",\n"2,3,4,5,",\n"",'
+        snapshots = coverage._csv_snapshots(csv)
+        self.assertEqual(snapshots[0]['EngineRusageRssMb_Max'], 3)
+        for broken in [csv.replace('RssMb_Max', 'RssMb_Sum'),
+                       csv.replace('RssMb_Max', 'VSizeMb_Max'), csv.replace('2,3,4,5,', '2,3,4,')]:
+            with self.subTest(broken=broken), self.assertRaises(ValueError):
+                coverage._csv_snapshots(broken)
+
+    def test_resource_cohorts_compare_export_to_original_shards(self):
+        fields = coverage.RESOURCE_COLUMNS
+        header = ','.join(fields) + ','
+        groups = ' '.join(f'/*experiment_name=*/"Experiment{name}"' for name in 'ABAB')
+        inits = ' '.join(f'/*{name}=*/ {n} * j,' for n, name in enumerate(fields.values(), 1))
+        updates = ' '.join(f'new_stats.{name} += 1;' for name in fields.values())
+        blocks = []
+        for number, peak_shard in enumerate((3, 4), 1):
+            rows = [','.join(str(unit * peak_shard + delta) for unit in range(1, 5)) + ',' for delta in (0, 1)]
+            blocks.append(f'// CSV #{number}.\n{{\n"{header}",\n"{rows[0]}",\n"{rows[1]}",\n"",\n}},')
+        fixture = ('TEST(Stats, DumpStatsToCsvFile) {\nconst uint64_t j = i + 1;\n'
+                   'for (int i = 2; i < stats_vec.size(); ++i)\n' + groups + inits + updates +
+                   '\nkExpectedCsvLines = {\n' + '\n'.join(blocks) + '\n  };\n'
+                   'TEST(Stats, DumpStatsToExistingCsvFile)')
+        peaks = coverage.resource_peaks(fixture.encode())
+        self.assertEqual(peaks['fixture_peak_by_counter']['engine_rusage_rss_mb'], 13)
+        for changed in (fixture.replace('4,8,12,16,', '4,8,18,16,'),
+                        fixture.replace('engine_rusage_rss_mb += 1', 'engine_rusage_rss_mb += 2')):
+            with self.subTest(changed=changed), self.assertRaises(ValueError):
+                coverage.resource_peaks(changed.encode())

@@ -10,6 +10,8 @@ from .product_sources import git
 from .repository_boundary import git_object
 from .safe_io import canonical, strict_json
 
+FUZZTEST = 'google/fuzztest'
+RESOURCE_TEST = 'centipede/stats_test.cc'
 DYNAMORIO = 'DynamoRIO/dynamorio'
 WINDOWS = ('clients/drcachesim/tests/offline-skip.expect', 'clients/drcachesim/tests/offline-skip2.expect')
 WINDOW_SOURCE = 'suite/tests/CMakeLists.txt'
@@ -21,6 +23,8 @@ ZAP_FLAT = 'examples/ZAP_2.4.3_report-unmerged.xml'
 SPEC_COVERAGE = 'restler/unit_tests/log_baseline_test_files/ab_flaky_b_all_combinations_speccov.json'
 LLVM_SUMMARY = 'infra/cifuzz/test_data/example_coverage_report_summary.json'
 PROJECTS = {
+    FUZZTEST: ('116-fuzztest', '29e1c6a0fc149dc108dfff122bd6aac5efbe85b5', {
+        RESOURCE_TEST: '491a428d9bb3271f38ff71efe6b4dc1acdb0ba41'}),
     DYNAMORIO: ('133-dynamorio', '0fd459d944cb13056c7f29eba1d593a637bf3b68', {
         WINDOWS[0]: 'a4db056f9b6b99e5409870d266683fbc53b26f30',
         WINDOWS[1]: '444c2c81bb46e0c14b2d103379404b5e524a89ca',
@@ -147,6 +151,88 @@ def llvm_coverage(raw):
     return {'files': len(files), 'totals': totals}
 
 
+RESOURCE_COLUMNS = {
+    'EngineRusageAvgCores_Max': 'engine_rusage_avg_millicores',
+    'EngineRusageCpuPct_Max': 'engine_rusage_cpu_percent',
+    'EngineRusageRssMb_Max': 'engine_rusage_rss_mb',
+    'EngineRusageVSizeMb_Max': 'engine_rusage_vsize_mb',
+}
+
+
+def _csv_snapshots(block):
+    # Decode only adjacent CSV literals in the expected-output initializer.
+    rows, parts = [], []
+    for line in block.splitlines():
+        line = line.strip()
+        if not line.startswith('"'):
+            if line not in ('', '{', '},', '};') and not line.startswith('//'):
+                raise EvidenceError('unexpected CSV fixture initializer')
+            continue
+        match = re.fullmatch(r'"([A-Za-z0-9_,.]*)"(,?)\s*(?://.*)?', line)
+        if not match:
+            raise EvidenceError('unexpected CSV fixture field encoding')
+        parts.append(match[1])
+        if match[2]:
+            rows.append(''.join(parts))
+            parts = []
+    if parts or len(rows) != 4 or rows.pop() != '':
+        raise EvidenceError('unexpected CSV snapshot count')
+    columns = rows.pop(0).split(',')
+    if columns.pop() != '' or len(set(columns)) != len(columns) or not RESOURCE_COLUMNS.keys() <= set(columns):
+        raise EvidenceError('ambiguous resource column or missing maximum')
+    snapshots = []
+    for row in rows:
+        fields = row.split(',')
+        if fields.pop() != '' or len(fields) != len(columns):
+            raise EvidenceError('resource CSV width differs from its header')
+        record = dict(zip(columns, fields))
+        snapshot = {}
+        for key in RESOURCE_COLUMNS:
+            if not re.fullmatch('[0-9]{1,12}', record[key]):
+                raise EvidenceError('invalid resource maximum')
+            snapshot[key] = int(record[key])
+        snapshots.append(snapshot)
+    return snapshots
+
+
+def resource_peaks(raw):
+    source = raw.decode('ascii')
+    start, end = 'TEST(Stats, DumpStatsToCsvFile) {', 'TEST(Stats, DumpStatsToExistingCsvFile)'
+    if source.count(start) != 1 or source.count(end) != 1:
+        raise EvidenceError('resource fixture declaration differs')
+    fixture = source.split(start)[1].split(end)[0]
+    groups = re.findall(r'/\*experiment_name=\*/"(Experiment[AB])"', fixture)
+    if groups != ['ExperimentA', 'ExperimentB', 'ExperimentA', 'ExperimentB']:
+        raise EvidenceError('unexpected resource fixture shard membership')
+    if ('const uint64_t j = i + 1;' not in fixture or
+            'for (int i = 2; i < stats_vec.size(); ++i)' not in fixture):
+        raise EvidenceError('unexpected resource fixture shard update order')
+    expected = {}
+    for key, field in RESOURCE_COLUMNS.items():
+        matches = re.findall(r'/\*' + field + r'=\*/\s*(\d+) \* j,', fixture)
+        if len(matches) != 1 or fixture.count('new_stats.' + field + ' += 1;') != 1:
+            raise EvidenceError('resource maximum lacks an independent shard initializer')
+        expected[key] = int(matches[0])
+    if fixture.count('kExpectedCsvLines = {') != 1:
+        raise EvidenceError('resource CSV table declaration differs')
+    table = fixture.split('kExpectedCsvLines = {', 1)[1].split('\n  };', 1)[0]
+    blocks = re.split(r'// CSV #[12]\.', table)
+    if len(blocks) != 3:
+        raise EvidenceError('missing resource CSV cohort')
+    maxima = Counter()
+    for group, block in zip(sorted(set(groups)), blocks[1:]):
+        snapshots = _csv_snapshots(block)
+        for step, snapshot in enumerate(snapshots):
+            for key, value in snapshot.items():
+                peak = max(unit * expected[key] + (step if unit > 2 else 0)
+                           for unit, label in enumerate(groups, 1) if label == group)
+                if value != peak:
+                    raise EvidenceError('reported maximum differs from underlying resource samples')
+                maxima[key] = max(maxima[key], value)
+    return {'cohorts': 2, 'shards': len(groups), 'snapshots': 4,
+            'fixture_peak_by_counter': {RESOURCE_COLUMNS[k]: v for k, v in maxima.items()}}
+
+
 def trace_window(raw):
     # Read the view's counters only. Operands and thread identifiers never enter the output.
     if len(raw) > 65536:
@@ -222,7 +308,10 @@ def review(root):
     reports = {}
     for name, (_, revision, manifest) in PROJECTS.items():
         files = pinned_files(root, name)
-        if name == DYNAMORIO:
+        if name == FUZZTEST:
+            operation = 'check_exported_resource_maxima_against_unit_test_shards'
+            result = resource_peaks(files[RESOURCE_TEST])
+        elif name == DYNAMORIO:
             operation = 'reconcile_overlapping_instruction_count_exports'
             result = reconcile_trace_windows(files)
         elif name == ZAP:

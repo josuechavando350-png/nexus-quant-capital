@@ -19,11 +19,14 @@ DOMAINS = {'evidence-codec': 'product_evidence_codec', 'changes': 'product_chang
            'static-contracts': 'product_static_contracts', 'build-compatibility': 'product_build_compatibility',
            'report-interop': 'product_report_interop',
            'report-privacy': 'product_report_privacy',
+           'report-http-privacy': 'product_http_report_privacy',
+           'policy-report': 'product_policy_report',
+           'manifest-resources': 'product_manifest_resources',
            'report-taxonomy': 'product_report_taxonomy',
            'coverage-interop': 'product_coverage_interop',
            'certificate-review': 'product_certificate_review'}
 CONTRACT_PATH = 'superhunter/product_supply/component-control-contracts.json'
-CONTRACT_SHA = 'f312fa5225d23d711506ff5dbbe02437e0f32382ae003f32149606168c056e7f'
+CONTRACT_SHA = 'f05874680d267a179c47e04b0fd032bbf1695896225293189cec93856b4e4b82'
 FIELD = 'component_control_receipt'
 
 
@@ -83,7 +86,7 @@ def reconcile_digest(results, go_report):
             'subjects': ['securego/gosec', 'find-sec-bugs/find-sec-bugs', 'OpenHands/software-agent-sdk']}
 
 
-def attach(index, checkout, domain, kit):
+def attach(index, checkout, domain, kit, *, web_kit=None):
     if checkout is None:
         raise EvidenceError('component controls require --control-source-root or --source-references with a verified checkout')
     wanted = tuple(sorted(DOMAINS)) if domain == 'all' else (domain,)
@@ -91,6 +94,8 @@ def attach(index, checkout, domain, kit):
 
     def run(group):
         engine = import_module('.' + DOMAINS[group], __package__)
+        if group == 'report-http-privacy':
+            return engine.review(root, web_kit)
         if group == 'changes':
             return engine.review(root, kit, index.header_digest)
         return engine.review(root)

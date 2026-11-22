@@ -210,4 +210,6 @@ def review(source_root):
             'revision': revision, 'role': 'reference', 'operation': 'summarize_pinned_report_without_resource_data',
             'source_manifest_sha256': sha(canonical(fixtures)), 'result': {'format': format_name,
                 'summaries': output, 'private_field_substitution': 'invariant', 'malformed_control': 'rejected'}}
+    from .product_report_quality_sources import observations as quality_observations
+    observations.update(quality_observations(source_root))
     return observations
