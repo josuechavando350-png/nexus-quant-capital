@@ -98,3 +98,78 @@ jobs:
           PY
           test -z "$(git status --porcelain)"
           echo "200 consultas verificadas antes y después del reinicio, con resultados idénticos a la referencia." >> "$GITHUB_STEP_SUMMARY"
+  quality:
+    name: Inventario y pruebas del código propio
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    env:
+      QUALITY_PRODUCT: 066cf0876cc921b89c8a2f2229b39e9e1a2b3366
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Preparar productor, herramientas e insumos históricos fijados
+        shell: bash
+        run: |
+          set -euo pipefail
+          python_bin=$(find "$RUNNER_TOOL_CACHE/Python" -path '*/3.12.*/x64/bin/python3.12' | sort -V | tail -1)
+          test -x "$python_bin"
+          git init -q product
+          git -C product remote add origin https://github.com/josuechavando350-png/nexus-quant-capital.git
+          git -C product fetch -q --no-tags --no-recurse-submodules origin "$QUALITY_PRODUCT" "$GITHUB_SHA"
+          git -C product checkout -q --detach "$QUALITY_PRODUCT"
+          git -C product archive "$GITHUB_SHA" qa/quality-tools qa/nqc-history/cases.json | tar -x -C "$RUNNER_TEMP"
+          "$python_bin" -m venv "$RUNNER_TEMP/qa-python"
+          "$RUNNER_TEMP/qa-python/bin/python" -m pip --isolated install --only-binary=:all: --no-deps --require-hashes -r "$RUNNER_TEMP/qa/quality-tools/linux-py312.txt"
+          "$RUNNER_TEMP/qa-python/bin/python" -m pip check
+          "$RUNNER_TEMP/qa-python/bin/python" -B "$RUNNER_TEMP/qa/quality-tools/yaml_history.py" "$RUNNER_TEMP/yaml-inputs"
+          curl -fsSL --retry 3 https://go.dev/dl/go1.27.4.linux-amd64.tar.gz -o "$RUNNER_TEMP/go.tgz"
+          echo "7226736c2339719cda28fbf3a54d71aa63bcefe376e98cef00034268dab24840  $RUNNER_TEMP/go.tgz" | sha256sum -c
+          tar -xzf "$RUNNER_TEMP/go.tgz" -C "$RUNNER_TEMP" go/bin/go
+          echo "NQC_STATE_GO=$RUNNER_TEMP/go/bin/go" >> "$GITHUB_ENV"
+      - name: Reiniciar el inventario, reconciliarlo y verificar tres regresiones
+        shell: bash
+        run: |
+          set -euo pipefail
+          evidence="$RUNNER_TEMP/quality-evidence"
+          unshare --user --map-current-user --net "$RUNNER_TEMP/qa-python/bin/python" -B "$RUNNER_TEMP/qa/quality-tools/check_delivery.py" "$PWD/product" "$evidence/inventory"
+          (cd product && unshare --user --map-current-user --net "$RUNNER_TEMP/qa-python/bin/python" -B -m superhunter.repository_boundary --verify-import)
+          (cd product && unshare --user --map-current-user --net "$RUNNER_TEMP/qa-python/bin/python" -B -m unittest -q superhunter.tests.test_quality superhunter.tests.test_quality_entrypoint superhunter.tests.test_quality_cache superhunter.tests.test_repository_boundary)
+      - name: Comparar diagnósticos YAML en veinte archivos históricos sin ejecutarlos
+        run: |
+          set -eu
+          unshare --user --map-current-user --net "$RUNNER_TEMP/qa-python/bin/python" -B "$RUNNER_TEMP/qa/quality-tools/yaml_history.py" "$RUNNER_TEMP/yaml-inputs" --evidence "$RUNNER_TEMP/quality-evidence/yaml"
+          diff -u "$RUNNER_TEMP/qa/quality-tools/yaml-score.json" "$RUNNER_TEMP/quality-evidence/yaml/score.json"
+      - name: Medir propiedades, ramas cubiertas y mutaciones
+        run: |
+          set -eu
+          unshare --user --map-current-user --net "$RUNNER_TEMP/qa-python/bin/python" -B "$RUNNER_TEMP/qa/quality-tools/measure_tools.py" "$PWD/product" "$RUNNER_TEMP/quality-evidence/tools"
+          diff -u "$RUNNER_TEMP/qa/quality-tools/tool-score.json" "$RUNNER_TEMP/quality-evidence/tools/tool-score.json"
+      - name: Verificar el transporte de los 200 en la revisión nueva
+        working-directory: product
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/qa-python/bin/python" -B -m superhunter.tools.render_product_matrix --check-acceptance
+          "$RUNNER_TEMP/qa-python/bin/python" -B -m superhunter.tools.render_product_matrix --require-all
+          python_bin=$(find "$RUNNER_TOOL_CACHE/Python" -path '*/3.12.*/x64/bin/python3.12' | sort -V | tail -1)
+          "$python_bin" -B -m superhunter.tools.check_catalog_transport --prepare > "$RUNNER_TEMP/quality-evidence/transport.json"
+          "$python_bin" -B - "$RUNNER_TEMP/quality-evidence/transport.json" <<'PYTHON'
+          import json, sys
+          from pathlib import Path
+          actual = json.loads(Path(sys.argv[1]).read_bytes())
+          reference = json.loads(Path("superhunter/product_supply/acceptance-120/catalog-transport-restart.json").read_bytes())
+          if actual != reference:
+              raise SystemExit("El transporte del producto cambió en esta revisión")
+          PYTHON
+      - name: Conservar inventarios, predicciones y resultados
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: hunter-inventario-propiedades-yaml
+          if-no-files-found: error
+          retention-days: 14
+          path: |
+            ${{ runner.temp }}/quality-evidence/transport.json
+            ${{ runner.temp }}/quality-evidence/inventory/*.json
+            ${{ runner.temp }}/quality-evidence/yaml/*.json
+            ${{ runner.temp }}/quality-evidence/tools/*.json
+            ${{ runner.temp }}/quality-evidence/tools/mutation.log
