@@ -1,0 +1,661 @@
+{
+  "filename_probe": {
+    "match_expression": "(?:\\.sarif(?:\\.json)?|junit[_-]golden\\.xml|example_output_[\\w-]+\\.ocsf\\.json|(?:^|/)(?:example[_-]|sample[_-])?report\\.(?:xml|json|csv|jsonl)|(?:^|/)benchmark-results\\.jsonl)$",
+    "scope": "Search of filenames in the committed upstream tree only. Presence does not credit functionality. Zero matches do not establish impossibility."
+  },
+  "pr119_profile": {
+    "absence": "The eight alternate-profile operations have no joint participation receipt on this producer. The PR 119 act names two runs and publishes one transcript path.",
+    "act": {
+      "blob": "865558017a3642d420219493a5ea313f45707ea4",
+      "path": "superhunter/product_supply/consolidated-acceptance-139.json",
+      "sha256": "5b77efbb3030912ebf48848db893b683fb43466920d5373dd68113381a479d0e"
+    },
+    "evidence_commit": "a183f60ed7229441a703a8f6ea9e180ff249abf3",
+    "native_contract": {
+      "blob": "835f393da8dce559aed1fa54ef45cd9fbe12bcaa",
+      "path": "superhunter/product_supply/native-capability-contracts-139.json",
+      "sha256": "e624bd12b6df9181e1a8db4520700267c57e9e566fd53d9f2d4aee28f10af3a4"
+    },
+    "producer_commit": "37a0d5261ae52ece080d18b294042931112f2861",
+    "source": {
+      "blob": "6d888ab1e663e46654e0a0b369ebee315c32c5ce",
+      "historical_identities": 139,
+      "path": "superhunter/product_supply/native-session-139.json",
+      "raw_sha256": "0e7ceaab460f1b24826f466ad70d93b64201b4a2e7edf5e09b085f675f4cd318",
+      "sha256": "b4800b1a7ce63e469288e935a9f7cf5e78505c4f1297f8709ea407b546ad4b88"
+    }
+  },
+  "previous_profile": {
+    "component_contract": {
+      "blob": "eba59d4ed99307dcd8656561476084373f38ced8",
+      "path": "superhunter/product_supply/component-control-contracts.json",
+      "sha256": "7ad5ed1a7c4a344bb1b8d1467a3ad109b618fa1a82f67c6486cbcafa2b39105a"
+    },
+    "evidence_commit": "008b7b21a001d05a8780a6087afabf551cdf227a",
+    "producer_commit": "604bd28d528ee809c8e6d38adab86ec6f67b652c",
+    "source": {
+      "blob": "1b7ee58c2143db03c68cd0e7ac2c5cad8d9f5496",
+      "historical_identities": 132,
+      "path": "superhunter/product_supply/consolidated-acceptance-html-review/first/session.json",
+      "raw_sha256": "d07aafc5d1c5ba5dfbe5bdcb59d8fe292ddfb7b8a2fe97e5b944ab27fd5b72ff",
+      "sha256": "f17c742350c3c83e39afb84dc80a6509d105aabb05fc279f5c6d5b2b707ce844"
+    }
+  },
+  "producer_commit": "f1eea76f24ff0cf0b5af4a870b5d6e117c46d248",
+  "producer_inputs": {
+    "catalog": {
+      "blob": "2053ab01fcd8cdf310b66ba9fe8073681cd84d7c",
+      "path": "superhunter/product_supply/source-checkouts-200.json",
+      "sha256": "ecb4af00b78f738795c39473f1d5883d5f33a71f27ad37268c7133c37d44f788"
+    },
+    "component_contract": {
+      "blob": "5857a61f983aee8c1dfb2e8eba8d7b309171a190",
+      "path": "superhunter/product_supply/component-control-contracts.json",
+      "sha256": "f05874680d267a179c47e04b0fd032bbf1695896225293189cec93856b4e4b82"
+    }
+  },
+  "producer_tree": "77fa24bb073a6eccf08406306f10c44c638b55a5",
+  "rows": [
+    {
+      "catalog_path": "upstream/003-sqlmap",
+      "commit": "5db2e62884d91f3ed3b43ec55904737e4051e9d7",
+      "filename_probe_matches": 0,
+      "id": 3,
+      "inspection": {
+        "blob": "9b2ab3ee9fba063f21ff886d8f1939e0a5bfb846",
+        "file": "tests/test_report.py",
+        "limit": "Serialization tests exist. A pre-existing, pinned end-user report was not established."
+      },
+      "origin": "https://github.com/sqlmapproject/sqlmap.git",
+      "repository": "sqlmapproject/sqlmap",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "a11ac60d7bae2f26fe0d3c4ea0242da136b24548"
+    },
+    {
+      "catalog_path": "upstream/005-ffuf",
+      "commit": "8d65e0373e5f223530174e5694285af849770078",
+      "filename_probe_matches": 0,
+      "id": 5,
+      "origin": "https://github.com/ffuf/ffuf.git",
+      "pr119_operation": {
+        "field": "native_capability_receipt",
+        "group": "discovery",
+        "query": "native-capabilities",
+        "receipt_sha256": "f3bce0931acbbfb11c6edefb41b18da58df3c75fbbe058e177e0a5ffe85ef27c",
+        "report_sha256": "5f5ab97f62285414e94de696efc3c77ab8fdbf168a4df7bef2402a5c119e7f7f",
+        "repository": "ffuf/ffuf",
+        "role": "executable"
+      },
+      "repository": "ffuf/ffuf",
+      "status": "pr119_receipt_only_outside_current_producer",
+      "tree": "5aee88489e44f0fa644144ad50d96ac79b309668"
+    },
+    {
+      "catalog_path": "upstream/006-httpx",
+      "commit": "200e6ffaac8f705cb0770beb6f9cbae303565659",
+      "filename_probe_matches": 0,
+      "id": 6,
+      "origin": "https://github.com/projectdiscovery/httpx.git",
+      "repository": "projectdiscovery/httpx",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "ea2988db66c48e1e75e54504b00f47b4db36c099"
+    },
+    {
+      "catalog_path": "upstream/007-katana",
+      "commit": "732936b3c3048b5010cb3ddbedf7912cda6ec0ed",
+      "filename_probe_matches": 0,
+      "id": 7,
+      "inspection": {
+        "blob": "80be434cc7d124397b0240a4fa1a7a2458508997",
+        "file": "pkg/output/export/export_test.go",
+        "limit": "Exporter tests exist. An independently comparable stored output was not established."
+      },
+      "origin": "https://github.com/projectdiscovery/katana.git",
+      "repository": "projectdiscovery/katana",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "46bb118b446dba5e4e03fce2351074bdb5ecb2d6"
+    },
+    {
+      "catalog_path": "upstream/008-turbo-intruder",
+      "commit": "a6c9a4982fb276167edac0797c7ac747ab9a11da",
+      "filename_probe_matches": 0,
+      "id": 8,
+      "origin": "https://github.com/PortSwigger/turbo-intruder.git",
+      "repository": "PortSwigger/turbo-intruder",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "dd47508455d258e5c359974af7cc7c8430ce2c1d"
+    },
+    {
+      "catalog_path": "upstream/009-param-miner",
+      "commit": "e43e3b16be11117ed67cfde60e80acf2e95a4adc",
+      "filename_probe_matches": 0,
+      "id": 9,
+      "origin": "https://github.com/PortSwigger/param-miner.git",
+      "repository": "PortSwigger/param-miner",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "f98e87eb1f49c281cc0802289a9c10df92ab4845"
+    },
+    {
+      "catalog_path": "upstream/011-subfinder",
+      "commit": "e989d248ba903ced697487f8828a161ef7aa64af",
+      "filename_probe_matches": 0,
+      "id": 11,
+      "origin": "https://github.com/projectdiscovery/subfinder.git",
+      "repository": "projectdiscovery/subfinder",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "eeab4956d6069f1430acebdce479a9f6bf1198f1"
+    },
+    {
+      "catalog_path": "upstream/014-echidna",
+      "commit": "fb0fd78b9c3c46ac4127279da2313e727a66e5ad",
+      "filename_probe_matches": 0,
+      "id": 14,
+      "origin": "https://github.com/crytic/echidna.git",
+      "pr119_operation": {
+        "field": "native_capability_receipt",
+        "group": "fuzz",
+        "query": "native-capabilities",
+        "receipt_sha256": "1e1df3427f954537b770c2331d6007aa5bb631687a49285a1f0ab65ef6910a91",
+        "report_sha256": "09acfd1fa963b8469e368d869db749f380767fe923af34b0382527dc96d3dcb8",
+        "repository": "crytic/echidna",
+        "role": "executable"
+      },
+      "repository": "crytic/echidna",
+      "status": "pr119_receipt_only_outside_current_producer",
+      "tree": "ca9bb0ad3ec757234434d5bdba96465c85f64cc0"
+    },
+    {
+      "catalog_path": "upstream/016-medusa",
+      "commit": "b86c3bbafb9e80f7dcb09533006ecb15dbbbdc98",
+      "filename_probe_matches": 0,
+      "id": 16,
+      "origin": "https://github.com/crytic/medusa.git",
+      "pr119_operation": {
+        "field": "native_capability_receipt",
+        "group": "fuzz",
+        "query": "native-capabilities",
+        "receipt_sha256": "c9eaad9f1fd9cb191139214549165711dbbe80d399e4a4190c986675a3121032",
+        "report_sha256": "09acfd1fa963b8469e368d869db749f380767fe923af34b0382527dc96d3dcb8",
+        "repository": "crytic/medusa",
+        "role": "executable"
+      },
+      "repository": "crytic/medusa",
+      "status": "pr119_receipt_only_outside_current_producer",
+      "tree": "0660676752139dbb394752c24e5e422c918cce6b"
+    },
+    {
+      "catalog_path": "upstream/019-defihacklabs",
+      "commit": "18c4aaf3549373b3c0f52dd0ed3e298264dbe1a8",
+      "filename_probe_matches": 0,
+      "id": 19,
+      "origin": "https://github.com/SunWeb3Sec/DeFiHackLabs.git",
+      "repository": "SunWeb3Sec/DeFiHackLabs",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "abf24e0b62b049935b3f539851d783c37c5fae91"
+    },
+    {
+      "catalog_path": "upstream/032-mewt",
+      "commit": "e96e71969ae9b9d3ef7562ae5a3a60de6050c0d0",
+      "filename_probe_matches": 0,
+      "id": 32,
+      "origin": "https://github.com/trailofbits/mewt.git",
+      "pr119_operation": {
+        "field": "native_capability_receipt",
+        "group": "mutation",
+        "query": "native-capabilities",
+        "receipt_sha256": "634b48c6f764b87d033b087f596a05247c4a0e64ea504ed262ee22aeeb98cc08",
+        "report_sha256": "4af5a00705d2db05bd63c99a16a5e85d0aa03d4ca66aca8a11927f578bd2f993",
+        "repository": "trailofbits/mewt",
+        "role": "executable"
+      },
+      "repository": "trailofbits/mewt",
+      "status": "pr119_receipt_only_outside_current_producer",
+      "tree": "9dc473b109e8a46cf39f2cade1b64086883e6c84"
+    },
+    {
+      "catalog_path": "upstream/033-heimdall-rs",
+      "commit": "89e107f033f6e8fc037ba58757ac855e2a7049dd",
+      "filename_probe_matches": 0,
+      "id": 33,
+      "inspection": {
+        "blob": "0a74552a620876ca07363e1d358d320fbf17a9f2",
+        "file": "crates/core/tests/testdata/txids.json",
+        "limit": "Transaction identifiers are input data. No report-format compatibility was established."
+      },
+      "origin": "https://github.com/Jon-Becker/heimdall-rs.git",
+      "repository": "Jon-Becker/heimdall-rs",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "4db7aadccdda2919fe67bb317130256b0cf336d3"
+    },
+    {
+      "catalog_path": "upstream/047-rr",
+      "commit": "f5017a5cea712d4958ca72edefd92a0401649bee",
+      "filename_probe_matches": 0,
+      "id": 47,
+      "inspection": {
+        "blob": "9cf83141149ceba3a1cba3435a9147a56f2594f4",
+        "file": "release-process/rr-testing-cloud-formation.json",
+        "limit": "An infrastructure template is present; it supplies no debugger report output."
+      },
+      "origin": "https://github.com/rr-debugger/rr.git",
+      "repository": "rr-debugger/rr",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "8720829c943514a9ea4303d38093f2f8ab246f43"
+    },
+    {
+      "catalog_path": "upstream/051-arjun",
+      "commit": "d1fb995cb1e064d4e171d83f19f6af79b0a3c5ce",
+      "filename_probe_matches": 0,
+      "id": 51,
+      "origin": "https://github.com/s0md3v/Arjun.git",
+      "pr119_operation": {
+        "field": "native_capability_receipt",
+        "group": "discovery",
+        "query": "native-capabilities",
+        "receipt_sha256": "37e784f175a729c737fe8d4872a1568ca3ab3d192ac0a9d9a25bec9a337572de",
+        "report_sha256": "5f5ab97f62285414e94de696efc3c77ab8fdbf168a4df7bef2402a5c119e7f7f",
+        "repository": "s0md3v/Arjun",
+        "role": "executable"
+      },
+      "repository": "s0md3v/Arjun",
+      "status": "pr119_receipt_only_outside_current_producer",
+      "tree": "aff8b4b25ab163430e9f80234ed98f7cbd23dfe3"
+    },
+    {
+      "catalog_path": "upstream/053-feroxbuster",
+      "commit": "f89b6c6d305421d7b29e26997960317e64c64dae",
+      "filename_probe_matches": 0,
+      "id": 53,
+      "origin": "https://github.com/epi052/feroxbuster.git",
+      "repository": "epi052/feroxbuster",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "2155dba7f2777ff72e19ce0e171cd8123c003142"
+    },
+    {
+      "catalog_path": "upstream/054-gobuster",
+      "commit": "c77583fbb8824058d74d38240896eff610683c8e",
+      "filename_probe_matches": 0,
+      "id": 54,
+      "origin": "https://github.com/OJ/gobuster.git",
+      "pr119_operation": {
+        "field": "native_capability_receipt",
+        "group": "discovery",
+        "query": "native-capabilities",
+        "receipt_sha256": "335a799dc7a158b5ee70ea0888d448514c2bff21684ae01a0b33cac138823299",
+        "report_sha256": "5f5ab97f62285414e94de696efc3c77ab8fdbf168a4df7bef2402a5c119e7f7f",
+        "repository": "OJ/gobuster",
+        "role": "executable"
+      },
+      "repository": "OJ/gobuster",
+      "status": "pr119_receipt_only_outside_current_producer",
+      "tree": "a288e57b3f8dd76eb58e1af49766b40296317b09"
+    },
+    {
+      "catalog_path": "upstream/055-xnlinkfinder",
+      "commit": "841ac8dddbc7edd728939df5db51274a63ab5863",
+      "filename_probe_matches": 0,
+      "id": 55,
+      "origin": "https://github.com/xnl-h4ck3r/xnLinkFinder.git",
+      "pr119_operation": {
+        "field": "native_capability_receipt",
+        "group": "http",
+        "query": "native-capabilities",
+        "receipt_sha256": "a66779570e82dd4c86eadbafff735d47b73c50dbe07d6347aeace067294d2911",
+        "report_sha256": "cf90056bcb0cebfd7f1b0c656a3fc45101d3debea56dc5318afda61b6c019ddd",
+        "repository": "xnl-h4ck3r/xnLinkFinder",
+        "role": "executable"
+      },
+      "repository": "xnl-h4ck3r/xnLinkFinder",
+      "status": "pr119_receipt_only_outside_current_producer",
+      "tree": "34a76df937991fbbfd54fa7abf9c2536c156e281"
+    },
+    {
+      "catalog_path": "upstream/056-waymore",
+      "commit": "4e02de512fd6b110be92dc8bffb3002edfebcb6c",
+      "filename_probe_matches": 0,
+      "id": 56,
+      "origin": "https://github.com/xnl-h4ck3r/waymore.git",
+      "repository": "xnl-h4ck3r/waymore",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "f597fcd5f92ba6f039c2ca25f8ab50fcfb3f1c1a"
+    },
+    {
+      "catalog_path": "upstream/057-dnsx",
+      "commit": "f98967b4178790e5a3654c5d9c822dc3544db793",
+      "filename_probe_matches": 0,
+      "id": 57,
+      "inspection": {
+        "blob": "c84e19d127ac20b9397a57a61d3c878d8a4e3747",
+        "file": "internal/runner/output_template_test.go",
+        "limit": "Template tests exist. No stored report on a product-owned input was established."
+      },
+      "origin": "https://github.com/projectdiscovery/dnsx.git",
+      "repository": "projectdiscovery/dnsx",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "de6b746bf461eb652ac1f91599267fa27a96debd"
+    },
+    {
+      "catalog_path": "upstream/058-naabu",
+      "commit": "d74d055f7e0e508c90670c46bb3e1bb16fd16c26",
+      "filename_probe_matches": 0,
+      "id": 58,
+      "origin": "https://github.com/projectdiscovery/naabu.git",
+      "repository": "projectdiscovery/naabu",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "604cca3856289494b3949119b2fccf857bfd5507"
+    },
+    {
+      "catalog_path": "upstream/060-puredns",
+      "commit": "46bd4c963ec2b28c5241c03c161bdc41bb93fdc0",
+      "filename_probe_matches": 0,
+      "id": 60,
+      "origin": "https://github.com/d3mondev/puredns.git",
+      "repository": "d3mondev/puredns",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "d8876902753700be27a2f14f3c24cd73a89bc315"
+    },
+    {
+      "catalog_path": "upstream/061-massdns",
+      "commit": "30c380908b4f9afd0931d3d83f85884844831846",
+      "filename_probe_matches": 0,
+      "id": 61,
+      "origin": "https://github.com/blechschmidt/massdns.git",
+      "repository": "blechschmidt/massdns",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "269c14500d02a9f077bdef87ba35bf3065880a29"
+    },
+    {
+      "catalog_path": "upstream/062-seclists",
+      "commit": "64e7d0b910015fa4e8dffa9fed7aba7d73e4673d",
+      "filename_probe_matches": 0,
+      "id": 62,
+      "inspection": {
+        "limit": "List resources do not provide an independently verified report export."
+      },
+      "origin": "https://github.com/danielmiessler/SecLists.git",
+      "repository": "danielmiessler/SecLists",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "bfb3554827d490aa650b84b88ff5a31ece7d6be4"
+    },
+    {
+      "catalog_path": "upstream/063-wafw00f",
+      "commit": "69fbe3956bba47a172cf87e40e9037535d32a130",
+      "filename_probe_matches": 0,
+      "id": 63,
+      "origin": "https://github.com/EnableSecurity/wafw00f.git",
+      "repository": "EnableSecurity/wafw00f",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "4b7890e5c5e7161aa4b23983f532493101d611ac"
+    },
+    {
+      "catalog_path": "upstream/064-gau",
+      "commit": "4eabace309877abb231def9eeb27b96c07ed3635",
+      "filename_probe_matches": 0,
+      "id": 64,
+      "origin": "https://github.com/lc/gau.git",
+      "repository": "lc/gau",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "e94084ebbddf177296f142bee99381157be39f18"
+    },
+    {
+      "catalog_path": "upstream/068-http-request-smuggler",
+      "commit": "3ecb1afa6a1d21ef1ec4e6eb1337818b53a2b4c0",
+      "filename_probe_matches": 0,
+      "id": 68,
+      "origin": "https://github.com/PortSwigger/http-request-smuggler.git",
+      "repository": "PortSwigger/http-request-smuggler",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "2bd13296edcc003c57cbb76bde77a482ca935e07"
+    },
+    {
+      "catalog_path": "upstream/070-inql",
+      "commit": "b1aae1502a1d2469f8d4160b88238dd450ba5982",
+      "filename_probe_matches": 0,
+      "id": 70,
+      "origin": "https://github.com/doyensec/inql.git",
+      "repository": "doyensec/inql",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "0370fa4cdf524e438a83859be18550adbaeec46f"
+    },
+    {
+      "catalog_path": "upstream/071-jwt_tool",
+      "commit": "3bc7407cf2222d6a821dcc19c776e5a1b1cb9a9b",
+      "filename_probe_matches": 0,
+      "id": 71,
+      "origin": "https://github.com/ticarpi/jwt_tool.git",
+      "repository": "ticarpi/jwt_tool",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "f25c78654ba2cc5bbc5ca68c2fbc6de3027886be"
+    },
+    {
+      "catalog_path": "upstream/073-graphql-cop",
+      "commit": "2b7e086efae672f28b419c7fcdfe6b48d846c9dc",
+      "filename_probe_matches": 0,
+      "id": 73,
+      "origin": "https://github.com/dolevf/graphql-cop.git",
+      "repository": "dolevf/graphql-cop",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "259b62fce24e30be7de9fddb093cb86559248da9"
+    },
+    {
+      "catalog_path": "upstream/074-graphw00f",
+      "commit": "4901f824140a2da168876412593c213afbdd75fb",
+      "filename_probe_matches": 0,
+      "id": 74,
+      "origin": "https://github.com/dolevf/graphw00f.git",
+      "repository": "dolevf/graphw00f",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "c26f4ebf9a1eb87648887da42a8e1d0f6b9c409c"
+    },
+    {
+      "catalog_path": "upstream/078-pacu",
+      "commit": "7dd34aa0856b2a964763a70be9dc9d78abc08a81",
+      "filename_probe_matches": 0,
+      "id": 78,
+      "origin": "https://github.com/RhinoSecurityLabs/pacu.git",
+      "repository": "RhinoSecurityLabs/pacu",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "d5d4c40e2e9fdebf45313bd1c26cce3633c8b445"
+    },
+    {
+      "catalog_path": "upstream/081-stratus-red-team",
+      "commit": "dea75a460718e632e90d98093f982b64f9e60c02",
+      "filename_probe_matches": 0,
+      "id": 81,
+      "inspection": {
+        "limit": "A report template is present. A populated, normalized report was not established."
+      },
+      "origin": "https://github.com/DataDog/stratus-red-team.git",
+      "repository": "DataDog/stratus-red-team",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "70c9500b726f7c86faa8bc2b4822b139e29f62b0"
+    },
+    {
+      "catalog_path": "upstream/084-iamlive",
+      "commit": "3ec1a40e560c2f00ec82c50223add810e2567efb",
+      "filename_probe_matches": 0,
+      "id": 84,
+      "inspection": {
+        "blob": "4d2e93857e84efa98b1b04a925a8968caa72f24a",
+        "file": "iamlivecore/google-api-go-client/testing/v1/testing-api.json",
+        "limit": "An API descriptor was observed; its presence is not a policy evaluation receipt."
+      },
+      "origin": "https://github.com/iann0036/iamlive.git",
+      "repository": "iann0036/iamlive",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "84f7e9e124c878160f3397cd479f491506184610"
+    },
+    {
+      "catalog_path": "upstream/094-nettacker",
+      "commit": "6e04aa1f9cf29b35cae5ba1bb5043fd7b9b651b5",
+      "filename_probe_matches": 0,
+      "id": 94,
+      "inspection": {
+        "blob": "f02db08bf6d624fbb19db9f9c4f2d9e6f209c5f0",
+        "file": "nettacker/lib/compare_report/engine.py",
+        "limit": "Report comparison code exists. No independently bound pair of inert sample reports was established."
+      },
+      "origin": "https://github.com/OWASP/Nettacker.git",
+      "repository": "OWASP/Nettacker",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "9f292b7896588241ac1fb54e69efd885e23b6a57"
+    },
+    {
+      "catalog_path": "upstream/097-frida",
+      "commit": "a93582c832d74de1eaa0ec59994365f6981368db",
+      "filename_probe_matches": 0,
+      "id": 97,
+      "origin": "https://github.com/frida/frida.git",
+      "repository": "frida/frida",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "92ddcfb1e2b6e8b2c20cfb49638c6b6c3069b9e3"
+    },
+    {
+      "catalog_path": "upstream/100-objection",
+      "commit": "3ef6f9bdcd64c6181a1b01eb11104b7204ec6308",
+      "filename_probe_matches": 0,
+      "id": 100,
+      "origin": "https://github.com/sensepost/objection.git",
+      "repository": "sensepost/objection",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "110a2d0aca62850a1f5fe5a80c353af6b7953988"
+    },
+    {
+      "catalog_path": "upstream/112-honggfuzz",
+      "commit": "940b958dfeb6f9131fd846cae31fcc0fe996ae98",
+      "filename_probe_matches": 0,
+      "id": 112,
+      "origin": "https://github.com/google/honggfuzz.git",
+      "repository": "google/honggfuzz",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "38c44afd67a3cbd77fe62fd5f15405b49a00cb3e"
+    },
+    {
+      "catalog_path": "upstream/113-jazzer",
+      "commit": "bdebf95c4de0154f7e6f1666a64d2b951b4a6861",
+      "filename_probe_matches": 0,
+      "id": 113,
+      "inspection": {
+        "blob": "7147deb9a386f2d7e2bb5764d9c9d60723dadabb",
+        "file": "examples/junit/pom.xml",
+        "limit": "JUnit build metadata is present. A generated JUnit result was not established."
+      },
+      "origin": "https://github.com/CodeIntelligenceTesting/jazzer.git",
+      "repository": "CodeIntelligenceTesting/jazzer",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "5b18c6eb9f5812b22fc607952f5c54208474b64b"
+    },
+    {
+      "catalog_path": "upstream/114-atheris",
+      "commit": "e36da74cf42b5834c4e31d7cabb58d796695d29f",
+      "filename_probe_matches": 0,
+      "id": 114,
+      "origin": "https://github.com/google/atheris.git",
+      "pr119_operation": {
+        "field": "native_capability_receipt",
+        "group": "python_fuzz",
+        "query": "native-capabilities",
+        "receipt_sha256": "b827c54fd192506347f0f871fb068ac86606016dffba297219bfd15dec8bf1ff",
+        "report_sha256": "50f7cdcb8c76d5b5c02382b0d74594f8ce5e27cfdf66726862993f530b6d7426",
+        "repository": "google/atheris",
+        "role": "executable"
+      },
+      "repository": "google/atheris",
+      "status": "pr119_receipt_only_outside_current_producer",
+      "tree": "f5e4bebd2c0b39746f6b39b556343ce41519c1da"
+    },
+    {
+      "catalog_path": "upstream/115-cargo-fuzz",
+      "commit": "bf2fc668dafda5295aa6fd01825ee67b885f0f2b",
+      "filename_probe_matches": 0,
+      "id": 115,
+      "origin": "https://github.com/rust-fuzz/cargo-fuzz.git",
+      "repository": "rust-fuzz/cargo-fuzz",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "3c300e696252e31d916caaaa00d64c4b5aaffe52"
+    },
+    {
+      "catalog_path": "upstream/118-polytracker",
+      "commit": "ae7b5f12e608f0c9a896cf1af797e4588c7624f9",
+      "filename_probe_matches": 0,
+      "id": 118,
+      "origin": "https://github.com/trailofbits/polytracker.git",
+      "repository": "trailofbits/polytracker",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "6de579036eee1f6463b7a62fb32a1b6550e145f9"
+    },
+    {
+      "catalog_path": "upstream/119-clusterfuzzlite",
+      "commit": "52ecc61cb587ee99c26825a112a21abf19c7448c",
+      "filename_probe_matches": 0,
+      "id": 119,
+      "origin": "https://github.com/google/clusterfuzzlite.git",
+      "repository": "google/clusterfuzzlite",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "1beecb7003b9cd0fbabda7ca639cde32de02e068"
+    },
+    {
+      "catalog_path": "upstream/130-cutter",
+      "commit": "d885514bd8092776429a6ed5213b125c17092c77",
+      "filename_probe_matches": 0,
+      "id": 130,
+      "origin": "https://github.com/rizinorg/cutter.git",
+      "repository": "rizinorg/cutter",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "650cb2a670f580981560cab793d62c3b16042187"
+    },
+    {
+      "catalog_path": "upstream/170-bountybench",
+      "commit": "8ece6aab0b954f7c85b5705e69f0142eeaf2c5d1",
+      "filename_probe_matches": 0,
+      "id": 170,
+      "origin": "https://github.com/bountybench/bountybench.git",
+      "repository": "bountybench/bountybench",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "95d4c4e95cd6ea1273fd2fb6ac4795ca4c3b2a90"
+    },
+    {
+      "catalog_path": "upstream/192-damn-vulnerable-defi",
+      "commit": "64fddf9f96de2782f8868898d68673acb295119c",
+      "filename_probe_matches": 0,
+      "id": 192,
+      "inspection": {
+        "blob": "b6cd78f7850c9c2427199996b9b9a095248fa38c",
+        "file": "test/withdrawal/withdrawals.json",
+        "limit": "The selected artifact is fixture input. A comparable exported report was not established."
+      },
+      "origin": "https://github.com/theredguild/damn-vulnerable-defi.git",
+      "repository": "theredguild/damn-vulnerable-defi",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "9482e20d8214351c71ac19f68aa34e4342259391"
+    },
+    {
+      "catalog_path": "upstream/198-vulhub",
+      "commit": "9b90d4276f84feed6333286afeb7e1250379a1da",
+      "filename_probe_matches": 0,
+      "id": 198,
+      "inspection": {
+        "blob": "4e69a5004fb55ccac17d4dc4ab60924aece0a0bd",
+        "file": "tests/markdownlint.json",
+        "limit": "The selected file is documentation-lint configuration. It is not a result report."
+      },
+      "origin": "https://github.com/vulhub/vulhub.git",
+      "repository": "vulhub/vulhub",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "d981e9872f35409c0422d8e76982ebde43fb79af"
+    }
+  ],
+  "schema_version": 1,
+  "scope": "Static pending-identity accounting. New batch contract membership does not certify a new end-to-end execution.",
+  "verification": {
+    "catalog_compared": 200,
+    "method": "Compared all catalog identities with both Git transcripts and the new component contract. For every pending row checked its superproject gitlink, checkout origin, HEAD and independently recomputed Git commit and tree object IDs.",
+    "new_contract_identities_outside_previous_profile": 22,
+    "pending_git_objects_verified": 46,
+    "pending_status_counts": {
+      "no_functional_receipt_in_compared_profiles": 38,
+      "pr119_receipt_only_outside_current_producer": 8
+    },
+    "previously_accepted": 132
+  }
+}

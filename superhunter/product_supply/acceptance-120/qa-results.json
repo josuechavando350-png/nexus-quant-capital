@@ -1,0 +1,2578 @@
+{
+  "schema_version": 1,
+  "python_product": {
+    "tested_tree": "614361e3785de2993b9d34ea72a5fc0949f0892c",
+    "local_commit": "2218cb6337319c565a91de105e9419b8f497b464",
+    "published_equivalent_tree_commit": "b3aed263092f9bc6f0aee31dcbce63689790c7e9",
+    "environment": "CPython 3.12; user/network namespace; fixed local product bundles and source kits; installed npm semver available via NODE_PATH",
+    "module_count": 37,
+    "case_ids": [
+      "superhunter.tests.test_consolidated_evidence_verifier.ConsolidatedEvidenceTests.test_covered_history_accepts_the_union_and_proven_role_promotion",
+      "superhunter.tests.test_consolidated_evidence_verifier.ConsolidatedEvidenceTests.test_covered_history_requires_both_operations_of_all_four_shared_producers",
+      "superhunter.tests.test_consolidated_evidence_verifier.ConsolidatedEvidenceTests.test_covered_history_requires_the_same_identity_even_at_identical_totals",
+      "superhunter.tests.test_consolidated_evidence_verifier.ConsolidatedEvidenceTests.test_duplicate_or_out_of_order_supplemental_responses_are_rejected",
+      "superhunter.tests.test_consolidated_evidence_verifier.ConsolidatedEvidenceTests.test_historical_archive_preserves_its_own_acceptance_scope",
+      "superhunter.tests.test_consolidated_evidence_verifier.ConsolidatedEvidenceTests.test_historical_matrix_keeps_all_identities_and_both_receipts",
+      "superhunter.tests.test_consolidated_evidence_verifier.ConsolidatedEvidenceTests.test_historical_matrix_rejects_changed_producer_with_intact_transcript",
+      "superhunter.tests.test_consolidated_evidence_verifier.ConsolidatedEvidenceTests.test_historical_matrix_rejects_identity_change_between_sessions",
+      "superhunter.tests.test_consolidated_evidence_verifier.ConsolidatedEvidenceTests.test_interim_component_session_verifies_individual_negative_controls",
+      "superhunter.tests.test_consolidated_evidence_verifier.ConsolidatedEvidenceTests.test_native_failure_gets_no_credit_and_cannot_also_be_a_success",
+      "superhunter.tests.test_consolidated_evidence_verifier.ConsolidatedEvidenceTests.test_native_receipt_without_the_group_report_is_rejected",
+      "superhunter.tests.test_consolidated_evidence_verifier.ConsolidatedEvidenceTests.test_old_runtime_is_accepted_only_in_the_exact_archived_session",
+      "superhunter.tests.test_consolidated_evidence_verifier.ConsolidatedEvidenceTests.test_source_digest_substitution_is_rejected",
+      "superhunter.tests.test_consolidated_evidence_verifier.ConsolidatedEvidenceTests.test_two_producer_rows_credit_the_identity_once_and_reject_resealed_loss",
+      "superhunter.tests.test_product_attestations_batch.AndroidGuards.test_missing_archive_member",
+      "superhunter.tests.test_product_attestations_batch.AndroidGuards.test_native_false_is_distinct_from_absence_and_wrong_resource_id",
+      "superhunter.tests.test_product_attestations_batch.AndroidGuards.test_nested_boolean_is_not_application_evidence",
+      "superhunter.tests.test_product_attestations_batch.AndroidGuards.test_xml_header_fails_closed",
+      "superhunter.tests.test_product_attestations_batch.FixedAndroidData.test_binary_attribute_type_corruption_rejected",
+      "superhunter.tests.test_product_attestations_batch.FixedAndroidData.test_fresh_receipt_matches_archive",
+      "superhunter.tests.test_product_attestations_batch.FixedAndroidData.test_rule_and_dictionary_disagreement_detected",
+      "superhunter.tests.test_product_build_compatibility.BuildCompatibilityControls.test_compiled_positive_negative_and_independent_cases",
+      "superhunter.tests.test_product_build_compatibility.BuildCompatibilityControls.test_independent_integer_packing_crosses_slot_boundary",
+      "superhunter.tests.test_product_build_compatibility.BuildCompatibilityControls.test_mutability_reported_even_with_identical_inputs_and_outputs",
+      "superhunter.tests.test_product_build_compatibility.BuildCompatibilityControls.test_same_selector_different_return_type_rejected",
+      "superhunter.tests.test_product_build_compatibility.BuildCompatibilityControls.test_source_reference_missing_function_rejected",
+      "superhunter.tests.test_product_build_compatibility.BuildCompatibilityControls.test_unsupported_types_in_static_profile_fail_closed",
+      "superhunter.tests.test_product_catalog_session.CatalogSessionTests.test_excerpt_validates_whole_source_and_selected_bytes",
+      "superhunter.tests.test_product_catalog_session.CatalogSessionTests.test_header_consensus_requires_equal_bytes_and_changed_control",
+      "superhunter.tests.test_product_catalog_session.CatalogSessionTests.test_historical_receipts_and_new_receipts_remain_distinguishable",
+      "superhunter.tests.test_product_catalog_session.CatalogSessionTests.test_pinned_upstream_notices_cover_each_catalog_identity",
+      "superhunter.tests.test_product_catalog_session.CatalogSessionTests.test_resealed_notice_cannot_replace_committed_document",
+      "superhunter.tests.test_product_catalog_session.CatalogSessionTests.test_solidity_join_rejects_disagreement_and_keeps_missing_profile",
+      "superhunter.tests.test_product_component_controls.ComponentControlTests.test_diagnostic_must_touch_the_changed_expression",
+      "superhunter.tests.test_product_component_controls.ComponentControlTests.test_domain_failure_leaves_other_domains_eligible",
+      "superhunter.tests.test_product_component_controls.ComponentControlTests.test_inconsistent_cross_domain_finding_is_rejected",
+      "superhunter.tests.test_product_component_controls.ComponentControlTests.test_partial_group_does_not_receive_credit",
+      "superhunter.tests.test_product_component_controls.ComponentControlTests.test_real_selective_entry_reports_blocked_and_complete",
+      "superhunter.tests.test_product_component_controls.ComponentControlTests.test_receipt_requires_approved_producer_and_observation",
+      "superhunter.tests.test_product_component_controls.ComponentControlTests.test_rejects_interchanged_rows_for_same_domain",
+      "superhunter.tests.test_product_component_controls.ComponentControlTests.test_rejects_same_revision_with_changed_operation",
+      "superhunter.tests.test_product_consolidated_operations.ConsolidatedOperations.test_bad_secondary_receipt_is_not_hidden_by_a_passing_primary",
+      "superhunter.tests.test_product_consolidated_operations.ConsolidatedOperations.test_control_bound_to_another_source_revision_is_rejected",
+      "superhunter.tests.test_product_consolidated_operations.ConsolidatedOperations.test_repeated_names_and_catalog_ids_are_rejected_before_indexing",
+      "superhunter.tests.test_product_consolidated_operations.ConsolidatedOperations.test_ticket_from_another_identity_is_rejected",
+      "superhunter.tests.test_product_consolidated_operations.ConsolidatedOperations.test_two_accepted_controls_preserve_both_receipts_and_credit_one_repo",
+      "superhunter.tests.test_product_consolidated_operations.ConsolidatedOperations.test_unavailable_group_loses_its_operation_only",
+      "superhunter.tests.test_product_download_cache.VerifiedDownloadTests.test_concurrent_writers_share_one_download",
+      "superhunter.tests.test_product_download_cache.VerifiedDownloadTests.test_corrupt_or_truncated_cache_never_publishes_a_target",
+      "superhunter.tests.test_product_download_cache.VerifiedDownloadTests.test_different_digests_can_download_in_parallel",
+      "superhunter.tests.test_product_download_cache.VerifiedDownloadTests.test_existing_destination_is_not_overwritten",
+      "superhunter.tests.test_product_download_cache.VerifiedDownloadTests.test_failed_writer_releases_digest_for_retry",
+      "superhunter.tests.test_product_download_cache.VerifiedDownloadTests.test_interrupted_download_leaves_no_completed_blob",
+      "superhunter.tests.test_product_download_cache.VerifiedDownloadTests.test_invalid_digest_and_linked_cache_root_are_rejected",
+      "superhunter.tests.test_product_download_cache.VerifiedDownloadTests.test_linked_cache_entry_is_rejected",
+      "superhunter.tests.test_product_download_cache.VerifiedDownloadTests.test_second_session_uses_verified_bytes_without_download",
+      "superhunter.tests.test_product_download_cache.VerifiedDownloadTests.test_uncoordinated_writer_must_publish_the_expected_bytes",
+      "superhunter.tests.test_product_download_cache.VerifiedDownloadTests.test_wrong_download_is_not_cached_or_published",
+      "superhunter.tests.test_product_evaluation_batch.IndependentScorers.test_corrupt_wheel_never_reaches_runtime",
+      "superhunter.tests.test_product_evaluation_batch.IndependentScorers.test_different_normalizers_have_measured_failure_bounds",
+      "superhunter.tests.test_product_evaluation_batch.IndependentScorers.test_measured_receipt_matches_publication",
+      "superhunter.tests.test_product_evaluation_batch.NumericChecks.test_boolean_verdicts_and_complete_cases",
+      "superhunter.tests.test_product_evaluation_batch.NumericChecks.test_missing_mode_fails_before_promotion",
+      "superhunter.tests.test_product_evaluation_batch.NumericChecks.test_table_arithmetic_uses_marginals",
+      "superhunter.tests.test_product_evidence_codec.EvidenceTransport.test_changed_and_truncated_input_fail_with_distinct_or_invalid_json",
+      "superhunter.tests.test_product_evidence_codec.EvidenceTransport.test_input_joins_200_catalog_identities_to_their_original_evidence",
+      "superhunter.tests.test_product_evidence_codec.EvidenceTransport.test_missing_checkout_has_no_partial_result",
+      "superhunter.tests.test_product_evidence_codec.EvidenceTransport.test_transport_gate_rejects_reserved_noninteger_and_out_of_range_ids",
+      "superhunter.tests.test_product_evidence_codec.NativeEvidenceTransport.test_real_compiled_decoder_and_reviewed_vocabulary_restore_original_proofs",
+      "superhunter.tests.test_product_evidence_codec.NativeEvidenceTransport.test_reassigned_labels_and_reserved_token_metadata_are_rejected",
+      "superhunter.tests.test_product_evm_native.EvmSurfaceTests.test_compiler_error_cannot_be_used_as_empty_surface",
+      "superhunter.tests.test_product_evm_native.EvmSurfaceTests.test_complete_controls_have_stable_normalized_result",
+      "superhunter.tests.test_product_evm_native.EvmSurfaceTests.test_duplicate_selector_is_rejected",
+      "superhunter.tests.test_product_evm_native.EvmSurfaceTests.test_inference_disagreement_is_preserved_as_uncertainty",
+      "superhunter.tests.test_product_evm_native.EvmSurfaceTests.test_missing_case_is_not_a_success",
+      "superhunter.tests.test_product_evm_native.EvmSurfaceTests.test_modified_node_release_recipe_fails_before_using_any_kit",
+      "superhunter.tests.test_product_evm_native.EvmSurfaceTests.test_mutation_is_bound_to_exact_owned_source_call",
+      "superhunter.tests.test_product_evm_native.EvmSurfaceTests.test_offset_and_dispatch_must_be_valid",
+      "superhunter.tests.test_product_evm_native.EvmSurfaceTests.test_push4_decoy_does_not_count_as_callable_function",
+      "superhunter.tests.test_product_evm_native.EvmSurfaceTests.test_wrong_selector_in_either_whatsabi_interface_is_rejected",
+      "superhunter.tests.test_product_evm_standards_batch.LayoutControls.test_constant_operand_is_not_jump_target",
+      "superhunter.tests.test_product_evm_standards_batch.LayoutControls.test_corrupt_footer_rejected_before_disassembly",
+      "superhunter.tests.test_product_evm_standards_batch.LayoutControls.test_exact_native_input_sizes",
+      "superhunter.tests.test_product_evm_standards_batch.LayoutControls.test_inheritance_cycle_rejected",
+      "superhunter.tests.test_product_evm_standards_batch.LayoutControls.test_missing_schedule_gate",
+      "superhunter.tests.test_product_evm_standards_batch.LayoutControls.test_mutated_operand_caught_by_compiler_oracle",
+      "superhunter.tests.test_product_evm_standards_batch.LayoutControls.test_native_solc_rebuild_matches_exact_published_oracle",
+      "superhunter.tests.test_product_evm_standards_batch.LayoutControls.test_real_whatsabi_revm_accepted_by_two_references_and_compiler",
+      "superhunter.tests.test_product_evm_standards_batch.LayoutControls.test_renamed_independent_reference_rejected",
+      "superhunter.tests.test_product_evm_standards_batch.LayoutControls.test_same_stack_delta_hides_wrong_absolute_requirement",
+      "superhunter.tests.test_product_evm_standards_batch.LayoutControls.test_schedule_inheritance_and_explicit_override",
+      "superhunter.tests.test_product_evm_standards_batch.LayoutControls.test_specification_disagrees_with_both_engines",
+      "superhunter.tests.test_product_evm_standards_batch.LayoutControls.test_unverified_compiler_refused",
+      "superhunter.tests.test_product_formats_batch.ProofObjects.test_bounds_and_unknown_format_fail_closed",
+      "superhunter.tests.test_product_formats_batch.ProofObjects.test_current_nqc_claims_and_emitter",
+      "superhunter.tests.test_product_formats_batch.ProofObjects.test_instruction_or_relocation_omission_is_rejected",
+      "superhunter.tests.test_product_formats_batch.ProofObjects.test_native_source_subset_excludes_nonrequired_families",
+      "superhunter.tests.test_product_formats_batch.ProofObjects.test_real_cases_and_linked_receipts",
+      "superhunter.tests.test_product_iam_native.IAMNativeTests.test_deny_only_control_cannot_publish_an_allow",
+      "superhunter.tests.test_product_iam_native.IAMNativeTests.test_erasing_a_permission_cannot_turn_positive_into_clean",
+      "superhunter.tests.test_product_iam_native.IAMNativeTests.test_extra_python_module_and_replaced_source_fail_before_data_use",
+      "superhunter.tests.test_product_iam_native.IAMNativeTests.test_missing_control_and_wrong_version_fail",
+      "superhunter.tests.test_product_iam_native.IAMNativeTests.test_native_sample_preserves_permissions_and_unknown_actions",
+      "superhunter.tests.test_product_iam_native.IAMNativeTests.test_unknown_action_cannot_be_silently_classified_as_known",
+      "superhunter.tests.test_product_infra_batch.AbiChecks.test_changed_arity",
+      "superhunter.tests.test_product_infra_batch.AbiChecks.test_checked_policy",
+      "superhunter.tests.test_product_infra_batch.AbiChecks.test_disagreeing_field_names",
+      "superhunter.tests.test_product_infra_batch.AbiChecks.test_out_of_bounds_position",
+      "superhunter.tests.test_product_infra_batch.AbiChecks.test_relaxed_descriptor",
+      "superhunter.tests.test_product_infra_batch.AbiChecks.test_reversed_abi_disagrees",
+      "superhunter.tests.test_product_infra_batch.AbiChecks.test_source_changed_or_missing",
+      "superhunter.tests.test_product_inventory_parallel.ParallelInventoryTests.test_cli_jobs_reaches_inventory",
+      "superhunter.tests.test_product_inventory_parallel.ParallelInventoryTests.test_invalid_tree_notice_aborts_before_license_producer",
+      "superhunter.tests.test_product_inventory_parallel.ParallelInventoryTests.test_parallel_tree_inventory_has_identical_bytes_and_metadata_only_row",
+      "superhunter.tests.test_product_java_native.JavaNativeTests.test_concrete_witness_checks_every_positive_and_corrected_condition",
+      "superhunter.tests.test_product_java_native.JavaNativeTests.test_diagnostic_severity_cwe_method_and_offsets_are_checked",
+      "superhunter.tests.test_product_java_native.JavaNativeTests.test_missing_duplicate_or_ambiguous_diagnostics_are_rejected",
+      "superhunter.tests.test_product_java_native.JavaNativeTests.test_missing_or_incomplete_analysis_cannot_report_success",
+      "superhunter.tests.test_product_java_native.JavaNativeTests.test_modified_reconstruction_recipe_is_rejected_before_execution",
+      "superhunter.tests.test_product_java_native.JavaNativeTests.test_modified_runtime_is_rejected_before_compilation_or_analysis",
+      "superhunter.tests.test_product_java_native.JavaNativeTests.test_native_reports_preserve_baseline_and_attribute_plugin_result",
+      "superhunter.tests.test_product_java_native.JavaNativeTests.test_pin_substitution_is_rejected_before_tool_execution",
+      "superhunter.tests.test_product_java_native.JavaNativeTests.test_plugin_result_cannot_replace_or_relabel_baseline_diagnostics",
+      "superhunter.tests.test_product_java_native.JavaNativeTests.test_reconstruction_rejects_nonregular_and_duplicate_archive_members",
+      "superhunter.tests.test_product_java_native.JavaNativeTests.test_unanalyzed_or_failing_clean_control_is_rejected",
+      "superhunter.tests.test_product_java_native.JavaNativeTests.test_wrong_project_or_plugin_attribution_is_rejected",
+      "superhunter.tests.test_product_java_native.JavaNativeTests.test_xml_declarations_size_and_wrong_runtime_are_rejected",
+      "superhunter.tests.test_product_languages_batch.LanguageEvidence.test_descriptors_require_expected_position",
+      "superhunter.tests.test_product_languages_batch.LanguageEvidence.test_digest_mapping_rejects_common_mode_and_source_substitution",
+      "superhunter.tests.test_product_languages_batch.LanguageEvidence.test_evidence_chain_matches_consumed_producer_results",
+      "superhunter.tests.test_product_languages_batch.LanguageEvidence.test_ranges_at_all_unsigned_limits",
+      "superhunter.tests.test_product_languages_batch.LanguageEvidence.test_rejects_omissions_and_tampered_sign_bound",
+      "superhunter.tests.test_product_languages_batch.LanguageEvidence.test_rejects_unreviewed_checkout",
+      "superhunter.tests.test_product_languages_batch.LanguageEvidence.test_rejects_unsigned_input_above_wire_domain",
+      "superhunter.tests.test_product_license_session.ScanSessionTests.test_compatibility_wrapper_has_identical_normalized_output",
+      "superhunter.tests.test_product_license_session.ScanSessionTests.test_corrupted_release_is_rejected_before_execution_and_cleaned",
+      "superhunter.tests.test_product_license_session.ScanSessionTests.test_inventory_shares_distribution_across_deduplicated_batches_and_resolved_link",
+      "superhunter.tests.test_product_license_session.ScanSessionTests.test_missing_second_report_cannot_reuse_first_success",
+      "superhunter.tests.test_product_license_session.ScanSessionTests.test_mutated_caller_input_cannot_replace_bytes_bound_to_report",
+      "superhunter.tests.test_product_license_session.ScanSessionTests.test_notice_paths_cannot_escape_batch",
+      "superhunter.tests.test_product_license_session.ScanSessionTests.test_one_distribution_with_fresh_input_output_and_home_per_batch",
+      "superhunter.tests.test_product_license_session.ScanSessionTests.test_timeout_cleans_batch_and_distribution",
+      "superhunter.tests.test_product_matrix_accounting.SourceAccounting.test_all_published_excerpts_survive_selective_and_blocked_domains",
+      "superhunter.tests.test_product_matrix_accounting.SourceAccounting.test_all_totals_are_checked_independently",
+      "superhunter.tests.test_product_matrix_accounting.SourceAccounting.test_checked_out_scope_cannot_be_assigned_to_an_excerpt",
+      "superhunter.tests.test_product_matrix_accounting.SourceAccounting.test_complete_source_claim_cannot_override_the_pinned_inventory",
+      "superhunter.tests.test_product_matrix_accounting.SourceAccounting.test_published_legacy_acceptances_keep_their_historical_scope",
+      "superhunter.tests.test_product_matrix_accounting.SourceAccounting.test_refuses_forged_commercial_clearance",
+      "superhunter.tests.test_product_matrix_accounting.SourceAccounting.test_rejects_profile_downgrade_and_swapped_excerpt_claim",
+      "superhunter.tests.test_product_matrix_accounting.SourceAccounting.test_selective_controls_check_only_real_selected_producers",
+      "superhunter.tests.test_product_native_capabilities.NativeCapabilityJoinTests.test_arbitrary_report_hash_cannot_be_counted_as_native_execution",
+      "superhunter.tests.test_product_native_capabilities.NativeCapabilityJoinTests.test_changed_contract_is_rejected",
+      "superhunter.tests.test_product_native_capabilities.NativeCapabilityJoinTests.test_independent_groups_survive_and_failed_replay_removes_stale_credit",
+      "superhunter.tests.test_product_native_capabilities.NativeCapabilityJoinTests.test_metadata_only_row_stays_pending",
+      "superhunter.tests.test_product_native_capabilities.NativeCapabilityJoinTests.test_partial_selection_rejects_an_entire_group_if_an_identity_is_missing",
+      "superhunter.tests.test_product_native_capabilities.NativeCapabilityJoinTests.test_producer_failure_does_not_publish_a_partial_group",
+      "superhunter.tests.test_product_native_capabilities.NativeCapabilityJoinTests.test_real_consumer_receipt_is_bound_to_registered_group_result",
+      "superhunter.tests.test_product_native_capabilities.NativeCapabilityJoinTests.test_unknown_group_and_unregistered_receipt_are_rejected",
+      "superhunter.tests.test_product_native_capabilities.NativeCapabilityJoinTests.test_wrong_or_missing_negative_result_cannot_publish_any_receipt",
+      "superhunter.tests.test_product_native_capabilities.NativeContractHistoryTests.test_historical_domains_and_result_bindings_stay_verifiable",
+      "superhunter.tests.test_product_native_capabilities.NativeKitManifestTests.test_manifest_and_cli_cannot_silently_override_the_same_group",
+      "superhunter.tests.test_product_native_capabilities.NativeKitManifestTests.test_manifest_cannot_use_a_file_as_an_executable_kit",
+      "superhunter.tests.test_product_native_capabilities.NativeKitManifestTests.test_one_manifest_resolves_local_groups_relative_to_its_own_directory",
+      "superhunter.tests.test_product_native_capabilities.NativeKitManifestTests.test_unknown_group_cannot_select_an_arbitrary_module",
+      "superhunter.tests.test_product_passive_source_batch.PassiveSourceBatchTests.test_duplicate_and_unknown_severity_conventions_are_rejected",
+      "superhunter.tests.test_product_passive_source_batch.PassiveSourceBatchTests.test_empty_checkout_cannot_authenticate_the_excerpts",
+      "superhunter.tests.test_product_passive_source_batch.PassiveSourceBatchTests.test_fresh_run_reproduces_published_outputs",
+      "superhunter.tests.test_product_passive_source_batch.PassiveSourceBatchTests.test_location_requires_a_real_file_and_exact_line_witness",
+      "superhunter.tests.test_product_passive_source_batch.PassiveSourceBatchTests.test_sampling_estimate_extremes",
+      "superhunter.tests.test_product_passive_source_batch.PassiveSourceBatchTests.test_unknown_or_composite_constructor_rejected",
+      "superhunter.tests.test_product_passive_source_batch.PassiveSourceBatchTests.test_upstream_notices_and_original_excerpts_are_bound",
+      "superhunter.tests.test_product_remediation_batch.RemediationBatchTests.test_archived_receipt_matches_a_fresh_native_run",
+      "superhunter.tests.test_product_remediation_batch.RemediationBatchTests.test_containment_requires_the_specific_source_clause",
+      "superhunter.tests.test_product_remediation_batch.RemediationBatchTests.test_independent_link_parser_requires_exact_endpoint",
+      "superhunter.tests.test_product_remediation_batch.RemediationBatchTests.test_missing_and_duplicate_approved_names_fail",
+      "superhunter.tests.test_product_remediation_batch.RemediationBatchTests.test_nonmember_content_and_filesystem_controls",
+      "superhunter.tests.test_product_remediation_batch.RemediationBatchTests.test_unknown_node_binary_is_rejected_before_execution",
+      "superhunter.tests.test_product_remediation_batch.RemediationBatchTests.test_unknown_source_root_cannot_establish_provenance",
+      "superhunter.tests.test_product_review.BatchInventoryTests.test_arm_inventory_checks_package_identity_version_and_source",
+      "superhunter.tests.test_product_review.BatchInventoryTests.test_ast_grep_binds_each_checksum_to_its_component_and_byte_range",
+      "superhunter.tests.test_product_review.BatchInventoryTests.test_batches_cover_exact_catalog_once_and_preserve_baseline",
+      "superhunter.tests.test_product_review.BatchInventoryTests.test_dependency_track_expression_preserves_and_or_and_every_identifier",
+      "superhunter.tests.test_product_review.BatchInventoryTests.test_identity_metadata_cannot_promote_a_repository",
+      "superhunter.tests.test_product_review.BatchInventoryTests.test_rustsec_requires_all_packages_and_each_parent_to_match",
+      "superhunter.tests.test_product_review.CdxgenTests.test_cargo_projection_requires_exact_edges_and_checksums",
+      "superhunter.tests.test_product_review.CdxgenTests.test_python_pin_document_binds_root_component_refs_and_graph",
+      "superhunter.tests.test_product_review.GuacTests.test_graph_must_preserve_each_directed_attributed_relation",
+      "superhunter.tests.test_product_review.LicenseChoiceTests.test_absorption_alternatives_and_removed_choice",
+      "superhunter.tests.test_product_review.LicenseChoiceTests.test_citation_windows_preserve_line_numbers_and_verified_neighbors",
+      "superhunter.tests.test_product_review.LicenseChoiceTests.test_native_ir_obligations_and_counterexample_markers",
+      "superhunter.tests.test_product_review.LicenseChoiceTests.test_osv_registry_preserves_local_identifiers_and_their_sources",
+      "superhunter.tests.test_product_review.LicenseChoiceTests.test_pmd_passage_is_bound_to_both_texts",
+      "superhunter.tests.test_product_review.LicenseChoiceTests.test_proof_process_error_is_not_a_negative_control",
+      "superhunter.tests.test_product_review.LicenseChoiceTests.test_proptest_contract_uses_published_cohort_identity",
+      "superhunter.tests.test_product_review.LicenseChoiceTests.test_wheel_text_decisions_keep_missing_and_different_distinct",
+      "superhunter.tests.test_product_review.ProductTests.test_false_solver_verdict_is_rejected",
+      "superhunter.tests.test_product_review.ProductTests.test_file_attribution_is_required_even_when_package_and_version_match",
+      "superhunter.tests.test_product_review.ProductTests.test_graph_edges_require_agreement_from_lock_sbom_and_member_manifest",
+      "superhunter.tests.test_product_review.ProductTests.test_overlapping_rust_versions_do_not_create_python_constraints",
+      "superhunter.tests.test_product_review.ProductTests.test_real_source_selects_and_checks_the_isolation_hypothesis",
+      "superhunter.tests.test_product_review.ProductTests.test_scoped_catalog_join_and_search",
+      "superhunter.tests.test_product_review.ProductTests.test_search_returns_per_source_evidence_and_unknown_keys",
+      "superhunter.tests.test_product_review.ProductTests.test_triangle_requires_three_groups",
+      "superhunter.tests.test_product_review.ProductTests.test_unpinned_tool_is_rejected_before_execution",
+      "superhunter.tests.test_product_review.ProductTests.test_unsupported_requirement_and_within_profile_duplicates_fail_closed",
+      "superhunter.tests.test_product_review.ProfileStateTests.test_tlc_dump_and_full_prefix_set_are_required",
+      "superhunter.tests.test_product_review.SbomLocationTests.test_native_columns_are_utf8_bytes_and_ranges_cannot_cross_lines",
+      "superhunter.tests.test_product_secrets_native.SecretsNativeTests.test_cross_engine_disagreement_is_rejected",
+      "superhunter.tests.test_product_secrets_native.SecretsNativeTests.test_duplicate_json_keys_and_wrong_shapes_are_rejected",
+      "superhunter.tests.test_product_secrets_native.SecretsNativeTests.test_empty_results_only_satisfy_clean_and_benign_lookalike_controls",
+      "superhunter.tests.test_product_secrets_native.SecretsNativeTests.test_missing_or_duplicated_findings_are_rejected",
+      "superhunter.tests.test_product_secrets_native.SecretsNativeTests.test_modified_binary_is_rejected_before_any_execution",
+      "superhunter.tests.test_product_secrets_native.SecretsNativeTests.test_native_samples_agree_with_independently_owned_bytes",
+      "superhunter.tests.test_product_secrets_native.SecretsNativeTests.test_oversized_native_output_is_rejected",
+      "superhunter.tests.test_product_secrets_native.SecretsNativeTests.test_pin_substitution_is_rejected_before_any_execution",
+      "superhunter.tests.test_product_secrets_native.SecretsNativeTests.test_positive_results_cannot_be_reported_for_clean_inputs",
+      "superhunter.tests.test_product_secrets_native.SecretsNativeTests.test_verified_or_cached_credentials_cannot_enter_offline_evidence",
+      "superhunter.tests.test_product_secrets_native.SecretsNativeTests.test_wrong_detector_value_and_location_are_rejected",
+      "superhunter.tests.test_product_slither_native.SlitherNativeReconciliationTests.test_abi_ast_or_bytecode_disagreement_is_rejected",
+      "superhunter.tests.test_product_slither_native.SlitherNativeReconciliationTests.test_both_negative_controls_reject_false_positives",
+      "superhunter.tests.test_product_slither_native.SlitherNativeReconciliationTests.test_compiler_failure_is_not_clean_success",
+      "superhunter.tests.test_product_slither_native.SlitherNativeReconciliationTests.test_complete_controls_bind_the_positive_expression",
+      "superhunter.tests.test_product_slither_native.SlitherNativeReconciliationTests.test_false_negative_is_rejected",
+      "superhunter.tests.test_product_slither_native.SlitherNativeReconciliationTests.test_invalid_bytecode_is_rejected_even_if_both_producers_agree",
+      "superhunter.tests.test_product_slither_native.SlitherNativeReconciliationTests.test_missing_control_is_rejected",
+      "superhunter.tests.test_product_slither_native.SlitherNativeReconciliationTests.test_network_library_wrong_bytes_rejected_before_load",
+      "superhunter.tests.test_product_slither_native.SlitherNativeReconciliationTests.test_network_proof_must_match",
+      "superhunter.tests.test_product_slither_native.SlitherNativeReconciliationTests.test_valid_range_pointing_to_wrong_expression_is_rejected",
+      "superhunter.tests.test_product_slot_formats_batch.ClockSourceControls.test_duplicate_native_field_cannot_fill_missing_field",
+      "superhunter.tests.test_product_slot_formats_batch.ClockSourceControls.test_int64_vs_uint64_disagreement",
+      "superhunter.tests.test_product_slot_formats_batch.ClockSourceControls.test_native_product_preserves_origin_and_absence",
+      "superhunter.tests.test_product_slot_formats_batch.ClockSourceControls.test_printed_timestamp_cannot_map_to_epoch",
+      "superhunter.tests.test_product_slot_formats_batch.ClockSourceControls.test_reject_untrusted_package_signature",
+      "superhunter.tests.test_product_slot_formats_batch.ClockWireControls.test_default_epoch_encoding",
+      "superhunter.tests.test_product_slot_formats_batch.ClockWireControls.test_historical_timestamp",
+      "superhunter.tests.test_product_slot_formats_batch.ClockWireControls.test_negative_int64_wire_is_ten_octets",
+      "superhunter.tests.test_product_source_audit.GitTreeAuditTests.test_committed_tree_and_pointer_are_reported_separately",
+      "superhunter.tests.test_product_source_audit.GitTreeAuditTests.test_github_duplicate_identity_is_rejected",
+      "superhunter.tests.test_product_source_audit.GitTreeAuditTests.test_internal_and_external_license_links_use_git_objects_only",
+      "superhunter.tests.test_product_source_audit.GitTreeAuditTests.test_notice_cannot_be_reassigned_to_another_blob",
+      "superhunter.tests.test_product_source_audit.GitTreeAuditTests.test_remote_inventory_rejects_missing_identity",
+      "superhunter.tests.test_product_source_audit.GitTreeAuditTests.test_reviewed_snapshot_cannot_be_replaced_with_self_consistent_forgery",
+      "superhunter.tests.test_product_source_audit.HeaderForkTests.test_boundary_compares_active_fields_and_refuses_configuration_disagreement",
+      "superhunter.tests.test_product_source_audit.HeaderForkTests.test_chain_and_monotonic_schedule_must_match",
+      "superhunter.tests.test_product_source_audit.HeaderForkTests.test_fork_receipts_cannot_be_replaced_by_a_git_revision",
+      "superhunter.tests.test_product_source_audit.IndependentScoringTests.test_compares_individual_labels_and_detects_removed_check",
+      "superhunter.tests.test_product_source_audit.IndependentScoringTests.test_framework_presence_does_not_accredit_scoring",
+      "superhunter.tests.test_product_source_audit.IndependentScoringTests.test_missing_trials_and_invalid_score_are_rejected",
+      "superhunter.tests.test_product_source_audit.MetadataBoundaryTests.test_attributes_verify_the_blob_before_interpreting_attributes",
+      "superhunter.tests.test_product_source_audit.MetadataBoundaryTests.test_blob_containing_checkout_cannot_pass_as_metadata_only",
+      "superhunter.tests.test_product_source_audit.MetadataBoundaryTests.test_legacy_wheel_with_pep639_license_directory",
+      "superhunter.tests.test_product_source_audit.OwnedSourceChecksTests.test_partial_source_or_invented_receipt_cannot_accredit_a_project",
+      "superhunter.tests.test_product_source_audit.OwnedSourceChecksTests.test_replaced_publisher_source_is_rejected_before_execution",
+      "superhunter.tests.test_product_source_audit.OwnedSourceChecksTests.test_two_source_file_pins_are_derived_from_upstream_subtrees",
+      "superhunter.tests.test_product_source_audit.OwnedSourceChecksTests.test_upstream_region_converts_only_supplied_coordinates",
+      "superhunter.tests.test_product_source_audit.PortableSourceReviewTests.test_dangling_compressed_data_is_rejected",
+      "superhunter.tests.test_product_source_audit.PortableSourceReviewTests.test_empty_go_report_or_wrong_diagnostic_location_cannot_pass",
+      "superhunter.tests.test_product_source_audit.PortableSourceReviewTests.test_go_revision_on_its_own_cannot_receive_credit",
+      "superhunter.tests.test_product_source_audit.PortableSourceReviewTests.test_portable_inputs_reconstruct_all_47_commits_and_34_root_declarations",
+      "superhunter.tests.test_product_source_audit.PortableSourceReviewTests.test_swapped_commit_and_substituted_declaration_are_each_rejected",
+      "superhunter.tests.test_product_source_audit.ProductComparisonTests.test_a_placeholder_or_mismatched_receipt_cannot_count_as_a_comparison",
+      "superhunter.tests.test_product_source_audit.ProductComparisonTests.test_audit_rows_cannot_promote_project_to_runtime",
+      "superhunter.tests.test_product_source_audit.ProductComparisonTests.test_geth_requires_both_exact_comparisons",
+      "superhunter.tests.test_product_source_audit.ProductComparisonTests.test_typed_payload_rejects_overflow_padding_and_missing_field",
+      "superhunter.tests.test_product_source_audit.ProductCreditTests.test_evidence_archive_identifies_the_historical_source_rows",
+      "superhunter.tests.test_product_source_audit.ProductCreditTests.test_extended_profile_rejects_an_unknown_option_and_missing_slots",
+      "superhunter.tests.test_product_source_audit.ProductCreditTests.test_refuted_match_retains_its_evidence_and_cannot_enter_search_results",
+      "superhunter.tests.test_product_source_audit.ProductCreditTests.test_review_query_manifest_contains_every_id_once_and_explicit_audits",
+      "superhunter.tests.test_product_source_audit.ProductCreditTests.test_reviewed_schema_rejects_an_unbound_producer_for_every_older_native_integration",
+      "superhunter.tests.test_product_source_audit.ProductCreditTests.test_scorecard_preserves_links_as_boundaries_and_rejects_foreign_ones",
+      "superhunter.tests.test_product_source_audit.ProductCreditTests.test_transcript_archive_rejects_another_hash_size_or_trailing_stream",
+      "superhunter.tests.test_product_source_audit.ProductCreditTests.test_truncated_and_untrusted_transcript_fail_before_receiving_credit",
+      "superhunter.tests.test_product_source_audit.RemoteRootTests.test_all_root_objects_reconstruct_and_bind_to_different_catalog_ids",
+      "superhunter.tests.test_product_source_audit.RemoteRootTests.test_go_blocks_and_cargo_renames",
+      "superhunter.tests.test_product_source_audit.RemoteRootTests.test_hash_mismatch_bad_order_and_ambiguous_entries_fail",
+      "superhunter.tests.test_product_source_audit.RemoteRootTests.test_source_scripts_and_links_are_never_manifest_inputs",
+      "superhunter.tests.test_product_source_parallel.ParallelSourceTests.test_catalog_failure_precedes_checkout_workers",
+      "superhunter.tests.test_product_source_parallel.ParallelSourceTests.test_changed_tracked_bytes_are_rejected_without_cached_success",
+      "superhunter.tests.test_product_source_parallel.ParallelSourceTests.test_cli_preserves_pinned_output_with_explicit_jobs",
+      "superhunter.tests.test_product_source_parallel.ParallelSourceTests.test_committed_eol_rule_allows_exact_crlf_expansion_only",
+      "superhunter.tests.test_product_source_parallel.ParallelSourceTests.test_ident_expansion_uses_pinned_attributes_without_local_filter_commands",
+      "superhunter.tests.test_product_source_parallel.ParallelSourceTests.test_index_flags_cannot_hide_modified_source",
+      "superhunter.tests.test_product_source_parallel.ParallelSourceTests.test_mode_and_removal_are_rejected",
+      "superhunter.tests.test_product_source_parallel.ParallelSourceTests.test_parallel_inventory_is_byte_identical_and_keeps_catalog_order",
+      "superhunter.tests.test_product_source_parallel.ParallelSourceTests.test_restored_files_with_stale_stat_cache_match_the_original_blob",
+      "superhunter.tests.test_product_source_parallel.ParallelSourceTests.test_staged_changes_are_rejected",
+      "superhunter.tests.test_product_source_parallel.ParallelSourceTests.test_symlink_commits_compare_the_link_text",
+      "superhunter.tests.test_product_source_parallel.ParallelSourceTests.test_uninitialized_checkout_is_rejected",
+      "superhunter.tests.test_product_source_parallel.ParallelSourceTests.test_worker_limit_rejects_invalid_values",
+      "superhunter.tests.test_product_source_parallel.ParallelSourceTests.test_wrong_head_is_rejected",
+      "superhunter.tests.test_product_state_formats_batch.AmountFormatControls.test_amount_is_not_relabelled_if_superfluous_leading_zero",
+      "superhunter.tests.test_product_state_formats_batch.AmountFormatControls.test_cairo_limb_carry_and_sui_upper_bound",
+      "superhunter.tests.test_product_state_formats_batch.AmountFormatControls.test_cannot_promote_negative_unsigned_interpretation",
+      "superhunter.tests.test_product_state_formats_batch.AmountFormatControls.test_falsified_positive_observation_rejected",
+      "superhunter.tests.test_product_state_formats_batch.AmountFormatControls.test_historical_fields_are_intact",
+      "superhunter.tests.test_product_state_formats_batch.AmountFormatControls.test_normalization_detects_wrong_quantity",
+      "superhunter.tests.test_product_state_formats_batch.UpstreamAmountFormats.test_authentic_product_rows_and_boundaries",
+      "superhunter.tests.test_product_state_formats_batch.UpstreamAmountFormats.test_cairo_limb_order_has_consequences",
+      "superhunter.tests.test_product_state_formats_batch.UpstreamAmountFormats.test_corrupt_cached_binary_rejected_before_execution",
+      "superhunter.tests.test_product_state_formats_batch.UpstreamAmountFormats.test_positive_amount_spec_disagrees",
+      "superhunter.tests.test_product_state_formats_batch.UpstreamAmountFormats.test_sui_layout_width_contradiction",
+      "superhunter.tests.test_product_state_formats_batch.UpstreamAmountFormats.test_wasm_signed_schema_rejected",
+      "superhunter.tests.test_product_static_contracts.ReaderContractTests.test_broken_stub_blocks_instead_of_falling_back",
+      "superhunter.tests.test_product_static_contracts.ReaderContractTests.test_missing_annotation_and_missing_slot_have_different_witnesses",
+      "superhunter.tests.test_product_static_contracts.ReaderContractTests.test_positional_call_accepts_renames_but_rejects_keyword_only_parameter",
+      "superhunter.tests.test_product_static_contracts.ReaderContractTests.test_rejects_unrecognised_frontend_argument_map",
+      "superhunter.tests.test_product_static_contracts.ReaderContractTests.test_replayed_input_contract_has_total_case_coverage",
+      "superhunter.tests.test_product_static_native.StaticNativeTests.test_clean_native_report_is_accepted_only_for_clean_control",
+      "superhunter.tests.test_product_static_native.StaticNativeTests.test_image_mapping_rejects_overlap_and_file_overrun",
+      "superhunter.tests.test_product_static_native.StaticNativeTests.test_internal_branch_to_instruction_middle_is_reported",
+      "superhunter.tests.test_product_static_native.StaticNativeTests.test_modified_tool_is_rejected_before_execution",
+      "superhunter.tests.test_product_static_native.StaticNativeTests.test_objdump_parsing_keeps_instruction_bytes_and_offsets",
+      "superhunter.tests.test_product_static_native.StaticNativeTests.test_pin_substitution_is_rejected_before_tool_execution",
+      "superhunter.tests.test_product_static_native.StaticNativeTests.test_positive_locations_and_cwe_are_validated",
+      "superhunter.tests.test_product_static_native.StaticNativeTests.test_relative_targets_use_signed_displacement",
+      "superhunter.tests.test_product_static_native.StaticNativeTests.test_substituted_instruction_or_branch_is_rejected",
+      "superhunter.tests.test_product_static_native.StaticNativeTests.test_truncated_instruction_bytes_are_retained_explicitly",
+      "superhunter.tests.test_product_static_native.StaticNativeTests.test_wrong_version_or_missing_xml_sections_cannot_succeed",
+      "superhunter.tests.test_product_supply.LicenseSarifTests.test_report_keeps_utf8_bytes_and_locates_the_actual_pin",
+      "superhunter.tests.test_product_supply.LicenseSarifTests.test_report_rejects_an_unbound_notice_and_preserves_non_utf8_artifacts",
+      "superhunter.tests.test_product_supply.NativeLicenseTests.test_cargo_comparison_retains_missing_license_and_checks_every_crate",
+      "superhunter.tests.test_product_supply.NativeLicenseTests.test_scancode_matches_bind_paths_digests_and_line_numbers",
+      "superhunter.tests.test_product_supply.NoticeRankingTests.test_real_term_counts_reject_missing_documents_wrong_weights_and_wrong_order",
+      "superhunter.tests.test_product_supply.NoticeSearchTests.test_notice_queries_require_a_nonempty_verified_corpus",
+      "superhunter.tests.test_product_supply.NoticeSearchTests.test_sparse_results_must_match_independent_source_terms_and_bytes",
+      "superhunter.tests.test_product_supply.NoticeSimilarityTests.test_all_unordered_pairs_and_independent_cosines_are_required",
+      "superhunter.tests.test_product_supply.NoticeTests.test_legacy_license_and_missing_or_ambiguous_declarations",
+      "superhunter.tests.test_product_supply.NoticeTests.test_only_digest_matched_declared_documentation_is_returned",
+      "superhunter.tests.test_product_supply.ProducerElfTests.test_independent_header_loader_and_needed_libraries_must_agree",
+      "superhunter.tests.test_product_supply.ProfileNoticeTests.test_preserves_distinct_versions_and_cross_profile_digest_provenance",
+      "superhunter.tests.test_product_supply.SupplyTests.test_200_ids_and_distinct_license_outcomes",
+      "superhunter.tests.test_product_supply.SupplyTests.test_metadata_alone_cannot_promote_a_candidate_to_an_integration",
+      "superhunter.tests.test_product_supply.SupplyTests.test_missing_artifact_fails_even_with_a_valid_complete_marker",
+      "superhunter.tests.test_product_supply.SupplyTests.test_one_modified_github_identity_or_mismatched_catalog_is_rejected",
+      "superhunter.tests.test_product_supply.SupplyTests.test_python_verification_binds_every_byte_and_claims_no_signature",
+      "superhunter.tests.test_product_supply.SupplyTests.test_wrong_owasp_revision_fails_before_interpretation",
+      "superhunter.tests.test_product_trust_batch.LockChecks.test_missing_package_is_rejected",
+      "superhunter.tests.test_product_trust_batch.LockChecks.test_node_resolves_nested_and_shared_dependencies",
+      "superhunter.tests.test_product_trust_batch.LockChecks.test_range_contract",
+      "superhunter.tests.test_product_trust_batch.LockChecks.test_substituted_file_record_is_rejected",
+      "superhunter.tests.test_product_trust_batch.SourceChecks.test_bad_source_or_cache_fails",
+      "superhunter.tests.test_product_trust_batch.SourceChecks.test_joint_consumer",
+      "superhunter.tests.test_product_trust_batch.SourceChecks.test_npm_semver_and_resolution_independent",
+      "superhunter.tests.test_product_trust_batch.SourceChecks.test_wrong_cpe_rule_cannot_credit_an_unrelated_package",
+      "superhunter.tests.test_product_upgrade_layout_native.UpgradeLayoutReceiptTests.test_even_matching_compilers_must_have_expected_storage_slots",
+      "superhunter.tests.test_product_upgrade_layout_native.UpgradeLayoutReceiptTests.test_hardhat_direct_compiler_disagreement_is_rejected",
+      "superhunter.tests.test_product_upgrade_layout_native.UpgradeLayoutReceiptTests.test_invalid_solidity_must_be_rejected_by_both_paths",
+      "superhunter.tests.test_product_upgrade_layout_native.UpgradeLayoutReceiptTests.test_missing_compiler_ast_and_layout_are_rejected",
+      "superhunter.tests.test_product_upgrade_layout_native.UpgradeLayoutReceiptTests.test_missing_negative_control_is_rejected",
+      "superhunter.tests.test_product_upgrade_layout_native.UpgradeLayoutReceiptTests.test_protocol_fixture_covers_two_accepts_and_four_rejections",
+      "superhunter.tests.test_product_upgrade_layout_native.UpgradeLayoutReceiptTests.test_source_substitution_is_rejected",
+      "superhunter.tests.test_product_upgrade_layout_native.UpgradeLayoutReceiptTests.test_unsafe_upgrade_false_negative_is_rejected",
+      "superhunter.tests.test_product_web_native.WebNativeTests.test_added_missing_and_modified_native_modules_are_rejected",
+      "superhunter.tests.test_product_web_native.WebNativeTests.test_archive_substitution_requires_both_packaged_and_original_bytes",
+      "superhunter.tests.test_product_web_native.WebNativeTests.test_bad_response_cannot_be_presented_as_accepted",
+      "superhunter.tests.test_product_web_native.WebNativeTests.test_changed_reference_file_cannot_launch_native_worker",
+      "superhunter.tests.test_product_web_native.WebNativeTests.test_checksum_matches_a_known_internet_checksum_vector",
+      "superhunter.tests.test_product_web_native.WebNativeTests.test_checksum_or_packet_identity_cannot_be_forged",
+      "superhunter.tests.test_product_web_native.WebNativeTests.test_false_positive_on_clean_response_is_rejected",
+      "superhunter.tests.test_product_web_native.WebNativeTests.test_fingerprint_version_is_bound_to_the_observed_banner",
+      "superhunter.tests.test_product_web_native.WebNativeTests.test_missing_or_duplicated_api_trial_is_rejected",
+      "superhunter.tests.test_product_web_native.WebNativeTests.test_recorded_native_controls_remain_consistent",
+      "superhunter.tests.test_product_web_native.WebNativeTests.test_source_proof_mutation_fails_before_execution",
+      "superhunter.tests.test_product_web_native.WebNativeTests.test_truncation_cannot_be_silently_repaired",
+      "superhunter.tests.test_product_web_native.WebNativeTests.test_unknown_banner_does_not_inherit_known_fingerprint",
+      "superhunter.tests.test_product_web_native.WebNativeTests.test_wrong_producer_version_or_extra_report_section_is_rejected",
+      "superhunter.tests.test_product_web_native.WebNativeTests.test_wrong_returned_body_status_or_diagnostic_is_rejected",
+      "superhunter.tests.test_repository_boundary.ExternalSourceTests.test_changed_manifest_does_not_exempt_a_directory",
+      "superhunter.tests.test_repository_boundary.ExternalSourceTests.test_full_manifest_matches_all_reviewed_paths",
+      "superhunter.tests.test_repository_boundary.ExternalSourceTests.test_only_declared_directories_are_external",
+      "superhunter.tests.test_repository_boundary.ExternalSourceTests.test_product_inventory_requires_committed_index_and_all_checkouts",
+      "superhunter.tests.test_repository_boundary.ExternalSourceTests.test_symlink_cannot_stand_in_for_a_registered_checkout",
+      "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_active_workflow_rejected_at_root_and_nested",
+      "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_budgets_fail_closed",
+      "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_cache_is_explicitly_excluded_from_source_claim",
+      "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_changed_legacy_byte_rejected",
+      "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_changed_legacy_mode_rejected",
+      "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_changed_truncated_or_extra_appendix_rejected",
+      "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_cli_failure_uses_fixed_diagnostic",
+      "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_client_tree_rejected",
+      "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_concurrent_source_change_rejected",
+      "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_extended_repository_preserves_legacy_without_recertifying",
+      "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_extra_or_missing_legacy_file_rejected",
+      "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_native_dependency_and_unreviewed_root_rejected",
+      "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_new_source_mode_requires_review",
+      "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_original_policy_edit_rejected_even_with_reviewed_appendix",
+      "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_original_verifier_cannot_be_silently_replaced",
+      "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_reviewed_appendix_preserves_original_policy_pin",
+      "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_reviewed_continuity_document_allowed_but_not_executable",
+      "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_root_policy_cannot_be_silently_replaced",
+      "superhunter.tests.test_repository_boundary.RepositoryBoundaryTests.test_symlink_file_directory_and_cache_rejected",
+      "superhunter.tests.test_source_materialization.SourceMaterializationTests.test_directory_without_recorded_superproject_is_rejected",
+      "superhunter.tests.test_source_materialization.SourceMaterializationTests.test_duplicate_subject_is_rejected",
+      "superhunter.tests.test_source_materialization.SourceMaterializationTests.test_historical_failure_is_not_counted_as_fsck_success",
+      "superhunter.tests.test_source_materialization.SourceMaterializationTests.test_missing_or_changed_current_product_gitlink_is_rejected",
+      "superhunter.tests.test_source_materialization.SourceMaterializationTests.test_published_receipt_reproduces_offline",
+      "superhunter.tests.test_source_materialization.SourceMaterializationTests.test_second_workspace_tree_substitution_is_rejected",
+      "superhunter.tests.test_source_materialization.SourceMaterializationTests.test_substitution_between_preserved_and_new_groups_is_rejected"
+    ],
+    "passed": 398,
+    "skipped": 0,
+    "failed": 0,
+    "raw_log_sha256": "95830cb26f94f00cf13b4d39d91d3dcc4e246eeca2bd0bf194b5a60942c1edb2",
+    "prior_attempt": {
+      "passed": 397,
+      "errors": 1,
+      "cause": "npm semver unavailable to the independent layout comparison",
+      "log_sha256": "811620d63d5127145b443f64acec6b78bdd084a9db8ec0f38fd81ac55b052c8f"
+    }
+  },
+  "rust_historical": {
+    "toolchain": "cargo 1.98.1 / rustc 1.98.1",
+    "source_tree": "68dbd045014a49bd53b79440d9878f3e8035c739",
+    "cargo_lock_sha256": "4d57f657ded77ece866e57f3fd70b220e02c2865b5ad716e88c7d79923dcae38",
+    "command": "cargo test --locked --offline --workspace",
+    "cached_build": true,
+    "network": "isolated",
+    "passed": 528,
+    "failed": 0,
+    "ignored": 0,
+    "raw_log_sha256": "4bdbb21e688038245f1244f05e2cf01f70e220e79d46275af5330e02be3977b2",
+    "test_ids": [
+      {
+        "target": "aave_debt_discovery-0b59fbf9293786d6",
+        "name": "borrow_cap_reached_is_preserved_as_protocol_blocker"
+      },
+      {
+        "target": "aave_debt_discovery-0b59fbf9293786d6",
+        "name": "d08_token_blocker_preserves_protocol_capacity_but_blocks_execution_compatibility"
+      },
+      {
+        "target": "aave_debt_discovery-0b59fbf9293786d6",
+        "name": "discovers_exact_borrow_cap_upper_bound_from_authenticated_d08"
+      },
+      {
+        "target": "aave_debt_discovery-0b59fbf9293786d6",
+        "name": "discovery_artifact_is_deterministic_and_nonterminal"
+      },
+      {
+        "target": "aave_debt_discovery-0b59fbf9293786d6",
+        "name": "discovery_artifact_preserves_token_execution_blocker"
+      },
+      {
+        "target": "aave_debt_discovery-0b59fbf9293786d6",
+        "name": "duplicate_aave_debt_candidate_is_rejected"
+      },
+      {
+        "target": "aave_debt_discovery-0b59fbf9293786d6",
+        "name": "protocol_facts_cannot_contradict_decoded_configuration"
+      },
+      {
+        "target": "aave_debt_discovery-0b59fbf9293786d6",
+        "name": "substituted_anchor_is_rejected_before_discovery"
+      },
+      {
+        "target": "aave_debt_discovery-0b59fbf9293786d6",
+        "name": "tampered_state_bytes_fail_manifest_binding"
+      },
+      {
+        "target": "aave_discovery-0a90bf71ec04b89d",
+        "name": "conflicting_second_initialization_for_same_asset_fails_closed"
+      },
+      {
+        "target": "aave_discovery-0a90bf71ec04b89d",
+        "name": "distinct_asset_addresses_produce_distinct_market_ids"
+      },
+      {
+        "target": "aave_discovery-0a90bf71ec04b89d",
+        "name": "drop_at_or_before_initialization_fails_closed"
+      },
+      {
+        "target": "aave_discovery-0a90bf71ec04b89d",
+        "name": "drop_without_initialization_fails_closed"
+      },
+      {
+        "target": "aave_discovery-0a90bf71ec04b89d",
+        "name": "dropped_current_reserve_fails_closed"
+      },
+      {
+        "target": "aave_discovery-0a90bf71ec04b89d",
+        "name": "duplicate_drop_provider_observation_is_deduplicated"
+      },
+      {
+        "target": "aave_discovery-0a90bf71ec04b89d",
+        "name": "duplicate_provider_init_is_deduplicated"
+      },
+      {
+        "target": "aave_discovery-0a90bf71ec04b89d",
+        "name": "duplicate_reserve_id_with_different_assets_fails"
+      },
+      {
+        "target": "aave_discovery-0a90bf71ec04b89d",
+        "name": "evidence_from_getter_and_history_is_merged_without_duplicates"
+      },
+      {
+        "target": "aave_discovery-0a90bf71ec04b89d",
+        "name": "exact_duplicate_current_rows_do_not_create_two_markets"
+      },
+      {
+        "target": "aave_discovery-0a90bf71ec04b89d",
+        "name": "getter_only_is_unexplained"
+      },
+      {
+        "target": "aave_discovery-0a90bf71ec04b89d",
+        "name": "historical_with_later_drop_is_explained"
+      },
+      {
+        "target": "aave_discovery-0a90bf71ec04b89d",
+        "name": "historical_without_drop_is_preserved_and_blocking"
+      },
+      {
+        "target": "aave_discovery-0a90bf71ec04b89d",
+        "name": "identical_getter_and_history_certify"
+      },
+      {
+        "target": "aave_discovery-0a90bf71ec04b89d",
+        "name": "input_order_is_byte_identical"
+      },
+      {
+        "target": "aave_discovery-0a90bf71ec04b89d",
+        "name": "reserve_dropped_decoder_is_strict"
+      },
+      {
+        "target": "aave_discovery-0a90bf71ec04b89d",
+        "name": "reserve_event_noncanonical_indexed_address_is_rejected"
+      },
+      {
+        "target": "aave_discovery-0a90bf71ec04b89d",
+        "name": "reserve_event_wrong_emitter_is_rejected"
+      },
+      {
+        "target": "aave_discovery-0a90bf71ec04b89d",
+        "name": "reserve_initialized_allows_zero_optional_v3_addresses"
+      },
+      {
+        "target": "aave_discovery-0a90bf71ec04b89d",
+        "name": "reserve_initialized_decoder_is_strict"
+      },
+      {
+        "target": "aave_discovery-0a90bf71ec04b89d",
+        "name": "same_asset_with_two_current_ids_fails_closed"
+      },
+      {
+        "target": "aave_history-9d0a3f71d58491f0",
+        "name": "a_current_surface_from_another_anchor_is_refused"
+      },
+      {
+        "target": "aave_history-9d0a3f71d58491f0",
+        "name": "a_provider_omitting_one_lineage_or_reserve_log_fails_consensus"
+      },
+      {
+        "target": "aave_history-9d0a3f71d58491f0",
+        "name": "crash_resume_replay_is_byte_identical_and_tamper_is_detected"
+      },
+      {
+        "target": "aave_history-9d0a3f71d58491f0",
+        "name": "discontinuous_or_wrong_final_implementation_fails_closed"
+      },
+      {
+        "target": "aave_history-9d0a3f71d58491f0",
+        "name": "dropped_slot_in_current_surface_must_be_explained_by_history"
+      },
+      {
+        "target": "aave_history-9d0a3f71d58491f0",
+        "name": "history_is_deterministic_across_independent_stores"
+      },
+      {
+        "target": "aave_history-9d0a3f71d58491f0",
+        "name": "history_with_zero_topic_lineage_drop_and_slot_reuse_reconciles"
+      },
+      {
+        "target": "aave_history-9d0a3f71d58491f0",
+        "name": "repeated_requests_answered_in_other_bytes_replay_in_recorded_order"
+      },
+      {
+        "target": "aave_history-9d0a3f71d58491f0",
+        "name": "replaced_configurator_is_windowed_and_stale_emitter_rejected"
+      },
+      {
+        "target": "aave_history-9d0a3f71d58491f0",
+        "name": "replaced_pool_address_fails_closed"
+      },
+      {
+        "target": "aave_history-9d0a3f71d58491f0",
+        "name": "reserve_id_or_token_disagreement_is_unexplained"
+      },
+      {
+        "target": "actionability-c0de72addf65e6e7",
+        "name": "actionable_liquidation_promotes_to_exact_principal_settlement_requirement"
+      },
+      {
+        "target": "actionability-c0de72addf65e6e7",
+        "name": "admitted_candidate_binds_flash_repayment_and_signed_oracle_edge"
+      },
+      {
+        "target": "actionability-c0de72addf65e6e7",
+        "name": "admitted_candidate_cannot_have_zero_principal"
+      },
+      {
+        "target": "actionability-c0de72addf65e6e7",
+        "name": "authenticated_promotion_identity_reconstructs_exact_portfolio_candidate"
+      },
+      {
+        "target": "actionability-c0de72addf65e6e7",
+        "name": "cross_anchor_record_fails_closed"
+      },
+      {
+        "target": "actionability-c0de72addf65e6e7",
+        "name": "disappearing_below_one_borrower_fails_closed"
+      },
+      {
+        "target": "actionability-c0de72addf65e6e7",
+        "name": "disappearing_pair_fails_closed"
+      },
+      {
+        "target": "actionability-c0de72addf65e6e7",
+        "name": "every_below_one_pair_is_conserved_as_admitted_or_rejected"
+      },
+      {
+        "target": "actionability-c0de72addf65e6e7",
+        "name": "exact_aave_provider_and_fee_are_required_for_capital_feasibility"
+      },
+      {
+        "target": "actionability-c0de72addf65e6e7",
+        "name": "negative_oracle_edge_is_preserved_instead_of_erasing_actionability"
+      },
+      {
+        "target": "actionability-c0de72addf65e6e7",
+        "name": "operator_owned_aave_liquidity_cannot_satisfy_zero_own_capital_policy"
+      },
+      {
+        "target": "actionability-c0de72addf65e6e7",
+        "name": "pair_key_is_stable_across_observations_but_observed_id_changes"
+      },
+      {
+        "target": "actionability-c0de72addf65e6e7",
+        "name": "zero_flash_premium_does_not_fabricate_zero_fee_leg"
+      },
+      {
+        "target": "adapters-30b2dff72ad7fad7",
+        "name": "aave_v3_adapter_matches_pft_compat_009_flash_premium_ceiling"
+      },
+      {
+        "target": "adapters-30b2dff72ad7fad7",
+        "name": "aave_v3_disabled_flash_source_preserves_observed_liquidity_but_blocks_execution"
+      },
+      {
+        "target": "adapters-30b2dff72ad7fad7",
+        "name": "adapter_records_roundtrip_through_generic_capital_source"
+      },
+      {
+        "target": "adapters-30b2dff72ad7fad7",
+        "name": "adapters_require_real_evidence_references"
+      },
+      {
+        "target": "adapters-30b2dff72ad7fad7",
+        "name": "balancer_v2_adapter_preserves_ceil_fee_semantics"
+      },
+      {
+        "target": "adapters-30b2dff72ad7fad7",
+        "name": "balancer_v2_paused_vault_preserves_observed_balance_but_blocks_execution"
+      },
+      {
+        "target": "adapters-30b2dff72ad7fad7",
+        "name": "external_gas_credit_is_external_native_gas_with_bounded_capacity"
+      },
+      {
+        "target": "adapters-30b2dff72ad7fad7",
+        "name": "external_gas_credit_rejects_zero_deadline_and_foreign_fixed_fee_asset"
+      },
+      {
+        "target": "adapters-30b2dff72ad7fad7",
+        "name": "external_gas_credit_requires_evidence"
+      },
+      {
+        "target": "adapters-30b2dff72ad7fad7",
+        "name": "external_gas_sponsor_can_charge_evidence_bound_fee_without_principal_repayment"
+      },
+      {
+        "target": "adapters-30b2dff72ad7fad7",
+        "name": "external_gas_sponsor_is_non_operator_native_gas_capital"
+      },
+      {
+        "target": "adapters-30b2dff72ad7fad7",
+        "name": "external_gas_sponsor_rejects_fixed_fee_asset_mismatch"
+      },
+      {
+        "target": "adapters-30b2dff72ad7fad7",
+        "name": "inactive_external_gas_credit_preserves_observed_capacity_but_blocks_execution"
+      },
+      {
+        "target": "adapters-30b2dff72ad7fad7",
+        "name": "uniswap_v2_flash_swap_binds_strict_reserve_capacity_and_fee"
+      },
+      {
+        "target": "adapters-30b2dff72ad7fad7",
+        "name": "uniswap_v2_flash_swap_preserves_zero_capacity_observations"
+      },
+      {
+        "target": "adapters-30b2dff72ad7fad7",
+        "name": "uniswap_v2_flash_swap_requires_evidence"
+      },
+      {
+        "target": "adapters-30b2dff72ad7fad7",
+        "name": "uniswap_v3_flash_binds_pool_balance_and_ceil_fee"
+      },
+      {
+        "target": "adapters-30b2dff72ad7fad7",
+        "name": "uniswap_v3_rejects_impossible_fee_scale"
+      },
+      {
+        "target": "adapters-30b2dff72ad7fad7",
+        "name": "uniswap_v3_zero_active_liquidity_blocks_execution_without_erasing_balance"
+      },
+      {
+        "target": "adapters-30b2dff72ad7fad7",
+        "name": "uniswap_v3_zero_balance_remains_an_observed_source"
+      },
+      {
+        "target": "artifacts-bf93bda486bda0d2",
+        "name": "all_rejected_census_does_not_claim_zero_own_capital_proof"
+      },
+      {
+        "target": "artifacts-bf93bda486bda0d2",
+        "name": "artifact_export_rejects_wall_clock_or_arbitrary_generation_time"
+      },
+      {
+        "target": "artifacts-bf93bda486bda0d2",
+        "name": "artifact_provenance_requires_exact_git_object_ids"
+      },
+      {
+        "target": "artifacts-bf93bda486bda0d2",
+        "name": "blocked_source_bundle_roundtrips_offline_and_preserves_execution_rejection"
+      },
+      {
+        "target": "artifacts-bf93bda486bda0d2",
+        "name": "capital_artifacts_are_deterministic_and_complete"
+      },
+      {
+        "target": "artifacts-bf93bda486bda0d2",
+        "name": "downstream_source_reader_reconstructs_exact_canonical_source_set"
+      },
+      {
+        "target": "artifacts-bf93bda486bda0d2",
+        "name": "jsonl_records_carry_exact_anchor_and_provenance"
+      },
+      {
+        "target": "artifacts-bf93bda486bda0d2",
+        "name": "offline_artifact_verifier_accepts_exact_export"
+      },
+      {
+        "target": "artifacts-bf93bda486bda0d2",
+        "name": "offline_artifact_verifier_rejects_manifest_digest_substitution"
+      },
+      {
+        "target": "artifacts-bf93bda486bda0d2",
+        "name": "offline_artifact_verifier_rejects_noncanonical_jsonl"
+      },
+      {
+        "target": "artifacts-bf93bda486bda0d2",
+        "name": "offline_artifact_verifier_rejects_tampered_bytes"
+      },
+      {
+        "target": "artifacts-bf93bda486bda0d2",
+        "name": "offline_verifier_rejects_rehashed_feasibility_allocation_substitution"
+      },
+      {
+        "target": "artifacts-bf93bda486bda0d2",
+        "name": "offline_verifier_rejects_rehashed_upstream_authority_substitution"
+      },
+      {
+        "target": "artifacts-bf93bda486bda0d2",
+        "name": "source_artifact_exposes_full_capital_semantics"
+      },
+      {
+        "target": "artifacts-bf93bda486bda0d2",
+        "name": "source_only_bundle_is_offline_verifiable_without_false_feasibility_claim"
+      },
+      {
+        "target": "artifacts-bf93bda486bda0d2",
+        "name": "synthetic_ledger_cannot_export_evidentiary_artifacts"
+      },
+      {
+        "target": "artifacts-bf93bda486bda0d2",
+        "name": "upstream_authority_artifact_is_exact_and_offline_bound"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "allocation_engine_reroutes_scarce_source_instead_of_greedy_false_negative"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "bond_or_stake_requirement_is_canonical_and_class_separated"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "canonical_objects_reject_evidence_counts_above_u16"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "certification_context_rejects_mixed_upstream_anchors"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "certification_context_requires_every_stage_artifact_in_evidence_catalog"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "certification_rejects_evidence_not_admitted_by_upstream_authority"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "certification_rejects_source_or_requirement_sets_not_consumed_upstream"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "checked_feasibility_rejects_duplicate_source_capacity"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "collateral_dependencies_are_aggregated_across_all_used_sources"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "collateral_leg_rejects_source_that_requires_temporary_lock"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "collateral_requirement_cannot_be_funded_circularly_by_collateralized_source"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "collateralized_borrowing_can_bind_full_persistent_risk_semantics"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "compatible_source_at_foreign_anchor_is_classified_as_anchor_mismatch"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "consumed_output_set_commitment_is_order_independent"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "consumption_receipts_fail_closed_on_wrong_authority_or_duplicate_stage"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "deadline_bound_gas_credit_cannot_fund_same_transaction_action_principal"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "evidentiary_certification_requires_consumed_d08_and_d09_receipts"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "evidentiary_ledger_cannot_certify_against_a_different_anchor"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "evidentiary_ledger_certifies_only_after_evaluation"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "evidentiary_ledger_requires_nonempty_source_census"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "evidentiary_source_census_can_certify_without_actionable_requirements"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "exact_gas_and_flash_sources_can_be_feasible"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "execution_blocked_gas_is_not_misclassified_as_missing"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "execution_blocked_liquidity_is_not_misclassified_as_insufficient_capacity"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "execution_blockers_preserve_observed_capacity_and_stable_source_key"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "fee_quote_rejects_uint256_overflow"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "fee_quotes_are_integer_exact_across_full_uint256_domain"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "fee_rounding_matches_protocol_integer_semantics"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "final_certification_requires_every_upstream_stage_exactly_once"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "fixed_fee_preserves_explicit_fee_asset"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "funding_fee_leg_must_allow_the_actual_fee_source_class"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "gas_is_independent_and_required"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "git_object_ids_are_exact_lowercase_sha1_hex_width"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "ledger_commitment_changes_with_observed_capacity"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "ledger_commitment_is_registration_order_independent"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "ledger_proves_no_operator_owned_capital_was_used"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "ledger_rejects_multiple_states_for_same_stable_source_key"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "mismatched_anchor_fails_closed"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "missing_funding_fee_is_rejected_during_feasibility"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "multiple_operator_sources_are_aggregated_before_zero_own_capital_rejection"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "native_gas_flag_and_gas_leg_must_match_exactly"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "no_repayment_gas_source_needs_no_principal_repayment_leg"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "no_repayment_gas_sponsor_fee_must_still_be_declared"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "operator_treasury_cannot_claim_external_ownership"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "persistent_debt_cannot_hide_missing_risk_terms"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "persistent_debt_requires_collateral_semantics"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "proportional_collateral_must_round_up_and_have_a_positive_ratio"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "proportional_collateral_tracks_allocated_draw_exactly"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "protocol_cap_limits_effective_capacity"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "repayment_leg_must_allow_the_actual_allocated_source_class"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "repayment_obligation_does_not_double_count_initial_capital"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "requirement_constructor_rejects_zero_observation_evidence"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "requirement_roundtrip_and_cross_type_rejection"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "same_block_credit_cannot_satisfy_same_transaction_requirement"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "same_transaction_action_can_use_deadline_bound_external_gas_credit"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "settlement_class_amounts_cannot_be_swapped_between_source_classes"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "settlement_leg_can_split_exact_amount_across_authorized_source_classes"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "settlement_obligations_separate_principal_repayment_from_funding_fee"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "source_canonical_roundtrip_and_tamper_rejection"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "source_constructor_rejects_public_semantic_bypasses"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "source_id_is_deterministic_and_class_separated"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "source_key_is_stable_across_ownership_changes"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "source_key_is_stable_across_state_refreshes"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "stable_source_key_does_not_alias_different_asset_or_class"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "synthetic_ledger_cannot_be_misreported_as_real_certification"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "temporary_lock_dependencies_are_aggregated_across_all_used_sources"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "temporary_lock_leg_rejects_source_that_requires_collateral"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "unknown_source_failure_mode_is_never_admitted"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "upstream_authority_rejects_mismatch_unknown_or_unadmitted_stage"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "utilization_math_handles_full_256_bit_capacity_exactly"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "utilization_reserve_and_absolute_caps_are_independent_upper_bounds"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "wrong_settlement_amount_is_rejected_during_feasibility_not_certification"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "zero_capacity_source_is_preserved_but_zero_requirement_amount_is_invalid"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "zero_own_capital_claim_requires_at_least_one_feasible_requirement"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "zero_own_capital_policy_rejects_operator_treasury_source"
+      },
+      {
+        "target": "capital-4b4347edd4955439",
+        "name": "zero_own_capital_rejects_operator_owned_builder_source"
+      },
+      {
+        "target": "cas-a43b17aba229f95f",
+        "name": "artifact_identity_is_plain_sha256_of_logical_bytes"
+      },
+      {
+        "target": "cas-a43b17aba229f95f",
+        "name": "claimed_raw_length_cannot_expand_output"
+      },
+      {
+        "target": "cas-a43b17aba229f95f",
+        "name": "compressible_and_incompressible_data_round_trip"
+      },
+      {
+        "target": "cas-a43b17aba229f95f",
+        "name": "content_defined_chunking_survives_insertions"
+      },
+      {
+        "target": "cas-a43b17aba229f95f",
+        "name": "different_payloads_never_alias"
+      },
+      {
+        "target": "cas-a43b17aba229f95f",
+        "name": "empty_and_oversized_artifacts_are_rejected"
+      },
+      {
+        "target": "cas-a43b17aba229f95f",
+        "name": "encoding_is_deterministic_across_independent_stores"
+      },
+      {
+        "target": "cas-a43b17aba229f95f",
+        "name": "existing_object_is_never_overwritten_by_different_bytes"
+      },
+      {
+        "target": "cas-a43b17aba229f95f",
+        "name": "frame_claiming_raw_length_beyond_policy_is_rejected_before_allocation"
+      },
+      {
+        "target": "cas-a43b17aba229f95f",
+        "name": "golden_policy_identity_is_byte_stable"
+      },
+      {
+        "target": "cas-a43b17aba229f95f",
+        "name": "malformed_compressed_streams_reject"
+      },
+      {
+        "target": "cas-a43b17aba229f95f",
+        "name": "manifest_mutation_is_detected"
+      },
+      {
+        "target": "cas-a43b17aba229f95f",
+        "name": "missing_chunk_fails_closed"
+      },
+      {
+        "target": "cas-a43b17aba229f95f",
+        "name": "non_canonical_stored_form_is_rejected_by_verification"
+      },
+      {
+        "target": "cas-a43b17aba229f95f",
+        "name": "persisted_policy_is_enforced_on_reopen"
+      },
+      {
+        "target": "cas-a43b17aba229f95f",
+        "name": "same_payload_twice_deduplicates_without_rewriting"
+      },
+      {
+        "target": "cas-a43b17aba229f95f",
+        "name": "stored_frame_mutation_is_detected_before_decoding"
+      },
+      {
+        "target": "cas-a43b17aba229f95f",
+        "name": "tampered_or_replaced_store_policy_fails_closed"
+      },
+      {
+        "target": "cas-a43b17aba229f95f",
+        "name": "truncated_and_trailing_encodings_reject"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "abi_decoding_is_canonical"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "admin_context_calls_are_bound_into_observations"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "archive_gaps_and_rate_limits_are_typed_not_observed"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "bootstrap_derives_one_chain_domain_and_rejects_wrong_genesis"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "bootstrap_report_replays_offline_and_rejects_tampering"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "bytecode_scan_skips_push_data_and_metadata"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "consensus_requires_two_distinct_providers_and_identical_results"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "earliest_code_boundary_has_predecessor_proof"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "error_classes_never_turn_failures_into_observations"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "hex_quantities_and_data_are_strict"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "interrupted_scan_resumes_to_the_identical_evidence_root"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "json_is_strict_and_canonical"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "omitted_log_is_a_provider_mismatch_not_a_vote"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "orphan_log_fails_closed"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "partitioned_scans_merge_and_link_by_parent_hash"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "point_job_commits_and_resumes_by_replay_without_network"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "provider_sets_require_distinct_sources"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "range_hole_is_never_certified"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "real_mainnet_header_is_reconstructed_and_rehashed"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "reorg_between_windows_breaks_the_checkpoint_chain"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "rpc_ids_are_positional_and_replies_strict"
+      },
+      {
+        "target": "chain_evidence-999995798701bbd0",
+        "name": "scans_are_window_checkpointed_certified_and_provider_independent_in_result"
+      },
+      {
+        "target": "checkpoints-0f30114f228d27ea",
+        "name": "checkpoint_for_another_scope_cannot_be_committed"
+      },
+      {
+        "target": "checkpoints-0f30114f228d27ea",
+        "name": "checkpoint_with_absent_evidence_is_refused"
+      },
+      {
+        "target": "checkpoints-0f30114f228d27ea",
+        "name": "contiguous_checkpoints_commit_resume_and_certify"
+      },
+      {
+        "target": "checkpoints-0f30114f228d27ea",
+        "name": "exact_retry_is_idempotent"
+      },
+      {
+        "target": "checkpoints-0f30114f228d27ea",
+        "name": "gap_after_predecessor_is_rejected"
+      },
+      {
+        "target": "checkpoints-0f30114f228d27ea",
+        "name": "genesis_must_start_at_scope_origin_and_parent"
+      },
+      {
+        "target": "checkpoints-0f30114f228d27ea",
+        "name": "internally_inconsistent_ranges_are_rejected"
+      },
+      {
+        "target": "checkpoints-0f30114f228d27ea",
+        "name": "overlap_with_predecessor_is_rejected"
+      },
+      {
+        "target": "checkpoints-0f30114f228d27ea",
+        "name": "partial_history_cannot_certify_a_larger_range"
+      },
+      {
+        "target": "checkpoints-0f30114f228d27ea",
+        "name": "same_sequence_with_different_content_is_a_hard_conflict"
+      },
+      {
+        "target": "checkpoints-0f30114f228d27ea",
+        "name": "scope_identity_separates_every_lineage_dimension"
+      },
+      {
+        "target": "checkpoints-0f30114f228d27ea",
+        "name": "sequence_jump_is_a_gap"
+      },
+      {
+        "target": "checkpoints-0f30114f228d27ea",
+        "name": "timestamp_regression_is_rejected"
+      },
+      {
+        "target": "checkpoints-0f30114f228d27ea",
+        "name": "wrong_parent_lineage_is_rejected"
+      },
+      {
+        "target": "checkpoints-0f30114f228d27ea",
+        "name": "wrong_predecessor_identity_is_rejected"
+      },
+      {
+        "target": "closeout-add159479b883533",
+        "name": "all_structural_proofs_certify_chain_without_closing_rmc"
+      },
+      {
+        "target": "closeout-add159479b883533",
+        "name": "capital_feasible_opportunity_requires_zero_own_capital_proof"
+      },
+      {
+        "target": "closeout-add159479b883533",
+        "name": "changing_any_stage_artifact_changes_terminal_commitment"
+      },
+      {
+        "target": "closeout-add159479b883533",
+        "name": "duplicate_stage_fails_closed"
+      },
+      {
+        "target": "closeout-add159479b883533",
+        "name": "invalid_uppercase_or_short_git_identity_is_rejected"
+      },
+      {
+        "target": "closeout-add159479b883533",
+        "name": "mismatch_unknown_and_blocker_each_fail_closed"
+      },
+      {
+        "target": "closeout-add159479b883533",
+        "name": "missing_stage_fails_closed"
+      },
+      {
+        "target": "closeout-add159479b883533",
+        "name": "non_monotonic_pipeline_is_rejected"
+      },
+      {
+        "target": "closeout-add159479b883533",
+        "name": "opportunity_count_may_exceed_borrowable_market_count_without_aliasing_domains"
+      },
+      {
+        "target": "closeout-add159479b883533",
+        "name": "rmc_cannot_smuggle_realized_or_monthly_target_profitability_claim"
+      },
+      {
+        "target": "closeout-add159479b883533",
+        "name": "rmc_scope_cannot_overclaim_global_completeness"
+      },
+      {
+        "target": "closeout-add159479b883533",
+        "name": "terminal_commitment_is_input_order_independent"
+      },
+      {
+        "target": "closeout-add159479b883533",
+        "name": "wrong_stage_workflow_or_artifact_binding_fails_closed"
+      },
+      {
+        "target": "concurrency-67d1ec82f2f91ac1",
+        "name": "adjacent_sequence_races_never_fork_or_skip"
+      },
+      {
+        "target": "concurrency-67d1ec82f2f91ac1",
+        "name": "distinct_artifacts_race_without_interference"
+      },
+      {
+        "target": "concurrency-67d1ec82f2f91ac1",
+        "name": "same_artifact_writers_converge_on_one_object_set"
+      },
+      {
+        "target": "concurrency-67d1ec82f2f91ac1",
+        "name": "same_checkpoint_same_bytes_has_one_creator_and_idempotent_rest"
+      },
+      {
+        "target": "concurrency-67d1ec82f2f91ac1",
+        "name": "same_sequence_different_bytes_has_exactly_one_winner"
+      },
+      {
+        "target": "demands-217f3be97ad10de6",
+        "name": "below_one_borrower_is_imported_but_not_promoted_to_capital_requirement"
+      },
+      {
+        "target": "demands-217f3be97ad10de6",
+        "name": "borrower_with_unavailable_account_data_is_explicitly_blocked"
+      },
+      {
+        "target": "demands-217f3be97ad10de6",
+        "name": "d09_demand_coverage_commitment_is_input_order_independent"
+      },
+      {
+        "target": "demands-217f3be97ad10de6",
+        "name": "d09_evidentiary_import_rejects_account_artifact_substitution"
+      },
+      {
+        "target": "demands-217f3be97ad10de6",
+        "name": "d09_evidentiary_import_rejects_manifest_not_named_by_authority"
+      },
+      {
+        "target": "demands-217f3be97ad10de6",
+        "name": "d09_import_refuses_non_pass_or_missing_liquidatability_boundary"
+      },
+      {
+        "target": "demands-217f3be97ad10de6",
+        "name": "d09_import_refuses_schema_or_v2_scope_drift"
+      },
+      {
+        "target": "demands-217f3be97ad10de6",
+        "name": "d09_import_refuses_wrong_anchor"
+      },
+      {
+        "target": "demands-217f3be97ad10de6",
+        "name": "d09_import_rejects_duplicate_accounts_and_noncanonical_amounts"
+      },
+      {
+        "target": "demands-217f3be97ad10de6",
+        "name": "d09_import_rejects_health_factor_classification_that_contradicts_exact_account_data"
+      },
+      {
+        "target": "demands-217f3be97ad10de6",
+        "name": "healthy_borrower_is_explicitly_blocked_and_conserved"
+      },
+      {
+        "target": "demands-217f3be97ad10de6",
+        "name": "non_borrowers_are_not_capital_demand_candidates"
+      },
+      {
+        "target": "deployment_registry-4bb430334d9d8841",
+        "name": "admission_identity_is_bound_to_the_exact_declared_universe"
+      },
+      {
+        "target": "deployment_registry-4bb430334d9d8841",
+        "name": "capability_state_is_exhaustive_and_must_match_profile"
+      },
+      {
+        "target": "deployment_registry-4bb430334d9d8841",
+        "name": "creation_and_observation_must_stay_inside_declared_windows"
+      },
+      {
+        "target": "deployment_registry-4bb430334d9d8841",
+        "name": "direct_and_proxy_bindings_are_explicit_not_guessed"
+      },
+      {
+        "target": "deployment_registry-4bb430334d9d8841",
+        "name": "exact_supported_binding_is_admitted_and_retry_is_idempotent"
+      },
+      {
+        "target": "deployment_registry-4bb430334d9d8841",
+        "name": "later_admission_cannot_rewrite_deployment_creation_history"
+      },
+      {
+        "target": "deployment_registry-4bb430334d9d8841",
+        "name": "lifecycle_transition_preserves_history_without_forcing_semantics_bump"
+      },
+      {
+        "target": "deployment_registry-4bb430334d9d8841",
+        "name": "removed_deployment_is_terminal_but_preserves_adapter_support_for_history"
+      },
+      {
+        "target": "deployment_registry-4bb430334d9d8841",
+        "name": "semantic_upgrade_requires_explicit_predecessor_and_version_increase"
+      },
+      {
+        "target": "deployment_registry-4bb430334d9d8841",
+        "name": "semantics_version_cannot_move_backward_even_when_fingerprint_is_unchanged"
+      },
+      {
+        "target": "deployment_registry-4bb430334d9d8841",
+        "name": "undeclared_chain_protocol_and_root_fail_closed"
+      },
+      {
+        "target": "deployment_registry-4bb430334d9d8841",
+        "name": "universe_is_finite_order_deterministic_and_rejects_duplicate_scope"
+      },
+      {
+        "target": "deployment_registry-4bb430334d9d8841",
+        "name": "universe_requires_explicit_compatible_discovery_roots_and_finite_windows"
+      },
+      {
+        "target": "deployment_registry-4bb430334d9d8841",
+        "name": "unknown_or_drifted_semantics_are_rejected"
+      },
+      {
+        "target": "deployment_registry-4bb430334d9d8841",
+        "name": "wrong_chain_anchor_and_missing_evidence_fail_closed"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "anchor_change_changes_quote_commitment"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "capacity_curve_rejects_duplicate_trade_size"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "capacity_curve_rejects_mixed_opportunity_plan_or_model_identity"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "capacity_curve_reports_largest_positive_measured_size"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "capacity_curve_selects_observed_best_point_without_linear_extrapolation"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "capture_interval_admission_uses_worst_endpoint_not_point_estimate"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "complete_cost_taxonomy_is_mandatory"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "duplicate_scenario_evidence_is_rejected"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "exact_gas_valuation_uses_full_precision_integer_math"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "expected_cost_rounding_never_understates_one_atomic_unit"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "expected_value_weights_success_and_failure_costs_separately"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "full_width_mul_div_rejects_result_overflow_instead_of_truncating"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "gas_valuation_requires_nonzero_price_evidence"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "interval_rounding_guard_catches_interior_loss_hidden_by_endpoints"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "invalid_capture_interval_is_rejected"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "low_capture_can_kill_a_profitable_success_path"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "opportunity_plan_and_model_bind_quote_commitment"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "positive_quote_is_not_admitted_before_capture_calibration"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "probability_weighting_supports_full_uint256_without_float"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "profit_bucket_requires_canonical_usd_wad_and_uses_exact_boundaries"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "quote_commitment_is_independent_of_evidence_input_order"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "quote_rejects_candidate_anchor_mismatch"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "scenario_distribution_is_exact_and_reports_loss_probability"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "scenario_probabilities_must_sum_to_exactly_one"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "shadow_handoff_omits_nonpositive_pre_capture_curve"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "shadow_handoff_requires_no_fabricated_capture_probability"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "shadow_prediction_expiry_must_be_after_anchor"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "signed_scenario_weighting_rounds_losses_up"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "tail_reserve_can_reject_positive_capture_adjusted_ev"
+      },
+      {
+        "target": "economics-11497a3c8cf76cff",
+        "name": "tail_reserve_cannot_understate_declared_loss_at_confidence"
+      },
+      {
+        "target": "external_debt-531d46fc5cda558e",
+        "name": "imports_collateralized_borrowing"
+      },
+      {
+        "target": "external_debt-531d46fc5cda558e",
+        "name": "imports_persistent_debt"
+      },
+      {
+        "target": "external_debt-531d46fc5cda558e",
+        "name": "inactive_debt_preserves_observation_but_is_not_executable"
+      },
+      {
+        "target": "external_debt-531d46fc5cda558e",
+        "name": "rejects_anchor_substitution"
+      },
+      {
+        "target": "external_debt-531d46fc5cda558e",
+        "name": "rejects_duplicate_provider_transcript"
+      },
+      {
+        "target": "external_debt-531d46fc5cda558e",
+        "name": "rejects_provider_semantic_divergence"
+      },
+      {
+        "target": "external_debt-531d46fc5cda558e",
+        "name": "stable_source_key_does_not_rotate_with_observed_state"
+      },
+      {
+        "target": "gas_credit-49a9f3b1470aad5a",
+        "name": "active_state_changes_observation_id_but_not_stable_source_key"
+      },
+      {
+        "target": "gas_credit-49a9f3b1470aad5a",
+        "name": "delivery_route_change_cannot_reuse_old_terms_commitment"
+      },
+      {
+        "target": "gas_credit-49a9f3b1470aad5a",
+        "name": "duplicated_provider_transcript_fails_closed"
+      },
+      {
+        "target": "gas_credit-49a9f3b1470aad5a",
+        "name": "exact_two_provider_gas_credit_imports_as_external_native_gas"
+      },
+      {
+        "target": "gas_credit-49a9f3b1470aad5a",
+        "name": "foreign_anchor_and_noncanonical_bytes_fail_closed"
+      },
+      {
+        "target": "gas_credit-49a9f3b1470aad5a",
+        "name": "forged_terms_commitment_fails_closed"
+      },
+      {
+        "target": "gas_credit-49a9f3b1470aad5a",
+        "name": "gas_credit_requiring_operator_prefund_fails_closed"
+      },
+      {
+        "target": "gas_credit-49a9f3b1470aad5a",
+        "name": "on_chain_draw_that_requires_borrower_gas_fails_closed"
+      },
+      {
+        "target": "gas_credit-49a9f3b1470aad5a",
+        "name": "one_wei_state_drift_cannot_reuse_old_provider_facts_commitment"
+      },
+      {
+        "target": "gas_credit-49a9f3b1470aad5a",
+        "name": "provider_disagreement_fails_closed"
+      },
+      {
+        "target": "gas_credit-49a9f3b1470aad5a",
+        "name": "runtime_change_preserves_stable_key_but_changes_observation_id"
+      },
+      {
+        "target": "gas_sponsor-9bc3bd905c829e1a",
+        "name": "imports_authenticated_external_gas_sponsor"
+      },
+      {
+        "target": "gas_sponsor-9bc3bd905c829e1a",
+        "name": "inactive_sponsor_preserves_observation_but_is_not_executable"
+      },
+      {
+        "target": "gas_sponsor-9bc3bd905c829e1a",
+        "name": "rejects_anchor_substitution"
+      },
+      {
+        "target": "gas_sponsor-9bc3bd905c829e1a",
+        "name": "rejects_duplicate_provider_transcript"
+      },
+      {
+        "target": "gas_sponsor-9bc3bd905c829e1a",
+        "name": "rejects_noncanonical_json_bytes"
+      },
+      {
+        "target": "gas_sponsor-9bc3bd905c829e1a",
+        "name": "rejects_provider_semantic_divergence"
+      },
+      {
+        "target": "gas_sponsor-9bc3bd905c829e1a",
+        "name": "stable_source_key_does_not_rotate_with_observed_state"
+      },
+      {
+        "target": "identity-036f41ba0bc42108",
+        "name": "action_for_absent_market_is_rejected"
+      },
+      {
+        "target": "identity-036f41ba0bc42108",
+        "name": "action_orientation_is_semantic"
+      },
+      {
+        "target": "identity-036f41ba0bc42108",
+        "name": "alias_reconciliation_is_idempotent_and_conflicts_fail_closed"
+      },
+      {
+        "target": "identity-036f41ba0bc42108",
+        "name": "chain_deployment_and_protocol_domains_prevent_false_aliases"
+      },
+      {
+        "target": "identity-036f41ba0bc42108",
+        "name": "counting_separates_units_actions_dedup_and_input_order"
+      },
+      {
+        "target": "identity-036f41ba0bc42108",
+        "name": "decoder_rejects_version_duplicate_and_unknown_fields"
+      },
+      {
+        "target": "identity-036f41ba0bc42108",
+        "name": "decoder_roundtrip_preserves_identity"
+      },
+      {
+        "target": "identity-036f41ba0bc42108",
+        "name": "golden_aave_reserve_bytes_and_id"
+      },
+      {
+        "target": "identity-036f41ba0bc42108",
+        "name": "golden_state_and_action_ids"
+      },
+      {
+        "target": "identity-036f41ba0bc42108",
+        "name": "golden_v2_pair_bytes_and_id"
+      },
+      {
+        "target": "identity-036f41ba0bc42108",
+        "name": "hexadecimal_case_is_representation_only"
+      },
+      {
+        "target": "identity-036f41ba0bc42108",
+        "name": "implementation_config_and_oracle_changes_are_state_not_market"
+      },
+      {
+        "target": "identity-036f41ba0bc42108",
+        "name": "invalid_zero_overflow_protocol_and_v2_inputs_fail_closed"
+      },
+      {
+        "target": "identity-036f41ba0bc42108",
+        "name": "migration_links_distinct_ids_without_collapsing_them"
+      },
+      {
+        "target": "identity-036f41ba0bc42108",
+        "name": "reorg_keeps_market_id_but_changes_state_id"
+      },
+      {
+        "target": "identity-036f41ba0bc42108",
+        "name": "wrappers_and_underlyings_remain_distinct_contract_identities"
+      },
+      {
+        "target": "log_topic_words-c1095dff26c21d90",
+        "name": "provider_zero_hashes_stay_rejected_while_zero_topics_decode"
+      },
+      {
+        "target": "log_topic_words-c1095dff26c21d90",
+        "name": "zero_topic_log_is_scanned_certified_and_replayed"
+      },
+      {
+        "target": "log_topic_words-ea93420d62351614",
+        "name": "canonical_zero_topic_observation_round_trips_deterministically"
+      },
+      {
+        "target": "log_topic_words-ea93420d62351614",
+        "name": "hash_fields_still_reject_zero"
+      },
+      {
+        "target": "log_topic_words-ea93420d62351614",
+        "name": "log_bytes_never_decode_as_another_class"
+      },
+      {
+        "target": "log_topic_words-ea93420d62351614",
+        "name": "nonzero_topic_encoding_and_legacy_digests_are_unchanged"
+      },
+      {
+        "target": "log_topic_words-ea93420d62351614",
+        "name": "topic_hex_is_strict_and_topic_count_is_bounded"
+      },
+      {
+        "target": "log_topic_words-ea93420d62351614",
+        "name": "topic_tamper_is_rejected_including_zeroing_and_unzeroing"
+      },
+      {
+        "target": "log_topic_words-ea93420d62351614",
+        "name": "zero_block_hash_in_the_anchor_is_rejected"
+      },
+      {
+        "target": "log_topic_words-ea93420d62351614",
+        "name": "zero_indexed_address_topic_is_accepted_and_matches_independent_vectors"
+      },
+      {
+        "target": "log_topic_words-ea93420d62351614",
+        "name": "zero_transaction_hash_is_rejected_in_canonical_bytes"
+      },
+      {
+        "target": "nqc_census_aave_discovery-e10b2c93d3d019e1",
+        "name": "closeout::tests::rfc3339_matches_independent_reference_values"
+      },
+      {
+        "target": "nqc_census_aave_discovery-e10b2c93d3d019e1",
+        "name": "live::tests::anchor_flags_default_to_the_declared_anchor_and_go_together"
+      },
+      {
+        "target": "nqc_census_aave_discovery-e10b2c93d3d019e1",
+        "name": "live::tests::replay_report_rejects_duplicate_extra_and_reordered_providers"
+      },
+      {
+        "target": "nqc_census_aave_discovery-e10b2c93d3d019e1",
+        "name": "live::tests::replay_report_rejects_unknown_fields_and_false_status"
+      },
+      {
+        "target": "nqc_census_aave_discovery-e10b2c93d3d019e1",
+        "name": "resume::tests::differences_name_the_paths_that_differ"
+      },
+      {
+        "target": "nqc_census_aave_discovery-e10b2c93d3d019e1",
+        "name": "resume::tests::request_methods_are_summarized"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "artifacts::streaming_artifact_jsonl_tests::canonical_rows_match_exact_bytes_with_lazy_roundtrip"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "artifacts::streaming_artifact_jsonl_tests::hundred_thousand_records_do_not_require_json_ast_collection"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "artifacts::streaming_artifact_jsonl_tests::streaming_malformed_tail_and_missing_newline_fail_closed"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "balancer_live::tests::balancer_selectors_are_derived_from_signatures"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "balancer_live::tests::dual_provider_reconcile_emits_exact_balancer_source"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "balancer_live::tests::dual_provider_reconcile_rejects_economic_mismatch"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "balancer_live::tests::dual_provider_reconcile_rejects_same_operator"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "balancer_live::tests::reconcile_artifact_rejects_capture_digest_tamper"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "balancer_live::tests::reconcile_artifact_rejects_readable_projection_tamper"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "balancer_live::tests::reconcile_artifact_roundtrips_into_source_authority"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "balancer_live::tests::reconcile_builder_rejects_noncanonical_provider_capture"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "balancer_live::tests::uint256_decimal_is_exact_at_boundaries"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "permissionless_atomic::tests::balancer_pause_preserves_observed_balance_but_blocks_execution"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "permissionless_atomic::tests::balancer_requires_exact_dual_provider_agreement"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "permissionless_atomic::tests::provider_transcripts_must_be_independent"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "permissionless_atomic::tests::uniswap_v3_admission_preserves_exact_pool_balance"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "permissionless_atomic::tests::uniswap_v3_requires_exact_dual_provider_agreement"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "permissionless_atomic::tests::uniswap_v3_zero_active_liquidity_preserves_balance_but_blocks_execution"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "replay::real_source_shape_tests::real_source_closeout_rejects_empty_source_census"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "replay::real_source_shape_tests::real_source_subset_cannot_masquerade_as_terminal_capital_census"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "source_authority::tests::authority_binds_artifact_evidence_and_exact_source_set"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "source_authority::tests::authority_rejects_anchor_mismatch"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "source_authority::tests::authority_rejects_artifact_mutation"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "source_authority::tests::authority_rejects_duplicate_source_ids"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "source_authority::tests::authority_rejects_source_set_mutation"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "uniswap_v3_acquire::tests::decimal_conversion_handles_uint256_boundaries"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "uniswap_v3_acquire::tests::deployment_contract_rejects_runtime_authority_upgrade"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "uniswap_v3_live::tests::decodes_canonical_pool_created"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "uniswap_v3_live::tests::dual_provider_reconciliation_emits_exact_flash_source"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "uniswap_v3_live::tests::dual_provider_reconciliation_rejects_active_liquidity_mismatch"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "uniswap_v3_live::tests::dual_provider_reconciliation_rejects_balance_mismatch"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "uniswap_v3_live::tests::interface_is_derived_from_exact_signatures"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "uniswap_v3_live::tests::pool_runtime_requires_flash_and_state_selectors"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "uniswap_v3_live::tests::reconciliation_preserves_d08_execution_blockers"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "uniswap_v3_live::tests::rejects_noncanonical_fee_topic_padding"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "uniswap_v3_live::tests::rejects_noncanonical_token_order"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "uniswap_v3_live::tests::runtime_requires_get_pool_and_pool_created_topic"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "uniswap_v3_live::tests::uniswap_v3_reconciliation_artifact_roundtrips_authority"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "uniswap_v3_live::tests::uniswap_v3_reconciliation_rejects_same_operator"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "upstream::original_d08_duplicate_token_tests::conflicting_status_and_blocker_in_same_row_still_fails_closed"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "upstream::original_d08_duplicate_token_tests::contradictory_non_execution_fields_also_force_non_execution"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "upstream::original_d08_duplicate_token_tests::different_blocked_observations_union_and_explicitly_flag_conflict"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "upstream::original_d08_duplicate_token_tests::identical_canonical_repeated_token_rows_are_idempotent"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "upstream::original_d08_duplicate_token_tests::optimistic_duplicate_cannot_erase_true_blocker"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "upstream::original_d08_duplicate_token_tests::repeated_raw_blocker_in_any_single_row_is_rejected"
+      },
+      {
+        "target": "nqc_census_capital-239dfb0431f0c284",
+        "name": "upstream::original_d08_duplicate_token_tests::unrelated_tokens_remain_independently_classified"
+      },
+      {
+        "target": "nqc_census_store-885ba32dde6a9a93",
+        "name": "scope::tests::protocol_table_covers_every_rmc001_family"
+      },
+      {
+        "target": "observation_pipeline-9d610ed84f8c5071",
+        "name": "capability_matrix_is_explicit_per_chain_protocol_version"
+      },
+      {
+        "target": "observation_pipeline-9d610ed84f8c5071",
+        "name": "capability_matrix_rejects_implicit_or_conflicting_support"
+      },
+      {
+        "target": "observation_pipeline-9d610ed84f8c5071",
+        "name": "decoding_preserves_original_observation_envelope_and_digest"
+      },
+      {
+        "target": "observation_pipeline-9d610ed84f8c5071",
+        "name": "duplicate_unit_stage_decision_is_rejected"
+      },
+      {
+        "target": "observation_pipeline-9d610ed84f8c5071",
+        "name": "joins_reject_different_block_hash_timestamp_and_state_root"
+      },
+      {
+        "target": "observation_pipeline-9d610ed84f8c5071",
+        "name": "not_tested_can_never_silently_advance_or_become_rejection"
+      },
+      {
+        "target": "observation_pipeline-9d610ed84f8c5071",
+        "name": "observation_digest_changes_when_authoritative_inputs_change"
+      },
+      {
+        "target": "observation_pipeline-9d610ed84f8c5071",
+        "name": "observation_preserves_full_anchor_raw_log_and_provenance"
+      },
+      {
+        "target": "observation_pipeline-9d610ed84f8c5071",
+        "name": "pipeline_stage_contract_has_exact_thirteen_ordered_stages"
+      },
+      {
+        "target": "observation_pipeline-9d610ed84f8c5071",
+        "name": "positive_and_negative_stage_decisions_require_evidence_refs"
+      },
+      {
+        "target": "observation_pipeline-9d610ed84f8c5071",
+        "name": "raw_log_rejects_more_than_four_topics"
+      },
+      {
+        "target": "observation_pipeline-9d610ed84f8c5071",
+        "name": "rejection_records_preserve_negatives_and_are_order_deterministic"
+      },
+      {
+        "target": "observation_pipeline-9d610ed84f8c5071",
+        "name": "same_state_join_allows_distinct_contract_semantics"
+      },
+      {
+        "target": "observation_pipeline-9d610ed84f8c5071",
+        "name": "stage_ledger_has_explicit_conserved_denominators"
+      },
+      {
+        "target": "observation_pipeline-9d610ed84f8c5071",
+        "name": "unknown_is_machine_readable_not_tested_and_blocker_bound"
+      },
+      {
+        "target": "observation_pipeline-9d610ed84f8c5071",
+        "name": "unknown_reason_cannot_hide_inside_normal_rejection"
+      },
+      {
+        "target": "observation_pipeline-9d610ed84f8c5071",
+        "name": "unsupported_capability_has_stable_rejection_reason"
+      },
+      {
+        "target": "offline_cli-8035ab4c32874290",
+        "name": "authority_lock_builder_binary_emits_canonical_verified_lock"
+      },
+      {
+        "target": "offline_cli-8035ab4c32874290",
+        "name": "authority_lock_builder_binary_rejects_incomplete_stage_set"
+      },
+      {
+        "target": "offline_cli-8035ab4c32874290",
+        "name": "offline_verifier_binary_accepts_exact_export"
+      },
+      {
+        "target": "offline_cli-8035ab4c32874290",
+        "name": "offline_verifier_binary_rejects_tampered_artifact"
+      },
+      {
+        "target": "offline_cli-8035ab4c32874290",
+        "name": "offline_verifier_binary_rejects_wrong_exact_code_identity"
+      },
+      {
+        "target": "offline_verifier-1ad81b8a18352c15",
+        "name": "artifact_reads_reject_symlinked_intermediate_fanout_directory"
+      },
+      {
+        "target": "offline_verifier-1ad81b8a18352c15",
+        "name": "every_class_of_referenced_object_tamper_is_detected_by_the_binary"
+      },
+      {
+        "target": "offline_verifier-1ad81b8a18352c15",
+        "name": "fixture_verifies_copies_verify_identically_and_tamper_fails"
+      },
+      {
+        "target": "offline_verifier-1ad81b8a18352c15",
+        "name": "golden_fixture_evidence_root_is_byte_stable"
+      },
+      {
+        "target": "offline_verifier-1ad81b8a18352c15",
+        "name": "store_creation_probes_link_semantics_and_layout"
+      },
+      {
+        "target": "offline_verifier-1ad81b8a18352c15",
+        "name": "symlinks_inside_the_store_are_rejected_not_followed"
+      },
+      {
+        "target": "offline_verifier-1ad81b8a18352c15",
+        "name": "usage_errors_exit_two_and_missing_store_fails"
+      },
+      {
+        "target": "offline_verifier-1ad81b8a18352c15",
+        "name": "verifier_reports_head_state_without_trusting_it"
+      },
+      {
+        "target": "portfolio-e1a54af16caa5e7e",
+        "name": "capital_rejected_candidate_still_requires_declared_shared_resources"
+      },
+      {
+        "target": "portfolio-e1a54af16caa5e7e",
+        "name": "capital_rejected_variants_do_not_fabricate_requirement_contention"
+      },
+      {
+        "target": "portfolio-e1a54af16caa5e7e",
+        "name": "capital_rejection_is_preserved_in_portfolio_report"
+      },
+      {
+        "target": "portfolio-e1a54af16caa5e7e",
+        "name": "commitment_binds_candidate_identity_even_without_conflicts"
+      },
+      {
+        "target": "portfolio-e1a54af16caa5e7e",
+        "name": "commitment_binds_observed_capacity_even_without_conflicts"
+      },
+      {
+        "target": "portfolio-e1a54af16caa5e7e",
+        "name": "contention_graph_decomposes_into_independent_components"
+      },
+      {
+        "target": "portfolio-e1a54af16caa5e7e",
+        "name": "disjoint_candidates_are_simultaneously_feasible"
+      },
+      {
+        "target": "portfolio-e1a54af16caa5e7e",
+        "name": "exclusive_borrower_position_creates_conflict_set"
+      },
+      {
+        "target": "portfolio-e1a54af16caa5e7e",
+        "name": "forged_capital_feasibility_is_rejected_by_exact_rmc011_recomputation"
+      },
+      {
+        "target": "portfolio-e1a54af16caa5e7e",
+        "name": "individually_feasible_candidates_cannot_double_spend_one_source"
+      },
+      {
+        "target": "portfolio-e1a54af16caa5e7e",
+        "name": "operator_owned_allocation_fails_closed_even_if_manually_injected"
+      },
+      {
+        "target": "portfolio-e1a54af16caa5e7e",
+        "name": "report_commitment_is_independent_of_input_order"
+      },
+      {
+        "target": "portfolio-e1a54af16caa5e7e",
+        "name": "route_variants_are_implicitly_exclusive_even_without_opportunity_claim"
+      },
+      {
+        "target": "portfolio-e1a54af16caa5e7e",
+        "name": "route_variants_share_requirement_but_keep_distinct_candidate_identity"
+      },
+      {
+        "target": "portfolio-e1a54af16caa5e7e",
+        "name": "same_locator_on_different_chains_never_aliases"
+      },
+      {
+        "target": "portfolio-e1a54af16caa5e7e",
+        "name": "same_variant_hash_on_distinct_requirements_never_aliases_candidate_identity"
+      },
+      {
+        "target": "portfolio-e1a54af16caa5e7e",
+        "name": "shared_resource_must_match_candidate_anchor"
+      },
+      {
+        "target": "portfolio-e1a54af16caa5e7e",
+        "name": "stable_resource_key_changes_observation_id_when_capacity_changes"
+      },
+      {
+        "target": "portfolio-e1a54af16caa5e7e",
+        "name": "zero_capacity_shared_resource_is_preserved_and_positive_claim_conflicts"
+      },
+      {
+        "target": "recovery-17898d19e99dccd2",
+        "name": "accelerated_recovery_cannot_skip_a_broken_prefix_behind_valid_head"
+      },
+      {
+        "target": "recovery-17898d19e99dccd2",
+        "name": "corrupt_head_is_rebuilt_from_the_catalog"
+      },
+      {
+        "target": "recovery-17898d19e99dccd2",
+        "name": "crash_after_checkpoint_authority_recovers_and_repairs_head"
+      },
+      {
+        "target": "recovery-17898d19e99dccd2",
+        "name": "crash_after_head_rename_is_consistent"
+      },
+      {
+        "target": "recovery-17898d19e99dccd2",
+        "name": "crash_before_checkpoint_link_does_not_commit"
+      },
+      {
+        "target": "recovery-17898d19e99dccd2",
+        "name": "crash_during_artifact_publication_never_advances_progress"
+      },
+      {
+        "target": "recovery-17898d19e99dccd2",
+        "name": "deleted_head_is_rebuilt_from_the_catalog"
+      },
+      {
+        "target": "recovery-17898d19e99dccd2",
+        "name": "every_fault_point_leaves_a_verifiable_store"
+      },
+      {
+        "target": "recovery-17898d19e99dccd2",
+        "name": "exact_retry_revalidates_referenced_evidence"
+      },
+      {
+        "target": "recovery-17898d19e99dccd2",
+        "name": "head_ahead_of_authority_fails_closed"
+      },
+      {
+        "target": "recovery-17898d19e99dccd2",
+        "name": "head_copied_from_another_stream_fails_closed"
+      },
+      {
+        "target": "recovery-17898d19e99dccd2",
+        "name": "malformed_checkpoint_reference_fails_before_resume"
+      },
+      {
+        "target": "recovery-17898d19e99dccd2",
+        "name": "real_process_abort_after_checkpoint_durable_recovers"
+      },
+      {
+        "target": "recovery-17898d19e99dccd2",
+        "name": "referenced_evidence_tamper_fails_verification"
+      },
+      {
+        "target": "recovery-17898d19e99dccd2",
+        "name": "renamed_or_missing_checkpoint_breaks_the_catalog"
+      },
+      {
+        "target": "recovery-17898d19e99dccd2",
+        "name": "replaced_tip_is_caught_by_an_external_commitment"
+      },
+      {
+        "target": "recovery-17898d19e99dccd2",
+        "name": "staging_files_never_become_authoritative"
+      },
+      {
+        "target": "recovery-17898d19e99dccd2",
+        "name": "well_formed_head_contradicting_authority_fails_closed"
+      },
+      {
+        "target": "replay-76d1f312a0e36fd3",
+        "name": "authority_lock_rejects_anchor_substitution_and_mixed_stage_anchors"
+      },
+      {
+        "target": "replay-76d1f312a0e36fd3",
+        "name": "authority_lock_rejects_non_certifiable_upstream_stage_truth"
+      },
+      {
+        "target": "replay-76d1f312a0e36fd3",
+        "name": "authority_lock_roundtrips_canonically_and_rejects_unconsumed_stage_substitution"
+      },
+      {
+        "target": "replay-76d1f312a0e36fd3",
+        "name": "bundle_replay_rejects_self_consistent_but_externally_unlocked_d06_authority"
+      },
+      {
+        "target": "replay-76d1f312a0e36fd3",
+        "name": "capital_bundle_plus_upstream_bytes_forms_one_offline_replay_proof"
+      },
+      {
+        "target": "replay-76d1f312a0e36fd3",
+        "name": "closeout_opportunity_claim_requires_at_least_one_feasible_requirement"
+      },
+      {
+        "target": "replay-76d1f312a0e36fd3",
+        "name": "exact_upstream_bytes_replay_to_committed_receipts"
+      },
+      {
+        "target": "replay-76d1f312a0e36fd3",
+        "name": "upstream_replay_rejects_consumed_byte_substitution"
+      },
+      {
+        "target": "replay-76d1f312a0e36fd3",
+        "name": "upstream_replay_rejects_forged_committed_output_set"
+      },
+      {
+        "target": "source_authority-4216c8fa20a1a924",
+        "name": "expanded_certificate_accepts_multiple_disjoint_native_families"
+      },
+      {
+        "target": "source_authority-4216c8fa20a1a924",
+        "name": "expanded_certificate_preserves_d08_receipt_and_admits_native_d11_sources"
+      },
+      {
+        "target": "source_authority-4216c8fa20a1a924",
+        "name": "expanded_certificate_rejects_missing_d08_source_even_with_valid_native_authority"
+      },
+      {
+        "target": "source_authority-4216c8fa20a1a924",
+        "name": "expanded_certificate_rejects_source_smuggled_under_other_upstream_evidence"
+      },
+      {
+        "target": "source_authority-4216c8fa20a1a924",
+        "name": "native_authority_set_rejects_duplicate_family"
+      },
+      {
+        "target": "source_authority-4216c8fa20a1a924",
+        "name": "native_authority_set_rejects_source_union_mutation"
+      },
+      {
+        "target": "source_authority_family-96a07ba861c306e5",
+        "name": "explicit_family_cannot_relabel_balancer_as_uniswap_v3"
+      },
+      {
+        "target": "source_authority_family-96a07ba861c306e5",
+        "name": "family_changes_authority_commitment"
+      },
+      {
+        "target": "source_authority_family-96a07ba861c306e5",
+        "name": "inferred_authority_binds_balancer_family"
+      },
+      {
+        "target": "source_authority_family-96a07ba861c306e5",
+        "name": "one_authority_cannot_mix_balancer_and_uniswap_v3"
+      },
+      {
+        "target": "terminal_cli-91887af550079a16",
+        "name": "incomplete_or_non_monotonic_terminal_truth_fails_closed"
+      },
+      {
+        "target": "terminal_cli-91887af550079a16",
+        "name": "source_lock_cannot_self_certify_or_smuggle_profitability"
+      },
+      {
+        "target": "terminal_cli-91887af550079a16",
+        "name": "valid_lock_emits_byte_stable_structural_certificate"
+      },
+      {
+        "target": "terminal_cli-91887af550079a16",
+        "name": "wrong_workflow_or_artifact_name_fails_closed"
+      },
+      {
+        "target": "transient_credit-a00aa61fa5d66e6e",
+        "name": "imports_same_block_repayment_semantics"
+      },
+      {
+        "target": "transient_credit-a00aa61fa5d66e6e",
+        "name": "imports_transient_credit_with_exact_capacity_and_terms"
+      },
+      {
+        "target": "transient_credit-a00aa61fa5d66e6e",
+        "name": "inactive_facility_preserves_observation_but_blocks_execution"
+      },
+      {
+        "target": "transient_credit-a00aa61fa5d66e6e",
+        "name": "rejects_anchor_substitution"
+      },
+      {
+        "target": "transient_credit-a00aa61fa5d66e6e",
+        "name": "rejects_duplicate_provider_transcript"
+      },
+      {
+        "target": "transient_credit-a00aa61fa5d66e6e",
+        "name": "rejects_provider_semantic_divergence"
+      },
+      {
+        "target": "typed_observations-656cdb862a62cec9",
+        "name": "canonical_encoding_round_trips_and_is_replay_stable"
+      },
+      {
+        "target": "typed_observations-656cdb862a62cec9",
+        "name": "changed_output_selector_target_or_header_changes_digest"
+      },
+      {
+        "target": "typed_observations-656cdb862a62cec9",
+        "name": "every_single_byte_tamper_is_rejected"
+      },
+      {
+        "target": "typed_observations-656cdb862a62cec9",
+        "name": "header_hash_is_recomputed_not_trusted"
+      },
+      {
+        "target": "typed_observations-656cdb862a62cec9",
+        "name": "header_observation_must_match_its_anchor"
+      },
+      {
+        "target": "typed_observations-656cdb862a62cec9",
+        "name": "keccak256_matches_reference_vectors"
+      },
+      {
+        "target": "typed_observations-656cdb862a62cec9",
+        "name": "legacy_raw_log_vectors_are_byte_identical"
+      },
+      {
+        "target": "typed_observations-656cdb862a62cec9",
+        "name": "malformed_canonical_bytes_are_rejected"
+      },
+      {
+        "target": "typed_observations-656cdb862a62cec9",
+        "name": "non_canonical_or_incomplete_headers_are_rejected"
+      },
+      {
+        "target": "typed_observations-656cdb862a62cec9",
+        "name": "provenance_authority_must_match_class"
+      },
+      {
+        "target": "typed_observations-656cdb862a62cec9",
+        "name": "reverted_calls_and_absent_code_are_preserved"
+      },
+      {
+        "target": "typed_observations-656cdb862a62cec9",
+        "name": "same_bytes_in_every_class_never_collide"
+      },
+      {
+        "target": "typed_observations-656cdb862a62cec9",
+        "name": "stale_digest_is_rejected_after_content_change"
+      },
+      {
+        "target": "typed_observations-656cdb862a62cec9",
+        "name": "wrong_chain_is_detected_and_changes_identity"
+      },
+      {
+        "target": "upstream-5a5d90e52f72e6f0",
+        "name": "amount256_decimal_parser_is_exact_and_rejects_overflow"
+      },
+      {
+        "target": "upstream-5a5d90e52f72e6f0",
+        "name": "current_d08_blocked_token_semantics_preserve_observed_capital"
+      },
+      {
+        "target": "upstream-5a5d90e52f72e6f0",
+        "name": "d08_evidentiary_import_rejects_consumed_artifact_substitution"
+      },
+      {
+        "target": "upstream-5a5d90e52f72e6f0",
+        "name": "d08_evidentiary_import_rejects_manifest_anchor_substitution"
+      },
+      {
+        "target": "upstream-5a5d90e52f72e6f0",
+        "name": "d08_evidentiary_import_rejects_manifest_not_named_by_authority"
+      },
+      {
+        "target": "upstream-5a5d90e52f72e6f0",
+        "name": "d08_import_binds_aave_pool_and_flash_fee_to_closeout_facts"
+      },
+      {
+        "target": "upstream-5a5d90e52f72e6f0",
+        "name": "d08_import_builds_aave_and_v2_sources_only_for_proven_compatible_tokens"
+      },
+      {
+        "target": "upstream-5a5d90e52f72e6f0",
+        "name": "d08_import_coverage_is_order_independent_and_conserved"
+      },
+      {
+        "target": "upstream-5a5d90e52f72e6f0",
+        "name": "d08_import_preserves_inactive_or_paused_aave_reserve_as_blocked_capital"
+      },
+      {
+        "target": "upstream-5a5d90e52f72e6f0",
+        "name": "d08_import_preserves_unproven_token_capital_but_excludes_it_from_execution"
+      },
+      {
+        "target": "upstream-5a5d90e52f72e6f0",
+        "name": "d08_import_preserves_zero_and_disabled_aave_capital_observations"
+      },
+      {
+        "target": "upstream-5a5d90e52f72e6f0",
+        "name": "d08_import_rejects_duplicate_capital_candidates"
+      },
+      {
+        "target": "upstream-5a5d90e52f72e6f0",
+        "name": "d08_import_rejects_noncanonical_fee_or_liquidity_semantics"
+      },
+      {
+        "target": "upstream-5a5d90e52f72e6f0",
+        "name": "d08_import_rejects_v2_reserve_without_strict_flash_swap_headroom"
+      },
+      {
+        "target": "upstream-5a5d90e52f72e6f0",
+        "name": "d08_import_requires_token_admission_row_for_every_source_asset"
+      }
+    ]
+  },
+  "migration": {
+    "historical_boundary": {
+      "passed": 9,
+      "failed": 0,
+      "case_ids": [
+        "test_isolation.IsolationTests.test_changed_source_byte_fails",
+        "test_isolation.IsolationTests.test_client_application_fails",
+        "test_isolation.IsolationTests.test_new_active_workflow_fails",
+        "test_isolation.IsolationTests.test_new_repository_id_is_required",
+        "test_isolation.IsolationTests.test_omitted_source_mapping_fails",
+        "test_isolation.IsolationTests.test_snapshot_is_explicitly_not_certification",
+        "test_isolation.IsolationTests.test_source_repository_cannot_be_relabelled",
+        "test_isolation.IsolationTests.test_symlink_cannot_hide_payload",
+        "test_isolation.IsolationTests.test_unmapped_extra_nqc_file_fails"
+      ]
+    },
+    "expanded_product_tree": {
+      "passed": 8,
+      "errors": 1,
+      "failure": "unreviewed root file",
+      "failing_id": "test_isolation.IsolationTests.test_snapshot_is_explicitly_not_certification"
+    }
+  },
+  "global_product_qa": {
+    "status": "blocked",
+    "inspected_tree": "614361e3785de2993b9d34ea72a5fc0949f0892c",
+    "python_source_and_test_files": 426,
+    "required_data_files": 152,
+    "total_files": 578,
+    "maximum_files": 500,
+    "diagnostic": "source inventory limit exceeded"
+  }
+}

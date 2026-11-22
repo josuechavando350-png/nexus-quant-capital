@@ -1,0 +1,68 @@
+{
+  "archive_policy": "Verify whole archive SHA256 before reading any member. Select only the specified regular file; reject links and duplicate members. Keep upstream notices. Downloads occur only during explicit kit preparation.",
+  "archives": [
+    {
+      "archive_sha256": "4f2b175a6d53a5c617a80dba2676238a0688cef28c6da4eba35c7d844e66fcfb",
+      "archive_url": "https://nodejs.org/dist/v24.22.3/node-v24.22.3-linux-x64.tar.xz",
+      "executable": true,
+      "kit_file": "node",
+      "member": "node-v24.22.3-linux-x64/bin/node",
+      "preserve_notice_member": "node-v24.22.3-linux-x64/LICENSE",
+      "sha256": "a7ec1b37e6ff9d187e4198c5b6df9a4eb1c74dd31804fb3bac55cc4ceca1ac01"
+    }
+  ],
+  "artifact_kind": "official_prebuilt_release_kit",
+  "direct_downloads": [
+    {
+      "executable": true,
+      "kit_file": "solc",
+      "sha256": "fb03a29a517452b9f12bcf459ef37d0a543765bb3bbc911e70a87d6a37c30d5f",
+      "url": "https://raw.githubusercontent.com/ethereum/solc-bin/gh-pages/linux-amd64/solc-linux-amd64-v0.8.24+commit.e11b9ed9"
+    },
+    {
+      "executable": false,
+      "kit_file": "evmole-0.10.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "sha256": "6624a8eb39010ea3cffeb34d1a02452bf019bc2932ce158b23a3e267704e5ea6",
+      "url": "https://files.pythonhosted.org/packages/b5/33/3f2fab7156bd11e5bf8b9162cb4bcbd1da3517f88f64848d96f73622555e/evmole-0.10.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
+    }
+  ],
+  "download_sets": [
+    {
+      "entries_key": "packages",
+      "hash_key": "sha256",
+      "kit_filename_key": "filename",
+      "manifest": "evm-native-npm-pins.json",
+      "sha256": "2a4a395aed7b810b4e058cac30dbce7e20bb62979d7ad90b23199403ca9d68e5",
+      "url_key": "url"
+    }
+  ],
+  "isolation_prefix": [
+    "/usr/bin/unshare",
+    "--user",
+    "--map-current-user",
+    "--net"
+  ],
+  "network_at_native_execution": false,
+  "platform": "Linux x86-64",
+  "provenance_limits": [
+    "EVMole uses the official binary wheel, not a local reproducible build of the catalog revision.",
+    "WhatsABI npm src files were compared with all 34 matching catalog TypeScript files.",
+    "Published artifact digest verification does not verify Sigstore signatures or authenticate the entire host."
+  ],
+  "python": "CPython 3.12",
+  "reproduction": {
+    "acceptance_report_sha256": "3035c5d5c3b9a1c0e03ae53d8bd96b54d86987d89c4b17ee91659d552b5b72a1",
+    "npm_reconstruction": "Runner extracts each verified tgz package/ member tree into its path from evm-native-npm-pins.json, including nested dependencies. Exactly 16 package archives are required.",
+    "python_api": "superhunter.product_evm_native.run(pathlib.Path(KIT))",
+    "unit_tests": "python -B -m unittest superhunter.tests.test_product_evm_native -v"
+  },
+  "schema_version": 1,
+  "steps": [
+    "Create an empty private kit directory at a caller-chosen path.",
+    "Download direct_downloads to their kit_file names and verify SHA256.",
+    "Download the Node archive, verify its archive hash, extract only the named node member, verify its member hash, and copy to kit/node. Preserve its LICENSE.",
+    "For every package in the pinned npm manifest, download url into kit/filename and verify sha256. Do not run npm install or lifecycle scripts.",
+    "Mark only solc and node executable. Keep wheels and npm archives intact; they are extracted into fresh private directories by the native runner.",
+    "Run superhunter.product_evm_native.run(pathlib.Path(KIT)); runtime downloads are disabled."
+  ]
+}

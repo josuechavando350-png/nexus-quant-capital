@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "selected_group": "properties",
+  "scope": "Fixed synthetic balances, total supply, fees and returned transfer status; both runs were offline on the same host.",
+  "commands": [
+    "query-product --bundle PREPARED/product --native-kits KITS.json native-capabilities crytic/properties immunefi-team/forge-poc-templates"
+  ],
+  "scope_note": "Each execution received only the properties group. Tests target the checked-in local simulation; they perform no RPC, fork, signing or transfers on a chain.",
+  "raw_archive": "accounting-transcript.json",
+  "raw_archive_sha256": "c4c332387b1cad31eb7e285da20e24a28a6c8e03b5df275105dec6365d0b8e1b",
+  "runs": [
+    {
+      "git_commit": "b87788962072578f9fb7ec5b584a06868639d89a",
+      "git_tree": "cd4b012451295699fe1597a92132c627aab719f7",
+      "returncode": 0,
+      "response_count": 3,
+      "run_time_seconds": 5.17,
+      "clean_after": true,
+      "fixed_unit_cases": 10,
+      "repositories": [
+        "crytic/properties",
+        "immunefi-team/forge-poc-templates"
+      ],
+      "report_sha256": "df2e2e239e5513ea5aa36cc9942ce6fa11435e0ab0ad24277f403edc4b840ca5",
+      "individual_receipts": [
+        {
+          "group": "properties",
+          "query": "native-capabilities",
+          "report_sha256": "df2e2e239e5513ea5aa36cc9942ce6fa11435e0ab0ad24277f403edc4b840ca5",
+          "repository": "crytic/properties",
+          "role": "executable"
+        },
+        {
+          "group": "properties",
+          "query": "native-capabilities",
+          "report_sha256": "df2e2e239e5513ea5aa36cc9942ce6fa11435e0ab0ad24277f403edc4b840ca5",
+          "repository": "immunefi-team/forge-poc-templates",
+          "role": "executable"
+        }
+      ],
+      "transcript_sha256": "27b1a8fcbff6178b3768a6599d423e62534a17a2e28a02f52411b3c0bc62f0a7"
+    },
+    {
+      "git_commit": "b87788962072578f9fb7ec5b584a06868639d89a",
+      "git_tree": "cd4b012451295699fe1597a92132c627aab719f7",
+      "returncode": 0,
+      "response_count": 3,
+      "run_time_seconds": 3.99,
+      "clean_after": true,
+      "fixed_unit_cases": 10,
+      "repositories": [
+        "crytic/properties",
+        "immunefi-team/forge-poc-templates"
+      ],
+      "report_sha256": "df2e2e239e5513ea5aa36cc9942ce6fa11435e0ab0ad24277f403edc4b840ca5",
+      "individual_receipts": [
+        {
+          "group": "properties",
+          "query": "native-capabilities",
+          "report_sha256": "df2e2e239e5513ea5aa36cc9942ce6fa11435e0ab0ad24277f403edc4b840ca5",
+          "repository": "crytic/properties",
+          "role": "executable"
+        },
+        {
+          "group": "properties",
+          "query": "native-capabilities",
+          "report_sha256": "df2e2e239e5513ea5aa36cc9942ce6fa11435e0ab0ad24277f403edc4b840ca5",
+          "repository": "immunefi-team/forge-poc-templates",
+          "role": "executable"
+        }
+      ],
+      "transcript_sha256": "27b1a8fcbff6178b3768a6599d423e62534a17a2e28a02f52411b3c0bc62f0a7"
+    }
+  ],
+  "source_artifacts_sha256": {
+    "contract-properties-native-build.json": "3cff492d17cb2c1c28fc79cc497ba26cb834a1456fab41d142fef6e7f6e5a44b",
+    "contract-properties-native-owned.txt": "e2fcb6c81ccbc5a457f7c490b0c49177f7832e7dc494058e05112ef75c1c6177",
+    "contract-properties-native-pins.json": "f65ee692dc507c7963ae0de30f27cf73144312e8f01258ef100d9f078c022007",
+    "contract-properties-native-result.json": "df2e2e239e5513ea5aa36cc9942ce6fa11435e0ab0ad24277f403edc4b840ca5"
+  },
+  "distinct_fixed_tests": {
+    "crytic/properties": 6,
+    "immunefi-team/forge-poc-templates": 4
+  },
+  "affected_unit_tests": {
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "module": "superhunter.tests.test_product_contract_properties_native"
+  },
+  "checkouts": [
+    "clean detached local Git object store checkout",
+    "separate shallow clone of GitHub branch pinned to same commit"
+  ],
+  "original_vulnerabilities_confirmed": 0
+}

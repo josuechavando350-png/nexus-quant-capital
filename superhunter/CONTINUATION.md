@@ -1,3 +1,82 @@
+# SUPERHUNTER · Punto de reanudación
+
+## Transporte local y migración
+
+El cliente envió una consulta por vez al proceso real de NQC y esperó cada respuesta con la conexión abierta. Se cotejaron ID, repositorio, revisión y árbol de las 200 respuestas. Tras cerrar el proceso y volver a iniciarlo, se repitieron las 200 consultas en orden inverso y se obtuvieron las mismas huellas. Qdrant y Haystack coincidieron en cinco avisos en cada sesión. El control de una identidad desconocida devolvió `null`. [Resultado y huellas](product_supply/acceptance-120/catalog-transport-restart.json)
+
+Para reproducir en Linux con CPython 3.12, ejecutar `python3.12 -B -m superhunter.tools.check_catalog_transport --prepare`. También se puede pasar la ruta del directorio de catálogo preparado. La prueba mide la comunicación del cliente con el producto y del buscador con sus dos índices locales. La comunicación entre cada par de repositorios y la disponibilidad de un servicio externo requieren evidencia independiente.
+
+El comando `python3 -B -m superhunter.repository_boundary --verify-import` comprueba el árbol completo y ejecuta los nueve controles originales sobre los bytes de la importación que acaba de validar. La suite histórica aplicada directamente a toda la estructura ampliada sigue rechazando los archivos añadidos. El nuevo control preserva ese contrato.
+
+## Aceptación conjunta de los 200 repositorios
+
+Dos checkouts limpios del [productor 3bdc14f](https://github.com/josuechavando350-png/nexus-quant-capital/commit/3bdc14fb3bd990b83289d6be833a620160519763) completaron la sesión sin red en el mismo host. Con la opción `--require-all`, ambas ejecuciones devolvieron código 0 y 225 respuestas idénticas byte por byte. Los 200 proyectos aportaron 210 operaciones. Ejecutaron código 99 proyectos y 101 participaron mediante referencias consumidas. La matriz contiene las revisiones y el rol observado de cada uno. [Matriz de integración](INTEGRATION_STATUS_200.md) · [Acta y transcripciones](product_supply/consolidated-acceptance-publication-policy/acceptance.json)
+
+Se conservó la evidencia de las 170 operaciones del expediente de 160. En la ampliación, 39 proyectos aportaron reglas de Git que determinaron qué archivos quedarían disponibles para agregar. Un segundo control usó índices nuevos de Git para verificar las 859 decisiones del conjunto de prueba. Se excluyeron 181 archivos y quedaron disponibles 678. El proyecto restante aportó una receta de contenedor y una lista de cinco dependencias Python sin versión fijada. Cada observación conserva las huellas de sus archivos de origen. [Políticas y uso](PRODUCT_REVIEW.md#participación-en-la-revisión-de-empaquetado)
+
+Las dos sesiones compararon las 19,900 parejas de repositorios y vincularon cada resultado con la participación de la misma corrida. En 1,334 parejas hay archivos regulares con el mismo identificador de contenido. El verificador rechazó 28 alteraciones del expediente. El paquete de pruebas focalizadas pasó 568/568. Los 642 archivos históricos conservaron sus modos y contenido. La migración pasó 9/9 pruebas en la importación original y 8/9 en el árbol ampliado, donde su lista de archivos permitidos sigue rechazando la estructura de producto. La disponibilidad continua en producción requiere mediciones adicionales.
+
+## Aceptación anterior · supply-and-reporting
+
+El productor [a05693a9](https://github.com/josuechavando350-png/nexus-quant-capital/commit/a05693a9f2562ac147e4c5ec6c7646e8857dcf64) acreditó **159/200 identidades** en dos checkouts limpios del mismo host. Las dos ejecuciones sin red devolvieron 222 respuestas y 1,284,355 bytes idénticos. Participaron 99 identidades que ejecutaron código y 60 acreditadas sólo por referencias consumidas. Se verificaron 169 operaciones en total. El verificador conservó las 167 operaciones del corte anterior y rechazó 23 alteraciones. [Matriz de los 200](INTEGRATION_STATUS_200.md) · [Acta y recibos de ambas ejecuciones](product_supply/consolidated-acceptance-supply-and-reporting/acceptance.json)
+
+El inventario de atribuciones de Stratus permitió cotejar 183 dependencias de Go con 137 entradas del aviso. Faltaron 63 correspondencias, incluidas 19 dependencias directas. Nettacker aportó los textos del índice multilingüe de un informe publicado. En 13 de los 24 idiomas se conservó la traducción del mensaje y en 11 se usó inglés para mostrar la ruta completa. [Recibos y revisiones de las incorporaciones](product_supply/acceptance-120/supply-reporting-new-participants.json)
+
+Quedan 41 identidades sin recibo en la sesión conjunta. De ellas, 8 figuran en la ejecución archivada de 140 del PR 119 y 33 carecen de recibo en ambos perfiles. Las fuentes directas y sus revisiones se verificaron para las 200 identidades. Se mantienen los 106 participantes y las 110 operaciones de las sesiones históricas de 99 y 70. [Identidades pendientes, procedencia y contraste con el PR 119](product_supply/acceptance-120/supply-reporting-pending.json)
+
+En el productor pasaron 548/548 pruebas focalizadas. El cotejo del contenido y de los modos de Git preservó los 642 archivos históricos. El inventario global del árbol supera su límite de 500 archivos y la migración ampliada pasó 8/9 pruebas. La revisión comercial sigue abierta. La sesión confirmó 0 vulnerabilidades originales. [Pruebas del productor y límites](product_supply/acceptance-120/qa-supply-reporting-producer.json)
+
+En dependencias anidadas se verificaron los 5,289 archivos de diez revisiones adicionales. Hay 32 de 140 revisiones distintas cotejadas a primer nivel. [Integridad de dependencias anidadas](product_supply/acceptance-120/supply-nested-checkouts.json)
+
+## Aceptación anterior · evidence-contracts
+
+El commit [2ddbe098](https://github.com/josuechavando350-png/nexus-quant-capital/commit/2ddbe098cc98a667211494a9ff9f21ce014d8c3f) produjo las mismas 222 respuestas en dos checkouts limpios, sin red y en la misma máquina. Cada salida midió 1,272,422 bytes. En una sesión funcionaron 157/200 identidades únicas, con 99 de ejecución y 58 acreditadas sólo por referencias consumidas. Los recibos conservan 167 operaciones. Quedan 43 identidades sin participación conjunta reproducida. Los 12 grupos nativos y los 28 dominios de comprobación completaron la ejecución. [Matriz de los 200](INTEGRATION_STATUS_200.md) · [Acta, entradas y dos transcripciones](product_supply/consolidated-acceptance-evidence-contracts/acceptance.json)
+
+Heimdall-rs permitió contrastar seis eventos con las declaraciones de OpenZeppelin, incluida la ambigüedad de los campos indexados. El catálogo de iamlive distinguió las operaciones del SDK de las acciones IAM en las políticas locales de CloudFox y Policy Sentry. La convención de cargo-fuzz y los metadatos offline de Cargo permitieron distinguir dependencias de desarrollo de las de producción en prettyplease y syn. Suricata quedó sin clasificar por falta de su manifiesto padre generado. Las tres aportaciones fueron referencias consumidas. El expediente conserva cero vulnerabilidades originales confirmadas. [Control de calidad del productor](product_supply/acceptance-120/qa-evidence-contracts.json) · [Recibos y revisiones de las tres incorporaciones](product_supply/acceptance-120/evidence-contracts-new-participants.json) · [Identidades pendientes y procedencia](product_supply/acceptance-120/evidence-contracts-pending-origins.json)
+
+Para contrastar el expediente publicado, ejecutar `python3.12 -B -m superhunter.tools.render_product_matrix --check-acceptance`. Cada fila expone sus recibos de ejecución o referencia.
+
+Dos intentos de repetición terminaron antes de emitir la matriz. El primero devolvió un error de sistema sin causa detallada. En el segundo se eligió una ruta temporal que Syft omite. La corrida aceptada usó un directorio ordinario, donde el control ARM64 volvió a observar 75 registros en siete archivos. [Recibos de los intentos fallidos](product_supply/acceptance-120/evidence-contracts-retry.json)
+
+De las 68 pendientes en la aceptación de 132, las dos nuevas aceptaciones acreditaron 25 identidades, con cinco ejecuciones y veinte referencias consumidas. De las 43 pendientes, ocho aparecen sólo en la corrida de 140 del PR 119 y 35 carecen de recibo en ambos perfiles. El PR 119 publicó una sola corrida para 140. Su aporte adicional frente a 139 es grpcurl, ya acreditado aquí. La revisión `2755431a` del PR 119 incorpora trabajo previo de esta rama y conserva los mismos tres archivos del expediente de 140. [Cruce de las 200 identidades](product_supply/acceptance-120/pr119-140-vs-157.json) [Acta del PR 119](https://github.com/josuechavando350-png/nexus-quant-capital/blob/e11993d7d760c7f922c86fc1a349f0e115939c70/superhunter/product_supply/consolidated-acceptance-140.json)
+
+La última verificación del árbol publicado pasó 536/536 pruebas, comprobó siete expedientes y conservó los 642 archivos históricos. El inventario global de 708 archivos y la migración ampliada 8/9 siguen abiertos. [QA de la rama publicada](product_supply/acceptance-120/qa-published-157.json)
+
+## Aceptación anterior · report-interop
+
+El commit [f1eea76f](https://github.com/josuechavando350-png/nexus-quant-capital/commit/f1eea76f24ff0cf0b5af4a870b5d6e117c46d248) produjo las mismas 222 respuestas en dos checkouts limpios, sin red y en la misma máquina. Cada salida midió 1,264,255 bytes. En una sesión funcionaron 154/200 identidades únicas, con 99 de ejecución y 55 acreditadas sólo por referencias consumidas. Los recibos conservan 164 operaciones. Quedan 46 identidades sin participación conjunta reproducida. Los 12 grupos nativos y los 25 dominios de comprobación completaron la ejecución. [Matriz de los 200](INTEGRATION_STATUS_200.md) · [Acta, entradas y dos transcripciones](product_supply/consolidated-acceptance-report-interop/acceptance.json)
+
+Wapiti y WSTG permiten distinguir las citas que sólo existen en la edición 4.2. La conciliación de las dos exportaciones de ZAP recuperó 295 observaciones pese a que el informe agrupado presenta sólo 125 muestras. Los manifiestos de crAPI y las reglas de KubeLinter permitieron comprobar los recursos de 16 contenedores. Los datos proceden de archivos de prueba ya publicados. El expediente conserva cero vulnerabilidades originales confirmadas. [Control de calidad del productor](product_supply/acceptance-120/qa-report-interop.json) · [Las 22 incorporaciones, con sus revisiones, tipos de uso y avisos](product_supply/acceptance-120/report-interop-new-participants.json)
+
+Para contrastar el expediente publicado, ejecutar `python3.12 -B -m superhunter.tools.render_product_matrix --check-acceptance`. Cada fila expone sus recibos de ejecución o referencia.
+
+## Aceptación anterior · 21 de noviembre de 2026
+
+En dos checkouts independientes del [commit público `604bd28d`](https://github.com/josuechavando350-png/nexus-quant-capital/commit/604bd28d528ee809c8e6d38adab86ec6f67b652c), el perfil de 12 grupos y 17 dominios produjo las mismas 222 respuestas byte por byte. Pasaron 132 de 200 identidades únicas. De ellas, 94 ejecutaron código y 38 aportaron referencias consumidas. La matriz conserva las 142 operaciones y las 110 obligaciones de las 106 identidades históricas. Quedan 68 identidades pendientes. El verificador rechazó las 20 alteraciones de control. Las corridas se hicieron sin red, en una sola máquina. [Matriz de los 200](INTEGRATION_STATUS_200.md) · [Acta, huellas y dos transcripciones](product_supply/consolidated-acceptance-html-review/acceptance.json)
+
+Para comprobar el resultado desde un clon con el historial de la rama, ejecutar `python3.12 -B -m superhunter.tools.render_product_matrix --check-acceptance`. La tabla enumera por identidad las operaciones atribuidas a cada productor. El estado de las pruebas globales, las dependencias transitivas y los derechos de redistribución se detalla en [el registro de consolidación](CONSOLIDATION.md).
+
+Las identidades pendientes se obtienen de la misma matriz. Después de la comprobación anterior, este comando imprime una línea por identidad desde la primera transcripción validada.
+
+```sh
+python3.12 -B - <<'PYTHON'
+import json
+from pathlib import Path
+from superhunter.tools.verify_review_115 import response_keys, unpack
+
+archive = Path("superhunter/product_supply/consolidated-acceptance-html-review/first/session.json")
+raw = unpack(archive.read_bytes())
+matrix = json.loads(raw.splitlines()[response_keys(raw).index("integration-matrix")])
+for row in matrix["rows"]:
+    if row["session"] == "pending":
+        print(row["id"], row["repository"])
+PYTHON
+```
+
+El producto cubre comprobaciones defensivas locales sobre entradas fijadas. La [QA de los 41 módulos](product_supply/acceptance-120/qa-451.json) y el [registro de consolidación](CONSOLIDATION.md) fijan los bloqueos de QA global y migración. Las 139 revisiones transitivas pendientes y el estado de las dos referencias compartidas se pueden localizar en el [índice de dependencias](product_supply/acceptance-120/nested-reference-index.json). Las pruebas archivadas conservan cero vulnerabilidades originales confirmadas.
+
+De las 68 pendientes en este perfil, nueve aparecen en la transcripción de 139 del PR 119 y 59 carecen de participación en los dos perfiles comparados. Los dos proyectos exclusivos de este perfil son Playwright y grpcurl. [Cruce auditable de los dos expedientes](product_supply/acceptance-120/pr119-139-vs-132.json)
+
 # SuperHunter — punto de reanudación del 8 de noviembre de 2026
 
 ## 21 de noviembre · PR 117

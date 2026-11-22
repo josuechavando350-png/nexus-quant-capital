@@ -1,0 +1,8 @@
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.30;
+contract Base { uint256 public balance; address public owner; }
+contract Append { uint256 public balance; address public owner; uint256 public nonce; }
+contract Narrow { uint128 public balance; address public owner; }
+contract Reorder { address public owner; uint256 public balance; }
+contract Delete { uint256 public balance; }
+contract Rename { uint256 public funds; address public owner; }

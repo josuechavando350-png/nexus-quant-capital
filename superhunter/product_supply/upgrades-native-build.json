@@ -1,0 +1,87 @@
+{
+  "archive_policy": "Verify archive SHA256 before extraction. The pinned npm manifest names each package prefix and exact destination, including nested dependencies. The runtime extracts with Python tarfile data filtering. Preserve upstream license and notice files. No npm lifecycle script is executed.",
+  "archives": [
+    {
+      "archive_sha256": "4f2b175a6d53a5c617a80dba2676238a0688cef28c6da4eba35c7d844e66fcfb",
+      "archive_url": "https://nodejs.org/dist/v24.22.3/node-v24.22.3-linux-x64.tar.xz",
+      "executable": true,
+      "kit_file": "node",
+      "member": "node-v24.22.3-linux-x64/bin/node",
+      "preserve_notice_member": "node-v24.22.3-linux-x64/LICENSE",
+      "sha256": "a7ec1b37e6ff9d187e4198c5b6df9a4eb1c74dd31804fb3bac55cc4ceca1ac01"
+    }
+  ],
+  "artifact_kind": "official_npm_compiler_and_layout_validation",
+  "direct_downloads": [
+    {
+      "executable": true,
+      "kit_file": "solc",
+      "sha256": "f3e987dc6ecebd4bd350c48edcbc320b46cf9e3109bd3fc3d88f1acaf4c428f7",
+      "url": "https://raw.githubusercontent.com/ethereum/solc-bin/gh-pages/linux-amd64/solc-linux-amd64-v0.8.30+commit.73712a01"
+    }
+  ],
+  "download_sets": [
+    {
+      "entries_key": "packages",
+      "hash_key": "sha256",
+      "kit_filename_key": "filename",
+      "manifest": "upgrades-native-npm-pins.json",
+      "npm_integrity_key": "npm_integrity",
+      "sha256": "a69db3fc8d376a7eedd74a758cbfcd2e62d4907094f27c108f76dc54478f6bc5",
+      "url_key": "url"
+    }
+  ],
+  "isolation_prefix": [
+    "/usr/bin/unshare",
+    "--user",
+    "--map-current-user",
+    "--net"
+  ],
+  "network_at_native_execution": false,
+  "platform": "Linux x86-64",
+  "provenance_limits": [
+    "The pinned npm releases are not claimed to be reproducible builds of their catalog commits.",
+    "The package-to-catalog source comparison and its one Hardhat field-name difference are preserved in upgrades-native-provenance.json and the native report.",
+    "This integration tests storage layout compatibility, not complete proxy, initializer, authorization or upgrade safety.",
+    "Two replays share one host and a verified input kit; this is not independent-host authentication or a discovery benchmark."
+  ],
+  "python": "CPython 3.12",
+  "reproduction": {
+    "acceptance_report_bytes": 5073,
+    "acceptance_report_sha256": "92098f3568db8832609df9db1552c72974d60f79aeb90701544ce0a5c495e2b7",
+    "owned_source": "upgrades-native-owned.txt",
+    "owned_source_sha256": "04fb8f418025989f5574afee4d2cb561f7fab113825b26450c76aba7cbbd729e",
+    "python_api": "superhunter.product_upgrade_layout_native.run(pathlib.Path(KIT))",
+    "two_fresh_runtime_directories_identical": true,
+    "unit_tests": "python -B -m unittest superhunter.tests.test_product_upgrade_layout_native -v",
+    "worker": "upgrades-native-worker.txt",
+    "worker_sha256": "aa3b525339d7365bf50e0ef091a88b76f96971e295f16ea70d8e394b57422c1e"
+  },
+  "schema_version": 1,
+  "scope": {
+    "compatible_controls": [
+      "Base",
+      "Append"
+    ],
+    "deployments": 0,
+    "direct_solc_agreement": true,
+    "incompatible_controls": [
+      "Narrow",
+      "Reorder",
+      "Delete",
+      "Rename"
+    ],
+    "invalid_source_parser_rejection": true,
+    "missing_ast_and_storage_layout_rejection": true,
+    "original_vulnerabilities_confirmed": 0,
+    "rpc_calls": 0
+  },
+  "steps": [
+    "Create a private empty kit directory at a caller-selected path.",
+    "Download the pinned solc image, verify its SHA256 and name it solc.",
+    "Download the pinned Node archive, verify its hash, extract the named regular node binary and verify its hash; preserve LICENSE.",
+    "Fetch the 163 exact npm archive URLs from upgrades-native-npm-pins.json into their filename entries, verifying SHA256 and the recorded sha512 npm integrity. Do not run npm install or install scripts.",
+    "Mark only node and solc executable. The kit requires these two files and the 163 archives; the original installation directory, package-lock and host node_modules are not required.",
+    "Call superhunter.product_upgrade_layout_native.run(pathlib.Path(KIT)). Every execution reconstructs its full package tree in a fresh temporary directory, compiles only the fixed owned files, and checks layouts against independent direct solc output."
+  ]
+}

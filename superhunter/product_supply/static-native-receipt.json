@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "base_commit": "8a4000d16c7dc723d29b0391f74212d23974cf66",
+  "native_runs": 2,
+  "byte_identical": true,
+  "report_sha256": "47bc218a3ebabcb2b247cc45721b27d1965d60a6e6e4fd05e6f337d9fda6a35d",
+  "sections_sha256": "71497a49d3295717004901bcebeee658468417e014ed54537055b6f2db6186ee",
+  "second_run_seconds": 0.3643728030001512,
+  "unit_tests": {
+    "passed": 11,
+    "failed": 0,
+    "skipped": 0
+  },
+  "engines_executed": [
+    "cppcheck-opensource/cppcheck",
+    "capstone-engine/capstone"
+  ],
+  "controls": {
+    "cppcheck": "null pointer and out-of-bounds positives, clean negative; exact source locations/severity/CWE checked",
+    "capstone": "aligned and misaligned direct branches, truncated bytes; signed targets checked independently",
+    "owned_input": "Census Geth helper entrypoint and startup bytes; decoded instruction spans independently matched with GNU objdump"
+  },
+  "original_vulnerabilities_confirmed": 0,
+  "capability_limits": [
+    "C diagnostics validated on owned controls, not a general C/C++ precision benchmark.",
+    "Capstone decodes bounded native byte windows and does not execute them or discover arbitrary vulnerabilities.",
+    "Single host replay; no independent host or full transitive runtime certification."
+  ]
+}

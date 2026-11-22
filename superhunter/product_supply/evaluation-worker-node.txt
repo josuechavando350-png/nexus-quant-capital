@@ -1,0 +1,34 @@
+import {readFileSync} from 'node:fs';
+import {registerHooks} from 'node:module';
+
+registerHooks({resolve(specifier, context, next) {
+  if (specifier === './normalize' && context.parentURL.endsWith('/equals.ts')) {
+    return {url: new URL('normalize.ts', context.parentURL).href, shortCircuit: true};
+  }
+  return next(specifier, context);
+}});
+const {handleEquals} = await import('./equals.ts');
+const {calculateCohensKappa, calculateOverallAgreement, calculateWeightedF1Score} = await import('./statistics.ts');
+const cases = JSON.parse(readFileSync(0, 'utf8'));
+const result = {};
+for (const [mode, rows] of Object.entries(cases)) {
+  const matrix = new Map();
+  const promptfoo = [];
+  for (const {truth, answer} of rows) {
+    const fields = value => value === 'valid' ? [] : [value];
+    const grade = await handleEquals({assertion: {type: 'equals'}, renderedValue: {invalid_fields: fields(truth)},
+      outputString: JSON.stringify({invalid_fields: fields(answer)}), inverse: false});
+    if (grade.score !== Number(grade.pass)) throw Error('inconsistent Promptfoo grade');
+    promptfoo.push(grade.pass);
+    const key = JSON.stringify([truth, answer]);
+    const cell = matrix.get(key) ?? {rowCategory: truth, colCategory: answer, count: 0};
+    ++cell.count;
+    matrix.set(key, cell);
+  }
+  const cells = [...matrix.values()];
+  result[mode] = {promptfoo, langfuse: {kappa: calculateCohensKappa(cells),
+    agreement: calculateOverallAgreement(cells), weighted_f1: calculateWeightedF1Score(cells)}};
+}
+const malformed = await handleEquals({assertion: {type: 'equals'}, renderedValue: {invalid_fields: []}, outputString: '{', inverse: false});
+if (malformed.pass || malformed.score !== 0) throw Error('malformed output was accepted');
+process.stdout.write(JSON.stringify(result));

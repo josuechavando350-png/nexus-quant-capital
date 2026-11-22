@@ -1,0 +1,8 @@
+        let severity_to_level = |severity: &str| -> &str {
+            match severity.to_lowercase().as_str() {
+                "high" | "critical" => "error",
+                "medium" => "warning",
+                "low" | "info" => "note",
+                _ => "warning",
+            }
+        };

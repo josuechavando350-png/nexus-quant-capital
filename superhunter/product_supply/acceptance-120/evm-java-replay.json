@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "tested_commit": "b87788962072578f9fb7ec5b584a06868639d89a",
+  "tested_tree": "cd4b012451295699fe1597a92132c627aab719f7",
+  "scope": "Only two native QA groups on fixed NQC inputs. Repeated on the same host with released runtime kits and separate checkouts and prepared base bundles.",
+  "git_checkouts": [
+    "clean checkout at published object from local Git object store",
+    "new shallow fetch of GitHub branch, detached at tested commit"
+  ],
+  "prepared_bundle_files": {
+    "first": {
+      "COMPLETE.json": "522865f3c0deab9570cecc9d8c84e03ad363ebab400bcc6de8c1a764dab112a2",
+      "review.json": "2a183e33fbca1a5b0bdafa3fd387acbd98a077cf289403a3494eb68f1144b4ea",
+      "solver.json": "0d1f2a523cba57a453d0cbe71623736bc73a69446bfdefc972c4df5669d0feba",
+      "syft.json": "57fa6fb5630b9eba9a188cba9f940dc2ab74f709d7c65918facec77f2b3a9cb7"
+    },
+    "replay": {
+      "COMPLETE.json": "bef5745c9041fa45ce70484e8149e504b466dcb581e07041d10310406cc6eadd",
+      "review.json": "2a183e33fbca1a5b0bdafa3fd387acbd98a077cf289403a3494eb68f1144b4ea",
+      "solver.json": "0d1f2a523cba57a453d0cbe71623736bc73a69446bfdefc972c4df5669d0feba",
+      "syft.json": "f8789a7b874daf5215fdf2be573f2e27e7c5bec27b86a3eef81d2da488d3b164"
+    }
+  },
+  "contract_files_sha256": {
+    "superhunter/product_supply/evm-native-build.json": "770319fec81d721ec7fd3624c60c3016ec4ecc7aaaa960ace27d24a70e15498d",
+    "superhunter/product_supply/java-native-build.json": "159155a2c56175476920c45dd0a223e1212a4b62bdcd438d54a34537cdb27170",
+    "superhunter/product_supply/native-capability-contracts.json": "664d10946c40e197b443d0d9f745c72e5f6425e74662a403e84419fa1e9f6a8f"
+  },
+  "execution_results": [
+    {
+      "returncode": 0,
+      "groups": [
+        "evm",
+        "java"
+      ],
+      "blocked": {},
+      "functional_participations": 4,
+      "repositories": [
+        "cdump/evmole",
+        "find-sec-bugs/find-sec-bugs",
+        "shazow/whatsabi",
+        "spotbugs/spotbugs"
+      ],
+      "verified": {
+        "evm": {
+          "sha256": "3035c5d5c3b9a1c0e03ae53d8bd96b54d86987d89c4b17ee91659d552b5b72a1",
+          "match": true
+        },
+        "java": {
+          "sha256": "cec9330397a6545744161b20c1a9ac6c85a5ca91f558b27d4deb9317409188cb",
+          "match": true
+        }
+      },
+      "raw_sha256": "fd934aad3bcdff746e62cf3b29ae92e6d383d6f020be19e206b1a82047bb69a7",
+      "elapsed_seconds": 33.96,
+      "clean_after": true
+    },
+    {
+      "returncode": 0,
+      "groups": [
+        "evm",
+        "java"
+      ],
+      "blocked": {},
+      "functional_participations": 4,
+      "repositories": [
+        "cdump/evmole",
+        "find-sec-bugs/find-sec-bugs",
+        "shazow/whatsabi",
+        "spotbugs/spotbugs"
+      ],
+      "verified": {
+        "evm": {
+          "sha256": "3035c5d5c3b9a1c0e03ae53d8bd96b54d86987d89c4b17ee91659d552b5b72a1",
+          "match": true
+        },
+        "java": {
+          "sha256": "cec9330397a6545744161b20c1a9ac6c85a5ca91f558b27d4deb9317409188cb",
+          "match": true
+        }
+      },
+      "raw_sha256": "fd934aad3bcdff746e62cf3b29ae92e6d383d6f020be19e206b1a82047bb69a7",
+      "elapsed_seconds": 17.22,
+      "clean_after": true
+    }
+  ],
+  "python": "CPython 3.12",
+  "network": "Unprivileged user and network namespaces; no external network",
+  "transcript_archive_file": "evm-java-transcript.json",
+  "transcript_archive_sha256": "9baa516062bce05e4545347763fb0e2918b6f245c7d3f55e2a360670036020a0",
+  "independent_checks": "Individually compared the canonical JSON for each producer group to the committed registry; direct byte-for-byte comparison of both query responses.",
+  "unit_tests": {
+    "passed": 22,
+    "failed": 0,
+    "skipped": 0,
+    "test_modules": [
+      "superhunter.tests.test_product_evm_native",
+      "superhunter.tests.test_product_java_native"
+    ]
+  },
+  "source_provenance_limits": "The replay uses the reviewed local kits and checks bytes of the direct products; it does not rebuild all transitive dependencies or authenticate the host."
+}

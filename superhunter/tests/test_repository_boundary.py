@@ -17,7 +17,17 @@ class RepositoryBoundaryTests(unittest.TestCase):
     def setUp(self):
         temp = tempfile.TemporaryDirectory(); self.addCleanup(temp.cleanup)
         self.root = Path(temp.name)/'repo'
-        shutil.copytree(SOURCE,self.root,ignore=shutil.ignore_patterns('.git','__pycache__'))
+        # Boundary review inventories declared upstream directories separately from
+        # their Git contents. Recreate those leaves instead of copying 200 checkouts
+        # for each mutation of the historical/product boundary.
+        def ignore(folder, names):
+            excluded = {'.git', '__pycache__'}
+            if Path(folder) == SOURCE:
+                excluded.add('upstream')
+            return set(names) & excluded
+        shutil.copytree(SOURCE, self.root, ignore=ignore)
+        for leaf in boundary._upstream_leaves(SOURCE):
+            (self.root/'upstream'/leaf).mkdir(parents=True)
 
     def review(self):
         return boundary.review(self.root)
@@ -33,6 +43,16 @@ class RepositoryBoundaryTests(unittest.TestCase):
         for key in ('canonical_recertification','original_source_objects_checked',
                     'runtime_isolation_proved','full_security_review'):
             self.assertIs(result[key],False)
+
+    def test_import_replay_checks_original_bytes_and_enforces_full_product_boundary(self):
+        result = boundary.review(self.root, verify_import=True)
+        self.assertEqual(result['historical_import']['tests_passed'], 9)
+        self.assertFalse(result['historical_import']['checker']['canonical_recertification'])
+        (self.root/'unexpected.txt').write_text('outside the import')
+        with patch.object(boundary, '_verify_import') as replay:
+            with self.assertRaisesRegex(boundary.BoundaryError, 'UNREVIEWED_ROOT_FILE'):
+                boundary.review(self.root, verify_import=True)
+            replay.assert_not_called()
 
     def test_changed_legacy_byte_rejected(self):
         path = self.root/'nqc-census/Cargo.toml'
@@ -110,6 +130,26 @@ class RepositoryBoundaryTests(unittest.TestCase):
         with self.assertRaisesRegex(boundary.BoundaryError,'UNREVIEWED_ROOT_FILE'):
             self.review()
 
+    def test_reviewed_worker_rejects_changed_bytes_and_executable_mode(self):
+        driver = self.root / boundary.HTML_REVIEW_WORKER
+        reviewed = driver.read_bytes()
+        driver.write_bytes(reviewed[:-1] + bytes([reviewed[-1] ^ 1]))
+        with self.assertRaisesRegex(boundary.BoundaryError, 'REVIEWED_WORKER_CHANGED'):
+            self.review()
+        driver.write_bytes(reviewed)
+        driver.chmod(0o755)
+        with self.assertRaisesRegex(boundary.BoundaryError, 'EXECUTABLE_SOURCE_MODE'):
+            self.review()
+
+    def test_reviewed_worker_bytes_are_rejected_at_another_cjs_path(self):
+        driver = self.root / boundary.HTML_REVIEW_WORKER
+        for other in (driver.with_name('unreviewed.cjs'), driver.parent/'tools'/driver.name):
+            with self.subTest(path=other):
+                other.write_bytes(driver.read_bytes())
+                with self.assertRaisesRegex(boundary.BoundaryError, 'UNREVIEWED_SUPERHUNTER_PAYLOAD'):
+                    self.review()
+                other.unlink()
+
     def test_symlink_file_directory_and_cache_rejected(self):
         for relative,target in (('superhunter/link.py',self.root/'README.md'),
                                 ('superhunter/link',self.root/'migration'),
@@ -176,7 +216,7 @@ class RepositoryBoundaryTests(unittest.TestCase):
 
 class ExternalSourceTests(unittest.TestCase):
     def test_full_manifest_matches_all_reviewed_paths(self):
-        self.assertEqual(len(boundary._upstream_leaves(SOURCE)), 153)
+        self.assertEqual(len(boundary._upstream_leaves(SOURCE)), 200)
 
     def test_only_declared_directories_are_external(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -189,6 +229,14 @@ class ExternalSourceTests(unittest.TestCase):
             self.assertEqual(set(files), {'.gitmodules'})
             (root/'upstream/999-extra').mkdir()
             with self.assertRaisesRegex(boundary.BoundaryError, 'UNREVIEWED_UPSTREAM_PATH'):
+                boundary._capture(root)
+
+    def test_upstream_root_must_be_a_directory_when_present(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            shutil.copy(SOURCE/'.gitmodules', root/'.gitmodules')
+            (root/'upstream').write_text('unexpected regular file')
+            with self.assertRaisesRegex(boundary.BoundaryError, 'UPSTREAM_NOT_DIRECTORY'):
                 boundary._capture(root)
 
     def test_changed_manifest_does_not_exempt_a_directory(self):
@@ -213,8 +261,8 @@ class ExternalSourceTests(unittest.TestCase):
         if not (SOURCE/'.git').exists():
             self.skipTest('the source-pin verifier requires a Git checkout')
         result = verify(SOURCE)
-        self.assertEqual(result['status_counts'], {'pinned': 153})
-        self.assertEqual((result['catalog_count'], result['catalog_only_count']), (200, 47))
+        self.assertEqual(result['status_counts'], {'pinned': 200})
+        self.assertEqual((result['catalog_count'], result['catalog_only_count']), (200, 0))
         self.assertEqual({r['catalog_id'] for r in result['sources']} |
                          {r['catalog_id'] for r in result['catalog_only']}, set(range(1, 201)))
         with tempfile.TemporaryDirectory() as temp:

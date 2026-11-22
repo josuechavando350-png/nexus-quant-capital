@@ -1,5 +1,9 @@
 # Verificación defensiva de fuentes en NQC
 
+La [rama consolidada](CONSOLIDATION.md) conserva las 200 fuentes directas y reúne los controles de los PR [118](DEFENSIVE_COMPONENTS.md) y [119](NATIVE_CAPABILITIES.md). Los recibos de los perfiles anteriores se reproducen con sus respectivas revisiones.
+
+La aceptación del [PR 118](DEFENSIVE_COMPONENTS.md) añade dominios defensivos seleccionables y comprueba los resultados individuales, la matriz y la corroboración entre productores. El [acta de fuentes](SOURCE_MATERIALIZATION.md) permite reproducir sin red la conciliación de los 200 registros de checkout.
+
 Para la versión posterior al PR 115, consultar [el perfil offline de procedencia y análisis Go del PR 117](OFFLINE_SOURCE_AND_GO.md). Las cifras y el comando de 218 respuestas de este documento se conservan para reproducir el PR 115.
 
 El punto de partida es el commit de producto `ae02690627443df08b8eedb9d63a7a30cbda6c0e`. Los primeros 153 submódulos y sus revisiones se conservan. En el lote de los 47 restantes se verificaron todos los objetos de árbol raíz y se consumieron 34 manifiestos desde sus blobs. Dos proyectos aportan además extractos de fuente con licencia y un consumidor ejecutado. Las consultas `root-declarations` y `owned-source-checks` comparten las identidades del producto. [Árboles y declaraciones](REMOTE_ROOTS.md) · [Origen de los extractos](product_supply/source-excerpts/ORIGINS.md)
@@ -26,13 +30,14 @@ python3.12 -B -m superhunter.tools.catalog_session --source-inventory --source-r
   --geth-header "$work/geth-header" "$work/product" fork-headers root-declarations owned-source-checks score-comparison integration-matrix
 ```
 
-La matriz Markdown publicada corresponde al perfil ampliado de 58 participaciones. El perfil estándar reproduce 28. Para regenerar la versión publicada, preparar también los insumos nativos descritos más abajo. El renderizador abre la sesión, exige los recibos y devuelve un error si un productor falla. La salida de la ejecución se puede cotejar antes de reemplazar la matriz publicada.
+La matriz del PR 115 registró 58 participaciones en el perfil ampliado y 28 en el estándar. Con los insumos nativos de ese commit, este comando permite comparar una nueva ejecución con la matriz histórica publicada en ese PR. La [matriz de consolidación](INTEGRATION_STATUS_200.md) conserva otras dos sesiones históricas y documenta cómo comprobarlas.
 
 ```sh
 python3.12 -B -m superhunter.tools.render_product_matrix --native-inputs "$work/native-inputs.json" --source-inventory --source-references "$root" \
   --root-manifests "$work/manifests" --owned-source-kit "$work/owned" --score-kit "$work/owned" --fork-headers \
   --geth-header "$work/geth-header" "$work/product" > "$work/matrix.md"
-cmp "$work/matrix.md" superhunter/INTEGRATION_STATUS_200.md
+git show 0cf2dda6edb8da364948be9614386d852a90ee43:superhunter/INTEGRATION_STATUS_200.md > "$work/matrix-pr115.md"
+cmp "$work/matrix.md" "$work/matrix-pr115.md"
 ```
 
 ## Árboles completos y avisos de los entornos

@@ -1,0 +1,164 @@
+grpcurl OWNED schema inspection: reproducible preparation and bounded execution
+============================================================================
+
+Identity and producer
+---------------------
+
+Repository: fullstorydev/grpcurl, catalog ID 69.
+Catalog commit: f5c25e012bd451b55444679d5457ed3dfbae53de.
+Catalog tree: d646f5976b5480fe25fd9f4515d8fc8e4168a421.
+The producer was compiled from all 77 unchanged tracked source files at that
+commit. It is not the latest-release binary. The custom build label
+catalog-f5c25e012bd4 records the source used and is not an upstream version tag.
+
+The static Linux x86-64 executable has 30,228,640 bytes and SHA256
+384cb88ccabb2d6efda25012b2b87f7dbba8d6e73b1b4c02ba808bbc278b6b24.
+CGO was disabled; inspection of its ELF program headers found no interpreter
+segment. Its kit contains only grpcurl and the unchanged LICENSE-grpcurl file.
+Both are pinned in grpc-schema-native-pins.json and copied to a fresh private
+runtime directory before execution. No executable is installed into the host.
+
+Preparation recipe
+------------------
+
+Use a fresh, private work directory, a read-only verified upstream checkout,
+and Go 1.27.4 for linux-amd64. The catalog go.mod requires Go 1.26.0 or newer;
+the exact recorded compiler is pinned here to avoid automatic toolchain changes.
+
+1. Acquire the official archive
+   https://go.dev/dl/go1.27.4.linux-amd64.tar.gz or reuse those verified bytes.
+   Its size is 70,680,823 bytes and SHA256 is
+   7226736c2339719cda28fbf3a54d71aa63bcefe376e98cef00034268dab24840.
+   This session reused a previously acquired archive and verified that digest
+   before extracting it into this task's separate build directory.
+
+2. Copy grpc-schema-native-build-script.txt to build.py in that empty directory.
+   Set its UPSTREAM constant to the verified catalog checkout and GO_ARCHIVE
+   to the verified local toolchain archive. Keep REVISION, TREE, VERSION and
+   GO_ARCHIVE_SHA unchanged. ROOT is the copied script's directory. The script
+   records the historical preparation; its original absolute paths are not
+   universal installation paths.
+
+3. Run build.py with CPython 3.12. It verifies the Git tree, exports the exact
+   commit with git --no-replace-objects archive, and extracts into a separate
+   source directory. It does not patch the original source checkout. The source
+   archive is 542,720 bytes with SHA256
+   45028d617f09b87df42e4af2381e43832e5bbe6005288d93d108ade787895286.
+
+4. During preparation only, go mod download -json obtains 22 locked modules
+   through https://proxy.golang.org. Every returned module Sum and GoModSum is
+   checked against the unchanged catalog go.sum. The individual .info, .mod and
+   .zip bytes, URLs, SHA256 values and h1 checksums are recorded in
+   grpc-schema-native-sources.json. GOSUMDB=off means this preparation relies on
+   the catalog's committed sums; it does not claim an independent checksum
+   database authentication. Neither go.mod nor go.sum was changed.
+
+5. The actual build uses the verified toolchain and isolated task directories:
+
+   unshare --user --map-current-user --net <WORK>/go/bin/go build \
+       -trimpath -buildvcs=false \
+       -ldflags '-s -w -X main.version=catalog-f5c25e012bd4' \
+       -o <WORK>/kit/grpcurl ./cmd/grpcurl
+
+   Working directory: <WORK>/source.
+   GOROOT=<WORK>/go; GOTOOLCHAIN=local; GOENV=off;
+   GOMODCACHE=<WORK>/modcache; GOCACHE=<WORK>/buildcache;
+   GOPROXY=off; GOSUMDB=off; GOFLAGS=-mod=readonly;
+   CGO_ENABLED=0; GOOS=linux; GOARCH=amd64; GOAMD64=v1; GOMAXPROCS=3.
+
+   The build has no network access. Afterwards go mod verify runs in the same
+   network namespace. go version -m records the executable's embedded build
+   and dependency metadata. Copy the original source LICENSE to
+   <WORK>/kit/LICENSE-grpcurl, retaining its bytes. The recorded build log is
+   empty because the successful go build emitted no diagnostics.
+
+6. Check all 77 source files against the Git blobs in the source manifest after
+   preparation. Each Git blob is SHA1 of b"blob " + decimal byte length +
+   b"\0" + file bytes. Check the binary and notice against the accepted runtime
+   pins. An unexpected producer digest is a failed reproduction requiring
+   investigation, not a reason to rewrite the accepted pins.
+
+The exact build script, completed build record, module evidence and embedded
+binary metadata are retained in adjacent grpc-schema-native-* files. A second
+independent toolchain build is not claimed. The local Go compilation cache is
+rebuildable and may be removed after preserving the binary, dependencies,
+source, recipe and logs.
+
+Run the product control
+-----------------------
+
+From a product checkout, export GRPC_SCHEMA_KIT pointing to the verified kit:
+
+   python -B - <<'PY'
+   import hashlib
+   import os
+   from pathlib import Path
+   from superhunter.product_grpc_schema_native import run
+   from superhunter.safe_io import canonical
+
+   report = canonical(run(Path(os.environ['GRPC_SCHEMA_KIT'])))
+   expected = Path('superhunter/product_supply/grpc-schema-native-result.json').read_bytes()
+   assert report == expected
+   print(hashlib.sha256(report).hexdigest())
+   PY
+
+Each invocation uses a new temporary directory. The accepted report contains
+5,148 canonical bytes with SHA256
+6d4d608996df72997bfc31554fcf831505a2630e9ffb169e387bf51ea7e27261.
+Two actual runs produced those same bytes on the same host with the same kit.
+They are execution replays, not independently authenticated hosts or builds.
+
+The API accepts only a kit directory. Sources, symbols, commands and expected
+changes are fixed and pinned. All commands use -use-reflection=false and only
+list/describe with local -proto or -protoset files. No server address, RPC
+invocation, credential, listener or external target is supplied. Every process
+runs under unshare --user --map-current-user --net, has closed stdin, a ten-second
+timeout and bounded accepted output. User/network namespaces restrict
+networking; they do not constitute a complete filesystem/syscall sandbox.
+
+What the witness establishes
+---------------------------
+
+For each of two OWNED proto3 schemas, the product checks the service list,
+method list, service description and two message descriptions. grpcurl exports
+a FileDescriptorSet; an independently implemented, bounded Python wire decoder
+extracts messages, field numbers/types and method streaming signatures. Those
+values must match the separately authored OWNED schema model. Independently
+rendered text from the decoded model must match all five grpcurl views.
+
+The product then asks the same grpcurl build to read the exported protoset and
+repeat those five views. This is ten source views and ten protoset views per
+run. The protoset replay is not a second protobuf implementation; the separate
+bounded descriptor decoder supplies the independent structural witness.
+
+The changed schema removes Ledger.Balance, adds Ledger.GetBalance, changes
+Ledger.Watch from server-streaming to unary, and changes balance_minor from
+uint64 (wire type 0) to string (wire type 2). These observations do not infer
+that the two method names represent a semantic rename.
+
+Two malformed derivatives are rejected by grpcurl: duplicate field number and
+unknown response message. A nonexistent symbol is also rejected in each valid
+schema. Rejection requires the expected nonzero exit, empty stdout and exact
+diagnostic digest; a timeout, network error or generic failure cannot count as
+the expected rejection. The sample JSON contains actual captured producer
+outputs used by the verifier regressions.
+
+   python -B -m unittest superhunter.tests.test_product_grpc_schema_native -v
+
+Ten focused tests cover substituted source/descriptor bytes, forged text,
+missing protoset views, resealed type substitutions, ambiguous/truncated wire
+data, false native failures and altered pins. They test the verifier; the two
+recorded native runs separately demonstrate producer execution.
+
+Scope and notices
+-----------------
+
+This is two fixed schemas and two malformed derivatives. The descriptor reader
+accepts only the bounded subset used by these controls; it is not general
+protobuf validation or a general compatibility analyzer. Schema differences do
+not establish authorization behavior, live API exposure or vulnerabilities.
+Confirmed original vulnerabilities: zero.
+
+The original grpcurl MIT license is retained unchanged. Its transitive module
+and Go runtime distribution obligations are not certified by this functional
+integration, and no commercial clearance is implied.

@@ -1,0 +1,130 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { createHardhatRuntimeEnvironment } from 'hardhat/hre';
+import { astDereferencer } from 'solidity-ast/utils.js';
+import core from '@openzeppelin/upgrades-core';
+import { extractStorageLayout } from '@openzeppelin/upgrades-core/dist/storage/extract.js';
+
+const settings = {
+  evmVersion: 'paris', optimizer: { enabled: false }, metadata: { bytecodeHash: 'none' },
+  outputSelection: { '*': { '': ['ast'], '*': ['abi', 'storageLayout', 'evm.bytecode', 'evm.deployedBytecode'] } },
+};
+const ownSource = await fs.readFile('Owned.sol', 'utf8');
+const invalidSource = '// SPDX-License-Identifier: MIT\npragma solidity 0.8.30;\ncontract Invalid { uint256 public balance = ; }\n';
+
+async function build(folder, filename, source) {
+  const root = path.resolve(folder);
+  await fs.mkdir(path.join(root, 'contracts'), { recursive: true });
+  await fs.writeFile(path.join(root, 'package.json'), '{"private":true,"type":"module"}\n');
+  await fs.writeFile(path.join(root, 'contracts', filename), source);
+  const hre = await createHardhatRuntimeEnvironment({
+    solidity: { version: '0.8.30', path: path.resolve('solc'), settings },
+  }, {}, root);
+  const files = await hre.solidity.getRootFilePaths();
+  assert.deepEqual(files, [path.join(root, 'contracts', filename)]);
+  // Keep the library's human-oriented diagnostics out of the JSON protocol;
+  // the actual structured compiler errors are returned and validated below.
+  const writers = [process.stdout.write, process.stderr.write];
+  const logs = [];
+  const capture = function (chunk, encoding, callback) {
+    logs.push(String(chunk));
+    if (typeof encoding === 'function') encoding();
+    if (typeof callback === 'function') callback();
+    return true;
+  };
+  let result;
+  try {
+    process.stdout.write = capture;
+    process.stderr.write = capture;
+    result = await hre.solidity.build(files, { force: true, quiet: true, concurrency: 1 });
+  } finally {
+    [process.stdout.write, process.stderr.write] = writers;
+  }
+  assert.equal(result.size, 1);
+  const row = result.get(files[0]);
+  const input = await row.compilationJob.getSolcInput();
+  if (row.type === 'BUILD_FAILURE') {
+    assert(logs.join('').includes('ParserError: Expected primary expression.'));
+    return { status: row.type, input, errors: row.errors.map(error => ({
+      type: error.type, severity: error.severity, code: error.errorCode, message: error.message,
+    })) };
+  }
+  assert.equal(row.type, 'BUILD_SUCCESS');
+  assert.equal(logs.join('').trim(), '');
+  assert.deepEqual(row.warnings, []);
+  const directory = path.join(root, 'artifacts', 'build-info');
+  const names = await fs.readdir(directory);
+  assert.equal(names.filter(name => name.endsWith('.output.json')).length, 1);
+  const outputFile = names.find(name => name.endsWith('.output.json'));
+  const output = JSON.parse(await fs.readFile(path.join(directory, outputFile))).output;
+  const buildInfo = JSON.parse(await fs.readFile(path.join(directory, outputFile.replace('.output.json', '.json'))));
+  assert.equal(buildInfo.solcLongVersion, '0.8.30+commit.73712a01');
+  assert.deepEqual(buildInfo.input, input);
+  return { status: row.type, input, output };
+}
+
+function getLayouts(input, output) {
+  // This product intentionally requires the compiler's detailed layout and AST.
+  // Missing data must not trigger the library's less detailed AST fallback.
+  const source = 'project/contracts/Owned.sol';
+  const names = ['Append', 'Base', 'Delete', 'Narrow', 'Rename', 'Reorder'];
+  assert.deepEqual(Object.keys(output.contracts[source]).sort(), names);
+  const ast = output.sources[source].ast;
+  assert.equal(ast.nodeType, 'SourceUnit');
+  const definitions = ast.nodes.filter(node => node.nodeType === 'ContractDefinition');
+  assert.deepEqual(definitions.map(node => node.name).sort(), names);
+  const decode = core.solcInputOutputDecoder(input, output);
+  const deref = astDereferencer(output);
+  const layouts = {};
+  for (const definition of definitions) {
+    const layout = output.contracts[source][definition.name].storageLayout;
+    assert(layout && Array.isArray(layout.storage) && layout.storage.length > 0 && layout.types);
+    assert.equal(layout.storage.length, definition.nodes.filter(node => node.nodeType === 'VariableDeclaration').length);
+    for (const row of layout.storage) {
+      assert.match(row.slot, /^[0-9]+$/);
+      assert(Number.isInteger(row.offset));
+      assert(layout.types[row.type]);
+    }
+    layouts[definition.name] = extractStorageLayout(definition, decode, deref, layout);
+    assert.equal(layouts[definition.name].flat, true);
+  }
+  return layouts;
+}
+
+const compiled = await build('valid', 'Owned.sol', ownSource);
+const invalid = await build('invalid', 'Invalid.sol', invalidSource);
+const layouts = getLayouts(compiled.input, compiled.output);
+const missing = {};
+for (const variant of ['storage_layout', 'ast']) {
+  const damaged = structuredClone(compiled.output);
+  if (variant === 'storage_layout') delete damaged.contracts['project/contracts/Owned.sol'].Narrow.storageLayout;
+  else delete damaged.sources['project/contracts/Owned.sol'].ast;
+  let rejected = false;
+  try { getLayouts(compiled.input, damaged); } catch { rejected = true; }
+  assert(rejected);
+  missing[variant] = 'rejected_before_comparison';
+}
+const options = core.withValidationDefaults({});
+assert.equal(options.unsafeSkipStorageCheck, false);
+assert.equal(options.unsafeAllowRenames, false);
+assert.equal(options.unsafeAllowCustomTypes, false);
+const compact = item => item ? {
+  label: item.label, slot: item.slot, offset: item.offset, type: item.type.item.label,
+} : null;
+const comparisons = {};
+for (const name of ['Base', 'Append', 'Narrow', 'Reorder', 'Delete', 'Rename']) {
+  const report = core.getStorageUpgradeReport(layouts.Base, layouts[name], options);
+  let accepted = true;
+  try { core.assertStorageUpgradeSafe(layouts.Base, layouts[name], options); }
+  catch (error) {
+    assert(error instanceof core.StorageUpgradeErrors);
+    accepted = false;
+  }
+  assert.equal(accepted, report.pass);
+  comparisons[name] = {
+    compatible: report.pass,
+    operations: report.ops.map(op => ({ kind: op.kind, original: compact(op.original), updated: compact(op.updated) })),
+  };
+}
+process.stdout.write(JSON.stringify({ compiled, invalid, layouts, comparisons, incomplete_inputs: missing }) + '\n');

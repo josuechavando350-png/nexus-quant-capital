@@ -1,0 +1,1025 @@
+{
+  "accepted_pair": {
+    "functional_identities": 157,
+    "matching_runs": 2,
+    "missing_rows_matched_to_replayed_matrix": true,
+    "pending_identities": 43,
+    "producer_commit": "2ddbe098cc98a667211494a9ff9f21ce014d8c3f",
+    "transcript_sha256": "bdb0e859c9a3affd0f0ca198ed1cdeae75571889f9cab67d28d372058c29722e"
+  },
+  "filename_probe": {
+    "match_expression": "(?:\\.sarif(?:\\.json)?|junit[_-]golden\\.xml|example_output_[\\w-]+\\.ocsf\\.json|(?:^|/)(?:example[_-]|sample[_-])?report\\.(?:xml|json|csv|jsonl)|(?:^|/)benchmark-results\\.jsonl)$",
+    "scope": "Search of filenames in the committed upstream tree only. Presence does not credit functionality. Zero matches do not establish impossibility."
+  },
+  "notice_review_scope": "Literal notice bytes read at all 43 pinned revisions. Detected expressions and effective-text digests are transcribed from the product. A repository-wide license and commercial distribution decision remain pending.",
+  "parallel_140": {
+    "absent_from_both": 35,
+    "complete_runs_published": 1,
+    "evidence": "e11993d7d760c7f922c86fc1a349f0e115939c70",
+    "exclusive_to_parallel_profile": 8,
+    "producer": "a183f60ed7229441a703a8f6ea9e180ff249abf3",
+    "source_transcript_sha256": "88f7d4a092d9239f1d5e71df3e6132cffeeb95a1d0ab643cd106c5668bf9d2a7"
+  },
+  "pr119_profile": {
+    "absence": "The eight alternate-profile operations have no joint participation receipt on this producer. The PR 119 act names two runs and publishes one transcript path.",
+    "act": {
+      "blob": "865558017a3642d420219493a5ea313f45707ea4",
+      "path": "superhunter/product_supply/consolidated-acceptance-139.json",
+      "sha256": "5b77efbb3030912ebf48848db893b683fb43466920d5373dd68113381a479d0e"
+    },
+    "evidence_commit": "a183f60ed7229441a703a8f6ea9e180ff249abf3",
+    "native_contract": {
+      "blob": "835f393da8dce559aed1fa54ef45cd9fbe12bcaa",
+      "path": "superhunter/product_supply/native-capability-contracts-139.json",
+      "sha256": "e624bd12b6df9181e1a8db4520700267c57e9e566fd53d9f2d4aee28f10af3a4"
+    },
+    "producer_commit": "37a0d5261ae52ece080d18b294042931112f2861",
+    "source": {
+      "blob": "6d888ab1e663e46654e0a0b369ebee315c32c5ce",
+      "historical_identities": 139,
+      "path": "superhunter/product_supply/native-session-139.json",
+      "raw_sha256": "0e7ceaab460f1b24826f466ad70d93b64201b4a2e7edf5e09b085f675f4cd318",
+      "sha256": "b4800b1a7ce63e469288e935a9f7cf5e78505c4f1297f8709ea407b546ad4b88"
+    }
+  },
+  "previous_profile": {
+    "component_contract": {
+      "blob": "5857a61f983aee8c1dfb2e8eba8d7b309171a190",
+      "path": "superhunter/product_supply/component-control-contracts.json",
+      "sha256": "f05874680d267a179c47e04b0fd032bbf1695896225293189cec93856b4e4b82"
+    },
+    "evidence_commit": "4dabd753f601a6f2938b425ba9bf7ed8ddfa245e",
+    "producer_commit": "f1eea76f24ff0cf0b5af4a870b5d6e117c46d248",
+    "source": {
+      "blob": "00cbef92a0bcb1016e3879616085abe079f455e1",
+      "historical_identities": 154,
+      "path": "superhunter/product_supply/consolidated-acceptance-report-interop/first/session.json",
+      "raw_sha256": "d0cea728fa6a8d58120227a2e803da1afb93313913c7b2268454fc7299cb1b78",
+      "sha256": "0d2a4a3c4ff69870ca84d9c25e924c572c6fcb915d905bfc20d5449d90799d97"
+    }
+  },
+  "producer_commit": "2ddbe098cc98a667211494a9ff9f21ce014d8c3f",
+  "producer_inputs": {
+    "catalog": {
+      "blob": "2053ab01fcd8cdf310b66ba9fe8073681cd84d7c",
+      "path": "superhunter/product_supply/source-checkouts-200.json",
+      "sha256": "ecb4af00b78f738795c39473f1d5883d5f33a71f27ad37268c7133c37d44f788"
+    },
+    "component_contract": {
+      "blob": "a71e692ea1b32aebe6e230e42aaeb0f33654a7b6",
+      "path": "superhunter/product_supply/component-control-contracts.json",
+      "sha256": "e817543c5ca4887cf618806e3dc6b1981e72239aa679dd78afab68c217d70b6a"
+    }
+  },
+  "producer_tree": "3a4b369bd6d13914bd6e5f7ab3012266cd3cbd42",
+  "rows": [
+    {
+      "catalog_path": "upstream/003-sqlmap",
+      "commit": "5db2e62884d91f3ed3b43ec55904737e4051e9d7",
+      "filename_probe_matches": 0,
+      "id": 3,
+      "inspection": {
+        "blob": "9b2ab3ee9fba063f21ff886d8f1939e0a5bfb846",
+        "file": "tests/test_report.py",
+        "limit": "Serialization tests exist. A pre-existing, pinned end-user report was not established."
+      },
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 18886,
+        "literal_git_blob": "cc0480cafb4157dfdba8cb9c266ff77c16d5a98b",
+        "literal_sha256": "b1bbb62f5b272a6247d442d5e4f644a5bca7138e70776539ec84a5a90433fd13",
+        "path": "LICENSE",
+        "reported_detected_expression": "(((GPL-2.0-or-later OR LicenseRef-scancode-commercial-license) AND LicenseRef-scancode-unknown-license-reference) AND GPL-1.0-or-later) AND GPL-2.0-only",
+        "reported_effective_text_sha256": "b1bbb62f5b272a6247d442d5e4f644a5bca7138e70776539ec84a5a90433fd13"
+      },
+      "origin": "https://github.com/sqlmapproject/sqlmap.git",
+      "repository": "sqlmapproject/sqlmap",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "a11ac60d7bae2f26fe0d3c4ea0242da136b24548"
+    },
+    {
+      "catalog_path": "upstream/005-ffuf",
+      "commit": "8d65e0373e5f223530174e5694285af849770078",
+      "filename_probe_matches": 0,
+      "id": 5,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 1071,
+        "literal_git_blob": "c6624529ad4b05c85876f2a32878e214d98a0485",
+        "literal_sha256": "27efda573d21acd87c68e008a190c7456bcd93b510b8c35a1500088249d5d930",
+        "path": "LICENSE",
+        "reported_detected_expression": "MIT",
+        "reported_effective_text_sha256": "27efda573d21acd87c68e008a190c7456bcd93b510b8c35a1500088249d5d930"
+      },
+      "origin": "https://github.com/ffuf/ffuf.git",
+      "pr119_operation": {
+        "field": "native_capability_receipt",
+        "group": "discovery",
+        "query": "native-capabilities",
+        "receipt_sha256": "f3bce0931acbbfb11c6edefb41b18da58df3c75fbbe058e177e0a5ffe85ef27c",
+        "report_sha256": "5f5ab97f62285414e94de696efc3c77ab8fdbf168a4df7bef2402a5c119e7f7f",
+        "repository": "ffuf/ffuf",
+        "role": "executable"
+      },
+      "repository": "ffuf/ffuf",
+      "status": "pr119_receipt_only_outside_current_producer",
+      "tree": "5aee88489e44f0fa644144ad50d96ac79b309668"
+    },
+    {
+      "catalog_path": "upstream/006-httpx",
+      "commit": "200e6ffaac8f705cb0770beb6f9cbae303565659",
+      "filename_probe_matches": 0,
+      "id": 6,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 1079,
+        "literal_git_blob": "b22968b6c36eb06b1dbd058aac75cac6143910f8",
+        "literal_sha256": "cbcdaab87df3175107aa28915bd253cebdd618a49c9ac5d6c669c0b1cbebcacb",
+        "path": "LICENSE.md",
+        "reported_detected_expression": "MIT",
+        "reported_effective_text_sha256": "cbcdaab87df3175107aa28915bd253cebdd618a49c9ac5d6c669c0b1cbebcacb"
+      },
+      "origin": "https://github.com/projectdiscovery/httpx.git",
+      "repository": "projectdiscovery/httpx",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "ea2988db66c48e1e75e54504b00f47b4db36c099"
+    },
+    {
+      "catalog_path": "upstream/007-katana",
+      "commit": "732936b3c3048b5010cb3ddbedf7912cda6ec0ed",
+      "filename_probe_matches": 0,
+      "id": 7,
+      "inspection": {
+        "blob": "80be434cc7d124397b0240a4fa1a7a2458508997",
+        "file": "pkg/output/export/export_test.go",
+        "limit": "Exporter tests exist. An independently comparable stored output was not established."
+      },
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 1073,
+        "literal_git_blob": "3b864fa731978d161aea04f6df0ea74f8b8e6fee",
+        "literal_sha256": "49982116f64385bdf8582a379e591a19d6040dec22e50e29dc311596d357af23",
+        "path": "LICENSE.md",
+        "reported_detected_expression": "MIT",
+        "reported_effective_text_sha256": "49982116f64385bdf8582a379e591a19d6040dec22e50e29dc311596d357af23"
+      },
+      "origin": "https://github.com/projectdiscovery/katana.git",
+      "repository": "projectdiscovery/katana",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "46bb118b446dba5e4e03fce2351074bdb5ecb2d6"
+    },
+    {
+      "catalog_path": "upstream/008-turbo-intruder",
+      "commit": "a6c9a4982fb276167edac0797c7ac747ab9a11da",
+      "filename_probe_matches": 0,
+      "id": 8,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 34523,
+        "literal_git_blob": "be3f7b28e564e7dd05eaf59d64adba1a4065ac0e",
+        "literal_sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0",
+        "path": "LICENSE",
+        "reported_detected_expression": "AGPL-3.0-only",
+        "reported_effective_text_sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0"
+      },
+      "origin": "https://github.com/PortSwigger/turbo-intruder.git",
+      "repository": "PortSwigger/turbo-intruder",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "dd47508455d258e5c359974af7cc7c8430ce2c1d"
+    },
+    {
+      "catalog_path": "upstream/009-param-miner",
+      "commit": "e43e3b16be11117ed67cfde60e80acf2e95a4adc",
+      "filename_probe_matches": 0,
+      "id": 9,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 615,
+        "literal_git_blob": "5aafe7a87f50abf0f90df080bdc7415c7dcedace",
+        "literal_sha256": "9c44c6d30548ba5b09da50008927e6839162cf45b2cd10f25e51db5ca6620e3c",
+        "path": "LICENSE",
+        "reported_detected_expression": "Apache-2.0",
+        "reported_effective_text_sha256": "9c44c6d30548ba5b09da50008927e6839162cf45b2cd10f25e51db5ca6620e3c"
+      },
+      "origin": "https://github.com/PortSwigger/param-miner.git",
+      "repository": "PortSwigger/param-miner",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "f98e87eb1f49c281cc0802289a9c10df92ab4845"
+    },
+    {
+      "catalog_path": "upstream/011-subfinder",
+      "commit": "e989d248ba903ced697487f8828a161ef7aa64af",
+      "filename_probe_matches": 0,
+      "id": 11,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 1079,
+        "literal_git_blob": "b22968b6c36eb06b1dbd058aac75cac6143910f8",
+        "literal_sha256": "cbcdaab87df3175107aa28915bd253cebdd618a49c9ac5d6c669c0b1cbebcacb",
+        "path": "LICENSE.md",
+        "reported_detected_expression": "MIT",
+        "reported_effective_text_sha256": "cbcdaab87df3175107aa28915bd253cebdd618a49c9ac5d6c669c0b1cbebcacb"
+      },
+      "origin": "https://github.com/projectdiscovery/subfinder.git",
+      "repository": "projectdiscovery/subfinder",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "eeab4956d6069f1430acebdce479a9f6bf1198f1"
+    },
+    {
+      "catalog_path": "upstream/014-echidna",
+      "commit": "fb0fd78b9c3c46ac4127279da2313e727a66e5ad",
+      "filename_probe_matches": 0,
+      "id": 14,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 34523,
+        "literal_git_blob": "be3f7b28e564e7dd05eaf59d64adba1a4065ac0e",
+        "literal_sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0",
+        "path": "LICENSE",
+        "reported_detected_expression": "AGPL-3.0-only",
+        "reported_effective_text_sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0"
+      },
+      "origin": "https://github.com/crytic/echidna.git",
+      "pr119_operation": {
+        "field": "native_capability_receipt",
+        "group": "fuzz",
+        "query": "native-capabilities",
+        "receipt_sha256": "1e1df3427f954537b770c2331d6007aa5bb631687a49285a1f0ab65ef6910a91",
+        "report_sha256": "09acfd1fa963b8469e368d869db749f380767fe923af34b0382527dc96d3dcb8",
+        "repository": "crytic/echidna",
+        "role": "executable"
+      },
+      "repository": "crytic/echidna",
+      "status": "pr119_receipt_only_outside_current_producer",
+      "tree": "ca9bb0ad3ec757234434d5bdba96465c85f64cc0"
+    },
+    {
+      "catalog_path": "upstream/016-medusa",
+      "commit": "b86c3bbafb9e80f7dcb09533006ecb15dbbbdc98",
+      "filename_probe_matches": 0,
+      "id": 16,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 34523,
+        "literal_git_blob": "0ad25db4bd1d86c452db3f9602ccdbe172438f52",
+        "literal_sha256": "8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef",
+        "path": "LICENSE",
+        "reported_detected_expression": "AGPL-3.0-only",
+        "reported_effective_text_sha256": "8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef"
+      },
+      "origin": "https://github.com/crytic/medusa.git",
+      "pr119_operation": {
+        "field": "native_capability_receipt",
+        "group": "fuzz",
+        "query": "native-capabilities",
+        "receipt_sha256": "c9eaad9f1fd9cb191139214549165711dbbe80d399e4a4190c986675a3121032",
+        "report_sha256": "09acfd1fa963b8469e368d869db749f380767fe923af34b0382527dc96d3dcb8",
+        "repository": "crytic/medusa",
+        "role": "executable"
+      },
+      "repository": "crytic/medusa",
+      "status": "pr119_receipt_only_outside_current_producer",
+      "tree": "0660676752139dbb394752c24e5e422c918cce6b"
+    },
+    {
+      "catalog_path": "upstream/019-defihacklabs",
+      "commit": "18c4aaf3549373b3c0f52dd0ed3e298264dbe1a8",
+      "filename_probe_matches": 0,
+      "id": 19,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 11347,
+        "literal_git_blob": "786c662b3750bea8e27b0ded6304959139011f25",
+        "literal_sha256": "aa728951f2cd7399efd5fcb214cde9e8c12a4ebb3cf08222e7256b933a102bae",
+        "path": "LICENSE",
+        "reported_detected_expression": "Apache-2.0",
+        "reported_effective_text_sha256": "aa728951f2cd7399efd5fcb214cde9e8c12a4ebb3cf08222e7256b933a102bae"
+      },
+      "origin": "https://github.com/SunWeb3Sec/DeFiHackLabs.git",
+      "repository": "SunWeb3Sec/DeFiHackLabs",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "abf24e0b62b049935b3f539851d783c37c5fae91"
+    },
+    {
+      "catalog_path": "upstream/032-mewt",
+      "commit": "e96e71969ae9b9d3ef7562ae5a3a60de6050c0d0",
+      "filename_probe_matches": 0,
+      "id": 32,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 34523,
+        "literal_git_blob": "be3f7b28e564e7dd05eaf59d64adba1a4065ac0e",
+        "literal_sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0",
+        "path": "LICENSE",
+        "reported_detected_expression": "AGPL-3.0-only",
+        "reported_effective_text_sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0"
+      },
+      "origin": "https://github.com/trailofbits/mewt.git",
+      "pr119_operation": {
+        "field": "native_capability_receipt",
+        "group": "mutation",
+        "query": "native-capabilities",
+        "receipt_sha256": "634b48c6f764b87d033b087f596a05247c4a0e64ea504ed262ee22aeeb98cc08",
+        "report_sha256": "4af5a00705d2db05bd63c99a16a5e85d0aa03d4ca66aca8a11927f578bd2f993",
+        "repository": "trailofbits/mewt",
+        "role": "executable"
+      },
+      "repository": "trailofbits/mewt",
+      "status": "pr119_receipt_only_outside_current_producer",
+      "tree": "9dc473b109e8a46cf39f2cade1b64086883e6c84"
+    },
+    {
+      "catalog_path": "upstream/047-rr",
+      "commit": "f5017a5cea712d4958ca72edefd92a0401649bee",
+      "filename_probe_matches": 0,
+      "id": 47,
+      "inspection": {
+        "blob": "9cf83141149ceba3a1cba3435a9147a56f2594f4",
+        "file": "release-process/rr-testing-cloud-formation.json",
+        "limit": "An infrastructure template is present; it supplies no debugger report output."
+      },
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 22309,
+        "literal_git_blob": "cb48b6bfc19287c60a8f0c8d209acc35fdb17f3c",
+        "literal_sha256": "aaec860979579376519b0bb376a317d0c52a7182f5dde5f362a8df3590312f9f",
+        "path": "LICENSE",
+        "reported_detected_expression": "MIT AND BSD-2-Clause AND FSFAP-no-warranty-disclaimer AND GPL-2.0-only WITH Linux-syscall-note AND Zlib",
+        "reported_effective_text_sha256": "aaec860979579376519b0bb376a317d0c52a7182f5dde5f362a8df3590312f9f"
+      },
+      "origin": "https://github.com/rr-debugger/rr.git",
+      "repository": "rr-debugger/rr",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "8720829c943514a9ea4303d38093f2f8ab246f43"
+    },
+    {
+      "catalog_path": "upstream/051-arjun",
+      "commit": "d1fb995cb1e064d4e171d83f19f6af79b0a3c5ce",
+      "filename_probe_matches": 0,
+      "id": 51,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 34523,
+        "literal_git_blob": "0ad25db4bd1d86c452db3f9602ccdbe172438f52",
+        "literal_sha256": "8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef",
+        "path": "LICENSE",
+        "reported_detected_expression": "AGPL-3.0-only",
+        "reported_effective_text_sha256": "8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef"
+      },
+      "origin": "https://github.com/s0md3v/Arjun.git",
+      "pr119_operation": {
+        "field": "native_capability_receipt",
+        "group": "discovery",
+        "query": "native-capabilities",
+        "receipt_sha256": "37e784f175a729c737fe8d4872a1568ca3ab3d192ac0a9d9a25bec9a337572de",
+        "report_sha256": "5f5ab97f62285414e94de696efc3c77ab8fdbf168a4df7bef2402a5c119e7f7f",
+        "repository": "s0md3v/Arjun",
+        "role": "executable"
+      },
+      "repository": "s0md3v/Arjun",
+      "status": "pr119_receipt_only_outside_current_producer",
+      "tree": "aff8b4b25ab163430e9f80234ed98f7cbd23dfe3"
+    },
+    {
+      "catalog_path": "upstream/053-feroxbuster",
+      "commit": "f89b6c6d305421d7b29e26997960317e64c64dae",
+      "filename_probe_matches": 0,
+      "id": 53,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 1065,
+        "literal_git_blob": "53934ec4960a156002067941c5e8b12ac277f3f9",
+        "literal_sha256": "fa189713b5ba5b96fd8d6b3905aba1ca7fb925f85a14f7843579e7a28dba93ea",
+        "path": "LICENSE",
+        "reported_detected_expression": "MIT",
+        "reported_effective_text_sha256": "fa189713b5ba5b96fd8d6b3905aba1ca7fb925f85a14f7843579e7a28dba93ea"
+      },
+      "origin": "https://github.com/epi052/feroxbuster.git",
+      "repository": "epi052/feroxbuster",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "2155dba7f2777ff72e19ce0e171cd8123c003142"
+    },
+    {
+      "catalog_path": "upstream/054-gobuster",
+      "commit": "c77583fbb8824058d74d38240896eff610683c8e",
+      "filename_probe_matches": 0,
+      "id": 54,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 11357,
+        "literal_git_blob": "7a4a3ea2424c09fbe48d455aed1eaa94d9124835",
+        "literal_sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+        "path": "LICENSE",
+        "reported_detected_expression": "Apache-2.0",
+        "reported_effective_text_sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd"
+      },
+      "origin": "https://github.com/OJ/gobuster.git",
+      "pr119_operation": {
+        "field": "native_capability_receipt",
+        "group": "discovery",
+        "query": "native-capabilities",
+        "receipt_sha256": "335a799dc7a158b5ee70ea0888d448514c2bff21684ae01a0b33cac138823299",
+        "report_sha256": "5f5ab97f62285414e94de696efc3c77ab8fdbf168a4df7bef2402a5c119e7f7f",
+        "repository": "OJ/gobuster",
+        "role": "executable"
+      },
+      "repository": "OJ/gobuster",
+      "status": "pr119_receipt_only_outside_current_producer",
+      "tree": "a288e57b3f8dd76eb58e1af49766b40296317b09"
+    },
+    {
+      "catalog_path": "upstream/055-xnlinkfinder",
+      "commit": "841ac8dddbc7edd728939df5db51274a63ab5863",
+      "filename_probe_matches": 0,
+      "id": 55,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 1068,
+        "literal_git_blob": "fb0dcb97ad557643327f63b1ac055806a4d3a783",
+        "literal_sha256": "a3f8eaeb6c59d58c48f2dab340a6cdb6aaf7456da2e6c874ae4ea2c42244ae85",
+        "path": "LICENSE",
+        "reported_detected_expression": "MIT",
+        "reported_effective_text_sha256": "a3f8eaeb6c59d58c48f2dab340a6cdb6aaf7456da2e6c874ae4ea2c42244ae85"
+      },
+      "origin": "https://github.com/xnl-h4ck3r/xnLinkFinder.git",
+      "pr119_operation": {
+        "field": "native_capability_receipt",
+        "group": "http",
+        "query": "native-capabilities",
+        "receipt_sha256": "a66779570e82dd4c86eadbafff735d47b73c50dbe07d6347aeace067294d2911",
+        "report_sha256": "cf90056bcb0cebfd7f1b0c656a3fc45101d3debea56dc5318afda61b6c019ddd",
+        "repository": "xnl-h4ck3r/xnLinkFinder",
+        "role": "executable"
+      },
+      "repository": "xnl-h4ck3r/xnLinkFinder",
+      "status": "pr119_receipt_only_outside_current_producer",
+      "tree": "34a76df937991fbbfd54fa7abf9c2536c156e281"
+    },
+    {
+      "catalog_path": "upstream/056-waymore",
+      "commit": "4e02de512fd6b110be92dc8bffb3002edfebcb6c",
+      "filename_probe_matches": 0,
+      "id": 56,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 1068,
+        "literal_git_blob": "fb0dcb97ad557643327f63b1ac055806a4d3a783",
+        "literal_sha256": "a3f8eaeb6c59d58c48f2dab340a6cdb6aaf7456da2e6c874ae4ea2c42244ae85",
+        "path": "LICENSE",
+        "reported_detected_expression": "MIT",
+        "reported_effective_text_sha256": "a3f8eaeb6c59d58c48f2dab340a6cdb6aaf7456da2e6c874ae4ea2c42244ae85"
+      },
+      "origin": "https://github.com/xnl-h4ck3r/waymore.git",
+      "repository": "xnl-h4ck3r/waymore",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "f597fcd5f92ba6f039c2ca25f8ab50fcfb3f1c1a"
+    },
+    {
+      "catalog_path": "upstream/057-dnsx",
+      "commit": "f98967b4178790e5a3654c5d9c822dc3544db793",
+      "filename_probe_matches": 0,
+      "id": 57,
+      "inspection": {
+        "blob": "c84e19d127ac20b9397a57a61d3c878d8a4e3747",
+        "file": "internal/runner/output_template_test.go",
+        "limit": "Template tests exist. No stored report on a product-owned input was established."
+      },
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 1079,
+        "literal_git_blob": "b22968b6c36eb06b1dbd058aac75cac6143910f8",
+        "literal_sha256": "cbcdaab87df3175107aa28915bd253cebdd618a49c9ac5d6c669c0b1cbebcacb",
+        "path": "LICENSE.md",
+        "reported_detected_expression": "MIT",
+        "reported_effective_text_sha256": "cbcdaab87df3175107aa28915bd253cebdd618a49c9ac5d6c669c0b1cbebcacb"
+      },
+      "origin": "https://github.com/projectdiscovery/dnsx.git",
+      "repository": "projectdiscovery/dnsx",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "de6b746bf461eb652ac1f91599267fa27a96debd"
+    },
+    {
+      "catalog_path": "upstream/058-naabu",
+      "commit": "d74d055f7e0e508c90670c46bb3e1bb16fd16c26",
+      "filename_probe_matches": 0,
+      "id": 58,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 1079,
+        "literal_git_blob": "b22968b6c36eb06b1dbd058aac75cac6143910f8",
+        "literal_sha256": "cbcdaab87df3175107aa28915bd253cebdd618a49c9ac5d6c669c0b1cbebcacb",
+        "path": "LICENSE.md",
+        "reported_detected_expression": "MIT",
+        "reported_effective_text_sha256": "cbcdaab87df3175107aa28915bd253cebdd618a49c9ac5d6c669c0b1cbebcacb"
+      },
+      "origin": "https://github.com/projectdiscovery/naabu.git",
+      "repository": "projectdiscovery/naabu",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "604cca3856289494b3949119b2fccf857bfd5507"
+    },
+    {
+      "catalog_path": "upstream/060-puredns",
+      "commit": "46bd4c963ec2b28c5241c03c161bdc41bb93fdc0",
+      "filename_probe_matches": 0,
+      "id": 60,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 35149,
+        "literal_git_blob": "f288702d2fa16d3cdf0035b15a9fcbc552cd88e7",
+        "literal_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+        "path": "LICENSE",
+        "reported_detected_expression": "GPL-3.0-only",
+        "reported_effective_text_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+      },
+      "origin": "https://github.com/d3mondev/puredns.git",
+      "repository": "d3mondev/puredns",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "d8876902753700be27a2f14f3c24cd73a89bc315"
+    },
+    {
+      "catalog_path": "upstream/061-massdns",
+      "commit": "30c380908b4f9afd0931d3d83f85884844831846",
+      "filename_probe_matches": 0,
+      "id": 61,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 35149,
+        "literal_git_blob": "f288702d2fa16d3cdf0035b15a9fcbc552cd88e7",
+        "literal_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+        "path": "LICENSE",
+        "reported_detected_expression": "GPL-3.0-only",
+        "reported_effective_text_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+      },
+      "origin": "https://github.com/blechschmidt/massdns.git",
+      "repository": "blechschmidt/massdns",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "269c14500d02a9f077bdef87ba35bf3065880a29"
+    },
+    {
+      "catalog_path": "upstream/062-seclists",
+      "commit": "64e7d0b910015fa4e8dffa9fed7aba7d73e4673d",
+      "filename_probe_matches": 0,
+      "id": 62,
+      "inspection": {
+        "limit": "List resources do not provide an independently verified report export."
+      },
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 1072,
+        "literal_git_blob": "fbd3be5da1b5c7363ab6d581e4cc6a22a8893683",
+        "literal_sha256": "3dbdc93d5f8829de0941744841730a09c106d0732e5ae0e98ca1d77be7ded66c",
+        "path": "LICENSE",
+        "reported_detected_expression": "MIT",
+        "reported_effective_text_sha256": "3dbdc93d5f8829de0941744841730a09c106d0732e5ae0e98ca1d77be7ded66c"
+      },
+      "origin": "https://github.com/danielmiessler/SecLists.git",
+      "repository": "danielmiessler/SecLists",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "bfb3554827d490aa650b84b88ff5a31ece7d6be4"
+    },
+    {
+      "catalog_path": "upstream/063-wafw00f",
+      "commit": "69fbe3956bba47a172cf87e40e9037535d32a130",
+      "filename_probe_matches": 0,
+      "id": 63,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 1499,
+        "literal_git_blob": "5c5388d59759c203b9b3127fe3d93b14cc72a161",
+        "literal_sha256": "fdaaf8393afcbab5a0db158ae742e76ec3803a7c72af19489f5bd521d3db08ea",
+        "path": "LICENSE",
+        "reported_detected_expression": "BSD-3-Clause",
+        "reported_effective_text_sha256": "fdaaf8393afcbab5a0db158ae742e76ec3803a7c72af19489f5bd521d3db08ea"
+      },
+      "origin": "https://github.com/EnableSecurity/wafw00f.git",
+      "repository": "EnableSecurity/wafw00f",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "4b7890e5c5e7161aa4b23983f532493101d611ac"
+    },
+    {
+      "catalog_path": "upstream/064-gau",
+      "commit": "4eabace309877abb231def9eeb27b96c07ed3635",
+      "filename_probe_matches": 0,
+      "id": 64,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 1067,
+        "literal_git_blob": "cec6e59e38b583cc8c23b4d95cb0689dec1c63d3",
+        "literal_sha256": "39b184e042356911974010b649be826eaf989be07376c439eddc89514f6f8398",
+        "path": "LICENSE",
+        "reported_detected_expression": "MIT",
+        "reported_effective_text_sha256": "39b184e042356911974010b649be826eaf989be07376c439eddc89514f6f8398"
+      },
+      "origin": "https://github.com/lc/gau.git",
+      "repository": "lc/gau",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "e94084ebbddf177296f142bee99381157be39f18"
+    },
+    {
+      "catalog_path": "upstream/068-http-request-smuggler",
+      "commit": "3ecb1afa6a1d21ef1ec4e6eb1337818b53a2b4c0",
+      "filename_probe_matches": 0,
+      "id": 68,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 624,
+        "literal_git_blob": "c9ca90c4e960200c9ea2d1e721f827a530b750ea",
+        "literal_sha256": "eb60261db1a05ab73cf7260d400c262323fbb9203e74743bb623abef78282caf",
+        "path": "LICENSE",
+        "reported_detected_expression": "Apache-2.0",
+        "reported_effective_text_sha256": "eb60261db1a05ab73cf7260d400c262323fbb9203e74743bb623abef78282caf"
+      },
+      "origin": "https://github.com/PortSwigger/http-request-smuggler.git",
+      "repository": "PortSwigger/http-request-smuggler",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "2bd13296edcc003c57cbb76bde77a482ca935e07"
+    },
+    {
+      "catalog_path": "upstream/070-inql",
+      "commit": "b1aae1502a1d2469f8d4160b88238dd450ba5982",
+      "filename_probe_matches": 0,
+      "id": 70,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 11343,
+        "literal_git_blob": "0e7613231fd706724591d84d9353925877d37ec2",
+        "literal_sha256": "ca19bbd5a55ceb239a41162124623fc77afd5d925f020cb08159a1405a881526",
+        "path": "LICENSE",
+        "reported_detected_expression": "Apache-2.0",
+        "reported_effective_text_sha256": "ca19bbd5a55ceb239a41162124623fc77afd5d925f020cb08159a1405a881526"
+      },
+      "origin": "https://github.com/doyensec/inql.git",
+      "repository": "doyensec/inql",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "0370fa4cdf524e438a83859be18550adbaeec46f"
+    },
+    {
+      "catalog_path": "upstream/071-jwt_tool",
+      "commit": "3bc7407cf2222d6a821dcc19c776e5a1b1cb9a9b",
+      "filename_probe_matches": 0,
+      "id": 71,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 35149,
+        "literal_git_blob": "f288702d2fa16d3cdf0035b15a9fcbc552cd88e7",
+        "literal_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+        "path": "LICENSE",
+        "reported_detected_expression": "GPL-3.0-only",
+        "reported_effective_text_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+      },
+      "origin": "https://github.com/ticarpi/jwt_tool.git",
+      "repository": "ticarpi/jwt_tool",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "f25c78654ba2cc5bbc5ca68c2fbc6de3027886be"
+    },
+    {
+      "catalog_path": "upstream/073-graphql-cop",
+      "commit": "2b7e086efae672f28b419c7fcdfe6b48d846c9dc",
+      "filename_probe_matches": 0,
+      "id": 73,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 1068,
+        "literal_git_blob": "b23c667883f536d61a381d0733da975cd2b515d2",
+        "literal_sha256": "9f24c99c1525bf9217c7931648d074a2544fd3f438bd8b048a516509a3808dbf",
+        "path": "LICENSE",
+        "reported_detected_expression": "MIT",
+        "reported_effective_text_sha256": "9f24c99c1525bf9217c7931648d074a2544fd3f438bd8b048a516509a3808dbf"
+      },
+      "origin": "https://github.com/dolevf/graphql-cop.git",
+      "repository": "dolevf/graphql-cop",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "259b62fce24e30be7de9fddb093cb86559248da9"
+    },
+    {
+      "catalog_path": "upstream/074-graphw00f",
+      "commit": "4901f824140a2da168876412593c213afbdd75fb",
+      "filename_probe_matches": 0,
+      "id": 74,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 1517,
+        "literal_git_blob": "5d6e0d998a84109361082bb80965b8072eede5a3",
+        "literal_sha256": "113ccdfc2e77f2d8fe690295b8caf020736781a0d0b23586230dba3076b49d72",
+        "path": "LICENSE",
+        "reported_detected_expression": "BSD-3-Clause",
+        "reported_effective_text_sha256": "113ccdfc2e77f2d8fe690295b8caf020736781a0d0b23586230dba3076b49d72"
+      },
+      "origin": "https://github.com/dolevf/graphw00f.git",
+      "repository": "dolevf/graphw00f",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "c26f4ebf9a1eb87648887da42a8e1d0f6b9c409c"
+    },
+    {
+      "catalog_path": "upstream/078-pacu",
+      "commit": "7dd34aa0856b2a964763a70be9dc9d78abc08a81",
+      "filename_probe_matches": 0,
+      "id": 78,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 1472,
+        "literal_git_blob": "934c52fa4c7c83ee8353fcb76db28a9ac1e5d293",
+        "literal_sha256": "00af8974d58dfdca2b81fbcd0f70f20ba1eeacd4682387010590aa0b435888a3",
+        "path": "LICENSE",
+        "reported_detected_expression": "BSD-3-Clause",
+        "reported_effective_text_sha256": "00af8974d58dfdca2b81fbcd0f70f20ba1eeacd4682387010590aa0b435888a3"
+      },
+      "origin": "https://github.com/RhinoSecurityLabs/pacu.git",
+      "repository": "RhinoSecurityLabs/pacu",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "d5d4c40e2e9fdebf45313bd1c26cce3633c8b445"
+    },
+    {
+      "catalog_path": "upstream/081-stratus-red-team",
+      "commit": "dea75a460718e632e90d98093f982b64f9e60c02",
+      "filename_probe_matches": 0,
+      "id": 81,
+      "inspection": {
+        "limit": "A report template is present. A populated, normalized report was not established."
+      },
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 11357,
+        "literal_git_blob": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+        "literal_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+        "path": "LICENSE",
+        "reported_detected_expression": "Apache-2.0",
+        "reported_effective_text_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      "origin": "https://github.com/DataDog/stratus-red-team.git",
+      "repository": "DataDog/stratus-red-team",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "70c9500b726f7c86faa8bc2b4822b139e29f62b0"
+    },
+    {
+      "catalog_path": "upstream/094-nettacker",
+      "commit": "6e04aa1f9cf29b35cae5ba1bb5043fd7b9b651b5",
+      "filename_probe_matches": 0,
+      "id": 94,
+      "inspection": {
+        "blob": "f02db08bf6d624fbb19db9f9c4f2d9e6f209c5f0",
+        "file": "nettacker/lib/compare_report/engine.py",
+        "limit": "Report comparison code exists. No independently bound pair of inert sample reports was established."
+      },
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 11357,
+        "literal_git_blob": "8dada3edaf50dbc082c9a125058f25def75e625a",
+        "literal_sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+        "path": "LICENSE",
+        "reported_detected_expression": "Apache-2.0",
+        "reported_effective_text_sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1"
+      },
+      "origin": "https://github.com/OWASP/Nettacker.git",
+      "repository": "OWASP/Nettacker",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "9f292b7896588241ac1fb54e69efd885e23b6a57"
+    },
+    {
+      "catalog_path": "upstream/097-frida",
+      "commit": "a93582c832d74de1eaa0ec59994365f6981368db",
+      "filename_probe_matches": 0,
+      "id": 97,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 2416,
+        "literal_git_blob": "b01d49c670e55dbff638eb294ac1a52416fb32e8",
+        "literal_sha256": "5ea1544b51a28bc823b03159190d4108f9fb4f4ef912389f5137c6d295e175b2",
+        "path": "COPYING",
+        "reported_detected_expression": "LGPL-2.0-or-later WITH WxWindows-exception-3.1 AND LicenseRef-scancode-other-copyleft",
+        "reported_effective_text_sha256": "5ea1544b51a28bc823b03159190d4108f9fb4f4ef912389f5137c6d295e175b2"
+      },
+      "origin": "https://github.com/frida/frida.git",
+      "repository": "frida/frida",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "92ddcfb1e2b6e8b2c20cfb49638c6b6c3069b9e3"
+    },
+    {
+      "catalog_path": "upstream/100-objection",
+      "commit": "3ef6f9bdcd64c6181a1b01eb11104b7204ec6308",
+      "filename_probe_matches": 0,
+      "id": 100,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 35147,
+        "literal_git_blob": "94a9ed024d3859793618152ea559a168bbcbb5e2",
+        "literal_sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+        "path": "LICENSE",
+        "reported_detected_expression": "GPL-3.0-only",
+        "reported_effective_text_sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+      },
+      "origin": "https://github.com/sensepost/objection.git",
+      "repository": "sensepost/objection",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "110a2d0aca62850a1f5fe5a80c353af6b7953988"
+    },
+    {
+      "catalog_path": "upstream/112-honggfuzz",
+      "commit": "940b958dfeb6f9131fd846cae31fcc0fe996ae98",
+      "filename_probe_matches": 0,
+      "id": 112,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 11358,
+        "literal_git_blob": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+        "literal_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "path": "COPYING",
+        "reported_detected_expression": "Apache-2.0",
+        "reported_effective_text_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "origin": "https://github.com/google/honggfuzz.git",
+      "repository": "google/honggfuzz",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "38c44afd67a3cbd77fe62fd5f15405b49a00cb3e"
+    },
+    {
+      "catalog_path": "upstream/113-jazzer",
+      "commit": "bdebf95c4de0154f7e6f1666a64d2b951b4a6861",
+      "filename_probe_matches": 0,
+      "id": 113,
+      "inspection": {
+        "blob": "7147deb9a386f2d7e2bb5764d9c9d60723dadabb",
+        "file": "examples/junit/pom.xml",
+        "limit": "JUnit build metadata is present. A generated JUnit result was not established."
+      },
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 11357,
+        "literal_git_blob": "8dada3edaf50dbc082c9a125058f25def75e625a",
+        "literal_sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+        "path": "LICENSE",
+        "reported_detected_expression": "Apache-2.0",
+        "reported_effective_text_sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1"
+      },
+      "origin": "https://github.com/CodeIntelligenceTesting/jazzer.git",
+      "repository": "CodeIntelligenceTesting/jazzer",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "5b18c6eb9f5812b22fc607952f5c54208474b64b"
+    },
+    {
+      "catalog_path": "upstream/114-atheris",
+      "commit": "e36da74cf42b5834c4e31d7cabb58d796695d29f",
+      "filename_probe_matches": 0,
+      "id": 114,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 11357,
+        "literal_git_blob": "7a4a3ea2424c09fbe48d455aed1eaa94d9124835",
+        "literal_sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+        "path": "LICENSE",
+        "reported_detected_expression": "Apache-2.0",
+        "reported_effective_text_sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd"
+      },
+      "origin": "https://github.com/google/atheris.git",
+      "pr119_operation": {
+        "field": "native_capability_receipt",
+        "group": "python_fuzz",
+        "query": "native-capabilities",
+        "receipt_sha256": "b827c54fd192506347f0f871fb068ac86606016dffba297219bfd15dec8bf1ff",
+        "report_sha256": "50f7cdcb8c76d5b5c02382b0d74594f8ce5e27cfdf66726862993f530b6d7426",
+        "repository": "google/atheris",
+        "role": "executable"
+      },
+      "repository": "google/atheris",
+      "status": "pr119_receipt_only_outside_current_producer",
+      "tree": "f5e4bebd2c0b39746f6b39b556343ce41519c1da"
+    },
+    {
+      "catalog_path": "upstream/118-polytracker",
+      "commit": "ae7b5f12e608f0c9a896cf1af797e4588c7624f9",
+      "filename_probe_matches": 0,
+      "id": 118,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 11344,
+        "literal_git_blob": "1e714f9106c39f73cc7f798b8cedf05fb9093e2b",
+        "literal_sha256": "e33b4ee7fa63ddd42b84a5a5cbc9c9a4a8ec95cc9826de2107f643f739bcdd1c",
+        "path": "LICENSE",
+        "reported_detected_expression": "Apache-2.0",
+        "reported_effective_text_sha256": "e33b4ee7fa63ddd42b84a5a5cbc9c9a4a8ec95cc9826de2107f643f739bcdd1c"
+      },
+      "origin": "https://github.com/trailofbits/polytracker.git",
+      "repository": "trailofbits/polytracker",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "6de579036eee1f6463b7a62fb32a1b6550e145f9"
+    },
+    {
+      "catalog_path": "upstream/119-clusterfuzzlite",
+      "commit": "52ecc61cb587ee99c26825a112a21abf19c7448c",
+      "filename_probe_matches": 0,
+      "id": 119,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 11357,
+        "literal_git_blob": "8dada3edaf50dbc082c9a125058f25def75e625a",
+        "literal_sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+        "path": "LICENSE",
+        "reported_detected_expression": "Apache-2.0",
+        "reported_effective_text_sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1"
+      },
+      "origin": "https://github.com/google/clusterfuzzlite.git",
+      "repository": "google/clusterfuzzlite",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "1beecb7003b9cd0fbabda7ca639cde32de02e068"
+    },
+    {
+      "catalog_path": "upstream/130-cutter",
+      "commit": "d885514bd8092776429a6ed5213b125c17092c77",
+      "filename_probe_matches": 0,
+      "id": 130,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 35148,
+        "literal_git_blob": "10926e87f113fb026c366866d6fa466061562870",
+        "literal_sha256": "0ae0485a5bd37a63e63603596417e4eb0e653334fa6c7f932ca3a0e85d4af227",
+        "path": "COPYING",
+        "reported_detected_expression": "GPL-3.0-only",
+        "reported_effective_text_sha256": "0ae0485a5bd37a63e63603596417e4eb0e653334fa6c7f932ca3a0e85d4af227"
+      },
+      "origin": "https://github.com/rizinorg/cutter.git",
+      "repository": "rizinorg/cutter",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "650cb2a670f580981560cab793d62c3b16042187"
+    },
+    {
+      "catalog_path": "upstream/170-bountybench",
+      "commit": "8ece6aab0b954f7c85b5705e69f0142eeaf2c5d1",
+      "filename_probe_matches": 0,
+      "id": 170,
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 11357,
+        "literal_git_blob": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+        "literal_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+        "path": "LICENSE",
+        "reported_detected_expression": "Apache-2.0",
+        "reported_effective_text_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      "origin": "https://github.com/bountybench/bountybench.git",
+      "repository": "bountybench/bountybench",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "95d4c4e95cd6ea1273fd2fb6ac4795ca4c3b2a90"
+    },
+    {
+      "catalog_path": "upstream/192-damn-vulnerable-defi",
+      "commit": "64fddf9f96de2782f8868898d68673acb295119c",
+      "filename_probe_matches": 0,
+      "id": 192,
+      "inspection": {
+        "blob": "b6cd78f7850c9c2427199996b9b9a095248fa38c",
+        "file": "test/withdrawal/withdrawals.json",
+        "limit": "The selected artifact is fixture input. A comparable exported report was not established."
+      },
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 1086,
+        "literal_git_blob": "1e8b1355d9db4b263a68f737607d7b52c49ea54b",
+        "literal_sha256": "ed4450f0d63ff98ad63473635714117a9bfa2ba1175768b0163f76c3f1425468",
+        "path": "LICENSE",
+        "reported_detected_expression": "MIT",
+        "reported_effective_text_sha256": "ed4450f0d63ff98ad63473635714117a9bfa2ba1175768b0163f76c3f1425468"
+      },
+      "origin": "https://github.com/theredguild/damn-vulnerable-defi.git",
+      "repository": "theredguild/damn-vulnerable-defi",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "9482e20d8214351c71ac19f68aa34e4342259391"
+    },
+    {
+      "catalog_path": "upstream/198-vulhub",
+      "commit": "9b90d4276f84feed6333286afeb7e1250379a1da",
+      "filename_probe_matches": 0,
+      "id": 198,
+      "inspection": {
+        "blob": "4e69a5004fb55ccac17d4dc4ab60924aece0a0bd",
+        "file": "tests/markdownlint.json",
+        "limit": "The selected file is documentation-lint configuration. It is not a result report."
+      },
+      "license_observation": {
+        "commercial_review": "pending",
+        "file_bytes": 1095,
+        "literal_git_blob": "5706865806404c056e27e9d76aef286e4ae64d7e",
+        "literal_sha256": "f65bfa9646e242e81fbe6bff210ec8e84ecadba249865abcae27b70fce6a7b38",
+        "path": "LICENSE",
+        "reported_detected_expression": "MIT",
+        "reported_effective_text_sha256": "f65bfa9646e242e81fbe6bff210ec8e84ecadba249865abcae27b70fce6a7b38"
+      },
+      "origin": "https://github.com/vulhub/vulhub.git",
+      "repository": "vulhub/vulhub",
+      "status": "no_functional_receipt_in_compared_profiles",
+      "tree": "d981e9872f35409c0422d8e76982ebde43fb79af"
+    }
+  ],
+  "schema_version": 1,
+  "scope": "All pending identities checked against both completed consolidated sessions. The earlier code-only review is preserved below; PR 119 was also checked at its published single-run 140 profile.",
+  "verification": {
+    "catalog_compared": 200,
+    "method": "Compared all catalog identities with both Git transcripts and the new component contract. For every pending row checked its superproject gitlink, checkout origin, HEAD and independently recomputed Git commit and tree object IDs.",
+    "new_contract_identities_outside_previous_profile": 3,
+    "pending_git_objects_verified": 43,
+    "pending_status_counts": {
+      "no_functional_receipt_in_compared_profiles": 35,
+      "pr119_receipt_only_outside_current_producer": 8
+    },
+    "previously_accepted": 154
+  }
+}

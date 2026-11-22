@@ -210,6 +210,7 @@ class ProductIndex:
         self.license_choices = None
         self.assurance_wheel_notices = None
         self.fork_headers = None
+        self.native_capabilities = None
         self.recursive_source_trees = None
         self.score_comparison = None
         self.owned_source_checks = None
@@ -217,6 +218,7 @@ class ProductIndex:
         self.root_declarations = None
         self.source_inventory = None
         self.source_references = None
+        self.component_controls = None
         self.header_digest = None
         self.geth_header = None
         self.census_header = None
@@ -225,6 +227,9 @@ class ProductIndex:
         self.citations = None
         self.notice_overlaps = None
         self.repos = {r['repository'].casefold(): r.copy() for r in report['repositories']}
+        if (len(self.repos) != len(report['repositories']) or
+                len({r['catalog_id'] for r in self.repos.values()}) != len(self.repos)):
+            raise EvidenceError('duplicate product repository identity or catalog ID')
         if supply:
             summary, identities = supply
             for identity in identities:
@@ -248,6 +253,10 @@ class ProductIndex:
 
     def lookup(self, query):
         key = query.strip().casefold()
+        if key == 'native-capabilities':
+            if self.native_capabilities is None:
+                raise EvidenceError('native capabilities require at least one native kit')
+            return self.native_capabilities
         if key.startswith('notice-overlaps:'):
             if self.notice_overlaps is None:
                 raise EvidenceError('notice overlaps require --pmd-release')
@@ -256,6 +265,10 @@ class ProductIndex:
             if self.citations is None:
                 raise EvidenceError('notice contexts require --notice-review-wheels')
             return self.citations.lookup(key.removeprefix('notice-context:'))
+        if key == 'component-controls':
+            if self.component_controls is None:
+                raise EvidenceError('this query requires --component-controls')
+            return self.component_controls
         if key == 'integration-matrix':
             from .product_matrix import build
             return build(self)
@@ -368,7 +381,12 @@ def main(argv):
     else:
         parser.add_argument('--bundle', type=Path, required=True)
         if command == 'query-product':
+            from .product_component_controls import DOMAINS
+            parser.add_argument('--control-source-root', type=Path, help='checkout root for the selected domain without preparing the extended profile')
+            parser.add_argument('--component-controls', choices=['all', *DOMAINS], help='run fixed local checks for the selected domain')
             parser.add_argument('--owned-source-kit', type=Path, help='evaluate fixed owned code and supply declarations')
+            from .product_native_capabilities import add_arguments
+            add_arguments(parser)
             parser.add_argument('--fork-headers', action='store_true', help='validate two fixed headers using client schedules and the Hive corpus')
             parser.add_argument('--gosec-kit', type=Path, help='review the fixed NQC header digest with the verified Go toolchain')
             parser.add_argument('--score-kit', type=Path, help='offline wheel sets for the two fixed evaluation engines')
@@ -434,6 +452,11 @@ def main(argv):
                     from .product_notices import collect
                     notices, public_files = collect(opts.notice_wheels, wheel_lock)
             index = ProductIndex(result, supply=supply, notices=notices)
+            from .product_native_capabilities import selected_kits
+            native_kits = selected_kits(opts)
+            if native_kits:
+                from .product_native_capabilities import attach as attach_native_capabilities
+                attach_native_capabilities(index, native_kits, allow_partial=True)
             if opts.census_header_kit:
                 from . import product_census_header
                 product_census_header.attach(index, opts.census_header_kit)
@@ -467,6 +490,12 @@ def main(argv):
             if opts.gosec_kit:
                 from . import product_header_digest
                 product_header_digest.attach(index, opts.source_references, opts.gosec_kit)
+            if opts.control_source_root and not opts.component_controls:
+                raise EvidenceError('--control-source-root requires --component-controls')
+            if opts.component_controls:
+                from . import product_component_controls
+                product_component_controls.attach(index, opts.control_source_root or opts.source_references,
+                                                  opts.component_controls, opts.score_kit)
             if opts.solidity_metadata_kit:
                 from . import product_solidity_headers
                 product_solidity_headers.attach(index, opts.solidity_metadata_kit)
@@ -630,6 +659,9 @@ def main(argv):
                 write_new_bundle(opts.export_notices, {**scan_files, 'notices.json': canonical(manifest)})
             from .product_notice_search import serve_queries
             serve_queries(index, opts.keys or sys.stdin, opts.qdrant, opts.haystack_wheels, search_files)
+            if (index.component_controls and index.component_controls['blocked'] or
+                    index.native_capabilities and index.native_capabilities.get('blocked_groups')):
+                return 2
         else:
             print(json.dumps({'status': result['status'], 'catalog_count': len(result['repositories']),
                               'native_tools': list(result['tools']), 'observations': len(result['packages']),

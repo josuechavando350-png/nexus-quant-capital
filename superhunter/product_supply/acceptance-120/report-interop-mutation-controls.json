@@ -1,0 +1,44 @@
+{
+  "all_new_controls_rejected": 4,
+  "baseline_identities": 154,
+  "baseline_operations": 164,
+  "cases": {
+    "altered_observation_with_unchanged_receipt": {
+      "mutated_transcript_sha256": "ebf81e557ecab73ce2129df8c07523ca4641202c6bbb4a02a4cd037d693d98f8",
+      "rejection": "individual component result differs from the shared evidence",
+      "repository": "AFLplusplus/AFLplusplus"
+    },
+    "coherently_omitted_entire_report_domain": {
+      "domain": "report-interop",
+      "mutated_transcript_sha256": "e309a3cc55fc91fff043a02398cbc13393a39d9eace39152183b792633d659e4",
+      "rejection": "incomplete consolidated session",
+      "removed": [
+        "AFLplusplus/AFLplusplus",
+        "MobSF/Mobile-Security-Framework-MobSF",
+        "aquasecurity/kube-bench",
+        "kubescape/kubescape",
+        "phpstan/phpstan",
+        "vimeo/psalm"
+      ],
+      "weaker_partial_operations": 158,
+      "weaker_partial_verification_identities": 148
+    },
+    "promoted_reference_in_both_indexes_and_totals": {
+      "mutated_transcript_sha256": "7589379bf87c490f8a3d54772b10d322a702e326ff4a251a14a31092b116dbaf",
+      "rejection": "matrix status differs from the original evidence",
+      "repository": "AFLplusplus/AFLplusplus"
+    },
+    "swapped_source_receipts": {
+      "mutated_transcript_sha256": "60f575762859c802b3a7707c967a7f1ead77267c486e991a2e9091b1de29285b",
+      "rejection": "component control row differs from the accepted result",
+      "repositories": [
+        "AFLplusplus/AFLplusplus",
+        "aquasecurity/kube-bench"
+      ]
+    }
+  },
+  "schema_version": 1,
+  "scope": "Four deliberate offline transcript alterations plus the original positive control. The partial-profile verifier accepts the self-consistent reduced transcript, while the exact profile rejects it.",
+  "transcript_sha256": "d0cea728fa6a8d58120227a2e803da1afb93313913c7b2268454fc7299cb1b78",
+  "verification_code_commit": "2577383ea0714f28eb6060d8bf645678f5f2f3fa"
+}

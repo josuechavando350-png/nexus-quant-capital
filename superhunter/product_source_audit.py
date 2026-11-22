@@ -1,5 +1,6 @@
 """Join immutable source-tree observations and document-level license evidence by catalog ID."""
 from collections import Counter, defaultdict
+from concurrent.futures import ThreadPoolExecutor
 import os
 import posixpath
 from pathlib import Path
@@ -149,8 +150,9 @@ def tree_inventory(folder, source):
     return result
 
 
-def license_inventory(folder, release):
-    from .product_licenses import scan
+def license_inventory(folder, release, *, scanner=None):
+    from contextlib import nullcontext
+    from .product_licenses import scan_session
     rows = sources()
     corpus = verified_corpus(folder, rows)
     # Repeated bytes require only one native scan. Keep a result for every identity.
@@ -159,40 +161,57 @@ def license_inventory(folder, release):
         by_hash.setdefault(sha(data), key)
     names = list(by_hash.values())
     results = {}
-    for start in range(0, len(names), 30):
-        batch = {n: corpus[n] for n in names[start:start + 30]}
-        results.update(scan(release, batch)['notices'])
+    with (scan_session(release) if scanner is None else nullcontext(scanner)) as scan_batch:
+        for start in range(0, len(names), 30):
+            batch = {n: corpus[n] for n in names[start:start + 30]}
+            results.update(scan_batch(batch)['notices'])
     return {r['id']: results[by_hash[sha(corpus[filename(r)])]] for r in rows}
 
 
-def inventory(root, notices=None, release=None):
-    verified = verify(root, require_checkout=True)
+def inventory(root, notices=None, release=None, jobs=4):
+    from contextlib import nullcontext
+    from .product_licenses import scan_session
+
+    verified = verify(root, require_checkout=True, jobs=jobs)
     checked = {s['catalog_id']: s for s in verified['sources']}
     catalog = sources()
-    remote = remote_trees(root, {r['id']: r for r in catalog if r['id'] not in checked})
-    licenses = license_inventory(notices, release) if notices is not None else {}
+    pending = {r['id']: r for r in catalog if r['id'] not in checked}
+    remote = remote_trees(root, pending) if pending else {}
+    local_rows = [row for row in catalog if row['id'] in checked]
+
+    def observe(row):
+        return row['id'], tree_inventory(root/checked[row['id']]['path'], row)
+
+    # Immutable trees can be observed independently. Collect every result before
+    # starting the license producer or publishing a complete catalog inventory.
+    if jobs == 1:
+        contents = dict(map(observe, local_rows))
+    else:
+        with ThreadPoolExecutor(max_workers=jobs) as pool:
+            contents = dict(pool.map(observe, local_rows))
     entries = []
-    for row in catalog:
-        number = row['id']
-        entry = {'id': number, 'github_id': row['github_id'], 'repository': row['repository'],
-                 'revision': row['revision'], 'notice_path': row['notice']['path']}
-        if number in checked:
-            item = checked[number]
-            entry.update(evidence='local_git_tree', tree=item['tree'],
-                         contents=tree_inventory(root/item['path'], row))
-        else:
-            entry.update(evidence='github_commit_metadata', tree=remote[number]['tree'], contents=None)
-        if licenses:
-            entry['notice_scan'] = licenses[number]
-            link = (entry['contents'] or {}).get('notice_link', {})
-            if link.get('status') == 'resolved':
-                from .product_licenses import scan
-                name = f'resolved-{number:03}.txt'
-                raw = git(root/checked[number]['path'], 'cat-file', 'blob', link['git_blob'])
-                if sha(raw) != link['sha256']:
-                    raise ValueError('resolved license bytes differ')
-                entry['resolved_notice_scan'] = scan(release, {name: raw})['notices'][name]
-        entries.append(entry)
+    with (scan_session(release) if notices is not None else nullcontext(None)) as scan_batch:
+        licenses = license_inventory(notices, release, scanner=scan_batch) if notices is not None else {}
+        for row in catalog:
+            number = row['id']
+            entry = {'id': number, 'github_id': row['github_id'], 'repository': row['repository'],
+                     'revision': row['revision'], 'notice_path': row['notice']['path']}
+            if number in checked:
+                item = checked[number]
+                entry.update(evidence='local_git_tree', tree=item['tree'],
+                             contents=contents[number])
+            else:
+                entry.update(evidence='github_commit_metadata', tree=remote[number]['tree'], contents=None)
+            if licenses:
+                entry['notice_scan'] = licenses[number]
+                link = (entry['contents'] or {}).get('notice_link', {})
+                if link.get('status') == 'resolved':
+                    name = f'resolved-{number:03}.txt'
+                    raw = git(root/checked[number]['path'], 'cat-file', 'blob', link['git_blob'])
+                    if sha(raw) != link['sha256']:
+                        raise ValueError('resolved license bytes differ')
+                    entry['resolved_notice_scan'] = scan_batch({name: raw})['notices'][name]
+            entries.append(entry)
     result = {'schema_version': 1, 'checkouts': len(checked), 'remote_commit_records': len(remote),
               'entries': entries, 'entries_sha256': sha(canonical(entries))}
     if licenses:
@@ -202,7 +221,7 @@ def inventory(root, notices=None, release=None):
 
 
 SNAPSHOT = 'superhunter/product_supply/source-inventory.json'
-SNAPSHOT_SHA = '9fe08694ea198e7872cc954a122fc4bdc4675996a5403cb7344822a89a3bfe3f'
+SNAPSHOT_SHA = '317543bf982e34f2674f616d2e46d37d87a3419bcf93a30d495e5def6503799c'
 NATURE = 'superhunter/product_supply/source-natures.json'
 NATURE_SHA = '5a6fb83a6f6df74992a6423da69db61d712d6fb480a86238775eede20a909212'
 

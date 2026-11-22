@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "native_runs": 2,
+  "byte_identical": true,
+  "report_sha256": "cec9330397a6545744161b20c1a9ac6c85a5ca91f558b27d4deb9317409188cb",
+  "sections_sha256": "f2f6b5f2d3894534cd66c9a4acc88fba5b066421a4d68dbf8fed635e688e10ba",
+  "second_run_seconds": 6.557015505000891,
+  "unit_tests": {
+    "passed": 13,
+    "failed": 0,
+    "skipped": 0
+  },
+  "engines_executed": [
+    "spotbugs/spotbugs",
+    "find-sec-bugs/find-sec-bugs"
+  ],
+  "controls": {
+    "native_baseline": "Three SpotBugs diagnostics on the owned unsafe class: two null-related records and one SQL construction record. The corrected class has zero diagnostics.",
+    "native_plugin": "FindSecBugs adds SQL_INJECTION_JDBC, CWE-89, while preserving every baseline diagnostic. The corrected class remains clean.",
+    "owned_witness": "The same compiled bytecode throws for the unsafe null dereference and inlines the owned input into SQL; the corrected bytecode returns safely and binds the input separately through a PreparedStatement proxy."
+  },
+  "distinct_owned_defects": 2,
+  "native_diagnostics_are_not_distinct_vulnerability_counts": true,
+  "database_connections_opened": 0,
+  "original_vulnerabilities_confirmed": 0,
+  "capability_limits": [
+    "Owned controls only; no scanner-wide precision or arbitrary-code safety claim.",
+    "Official Maven prebuilt artifacts are distinguished from catalog revisions. Checksums do not establish signed provenance or source reproducibility.",
+    "Runtime files come from the pinned official Debian package and preserve its copyright. Signed repository metadata verification, host shared-library closure, independent host validation, full upstream test suites and complete transitive license review remain outside this block."
+  ],
+  "runtime_reconstruction": {
+    "package_sha256": "7334a11777942862fa97f8d16f23a391f85e6c3a3fc8ea73e0cc30adc52c8299",
+    "host_runtime_used": false,
+    "same_functional_sections_as_previous_report": true,
+    "changed_report_fields": [
+      "pins_sha256"
+    ],
+    "fresh_runtime_staging_directories": 2,
+    "system_packages_installed": 0
+  }
+}

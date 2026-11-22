@@ -17,7 +17,7 @@ import tempfile
 
 from .safe_io import canonical, read_artifact, strict_json, write_new_bundle
 from .privacy import PrivateArgumentParser
-from . import owned_process, qa_inputs
+from . import acceptance_paths, owned_process, qa_inputs
 
 ROOT = Path(__file__).resolve().parent
 COMPONENTS = {'accounting': {'files': ['balance_reconciliation.py'],
@@ -293,6 +293,148 @@ PRODUCT_DATA_FILES = ('repositories_200.json', 'product_repository_identities.js
                       'product_supply/source-excerpts/token-types.txt')
 
 
+# Data consumed by the verified offline component checks and their evidence readers.
+PRODUCT_DATA_FILES += (
+    'product_supply/evm-native-build.json',
+    'product_supply/evm-native-npm-pins.json',
+    'product_supply/evm-native-result.json',
+    'product_supply/evm-native-whatsabi.txt',
+    'product_supply/native-acceptance-70.json',
+    'product_supply/native-capability-contracts.json',
+    'product_supply/native-capability-contracts-core-eight.json',
+    'product_supply/native-capability-contracts-accounting-nine.json',
+    'product_supply/native-capability-contracts-canonical-ten.json',
+    'product_supply/native-capability-contracts-grpc-eleven.json',
+    'product_html_review_worker.cjs',
+    'product_supply/html-review-dom.json',
+    'product_supply/html-review-driver-attestation.json',
+    'product_supply/html-review-markdown.md',
+    'product_supply/html-review-pins.json',
+    'product_supply/html-review-provenance.json',
+    'product_supply/html-review-result.json',
+    'product_supply/grpc-schema-native-binary-build.json',
+    'product_supply/grpc-schema-native-build-log.txt',
+    'product_supply/grpc-schema-native-build-script.txt',
+    'product_supply/grpc-schema-native-build.json',
+    'product_supply/grpc-schema-native-license.txt',
+    'product_supply/grpc-schema-native-owned.json',
+    'product_supply/grpc-schema-native-pins.json',
+    'product_supply/grpc-schema-native-product-session.json',
+    'product_supply/grpc-schema-native-provenance.json',
+    'product_supply/grpc-schema-native-rebuild.txt',
+    'product_supply/grpc-schema-native-receipt.json',
+    'product_supply/grpc-schema-native-result.json',
+    'product_supply/grpc-schema-native-sample.json',
+    'product_supply/grpc-schema-native-sources.json',
+    'product_supply/canonical-header-owned.txt',
+    'product_supply/canonical-header-result.json',
+    'product_supply/rlp-library-native-header-witness.json',
+    'product_supply/rlp-library-native-pins.json',
+    'product_supply/contract-properties-native-acceptance.json',
+    'product_supply/contract-properties-native-build.json',
+    'product_supply/contract-properties-native-owned.txt',
+    'product_supply/contract-properties-native-pins.json',
+    'product_supply/contract-properties-native-result.json',
+    'product_supply/native-kits-example.json',
+    'product_supply/secrets-native-build.json',
+    'product_supply/secrets-native-cases.json',
+    'product_supply/secrets-native-pins.json',
+    'product_supply/secrets-native-receipt.json',
+    'product_supply/secrets-native-release-metadata.json',
+    'product_supply/secrets-native-result.json',
+    'product_supply/secrets-native-samples.json',
+    'product_supply/slither-native-pins.json',
+    'product_supply/slither-native-result.json',
+    'product_supply/source-checkouts-200.json',
+    'product_supply/source-completion-200.json',
+    'product_supply/source-inventory-153.json',
+    'product_supply/source-inventory.json',
+    'product_supply/static-native-build.json',
+    'product_supply/static-native-capstone-helper.txt',
+    'product_supply/static-native-cases.json',
+    'product_supply/static-native-pins.json',
+    'product_supply/static-native-receipt.json',
+    'product_supply/static-native-result.json',
+    'product_supply/web-native-evidence.json',
+    'product_supply/web-native-linux-py312.txt',
+    'product_supply/web-native-review.json',
+    'product_supply/web-native-sources.json',
+    'product_supply/component-control-contracts-118.json',
+    'product_supply/component-control-contracts-through-html.json',
+    'product_supply/component-control-contracts-evidence-contracts.json',
+    'product_supply/component-control-contracts-supply-and-reporting.json',
+    'product_supply/component-control-contracts-report-interop.json',
+    'product_supply/component-control-contracts-99.json',
+    'product_supply/iam-native-evidence.json',
+    'product_supply/iam-native-linux-py312.txt',
+    'product_supply/iam-native-result.json',
+    'product_supply/iam-native-sample.json',
+    'product_supply/iam-native-sources.json',
+    'product_supply/java-native-build.json',
+    'product_supply/java-native-cases.json',
+    'product_supply/java-native-maven.json',
+    'product_supply/java-native-pins.json',
+    'product_supply/java-native-provenance.json',
+    'product_supply/java-native-rebuild.txt',
+    'product_supply/java-native-receipt.json',
+    'product_supply/java-native-result.json',
+    'product_supply/java-native-samples.json',
+    'product_supply/native-capability-contracts-70.json',
+    'product_supply/upgrades-native-build.json',
+    'product_supply/upgrades-native-npm-pins.json',
+    'product_supply/upgrades-native-owned.txt',
+    'product_supply/upgrades-native-provenance.json',
+    'product_supply/upgrades-native-receipt.json',
+    'product_supply/upgrades-native-result.json',
+    'product_supply/upgrades-native-worker.txt',
+    'product_supply/acceleration-product-replay.json', 'product_supply/attestations-batch-receipt.json',
+    'product_supply/census-state-amounts-acceptance.json', 'product_supply/census-state-amounts.go.txt',
+    'product_supply/change-review-linux-py312.txt', 'product_supply/clock-format-assets.json',
+    'product_supply/clock-format-provenance.json', 'product_supply/compile-abi-acceptance.json',
+    'product_supply/compile-abi-linux-py312.txt', 'product_supply/compile-abi-wheel-notices.json',
+    'product_supply/compile-layout-worker.mjs.txt', 'product_supply/component-control-contracts.json',
+    'product_supply/evaluation-batch-receipt.json', 'product_supply/evaluation-worker-node.txt',
+    'product_supply/fixed-clock-acceptance.json', 'product_supply/fixed-clock.mjs.txt',
+    'product_supply/fixed-opcodes-acceptance.json', 'product_supply/fixed-opcodes-node.mjs.txt',
+    'product_supply/fixed-opcodes-rust.rs.txt', 'product_supply/fixed-opcodes-solc.json',
+    'product_supply/formats-batch.json', 'product_supply/infra_batch_abi.json',
+    'product_supply/infra_batch_captures.json', 'product_supply/infra_batch_clock_driver.txt',
+    'product_supply/infra_batch_config.json', 'product_supply/infra_batch_journal_fixture.json',
+    'product_supply/infra_batch_journal_observed.json', 'product_supply/languages-batch.json',
+    'product_supply/owned-change-control.json', 'product_supply/passive-source-batch-receipt.json',
+    'product_supply/passive-source-excerpts/LICENSE-001.txt',
+    'product_supply/passive-source-excerpts/LICENSE-010.txt',
+    'product_supply/passive-source-excerpts/LICENSE-169.txt',
+    'product_supply/passive-source-excerpts/dalfox-severity.txt',
+    'product_supply/passive-source-excerpts/origins.json',
+    'product_supply/remediation-batch-receipt.json', 'product_supply/remediation-excerpts/GPL-2.txt',
+    'product_supply/remediation-excerpts/approved-files.txt',
+    'product_supply/remediation-excerpts/containment.txt',
+    'product_supply/remediation-excerpts/exact-redirect.txt',
+    'product_supply/remediation-excerpts/notice-194-license.txt',
+    'product_supply/remediation-excerpts/notice-195-copyright.txt',
+    'product_supply/remediation-excerpts/notice-195-license.txt',
+    'product_supply/remediation-excerpts/notice-197-copying.txt',
+    'product_supply/remediation-excerpts/origins.json',
+    'product_supply/source-materialization-observations.json',
+    'product_supply/source-materialization-review.json', 'product_supply/static-contracts.json',
+    'product_supply/trust-batch-receipt.json',
+)
+
+
+# Inputs read by the source/receipt verifiers and their matrix and supply regressions.
+PRODUCT_DATA_FILES += (
+    'INTEGRATION_STATUS_200.md', 'product_supply/acceptance-120/staged-source-acquisition.json',
+    'product_supply/acceptance-120/report-interop-nested-checkouts.json',
+    'product_supply/acceptance-120/evidence-contracts-nested-checkouts.json',
+    'product_supply/acceptance-120/pr119-140-vs-157.json',
+    'product_supply/catalog-commit-trees.json', 'product_supply/component-session-99.json',
+    'product_supply/fixed-cdxgen-guac-inputs.json', 'product_supply/geth-header-main.txt',
+    'product_supply/native-session-70.json', 'product_supply/review-117-session.json',
+    'product_supply/review-117.json', 'product_supply/source-natures.json',
+)
+
+
 def source_snapshot(root: Path = ROOT) -> dict[str, str]:
     """Capture executable package/test bytes and policy inputs; reject symlinks."""
     def scan_failed(error: OSError) -> None:
@@ -300,13 +442,14 @@ def source_snapshot(root: Path = ROOT) -> dict[str, str]:
 
     result = {}
     for base, dirs, files in os.walk(root, followlinks=False, onerror=scan_failed):
+        acceptance_paths.check_directory(Path(base).relative_to(root).as_posix(), dirs, files)
         dirs[:] = sorted(d for d in dirs if d != '__pycache__')
         for name in dirs:
             if (Path(base)/name).is_symlink():
                 raise ValueError('source directory symlink rejected')
         for name in sorted(files):
             rel = (Path(base)/name).relative_to(root).as_posix()
-            if name.endswith('.py') or rel in PRODUCT_DATA_FILES or rel in PORTFOLIO_DATA_FILES or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_accounting_capture_io_v2.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'requirements-otel-qa.txt', 'requirements-owned-slither.txt', 'research_initiatives.json'):
+            if name.endswith('.py') or rel in acceptance_paths.ALL_FILES or rel in PRODUCT_DATA_FILES or rel in PORTFOLIO_DATA_FILES or rel in ('tests/fixtures/compiler_variant_capture.json', 'tests/fixtures/evm_accounting_capture.json', 'tests/fixtures/evm_accounting_capture_io_v2.json', 'tests/fixtures/evm_state_capture.json', 'tests/fixtures/bytecode_native_capture.json', 'tests/fixtures/stateful_native_capture.json', 'capabilities.json', 'integration-checklist.json', 'integration_milestones.json', 'reconciliation-origins.json', 'requirements-local-lab.txt', 'requirements-custody.txt', 'requirements-owned-cross-evm.txt', 'requirements-owned-spec-evm.txt', 'requirements-otel-qa.txt', 'requirements-owned-slither.txt', 'research_initiatives.json'):
                 result[rel] = sha(read_artifact(root, rel))
                 if len(result) > 500:
                     raise ValueError('source inventory limit exceeded')
@@ -315,12 +458,20 @@ def source_snapshot(root: Path = ROOT) -> dict[str, str]:
     return dict(sorted(result.items()))
 
 
+def component_files(component, snapshot):
+    files = list(component['files'])
+    for group in component.get('optional_file_groups', ()):
+        if any(path in snapshot for path in group):
+            files.extend(group)
+    return files
+
+
 def validate_components(snapshot: dict, components: dict = COMPONENTS) -> list[str]:
     errors, owners = [], {}
     for name, item in components.items():
         if not item['files'] or not item['tests']:
             errors.append(f'{name}: empty component definition')
-        for path in item['files']:
+        for path in component_files(item, snapshot):
             if path not in snapshot:
                 errors.append(f'{name}: missing source {path}')
             if path in owners:
@@ -444,7 +595,7 @@ def assess(receipt: dict, snapshot: dict) -> dict:
     for name, component in COMPONENTS.items():
         assigned = assignments[name]
         checks[name] = {'status': 'TESTS_PASSED_LOCAL' if assigned and all(r['outcome']=='PASS' for r in assigned) else 'BLOCKED',
-                        'test_count': len(assigned), 'depends_on': component['depends'], 'files': component['files']}
+                        'test_count': len(assigned), 'depends_on': component['depends'], 'files': component_files(component, snapshot)}
         if not assigned:
             errors.append(name + ': no execution evidence')
     if unmapped:
@@ -1765,7 +1916,56 @@ REQUIRED_TESTS += (
 
 
 COMPONENTS['product_review'] = {
-    'files': [*PRODUCT_DATA_FILES,
+    'optional_file_groups': acceptance_paths.PATH_GROUPS,
+    'files': ['acceptance_paths.py', *PRODUCT_DATA_FILES,
+              'product_native_capabilities.py',
+              'product_evm_native.py',
+              'product_evm_native_worker.py',
+              'product_web_native.py',
+              'product_web_native_worker.py',
+              'product_static_native.py',
+              'product_slither_native.py',
+              'product_slither_native_worker.py',
+              'product_slither_native_network.py',
+              'product_secrets_native.py',
+              'tools/verify_native_session.py',
+              'product_evidence_codec.py',
+              'product_iam_native.py',
+              'product_iam_native_worker.py',
+              'product_java_native.py',
+              'product_contract_properties_native.py',
+              'product_canonical_header.py',
+              'product_grpc_schema_native.py',
+              'product_report_interop.py', 'product_report_quality_sources.py',
+              'product_report_privacy.py',
+              'product_report_taxonomy.py',
+              'product_coverage_interop.py',
+              'product_certificate_review.py',
+              'product_http_report_privacy.py',
+              'product_policy_report.py',
+              'product_manifest_resources.py',
+              'product_event_format.py',
+              'product_policy_catalog.py',
+              'product_development_manifest.py', 'product_dependency_attributions.py', 'product_report_accessibility.py',
+              'product_vendored_attributions.py',
+              'product_html_review.py',
+              'product_upgrade_layout_native.py',
+              'product_upgrade_layout_native_worker.py',
+              'infra_batch_config_worker.py', 'infra_batch_pcap_worker.py', 'passive_garak_sampling.py',
+              'passive_strix_locations.py', 'product_attestations_batch.py',
+              'product_build_compatibility.py', 'product_change_batch.py', 'product_change_worker.py',
+              'product_component_controls.py', 'product_config_batch.py', 'product_evaluation_batch.py',
+              'product_evaluation_worker.py', 'product_evm_standards_batch.py',
+              'product_formats_batch.py', 'product_infra_batch.py', 'product_infra_batch_pcap.py',
+              'product_languages_batch.py', 'product_passive_source_batch.py',
+              'product_remediation_batch.py', 'product_slot_formats_batch.py',
+              'product_state_formats_batch.py', 'product_static_contracts.py',
+              'product_supply/compile-abi-worker.py', 'product_timeline_formats.py',
+              'product_trust_batch.py', 'tools/prepare_build_compatibility_cache.py',
+              'tools/prepare_state_amount_reader.py', 'tools/rebuild_fixed_opcode_oracle.py',
+              'tools/verified_downloads.py', 'tools/verify_source_materialization.py',
+              'tools/verify_go_lock_integrity.py', 'tools/verify_staged_dependencies.py',
+
               'product_source_references.py', 'product_source_audit.py', 'product_remote_roots.py',
               'product_portable_roots.py', 'tools/pack_remote_inputs.py', 'product_header_digest.py',
               'product_fork_headers.py', 'tools/audit_tree_metadata.py', 'product_assurance_notices.py',
@@ -1786,7 +1986,47 @@ COMPONENTS['product_review'] = {
               'product_notice_search.py', 'product_notice_worker.py', 'product_licenses.py',
               'product_notices.py', 'product_guac.py', 'product_guac_worker.py', 'product_cdxgen.py',
               'product_census_graph.py', 'product_reasoning.py', 'product_review.py', 'product_supply_review.py'],
-    'tests': ['test_product_review.', 'test_product_supply.', 'test_product_catalog_session.', 'test_product_source_audit.'],
+    'tests': [
+              'test_product_native_capabilities.',
+              'test_product_evm_native.',
+              'test_product_web_native.',
+              'test_product_static_native.',
+              'test_product_slither_native.',
+              'test_product_secrets_native.',
+              'test_consolidated_evidence_verifier.',
+              'test_product_consolidated_operations.',
+              'test_product_evidence_codec.',
+              'test_product_iam_native.',
+              'test_product_java_native.',
+              'test_product_contract_properties_native.',
+              'test_product_canonical_header.',
+              'test_product_grpc_schema_native.',
+              'test_product_report_interop.',
+              'test_product_report_privacy.',
+              'test_product_report_taxonomy.',
+              'test_product_coverage_interop.',
+              'test_product_certificate_review.',
+              'test_product_http_report_privacy.',
+              'test_product_policy_report.',
+              'test_product_manifest_resources.',
+              'test_product_event_format.',
+              'test_product_policy_catalog.',
+              'test_product_development_manifest.', 'test_product_dependency_attributions.', 'test_product_report_accessibility.',
+              'test_product_vendored_attributions.',
+              'test_product_html_review.',
+              'test_product_upgrade_layout_native.',
+              'test_infra_batch_config.', 'test_infra_batch_journal.', 'test_infra_batch_pcap.',
+              'test_product_attestations_batch.', 'test_product_build_compatibility.',
+              'test_product_component_controls.', 'test_product_download_cache.',
+              'test_product_evaluation_batch.', 'test_product_evm_standards_batch.',
+              'test_product_formats_batch.', 'test_product_infra_batch.',
+              'test_product_inventory_parallel.', 'test_product_languages_batch.',
+              'test_product_license_session.', 'test_product_matrix_accounting.',
+              'test_product_passive_source_batch.', 'test_product_remediation_batch.',
+              'test_product_slot_formats_batch.', 'test_product_source_parallel.',
+              'test_product_state_formats_batch.', 'test_product_static_contracts.',
+              'test_product_trust_batch.', 'test_source_materialization.',
+              'test_product_review.', 'test_product_supply.', 'test_product_catalog_session.', 'test_product_source_audit.'],
     'depends': ['portfolio_inventory', 'bundle_recovery', 'owned_capture', 'privacy', 'io']}
 COMPONENTS['entrypoints']['depends'].append('product_review')
 REQUIRED_TESTS += (

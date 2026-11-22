@@ -94,6 +94,21 @@ El verificador reconstruye las relaciones esperadas desde los SBOM y coteja el d
 
 Los seis perfiles Python enumeran versiones. En estos SBOM del productor fijado, la verificación exige la raíz de aplicación propia del perfil, coteja cada referencia con su PURL y rechaza relaciones de dependencia explícitas que el manifiesto no acredita. Para Census se conserva el contraste del grafo con Cargo.lock y los manifiestos de los miembros.
 
+### Recuperar los dos inventarios del perfil publicado
+
+El [paquete de inventarios](product_supply/fixed-cdxgen-guac-inputs.json) conserva doce archivos, con sus tamaños y SHA-256. Los nueve de `cdx` contienen siete SBOM CycloneDX, el resumen y su marcador de integridad. Los tres de `guac` contienen la respuesta de dependencias, la comparación con esos siete SBOM y su marcador. En total son 106.246 bytes originales. La huella SHA-256 del paquete es `943ca6c8acc2612bc90951f02a88fc37ee1700c239891720812c401b0cd1fedc`.
+
+La receta de [cdxgen](product_cdxgen.py) usa la distribución 13.8.0 fijada por SHA-256 y los manifiestos NQC cotejados con el expediente de producto. Nueve propiedades del SBOM de Census conservan la misma ruta efímera de su compilación de inventario, generada con `TemporaryDirectory(prefix='nqc-cdxgen-')`. La receta de [GUAC](product_guac.py) identifica las dos distribuciones 1.1.0 por sus hashes, procesa esos siete documentos y conserva por separado las relaciones declaradas y heurísticas. Las versiones y huellas registradas se cotejaron con las fijaciones del código. Los bytes originales se seleccionaron de las dos entradas del perfil `native-inputs.json` que alimentaron al producto.
+
+Desde el repositorio, con Python 3.12 en Linux y un directorio padre ya existente:
+
+```sh
+python -B -m superhunter.tools.pack_remote_inputs --restore-inventory "$PWD/insumos-inventario"
+python -B -m superhunter.tools.pack_remote_inputs --check-inventory "$PWD/insumos-inventario"
+```
+
+En el JSON completo que recibe `catalog_session --native-inputs`, asignar `cdxgen-bundle` a la ruta absoluta de `insumos-inventario/cdx` y `guac-bundle` a la de `insumos-inventario/guac`. El comando `query-product` acepta esas rutas con `--cdxgen-bundle` y `--guac-bundle`. El lector valida el paquete y cada miembro y publica ambos directorios juntos en un destino nuevo. Esta recuperación permite repetir la lectura de los mismos bytes. Una nueva ejecución de los productores se acredita por separado con las recetas anteriores.
+
 ## Avisos públicos de las distribuciones Python
 
 Con las distribuciones de `superhunter/product_supply/wheels.txt` en un directorio local, se pueden consultar o exportar sus avisos desde la CLI. NQC comprueba el SHA-256 del wheel conforme al archivo de bloqueo vinculado al expediente de in-toto y comprueba nombre y versión en METADATA. Lee los archivos que nombra cada cabecera License-File. En los wheels antiguos sin esa cabecera busca los avisos LICENSE, COPYING y NOTICE del directorio dist-info.
@@ -313,3 +328,41 @@ PY
 La consulta `google/osv-scanner` indica qué identificadores observados por NQC reconoce el registro distribuido con OSV-Scanner 2.7.1. Conserva las fuentes de cada término y distingue un identificador local `LicenseRef` del marcador literal `unknown`. En esta instantánea, tres avisos contienen alguno de los dos identificadores locales que faltan en el registro.
 
 Agregar `--osv-license-cache /ruta/distribuciones` al comando anterior que abre el inventario de Dependency-Track. Colocar en esa carpeta el archivo oficial de fuentes de la etiqueta v2.7.1 como `osv-scanner-2.7.1.tar.gz` y el compilador oficial `go1.27.3.linux-amd64.tar.gz`. Los SHA-256 están en [product_spdx_ids.py](product_spdx_ids.py). La prueba compila los archivos originales de OSV-Scanner que implementan `spdx.Unrecognized` y su lista de identificadores. Ejecuta el test del proveedor y coteja la salida nativa con la lista publicada y con las fuentes del expediente. Puede reproducirse con la red deshabilitada. [Fuentes de OSV-Scanner](https://codeload.github.com/google/osv-scanner/tar.gz/refs/tags/v2.7.1) · [Distribución de Go](https://go.dev/dl/go1.27.3.linux-amd64.tar.gz).
+
+## Comparación de los 200 árboles de código fuente
+
+El producto compara cada repositorio con los otros 199. Con las fuentes inicializadas en el directorio `upstream/` de un checkout de NQC, el primer comando publica el recuento de las 19,900 parejas en JSON. El segundo consulta Cilium y Tetragon por sus ID del catálogo.
+
+```sh
+python3.12 -B -m superhunter product-sources --compare-sources .
+python3.12 -B -m superhunter product-sources --compare-sources . --pair 83 88
+```
+
+También se puede pasar la ruta de otro checkout que contenga los 200 proyectos. Una fuente ausente o una revisión distinta interrumpe el cálculo. La comparación comprueba el commit de cada proyecto y reconstruye sus objetos de árbol. Cuenta una sola vez por pareja cada identificador Git de archivo regular con contenido, aunque aparezca en varias rutas. Incluye archivos de código, documentación, licencias y dependencias distribuidas dentro del árbol. Omite archivos vacíos, enlaces simbólicos y el contenido de submódulos anidados. La coincidencia acredita contenido compartido en Git. La comunicación entre dos procesos requiere una prueba de ejecución propia.
+
+En las revisiones medidas, los árboles contienen 889,372 rutas de archivo regular. Hay coincidencias en 1,334 parejas y cero coincidencias en 18,566. Cilium y Tetragon comparten 6,972 identificadores distintos. La fila de cada proyecto conserva su commit, árbol y una lista ordenada de los recuentos con los ID posteriores. Un segundo cálculo, que agrupó cada identificador por los proyectos que lo contienen, reprodujo los 19,900 valores. [Resultados por pareja](product_supply/source-overlap-200.json)
+
+Al añadir `--compare-sources RUTA_DEL_CHECKOUT` a la sesión completa de `catalog_session --review-queries`, la salida incorpora dos respuestas al final. La primera contiene las comparaciones. La segunda identifica, para cada proyecto, qué vecinos comparten archivos y cuáles obtuvieron recibos en esa misma corrida. Las dos respuestas se unen por ID, nombre, commit y árbol.
+
+Para exigir los 200 recibos en una ejecución nueva, añadir `--require-all` a `catalog_session --review-queries`. La última respuesta enumera los participantes ausentes con sus ID y nombres. El proceso devuelve 1 si falta al menos uno, incluso si la comparación de los 200 árboles se completó.
+
+Este comando comprueba si los 200 proyectos tienen un recibo en el último expediente reproducido. Se ejecuta desde un clon con el historial del productor.
+
+```sh
+python3.12 -B -m superhunter.tools.render_product_matrix --require-all
+```
+
+El código de salida 0 indica participación completa, el 1 identifica un expediente válido con participantes pendientes y el 2 indica que la comprobación falló. La salida enumera cada proyecto pendiente. La participación admite tanto ejecución como consumo de una referencia.
+
+## Participación en la revisión de empaquetado
+
+La sesión completa ejecuta `--component-controls all` sobre los checkouts fijados y cruza las observaciones con el ID y la revisión de cada proyecto. El grupo `publication-policy` incorpora 40 referencias. Para 39 de ellas reproduce las reglas de Git en un directorio temporal con archivos ficticios. Compara la selección con y sin las reglas y comprueba tanto los archivos excluidos como los que pueden agregarse. En el proyecto restante comprueba cómo la receta de contenedor consume las dependencias declaradas. Una versión ausente queda identificada como tal. [Archivos fuente por proyecto y revisión](product_supply/publication-policy-inputs.json)
+
+Se puede ejecutar sólo este grupo desde un producto preparado. `NQC_BUNDLE` identifica su directorio de evidencia de producto y `NQC_CHECKOUT` el checkout con los 200 proyectos en `upstream/`.
+
+```sh
+python3.12 -B -m superhunter query-product --bundle "$NQC_BUNDLE" \
+  --control-source-root "$NQC_CHECKOUT" --component-controls publication-policy component-controls
+```
+
+En el perfil completo, `--require-all` comprueba los recibos de la misma corrida. Cada recibo indica el trabajo observado y si se ejecutó código del proyecto o se consumió una referencia. El resultado de empaquetado se limita a los ejemplos medidos. Un segundo control usó `git add --all` en índices nuevos y comprobó individualmente las 859 decisiones de las 39 políticas.
