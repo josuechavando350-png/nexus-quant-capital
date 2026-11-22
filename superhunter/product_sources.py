@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import stat
 import subprocess
 import sys
@@ -38,6 +39,17 @@ def gitlinks(root, ref='HEAD'):
             raise ValueError('unexpected regular file in the upstream Git tree')
         entries[path] = oid
     return entries
+
+
+def catalog_links(links):
+    """Project away only the extra toolkit links and only at their reviewed commits."""
+    projected = links.copy()
+    for tool in toolkit_sources():
+        path = tool['path']
+        if path in projected and not re.match(r'upstream/\d{3}-', path):
+            if projected.pop(path) != tool['commit']:
+                raise ValueError('toolkit revision differs: ' + path)
+    return projected
 
 
 def indexed_links(root):
@@ -167,6 +179,13 @@ def checked_out(root, row):
     return {**row, 'status': 'checked_out', 'tree': tree}
 
 
+def toolkit_sources():
+    raw = read_artifact(ROOT, 'superhunter/toolkit_sources.json')
+    if hashlib.sha256(raw).hexdigest() != '6b6b6ff02b3663ddf458208a87594920d2233dab88c80e03df41e54526c44e64':
+        raise ValueError('toolkit source list changed')
+    return json.loads(raw)
+
+
 def verify(root, require_checkout=False, jobs=4):
     if type(jobs) is not int or not 1 <= jobs <= 8:
         raise ValueError('jobs must be an integer between 1 and 8')
@@ -202,6 +221,17 @@ def verify(root, require_checkout=False, jobs=4):
             raise ValueError('unexpected submodule symlink: ' + path)
         row = {'catalog_id': number, 'repository': name, 'path': path, 'commit': revision, 'status': 'pinned'}
         rows.append(row)
+    # The original 200-row inventory keeps its published IDs and return shape.
+    # A separate command consumes the toolkit profile, which shares direct Git links with the catalog.
+    declared_catalog = ''.join(declarations).encode()
+    if manifest != declared_catalog:
+        for tool in toolkit_sources():
+            path = tool['path']
+            if path in targets:
+                if targets.pop(path) != tool['commit']:
+                    raise ValueError('toolkit revision differs: ' + path)
+                declarations.append(f'[submodule "{path}"]\n\tpath = {path}\n'
+                                    f'\turl = https://github.com/{tool["repository"]}.git\n\tshallow = true\n')
     if targets or ''.join(declarations).encode() != manifest or len(rows) != 200:
         raise ValueError('catalog, committed gitlinks and manifest must describe the same 200 repositories')
     # Structural checks above finish before any checkout worker starts. map retains

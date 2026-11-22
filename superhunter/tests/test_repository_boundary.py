@@ -216,7 +216,9 @@ class RepositoryBoundaryTests(unittest.TestCase):
 
 class ExternalSourceTests(unittest.TestCase):
     def test_full_manifest_matches_all_reviewed_paths(self):
-        self.assertEqual(len(boundary._upstream_leaves(SOURCE)), 200)
+        leaves = boundary._upstream_leaves(SOURCE)
+        self.assertEqual(len(leaves), 213)
+        self.assertTrue({'012-foundry', 'slitherin', 'solodit_content'} <= leaves)
 
     def test_only_declared_directories_are_external(self):
         with tempfile.TemporaryDirectory() as temp:

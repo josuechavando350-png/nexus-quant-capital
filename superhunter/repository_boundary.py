@@ -25,7 +25,7 @@ HISTORICAL_TREES = {
     'nqc-census':'68dbd045014a49bd53b79440d9878f3e8035c739',
 }
 ROOT_FILES = {
-    '.gitmodules':'d2d602ef33c5c2c77b7fb5a1a240ae9061f3f5b5',
+    '.gitmodules':'413332ae88ec77ec84817d856b406e278cebb73b',
     '.gitignore':'7518f5529fe0b23ea9195c5e3c4a1099a9e05d08',
     'AGENTS.md':'6c2fe3771bad272bb1839aabc2b45ef636a16531',
     'README.md':'2d620f813efdfa3c146fc7e17dd39f5ca11132c5',
@@ -69,6 +69,12 @@ def _root_policy_matches(name: str, raw: bytes, wanted: str) -> bool:
             hashlib.sha256(raw[AGENTS_ORIGINAL_BYTES:]).hexdigest() == AGENTS_APPENDIX_SHA256)
 
 
+TOOLKIT_FIXTURES = {
+    'superhunter/toolkit_4naly3er.cjs': '2c0fedd4e18ebc9510089e253c9f1d69fafd868927993803633fbb985e430d1b',
+    'superhunter/toolkit_operator.sol': 'cdf8a060555679969753568cfdd5e4c9e2bc86dd3a2b6444d12b81171106bfd8',
+}
+
+
 def _file_stamp(info) -> tuple:
     # Reading may change atime. Compare object identity and mutation metadata,
     # not access time; these observations do not authenticate a hostile host.
@@ -90,7 +96,7 @@ def _upstream_leaves(root: Path) -> set[str]:
     except (OSError, ValueError) as exc:
         raise BoundaryError('ROOT_POLICY_CHANGED') from exc
     need(git_object('blob', raw) == ROOT_FILES['.gitmodules'], 'ROOT_POLICY_CHANGED')
-    return set(re.findall(r'^\tpath = upstream/([0-9]{3}-[a-z0-9_.-]+)$', raw.decode(), re.M))
+    return set(re.findall(r'^\tpath = upstream/([a-z0-9_.-]+)$', raw.decode(), re.M))
 
 
 def _capture(root: Path) -> tuple[dict, int]:
@@ -205,6 +211,9 @@ def _review_captured(files: dict, ignored: int) -> dict:
             if path == HTML_REVIEW_WORKER:
                 need(hashlib.sha256(item['bytes']).hexdigest() == HTML_REVIEW_WORKER_SHA256,
                      'REVIEWED_WORKER_CHANGED')
+            elif path in TOOLKIT_FIXTURES:
+                need(hashlib.sha256(item['bytes']).hexdigest() == TOOLKIT_FIXTURES[path],
+                     'TOOLKIT_FIXTURE_CHANGED')
             else:
                 need(Path(path).suffix in SOURCE_SUFFIXES or path == 'superhunter/.gitignore',
                      'UNREVIEWED_SUPERHUNTER_PAYLOAD')

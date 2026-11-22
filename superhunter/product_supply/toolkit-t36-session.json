@@ -1,0 +1,676 @@
+{
+  "compiler_evidence": {
+    "code_lines": 385,
+    "function_names": [
+      "_acquire",
+      "_balanceOf",
+      "_executeStrategy",
+      "_forceApprove",
+      "_markRepaid",
+      "_runCallback",
+      "_safeTransfer",
+      "_validatePlan",
+      "_verifyCallbackEnvelope",
+      "approve",
+      "balanceOf",
+      "execute",
+      "executeFunded",
+      "executeOperation",
+      "flashLoan",
+      "flashLoanSimple",
+      "receiveFlashLoan",
+      "transfer"
+    ],
+    "grammar_functions": 18,
+    "instructions": 6517,
+    "mapped_to_source": 3551,
+    "method_selectors": {
+      "consumedExecutionIdentity(bytes32)": "6a469906",
+      "execute((uint256,uint256,bytes32,bytes32,bytes32,uint256,address,uint256,uint256,bytes32,(uint8,address,uint256,uint256,bytes32,bytes32)[]),bytes)": "e98314ea",
+      "executeOperation(address,uint256,uint256,address,bytes)": "1b11d0ff",
+      "operator()": "570ca735",
+      "receiveFlashLoan(address[],uint256[],uint256[],bytes)": "f04f2707",
+      "strategyExecutor()": "5731d3b7"
+    },
+    "opcode_counts": {
+      "ADD": 570,
+      "ADDRESS": 4,
+      "AND": 92,
+      "CALL": 6,
+      "CALLDATACOPY": 5,
+      "CALLDATALOAD": 90,
+      "CALLDATASIZE": 13,
+      "CALLER": 5,
+      "CALLVALUE": 1,
+      "CHAINID": 2,
+      "DIV": 3,
+      "DUP1": 251,
+      "DUP10": 24,
+      "DUP11": 19,
+      "DUP12": 8,
+      "DUP13": 5,
+      "DUP14": 4,
+      "DUP15": 2,
+      "DUP2": 330,
+      "DUP3": 241,
+      "DUP4": 153,
+      "DUP5": 92,
+      "DUP6": 61,
+      "DUP7": 48,
+      "DUP8": 39,
+      "DUP9": 32,
+      "EQ": 45,
+      "EXP": 1,
+      "EXTCODESIZE": 2,
+      "GAS": 7,
+      "GT": 34,
+      "ISZERO": 114,
+      "JUMP": 250,
+      "JUMPDEST": 349,
+      "JUMPI": 178,
+      "LOG3": 1,
+      "LOG4": 1,
+      "LT": 41,
+      "MLOAD": 265,
+      "MSTORE": 295,
+      "MUL": 26,
+      "NOT": 5,
+      "NUMBER": 2,
+      "OR": 12,
+      "POP": 338,
+      "PUSH0": 191,
+      "PUSH1": 684,
+      "PUSH2": 577,
+      "PUSH20": 40,
+      "PUSH28": 3,
+      "PUSH32": 89,
+      "PUSH4": 13,
+      "PUSH8": 14,
+      "RETURN": 1,
+      "RETURNDATACOPY": 7,
+      "RETURNDATASIZE": 22,
+      "REVERT": 69,
+      "SGT": 3,
+      "SHA3": 9,
+      "SHL": 5,
+      "SHR": 2,
+      "SLOAD": 32,
+      "SLT": 18,
+      "SSTORE": 19,
+      "STATICCALL": 1,
+      "STOP": 1,
+      "SUB": 60,
+      "SWAP1": 277,
+      "SWAP10": 4,
+      "SWAP11": 2,
+      "SWAP12": 1,
+      "SWAP13": 1,
+      "SWAP2": 165,
+      "SWAP3": 66,
+      "SWAP4": 21,
+      "SWAP5": 21,
+      "SWAP6": 8,
+      "SWAP7": 15,
+      "SWAP8": 6,
+      "SWAP9": 4
+    }
+  },
+  "current_repositories": 20,
+  "execution": {
+    "aderyn_archive_sha256": "ffd6ca658962e211a3ac821c646f69c8e14bf1b1001cbfe091bcd4535a691e46",
+    "baseline_exit_code": 0,
+    "forge_baseline": {
+      "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testDuplicateLenderRejected()": "Success",
+      "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testExecutionIdentityCannotReplay()": "Success",
+      "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testNestedAaveBalancerFundingRepaysInReverseAndPreservesBaseline()": "Success",
+      "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testObservedAaveFeeMustEqualPlanFee()": "Success",
+      "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testObservedBalancerFeeMustEqualPlanFee()": "Success",
+      "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testPayloadMutationIsRejectedBeforeBorrowing()": "Success",
+      "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testPreexistingExecutorBalanceCannotSubsidizeMissingFeeOrProfit()": "Success",
+      "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testStrategyReturnDeclarationMustMatchObservedBalance()": "Success",
+      "test/OperatorProperty.sol:OperatorProperty/testConfiguredOperator()": "Success"
+    },
+    "gambit": {
+      "detected": true,
+      "failing_tests": [
+        "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testExecutionIdentityCannotReplay()",
+        "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testNestedAaveBalancerFundingRepaysInReverseAndPreservesBaseline()",
+        "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testObservedAaveFeeMustEqualPlanFee()",
+        "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testObservedBalancerFeeMustEqualPlanFee()",
+        "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testPreexistingExecutorBalanceCannotSubsidizeMissingFeeOrProfit()",
+        "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testStrategyReturnDeclarationMustMatchObservedBalance()"
+      ],
+      "generated": 1
+    },
+    "native_analyzer_strict_exit_code": 0,
+    "network": "disabled",
+    "offline_checks": {
+      "fresh_setup_strict_exit_code": 0,
+      "historical_isolation_tests_passed": 9,
+      "product_tests_passed": 490,
+      "query_responses": 24,
+      "session_sha256_canonical_json": "b959774d2e7f50a9f3d1059b9a704ad3fecf5ee0b69330182e8de4d8a945c740",
+      "tests_skipped": 0,
+      "toolkit_tests_passed": 10
+    },
+    "query_product_exit_code": 0
+  },
+  "historical_operation_count": 210,
+  "historical_repositories": 200,
+  "historical_transcript_sha256": "6b557f83f23bf8c419bbb32c4965e48e3da1178a6cb64fc0c8515e2359f8d962",
+  "native_analyzers": {
+    "completed": [
+      "aderyn",
+      "semgrep",
+      "slither",
+      "slitherin"
+    ],
+    "unavailable": []
+  },
+  "overlapping_repositories": 8,
+  "participants": [
+    {
+      "catalog_id": 12,
+      "repository": "foundry-rs/foundry",
+      "toolkit": {
+        "binary_release": {
+          "asset": "foundry_v1.10.0_linux_amd64.tar.gz",
+          "sha256": "90729233bd9a683b872783ae2e3217fb56876fa2a3c37185f13e39dca8525041",
+          "tag": "v1.10.0"
+        },
+        "commit": "20ccce88eeb5d4d78ed0662699706d6b021a692c",
+        "operation": "run T36 regression suite",
+        "repository": "foundry-rs/foundry",
+        "result": {
+          "tests_passed": 9
+        },
+        "role": "engine",
+        "source_path": "upstream/012-foundry",
+        "tree": "44eff949bbba73fb15e5e069c34c82047d15ee1c"
+      }
+    },
+    {
+      "catalog_id": 13,
+      "repository": "crytic/slither",
+      "toolkit": {
+        "commit": "97c1d10d8107e76a9426dd484c03c1afd846c186",
+        "operation": "calculate ABI selectors and compare against solc; execute native checks on T36",
+        "repository": "crytic/slither",
+        "result": {
+          "native": {
+            "detectors": {
+              "cyclomatic-complexity": 1,
+              "low-level-calls": 2,
+              "reentrancy-benign": 3,
+              "reentrancy-events": 3,
+              "reentrancy-no-eth": 2,
+              "uninitialized-local": 1
+            },
+            "detectors_run": 101
+          },
+          "selectors": 6
+        },
+        "role": "engine",
+        "source_path": "upstream/013-slither",
+        "tree": "5843660435f2500877eebddb778858c635b286b3"
+      }
+    },
+    {
+      "catalog_id": 14,
+      "repository": "crytic/echidna",
+      "toolkit": {
+        "binary_release": {
+          "asset": "echidna-2.4.0-x86_64-linux.tar.gz",
+          "sha256": "a77a90501dd6269e12807156e9d409b160ce0c87fbb36fe323a896a4fb7a2d1d",
+          "tag": "v2.4.0"
+        },
+        "commit": "fb0fd78b9c3c46ac4127279da2313e727a66e5ad",
+        "operation": "check constructor roles with a fixed seed",
+        "repository": "crytic/echidna",
+        "result": {
+          "calls": 64,
+          "property": "property_configuredOperator",
+          "seed": 1
+        },
+        "role": "engine",
+        "source_path": "upstream/014-echidna",
+        "tree": "ca9bb0ad3ec757234434d5bdba96465c85f64cc0"
+      }
+    },
+    {
+      "aliases": [
+        "Ackee-Blockchain/wake"
+      ],
+      "catalog_id": 15,
+      "repository": "ack3-ai/wake",
+      "toolkit": {
+        "commit": "237d0b02e09e0d6bfc5a6ce06cf5e52db04c643b",
+        "operation": "generate bounded T36 balance-conservation cases for Forge",
+        "repository": "Ackee-Blockchain/wake",
+        "result": {
+          "assertions_per_case": 5,
+          "cases_sha256": "ca45a25ff709497145db898bc830b04d240cbe2e6790405edc3631119a9b3346",
+          "failed_on_gambit_variant": 18,
+          "passed": 18,
+          "seed": 36020
+        },
+        "role": "library",
+        "source_path": "upstream/015-wake",
+        "tree": "d19210d6a01de3e8d81aab38bf34350bc45da33f"
+      }
+    },
+    {
+      "catalog_id": 16,
+      "repository": "crytic/medusa",
+      "toolkit": {
+        "binary_release": {
+          "asset": "medusa-linux-x64.tar.gz",
+          "sha256": "ddfe1517ae9028ef9fc331b00f5a6a9d5406f3fcd11a715d60c6b6fb3e4546d3",
+          "tag": "v1.5.1"
+        },
+        "commit": "b86c3bbafb9e80f7dcb09533006ecb15dbbbdc98",
+        "operation": "check operator and strategy roles",
+        "repository": "crytic/medusa",
+        "result": {
+          "property": "OperatorProperty.property_configuredOperator()"
+        },
+        "role": "engine",
+        "source_path": "upstream/016-medusa",
+        "tree": "0660676752139dbb394752c24e5e422c918cce6b"
+      }
+    },
+    {
+      "catalog_id": 18,
+      "repository": "crytic/properties",
+      "toolkit": {
+        "commit": "5ea14b813ff296e24b4257ab52a0402360f916f6",
+        "operation": "assert constructor roles in Forge",
+        "repository": "crytic/properties",
+        "result": {
+          "property": "OperatorProperty.property_configuredOperator()"
+        },
+        "role": "library",
+        "source_path": "upstream/018-properties",
+        "tree": "88b58427b24f127712ecd9c527db6f18a752ad6b"
+      }
+    },
+    {
+      "aliases": [
+        "ethereum/solidity"
+      ],
+      "catalog_id": 35,
+      "repository": "argotorg/solidity",
+      "toolkit": {
+        "binary_release": {
+          "asset": "solc-static-linux",
+          "sha256": "fb03a29a517452b9f12bcf459ef37d0a543765bb3bbc911e70a87d6a37c30d5f",
+          "tag": "v0.8.24"
+        },
+        "commit": "bc24c77fb97afa3a42955a3762f88dac2ee65170",
+        "operation": "compile T36 and prove its plan length bound",
+        "repository": "ethereum/solidity",
+        "result": {
+          "constant": "uint256 internal constant MAX_LEGS = 4",
+          "engine": "CHC/Z3",
+          "guard": "length == 0 || length > MAX_LEGS",
+          "property": "Every admitted plan length is between 1 and 4"
+        },
+        "role": "engine",
+        "source_path": "upstream/solidity",
+        "tree": "b924e24a2549d89e2caee12e915a5b4953251d7c"
+      }
+    },
+    {
+      "catalog_id": 191,
+      "repository": "crytic/building-secure-contracts",
+      "toolkit": {
+        "commit": "0e679905ce336d81b1eade9cfe924011e9073339",
+        "operation": "select controls for token integration review",
+        "repository": "crytic/building-secure-contracts",
+        "result": [
+          {
+            "line": 48,
+            "text": "`Transfer` and `transferFrom` return a boolean."
+          },
+          {
+            "line": 61,
+            "text": "The token is not an ERC777 token and has no external function call in `transfer` or `transferFrom`."
+          },
+          {
+            "line": 62,
+            "text": "`Transfer` and `transferFrom` should not take a fee."
+          },
+          {
+            "line": 72,
+            "text": "Users understand the risks associated with large funds or flash loans."
+          },
+          {
+            "line": 73,
+            "text": "The token does not allow flash minting."
+          }
+        ],
+        "role": "reference_data",
+        "source_path": "upstream/191-building-secure-contracts",
+        "tree": "339409ea985f68c9473e50006235d99e544f6834"
+      }
+    },
+    {
+      "repository": "Certora/gambit",
+      "toolkit": {
+        "binary_release": {
+          "asset": "gambit-linux-v1.0.6",
+          "sha256": "76321d84564ff4d8222bfb359f1fe67eae69f21e689dbc9c23760257a94864fa",
+          "tag": "v1.0.6"
+        },
+        "commit": "072ff4c6d747397f859e0a15a20fe1ff05672332",
+        "operation": "mutate the plan validator and rerun Forge",
+        "repository": "Certora/gambit",
+        "result": {
+          "detected": true,
+          "failing_tests": [
+            "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testExecutionIdentityCannotReplay()",
+            "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testNestedAaveBalancerFundingRepaysInReverseAndPreservesBaseline()",
+            "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testObservedAaveFeeMustEqualPlanFee()",
+            "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testObservedBalancerFeeMustEqualPlanFee()",
+            "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testPreexistingExecutorBalanceCannotSubsidizeMissingFeeOrProfit()",
+            "test/NqcFlashFundingExecutor.t.sol:NqcFlashFundingExecutorTest/testStrategyReturnDeclarationMustMatchObservedBalance()"
+          ],
+          "generated": 1
+        },
+        "role": "engine",
+        "source_path": "upstream/gambit",
+        "tree": "c7f992c7743d7bc626de85106aa01806945dba22"
+      }
+    },
+    {
+      "repository": "Picodes/4naly3er",
+      "toolkit": {
+        "commit": "8a9d1ebb7d362bc94f036fa9123d0977c6cb7436",
+        "operation": "apply upstream rules to the compiler AST",
+        "repository": "Picodes/4naly3er",
+        "result": {
+          "groups": 29
+        },
+        "role": "library",
+        "source_path": "upstream/4naly3er",
+        "tree": "59c837c76d76ea94cb141f5208011f6269fc83a7"
+      }
+    },
+    {
+      "repository": "a16z/halmos",
+      "toolkit": {
+        "commit": "079bb4241d1b460baf986257d56ea86977d73451",
+        "operation": "resolve the same selectors to contract AST names",
+        "repository": "a16z/halmos",
+        "result": {
+          "mapped": 6
+        },
+        "role": "library",
+        "source_path": "upstream/halmos",
+        "tree": "ba8e4db110d6827163bd994e06ba53fec6f21adf"
+      }
+    },
+    {
+      "repository": "trailofbits/manticore",
+      "toolkit": {
+        "commit": "cdf6c4b49603cc1d70a09cabe74e0f786df1e13f",
+        "operation": "parse ABI input tuples before selector reconciliation",
+        "repository": "trailofbits/manticore",
+        "result": {
+          "parsed": 6
+        },
+        "role": "library",
+        "source_path": "upstream/manticore",
+        "tree": "4c30639beb3264155cd57fcd2c8a6c11cc246201"
+      }
+    },
+    {
+      "repository": "Cyfrin/aderyn",
+      "toolkit": {
+        "commit": "a902831fcb31a83e97c62e0b7c3a2794f2f2f9a2",
+        "operation": "tokenize source and count code lines; execute native checks on T36",
+        "repository": "Cyfrin/aderyn",
+        "result": {
+          "code_lines": 385,
+          "native": {
+            "detectors_run": 88,
+            "high": {},
+            "low": {
+              "push-zero-opcode": 1,
+              "require-revert-in-loop": 1,
+              "uninitialized-local-variable": 1,
+              "unsafe-erc20-operation": 1,
+              "unspecific-solidity-pragma": 1
+            },
+            "scanned": "NqcFlashFundingExecutor.sol",
+            "version": "aderyn 0.6.8"
+          },
+          "upstream_stats_tests_passed": 2
+        },
+        "role": "engine",
+        "source_path": "upstream/aderyn",
+        "tree": "e0bae4d918f15ad5e4c6b5f5d5ef43f6a84a7eea"
+      }
+    },
+    {
+      "repository": "semgrep/semgrep",
+      "toolkit": {
+        "commit": "c4dbe9ee2fc6d0022ba02ef6b97c5954ed9549e3",
+        "operation": "parse Solidity and compare function declarations to solc; execute native checks on T36",
+        "repository": "semgrep/semgrep",
+        "result": {
+          "functions": 18,
+          "native": {
+            "checks": {
+              "nqc-token-call-review": 3
+            },
+            "errors": 0,
+            "scanned": "NqcFlashFundingExecutor.sol",
+            "verified_lines": [
+              415,
+              424,
+              431
+            ],
+            "version": "1.169.0"
+          }
+        },
+        "role": "engine",
+        "source_path": "upstream/semgrep",
+        "tree": "84fe9a137b5bda99e7e95ecd4a8f8e6cdcdcb461"
+      }
+    },
+    {
+      "repository": "fuzzland/ityfuzz",
+      "toolkit": {
+        "commit": "80e3b44170573b592cd53b2c5ee9f36b21032b16",
+        "operation": "enumerate local runtime bytecode instruction boundaries",
+        "repository": "fuzzland/ityfuzz",
+        "result": {
+          "instructions": 6517
+        },
+        "role": "library",
+        "source_path": "upstream/ityfuzz",
+        "tree": "6ca78c1d40716dadeffdbd8a59e0cc7b320a1d7f"
+      }
+    },
+    {
+      "repository": "Consensys/mythril",
+      "toolkit": {
+        "commit": "125914a6eae81a79a089696e1f47ac8cc4b3a180",
+        "operation": "classify opcodes at the enumerated boundaries",
+        "repository": "Consensys/mythril",
+        "result": {
+          "frequencies": {
+            "ADD": 570,
+            "ADDRESS": 4,
+            "AND": 92,
+            "CALL": 6,
+            "CALLDATACOPY": 5,
+            "CALLDATALOAD": 90,
+            "CALLDATASIZE": 13,
+            "CALLER": 5,
+            "CALLVALUE": 1,
+            "CHAINID": 2,
+            "DIV": 3,
+            "DUP1": 251,
+            "DUP10": 24,
+            "DUP11": 19,
+            "DUP12": 8,
+            "DUP13": 5,
+            "DUP14": 4,
+            "DUP15": 2,
+            "DUP2": 330,
+            "DUP3": 241,
+            "DUP4": 153,
+            "DUP5": 92,
+            "DUP6": 61,
+            "DUP7": 48,
+            "DUP8": 39,
+            "DUP9": 32,
+            "EQ": 45,
+            "EXP": 1,
+            "EXTCODESIZE": 2,
+            "GAS": 7,
+            "GT": 34,
+            "ISZERO": 114,
+            "JUMP": 250,
+            "JUMPDEST": 349,
+            "JUMPI": 178,
+            "LOG3": 1,
+            "LOG4": 1,
+            "LT": 41,
+            "MLOAD": 265,
+            "MSTORE": 295,
+            "MUL": 26,
+            "NOT": 5,
+            "NUMBER": 2,
+            "OR": 12,
+            "POP": 338,
+            "PUSH0": 191,
+            "PUSH1": 684,
+            "PUSH2": 577,
+            "PUSH20": 40,
+            "PUSH28": 3,
+            "PUSH32": 89,
+            "PUSH4": 13,
+            "PUSH8": 14,
+            "RETURN": 1,
+            "RETURNDATACOPY": 7,
+            "RETURNDATASIZE": 22,
+            "REVERT": 69,
+            "SGT": 3,
+            "SHA3": 9,
+            "SHL": 5,
+            "SHR": 2,
+            "SLOAD": 32,
+            "SLT": 18,
+            "SSTORE": 19,
+            "STATICCALL": 1,
+            "STOP": 1,
+            "SUB": 60,
+            "SWAP1": 277,
+            "SWAP10": 4,
+            "SWAP11": 2,
+            "SWAP12": 1,
+            "SWAP13": 1,
+            "SWAP2": 165,
+            "SWAP3": 66,
+            "SWAP4": 21,
+            "SWAP5": 21,
+            "SWAP6": 8,
+            "SWAP7": 15,
+            "SWAP8": 6,
+            "SWAP9": 4
+          }
+        },
+        "role": "library",
+        "source_path": "upstream/mythril",
+        "tree": "e293beadfb59b7c5931bcbadd6577376b1fa720d"
+      }
+    },
+    {
+      "repository": "runtimeverification/kontrol",
+      "toolkit": {
+        "commit": "1ba255027b2ca7fe4c4f7908c8cc49e7d34219ef",
+        "operation": "map checked instruction offsets to T36 source",
+        "repository": "runtimeverification/kontrol",
+        "result": {
+          "mapped": 3551
+        },
+        "role": "library",
+        "source_path": "upstream/kontrol",
+        "tree": "08667841b7b48f4ab1259a1637196c99fb9395d0"
+      }
+    },
+    {
+      "repository": "pessimistic-io/slitherin",
+      "toolkit": {
+        "commit": "c32440e1fa42da9a074a8e1e6ac285b22c9a1dbe",
+        "operation": "apply pinned token lists to T36 address literals; execute native checks on T36",
+        "repository": "pessimistic-io/slitherin",
+        "result": {
+          "deflationary_entries": 21,
+          "matched_literal_addresses": [],
+          "native": {
+            "detectors": {
+              "pess-arbitrary-call": 6,
+              "pess-multiple-storage-read": 2
+            },
+            "detectors_run": 29
+          },
+          "rebasing_entries": 8
+        },
+        "role": "plugin",
+        "source_path": "upstream/slitherin",
+        "tree": "a8d717b7ba824beadcda7e9223bafe142821cb4a"
+      }
+    },
+    {
+      "repository": "solodit/solodit_content",
+      "toolkit": {
+        "commit": "058245aa626302dda176942fb5c9a6400832dbaf",
+        "operation": "resolve token behavior and protocol tags",
+        "repository": "solodit/solodit_content",
+        "result": {
+          "ERC20": 87,
+          "Fee On Transfer": 97,
+          "Flash Loan": 100,
+          "Rebasing Tokens": 155
+        },
+        "role": "reference_data",
+        "source_path": "upstream/solodit_content",
+        "tree": "8db7f4c4de513d773ea2b8b6d939ac3dd76c6cd8"
+      }
+    },
+    {
+      "repository": "projectdiscovery/nuclei",
+      "toolkit": {
+        "binary_release": {
+          "asset": "nuclei_3.11.1_linux_amd64.zip",
+          "sha256": "ea63d4ae232808cd7c6bc00d0142428e231fab59dae01042246097d195835ab6",
+          "tag": "v3.11.1"
+        },
+        "commit": "e169d3bb5d6c39eeb3de02219fcb1267bfbac5fe",
+        "operation": "match the assembled JSON export on disk",
+        "repository": "projectdiscovery/nuclei",
+        "result": {
+          "export_sha256": "4e03722281e97bc13de152dc89f95d69db3896dbfbd34b1f96e057cf01f9de3d",
+          "matched": true
+        },
+        "role": "engine",
+        "source_path": "upstream/nuclei",
+        "tree": "7259f91f146fc8cc634d3e97057c517841b4d368"
+      }
+    }
+  ],
+  "role_counts": {
+    "engine": 9,
+    "library": 8,
+    "plugin": 1,
+    "reference_data": 2
+  },
+  "scope": "Recorded local T36 session. Historical catalog operations are identified by the prior transcript digest.",
+  "subject_sha256": "1eb01ef850e8de52c89ef0825207f0a3086251f713313300a73aede1e450875e",
+  "target": "ci/nqc-t36/contracts/src/NqcFlashFundingExecutor.sol",
+  "unique_repositories": 212
+}

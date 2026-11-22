@@ -3,7 +3,7 @@ from concurrent.futures import ThreadPoolExecutor
 from itertools import combinations
 from pathlib import Path
 
-from .product_sources import gitlinks
+from .product_sources import catalog_links, gitlinks
 from .product_review import ROOT
 from .repository_boundary import git_object
 from .tools.verify_source_materialization import expected_rows, git_directory, local_git, local_path
@@ -77,10 +77,13 @@ def measure(rows, inventories):
 def build(workspace, jobs=4):
     workspace = Path(workspace).resolve(strict=True)
     rows = expected_rows()
-    if gitlinks(ROOT) != {r['path']: r['commit'] for r in rows}:
+    all_links = gitlinks(ROOT)
+    catalog = catalog_links(all_links)
+    if catalog != {r['path']: r['commit'] for r in rows}:
         raise ValueError('product Git links differ from the pinned catalog')
     upstream = local_path(workspace, workspace/'upstream')
-    if {p.name for p in upstream.iterdir()} != {Path(r['path']).name for r in rows}:
+    workspace_paths = {'upstream/' + child.name for child in upstream.iterdir()}
+    if not set(catalog) <= workspace_paths <= set(all_links):
         raise ValueError('source workspace does not contain exactly the catalog directories')
     with ThreadPoolExecutor(max_workers=jobs) as workers:
         inventories = list(workers.map(lambda row: read_source(workspace, row), rows))

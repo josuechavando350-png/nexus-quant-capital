@@ -14,6 +14,12 @@ from .privacy import redact_record, PrivateArgumentParser
 
 def main() -> int:
     argv = sys.argv[1:]
+    if argv and argv[0] == 'query-product':
+        from .toolkit_index import main as query_main
+        return query_main(argv)
+    if argv and argv[0] == 'toolkit':
+        from .toolkit import main as toolkit_main
+        return toolkit_main(argv[1:])
     if argv and argv[0] == 'inventory':
         from .inventory_checkpoint import main as inventory_main
         return inventory_main(argv[1:])
@@ -29,7 +35,7 @@ def main() -> int:
     if argv and argv[0] in ('review-product-supply', 'verify-product-supply'):
         from .product_supply_review import main as supply_main
         return supply_main(argv)
-    if argv and argv[0] in ('review-product', 'verify-product', 'query-product'):
+    if argv and argv[0] in ('review-product', 'verify-product'):
         from .product_review import main as product_main
         return product_main(argv)
     if argv and argv[0] in ('check-owned-sealed-boundary', 'verify-owned-sealed-boundary'):
