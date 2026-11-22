@@ -125,6 +125,32 @@ jobs:
           echo "7226736c2339719cda28fbf3a54d71aa63bcefe376e98cef00034268dab24840  $RUNNER_TEMP/go.tgz" | sha256sum -c
           tar -xzf "$RUNNER_TEMP/go.tgz" -C "$RUNNER_TEMP" go/bin/go
           echo "NQC_STATE_GO=$RUNNER_TEMP/go/bin/go" >> "$GITHUB_ENV"
+      - name: Reproducir el ensayo ciego con doce registros de almacén propios
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v bwrap; then
+            sudo apt-get update -q
+            sudo apt-get install -qy --no-install-recommends bubblewrap
+          fi
+          git -C product archive "$GITHUB_SHA" qa/blind-stock | tar -x -C "$RUNNER_TEMP"
+          export PATH="$RUNNER_TEMP/qa-python/bin:$PATH"
+          qa="$RUNNER_TEMP/qa/blind-stock"
+          out="$RUNNER_TEMP/blind-stock"
+          python3.12 -B "$qa/prepare.py" "$out"
+          bash "$qa/predict.sh" "$PWD/product" "$PWD/product" "$out/observations.json" > "$out/predictions.json"
+          bash "$qa/predict.sh" "$PWD/product" "$PWD/product" "$out/reverse.json" > "$out/predictions-reverse.json"
+          python3.12 -B "$qa/seal.py" "$out" > "$out/seal.json"
+          diff -u "$qa/prediction-seal.json" "$out/seal.json"
+          python3.12 -B "$qa/score.py" "$out" > "$out/score.json"
+          diff -u "$qa/score.json" "$out/score.json"
+      - name: Conservar el resultado del ensayo ciego
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: hunter-ensayo-ciego-almacen
+          path: ${{ runner.temp }}/blind-stock/
+          if-no-files-found: error
+          retention-days: 14
       - name: Obtener los seis documentos publicados por Metric
         shell: bash
         run: |

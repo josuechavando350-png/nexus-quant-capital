@@ -1,0 +1,11 @@
+# Ensayo ciego del conciliador de NQC
+
+## Protocolo registrado antes de crear los casos
+
+Se congela el conciliador en `066cf0876cc921b89c8a2f2229b39e9e1a2b3366` y los dos controles de presentación en `2a0b1d7e97e8d43ab67ad65013018ef3af53e089`. El clasificador y sus adaptadores quedan fijados con este protocolo. Se ensayarán implementaciones nuevas de un registro de inventario con dos partidas por lote, ocho con un defecto sembrado y cuatro sanas. La unidad principal es la implementación. Repetir datos de entrada sobre una implementación no aumenta el número de casos.
+
+El producto registra dos movimientos en orden y emite dos saldos finales, un contador y un subtotal. Los comprobantes de las dos partidas proceden de datos de prueba fijados por separado. Se pasará la misma observación dos veces al clasificador, una con los movimientos del propio registro y otra con las cantidades de los comprobantes. Cada pasada produce tanto el veredicto del conciliador como el del conciliador con los dos controles de presentación. El resultado principal preespecificado es el de **conciliador con controles y comprobantes independientes**. Las demás mediciones sirven para interpretar el resultado.
+
+Los casos tienen identificadores opacos. Se fijarán con SHA-256 las fuentes nuevas, los comprobantes, el diseño de cada variante y su asignación de etiquetas antes de clasificar. El proceso de predicción se ejecuta sin red, con un sistema de archivos aislado. Solo puede leer el intérprete, el código congelado del detector y sus observaciones anónimas. Una segunda ejecución invierte el orden de los lotes. La clave solo entra al proceso de puntuación después de persistir y comparar ambos juegos de predicciones.
+
+Para contar un acierto se exige una alerta sobre una salida que el evaluador independiente marque incorrecta. Se cuentan por separado los casos defectuosos omitidos, las implementaciones sanas con alguna falsa alarma y las alertas en salidas correctas. Se comprueban el orden y las unidades de las dos partidas, los saldos, el contador y el subtotal al puntuar. Un defecto sin evidencia en las entradas o una etiqueta incompatible invalida el ensayo. Ningún ajuste posterior del detector se contabilizará en esta ronda.
